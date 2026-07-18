@@ -11,6 +11,7 @@ import os
 import shutil
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -56,13 +57,16 @@ def main() -> int:
 
     dependency_environment = os.environ.copy()
     dependency_environment.pop("PYTHONPATH", None)
-    dependency_probe = subprocess.run(
-        [sys.executable, "-m", "pip", "check"],
-        text=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT,
-        check=False,
-    )
+    with tempfile.TemporaryDirectory(prefix="researchchem_pip_check_") as temporary:
+        dependency_probe = subprocess.run(
+            [sys.executable, "-m", "pip", "check"],
+            cwd=temporary,
+            env=dependency_environment,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            check=False,
+        )
     dependency_check = {
         "success": dependency_probe.returncode == 0,
         "returncode": dependency_probe.returncode,

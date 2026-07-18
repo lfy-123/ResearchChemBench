@@ -1,6 +1,6 @@
 # ResearchChem Atomic Tool Catalog
 
-Catalog hash: `640b6353d0995b81b52cd11f49a8d639501eb7c8836a9c7fcec0c1fa7254e1be`
+Catalog hash: `a97adf3905551fba081ad84482c1c39e8d847c4f20c83fbe2eb9c5feaca7867d`
 
 The benchmark exposes every action below for every task. Backends are selected by the agent.
 
@@ -62,10 +62,10 @@ The benchmark exposes every action below for every task. Backends are selected b
 | internal_statistics | core | available |  |  |  |  | open_source |
 | pdbfixer | md | available | pdbfixer, openmm |  |  |  | open_source |
 | rdkit_gasteiger | core | available | rdkit |  |  |  | open_source |
-| openff_am1bcc | md | unavailable | openff-toolkit |  |  |  | open_source |
-| openff | md | unavailable | openff-toolkit, openff-interchange |  |  |  | open_source |
+| openff_am1bcc | openff | available | openff-toolkit, ambertools |  | antechamber, sqm |  | open_source |
+| openff | openff | available | openff-toolkit, openff-interchange |  |  |  | open_source |
 | openmm_builder | md | available | openmm |  |  |  | open_source |
-| packmol | md | unavailable | packmol |  | packmol |  | open_source |
+| packmol | md | available | packmol |  | packmol |  | open_source |
 | xtb | quantum | available | xtb |  | xtb |  | open_source |
 | pyscf | quantum | available |  | pyscf |  |  | open_source |
 | psi4 | psi4 | available | psi4 |  | psi4 |  | open_source |

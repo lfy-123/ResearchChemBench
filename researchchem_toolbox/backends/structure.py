@@ -354,8 +354,10 @@ def _openff_charges(request: dict[str, Any]) -> dict[str, Any]:
 
     inputs, method, _settings = request_parts(request)
     charge_model = str(method["charge_model"]).lower().replace("-", "")
-    if charge_model not in {"am1bcc", "am1bccelf10"}:
-        raise ValueError("openff_am1bcc requires charge_model am1bcc or am1bccelf10")
+    if charge_model != "am1bcc":
+        raise ValueError(
+            "openff_am1bcc requires charge_model='am1bcc'; AM1-BCC ELF10 requires a separately licensed OpenEye backend"
+        )
     item = structure_dict(inputs["structure"])
     if not item.get("smiles"):
         raise ValueError("OpenFF charge assignment currently requires a structure with SMILES")
@@ -497,6 +499,11 @@ def _solvate_packmol(request: dict[str, Any]) -> dict[str, Any]:
     size = settings["box_size_angstrom"]
     if len(size) != 3:
         raise ValueError("box_size_angstrom must contain three values")
+    box_shape = str(settings["box_shape"]).lower()
+    if box_shape not in {"rectangular", "orthorhombic", "cubic"}:
+        raise ValueError("Packmol box_shape must be rectangular, orthorhombic, or cubic")
+    if box_shape == "cubic" and len({float(value) for value in size}) != 1:
+        raise ValueError("A cubic Packmol box requires three equal box_size_angstrom values")
     directory = output_directory("solvate_molecular_system", "packmol")
     output = directory / "packed.pdb"
     text = (
@@ -510,7 +517,7 @@ def _solvate_packmol(request: dict[str, Any]) -> dict[str, Any]:
     input_path = directory / "packmol.inp"
     input_path.write_text(text, encoding="utf-8")
     completed = run_external(
-        executable="packmol", arguments=[], directory=directory, stdin_text=text,
+        executable="packmol", arguments=["-i", str(input_path)], directory=directory,
         timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 1800)),
     )
     (directory / "stdout.log").write_text(completed["stdout"], encoding="utf-8")
@@ -520,7 +527,12 @@ def _solvate_packmol(request: dict[str, Any]) -> dict[str, Any]:
     if completed["returncode"] != 0 or not output.is_file():
         raise RuntimeError(f"Packmol failed: {completed['stderr'][-2000:]}")
     return success(
-        {"topology_path": relative_workspace_path(output), "solvated": True, "environment_settings": settings},
+        {
+            **system,
+            "topology_path": relative_workspace_path(output),
+            "solvated": True,
+            "environment_settings": settings,
+        },
         artifact_files=command_artifacts(directory),
         provenance={"command": completed["command"]},
     )

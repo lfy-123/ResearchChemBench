@@ -58,6 +58,7 @@ evaluation/mcp_tools/tools/<tool_name>.py
 | `periodic` | `researchchem-periodic` | `.tool_envs/periodic` | 1 | DFTB+、SIESTA，以及跨环境周期调度 |
 | `phonons` | `researchchem-phonons` | `.tool_envs/phonons` | 1 | Phonopy、Phono3py |
 | `md` | `researchchem-md` | `.tool_envs/md` | 6 | OpenMM、PDBFixer、MDAnalysis、GROMACS、LAMMPS、PLUMED |
+| `openff` | `researchchem-openff` | `.tool_envs/openff` | 2 | OpenFF Toolkit、Interchange、AmberTools AM1-BCC |
 | `mlip` | `researchchem-mlip` | `.tool_envs/mlip` | 1 | MACE、CHGNet |
 | `docking` | `researchchem-docking` | `.tool_envs/docking` | 1 | AutoDock Vina；GNINA 为人工后端 |
 
@@ -247,7 +248,7 @@ smoke 已通过。2026-07-18 的最终回归结果如下：
 - `evaluation/mcp_tools/test_tools/`：41 passed（每个公开工具一个测试文件）；
 - `tests/`：77 passed；
 - MACE `medium-mpa-0`：已下载并在 core、quantum、mlip 三个环境中完成 Si 能量计算，3/3 passed；
-- 13 个 Conda 环境：`pip check` 全部通过；
+- 14 个 Conda 环境：`pip check` 全部通过；
 - profile 归属测试：41 个工具在各自环境中全部通过，RuntimeWarning 按错误处理；
 - 12-profile Codex dry-run：通过，能够为一次任务生成 12 个独立 MCP server 配置；
 - 私钥扫描：真实 key 只存在于被忽略且权限为 `0600` 的 `config.local.env`。

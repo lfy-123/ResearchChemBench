@@ -32,7 +32,7 @@ def test_runtimes_have_unique_researchchem_conda_names():
     config = load_profile_config()
     specifications = [*config["profiles"].values(), *config["support_environments"].values()]
     names = [specification["conda_name"] for specification in specifications]
-    assert len(names) == len(set(names)) == 13
+    assert len(names) == len(set(names)) == 14
     assert all(name.startswith("researchchem-") for name in names)
 
 

@@ -546,12 +546,14 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         conda=("rdkit",), required_methods={"assign_partial_charges": ("charge_model",)},
     ),
     _backend(
-        "openff_am1bcc", "OpenFF AM1-BCC", "md", ("assign_partial_charges",),
-        "OpenFF AM1-BCC partial-charge assignment.", modules=("openff.toolkit",),
-        conda=("openff-toolkit",), required_methods={"assign_partial_charges": ("charge_model",)},
+        "openff_am1bcc", "OpenFF AM1-BCC", "openff", ("assign_partial_charges",),
+        "OpenFF AM1-BCC partial-charge assignment through the AmberTools toolkit wrapper.",
+        modules=("openff.toolkit",), executables=("antechamber", "sqm"),
+        conda=("openff-toolkit", "ambertools"),
+        required_methods={"assign_partial_charges": ("charge_model",)},
     ),
     _backend(
-        "openff", "OpenFF Toolkit/Interchange", "md", ("assign_force_field_parameters",),
+        "openff", "OpenFF Toolkit/Interchange", "openff", ("assign_force_field_parameters",),
         "OpenFF force-field parameter assignment and interchange serialization.",
         modules=("openff.toolkit", "openff.interchange"),
         conda=("openff-toolkit", "openff-interchange"),
@@ -572,7 +574,13 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         "Packmol construction of an explicitly specified molecular environment.",
         executables=("packmol",), conda=("packmol",),
         required_settings={
-            "solvate_molecular_system": ("box_shape", "box_size_angstrom", "solvent_model", "molecule_counts"),
+            "solvate_molecular_system": (
+                "box_shape",
+                "box_size_angstrom",
+                "solvent_model",
+                "solvent_path",
+                "molecule_counts",
+            ),
         },
     ),
     _backend(

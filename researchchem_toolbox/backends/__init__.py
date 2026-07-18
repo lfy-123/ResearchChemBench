@@ -2,7 +2,21 @@
 
 from __future__ import annotations
 
+import importlib
 from typing import Any
+
+from ..catalog import action_specs
+
+
+_CATEGORY_MODULES = {
+    "structure_and_system": "structure",
+    "molecular_electronic": "electronic",
+    "reaction_and_kinetics": "reaction",
+    "molecular_dynamics": "dynamics",
+    "periodic_and_phonons": "periodic",
+    "docking": "docking",
+    "data_sources": "data",
+}
 
 
 def execute_local(
@@ -10,11 +24,13 @@ def execute_local(
     backend_id: str,
     request: dict[str, Any],
 ) -> dict[str, Any]:
-    from . import data, docking, dynamics, electronic, periodic, reaction, structure
-
-    for module in (structure, electronic, reaction, dynamics, periodic, docking, data):
-        if action_id in module.ACTIONS:
-            return module.execute(action_id, backend_id, request)
+    specification = action_specs().get(action_id)
+    if specification is not None:
+        module_name = _CATEGORY_MODULES.get(specification.category)
+        if module_name is not None:
+            module = importlib.import_module(f"{__name__}.{module_name}")
+            if action_id in module.ACTIONS:
+                return module.execute(action_id, backend_id, request)
     return {
         "status": "unsupported",
         "error": {

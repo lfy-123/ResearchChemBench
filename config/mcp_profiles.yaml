@@ -193,10 +193,10 @@ profiles:
     server_name: researchchem_md
     description: Molecular dynamics preparation, execution, enhanced sampling, and analysis.
     environment: .tool_envs/md
-    conda_packages: [openmm, pdbfixer, gromacs, lammps, plumed, netcdf4, openff-toolkit, openff-interchange, packmol, parmed]
+    conda_packages: [openmm, pdbfixer, gromacs, lammps, plumed, netcdf4, packmol, parmed]
     pip_packages: [MDAnalysis]
     health_checks:
-      modules: [MDAnalysis, lammps, openff.interchange, openff.toolkit, openmm, pdbfixer]
+      modules: [MDAnalysis, lammps, openmm, pdbfixer]
       commands: [gmx, lmp, packmol, plumed]
     command_variables:
       CHEMGRAPH_GROMACS_COMMAND: gmx
@@ -204,8 +204,6 @@ profiles:
       CHEMGRAPH_PLUMED_COMMAND: plumed
     backends:
       - pdbfixer
-      - openff_am1bcc
-      - openff
       - openmm_builder
       - packmol
       - openmm
@@ -213,6 +211,28 @@ profiles:
       - lammps
       - mdanalysis
       - plumed
+
+  openff:
+    conda_name: researchchem-openff
+    server_name: researchchem_openff
+    description: Isolated modern OpenFF Toolkit, Interchange, and AmberTools runtime.
+    environment: .tool_envs/openff
+    python_version: "3.12"
+    conda_packages:
+      - openff-toolkit
+      - openff-interchange
+      - ambertools
+      - "numpy<2"
+      - "biopython<1.86"
+      - netcdf4
+      - pdb2pqr
+      - requests
+      - "docutils<0.18"
+    pip_packages: []
+    health_checks:
+      modules: [openff.interchange, openff.toolkit]
+      commands: [antechamber, sqm]
+    backends: [openff_am1bcc, openff]
 
   mlip:
     conda_name: researchchem-mlip

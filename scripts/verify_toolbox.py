@@ -75,6 +75,16 @@ def smoke_results() -> list[dict[str, Any]]:
     with tempfile.TemporaryDirectory(prefix="researchchem-verify-") as temporary:
         workspace = Path(temporary)
         (workspace / "outputs").mkdir()
+        (workspace / "packmol_solute.pdb").write_text(
+            "HETATM    1  C   MOL A   1       0.000   0.000   0.000  1.00  0.00           C\nEND\n",
+            encoding="utf-8",
+        )
+        (workspace / "packmol_water.pdb").write_text(
+            "HETATM    1  O   HOH A   1       0.000   0.000   0.000  1.00  0.00           O\n"
+            "HETATM    2  H1  HOH A   1       0.957   0.000   0.000  1.00  0.00           H\n"
+            "HETATM    3  H2  HOH A   1      -0.240   0.927   0.000  1.00  0.00           H\nEND\n",
+            encoding="utf-8",
+        )
         os.environ["RESEARCHCHEMBENCH_WORKSPACE"] = str(workspace)
         cases = [
             (
@@ -134,6 +144,51 @@ def smoke_results() -> list[dict[str, Any]]:
                     },
                     "method_spec": {},
                     "action_settings": {"time_end_seconds": 1.0, "num_points": 5},
+                },
+            ),
+            (
+                "assign_partial_charges",
+                {
+                    "backend_id": "openff_am1bcc",
+                    "inputs": {"structure": {"smiles": "CCO"}},
+                    "method_spec": {"charge_model": "am1bcc"},
+                    "action_settings": {},
+                    "resource_limits": {"walltime_seconds": 300},
+                },
+            ),
+            (
+                "assign_force_field_parameters",
+                {
+                    "backend_id": "openff",
+                    "inputs": {"structure": {"smiles": "CCO"}},
+                    "method_spec": {
+                        "force_field": "openff_unconstrained-2.3.0.offxml"
+                    },
+                    "action_settings": {},
+                    "resource_limits": {"walltime_seconds": 300},
+                },
+            ),
+            (
+                "solvate_molecular_system",
+                {
+                    "backend_id": "packmol",
+                    "inputs": {
+                        "system": {
+                            "solute_path": "packmol_solute.pdb",
+                            "force_field": "smoke-test",
+                            "solvated": False,
+                        }
+                    },
+                    "method_spec": {},
+                    "action_settings": {
+                        "box_shape": "cubic",
+                        "box_size_angstrom": [20, 20, 20],
+                        "solvent_model": "explicit_water",
+                        "solvent_path": "packmol_water.pdb",
+                        "molecule_counts": {"solvent": 3},
+                        "tolerance_angstrom": 2.0,
+                    },
+                    "resource_limits": {"walltime_seconds": 120},
                 },
             ),
         ]

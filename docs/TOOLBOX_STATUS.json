@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-18T14:26:14.444418+00:00",
+  "generated_at": "2026-07-18T16:21:12.941535+00:00",
   "scientific_actions": 40,
   "data_actions": 4,
   "backend_count": 45,
@@ -1259,18 +1259,22 @@
       {
         "id": "openff_am1bcc",
         "display_name": "OpenFF AM1-BCC",
-        "runtime": "md",
+        "runtime": "openff",
         "capabilities": [
           "assign_partial_charges"
         ],
-        "description": "OpenFF AM1-BCC partial-charge assignment.",
+        "description": "OpenFF AM1-BCC partial-charge assignment through the AmberTools toolkit wrapper.",
         "python_modules": [
           "openff.toolkit"
         ],
-        "executables": [],
+        "executables": [
+          "antechamber",
+          "sqm"
+        ],
         "environment_variables": [],
         "conda_packages": [
-          "openff-toolkit"
+          "openff-toolkit",
+          "ambertools"
         ],
         "pip_packages": [],
         "required_data_resources": [],
@@ -1284,26 +1288,28 @@
         },
         "required_setting_fields": {},
         "health": {
-          "status": "unavailable",
-          "available": false,
-          "runtime": "md",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/md/bin/python",
+          "status": "available",
+          "available": true,
+          "runtime": "openff",
+          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/openff/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
             "openff.toolkit": {
-              "available": false,
-              "version": null
+              "available": true,
+              "version": "0.18.1"
             }
           },
-          "executables": {},
+          "executables": {
+            "antechamber": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/openff/bin/antechamber",
+            "sqm": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/openff/bin/sqm"
+          },
           "environment": {},
-          "missing_python_modules": [
-            "openff.toolkit"
-          ],
+          "missing_python_modules": [],
           "missing_executables": [],
           "missing_environment": [],
           "conda_packages": [
-            "openff-toolkit"
+            "openff-toolkit",
+            "ambertools"
           ],
           "pip_packages": [],
           "required_data_resources": [],
@@ -1314,7 +1320,7 @@
       {
         "id": "openff",
         "display_name": "OpenFF Toolkit/Interchange",
-        "runtime": "md",
+        "runtime": "openff",
         "capabilities": [
           "assign_force_field_parameters"
         ],
@@ -1341,27 +1347,24 @@
         },
         "required_setting_fields": {},
         "health": {
-          "status": "unavailable",
-          "available": false,
-          "runtime": "md",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/md/bin/python",
+          "status": "available",
+          "available": true,
+          "runtime": "openff",
+          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/openff/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
             "openff.toolkit": {
-              "available": false,
-              "version": null
+              "available": true,
+              "version": "0.18.1"
             },
             "openff.interchange": {
-              "available": false,
-              "version": null
+              "available": true,
+              "version": "0.5.3"
             }
           },
           "executables": {},
           "environment": {},
-          "missing_python_modules": [
-            "openff.toolkit",
-            "openff.interchange"
-          ],
+          "missing_python_modules": [],
           "missing_executables": [],
           "missing_environment": [],
           "conda_packages": [
@@ -1461,24 +1464,23 @@
             "box_shape",
             "box_size_angstrom",
             "solvent_model",
+            "solvent_path",
             "molecule_counts"
           ]
         },
         "health": {
-          "status": "unavailable",
-          "available": false,
+          "status": "available",
+          "available": true,
           "runtime": "md",
           "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/md/bin/python",
           "runtime_python_exists": true,
           "python_modules": {},
           "executables": {
-            "packmol": null
+            "packmol": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/md/bin/packmol"
           },
           "environment": {},
           "missing_python_modules": [],
-          "missing_executables": [
-            "packmol"
-          ],
+          "missing_executables": [],
           "missing_environment": [],
           "conda_packages": [
             "packmol"
@@ -3755,185 +3757,12 @@
         }
       }
     ],
-    "catalog_hash": "d3f34e0162f0c12364e49b22612f36e3688062c9e489b79febd100d66404ffcd"
+    "catalog_hash": "424356a552bb106c17d1e4920d9624a217341ccbe96c4cd4047fee0d9d8383ca"
   },
   "installation": {
-    "catalog_hash": "d3f34e0162f0c12364e49b22612f36e3688062c9e489b79febd100d66404ffcd",
-    "unavailable_backend_count": 5,
+    "catalog_hash": "424356a552bb106c17d1e4920d9624a217341ccbe96c4cd4047fee0d9d8383ca",
+    "unavailable_backend_count": 2,
     "unavailable_backends": [
-      {
-        "id": "openff_am1bcc",
-        "display_name": "OpenFF AM1-BCC",
-        "runtime": "md",
-        "capabilities": [
-          "assign_partial_charges"
-        ],
-        "description": "OpenFF AM1-BCC partial-charge assignment.",
-        "python_modules": [
-          "openff.toolkit"
-        ],
-        "executables": [],
-        "environment_variables": [],
-        "conda_packages": [
-          "openff-toolkit"
-        ],
-        "pip_packages": [],
-        "required_data_resources": [],
-        "license_class": "open_source",
-        "install_notes": "",
-        "method_schema": {},
-        "required_method_fields": {
-          "assign_partial_charges": [
-            "charge_model"
-          ]
-        },
-        "required_setting_fields": {},
-        "health": {
-          "status": "unavailable",
-          "available": false,
-          "runtime": "md",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/md/bin/python",
-          "runtime_python_exists": true,
-          "python_modules": {
-            "openff.toolkit": {
-              "available": false,
-              "version": null
-            }
-          },
-          "executables": {},
-          "environment": {},
-          "missing_python_modules": [
-            "openff.toolkit"
-          ],
-          "missing_executables": [],
-          "missing_environment": [],
-          "conda_packages": [
-            "openff-toolkit"
-          ],
-          "pip_packages": [],
-          "required_data_resources": [],
-          "license_class": "open_source",
-          "install_notes": ""
-        }
-      },
-      {
-        "id": "openff",
-        "display_name": "OpenFF Toolkit/Interchange",
-        "runtime": "md",
-        "capabilities": [
-          "assign_force_field_parameters"
-        ],
-        "description": "OpenFF force-field parameter assignment and interchange serialization.",
-        "python_modules": [
-          "openff.toolkit",
-          "openff.interchange"
-        ],
-        "executables": [],
-        "environment_variables": [],
-        "conda_packages": [
-          "openff-toolkit",
-          "openff-interchange"
-        ],
-        "pip_packages": [],
-        "required_data_resources": [],
-        "license_class": "open_source",
-        "install_notes": "",
-        "method_schema": {},
-        "required_method_fields": {
-          "assign_force_field_parameters": [
-            "force_field"
-          ]
-        },
-        "required_setting_fields": {},
-        "health": {
-          "status": "unavailable",
-          "available": false,
-          "runtime": "md",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/md/bin/python",
-          "runtime_python_exists": true,
-          "python_modules": {
-            "openff.toolkit": {
-              "available": false,
-              "version": null
-            },
-            "openff.interchange": {
-              "available": false,
-              "version": null
-            }
-          },
-          "executables": {},
-          "environment": {},
-          "missing_python_modules": [
-            "openff.toolkit",
-            "openff.interchange"
-          ],
-          "missing_executables": [],
-          "missing_environment": [],
-          "conda_packages": [
-            "openff-toolkit",
-            "openff-interchange"
-          ],
-          "pip_packages": [],
-          "required_data_resources": [],
-          "license_class": "open_source",
-          "install_notes": ""
-        }
-      },
-      {
-        "id": "packmol",
-        "display_name": "Packmol",
-        "runtime": "md",
-        "capabilities": [
-          "solvate_molecular_system"
-        ],
-        "description": "Packmol construction of an explicitly specified molecular environment.",
-        "python_modules": [],
-        "executables": [
-          "packmol"
-        ],
-        "environment_variables": [],
-        "conda_packages": [
-          "packmol"
-        ],
-        "pip_packages": [],
-        "required_data_resources": [],
-        "license_class": "open_source",
-        "install_notes": "",
-        "method_schema": {},
-        "required_method_fields": {},
-        "required_setting_fields": {
-          "solvate_molecular_system": [
-            "box_shape",
-            "box_size_angstrom",
-            "solvent_model",
-            "molecule_counts"
-          ]
-        },
-        "health": {
-          "status": "unavailable",
-          "available": false,
-          "runtime": "md",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/md/bin/python",
-          "runtime_python_exists": true,
-          "python_modules": {},
-          "executables": {
-            "packmol": null
-          },
-          "environment": {},
-          "missing_python_modules": [],
-          "missing_executables": [
-            "packmol"
-          ],
-          "missing_environment": [],
-          "conda_packages": [
-            "packmol"
-          ],
-          "pip_packages": [],
-          "required_data_resources": [],
-          "license_class": "open_source",
-          "install_notes": ""
-        }
-      },
       {
         "id": "orca",
         "display_name": "ORCA",
@@ -4070,11 +3899,7 @@
         }
       }
     ],
-    "conda_packages": [
-      "openff-interchange",
-      "openff-toolkit",
-      "packmol"
-    ],
+    "conda_packages": [],
     "pip_packages": [],
     "required_data_resources": [
       {
@@ -4152,6 +3977,24 @@
     {
       "action": "integrate_reaction_network",
       "backend": "scipy",
+      "status": "success",
+      "error": null
+    },
+    {
+      "action": "assign_partial_charges",
+      "backend": "openff_am1bcc",
+      "status": "success",
+      "error": null
+    },
+    {
+      "action": "assign_force_field_parameters",
+      "backend": "openff",
+      "status": "success",
+      "error": null
+    },
+    {
+      "action": "solvate_molecular_system",
+      "backend": "packmol",
       "status": "success",
       "error": null
     }

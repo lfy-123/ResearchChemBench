@@ -69,20 +69,24 @@
 - MCP 注册：44/44 工具；
 - MCP 原子链：结构标准化、3D 生成、能量计算、构象结果排序、Artifact 和 trace；
 - wheel 构建：根包与独立 MCP 包均成功；
-- 实际计算 smoke：RDKit、Open Babel、ASE/EMT、xTB、PySCF、Psi4、TBLite、Cantera、SciPy、PDBFixer、OpenMM、MDAnalysis、Phonopy、Phono3py、Vina、CP2K；
+- 实际计算 smoke：RDKit、Open Babel、ASE/EMT、xTB、PySCF、Psi4、TBLite、Cantera、SciPy、PDBFixer、OpenMM、OpenFF、Packmol、MDAnalysis、Phonopy、Phono3py、Vina、CP2K；
 - CP2K PBE 周期能量计算成功返回 `-3.714233601738498 hartree`；
 - Phono3py 二阶/三阶位移生成和力常数组装均通过当前安装版本验证；
 - 结构检查、运行时覆盖、handler 覆盖和旧公共工具移除检查全部通过。
 
 状态报告见 [TOOLBOX_STATUS.md](../TOOLBOX_STATUS.md)，完整 Action/Backend 目录见 [TOOL_CATALOG.md](../../evaluation/mcp_tools/TOOL_CATALOG.md)。
 
-## 7. 需要用户准备的软件与数据
+## 7. Conda 依赖处理与仍需准备的软件数据
 
-当前缺少的 Conda 软件包：
+以下依赖已经直接通过 conda-forge 安装，不需要用户手工下载：
 
-- `openff-toolkit`
-- `openff-interchange`
-- `packmol`
+- `.tool_envs/md`：Packmol 21.2.1；
+- `.tool_envs/openff`：Python 3.12、OpenFF Toolkit 0.18.1、OpenFF Interchange 0.5.3；
+- `.tool_envs/openff`：为 AM1-BCC 补充 AmberTools 26.0。
+
+OpenFF 被放入独立 runtime，是因为当前 MD 环境使用 Python 3.10/NumPy 2，而现代 OpenFF 需要更新的 Python；强行安装旧 OpenFF 会与 MD 环境的 NumPy/HDF5 依赖冲突。该隔离不改变智能体看到的工具或 `backend_id`。
+
+真实 smoke 已确认：AM1-BCC 电荷赋值、OpenFF Interchange 力场参数化和 Packmol 显式装箱均成功。当前缺少的 Conda/Pip 包为零。
 
 需要人工下载或许可的软件：
 
@@ -106,7 +110,7 @@ Materials Project 在新环境中还需要 `MP_API_KEY`。这些资源都应作�
 2. 用最小可靠体系完成能量/力/优化或 docking smoke；
 3. 对照原始输出校准解析器和单位；
 4. 将通过结果写入 BackendSpec 状态和回归测试；
-5. 对 ORCA、GNINA、OpenFF、Packmol 及带外部赝势/参数集的周期计算逐项验收。
+5. 对 ORCA、GNINA 及带外部赝势/参数集的周期计算逐项验收。
 
 在这些后端完成真实 smoke 前，目录仍会完整展示它们，但健康状态为 unavailable，或在缺少必需 Artifact 时返回结构化错误；系统不会替换成其他软件。
 

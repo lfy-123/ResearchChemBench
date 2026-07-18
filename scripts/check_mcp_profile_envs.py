@@ -41,7 +41,7 @@ def run_profile(name: str, profile: dict[str, Any], args, secrets: dict[str, str
     with tempfile.TemporaryDirectory(prefix=f"researchchem_{name}_probe_") as workspace:
         environment["RESEARCHCHEMBENCH_WORKSPACE"] = workspace
         completed = subprocess.run(
-            command, cwd=ROOT, env=environment, text=True,
+            command, cwd=workspace, env=environment, text=True,
             stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
             timeout=args.timeout_seconds, check=False,
         )

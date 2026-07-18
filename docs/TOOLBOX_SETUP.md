@@ -23,7 +23,7 @@ bash scripts/setup_toolbox_env.sh
 ```
 
 安装脚本会自动注册 `researchchem-core`、`researchchem-quantum`、`researchchem-md` 等
-13 个 Conda 名称。现有前缀只需补注册/修复运行库时执行：
+14 个 Conda 名称。现有前缀只需补注册/修复运行库时执行：
 
 ```bash
 .toolbox_env/bin/python scripts/configure_mcp_conda_envs.py

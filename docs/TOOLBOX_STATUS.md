@@ -1,15 +1,15 @@
 # ResearchChem Atomic Toolbox Status
 
-Generated: `2026-07-18T14:26:14.444418+00:00`
-Catalog hash: `d3f34e0162f0c12364e49b22612f36e3688062c9e489b79febd100d66404ffcd`
+Generated: `2026-07-18T16:21:12.941535+00:00`
+Catalog hash: `424356a552bb106c17d1e4920d9624a217341ccbe96c4cd4047fee0d9d8383ca`
 
 ## Summary
 
 - Scientific Actions: 40
 - Data Actions: 4
 - BackendSpecs: 45
-- Available backends: 40
-- Unavailable backends: 5
+- Available backends: 43
+- Unavailable backends: 2
 - Exposure: full catalog for every task
 - Backend selection: Agent required
 - Automatic fallback: disabled
@@ -23,15 +23,12 @@ Catalog hash: `d3f34e0162f0c12364e49b22612f36e3688062c9e489b79febd100d66404ffcd`
 
 ## Unavailable backends
 
-- `openff_am1bcc`
-- `openff`
-- `packmol`
 - `orca`
 - `gnina`
 
 ## Packages to install/download
 
-Conda: openff-interchange, openff-toolkit, packmol
+Conda: none
 
 Pip: none
 
@@ -53,3 +50,6 @@ Manual/licensed:
 - `generate_3d_structure` / `rdkit`: **success**
 - `calculate_energy` / `ase_emt`: **success**
 - `integrate_reaction_network` / `scipy`: **success**
+- `assign_partial_charges` / `openff_am1bcc`: **success**
+- `assign_force_field_parameters` / `openff`: **success**
+- `solvate_molecular_system` / `packmol`: **success**
