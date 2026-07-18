@@ -83,6 +83,16 @@ def test_deterministic_conformer_ranking(tmp_path, monkeypatch):
 
 def test_unavailable_manual_backend_does_not_switch(tmp_path, monkeypatch):
     monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
+    monkeypatch.setattr(
+        "researchchem_toolbox.service.probe_all_backends",
+        lambda _specifications: {
+            "orca": {
+                "available": False,
+                "status": "unavailable",
+                "runtime": "quantum",
+            }
+        },
+    )
     result = execute_action(
         "calculate_energy",
         {

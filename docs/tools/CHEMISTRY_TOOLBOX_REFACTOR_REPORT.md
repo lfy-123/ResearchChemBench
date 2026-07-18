@@ -65,23 +65,23 @@
 
 下载资源接入完成后，本轮最终验证结果为：
 
-- 全量 Python 回归：`44 passed`；
+- 全量 Python 回归：`47 passed`；
 - MCP 注册：44/44 工具，原子调用、Artifact 与 trace 重放成功；
 - 运行环境：14/14 个 profile/support runtime 通过模块、命令、外部命令、`pip check` 和模型加载检查；
-- BackendSpec：45 个中 44 个 available，唯一 unavailable 为用户尚未下载的 ORCA；
-- 注册资源：7/7 通过归档校验、文件数和覆盖检查；两套 SSSP 共 206 个 UPF 文件逐文件 MD5 通过；
-- 下载资源真实计算：14/14 通过，覆盖 QE/SIESTA/ABINIT/DFTB+ 的能量、力、应力或弛豫，以及 GNINA CPU/CNN docking；
+- BackendSpec：45/45 available，不再保留允许缺失项；
+- 注册资源：9/9 通过归档/源码包/可执行文件校验、文件数和覆盖检查；两套 SSSP 共 206 个 UPF 文件逐文件 MD5 通过；
+- 下载资源真实计算：18/18 通过，覆盖 QE/SIESTA/ABINIT/DFTB+ 的能量、力、应力或弛豫、GNINA CPU/CNN docking，以及 ORCA 的 PAL2 能量、Hessian、几何优化和偶极矩；
 - 在线 Data Actions：PubChem、RCSB PDB、Materials Project、Catalysis-Hub 4/4 实时请求成功；
 - OpenFF AM1-BCC、OpenFF Interchange、Packmol 和既有核心 smoke 全部成功。
 
-过程中依据真实输出修复了 QE “Total force”误匹配、ABINIT 10 输出文件/力/应力单位解析、DFTB+ Parser 14 几何优化输入、GNINA 不支持 Vina `--energy_range` 以及 Materials Project/Catalysis-Hub 的有界在线请求问题。
+过程中依据真实输出修复了 QE “Total force”误匹配、ABINIT 10 输出文件/力/应力单位解析、DFTB+ Parser 14 几何优化输入、GNINA 不支持 Vina `--energy_range`、ORCA 优化误读 `job_trj.xyz` 第一帧，以及 Materials Project/Catalysis-Hub 的有界在线请求问题。
 
 简要状态见 [TOOLBOX_STATUS.md](../TOOLBOX_STATUS.md)。逐个 Action、Backend、runtime、资源、元素覆盖、SSSP cutoff 与 smoke 证据见 [CHEMISTRY_TOOLBOX_TOOL_RESOURCE_MATRIX.md](CHEMISTRY_TOOLBOX_TOOL_RESOURCE_MATRIX.md)。
 
 ## 7. 软件、模型与科学数据管理
 
 - Conda/Pip 隔离环境继续位于 `.tool_envs/`；OpenFF 保持独立 Python 3.12 runtime；
-- 手工下载的大型二进制统一放入 `.software_cache/`；GNINA 1.3.3 实体位于 `.software_cache/gnina/1.3.3/`，docking runtime 只保留软链接；
+- 手工下载或独立构建的大型软件统一放入 `.software_cache/`；GNINA 1.3.3、ORCA 6.1.1 和 ORCA 专用 OpenMPI 4.1.8 均使用版本化目录，runtime 只保留稳定链接或显式路径；
 - 模型缓存位于 `.model_cache/`；模型名称/路径、device 和下载许可仍由 Agent 显式决定；
 - 赝势与参数数据保留在被 Git 忽略的 `download/`，由 `config/toolbox_resources.json` 注册成只读 ResourceRef；
 - `.tool_envs/abinit` 已补齐 NumPy、Pydantic、PyYAML 和 python-dotenv，使真实 worker 与健康探测均可启动；
@@ -96,12 +96,14 @@ Agent 可显式选择的科学数据包括：
 
 元素文件使用 `resource://<resource_id>/<Element>`，参数集使用 `resource://<resource_id>`。系统不按元素、精度或任务自动选择资源，也不会把一个参数族替换为另一个参数族。
 
-## 8. 唯一剩余项：ORCA
+## 8. ORCA 6.1.1 完成项
 
-ORCA 因许可要求仍需用户本人下载。建议放入 `.software_cache/orca/<version>/`，再配置 `.tool_envs/quantum/bin/orca` 软链接或 `CHEMGRAPH_ORCA_COMMAND`。完成后需要分别重放 energy、hessian、geometry optimization 和 dipole smoke。
+用户提供的 `orca_6_1_1_linux_x86-64_shared_openmpi418_avx2.run` 已校验并安装到 `.software_cache/orca/6.1.1/`。匹配的 OpenMPI 4.1.8 从官方源码校验构建到 `.software_cache/openmpi/4.1.8/`，没有使用 Conda 中较旧的近似版本。
 
-在此之前，ORCA 仍完整显示在 Agent 的选择集合中，但调用会返回结构化 `unavailable`；系统不会自动改用 Psi4、PySCF、xTB 或其他软件。
+`quantum` runtime 通过完整路径设置 `CHEMGRAPH_ORCA_COMMAND`，并只向 `quantum`/`reaction` 注入 ORCA、OpenMPI 的 `PATH`/`LD_LIBRARY_PATH`。`.tool_envs/quantum/bin/orca` 与 `mpirun` 是稳定入口。Agent 仍需显式选择 `backend_id=orca`、方法、基组、Action 参数与 CPU 数；当 `resource_limits.cpu_cores>1` 时，适配器只做机械映射，生成相同数目的 `%pal nprocs`，不会替 Agent 选择方法或软件。
+
+真实验证结果：energy（PAL2）、9×9 Hessian、收敛几何优化和 dipole 四条 Action 均为 `success`，并返回 `backend_version=6.1.1`。失败时仍不会自动改用 Psi4、PySCF、xTB 或其他后端。
 
 ## 9. 最终验收结论
 
-除 ORCA 外，当前 44 个公共工具、其余 44 个 BackendSpecs、14 个运行环境、7 个下载资源和 4 个在线数据源均已完成配置审计。工具箱继续满足：公共工具同粒度、无笼统 runner、全目录可见、Agent 显式选择工具/软件/方法/资源、无自动回退、结果可组合、执行可追踪。
+当前 44 个公共工具、45 个 BackendSpecs、14 个运行环境、9 个注册资源和 4 个在线数据源均已完成配置审计。工具箱继续满足：公共工具同粒度、无笼统 runner、全目录可见、Agent 显式选择工具/软件/方法/资源、无自动回退、结果可组合、执行可追踪。

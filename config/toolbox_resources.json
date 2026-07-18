@@ -159,6 +159,58 @@
       "source_url": "https://github.com/gnina/gnina/releases/tag/v1.3.3",
       "license_and_citation": "Open-source GNINA distribution; follow the upstream repository license and scientific citation guidance.",
       "scientific_scope": "CUDA 12.8 GNINA binary. Selecting backend_id=gnina selects this configured executable; cnn_model remains an explicit agent setting."
+    },
+    {
+      "id": "orca_6_1_1_linux_x86_64_shared_openmpi418_avx2",
+      "display_name": "ORCA 6.1.1 Linux x86-64 AVX2 (shared OpenMPI 4.1.8)",
+      "kind": "backend_executable",
+      "selectable": false,
+      "compatible_backends": ["orca"],
+      "format": "Linux x86-64 AVX2 executable bundle",
+      "version": "6.1.1",
+      "path": ".software_cache/orca/6.1.1/orca",
+      "install_target": ".tool_envs/quantum/bin/orca",
+      "checksum_algorithm": "sha256",
+      "checksum": "d65fe8fe3136e0008de9e5784ab8d853b0ef51a02635d7d6fb0f6a1c95d648d1",
+      "version_probe": {
+        "arguments": ["--version"],
+        "accepted_returncodes": [2],
+        "output_regex": "Program Version\\s+6\\.1\\.1"
+      },
+      "distribution_archive": {
+        "path": "download/orca_6_1_1_linux_x86-64_shared_openmpi418_avx2.run",
+        "checksum_algorithm": "sha256",
+        "checksum": "bda447869a5afca37489176e6d5a53678ddfdb74573249670bc58ac1273ed977"
+      },
+      "source_url": "https://www.faccts.de/docs/orca/6.1/manual/contents/quickstartguide/installation.html",
+      "license_and_citation": "Licensed ORCA distribution supplied by the benchmark operator. Follow .software_cache/orca/6.1.1/EULA_ORCA_2025.pdf, Third_Party_Licenses_Academic_6.1.pdf, and the ORCA citation guidance; do not redistribute the bundle.",
+      "scientific_scope": "Agent-selectable ORCA backend for molecular energy, Hessian, geometry optimization, and dipole Actions. Method, basis, charge, multiplicity, dispersion, and CPU allocation remain explicit request choices."
+    },
+    {
+      "id": "openmpi_4_1_8_orca_runtime",
+      "display_name": "OpenMPI 4.1.8 runtime for ORCA",
+      "kind": "backend_executable",
+      "selectable": false,
+      "compatible_backends": ["orca"],
+      "format": "Linux x86-64 shared MPI runtime",
+      "version": "4.1.8",
+      "path": ".software_cache/openmpi/4.1.8/bin/mpirun",
+      "install_target": ".tool_envs/quantum/bin/mpirun",
+      "checksum_algorithm": "sha256",
+      "checksum": "c73d880535ee03984fae2aa98223157196ca15e6792c15d8ff30548e1a383f8e",
+      "version_probe": {
+        "arguments": ["--version"],
+        "accepted_returncodes": [0],
+        "output_regex": "mpirun \\(Open MPI\\) 4\\.1\\.8"
+      },
+      "source_archive": {
+        "path": ".software_cache/openmpi/source/openmpi-4.1.8.tar.bz2",
+        "checksum_algorithm": "sha256",
+        "checksum": "466f68e3132a1dc02710cc2011fafced8336d98359fa2dae4dddcfd5719f12a9"
+      },
+      "source_url": "https://www.open-mpi.org/software/ompi/v4.1/",
+      "license_and_citation": "Open MPI is distributed under the BSD 3-Clause license; retain upstream notices.",
+      "scientific_scope": "Exact shared MPI runtime required by the downloaded ORCA build. It is runtime-managed and never an Agent-selectable scientific resource."
     }
   ]
 }

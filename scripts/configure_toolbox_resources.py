@@ -7,6 +7,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 import subprocess
 import sys
 import tarfile
@@ -60,6 +61,32 @@ def file_checksum(path: Path, algorithm: str) -> str:
     return digest.hexdigest()
 
 
+def verify_supporting_file(
+    specification: dict[str, Any], key: str
+) -> tuple[dict[str, Any] | None, list[str]]:
+    record = specification.get(key)
+    if not record:
+        return None, []
+    path = declared_path(str(record["path"]))
+    result: dict[str, Any] = {
+        "path": relative(path),
+        "exists": path.is_file(),
+        "algorithm": str(record["checksum_algorithm"]),
+        "expected_checksum": str(record["checksum"]),
+    }
+    errors = []
+    if not path.is_file():
+        result["checksum_ok"] = False
+        errors.append(f"Missing {key}: {path}")
+        return result, errors
+    actual = file_checksum(path, str(record["checksum_algorithm"]))
+    result["actual_checksum"] = actual
+    result["checksum_ok"] = actual.lower() == str(record["checksum"]).lower()
+    if not result["checksum_ok"]:
+        errors.append(f"{key} checksum mismatch: {path}")
+    return result, errors
+
+
 def safe_extract(archive: Path, destination: Path) -> None:
     destination.mkdir(parents=True, exist_ok=True)
     root = destination.resolve()
@@ -98,6 +125,15 @@ def install_executable(specification: dict[str, Any], *, verify_only: bool) -> d
     if not source.is_file():
         result.update(status="fail", errors=[f"Missing executable: {source}"])
         return result
+    errors = []
+    supporting_files = {}
+    for key in ("distribution_archive", "source_archive"):
+        verification, verification_errors = verify_supporting_file(specification, key)
+        if verification is not None:
+            supporting_files[key] = verification
+        errors.extend(verification_errors)
+    if supporting_files:
+        result["supporting_files"] = supporting_files
     actual = file_checksum(source, str(specification["checksum_algorithm"]))
     result["checksum"] = {
         "algorithm": specification["checksum_algorithm"],
@@ -105,7 +141,6 @@ def install_executable(specification: dict[str, Any], *, verify_only: bool) -> d
         "actual": actual,
         "ok": actual.lower() == str(specification["checksum"]).lower(),
     }
-    errors = []
     if not result["checksum"]["ok"]:
         errors.append("Executable checksum mismatch")
     if not verify_only and not errors:
@@ -126,9 +161,18 @@ def install_executable(specification: dict[str, Any], *, verify_only: bool) -> d
     result["target_exists"] = target.is_file()
     result["target_is_symlink"] = target.is_symlink()
     if target.is_file() and not errors:
+        probe_specification = dict(specification.get("version_probe") or {})
+        arguments = [
+            str(value)
+            for value in probe_specification.get("arguments", ["--version"])
+        ]
+        accepted_returncodes = {
+            int(value)
+            for value in probe_specification.get("accepted_returncodes", [0])
+        }
         try:
             completed = subprocess.run(
-                [str(target), "--version"],
+                [str(target), *arguments],
                 text=True,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
@@ -136,12 +180,19 @@ def install_executable(specification: dict[str, Any], *, verify_only: bool) -> d
                 check=False,
             )
             output = completed.stdout.strip().splitlines()
+            output_pattern = str(probe_specification.get("output_regex") or "")
+            match = re.search(output_pattern, completed.stdout) if output_pattern else None
             result["version_probe"] = {
+                "arguments": arguments,
                 "returncode": completed.returncode,
                 "first_line": output[0][:500] if output else "",
+                "output_regex": output_pattern or None,
+                "matched_text": match.group(0) if match else None,
             }
-            if completed.returncode != 0:
+            if completed.returncode not in accepted_returncodes:
                 errors.append("Executable version probe failed")
+            if output_pattern and match is None:
+                errors.append("Executable version output did not match expected pattern")
         except (OSError, subprocess.TimeoutExpired) as exc:
             errors.append(f"Executable version probe failed: {exc}")
     elif not verify_only:

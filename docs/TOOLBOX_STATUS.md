@@ -1,15 +1,15 @@
 # ResearchChem Atomic Toolbox Status
 
-Generated: `2026-07-18T17:49:22.449468+00:00`
-Catalog hash: `57a3f05f4ec2bfcd76e744b19430a4356934c7c88015a12deb73234b8c63a1bc`
+Generated: `2026-07-18T19:10:43.655491+00:00`
+Catalog hash: `f3c4f3f7a40b5b2b27a1b031b4d6269fea0ec29e59a471e35b589e23cba22949`
 
 ## Summary
 
 - Scientific Actions: 40
 - Data Actions: 4
 - BackendSpecs: 45
-- Available backends: 44
-- Unavailable backends: 1
+- Available backends: 45
+- Unavailable backends: 0
 - Exposure: full catalog for every task
 - Backend selection: Agent required
 - Automatic fallback: disabled
@@ -23,7 +23,6 @@ Catalog hash: `57a3f05f4ec2bfcd76e744b19430a4356934c7c88015a12deb73234b8c63a1bc`
 
 ## Unavailable backends
 
-- `orca`
 
 ## Remaining installations
 
@@ -40,10 +39,8 @@ Pip: none
 - `dftb_3ob_3_1` / dftbplus: **available**; selection `resource://dftb_3ob_3_1`
 - `dftb_matsci_0_3` / dftbplus: **available**; selection `resource://dftb_matsci_0_3`
 - `gnina_1_3_3_cuda12_8_linux_x86_64` / gnina: **available**; selection `runtime-managed`
-
-Manual/licensed:
-
-- `orca`: Download ORCA from the official portal and set CHEMGRAPH_ORCA_COMMAND.
+- `orca_6_1_1_linux_x86_64_shared_openmpi418_avx2` / orca: **available**; selection `runtime-managed`
+- `openmpi_4_1_8_orca_runtime` / orca: **available**; selection `runtime-managed`
 
 ## Smoke
 

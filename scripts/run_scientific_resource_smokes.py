@@ -35,6 +35,17 @@ SI_STRUCTURE = {
     "multiplicity": 1,
 }
 
+WATER_STRUCTURE = {
+    "atoms": [
+        {"element": "O", "position_angstrom": [0.0, 0.0, 0.0]},
+        {"element": "H", "position_angstrom": [0.0, 0.80, 0.62]},
+        {"element": "H", "position_angstrom": [0.0, -0.80, 0.62]},
+    ],
+    "pbc": [False, False, False],
+    "charge": 0,
+    "multiplicity": 1,
+}
+
 
 def request_cases() -> list[tuple[str, str, dict[str, Any]]]:
     common_limits = {"walltime_seconds": 300, "cpu_cores": 1}
@@ -350,6 +361,59 @@ def gnina_case() -> tuple[str, str, dict[str, Any]]:
     )
 
 
+def orca_cases() -> list[tuple[str, str, dict[str, Any]]]:
+    method = {"method": "HF", "basis": "STO-3G"}
+    return [
+        (
+            "orca_6_1_1_openmpi418_water_energy_pal2",
+            "calculate_energy",
+            {
+                "backend_id": "orca",
+                "inputs": {"structure": WATER_STRUCTURE},
+                "method_spec": method,
+                "action_settings": {},
+                "resource_limits": {"walltime_seconds": 300, "cpu_cores": 2},
+            },
+        ),
+        (
+            "orca_6_1_1_water_hessian",
+            "calculate_hessian",
+            {
+                "backend_id": "orca",
+                "inputs": {"structure": WATER_STRUCTURE},
+                "method_spec": method,
+                "action_settings": {},
+                "resource_limits": {"walltime_seconds": 300, "cpu_cores": 1},
+            },
+        ),
+        (
+            "orca_6_1_1_water_geometry_optimization",
+            "optimize_geometry",
+            {
+                "backend_id": "orca",
+                "inputs": {"structure": WATER_STRUCTURE},
+                "method_spec": method,
+                "action_settings": {
+                    "optimization_convergence": "Tight",
+                    "max_steps": 50,
+                },
+                "resource_limits": {"walltime_seconds": 300, "cpu_cores": 1},
+            },
+        ),
+        (
+            "orca_6_1_1_water_dipole",
+            "calculate_dipole_moment",
+            {
+                "backend_id": "orca",
+                "inputs": {"structure": WATER_STRUCTURE},
+                "method_spec": method,
+                "action_settings": {},
+                "resource_limits": {"walltime_seconds": 300, "cpu_cores": 1},
+            },
+        ),
+    ]
+
+
 def compact_result(value: Any) -> Any:
     if not isinstance(value, dict):
         return value
@@ -363,8 +427,20 @@ def compact_result(value: Any) -> Any:
         "stress",
         "converged",
         "structure",
+        "dipole",
+        "energy_hartree",
+        "energy_unit",
+        "optimization_convergence",
+        "raw_hessian_path",
     }
-    return {key: item for key, item in value.items() if key in allowed}
+    result = {key: item for key, item in value.items() if key in allowed}
+    matrix = value.get("matrix")
+    if isinstance(matrix, list) and matrix and isinstance(matrix[0], list):
+        result["matrix_shape"] = [len(matrix), len(matrix[0])]
+        result["matrix_max_abs"] = max(
+            abs(float(item)) for row in matrix for item in row
+        )
+    return result
 
 
 def main() -> int:
@@ -372,7 +448,7 @@ def main() -> int:
         workspace = Path(temporary)
         os.environ["RESEARCHCHEMBENCH_WORKSPACE"] = str(workspace)
         prepare_docking_inputs(workspace)
-        cases = [*request_cases(), gnina_case()]
+        cases = [*request_cases(), gnina_case(), *orca_cases()]
         results = []
         for case_id, action_id, request in cases:
             started = time.monotonic()
@@ -382,11 +458,15 @@ def main() -> int:
                     "case_id": case_id,
                     "action": action_id,
                     "backend": request["backend_id"],
+                    "backend_version": response.get("backend_version"),
                     "status": response["status"],
                     "elapsed_seconds": round(time.monotonic() - started, 6),
                     "result": compact_result(response.get("result")),
                     "error": response.get("error"),
                     "warnings": response.get("warnings", []),
+                    "parallel_processes": (response.get("provenance") or {}).get(
+                        "parallel_processes"
+                    ),
                     "resource_refs": (response.get("provenance") or {}).get(
                         "agent_selected_resource_refs", []
                     ),

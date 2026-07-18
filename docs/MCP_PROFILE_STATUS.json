@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-18T17:32:05.899730+00:00",
+  "generated_at": "2026-07-18T19:02:19.081516+00:00",
   "summary": {
     "profile_count": 14,
     "ready_profiles": 14,
@@ -524,35 +524,29 @@
           "install_notes": ""
         },
         "orca": {
-          "status": "unavailable",
-          "available": false,
+          "status": "available",
+          "available": true,
           "runtime": "quantum",
           "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/quantum/bin/python",
           "runtime_python_exists": true,
           "python_modules": {},
           "executables": {
-            "orca": null
+            "orca": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/orca/6.1.1/orca"
           },
           "environment": {
-            "CHEMGRAPH_ORCA_COMMAND": false
+            "CHEMGRAPH_ORCA_COMMAND": true
           },
           "missing_python_modules": [],
-          "missing_executables": [
-            "orca"
-          ],
-          "missing_environment": [
-            "CHEMGRAPH_ORCA_COMMAND"
-          ],
+          "missing_executables": [],
+          "missing_environment": [],
           "conda_packages": [],
           "pip_packages": [],
           "required_data_resources": [],
           "license_class": "manual_license",
-          "install_notes": "Download ORCA from the official portal and set CHEMGRAPH_ORCA_COMMAND."
+          "install_notes": "Configured from the operator-downloaded ORCA 6.1.1 installer under .software_cache/orca/6.1.1 with OpenMPI 4.1.8."
         }
       },
-      "allowed_unavailable_backends": [
-        "orca"
-      ],
+      "allowed_unavailable_backends": [],
       "unexpected_unavailable_backends": [],
       "modules": {
         "ase": {
@@ -581,9 +575,14 @@
         }
       },
       "commands": {
-        "xtb": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/quantum/bin/xtb"
+        "xtb": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/quantum/bin/xtb",
+        "orca": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/quantum/bin/orca",
+        "mpirun": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/quantum/bin/mpirun"
       },
-      "external_commands": {},
+      "external_commands": {
+        ".software_cache/orca/6.1.1/orca": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/orca/6.1.1/orca",
+        ".software_cache/openmpi/4.1.8/bin/mpirun": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/openmpi/4.1.8/bin/orterun"
+      },
       "dependency_check": {
         "success": true,
         "returncode": 0,
@@ -595,9 +594,7 @@
           "energy_ev": -0.88549809819065
         }
       },
-      "manual_commands": {
-        "orca": null
-      },
+      "manual_commands": {},
       "live_checks": {},
       "required_ok": true,
       "runtime_group": "profiles",
@@ -861,18 +858,21 @@
         "crest": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/reaction/bin/crest",
         "goodvibes": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/reaction/bin/goodvibes",
         "pysis": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/reaction/bin/pysis",
-        "xtb": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/reaction/bin/xtb"
+        "xtb": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/reaction/bin/xtb",
+        "orca": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/orca/6.1.1/orca",
+        "mpirun": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/openmpi/4.1.8/bin/mpirun"
       },
-      "external_commands": {},
+      "external_commands": {
+        ".software_cache/orca/6.1.1/orca": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/orca/6.1.1/orca",
+        ".software_cache/openmpi/4.1.8/bin/mpirun": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/openmpi/4.1.8/bin/orterun"
+      },
       "dependency_check": {
         "success": true,
         "returncode": 0,
         "output": "No broken requirements found."
       },
       "model_checks": {},
-      "manual_commands": {
-        "orca": null
-      },
+      "manual_commands": {},
       "live_checks": {},
       "required_ok": true,
       "runtime_group": "profiles",

@@ -390,6 +390,7 @@ def _render_orca(
     structure_value: Any,
     method: dict[str, Any],
     settings: dict[str, Any],
+    resource_limits: dict[str, Any] | None = None,
 ) -> str:
     structure = structure_dict(structure_value)
     symbols = [atom["element"] for atom in structure["atoms"]]
@@ -406,6 +407,9 @@ def _render_orca(
     charge = int(method.get("charge", structure.get("charge", 0)))
     multiplicity = int(method.get("multiplicity", structure.get("multiplicity", 1)))
     lines = [header]
+    parallel_processes = int((resource_limits or {}).get("cpu_cores") or 1)
+    if parallel_processes > 1:
+        lines.extend(["%pal", f"  nprocs {parallel_processes}", "end"])
     if action_id == "optimize_geometry":
         lines.extend(
             [
@@ -465,7 +469,13 @@ def _orca(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
     directory = output_directory(action_id, "orca")
     input_path = directory / "job.inp"
     input_path.write_text(
-        _render_orca(action_id, inputs["structure"], method, settings),
+        _render_orca(
+            action_id,
+            inputs["structure"],
+            method,
+            settings,
+            dict(request.get("resource_limits") or {}),
+        ),
         encoding="utf-8",
     )
     completed = run_external(
@@ -477,9 +487,18 @@ def _orca(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
     output_path.write_text(completed["stdout"], encoding="utf-8")
     (directory / "job.err").write_text(completed["stderr"], encoding="utf-8")
     if not completed["available"]:
-        return unavailable(completed["stderr"], install="Install ORCA manually and set CHEMGRAPH_ORCA_COMMAND")
+        return unavailable(
+            completed["stderr"],
+            install=(
+                "Place the licensed ORCA bundle in .software_cache/orca/6.1.1 "
+                "and configure CHEMGRAPH_ORCA_COMMAND."
+            ),
+        )
     if completed["returncode"] != 0:
-        raise RuntimeError(f"ORCA failed: {completed['stderr'][-2000:]}")
+        detail = (completed["stderr"] or completed["stdout"])[-4000:]
+        raise RuntimeError(f"ORCA failed: {detail}")
+    version_match = re.search(r"Program Version\s+(\d+\.\d+\.\d+)", completed["stdout"])
+    backend_version = version_match.group(1) if version_match else None
     energy_matches = re.findall(r"FINAL SINGLE POINT ENERGY\s+(-?\d+(?:\.\d+)?)", completed["stdout"])
     energy = float(energy_matches[-1]) if energy_matches else None
     if action_id == "calculate_energy":
@@ -494,11 +513,16 @@ def _orca(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
             raise RuntimeError("Could not parse ORCA dipole moment")
         result = {"dipole": [float(match.group(i)) for i in (1, 2, 3)], "unit": "atomic_unit", "energy_hartree": energy}
     elif action_id == "optimize_geometry":
-        candidates = list(directory.glob("*.xyz"))
-        if not candidates:
+        final_xyz = directory / f"{input_path.stem}.xyz"
+        if not final_xyz.is_file():
+            candidates = sorted(
+                path for path in directory.glob("*.xyz") if not path.name.endswith("_trj.xyz")
+            )
+            final_xyz = candidates[-1] if candidates else final_xyz
+        if not final_xyz.is_file():
             raise RuntimeError("ORCA optimization produced no XYZ structure")
         result = {
-            "structure": structure_dict(relative_workspace_path(candidates[-1])),
+            "structure": structure_dict(relative_workspace_path(final_xyz)),
             "converged": "THE OPTIMIZATION HAS CONVERGED" in completed["stdout"],
             "energy": energy,
             "energy_unit": "hartree",
@@ -517,7 +541,12 @@ def _orca(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
     else:
         return unsupported(f"ORCA does not implement {action_id}")
     artifacts = command_artifacts(directory)
-    provenance = {"command": completed["command"]}
+    provenance = {
+        "command": completed["command"],
+        "parallel_processes": int(
+            (request.get("resource_limits") or {}).get("cpu_cores") or 1
+        ),
+    }
     incomplete = (
         (action_id == "calculate_hessian" and result.get("matrix") is None)
         or (action_id == "optimize_geometry" and not result.get("converged"))
@@ -526,12 +555,18 @@ def _orca(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
         return partial_success(
             result,
             artifact_files=artifacts,
+            backend_version=backend_version,
             provenance=provenance,
             warnings=[
                 "ORCA completed, but the primary result was not fully parsed or the optimization did not converge."
             ],
         )
-    return success(result, artifact_files=artifacts, provenance=provenance)
+    return success(
+        result,
+        artifact_files=artifacts,
+        backend_version=backend_version,
+        provenance=provenance,
+    )
 
 
 def _vibrations(request: dict[str, Any]) -> dict[str, Any]:

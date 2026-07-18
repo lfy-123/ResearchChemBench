@@ -1,6 +1,6 @@
 # Backend runtime status
 
-Generated: 2026-07-18T17:32:05.899730+00:00
+Generated: 2026-07-18T19:02:19.081516+00:00
 Public MCP tools: 44 (same for every task)
 Backend runtimes checked: 14
 
@@ -8,7 +8,7 @@ Backend runtimes checked: 14
 |---|---|---|---:|---|---|
 | `core` | profiles | `researchchem-core` | 8 | 通过 | 8/8 backends currently available |
 | `services` | profiles | `researchchem-services` | 4 | 通过 | 4/4 backends currently available |
-| `quantum` | profiles | `researchchem-quantum` | 5 | 通过 | 4/5 backends currently available |
+| `quantum` | profiles | `researchchem-quantum` | 5 | 通过 | 5/5 backends currently available |
 | `psi4` | profiles | `researchchem-psi4` | 1 | 通过 | 1/1 backends currently available |
 | `reaction` | profiles | `researchchem-reaction` | 6 | 通过 | 6/6 backends currently available |
 | `qe` | profiles | `researchchem-qe` | 1 | 通过 | 1/1 backends currently available |

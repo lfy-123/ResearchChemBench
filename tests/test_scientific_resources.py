@@ -5,7 +5,7 @@ import json
 import pytest
 
 from researchchem_toolbox import resources
-from researchchem_toolbox.backends import docking, periodic
+from researchchem_toolbox.backends import docking, electronic, periodic
 from researchchem_toolbox.backends.common import resolve_input_file
 from researchchem_toolbox.catalog import catalog_snapshot
 
@@ -159,6 +159,75 @@ def test_gnina_adapter_keeps_hardware_and_model_choice_explicit(tmp_path, monkey
     assert "--energy_range" not in captured["arguments"]
     assert "--cnn" not in captured["arguments"]
     assert result["result"]["scores"][0]["cnn_pose_score"] == pytest.approx(0.81)
+
+
+def test_orca_input_maps_agent_cpu_limit_to_pal_without_selecting_a_method():
+    text = electronic._render_orca(
+        "calculate_energy",
+        {
+            "atoms": [
+                {"element": "H", "position_angstrom": [0, 0, 0]},
+                {"element": "H", "position_angstrom": [0, 0, 0.74]},
+            ]
+        },
+        {"method": "HF", "basis": "STO-3G"},
+        {},
+        {"cpu_cores": 2},
+    )
+    assert "! HF STO-3G SP" in text
+    assert "%pal\n  nprocs 2\nend" in text
+
+
+def test_orca_optimization_reads_final_xyz_not_first_trajectory_frame(
+    tmp_path, monkeypatch
+):
+    monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
+
+    def fake_run_external(**kwargs):
+        directory = kwargs["directory"]
+        (directory / "job.xyz").write_text(
+            "2\nfinal\nH 0 0 0\nH 0 0 0.70\n", encoding="utf-8"
+        )
+        (directory / "job_trj.xyz").write_text(
+            "2\ninitial\nH 0 0 0\nH 0 0 0.90\n", encoding="utf-8"
+        )
+        return {
+            "available": True,
+            "returncode": 0,
+            "stdout": (
+                "Program Version 6.1.1\n"
+                "FINAL SINGLE POINT ENERGY -1.0\n"
+                "THE OPTIMIZATION HAS CONVERGED\n"
+            ),
+            "stderr": "",
+            "command": ["orca", "job.inp"],
+        }
+
+    monkeypatch.setattr(electronic, "run_external", fake_run_external)
+    result = electronic.execute(
+        "optimize_geometry",
+        "orca",
+        {
+            "inputs": {
+                "structure": {
+                    "atoms": [
+                        {"element": "H", "position_angstrom": [0, 0, 0]},
+                        {"element": "H", "position_angstrom": [0, 0, 0.90]},
+                    ]
+                }
+            },
+            "method_spec": {"method": "HF", "basis": "STO-3G"},
+            "action_settings": {
+                "optimization_convergence": "Tight",
+                "max_steps": 20,
+            },
+            "resource_limits": {"cpu_cores": 1},
+        },
+    )
+    assert result["status"] == "success"
+    assert result["backend_version"] == "6.1.1"
+    assert result["result"]["structure"]["atoms"][1]["position_angstrom"][2] == pytest.approx(0.70)
+    assert result["result"]["structure"]["source_path"].endswith("job.xyz")
 
 
 def test_dftb_input_uses_explicit_agent_method_fields(tmp_path, monkeypatch):

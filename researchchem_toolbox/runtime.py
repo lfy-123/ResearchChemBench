@@ -53,19 +53,42 @@ def runtime_python(name: str) -> Path:
     return runtime_path(name) / "bin" / "python"
 
 
+def _runtime_entries(specification: dict[str, Any], key: str) -> list[str]:
+    entries = []
+    for value in specification.get(key) or []:
+        path = Path(str(value)).expanduser()
+        if not path.is_absolute():
+            path = PROJECT_ROOT / path
+        entries.append(str(path.resolve()))
+    return entries
+
+
 def runtime_environment(name: str) -> dict[str, str]:
     specification = runtime_spec(name)
     environment = runtime_path(name)
+    path_entries = [str(environment / "bin"), *_runtime_entries(specification, "path_entries")]
+    library_entries = [
+        str(environment / "lib"),
+        *_runtime_entries(specification, "library_path_entries"),
+    ]
     values = {
-        "PATH": str(environment / "bin") + os.pathsep + os.environ.get("PATH", ""),
-        "LD_LIBRARY_PATH": str(environment / "lib")
-        + os.pathsep
-        + os.environ.get("LD_LIBRARY_PATH", ""),
+        "PATH": os.pathsep.join([*path_entries, os.environ.get("PATH", "")]),
+        "LD_LIBRARY_PATH": os.pathsep.join(
+            [*library_entries, os.environ.get("LD_LIBRARY_PATH", "")]
+        ),
         "PYTHONPATH": str(PROJECT_ROOT)
         + os.pathsep
         + os.environ.get("PYTHONPATH", ""),
         "RESEARCHCHEM_BACKEND_RUNTIME": name,
     }
+    values.update(
+        {
+            str(variable): str(value)
+            for variable, value in dict(
+                specification.get("environment_variables") or {}
+            ).items()
+        }
+    )
     model_cache = load_runtime_config().get("model_cache_root", ".model_cache")
     if specification.get("use_project_model_cache", False):
         cache = Path(str(model_cache)).expanduser()

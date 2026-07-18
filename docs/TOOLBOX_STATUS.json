@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-18T17:49:22.449468+00:00",
+  "generated_at": "2026-07-18T19:10:43.655491+00:00",
   "scientific_actions": 40,
   "data_actions": 4,
   "backend_count": 45,
@@ -1957,7 +1957,7 @@
           "optimize_geometry",
           "calculate_dipole_moment"
         ],
-        "description": "User-provided licensed ORCA executable; ResearchChemBench never downloads it.",
+        "description": "Operator-provided ORCA 6.1.1 electronic-structure executable with an isolated OpenMPI 4.1.8 runtime.",
         "python_modules": [],
         "executables": [
           "orca"
@@ -1969,8 +1969,14 @@
         "pip_packages": [],
         "required_data_resources": [],
         "license_class": "manual_license",
-        "install_notes": "Download ORCA from the official portal and set CHEMGRAPH_ORCA_COMMAND.",
-        "method_schema": {},
+        "install_notes": "Configured from the operator-downloaded ORCA 6.1.1 installer under .software_cache/orca/6.1.1 with OpenMPI 4.1.8.",
+        "method_schema": {
+          "method": "ORCA method/functional keyword",
+          "basis": "ORCA basis-set keyword",
+          "dispersion": "optional ORCA dispersion keyword",
+          "charge": "optional explicit molecular charge",
+          "multiplicity": "optional explicit spin multiplicity"
+        },
         "required_method_fields": {
           "calculate_energy": [
             "method",
@@ -1996,30 +2002,26 @@
           ]
         },
         "health": {
-          "status": "unavailable",
-          "available": false,
+          "status": "available",
+          "available": true,
           "runtime": "quantum",
           "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/quantum/bin/python",
           "runtime_python_exists": true,
           "python_modules": {},
           "executables": {
-            "orca": null
+            "orca": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/orca/6.1.1/orca"
           },
           "environment": {
-            "CHEMGRAPH_ORCA_COMMAND": false
+            "CHEMGRAPH_ORCA_COMMAND": true
           },
           "missing_python_modules": [],
-          "missing_executables": [
-            "orca"
-          ],
-          "missing_environment": [
-            "CHEMGRAPH_ORCA_COMMAND"
-          ],
+          "missing_executables": [],
+          "missing_environment": [],
           "conda_packages": [],
           "pip_packages": [],
           "required_data_resources": [],
           "license_class": "manual_license",
-          "install_notes": "Download ORCA from the official portal and set CHEMGRAPH_ORCA_COMMAND."
+          "install_notes": "Configured from the operator-downloaded ORCA 6.1.1 installer under .software_cache/orca/6.1.1 with OpenMPI 4.1.8."
         }
       },
       {
@@ -6185,90 +6187,84 @@
         "available": true,
         "selection_required": false,
         "configured_target": true
-      }
-    ],
-    "catalog_hash": "57a3f05f4ec2bfcd76e744b19430a4356934c7c88015a12deb73234b8c63a1bc"
-  },
-  "installation": {
-    "catalog_hash": "57a3f05f4ec2bfcd76e744b19430a4356934c7c88015a12deb73234b8c63a1bc",
-    "unavailable_backend_count": 1,
-    "unavailable_backends": [
+      },
       {
-        "id": "orca",
-        "display_name": "ORCA",
-        "runtime": "quantum",
-        "capabilities": [
-          "calculate_energy",
-          "calculate_hessian",
-          "optimize_geometry",
-          "calculate_dipole_moment"
-        ],
-        "description": "User-provided licensed ORCA executable; ResearchChemBench never downloads it.",
-        "python_modules": [],
-        "executables": [
+        "id": "orca_6_1_1_linux_x86_64_shared_openmpi418_avx2",
+        "display_name": "ORCA 6.1.1 Linux x86-64 AVX2 (shared OpenMPI 4.1.8)",
+        "kind": "backend_executable",
+        "selectable": false,
+        "compatible_backends": [
           "orca"
         ],
-        "environment_variables": [
-          "CHEMGRAPH_ORCA_COMMAND"
+        "format": "Linux x86-64 AVX2 executable bundle",
+        "version": "6.1.1",
+        "path": ".software_cache/orca/6.1.1/orca",
+        "install_target": ".tool_envs/quantum/bin/orca",
+        "checksum_algorithm": "sha256",
+        "checksum": "d65fe8fe3136e0008de9e5784ab8d853b0ef51a02635d7d6fb0f6a1c95d648d1",
+        "version_probe": {
+          "arguments": [
+            "--version"
+          ],
+          "accepted_returncodes": [
+            2
+          ],
+          "output_regex": "Program Version\\s+6\\.1\\.1"
+        },
+        "distribution_archive": {
+          "path": "download/orca_6_1_1_linux_x86-64_shared_openmpi418_avx2.run",
+          "checksum_algorithm": "sha256",
+          "checksum": "bda447869a5afca37489176e6d5a53678ddfdb74573249670bc58ac1273ed977"
+        },
+        "source_url": "https://www.faccts.de/docs/orca/6.1/manual/contents/quickstartguide/installation.html",
+        "license_and_citation": "Licensed ORCA distribution supplied by the benchmark operator. Follow .software_cache/orca/6.1.1/EULA_ORCA_2025.pdf, Third_Party_Licenses_Academic_6.1.pdf, and the ORCA citation guidance; do not redistribute the bundle.",
+        "scientific_scope": "Agent-selectable ORCA backend for molecular energy, Hessian, geometry optimization, and dipole Actions. Method, basis, charge, multiplicity, dispersion, and CPU allocation remain explicit request choices.",
+        "available": true,
+        "selection_required": false,
+        "configured_target": true
+      },
+      {
+        "id": "openmpi_4_1_8_orca_runtime",
+        "display_name": "OpenMPI 4.1.8 runtime for ORCA",
+        "kind": "backend_executable",
+        "selectable": false,
+        "compatible_backends": [
+          "orca"
         ],
-        "conda_packages": [],
-        "pip_packages": [],
-        "required_data_resources": [],
-        "license_class": "manual_license",
-        "install_notes": "Download ORCA from the official portal and set CHEMGRAPH_ORCA_COMMAND.",
-        "method_schema": {},
-        "required_method_fields": {
-          "calculate_energy": [
-            "method",
-            "basis"
+        "format": "Linux x86-64 shared MPI runtime",
+        "version": "4.1.8",
+        "path": ".software_cache/openmpi/4.1.8/bin/mpirun",
+        "install_target": ".tool_envs/quantum/bin/mpirun",
+        "checksum_algorithm": "sha256",
+        "checksum": "c73d880535ee03984fae2aa98223157196ca15e6792c15d8ff30548e1a383f8e",
+        "version_probe": {
+          "arguments": [
+            "--version"
           ],
-          "calculate_hessian": [
-            "method",
-            "basis"
+          "accepted_returncodes": [
+            0
           ],
-          "optimize_geometry": [
-            "method",
-            "basis"
-          ],
-          "calculate_dipole_moment": [
-            "method",
-            "basis"
-          ]
+          "output_regex": "mpirun \\(Open MPI\\) 4\\.1\\.8"
         },
-        "required_setting_fields": {
-          "optimize_geometry": [
-            "optimization_convergence",
-            "max_steps"
-          ]
+        "source_archive": {
+          "path": ".software_cache/openmpi/source/openmpi-4.1.8.tar.bz2",
+          "checksum_algorithm": "sha256",
+          "checksum": "466f68e3132a1dc02710cc2011fafced8336d98359fa2dae4dddcfd5719f12a9"
         },
-        "health": {
-          "status": "unavailable",
-          "available": false,
-          "runtime": "quantum",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/quantum/bin/python",
-          "runtime_python_exists": true,
-          "python_modules": {},
-          "executables": {
-            "orca": null
-          },
-          "environment": {
-            "CHEMGRAPH_ORCA_COMMAND": false
-          },
-          "missing_python_modules": [],
-          "missing_executables": [
-            "orca"
-          ],
-          "missing_environment": [
-            "CHEMGRAPH_ORCA_COMMAND"
-          ],
-          "conda_packages": [],
-          "pip_packages": [],
-          "required_data_resources": [],
-          "license_class": "manual_license",
-          "install_notes": "Download ORCA from the official portal and set CHEMGRAPH_ORCA_COMMAND."
-        }
+        "source_url": "https://www.open-mpi.org/software/ompi/v4.1/",
+        "license_and_citation": "Open MPI is distributed under the BSD 3-Clause license; retain upstream notices.",
+        "scientific_scope": "Exact shared MPI runtime required by the downloaded ORCA build. It is runtime-managed and never an Agent-selectable scientific resource.",
+        "available": true,
+        "selection_required": false,
+        "configured_target": true
       }
     ],
+    "catalog_hash": "f3c4f3f7a40b5b2b27a1b031b4d6269fea0ec29e59a471e35b589e23cba22949"
+  },
+  "installation": {
+    "catalog_hash": "f3c4f3f7a40b5b2b27a1b031b4d6269fea0ec29e59a471e35b589e23cba22949",
+    "unavailable_backend_count": 0,
+    "unavailable_backends": [],
     "conda_packages": [],
     "pip_packages": [],
     "required_data_resources": [
@@ -6360,24 +6356,29 @@
         ],
         "available": true,
         "selection_syntax": "runtime-managed"
+      },
+      {
+        "resource_id": "orca_6_1_1_linux_x86_64_shared_openmpi418_avx2",
+        "kind": "backend_executable",
+        "compatible_backends": [
+          "orca"
+        ],
+        "available": true,
+        "selection_syntax": "runtime-managed"
+      },
+      {
+        "resource_id": "openmpi_4_1_8_orca_runtime",
+        "kind": "backend_executable",
+        "compatible_backends": [
+          "orca"
+        ],
+        "available": true,
+        "selection_syntax": "runtime-managed"
       }
     ],
     "missing_registered_scientific_resources": [],
     "missing_credentials": [],
-    "manual_installations": [
-      {
-        "backend_id": "orca",
-        "display_name": "ORCA",
-        "license_class": "manual_license",
-        "install_notes": "Download ORCA from the official portal and set CHEMGRAPH_ORCA_COMMAND.",
-        "missing_executables": [
-          "orca"
-        ],
-        "missing_environment": [
-          "CHEMGRAPH_ORCA_COMMAND"
-        ]
-      }
-    ]
+    "manual_installations": []
   },
   "smoke": [
     {

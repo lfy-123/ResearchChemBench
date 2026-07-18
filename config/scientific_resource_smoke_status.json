@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-07-18T17:46:09.108934+00:00",
+  "generated_at": "2026-07-18T19:10:32.358516+00:00",
   "schema_version": 1,
   "summary": {
-    "case_count": 14,
-    "passed": 14,
+    "case_count": 18,
+    "passed": 18,
     "failed": 0,
     "all_ok": true
   },
@@ -12,14 +12,16 @@
       "case_id": "quantum_espresso_sssp_efficiency_si",
       "action": "calculate_periodic_energy",
       "backend": "quantum_espresso",
+      "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 6.623584,
+      "elapsed_seconds": 7.486389,
       "result": {
         "energy": -10.99662568,
         "unit": "rydberg"
       },
       "error": null,
       "warnings": [],
+      "parallel_processes": null,
       "resource_refs": [
         {
           "resource_id": "qe_sssp_1_3_pbe_efficiency",
@@ -45,14 +47,16 @@
       "case_id": "quantum_espresso_sssp_precision_si",
       "action": "calculate_periodic_energy",
       "backend": "quantum_espresso",
+      "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 6.748917,
+      "elapsed_seconds": 6.750732,
       "result": {
         "energy": -10.99662568,
         "unit": "rydberg"
       },
       "error": null,
       "warnings": [],
+      "parallel_processes": null,
       "resource_refs": [
         {
           "resource_id": "qe_sssp_1_3_pbe_precision",
@@ -78,14 +82,16 @@
       "case_id": "siesta_pseudodojo_psml_si",
       "action": "calculate_periodic_energy",
       "backend": "siesta",
+      "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 1.265547,
+      "elapsed_seconds": 2.113628,
       "result": {
         "energy": -108.6682,
         "unit": "eV"
       },
       "error": null,
       "warnings": [],
+      "parallel_processes": null,
       "resource_refs": [
         {
           "resource_id": "siesta_pseudo_dojo_nc_sr_05_pbe_standard_psml",
@@ -104,14 +110,16 @@
       "case_id": "abinit_pseudodojo_psp8_si",
       "action": "calculate_periodic_energy",
       "backend": "abinit",
+      "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 1.805661,
+      "elapsed_seconds": 2.601229,
       "result": {
         "energy": -4.0197060046,
         "unit": "hartree"
       },
       "error": null,
       "warnings": [],
+      "parallel_processes": null,
       "resource_refs": [
         {
           "resource_id": "abinit_pseudo_dojo_nc_sr_pbe_standard_psp8",
@@ -130,14 +138,16 @@
       "case_id": "dftbplus_matsci_si",
       "action": "calculate_periodic_energy",
       "backend": "dftbplus",
+      "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 0.989001,
+      "elapsed_seconds": 1.292453,
       "result": {
         "energy": -1.0828157173,
         "unit": "hartree"
       },
       "error": null,
       "warnings": [],
+      "parallel_processes": null,
       "resource_refs": [
         {
           "resource_id": "dftb_matsci_0_3",
@@ -156,14 +166,16 @@
       "case_id": "dftbplus_3ob_dftb3_c",
       "action": "calculate_periodic_energy",
       "backend": "dftbplus",
+      "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 1.035742,
+      "elapsed_seconds": 1.055095,
       "result": {
         "energy": -1.3984936602,
         "unit": "hartree"
       },
       "error": null,
       "warnings": [],
+      "parallel_processes": null,
       "resource_refs": [
         {
           "resource_id": "dftb_3ob_3_1",
@@ -182,8 +194,9 @@
       "case_id": "quantum_espresso_sssp_si_forces",
       "action": "calculate_periodic_forces",
       "backend": "quantum_espresso",
+      "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 7.158986,
+      "elapsed_seconds": 7.119385,
       "result": {
         "forces": [
           [
@@ -196,6 +209,7 @@
       },
       "error": null,
       "warnings": [],
+      "parallel_processes": null,
       "resource_refs": [
         {
           "resource_id": "qe_sssp_1_3_pbe_efficiency",
@@ -221,8 +235,9 @@
       "case_id": "quantum_espresso_sssp_si_stress",
       "action": "calculate_periodic_stress",
       "backend": "quantum_espresso",
+      "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 8.814248,
+      "elapsed_seconds": 8.836434,
       "result": {
         "stress": [
           [
@@ -245,6 +260,7 @@
       },
       "error": null,
       "warnings": [],
+      "parallel_processes": null,
       "resource_refs": [
         {
           "resource_id": "qe_sssp_1_3_pbe_efficiency",
@@ -270,8 +286,9 @@
       "case_id": "siesta_pseudodojo_si_forces",
       "action": "calculate_periodic_forces",
       "backend": "siesta",
+      "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 1.257448,
+      "elapsed_seconds": 1.251192,
       "result": {
         "forces": [
           [
@@ -281,10 +298,12 @@
           ]
         ],
         "unit": "eV/angstrom",
-        "energy": -108.6682
+        "energy": -108.6682,
+        "energy_unit": "eV"
       },
       "error": null,
       "warnings": [],
+      "parallel_processes": null,
       "resource_refs": [
         {
           "resource_id": "siesta_pseudo_dojo_nc_sr_05_pbe_standard_psml",
@@ -303,8 +322,9 @@
       "case_id": "dftbplus_matsci_si_forces",
       "action": "calculate_periodic_forces",
       "backend": "dftbplus",
+      "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 1.018783,
+      "elapsed_seconds": 0.99918,
       "result": {
         "forces": [
           [
@@ -314,10 +334,12 @@
           ]
         ],
         "unit": "hartree/bohr",
-        "energy": -1.0828157173
+        "energy": -1.0828157173,
+        "energy_unit": "hartree"
       },
       "error": null,
       "warnings": [],
+      "parallel_processes": null,
       "resource_refs": [
         {
           "resource_id": "dftb_matsci_0_3",
@@ -336,8 +358,9 @@
       "case_id": "abinit_pseudodojo_si_forces",
       "action": "calculate_periodic_forces",
       "backend": "abinit",
+      "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 1.841325,
+      "elapsed_seconds": 1.830922,
       "result": {
         "forces": [
           [
@@ -347,10 +370,12 @@
           ]
         ],
         "unit": "hartree/bohr",
-        "energy": -4.0197060046
+        "energy": -4.0197060046,
+        "energy_unit": "hartree"
       },
       "error": null,
       "warnings": [],
+      "parallel_processes": null,
       "resource_refs": [
         {
           "resource_id": "abinit_pseudo_dojo_nc_sr_pbe_standard_psp8",
@@ -369,8 +394,9 @@
       "case_id": "abinit_pseudodojo_si_stress",
       "action": "calculate_periodic_stress",
       "backend": "abinit",
+      "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 1.874012,
+      "elapsed_seconds": 1.945765,
       "result": {
         "stress": [
           [
@@ -390,10 +416,12 @@
           ]
         ],
         "unit": "hartree/bohr^3",
-        "energy": -4.0197060046
+        "energy": -4.0197060046,
+        "energy_unit": "hartree"
       },
       "error": null,
       "warnings": [],
+      "parallel_processes": null,
       "resource_refs": [
         {
           "resource_id": "abinit_pseudo_dojo_nc_sr_pbe_standard_psp8",
@@ -412,8 +440,9 @@
       "case_id": "dftbplus_matsci_si_relax",
       "action": "relax_periodic_structure",
       "backend": "dftbplus",
+      "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 0.996606,
+      "elapsed_seconds": 1.013779,
       "result": {
         "structure": {
           "atoms": [
@@ -452,10 +481,12 @@
           "multiplicity": 1
         },
         "converged": true,
-        "energy": -1.0828157173
+        "energy": -1.0828157173,
+        "energy_unit": "hartree"
       },
       "error": null,
       "warnings": [],
+      "parallel_processes": null,
       "resource_refs": [
         {
           "resource_id": "dftb_matsci_0_3",
@@ -474,10 +505,11 @@
       "case_id": "gnina_1_3_3_builtin_cnn_cpu",
       "action": "dock_ligand",
       "backend": "gnina",
+      "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 7.748512,
+      "elapsed_seconds": 8.172678,
       "result": {
-        "poses_path": "outputs/dock_ligand/gnina/445e452ffb86/poses.pdbqt",
+        "poses_path": "outputs/dock_ligand/gnina/461673d158fa/poses.pdbqt",
         "scores": [
           {
             "pose_index": 1,
@@ -501,6 +533,119 @@
       },
       "error": null,
       "warnings": [],
+      "parallel_processes": null,
+      "resource_refs": []
+    },
+    {
+      "case_id": "orca_6_1_1_openmpi418_water_energy_pal2",
+      "action": "calculate_energy",
+      "backend": "orca",
+      "backend_version": "6.1.1",
+      "status": "success",
+      "elapsed_seconds": 3.043713,
+      "result": {
+        "energy": -74.963709431238,
+        "unit": "hartree"
+      },
+      "error": null,
+      "warnings": [],
+      "parallel_processes": 2,
+      "resource_refs": []
+    },
+    {
+      "case_id": "orca_6_1_1_water_hessian",
+      "action": "calculate_hessian",
+      "backend": "orca",
+      "backend_version": "6.1.1",
+      "status": "success",
+      "elapsed_seconds": 1.732929,
+      "result": {
+        "unit": "hartree/bohr^2",
+        "raw_hessian_path": "outputs/calculate_hessian/orca/cf9a7c076c80/job.hess",
+        "matrix_shape": [
+          9,
+          9
+        ],
+        "matrix_max_abs": 0.75488059637
+      },
+      "error": null,
+      "warnings": [],
+      "parallel_processes": 1,
+      "resource_refs": []
+    },
+    {
+      "case_id": "orca_6_1_1_water_geometry_optimization",
+      "action": "optimize_geometry",
+      "backend": "orca",
+      "backend_version": "6.1.1",
+      "status": "success",
+      "elapsed_seconds": 2.187824,
+      "result": {
+        "structure": {
+          "atoms": [
+            {
+              "element": "O",
+              "position_angstrom": [
+                0.0,
+                0.0,
+                -0.01053523810061
+              ]
+            },
+            {
+              "element": "H",
+              "position_angstrom": [
+                0.0,
+                0.7580802530385,
+                0.6252676190503
+              ]
+            },
+            {
+              "element": "H",
+              "position_angstrom": [
+                0.0,
+                -0.7580802530385,
+                0.6252676190503
+              ]
+            }
+          ],
+          "charge": 0,
+          "multiplicity": 1,
+          "pbc": [
+            false,
+            false,
+            false
+          ],
+          "source_path": "outputs/optimize_geometry/orca/5cf2341aed6c/job.xyz"
+        },
+        "converged": true,
+        "energy": -74.965901192191,
+        "energy_unit": "hartree",
+        "optimization_convergence": "Tight"
+      },
+      "error": null,
+      "warnings": [],
+      "parallel_processes": 1,
+      "resource_refs": []
+    },
+    {
+      "case_id": "orca_6_1_1_water_dipole",
+      "action": "calculate_dipole_moment",
+      "backend": "orca",
+      "backend_version": "6.1.1",
+      "status": "success",
+      "elapsed_seconds": 1.292584,
+      "result": {
+        "dipole": [
+          0.0,
+          0.0,
+          0.650275815
+        ],
+        "unit": "atomic_unit",
+        "energy_hartree": -74.963709431238
+      },
+      "error": null,
+      "warnings": [],
+      "parallel_processes": 1,
       "resource_refs": []
     }
   ]

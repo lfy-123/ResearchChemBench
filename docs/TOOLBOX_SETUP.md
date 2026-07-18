@@ -67,6 +67,9 @@ cp config.local.env.example config.local.env
 ## 验证
 
 ```bash
+.toolbox_env/bin/python scripts/configure_toolbox_resources.py
+.toolbox_env/bin/python scripts/run_scientific_resource_smokes.py
+
 .toolbox_env/bin/python scripts/check_mcp_profile_envs.py \
   --live-materials-project \
   --check-models
@@ -79,11 +82,14 @@ cp config.local.env.example config.local.env
 
 状态见 [MCP_PROFILE_STATUS.md](MCP_PROFILE_STATUS.md)。
 
-## 人工软件
+## 人工许可软件与独立二进制
 
-当前自动环境覆盖所有已实现且可自动安装的必需后端。仍需人工处理：
+当前工作区已经完成以下配置：
 
-- ORCA：注册/许可下载；
-- GNINA：官方 binary 或 container；
-- 各周期软件所需赝势与 DFTB+ 参数集；
-- 任务特定模型、checkpoint、输入模板和集群 MPI 配置。
+- ORCA 6.1.1：`.software_cache/orca/6.1.1/`；稳定入口 `.tool_envs/quantum/bin/orca`；
+- ORCA 专用 OpenMPI 4.1.8：`.software_cache/openmpi/4.1.8/`；稳定入口 `.tool_envs/quantum/bin/mpirun`；
+- GNINA 1.3.3：`.software_cache/gnina/1.3.3/`；
+- 周期软件赝势与 DFTB+ 参数集：由 `config/toolbox_resources.json` 注册；
+- 当前 BackendSpec 45/45 available，注册资源 9/9 通过校验。
+
+这些软件、数据和安装包均被 Git 忽略。迁移到新机器时需重新提供有权使用的 ORCA/GNINA 文件和科学数据，再运行 `scripts/configure_toolbox_resources.py`；不要提交或重新分发 ORCA 安装包及其软件目录。

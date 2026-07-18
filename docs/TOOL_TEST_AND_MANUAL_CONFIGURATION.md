@@ -1,6 +1,6 @@
 # MCP 工具逐项测试与未配置软件手动配置指南
 
-> 2026-07-18 更新：本文主体记录旧 41 工具基线。当前原子工具状态与待安装清单请使用 `docs/TOOLBOX_STATUS.md` 和 `docs/tools/CHEMISTRY_TOOLBOX_REFACTOR_REPORT.md`。
+> 2026-07-18 更新：本文主体记录旧 41 工具基线，下面的 `run_orca`/`run_gnina` 内容只作历史参考。ORCA 6.1.1、OpenMPI 4.1.8 和 GNINA 1.3.3 已配置完成；当前原子工具与资源状态请使用 `docs/TOOLBOX_STATUS.md` 和 `docs/tools/CHEMISTRY_TOOLBOX_TOOL_RESOURCE_MATRIX.md`。
 
 > 本文前半部分记录 2026-07-17 单一 `.toolbox_env` 下的逐工具测试。后续已经建立
 > 多 profile 环境并补装 Psi4、QE、CP2K、DFTB+、SIESTA、ABINIT、GROMACS、LAMMPS、

@@ -130,16 +130,41 @@ def project_model_cache_path() -> Path:
     return path.resolve() if path.is_absolute() else (PROJECT_ROOT / path).resolve()
 
 
+def _profile_entries(profile: dict[str, Any], key: str) -> list[str]:
+    entries = []
+    for value in profile.get(key) or []:
+        path = Path(str(value)).expanduser()
+        if not path.is_absolute():
+            path = PROJECT_ROOT / path
+        entries.append(str(path.resolve()))
+    return entries
+
+
 def profile_runtime_environment(name: str) -> dict[str, str]:
     profile = get_profile(name)
     environment = profile_environment_path(profile)
     bin_dir = environment / "bin"
+    path_entries = [str(bin_dir), *_profile_entries(profile, "path_entries")]
+    library_entries = [
+        str(environment / "lib"),
+        *_profile_entries(profile, "library_path_entries"),
+    ]
     values = {
         PROFILE_ENV: name,
-        "PATH": str(bin_dir) + os.pathsep + os.environ.get("PATH", ""),
-        "LD_LIBRARY_PATH": str(environment / "lib") + os.pathsep + os.environ.get("LD_LIBRARY_PATH", ""),
+        "PATH": os.pathsep.join([*path_entries, os.environ.get("PATH", "")]),
+        "LD_LIBRARY_PATH": os.pathsep.join(
+            [*library_entries, os.environ.get("LD_LIBRARY_PATH", "")]
+        ),
         "PYTHONPATH": str(PROJECT_ROOT) + os.pathsep + os.environ.get("PYTHONPATH", ""),
     }
+    values.update(
+        {
+            str(variable): str(value)
+            for variable, value in dict(
+                profile.get("environment_variables") or {}
+            ).items()
+        }
+    )
     if profile.get("use_project_model_cache", False):
         cache_root = project_model_cache_path()
         cache_root.mkdir(parents=True, exist_ok=True)

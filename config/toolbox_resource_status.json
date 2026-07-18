@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-07-18T17:38:21.094433+00:00",
+  "generated_at": "2026-07-18T19:11:42.519132+00:00",
   "schema_version": 1,
   "selection_policy": "agent_explicit_no_default",
-  "configuration_mode": "install_and_verify",
+  "configuration_mode": "verify_only",
   "deep_checks": true,
   "summary": {
-    "resource_count": 7,
-    "passed": 7,
+    "resource_count": 9,
+    "passed": 9,
     "failed": 0,
     "all_ok": true
   },
@@ -560,8 +560,85 @@
       "target_exists": true,
       "target_is_symlink": true,
       "version_probe": {
+        "arguments": [
+          "--version"
+        ],
         "returncode": 0,
-        "first_line": "gnina v1.3.3 master:6fe1ce2   Built Jun 30 2026."
+        "first_line": "gnina v1.3.3 master:6fe1ce2   Built Jun 30 2026.",
+        "output_regex": null,
+        "matched_text": null
+      },
+      "errors": [],
+      "status": "pass"
+    },
+    {
+      "id": "orca_6_1_1_linux_x86_64_shared_openmpi418_avx2",
+      "kind": "backend_executable",
+      "source": ".software_cache/orca/6.1.1/orca",
+      "install_target": ".tool_envs/quantum/bin/orca",
+      "source_exists": true,
+      "supporting_files": {
+        "distribution_archive": {
+          "path": "download/orca_6_1_1_linux_x86-64_shared_openmpi418_avx2.run",
+          "exists": true,
+          "algorithm": "sha256",
+          "expected_checksum": "bda447869a5afca37489176e6d5a53678ddfdb74573249670bc58ac1273ed977",
+          "actual_checksum": "bda447869a5afca37489176e6d5a53678ddfdb74573249670bc58ac1273ed977",
+          "checksum_ok": true
+        }
+      },
+      "checksum": {
+        "algorithm": "sha256",
+        "expected": "d65fe8fe3136e0008de9e5784ab8d853b0ef51a02635d7d6fb0f6a1c95d648d1",
+        "actual": "d65fe8fe3136e0008de9e5784ab8d853b0ef51a02635d7d6fb0f6a1c95d648d1",
+        "ok": true
+      },
+      "target_exists": true,
+      "target_is_symlink": true,
+      "version_probe": {
+        "arguments": [
+          "--version"
+        ],
+        "returncode": 2,
+        "first_line": "*****************",
+        "output_regex": "Program Version\\s+6\\.1\\.1",
+        "matched_text": "Program Version 6.1.1"
+      },
+      "errors": [],
+      "status": "pass"
+    },
+    {
+      "id": "openmpi_4_1_8_orca_runtime",
+      "kind": "backend_executable",
+      "source": ".software_cache/openmpi/4.1.8/bin/orterun",
+      "install_target": ".tool_envs/quantum/bin/mpirun",
+      "source_exists": true,
+      "supporting_files": {
+        "source_archive": {
+          "path": ".software_cache/openmpi/source/openmpi-4.1.8.tar.bz2",
+          "exists": true,
+          "algorithm": "sha256",
+          "expected_checksum": "466f68e3132a1dc02710cc2011fafced8336d98359fa2dae4dddcfd5719f12a9",
+          "actual_checksum": "466f68e3132a1dc02710cc2011fafced8336d98359fa2dae4dddcfd5719f12a9",
+          "checksum_ok": true
+        }
+      },
+      "checksum": {
+        "algorithm": "sha256",
+        "expected": "c73d880535ee03984fae2aa98223157196ca15e6792c15d8ff30548e1a383f8e",
+        "actual": "c73d880535ee03984fae2aa98223157196ca15e6792c15d8ff30548e1a383f8e",
+        "ok": true
+      },
+      "target_exists": true,
+      "target_is_symlink": true,
+      "version_probe": {
+        "arguments": [
+          "--version"
+        ],
+        "returncode": 0,
+        "first_line": "mpirun (Open MPI) 4.1.8",
+        "output_regex": "mpirun \\(Open MPI\\) 4\\.1\\.8",
+        "matched_text": "mpirun (Open MPI) 4.1.8"
       },
       "errors": [],
       "status": "pass"

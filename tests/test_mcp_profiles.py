@@ -54,6 +54,16 @@ def test_model_profiles_use_ignored_project_model_cache(monkeypatch):
     assert MODEL_CACHE_ENV not in profile_runtime_environment("services")
 
 
+def test_orca_runtime_injects_exact_binary_and_mpi_paths():
+    environment = profile_runtime_environment("quantum")
+    assert environment["CHEMGRAPH_ORCA_COMMAND"].endswith(
+        ".software_cache/orca/6.1.1/orca"
+    )
+    assert ".software_cache/orca/6.1.1" in environment["PATH"]
+    assert ".software_cache/openmpi/4.1.8/bin" in environment["PATH"]
+    assert ".software_cache/openmpi/4.1.8/lib" in environment["LD_LIBRARY_PATH"]
+
+
 def test_task_workspace_gets_one_server_full_prompt_and_catalog(tmp_path, monkeypatch):
     monkeypatch.setenv("RESEARCHCHEMBENCH_MCP_PROFILES", "core,services")
     runner = TaskRunner("ChemGraph_001", agent_key="opencode", workspace_root=tmp_path)

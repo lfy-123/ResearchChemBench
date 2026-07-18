@@ -1,6 +1,6 @@
 # ResearchChem Atomic Tool Catalog
 
-Catalog hash: `a97adf3905551fba081ad84482c1c39e8d847c4f20c83fbe2eb9c5feaca7867d`
+Catalog hash: `f3c4f3f7a40b5b2b27a1b031b4d6269fea0ec29e59a471e35b589e23cba22949`
 
 The benchmark exposes every action below for every task. Backends are selected by the agent.
 
@@ -51,6 +51,20 @@ The benchmark exposes every action below for every task. Backends are selected b
 | search_materials | data_sources | MaterialRecords | materials_project | query | Search Materials Project records by material id, formula, or explicit query fields. |
 | search_catalysis_records | data_sources | CatalysisRecords | catalysis_hub | query | Search Catalysis-Hub reaction records using explicit reactant/product filters. |
 
+## Registered scientific resources
+
+| Resource | Kind | Backends | Version | Format | Status | Explicit selection syntax | Coverage |
+|---|---|---|---|---|---|---|---|
+| qe_sssp_1_3_pbe_efficiency | element_file_collection | quantum_espresso | 1.3.0 | UPF | available | resource://qe_sssp_1_3_pbe_efficiency/<Element> | 103 elements |
+| qe_sssp_1_3_pbe_precision | element_file_collection | quantum_espresso | 1.3.0 | UPF | available | resource://qe_sssp_1_3_pbe_precision/<Element> | 103 elements |
+| siesta_pseudo_dojo_nc_sr_05_pbe_standard_psml | element_file_collection | siesta | nc-sr-05 standard | PSML 1.1 | available | resource://siesta_pseudo_dojo_nc_sr_05_pbe_standard_psml/<Element> | 72 elements |
+| abinit_pseudo_dojo_nc_sr_pbe_standard_psp8 | element_file_collection | abinit | standard | PSP8 | available | resource://abinit_pseudo_dojo_nc_sr_pbe_standard_psp8/<Element> | 70 elements |
+| dftb_3ob_3_1 | slater_koster_parameter_set | dftbplus | 3.1.0 | Slater-Koster SKF | available | resource://dftb_3ob_3_1 | 15 elements; 225 directed pairs |
+| dftb_matsci_0_3 | slater_koster_parameter_set | dftbplus | 0.3.0 | Slater-Koster SKF | available | resource://dftb_matsci_0_3 | 11 elements; 87 directed pairs |
+| gnina_1_3_3_cuda12_8_linux_x86_64 | backend_executable | gnina | 1.3.3 | Linux x86_64 executable | available | runtime-managed | runtime executable |
+| orca_6_1_1_linux_x86_64_shared_openmpi418_avx2 | backend_executable | orca | 6.1.1 | Linux x86-64 AVX2 executable bundle | available | runtime-managed | runtime executable |
+| openmpi_4_1_8_orca_runtime | backend_executable | orca | 4.1.8 | Linux x86-64 shared MPI runtime | available | runtime-managed | runtime executable |
+
 ## Backend installation and health
 
 | Backend | Runtime | Status | Conda packages | Pip packages | Executables | External scientific data | License |
@@ -72,7 +86,7 @@ The benchmark exposes every action below for every task. Backends are selected b
 | tblite | quantum | available |  | tblite==0.4.0 |  |  | open_source |
 | mace | mlip | available |  | mace-torch==0.3.16 |  |  | open_source |
 | chgnet | mlip | available |  | chgnet |  |  | open_source |
-| orca | quantum | unavailable |  |  | orca |  | manual_license |
+| orca | quantum | available |  |  | orca |  | manual_license |
 | ase_emt | core | available |  | ase |  |  | open_source |
 | internal_vibrations | core | available |  | numpy |  |  | open_source |
 | internal_spectroscopy | core | available |  | numpy |  |  | open_source |
@@ -87,16 +101,16 @@ The benchmark exposes every action below for every task. Backends are selected b
 | lammps | md | available | lammps |  | lmp |  | open_source |
 | mdanalysis | md | available |  | MDAnalysis |  |  | open_source |
 | plumed | md | available | plumed |  | plumed |  | open_source |
-| quantum_espresso | qe | available | qe |  | pw.x | UPF pseudopotentials covering every element in the calculation (for example SSSP or PseudoDojo), supplied as workspace Artifacts | open_source |
+| quantum_espresso | qe | available | qe |  | pw.x | Explicit ResourceRefs from qe_sssp_1_3_pbe_efficiency or qe_sssp_1_3_pbe_precision, one per element; workspace ArtifactRefs remain accepted | open_source |
 | cp2k | cp2k | available | cp2k |  | cp2k |  | open_source |
-| siesta | periodic | available | siesta |  | siesta | SIESTA PSF or compatible pseudopotentials covering every element, supplied as workspace Artifacts | open_source |
-| dftbplus | periodic | available | dftbplus |  | dftb+ | A DFTB+ Slater-Koster parameter-set directory containing every required element-pair .skf file (for example 3ob or matsci), supplied as a workspace Artifact | open_source |
-| abinit | abinit | available | abinit |  | abinit | ABINIT-compatible pseudopotentials covering every element, supplied as workspace Artifacts | open_source |
+| siesta | periodic | available | siesta |  | siesta | Explicit ResourceRefs from siesta_pseudo_dojo_nc_sr_05_pbe_standard_psml, one per element; workspace ArtifactRefs remain accepted | open_source |
+| dftbplus | periodic | available | dftbplus |  | dftb+ | Explicit ResourceRef to dftb_3ob_3_1 or dftb_matsci_0_3 with all required directed element-pair SKF files; workspace directory ArtifactRefs remain accepted | open_source |
+| abinit | abinit | available | abinit |  | abinit | Explicit ResourceRefs from abinit_pseudo_dojo_nc_sr_pbe_standard_psp8, one per element; workspace ArtifactRefs remain accepted | open_source |
 | phonopy | phonons | available | phonopy |  | phonopy |  | open_source |
 | phono3py | phonons | available | phono3py |  | phono3py |  | open_source |
 | vina | docking | available | vina |  | vina |  | open_source |
-| gnina | docking | unavailable |  |  | gnina |  | open_source |
+| gnina | docking | available |  |  | gnina |  | open_source |
 | pubchem | services | available |  | pubchempy==1.0.5 |  |  | open_source |
 | rcsb_pdb | services | available |  | httpx>=0.28 |  |  | open_source |
-| materials_project | services | unavailable | mp-api |  |  |  | open_source |
+| materials_project | services | available | mp-api |  |  |  | open_source |
 | catalysis_hub | services | available |  | httpx>=0.28 |  |  | open_source |

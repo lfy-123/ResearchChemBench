@@ -160,8 +160,8 @@ def main() -> int:
     profile_failures = sorted(
         name for name, item in profile_results.items() if not item.get("required_ok")
     )
-    all_configured_except_allowed = (
-        not unexpected_unavailable
+    all_configured = (
+        not unavailable
         and bool(resource_status.get("summary", {}).get("all_ok"))
         and bool(resource_smokes.get("summary", {}).get("all_ok"))
         and bool(data_smokes.get("summary", {}).get("all_ok"))
@@ -181,14 +181,14 @@ def main() -> int:
         "|---|---|---|",
         f"| 公共工具 | {len(actions)} 个：{sum(not item['data_action'] for item in actions)} 个 Scientific Actions + {sum(item['data_action'] for item in actions)} 个 Data Actions | 所有任务暴露同一份完整原子工具目录 |",
         f"| Agent 可选后端 | {len(backends)} 个；可用 {sum(bool(item.get('health', {}).get('available')) for item in backends)} 个；不可用 {len(unavailable)} 个 | BackendSpec、运行环境、模块/命令/凭据联合探测 |",
-        f"| 唯一允许缺失项 | {code_list(sorted(allowed_unavailable))} | 当前用户明确暂不安装 ORCA；系统不做自动替代 |",
+        f"| 允许缺失后端 | {code_list(sorted(allowed_unavailable))} | 完整 benchmark 构建应为空；任何缺失都不会触发自动替代 |",
         f"| 非预期缺失后端 | {code_list(unexpected_unavailable)} | 应为空 |",
         f"| 隔离运行环境 | {profile_status.get('summary', {}).get('ready_profiles', 0)}/{profile_status.get('summary', {}).get('profile_count', 0)} 通过 | 模块、命令、外部命令、`pip check`、模型加载及 Backend health |",
         f"| 注册资源 | {resource_status.get('summary', {}).get('passed', 0)}/{resource_status.get('summary', {}).get('resource_count', 0)} 通过 | 文件存在、归档校验、元素/参数覆盖；SSSP 深度逐文件 MD5 |",
-        f"| 下载资源真实计算 | {resource_smokes.get('summary', {}).get('passed', 0)}/{resource_smokes.get('summary', {}).get('case_count', 0)} 通过 | 实际启动 QE/SIESTA/ABINIT/DFTB+/GNINA，不是仅检查命令 |",
+        f"| 下载资源真实计算 | {resource_smokes.get('summary', {}).get('passed', 0)}/{resource_smokes.get('summary', {}).get('case_count', 0)} 通过 | 实际启动 QE/SIESTA/ABINIT/DFTB+/GNINA/ORCA，不是仅检查命令 |",
         f"| 在线数据源 | {data_smokes.get('summary', {}).get('passed', 0)}/{data_smokes.get('summary', {}).get('case_count', 0)} 通过 | 有界超时的实时 PubChem/RCSB/Materials Project/Catalysis-Hub 请求 |",
         f"| Pytest | tests={tests.get('tests', '未记录')}，failures={tests.get('failures', '未记录')}，errors={tests.get('errors', '未记录')}，skipped={tests.get('skipped', '未记录')} | `config/pytest_status.xml` |",
-        f"| 总结 | **{'除 ORCA 外全部配置完成' if all_configured_except_allowed else '仍有未完成项，见下表'}** | 不把第三方服务或真实计算失败隐藏为“已配置” |",
+        f"| 总结 | **{'全部配置完成' if all_configured else '仍有未完成项，见下表'}** | 不把第三方服务或真实计算失败隐藏为“已配置” |",
         "",
         f"Catalog hash：`{catalog['catalog_hash']}`。GPU 设备节点当前{'存在' if gpu_device_present else '未发现'}；GNINA 已通过 CPU/CNN 模式验证，GPU 模式仍由 Agent 通过 `use_gpu` 与 `gpu_device` 显式选择。",
         "",
@@ -197,7 +197,7 @@ def main() -> int:
         "- 工具已注册，输入/输出与可选后端双向一致；没有 `run_ase`、`run_periodic_calculation` 一类固定流程工具。",
         "- Scientific Action 必须由 Agent 显式给出 `backend_id`；系统不会选择后端，也不会 fallback。",
         "- 赝势、Slater–Koster 参数集等必须由 Agent 显式给出 `ResourceRef`；系统只校验和解析，不会按元素或精度自动选库。",
-        "- `resource_limits` 只表达机械执行约束，不承载科学选择；当前本地执行器实际强制 walltime，并用 `cpu_cores` 约束 OMP/MKL/OpenBLAS/NumExpr 线程。`memory_mb`/`gpu_count` 会进入请求与溯源，但若没有外部调度器则不宣称已做硬隔离。",
+        "- `resource_limits` 只表达机械执行约束，不承载科学选择；当前本地执行器实际强制 walltime，并用 `cpu_cores` 约束 OMP/MKL/OpenBLAS/NumExpr 线程；ORCA 还将 Agent 给出的 `cpu_cores>1` 原样映射为 `%pal nprocs`。`memory_mb`/`gpu_count` 会进入请求与溯源，但若没有外部调度器则不宣称已做硬隔离。",
         "- “环境健康”与“真实科学计算”分开记录；只有下载资源相关后端和在线数据源在本轮进行了真实调用，其余后端至少通过模块/命令/依赖/模型健康检查及全套契约测试。",
         "",
         "## 2. 目录与资源管理约定",
@@ -206,7 +206,7 @@ def main() -> int:
         "|---|---|---|---|",
         "| `.toolbox_env/` | 公共 MCP 服务与测试 Python 环境 | 否 | 只承载统一服务，不决定 Agent 可见工具子集 |",
         "| `.tool_envs/<runtime>/` | 后端依赖隔离环境 | 否 | Conda/Pip 软件包与命令按 runtime 隔离 |",
-        "| `.software_cache/` | 手工下载或独立大体积二进制 | 否 | GNINA 实体位于 `.software_cache/gnina/1.3.3/`；未来 ORCA 也放在版本化子目录 |",
+        "| `.software_cache/` | 手工下载或独立大体积二进制 | 否 | GNINA、ORCA 6.1.1 与 ORCA 专用 OpenMPI 4.1.8 均使用版本化子目录 |",
         "| `.model_cache/` | MACE 等模型权重缓存 | 否 | 模型仍需 Agent 显式选名称/路径、device 与下载许可 |",
         "| `download/` | 赝势、参数集及其原始归档 | 否 | 作为只读科学数据源；不把任意路径直接暴露给 Agent |",
         "| `config/toolbox_resources.json` | 受控资源注册表 | 是 | 声明 ID、路径、格式、版本、覆盖、校验值、许可与适用后端 |",
@@ -396,15 +396,25 @@ def main() -> int:
     )
     for resource in resources:
         status = resource_status_by_id.get(resource["id"], {})
-        archive = resource.get("archive") or {}
-        archive_text = "—"
-        if archive:
-            archive_text = (
-                f"`{relative(archive.get('path'))}`<br>"
-                f"{archive.get('checksum_algorithm')}:{archive.get('checksum')}"
+        archive_records = [
+            (label, resource.get(key) or {})
+            for label, key in (
+                ("archive", "archive"),
+                ("distribution", "distribution_archive"),
+                ("source", "source_archive"),
             )
-        elif resource.get("checksum"):
-            archive_text = f"{resource.get('checksum_algorithm')}:{resource.get('checksum')}"
+            if resource.get(key)
+        ]
+        archive_parts = [
+            f"{label}: `{relative(record.get('path'))}`<br>"
+            f"{record.get('checksum_algorithm')}:{record.get('checksum')}"
+            for label, record in archive_records
+        ]
+        if resource.get("checksum"):
+            archive_parts.append(
+                f"executable: {resource.get('checksum_algorithm')}:{resource.get('checksum')}"
+            )
+        archive_text = "<br>".join(archive_parts) or "—"
         coverage = "runtime executable"
         if resource.get("kind") == "element_file_collection":
             coverage = f"{resource.get('element_count', 0)} elements"
@@ -414,11 +424,20 @@ def main() -> int:
                 f"{resource.get('pair_count', 0)} directed SKF pairs"
             )
         deep = status.get("deep_element_checksums") or {}
-        validation = (
-            f"status={status.get('status', '未记录')}<br>"
-            f"files={status.get('file_count', '—')}/{status.get('expected_file_count', '—')}<br>"
-            f"deep_checksums={'pass' if deep.get('ok') else ('not_applicable' if not deep else 'fail')}"
-        )
+        if resource.get("kind") == "backend_executable":
+            version_probe = status.get("version_probe") or {}
+            validation = (
+                f"status={status.get('status', '未记录')}<br>"
+                f"checksum={'pass' if (status.get('checksum') or {}).get('ok') else 'fail/未记录'}<br>"
+                f"target={'pass' if status.get('target_exists') else 'fail/未记录'}<br>"
+                f"version={version_probe.get('matched_text') or version_probe.get('first_line') or '未记录'}"
+            )
+        else:
+            validation = (
+                f"status={status.get('status', '未记录')}<br>"
+                f"files={status.get('file_count', '—')}/{status.get('expected_file_count', '—')}<br>"
+                f"deep_checksums={'pass' if deep.get('ok') else ('not_applicable' if not deep else 'fail')}"
+            )
         source = resource.get("source_url")
         source_text = f"[official source]({source})<br>{archive_text}" if source else archive_text
         scope = (
@@ -483,8 +502,8 @@ def main() -> int:
             "",
             "## 9. 下载资源真实计算证据",
             "",
-            "| Case | Action / Backend | 显式 ResourceRefs | 用时 | 结果摘要 | 状态 |",
-            "|---|---|---|---:|---|---|",
+            "| Case | Action / Backend | 版本 / 并行 | 显式 ResourceRefs | 用时 | 结果摘要 | 状态 |",
+            "|---|---|---|---|---:|---|---|",
         ]
     )
     for item in resource_smokes.get("cases", []):
@@ -492,8 +511,12 @@ def main() -> int:
             f"`{ref.get('resource_id')}`" + (f"/{ref.get('element')}" if ref.get("element") else "")
             for ref in item.get("resource_refs", [])
         ) or "runtime-managed binary"
+        execution = (
+            f"version={item.get('backend_version') or '—'}<br>"
+            f"nprocs={item.get('parallel_processes') or '—'}"
+        )
         lines.append(
-            f"| `{item['case_id']}` | `{item['action']}` / `{item['backend']}` | {refs} | {item.get('elapsed_seconds')} s | {md(item.get('result'))} | **{item['status']}** |"
+            f"| `{item['case_id']}` | `{item['action']}` / `{item['backend']}` | {execution} | {refs} | {item.get('elapsed_seconds')} s | {md(item.get('result'))} | **{item['status']}** |"
         )
 
     lines.extend(
@@ -513,14 +536,15 @@ def main() -> int:
     lines.extend(
         [
             "",
-            "## 11. ORCA 唯一剩余项",
+            "## 11. ORCA 6.1.1 配置与验证",
             "",
-            "ORCA BackendSpec 保持完整可见，但当前健康状态是 `unavailable`，不会被系统隐藏或自动替换。建议下载后采用：",
+            "ORCA 已作为 Agent 可显式选择的 `orca` BackendSpec 完成配置；它仍不是固定流程工具，系统不会替 Agent 选择 ORCA，也不会在 ORCA 失败时自动改用其他量化软件。",
             "",
-            "1. 将 ORCA 解压到 `.software_cache/orca/<version>/`；不要放入 Git。",
-            "2. 在 `.tool_envs/quantum/bin/orca` 建立指向主程序的链接，或在 `config.local.env` 设置 `CHEMGRAPH_ORCA_COMMAND` 的绝对路径。",
-            "3. 同步 ORCA 所需 MPI/runtime library，并运行 profile health、最小 energy/hessian/optimization/dipole 四类验证。",
-            "4. 在验证前，调用 `calculate_energy` 等 ORCA 路径会返回结构化 `unavailable`；不会 fallback 到 Psi4、PySCF、xTB 或其他后端。",
+            "- 主程序：`.software_cache/orca/6.1.1/orca`（ORCA 6.1.1，AVX2，共享 OpenMPI 4.1.8 构建）。",
+            "- MPI：`.software_cache/openmpi/4.1.8/`；`PATH` 与 `LD_LIBRARY_PATH` 只注入 `quantum`/`reaction` runtime。",
+            "- 稳定入口：`.tool_envs/quantum/bin/orca` 与 `.tool_envs/quantum/bin/mpirun`；`CHEMGRAPH_ORCA_COMMAND` 使用主程序完整路径。",
+            "- Agent 通过 `backend_id=orca`、`method_spec`、`action_settings` 和 `resource_limits.cpu_cores` 自主决定调用；`cpu_cores>1` 才生成对应 `%pal nprocs`。",
+            "- 真实验证覆盖 energy（PAL2）、Hessian、geometry optimization 和 dipole；优化结果显式读取最终 `job.xyz`，不误取轨迹第一帧。",
             "",
             "## 12. 重放命令",
             "",
@@ -543,7 +567,7 @@ def main() -> int:
     print(
         json.dumps(
             {
-                "all_configured_except_allowed": all_configured_except_allowed,
+                "all_configured": all_configured,
                 "unavailable": unavailable,
                 "unexpected_unavailable": unexpected_unavailable,
                 "profile_failures": profile_failures,
@@ -552,7 +576,7 @@ def main() -> int:
             ensure_ascii=False,
         )
     )
-    return 0 if all_configured_except_allowed else 1
+    return 0 if all_configured else 1
 
 
 if __name__ == "__main__":

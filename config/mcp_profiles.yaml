@@ -2,8 +2,8 @@ schema_version: 2
 default_profiles: [core]
 model_cache_root: .model_cache
 audit:
-  # ORCA is the only intentionally unavailable BackendSpec in the current build.
-  allowed_unavailable_backends: [orca]
+  # Every registered BackendSpec is expected to be available in the completed build.
+  allowed_unavailable_backends: []
 public_server:
   runtime: core
   server_name: researchchem_toolbox
@@ -66,7 +66,7 @@ profiles:
   quantum:
     conda_name: researchchem-quantum
     server_name: researchchem_quantum
-    description: Molecular quantum chemistry and ASE calculation tools excluding Psi4.
+    description: Molecular quantum chemistry and ASE calculation tools, including operator-provided ORCA 6.1.1; Psi4 remains isolated.
     environment: .tool_envs/quantum
     runtime_preload_libraries: [libstdc++.so.6, libgcc_s.so.1]
     conda_packages: [ase, xtb, openbabel]
@@ -74,8 +74,10 @@ profiles:
     use_project_model_cache: true
     health_checks:
       modules: [ase, mace, mace.calculators, pyscf, tblite, torch]
-      commands: [xtb]
-      manual_commands: [orca]
+      commands: [xtb, orca, mpirun]
+      external_commands:
+        - .software_cache/orca/6.1.1/orca
+        - .software_cache/openmpi/4.1.8/bin/mpirun
       models:
         mace_medium_mpa_0:
           backend: mace_mp
@@ -84,7 +86,15 @@ profiles:
           default_dtype: float64
     command_variables:
       CHEMGRAPH_XTB_COMMAND: xtb
-      CHEMGRAPH_ORCA_COMMAND: orca
+      CHEMGRAPH_ORCA_COMMAND: .software_cache/orca/6.1.1/orca
+    path_entries:
+      - .software_cache/orca/6.1.1
+      - .software_cache/openmpi/4.1.8/bin
+    library_path_entries:
+      - .software_cache/openmpi/4.1.8/lib
+    environment_variables:
+      OMPI_ALLOW_RUN_AS_ROOT: "1"
+      OMPI_ALLOW_RUN_AS_ROOT_CONFIRM: "1"
     backends:
       - openbabel
       - xtb
@@ -115,13 +125,23 @@ profiles:
       - git+https://github.com/SUNCAT-Center/catmap.git
     health_checks:
       modules: [cantera, catmap, goodvibes, pysisyphus, scipy]
-      commands: [crest, goodvibes, pysis, xtb]
-      manual_commands: [orca]
+      commands: [crest, goodvibes, pysis, xtb, orca, mpirun]
+      external_commands:
+        - .software_cache/orca/6.1.1/orca
+        - .software_cache/openmpi/4.1.8/bin/mpirun
     command_variables:
       CHEMGRAPH_CREST_COMMAND: crest
       CHEMGRAPH_GOODVIBES_COMMAND: goodvibes
       CHEMGRAPH_PYSIS_COMMAND: pysis
       CHEMGRAPH_CATMAP_COMMAND: catmap
+    path_entries:
+      - .software_cache/orca/6.1.1
+      - .software_cache/openmpi/4.1.8/bin
+    library_path_entries:
+      - .software_cache/openmpi/4.1.8/lib
+    environment_variables:
+      OMPI_ALLOW_RUN_AS_ROOT: "1"
+      OMPI_ALLOW_RUN_AS_ROOT_CONFIRM: "1"
     backends:
       - crest
       - goodvibes

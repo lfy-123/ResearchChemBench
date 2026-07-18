@@ -1,6 +1,6 @@
 # ResearchChemBench MCP 工具发现与多环境设计
 
-> 2026-07-18 更新：profile 现在只表示后端依赖运行时，不再筛选或拥有公共工具。所有任务始终连接一个暴露 44 个原子 Actions 的统一 MCP server。当前事实以 `evaluation/mcp_tools/TOOL_CATALOG.md` 和 `docs/tools/CHEMISTRY_TOOLBOX_REFACTOR_REPORT.md` 为准；下文旧命令/工具名仅保留为历史迁移背景。
+> 2026-07-18 更新：profile 现在只表示后端依赖运行时，不再筛选或拥有公共工具。所有任务始终连接一个暴露 44 个原子 Actions 的统一 MCP server；ORCA 6.1.1、OpenMPI 4.1.8 和 GNINA 1.3.3 已完成配置，当前 45/45 BackendSpecs 可用。当前事实以 `evaluation/mcp_tools/TOOL_CATALOG.md` 和 `docs/tools/CHEMISTRY_TOOLBOX_TOOL_RESOURCE_MATRIX.md` 为准；下文旧命令/工具名仅保留为历史迁移背景。
 
 ## 1. 智能体如何看到 MCP 工具
 

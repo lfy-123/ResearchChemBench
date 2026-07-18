@@ -654,9 +654,20 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
     _backend(
         "orca", "ORCA", "quantum",
         ("calculate_energy", "calculate_hessian", "optimize_geometry", "calculate_dipole_moment"),
-        "User-provided licensed ORCA executable; ResearchChemBench never downloads it.",
+        "Operator-provided ORCA 6.1.1 electronic-structure executable with an isolated OpenMPI 4.1.8 runtime.",
         executables=("orca",), environment=("CHEMGRAPH_ORCA_COMMAND",),
-        license_class="manual_license", install_notes="Download ORCA from the official portal and set CHEMGRAPH_ORCA_COMMAND.",
+        license_class="manual_license",
+        install_notes=(
+            "Configured from the operator-downloaded ORCA 6.1.1 installer under "
+            ".software_cache/orca/6.1.1 with OpenMPI 4.1.8."
+        ),
+        method_schema={
+            "method": "ORCA method/functional keyword",
+            "basis": "ORCA basis-set keyword",
+            "dispersion": "optional ORCA dispersion keyword",
+            "charge": "optional explicit molecular charge",
+            "multiplicity": "optional explicit spin multiplicity",
+        },
         required_methods={action: ("method", "basis") for action in ("calculate_energy", "calculate_hessian", "optimize_geometry", "calculate_dipole_moment")},
         required_settings={
             "optimize_geometry": ("optimization_convergence", "max_steps"),
