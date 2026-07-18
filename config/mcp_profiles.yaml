@@ -267,8 +267,10 @@ profiles:
     conda_packages: [ase]
     # Atomic energy/force/optimization actions currently have reviewed MLIP adapters
     # only for MACE and CHGNet.
-    # NequIP/DeepMD/FAIRChem/AIMNet2 are intentionally not installed here until
-    # their model-loading adapters and checkpoint policies are implemented.
+    # NequIP and DeePMD-kit are installed in dedicated auxiliary environments
+    # (config/auxiliary_environments.yaml), without checkpoints or public
+    # adapters. They stay outside this runtime until explicit model-loading
+    # contracts are implemented; FAIRChem/AIMNet2 are not part of this request.
     pip_packages: [mace-torch==0.3.16, chgnet]
     use_project_model_cache: true
     health_checks:

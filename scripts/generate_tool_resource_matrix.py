@@ -27,6 +27,7 @@ PROFILE_STATUS = ROOT / "docs" / "MCP_PROFILE_STATUS.json"
 RESOURCE_STATUS = ROOT / "config" / "toolbox_resource_status.json"
 RESOURCE_SMOKE_STATUS = ROOT / "config" / "scientific_resource_smoke_status.json"
 DATA_SMOKE_STATUS = ROOT / "config" / "data_source_smoke_status.json"
+REQUESTED_SOFTWARE_STATUS = ROOT / "config" / "requested_software_status.json"
 PYTEST_STATUS = ROOT / "config" / "pytest_status.xml"
 
 
@@ -123,6 +124,9 @@ def main() -> int:
         RESOURCE_SMOKE_STATUS, {"summary": {}, "cases": []}
     )
     data_smokes = read_json(DATA_SMOKE_STATUS, {"summary": {}, "cases": []})
+    requested_software = read_json(
+        REQUESTED_SOFTWARE_STATUS, {"summary": {}, "software": []}
+    )
     tests = pytest_summary()
 
     actions = catalog["actions"]
@@ -187,8 +191,9 @@ def main() -> int:
         f"| 注册资源 | {resource_status.get('summary', {}).get('passed', 0)}/{resource_status.get('summary', {}).get('resource_count', 0)} 通过 | 文件存在、归档校验、元素/参数覆盖；SSSP 深度逐文件 MD5 |",
         f"| 下载资源真实计算 | {resource_smokes.get('summary', {}).get('passed', 0)}/{resource_smokes.get('summary', {}).get('case_count', 0)} 通过 | 实际启动 QE/SIESTA/ABINIT/DFTB+/GNINA/ORCA，不是仅检查命令 |",
         f"| 在线数据源 | {data_smokes.get('summary', {}).get('passed', 0)}/{data_smokes.get('summary', {}).get('case_count', 0)} 通过 | 有界超时的实时 PubChem/RCSB/Materials Project/Catalysis-Hub 请求 |",
+        f"| 用户扩展软件清单 | configured={requested_software.get('summary', {}).get('counts', {}).get('configured', 0)}，partial={requested_software.get('summary', {}).get('counts', {}).get('partial', 0)}，manual/API review={requested_software.get('summary', {}).get('manual_or_review', 0)}，specification={requested_software.get('summary', {}).get('counts', {}).get('specification', 0)}；总计 {requested_software.get('summary', {}).get('total', 0)} | 独立 runtime 的真实导入/命令/缓存检查；许可软件和无稳定 API 项不伪报完成 |",
         f"| Pytest | tests={tests.get('tests', '未记录')}，failures={tests.get('failures', '未记录')}，errors={tests.get('errors', '未记录')}，skipped={tests.get('skipped', '未记录')} | `config/pytest_status.xml` |",
-        f"| 总结 | **{'全部配置完成' if all_configured else '仍有未完成项，见下表'}** | 不把第三方服务或真实计算失败隐藏为“已配置” |",
+        f"| 总结 | **{'核心原子工具箱全部配置；扩展清单仍有人工项' if all_configured and requested_software.get('summary', {}).get('manual_or_review', 0) else ('全部配置完成' if all_configured else '仍有未完成项，见下表')}** | 核心 Backend 健康与用户扩展软件状态分开判定，不把许可/API 阻塞隐藏为“已配置” |",
         "",
         f"Catalog hash：`{catalog['catalog_hash']}`。GPU 设备节点当前{'存在' if gpu_device_present else '未发现'}；GNINA 已通过 CPU/CNN 模式验证，GPU 模式仍由 Agent 通过 `use_gpu` 与 `gpu_device` 显式选择。",
         "",
@@ -198,7 +203,7 @@ def main() -> int:
         "- Scientific Action 必须由 Agent 显式给出 `backend_id`；系统不会选择后端，也不会 fallback。",
         "- 赝势、Slater–Koster 参数集等必须由 Agent 显式给出 `ResourceRef`；系统只校验和解析，不会按元素或精度自动选库。",
         "- `resource_limits` 只表达机械执行约束，不承载科学选择；当前本地执行器实际强制 walltime，并用 `cpu_cores` 约束 OMP/MKL/OpenBLAS/NumExpr 线程；ORCA 还将 Agent 给出的 `cpu_cores>1` 原样映射为 `%pal nprocs`。`memory_mb`/`gpu_count` 会进入请求与溯源，但若没有外部调度器则不宣称已做硬隔离。",
-        "- “环境健康”与“真实科学计算”分开记录；只有下载资源相关后端和在线数据源在本轮进行了真实调用，其余后端至少通过模块/命令/依赖/模型健康检查及全套契约测试。",
+        "- “环境健康”与“真实科学计算”分开记录；核心下载资源后端和在线数据源的证据见第 9、10 节，新增 MESS、MESMER、AutoMeKin、Multiwfn、VESTA 等 runtime 的代表性真实 smoke 见第 12 节及独立配置状态报告。",
         "",
         "## 2. 目录与资源管理约定",
         "",
@@ -206,8 +211,8 @@ def main() -> int:
         "|---|---|---|---|",
         "| `.toolbox_env/` | 公共 MCP 服务与测试 Python 环境 | 否 | 只承载统一服务，不决定 Agent 可见工具子集 |",
         "| `.tool_envs/<runtime>/` | 后端依赖隔离环境 | 否 | Conda/Pip 软件包与命令按 runtime 隔离 |",
-        "| `.software_cache/` | 手工下载或独立大体积二进制 | 否 | GNINA、ORCA 6.1.1 与 ORCA 专用 OpenMPI 4.1.8 均使用版本化子目录 |",
-        "| `.model_cache/` | MACE 等模型权重缓存 | 否 | 模型仍需 Agent 显式选名称/路径、device 与下载许可 |",
+        "| `.software_cache/` | 手工下载、源码构建、数据文件和独立大体积二进制 | 否 | ORCA/OpenMPI、GPAW 数据、AiiDA 状态及 OpenMolcas、SHARC、MESS、MESMER、AutoMeKin、Multiwfn、VESTA 等均使用独立或版本化子目录 |",
+        "| `.model_cache/` | MACE、NequIP、DeePMD 等模型权重缓存 | 否 | 模型仍需 Agent 显式选名称/路径、device 与下载许可；本轮未替 Agent 选择或下载 NequIP/DeePMD checkpoint |",
         "| `download/` | 赝势、参数集及其原始归档 | 否 | 作为只读科学数据源；不把任意路径直接暴露给 Agent |",
         "| `config/toolbox_resources.json` | 受控资源注册表 | 是 | 声明 ID、路径、格式、版本、覆盖、校验值、许可与适用后端 |",
         "| `workspaces/` | 每次任务输出、trace 与 Artifact | 否（保留目录骨架） | 所有普通文件输入/输出继续受 workspace 边界约束 |",
@@ -545,14 +550,72 @@ def main() -> int:
             "- 稳定入口：`.tool_envs/quantum/bin/orca` 与 `.tool_envs/quantum/bin/mpirun`；`CHEMGRAPH_ORCA_COMMAND` 使用主程序完整路径。",
             "- Agent 通过 `backend_id=orca`、`method_spec`、`action_settings` 和 `resource_limits.cpu_cores` 自主决定调用；`cpu_cores>1` 才生成对应 `%pal nprocs`。",
             "- 真实验证覆盖 energy（PAL2）、Hessian、geometry optimization 和 dipole；优化结果显式读取最终 `job.xyz`，不误取轨迹第一帧。",
+        ]
+    )
+
+    lines.extend(
+        [
             "",
-            "## 12. 重放命令",
+            "## 12. 用户请求软件与工具配置矩阵（59 项）",
+            "",
+            "本节覆盖新增请求清单。`configured` 表示依赖 runtime 已准备好，不等同于自动工作流，也不等同于已经为该软件增加公共 BackendSpec；`runtime_only` 保留给 Agent/后续原子适配使用。模型权重仍只进入 `.model_cache`，软件与独立数据只进入 `.software_cache`。",
+            "",
+            "| 类别 | 名称 | 状态 | 类型 / 许可 | Runtime / 模块 / 命令 | 缓存与模型 | Agent 接口状态 | 功能、限制与手动处理 |",
+            "|---|---|---|---|---|---|---|---|",
+        ]
+    )
+    for item in requested_software.get("software", []):
+        verification = item.get("verification") or {}
+        environment = item.get("environment_detail") or {}
+        modules = []
+        for name, value in (verification.get("modules") or {}).items():
+            if value.get("available"):
+                state = "OK"
+            elif "timed out" in str(value.get("error") or ""):
+                state = "timeout"
+            else:
+                state = "failed"
+            modules.append(
+                f"`{name}`={state}"
+                + (f" ({value.get('version')})" if value.get("version") else "")
+            )
+        commands = [
+            f"`{name}`={'OK' if path else 'missing'}"
+            for name, path in (verification.get("commands") or {}).items()
+        ]
+        runtime_text = (
+            f"`{md(environment.get('name'))}` / `{md(environment.get('path'))}`<br>"
+            f"modules: {', '.join(modules) or '—'}<br>"
+            f"commands: {', '.join(commands) or '—'}"
+        )
+        cache_parts = []
+        for value, result in (verification.get("cache_paths") or {}).items():
+            cache_parts.append(
+                f"`{md(value)}`={'OK' if result.get('exists') else 'missing'}"
+            )
+        if item.get("model_cache"):
+            cache_parts.append(
+                f"model=`{md(item['model_cache'])}`（不自动下载）"
+            )
+        official = item.get("official_url")
+        notes = f"{md(item.get('role'))}<br>{md(item.get('notes'))}"
+        if official:
+            notes += f"<br>[official]({official})"
+        lines.append(
+            f"| {md(item.get('category'))} | `{md(item.get('name'))}` | **{md(item.get('status'))}** | `{md(item.get('kind'))}`<br>{md(item.get('license'))} | {runtime_text} | {'<br>'.join(cache_parts) or '—'} | `{md(item.get('public_adapter'))}` | {notes} |"
+        )
+
+    lines.extend(
+        [
+            "",
+            "## 13. 重放命令",
             "",
             "```bash",
             ".toolbox_env/bin/python scripts/configure_toolbox_resources.py",
             ".toolbox_env/bin/python scripts/run_scientific_resource_smokes.py",
             ".toolbox_env/bin/python scripts/run_data_source_smokes.py",
             ".toolbox_env/bin/python scripts/check_mcp_profile_envs.py --check-models --timeout-seconds 600",
+            ".toolbox_env/bin/python scripts/audit_requested_software.py --timeout-seconds 20",
             ".toolbox_env/bin/python -m pytest -q --junitxml=config/pytest_status.xml",
             ".toolbox_env/bin/python scripts/verify_toolbox.py --smoke",
             ".toolbox_env/bin/python scripts/generate_tool_resource_matrix.py",
