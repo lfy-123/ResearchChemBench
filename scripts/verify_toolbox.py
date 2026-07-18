@@ -237,14 +237,18 @@ def markdown(payload: dict[str, Any]) -> str:
     )
     lines.extend(["", "## Unavailable backends", ""])
     lines.extend(f"- `{name}`" for name in unavailable)
-    lines.extend(["", "## Packages to install/download", ""])
+    lines.extend(["", "## Remaining installations", ""])
     lines.append("Conda: " + (", ".join(install["conda_packages"]) or "none"))
     lines.append("")
     lines.append("Pip: " + (", ".join(install["pip_packages"]) or "none"))
-    if install["required_data_resources"]:
-        lines.extend(["", "External scientific data resources:", ""])
-        for item in install["required_data_resources"]:
-            lines.append(f"- `{item['backend_id']}`: {'; '.join(item['resources'])}")
+    if install.get("registered_scientific_resources"):
+        lines.extend(["", "## Registered external scientific resources", ""])
+        for item in install["registered_scientific_resources"]:
+            lines.append(
+                f"- `{item['resource_id']}` / {', '.join(item['compatible_backends'])}: "
+                f"**{'available' if item['available'] else 'missing'}**; "
+                f"selection `{item['selection_syntax']}`"
+            )
     if install["missing_credentials"]:
         lines.extend(["", "Missing credentials:", ""])
         for item in install["missing_credentials"]:

@@ -87,6 +87,21 @@ def installation_report() -> dict[str, Any]:
             for backend in snapshot["backends"]
             if backend.get("required_data_resources")
         ],
+        "registered_scientific_resources": [
+            {
+                "resource_id": resource["id"],
+                "kind": resource.get("kind"),
+                "compatible_backends": resource.get("compatible_backends", []),
+                "available": bool(resource.get("available")),
+                "selection_syntax": resource.get("selection_syntax", "runtime-managed"),
+            }
+            for resource in snapshot.get("resources", [])
+        ],
+        "missing_registered_scientific_resources": [
+            resource["id"]
+            for resource in snapshot.get("resources", [])
+            if not resource.get("available")
+        ],
         "missing_credentials": credentials,
         "manual_installations": manual,
     }

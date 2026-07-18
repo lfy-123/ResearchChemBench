@@ -273,10 +273,16 @@ def _parse_qe(
             raise RuntimeError("Could not parse Quantum ESPRESSO total energy")
         return {"energy": energy_ry, "unit": "rydberg"}
     if action_id == "calculate_periodic_forces":
+        number = r"[-+]?(?:\d+\.\d*|\.\d+|\d+)(?:[EeDd][-+]?\d+)?"
         forces = [
-            [float(match.group(index)) for index in (1, 2, 3)]
+            [
+                float(match.group(index).replace("D", "E").replace("d", "e"))
+                for index in (1, 2, 3)
+            ]
             for match in re.finditer(
-                r"force\s+=\s+(-?\S+)\s+(-?\S+)\s+(-?\S+)", stdout
+                rf"^\s*atom\s+\d+\s+type\s+\d+\s+force\s*=\s*({number})\s+({number})\s+({number})",
+                stdout,
+                flags=re.M | re.I,
             )
         ]
         if not forces:
@@ -565,31 +571,108 @@ def _simple_periodic_input(backend_id: str, action_id: str, request: dict[str, A
     if backend_id == "dftbplus":
         parameter_directory = resolve_input_file(method["parameter_set"])
         if not parameter_directory.is_dir():
-            raise ValueError("DFTB+ parameter_set must be a workspace directory Artifact")
+            raise ValueError("DFTB+ parameter_set must resolve to a registered or workspace directory")
         species = sorted(set(symbols), key=symbols.index)
+        missing_pairs = sorted(
+            f"{first}-{second}.skf"
+            for first in species
+            for second in species
+            if not (parameter_directory / f"{first}-{second}.skf").is_file()
+        )
+        if missing_pairs:
+            raise ValueError(
+                "DFTB+ parameter set lacks required directed Slater-Koster files: "
+                + ", ".join(missing_pairs)
+            )
+        angular_momenta = dict(method["max_angular_momenta"])
+        missing_angular = sorted(set(species) - set(angular_momenta))
+        if missing_angular:
+            raise ValueError(
+                f"Missing DFTB+ max_angular_momenta for elements: {missing_angular}"
+            )
         lines = ["Geometry = GenFormat {", f"  {len(symbols)} S", "  " + " ".join(species)]
         species_index = {symbol: index + 1 for index, symbol in enumerate(species)}
         lines.extend(f"  {index + 1} {species_index[symbol]} {row[0]} {row[1]} {row[2]}" for index, (symbol, row) in enumerate(zip(symbols, coordinates)))
         lines.extend(["  0.0 0.0 0.0", *["  " + " ".join(str(value) for value in row) for row in cell], "}"])
-        driver = "{}"
         if action_id == "relax_periodic_structure":
-            driver = (
-                "GeometryOptimization { "
-                "Optimizer = Rational {} "
-                f"MaxSteps = {int(settings['max_steps'])} "
-                "Convergence { "
-                f"GradElem = {float(settings['force_threshold_ev_per_angstrom']) / 51.422067} "
-                "} "
-                f"LatticeOpt = {'Yes' if bool(settings['relax_cell']) else 'No'} "
-                "}"
+            lines.extend(
+                [
+                    "Driver = GeometryOptimization {",
+                    "  Optimizer = Rational {}",
+                    f"  MaxSteps = {int(settings['max_steps'])}",
+                    "  Convergence = {",
+                    f"    GradElem = {float(settings['force_threshold_ev_per_angstrom']) / 51.422067}",
+                    "  }",
+                    f"  LatticeOpt = {'Yes' if bool(settings['relax_cell']) else 'No'}",
+                    "}",
+                ]
             )
+        scc = bool(method["scc"])
         lines.extend([
-            f"Driver = {driver}", "Hamiltonian = DFTB {", "  SCC = Yes",
+            "Hamiltonian = DFTB {", f"  SCC = {'Yes' if scc else 'No'}",
             "  SlaterKosterFiles = Type2FileNames {",
             f"    Prefix = \"{parameter_directory}/\"", "    Separator = \"-\"", "    Suffix = \".skf\"", "  }",
-            "  KPointsAndWeights = SupercellFolding {", f"    {_k_points(method['k_points'])[0]} 0 0", f"    0 {_k_points(method['k_points'])[1]} 0", f"    0 0 {_k_points(method['k_points'])[2]}", "    0.0 0.0 0.0", "  }", "}",
-            "Analysis = { CalculateForces = Yes }", "ParserOptions = { ParserVersion = 12 }",
+            "  MaxAngularMomentum = {",
         ])
+        lines.extend(
+            f"    {symbol} = \"{angular_momenta[symbol]}\"" for symbol in species
+        )
+        lines.append("  }")
+        if scc:
+            lines.extend(
+                [
+                    f"  SCCTolerance = {float(settings['scc_tolerance'])}",
+                    f"  MaxSCCIterations = {int(settings['max_scc_iterations'])}",
+                ]
+            )
+        if method.get("charge") is not None:
+            lines.append(f"  Charge = {float(method['charge'])}")
+        if method.get("shell_resolved_scc") is not None:
+            lines.append(
+                f"  ShellResolvedSCC = {'Yes' if bool(method['shell_resolved_scc']) else 'No'}"
+            )
+        if method.get("third_order_full") is not None:
+            lines.append(
+                f"  ThirdOrderFull = {'Yes' if bool(method['third_order_full']) else 'No'}"
+            )
+        if method.get("hubbard_derivatives"):
+            lines.append("  HubbardDerivs = {")
+            lines.extend(
+                f"    {symbol} = {float(value)}"
+                for symbol, value in dict(method["hubbard_derivatives"]).items()
+            )
+            lines.append("  }")
+        if method.get("damp_xh_exponent") is not None:
+            lines.extend(
+                [
+                    "  HCorrection = Damping {",
+                    f"    Exponent = {float(method['damp_xh_exponent'])}",
+                    "  }",
+                ]
+            )
+        if method.get("fermi_temperature_kelvin") is not None:
+            lines.extend(
+                [
+                    "  Filling = Fermi {",
+                    f"    Temperature [Kelvin] = {float(method['fermi_temperature_kelvin'])}",
+                    "  }",
+                ]
+            )
+        k_points = _k_points(method["k_points"])
+        lines.extend(
+            [
+                "  KPointsAndWeights = SupercellFolding {",
+                f"    {k_points[0]} 0 0",
+                f"    0 {k_points[1]} 0",
+                f"    0 0 {k_points[2]}",
+                f"    {k_points[3] / 2} {k_points[4] / 2} {k_points[5] / 2}",
+                "  }",
+                "}",
+            ]
+        )
+        if action_id in {"calculate_periodic_forces", "relax_periodic_structure"}:
+            lines.append("Analysis = { PrintForces = Yes }")
+        lines.append("ParserOptions = { ParserVersion = 14 }")
         path = directory / "dftb_in.hsd"
         path.write_text("\n".join(lines) + "\n", encoding="utf-8")
         return path, [], None
@@ -615,7 +698,7 @@ def _simple_periodic_input(backend_id: str, action_id: str, request: dict[str, A
             "ngkpt " + " ".join(str(value) for value in _k_points(method["k_points"])[:3]),
             "nshiftk 1", "shiftk 0 0 0",
             "tolvrs " + str(float(settings.get("scf_convergence_hartree", 1e-10))),
-            "prtfor 1", "prtwf 0",
+            "prtwf 0",
             'pseudos "' + ", ".join(str(pseudo_dir / pseudos[symbol]) for symbol in species) + '"',
         ]
         if action_id == "relax_periodic_structure":
@@ -683,29 +766,50 @@ def _parse_dftb_forces(
 
 
 def _parse_abinit_forces(stdout: str, atom_count: int) -> list[list[float]] | None:
-    result = _force_rows_after_marker(stdout, "cartesian forces", atom_count)
+    result = _force_rows_after_marker(
+        stdout, "cartesian forces (hartree/bohr) at end", atom_count
+    )
+    if result is not None:
+        return result
+    result = _force_rows_after_marker(stdout, "cartesian_forces:", atom_count)
     if result is not None:
         return result
     return _force_rows_after_marker(stdout, "forces (hartree/bohr)", atom_count)
 
 
 def _parse_abinit_stress(stdout: str) -> list[list[float]] | None:
-    components: dict[tuple[int, int], float] = {}
-    for match in re.finditer(
-        r"sigma\(\s*([123])\s*([123])\s*\)\s*=\s*([-+0-9.EeDd]+)",
-        stdout,
-        flags=re.I,
-    ):
-        components[(int(match.group(1)) - 1, int(match.group(2)) - 1)] = float(
-            match.group(3).replace("D", "E").replace("d", "e")
+    headers = list(
+        re.finditer(
+            r"Cartesian components of stress tensor \(hartree/bohr\^3\)",
+            stdout,
+            flags=re.I,
         )
-    if not components:
-        return None
-    matrix = [[0.0, 0.0, 0.0] for _ in range(3)]
-    for (row, column), value in components.items():
-        matrix[row][column] = value
-        matrix[column][row] = value
-    return matrix if all((index, index) in components for index in range(3)) else None
+    )
+    for header in reversed(headers):
+        section = stdout[header.end() :]
+        stop = re.search(
+            r"Cartesian components of stress tensor \((?:GPa|hartree/bohr\^3)\)",
+            section,
+            flags=re.I,
+        )
+        if stop:
+            section = section[: stop.start()]
+        components: dict[tuple[int, int], float] = {}
+        for match in re.finditer(
+            r"sigma\(\s*([123])\s*([123])\s*\)\s*=\s*([-+0-9.EeDd]+)",
+            section,
+            flags=re.I,
+        ):
+            components[(int(match.group(1)) - 1, int(match.group(2)) - 1)] = float(
+                match.group(3).replace("D", "E").replace("d", "e")
+            )
+        if all((index, index) in components for index in range(3)):
+            matrix = [[0.0, 0.0, 0.0] for _ in range(3)]
+            for (row, column), value in components.items():
+                matrix[row][column] = value
+                matrix[column][row] = value
+            return matrix
+    return None
 
 
 def _parse_siesta_relaxed_structure(
@@ -837,6 +941,13 @@ def _run_simple_periodic(backend_id: str, action_id: str, request: dict[str, Any
     if completed["returncode"] != 0:
         raise RuntimeError(f"{backend_id} failed: {completed['stderr'][-2000:]}")
     stdout = completed["stdout"]
+    parsed_output = stdout
+    if backend_id == "abinit":
+        abinit_output = directory / "abinit.abo"
+        if abinit_output.is_file():
+            parsed_output += "\n" + abinit_output.read_text(
+                encoding="utf-8", errors="replace"
+            )
     energy = None
     _structure, symbols, _coordinates, _cell = _periodic_structure(request["inputs"]["structure"])
     if backend_id == "siesta":
@@ -850,7 +961,7 @@ def _run_simple_periodic(backend_id: str, action_id: str, request: dict[str, Any
         energy = float(matches[-1].replace("D", "E").replace("d", "e")) if matches else None
         energy_unit = "hartree"
     else:
-        matches = re.findall(r"\betotal\b\s*(?:=)?\s*([-+0-9.EeDd]+)", stdout, flags=re.I)
+        matches = re.findall(r"\betotal\b\s*(?:=|:)?\s*([-+0-9.EeDd]+)", parsed_output, flags=re.I)
         energy = float(matches[-1].replace("D", "E").replace("d", "e")) if matches else None
         energy_unit = "hartree"
     if action_id == "calculate_periodic_energy":
@@ -865,7 +976,7 @@ def _run_simple_periodic(backend_id: str, action_id: str, request: dict[str, Any
             forces = _parse_dftb_forces(directory, stdout, len(symbols))
             force_unit = "hartree/bohr"
         else:
-            forces = _parse_abinit_forces(stdout, len(symbols))
+            forces = _parse_abinit_forces(parsed_output, len(symbols))
             force_unit = "hartree/bohr"
         result = {
             "forces": forces,
@@ -875,7 +986,7 @@ def _run_simple_periodic(backend_id: str, action_id: str, request: dict[str, Any
             "raw_output_path": relative_workspace_path(directory / "stdout.log"),
         }
     elif action_id == "calculate_periodic_stress":
-        stress = _parse_abinit_stress(stdout) if backend_id == "abinit" else None
+        stress = _parse_abinit_stress(parsed_output) if backend_id == "abinit" else None
         result = {
             "stress": stress,
             "unit": "hartree/bohr^3" if stress is not None else None,
@@ -892,8 +1003,8 @@ def _run_simple_periodic(backend_id: str, action_id: str, request: dict[str, Any
             detailed_text = (directory / "detailed.out").read_text(encoding="utf-8", errors="replace") if (directory / "detailed.out").is_file() else stdout
             converged = "Geometry converged" in detailed_text
         else:
-            relaxed = _parse_abinit_relaxed_structure(stdout, request)
-            converged = "Calculation completed" in stdout or "completed successfully" in stdout.lower()
+            relaxed = _parse_abinit_relaxed_structure(parsed_output, request)
+            converged = "Calculation completed" in parsed_output or "completed successfully" in parsed_output.lower()
         result = {
             "structure": relaxed,
             "converged": converged,

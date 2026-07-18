@@ -14,6 +14,7 @@ from pathlib import Path
 from typing import Any
 
 from ..artifacts import ArtifactStore, relative_workspace_path, resolve_workspace_path, workspace_root
+from ..resources import is_resource_reference, resolve_resource_reference
 
 
 def success(
@@ -108,11 +109,15 @@ def unwrap_artifact(value: Any) -> Any:
 
 def resolve_input_file(value: Any) -> Path:
     item = unwrap_artifact(value)
+    if is_resource_reference(item):
+        return resolve_resource_reference(item)
     if isinstance(item, dict) and isinstance(item.get("path"), str):
         return resolve_workspace_path(item["path"], must_exist=True)
     if isinstance(item, str):
         return resolve_workspace_path(item, must_exist=True)
-    raise ValueError("Expected a workspace file path or file ArtifactRef")
+    raise ValueError(
+        "Expected a workspace file path, file ArtifactRef, or explicit registered ResourceRef"
+    )
 
 
 def output_directory(action_id: str, backend_id: str) -> Path:

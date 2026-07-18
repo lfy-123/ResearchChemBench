@@ -41,11 +41,28 @@ def execute(action_id: str, backend_id: str, request: dict[str, Any]) -> dict[st
         "--size_x", str(size[0]), "--size_y", str(size[1]), "--size_z", str(size[2]),
         "--exhaustiveness", str(settings["exhaustiveness"]),
         "--num_modes", str(settings["num_modes"]),
-        "--energy_range", str(settings["energy_range_kcal_mol"]),
         "--out", str(poses),
     ]
+    if backend_id == "vina":
+        arguments.extend(["--energy_range", str(settings["energy_range_kcal_mol"])])
     if backend_id == "gnina":
-        arguments.extend(["--cnn", str(method["cnn_model"])])
+        cnn_model = str(method["cnn_model"]).strip()
+        if cnn_model not in {"default", "builtin_default"}:
+            arguments.extend(["--cnn", cnn_model])
+        if method.get("cnn_scoring") is not None:
+            arguments.extend(["--cnn_scoring", str(method["cnn_scoring"])])
+        if method.get("scoring_function") is not None:
+            arguments.extend(["--scoring", str(method["scoring_function"])])
+        if bool(settings["use_gpu"]):
+            if settings.get("gpu_device") is None:
+                raise ValueError("GNINA use_gpu=true requires explicit gpu_device")
+            arguments.extend(["--device", str(settings["gpu_device"])])
+        else:
+            arguments.append("--no_gpu")
+        if settings.get("cpu") is not None:
+            arguments.extend(["--cpu", str(settings["cpu"])])
+        if settings.get("seed") is not None:
+            arguments.extend(["--seed", str(settings["seed"])])
     completed = run_external(
         executable=backend_id,
         environment_variable="CHEMGRAPH_VINA_COMMAND" if backend_id == "vina" else "CHEMGRAPH_GNINA_COMMAND",
@@ -66,6 +83,21 @@ def execute(action_id: str, backend_id: str, request: dict[str, Any]) -> dict[st
         {"pose_index": index + 1, "affinity_kcal_mol": float(values[0]), "rmsd_lb_angstrom": float(values[1]), "rmsd_ub_angstrom": float(values[2])}
         for index, values in enumerate(score_matches)
     ]
+    if backend_id == "gnina" and not scores:
+        models = re.findall(r"MODEL\s+(\d+)(.*?)(?:ENDMDL|\Z)", pose_text, flags=re.S)
+        for model_index, block in models:
+            affinity = re.search(r"REMARK\s+minimizedAffinity\s+([-+0-9.Ee]+)", block)
+            cnn_score = re.search(r"REMARK\s+CNNscore\s+([-+0-9.Ee]+)", block)
+            cnn_affinity = re.search(r"REMARK\s+CNNaffinity\s+([-+0-9.Ee]+)", block)
+            if affinity or cnn_score or cnn_affinity:
+                item: dict[str, Any] = {"pose_index": int(model_index)}
+                if affinity:
+                    item["affinity_kcal_mol"] = float(affinity.group(1))
+                if cnn_score:
+                    item["cnn_pose_score"] = float(cnn_score.group(1))
+                if cnn_affinity:
+                    item["cnn_affinity"] = float(cnn_affinity.group(1))
+                scores.append(item)
     if not scores:
         table_matches = re.findall(r"^\s*(\d+)\s+(-?\d+\.\d+)\s+", completed["stdout"], re.M)
         scores = [{"pose_index": int(index), "affinity_kcal_mol": float(score)} for index, score in table_matches]

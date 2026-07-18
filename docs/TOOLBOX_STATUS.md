@@ -1,15 +1,15 @@
 # ResearchChem Atomic Toolbox Status
 
-Generated: `2026-07-18T16:21:12.941535+00:00`
-Catalog hash: `424356a552bb106c17d1e4920d9624a217341ccbe96c4cd4047fee0d9d8383ca`
+Generated: `2026-07-18T17:49:22.449468+00:00`
+Catalog hash: `57a3f05f4ec2bfcd76e744b19430a4356934c7c88015a12deb73234b8c63a1bc`
 
 ## Summary
 
 - Scientific Actions: 40
 - Data Actions: 4
 - BackendSpecs: 45
-- Available backends: 43
-- Unavailable backends: 2
+- Available backends: 44
+- Unavailable backends: 1
 - Exposure: full catalog for every task
 - Backend selection: Agent required
 - Automatic fallback: disabled
@@ -24,25 +24,26 @@ Catalog hash: `424356a552bb106c17d1e4920d9624a217341ccbe96c4cd4047fee0d9d8383ca`
 ## Unavailable backends
 
 - `orca`
-- `gnina`
 
-## Packages to install/download
+## Remaining installations
 
 Conda: none
 
 Pip: none
 
-External scientific data resources:
+## Registered external scientific resources
 
-- `quantum_espresso`: UPF pseudopotentials covering every element in the calculation (for example SSSP or PseudoDojo), supplied as workspace Artifacts
-- `siesta`: SIESTA PSF or compatible pseudopotentials covering every element, supplied as workspace Artifacts
-- `dftbplus`: A DFTB+ Slater-Koster parameter-set directory containing every required element-pair .skf file (for example 3ob or matsci), supplied as a workspace Artifact
-- `abinit`: ABINIT-compatible pseudopotentials covering every element, supplied as workspace Artifacts
+- `qe_sssp_1_3_pbe_efficiency` / quantum_espresso: **available**; selection `resource://qe_sssp_1_3_pbe_efficiency/<Element>`
+- `qe_sssp_1_3_pbe_precision` / quantum_espresso: **available**; selection `resource://qe_sssp_1_3_pbe_precision/<Element>`
+- `siesta_pseudo_dojo_nc_sr_05_pbe_standard_psml` / siesta: **available**; selection `resource://siesta_pseudo_dojo_nc_sr_05_pbe_standard_psml/<Element>`
+- `abinit_pseudo_dojo_nc_sr_pbe_standard_psp8` / abinit: **available**; selection `resource://abinit_pseudo_dojo_nc_sr_pbe_standard_psp8/<Element>`
+- `dftb_3ob_3_1` / dftbplus: **available**; selection `resource://dftb_3ob_3_1`
+- `dftb_matsci_0_3` / dftbplus: **available**; selection `resource://dftb_matsci_0_3`
+- `gnina_1_3_3_cuda12_8_linux_x86_64` / gnina: **available**; selection `runtime-managed`
 
 Manual/licensed:
 
 - `orca`: Download ORCA from the official portal and set CHEMGRAPH_ORCA_COMMAND.
-- `gnina`: Download a GNINA release binary and set CHEMGRAPH_GNINA_COMMAND.
 
 ## Smoke
 

@@ -832,10 +832,15 @@
   },
   "support_environments": {
     "abinit": {
-      "description": "Isolated ABINIT executable used by the periodic dispatcher.",
+      "description": "Isolated ABINIT executable and worker dependencies used only when the Agent selects backend_id=abinit.",
       "environment": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/abinit",
       "conda_packages": [
-        "abinit"
+        "abinit",
+        "typing_extensions",
+        "numpy",
+        "pydantic",
+        "pyyaml",
+        "python-dotenv"
       ],
       "pip_packages": [],
       "steps": [

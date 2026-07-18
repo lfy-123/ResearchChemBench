@@ -236,6 +236,19 @@ def invoke_worker(
             "retryable": False,
         }
     environment = {**os.environ, **runtime_environment(runtime)}
+    requested_cores = (
+        (payload.get("request") or {}).get("resource_limits") or {}
+    ).get("cpu_cores")
+    if requested_cores is not None:
+        threads = str(max(1, int(requested_cores)))
+        for variable in (
+            "OMP_NUM_THREADS",
+            "MKL_NUM_THREADS",
+            "OPENBLAS_NUM_THREADS",
+            "NUMEXPR_NUM_THREADS",
+            "VECLIB_MAXIMUM_THREADS",
+        ):
+            environment[variable] = threads
     try:
         completed = subprocess.run(
             [str(python), "-m", "researchchem_toolbox.worker"],

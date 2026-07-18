@@ -98,8 +98,6 @@ def _rcsb(request: dict[str, Any]) -> dict[str, Any]:
 
 
 def _materials_project(request: dict[str, Any]) -> dict[str, Any]:
-    from mp_api.client import MPRester
-
     inputs, _method, settings = request_parts(request)
     query = inputs["query"]
     api_key = os.environ.get("MP_API_KEY", "").strip()
@@ -122,20 +120,44 @@ def _materials_project(request: dict[str, Any]) -> dict[str, Any]:
     else:
         raise ValueError("Materials Project query must be a string or mapping")
     limit = int(settings.get("max_records", 20))
-    with MPRester(api_key) as client:
-        documents = client.materials.summary.search(fields=fields, **criteria)[:limit]
-    records = []
-    for document in documents:
-        if hasattr(document, "model_dump"):
-            record = document.model_dump(mode="json")
+    if limit < 1 or limit > 1000:
+        raise ValueError("max_records must be between 1 and 1000")
+    parameters: dict[str, Any] = {
+        "_fields": ",".join(fields),
+        "_limit": limit,
+    }
+    for name, value in criteria.items():
+        if isinstance(value, (list, set)):
+            parameters[name] = ",".join(str(item) for item in value)
+        elif isinstance(value, tuple) and len(value) == 2:
+            if value[0] is not None:
+                parameters[f"{name}_min"] = value[0]
+            if value[1] is not None:
+                parameters[f"{name}_max"] = value[1]
+        elif isinstance(value, bool):
+            parameters[name] = str(value).lower()
         else:
-            record = {field: getattr(document, field, None) for field in fields}
-        if hasattr(document, "material_id"):
-            record["material_id"] = str(document.material_id)
-        records.append(record)
+            parameters[name] = value
+    endpoint = os.environ.get(
+        "MP_API_ENDPOINT", "https://api.materialsproject.org"
+    ).rstrip("/")
+    response = httpx.get(
+        endpoint + "/materials/summary/",
+        params=parameters,
+        headers={"X-API-KEY": api_key},
+        timeout=float(settings.get("timeout_seconds", 30)),
+    )
+    response.raise_for_status()
+    payload = response.json()
+    records = list(payload.get("data") or [])
     return success(
-        {"query": criteria, "count": len(records), "records": records},
-        backend_version=module_version("mp-api"),
+        {
+            "query": criteria,
+            "count": len(records),
+            "records": records,
+            "api_metadata": payload.get("meta") or {},
+        },
+        backend_version=module_version("httpx"),
     )
 
 
@@ -149,23 +171,30 @@ def _catalysis_hub(request: dict[str, Any]) -> dict[str, Any]:
     if not reactants and not products:
         raise ValueError("At least one of query.reactants or query.products is required")
     first = int(settings.get("max_records", 20))
+    declarations = ["$first: Int!"]
+    arguments = ["first: $first"]
+    variables: dict[str, Any] = {"first": first}
+    if reactants:
+        declarations.append("$reactants: String!")
+        arguments.append("reactants: $reactants")
+        variables["reactants"] = reactants
+    if products:
+        declarations.append("$products: String!")
+        arguments.append("products: $products")
+        variables["products"] = products
     graphql = """
-    query Search($reactants: String, $products: String, $first: Int!) {
-      reactions(reactants: $reactants, products: $products, first: $first) {
+    query Search(%s) {
+      reactions(%s) {
         totalCount
         edges { node { id reactants products reactionEnergy activationEnergy chemicalComposition surfaceComposition facet } }
       }
     }
-    """
+    """ % (", ".join(declarations), ", ".join(arguments))
     response = httpx.post(
         "https://api.catalysis-hub.org/graphql",
         json={
             "query": graphql,
-            "variables": {
-                "reactants": reactants or None,
-                "products": products or None,
-                "first": first,
-            },
+            "variables": variables,
         },
         timeout=float(settings.get("timeout_seconds", 60)),
     )

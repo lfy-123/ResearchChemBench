@@ -1,0 +1,507 @@
+{
+  "generated_at": "2026-07-18T17:46:09.108934+00:00",
+  "schema_version": 1,
+  "summary": {
+    "case_count": 14,
+    "passed": 14,
+    "failed": 0,
+    "all_ok": true
+  },
+  "cases": [
+    {
+      "case_id": "quantum_espresso_sssp_efficiency_si",
+      "action": "calculate_periodic_energy",
+      "backend": "quantum_espresso",
+      "status": "success",
+      "elapsed_seconds": 6.623584,
+      "result": {
+        "energy": -10.99662568,
+        "unit": "rydberg"
+      },
+      "error": null,
+      "warnings": [],
+      "resource_refs": [
+        {
+          "resource_id": "qe_sssp_1_3_pbe_efficiency",
+          "element": "Si",
+          "registered": true,
+          "kind": "element_file_collection",
+          "version": "1.3.0",
+          "format": "UPF",
+          "compatible_backends": [
+            "quantum_espresso"
+          ],
+          "element_metadata": {
+            "filename": "Si.pbe-n-rrkjus_psl.1.0.0.UPF",
+            "md5": "0b0bb1205258b0d07b9f9672cf965d36",
+            "pseudopotential": "100US",
+            "cutoff_wfc": 30.0,
+            "cutoff_rho": 240.0
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "quantum_espresso_sssp_precision_si",
+      "action": "calculate_periodic_energy",
+      "backend": "quantum_espresso",
+      "status": "success",
+      "elapsed_seconds": 6.748917,
+      "result": {
+        "energy": -10.99662568,
+        "unit": "rydberg"
+      },
+      "error": null,
+      "warnings": [],
+      "resource_refs": [
+        {
+          "resource_id": "qe_sssp_1_3_pbe_precision",
+          "element": "Si",
+          "registered": true,
+          "kind": "element_file_collection",
+          "version": "1.3.0",
+          "format": "UPF",
+          "compatible_backends": [
+            "quantum_espresso"
+          ],
+          "element_metadata": {
+            "filename": "Si.pbe-n-rrkjus_psl.1.0.0.UPF",
+            "md5": "0b0bb1205258b0d07b9f9672cf965d36",
+            "pseudopotential": "100US",
+            "cutoff_wfc": 30.0,
+            "cutoff_rho": 240.0
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "siesta_pseudodojo_psml_si",
+      "action": "calculate_periodic_energy",
+      "backend": "siesta",
+      "status": "success",
+      "elapsed_seconds": 1.265547,
+      "result": {
+        "energy": -108.6682,
+        "unit": "eV"
+      },
+      "error": null,
+      "warnings": [],
+      "resource_refs": [
+        {
+          "resource_id": "siesta_pseudo_dojo_nc_sr_05_pbe_standard_psml",
+          "element": "Si",
+          "registered": true,
+          "kind": "element_file_collection",
+          "version": "nc-sr-05 standard",
+          "format": "PSML 1.1",
+          "compatible_backends": [
+            "siesta"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "abinit_pseudodojo_psp8_si",
+      "action": "calculate_periodic_energy",
+      "backend": "abinit",
+      "status": "success",
+      "elapsed_seconds": 1.805661,
+      "result": {
+        "energy": -4.0197060046,
+        "unit": "hartree"
+      },
+      "error": null,
+      "warnings": [],
+      "resource_refs": [
+        {
+          "resource_id": "abinit_pseudo_dojo_nc_sr_pbe_standard_psp8",
+          "element": "Si",
+          "registered": true,
+          "kind": "element_file_collection",
+          "version": "standard",
+          "format": "PSP8",
+          "compatible_backends": [
+            "abinit"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "dftbplus_matsci_si",
+      "action": "calculate_periodic_energy",
+      "backend": "dftbplus",
+      "status": "success",
+      "elapsed_seconds": 0.989001,
+      "result": {
+        "energy": -1.0828157173,
+        "unit": "hartree"
+      },
+      "error": null,
+      "warnings": [],
+      "resource_refs": [
+        {
+          "resource_id": "dftb_matsci_0_3",
+          "element": null,
+          "registered": true,
+          "kind": "slater_koster_parameter_set",
+          "version": "0.3.0",
+          "format": "Slater-Koster SKF",
+          "compatible_backends": [
+            "dftbplus"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "dftbplus_3ob_dftb3_c",
+      "action": "calculate_periodic_energy",
+      "backend": "dftbplus",
+      "status": "success",
+      "elapsed_seconds": 1.035742,
+      "result": {
+        "energy": -1.3984936602,
+        "unit": "hartree"
+      },
+      "error": null,
+      "warnings": [],
+      "resource_refs": [
+        {
+          "resource_id": "dftb_3ob_3_1",
+          "element": null,
+          "registered": true,
+          "kind": "slater_koster_parameter_set",
+          "version": "3.1.0",
+          "format": "Slater-Koster SKF",
+          "compatible_backends": [
+            "dftbplus"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "quantum_espresso_sssp_si_forces",
+      "action": "calculate_periodic_forces",
+      "backend": "quantum_espresso",
+      "status": "success",
+      "elapsed_seconds": 7.158986,
+      "result": {
+        "forces": [
+          [
+            0.0,
+            0.0,
+            0.0
+          ]
+        ],
+        "unit": "rydberg/bohr"
+      },
+      "error": null,
+      "warnings": [],
+      "resource_refs": [
+        {
+          "resource_id": "qe_sssp_1_3_pbe_efficiency",
+          "element": "Si",
+          "registered": true,
+          "kind": "element_file_collection",
+          "version": "1.3.0",
+          "format": "UPF",
+          "compatible_backends": [
+            "quantum_espresso"
+          ],
+          "element_metadata": {
+            "filename": "Si.pbe-n-rrkjus_psl.1.0.0.UPF",
+            "md5": "0b0bb1205258b0d07b9f9672cf965d36",
+            "pseudopotential": "100US",
+            "cutoff_wfc": 30.0,
+            "cutoff_rho": 240.0
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "quantum_espresso_sssp_si_stress",
+      "action": "calculate_periodic_stress",
+      "backend": "quantum_espresso",
+      "status": "success",
+      "elapsed_seconds": 8.814248,
+      "result": {
+        "stress": [
+          [
+            3.415e-05,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            3.415e-05,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            3.415e-05
+          ]
+        ],
+        "unit": "rydberg/bohr^3"
+      },
+      "error": null,
+      "warnings": [],
+      "resource_refs": [
+        {
+          "resource_id": "qe_sssp_1_3_pbe_efficiency",
+          "element": "Si",
+          "registered": true,
+          "kind": "element_file_collection",
+          "version": "1.3.0",
+          "format": "UPF",
+          "compatible_backends": [
+            "quantum_espresso"
+          ],
+          "element_metadata": {
+            "filename": "Si.pbe-n-rrkjus_psl.1.0.0.UPF",
+            "md5": "0b0bb1205258b0d07b9f9672cf965d36",
+            "pseudopotential": "100US",
+            "cutoff_wfc": 30.0,
+            "cutoff_rho": 240.0
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "siesta_pseudodojo_si_forces",
+      "action": "calculate_periodic_forces",
+      "backend": "siesta",
+      "status": "success",
+      "elapsed_seconds": 1.257448,
+      "result": {
+        "forces": [
+          [
+            1.76176059e-15,
+            5.15147716e-15,
+            1.6474134e-13
+          ]
+        ],
+        "unit": "eV/angstrom",
+        "energy": -108.6682
+      },
+      "error": null,
+      "warnings": [],
+      "resource_refs": [
+        {
+          "resource_id": "siesta_pseudo_dojo_nc_sr_05_pbe_standard_psml",
+          "element": "Si",
+          "registered": true,
+          "kind": "element_file_collection",
+          "version": "nc-sr-05 standard",
+          "format": "PSML 1.1",
+          "compatible_backends": [
+            "siesta"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "dftbplus_matsci_si_forces",
+      "action": "calculate_periodic_forces",
+      "backend": "dftbplus",
+      "status": "success",
+      "elapsed_seconds": 1.018783,
+      "result": {
+        "forces": [
+          [
+            -0.0,
+            -0.0,
+            -0.0
+          ]
+        ],
+        "unit": "hartree/bohr",
+        "energy": -1.0828157173
+      },
+      "error": null,
+      "warnings": [],
+      "resource_refs": [
+        {
+          "resource_id": "dftb_matsci_0_3",
+          "element": null,
+          "registered": true,
+          "kind": "slater_koster_parameter_set",
+          "version": "0.3.0",
+          "format": "Slater-Koster SKF",
+          "compatible_backends": [
+            "dftbplus"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "abinit_pseudodojo_si_forces",
+      "action": "calculate_periodic_forces",
+      "backend": "abinit",
+      "status": "success",
+      "elapsed_seconds": 1.841325,
+      "result": {
+        "forces": [
+          [
+            -0.0,
+            -0.0,
+            -0.0
+          ]
+        ],
+        "unit": "hartree/bohr",
+        "energy": -4.0197060046
+      },
+      "error": null,
+      "warnings": [],
+      "resource_refs": [
+        {
+          "resource_id": "abinit_pseudo_dojo_nc_sr_pbe_standard_psp8",
+          "element": "Si",
+          "registered": true,
+          "kind": "element_file_collection",
+          "version": "standard",
+          "format": "PSP8",
+          "compatible_backends": [
+            "abinit"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "abinit_pseudodojo_si_stress",
+      "action": "calculate_periodic_stress",
+      "backend": "abinit",
+      "status": "success",
+      "elapsed_seconds": 1.874012,
+      "result": {
+        "stress": [
+          [
+            -1.68572658e-05,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -1.68572658e-05,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            -1.68572658e-05
+          ]
+        ],
+        "unit": "hartree/bohr^3",
+        "energy": -4.0197060046
+      },
+      "error": null,
+      "warnings": [],
+      "resource_refs": [
+        {
+          "resource_id": "abinit_pseudo_dojo_nc_sr_pbe_standard_psp8",
+          "element": "Si",
+          "registered": true,
+          "kind": "element_file_collection",
+          "version": "standard",
+          "format": "PSP8",
+          "compatible_backends": [
+            "abinit"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "dftbplus_matsci_si_relax",
+      "action": "relax_periodic_structure",
+      "backend": "dftbplus",
+      "status": "success",
+      "elapsed_seconds": 0.996606,
+      "result": {
+        "structure": {
+          "atoms": [
+            {
+              "element": "Si",
+              "position_angstrom": [
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          ],
+          "cell_angstrom": [
+            [
+              5.43,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              5.43,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              5.43
+            ]
+          ],
+          "pbc": [
+            true,
+            true,
+            true
+          ],
+          "charge": 0,
+          "multiplicity": 1
+        },
+        "converged": true,
+        "energy": -1.0828157173
+      },
+      "error": null,
+      "warnings": [],
+      "resource_refs": [
+        {
+          "resource_id": "dftb_matsci_0_3",
+          "element": null,
+          "registered": true,
+          "kind": "slater_koster_parameter_set",
+          "version": "0.3.0",
+          "format": "Slater-Koster SKF",
+          "compatible_backends": [
+            "dftbplus"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "gnina_1_3_3_builtin_cnn_cpu",
+      "action": "dock_ligand",
+      "backend": "gnina",
+      "status": "success",
+      "elapsed_seconds": 7.748512,
+      "result": {
+        "poses_path": "outputs/dock_ligand/gnina/445e452ffb86/poses.pdbqt",
+        "scores": [
+          {
+            "pose_index": 1,
+            "affinity_kcal_mol": -0.0711917728,
+            "cnn_pose_score": 0.641487896,
+            "cnn_affinity": 2.14310002
+          }
+        ],
+        "search_space": {
+          "center_angstrom": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "size_angstrom": [
+            10.0,
+            10.0,
+            10.0
+          ]
+        }
+      },
+      "error": null,
+      "warnings": [],
+      "resource_refs": []
+    }
+  ]
+}

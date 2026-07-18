@@ -47,8 +47,17 @@ def run_profile(name: str, profile: dict[str, Any], args, secrets: dict[str, str
         )
     lines = [line for line in completed.stdout.splitlines() if line.startswith(MARKER)]
     if not lines:
-        return {"profile": name, "required_ok": False, "returncode": completed.returncode, "error": "No structured probe output", "output_tail": completed.stdout[-4000:]}
+        return {
+            "profile": name,
+            "runtime_group": profile.get("_runtime_group", "profiles"),
+            "conda_name": profile.get("conda_name"),
+            "required_ok": False,
+            "returncode": completed.returncode,
+            "error": "No structured probe output",
+            "output_tail": completed.stdout[-4000:],
+        }
     result = json.loads(lines[-1][len(MARKER):])
+    result["runtime_group"] = profile.get("_runtime_group", "profiles")
     result["returncode"] = completed.returncode
     return result
 
@@ -60,7 +69,7 @@ def markdown(payload: dict[str, Any]) -> str:
         total = len(result.get("expected_backends", []))
         detail = result.get("error") or f"{available}/{total} backends currently available"
         rows.append(
-            f"| `{name}` | `{result.get('conda_name', '-')}` | {total} | "
+            f"| `{name}` | {result.get('runtime_group', 'profiles')} | `{result.get('conda_name', '-')}` | {total} | "
             f"{'通过' if result.get('required_ok') else '失败'} | {detail} |"
         )
     return "\n".join(
@@ -69,8 +78,8 @@ def markdown(payload: dict[str, Any]) -> str:
             f"Generated: {payload['generated_at']}",
             f"Public MCP tools: {payload['summary']['public_action_count']} (same for every task)",
             f"Backend runtimes checked: {payload['summary']['profile_count']}",
-            "", "| Runtime | Conda environment | Backends | Required checks | Detail |",
-            "|---|---|---:|---|---|", *rows, "",
+            "", "| Runtime | Group | Conda environment | Backends | Required checks | Detail |",
+            "|---|---|---|---:|---|---|", *rows, "",
             "Profiles are execution runtimes only; they do not own or filter public tools.", "",
         ]
     )
@@ -84,13 +93,16 @@ def main() -> int:
     parser.add_argument("--check-models", action="store_true")
     args = parser.parse_args()
     config = yaml.safe_load(CONFIG_PATH.read_text(encoding="utf-8"))
-    profiles = config["profiles"]
-    selected = [item.strip() for item in args.profiles.split(",") if item.strip()] or list(profiles)
-    unknown = sorted(set(selected) - set(profiles))
+    runtimes = {}
+    for group in ("profiles", "support_environments"):
+        for name, value in (config.get(group) or {}).items():
+            runtimes[name] = {**value, "_runtime_group": group}
+    selected = [item.strip() for item in args.profiles.split(",") if item.strip()] or list(runtimes)
+    unknown = sorted(set(selected) - set(runtimes))
     if unknown:
         raise SystemExit(f"Unknown profiles: {unknown}")
     secrets = {key: str(value) for key, value in dotenv_values(LOCAL_CONFIG_PATH).items() if value is not None} if LOCAL_CONFIG_PATH.exists() else {}
-    results = {name: run_profile(name, profiles[name], args, secrets) for name in selected}
+    results = {name: run_profile(name, runtimes[name], args, secrets) for name in selected}
     from researchchem_toolbox.catalog import action_specs
 
     payload = {

@@ -25,7 +25,7 @@ def main() -> int:
     parser.add_argument("--check-models", action="store_true")
     args = parser.parse_args()
 
-    from evaluation.mcp_tools.profiles import apply_profile, get_profile
+    from evaluation.mcp_tools.profiles import apply_profile, load_profile_config
     from researchchem_toolbox.catalog import backend_specs
     from researchchem_toolbox.runtime import probe_all_backends
 
@@ -96,6 +96,16 @@ def main() -> int:
 
     specifications = [backend_specs()[backend_id] for backend_id in profile["backends"]]
     backend_health = probe_all_backends(specifications)
+    allowed_unavailable = set(
+        (load_profile_config().get("audit") or {}).get(
+            "allowed_unavailable_backends", []
+        )
+    )
+    unexpected_unavailable = sorted(
+        backend_id
+        for backend_id, item in backend_health.items()
+        if not item.get("available") and backend_id not in allowed_unavailable
+    )
     live_checks = {}
     if args.live_materials_project and "materials_project" in profile["backends"]:
         from researchchem_toolbox.service import execute_action
@@ -111,6 +121,7 @@ def main() -> int:
         and all(command_results.values())
         and all(external_results.values())
         and dependency_check["success"]
+        and not unexpected_unavailable
         and all(item.get("success", False) for item in model_results.values())
         and all(item.get("success", False) for item in live_checks.values())
     )
@@ -121,6 +132,10 @@ def main() -> int:
         "python_version": sys.version.split()[0],
         "expected_backends": sorted(profile["backends"]),
         "backend_health": backend_health,
+        "allowed_unavailable_backends": sorted(
+            set(profile["backends"]) & allowed_unavailable
+        ),
+        "unexpected_unavailable_backends": unexpected_unavailable,
         "modules": module_results,
         "commands": command_results,
         "external_commands": external_results,

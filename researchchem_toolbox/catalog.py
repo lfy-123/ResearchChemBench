@@ -11,6 +11,7 @@ from typing import Any
 
 from .models import ActionSpec, BackendSpec
 from .runtime import probe_all_backends
+from .resources import resource_snapshot, resources_for_backends
 from .specs import ACTION_SPECS, BACKEND_SPECS
 
 
@@ -73,15 +74,17 @@ def catalog_snapshot(*, include_health: bool = True) -> dict[str, Any]:
     validate_catalog()
     health = probe_all_backends(BACKEND_SPECS) if include_health else {}
     payload: dict[str, Any] = {
-        "schema_version": 2,
+        "schema_version": 3,
         "exposure_policy": "atomic_all",
         "backend_selection_policy": "agent_required",
+        "scientific_resource_selection_policy": "agent_explicit_no_default",
         "automatic_fallback": False,
         "actions": [spec.as_dict() for spec in ACTION_SPECS],
         "backends": [
             {**spec.as_dict(), "health": health.get(spec.id)}
             for spec in BACKEND_SPECS
         ],
+        "resources": resource_snapshot(),
     }
     canonical = json.dumps(payload, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
     payload["catalog_hash"] = hashlib.sha256(canonical.encode("utf-8")).hexdigest()
@@ -130,6 +133,13 @@ def mcp_action_description(specification: ActionSpec) -> str:
         note = f"{backend_id}: {backend.description}"
         if backend.required_data_resources:
             note += " External data: " + "; ".join(backend.required_data_resources)
+        registered_resources = resources_for_backends((backend_id,))
+        if registered_resources:
+            resource_text = ", ".join(
+                f"{item['id']} ({item.get('selection_syntax', 'runtime-managed')})"
+                for item in registered_resources
+            )
+            note += " Registered resources: " + resource_text
         backend_notes.append(note)
     requirement = (
         f"backend_id is optional and, if supplied, must be {backend_text}."
@@ -181,6 +191,10 @@ def agent_toolbox_overview(
         "'position_angstrom': [0, 0, 0]}], 'charge': 0, 'multiplicity': 1}. "
         "Periodic structures additionally contain a 3x3 cell_angstrom and pbc=[true,true,true]. "
         "Outputs can be passed onward as structured result objects or registered ArtifactRef objects.",
+        "Scientific files use explicit registered ResourceRef values. Use either "
+        "resource://<resource_id>/<Element> for element-file collections or "
+        "resource://<resource_id> for a parameter set. You must choose the resource family, "
+        "element mapping, cutoffs, and compatible method; the dispatcher never chooses them.",
     ]
     for category in CATEGORY_LABELS:
         lines.extend(["", f"### {CATEGORY_LABELS[category]}"])
@@ -192,6 +206,31 @@ def agent_toolbox_overview(
             lines.append(
                 f"- `{specification.id}` — {specification.description} "
                 f"Backends/data source: {', '.join(backend_parts)}."
+            )
+    lines.extend(
+        [
+            "",
+            "### Registered read-only scientific resources",
+        ]
+    )
+    resource_values = snapshot.get("resources", []) if snapshot is not None else resource_snapshot()
+    for resource in resource_values:
+        backends_text = ", ".join(resource.get("compatible_backends") or [])
+        state = "available" if resource.get("available") else "unavailable"
+        if resource.get("selectable", True):
+            coverage = (
+                f"{resource.get('element_count', 0)} elements"
+                if resource.get("kind") == "element_file_collection"
+                else f"{resource.get('element_count', 0)} elements/{resource.get('pair_count', 0)} directed pairs"
+            )
+            lines.append(
+                f"- `{resource['id']}` — {resource.get('display_name', resource['id'])}; "
+                f"backend: {backends_text}; format: {resource.get('format', '-')}; "
+                f"coverage: {coverage}; status: {state}; syntax: `{resource.get('selection_syntax')}`."
+            )
+        else:
+            lines.append(
+                f"- `{resource['id']}` — runtime-managed resource for {backends_text}; status: {state}."
             )
     lines.extend(
         [
@@ -225,6 +264,37 @@ def markdown_catalog(*, include_health: bool = True) -> str:
                 backends=", ".join(action["backend_ids"]),
                 required=", ".join(action["required_inputs"]),
                 description=action["description"].replace("|", "\\|"),
+            )
+        )
+    lines.extend(
+        [
+            "",
+            "## Registered scientific resources",
+            "",
+            "| Resource | Kind | Backends | Version | Format | Status | Explicit selection syntax | Coverage |",
+            "|---|---|---|---|---|---|---|---|",
+        ]
+    )
+    for resource in snapshot["resources"]:
+        coverage = (
+            f"{resource.get('element_count', 0)} elements"
+            if resource.get("kind") == "element_file_collection"
+            else (
+                f"{resource.get('element_count', 0)} elements; {resource.get('pair_count', 0)} directed pairs"
+                if resource.get("kind") == "slater_koster_parameter_set"
+                else "runtime executable"
+            )
+        )
+        lines.append(
+            "| {id} | {kind} | {backends} | {version} | {format} | {status} | {syntax} | {coverage} |".format(
+                id=resource["id"],
+                kind=resource.get("kind", "-"),
+                backends=", ".join(resource.get("compatible_backends") or []),
+                version=resource.get("version", "-"),
+                format=resource.get("format", "-"),
+                status="available" if resource.get("available") else "unavailable",
+                syntax=resource.get("selection_syntax", "runtime-managed"),
+                coverage=coverage,
             )
         )
     lines.extend(

@@ -494,6 +494,19 @@ _PERIODIC_RELAX = {
 }
 
 
+_DFTB_SETTINGS = {
+    "calculate_periodic_energy": ("scc_tolerance", "max_scc_iterations"),
+    "calculate_periodic_forces": ("scc_tolerance", "max_scc_iterations"),
+    "relax_periodic_structure": (
+        "scc_tolerance",
+        "max_scc_iterations",
+        "force_threshold_ev_per_angstrom",
+        "max_steps",
+        "relax_cell",
+    ),
+}
+
+
 BACKEND_SPECS: tuple[BackendSpec, ...] = (
     _backend(
         "rdkit", "RDKit", "core",
@@ -754,8 +767,15 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         "Quantum ESPRESSO pw.x periodic calculations rendered from typed structures/settings.",
         executables=("pw.x",), environment=("CHEMGRAPH_QE_COMMAND",), conda=("qe",),
         data_resources=(
-            "UPF pseudopotentials covering every element in the calculation (for example SSSP or PseudoDojo), supplied as workspace Artifacts",
+            "Explicit ResourceRefs from qe_sssp_1_3_pbe_efficiency or qe_sssp_1_3_pbe_precision, one per element; workspace ArtifactRefs remain accepted",
         ),
+        method_schema={
+            "pseudopotentials": "element -> resource://<SSSP resource id>/<Element> or workspace ArtifactRef",
+            "input_dft": "explicit Quantum ESPRESSO XC identifier compatible with the selected resources",
+            "ecutwfc_ry": "explicit wavefunction cutoff in Ry; SSSP per-element recommendations are exposed in the resource catalog",
+            "ecutrho_ry": "optional explicit charge-density cutoff in Ry",
+            "k_points": "{grid:[nx,ny,nz], shift:[sx,sy,sz]}",
+        },
         required_methods={action: ("input_dft", "pseudopotentials", "ecutwfc_ry", "k_points") for action in ("calculate_periodic_energy", "calculate_periodic_forces", "calculate_periodic_stress", "relax_periodic_structure")},
         required_settings=_PERIODIC_RELAX,
     ),
@@ -773,8 +793,16 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         "SIESTA calculations rendered from typed structures/settings.", executables=("siesta",),
         environment=("CHEMGRAPH_SIESTA_COMMAND",), conda=("siesta",),
         data_resources=(
-            "SIESTA PSF or compatible pseudopotentials covering every element, supplied as workspace Artifacts",
+            "Explicit ResourceRefs from siesta_pseudo_dojo_nc_sr_05_pbe_standard_psml, one per element; workspace ArtifactRefs remain accepted",
         ),
+        method_schema={
+            "pseudopotentials": "element -> resource://siesta_pseudo_dojo_nc_sr_05_pbe_standard_psml/<Element>",
+            "xc_functional": "explicit SIESTA XC family compatible with selected PSML files",
+            "xc_authors": "explicit SIESTA XC parametrization",
+            "basis_size": "explicit PAO basis size",
+            "mesh_cutoff_ry": "explicit real-space mesh cutoff in Ry",
+            "k_points": "{grid:[nx,ny,nz], shift:[sx,sy,sz]}",
+        },
         required_methods={action: ("xc_functional", "xc_authors", "pseudopotentials", "basis_size", "mesh_cutoff_ry", "k_points") for action in ("calculate_periodic_energy", "calculate_periodic_forces", "relax_periodic_structure")},
         required_settings=_PERIODIC_RELAX,
     ),
@@ -784,19 +812,36 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         "DFTB+ calculations rendered from typed structures/settings.", executables=("dftb+",),
         environment=("CHEMGRAPH_DFTBPLUS_COMMAND",), conda=("dftbplus",),
         data_resources=(
-            "A DFTB+ Slater-Koster parameter-set directory containing every required element-pair .skf file (for example 3ob or matsci), supplied as a workspace Artifact",
+            "Explicit ResourceRef to dftb_3ob_3_1 or dftb_matsci_0_3 with all required directed element-pair SKF files; workspace directory ArtifactRefs remain accepted",
         ),
-        required_methods={action: ("parameter_set", "k_points") for action in ("calculate_periodic_energy", "calculate_periodic_forces", "relax_periodic_structure")},
-        required_settings=_PERIODIC_RELAX,
+        method_schema={
+            "parameter_set": "resource://dftb_3ob_3_1 or resource://dftb_matsci_0_3",
+            "k_points": "{grid:[nx,ny,nz], shift:[sx,sy,sz]}",
+            "scc": "explicit boolean selecting SCC or non-SCC DFTB",
+            "max_angular_momenta": "element -> s|p|d|f, explicitly selected for the parameter family",
+            "third_order_full": "optional explicit DFTB3 full third-order toggle",
+            "hubbard_derivatives": "optional element -> atomic Hubbard derivative mapping",
+            "damp_xh_exponent": "optional explicit gamma^h damping exponent (3ob commonly documents 4.0)",
+            "fermi_temperature_kelvin": "optional explicit electronic filling temperature",
+        },
+        required_methods={action: ("parameter_set", "k_points", "scc", "max_angular_momenta") for action in ("calculate_periodic_energy", "calculate_periodic_forces", "relax_periodic_structure")},
+        required_settings=_DFTB_SETTINGS,
     ),
     _backend(
         "abinit", "ABINIT", "abinit",
         ("calculate_periodic_energy", "calculate_periodic_forces", "calculate_periodic_stress", "relax_periodic_structure"),
-        "ABINIT calculations rendered from typed structures/settings.", executables=("abinit",),
+        "ABINIT calculations rendered from typed structures/settings.",
+        modules=("numpy", "pydantic", "yaml"), executables=("abinit",),
         environment=("CHEMGRAPH_ABINIT_COMMAND",), conda=("abinit",),
         data_resources=(
-            "ABINIT-compatible pseudopotentials covering every element, supplied as workspace Artifacts",
+            "Explicit ResourceRefs from abinit_pseudo_dojo_nc_sr_pbe_standard_psp8, one per element; workspace ArtifactRefs remain accepted",
         ),
+        method_schema={
+            "pseudopotentials": "element -> resource://abinit_pseudo_dojo_nc_sr_pbe_standard_psp8/<Element>",
+            "ixc": "explicit ABINIT XC code compatible with the selected PSP8 files",
+            "ecut_hartree": "explicit plane-wave cutoff in Hartree",
+            "k_points": "{grid:[nx,ny,nz], shift:[sx,sy,sz]}",
+        },
         required_methods={action: ("ixc", "pseudopotentials", "ecut_hartree", "k_points") for action in ("calculate_periodic_energy", "calculate_periodic_forces", "calculate_periodic_stress", "relax_periodic_structure")},
         required_settings=_PERIODIC_RELAX,
     ),
@@ -831,9 +876,15 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
     _backend(
         "gnina", "GNINA", "docking", ("dock_ligand",),
         "GNINA docking using prepared structures and an explicit search box/model.", executables=("gnina",),
-        environment=("CHEMGRAPH_GNINA_COMMAND",), install_notes="Download a GNINA release binary and set CHEMGRAPH_GNINA_COMMAND.",
+        environment=("CHEMGRAPH_GNINA_COMMAND",),
+        install_notes="Configured from registered GNINA 1.3.3 CUDA 12.8 binary; rerun scripts/configure_toolbox_resources.py to verify/relink.",
+        method_schema={
+            "cnn_model": "builtin_default or an explicit GNINA built-in --cnn model name",
+            "cnn_scoring": "optional GNINA mode: none|rescore|refinement|metrorescore|metrorefine|all",
+            "scoring_function": "optional explicit empirical scoring function",
+        },
         required_methods={"dock_ligand": ("cnn_model",)},
-        required_settings={"dock_ligand": ("exhaustiveness", "num_modes", "energy_range_kcal_mol")},
+        required_settings={"dock_ligand": ("exhaustiveness", "num_modes", "use_gpu")},
     ),
     _backend(
         "pubchem", "PubChem PUG REST", "services", ("search_compounds",),
@@ -845,7 +896,7 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
     ),
     _backend(
         "materials_project", "Materials Project", "services", ("search_materials",),
-        "Materials Project mp-api requiring an MP_API_KEY for live access.", modules=("mp_api",),
+        "Materials Project summary REST API requiring an MP_API_KEY for live access; bounded HTTP timeouts avoid unbounded client initialization.", modules=("httpx", "mp_api"),
         environment=("MP_API_KEY",), conda=("mp-api",),
     ),
     _backend(

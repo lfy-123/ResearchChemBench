@@ -61,59 +61,47 @@
 - `--mcp-tools` 不再允许裁剪目录，评测入口始终暴露全部 44 个 Actions；
 - 静态旧软件表改为由 BackendSpecs 动态生成的目录。
 
-## 6. 已完成的真实验证
+## 6. 最终真实验证
 
-本轮已验证：
+下载资源接入完成后，本轮最终验证结果为：
 
-- 全量 Python 回归：`36 passed`；
-- MCP 注册：44/44 工具；
-- MCP 原子链：结构标准化、3D 生成、能量计算、构象结果排序、Artifact 和 trace；
-- wheel 构建：根包与独立 MCP 包均成功；
-- 实际计算 smoke：RDKit、Open Babel、ASE/EMT、xTB、PySCF、Psi4、TBLite、Cantera、SciPy、PDBFixer、OpenMM、OpenFF、Packmol、MDAnalysis、Phonopy、Phono3py、Vina、CP2K；
-- CP2K PBE 周期能量计算成功返回 `-3.714233601738498 hartree`；
-- Phono3py 二阶/三阶位移生成和力常数组装均通过当前安装版本验证；
-- 结构检查、运行时覆盖、handler 覆盖和旧公共工具移除检查全部通过。
+- 全量 Python 回归：`44 passed`；
+- MCP 注册：44/44 工具，原子调用、Artifact 与 trace 重放成功；
+- 运行环境：14/14 个 profile/support runtime 通过模块、命令、外部命令、`pip check` 和模型加载检查；
+- BackendSpec：45 个中 44 个 available，唯一 unavailable 为用户尚未下载的 ORCA；
+- 注册资源：7/7 通过归档校验、文件数和覆盖检查；两套 SSSP 共 206 个 UPF 文件逐文件 MD5 通过；
+- 下载资源真实计算：14/14 通过，覆盖 QE/SIESTA/ABINIT/DFTB+ 的能量、力、应力或弛豫，以及 GNINA CPU/CNN docking；
+- 在线 Data Actions：PubChem、RCSB PDB、Materials Project、Catalysis-Hub 4/4 实时请求成功；
+- OpenFF AM1-BCC、OpenFF Interchange、Packmol 和既有核心 smoke 全部成功。
 
-状态报告见 [TOOLBOX_STATUS.md](../TOOLBOX_STATUS.md)，完整 Action/Backend 目录见 [TOOL_CATALOG.md](../../evaluation/mcp_tools/TOOL_CATALOG.md)。
+过程中依据真实输出修复了 QE “Total force”误匹配、ABINIT 10 输出文件/力/应力单位解析、DFTB+ Parser 14 几何优化输入、GNINA 不支持 Vina `--energy_range` 以及 Materials Project/Catalysis-Hub 的有界在线请求问题。
 
-## 7. Conda 依赖处理与仍需准备的软件数据
+简要状态见 [TOOLBOX_STATUS.md](../TOOLBOX_STATUS.md)。逐个 Action、Backend、runtime、资源、元素覆盖、SSSP cutoff 与 smoke 证据见 [CHEMISTRY_TOOLBOX_TOOL_RESOURCE_MATRIX.md](CHEMISTRY_TOOLBOX_TOOL_RESOURCE_MATRIX.md)。
 
-以下依赖已经直接通过 conda-forge 安装，不需要用户手工下载：
+## 7. 软件、模型与科学数据管理
 
-- `.tool_envs/md`：Packmol 21.2.1；
-- `.tool_envs/openff`：Python 3.12、OpenFF Toolkit 0.18.1、OpenFF Interchange 0.5.3；
-- `.tool_envs/openff`：为 AM1-BCC 补充 AmberTools 26.0。
+- Conda/Pip 隔离环境继续位于 `.tool_envs/`；OpenFF 保持独立 Python 3.12 runtime；
+- 手工下载的大型二进制统一放入 `.software_cache/`；GNINA 1.3.3 实体位于 `.software_cache/gnina/1.3.3/`，docking runtime 只保留软链接；
+- 模型缓存位于 `.model_cache/`；模型名称/路径、device 和下载许可仍由 Agent 显式决定；
+- 赝势与参数数据保留在被 Git 忽略的 `download/`，由 `config/toolbox_resources.json` 注册成只读 ResourceRef；
+- `.tool_envs/abinit` 已补齐 NumPy、Pydantic、PyYAML 和 python-dotenv，使真实 worker 与健康探测均可启动；
+- 当前需补装的 Conda/Pip 包为零。
 
-OpenFF 被放入独立 runtime，是因为当前 MD 环境使用 Python 3.10/NumPy 2，而现代 OpenFF 需要更新的 Python；强行安装旧 OpenFF 会与 MD 环境的 NumPy/HDF5 依赖冲突。该隔离不改变智能体看到的工具或 `backend_id`。
+Agent 可显式选择的科学数据包括：
 
-真实 smoke 已确认：AM1-BCC 电荷赋值、OpenFF Interchange 力场参数化和 Packmol 显式装箱均成功。当前缺少的 Conda/Pip 包为零。
+- `qe_sssp_1_3_pbe_efficiency` 与 `qe_sssp_1_3_pbe_precision`；
+- `siesta_pseudo_dojo_nc_sr_05_pbe_standard_psml`；
+- `abinit_pseudo_dojo_nc_sr_pbe_standard_psp8`；
+- `dftb_3ob_3_1` 与 `dftb_matsci_0_3`。
 
-需要人工下载或许可的软件：
+元素文件使用 `resource://<resource_id>/<Element>`，参数集使用 `resource://<resource_id>`。系统不按元素、精度或任务自动选择资源，也不会把一个参数族替换为另一个参数族。
 
-- ORCA：从官方入口下载，并配置 `CHEMGRAPH_ORCA_COMMAND`；
-- GNINA：下载发布版二进制，并配置 `CHEMGRAPH_GNINA_COMMAND`。
+## 8. 唯一剩余项：ORCA
 
-周期软件还需要实际科学数据，而不只是程序本身：
+ORCA 因许可要求仍需用户本人下载。建议放入 `.software_cache/orca/<version>/`，再配置 `.tool_envs/quantum/bin/orca` 软链接或 `CHEMGRAPH_ORCA_COMMAND`。完成后需要分别重放 energy、hessian、geometry optimization 和 dipole smoke。
 
-- Quantum ESPRESSO：覆盖任务元素的 UPF 赝势，例如 SSSP/PseudoDojo；
-- SIESTA：对应元素的 PSF/兼容赝势；
-- DFTB+：覆盖全部元素对的 Slater–Koster 参数集，例如 3ob/matsci；
-- ABINIT：对应元素的 ABINIT 兼容赝势。
+在此之前，ORCA 仍完整显示在 Agent 的选择集合中，但调用会返回结构化 `unavailable`；系统不会自动改用 Psi4、PySCF、xTB 或其他软件。
 
-Materials Project 在新环境中还需要 `MP_API_KEY`。这些资源都应作为 workspace Artifact 显式传给 Action，系统不会替智能体暗中选择赝势或参数集。
+## 9. 最终验收结论
 
-## 8. 安装后的下一阶段调试
-
-按用户要求，本轮不继续猜测尚未安装软件的具体版本行为。相关 BackendSpec、输入渲染、命令隔离、结果协议和 unavailable 处理已经建立；软件/数据就绪后需要执行真实 conformance：
-
-1. 固定实际版本与可执行文件路径；
-2. 用最小可靠体系完成能量/力/优化或 docking smoke；
-3. 对照原始输出校准解析器和单位；
-4. 将通过结果写入 BackendSpec 状态和回归测试；
-5. 对 ORCA、GNINA 及带外部赝势/参数集的周期计算逐项验收。
-
-在这些后端完成真实 smoke 前，目录仍会完整展示它们，但健康状态为 unavailable，或在缺少必需 Artifact 时返回结构化错误；系统不会替换成其他软件。
-
-## 9. 最终验收标准
-
-本轮已经满足工具箱层面的关键目标：公共工具同粒度、无笼统软件 runner、全目录可见、Agent 显式选择、无自动回退、结果可组合、执行可追踪。后续工作的边界是“补齐外部软件并做版本级真实调试”，而不是再次改变公共工具架构。
+除 ORCA 外，当前 44 个公共工具、其余 44 个 BackendSpecs、14 个运行环境、7 个下载资源和 4 个在线数据源均已完成配置审计。工具箱继续满足：公共工具同粒度、无笼统 runner、全目录可见、Agent 显式选择工具/软件/方法/资源、无自动回退、结果可组合、执行可追踪。

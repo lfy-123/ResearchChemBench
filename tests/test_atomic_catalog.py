@@ -38,12 +38,15 @@ def test_catalog_snapshot_declares_benchmark_autonomy_policy():
     assert first["catalog_hash"] == second["catalog_hash"]
     assert first["exposure_policy"] == "atomic_all"
     assert first["backend_selection_policy"] == "agent_required"
+    assert first["scientific_resource_selection_policy"] == "agent_explicit_no_default"
     assert first["automatic_fallback"] is False
     assert len(first["actions"]) == 44
+    assert first["resources"]
 
 
 def test_agent_overview_is_complete_and_contains_no_recipe():
     overview = agent_toolbox_overview(include_health=False)
     assert all(f"`{action_id}`" in overview for action_id in action_specs())
     assert "There is no hidden workflow" in overview
+    assert "dispatcher never chooses them" in overview
     assert "standardize_structure →" not in overview

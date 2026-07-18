@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-07-18T16:17:54.528029+00:00",
+  "generated_at": "2026-07-18T17:32:05.899730+00:00",
   "summary": {
-    "profile_count": 13,
-    "ready_profiles": 13,
+    "profile_count": 14,
+    "ready_profiles": 14,
     "public_action_count": 44
   },
   "profiles": {
@@ -221,6 +221,8 @@
           "install_notes": ""
         }
       },
+      "allowed_unavailable_backends": [],
+      "unexpected_unavailable_backends": [],
       "modules": {
         "ase": {
           "available": true,
@@ -246,10 +248,16 @@
         "returncode": 0,
         "output": "No broken requirements found."
       },
-      "model_checks": {},
+      "model_checks": {
+        "mace_medium_mpa_0": {
+          "success": true,
+          "energy_ev": -0.88549809819065
+        }
+      },
       "manual_commands": {},
       "live_checks": {},
       "required_ok": true,
+      "runtime_group": "profiles",
       "returncode": 0
     },
     "services": {
@@ -321,6 +329,10 @@
           "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
+            "httpx": {
+              "available": true,
+              "version": "0.28.1"
+            },
             "mp_api": {
               "available": true,
               "version": "0.45.13"
@@ -367,6 +379,8 @@
           "install_notes": ""
         }
       },
+      "allowed_unavailable_backends": [],
+      "unexpected_unavailable_backends": [],
       "modules": {
         "mp_api": {
           "available": true,
@@ -388,6 +402,7 @@
       "manual_commands": {},
       "live_checks": {},
       "required_ok": true,
+      "runtime_group": "profiles",
       "returncode": 0
     },
     "quantum": {
@@ -535,6 +550,10 @@
           "install_notes": "Download ORCA from the official portal and set CHEMGRAPH_ORCA_COMMAND."
         }
       },
+      "allowed_unavailable_backends": [
+        "orca"
+      ],
+      "unexpected_unavailable_backends": [],
       "modules": {
         "ase": {
           "available": true,
@@ -570,12 +589,18 @@
         "returncode": 0,
         "output": "No broken requirements found."
       },
-      "model_checks": {},
+      "model_checks": {
+        "mace_medium_mpa_0": {
+          "success": true,
+          "energy_ev": -0.88549809819065
+        }
+      },
       "manual_commands": {
         "orca": null
       },
       "live_checks": {},
       "required_ok": true,
+      "runtime_group": "profiles",
       "returncode": 0
     },
     "psi4": {
@@ -615,6 +640,8 @@
           "install_notes": ""
         }
       },
+      "allowed_unavailable_backends": [],
+      "unexpected_unavailable_backends": [],
       "modules": {
         "psi4": {
           "available": true,
@@ -634,6 +661,7 @@
       "manual_commands": {},
       "live_checks": {},
       "required_ok": true,
+      "runtime_group": "profiles",
       "returncode": 0
     },
     "reaction": {
@@ -805,6 +833,8 @@
           "install_notes": ""
         }
       },
+      "allowed_unavailable_backends": [],
+      "unexpected_unavailable_backends": [],
       "modules": {
         "cantera": {
           "available": true,
@@ -845,6 +875,7 @@
       },
       "live_checks": {},
       "required_ok": true,
+      "runtime_group": "profiles",
       "returncode": 0
     },
     "qe": {
@@ -877,12 +908,14 @@
           ],
           "pip_packages": [],
           "required_data_resources": [
-            "UPF pseudopotentials covering every element in the calculation (for example SSSP or PseudoDojo), supplied as workspace Artifacts"
+            "Explicit ResourceRefs from qe_sssp_1_3_pbe_efficiency or qe_sssp_1_3_pbe_precision, one per element; workspace ArtifactRefs remain accepted"
           ],
           "license_class": "open_source",
           "install_notes": ""
         }
       },
+      "allowed_unavailable_backends": [],
+      "unexpected_unavailable_backends": [],
       "modules": {},
       "commands": {
         "pw.x": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/qe/bin/pw.x"
@@ -897,6 +930,7 @@
       "manual_commands": {},
       "live_checks": {},
       "required_ok": true,
+      "runtime_group": "profiles",
       "returncode": 0
     },
     "cp2k": {
@@ -933,6 +967,8 @@
           "install_notes": ""
         }
       },
+      "allowed_unavailable_backends": [],
+      "unexpected_unavailable_backends": [],
       "modules": {},
       "commands": {
         "cp2k": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/cp2k/bin/cp2k"
@@ -947,6 +983,7 @@
       "manual_commands": {},
       "live_checks": {},
       "required_ok": true,
+      "runtime_group": "profiles",
       "returncode": 0
     },
     "periodic": {
@@ -980,7 +1017,7 @@
           ],
           "pip_packages": [],
           "required_data_resources": [
-            "A DFTB+ Slater-Koster parameter-set directory containing every required element-pair .skf file (for example 3ob or matsci), supplied as a workspace Artifact"
+            "Explicit ResourceRef to dftb_3ob_3_1 or dftb_matsci_0_3 with all required directed element-pair SKF files; workspace directory ArtifactRefs remain accepted"
           ],
           "license_class": "open_source",
           "install_notes": ""
@@ -1006,12 +1043,14 @@
           ],
           "pip_packages": [],
           "required_data_resources": [
-            "SIESTA PSF or compatible pseudopotentials covering every element, supplied as workspace Artifacts"
+            "Explicit ResourceRefs from siesta_pseudo_dojo_nc_sr_05_pbe_standard_psml, one per element; workspace ArtifactRefs remain accepted"
           ],
           "license_class": "open_source",
           "install_notes": ""
         }
       },
+      "allowed_unavailable_backends": [],
+      "unexpected_unavailable_backends": [],
       "modules": {},
       "commands": {
         "dftb+": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/periodic/bin/dftb+",
@@ -1031,6 +1070,7 @@
       "manual_commands": {},
       "live_checks": {},
       "required_ok": true,
+      "runtime_group": "profiles",
       "returncode": 0
     },
     "phonons": {
@@ -1098,6 +1138,8 @@
           "install_notes": ""
         }
       },
+      "allowed_unavailable_backends": [],
+      "unexpected_unavailable_backends": [],
       "modules": {
         "phono3py": {
           "available": true,
@@ -1122,6 +1164,7 @@
       "manual_commands": {},
       "live_checks": {},
       "required_ok": true,
+      "runtime_group": "profiles",
       "returncode": 0
     },
     "md": {
@@ -1345,6 +1388,8 @@
           "install_notes": ""
         }
       },
+      "allowed_unavailable_backends": [],
+      "unexpected_unavailable_backends": [],
       "modules": {
         "MDAnalysis": {
           "available": true,
@@ -1379,6 +1424,7 @@
       "manual_commands": {},
       "live_checks": {},
       "required_ok": true,
+      "runtime_group": "profiles",
       "returncode": 0
     },
     "openff": {
@@ -1451,6 +1497,8 @@
           "install_notes": ""
         }
       },
+      "allowed_unavailable_backends": [],
+      "unexpected_unavailable_backends": [],
       "modules": {
         "openff.interchange": {
           "available": true,
@@ -1475,6 +1523,7 @@
       "manual_commands": {},
       "live_checks": {},
       "required_ok": true,
+      "runtime_group": "profiles",
       "returncode": 0
     },
     "mlip": {
@@ -1546,6 +1595,8 @@
           "install_notes": ""
         }
       },
+      "allowed_unavailable_backends": [],
+      "unexpected_unavailable_backends": [],
       "modules": {
         "ase": {
           "available": true,
@@ -1575,10 +1626,16 @@
         "returncode": 0,
         "output": "No broken requirements found."
       },
-      "model_checks": {},
+      "model_checks": {
+        "mace_medium_mpa_0": {
+          "success": true,
+          "energy_ev": -0.88549809819065
+        }
+      },
       "manual_commands": {},
       "live_checks": {},
       "required_ok": true,
+      "runtime_group": "profiles",
       "returncode": 0
     },
     "docking": {
@@ -1621,32 +1678,30 @@
           "install_notes": ""
         },
         "gnina": {
-          "status": "unavailable",
-          "available": false,
+          "status": "available",
+          "available": true,
           "runtime": "docking",
           "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/docking/bin/python",
           "runtime_python_exists": true,
           "python_modules": {},
           "executables": {
-            "gnina": null
+            "gnina": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/gnina/1.3.3/gnina.cuda12.8.static"
           },
           "environment": {
-            "CHEMGRAPH_GNINA_COMMAND": false
+            "CHEMGRAPH_GNINA_COMMAND": true
           },
           "missing_python_modules": [],
-          "missing_executables": [
-            "gnina"
-          ],
-          "missing_environment": [
-            "CHEMGRAPH_GNINA_COMMAND"
-          ],
+          "missing_executables": [],
+          "missing_environment": [],
           "conda_packages": [],
           "pip_packages": [],
           "required_data_resources": [],
           "license_class": "open_source",
-          "install_notes": "Download a GNINA release binary and set CHEMGRAPH_GNINA_COMMAND."
+          "install_notes": "Configured from registered GNINA 1.3.3 CUDA 12.8 binary; rerun scripts/configure_toolbox_resources.py to verify/relink."
         }
       },
+      "allowed_unavailable_backends": [],
+      "unexpected_unavailable_backends": [],
       "modules": {
         "vina": {
           "available": true,
@@ -1654,7 +1709,8 @@
         }
       },
       "commands": {
-        "vina": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/docking/bin/vina"
+        "vina": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/docking/bin/vina",
+        "gnina": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/docking/bin/gnina"
       },
       "external_commands": {},
       "dependency_check": {
@@ -1663,11 +1719,93 @@
         "output": "No broken requirements found."
       },
       "model_checks": {},
-      "manual_commands": {
-        "gnina": null
-      },
+      "manual_commands": {},
       "live_checks": {},
       "required_ok": true,
+      "runtime_group": "profiles",
+      "returncode": 0
+    },
+    "abinit": {
+      "profile": "abinit",
+      "conda_name": "researchchem-abinit",
+      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/abinit/bin/python3.10",
+      "python_version": "3.10.20",
+      "expected_backends": [
+        "abinit"
+      ],
+      "backend_health": {
+        "abinit": {
+          "status": "available",
+          "available": true,
+          "runtime": "abinit",
+          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/abinit/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {
+            "numpy": {
+              "available": true,
+              "version": "2.2.6"
+            },
+            "pydantic": {
+              "available": true,
+              "version": "2.13.4"
+            },
+            "yaml": {
+              "available": true,
+              "version": null
+            }
+          },
+          "executables": {
+            "abinit": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/abinit/bin/abinit"
+          },
+          "environment": {
+            "CHEMGRAPH_ABINIT_COMMAND": false
+          },
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [
+            "CHEMGRAPH_ABINIT_COMMAND"
+          ],
+          "conda_packages": [
+            "abinit"
+          ],
+          "pip_packages": [],
+          "required_data_resources": [
+            "Explicit ResourceRefs from abinit_pseudo_dojo_nc_sr_pbe_standard_psp8, one per element; workspace ArtifactRefs remain accepted"
+          ],
+          "license_class": "open_source",
+          "install_notes": ""
+        }
+      },
+      "allowed_unavailable_backends": [],
+      "unexpected_unavailable_backends": [],
+      "modules": {
+        "numpy": {
+          "available": true,
+          "version": "2.2.6"
+        },
+        "pydantic": {
+          "available": true,
+          "version": "2.13.4"
+        },
+        "yaml": {
+          "available": true,
+          "version": "6.0.3"
+        }
+      },
+      "commands": {
+        "abinit": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/abinit/bin/abinit"
+      },
+      "external_commands": {},
+      "dependency_check": {
+        "success": true,
+        "returncode": 0,
+        "output": "No broken requirements found."
+      },
+      "model_checks": {},
+      "manual_commands": {},
+      "live_checks": {},
+      "required_ok": true,
+      "runtime_group": "support_environments",
       "returncode": 0
     }
   }

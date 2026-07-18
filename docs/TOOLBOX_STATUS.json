@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-18T16:21:12.941535+00:00",
+  "generated_at": "2026-07-18T17:49:22.449468+00:00",
   "scientific_actions": 40,
   "data_actions": 4,
   "backend_count": 45,
@@ -25,9 +25,10 @@
     }
   ],
   "catalog": {
-    "schema_version": 2,
+    "schema_version": 3,
     "exposure_policy": "atomic_all",
     "backend_selection_policy": "agent_required",
+    "scientific_resource_selection_policy": "agent_explicit_no_default",
     "automatic_fallback": false,
     "actions": [
       {
@@ -2889,11 +2890,17 @@
         ],
         "pip_packages": [],
         "required_data_resources": [
-          "UPF pseudopotentials covering every element in the calculation (for example SSSP or PseudoDojo), supplied as workspace Artifacts"
+          "Explicit ResourceRefs from qe_sssp_1_3_pbe_efficiency or qe_sssp_1_3_pbe_precision, one per element; workspace ArtifactRefs remain accepted"
         ],
         "license_class": "open_source",
         "install_notes": "",
-        "method_schema": {},
+        "method_schema": {
+          "pseudopotentials": "element -> resource://<SSSP resource id>/<Element> or workspace ArtifactRef",
+          "input_dft": "explicit Quantum ESPRESSO XC identifier compatible with the selected resources",
+          "ecutwfc_ry": "explicit wavefunction cutoff in Ry; SSSP per-element recommendations are exposed in the resource catalog",
+          "ecutrho_ry": "optional explicit charge-density cutoff in Ry",
+          "k_points": "{grid:[nx,ny,nz], shift:[sx,sy,sz]}"
+        },
         "required_method_fields": {
           "calculate_periodic_energy": [
             "input_dft",
@@ -2948,7 +2955,7 @@
           ],
           "pip_packages": [],
           "required_data_resources": [
-            "UPF pseudopotentials covering every element in the calculation (for example SSSP or PseudoDojo), supplied as workspace Artifacts"
+            "Explicit ResourceRefs from qe_sssp_1_3_pbe_efficiency or qe_sssp_1_3_pbe_precision, one per element; workspace ArtifactRefs remain accepted"
           ],
           "license_class": "open_source",
           "install_notes": ""
@@ -3068,11 +3075,18 @@
         ],
         "pip_packages": [],
         "required_data_resources": [
-          "SIESTA PSF or compatible pseudopotentials covering every element, supplied as workspace Artifacts"
+          "Explicit ResourceRefs from siesta_pseudo_dojo_nc_sr_05_pbe_standard_psml, one per element; workspace ArtifactRefs remain accepted"
         ],
         "license_class": "open_source",
         "install_notes": "",
-        "method_schema": {},
+        "method_schema": {
+          "pseudopotentials": "element -> resource://siesta_pseudo_dojo_nc_sr_05_pbe_standard_psml/<Element>",
+          "xc_functional": "explicit SIESTA XC family compatible with selected PSML files",
+          "xc_authors": "explicit SIESTA XC parametrization",
+          "basis_size": "explicit PAO basis size",
+          "mesh_cutoff_ry": "explicit real-space mesh cutoff in Ry",
+          "k_points": "{grid:[nx,ny,nz], shift:[sx,sy,sz]}"
+        },
         "required_method_fields": {
           "calculate_periodic_energy": [
             "xc_functional",
@@ -3127,7 +3141,7 @@
           ],
           "pip_packages": [],
           "required_data_resources": [
-            "SIESTA PSF or compatible pseudopotentials covering every element, supplied as workspace Artifacts"
+            "Explicit ResourceRefs from siesta_pseudo_dojo_nc_sr_05_pbe_standard_psml, one per element; workspace ArtifactRefs remain accepted"
           ],
           "license_class": "open_source",
           "install_notes": ""
@@ -3155,27 +3169,52 @@
         ],
         "pip_packages": [],
         "required_data_resources": [
-          "A DFTB+ Slater-Koster parameter-set directory containing every required element-pair .skf file (for example 3ob or matsci), supplied as a workspace Artifact"
+          "Explicit ResourceRef to dftb_3ob_3_1 or dftb_matsci_0_3 with all required directed element-pair SKF files; workspace directory ArtifactRefs remain accepted"
         ],
         "license_class": "open_source",
         "install_notes": "",
-        "method_schema": {},
+        "method_schema": {
+          "parameter_set": "resource://dftb_3ob_3_1 or resource://dftb_matsci_0_3",
+          "k_points": "{grid:[nx,ny,nz], shift:[sx,sy,sz]}",
+          "scc": "explicit boolean selecting SCC or non-SCC DFTB",
+          "max_angular_momenta": "element -> s|p|d|f, explicitly selected for the parameter family",
+          "third_order_full": "optional explicit DFTB3 full third-order toggle",
+          "hubbard_derivatives": "optional element -> atomic Hubbard derivative mapping",
+          "damp_xh_exponent": "optional explicit gamma^h damping exponent (3ob commonly documents 4.0)",
+          "fermi_temperature_kelvin": "optional explicit electronic filling temperature"
+        },
         "required_method_fields": {
           "calculate_periodic_energy": [
             "parameter_set",
-            "k_points"
+            "k_points",
+            "scc",
+            "max_angular_momenta"
           ],
           "calculate_periodic_forces": [
             "parameter_set",
-            "k_points"
+            "k_points",
+            "scc",
+            "max_angular_momenta"
           ],
           "relax_periodic_structure": [
             "parameter_set",
-            "k_points"
+            "k_points",
+            "scc",
+            "max_angular_momenta"
           ]
         },
         "required_setting_fields": {
+          "calculate_periodic_energy": [
+            "scc_tolerance",
+            "max_scc_iterations"
+          ],
+          "calculate_periodic_forces": [
+            "scc_tolerance",
+            "max_scc_iterations"
+          ],
           "relax_periodic_structure": [
+            "scc_tolerance",
+            "max_scc_iterations",
             "force_threshold_ev_per_angstrom",
             "max_steps",
             "relax_cell"
@@ -3202,7 +3241,7 @@
           ],
           "pip_packages": [],
           "required_data_resources": [
-            "A DFTB+ Slater-Koster parameter-set directory containing every required element-pair .skf file (for example 3ob or matsci), supplied as a workspace Artifact"
+            "Explicit ResourceRef to dftb_3ob_3_1 or dftb_matsci_0_3 with all required directed element-pair SKF files; workspace directory ArtifactRefs remain accepted"
           ],
           "license_class": "open_source",
           "install_notes": ""
@@ -3219,7 +3258,11 @@
           "relax_periodic_structure"
         ],
         "description": "ABINIT calculations rendered from typed structures/settings.",
-        "python_modules": [],
+        "python_modules": [
+          "numpy",
+          "pydantic",
+          "yaml"
+        ],
         "executables": [
           "abinit"
         ],
@@ -3231,11 +3274,16 @@
         ],
         "pip_packages": [],
         "required_data_resources": [
-          "ABINIT-compatible pseudopotentials covering every element, supplied as workspace Artifacts"
+          "Explicit ResourceRefs from abinit_pseudo_dojo_nc_sr_pbe_standard_psp8, one per element; workspace ArtifactRefs remain accepted"
         ],
         "license_class": "open_source",
         "install_notes": "",
-        "method_schema": {},
+        "method_schema": {
+          "pseudopotentials": "element -> resource://abinit_pseudo_dojo_nc_sr_pbe_standard_psp8/<Element>",
+          "ixc": "explicit ABINIT XC code compatible with the selected PSP8 files",
+          "ecut_hartree": "explicit plane-wave cutoff in Hartree",
+          "k_points": "{grid:[nx,ny,nz], shift:[sx,sy,sz]}"
+        },
         "required_method_fields": {
           "calculate_periodic_energy": [
             "ixc",
@@ -3275,7 +3323,20 @@
           "runtime": "abinit",
           "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/abinit/bin/python",
           "runtime_python_exists": true,
-          "python_modules": {},
+          "python_modules": {
+            "numpy": {
+              "available": true,
+              "version": "2.2.6"
+            },
+            "pydantic": {
+              "available": true,
+              "version": "2.13.4"
+            },
+            "yaml": {
+              "available": true,
+              "version": null
+            }
+          },
           "executables": {
             "abinit": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/abinit/bin/abinit"
           },
@@ -3292,7 +3353,7 @@
           ],
           "pip_packages": [],
           "required_data_resources": [
-            "ABINIT-compatible pseudopotentials covering every element, supplied as workspace Artifacts"
+            "Explicit ResourceRefs from abinit_pseudo_dojo_nc_sr_pbe_standard_psp8, one per element; workspace ArtifactRefs remain accepted"
           ],
           "license_class": "open_source",
           "install_notes": ""
@@ -3515,8 +3576,12 @@
         "pip_packages": [],
         "required_data_resources": [],
         "license_class": "open_source",
-        "install_notes": "Download a GNINA release binary and set CHEMGRAPH_GNINA_COMMAND.",
-        "method_schema": {},
+        "install_notes": "Configured from registered GNINA 1.3.3 CUDA 12.8 binary; rerun scripts/configure_toolbox_resources.py to verify/relink.",
+        "method_schema": {
+          "cnn_model": "builtin_default or an explicit GNINA built-in --cnn model name",
+          "cnn_scoring": "optional GNINA mode: none|rescore|refinement|metrorescore|metrorefine|all",
+          "scoring_function": "optional explicit empirical scoring function"
+        },
         "required_method_fields": {
           "dock_ligand": [
             "cnn_model"
@@ -3526,34 +3591,30 @@
           "dock_ligand": [
             "exhaustiveness",
             "num_modes",
-            "energy_range_kcal_mol"
+            "use_gpu"
           ]
         },
         "health": {
-          "status": "unavailable",
-          "available": false,
+          "status": "available",
+          "available": true,
           "runtime": "docking",
           "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/docking/bin/python",
           "runtime_python_exists": true,
           "python_modules": {},
           "executables": {
-            "gnina": null
+            "gnina": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/gnina/1.3.3/gnina.cuda12.8.static"
           },
           "environment": {
-            "CHEMGRAPH_GNINA_COMMAND": false
+            "CHEMGRAPH_GNINA_COMMAND": true
           },
           "missing_python_modules": [],
-          "missing_executables": [
-            "gnina"
-          ],
-          "missing_environment": [
-            "CHEMGRAPH_GNINA_COMMAND"
-          ],
+          "missing_executables": [],
+          "missing_environment": [],
           "conda_packages": [],
           "pip_packages": [],
           "required_data_resources": [],
           "license_class": "open_source",
-          "install_notes": "Download a GNINA release binary and set CHEMGRAPH_GNINA_COMMAND."
+          "install_notes": "Configured from registered GNINA 1.3.3 CUDA 12.8 binary; rerun scripts/configure_toolbox_resources.py to verify/relink."
         }
       },
       {
@@ -3661,8 +3722,9 @@
         "capabilities": [
           "search_materials"
         ],
-        "description": "Materials Project mp-api requiring an MP_API_KEY for live access.",
+        "description": "Materials Project summary REST API requiring an MP_API_KEY for live access; bounded HTTP timeouts avoid unbounded client initialization.",
         "python_modules": [
+          "httpx",
           "mp_api"
         ],
         "executables": [],
@@ -3686,6 +3748,10 @@
           "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
+            "httpx": {
+              "available": true,
+              "version": "0.28.1"
+            },
             "mp_api": {
               "available": true,
               "version": "0.45.13"
@@ -3757,11 +3823,2375 @@
         }
       }
     ],
-    "catalog_hash": "424356a552bb106c17d1e4920d9624a217341ccbe96c4cd4047fee0d9d8383ca"
+    "resources": [
+      {
+        "id": "qe_sssp_1_3_pbe_efficiency",
+        "display_name": "SSSP 1.3.0 PBE efficiency",
+        "kind": "element_file_collection",
+        "selectable": true,
+        "compatible_backends": [
+          "quantum_espresso"
+        ],
+        "format": "UPF",
+        "version": "1.3.0",
+        "xc_functional": "PBE",
+        "relativistic_treatment": "mixed collection; inspect per-element UPF metadata",
+        "path": "download/qe_pseudos/efficiency",
+        "manifest": "download/qe_pseudos/SSSP_1.3.0_PBE_efficiency.json",
+        "manifest_filename_field": "filename",
+        "manifest_checksum_field": "md5",
+        "expected_file_count": 103,
+        "archive": {
+          "path": "download/qe_pseudos/SSSP_1.3.0_PBE_efficiency.tar.gz",
+          "checksum_algorithm": "md5",
+          "checksum": "a58f1b3373f330179fd0832c48bb9a52",
+          "extract_to": "download/qe_pseudos/efficiency"
+        },
+        "source_url": "https://archive.materialscloud.org/records/rcyfm-68h65/files/SSSP_1.3.0_PBE_efficiency.tar.gz?download=1",
+        "license_and_citation": "Follow the SSSP collection metadata and citations; individual UPF files may carry their own provenance/license metadata.",
+        "scientific_scope": "Cost-conscious PBE plane-wave calculations. The agent remains responsible for choosing the collection and explicit cutoffs.",
+        "metadata_fields": [
+          "filename",
+          "md5",
+          "pseudopotential",
+          "cutoff_wfc",
+          "cutoff_rho"
+        ],
+        "available": true,
+        "selection_required": true,
+        "selection_syntax": "resource://qe_sssp_1_3_pbe_efficiency/<Element>",
+        "elements": [
+          "Ac",
+          "Ag",
+          "Al",
+          "Am",
+          "Ar",
+          "As",
+          "At",
+          "Au",
+          "B",
+          "Ba",
+          "Be",
+          "Bi",
+          "Bk",
+          "Br",
+          "C",
+          "Ca",
+          "Cd",
+          "Ce",
+          "Cf",
+          "Cl",
+          "Cm",
+          "Co",
+          "Cr",
+          "Cs",
+          "Cu",
+          "Dy",
+          "Er",
+          "Es",
+          "Eu",
+          "F",
+          "Fe",
+          "Fm",
+          "Fr",
+          "Ga",
+          "Gd",
+          "Ge",
+          "H",
+          "He",
+          "Hf",
+          "Hg",
+          "Ho",
+          "I",
+          "In",
+          "Ir",
+          "K",
+          "Kr",
+          "La",
+          "Li",
+          "Lr",
+          "Lu",
+          "Md",
+          "Mg",
+          "Mn",
+          "Mo",
+          "N",
+          "Na",
+          "Nb",
+          "Nd",
+          "Ne",
+          "Ni",
+          "No",
+          "Np",
+          "O",
+          "Os",
+          "P",
+          "Pa",
+          "Pb",
+          "Pd",
+          "Pm",
+          "Po",
+          "Pr",
+          "Pt",
+          "Pu",
+          "Ra",
+          "Rb",
+          "Re",
+          "Rh",
+          "Rn",
+          "Ru",
+          "S",
+          "Sb",
+          "Sc",
+          "Se",
+          "Si",
+          "Sm",
+          "Sn",
+          "Sr",
+          "Ta",
+          "Tb",
+          "Tc",
+          "Te",
+          "Th",
+          "Ti",
+          "Tl",
+          "Tm",
+          "U",
+          "V",
+          "W",
+          "Xe",
+          "Y",
+          "Yb",
+          "Zn",
+          "Zr"
+        ],
+        "element_count": 103,
+        "element_metadata": {
+          "Ac": {
+            "filename": "Ac.us.z_11.ld1.psl.v1.0.0-high.upf",
+            "md5": "3a78bb30464666358a3ec0edb47f6656",
+            "pseudopotential": "100US",
+            "cutoff_wfc": 40.0,
+            "cutoff_rho": 320.0
+          },
+          "Ag": {
+            "filename": "Ag_ONCV_PBE-1.0.oncvpsp.upf",
+            "md5": "94f47bd0669c641108e45594df92fabc",
+            "pseudopotential": "SG15",
+            "cutoff_wfc": 50.0,
+            "cutoff_rho": 200.0
+          },
+          "Al": {
+            "filename": "Al.pbe-n-kjpaw_psl.1.0.0.UPF",
+            "md5": "cfc449ca30b5f3223ec38ddd88ac046d",
+            "pseudopotential": "100PAW",
+            "cutoff_wfc": 30.0,
+            "cutoff_rho": 240.0
+          },
+          "Am": {
+            "filename": "Am.paw.z_17.ld1.uni-marburg.v0.upf",
+            "md5": "b90604daea46e7f2635bfe47e71ce977",
+            "pseudopotential": "MalteSachs",
+            "cutoff_wfc": 60.0,
+            "cutoff_rho": 480.0
+          },
+          "Ar": {
+            "filename": "Ar_ONCV_PBE-1.1.oncvpsp.upf",
+            "md5": "46d28409cdd246843f76b7675277a949",
+            "pseudopotential": "SG15-1.1",
+            "cutoff_wfc": 60.0,
+            "cutoff_rho": 240.0
+          },
+          "As": {
+            "filename": "As.pbe-n-rrkjus_psl.0.2.UPF",
+            "md5": "767315de957beeeb34f87d97bf945c8f",
+            "pseudopotential": "031US",
+            "cutoff_wfc": 35.0,
+            "cutoff_rho": 280.0
+          },
+          "At": {
+            "filename": "At.us.z_17.ld1.psl.v1.0.0-high.upf",
+            "md5": "171e941146fbb8d42c50c0ba61055d18",
+            "pseudopotential": "100US",
+            "cutoff_wfc": 80.0,
+            "cutoff_rho": 640.0
+          },
+          "Au": {
+            "filename": "Au_ONCV_PBE-1.0.oncvpsp.upf",
+            "md5": "d14007822ba0e19f0206237467fc06c2",
+            "pseudopotential": "SG15",
+            "cutoff_wfc": 45.0,
+            "cutoff_rho": 180.0
+          },
+          "B": {
+            "filename": "b_pbe_v1.4.uspp.F.UPF",
+            "md5": "cc6de2960df11db49a60e589f9ebb39b",
+            "pseudopotential": "GBRV-1.4",
+            "cutoff_wfc": 35.0,
+            "cutoff_rho": 280.0
+          },
+          "Ba": {
+            "filename": "Ba.pbe-spn-kjpaw_psl.1.0.0.UPF",
+            "md5": "c432291d3e53af55f19d5e8866385beb",
+            "pseudopotential": "100PAW",
+            "cutoff_wfc": 30.0,
+            "cutoff_rho": 240.0
+          },
+          "Be": {
+            "filename": "be_pbe_v1.4.uspp.F.UPF",
+            "md5": "5ecff1440924c7c98ad504bef30f5264",
+            "pseudopotential": "GBRV-1.4",
+            "cutoff_wfc": 40.0,
+            "cutoff_rho": 320.0
+          },
+          "Bi": {
+            "filename": "Bi_pbe_v1.uspp.F.UPF",
+            "md5": "cceb9f28ec65b6d7ff33140f5b0b1758",
+            "pseudopotential": "GBRV-1.2",
+            "cutoff_wfc": 45.0,
+            "cutoff_rho": 360.0
+          },
+          "Bk": {
+            "filename": "Bk.paw.z_19.ld1.uni-marburg.v0.upf",
+            "md5": "34a5c1d9790ca2603c79955cdb099600",
+            "pseudopotential": "MalteSachs",
+            "cutoff_wfc": 60.0,
+            "cutoff_rho": 480.0
+          },
+          "Br": {
+            "filename": "br_pbe_v1.4.uspp.F.UPF",
+            "md5": "d3ffb7b29f6225aa16fe06858fb2a80b",
+            "pseudopotential": "GBRV-1.4",
+            "cutoff_wfc": 30.0,
+            "cutoff_rho": 240.0
+          },
+          "C": {
+            "filename": "C.pbe-n-kjpaw_psl.1.0.0.UPF",
+            "md5": "5d2aebdfa2cae82b50a7e79e9516da0f",
+            "pseudopotential": "100PAW",
+            "cutoff_wfc": 45.0,
+            "cutoff_rho": 360.0
+          },
+          "Ca": {
+            "filename": "Ca_pbe_v1.uspp.F.UPF",
+            "md5": "403a4c14b9e4d4dfdc3024c9a3812218",
+            "pseudopotential": "GBRV-1.2",
+            "cutoff_wfc": 30.0,
+            "cutoff_rho": 240.0
+          },
+          "Cd": {
+            "filename": "Cd.pbe-dn-rrkjus_psl.0.3.1.UPF",
+            "md5": "558e9f355611b531a870a69ef6ace9e2",
+            "pseudopotential": "031US",
+            "cutoff_wfc": 60.0,
+            "cutoff_rho": 480.0
+          },
+          "Ce": {
+            "filename": "Ce.paw.z_12.atompaw.wentzcovitch.v1.2.upf",
+            "md5": "2241420ff980c77e0c917a2dc8a7e08e",
+            "pseudopotential": "Wentzcovitch",
+            "cutoff_wfc": 50.0,
+            "cutoff_rho": 400.0
+          },
+          "Cf": {
+            "filename": "Cf.paw.z_20.ld1.uni-marburg.v0.upf",
+            "md5": "0e4adf7627c2d1305f26dd63271f2b94",
+            "pseudopotential": "MalteSachs",
+            "cutoff_wfc": 60.0,
+            "cutoff_rho": 480.0
+          },
+          "Cl": {
+            "filename": "cl_pbe_v1.4.uspp.F.UPF",
+            "md5": "fc6f6913ecf08c9257cb748ef0700058",
+            "pseudopotential": "GBRV-1.4",
+            "cutoff_wfc": 40.0,
+            "cutoff_rho": 320.0
+          },
+          "Cm": {
+            "filename": "Cm.paw.z_18.ld1.uni-marburg.v0.upf",
+            "md5": "fa6219561ad2ecb899c96af402755927",
+            "pseudopotential": "MalteSachs",
+            "cutoff_wfc": 60.0,
+            "cutoff_rho": 480.0
+          },
+          "Co": {
+            "filename": "Co_pbe_v1.2.uspp.F.UPF",
+            "md5": "5f91765df6ddd3222702df6e7b74a16d",
+            "pseudopotential": "GBRV-1.2",
+            "cutoff_wfc": 45.0,
+            "cutoff_rho": 360.0
+          },
+          "Cr": {
+            "filename": "cr_pbe_v1.5.uspp.F.UPF",
+            "md5": "0d52af634a40206e4dee301ad30da4bf",
+            "pseudopotential": "GBRV-1.5",
+            "cutoff_wfc": 40.0,
+            "cutoff_rho": 320.0
+          },
+          "Cs": {
+            "filename": "Cs_pbe_v1.uspp.F.UPF",
+            "md5": "3476d69cb178dfad3ffaa59df4e07ca4",
+            "pseudopotential": "GBRV-1.2",
+            "cutoff_wfc": 30.0,
+            "cutoff_rho": 240.0
+          },
+          "Cu": {
+            "filename": "Cu.paw.z_11.ld1.psl.v1.0.0-low.upf",
+            "md5": "619f40885d92a09a85a8b37550532d0c",
+            "pseudopotential": "100PAW-low",
+            "cutoff_wfc": 90.0,
+            "cutoff_rho": 720.0
+          },
+          "Dy": {
+            "filename": "Dy.paw.z_20.atompaw.wentzcovitch.v1.2.upf",
+            "md5": "fad4f994dc38884d1fc17fd7bf5e13bf",
+            "pseudopotential": "Wentzcovitch",
+            "cutoff_wfc": 40.0,
+            "cutoff_rho": 320.0
+          },
+          "Er": {
+            "filename": "Er.paw.z_22.atompaw.wentzcovitch.v1.2.upf",
+            "md5": "5ba6a5c626b1678e031aafe1da34e245",
+            "pseudopotential": "Wentzcovitch",
+            "cutoff_wfc": 40.0,
+            "cutoff_rho": 320.0
+          },
+          "Es": {
+            "filename": "Es.paw.z_21.ld1.uni-marburg.v0.upf",
+            "md5": "4bc7a67aee4e34db40c77f63d9e88986",
+            "pseudopotential": "MalteSachs",
+            "cutoff_wfc": 60.0,
+            "cutoff_rho": 480.0
+          },
+          "Eu": {
+            "filename": "Eu.paw.z_17.atompaw.wentzcovitch.v1.2.upf",
+            "md5": "52b6e423bc4e840b6e0dc4248fa51623",
+            "pseudopotential": "Wentzcovitch",
+            "cutoff_wfc": 40.0,
+            "cutoff_rho": 320.0
+          },
+          "F": {
+            "filename": "f_pbe_v1.4.uspp.F.UPF",
+            "md5": "4c38b6a325caf53ec0e86aed9459de46",
+            "pseudopotential": "GBRV-1.4",
+            "cutoff_wfc": 45.0,
+            "cutoff_rho": 360.0
+          },
+          "Fe": {
+            "filename": "Fe.pbe-spn-kjpaw_psl.0.2.1.UPF",
+            "md5": "e86618425769142926afa95317d90200",
+            "pseudopotential": "031PAW",
+            "cutoff_wfc": 90.0,
+            "cutoff_rho": 1080.0
+          },
+          "Fm": {
+            "filename": "Fm.paw.z_22.ld1.uni-marburg.v0.upf",
+            "md5": "2a5ec34d2abb196d3027bbefca4b5922",
+            "pseudopotential": "MalteSachs",
+            "cutoff_wfc": 60.0,
+            "cutoff_rho": 480.0
+          },
+          "Fr": {
+            "filename": "Fr.paw.z_19.ld1.psl.v1.0.0-high.upf",
+            "md5": "4e1baa83397213ef351c329de67c4222",
+            "pseudopotential": "100PAW",
+            "cutoff_wfc": 150.0,
+            "cutoff_rho": 1200.0
+          },
+          "Ga": {
+            "filename": "Ga.pbe-dn-kjpaw_psl.1.0.0.UPF",
+            "md5": "a27b4342b1af7e5f338de752e9ed7044",
+            "pseudopotential": "100PAW",
+            "cutoff_wfc": 70.0,
+            "cutoff_rho": 560.0
+          },
+          "Gd": {
+            "filename": "Gd.paw.z_18.atompaw.wentzcovitch.v1.2.upf",
+            "md5": "a44f32af2ba180e1a67c5cef9ff7f39b",
+            "pseudopotential": "Wentzcovitch",
+            "cutoff_wfc": 40.0,
+            "cutoff_rho": 320.0
+          },
+          "Ge": {
+            "filename": "ge_pbe_v1.4.uspp.F.UPF",
+            "md5": "9c9eaa91e581c3f09632fb3098b2c6b2",
+            "pseudopotential": "GBRV-1.4",
+            "cutoff_wfc": 40.0,
+            "cutoff_rho": 320.0
+          },
+          "H": {
+            "filename": "H.pbe-rrkjus_psl.1.0.0.UPF",
+            "md5": "f52b6d4d1c606e5624b1dc7b2218f220",
+            "pseudopotential": "100US",
+            "cutoff_wfc": 60.0,
+            "cutoff_rho": 480.0
+          },
+          "He": {
+            "filename": "He_ONCV_PBE-1.0.oncvpsp.upf",
+            "md5": "e7160162b946020f132a727efeb32d00",
+            "pseudopotential": "SG15",
+            "cutoff_wfc": 50.0,
+            "cutoff_rho": 200.0
+          },
+          "Hf": {
+            "filename": "Hf-sp.oncvpsp.upf",
+            "md5": "417ed15784afe83d2e06dacf143de3f8",
+            "pseudopotential": "Dojo",
+            "cutoff_wfc": 50.0,
+            "cutoff_rho": 200.0
+          },
+          "Hg": {
+            "filename": "Hg_ONCV_PBE-1.0.oncvpsp.upf",
+            "md5": "dd5a8773074bfcf4280086d4d95875c4",
+            "pseudopotential": "SG15",
+            "cutoff_wfc": 50.0,
+            "cutoff_rho": 200.0
+          },
+          "Ho": {
+            "filename": "Ho.paw.z_21.atompaw.wentzcovitch.v1.2.upf",
+            "md5": "f900adcc49abc9ab8113872cdbacec3e",
+            "pseudopotential": "Wentzcovitch",
+            "cutoff_wfc": 40.0,
+            "cutoff_rho": 320.0
+          },
+          "I": {
+            "filename": "I.pbe-n-kjpaw_psl.0.2.UPF",
+            "md5": "d4ef18d9c8f18dc85e5843bca1e50dc0",
+            "pseudopotential": "031PAW",
+            "cutoff_wfc": 35.0,
+            "cutoff_rho": 280.0
+          },
+          "In": {
+            "filename": "In.pbe-dn-rrkjus_psl.0.2.2.UPF",
+            "md5": "25e7c42c3b55b68f4bf926be2e7201a4",
+            "pseudopotential": "031US",
+            "cutoff_wfc": 50.0,
+            "cutoff_rho": 400.0
+          },
+          "Ir": {
+            "filename": "Ir_pbe_v1.2.uspp.F.UPF",
+            "md5": "8836f839c3459d2b385c504ce6d91f2c",
+            "pseudopotential": "GBRV-1.2",
+            "cutoff_wfc": 55.0,
+            "cutoff_rho": 440.0
+          },
+          "K": {
+            "filename": "K.pbe-spn-kjpaw_psl.1.0.0.UPF",
+            "md5": "7d58810084cac21f60fbe77ea2b688fd",
+            "pseudopotential": "100PAW",
+            "cutoff_wfc": 60.0,
+            "cutoff_rho": 480.0
+          },
+          "Kr": {
+            "filename": "Kr_ONCV_PBE-1.0.oncvpsp.upf",
+            "md5": "f2280ecf57a6c8a47e066f0532d843fa",
+            "pseudopotential": "SG15",
+            "cutoff_wfc": 45.0,
+            "cutoff_rho": 180.0
+          },
+          "La": {
+            "filename": "La.paw.z_11.atompaw.wentzcovitch.v1.2.upf",
+            "md5": "754494e15ae71f30e5b5f678af019e01",
+            "pseudopotential": "Wentzcovitch",
+            "cutoff_wfc": 40.0,
+            "cutoff_rho": 320.0
+          },
+          "Li": {
+            "filename": "li_pbe_v1.4.uspp.F.UPF",
+            "md5": "e912e257baa3777c20ea3d68f190483c",
+            "pseudopotential": "GBRV-1.4",
+            "cutoff_wfc": 40.0,
+            "cutoff_rho": 320.0
+          },
+          "Lr": {
+            "filename": "Lr.paw.z_25.ld1.uni-marburg.v0.upf",
+            "md5": "f945946d0d1ec8347dc1259eb00091c8",
+            "pseudopotential": "MalteSachs",
+            "cutoff_wfc": 60.0,
+            "cutoff_rho": 480.0
+          },
+          "Lu": {
+            "filename": "Lu.paw.z_25.atompaw.wentzcovitch.v1.2.upf",
+            "md5": "a517b3205eadf2aa79773283867f4cbe",
+            "pseudopotential": "Wentzcovitch",
+            "cutoff_wfc": 45.0,
+            "cutoff_rho": 360.0
+          },
+          "Md": {
+            "filename": "Md.paw.z_23.ld1.uni-marburg.v0.upf",
+            "md5": "e3e4fed06ac619855d80864afca10136",
+            "pseudopotential": "MalteSachs",
+            "cutoff_wfc": 60.0,
+            "cutoff_rho": 480.0
+          },
+          "Mg": {
+            "filename": "Mg.pbe-n-kjpaw_psl.0.3.0.UPF",
+            "md5": "24ecedc7f3e3cbe212e682f4413594e4",
+            "pseudopotential": "031PAW",
+            "cutoff_wfc": 30.0,
+            "cutoff_rho": 240.0
+          },
+          "Mn": {
+            "filename": "mn_pbe_v1.5.uspp.F.UPF",
+            "md5": "82ef2b46521d7a7d9e736dc3972e4928",
+            "pseudopotential": "GBRV-1.5",
+            "cutoff_wfc": 65.0,
+            "cutoff_rho": 780.0
+          },
+          "Mo": {
+            "filename": "Mo_ONCV_PBE-1.0.oncvpsp.upf",
+            "md5": "1b5d28e075c9ccadda658a603575cd1f",
+            "pseudopotential": "SG15",
+            "cutoff_wfc": 35.0,
+            "cutoff_rho": 140.0
+          },
+          "N": {
+            "filename": "N.pbe-n-radius_5.UPF",
+            "md5": "16739722b17309cd8fe442a2ace49922",
+            "pseudopotential": "THEOS",
+            "cutoff_wfc": 60.0,
+            "cutoff_rho": 480.0
+          },
+          "Na": {
+            "filename": "na_pbe_v1.5.uspp.F.UPF",
+            "md5": "44600605ef58000f06b90626533354dc",
+            "pseudopotential": "GBRV-1.5",
+            "cutoff_wfc": 40.0,
+            "cutoff_rho": 320.0
+          },
+          "Nb": {
+            "filename": "Nb.pbe-spn-kjpaw_psl.0.3.0.UPF",
+            "md5": "411d72ad547312f8017e2943ceca08cc",
+            "pseudopotential": "031PAW",
+            "cutoff_wfc": 40.0,
+            "cutoff_rho": 320.0
+          },
+          "Nd": {
+            "filename": "Nd.paw.z_14.atompaw.wentzcovitch.v1.2.upf",
+            "md5": "8a77231a7dfbac907351543c5ef6bfc9",
+            "pseudopotential": "Wentzcovitch",
+            "cutoff_wfc": 40.0,
+            "cutoff_rho": 320.0
+          },
+          "Ne": {
+            "filename": "Ne_ONCV_PBE-1.0.oncvpsp.upf",
+            "md5": "9b5acc4cb48b9d80e669eadd528e4e8f",
+            "pseudopotential": "SG15",
+            "cutoff_wfc": 50.0,
+            "cutoff_rho": 200.0
+          },
+          "Ni": {
+            "filename": "ni_pbe_v1.4.uspp.F.UPF",
+            "md5": "1ee80287db30b12d2bc1f57a5b5d6409",
+            "pseudopotential": "GBRV-1.4",
+            "cutoff_wfc": 45.0,
+            "cutoff_rho": 360.0
+          },
+          "No": {
+            "filename": "No.paw.z_24.ld1.uni-marburg.v0.upf",
+            "md5": "75d6fcbe3c3afebd97ab105f1656d1c1",
+            "pseudopotential": "MalteSachs",
+            "cutoff_wfc": 60.0,
+            "cutoff_rho": 480.0
+          },
+          "Np": {
+            "filename": "Np.paw.z_15.ld1.uni-marburg.v0.upf",
+            "md5": "2b27845584d1ae013b107a04f9c09b5b",
+            "pseudopotential": "MalteSachs",
+            "cutoff_wfc": 60.0,
+            "cutoff_rho": 480.0
+          },
+          "O": {
+            "filename": "O.pbe-n-kjpaw_psl.0.1.UPF",
+            "md5": "0234752ac141de4415c5fc33072bef88",
+            "pseudopotential": "031PAW",
+            "cutoff_wfc": 50.0,
+            "cutoff_rho": 400.0
+          },
+          "Os": {
+            "filename": "Os_pbe_v1.2.uspp.F.UPF",
+            "md5": "a3fb40a04f0c37c25c34bbc47164c9a8",
+            "pseudopotential": "GBRV-1.2",
+            "cutoff_wfc": 40.0,
+            "cutoff_rho": 320.0
+          },
+          "P": {
+            "filename": "P.pbe-n-rrkjus_psl.1.0.0.UPF",
+            "md5": "8b930f418f0a4573dca56cd030ffe088",
+            "pseudopotential": "100US",
+            "cutoff_wfc": 30.0,
+            "cutoff_rho": 240.0
+          },
+          "Pa": {
+            "filename": "Pa.paw.z_13.ld1.uni-marburg.v0.upf",
+            "md5": "d7b89857b2b2f446a6f8a94fd7fc0316",
+            "pseudopotential": "MalteSachs",
+            "cutoff_wfc": 60.0,
+            "cutoff_rho": 480.0
+          },
+          "Pb": {
+            "filename": "Pb.pbe-dn-kjpaw_psl.0.2.2.UPF",
+            "md5": "9d431e6316058b74ade52399a6cf67da",
+            "pseudopotential": "031PAW",
+            "cutoff_wfc": 40.0,
+            "cutoff_rho": 320.0
+          },
+          "Pd": {
+            "filename": "Pd_ONCV_PBE-1.0.oncvpsp.upf",
+            "md5": "eb77f42b51d86fb18e25f68156a31cf1",
+            "pseudopotential": "SG15",
+            "cutoff_wfc": 45.0,
+            "cutoff_rho": 180.0
+          },
+          "Pm": {
+            "filename": "Pm.paw.z_15.atompaw.wentzcovitch.v1.2.upf",
+            "md5": "73dcdc0c9fe91f97d1fdb9924a622ccb",
+            "pseudopotential": "Wentzcovitch",
+            "cutoff_wfc": 40.0,
+            "cutoff_rho": 320.0
+          },
+          "Po": {
+            "filename": "Po.pbe-dn-rrkjus_psl.1.0.0.UPF",
+            "md5": "3f8a5a8b7a531f42ca8381c21d3cd528",
+            "pseudopotential": "100US",
+            "cutoff_wfc": 75.0,
+            "cutoff_rho": 600.0
+          },
+          "Pr": {
+            "filename": "Pr.paw.z_13.atompaw.wentzcovitch.v1.2.upf",
+            "md5": "e0f8e046fa815e336ba020f7e7bc75cb",
+            "pseudopotential": "Wentzcovitch",
+            "cutoff_wfc": 40.0,
+            "cutoff_rho": 320.0
+          },
+          "Pt": {
+            "filename": "pt_pbe_v1.4.uspp.F.UPF",
+            "md5": "f09d6de1a584b5a045c4fc126da2d0c4",
+            "pseudopotential": "GBRV-1.4",
+            "cutoff_wfc": 35.0,
+            "cutoff_rho": 280.0
+          },
+          "Pu": {
+            "filename": "Pu.paw.z_16.ld1.uni-marburg.v0.upf",
+            "md5": "566c3e560fb5ccfacef076b74913ab0c",
+            "pseudopotential": "MalteSachs",
+            "cutoff_wfc": 60.0,
+            "cutoff_rho": 480.0
+          },
+          "Ra": {
+            "filename": "Ra.paw.z_20.ld1.psl.v1.0.0-high.upf",
+            "md5": "d3f31cdfcb736122946f367071bad67a",
+            "pseudopotential": "100PAW",
+            "cutoff_wfc": 90.0,
+            "cutoff_rho": 720.0
+          },
+          "Rb": {
+            "filename": "Rb_ONCV_PBE-1.0.oncvpsp.upf",
+            "md5": "55a5172d6bfbce6759a58e35d43f6aa9",
+            "pseudopotential": "SG15",
+            "cutoff_wfc": 30.0,
+            "cutoff_rho": 120.0
+          },
+          "Re": {
+            "filename": "Re_pbe_v1.2.uspp.F.UPF",
+            "md5": "85f993410f3e006da9d71c142b4ad953",
+            "pseudopotential": "GBRV-1.2",
+            "cutoff_wfc": 30.0,
+            "cutoff_rho": 240.0
+          },
+          "Rh": {
+            "filename": "Rh_ONCV_PBE-1.0.oncvpsp.upf",
+            "md5": "ba07c69523b14cacd10683cd4c4284c1",
+            "pseudopotential": "SG15",
+            "cutoff_wfc": 35.0,
+            "cutoff_rho": 140.0
+          },
+          "Rn": {
+            "filename": "Rn.pbe-dn-kjpaw_psl.1.0.0.UPF",
+            "md5": "03f6b960ab99273412830d0b4aa01365",
+            "pseudopotential": "100PAW",
+            "cutoff_wfc": 120.0,
+            "cutoff_rho": 960.0
+          },
+          "Ru": {
+            "filename": "Ru_ONCV_PBE-1.0.oncvpsp.upf",
+            "md5": "be037bb81c227cfb9b1461a9f099f4bd",
+            "pseudopotential": "SG15",
+            "cutoff_wfc": 35.0,
+            "cutoff_rho": 140.0
+          },
+          "S": {
+            "filename": "s_pbe_v1.4.uspp.F.UPF",
+            "md5": "88d86576ff6df21479756cfb9bdac1df",
+            "pseudopotential": "GBRV-1.4",
+            "cutoff_wfc": 35.0,
+            "cutoff_rho": 280.0
+          },
+          "Sb": {
+            "filename": "sb_pbe_v1.4.uspp.F.UPF",
+            "md5": "9bc50dfb53373b713f5709b9110fe27f",
+            "pseudopotential": "GBRV-1.4",
+            "cutoff_wfc": 40.0,
+            "cutoff_rho": 320.0
+          },
+          "Sc": {
+            "filename": "Sc_ONCV_PBE-1.0.oncvpsp.upf",
+            "md5": "e21af8023abb52e52cb7cd3133e4a229",
+            "pseudopotential": "SG15",
+            "cutoff_wfc": 40.0,
+            "cutoff_rho": 160.0
+          },
+          "Se": {
+            "filename": "Se_pbe_v1.uspp.F.UPF",
+            "md5": "1b3568f3a8ae88f9a2a0ad0698632c85",
+            "pseudopotential": "GBRV-1.2",
+            "cutoff_wfc": 30.0,
+            "cutoff_rho": 240.0
+          },
+          "Si": {
+            "filename": "Si.pbe-n-rrkjus_psl.1.0.0.UPF",
+            "md5": "0b0bb1205258b0d07b9f9672cf965d36",
+            "pseudopotential": "100US",
+            "cutoff_wfc": 30.0,
+            "cutoff_rho": 240.0
+          },
+          "Sm": {
+            "filename": "Sm.paw.z_16.atompaw.wentzcovitch.v1.2.upf",
+            "md5": "d38221e44bcfc3c784cbdb498a69732f",
+            "pseudopotential": "Wentzcovitch",
+            "cutoff_wfc": 40.0,
+            "cutoff_rho": 320.0
+          },
+          "Sn": {
+            "filename": "Sn_pbe_v1.uspp.F.UPF",
+            "md5": "4cf58ce39ec5d5d420df3dd08604eb00",
+            "pseudopotential": "GBRV-1.2",
+            "cutoff_wfc": 60.0,
+            "cutoff_rho": 480.0
+          },
+          "Sr": {
+            "filename": "Sr_pbe_v1.uspp.F.UPF",
+            "md5": "6b418c05fbe9db5448babca5e47b7a5b",
+            "pseudopotential": "GBRV-1.2",
+            "cutoff_wfc": 30.0,
+            "cutoff_rho": 240.0
+          },
+          "Ta": {
+            "filename": "Ta_pbe_v1.uspp.F.UPF",
+            "md5": "f8bbe9446314a3b8ea5d9f3e3836c939",
+            "pseudopotential": "GBRV-1.2",
+            "cutoff_wfc": 45.0,
+            "cutoff_rho": 360.0
+          },
+          "Tb": {
+            "filename": "Tb.paw.z_19.atompaw.wentzcovitch.v1.2.upf",
+            "md5": "9e397ff4c8e7fcf344a3e57e25721bc0",
+            "pseudopotential": "Wentzcovitch",
+            "cutoff_wfc": 40.0,
+            "cutoff_rho": 320.0
+          },
+          "Tc": {
+            "filename": "Tc_ONCV_PBE-1.0.oncvpsp.upf",
+            "md5": "1c2b1e6c8b361b656073c0c20ed4f60a",
+            "pseudopotential": "SG15",
+            "cutoff_wfc": 30.0,
+            "cutoff_rho": 120.0
+          },
+          "Te": {
+            "filename": "Te_pbe_v1.uspp.F.UPF",
+            "md5": "c319670d6894cc26e93307826a071b75",
+            "pseudopotential": "GBRV-1.2",
+            "cutoff_wfc": 30.0,
+            "cutoff_rho": 240.0
+          },
+          "Th": {
+            "filename": "Th.paw.z_12.ld1.uni-marburg.v0.upf",
+            "md5": "c778f5c1781d25750cbff4a0d60de988",
+            "pseudopotential": "MalteSachs",
+            "cutoff_wfc": 60.0,
+            "cutoff_rho": 480.0
+          },
+          "Ti": {
+            "filename": "ti_pbe_v1.4.uspp.F.UPF",
+            "md5": "88a00a6731bd790ddea75d31a80cb452",
+            "pseudopotential": "GBRV-1.4",
+            "cutoff_wfc": 35.0,
+            "cutoff_rho": 280.0
+          },
+          "Tl": {
+            "filename": "Tl_pbe_v1.2.uspp.F.UPF",
+            "md5": "b76cf1f7e72655a2b2c53cf6385d7059",
+            "pseudopotential": "GBRV-1.2",
+            "cutoff_wfc": 50.0,
+            "cutoff_rho": 400.0
+          },
+          "Tm": {
+            "filename": "Tm.paw.z_23.atompaw.wentzcovitch.v1.2.upf",
+            "md5": "65ac1a59d66520b67f41930ed0a84655",
+            "pseudopotential": "Wentzcovitch",
+            "cutoff_wfc": 40.0,
+            "cutoff_rho": 320.0
+          },
+          "U": {
+            "filename": "U.paw.z_14.ld1.uni-marburg.v0.upf",
+            "md5": "0343693cc166857ace12183ecb4b0f49",
+            "pseudopotential": "MalteSachs",
+            "cutoff_wfc": 60.0,
+            "cutoff_rho": 480.0
+          },
+          "V": {
+            "filename": "v_pbe_v1.4.uspp.F.UPF",
+            "md5": "22b79981416ebb76fdaf5b1b8640f6fb",
+            "pseudopotential": "GBRV-1.4",
+            "cutoff_wfc": 35.0,
+            "cutoff_rho": 280.0
+          },
+          "W": {
+            "filename": "W_pbe_v1.2.uspp.F.UPF",
+            "md5": "9c083fa34c2a2ea0f02f1f893e16e1c8",
+            "pseudopotential": "GBRV-1.2",
+            "cutoff_wfc": 30.0,
+            "cutoff_rho": 240.0
+          },
+          "Xe": {
+            "filename": "Xe_ONCV_PBE-1.1.oncvpsp.upf",
+            "md5": "f6ea899d5a535d3f5731d9e48edfe3e3",
+            "pseudopotential": "SG15-1.1",
+            "cutoff_wfc": 60.0,
+            "cutoff_rho": 240.0
+          },
+          "Y": {
+            "filename": "Y_pbe_v1.uspp.F.UPF",
+            "md5": "2cf71db95cafeb975fc457bd7f14888e",
+            "pseudopotential": "GBRV-1.2",
+            "cutoff_wfc": 35.0,
+            "cutoff_rho": 280.0
+          },
+          "Yb": {
+            "filename": "Yb.paw.z_24.atompaw.wentzcovitch.v1.2.upf",
+            "md5": "2246be0c1287a90a9096a0c3416daab6",
+            "pseudopotential": "Wentzcovitch",
+            "cutoff_wfc": 40.0,
+            "cutoff_rho": 320.0
+          },
+          "Zn": {
+            "filename": "Zn_pbe_v1.uspp.F.UPF",
+            "md5": "df62231357ef9e81f77b2b3087fa5675",
+            "pseudopotential": "GBRV-1.2",
+            "cutoff_wfc": 40.0,
+            "cutoff_rho": 320.0
+          },
+          "Zr": {
+            "filename": "Zr_pbe_v1.uspp.F.UPF",
+            "md5": "5db81b1e868ab7776c4564c113de050b",
+            "pseudopotential": "GBRV-1.2",
+            "cutoff_wfc": 30.0,
+            "cutoff_rho": 240.0
+          }
+        }
+      },
+      {
+        "id": "qe_sssp_1_3_pbe_precision",
+        "display_name": "SSSP 1.3.0 PBE precision",
+        "kind": "element_file_collection",
+        "selectable": true,
+        "compatible_backends": [
+          "quantum_espresso"
+        ],
+        "format": "UPF",
+        "version": "1.3.0",
+        "xc_functional": "PBE",
+        "relativistic_treatment": "mixed collection; inspect per-element UPF metadata",
+        "path": "download/qe_pseudos/precision",
+        "manifest": "download/qe_pseudos/SSSP_1.3.0_PBE_precision.json",
+        "manifest_filename_field": "filename",
+        "manifest_checksum_field": "md5",
+        "expected_file_count": 103,
+        "archive": {
+          "path": "download/qe_pseudos/SSSP_1.3.0_PBE_precision.tar.gz",
+          "checksum_algorithm": "md5",
+          "checksum": "fde94756886f32ada7bf597547557eb5",
+          "extract_to": "download/qe_pseudos/precision"
+        },
+        "source_url": "https://archive.materialscloud.org/records/rcyfm-68h65/files/SSSP_1.3.0_PBE_precision.tar.gz?download=1",
+        "license_and_citation": "Follow the SSSP collection metadata and citations; individual UPF files may carry their own provenance/license metadata.",
+        "scientific_scope": "Higher-precision PBE plane-wave calculations. The agent remains responsible for choosing the collection and explicit cutoffs.",
+        "metadata_fields": [
+          "filename",
+          "md5",
+          "pseudopotential",
+          "cutoff_wfc",
+          "cutoff_rho"
+        ],
+        "available": true,
+        "selection_required": true,
+        "selection_syntax": "resource://qe_sssp_1_3_pbe_precision/<Element>",
+        "elements": [
+          "Ac",
+          "Ag",
+          "Al",
+          "Am",
+          "Ar",
+          "As",
+          "At",
+          "Au",
+          "B",
+          "Ba",
+          "Be",
+          "Bi",
+          "Bk",
+          "Br",
+          "C",
+          "Ca",
+          "Cd",
+          "Ce",
+          "Cf",
+          "Cl",
+          "Cm",
+          "Co",
+          "Cr",
+          "Cs",
+          "Cu",
+          "Dy",
+          "Er",
+          "Es",
+          "Eu",
+          "F",
+          "Fe",
+          "Fm",
+          "Fr",
+          "Ga",
+          "Gd",
+          "Ge",
+          "H",
+          "He",
+          "Hf",
+          "Hg",
+          "Ho",
+          "I",
+          "In",
+          "Ir",
+          "K",
+          "Kr",
+          "La",
+          "Li",
+          "Lr",
+          "Lu",
+          "Md",
+          "Mg",
+          "Mn",
+          "Mo",
+          "N",
+          "Na",
+          "Nb",
+          "Nd",
+          "Ne",
+          "Ni",
+          "No",
+          "Np",
+          "O",
+          "Os",
+          "P",
+          "Pa",
+          "Pb",
+          "Pd",
+          "Pm",
+          "Po",
+          "Pr",
+          "Pt",
+          "Pu",
+          "Ra",
+          "Rb",
+          "Re",
+          "Rh",
+          "Rn",
+          "Ru",
+          "S",
+          "Sb",
+          "Sc",
+          "Se",
+          "Si",
+          "Sm",
+          "Sn",
+          "Sr",
+          "Ta",
+          "Tb",
+          "Tc",
+          "Te",
+          "Th",
+          "Ti",
+          "Tl",
+          "Tm",
+          "U",
+          "V",
+          "W",
+          "Xe",
+          "Y",
+          "Yb",
+          "Zn",
+          "Zr"
+        ],
+        "element_count": 103,
+        "element_metadata": {
+          "Ac": {
+            "filename": "Ac.us.z_11.ld1.psl.v1.0.0-high.upf",
+            "md5": "3a78bb30464666358a3ec0edb47f6656",
+            "pseudopotential": "100US",
+            "cutoff_wfc": 40.0,
+            "cutoff_rho": 320.0
+          },
+          "Ag": {
+            "filename": "Ag_ONCV_PBE-1.0.oncvpsp.upf",
+            "md5": "94f47bd0669c641108e45594df92fabc",
+            "pseudopotential": "SG15",
+            "cutoff_wfc": 55.0,
+            "cutoff_rho": 220.0
+          },
+          "Al": {
+            "filename": "Al.pbe-n-kjpaw_psl.1.0.0.UPF",
+            "md5": "cfc449ca30b5f3223ec38ddd88ac046d",
+            "pseudopotential": "100PAW",
+            "cutoff_wfc": 30.0,
+            "cutoff_rho": 240.0
+          },
+          "Am": {
+            "filename": "Am.paw.z_17.ld1.uni-marburg.v0.upf",
+            "md5": "b90604daea46e7f2635bfe47e71ce977",
+            "pseudopotential": "MalteSachs",
+            "cutoff_wfc": 60.0,
+            "cutoff_rho": 480.0
+          },
+          "Ar": {
+            "filename": "Ar.paw.z_8.ld1.psl.v1.0.0-high.upf",
+            "md5": "86eb6412701852330f587daee5be6c21",
+            "pseudopotential": "100PAW",
+            "cutoff_wfc": 120.0,
+            "cutoff_rho": 960.0
+          },
+          "As": {
+            "filename": "As.nc.z_15.oncvpsp3.dojo.v4-std.upf",
+            "md5": "bfe1a874457ce592347346129958e7cf",
+            "pseudopotential": "Dojo",
+            "cutoff_wfc": 75.0,
+            "cutoff_rho": 300.0
+          },
+          "At": {
+            "filename": "At.us.z_17.ld1.psl.v1.0.0-high.upf",
+            "md5": "171e941146fbb8d42c50c0ba61055d18",
+            "pseudopotential": "100US",
+            "cutoff_wfc": 80.0,
+            "cutoff_rho": 640.0
+          },
+          "Au": {
+            "filename": "Au_ONCV_PBE-1.0.oncvpsp.upf",
+            "md5": "d14007822ba0e19f0206237467fc06c2",
+            "pseudopotential": "SG15",
+            "cutoff_wfc": 50.0,
+            "cutoff_rho": 200.0
+          },
+          "B": {
+            "filename": "B_pbe_v1.01.uspp.F.UPF",
+            "md5": "d081ebb89d0c768e112975f650467a00",
+            "pseudopotential": "GBRV-1.2",
+            "cutoff_wfc": 55.0,
+            "cutoff_rho": 440.0
+          },
+          "Ba": {
+            "filename": "Ba.nc.z_10.oncvpsp4.dojo.v4-sp.upf",
+            "md5": "ecceda5fc736cf81896add41b7758c6c",
+            "pseudopotential": "Dojo",
+            "cutoff_wfc": 35.0,
+            "cutoff_rho": 140.0
+          },
+          "Be": {
+            "filename": "Be_ONCV_PBE-1.0.oncvpsp.upf",
+            "md5": "28b8ff6b8130143f4fef2c47cbef089d",
+            "pseudopotential": "SG15",
+            "cutoff_wfc": 55.0,
+            "cutoff_rho": 220.0
+          },
+          "Bi": {
+            "filename": "Bi_pbe_v1.uspp.F.UPF",
+            "md5": "cceb9f28ec65b6d7ff33140f5b0b1758",
+            "pseudopotential": "GBRV-1.2",
+            "cutoff_wfc": 50.0,
+            "cutoff_rho": 400.0
+          },
+          "Bk": {
+            "filename": "Bk.paw.z_19.ld1.uni-marburg.v0.upf",
+            "md5": "34a5c1d9790ca2603c79955cdb099600",
+            "pseudopotential": "MalteSachs",
+            "cutoff_wfc": 60.0,
+            "cutoff_rho": 480.0
+          },
+          "Br": {
+            "filename": "br_pbe_v1.4.uspp.F.UPF",
+            "md5": "d3ffb7b29f6225aa16fe06858fb2a80b",
+            "pseudopotential": "GBRV-1.4",
+            "cutoff_wfc": 90.0,
+            "cutoff_rho": 720.0
+          },
+          "C": {
+            "filename": "C.pbe-n-kjpaw_psl.1.0.0.UPF",
+            "md5": "5d2aebdfa2cae82b50a7e79e9516da0f",
+            "pseudopotential": "100PAW",
+            "cutoff_wfc": 45.0,
+            "cutoff_rho": 360.0
+          },
+          "Ca": {
+            "filename": "Ca_pbe_v1.uspp.F.UPF",
+            "md5": "403a4c14b9e4d4dfdc3024c9a3812218",
+            "pseudopotential": "GBRV-1.2",
+            "cutoff_wfc": 30.0,
+            "cutoff_rho": 240.0
+          },
+          "Cd": {
+            "filename": "Cd.paw.z_20.ld1.psl.v1.0.0-high.upf",
+            "md5": "1f58be37c2dbf75aec6b05b1d77ccc80",
+            "pseudopotential": "100PAW",
+            "cutoff_wfc": 100.0,
+            "cutoff_rho": 800.0
+          },
+          "Ce": {
+            "filename": "Ce.paw.z_12.atompaw.wentzcovitch.v1.2.upf",
+            "md5": "2241420ff980c77e0c917a2dc8a7e08e",
+            "pseudopotential": "Wentzcovitch",
+            "cutoff_wfc": 50.0,
+            "cutoff_rho": 400.0
+          },
+          "Cf": {
+            "filename": "Cf.paw.z_20.ld1.uni-marburg.v0.upf",
+            "md5": "0e4adf7627c2d1305f26dd63271f2b94",
+            "pseudopotential": "MalteSachs",
+            "cutoff_wfc": 60.0,
+            "cutoff_rho": 480.0
+          },
+          "Cl": {
+            "filename": "Cl.pbe-n-rrkjus_psl.1.0.0.UPF",
+            "md5": "18cc83b4be324290a879bee3176034ba",
+            "pseudopotential": "100US",
+            "cutoff_wfc": 100.0,
+            "cutoff_rho": 800.0
+          },
+          "Cm": {
+            "filename": "Cm.paw.z_18.ld1.uni-marburg.v0.upf",
+            "md5": "fa6219561ad2ecb899c96af402755927",
+            "pseudopotential": "MalteSachs",
+            "cutoff_wfc": 60.0,
+            "cutoff_rho": 480.0
+          },
+          "Co": {
+            "filename": "Co_pbe_v1.2.uspp.F.UPF",
+            "md5": "5f91765df6ddd3222702df6e7b74a16d",
+            "pseudopotential": "GBRV-1.2",
+            "cutoff_wfc": 90.0,
+            "cutoff_rho": 1080.0
+          },
+          "Cr": {
+            "filename": "cr_pbe_v1.5.uspp.F.UPF",
+            "md5": "0d52af634a40206e4dee301ad30da4bf",
+            "pseudopotential": "GBRV-1.5",
+            "cutoff_wfc": 40.0,
+            "cutoff_rho": 320.0
+          },
+          "Cs": {
+            "filename": "Cs.nc.z_9.oncvpsp3.dojo.v4-str.upf",
+            "md5": "d01c53d012be9123745781bcb8b00a26",
+            "pseudopotential": "Dojo",
+            "cutoff_wfc": 45.0,
+            "cutoff_rho": 180.0
+          },
+          "Cu": {
+            "filename": "Cu.paw.z_11.ld1.psl.v1.0.0-low.upf",
+            "md5": "619f40885d92a09a85a8b37550532d0c",
+            "pseudopotential": "100PAW-low",
+            "cutoff_wfc": 90.0,
+            "cutoff_rho": 720.0
+          },
+          "Dy": {
+            "filename": "Dy.paw.z_20.atompaw.wentzcovitch.v1.2.upf",
+            "md5": "fad4f994dc38884d1fc17fd7bf5e13bf",
+            "pseudopotential": "Wentzcovitch",
+            "cutoff_wfc": 40.0,
+            "cutoff_rho": 320.0
+          },
+          "Er": {
+            "filename": "Er.paw.z_22.atompaw.wentzcovitch.v1.2.upf",
+            "md5": "5ba6a5c626b1678e031aafe1da34e245",
+            "pseudopotential": "Wentzcovitch",
+            "cutoff_wfc": 40.0,
+            "cutoff_rho": 320.0
+          },
+          "Es": {
+            "filename": "Es.paw.z_21.ld1.uni-marburg.v0.upf",
+            "md5": "4bc7a67aee4e34db40c77f63d9e88986",
+            "pseudopotential": "MalteSachs",
+            "cutoff_wfc": 60.0,
+            "cutoff_rho": 480.0
+          },
+          "Eu": {
+            "filename": "Eu.paw.z_17.atompaw.wentzcovitch.v1.2.upf",
+            "md5": "52b6e423bc4e840b6e0dc4248fa51623",
+            "pseudopotential": "Wentzcovitch",
+            "cutoff_wfc": 40.0,
+            "cutoff_rho": 320.0
+          },
+          "F": {
+            "filename": "F.oncvpsp.upf",
+            "md5": "dbf8367619a749999a0442b33b80a7e7",
+            "pseudopotential": "Dojo",
+            "cutoff_wfc": 90.0,
+            "cutoff_rho": 360.0
+          },
+          "Fe": {
+            "filename": "Fe.pbe-spn-kjpaw_psl.0.2.1.UPF",
+            "md5": "e86618425769142926afa95317d90200",
+            "pseudopotential": "031PAW",
+            "cutoff_wfc": 90.0,
+            "cutoff_rho": 1080.0
+          },
+          "Fm": {
+            "filename": "Fm.paw.z_22.ld1.uni-marburg.v0.upf",
+            "md5": "2a5ec34d2abb196d3027bbefca4b5922",
+            "pseudopotential": "MalteSachs",
+            "cutoff_wfc": 60.0,
+            "cutoff_rho": 480.0
+          },
+          "Fr": {
+            "filename": "Fr.paw.z_19.ld1.psl.v1.0.0-high.upf",
+            "md5": "4e1baa83397213ef351c329de67c4222",
+            "pseudopotential": "100PAW",
+            "cutoff_wfc": 150.0,
+            "cutoff_rho": 1200.0
+          },
+          "Ga": {
+            "filename": "Ga.pbe-dn-kjpaw_psl.1.0.0.UPF",
+            "md5": "a27b4342b1af7e5f338de752e9ed7044",
+            "pseudopotential": "100PAW",
+            "cutoff_wfc": 90.0,
+            "cutoff_rho": 720.0
+          },
+          "Gd": {
+            "filename": "Gd.paw.z_18.atompaw.wentzcovitch.v1.2.upf",
+            "md5": "a44f32af2ba180e1a67c5cef9ff7f39b",
+            "pseudopotential": "Wentzcovitch",
+            "cutoff_wfc": 40.0,
+            "cutoff_rho": 320.0
+          },
+          "Ge": {
+            "filename": "ge_pbe_v1.4.uspp.F.UPF",
+            "md5": "9c9eaa91e581c3f09632fb3098b2c6b2",
+            "pseudopotential": "GBRV-1.4",
+            "cutoff_wfc": 45.0,
+            "cutoff_rho": 360.0
+          },
+          "H": {
+            "filename": "H_ONCV_PBE-1.0.oncvpsp.upf",
+            "md5": "1790becc920ee074925cf490c71280fe",
+            "pseudopotential": "SG15",
+            "cutoff_wfc": 80.0,
+            "cutoff_rho": 320.0
+          },
+          "He": {
+            "filename": "He_ONCV_PBE-1.0.oncvpsp.upf",
+            "md5": "e7160162b946020f132a727efeb32d00",
+            "pseudopotential": "SG15",
+            "cutoff_wfc": 55.0,
+            "cutoff_rho": 220.0
+          },
+          "Hf": {
+            "filename": "Hf-sp.oncvpsp.upf",
+            "md5": "417ed15784afe83d2e06dacf143de3f8",
+            "pseudopotential": "Dojo",
+            "cutoff_wfc": 55.0,
+            "cutoff_rho": 220.0
+          },
+          "Hg": {
+            "filename": "Hg.us.z_12.uspp.gbrv.v1.upf",
+            "md5": "8f42caffe07f7fd9c0a564347f8c5498",
+            "pseudopotential": "GBRV-v1.0",
+            "cutoff_wfc": 65.0,
+            "cutoff_rho": 390.0
+          },
+          "Ho": {
+            "filename": "Ho.paw.z_21.atompaw.wentzcovitch.v1.2.upf",
+            "md5": "f900adcc49abc9ab8113872cdbacec3e",
+            "pseudopotential": "Wentzcovitch",
+            "cutoff_wfc": 40.0,
+            "cutoff_rho": 320.0
+          },
+          "I": {
+            "filename": "I.nc.z_17.oncvpsp4.sg15.v0.upf",
+            "md5": "01aece6dfeaff728ece6f409764611b3",
+            "pseudopotential": "SG15",
+            "cutoff_wfc": 65.0,
+            "cutoff_rho": 260.0
+          },
+          "In": {
+            "filename": "In.pbe-dn-rrkjus_psl.0.2.2.UPF",
+            "md5": "25e7c42c3b55b68f4bf926be2e7201a4",
+            "pseudopotential": "031US",
+            "cutoff_wfc": 50.0,
+            "cutoff_rho": 400.0
+          },
+          "Ir": {
+            "filename": "Ir.us.z_31.ld1.psl.v1.0.0-high.upf",
+            "md5": "38277204e703136c184b6a7dd74a78df",
+            "pseudopotential": "100US",
+            "cutoff_wfc": 90.0,
+            "cutoff_rho": 720.0
+          },
+          "K": {
+            "filename": "K.pbe-spn-kjpaw_psl.1.0.0.UPF",
+            "md5": "7d58810084cac21f60fbe77ea2b688fd",
+            "pseudopotential": "100PAW",
+            "cutoff_wfc": 60.0,
+            "cutoff_rho": 480.0
+          },
+          "Kr": {
+            "filename": "Kr.paw.z_18.ld1.psl.v1.0.0-high.upf",
+            "md5": "cde63d6f6cf9ccadbd3dd23661d90f66",
+            "pseudopotential": "100PAW",
+            "cutoff_wfc": 200.0,
+            "cutoff_rho": 1200.0
+          },
+          "La": {
+            "filename": "La.paw.z_11.atompaw.wentzcovitch.v1.2.upf",
+            "md5": "754494e15ae71f30e5b5f678af019e01",
+            "pseudopotential": "Wentzcovitch",
+            "cutoff_wfc": 40.0,
+            "cutoff_rho": 320.0
+          },
+          "Li": {
+            "filename": "li_pbe_v1.4.uspp.F.UPF",
+            "md5": "e912e257baa3777c20ea3d68f190483c",
+            "pseudopotential": "GBRV-1.4",
+            "cutoff_wfc": 40.0,
+            "cutoff_rho": 320.0
+          },
+          "Lr": {
+            "filename": "Lr.paw.z_25.ld1.uni-marburg.v0.upf",
+            "md5": "f945946d0d1ec8347dc1259eb00091c8",
+            "pseudopotential": "MalteSachs",
+            "cutoff_wfc": 60.0,
+            "cutoff_rho": 480.0
+          },
+          "Lu": {
+            "filename": "Lu.paw.z_25.atompaw.wentzcovitch.v1.2.upf",
+            "md5": "a517b3205eadf2aa79773283867f4cbe",
+            "pseudopotential": "Wentzcovitch",
+            "cutoff_wfc": 45.0,
+            "cutoff_rho": 360.0
+          },
+          "Md": {
+            "filename": "Md.paw.z_23.ld1.uni-marburg.v0.upf",
+            "md5": "e3e4fed06ac619855d80864afca10136",
+            "pseudopotential": "MalteSachs",
+            "cutoff_wfc": 60.0,
+            "cutoff_rho": 480.0
+          },
+          "Mg": {
+            "filename": "mg_pbe_v1.4.uspp.F.UPF",
+            "md5": "8ffbd8f729fef71095aac5bd8316fb1f",
+            "pseudopotential": "GBRV-1.4",
+            "cutoff_wfc": 45.0,
+            "cutoff_rho": 360.0
+          },
+          "Mn": {
+            "filename": "mn_pbe_v1.5.uspp.F.UPF",
+            "md5": "82ef2b46521d7a7d9e736dc3972e4928",
+            "pseudopotential": "GBRV-1.5",
+            "cutoff_wfc": 90.0,
+            "cutoff_rho": 1080.0
+          },
+          "Mo": {
+            "filename": "Mo_ONCV_PBE-1.0.oncvpsp.upf",
+            "md5": "1b5d28e075c9ccadda658a603575cd1f",
+            "pseudopotential": "SG15",
+            "cutoff_wfc": 35.0,
+            "cutoff_rho": 140.0
+          },
+          "N": {
+            "filename": "N.oncvpsp.upf",
+            "md5": "563d65bfb082928f0c9eb97172f6c357",
+            "pseudopotential": "Dojo",
+            "cutoff_wfc": 80.0,
+            "cutoff_rho": 320.0
+          },
+          "Na": {
+            "filename": "Na.paw.z_9.ld1.psl.v1.0.0-low.upf",
+            "md5": "32bccecb13d7399e6c7dae6fe6685ff0",
+            "pseudopotential": "100PAW-low",
+            "cutoff_wfc": 100.0,
+            "cutoff_rho": 800.0
+          },
+          "Nb": {
+            "filename": "Nb.pbe-spn-kjpaw_psl.0.3.0.UPF",
+            "md5": "411d72ad547312f8017e2943ceca08cc",
+            "pseudopotential": "031PAW",
+            "cutoff_wfc": 40.0,
+            "cutoff_rho": 320.0
+          },
+          "Nd": {
+            "filename": "Nd.paw.z_14.atompaw.wentzcovitch.v1.2.upf",
+            "md5": "8a77231a7dfbac907351543c5ef6bfc9",
+            "pseudopotential": "Wentzcovitch",
+            "cutoff_wfc": 40.0,
+            "cutoff_rho": 320.0
+          },
+          "Ne": {
+            "filename": "Ne.paw.z_8.ld1.psl.v1.0.0-high.upf",
+            "md5": "5567efd6d280a1ebb12a19bb24aae62b",
+            "pseudopotential": "100PAW",
+            "cutoff_wfc": 120.0,
+            "cutoff_rho": 720.0
+          },
+          "Ni": {
+            "filename": "ni_pbe_v1.4.uspp.F.UPF",
+            "md5": "1ee80287db30b12d2bc1f57a5b5d6409",
+            "pseudopotential": "GBRV-1.4",
+            "cutoff_wfc": 50.0,
+            "cutoff_rho": 400.0
+          },
+          "No": {
+            "filename": "No.paw.z_24.ld1.uni-marburg.v0.upf",
+            "md5": "75d6fcbe3c3afebd97ab105f1656d1c1",
+            "pseudopotential": "MalteSachs",
+            "cutoff_wfc": 60.0,
+            "cutoff_rho": 480.0
+          },
+          "Np": {
+            "filename": "Np.paw.z_15.ld1.uni-marburg.v0.upf",
+            "md5": "2b27845584d1ae013b107a04f9c09b5b",
+            "pseudopotential": "MalteSachs",
+            "cutoff_wfc": 60.0,
+            "cutoff_rho": 480.0
+          },
+          "O": {
+            "filename": "O.pbe-n-kjpaw_psl.0.1.UPF",
+            "md5": "0234752ac141de4415c5fc33072bef88",
+            "pseudopotential": "031PAW",
+            "cutoff_wfc": 75.0,
+            "cutoff_rho": 600.0
+          },
+          "Os": {
+            "filename": "Os_pbe_v1.2.uspp.F.UPF",
+            "md5": "a3fb40a04f0c37c25c34bbc47164c9a8",
+            "pseudopotential": "GBRV-1.2",
+            "cutoff_wfc": 40.0,
+            "cutoff_rho": 320.0
+          },
+          "P": {
+            "filename": "P.pbe-n-rrkjus_psl.1.0.0.UPF",
+            "md5": "8b930f418f0a4573dca56cd030ffe088",
+            "pseudopotential": "100US",
+            "cutoff_wfc": 30.0,
+            "cutoff_rho": 240.0
+          },
+          "Pa": {
+            "filename": "Pa.paw.z_13.ld1.uni-marburg.v0.upf",
+            "md5": "d7b89857b2b2f446a6f8a94fd7fc0316",
+            "pseudopotential": "MalteSachs",
+            "cutoff_wfc": 60.0,
+            "cutoff_rho": 480.0
+          },
+          "Pb": {
+            "filename": "Pb.pbe-dn-kjpaw_psl.0.2.2.UPF",
+            "md5": "9d431e6316058b74ade52399a6cf67da",
+            "pseudopotential": "031PAW",
+            "cutoff_wfc": 45.0,
+            "cutoff_rho": 360.0
+          },
+          "Pd": {
+            "filename": "Pd_ONCV_PBE-1.0.oncvpsp.upf",
+            "md5": "eb77f42b51d86fb18e25f68156a31cf1",
+            "pseudopotential": "SG15",
+            "cutoff_wfc": 50.0,
+            "cutoff_rho": 200.0
+          },
+          "Pm": {
+            "filename": "Pm.paw.z_15.atompaw.wentzcovitch.v1.2.upf",
+            "md5": "73dcdc0c9fe91f97d1fdb9924a622ccb",
+            "pseudopotential": "Wentzcovitch",
+            "cutoff_wfc": 40.0,
+            "cutoff_rho": 320.0
+          },
+          "Po": {
+            "filename": "Po.pbe-dn-rrkjus_psl.1.0.0.UPF",
+            "md5": "3f8a5a8b7a531f42ca8381c21d3cd528",
+            "pseudopotential": "100US",
+            "cutoff_wfc": 80.0,
+            "cutoff_rho": 640.0
+          },
+          "Pr": {
+            "filename": "Pr.paw.z_13.atompaw.wentzcovitch.v1.2.upf",
+            "md5": "e0f8e046fa815e336ba020f7e7bc75cb",
+            "pseudopotential": "Wentzcovitch",
+            "cutoff_wfc": 40.0,
+            "cutoff_rho": 320.0
+          },
+          "Pt": {
+            "filename": "Pt.pbe-spfn-rrkjus_psl.1.0.0.UPF",
+            "md5": "ed006ba81d2b6b3b17616bb61ae12f04",
+            "pseudopotential": "100US",
+            "cutoff_wfc": 100.0,
+            "cutoff_rho": 800.0
+          },
+          "Pu": {
+            "filename": "Pu.paw.z_16.ld1.uni-marburg.v0.upf",
+            "md5": "566c3e560fb5ccfacef076b74913ab0c",
+            "pseudopotential": "MalteSachs",
+            "cutoff_wfc": 60.0,
+            "cutoff_rho": 480.0
+          },
+          "Ra": {
+            "filename": "Ra.paw.z_20.ld1.psl.v1.0.0-high.upf",
+            "md5": "d3f31cdfcb736122946f367071bad67a",
+            "pseudopotential": "100PAW",
+            "cutoff_wfc": 90.0,
+            "cutoff_rho": 720.0
+          },
+          "Rb": {
+            "filename": "Rb_ONCV_PBE-1.0.oncvpsp.upf",
+            "md5": "55a5172d6bfbce6759a58e35d43f6aa9",
+            "pseudopotential": "SG15",
+            "cutoff_wfc": 30.0,
+            "cutoff_rho": 120.0
+          },
+          "Re": {
+            "filename": "Re_pbe_v1.2.uspp.F.UPF",
+            "md5": "85f993410f3e006da9d71c142b4ad953",
+            "pseudopotential": "GBRV-1.2",
+            "cutoff_wfc": 30.0,
+            "cutoff_rho": 240.0
+          },
+          "Rh": {
+            "filename": "Rh_ONCV_PBE-1.0.oncvpsp.upf",
+            "md5": "ba07c69523b14cacd10683cd4c4284c1",
+            "pseudopotential": "SG15",
+            "cutoff_wfc": 55.0,
+            "cutoff_rho": 220.0
+          },
+          "Rn": {
+            "filename": "Rn.paw.z_18.ld1.psl.v1.0.0-high.upf",
+            "md5": "2ee8f183081cd84b04ed791df1fb0731",
+            "pseudopotential": "100PAW",
+            "cutoff_wfc": 200.0,
+            "cutoff_rho": 1600.0
+          },
+          "Ru": {
+            "filename": "Ru_ONCV_PBE-1.0.oncvpsp.upf",
+            "md5": "be037bb81c227cfb9b1461a9f099f4bd",
+            "pseudopotential": "SG15",
+            "cutoff_wfc": 35.0,
+            "cutoff_rho": 140.0
+          },
+          "S": {
+            "filename": "s_pbe_v1.4.uspp.F.UPF",
+            "md5": "88d86576ff6df21479756cfb9bdac1df",
+            "pseudopotential": "GBRV-1.4",
+            "cutoff_wfc": 35.0,
+            "cutoff_rho": 280.0
+          },
+          "Sb": {
+            "filename": "sb_pbe_v1.4.uspp.F.UPF",
+            "md5": "9bc50dfb53373b713f5709b9110fe27f",
+            "pseudopotential": "GBRV-1.4",
+            "cutoff_wfc": 55.0,
+            "cutoff_rho": 440.0
+          },
+          "Sc": {
+            "filename": "Sc.pbe-spn-kjpaw_psl.0.2.3.UPF",
+            "md5": "2c6607fffa759d1e5292e48f5ddd8baa",
+            "pseudopotential": "031PAW",
+            "cutoff_wfc": 90.0,
+            "cutoff_rho": 720.0
+          },
+          "Se": {
+            "filename": "Se_pbe_v1.uspp.F.UPF",
+            "md5": "1b3568f3a8ae88f9a2a0ad0698632c85",
+            "pseudopotential": "GBRV-1.2",
+            "cutoff_wfc": 30.0,
+            "cutoff_rho": 240.0
+          },
+          "Si": {
+            "filename": "Si.pbe-n-rrkjus_psl.1.0.0.UPF",
+            "md5": "0b0bb1205258b0d07b9f9672cf965d36",
+            "pseudopotential": "100US",
+            "cutoff_wfc": 30.0,
+            "cutoff_rho": 240.0
+          },
+          "Sm": {
+            "filename": "Sm.paw.z_16.atompaw.wentzcovitch.v1.2.upf",
+            "md5": "d38221e44bcfc3c784cbdb498a69732f",
+            "pseudopotential": "Wentzcovitch",
+            "cutoff_wfc": 40.0,
+            "cutoff_rho": 320.0
+          },
+          "Sn": {
+            "filename": "Sn_pbe_v1.uspp.F.UPF",
+            "md5": "4cf58ce39ec5d5d420df3dd08604eb00",
+            "pseudopotential": "GBRV-1.2",
+            "cutoff_wfc": 70.0,
+            "cutoff_rho": 560.0
+          },
+          "Sr": {
+            "filename": "Sr_pbe_v1.uspp.F.UPF",
+            "md5": "6b418c05fbe9db5448babca5e47b7a5b",
+            "pseudopotential": "GBRV-1.2",
+            "cutoff_wfc": 40.0,
+            "cutoff_rho": 320.0
+          },
+          "Ta": {
+            "filename": "Ta_pbe_v1.uspp.F.UPF",
+            "md5": "f8bbe9446314a3b8ea5d9f3e3836c939",
+            "pseudopotential": "GBRV-1.2",
+            "cutoff_wfc": 50.0,
+            "cutoff_rho": 400.0
+          },
+          "Tb": {
+            "filename": "Tb.paw.z_19.atompaw.wentzcovitch.v1.2.upf",
+            "md5": "9e397ff4c8e7fcf344a3e57e25721bc0",
+            "pseudopotential": "Wentzcovitch",
+            "cutoff_wfc": 40.0,
+            "cutoff_rho": 320.0
+          },
+          "Tc": {
+            "filename": "Tc_ONCV_PBE-1.0.oncvpsp.upf",
+            "md5": "1c2b1e6c8b361b656073c0c20ed4f60a",
+            "pseudopotential": "SG15",
+            "cutoff_wfc": 40.0,
+            "cutoff_rho": 160.0
+          },
+          "Te": {
+            "filename": "Te.us.z_6.ld1.psl.v1.0.0-low.upf",
+            "md5": "44eeed7063cd65092dfe4811eda022ea",
+            "pseudopotential": "US100-low",
+            "cutoff_wfc": 50.0,
+            "cutoff_rho": 400.0
+          },
+          "Th": {
+            "filename": "Th.paw.z_12.ld1.uni-marburg.v0.upf",
+            "md5": "c778f5c1781d25750cbff4a0d60de988",
+            "pseudopotential": "MalteSachs",
+            "cutoff_wfc": 60.0,
+            "cutoff_rho": 480.0
+          },
+          "Ti": {
+            "filename": "ti_pbe_v1.4.uspp.F.UPF",
+            "md5": "88a00a6731bd790ddea75d31a80cb452",
+            "pseudopotential": "GBRV-1.4",
+            "cutoff_wfc": 40.0,
+            "cutoff_rho": 320.0
+          },
+          "Tl": {
+            "filename": "Tl_pbe_v1.2.uspp.F.UPF",
+            "md5": "b76cf1f7e72655a2b2c53cf6385d7059",
+            "pseudopotential": "GBRV-1.2",
+            "cutoff_wfc": 70.0,
+            "cutoff_rho": 560.0
+          },
+          "Tm": {
+            "filename": "Tm.paw.z_23.atompaw.wentzcovitch.v1.2.upf",
+            "md5": "65ac1a59d66520b67f41930ed0a84655",
+            "pseudopotential": "Wentzcovitch",
+            "cutoff_wfc": 40.0,
+            "cutoff_rho": 320.0
+          },
+          "U": {
+            "filename": "U.paw.z_14.ld1.uni-marburg.v0.upf",
+            "md5": "0343693cc166857ace12183ecb4b0f49",
+            "pseudopotential": "MalteSachs",
+            "cutoff_wfc": 60.0,
+            "cutoff_rho": 480.0
+          },
+          "V": {
+            "filename": "v_pbe_v1.4.uspp.F.UPF",
+            "md5": "22b79981416ebb76fdaf5b1b8640f6fb",
+            "pseudopotential": "GBRV-1.4",
+            "cutoff_wfc": 40.0,
+            "cutoff_rho": 320.0
+          },
+          "W": {
+            "filename": "W_pbe_v1.2.uspp.F.UPF",
+            "md5": "9c083fa34c2a2ea0f02f1f893e16e1c8",
+            "pseudopotential": "GBRV-1.2",
+            "cutoff_wfc": 50.0,
+            "cutoff_rho": 400.0
+          },
+          "Xe": {
+            "filename": "Xe.paw.z_18.ld1.psl.v1.0.0-high.upf",
+            "md5": "337379db17a2c20b6c8cb601c639f0cd",
+            "pseudopotential": "100PAW",
+            "cutoff_wfc": 150.0,
+            "cutoff_rho": 900.0
+          },
+          "Y": {
+            "filename": "Y_pbe_v1.uspp.F.UPF",
+            "md5": "2cf71db95cafeb975fc457bd7f14888e",
+            "pseudopotential": "GBRV-1.2",
+            "cutoff_wfc": 35.0,
+            "cutoff_rho": 280.0
+          },
+          "Yb": {
+            "filename": "Yb.paw.z_24.atompaw.wentzcovitch.v1.2.upf",
+            "md5": "2246be0c1287a90a9096a0c3416daab6",
+            "pseudopotential": "Wentzcovitch",
+            "cutoff_wfc": 40.0,
+            "cutoff_rho": 320.0
+          },
+          "Zn": {
+            "filename": "Zn_pbe_v1.uspp.F.UPF",
+            "md5": "df62231357ef9e81f77b2b3087fa5675",
+            "pseudopotential": "GBRV-1.2",
+            "cutoff_wfc": 90.0,
+            "cutoff_rho": 720.0
+          },
+          "Zr": {
+            "filename": "Zr_pbe_v1.uspp.F.UPF",
+            "md5": "5db81b1e868ab7776c4564c113de050b",
+            "pseudopotential": "GBRV-1.2",
+            "cutoff_wfc": 30.0,
+            "cutoff_rho": 240.0
+          }
+        }
+      },
+      {
+        "id": "siesta_pseudo_dojo_nc_sr_05_pbe_standard_psml",
+        "display_name": "PseudoDojo NC-SR-05 PBE standard PSML",
+        "kind": "element_file_collection",
+        "selectable": true,
+        "compatible_backends": [
+          "siesta"
+        ],
+        "format": "PSML 1.1",
+        "version": "nc-sr-05 standard",
+        "xc_functional": "PBE",
+        "relativistic_treatment": "scalar relativistic norm conserving",
+        "path": "download/nc-sr-05_pbe_standard_psml",
+        "element_pattern": "{element}.psml",
+        "expected_file_count": 72,
+        "archive": {
+          "path": "download/nc-sr-05_pbe_standard_psml.tgz",
+          "checksum_algorithm": "sha256",
+          "checksum": "ce6a16ba495224a893b62935a4902fea02365f90d233830a08808531ef1aa752",
+          "extract_to": "download"
+        },
+        "source_url": "https://www.pseudo-dojo.org/",
+        "license_and_citation": "Follow PseudoDojo and PSML metadata/citation requirements embedded in the files.",
+        "scientific_scope": "SIESTA 5-compatible PBE norm-conserving pseudopotentials; basis and mesh convergence remain agent-controlled.",
+        "available": true,
+        "selection_required": true,
+        "selection_syntax": "resource://siesta_pseudo_dojo_nc_sr_05_pbe_standard_psml/<Element>",
+        "elements": [
+          "Ag",
+          "Al",
+          "Ar",
+          "As",
+          "Au",
+          "B",
+          "Ba",
+          "Be",
+          "Bi",
+          "Br",
+          "C",
+          "Ca",
+          "Cd",
+          "Cl",
+          "Co",
+          "Cr",
+          "Cs",
+          "Cu",
+          "F",
+          "Fe",
+          "Ga",
+          "Ge",
+          "H",
+          "He",
+          "Hf",
+          "Hg",
+          "I",
+          "In",
+          "Ir",
+          "K",
+          "Kr",
+          "La",
+          "Li",
+          "Lu",
+          "Mg",
+          "Mn",
+          "Mo",
+          "N",
+          "Na",
+          "Nb",
+          "Ne",
+          "Ni",
+          "O",
+          "Os",
+          "P",
+          "Pb",
+          "Pd",
+          "Po",
+          "Pt",
+          "Rb",
+          "Re",
+          "Rh",
+          "Rn",
+          "Ru",
+          "S",
+          "Sb",
+          "Sc",
+          "Se",
+          "Si",
+          "Sn",
+          "Sr",
+          "Ta",
+          "Tc",
+          "Te",
+          "Ti",
+          "Tl",
+          "V",
+          "W",
+          "Xe",
+          "Y",
+          "Zn",
+          "Zr"
+        ],
+        "element_count": 72
+      },
+      {
+        "id": "abinit_pseudo_dojo_nc_sr_pbe_standard_psp8",
+        "display_name": "PseudoDojo NC-SR PBE standard PSP8",
+        "kind": "element_file_collection",
+        "selectable": true,
+        "compatible_backends": [
+          "abinit"
+        ],
+        "format": "PSP8",
+        "version": "standard",
+        "xc_functional": "PBE",
+        "relativistic_treatment": "scalar relativistic norm conserving",
+        "path": "download/abinit_pseudos/pseudo_dojo_psp8/pbe_s_sr",
+        "element_pattern": "{element}.psp8",
+        "expected_file_count": 70,
+        "archive": {
+          "path": "download/abinit_pseudos/nc-sr_pbe_standard_psp8.tgz",
+          "checksum_algorithm": "sha256",
+          "checksum": "1163ea89cdc7f5c55a4fdad9c6a31d8da26927a6f0373e566ac7bb0d91e52f14",
+          "extract_to": "download/abinit_pseudos/pseudo_dojo_psp8"
+        },
+        "source_url": "https://www.pseudo-dojo.org/pseudos/nc-sr_pbe_standard_psp8.tgz",
+        "license_and_citation": "Follow PseudoDojo metadata and citation requirements embedded in the PSP8 files.",
+        "scientific_scope": "ABINIT PBE norm-conserving calculations; the agent must explicitly choose ixc and energy cutoff.",
+        "available": true,
+        "selection_required": true,
+        "selection_syntax": "resource://abinit_pseudo_dojo_nc_sr_pbe_standard_psp8/<Element>",
+        "elements": [
+          "Ag",
+          "Al",
+          "Ar",
+          "As",
+          "Au",
+          "B",
+          "Ba",
+          "Be",
+          "Bi",
+          "Br",
+          "C",
+          "Ca",
+          "Cd",
+          "Cl",
+          "Co",
+          "Cr",
+          "Cs",
+          "Cu",
+          "F",
+          "Fe",
+          "Ga",
+          "Ge",
+          "H",
+          "He",
+          "Hf",
+          "Hg",
+          "I",
+          "In",
+          "Ir",
+          "K",
+          "Kr",
+          "Li",
+          "Mg",
+          "Mn",
+          "Mo",
+          "N",
+          "Na",
+          "Nb",
+          "Ne",
+          "Ni",
+          "O",
+          "Os",
+          "P",
+          "Pb",
+          "Pd",
+          "Po",
+          "Pt",
+          "Rb",
+          "Re",
+          "Rh",
+          "Rn",
+          "Ru",
+          "S",
+          "Sb",
+          "Sc",
+          "Se",
+          "Si",
+          "Sn",
+          "Sr",
+          "Ta",
+          "Tc",
+          "Te",
+          "Ti",
+          "Tl",
+          "V",
+          "W",
+          "Xe",
+          "Y",
+          "Zn",
+          "Zr"
+        ],
+        "element_count": 70
+      },
+      {
+        "id": "dftb_3ob_3_1",
+        "display_name": "DFTB+ 3ob 3.1",
+        "kind": "slater_koster_parameter_set",
+        "selectable": true,
+        "compatible_backends": [
+          "dftbplus"
+        ],
+        "format": "Slater-Koster SKF",
+        "version": "3.1.0",
+        "path": "download/dftb_params/3ob-3.1.0/skfiles",
+        "file_glob": "*.skf",
+        "expected_file_count": 225,
+        "archive": {
+          "path": "download/dftb_params/3ob-v3.1.0.tar.gz",
+          "checksum_algorithm": "sha256",
+          "checksum": "9dacb26ffa4f9d6e54b2ac627ed171001b47638474b6c7194b34666f2b0101a0",
+          "extract_to": "download/dftb_params"
+        },
+        "source_url": "https://github.com/dftbparams/3ob/releases/tag/v3.1.0",
+        "license_and_citation": "CC BY-SA 4.0 with mandatory scientific attribution; see the bundled 3ob README and LICENSE.",
+        "scientific_scope": "DFTB3 organic/biological parameter family. Parameter families must not be mixed implicitly; the agent selects the family.",
+        "available": true,
+        "selection_required": true,
+        "selection_syntax": "resource://dftb_3ob_3_1",
+        "elements": [
+          "Br",
+          "C",
+          "Ca",
+          "Cl",
+          "F",
+          "H",
+          "I",
+          "K",
+          "Mg",
+          "N",
+          "Na",
+          "O",
+          "P",
+          "S",
+          "Zn"
+        ],
+        "element_count": 15,
+        "pair_count": 225,
+        "available_pairs": [
+          "Br-Br",
+          "Br-C",
+          "Br-Ca",
+          "Br-Cl",
+          "Br-F",
+          "Br-H",
+          "Br-I",
+          "Br-K",
+          "Br-Mg",
+          "Br-N",
+          "Br-Na",
+          "Br-O",
+          "Br-P",
+          "Br-S",
+          "Br-Zn",
+          "C-Br",
+          "C-C",
+          "C-Ca",
+          "C-Cl",
+          "C-F",
+          "C-H",
+          "C-I",
+          "C-K",
+          "C-Mg",
+          "C-N",
+          "C-Na",
+          "C-O",
+          "C-P",
+          "C-S",
+          "C-Zn",
+          "Ca-Br",
+          "Ca-C",
+          "Ca-Ca",
+          "Ca-Cl",
+          "Ca-F",
+          "Ca-H",
+          "Ca-I",
+          "Ca-K",
+          "Ca-Mg",
+          "Ca-N",
+          "Ca-Na",
+          "Ca-O",
+          "Ca-P",
+          "Ca-S",
+          "Ca-Zn",
+          "Cl-Br",
+          "Cl-C",
+          "Cl-Ca",
+          "Cl-Cl",
+          "Cl-F",
+          "Cl-H",
+          "Cl-I",
+          "Cl-K",
+          "Cl-Mg",
+          "Cl-N",
+          "Cl-Na",
+          "Cl-O",
+          "Cl-P",
+          "Cl-S",
+          "Cl-Zn",
+          "F-Br",
+          "F-C",
+          "F-Ca",
+          "F-Cl",
+          "F-F",
+          "F-H",
+          "F-I",
+          "F-K",
+          "F-Mg",
+          "F-N",
+          "F-Na",
+          "F-O",
+          "F-P",
+          "F-S",
+          "F-Zn",
+          "H-Br",
+          "H-C",
+          "H-Ca",
+          "H-Cl",
+          "H-F",
+          "H-H",
+          "H-I",
+          "H-K",
+          "H-Mg",
+          "H-N",
+          "H-Na",
+          "H-O",
+          "H-P",
+          "H-S",
+          "H-Zn",
+          "I-Br",
+          "I-C",
+          "I-Ca",
+          "I-Cl",
+          "I-F",
+          "I-H",
+          "I-I",
+          "I-K",
+          "I-Mg",
+          "I-N",
+          "I-Na",
+          "I-O",
+          "I-P",
+          "I-S",
+          "I-Zn",
+          "K-Br",
+          "K-C",
+          "K-Ca",
+          "K-Cl",
+          "K-F",
+          "K-H",
+          "K-I",
+          "K-K",
+          "K-Mg",
+          "K-N",
+          "K-Na",
+          "K-O",
+          "K-P",
+          "K-S",
+          "K-Zn",
+          "Mg-Br",
+          "Mg-C",
+          "Mg-Ca",
+          "Mg-Cl",
+          "Mg-F",
+          "Mg-H",
+          "Mg-I",
+          "Mg-K",
+          "Mg-Mg",
+          "Mg-N",
+          "Mg-Na",
+          "Mg-O",
+          "Mg-P",
+          "Mg-S",
+          "Mg-Zn",
+          "N-Br",
+          "N-C",
+          "N-Ca",
+          "N-Cl",
+          "N-F",
+          "N-H",
+          "N-I",
+          "N-K",
+          "N-Mg",
+          "N-N",
+          "N-Na",
+          "N-O",
+          "N-P",
+          "N-S",
+          "N-Zn",
+          "Na-Br",
+          "Na-C",
+          "Na-Ca",
+          "Na-Cl",
+          "Na-F",
+          "Na-H",
+          "Na-I",
+          "Na-K",
+          "Na-Mg",
+          "Na-N",
+          "Na-Na",
+          "Na-O",
+          "Na-P",
+          "Na-S",
+          "Na-Zn",
+          "O-Br",
+          "O-C",
+          "O-Ca",
+          "O-Cl",
+          "O-F",
+          "O-H",
+          "O-I",
+          "O-K",
+          "O-Mg",
+          "O-N",
+          "O-Na",
+          "O-O",
+          "O-P",
+          "O-S",
+          "O-Zn",
+          "P-Br",
+          "P-C",
+          "P-Ca",
+          "P-Cl",
+          "P-F",
+          "P-H",
+          "P-I",
+          "P-K",
+          "P-Mg",
+          "P-N",
+          "P-Na",
+          "P-O",
+          "P-P",
+          "P-S",
+          "P-Zn",
+          "S-Br",
+          "S-C",
+          "S-Ca",
+          "S-Cl",
+          "S-F",
+          "S-H",
+          "S-I",
+          "S-K",
+          "S-Mg",
+          "S-N",
+          "S-Na",
+          "S-O",
+          "S-P",
+          "S-S",
+          "S-Zn",
+          "Zn-Br",
+          "Zn-C",
+          "Zn-Ca",
+          "Zn-Cl",
+          "Zn-F",
+          "Zn-H",
+          "Zn-I",
+          "Zn-K",
+          "Zn-Mg",
+          "Zn-N",
+          "Zn-Na",
+          "Zn-O",
+          "Zn-P",
+          "Zn-S",
+          "Zn-Zn"
+        ]
+      },
+      {
+        "id": "dftb_matsci_0_3",
+        "display_name": "DFTB+ matsci 0.3",
+        "kind": "slater_koster_parameter_set",
+        "selectable": true,
+        "compatible_backends": [
+          "dftbplus"
+        ],
+        "format": "Slater-Koster SKF",
+        "version": "0.3.0",
+        "path": "download/dftb_params/matsci-0.3.0/skfiles",
+        "file_glob": "*.skf",
+        "expected_file_count": 87,
+        "archive": {
+          "path": "download/dftb_params/matsci-v0.3.0.tar.gz",
+          "checksum_algorithm": "sha256",
+          "checksum": "adcaadeafcc3ec6a6d6e37623d30455c81e84e00e99be554f0eec14e5d1fec98",
+          "extract_to": "download/dftb_params"
+        },
+        "source_url": "https://github.com/dftbparams/matsci/releases/tag/v0.3.0",
+        "license_and_citation": "CC BY-SA 4.0 with mandatory scientific attribution; see the bundled matsci README and LICENSE.",
+        "scientific_scope": "Materials-oriented SCC-DFTB tables with non-complete pair coverage. The agent must verify pair suitability for the intended system.",
+        "available": true,
+        "selection_required": true,
+        "selection_syntax": "resource://dftb_matsci_0_3",
+        "elements": [
+          "Al",
+          "B",
+          "C",
+          "Cu",
+          "H",
+          "N",
+          "Na",
+          "O",
+          "P",
+          "Si",
+          "Ti"
+        ],
+        "element_count": 11,
+        "pair_count": 87,
+        "available_pairs": [
+          "Al-Al",
+          "Al-C",
+          "Al-Cu",
+          "Al-H",
+          "Al-Na",
+          "Al-O",
+          "Al-P",
+          "Al-Si",
+          "B-B",
+          "B-C",
+          "B-H",
+          "B-N",
+          "B-O",
+          "C-Al",
+          "C-B",
+          "C-C",
+          "C-H",
+          "C-N",
+          "C-O",
+          "C-P",
+          "C-Si",
+          "C-Ti",
+          "Cu-Al",
+          "Cu-Cu",
+          "Cu-H",
+          "Cu-Na",
+          "Cu-O",
+          "Cu-Si",
+          "H-Al",
+          "H-B",
+          "H-C",
+          "H-Cu",
+          "H-H",
+          "H-N",
+          "H-Na",
+          "H-O",
+          "H-P",
+          "H-Si",
+          "H-Ti",
+          "N-B",
+          "N-C",
+          "N-H",
+          "N-N",
+          "N-O",
+          "N-P",
+          "N-Si",
+          "N-Ti",
+          "Na-Al",
+          "Na-Cu",
+          "Na-H",
+          "Na-Na",
+          "Na-O",
+          "Na-Si",
+          "O-Al",
+          "O-B",
+          "O-C",
+          "O-Cu",
+          "O-H",
+          "O-N",
+          "O-Na",
+          "O-O",
+          "O-P",
+          "O-Si",
+          "O-Ti",
+          "P-Al",
+          "P-C",
+          "P-H",
+          "P-N",
+          "P-O",
+          "P-P",
+          "P-Si",
+          "P-Ti",
+          "Si-Al",
+          "Si-C",
+          "Si-Cu",
+          "Si-H",
+          "Si-N",
+          "Si-Na",
+          "Si-O",
+          "Si-P",
+          "Si-Si",
+          "Ti-C",
+          "Ti-H",
+          "Ti-N",
+          "Ti-O",
+          "Ti-P",
+          "Ti-Ti"
+        ]
+      },
+      {
+        "id": "gnina_1_3_3_cuda12_8_linux_x86_64",
+        "display_name": "GNINA 1.3.3 CUDA 12.8 static binary",
+        "kind": "backend_executable",
+        "selectable": false,
+        "compatible_backends": [
+          "gnina"
+        ],
+        "format": "Linux x86_64 executable",
+        "version": "1.3.3",
+        "path": ".software_cache/gnina/1.3.3/gnina.cuda12.8.static",
+        "import_sources": [
+          "download/software/gnina/gnina.cuda12.8.static"
+        ],
+        "install_target": ".tool_envs/docking/bin/gnina",
+        "checksum_algorithm": "sha256",
+        "checksum": "3340c1f49cd3c7c84d8699182a1c6af13c7fa2a22448d1204640446106f72172",
+        "source_url": "https://github.com/gnina/gnina/releases/tag/v1.3.3",
+        "license_and_citation": "Open-source GNINA distribution; follow the upstream repository license and scientific citation guidance.",
+        "scientific_scope": "CUDA 12.8 GNINA binary. Selecting backend_id=gnina selects this configured executable; cnn_model remains an explicit agent setting.",
+        "available": true,
+        "selection_required": false,
+        "configured_target": true
+      }
+    ],
+    "catalog_hash": "57a3f05f4ec2bfcd76e744b19430a4356934c7c88015a12deb73234b8c63a1bc"
   },
   "installation": {
-    "catalog_hash": "424356a552bb106c17d1e4920d9624a217341ccbe96c4cd4047fee0d9d8383ca",
-    "unavailable_backend_count": 2,
+    "catalog_hash": "57a3f05f4ec2bfcd76e744b19430a4356934c7c88015a12deb73234b8c63a1bc",
+    "unavailable_backend_count": 1,
     "unavailable_backends": [
       {
         "id": "orca",
@@ -3837,66 +6267,6 @@
           "license_class": "manual_license",
           "install_notes": "Download ORCA from the official portal and set CHEMGRAPH_ORCA_COMMAND."
         }
-      },
-      {
-        "id": "gnina",
-        "display_name": "GNINA",
-        "runtime": "docking",
-        "capabilities": [
-          "dock_ligand"
-        ],
-        "description": "GNINA docking using prepared structures and an explicit search box/model.",
-        "python_modules": [],
-        "executables": [
-          "gnina"
-        ],
-        "environment_variables": [
-          "CHEMGRAPH_GNINA_COMMAND"
-        ],
-        "conda_packages": [],
-        "pip_packages": [],
-        "required_data_resources": [],
-        "license_class": "open_source",
-        "install_notes": "Download a GNINA release binary and set CHEMGRAPH_GNINA_COMMAND.",
-        "method_schema": {},
-        "required_method_fields": {
-          "dock_ligand": [
-            "cnn_model"
-          ]
-        },
-        "required_setting_fields": {
-          "dock_ligand": [
-            "exhaustiveness",
-            "num_modes",
-            "energy_range_kcal_mol"
-          ]
-        },
-        "health": {
-          "status": "unavailable",
-          "available": false,
-          "runtime": "docking",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/docking/bin/python",
-          "runtime_python_exists": true,
-          "python_modules": {},
-          "executables": {
-            "gnina": null
-          },
-          "environment": {
-            "CHEMGRAPH_GNINA_COMMAND": false
-          },
-          "missing_python_modules": [],
-          "missing_executables": [
-            "gnina"
-          ],
-          "missing_environment": [
-            "CHEMGRAPH_GNINA_COMMAND"
-          ],
-          "conda_packages": [],
-          "pip_packages": [],
-          "required_data_resources": [],
-          "license_class": "open_source",
-          "install_notes": "Download a GNINA release binary and set CHEMGRAPH_GNINA_COMMAND."
-        }
       }
     ],
     "conda_packages": [],
@@ -3905,28 +6275,94 @@
       {
         "backend_id": "quantum_espresso",
         "resources": [
-          "UPF pseudopotentials covering every element in the calculation (for example SSSP or PseudoDojo), supplied as workspace Artifacts"
+          "Explicit ResourceRefs from qe_sssp_1_3_pbe_efficiency or qe_sssp_1_3_pbe_precision, one per element; workspace ArtifactRefs remain accepted"
         ]
       },
       {
         "backend_id": "siesta",
         "resources": [
-          "SIESTA PSF or compatible pseudopotentials covering every element, supplied as workspace Artifacts"
+          "Explicit ResourceRefs from siesta_pseudo_dojo_nc_sr_05_pbe_standard_psml, one per element; workspace ArtifactRefs remain accepted"
         ]
       },
       {
         "backend_id": "dftbplus",
         "resources": [
-          "A DFTB+ Slater-Koster parameter-set directory containing every required element-pair .skf file (for example 3ob or matsci), supplied as a workspace Artifact"
+          "Explicit ResourceRef to dftb_3ob_3_1 or dftb_matsci_0_3 with all required directed element-pair SKF files; workspace directory ArtifactRefs remain accepted"
         ]
       },
       {
         "backend_id": "abinit",
         "resources": [
-          "ABINIT-compatible pseudopotentials covering every element, supplied as workspace Artifacts"
+          "Explicit ResourceRefs from abinit_pseudo_dojo_nc_sr_pbe_standard_psp8, one per element; workspace ArtifactRefs remain accepted"
         ]
       }
     ],
+    "registered_scientific_resources": [
+      {
+        "resource_id": "qe_sssp_1_3_pbe_efficiency",
+        "kind": "element_file_collection",
+        "compatible_backends": [
+          "quantum_espresso"
+        ],
+        "available": true,
+        "selection_syntax": "resource://qe_sssp_1_3_pbe_efficiency/<Element>"
+      },
+      {
+        "resource_id": "qe_sssp_1_3_pbe_precision",
+        "kind": "element_file_collection",
+        "compatible_backends": [
+          "quantum_espresso"
+        ],
+        "available": true,
+        "selection_syntax": "resource://qe_sssp_1_3_pbe_precision/<Element>"
+      },
+      {
+        "resource_id": "siesta_pseudo_dojo_nc_sr_05_pbe_standard_psml",
+        "kind": "element_file_collection",
+        "compatible_backends": [
+          "siesta"
+        ],
+        "available": true,
+        "selection_syntax": "resource://siesta_pseudo_dojo_nc_sr_05_pbe_standard_psml/<Element>"
+      },
+      {
+        "resource_id": "abinit_pseudo_dojo_nc_sr_pbe_standard_psp8",
+        "kind": "element_file_collection",
+        "compatible_backends": [
+          "abinit"
+        ],
+        "available": true,
+        "selection_syntax": "resource://abinit_pseudo_dojo_nc_sr_pbe_standard_psp8/<Element>"
+      },
+      {
+        "resource_id": "dftb_3ob_3_1",
+        "kind": "slater_koster_parameter_set",
+        "compatible_backends": [
+          "dftbplus"
+        ],
+        "available": true,
+        "selection_syntax": "resource://dftb_3ob_3_1"
+      },
+      {
+        "resource_id": "dftb_matsci_0_3",
+        "kind": "slater_koster_parameter_set",
+        "compatible_backends": [
+          "dftbplus"
+        ],
+        "available": true,
+        "selection_syntax": "resource://dftb_matsci_0_3"
+      },
+      {
+        "resource_id": "gnina_1_3_3_cuda12_8_linux_x86_64",
+        "kind": "backend_executable",
+        "compatible_backends": [
+          "gnina"
+        ],
+        "available": true,
+        "selection_syntax": "runtime-managed"
+      }
+    ],
+    "missing_registered_scientific_resources": [],
     "missing_credentials": [],
     "manual_installations": [
       {
@@ -3939,18 +6375,6 @@
         ],
         "missing_environment": [
           "CHEMGRAPH_ORCA_COMMAND"
-        ]
-      },
-      {
-        "backend_id": "gnina",
-        "display_name": "GNINA",
-        "license_class": "open_source",
-        "install_notes": "Download a GNINA release binary and set CHEMGRAPH_GNINA_COMMAND.",
-        "missing_executables": [
-          "gnina"
-        ],
-        "missing_environment": [
-          "CHEMGRAPH_GNINA_COMMAND"
         ]
       }
     ]

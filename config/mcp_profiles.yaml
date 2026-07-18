@@ -1,6 +1,9 @@
 schema_version: 2
 default_profiles: [core]
 model_cache_root: .model_cache
+audit:
+  # ORCA is the only intentionally unavailable BackendSpec in the current build.
+  allowed_unavailable_backends: [orca]
 public_server:
   runtime: core
   server_name: researchchem_toolbox
@@ -12,9 +15,10 @@ support_environments:
     conda_name: researchchem-abinit
     description: Isolated ABINIT executable used only when the Agent selects backend_id=abinit.
     environment: .tool_envs/abinit
-    conda_packages: [abinit, typing_extensions]
+    conda_packages: [abinit, typing_extensions, numpy, pydantic, pyyaml, python-dotenv]
     pip_packages: []
     health_checks:
+      modules: [numpy, pydantic, yaml]
       commands: [abinit]
     backends: [abinit]
 
@@ -266,8 +270,7 @@ profiles:
     pip_packages: []
     health_checks:
       modules: [vina]
-      commands: [vina]
-      manual_commands: [gnina]
+      commands: [vina, gnina]
     command_variables:
       CHEMGRAPH_VINA_COMMAND: vina
       CHEMGRAPH_GNINA_COMMAND: gnina

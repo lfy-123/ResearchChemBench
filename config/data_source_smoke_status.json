@@ -1,0 +1,48 @@
+{
+  "generated_at": "2026-07-18T17:31:06.842833+00:00",
+  "schema_version": 1,
+  "summary": {
+    "case_count": 4,
+    "passed": 4,
+    "failed": 0,
+    "all_ok": true
+  },
+  "cases": [
+    {
+      "action": "search_compounds",
+      "backend": "pubchem",
+      "status": "success",
+      "elapsed_seconds": 1.488617,
+      "record_count": 1,
+      "error": null,
+      "warnings": []
+    },
+    {
+      "action": "search_protein_structures",
+      "backend": "rcsb_pdb",
+      "status": "success",
+      "elapsed_seconds": 1.645985,
+      "record_count": 1,
+      "error": null,
+      "warnings": []
+    },
+    {
+      "action": "search_materials",
+      "backend": "materials_project",
+      "status": "success",
+      "elapsed_seconds": 62.626134,
+      "record_count": 1,
+      "error": null,
+      "warnings": []
+    },
+    {
+      "action": "search_catalysis_records",
+      "backend": "catalysis_hub",
+      "status": "success",
+      "elapsed_seconds": 2.148075,
+      "record_count": 1,
+      "error": null,
+      "warnings": []
+    }
+  ]
+}

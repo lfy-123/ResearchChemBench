@@ -9,6 +9,7 @@ from pydantic import ValidationError
 from .artifacts import ArtifactStore, collect_artifact_refs
 from .catalog import action_specs, active_catalog_hash, backend_specs
 from .models import ActionRequest, ActionResult
+from .resources import collect_resource_references
 from .runtime import invoke_worker, probe_all_backends
 
 
@@ -81,6 +82,9 @@ def execute_action(action_id: str, request_value: ActionRequest | dict[str, Any]
             f"Missing required inputs: {missing_inputs}",
         )
     backend = backends[backend_id]
+    resource_references = collect_resource_references(
+        {"inputs": request.inputs, "method_spec": request.method_spec}
+    )
     missing_methods = [
         name
         for name in backend.required_method_fields.get(action_id, ())
@@ -124,6 +128,7 @@ def execute_action(action_id: str, request_value: ActionRequest | dict[str, Any]
                 "agent_selected_backend": backend_id,
                 "agent_selected_method_spec": request.method_spec,
                 "agent_selected_action_settings": request.action_settings,
+                "agent_selected_resource_refs": resource_references,
                 "runtime_profile": backend.runtime,
                 "automatic_fallback_count": 0,
             },
@@ -186,6 +191,7 @@ def execute_action(action_id: str, request_value: ActionRequest | dict[str, Any]
         "agent_selected_backend": backend_id,
         "agent_selected_method_spec": request.method_spec,
         "agent_selected_action_settings": request.action_settings,
+        "agent_selected_resource_refs": resource_references,
         "runtime_profile": backend.runtime,
         "dispatcher_executed_backend": backend_id,
         "automatic_fallback_count": 0,
