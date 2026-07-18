@@ -1,9 +1,9 @@
-# ResearchChem 化学工具箱重新整合方案（Benchmark 自主编排版，待确认）
+# ResearchChem 化学工具箱重新整合方案（Benchmark 自主编排版，已实施）
 
-> 文档状态：设计草案，等待确认  
+> 文档状态：已确认并完成第一阶段实施；实施结果见 `CHEMISTRY_TOOLBOX_REFACTOR_REPORT.md`
 > 更新日期：2026-07-18  
 > 适用仓库：ResearchChemBench  
-> 本轮范围：只修改方案文档，不修改工具实现、环境、配置、测试或评测代码
+> 实施范围：核心工具箱、MCP 暴露、后端运行时、Artifact/trace、系统提示词、配置、测试与文档
 
 ## 1. 这次重构的明确结论
 

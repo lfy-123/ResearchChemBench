@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "researchchembench"
-version = "0.1.0"
+version = "0.2.0"
 description = "Agent-agnostic benchmark for autonomous use of ChemGraph chemistry tools."
 requires-python = ">=3.10"
 dependencies = [
@@ -35,9 +35,10 @@ chemistry = [
 [project.scripts]
 researchchembench = "evaluation.server:main"
 researchchembench-eval = "evaluation.cli_eval:main"
+researchchem-mcp-server = "evaluation.mcp_tools.server:main"
 
 [tool.setuptools.packages.find]
-include = ["evaluation*"]
+include = ["evaluation*", "researchchem_toolbox*"]
 
 [tool.setuptools.package-data]
 evaluation = [

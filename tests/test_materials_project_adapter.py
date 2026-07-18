@@ -3,7 +3,7 @@ from __future__ import annotations
 import sys
 from types import ModuleType, SimpleNamespace
 
-from evaluation.mcp_tools.tools import query_materials_project as module
+from researchchem_toolbox.backends import data as module
 
 
 class FakeMaterialId:
@@ -35,13 +35,20 @@ class FakeMPRester:
 
 def test_material_id_is_normalized_from_public_attribute(monkeypatch):
     monkeypatch.setenv("MP_API_KEY", "test-key")
-    monkeypatch.setattr(module, "module_available", lambda _name: True)
     package = ModuleType("mp_api")
     client = ModuleType("mp_api.client")
     client.MPRester = FakeMPRester
     package.client = client
     monkeypatch.setitem(sys.modules, "mp_api", package)
     monkeypatch.setitem(sys.modules, "mp_api.client", client)
-    result = module.query_materials_project_core(material_id="mp-149", max_records=1)
+    result = module.execute(
+        "search_materials",
+        "materials_project",
+        {
+            "inputs": {"query": "mp-149"},
+            "method_spec": {},
+            "action_settings": {"max_records": 1},
+        },
+    )
     assert result["status"] == "success"
-    assert result["records"][0]["material_id"] == "mp-149"
+    assert result["result"]["records"][0]["material_id"] == "mp-149"

@@ -1,48 +1,48 @@
-schema_version: 1
+schema_version: 2
 default_profiles: [core]
 model_cache_root: .model_cache
+public_server:
+  runtime: core
+  server_name: researchchem_toolbox
+  description: Unified MCP server exposing all 40 Scientific Actions and 4 Data Actions.
 
-# Executable-only environments used by an MCP profile. They are not exposed as
-# separate MCP servers because they do not own public tools.
+# Executable-only backend runtimes. No runtime owns or filters public tools.
 support_environments:
   abinit:
     conda_name: researchchem-abinit
-    description: Isolated ABINIT executable used by the periodic dispatcher.
+    description: Isolated ABINIT executable used only when the Agent selects backend_id=abinit.
     environment: .tool_envs/abinit
     conda_packages: [abinit, typing_extensions]
     pip_packages: []
     health_checks:
       commands: [abinit]
+    backends: [abinit]
 
 profiles:
   core:
     conda_name: researchchem-core
     server_name: researchchem_core
-    description: Core cheminformatics, structure, result, and toolbox-management tools.
+    description: Core runtime for cheminformatics and deterministic analysis backends.
     environment: .toolbox_env
     use_project_model_cache: true
     runtime_preload_libraries: [libstdc++.so.6, libgcc_s.so.1]
     health_checks:
-      modules: [ase, cclib, mace.calculators, numexpr, pubchempy, rdkit, torch, yaml]
+      modules: [ase, numpy, rdkit, yaml]
       models:
         mace_medium_mpa_0:
           backend: mace_mp
           model: medium-mpa-0
           device: cpu
           default_dtype: float64
-    tools:
-      - analyze_wavefunction
-      - calculator
-      - check_backend_availability
-      - convert_structure
-      - extract_output_json
-      - generate_3d_structure
-      - generate_conformers_rdkit
-      - list_toolbox_capabilities
-      - molecule_name_to_smiles
-      - smiles_to_coordinate_file
-      - standardize_molecule
-      - validate_computation
+    backends:
+      - rdkit
+      - rdkit_etkdg
+      - rdkit_gasteiger
+      - internal_statistics
+      - ase_emt
+      - internal_vibrations
+      - internal_spectroscopy
+      - internal_thermochemistry
 
   services:
     conda_name: researchchem-services
@@ -53,11 +53,11 @@ profiles:
     pip_packages: [pubchempy==1.0.5]
     health_checks:
       modules: [mp_api, pubchempy]
-    tools:
-      - query_catalysis_hub
-      - query_materials_project
-      - query_pubchem
-      - query_rcsb_pdb
+    backends:
+      - pubchem
+      - rcsb_pdb
+      - materials_project
+      - catalysis_hub
 
   quantum:
     conda_name: researchchem-quantum
@@ -81,11 +81,12 @@ profiles:
     command_variables:
       CHEMGRAPH_XTB_COMMAND: xtb
       CHEMGRAPH_ORCA_COMMAND: orca
-    tools:
-      - run_ase
-      - run_orca
-      - run_pyscf
-      - run_xtb
+    backends:
+      - openbabel
+      - xtb
+      - pyscf
+      - tblite
+      - orca
 
   psi4:
     conda_name: researchchem-psi4
@@ -97,37 +98,33 @@ profiles:
     health_checks:
       modules: [psi4]
       commands: [psi4]
-    tools:
-      - run_psi4
+    backends: [psi4]
 
   reaction:
     conda_name: researchchem-reaction
     server_name: researchchem_reaction
     description: Conformer refinement, reaction paths, thermochemistry, and kinetics.
     environment: .tool_envs/reaction
-    conda_packages: [xtb, crest, censo, goodvibes, cantera]
+    conda_packages: [xtb, crest, goodvibes, cantera]
     pip_packages:
       - pysisyphus==1.0.0
       - git+https://github.com/SUNCAT-Center/catmap.git
     health_checks:
       modules: [cantera, catmap, goodvibes, pysisyphus, scipy]
-      commands: [catmap, censo, crest, goodvibes, pysis, xtb]
+      commands: [crest, goodvibes, pysis, xtb]
       manual_commands: [orca]
     command_variables:
       CHEMGRAPH_CREST_COMMAND: crest
-      CHEMGRAPH_CENSO_COMMAND: censo
       CHEMGRAPH_GOODVIBES_COMMAND: goodvibes
       CHEMGRAPH_PYSIS_COMMAND: pysis
       CHEMGRAPH_CATMAP_COMMAND: catmap
-    tools:
-      - compute_thermochemistry
-      - find_transition_state
-      - generate_conformers_crest
-      - refine_ensemble_censo
-      - run_cantera
-      - run_catmap
-      - run_irc
-      - run_reaction_kinetics
+    backends:
+      - crest
+      - goodvibes
+      - pysisyphus
+      - cantera
+      - scipy
+      - catmap
 
   qe:
     conda_name: researchchem-qe
@@ -140,8 +137,7 @@ profiles:
       commands: [pw.x]
     command_variables:
       CHEMGRAPH_QE_COMMAND: pw.x
-    tools:
-      - run_quantum_espresso
+    backends: [quantum_espresso]
 
   cp2k:
     conda_name: researchchem-cp2k
@@ -154,13 +150,12 @@ profiles:
       commands: [cp2k]
     command_variables:
       CHEMGRAPH_CP2K_COMMAND: cp2k
-    tools:
-      - run_cp2k
+    backends: [cp2k]
 
   periodic:
     conda_name: researchchem-periodic
     server_name: researchchem_periodic
-    description: DFTB+, SIESTA, ABINIT, and cross-profile periodic dispatch.
+    description: DFTB+ and SIESTA backend runtime; ABINIT remains separately isolated.
     environment: .tool_envs/periodic
     conda_packages: [dftbplus, siesta]
     pip_packages: []
@@ -176,8 +171,7 @@ profiles:
       CHEMGRAPH_DFTBPLUS_COMMAND: dftb+
       CHEMGRAPH_SIESTA_COMMAND: siesta
       CHEMGRAPH_ABINIT_COMMAND: .tool_envs/abinit/bin/abinit
-    tools:
-      - run_periodic_calculation
+    backends: [dftbplus, siesta]
 
   phonons:
     conda_name: researchchem-phonons
@@ -192,30 +186,33 @@ profiles:
     command_variables:
       CHEMGRAPH_PHONOPY_COMMAND: phonopy-init
       CHEMGRAPH_PHONO3PY_COMMAND: phono3py-init
-    tools:
-      - run_phonopy
+    backends: [phonopy, phono3py]
 
   md:
     conda_name: researchchem-md
     server_name: researchchem_md
     description: Molecular dynamics preparation, execution, enhanced sampling, and analysis.
     environment: .tool_envs/md
-    conda_packages: [openmm, pdbfixer, gromacs, lammps, plumed, netcdf4]
+    conda_packages: [openmm, pdbfixer, gromacs, lammps, plumed, netcdf4, openff-toolkit, openff-interchange, packmol, parmed]
     pip_packages: [MDAnalysis]
     health_checks:
-      modules: [MDAnalysis, lammps, openmm, pdbfixer]
-      commands: [gmx, lmp, plumed]
+      modules: [MDAnalysis, lammps, openff.interchange, openff.toolkit, openmm, pdbfixer]
+      commands: [gmx, lmp, packmol, plumed]
     command_variables:
       CHEMGRAPH_GROMACS_COMMAND: gmx
       CHEMGRAPH_LAMMPS_COMMAND: lmp
       CHEMGRAPH_PLUMED_COMMAND: plumed
-    tools:
-      - analyze_md_trajectory
-      - prepare_md_system
-      - run_gromacs
-      - run_lammps
-      - run_openmm
-      - run_plumed
+    backends:
+      - pdbfixer
+      - openff_am1bcc
+      - openff
+      - openmm_builder
+      - packmol
+      - openmm
+      - gromacs
+      - lammps
+      - mdanalysis
+      - plumed
 
   mlip:
     conda_name: researchchem-mlip
@@ -224,7 +221,8 @@ profiles:
     environment: .tool_envs/mlip
     runtime_preload_libraries: [libstdc++.so.6, libgcc_s.so.1]
     conda_packages: [ase]
-    # run_mlip currently has reviewed execution adapters only for MACE and CHGNet.
+    # Atomic energy/force/optimization actions currently have reviewed MLIP adapters
+    # only for MACE and CHGNet.
     # NequIP/DeepMD/FAIRChem/AIMNet2 are intentionally not installed here until
     # their model-loading adapters and checkpoint policies are implemented.
     pip_packages: [mace-torch==0.3.16, chgnet]
@@ -237,8 +235,7 @@ profiles:
           model: medium-mpa-0
           device: cpu
           default_dtype: float64
-    tools:
-      - run_mlip
+    backends: [mace, chgnet]
 
   docking:
     conda_name: researchchem-docking
@@ -254,5 +251,4 @@ profiles:
     command_variables:
       CHEMGRAPH_VINA_COMMAND: vina
       CHEMGRAPH_GNINA_COMMAND: gnina
-    tools:
-      - run_docking
+    backends: [vina, gnina]

@@ -1,5 +1,7 @@
 # 化学工具箱初版实现说明
 
+> 2026-07-18 更新：旧 41 个文件式工具已经由 40 Scientific Actions、4 Data Actions 和 45 BackendSpecs 取代。当前实现报告见 `docs/tools/CHEMISTRY_TOOLBOX_REFACTOR_REPORT.md`，完整目录见 `evaluation/mcp_tools/TOOL_CATALOG.md`。下文旧接口说明仅作为迁移历史。
+
 ## 1. 实现范围
 
 本版保留 ChemGraph 原有 5 个 MCP 工具，并增加 36 个逻辑工具，共 41 个公开工具。

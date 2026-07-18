@@ -15,6 +15,7 @@ RESERVED_FILES = {
     "_agent_output.jsonl",
     "_meta.json",
     "_score.json",
+    "_toolbox_catalog.json",
     "_tool_trace.jsonl",
     "_tool_sequence",
     "INSTRUCTIONS.md",

@@ -1,5 +1,7 @@
 # MCP 工具逐项测试与未配置软件手动配置指南
 
+> 2026-07-18 更新：本文主体记录旧 41 工具基线。当前原子工具状态与待安装清单请使用 `docs/TOOLBOX_STATUS.md` 和 `docs/tools/CHEMISTRY_TOOLBOX_REFACTOR_REPORT.md`。
+
 > 本文前半部分记录 2026-07-17 单一 `.toolbox_env` 下的逐工具测试。后续已经建立
 > 多 profile 环境并补装 Psi4、QE、CP2K、DFTB+、SIESTA、ABINIT、GROMACS、LAMMPS、
 > PLUMED、CENSO、GoodVibes、pysisyphus、CatMAP、Vina 等后端。当前状态请看

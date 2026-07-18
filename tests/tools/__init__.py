@@ -1,2 +1,1 @@
-"""Per-tool tests for the managed chemistry toolbox."""
-
+"""Legacy per-runner tests were replaced by atomic toolbox suites."""

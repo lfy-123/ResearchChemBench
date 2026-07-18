@@ -12,7 +12,7 @@ def test_workspace_does_not_copy_hidden_ground_truth(tmp_path: Path):
     assert (runner.workspace / "report").is_dir()
     assert (runner.workspace / ".mcp.json").is_file()
     mcp_config = json.loads((runner.workspace / ".mcp.json").read_text())
-    assert "evaluation.mcp_tools.server" in mcp_config["mcpServers"]["researchchembench"]["args"]
+    assert "evaluation.mcp_tools.server" in mcp_config["mcpServers"]["researchchem_toolbox"]["args"]
 
 
 def test_mock_agent_end_to_end(tmp_path: Path):
@@ -30,7 +30,7 @@ def test_codex_and_claude_commands_include_mcp(tmp_path: Path):
     codex.setup_workspace()
     codex_argv = codex.command_preview()
     assert codex_argv[:2] == ["codex", "exec"]
-    assert any("mcp_servers.researchchembench.command" in item for item in codex_argv)
+    assert any("mcp_servers.researchchem_toolbox.command" in item for item in codex_argv)
     assert "--json" in codex_argv
 
     claude = TaskRunner("ChemGraph_001", agent_key="claude", workspace_root=tmp_path)
@@ -39,7 +39,7 @@ def test_codex_and_claude_commands_include_mcp(tmp_path: Path):
     assert claude_argv[:2] == ["claude", "-p"]
     assert "--mcp-config" in claude_argv
     assert "--strict-mcp-config" in claude_argv
-    assert any("mcp__researchchembench__*" in item for item in claude_argv)
+    assert any("mcp__researchchem_toolbox__*" in item for item in claude_argv)
     assert not any(item == "mcp__*" for item in claude_argv)
 
     opencode = TaskRunner("ChemGraph_001", agent_key="opencode", workspace_root=tmp_path)
@@ -48,7 +48,7 @@ def test_codex_and_claude_commands_include_mcp(tmp_path: Path):
     assert opencode_argv[:2] == ["opencode", "run"]
     assert "--pure" in opencode_argv
     config = json.loads((opencode.workspace / "opencode.json").read_text())
-    assert config["mcp"]["researchchembench"]["type"] == "local"
+    assert config["mcp"]["researchchem_toolbox"]["type"] == "local"
     assert config["model"] == "deepseek/deepseek-v4-flash"
     assert "OPENAI_API_KEY" not in json.dumps(config)
 

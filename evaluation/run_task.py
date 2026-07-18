@@ -30,6 +30,7 @@ from .config import (
 from .instructions_tmpl import INSTRUCTIONS_TEMPLATE
 from .trace import load_tool_trace, process_metrics
 from .utils import load_task_info
+from researchchem_toolbox.catalog import agent_toolbox_overview, catalog_snapshot
 
 
 class TaskRunner:
@@ -80,6 +81,14 @@ class TaskRunner:
             task_desc=self.task_info["task"],
             category=self.task_info.get("category", "uncategorized"),
             data_text=data_text,
+            toolbox_overview=agent_toolbox_overview(
+                include_health=True,
+                snapshot=(
+                    json.loads((self.workspace / "_toolbox_catalog.json").read_text(encoding="utf-8"))
+                    if (self.workspace / "_toolbox_catalog.json").is_file()
+                    else None
+                ),
+            ),
         )
 
     def _runtime_pythonpath(self) -> str:
@@ -196,6 +205,11 @@ class TaskRunner:
             if path.is_file():
                 path.chmod(0o444)
 
+        (self.workspace / "_toolbox_catalog.json").write_text(
+            json.dumps(catalog_snapshot(include_health=True), indent=2, ensure_ascii=False)
+            + "\n",
+            encoding="utf-8",
+        )
         self.instructions_path.write_text(self._build_instructions(), encoding="utf-8")
         self._write_claude_mcp_config()
         self._write_opencode_config()

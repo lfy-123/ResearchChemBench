@@ -1,2 +1,1 @@
-"""One-file-per-tool modules loaded by mcp_tools.registry."""
-
+"""Public actions are generated from ActionSpec; no legacy runners live here."""

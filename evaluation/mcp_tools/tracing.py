@@ -102,6 +102,7 @@ def _excluded(path: Path) -> bool:
         "_tool_trace.jsonl",
         "_meta.json",
         "_score.json",
+        "_toolbox_catalog.json",
     }
 
 

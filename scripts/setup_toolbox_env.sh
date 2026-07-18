@@ -93,7 +93,12 @@ export CHEMGRAPH_ROOT="$CHEMGRAPH_ROOT_VALUE"
 
 cd "$ROOT_DIR"
 "$PYTHON_BIN" -m evaluation.mcp_tools.tool_manager validate
-"$PYTHON_BIN" -m pytest -q tests/tools
+"$PYTHON_BIN" -m pytest -q \
+  tests/test_atomic_catalog.py \
+  tests/test_dispatch_autonomy.py \
+  tests/test_atomic_actions.py \
+  tests/test_mcp_tool_package.py \
+  tests/test_mcp_profiles.py
 "$PYTHON_BIN" scripts/check_mcp_tools.py --smoke
 "$PYTHON_BIN" scripts/verify_toolbox.py
 

@@ -1,6 +1,6 @@
 # ResearchChemBench
 
-ResearchChemBench evaluates whether external autonomous agents such as Codex CLI, Claude Code, and OpenCode can correctly discover and use ChemGraph chemistry tools. It follows ResearchClawBench's task/workspace/agent-runner pattern, but replaces open-ended paper reproduction with ChemGraph's 40 computational-chemistry ground-truth tasks.
+ResearchChemBench evaluates whether external autonomous agents such as Codex CLI, Claude Code, and OpenCode can independently compose atomic chemistry tools to solve scientific tasks. Every task receives the same complete toolbox; the agent chooses the actions, call order, software backend, method, parameters, failure recovery, and stopping point.
 
 ## Architecture
 
@@ -14,13 +14,12 @@ isolated run workspace
 Codex / Claude / OpenCode / Mock agent CLI
         │ MCP
         ▼
-task-selected Chemistry MCP servers
+one complete Chemistry MCP server
         │
-        ├── 5 ChemGraph-compatible core tools
-        ├── cheminformatics and structure tools
-        ├── quantum chemistry / periodic / MD adapters
-        ├── kinetics, docking, MLIP, and data-service tools
-        └── 41 auto-discovered tools in total
+        ├── 40 atomic Scientific Actions
+        ├── 4 atomic Data Actions
+        ├── 45 explicitly selectable BackendSpecs
+        └── no workflow tool, automatic backend, or fallback
         │
         ▼
 report/report.md + tool artifacts + JSONL traces
@@ -29,7 +28,7 @@ report/report.md + tool artifacts + JSONL traces
 ChemGraph-style binary LLM judge
 ```
 
-The benchmark does **not** use ChemGraph's LangGraph workflows. Agent CLIs own their reasoning loop; ChemGraph supplies the chemistry implementations.
+The benchmark does **not** expose `run_ase`, `run_xtb`, `run_cp2k`, or other software/workflow runners. Agent CLIs own the reasoning loop; software packages are internal backends of scientifically named atomic actions.
 
 ## Quick start
 
@@ -69,9 +68,8 @@ bash scripts/run_agent_eval.sh --agent codex --task ChemGraph_001 --no-score
 bash scripts/run_agent_eval.sh --agent claude --task ChemGraph_003 --no-score
 bash scripts/run_agent_eval.sh --agent opencode --task ChemGraph_001 --no-score
 
-# For future tasks, expose only the relevant expanded tools
-bash scripts/run_agent_eval.sh --agent opencode --task ChemGraph_001 \
-  --mcp-profiles core,services --no-score
+# Every run exposes the same full 44-action catalog.
+bash scripts/run_agent_eval.sh --agent opencode --task ChemGraph_001 --no-score
 ```
 
 Set judge credentials and omit `--no-score` to score the run.
@@ -114,9 +112,11 @@ _score.json
 
 - [Environment and chemistry tool configuration](docs/ENVIRONMENT_AND_TOOLS.md)
 - [工具箱可复现环境配置](docs/TOOLBOX_SETUP.md)
-- [MCP 工具发现、多环境分类与运行方式](docs/MCP_PROFILE_ENVIRONMENTS.md)
+- [原子工具完整目录](evaluation/mcp_tools/TOOL_CATALOG.md)
+- [重构实施总结](docs/tools/CHEMISTRY_TOOLBOX_REFACTOR_REPORT.md)
+- [MCP 后端运行环境](docs/MCP_PROFILE_ENVIRONMENTS.md)
 - [MCP 多环境当前检查状态](docs/MCP_PROFILE_STATUS.md)
-- [41 个工具的实现与测试说明](docs/TOOLBOX_IMPLEMENTATION.md)
+- [工具箱实现说明](docs/TOOLBOX_IMPLEMENTATION.md)
 - [逐工具测试结果与未配置软件手动配置](docs/TOOL_TEST_AND_MANUAL_CONFIGURATION.md)
 - [工具箱实际状态报告](docs/TOOLBOX_STATUS.md)
 - [MCP 工具编写、增删、打包与 Agent 一键安装](docs/MCP_TOOLS_DEVELOPMENT_AND_INSTALLATION.md)

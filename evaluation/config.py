@@ -62,28 +62,12 @@ def chemistry_server_command() -> list[str]:
 
 
 def chemistry_server_specs() -> list[dict]:
-    """Return one legacy server or dependency-isolated profile servers."""
+    """Return the one full-catalog MCP server; profiles are backend workers only."""
+
+    from evaluation.mcp_tools.profiles import public_server_spec, selected_profile_names
 
     configured = os.environ.get("RESEARCHCHEMBENCH_MCP_PROFILES", "").strip()
     if configured:
-        from evaluation.mcp_tools.profiles import profile_server_spec, selected_profile_names
-
-        return [profile_server_spec(name) for name in selected_profile_names(configured)]
-    command = [
-        CHEMGRAPH_PYTHON,
-        "-m",
-        "evaluation.mcp_tools.server",
-        "--transport",
-        "stdio",
-    ]
-    return [
-        {
-            "profile": None,
-            "name": "researchchembench",
-            "description": "ResearchChemBench managed chemistry tools",
-            "python": CHEMGRAPH_PYTHON,
-            "command": command,
-            "environment": {},
-            "tools": [],
-        }
-    ]
+        # Retained only as an installation/probe selection compatibility check.
+        selected_profile_names(configured)
+    return [public_server_spec()]

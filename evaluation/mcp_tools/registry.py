@@ -1,89 +1,43 @@
-"""Automatic discovery, validation, filtering, and registration of tool files."""
+"""Register the complete task-independent atomic Action catalog with FastMCP."""
 
 from __future__ import annotations
 
-import importlib
 import json
-import os
 from dataclasses import dataclass
 from pathlib import Path
-from types import ModuleType
 from typing import Any
 
-from .models import ToolSpec
+from researchchem_toolbox.catalog import (
+    active_catalog_snapshot,
+    action_specs,
+    catalog_snapshot,
+    mcp_action_description,
+    validate_catalog,
+)
+from researchchem_toolbox.models import ActionRequest, ActionSpec
+from researchchem_toolbox.service import execute_action
+
+from .tracing import execute_traced
 
 
 PACKAGE_ROOT = Path(__file__).resolve().parent
-TOOLS_DIR = PACKAGE_ROOT / "tools"
 TOOL_CONFIG_PATH = PACKAGE_ROOT / "tool_config.json"
-ENABLED_TOOLS_ENV = "RESEARCHCHEM_MCP_ENABLED_TOOLS"
-DISABLED_TOOLS_ENV = "RESEARCHCHEM_MCP_DISABLED_TOOLS"
 
 
 class ToolRegistryError(RuntimeError):
-    """Raised when enabled tool modules cannot be safely registered."""
+    """Raised when the public atomic catalog cannot be registered safely."""
 
 
-class _SingleToolRegistrationProxy:
-    """Delegate to FastMCP while enforcing one matching registration per file."""
-
-    def __init__(self, mcp: Any, expected_name: str) -> None:
-        self._mcp = mcp
-        self._expected_name = expected_name
-        self._registered_names: list[str] = []
-
-    def __getattr__(self, name: str) -> Any:
-        return getattr(self._mcp, name)
-
-    def _record(self, function: Any, explicit_name: str | None) -> None:
-        registered_name = explicit_name or getattr(function, "__name__", "")
-        if registered_name != self._expected_name:
-            raise ToolRegistryError(
-                f"Tool file {self._expected_name!r} tried to register "
-                f"{registered_name!r}; the registered name must match TOOL_SPEC.name"
-            )
-        if self._registered_names:
-            raise ToolRegistryError(
-                f"Tool file {self._expected_name!r} tried to register more than "
-                "one public MCP tool"
-            )
-        self._registered_names.append(registered_name)
-
-    def tool(self, *args: Any, **kwargs: Any) -> Any:
-        explicit_name = kwargs.get("name")
-        if explicit_name is None and args and isinstance(args[0], str):
-            explicit_name = args[0]
-
-        # Support both @mcp.tool and @mcp.tool(...).
-        if args and callable(args[0]):
-            function = args[0]
-            self._record(function, explicit_name)
-            return self._mcp.tool(*args, **kwargs)
-
-        decorator = self._mcp.tool(*args, **kwargs)
-
-        def guarded_decorator(function: Any) -> Any:
-            self._record(function, explicit_name)
-            return decorator(function)
-
-        return guarded_decorator
-
-    def ensure_complete(self) -> None:
-        if self._registered_names != [self._expected_name]:
-            raise ToolRegistryError(
-                f"Tool file {self._expected_name!r} must register exactly one "
-                "public MCP tool"
-            )
-
-
-@dataclass
+@dataclass(frozen=True)
 class ToolRecord:
+    """Compatibility view over an ActionSpec; there are no per-task enabled flags."""
+
     module_stem: str
     module_name: str
     path: Path
     enabled: bool
-    spec: ToolSpec | None = None
-    module: ModuleType | None = None
+    spec: ActionSpec
+    module: None = None
     error: str | None = None
 
     def as_dict(self) -> dict[str, Any]:
@@ -91,157 +45,103 @@ class ToolRecord:
             "module_stem": self.module_stem,
             "module_name": self.module_name,
             "path": str(self.path),
-            "enabled": self.enabled,
-            "spec": self.spec.as_dict() if self.spec else None,
+            "enabled": True,
+            "spec": self.spec.as_dict(),
             "error": self.error,
         }
 
 
 def load_tool_config() -> dict[str, Any]:
+    if not TOOL_CONFIG_PATH.is_file():
+        return {}
     value = json.loads(TOOL_CONFIG_PATH.read_text(encoding="utf-8"))
     if not isinstance(value, dict):
         raise ValueError(f"Tool configuration must be a JSON object: {TOOL_CONFIG_PATH}")
-    enabled = value.get("enabled_tools", ["*"])
-    disabled = value.get("disabled_tools", [])
-    if not isinstance(enabled, list) or not all(isinstance(item, str) for item in enabled):
-        raise ValueError("tool_config.json enabled_tools must be a list of strings")
-    if not isinstance(disabled, list) or not all(isinstance(item, str) for item in disabled):
-        raise ValueError("tool_config.json disabled_tools must be a list of strings")
     return value
 
 
-def _environment_names(name: str) -> set[str]:
-    return {
-        item.strip()
-        for item in os.environ.get(name, "").split(",")
-        if item.strip()
-    }
-
-
 def discovered_module_stems() -> list[str]:
-    """Return tool filenames; adding/deleting a file changes this list automatically."""
+    """Return all 44 public action ids; task/profile filtering is intentionally absent."""
 
-    return sorted(
-        path.stem
-        for path in TOOLS_DIR.glob("*.py")
-        if path.name != "__init__.py" and not path.name.startswith("_")
-    )
+    return sorted(action_specs())
 
 
 def tool_is_enabled(module_stem: str, config: dict[str, Any] | None = None) -> bool:
-    config = config or load_tool_config()
-    enabled = _environment_names(ENABLED_TOOLS_ENV) or set(
-        config.get("enabled_tools", ["*"])
-    )
-    disabled = set(config.get("disabled_tools", [])) | _environment_names(
-        DISABLED_TOOLS_ENV
-    )
-    return (
-        ("*" in enabled or module_stem in enabled)
-        and "*" not in disabled
-        and module_stem not in disabled
-    )
+    return module_stem in action_specs()
 
 
 def configuration_errors(config: dict[str, Any] | None = None) -> list[str]:
-    config = config or load_tool_config()
-    discovered = set(discovered_module_stems())
+    value = config or load_tool_config()
     errors: list[str] = []
-    configured: set[str] = set()
-    for field_name in ("enabled_tools", "disabled_tools"):
-        names = config.get(field_name, [])
-        if len(names) != len(set(names)):
-            errors.append(f"tool_config.json {field_name} contains duplicate names")
-        configured.update(names)
-
-    for name in sorted(configured - discovered - {"*"}):
-        errors.append(f"tool_config.json references missing tool file: {name}")
-
-    environment_names = {
-        ENABLED_TOOLS_ENV: _environment_names(ENABLED_TOOLS_ENV),
-        DISABLED_TOOLS_ENV: _environment_names(DISABLED_TOOLS_ENV),
-    }
-    for variable, names in environment_names.items():
-        for name in sorted(names - discovered - {"*"}):
-            errors.append(f"{variable} references missing tool file: {name}")
+    if value.get("exposure_policy", "atomic_all") != "atomic_all":
+        errors.append("tool_config.json exposure_policy must be atomic_all")
+    if value.get("backend_selection_policy", "agent_required") != "agent_required":
+        errors.append("tool_config.json backend_selection_policy must be agent_required")
+    if value.get("automatic_fallback", False) is not False:
+        errors.append("tool_config.json automatic_fallback must be false")
+    if "enabled_tools" in value or "disabled_tools" in value:
+        errors.append(
+            "tool_config.json cannot contain enabled_tools/disabled_tools because the "
+            "benchmark exposes the complete catalog for every task"
+        )
     return errors
 
 
-def discover_tools(
-    *,
-    include_disabled: bool = True,
-    strict: bool = False,
-) -> list[ToolRecord]:
-    """Import tool files, validate ToolSpec/register, and report errors per file."""
-
-    config = load_tool_config()
-    records: list[ToolRecord] = []
-    seen_names: dict[str, str] = {}
-    for stem in discovered_module_stems():
-        enabled = tool_is_enabled(stem, config)
-        if not include_disabled and not enabled:
-            continue
-        module_name = f"{__package__}.tools.{stem}"
-        record = ToolRecord(
-            module_stem=stem,
-            module_name=module_name,
-            path=TOOLS_DIR / f"{stem}.py",
-            enabled=enabled,
-        )
-        try:
-            module = importlib.import_module(module_name)
-            spec = getattr(module, "TOOL_SPEC", None)
-            if not isinstance(spec, ToolSpec):
-                raise TypeError("module must define TOOL_SPEC = ToolSpec(...)")
-            spec.validate()
-            if spec.name != stem:
-                raise ValueError(
-                    f"TOOL_SPEC.name {spec.name!r} must match filename {stem!r}"
-                )
-            register = getattr(module, "register", None)
-            if not callable(register):
-                raise TypeError("module must define callable register(mcp)")
-            previous = seen_names.get(spec.name)
-            if previous:
-                raise ValueError(
-                    f"duplicate tool name {spec.name!r} also defined by {previous}"
-                )
-            seen_names[spec.name] = module_name
-            record.module = module
-            record.spec = spec
-        except Exception as exc:
-            record.error = f"{type(exc).__name__}: {exc}"
-        records.append(record)
-
-    errors = [record for record in records if record.enabled and record.error]
-    config_errors = configuration_errors(config)
+def discover_tools(*, include_disabled: bool = True, strict: bool = False) -> list[ToolRecord]:
+    del include_disabled
+    errors = configuration_errors()
+    try:
+        validate_catalog()
+    except Exception as exc:
+        errors.append(f"{type(exc).__name__}: {exc}")
     if strict and errors:
-        details = "; ".join(
-            f"{record.module_stem}: {record.error}" for record in errors
+        raise ToolRegistryError("; ".join(errors))
+    return [
+        ToolRecord(
+            module_stem=specification.id,
+            module_name=f"researchchem_toolbox.actions.{specification.id}",
+            path=PACKAGE_ROOT / "<generated-from-action-catalog>",
+            enabled=True,
+            spec=specification,
+            error="; ".join(errors) if errors else None,
         )
-        raise ToolRegistryError(f"Enabled MCP tool modules are invalid: {details}")
-    if strict and config_errors:
-        raise ToolRegistryError("; ".join(config_errors))
-    return records
+        for specification in action_specs().values()
+    ]
+
+
+def _make_action_callable(specification: ActionSpec):
+    def invoke(request: ActionRequest) -> dict[str, Any]:
+        arguments = {"request": request.model_dump(mode="json")}
+        return execute_traced(
+            specification.id,
+            arguments,
+            lambda: execute_action(specification.id, request),
+        )
+
+    invoke.__name__ = specification.id
+    invoke.__qualname__ = specification.id
+    invoke.__doc__ = mcp_action_description(specification)
+    return invoke
 
 
 def register_all_tools(mcp) -> list[str]:
-    """Register every enabled, automatically discovered one-file tool module."""
+    """Register all 40 Scientific Actions and all 4 Data Actions, without filtering."""
 
-    records = discover_tools(include_disabled=False, strict=True)
-    registered: list[str] = []
-    for record in records:
-        assert record.module is not None and record.spec is not None
-        proxy = _SingleToolRegistrationProxy(mcp, record.spec.name)
-        try:
-            record.module.register(proxy)
-            proxy.ensure_complete()
-        except Exception as exc:
-            if isinstance(exc, ToolRegistryError):
-                raise
-            raise ToolRegistryError(
-                f"Failed to register MCP tool {record.spec.name!r}: "
-                f"{type(exc).__name__}: {exc}"
-            ) from exc
-        registered.append(record.spec.name)
+    discover_tools(strict=True)
+    registered = []
+    for specification in action_specs().values():
+        function = _make_action_callable(specification)
+        mcp.tool(
+            name=specification.id,
+            description=mcp_action_description(specification),
+        )(function)
+        registered.append(specification.id)
     return registered
+
+
+def register_catalog_resources(mcp) -> None:
+    """Expose the same complete, read-only catalog as an MCP Resource, not a tool."""
+
+    @mcp.resource("researchchem://catalog")
+    def complete_catalog() -> str:
+        return json.dumps(active_catalog_snapshot(), ensure_ascii=False, indent=2)

@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
-"""Probe one MCP profile from inside that profile's Python environment."""
+"""Probe one backend runtime from inside that runtime's Python environment."""
 
 from __future__ import annotations
 
 import argparse
-import asyncio
 import importlib
 import json
 import math
@@ -14,9 +13,9 @@ import subprocess
 import sys
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[1]
-
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
@@ -25,13 +24,11 @@ def main() -> int:
     parser.add_argument("--check-models", action="store_true")
     args = parser.parse_args()
 
-    # server.py selects the profile before constructing its module-level server.
-    sys.argv = ["researchchem-mcp", "--profile", args.profile]
     from evaluation.mcp_tools.profiles import apply_profile, get_profile
+    from researchchem_toolbox.catalog import backend_specs
+    from researchchem_toolbox.runtime import probe_all_backends
 
     profile = apply_profile(args.profile)
-    from evaluation.mcp_tools.server import mcp
-
     health = dict(profile.get("health_checks") or {})
     module_results = {}
     for module_name in health.get("modules", []):
@@ -46,28 +43,21 @@ def main() -> int:
                 "available": False,
                 "error": f"{type(exc).__name__}: {exc}",
             }
-
-    command_results = {
-        str(command): shutil.which(str(command))
-        for command in health.get("commands", [])
-    }
-    manual_results = {
-        str(command): shutil.which(str(command))
-        for command in health.get("manual_commands", [])
-    }
+    command_results = {str(command): shutil.which(str(command)) for command in health.get("commands", [])}
+    manual_results = {str(command): shutil.which(str(command)) for command in health.get("manual_commands", [])}
     external_results = {}
     for value in health.get("external_commands", []):
+        from pathlib import Path
+
         path = Path(str(value)).expanduser()
         if not path.is_absolute():
-            path = ROOT / path
+            path = Path(__file__).resolve().parents[1] / path
         external_results[str(value)] = str(path.resolve()) if path.is_file() else None
 
     dependency_environment = os.environ.copy()
     dependency_environment.pop("PYTHONPATH", None)
     dependency_probe = subprocess.run(
         [sys.executable, "-m", "pip", "check"],
-        cwd=Path(sys.prefix),
-        env=dependency_environment,
         text=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
@@ -83,9 +73,8 @@ def main() -> int:
     if args.check_models:
         for check_name, specification in (health.get("models") or {}).items():
             try:
-                backend = str(specification["backend"])
-                if backend != "mace_mp":
-                    raise ValueError(f"Unsupported model health-check backend: {backend}")
+                if str(specification["backend"]) != "mace_mp":
+                    raise ValueError("Only mace_mp model checks are supported")
                 from ase import Atoms
                 from mace.calculators import mace_mp
 
@@ -94,55 +83,27 @@ def main() -> int:
                     device=str(specification.get("device") or "cpu"),
                     default_dtype=str(specification.get("default_dtype") or "float64"),
                 )
-                atoms = Atoms(
-                    "Si",
-                    positions=[[0.0, 0.0, 0.0]],
-                    cell=[5.43, 5.43, 5.43],
-                    pbc=True,
-                )
+                atoms = Atoms("Si", positions=[[0, 0, 0]], cell=[5.43] * 3, pbc=True)
                 atoms.calc = calculator
                 energy = float(atoms.get_potential_energy())
-                model_results[str(check_name)] = {
-                    "success": math.isfinite(energy),
-                    "backend": backend,
-                    "model": str(specification["model"]),
-                    "energy_ev": energy,
-                }
+                model_results[str(check_name)] = {"success": math.isfinite(energy), "energy_ev": energy}
             except Exception as exc:
-                model_results[str(check_name)] = {
-                    "success": False,
-                    "error": f"{type(exc).__name__}: {exc}",
-                }
+                model_results[str(check_name)] = {"success": False, "error": f"{type(exc).__name__}: {exc}"}
 
-    tool_names = sorted(tool.name for tool in asyncio.run(mcp.list_tools()))
+    specifications = [backend_specs()[backend_id] for backend_id in profile["backends"]]
+    backend_health = probe_all_backends(specifications)
     live_checks = {}
-    if args.live_materials_project and args.profile == "services":
-        try:
-            from evaluation.mcp_tools.tools.query_materials_project import (
-                query_materials_project_core,
-            )
+    if args.live_materials_project and "materials_project" in profile["backends"]:
+        from researchchem_toolbox.service import execute_action
 
-            result = query_materials_project_core(material_id="mp-149", max_records=1)
-            records = result.get("records") or []
-            live_checks["materials_project"] = {
-                "success": bool(
-                    result.get("status") == "success"
-                    and records
-                    and records[0].get("material_id") == "mp-149"
-                ),
-                "status": result.get("status"),
-                "count": result.get("count", 0),
-                "material_id": records[0].get("material_id") if records else None,
-            }
-        except Exception as exc:
-            live_checks["materials_project"] = {
-                "success": False,
-                "error": f"{type(exc).__name__}: {exc}",
-            }
+        result = execute_action(
+            "search_materials",
+            {"inputs": {"query": "mp-149"}, "method_spec": {}, "action_settings": {"max_records": 1}},
+        )
+        live_checks["materials_project"] = {"success": result["status"] == "success", "status": result["status"]}
 
     required_ok = (
-        tool_names == sorted(profile["tools"])
-        and all(item["available"] for item in module_results.values())
+        all(item["available"] for item in module_results.values())
         and all(command_results.values())
         and all(external_results.values())
         and dependency_check["success"]
@@ -152,11 +113,10 @@ def main() -> int:
     result = {
         "profile": args.profile,
         "conda_name": profile.get("conda_name"),
-        "server_name": profile["server_name"],
         "python": sys.executable,
         "python_version": sys.version.split()[0],
-        "expected_tools": sorted(profile["tools"]),
-        "listed_tools": tool_names,
+        "expected_backends": sorted(profile["backends"]),
+        "backend_health": backend_health,
         "modules": module_results,
         "commands": command_results,
         "external_commands": external_results,

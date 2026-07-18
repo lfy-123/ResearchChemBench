@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "researchchem-mcp-tools"
-version = "0.1.0"
-description = "Portable, traced ChemGraph chemistry tools for MCP-compatible agents."
+version = "0.2.0"
+description = "Thin MCP transport for the ResearchChem atomic chemistry toolbox."
 requires-python = ">=3.10"
 dependencies = [
     "mcp>=1.0",
@@ -33,12 +33,18 @@ researchchem-mcp-install = "researchchem_mcp_tools.installer:main"
 researchchem-tool = "researchchem_mcp_tools.tool_manager:main"
 
 [tool.setuptools]
-packages = ["researchchem_mcp_tools", "researchchem_mcp_tools.adapters", "researchchem_mcp_tools.tools"]
+packages = [
+    "researchchem_mcp_tools",
+    "researchchem_mcp_tools.adapters",
+    "researchchem_toolbox",
+    "researchchem_toolbox.backends",
+]
 
 [tool.setuptools.package-dir]
 researchchem_mcp_tools = "."
 "researchchem_mcp_tools.adapters" = "adapters"
-"researchchem_mcp_tools.tools" = "tools"
+"researchchem_toolbox" = "../../researchchem_toolbox"
+"researchchem_toolbox.backends" = "../../researchchem_toolbox/backends"
 
 [tool.setuptools.package-data]
 researchchem_mcp_tools = ["tool_config.json", "TOOL_CATALOG.md", "README.md"]

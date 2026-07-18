@@ -1,5 +1,7 @@
 # ResearchChemBench MCP 工具发现与多环境设计
 
+> 2026-07-18 更新：profile 现在只表示后端依赖运行时，不再筛选或拥有公共工具。所有任务始终连接一个暴露 44 个原子 Actions 的统一 MCP server。当前事实以 `evaluation/mcp_tools/TOOL_CATALOG.md` 和 `docs/tools/CHEMISTRY_TOOLBOX_REFACTOR_REPORT.md` 为准；下文旧命令/工具名仅保留为历史迁移背景。
+
 ## 1. 智能体如何看到 MCP 工具
 
 MCP server 不是智能体眼中的一个不透明“总工具”。连接建立后，Agent CLI 会向每个

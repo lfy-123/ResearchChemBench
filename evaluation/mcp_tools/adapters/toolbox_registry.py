@@ -1,4 +1,4 @@
-"""Read and summarize the machine-readable software registry."""
+"""Compatibility view over the canonical BackendSpec catalog."""
 
 from __future__ import annotations
 
@@ -7,6 +7,8 @@ from pathlib import Path
 from typing import Any
 
 import yaml
+
+from researchchem_toolbox.catalog import backend_specs
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
@@ -22,8 +24,31 @@ def registry_path() -> Path:
 def load_registry() -> dict[str, Any]:
     path = registry_path()
     value = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
-    if not isinstance(value, dict) or not isinstance(value.get("software"), list):
+    if not isinstance(value, dict):
         raise ValueError(f"Invalid toolbox registry: {path}")
+    if isinstance(value.get("software"), list):
+        # Explicit override files may still provide a self-contained snapshot.
+        return value
+    if value.get("source_module") != "researchchem_toolbox.specs":
+        raise ValueError(f"Invalid dynamic toolbox registry manifest: {path}")
+    value["software"] = [
+        {
+            "name": specification.id,
+            "display_name": specification.display_name,
+            "runtime": specification.runtime,
+            "capabilities": list(specification.capabilities),
+            "description": specification.description,
+            "python_modules": list(specification.python_modules),
+            "executables": list(specification.executables),
+            "environment_variables": list(specification.environment_variables),
+            "conda_packages": list(specification.conda_packages),
+            "pip_packages": list(specification.pip_packages),
+            "required_data_resources": list(specification.required_data_resources),
+            "license_class": specification.license_class,
+            "install_notes": specification.install_notes,
+        }
+        for specification in backend_specs().values()
+    ]
     return value
 
 

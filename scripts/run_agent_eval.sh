@@ -52,14 +52,12 @@ Runtime options:
       --tasks-dir PATH         Override the task directory.
       --chemgraph-root PATH    Override the ChemGraph checkout.
       --chemgraph-python PATH  Python executable used by the Chemistry MCP server.
-      --mcp-tools VALUE       Tools exposed to the Agent. VALUE can be:
-                               chemgraph-core (default; original 5 tools),
-                               all (all 41 reviewed tools), or a comma-separated
-                               list such as query_pubchem,standardize_molecule.
-      --mcp-profiles CSV      Start dependency-isolated MCP servers. Available:
+      --mcp-tools VALUE       Compatibility option; only `all` is accepted. Every
+                               task sees all 40 Scientific and 4 Data Actions.
+      --mcp-profiles CSV      Select runtimes for installation/probe validation only:
                                core, services, quantum, psi4, reaction, qe, cp2k,
-                               periodic, phonons, md, mlip, docking. Profiles override the
-                               single-server --mcp-tools selection.
+                               periodic, phonons, md, mlip, docking. This never
+                               changes the public tool catalog.
 
 OpenCode/OpenAI-compatible options:
       --opencode-model MODEL   Example: deepseek/deepseek-v4-flash.
@@ -86,7 +84,7 @@ Examples:
   export OPENAI_API_KEY=...
   bash scripts/run_agent_eval.sh --agent opencode --task ChemGraph_003 --no-score
 
-  # Expose a task-specific subset of the expanded toolbox
+  # Validate selected backend runtimes; the Agent still sees the full toolbox
   bash scripts/run_agent_eval.sh --agent opencode --task ChemGraph_003 \
     --mcp-profiles core,services --no-score
 
@@ -137,7 +135,7 @@ CHEMGRAPH_ROOT_VALUE=""
 CHEMGRAPH_PYTHON_VALUE=""
 OPENCODE_MODEL_VALUE=""
 OPENCODE_BASE_URL_VALUE=""
-MCP_TOOLS_VALUE="${RESEARCHCHEMBENCH_MCP_TOOLS:-chemgraph-core}"
+MCP_TOOLS_VALUE="${RESEARCHCHEMBENCH_MCP_TOOLS:-all}"
 MCP_PROFILES_VALUE="${RESEARCHCHEMBENCH_MCP_PROFILES:-}"
 POSITIONAL=()
 
@@ -285,21 +283,11 @@ if [[ -n "$OPENCODE_BASE_URL_VALUE" ]]; then
   export RESEARCHCHEMBENCH_OPENCODE_BASE_URL="$OPENCODE_BASE_URL_VALUE"
 fi
 
-case "$MCP_TOOLS_VALUE" in
-  chemgraph-core)
-    export RESEARCHCHEM_MCP_ENABLED_TOOLS="calculator,extract_output_json,molecule_name_to_smiles,run_ase,smiles_to_coordinate_file"
-    ;;
-  all)
-    export RESEARCHCHEM_MCP_ENABLED_TOOLS=""
-    ;;
-  *)
-    if [[ ! "$MCP_TOOLS_VALUE" =~ ^[a-z][a-z0-9_]*(,[a-z][a-z0-9_]*)*$ ]]; then
-      echo "Error: --mcp-tools must be chemgraph-core, all, or a comma-separated lower_snake_case list." >&2
-      exit 2
-    fi
-    export RESEARCHCHEM_MCP_ENABLED_TOOLS="$MCP_TOOLS_VALUE"
-    ;;
-esac
+if [[ "$MCP_TOOLS_VALUE" != "all" ]]; then
+  echo "Error: --mcp-tools only accepts 'all'; task-specific tool filtering is disabled for this benchmark." >&2
+  exit 2
+fi
+unset RESEARCHCHEM_MCP_ENABLED_TOOLS RESEARCHCHEM_MCP_DISABLED_TOOLS
 if [[ -n "$MCP_PROFILES_VALUE" ]]; then
   export RESEARCHCHEMBENCH_MCP_PROFILES="$MCP_PROFILES_VALUE"
   python - <<'PY'
@@ -342,7 +330,7 @@ if [[ -n "$CONFIG" ]]; then
   echo "  ChemGraph root:  $CHEMGRAPH_ROOT"
   echo "  MCP Python:      $CHEMGRAPH_PYTHON"
   echo "  MCP tools:       $MCP_TOOLS_VALUE"
-  echo "  MCP profiles:    ${MCP_PROFILES_VALUE:-single-server}"
+  echo "  Backend runtimes:${MCP_PROFILES_VALUE:-all catalog entries; one public server}"
   echo "  Workspaces root: ${RESEARCHCHEMBENCH_WORKSPACES_DIR:-$ROOT_DIR/workspaces}"
   exec python -m evaluation.cli_eval "$CONFIG" "${CLI_ARGS[@]}"
 fi
@@ -353,7 +341,7 @@ echo "  Task:            $TASK"
 echo "  ChemGraph root:  $CHEMGRAPH_ROOT"
 echo "  MCP Python:      $CHEMGRAPH_PYTHON"
 echo "  MCP tools:       $MCP_TOOLS_VALUE"
-echo "  MCP profiles:    ${MCP_PROFILES_VALUE:-single-server}"
+echo "  Backend runtimes:${MCP_PROFILES_VALUE:-all catalog entries; one public server}"
 echo "  Timeout seconds: ${RESEARCHCHEMBENCH_AGENT_TIMEOUT_SECONDS:-7200}"
 echo "  Max turns:       ${RESEARCHCHEMBENCH_MAX_TURNS:-200}"
 echo "  Workspaces root: ${RESEARCHCHEMBENCH_WORKSPACES_DIR:-$ROOT_DIR/workspaces}"

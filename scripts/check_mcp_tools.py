@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""List Chemistry MCP tools and optionally run a local no-network smoke flow."""
+"""Validate the full MCP catalog and optionally run a no-network atomic smoke flow."""
 
 from __future__ import annotations
 
@@ -7,17 +7,15 @@ import argparse
 import asyncio
 import json
 import os
+import sys
 import tempfile
 from pathlib import Path
 
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 
-EXPECTED_TOOLS = {
-    "calculator",
-    "extract_output_json",
-    "molecule_name_to_smiles",
-    "run_ase",
-    "smiles_to_coordinate_file",
-}
+from researchchem_toolbox.catalog import action_specs, validate_catalog
 
 
 def _require_success(name: str, result) -> None:
@@ -26,98 +24,114 @@ def _require_success(name: str, result) -> None:
 
 
 async def run(*, smoke: bool = False) -> None:
+    validate_catalog()
     with tempfile.TemporaryDirectory(prefix="researchchembench-mcp-") as temporary:
         workspace = Path(temporary)
-        (workspace / "outputs").mkdir()
+        for name in ("outputs", "report", "tool_logs", "_tool_results", "_tool_artifacts"):
+            (workspace / name).mkdir()
         os.environ["RESEARCHCHEMBENCH_WORKSPACE"] = str(workspace)
         os.environ["RESEARCHCHEMBENCH_RUN_ID"] = "mcp-tool-check"
 
         from fastmcp import Client
-        from evaluation.mcp_tools.server import mcp
+        from evaluation.mcp_tools.server import create_server
 
-        async with Client(mcp) as client:
+        async with Client(create_server()) as client:
             tools = await client.list_tools()
             tool_names = {tool.name for tool in tools}
-            missing = EXPECTED_TOOLS - tool_names
-            if missing:
-                raise RuntimeError(f"Missing expected MCP tools: {sorted(missing)}")
-            print("Registered Chemistry MCP tools:")
-            for tool in sorted(tools, key=lambda item: item.name):
-                print(f"  - {tool.name}")
-
+            if tool_names != set(action_specs()):
+                raise RuntimeError(
+                    f"Full catalog mismatch: missing={sorted(set(action_specs()) - tool_names)}, "
+                    f"extra={sorted(tool_names - set(action_specs()))}"
+                )
+            print(f"Registered {len(tools)} complete-catalog Chemistry MCP tools")
             if not smoke:
                 return
+            calls = [
+                (
+                    "standardize_structure",
+                    {
+                        "request": {
+                            "backend_id": "rdkit",
+                            "inputs": {"structure": "CC(=O)[O-].[Na+]"},
+                            "method_spec": {},
+                            "action_settings": {
+                                "largest_fragment": True,
+                                "neutralize": False,
+                                "canonical_tautomer": False,
+                            },
+                        }
+                    },
+                ),
+                (
+                    "generate_3d_structure",
+                    {
+                        "request": {
+                            "backend_id": "rdkit",
+                            "inputs": {"molecule": "O"},
+                            "method_spec": {},
+                            "action_settings": {"random_seed": 20260718},
+                        }
+                    },
+                ),
+                (
+                    "calculate_energy",
+                    {
+                        "request": {
+                            "backend_id": "ase_emt",
+                            "inputs": {
+                                "structure": {
+                                    "atoms": [
+                                        {"element": "H", "position_angstrom": [0.0, 0.0, 0.0]},
+                                        {"element": "H", "position_angstrom": [0.0, 0.0, 0.74]},
+                                    ],
+                                    "charge": 0,
+                                    "multiplicity": 1,
+                                    "pbc": [False, False, False],
+                                }
+                            },
+                            "method_spec": {},
+                            "action_settings": {},
+                        }
+                    },
+                ),
+                (
+                    "rank_conformers_from_results",
+                    {
+                        "request": {
+                            "backend_id": "internal_statistics",
+                            "inputs": {
+                                "ensemble": [{"conformer_id": "a"}, {"conformer_id": "b"}],
+                                "scores": [{"value": 0.0}, {"value": 1.0}],
+                            },
+                            "method_spec": {},
+                            "action_settings": {
+                                "temperature_kelvin": 298.15,
+                                "score_unit": "kcal_mol",
+                            },
+                        }
+                    },
+                ),
+            ]
+            for name, arguments in calls:
+                _require_success(name, await client.call_tool(name, arguments))
 
-            calculator = await client.call_tool(
-                "calculator", {"expression": "(2 + 3) * 4"}
-            )
-            _require_success("calculator", calculator)
-            coordinates = await client.call_tool(
-                "smiles_to_coordinate_file",
-                {
-                    "smiles": "O",
-                    "output_file": "outputs/water.xyz",
-                    "seed": 2025,
-                },
-            )
-            _require_success("smiles_to_coordinate_file", coordinates)
-            ase_result = await client.call_tool(
-                "run_ase",
-                {
-                    "params": {
-                        "input_structure_file": "outputs/water.xyz",
-                        "output_results_file": "outputs/water_energy.json",
-                        "driver": "energy",
-                        "calculator": {"calculator_type": "emt"},
-                    }
-                },
-            )
-            _require_success("run_ase", ase_result)
-            extracted = await client.call_tool(
-                "extract_output_json",
-                {"json_file": "outputs/water_energy.json"},
-            )
-            _require_success("extract_output_json", extracted)
-
-        trace_path = workspace / "_tool_trace.jsonl"
         events = [
             json.loads(line)
-            for line in trace_path.read_text(encoding="utf-8").splitlines()
+            for line in (workspace / "_tool_trace.jsonl").read_text(encoding="utf-8").splitlines()
             if line.strip()
         ]
-        expected_sequence = [
-            "calculator",
-            "smiles_to_coordinate_file",
-            "run_ase",
-            "extract_output_json",
-        ]
-        actual_sequence = [event.get("tool") for event in events]
-        if actual_sequence != expected_sequence:
-            raise RuntimeError(
-                f"Unexpected trace sequence: expected {expected_sequence}, got {actual_sequence}"
-            )
-        if not (workspace / "outputs" / "water.xyz").is_file():
-            raise RuntimeError("SMILES smoke call did not create water.xyz")
-        if not (workspace / "outputs" / "water_energy.json").is_file():
-            raise RuntimeError("ASE smoke call did not create water_energy.json")
-        if not any((workspace / "_tool_artifacts").rglob("water_energy.json")):
-            raise RuntimeError("MCP tracing did not snapshot water_energy.json")
-
-        print("Local MCP smoke flow passed:")
-        print("  calculator -> SMILES/XYZ -> ASE/EMT energy -> JSON extraction")
-        print("  canonical trace, full results, and artifact snapshots verified")
+        expected = [name for name, _arguments in calls]
+        actual = [event["tool"] for event in events]
+        if actual != expected:
+            raise RuntimeError(f"Unexpected trace sequence: expected {expected}, got {actual}")
+        if not (workspace / "_tool_artifacts" / "index.jsonl").is_file():
+            raise RuntimeError("Semantic Artifact index was not created")
+        print("Atomic MCP smoke passed: explicit tools, explicit backends, Artifact chain, trace")
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument(
-        "--smoke",
-        action="store_true",
-        help=(
-            "Run a local water/EMT flow. This checks MCP, RDKit, ASE, tracing, and "
-            "artifacts without PubChem network access or MACE/TBLite models."
-        ),
-    )
+    parser.add_argument("--smoke", action="store_true")
     args = parser.parse_args()
     asyncio.run(run(smoke=args.smoke))
     return 0

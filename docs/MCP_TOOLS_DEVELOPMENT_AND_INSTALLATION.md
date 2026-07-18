@@ -1,5 +1,7 @@
 # MCP 化学工具的管理、扩展与维护
 
+> 2026-07-18 更新：不再通过新增 `tools/run_*.py` 文件扩展工具箱。新增能力应修改 `ActionSpec`/`BackendSpec`、后端 handler 和 conformance test；全部 Actions 对所有任务可见。当前架构见 `docs/tools/CHEMISTRY_TOOLBOX_REFACTOR_REPORT.md`。
+
 ## 1. 当前设计解决什么问题
 
 ResearchChemBench 将给 Agent 使用的化学能力放在：
