@@ -1,0 +1,23 @@
+:root { color-scheme: dark; font-family: Inter, system-ui, sans-serif; }
+* { box-sizing: border-box; }
+body { margin: 0; background: #0b1020; color: #e6edf7; }
+header { padding: 24px 4vw; background: #111a31; border-bottom: 1px solid #283556; }
+header h1 { margin: 0 0 6px; }
+header p { margin: 0; color: #9fb0cc; }
+main { padding: 20px 4vw 48px; display: grid; gap: 16px; }
+.panel { background: #111a2c; border: 1px solid #263654; border-radius: 10px; padding: 16px; min-width: 0; }
+.controls { display: flex; gap: 12px; align-items: end; flex-wrap: wrap; }
+label { display: grid; gap: 5px; color: #b9c8df; }
+select, button { min-height: 38px; border: 1px solid #41577e; border-radius: 7px; background: #17233d; color: #eef5ff; padding: 7px 11px; }
+button { cursor: pointer; }
+button:disabled { opacity: .45; cursor: default; }
+#status { margin-left: auto; color: #7dd3fc; }
+.columns { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+pre { margin: 0; min-height: 100px; max-height: 420px; overflow: auto; white-space: pre-wrap; word-break: break-word; background: #09101f; padding: 12px; border-radius: 7px; color: #d5e5fb; }
+h2 { margin-top: 0; font-size: 1rem; color: #c9d8ee; }
+.file { display: block; width: 100%; text-align: left; background: transparent; border: 0; padding: 4px; color: #8ed0ff; }
+.directory { color: #facc6b; padding: 3px 0; }
+table { width: 100%; border-collapse: collapse; }
+th, td { border-bottom: 1px solid #2b3a59; padding: 8px; text-align: left; font-size: .9rem; }
+tr[data-run] { cursor: pointer; }
+@media (max-width: 900px) { .columns { grid-template-columns: 1fr; } #status { margin-left: 0; } }

@@ -1,0 +1,47 @@
+# MCP Tool Catalog
+
+This file is generated from each tool module's `TOOL_SPEC`.
+
+| Tool | Enabled | Category | Version | Backend | Dependencies | Network | Executables | Side effects | Description | Status |
+|---|---|---|---|---|---|---|---|---|---|---|
+| analyze_md_trajectory | yes | molecular_dynamics | 1.0.0 | MDAnalysis | MDAnalysis | no |  | reads topology and trajectory files | Analyze topology/trajectory frames, selected atom counts, radius of gyration, and coordinate bounds with MDAnalysis. | ok |
+| analyze_wavefunction | yes | wavefunction_analysis | 1.0.0 | cclib | cclib | no |  | reads quantum-chemistry output | Parse supported quantum-chemistry output with cclib and return energies, orbital indices, charges, and metadata. | ok |
+| calculator | yes | utility | 1.0.0 | NumExpr | numexpr | no |  |  | Safely evaluate numerical arithmetic expressions for reaction energies. | ok |
+| check_backend_availability | yes | toolbox_management | 1.0.0 | ResearchChemBench registry/runtime probe | pyyaml | no |  |  | Check Python modules, executables, credentials, and manual actions for one backend. | ok |
+| compute_thermochemistry | yes | thermochemistry | 1.0.0 | GoodVibes | goodvibes | no | goodvibes | runs GoodVibes, writes thermochemistry logs | Compute GoodVibes thermochemistry from one parsed quantum-chemistry output file. | ok |
+| convert_structure | yes | data_structure | 1.0.0 | ASE | ase | no |  | writes converted structure file | Convert a structure file between ASE-supported formats while preserving the active workspace boundary. | ok |
+| extract_output_json | yes | result_io | 1.0.0 | ChemGraph |  | no |  | reads result file | Read a JSON result file produced by run_ase from the active workspace. | ok |
+| find_transition_state | yes | reaction_path | 1.0.0 | pysisyphus | pysisyphus | no | pysis | runs transition-state workflow, writes optimization files | Run a prepared pysisyphus transition-state input; backend choice remains explicit and input construction is separate. | ok |
+| generate_3d_structure | yes | cheminformatics | 1.0.0 | RDKit | rdkit | no |  | writes SDF or XYZ structure file | Generate an optimized 3D structure from SMILES using an explicit RDKit backend. | ok |
+| generate_conformers_crest | yes | conformer_search | 1.0.0 | CREST/xTB |  | no | crest | runs CREST, writes conformer ensemble files | Run a CREST conformer search from a workspace XYZ file with explicit charge and spin settings. | ok |
+| generate_conformers_rdkit | yes | conformer_search | 1.0.0 | RDKit ETKDG/MMFF | rdkit | no |  | writes multi-conformer SDF file | Generate and MMFF-rank a conformer ensemble from SMILES with RDKit ETKDG. | ok |
+| list_toolbox_capabilities | yes | toolbox_management | 1.0.0 | ResearchChemBench registry | pyyaml | no |  |  | List managed chemistry backends, capabilities, MCP tools, and configured status. | ok |
+| molecule_name_to_smiles | yes | cheminformatics | 1.0.0 | ChemGraph/PubChem | pubchempy | yes |  | external PubChem request | Convert a molecule name to canonical SMILES using ChemGraph/PubChem. | ok |
+| prepare_md_system | yes | molecular_dynamics | 1.0.0 | PDBFixer/OpenMM | pdbfixer, openmm | no |  | writes prepared PDB file | Repair a PDB with PDBFixer, add missing atoms/hydrogens, and write a workspace-confined prepared PDB. | ok |
+| query_catalysis_hub | yes | external_data | 1.0.0 | Catalysis-Hub GraphQL API |  | yes |  | external Catalysis-Hub request | Query bounded Catalysis-Hub reaction records by reactants and/or products. | ok |
+| query_materials_project | yes | external_data | 1.0.0 | Materials Project mp-api | mp-api | yes |  | authenticated Materials Project request | Query Materials Project summary data by material ID or chemical formula using MP_API_KEY. | ok |
+| query_pubchem | yes | external_data | 1.0.0 | PubChem PUG-REST via PubChemPy | pubchempy | yes |  | external PubChem request | Query PubChem by compound name, CID, SMILES, InChI, or InChIKey and return selected identifiers/properties. | ok |
+| query_rcsb_pdb | yes | external_data | 1.0.0 | RCSB PDB Data API |  | yes |  | external RCSB PDB request | Retrieve normalized entry metadata for one four-character RCSB PDB identifier. | ok |
+| refine_ensemble_censo | yes | conformer_search | 1.0.0 | CENSO |  | no | censo | runs CENSO, writes refined ensemble files | Run a configured CENSO executable on a workspace conformer ensemble. | ok |
+| run_ase | yes | simulation | 1.0.0 | ChemGraph/ASE | ase | no |  | runs chemistry calculation, writes result and calculator files | Run a ChemGraph ASE calculation. Drivers include energy, dipole, opt, vib, ir, and thermo. Files stay inside the active workspace. | ok |
+| run_cantera | yes | reaction_kinetics | 1.0.0 | Cantera | cantera | no |  |  | Run a Cantera gas-phase equilibrium calculation with a built-in mechanism and explicit thermodynamic mode. | ok |
+| run_catmap | yes | catalysis | 1.0.0 | CatMAP | catmap | no | catmap | runs CatMAP, writes microkinetic model outputs | Run a prepared CatMAP model file with a configured CatMAP command-line entry point. | ok |
+| run_cp2k | yes | periodic_dft | 1.0.0 | CP2K |  | no | cp2k | runs CP2K, writes CP2K output files | Run CP2K on a workspace input deck using an installed or CHEMGRAPH_CP2K_COMMAND-configured executable. | ok |
+| run_docking | yes | docking | 1.0.0 | AutoDock Vina/GNINA |  | no | vina, gnina | runs docking software, writes poses and score logs | Run an explicit AutoDock Vina or GNINA backend with workspace-confined receptor, ligand, and outputs. | ok |
+| run_gromacs | yes | molecular_dynamics | 1.0.0 | GROMACS |  | no | gmx | runs GROMACS, writes trajectory and checkpoint files | Run GROMACS mdrun from a prepared workspace TPR file; system preparation remains a separate tool. | ok |
+| run_irc | yes | reaction_path | 1.0.0 | pysisyphus | pysisyphus | no | pysis | runs IRC workflow, writes reaction-path files | Run a prepared pysisyphus intrinsic reaction-coordinate input from the active workspace. | ok |
+| run_lammps | yes | molecular_dynamics | 1.0.0 | LAMMPS |  | no | lmp | runs LAMMPS, writes trajectory and restart files | Run LAMMPS from a workspace input script using a configured lmp executable. | ok |
+| run_mlip | yes | mlip | 1.0.0 | MACE/CHGNet | ase | yes |  |  | Evaluate structure energy/forces with an explicit MACE or CHGNet backend; model downloads require opt-in. | ok |
+| run_openmm | yes | molecular_dynamics | 1.0.0 | OpenMM | openmm | no |  | runs OpenMM, writes final PDB and result JSON | Run a small OpenMM minimization/MD job from a prepared PDB using whitelisted built-in force fields. | ok |
+| run_orca | yes | quantum_chemistry | 1.0.0 | ORCA |  | no | orca | runs configured ORCA installation, writes ORCA output files | Run a licensed user-provided ORCA executable on a workspace input file; ORCA is never downloaded by this project. | ok |
+| run_periodic_calculation | yes | periodic_dft | 1.0.0 | QE/CP2K/DFTB+/SIESTA/ABINIT |  | no | pw.x, cp2k, dftb+, siesta, abinit | runs selected periodic backend, writes calculation files | Run an explicit QE, CP2K, DFTB+, SIESTA, or ABINIT backend from a prepared workspace input deck. | ok |
+| run_phonopy | yes | phonons | 1.0.0 | Phonopy/Phono3py | phonopy | no | phonopy, phonopy-init, phono3py, phono3py-init | runs phonon software, writes displacement and phonon files | Run a Phonopy or Phono3py symmetry/small-displacement workflow from a workspace structure file. | ok |
+| run_plumed | yes | enhanced_sampling | 1.0.0 | PLUMED |  | no | plumed | runs PLUMED driver, writes collective-variable output files | Run PLUMED driver on a workspace PLUMED input and optional XTC trajectory. | ok |
+| run_psi4 | yes | quantum_chemistry | 1.0.0 | Psi4 | psi4 | no | psi4 | runs Psi4, writes Psi4 text and JSON outputs | Run a Psi4 molecular single-point energy using an explicit method, basis, memory, and thread count. | ok |
+| run_pyscf | yes | quantum_chemistry | 1.0.0 | PySCF | pyscf | no |  | runs PySCF, writes structured result JSON | Run an explicit PySCF RHF/UHF/RKS/UKS molecular single-point calculation from an atom specification. | ok |
+| run_quantum_espresso | yes | periodic_dft | 1.0.0 | Quantum ESPRESSO pw.x |  | no | pw.x | runs pw.x, writes periodic DFT output files | Run Quantum ESPRESSO pw.x with a workspace input deck and configured pseudopotentials. | ok |
+| run_reaction_kinetics | yes | reaction_kinetics | 1.0.0 | SciPy solve_ivp | scipy | no |  |  | Integrate a user-specified irreversible mass-action reaction network with SciPy. | ok |
+| run_xtb | yes | quantum_chemistry | 1.0.0 | xTB |  | no | xtb | runs xTB, writes xTB output files | Run standalone xTB with an explicit GFN backend, charge, spin, and optional geometry optimization. | ok |
+| smiles_to_coordinate_file | yes | cheminformatics | 1.0.0 | ChemGraph/RDKit/ASE | rdkit, ase | no |  | writes coordinate file | Generate a 3D XYZ coordinate file from SMILES inside the active workspace. | ok |
+| standardize_molecule | yes | cheminformatics | 1.0.0 | RDKit | rdkit | no |  |  | Standardize a SMILES molecule with RDKit cleanup, fragment selection, and optional neutralization. | ok |
+| validate_computation | yes | validation | 1.0.0 | ResearchChemBench deterministic validator |  | no |  | reads computation result and artifact files | Validate a JSON computation result for required fields, finite numbers, success status, and existing artifacts. | ok |

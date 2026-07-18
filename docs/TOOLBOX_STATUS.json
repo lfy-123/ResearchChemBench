@@ -1,0 +1,3579 @@
+{
+  "generated_at": "2026-07-17T16:00:10.346205+00:00",
+  "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.toolbox_env/bin/python",
+  "workspace": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/workspaces/toolbox_verification/20260717_155950",
+  "tools": [
+    {
+      "name": "analyze_md_trajectory",
+      "enabled": true,
+      "category": "molecular_dynamics",
+      "backend": "MDAnalysis",
+      "status": "working",
+      "detail": "Minimal functional smoke test succeeded",
+      "result": {
+        "status": "success",
+        "backend": "MDAnalysis",
+        "topology_file": "data/water.pdb",
+        "trajectory_file": null,
+        "selection": "all",
+        "selected_atom_count": 3,
+        "frame_count": 1,
+        "radius_of_gyration_like_angstrom": [
+          0.6629409790039062
+        ],
+        "coordinate_minima": [
+          [
+            -0.7580000162124634,
+            0.0,
+            0.0
+          ]
+        ],
+        "coordinate_maxima": [
+          [
+            0.7580000162124634,
+            0.0,
+            0.5040000081062317
+          ]
+        ]
+      }
+    },
+    {
+      "name": "analyze_wavefunction",
+      "enabled": true,
+      "category": "wavefunction_analysis",
+      "backend": "cclib",
+      "status": "working",
+      "detail": "Minimal functional smoke test succeeded",
+      "result": {
+        "status": "success",
+        "backend": "cclib",
+        "output_file": "outputs/analyze_wavefunction_xtb/stdout.log",
+        "metadata": {
+          "package": "xTB",
+          "methods": [
+            "GFN2-xTB"
+          ],
+          "success": true,
+          "package_version": "6.7.1",
+          "keywords": [
+            "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.toolbox_env/bin/xtb",
+            "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/workspaces/toolbox_verification/20260717_155950/data/water.xyz",
+            "--gfn",
+            "2",
+            "--chrg",
+            "0",
+            "--uhf",
+            "0"
+          ],
+          "coord_type": "xyz",
+          "wall_time": [
+            "0:00:00.404000"
+          ],
+          "cpu_time": [
+            "0:00:15.633000"
+          ]
+        },
+        "atom_numbers": [
+          8,
+          1,
+          1
+        ],
+        "scf_energies_ev": [
+          -137.84669881642878
+        ],
+        "homo_indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "orbital_energies_ev": [
+          [
+            -18.6266,
+            -15.673,
+            -13.7138,
+            -12.1501,
+            4.1767,
+            10.4102
+          ]
+        ],
+        "mulliken_charges": [
+          -0.578,
+          0.289,
+          0.289
+        ],
+        "attributes": [
+          "atomcharges",
+          "atomcoords",
+          "atomnos",
+          "charge",
+          "coreelectrons",
+          "homos",
+          "metadata",
+          "moenergies",
+          "mult",
+          "natom",
+          "scfenergies"
+        ]
+      }
+    },
+    {
+      "name": "calculator",
+      "enabled": true,
+      "category": "utility",
+      "backend": "NumExpr",
+      "status": "working",
+      "detail": "Minimal functional smoke test succeeded",
+      "result": {
+        "status": "success",
+        "value": "20"
+      }
+    },
+    {
+      "name": "check_backend_availability",
+      "enabled": true,
+      "category": "toolbox_management",
+      "backend": "ResearchChemBench registry/runtime probe",
+      "status": "working",
+      "detail": "Minimal functional smoke test succeeded",
+      "result": {
+        "status": "available",
+        "backend": "RDKit",
+        "available": true,
+        "python_modules": {
+          "rdkit": true
+        },
+        "executables": {},
+        "environment": {},
+        "manual_action": null,
+        "configured_status": "verified",
+        "license_class": "open_source",
+        "official_url": "https://www.rdkit.org/"
+      }
+    },
+    {
+      "name": "compute_thermochemistry",
+      "enabled": true,
+      "category": "thermochemistry",
+      "backend": "GoodVibes",
+      "status": "not_configured",
+      "detail": "Adapter is registered, but no safe automated real smoke input is defined",
+      "result": {
+        "status": "unavailable",
+        "reason": "Adapter is registered, but no safe automated real smoke input is defined",
+        "manual_action": "Run a representative licensed/configured backend input manually."
+      }
+    },
+    {
+      "name": "convert_structure",
+      "enabled": true,
+      "category": "data_structure",
+      "backend": "ASE",
+      "status": "working",
+      "detail": "Minimal functional smoke test succeeded",
+      "result": {
+        "status": "success",
+        "backend": "ASE",
+        "input_file": "data/water.xyz",
+        "output_file": "outputs/water_copy.xyz",
+        "atom_count": 3,
+        "chemical_formula": "H2O"
+      }
+    },
+    {
+      "name": "extract_output_json",
+      "enabled": true,
+      "category": "result_io",
+      "backend": "ChemGraph",
+      "status": "working",
+      "detail": "Minimal functional smoke test succeeded",
+      "result": {
+        "status": "success",
+        "value": {
+          "energy": -1.0
+        }
+      }
+    },
+    {
+      "name": "find_transition_state",
+      "enabled": true,
+      "category": "reaction_path",
+      "backend": "pysisyphus",
+      "status": "not_configured",
+      "detail": "Adapter is registered, but no safe automated real smoke input is defined",
+      "result": {
+        "status": "unavailable",
+        "reason": "Adapter is registered, but no safe automated real smoke input is defined",
+        "manual_action": "Run a representative licensed/configured backend input manually."
+      }
+    },
+    {
+      "name": "generate_3d_structure",
+      "enabled": true,
+      "category": "cheminformatics",
+      "backend": "RDKit",
+      "status": "working",
+      "detail": "Minimal functional smoke test succeeded",
+      "result": {
+        "status": "success",
+        "backend": "RDKit",
+        "smiles": "O",
+        "output_file": "outputs/water.sdf",
+        "atom_count": 3
+      }
+    },
+    {
+      "name": "generate_conformers_crest",
+      "enabled": true,
+      "category": "conformer_search",
+      "backend": "CREST/xTB",
+      "status": "working",
+      "detail": "Minimal functional smoke test succeeded",
+      "result": {
+        "status": "success",
+        "backend": "CREST",
+        "available": true,
+        "returncode": 0,
+        "command": [
+          "crest",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/workspaces/toolbox_verification/20260717_155950/data/water.xyz",
+          "--gfn2",
+          "--chrg",
+          "0",
+          "--uhf",
+          "0"
+        ],
+        "output_directory": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/workspaces/toolbox_verification/20260717_155950/outputs/crest",
+        "stdout_log": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/workspaces/toolbox_verification/20260717_155950/outputs/crest/stdout.log",
+        "stderr_log": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/workspaces/toolbox_verification/20260717_155950/outputs/crest/stderr.log",
+        "stdout_preview": "or 49 optimizations:\n * wall-time:     0 d,  0 h,  0 min,  0.072 sec\n *  cpu-time:     0 d,  0 h,  0 min,  0.072 sec\n * ratio c/w:     0.999 speedup\n> Corresponding to approximately 0.001 sec per processed structure\n\nCREGEN> running RMSDs ... done.\nCREGEN> E lowest :    -5.07054\n 1 structures remain within     6.00 kcal/mol window\n This is less than 5% of the initial 49 structures.\n Increasing energy window to include more...\nCREGEN> running RMSDs ... done.\nCREGEN> E lowest :    -5.07054\n 1 structures remain within     9.00 kcal/mol window\n Not enough structures to perform GC!\n\n ======================================\n |  Multilevel Ensemble Optimization  |\n ======================================\n empty ensemble file confcross.xyz\nappending new structures to crest_rotamers_2.xyz\nCREGEN> running RMSDs ... done.\nCREGEN> E lowest :    -5.07054\n\n\n   ================================================\n   |           Final Geometry Optimization        |\n   ================================================\n Optimizing all 1 structures from file \"crest_rotamers_3.xyz\" ...\n ---------------------------------------\n optimization with very tight thresholds\n ---------------------------------------\n Optimization engine: ANCOPT\n Hessian update type: BFGS\n E/G convergence criteria:  0.100E-06 Eh, 0.200E-03 Eh/a0\n maximum optimization steps: 200\n |>100.0%\n done.\n> 1 of 1 structures successfully optimized (100.0% success)\n> Total runtime for 1 optimizations:\n * wall-time:     0 d,  0 h,  0 min,  0.001 sec\n *  cpu-time:     0 d,  0 h,  0 min,  0.001 sec\n * ratio c/w:     0.923 speedup\n> Corresponding to approximately 0.001 sec per processed structure\n\nCREGEN> running RMSDs ... done.\nCREGEN> E lowest :    -5.07054\n 1 structures remain within     6.00 kcal/mol window\n\n\n --------------------------\n Final Ensemble Information\n --------------------------\n input  file name : crest_rotamers_3.xyz\n output file name : crest_rotamers_4.xyz\n number of atoms                :   3\n number of points on xyz files  :   1\n RMSD threshold                 :   0.1250\n Bconst threshold               :   0.0100\n population threshold           :   0.0500\n # fragment in coord            :     1\n # bonds in reference structure :     2\n number of reliable points      :     1\n sorting energy window (EWIN)   :    6.0000 / kcal*mol⁻¹\n reference state Etot           :  -5.0705444499999999\n number of doubles removed by rot/RMSD         :           0\n total number unique points considered further :           1\n       Erel/kcal        Etot weight/tot  conformer     set   degen     origin\n       1   0.000    -5.07054    1.00000    1.00000       1       1\nT /K                                  :   298.15\nE lowest                              :    -5.07054\nensemble average energy (kcal)        :    0.000\nensemble entropy (J/mol K, cal/mol K) :   -0.000   -0.000\nensemble free energy (kcal/mol)       :    0.000\npopulation of lowest in %             :  100.000\n number of unique conformers for further calc            1\n list of relative energies saved as \"crest.energies\"\n\n -----------------\n Wall Time Summary\n -----------------\n CREST runtime (total)               0 d,  0 h,  0 min, 10.657 sec\n ------------------------------------------------------------------\n Trial metadynamics (MTD)   ...        0 min,  0.053 sec (  0.494%)\n Metadynamics (MTD)         ...        0 min,  6.679 sec ( 62.676%)\n Geometry optimization      ...        0 min,  3.553 sec ( 33.342%)\n Molecular dynamics (MD)    ...        0 min,  0.238 sec (  2.232%)\n Genetic crossing (GC)      ...        0 min,  0.000 sec (  0.004%)\n I/O and setup              ...        0 min,  0.134 sec (  1.253%)\n ------------------------------------------------------------------\n * wall-time:     0 d,  0 h,  0 min, 10.657 sec\n *  cpu-time:     0 d,  0 h,  0 min, 14.678 sec\n * ratio c/w:     1.377 speedup\n ------------------------------------------------------------------\n * Total number of energy+grad calls: 35391\n\n CREST terminated normally.\n",
+        "stderr_preview": ""
+      }
+    },
+    {
+      "name": "generate_conformers_rdkit",
+      "enabled": true,
+      "category": "conformer_search",
+      "backend": "RDKit ETKDG/MMFF",
+      "status": "working",
+      "detail": "Minimal functional smoke test succeeded",
+      "result": {
+        "status": "success",
+        "backend": "RDKit ETKDG/MMFF",
+        "output_file": "outputs/conformers.sdf",
+        "conformer_count": 3,
+        "energies_kcal_mol": [
+          -1.3368570634433097,
+          -1.3368570621494058,
+          -1.5170975767240207
+        ],
+        "lowest_energy_index": 2
+      }
+    },
+    {
+      "name": "list_toolbox_capabilities",
+      "enabled": true,
+      "category": "toolbox_management",
+      "backend": "ResearchChemBench registry",
+      "status": "working",
+      "detail": "Minimal functional smoke test succeeded",
+      "result": {
+        "status": "success",
+        "count": 99,
+        "software": [
+          {
+            "name": "RDKit",
+            "category": "data_structure",
+            "capabilities": [
+              "standardize_molecule",
+              "generate_3d_structure",
+              "generate_conformers"
+            ],
+            "mcp_tools": [
+              "standardize_molecule",
+              "generate_3d_structure",
+              "generate_conformers_rdkit"
+            ],
+            "configured_status": "verified"
+          },
+          {
+            "name": "Open Babel",
+            "category": "data_structure",
+            "capabilities": [
+              "convert_structure",
+              "generate_3d_structure"
+            ],
+            "mcp_tools": [
+              "convert_structure",
+              "generate_3d_structure"
+            ],
+            "configured_status": "installed"
+          },
+          {
+            "name": "ASE",
+            "category": "data_structure",
+            "capabilities": [
+              "convert_structure",
+              "atomistic_calculation"
+            ],
+            "mcp_tools": [
+              "convert_structure",
+              "run_ase"
+            ],
+            "configured_status": "verified"
+          },
+          {
+            "name": "QCSchema",
+            "category": "data_structure",
+            "capabilities": [
+              "quantum_chemistry_schema"
+            ],
+            "mcp_tools": [
+              "validate_computation"
+            ],
+            "configured_status": "installed"
+          },
+          {
+            "name": "QCElemental",
+            "category": "data_structure",
+            "capabilities": [
+              "units",
+              "periodic_table",
+              "qcschema_models"
+            ],
+            "mcp_tools": [
+              "validate_computation"
+            ],
+            "configured_status": "installed"
+          },
+          {
+            "name": "QCEngine",
+            "category": "quantum_chemistry",
+            "capabilities": [
+              "unified_program_execution"
+            ],
+            "mcp_tools": [
+              "run_periodic_calculation",
+              "validate_computation"
+            ],
+            "configured_status": "installed"
+          },
+          {
+            "name": "cclib",
+            "category": "analysis",
+            "capabilities": [
+              "parse_quantum_chemistry_output"
+            ],
+            "mcp_tools": [
+              "analyze_wavefunction"
+            ],
+            "configured_status": "installed"
+          },
+          {
+            "name": "pymatgen",
+            "category": "materials",
+            "capabilities": [
+              "structure_io",
+              "materials_analysis"
+            ],
+            "mcp_tools": [
+              "convert_structure",
+              "validate_computation"
+            ],
+            "configured_status": "installed"
+          },
+          {
+            "name": "spglib",
+            "category": "materials",
+            "capabilities": [
+              "symmetry_analysis"
+            ],
+            "mcp_tools": [
+              "validate_computation"
+            ],
+            "configured_status": "installed"
+          },
+          {
+            "name": "OpenFF Toolkit",
+            "category": "molecular_simulation",
+            "capabilities": [
+              "force_field_parameterization"
+            ],
+            "mcp_tools": [
+              "prepare_md_system"
+            ],
+            "configured_status": "installed"
+          },
+          {
+            "name": "OpenFF Interchange",
+            "category": "molecular_simulation",
+            "capabilities": [
+              "simulation_interchange"
+            ],
+            "mcp_tools": [
+              "prepare_md_system"
+            ],
+            "configured_status": "installed"
+          },
+          {
+            "name": "Packmol",
+            "category": "molecular_simulation",
+            "capabilities": [
+              "pack_molecular_system"
+            ],
+            "mcp_tools": [
+              "prepare_md_system"
+            ],
+            "configured_status": "installed"
+          },
+          {
+            "name": "MDAnalysis",
+            "category": "molecular_dynamics",
+            "capabilities": [
+              "trajectory_analysis"
+            ],
+            "mcp_tools": [
+              "analyze_md_trajectory"
+            ],
+            "configured_status": "verified"
+          },
+          {
+            "name": "ParmEd",
+            "category": "molecular_dynamics",
+            "capabilities": [
+              "topology_conversion"
+            ],
+            "mcp_tools": [
+              "prepare_md_system"
+            ],
+            "configured_status": "installed"
+          },
+          {
+            "name": "MDTraj",
+            "category": "molecular_dynamics",
+            "capabilities": [
+              "trajectory_analysis"
+            ],
+            "mcp_tools": [
+              "analyze_md_trajectory"
+            ],
+            "configured_status": "installed"
+          },
+          {
+            "name": "AiiDA",
+            "category": "workflow",
+            "capabilities": [
+              "provenance_workflow"
+            ],
+            "mcp_tools": [],
+            "configured_status": "planned"
+          },
+          {
+            "name": "jobflow",
+            "category": "workflow",
+            "capabilities": [
+              "workflow_execution"
+            ],
+            "mcp_tools": [],
+            "configured_status": "planned"
+          },
+          {
+            "name": "atomate2",
+            "category": "workflow",
+            "capabilities": [
+              "materials_workflows"
+            ],
+            "mcp_tools": [],
+            "configured_status": "planned"
+          },
+          {
+            "name": "EMT",
+            "category": "atomistic_calculator",
+            "capabilities": [
+              "energy",
+              "forces",
+              "optimization"
+            ],
+            "mcp_tools": [
+              "run_ase"
+            ],
+            "configured_status": "verified"
+          },
+          {
+            "name": "TBLite",
+            "category": "quantum_chemistry",
+            "capabilities": [
+              "gfn1_xtb",
+              "gfn2_xtb",
+              "energy",
+              "forces"
+            ],
+            "mcp_tools": [
+              "run_ase",
+              "run_xtb"
+            ],
+            "configured_status": "installed"
+          },
+          {
+            "name": "xTB",
+            "category": "quantum_chemistry",
+            "capabilities": [
+              "semiempirical_energy",
+              "optimization",
+              "frequencies"
+            ],
+            "mcp_tools": [
+              "run_xtb"
+            ],
+            "configured_status": "verified"
+          },
+          {
+            "name": "CREST",
+            "category": "conformer_search",
+            "capabilities": [
+              "conformer_search"
+            ],
+            "mcp_tools": [
+              "generate_conformers_crest"
+            ],
+            "configured_status": "verified"
+          },
+          {
+            "name": "CENSO",
+            "category": "conformer_search",
+            "capabilities": [
+              "ensemble_refinement"
+            ],
+            "mcp_tools": [
+              "refine_ensemble_censo"
+            ],
+            "configured_status": "planned"
+          },
+          {
+            "name": "Psi4",
+            "category": "quantum_chemistry",
+            "capabilities": [
+              "energy",
+              "gradient",
+              "hessian"
+            ],
+            "mcp_tools": [
+              "run_psi4"
+            ],
+            "configured_status": "planned"
+          },
+          {
+            "name": "PySCF",
+            "category": "quantum_chemistry",
+            "capabilities": [
+              "energy",
+              "gradient",
+              "hessian",
+              "properties"
+            ],
+            "mcp_tools": [
+              "run_pyscf",
+              "find_transition_state",
+              "run_irc"
+            ],
+            "configured_status": "verified"
+          },
+          {
+            "name": "NWChem",
+            "category": "quantum_chemistry",
+            "capabilities": [
+              "energy",
+              "optimization",
+              "frequencies"
+            ],
+            "mcp_tools": [
+              "run_ase"
+            ],
+            "configured_status": "planned"
+          },
+          {
+            "name": "GoodVibes",
+            "category": "thermochemistry",
+            "capabilities": [
+              "quasiharmonic_thermochemistry"
+            ],
+            "mcp_tools": [
+              "compute_thermochemistry"
+            ],
+            "configured_status": "planned"
+          },
+          {
+            "name": "autodE",
+            "category": "reaction_path",
+            "capabilities": [
+              "transition_state",
+              "reaction_profile"
+            ],
+            "mcp_tools": [
+              "find_transition_state",
+              "run_irc"
+            ],
+            "configured_status": "planned"
+          },
+          {
+            "name": "pysisyphus",
+            "category": "reaction_path",
+            "capabilities": [
+              "transition_state",
+              "irc",
+              "optimization"
+            ],
+            "mcp_tools": [
+              "find_transition_state",
+              "run_irc"
+            ],
+            "configured_status": "planned"
+          },
+          {
+            "name": "geomeTRIC",
+            "category": "optimization",
+            "capabilities": [
+              "geometry_optimization"
+            ],
+            "mcp_tools": [
+              "find_transition_state"
+            ],
+            "configured_status": "installed"
+          },
+          {
+            "name": "Sella",
+            "category": "reaction_path",
+            "capabilities": [
+              "saddle_point_optimization"
+            ],
+            "mcp_tools": [
+              "find_transition_state"
+            ],
+            "configured_status": "installed"
+          },
+          {
+            "name": "Critic2",
+            "category": "wavefunction_analysis",
+            "capabilities": [
+              "topological_analysis"
+            ],
+            "mcp_tools": [
+              "analyze_wavefunction"
+            ],
+            "configured_status": "planned"
+          },
+          {
+            "name": "Multiwfn",
+            "category": "wavefunction_analysis",
+            "capabilities": [
+              "wavefunction_analysis"
+            ],
+            "mcp_tools": [
+              "analyze_wavefunction"
+            ],
+            "configured_status": "manual_required"
+          },
+          {
+            "name": "GAMESS",
+            "category": "quantum_chemistry",
+            "capabilities": [
+              "energy",
+              "optimization",
+              "properties"
+            ],
+            "mcp_tools": [],
+            "configured_status": "manual_required"
+          },
+          {
+            "name": "Quantum ESPRESSO",
+            "category": "periodic_dft",
+            "capabilities": [
+              "plane_wave_dft"
+            ],
+            "mcp_tools": [
+              "run_quantum_espresso",
+              "run_periodic_calculation"
+            ],
+            "configured_status": "planned"
+          },
+          {
+            "name": "CP2K",
+            "category": "periodic_dft",
+            "capabilities": [
+              "gaussian_plane_wave_dft",
+              "molecular_dynamics"
+            ],
+            "mcp_tools": [
+              "run_cp2k",
+              "run_periodic_calculation"
+            ],
+            "configured_status": "planned"
+          },
+          {
+            "name": "GPAW",
+            "category": "periodic_dft",
+            "capabilities": [
+              "real_space_dft",
+              "plane_wave_dft"
+            ],
+            "mcp_tools": [
+              "run_periodic_calculation"
+            ],
+            "configured_status": "planned"
+          },
+          {
+            "name": "DFTB+",
+            "category": "periodic_dft",
+            "capabilities": [
+              "density_functional_tight_binding"
+            ],
+            "mcp_tools": [
+              "run_periodic_calculation"
+            ],
+            "configured_status": "planned"
+          },
+          {
+            "name": "SIESTA",
+            "category": "periodic_dft",
+            "capabilities": [
+              "localized_orbital_dft"
+            ],
+            "mcp_tools": [
+              "run_periodic_calculation"
+            ],
+            "configured_status": "planned"
+          },
+          {
+            "name": "ABINIT",
+            "category": "periodic_dft",
+            "capabilities": [
+              "plane_wave_dft",
+              "perturbation_theory"
+            ],
+            "mcp_tools": [
+              "run_periodic_calculation"
+            ],
+            "configured_status": "planned"
+          },
+          {
+            "name": "Phonopy",
+            "category": "phonons",
+            "capabilities": [
+              "harmonic_phonons"
+            ],
+            "mcp_tools": [
+              "run_phonopy"
+            ],
+            "configured_status": "verified"
+          },
+          {
+            "name": "phono3py",
+            "category": "phonons",
+            "capabilities": [
+              "anharmonic_phonons",
+              "thermal_conductivity"
+            ],
+            "mcp_tools": [
+              "run_phonopy"
+            ],
+            "configured_status": "installed"
+          },
+          {
+            "name": "Wannier90",
+            "category": "electronic_transport",
+            "capabilities": [
+              "maximally_localized_wannier_functions"
+            ],
+            "mcp_tools": [],
+            "configured_status": "planned"
+          },
+          {
+            "name": "Yambo",
+            "category": "excited_state",
+            "capabilities": [
+              "many_body_perturbation"
+            ],
+            "mcp_tools": [],
+            "configured_status": "planned"
+          },
+          {
+            "name": "ShengBTE",
+            "category": "thermal_transport",
+            "capabilities": [
+              "boltzmann_transport"
+            ],
+            "mcp_tools": [],
+            "configured_status": "planned"
+          },
+          {
+            "name": "CatMAP",
+            "category": "catalysis",
+            "capabilities": [
+              "microkinetic_modeling"
+            ],
+            "mcp_tools": [
+              "run_catmap"
+            ],
+            "configured_status": "planned"
+          },
+          {
+            "name": "GROMACS",
+            "category": "molecular_dynamics",
+            "capabilities": [
+              "molecular_dynamics",
+              "free_energy"
+            ],
+            "mcp_tools": [
+              "run_gromacs"
+            ],
+            "configured_status": "planned"
+          },
+          {
+            "name": "OpenMM",
+            "category": "molecular_dynamics",
+            "capabilities": [
+              "molecular_dynamics",
+              "minimization"
+            ],
+            "mcp_tools": [
+              "prepare_md_system",
+              "run_openmm"
+            ],
+            "configured_status": "verified"
+          },
+          {
+            "name": "LAMMPS",
+            "category": "molecular_dynamics",
+            "capabilities": [
+              "molecular_dynamics",
+              "materials_simulation"
+            ],
+            "mcp_tools": [
+              "run_lammps"
+            ],
+            "configured_status": "planned"
+          },
+          {
+            "name": "PLUMED",
+            "category": "enhanced_sampling",
+            "capabilities": [
+              "collective_variables",
+              "enhanced_sampling"
+            ],
+            "mcp_tools": [
+              "run_plumed"
+            ],
+            "configured_status": "planned"
+          },
+          {
+            "name": "HOOMD-blue",
+            "category": "molecular_dynamics",
+            "capabilities": [
+              "gpu_molecular_dynamics"
+            ],
+            "mcp_tools": [],
+            "configured_status": "planned"
+          },
+          {
+            "name": "pymbar",
+            "category": "free_energy",
+            "capabilities": [
+              "mbar",
+              "timeseries_analysis"
+            ],
+            "mcp_tools": [
+              "analyze_md_trajectory"
+            ],
+            "configured_status": "installed"
+          },
+          {
+            "name": "alchemlyb",
+            "category": "free_energy",
+            "capabilities": [
+              "free_energy_analysis"
+            ],
+            "mcp_tools": [
+              "analyze_md_trajectory"
+            ],
+            "configured_status": "installed"
+          },
+          {
+            "name": "RMG-Py",
+            "category": "reaction_kinetics",
+            "capabilities": [
+              "reaction_mechanism_generation"
+            ],
+            "mcp_tools": [
+              "run_reaction_kinetics"
+            ],
+            "configured_status": "planned"
+          },
+          {
+            "name": "Arkane",
+            "category": "reaction_kinetics",
+            "capabilities": [
+              "thermochemistry",
+              "pressure_dependence"
+            ],
+            "mcp_tools": [
+              "run_reaction_kinetics"
+            ],
+            "configured_status": "planned"
+          },
+          {
+            "name": "Cantera",
+            "category": "reaction_kinetics",
+            "capabilities": [
+              "chemical_kinetics",
+              "reactors",
+              "equilibrium"
+            ],
+            "mcp_tools": [
+              "run_cantera",
+              "run_reaction_kinetics"
+            ],
+            "configured_status": "verified"
+          },
+          {
+            "name": "AutoMeKin",
+            "category": "reaction_network",
+            "capabilities": [
+              "automated_reaction_mechanisms"
+            ],
+            "mcp_tools": [],
+            "configured_status": "planned"
+          },
+          {
+            "name": "KinBot",
+            "category": "reaction_network",
+            "capabilities": [
+              "automated_kinetics"
+            ],
+            "mcp_tools": [],
+            "configured_status": "planned"
+          },
+          {
+            "name": "MESMER",
+            "category": "reaction_kinetics",
+            "capabilities": [
+              "master_equation"
+            ],
+            "mcp_tools": [],
+            "configured_status": "planned"
+          },
+          {
+            "name": "MESS",
+            "category": "reaction_kinetics",
+            "capabilities": [
+              "master_equation"
+            ],
+            "mcp_tools": [],
+            "configured_status": "manual_required"
+          },
+          {
+            "name": "OpenMolcas",
+            "category": "excited_state",
+            "capabilities": [
+              "multireference_quantum_chemistry"
+            ],
+            "mcp_tools": [],
+            "configured_status": "planned"
+          },
+          {
+            "name": "TheoDORE",
+            "category": "excited_state",
+            "capabilities": [
+              "excited_state_analysis"
+            ],
+            "mcp_tools": [],
+            "configured_status": "planned"
+          },
+          {
+            "name": "SHARC",
+            "category": "nonadiabatic_dynamics",
+            "capabilities": [
+              "surface_hopping"
+            ],
+            "mcp_tools": [],
+            "configured_status": "manual_required"
+          },
+          {
+            "name": "Newton-X",
+            "category": "nonadiabatic_dynamics",
+            "capabilities": [
+              "surface_hopping"
+            ],
+            "mcp_tools": [],
+            "configured_status": "manual_required"
+          },
+          {
+            "name": "AutoDock Vina",
+            "category": "docking",
+            "capabilities": [
+              "molecular_docking"
+            ],
+            "mcp_tools": [
+              "run_docking"
+            ],
+            "configured_status": "installed"
+          },
+          {
+            "name": "GNINA",
+            "category": "docking",
+            "capabilities": [
+              "cnn_scored_docking"
+            ],
+            "mcp_tools": [
+              "run_docking"
+            ],
+            "configured_status": "planned"
+          },
+          {
+            "name": "PDBFixer",
+            "category": "structural_bioinformatics",
+            "capabilities": [
+              "repair_pdb"
+            ],
+            "mcp_tools": [
+              "prepare_md_system"
+            ],
+            "configured_status": "verified"
+          },
+          {
+            "name": "pdb-tools",
+            "category": "structural_bioinformatics",
+            "capabilities": [
+              "pdb_text_manipulation"
+            ],
+            "mcp_tools": [
+              "prepare_md_system"
+            ],
+            "configured_status": "installed"
+          },
+          {
+            "name": "MACE",
+            "category": "mlip",
+            "capabilities": [
+              "energy",
+              "forces",
+              "molecular_and_materials_potentials"
+            ],
+            "mcp_tools": [
+              "run_ase",
+              "run_mlip"
+            ],
+            "configured_status": "installed"
+          },
+          {
+            "name": "NequIP",
+            "category": "mlip",
+            "capabilities": [
+              "equivariant_interatomic_potentials"
+            ],
+            "mcp_tools": [
+              "run_mlip"
+            ],
+            "configured_status": "planned"
+          },
+          {
+            "name": "DeePMD-kit",
+            "category": "mlip",
+            "capabilities": [
+              "deep_potential"
+            ],
+            "mcp_tools": [
+              "run_mlip"
+            ],
+            "configured_status": "planned"
+          },
+          {
+            "name": "CHGNet",
+            "category": "mlip",
+            "capabilities": [
+              "materials_graph_potential"
+            ],
+            "mcp_tools": [
+              "run_mlip"
+            ],
+            "configured_status": "verified"
+          },
+          {
+            "name": "FAIRChem/UMA",
+            "category": "mlip",
+            "capabilities": [
+              "universal_atomistic_model"
+            ],
+            "mcp_tools": [
+              "run_ase",
+              "run_mlip"
+            ],
+            "configured_status": "planned"
+          },
+          {
+            "name": "AIMNet2",
+            "category": "mlip",
+            "capabilities": [
+              "molecular_potential"
+            ],
+            "mcp_tools": [
+              "run_ase",
+              "run_mlip"
+            ],
+            "configured_status": "planned"
+          },
+          {
+            "name": "PubChem PUG-REST",
+            "category": "external_data",
+            "capabilities": [
+              "compound_lookup"
+            ],
+            "mcp_tools": [
+              "query_pubchem",
+              "molecule_name_to_smiles"
+            ],
+            "configured_status": "integrated"
+          },
+          {
+            "name": "RCSB PDB API",
+            "category": "external_data",
+            "capabilities": [
+              "protein_structure_metadata"
+            ],
+            "mcp_tools": [
+              "query_rcsb_pdb"
+            ],
+            "configured_status": "integrated"
+          },
+          {
+            "name": "Materials Project API",
+            "category": "external_data",
+            "capabilities": [
+              "materials_database"
+            ],
+            "mcp_tools": [
+              "query_materials_project"
+            ],
+            "configured_status": "blocked_credentials"
+          },
+          {
+            "name": "Catalysis-Hub",
+            "category": "external_data",
+            "capabilities": [
+              "catalysis_database"
+            ],
+            "mcp_tools": [
+              "query_catalysis_hub"
+            ],
+            "configured_status": "integrated"
+          },
+          {
+            "name": "NIST Chemistry WebBook/CCCBDB",
+            "category": "external_data",
+            "capabilities": [
+              "reference_chemistry_data"
+            ],
+            "mcp_tools": [],
+            "configured_status": "manual_required"
+          },
+          {
+            "name": "gRASPA",
+            "category": "adsorption",
+            "capabilities": [
+              "grand_canonical_monte_carlo"
+            ],
+            "mcp_tools": [],
+            "configured_status": "planned"
+          },
+          {
+            "name": "FDMNES/XANES",
+            "category": "spectroscopy",
+            "capabilities": [
+              "xanes_simulation"
+            ],
+            "mcp_tools": [],
+            "configured_status": "manual_required"
+          },
+          {
+            "name": "Parsl",
+            "category": "workflow",
+            "capabilities": [
+              "hpc_execution"
+            ],
+            "mcp_tools": [],
+            "configured_status": "planned"
+          },
+          {
+            "name": "ChemGraph data_analysis_mcp",
+            "category": "analysis",
+            "capabilities": [
+              "data_analysis"
+            ],
+            "mcp_tools": [],
+            "configured_status": "installed"
+          },
+          {
+            "name": "ORCA",
+            "category": "licensed_quantum_chemistry",
+            "capabilities": [
+              "energy",
+              "optimization",
+              "frequencies"
+            ],
+            "mcp_tools": [
+              "run_orca",
+              "run_ase"
+            ],
+            "configured_status": "manual_required"
+          },
+          {
+            "name": "Gaussian",
+            "category": "licensed_quantum_chemistry",
+            "capabilities": [],
+            "mcp_tools": [],
+            "configured_status": "blocked_license"
+          },
+          {
+            "name": "VASP",
+            "category": "licensed_periodic_dft",
+            "capabilities": [],
+            "mcp_tools": [],
+            "configured_status": "blocked_license"
+          },
+          {
+            "name": "Q-Chem",
+            "category": "licensed_quantum_chemistry",
+            "capabilities": [],
+            "mcp_tools": [],
+            "configured_status": "blocked_license"
+          },
+          {
+            "name": "Molpro",
+            "category": "licensed_quantum_chemistry",
+            "capabilities": [],
+            "mcp_tools": [],
+            "configured_status": "blocked_license"
+          },
+          {
+            "name": "TURBOMOLE",
+            "category": "licensed_quantum_chemistry",
+            "capabilities": [],
+            "mcp_tools": [],
+            "configured_status": "blocked_license"
+          },
+          {
+            "name": "AMBER",
+            "category": "licensed_molecular_dynamics",
+            "capabilities": [],
+            "mcp_tools": [],
+            "configured_status": "manual_required"
+          },
+          {
+            "name": "CHARMM",
+            "category": "licensed_molecular_dynamics",
+            "capabilities": [],
+            "mcp_tools": [],
+            "configured_status": "blocked_license"
+          },
+          {
+            "name": "AMS/ADF",
+            "category": "licensed_quantum_chemistry",
+            "capabilities": [],
+            "mcp_tools": [],
+            "configured_status": "blocked_license"
+          },
+          {
+            "name": "CASTEP",
+            "category": "licensed_periodic_dft",
+            "capabilities": [],
+            "mcp_tools": [],
+            "configured_status": "blocked_license"
+          },
+          {
+            "name": "CRYSTAL",
+            "category": "licensed_periodic_dft",
+            "capabilities": [],
+            "mcp_tools": [],
+            "configured_status": "blocked_license"
+          },
+          {
+            "name": "WIEN2k",
+            "category": "licensed_periodic_dft",
+            "capabilities": [],
+            "mcp_tools": [],
+            "configured_status": "blocked_license"
+          },
+          {
+            "name": "Schrodinger",
+            "category": "licensed_cheminformatics",
+            "capabilities": [],
+            "mcp_tools": [],
+            "configured_status": "blocked_license"
+          },
+          {
+            "name": "OpenEye",
+            "category": "licensed_cheminformatics",
+            "capabilities": [],
+            "mcp_tools": [],
+            "configured_status": "blocked_license"
+          },
+          {
+            "name": "EasySpin/Matlab",
+            "category": "licensed_spectroscopy",
+            "capabilities": [],
+            "mcp_tools": [],
+            "configured_status": "blocked_license"
+          },
+          {
+            "name": "LOBSTER",
+            "category": "licensed_bonding_analysis",
+            "capabilities": [],
+            "mcp_tools": [],
+            "configured_status": "manual_required"
+          }
+        ]
+      }
+    },
+    {
+      "name": "molecule_name_to_smiles",
+      "enabled": true,
+      "category": "cheminformatics",
+      "backend": "ChemGraph/PubChem",
+      "status": "working",
+      "detail": "Minimal functional smoke test succeeded",
+      "result": {
+        "status": "success",
+        "smiles": "O=S=O"
+      }
+    },
+    {
+      "name": "prepare_md_system",
+      "enabled": true,
+      "category": "molecular_dynamics",
+      "backend": "PDBFixer/OpenMM",
+      "status": "working",
+      "detail": "Minimal functional smoke test succeeded",
+      "result": {
+        "status": "success",
+        "backend": "PDBFixer/OpenMM",
+        "input_pdb": "data/water.pdb",
+        "output_pdb": "outputs/prepared.pdb",
+        "atom_count": 3,
+        "residue_count": 1
+      }
+    },
+    {
+      "name": "query_catalysis_hub",
+      "enabled": true,
+      "category": "external_data",
+      "backend": "Catalysis-Hub GraphQL API",
+      "status": "working",
+      "detail": "Minimal functional smoke test succeeded",
+      "result": {
+        "status": "success",
+        "backend": "Catalysis-Hub GraphQL API",
+        "total_count": 2,
+        "records": [
+          {
+            "Equation": "CO* + O* - 0* -> CO2(g) + 2*",
+            "activationEnergy": 0.9763193250546465,
+            "chemicalComposition": "Pd36O3",
+            "dftCode": "Quantum Espresso",
+            "dftFunctional": "BEEF-vdW",
+            "facet": "211",
+            "id": "UmVhY3Rpb246NDMzODI0",
+            "products": "{\"star\": 2, \"CO2gas\": 1}",
+            "reactants": "{\"star\": 0, \"Ostar\": 1, \"COstar\": 1}",
+            "reactionEnergy": -1.791562080848962,
+            "surfaceComposition": "Pd+1:3O"
+          }
+        ]
+      }
+    },
+    {
+      "name": "query_materials_project",
+      "enabled": true,
+      "category": "external_data",
+      "backend": "Materials Project mp-api",
+      "status": "not_configured",
+      "detail": "MP_API_KEY is not configured",
+      "result": {
+        "status": "unavailable",
+        "backend": "Materials Project mp-api",
+        "available": false,
+        "reason": "MP_API_KEY is not configured",
+        "manual_action": "Obtain a Materials Project API key and set MP_API_KEY for the MCP server."
+      }
+    },
+    {
+      "name": "query_pubchem",
+      "enabled": true,
+      "category": "external_data",
+      "backend": "PubChem PUG-REST via PubChemPy",
+      "status": "working",
+      "detail": "Minimal functional smoke test succeeded",
+      "result": {
+        "status": "success",
+        "backend": "PubChem PUG-REST via PubChemPy",
+        "query": {
+          "identifier": "water",
+          "namespace": "name"
+        },
+        "count": 1,
+        "records": [
+          {
+            "cid": 962,
+            "canonical_smiles": "O",
+            "isomeric_smiles": "O",
+            "inchi": "InChI=1S/H2O/h1H2",
+            "inchikey": "XLYOFNOQVPJJNP-UHFFFAOYSA-N",
+            "molecular_formula": "H2O",
+            "molecular_weight": 18.015,
+            "iupac_name": "oxidane"
+          }
+        ]
+      }
+    },
+    {
+      "name": "query_rcsb_pdb",
+      "enabled": true,
+      "category": "external_data",
+      "backend": "RCSB PDB Data API",
+      "status": "working",
+      "detail": "Minimal functional smoke test succeeded",
+      "result": {
+        "status": "success",
+        "backend": "RCSB PDB Data API",
+        "pdb_id": "1CRN",
+        "title": "WATER STRUCTURE OF A HYDROPHOBIC PROTEIN AT ATOMIC RESOLUTION. PENTAGON RINGS OF WATER MOLECULES IN CRYSTALS OF CRAMBIN",
+        "experimental_method": [
+          "X-RAY DIFFRACTION"
+        ],
+        "resolution_combined": [
+          1.5
+        ],
+        "polymer_entity_count": 1,
+        "nonpolymer_entity_count": 0,
+        "deposit_date": "1981-04-30T00:00:00.000+00:00",
+        "initial_release_date": "1981-07-28T00:00:00.000+00:00",
+        "raw": {
+          "audit_author": [
+            {
+              "name": "Hendrickson, W.A.",
+              "pdbx_ordinal": 1
+            },
+            {
+              "name": "Teeter, M.M.",
+              "pdbx_ordinal": 2
+            }
+          ],
+          "cell": {
+            "Z_PDB": 2,
+            "angle_alpha": 90.0,
+            "angle_beta": 90.77,
+            "angle_gamma": 90.0,
+            "length_a": 40.96,
+            "length_b": 18.65,
+            "length_c": 22.52
+          },
+          "citation": [
+            {
+              "country": "US",
+              "id": "primary",
+              "journal_abbrev": "Proc.Natl.Acad.Sci.Usa",
+              "journal_id_ASTM": "PNASA6",
+              "journal_id_CSD": "0040",
+              "journal_id_ISSN": "0027-8424",
+              "journal_volume": "81",
+              "page_first": "6014",
+              "page_last": "6018",
+              "pdbx_database_id_DOI": "10.1073/pnas.81.19.6014",
+              "pdbx_database_id_PubMed": 16593516,
+              "rcsb_authors": [
+                "Teeter, M.M."
+              ],
+              "rcsb_is_primary": "Y",
+              "rcsb_journal_abbrev": "Proc Natl Acad Sci U S A",
+              "title": "Water structure of a hydrophobic protein at atomic resolution: Pentagon rings of water molecules in crystals of crambin.",
+              "year": 1984
+            },
+            {
+              "country": "UK",
+              "id": "1",
+              "journal_abbrev": "Nature",
+              "journal_id_ASTM": "NATUAS",
+              "journal_id_CSD": "0006",
+              "journal_id_ISSN": "0028-0836",
+              "journal_volume": "290",
+              "page_first": "107",
+              "rcsb_authors": [
+                "Hendrickson, W.A.",
+                "Teeter, M.M."
+              ],
+              "rcsb_is_primary": "N",
+              "rcsb_journal_abbrev": "Nature",
+              "title": "Structure of the Hydrophobic Protein Crambin Determined Directly from the Anomalous Scattering of Sulphur",
+              "year": 1981
+            },
+            {
+              "country": "UK",
+              "id": "2",
+              "journal_abbrev": "J.Mol.Biol.",
+              "journal_id_ASTM": "JMOBAK",
+              "journal_id_CSD": "0070",
+              "journal_id_ISSN": "0022-2836",
+              "journal_volume": "127",
+              "page_first": "219",
+              "rcsb_authors": [
+                "Teeter, M.M.",
+                "Hendrickson, W.A."
+              ],
+              "rcsb_is_primary": "N",
+              "rcsb_journal_abbrev": "J Mol Biol",
+              "title": "Highly Ordered Crystals of the Plant Seed Protein Crambin",
+              "year": 1979
+            }
+          ],
+          "database_2": [
+            {
+              "database_code": "1CRN",
+              "database_id": "PDB",
+              "pdbx_DOI": "10.2210/pdb1crn/pdb",
+              "pdbx_database_accession": "pdb_00001crn"
+            },
+            {
+              "database_code": "D_1000172485",
+              "database_id": "WWPDB"
+            }
+          ],
+          "diffrn": [
+            {
+              "crystal_id": "1",
+              "id": "1"
+            }
+          ],
+          "diffrn_radiation": [
+            {
+              "diffrn_id": "1",
+              "pdbx_scattering_type": "x-ray",
+              "wavelength_id": "1"
+            }
+          ],
+          "entry": {
+            "id": "1CRN"
+          },
+          "exptl": [
+            {
+              "method": "X-RAY DIFFRACTION"
+            }
+          ],
+          "exptl_crystal": [
+            {
+              "density_Matthews": 1.81,
+              "density_percent_sol": 32.16,
+              "id": "1"
+            }
+          ],
+          "pdbx_audit_revision_category": [
+            {
+              "category": "pdbx_database_status",
+              "data_content_type": "Structure model",
+              "ordinal": 1,
+              "revision_ordinal": 5
+            },
+            {
+              "category": "struct_conf",
+              "data_content_type": "Structure model",
+              "ordinal": 2,
+              "revision_ordinal": 5
+            },
+            {
+              "category": "struct_conf_type",
+              "data_content_type": "Structure model",
+              "ordinal": 3,
+              "revision_ordinal": 5
+            },
+            {
+              "category": "chem_comp_atom",
+              "data_content_type": "Structure model",
+              "ordinal": 4,
+              "revision_ordinal": 6
+            },
+            {
+              "category": "chem_comp_bond",
+              "data_content_type": "Structure model",
+              "ordinal": 5,
+              "revision_ordinal": 6
+            },
+            {
+              "category": "database_2",
+              "data_content_type": "Structure model",
+              "ordinal": 6,
+              "revision_ordinal": 6
+            },
+            {
+              "category": "pdbx_entry_details",
+              "data_content_type": "Structure model",
+              "ordinal": 7,
+              "revision_ordinal": 6
+            },
+            {
+              "category": "pdbx_modification_feature",
+              "data_content_type": "Structure model",
+              "ordinal": 8,
+              "revision_ordinal": 6
+            }
+          ],
+          "pdbx_audit_revision_details": [
+            {
+              "data_content_type": "Structure model",
+              "ordinal": 1,
+              "provider": "repository",
+              "revision_ordinal": 1,
+              "type": "Initial release"
+            }
+          ],
+          "pdbx_audit_revision_group": [
+            {
+              "data_content_type": "Structure model",
+              "group": "Version format compliance",
+              "ordinal": 1,
+              "revision_ordinal": 2
+            },
+            {
+              "data_content_type": "Structure model",
+              "group": "Version format compliance",
+              "ordinal": 2,
+              "revision_ordinal": 3
+            },
+            {
+              "data_content_type": "Structure model",
+              "group": "Other",
+              "ordinal": 3,
+              "revision_ordinal": 4
+            },
+            {
+              "data_content_type": "Structure model",
+              "group": "Derived calculations",
+              "ordinal": 4,
+              "revision_ordinal": 5
+            },
+            {
+              "data_content_type": "Structure model",
+              "group": "Other",
+              "ordinal": 5,
+              "revision_ordinal": 5
+            },
+            {
+              "data_content_type": "Structure model",
+              "group": "Data collection",
+              "ordinal": 6,
+              "revision_ordinal": 6
+            },
+            {
+              "data_content_type": "Structure model",
+              "group": "Database references",
+              "ordinal": 7,
+              "revision_ordinal": 6
+            },
+            {
+              "data_content_type": "Structure model",
+              "group": "Structure summary",
+              "ordinal": 8,
+              "revision_ordinal": 6
+            }
+          ],
+          "pdbx_audit_revision_history": [
+            {
+              "data_content_type": "Structure model",
+              "major_revision": 1,
+              "minor_revision": 0,
+              "ordinal": 1,
+              "revision_date": "1981-07-28T00:00:00.000+00:00"
+            },
+            {
+              "data_content_type": "Structure model",
+              "major_revision": 1,
+              "minor_revision": 1,
+              "ordinal": 2,
+              "revision_date": "2008-03-24T00:00:00.000+00:00"
+            },
+            {
+              "data_content_type": "Structure model",
+              "major_revision": 1,
+              "minor_revision": 2,
+              "ordinal": 3,
+              "revision_date": "2011-07-13T00:00:00.000+00:00"
+            },
+            {
+              "data_content_type": "Structure model",
+              "major_revision": 1,
+              "minor_revision": 3,
+              "ordinal": 4,
+              "revision_date": "2012-07-11T00:00:00.000+00:00"
+            },
+            {
+              "data_content_type": "Structure model",
+              "major_revision": 1,
+              "minor_revision": 4,
+              "ordinal": 5,
+              "revision_date": "2017-11-29T00:00:00.000+00:00"
+            },
+            {
+              "data_content_type": "Structure model",
+              "major_revision": 1,
+              "minor_revision": 5,
+              "ordinal": 6,
+              "revision_date": "2024-10-30T00:00:00.000+00:00"
+            }
+          ],
+          "pdbx_audit_revision_item": [
+            {
+              "data_content_type": "Structure model",
+              "item": "_pdbx_database_status.process_site",
+              "ordinal": 1,
+              "revision_ordinal": 5
+            },
+            {
+              "data_content_type": "Structure model",
+              "item": "_database_2.pdbx_DOI",
+              "ordinal": 2,
+              "revision_ordinal": 6
+            },
+            {
+              "data_content_type": "Structure model",
+              "item": "_database_2.pdbx_database_accession",
+              "ordinal": 3,
+              "revision_ordinal": 6
+            },
+            {
+              "data_content_type": "Structure model",
+              "item": "_pdbx_entry_details.has_protein_modification",
+              "ordinal": 4,
+              "revision_ordinal": 6
+            }
+          ],
+          "pdbx_database_status": {
+            "pdb_format_compatible": "Y",
+            "process_site": "BNL",
+            "recvd_initial_deposition_date": "1981-04-30T00:00:00.000+00:00",
+            "status_code": "REL"
+          },
+          "pdbx_vrpt_summary": {
+            "attempted_validation_steps": "molprobity,validation-pack,validation_schema,percentiles,writexml,writecif,writepdf",
+            "ligands_for_buster_report": "N",
+            "report_creation_date": "2026-03-05T18:54:00.000+00:00"
+          },
+          "pdbx_vrpt_summary_geometry": [
+            {
+              "angles_RMSZ": 1.55,
+              "bonds_RMSZ": 1.5,
+              "clashscore": 0.0,
+              "num_H_reduce": 315,
+              "num_angles_RMSZ": 458,
+              "num_bonds_RMSZ": 334,
+              "percent_ramachandran_outliers": 0.0,
+              "percent_rotamer_outliers": 0.0
+            }
+          ],
+          "rcsb_accession_info": {
+            "deposit_date": "1981-04-30T00:00:00.000+00:00",
+            "has_released_experimental_data": "N",
+            "initial_release_date": "1981-07-28T00:00:00.000+00:00",
+            "major_revision": 1,
+            "minor_revision": 5,
+            "revision_date": "2024-10-30T00:00:00.000+00:00",
+            "status_code": "REL"
+          },
+          "rcsb_entry_container_identifiers": {
+            "assembly_ids": [
+              "1"
+            ],
+            "entity_ids": [
+              "1"
+            ],
+            "entry_id": "1CRN",
+            "model_ids": [
+              1
+            ],
+            "polymer_entity_ids": [
+              "1"
+            ],
+            "pubmed_id": 16593516,
+            "rcsb_id": "1CRN"
+          },
+          "rcsb_entry_info": {
+            "assembly_count": 1,
+            "branched_entity_count": 0,
+            "cis_peptide_count": 0,
+            "deposited_atom_count": 327,
+            "deposited_deuterated_water_count": 0,
+            "deposited_hydrogen_atom_count": 0,
+            "deposited_model_count": 1,
+            "deposited_modeled_polymer_monomer_count": 46,
+            "deposited_nonpolymer_entity_instance_count": 0,
+            "deposited_polymer_entity_instance_count": 1,
+            "deposited_polymer_monomer_count": 46,
+            "deposited_solvent_atom_count": 0,
+            "deposited_unmodeled_polymer_monomer_count": 0,
+            "disulfide_bond_count": 3,
+            "entity_count": 1,
+            "experimental_method": "X-ray",
+            "experimental_method_count": 1,
+            "inter_mol_covalent_bond_count": 0,
+            "inter_mol_metalic_bond_count": 0,
+            "molecular_weight": 4.74,
+            "na_polymer_entity_types": "Other",
+            "nonpolymer_entity_count": 0,
+            "polymer_composition": "homomeric protein",
+            "polymer_entity_count": 1,
+            "polymer_entity_count_DNA": 0,
+            "polymer_entity_count_RNA": 0,
+            "polymer_entity_count_nucleic_acid": 0,
+            "polymer_entity_count_nucleic_acid_hybrid": 0,
+            "polymer_entity_count_protein": 1,
+            "polymer_entity_taxonomy_count": 1,
+            "polymer_molecular_weight_maximum": 4.74,
+            "polymer_molecular_weight_minimum": 4.74,
+            "polymer_monomer_count_maximum": 46,
+            "polymer_monomer_count_minimum": 46,
+            "resolution_combined": [
+              1.5
+            ],
+            "selected_polymer_entity_types": "Protein (only)",
+            "software_programs_combined": [
+              "PROLSQ"
+            ],
+            "solvent_entity_count": 0,
+            "structure_determination_methodology": "experimental",
+            "structure_determination_methodology_priority": 10,
+            "diffrn_resolution_high": {
+              "provenance_source": "From refinement resolution cutoff",
+              "value": 1.5
+            }
+          },
+          "rcsb_primary_citation": {
+            "country": "US",
+            "id": "primary",
+            "journal_abbrev": "Proc.Natl.Acad.Sci.Usa",
+            "journal_id_ASTM": "PNASA6",
+            "journal_id_CSD": "0040",
+            "journal_id_ISSN": "0027-8424",
+            "journal_volume": "81",
+            "page_first": "6014",
+            "page_last": "6018",
+            "pdbx_database_id_DOI": "10.1073/pnas.81.19.6014",
+            "pdbx_database_id_PubMed": 16593516,
+            "rcsb_authors": [
+              "Teeter, M.M."
+            ],
+            "rcsb_journal_abbrev": "Proc Natl Acad Sci U S A",
+            "title": "Water structure of a hydrophobic protein at atomic resolution: Pentagon rings of water molecules in crystals of crambin.",
+            "year": 1984
+          },
+          "refine": [
+            {
+              "ls_d_res_high": 1.5,
+              "pdbx_diffrn_id": [
+                "1"
+              ],
+              "pdbx_refine_id": "X-RAY DIFFRACTION"
+            }
+          ],
+          "refine_hist": [
+            {
+              "cycle_id": "LAST",
+              "d_res_high": 1.5,
+              "number_atoms_solvent": 0,
+              "number_atoms_total": 327,
+              "pdbx_number_atoms_ligand": 0,
+              "pdbx_number_atoms_nucleic_acid": 0,
+              "pdbx_number_atoms_protein": 327,
+              "pdbx_refine_id": "X-RAY DIFFRACTION"
+            }
+          ],
+          "software": [
+            {
+              "classification": "refinement",
+              "name": "PROLSQ",
+              "pdbx_ordinal": 1
+            }
+          ],
+          "struct": {
+            "title": "WATER STRUCTURE OF A HYDROPHOBIC PROTEIN AT ATOMIC RESOLUTION. PENTAGON RINGS OF WATER MOLECULES IN CRYSTALS OF CRAMBIN"
+          },
+          "struct_keywords": {
+            "pdbx_keywords": "PLANT PROTEIN",
+            "text": "PLANT SEED PROTEIN, PLANT PROTEIN"
+          },
+          "symmetry": {
+            "Int_Tables_number": 4,
+            "space_group_name_H_M": "P 1 21 1"
+          },
+          "rcsb_id": "1CRN"
+        }
+      }
+    },
+    {
+      "name": "refine_ensemble_censo",
+      "enabled": true,
+      "category": "conformer_search",
+      "backend": "CENSO",
+      "status": "not_configured",
+      "detail": "Adapter is registered, but no safe automated real smoke input is defined",
+      "result": {
+        "status": "unavailable",
+        "reason": "Adapter is registered, but no safe automated real smoke input is defined",
+        "manual_action": "Run a representative licensed/configured backend input manually."
+      }
+    },
+    {
+      "name": "run_ase",
+      "enabled": true,
+      "category": "simulation",
+      "backend": "ChemGraph/ASE",
+      "status": "working",
+      "detail": "Minimal functional smoke test succeeded",
+      "result": {
+        "status": "success",
+        "message": "Simulation completed. Results saved to /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/workspaces/toolbox_verification/20260717_155950/outputs/ase_energy.json",
+        "single_point_energy": 3.5849802160335216,
+        "unit": "eV",
+        "captured_stdout": ""
+      }
+    },
+    {
+      "name": "run_cantera",
+      "enabled": true,
+      "category": "reaction_kinetics",
+      "backend": "Cantera",
+      "status": "working",
+      "detail": "Minimal functional smoke test succeeded",
+      "result": {
+        "status": "success",
+        "backend": "Cantera",
+        "mechanism": "gri30.yaml",
+        "equilibrium_mode": "HP",
+        "temperature_kelvin": 2681.9523383660317,
+        "pressure_pa": 101325.00000175933,
+        "enthalpy_mole_j_mol": 24319059.376970224,
+        "gibbs_mole_j_mol": -706884337.4971789,
+        "major_species": [
+          {
+            "name": "N2",
+            "mole_fraction": 0.6282840605742356
+          },
+          {
+            "name": "H2O",
+            "mole_fraction": 0.2842369262455644
+          },
+          {
+            "name": "H2",
+            "mole_fraction": 0.036665762431463106
+          },
+          {
+            "name": "OH",
+            "mole_fraction": 0.01978884238233526
+          },
+          {
+            "name": "O2",
+            "mole_fraction": 0.01099601822879154
+          },
+          {
+            "name": "H",
+            "mole_fraction": 0.010166902028305386
+          },
+          {
+            "name": "NO",
+            "mole_fraction": 0.006349731737933009
+          },
+          {
+            "name": "O",
+            "mole_fraction": 0.00350407612676264
+          },
+          {
+            "name": "HO2",
+            "mole_fraction": 4.112395771293652e-06
+          },
+          {
+            "name": "N",
+            "mole_fraction": 1.1204480041755357e-06
+          },
+          {
+            "name": "NO2",
+            "mole_fraction": 1.0878604173336836e-06
+          },
+          {
+            "name": "HNO",
+            "mole_fraction": 4.2484782168977586e-07
+          },
+          {
+            "name": "N2O",
+            "mole_fraction": 3.182959045763196e-07
+          },
+          {
+            "name": "H2O2",
+            "mole_fraction": 3.0461073789047753e-07
+          },
+          {
+            "name": "NH",
+            "mole_fraction": 1.8943171124891057e-07
+          },
+          {
+            "name": "NH2",
+            "mole_fraction": 5.0890480990722275e-08
+          },
+          {
+            "name": "NH3",
+            "mole_fraction": 5.037444354679026e-08
+          },
+          {
+            "name": "NNH",
+            "mole_fraction": 2.1089316191600824e-08
+          }
+        ]
+      }
+    },
+    {
+      "name": "run_catmap",
+      "enabled": true,
+      "category": "catalysis",
+      "backend": "CatMAP",
+      "status": "not_configured",
+      "detail": "Adapter is registered, but no safe automated real smoke input is defined",
+      "result": {
+        "status": "unavailable",
+        "reason": "Adapter is registered, but no safe automated real smoke input is defined",
+        "manual_action": "Run a representative licensed/configured backend input manually."
+      }
+    },
+    {
+      "name": "run_cp2k",
+      "enabled": true,
+      "category": "periodic_dft",
+      "backend": "CP2K",
+      "status": "not_configured",
+      "detail": "Adapter is registered, but no safe automated real smoke input is defined",
+      "result": {
+        "status": "unavailable",
+        "reason": "Adapter is registered, but no safe automated real smoke input is defined",
+        "manual_action": "Run a representative licensed/configured backend input manually."
+      }
+    },
+    {
+      "name": "run_docking",
+      "enabled": true,
+      "category": "docking",
+      "backend": "AutoDock Vina/GNINA",
+      "status": "not_configured",
+      "detail": "Adapter is registered, but no safe automated real smoke input is defined",
+      "result": {
+        "status": "unavailable",
+        "reason": "Adapter is registered, but no safe automated real smoke input is defined",
+        "manual_action": "Run a representative licensed/configured backend input manually."
+      }
+    },
+    {
+      "name": "run_gromacs",
+      "enabled": true,
+      "category": "molecular_dynamics",
+      "backend": "GROMACS",
+      "status": "not_configured",
+      "detail": "Adapter is registered, but no safe automated real smoke input is defined",
+      "result": {
+        "status": "unavailable",
+        "reason": "Adapter is registered, but no safe automated real smoke input is defined",
+        "manual_action": "Run a representative licensed/configured backend input manually."
+      }
+    },
+    {
+      "name": "run_irc",
+      "enabled": true,
+      "category": "reaction_path",
+      "backend": "pysisyphus",
+      "status": "not_configured",
+      "detail": "Adapter is registered, but no safe automated real smoke input is defined",
+      "result": {
+        "status": "unavailable",
+        "reason": "Adapter is registered, but no safe automated real smoke input is defined",
+        "manual_action": "Run a representative licensed/configured backend input manually."
+      }
+    },
+    {
+      "name": "run_lammps",
+      "enabled": true,
+      "category": "molecular_dynamics",
+      "backend": "LAMMPS",
+      "status": "not_configured",
+      "detail": "Adapter is registered, but no safe automated real smoke input is defined",
+      "result": {
+        "status": "unavailable",
+        "reason": "Adapter is registered, but no safe automated real smoke input is defined",
+        "manual_action": "Run a representative licensed/configured backend input manually."
+      }
+    },
+    {
+      "name": "run_mlip",
+      "enabled": true,
+      "category": "mlip",
+      "backend": "MACE/CHGNet",
+      "status": "working",
+      "detail": "Minimal functional smoke test succeeded",
+      "result": {
+        "status": "success",
+        "backend": "chgnet",
+        "model": "default",
+        "energy_ev": -1.1417503356933594,
+        "forces_ev_per_angstrom": [
+          [
+            -0.0,
+            -0.0,
+            -0.0
+          ]
+        ],
+        "atom_count": 1
+      }
+    },
+    {
+      "name": "run_openmm",
+      "enabled": true,
+      "category": "molecular_dynamics",
+      "backend": "OpenMM",
+      "status": "working",
+      "detail": "Minimal functional smoke test succeeded",
+      "result": {
+        "status": "success",
+        "backend": "OpenMM",
+        "force_fields": [
+          "tip3p.xml"
+        ],
+        "steps": 0,
+        "potential_energy_kj_mol": 0.0,
+        "output_pdb": "outputs/openmm_final.pdb",
+        "result_file": "outputs/openmm_result.json"
+      }
+    },
+    {
+      "name": "run_orca",
+      "enabled": true,
+      "category": "quantum_chemistry",
+      "backend": "ORCA",
+      "status": "not_configured",
+      "detail": "Adapter is registered, but no safe automated real smoke input is defined",
+      "result": {
+        "status": "unavailable",
+        "reason": "Adapter is registered, but no safe automated real smoke input is defined",
+        "manual_action": "Run a representative licensed/configured backend input manually."
+      }
+    },
+    {
+      "name": "run_periodic_calculation",
+      "enabled": true,
+      "category": "periodic_dft",
+      "backend": "QE/CP2K/DFTB+/SIESTA/ABINIT",
+      "status": "not_configured",
+      "detail": "Adapter is registered, but no safe automated real smoke input is defined",
+      "result": {
+        "status": "unavailable",
+        "reason": "Adapter is registered, but no safe automated real smoke input is defined",
+        "manual_action": "Run a representative licensed/configured backend input manually."
+      }
+    },
+    {
+      "name": "run_phonopy",
+      "enabled": true,
+      "category": "phonons",
+      "backend": "Phonopy/Phono3py",
+      "status": "working",
+      "detail": "Minimal functional smoke test succeeded",
+      "result": {
+        "status": "success",
+        "backend": "phonopy",
+        "available": true,
+        "returncode": 0,
+        "command": [
+          "phonopy-init",
+          "-c",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/workspaces/toolbox_verification/20260717_155950/data/silicon.vasp",
+          "--symmetry"
+        ],
+        "output_directory": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/workspaces/toolbox_verification/20260717_155950/outputs/phonopy",
+        "stdout_log": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/workspaces/toolbox_verification/20260717_155950/outputs/phonopy/stdout.log",
+        "stderr_log": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/workspaces/toolbox_verification/20260717_155950/outputs/phonopy/stderr.log",
+        "stdout_preview": "on: # 48\n  - [-1,  0 , 0]\n  - [ 0,  0 , 1]\n  - [ 0, -1 , 0]\n  translation: [ 0.00000,  0.00000,  0.00000 ]\natom_mapping:\n  1: 1\nsite_symmetries:\n- atom: 1\n  Wyckoff: 'a'\n  site_point_group: 'm-3m'\n  orientation:\n  - [ 1,  0,  0]\n  - [ 0,  1,  0]\n  - [ 0,  0,  1]\n  rotations:\n  - # 1\n    - [ 1,  0,  0]\n    - [ 0,  1,  0]\n    - [ 0,  0,  1]\n  - # 2\n    - [-1,  0,  0]\n    - [ 0, -1,  0]\n    - [ 0,  0, -1]\n  - # 3\n    - [ 0, -1,  0]\n    - [ 1,  0,  0]\n    - [ 0,  0,  1]\n  - # 4\n    - [ 0,  1,  0]\n    - [-1,  0,  0]\n    - [ 0,  0, -1]\n  - # 5\n    - [-1,  0,  0]\n    - [ 0, -1,  0]\n    - [ 0,  0,  1]\n  - # 6\n    - [ 1,  0,  0]\n    - [ 0,  1,  0]\n    - [ 0,  0, -1]\n  - # 7\n    - [ 0,  1,  0]\n    - [-1,  0,  0]\n    - [ 0,  0,  1]\n  - # 8\n    - [ 0, -1,  0]\n    - [ 1,  0,  0]\n    - [ 0,  0, -1]\n  - # 9\n    - [ 1,  0,  0]\n    - [ 0, -1,  0]\n    - [ 0,  0, -1]\n  - # 10\n    - [-1,  0,  0]\n    - [ 0,  1,  0]\n    - [ 0,  0,  1]\n  - # 11\n    - [ 0, -1,  0]\n    - [-1,  0,  0]\n    - [ 0,  0, -1]\n  - # 12\n    - [ 0,  1,  0]\n    - [ 1,  0,  0]\n    - [ 0,  0,  1]\n  - # 13\n    - [-1,  0,  0]\n    - [ 0,  1,  0]\n    - [ 0,  0, -1]\n  - # 14\n    - [ 1,  0,  0]\n    - [ 0, -1,  0]\n    - [ 0,  0,  1]\n  - # 15\n    - [ 0,  1,  0]\n    - [ 1,  0,  0]\n    - [ 0,  0, -1]\n  - # 16\n    - [ 0, -1,  0]\n    - [-1,  0,  0]\n    - [ 0,  0,  1]\n  - # 17\n    - [ 0,  0,  1]\n    - [ 1,  0,  0]\n    - [ 0,  1,  0]\n  - # 18\n    - [ 0,  0, -1]\n    - [-1,  0,  0]\n    - [ 0, -1,  0]\n  - # 19\n    - [ 0,  0,  1]\n    - [ 0, -1,  0]\n    - [ 1,  0,  0]\n  - # 20\n    - [ 0,  0, -1]\n    - [ 0,  1,  0]\n    - [-1,  0,  0]\n  - # 21\n    - [ 0,  0,  1]\n    - [-1,  0,  0]\n    - [ 0, -1,  0]\n  - # 22\n    - [ 0,  0, -1]\n    - [ 1,  0,  0]\n    - [ 0,  1,  0]\n  - # 23\n    - [ 0,  0,  1]\n    - [ 0,  1,  0]\n    - [-1,  0,  0]\n  - # 24\n    - [ 0,  0, -1]\n    - [ 0, -1,  0]\n    - [ 1,  0,  0]\n  - # 25\n    - [ 0,  0, -1]\n    - [ 1,  0,  0]\n    - [ 0, -1,  0]\n  - # 26\n    - [ 0,  0,  1]\n    - [-1,  0,  0]\n    - [ 0,  1,  0]\n  - # 27\n    - [ 0,  0, -1]\n    - [ 0, -1,  0]\n    - [-1,  0,  0]\n  - # 28\n    - [ 0,  0,  1]\n    - [ 0,  1,  0]\n    - [ 1,  0,  0]\n  - # 29\n    - [ 0,  0, -1]\n    - [-1,  0,  0]\n    - [ 0,  1,  0]\n  - # 30\n    - [ 0,  0,  1]\n    - [ 1,  0,  0]\n    - [ 0, -1,  0]\n  - # 31\n    - [ 0,  0, -1]\n    - [ 0,  1,  0]\n    - [ 1,  0,  0]\n  - # 32\n    - [ 0,  0,  1]\n    - [ 0, -1,  0]\n    - [-1,  0,  0]\n  - # 33\n    - [ 0,  1,  0]\n    - [ 0,  0,  1]\n    - [ 1,  0,  0]\n  - # 34\n    - [ 0, -1,  0]\n    - [ 0,  0, -1]\n    - [-1,  0,  0]\n  - # 35\n    - [ 1,  0,  0]\n    - [ 0,  0,  1]\n    - [ 0, -1,  0]\n  - # 36\n    - [-1,  0,  0]\n    - [ 0,  0, -1]\n    - [ 0,  1,  0]\n  - # 37\n    - [ 0, -1,  0]\n    - [ 0,  0,  1]\n    - [-1,  0,  0]\n  - # 38\n    - [ 0,  1,  0]\n    - [ 0,  0, -1]\n    - [ 1,  0,  0]\n  - # 39\n    - [-1,  0,  0]\n    - [ 0,  0,  1]\n    - [ 0,  1,  0]\n  - # 40\n    - [ 1,  0,  0]\n    - [ 0,  0, -1]\n    - [ 0, -1,  0]\n  - # 41\n    - [ 0, -1,  0]\n    - [ 0,  0, -1]\n    - [ 1,  0,  0]\n  - # 42\n    - [ 0,  1,  0]\n    - [ 0,  0,  1]\n    - [-1,  0,  0]\n  - # 43\n    - [-1,  0,  0]\n    - [ 0,  0, -1]\n    - [ 0, -1,  0]\n  - # 44\n    - [ 1,  0,  0]\n    - [ 0,  0,  1]\n    - [ 0,  1,  0]\n  - # 45\n    - [ 0,  1,  0]\n    - [ 0,  0, -1]\n    - [-1,  0,  0]\n  - # 46\n    - [ 0, -1,  0]\n    - [ 0,  0,  1]\n    - [ 1,  0,  0]\n  - # 47\n    - [ 1,  0,  0]\n    - [ 0,  0, -1]\n    - [ 0,  1,  0]\n  - # 48\n    - [-1,  0,  0]\n    - [ 0,  0,  1]\n    - [ 0, -1,  0]\n# Input crystal structure: \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/workspaces/toolbox_verification/20260717_155950/data/silicon.vasp\"\n# Symmetrized conventional unit cell is written into \"BPOSCAR\" and\n# Symmetrized primitive is written into \"PPOSCAR\" and \n# Unit cell and primitive cell have been written in \"phonopy_symcells.yaml\".\n# These structures can be read in a python script as follows:\n#\n# import phonopy\n# ph = phonopy.load(\"phonopy_symcells.yaml\")\n# unitcell = ph.unitcell\n# primitive_cell = ph.primitive\n",
+        "stderr_preview": ""
+      }
+    },
+    {
+      "name": "run_plumed",
+      "enabled": true,
+      "category": "enhanced_sampling",
+      "backend": "PLUMED",
+      "status": "not_configured",
+      "detail": "Adapter is registered, but no safe automated real smoke input is defined",
+      "result": {
+        "status": "unavailable",
+        "reason": "Adapter is registered, but no safe automated real smoke input is defined",
+        "manual_action": "Run a representative licensed/configured backend input manually."
+      }
+    },
+    {
+      "name": "run_psi4",
+      "enabled": true,
+      "category": "quantum_chemistry",
+      "backend": "Psi4",
+      "status": "not_configured",
+      "detail": "psi4 is not installed",
+      "result": {
+        "status": "unavailable",
+        "backend": "Psi4",
+        "available": false,
+        "reason": "psi4 is not installed",
+        "manual_action": "Install Psi4 from conda-forge in .toolbox_env."
+      }
+    },
+    {
+      "name": "run_pyscf",
+      "enabled": true,
+      "category": "quantum_chemistry",
+      "backend": "PySCF",
+      "status": "working",
+      "detail": "Minimal functional smoke test succeeded",
+      "result": {
+        "status": "success",
+        "backend": "PySCF",
+        "method": "rhf",
+        "basis": "sto-3g",
+        "xc": null,
+        "converged": true,
+        "energy_hartree": -1.1167593073964255,
+        "electron_count": 2,
+        "output_file": "outputs/pyscf.json"
+      }
+    },
+    {
+      "name": "run_quantum_espresso",
+      "enabled": true,
+      "category": "periodic_dft",
+      "backend": "Quantum ESPRESSO pw.x",
+      "status": "not_configured",
+      "detail": "Adapter is registered, but no safe automated real smoke input is defined",
+      "result": {
+        "status": "unavailable",
+        "reason": "Adapter is registered, but no safe automated real smoke input is defined",
+        "manual_action": "Run a representative licensed/configured backend input manually."
+      }
+    },
+    {
+      "name": "run_reaction_kinetics",
+      "enabled": true,
+      "category": "reaction_kinetics",
+      "backend": "SciPy solve_ivp",
+      "status": "working",
+      "detail": "Minimal functional smoke test succeeded",
+      "result": {
+        "status": "success",
+        "backend": "SciPy solve_ivp/LSODA",
+        "species": [
+          "A",
+          "B"
+        ],
+        "time": [
+          0.0,
+          0.25,
+          0.5,
+          0.75,
+          1.0
+        ],
+        "concentrations": {
+          "A": [
+            1.0,
+            0.7788191102753869,
+            0.6065557642666223,
+            0.47237248170932133,
+            0.3678689253657671
+          ],
+          "B": [
+            0.0,
+            0.22118088972461336,
+            0.39344423573337806,
+            0.5276275182906789,
+            0.6321310746342331
+          ]
+        },
+        "final_concentrations": {
+          "A": 0.3678689253657671,
+          "B": 0.6321310746342331
+        }
+      }
+    },
+    {
+      "name": "run_xtb",
+      "enabled": true,
+      "category": "quantum_chemistry",
+      "backend": "xTB",
+      "status": "working",
+      "detail": "Minimal functional smoke test succeeded",
+      "result": {
+        "status": "success",
+        "backend": "xTB/GFN2",
+        "available": true,
+        "returncode": 0,
+        "command": [
+          "xtb",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/workspaces/toolbox_verification/20260717_155950/data/water.xyz",
+          "--gfn",
+          "2",
+          "--chrg",
+          "0",
+          "--uhf",
+          "0"
+        ],
+        "output_directory": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/workspaces/toolbox_verification/20260717_155950/outputs/xtb",
+        "stdout_log": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/workspaces/toolbox_verification/20260717_155950/outputs/xtb/stdout.log",
+        "stderr_log": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/workspaces/toolbox_verification/20260717_155950/outputs/xtb/stderr.log",
+        "stdout_preview": "       0.097095675437 Eh/a0 ::\n         :: HOMO-LUMO gap             16.326799898512 eV    ::\n         ::.................................................::\n         :: SCC energy                -5.119396049039 Eh    ::\n         :: -> isotropic ES            0.031661226367 Eh    ::\n         :: -> anisotropic ES         -0.000242744772 Eh    ::\n         :: -> anisotropic XC         -0.001548921203 Eh    ::\n         :: -> dispersion             -0.000139643256 Eh    ::\n         :: repulsion energy           0.053623080734 Eh    ::\n         :: add. restraining           0.000000000000 Eh    ::\n         :: total charge              -0.000000000000 e     ::\n         :::::::::::::::::::::::::::::::::::::::::::::::::::::\n\n           -------------------------------------------------\n          |                Property Printout                |\n           -------------------------------------------------\n\n    * Orbital Energies and Occupations\n\n         #    Occupation            Energy/Eh            Energy/eV\n      -------------------------------------------------------------\n         1        2.0000           -0.6845151             -18.6266\n         2        2.0000           -0.5759739             -15.6730\n         3        2.0000           -0.5039716             -13.7138\n         4        2.0000           -0.4465085             -12.1501 (HOMO)\n         5                          0.1534904               4.1767 (LUMO)\n         6                          0.3825682              10.4102\n      -------------------------------------------------------------\n                  HL-Gap            0.5999989 Eh           16.3268 eV\n             Fermi-level           -0.1465090 Eh           -3.9867 eV\n\n     #   Z          covCN         q      C6AA      α(0)\n     1   8 O        1.617    -0.578    24.670     6.704\n     2   1 H        0.808     0.289     0.754     1.363\n     3   1 H        0.808     0.289     0.754     1.363\n\n Mol. C6AA /au·bohr⁶  :         44.614531\n Mol. C8AA /au·bohr⁸  :        798.718354\n Mol. α(0) /au        :          9.430764\n\n\nWiberg/Mayer (AO) data.\nlargest (>0.10) Wiberg bond orders for each atom\n\n ---------------------------------------------------------------------------\n     #   Z sym  total        # sym  WBO       # sym  WBO       # sym  WBO\n ---------------------------------------------------------------------------\n     1   8 O    1.833 --     3 H    0.916     2 H    0.916\n     2   1 H    0.916 --     1 O    0.916\n     3   1 H    0.916 --     1 O    0.916\n ---------------------------------------------------------------------------\n\nTopologies differ in total number of bonds\nWriting topology from bond orders to xtbtopo.mol\n\nmolecular dipole:\n                 x           y           z       tot (Debye)\n q only:        0.000       0.000       0.551\n   full:        0.000       0.000       0.816       2.073\nmolecular quadrupole (traceless):\n                xx          xy          yy          xz          yz          zz\n q only:        0.926       0.000      -0.857       0.000       0.000      -0.069\n  q+dip:        1.176       0.000      -1.072       0.000       0.000      -0.104\n   full:        1.408      -0.000      -1.343       0.000       0.000      -0.065\n\n\n           -------------------------------------------------\n          | TOTAL ENERGY               -5.065772968305 Eh   |\n          | GRADIENT NORM               0.097095675437 Eh/α |\n          | HOMO-LUMO GAP              16.326799898512 eV   |\n           -------------------------------------------------\n\n------------------------------------------------------------------------\n * finished run on 2026/07/17 at 16:00:10.198     \n------------------------------------------------------------------------\n total:\n * wall-time:     0 d,  0 h,  0 min,  0.625 sec\n *  cpu-time:     0 d,  0 h,  0 min, 21.121 sec\n * ratio c/w:    33.807 speedup\n SCF:\n * wall-time:     0 d,  0 h,  0 min,  0.392 sec\n *  cpu-time:     0 d,  0 h,  0 min, 13.949 sec\n * ratio c/w:    35.612 speedup\n\n",
+        "stderr_preview": "normal termination of xtb\n"
+      }
+    },
+    {
+      "name": "smiles_to_coordinate_file",
+      "enabled": true,
+      "category": "cheminformatics",
+      "backend": "ChemGraph/RDKit/ASE",
+      "status": "working",
+      "detail": "Minimal functional smoke test succeeded",
+      "result": {
+        "ok": true,
+        "artifact": "coordinate_file",
+        "path": "outputs/original_water.xyz",
+        "smiles": "O",
+        "natoms": 3
+      }
+    },
+    {
+      "name": "standardize_molecule",
+      "enabled": true,
+      "category": "cheminformatics",
+      "backend": "RDKit",
+      "status": "working",
+      "detail": "Minimal functional smoke test succeeded",
+      "result": {
+        "status": "success",
+        "backend": "RDKit",
+        "input_smiles": "CCO",
+        "canonical_smiles": "CCO",
+        "formula": "C2H6O",
+        "molecular_weight": 46.069,
+        "formal_charge": 0
+      }
+    },
+    {
+      "name": "validate_computation",
+      "enabled": true,
+      "category": "validation",
+      "backend": "ResearchChemBench deterministic validator",
+      "status": "working",
+      "detail": "Minimal functional smoke test succeeded",
+      "result": {
+        "status": "success",
+        "backend": "ResearchChemBench deterministic validator",
+        "valid": true,
+        "result_file": "outputs/validation_input.json",
+        "missing_fields": [],
+        "finite_numbers": true,
+        "backend_success": true,
+        "artifacts": {}
+      }
+    }
+  ],
+  "software": [
+    {
+      "name": "RDKit",
+      "category": "data_structure",
+      "status": "installed",
+      "detail": "Runtime dependency detected",
+      "python_module": "rdkit",
+      "python_version": "2025.3.3",
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://www.rdkit.org/",
+      "manual_action": null
+    },
+    {
+      "name": "Open Babel",
+      "category": "data_structure",
+      "status": "installed",
+      "detail": "Runtime dependency detected",
+      "python_module": "openbabel",
+      "python_version": null,
+      "executable": "obabel",
+      "executable_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.toolbox_env/bin/obabel",
+      "official_url": "https://openbabel.org/",
+      "manual_action": null
+    },
+    {
+      "name": "ASE",
+      "category": "data_structure",
+      "status": "installed",
+      "detail": "Runtime dependency detected",
+      "python_module": "ase",
+      "python_version": "3.29.0",
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://ase-lib.org/",
+      "manual_action": null
+    },
+    {
+      "name": "QCSchema",
+      "category": "data_structure",
+      "status": "installed",
+      "detail": "Runtime dependency detected",
+      "python_module": "qcelemental",
+      "python_version": "0.50.4",
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://molssi-qc-schema.readthedocs.io/",
+      "manual_action": null
+    },
+    {
+      "name": "QCElemental",
+      "category": "data_structure",
+      "status": "installed",
+      "detail": "Runtime dependency detected",
+      "python_module": "qcelemental",
+      "python_version": "0.50.4",
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://github.com/MolSSI/QCElemental",
+      "manual_action": null
+    },
+    {
+      "name": "QCEngine",
+      "category": "quantum_chemistry",
+      "status": "installed",
+      "detail": "Runtime dependency detected",
+      "python_module": "qcengine",
+      "python_version": "0.50.0",
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://github.com/MolSSI/QCEngine",
+      "manual_action": null
+    },
+    {
+      "name": "cclib",
+      "category": "analysis",
+      "status": "installed",
+      "detail": "Runtime dependency detected",
+      "python_module": "cclib",
+      "python_version": "1.8.1",
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://cclib.github.io/",
+      "manual_action": null
+    },
+    {
+      "name": "pymatgen",
+      "category": "materials",
+      "status": "installed",
+      "detail": "Runtime dependency detected",
+      "python_module": "pymatgen",
+      "python_version": "2025.3.10",
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://pymatgen.org/",
+      "manual_action": null
+    },
+    {
+      "name": "spglib",
+      "category": "materials",
+      "status": "installed",
+      "detail": "Runtime dependency detected",
+      "python_module": "spglib",
+      "python_version": "2.7.0",
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://spglib.readthedocs.io/",
+      "manual_action": null
+    },
+    {
+      "name": "OpenFF Toolkit",
+      "category": "molecular_simulation",
+      "status": "installed",
+      "detail": "Runtime dependency detected",
+      "python_module": "openff.toolkit",
+      "python_version": null,
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://docs.openforcefield.org/projects/toolkit/",
+      "manual_action": null
+    },
+    {
+      "name": "OpenFF Interchange",
+      "category": "molecular_simulation",
+      "status": "installed",
+      "detail": "Runtime dependency detected",
+      "python_module": "openff.interchange",
+      "python_version": null,
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://docs.openforcefield.org/projects/interchange/",
+      "manual_action": null
+    },
+    {
+      "name": "Packmol",
+      "category": "molecular_simulation",
+      "status": "installed",
+      "detail": "Runtime dependency detected",
+      "python_module": null,
+      "python_version": null,
+      "executable": "packmol",
+      "executable_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.toolbox_env/bin/packmol",
+      "official_url": "https://m3g.github.io/packmol/",
+      "manual_action": null
+    },
+    {
+      "name": "MDAnalysis",
+      "category": "molecular_dynamics",
+      "status": "installed",
+      "detail": "Runtime dependency detected",
+      "python_module": "MDAnalysis",
+      "python_version": "2.9.0",
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://www.mdanalysis.org/",
+      "manual_action": null
+    },
+    {
+      "name": "ParmEd",
+      "category": "molecular_dynamics",
+      "status": "installed",
+      "detail": "Runtime dependency detected",
+      "python_module": "parmed",
+      "python_version": "4.3.1",
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://parmed.github.io/ParmEd/",
+      "manual_action": null
+    },
+    {
+      "name": "MDTraj",
+      "category": "molecular_dynamics",
+      "status": "installed",
+      "detail": "Runtime dependency detected",
+      "python_module": "mdtraj",
+      "python_version": "1.10.3",
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://www.mdtraj.org/",
+      "manual_action": null
+    },
+    {
+      "name": "AiiDA",
+      "category": "workflow",
+      "status": "planned",
+      "detail": "Install the backend in .toolbox_env.",
+      "python_module": "aiida",
+      "python_version": null,
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://www.aiida.net/",
+      "manual_action": null
+    },
+    {
+      "name": "jobflow",
+      "category": "workflow",
+      "status": "planned",
+      "detail": "Install the backend in .toolbox_env.",
+      "python_module": "jobflow",
+      "python_version": null,
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://materialsproject.github.io/jobflow/",
+      "manual_action": null
+    },
+    {
+      "name": "atomate2",
+      "category": "workflow",
+      "status": "planned",
+      "detail": "Install the backend in .toolbox_env.",
+      "python_module": "atomate2",
+      "python_version": null,
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://materialsproject.github.io/atomate2/",
+      "manual_action": null
+    },
+    {
+      "name": "EMT",
+      "category": "atomistic_calculator",
+      "status": "installed",
+      "detail": "Runtime dependency detected",
+      "python_module": "ase.calculators.emt",
+      "python_version": "3.29.0",
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://ase-lib.org/ase/calculators/emt.html",
+      "manual_action": null
+    },
+    {
+      "name": "TBLite",
+      "category": "quantum_chemistry",
+      "status": "installed",
+      "detail": "Runtime dependency detected",
+      "python_module": "tblite",
+      "python_version": "0.4.0",
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://tblite.readthedocs.io/",
+      "manual_action": null
+    },
+    {
+      "name": "xTB",
+      "category": "quantum_chemistry",
+      "status": "installed",
+      "detail": "Runtime dependency detected",
+      "python_module": null,
+      "python_version": null,
+      "executable": "xtb",
+      "executable_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.toolbox_env/bin/xtb",
+      "official_url": "https://xtb-docs.readthedocs.io/",
+      "manual_action": null
+    },
+    {
+      "name": "CREST",
+      "category": "conformer_search",
+      "status": "installed",
+      "detail": "Runtime dependency detected",
+      "python_module": null,
+      "python_version": null,
+      "executable": "crest",
+      "executable_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.toolbox_env/bin/crest",
+      "official_url": "https://crest-lab.github.io/crest-docs/",
+      "manual_action": null
+    },
+    {
+      "name": "CENSO",
+      "category": "conformer_search",
+      "status": "planned",
+      "detail": "Install the backend in .toolbox_env.",
+      "python_module": null,
+      "python_version": null,
+      "executable": "censo",
+      "executable_path": null,
+      "official_url": "https://xtb-docs.readthedocs.io/en/latest/CENSO_docs/censo.html",
+      "manual_action": null
+    },
+    {
+      "name": "Psi4",
+      "category": "quantum_chemistry",
+      "status": "planned",
+      "detail": "Install Psi4 in a dedicated compatible environment, then expose its Python module or executable.",
+      "python_module": "psi4",
+      "python_version": null,
+      "executable": "psi4",
+      "executable_path": null,
+      "official_url": "https://psicode.org/",
+      "manual_action": "Install Psi4 in a dedicated compatible environment, then expose its Python module or executable."
+    },
+    {
+      "name": "PySCF",
+      "category": "quantum_chemistry",
+      "status": "installed",
+      "detail": "Runtime dependency detected",
+      "python_module": "pyscf",
+      "python_version": "2.13.1",
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://pyscf.org/",
+      "manual_action": null
+    },
+    {
+      "name": "NWChem",
+      "category": "quantum_chemistry",
+      "status": "planned",
+      "detail": "Install NWChem in a dedicated environment and add its executable to PATH.",
+      "python_module": null,
+      "python_version": null,
+      "executable": "nwchem",
+      "executable_path": null,
+      "official_url": "https://nwchemgit.github.io/",
+      "manual_action": "Install NWChem in a dedicated environment and add its executable to PATH."
+    },
+    {
+      "name": "GoodVibes",
+      "category": "thermochemistry",
+      "status": "planned",
+      "detail": "Install the backend in .toolbox_env.",
+      "python_module": "goodvibes",
+      "python_version": null,
+      "executable": "goodvibes",
+      "executable_path": null,
+      "official_url": "https://github.com/patonlab/GoodVibes",
+      "manual_action": null
+    },
+    {
+      "name": "autodE",
+      "category": "reaction_path",
+      "status": "planned",
+      "detail": "Install the backend in .toolbox_env.",
+      "python_module": "autode",
+      "python_version": null,
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://duartegroup.github.io/autodE/",
+      "manual_action": null
+    },
+    {
+      "name": "pysisyphus",
+      "category": "reaction_path",
+      "status": "planned",
+      "detail": "Install the backend in .toolbox_env.",
+      "python_module": "pysisyphus",
+      "python_version": null,
+      "executable": "pysis",
+      "executable_path": null,
+      "official_url": "https://pysisyphus.readthedocs.io/",
+      "manual_action": null
+    },
+    {
+      "name": "geomeTRIC",
+      "category": "optimization",
+      "status": "installed",
+      "detail": "Runtime dependency detected",
+      "python_module": "geometric",
+      "python_version": "1.1.1",
+      "executable": "geometric-optimize",
+      "executable_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.toolbox_env/bin/geometric-optimize",
+      "official_url": "https://geometric.readthedocs.io/",
+      "manual_action": null
+    },
+    {
+      "name": "Sella",
+      "category": "reaction_path",
+      "status": "installed",
+      "detail": "Runtime dependency detected",
+      "python_module": "sella",
+      "python_version": "2.5.0",
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://github.com/zadorlab/sella",
+      "manual_action": null
+    },
+    {
+      "name": "Critic2",
+      "category": "wavefunction_analysis",
+      "status": "planned",
+      "detail": "Install the backend in .toolbox_env.",
+      "python_module": null,
+      "python_version": null,
+      "executable": "critic2",
+      "executable_path": null,
+      "official_url": "https://aoterodelaroza.github.io/critic2/",
+      "manual_action": null
+    },
+    {
+      "name": "Multiwfn",
+      "category": "wavefunction_analysis",
+      "status": "manual_required",
+      "detail": "Redistribution and download terms require manual review.",
+      "python_module": null,
+      "python_version": null,
+      "executable": "Multiwfn",
+      "executable_path": null,
+      "official_url": "http://sobereva.com/multiwfn/",
+      "manual_action": "Download from the official site after reviewing its terms, then set CHEMGRAPH_MULTIWFN_COMMAND."
+    },
+    {
+      "name": "GAMESS",
+      "category": "quantum_chemistry",
+      "status": "manual_required",
+      "detail": "Registration and acceptance of distribution terms are required.",
+      "python_module": null,
+      "python_version": null,
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://www.msg.chem.iastate.edu/gamess/",
+      "manual_action": "Obtain GAMESS manually and configure its launcher outside the repository."
+    },
+    {
+      "name": "Quantum ESPRESSO",
+      "category": "periodic_dft",
+      "status": "planned",
+      "detail": "Install Quantum ESPRESSO in a dedicated environment and add pw.x to PATH.",
+      "python_module": null,
+      "python_version": null,
+      "executable": "pw.x",
+      "executable_path": null,
+      "official_url": "https://www.quantum-espresso.org/",
+      "manual_action": "Install Quantum ESPRESSO in a dedicated environment and add pw.x to PATH."
+    },
+    {
+      "name": "CP2K",
+      "category": "periodic_dft",
+      "status": "planned",
+      "detail": "Install CP2K in a dedicated environment and add cp2k to PATH.",
+      "python_module": null,
+      "python_version": null,
+      "executable": "cp2k",
+      "executable_path": null,
+      "official_url": "https://www.cp2k.org/",
+      "manual_action": "Install CP2K in a dedicated environment and add cp2k to PATH."
+    },
+    {
+      "name": "GPAW",
+      "category": "periodic_dft",
+      "status": "planned",
+      "detail": "Install the backend in .toolbox_env.",
+      "python_module": "gpaw",
+      "python_version": null,
+      "executable": "gpaw",
+      "executable_path": null,
+      "official_url": "https://gpaw.readthedocs.io/",
+      "manual_action": null
+    },
+    {
+      "name": "DFTB+",
+      "category": "periodic_dft",
+      "status": "planned",
+      "detail": "Install DFTB+ in a dedicated environment and add dftb+ to PATH.",
+      "python_module": null,
+      "python_version": null,
+      "executable": "dftb+",
+      "executable_path": null,
+      "official_url": "https://dftbplus.org/",
+      "manual_action": "Install DFTB+ in a dedicated environment and add dftb+ to PATH."
+    },
+    {
+      "name": "SIESTA",
+      "category": "periodic_dft",
+      "status": "planned",
+      "detail": "Install the backend in .toolbox_env.",
+      "python_module": null,
+      "python_version": null,
+      "executable": "siesta",
+      "executable_path": null,
+      "official_url": "https://siesta-project.org/",
+      "manual_action": null
+    },
+    {
+      "name": "ABINIT",
+      "category": "periodic_dft",
+      "status": "planned",
+      "detail": "Install the backend in .toolbox_env.",
+      "python_module": null,
+      "python_version": null,
+      "executable": "abinit",
+      "executable_path": null,
+      "official_url": "https://www.abinit.org/",
+      "manual_action": null
+    },
+    {
+      "name": "Phonopy",
+      "category": "phonons",
+      "status": "installed",
+      "detail": "Runtime dependency detected",
+      "python_module": "phonopy",
+      "python_version": "4.3.1",
+      "executable": "phonopy",
+      "executable_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.toolbox_env/bin/phonopy",
+      "official_url": "https://phonopy.github.io/phonopy/",
+      "manual_action": null
+    },
+    {
+      "name": "phono3py",
+      "category": "phonons",
+      "status": "installed",
+      "detail": "Runtime dependency detected",
+      "python_module": "phono3py",
+      "python_version": "4.3.3",
+      "executable": "phono3py",
+      "executable_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.toolbox_env/bin/phono3py",
+      "official_url": "https://phonopy.github.io/phono3py/",
+      "manual_action": null
+    },
+    {
+      "name": "Wannier90",
+      "category": "electronic_transport",
+      "status": "planned",
+      "detail": "Install the backend in .toolbox_env.",
+      "python_module": null,
+      "python_version": null,
+      "executable": "wannier90.x",
+      "executable_path": null,
+      "official_url": "https://wannier.org/",
+      "manual_action": null
+    },
+    {
+      "name": "Yambo",
+      "category": "excited_state",
+      "status": "planned",
+      "detail": "Install the backend in .toolbox_env.",
+      "python_module": null,
+      "python_version": null,
+      "executable": "yambo",
+      "executable_path": null,
+      "official_url": "https://www.yambo-code.eu/",
+      "manual_action": null
+    },
+    {
+      "name": "ShengBTE",
+      "category": "thermal_transport",
+      "status": "planned",
+      "detail": "Install the backend in .toolbox_env.",
+      "python_module": null,
+      "python_version": null,
+      "executable": "ShengBTE",
+      "executable_path": null,
+      "official_url": "https://www.shengbte.org/",
+      "manual_action": null
+    },
+    {
+      "name": "CatMAP",
+      "category": "catalysis",
+      "status": "planned",
+      "detail": "Install the backend in .toolbox_env.",
+      "python_module": "catmap",
+      "python_version": null,
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://catmap.readthedocs.io/",
+      "manual_action": null
+    },
+    {
+      "name": "GROMACS",
+      "category": "molecular_dynamics",
+      "status": "planned",
+      "detail": "Install GROMACS in a dedicated environment and add gmx to PATH.",
+      "python_module": null,
+      "python_version": null,
+      "executable": "gmx",
+      "executable_path": null,
+      "official_url": "https://www.gromacs.org/",
+      "manual_action": "Install GROMACS in a dedicated environment and add gmx to PATH."
+    },
+    {
+      "name": "OpenMM",
+      "category": "molecular_dynamics",
+      "status": "installed",
+      "detail": "Runtime dependency detected",
+      "python_module": "openmm",
+      "python_version": "8.5.2",
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://openmm.org/",
+      "manual_action": null
+    },
+    {
+      "name": "LAMMPS",
+      "category": "molecular_dynamics",
+      "status": "planned",
+      "detail": "Install LAMMPS in a dedicated environment and add lmp to PATH.",
+      "python_module": "lammps",
+      "python_version": null,
+      "executable": "lmp",
+      "executable_path": null,
+      "official_url": "https://www.lammps.org/",
+      "manual_action": "Install LAMMPS in a dedicated environment and add lmp to PATH."
+    },
+    {
+      "name": "PLUMED",
+      "category": "enhanced_sampling",
+      "status": "planned",
+      "detail": "Install PLUMED in a dedicated environment and add plumed to PATH.",
+      "python_module": null,
+      "python_version": null,
+      "executable": "plumed",
+      "executable_path": null,
+      "official_url": "https://www.plumed.org/",
+      "manual_action": "Install PLUMED in a dedicated environment and add plumed to PATH."
+    },
+    {
+      "name": "HOOMD-blue",
+      "category": "molecular_dynamics",
+      "status": "planned",
+      "detail": "Install the backend in .toolbox_env.",
+      "python_module": "hoomd",
+      "python_version": null,
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://hoomd-blue.readthedocs.io/",
+      "manual_action": null
+    },
+    {
+      "name": "pymbar",
+      "category": "free_energy",
+      "status": "installed",
+      "detail": "Runtime dependency detected",
+      "python_module": "pymbar",
+      "python_version": "4.0.3",
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://pymbar.readthedocs.io/",
+      "manual_action": null
+    },
+    {
+      "name": "alchemlyb",
+      "category": "free_energy",
+      "status": "installed",
+      "detail": "Runtime dependency detected",
+      "python_module": "alchemlyb",
+      "python_version": "2.4.1",
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://alchemlyb.readthedocs.io/",
+      "manual_action": null
+    },
+    {
+      "name": "RMG-Py",
+      "category": "reaction_kinetics",
+      "status": "planned",
+      "detail": "Install the backend in .toolbox_env.",
+      "python_module": "rmgpy",
+      "python_version": null,
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://reactionmechanismgenerator.github.io/",
+      "manual_action": null
+    },
+    {
+      "name": "Arkane",
+      "category": "reaction_kinetics",
+      "status": "planned",
+      "detail": "Install the backend in .toolbox_env.",
+      "python_module": "arkane",
+      "python_version": null,
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://reactionmechanismgenerator.github.io/RMG-Py/users/arkane/",
+      "manual_action": null
+    },
+    {
+      "name": "Cantera",
+      "category": "reaction_kinetics",
+      "status": "installed",
+      "detail": "Runtime dependency detected",
+      "python_module": "cantera",
+      "python_version": "3.2.0",
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://cantera.org/",
+      "manual_action": null
+    },
+    {
+      "name": "AutoMeKin",
+      "category": "reaction_network",
+      "status": "planned",
+      "detail": "Install the backend in .toolbox_env.",
+      "python_module": null,
+      "python_version": null,
+      "executable": "amk",
+      "executable_path": null,
+      "official_url": "https://rxnkin.usc.es/index.php/AutoMeKin",
+      "manual_action": null
+    },
+    {
+      "name": "KinBot",
+      "category": "reaction_network",
+      "status": "planned",
+      "detail": "Install the backend in .toolbox_env.",
+      "python_module": "kinbot",
+      "python_version": null,
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://github.com/zadorlab/KinBot",
+      "manual_action": null
+    },
+    {
+      "name": "MESMER",
+      "category": "reaction_kinetics",
+      "status": "planned",
+      "detail": "Install the backend in .toolbox_env.",
+      "python_module": null,
+      "python_version": null,
+      "executable": "mesmer",
+      "executable_path": null,
+      "official_url": "https://github.com/MESMER-kinetics/MESMER-code",
+      "manual_action": null
+    },
+    {
+      "name": "MESS",
+      "category": "reaction_kinetics",
+      "status": "manual_required",
+      "detail": "Distribution and use conditions require manual review.",
+      "python_module": null,
+      "python_version": null,
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://tcg.cse.anl.gov/papr/codes/mess.html",
+      "manual_action": "Obtain MESS from its official distributor and configure it outside this repository."
+    },
+    {
+      "name": "OpenMolcas",
+      "category": "excited_state",
+      "status": "planned",
+      "detail": "Install the backend in .toolbox_env.",
+      "python_module": null,
+      "python_version": null,
+      "executable": "pymolcas",
+      "executable_path": null,
+      "official_url": "https://gitlab.com/Molcas/OpenMolcas",
+      "manual_action": null
+    },
+    {
+      "name": "TheoDORE",
+      "category": "excited_state",
+      "status": "planned",
+      "detail": "Install the backend in .toolbox_env.",
+      "python_module": "theodore",
+      "python_version": null,
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://theodore-qc.sourceforge.io/",
+      "manual_action": null
+    },
+    {
+      "name": "SHARC",
+      "category": "nonadiabatic_dynamics",
+      "status": "manual_required",
+      "detail": "Register and install SHARC according to the official instructions.",
+      "python_module": null,
+      "python_version": null,
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://sharc-md.org/",
+      "manual_action": "Register and install SHARC according to the official instructions."
+    },
+    {
+      "name": "Newton-X",
+      "category": "nonadiabatic_dynamics",
+      "status": "manual_required",
+      "detail": "Install Newton-X from its official distribution and configure its launcher before adding a production adapter.",
+      "python_module": null,
+      "python_version": null,
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://newtonx.org/",
+      "manual_action": "Install Newton-X from its official distribution and configure its launcher before adding a production adapter."
+    },
+    {
+      "name": "AutoDock Vina",
+      "category": "docking",
+      "status": "installed",
+      "detail": "Runtime dependency detected",
+      "python_module": "vina",
+      "python_version": "1.2.7",
+      "executable": "vina",
+      "executable_path": null,
+      "official_url": "https://vina.scripps.edu/",
+      "manual_action": null
+    },
+    {
+      "name": "GNINA",
+      "category": "docking",
+      "status": "planned",
+      "detail": "Install the backend in .toolbox_env.",
+      "python_module": null,
+      "python_version": null,
+      "executable": "gnina",
+      "executable_path": null,
+      "official_url": "https://github.com/gnina/gnina",
+      "manual_action": null
+    },
+    {
+      "name": "PDBFixer",
+      "category": "structural_bioinformatics",
+      "status": "installed",
+      "detail": "Runtime dependency detected",
+      "python_module": "pdbfixer",
+      "python_version": "1.12.0",
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://github.com/openmm/pdbfixer",
+      "manual_action": null
+    },
+    {
+      "name": "pdb-tools",
+      "category": "structural_bioinformatics",
+      "status": "installed",
+      "detail": "Runtime dependency detected",
+      "python_module": "pdbtools",
+      "python_version": null,
+      "executable": "pdb_tidy",
+      "executable_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.toolbox_env/bin/pdb_tidy",
+      "official_url": "https://www.bonvinlab.org/pdb-tools/",
+      "manual_action": null
+    },
+    {
+      "name": "MACE",
+      "category": "mlip",
+      "status": "installed",
+      "detail": "Runtime dependency detected",
+      "python_module": "mace",
+      "python_version": null,
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://mace-docs.readthedocs.io/",
+      "manual_action": null
+    },
+    {
+      "name": "NequIP",
+      "category": "mlip",
+      "status": "planned",
+      "detail": "Install the backend in .toolbox_env.",
+      "python_module": "nequip",
+      "python_version": null,
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://nequip.readthedocs.io/",
+      "manual_action": null
+    },
+    {
+      "name": "DeePMD-kit",
+      "category": "mlip",
+      "status": "planned",
+      "detail": "Install the backend in .toolbox_env.",
+      "python_module": "deepmd",
+      "python_version": null,
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://docs.deepmodeling.com/projects/deepmd/",
+      "manual_action": null
+    },
+    {
+      "name": "CHGNet",
+      "category": "mlip",
+      "status": "installed",
+      "detail": "Runtime dependency detected",
+      "python_module": "chgnet",
+      "python_version": "0.4.2",
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://chgnet.lbl.gov/",
+      "manual_action": null
+    },
+    {
+      "name": "FAIRChem/UMA",
+      "category": "mlip",
+      "status": "planned",
+      "detail": "Install the backend in .toolbox_env.",
+      "python_module": "fairchem",
+      "python_version": null,
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://fair-chem.github.io/",
+      "manual_action": null
+    },
+    {
+      "name": "AIMNet2",
+      "category": "mlip",
+      "status": "planned",
+      "detail": "Install the backend in .toolbox_env.",
+      "python_module": "aimnet2calc",
+      "python_version": null,
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://github.com/isayevlab/AIMNet2",
+      "manual_action": null
+    },
+    {
+      "name": "PubChem PUG-REST",
+      "category": "external_data",
+      "status": "integrated",
+      "detail": "Remote API adapter is present; live status is reported by the corresponding MCP tool.",
+      "python_module": "pubchempy",
+      "python_version": "1.0.5",
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://pubchem.ncbi.nlm.nih.gov/docs/pug-rest",
+      "manual_action": null
+    },
+    {
+      "name": "RCSB PDB API",
+      "category": "external_data",
+      "status": "integrated",
+      "detail": "Remote API adapter is present; live status is reported by the corresponding MCP tool.",
+      "python_module": null,
+      "python_version": null,
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://data.rcsb.org/",
+      "manual_action": null
+    },
+    {
+      "name": "Materials Project API",
+      "category": "external_data",
+      "status": "blocked_credentials",
+      "detail": "The API client/key combination is not configured in the current environment.",
+      "python_module": "mp_api",
+      "python_version": null,
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://docs.materialsproject.org/downloading-data/using-the-api",
+      "manual_action": "Set MP_API_KEY with a Materials Project API key."
+    },
+    {
+      "name": "Catalysis-Hub",
+      "category": "external_data",
+      "status": "integrated",
+      "detail": "Remote API adapter is present; live status is reported by the corresponding MCP tool.",
+      "python_module": null,
+      "python_version": null,
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://www.catalysis-hub.org/",
+      "manual_action": null
+    },
+    {
+      "name": "NIST Chemistry WebBook/CCCBDB",
+      "category": "external_data",
+      "status": "manual_required",
+      "detail": "No stable general-purpose API was selected; fragile scraping is intentionally excluded.",
+      "python_module": null,
+      "python_version": null,
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://webbook.nist.gov/chemistry/",
+      "manual_action": "Integrate only a documented programmatic interface whose terms permit automated use."
+    },
+    {
+      "name": "gRASPA",
+      "category": "adsorption",
+      "status": "planned",
+      "detail": "Install the backend in .toolbox_env.",
+      "python_module": null,
+      "python_version": null,
+      "executable": "graspa",
+      "executable_path": null,
+      "official_url": "https://github.com/iRASPA/RASPA3",
+      "manual_action": null
+    },
+    {
+      "name": "FDMNES/XANES",
+      "category": "spectroscopy",
+      "status": "manual_required",
+      "detail": "manual_required",
+      "python_module": null,
+      "python_version": null,
+      "executable": "fdmnes",
+      "executable_path": null,
+      "official_url": "https://fdmnes.neel.cnrs.fr/",
+      "manual_action": null
+    },
+    {
+      "name": "Parsl",
+      "category": "workflow",
+      "status": "planned",
+      "detail": "Install the backend in .toolbox_env.",
+      "python_module": "parsl",
+      "python_version": null,
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://parsl-project.org/",
+      "manual_action": null
+    },
+    {
+      "name": "ChemGraph data_analysis_mcp",
+      "category": "analysis",
+      "status": "installed",
+      "detail": "Runtime dependency detected",
+      "python_module": "chemgraph",
+      "python_version": null,
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://github.com/argonne-lcf/ChemGraph",
+      "manual_action": null
+    },
+    {
+      "name": "ORCA",
+      "category": "licensed_quantum_chemistry",
+      "status": "manual_required",
+      "detail": "Install ORCA manually and set CHEMGRAPH_ORCA_COMMAND.",
+      "python_module": null,
+      "python_version": null,
+      "executable": "orca",
+      "executable_path": null,
+      "official_url": "https://www.faccts.de/orca/",
+      "manual_action": "Install ORCA manually and set CHEMGRAPH_ORCA_COMMAND."
+    },
+    {
+      "name": "Gaussian",
+      "category": "licensed_quantum_chemistry",
+      "status": "blocked_license",
+      "detail": "Mount a licensed installation and set CHEMGRAPH_GAUSSIAN_COMMAND.",
+      "python_module": null,
+      "python_version": null,
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://gaussian.com/",
+      "manual_action": "Mount a licensed installation and set CHEMGRAPH_GAUSSIAN_COMMAND."
+    },
+    {
+      "name": "VASP",
+      "category": "licensed_periodic_dft",
+      "status": "blocked_license",
+      "detail": "Mount a licensed installation and set CHEMGRAPH_VASP_COMMAND.",
+      "python_module": null,
+      "python_version": null,
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://www.vasp.at/",
+      "manual_action": "Mount a licensed installation and set CHEMGRAPH_VASP_COMMAND."
+    },
+    {
+      "name": "Q-Chem",
+      "category": "licensed_quantum_chemistry",
+      "status": "blocked_license",
+      "detail": "Mount a licensed installation and set CHEMGRAPH_QCHEM_COMMAND.",
+      "python_module": null,
+      "python_version": null,
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://www.q-chem.com/",
+      "manual_action": "Mount a licensed installation and set CHEMGRAPH_QCHEM_COMMAND."
+    },
+    {
+      "name": "Molpro",
+      "category": "licensed_quantum_chemistry",
+      "status": "blocked_license",
+      "detail": "Mount a licensed installation and set CHEMGRAPH_MOLPRO_COMMAND.",
+      "python_module": null,
+      "python_version": null,
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://www.molpro.net/",
+      "manual_action": "Mount a licensed installation and set CHEMGRAPH_MOLPRO_COMMAND."
+    },
+    {
+      "name": "TURBOMOLE",
+      "category": "licensed_quantum_chemistry",
+      "status": "blocked_license",
+      "detail": "blocked_license",
+      "python_module": null,
+      "python_version": null,
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://www.turbomole.org/",
+      "manual_action": null
+    },
+    {
+      "name": "AMBER",
+      "category": "licensed_molecular_dynamics",
+      "status": "manual_required",
+      "detail": "manual_required",
+      "python_module": null,
+      "python_version": null,
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://ambermd.org/",
+      "manual_action": null
+    },
+    {
+      "name": "CHARMM",
+      "category": "licensed_molecular_dynamics",
+      "status": "blocked_license",
+      "detail": "blocked_license",
+      "python_module": null,
+      "python_version": null,
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://www.charmm.org/",
+      "manual_action": null
+    },
+    {
+      "name": "AMS/ADF",
+      "category": "licensed_quantum_chemistry",
+      "status": "blocked_license",
+      "detail": "blocked_license",
+      "python_module": null,
+      "python_version": null,
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://www.scm.com/amsterdam-modeling-suite/",
+      "manual_action": null
+    },
+    {
+      "name": "CASTEP",
+      "category": "licensed_periodic_dft",
+      "status": "blocked_license",
+      "detail": "blocked_license",
+      "python_module": null,
+      "python_version": null,
+      "executable": null,
+      "executable_path": null,
+      "official_url": "http://www.castep.org/",
+      "manual_action": null
+    },
+    {
+      "name": "CRYSTAL",
+      "category": "licensed_periodic_dft",
+      "status": "blocked_license",
+      "detail": "blocked_license",
+      "python_module": null,
+      "python_version": null,
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://www.crystal.unito.it/",
+      "manual_action": null
+    },
+    {
+      "name": "WIEN2k",
+      "category": "licensed_periodic_dft",
+      "status": "blocked_license",
+      "detail": "blocked_license",
+      "python_module": null,
+      "python_version": null,
+      "executable": null,
+      "executable_path": null,
+      "official_url": "http://www.wien2k.at/",
+      "manual_action": null
+    },
+    {
+      "name": "Schrodinger",
+      "category": "licensed_cheminformatics",
+      "status": "blocked_license",
+      "detail": "blocked_license",
+      "python_module": null,
+      "python_version": null,
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://www.schrodinger.com/",
+      "manual_action": null
+    },
+    {
+      "name": "OpenEye",
+      "category": "licensed_cheminformatics",
+      "status": "blocked_license",
+      "detail": "blocked_license",
+      "python_module": null,
+      "python_version": null,
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://www.eyesopen.com/",
+      "manual_action": null
+    },
+    {
+      "name": "EasySpin/Matlab",
+      "category": "licensed_spectroscopy",
+      "status": "blocked_license",
+      "detail": "blocked_license",
+      "python_module": null,
+      "python_version": null,
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://easyspin.org/",
+      "manual_action": null
+    },
+    {
+      "name": "LOBSTER",
+      "category": "licensed_bonding_analysis",
+      "status": "manual_required",
+      "detail": "manual_required",
+      "python_module": null,
+      "python_version": null,
+      "executable": null,
+      "executable_path": null,
+      "official_url": "https://www.cohp.de/",
+      "manual_action": null
+    }
+  ]
+}

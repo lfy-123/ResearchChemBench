@@ -1,0 +1,12 @@
+name: quick_codex
+agents:
+  - codex
+tasks:
+  - ChemGraph_001
+  - ChemGraph_003
+repeats: 1
+max_concurrent_runs: 1
+timeout_seconds: 1800
+max_turns: 80
+judge:
+  enabled: true

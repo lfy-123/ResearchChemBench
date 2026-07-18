@@ -1,0 +1,180 @@
+{
+  "expected_tool_calls": [
+    {
+      "molecule_name_to_smiles": {
+        "name": "propane"
+      }
+    },
+    {
+      "smiles_to_coordinate_file": {
+        "smiles": "CCC"
+      }
+    },
+    {
+      "run_ase": {
+        "params": {
+          "input_structure_file": "molecule.xyz",
+          "driver": "opt",
+          "calculator": {
+            "calculator_type": "TBLite",
+            "method": "GFN2-xTB"
+          }
+        }
+      }
+    },
+    {
+      "extract_output_json": {
+        "json_file": "output.json"
+      }
+    }
+  ],
+  "expected_result": {
+    "input_structure_file": "molecule.xyz",
+    "converged": true,
+    "final_structure": {
+      "numbers": [
+        6,
+        6,
+        6,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "positions": [
+        [
+          1.1836990220404637,
+          -0.44581775611645075,
+          -0.21608217898758877
+        ],
+        [
+          0.013755939163535107,
+          0.5231870496938728,
+          -0.33502779706029595
+        ],
+        [
+          -1.193998971070771,
+          0.054076155230239634,
+          0.46693744811254595
+        ],
+        [
+          1.4921405564582122,
+          -0.5456000103085392,
+          0.8224939842948522
+        ],
+        [
+          2.0343314895638045,
+          -0.09291512805474228,
+          -0.7950762275075864
+        ],
+        [
+          0.9022153167897163,
+          -1.430444486069934,
+          -0.583519605884765
+        ],
+        [
+          -0.26707932569687626,
+          0.6232475369384911,
+          -1.3858926897307564
+        ],
+        [
+          0.3231291409794439,
+          1.5085162554994638,
+          0.020798142197863384
+        ],
+        [
+          -2.0168236556709362,
+          0.7588112197659447,
+          0.36866240378291826
+        ],
+        [
+          -0.9407222264084549,
+          -0.03410841244112956,
+          1.521360301361399
+        ],
+        [
+          -1.5306472961481372,
+          -0.9189524341372168,
+          0.11534622942141458
+        ]
+      ],
+      "cell": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "pbc": [
+        false,
+        false,
+        false
+      ]
+    },
+    "simulation_input": {
+      "input_structure_file": "molecule.xyz",
+      "output_results_file": "output.json",
+      "driver": "opt",
+      "optimizer": "bfgs",
+      "calculator": {
+        "calculator_type": "TBLite",
+        "method": "GFN2-xTB",
+        "charge": null,
+        "multiplicity": null,
+        "accuracy": 1.0,
+        "electronic_temperature": 300.0,
+        "max_iterations": 250,
+        "initial_guess": "sad",
+        "mixer_damping": 0.4,
+        "electric_field": null,
+        "spin_polarization": null,
+        "cache_api": true,
+        "verbosity": 0
+      },
+      "fmax": 0.01,
+      "steps": 1000,
+      "temperature": null,
+      "pressure": 101325.0
+    },
+    "single_point_energy": -285.74204449105804,
+    "energy_unit": "eV",
+    "dipole_value": [
+      null,
+      null,
+      null
+    ],
+    "dipole_unit": " e * angstrom",
+    "vibrational_frequencies": {},
+    "ir_data": {},
+    "thermochemistry": {},
+    "success": true,
+    "error": "",
+    "wall_time": 0.12470197677612305
+  },
+  "expected_structured_output": {
+    "smiles": null,
+    "scalar_answer": {
+      "value": -285.74204449105804,
+      "property": "single-point energy",
+      "unit": "eV"
+    },
+    "dipole": null,
+    "vibrational_answer": null,
+    "ir_spectrum": null,
+    "atoms_data": null
+  }
+}

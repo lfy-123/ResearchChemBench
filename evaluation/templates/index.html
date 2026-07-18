@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ResearchChemBench</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header>
+    <h1>ResearchChemBench</h1>
+    <p>Agent-agnostic evaluation of autonomous ChemGraph tool use</p>
+  </header>
+
+  <main>
+    <section class="controls panel">
+      <label>Task
+        <select id="taskSelect"></select>
+      </label>
+      <label>Agent
+        <select id="agentSelect"></select>
+      </label>
+      <button id="startButton">Start run</button>
+      <button id="stopButton" disabled>Stop</button>
+      <button id="scoreButton" disabled>Score</button>
+      <span id="status">Idle</span>
+    </section>
+
+    <section class="panel">
+      <h2>Task instruction</h2>
+      <pre id="taskInfo">Loading…</pre>
+    </section>
+
+    <section class="columns">
+      <div class="panel">
+        <h2>Agent stream</h2>
+        <pre id="agentStream"></pre>
+      </div>
+      <div class="panel">
+        <h2>Chemistry tool trace</h2>
+        <pre id="toolStream"></pre>
+      </div>
+    </section>
+
+    <section class="columns">
+      <div class="panel">
+        <h2>Workspace files</h2>
+        <div id="fileTree"></div>
+      </div>
+      <div class="panel">
+        <h2>Selected file / score</h2>
+        <pre id="fileContent"></pre>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Recent runs</h2>
+      <table>
+        <thead><tr><th>Run</th><th>Task</th><th>Agent</th><th>Status</th><th>Duration</th></tr></thead>
+        <tbody id="runsTable"></tbody>
+      </table>
+    </section>
+  </main>
+  <script src="/static/app.js"></script>
+</body>
+</html>

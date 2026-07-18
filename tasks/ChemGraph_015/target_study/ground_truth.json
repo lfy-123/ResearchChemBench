@@ -1,0 +1,121 @@
+{
+  "expected_tool_calls": [
+    {
+      "molecule_name_to_smiles": {
+        "name": "nitrogen"
+      }
+    },
+    {
+      "smiles_to_coordinate_file": {
+        "smiles": "N#N"
+      }
+    },
+    {
+      "run_ase": {
+        "params": {
+          "input_structure_file": "molecule.xyz",
+          "driver": "energy",
+          "calculator": {
+            "calculator_type": "mace_mp",
+            "model": "medium-mpa-0"
+          }
+        }
+      }
+    },
+    {
+      "extract_output_json": {
+        "json_file": "output.json"
+      }
+    }
+  ],
+  "expected_result": {
+    "input_structure_file": "molecule.xyz",
+    "converged": true,
+    "final_structure": {
+      "numbers": [
+        7,
+        7
+      ],
+      "positions": [
+        [
+          0.56000414,
+          0.0,
+          0.0
+        ],
+        [
+          -0.56000414,
+          0.0,
+          0.0
+        ]
+      ],
+      "cell": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "pbc": [
+        false,
+        false,
+        false
+      ]
+    },
+    "simulation_input": {
+      "input_structure_file": "molecule.xyz",
+      "output_results_file": "output.json",
+      "driver": "energy",
+      "optimizer": "bfgs",
+      "calculator": {
+        "calculator_type": "mace_mp",
+        "model": "medium-mpa-0",
+        "device": "cpu",
+        "default_dtype": "float64",
+        "dispersion": false,
+        "damping": "bj",
+        "dispersion_xc": "pbe",
+        "dispersion_cutoff": 21.167088422553647
+      },
+      "fmax": 0.01,
+      "steps": 1000,
+      "temperature": null,
+      "pressure": 101325.0
+    },
+    "single_point_energy": -16.42796020021993,
+    "energy_unit": "eV",
+    "dipole_value": [
+      null,
+      null,
+      null
+    ],
+    "dipole_unit": " e * angstrom",
+    "vibrational_frequencies": {},
+    "ir_data": {},
+    "thermochemistry": {},
+    "success": true,
+    "error": "",
+    "wall_time": 0.09377384185791016
+  },
+  "expected_structured_output": {
+    "smiles": null,
+    "scalar_answer": {
+      "value": -16.42796020021993,
+      "property": "single-point energy",
+      "unit": "eV"
+    },
+    "dipole": null,
+    "vibrational_answer": null,
+    "ir_spectrum": null,
+    "atoms_data": null
+  }
+}

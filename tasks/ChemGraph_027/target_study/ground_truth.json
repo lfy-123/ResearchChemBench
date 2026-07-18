@@ -1,0 +1,45 @@
+{
+  "expected_tool_calls": [
+    {
+      "smiles_to_coordinate_file": {
+        "smiles": "O=CO"
+      }
+    },
+    {
+      "run_ase": {
+        "params": {
+          "input_structure_file": "molecule.xyz",
+          "driver": "dipole",
+          "calculator": {
+            "calculator_type": "TBLite",
+            "method": "GFN2-xTB"
+          }
+        }
+      }
+    }
+  ],
+  "expected_result": {
+    "status": "success",
+    "message": "Simulation completed. Results saved to /var/folders/5b/vkn1l5ys6pz8nyp5rbcprw800000gp/T/chemgraph_gt_frvn7mte/entry_27/output.json",
+    "dipole_moment": [
+      0.2982,
+      -0.3036,
+      -0.0806
+    ]
+  },
+  "expected_structured_output": {
+    "smiles": null,
+    "scalar_answer": null,
+    "dipole": {
+      "value": [
+        0.2982,
+        -0.3036,
+        -0.0806
+      ],
+      "unit": "e * Angstrom"
+    },
+    "vibrational_answer": null,
+    "ir_spectrum": null,
+    "atoms_data": null
+  }
+}

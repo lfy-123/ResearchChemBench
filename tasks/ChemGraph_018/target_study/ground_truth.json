@@ -1,0 +1,162 @@
+{
+  "expected_tool_calls": [
+    {
+      "molecule_name_to_smiles": {
+        "name": "ethane"
+      }
+    },
+    {
+      "smiles_to_coordinate_file": {
+        "smiles": "CC"
+      }
+    },
+    {
+      "run_ase": {
+        "params": {
+          "input_structure_file": "molecule.xyz",
+          "driver": "energy",
+          "calculator": {
+            "calculator_type": "TBLite",
+            "method": "GFN2-xTB"
+          }
+        }
+      }
+    },
+    {
+      "extract_output_json": {
+        "json_file": "output.json"
+      }
+    }
+  ],
+  "expected_result": {
+    "input_structure_file": "molecule.xyz",
+    "converged": true,
+    "final_structure": {
+      "numbers": [
+        6,
+        6,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "positions": [
+        [
+          0.75817634,
+          -0.00414207,
+          0.04613654
+        ],
+        [
+          -0.75817615,
+          0.00414192,
+          -0.04613682
+        ],
+        [
+          1.08728759,
+          -0.78406587,
+          0.76471975
+        ],
+        [
+          1.1947984,
+          -0.22109989,
+          -0.95148439
+        ],
+        [
+          1.11953509,
+          0.986582,
+          0.3937618
+        ],
+        [
+          -1.1195354,
+          -0.98658189,
+          -0.39376044
+        ],
+        [
+          -1.1947983,
+          0.22110085,
+          0.95148386
+        ],
+        [
+          -1.08728755,
+          0.78406493,
+          -0.76472029
+        ]
+      ],
+      "cell": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "pbc": [
+        false,
+        false,
+        false
+      ]
+    },
+    "simulation_input": {
+      "input_structure_file": "molecule.xyz",
+      "output_results_file": "output.json",
+      "driver": "energy",
+      "optimizer": "bfgs",
+      "calculator": {
+        "calculator_type": "TBLite",
+        "method": "GFN2-xTB",
+        "charge": null,
+        "multiplicity": null,
+        "accuracy": 1.0,
+        "electronic_temperature": 300.0,
+        "max_iterations": 250,
+        "initial_guess": "sad",
+        "mixer_damping": 0.4,
+        "electric_field": null,
+        "spin_polarization": null,
+        "cache_api": true,
+        "verbosity": 0
+      },
+      "fmax": 0.01,
+      "steps": 1000,
+      "temperature": null,
+      "pressure": 101325.0
+    },
+    "single_point_energy": -199.5763243283148,
+    "energy_unit": "eV",
+    "dipole_value": [
+      null,
+      null,
+      null
+    ],
+    "dipole_unit": " e * angstrom",
+    "vibrational_frequencies": {},
+    "ir_data": {},
+    "thermochemistry": {},
+    "success": true,
+    "error": "",
+    "wall_time": 0.018312931060791016
+  },
+  "expected_structured_output": {
+    "smiles": null,
+    "scalar_answer": {
+      "value": -199.5763243283148,
+      "property": "single-point energy",
+      "unit": "eV"
+    },
+    "dipole": null,
+    "vibrational_answer": null,
+    "ir_spectrum": null,
+    "atoms_data": null
+  }
+}

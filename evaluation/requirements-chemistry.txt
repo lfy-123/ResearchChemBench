@@ -1,0 +1,10 @@
+# Chemistry engines needed by the imported ChemGraph benchmark tasks.
+# ChemGraph source itself is loaded from CHEMGRAPH_ROOT/src; it is intentionally
+# not installed editable so the sibling reference repository remains untouched.
+ase>=3.22
+mace-torch
+numpy==2.2.6
+pubchempy==1.0.5
+pymatgen
+rdkit
+tblite==0.4.0; python_version < "3.13" or platform_system != "Darwin"

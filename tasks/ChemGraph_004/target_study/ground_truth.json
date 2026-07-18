@@ -1,0 +1,23 @@
+{
+  "expected_tool_calls": [
+    {
+      "molecule_name_to_smiles": {
+        "name": "carbon dioxide"
+      }
+    }
+  ],
+  "expected_result": {
+    "name": "carbon dioxide",
+    "smiles": "C(=O)=O"
+  },
+  "expected_structured_output": {
+    "smiles": [
+      "C(=O)=O"
+    ],
+    "scalar_answer": null,
+    "dipole": null,
+    "vibrational_answer": null,
+    "ir_spectrum": null,
+    "atoms_data": null
+  }
+}

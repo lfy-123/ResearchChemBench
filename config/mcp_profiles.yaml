@@ -1,0 +1,258 @@
+schema_version: 1
+default_profiles: [core]
+model_cache_root: .model_cache
+
+# Executable-only environments used by an MCP profile. They are not exposed as
+# separate MCP servers because they do not own public tools.
+support_environments:
+  abinit:
+    conda_name: researchchem-abinit
+    description: Isolated ABINIT executable used by the periodic dispatcher.
+    environment: .tool_envs/abinit
+    conda_packages: [abinit, typing_extensions]
+    pip_packages: []
+    health_checks:
+      commands: [abinit]
+
+profiles:
+  core:
+    conda_name: researchchem-core
+    server_name: researchchem_core
+    description: Core cheminformatics, structure, result, and toolbox-management tools.
+    environment: .toolbox_env
+    use_project_model_cache: true
+    runtime_preload_libraries: [libstdc++.so.6, libgcc_s.so.1]
+    health_checks:
+      modules: [ase, cclib, mace.calculators, numexpr, pubchempy, rdkit, torch, yaml]
+      models:
+        mace_medium_mpa_0:
+          backend: mace_mp
+          model: medium-mpa-0
+          device: cpu
+          default_dtype: float64
+    tools:
+      - analyze_wavefunction
+      - calculator
+      - check_backend_availability
+      - convert_structure
+      - extract_output_json
+      - generate_3d_structure
+      - generate_conformers_rdkit
+      - list_toolbox_capabilities
+      - molecule_name_to_smiles
+      - smiles_to_coordinate_file
+      - standardize_molecule
+      - validate_computation
+
+  services:
+    conda_name: researchchem-services
+    server_name: researchchem_services
+    description: Remote scientific data services and authenticated materials lookup.
+    environment: .tool_envs/services
+    conda_packages: [mp-api]
+    pip_packages: [pubchempy==1.0.5]
+    health_checks:
+      modules: [mp_api, pubchempy]
+    tools:
+      - query_catalysis_hub
+      - query_materials_project
+      - query_pubchem
+      - query_rcsb_pdb
+
+  quantum:
+    conda_name: researchchem-quantum
+    server_name: researchchem_quantum
+    description: Molecular quantum chemistry and ASE calculation tools excluding Psi4.
+    environment: .tool_envs/quantum
+    runtime_preload_libraries: [libstdc++.so.6, libgcc_s.so.1]
+    conda_packages: [ase, xtb, openbabel]
+    pip_packages: [pyscf, tblite==0.4.0, mace-torch==0.3.16]
+    use_project_model_cache: true
+    health_checks:
+      modules: [ase, mace, mace.calculators, pyscf, tblite, torch]
+      commands: [xtb]
+      manual_commands: [orca]
+      models:
+        mace_medium_mpa_0:
+          backend: mace_mp
+          model: medium-mpa-0
+          device: cpu
+          default_dtype: float64
+    command_variables:
+      CHEMGRAPH_XTB_COMMAND: xtb
+      CHEMGRAPH_ORCA_COMMAND: orca
+    tools:
+      - run_ase
+      - run_orca
+      - run_pyscf
+      - run_xtb
+
+  psi4:
+    conda_name: researchchem-psi4
+    server_name: researchchem_psi4
+    description: Isolated Psi4 Python runtime.
+    environment: .tool_envs/psi4
+    conda_packages: [psi4]
+    pip_packages: []
+    health_checks:
+      modules: [psi4]
+      commands: [psi4]
+    tools:
+      - run_psi4
+
+  reaction:
+    conda_name: researchchem-reaction
+    server_name: researchchem_reaction
+    description: Conformer refinement, reaction paths, thermochemistry, and kinetics.
+    environment: .tool_envs/reaction
+    conda_packages: [xtb, crest, censo, goodvibes, cantera]
+    pip_packages:
+      - pysisyphus==1.0.0
+      - git+https://github.com/SUNCAT-Center/catmap.git
+    health_checks:
+      modules: [cantera, catmap, goodvibes, pysisyphus, scipy]
+      commands: [catmap, censo, crest, goodvibes, pysis, xtb]
+      manual_commands: [orca]
+    command_variables:
+      CHEMGRAPH_CREST_COMMAND: crest
+      CHEMGRAPH_CENSO_COMMAND: censo
+      CHEMGRAPH_GOODVIBES_COMMAND: goodvibes
+      CHEMGRAPH_PYSIS_COMMAND: pysis
+      CHEMGRAPH_CATMAP_COMMAND: catmap
+    tools:
+      - compute_thermochemistry
+      - find_transition_state
+      - generate_conformers_crest
+      - refine_ensemble_censo
+      - run_cantera
+      - run_catmap
+      - run_irc
+      - run_reaction_kinetics
+
+  qe:
+    conda_name: researchchem-qe
+    server_name: researchchem_qe
+    description: Isolated Quantum ESPRESSO runtime.
+    environment: .tool_envs/qe
+    conda_packages: [qe]
+    pip_packages: []
+    health_checks:
+      commands: [pw.x]
+    command_variables:
+      CHEMGRAPH_QE_COMMAND: pw.x
+    tools:
+      - run_quantum_espresso
+
+  cp2k:
+    conda_name: researchchem-cp2k
+    server_name: researchchem_cp2k
+    description: Isolated CP2K runtime.
+    environment: .tool_envs/cp2k
+    conda_packages: [cp2k]
+    pip_packages: []
+    health_checks:
+      commands: [cp2k]
+    command_variables:
+      CHEMGRAPH_CP2K_COMMAND: cp2k
+    tools:
+      - run_cp2k
+
+  periodic:
+    conda_name: researchchem-periodic
+    server_name: researchchem_periodic
+    description: DFTB+, SIESTA, ABINIT, and cross-profile periodic dispatch.
+    environment: .tool_envs/periodic
+    conda_packages: [dftbplus, siesta]
+    pip_packages: []
+    health_checks:
+      commands: [dftb+, siesta]
+      external_commands:
+        - .tool_envs/qe/bin/pw.x
+        - .tool_envs/cp2k/bin/cp2k
+        - .tool_envs/abinit/bin/abinit
+    command_variables:
+      CHEMGRAPH_QE_COMMAND: .tool_envs/qe/bin/pw.x
+      CHEMGRAPH_CP2K_COMMAND: .tool_envs/cp2k/bin/cp2k
+      CHEMGRAPH_DFTBPLUS_COMMAND: dftb+
+      CHEMGRAPH_SIESTA_COMMAND: siesta
+      CHEMGRAPH_ABINIT_COMMAND: .tool_envs/abinit/bin/abinit
+    tools:
+      - run_periodic_calculation
+
+  phonons:
+    conda_name: researchchem-phonons
+    server_name: researchchem_phonons
+    description: Isolated Phonopy and Phono3py runtime.
+    environment: .tool_envs/phonons
+    conda_packages: [phonopy, phono3py]
+    pip_packages: []
+    health_checks:
+      modules: [phono3py, phonopy]
+      commands: [phono3py-init, phonopy-init]
+    command_variables:
+      CHEMGRAPH_PHONOPY_COMMAND: phonopy-init
+      CHEMGRAPH_PHONO3PY_COMMAND: phono3py-init
+    tools:
+      - run_phonopy
+
+  md:
+    conda_name: researchchem-md
+    server_name: researchchem_md
+    description: Molecular dynamics preparation, execution, enhanced sampling, and analysis.
+    environment: .tool_envs/md
+    conda_packages: [openmm, pdbfixer, gromacs, lammps, plumed, netcdf4]
+    pip_packages: [MDAnalysis]
+    health_checks:
+      modules: [MDAnalysis, lammps, openmm, pdbfixer]
+      commands: [gmx, lmp, plumed]
+    command_variables:
+      CHEMGRAPH_GROMACS_COMMAND: gmx
+      CHEMGRAPH_LAMMPS_COMMAND: lmp
+      CHEMGRAPH_PLUMED_COMMAND: plumed
+    tools:
+      - analyze_md_trajectory
+      - prepare_md_system
+      - run_gromacs
+      - run_lammps
+      - run_openmm
+      - run_plumed
+
+  mlip:
+    conda_name: researchchem-mlip
+    server_name: researchchem_mlip
+    description: Machine-learning interatomic potentials and model-isolated runtimes.
+    environment: .tool_envs/mlip
+    runtime_preload_libraries: [libstdc++.so.6, libgcc_s.so.1]
+    conda_packages: [ase]
+    # run_mlip currently has reviewed execution adapters only for MACE and CHGNet.
+    # NequIP/DeepMD/FAIRChem/AIMNet2 are intentionally not installed here until
+    # their model-loading adapters and checkpoint policies are implemented.
+    pip_packages: [mace-torch==0.3.16, chgnet]
+    use_project_model_cache: true
+    health_checks:
+      modules: [ase, chgnet, mace, mace.calculators, torch]
+      models:
+        mace_medium_mpa_0:
+          backend: mace_mp
+          model: medium-mpa-0
+          device: cpu
+          default_dtype: float64
+    tools:
+      - run_mlip
+
+  docking:
+    conda_name: researchchem-docking
+    server_name: researchchem_docking
+    description: Protein-ligand docking binaries and model-specific docking tools.
+    environment: .tool_envs/docking
+    conda_packages: [vina]
+    pip_packages: []
+    health_checks:
+      modules: [vina]
+      commands: [vina]
+      manual_commands: [gnina]
+    command_variables:
+      CHEMGRAPH_VINA_COMMAND: vina
+      CHEMGRAPH_GNINA_COMMAND: gnina
+    tools:
+      - run_docking

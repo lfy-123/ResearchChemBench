@@ -1,0 +1,91 @@
+{
+  "expected_tool_calls": [
+    {
+      "molecule_name_to_smiles": {
+        "name": "Ethene"
+      }
+    },
+    {
+      "smiles_to_coordinate_file": {
+        "smiles": "C=C"
+      }
+    },
+    {
+      "run_ase": {
+        "params": {
+          "input_structure_file": "molecule.xyz",
+          "driver": "thermo",
+          "calculator": {
+            "calculator_type": "TBLite",
+            "method": "GFN2-xTB"
+          },
+          "temperature": 500.0
+        }
+      }
+    },
+    {
+      "molecule_name_to_smiles": {
+        "name": "Water"
+      }
+    },
+    {
+      "smiles_to_coordinate_file": {
+        "smiles": "O"
+      }
+    },
+    {
+      "run_ase": {
+        "params": {
+          "input_structure_file": "molecule.xyz",
+          "driver": "thermo",
+          "calculator": {
+            "calculator_type": "TBLite",
+            "method": "GFN2-xTB"
+          },
+          "temperature": 500.0
+        }
+      }
+    },
+    {
+      "molecule_name_to_smiles": {
+        "name": "Ethanol"
+      }
+    },
+    {
+      "smiles_to_coordinate_file": {
+        "smiles": "CCO"
+      }
+    },
+    {
+      "run_ase": {
+        "params": {
+          "input_structure_file": "molecule.xyz",
+          "driver": "thermo",
+          "calculator": {
+            "calculator_type": "TBLite",
+            "method": "GFN2-xTB"
+          },
+          "temperature": 500.0
+        }
+      }
+    },
+    {
+      "calculator": {
+        "expression": "(1*(-309.2281660435373)) - (1*(-170.34623039985362) + 1*(-138.32288268386057))"
+      }
+    }
+  ],
+  "expected_result": "-0.5590529598231342",
+  "expected_structured_output": {
+    "smiles": null,
+    "scalar_answer": {
+      "value": -0.5590529598231342,
+      "property": "Gibbs free energy of reaction",
+      "unit": "eV"
+    },
+    "dipole": null,
+    "vibrational_answer": null,
+    "ir_spectrum": null,
+    "atoms_data": null
+  }
+}

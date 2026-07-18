@@ -1,0 +1,12 @@
+name: quick_opencode_deepseek
+agents:
+  - opencode
+tasks:
+  - ChemGraph_001
+  - ChemGraph_003
+repeats: 1
+max_concurrent_runs: 1
+timeout_seconds: 600
+max_turns: 30
+judge:
+  enabled: false

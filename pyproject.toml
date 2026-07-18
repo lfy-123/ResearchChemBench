@@ -1,0 +1,62 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "researchchembench"
+version = "0.1.0"
+description = "Agent-agnostic benchmark for autonomous use of ChemGraph chemistry tools."
+requires-python = ">=3.10"
+dependencies = [
+    "flask>=3.0",
+    "flask-cors>=4.0",
+    "openai>=1.0",
+    "python-dotenv>=1.0",
+    "pydantic>=2.0",
+    "PyYAML>=6.0",
+    "mcp>=1.0",
+    "fastmcp>=2.0",
+    "numexpr>=2.0",
+    "uvicorn>=0.30",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=8.0", "pytest-asyncio>=0.23"]
+chemistry = [
+    "ase>=3.22",
+    "mace-torch",
+    "numpy==1.26.4",
+    "pubchempy==1.0.5",
+    "pymatgen",
+    "rdkit",
+    "tblite==0.4.0; python_version < '3.13' or platform_system != 'Darwin'",
+]
+
+[project.scripts]
+researchchembench = "evaluation.server:main"
+researchchembench-eval = "evaluation.cli_eval:main"
+
+[tool.setuptools.packages.find]
+include = ["evaluation*"]
+
+[tool.setuptools.package-data]
+evaluation = [
+    "agents.json",
+    ".env.example",
+    "requirements*.txt",
+    "templates/*.html",
+    "static/*",
+    "static/logos/*",
+    "mcp_tools/tool_config.json",
+    "mcp_tools/TOOL_CATALOG.md",
+    "mcp_tools/README.md",
+    "mcp_tools/pyproject.toml",
+    "mcp_tools/install.sh",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "integration: requires ChemGraph and chemistry calculator dependencies",
+    "agent: invokes an installed external agent CLI",
+]

@@ -1,0 +1,606 @@
+{
+  "generated_at": "2026-07-18T08:12:22.428751+00:00",
+  "install_status_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/config/mcp_profile_status.json",
+  "credentials": {
+    "MP_API_KEY": true
+  },
+  "summary": {
+    "profile_count": 12,
+    "ready_profiles": 12,
+    "tool_count": 41,
+    "materials_project_live": "not_requested",
+    "model_checks": "3/3 passed",
+    "model_cache": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.model_cache"
+  },
+  "profiles": {
+    "core": {
+      "profile": "core",
+      "conda_name": "researchchem-core",
+      "server_name": "researchchem_core",
+      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.toolbox_env/bin/python3.10",
+      "python_version": "3.10.20",
+      "expected_tools": [
+        "analyze_wavefunction",
+        "calculator",
+        "check_backend_availability",
+        "convert_structure",
+        "extract_output_json",
+        "generate_3d_structure",
+        "generate_conformers_rdkit",
+        "list_toolbox_capabilities",
+        "molecule_name_to_smiles",
+        "smiles_to_coordinate_file",
+        "standardize_molecule",
+        "validate_computation"
+      ],
+      "listed_tools": [
+        "analyze_wavefunction",
+        "calculator",
+        "check_backend_availability",
+        "convert_structure",
+        "extract_output_json",
+        "generate_3d_structure",
+        "generate_conformers_rdkit",
+        "list_toolbox_capabilities",
+        "molecule_name_to_smiles",
+        "smiles_to_coordinate_file",
+        "standardize_molecule",
+        "validate_computation"
+      ],
+      "modules": {
+        "ase": {
+          "available": true,
+          "version": "3.29.0"
+        },
+        "cclib": {
+          "available": true,
+          "version": "1.8.1"
+        },
+        "mace.calculators": {
+          "available": true,
+          "version": "unknown"
+        },
+        "numexpr": {
+          "available": true,
+          "version": "2.14.1"
+        },
+        "pubchempy": {
+          "available": true,
+          "version": "1.0.5"
+        },
+        "rdkit": {
+          "available": true,
+          "version": "2023.09.6"
+        },
+        "torch": {
+          "available": true,
+          "version": "2.5.1+cpu"
+        },
+        "yaml": {
+          "available": true,
+          "version": "6.0.3"
+        }
+      },
+      "commands": {},
+      "external_commands": {},
+      "dependency_check": {
+        "success": true,
+        "returncode": 0,
+        "output": "No broken requirements found."
+      },
+      "model_checks": {
+        "mace_medium_mpa_0": {
+          "success": true,
+          "backend": "mace_mp",
+          "model": "medium-mpa-0",
+          "energy_ev": -0.88549809819065
+        }
+      },
+      "manual_commands": {},
+      "live_checks": {},
+      "required_ok": true,
+      "returncode": 0
+    },
+    "services": {
+      "profile": "services",
+      "conda_name": "researchchem-services",
+      "server_name": "researchchem_services",
+      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/bin/python3.10",
+      "python_version": "3.10.20",
+      "expected_tools": [
+        "query_catalysis_hub",
+        "query_materials_project",
+        "query_pubchem",
+        "query_rcsb_pdb"
+      ],
+      "listed_tools": [
+        "query_catalysis_hub",
+        "query_materials_project",
+        "query_pubchem",
+        "query_rcsb_pdb"
+      ],
+      "modules": {
+        "mp_api": {
+          "available": true,
+          "version": "unknown"
+        },
+        "pubchempy": {
+          "available": true,
+          "version": "1.0.5"
+        }
+      },
+      "commands": {},
+      "external_commands": {},
+      "dependency_check": {
+        "success": true,
+        "returncode": 0,
+        "output": "No broken requirements found."
+      },
+      "model_checks": {},
+      "manual_commands": {},
+      "live_checks": {},
+      "required_ok": true,
+      "returncode": 0
+    },
+    "quantum": {
+      "profile": "quantum",
+      "conda_name": "researchchem-quantum",
+      "server_name": "researchchem_quantum",
+      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/quantum/bin/python3.10",
+      "python_version": "3.10.20",
+      "expected_tools": [
+        "run_ase",
+        "run_orca",
+        "run_pyscf",
+        "run_xtb"
+      ],
+      "listed_tools": [
+        "run_ase",
+        "run_orca",
+        "run_pyscf",
+        "run_xtb"
+      ],
+      "modules": {
+        "ase": {
+          "available": true,
+          "version": "3.29.0"
+        },
+        "mace": {
+          "available": true,
+          "version": "0.3.16"
+        },
+        "mace.calculators": {
+          "available": true,
+          "version": "unknown"
+        },
+        "pyscf": {
+          "available": true,
+          "version": "2.13.1"
+        },
+        "tblite": {
+          "available": true,
+          "version": "unknown"
+        },
+        "torch": {
+          "available": true,
+          "version": "2.13.0+cu130"
+        }
+      },
+      "commands": {
+        "xtb": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/quantum/bin/xtb"
+      },
+      "external_commands": {},
+      "dependency_check": {
+        "success": true,
+        "returncode": 0,
+        "output": "No broken requirements found."
+      },
+      "model_checks": {
+        "mace_medium_mpa_0": {
+          "success": true,
+          "backend": "mace_mp",
+          "model": "medium-mpa-0",
+          "energy_ev": -0.88549809819065
+        }
+      },
+      "manual_commands": {
+        "orca": null
+      },
+      "live_checks": {},
+      "required_ok": true,
+      "returncode": 0
+    },
+    "psi4": {
+      "profile": "psi4",
+      "conda_name": "researchchem-psi4",
+      "server_name": "researchchem_psi4",
+      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/psi4/bin/python3.10",
+      "python_version": "3.10.20",
+      "expected_tools": [
+        "run_psi4"
+      ],
+      "listed_tools": [
+        "run_psi4"
+      ],
+      "modules": {
+        "psi4": {
+          "available": true,
+          "version": "1.11"
+        }
+      },
+      "commands": {
+        "psi4": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/psi4/bin/psi4"
+      },
+      "external_commands": {},
+      "dependency_check": {
+        "success": true,
+        "returncode": 0,
+        "output": "No broken requirements found."
+      },
+      "model_checks": {},
+      "manual_commands": {},
+      "live_checks": {},
+      "required_ok": true,
+      "returncode": 0
+    },
+    "reaction": {
+      "profile": "reaction",
+      "conda_name": "researchchem-reaction",
+      "server_name": "researchchem_reaction",
+      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/reaction/bin/python3.10",
+      "python_version": "3.10.20",
+      "expected_tools": [
+        "compute_thermochemistry",
+        "find_transition_state",
+        "generate_conformers_crest",
+        "refine_ensemble_censo",
+        "run_cantera",
+        "run_catmap",
+        "run_irc",
+        "run_reaction_kinetics"
+      ],
+      "listed_tools": [
+        "compute_thermochemistry",
+        "find_transition_state",
+        "generate_conformers_crest",
+        "refine_ensemble_censo",
+        "run_cantera",
+        "run_catmap",
+        "run_irc",
+        "run_reaction_kinetics"
+      ],
+      "modules": {
+        "cantera": {
+          "available": true,
+          "version": "3.2.0"
+        },
+        "catmap": {
+          "available": true,
+          "version": "0.3.1"
+        },
+        "goodvibes": {
+          "available": true,
+          "version": "unknown"
+        },
+        "pysisyphus": {
+          "available": true,
+          "version": "1.0.0"
+        },
+        "scipy": {
+          "available": true,
+          "version": "1.15.2"
+        }
+      },
+      "commands": {
+        "catmap": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/reaction/bin/catmap",
+        "censo": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/reaction/bin/censo",
+        "crest": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/reaction/bin/crest",
+        "goodvibes": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/reaction/bin/goodvibes",
+        "pysis": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/reaction/bin/pysis",
+        "xtb": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/reaction/bin/xtb"
+      },
+      "external_commands": {},
+      "dependency_check": {
+        "success": true,
+        "returncode": 0,
+        "output": "No broken requirements found."
+      },
+      "model_checks": {},
+      "manual_commands": {
+        "orca": null
+      },
+      "live_checks": {},
+      "required_ok": true,
+      "returncode": 0
+    },
+    "qe": {
+      "profile": "qe",
+      "conda_name": "researchchem-qe",
+      "server_name": "researchchem_qe",
+      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/qe/bin/python3.10",
+      "python_version": "3.10.20",
+      "expected_tools": [
+        "run_quantum_espresso"
+      ],
+      "listed_tools": [
+        "run_quantum_espresso"
+      ],
+      "modules": {},
+      "commands": {
+        "pw.x": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/qe/bin/pw.x"
+      },
+      "external_commands": {},
+      "dependency_check": {
+        "success": true,
+        "returncode": 0,
+        "output": "No broken requirements found."
+      },
+      "model_checks": {},
+      "manual_commands": {},
+      "live_checks": {},
+      "required_ok": true,
+      "returncode": 0
+    },
+    "cp2k": {
+      "profile": "cp2k",
+      "conda_name": "researchchem-cp2k",
+      "server_name": "researchchem_cp2k",
+      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/cp2k/bin/python3.10",
+      "python_version": "3.10.20",
+      "expected_tools": [
+        "run_cp2k"
+      ],
+      "listed_tools": [
+        "run_cp2k"
+      ],
+      "modules": {},
+      "commands": {
+        "cp2k": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/cp2k/bin/cp2k"
+      },
+      "external_commands": {},
+      "dependency_check": {
+        "success": true,
+        "returncode": 0,
+        "output": "No broken requirements found."
+      },
+      "model_checks": {},
+      "manual_commands": {},
+      "live_checks": {},
+      "required_ok": true,
+      "returncode": 0
+    },
+    "periodic": {
+      "profile": "periodic",
+      "conda_name": "researchchem-periodic",
+      "server_name": "researchchem_periodic",
+      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/periodic/bin/python3.10",
+      "python_version": "3.10.20",
+      "expected_tools": [
+        "run_periodic_calculation"
+      ],
+      "listed_tools": [
+        "run_periodic_calculation"
+      ],
+      "modules": {},
+      "commands": {
+        "dftb+": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/periodic/bin/dftb+",
+        "siesta": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/periodic/bin/siesta"
+      },
+      "external_commands": {
+        ".tool_envs/qe/bin/pw.x": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/qe/bin/pw.x",
+        ".tool_envs/cp2k/bin/cp2k": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/cp2k/bin/cp2k.psmp",
+        ".tool_envs/abinit/bin/abinit": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/abinit/bin/abinit"
+      },
+      "dependency_check": {
+        "success": true,
+        "returncode": 0,
+        "output": "No broken requirements found."
+      },
+      "model_checks": {},
+      "manual_commands": {},
+      "live_checks": {},
+      "required_ok": true,
+      "returncode": 0
+    },
+    "phonons": {
+      "profile": "phonons",
+      "conda_name": "researchchem-phonons",
+      "server_name": "researchchem_phonons",
+      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/phonons/bin/python3.10",
+      "python_version": "3.10.20",
+      "expected_tools": [
+        "run_phonopy"
+      ],
+      "listed_tools": [
+        "run_phonopy"
+      ],
+      "modules": {
+        "phono3py": {
+          "available": true,
+          "version": "4.3.3"
+        },
+        "phonopy": {
+          "available": true,
+          "version": "4.3.1"
+        }
+      },
+      "commands": {
+        "phono3py-init": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/phonons/bin/phono3py-init",
+        "phonopy-init": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/phonons/bin/phonopy-init"
+      },
+      "external_commands": {},
+      "dependency_check": {
+        "success": true,
+        "returncode": 0,
+        "output": "No broken requirements found."
+      },
+      "model_checks": {},
+      "manual_commands": {},
+      "live_checks": {},
+      "required_ok": true,
+      "returncode": 0
+    },
+    "md": {
+      "profile": "md",
+      "conda_name": "researchchem-md",
+      "server_name": "researchchem_md",
+      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/md/bin/python3.10",
+      "python_version": "3.10.20",
+      "expected_tools": [
+        "analyze_md_trajectory",
+        "prepare_md_system",
+        "run_gromacs",
+        "run_lammps",
+        "run_openmm",
+        "run_plumed"
+      ],
+      "listed_tools": [
+        "analyze_md_trajectory",
+        "prepare_md_system",
+        "run_gromacs",
+        "run_lammps",
+        "run_openmm",
+        "run_plumed"
+      ],
+      "modules": {
+        "MDAnalysis": {
+          "available": true,
+          "version": "2.9.0"
+        },
+        "lammps": {
+          "available": true,
+          "version": "20250722"
+        },
+        "openmm": {
+          "available": true,
+          "version": "8.5.2"
+        },
+        "pdbfixer": {
+          "available": true,
+          "version": "unknown"
+        }
+      },
+      "commands": {
+        "gmx": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/md/bin/gmx",
+        "lmp": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/md/bin/lmp",
+        "plumed": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/md/bin/plumed"
+      },
+      "external_commands": {},
+      "dependency_check": {
+        "success": true,
+        "returncode": 0,
+        "output": "No broken requirements found."
+      },
+      "model_checks": {},
+      "manual_commands": {},
+      "live_checks": {},
+      "required_ok": true,
+      "returncode": 0
+    },
+    "mlip": {
+      "profile": "mlip",
+      "conda_name": "researchchem-mlip",
+      "server_name": "researchchem_mlip",
+      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/mlip/bin/python3.10",
+      "python_version": "3.10.20",
+      "expected_tools": [
+        "run_mlip"
+      ],
+      "listed_tools": [
+        "run_mlip"
+      ],
+      "modules": {
+        "ase": {
+          "available": true,
+          "version": "3.29.0"
+        },
+        "chgnet": {
+          "available": true,
+          "version": "0.4.2"
+        },
+        "mace": {
+          "available": true,
+          "version": "0.3.16"
+        },
+        "mace.calculators": {
+          "available": true,
+          "version": "unknown"
+        },
+        "torch": {
+          "available": true,
+          "version": "2.13.0+cu130"
+        }
+      },
+      "commands": {},
+      "external_commands": {},
+      "dependency_check": {
+        "success": true,
+        "returncode": 0,
+        "output": "No broken requirements found."
+      },
+      "model_checks": {
+        "mace_medium_mpa_0": {
+          "success": true,
+          "backend": "mace_mp",
+          "model": "medium-mpa-0",
+          "energy_ev": -0.88549809819065
+        }
+      },
+      "manual_commands": {},
+      "live_checks": {},
+      "required_ok": true,
+      "returncode": 0
+    },
+    "docking": {
+      "profile": "docking",
+      "conda_name": "researchchem-docking",
+      "server_name": "researchchem_docking",
+      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/docking/bin/python3.10",
+      "python_version": "3.10.20",
+      "expected_tools": [
+        "run_docking"
+      ],
+      "listed_tools": [
+        "run_docking"
+      ],
+      "modules": {
+        "vina": {
+          "available": true,
+          "version": "1.2.7"
+        }
+      },
+      "commands": {
+        "vina": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/docking/bin/vina"
+      },
+      "external_commands": {},
+      "dependency_check": {
+        "success": true,
+        "returncode": 0,
+        "output": "No broken requirements found."
+      },
+      "model_checks": {},
+      "manual_commands": {
+        "gnina": null
+      },
+      "live_checks": {},
+      "required_ok": true,
+      "returncode": 0
+    }
+  },
+  "support_environments": {
+    "abinit": {
+      "name": "abinit",
+      "conda_name": "researchchem-abinit",
+      "environment": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/abinit",
+      "commands": {
+        "abinit": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/abinit/bin/abinit"
+      },
+      "dependency_check": {
+        "success": true,
+        "returncode": 0,
+        "output": "No broken requirements found."
+      },
+      "required_ok": true
+    }
+  }
+}

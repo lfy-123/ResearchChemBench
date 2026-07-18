@@ -1,0 +1,51 @@
+{
+  "expected_tool_calls": [
+    {
+      "molecule_name_to_smiles": {
+        "name": "methane"
+      }
+    },
+    {
+      "smiles_to_coordinate_file": {
+        "smiles": "C"
+      }
+    },
+    {
+      "run_ase": {
+        "params": {
+          "input_structure_file": "molecule.xyz",
+          "driver": "thermo",
+          "calculator": {
+            "calculator_type": "mace_mp",
+            "model": "medium-mpa-0"
+          },
+          "temperature": 500
+        }
+      }
+    }
+  ],
+  "expected_result": {
+    "status": "success",
+    "result": {
+      "thermochemistry": {
+        "enthalpy": -21.793386183692945,
+        "entropy": 0.0021505247570400435,
+        "gibbs_free_energy": -22.868648562212968,
+        "unit": "eV"
+      }
+    },
+    "message": "Thermochemistry computed and returned. Full results (structure, vibrations, thermochemistry and metadata) saved to /var/folders/5b/vkn1l5ys6pz8nyp5rbcprw800000gp/T/chemgraph_gt_frvn7mte/entry_12/output.json"
+  },
+  "expected_structured_output": {
+    "smiles": null,
+    "scalar_answer": {
+      "value": -22.868648562212968,
+      "property": "Gibbs free energy",
+      "unit": "eV"
+    },
+    "dipole": null,
+    "vibrational_answer": null,
+    "ir_spectrum": null,
+    "atoms_data": null
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "expected_tool_calls": [
+    {
+      "molecule_name_to_smiles": {
+        "name": "Hydrogen peroxide"
+      }
+    },
+    {
+      "smiles_to_coordinate_file": {
+        "smiles": "OO"
+      }
+    },
+    {
+      "run_ase": {
+        "params": {
+          "input_structure_file": "molecule.xyz",
+          "driver": "thermo",
+          "calculator": {
+            "calculator_type": "mace_mp",
+            "model": "medium-mpa-0"
+          },
+          "temperature": 300.0
+        }
+      }
+    },
+    {
+      "molecule_name_to_smiles": {
+        "name": "Water"
+      }
+    },
+    {
+      "smiles_to_coordinate_file": {
+        "smiles": "O"
+      }
+    },
+    {
+      "run_ase": {
+        "params": {
+          "input_structure_file": "molecule.xyz",
+          "driver": "thermo",
+          "calculator": {
+            "calculator_type": "mace_mp",
+            "model": "medium-mpa-0"
+          },
+          "temperature": 300.0
+        }
+      }
+    },
+    {
+      "molecule_name_to_smiles": {
+        "name": "Oxygen"
+      }
+    },
+    {
+      "smiles_to_coordinate_file": {
+        "smiles": "O=O"
+      }
+    },
+    {
+      "run_ase": {
+        "params": {
+          "input_structure_file": "molecule.xyz",
+          "driver": "thermo",
+          "calculator": {
+            "calculator_type": "mace_mp",
+            "model": "medium-mpa-0"
+          },
+          "temperature": 300.0
+        }
+      }
+    },
+    {
+      "calculator": {
+        "expression": "(2*(-13.693940906998133) + 1*(-9.806576011384493)) - (2*(-17.63331235114692))"
+      }
+    }
+  ],
+  "expected_result": "-1.92783312308692",
+  "expected_structured_output": {
+    "smiles": null,
+    "scalar_answer": {
+      "value": -1.92783312308692,
+      "property": "Gibbs free energy of reaction",
+      "unit": "eV"
+    },
+    "dipole": null,
+    "vibrational_answer": null,
+    "ir_spectrum": null,
+    "atoms_data": null
+  }
+}

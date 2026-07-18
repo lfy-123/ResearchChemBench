@@ -1,0 +1,163 @@
+{
+  "expected_tool_calls": [
+    {
+      "molecule_name_to_smiles": {
+        "name": "ethanol"
+      }
+    },
+    {
+      "smiles_to_coordinate_file": {
+        "smiles": "CCO"
+      }
+    },
+    {
+      "run_ase": {
+        "params": {
+          "input_structure_file": "molecule.xyz",
+          "driver": "opt",
+          "calculator": {
+            "calculator_type": "mace_mp",
+            "model": "medium-mpa-0"
+          }
+        }
+      }
+    },
+    {
+      "extract_output_json": {
+        "json_file": "output.json"
+      }
+    }
+  ],
+  "expected_result": {
+    "input_structure_file": "molecule.xyz",
+    "converged": true,
+    "final_structure": {
+      "numbers": [
+        6,
+        6,
+        8,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "positions": [
+        [
+          -0.8794906755245444,
+          -0.12517653079525462,
+          0.13049741585746044
+        ],
+        [
+          0.5213304505800801,
+          0.48341392630125873,
+          -0.007283766986061524
+        ],
+        [
+          1.4108996978379476,
+          -0.4187880795329846,
+          -0.7019155658145357
+        ],
+        [
+          -1.2985557068327698,
+          -0.35485212462745636,
+          -0.8592997997501077
+        ],
+        [
+          -1.529212856302033,
+          0.5967248507727829,
+          0.6403442234257548
+        ],
+        [
+          -0.8515944623695518,
+          -1.0522427941799235,
+          0.7242420708541866
+        ],
+        [
+          0.4903838833697194,
+          1.4242401579727364,
+          -0.576471284495241
+        ],
+        [
+          0.9344039971315186,
+          0.7411951613000017,
+          0.9872610025235883
+        ],
+        [
+          1.2018356621096296,
+          -1.2945145472112138,
+          -0.33737429561505033
+        ]
+      ],
+      "cell": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "pbc": [
+        false,
+        false,
+        false
+      ]
+    },
+    "simulation_input": {
+      "input_structure_file": "molecule.xyz",
+      "output_results_file": "output.json",
+      "driver": "opt",
+      "optimizer": "bfgs",
+      "calculator": {
+        "calculator_type": "mace_mp",
+        "model": "medium-mpa-0",
+        "device": "cpu",
+        "default_dtype": "float64",
+        "dispersion": false,
+        "damping": "bj",
+        "dispersion_xc": "pbe",
+        "dispersion_cutoff": 21.167088422553647
+      },
+      "fmax": 0.01,
+      "steps": 1000,
+      "temperature": null,
+      "pressure": 101325.0
+    },
+    "single_point_energy": -46.24649506270806,
+    "energy_unit": "eV",
+    "dipole_value": [
+      null,
+      null,
+      null
+    ],
+    "dipole_unit": " e * angstrom",
+    "vibrational_frequencies": {},
+    "ir_data": {},
+    "thermochemistry": {},
+    "success": true,
+    "error": "",
+    "wall_time": 2.1446499824523926
+  },
+  "expected_structured_output": {
+    "smiles": null,
+    "scalar_answer": {
+      "value": -46.24649506270806,
+      "property": "single-point energy",
+      "unit": "eV"
+    },
+    "dipole": null,
+    "vibrational_answer": null,
+    "ir_spectrum": null,
+    "atoms_data": null
+  }
+}
