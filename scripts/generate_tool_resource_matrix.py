@@ -188,8 +188,8 @@ def main() -> int:
         f"| 允许缺失后端 | {code_list(sorted(allowed_unavailable))} | 完整 benchmark 构建应为空；任何缺失都不会触发自动替代 |",
         f"| 非预期缺失后端 | {code_list(unexpected_unavailable)} | 应为空 |",
         f"| 隔离运行环境 | {profile_status.get('summary', {}).get('ready_profiles', 0)}/{profile_status.get('summary', {}).get('profile_count', 0)} 通过 | 模块、命令、外部命令、`pip check`、模型加载及 Backend health |",
-        f"| 注册资源 | {resource_status.get('summary', {}).get('passed', 0)}/{resource_status.get('summary', {}).get('resource_count', 0)} 通过 | 文件存在、归档校验、元素/参数覆盖；SSSP 深度逐文件 MD5 |",
-        f"| 下载资源真实计算 | {resource_smokes.get('summary', {}).get('passed', 0)}/{resource_smokes.get('summary', {}).get('case_count', 0)} 通过 | 实际启动 QE/SIESTA/ABINIT/DFTB+/GNINA/ORCA，不是仅检查命令 |",
+        f"| 注册资源 | {resource_status.get('summary', {}).get('passed', 0)}/{resource_status.get('summary', {}).get('resource_count', 0)} 通过 | 文件存在、归档/模型校验、元素/参数覆盖；SSSP 深度逐文件 MD5 |",
+        f"| 下载资源真实计算 | {resource_smokes.get('summary', {}).get('passed', 0)}/{resource_smokes.get('summary', {}).get('case_count', 0)} 通过 | 实际启动量化/周期/对接后端并加载显式模型，不是仅检查命令 |",
         f"| 在线数据源 | {data_smokes.get('summary', {}).get('passed', 0)}/{data_smokes.get('summary', {}).get('case_count', 0)} 通过 | 有界超时的实时 PubChem/RCSB/Materials Project/Catalysis-Hub 请求 |",
         f"| 用户扩展软件清单 | configured={requested_software.get('summary', {}).get('counts', {}).get('configured', 0)}，partial={requested_software.get('summary', {}).get('counts', {}).get('partial', 0)}，manual/API review={requested_software.get('summary', {}).get('manual_or_review', 0)}，specification={requested_software.get('summary', {}).get('counts', {}).get('specification', 0)}；总计 {requested_software.get('summary', {}).get('total', 0)} | 独立 runtime 的真实导入/命令/缓存检查；许可软件和无稳定 API 项不伪报完成 |",
         f"| Pytest | tests={tests.get('tests', '未记录')}，failures={tests.get('failures', '未记录')}，errors={tests.get('errors', '未记录')}，skipped={tests.get('skipped', '未记录')} | `config/pytest_status.xml` |",
@@ -201,7 +201,7 @@ def main() -> int:
         "",
         "- 工具已注册，输入/输出与可选后端双向一致；没有 `run_ase`、`run_periodic_calculation` 一类固定流程工具。",
         "- Scientific Action 必须由 Agent 显式给出 `backend_id`；系统不会选择后端，也不会 fallback。",
-        "- 赝势、Slater–Koster 参数集等必须由 Agent 显式给出 `ResourceRef`；系统只校验和解析，不会按元素或精度自动选库。",
+        "- 赝势、Slater–Koster 参数集和 MLIP checkpoint 必须由 Agent 显式给出 `ResourceRef`；系统只校验和解析，不会按元素、精度、模型规模或任务领域自动选择。",
         "- `resource_limits` 只表达机械执行约束，不承载科学选择；当前本地执行器实际强制 walltime，并用 `cpu_cores` 约束 OMP/MKL/OpenBLAS/NumExpr 线程；ORCA 还将 Agent 给出的 `cpu_cores>1` 原样映射为 `%pal nprocs`。`memory_mb`/`gpu_count` 会进入请求与溯源，但若没有外部调度器则不宣称已做硬隔离。",
         "- “环境健康”与“真实科学计算”分开记录；核心下载资源后端和在线数据源的证据见第 9、10 节，新增 MESS、MESMER、AutoMeKin、Multiwfn、VESTA 等 runtime 的代表性真实 smoke 见第 12 节及独立配置状态报告。",
         "",
@@ -211,8 +211,8 @@ def main() -> int:
         "|---|---|---|---|",
         "| `.toolbox_env/` | 公共 MCP 服务与测试 Python 环境 | 否 | 只承载统一服务，不决定 Agent 可见工具子集 |",
         "| `.tool_envs/<runtime>/` | 后端依赖隔离环境 | 否 | Conda/Pip 软件包与命令按 runtime 隔离 |",
-        "| `.software_cache/` | 手工下载、源码构建、数据文件和独立大体积二进制 | 否 | ORCA/OpenMPI、GPAW 数据、AiiDA 状态及 OpenMolcas、SHARC、MESS、MESMER、AutoMeKin、Multiwfn、VESTA 等均使用独立或版本化子目录 |",
-        "| `.model_cache/` | MACE、NequIP、DeePMD 等模型权重缓存 | 否 | 模型仍需 Agent 显式选名称/路径、device 与下载许可；本轮未替 Agent 选择或下载 NequIP/DeePMD checkpoint |",
+        "| `.software_cache/` | 手工下载、源码构建、数据文件和独立大体积二进制 | 否 | ORCA/OpenMPI、VASP、RMG 数据库、EasySpin、GPAW 数据及其他源码/二进制均使用独立版本化子目录 |",
+        "| `.model_cache/` | MACE、NequIP、Allegro、DeePMD 等模型权重缓存 | 否 | 已下载模型按精确文件 ID 和校验值登记；每次计算仍由 Agent 显式选 checkpoint、branch、device 等参数，调用时不联网下载 |",
         "| `download/` | 赝势、参数集及其原始归档 | 否 | 作为只读科学数据源；不把任意路径直接暴露给 Agent |",
         "| `config/toolbox_resources.json` | 受控资源注册表 | 是 | 声明 ID、路径、格式、版本、覆盖、校验值、许可与适用后端 |",
         "| `workspaces/` | 每次任务输出、trace 与 Artifact | 否（保留目录骨架） | 所有普通文件输入/输出继续受 workspace 边界约束 |",
@@ -233,7 +233,7 @@ def main() -> int:
         "}",
         "```",
         "",
-        "等价对象形式为 `{" + '"resource_id":"qe_sssp_1_3_pbe_efficiency","element":"Si"' + "}`。参数集目录使用 `resource://dftb_3ob_3_1`。未知 ID、缺失元素、路径穿越、运行时管理二进制被当作请求资源等情况都会被拒绝。",
+        "等价对象形式为 `{" + '"resource_id":"qe_sssp_1_3_pbe_efficiency","element":"Si"' + "}`。参数集目录使用 `resource://dftb_3ob_3_1`；模型使用独立 ID，例如 `resource://nequip_oam_s_0_1` 或 `resource://deepmd_dpa_3_3_1m`，DeePMD branch 另由 `method_spec.model_branch` 明确给出。未知 ID、缺失元素、路径穿越、运行时管理二进制被当作请求资源等情况都会被拒绝。",
         "",
         "## 4. 公共工具逐项矩阵（44 个）",
         "",
@@ -278,7 +278,7 @@ def main() -> int:
     lines.extend(
         [
             "",
-            "## 5. Backend 安装与环境矩阵（45 个）",
+            f"## 5. Backend 安装与环境矩阵（{len(backends)} 个）",
             "",
             "| Backend | 软件 / runtime 环境 | Python 模块 | 可执行文件与命令变量 | Conda / Pip | 注册科学资源 | License / 健康 |",
             "|---|---|---|---|---|---|---|",
@@ -320,7 +320,7 @@ def main() -> int:
     lines.extend(
         [
             "",
-            "## 6. Backend 能力与显式参数契约（45 个）",
+            f"## 6. Backend 能力与显式参数契约（{len(backends)} 个）",
             "",
             "| Backend | 功能说明 | 支持的 Actions | Method schema | 每个 Action 必填 method 字段 | 每个 Action 必填 settings 字段 | 实际验证 / 安装备注 |",
             "|---|---|---|---|---|---|---|",
@@ -417,7 +417,7 @@ def main() -> int:
         ]
         if resource.get("checksum"):
             archive_parts.append(
-                f"executable: {resource.get('checksum_algorithm')}:{resource.get('checksum')}"
+                f"file: {resource.get('checksum_algorithm')}:{resource.get('checksum')}"
             )
         archive_text = "<br>".join(archive_parts) or "—"
         coverage = "runtime executable"
@@ -428,6 +428,16 @@ def main() -> int:
                 f"{resource.get('element_count', 0)} elements; "
                 f"{resource.get('pair_count', 0)} directed SKF pairs"
             )
+        elif resource.get("kind") == "model_checkpoint":
+            branches = resource.get("model_branches") or []
+            if branches:
+                coverage = f"exact checkpoint; {len(branches)} branches"
+            elif resource.get("single_task"):
+                coverage = "exact single-task checkpoint"
+            else:
+                coverage = "one exact checkpoint"
+        elif resource.get("kind") == "single_file_resource":
+            coverage = "one exact registered scientific input file"
         deep = status.get("deep_element_checksums") or {}
         if resource.get("kind") == "backend_executable":
             version_probe = status.get("version_probe") or {}
@@ -436,6 +446,12 @@ def main() -> int:
                 f"checksum={'pass' if (status.get('checksum') or {}).get('ok') else 'fail/未记录'}<br>"
                 f"target={'pass' if status.get('target_exists') else 'fail/未记录'}<br>"
                 f"version={version_probe.get('matched_text') or version_probe.get('first_line') or '未记录'}"
+            )
+        elif resource.get("kind") in {"model_checkpoint", "single_file_resource"}:
+            validation = (
+                f"status={status.get('status', '未记录')}<br>"
+                f"size={status.get('size_bytes', resource.get('size_bytes', '—'))} bytes<br>"
+                f"checksum={'pass' if (status.get('checksum') or {}).get('ok') else 'fail/未记录'}"
             )
         else:
             validation = (
@@ -541,7 +557,7 @@ def main() -> int:
     lines.extend(
         [
             "",
-            "## 11. ORCA 6.1.1 配置与验证",
+            "## 11. ORCA、VASP 与显式 MLIP 配置",
             "",
             "ORCA 已作为 Agent 可显式选择的 `orca` BackendSpec 完成配置；它仍不是固定流程工具，系统不会替 Agent 选择 ORCA，也不会在 ORCA 失败时自动改用其他量化软件。",
             "",
@@ -550,6 +566,8 @@ def main() -> int:
             "- 稳定入口：`.tool_envs/quantum/bin/orca` 与 `.tool_envs/quantum/bin/mpirun`；`CHEMGRAPH_ORCA_COMMAND` 使用主程序完整路径。",
             "- Agent 通过 `backend_id=orca`、`method_spec`、`action_settings` 和 `resource_limits.cpu_cores` 自主决定调用；`cpu_cores>1` 才生成对应 `%pal nprocs`。",
             "- 真实验证覆盖 energy（PAL2）、Hessian、geometry optimization 和 dipole；优化结果显式读取最终 `job.xyz`，不误取轨迹第一帧。",
+            "- VASP 6.3.2 已在 `.software_cache/vasp/6.3.2` 编译；`vasp` Backend 只接收 Agent 明确提供的 POTCAR、ENCUT、k 点、XC、展宽和收敛参数。随源码提供的 Si POTCAR 仅用于测试，生产 PAW 数据仍需许可证持有人补充。",
+            "- NequIP/Allegro 的 7 个 checkpoint 与 DeePMD 的 5 个 checkpoint 均以独立 `resource://` ID 登记。适配器不会按任务描述选模型；DeePMD 多任务模型还强制 Agent 指定 branch。",
         ]
     )
 
@@ -595,7 +613,7 @@ def main() -> int:
             )
         if item.get("model_cache"):
             cache_parts.append(
-                f"model=`{md(item['model_cache'])}`（不自动下载）"
+                f"model=`{md(item['model_cache'])}`（显式选择；调用时不自动下载）"
             )
         official = item.get("official_url")
         notes = f"{md(item.get('role'))}<br>{md(item.get('notes'))}"

@@ -18,7 +18,7 @@ one complete Chemistry MCP server
         │
         ├── 40 atomic Scientific Actions
         ├── 4 atomic Data Actions
-        ├── 45 explicitly selectable BackendSpecs
+        ├── 49 explicitly selectable BackendSpecs
         └── no workflow tool, automatic backend, or fallback
         │
         ▼
@@ -114,6 +114,8 @@ _score.json
 - [工具箱可复现环境配置](docs/TOOLBOX_SETUP.md)
 - [原子工具完整目录](evaluation/mcp_tools/TOOL_CATALOG.md)
 - [重构实施总结](docs/tools/CHEMISTRY_TOOLBOX_REFACTOR_REPORT.md)
+- [工具、后端与资源完整矩阵](docs/tools/CHEMISTRY_TOOLBOX_TOOL_RESOURCE_MATRIX.md)
+- [用户请求软件配置状态](docs/tools/CHEMISTRY_TOOLBOX_REQUESTED_SOFTWARE_STATUS.md)
 - [MCP 后端运行环境](docs/MCP_PROFILE_ENVIRONMENTS.md)
 - [MCP 多环境当前检查状态](docs/MCP_PROFILE_STATUS.md)
 - [工具箱实现说明](docs/TOOLBOX_IMPLEMENTATION.md)

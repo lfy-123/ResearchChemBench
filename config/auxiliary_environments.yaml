@@ -61,9 +61,12 @@ auxiliary_environments:
     description: RMG-Py 4.0.0 and Arkane package runtime.
     conda_packages: [rmg=4.0.0]
     pip_packages: []
-    modules: [rmgpy, arkane]
+    modules: [rmgpy]
     commands: [rmg.py, Arkane.py]
-    notes: RMG-Py top-level import and entry point pass; Arkane.py exists but importing arkane exceeds 120 seconds. Validate Arkane with a bounded real input before declaring it healthy.
+    cache_paths: [.software_cache/rmg/database/4.0.0/input, .software_cache/rmg/source/4.0.0]
+    environment_variables:
+      HOME: .software_cache/rmg/home
+    notes: RMG-Py 4.0.0 source and database 4.0.0 are cached. The database root is configured through .software_cache/rmg/home/.rmg/rmgrc; Arkane remains separately audited because its import is exceptionally slow in this build.
 
   kinbot:
     conda_name: researchchem-kinbot
@@ -74,28 +77,6 @@ auxiliary_environments:
     modules: [kinbot, sella, jax, openbabel]
     commands: [kinbot, pes]
     notes: Imports and command entry points pass; a production PES run still needs a concrete input and is not run by health audit.
-
-  nequip:
-    conda_name: researchchem-nequip
-    environment: .tool_envs/nequip
-    description: NequIP 0.19.0 CPU runtime with PyTorch/e3nn.
-    conda_packages: [nequip=0.19.0, ase]
-    pip_packages: []
-    modules: [nequip, torch, e3nn, ase]
-    commands: [nequip-train]
-    model_cache: .model_cache
-    notes: Runtime is configured but no checkpoint is downloaded; Agent must supply an explicit local model path under .model_cache (or another permitted workspace path). The Hydra training CLI requires a user config file.
-
-  deepmd:
-    conda_name: researchchem-deepmd
-    environment: .tool_envs/deepmd
-    description: DeePMD-kit 3.1.3 CPU/MPI runtime with its LAMMPS executable.
-    conda_packages: [deepmd-kit=3.1.3, lammps, pyparsing, spglib]
-    pip_packages: []
-    modules: [deepmd]
-    commands: [dp, lmp]
-    model_cache: .model_cache
-    notes: dp and lmp help smokes pass; no pretrained checkpoint is downloaded, so model selection remains explicit.
 
   critic2:
     conda_name: researchchem-source-runtime-critic2
@@ -215,6 +196,18 @@ auxiliary_environments:
     smoke_commands:
       - [bash, -c, 'cd .software_cache/automekin/smoke && mopac water.mop >/dev/null && grep -q "JOB ENDED NORMALLY" water.out']
     notes: A real water PM7 single-point calculation ended normally; Qcore and Gaussian are optional licensed engines and remain unconfigured.
+
+  easyspin:
+    conda_name: researchchem-easyspin-staged
+    environment: .software_cache/easyspin/6.0.12
+    description: EasySpin 6.0.12 MATLAB toolbox staged from the operator-provided archive.
+    conda_packages: []
+    pip_packages: []
+    modules: []
+    commands: [matlab]
+    path_entries: [.software_cache/easyspin/6.0.12/easyspin]
+    cache_paths: [.software_cache/easyspin/6.0.12/easyspin]
+    notes: Toolbox files including easyspin.m, pepper.m and chili.m are present. MATLAB is not installed, so executable validation and public atomic spectral adapters remain pending.
 
   vesta:
     conda_name: researchchem-binary-runtime-vesta

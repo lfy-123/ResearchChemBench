@@ -1,0 +1,48 @@
+# ResearchChemBench CPU build template for licensed VASP 6.3.2 source.
+# Copy this file to .software_cache/vasp/6.3.2/makefile.include before a rebuild.
+# VASP source and binaries remain ignored and must not be redistributed.
+
+CPP_OPTIONS = -DHOST=\"LinuxGNU\" \
+              -DMPI -DMPI_BLOCK=8000 -Duse_collective \
+              -DscaLAPACK \
+              -DCACHE_SIZE=4000 \
+              -Davoidalloc \
+              -Dvasp6 \
+              -Duse_bse_te \
+              -Dtbdyn \
+              -Dfock_dblbuf
+
+CPP         = x86_64-conda-linux-gnu-gcc -E -C -w $*$(FUFFIX) >$*$(SUFFIX) $(CPP_OPTIONS)
+
+FC          = mpif90
+FCL         = mpif90
+
+FREE        = -ffree-form -ffree-line-length-none
+FFLAGS      = -w -ffpe-summary=none -fallow-argument-mismatch -march=native
+OFLAG       = -O2
+OFLAG_IN    = $(OFLAG)
+DEBUG       = -O0
+
+OBJECTS     = fftmpiw.o fftmpi_map.o fftw3d.o fft3dlib.o
+OBJECTS_O1 += fftw3d.o fftmpi.o fftmpiw.o
+OBJECTS_O2 += fft3dlib.o
+
+CPP_LIB     = $(CPP)
+FC_LIB      = $(FC)
+CC_LIB      = x86_64-conda-linux-gnu-gcc
+CFLAGS_LIB  = -O -std=gnu89
+FFLAGS_LIB  = -O1
+FREE_LIB    = $(FREE)
+OBJECTS_LIB = linpack_double.o
+
+CXX_PARS    = x86_64-conda-linux-gnu-g++
+LLIBS       = -lstdc++
+
+VASP_ENV   ?= $(abspath ../../../.tool_envs/vasp)
+
+BLASPACK    = -L$(VASP_ENV)/lib -llapack -lblas
+SCALAPACK   = -L$(VASP_ENV)/lib -lscalapack
+LLIBS      += $(SCALAPACK) $(BLASPACK)
+
+LLIBS      += -L$(VASP_ENV)/lib -lfftw3
+INCS       += -I$(VASP_ENV)/include

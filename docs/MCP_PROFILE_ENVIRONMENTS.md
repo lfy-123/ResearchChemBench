@@ -1,6 +1,6 @@
 # ResearchChemBench MCP 工具发现与多环境设计
 
-> 2026-07-18 更新：profile 现在只表示后端依赖运行时，不再筛选或拥有公共工具。所有任务始终连接一个暴露 44 个原子 Actions 的统一 MCP server；ORCA 6.1.1、OpenMPI 4.1.8 和 GNINA 1.3.3 已完成配置，当前 45/45 BackendSpecs 可用。当前事实以 `evaluation/mcp_tools/TOOL_CATALOG.md` 和 `docs/tools/CHEMISTRY_TOOLBOX_TOOL_RESOURCE_MATRIX.md` 为准；下文旧命令/工具名仅保留为历史迁移背景。
+> 2026-07-19 更新：profile 只表示后端依赖运行时，不筛选或拥有公共工具。所有任务始终连接一个暴露 44 个原子 Actions 的统一 MCP server；VASP、NequIP、Allegro、DeePMD 已作为显式 BackendSpec 接入，当前 49/49 BackendSpecs、17/17 runtime 可用。当前事实以 `evaluation/mcp_tools/TOOL_CATALOG.md` 和 `docs/tools/CHEMISTRY_TOOLBOX_TOOL_RESOURCE_MATRIX.md` 为准；下文旧命令/工具名仅保留为历史迁移背景。
 
 ## 1. 智能体如何看到 MCP 工具
 
@@ -235,25 +235,24 @@ bash scripts/run_agent_eval.sh \
   CENSO 2.1.2 已安装并修正为 `-i/--maxcores` 接口，但完整 DFT workflow 仍需
   ORCA 或 TURBOMOLE。
 
-NequIP、DeepMD、FAIRChem、AIMNet2 没有被标为当前 `run_mlip` 的必需依赖，因为工具
-尚未实现这些后端的模型加载、checkpoint 校验和安全下载策略。只安装 Python 包并不能
-让它们正常执行；完成 adapter 后再建立独立环境更合理。
+NequIP/Allegro 和 DeePMD 现在使用独立 runtime，并通过原子能量、力、应力和结构优化
+Actions 暴露。checkpoint 必须是显式注册的 `ResourceRef`；DeePMD 多任务模型还要求
+显式 branch。FAIRChem、AIMNet2 不在本轮请求范围内，也不会被系统自动替换或选择。
 
 ## 9. 当前验证结论
 
-最新自动报告为 `docs/MCP_PROFILE_STATUS.md`。当前 12/12 profile 的必需模块、命令和
-MCP 工具清单均通过，41 个工具全部被且只被一个 profile 管理；Materials Project live
-smoke 已通过。2026-07-18 的最终回归结果如下：
+最新自动报告为 `docs/MCP_PROFILE_STATUS.md`。当前 17/17 profile/support runtime 的必需模块、
+命令、`pip check` 和 Backend 健康均通过；公共目录始终是一个 44-Action server。2026-07-19
+的最终回归结果如下：
 
-- `evaluation/mcp_tools/test_tools/`：41 passed（每个公开工具一个测试文件）；
-- `tests/`：77 passed；
+- 全量回归：57 passed；
 - MACE `medium-mpa-0`：已下载并在 core、quantum、mlip 三个环境中完成 Si 能量计算，3/3 passed；
-- 14 个 Conda 环境：`pip check` 全部通过；
-- profile 归属测试：41 个工具在各自环境中全部通过，RuntimeWarning 按错误处理；
-- 12-profile Codex dry-run：通过，能够为一次任务生成 12 个独立 MCP server 配置；
+- 17 个 Conda 名称：`pip check` 全部通过；
+- 49 个 BackendSpecs 均可用，且每个 Backend 只归属一个依赖 runtime；
+- VASP/NequIP/Allegro/DeePMD 的代表性真实计算通过，所有任务仍只配置一个完整 MCP server；
 - 私钥扫描：真实 key 只存在于被忽略且权限为 `0600` 的 `config.local.env`。
 
-ORCA 和 GNINA 仍明确标记为人工配置项。原 core 环境的 netCDF4/NumPy ABI warning
+受许可约束的软件仍需要操作者提供合法副本；当前 ORCA、VASP 与 GNINA 已用用户提供的文件完成本机配置。原 core 环境的 netCDF4/NumPy ABI warning
 已通过改用 conda-forge netCDF4 消除；当前主测试剩余提示仅为 RDKit 兼容 API 的
 deprecation warning，不影响当前结果。
 

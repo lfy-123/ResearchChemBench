@@ -265,12 +265,8 @@ profiles:
     environment: .tool_envs/mlip
     runtime_preload_libraries: [libstdc++.so.6, libgcc_s.so.1]
     conda_packages: [ase]
-    # Atomic energy/force/optimization actions currently have reviewed MLIP adapters
-    # only for MACE and CHGNet.
-    # NequIP and DeePMD-kit are installed in dedicated auxiliary environments
-    # (config/auxiliary_environments.yaml), without checkpoints or public
-    # adapters. They stay outside this runtime until explicit model-loading
-    # contracts are implemented; FAIRChem/AIMNet2 are not part of this request.
+    # MACE and CHGNet remain isolated here. NequIP/Allegro and DeePMD use their
+    # own public runtimes because their checkpoint formats and dependencies differ.
     pip_packages: [mace-torch==0.3.16, chgnet]
     use_project_model_cache: true
     health_checks:
@@ -282,6 +278,55 @@ profiles:
           device: cpu
           default_dtype: float64
     backends: [mace, chgnet]
+
+  nequip:
+    conda_name: researchchem-nequip
+    server_name: researchchem_nequip
+    description: NequIP 0.19.0 and Allegro 0.8.3 inference runtime with explicitly registered local checkpoints.
+    environment: .tool_envs/nequip
+    runtime_preload_libraries: [libstdc++.so.6, libgcc_s.so.1]
+    conda_packages: [nequip=0.19.0, ase, pydantic, pyyaml, python-dotenv]
+    pip_packages: [nequip-allegro==0.8.3]
+    use_project_model_cache: true
+    health_checks:
+      modules: [nequip, allegro, torch, e3nn, ase]
+      commands: [nequip-train]
+    backends: [nequip, allegro]
+
+  deepmd:
+    conda_name: researchchem-deepmd-models
+    server_name: researchchem_deepmd
+    description: DeePMD-kit 3.2.0b0 CPU inference runtime for the downloaded DPA multitask and OMol checkpoints.
+    environment: .tool_envs/deepmd_models
+    runtime_preload_libraries: [libstdc++.so.6, libgcc_s.so.1]
+    conda_packages: [python=3.11]
+    pip_packages: [deepmd-kit==3.2.0b0, ase==3.29.0, mpich==5.0.1.post1, e3nn==0.6.0, pydantic, pyyaml, python-dotenv]
+    use_project_model_cache: true
+    health_checks:
+      modules: [deepmd, ase, e3nn, torch]
+      commands: [dp]
+    backends: [deepmd]
+
+  vasp:
+    conda_name: researchchem-vasp
+    server_name: researchchem_vasp
+    description: Locally compiled VASP 6.3.2 standard executable with OpenMPI and an explicit-POTCAR atomic adapter.
+    environment: .tool_envs/vasp
+    conda_packages: [python=3.11, ase, pydantic, pyyaml, python-dotenv, gcc_linux-64, gxx_linux-64, gfortran_linux-64, openmpi, openblas, lapack, scalapack, fftw]
+    pip_packages: []
+    health_checks:
+      modules: [ase]
+      commands: [vasp_std, mpirun]
+      external_commands: [.software_cache/vasp/6.3.2/bin/vasp_std]
+    command_variables:
+      CHEMGRAPH_VASP_COMMAND: .software_cache/vasp/6.3.2/bin/vasp_std
+      CHEMGRAPH_VASP_MPI_COMMAND: mpirun
+    path_entries: [.software_cache/vasp/6.3.2/bin]
+    library_path_entries: [.tool_envs/vasp/lib]
+    environment_variables:
+      OMPI_ALLOW_RUN_AS_ROOT: "1"
+      OMPI_ALLOW_RUN_AS_ROOT_CONFIRM: "1"
+    backends: [vasp]
 
   docking:
     conda_name: researchchem-docking

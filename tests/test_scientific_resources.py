@@ -5,7 +5,7 @@ import json
 import pytest
 
 from researchchem_toolbox import resources
-from researchchem_toolbox.backends import docking, electronic, periodic
+from researchchem_toolbox.backends import docking, electronic, mlip, periodic
 from researchchem_toolbox.backends.common import resolve_input_file
 from researchchem_toolbox.catalog import catalog_snapshot
 
@@ -17,6 +17,10 @@ def _test_registry(tmp_path, monkeypatch):
     parameter_root = tmp_path / "parameters"
     parameter_root.mkdir()
     (parameter_root / "Si-Si.skf").write_text("sk", encoding="utf-8")
+    model_path = tmp_path / "model.pt"
+    model_path.write_bytes(b"model")
+    potcar_path = tmp_path / "POTCAR.Si"
+    potcar_path.write_text("potcar", encoding="utf-8")
     config = tmp_path / "resources.json"
     config.write_text(
         json.dumps(
@@ -56,6 +60,24 @@ def _test_registry(tmp_path, monkeypatch):
                         "compatible_backends": ["gnina"],
                         "path": str(tmp_path / "binary"),
                     },
+                    {
+                        "id": "test_model",
+                        "display_name": "Test model",
+                        "kind": "model_checkpoint",
+                        "selectable": True,
+                        "compatible_backends": ["deepmd"],
+                        "path": str(model_path),
+                        "model_branches": ["branch_a"],
+                        "model_branch_aliases": {"alias_a": "branch_a"},
+                    },
+                    {
+                        "id": "test_potcar",
+                        "display_name": "Test POTCAR",
+                        "kind": "single_file_resource",
+                        "selectable": True,
+                        "compatible_backends": ["vasp"],
+                        "path": str(potcar_path),
+                    },
                 ],
             }
         ),
@@ -73,6 +95,8 @@ def test_registered_resources_require_explicit_family_and_element(tmp_path, monk
         {"resource_id": "test_pseudos", "element": "Si"}
     ) == element_root / "Si.psp8"
     assert resources.resolve_resource_reference("resource://test_parameters") == parameter_root
+    assert resources.resolve_resource_reference("resource://test_model") == tmp_path / "model.pt"
+    assert resources.resolve_resource_reference("resource://test_potcar") == tmp_path / "POTCAR.Si"
     with pytest.raises(ValueError, match="requires an explicit chemical element"):
         resources.resolve_resource_reference("resource://test_pseudos")
     with pytest.raises((ValueError, FileNotFoundError), match="does not contain element|missing"):
@@ -98,10 +122,25 @@ def test_catalog_exposes_resource_policy_and_coverage(tmp_path, monkeypatch):
         "test_pseudos",
         "test_parameters",
         "runtime_binary",
+        "test_model",
+        "test_potcar",
     }
     pseudo = next(item for item in snapshot["resources"] if item["id"] == "test_pseudos")
     assert pseudo["selection_syntax"] == "resource://test_pseudos/<Element>"
     assert pseudo["elements"] == ["Si"]
+    model = next(item for item in snapshot["resources"] if item["id"] == "test_model")
+    assert model["selection_syntax"] == "resource://test_model"
+    assert model["size_bytes"] == 5
+
+
+def test_deepmd_branch_validation_keeps_model_choice_explicit(tmp_path, monkeypatch):
+    _test_registry(tmp_path, monkeypatch)
+    metadata = resources.resource_reference_metadata("resource://test_model")
+    assert mlip._deepmd_head(tmp_path / "model.pt", "alias_a", metadata) == "branch_a"
+    with pytest.raises(ValueError, match="explicit named model_branch"):
+        mlip._deepmd_head(tmp_path / "model.pt", "", metadata)
+    with pytest.raises(ValueError, match="Unknown DeePMD model_branch"):
+        mlip._deepmd_head(tmp_path / "model.pt", "unknown", metadata)
 
 
 def test_gnina_adapter_keeps_hardware_and_model_choice_explicit(tmp_path, monkeypatch):
@@ -340,3 +379,86 @@ def test_dftb_relax_driver_uses_parser14_block_structure(tmp_path, monkeypatch):
     assert "  MaxSteps = 5\n" in text
     assert "  Convergence = {\n" in text
     assert "  LatticeOpt = No\n" in text
+
+
+def test_vasp_input_requires_explicit_potcar_and_scientific_controls(
+    tmp_path, monkeypatch
+):
+    potcar = tmp_path / "POTCAR.Si"
+    potcar.write_text("Si test POTCAR\n", encoding="utf-8")
+    monkeypatch.setattr(periodic, "resolve_input_file", lambda _value: potcar)
+    request = {
+        "inputs": {
+            "structure": {
+                "atoms": [
+                    {"element": "Si", "position_angstrom": [0, 0, 0]},
+                    {"element": "Si", "position_angstrom": [1.35, 1.35, 1.35]},
+                ],
+                "cell_angstrom": [[5.43, 0, 0], [0, 5.43, 0], [0, 0, 5.43]],
+                "pbc": [True, True, True],
+            }
+        },
+        "method_spec": {
+            "pseudopotentials": {"Si": "resource://test_potcar"},
+            "encut_ev": 245.0,
+            "k_points": {"grid": [2, 2, 2], "shift": [0, 0, 0]},
+            "kpoint_scheme": "gamma",
+            "precision": "Accurate",
+            "algorithm": "Normal",
+            "ismear": 0,
+            "sigma_ev": 0.05,
+            "spin_polarized": False,
+            "real_space_projection": False,
+            "xc_family": "pbe",
+        },
+        "action_settings": {"scf_convergence_ev": 1e-6, "max_scf_cycles": 80},
+    }
+    symbols, order = periodic._write_vasp_inputs(
+        "calculate_periodic_energy", request, tmp_path
+    )
+    assert symbols == ["Si", "Si"]
+    assert order == [0, 1]
+    incar = (tmp_path / "INCAR").read_text(encoding="utf-8")
+    assert "ENCUT = 245.0" in incar
+    assert "GGA = PE" in incar
+    assert "ISPIN = 1" in incar
+    assert "LREAL = .FALSE." in incar
+    assert (tmp_path / "POTCAR").read_text(encoding="utf-8").startswith(
+        "Si test POTCAR"
+    )
+
+
+def test_vasp_parser_restores_original_atom_order(tmp_path):
+    (tmp_path / "OUTCAR").write_text(
+        " free  energy   TOTEN  =      -10.500000 eV\n"
+        " TOTAL-FORCE (eV/Angst)\n"
+        " -------------------------------------------------------------------\n"
+        " 0 0 0  1.0 1.1 1.2\n"
+        " 0 0 0  2.0 2.1 2.2\n"
+        " 0 0 0  3.0 3.1 3.2\n"
+        " -------------------------------------------------------------------\n"
+        " total drift: 0 0 0\n",
+        encoding="utf-8",
+    )
+    request = {
+        "inputs": {
+            "structure": {
+                "atoms": [
+                    {"element": "Si", "position_angstrom": [0, 0, 0]},
+                    {"element": "C", "position_angstrom": [1, 1, 1]},
+                    {"element": "Si", "position_angstrom": [2, 2, 2]},
+                ],
+                "cell_angstrom": [[5, 0, 0], [0, 5, 0], [0, 0, 5]],
+                "pbc": [True, True, True],
+            }
+        }
+    }
+    result = periodic._parse_vasp_result(
+        "calculate_periodic_forces", tmp_path, request, ["Si", "C", "Si"], [0, 2, 1]
+    )
+    assert result["energy_ev"] == pytest.approx(-10.5)
+    assert result["forces"] == [
+        [1.0, 1.1, 1.2],
+        [3.0, 3.1, 3.2],
+        [2.0, 2.1, 2.2],
+    ]

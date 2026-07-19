@@ -311,11 +311,15 @@ requested_software:
   - name: VASP
     category: 周期材料、声子与输运
     kind: licensed_binary
-    status_policy: manual
+    status_policy: probe
+    environment: vasp
+    modules: []
+    commands: [vasp_std]
+    cache_paths: [.software_cache/vasp/6.3.2/bin/vasp_std, .software_cache/vasp/6.3.2/testsuite/POTCARS/POTCAR.Si]
     license: commercial_registration
-    public_adapter: not_implemented
+    public_adapter: existing
     role: Plane-wave periodic DFT executable.
-    notes: Requires a VASP license, source access, compiler/MPI build and pseudopotential data.
+    notes: Operator-provided VASP 6.3.2 source was compiled with the isolated GCC/OpenMPI/ScaLAPACK/FFTW runtime. An atomic periodic backend and bundled Si testsuite POTCAR are configured for validation; general production chemistry still requires the operator's licensed PAW POTCAR library.
     official_url: https://vasp.at/wiki/Installing_VASP.6.X.X
 
   - name: CASTEP
@@ -474,10 +478,11 @@ requested_software:
     environment: rmg
     modules: [rmgpy]
     commands: [rmg.py]
+    cache_paths: [.software_cache/rmg/database/4.0.0/input, .software_cache/rmg/source/4.0.0]
     license: MIT
     public_adapter: runtime_only
     role: Reaction mechanism generation and thermochemistry.
-    notes: RMG 4.0.0 top-level import and rmg.py entry point pass; a database-backed mechanism-generation task still needs an explicit Agent-provided input and database choice.
+    notes: RMG 4.0.0 top-level import and rmg.py entry point pass; official source and database 4.0.0 are cached and the database root is configured through the isolated HOME. Mechanism generation still requires an explicit Agent-provided input and database choices.
     official_url: https://reactionmechanismgenerator.github.io/RMG-Py/
 
   - name: Arkane
@@ -487,10 +492,11 @@ requested_software:
     environment: rmg
     modules: [arkane]
     commands: [Arkane.py]
+    cache_paths: [.software_cache/rmg/database/4.0.0/input]
     license: MIT
     public_adapter: runtime_only
     role: Thermochemistry and kinetics from quantum-chemistry results.
-    notes: Shipped with RMG-Py and Arkane.py is present, but the top-level arkane import did not finish within 120 seconds; retain partial status until a bounded real input can be validated.
+    notes: Shipped with RMG-Py, Arkane.py and the official database are present. Top-level import remains pathologically slow and a bundled H thermochemistry example exceeded a 300-second bound, so this stays partial until the runtime is repaired or a bounded real calculation passes.
     official_url: https://reactionmechanismgenerator.github.io/RMG-Py/users/arkane/
 
   - name: MESS
@@ -602,11 +608,15 @@ requested_software:
   - name: EasySpin
     category: 激发态、光谱与可视化
     kind: licensed_toolbox
-    status_policy: manual
+    status_policy: probe
+    environment: easyspin
+    modules: []
+    commands: [matlab]
+    cache_paths: [.software_cache/easyspin/6.0.12/easyspin]
     license: MATLAB_toolbox
-    public_adapter: not_implemented
+    public_adapter: runtime_only
     role: EPR/ESR spin-dynamics and spectral simulation.
-    notes: Requires MATLAB and the EasySpin toolbox from the operator.
+    notes: EasySpin 6.0.12 toolbox files are staged and structurally validated. MATLAB is still absent, so executable tests and atomic spectral adapters cannot yet be completed.
     official_url: https://easyspin.org/
 
   - name: MATLAB
@@ -687,10 +697,11 @@ requested_software:
     modules: [nequip, torch, e3nn]
     commands: [nequip-train]
     model_cache: .model_cache
+    cache_paths: [.model_cache/nequip/0.1]
     license: MIT
-    public_adapter: runtime_only
+    public_adapter: existing
     role: E(3)-equivariant neural interatomic potential framework.
-    notes: NequIP 0.19.0 CPU runtime is installed; no model checkpoint is downloaded and training requires an explicit Hydra config.
+    notes: NequIP 0.19.0 and Allegro 0.8.3 are installed; seven OAM/MP checkpoints are checksum-registered in .model_cache. Atomic periodic energy/force/stress/relax adapters require the Agent to select the exact model, device and species mapping; no model is chosen automatically.
     official_url: https://nequip.readthedocs.io/
 
   - name: DeePMD-kit
@@ -699,12 +710,13 @@ requested_software:
     status_policy: probe
     environment: deepmd
     modules: [deepmd]
-    commands: [dp, lmp]
+    commands: [dp]
     model_cache: .model_cache
+    cache_paths: [.model_cache/deepmd/pretrained]
     license: LGPL-3.0
-    public_adapter: runtime_only
+    public_adapter: existing
     role: Deep neural-network interatomic potentials and MD integration.
-    notes: DeePMD-kit 3.1.3 CPU/MPI and LAMMPS lmp are installed; no checkpoint is downloaded.
+    notes: A dedicated DeePMD-kit 3.2.0b0 CPU inference runtime loads all five downloaded DPA/OMol checkpoints; the original 3.1.3/LAMMPS runtime is preserved separately. Molecular and periodic atomic adapters require an exact checkpoint, explicit branch (or single_task), charge, spin and device.
     official_url: https://docs.deepmodeling.com/projects/deepmd/
 
   - name: NIST CCCBDB 接口

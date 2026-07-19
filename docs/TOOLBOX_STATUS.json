@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-07-18T21:28:41.946877+00:00",
+  "generated_at": "2026-07-19T08:59:03.257928+00:00",
   "scientific_actions": 40,
   "data_actions": 4,
-  "backend_count": 45,
+  "backend_count": 49,
   "checks": [
     {
       "name": "catalog",
@@ -207,6 +207,7 @@
           "tblite",
           "mace",
           "chgnet",
+          "deepmd",
           "orca",
           "ase_emt"
         ],
@@ -228,6 +229,7 @@
           "tblite",
           "mace",
           "chgnet",
+          "deepmd",
           "ase_emt"
         ],
         "required_inputs": [
@@ -270,6 +272,7 @@
           "tblite",
           "mace",
           "chgnet",
+          "deepmd",
           "orca",
           "ase_emt"
         ],
@@ -625,7 +628,11 @@
           "cp2k",
           "siesta",
           "dftbplus",
-          "abinit"
+          "abinit",
+          "vasp",
+          "nequip",
+          "allegro",
+          "deepmd"
         ],
         "required_inputs": [
           "structure"
@@ -646,7 +653,11 @@
           "cp2k",
           "siesta",
           "dftbplus",
-          "abinit"
+          "abinit",
+          "vasp",
+          "nequip",
+          "allegro",
+          "deepmd"
         ],
         "required_inputs": [
           "structure"
@@ -665,7 +676,11 @@
         "backend_ids": [
           "quantum_espresso",
           "cp2k",
-          "abinit"
+          "abinit",
+          "vasp",
+          "nequip",
+          "allegro",
+          "deepmd"
         ],
         "required_inputs": [
           "structure"
@@ -686,7 +701,11 @@
           "cp2k",
           "siesta",
           "dftbplus",
-          "abinit"
+          "abinit",
+          "vasp",
+          "nequip",
+          "allegro",
+          "deepmd"
         ],
         "required_inputs": [
           "structure"
@@ -1943,6 +1962,376 @@
             "chgnet"
           ],
           "required_data_resources": [],
+          "license_class": "open_source",
+          "install_notes": ""
+        }
+      },
+      {
+        "id": "deepmd",
+        "display_name": "DeePMD-kit",
+        "runtime": "deepmd",
+        "capabilities": [
+          "calculate_energy",
+          "calculate_forces",
+          "optimize_geometry",
+          "calculate_periodic_energy",
+          "calculate_periodic_forces",
+          "calculate_periodic_stress",
+          "relax_periodic_structure"
+        ],
+        "description": "DeePMD inference from an exact registered checkpoint and an explicit multitask branch; the adapter never chooses or downloads a model.",
+        "python_modules": [
+          "deepmd",
+          "ase"
+        ],
+        "executables": [
+          "dp"
+        ],
+        "environment_variables": [],
+        "conda_packages": [],
+        "pip_packages": [
+          "deepmd-kit==3.2.0b0",
+          "ase",
+          "e3nn"
+        ],
+        "required_data_resources": [
+          "Explicit resource:// DeePMD model checkpoint; multitask checkpoints require a named model_branch and single-task checkpoints require model_branch=single_task"
+        ],
+        "license_class": "open_source",
+        "install_notes": "",
+        "method_schema": {
+          "model": "resource://<registered_deepmd_checkpoint> or an explicit workspace file ArtifactRef",
+          "device": "cpu (the configured inference runtime is CPU-only)",
+          "model_branch": "exact registered multitask branch, or the literal single_task",
+          "charge": "explicit total charge supplied as a DeePMD frame parameter",
+          "spin": "explicit spin value supplied as a DeePMD frame parameter",
+          "frame_parameters": "optional additional explicit per-frame parameters"
+        },
+        "required_method_fields": {
+          "calculate_energy": [
+            "model",
+            "device",
+            "model_branch",
+            "charge",
+            "spin"
+          ],
+          "calculate_forces": [
+            "model",
+            "device",
+            "model_branch",
+            "charge",
+            "spin"
+          ],
+          "optimize_geometry": [
+            "model",
+            "device",
+            "model_branch",
+            "charge",
+            "spin"
+          ],
+          "calculate_periodic_energy": [
+            "model",
+            "device",
+            "model_branch",
+            "charge",
+            "spin"
+          ],
+          "calculate_periodic_forces": [
+            "model",
+            "device",
+            "model_branch",
+            "charge",
+            "spin"
+          ],
+          "calculate_periodic_stress": [
+            "model",
+            "device",
+            "model_branch",
+            "charge",
+            "spin"
+          ],
+          "relax_periodic_structure": [
+            "model",
+            "device",
+            "model_branch",
+            "charge",
+            "spin"
+          ]
+        },
+        "required_setting_fields": {
+          "optimize_geometry": [
+            "fmax_ev_per_angstrom",
+            "optimizer",
+            "max_steps"
+          ],
+          "relax_periodic_structure": [
+            "force_threshold_ev_per_angstrom",
+            "max_steps",
+            "relax_cell",
+            "optimizer"
+          ]
+        },
+        "health": {
+          "status": "available",
+          "available": true,
+          "runtime": "deepmd",
+          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/deepmd_models/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {
+            "deepmd": {
+              "available": true,
+              "version": null
+            },
+            "ase": {
+              "available": true,
+              "version": "3.29.0"
+            }
+          },
+          "executables": {
+            "dp": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/deepmd_models/bin/dp"
+          },
+          "environment": {},
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [],
+          "pip_packages": [
+            "deepmd-kit==3.2.0b0",
+            "ase",
+            "e3nn"
+          ],
+          "required_data_resources": [
+            "Explicit resource:// DeePMD model checkpoint; multitask checkpoints require a named model_branch and single-task checkpoints require model_branch=single_task"
+          ],
+          "license_class": "open_source",
+          "install_notes": ""
+        }
+      },
+      {
+        "id": "nequip",
+        "display_name": "NequIP",
+        "runtime": "nequip",
+        "capabilities": [
+          "calculate_periodic_energy",
+          "calculate_periodic_forces",
+          "calculate_periodic_stress",
+          "relax_periodic_structure"
+        ],
+        "description": "NequIP inference from the exact checkpoint and species mapping selected by the Agent.",
+        "python_modules": [
+          "nequip",
+          "torch",
+          "e3nn",
+          "ase"
+        ],
+        "executables": [
+          "nequip-train"
+        ],
+        "environment_variables": [],
+        "conda_packages": [],
+        "pip_packages": [
+          "nequip==0.19.0"
+        ],
+        "required_data_resources": [
+          "Explicit resource:// NequIP checkpoint or workspace model ArtifactRef"
+        ],
+        "license_class": "open_source",
+        "install_notes": "",
+        "method_schema": {
+          "model": "resource://<registered_nequip_checkpoint> or an explicit workspace file ArtifactRef",
+          "device": "cpu, cuda, or cuda:<index>",
+          "chemical_species_mapping": "identity or an explicit element-to-model-type mapping",
+          "allow_tf32": "explicit boolean controlling CUDA TF32 use",
+          "neighborlist_backend": "optional NequIP neighbor-list backend; default matscipy"
+        },
+        "required_method_fields": {
+          "calculate_periodic_energy": [
+            "model",
+            "device",
+            "chemical_species_mapping",
+            "allow_tf32"
+          ],
+          "calculate_periodic_forces": [
+            "model",
+            "device",
+            "chemical_species_mapping",
+            "allow_tf32"
+          ],
+          "calculate_periodic_stress": [
+            "model",
+            "device",
+            "chemical_species_mapping",
+            "allow_tf32"
+          ],
+          "relax_periodic_structure": [
+            "model",
+            "device",
+            "chemical_species_mapping",
+            "allow_tf32"
+          ]
+        },
+        "required_setting_fields": {
+          "relax_periodic_structure": [
+            "force_threshold_ev_per_angstrom",
+            "max_steps",
+            "relax_cell",
+            "optimizer"
+          ]
+        },
+        "health": {
+          "status": "available",
+          "available": true,
+          "runtime": "nequip",
+          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/nequip/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {
+            "nequip": {
+              "available": true,
+              "version": "0.19.0"
+            },
+            "torch": {
+              "available": true,
+              "version": "2.10.0"
+            },
+            "e3nn": {
+              "available": true,
+              "version": "0.6.0"
+            },
+            "ase": {
+              "available": true,
+              "version": "3.29.0"
+            }
+          },
+          "executables": {
+            "nequip-train": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/nequip/bin/nequip-train"
+          },
+          "environment": {},
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [],
+          "pip_packages": [
+            "nequip==0.19.0"
+          ],
+          "required_data_resources": [
+            "Explicit resource:// NequIP checkpoint or workspace model ArtifactRef"
+          ],
+          "license_class": "open_source",
+          "install_notes": ""
+        }
+      },
+      {
+        "id": "allegro",
+        "display_name": "Allegro",
+        "runtime": "nequip",
+        "capabilities": [
+          "calculate_periodic_energy",
+          "calculate_periodic_forces",
+          "calculate_periodic_stress",
+          "relax_periodic_structure"
+        ],
+        "description": "Allegro inference through the NequIP integration using the exact checkpoint and species mapping selected by the Agent.",
+        "python_modules": [
+          "allegro",
+          "nequip",
+          "torch",
+          "e3nn",
+          "ase"
+        ],
+        "executables": [],
+        "environment_variables": [],
+        "conda_packages": [],
+        "pip_packages": [
+          "nequip-allegro==0.8.3",
+          "nequip==0.19.0"
+        ],
+        "required_data_resources": [
+          "Explicit resource:// Allegro checkpoint or workspace model ArtifactRef"
+        ],
+        "license_class": "open_source",
+        "install_notes": "",
+        "method_schema": {
+          "model": "resource://<registered_allegro_checkpoint> or an explicit workspace file ArtifactRef",
+          "device": "cpu, cuda, or cuda:<index>",
+          "chemical_species_mapping": "identity or an explicit element-to-model-type mapping",
+          "allow_tf32": "explicit boolean controlling CUDA TF32 use",
+          "neighborlist_backend": "optional NequIP neighbor-list backend; default matscipy"
+        },
+        "required_method_fields": {
+          "calculate_periodic_energy": [
+            "model",
+            "device",
+            "chemical_species_mapping",
+            "allow_tf32"
+          ],
+          "calculate_periodic_forces": [
+            "model",
+            "device",
+            "chemical_species_mapping",
+            "allow_tf32"
+          ],
+          "calculate_periodic_stress": [
+            "model",
+            "device",
+            "chemical_species_mapping",
+            "allow_tf32"
+          ],
+          "relax_periodic_structure": [
+            "model",
+            "device",
+            "chemical_species_mapping",
+            "allow_tf32"
+          ]
+        },
+        "required_setting_fields": {
+          "relax_periodic_structure": [
+            "force_threshold_ev_per_angstrom",
+            "max_steps",
+            "relax_cell",
+            "optimizer"
+          ]
+        },
+        "health": {
+          "status": "available",
+          "available": true,
+          "runtime": "nequip",
+          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/nequip/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {
+            "allegro": {
+              "available": true,
+              "version": null
+            },
+            "nequip": {
+              "available": true,
+              "version": "0.19.0"
+            },
+            "torch": {
+              "available": true,
+              "version": "2.10.0"
+            },
+            "e3nn": {
+              "available": true,
+              "version": "0.6.0"
+            },
+            "ase": {
+              "available": true,
+              "version": "3.29.0"
+            }
+          },
+          "executables": {},
+          "environment": {},
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [],
+          "pip_packages": [
+            "nequip-allegro==0.8.3",
+            "nequip==0.19.0"
+          ],
+          "required_data_resources": [
+            "Explicit resource:// Allegro checkpoint or workspace model ArtifactRef"
+          ],
           "license_class": "open_source",
           "install_notes": ""
         }
@@ -3359,6 +3748,147 @@
           ],
           "license_class": "open_source",
           "install_notes": ""
+        }
+      },
+      {
+        "id": "vasp",
+        "display_name": "VASP",
+        "runtime": "vasp",
+        "capabilities": [
+          "calculate_periodic_energy",
+          "calculate_periodic_forces",
+          "calculate_periodic_stress",
+          "relax_periodic_structure"
+        ],
+        "description": "Locally licensed VASP 6.3.2 periodic calculations with explicit POTCAR ResourceRefs, INCAR controls, k-point mesh, and convergence settings.",
+        "python_modules": [],
+        "executables": [
+          "vasp_std"
+        ],
+        "environment_variables": [
+          "CHEMGRAPH_VASP_COMMAND"
+        ],
+        "conda_packages": [],
+        "pip_packages": [],
+        "required_data_resources": [
+          "One explicit POTCAR ResourceRef or workspace ArtifactRef per element; the registered Si POTCAR is testsuite-only and no production PAW family is selected automatically"
+        ],
+        "license_class": "commercial_license",
+        "install_notes": "VASP 6.3.2 was built locally from the operator-provided source. A bundled Si testsuite POTCAR validates the adapter; production use still requires the operator's licensed PAW dataset.",
+        "method_schema": {
+          "pseudopotentials": "element -> explicit registered POTCAR resource or workspace ArtifactRef",
+          "encut_ev": "explicit plane-wave cutoff in eV",
+          "k_points": "{grid:[nx,ny,nz], shift:[sx,sy,sz]}",
+          "kpoint_scheme": "gamma or monkhorst-pack",
+          "precision": "explicit VASP PREC value",
+          "algorithm": "explicit VASP ALGO value",
+          "ismear": "explicit integer ISMEAR",
+          "sigma_ev": "explicit SIGMA in eV",
+          "spin_polarized": "explicit boolean selecting ISPIN=1/2",
+          "real_space_projection": "explicit LREAL boolean or Auto",
+          "xc_family": "lda, pbe, pbesol, scan, or r2scan",
+          "initial_magnetic_moments": "optional one value per atom",
+          "electron_count": "optional explicit NELECT",
+          "additional_incar": "optional explicit extra INCAR mapping; relaxation-semantic keys are protected"
+        },
+        "required_method_fields": {
+          "calculate_periodic_energy": [
+            "pseudopotentials",
+            "encut_ev",
+            "k_points",
+            "kpoint_scheme",
+            "precision",
+            "algorithm",
+            "ismear",
+            "sigma_ev",
+            "spin_polarized",
+            "real_space_projection",
+            "xc_family"
+          ],
+          "calculate_periodic_forces": [
+            "pseudopotentials",
+            "encut_ev",
+            "k_points",
+            "kpoint_scheme",
+            "precision",
+            "algorithm",
+            "ismear",
+            "sigma_ev",
+            "spin_polarized",
+            "real_space_projection",
+            "xc_family"
+          ],
+          "calculate_periodic_stress": [
+            "pseudopotentials",
+            "encut_ev",
+            "k_points",
+            "kpoint_scheme",
+            "precision",
+            "algorithm",
+            "ismear",
+            "sigma_ev",
+            "spin_polarized",
+            "real_space_projection",
+            "xc_family"
+          ],
+          "relax_periodic_structure": [
+            "pseudopotentials",
+            "encut_ev",
+            "k_points",
+            "kpoint_scheme",
+            "precision",
+            "algorithm",
+            "ismear",
+            "sigma_ev",
+            "spin_polarized",
+            "real_space_projection",
+            "xc_family"
+          ]
+        },
+        "required_setting_fields": {
+          "calculate_periodic_energy": [
+            "scf_convergence_ev",
+            "max_scf_cycles"
+          ],
+          "calculate_periodic_forces": [
+            "scf_convergence_ev",
+            "max_scf_cycles"
+          ],
+          "calculate_periodic_stress": [
+            "scf_convergence_ev",
+            "max_scf_cycles"
+          ],
+          "relax_periodic_structure": [
+            "scf_convergence_ev",
+            "max_scf_cycles",
+            "force_threshold_ev_per_angstrom",
+            "max_steps",
+            "relax_cell"
+          ]
+        },
+        "health": {
+          "status": "available",
+          "available": true,
+          "runtime": "vasp",
+          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/vasp/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {},
+          "executables": {
+            "vasp_std": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/vasp/6.3.2/bin/vasp_std"
+          },
+          "environment": {
+            "CHEMGRAPH_VASP_COMMAND": true
+          },
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [],
+          "pip_packages": [],
+          "required_data_resources": [
+            "One explicit POTCAR ResourceRef or workspace ArtifactRef per element; the registered Si POTCAR is testsuite-only and no production PAW family is selected automatically"
+          ],
+          "license_class": "commercial_license",
+          "install_notes": "VASP 6.3.2 was built locally from the operator-provided source. A bundled Si testsuite POTCAR validates the adapter; production use still requires the operator's licensed PAW dataset."
         }
       },
       {
@@ -6257,17 +6787,442 @@
         "available": true,
         "selection_required": false,
         "configured_target": true
+      },
+      {
+        "id": "nequip_oam_s_0_1",
+        "display_name": "NequIP OAM-S 0.1",
+        "kind": "model_checkpoint",
+        "selectable": true,
+        "compatible_backends": [
+          "nequip"
+        ],
+        "format": "NequIP compiled model archive",
+        "version": "0.1",
+        "path": ".model_cache/nequip/0.1/NequIP-OAM-S-0.1.nequip.zip",
+        "checksum_algorithm": "sha256",
+        "checksum": "63d4bafd872850a014fd21dedeea416b61173a17750dee0b2b8dd2b126f407aa",
+        "source_url": "https://zenodo.org/records/18775904",
+        "license_and_citation": "CC BY 4.0; cite DOI 10.5281/zenodo.18775904 and the model/upstream NequIP work.",
+        "scientific_scope": "Small OAM pretrained NequIP model intended mainly for inorganic materials; the Agent must judge domain and element coverage.",
+        "available": true,
+        "selection_required": true,
+        "selection_syntax": "resource://nequip_oam_s_0_1",
+        "size_bytes": 5638676
+      },
+      {
+        "id": "nequip_oam_m_0_1",
+        "display_name": "NequIP OAM-M 0.1",
+        "kind": "model_checkpoint",
+        "selectable": true,
+        "compatible_backends": [
+          "nequip"
+        ],
+        "format": "NequIP compiled model archive",
+        "version": "0.1",
+        "path": ".model_cache/nequip/0.1/NequIP-OAM-M-0.1.nequip.zip",
+        "checksum_algorithm": "sha256",
+        "checksum": "3b528d235a98d6daa582ab17d4bac44aa108659b8a69046ba8f4f51c257fb328",
+        "source_url": "https://zenodo.org/records/18775904",
+        "license_and_citation": "CC BY 4.0; cite DOI 10.5281/zenodo.18775904 and the model/upstream NequIP work.",
+        "scientific_scope": "Medium OAM pretrained NequIP model intended mainly for inorganic materials; no automatic domain selection.",
+        "available": true,
+        "selection_required": true,
+        "selection_syntax": "resource://nequip_oam_m_0_1",
+        "size_bytes": 26554438
+      },
+      {
+        "id": "nequip_oam_l_0_1",
+        "display_name": "NequIP OAM-L 0.1",
+        "kind": "model_checkpoint",
+        "selectable": true,
+        "compatible_backends": [
+          "nequip"
+        ],
+        "format": "NequIP compiled model archive",
+        "version": "0.1",
+        "path": ".model_cache/nequip/0.1/NequIP-OAM-L-0.1.nequip.zip",
+        "checksum_algorithm": "sha256",
+        "checksum": "5d01a4fab228abb3cdb6ace0033f93993729956bca6a42234a2a8816825b9a0f",
+        "source_url": "https://zenodo.org/records/18775904",
+        "license_and_citation": "CC BY 4.0; cite DOI 10.5281/zenodo.18775904 and the model/upstream NequIP work.",
+        "scientific_scope": "Large OAM pretrained NequIP model intended mainly for inorganic materials; no automatic domain selection.",
+        "available": true,
+        "selection_required": true,
+        "selection_syntax": "resource://nequip_oam_l_0_1",
+        "size_bytes": 78464590
+      },
+      {
+        "id": "nequip_oam_xl_0_1",
+        "display_name": "NequIP OAM-XL 0.1",
+        "kind": "model_checkpoint",
+        "selectable": true,
+        "compatible_backends": [
+          "nequip"
+        ],
+        "format": "NequIP compiled model archive",
+        "version": "0.1",
+        "path": ".model_cache/nequip/0.1/NequIP-OAM-XL-0.1.nequip.zip",
+        "checksum_algorithm": "sha256",
+        "checksum": "99c3799b28026f1ecf66c413292038a27a0749d4d4d7cd0b3a642f2e68df9e9c",
+        "source_url": "https://zenodo.org/records/18775904",
+        "license_and_citation": "CC BY 4.0; cite DOI 10.5281/zenodo.18775904 and the model/upstream NequIP work.",
+        "scientific_scope": "Extra-large OAM pretrained NequIP model intended mainly for inorganic materials; no automatic domain selection.",
+        "available": true,
+        "selection_required": true,
+        "selection_syntax": "resource://nequip_oam_xl_0_1",
+        "size_bytes": 259627903
+      },
+      {
+        "id": "nequip_mp_l_0_1",
+        "display_name": "NequIP MP-L 0.1",
+        "kind": "model_checkpoint",
+        "selectable": true,
+        "compatible_backends": [
+          "nequip"
+        ],
+        "format": "NequIP compiled model archive",
+        "version": "0.1",
+        "path": ".model_cache/nequip/0.1/NequIP-MP-L-0.1.nequip.zip",
+        "checksum_algorithm": "sha256",
+        "checksum": "dfbb68f6fab8d8135fc2be9c1cd92d468fe858254f2454fb891ea0da08dd6592",
+        "source_url": "https://zenodo.org/records/18775904",
+        "license_and_citation": "CC BY 4.0; cite DOI 10.5281/zenodo.18775904 and the model/upstream NequIP work.",
+        "scientific_scope": "Large Materials-Project-oriented pretrained NequIP model; the Agent must judge suitability and coverage.",
+        "available": true,
+        "selection_required": true,
+        "selection_syntax": "resource://nequip_mp_l_0_1",
+        "size_bytes": 78694081
+      },
+      {
+        "id": "allegro_oam_l_0_1",
+        "display_name": "Allegro OAM-L 0.1",
+        "kind": "model_checkpoint",
+        "selectable": true,
+        "compatible_backends": [
+          "allegro"
+        ],
+        "format": "NequIP compiled Allegro model archive",
+        "version": "0.1",
+        "path": ".model_cache/nequip/0.1/Allegro-OAM-L-0.1.nequip.zip",
+        "checksum_algorithm": "sha256",
+        "checksum": "3f0d3ca7bb136d4c2ee76278170fcbe756436f037e16c673a86e2c57d271c64e",
+        "source_url": "https://zenodo.org/records/18775904",
+        "license_and_citation": "CC BY 4.0; cite DOI 10.5281/zenodo.18775904 and the model/upstream Allegro work.",
+        "scientific_scope": "Large OAM pretrained Allegro model intended mainly for inorganic materials; no automatic model selection.",
+        "available": true,
+        "selection_required": true,
+        "selection_syntax": "resource://allegro_oam_l_0_1",
+        "size_bytes": 80738705
+      },
+      {
+        "id": "allegro_mp_l_0_1",
+        "display_name": "Allegro MP-L 0.1",
+        "kind": "model_checkpoint",
+        "selectable": true,
+        "compatible_backends": [
+          "allegro"
+        ],
+        "format": "NequIP compiled Allegro model archive",
+        "version": "0.1",
+        "path": ".model_cache/nequip/0.1/Allegro-MP-L-0.1.nequip.zip",
+        "checksum_algorithm": "sha256",
+        "checksum": "ccc412a2e46b70528235067d45baab2bcc8ca48fda85516529de6caa030eeb8b",
+        "source_url": "https://zenodo.org/records/18775904",
+        "license_and_citation": "CC BY 4.0; cite DOI 10.5281/zenodo.18775904 and the model/upstream Allegro work.",
+        "scientific_scope": "Large Materials-Project-oriented pretrained Allegro model; the Agent must judge suitability and coverage.",
+        "available": true,
+        "selection_required": true,
+        "selection_syntax": "resource://allegro_mp_l_0_1",
+        "size_bytes": 153640224
+      },
+      {
+        "id": "deepmd_dpa_3_1_3m",
+        "display_name": "DeePMD DPA-3.1-3M",
+        "kind": "model_checkpoint",
+        "selectable": true,
+        "compatible_backends": [
+          "deepmd"
+        ],
+        "format": "DeePMD PyTorch frozen multitask model",
+        "version": "DPA-3.1-3M",
+        "path": ".model_cache/deepmd/pretrained/DPA-3.1-3M.pt",
+        "checksum_algorithm": "sha256",
+        "checksum": "86dd3a804d78ca5d203ebf98747e8f16dff9713ba8950097ceb760b161e19907",
+        "model_branches": [
+          "Domains_Alloy",
+          "Domains_Anode",
+          "Domains_Cluster",
+          "Domains_Drug",
+          "Domains_FerroEle",
+          "Domains_SSE_PBE",
+          "Domains_SemiCond",
+          "H2O_H2O_PD",
+          "Metals_AlMgCu",
+          "Metals_Sn",
+          "Metals_Ti",
+          "Metals_V",
+          "Metals_W",
+          "Others_HfO2",
+          "Domains_SSE_PBESol",
+          "Domains_Transition1x",
+          "Metals_AgAu_PBED3",
+          "Others_In2Se3",
+          "MP_traj_v024_alldata_mixu",
+          "Alloy_tongqi",
+          "SSE_ABACUS",
+          "Hybrid_Perovskite",
+          "solvated_protein_fragments",
+          "Electrolyte",
+          "ODAC23",
+          "Alex2D",
+          "Omat24",
+          "SPICE2",
+          "OC20M",
+          "OC22",
+          "Organic_Reactions"
+        ],
+        "source_url": "https://docs.deepmodeling.com/projects/deepmd/en/latest/model/pretrained.html",
+        "license_and_citation": "Downloaded through the official DeePMD pretrained-model registry; retain and follow the registry/model-specific license and citation metadata.",
+        "scientific_scope": "General multitask atomistic model. The Agent must explicitly select one registered branch and judge its chemistry/domain suitability.",
+        "available": true,
+        "selection_required": true,
+        "selection_syntax": "resource://deepmd_dpa_3_1_3m",
+        "size_bytes": 47176032
+      },
+      {
+        "id": "deepmd_dpa_3_2_5m",
+        "display_name": "DeePMD DPA-3.2-5M",
+        "kind": "model_checkpoint",
+        "selectable": true,
+        "compatible_backends": [
+          "deepmd"
+        ],
+        "format": "DeePMD PyTorch frozen multitask model",
+        "version": "DPA-3.2-5M",
+        "path": ".model_cache/deepmd/pretrained/DPA-3.2-5M.pt",
+        "checksum_algorithm": "sha256",
+        "checksum": "876354744aeaae17b2639a6a690514470273784f2b4836280850f50cbb799165",
+        "model_branches": [
+          "OMat24",
+          "OMol25",
+          "OC20M",
+          "Alloy_APEX",
+          "Domains_Alloy",
+          "Alex2D",
+          "ODAC23",
+          "Organic_Reactions",
+          "OC22",
+          "MPTrj",
+          "SSE_ABACUS",
+          "Domains_SSE_PBE",
+          "Electrolyte",
+          "Domains_SemiCond",
+          "Domains_Anode",
+          "Domains_Cluster",
+          "Hybrid_Perovskite",
+          "Domains_FerroEle",
+          "H2O_H2O_PD",
+          "Others_In2Se3",
+          "Metals_AlMgCu",
+          "Metals_AgAu_PBED3",
+          "MPGen_OpenCSP"
+        ],
+        "model_branch_aliases": {
+          "Default": "OMat24",
+          "Materials": "OMat24",
+          "Omat24": "OMat24",
+          "Molecules": "OMol25",
+          "omol25": "OMol25",
+          "Catalysis": "OC20M",
+          "Alloys": "Alloy_APEX"
+        },
+        "source_url": "https://docs.deepmodeling.com/projects/deepmd/en/latest/model/pretrained.html",
+        "license_and_citation": "Downloaded through the official DeePMD pretrained-model registry; retain and follow the registry/model-specific license and citation metadata.",
+        "scientific_scope": "General multitask atomistic model. The Agent must explicitly select one registered branch; aliases are exposed only as transparent metadata.",
+        "available": true,
+        "selection_required": true,
+        "selection_syntax": "resource://deepmd_dpa_3_2_5m",
+        "size_bytes": 64800782
+      },
+      {
+        "id": "deepmd_dpa_3_3_1m",
+        "display_name": "DeePMD DPA-3.3-1M",
+        "kind": "model_checkpoint",
+        "selectable": true,
+        "compatible_backends": [
+          "deepmd"
+        ],
+        "format": "DeePMD PyTorch frozen multitask model",
+        "version": "DPA-3.3-1M",
+        "path": ".model_cache/deepmd/pretrained/DPA-3.3-1M.pt",
+        "checksum_algorithm": "sha256",
+        "checksum": "36fe440c111108d60cda54aa7d3fccac743794de25abef4d49564b9fb896a55b",
+        "model_branches": [
+          "Domains_Alloy",
+          "Domains_Anode",
+          "Domains_Cluster",
+          "Domains_FerroEle",
+          "Domains_SSE_PBE",
+          "Domains_SemiCond",
+          "H2O_H2O_PD",
+          "Metals_AlMgCu",
+          "Metals_AgAu_PBED3",
+          "Others_In2Se3",
+          "MPGen_OpenCSP",
+          "Alloy_tongqi",
+          "SSE_ABACUS",
+          "Hybrid_Perovskite",
+          "Electrolyte",
+          "ODAC23",
+          "Alex2D",
+          "Omat24",
+          "OC20M",
+          "OC22",
+          "Organic_Reactions",
+          "OMol25",
+          "MPTrj"
+        ],
+        "source_url": "https://docs.deepmodeling.com/projects/deepmd/en/latest/model/pretrained.html",
+        "license_and_citation": "Downloaded through the official DeePMD pretrained-model registry; retain and follow the registry/model-specific license and citation metadata.",
+        "scientific_scope": "General multitask atomistic model. The Agent must explicitly select one registered branch and judge its chemistry/domain suitability.",
+        "available": true,
+        "selection_required": true,
+        "selection_syntax": "resource://deepmd_dpa_3_3_1m",
+        "size_bytes": 41612295
+      },
+      {
+        "id": "deepmd_dpa_2_4_7m",
+        "display_name": "DeePMD DPA-2.4-7M",
+        "kind": "model_checkpoint",
+        "selectable": true,
+        "compatible_backends": [
+          "deepmd"
+        ],
+        "format": "DeePMD PyTorch frozen multitask model",
+        "version": "DPA-2.4-7M",
+        "path": ".model_cache/deepmd/pretrained/dpa-2.4-7M.pt",
+        "checksum_algorithm": "sha256",
+        "checksum": "904eb5560af9ff644347dedd3ebf1e9c97929d02ee37ce3cbe895de3df711198",
+        "model_branches": [
+          "Domains_Alloy",
+          "Domains_Anode",
+          "Domains_Cluster",
+          "Domains_Drug",
+          "Domains_FerroEle",
+          "Domains_SSE_PBE",
+          "Domains_SemiCond",
+          "H2O_H2O_PD",
+          "Metals_AlMgCu",
+          "Metals_Cu",
+          "Metals_Sn",
+          "Metals_Ti",
+          "Metals_V",
+          "Metals_W",
+          "Others_C12H26",
+          "Others_HfO2",
+          "Domains_SSE_PBESol",
+          "Domains_Transition1x",
+          "H2O_H2O_DPLR",
+          "H2O_H2O_PBE0TS_MD",
+          "H2O_H2O_PBE0TS",
+          "H2O_H2O_SCAN0",
+          "Metals_AgAu_PBED3",
+          "Others_In2Se3",
+          "MP_traj_v024_alldata_mixu",
+          "Alloy_tongqi",
+          "SSE_ABACUS",
+          "Hybrid_Perovskite",
+          "solvated_protein_fragments",
+          "Electrolyte",
+          "ODAC23",
+          "Alex2D",
+          "Omat24",
+          "SPICE2",
+          "OC20M",
+          "OC22",
+          "Organic_Reactions",
+          "GPUMD",
+          "OPoly26"
+        ],
+        "source_url": "https://docs.deepmodeling.com/projects/deepmd/en/latest/model/pretrained.html",
+        "license_and_citation": "Downloaded through the official DeePMD pretrained-model registry; retain and follow the registry/model-specific license and citation metadata.",
+        "scientific_scope": "General multitask atomistic model. The Agent must explicitly select one registered branch and judge its chemistry/domain suitability.",
+        "available": true,
+        "selection_required": true,
+        "selection_syntax": "resource://deepmd_dpa_2_4_7m",
+        "size_bytes": 169224765
+      },
+      {
+        "id": "deepmd_dpa3_omol_large",
+        "display_name": "DeePMD DPA3-Omol-Large",
+        "kind": "model_checkpoint",
+        "selectable": true,
+        "compatible_backends": [
+          "deepmd"
+        ],
+        "format": "DeePMD PyTorch frozen single-task model",
+        "version": "DPA3-Omol-Large",
+        "path": ".model_cache/deepmd/pretrained/DPA3-Omol-Large.pt",
+        "checksum_algorithm": "sha256",
+        "checksum": "dc4d252b31450b41eb3546cc48f640ad0831c0b5d069ce27d996e0ff58fc037a",
+        "single_task": true,
+        "source_url": "https://docs.deepmodeling.com/projects/deepmd/en/latest/model/pretrained.html",
+        "license_and_citation": "Downloaded through the official DeePMD pretrained-model registry; retain and follow the registry/model-specific license and citation metadata.",
+        "scientific_scope": "OMol-oriented single-task molecular model. The Agent must explicitly request model_branch=single_task and supply charge/spin.",
+        "available": true,
+        "selection_required": true,
+        "selection_syntax": "resource://deepmd_dpa3_omol_large",
+        "size_bytes": 224057430
+      },
+      {
+        "id": "vasp_6_3_2_testsuite_si_potcar",
+        "display_name": "VASP 6.3.2 bundled testsuite Si POTCAR",
+        "kind": "single_file_resource",
+        "selectable": true,
+        "compatible_backends": [
+          "vasp"
+        ],
+        "format": "VASP POTCAR",
+        "version": "VASP 6.3.2 testsuite",
+        "path": ".software_cache/vasp/6.3.2/testsuite/POTCARS/POTCAR.Si",
+        "checksum_algorithm": "sha256",
+        "checksum": "813aade8d7556478a138318a1b54ce2f88eca7e031fc006066720bc984f36595",
+        "source_url": "https://vasp.at/wiki/Installing_VASP.6.X.X",
+        "license_and_citation": "Licensed VASP testsuite input supplied with the operator-provided source. Do not redistribute; follow the VASP license and citation requirements.",
+        "scientific_scope": "Si-only adapter validation resource. It is not a substitute for a licensed production PAW POTCAR library.",
+        "available": true,
+        "selection_required": true,
+        "selection_syntax": "resource://vasp_6_3_2_testsuite_si_potcar",
+        "size_bytes": 150218
       }
     ],
-    "catalog_hash": "f3c4f3f7a40b5b2b27a1b031b4d6269fea0ec29e59a471e35b589e23cba22949"
+    "catalog_hash": "e2e60aecab6a4267e025530239b82bf62899a7910227260e14d17b07ee8c73fe"
   },
   "installation": {
-    "catalog_hash": "f3c4f3f7a40b5b2b27a1b031b4d6269fea0ec29e59a471e35b589e23cba22949",
+    "catalog_hash": "e2e60aecab6a4267e025530239b82bf62899a7910227260e14d17b07ee8c73fe",
     "unavailable_backend_count": 0,
     "unavailable_backends": [],
     "conda_packages": [],
     "pip_packages": [],
     "required_data_resources": [
+      {
+        "backend_id": "deepmd",
+        "resources": [
+          "Explicit resource:// DeePMD model checkpoint; multitask checkpoints require a named model_branch and single-task checkpoints require model_branch=single_task"
+        ]
+      },
+      {
+        "backend_id": "nequip",
+        "resources": [
+          "Explicit resource:// NequIP checkpoint or workspace model ArtifactRef"
+        ]
+      },
+      {
+        "backend_id": "allegro",
+        "resources": [
+          "Explicit resource:// Allegro checkpoint or workspace model ArtifactRef"
+        ]
+      },
       {
         "backend_id": "quantum_espresso",
         "resources": [
@@ -6290,6 +7245,12 @@
         "backend_id": "abinit",
         "resources": [
           "Explicit ResourceRefs from abinit_pseudo_dojo_nc_sr_pbe_standard_psp8, one per element; workspace ArtifactRefs remain accepted"
+        ]
+      },
+      {
+        "backend_id": "vasp",
+        "resources": [
+          "One explicit POTCAR ResourceRef or workspace ArtifactRef per element; the registered Si POTCAR is testsuite-only and no production PAW family is selected automatically"
         ]
       }
     ],
@@ -6374,6 +7335,123 @@
         ],
         "available": true,
         "selection_syntax": "runtime-managed"
+      },
+      {
+        "resource_id": "nequip_oam_s_0_1",
+        "kind": "model_checkpoint",
+        "compatible_backends": [
+          "nequip"
+        ],
+        "available": true,
+        "selection_syntax": "resource://nequip_oam_s_0_1"
+      },
+      {
+        "resource_id": "nequip_oam_m_0_1",
+        "kind": "model_checkpoint",
+        "compatible_backends": [
+          "nequip"
+        ],
+        "available": true,
+        "selection_syntax": "resource://nequip_oam_m_0_1"
+      },
+      {
+        "resource_id": "nequip_oam_l_0_1",
+        "kind": "model_checkpoint",
+        "compatible_backends": [
+          "nequip"
+        ],
+        "available": true,
+        "selection_syntax": "resource://nequip_oam_l_0_1"
+      },
+      {
+        "resource_id": "nequip_oam_xl_0_1",
+        "kind": "model_checkpoint",
+        "compatible_backends": [
+          "nequip"
+        ],
+        "available": true,
+        "selection_syntax": "resource://nequip_oam_xl_0_1"
+      },
+      {
+        "resource_id": "nequip_mp_l_0_1",
+        "kind": "model_checkpoint",
+        "compatible_backends": [
+          "nequip"
+        ],
+        "available": true,
+        "selection_syntax": "resource://nequip_mp_l_0_1"
+      },
+      {
+        "resource_id": "allegro_oam_l_0_1",
+        "kind": "model_checkpoint",
+        "compatible_backends": [
+          "allegro"
+        ],
+        "available": true,
+        "selection_syntax": "resource://allegro_oam_l_0_1"
+      },
+      {
+        "resource_id": "allegro_mp_l_0_1",
+        "kind": "model_checkpoint",
+        "compatible_backends": [
+          "allegro"
+        ],
+        "available": true,
+        "selection_syntax": "resource://allegro_mp_l_0_1"
+      },
+      {
+        "resource_id": "deepmd_dpa_3_1_3m",
+        "kind": "model_checkpoint",
+        "compatible_backends": [
+          "deepmd"
+        ],
+        "available": true,
+        "selection_syntax": "resource://deepmd_dpa_3_1_3m"
+      },
+      {
+        "resource_id": "deepmd_dpa_3_2_5m",
+        "kind": "model_checkpoint",
+        "compatible_backends": [
+          "deepmd"
+        ],
+        "available": true,
+        "selection_syntax": "resource://deepmd_dpa_3_2_5m"
+      },
+      {
+        "resource_id": "deepmd_dpa_3_3_1m",
+        "kind": "model_checkpoint",
+        "compatible_backends": [
+          "deepmd"
+        ],
+        "available": true,
+        "selection_syntax": "resource://deepmd_dpa_3_3_1m"
+      },
+      {
+        "resource_id": "deepmd_dpa_2_4_7m",
+        "kind": "model_checkpoint",
+        "compatible_backends": [
+          "deepmd"
+        ],
+        "available": true,
+        "selection_syntax": "resource://deepmd_dpa_2_4_7m"
+      },
+      {
+        "resource_id": "deepmd_dpa3_omol_large",
+        "kind": "model_checkpoint",
+        "compatible_backends": [
+          "deepmd"
+        ],
+        "available": true,
+        "selection_syntax": "resource://deepmd_dpa3_omol_large"
+      },
+      {
+        "resource_id": "vasp_6_3_2_testsuite_si_potcar",
+        "kind": "single_file_resource",
+        "compatible_backends": [
+          "vasp"
+        ],
+        "available": true,
+        "selection_syntax": "resource://vasp_6_3_2_testsuite_si_potcar"
       }
     ],
     "missing_registered_scientific_resources": [],

@@ -23,7 +23,7 @@ bash scripts/setup_toolbox_env.sh
 ```
 
 安装脚本会自动注册 `researchchem-core`、`researchchem-quantum`、`researchchem-md` 等
-14 个 Conda 名称。现有前缀只需补注册/修复运行库时执行：
+17 个 Conda 名称（包括独立的 NequIP/Allegro、DeePMD 模型推理和 VASP runtime）。现有前缀只需补注册/修复运行库时执行：
 
 ```bash
 .toolbox_env/bin/python scripts/configure_mcp_conda_envs.py
@@ -88,8 +88,14 @@ cp config.local.env.example config.local.env
 
 - ORCA 6.1.1：`.software_cache/orca/6.1.1/`；稳定入口 `.tool_envs/quantum/bin/orca`；
 - ORCA 专用 OpenMPI 4.1.8：`.software_cache/openmpi/4.1.8/`；稳定入口 `.tool_envs/quantum/bin/mpirun`；
+- VASP 6.3.2：`.software_cache/vasp/6.3.2/`；稳定入口 `.tool_envs/vasp/bin/vasp_std`；
+- RMG-Py 4.0.0 源码与数据库：`.software_cache/rmg/`；
+- EasySpin 6.0.12 工具箱：`.software_cache/easyspin/6.0.12/`（仍需 MATLAB）；
+- NequIP/Allegro 与 DeePMD checkpoint：分别位于 `.model_cache/nequip/0.1/`、`.model_cache/deepmd/pretrained/`；
 - GNINA 1.3.3：`.software_cache/gnina/1.3.3/`；
 - 周期软件赝势与 DFTB+ 参数集：由 `config/toolbox_resources.json` 注册；
-- 当前 BackendSpec 45/45 available，注册资源 9/9 通过校验。
+- 当前 BackendSpec 49/49 available，注册资源 22/22 通过校验，真实资源计算 23/23 通过。
 
-这些软件、数据和安装包均被 Git 忽略。迁移到新机器时需重新提供有权使用的 ORCA/GNINA 文件和科学数据，再运行 `scripts/configure_toolbox_resources.py`；不要提交或重新分发 ORCA 安装包及其软件目录。
+这些软件、模型、数据和安装包均被 Git 忽略。迁移到新机器时需重新提供有权使用的 ORCA、VASP、GNINA 文件及科学资源，再运行 `scripts/configure_toolbox_resources.py`；不要提交或重新分发受许可约束的软件、POTCAR 或模型文件。
+
+VASP 的本机 GCC/OpenMPI 构建参数另存为 `config/vasp_makefile.include.gcc_openmpi`。重新提供合法源码后，将其复制为源码根目录的 `makefile.include`，在 `.tool_envs/vasp` 的编译器/MPI 环境中串行执行 `make std`；生产计算还必须另行提供有权使用的 PAW POTCAR 库。

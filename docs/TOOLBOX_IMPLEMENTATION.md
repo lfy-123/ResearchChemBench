@@ -1,6 +1,6 @@
 # 化学工具箱初版实现说明
 
-> 2026-07-18 更新：旧 41 个文件式工具已经由 40 Scientific Actions、4 Data Actions 和 45 BackendSpecs 取代。当前实现报告见 `docs/tools/CHEMISTRY_TOOLBOX_REFACTOR_REPORT.md`，完整目录见 `evaluation/mcp_tools/TOOL_CATALOG.md`。下文旧接口说明仅作为迁移历史。
+> 2026-07-19 更新：旧 41 个文件式工具已经由 40 Scientific Actions、4 Data Actions 和 49 BackendSpecs 取代。当前实现报告见 `docs/tools/CHEMISTRY_TOOLBOX_REFACTOR_REPORT.md`，完整目录见 `evaluation/mcp_tools/TOOL_CATALOG.md`。下文旧接口说明仅作为迁移历史。
 
 ## 1. 实现范围
 

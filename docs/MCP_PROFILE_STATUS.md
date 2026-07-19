@@ -1,8 +1,8 @@
 # Backend runtime status
 
-Generated: 2026-07-18T19:02:19.081516+00:00
+Generated: 2026-07-19T08:43:54.289071+00:00
 Public MCP tools: 44 (same for every task)
-Backend runtimes checked: 14
+Backend runtimes checked: 17
 
 | Runtime | Group | Conda environment | Backends | Required checks | Detail |
 |---|---|---|---:|---|---|
@@ -18,6 +18,9 @@ Backend runtimes checked: 14
 | `md` | profiles | `researchchem-md` | 8 | 通过 | 8/8 backends currently available |
 | `openff` | profiles | `researchchem-openff` | 2 | 通过 | 2/2 backends currently available |
 | `mlip` | profiles | `researchchem-mlip` | 2 | 通过 | 2/2 backends currently available |
+| `nequip` | profiles | `researchchem-nequip` | 2 | 通过 | 2/2 backends currently available |
+| `deepmd` | profiles | `researchchem-deepmd-models` | 1 | 通过 | 1/1 backends currently available |
+| `vasp` | profiles | `researchchem-vasp` | 1 | 通过 | 1/1 backends currently available |
 | `docking` | profiles | `researchchem-docking` | 2 | 通过 | 2/2 backends currently available |
 | `abinit` | support_environments | `researchchem-abinit` | 1 | 通过 | 1/1 backends currently available |
 

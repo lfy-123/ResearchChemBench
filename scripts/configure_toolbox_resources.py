@@ -310,6 +310,39 @@ def verify_data_resource(specification: dict[str, Any], *, verify_only: bool, de
     return result
 
 
+def verify_single_file_resource(specification: dict[str, Any]) -> dict[str, Any]:
+    """Verify an Agent-selectable model or other exact scientific input file."""
+
+    path = declared_path(str(specification["path"]))
+    errors: list[str] = []
+    result: dict[str, Any] = {
+        "id": specification["id"],
+        "kind": specification["kind"],
+        "path": relative(path),
+        "exists": path.is_file(),
+        "size_bytes": path.stat().st_size if path.is_file() else None,
+    }
+    if not path.is_file():
+        errors.append(f"Missing registered file: {path}")
+    algorithm = str(specification.get("checksum_algorithm") or "").strip()
+    expected = str(specification.get("checksum") or "").strip()
+    if not algorithm or not expected:
+        errors.append("Exact file resources require checksum_algorithm and checksum")
+    elif path.is_file():
+        actual = file_checksum(path, algorithm)
+        result["checksum"] = {
+            "algorithm": algorithm,
+            "expected": expected,
+            "actual": actual,
+            "ok": actual.lower() == expected.lower(),
+        }
+        if not result["checksum"]["ok"]:
+            errors.append("Registered file checksum mismatch")
+    result["errors"] = errors
+    result["status"] = "pass" if not errors else "fail"
+    return result
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
@@ -329,6 +362,8 @@ def main() -> int:
     for specification in config["resources"]:
         if specification["kind"] == "backend_executable":
             results.append(install_executable(specification, verify_only=args.verify_only))
+        elif specification["kind"] in {"model_checkpoint", "single_file_resource"}:
+            results.append(verify_single_file_resource(specification))
         else:
             results.append(
                 verify_data_resource(

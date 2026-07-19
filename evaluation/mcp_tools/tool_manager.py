@@ -7,6 +7,8 @@ import json
 from pathlib import Path
 from typing import Any
 
+from dotenv import load_dotenv
+
 from researchchem_toolbox.catalog import (
     action_specs,
     backend_specs,
@@ -19,7 +21,9 @@ from .registry import configuration_errors
 
 
 PACKAGE_ROOT = Path(__file__).resolve().parent
+PROJECT_ROOT = PACKAGE_ROOT.parents[1]
 DEFAULT_CATALOG_PATH = PACKAGE_ROOT / "TOOL_CATALOG.md"
+load_dotenv(PROJECT_ROOT / "config.local.env", override=False)
 
 
 def installation_report() -> dict[str, Any]:

@@ -1,14 +1,14 @@
 # ResearchChem Atomic Toolbox Status
 
-Generated: `2026-07-18T21:28:41.946877+00:00`
-Catalog hash: `f3c4f3f7a40b5b2b27a1b031b4d6269fea0ec29e59a471e35b589e23cba22949`
+Generated: `2026-07-19T08:59:03.257928+00:00`
+Catalog hash: `e2e60aecab6a4267e025530239b82bf62899a7910227260e14d17b07ee8c73fe`
 
 ## Summary
 
 - Scientific Actions: 40
 - Data Actions: 4
-- BackendSpecs: 45
-- Available backends: 45
+- BackendSpecs: 49
+- Available backends: 49
 - Unavailable backends: 0
 - Exposure: full catalog for every task
 - Backend selection: Agent required
@@ -41,6 +41,19 @@ Pip: none
 - `gnina_1_3_3_cuda12_8_linux_x86_64` / gnina: **available**; selection `runtime-managed`
 - `orca_6_1_1_linux_x86_64_shared_openmpi418_avx2` / orca: **available**; selection `runtime-managed`
 - `openmpi_4_1_8_orca_runtime` / orca: **available**; selection `runtime-managed`
+- `nequip_oam_s_0_1` / nequip: **available**; selection `resource://nequip_oam_s_0_1`
+- `nequip_oam_m_0_1` / nequip: **available**; selection `resource://nequip_oam_m_0_1`
+- `nequip_oam_l_0_1` / nequip: **available**; selection `resource://nequip_oam_l_0_1`
+- `nequip_oam_xl_0_1` / nequip: **available**; selection `resource://nequip_oam_xl_0_1`
+- `nequip_mp_l_0_1` / nequip: **available**; selection `resource://nequip_mp_l_0_1`
+- `allegro_oam_l_0_1` / allegro: **available**; selection `resource://allegro_oam_l_0_1`
+- `allegro_mp_l_0_1` / allegro: **available**; selection `resource://allegro_mp_l_0_1`
+- `deepmd_dpa_3_1_3m` / deepmd: **available**; selection `resource://deepmd_dpa_3_1_3m`
+- `deepmd_dpa_3_2_5m` / deepmd: **available**; selection `resource://deepmd_dpa_3_2_5m`
+- `deepmd_dpa_3_3_1m` / deepmd: **available**; selection `resource://deepmd_dpa_3_3_1m`
+- `deepmd_dpa_2_4_7m` / deepmd: **available**; selection `resource://deepmd_dpa_2_4_7m`
+- `deepmd_dpa3_omol_large` / deepmd: **available**; selection `resource://deepmd_dpa3_omol_large`
+- `vasp_6_3_2_testsuite_si_potcar` / vasp: **available**; selection `resource://vasp_6_3_2_testsuite_si_potcar`
 
 ## Smoke
 

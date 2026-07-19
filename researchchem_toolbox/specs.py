@@ -121,7 +121,7 @@ ACTION_SPECS: tuple[ActionSpec, ...] = (
         "molecular_electronic",
         "Calculate one molecular or non-periodic scalar energy with the exact software and method selected by the agent.",
         "EnergyResult",
-        ("xtb", "pyscf", "psi4", "tblite", "mace", "chgnet", "orca", "ase_emt"),
+        ("xtb", "pyscf", "psi4", "tblite", "mace", "chgnet", "deepmd", "orca", "ase_emt"),
         ("structure",),
         input_description="non-periodic AtomicStructure",
     ),
@@ -130,7 +130,7 @@ ACTION_SPECS: tuple[ActionSpec, ...] = (
         "molecular_electronic",
         "Calculate atomic forces for one non-periodic structure or an aligned batch.",
         "ForceResult",
-        ("tblite", "mace", "chgnet", "ase_emt"),
+        ("tblite", "mace", "chgnet", "deepmd", "ase_emt"),
         ("structure",),
         input_description="AtomicStructure or a homogeneous structure batch",
     ),
@@ -148,7 +148,7 @@ ACTION_SPECS: tuple[ActionSpec, ...] = (
         "molecular_electronic",
         "Optimize one non-periodic geometry and return the optimized structure only as the primary result.",
         "AtomicStructure",
-        ("xtb", "tblite", "mace", "chgnet", "orca", "ase_emt"),
+        ("xtb", "tblite", "mace", "chgnet", "deepmd", "orca", "ase_emt"),
         ("structure",),
         input_description="AtomicStructure plus explicit convergence and optional constraints",
     ),
@@ -322,7 +322,7 @@ ACTION_SPECS: tuple[ActionSpec, ...] = (
         "periodic_and_phonons",
         "Calculate one periodic-system energy with the explicitly selected electronic-structure backend.",
         "EnergyResult",
-        ("quantum_espresso", "cp2k", "siesta", "dftbplus", "abinit"),
+        ("quantum_espresso", "cp2k", "siesta", "dftbplus", "abinit", "vasp", "nequip", "allegro", "deepmd"),
         ("structure",),
         input_description="periodic AtomicStructure with cell and PBC",
     ),
@@ -331,7 +331,7 @@ ACTION_SPECS: tuple[ActionSpec, ...] = (
         "periodic_and_phonons",
         "Calculate periodic atomic forces for one structure or aligned displaced-structure batch.",
         "ForceResult",
-        ("quantum_espresso", "cp2k", "siesta", "dftbplus", "abinit"),
+        ("quantum_espresso", "cp2k", "siesta", "dftbplus", "abinit", "vasp", "nequip", "allegro", "deepmd"),
         ("structure",),
         input_description="periodic AtomicStructure or homogeneous structure batch",
     ),
@@ -340,7 +340,7 @@ ACTION_SPECS: tuple[ActionSpec, ...] = (
         "periodic_and_phonons",
         "Calculate one periodic stress tensor without relaxing the structure.",
         "StressResult",
-        ("quantum_espresso", "cp2k", "abinit"),
+        ("quantum_espresso", "cp2k", "abinit", "vasp", "nequip", "allegro", "deepmd"),
         ("structure",),
         input_description="periodic AtomicStructure",
     ),
@@ -349,7 +349,7 @@ ACTION_SPECS: tuple[ActionSpec, ...] = (
         "periodic_and_phonons",
         "Relax a periodic structure under explicit atomic/cell constraints.",
         "AtomicStructure",
-        ("quantum_espresso", "cp2k", "siesta", "dftbplus", "abinit"),
+        ("quantum_espresso", "cp2k", "siesta", "dftbplus", "abinit", "vasp", "nequip", "allegro", "deepmd"),
         ("structure",),
         input_description="periodic AtomicStructure plus explicit relaxation controls",
     ),
@@ -507,6 +507,30 @@ _DFTB_SETTINGS = {
 }
 
 
+_MLIP_PERIODIC_RELAX = {
+    "relax_periodic_structure": (
+        "force_threshold_ev_per_angstrom",
+        "max_steps",
+        "relax_cell",
+        "optimizer",
+    )
+}
+
+
+_VASP_SETTINGS = {
+    "calculate_periodic_energy": ("scf_convergence_ev", "max_scf_cycles"),
+    "calculate_periodic_forces": ("scf_convergence_ev", "max_scf_cycles"),
+    "calculate_periodic_stress": ("scf_convergence_ev", "max_scf_cycles"),
+    "relax_periodic_structure": (
+        "scf_convergence_ev",
+        "max_scf_cycles",
+        "force_threshold_ev_per_angstrom",
+        "max_steps",
+        "relax_cell",
+    ),
+}
+
+
 BACKEND_SPECS: tuple[BackendSpec, ...] = (
     _backend(
         "rdkit", "RDKit", "core",
@@ -650,6 +674,92 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         modules=("chgnet", "ase"), pip=("chgnet",),
         required_methods={action: ("model", "device", "allow_model_download") for action in ("calculate_energy", "calculate_forces", "optimize_geometry")},
         required_settings={"optimize_geometry": ("fmax_ev_per_angstrom", "optimizer", "max_steps")},
+    ),
+    _backend(
+        "deepmd", "DeePMD-kit", "deepmd",
+        (
+            "calculate_energy", "calculate_forces", "optimize_geometry",
+            "calculate_periodic_energy", "calculate_periodic_forces",
+            "calculate_periodic_stress", "relax_periodic_structure",
+        ),
+        "DeePMD inference from an exact registered checkpoint and an explicit multitask branch; the adapter never chooses or downloads a model.",
+        modules=("deepmd", "ase"), executables=("dp",),
+        pip=("deepmd-kit==3.2.0b0", "ase", "e3nn"),
+        data_resources=(
+            "Explicit resource:// DeePMD model checkpoint; multitask checkpoints require a named model_branch and single-task checkpoints require model_branch=single_task",
+        ),
+        method_schema={
+            "model": "resource://<registered_deepmd_checkpoint> or an explicit workspace file ArtifactRef",
+            "device": "cpu (the configured inference runtime is CPU-only)",
+            "model_branch": "exact registered multitask branch, or the literal single_task",
+            "charge": "explicit total charge supplied as a DeePMD frame parameter",
+            "spin": "explicit spin value supplied as a DeePMD frame parameter",
+            "frame_parameters": "optional additional explicit per-frame parameters",
+        },
+        required_methods={
+            action: ("model", "device", "model_branch", "charge", "spin")
+            for action in (
+                "calculate_energy", "calculate_forces", "optimize_geometry",
+                "calculate_periodic_energy", "calculate_periodic_forces",
+                "calculate_periodic_stress", "relax_periodic_structure",
+            )
+        },
+        required_settings={
+            "optimize_geometry": ("fmax_ev_per_angstrom", "optimizer", "max_steps"),
+            **_MLIP_PERIODIC_RELAX,
+        },
+    ),
+    _backend(
+        "nequip", "NequIP", "nequip",
+        (
+            "calculate_periodic_energy", "calculate_periodic_forces",
+            "calculate_periodic_stress", "relax_periodic_structure",
+        ),
+        "NequIP inference from the exact checkpoint and species mapping selected by the Agent.",
+        modules=("nequip", "torch", "e3nn", "ase"),
+        executables=("nequip-train",), pip=("nequip==0.19.0",),
+        data_resources=("Explicit resource:// NequIP checkpoint or workspace model ArtifactRef",),
+        method_schema={
+            "model": "resource://<registered_nequip_checkpoint> or an explicit workspace file ArtifactRef",
+            "device": "cpu, cuda, or cuda:<index>",
+            "chemical_species_mapping": "identity or an explicit element-to-model-type mapping",
+            "allow_tf32": "explicit boolean controlling CUDA TF32 use",
+            "neighborlist_backend": "optional NequIP neighbor-list backend; default matscipy",
+        },
+        required_methods={
+            action: ("model", "device", "chemical_species_mapping", "allow_tf32")
+            for action in (
+                "calculate_periodic_energy", "calculate_periodic_forces",
+                "calculate_periodic_stress", "relax_periodic_structure",
+            )
+        },
+        required_settings=_MLIP_PERIODIC_RELAX,
+    ),
+    _backend(
+        "allegro", "Allegro", "nequip",
+        (
+            "calculate_periodic_energy", "calculate_periodic_forces",
+            "calculate_periodic_stress", "relax_periodic_structure",
+        ),
+        "Allegro inference through the NequIP integration using the exact checkpoint and species mapping selected by the Agent.",
+        modules=("allegro", "nequip", "torch", "e3nn", "ase"),
+        pip=("nequip-allegro==0.8.3", "nequip==0.19.0"),
+        data_resources=("Explicit resource:// Allegro checkpoint or workspace model ArtifactRef",),
+        method_schema={
+            "model": "resource://<registered_allegro_checkpoint> or an explicit workspace file ArtifactRef",
+            "device": "cpu, cuda, or cuda:<index>",
+            "chemical_species_mapping": "identity or an explicit element-to-model-type mapping",
+            "allow_tf32": "explicit boolean controlling CUDA TF32 use",
+            "neighborlist_backend": "optional NequIP neighbor-list backend; default matscipy",
+        },
+        required_methods={
+            action: ("model", "device", "chemical_species_mapping", "allow_tf32")
+            for action in (
+                "calculate_periodic_energy", "calculate_periodic_forces",
+                "calculate_periodic_stress", "relax_periodic_structure",
+            )
+        },
+        required_settings=_MLIP_PERIODIC_RELAX,
     ),
     _backend(
         "orca", "ORCA", "quantum",
@@ -855,6 +965,51 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         },
         required_methods={action: ("ixc", "pseudopotentials", "ecut_hartree", "k_points") for action in ("calculate_periodic_energy", "calculate_periodic_forces", "calculate_periodic_stress", "relax_periodic_structure")},
         required_settings=_PERIODIC_RELAX,
+    ),
+    _backend(
+        "vasp", "VASP", "vasp",
+        (
+            "calculate_periodic_energy", "calculate_periodic_forces",
+            "calculate_periodic_stress", "relax_periodic_structure",
+        ),
+        "Locally licensed VASP 6.3.2 periodic calculations with explicit POTCAR ResourceRefs, INCAR controls, k-point mesh, and convergence settings.",
+        executables=("vasp_std",), environment=("CHEMGRAPH_VASP_COMMAND",),
+        license_class="commercial_license",
+        data_resources=(
+            "One explicit POTCAR ResourceRef or workspace ArtifactRef per element; the registered Si POTCAR is testsuite-only and no production PAW family is selected automatically",
+        ),
+        install_notes=(
+            "VASP 6.3.2 was built locally from the operator-provided source. "
+            "A bundled Si testsuite POTCAR validates the adapter; production use still requires the operator's licensed PAW dataset."
+        ),
+        method_schema={
+            "pseudopotentials": "element -> explicit registered POTCAR resource or workspace ArtifactRef",
+            "encut_ev": "explicit plane-wave cutoff in eV",
+            "k_points": "{grid:[nx,ny,nz], shift:[sx,sy,sz]}",
+            "kpoint_scheme": "gamma or monkhorst-pack",
+            "precision": "explicit VASP PREC value",
+            "algorithm": "explicit VASP ALGO value",
+            "ismear": "explicit integer ISMEAR",
+            "sigma_ev": "explicit SIGMA in eV",
+            "spin_polarized": "explicit boolean selecting ISPIN=1/2",
+            "real_space_projection": "explicit LREAL boolean or Auto",
+            "xc_family": "lda, pbe, pbesol, scan, or r2scan",
+            "initial_magnetic_moments": "optional one value per atom",
+            "electron_count": "optional explicit NELECT",
+            "additional_incar": "optional explicit extra INCAR mapping; relaxation-semantic keys are protected",
+        },
+        required_methods={
+            action: (
+                "pseudopotentials", "encut_ev", "k_points", "kpoint_scheme",
+                "precision", "algorithm", "ismear", "sigma_ev",
+                "spin_polarized", "real_space_projection", "xc_family",
+            )
+            for action in (
+                "calculate_periodic_energy", "calculate_periodic_forces",
+                "calculate_periodic_stress", "relax_periodic_structure",
+            )
+        },
+        required_settings=_VASP_SETTINGS,
     ),
     _backend(
         "phonopy", "Phonopy", "phonons",

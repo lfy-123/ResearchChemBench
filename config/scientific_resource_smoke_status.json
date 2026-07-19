@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-07-18T19:10:32.358516+00:00",
+  "generated_at": "2026-07-19T08:36:12.718709+00:00",
   "schema_version": 1,
   "summary": {
-    "case_count": 18,
-    "passed": 18,
+    "case_count": 23,
+    "passed": 23,
     "failed": 0,
     "all_ok": true
   },
@@ -14,7 +14,7 @@
       "backend": "quantum_espresso",
       "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 7.486389,
+      "elapsed_seconds": 7.304418,
       "result": {
         "energy": -10.99662568,
         "unit": "rydberg"
@@ -49,7 +49,7 @@
       "backend": "quantum_espresso",
       "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 6.750732,
+      "elapsed_seconds": 6.800243,
       "result": {
         "energy": -10.99662568,
         "unit": "rydberg"
@@ -84,7 +84,7 @@
       "backend": "siesta",
       "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 2.113628,
+      "elapsed_seconds": 1.695914,
       "result": {
         "energy": -108.6682,
         "unit": "eV"
@@ -112,7 +112,7 @@
       "backend": "abinit",
       "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 2.601229,
+      "elapsed_seconds": 2.516002,
       "result": {
         "energy": -4.0197060046,
         "unit": "hartree"
@@ -140,7 +140,7 @@
       "backend": "dftbplus",
       "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 1.292453,
+      "elapsed_seconds": 1.298381,
       "result": {
         "energy": -1.0828157173,
         "unit": "hartree"
@@ -168,7 +168,7 @@
       "backend": "dftbplus",
       "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 1.055095,
+      "elapsed_seconds": 1.117203,
       "result": {
         "energy": -1.3984936602,
         "unit": "hartree"
@@ -196,7 +196,7 @@
       "backend": "quantum_espresso",
       "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 7.119385,
+      "elapsed_seconds": 7.263223,
       "result": {
         "forces": [
           [
@@ -237,7 +237,7 @@
       "backend": "quantum_espresso",
       "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 8.836434,
+      "elapsed_seconds": 8.931446,
       "result": {
         "stress": [
           [
@@ -288,7 +288,7 @@
       "backend": "siesta",
       "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 1.251192,
+      "elapsed_seconds": 1.408386,
       "result": {
         "forces": [
           [
@@ -324,7 +324,7 @@
       "backend": "dftbplus",
       "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 0.99918,
+      "elapsed_seconds": 1.133455,
       "result": {
         "forces": [
           [
@@ -360,7 +360,7 @@
       "backend": "abinit",
       "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 1.830922,
+      "elapsed_seconds": 1.98061,
       "result": {
         "forces": [
           [
@@ -396,7 +396,7 @@
       "backend": "abinit",
       "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 1.945765,
+      "elapsed_seconds": 1.964546,
       "result": {
         "stress": [
           [
@@ -442,7 +442,7 @@
       "backend": "dftbplus",
       "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 1.013779,
+      "elapsed_seconds": 1.140913,
       "result": {
         "structure": {
           "atoms": [
@@ -507,9 +507,9 @@
       "backend": "gnina",
       "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 8.172678,
+      "elapsed_seconds": 7.980862,
       "result": {
-        "poses_path": "outputs/dock_ligand/gnina/461673d158fa/poses.pdbqt",
+        "poses_path": "outputs/dock_ligand/gnina/cfa43ca27386/poses.pdbqt",
         "scores": [
           {
             "pose_index": 1,
@@ -542,7 +542,7 @@
       "backend": "orca",
       "backend_version": "6.1.1",
       "status": "success",
-      "elapsed_seconds": 3.043713,
+      "elapsed_seconds": 2.830732,
       "result": {
         "energy": -74.963709431238,
         "unit": "hartree"
@@ -558,10 +558,10 @@
       "backend": "orca",
       "backend_version": "6.1.1",
       "status": "success",
-      "elapsed_seconds": 1.732929,
+      "elapsed_seconds": 1.992151,
       "result": {
         "unit": "hartree/bohr^2",
-        "raw_hessian_path": "outputs/calculate_hessian/orca/cf9a7c076c80/job.hess",
+        "raw_hessian_path": "outputs/calculate_hessian/orca/360923faea57/job.hess",
         "matrix_shape": [
           9,
           9
@@ -579,7 +579,7 @@
       "backend": "orca",
       "backend_version": "6.1.1",
       "status": "success",
-      "elapsed_seconds": 2.187824,
+      "elapsed_seconds": 2.268195,
       "result": {
         "structure": {
           "atoms": [
@@ -615,7 +615,7 @@
             false,
             false
           ],
-          "source_path": "outputs/optimize_geometry/orca/5cf2341aed6c/job.xyz"
+          "source_path": "outputs/optimize_geometry/orca/823533e1f0d6/job.xyz"
         },
         "converged": true,
         "energy": -74.965901192191,
@@ -633,7 +633,7 @@
       "backend": "orca",
       "backend_version": "6.1.1",
       "status": "success",
-      "elapsed_seconds": 1.292584,
+      "elapsed_seconds": 1.415352,
       "result": {
         "dipole": [
           0.0,
@@ -647,6 +647,199 @@
       "warnings": [],
       "parallel_processes": 1,
       "resource_refs": []
+    },
+    {
+      "case_id": "nequip_oam_s_si_periodic_forces",
+      "action": "calculate_periodic_forces",
+      "backend": "nequip",
+      "backend_version": "0.19.0",
+      "status": "success",
+      "elapsed_seconds": 6.265443,
+      "result": {
+        "forces": [
+          [
+            1.0056992386266153,
+            1.0056992386266153,
+            1.0056992386266153
+          ],
+          [
+            -1.0056992386266153,
+            -1.0056992386266153,
+            -1.0056992386266153
+          ]
+        ],
+        "unit": "eV/angstrom"
+      },
+      "error": null,
+      "warnings": [],
+      "parallel_processes": null,
+      "resource_refs": [
+        {
+          "resource_id": "nequip_oam_s_0_1",
+          "element": null,
+          "registered": true,
+          "kind": "model_checkpoint",
+          "version": "0.1",
+          "format": "NequIP compiled model archive",
+          "compatible_backends": [
+            "nequip"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "allegro_oam_l_si_periodic_energy",
+      "action": "calculate_periodic_energy",
+      "backend": "allegro",
+      "backend_version": "0.19.0",
+      "status": "success",
+      "elapsed_seconds": 6.101412,
+      "result": {
+        "energy": -5.4477353208501835,
+        "unit": "eV"
+      },
+      "error": null,
+      "warnings": [],
+      "parallel_processes": null,
+      "resource_refs": [
+        {
+          "resource_id": "allegro_oam_l_0_1",
+          "element": null,
+          "registered": true,
+          "kind": "model_checkpoint",
+          "version": "0.1",
+          "format": "NequIP compiled Allegro model archive",
+          "compatible_backends": [
+            "allegro"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "deepmd_dpa_3_3_omat24_si_periodic_stress",
+      "action": "calculate_periodic_stress",
+      "backend": "deepmd",
+      "backend_version": "3.2.0b0",
+      "status": "success",
+      "elapsed_seconds": 11.563779,
+      "result": {
+        "stress": [
+          [
+            0.008971041039305705,
+            0.0001814055553337785,
+            0.00018140555841839016
+          ],
+          [
+            0.0001814055553337785,
+            0.008971040660268607,
+            0.00018140577952336327
+          ],
+          [
+            0.00018140555841839016,
+            0.00018140577952336327,
+            0.00897104072600554
+          ]
+        ],
+        "unit": "eV/angstrom^3"
+      },
+      "error": null,
+      "warnings": [],
+      "parallel_processes": null,
+      "resource_refs": [
+        {
+          "resource_id": "deepmd_dpa_3_3_1m",
+          "element": null,
+          "registered": true,
+          "kind": "model_checkpoint",
+          "version": "DPA-3.3-1M",
+          "format": "DeePMD PyTorch frozen multitask model",
+          "compatible_backends": [
+            "deepmd"
+          ],
+          "model_branches": [
+            "Domains_Alloy",
+            "Domains_Anode",
+            "Domains_Cluster",
+            "Domains_FerroEle",
+            "Domains_SSE_PBE",
+            "Domains_SemiCond",
+            "H2O_H2O_PD",
+            "Metals_AlMgCu",
+            "Metals_AgAu_PBED3",
+            "Others_In2Se3",
+            "MPGen_OpenCSP",
+            "Alloy_tongqi",
+            "SSE_ABACUS",
+            "Hybrid_Perovskite",
+            "Electrolyte",
+            "ODAC23",
+            "Alex2D",
+            "Omat24",
+            "OC20M",
+            "OC22",
+            "Organic_Reactions",
+            "OMol25",
+            "MPTrj"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "deepmd_dpa3_omol_large_water_energy",
+      "action": "calculate_energy",
+      "backend": "deepmd",
+      "backend_version": "3.2.0b0",
+      "status": "success",
+      "elapsed_seconds": 13.357233,
+      "result": {
+        "energy": -2079.739232241105,
+        "unit": "eV"
+      },
+      "error": null,
+      "warnings": [],
+      "parallel_processes": null,
+      "resource_refs": [
+        {
+          "resource_id": "deepmd_dpa3_omol_large",
+          "element": null,
+          "registered": true,
+          "kind": "model_checkpoint",
+          "version": "DPA3-Omol-Large",
+          "format": "DeePMD PyTorch frozen single-task model",
+          "compatible_backends": [
+            "deepmd"
+          ],
+          "single_task": true
+        }
+      ]
+    },
+    {
+      "case_id": "vasp_6_3_2_testsuite_si_energy",
+      "action": "calculate_periodic_energy",
+      "backend": "vasp",
+      "backend_version": "6.3.2",
+      "status": "success",
+      "elapsed_seconds": 3.381995,
+      "result": {
+        "energy": -0.27428657,
+        "unit": "eV"
+      },
+      "error": null,
+      "warnings": [],
+      "parallel_processes": 1,
+      "resource_refs": [
+        {
+          "resource_id": "vasp_6_3_2_testsuite_si_potcar",
+          "element": null,
+          "registered": true,
+          "kind": "single_file_resource",
+          "version": "VASP 6.3.2 testsuite",
+          "format": "VASP POTCAR",
+          "compatible_backends": [
+            "vasp"
+          ]
+        }
+      ]
     }
   ]
 }

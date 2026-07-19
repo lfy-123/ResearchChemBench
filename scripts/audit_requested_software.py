@@ -372,14 +372,39 @@ def write_markdown(payload: dict[str, Any]) -> None:
         "## 目录约定",
         "",
         "- 软件和大体积二进制只放在 `.software_cache/` 的版本化子目录；运行时定义在 `config/mcp_profiles.yaml` 或 `config/auxiliary_environments.yaml`。",
-        "- 模型权重只放在 `.model_cache/`；NequIP 和 DeePMD-kit 本轮只配置运行时，没有擅自下载或选择 checkpoint。",
+        "- 模型权重只放在 `.model_cache/`；NequIP、Allegro 与 DeePMD checkpoint 已按精确文件和校验值登记，但每次调用仍必须由 Agent 显式选择。",
         "- auxiliary runtime 只用于依赖隔离、健康检查和后续原子适配，不改变公共 MCP 工具目录，也不自动替 Agent 编排流程。",
         "",
+    ]
+    pending = [
+        item
+        for item in records
+        if item.get("status") not in {"configured", "specification"}
+    ]
+    lines.extend(
+        [
+            "## 剩余待处理清单",
+            "",
+            "下表是需要用户提供许可文件/安装包、补宿主软件，或共同确认接口策略的项目；顺序与原始请求清单一致。",
+            "",
+            "| 顺序 | 名称 | 状态 | 下一步 / 所需输入 | 官方入口 |",
+            "|---:|---|---|---|---|",
+        ]
+    )
+    for index, item in enumerate(pending, start=1):
+        url = item.get("official_url")
+        lines.append(
+            f"| {index} | `{md(item.get('name'))}` | **{md(item.get('status'))}** | {md(item.get('notes'))} | {f'[官方]({url})' if url else '—'} |"
+        )
+    lines.extend(
+        [
+            "",
         "## 逐项状态表",
         "",
         "| 类别 | 名称 | 状态 | 类型 / 许可 | Runtime / Python 模块 / 命令 | 软件缓存 / 模型缓存 | 公共适配状态 | 功能与处理备注 | 官方入口 |",
         "|---|---|---|---|---|---|---|---|---|",
-    ]
+        ]
+    )
     for item in records:
         verification = item.get("verification") or {}
         modules = []
@@ -406,7 +431,7 @@ def write_markdown(payload: dict[str, Any]) -> None:
             result = (verification.get("cache_paths") or {}).get(str(value), {})
             cache.append(f"{value}={'存在' if result.get('exists') else '缺失'}")
         if item.get("model_cache"):
-            cache.append(f"model: {item['model_cache']}（不自动下载）")
+            cache.append(f"model: {item['model_cache']}（显式选择；调用时不自动下载）")
         cache_text = "<br>".join(cache) or "—"
         url = item.get("official_url")
         url_text = f"[官方]({url})" if url else "—"
@@ -434,7 +459,7 @@ def write_markdown(payload: dict[str, Any]) -> None:
         "## 状态解释与后续手动处理",
         "",
         "- `configured` 仅表示本地依赖/入口已准备好，不代表已经为所有软件编写了公共 Action，也不代表已经替 Agent 选择模型、泛函、基组、赝势或工作流顺序。",
-        "- `partial` 项需按备注补充真实输入或数据。当前 Arkane 的入口已安装，但顶层导入在 120 秒内仍未完成，不能用无界等待替代真实案例验证。",
+        "- `partial` 项需按备注补齐宿主程序或修复 runtime。当前 Arkane 的入口/数据库齐全，但导入与 H 示例均超出有界时限；EasySpin 文件齐全但缺 MATLAB。不能用无界等待或仅检查文件存在来伪报完成。",
         "- `manual_required` 项需要用户提供许可证、注册下载、源码包或编译工具链；收到后可按本表的官方入口继续接入对应 runtime。",
         "- NIST 两项保持 `manual_api_review`，不通过脆弱网页抓取伪装成稳定工具；在确认官方 API 和使用条款后再增加数据 Action。",
         "",

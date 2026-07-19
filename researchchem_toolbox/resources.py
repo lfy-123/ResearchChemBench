@@ -116,7 +116,7 @@ def resolve_resource_reference(value: Any) -> Path:
     """Resolve exactly one declared ResourceRef to a read-only file/directory.
 
     This function performs validation only. It never searches across collections,
-    chooses a default family, or substitutes an unavailable entry.
+chooses a default family, model, or substitutes an unavailable entry.
     """
 
     resource_id, element = parse_resource_reference(value)
@@ -159,6 +159,10 @@ def resolve_resource_reference(value: Any) -> Path:
         if not root.is_dir():
             raise FileNotFoundError(f"Registered parameter directory is missing: {root}")
         return root
+    if kind in {"model_checkpoint", "single_file_resource"}:
+        if not root.is_file():
+            raise FileNotFoundError(f"Registered resource file is missing: {root}")
+        return root
     raise ValueError(f"Resource {resource_id!r} is not a request-selectable file resource")
 
 
@@ -176,6 +180,9 @@ def resource_reference_metadata(value: Any) -> dict[str, Any]:
         "format": specification.get("format"),
         "compatible_backends": list(specification.get("compatible_backends") or []),
     }
+    for key in ("model_branches", "model_branch_aliases", "single_task"):
+        if key in specification:
+            result[key] = specification[key]
     manifest = _manifest(specification)
     if manifest is not None and element in manifest:
         result["element_metadata"] = manifest[element]
@@ -235,7 +242,8 @@ def resource_snapshot() -> list[dict[str, Any]]:
     for specification in load_resource_config()["resources"]:
         item = dict(specification)
         root = _declared_path(str(item["path"]))
-        available = root.is_file() if item.get("kind") == "backend_executable" else root.is_dir()
+        file_kinds = {"backend_executable", "model_checkpoint", "single_file_resource"}
+        available = root.is_file() if item.get("kind") in file_kinds else root.is_dir()
         item["available"] = available
         item["selection_required"] = bool(item.get("selectable", True))
         if item.get("kind") == "element_file_collection":
@@ -259,6 +267,10 @@ def resource_snapshot() -> list[dict[str, Any]]:
                 item["element_count"] = len(elements)
                 item["pair_count"] = len(pairs)
                 item["available_pairs"] = pairs
+        elif item.get("kind") in {"model_checkpoint", "single_file_resource"}:
+            item["selection_syntax"] = f"resource://{item['id']}"
+            if available:
+                item["size_bytes"] = root.stat().st_size
         elif item.get("kind") == "backend_executable":
             target_value = item.get("install_target")
             target = None

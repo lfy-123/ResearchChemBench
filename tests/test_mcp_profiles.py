@@ -23,7 +23,7 @@ def test_runtimes_cover_each_backend_once():
     }
     assigned = [backend for value in assignments.values() for backend in value["backends"]]
     assert set(assigned) == set(backend_specs())
-    assert len(assigned) == len(set(assigned)) == 45
+    assert len(assigned) == len(set(assigned)) == 49
     for runtime, value in assignments.items():
         assert all(backend_specs()[backend].runtime == runtime for backend in value["backends"])
 
@@ -32,7 +32,7 @@ def test_runtimes_have_unique_researchchem_conda_names():
     config = load_profile_config()
     specifications = [*config["profiles"].values(), *config["support_environments"].values()]
     names = [specification["conda_name"] for specification in specifications]
-    assert len(names) == len(set(names)) == 14
+    assert len(names) == len(set(names)) == 17
     assert all(name.startswith("researchchem-") for name in names)
 
 
@@ -47,7 +47,7 @@ def test_public_server_is_one_full_catalog_server():
 def test_model_profiles_use_ignored_project_model_cache(monkeypatch):
     monkeypatch.delenv(MODEL_CACHE_ENV, raising=False)
     expected = project_model_cache_path()
-    for name in ("core", "quantum", "mlip"):
+    for name in ("core", "quantum", "mlip", "nequip", "deepmd"):
         environment = profile_runtime_environment(name)
         assert Path(environment[MODEL_CACHE_ENV]) == expected
         assert Path(environment["XDG_CACHE_HOME"]) == expected
@@ -62,6 +62,15 @@ def test_orca_runtime_injects_exact_binary_and_mpi_paths():
     assert ".software_cache/orca/6.1.1" in environment["PATH"]
     assert ".software_cache/openmpi/4.1.8/bin" in environment["PATH"]
     assert ".software_cache/openmpi/4.1.8/lib" in environment["LD_LIBRARY_PATH"]
+
+
+def test_vasp_runtime_injects_exact_binary_path_without_selecting_potcars():
+    environment = profile_runtime_environment("vasp")
+    assert environment["CHEMGRAPH_VASP_COMMAND"].endswith(
+        ".software_cache/vasp/6.3.2/bin/vasp_std"
+    )
+    assert ".software_cache/vasp/6.3.2/bin" in environment["PATH"]
+    assert "POTCAR" not in environment
 
 
 def test_task_workspace_gets_one_server_full_prompt_and_catalog(tmp_path, monkeypatch):

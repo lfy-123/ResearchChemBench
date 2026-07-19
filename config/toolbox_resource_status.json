@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-07-18T19:11:42.519132+00:00",
+  "generated_at": "2026-07-19T08:49:08.625119+00:00",
   "schema_version": 1,
   "selection_policy": "agent_explicit_no_default",
-  "configuration_mode": "verify_only",
+  "configuration_mode": "install_and_verify",
   "deep_checks": true,
   "summary": {
-    "resource_count": 9,
-    "passed": 9,
+    "resource_count": 22,
+    "passed": 22,
     "failed": 0,
     "all_ok": true
   },
@@ -639,6 +639,201 @@
         "first_line": "mpirun (Open MPI) 4.1.8",
         "output_regex": "mpirun \\(Open MPI\\) 4\\.1\\.8",
         "matched_text": "mpirun (Open MPI) 4.1.8"
+      },
+      "errors": [],
+      "status": "pass"
+    },
+    {
+      "id": "nequip_oam_s_0_1",
+      "kind": "model_checkpoint",
+      "path": ".model_cache/nequip/0.1/NequIP-OAM-S-0.1.nequip.zip",
+      "exists": true,
+      "size_bytes": 5638676,
+      "checksum": {
+        "algorithm": "sha256",
+        "expected": "63d4bafd872850a014fd21dedeea416b61173a17750dee0b2b8dd2b126f407aa",
+        "actual": "63d4bafd872850a014fd21dedeea416b61173a17750dee0b2b8dd2b126f407aa",
+        "ok": true
+      },
+      "errors": [],
+      "status": "pass"
+    },
+    {
+      "id": "nequip_oam_m_0_1",
+      "kind": "model_checkpoint",
+      "path": ".model_cache/nequip/0.1/NequIP-OAM-M-0.1.nequip.zip",
+      "exists": true,
+      "size_bytes": 26554438,
+      "checksum": {
+        "algorithm": "sha256",
+        "expected": "3b528d235a98d6daa582ab17d4bac44aa108659b8a69046ba8f4f51c257fb328",
+        "actual": "3b528d235a98d6daa582ab17d4bac44aa108659b8a69046ba8f4f51c257fb328",
+        "ok": true
+      },
+      "errors": [],
+      "status": "pass"
+    },
+    {
+      "id": "nequip_oam_l_0_1",
+      "kind": "model_checkpoint",
+      "path": ".model_cache/nequip/0.1/NequIP-OAM-L-0.1.nequip.zip",
+      "exists": true,
+      "size_bytes": 78464590,
+      "checksum": {
+        "algorithm": "sha256",
+        "expected": "5d01a4fab228abb3cdb6ace0033f93993729956bca6a42234a2a8816825b9a0f",
+        "actual": "5d01a4fab228abb3cdb6ace0033f93993729956bca6a42234a2a8816825b9a0f",
+        "ok": true
+      },
+      "errors": [],
+      "status": "pass"
+    },
+    {
+      "id": "nequip_oam_xl_0_1",
+      "kind": "model_checkpoint",
+      "path": ".model_cache/nequip/0.1/NequIP-OAM-XL-0.1.nequip.zip",
+      "exists": true,
+      "size_bytes": 259627903,
+      "checksum": {
+        "algorithm": "sha256",
+        "expected": "99c3799b28026f1ecf66c413292038a27a0749d4d4d7cd0b3a642f2e68df9e9c",
+        "actual": "99c3799b28026f1ecf66c413292038a27a0749d4d4d7cd0b3a642f2e68df9e9c",
+        "ok": true
+      },
+      "errors": [],
+      "status": "pass"
+    },
+    {
+      "id": "nequip_mp_l_0_1",
+      "kind": "model_checkpoint",
+      "path": ".model_cache/nequip/0.1/NequIP-MP-L-0.1.nequip.zip",
+      "exists": true,
+      "size_bytes": 78694081,
+      "checksum": {
+        "algorithm": "sha256",
+        "expected": "dfbb68f6fab8d8135fc2be9c1cd92d468fe858254f2454fb891ea0da08dd6592",
+        "actual": "dfbb68f6fab8d8135fc2be9c1cd92d468fe858254f2454fb891ea0da08dd6592",
+        "ok": true
+      },
+      "errors": [],
+      "status": "pass"
+    },
+    {
+      "id": "allegro_oam_l_0_1",
+      "kind": "model_checkpoint",
+      "path": ".model_cache/nequip/0.1/Allegro-OAM-L-0.1.nequip.zip",
+      "exists": true,
+      "size_bytes": 80738705,
+      "checksum": {
+        "algorithm": "sha256",
+        "expected": "3f0d3ca7bb136d4c2ee76278170fcbe756436f037e16c673a86e2c57d271c64e",
+        "actual": "3f0d3ca7bb136d4c2ee76278170fcbe756436f037e16c673a86e2c57d271c64e",
+        "ok": true
+      },
+      "errors": [],
+      "status": "pass"
+    },
+    {
+      "id": "allegro_mp_l_0_1",
+      "kind": "model_checkpoint",
+      "path": ".model_cache/nequip/0.1/Allegro-MP-L-0.1.nequip.zip",
+      "exists": true,
+      "size_bytes": 153640224,
+      "checksum": {
+        "algorithm": "sha256",
+        "expected": "ccc412a2e46b70528235067d45baab2bcc8ca48fda85516529de6caa030eeb8b",
+        "actual": "ccc412a2e46b70528235067d45baab2bcc8ca48fda85516529de6caa030eeb8b",
+        "ok": true
+      },
+      "errors": [],
+      "status": "pass"
+    },
+    {
+      "id": "deepmd_dpa_3_1_3m",
+      "kind": "model_checkpoint",
+      "path": ".model_cache/deepmd/pretrained/DPA-3.1-3M.pt",
+      "exists": true,
+      "size_bytes": 47176032,
+      "checksum": {
+        "algorithm": "sha256",
+        "expected": "86dd3a804d78ca5d203ebf98747e8f16dff9713ba8950097ceb760b161e19907",
+        "actual": "86dd3a804d78ca5d203ebf98747e8f16dff9713ba8950097ceb760b161e19907",
+        "ok": true
+      },
+      "errors": [],
+      "status": "pass"
+    },
+    {
+      "id": "deepmd_dpa_3_2_5m",
+      "kind": "model_checkpoint",
+      "path": ".model_cache/deepmd/pretrained/DPA-3.2-5M.pt",
+      "exists": true,
+      "size_bytes": 64800782,
+      "checksum": {
+        "algorithm": "sha256",
+        "expected": "876354744aeaae17b2639a6a690514470273784f2b4836280850f50cbb799165",
+        "actual": "876354744aeaae17b2639a6a690514470273784f2b4836280850f50cbb799165",
+        "ok": true
+      },
+      "errors": [],
+      "status": "pass"
+    },
+    {
+      "id": "deepmd_dpa_3_3_1m",
+      "kind": "model_checkpoint",
+      "path": ".model_cache/deepmd/pretrained/DPA-3.3-1M.pt",
+      "exists": true,
+      "size_bytes": 41612295,
+      "checksum": {
+        "algorithm": "sha256",
+        "expected": "36fe440c111108d60cda54aa7d3fccac743794de25abef4d49564b9fb896a55b",
+        "actual": "36fe440c111108d60cda54aa7d3fccac743794de25abef4d49564b9fb896a55b",
+        "ok": true
+      },
+      "errors": [],
+      "status": "pass"
+    },
+    {
+      "id": "deepmd_dpa_2_4_7m",
+      "kind": "model_checkpoint",
+      "path": ".model_cache/deepmd/pretrained/dpa-2.4-7M.pt",
+      "exists": true,
+      "size_bytes": 169224765,
+      "checksum": {
+        "algorithm": "sha256",
+        "expected": "904eb5560af9ff644347dedd3ebf1e9c97929d02ee37ce3cbe895de3df711198",
+        "actual": "904eb5560af9ff644347dedd3ebf1e9c97929d02ee37ce3cbe895de3df711198",
+        "ok": true
+      },
+      "errors": [],
+      "status": "pass"
+    },
+    {
+      "id": "deepmd_dpa3_omol_large",
+      "kind": "model_checkpoint",
+      "path": ".model_cache/deepmd/pretrained/DPA3-Omol-Large.pt",
+      "exists": true,
+      "size_bytes": 224057430,
+      "checksum": {
+        "algorithm": "sha256",
+        "expected": "dc4d252b31450b41eb3546cc48f640ad0831c0b5d069ce27d996e0ff58fc037a",
+        "actual": "dc4d252b31450b41eb3546cc48f640ad0831c0b5d069ce27d996e0ff58fc037a",
+        "ok": true
+      },
+      "errors": [],
+      "status": "pass"
+    },
+    {
+      "id": "vasp_6_3_2_testsuite_si_potcar",
+      "kind": "single_file_resource",
+      "path": ".software_cache/vasp/6.3.2/testsuite/POTCARS/POTCAR.Si",
+      "exists": true,
+      "size_bytes": 150218,
+      "checksum": {
+        "algorithm": "sha256",
+        "expected": "813aade8d7556478a138318a1b54ce2f88eca7e031fc006066720bc984f36595",
+        "actual": "813aade8d7556478a138318a1b54ce2f88eca7e031fc006066720bc984f36595",
+        "ok": true
       },
       "errors": [],
       "status": "pass"

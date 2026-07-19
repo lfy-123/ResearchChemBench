@@ -9,6 +9,7 @@ from pathlib import Path
 from typing import Any
 
 from .common import (
+    ase_atoms,
     atoms_and_coordinates,
     command_artifacts,
     module_version,
@@ -16,14 +17,18 @@ from .common import (
     partial_success,
     relative_workspace_path,
     request_parts,
+    resolve_command,
     resolve_input_file,
     run_external,
     structure_dict,
+    structure_from_atoms,
     success,
     unavailable,
     unsupported,
     write_json,
 )
+from .mlip import build_calculator as build_mlip_calculator
+from .mlip import prepare_atoms as prepare_mlip_atoms
 
 
 ACTIONS = {
@@ -1193,6 +1198,432 @@ def _phonons(action_id: str, backend_id: str, request: dict[str, Any]) -> dict[s
     )
 
 
+def _run_mlip_periodic(
+    backend_id: str,
+    action_id: str,
+    request: dict[str, Any],
+) -> dict[str, Any]:
+    import numpy as np
+    from ase.stress import voigt_6_to_full_3x3_stress
+
+    inputs, method, settings = request_parts(request)
+    _periodic_structure(inputs["structure"])
+    atoms = ase_atoms(inputs["structure"])
+    prepare_mlip_atoms(backend_id, atoms, method)
+    calculator, version, model_provenance = build_mlip_calculator(backend_id, method)
+    atoms.calc = calculator
+
+    if action_id == "calculate_periodic_energy":
+        return success(
+            {
+                "energy": float(atoms.get_potential_energy()),
+                "unit": "eV",
+                "atom_count": len(atoms),
+            },
+            backend_version=version,
+            provenance=model_provenance,
+        )
+    if action_id == "calculate_periodic_forces":
+        forces = np.asarray(atoms.get_forces(), dtype=float)
+        return success(
+            {
+                "forces": forces.tolist(),
+                "unit": "eV/angstrom",
+                "atom_count": len(atoms),
+                "energy_ev": float(atoms.get_potential_energy()),
+            },
+            backend_version=version,
+            provenance=model_provenance,
+        )
+    if action_id == "calculate_periodic_stress":
+        stress_voigt = np.asarray(atoms.get_stress(voigt=True), dtype=float)
+        stress = voigt_6_to_full_3x3_stress(stress_voigt)
+        return success(
+            {
+                "stress": np.asarray(stress, dtype=float).tolist(),
+                "unit": "eV/angstrom^3",
+                "voigt_order": "xx,yy,zz,yz,xz,xy",
+                "energy_ev": float(atoms.get_potential_energy()),
+            },
+            backend_version=version,
+            provenance=model_provenance,
+        )
+    if action_id == "relax_periodic_structure":
+        from ase.optimize import BFGS, FIRE, LBFGS
+
+        directory = output_directory(action_id, backend_id)
+        optimizer_name = str(settings["optimizer"]).lower()
+        optimizer_class = {"bfgs": BFGS, "lbfgs": LBFGS, "fire": FIRE}.get(
+            optimizer_name
+        )
+        if optimizer_class is None:
+            raise ValueError("optimizer must be bfgs, lbfgs, or fire")
+        target: Any = atoms
+        if bool(settings["relax_cell"]):
+            from ase.filters import FrechetCellFilter
+
+            target = FrechetCellFilter(
+                atoms,
+                hydrostatic_strain=bool(settings.get("hydrostatic_strain", False)),
+                scalar_pressure=float(
+                    settings.get("scalar_pressure_ev_per_angstrom3", 0.0)
+                ),
+            )
+        optimizer = optimizer_class(
+            target,
+            logfile=str(directory / "optimization.log"),
+            trajectory=str(directory / "optimization.traj"),
+        )
+        converged = bool(
+            optimizer.run(
+                fmax=float(settings["force_threshold_ev_per_angstrom"]),
+                steps=int(settings["max_steps"]),
+            )
+        )
+        from ase.io import write
+
+        write(str(directory / "optimized.extxyz"), atoms)
+        result = {
+            "structure": structure_from_atoms(atoms),
+            "converged": converged,
+            "energy": float(atoms.get_potential_energy()),
+            "energy_unit": "eV",
+            "optimizer": optimizer_name,
+            "relax_cell": bool(settings["relax_cell"]),
+        }
+        values = {
+            "artifact_files": command_artifacts(directory),
+            "backend_version": version,
+            "provenance": model_provenance,
+        }
+        if not converged:
+            return partial_success(
+                result,
+                warnings=["MLIP relaxation reached its step limit before convergence."],
+                **values,
+            )
+        return success(result, **values)
+    return unsupported(f"MLIP backend does not implement {action_id}")
+
+
+def _vasp_grouped_structure(
+    request: dict[str, Any],
+) -> tuple[
+    dict[str, Any],
+    list[str],
+    list[list[float]],
+    list[list[float]],
+    list[str],
+    list[int],
+]:
+    structure, symbols, coordinates, cell = _periodic_structure(
+        request["inputs"]["structure"]
+    )
+    species = list(dict.fromkeys(symbols))
+    order = [
+        index
+        for species_name in species
+        for index, symbol in enumerate(symbols)
+        if symbol == species_name
+    ]
+    return (
+        structure,
+        symbols,
+        coordinates,
+        cell,
+        species,
+        order,
+    )
+
+
+def _vasp_scalar(value: Any) -> str:
+    if isinstance(value, bool):
+        return ".TRUE." if value else ".FALSE."
+    if isinstance(value, (list, tuple)):
+        return " ".join(_vasp_scalar(item) for item in value)
+    if isinstance(value, (str, int, float)):
+        return str(value)
+    raise ValueError(f"Unsupported INCAR value type: {type(value).__name__}")
+
+
+def _write_vasp_inputs(
+    action_id: str,
+    request: dict[str, Any],
+    directory: Path,
+) -> tuple[list[str], list[int]]:
+    (
+        _structure,
+        symbols,
+        coordinates,
+        cell,
+        species,
+        order,
+    ) = _vasp_grouped_structure(request)
+    method = request["method_spec"]
+    settings = request["action_settings"]
+
+    counts = [symbols.count(item) for item in species]
+    poscar_lines = ["ResearchChemBench", "1.0"]
+    poscar_lines.extend(" ".join(f"{value:.16g}" for value in row) for row in cell)
+    poscar_lines.extend([" ".join(species), " ".join(str(item) for item in counts), "Cartesian"])
+    poscar_lines.extend(
+        " ".join(f"{value:.16g}" for value in coordinates[index]) for index in order
+    )
+    (directory / "POSCAR").write_text("\n".join(poscar_lines) + "\n", encoding="utf-8")
+
+    mapping = dict(method["pseudopotentials"])
+    missing = sorted(set(species) - set(mapping))
+    if missing:
+        raise ValueError(f"Missing VASP POTCAR resources for elements: {missing}")
+    with (directory / "POTCAR").open("wb") as output:
+        for element in species:
+            source = resolve_input_file(mapping[element])
+            output.write(source.read_bytes())
+            output.write(b"\n")
+
+    k_points = _k_points(method["k_points"])
+    scheme = str(method["kpoint_scheme"]).strip().lower()
+    if scheme not in {"gamma", "monkhorst-pack"}:
+        raise ValueError("kpoint_scheme must be gamma or monkhorst-pack")
+    kpoint_lines = [
+        "ResearchChemBench",
+        "0",
+        "Gamma" if scheme == "gamma" else "Monkhorst-Pack",
+        " ".join(str(item) for item in k_points[:3]),
+        " ".join(str(item) for item in k_points[3:]),
+    ]
+    (directory / "KPOINTS").write_text("\n".join(kpoint_lines) + "\n", encoding="utf-8")
+
+    incar: dict[str, Any] = {
+        "SYSTEM": "ResearchChemBench",
+        "ENCUT": float(method["encut_ev"]),
+        "PREC": str(method["precision"]),
+        "ALGO": str(method["algorithm"]),
+        "EDIFF": float(settings["scf_convergence_ev"]),
+        "NELM": int(settings["max_scf_cycles"]),
+        "ISMEAR": int(method["ismear"]),
+        "SIGMA": float(method["sigma_ev"]),
+        "ISPIN": 2 if bool(method["spin_polarized"]) else 1,
+        "LREAL": method["real_space_projection"],
+        "LWAVE": False,
+        "LCHARG": False,
+        "IBRION": -1,
+        "NSW": 0,
+    }
+    xc_family = str(method["xc_family"]).strip().lower()
+    if xc_family == "pbe":
+        incar["GGA"] = "PE"
+    elif xc_family == "pbesol":
+        incar["GGA"] = "PS"
+    elif xc_family == "lda":
+        pass
+    elif xc_family in {"scan", "r2scan"}:
+        incar["METAGGA"] = xc_family.upper()
+        incar["LASPH"] = True
+    else:
+        raise ValueError("xc_family must be lda, pbe, pbesol, scan, or r2scan")
+    if method.get("initial_magnetic_moments") is not None:
+        moments = list(method["initial_magnetic_moments"])
+        if len(moments) != len(symbols):
+            raise ValueError("initial_magnetic_moments must have one value per atom")
+        incar["MAGMOM"] = [moments[index] for index in order]
+    if method.get("electron_count") is not None:
+        incar["NELECT"] = float(method["electron_count"])
+    if action_id == "relax_periodic_structure":
+        incar.update(
+            {
+                "IBRION": 2,
+                "NSW": int(settings["max_steps"]),
+                "EDIFFG": -abs(float(settings["force_threshold_ev_per_angstrom"])),
+                "ISIF": 3 if bool(settings["relax_cell"]) else 2,
+            }
+        )
+    protected = {"IBRION", "NSW", "EDIFFG", "ISIF"}
+    for raw_key, value in dict(method.get("additional_incar") or {}).items():
+        key = str(raw_key).strip().upper()
+        if not re.fullmatch(r"[A-Z][A-Z0-9_]*", key):
+            raise ValueError(f"Invalid INCAR key: {raw_key!r}")
+        if key in protected:
+            raise ValueError(
+                f"additional_incar cannot override action-semantic key {key}"
+            )
+        incar[key] = value
+    (directory / "INCAR").write_text(
+        "\n".join(f"{key} = {_vasp_scalar(value)}" for key, value in incar.items()) + "\n",
+        encoding="utf-8",
+    )
+    return symbols, order
+
+
+def _parse_vasp_result(
+    action_id: str,
+    directory: Path,
+    request: dict[str, Any],
+    symbols: list[str],
+    order: list[int],
+) -> dict[str, Any]:
+    outcar_path = directory / "OUTCAR"
+    if not outcar_path.is_file():
+        raise RuntimeError("VASP completed without OUTCAR")
+    outcar = outcar_path.read_text(encoding="utf-8", errors="replace")
+    number = r"[-+]?(?:\d+\.\d*|\.\d+|\d+)(?:[EeDd][-+]?\d+)?"
+    energy_matches = re.findall(
+        rf"free\s+energy\s+TOTEN\s*=\s*({number})\s+eV", outcar, flags=re.I
+    )
+    energy = (
+        float(energy_matches[-1].replace("D", "E").replace("d", "e"))
+        if energy_matches
+        else None
+    )
+    if action_id == "calculate_periodic_energy":
+        if energy is None:
+            raise RuntimeError("Could not parse VASP TOTEN")
+        return {"energy": energy, "unit": "eV"}
+
+    if action_id == "calculate_periodic_forces":
+        matches = list(
+            re.finditer(
+                r"TOTAL-FORCE \(eV/Angst\)\s*-+\s*(.*?)(?:\n\s*--+|\n\s*total drift)",
+                outcar,
+                flags=re.S | re.I,
+            )
+        )
+        if not matches:
+            raise RuntimeError("Could not parse VASP force block")
+        grouped = []
+        for line in matches[-1].group(1).splitlines():
+            values = _numeric_tokens(line)
+            if len(values) >= 6:
+                grouped.append(values[-3:])
+        if len(grouped) != len(symbols):
+            raise RuntimeError("VASP force count does not match input atom count")
+        forces: list[list[float] | None] = [None] * len(symbols)
+        for grouped_index, original_index in enumerate(order):
+            forces[original_index] = grouped[grouped_index]
+        return {
+            "forces": forces,
+            "unit": "eV/angstrom",
+            "energy_ev": energy,
+        }
+
+    if action_id == "calculate_periodic_stress":
+        stress_matches = re.findall(
+            rf"in kB\s+({number})\s+({number})\s+({number})\s+({number})\s+({number})\s+({number})",
+            outcar,
+            flags=re.I,
+        )
+        if not stress_matches:
+            raise RuntimeError("Could not parse VASP stress tensor")
+        xx, yy, zz, xy, yz, zx = [
+            float(value.replace("D", "E").replace("d", "e"))
+            for value in stress_matches[-1]
+        ]
+        return {
+            "stress": [[xx, xy, zx], [xy, yy, yz], [zx, yz, zz]],
+            "unit": "kilobar",
+            "sign_convention": "VASP OUTCAR in-kB convention",
+            "energy_ev": energy,
+        }
+
+    contcar = directory / "CONTCAR"
+    relaxed = None
+    if contcar.is_file() and contcar.stat().st_size:
+        from ase.io import read
+
+        atoms = read(str(contcar), format="vasp")
+        grouped_positions = atoms.get_positions().tolist()
+        positions: list[list[float] | None] = [None] * len(symbols)
+        for grouped_index, original_index in enumerate(order):
+            positions[original_index] = grouped_positions[grouped_index]
+        original = structure_dict(request["inputs"]["structure"])
+        relaxed = {
+            "atoms": [
+                {"element": symbol, "position_angstrom": positions[index]}
+                for index, symbol in enumerate(symbols)
+            ],
+            "cell_angstrom": atoms.cell.array.tolist(),
+            "pbc": [True, True, True],
+            "charge": int(original.get("charge", 0)),
+            "multiplicity": int(original.get("multiplicity", 1)),
+        }
+    return {
+        "structure": relaxed,
+        "converged": "reached required accuracy" in outcar.lower(),
+        "energy_ev": energy,
+    }
+
+
+def _run_vasp(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
+    directory = output_directory(action_id, "vasp")
+    symbols, order = _write_vasp_inputs(action_id, request, directory)
+    cores = max(1, int(request.get("resource_limits", {}).get("cpu_cores") or 1))
+    if cores == 1:
+        completed = run_external(
+            executable="vasp_std",
+            environment_variable="CHEMGRAPH_VASP_COMMAND",
+            arguments=[],
+            directory=directory,
+            timeout_seconds=int(
+                request.get("resource_limits", {}).get("walltime_seconds", 7200)
+            ),
+        )
+    else:
+        vasp_command = resolve_command("vasp_std", "CHEMGRAPH_VASP_COMMAND")
+        if not vasp_command:
+            completed = {
+                "available": False,
+                "returncode": None,
+                "stdout": "",
+                "stderr": "VASP executable was not found",
+                "command": ["vasp_std"],
+            }
+        else:
+            completed = run_external(
+                executable="mpirun",
+                environment_variable="CHEMGRAPH_VASP_MPI_COMMAND",
+                arguments=["-np", str(cores), *vasp_command],
+                directory=directory,
+                timeout_seconds=int(
+                    request.get("resource_limits", {}).get("walltime_seconds", 7200)
+                ),
+            )
+    (directory / "stdout.log").write_text(completed["stdout"], encoding="utf-8")
+    (directory / "stderr.log").write_text(completed["stderr"], encoding="utf-8")
+    # POTCAR content is licensed input data and must not be returned as an output artifact.
+    (directory / "POTCAR").unlink(missing_ok=True)
+    if not completed["available"]:
+        return unavailable(completed["stderr"], install="Configure licensed VASP locally")
+    if completed["returncode"] != 0:
+        raise RuntimeError(
+            "VASP failed: " + (completed["stderr"] or completed["stdout"])[-2000:]
+        )
+    result = _parse_vasp_result(action_id, directory, request, symbols, order)
+    provenance = {
+        "command": completed["command"],
+        "mpi_processes": cores,
+        "parallel_processes": cores,
+    }
+    artifacts = command_artifacts(directory)
+    if action_id == "relax_periodic_structure" and (
+        result.get("structure") is None or not result.get("converged")
+    ):
+        return partial_success(
+            result,
+            artifact_files=artifacts,
+            provenance=provenance,
+            backend_version="6.3.2",
+            warnings=[
+                "VASP completed, but the relaxed structure was not both parsed and converged."
+            ],
+        )
+    return success(
+        result,
+        artifact_files=artifacts,
+        provenance=provenance,
+        backend_version="6.3.2",
+    )
+
+
 def execute(action_id: str, backend_id: str, request: dict[str, Any]) -> dict[str, Any]:
     if backend_id == "quantum_espresso":
         return _run_qe(action_id, request)
@@ -1200,6 +1631,10 @@ def execute(action_id: str, backend_id: str, request: dict[str, Any]) -> dict[st
         return _run_cp2k(action_id, request)
     if backend_id in {"siesta", "dftbplus", "abinit"}:
         return _run_simple_periodic(backend_id, action_id, request)
+    if backend_id == "vasp":
+        return _run_vasp(action_id, request)
+    if backend_id in {"nequip", "allegro", "deepmd"}:
+        return _run_mlip_periodic(backend_id, action_id, request)
     if backend_id in {"phonopy", "phono3py"}:
         return _phonons(action_id, backend_id, request)
     return unsupported(f"Unsupported periodic action/backend combination: {action_id}/{backend_id}")

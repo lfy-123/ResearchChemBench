@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-07-18T19:02:19.081516+00:00",
+  "generated_at": "2026-07-19T08:43:54.289071+00:00",
   "summary": {
-    "profile_count": 14,
-    "ready_profiles": 14,
+    "profile_count": 17,
+    "ready_profiles": 17,
     "public_action_count": 44
   },
   "profiles": {
@@ -1632,6 +1632,284 @@
           "energy_ev": -0.88549809819065
         }
       },
+      "manual_commands": {},
+      "live_checks": {},
+      "required_ok": true,
+      "runtime_group": "profiles",
+      "returncode": 0
+    },
+    "nequip": {
+      "profile": "nequip",
+      "conda_name": "researchchem-nequip",
+      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/nequip/bin/python3.11",
+      "python_version": "3.11.15",
+      "expected_backends": [
+        "allegro",
+        "nequip"
+      ],
+      "backend_health": {
+        "nequip": {
+          "status": "available",
+          "available": true,
+          "runtime": "nequip",
+          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/nequip/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {
+            "nequip": {
+              "available": true,
+              "version": "0.19.0"
+            },
+            "torch": {
+              "available": true,
+              "version": "2.10.0"
+            },
+            "e3nn": {
+              "available": true,
+              "version": "0.6.0"
+            },
+            "ase": {
+              "available": true,
+              "version": "3.29.0"
+            }
+          },
+          "executables": {
+            "nequip-train": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/nequip/bin/nequip-train"
+          },
+          "environment": {},
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [],
+          "pip_packages": [
+            "nequip==0.19.0"
+          ],
+          "required_data_resources": [
+            "Explicit resource:// NequIP checkpoint or workspace model ArtifactRef"
+          ],
+          "license_class": "open_source",
+          "install_notes": ""
+        },
+        "allegro": {
+          "status": "available",
+          "available": true,
+          "runtime": "nequip",
+          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/nequip/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {
+            "allegro": {
+              "available": true,
+              "version": null
+            },
+            "nequip": {
+              "available": true,
+              "version": "0.19.0"
+            },
+            "torch": {
+              "available": true,
+              "version": "2.10.0"
+            },
+            "e3nn": {
+              "available": true,
+              "version": "0.6.0"
+            },
+            "ase": {
+              "available": true,
+              "version": "3.29.0"
+            }
+          },
+          "executables": {},
+          "environment": {},
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [],
+          "pip_packages": [
+            "nequip-allegro==0.8.3",
+            "nequip==0.19.0"
+          ],
+          "required_data_resources": [
+            "Explicit resource:// Allegro checkpoint or workspace model ArtifactRef"
+          ],
+          "license_class": "open_source",
+          "install_notes": ""
+        }
+      },
+      "allowed_unavailable_backends": [],
+      "unexpected_unavailable_backends": [],
+      "modules": {
+        "nequip": {
+          "available": true,
+          "version": "0.19.0"
+        },
+        "allegro": {
+          "available": true,
+          "version": "0.8.3"
+        },
+        "torch": {
+          "available": true,
+          "version": "2.10.0"
+        },
+        "e3nn": {
+          "available": true,
+          "version": "0.6.0"
+        },
+        "ase": {
+          "available": true,
+          "version": "3.29.0"
+        }
+      },
+      "commands": {
+        "nequip-train": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/nequip/bin/nequip-train"
+      },
+      "external_commands": {},
+      "dependency_check": {
+        "success": true,
+        "returncode": 0,
+        "output": "No broken requirements found."
+      },
+      "model_checks": {},
+      "manual_commands": {},
+      "live_checks": {},
+      "required_ok": true,
+      "runtime_group": "profiles",
+      "returncode": 0
+    },
+    "deepmd": {
+      "profile": "deepmd",
+      "conda_name": "researchchem-deepmd-models",
+      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/deepmd_models/bin/python3.11",
+      "python_version": "3.11.15",
+      "expected_backends": [
+        "deepmd"
+      ],
+      "backend_health": {
+        "deepmd": {
+          "status": "available",
+          "available": true,
+          "runtime": "deepmd",
+          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/deepmd_models/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {
+            "deepmd": {
+              "available": true,
+              "version": null
+            },
+            "ase": {
+              "available": true,
+              "version": "3.29.0"
+            }
+          },
+          "executables": {
+            "dp": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/deepmd_models/bin/dp"
+          },
+          "environment": {},
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [],
+          "pip_packages": [
+            "deepmd-kit==3.2.0b0",
+            "ase",
+            "e3nn"
+          ],
+          "required_data_resources": [
+            "Explicit resource:// DeePMD model checkpoint; multitask checkpoints require a named model_branch and single-task checkpoints require model_branch=single_task"
+          ],
+          "license_class": "open_source",
+          "install_notes": ""
+        }
+      },
+      "allowed_unavailable_backends": [],
+      "unexpected_unavailable_backends": [],
+      "modules": {
+        "deepmd": {
+          "available": true,
+          "version": "3.2.0b0"
+        },
+        "ase": {
+          "available": true,
+          "version": "3.29.0"
+        },
+        "e3nn": {
+          "available": true,
+          "version": "0.6.0"
+        },
+        "torch": {
+          "available": true,
+          "version": "2.11.0"
+        }
+      },
+      "commands": {
+        "dp": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/deepmd_models/bin/dp"
+      },
+      "external_commands": {},
+      "dependency_check": {
+        "success": true,
+        "returncode": 0,
+        "output": "No broken requirements found."
+      },
+      "model_checks": {},
+      "manual_commands": {},
+      "live_checks": {},
+      "required_ok": true,
+      "runtime_group": "profiles",
+      "returncode": 0
+    },
+    "vasp": {
+      "profile": "vasp",
+      "conda_name": "researchchem-vasp",
+      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/vasp/bin/python3.11",
+      "python_version": "3.11.15",
+      "expected_backends": [
+        "vasp"
+      ],
+      "backend_health": {
+        "vasp": {
+          "status": "available",
+          "available": true,
+          "runtime": "vasp",
+          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/vasp/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {},
+          "executables": {
+            "vasp_std": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/vasp/6.3.2/bin/vasp_std"
+          },
+          "environment": {
+            "CHEMGRAPH_VASP_COMMAND": true
+          },
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [],
+          "pip_packages": [],
+          "required_data_resources": [
+            "One explicit POTCAR ResourceRef or workspace ArtifactRef per element; the registered Si POTCAR is testsuite-only and no production PAW family is selected automatically"
+          ],
+          "license_class": "commercial_license",
+          "install_notes": "VASP 6.3.2 was built locally from the operator-provided source. A bundled Si testsuite POTCAR validates the adapter; production use still requires the operator's licensed PAW dataset."
+        }
+      },
+      "allowed_unavailable_backends": [],
+      "unexpected_unavailable_backends": [],
+      "modules": {
+        "ase": {
+          "available": true,
+          "version": "3.29.0"
+        }
+      },
+      "commands": {
+        "vasp_std": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/vasp/bin/vasp_std",
+        "mpirun": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/vasp/bin/mpirun"
+      },
+      "external_commands": {
+        ".software_cache/vasp/6.3.2/bin/vasp_std": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/vasp/6.3.2/bin/vasp_std"
+      },
+      "dependency_check": {
+        "success": true,
+        "returncode": 0,
+        "output": "No broken requirements found."
+      },
+      "model_checks": {},
       "manual_commands": {},
       "live_checks": {},
       "required_ok": true,

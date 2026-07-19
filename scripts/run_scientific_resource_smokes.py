@@ -35,6 +35,21 @@ SI_STRUCTURE = {
     "multiplicity": 1,
 }
 
+SI2_STRUCTURE = {
+    "atoms": [
+        {"element": "Si", "position_angstrom": [0.0, 0.0, 0.0]},
+        {"element": "Si", "position_angstrom": [1.3575, 1.3575, 1.3575]},
+    ],
+    "cell_angstrom": [
+        [5.43, 0.0, 0.0],
+        [0.0, 5.43, 0.0],
+        [0.0, 0.0, 5.43],
+    ],
+    "pbc": [True, True, True],
+    "charge": 0,
+    "multiplicity": 1,
+}
+
 WATER_STRUCTURE = {
     "atoms": [
         {"element": "O", "position_angstrom": [0.0, 0.0, 0.0]},
@@ -414,6 +429,107 @@ def orca_cases() -> list[tuple[str, str, dict[str, Any]]]:
     ]
 
 
+def model_and_vasp_cases() -> list[tuple[str, str, dict[str, Any]]]:
+    model_limits = {"walltime_seconds": 300, "cpu_cores": 1}
+    mapping = {
+        "device": "cpu",
+        "chemical_species_mapping": "identity",
+        "allow_tf32": False,
+    }
+    return [
+        (
+            "nequip_oam_s_si_periodic_forces",
+            "calculate_periodic_forces",
+            {
+                "backend_id": "nequip",
+                "inputs": {"structure": SI2_STRUCTURE},
+                "method_spec": {
+                    "model": "resource://nequip_oam_s_0_1",
+                    **mapping,
+                },
+                "action_settings": {},
+                "resource_limits": model_limits,
+            },
+        ),
+        (
+            "allegro_oam_l_si_periodic_energy",
+            "calculate_periodic_energy",
+            {
+                "backend_id": "allegro",
+                "inputs": {"structure": SI2_STRUCTURE},
+                "method_spec": {
+                    "model": "resource://allegro_oam_l_0_1",
+                    **mapping,
+                },
+                "action_settings": {},
+                "resource_limits": model_limits,
+            },
+        ),
+        (
+            "deepmd_dpa_3_3_omat24_si_periodic_stress",
+            "calculate_periodic_stress",
+            {
+                "backend_id": "deepmd",
+                "inputs": {"structure": SI2_STRUCTURE},
+                "method_spec": {
+                    "model": "resource://deepmd_dpa_3_3_1m",
+                    "device": "cpu",
+                    "model_branch": "Omat24",
+                    "charge": 0,
+                    "spin": 0,
+                },
+                "action_settings": {},
+                "resource_limits": model_limits,
+            },
+        ),
+        (
+            "deepmd_dpa3_omol_large_water_energy",
+            "calculate_energy",
+            {
+                "backend_id": "deepmd",
+                "inputs": {"structure": WATER_STRUCTURE},
+                "method_spec": {
+                    "model": "resource://deepmd_dpa3_omol_large",
+                    "device": "cpu",
+                    "model_branch": "single_task",
+                    "charge": 0,
+                    "spin": 0,
+                },
+                "action_settings": {},
+                "resource_limits": model_limits,
+            },
+        ),
+        (
+            "vasp_6_3_2_testsuite_si_energy",
+            "calculate_periodic_energy",
+            {
+                "backend_id": "vasp",
+                "inputs": {"structure": SI_STRUCTURE},
+                "method_spec": {
+                    "pseudopotentials": {
+                        "Si": "resource://vasp_6_3_2_testsuite_si_potcar"
+                    },
+                    "encut_ev": 200.0,
+                    "k_points": {"grid": [1, 1, 1], "shift": [0, 0, 0]},
+                    "kpoint_scheme": "gamma",
+                    "precision": "Normal",
+                    "algorithm": "Normal",
+                    "ismear": 0,
+                    "sigma_ev": 0.05,
+                    "spin_polarized": False,
+                    "real_space_projection": False,
+                    "xc_family": "pbe",
+                },
+                "action_settings": {
+                    "scf_convergence_ev": 1e-5,
+                    "max_scf_cycles": 80,
+                },
+                "resource_limits": {"walltime_seconds": 300, "cpu_cores": 1},
+            },
+        ),
+    ]
+
+
 def compact_result(value: Any) -> Any:
     if not isinstance(value, dict):
         return value
@@ -448,7 +564,12 @@ def main() -> int:
         workspace = Path(temporary)
         os.environ["RESEARCHCHEMBENCH_WORKSPACE"] = str(workspace)
         prepare_docking_inputs(workspace)
-        cases = [*request_cases(), gnina_case(), *orca_cases()]
+        cases = [
+            *request_cases(),
+            gnina_case(),
+            *orca_cases(),
+            *model_and_vasp_cases(),
+        ]
         results = []
         for case_id, action_id, request in cases:
             started = time.monotonic()

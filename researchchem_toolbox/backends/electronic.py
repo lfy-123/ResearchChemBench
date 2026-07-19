@@ -26,6 +26,8 @@ from .common import (
     write_json,
     write_xyz,
 )
+from .mlip import build_calculator as build_mlip_calculator
+from .mlip import prepare_atoms as prepare_mlip_atoms
 
 
 ACTIONS = {
@@ -71,6 +73,9 @@ def _ase_calculator(backend_id: str, method: dict[str, Any]):
         if not bool(method.get("allow_model_download", False)):
             raise RuntimeError("CHGNet pretrained loading requires allow_model_download=true")
         return CHGNetCalculator(use_device=str(method["device"])), module_version("chgnet")
+    if backend_id == "deepmd":
+        calculator, version, _provenance = build_mlip_calculator(backend_id, method)
+        return calculator, version
     raise ValueError(f"No ASE calculator implementation for {backend_id}")
 
 
@@ -79,6 +84,7 @@ def _ase_property(action_id: str, backend_id: str, request: dict[str, Any]) -> d
 
     inputs, method, settings = request_parts(request)
     atoms = ase_atoms(inputs["structure"])
+    prepare_mlip_atoms(backend_id, atoms, method)
     calculator, version = _ase_calculator(backend_id, method)
     atoms.calc = calculator
     if action_id == "calculate_energy":
@@ -738,7 +744,7 @@ def _goodvibes(request: dict[str, Any]) -> dict[str, Any]:
 
 
 def execute(action_id: str, backend_id: str, request: dict[str, Any]) -> dict[str, Any]:
-    if backend_id in {"ase_emt", "tblite", "mace", "chgnet"}:
+    if backend_id in {"ase_emt", "tblite", "mace", "chgnet", "deepmd"}:
         return _ase_property(action_id, backend_id, request)
     if backend_id == "xtb":
         return _xtb(action_id, request)

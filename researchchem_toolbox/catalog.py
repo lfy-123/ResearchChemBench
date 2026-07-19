@@ -26,6 +26,27 @@ CATEGORY_LABELS = {
 }
 
 
+def _resource_coverage(resource: dict[str, Any]) -> str:
+    kind = resource.get("kind")
+    if kind == "element_file_collection":
+        return f"{resource.get('element_count', 0)} elements"
+    if kind == "slater_koster_parameter_set":
+        return (
+            f"{resource.get('element_count', 0)} elements/"
+            f"{resource.get('pair_count', 0)} directed pairs"
+        )
+    if kind == "model_checkpoint":
+        branches = resource.get("model_branches") or []
+        if branches:
+            return f"one exact checkpoint/{len(branches)} explicit branches"
+        if resource.get("single_task"):
+            return "one exact single-task checkpoint"
+        return "one exact checkpoint"
+    if kind == "single_file_resource":
+        return "one exact registered file"
+    return "runtime-managed executable"
+
+
 def action_specs() -> dict[str, ActionSpec]:
     return {spec.id: spec for spec in ACTION_SPECS}
 
@@ -193,8 +214,9 @@ def agent_toolbox_overview(
         "Outputs can be passed onward as structured result objects or registered ArtifactRef objects.",
         "Scientific files use explicit registered ResourceRef values. Use either "
         "resource://<resource_id>/<Element> for element-file collections or "
-        "resource://<resource_id> for a parameter set. You must choose the resource family, "
-        "element mapping, cutoffs, and compatible method; the dispatcher never chooses them.",
+        "resource://<resource_id> for a parameter set, model checkpoint, or other registered "
+        "single file. You must choose the resource family/checkpoint, element mapping, model "
+        "branch, device, cutoffs, and compatible method; the dispatcher never chooses them.",
     ]
     for category in CATEGORY_LABELS:
         lines.extend(["", f"### {CATEGORY_LABELS[category]}"])
@@ -218,11 +240,7 @@ def agent_toolbox_overview(
         backends_text = ", ".join(resource.get("compatible_backends") or [])
         state = "available" if resource.get("available") else "unavailable"
         if resource.get("selectable", True):
-            coverage = (
-                f"{resource.get('element_count', 0)} elements"
-                if resource.get("kind") == "element_file_collection"
-                else f"{resource.get('element_count', 0)} elements/{resource.get('pair_count', 0)} directed pairs"
-            )
+            coverage = _resource_coverage(resource)
             lines.append(
                 f"- `{resource['id']}` — {resource.get('display_name', resource['id'])}; "
                 f"backend: {backends_text}; format: {resource.get('format', '-')}; "
@@ -276,15 +294,7 @@ def markdown_catalog(*, include_health: bool = True) -> str:
         ]
     )
     for resource in snapshot["resources"]:
-        coverage = (
-            f"{resource.get('element_count', 0)} elements"
-            if resource.get("kind") == "element_file_collection"
-            else (
-                f"{resource.get('element_count', 0)} elements; {resource.get('pair_count', 0)} directed pairs"
-                if resource.get("kind") == "slater_koster_parameter_set"
-                else "runtime executable"
-            )
-        )
+        coverage = _resource_coverage(resource)
         lines.append(
             "| {id} | {kind} | {backends} | {version} | {format} | {status} | {syntax} | {coverage} |".format(
                 id=resource["id"],
