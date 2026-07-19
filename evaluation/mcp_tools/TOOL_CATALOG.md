@@ -1,6 +1,6 @@
 # ResearchChem Atomic Tool Catalog
 
-Catalog hash: `e2e60aecab6a4267e025530239b82bf62899a7910227260e14d17b07ee8c73fe`
+Catalog hash: `04f81e0f2ead56d3e2e8b57e69462eaad309d53ea43f2bd9f8b3939ca7585d0d`
 
 The benchmark exposes every action below for every task. Backends are selected by the agent.
 
@@ -15,11 +15,11 @@ The benchmark exposes every action below for every task. Backends are selected b
 | assign_partial_charges | structure_and_system | ChargedStructure | rdkit_gasteiger, openff_am1bcc | structure | Assign named force-field or docking partial charges without parameterizing or solvating the system. |
 | assign_force_field_parameters | structure_and_system | ParameterizedSystem | openff, openmm_builder | structure | Assign an explicitly selected force field to an already prepared molecular system. |
 | solvate_molecular_system | structure_and_system | ParameterizedSystem | openmm_builder, packmol | system | Build the explicitly requested solvent/ion environment without minimizing or propagating dynamics. |
-| calculate_energy | molecular_electronic | EnergyResult | xtb, pyscf, psi4, tblite, mace, chgnet, deepmd, orca, ase_emt | structure | Calculate one molecular or non-periodic scalar energy with the exact software and method selected by the agent. |
+| calculate_energy | molecular_electronic | EnergyResult | xtb, pyscf, psi4, tblite, mace, chgnet, deepmd, orca, gaussian, gamess, ase_emt | structure | Calculate one molecular or non-periodic scalar energy with the exact software and method selected by the agent. |
 | calculate_forces | molecular_electronic | ForceResult | tblite, mace, chgnet, deepmd, ase_emt | structure | Calculate atomic forces for one non-periodic structure or an aligned batch. |
-| calculate_hessian | molecular_electronic | Hessian | xtb, psi4, tblite, orca, ase_emt | structure | Calculate one molecular Hessian without deriving modes, spectra, or thermochemistry. |
-| optimize_geometry | molecular_electronic | AtomicStructure | xtb, tblite, mace, chgnet, deepmd, orca, ase_emt | structure | Optimize one non-periodic geometry and return the optimized structure only as the primary result. |
-| calculate_dipole_moment | molecular_electronic | DipoleResult | tblite, pyscf, psi4, orca | structure | Calculate one molecular dipole moment with an explicitly chosen electronic method. |
+| calculate_hessian | molecular_electronic | Hessian | xtb, psi4, tblite, orca, gaussian, ase_emt | structure | Calculate one molecular Hessian without deriving modes, spectra, or thermochemistry. |
+| optimize_geometry | molecular_electronic | AtomicStructure | xtb, tblite, mace, chgnet, deepmd, orca, gaussian, gamess, ase_emt | structure | Optimize one non-periodic geometry and return the optimized structure only as the primary result. |
+| calculate_dipole_moment | molecular_electronic | DipoleResult | tblite, pyscf, psi4, orca, gaussian, gamess | structure | Calculate one molecular dipole moment with an explicitly chosen electronic method. |
 | calculate_atomic_charges | molecular_electronic | AtomicChargeResult | pyscf, psi4 | structure | Calculate electronic-structure population-analysis charges without attaching force-field parameters. |
 | calculate_orbitals | molecular_electronic | OrbitalResult | pyscf, psi4 | structure | Calculate orbital energies, occupations, and optional coefficient artifacts. |
 | derive_vibrational_modes | molecular_electronic | FrequencyResult | internal_vibrations | hessian, structure | Derive frequencies and normal modes from an existing Hessian and structure. |
@@ -30,8 +30,8 @@ The benchmark exposes every action below for every task. Backends are selected b
 | calculate_chemical_equilibrium | reaction_and_kinetics | EquilibriumResult | cantera | composition | Calculate an equilibrium composition/state for an explicitly supplied mechanism and thermodynamic condition. |
 | integrate_reaction_network | reaction_and_kinetics | KineticsTrajectory | scipy, cantera | network, initial_state | Integrate one explicitly specified reaction network over time. |
 | solve_microkinetic_model | reaction_and_kinetics | MicrokineticResult | catmap | model | Solve one explicitly supplied microkinetic model without constructing the reaction model for the agent. |
-| minimize_system_energy | molecular_dynamics | ParameterizedSystem | openmm, gromacs, lammps | system | Minimize an already parameterized system without automatically equilibrating or propagating dynamics. |
-| propagate_dynamics | molecular_dynamics | Trajectory | openmm, gromacs, lammps | system | Propagate exactly one agent-defined dynamics segment and return its trajectory and final state. |
+| minimize_system_energy | molecular_dynamics | ParameterizedSystem | openmm, gromacs, lammps, namd, amber_pmemd, charmm | system | Minimize an already parameterized system without automatically equilibrating or propagating dynamics. |
+| propagate_dynamics | molecular_dynamics | Trajectory | openmm, gromacs, lammps, namd, amber_pmemd, charmm | system | Propagate exactly one agent-defined dynamics segment and return its trajectory and final state. |
 | calculate_trajectory_rmsd | molecular_dynamics | TimeSeries | mdanalysis | trajectory, topology | Calculate an RMSD time series for an explicitly selected trajectory atom group and reference. |
 | calculate_radius_of_gyration | molecular_dynamics | TimeSeries | mdanalysis | trajectory, topology | Calculate the radius-of-gyration time series for an explicitly selected atom group. |
 | calculate_radial_distribution | molecular_dynamics | DistributionResult | mdanalysis | trajectory, topology | Calculate one radial distribution function for two explicitly selected atom groups. |
@@ -103,6 +103,8 @@ The benchmark exposes every action below for every task. Backends are selected b
 | nequip | nequip | available |  | nequip==0.19.0 | nequip-train | Explicit resource:// NequIP checkpoint or workspace model ArtifactRef | open_source |
 | allegro | nequip | available |  | nequip-allegro==0.8.3, nequip==0.19.0 |  | Explicit resource:// Allegro checkpoint or workspace model ArtifactRef | open_source |
 | orca | quantum | available |  |  | orca |  | manual_license |
+| gaussian | gaussian | available |  |  | g16, formchk |  | commercial_license |
+| gamess | gamess | available |  |  | rungms |  | registration_license |
 | ase_emt | core | available |  | ase |  |  | open_source |
 | internal_vibrations | core | available |  | numpy |  |  | open_source |
 | internal_spectroscopy | core | available |  | numpy |  |  | open_source |
@@ -115,6 +117,9 @@ The benchmark exposes every action below for every task. Backends are selected b
 | openmm | md | available | openmm |  |  |  | open_source |
 | gromacs | md | available | gromacs |  | gmx |  | open_source |
 | lammps | md | available | lammps |  | lmp |  | open_source |
+| namd | namd | available |  |  | namd3 |  | academic_registration |
+| amber_pmemd | amber | available |  |  | pmemd, pmemd.MPI, mpirun |  | academic_registration |
+| charmm | charmm | available |  |  | charmm |  | academic_registration |
 | mdanalysis | md | available |  | MDAnalysis |  |  | open_source |
 | plumed | md | available | plumed |  | plumed |  | open_source |
 | quantum_espresso | qe | available | qe |  | pw.x | Explicit ResourceRefs from qe_sssp_1_3_pbe_efficiency or qe_sssp_1_3_pbe_precision, one per element; workspace ArtifactRefs remain accepted | open_source |

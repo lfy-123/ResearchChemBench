@@ -62,7 +62,7 @@ def test_new_source_and_binary_extensions_are_audited_as_runtime_only():
         item["name"]: item
         for item in _yaml("config/requested_software.yaml")["requested_software"]
     }
-    for name in {"Multiwfn", "MESS", "MESMER", "AutoMeKin", "VESTA"}:
+    for name in {"Multiwfn", "MESS", "MESMER", "AutoMeKin", "VESTA", "LOBSTER", "Newton-X"}:
         item = items[name]
         assert item["status_policy"] == "probe"
         assert item["public_adapter"] == "runtime_only"

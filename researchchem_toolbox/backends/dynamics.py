@@ -19,6 +19,9 @@ from .common import (
     unsupported,
     write_json,
 )
+from .licensed_md import amber_pmemd as _amber_pmemd
+from .licensed_md import charmm as _charmm
+from .licensed_md import namd as _namd
 
 
 ACTIONS = {
@@ -444,6 +447,12 @@ def execute(action_id: str, backend_id: str, request: dict[str, Any]) -> dict[st
         return _gromacs(action_id, request)
     if backend_id == "lammps":
         return _lammps(action_id, request)
+    if backend_id == "namd":
+        return _namd(action_id, request)
+    if backend_id == "amber_pmemd":
+        return _amber_pmemd(action_id, request)
+    if backend_id == "charmm":
+        return _charmm(action_id, request)
     if backend_id == "mdanalysis":
         return _mdanalysis(action_id, request)
     if backend_id == "plumed":

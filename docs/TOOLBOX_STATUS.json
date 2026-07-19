@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-07-19T08:59:03.257928+00:00",
+  "generated_at": "2026-07-19T20:00:43.048660+00:00",
   "scientific_actions": 40,
   "data_actions": 4,
-  "backend_count": 49,
+  "backend_count": 54,
   "checks": [
     {
       "name": "catalog",
@@ -209,6 +209,8 @@
           "chgnet",
           "deepmd",
           "orca",
+          "gaussian",
+          "gamess",
           "ase_emt"
         ],
         "required_inputs": [
@@ -251,6 +253,7 @@
           "psi4",
           "tblite",
           "orca",
+          "gaussian",
           "ase_emt"
         ],
         "required_inputs": [
@@ -274,6 +277,8 @@
           "chgnet",
           "deepmd",
           "orca",
+          "gaussian",
+          "gamess",
           "ase_emt"
         ],
         "required_inputs": [
@@ -294,7 +299,9 @@
           "tblite",
           "pyscf",
           "psi4",
-          "orca"
+          "orca",
+          "gaussian",
+          "gamess"
         ],
         "required_inputs": [
           "structure"
@@ -495,7 +502,10 @@
         "backend_ids": [
           "openmm",
           "gromacs",
-          "lammps"
+          "lammps",
+          "namd",
+          "amber_pmemd",
+          "charmm"
         ],
         "required_inputs": [
           "system"
@@ -514,7 +524,10 @@
         "backend_ids": [
           "openmm",
           "gromacs",
-          "lammps"
+          "lammps",
+          "namd",
+          "amber_pmemd",
+          "charmm"
         ],
         "required_inputs": [
           "system"
@@ -2414,6 +2427,181 @@
         }
       },
       {
+        "id": "gaussian",
+        "display_name": "Gaussian 16",
+        "runtime": "gaussian",
+        "capabilities": [
+          "calculate_energy",
+          "calculate_hessian",
+          "optimize_geometry",
+          "calculate_dipole_moment"
+        ],
+        "description": "Operator-provided Gaussian 16 C.01 SCF/DFT jobs rendered from typed molecular structures and explicit method settings.",
+        "python_modules": [],
+        "executables": [
+          "g16",
+          "formchk"
+        ],
+        "environment_variables": [
+          "CHEMGRAPH_GAUSSIAN_COMMAND",
+          "CHEMGRAPH_GAUSSIAN_FORMCHK_COMMAND"
+        ],
+        "conda_packages": [],
+        "pip_packages": [],
+        "required_data_resources": [],
+        "license_class": "commercial_license",
+        "install_notes": "Configured from the operator-provided Gaussian 16 C.01 distribution under .software_cache/gaussian/g16; the adapter accepts no arbitrary route deck.",
+        "method_schema": {
+          "method": "Gaussian SCF or DFT method keyword",
+          "basis": "Gaussian built-in basis-set keyword",
+          "dispersion": "optional single Gaussian dispersion route keyword",
+          "charge": "optional explicit molecular charge",
+          "multiplicity": "optional explicit spin multiplicity"
+        },
+        "required_method_fields": {
+          "calculate_energy": [
+            "method",
+            "basis"
+          ],
+          "calculate_hessian": [
+            "method",
+            "basis"
+          ],
+          "optimize_geometry": [
+            "method",
+            "basis"
+          ],
+          "calculate_dipole_moment": [
+            "method",
+            "basis"
+          ]
+        },
+        "required_setting_fields": {
+          "calculate_energy": [
+            "scf_convergence"
+          ],
+          "calculate_hessian": [
+            "scf_convergence"
+          ],
+          "calculate_dipole_moment": [
+            "scf_convergence"
+          ],
+          "optimize_geometry": [
+            "scf_convergence",
+            "optimization_convergence",
+            "max_steps"
+          ]
+        },
+        "health": {
+          "status": "available",
+          "available": true,
+          "runtime": "gaussian",
+          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/gaussian/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {},
+          "executables": {
+            "g16": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/gaussian/g16/install/g16/g16",
+            "formchk": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/gaussian/g16/install/g16/formchk"
+          },
+          "environment": {
+            "CHEMGRAPH_GAUSSIAN_COMMAND": true,
+            "CHEMGRAPH_GAUSSIAN_FORMCHK_COMMAND": true
+          },
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [],
+          "pip_packages": [],
+          "required_data_resources": [],
+          "license_class": "commercial_license",
+          "install_notes": "Configured from the operator-provided Gaussian 16 C.01 distribution under .software_cache/gaussian/g16; the adapter accepts no arbitrary route deck."
+        }
+      },
+      {
+        "id": "gamess",
+        "display_name": "GAMESS",
+        "runtime": "gamess",
+        "capabilities": [
+          "calculate_energy",
+          "optimize_geometry",
+          "calculate_dipole_moment"
+        ],
+        "description": "Operator-registered GAMESS 15 Jul 2024 R2 Patch 1 molecular SCF/DFT calculations through a typed input renderer.",
+        "python_modules": [],
+        "executables": [
+          "rungms"
+        ],
+        "environment_variables": [
+          "CHEMGRAPH_GAMESS_COMMAND"
+        ],
+        "conda_packages": [],
+        "pip_packages": [],
+        "required_data_resources": [],
+        "license_class": "registration_license",
+        "install_notes": "The registered source distribution is compiled under .software_cache/gamess/2024-r2-p1 with a sockets DDI build and isolated compiler/runtime libraries.",
+        "method_schema": {
+          "scftyp": "RHF, UHF, ROHF, or another explicit GAMESS SCFTYP",
+          "gbasis": "GAMESS GBASIS family such as STO, N31, or N311",
+          "ngauss": "explicit Gaussian primitive count for GBASIS",
+          "dfttyp": "optional GAMESS DFTTYP keyword",
+          "ndfunc/npfunc/nffunc": "optional explicit polarization counts",
+          "diffsp/diffs": "optional explicit diffuse-function booleans",
+          "charge/multiplicity": "optional explicit molecular charge and multiplicity"
+        },
+        "required_method_fields": {
+          "calculate_energy": [
+            "scftyp",
+            "gbasis",
+            "ngauss"
+          ],
+          "optimize_geometry": [
+            "scftyp",
+            "gbasis",
+            "ngauss"
+          ],
+          "calculate_dipole_moment": [
+            "scftyp",
+            "gbasis",
+            "ngauss"
+          ]
+        },
+        "required_setting_fields": {
+          "calculate_energy": [
+            "scf_convergence"
+          ],
+          "calculate_dipole_moment": [
+            "scf_convergence"
+          ],
+          "optimize_geometry": [
+            "scf_convergence",
+            "gradient_tolerance_hartree_per_bohr",
+            "max_steps"
+          ]
+        },
+        "health": {
+          "status": "available",
+          "available": true,
+          "runtime": "gamess",
+          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/gamess/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {},
+          "executables": {
+            "rungms": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/gamess/2024-r2-p1/source/rungms"
+          },
+          "environment": {
+            "CHEMGRAPH_GAMESS_COMMAND": true
+          },
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [],
+          "pip_packages": [],
+          "required_data_resources": [],
+          "license_class": "registration_license",
+          "install_notes": "The registered source distribution is compiled under .software_cache/gamess/2024-r2-p1 with a sockets DDI build and isolated compiler/runtime libraries."
+        }
+      },
+      {
         "id": "ase_emt",
         "display_name": "ASE EMT",
         "runtime": "core",
@@ -3137,6 +3325,286 @@
           "required_data_resources": [],
           "license_class": "open_source",
           "install_notes": ""
+        }
+      },
+      {
+        "id": "namd",
+        "display_name": "NAMD 3",
+        "runtime": "namd",
+        "capabilities": [
+          "minimize_system_energy",
+          "propagate_dynamics"
+        ],
+        "description": "NAMD 3.0.2 execution of exactly one minimization or dynamics segment from an explicitly supplied CHARMM-format system.",
+        "python_modules": [],
+        "executables": [
+          "namd3"
+        ],
+        "environment_variables": [
+          "CHEMGRAPH_NAMD_COMMAND"
+        ],
+        "conda_packages": [],
+        "pip_packages": [],
+        "required_data_resources": [],
+        "license_class": "academic_registration",
+        "install_notes": "The AVX-512 multicore and CUDA bundles are cached under .software_cache/namd/3.0.2. The public backend selects the validated CPU AVX-512 binary only; CUDA is never chosen implicitly.",
+        "method_schema": {
+          "force_field_family": "currently the literal charmm",
+          "exclude/one_four_scaling": "explicit NAMD nonbonded exclusions and 1-4 scaling",
+          "cutoff_angstrom/switch_distance_angstrom/pairlist_distance_angstrom": "explicit nonbonded distances",
+          "switching/pme": "explicit booleans; PME requires periodic cell metadata",
+          "rigid_bonds": "NAMD rigidBonds choice such as none, water, or all",
+          "system": "namd_psf_path, coordinate_path or namd_binary_coordinates_path, and namd_parameter_paths"
+        },
+        "required_method_fields": {
+          "minimize_system_energy": [
+            "force_field_family",
+            "exclude",
+            "one_four_scaling",
+            "cutoff_angstrom",
+            "switching",
+            "switch_distance_angstrom",
+            "pairlist_distance_angstrom",
+            "pme",
+            "rigid_bonds"
+          ],
+          "propagate_dynamics": [
+            "force_field_family",
+            "exclude",
+            "one_four_scaling",
+            "cutoff_angstrom",
+            "switching",
+            "switch_distance_angstrom",
+            "pairlist_distance_angstrom",
+            "pme",
+            "rigid_bonds"
+          ]
+        },
+        "required_setting_fields": {
+          "minimize_system_energy": [
+            "max_iterations",
+            "report_interval"
+          ],
+          "propagate_dynamics": [
+            "ensemble",
+            "temperature_kelvin",
+            "timestep_fs",
+            "steps",
+            "report_interval",
+            "random_seed"
+          ]
+        },
+        "health": {
+          "status": "available",
+          "available": true,
+          "runtime": "namd",
+          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/namd/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {},
+          "executables": {
+            "namd3": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/namd/3.0.2/multicore-avx512/namd3"
+          },
+          "environment": {
+            "CHEMGRAPH_NAMD_COMMAND": true
+          },
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [],
+          "pip_packages": [],
+          "required_data_resources": [],
+          "license_class": "academic_registration",
+          "install_notes": "The AVX-512 multicore and CUDA bundles are cached under .software_cache/namd/3.0.2. The public backend selects the validated CPU AVX-512 binary only; CUDA is never chosen implicitly."
+        }
+      },
+      {
+        "id": "amber_pmemd",
+        "display_name": "Amber 26 PMEMD",
+        "runtime": "amber",
+        "capabilities": [
+          "minimize_system_energy",
+          "propagate_dynamics"
+        ],
+        "description": "Amber 26 PMEMD CPU serial or Agent-sized MPI execution of one typed minimization/dynamics segment.",
+        "python_modules": [],
+        "executables": [
+          "pmemd",
+          "pmemd.MPI",
+          "mpirun"
+        ],
+        "environment_variables": [
+          "CHEMGRAPH_AMBER_COMMAND",
+          "CHEMGRAPH_AMBER_MPI_COMMAND",
+          "CHEMGRAPH_AMBER_MPIRUN_COMMAND",
+          "CHEMGRAPH_AMBER_MPI_EXECUTABLE"
+        ],
+        "conda_packages": [],
+        "pip_packages": [],
+        "required_data_resources": [],
+        "license_class": "academic_registration",
+        "install_notes": "Licensed PMEMD26 CPU serial and MPI binaries are built under .software_cache/amber/26. AmberTools 26 remains independently available in the OpenFF runtime.",
+        "method_schema": {
+          "boundary": "vacuum, implicit, or periodic",
+          "cutoff_angstrom": "explicit nonbonded cutoff",
+          "constraints": "none, h_bonds, or all_bonds",
+          "igb/saltcon_molar": "explicit implicit-solvent model and optional salt concentration",
+          "system": "amber_topology_path/prmtop_path plus amber_coordinate_path/coordinate_path"
+        },
+        "required_method_fields": {
+          "minimize_system_energy": [
+            "boundary",
+            "cutoff_angstrom",
+            "constraints"
+          ],
+          "propagate_dynamics": [
+            "boundary",
+            "cutoff_angstrom",
+            "constraints"
+          ]
+        },
+        "required_setting_fields": {
+          "minimize_system_energy": [
+            "max_iterations",
+            "steepest_descent_steps",
+            "gradient_tolerance_kcal_mol_angstrom",
+            "report_interval"
+          ],
+          "propagate_dynamics": [
+            "ensemble",
+            "temperature_kelvin",
+            "timestep_fs",
+            "steps",
+            "report_interval",
+            "random_seed",
+            "restart"
+          ]
+        },
+        "health": {
+          "status": "available",
+          "available": true,
+          "runtime": "amber",
+          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/amber/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {},
+          "executables": {
+            "pmemd": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/amber/26/install/bin/pmemd",
+            "pmemd.MPI": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/amber/26/install/bin/pmemd.MPI",
+            "mpirun": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/amber/bin/mpirun"
+          },
+          "environment": {
+            "CHEMGRAPH_AMBER_COMMAND": true,
+            "CHEMGRAPH_AMBER_MPI_COMMAND": true,
+            "CHEMGRAPH_AMBER_MPIRUN_COMMAND": true,
+            "CHEMGRAPH_AMBER_MPI_EXECUTABLE": true
+          },
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [],
+          "pip_packages": [],
+          "required_data_resources": [],
+          "license_class": "academic_registration",
+          "install_notes": "Licensed PMEMD26 CPU serial and MPI binaries are built under .software_cache/amber/26. AmberTools 26 remains independently available in the OpenFF runtime."
+        }
+      },
+      {
+        "id": "charmm",
+        "display_name": "CHARMM c50b2",
+        "runtime": "charmm",
+        "capabilities": [
+          "minimize_system_energy",
+          "propagate_dynamics"
+        ],
+        "description": "CHARMM c50b2 execution of one typed minimization or NVE/NVT dynamics segment from a pre-parameterized PSF/coordinate system.",
+        "python_modules": [],
+        "executables": [
+          "charmm"
+        ],
+        "environment_variables": [
+          "CHEMGRAPH_CHARMM_COMMAND"
+        ],
+        "conda_packages": [],
+        "pip_packages": [],
+        "required_data_resources": [],
+        "license_class": "academic_registration",
+        "install_notes": "The operator-provided CHARMM c50b2 source is compiled as a serial/OpenMP GNU build under .software_cache/charmm/50b2; arbitrary CHARMM input scripts are not accepted.",
+        "method_schema": {
+          "force_field_family": "the literal charmm",
+          "coordinate_format": "card or pdb",
+          "flexible_parameters": "explicit boolean selecting CHARMM flexible parameter parsing",
+          "electrostatics/electrostatic_switch/dielectric": "explicit CHARMM nonbonded electrostatics",
+          "vdw_switch/cutoff_angstrom/switch_on_angstrom/pairlist_distance_angstrom": "explicit van der Waals switching distances",
+          "constraints": "none or h_bonds",
+          "nonbond_update_interval": "explicit CHARMM INBFRQ value for dynamics",
+          "system": "charmm_topology_paths, charmm_parameter_paths, charmm_psf_path, and charmm_coordinate_path"
+        },
+        "required_method_fields": {
+          "minimize_system_energy": [
+            "force_field_family",
+            "coordinate_format",
+            "flexible_parameters",
+            "electrostatics",
+            "electrostatic_switch",
+            "dielectric",
+            "vdw_switch",
+            "cutoff_angstrom",
+            "switch_on_angstrom",
+            "pairlist_distance_angstrom",
+            "constraints"
+          ],
+          "propagate_dynamics": [
+            "force_field_family",
+            "coordinate_format",
+            "flexible_parameters",
+            "electrostatics",
+            "electrostatic_switch",
+            "dielectric",
+            "vdw_switch",
+            "cutoff_angstrom",
+            "switch_on_angstrom",
+            "pairlist_distance_angstrom",
+            "constraints",
+            "nonbond_update_interval"
+          ]
+        },
+        "required_setting_fields": {
+          "minimize_system_energy": [
+            "algorithm",
+            "max_iterations",
+            "gradient_tolerance_kcal_mol_angstrom",
+            "report_interval"
+          ],
+          "propagate_dynamics": [
+            "ensemble",
+            "temperature_kelvin",
+            "timestep_fs",
+            "steps",
+            "report_interval",
+            "random_seed",
+            "restart"
+          ]
+        },
+        "health": {
+          "status": "available",
+          "available": true,
+          "runtime": "charmm",
+          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/charmm/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {},
+          "executables": {
+            "charmm": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/charmm/50b2/install/bin/charmm"
+          },
+          "environment": {
+            "CHEMGRAPH_CHARMM_COMMAND": true
+          },
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [],
+          "pip_packages": [],
+          "required_data_resources": [],
+          "license_class": "academic_registration",
+          "install_notes": "The operator-provided CHARMM c50b2 source is compiled as a serial/OpenMP GNU build under .software_cache/charmm/50b2; arbitrary CHARMM input scripts are not accepted."
         }
       },
       {
@@ -7196,10 +7664,10 @@
         "size_bytes": 150218
       }
     ],
-    "catalog_hash": "e2e60aecab6a4267e025530239b82bf62899a7910227260e14d17b07ee8c73fe"
+    "catalog_hash": "04f81e0f2ead56d3e2e8b57e69462eaad309d53ea43f2bd9f8b3939ca7585d0d"
   },
   "installation": {
-    "catalog_hash": "e2e60aecab6a4267e025530239b82bf62899a7910227260e14d17b07ee8c73fe",
+    "catalog_hash": "04f81e0f2ead56d3e2e8b57e69462eaad309d53ea43f2bd9f8b3939ca7585d0d",
     "unavailable_backend_count": 0,
     "unavailable_backends": [],
     "conda_packages": [],

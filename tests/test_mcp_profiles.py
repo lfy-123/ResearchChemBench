@@ -23,7 +23,7 @@ def test_runtimes_cover_each_backend_once():
     }
     assigned = [backend for value in assignments.values() for backend in value["backends"]]
     assert set(assigned) == set(backend_specs())
-    assert len(assigned) == len(set(assigned)) == 49
+    assert len(assigned) == len(set(assigned)) == 54
     for runtime, value in assignments.items():
         assert all(backend_specs()[backend].runtime == runtime for backend in value["backends"])
 
@@ -32,7 +32,7 @@ def test_runtimes_have_unique_researchchem_conda_names():
     config = load_profile_config()
     specifications = [*config["profiles"].values(), *config["support_environments"].values()]
     names = [specification["conda_name"] for specification in specifications]
-    assert len(names) == len(set(names)) == 17
+    assert len(names) == len(set(names)) == 22
     assert all(name.startswith("researchchem-") for name in names)
 
 
@@ -71,6 +71,30 @@ def test_vasp_runtime_injects_exact_binary_path_without_selecting_potcars():
     )
     assert ".software_cache/vasp/6.3.2/bin" in environment["PATH"]
     assert "POTCAR" not in environment
+
+
+def test_manual_runtime_paths_are_exact_and_project_relative_values_are_resolved():
+    gaussian = profile_runtime_environment("gaussian")
+    assert gaussian["CHEMGRAPH_GAUSSIAN_COMMAND"].endswith(
+        ".software_cache/gaussian/g16/install/g16/g16"
+    )
+    assert Path(gaussian["GAUSS_SCRDIR"]).is_absolute()
+    assert gaussian["GAUSS_SCRDIR"].endswith(
+        ".software_cache/gaussian/g16/scratch"
+    )
+    assert profile_runtime_environment("gamess")["CHEMGRAPH_GAMESS_COMMAND"].endswith(
+        ".software_cache/gamess/2024-r2-p1/source/rungms"
+    )
+    assert profile_runtime_environment("namd")["CHEMGRAPH_NAMD_COMMAND"].endswith(
+        ".software_cache/namd/3.0.2/multicore-avx512/namd3"
+    )
+    amber = profile_runtime_environment("amber")
+    assert amber["CHEMGRAPH_AMBER_MPI_EXECUTABLE"].endswith(
+        ".software_cache/amber/26/install/bin/pmemd.MPI"
+    )
+    assert profile_runtime_environment("charmm")["CHEMGRAPH_CHARMM_COMMAND"].endswith(
+        ".software_cache/charmm/50b2/install/bin/charmm"
+    )
 
 
 def test_task_workspace_gets_one_server_full_prompt_and_catalog(tmp_path, monkeypatch):

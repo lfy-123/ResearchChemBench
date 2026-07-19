@@ -156,11 +156,11 @@ requested_software:
     environment: quantum
     modules: []
     commands: [orca]
-    cache_paths: [.software_cache/orca/6.1.1, .software_cache/openmpi/4.1.8]
+    cache_paths: [.software_cache/orca/6.1.1, .software_cache/openmpi/4.1.8, .software_cache/orca/download/orca_6_1_1_linux_x86-64_shared_openmpi418_nodmrg.tar.xz]
     license: free_academic_registration
     public_adapter: existing
     role: Molecular quantum chemistry executable.
-    notes: ORCA 6.1.1 and matching OpenMPI 4.1.8 are installed and validated by real energy/Hessian/optimization/dipole smokes.
+    notes: ORCA 6.1.1 and matching OpenMPI 4.1.8 are installed and validated by real energy/Hessian/optimization/dipole smokes. The newly supplied no-DMRG archive is cached for provenance but was not allowed to replace the already validated, more capable active installation.
     official_url: https://www.faccts.de/orca/
 
   - name: NWChem
@@ -180,21 +180,29 @@ requested_software:
   - name: GAMESS
     category: 构象与分子量子化学
     kind: licensed_binary
-    status_policy: manual
+    status_policy: probe
+    environment: gamess
+    modules: []
+    commands: [rungms]
+    cache_paths: [.software_cache/gamess/2024-r2-p1]
     license: registration
-    public_adapter: not_implemented
+    public_adapter: existing
     role: Molecular quantum chemistry executable.
-    notes: Requires operator registration/download and a local build or binary; no installer was found in the supplied download directory.
+    notes: The registered 15 Jul 2024 R2 Patch 1 source was compiled with sockets DDI and OpenBLAS ILP64. Official optimization and public energy/dipole/optimization Action calls passed; the adapter accepts typed fields rather than arbitrary GAMESS input.
     official_url: https://www.msg.chem.iastate.edu/GAMESS/download/register/
 
   - name: Gaussian
     category: 构象与分子量子化学
     kind: licensed_binary
-    status_policy: manual
+    status_policy: probe
+    environment: gaussian
+    modules: [cclib]
+    commands: [g16, formchk]
+    cache_paths: [.software_cache/gaussian/g16]
     license: commercial
-    public_adapter: not_implemented
+    public_adapter: existing
     role: Molecular quantum chemistry executable.
-    notes: Requires a licensed distribution and site-specific environment configuration.
+    notes: Gaussian 16 Revision C.01 is staged in an isolated runtime. Public energy, Hessian, optimization and dipole calls passed; Hessians are reconstructed from formchk output and no arbitrary route deck is exposed.
     official_url: https://gaussian.com/
 
   - name: Q-Chem
@@ -315,11 +323,11 @@ requested_software:
     environment: vasp
     modules: []
     commands: [vasp_std]
-    cache_paths: [.software_cache/vasp/6.3.2/bin/vasp_std, .software_cache/vasp/6.3.2/testsuite/POTCARS/POTCAR.Si]
+    cache_paths: [.software_cache/vasp/6.3.2/bin/vasp_std, .software_cache/vasp/6.3.2/testsuite/POTCARS/POTCAR.Si, .software_cache/vasp/download/vasp.6.3.2.zip]
     license: commercial_registration
     public_adapter: existing
     role: Plane-wave periodic DFT executable.
-    notes: Operator-provided VASP 6.3.2 source was compiled with the isolated GCC/OpenMPI/ScaLAPACK/FFTW runtime. An atomic periodic backend and bundled Si testsuite POTCAR are configured for validation; general production chemistry still requires the operator's licensed PAW POTCAR library.
+    notes: Operator-provided VASP 6.3.2 source was compiled with the isolated GCC/OpenMPI/ScaLAPACK/FFTW runtime. The newly supplied archive is retained as a duplicate source copy and did not replace the validated build. An atomic periodic backend and bundled Si testsuite POTCAR are configured; general production chemistry still requires the operator's licensed PAW POTCAR library.
     official_url: https://vasp.at/wiki/Installing_VASP.6.X.X
 
   - name: CASTEP
@@ -395,41 +403,57 @@ requested_software:
   - name: LOBSTER
     category: 周期材料、声子与输运
     kind: licensed_binary
-    status_policy: manual
+    status_policy: probe
+    environment: lobster
+    modules: [pymatgen]
+    commands: [lobster-5.1.0]
+    cache_paths: [.software_cache/lobster/5.1.0]
     license: commercial_registration
-    public_adapter: not_implemented
+    public_adapter: runtime_only
     role: Chemical-bonding analysis of periodic electronic-structure results.
-    notes: Requires a licensed binary and compatible VASP/QE output.
+    notes: LOBSTER 5.1.0 is cached and a real Quantum ESPRESSO diamond projection completed with 1.12% absolute charge spilling. It remains runtime-only until a typed periodic bonding-analysis Action is added; no arbitrary lobsterin runner is exposed.
     official_url: https://www.cohp.de/
 
   - name: NAMD
     category: 分子动力学与自由能
     kind: licensed_binary
-    status_policy: manual
+    status_policy: probe
+    environment: namd
+    modules: []
+    commands: [namd3]
+    cache_paths: [.software_cache/namd/3.0.2]
     license: free_academic_registration
-    public_adapter: not_implemented
+    public_adapter: existing
     role: Parallel molecular-dynamics engine.
-    notes: Requires operator download/registration and host-specific MPI/CUDA setup.
+    notes: NAMD 3.0.2 AVX-512 and CUDA bundles are cached. The public atomic minimization/dynamics backend uses the validated CPU AVX-512 executable; CUDA remains unselected and untested because no GPU device is present.
     official_url: https://www.ks.uiuc.edu/Research/namd/
 
   - name: AMBER
     category: 分子动力学与自由能
     kind: licensed_binary
-    status_policy: manual
+    status_policy: probe
+    environment: amber
+    modules: []
+    commands: [pmemd, pmemd.MPI]
+    cache_paths: [.software_cache/amber/26]
     license: academic_registration
-    public_adapter: not_implemented
+    public_adapter: existing
     role: Molecular mechanics and molecular-dynamics suite.
-    notes: AmberTools is present in existing OpenFF runtimes, but the full AMBER distribution is not installed.
+    notes: AmberTools 26 is available in the OpenFF runtime. Licensed PMEMD26 CPU serial and MPI binaries were compiled and both public single-segment minimization/dynamics paths passed real tests; CUDA PMEMD is not built.
     official_url: https://ambermd.org/GetAmber.php
 
   - name: CHARMM
     category: 分子动力学与自由能
     kind: licensed_binary
-    status_policy: manual
+    status_policy: probe
+    environment: charmm
+    modules: []
+    commands: [charmm]
+    cache_paths: [.software_cache/charmm/50b2]
     license: academic_registration
-    public_adapter: not_implemented
+    public_adapter: existing
     role: Molecular simulation and force-field suite.
-    notes: Requires operator license/download and compilation.
+    notes: CHARMM c50b2 was compiled as a serial/OpenMP GNU build. Typed minimization plus restartable NVE/NVT segment calls passed with explicit RTF/parameter/PSF/coordinate inputs; arbitrary CHARMM scripts are not accepted.
     official_url: https://academiccharmm.org/
 
   - name: HOOMD-blue
@@ -538,7 +562,7 @@ requested_software:
     license: MIT
     public_adapter: runtime_only
     role: Automated reaction-mechanism exploration.
-    notes: Official source was built in an isolated conda environment with the bundled MOPAC engine; a real water PM7 single-point job ended normally. Qcore and Gaussian remain optional licensed engines and are not selected implicitly.
+    notes: Official source was built in an isolated conda environment with the bundled MOPAC engine; a real water PM7 single-point job ended normally. Gaussian is configured independently, but AutoMeKin-to-Gaussian/Qcore coupling is not prewired or selected implicitly.
     official_url: https://github.com/emartineznunez/AutoMeKin
 
   - name: KinBot
@@ -585,11 +609,15 @@ requested_software:
   - name: Newton-X
     category: 激发态、光谱与可视化
     kind: licensed_binary
-    status_policy: manual
+    status_policy: probe
+    environment: newtonx
+    modules: []
+    commands: [nx_moldyn, nx_geninp, nx_test]
+    cache_paths: [.software_cache/newton-x/26a]
     license: registration
-    public_adapter: not_implemented
+    public_adapter: runtime_only
     role: Nonadiabatic molecular dynamics and excited-state sampling.
-    notes: Official download requires the project request form; no archive was supplied.
+    notes: Newton-X New Series 3.5.3 is installed and the bundled analytical avoided-crossing test passed. It remains runtime-only until a typed nonadiabatic Action can expose states, couplings, hopping controls and an explicit electronic-structure interface without becoming a monolithic workflow runner.
     official_url: https://newtonx.org/download/
 
   - name: TheoDORE
@@ -626,7 +654,7 @@ requested_software:
     license: commercial
     public_adapter: not_implemented
     role: Numerical computing host for EasySpin and other scripts.
-    notes: Requires a site license/installer; no MATLAB binary was found in the supplied downloads.
+    notes: The manual-download directory contains an incompletely uploaded MATLAB R2018a image. Per the operator's instruction it was not copied, extracted, installed or adapted in this pass; finish uploading the licensed installer before any MATLAB/EasySpin executable work.
     official_url: https://www.mathworks.com/products/matlab.html
 
   - name: VMD

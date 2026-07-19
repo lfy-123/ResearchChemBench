@@ -18,7 +18,7 @@ one complete Chemistry MCP server
         │
         ├── 40 atomic Scientific Actions
         ├── 4 atomic Data Actions
-        ├── 49 explicitly selectable BackendSpecs
+        ├── 54 explicitly selectable BackendSpecs
         └── no workflow tool, automatic backend, or fallback
         │
         ▼

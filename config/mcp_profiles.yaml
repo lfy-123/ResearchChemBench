@@ -22,6 +22,120 @@ support_environments:
       commands: [abinit]
     backends: [abinit]
 
+  gaussian:
+    conda_name: researchchem-gaussian
+    description: Licensed Gaussian 16 C.01 executable and formatted-checkpoint runtime.
+    environment: .tool_envs/gaussian
+    conda_packages: [python=3.11, cclib]
+    pip_packages: []
+    health_checks:
+      modules: [cclib]
+      commands: [g16, formchk]
+      external_commands:
+        - .software_cache/gaussian/g16/install/g16/g16
+        - .software_cache/gaussian/g16/install/g16/formchk
+    command_variables:
+      CHEMGRAPH_GAUSSIAN_COMMAND: .software_cache/gaussian/g16/install/g16/g16
+      CHEMGRAPH_GAUSSIAN_FORMCHK_COMMAND: .software_cache/gaussian/g16/install/g16/formchk
+    path_entries: [.software_cache/gaussian/g16/install/g16]
+    cache_paths: [.software_cache/gaussian/g16]
+    environment_variables:
+      g16root: .software_cache/gaussian/g16/install
+      GAUSS_EXEDIR: .software_cache/gaussian/g16/install/g16
+      GAUSS_SCRDIR: .software_cache/gaussian/g16/scratch
+    smoke_commands:
+      - [bash, -c, 'grep -q "Normal termination of Gaussian 16" .software_cache/gaussian/g16/smoke/water.log']
+    backends: [gaussian]
+
+  gamess:
+    conda_name: researchchem-gamess
+    description: Registered GAMESS 15 Jul 2024 R2 Patch 1 sockets-DDI source build.
+    environment: .tool_envs/gamess
+    conda_packages: [gcc_linux-64, gfortran_linux-64, openblas, tcsh, jinja2]
+    pip_packages: []
+    health_checks:
+      commands: [rungms]
+      external_commands:
+        - .software_cache/gamess/2024-r2-p1/source/rungms
+        - .software_cache/gamess/2024-r2-p1/build/gamess.00.x
+    command_variables:
+      CHEMGRAPH_GAMESS_COMMAND: .software_cache/gamess/2024-r2-p1/source/rungms
+    path_entries:
+      - .software_cache/gamess/2024-r2-p1/source
+      - .software_cache/gamess/2024-r2-p1/build
+    library_path_entries: [.tool_envs/gamess/lib]
+    cache_paths: [.software_cache/gamess/2024-r2-p1]
+    environment_variables:
+      GMS_PATH: .software_cache/gamess/2024-r2-p1/source
+      GMS_BUILD_DIR: .software_cache/gamess/2024-r2-p1/build
+      GMS_SCRATCH: .software_cache/gamess/2024-r2-p1/scratch
+      GMS_RESTART: .software_cache/gamess/2024-r2-p1/restart
+    smoke_commands:
+      - [bash, -c, 'grep -q "EXECUTION OF GAMESS TERMINATED NORMALLY" .software_cache/gamess/2024-r2-p1/smoke/exam01.log']
+    backends: [gamess]
+
+  namd:
+    conda_name: researchchem-namd
+    description: NAMD 3.0.2 multicore AVX-512 runtime; the CUDA bundle is cached but not selected automatically.
+    environment: .tool_envs/namd
+    conda_packages: [python]
+    pip_packages: []
+    health_checks:
+      commands: [namd3]
+      external_commands:
+        - .software_cache/namd/3.0.2/multicore-avx512/namd3
+        - .software_cache/namd/3.0.2/multicore-cuda/namd3
+    command_variables:
+      CHEMGRAPH_NAMD_COMMAND: .software_cache/namd/3.0.2/multicore-avx512/namd3
+    path_entries: [.software_cache/namd/3.0.2/multicore-avx512]
+    cache_paths: [.software_cache/namd/3.0.2]
+    smoke_commands:
+      - [bash, -c, 'grep -q "End of program" .software_cache/namd/3.0.2/smoke/namd_smoke.log']
+    backends: [namd]
+
+  amber:
+    conda_name: researchchem-amber
+    description: Amber 26 licensed PMEMD CPU serial and OpenMPI executables.
+    environment: .tool_envs/amber
+    conda_packages: [gcc_linux-64, gfortran_linux-64, cmake, openmpi, netcdf-fortran, fftw, bison]
+    pip_packages: []
+    health_checks:
+      commands: [pmemd, pmemd.MPI, mpirun]
+      external_commands:
+        - .software_cache/amber/26/install/bin/pmemd
+        - .software_cache/amber/26/install/bin/pmemd.MPI
+    command_variables:
+      CHEMGRAPH_AMBER_COMMAND: .software_cache/amber/26/install/bin/pmemd
+      CHEMGRAPH_AMBER_MPI_COMMAND: .software_cache/amber/26/install/bin/pmemd.MPI
+      CHEMGRAPH_AMBER_MPIRUN_COMMAND: .tool_envs/amber/bin/mpirun
+    path_entries: [.software_cache/amber/26/install/bin]
+    library_path_entries: [.tool_envs/amber/lib]
+    cache_paths: [.software_cache/amber/26]
+    environment_variables:
+      CHEMGRAPH_AMBER_MPI_EXECUTABLE: .software_cache/amber/26/install/bin/pmemd.MPI
+      OMPI_ALLOW_RUN_AS_ROOT: '1'
+      OMPI_ALLOW_RUN_AS_ROOT_CONFIRM: '1'
+    smoke_commands:
+      - [bash, -c, 'grep -q "Amber 26 PMEMD" .software_cache/amber/26/smoke/gb7_trx_serial/mdout.trxox']
+    backends: [amber_pmemd]
+
+  charmm:
+    conda_name: researchchem-charmm
+    description: Academic CHARMM c50b2 serial/OpenMP GNU source build.
+    environment: .tool_envs/charmm
+    conda_packages: [python]
+    pip_packages: []
+    health_checks:
+      commands: [charmm]
+      external_commands: [.software_cache/charmm/50b2/install/bin/charmm]
+    command_variables:
+      CHEMGRAPH_CHARMM_COMMAND: .software_cache/charmm/50b2/install/bin/charmm
+    path_entries: [.software_cache/charmm/50b2/install/bin]
+    cache_paths: [.software_cache/charmm/50b2]
+    smoke_commands:
+      - [bash, -c, 'grep -q "NORMAL TERMINATION BY NORMAL STOP" .software_cache/charmm/50b2/smoke/h2otst.out']
+    backends: [charmm]
+
 profiles:
   core:
     conda_name: researchchem-core

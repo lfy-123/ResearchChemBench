@@ -121,7 +121,7 @@ ACTION_SPECS: tuple[ActionSpec, ...] = (
         "molecular_electronic",
         "Calculate one molecular or non-periodic scalar energy with the exact software and method selected by the agent.",
         "EnergyResult",
-        ("xtb", "pyscf", "psi4", "tblite", "mace", "chgnet", "deepmd", "orca", "ase_emt"),
+        ("xtb", "pyscf", "psi4", "tblite", "mace", "chgnet", "deepmd", "orca", "gaussian", "gamess", "ase_emt"),
         ("structure",),
         input_description="non-periodic AtomicStructure",
     ),
@@ -139,7 +139,7 @@ ACTION_SPECS: tuple[ActionSpec, ...] = (
         "molecular_electronic",
         "Calculate one molecular Hessian without deriving modes, spectra, or thermochemistry.",
         "Hessian",
-        ("xtb", "psi4", "tblite", "orca", "ase_emt"),
+        ("xtb", "psi4", "tblite", "orca", "gaussian", "ase_emt"),
         ("structure",),
         input_description="AtomicStructure",
     ),
@@ -148,7 +148,7 @@ ACTION_SPECS: tuple[ActionSpec, ...] = (
         "molecular_electronic",
         "Optimize one non-periodic geometry and return the optimized structure only as the primary result.",
         "AtomicStructure",
-        ("xtb", "tblite", "mace", "chgnet", "deepmd", "orca", "ase_emt"),
+        ("xtb", "tblite", "mace", "chgnet", "deepmd", "orca", "gaussian", "gamess", "ase_emt"),
         ("structure",),
         input_description="AtomicStructure plus explicit convergence and optional constraints",
     ),
@@ -157,7 +157,7 @@ ACTION_SPECS: tuple[ActionSpec, ...] = (
         "molecular_electronic",
         "Calculate one molecular dipole moment with an explicitly chosen electronic method.",
         "DipoleResult",
-        ("tblite", "pyscf", "psi4", "orca"),
+        ("tblite", "pyscf", "psi4", "orca", "gaussian", "gamess"),
         ("structure",),
         input_description="AtomicStructure",
     ),
@@ -258,7 +258,7 @@ ACTION_SPECS: tuple[ActionSpec, ...] = (
         "molecular_dynamics",
         "Minimize an already parameterized system without automatically equilibrating or propagating dynamics.",
         "ParameterizedSystem",
-        ("openmm", "gromacs", "lammps"),
+        ("openmm", "gromacs", "lammps", "namd", "amber_pmemd", "charmm"),
         ("system",),
         input_description="ParameterizedSystem Artifact",
     ),
@@ -267,7 +267,7 @@ ACTION_SPECS: tuple[ActionSpec, ...] = (
         "molecular_dynamics",
         "Propagate exactly one agent-defined dynamics segment and return its trajectory and final state.",
         "Trajectory",
-        ("openmm", "gromacs", "lammps"),
+        ("openmm", "gromacs", "lammps", "namd", "amber_pmemd", "charmm"),
         ("system",),
         input_description="ParameterizedSystem or previous final-state Artifact",
     ),
@@ -784,6 +784,64 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         },
     ),
     _backend(
+        "gaussian", "Gaussian 16", "gaussian",
+        ("calculate_energy", "calculate_hessian", "optimize_geometry", "calculate_dipole_moment"),
+        "Operator-provided Gaussian 16 C.01 SCF/DFT jobs rendered from typed molecular structures and explicit method settings.",
+        executables=("g16", "formchk"),
+        environment=("CHEMGRAPH_GAUSSIAN_COMMAND", "CHEMGRAPH_GAUSSIAN_FORMCHK_COMMAND"),
+        license_class="commercial_license",
+        install_notes=(
+            "Configured from the operator-provided Gaussian 16 C.01 distribution under "
+            ".software_cache/gaussian/g16; the adapter accepts no arbitrary route deck."
+        ),
+        method_schema={
+            "method": "Gaussian SCF or DFT method keyword",
+            "basis": "Gaussian built-in basis-set keyword",
+            "dispersion": "optional single Gaussian dispersion route keyword",
+            "charge": "optional explicit molecular charge",
+            "multiplicity": "optional explicit spin multiplicity",
+        },
+        required_methods={
+            action: ("method", "basis")
+            for action in ("calculate_energy", "calculate_hessian", "optimize_geometry", "calculate_dipole_moment")
+        },
+        required_settings={
+            "calculate_energy": ("scf_convergence",),
+            "calculate_hessian": ("scf_convergence",),
+            "calculate_dipole_moment": ("scf_convergence",),
+            "optimize_geometry": ("scf_convergence", "optimization_convergence", "max_steps"),
+        },
+    ),
+    _backend(
+        "gamess", "GAMESS", "gamess",
+        ("calculate_energy", "optimize_geometry", "calculate_dipole_moment"),
+        "Operator-registered GAMESS 15 Jul 2024 R2 Patch 1 molecular SCF/DFT calculations through a typed input renderer.",
+        executables=("rungms",), environment=("CHEMGRAPH_GAMESS_COMMAND",),
+        license_class="registration_license",
+        install_notes=(
+            "The registered source distribution is compiled under .software_cache/gamess/2024-r2-p1 "
+            "with a sockets DDI build and isolated compiler/runtime libraries."
+        ),
+        method_schema={
+            "scftyp": "RHF, UHF, ROHF, or another explicit GAMESS SCFTYP",
+            "gbasis": "GAMESS GBASIS family such as STO, N31, or N311",
+            "ngauss": "explicit Gaussian primitive count for GBASIS",
+            "dfttyp": "optional GAMESS DFTTYP keyword",
+            "ndfunc/npfunc/nffunc": "optional explicit polarization counts",
+            "diffsp/diffs": "optional explicit diffuse-function booleans",
+            "charge/multiplicity": "optional explicit molecular charge and multiplicity",
+        },
+        required_methods={
+            action: ("scftyp", "gbasis", "ngauss")
+            for action in ("calculate_energy", "optimize_geometry", "calculate_dipole_moment")
+        },
+        required_settings={
+            "calculate_energy": ("scf_convergence",),
+            "calculate_dipole_moment": ("scf_convergence",),
+            "optimize_geometry": ("scf_convergence", "gradient_tolerance_hartree_per_bohr", "max_steps"),
+        },
+    ),
+    _backend(
         "ase_emt", "ASE EMT", "core", ("calculate_energy", "calculate_forces", "calculate_hessian", "optimize_geometry"),
         "ASE bundled EMT reference calculator, mainly for validation and small supported element sets.",
         modules=("ase.calculators.emt",), pip=("ase",), required_settings={
@@ -864,6 +922,113 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         required_settings={
             "minimize_system_energy": ("energy_tolerance", "force_tolerance", "max_iterations"),
             "propagate_dynamics": ("ensemble", "temperature_kelvin", "timestep_fs", "steps", "report_interval"),
+        },
+    ),
+    _backend(
+        "namd", "NAMD 3", "namd", ("minimize_system_energy", "propagate_dynamics"),
+        "NAMD 3.0.2 execution of exactly one minimization or dynamics segment from an explicitly supplied CHARMM-format system.",
+        executables=("namd3",), environment=("CHEMGRAPH_NAMD_COMMAND",),
+        license_class="academic_registration",
+        install_notes=(
+            "The AVX-512 multicore and CUDA bundles are cached under .software_cache/namd/3.0.2. "
+            "The public backend selects the validated CPU AVX-512 binary only; CUDA is never chosen implicitly."
+        ),
+        method_schema={
+            "force_field_family": "currently the literal charmm",
+            "exclude/one_four_scaling": "explicit NAMD nonbonded exclusions and 1-4 scaling",
+            "cutoff_angstrom/switch_distance_angstrom/pairlist_distance_angstrom": "explicit nonbonded distances",
+            "switching/pme": "explicit booleans; PME requires periodic cell metadata",
+            "rigid_bonds": "NAMD rigidBonds choice such as none, water, or all",
+            "system": "namd_psf_path, coordinate_path or namd_binary_coordinates_path, and namd_parameter_paths",
+        },
+        required_methods={
+            action: (
+                "force_field_family", "exclude", "one_four_scaling", "cutoff_angstrom",
+                "switching", "switch_distance_angstrom", "pairlist_distance_angstrom", "pme", "rigid_bonds",
+            )
+            for action in ("minimize_system_energy", "propagate_dynamics")
+        },
+        required_settings={
+            "minimize_system_energy": ("max_iterations", "report_interval"),
+            "propagate_dynamics": (
+                "ensemble", "temperature_kelvin", "timestep_fs", "steps", "report_interval", "random_seed",
+            ),
+        },
+    ),
+    _backend(
+        "amber_pmemd", "Amber 26 PMEMD", "amber", ("minimize_system_energy", "propagate_dynamics"),
+        "Amber 26 PMEMD CPU serial or Agent-sized MPI execution of one typed minimization/dynamics segment.",
+        executables=("pmemd", "pmemd.MPI", "mpirun"),
+        environment=(
+            "CHEMGRAPH_AMBER_COMMAND", "CHEMGRAPH_AMBER_MPI_COMMAND",
+            "CHEMGRAPH_AMBER_MPIRUN_COMMAND", "CHEMGRAPH_AMBER_MPI_EXECUTABLE",
+        ),
+        license_class="academic_registration",
+        install_notes=(
+            "Licensed PMEMD26 CPU serial and MPI binaries are built under .software_cache/amber/26. "
+            "AmberTools 26 remains independently available in the OpenFF runtime."
+        ),
+        method_schema={
+            "boundary": "vacuum, implicit, or periodic",
+            "cutoff_angstrom": "explicit nonbonded cutoff",
+            "constraints": "none, h_bonds, or all_bonds",
+            "igb/saltcon_molar": "explicit implicit-solvent model and optional salt concentration",
+            "system": "amber_topology_path/prmtop_path plus amber_coordinate_path/coordinate_path",
+        },
+        required_methods={
+            action: ("boundary", "cutoff_angstrom", "constraints")
+            for action in ("minimize_system_energy", "propagate_dynamics")
+        },
+        required_settings={
+            "minimize_system_energy": (
+                "max_iterations", "steepest_descent_steps",
+                "gradient_tolerance_kcal_mol_angstrom", "report_interval",
+            ),
+            "propagate_dynamics": (
+                "ensemble", "temperature_kelvin", "timestep_fs", "steps",
+                "report_interval", "random_seed", "restart",
+            ),
+        },
+    ),
+    _backend(
+        "charmm", "CHARMM c50b2", "charmm", ("minimize_system_energy", "propagate_dynamics"),
+        "CHARMM c50b2 execution of one typed minimization or NVE/NVT dynamics segment from a pre-parameterized PSF/coordinate system.",
+        executables=("charmm",), environment=("CHEMGRAPH_CHARMM_COMMAND",),
+        license_class="academic_registration",
+        install_notes=(
+            "The operator-provided CHARMM c50b2 source is compiled as a serial/OpenMP GNU build under "
+            ".software_cache/charmm/50b2; arbitrary CHARMM input scripts are not accepted."
+        ),
+        method_schema={
+            "force_field_family": "the literal charmm",
+            "coordinate_format": "card or pdb",
+            "flexible_parameters": "explicit boolean selecting CHARMM flexible parameter parsing",
+            "electrostatics/electrostatic_switch/dielectric": "explicit CHARMM nonbonded electrostatics",
+            "vdw_switch/cutoff_angstrom/switch_on_angstrom/pairlist_distance_angstrom": "explicit van der Waals switching distances",
+            "constraints": "none or h_bonds",
+            "nonbond_update_interval": "explicit CHARMM INBFRQ value for dynamics",
+            "system": "charmm_topology_paths, charmm_parameter_paths, charmm_psf_path, and charmm_coordinate_path",
+        },
+        required_methods={
+            "minimize_system_energy": (
+                "force_field_family", "coordinate_format", "flexible_parameters", "electrostatics", "electrostatic_switch",
+                "dielectric", "vdw_switch", "cutoff_angstrom", "switch_on_angstrom",
+                "pairlist_distance_angstrom", "constraints",
+            ),
+            "propagate_dynamics": (
+                "force_field_family", "coordinate_format", "flexible_parameters", "electrostatics", "electrostatic_switch",
+                "dielectric", "vdw_switch", "cutoff_angstrom", "switch_on_angstrom",
+                "pairlist_distance_angstrom", "constraints", "nonbond_update_interval",
+            ),
+        },
+        required_settings={
+            "minimize_system_energy": (
+                "algorithm", "max_iterations", "gradient_tolerance_kcal_mol_angstrom", "report_interval",
+            ),
+            "propagate_dynamics": (
+                "ensemble", "temperature_kelvin", "timestep_fs", "steps",
+                "report_interval", "random_seed", "restart",
+            ),
         },
     ),
     _backend(

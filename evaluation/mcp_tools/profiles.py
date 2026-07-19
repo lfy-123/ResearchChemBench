@@ -140,6 +140,18 @@ def _profile_entries(profile: dict[str, Any], key: str) -> list[str]:
     return entries
 
 
+def _profile_environment_value(value: Any) -> str:
+    """Resolve project-relative path values without rewriting ordinary scalars."""
+
+    text = str(value)
+    if text.startswith(".") or "/" in text:
+        path = Path(text).expanduser()
+        if not path.is_absolute():
+            path = PROJECT_ROOT / path
+        return str(path.resolve())
+    return text
+
+
 def profile_runtime_environment(name: str) -> dict[str, str]:
     profile = get_profile(name)
     environment = profile_environment_path(profile)
@@ -159,7 +171,7 @@ def profile_runtime_environment(name: str) -> dict[str, str]:
     }
     values.update(
         {
-            str(variable): str(value)
+            str(variable): _profile_environment_value(value)
             for variable, value in dict(
                 profile.get("environment_variables") or {}
             ).items()

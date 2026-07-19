@@ -202,7 +202,7 @@ def main() -> int:
         "- 工具已注册，输入/输出与可选后端双向一致；没有 `run_ase`、`run_periodic_calculation` 一类固定流程工具。",
         "- Scientific Action 必须由 Agent 显式给出 `backend_id`；系统不会选择后端，也不会 fallback。",
         "- 赝势、Slater–Koster 参数集和 MLIP checkpoint 必须由 Agent 显式给出 `ResourceRef`；系统只校验和解析，不会按元素、精度、模型规模或任务领域自动选择。",
-        "- `resource_limits` 只表达机械执行约束，不承载科学选择；当前本地执行器实际强制 walltime，并用 `cpu_cores` 约束 OMP/MKL/OpenBLAS/NumExpr 线程；ORCA 还将 Agent 给出的 `cpu_cores>1` 原样映射为 `%pal nprocs`。`memory_mb`/`gpu_count` 会进入请求与溯源，但若没有外部调度器则不宣称已做硬隔离。",
+        "- `resource_limits` 只表达机械执行约束，不承载科学选择；当前本地执行器实际强制 walltime，并用 `cpu_cores` 约束 OMP/MKL/OpenBLAS/NumExpr 线程。ORCA 映射为 `%pal nprocs`，Gaussian 映射为 `%NProcShared`，GAMESS 映射为 `rungms` 进程数，NAMD 映射为 `+pN`，Amber 在 `cpu_cores>1` 时启动同规模 PMEMD MPI；Gaussian/GAMESS 还分别把 `memory_mb` 映射为 `%Mem`/`MWORDS`。`gpu_count` 只进入请求与溯源，当前新增的 NAMD CUDA 包和 Amber CUDA 构建均不会被自动选择。没有外部调度器时不宣称 CPU/内存已做硬隔离。",
         "- “环境健康”与“真实科学计算”分开记录；核心下载资源后端和在线数据源的证据见第 9、10 节，新增 MESS、MESMER、AutoMeKin、Multiwfn、VESTA 等 runtime 的代表性真实 smoke 见第 12 节及独立配置状态报告。",
         "",
         "## 2. 目录与资源管理约定",

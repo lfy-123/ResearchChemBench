@@ -1,8 +1,8 @@
 # Backend runtime status
 
-Generated: 2026-07-19T08:43:54.289071+00:00
+Generated: 2026-07-19T19:58:56.291825+00:00
 Public MCP tools: 44 (same for every task)
-Backend runtimes checked: 17
+Backend runtimes checked: 22
 
 | Runtime | Group | Conda environment | Backends | Required checks | Detail |
 |---|---|---|---:|---|---|
@@ -23,5 +23,10 @@ Backend runtimes checked: 17
 | `vasp` | profiles | `researchchem-vasp` | 1 | 通过 | 1/1 backends currently available |
 | `docking` | profiles | `researchchem-docking` | 2 | 通过 | 2/2 backends currently available |
 | `abinit` | support_environments | `researchchem-abinit` | 1 | 通过 | 1/1 backends currently available |
+| `gaussian` | support_environments | `researchchem-gaussian` | 1 | 通过 | 1/1 backends currently available |
+| `gamess` | support_environments | `researchchem-gamess` | 1 | 通过 | 1/1 backends currently available |
+| `namd` | support_environments | `researchchem-namd` | 1 | 通过 | 1/1 backends currently available |
+| `amber` | support_environments | `researchchem-amber` | 1 | 通过 | 1/1 backends currently available |
+| `charmm` | support_environments | `researchchem-charmm` | 1 | 通过 | 1/1 backends currently available |
 
 Profiles are execution runtimes only; they do not own or filter public tools.

@@ -28,6 +28,8 @@ from .common import (
 )
 from .mlip import build_calculator as build_mlip_calculator
 from .mlip import prepare_atoms as prepare_mlip_atoms
+from .quantum_legacy import gamess as _gamess
+from .quantum_legacy import gaussian as _gaussian
 
 
 ACTIONS = {
@@ -754,6 +756,10 @@ def execute(action_id: str, backend_id: str, request: dict[str, Any]) -> dict[st
         return _psi4(action_id, request)
     if backend_id == "orca":
         return _orca(action_id, request)
+    if backend_id == "gaussian":
+        return _gaussian(action_id, request)
+    if backend_id == "gamess":
+        return _gamess(action_id, request)
     if backend_id == "internal_vibrations" and action_id == "derive_vibrational_modes":
         return _vibrations(request)
     if backend_id == "internal_spectroscopy" and action_id == "derive_ir_spectrum":

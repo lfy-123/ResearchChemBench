@@ -1,20 +1,20 @@
 {
-  "generated_at": "2026-07-19T08:38:45.608502+00:00",
+  "generated_at": "2026-07-19T20:03:42.976350+00:00",
   "project_root": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench",
   "model_cache_root": ".model_cache",
   "software_cache_root": ".software_cache",
   "summary": {
     "total": 59,
     "counts": {
-      "configured": 38,
+      "configured": 45,
       "manual_api_review": 2,
-      "manual_required": 16,
+      "manual_required": 9,
       "partial": 2,
       "specification": 1
     },
-    "configured": 38,
-    "manual_or_review": 18,
-    "complete_for_inventory": 39
+    "configured": 45,
+    "manual_or_review": 11,
+    "complete_for_inventory": 46
   },
   "runtime_probes": {
     "workflows": {
@@ -194,6 +194,73 @@
         ".software_cache/nwchem/source/src/basis/libraries"
       ],
       "notes": "The official NWChem basis-library tree is kept in .software_cache; QCEngine HF/STO-3G water smoke passed."
+    },
+    "gamess": {
+      "name": "gamess",
+      "group": "support_environments",
+      "conda_name": "researchchem-gamess",
+      "environment": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/gamess",
+      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/gamess/bin/python",
+      "python_exists": true,
+      "python_required": false,
+      "modules": {},
+      "commands": {
+        "rungms": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/gamess/2024-r2-p1/source/rungms"
+      },
+      "smokes": {
+        "1": {
+          "success": true,
+          "returncode": 0,
+          "output_tail": ""
+        }
+      },
+      "conda_packages": [
+        "gcc_linux-64",
+        "gfortran_linux-64",
+        "openblas",
+        "tcsh",
+        "jinja2"
+      ],
+      "pip_packages": [],
+      "cache_paths": [
+        ".software_cache/gamess/2024-r2-p1"
+      ],
+      "notes": ""
+    },
+    "gaussian": {
+      "name": "gaussian",
+      "group": "support_environments",
+      "conda_name": "researchchem-gaussian",
+      "environment": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/gaussian",
+      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/gaussian/bin/python",
+      "python_exists": true,
+      "python_required": true,
+      "modules": {
+        "cclib": {
+          "available": true,
+          "version": "0.0.0"
+        }
+      },
+      "commands": {
+        "formchk": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/gaussian/g16/install/g16/formchk",
+        "g16": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/gaussian/g16/install/g16/g16"
+      },
+      "smokes": {
+        "1": {
+          "success": true,
+          "returncode": 0,
+          "output_tail": ""
+        }
+      },
+      "conda_packages": [
+        "python=3.11",
+        "cclib"
+      ],
+      "pip_packages": [],
+      "cache_paths": [
+        ".software_cache/gaussian/g16"
+      ],
+      "notes": ""
     },
     "kinbot": {
       "name": "kinbot",
@@ -427,6 +494,130 @@
       "cache_paths": [],
       "notes": "Versioned binary is installed; a real GW/BSE calculation still needs an Agent-selected input database and upstream wavefunction files."
     },
+    "lobster": {
+      "name": "lobster",
+      "group": "auxiliary_environments",
+      "conda_name": "researchchem-lobster",
+      "environment": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/lobster",
+      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/lobster/bin/python",
+      "python_exists": true,
+      "python_required": true,
+      "modules": {
+        "pymatgen": {
+          "available": true,
+          "version": "2026.5.4"
+        }
+      },
+      "commands": {
+        "lobster-5.1.0": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/lobster/5.1.0/package/lobster-5.1.0"
+      },
+      "smokes": {
+        "1": {
+          "success": true,
+          "returncode": 0,
+          "output_tail": ""
+        }
+      },
+      "conda_packages": [
+        "pymatgen"
+      ],
+      "pip_packages": [],
+      "cache_paths": [
+        ".software_cache/lobster/5.1.0"
+      ],
+      "notes": "A real Quantum ESPRESSO-to-LOBSTER diamond calculation completed with 1.12% absolute charge spilling. It remains runtime-only because the current public catalog has no typed periodic bonding-analysis Action; no arbitrary lobsterin runner was added."
+    },
+    "namd": {
+      "name": "namd",
+      "group": "support_environments",
+      "conda_name": "researchchem-namd",
+      "environment": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/namd",
+      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/namd/bin/python",
+      "python_exists": true,
+      "python_required": false,
+      "modules": {},
+      "commands": {
+        "namd3": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/namd/3.0.2/multicore-avx512/namd3"
+      },
+      "smokes": {
+        "1": {
+          "success": true,
+          "returncode": 0,
+          "output_tail": ""
+        }
+      },
+      "conda_packages": [
+        "python"
+      ],
+      "pip_packages": [],
+      "cache_paths": [
+        ".software_cache/namd/3.0.2"
+      ],
+      "notes": ""
+    },
+    "amber": {
+      "name": "amber",
+      "group": "support_environments",
+      "conda_name": "researchchem-amber",
+      "environment": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/amber",
+      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/amber/bin/python",
+      "python_exists": true,
+      "python_required": false,
+      "modules": {},
+      "commands": {
+        "pmemd": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/amber/26/install/bin/pmemd",
+        "pmemd.MPI": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/amber/26/install/bin/pmemd.MPI"
+      },
+      "smokes": {
+        "1": {
+          "success": true,
+          "returncode": 0,
+          "output_tail": ""
+        }
+      },
+      "conda_packages": [
+        "gcc_linux-64",
+        "gfortran_linux-64",
+        "cmake",
+        "openmpi",
+        "netcdf-fortran",
+        "fftw",
+        "bison"
+      ],
+      "pip_packages": [],
+      "cache_paths": [
+        ".software_cache/amber/26"
+      ],
+      "notes": ""
+    },
+    "charmm": {
+      "name": "charmm",
+      "group": "support_environments",
+      "conda_name": "researchchem-charmm",
+      "environment": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/charmm",
+      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/charmm/bin/python",
+      "python_exists": true,
+      "python_required": false,
+      "modules": {},
+      "commands": {
+        "charmm": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/charmm/50b2/install/bin/charmm"
+      },
+      "smokes": {
+        "1": {
+          "success": true,
+          "returncode": 0,
+          "output_tail": ""
+        }
+      },
+      "conda_packages": [
+        "python"
+      ],
+      "pip_packages": [],
+      "cache_paths": [
+        ".software_cache/charmm/50b2"
+      ],
+      "notes": ""
+    },
     "free_energy": {
       "name": "free_energy",
       "group": "auxiliary_environments",
@@ -472,7 +663,7 @@
       "modules": {
         "arkane": {
           "available": false,
-          "error": "module import timed out after 20s"
+          "error": "module import timed out after 5s"
         },
         "rmgpy": {
           "available": true,
@@ -581,7 +772,7 @@
         "1": {
           "success": true,
           "returncode": 0,
-          "output_tail": "\n\n          MOPAC Job: \"water.mop\" ended normally on Jul 19, 2026, at 08:38.\n\n"
+          "output_tail": "\n\n          MOPAC Job: \"water.mop\" ended normally on Jul 19, 2026, at 20:03.\n\n"
         }
       },
       "conda_packages": [
@@ -606,7 +797,7 @@
         ".software_cache/automekin/source",
         ".software_cache/automekin/install"
       ],
-      "notes": "A real water PM7 single-point calculation ended normally; Qcore and Gaussian are optional licensed engines and remain unconfigured."
+      "notes": "A real water PM7 single-point calculation ended normally. Gaussian is now configured as an independent atomic backend, but AutoMeKin-to-Gaussian/Qcore coupling is intentionally not prewired because the Agent must select and compose engines explicitly."
     },
     "openmolcas": {
       "name": "openmolcas",
@@ -657,6 +848,36 @@
         ".software_cache/sharc/source"
       ],
       "notes": "Core SHARC4 and wfoverlap_ascii were compiled; PySHARC/NetCDF and external electronic-structure interfaces remain optional and input-dependent."
+    },
+    "newtonx": {
+      "name": "newtonx",
+      "group": "auxiliary_environments",
+      "conda_name": "researchchem-newtonx",
+      "environment": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/newtonx",
+      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/newtonx/bin/python",
+      "python_exists": true,
+      "python_required": false,
+      "modules": {},
+      "commands": {
+        "nx_geninp": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/newton-x/26a/package/NX-NS/bin/nx_geninp",
+        "nx_moldyn": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/newton-x/26a/package/NX-NS/bin/nx_moldyn",
+        "nx_test": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/newton-x/26a/package/NX-NS/bin/nx_test"
+      },
+      "smokes": {
+        "1": {
+          "success": true,
+          "returncode": 0,
+          "output_tail": ""
+        }
+      },
+      "conda_packages": [
+        "python"
+      ],
+      "pip_packages": [],
+      "cache_paths": [
+        ".software_cache/newton-x/26a"
+      ],
+      "notes": "The bundled 1D analytical avoided-crossing test passed. It remains runtime-only because a nonadiabatic trajectory requires a new typed action contract spanning states, couplings, hopping controls and an explicitly selected electronic-structure interface; no monolithic nx_moldyn runner was exposed."
     },
     "theodore": {
       "name": "theodore",
@@ -726,9 +947,9 @@
       },
       "smokes": {
         "1": {
-          "success": false,
-          "error": "timeout after 20s",
-          "output_tail": "ire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/vmd/lib/vmd/vmd_LINUXAMD64)\\nInfo) VMD for LINUXAMD64, version 1.9.3 (November 30, 2016)\\nInfo) http://www.ks.uiuc.edu/Research/vmd/                         \\nInfo) Email questions and bug reports to vmd@ks.uiuc.edu           \\nInfo) Please include this reference in published work using VMD:   \\nInfo)    Humphrey, W., Dalke, A. and Schulten, K., `VMD - Visual   \\nInfo)    Molecular Dynamics', J. Molec. Graphics 1996, 14.1, 33-38.\\nInfo) -------------------------------------------------------------\\nInfo) Multithreading available, 64 CPUs detected.\\nInfo)   CPU features: SSE2 AVX AVX2 FMA KNL:AVX-512F+CD+ER+PF \\nInfo) Free system memory: 399GB (79%)\\nInfo) No CUDA accelerator devices available.\\nInfo) Dynamically loaded 2 plugins in directory:\\nInfo) /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/vmd/lib/vmd/plugins/LINUXAMD64/molfile\\nvmd > \""
+          "success": true,
+          "returncode": 0,
+          "output_tail": "k/ResearchChemBench/.tool_envs/vmd/lib/vmd/vmd_LINUXAMD64)\nInfo) VMD for LINUXAMD64, version 1.9.3 (November 30, 2016)\nInfo) http://www.ks.uiuc.edu/Research/vmd/                         \nInfo) Email questions and bug reports to vmd@ks.uiuc.edu           \nInfo) Please include this reference in published work using VMD:   \nInfo)    Humphrey, W., Dalke, A. and Schulten, K., `VMD - Visual   \nInfo)    Molecular Dynamics', J. Molec. Graphics 1996, 14.1, 33-38.\nInfo) -------------------------------------------------------------\nInfo) Multithreading available, 64 CPUs detected.\nInfo)   CPU features: SSE2 AVX AVX2 FMA KNL:AVX-512F+CD+ER+PF \nInfo) Free system memory: 394GB (78%)\nInfo) No CUDA accelerator devices available.\nInfo) Dynamically loaded 2 plugins in directory:\nInfo) /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/vmd/lib/vmd/plugins/LINUXAMD64/molfile\nInfo) VMD for LINUXAMD64, version 1.9.3 (November 30, 2016)\nInfo) Exiting normally.\n"
         }
       },
       "conda_packages": [
@@ -752,8 +973,8 @@
       },
       "smokes": {
         "1": {
-          "success": true,
-          "returncode": 0,
+          "success": false,
+          "error": "timeout after 5s",
           "output_tail": ""
         }
       },
@@ -1445,12 +1666,13 @@
       ],
       "cache_paths": [
         ".software_cache/orca/6.1.1",
-        ".software_cache/openmpi/4.1.8"
+        ".software_cache/openmpi/4.1.8",
+        ".software_cache/orca/download/orca_6_1_1_linux_x86-64_shared_openmpi418_nodmrg.tar.xz"
       ],
       "license": "free_academic_registration",
       "public_adapter": "existing",
       "role": "Molecular quantum chemistry executable.",
-      "notes": "ORCA 6.1.1 and matching OpenMPI 4.1.8 are installed and validated by real energy/Hessian/optimization/dipole smokes.",
+      "notes": "ORCA 6.1.1 and matching OpenMPI 4.1.8 are installed and validated by real energy/Hessian/optimization/dipole smokes. The newly supplied no-DMRG archive is cached for provenance but was not allowed to replace the already validated, more capable active installation.",
       "official_url": "https://www.faccts.de/orca/",
       "environment_detail": {
         "name": "quantum",
@@ -1483,6 +1705,10 @@
           ".software_cache/openmpi/4.1.8": {
             "exists": true,
             "path": ".software_cache/openmpi/4.1.8"
+          },
+          ".software_cache/orca/download/orca_6_1_1_linux_x86-64_shared_openmpi418_nodmrg.tar.xz": {
+            "exists": true,
+            "path": ".software_cache/orca/download/orca_6_1_1_linux_x86-64_shared_openmpi418_nodmrg.tar.xz"
           }
         },
         "runtime_smokes": {}
@@ -1562,46 +1788,114 @@
       "name": "GAMESS",
       "category": "构象与分子量子化学",
       "kind": "licensed_binary",
-      "status_policy": "manual",
+      "status_policy": "probe",
+      "environment": "gamess",
+      "modules": [],
+      "commands": [
+        "rungms"
+      ],
+      "cache_paths": [
+        ".software_cache/gamess/2024-r2-p1"
+      ],
       "license": "registration",
-      "public_adapter": "not_implemented",
+      "public_adapter": "existing",
       "role": "Molecular quantum chemistry executable.",
-      "notes": "Requires operator registration/download and a local build or binary; no installer was found in the supplied download directory.",
+      "notes": "The registered 15 Jul 2024 R2 Patch 1 source was compiled with sockets DDI and OpenBLAS ILP64. Official optimization and public energy/dipole/optimization Action calls passed; the adapter accepts typed fields rather than arbitrary GAMESS input.",
       "official_url": "https://www.msg.chem.iastate.edu/GAMESS/download/register/",
       "environment_detail": {
-        "name": null,
-        "conda_name": null,
-        "path": "—",
-        "python": "—",
-        "conda_packages": [],
+        "name": "gamess",
+        "conda_name": "researchchem-gamess",
+        "path": ".tool_envs/gamess",
+        "python": ".tool_envs/gamess/bin/python3.11",
+        "conda_packages": [
+          "gcc_linux-64",
+          "gfortran_linux-64",
+          "openblas",
+          "tcsh",
+          "jinja2"
+        ],
         "pip_packages": []
       },
-      "status": "manual_required",
+      "status": "configured",
       "verification": {
-        "reason": "Requires operator registration/download and a local build or binary; no installer was found in the supplied download directory."
+        "python_exists": true,
+        "modules": {},
+        "commands": {
+          "rungms": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/gamess/2024-r2-p1/source/rungms"
+        },
+        "cache_paths": {
+          ".software_cache/gamess/2024-r2-p1": {
+            "exists": true,
+            "path": ".software_cache/gamess/2024-r2-p1"
+          }
+        },
+        "runtime_smokes": {
+          "1": {
+            "success": true,
+            "returncode": 0,
+            "output_tail": ""
+          }
+        }
       }
     },
     {
       "name": "Gaussian",
       "category": "构象与分子量子化学",
       "kind": "licensed_binary",
-      "status_policy": "manual",
+      "status_policy": "probe",
+      "environment": "gaussian",
+      "modules": [
+        "cclib"
+      ],
+      "commands": [
+        "g16",
+        "formchk"
+      ],
+      "cache_paths": [
+        ".software_cache/gaussian/g16"
+      ],
       "license": "commercial",
-      "public_adapter": "not_implemented",
+      "public_adapter": "existing",
       "role": "Molecular quantum chemistry executable.",
-      "notes": "Requires a licensed distribution and site-specific environment configuration.",
+      "notes": "Gaussian 16 Revision C.01 is staged in an isolated runtime. Public energy, Hessian, optimization and dipole calls passed; Hessians are reconstructed from formchk output and no arbitrary route deck is exposed.",
       "official_url": "https://gaussian.com/",
       "environment_detail": {
-        "name": null,
-        "conda_name": null,
-        "path": "—",
-        "python": "—",
-        "conda_packages": [],
+        "name": "gaussian",
+        "conda_name": "researchchem-gaussian",
+        "path": ".tool_envs/gaussian",
+        "python": ".tool_envs/gaussian/bin/python3.11",
+        "conda_packages": [
+          "python=3.11",
+          "cclib"
+        ],
         "pip_packages": []
       },
-      "status": "manual_required",
+      "status": "configured",
       "verification": {
-        "reason": "Requires a licensed distribution and site-specific environment configuration."
+        "python_exists": true,
+        "modules": {
+          "cclib": {
+            "available": true,
+            "version": "0.0.0"
+          }
+        },
+        "commands": {
+          "g16": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/gaussian/g16/install/g16/g16",
+          "formchk": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/gaussian/g16/install/g16/formchk"
+        },
+        "cache_paths": {
+          ".software_cache/gaussian/g16": {
+            "exists": true,
+            "path": ".software_cache/gaussian/g16"
+          }
+        },
+        "runtime_smokes": {
+          "1": {
+            "success": true,
+            "returncode": 0,
+            "output_tail": ""
+          }
+        }
       }
     },
     {
@@ -1982,12 +2276,13 @@
       ],
       "cache_paths": [
         ".software_cache/vasp/6.3.2/bin/vasp_std",
-        ".software_cache/vasp/6.3.2/testsuite/POTCARS/POTCAR.Si"
+        ".software_cache/vasp/6.3.2/testsuite/POTCARS/POTCAR.Si",
+        ".software_cache/vasp/download/vasp.6.3.2.zip"
       ],
       "license": "commercial_registration",
       "public_adapter": "existing",
       "role": "Plane-wave periodic DFT executable.",
-      "notes": "Operator-provided VASP 6.3.2 source was compiled with the isolated GCC/OpenMPI/ScaLAPACK/FFTW runtime. An atomic periodic backend and bundled Si testsuite POTCAR are configured for validation; general production chemistry still requires the operator's licensed PAW POTCAR library.",
+      "notes": "Operator-provided VASP 6.3.2 source was compiled with the isolated GCC/OpenMPI/ScaLAPACK/FFTW runtime. The newly supplied archive is retained as a duplicate source copy and did not replace the validated build. An atomic periodic backend and bundled Si testsuite POTCAR are configured; general production chemistry still requires the operator's licensed PAW POTCAR library.",
       "official_url": "https://vasp.at/wiki/Installing_VASP.6.X.X",
       "environment_detail": {
         "name": "vasp",
@@ -2026,6 +2321,10 @@
           ".software_cache/vasp/6.3.2/testsuite/POTCARS/POTCAR.Si": {
             "exists": true,
             "path": ".software_cache/vasp/6.3.2/testsuite/POTCARS/POTCAR.Si"
+          },
+          ".software_cache/vasp/download/vasp.6.3.2.zip": {
+            "exists": true,
+            "path": ".software_cache/vasp/download/vasp.6.3.2.zip"
           }
         },
         "runtime_smokes": {}
@@ -2226,92 +2525,215 @@
       "name": "LOBSTER",
       "category": "周期材料、声子与输运",
       "kind": "licensed_binary",
-      "status_policy": "manual",
+      "status_policy": "probe",
+      "environment": "lobster",
+      "modules": [
+        "pymatgen"
+      ],
+      "commands": [
+        "lobster-5.1.0"
+      ],
+      "cache_paths": [
+        ".software_cache/lobster/5.1.0"
+      ],
       "license": "commercial_registration",
-      "public_adapter": "not_implemented",
+      "public_adapter": "runtime_only",
       "role": "Chemical-bonding analysis of periodic electronic-structure results.",
-      "notes": "Requires a licensed binary and compatible VASP/QE output.",
+      "notes": "LOBSTER 5.1.0 is cached and a real Quantum ESPRESSO diamond projection completed with 1.12% absolute charge spilling. It remains runtime-only until a typed periodic bonding-analysis Action is added; no arbitrary lobsterin runner is exposed.",
       "official_url": "https://www.cohp.de/",
       "environment_detail": {
-        "name": null,
-        "conda_name": null,
-        "path": "—",
-        "python": "—",
-        "conda_packages": [],
+        "name": "lobster",
+        "conda_name": "researchchem-lobster",
+        "path": ".tool_envs/lobster",
+        "python": ".tool_envs/lobster/bin/python3.11",
+        "conda_packages": [
+          "pymatgen"
+        ],
         "pip_packages": []
       },
-      "status": "manual_required",
+      "status": "configured",
       "verification": {
-        "reason": "Requires a licensed binary and compatible VASP/QE output."
+        "python_exists": true,
+        "modules": {
+          "pymatgen": {
+            "available": true,
+            "version": "2026.5.4"
+          }
+        },
+        "commands": {
+          "lobster-5.1.0": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/lobster/5.1.0/package/lobster-5.1.0"
+        },
+        "cache_paths": {
+          ".software_cache/lobster/5.1.0": {
+            "exists": true,
+            "path": ".software_cache/lobster/5.1.0"
+          }
+        },
+        "runtime_smokes": {
+          "1": {
+            "success": true,
+            "returncode": 0,
+            "output_tail": ""
+          }
+        }
       }
     },
     {
       "name": "NAMD",
       "category": "分子动力学与自由能",
       "kind": "licensed_binary",
-      "status_policy": "manual",
+      "status_policy": "probe",
+      "environment": "namd",
+      "modules": [],
+      "commands": [
+        "namd3"
+      ],
+      "cache_paths": [
+        ".software_cache/namd/3.0.2"
+      ],
       "license": "free_academic_registration",
-      "public_adapter": "not_implemented",
+      "public_adapter": "existing",
       "role": "Parallel molecular-dynamics engine.",
-      "notes": "Requires operator download/registration and host-specific MPI/CUDA setup.",
+      "notes": "NAMD 3.0.2 AVX-512 and CUDA bundles are cached. The public atomic minimization/dynamics backend uses the validated CPU AVX-512 executable; CUDA remains unselected and untested because no GPU device is present.",
       "official_url": "https://www.ks.uiuc.edu/Research/namd/",
       "environment_detail": {
-        "name": null,
-        "conda_name": null,
-        "path": "—",
-        "python": "—",
-        "conda_packages": [],
+        "name": "namd",
+        "conda_name": "researchchem-namd",
+        "path": ".tool_envs/namd",
+        "python": ".tool_envs/namd/bin/python3.11",
+        "conda_packages": [
+          "python"
+        ],
         "pip_packages": []
       },
-      "status": "manual_required",
+      "status": "configured",
       "verification": {
-        "reason": "Requires operator download/registration and host-specific MPI/CUDA setup."
+        "python_exists": true,
+        "modules": {},
+        "commands": {
+          "namd3": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/namd/3.0.2/multicore-avx512/namd3"
+        },
+        "cache_paths": {
+          ".software_cache/namd/3.0.2": {
+            "exists": true,
+            "path": ".software_cache/namd/3.0.2"
+          }
+        },
+        "runtime_smokes": {
+          "1": {
+            "success": true,
+            "returncode": 0,
+            "output_tail": ""
+          }
+        }
       }
     },
     {
       "name": "AMBER",
       "category": "分子动力学与自由能",
       "kind": "licensed_binary",
-      "status_policy": "manual",
+      "status_policy": "probe",
+      "environment": "amber",
+      "modules": [],
+      "commands": [
+        "pmemd",
+        "pmemd.MPI"
+      ],
+      "cache_paths": [
+        ".software_cache/amber/26"
+      ],
       "license": "academic_registration",
-      "public_adapter": "not_implemented",
+      "public_adapter": "existing",
       "role": "Molecular mechanics and molecular-dynamics suite.",
-      "notes": "AmberTools is present in existing OpenFF runtimes, but the full AMBER distribution is not installed.",
+      "notes": "AmberTools 26 is available in the OpenFF runtime. Licensed PMEMD26 CPU serial and MPI binaries were compiled and both public single-segment minimization/dynamics paths passed real tests; CUDA PMEMD is not built.",
       "official_url": "https://ambermd.org/GetAmber.php",
       "environment_detail": {
-        "name": null,
-        "conda_name": null,
-        "path": "—",
-        "python": "—",
-        "conda_packages": [],
+        "name": "amber",
+        "conda_name": "researchchem-amber",
+        "path": ".tool_envs/amber",
+        "python": ".tool_envs/amber/bin/python3.11",
+        "conda_packages": [
+          "gcc_linux-64",
+          "gfortran_linux-64",
+          "cmake",
+          "openmpi",
+          "netcdf-fortran",
+          "fftw",
+          "bison"
+        ],
         "pip_packages": []
       },
-      "status": "manual_required",
+      "status": "configured",
       "verification": {
-        "reason": "AmberTools is present in existing OpenFF runtimes, but the full AMBER distribution is not installed."
+        "python_exists": true,
+        "modules": {},
+        "commands": {
+          "pmemd": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/amber/26/install/bin/pmemd",
+          "pmemd.MPI": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/amber/26/install/bin/pmemd.MPI"
+        },
+        "cache_paths": {
+          ".software_cache/amber/26": {
+            "exists": true,
+            "path": ".software_cache/amber/26"
+          }
+        },
+        "runtime_smokes": {
+          "1": {
+            "success": true,
+            "returncode": 0,
+            "output_tail": ""
+          }
+        }
       }
     },
     {
       "name": "CHARMM",
       "category": "分子动力学与自由能",
       "kind": "licensed_binary",
-      "status_policy": "manual",
+      "status_policy": "probe",
+      "environment": "charmm",
+      "modules": [],
+      "commands": [
+        "charmm"
+      ],
+      "cache_paths": [
+        ".software_cache/charmm/50b2"
+      ],
       "license": "academic_registration",
-      "public_adapter": "not_implemented",
+      "public_adapter": "existing",
       "role": "Molecular simulation and force-field suite.",
-      "notes": "Requires operator license/download and compilation.",
+      "notes": "CHARMM c50b2 was compiled as a serial/OpenMP GNU build. Typed minimization plus restartable NVE/NVT segment calls passed with explicit RTF/parameter/PSF/coordinate inputs; arbitrary CHARMM scripts are not accepted.",
       "official_url": "https://academiccharmm.org/",
       "environment_detail": {
-        "name": null,
-        "conda_name": null,
-        "path": "—",
-        "python": "—",
-        "conda_packages": [],
+        "name": "charmm",
+        "conda_name": "researchchem-charmm",
+        "path": ".tool_envs/charmm",
+        "python": ".tool_envs/charmm/bin/python3.11",
+        "conda_packages": [
+          "python"
+        ],
         "pip_packages": []
       },
-      "status": "manual_required",
+      "status": "configured",
       "verification": {
-        "reason": "Requires operator license/download and compilation."
+        "python_exists": true,
+        "modules": {},
+        "commands": {
+          "charmm": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/charmm/50b2/install/bin/charmm"
+        },
+        "cache_paths": {
+          ".software_cache/charmm/50b2": {
+            "exists": true,
+            "path": ".software_cache/charmm/50b2"
+          }
+        },
+        "runtime_smokes": {
+          "1": {
+            "success": true,
+            "returncode": 0,
+            "output_tail": ""
+          }
+        }
       }
     },
     {
@@ -2532,7 +2954,7 @@
         "modules": {
           "arkane": {
             "available": false,
-            "error": "module import timed out after 20s"
+            "error": "module import timed out after 5s"
           }
         },
         "commands": {
@@ -2667,7 +3089,7 @@
       "license": "MIT",
       "public_adapter": "runtime_only",
       "role": "Automated reaction-mechanism exploration.",
-      "notes": "Official source was built in an isolated conda environment with the bundled MOPAC engine; a real water PM7 single-point job ended normally. Qcore and Gaussian remain optional licensed engines and are not selected implicitly.",
+      "notes": "Official source was built in an isolated conda environment with the bundled MOPAC engine; a real water PM7 single-point job ended normally. Gaussian is configured independently, but AutoMeKin-to-Gaussian/Qcore coupling is not prewired or selected implicitly.",
       "official_url": "https://github.com/emartineznunez/AutoMeKin",
       "environment_detail": {
         "name": "automekin",
@@ -2733,7 +3155,7 @@
           "1": {
             "success": true,
             "returncode": 0,
-            "output_tail": "\n\n          MOPAC Job: \"water.mop\" ended normally on Jul 19, 2026, at 08:38.\n\n"
+            "output_tail": "\n\n          MOPAC Job: \"water.mop\" ended normally on Jul 19, 2026, at 20:03.\n\n"
           }
         }
       }
@@ -2907,23 +3329,54 @@
       "name": "Newton-X",
       "category": "激发态、光谱与可视化",
       "kind": "licensed_binary",
-      "status_policy": "manual",
+      "status_policy": "probe",
+      "environment": "newtonx",
+      "modules": [],
+      "commands": [
+        "nx_moldyn",
+        "nx_geninp",
+        "nx_test"
+      ],
+      "cache_paths": [
+        ".software_cache/newton-x/26a"
+      ],
       "license": "registration",
-      "public_adapter": "not_implemented",
+      "public_adapter": "runtime_only",
       "role": "Nonadiabatic molecular dynamics and excited-state sampling.",
-      "notes": "Official download requires the project request form; no archive was supplied.",
+      "notes": "Newton-X New Series 3.5.3 is installed and the bundled analytical avoided-crossing test passed. It remains runtime-only until a typed nonadiabatic Action can expose states, couplings, hopping controls and an explicit electronic-structure interface without becoming a monolithic workflow runner.",
       "official_url": "https://newtonx.org/download/",
       "environment_detail": {
-        "name": null,
-        "conda_name": null,
-        "path": "—",
-        "python": "—",
-        "conda_packages": [],
+        "name": "newtonx",
+        "conda_name": "researchchem-newtonx",
+        "path": ".tool_envs/newtonx",
+        "python": ".tool_envs/newtonx/bin/python3.11",
+        "conda_packages": [
+          "python"
+        ],
         "pip_packages": []
       },
-      "status": "manual_required",
+      "status": "configured",
       "verification": {
-        "reason": "Official download requires the project request form; no archive was supplied."
+        "python_exists": true,
+        "modules": {},
+        "commands": {
+          "nx_moldyn": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/newton-x/26a/package/NX-NS/bin/nx_moldyn",
+          "nx_geninp": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/newton-x/26a/package/NX-NS/bin/nx_geninp",
+          "nx_test": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/newton-x/26a/package/NX-NS/bin/nx_test"
+        },
+        "cache_paths": {
+          ".software_cache/newton-x/26a": {
+            "exists": true,
+            "path": ".software_cache/newton-x/26a"
+          }
+        },
+        "runtime_smokes": {
+          "1": {
+            "success": true,
+            "returncode": 0,
+            "output_tail": ""
+          }
+        }
       }
     },
     {
@@ -3029,7 +3482,7 @@
       "license": "commercial",
       "public_adapter": "not_implemented",
       "role": "Numerical computing host for EasySpin and other scripts.",
-      "notes": "Requires a site license/installer; no MATLAB binary was found in the supplied downloads.",
+      "notes": "The manual-download directory contains an incompletely uploaded MATLAB R2018a image. Per the operator's instruction it was not copied, extracted, installed or adapted in this pass; finish uploading the licensed installer before any MATLAB/EasySpin executable work.",
       "official_url": "https://www.mathworks.com/products/matlab.html",
       "environment_detail": {
         "name": null,
@@ -3041,7 +3494,7 @@
       },
       "status": "manual_required",
       "verification": {
-        "reason": "Requires a site license/installer; no MATLAB binary was found in the supplied downloads."
+        "reason": "The manual-download directory contains an incompletely uploaded MATLAB R2018a image. Per the operator's instruction it was not copied, extracted, installed or adapted in this pass; finish uploading the licensed installer before any MATLAB/EasySpin executable work."
       }
     },
     {
@@ -3079,9 +3532,9 @@
         "cache_paths": {},
         "runtime_smokes": {
           "1": {
-            "success": false,
-            "error": "timeout after 20s",
-            "output_tail": "ire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/vmd/lib/vmd/vmd_LINUXAMD64)\\nInfo) VMD for LINUXAMD64, version 1.9.3 (November 30, 2016)\\nInfo) http://www.ks.uiuc.edu/Research/vmd/                         \\nInfo) Email questions and bug reports to vmd@ks.uiuc.edu           \\nInfo) Please include this reference in published work using VMD:   \\nInfo)    Humphrey, W., Dalke, A. and Schulten, K., `VMD - Visual   \\nInfo)    Molecular Dynamics', J. Molec. Graphics 1996, 14.1, 33-38.\\nInfo) -------------------------------------------------------------\\nInfo) Multithreading available, 64 CPUs detected.\\nInfo)   CPU features: SSE2 AVX AVX2 FMA KNL:AVX-512F+CD+ER+PF \\nInfo) Free system memory: 399GB (79%)\\nInfo) No CUDA accelerator devices available.\\nInfo) Dynamically loaded 2 plugins in directory:\\nInfo) /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/vmd/lib/vmd/plugins/LINUXAMD64/molfile\\nvmd > \""
+            "success": true,
+            "returncode": 0,
+            "output_tail": "k/ResearchChemBench/.tool_envs/vmd/lib/vmd/vmd_LINUXAMD64)\nInfo) VMD for LINUXAMD64, version 1.9.3 (November 30, 2016)\nInfo) http://www.ks.uiuc.edu/Research/vmd/                         \nInfo) Email questions and bug reports to vmd@ks.uiuc.edu           \nInfo) Please include this reference in published work using VMD:   \nInfo)    Humphrey, W., Dalke, A. and Schulten, K., `VMD - Visual   \nInfo)    Molecular Dynamics', J. Molec. Graphics 1996, 14.1, 33-38.\nInfo) -------------------------------------------------------------\nInfo) Multithreading available, 64 CPUs detected.\nInfo)   CPU features: SSE2 AVX AVX2 FMA KNL:AVX-512F+CD+ER+PF \nInfo) Free system memory: 394GB (78%)\nInfo) No CUDA accelerator devices available.\nInfo) Dynamically loaded 2 plugins in directory:\nInfo) /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/vmd/lib/vmd/plugins/LINUXAMD64/molfile\nInfo) VMD for LINUXAMD64, version 1.9.3 (November 30, 2016)\nInfo) Exiting normally.\n"
           }
         }
       }
@@ -3132,8 +3585,8 @@
         },
         "runtime_smokes": {
           "1": {
-            "success": true,
-            "returncode": 0,
+            "success": false,
+            "error": "timeout after 5s",
             "output_tail": ""
           }
         }

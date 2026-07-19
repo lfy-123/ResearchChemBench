@@ -195,7 +195,7 @@ auxiliary_environments:
       AMK: .software_cache/automekin/install
     smoke_commands:
       - [bash, -c, 'cd .software_cache/automekin/smoke && mopac water.mop >/dev/null && grep -q "JOB ENDED NORMALLY" water.out']
-    notes: A real water PM7 single-point calculation ended normally; Qcore and Gaussian are optional licensed engines and remain unconfigured.
+    notes: A real water PM7 single-point calculation ended normally. Gaussian is now configured as an independent atomic backend, but AutoMeKin-to-Gaussian/Qcore coupling is intentionally not prewired because the Agent must select and compose engines explicitly.
 
   easyspin:
     conda_name: researchchem-easyspin-staged
@@ -245,6 +245,37 @@ auxiliary_environments:
     smoke_commands:
       - [vmd, -dispdev, text, -e, /dev/null]
     notes: Text-mode startup passes without an X display; GUI rendering remains host/display dependent.
+
+  lobster:
+    conda_name: researchchem-lobster
+    environment: .tool_envs/lobster
+    description: Licensed LOBSTER 5.1.0 periodic bonding-analysis executable with pymatgen support.
+    conda_packages: [pymatgen]
+    pip_packages: []
+    modules: [pymatgen]
+    commands: [lobster-5.1.0]
+    path_entries: [.software_cache/lobster/5.1.0/package]
+    cache_paths: [.software_cache/lobster/5.1.0]
+    smoke_commands:
+      - [bash, -c, 'grep -q "finished in" .software_cache/lobster/5.1.0/smoke/qe_diamond/lobsterout && grep -q "abs. charge spilling" .software_cache/lobster/5.1.0/smoke/qe_diamond/lobsterout']
+    notes: A real Quantum ESPRESSO-to-LOBSTER diamond calculation completed with 1.12% absolute charge spilling. It remains runtime-only because the current public catalog has no typed periodic bonding-analysis Action; no arbitrary lobsterin runner was added.
+
+  newtonx:
+    conda_name: researchchem-newtonx
+    environment: .tool_envs/newtonx
+    description: Newton-X New Series 3.5.3 nonadiabatic dynamics and input-generation runtime.
+    conda_packages: [python]
+    pip_packages: []
+    modules: []
+    commands: [nx_moldyn, nx_geninp, nx_test]
+    path_entries: [.software_cache/newton-x/26a/package/NX-NS/bin]
+    library_path_entries: [.software_cache/newton-x/26a/package/NX-NS/lib/x86_64-linux-gnu]
+    cache_paths: [.software_cache/newton-x/26a]
+    environment_variables:
+      NXHOME: .software_cache/newton-x/26a/package/NX-NS
+    smoke_commands:
+      - [bash, -c, 'grep -q "SUMMARY: 1 / 1 tests passed" .software_cache/newton-x/26a/smoke/nx_test_1.log && grep -q "Normal termination of testsuite" .software_cache/newton-x/26a/smoke/nx_test_1.log']
+    notes: The bundled 1D analytical avoided-crossing test passed. It remains runtime-only because a nonadiabatic trajectory requires a new typed action contract spanning states, couplings, hopping controls and an explicitly selected electronic-structure interface; no monolithic nx_moldyn runner was exposed.
 
   theodore:
     conda_name: researchchem-theodore

@@ -1,14 +1,14 @@
 # ResearchChem Atomic Toolbox Status
 
-Generated: `2026-07-19T08:59:03.257928+00:00`
-Catalog hash: `e2e60aecab6a4267e025530239b82bf62899a7910227260e14d17b07ee8c73fe`
+Generated: `2026-07-19T20:00:43.048660+00:00`
+Catalog hash: `04f81e0f2ead56d3e2e8b57e69462eaad309d53ea43f2bd9f8b3939ca7585d0d`
 
 ## Summary
 
 - Scientific Actions: 40
 - Data Actions: 4
-- BackendSpecs: 49
-- Available backends: 49
+- BackendSpecs: 54
+- Available backends: 54
 - Unavailable backends: 0
 - Exposure: full catalog for every task
 - Backend selection: Agent required

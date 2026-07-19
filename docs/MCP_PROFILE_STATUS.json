@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-07-19T08:43:54.289071+00:00",
+  "generated_at": "2026-07-19T19:58:56.291825+00:00",
   "summary": {
-    "profile_count": 17,
-    "ready_profiles": 17,
+    "profile_count": 22,
+    "ready_profiles": 22,
     "public_action_count": 44
   },
   "profiles": {
@@ -248,12 +248,7 @@
         "returncode": 0,
         "output": "No broken requirements found."
       },
-      "model_checks": {
-        "mace_medium_mpa_0": {
-          "success": true,
-          "energy_ev": -0.88549809819065
-        }
-      },
+      "model_checks": {},
       "manual_commands": {},
       "live_checks": {},
       "required_ok": true,
@@ -588,12 +583,7 @@
         "returncode": 0,
         "output": "No broken requirements found."
       },
-      "model_checks": {
-        "mace_medium_mpa_0": {
-          "success": true,
-          "energy_ev": -0.88549809819065
-        }
-      },
+      "model_checks": {},
       "manual_commands": {},
       "live_checks": {},
       "required_ok": true,
@@ -1626,12 +1616,7 @@
         "returncode": 0,
         "output": "No broken requirements found."
       },
-      "model_checks": {
-        "mace_medium_mpa_0": {
-          "success": true,
-          "energy_ev": -0.88549809819065
-        }
-      },
+      "model_checks": {},
       "manual_commands": {},
       "live_checks": {},
       "required_ok": true,
@@ -2074,6 +2059,290 @@
         "abinit": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/abinit/bin/abinit"
       },
       "external_commands": {},
+      "dependency_check": {
+        "success": true,
+        "returncode": 0,
+        "output": "No broken requirements found."
+      },
+      "model_checks": {},
+      "manual_commands": {},
+      "live_checks": {},
+      "required_ok": true,
+      "runtime_group": "support_environments",
+      "returncode": 0
+    },
+    "gaussian": {
+      "profile": "gaussian",
+      "conda_name": "researchchem-gaussian",
+      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/gaussian/bin/python3.11",
+      "python_version": "3.11.15",
+      "expected_backends": [
+        "gaussian"
+      ],
+      "backend_health": {
+        "gaussian": {
+          "status": "available",
+          "available": true,
+          "runtime": "gaussian",
+          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/gaussian/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {},
+          "executables": {
+            "g16": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/gaussian/g16/install/g16/g16",
+            "formchk": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/gaussian/g16/install/g16/formchk"
+          },
+          "environment": {
+            "CHEMGRAPH_GAUSSIAN_COMMAND": true,
+            "CHEMGRAPH_GAUSSIAN_FORMCHK_COMMAND": true
+          },
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [],
+          "pip_packages": [],
+          "required_data_resources": [],
+          "license_class": "commercial_license",
+          "install_notes": "Configured from the operator-provided Gaussian 16 C.01 distribution under .software_cache/gaussian/g16; the adapter accepts no arbitrary route deck."
+        }
+      },
+      "allowed_unavailable_backends": [],
+      "unexpected_unavailable_backends": [],
+      "modules": {
+        "cclib": {
+          "available": true,
+          "version": "1.8.1"
+        }
+      },
+      "commands": {
+        "g16": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/gaussian/g16/install/g16/g16",
+        "formchk": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/gaussian/g16/install/g16/formchk"
+      },
+      "external_commands": {
+        ".software_cache/gaussian/g16/install/g16/g16": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/gaussian/g16/install/g16/g16",
+        ".software_cache/gaussian/g16/install/g16/formchk": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/gaussian/g16/install/g16/formchk"
+      },
+      "dependency_check": {
+        "success": true,
+        "returncode": 0,
+        "output": "No broken requirements found."
+      },
+      "model_checks": {},
+      "manual_commands": {},
+      "live_checks": {},
+      "required_ok": true,
+      "runtime_group": "support_environments",
+      "returncode": 0
+    },
+    "gamess": {
+      "profile": "gamess",
+      "conda_name": "researchchem-gamess",
+      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/gamess/bin/python3.11",
+      "python_version": "3.11.15",
+      "expected_backends": [
+        "gamess"
+      ],
+      "backend_health": {
+        "gamess": {
+          "status": "available",
+          "available": true,
+          "runtime": "gamess",
+          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/gamess/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {},
+          "executables": {
+            "rungms": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/gamess/2024-r2-p1/source/rungms"
+          },
+          "environment": {
+            "CHEMGRAPH_GAMESS_COMMAND": true
+          },
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [],
+          "pip_packages": [],
+          "required_data_resources": [],
+          "license_class": "registration_license",
+          "install_notes": "The registered source distribution is compiled under .software_cache/gamess/2024-r2-p1 with a sockets DDI build and isolated compiler/runtime libraries."
+        }
+      },
+      "allowed_unavailable_backends": [],
+      "unexpected_unavailable_backends": [],
+      "modules": {},
+      "commands": {
+        "rungms": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/gamess/2024-r2-p1/source/rungms"
+      },
+      "external_commands": {
+        ".software_cache/gamess/2024-r2-p1/source/rungms": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/gamess/2024-r2-p1/source/rungms",
+        ".software_cache/gamess/2024-r2-p1/build/gamess.00.x": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/gamess/2024-r2-p1/build/gamess.00.x"
+      },
+      "dependency_check": {
+        "success": true,
+        "returncode": 0,
+        "output": "No broken requirements found."
+      },
+      "model_checks": {},
+      "manual_commands": {},
+      "live_checks": {},
+      "required_ok": true,
+      "runtime_group": "support_environments",
+      "returncode": 0
+    },
+    "namd": {
+      "profile": "namd",
+      "conda_name": "researchchem-namd",
+      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/namd/bin/python3.11",
+      "python_version": "3.11.15",
+      "expected_backends": [
+        "namd"
+      ],
+      "backend_health": {
+        "namd": {
+          "status": "available",
+          "available": true,
+          "runtime": "namd",
+          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/namd/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {},
+          "executables": {
+            "namd3": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/namd/3.0.2/multicore-avx512/namd3"
+          },
+          "environment": {
+            "CHEMGRAPH_NAMD_COMMAND": true
+          },
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [],
+          "pip_packages": [],
+          "required_data_resources": [],
+          "license_class": "academic_registration",
+          "install_notes": "The AVX-512 multicore and CUDA bundles are cached under .software_cache/namd/3.0.2. The public backend selects the validated CPU AVX-512 binary only; CUDA is never chosen implicitly."
+        }
+      },
+      "allowed_unavailable_backends": [],
+      "unexpected_unavailable_backends": [],
+      "modules": {},
+      "commands": {
+        "namd3": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/namd/3.0.2/multicore-avx512/namd3"
+      },
+      "external_commands": {
+        ".software_cache/namd/3.0.2/multicore-avx512/namd3": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/namd/3.0.2/multicore-avx512/namd3",
+        ".software_cache/namd/3.0.2/multicore-cuda/namd3": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/namd/3.0.2/multicore-cuda/namd3"
+      },
+      "dependency_check": {
+        "success": true,
+        "returncode": 0,
+        "output": "No broken requirements found."
+      },
+      "model_checks": {},
+      "manual_commands": {},
+      "live_checks": {},
+      "required_ok": true,
+      "runtime_group": "support_environments",
+      "returncode": 0
+    },
+    "amber": {
+      "profile": "amber",
+      "conda_name": "researchchem-amber",
+      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/amber/bin/python3.11",
+      "python_version": "3.11.15",
+      "expected_backends": [
+        "amber_pmemd"
+      ],
+      "backend_health": {
+        "amber_pmemd": {
+          "status": "available",
+          "available": true,
+          "runtime": "amber",
+          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/amber/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {},
+          "executables": {
+            "pmemd": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/amber/26/install/bin/pmemd",
+            "pmemd.MPI": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/amber/26/install/bin/pmemd.MPI",
+            "mpirun": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/amber/bin/mpirun"
+          },
+          "environment": {
+            "CHEMGRAPH_AMBER_COMMAND": true,
+            "CHEMGRAPH_AMBER_MPI_COMMAND": true,
+            "CHEMGRAPH_AMBER_MPIRUN_COMMAND": true,
+            "CHEMGRAPH_AMBER_MPI_EXECUTABLE": true
+          },
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [],
+          "pip_packages": [],
+          "required_data_resources": [],
+          "license_class": "academic_registration",
+          "install_notes": "Licensed PMEMD26 CPU serial and MPI binaries are built under .software_cache/amber/26. AmberTools 26 remains independently available in the OpenFF runtime."
+        }
+      },
+      "allowed_unavailable_backends": [],
+      "unexpected_unavailable_backends": [],
+      "modules": {},
+      "commands": {
+        "pmemd": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/amber/26/install/bin/pmemd",
+        "pmemd.MPI": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/amber/26/install/bin/pmemd.MPI",
+        "mpirun": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/amber/bin/mpirun"
+      },
+      "external_commands": {
+        ".software_cache/amber/26/install/bin/pmemd": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/amber/26/install/bin/pmemd",
+        ".software_cache/amber/26/install/bin/pmemd.MPI": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/amber/26/install/bin/pmemd.MPI"
+      },
+      "dependency_check": {
+        "success": true,
+        "returncode": 0,
+        "output": "No broken requirements found."
+      },
+      "model_checks": {},
+      "manual_commands": {},
+      "live_checks": {},
+      "required_ok": true,
+      "runtime_group": "support_environments",
+      "returncode": 0
+    },
+    "charmm": {
+      "profile": "charmm",
+      "conda_name": "researchchem-charmm",
+      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/charmm/bin/python3.11",
+      "python_version": "3.11.15",
+      "expected_backends": [
+        "charmm"
+      ],
+      "backend_health": {
+        "charmm": {
+          "status": "available",
+          "available": true,
+          "runtime": "charmm",
+          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/charmm/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {},
+          "executables": {
+            "charmm": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/charmm/50b2/install/bin/charmm"
+          },
+          "environment": {
+            "CHEMGRAPH_CHARMM_COMMAND": true
+          },
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [],
+          "pip_packages": [],
+          "required_data_resources": [],
+          "license_class": "academic_registration",
+          "install_notes": "The operator-provided CHARMM c50b2 source is compiled as a serial/OpenMP GNU build under .software_cache/charmm/50b2; arbitrary CHARMM input scripts are not accepted."
+        }
+      },
+      "allowed_unavailable_backends": [],
+      "unexpected_unavailable_backends": [],
+      "modules": {},
+      "commands": {
+        "charmm": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/charmm/50b2/install/bin/charmm"
+      },
+      "external_commands": {
+        ".software_cache/charmm/50b2/install/bin/charmm": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/charmm/50b2/install/bin/charmm"
+      },
       "dependency_check": {
         "success": true,
         "returncode": 0,

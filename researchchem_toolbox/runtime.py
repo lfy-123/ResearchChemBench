@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import os
+import shutil
 import subprocess
 import sys
 from functools import lru_cache
@@ -63,6 +64,18 @@ def _runtime_entries(specification: dict[str, Any], key: str) -> list[str]:
     return entries
 
 
+def _runtime_environment_value(value: Any) -> str:
+    """Resolve configured path values while leaving scalar environment values intact."""
+
+    text = str(value)
+    if text.startswith(".") or "/" in text:
+        path = Path(text).expanduser()
+        if not path.is_absolute():
+            path = PROJECT_ROOT / path
+        return str(path.resolve())
+    return text
+
+
 def runtime_environment(name: str) -> dict[str, str]:
     specification = runtime_spec(name)
     environment = runtime_path(name)
@@ -83,7 +96,7 @@ def runtime_environment(name: str) -> dict[str, str]:
     }
     values.update(
         {
-            str(variable): str(value)
+            str(variable): _runtime_environment_value(value)
             for variable, value in dict(
                 specification.get("environment_variables") or {}
             ).items()
@@ -165,6 +178,9 @@ def _resolve_executable(runtime: str, executable: str) -> str | None:
     for candidate in candidates:
         if candidate.is_file() and os.access(candidate, os.X_OK):
             return str(candidate.resolve())
+    configured = shutil.which(executable, path=runtime_environment(runtime).get("PATH"))
+    if configured:
+        return str(Path(configured).resolve())
     return None
 
 
