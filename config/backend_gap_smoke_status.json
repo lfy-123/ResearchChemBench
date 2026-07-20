@@ -1,0 +1,180 @@
+{
+  "generated_at": "2026-07-20T18:01:09.422749+00:00",
+  "schema_version": 1,
+  "summary": {
+    "case_count": 18,
+    "passed": 18,
+    "failed": 0,
+    "all_ok": true
+  },
+  "cases": [
+    {
+      "case_id": "rdkit_gasteiger_ethanol",
+      "action": "assign_partial_charges",
+      "backend": "rdkit_gasteiger",
+      "status": "success",
+      "elapsed_seconds": 1.971493,
+      "error": null,
+      "warnings": []
+    },
+    {
+      "case_id": "openbabel_ethanol_3d",
+      "action": "generate_3d_structure",
+      "backend": "openbabel",
+      "status": "success",
+      "elapsed_seconds": 1.818821,
+      "error": null,
+      "warnings": []
+    },
+    {
+      "case_id": "tblite_water_energy",
+      "action": "calculate_energy",
+      "backend": "tblite",
+      "status": "success",
+      "elapsed_seconds": 3.546734,
+      "error": null,
+      "warnings": [
+        "Backend stdout was captured; see worker_stdout in provenance"
+      ]
+    },
+    {
+      "case_id": "pyscf_water_energy",
+      "action": "calculate_energy",
+      "backend": "pyscf",
+      "status": "success",
+      "elapsed_seconds": 2.179297,
+      "error": null,
+      "warnings": []
+    },
+    {
+      "case_id": "psi4_water_energy",
+      "action": "calculate_energy",
+      "backend": "psi4",
+      "status": "success",
+      "elapsed_seconds": 3.237583,
+      "error": null,
+      "warnings": []
+    },
+    {
+      "case_id": "gamess_water_energy",
+      "action": "calculate_energy",
+      "backend": "gamess",
+      "status": "success",
+      "elapsed_seconds": 2.940352,
+      "error": null,
+      "warnings": []
+    },
+    {
+      "case_id": "gaussian_water_hessian",
+      "action": "calculate_hessian",
+      "backend": "gaussian",
+      "status": "success",
+      "elapsed_seconds": 4.40587,
+      "error": null,
+      "warnings": []
+    },
+    {
+      "case_id": "goodvibes_gaussian_water",
+      "action": "derive_thermochemistry",
+      "backend": "goodvibes",
+      "status": "success",
+      "elapsed_seconds": 2.432431,
+      "error": null,
+      "warnings": []
+    },
+    {
+      "case_id": "cp2k_silicon_energy",
+      "action": "calculate_periodic_energy",
+      "backend": "cp2k",
+      "status": "success",
+      "elapsed_seconds": 7.312023,
+      "error": null,
+      "warnings": []
+    },
+    {
+      "case_id": "mace_silicon_cluster_energy",
+      "action": "calculate_energy",
+      "backend": "mace",
+      "status": "success",
+      "elapsed_seconds": 6.538749,
+      "error": null,
+      "warnings": [
+        "Backend stdout was captured; see worker_stdout in provenance"
+      ]
+    },
+    {
+      "case_id": "chgnet_silicon_cluster_energy",
+      "action": "calculate_energy",
+      "backend": "chgnet",
+      "status": "success",
+      "elapsed_seconds": 4.747022,
+      "error": null,
+      "warnings": [
+        "Backend stdout was captured; see worker_stdout in provenance"
+      ]
+    },
+    {
+      "case_id": "crest_water_conformers",
+      "action": "generate_conformer_ensemble",
+      "backend": "crest",
+      "status": "success",
+      "elapsed_seconds": 6.979266,
+      "error": null,
+      "warnings": []
+    },
+    {
+      "case_id": "vina_minimal_docking",
+      "action": "dock_ligand",
+      "backend": "vina",
+      "status": "success",
+      "elapsed_seconds": 2.110398,
+      "error": null,
+      "warnings": []
+    },
+    {
+      "case_id": "gromacs_argon_minimization",
+      "action": "minimize_system_energy",
+      "backend": "gromacs",
+      "status": "success",
+      "elapsed_seconds": 1.597799,
+      "error": null,
+      "warnings": []
+    },
+    {
+      "case_id": "lammps_argon_minimization",
+      "action": "minimize_system_energy",
+      "backend": "lammps",
+      "status": "success",
+      "elapsed_seconds": 2.884536,
+      "error": null,
+      "warnings": []
+    },
+    {
+      "case_id": "namd_minimal_minimization",
+      "action": "minimize_system_energy",
+      "backend": "namd",
+      "status": "success",
+      "elapsed_seconds": 1.73283,
+      "error": null,
+      "warnings": []
+    },
+    {
+      "case_id": "amber_pmemd_minimization",
+      "action": "minimize_system_energy",
+      "backend": "amber_pmemd",
+      "status": "success",
+      "elapsed_seconds": 2.099852,
+      "error": null,
+      "warnings": []
+    },
+    {
+      "case_id": "charmm_water_minimization",
+      "action": "minimize_system_energy",
+      "backend": "charmm",
+      "status": "success",
+      "elapsed_seconds": 1.709066,
+      "error": null,
+      "warnings": []
+    }
+  ]
+}

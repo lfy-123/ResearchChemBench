@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import math
+import pprint
 import re
 import shutil
 import xml.etree.ElementTree as ET
@@ -46,14 +47,46 @@ def _pysisyphus(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
     calculator_backend = str(method["calculator_backend"]).lower()
     if calculator_backend not in {"xtb", "pyscf", "orca"}:
         raise ValueError("pysisyphus calculator_backend must be xtb, pyscf, or orca")
+    method_name = str(method["method"]).strip()
     calculator: dict[str, Any] = {
         "type": calculator_backend,
-        "method": str(method["method"]),
         "charge": int(method.get("charge", structure_dict(inputs[structure_key]).get("charge", 0))),
         "mult": int(method.get("multiplicity", structure_dict(inputs[structure_key]).get("multiplicity", 1))),
     }
-    if method.get("basis"):
+    if calculator_backend == "xtb":
+        normalized = method_name.lower().replace("-", "").replace("_", "")
+        gfn_values: dict[str, int | str] = {
+            "gfn0": 0,
+            "gfn1": 1,
+            "gfn2": 2,
+            "gfnff": "ff",
+            "0": 0,
+            "1": 1,
+            "2": 2,
+            "ff": "ff",
+        }
+        if normalized not in gfn_values:
+            raise ValueError("pysisyphus/XTB method must be gfn0, gfn1, gfn2, or gfnff")
+        calculator["gfn"] = gfn_values[normalized]
+    elif calculator_backend == "pyscf":
+        if not method.get("basis"):
+            raise ValueError("pysisyphus/PySCF requires method_spec.basis")
+        normalized = method_name.lower().replace("-", "").replace("_", "")
+        if normalized in {"scf", "hf", "rhf", "uhf"}:
+            calculator["method"] = "scf"
+        elif normalized in {"mp2", "ump2"}:
+            calculator["method"] = "mp2"
+        else:
+            calculator["method"] = "dft"
+            calculator["xc"] = str(method.get("functional") or method_name)
         calculator["basis"] = str(method["basis"])
+        if normalized in {"uhf", "uks", "ump2"}:
+            calculator["unrestricted"] = True
+    else:
+        keywords = [method_name]
+        if method.get("basis"):
+            keywords.append(str(method["basis"]))
+        calculator["keywords"] = " ".join(keywords)
     configuration: dict[str, Any] = {
         "geom": {"type": "cart", "fn": str(xyz)},
         "calc": calculator,
@@ -274,40 +307,88 @@ def _catmap(request: dict[str, Any]) -> dict[str, Any]:
         raise ValueError("CatMAP model must be a typed mapping")
     allowed = {
         "rxn_expressions", "species_definitions", "descriptor_names", "descriptor_ranges",
-        "resolution", "surface_names", "data_file", "gas_thermo_mode", "adsorbate_thermo_mode",
-        "scaler", "solver", "mapper", "output_variables",
+        "resolution", "surface_names", "input_file", "gas_thermo_mode",
+        "adsorbate_thermo_mode", "scaler", "solver", "mapper", "output_variables",
+        "scaling_constraint_dict", "numerical_representation",
+        "adsorbate_interaction_model", "decimal_precision", "tolerance",
+        "max_rootfinding_iterations", "max_bisections", "max_damping_iterations",
+        "use_numbers_solver", "prefactor_list", "descriptor_values",
     }
     unknown = sorted(set(model_value) - allowed)
     if unknown:
         raise ValueError(f"Unsupported CatMAP model fields: {unknown}")
     from catmap import ReactionModel
 
-    model = ReactionModel()
-    for name, value in model_value.items():
-        setattr(model, name, value)
-    model.temperature = float(settings["temperature_kelvin"])
-    model.pressure = float(settings["pressure_bar"])
+    directory = output_directory("solve_microkinetic_model", "catmap")
+    configuration = dict(model_value)
+    if "input_file" in configuration:
+        configuration["input_file"] = str(resolve_input_file(configuration["input_file"]))
+    configuration["temperature"] = float(settings["temperature_kelvin"])
+    configuration["pressure"] = float(settings["pressure_bar"])
+    # CatMAP's setup-file loader initializes the parser/scaler/solver/mapper
+    # defaults.  Constructing ReactionModel() and setting attributes directly
+    # leaves those objects uninitialized in CatMAP 0.3.x.  The generated file is
+    # restricted to allow-listed literal assignments; arbitrary user code is
+    # never accepted or executed.
+    configuration["data_file"] = str(directory / "catmap_data.pkl")
+    setup_path = directory / "model.mkm"
+    setup_path.write_text(
+        "\n".join(
+            f"{name} = {pprint.pformat(value, sort_dicts=True, width=100)}"
+            for name, value in configuration.items()
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    model = ReactionModel(setup_file=str(setup_path))
     model.run()
+
+    def json_value(value: Any) -> Any:
+        if value is None or isinstance(value, (str, int, float, bool)):
+            return value
+        if isinstance(value, dict):
+            return {str(key): json_value(item) for key, item in value.items()}
+        if isinstance(value, (list, tuple)):
+            return [json_value(item) for item in value]
+        if hasattr(value, "tolist"):
+            return json_value(value.tolist())
+        try:
+            return float(value)
+        except (TypeError, ValueError, OverflowError):
+            return str(value)
+
     result = {
         "temperature_kelvin": model.temperature,
         "pressure_bar": model.pressure,
         "output_variables": list(getattr(model, "output_variables", [])),
+        "output_labels": json_value(getattr(model, "output_labels", {})),
     }
     for name in result["output_variables"]:
-        value = getattr(model, name, None)
+        value = getattr(model, f"{name}_map", None)
+        if value is None:
+            value = getattr(model, name, None)
         if value is not None:
-            try:
-                result[name] = value.tolist()
-            except AttributeError:
-                result[name] = value
-    directory = output_directory("solve_microkinetic_model", "catmap")
+            result[name] = json_value(value)
     path = write_json(directory, "catmap_result.json", result)
     return success(
         result,
         artifact_files=[
-            {"path": relative_workspace_path(path), "semantic_type": "MicrokineticResult", "media_type": "application/json"}
+            {
+                "path": relative_workspace_path(path),
+                "semantic_type": "MicrokineticResult",
+                "media_type": "application/json",
+            },
+            *[
+                artifact
+                for artifact in command_artifacts(directory)
+                if artifact["path"] != relative_workspace_path(path)
+            ],
         ],
         backend_version=module_version("catmap"),
+        provenance={
+            "generated_setup": relative_workspace_path(setup_path),
+            "accepted_model_fields": sorted(model_value),
+        },
     )
 
 

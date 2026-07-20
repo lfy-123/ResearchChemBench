@@ -526,7 +526,11 @@ ACTION_SPECS: tuple[ActionSpec, ...] = (
         "MicrokineticResult",
         ("catmap",),
         ("model",),
-        input_description="typed microkinetic model object",
+        input_description=(
+            "typed CatMAP model fields, including explicit reaction expressions, species/site "
+            "definitions, descriptor space, energetics input Artifact, thermochemistry modes, "
+            "solver controls, and requested output variables"
+        ),
     ),
     _action(
         "minimize_system_energy",
@@ -1979,9 +1983,12 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
     ),
     _backend(
         "catmap", "CatMAP", "reaction", ("solve_microkinetic_model",),
-        "CatMAP microkinetic solver through a typed model adapter.", modules=("catmap",),
+        "CatMAP 0.3.x microkinetic solver through an allow-listed typed model adapter that generates a controlled setup file and returns structured descriptor maps.",
+        modules=("catmap",),
         pip=("git+https://github.com/SUNCAT-Center/catmap.git",),
         required_settings={"solve_microkinetic_model": ("temperature_kelvin", "pressure_bar")},
+        supported_system_types={"solve_microkinetic_model": ("heterogeneous_catalytic_network",)},
+        validation_levels={"solve_microkinetic_model": "real_smoke"},
     ),
     _backend(
         "openmm", "OpenMM", "md",
@@ -2213,7 +2220,8 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
     ),
     _backend(
         "plumed", "PLUMED", "md", ("evaluate_collective_variables",),
-        "PLUMED driver evaluation of supplied collective-variable definitions.", executables=("plumed",),
+        "PLUMED driver evaluation of supplied collective-variable definitions; optional action_settings box_angstrom, timestep_ps, and trajectory_stride provide explicit metadata when the trajectory does not contain it.",
+        executables=("plumed",),
         environment=("CHEMGRAPH_PLUMED_COMMAND",), conda=("plumed",),
     ),
     _backend(

@@ -269,6 +269,29 @@ software:
       - calculate_phonon_joint_density_of_states
       - calculate_isotope_scattering
 
+  catmap:
+    display_name: CatMAP
+    installed_version: 0.3.1
+    aliases: [CatMAP, catmap]
+    official_sources:
+      - title: CatMAP creating a microkinetic model tutorial
+        url: https://catmap.readthedocs.io/en/latest/tutorials/creating_a_microkinetic_model.html
+        kind: html
+        version_scope: 0.2.79-documentation
+      - title: CatMAP code and model overview
+        url: https://catmap.readthedocs.io/en/latest/topics/code_overview.html
+        kind: html
+        version_scope: 0.2.79-documentation
+      - title: CatMAP official source repository
+        url: https://github.com/SUNCAT-Center/catmap
+        kind: html
+        version_scope: 0.3.1-source
+    candidate_actions:
+      - solve_microkinetic_model
+      - analyze_microkinetic_sensitivity
+      - calculate_degree_of_rate_control
+      - map_catalytic_activity
+
   rmg:
     display_name: RMG-Py
     installed_version: 4.0.0

@@ -464,9 +464,10 @@ profiles:
     conda_packages: [xtb, crest, goodvibes, cantera]
     pip_packages:
       - pysisyphus==1.0.0
+      - pyscf==2.13.1
       - git+https://github.com/SUNCAT-Center/catmap.git
     health_checks:
-      modules: [cantera, catmap, goodvibes, pysisyphus, scipy]
+      modules: [cantera, catmap, goodvibes, pysisyphus, pyscf, scipy]
       commands: [crest, goodvibes, pysis, xtb, orca, mpirun]
       external_commands:
         - .software_cache/orca/6.1.1/orca

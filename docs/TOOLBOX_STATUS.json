@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-20T15:41:03.425112+00:00",
+  "generated_at": "2026-07-20T17:39:45.991813+00:00",
   "scientific_actions": 91,
   "data_actions": 10,
   "backend_count": 76,
@@ -1056,7 +1056,7 @@
           "model"
         ],
         "optional_inputs": [],
-        "input_description": "typed microkinetic model object",
+        "input_description": "typed CatMAP model fields, including explicit reaction expressions, species/site definitions, descriptor space, energetics input Artifact, thermochemistry modes, solver controls, and requested output variables",
         "version": "1.0.0",
         "data_action": false,
         "requires_network": false,
@@ -6105,7 +6105,7 @@
         "capabilities": [
           "solve_microkinetic_model"
         ],
-        "description": "CatMAP microkinetic solver through a typed model adapter.",
+        "description": "CatMAP 0.3.x microkinetic solver through an allow-listed typed model adapter that generates a controlled setup file and returns structured descriptor maps.",
         "python_modules": [
           "catmap"
         ],
@@ -6129,8 +6129,14 @@
         },
         "required_component_roles": {},
         "component_backend_options": {},
-        "supported_system_types": {},
-        "validation_levels": {},
+        "supported_system_types": {
+          "solve_microkinetic_model": [
+            "heterogeneous_catalytic_network"
+          ]
+        },
+        "validation_levels": {
+          "solve_microkinetic_model": "real_smoke"
+        },
         "health": {
           "status": "available",
           "available": true,
@@ -7012,7 +7018,7 @@
         "capabilities": [
           "evaluate_collective_variables"
         ],
-        "description": "PLUMED driver evaluation of supplied collective-variable definitions.",
+        "description": "PLUMED driver evaluation of supplied collective-variable definitions; optional action_settings box_angstrom, timestep_ps, and trajectory_stride provide explicit metadata when the trajectory does not contain it.",
         "python_modules": [],
         "executables": [
           "plumed"
@@ -12590,10 +12596,10 @@
         "size_bytes": 150218
       }
     ],
-    "catalog_hash": "7a15cb19ab2f7ab9c18a07f7b5cae5c527e6b1c3bf6d9efc3edfc87c1218c95b"
+    "catalog_hash": "877faba5882af49be69355a34221434226ac600b28d4044c01631f45aa2bcb33"
   },
   "installation": {
-    "catalog_hash": "7a15cb19ab2f7ab9c18a07f7b5cae5c527e6b1c3bf6d9efc3edfc87c1218c95b",
+    "catalog_hash": "877faba5882af49be69355a34221434226ac600b28d4044c01631f45aa2bcb33",
     "unavailable_backend_count": 0,
     "unavailable_backends": [],
     "conda_packages": [],

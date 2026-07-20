@@ -1,6 +1,6 @@
 # ResearchChemBench 软件能力扩展矩阵
 
-> 生成时间：`2026-07-20T15:48:28.951147+00:00`。由 `scripts/generate_software_capability_matrix.py` 从本地资料缓存生成。
+> 生成时间：`2026-07-20T16:43:49.068153+00:00`。由 `scripts/generate_software_capability_matrix.py` 从本地资料缓存生成。
 
 ## 1. 审计摘要
 
@@ -8,8 +8,8 @@
 |---|---:|
 | 软件/算法/数据源记录 | 104 |
 | 已有公开 Action 映射 | 74 |
-| 已登记候选扩展 Action | 51 |
-| 已登记官方资料入口 | 71 |
+| 已登记候选扩展 Action | 52 |
+| 已登记官方资料入口 | 72 |
 
 能力状态必须按 `documented → installed → adapted → validated` 逐级提升。表中的候选 Action 不能直接理解为当前 MCP 可用能力。
 
@@ -22,6 +22,7 @@
 | Arkane<br>`arkane` | 4.0.0 | — | `derive_thermochemistry`<br>`calculate_rate_constants`<br>`calculate_pressure_dependent_rates` | [Arkane user guide](https://reactionmechanismgenerator.github.io/RMG-Py/users/arkane/) |
 | autodE<br>`autode` | 1.4.5 | — | `search_reaction_pathways`<br>`locate_transition_state`<br>`calculate_reaction_profile` | [autodE official documentation or project page](https://duartegroup.github.io/autodE/) |
 | AutoMeKin<br>`automekin` | unknown | — | `search_reaction_pathways`<br>`generate_reaction_network` | [AutoMeKin official documentation or project page](https://github.com/emartineznunez/AutoMeKin) |
+| CatMAP<br>`catmap` | 0.3.1 | `solve_microkinetic_model` | `solve_microkinetic_model`<br>`analyze_microkinetic_sensitivity`<br>`calculate_degree_of_rate_control`<br>`map_catalytic_activity` | [CatMAP creating a microkinetic model tutorial](https://catmap.readthedocs.io/en/latest/tutorials/creating_a_microkinetic_model.html)<br>[CatMAP code and model overview](https://catmap.readthedocs.io/en/latest/topics/code_overview.html)<br>[CatMAP official source repository](https://github.com/SUNCAT-Center/catmap) |
 | cclib<br>`cclib` | 1.8.1 | `parse_quantum_chemistry_output` | `parse_quantum_chemistry_output` | [cclib 1.8.1 parsing guide](https://cclib.github.io/how_to_parse.html)<br>[cclib 1.8.1 parsed-data reference](https://cclib.github.io/data.html)<br>[cclib official documentation or project page](https://cclib.github.io/) |
 | CENSO<br>`censo` | unknown | — | `refine_conformer_energies`<br>`calculate_conformer_thermochemistry` | [CENSO official documentation or project page](https://pypi.org/project/censo/) |
 | CP2K<br>`cp2k` | 2026.1 | `calculate_periodic_energy`<br>`calculate_periodic_forces`<br>`calculate_periodic_stress`<br>`relax_periodic_structure` | `calculate_energy`<br>`calculate_forces`<br>`optimize_geometry`<br>`calculate_hessian`<br>`propagate_dynamics`<br>`propagate_qmmm_dynamics`<br>`calculate_excited_states`<br>`calculate_nmr_parameters`<br>`derive_raman_spectrum`<br>`calculate_electronic_band_structure`<br>`calculate_density_of_states`<br>`calculate_dielectric_response` | [CP2K manual](https://manual.cp2k.org/trunk/)<br>[CP2K molecular dynamics documentation](https://manual.cp2k.org/trunk/methods/sampling/molecular_dynamics.html)<br>[CP2K properties documentation](https://manual.cp2k.org/trunk/methods/properties/index.html) |
@@ -87,7 +88,7 @@
 | `cantera`<br>Cantera | unknown | not listed<br>catalog/backend only | `calculate_chemical_equilibrium`<br>`integrate_reaction_network` | — | sources=0<br>downloads=0<br>local_docs=0/0<br>errors=0 | — |
 | `castep`<br>CASTEP | unknown | manual_required<br>not_implemented | — | — | sources=1<br>downloads=1<br>local_docs=0/0<br>errors=0 | Requires STFC academic/commercial license and a site build. |
 | `catalysis_hub`<br>Catalysis-Hub GraphQL | unknown | not listed<br>catalog/backend only | `search_catalysis_records` | — | sources=0<br>downloads=0<br>local_docs=0/0<br>errors=0 | — |
-| `catmap`<br>CatMAP | unknown | not listed<br>catalog/backend only | `solve_microkinetic_model` | — | sources=0<br>downloads=0<br>local_docs=0/0<br>errors=0 | — |
+| `catmap`<br>CatMAP | 0.3.1 | not listed<br>catalog/backend only | `solve_microkinetic_model` | `solve_microkinetic_model`<br>`analyze_microkinetic_sensitivity`<br>`calculate_degree_of_rate_control`<br>`map_catalytic_activity` | sources=3<br>downloads=3<br>local_docs=0/0<br>errors=0 | — |
 | `cclib`<br>cclib | 1.8.1 | configured<br>existing | `parse_quantum_chemistry_output` | `parse_quantum_chemistry_output` | sources=3<br>downloads=3<br>local_docs=0/0<br>errors=0 | Exposed as parse_quantum_chemistry_output for bounded parsing of Agent-supplied quantum-chemistry outputs; also installed in the TheoDORE runtime. |
 | `censo`<br>CENSO | unknown | configured<br>runtime_only | — | `refine_conformer_energies`<br>`calculate_conformer_thermochemistry` | sources=1<br>downloads=1<br>local_docs=0/0<br>errors=0 | CENSO is available in the reaction runtime; complete runs still require explicit CREST/ORCA/TURBOMOLE choices and inputs. |
 | `charmm`<br>CHARMM | unknown | configured<br>existing | `minimize_system_energy`<br>`propagate_dynamics` | — | sources=1<br>downloads=1<br>local_docs=0/0<br>errors=0 | CHARMM c50b2 was compiled as a serial/OpenMP GNU build. Typed minimization plus restartable NVE/NVT segment calls passed with explicit RTF/parameter/PSF/coordinate inputs; arbitrary CHARMM scripts are not accepted. |

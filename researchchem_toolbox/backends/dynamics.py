@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import math
 from pathlib import Path
 from typing import Any
 
@@ -1117,9 +1118,30 @@ def _plumed(request: dict[str, Any]) -> dict[str, Any]:
     flag = {".xtc": "--mf_xtc", ".trr": "--mf_trr", ".dcd": "--mf_dcd", ".xyz": "--ixyz"}.get(suffix)
     if flag is None:
         raise ValueError(f"Unsupported PLUMED trajectory format: {suffix}")
+    arguments = ["driver", "--plumed", str(input_path), flag, str(trajectory), "--pdb", str(topology)]
+    box = settings.get("box_angstrom")
+    if box is not None:
+        if not isinstance(box, (list, tuple)) or len(box) not in {3, 9}:
+            raise ValueError("box_angstrom must contain 3 orthorhombic or 9 triclinic values")
+        values = [float(value) for value in box]
+        if any(not math.isfinite(value) for value in values) or any(
+            value <= 0 for value in values[:3]
+        ):
+            raise ValueError("box_angstrom must contain finite positive cell lengths")
+        arguments.extend(["--box", ",".join(f"{value:.12g}" for value in values)])
+    if settings.get("timestep_ps") is not None:
+        timestep = float(settings["timestep_ps"])
+        if not math.isfinite(timestep) or timestep <= 0:
+            raise ValueError("timestep_ps must be positive and finite")
+        arguments.extend(["--timestep", f"{timestep:.12g}"])
+    if settings.get("trajectory_stride") is not None:
+        trajectory_stride = int(settings["trajectory_stride"])
+        if trajectory_stride < 1:
+            raise ValueError("trajectory_stride must be positive")
+        arguments.extend(["--trajectory-stride", str(trajectory_stride)])
     completed = run_external(
         executable="plumed", environment_variable="CHEMGRAPH_PLUMED_COMMAND",
-        arguments=["driver", "--plumed", str(input_path), flag, str(trajectory), "--pdb", str(topology)],
+        arguments=arguments,
         directory=directory,
         timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 1800)),
     )
