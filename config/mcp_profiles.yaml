@@ -7,7 +7,7 @@ audit:
 public_server:
   runtime: core
   server_name: researchchem_toolbox
-  description: Unified MCP server exposing all 40 Scientific Actions and 5 Data Actions.
+  description: Unified MCP server exposing the complete versioned Scientific/Data Action catalog to every benchmark task.
 
 # Executable-only backend runtimes. No runtime owns or filters public tools.
 support_environments:
@@ -73,6 +73,76 @@ support_environments:
     smoke_commands:
       - [bash, -c, 'grep -q "EXECUTION OF GAMESS TERMINATED NORMALLY" .software_cache/gamess/2024-r2-p1/smoke/exam01.log']
     backends: [gamess]
+
+  rmg:
+    conda_name: researchchem-rmg
+    description: RMG-Py 4.0.0 typed kinetics and tunneling runtime.
+    environment: .tool_envs/rmg
+    conda_packages: [rmg=4.0.0, pydantic, pyyaml, python-dotenv]
+    pip_packages: []
+    health_checks:
+      modules: [rmgpy, pydantic, yaml]
+      commands: [rmg.py]
+      allowed_dependency_issue_patterns:
+        - '^quantities 0\.12\.3 is not supported on this platform$'
+        - '^gprof2dot 2017\.9\.19 is not supported on this platform$'
+        - '^periodictable 1\.5\.2 is not supported on this platform$'
+    cache_paths:
+      - .software_cache/rmg/database/4.0.0/input
+      - .software_cache/rmg/source/4.0.0
+    environment_variables:
+      HOME: .software_cache/rmg/home
+    backends: [rmg]
+
+  mess:
+    conda_name: researchchem-mess
+    description: MESS 2020.1.24 master-equation runtime for an Agent-supplied native reaction model.
+    environment: .tool_envs/mess
+    conda_packages: [python=3.11, pydantic, pyyaml, python-dotenv]
+    pip_packages: []
+    health_checks:
+      modules: [pydantic, yaml]
+      commands: [mess]
+      external_commands: [.software_cache/mess/2020.1.24/build/mess]
+    command_variables:
+      CHEMGRAPH_MESS_COMMAND: .software_cache/mess/2020.1.24/build/mess
+    path_entries: [.software_cache/mess/2020.1.24/build]
+    library_path_entries: [.tool_envs/deepmd/lib]
+    cache_paths: [.software_cache/mess/2020.1.24]
+    environment_variables:
+      OMP_NUM_THREADS: "1"
+      OPENBLAS_NUM_THREADS: "1"
+    smoke_commands:
+      - [bash, -c, 'grep -q "rate calculation done" .software_cache/mess/smoke/hco/hco.log']
+    backends: [mess]
+
+  mesmer:
+    conda_name: researchchem-mesmer
+    description: MESMER 7.1 master-equation runtime for an Agent-supplied XML reaction model.
+    environment: .tool_envs/mesmer
+    conda_packages: [python=3.11, pydantic, pyyaml, python-dotenv]
+    pip_packages: []
+    health_checks:
+      modules: [pydantic, yaml]
+      commands: [mesmer]
+      external_commands: [.software_cache/mesmer/7.1/bin/mesmer]
+    command_variables:
+      CHEMGRAPH_MESMER_COMMAND: .software_cache/mesmer/7.1/bin/mesmer
+    path_entries: [.software_cache/mesmer/7.1/bin]
+    cache_paths: [.software_cache/mesmer/7.1]
+    smoke_commands:
+      - [bash, -c, 'grep -q "firstOrderRate" .software_cache/mesmer/smoke/examples/H2Ominimal/H2Ominimal.audit.xml']
+    backends: [mesmer]
+
+  sella:
+    conda_name: researchchem-sella
+    description: Sella 2.5.0 composite minimum/transition-state optimizer using an Agent-selected calculator backend.
+    environment: .tool_envs/sella
+    conda_packages: [python=3.11, ase, pydantic, pyyaml, python-dotenv]
+    pip_packages: [sella==2.5.0]
+    health_checks:
+      modules: [sella, ase, numpy, pydantic, yaml]
+    backends: [sella]
 
   namd:
     conda_name: researchchem-namd
@@ -145,7 +215,7 @@ profiles:
     use_project_model_cache: true
     runtime_preload_libraries: [libstdc++.so.6, libgcc_s.so.1]
     health_checks:
-      modules: [ase, numpy, rdkit, yaml]
+      modules: [ase, numpy, pdbtools, rdkit, yaml]
       models:
         mace_medium_mpa_0:
           backend: mace_mp
@@ -161,6 +231,7 @@ profiles:
       - internal_vibrations
       - internal_spectroscopy
       - internal_thermochemistry
+      - pdb_tools
 
   services:
     conda_name: researchchem-services
@@ -177,6 +248,28 @@ profiles:
       - materials_project
       - catalysis_hub
       - nist_webbook
+
+  workflows:
+    conda_name: researchchem-workflows
+    server_name: researchchem_workflows
+    description: Crystal structure, symmetry, and lightweight trajectory-analysis libraries.
+    environment: .tool_envs/workflows
+    conda_packages: [qcelemental=0.50.4, qcengine=0.50.0, cclib=1.8.1, pymatgen, spglib, mdtraj]
+    pip_packages: []
+    health_checks:
+      modules: [qcelemental, qcengine, cclib, pymatgen, spglib, mdtraj]
+    backends: [qcelemental, cclib, pymatgen, spglib, mdtraj]
+
+  free_energy:
+    conda_name: researchchem-free-energy
+    server_name: researchchem_free_energy
+    description: Explicit statistical free-energy estimation and alchemical analysis runtime.
+    environment: .tool_envs/free_energy
+    conda_packages: [pymbar=4.2.0, alchemlyb=2.5.0, mdtraj, pydantic, pyyaml, python-dotenv]
+    pip_packages: []
+    health_checks:
+      modules: [pymbar, alchemlyb, mdtraj]
+    backends: [pymbar, alchemlyb, hoomd]
 
   quantum:
     conda_name: researchchem-quantum
@@ -216,6 +309,140 @@ profiles:
       - pyscf
       - tblite
       - orca
+
+  gpaw:
+    conda_name: researchchem-gpaw
+    server_name: researchchem_gpaw
+    description: GPAW 25.7.0 molecular and periodic PAW-DFT runtime with locally managed setup datasets.
+    environment: .tool_envs/gpaw
+    conda_packages: [gpaw=25.7.0, ase, pydantic, pyyaml, python-dotenv]
+    pip_packages: []
+    health_checks:
+      modules: [gpaw, ase, numpy]
+      commands: [gpaw]
+    environment_variables:
+      GPAW_SETUP_PATH: .software_cache/gpaw/setups
+    cache_paths: [.software_cache/gpaw/setups]
+    backends: [gpaw]
+
+  critic2:
+    conda_name: researchchem-source-runtime-critic2
+    server_name: researchchem_critic2
+    description: Critic2 1.2.1081 typed QTAIM critical-point analysis runtime.
+    environment: .tool_envs/deepmd
+    conda_packages: [gfortran_linux-64, spglib]
+    pip_packages: []
+    health_checks:
+      commands: [critic2]
+      external_commands: [.software_cache/critic2/install-conda/bin/critic2]
+    command_variables:
+      CHEMGRAPH_CRITIC2_COMMAND: .software_cache/critic2/install-conda/bin/critic2
+    path_entries: [.software_cache/critic2/install-conda/bin]
+    cache_paths: [.software_cache/critic2/install-conda]
+    backends: [critic2]
+
+  lobster:
+    conda_name: researchchem-lobster
+    description: Licensed LOBSTER 5.1.0 periodic bonding and projected-DOS postprocessing runtime.
+    environment: .tool_envs/lobster
+    conda_packages: [pymatgen, pydantic, pyyaml, python-dotenv]
+    pip_packages: []
+    health_checks:
+      modules: [pymatgen, numpy, pydantic, yaml]
+      commands: [lobster-5.1.0]
+      external_commands:
+        - .software_cache/lobster/5.1.0/package/lobster-5.1.0
+    command_variables:
+      CHEMGRAPH_LOBSTER_COMMAND: .software_cache/lobster/5.1.0/package/lobster-5.1.0
+    path_entries: [.software_cache/lobster/5.1.0/package]
+    cache_paths: [.software_cache/lobster/5.1.0]
+    smoke_commands:
+      - [bash, -c, 'grep -q "finished in" .software_cache/lobster/5.1.0/smoke/qe_diamond/lobsterout']
+    backends: [lobster]
+
+  shengbte:
+    conda_name: researchchem-shengbte
+    description: ShengBTE source revision b0d2090 for Agent-supplied phonon-BTE models.
+    environment: .tool_envs/deepmd
+    conda_packages: [openmpi, spglib, lapack, blas, gfortran_linux-64, pydantic, pyyaml, python-dotenv]
+    pip_packages: []
+    health_checks:
+      modules: [pydantic, yaml]
+      commands: [ShengBTE]
+      external_commands: [.software_cache/shengbte/source/ShengBTE]
+    command_variables:
+      CHEMGRAPH_SHENGBTE_COMMAND: .software_cache/shengbte/source/ShengBTE
+    path_entries: [.software_cache/shengbte/source]
+    library_path_entries: [.tool_envs/deepmd/lib]
+    cache_paths: [.software_cache/shengbte/source]
+    smoke_commands:
+      - [bash, -c, 'grep -q "normal exit" .software_cache/shengbte/source/Test-RTA/BTE.smoke.out']
+    backends: [shengbte]
+
+  openmolcas:
+    conda_name: researchchem-openmolcas
+    description: OpenMolcas v25.10 molecular SCF runtime with typed HF/DFT property adapters.
+    environment: .tool_envs/deepmd
+    conda_packages: [gfortran_linux-64, pyparsing, pydantic, pyyaml, python-dotenv]
+    pip_packages: []
+    health_checks:
+      modules: [pydantic, yaml]
+      commands: [pymolcas]
+      external_commands: [.software_cache/openmolcas/25.10/pymolcas]
+    command_variables:
+      CHEMGRAPH_OPENMOLCAS_COMMAND: .software_cache/openmolcas/25.10/pymolcas
+    path_entries:
+      - .software_cache/openmolcas/25.10
+      - .software_cache/openmolcas/25.10/bin
+    library_path_entries:
+      - .software_cache/openmolcas/25.10/lib
+      - .tool_envs/deepmd/lib
+    cache_paths:
+      - .software_cache/openmolcas/source
+      - .software_cache/openmolcas/25.10
+    environment_variables:
+      MOLCAS: .software_cache/openmolcas/25.10
+      MOLCAS_WORKDIR: .software_cache/openmolcas/work
+    smoke_commands:
+      - [bash, -c, 'grep -q "Total SCF energy.*-1.1167593075" .software_cache/openmolcas/smoke.log && grep -q "Happy landing" .software_cache/openmolcas/smoke.log']
+    backends: [openmolcas]
+
+  multiwfn:
+    conda_name: researchchem-multiwfn
+    description: Multiwfn 2026.7.15 noGUI typed wavefunction-analysis runtime.
+    environment: .tool_envs/multiwfn
+    conda_packages: [python=3.11, pydantic, pyyaml, python-dotenv]
+    pip_packages: []
+    health_checks:
+      modules: [pydantic, yaml]
+      commands: [Multiwfn_noGUI]
+      external_commands:
+        - .software_cache/multiwfn/2026.7.15/Multiwfn_2026.7.15_bin_Linux_noGUI/Multiwfn_noGUI
+    command_variables:
+      CHEMGRAPH_MULTIWFN_COMMAND: .software_cache/multiwfn/2026.7.15/Multiwfn_2026.7.15_bin_Linux_noGUI/Multiwfn_noGUI
+    path_entries:
+      - .software_cache/multiwfn/2026.7.15/Multiwfn_2026.7.15_bin_Linux_noGUI
+    cache_paths: [.software_cache/multiwfn/2026.7.15]
+    environment_variables:
+      OMP_STACKSIZE: 2G
+    smoke_commands:
+      - [bash, -c, 'cd .software_cache/multiwfn/2026.7.15/Multiwfn_2026.7.15_bin_Linux_noGUI && printf "q\n" | ./Multiwfn_noGUI examples/H2.fch | grep -q "Loaded examples/H2.fch successfully"']
+    backends: [multiwfn]
+
+  nwchem:
+    conda_name: researchchem-nwchem
+    server_name: researchchem_nwchem
+    description: NWChem 7.3.x single-geometry QCSchema runtime with local official basis libraries.
+    environment: .tool_envs/nwchem
+    conda_packages: [nwchem=7.3.1, qcengine=0.50.0, qcelemental=0.50.4, cclib, pydantic, pyyaml, python-dotenv]
+    pip_packages: [autode=1.4.5, geometric==1.1.1]
+    health_checks:
+      modules: [qcengine, qcelemental, cclib, numpy, geometric]
+      commands: [nwchem]
+    environment_variables:
+      NWCHEM_BASIS_LIBRARY: .software_cache/nwchem/source/src/basis/libraries/
+    cache_paths: [.software_cache/nwchem/source/src/basis/libraries]
+    backends: [nwchem, geometric]
 
   psi4:
     conda_name: researchchem-psi4

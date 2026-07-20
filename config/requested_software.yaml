@@ -13,9 +13,9 @@ requested_software:
     modules: []
     commands: []
     license: specification
-    public_adapter: runtime_only
+    public_adapter: existing
     role: Standard JSON/schema contract shared by QCElemental and QCEngine.
-    notes: Not a standalone executable; validate through qcelemental.models and QCEngine AtomicInput/AtomicResult.
+    notes: Not a standalone executable; exposed through normalize_qcschema_molecule and validate_qcschema_record using QCElemental models rather than a fake software runner.
     official_url: https://molssi.github.io/QCElemental/
 
   - name: QCElemental
@@ -26,9 +26,9 @@ requested_software:
     modules: [qcelemental]
     commands: []
     license: BSD-3-Clause
-    public_adapter: runtime_only
+    public_adapter: existing
     role: Periodic-table data and QCSchema Pydantic models.
-    notes: Installed in the workflows runtime and used by QCEngine.
+    notes: Installed in the workflows runtime and exposed through typed QCSchema normalization/validation actions; it is also used by QCEngine.
     official_url: https://molssi.github.io/QCElemental/
 
   - name: QCEngine
@@ -41,7 +41,7 @@ requested_software:
     license: BSD-3-Clause
     public_adapter: runtime_only
     role: QCSchema executor and program harness.
-    notes: NWChem is additionally smoke-tested through its QCEngine harness.
+    notes: Execution substrate rather than a separate scientific result; NWChem public actions use its exact QCSchema harness, but no generic QCEngine workflow runner is exposed.
     official_url: https://molssi.github.io/QCEngine/
 
   - name: cclib
@@ -52,9 +52,9 @@ requested_software:
     modules: [cclib]
     commands: []
     license: LGPL-3.0
-    public_adapter: runtime_only
+    public_adapter: existing
     role: Parser for quantum-chemistry output files.
-    notes: Also installed in the TheoDORE runtime.
+    notes: Exposed as parse_quantum_chemistry_output for bounded parsing of Agent-supplied quantum-chemistry outputs; also installed in the TheoDORE runtime.
     official_url: https://cclib.github.io/
 
   - name: pymatgen
@@ -65,9 +65,9 @@ requested_software:
     modules: [pymatgen]
     commands: []
     license: MIT
-    public_adapter: runtime_only
+    public_adapter: existing
     role: Materials structures, symmetry, and file-format data model.
-    notes: Installed in workflows and existing service/ML runtimes.
+    notes: Exposed for crystal symmetry analysis, standardization, supercell construction, and explicit surface-slab enumeration.
     official_url: https://pymatgen.org/
 
   - name: spglib
@@ -78,9 +78,9 @@ requested_software:
     modules: [spglib]
     commands: []
     license: BSD-3-Clause
-    public_adapter: runtime_only
+    public_adapter: existing
     role: Crystal symmetry and standardization.
-    notes: Installed in workflows runtime.
+    notes: Exposed for crystal symmetry analysis and explicit conventional/primitive structure standardization.
     official_url: https://spglib.readthedocs.io/
 
   - name: MDTraj
@@ -91,9 +91,9 @@ requested_software:
     modules: [mdtraj]
     commands: []
     license: LGPL-2.1
-    public_adapter: runtime_only
+    public_adapter: existing
     role: Molecular-dynamics trajectory I/O and analysis.
-    notes: Installed in workflows and free-energy runtimes.
+    notes: Exposed for contacts, dihedrals, radius of gyration, RMSD, SASA, secondary structure, and trajectory clustering; no propagation is hidden.
     official_url: https://mdtraj.org/
 
   - name: AiiDA
@@ -107,7 +107,7 @@ requested_software:
     license: MIT
     public_adapter: runtime_only
     role: Provenance-aware workflow engine and data store.
-    notes: Profile researchchembench is initialized with SQLite under .software_cache/aiida; RabbitMQ daemon is intentionally not required for the quick local profile.
+    notes: Profile researchchembench is initialized with SQLite under .software_cache/aiida; it remains infrastructure because exposing a fixed AiiDA workflow would hide the Agent's tool ordering and backend choices.
     official_url: https://aiida.readthedocs.io/
 
   - name: atomate2
@@ -172,9 +172,9 @@ requested_software:
     commands: [nwchem, qcengine]
     cache_paths: [.software_cache/nwchem/source/src/basis/libraries]
     license: ECL-2.0
-    public_adapter: runtime_only
+    public_adapter: existing
     role: Open-source molecular quantum chemistry executable.
-    notes: NWChem 7.3.1 is installed; official basis libraries are cached and a QCEngine HF/STO-3G water calculation passed.
+    notes: NWChem 7.3.1 is exposed for molecular energy, forces, Hessian, dipole, and Mulliken charges through QCEngine/QCSchema; official basis libraries are cached and a real HF/STO-3G water calculation passed.
     official_url: https://nwchemgit.github.io/Download.html
 
   - name: GAMESS
@@ -259,22 +259,22 @@ requested_software:
     modules: [geometric]
     commands: [geometric-optimize]
     license: BSD-3-Clause
-    public_adapter: runtime_only
+    public_adapter: existing
     role: Geometry optimization engine.
-    notes: Installed and CLI help starts; Agent must choose the engine and convergence settings.
+    notes: Exposed as optimize_geometry with component_backends.calculator; the Agent explicitly chooses the energy/force backend, method, constraints, trust radii, Hessian strategy, and convergence thresholds.
     official_url: https://github.com/leeping/geomeTRIC
 
   - name: Sella
     category: 构象与分子量子化学
     kind: python_library
     status_policy: probe
-    environment: kinbot
+    environment: sella
     modules: [sella]
     commands: []
     license: MIT
-    public_adapter: runtime_only
+    public_adapter: existing
     role: Saddle-point and transition-state optimizer.
-    notes: Sella 2.5.0 is installed via pip because the conda build was tied to an older Python version.
+    notes: Sella 2.5.0 is exposed for order-0 geometry optimization and order-1 transition-state search with an exact Agent-selected energy/force component; Hessian/IRC validation remains separate.
     official_url: https://github.com/zadorlab/sella
 
   - name: Multiwfn
@@ -286,9 +286,9 @@ requested_software:
     commands: [Multiwfn_noGUI]
     cache_paths: [.software_cache/multiwfn/2026.7.15]
     license: custom_open_source_citation_required
-    public_adapter: runtime_only
+    public_adapter: existing
     role: Wavefunction analysis and visualization executable.
-    notes: Official Multiwfn 2026.7.15 Linux noGUI package is installed; it loaded the bundled H2.fch example and exited normally. Graphical functions are intentionally absent, OMP_STACKSIZE is configured, and the two required Multiwfn papers must be cited when used.
+    notes: Official Multiwfn 2026.7.15 Linux noGUI package is exposed for explicit Mulliken/Lowdin charges and Mayer/Wiberg-Lowdin/Mulliken bond orders from supplied wavefunctions. Fixed version-specific menu sequences are used; arbitrary scripts are rejected and both required citations are returned.
     official_url: http://sobereva.com/multiwfn/
 
   - name: Critic2
@@ -300,9 +300,9 @@ requested_software:
     commands: [critic2]
     cache_paths: [.software_cache/critic2/install-conda]
     license: GPL-3.0
-    public_adapter: runtime_only
+    public_adapter: existing
     role: Topological analysis of crystal electron densities and wavefunctions.
-    notes: Official source development version 1.2.1081 was compiled with OpenMP/internal LAPACK and passed an interactive startup/end smoke; analysis still requires Agent-selected density/wavefunction inputs.
+    notes: Version 1.2.1081 is exposed for typed electron-density topology, basin integration, and Bader-charge actions over Agent-supplied density/wavefunction inputs and explicit partition/search choices.
     official_url: https://github.com/aoterodelaroza/critic2
 
   - name: GPAW
@@ -314,9 +314,9 @@ requested_software:
     commands: [gpaw]
     cache_paths: [.software_cache/gpaw/setups]
     license: GPL-3.0
-    public_adapter: runtime_only
+    public_adapter: existing
     role: ASE-integrated plane-wave/real-space DFT.
-    notes: GPAW 25.7.0 and PAW datasets are installed; H2 PBE/PW energy smoke passed.
+    notes: GPAW 25.7.0 and PAW datasets are exposed for molecular/periodic energy, forces, stress, relaxation, band structure, DOS, and PDOS with explicit representation, PAW setup, k-point, spin, and convergence choices.
     official_url: https://gpaw.readthedocs.io/
 
   - name: VASP
@@ -374,9 +374,9 @@ requested_software:
     commands: [ShengBTE]
     cache_paths: [.software_cache/shengbte/source]
     license: GPL-3.0
-    public_adapter: runtime_only
+    public_adapter: existing
     role: Phonon Boltzmann transport solver.
-    notes: Official Bitbucket source was compiled against OpenMPI/spglib/LAPACK; the bundled Test-RTA completed normally and produced BTE.KappaTensorVsT_RTA and BTE.cvVsT.
+    notes: Official source revision b0d2090 is exposed as a calculate_lattice_thermal_conductivity backend for explicit CONTROL/FORCE_CONSTANTS inputs and RTA/iterative output selection; the real bundled Test-RTA returns 25.662 W m^-1 K^-1.
     official_url: https://www.shengbte.org/home
 
   - name: Wannier90
@@ -414,9 +414,9 @@ requested_software:
     commands: [lobster-5.1.0]
     cache_paths: [.software_cache/lobster/5.1.0]
     license: commercial_registration
-    public_adapter: runtime_only
+    public_adapter: existing
     role: Chemical-bonding analysis of periodic electronic-structure results.
-    notes: LOBSTER 5.1.0 is cached and a real Quantum ESPRESSO diamond projection completed with 1.12% absolute charge spilling. It remains runtime-only until a typed periodic bonding-analysis Action is added; no arbitrary lobsterin runner is exposed.
+    notes: LOBSTER 5.1.0 is exposed for periodic COHP/COOP/COBI bonding analysis, projected DOS, and projection-spilling quality checks over existing outputs; a real Quantum ESPRESSO diamond projection completed with 1.12% absolute charge spilling. No arbitrary lobsterin runner is exposed.
     official_url: https://www.cohp.de/
 
   - name: NAMD
@@ -469,9 +469,9 @@ requested_software:
     modules: [hoomd]
     commands: []
     license: BSD-3-Clause
-    public_adapter: runtime_only
+    public_adapter: existing
     role: Particle simulation engine with Python API.
-    notes: HOOMD-blue 7.1.0 CPU runtime is configured; a zero-step CPU smoke passed.
+    notes: HOOMD-blue 7.1.0 CPU runtime is exposed for explicit force-field energy/force evaluation, minimization, and one dynamics segment in reduced units; a real CPU smoke passed.
     official_url: https://hoomd-blue.readthedocs.io/
 
   - name: pymbar
@@ -482,9 +482,9 @@ requested_software:
     modules: [pymbar]
     commands: []
     license: MIT
-    public_adapter: runtime_only
+    public_adapter: existing
     role: MBAR and free-energy estimator.
-    notes: Three-state MBAR smoke passed.
+    notes: Exposed for MBAR free-energy differences, thermodynamic expectations, convergence analysis, and explicit histogram free-energy surfaces; real synthetic multi-state tests pass.
     official_url: https://pymbar.readthedocs.io/
 
   - name: alchemlyb
@@ -495,9 +495,9 @@ requested_software:
     modules: [alchemlyb]
     commands: []
     license: MIT
-    public_adapter: runtime_only
+    public_adapter: existing
     role: Alchemical free-energy analysis for MD trajectories.
-    notes: Import and dependency installation pass; a real trajectory analysis needs user data.
+    notes: Exposed as parse_alchemical_energy_data for bounded GROMACS/Amber/NAMD alchemical reduced-potential or derivative data; estimators remain separate PyMBAR actions.
     official_url: https://alchemlyb.readthedocs.io/
 
   - name: RMG-Py
@@ -509,9 +509,9 @@ requested_software:
     commands: [rmg.py]
     cache_paths: [.software_cache/rmg/database/4.0.0/input, .software_cache/rmg/source/4.0.0]
     license: MIT
-    public_adapter: runtime_only
+    public_adapter: existing
     role: Reaction mechanism generation and thermochemistry.
-    notes: RMG 4.0.0 top-level import and rmg.py entry point pass; official source and database 4.0.0 are cached and the database root is configured through the isolated HOME. Mechanism generation still requires an explicit Agent-provided input and database choices.
+    notes: RMG-Py 4.0.0 is exposed for typed Arrhenius/MultiArrhenius/PDepArrhenius/Chebyshev rate evaluation and Wigner/Eckart tunneling factors. Full mechanism generation remains unexposed because it would hide database/model choices.
     official_url: https://reactionmechanismgenerator.github.io/RMG-Py/
 
   - name: Arkane
@@ -537,9 +537,9 @@ requested_software:
     commands: [mess]
     cache_paths: [.software_cache/mess/2020.1.24]
     license: LGPL-2.0-or-later
-    public_adapter: runtime_only
+    public_adapter: existing
     role: Master-equation solver for unimolecular/reaction kinetics.
-    notes: Official MESS 2020.1.24 source, SLATEC and examples were downloaded and compiled locally; the bundled HCO pressure/temperature-dependent rate example completed normally. A small namespace qualification was needed for current GCC compatibility.
+    notes: MESS 2020.1.24 is exposed through solve_master_equation for an explicit native model and companions; the real HCO example returns structured finite-pressure and high-pressure-limit rates without automatic model construction.
     official_url: https://tcg.cse.anl.gov/papr/codes/mess.html
 
   - name: MESMER
@@ -551,9 +551,9 @@ requested_software:
     commands: [mesmer]
     cache_paths: [.software_cache/mesmer/7.1]
     license: GPL-2.0
-    public_adapter: runtime_only
+    public_adapter: existing
     role: Master-equation and energy-transfer kinetics solver.
-    notes: Official MESMER 7.1 source was downloaded from SourceForge and compiled; the bundled minimal H2O example completed normally and produced pressure-dependent rate output.
+    notes: MESMER 7.1 is exposed through solve_master_equation for an explicit XML model and companion layout; the real minimal H2O example returns structured first- and second-order phenomenological rates.
     official_url: https://sourceforge.net/projects/mesmer/
 
   - name: AutoMeKin
@@ -580,7 +580,7 @@ requested_software:
     license: MIT
     public_adapter: runtime_only
     role: Automated reaction-pathway and PES exploration.
-    notes: KinBot 2.2.2 and dependencies import successfully; real PES execution requires explicit input.
+    notes: KinBot 2.2.2 and dependencies import successfully in a repaired NumPy 1.26 / JAX 0.4.35 runtime with no pip dependency conflicts; real PES execution requires explicit input and remains a workflow-level capability rather than a public monolithic runner.
     official_url: https://pypi.org/project/kinbot/
 
   - name: OpenMolcas
@@ -592,9 +592,9 @@ requested_software:
     commands: [pymolcas]
     cache_paths: [.software_cache/openmolcas/25.10]
     license: LGPL-2.1
-    public_adapter: runtime_only
+    public_adapter: existing
     role: Multireference quantum chemistry and spectroscopy.
-    notes: OpenMolcas v25.10 was compiled as a serial/OpenMP build with internal BLAS/LAPACK and Libxc; a real H2 STO-3G SCF finished with -1.1167593075 hartree and Happy landing.
+    notes: OpenMolcas v25.10 is exposed for typed molecular HF/DFT SCF energy, dipole, Mulliken charges, and orbital properties. A real H2 STO-3G SCF returns -1.1167593075 hartree; multireference/excited-state actions remain separate future work.
     official_url: https://molcas.gitlab.io/OpenMolcas/sphinx/installation.guide/install.html
 
   - name: SHARC
@@ -725,9 +725,9 @@ requested_software:
     modules: [pdbtools]
     commands: [pdb_selchain]
     license: Apache-2.0
-    public_adapter: runtime_only
+    public_adapter: existing
     role: Small composable PDB text-processing commands.
-    notes: Existing core runtime provides pdb-tools 2.7.0 and pdb_selchain.
+    notes: Exposed as select_structure_subset, renumber_biomolecular_structure, and normalize_pdb_records with typed record/selection settings; no arbitrary command pipeline is accepted.
     official_url: https://github.com/haddocking/pdb-tools
 
   - name: NequIP

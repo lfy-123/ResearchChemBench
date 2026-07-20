@@ -59,12 +59,16 @@ def test_auxiliary_environments_do_not_define_public_tools_or_backend_order():
         assert "workflow" not in specification
 
 
-def test_new_source_and_binary_extensions_are_audited_as_runtime_only():
+def test_new_source_and_binary_extensions_have_explicit_exposure_status():
     items = {
         item["name"]: item
         for item in _yaml("config/requested_software.yaml")["requested_software"]
     }
-    for name in {"Multiwfn", "MESS", "MESMER", "AutoMeKin", "VESTA", "LOBSTER", "Newton-X"}:
+    for name in {"Multiwfn", "MESS", "MESMER", "LOBSTER"}:
+        item = items[name]
+        assert item["status_policy"] == "probe"
+        assert item["public_adapter"] == "existing"
+    for name in {"AutoMeKin", "VESTA", "Newton-X"}:
         item = items[name]
         assert item["status_policy"] == "probe"
         assert item["public_adapter"] == "runtime_only"

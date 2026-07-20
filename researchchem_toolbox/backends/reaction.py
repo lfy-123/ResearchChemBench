@@ -3,10 +3,15 @@
 from __future__ import annotations
 
 import math
+import re
+import shutil
+import xml.etree.ElementTree as ET
+from pathlib import Path
 from typing import Any
 
 import yaml
 
+from .composite import execute_sella
 from .common import (
     command_artifacts,
     module_version,
@@ -14,6 +19,7 @@ from .common import (
     partial_success,
     relative_workspace_path,
     request_parts,
+    resolve_input_file,
     run_external,
     structure_dict,
     success,
@@ -27,7 +33,8 @@ from .common import (
 ACTIONS = {
     "locate_transition_state", "trace_intrinsic_reaction_coordinate",
     "calculate_chemical_equilibrium", "integrate_reaction_network",
-    "solve_microkinetic_model",
+    "calculate_rate_constants", "calculate_tunneling_correction",
+    "solve_microkinetic_model", "solve_master_equation",
 }
 
 
@@ -304,7 +311,683 @@ def _catmap(request: dict[str, Any]) -> dict[str, Any]:
     )
 
 
+def _rmg_temperatures(value: Any) -> list[float]:
+    if not isinstance(value, (list, tuple)) or not value:
+        raise ValueError("temperatures_kelvin must be a non-empty list")
+    temperatures = [float(item) for item in value]
+    if any(not math.isfinite(item) or item <= 0 for item in temperatures):
+        raise ValueError("temperatures_kelvin must contain positive finite values")
+    return temperatures
+
+
+def _rmg_arrhenius(specification: dict[str, Any]):
+    from rmgpy.kinetics import Arrhenius
+
+    required = {
+        "pre_exponential_factor", "pre_exponential_unit", "temperature_exponent",
+        "activation_energy_kj_mol", "reference_temperature_kelvin",
+    }
+    missing = sorted(required - set(specification))
+    if missing:
+        raise ValueError(f"Arrhenius term is missing fields: {missing}")
+    keywords: dict[str, Any] = {
+        "A": (
+            float(specification["pre_exponential_factor"]),
+            str(specification["pre_exponential_unit"]),
+        ),
+        "n": float(specification["temperature_exponent"]),
+        "Ea": (float(specification["activation_energy_kj_mol"]), "kJ/mol"),
+        "T0": (float(specification["reference_temperature_kelvin"]), "K"),
+    }
+    if specification.get("minimum_temperature_kelvin") is not None:
+        keywords["Tmin"] = (float(specification["minimum_temperature_kelvin"]), "K")
+    if specification.get("maximum_temperature_kelvin") is not None:
+        keywords["Tmax"] = (float(specification["maximum_temperature_kelvin"]), "K")
+    return Arrhenius(**keywords)
+
+
+def _rmg_rate_constants(request: dict[str, Any]) -> dict[str, Any]:
+    import rmgpy
+    from rmgpy.kinetics import Chebyshev, MultiArrhenius, PDepArrhenius
+
+    inputs, _method, settings = request_parts(request)
+    model_spec = inputs["kinetics_model"]
+    if not isinstance(model_spec, dict):
+        raise ValueError("kinetics_model must be a typed object")
+    model_type = str(model_spec.get("type") or "").strip().lower()
+    temperatures = _rmg_temperatures(inputs["temperatures_kelvin"])
+    if not isinstance(settings["allow_extrapolation"], bool):
+        raise ValueError("allow_extrapolation must be an explicit boolean")
+    allow_extrapolation = settings["allow_extrapolation"]
+    reaction_order = int(model_spec.get("reaction_order", 0))
+    rate_units = {
+        1: "s^-1",
+        2: "m^3/(mol*s)",
+        3: "m^6/(mol^2*s)",
+        4: "m^9/(mol^3*s)",
+    }
+    if reaction_order not in rate_units:
+        raise ValueError("kinetics_model.reaction_order must be 1, 2, 3, or 4")
+
+    minimum_temperature = model_spec.get("minimum_temperature_kelvin")
+    maximum_temperature = model_spec.get("maximum_temperature_kelvin")
+    if not allow_extrapolation:
+        if minimum_temperature is not None and min(temperatures) < float(minimum_temperature):
+            raise ValueError("Requested temperature is below the kinetics model validity range")
+        if maximum_temperature is not None and max(temperatures) > float(maximum_temperature):
+            raise ValueError("Requested temperature is above the kinetics model validity range")
+
+    pressure_dependent = False
+    if model_type == "arrhenius":
+        model = _rmg_arrhenius(model_spec)
+    elif model_type == "multi_arrhenius":
+        terms = model_spec.get("terms")
+        if not isinstance(terms, list) or not terms:
+            raise ValueError("multi_arrhenius requires a non-empty terms list")
+        model = MultiArrhenius(
+            arrhenius=[_rmg_arrhenius(dict(term)) for term in terms],
+            Tmin=(float(minimum_temperature), "K") if minimum_temperature is not None else None,
+            Tmax=(float(maximum_temperature), "K") if maximum_temperature is not None else None,
+        )
+    elif model_type == "pressure_dependent_arrhenius":
+        pressure_dependent = True
+        tabulated_pressures = model_spec.get("pressures_bar")
+        terms = model_spec.get("terms")
+        if (
+            not isinstance(tabulated_pressures, list)
+            or not isinstance(terms, list)
+            or not tabulated_pressures
+            or len(tabulated_pressures) != len(terms)
+        ):
+            raise ValueError(
+                "pressure_dependent_arrhenius requires aligned non-empty pressures_bar and terms"
+            )
+        tabulated_pressures = [float(value) for value in tabulated_pressures]
+        if any(value <= 0 for value in tabulated_pressures):
+            raise ValueError("pressures_bar must be positive")
+        model = PDepArrhenius(
+            pressures=(tabulated_pressures, "bar"),
+            arrhenius=[_rmg_arrhenius(dict(term)) for term in terms],
+            Tmin=(float(minimum_temperature), "K") if minimum_temperature is not None else None,
+            Tmax=(float(maximum_temperature), "K") if maximum_temperature is not None else None,
+            Pmin=(min(tabulated_pressures), "bar"),
+            Pmax=(max(tabulated_pressures), "bar"),
+        )
+    elif model_type == "chebyshev":
+        pressure_dependent = True
+        coefficients = model_spec.get("coefficients")
+        if not isinstance(coefficients, list) or not coefficients or not all(
+            isinstance(row, list) and row for row in coefficients
+        ):
+            raise ValueError("chebyshev requires a non-empty rectangular coefficients matrix")
+        width = len(coefficients[0])
+        if any(len(row) != width for row in coefficients):
+            raise ValueError("Chebyshev coefficients must form a rectangular matrix")
+        required = {
+            "rate_coefficient_unit", "minimum_temperature_kelvin",
+            "maximum_temperature_kelvin", "minimum_pressure_bar", "maximum_pressure_bar",
+        }
+        missing = sorted(required - set(model_spec))
+        if missing:
+            raise ValueError(f"Chebyshev model is missing fields: {missing}")
+        model = Chebyshev(
+            coeffs=coefficients,
+            kunits=str(model_spec["rate_coefficient_unit"]),
+            Tmin=(float(model_spec["minimum_temperature_kelvin"]), "K"),
+            Tmax=(float(model_spec["maximum_temperature_kelvin"]), "K"),
+            Pmin=(float(model_spec["minimum_pressure_bar"]), "bar"),
+            Pmax=(float(model_spec["maximum_pressure_bar"]), "bar"),
+        )
+    else:
+        raise ValueError(
+            "kinetics_model.type must be arrhenius, multi_arrhenius, "
+            "pressure_dependent_arrhenius, or chebyshev"
+        )
+
+    if pressure_dependent:
+        raw_pressures = inputs.get("pressures_pa")
+        if not isinstance(raw_pressures, (list, tuple)) or not raw_pressures:
+            raise ValueError("Pressure-dependent kinetics require a non-empty pressures_pa list")
+        pressures = [float(value) for value in raw_pressures]
+        if any(not math.isfinite(value) or value <= 0 for value in pressures):
+            raise ValueError("pressures_pa must contain positive finite values")
+        if not allow_extrapolation:
+            minimum_pressure = float(model_spec.get("minimum_pressure_bar", min(model_spec.get("pressures_bar", [0.0])))) * 1e5
+            maximum_pressure = float(model_spec.get("maximum_pressure_bar", max(model_spec.get("pressures_bar", [0.0])))) * 1e5
+            if min(pressures) < minimum_pressure or max(pressures) > maximum_pressure:
+                raise ValueError("Requested pressure is outside the kinetics model validity range")
+        values = [
+            [float(model.get_rate_coefficient(temperature, pressure)) for pressure in pressures]
+            for temperature in temperatures
+        ]
+    else:
+        pressures = None
+        values = [float(model.get_rate_coefficient(temperature)) for temperature in temperatures]
+
+    result = {
+        "model_type": model_type,
+        "reaction_order": reaction_order,
+        "temperatures_kelvin": temperatures,
+        "pressures_pa": pressures,
+        "rate_coefficients": values,
+        "rate_coefficient_unit": rate_units[reaction_order],
+        "allow_extrapolation": allow_extrapolation,
+    }
+    directory = output_directory("calculate_rate_constants", "rmg")
+    path = write_json(directory, "rate_constants.json", result)
+    return success(
+        result,
+        artifact_files=[
+            {
+                "path": relative_workspace_path(path),
+                "semantic_type": "RateConstantResult",
+                "media_type": "application/json",
+            }
+        ],
+        backend_version=getattr(rmgpy, "__version__", None),
+    )
+
+
+def _rmg_tunneling(request: dict[str, Any]) -> dict[str, Any]:
+    import rmgpy
+    from rmgpy.kinetics.tunneling import Eckart, Wigner
+
+    inputs, method, _settings = request_parts(request)
+    temperatures = _rmg_temperatures(inputs["temperatures_kelvin"])
+    frequency = float(inputs["imaginary_frequency_cm1"])
+    if not math.isfinite(frequency) or frequency >= 0:
+        raise ValueError("imaginary_frequency_cm1 must be a finite negative frequency")
+    model_name = str(method["tunneling_model"]).strip().lower()
+    if model_name == "wigner":
+        model = Wigner(frequency=(frequency, "cm^-1"))
+        energies = None
+    elif model_name == "eckart":
+        required = ("reactant_energy_kj_mol", "transition_state_energy_kj_mol")
+        missing = [name for name in required if name not in inputs]
+        if missing:
+            raise ValueError(f"Eckart tunneling requires inputs: {missing}")
+        reactant = float(inputs["reactant_energy_kj_mol"])
+        transition = float(inputs["transition_state_energy_kj_mol"])
+        product = inputs.get("product_energy_kj_mol")
+        if transition <= reactant or (product is not None and transition <= float(product)):
+            raise ValueError("Eckart transition-state energy must exceed reactant and product energies")
+        model = Eckart(
+            frequency=(frequency, "cm^-1"),
+            E0_reac=(reactant, "kJ/mol"),
+            E0_TS=(transition, "kJ/mol"),
+            E0_prod=(float(product), "kJ/mol") if product is not None else None,
+        )
+        energies = {
+            "reactant_energy_kj_mol": reactant,
+            "transition_state_energy_kj_mol": transition,
+            "product_energy_kj_mol": float(product) if product is not None else None,
+        }
+    else:
+        raise ValueError("tunneling_model must be wigner or eckart")
+    factors = [float(model.calculate_tunneling_factor(value)) for value in temperatures]
+    result = {
+        "tunneling_model": model_name,
+        "imaginary_frequency_cm1": frequency,
+        "temperatures_kelvin": temperatures,
+        "tunneling_factors": factors,
+        "energies": energies,
+    }
+    directory = output_directory("calculate_tunneling_correction", "rmg")
+    path = write_json(directory, "tunneling_correction.json", result)
+    return success(
+        result,
+        artifact_files=[
+            {
+                "path": relative_workspace_path(path),
+                "semantic_type": "TunnelingCorrectionResult",
+                "media_type": "application/json",
+            }
+        ],
+        backend_version=getattr(rmgpy, "__version__", None),
+    )
+
+
+def _safe_stage_relative_path(value: Any, *, field: str) -> Path:
+    text = str(value).strip()
+    path = Path(text)
+    if not text or path.is_absolute() or any(part in {"", ".", ".."} for part in path.parts):
+        raise ValueError(f"{field} must be a normalized relative path inside the staged model")
+    return path
+
+
+def _stage_master_equation_model(
+    action_id: str,
+    backend_id: str,
+    inputs: dict[str, Any],
+) -> tuple[Path, Path, list[dict[str, str]]]:
+    """Stage only the native model and explicitly supplied companion files.
+
+    ``model_relative_path`` and companion ``relative_path`` values let an Agent
+    preserve a backend's relative-file layout without granting arbitrary writes
+    outside the isolated action directory.
+    """
+
+    directory = output_directory(action_id, backend_id)
+    stage_root = directory / "staged_model"
+    stage_root.mkdir()
+    model_source = resolve_input_file(inputs["model_file"])
+    if not model_source.is_file():
+        raise ValueError("model_file must resolve to one regular file")
+    default_relative = model_source.name
+    model_relative = _safe_stage_relative_path(
+        inputs.get("model_relative_path", default_relative),
+        field="model_relative_path",
+    )
+    model_target = stage_root / model_relative
+    model_target.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(model_source, model_target)
+    staged = [
+        {
+            "source": relative_workspace_path(model_source),
+            "relative_path": model_relative.as_posix(),
+        }
+    ]
+
+    companions = inputs.get("companion_files", [])
+    if not isinstance(companions, list):
+        raise ValueError("companion_files must be a list")
+    if len(companions) > 128:
+        raise ValueError("At most 128 explicit companion files may be staged")
+    occupied = {model_relative.as_posix()}
+    for index, item in enumerate(companions):
+        if isinstance(item, dict) and "source" in item:
+            source_value = item["source"]
+            source = resolve_input_file(source_value)
+            relative = _safe_stage_relative_path(
+                item.get("relative_path", source.name),
+                field=f"companion_files[{index}].relative_path",
+            )
+        else:
+            source = resolve_input_file(item)
+            relative = _safe_stage_relative_path(
+                source.name,
+                field=f"companion_files[{index}]",
+            )
+        if not source.is_file():
+            raise ValueError(f"companion_files[{index}] must resolve to one regular file")
+        relative_text = relative.as_posix()
+        if relative_text in occupied:
+            raise ValueError(f"Duplicate staged path: {relative_text}")
+        occupied.add(relative_text)
+        target = stage_root / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source, target)
+        staged.append(
+            {
+                "source": relative_workspace_path(source),
+                "relative_path": relative_text,
+            }
+        )
+    return directory, model_target, staged
+
+
+def _float_token(value: str) -> float | None:
+    token = value.strip().replace("D", "E").replace("d", "e")
+    if token in {"", "***", "-", "nan", "NaN"}:
+        return None
+    try:
+        result = float(token)
+    except ValueError:
+        return None
+    return result if math.isfinite(result) else None
+
+
+def _bounded_warning_lines(*texts: str, limit: int = 40) -> list[str]:
+    warnings: list[str] = []
+    for text in texts:
+        for line in text.splitlines():
+            stripped = line.strip()
+            lowered = stripped.lower()
+            if stripped and (
+                "warning" in lowered
+                or "needs to be checked" in lowered
+                or lowered.startswith("error")
+            ):
+                if stripped not in warnings:
+                    warnings.append(stripped[:1000])
+                if len(warnings) >= limit:
+                    return warnings
+    return warnings
+
+
+def _mess_species_names(lines: list[str], heading: str) -> set[str]:
+    names: set[str] = set()
+    for index, line in enumerate(lines):
+        if not line.strip().startswith(heading):
+            continue
+        cursor = index + 1
+        while cursor < len(lines) and "Name" not in lines[cursor]:
+            cursor += 1
+        cursor += 1
+        while cursor < len(lines) and lines[cursor].strip():
+            token = lines[cursor].split()[0] if lines[cursor].split() else ""
+            if token:
+                names.add(token)
+            cursor += 1
+        break
+    return names
+
+
+def _parse_mess_rates(text: str, maximum_records: int) -> dict[str, Any]:
+    lines = text.splitlines()
+    wells = _mess_species_names(lines, "Wells (")
+    bimolecular = _mess_species_names(lines, "Bimolecular Products (")
+    start = next(
+        (index for index, line in enumerate(lines) if line.strip() == "Species-Species Rate Tables:"),
+        None,
+    )
+    if start is None:
+        return {
+            "rate_records": [],
+            "total_rate_record_count": 0,
+            "truncated": False,
+            "wells": sorted(wells),
+            "bimolecular_species": sorted(bimolecular),
+        }
+    stop = next(
+        (
+            index
+            for index in range(start + 1, len(lines))
+            if lines[index].strip().startswith(
+                "High Pressure Rate Coefficients (Temperature-Species Rate Tables)"
+            )
+        ),
+        len(lines),
+    )
+    temperature: float | None = None
+    pressure: float | None = None
+    pressure_unit: str | None = None
+    records: list[dict[str, Any]] = []
+    total = 0
+    cursor = start + 1
+    condition_pattern = re.compile(
+        r"^Temperature\s*=\s*([-+0-9.eEdD]+)\s*K"
+        r"(?:\s+Pressure\s*=\s*([-+0-9.eEdD]+)\s*(\S+))?$"
+    )
+    while cursor < stop:
+        stripped = lines[cursor].strip()
+        condition = condition_pattern.match(stripped)
+        if condition:
+            temperature = _float_token(condition.group(1))
+            pressure = _float_token(condition.group(2) or "")
+            pressure_unit = condition.group(3) if condition.group(2) else None
+            cursor += 1
+            continue
+        if stripped.startswith("From\\To") and temperature is not None:
+            destinations = stripped.split()[1:]
+            cursor += 1
+            while cursor < stop and lines[cursor].strip():
+                tokens = lines[cursor].split()
+                if len(tokens) < 2:
+                    break
+                source = tokens[0]
+                for destination, token in zip(destinations, tokens[1:]):
+                    value = _float_token(token)
+                    if value is None or source == destination:
+                        continue
+                    total += 1
+                    if len(records) >= maximum_records:
+                        continue
+                    if source in wells:
+                        unit = "s^-1"
+                    elif source in bimolecular:
+                        unit = "cm^3/s"
+                    else:
+                        unit = "backend_native"
+                    records.append(
+                        {
+                            "from_species": source,
+                            "to_species": destination,
+                            "temperature_kelvin": temperature,
+                            "pressure_value": pressure,
+                            "pressure_unit": pressure_unit,
+                            "pressure_limit": "finite" if pressure is not None else "high",
+                            "rate_coefficient": value,
+                            "rate_coefficient_unit": unit,
+                        }
+                    )
+                cursor += 1
+            continue
+        cursor += 1
+    return {
+        "rate_records": records,
+        "total_rate_record_count": total,
+        "truncated": total > len(records),
+        "wells": sorted(wells),
+        "bimolecular_species": sorted(bimolecular),
+    }
+
+
+def _mess_master_equation(request: dict[str, Any]) -> dict[str, Any]:
+    inputs, _method, settings = request_parts(request)
+    maximum_records = int(settings.get("maximum_rate_records", 10000))
+    if not 1 <= maximum_records <= 100000:
+        raise ValueError("maximum_rate_records must be between 1 and 100000")
+    directory, model, staged = _stage_master_equation_model(
+        "solve_master_equation", "mess", inputs
+    )
+    if model.suffix.lower() not in {".inp", ".in", ".mess"}:
+        raise ValueError("MESS model_file must use .inp, .in, or .mess")
+    completed = run_external(
+        executable="mess",
+        environment_variable="CHEMGRAPH_MESS_COMMAND",
+        arguments=[model.name],
+        directory=model.parent,
+        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 1800)),
+    )
+    (directory / "stdout.log").write_text(completed["stdout"], encoding="utf-8")
+    (directory / "stderr.log").write_text(completed["stderr"], encoding="utf-8")
+    if not completed["available"]:
+        return unavailable(completed["stderr"], install="Configure MESS 2020.1.24")
+    if completed["returncode"] != 0:
+        raise RuntimeError(f"MESS failed: {completed['stderr'][-2000:]}")
+    output = model.with_suffix(".out")
+    log = model.with_suffix(".log")
+    output_text = output.read_text(encoding="utf-8", errors="replace") if output.is_file() else ""
+    log_text = log.read_text(encoding="utf-8", errors="replace") if log.is_file() else ""
+    parsed = _parse_mess_rates(output_text, maximum_records)
+    result = {
+        "model_format": "mess_native",
+        "model_file": relative_workspace_path(model),
+        "staged_files": staged,
+        **parsed,
+        "completed": "rate calculation done" in log_text.lower(),
+    }
+    summary = write_json(directory, "master_equation_result.json", result)
+    summary_path = relative_workspace_path(summary)
+    artifacts = [
+        item for item in command_artifacts(directory) if item["path"] != summary_path
+    ]
+    artifacts.append(
+        {
+            "path": summary_path,
+            "semantic_type": "MasterEquationResult",
+            "media_type": "application/json",
+        }
+    )
+    warnings = _bounded_warning_lines(output_text, log_text, completed["stdout"], completed["stderr"])
+    provenance = {
+        "command": completed["command"],
+        "native_model_preserved": True,
+        "automatic_model_construction": False,
+    }
+    if not result["completed"] or not parsed["rate_records"]:
+        return partial_success(
+            result,
+            artifact_files=artifacts,
+            backend_version="2020.1.24",
+            provenance=provenance,
+            warnings=[*warnings, "MESS completed without a fully parseable rate table."],
+        )
+    return success(
+        result,
+        artifact_files=artifacts,
+        backend_version="2020.1.24",
+        provenance=provenance,
+        warnings=warnings,
+    )
+
+
+def _xml_local_name(tag: str) -> str:
+    return tag.rsplit("}", 1)[-1]
+
+
+def _parse_mesmer_rates(path: Path, maximum_records: int) -> dict[str, Any]:
+    root = ET.parse(path).getroot()
+    conditions: list[dict[str, Any]] = []
+    for element in root.iter():
+        if _xml_local_name(element.tag) != "PTpair":
+            continue
+        conditions.append(
+            {
+                "temperature_kelvin": _float_token(element.attrib.get("T", "")),
+                "pressure_value": _float_token(element.attrib.get("P", "")),
+                "pressure_unit": element.attrib.get("units"),
+            }
+        )
+    used_conditions: set[int] = set()
+    records: list[dict[str, Any]] = []
+    total = 0
+    rate_lists = [
+        element for element in root.iter() if _xml_local_name(element.tag) == "rateList"
+    ]
+    for rate_index, rate_list in enumerate(rate_lists):
+        temperature = _float_token(rate_list.attrib.get("T", ""))
+        condition_index = next(
+            (
+                index
+                for index, condition in enumerate(conditions)
+                if index not in used_conditions
+                and condition["temperature_kelvin"] == temperature
+            ),
+            None,
+        )
+        if condition_index is None and rate_index < len(conditions):
+            condition_index = rate_index
+        condition = conditions[condition_index] if condition_index is not None else {}
+        if condition_index is not None:
+            used_conditions.add(condition_index)
+        for element in rate_list.iter():
+            rate_type = _xml_local_name(element.tag)
+            if rate_type not in {"firstOrderRate", "secondOrderRate"}:
+                continue
+            value = _float_token(element.text or "")
+            if value is None:
+                continue
+            total += 1
+            if len(records) >= maximum_records:
+                continue
+            records.append(
+                {
+                    "from_species": element.attrib.get("fromRef"),
+                    "to_species": element.attrib.get("toRef"),
+                    "reaction_type": element.attrib.get("reactionType"),
+                    "rate_type": rate_type,
+                    "temperature_kelvin": temperature,
+                    "pressure_value": condition.get("pressure_value"),
+                    "pressure_unit": condition.get("pressure_unit"),
+                    "bath_gas": rate_list.attrib.get("bathGas"),
+                    "excess_reactant_concentration": _float_token(
+                        rate_list.attrib.get("conc", "")
+                    ),
+                    "rate_coefficient": value,
+                    "rate_coefficient_unit": (
+                        "s^-1"
+                        if rate_type == "firstOrderRate"
+                        else "cm^3 molecule^-1 s^-1"
+                    ),
+                }
+            )
+    return {
+        "conditions": conditions,
+        "rate_records": records,
+        "total_rate_record_count": total,
+        "truncated": total > len(records),
+    }
+
+
+def _mesmer_master_equation(request: dict[str, Any]) -> dict[str, Any]:
+    inputs, _method, settings = request_parts(request)
+    maximum_records = int(settings.get("maximum_rate_records", 10000))
+    if not 1 <= maximum_records <= 100000:
+        raise ValueError("maximum_rate_records must be between 1 and 100000")
+    directory, model, staged = _stage_master_equation_model(
+        "solve_master_equation", "mesmer", inputs
+    )
+    if model.suffix.lower() != ".xml":
+        raise ValueError("MESMER model_file must use .xml")
+    audit = model.parent / "mesmer.audit.xml"
+    completed = run_external(
+        executable="mesmer",
+        environment_variable="CHEMGRAPH_MESMER_COMMAND",
+        arguments=[model.name, f"-o{audit.name}"],
+        directory=model.parent,
+        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 1800)),
+    )
+    (directory / "stdout.log").write_text(completed["stdout"], encoding="utf-8")
+    (directory / "stderr.log").write_text(completed["stderr"], encoding="utf-8")
+    if not completed["available"]:
+        return unavailable(completed["stderr"], install="Configure MESMER 7.1")
+    if completed["returncode"] != 0:
+        raise RuntimeError(f"MESMER failed: {completed['stderr'][-2000:]}")
+    parsed = _parse_mesmer_rates(audit, maximum_records) if audit.is_file() else {
+        "conditions": [], "rate_records": [], "total_rate_record_count": 0, "truncated": False
+    }
+    log = model.parent / "mesmer.log"
+    log_text = log.read_text(encoding="utf-8", errors="replace") if log.is_file() else ""
+    result = {
+        "model_format": "mesmer_xml",
+        "model_file": relative_workspace_path(model),
+        "staged_files": staged,
+        **parsed,
+        "completed": audit.is_file() and bool(parsed["rate_records"]),
+    }
+    summary = write_json(directory, "master_equation_result.json", result)
+    summary_path = relative_workspace_path(summary)
+    artifacts = [
+        item for item in command_artifacts(directory) if item["path"] != summary_path
+    ]
+    artifacts.append(
+        {
+            "path": summary_path,
+            "semantic_type": "MasterEquationResult",
+            "media_type": "application/json",
+        }
+    )
+    warnings = _bounded_warning_lines(
+        completed["stdout"], completed["stderr"], log_text,
+        audit.read_text(encoding="utf-8", errors="replace") if audit.is_file() else "",
+    )
+    provenance = {
+        "command": completed["command"],
+        "native_model_preserved": True,
+        "automatic_model_construction": False,
+    }
+    if not result["completed"]:
+        return partial_success(
+            result,
+            artifact_files=artifacts,
+            backend_version="7.1",
+            provenance=provenance,
+            warnings=[*warnings, "MESMER completed without a parseable phenomenological rate list."],
+        )
+    return success(
+        result,
+        artifact_files=artifacts,
+        backend_version="7.1",
+        provenance=provenance,
+        warnings=warnings,
+    )
+
+
 def execute(action_id: str, backend_id: str, request: dict[str, Any]) -> dict[str, Any]:
+    if backend_id == "sella" and action_id == "locate_transition_state":
+        return execute_sella(action_id, request)
     if backend_id == "pysisyphus":
         return _pysisyphus(action_id, request)
     if action_id == "calculate_chemical_equilibrium" and backend_id == "cantera":
@@ -313,4 +996,13 @@ def execute(action_id: str, backend_id: str, request: dict[str, Any]) -> dict[st
         return _scipy_network(request) if backend_id == "scipy" else _cantera_network(request)
     if action_id == "solve_microkinetic_model" and backend_id == "catmap":
         return _catmap(request)
+    if action_id == "calculate_rate_constants" and backend_id == "rmg":
+        return _rmg_rate_constants(request)
+    if action_id == "calculate_tunneling_correction" and backend_id == "rmg":
+        return _rmg_tunneling(request)
+    if action_id == "solve_master_equation":
+        if backend_id == "mess":
+            return _mess_master_equation(request)
+        if backend_id == "mesmer":
+            return _mesmer_master_equation(request)
     return unsupported(f"Unsupported reaction action/backend combination: {action_id}/{backend_id}")

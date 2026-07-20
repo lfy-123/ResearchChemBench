@@ -9,7 +9,9 @@ from ..catalog import action_specs
 
 
 _CATEGORY_MODULES = {
+    "scientific_data_interchange": "interchange",
     "structure_and_system": "structure",
+    "cheminformatics": "cheminformatics",
     "molecular_electronic": "electronic",
     "reaction_and_kinetics": "reaction",
     "molecular_dynamics": "dynamics",

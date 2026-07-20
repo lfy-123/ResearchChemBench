@@ -16,9 +16,9 @@ Codex / Claude / OpenCode / Mock agent CLI
         ▼
 one complete Chemistry MCP server
         │
-        ├── 40 atomic Scientific Actions
-        ├── 4 atomic Data Actions
-        ├── 54 explicitly selectable BackendSpecs
+        ├── versioned atomic Scientific Actions
+        ├── bounded atomic Data Actions
+        ├── explicitly selectable BackendSpecs
         └── no workflow tool, automatic backend, or fallback
         │
         ▼
@@ -68,7 +68,7 @@ bash scripts/run_agent_eval.sh --agent codex --task ChemGraph_001 --no-score
 bash scripts/run_agent_eval.sh --agent claude --task ChemGraph_003 --no-score
 bash scripts/run_agent_eval.sh --agent opencode --task ChemGraph_001 --no-score
 
-# Every run exposes the same full 45-action catalog.
+# Every run exposes the same complete versioned action catalog.
 bash scripts/run_agent_eval.sh --agent opencode --task ChemGraph_001 --no-score
 ```
 
@@ -115,6 +115,9 @@ _score.json
 - [原子工具完整目录](evaluation/mcp_tools/TOOL_CATALOG.md)
 - [重构实施总结](docs/tools/CHEMISTRY_TOOLBOX_REFACTOR_REPORT.md)
 - [工具、后端与资源完整矩阵](docs/tools/CHEMISTRY_TOOLBOX_TOOL_RESOURCE_MATRIX.md)
+- [软件能力与候选能力矩阵](docs/tools/CHEMISTRY_TOOLBOX_SOFTWARE_CAPABILITY_MATRIX.md)
+- [能力扩展实施计划](docs/tools/CHEMISTRY_TOOLBOX_CAPABILITY_EXPANSION_PLAN.md)
+- [2026-07-20 能力扩展总结报告](docs/tools/CHEMISTRY_TOOLBOX_CAPABILITY_EXPANSION_REPORT_20260720.md)
 - [用户请求软件配置状态](docs/tools/CHEMISTRY_TOOLBOX_REQUESTED_SOFTWARE_STATUS.md)
 - [MCP 后端运行环境](docs/MCP_PROFILE_ENVIRONMENTS.md)
 - [MCP 多环境当前检查状态](docs/MCP_PROFILE_STATUS.md)

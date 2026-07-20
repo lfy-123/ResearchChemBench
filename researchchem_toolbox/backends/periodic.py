@@ -37,6 +37,11 @@ ACTIONS = {
     "relax_periodic_structure", "generate_displaced_supercells",
     "assemble_force_constants", "calculate_phonon_dispersion",
     "calculate_phonon_density_of_states",
+    "calculate_harmonic_thermodynamics", "calculate_phonon_group_velocities",
+    "calculate_lattice_thermal_conductivity",
+    "calculate_electronic_band_structure", "calculate_density_of_states",
+    "calculate_projected_density_of_states", "analyze_periodic_bonding",
+    "calculate_charge_spilling",
 }
 
 
@@ -1052,13 +1057,19 @@ def _phonopy_atoms(structure_value: Any):
 def _phonon_object(backend_id: str, structure_value: Any, settings: dict[str, Any]):
     unitcell = _phonopy_atoms(structure_value)
     matrix = settings.get("supercell_matrix") or [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
+    primitive_matrix = settings.get("primitive_matrix", "auto")
     if backend_id == "phonopy":
         from phonopy import Phonopy
 
-        return Phonopy(unitcell, matrix)
+        return Phonopy(unitcell, matrix, primitive_matrix=primitive_matrix)
     from phono3py import Phono3py
 
-    return Phono3py(unitcell, matrix, phonon_supercell_matrix=matrix)
+    return Phono3py(
+        unitcell,
+        matrix,
+        primitive_matrix=primitive_matrix,
+        phonon_supercell_matrix=settings.get("phonon_supercell_matrix", matrix),
+    )
 
 
 def _jsonable(value: Any) -> Any:
@@ -1082,6 +1093,75 @@ def _phonons(action_id: str, backend_id: str, request: dict[str, Any]) -> dict[s
 
     inputs, _method, settings = request_parts(request)
     structure_value = inputs.get("structure")
+    if action_id == "calculate_lattice_thermal_conductivity":
+        fc2_value = inputs["second_order_force_constants"]
+        fc3_value = inputs["third_order_force_constants"]
+        if isinstance(fc2_value, dict) and "result" in fc2_value:
+            fc2_value = fc2_value["result"]
+        if isinstance(fc3_value, dict) and "result" in fc3_value:
+            fc3_value = fc3_value["result"]
+        fc2 = fc2_value.get("force_constants", fc2_value)
+        fc3 = fc3_value.get("force_constants", fc3_value)
+        supercell_matrix = fc3_value.get("supercell_matrix") or [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
+        phonon_supercell_matrix = fc2_value.get("supercell_matrix") or supercell_matrix
+        phono3py = _phonon_object(
+            "phono3py",
+            structure_value,
+            {
+                "supercell_matrix": supercell_matrix,
+                "phonon_supercell_matrix": phonon_supercell_matrix,
+                "primitive_matrix": settings["primitive_matrix"],
+            },
+        )
+        phono3py.fc2 = np.asarray(fc2, dtype=float)
+        phono3py.fc3 = np.asarray(fc3, dtype=float)
+        phono3py.mesh_numbers = settings["q_mesh"]
+        phono3py.init_phph_interaction(
+            symmetrize_fc3q=bool(settings.get("symmetrize_fc3q", False))
+        )
+        solution = str(settings["solution_method"]).strip().lower()
+        if solution not in {"rta", "lbte"}:
+            raise ValueError("solution_method must be rta or lbte")
+        boundary = settings["boundary_mean_free_path_micrometer"]
+        phono3py.run_thermal_conductivity(
+            is_LBTE=solution == "lbte",
+            temperatures=np.asarray(settings["temperatures_kelvin"], dtype=float),
+            is_isotope=bool(settings["include_isotope_scattering"]),
+            mass_variances=settings.get("mass_variances"),
+            boundary_mfp=None if boundary is None else float(boundary),
+            is_kappa_star=bool(settings.get("use_kappa_star", True)),
+            is_full_pp=bool(settings.get("full_phonon_phonon_interaction", False)),
+            log_level=0,
+        )
+        conductivity = phono3py.thermal_conductivity
+        if conductivity is None or conductivity.kappa is None:
+            raise RuntimeError("Phono3py completed without a thermal-conductivity tensor")
+        kappa = np.asarray(conductivity.kappa, dtype=float)
+        if kappa.ndim == 3 and kappa.shape[0] == 1:
+            kappa = kappa[0]
+        if not np.all(np.isfinite(kappa)):
+            raise RuntimeError(
+                "Phono3py produced non-finite conductivity; inspect force constants or set an explicit finite boundary mean free path"
+            )
+        result = {
+            "temperatures_kelvin": np.asarray(conductivity.temperatures, dtype=float).tolist(),
+            "kappa_w_mk": kappa.tolist(),
+            "voigt_order": "xx,yy,zz,yz,xz,xy",
+            "solution_method": solution,
+            "q_mesh": settings["q_mesh"],
+            "include_isotope_scattering": bool(settings["include_isotope_scattering"]),
+            "boundary_mean_free_path_micrometer": boundary,
+        }
+        if bool(settings.get("include_mode_data", False)):
+            for key, attribute in (
+                ("linewidth_thz", "gamma"),
+                ("group_velocity_thz_angstrom", "group_velocities"),
+                ("mode_heat_capacity_ev_per_k", "heat_capacities"),
+            ):
+                value = getattr(conductivity, attribute, None)
+                if value is not None:
+                    result[key] = np.asarray(value, dtype=float).tolist()
+        return success(result, backend_version=module_version("phono3py"))
     if action_id == "generate_displaced_supercells":
         phonon = _phonon_object(backend_id, structure_value, settings)
         distance = float(settings["displacement_distance_angstrom"])
@@ -1176,17 +1256,58 @@ def _phonons(action_id: str, backend_id: str, request: dict[str, Any]) -> dict[s
     # remains the explicitly selected phono3py adapter; no backend dispatch occurs.
     phonon = _phonon_object("phonopy", structure_value, {"supercell_matrix": force_constants.get("supercell_matrix")})
     phonon.force_constants = np.asarray(force_constants["force_constants"], dtype=float)
-    if action_id == "calculate_phonon_dispersion":
+    if action_id in {"calculate_phonon_dispersion", "calculate_phonon_group_velocities"}:
         q_path = settings["q_path"]
         paths = [np.asarray(segment, dtype=float) for segment in q_path]
-        phonon.run_band_structure(paths, with_eigenvectors=bool(settings.get("with_eigenvectors", False)), labels=settings.get("labels"))
+        phonon.run_band_structure(
+            paths,
+            with_eigenvectors=bool(settings.get("with_eigenvectors", False)),
+            with_group_velocities=action_id == "calculate_phonon_group_velocities",
+            labels=settings.get("labels"),
+        )
         result = phonon.get_band_structure_dict()
+        if action_id == "calculate_phonon_group_velocities":
+            return success(
+                {
+                    "qpoints": [np.asarray(value).tolist() for value in result["qpoints"]],
+                    "distances": [np.asarray(value).tolist() for value in result["distances"]],
+                    "frequencies_thz": [np.asarray(value).tolist() for value in result["frequencies"]],
+                    "group_velocities_thz_angstrom": [
+                        np.asarray(value).tolist() for value in result["group_velocities"]
+                    ],
+                    "labels": settings.get("labels"),
+                },
+                backend_version=module_version(backend_id),
+            )
         return success(
             {
                 "qpoints": [np.asarray(value).tolist() for value in result["qpoints"]],
                 "distances": [np.asarray(value).tolist() for value in result["distances"]],
                 "frequencies_thz": [np.asarray(value).tolist() for value in result["frequencies"]],
                 "labels": settings.get("labels"),
+            },
+            backend_version=module_version(backend_id),
+        )
+    if action_id == "calculate_harmonic_thermodynamics":
+        temperatures = np.asarray(settings["temperatures_kelvin"], dtype=float)
+        if temperatures.ndim != 1 or len(temperatures) == 0 or np.any(temperatures < 0):
+            raise ValueError("temperatures_kelvin must be a non-empty list of nonnegative values")
+        phonon.run_mesh(settings["q_mesh"], with_eigenvectors=False, is_mesh_symmetry=True)
+        phonon.run_thermal_properties(
+            temperatures=temperatures,
+            cutoff_frequency=settings.get("cutoff_frequency_thz"),
+            pretend_real=bool(settings.get("pretend_real", False)),
+            classical=bool(settings.get("classical", False)),
+        )
+        thermal = phonon.get_thermal_properties_dict()
+        return success(
+            {
+                "temperatures_kelvin": np.asarray(thermal["temperatures"], dtype=float).tolist(),
+                "free_energy_kj_mol": np.asarray(thermal["free_energy"], dtype=float).tolist(),
+                "entropy_j_k_mol": np.asarray(thermal["entropy"], dtype=float).tolist(),
+                "heat_capacity_cv_j_k_mol": np.asarray(thermal["heat_capacity"], dtype=float).tolist(),
+                "q_mesh": settings["q_mesh"],
+                "classical": bool(settings.get("classical", False)),
             },
             backend_version=module_version(backend_id),
         )
@@ -1305,6 +1426,272 @@ def _run_mlip_periodic(
             )
         return success(result, **values)
     return unsupported(f"MLIP backend does not implement {action_id}")
+
+
+def _lobster_spin_values(values: dict[Any, Any], spin: str):
+    import numpy as np
+    from pymatgen.electronic_structure.core import Spin
+
+    spin = spin.strip().lower()
+    if spin == "up":
+        if Spin.up not in values:
+            raise ValueError("The LOBSTER output contains no spin-up channel")
+        return np.asarray(values[Spin.up], dtype=float)
+    if spin == "down":
+        if Spin.down not in values:
+            raise ValueError("The LOBSTER output contains no spin-down channel")
+        return np.asarray(values[Spin.down], dtype=float)
+    if spin in {"sum", "total"}:
+        arrays = [np.asarray(value, dtype=float) for value in values.values()]
+        if not arrays:
+            raise ValueError("The LOBSTER output contains no spin channels")
+        return np.sum(arrays, axis=0)
+    raise ValueError("spin must be up, down, or sum")
+
+
+def _lobster_bonding(request: dict[str, Any]) -> dict[str, Any]:
+    import numpy as np
+    from pymatgen.io.lobster.outputs import Cohpcar, Icohplist
+
+    inputs, _method, settings = request_parts(request)
+    metric = str(settings["bonding_metric"]).strip().lower()
+    if metric not in {"cohp", "coop", "cobi"}:
+        raise ValueError("bonding_metric must be cohp, coop, or cobi")
+    parser = Icohplist(
+        filename=resolve_input_file(inputs["integrated_bond_list"]),
+        are_coops=metric == "coop",
+        are_cobis=metric == "cobi",
+    )
+    collection = parser.icohpcollection
+    minimum = float(settings["minimum_absolute_integrated_value_ev"])
+    maximum = int(settings["max_bonds"])
+    if minimum < 0 or maximum < 1 or maximum > 100000:
+        raise ValueError("minimum absolute value must be nonnegative and max_bonds must be 1..100000")
+    records = []
+    for label, first, second, length, translation, multiplicity, values in zip(
+        collection._list_labels,
+        collection._list_atom1,
+        collection._list_atom2,
+        collection._list_length,
+        collection._list_translation,
+        collection._list_num,
+        collection._list_icohp,
+    ):
+        selected = float(_lobster_spin_values(values, str(settings["spin"])))
+        if abs(selected) < minimum:
+            continue
+        records.append(
+            {
+                "bond_label": str(label),
+                "atom_a": str(first),
+                "atom_b": str(second),
+                "distance_angstrom": float(length),
+                "cell_translation": [int(value) for value in translation],
+                "equivalent_bond_count": int(multiplicity),
+                "integrated_value_ev": selected,
+            }
+        )
+    records.sort(key=lambda item: (-abs(item["integrated_value_ev"]), item["bond_label"]))
+    available_count = len(records)
+    records = records[:maximum]
+    if bool(settings["include_curve_data"]):
+        if inputs.get("bond_curve_file") is None:
+            raise ValueError("include_curve_data=true requires bond_curve_file")
+        curves = Cohpcar(
+            filename=resolve_input_file(inputs["bond_curve_file"]),
+            are_coops=metric == "coop",
+            are_cobis=metric == "cobi",
+        )
+        energies = np.asarray(curves.energies, dtype=float)
+        minimum_energy = float(settings["minimum_energy_ev"])
+        maximum_energy = float(settings["maximum_energy_ev"])
+        if not minimum_energy < maximum_energy:
+            raise ValueError("minimum_energy_ev must be less than maximum_energy_ev")
+        stride = int(settings["curve_stride"])
+        max_points = int(settings["max_curve_points"])
+        if stride < 1 or max_points < 2:
+            raise ValueError("curve_stride must be positive and max_curve_points must be at least two")
+        selected_indices = np.where(
+            (energies >= minimum_energy) & (energies <= maximum_energy)
+        )[0][::stride]
+        if len(selected_indices) > max_points:
+            raise ValueError("Explicit energy window and curve_stride produce more than max_curve_points")
+        for record in records:
+            value = curves.cohp_data.get(record["bond_label"])
+            if value is None:
+                record["curve"] = None
+                continue
+            record["curve"] = {
+                "energy_ev_relative_to_fermi": energies[selected_indices].tolist(),
+                "bonding_curve_per_ev": _lobster_spin_values(
+                    value["COHP"], str(settings["spin"])
+                )[selected_indices].tolist(),
+                "integrated_curve_ev": _lobster_spin_values(
+                    value["ICOHP"], str(settings["spin"])
+                )[selected_indices].tolist(),
+            }
+    directory = output_directory("analyze_periodic_bonding", "lobster")
+    result = {
+        "bonding_metric": metric,
+        "spin": str(settings["spin"]).strip().lower(),
+        "bonds": records,
+        "bond_count": len(records),
+        "available_filtered_bond_count": available_count,
+        "truncated": available_count > len(records),
+        "minimum_absolute_integrated_value_ev": minimum,
+        "curve_data_included": bool(settings["include_curve_data"]),
+        "sign_note": "Raw LOBSTER sign convention is preserved; no bonding/antibonding sign reinterpretation is applied.",
+    }
+    path = write_json(directory, "periodic_bonding.json", result)
+    return success(
+        result,
+        artifact_files=[
+            {
+                "path": relative_workspace_path(path),
+                "semantic_type": "PeriodicBondingResult",
+                "media_type": "application/json",
+            }
+        ],
+        backend_version=module_version("pymatgen"),
+    )
+
+
+def _lobster_projected_dos(request: dict[str, Any]) -> dict[str, Any]:
+    import numpy as np
+    from pymatgen.io.lobster.outputs import Doscar
+
+    inputs, _method, settings = request_parts(request)
+    parser = Doscar(
+        doscar=resolve_input_file(inputs["dos_file"]),
+        structure_file=resolve_input_file(inputs["structure_file"]),
+    )
+    energies = np.asarray(parser.energies, dtype=float)
+    minimum = float(settings["minimum_energy_ev"])
+    maximum = float(settings["maximum_energy_ev"])
+    stride = int(settings["curve_stride"])
+    if not minimum < maximum or stride < 1:
+        raise ValueError("DOS energy bounds must be increasing and curve_stride must be positive")
+    selected = np.where((energies >= minimum) & (energies <= maximum))[0][::stride]
+    if not len(selected):
+        raise ValueError("The explicit DOS energy window contains no points")
+    raw_projections = inputs["projections"]
+    if not isinstance(raw_projections, list) or not raw_projections:
+        raise ValueError("projections must be a non-empty list")
+    projections = []
+    for index, projection in enumerate(raw_projections):
+        if not isinstance(projection, dict):
+            raise ValueError("Each projection must be an object")
+        atom_index = int(projection["atom_index"])
+        if atom_index < 0 or atom_index >= len(parser.pdos):
+            raise ValueError(f"LOBSTER projection atom_index is out of range: {atom_index}")
+        orbitals = projection.get("orbitals")
+        if not isinstance(orbitals, list) or not orbitals:
+            raise ValueError("Each LOBSTER projection requires a non-empty orbitals list")
+        available = parser.pdos[atom_index]
+        unknown = [str(orbital) for orbital in orbitals if str(orbital) not in available]
+        if unknown:
+            raise ValueError(
+                f"Unknown LOBSTER orbitals for atom {atom_index}: {unknown}; available={sorted(available)}"
+            )
+        density = np.sum(
+            [
+                _lobster_spin_values(available[str(orbital)], str(settings["spin"]))
+                for orbital in orbitals
+            ],
+            axis=0,
+        )
+        projections.append(
+            {
+                "label": str(projection.get("label") or f"projection_{index}"),
+                "atom_index": atom_index,
+                "element": str(parser.completedos.structure[atom_index].specie),
+                "orbitals": [str(orbital) for orbital in orbitals],
+                "density_of_states_per_ev": density[selected].tolist(),
+            }
+        )
+    result = {
+        "energy_ev_relative_to_fermi": energies[selected].tolist(),
+        "total_density_of_states_per_ev": _lobster_spin_values(
+            parser.tdensities, str(settings["spin"])
+        )[selected].tolist(),
+        "projections": projections,
+        "spin": str(settings["spin"]).strip().lower(),
+        "fermi_energy_ev_in_source_reference": float(parser.completedos.efermi),
+        "energy_reference": "fermi_zero_from_lobster",
+    }
+    directory = output_directory("calculate_projected_density_of_states", "lobster")
+    path = write_json(directory, "projected_density_of_states.json", result)
+    return success(
+        result,
+        artifact_files=[
+            {
+                "path": relative_workspace_path(path),
+                "semantic_type": "ProjectedDensityOfStatesResult",
+                "media_type": "application/json",
+            }
+        ],
+        backend_version=module_version("pymatgen"),
+    )
+
+
+def _lobster_spilling(request: dict[str, Any]) -> dict[str, Any]:
+    from pymatgen.io.lobster.outputs import Lobsterout
+
+    inputs, _method, settings = request_parts(request)
+    path = resolve_input_file(inputs["lobster_output"])
+    parser = Lobsterout(path)
+    raw_text = path.read_text(encoding="utf-8", errors="replace")
+    charge = [100.0 * float(value) for value in parser.charge_spilling]
+    total = [100.0 * float(value) for value in parser.total_spilling]
+    max_charge = float(settings["maximum_charge_spilling_percent"])
+    max_total = float(settings["maximum_total_spilling_percent"])
+    if max_charge < 0 or max_total < 0:
+        raise ValueError("Spilling thresholds must be nonnegative percentages")
+    finished = bool(re.search(r"\bfinished in\b", raw_text, flags=re.IGNORECASE))
+    require_finished = bool(settings["require_finished"])
+    quality_pass = (
+        (finished or not require_finished)
+        and (not charge or max(charge) <= max_charge)
+        and (not total or max(total) <= max_total)
+    )
+    result = {
+        "quality_pass": quality_pass,
+        "finished": finished,
+        "charge_spilling_percent": charge,
+        "total_spilling_percent": total,
+        "maximum_charge_spilling_percent": max(charge) if charge else None,
+        "maximum_total_spilling_percent": max(total) if total else None,
+        "thresholds": {
+            "charge_spilling_percent": max_charge,
+            "total_spilling_percent": max_total,
+            "require_finished": require_finished,
+        },
+        "lobster_version": str(parser.lobster_version),
+        "dft_program": str(parser.dft_program),
+        "spin_channels": int(parser.number_of_spins),
+        "warnings": [str(value) for value in parser.warning_lines],
+        "available_outputs": {
+            "cohp": bool(parser.has_cohpcar),
+            "coop": bool(parser.has_coopcar),
+            "cobi": bool(parser.has_cobicar),
+            "dos": bool(parser.has_doscar),
+            "charges": bool(parser.has_charge),
+            "gross_populations": bool(parser.has_grosspopulation),
+        },
+    }
+    directory = output_directory("calculate_charge_spilling", "lobster")
+    result_path = write_json(directory, "projection_quality.json", result)
+    return success(
+        result,
+        artifact_files=[
+            {
+                "path": relative_workspace_path(result_path),
+                "semantic_type": "ProjectionQualityResult",
+                "media_type": "application/json",
+            }
+        ],
+        backend_version=str(parser.lobster_version),
+    )
 
 
 def _vasp_grouped_structure(
@@ -1636,7 +2023,169 @@ def _run_vasp(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
     )
 
 
+def _shengbte_thermal_conductivity(request: dict[str, Any]) -> dict[str, Any]:
+    inputs, _method, settings = request_parts(request)
+    solution = str(settings["solution_method"]).strip().lower()
+    if solution not in {"rta", "iterative"}:
+        raise ValueError("solution_method must be rta or iterative")
+    maximum_records = int(settings["maximum_temperature_records"])
+    if not 1 <= maximum_records <= 10000:
+        raise ValueError("maximum_temperature_records must be between 1 and 10000")
+    require_normal_exit = settings["require_normal_exit"]
+    if not isinstance(require_normal_exit, bool):
+        raise ValueError("require_normal_exit must be an explicit boolean")
+
+    directory = output_directory("calculate_lattice_thermal_conductivity", "shengbte")
+    staged: list[dict[str, str]] = []
+    names = {
+        "control_file": "CONTROL",
+        "second_order_force_constants_file": "FORCE_CONSTANTS_2ND",
+        "third_order_force_constants_file": "FORCE_CONSTANTS_3RD",
+    }
+    if inputs.get("born_file") is not None:
+        names["born_file"] = "BORN"
+    occupied = set(names.values())
+    for field, target_name in names.items():
+        source = resolve_input_file(inputs[field])
+        if not source.is_file():
+            raise ValueError(f"{field} must resolve to one regular file")
+        target = directory / target_name
+        shutil.copy2(source, target)
+        staged.append(
+            {
+                "field": field,
+                "source": relative_workspace_path(source),
+                "staged_name": target_name,
+            }
+        )
+    companions = inputs.get("companion_files", [])
+    if not isinstance(companions, list) or len(companions) > 64:
+        raise ValueError("companion_files must be a list containing at most 64 files")
+    for index, value in enumerate(companions):
+        source = resolve_input_file(value)
+        if not source.is_file():
+            raise ValueError(f"companion_files[{index}] must resolve to one regular file")
+        name = source.name
+        if name in occupied:
+            raise ValueError(f"Duplicate staged ShengBTE file name: {name}")
+        occupied.add(name)
+        shutil.copy2(source, directory / name)
+        staged.append(
+            {
+                "field": f"companion_files[{index}]",
+                "source": relative_workspace_path(source),
+                "staged_name": name,
+            }
+        )
+
+    completed = run_external(
+        executable="ShengBTE",
+        environment_variable="CHEMGRAPH_SHENGBTE_COMMAND",
+        arguments=[],
+        directory=directory,
+        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 1800)),
+    )
+    (directory / "stdout.log").write_text(completed["stdout"], encoding="utf-8")
+    (directory / "stderr.log").write_text(completed["stderr"], encoding="utf-8")
+    if not completed["available"]:
+        return unavailable(completed["stderr"], install="Configure the ShengBTE executable")
+    if completed["returncode"] != 0:
+        raise RuntimeError(f"ShengBTE failed: {completed['stderr'][-2000:]}")
+
+    output_name = (
+        "BTE.KappaTensorVsT_RTA"
+        if solution == "rta"
+        else "BTE.KappaTensorVsT_CONV"
+    )
+    conductivity_path = directory / output_name
+    records: list[dict[str, Any]] = []
+    total = 0
+    if conductivity_path.is_file():
+        for line in conductivity_path.read_text(encoding="utf-8", errors="replace").splitlines():
+            tokens = line.split()
+            if len(tokens) < 10:
+                continue
+            try:
+                values = [
+                    float(token.replace("D", "E").replace("d", "e"))
+                    for token in tokens[:10]
+                ]
+            except ValueError:
+                continue
+            total += 1
+            if len(records) >= maximum_records:
+                continue
+            records.append(
+                {
+                    "temperature_kelvin": values[0],
+                    "kappa_w_mk": [values[1:4], values[4:7], values[7:10]],
+                }
+            )
+    normal_exit = "normal exit" in (
+        completed["stdout"] + "\n" + completed["stderr"]
+    ).lower()
+    result = {
+        "solution_method": solution,
+        "conductivity_records": records,
+        "temperature_record_count": total,
+        "truncated": total > len(records),
+        "tensor_unit": "W m^-1 K^-1",
+        "tensor_order": "row-major Cartesian 3x3",
+        "normal_exit": normal_exit,
+        "staged_inputs": staged,
+        "native_control_preserved": True,
+    }
+    summary = write_json(directory, "lattice_thermal_conductivity.json", result)
+    summary_path = relative_workspace_path(summary)
+    artifacts = [
+        item for item in command_artifacts(directory) if item["path"] != summary_path
+    ]
+    artifacts.append(
+        {
+            "path": summary_path,
+            "semantic_type": "LatticeThermalConductivityResult",
+            "media_type": "application/json",
+        }
+    )
+    warnings = []
+    for line in (completed["stdout"] + "\n" + completed["stderr"]).splitlines():
+        if "warning" in line.lower() and line.strip() not in warnings:
+            warnings.append(line.strip()[:1000])
+        if len(warnings) >= 40:
+            break
+    common = {
+        "artifact_files": artifacts,
+        "backend_version": "source-b0d2090",
+        "provenance": {
+            "command": completed["command"],
+            "automatic_model_construction": False,
+            "native_control_preserved": True,
+        },
+    }
+    if not records or (require_normal_exit and not normal_exit):
+        return partial_success(
+            result,
+            **common,
+            warnings=[
+                *warnings,
+                "ShengBTE completed without the requested validated conductivity output.",
+            ],
+        )
+    return success(result, **common, warnings=warnings)
+
+
 def execute(action_id: str, backend_id: str, request: dict[str, Any]) -> dict[str, Any]:
+    if backend_id == "lobster":
+        if action_id == "analyze_periodic_bonding":
+            return _lobster_bonding(request)
+        if action_id == "calculate_projected_density_of_states":
+            return _lobster_projected_dos(request)
+        if action_id == "calculate_charge_spilling":
+            return _lobster_spilling(request)
+    if backend_id == "gpaw":
+        from .gpaw_adapter import execute as execute_gpaw
+
+        return execute_gpaw(action_id, request)
     if backend_id == "quantum_espresso":
         return _run_qe(action_id, request)
     if backend_id == "cp2k":
@@ -1649,4 +2198,6 @@ def execute(action_id: str, backend_id: str, request: dict[str, Any]) -> dict[st
         return _run_mlip_periodic(backend_id, action_id, request)
     if backend_id in {"phonopy", "phono3py"}:
         return _phonons(action_id, backend_id, request)
+    if backend_id == "shengbte" and action_id == "calculate_lattice_thermal_conductivity":
+        return _shengbte_thermal_conductivity(request)
     return unsupported(f"Unsupported periodic action/backend combination: {action_id}/{backend_id}")

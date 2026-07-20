@@ -17,6 +17,7 @@ from .common import (
     structure_dict,
     success,
     unavailable,
+    unwrap_artifact,
     unsupported,
     write_json,
     write_xyz,
@@ -25,10 +26,229 @@ from .common import (
 
 ACTIONS = {
     "standardize_structure", "generate_3d_structure", "generate_conformer_ensemble",
+    "cluster_conformers", "align_molecular_structures",
     "rank_conformers_from_results", "repair_biomolecular_structure",
     "assign_protonation_states", "assign_partial_charges",
     "assign_force_field_parameters", "solvate_molecular_system",
+    "analyze_crystal_symmetry", "standardize_crystal_structure",
+    "build_supercell", "enumerate_surface_slabs",
+    "select_structure_subset", "renumber_biomolecular_structure",
+    "normalize_pdb_records",
 }
+
+
+_ELEMENTS = (
+    "X H He Li Be B C N O F Ne Na Mg Al Si P S Cl Ar K Ca Sc Ti V Cr Mn Fe Co Ni Cu Zn "
+    "Ga Ge As Se Br Kr Rb Sr Y Zr Nb Mo Tc Ru Rh Pd Ag Cd In Sn Sb Te I Xe Cs Ba La Ce Pr "
+    "Nd Pm Sm Eu Gd Tb Dy Ho Er Tm Yb Lu Hf Ta W Re Os Ir Pt Au Hg Tl Pb Bi Po At Rn Fr Ra "
+    "Ac Th Pa U Np Pu Am Cm Bk Cf Es Fm Md No Lr Rf Db Sg Bh Hs Mt Ds Rg Cn Nh Fl Mc Lv Ts Og"
+).split()
+_ATOMIC_NUMBER = {symbol: index for index, symbol in enumerate(_ELEMENTS) if index}
+
+
+def _crystal_arrays(value: Any):
+    import numpy as np
+
+    structure = structure_dict(value)
+    atoms = structure.get("atoms") or []
+    if not atoms:
+        raise ValueError("Crystal actions require atoms with Cartesian coordinates")
+    symbols = [str(atom["element"]) for atom in atoms]
+    coordinates = np.asarray([atom["position_angstrom"] for atom in atoms], dtype=float)
+    lattice = np.asarray(structure.get("cell_angstrom") or structure.get("cell"), dtype=float)
+    if lattice.shape != (3, 3):
+        raise ValueError("Crystal actions require a 3x3 cell_angstrom")
+    if not all(bool(value) for value in structure.get("pbc", [True, True, True])):
+        raise ValueError("Crystal actions require periodic boundary conditions in all dimensions")
+    scaled = coordinates @ np.linalg.inv(lattice)
+    try:
+        numbers = [int(_ATOMIC_NUMBER[symbol]) for symbol in symbols]
+    except KeyError as exc:
+        raise ValueError(f"Unknown element symbol in crystal structure: {exc.args[0]}") from exc
+    return structure, symbols, coordinates, lattice, scaled, numbers
+
+
+def _crystal_payload(symbols, coordinates, lattice, original: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "atoms": [
+            {"element": str(symbol), "position_angstrom": [float(value) for value in row]}
+            for symbol, row in zip(symbols, coordinates)
+        ],
+        "cell_angstrom": [[float(value) for value in row] for row in lattice],
+        "pbc": [True, True, True],
+        "charge": int(original.get("charge", 0)),
+        "multiplicity": int(original.get("multiplicity", 1)),
+    }
+
+
+def _pymatgen_structure(value: Any):
+    from pymatgen.core import Structure
+
+    original, symbols, coordinates, lattice, _scaled, _numbers = _crystal_arrays(value)
+    return original, Structure(lattice, symbols, coordinates, coords_are_cartesian=True)
+
+
+def _pymatgen_payload(structure, original: dict[str, Any]) -> dict[str, Any]:
+    symbols = [str(site.specie.symbol) for site in structure]
+    return _crystal_payload(symbols, structure.cart_coords.tolist(), structure.lattice.matrix.tolist(), original)
+
+
+def _analyze_crystal_symmetry(backend_id: str, request: dict[str, Any]) -> dict[str, Any]:
+    import numpy as np
+
+    inputs, _method, settings = request_parts(request)
+    symprec = float(settings["symmetry_tolerance_angstrom"])
+    angle = float(settings["angle_tolerance_degrees"])
+    if symprec <= 0:
+        raise ValueError("symmetry_tolerance_angstrom must be positive")
+    if backend_id == "spglib":
+        import spglib
+
+        _original, _symbols, _coordinates, lattice, scaled, numbers = _crystal_arrays(inputs["structure"])
+        dataset = spglib.get_symmetry_dataset(
+            (lattice, scaled, numbers), symprec=symprec, angle_tolerance=angle
+        )
+        if dataset is None:
+            raise RuntimeError("spglib could not determine a symmetry dataset")
+        result = {
+            "space_group_number": int(dataset.number),
+            "international_symbol": str(dataset.international),
+            "hall_symbol": str(dataset.hall),
+            "hall_number": int(dataset.hall_number),
+            "point_group": str(dataset.pointgroup),
+            "choice": str(dataset.choice),
+            "wyckoff_letters": [str(value) for value in dataset.wyckoffs],
+            "equivalent_atom_indices": np.asarray(dataset.equivalent_atoms, dtype=int).tolist(),
+            "transformation_matrix": np.asarray(dataset.transformation_matrix, dtype=float).tolist(),
+            "origin_shift": np.asarray(dataset.origin_shift, dtype=float).tolist(),
+            "symmetry_tolerance_angstrom": symprec,
+            "angle_tolerance_degrees": angle,
+        }
+        return success(result, backend_version=module_version("spglib"))
+
+    from pymatgen.symmetry.analyzer import SpacegroupAnalyzer
+
+    _original, structure = _pymatgen_structure(inputs["structure"])
+    analyzer = SpacegroupAnalyzer(structure, symprec=symprec, angle_tolerance=angle)
+    symmetrized = analyzer.get_symmetrized_structure()
+    result = {
+        "space_group_number": int(analyzer.get_space_group_number()),
+        "international_symbol": str(analyzer.get_space_group_symbol()),
+        "hall_symbol": str(analyzer.get_hall()),
+        "point_group": str(analyzer.get_point_group_symbol()),
+        "crystal_system": str(analyzer.get_crystal_system()),
+        "lattice_type": str(analyzer.get_lattice_type()),
+        "equivalent_atom_groups": [list(map(int, indices)) for indices in symmetrized.equivalent_indices],
+        "wyckoff_symbols": [str(value) for value in symmetrized.wyckoff_symbols],
+        "symmetry_tolerance_angstrom": symprec,
+        "angle_tolerance_degrees": angle,
+    }
+    return success(result, backend_version=module_version("pymatgen"))
+
+
+def _standardize_crystal(backend_id: str, request: dict[str, Any]) -> dict[str, Any]:
+    import numpy as np
+
+    inputs, _method, settings = request_parts(request)
+    convention = str(settings["convention"]).strip().lower()
+    if convention not in {"primitive", "conventional"}:
+        raise ValueError("convention must be primitive or conventional")
+    symprec = float(settings["symmetry_tolerance_angstrom"])
+    angle = float(settings["angle_tolerance_degrees"])
+    if backend_id == "spglib":
+        import spglib
+
+        original, _symbols, _coordinates, lattice, scaled, numbers = _crystal_arrays(inputs["structure"])
+        standardized = spglib.standardize_cell(
+            (lattice, scaled, numbers),
+            to_primitive=convention == "primitive",
+            no_idealize=not bool(settings["idealize"]),
+            symprec=symprec,
+            angle_tolerance=angle,
+        )
+        if standardized is None:
+            raise RuntimeError("spglib could not standardize the supplied structure")
+        new_lattice, new_scaled, new_numbers = standardized
+        coordinates = np.asarray(new_scaled, dtype=float) @ np.asarray(new_lattice, dtype=float)
+        symbols = [_ELEMENTS[int(number)] for number in new_numbers]
+        result = {
+            "structure": _crystal_payload(symbols, coordinates, new_lattice, original),
+            "convention": convention,
+            "idealized": bool(settings["idealize"]),
+        }
+        return success(result, backend_version=module_version("spglib"))
+
+    from pymatgen.symmetry.analyzer import SpacegroupAnalyzer
+
+    original, structure = _pymatgen_structure(inputs["structure"])
+    analyzer = SpacegroupAnalyzer(structure, symprec=symprec, angle_tolerance=angle)
+    standardized = (
+        analyzer.get_primitive_standard_structure()
+        if convention == "primitive"
+        else analyzer.get_conventional_standard_structure()
+    )
+    result = {"structure": _pymatgen_payload(standardized, original), "convention": convention}
+    return success(result, backend_version=module_version("pymatgen"))
+
+
+def _build_supercell(request: dict[str, Any]) -> dict[str, Any]:
+    import numpy as np
+
+    inputs, _method, settings = request_parts(request)
+    original, structure = _pymatgen_structure(inputs["structure"])
+    matrix = np.asarray(settings["scaling_matrix"], dtype=int)
+    if matrix.shape == (3,):
+        matrix = np.diag(matrix)
+    if matrix.shape != (3, 3) or round(float(np.linalg.det(matrix))) == 0:
+        raise ValueError("scaling_matrix must be a nonsingular integer 3-vector or 3x3 matrix")
+    result_structure = structure.copy()
+    result_structure.make_supercell(matrix)
+    return success(
+        {
+            "structure": _pymatgen_payload(result_structure, original),
+            "scaling_matrix": matrix.tolist(),
+            "atom_count": len(result_structure),
+        },
+        backend_version=module_version("pymatgen"),
+    )
+
+
+def _enumerate_surface_slabs(request: dict[str, Any]) -> dict[str, Any]:
+    from pymatgen.core.surface import SlabGenerator
+
+    inputs, _method, settings = request_parts(request)
+    original, structure = _pymatgen_structure(inputs["structure"])
+    miller = tuple(int(value) for value in settings["miller_index"])
+    if len(miller) != 3 or miller == (0, 0, 0):
+        raise ValueError("miller_index must contain three integers and cannot be [0,0,0]")
+    maximum = int(settings["max_terminations"])
+    if maximum < 1 or maximum > 128:
+        raise ValueError("max_terminations must be between 1 and 128")
+    generator = SlabGenerator(
+        structure,
+        miller,
+        min_slab_size=float(settings["minimum_slab_thickness_angstrom"]),
+        min_vacuum_size=float(settings["minimum_vacuum_thickness_angstrom"]),
+        center_slab=bool(settings["center_slab"]),
+        primitive=bool(settings["primitive"]),
+    )
+    all_slabs = generator.get_slabs(symmetrize=bool(settings.get("symmetrize", False)))
+    selected = all_slabs[:maximum]
+    result = {
+        "structures": [
+            {
+                "termination_index": index,
+                "shift": float(getattr(slab, "shift", 0.0)),
+                "structure": _pymatgen_payload(slab, original),
+            }
+            for index, slab in enumerate(selected)
+        ],
+        "miller_index": list(miller),
+        "termination_count": len(selected),
+        "available_termination_count": len(all_slabs),
+        "truncated": len(all_slabs) > len(selected),
+    }
+    return success(result, backend_version=module_version("pymatgen"))
 
 
 def _rdkit_molecule(value: Any, *, add_hydrogens: bool = False):
@@ -72,6 +292,171 @@ def _rdkit_structure(molecule, conformer_id: int = -1) -> dict[str, Any]:
         "multiplicity": 1,
         "pbc": [False, False, False],
     }
+
+
+def _rdkit_coordinate_molecule(value: Any):
+    """Build an RDKit molecule while preserving explicitly supplied atom coordinates."""
+
+    from rdkit import Chem
+    from rdkit.Geometry import Point3D
+
+    item = structure_dict(value)
+    atoms = item.get("atoms") or []
+    if not atoms or any("position_angstrom" not in atom for atom in atoms):
+        raise ValueError("RDKit alignment and clustering require 3D coordinates for every atom")
+    molecule = _rdkit_molecule(item)
+    if molecule.GetNumAtoms() != len(atoms):
+        hydrogenated = Chem.AddHs(molecule)
+        if hydrogenated.GetNumAtoms() == len(atoms):
+            molecule = hydrogenated
+        else:
+            raise ValueError(
+                "Coordinate atom count does not match the molecule graph, with or without explicit hydrogens"
+            )
+    expected = [atom.GetSymbol() for atom in molecule.GetAtoms()]
+    supplied = [str(atom["element"]) for atom in atoms]
+    if expected != supplied:
+        raise ValueError(
+            "Coordinate atom order/elements must match the molecule graph exactly; supply an SDF if atom order is ambiguous"
+        )
+    conformer = Chem.Conformer(len(atoms))
+    for index, atom in enumerate(atoms):
+        x, y, z = (float(coordinate) for coordinate in atom["position_angstrom"])
+        if not all(math.isfinite(coordinate) for coordinate in (x, y, z)):
+            raise ValueError("Molecular coordinates must be finite")
+        conformer.SetAtomPosition(index, Point3D(x, y, z))
+    molecule.RemoveAllConformers()
+    molecule.AddConformer(conformer, assignId=True)
+    return molecule
+
+
+def _conformer_records(value: Any) -> list[dict[str, Any]]:
+    item = unwrap_artifact(value)
+    records = item.get("ensemble") or item.get("conformers") if isinstance(item, dict) else item
+    if not isinstance(records, list) or not records:
+        raise ValueError("ensemble must contain a non-empty conformer list")
+    normalized = []
+    for index, record in enumerate(records):
+        if not isinstance(record, dict):
+            raise ValueError("Each conformer record must be an object")
+        normalized.append(
+            {
+                "conformer_id": str(record.get("conformer_id", index)),
+                "structure": record.get("structure", record),
+            }
+        )
+    return normalized
+
+
+def _cluster_conformers(request: dict[str, Any]) -> dict[str, Any]:
+    from rdkit.Chem import AllChem
+    from rdkit.ML.Cluster import Butina
+
+    inputs, _method, settings = request_parts(request)
+    records = _conformer_records(inputs["ensemble"])
+    molecules = [_rdkit_coordinate_molecule(record["structure"]) for record in records]
+    molecule = molecules[0]
+    first_symbols = [atom.GetSymbol() for atom in molecule.GetAtoms()]
+    for candidate in molecules[1:]:
+        if [atom.GetSymbol() for atom in candidate.GetAtoms()] != first_symbols:
+            raise ValueError("All conformers must have identical atom ordering and elements")
+        molecule.AddConformer(candidate.GetConformer(), assignId=True)
+    cutoff = float(settings["rmsd_cutoff_angstrom"])
+    if not math.isfinite(cutoff) or cutoff <= 0:
+        raise ValueError("rmsd_cutoff_angstrom must be positive and finite")
+    atom_selection = str(settings["atom_selection"]).strip().lower()
+    if atom_selection == "all":
+        atom_indices = list(range(molecule.GetNumAtoms()))
+    elif atom_selection == "heavy":
+        atom_indices = [atom.GetIdx() for atom in molecule.GetAtoms() if atom.GetAtomicNum() > 1]
+    else:
+        raise ValueError("atom_selection must be heavy or all")
+    if not atom_indices:
+        raise ValueError("The selected conformer atom set is empty")
+    distances = list(
+        AllChem.GetConformerRMSMatrix(
+            molecule,
+            atomIds=atom_indices,
+            prealigned=bool(settings["prealign_conformers"]),
+        )
+    )
+    cluster_indices = Butina.ClusterData(
+        distances,
+        len(records),
+        cutoff,
+        isDistData=True,
+        reordering=bool(settings["reorder_cluster_centers"]),
+    )
+    clusters = []
+    for cluster_index, members in enumerate(cluster_indices):
+        member_indices = [int(value) for value in members]
+        clusters.append(
+            {
+                "cluster_id": str(cluster_index),
+                "representative_conformer_id": records[member_indices[0]]["conformer_id"],
+                "member_conformer_ids": [records[index]["conformer_id"] for index in member_indices],
+                "member_indices": member_indices,
+                "size": len(member_indices),
+            }
+        )
+    return success(
+        {
+            "clusters": clusters,
+            "cluster_count": len(clusters),
+            "conformer_count": len(records),
+            "rmsd_cutoff_angstrom": cutoff,
+            "atom_selection": atom_selection,
+            "atom_indices": atom_indices,
+            "prealigned": bool(settings["prealign_conformers"]),
+        },
+        backend_version=module_version("rdkit"),
+    )
+
+
+def _align_molecular_structures(request: dict[str, Any]) -> dict[str, Any]:
+    from rdkit.Chem import rdMolAlign
+
+    inputs, _method, settings = request_parts(request)
+    reference = _rdkit_coordinate_molecule(inputs["reference"])
+    probe = _rdkit_coordinate_molecule(inputs["probe"])
+    raw_map = inputs["atom_map"]
+    if not isinstance(raw_map, list) or len(raw_map) < 3:
+        raise ValueError("atom_map must contain at least three [probe_index, reference_index] pairs")
+    atom_map: list[tuple[int, int]] = []
+    for pair in raw_map:
+        if not isinstance(pair, (list, tuple)) or len(pair) != 2:
+            raise ValueError("Each atom_map entry must be [probe_index, reference_index]")
+        probe_index, reference_index = int(pair[0]), int(pair[1])
+        if not 0 <= probe_index < probe.GetNumAtoms():
+            raise ValueError(f"Probe atom index out of range: {probe_index}")
+        if not 0 <= reference_index < reference.GetNumAtoms():
+            raise ValueError(f"Reference atom index out of range: {reference_index}")
+        if probe.GetAtomWithIdx(probe_index).GetAtomicNum() != reference.GetAtomWithIdx(reference_index).GetAtomicNum():
+            raise ValueError("Mapped probe/reference atoms must have the same element")
+        atom_map.append((probe_index, reference_index))
+    if len({pair[0] for pair in atom_map}) != len(atom_map) or len({pair[1] for pair in atom_map}) != len(atom_map):
+        raise ValueError("atom_map indices must be one-to-one")
+    maximum = int(settings["max_iterations"])
+    if maximum < 1 or maximum > 100000:
+        raise ValueError("max_iterations must be between 1 and 100000")
+    rmsd = float(
+        rdMolAlign.AlignMol(
+            probe,
+            reference,
+            atomMap=atom_map,
+            reflect=bool(settings["reflect"]),
+            maxIters=maximum,
+        )
+    )
+    return success(
+        {
+            "aligned_probe": _rdkit_structure(probe),
+            "rmsd_angstrom": rmsd,
+            "atom_map": [list(pair) for pair in atom_map],
+            "reflect": bool(settings["reflect"]),
+        },
+        backend_version=module_version("rdkit"),
+    )
 
 
 def _write_rdkit_sdf(molecule, path: Path, conformer_ids: list[int] | None = None) -> None:
@@ -538,13 +923,185 @@ def _solvate_packmol(request: dict[str, Any]) -> dict[str, Any]:
     )
 
 
+def _pdb_summary(lines: list[str]) -> dict[str, Any]:
+    atom_lines = [line for line in lines if line.startswith(("ATOM  ", "HETATM"))]
+    return {
+        "atom_record_count": len(atom_lines),
+        "heteroatom_record_count": sum(line.startswith("HETATM") for line in atom_lines),
+        "chains": sorted({line[21] for line in atom_lines if len(line) > 21}),
+        "model_count": sum(line.startswith("MODEL") for line in lines) or 1,
+    }
+
+
+def _resolve_pdb_input(value: Any) -> Path:
+    item = unwrap_artifact(value)
+    if isinstance(item, dict) and isinstance(item.get("result"), dict):
+        item = item["result"]
+    if isinstance(item, dict):
+        for key in ("structure_path", "topology_path", "path"):
+            if isinstance(item.get(key), str):
+                return resolve_input_file(item[key])
+    return resolve_input_file(item)
+
+
+def _write_pdb_action(
+    *,
+    action_id: str,
+    filename: str,
+    lines: list[str],
+    details: dict[str, Any],
+) -> dict[str, Any]:
+    directory = output_directory(action_id, "pdb_tools")
+    path = directory / filename
+    path.write_text("".join(lines), encoding="utf-8")
+    return success(
+        {
+            "structure_path": relative_workspace_path(path),
+            **_pdb_summary(lines),
+            **details,
+        },
+        artifact_files=[
+            {
+                "path": relative_workspace_path(path),
+                "semantic_type": "AtomicStructure",
+                "media_type": "chemical/x-pdb",
+            }
+        ],
+        backend_version=module_version("pdb-tools"),
+    )
+
+
+def _select_pdb_subset(request: dict[str, Any]) -> dict[str, Any]:
+    from pdbtools import pdb_delhetatm, pdb_selchain, pdb_selmodel
+
+    inputs, _method, settings = request_parts(request)
+    source = _resolve_pdb_input(inputs["structure"])
+    chains = settings["chains"]
+    models = settings["models"]
+    if not isinstance(chains, (list, tuple)) or any(
+        not isinstance(value, str) or len(value) != 1 for value in chains
+    ):
+        raise ValueError("chains must be a list of one-character PDB chain identifiers")
+    if not isinstance(models, (list, tuple)) or any(int(value) < 1 for value in models):
+        raise ValueError("models must be a list of positive model identifiers")
+    if not isinstance(settings["keep_heteroatoms"], bool):
+        raise ValueError("keep_heteroatoms must be an explicit boolean")
+    with source.open("r", encoding="utf-8", errors="replace") as handle:
+        stream: Any = handle
+        if models:
+            stream = pdb_selmodel.run(stream, {int(value) for value in models})
+        if chains:
+            stream = pdb_selchain.run(stream, set(chains))
+        if not settings["keep_heteroatoms"]:
+            stream = pdb_delhetatm.run(stream)
+        lines = list(stream)
+    if not any(line.startswith(("ATOM  ", "HETATM")) for line in lines):
+        raise ValueError("The requested PDB subset contains no ATOM/HETATM records")
+    return _write_pdb_action(
+        action_id="select_structure_subset",
+        filename="selected.pdb",
+        lines=lines,
+        details={
+            "selected_chains": list(chains),
+            "selected_models": [int(value) for value in models],
+            "keep_heteroatoms": settings["keep_heteroatoms"],
+        },
+    )
+
+
+def _renumber_pdb(request: dict[str, Any]) -> dict[str, Any]:
+    from pdbtools import pdb_reatom, pdb_reres
+
+    inputs, _method, settings = request_parts(request)
+    source = _resolve_pdb_input(inputs["structure"])
+    atom_start = int(settings["starting_atom_serial"])
+    residue_start = int(settings["starting_residue_number"])
+    hybrid36 = settings["hybrid36"]
+    if not isinstance(hybrid36, bool):
+        raise ValueError("hybrid36 must be an explicit boolean")
+    if atom_start < 1:
+        raise ValueError("starting_atom_serial must be positive")
+    if residue_start < -999 or residue_start > 9999:
+        raise ValueError("starting_residue_number must be between -999 and 9999")
+    with source.open("r", encoding="utf-8", errors="replace") as handle:
+        residue_stream = pdb_reres.run(handle, residue_start)
+        lines = list(pdb_reatom.run(residue_stream, atom_start, h36=hybrid36))
+    return _write_pdb_action(
+        action_id="renumber_biomolecular_structure",
+        filename="renumbered.pdb",
+        lines=lines,
+        details={
+            "starting_atom_serial": atom_start,
+            "starting_residue_number": residue_start,
+            "hybrid36": hybrid36,
+        },
+    )
+
+
+def _normalize_pdb(request: dict[str, Any]) -> dict[str, Any]:
+    from pdbtools import pdb_sort, pdb_tidy
+
+    inputs, _method, settings = request_parts(request)
+    source = _resolve_pdb_input(inputs["structure"])
+    sort_by = str(settings["sort_by"]).strip().lower()
+    sort_keys = {
+        "none": None,
+        "chain_and_residue": ["C", "R"],
+        "chain": ["C"],
+        "residue": ["R"],
+    }.get(sort_by)
+    if sort_by not in {"none", "chain_and_residue", "chain", "residue"}:
+        raise ValueError("sort_by must be none, chain_and_residue, chain, or residue")
+    strict = settings["strict_chain_breaks"]
+    hybrid36 = settings["hybrid36"]
+    if not isinstance(strict, bool) or not isinstance(hybrid36, bool):
+        raise ValueError("strict_chain_breaks and hybrid36 must be explicit booleans")
+    source_lines = source.read_text(encoding="utf-8", errors="replace").splitlines(keepends=True)
+    model_count = sum(line.startswith("MODEL") for line in source_lines)
+    if sort_keys is not None and model_count > 1:
+        raise ValueError(
+            "pdb-tools sorting does not support multi-model PDB files; select one model first "
+            "or use sort_by=none"
+        )
+    if sort_keys is not None and model_count == 1:
+        source_lines = [
+            line for line in source_lines if not line.startswith(("MODEL", "ENDMDL"))
+        ]
+    stream: Any = source_lines
+    if sort_keys is not None:
+        stream = pdb_sort.run(stream, sort_keys)
+    lines = list(pdb_tidy.run(stream, strict=strict, h36=hybrid36))
+    return _write_pdb_action(
+        action_id="normalize_pdb_records",
+        filename="normalized.pdb",
+        lines=lines,
+        details={
+            "sort_by": sort_by,
+            "strict_chain_breaks": strict,
+            "hybrid36": hybrid36,
+        },
+    )
+
+
 def execute(action_id: str, backend_id: str, request: dict[str, Any]) -> dict[str, Any]:
+    if action_id == "analyze_crystal_symmetry" and backend_id in {"spglib", "pymatgen"}:
+        return _analyze_crystal_symmetry(backend_id, request)
+    if action_id == "standardize_crystal_structure" and backend_id in {"spglib", "pymatgen"}:
+        return _standardize_crystal(backend_id, request)
+    if action_id == "build_supercell" and backend_id == "pymatgen":
+        return _build_supercell(request)
+    if action_id == "enumerate_surface_slabs" and backend_id == "pymatgen":
+        return _enumerate_surface_slabs(request)
     if action_id == "standardize_structure" and backend_id == "rdkit":
         return _standardize(request)
     if action_id == "generate_3d_structure":
         return _generate_3d_rdkit(request) if backend_id == "rdkit" else _generate_3d_openbabel(request)
     if action_id == "generate_conformer_ensemble":
         return _conformers_rdkit(request) if backend_id == "rdkit_etkdg" else _conformers_crest(request)
+    if action_id == "cluster_conformers" and backend_id == "rdkit":
+        return _cluster_conformers(request)
+    if action_id == "align_molecular_structures" and backend_id == "rdkit":
+        return _align_molecular_structures(request)
     if action_id == "rank_conformers_from_results" and backend_id == "internal_statistics":
         return _rank(request)
     if action_id == "repair_biomolecular_structure" and backend_id == "pdbfixer":
@@ -557,4 +1114,10 @@ def execute(action_id: str, backend_id: str, request: dict[str, Any]) -> dict[st
         return _parameterize_openff(request) if backend_id == "openff" else _parameterize_openmm(request)
     if action_id == "solvate_molecular_system":
         return _solvate_openmm(request) if backend_id == "openmm_builder" else _solvate_packmol(request)
+    if action_id == "select_structure_subset" and backend_id == "pdb_tools":
+        return _select_pdb_subset(request)
+    if action_id == "renumber_biomolecular_structure" and backend_id == "pdb_tools":
+        return _renumber_pdb(request)
+    if action_id == "normalize_pdb_records" and backend_id == "pdb_tools":
+        return _normalize_pdb(request)
     return unsupported(f"Unsupported structure action/backend combination: {action_id}/{backend_id}")

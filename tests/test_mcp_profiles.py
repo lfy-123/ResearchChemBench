@@ -23,7 +23,7 @@ def test_runtimes_cover_each_backend_once():
     }
     assigned = [backend for value in assignments.values() for backend in value["backends"]]
     assert set(assigned) == set(backend_specs())
-    assert len(assigned) == len(set(assigned)) == 55
+    assert len(assigned) == len(set(assigned)) == len(backend_specs())
     for runtime, value in assignments.items():
         assert all(backend_specs()[backend].runtime == runtime for backend in value["backends"])
 
@@ -32,7 +32,7 @@ def test_runtimes_have_unique_researchchem_conda_names():
     config = load_profile_config()
     specifications = [*config["profiles"].values(), *config["support_environments"].values()]
     names = [specification["conda_name"] for specification in specifications]
-    assert len(names) == len(set(names)) == 22
+    assert len(names) == len(set(names)) == len(specifications)
     assert all(name.startswith("researchchem-") for name in names)
 
 
@@ -106,7 +106,7 @@ def test_task_workspace_gets_one_server_full_prompt_and_catalog(tmp_path, monkey
     assert set(claude["mcpServers"]) == {"researchchem_toolbox"}
     assert set(opencode["mcp"]) == {"researchchem_toolbox"}
     catalog = json.loads((runner.workspace / "_toolbox_catalog.json").read_text())
-    assert len(catalog["actions"]) == 45
+    assert len(catalog["actions"]) == len(action_specs())
     prompt = (runner.workspace / "INSTRUCTIONS.md").read_text()
     assert "task-specific tool retrieval" in prompt
     assert "automatic backend selection" in prompt

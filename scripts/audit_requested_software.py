@@ -100,6 +100,10 @@ def runtime_catalog() -> dict[str, dict[str, Any]]:
             result[name] = item
     auxiliary = read_yaml(AUX_CONFIG).get("auxiliary_environments") or {}
     for name, specification in auxiliary.items():
+        if name in result:
+            # Public MCP runtime definitions are authoritative once a software
+            # has a typed backend; auxiliary entries only fill unexposed tools.
+            continue
         item = dict(specification)
         item["name"] = name
         item["group"] = "auxiliary_environments"

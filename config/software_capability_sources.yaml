@@ -1,0 +1,918 @@
+schema_version: 1
+cache_root: .software_cache/documentation
+status_levels: [documented, installed, adapted, validated]
+
+software:
+  rdkit:
+    display_name: RDKit
+    installed_version: 2023.09.6
+    aliases: [RDKit, rdkit, rdkit_etkdg, rdkit_gasteiger]
+    official_sources:
+      - title: RDKit Python getting started and capability guide
+        url: https://www.rdkit.org/docs/GettingStartedInPython.html
+        kind: html
+        version_scope: rolling
+      - title: RDKit molecular alignment API
+        url: https://www.rdkit.org/docs/source/rdkit.Chem.rdMolAlign.html
+        kind: html
+        version_scope: rolling
+      - title: RDKit Butina clustering API
+        url: https://www.rdkit.org/docs/source/rdkit.ML.Cluster.Butina.html
+        kind: html
+        version_scope: rolling
+    candidate_actions:
+      - calculate_molecular_descriptors
+      - calculate_molecular_fingerprint
+      - calculate_molecular_similarity
+      - search_local_substructures
+      - enumerate_tautomers
+      - enumerate_stereoisomers
+      - cluster_conformers
+      - align_molecular_structures
+
+  pubchem:
+    display_name: PubChem PUG REST
+    installed_version: pubchempy-1.0.5
+    aliases: [PubChem, pubchem, pubchempy]
+    official_sources:
+      - title: PubChem PUG REST specification
+        url: https://pubchem.ncbi.nlm.nih.gov/docs/pug-rest
+        kind: html
+        version_scope: service
+      - title: PubChem PUG REST tutorial
+        url: https://pubchem.ncbi.nlm.nih.gov/docs/pug-rest-tutorial
+        kind: html
+        version_scope: service
+    candidate_actions:
+      - resolve_chemical_identity
+      - retrieve_compound_properties
+      - retrieve_compound_structure
+      - search_similar_compounds
+      - search_substructures
+      - search_bioassays
+
+  xtb:
+    display_name: xTB
+    installed_version: 6.7.1
+    aliases: [xTB, xtb]
+    official_sources:
+      - title: xTB documentation
+        url: https://xtb-docs.readthedocs.io/en/latest/
+        kind: html
+        version_scope: rolling
+    candidate_actions:
+      - calculate_forces
+      - calculate_dipole_moment
+      - calculate_atomic_charges
+      - calculate_bond_orders
+      - calculate_fukui_indices
+      - calculate_ionization_potential
+      - calculate_electron_affinity
+      - calculate_solvation_energy
+      - propagate_dynamics
+
+  pyscf:
+    display_name: PySCF
+    installed_version: 2.13.1
+    aliases: [PySCF, pyscf]
+    official_sources:
+      - title: PySCF user guide
+        url: https://pyscf.org/user/
+        kind: html
+        version_scope: rolling
+      - title: PySCF feature list
+        url: https://pyscf.org/features.html
+        kind: html
+        version_scope: rolling
+    candidate_actions:
+      - calculate_forces
+      - calculate_hessian
+      - optimize_geometry
+      - calculate_excited_states
+      - calculate_transition_properties
+      - calculate_polarizability
+      - calculate_nmr_parameters
+      - calculate_energy_decomposition
+      - calculate_periodic_energy
+      - calculate_periodic_forces
+
+  orca:
+    display_name: ORCA
+    installed_version: 6.1.1
+    aliases: [ORCA, orca]
+    official_sources:
+      - title: ORCA 6.1 manual
+        url: https://www.faccts.de/docs/orca/6.1/manual/
+        kind: html
+        version_scope: 6.1
+      - title: ORCA 6.1 PDF manual
+        url: https://www.faccts.de/docs/orca/6.1/manual/_static/pdf/orca.pdf
+        kind: pdf
+        version_scope: 6.1
+      - title: ORCA 6.1 output-control reference
+        url: https://www.faccts.de/docs/orca/6.1/manual/contents/essentialelements/output.html
+        kind: html
+        version_scope: 6.1
+      - title: ORCA 6.1 population-analysis reference
+        url: https://www.faccts.de/docs/orca/6.1/manual/contents/spectroscopyproperties/population.html
+        kind: html
+        version_scope: 6.1
+      - title: ORCA 6.1 TD-DFT and TDA reference
+        url: https://www.faccts.de/docs/orca/6.1/manual/contents/spectroscopyproperties/tddft.html
+        kind: html
+        version_scope: 6.1
+    candidate_actions:
+      - calculate_forces
+      - calculate_atomic_charges
+      - calculate_orbitals
+      - calculate_bond_orders
+      - locate_transition_state
+      - trace_intrinsic_reaction_coordinate
+      - calculate_minimum_energy_path
+      - calculate_excited_states
+      - calculate_transition_properties
+      - calculate_spin_orbit_couplings
+      - calculate_polarizability
+      - calculate_nmr_parameters
+      - calculate_epr_parameters
+      - calculate_energy_decomposition
+      - calculate_solvation_energy
+      - derive_raman_spectrum
+      - derive_uv_vis_spectrum
+      - propagate_dynamics
+
+  cp2k:
+    display_name: CP2K
+    installed_version: 2026.1
+    aliases: [CP2K, cp2k]
+    official_sources:
+      - title: CP2K manual
+        url: https://manual.cp2k.org/trunk/
+        kind: html
+        version_scope: rolling
+      - title: CP2K molecular dynamics documentation
+        url: https://manual.cp2k.org/trunk/methods/sampling/molecular_dynamics.html
+        kind: html
+        version_scope: rolling
+      - title: CP2K properties documentation
+        url: https://manual.cp2k.org/trunk/methods/properties/index.html
+        kind: html
+        version_scope: rolling
+    candidate_actions:
+      - calculate_energy
+      - calculate_forces
+      - optimize_geometry
+      - calculate_hessian
+      - propagate_dynamics
+      - propagate_qmmm_dynamics
+      - calculate_excited_states
+      - calculate_nmr_parameters
+      - derive_raman_spectrum
+      - calculate_electronic_band_structure
+      - calculate_density_of_states
+      - calculate_dielectric_response
+
+  quantum_espresso:
+    display_name: Quantum ESPRESSO
+    installed_version: 7.5
+    aliases: [Quantum ESPRESSO, quantum_espresso, qe]
+    official_sources:
+      - title: Quantum ESPRESSO documentation
+        url: https://www.quantum-espresso.org/documentation/
+        kind: html
+        version_scope: rolling
+    candidate_actions:
+      - calculate_electronic_band_structure
+      - calculate_density_of_states
+      - calculate_projected_density_of_states
+      - calculate_charge_density
+      - calculate_dielectric_response
+      - calculate_dynamical_matrices
+      - calculate_minimum_energy_path
+      - propagate_dynamics
+
+  abinit:
+    display_name: ABINIT
+    installed_version: 10.0.3
+    aliases: [ABINIT, abinit]
+    official_sources:
+      - title: ABINIT documentation
+        url: https://docs.abinit.org/
+        kind: html
+        version_scope: rolling
+    candidate_actions:
+      - calculate_electronic_band_structure
+      - calculate_density_of_states
+      - calculate_charge_density
+      - calculate_dielectric_response
+      - calculate_dynamical_matrices
+      - calculate_born_effective_charges
+      - calculate_optical_spectrum
+
+  lammps:
+    display_name: LAMMPS
+    installed_version: 2025.07.22-update4
+    aliases: [LAMMPS, lammps]
+    official_sources:
+      - title: LAMMPS documentation
+        url: https://docs.lammps.org/
+        kind: html
+        version_scope: rolling
+    candidate_actions:
+      - calculate_force_field_energy
+      - calculate_force_field_forces
+      - decompose_force_field_energy
+      - propagate_enhanced_sampling
+      - run_umbrella_sampling_window
+      - propagate_reactive_dynamics
+
+  plumed:
+    display_name: PLUMED
+    installed_version: 2.9.2
+    aliases: [PLUMED, plumed]
+    official_sources:
+      - title: PLUMED 2.9 documentation
+        url: https://www.plumed.org/doc-v2.9/user-doc/html/index.html
+        kind: html
+        version_scope: 2.9
+      - title: PLUMED metadynamics and free-energy tutorial
+        url: https://www.plumed.org/doc-v2.9/user-doc/html/master-_i_s_d_d-2.html
+        kind: html
+        version_scope: 2.9
+    candidate_actions:
+      - propagate_enhanced_sampling
+      - reconstruct_free_energy_surface
+      - reweight_biased_trajectory
+      - analyze_free_energy_convergence
+
+  phono3py:
+    display_name: Phono3py
+    installed_version: 4.3.3
+    aliases: [Phono3py, phono3py]
+    official_sources:
+      - title: Phono3py documentation
+        url: https://phonopy.github.io/phono3py/
+        kind: html
+        version_scope: rolling
+      - title: Phono3py 4.3.3 API reference
+        url: https://phonopy.github.io/phono3py/api-reference.html
+        kind: html
+        version_scope: 4.3.3
+      - title: Phono3py thermal-conductivity output and units
+        url: https://phonopy.github.io/phono3py/input-output-files.html
+        kind: html
+        version_scope: 4.3.3
+    candidate_actions:
+      - calculate_lattice_thermal_conductivity
+      - calculate_phonon_lifetimes
+      - calculate_phonon_self_energy
+      - calculate_phonon_joint_density_of_states
+      - calculate_isotope_scattering
+
+  rmg:
+    display_name: RMG-Py
+    installed_version: 4.0.0
+    aliases: [RMG-Py, RMG, rmg]
+    official_sources:
+      - title: RMG-Py 4 documentation
+        url: https://reactionmechanismgenerator.github.io/RMG-Py/
+        kind: html
+        version_scope: 4.0
+      - title: RMG and Arkane overview
+        url: https://reactionmechanismgenerator.github.io/
+        kind: html
+        version_scope: rolling
+      - title: RMG-Py Arrhenius, MultiArrhenius, pressure-dependent Arrhenius, and Chebyshev API
+        url: https://reactionmechanismgenerator.github.io/RMG-Py/reference/kinetics/arrhenius.html
+        kind: html
+        version_scope: 4.0
+      - title: RMG-Py Wigner tunneling model API
+        url: https://reactionmechanismgenerator.github.io/RMG-Py/reference/kinetics/wigner.html
+        kind: html
+        version_scope: 4.0
+      - title: RMG-Py Eckart tunneling model API
+        url: https://reactionmechanismgenerator.github.io/RMG-Py/reference/kinetics/eckart.html
+        kind: html
+        version_scope: 4.0
+      - title: RMG-Py kinetics database model overview
+        url: https://reactionmechanismgenerator.github.io/RMG-Py/users/rmg/database/kinetics.html
+        kind: html
+        version_scope: 4.0
+    candidate_actions:
+      - generate_reaction_network
+      - calculate_rate_constants
+      - calculate_tunneling_correction
+      - calculate_pressure_dependent_rates
+      - solve_master_equation
+      - perform_kinetics_sensitivity_analysis
+
+  arkane:
+    display_name: Arkane
+    installed_version: 4.0.0
+    aliases: [Arkane, arkane]
+    official_sources:
+      - title: Arkane user guide
+        url: https://reactionmechanismgenerator.github.io/RMG-Py/users/arkane/
+        kind: html
+        version_scope: 4.0
+    candidate_actions:
+      - derive_thermochemistry
+      - calculate_rate_constants
+      - calculate_pressure_dependent_rates
+
+  sharc:
+    display_name: SHARC
+    installed_version: 4.1
+    aliases: [SHARC, sharc]
+    official_sources:
+      - title: SHARC 4 manual
+        url: https://sharc-md.org/wp-content/uploads/2025/05/SHARC_Manual.pdf
+        kind: pdf
+        version_scope: 4.1
+    candidate_actions:
+      - sample_excited_state_initial_conditions
+      - calculate_nonadiabatic_couplings
+      - propagate_nonadiabatic_dynamics
+
+  qcelemental:
+    display_name: QCElemental
+    aliases: [QCElemental, qcelemental]
+    installed_version: 0.50.4
+    official_sources:
+      - title: QCElemental documentation
+        url: https://molssi.github.io/QCElemental/dev/
+        kind: html
+        version_scope: 0.50-development
+      - title: QCElemental QCSchema Molecule model
+        url: https://molssi.github.io/QCElemental/dev/model_molecule.html
+        kind: html
+        version_scope: development-model-reference
+    candidate_actions:
+      - normalize_qcschema_molecule
+      - validate_qcschema_record
+
+  cclib:
+    display_name: cclib
+    aliases: [cclib]
+    installed_version: 1.8.1
+    official_sources:
+      - title: cclib 1.8.1 parsing guide
+        url: https://cclib.github.io/how_to_parse.html
+        kind: html
+        version_scope: 1.8.1
+      - title: cclib 1.8.1 parsed-data reference
+        url: https://cclib.github.io/data.html
+        kind: html
+        version_scope: 1.8.1
+    candidate_actions:
+      - parse_quantum_chemistry_output
+
+  nwchem:
+    display_name: NWChem
+    aliases: [NWChem, nwchem]
+    installed_version: 7.3.1
+    official_sources:
+      - title: NWChem properties documentation
+        url: https://nwchemgit.github.io/Properties.html
+        kind: html
+        version_scope: 7.x
+      - title: QCEngine single-compute QCSchema documentation
+        url: https://molssi.github.io/QCEngine/dev/single_compute.html
+        kind: html
+        version_scope: 0.50
+    candidate_actions:
+      - calculate_energy
+      - calculate_forces
+      - calculate_hessian
+      - optimize_geometry
+      - calculate_dipole_moment
+      - calculate_atomic_charges
+      - calculate_orbitals
+      - calculate_excited_states
+      - locate_transition_state
+      - trace_intrinsic_reaction_coordinate
+
+  gpaw:
+    display_name: GPAW
+    aliases: [GPAW, gpaw]
+    installed_version: 25.7.0
+    official_sources:
+      - title: GPAW electronic band-structure tutorial
+        url: https://gpaw.readthedocs.io/tutorialsexercises/electronic/bandstructures/bandstructures.html
+        kind: html
+        version_scope: 25.x
+      - title: GPAW total and projected density-of-states documentation
+        url: https://gpaw.readthedocs.io/tutorialsexercises/electronic/dos/dos.html
+        kind: html
+        version_scope: 25.x
+      - title: GPAW fixed-density calculation reference
+        url: https://gpaw.readthedocs.io/documentation/basic.html
+        kind: html
+        version_scope: 25.x
+    candidate_actions:
+      - calculate_energy
+      - calculate_forces
+      - optimize_geometry
+      - calculate_periodic_energy
+      - calculate_periodic_forces
+      - calculate_periodic_stress
+      - relax_periodic_structure
+      - calculate_electronic_band_structure
+      - calculate_density_of_states
+      - calculate_dielectric_response
+
+  pymatgen:
+    display_name: pymatgen
+    aliases: [pymatgen]
+    installed_version: 2026.5.4
+    candidate_actions:
+      - analyze_crystal_symmetry
+      - standardize_crystal_structure
+      - build_supercell
+      - generate_surface_slab
+      - generate_defect_structures
+      - identify_adsorption_sites
+      - calculate_phase_diagram
+
+  spglib:
+    display_name: spglib
+    aliases: [spglib]
+    installed_version: 2.7.0
+    candidate_actions:
+      - analyze_crystal_symmetry
+      - standardize_crystal_structure
+      - identify_primitive_cell
+
+  mdtraj:
+    display_name: MDTraj
+    aliases: [MDTraj, mdtraj]
+    installed_version: 1.11.1
+    official_sources:
+      - title: MDTraj project and analysis documentation
+        url: https://www.mdtraj.org/
+        kind: html
+        version_scope: rolling
+      - title: MDTraj RMSD API reference
+        url: https://mdtraj.org/1.9.4/api/generated/mdtraj.rmsd.html
+        kind: html
+        version_scope: stable-api
+      - title: MDTraj DSSP API reference
+        url: https://mdtraj.org/1.7.2/api/generated/mdtraj.compute_dssp.html
+        kind: html
+        version_scope: stable-api
+    candidate_actions:
+      - calculate_trajectory_rmsd
+      - calculate_radius_of_gyration
+      - calculate_contacts
+      - calculate_solvent_accessible_surface
+      - assign_secondary_structure
+      - calculate_dihedral_distribution
+      - cluster_trajectory
+
+  hoomd_blue:
+    display_name: HOOMD-blue
+    aliases: [HOOMD-blue, hoomd, hoomd_blue]
+    installed_version: 7.1.0
+    candidate_actions:
+      - minimize_system_energy
+      - propagate_dynamics
+      - calculate_force_field_energy
+      - calculate_force_field_forces
+
+  pymbar:
+    display_name: PyMBAR
+    aliases: [pymbar, PyMBAR]
+    installed_version: 4.2.0
+    official_sources:
+      - title: PyMBAR MBAR API and expectation/free-energy methods
+        url: https://pymbar.readthedocs.io/en/master/mbar.html
+        kind: html
+        version_scope: 4.x
+      - title: PyMBAR free-energy-surface guide
+        url: https://pymbar.readthedocs.io/en/stable/fes_with_pymbar.html
+        kind: html
+        version_scope: 4.2
+    candidate_actions:
+      - estimate_free_energy_difference
+      - calculate_potential_of_mean_force
+      - analyze_free_energy_convergence
+      - estimate_thermodynamic_expectations
+
+  alchemlyb:
+    display_name: alchemlyb
+    aliases: [alchemlyb]
+    installed_version: 2.5.0
+    candidate_actions:
+      - parse_alchemical_energy_data
+      - estimate_free_energy_difference
+      - analyze_free_energy_convergence
+
+  multiwfn:
+    display_name: Multiwfn
+    aliases: [Multiwfn, multiwfn]
+    installed_version: 2026.7.15
+    official_sources:
+      - title: Multiwfn official website
+        url: http://sobereva.com/multiwfn/
+        kind: html
+        version_scope: 2026.7.15
+    local_documents:
+      - .software_cache/multiwfn/2026.7.15/Multiwfn_2026.7.15_bin_Linux_noGUI/Multiwfn quick start.pdf
+      - .software_cache/multiwfn/2026.7.15/Multiwfn_2026.7.15_bin_Linux_noGUI/How to cite Multiwfn.pdf
+      - .software_cache/multiwfn/2026.7.15/Multiwfn_2026.7.15_bin_Linux_noGUI/LICENSE.txt
+    candidate_actions:
+      - calculate_atomic_charges
+      - analyze_electron_density_topology
+      - calculate_atomic_basin_properties
+      - calculate_bond_orders
+      - analyze_non_covalent_interactions
+      - calculate_electrostatic_potential
+      - calculate_orbital_composition
+
+  critic2:
+    display_name: Critic2
+    aliases: [Critic2, critic2]
+    installed_version: 1.2.1081
+    official_sources:
+      - title: Critic2 reference manual
+        url: https://aoterodelaroza.github.io/critic2/manual/
+        kind: html
+        version_scope: rolling-development
+      - title: Critic2 scalar-field loading and interpolation reference
+        url: https://aoterodelaroza.github.io/critic2/manual/fields/
+        kind: html
+        version_scope: rolling-development
+      - title: Critic2 critical-point search and CPREPORT reference
+        url: https://aoterodelaroza.github.io/critic2/manual/cpsearch/
+        kind: html
+        version_scope: rolling-development
+      - title: Critic2 atomic-basin integration reference
+        url: https://aoterodelaroza.github.io/critic2/manual/integrate/
+        kind: html
+        version_scope: rolling-development
+      - title: Critic2 grid-density critical-point examples
+        url: https://aoterodelaroza.github.io/critic2/examples/example_08_01_gridcps/
+        kind: html
+        version_scope: rolling-development
+      - title: Critic2 grid atomic-property integration examples
+        url: https://aoterodelaroza.github.io/critic2/examples/example_11_01_simple-integration/
+        kind: html
+        version_scope: rolling-development
+      - title: Critic2 source repository
+        url: https://github.com/aoterodelaroza/critic2
+        kind: html
+        version_scope: development
+    candidate_actions:
+      - analyze_electron_density_topology
+      - calculate_atomic_basin_properties
+      - calculate_bader_charges
+
+  shengbte:
+    display_name: ShengBTE
+    aliases: [ShengBTE, shengbte]
+    installed_version: source-b0d2090
+    official_sources:
+      - title: ShengBTE official documentation
+        url: https://www.shengbte.org/documentation
+        kind: html
+        version_scope: stable-master
+      - title: ShengBTE official feature overview
+        url: https://www.shengbte.org/features
+        kind: html
+        version_scope: stable-master
+      - title: ShengBTE official Bitbucket source
+        url: https://bitbucket.org/sousaw/shengbte
+        kind: html
+        version_scope: source-b0d2090
+    local_documents:
+      - .software_cache/shengbte/source/README.md
+    candidate_actions:
+      - calculate_lattice_thermal_conductivity
+
+  wannier90:
+    display_name: Wannier90
+    aliases: [Wannier90, wannier90]
+    candidate_actions:
+      - construct_wannier_functions
+      - interpolate_electronic_bands
+      - calculate_berry_phase_properties
+
+  yambo:
+    display_name: Yambo
+    aliases: [Yambo, yambo]
+    installed_version: 5.3.0
+    candidate_actions:
+      - calculate_quasiparticle_energies
+      - calculate_optical_spectrum
+      - calculate_exciton_properties
+      - calculate_dielectric_response
+
+  lobster:
+    display_name: LOBSTER
+    aliases: [LOBSTER, lobster]
+    installed_version: 5.1.0
+    official_sources:
+      - title: LOBSTER official project site
+        url: https://www.cohp.de/
+        kind: html
+        version_scope: rolling
+    local_documents:
+      - .software_cache/lobster/5.1.0/package/Lobster_Users_Guide_5.1.0.pdf
+      - .software_cache/lobster/5.1.0/package/Lobster_FAQ_5.1.0.pdf
+      - .software_cache/lobster/5.1.0/package/CHANGELOG.pdf
+    candidate_actions:
+      - analyze_periodic_bonding
+      - calculate_projected_density_of_states
+      - calculate_charge_spilling
+
+  mess:
+    display_name: MESS
+    aliases: [MESS, mess]
+    installed_version: 2020.1.24
+    official_sources:
+      - title: PAPR MESS official code, manual, and examples page
+        url: https://tcg.cse.anl.gov/papr/codes/mess.html
+        kind: html
+        version_scope: 2020.1.24
+      - title: MESS master equation solver manual
+        url: https://tcg.cse.anl.gov/papr/codes/mess/messmanual_3_23_16.pdf
+        kind: pdf
+        version_scope: 2020.1.24-compatible
+    local_documents:
+      - .software_cache/mess/2020.1.24/examples/MESS_Examples.pdf
+    candidate_actions:
+      - solve_master_equation
+
+  mesmer:
+    display_name: MESMER
+    aliases: [MESMER, mesmer]
+    installed_version: 7.1
+    official_sources:
+      - title: MESMER 7.1 official SourceForge release
+        url: https://sourceforge.net/projects/mesmer/files/mesmer/7.1/
+        kind: html
+        version_scope: 7.1
+    local_documents:
+      - .software_cache/mesmer/7.1/Documentation/MESMER manual.pdf
+      - .software_cache/mesmer/7.1/Documentation/MESMER examples.pdf
+      - .software_cache/mesmer/7.1/README
+    candidate_actions:
+      - solve_master_equation
+
+  openmolcas:
+    display_name: OpenMolcas
+    aliases: [OpenMolcas, openmolcas]
+    installed_version: "25.10"
+    official_sources:
+      - title: OpenMolcas SCF user guide
+        url: https://molcas.gitlab.io/OpenMolcas/sphinx/users.guide/programs/scf.html
+        kind: html
+        version_scope: 25.10-compatible-rolling
+      - title: OpenMolcas GATEWAY user guide
+        url: https://molcas.gitlab.io/OpenMolcas/sphinx/users.guide/programs/gateway.html
+        kind: html
+        version_scope: 25.10-compatible-rolling
+      - title: OpenMolcas complete manual PDF
+        url: https://molcas.gitlab.io/OpenMolcas/Manual.pdf
+        kind: pdf
+        version_scope: rolling
+    local_documents:
+      - .software_cache/openmolcas/source/README.md
+      - .software_cache/openmolcas/25.10/data/keyword.xml
+    candidate_actions:
+      - calculate_energy
+      - calculate_dipole_moment
+      - calculate_atomic_charges
+      - calculate_orbitals
+      - calculate_forces
+      - optimize_geometry
+      - calculate_excited_states
+      - calculate_transition_properties
+      - calculate_spin_orbit_couplings
+      - calculate_multireference_states
+      - calculate_xray_spectrum
+
+  theodore:
+    display_name: TheoDORE
+    aliases: [TheoDORE, theodore]
+    installed_version: 2.5.0
+    official_sources:
+      - title: TheoDORE transition-density-matrix analysis documentation
+        url: https://theodore-qc.sourceforge.io/docs/transition_density_analysis.html
+        kind: html
+        version_scope: rolling-3.x; concepts also apply to installed 2.5.0
+      - title: TheoDORE command-line usage documentation
+        url: https://theodore-qc.sourceforge.io/docs/usage.html
+        kind: html
+        version_scope: rolling-3.x; command interface differs from installed 2.5.0
+      - title: TheoDORE program-specific input documentation
+        url: https://theodore-qc.sourceforge.io/docs/program_specific_information.html
+        kind: html
+        version_scope: rolling-3.x; verify formats against installed 2.5.0
+    candidate_actions:
+      - analyze_excited_state_character
+      - calculate_natural_transition_orbitals
+      - analyze_charge_transfer_states
+      - calculate_exciton_descriptors
+
+  newton_x:
+    display_name: Newton-X
+    aliases: [Newton-X, newton_x, newtonx]
+    installed_version: 3.5.3
+    candidate_actions:
+      - sample_excited_state_initial_conditions
+      - propagate_nonadiabatic_dynamics
+      - analyze_nonadiabatic_trajectory
+
+  mdanalysis:
+    display_name: MDAnalysis
+    installed_version: 2.9.0
+    aliases: [MDAnalysis, mdanalysis]
+    official_sources:
+      - title: MDAnalysis 2.9.0 trajectory-analysis documentation
+        url: https://docs.mdanalysis.org/2.9.0/documentation_pages/analysis_modules.html
+        kind: html
+        version_scope: 2.9.0
+      - title: MDAnalysis 2.9.0 hydrogen-bond analysis
+        url: https://docs.mdanalysis.org/2.9.0/documentation_pages/analysis/hydrogenbonds.html
+        kind: html
+        version_scope: 2.9.0
+      - title: MDAnalysis principal-component analysis
+        url: https://docs.mdanalysis.org/2.9.0/documentation_pages/analysis/pca.html
+        kind: html
+        version_scope: 2.9.0
+    candidate_actions:
+      - calculate_contacts
+      - calculate_hydrogen_bonds
+      - calculate_solvent_accessible_surface
+      - calculate_dihedral_distribution
+      - calculate_principal_components
+      - calculate_dynamic_cross_correlation
+      - cluster_trajectory
+
+  phonopy:
+    display_name: Phonopy
+    aliases: [Phonopy, phonopy]
+    candidate_actions:
+      - calculate_harmonic_thermodynamics
+      - calculate_group_velocities
+      - calculate_gruneisen_parameters
+      - calculate_quasiharmonic_properties
+
+  vasp:
+    display_name: VASP
+    aliases: [VASP, vasp]
+    installed_version: 6.3.2
+    candidate_actions:
+      - calculate_electronic_band_structure
+      - calculate_density_of_states
+      - calculate_projected_density_of_states
+      - calculate_charge_density
+      - calculate_dielectric_response
+      - calculate_optical_spectrum
+      - calculate_elastic_tensor
+      - calculate_minimum_energy_path
+      - propagate_dynamics
+
+  openmm:
+    display_name: OpenMM
+    installed_version: 8.5.2
+    aliases: [OpenMM, openmm]
+    official_sources:
+      - title: OpenMM Context state, energy, force, and force-group API
+        url: https://docs.openmm.org/latest/api-python/generated/openmm.openmm.Context.html
+        kind: html
+        version_scope: 8.5
+      - title: OpenMM State energy and force API
+        url: https://docs.openmm.org/latest/api-python/generated/openmm.openmm.State.html
+        kind: html
+        version_scope: 8.5
+    candidate_actions:
+      - calculate_force_field_energy
+      - calculate_force_field_forces
+      - decompose_force_field_energy
+      - propagate_enhanced_sampling
+      - run_umbrella_sampling_window
+
+  gromacs:
+    display_name: GROMACS
+    aliases: [GROMACS, gromacs]
+    candidate_actions:
+      - calculate_force_field_energy
+      - calculate_force_field_forces
+      - decompose_force_field_energy
+      - propagate_enhanced_sampling
+      - run_umbrella_sampling_window
+
+  vina:
+    display_name: AutoDock Vina
+    aliases: [AutoDock Vina, vina]
+    candidate_actions:
+      - score_docking_pose
+      - refine_docking_pose
+      - screen_ligand_library
+
+  gnina:
+    display_name: GNINA
+    aliases: [GNINA, gnina]
+    candidate_actions:
+      - score_docking_pose
+      - refine_docking_pose
+      - rescore_docking_poses
+      - screen_ligand_library
+
+  censo:
+    display_name: CENSO
+    aliases: [CENSO, censo]
+    candidate_actions:
+      - refine_conformer_energies
+      - calculate_conformer_thermochemistry
+
+  autode:
+    display_name: autodE
+    aliases: [autodE, autode]
+    installed_version: 1.4.5
+    candidate_actions:
+      - search_reaction_pathways
+      - locate_transition_state
+      - calculate_reaction_profile
+
+  geometric:
+    display_name: geomeTRIC
+    aliases: [geomeTRIC, geometric]
+    installed_version: 1.1.1
+    official_sources:
+      - title: geomeTRIC 1.1 documentation
+        url: https://geometric.readthedocs.io/en/latest/
+        kind: html
+        version_scope: 1.1
+      - title: geomeTRIC custom and ASE calculator engines
+        url: https://geometric.readthedocs.io/en/latest/engines.html
+        kind: html
+        version_scope: 1.1
+      - title: geomeTRIC constrained optimization format
+        url: https://geometric.readthedocs.io/en/latest/constraints.html
+        kind: html
+        version_scope: 1.1
+    candidate_actions:
+      - optimize_geometry
+      - optimize_constrained_geometry
+
+  sella:
+    display_name: Sella
+    aliases: [Sella, sella]
+    installed_version: 2.5.0
+    official_sources:
+      - title: Sella official source and usage documentation
+        url: https://github.com/zadorlab/sella
+        kind: html
+        version_scope: 2.5.0
+    candidate_actions:
+      - optimize_geometry
+      - locate_transition_state
+
+  automekin:
+    display_name: AutoMeKin
+    aliases: [AutoMeKin, automekin]
+    candidate_actions:
+      - search_reaction_pathways
+      - generate_reaction_network
+
+  kinbot:
+    display_name: KinBot
+    aliases: [KinBot, kinbot]
+    installed_version: 2.2.2
+    candidate_actions:
+      - search_reaction_pathways
+      - generate_reaction_network
+
+  vmd:
+    display_name: VMD
+    aliases: [VMD, vmd]
+    installed_version: 1.9.3
+    candidate_actions:
+      - render_molecular_structure
+      - render_trajectory_frame
+      - render_molecular_trajectory
+
+  vesta:
+    display_name: VESTA
+    aliases: [VESTA, vesta]
+    installed_version: 3.90.5a
+    candidate_actions:
+      - render_crystal_structure
+      - render_volumetric_isosurface
+
+  pdb_tools:
+    display_name: pdb-tools
+    aliases: [pdb-tools, pdb_tools, pdbtools]
+    installed_version: 2.7.0
+    official_sources:
+      - title: pdb-tools source and command documentation
+        url: https://github.com/haddocking/pdb-tools
+        kind: html
+        version_scope: 2.7.0
+    candidate_actions:
+      - select_structure_subset
+      - renumber_biomolecular_structure
+      - normalize_pdb_records

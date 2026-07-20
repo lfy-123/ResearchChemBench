@@ -8,6 +8,7 @@ import importlib
 import json
 import math
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -67,10 +68,29 @@ def main() -> int:
             stderr=subprocess.STDOUT,
             check=False,
         )
+    dependency_lines = (
+        [line.strip() for line in dependency_probe.stdout.splitlines() if line.strip()]
+        if dependency_probe.returncode != 0
+        else []
+    )
+    allowed_dependency_patterns = [
+        re.compile(str(value))
+        for value in health.get("allowed_dependency_issue_patterns", [])
+    ]
+    ignored_dependency_issues = [
+        line
+        for line in dependency_lines
+        if any(pattern.fullmatch(line) for pattern in allowed_dependency_patterns)
+    ]
+    unignored_dependency_issues = [
+        line for line in dependency_lines if line not in ignored_dependency_issues
+    ]
     dependency_check = {
-        "success": dependency_probe.returncode == 0,
+        "success": dependency_probe.returncode == 0 or not unignored_dependency_issues,
         "returncode": dependency_probe.returncode,
         "output": dependency_probe.stdout.strip(),
+        "ignored_issues": ignored_dependency_issues,
+        "unignored_issues": unignored_dependency_issues,
     }
 
     model_results = {}

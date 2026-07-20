@@ -72,7 +72,7 @@ auxiliary_environments:
     conda_name: researchchem-kinbot
     environment: .tool_envs/kinbot
     description: KinBot 2.2.2 with Sella/JAX and geometry dependencies.
-    conda_packages: [numpy=1.26, scipy, ase, networkx, matplotlib, rmsd, openbabel, jax=0.10.2, jaxlib=0.10.2]
+    conda_packages: [numpy=1.26, scipy, ase, networkx, matplotlib, rmsd, openbabel, jax=0.4.35, jaxlib=0.4.35]
     pip_packages: [kinbot=2.2.2, sella=2.5.0]
     modules: [kinbot, sella, jax, openbabel]
     commands: [kinbot, pes]

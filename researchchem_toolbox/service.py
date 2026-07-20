@@ -51,7 +51,8 @@ def execute_action(action_id: str, request_value: ActionRequest | dict[str, Any]
         return _invalid(action_id, None, str(exc))
 
     specification = actions[action_id]
-    if specification.data_action:
+    policy = specification.selection_policy
+    if policy == "fixed_source":
         fixed_backend = specification.backend_ids[0]
         if request.backend_id is not None and request.backend_id != fixed_backend:
             return _invalid(
@@ -59,13 +60,46 @@ def execute_action(action_id: str, request_value: ActionRequest | dict[str, Any]
                 request.backend_id,
                 f"Data Action {action_id} uses fixed data source {fixed_backend}",
             )
+        if request.source_id is not None and request.source_id != fixed_backend:
+            return _invalid(
+                action_id,
+                request.source_id,
+                f"Data Action {action_id} uses fixed data source {fixed_backend}",
+            )
+        if request.component_backends:
+            return _invalid(action_id, fixed_backend, f"Data Action {action_id} does not accept component_backends")
         backend_id = fixed_backend
         selection_source = "fixed_data_source"
-    else:
+    elif policy == "internal_deterministic":
+        fixed_backend = specification.backend_ids[0]
+        if request.backend_id is not None and request.backend_id != fixed_backend:
+            return _invalid(
+                action_id,
+                request.backend_id,
+                f"Action {action_id} uses fixed deterministic provider {fixed_backend}",
+            )
+        if request.source_id is not None or request.component_backends:
+            return _invalid(
+                action_id,
+                request.backend_id,
+                f"Action {action_id} does not accept source_id or component_backends",
+            )
+        backend_id = fixed_backend
+        selection_source = "internal_deterministic"
+    elif policy == "agent_source_required":
+        if request.source_id is None:
+            return _invalid(action_id, None, "source_id is required for this Data Action")
+        if request.backend_id is not None or request.component_backends:
+            return _invalid(action_id, request.backend_id, "This Data Action accepts source_id, not backend_id/component_backends")
+        backend_id = request.source_id
+        selection_source = "agent_data_source"
+    elif policy in {"agent_backend_required", "agent_components_required"}:
         if request.backend_id is None:
             return _invalid(action_id, None, "backend_id is required for every Scientific Action")
         backend_id = request.backend_id
-        selection_source = "agent"
+        selection_source = "agent_components" if policy == "agent_components_required" else "agent"
+    else:  # defensive guard for stale serialized catalogs
+        return _invalid(action_id, request.backend_id, f"Unknown selection policy: {policy}")
     if backend_id not in specification.backend_ids:
         return _invalid(
             action_id,
@@ -73,7 +107,6 @@ def execute_action(action_id: str, request_value: ActionRequest | dict[str, Any]
             f"Backend {backend_id!r} does not declare support for action {action_id!r}",
             code="unsupported_backend",
         )
-
     missing_inputs = [name for name in specification.required_inputs if name not in request.inputs]
     if missing_inputs:
         return _invalid(
@@ -82,6 +115,60 @@ def execute_action(action_id: str, request_value: ActionRequest | dict[str, Any]
             f"Missing required inputs: {missing_inputs}",
         )
     backend = backends[backend_id]
+    missing_backend_inputs = [
+        name
+        for name in backend.required_input_fields.get(action_id, ())
+        if name not in request.inputs
+    ]
+    if missing_backend_inputs:
+        return _invalid(
+            action_id,
+            backend_id,
+            f"Missing backend-specific required inputs: {missing_backend_inputs}",
+        )
+    required_component_roles = backend.required_component_roles.get(action_id, ())
+    component_options = backend.component_backend_options.get(action_id, {})
+    backend_uses_components = bool(required_component_roles or component_options)
+    if request.component_backends and not backend_uses_components:
+        return _invalid(
+            action_id,
+            backend_id,
+            f"Backend {backend_id!r} for action {action_id!r} does not use component_backends",
+        )
+    if backend_uses_components:
+        selection_source = "agent_components"
+    missing_component_roles = [
+        role for role in required_component_roles if role not in request.component_backends
+    ]
+    if missing_component_roles:
+        return _invalid(
+            action_id,
+            backend_id,
+            f"Missing explicitly required component_backends roles: {missing_component_roles}",
+        )
+    component_specs = []
+    for role, component_backend_id in request.component_backends.items():
+        if component_backend_id not in backends:
+            return _invalid(
+                action_id,
+                backend_id,
+                f"Unknown component backend {component_backend_id!r} for role {role!r}",
+            )
+        allowed = component_options.get(role)
+        if allowed is None:
+            return _invalid(
+                action_id,
+                backend_id,
+                f"Unsupported component backend role {role!r} for {backend_id}/{action_id}",
+            )
+        if allowed is not None and component_backend_id not in allowed:
+            return _invalid(
+                action_id,
+                backend_id,
+                f"Component backend {component_backend_id!r} is not allowed for role {role!r}; "
+                f"choose one of {list(allowed)}",
+            )
+        component_specs.append(backends[component_backend_id])
     resource_references = collect_resource_references(
         {"inputs": request.inputs, "method_spec": request.method_spec}
     )
@@ -107,7 +194,36 @@ def execute_action(action_id: str, request_value: ActionRequest | dict[str, Any]
             "Missing explicitly required scientific settings: " + "; ".join(parts),
         )
 
-    health = probe_all_backends((backend,))[backend_id]
+    health_values = probe_all_backends((backend, *component_specs))
+    health = health_values[backend_id]
+    unavailable_components = {
+        role: health_values[component_backend_id]
+        for role, component_backend_id in request.component_backends.items()
+        if not health_values[component_backend_id]["available"]
+    }
+    if unavailable_components:
+        return ActionResult(
+            status="unavailable",
+            action=action_id,
+            action_version=specification.version,
+            requested_backend=backend_id,
+            backend=backend_id,
+            selection_source=selection_source,
+            error={
+                "code": "component_backend_unavailable",
+                "message": "One or more Agent-selected component backends are unavailable",
+                "components": unavailable_components,
+            },
+            retryable=False,
+            provenance={
+                "catalog_hash": active_catalog_hash(),
+                "agent_selected_action": action_id,
+                "agent_selected_backend": backend_id,
+                "agent_selected_component_backends": request.component_backends,
+                "agent_selected_source_id": request.source_id,
+                "automatic_fallback_count": 0,
+            },
+        ).model_dump(mode="json")
     if not health["available"]:
         return ActionResult(
             status="unavailable",
@@ -129,6 +245,8 @@ def execute_action(action_id: str, request_value: ActionRequest | dict[str, Any]
                 "agent_selected_method_spec": request.method_spec,
                 "agent_selected_action_settings": request.action_settings,
                 "agent_selected_resource_refs": resource_references,
+                "agent_selected_component_backends": request.component_backends,
+                "agent_selected_source_id": request.source_id,
                 "runtime_profile": backend.runtime,
                 "automatic_fallback_count": 0,
             },
@@ -192,6 +310,8 @@ def execute_action(action_id: str, request_value: ActionRequest | dict[str, Any]
         "agent_selected_method_spec": request.method_spec,
         "agent_selected_action_settings": request.action_settings,
         "agent_selected_resource_refs": resource_references,
+        "agent_selected_component_backends": request.component_backends,
+        "agent_selected_source_id": request.source_id,
         "runtime_profile": backend.runtime,
         "dispatcher_executed_backend": backend_id,
         "automatic_fallback_count": 0,

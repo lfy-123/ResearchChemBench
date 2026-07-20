@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from researchchem_toolbox.backends import data, docking, dynamics, electronic, periodic, reaction, structure
+from researchchem_toolbox.backends import cheminformatics, data, docking, dynamics, electronic, interchange, periodic, reaction, structure
 from researchchem_toolbox.catalog import action_specs
 from researchchem_toolbox.service import execute_action
 
@@ -8,6 +8,8 @@ from researchchem_toolbox.service import execute_action
 def test_every_public_action_has_a_handler_module():
     handled = set().union(
         structure.ACTIONS,
+        interchange.ACTIONS,
+        cheminformatics.ACTIONS,
         electronic.ACTIONS,
         reaction.ACTIONS,
         dynamics.ACTIONS,

@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-07-20T03:37:59.669881+00:00",
-  "scientific_actions": 40,
-  "data_actions": 5,
-  "backend_count": 55,
+  "generated_at": "2026-07-20T15:41:03.425112+00:00",
+  "scientific_actions": 91,
+  "data_actions": 10,
+  "backend_count": 76,
   "checks": [
     {
       "name": "catalog",
@@ -25,12 +25,71 @@
     }
   ],
   "catalog": {
-    "schema_version": 3,
+    "schema_version": 4,
     "exposure_policy": "atomic_all",
-    "backend_selection_policy": "agent_required",
+    "backend_selection_policy": "per_action_explicit",
+    "provider_selection_policies": [
+      "agent_backend_required",
+      "fixed_source",
+      "internal_deterministic"
+    ],
     "scientific_resource_selection_policy": "agent_explicit_no_default",
     "automatic_fallback": false,
     "actions": [
+      {
+        "id": "normalize_qcschema_molecule",
+        "category": "scientific_data_interchange",
+        "description": "Validate and normalize one supplied molecular structure into a QCSchema Molecule record without launching a calculation.",
+        "primary_output": "QCSchemaMolecule",
+        "backend_ids": [
+          "qcelemental"
+        ],
+        "required_inputs": [
+          "structure"
+        ],
+        "optional_inputs": [],
+        "input_description": "AtomicStructure or existing QCSchema Molecule mapping",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "internal_deterministic"
+      },
+      {
+        "id": "validate_qcschema_record",
+        "category": "scientific_data_interchange",
+        "description": "Validate one explicit QCSchema/QCArchive record type and return a normalized record or structured validation errors without executing it.",
+        "primary_output": "QCSchemaValidationResult",
+        "backend_ids": [
+          "qcelemental"
+        ],
+        "required_inputs": [
+          "record"
+        ],
+        "optional_inputs": [],
+        "input_description": "JSON-compatible record mapping or workspace JSON Artifact",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "internal_deterministic"
+      },
+      {
+        "id": "parse_quantum_chemistry_output",
+        "category": "scientific_data_interchange",
+        "description": "Parse explicitly selected properties from one existing quantum-chemistry output file without rerunning the calculation.",
+        "primary_output": "ParsedQuantumChemistryResult",
+        "backend_ids": [
+          "cclib"
+        ],
+        "required_inputs": [
+          "output_file"
+        ],
+        "optional_inputs": [],
+        "input_description": "workspace Gaussian, ORCA, NWChem, GAMESS, Q-Chem, Molpro, or other cclib-supported output Artifact",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "internal_deterministic"
+      },
       {
         "id": "standardize_structure",
         "category": "structure_and_system",
@@ -46,7 +105,8 @@
         "input_description": "structure: SMILES or a molecule/structure object",
         "version": "1.0.0",
         "data_action": false,
-        "requires_network": false
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
       },
       {
         "id": "generate_3d_structure",
@@ -64,7 +124,8 @@
         "input_description": "molecule: standardized SMILES or molecule object",
         "version": "1.0.0",
         "data_action": false,
-        "requires_network": false
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
       },
       {
         "id": "generate_conformer_ensemble",
@@ -84,7 +145,46 @@
         "input_description": "molecule plus optional initial_structure Artifact for CREST",
         "version": "1.0.0",
         "data_action": false,
-        "requires_network": false
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
+      },
+      {
+        "id": "cluster_conformers",
+        "category": "structure_and_system",
+        "description": "Cluster an already supplied conformer ensemble by an explicit heavy/all-atom RMSD cutoff without generating or ranking conformers.",
+        "primary_output": "ConformerClusterResult",
+        "backend_ids": [
+          "rdkit"
+        ],
+        "required_inputs": [
+          "ensemble"
+        ],
+        "optional_inputs": [],
+        "input_description": "ConformerEnsemble Artifact or structured ensemble plus an explicit RMSD clustering policy",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
+      },
+      {
+        "id": "align_molecular_structures",
+        "category": "structure_and_system",
+        "description": "Rigidly align one supplied 3D probe structure to a reference using an explicit atom-to-atom map.",
+        "primary_output": "StructureAlignmentResult",
+        "backend_ids": [
+          "rdkit"
+        ],
+        "required_inputs": [
+          "reference",
+          "probe",
+          "atom_map"
+        ],
+        "optional_inputs": [],
+        "input_description": "two coordinate-bearing molecular structures and explicit [probe_index, reference_index] atom pairs",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
       },
       {
         "id": "rank_conformers_from_results",
@@ -102,7 +202,8 @@
         "input_description": "ensemble and one aligned score record per conformer",
         "version": "1.0.0",
         "data_action": false,
-        "requires_network": false
+        "requires_network": false,
+        "selection_policy": "internal_deterministic"
       },
       {
         "id": "repair_biomolecular_structure",
@@ -119,7 +220,62 @@
         "input_description": "biomolecular structure or workspace PDB Artifact",
         "version": "1.0.0",
         "data_action": false,
-        "requires_network": false
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
+      },
+      {
+        "id": "select_structure_subset",
+        "category": "structure_and_system",
+        "description": "Select explicit chains and/or models from one PDB structure, with an explicit choice about retaining heteroatom records.",
+        "primary_output": "AtomicStructure",
+        "backend_ids": [
+          "pdb_tools"
+        ],
+        "required_inputs": [
+          "structure"
+        ],
+        "optional_inputs": [],
+        "input_description": "workspace PDB Artifact plus explicit chain/model filters",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "internal_deterministic"
+      },
+      {
+        "id": "renumber_biomolecular_structure",
+        "category": "structure_and_system",
+        "description": "Renumber PDB atom serials and residue identifiers from explicit starting values without changing coordinates or chemistry.",
+        "primary_output": "AtomicStructure",
+        "backend_ids": [
+          "pdb_tools"
+        ],
+        "required_inputs": [
+          "structure"
+        ],
+        "optional_inputs": [],
+        "input_description": "workspace PDB Artifact and explicit starting serial/residue values",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "internal_deterministic"
+      },
+      {
+        "id": "normalize_pdb_records",
+        "category": "structure_and_system",
+        "description": "Sort and format one PDB record stream under explicit ordering, chain-break, and hybrid-36 choices.",
+        "primary_output": "AtomicStructure",
+        "backend_ids": [
+          "pdb_tools"
+        ],
+        "required_inputs": [
+          "structure"
+        ],
+        "optional_inputs": [],
+        "input_description": "workspace PDB Artifact and explicit PDB formatting policy",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "internal_deterministic"
       },
       {
         "id": "assign_protonation_states",
@@ -137,7 +293,8 @@
         "input_description": "standardized or repaired structure",
         "version": "1.0.0",
         "data_action": false,
-        "requires_network": false
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
       },
       {
         "id": "assign_partial_charges",
@@ -155,7 +312,8 @@
         "input_description": "structure with the desired protonation state already fixed",
         "version": "1.0.0",
         "data_action": false,
-        "requires_network": false
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
       },
       {
         "id": "assign_force_field_parameters",
@@ -175,7 +333,8 @@
         "input_description": "prepared structure plus optional ChargedStructure Artifact",
         "version": "1.0.0",
         "data_action": false,
-        "requires_network": false
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
       },
       {
         "id": "solvate_molecular_system",
@@ -193,7 +352,192 @@
         "input_description": "ParameterizedSystem plus explicit box, solvent, and ion settings",
         "version": "1.0.0",
         "data_action": false,
-        "requires_network": false
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
+      },
+      {
+        "id": "analyze_crystal_symmetry",
+        "category": "structure_and_system",
+        "description": "Determine the crystallographic space group and symmetry-equivalent sites for one supplied periodic structure.",
+        "primary_output": "CrystalSymmetryResult",
+        "backend_ids": [
+          "spglib",
+          "pymatgen"
+        ],
+        "required_inputs": [
+          "structure"
+        ],
+        "optional_inputs": [],
+        "input_description": "periodic AtomicStructure plus explicit symmetry tolerances",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
+      },
+      {
+        "id": "standardize_crystal_structure",
+        "category": "structure_and_system",
+        "description": "Standardize one periodic structure in an explicitly selected primitive or conventional crystallographic setting.",
+        "primary_output": "AtomicStructure",
+        "backend_ids": [
+          "spglib",
+          "pymatgen"
+        ],
+        "required_inputs": [
+          "structure"
+        ],
+        "optional_inputs": [],
+        "input_description": "periodic AtomicStructure and explicit primitive/conventional convention",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
+      },
+      {
+        "id": "build_supercell",
+        "category": "structure_and_system",
+        "description": "Apply one explicit integer supercell transformation to a periodic structure.",
+        "primary_output": "AtomicStructure",
+        "backend_ids": [
+          "pymatgen"
+        ],
+        "required_inputs": [
+          "structure"
+        ],
+        "optional_inputs": [],
+        "input_description": "periodic AtomicStructure and an integer 3-vector or 3x3 scaling matrix",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
+      },
+      {
+        "id": "enumerate_surface_slabs",
+        "category": "structure_and_system",
+        "description": "Enumerate a bounded set of symmetry-distinct slabs for one explicit Miller index and slab/vacuum geometry.",
+        "primary_output": "StructureCollection",
+        "backend_ids": [
+          "pymatgen"
+        ],
+        "required_inputs": [
+          "structure"
+        ],
+        "optional_inputs": [],
+        "input_description": "periodic bulk structure and explicit Miller index, thicknesses, and enumeration bound",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
+      },
+      {
+        "id": "calculate_molecular_descriptors",
+        "category": "cheminformatics",
+        "description": "Calculate an explicitly selected set of graph-based molecular descriptors without generating coordinates or running electronic structure.",
+        "primary_output": "MolecularDescriptorResult",
+        "backend_ids": [
+          "rdkit"
+        ],
+        "required_inputs": [
+          "molecule"
+        ],
+        "optional_inputs": [],
+        "input_description": "molecule: SMILES, molecular structure, or compatible Artifact",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
+      },
+      {
+        "id": "calculate_molecular_fingerprint",
+        "category": "cheminformatics",
+        "description": "Calculate one explicitly selected molecular fingerprint representation.",
+        "primary_output": "MolecularFingerprint",
+        "backend_ids": [
+          "rdkit"
+        ],
+        "required_inputs": [
+          "molecule"
+        ],
+        "optional_inputs": [],
+        "input_description": "molecule: SMILES or molecular structure",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
+      },
+      {
+        "id": "calculate_molecular_similarity",
+        "category": "cheminformatics",
+        "description": "Calculate one similarity value between two molecules using an explicit fingerprint and metric.",
+        "primary_output": "MolecularSimilarityResult",
+        "backend_ids": [
+          "rdkit"
+        ],
+        "required_inputs": [
+          "molecule_a",
+          "molecule_b"
+        ],
+        "optional_inputs": [],
+        "input_description": "two molecular representations plus explicit fingerprint and similarity metric",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
+      },
+      {
+        "id": "search_local_substructures",
+        "category": "cheminformatics",
+        "description": "Find atom-index matches for an explicit SMARTS or SMILES query in one supplied molecule.",
+        "primary_output": "SubstructureMatchResult",
+        "backend_ids": [
+          "rdkit"
+        ],
+        "required_inputs": [
+          "molecule",
+          "query"
+        ],
+        "optional_inputs": [],
+        "input_description": "target molecule and explicit SMARTS/SMILES query",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
+      },
+      {
+        "id": "enumerate_tautomers",
+        "category": "cheminformatics",
+        "description": "Enumerate bounded tautomeric forms without selecting a preferred tautomer for the agent.",
+        "primary_output": "MoleculeCollection",
+        "backend_ids": [
+          "rdkit"
+        ],
+        "required_inputs": [
+          "molecule"
+        ],
+        "optional_inputs": [],
+        "input_description": "one molecular representation and an explicit enumeration bound",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
+      },
+      {
+        "id": "enumerate_stereoisomers",
+        "category": "cheminformatics",
+        "description": "Enumerate bounded stereoisomers under explicit uniqueness and assignment rules.",
+        "primary_output": "MoleculeCollection",
+        "backend_ids": [
+          "rdkit"
+        ],
+        "required_inputs": [
+          "molecule"
+        ],
+        "optional_inputs": [],
+        "input_description": "one molecular representation and explicit stereoisomer enumeration settings",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
       },
       {
         "id": "calculate_energy",
@@ -205,6 +549,9 @@
           "pyscf",
           "psi4",
           "tblite",
+          "gpaw",
+          "nwchem",
+          "openmolcas",
           "mace",
           "chgnet",
           "deepmd",
@@ -220,7 +567,8 @@
         "input_description": "non-periodic AtomicStructure",
         "version": "1.0.0",
         "data_action": false,
-        "requires_network": false
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
       },
       {
         "id": "calculate_forces",
@@ -228,7 +576,12 @@
         "description": "Calculate atomic forces for one non-periodic structure or an aligned batch.",
         "primary_output": "ForceResult",
         "backend_ids": [
+          "xtb",
+          "pyscf",
           "tblite",
+          "gpaw",
+          "nwchem",
+          "orca",
           "mace",
           "chgnet",
           "deepmd",
@@ -241,7 +594,8 @@
         "input_description": "AtomicStructure or a homogeneous structure batch",
         "version": "1.0.0",
         "data_action": false,
-        "requires_network": false
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
       },
       {
         "id": "calculate_hessian",
@@ -250,8 +604,10 @@
         "primary_output": "Hessian",
         "backend_ids": [
           "xtb",
+          "pyscf",
           "psi4",
           "tblite",
+          "nwchem",
           "orca",
           "gaussian",
           "ase_emt"
@@ -263,7 +619,8 @@
         "input_description": "AtomicStructure",
         "version": "1.0.0",
         "data_action": false,
-        "requires_network": false
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
       },
       {
         "id": "optimize_geometry",
@@ -273,22 +630,28 @@
         "backend_ids": [
           "xtb",
           "tblite",
+          "gpaw",
           "mace",
           "chgnet",
           "deepmd",
           "orca",
           "gaussian",
           "gamess",
-          "ase_emt"
+          "ase_emt",
+          "geometric",
+          "sella"
         ],
         "required_inputs": [
           "structure"
         ],
-        "optional_inputs": [],
+        "optional_inputs": [
+          "constraints"
+        ],
         "input_description": "AtomicStructure plus explicit convergence and optional constraints",
         "version": "1.0.0",
         "data_action": false,
-        "requires_network": false
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
       },
       {
         "id": "calculate_dipole_moment",
@@ -296,9 +659,12 @@
         "description": "Calculate one molecular dipole moment with an explicitly chosen electronic method.",
         "primary_output": "DipoleResult",
         "backend_ids": [
+          "xtb",
           "tblite",
           "pyscf",
           "psi4",
+          "nwchem",
+          "openmolcas",
           "orca",
           "gaussian",
           "gamess"
@@ -310,7 +676,8 @@
         "input_description": "AtomicStructure",
         "version": "1.0.0",
         "data_action": false,
-        "requires_network": false
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
       },
       {
         "id": "calculate_atomic_charges",
@@ -318,17 +685,23 @@
         "description": "Calculate electronic-structure population-analysis charges without attaching force-field parameters.",
         "primary_output": "AtomicChargeResult",
         "backend_ids": [
+          "xtb",
           "pyscf",
-          "psi4"
+          "psi4",
+          "nwchem",
+          "openmolcas",
+          "multiwfn",
+          "orca"
         ],
         "required_inputs": [
           "structure"
         ],
         "optional_inputs": [],
-        "input_description": "AtomicStructure or compatible ElectronicState Artifact",
+        "input_description": "AtomicStructure for calculation backends or a compatible wavefunction/ElectronicState Artifact for analysis backends",
         "version": "1.0.0",
         "data_action": false,
-        "requires_network": false
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
       },
       {
         "id": "calculate_orbitals",
@@ -337,7 +710,9 @@
         "primary_output": "OrbitalResult",
         "backend_ids": [
           "pyscf",
-          "psi4"
+          "psi4",
+          "openmolcas",
+          "orca"
         ],
         "required_inputs": [
           "structure"
@@ -346,7 +721,107 @@
         "input_description": "AtomicStructure or compatible ElectronicState Artifact",
         "version": "1.0.0",
         "data_action": false,
-        "requires_network": false
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
+      },
+      {
+        "id": "calculate_bond_orders",
+        "category": "molecular_electronic",
+        "description": "Calculate atom-pair electronic bond-order indices using one explicitly selected population-analysis backend.",
+        "primary_output": "BondOrderResult",
+        "backend_ids": [
+          "xtb",
+          "multiwfn",
+          "orca"
+        ],
+        "required_inputs": [
+          "structure"
+        ],
+        "optional_inputs": [],
+        "input_description": "non-periodic AtomicStructure or compatible wavefunction Artifact and explicit population definition/minimum reported bond order",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
+      },
+      {
+        "id": "calculate_excited_states",
+        "category": "molecular_electronic",
+        "description": "Calculate a bounded set of vertical electronic excited states without constructing a broadened spectrum or propagating dynamics.",
+        "primary_output": "ExcitedStateResult",
+        "backend_ids": [
+          "pyscf",
+          "orca"
+        ],
+        "required_inputs": [
+          "structure"
+        ],
+        "optional_inputs": [],
+        "input_description": "non-periodic AtomicStructure plus explicit ground-state and excited-state methods",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
+      },
+      {
+        "id": "analyze_electron_density_topology",
+        "category": "molecular_electronic",
+        "description": "Locate and characterize critical points in one supplied molecular or periodic electron-density field without generating that field or integrating atomic basins.",
+        "primary_output": "ElectronDensityTopologyResult",
+        "backend_ids": [
+          "critic2"
+        ],
+        "required_inputs": [
+          "density_file"
+        ],
+        "optional_inputs": [
+          "structure_file"
+        ],
+        "input_description": "electron-density grid or wavefunction file plus an optional separate structure file; the Agent explicitly selects molecular/periodic interpretation, field format, interpolation, critical-point classes, tolerances, and seeding strategy",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
+      },
+      {
+        "id": "calculate_atomic_basin_properties",
+        "category": "molecular_electronic",
+        "description": "Integrate population, Laplacian, and available volume properties over atomic or attractor basins in one supplied scalar-field grid using an explicitly selected partition algorithm.",
+        "primary_output": "AtomicBasinPropertyResult",
+        "backend_ids": [
+          "critic2"
+        ],
+        "required_inputs": [
+          "density_file"
+        ],
+        "optional_inputs": [
+          "structure_file"
+        ],
+        "input_description": "electron-density or scalar-field grid plus optional separate structure; the Agent selects the Critic2 YT, Henkelman BADER, Hirshfeld, or Voronoi partition",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
+      },
+      {
+        "id": "calculate_bader_charges",
+        "category": "molecular_electronic",
+        "description": "Calculate atomic Bader charges from one supplied electron-density grid using an explicitly selected Yu-Trinkle or Henkelman grid partition.",
+        "primary_output": "AtomicChargeResult",
+        "backend_ids": [
+          "critic2"
+        ],
+        "required_inputs": [
+          "density_file"
+        ],
+        "optional_inputs": [
+          "structure_file"
+        ],
+        "input_description": "electron-density grid plus optional separate structure and explicit grid partition, attractor-assignment, filtering, and reporting settings",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
       },
       {
         "id": "derive_vibrational_modes",
@@ -364,7 +839,8 @@
         "input_description": "Hessian Artifact and matching AtomicStructure",
         "version": "1.0.0",
         "data_action": false,
-        "requires_network": false
+        "requires_network": false,
+        "selection_policy": "internal_deterministic"
       },
       {
         "id": "derive_ir_spectrum",
@@ -381,7 +857,26 @@
         "input_description": "FrequencyResult with intensities",
         "version": "1.0.0",
         "data_action": false,
-        "requires_network": false
+        "requires_network": false,
+        "selection_policy": "internal_deterministic"
+      },
+      {
+        "id": "derive_uv_vis_spectrum",
+        "category": "molecular_electronic",
+        "description": "Construct a deterministic broadened UV/visible spectrum from supplied transition energies and oscillator strengths.",
+        "primary_output": "SpectrumResult",
+        "backend_ids": [
+          "internal_spectroscopy"
+        ],
+        "required_inputs": [
+          "excited_states"
+        ],
+        "optional_inputs": [],
+        "input_description": "ExcitedStateResult containing energy_ev and oscillator_strength for each state",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "internal_deterministic"
       },
       {
         "id": "derive_thermochemistry",
@@ -400,7 +895,8 @@
         "input_description": "EnergyResult and FrequencyResult or a compatible parsed output Artifact",
         "version": "1.0.0",
         "data_action": false,
-        "requires_network": false
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
       },
       {
         "id": "locate_transition_state",
@@ -408,7 +904,8 @@
         "description": "Locate one candidate transition-state structure without automatically running frequencies or IRC.",
         "primary_output": "AtomicStructure",
         "backend_ids": [
-          "pysisyphus"
+          "pysisyphus",
+          "sella"
         ],
         "required_inputs": [
           "initial_guess"
@@ -420,7 +917,8 @@
         "input_description": "candidate structure and optional endpoint structures",
         "version": "1.0.0",
         "data_action": false,
-        "requires_network": false
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
       },
       {
         "id": "trace_intrinsic_reaction_coordinate",
@@ -437,7 +935,8 @@
         "input_description": "validated candidate transition-state structure",
         "version": "1.0.0",
         "data_action": false,
-        "requires_network": false
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
       },
       {
         "id": "calculate_chemical_equilibrium",
@@ -456,7 +955,8 @@
         "input_description": "composition and optional mechanism Artifact",
         "version": "1.0.0",
         "data_action": false,
-        "requires_network": false
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
       },
       {
         "id": "integrate_reaction_network",
@@ -475,7 +975,74 @@
         "input_description": "ReactionNetwork and initial concentrations/state",
         "version": "1.0.0",
         "data_action": false,
-        "requires_network": false
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
+      },
+      {
+        "id": "calculate_rate_constants",
+        "category": "reaction_and_kinetics",
+        "description": "Evaluate an explicitly supplied Arrhenius, multi-Arrhenius, pressure-dependent Arrhenius, or Chebyshev kinetics model on explicit temperature/pressure points.",
+        "primary_output": "RateConstantResult",
+        "backend_ids": [
+          "rmg"
+        ],
+        "required_inputs": [
+          "kinetics_model",
+          "temperatures_kelvin"
+        ],
+        "optional_inputs": [
+          "pressures_pa"
+        ],
+        "input_description": "typed kinetics model plus temperature points and, for pressure-dependent models, pressure points",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
+      },
+      {
+        "id": "calculate_tunneling_correction",
+        "category": "reaction_and_kinetics",
+        "description": "Calculate Wigner or Eckart transition-state tunneling correction factors at explicit temperatures.",
+        "primary_output": "TunnelingCorrectionResult",
+        "backend_ids": [
+          "rmg"
+        ],
+        "required_inputs": [
+          "temperatures_kelvin",
+          "imaginary_frequency_cm1"
+        ],
+        "optional_inputs": [
+          "reactant_energy_kj_mol",
+          "transition_state_energy_kj_mol",
+          "product_energy_kj_mol"
+        ],
+        "input_description": "temperature grid, imaginary transition-state frequency, and explicit Eckart energies when selected",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
+      },
+      {
+        "id": "solve_master_equation",
+        "category": "reaction_and_kinetics",
+        "description": "Solve an explicitly supplied gas-phase chemical master-equation model and extract pressure/temperature-dependent phenomenological rate coefficients without constructing or modifying the reaction model.",
+        "primary_output": "MasterEquationResult",
+        "backend_ids": [
+          "mess",
+          "mesmer"
+        ],
+        "required_inputs": [
+          "model_file"
+        ],
+        "optional_inputs": [
+          "companion_files",
+          "model_relative_path"
+        ],
+        "input_description": "native MESS input or MESMER XML model Artifact; optional explicitly listed companion files and safe staged relative paths preserve model-local references",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
       },
       {
         "id": "solve_microkinetic_model",
@@ -492,7 +1059,8 @@
         "input_description": "typed microkinetic model object",
         "version": "1.0.0",
         "data_action": false,
-        "requires_network": false
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
       },
       {
         "id": "minimize_system_energy",
@@ -503,6 +1071,7 @@
           "openmm",
           "gromacs",
           "lammps",
+          "hoomd",
           "namd",
           "amber_pmemd",
           "charmm"
@@ -514,7 +1083,64 @@
         "input_description": "ParameterizedSystem Artifact",
         "version": "1.0.0",
         "data_action": false,
-        "requires_network": false
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
+      },
+      {
+        "id": "calculate_force_field_energy",
+        "category": "molecular_dynamics",
+        "description": "Evaluate the total potential energy of an already parameterized system at explicitly selected stored coordinates/state without minimizing or propagating it.",
+        "primary_output": "ForceFieldEnergyResult",
+        "backend_ids": [
+          "openmm",
+          "hoomd"
+        ],
+        "required_inputs": [
+          "system"
+        ],
+        "optional_inputs": [],
+        "input_description": "backend-compatible ParameterizedSystem Artifact with explicit coordinates and force-field definition",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
+      },
+      {
+        "id": "calculate_force_field_forces",
+        "category": "molecular_dynamics",
+        "description": "Evaluate atomic force-field forces for an already parameterized system at explicitly selected stored coordinates/state.",
+        "primary_output": "ForceResult",
+        "backend_ids": [
+          "openmm",
+          "hoomd"
+        ],
+        "required_inputs": [
+          "system"
+        ],
+        "optional_inputs": [],
+        "input_description": "backend-compatible ParameterizedSystem Artifact with explicit coordinates and force-field definition",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
+      },
+      {
+        "id": "decompose_force_field_energy",
+        "category": "molecular_dynamics",
+        "description": "Decompose one OpenMM potential energy evaluation by the explicitly present Force objects without changing parameters or running dynamics.",
+        "primary_output": "ForceFieldEnergyDecompositionResult",
+        "backend_ids": [
+          "openmm"
+        ],
+        "required_inputs": [
+          "system"
+        ],
+        "optional_inputs": [],
+        "input_description": "ParameterizedSystem Artifact; each existing OpenMM Force object is evaluated in its own temporary force group",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
       },
       {
         "id": "propagate_dynamics",
@@ -525,6 +1151,7 @@
           "openmm",
           "gromacs",
           "lammps",
+          "hoomd",
           "namd",
           "amber_pmemd",
           "charmm"
@@ -536,7 +1163,8 @@
         "input_description": "ParameterizedSystem or previous final-state Artifact",
         "version": "1.0.0",
         "data_action": false,
-        "requires_network": false
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
       },
       {
         "id": "calculate_trajectory_rmsd",
@@ -544,7 +1172,8 @@
         "description": "Calculate an RMSD time series for an explicitly selected trajectory atom group and reference.",
         "primary_output": "TimeSeries",
         "backend_ids": [
-          "mdanalysis"
+          "mdanalysis",
+          "mdtraj"
         ],
         "required_inputs": [
           "trajectory",
@@ -556,7 +1185,8 @@
         "input_description": "trajectory/topology Artifacts and optional reference",
         "version": "1.0.0",
         "data_action": false,
-        "requires_network": false
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
       },
       {
         "id": "calculate_radius_of_gyration",
@@ -564,7 +1194,8 @@
         "description": "Calculate the radius-of-gyration time series for an explicitly selected atom group.",
         "primary_output": "TimeSeries",
         "backend_ids": [
-          "mdanalysis"
+          "mdanalysis",
+          "mdtraj"
         ],
         "required_inputs": [
           "trajectory",
@@ -574,7 +1205,8 @@
         "input_description": "trajectory/topology Artifacts",
         "version": "1.0.0",
         "data_action": false,
-        "requires_network": false
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
       },
       {
         "id": "calculate_radial_distribution",
@@ -592,7 +1224,8 @@
         "input_description": "trajectory/topology Artifacts",
         "version": "1.0.0",
         "data_action": false,
-        "requires_network": false
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
       },
       {
         "id": "calculate_mean_squared_displacement",
@@ -610,7 +1243,165 @@
         "input_description": "trajectory/topology Artifacts",
         "version": "1.0.0",
         "data_action": false,
-        "requires_network": false
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
+      },
+      {
+        "id": "calculate_contacts",
+        "category": "molecular_dynamics",
+        "description": "Calculate inter-residue contact distances for an explicitly supplied residue-pair set and contact definition.",
+        "primary_output": "ContactTimeSeries",
+        "backend_ids": [
+          "mdtraj"
+        ],
+        "required_inputs": [
+          "trajectory",
+          "topology",
+          "residue_pairs"
+        ],
+        "optional_inputs": [],
+        "input_description": "trajectory/topology Artifacts plus explicit zero-based residue-index pairs",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
+      },
+      {
+        "id": "calculate_solvent_accessible_surface",
+        "category": "molecular_dynamics",
+        "description": "Calculate solvent-accessible surface area per atom or residue for an existing trajectory.",
+        "primary_output": "SurfaceAreaTimeSeries",
+        "backend_ids": [
+          "mdtraj"
+        ],
+        "required_inputs": [
+          "trajectory",
+          "topology"
+        ],
+        "optional_inputs": [],
+        "input_description": "trajectory/topology Artifacts and explicit probe/sphere discretization settings",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
+      },
+      {
+        "id": "calculate_dihedral_distribution",
+        "category": "molecular_dynamics",
+        "description": "Calculate dihedral-angle time series for explicitly supplied atom-index quartets.",
+        "primary_output": "DihedralTimeSeries",
+        "backend_ids": [
+          "mdtraj",
+          "mdanalysis"
+        ],
+        "required_inputs": [
+          "trajectory",
+          "topology",
+          "atom_quartets"
+        ],
+        "optional_inputs": [],
+        "input_description": "trajectory/topology Artifacts plus explicit zero-based atom-index quartets",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
+      },
+      {
+        "id": "calculate_hydrogen_bonds",
+        "category": "molecular_dynamics",
+        "description": "Identify hydrogen-bond events in an existing trajectory using explicit donor, hydrogen, acceptor, distance, and angle definitions.",
+        "primary_output": "HydrogenBondResult",
+        "backend_ids": [
+          "mdanalysis"
+        ],
+        "required_inputs": [
+          "trajectory",
+          "topology"
+        ],
+        "optional_inputs": [
+          "between_selections"
+        ],
+        "input_description": "trajectory/topology Artifacts plus explicit MDAnalysis selections and geometric cutoffs",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
+      },
+      {
+        "id": "calculate_principal_components",
+        "category": "molecular_dynamics",
+        "description": "Calculate coordinate principal components and frame projections for an explicitly selected trajectory atom group.",
+        "primary_output": "PrincipalComponentResult",
+        "backend_ids": [
+          "mdanalysis"
+        ],
+        "required_inputs": [
+          "trajectory",
+          "topology"
+        ],
+        "optional_inputs": [],
+        "input_description": "trajectory/topology Artifacts plus explicit atom selection, alignment policy, frame slice, and component count",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
+      },
+      {
+        "id": "calculate_dynamic_cross_correlation",
+        "category": "molecular_dynamics",
+        "description": "Calculate an atom-wise dynamic cross-correlation matrix from explicitly selected and optionally aligned trajectory coordinates.",
+        "primary_output": "DynamicCrossCorrelationResult",
+        "backend_ids": [
+          "mdanalysis"
+        ],
+        "required_inputs": [
+          "trajectory",
+          "topology"
+        ],
+        "optional_inputs": [],
+        "input_description": "trajectory/topology Artifacts plus explicit analysis/alignment selections and frame slice",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
+      },
+      {
+        "id": "assign_secondary_structure",
+        "category": "molecular_dynamics",
+        "description": "Assign per-residue secondary-structure labels for every frame of an existing protein trajectory.",
+        "primary_output": "SecondaryStructureTimeSeries",
+        "backend_ids": [
+          "mdtraj"
+        ],
+        "required_inputs": [
+          "trajectory",
+          "topology"
+        ],
+        "optional_inputs": [],
+        "input_description": "existing trajectory/topology Artifacts and explicit DSSP label granularity",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
+      },
+      {
+        "id": "cluster_trajectory",
+        "category": "molecular_dynamics",
+        "description": "Cluster explicitly selected trajectory frames by RMSD using a deterministic cutoff-based leader assignment.",
+        "primary_output": "TrajectoryClusterResult",
+        "backend_ids": [
+          "mdtraj"
+        ],
+        "required_inputs": [
+          "trajectory",
+          "topology"
+        ],
+        "optional_inputs": [],
+        "input_description": "existing trajectory/topology Artifacts plus explicit atom indices, frame stride, RMSD cutoff, and cluster bound",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
       },
       {
         "id": "evaluate_collective_variables",
@@ -629,7 +1420,105 @@
         "input_description": "trajectory/topology plus typed collective-variable definitions",
         "version": "1.0.0",
         "data_action": false,
-        "requires_network": false
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
+      },
+      {
+        "id": "estimate_free_energy_difference",
+        "category": "molecular_dynamics",
+        "description": "Estimate dimensionless pairwise free-energy differences from an explicitly supplied reduced-potential matrix and sample counts.",
+        "primary_output": "FreeEnergyDifferenceResult",
+        "backend_ids": [
+          "pymbar"
+        ],
+        "required_inputs": [
+          "reduced_potentials",
+          "samples_per_state"
+        ],
+        "optional_inputs": [],
+        "input_description": "u_kn reduced-potential matrix with shape KxN and aligned N_k sample counts",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
+      },
+      {
+        "id": "estimate_thermodynamic_expectations",
+        "category": "molecular_dynamics",
+        "description": "Estimate state-resolved observable expectations from explicitly supplied samples and a reduced-potential matrix.",
+        "primary_output": "ThermodynamicExpectationResult",
+        "backend_ids": [
+          "pymbar"
+        ],
+        "required_inputs": [
+          "reduced_potentials",
+          "samples_per_state",
+          "observables"
+        ],
+        "optional_inputs": [],
+        "input_description": "u_kn matrix, aligned N_k counts, and one N-sample observable vector",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
+      },
+      {
+        "id": "calculate_potential_of_mean_force",
+        "category": "molecular_dynamics",
+        "description": "Estimate a one-dimensional histogram free-energy profile from supplied uncorrelated samples; this does not integrate a mean-force trajectory or choose bins for the agent.",
+        "primary_output": "FreeEnergyProfileResult",
+        "backend_ids": [
+          "pymbar"
+        ],
+        "required_inputs": [
+          "reduced_potentials",
+          "samples_per_state",
+          "target_reduced_potential",
+          "collective_variable"
+        ],
+        "optional_inputs": [],
+        "input_description": "u_kn/N_k, one target-state reduced potential per sample, one scalar coordinate per sample, and explicit bin edges",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
+      },
+      {
+        "id": "analyze_free_energy_convergence",
+        "category": "molecular_dynamics",
+        "description": "Re-estimate one explicitly selected pairwise free-energy difference over supplied sample fractions without generating or decorrelating samples.",
+        "primary_output": "FreeEnergyConvergenceResult",
+        "backend_ids": [
+          "pymbar"
+        ],
+        "required_inputs": [
+          "reduced_potentials",
+          "samples_per_state"
+        ],
+        "optional_inputs": [],
+        "input_description": "u_kn matrix with samples grouped by source state, N_k counts, explicit fractions, and one state pair",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
+      },
+      {
+        "id": "parse_alchemical_energy_data",
+        "category": "molecular_dynamics",
+        "description": "Parse one or more explicitly identified engine output files into a normalized alchemical reduced-potential or derivative table.",
+        "primary_output": "AlchemicalEnergyData",
+        "backend_ids": [
+          "alchemlyb"
+        ],
+        "required_inputs": [
+          "files"
+        ],
+        "optional_inputs": [],
+        "input_description": "workspace output-file Artifacts plus explicit engine, observable, and simulation temperature",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
       },
       {
         "id": "calculate_periodic_energy",
@@ -643,6 +1532,7 @@
           "dftbplus",
           "abinit",
           "vasp",
+          "gpaw",
           "nequip",
           "allegro",
           "deepmd"
@@ -654,7 +1544,8 @@
         "input_description": "periodic AtomicStructure with cell and PBC",
         "version": "1.0.0",
         "data_action": false,
-        "requires_network": false
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
       },
       {
         "id": "calculate_periodic_forces",
@@ -668,6 +1559,7 @@
           "dftbplus",
           "abinit",
           "vasp",
+          "gpaw",
           "nequip",
           "allegro",
           "deepmd"
@@ -679,7 +1571,8 @@
         "input_description": "periodic AtomicStructure or homogeneous structure batch",
         "version": "1.0.0",
         "data_action": false,
-        "requires_network": false
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
       },
       {
         "id": "calculate_periodic_stress",
@@ -691,6 +1584,7 @@
           "cp2k",
           "abinit",
           "vasp",
+          "gpaw",
           "nequip",
           "allegro",
           "deepmd"
@@ -702,7 +1596,8 @@
         "input_description": "periodic AtomicStructure",
         "version": "1.0.0",
         "data_action": false,
-        "requires_network": false
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
       },
       {
         "id": "relax_periodic_structure",
@@ -716,6 +1611,7 @@
           "dftbplus",
           "abinit",
           "vasp",
+          "gpaw",
           "nequip",
           "allegro",
           "deepmd"
@@ -727,7 +1623,105 @@
         "input_description": "periodic AtomicStructure plus explicit relaxation controls",
         "version": "1.0.0",
         "data_action": false,
-        "requires_network": false
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
+      },
+      {
+        "id": "calculate_electronic_band_structure",
+        "category": "periodic_and_phonons",
+        "description": "Calculate electronic eigenvalue bands along one explicit reciprocal-space path from an existing converged periodic ground-state restart.",
+        "primary_output": "ElectronicBandStructureResult",
+        "backend_ids": [
+          "gpaw"
+        ],
+        "required_inputs": [
+          "ground_state"
+        ],
+        "optional_inputs": [],
+        "input_description": "converged GPAW ground-state restart Artifact plus an explicit high-symmetry path, sampling, and band count",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
+      },
+      {
+        "id": "calculate_density_of_states",
+        "category": "periodic_and_phonons",
+        "description": "Calculate a total electronic density of states on an explicit energy grid from an existing converged periodic ground-state restart.",
+        "primary_output": "DensityOfStatesResult",
+        "backend_ids": [
+          "gpaw"
+        ],
+        "required_inputs": [
+          "ground_state"
+        ],
+        "optional_inputs": [],
+        "input_description": "converged GPAW ground-state restart Artifact plus explicit energy range, grid, broadening, spin, and reference",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
+      },
+      {
+        "id": "calculate_projected_density_of_states",
+        "category": "periodic_and_phonons",
+        "description": "Calculate or extract explicitly requested atom/orbital projected electronic densities of states from an existing compatible periodic electronic-state artifact.",
+        "primary_output": "ProjectedDensityOfStatesResult",
+        "backend_ids": [
+          "gpaw",
+          "lobster"
+        ],
+        "required_inputs": [
+          "projections"
+        ],
+        "optional_inputs": [
+          "ground_state",
+          "dos_file",
+          "structure_file"
+        ],
+        "input_description": "typed atom/orbital projections plus either a GPAW restart or LOBSTER DOSCAR/structure artifacts",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
+      },
+      {
+        "id": "analyze_periodic_bonding",
+        "category": "periodic_and_phonons",
+        "description": "Extract explicitly selected integrated and optional energy-resolved COHP, COOP, or COBI bonding information from existing LOBSTER outputs.",
+        "primary_output": "PeriodicBondingResult",
+        "backend_ids": [
+          "lobster"
+        ],
+        "required_inputs": [
+          "integrated_bond_list"
+        ],
+        "optional_inputs": [
+          "bond_curve_file"
+        ],
+        "input_description": "LOBSTER ICOHPLIST/ICOOPLIST/ICOBILIST and optional matching COHPCAR/COOPCAR/COBICAR Artifact",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
+      },
+      {
+        "id": "calculate_charge_spilling",
+        "category": "periodic_and_phonons",
+        "description": "Assess LOBSTER wavefunction-projection charge/total spilling against explicit acceptance thresholds from an existing lobsterout file.",
+        "primary_output": "ProjectionQualityResult",
+        "backend_ids": [
+          "lobster"
+        ],
+        "required_inputs": [
+          "lobster_output"
+        ],
+        "optional_inputs": [],
+        "input_description": "existing LOBSTER lobsterout Artifact and explicit charge/total spilling thresholds",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
       },
       {
         "id": "generate_displaced_supercells",
@@ -745,7 +1739,8 @@
         "input_description": "periodic AtomicStructure",
         "version": "1.0.0",
         "data_action": false,
-        "requires_network": false
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
       },
       {
         "id": "assemble_force_constants",
@@ -764,7 +1759,8 @@
         "input_description": "DisplacementSet and ForceSet Artifacts",
         "version": "1.0.0",
         "data_action": false,
-        "requires_network": false
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
       },
       {
         "id": "calculate_phonon_dispersion",
@@ -783,7 +1779,8 @@
         "input_description": "ForceConstants, structure, and q_path setting",
         "version": "1.0.0",
         "data_action": false,
-        "requires_network": false
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
       },
       {
         "id": "calculate_phonon_density_of_states",
@@ -802,7 +1799,74 @@
         "input_description": "ForceConstants, structure, and q_mesh setting",
         "version": "1.0.0",
         "data_action": false,
-        "requires_network": false
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
+      },
+      {
+        "id": "calculate_harmonic_thermodynamics",
+        "category": "periodic_and_phonons",
+        "description": "Calculate harmonic free energy, entropy, and constant-volume heat capacity at explicitly supplied temperatures.",
+        "primary_output": "HarmonicThermodynamicsResult",
+        "backend_ids": [
+          "phonopy",
+          "phono3py"
+        ],
+        "required_inputs": [
+          "force_constants",
+          "structure"
+        ],
+        "optional_inputs": [],
+        "input_description": "second-order ForceConstants, matching structure, q mesh, and explicit temperature list",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
+      },
+      {
+        "id": "calculate_phonon_group_velocities",
+        "category": "periodic_and_phonons",
+        "description": "Calculate mode-resolved phonon group-velocity vectors along an explicitly supplied q-point path.",
+        "primary_output": "PhononGroupVelocityResult",
+        "backend_ids": [
+          "phonopy",
+          "phono3py"
+        ],
+        "required_inputs": [
+          "force_constants",
+          "structure"
+        ],
+        "optional_inputs": [],
+        "input_description": "second-order ForceConstants, matching structure, and explicit q_path",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
+      },
+      {
+        "id": "calculate_lattice_thermal_conductivity",
+        "category": "periodic_and_phonons",
+        "description": "Calculate the lattice thermal-conductivity tensor from explicit second-/third-order force constants or a complete native BTE model under Agent-selected solution and scattering settings.",
+        "primary_output": "LatticeThermalConductivityResult",
+        "backend_ids": [
+          "phono3py",
+          "shengbte"
+        ],
+        "required_inputs": [],
+        "optional_inputs": [
+          "second_order_force_constants",
+          "third_order_force_constants",
+          "structure",
+          "control_file",
+          "second_order_force_constants_file",
+          "third_order_force_constants_file",
+          "born_file",
+          "companion_files"
+        ],
+        "input_description": "Phono3py fc2/fc3 Artifacts plus structure, or explicit ShengBTE CONTROL/FORCE_CONSTANTS files and optional BORN/companion files",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
       },
       {
         "id": "dock_ligand",
@@ -824,7 +1888,8 @@
         "input_description": "prepared receptor/ligand Artifacts and explicit box center/size",
         "version": "1.0.0",
         "data_action": false,
-        "requires_network": false
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
       },
       {
         "id": "search_compounds",
@@ -841,7 +1906,98 @@
         "input_description": "query string plus namespace/max_records settings",
         "version": "1.0.0",
         "data_action": true,
-        "requires_network": true
+        "requires_network": true,
+        "selection_policy": "fixed_source"
+      },
+      {
+        "id": "resolve_chemical_identity",
+        "category": "data_sources",
+        "description": "Resolve one explicit compound identifier to a bounded ChemicalIdentity record through PubChem.",
+        "primary_output": "ChemicalIdentity",
+        "backend_ids": [
+          "pubchem"
+        ],
+        "required_inputs": [
+          "query"
+        ],
+        "optional_inputs": [],
+        "input_description": "query={identifier, namespace: name|cid|smiles|inchi|inchikey}",
+        "version": "1.0.0",
+        "data_action": true,
+        "requires_network": true,
+        "selection_policy": "fixed_source"
+      },
+      {
+        "id": "retrieve_compound_properties",
+        "category": "data_sources",
+        "description": "Retrieve an explicitly selected bounded property set for matching PubChem compounds.",
+        "primary_output": "CompoundPropertyRecords",
+        "backend_ids": [
+          "pubchem"
+        ],
+        "required_inputs": [
+          "query"
+        ],
+        "optional_inputs": [],
+        "input_description": "query={identifier, namespace}; action_settings.properties selects allowed fields",
+        "version": "1.0.0",
+        "data_action": true,
+        "requires_network": true,
+        "selection_policy": "fixed_source"
+      },
+      {
+        "id": "retrieve_compound_structure",
+        "category": "data_sources",
+        "description": "Retrieve bounded PubChem 2D or 3D coordinate records while leaving coordinate dimensionality and explicit-hydrogen handling to the agent.",
+        "primary_output": "StructureCollection",
+        "backend_ids": [
+          "pubchem"
+        ],
+        "required_inputs": [
+          "query"
+        ],
+        "optional_inputs": [],
+        "input_description": "query={identifier, namespace}; explicit record_type and hydrogen policy select the returned coordinate representation",
+        "version": "1.0.0",
+        "data_action": true,
+        "requires_network": true,
+        "selection_policy": "fixed_source"
+      },
+      {
+        "id": "search_similar_compounds",
+        "category": "data_sources",
+        "description": "Run one bounded PubChem 2D similarity search from an explicit structure identifier.",
+        "primary_output": "CompoundRecords",
+        "backend_ids": [
+          "pubchem"
+        ],
+        "required_inputs": [
+          "query"
+        ],
+        "optional_inputs": [],
+        "input_description": "query={identifier, namespace: cid|smiles|inchi} plus threshold/max_records",
+        "version": "1.0.0",
+        "data_action": true,
+        "requires_network": true,
+        "selection_policy": "fixed_source"
+      },
+      {
+        "id": "search_substructures",
+        "category": "data_sources",
+        "description": "Run one bounded PubChem substructure search from an explicit SMILES, SMARTS, InChI, or CID query.",
+        "primary_output": "CompoundRecords",
+        "backend_ids": [
+          "pubchem"
+        ],
+        "required_inputs": [
+          "query"
+        ],
+        "optional_inputs": [],
+        "input_description": "query={identifier, namespace: cid|smiles|smarts|inchi} plus explicit matching controls",
+        "version": "1.0.0",
+        "data_action": true,
+        "requires_network": true,
+        "selection_policy": "fixed_source"
       },
       {
         "id": "search_protein_structures",
@@ -858,7 +2014,8 @@
         "input_description": "PDB id or search query",
         "version": "1.0.0",
         "data_action": true,
-        "requires_network": true
+        "requires_network": true,
+        "selection_policy": "fixed_source"
       },
       {
         "id": "search_materials",
@@ -875,7 +2032,8 @@
         "input_description": "material id, formula, or structured query",
         "version": "1.0.0",
         "data_action": true,
-        "requires_network": true
+        "requires_network": true,
+        "selection_policy": "fixed_source"
       },
       {
         "id": "search_catalysis_records",
@@ -892,7 +2050,8 @@
         "input_description": "structured reactant/product query",
         "version": "1.0.0",
         "data_action": true,
-        "requires_network": true
+        "requires_network": true,
+        "selection_policy": "fixed_source"
       },
       {
         "id": "lookup_nist_webbook_species",
@@ -909,10 +2068,136 @@
         "input_description": "query={identifier, namespace: cas|name|formula}; formula queries also require explicit match_isotopes and exclude_ions booleans",
         "version": "1.0.0",
         "data_action": true,
-        "requires_network": true
+        "requires_network": true,
+        "selection_policy": "fixed_source"
       }
     ],
     "backends": [
+      {
+        "id": "qcelemental",
+        "display_name": "QCElemental",
+        "runtime": "workflows",
+        "capabilities": [
+          "normalize_qcschema_molecule",
+          "validate_qcschema_record"
+        ],
+        "description": "QCElemental 0.50.4 schema models and physical-data normalization without calculation execution.",
+        "python_modules": [
+          "qcelemental"
+        ],
+        "executables": [],
+        "environment_variables": [],
+        "conda_packages": [
+          "qcelemental=0.50.4"
+        ],
+        "pip_packages": [],
+        "required_data_resources": [],
+        "license_class": "open_source",
+        "install_notes": "",
+        "method_schema": {},
+        "required_input_fields": {},
+        "required_method_fields": {},
+        "required_setting_fields": {
+          "normalize_qcschema_molecule": [
+            "fix_center_of_mass",
+            "fix_orientation"
+          ],
+          "validate_qcschema_record": [
+            "record_type"
+          ]
+        },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
+        "health": {
+          "status": "available",
+          "available": true,
+          "runtime": "workflows",
+          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/workflows/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {
+            "qcelemental": {
+              "available": true,
+              "version": "0.50.4"
+            }
+          },
+          "executables": {},
+          "environment": {},
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [
+            "qcelemental=0.50.4"
+          ],
+          "pip_packages": [],
+          "required_data_resources": [],
+          "license_class": "open_source",
+          "install_notes": ""
+        }
+      },
+      {
+        "id": "cclib",
+        "display_name": "cclib",
+        "runtime": "workflows",
+        "capabilities": [
+          "parse_quantum_chemistry_output"
+        ],
+        "description": "cclib 1.8.1 parser for extracting selected properties from existing quantum-chemistry output files.",
+        "python_modules": [
+          "cclib"
+        ],
+        "executables": [],
+        "environment_variables": [],
+        "conda_packages": [
+          "cclib=1.8.1"
+        ],
+        "pip_packages": [],
+        "required_data_resources": [],
+        "license_class": "open_source",
+        "install_notes": "",
+        "method_schema": {},
+        "required_input_fields": {},
+        "required_method_fields": {},
+        "required_setting_fields": {
+          "parse_quantum_chemistry_output": [
+            "properties",
+            "coordinate_frames",
+            "include_orbital_coefficients",
+            "include_excited_state_configurations",
+            "max_array_elements"
+          ]
+        },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
+        "health": {
+          "status": "available",
+          "available": true,
+          "runtime": "workflows",
+          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/workflows/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {
+            "cclib": {
+              "available": true,
+              "version": "0.0.0"
+            }
+          },
+          "executables": {},
+          "environment": {},
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [
+            "cclib=1.8.1"
+          ],
+          "pip_packages": [],
+          "required_data_resources": [],
+          "license_class": "open_source",
+          "install_notes": ""
+        }
+      },
       {
         "id": "rdkit",
         "display_name": "RDKit",
@@ -920,7 +2205,15 @@
         "capabilities": [
           "standardize_structure",
           "generate_3d_structure",
-          "assign_protonation_states"
+          "assign_protonation_states",
+          "cluster_conformers",
+          "align_molecular_structures",
+          "calculate_molecular_descriptors",
+          "calculate_molecular_fingerprint",
+          "calculate_molecular_similarity",
+          "search_local_substructures",
+          "enumerate_tautomers",
+          "enumerate_stereoisomers"
         ],
         "description": "Cheminformatics structure standardization, hydrogen handling, and 3D embedding.",
         "python_modules": [
@@ -936,7 +2229,19 @@
         "license_class": "open_source",
         "install_notes": "",
         "method_schema": {},
-        "required_method_fields": {},
+        "required_input_fields": {},
+        "required_method_fields": {
+          "calculate_molecular_fingerprint": [
+            "fingerprint_type"
+          ],
+          "calculate_molecular_similarity": [
+            "fingerprint_type",
+            "similarity_metric"
+          ],
+          "search_local_substructures": [
+            "query_format"
+          ]
+        },
         "required_setting_fields": {
           "standardize_structure": [
             "largest_fragment",
@@ -946,11 +2251,33 @@
           "generate_3d_structure": [
             "random_seed"
           ],
+          "cluster_conformers": [
+            "rmsd_cutoff_angstrom",
+            "atom_selection",
+            "prealign_conformers",
+            "reorder_cluster_centers"
+          ],
+          "align_molecular_structures": [
+            "reflect",
+            "max_iterations"
+          ],
           "assign_protonation_states": [
             "ph",
             "rule"
+          ],
+          "enumerate_tautomers": [
+            "max_tautomers"
+          ],
+          "enumerate_stereoisomers": [
+            "max_isomers",
+            "only_unassigned",
+            "unique"
           ]
         },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
         "health": {
           "status": "available",
           "available": true,
@@ -1000,12 +2327,17 @@
         "license_class": "open_source",
         "install_notes": "",
         "method_schema": {},
+        "required_input_fields": {},
         "required_method_fields": {
           "generate_3d_structure": [
             "force_field"
           ]
         },
         "required_setting_fields": {},
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
         "health": {
           "status": "available",
           "available": true,
@@ -1055,6 +2387,7 @@
         "license_class": "open_source",
         "install_notes": "",
         "method_schema": {},
+        "required_input_fields": {},
         "required_method_fields": {},
         "required_setting_fields": {
           "generate_conformer_ensemble": [
@@ -1062,6 +2395,10 @@
             "random_seed"
           ]
         },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
         "health": {
           "status": "available",
           "available": true,
@@ -1112,12 +2449,17 @@
         "license_class": "open_source",
         "install_notes": "",
         "method_schema": {},
+        "required_input_fields": {},
         "required_method_fields": {
           "generate_conformer_ensemble": [
             "method"
           ]
         },
         "required_setting_fields": {},
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
         "health": {
           "status": "available",
           "available": true,
@@ -1161,6 +2503,7 @@
         "license_class": "open_source",
         "install_notes": "",
         "method_schema": {},
+        "required_input_fields": {},
         "required_method_fields": {},
         "required_setting_fields": {
           "rank_conformers_from_results": [
@@ -1168,6 +2511,10 @@
             "score_unit"
           ]
         },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
         "health": {
           "status": "available",
           "available": true,
@@ -1211,6 +2558,7 @@
         "license_class": "open_source",
         "install_notes": "",
         "method_schema": {},
+        "required_input_fields": {},
         "required_method_fields": {},
         "required_setting_fields": {
           "repair_biomolecular_structure": [
@@ -1222,6 +2570,10 @@
             "ph"
           ]
         },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
         "health": {
           "status": "available",
           "available": true,
@@ -1254,6 +2606,86 @@
         }
       },
       {
+        "id": "pdb_tools",
+        "display_name": "pdb-tools",
+        "runtime": "core",
+        "capabilities": [
+          "select_structure_subset",
+          "renumber_biomolecular_structure",
+          "normalize_pdb_records"
+        ],
+        "description": "Composable pdb-tools 2.7.0 record transformations exposed as bounded typed structure actions.",
+        "python_modules": [
+          "pdbtools"
+        ],
+        "executables": [
+          "pdb_selchain",
+          "pdb_reres",
+          "pdb_tidy"
+        ],
+        "environment_variables": [],
+        "conda_packages": [],
+        "pip_packages": [
+          "pdb-tools==2.7.0"
+        ],
+        "required_data_resources": [],
+        "license_class": "open_source",
+        "install_notes": "",
+        "method_schema": {},
+        "required_input_fields": {},
+        "required_method_fields": {},
+        "required_setting_fields": {
+          "select_structure_subset": [
+            "chains",
+            "models",
+            "keep_heteroatoms"
+          ],
+          "renumber_biomolecular_structure": [
+            "starting_atom_serial",
+            "starting_residue_number",
+            "hybrid36"
+          ],
+          "normalize_pdb_records": [
+            "sort_by",
+            "strict_chain_breaks",
+            "hybrid36"
+          ]
+        },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
+        "health": {
+          "status": "available",
+          "available": true,
+          "runtime": "core",
+          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.toolbox_env/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {
+            "pdbtools": {
+              "available": true,
+              "version": null
+            }
+          },
+          "executables": {
+            "pdb_selchain": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.toolbox_env/bin/pdb_selchain",
+            "pdb_reres": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.toolbox_env/bin/pdb_reres",
+            "pdb_tidy": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.toolbox_env/bin/pdb_tidy"
+          },
+          "environment": {},
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [],
+          "pip_packages": [
+            "pdb-tools==2.7.0"
+          ],
+          "required_data_resources": [],
+          "license_class": "open_source",
+          "install_notes": ""
+        }
+      },
+      {
         "id": "rdkit_gasteiger",
         "display_name": "RDKit Gasteiger charges",
         "runtime": "core",
@@ -1274,12 +2706,17 @@
         "license_class": "open_source",
         "install_notes": "",
         "method_schema": {},
+        "required_input_fields": {},
         "required_method_fields": {
           "assign_partial_charges": [
             "charge_model"
           ]
         },
         "required_setting_fields": {},
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
         "health": {
           "status": "available",
           "available": true,
@@ -1331,12 +2768,17 @@
         "license_class": "open_source",
         "install_notes": "",
         "method_schema": {},
+        "required_input_fields": {},
         "required_method_fields": {
           "assign_partial_charges": [
             "charge_model"
           ]
         },
         "required_setting_fields": {},
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
         "health": {
           "status": "available",
           "available": true,
@@ -1390,12 +2832,17 @@
         "license_class": "open_source",
         "install_notes": "",
         "method_schema": {},
+        "required_input_fields": {},
         "required_method_fields": {
           "assign_force_field_parameters": [
             "force_field"
           ]
         },
         "required_setting_fields": {},
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
         "health": {
           "status": "available",
           "available": true,
@@ -1449,6 +2896,7 @@
         "license_class": "open_source",
         "install_notes": "",
         "method_schema": {},
+        "required_input_fields": {},
         "required_method_fields": {
           "assign_force_field_parameters": [
             "force_field"
@@ -1461,6 +2909,10 @@
             "solvent_model"
           ]
         },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
         "health": {
           "status": "available",
           "available": true,
@@ -1508,6 +2960,7 @@
         "license_class": "open_source",
         "install_notes": "",
         "method_schema": {},
+        "required_input_fields": {},
         "required_method_fields": {},
         "required_setting_fields": {
           "solvate_molecular_system": [
@@ -1518,6 +2971,10 @@
             "molecule_counts"
           ]
         },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
         "health": {
           "status": "available",
           "available": true,
@@ -1542,15 +2999,177 @@
         }
       },
       {
+        "id": "spglib",
+        "display_name": "spglib",
+        "runtime": "workflows",
+        "capabilities": [
+          "analyze_crystal_symmetry",
+          "standardize_crystal_structure"
+        ],
+        "description": "Crystallographic symmetry detection and cell standardization using explicit numerical tolerances.",
+        "python_modules": [
+          "spglib",
+          "numpy"
+        ],
+        "executables": [],
+        "environment_variables": [],
+        "conda_packages": [
+          "spglib",
+          "numpy"
+        ],
+        "pip_packages": [],
+        "required_data_resources": [],
+        "license_class": "open_source",
+        "install_notes": "",
+        "method_schema": {},
+        "required_input_fields": {},
+        "required_method_fields": {},
+        "required_setting_fields": {
+          "analyze_crystal_symmetry": [
+            "symmetry_tolerance_angstrom",
+            "angle_tolerance_degrees"
+          ],
+          "standardize_crystal_structure": [
+            "convention",
+            "symmetry_tolerance_angstrom",
+            "angle_tolerance_degrees",
+            "idealize"
+          ]
+        },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
+        "health": {
+          "status": "available",
+          "available": true,
+          "runtime": "workflows",
+          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/workflows/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {
+            "spglib": {
+              "available": true,
+              "version": "2.7.0"
+            },
+            "numpy": {
+              "available": true,
+              "version": "2.4.6"
+            }
+          },
+          "executables": {},
+          "environment": {},
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [
+            "spglib",
+            "numpy"
+          ],
+          "pip_packages": [],
+          "required_data_resources": [],
+          "license_class": "open_source",
+          "install_notes": ""
+        }
+      },
+      {
+        "id": "pymatgen",
+        "display_name": "pymatgen",
+        "runtime": "workflows",
+        "capabilities": [
+          "analyze_crystal_symmetry",
+          "standardize_crystal_structure",
+          "build_supercell",
+          "enumerate_surface_slabs"
+        ],
+        "description": "Materials structure, symmetry, supercell, and surface-slab operations with all structural choices supplied by the Agent.",
+        "python_modules": [
+          "pymatgen",
+          "numpy"
+        ],
+        "executables": [],
+        "environment_variables": [],
+        "conda_packages": [
+          "pymatgen",
+          "numpy"
+        ],
+        "pip_packages": [],
+        "required_data_resources": [],
+        "license_class": "open_source",
+        "install_notes": "",
+        "method_schema": {},
+        "required_input_fields": {},
+        "required_method_fields": {},
+        "required_setting_fields": {
+          "analyze_crystal_symmetry": [
+            "symmetry_tolerance_angstrom",
+            "angle_tolerance_degrees"
+          ],
+          "standardize_crystal_structure": [
+            "convention",
+            "symmetry_tolerance_angstrom",
+            "angle_tolerance_degrees"
+          ],
+          "build_supercell": [
+            "scaling_matrix"
+          ],
+          "enumerate_surface_slabs": [
+            "miller_index",
+            "minimum_slab_thickness_angstrom",
+            "minimum_vacuum_thickness_angstrom",
+            "center_slab",
+            "primitive",
+            "max_terminations"
+          ]
+        },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
+        "health": {
+          "status": "available",
+          "available": true,
+          "runtime": "workflows",
+          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/workflows/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {
+            "pymatgen": {
+              "available": true,
+              "version": "2026.5.4"
+            },
+            "numpy": {
+              "available": true,
+              "version": "2.4.6"
+            }
+          },
+          "executables": {},
+          "environment": {},
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [
+            "pymatgen",
+            "numpy"
+          ],
+          "pip_packages": [],
+          "required_data_resources": [],
+          "license_class": "open_source",
+          "install_notes": ""
+        }
+      },
+      {
         "id": "xtb",
         "display_name": "xTB",
         "runtime": "quantum",
         "capabilities": [
           "calculate_energy",
+          "calculate_forces",
           "calculate_hessian",
-          "optimize_geometry"
+          "optimize_geometry",
+          "calculate_dipole_moment",
+          "calculate_atomic_charges",
+          "calculate_bond_orders"
         ],
-        "description": "Standalone xTB GFN calculations.",
+        "description": "Standalone xTB GFN energy, derivative, optimization, dipole, and population-analysis calculations.",
         "python_modules": [],
         "executables": [
           "xtb"
@@ -1566,8 +3185,12 @@
         "license_class": "open_source",
         "install_notes": "",
         "method_schema": {},
+        "required_input_fields": {},
         "required_method_fields": {
           "calculate_energy": [
+            "method"
+          ],
+          "calculate_forces": [
             "method"
           ],
           "calculate_hessian": [
@@ -1575,13 +3198,29 @@
           ],
           "optimize_geometry": [
             "method"
+          ],
+          "calculate_dipole_moment": [
+            "method"
+          ],
+          "calculate_atomic_charges": [
+            "method"
+          ],
+          "calculate_bond_orders": [
+            "method"
           ]
         },
         "required_setting_fields": {
           "optimize_geometry": [
             "optimization_level"
+          ],
+          "calculate_bond_orders": [
+            "minimum_bond_order"
           ]
         },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
         "health": {
           "status": "available",
           "available": true,
@@ -1613,11 +3252,14 @@
         "runtime": "quantum",
         "capabilities": [
           "calculate_energy",
+          "calculate_forces",
+          "calculate_hessian",
           "calculate_dipole_moment",
           "calculate_atomic_charges",
-          "calculate_orbitals"
+          "calculate_orbitals",
+          "calculate_excited_states"
         ],
-        "description": "PySCF molecular Hartree-Fock and density-functional calculations.",
+        "description": "PySCF molecular Hartree-Fock and density-functional energies, analytic derivatives, and electronic properties.",
         "python_modules": [
           "pyscf"
         ],
@@ -1634,8 +3276,17 @@
           "method": "rhf|uhf|rks|uks",
           "basis": "PySCF basis name"
         },
+        "required_input_fields": {},
         "required_method_fields": {
           "calculate_energy": [
+            "method",
+            "basis"
+          ],
+          "calculate_forces": [
+            "method",
+            "basis"
+          ],
+          "calculate_hessian": [
             "method",
             "basis"
           ],
@@ -1650,9 +3301,23 @@
           "calculate_orbitals": [
             "method",
             "basis"
+          ],
+          "calculate_excited_states": [
+            "method",
+            "basis",
+            "excited_state_method"
           ]
         },
-        "required_setting_fields": {},
+        "required_setting_fields": {
+          "calculate_excited_states": [
+            "number_of_states",
+            "spin_symmetry"
+          ]
+        },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
         "health": {
           "status": "available",
           "available": true,
@@ -1677,6 +3342,761 @@
           "required_data_resources": [],
           "license_class": "open_source",
           "install_notes": ""
+        }
+      },
+      {
+        "id": "gpaw",
+        "display_name": "GPAW",
+        "runtime": "gpaw",
+        "capabilities": [
+          "calculate_energy",
+          "calculate_forces",
+          "optimize_geometry",
+          "calculate_periodic_energy",
+          "calculate_periodic_forces",
+          "calculate_periodic_stress",
+          "relax_periodic_structure",
+          "calculate_electronic_band_structure",
+          "calculate_density_of_states",
+          "calculate_projected_density_of_states"
+        ],
+        "description": "GPAW real-space, LCAO, or plane-wave DFT with explicit representation, PAW setup, k-point, spin, and convergence choices.",
+        "python_modules": [
+          "gpaw",
+          "ase",
+          "numpy"
+        ],
+        "executables": [
+          "gpaw"
+        ],
+        "environment_variables": [],
+        "conda_packages": [
+          "gpaw=25.7.0",
+          "ase",
+          "numpy"
+        ],
+        "pip_packages": [],
+        "required_data_resources": [
+          "GPAW PAW setup datasets under .software_cache/gpaw/setups"
+        ],
+        "license_class": "open_source",
+        "install_notes": "",
+        "method_schema": {
+          "mode": "fd or lcao for molecules; pw, fd, or lcao for periodic structures",
+          "xc": "explicit GPAW exchange-correlation functional",
+          "ecut_ev": "required for pw mode",
+          "grid_spacing_angstrom": "required for fd mode",
+          "basis": "required for lcao mode",
+          "k_points": "required periodic three-integer grid or {grid,gamma}",
+          "spin_polarized": "explicit boolean; true requires initial_magnetic_moments"
+        },
+        "required_input_fields": {
+          "calculate_projected_density_of_states": [
+            "ground_state"
+          ]
+        },
+        "required_method_fields": {
+          "calculate_energy": [
+            "mode",
+            "xc",
+            "spin_polarized"
+          ],
+          "calculate_forces": [
+            "mode",
+            "xc",
+            "spin_polarized"
+          ],
+          "optimize_geometry": [
+            "mode",
+            "xc",
+            "spin_polarized"
+          ],
+          "calculate_periodic_energy": [
+            "mode",
+            "xc",
+            "spin_polarized",
+            "k_points"
+          ],
+          "calculate_periodic_forces": [
+            "mode",
+            "xc",
+            "spin_polarized",
+            "k_points"
+          ],
+          "calculate_periodic_stress": [
+            "mode",
+            "xc",
+            "spin_polarized",
+            "k_points"
+          ],
+          "relax_periodic_structure": [
+            "mode",
+            "xc",
+            "spin_polarized",
+            "k_points"
+          ]
+        },
+        "required_setting_fields": {
+          "calculate_energy": [
+            "vacuum_angstrom",
+            "scf_energy_convergence_ev",
+            "max_scf_cycles"
+          ],
+          "calculate_forces": [
+            "vacuum_angstrom",
+            "scf_energy_convergence_ev",
+            "max_scf_cycles"
+          ],
+          "optimize_geometry": [
+            "vacuum_angstrom",
+            "scf_energy_convergence_ev",
+            "max_scf_cycles",
+            "force_threshold_ev_per_angstrom",
+            "max_steps",
+            "optimizer"
+          ],
+          "calculate_periodic_energy": [
+            "scf_energy_convergence_ev",
+            "max_scf_cycles"
+          ],
+          "calculate_periodic_forces": [
+            "scf_energy_convergence_ev",
+            "max_scf_cycles"
+          ],
+          "calculate_periodic_stress": [
+            "scf_energy_convergence_ev",
+            "max_scf_cycles"
+          ],
+          "relax_periodic_structure": [
+            "scf_energy_convergence_ev",
+            "max_scf_cycles",
+            "force_threshold_ev_per_angstrom",
+            "max_steps",
+            "optimizer",
+            "relax_cell"
+          ],
+          "calculate_electronic_band_structure": [
+            "band_path",
+            "number_of_points",
+            "number_of_bands",
+            "converged_bands",
+            "energy_reference"
+          ],
+          "calculate_density_of_states": [
+            "minimum_energy_ev",
+            "maximum_energy_ev",
+            "grid_points",
+            "broadening_ev",
+            "spin",
+            "energy_reference"
+          ],
+          "calculate_projected_density_of_states": [
+            "minimum_energy_ev",
+            "maximum_energy_ev",
+            "grid_points",
+            "broadening_ev",
+            "spin",
+            "energy_reference"
+          ]
+        },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
+        "health": {
+          "status": "available",
+          "available": true,
+          "runtime": "gpaw",
+          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/gpaw/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {
+            "gpaw": {
+              "available": true,
+              "version": "25.7.0"
+            },
+            "ase": {
+              "available": true,
+              "version": "3.29.0"
+            },
+            "numpy": {
+              "available": true,
+              "version": "2.4.6"
+            }
+          },
+          "executables": {
+            "gpaw": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/gpaw/bin/gpaw"
+          },
+          "environment": {},
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [
+            "gpaw=25.7.0",
+            "ase",
+            "numpy"
+          ],
+          "pip_packages": [],
+          "required_data_resources": [
+            "GPAW PAW setup datasets under .software_cache/gpaw/setups"
+          ],
+          "license_class": "open_source",
+          "install_notes": ""
+        }
+      },
+      {
+        "id": "lobster",
+        "display_name": "LOBSTER",
+        "runtime": "lobster",
+        "capabilities": [
+          "analyze_periodic_bonding",
+          "calculate_projected_density_of_states",
+          "calculate_charge_spilling"
+        ],
+        "description": "LOBSTER 5.1.0 periodic bonding, projected-DOS, and projection-quality postprocessing from explicit existing output Artifacts.",
+        "python_modules": [
+          "pymatgen",
+          "numpy"
+        ],
+        "executables": [
+          "lobster-5.1.0"
+        ],
+        "environment_variables": [
+          "CHEMGRAPH_LOBSTER_COMMAND"
+        ],
+        "conda_packages": [
+          "pymatgen"
+        ],
+        "pip_packages": [],
+        "required_data_resources": [],
+        "license_class": "academic_license",
+        "install_notes": "Operator-supplied LOBSTER 5.1.0 is cached locally with its User Guide and FAQ. These public actions parse bounded existing outputs and do not expose arbitrary lobsterin execution.",
+        "method_schema": {},
+        "required_input_fields": {
+          "analyze_periodic_bonding": [
+            "integrated_bond_list"
+          ],
+          "calculate_projected_density_of_states": [
+            "dos_file",
+            "structure_file"
+          ],
+          "calculate_charge_spilling": [
+            "lobster_output"
+          ]
+        },
+        "required_method_fields": {},
+        "required_setting_fields": {
+          "analyze_periodic_bonding": [
+            "bonding_metric",
+            "spin",
+            "minimum_absolute_integrated_value_ev",
+            "max_bonds",
+            "include_curve_data",
+            "minimum_energy_ev",
+            "maximum_energy_ev",
+            "curve_stride",
+            "max_curve_points"
+          ],
+          "calculate_projected_density_of_states": [
+            "minimum_energy_ev",
+            "maximum_energy_ev",
+            "spin",
+            "curve_stride"
+          ],
+          "calculate_charge_spilling": [
+            "maximum_charge_spilling_percent",
+            "maximum_total_spilling_percent",
+            "require_finished"
+          ]
+        },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {
+          "analyze_periodic_bonding": [
+            "periodic_crystal"
+          ],
+          "calculate_projected_density_of_states": [
+            "periodic_crystal"
+          ],
+          "calculate_charge_spilling": [
+            "periodic_crystal"
+          ]
+        },
+        "validation_levels": {
+          "analyze_periodic_bonding": "validated",
+          "calculate_projected_density_of_states": "validated",
+          "calculate_charge_spilling": "validated"
+        },
+        "health": {
+          "status": "available",
+          "available": true,
+          "runtime": "lobster",
+          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/lobster/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {
+            "pymatgen": {
+              "available": true,
+              "version": "2026.5.4"
+            },
+            "numpy": {
+              "available": true,
+              "version": "2.4.6"
+            }
+          },
+          "executables": {
+            "lobster-5.1.0": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/lobster/5.1.0/package/lobster-5.1.0"
+          },
+          "environment": {
+            "CHEMGRAPH_LOBSTER_COMMAND": true
+          },
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [
+            "pymatgen"
+          ],
+          "pip_packages": [],
+          "required_data_resources": [],
+          "license_class": "academic_license",
+          "install_notes": "Operator-supplied LOBSTER 5.1.0 is cached locally with its User Guide and FAQ. These public actions parse bounded existing outputs and do not expose arbitrary lobsterin execution."
+        }
+      },
+      {
+        "id": "nwchem",
+        "display_name": "NWChem",
+        "runtime": "nwchem",
+        "capabilities": [
+          "calculate_energy",
+          "calculate_forces",
+          "calculate_hessian",
+          "calculate_dipole_moment",
+          "calculate_atomic_charges"
+        ],
+        "description": "NWChem single-geometry QCSchema calculations through QCEngine with explicit method, basis, convergence, and population/property requests.",
+        "python_modules": [
+          "qcengine",
+          "qcelemental",
+          "numpy"
+        ],
+        "executables": [
+          "nwchem"
+        ],
+        "environment_variables": [
+          "NWCHEM_BASIS_LIBRARY"
+        ],
+        "conda_packages": [
+          "nwchem=7.3.1",
+          "qcengine=0.50.0",
+          "qcelemental=0.50.4",
+          "cclib"
+        ],
+        "pip_packages": [],
+        "required_data_resources": [
+          "NWChem basis libraries under .software_cache/nwchem/source/src/basis/libraries"
+        ],
+        "license_class": "open_source",
+        "install_notes": "",
+        "method_schema": {
+          "method": "NWChem/QCEngine method such as hf, dft, mp2, or ccsd",
+          "basis": "NWChem basis-library name",
+          "functional": "required explicit XC functional when method=dft",
+          "reference": "optional rhf, uhf, or rohf reference selection",
+          "charge/multiplicity": "optional values overriding the supplied structure metadata"
+        },
+        "required_input_fields": {},
+        "required_method_fields": {
+          "calculate_energy": [
+            "method",
+            "basis"
+          ],
+          "calculate_forces": [
+            "method",
+            "basis"
+          ],
+          "calculate_hessian": [
+            "method",
+            "basis"
+          ],
+          "calculate_dipole_moment": [
+            "method",
+            "basis"
+          ],
+          "calculate_atomic_charges": [
+            "method",
+            "basis"
+          ]
+        },
+        "required_setting_fields": {
+          "calculate_energy": [
+            "scf_convergence",
+            "max_scf_cycles"
+          ],
+          "calculate_forces": [
+            "scf_convergence",
+            "max_scf_cycles"
+          ],
+          "calculate_hessian": [
+            "scf_convergence",
+            "max_scf_cycles"
+          ],
+          "calculate_dipole_moment": [
+            "scf_convergence",
+            "max_scf_cycles"
+          ],
+          "calculate_atomic_charges": [
+            "scf_convergence",
+            "max_scf_cycles"
+          ]
+        },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
+        "health": {
+          "status": "available",
+          "available": true,
+          "runtime": "nwchem",
+          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/nwchem/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {
+            "qcengine": {
+              "available": true,
+              "version": "0.50.0"
+            },
+            "qcelemental": {
+              "available": true,
+              "version": "0.50.4"
+            },
+            "numpy": {
+              "available": true,
+              "version": "2.4.6"
+            }
+          },
+          "executables": {
+            "nwchem": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/nwchem/bin/nwchem"
+          },
+          "environment": {
+            "NWCHEM_BASIS_LIBRARY": true
+          },
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [
+            "nwchem=7.3.1",
+            "qcengine=0.50.0",
+            "qcelemental=0.50.4",
+            "cclib"
+          ],
+          "pip_packages": [],
+          "required_data_resources": [
+            "NWChem basis libraries under .software_cache/nwchem/source/src/basis/libraries"
+          ],
+          "license_class": "open_source",
+          "install_notes": ""
+        }
+      },
+      {
+        "id": "openmolcas",
+        "display_name": "OpenMolcas",
+        "runtime": "openmolcas",
+        "capabilities": [
+          "calculate_energy",
+          "calculate_dipole_moment",
+          "calculate_atomic_charges",
+          "calculate_orbitals"
+        ],
+        "description": "OpenMolcas v25.10 molecular HF/Kohn-Sham SCF energy, dipole, Mulliken-charge, and orbital-property calculations from typed structures and explicit SCF controls.",
+        "python_modules": [],
+        "executables": [
+          "pymolcas"
+        ],
+        "environment_variables": [
+          "CHEMGRAPH_OPENMOLCAS_COMMAND"
+        ],
+        "conda_packages": [],
+        "pip_packages": [],
+        "required_data_resources": [
+          "OpenMolcas v25.10 basis_library managed under .software_cache/openmolcas/25.10"
+        ],
+        "license_class": "open_source",
+        "install_notes": "Locally compiled OpenMolcas v25.10 serial/OpenMP build with built-in Libxc.",
+        "method_schema": {
+          "method": "hf or dft",
+          "basis": "explicit OpenMolcas basis-library label",
+          "functional": "required explicit OpenMolcas/Libxc functional when method=dft",
+          "charge/multiplicity": "optional explicit overrides of structure metadata"
+        },
+        "required_input_fields": {},
+        "required_method_fields": {
+          "calculate_energy": [
+            "method",
+            "basis"
+          ],
+          "calculate_dipole_moment": [
+            "method",
+            "basis"
+          ],
+          "calculate_atomic_charges": [
+            "method",
+            "basis"
+          ],
+          "calculate_orbitals": [
+            "method",
+            "basis"
+          ]
+        },
+        "required_setting_fields": {
+          "calculate_energy": [
+            "use_symmetry",
+            "use_uhf",
+            "use_cholesky",
+            "initial_guess",
+            "max_scf_iterations",
+            "scf_thresholds"
+          ],
+          "calculate_dipole_moment": [
+            "use_symmetry",
+            "use_uhf",
+            "use_cholesky",
+            "initial_guess",
+            "max_scf_iterations",
+            "scf_thresholds"
+          ],
+          "calculate_atomic_charges": [
+            "use_symmetry",
+            "use_uhf",
+            "use_cholesky",
+            "initial_guess",
+            "max_scf_iterations",
+            "scf_thresholds"
+          ],
+          "calculate_orbitals": [
+            "use_symmetry",
+            "use_uhf",
+            "use_cholesky",
+            "initial_guess",
+            "max_scf_iterations",
+            "scf_thresholds"
+          ]
+        },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {
+          "calculate_energy": [
+            "molecule",
+            "cluster"
+          ],
+          "calculate_dipole_moment": [
+            "molecule",
+            "cluster"
+          ],
+          "calculate_atomic_charges": [
+            "molecule",
+            "cluster"
+          ],
+          "calculate_orbitals": [
+            "molecule",
+            "cluster"
+          ]
+        },
+        "validation_levels": {
+          "calculate_energy": "real_smoke",
+          "calculate_dipole_moment": "real_smoke",
+          "calculate_atomic_charges": "real_smoke",
+          "calculate_orbitals": "real_smoke"
+        },
+        "health": {
+          "status": "available",
+          "available": true,
+          "runtime": "openmolcas",
+          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/deepmd/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {},
+          "executables": {
+            "pymolcas": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/openmolcas/25.10/pymolcas"
+          },
+          "environment": {
+            "CHEMGRAPH_OPENMOLCAS_COMMAND": true
+          },
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [],
+          "pip_packages": [],
+          "required_data_resources": [
+            "OpenMolcas v25.10 basis_library managed under .software_cache/openmolcas/25.10"
+          ],
+          "license_class": "open_source",
+          "install_notes": "Locally compiled OpenMolcas v25.10 serial/OpenMP build with built-in Libxc."
+        }
+      },
+      {
+        "id": "multiwfn",
+        "display_name": "Multiwfn",
+        "runtime": "multiwfn",
+        "capabilities": [
+          "calculate_atomic_charges",
+          "calculate_bond_orders"
+        ],
+        "description": "Multiwfn 2026.7.15 noGUI wavefunction post-processing for explicit Mulliken/Lowdin atomic charges and Mayer/Wiberg-Lowdin/Mulliken bond-order definitions.",
+        "python_modules": [],
+        "executables": [
+          "Multiwfn_noGUI"
+        ],
+        "environment_variables": [
+          "CHEMGRAPH_MULTIWFN_COMMAND"
+        ],
+        "conda_packages": [],
+        "pip_packages": [],
+        "required_data_resources": [
+          "Agent-supplied fch/fchk/wfn/wfx/mwfn/Molden/47 wavefunction file; both required Multiwfn citations are returned in provenance"
+        ],
+        "license_class": "custom_open_source_citation_required",
+        "install_notes": "Official 2026.7.15 Linux noGUI binary is managed under .software_cache/multiwfn; the adapter uses fixed version-specific menu sequences and accepts no arbitrary menu script.",
+        "method_schema": {
+          "population_analysis": "mulliken or lowdin",
+          "bond_order_definition": "mayer, wiberg_lowdin, or mulliken"
+        },
+        "required_input_fields": {},
+        "required_method_fields": {
+          "calculate_atomic_charges": [
+            "population_analysis"
+          ],
+          "calculate_bond_orders": [
+            "bond_order_definition"
+          ]
+        },
+        "required_setting_fields": {
+          "calculate_bond_orders": [
+            "minimum_bond_order"
+          ]
+        },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {
+          "calculate_atomic_charges": [
+            "molecular_wavefunction"
+          ],
+          "calculate_bond_orders": [
+            "molecular_wavefunction"
+          ]
+        },
+        "validation_levels": {
+          "calculate_atomic_charges": "real_smoke",
+          "calculate_bond_orders": "real_smoke"
+        },
+        "health": {
+          "status": "available",
+          "available": true,
+          "runtime": "multiwfn",
+          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/multiwfn/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {},
+          "executables": {
+            "Multiwfn_noGUI": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/multiwfn/2026.7.15/Multiwfn_2026.7.15_bin_Linux_noGUI/Multiwfn_noGUI"
+          },
+          "environment": {
+            "CHEMGRAPH_MULTIWFN_COMMAND": true
+          },
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [],
+          "pip_packages": [],
+          "required_data_resources": [
+            "Agent-supplied fch/fchk/wfn/wfx/mwfn/Molden/47 wavefunction file; both required Multiwfn citations are returned in provenance"
+          ],
+          "license_class": "custom_open_source_citation_required",
+          "install_notes": "Official 2026.7.15 Linux noGUI binary is managed under .software_cache/multiwfn; the adapter uses fixed version-specific menu sequences and accepts no arbitrary menu script."
+        }
+      },
+      {
+        "id": "critic2",
+        "display_name": "Critic2",
+        "runtime": "critic2",
+        "capabilities": [
+          "analyze_electron_density_topology",
+          "calculate_atomic_basin_properties",
+          "calculate_bader_charges"
+        ],
+        "description": "Critic2 1.2.1081 QTAIM critical-point search and typed grid-basin integration over Agent-supplied fields.",
+        "python_modules": [],
+        "executables": [
+          "critic2"
+        ],
+        "environment_variables": [
+          "CHEMGRAPH_CRITIC2_COMMAND"
+        ],
+        "conda_packages": [],
+        "pip_packages": [],
+        "required_data_resources": [
+          "Agent-supplied electron-density grid or compatible wavefunction file; an explicit separate structure file is required when the density file does not contain geometry"
+        ],
+        "license_class": "open_source",
+        "install_notes": "The locally compiled GPL-3.0 development build is managed under .software_cache/critic2/install-conda. The adapter exposes typed AUTO/CPREPORT controls and never accepts an arbitrary Critic2 command script.",
+        "method_schema": {},
+        "required_input_fields": {},
+        "required_method_fields": {},
+        "required_setting_fields": {
+          "analyze_electron_density_topology": [
+            "system_type",
+            "density_format",
+            "interpolation",
+            "critical_point_types",
+            "gradient_tolerance",
+            "seed_strategy",
+            "report_detail",
+            "max_reported_critical_points"
+          ],
+          "calculate_atomic_basin_properties": [
+            "system_type",
+            "density_format",
+            "interpolation",
+            "partition_method",
+            "non_nuclear_maxima",
+            "all_maxima_non_atomic",
+            "write_weight_cubes",
+            "max_reported_basins",
+            "laplacian_sum_tolerance"
+          ],
+          "calculate_bader_charges": [
+            "system_type",
+            "density_format",
+            "interpolation",
+            "partition_method",
+            "non_nuclear_maxima",
+            "all_maxima_non_atomic",
+            "write_weight_cubes",
+            "max_reported_basins",
+            "laplacian_sum_tolerance"
+          ]
+        },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
+        "health": {
+          "status": "available",
+          "available": true,
+          "runtime": "critic2",
+          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/deepmd/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {},
+          "executables": {
+            "critic2": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/critic2/install-conda/bin/critic2"
+          },
+          "environment": {
+            "CHEMGRAPH_CRITIC2_COMMAND": true
+          },
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [],
+          "pip_packages": [],
+          "required_data_resources": [
+            "Agent-supplied electron-density grid or compatible wavefunction file; an explicit separate structure file is required when the density file does not contain geometry"
+          ],
+          "license_class": "open_source",
+          "install_notes": "The locally compiled GPL-3.0 development build is managed under .software_cache/critic2/install-conda. The adapter exposes typed AUTO/CPREPORT controls and never accepts an arbitrary Critic2 command script."
         }
       },
       {
@@ -1706,6 +4126,7 @@
         "license_class": "open_source",
         "install_notes": "",
         "method_schema": {},
+        "required_input_fields": {},
         "required_method_fields": {
           "calculate_energy": [
             "method",
@@ -1729,6 +4150,10 @@
           ]
         },
         "required_setting_fields": {},
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
         "health": {
           "status": "available",
           "available": true,
@@ -1783,6 +4208,7 @@
         "license_class": "open_source",
         "install_notes": "",
         "method_schema": {},
+        "required_input_fields": {},
         "required_method_fields": {
           "calculate_energy": [
             "method"
@@ -1810,6 +4236,10 @@
             "max_steps"
           ]
         },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
         "health": {
           "status": "available",
           "available": true,
@@ -1864,6 +4294,7 @@
         "license_class": "open_source",
         "install_notes": "",
         "method_schema": {},
+        "required_input_fields": {},
         "required_method_fields": {
           "calculate_energy": [
             "model",
@@ -1888,6 +4319,10 @@
             "max_steps"
           ]
         },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
         "health": {
           "status": "available",
           "available": true,
@@ -1942,6 +4377,7 @@
         "license_class": "open_source",
         "install_notes": "",
         "method_schema": {},
+        "required_input_fields": {},
         "required_method_fields": {
           "calculate_energy": [
             "model",
@@ -1966,6 +4402,10 @@
             "max_steps"
           ]
         },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
         "health": {
           "status": "available",
           "available": true,
@@ -2037,6 +4477,7 @@
           "spin": "explicit spin value supplied as a DeePMD frame parameter",
           "frame_parameters": "optional additional explicit per-frame parameters"
         },
+        "required_input_fields": {},
         "required_method_fields": {
           "calculate_energy": [
             "model",
@@ -2101,6 +4542,10 @@
             "optimizer"
           ]
         },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
         "health": {
           "status": "available",
           "available": true,
@@ -2174,6 +4619,7 @@
           "allow_tf32": "explicit boolean controlling CUDA TF32 use",
           "neighborlist_backend": "optional NequIP neighbor-list backend; default matscipy"
         },
+        "required_input_fields": {},
         "required_method_fields": {
           "calculate_periodic_energy": [
             "model",
@@ -2208,6 +4654,10 @@
             "optimizer"
           ]
         },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
         "health": {
           "status": "available",
           "available": true,
@@ -2287,6 +4737,7 @@
           "allow_tf32": "explicit boolean controlling CUDA TF32 use",
           "neighborlist_backend": "optional NequIP neighbor-list backend; default matscipy"
         },
+        "required_input_fields": {},
         "required_method_fields": {
           "calculate_periodic_energy": [
             "model",
@@ -2321,6 +4772,10 @@
             "optimizer"
           ]
         },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
         "health": {
           "status": "available",
           "available": true,
@@ -2372,9 +4827,14 @@
         "runtime": "quantum",
         "capabilities": [
           "calculate_energy",
+          "calculate_forces",
           "calculate_hessian",
           "optimize_geometry",
-          "calculate_dipole_moment"
+          "calculate_dipole_moment",
+          "calculate_atomic_charges",
+          "calculate_orbitals",
+          "calculate_bond_orders",
+          "calculate_excited_states"
         ],
         "description": "Operator-provided ORCA 6.1.1 electronic-structure executable with an isolated OpenMPI 4.1.8 runtime.",
         "python_modules": [],
@@ -2396,8 +4856,13 @@
           "charge": "optional explicit molecular charge",
           "multiplicity": "optional explicit spin multiplicity"
         },
+        "required_input_fields": {},
         "required_method_fields": {
           "calculate_energy": [
+            "method",
+            "basis"
+          ],
+          "calculate_forces": [
             "method",
             "basis"
           ],
@@ -2412,14 +4877,45 @@
           "calculate_dipole_moment": [
             "method",
             "basis"
+          ],
+          "calculate_orbitals": [
+            "method",
+            "basis"
+          ],
+          "calculate_bond_orders": [
+            "method",
+            "basis"
+          ],
+          "calculate_atomic_charges": [
+            "method",
+            "basis",
+            "population_analysis"
+          ],
+          "calculate_excited_states": [
+            "method",
+            "basis",
+            "excited_state_method"
           ]
         },
         "required_setting_fields": {
           "optimize_geometry": [
             "optimization_convergence",
             "max_steps"
+          ],
+          "calculate_bond_orders": [
+            "minimum_bond_order"
+          ],
+          "calculate_excited_states": [
+            "number_of_states",
+            "spin_symmetry",
+            "excited_energy_tolerance_hartree",
+            "residual_tolerance"
           ]
         },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
         "health": {
           "status": "available",
           "available": true,
@@ -2475,6 +4971,7 @@
           "charge": "optional explicit molecular charge",
           "multiplicity": "optional explicit spin multiplicity"
         },
+        "required_input_fields": {},
         "required_method_fields": {
           "calculate_energy": [
             "method",
@@ -2509,6 +5006,10 @@
             "max_steps"
           ]
         },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
         "health": {
           "status": "available",
           "available": true,
@@ -2565,6 +5066,7 @@
           "diffsp/diffs": "optional explicit diffuse-function booleans",
           "charge/multiplicity": "optional explicit molecular charge and multiplicity"
         },
+        "required_input_fields": {},
         "required_method_fields": {
           "calculate_energy": [
             "scftyp",
@@ -2595,6 +5097,10 @@
             "max_steps"
           ]
         },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
         "health": {
           "status": "available",
           "available": true,
@@ -2642,6 +5148,7 @@
         "license_class": "open_source",
         "install_notes": "",
         "method_schema": {},
+        "required_input_fields": {},
         "required_method_fields": {},
         "required_setting_fields": {
           "calculate_hessian": [
@@ -2653,6 +5160,10 @@
             "max_steps"
           ]
         },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
         "health": {
           "status": "available",
           "available": true,
@@ -2700,12 +5211,17 @@
         "license_class": "open_source",
         "install_notes": "",
         "method_schema": {},
+        "required_input_fields": {},
         "required_method_fields": {},
         "required_setting_fields": {
           "derive_vibrational_modes": [
             "linearity"
           ]
         },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
         "health": {
           "status": "available",
           "available": true,
@@ -2737,7 +5253,8 @@
         "display_name": "ResearchChem spectrum builder",
         "runtime": "core",
         "capabilities": [
-          "derive_ir_spectrum"
+          "derive_ir_spectrum",
+          "derive_uv_vis_spectrum"
         ],
         "description": "Deterministic line/broadened spectrum construction from supplied frequencies and intensities.",
         "python_modules": [
@@ -2753,13 +5270,25 @@
         "license_class": "open_source",
         "install_notes": "",
         "method_schema": {},
+        "required_input_fields": {},
         "required_method_fields": {},
         "required_setting_fields": {
           "derive_ir_spectrum": [
             "broadening",
             "fwhm_cm1"
+          ],
+          "derive_uv_vis_spectrum": [
+            "broadening",
+            "fwhm_ev",
+            "minimum_energy_ev",
+            "maximum_energy_ev",
+            "grid_points"
           ]
         },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
         "health": {
           "status": "available",
           "available": true,
@@ -2809,6 +5338,7 @@
         "license_class": "open_source",
         "install_notes": "",
         "method_schema": {},
+        "required_input_fields": {},
         "required_method_fields": {},
         "required_setting_fields": {
           "derive_thermochemistry": [
@@ -2816,6 +5346,10 @@
             "pressure_pa"
           ]
         },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
         "health": {
           "status": "available",
           "available": true,
@@ -2870,12 +5404,17 @@
         "license_class": "open_source",
         "install_notes": "",
         "method_schema": {},
+        "required_input_fields": {},
         "required_method_fields": {},
         "required_setting_fields": {
           "derive_thermochemistry": [
             "temperature_kelvin"
           ]
         },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
         "health": {
           "status": "available",
           "available": true,
@@ -2905,6 +5444,267 @@
         }
       },
       {
+        "id": "geometric",
+        "display_name": "geomeTRIC",
+        "runtime": "nwchem",
+        "capabilities": [
+          "optimize_geometry"
+        ],
+        "description": "geomeTRIC 1.1.1 molecular geometry optimization driven by the exact energy/force backend and settings selected in component_backends.calculator.",
+        "python_modules": [
+          "geometric",
+          "numpy"
+        ],
+        "executables": [],
+        "environment_variables": [],
+        "conda_packages": [],
+        "pip_packages": [
+          "geometric==1.1.1"
+        ],
+        "required_data_resources": [],
+        "license_class": "open_source",
+        "install_notes": "",
+        "method_schema": {
+          "calculator_method": "complete method_spec mapping passed unchanged to the Agent-selected calculator backend"
+        },
+        "required_input_fields": {},
+        "required_method_fields": {
+          "optimize_geometry": [
+            "calculator_method"
+          ]
+        },
+        "required_setting_fields": {
+          "optimize_geometry": [
+            "calculator_action_settings",
+            "coordinate_system",
+            "max_iterations",
+            "trust_radius_angstrom",
+            "minimum_trust_radius_angstrom",
+            "maximum_trust_radius_angstrom",
+            "hessian_strategy",
+            "project_rigid_force_torque",
+            "convergence_energy_hartree",
+            "convergence_grms_hartree_per_bohr",
+            "convergence_gmax_hartree_per_bohr",
+            "convergence_drms_angstrom",
+            "convergence_dmax_angstrom",
+            "rigid_fragments",
+            "constraint_algorithm",
+            "constraint_enforcement_tolerance"
+          ]
+        },
+        "required_component_roles": {
+          "optimize_geometry": [
+            "calculator"
+          ]
+        },
+        "component_backend_options": {
+          "optimize_geometry": {
+            "calculator": [
+              "xtb",
+              "pyscf",
+              "tblite",
+              "gpaw",
+              "nwchem",
+              "orca",
+              "mace",
+              "chgnet",
+              "deepmd",
+              "ase_emt"
+            ]
+          }
+        },
+        "supported_system_types": {
+          "optimize_geometry": [
+            "molecule",
+            "cluster"
+          ]
+        },
+        "validation_levels": {
+          "optimize_geometry": "validated"
+        },
+        "health": {
+          "status": "available",
+          "available": true,
+          "runtime": "nwchem",
+          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/nwchem/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {
+            "geometric": {
+              "available": true,
+              "version": "1.1.1"
+            },
+            "numpy": {
+              "available": true,
+              "version": "2.4.6"
+            }
+          },
+          "executables": {},
+          "environment": {},
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [],
+          "pip_packages": [
+            "geometric==1.1.1"
+          ],
+          "required_data_resources": [],
+          "license_class": "open_source",
+          "install_notes": ""
+        }
+      },
+      {
+        "id": "sella",
+        "display_name": "Sella",
+        "runtime": "sella",
+        "capabilities": [
+          "optimize_geometry",
+          "locate_transition_state"
+        ],
+        "description": "Sella 2.5.0 order-0 minimum optimization and order-1 transition-state search driven by the exact energy/force backend and settings selected in component_backends.calculator.",
+        "python_modules": [
+          "sella",
+          "ase",
+          "numpy"
+        ],
+        "executables": [],
+        "environment_variables": [],
+        "conda_packages": [],
+        "pip_packages": [
+          "sella==2.5.0"
+        ],
+        "required_data_resources": [],
+        "license_class": "open_source",
+        "install_notes": "",
+        "method_schema": {
+          "calculator_method": "complete method_spec mapping passed unchanged to the Agent-selected calculator backend"
+        },
+        "required_input_fields": {},
+        "required_method_fields": {
+          "optimize_geometry": [
+            "calculator_method"
+          ],
+          "locate_transition_state": [
+            "calculator_method"
+          ]
+        },
+        "required_setting_fields": {
+          "optimize_geometry": [
+            "calculator_action_settings",
+            "force_threshold_ev_per_angstrom",
+            "max_steps",
+            "internal_coordinates",
+            "initial_trust_radius",
+            "minimum_model_quality",
+            "finite_difference_step",
+            "three_point_differences",
+            "steps_per_diagonalization",
+            "diagonalization_interval",
+            "allow_fragments",
+            "refine_initial_hessian_iterations"
+          ],
+          "locate_transition_state": [
+            "calculator_action_settings",
+            "force_threshold_ev_per_angstrom",
+            "max_steps",
+            "internal_coordinates",
+            "initial_trust_radius",
+            "minimum_model_quality",
+            "finite_difference_step",
+            "three_point_differences",
+            "steps_per_diagonalization",
+            "diagonalization_interval",
+            "allow_fragments",
+            "refine_initial_hessian_iterations"
+          ]
+        },
+        "required_component_roles": {
+          "optimize_geometry": [
+            "calculator"
+          ],
+          "locate_transition_state": [
+            "calculator"
+          ]
+        },
+        "component_backend_options": {
+          "optimize_geometry": {
+            "calculator": [
+              "xtb",
+              "pyscf",
+              "tblite",
+              "gpaw",
+              "nwchem",
+              "orca",
+              "mace",
+              "chgnet",
+              "deepmd",
+              "ase_emt"
+            ]
+          },
+          "locate_transition_state": {
+            "calculator": [
+              "xtb",
+              "pyscf",
+              "tblite",
+              "gpaw",
+              "nwchem",
+              "orca",
+              "mace",
+              "chgnet",
+              "deepmd",
+              "ase_emt"
+            ]
+          }
+        },
+        "supported_system_types": {
+          "optimize_geometry": [
+            "molecule",
+            "cluster"
+          ],
+          "locate_transition_state": [
+            "molecule",
+            "cluster"
+          ]
+        },
+        "validation_levels": {
+          "optimize_geometry": "validated",
+          "locate_transition_state": "validated"
+        },
+        "health": {
+          "status": "available",
+          "available": true,
+          "runtime": "sella",
+          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/sella/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {
+            "sella": {
+              "available": true,
+              "version": "2.5.0"
+            },
+            "ase": {
+              "available": true,
+              "version": "3.29.0"
+            },
+            "numpy": {
+              "available": true,
+              "version": "2.4.6"
+            }
+          },
+          "executables": {},
+          "environment": {},
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [],
+          "pip_packages": [
+            "sella==2.5.0"
+          ],
+          "required_data_resources": [],
+          "license_class": "open_source",
+          "install_notes": ""
+        }
+      },
+      {
         "id": "pysisyphus",
         "display_name": "pysisyphus",
         "runtime": "reaction",
@@ -2928,6 +5728,7 @@
         "license_class": "open_source",
         "install_notes": "",
         "method_schema": {},
+        "required_input_fields": {},
         "required_method_fields": {
           "locate_transition_state": [
             "calculator_backend",
@@ -2952,6 +5753,10 @@
             "backward"
           ]
         },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
         "health": {
           "status": "available",
           "available": true,
@@ -3002,6 +5807,7 @@
         "license_class": "open_source",
         "install_notes": "",
         "method_schema": {},
+        "required_input_fields": {},
         "required_method_fields": {},
         "required_setting_fields": {
           "calculate_chemical_equilibrium": [
@@ -3014,6 +5820,10 @@
             "num_points"
           ]
         },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
         "health": {
           "status": "available",
           "available": true,
@@ -3061,6 +5871,7 @@
         "license_class": "open_source",
         "install_notes": "",
         "method_schema": {},
+        "required_input_fields": {},
         "required_method_fields": {},
         "required_setting_fields": {
           "integrate_reaction_network": [
@@ -3068,6 +5879,10 @@
             "num_points"
           ]
         },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
         "health": {
           "status": "available",
           "available": true,
@@ -3095,6 +5910,195 @@
         }
       },
       {
+        "id": "rmg",
+        "display_name": "RMG-Py",
+        "runtime": "rmg",
+        "capabilities": [
+          "calculate_rate_constants",
+          "calculate_tunneling_correction"
+        ],
+        "description": "RMG-Py 4.0.0 typed kinetics-model evaluation and Wigner/Eckart tunneling factors without mechanism generation or hidden database selection.",
+        "python_modules": [
+          "rmgpy"
+        ],
+        "executables": [
+          "rmg.py"
+        ],
+        "environment_variables": [],
+        "conda_packages": [
+          "rmg=4.0.0"
+        ],
+        "pip_packages": [],
+        "required_data_resources": [],
+        "license_class": "open_source",
+        "install_notes": "",
+        "method_schema": {},
+        "required_input_fields": {},
+        "required_method_fields": {
+          "calculate_tunneling_correction": [
+            "tunneling_model"
+          ]
+        },
+        "required_setting_fields": {
+          "calculate_rate_constants": [
+            "allow_extrapolation"
+          ]
+        },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
+        "health": {
+          "status": "available",
+          "available": true,
+          "runtime": "rmg",
+          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/rmg/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {
+            "rmgpy": {
+              "available": true,
+              "version": null
+            }
+          },
+          "executables": {
+            "rmg.py": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/rmg/bin/rmg.py"
+          },
+          "environment": {},
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [
+            "rmg=4.0.0"
+          ],
+          "pip_packages": [],
+          "required_data_resources": [],
+          "license_class": "open_source",
+          "install_notes": ""
+        }
+      },
+      {
+        "id": "mess",
+        "display_name": "MESS",
+        "runtime": "mess",
+        "capabilities": [
+          "solve_master_equation"
+        ],
+        "description": "MESS 2020.1.24 multi-well gas-phase master-equation solution from an Agent-supplied native model, with structured finite/high-pressure rate-table extraction.",
+        "python_modules": [],
+        "executables": [
+          "mess"
+        ],
+        "environment_variables": [
+          "CHEMGRAPH_MESS_COMMAND"
+        ],
+        "conda_packages": [],
+        "pip_packages": [],
+        "required_data_resources": [],
+        "license_class": "open_source",
+        "install_notes": "Locally compiled PAPR MESS 2020.1.24 runtime and official manual/examples.",
+        "method_schema": {},
+        "required_input_fields": {},
+        "required_method_fields": {},
+        "required_setting_fields": {
+          "solve_master_equation": [
+            "maximum_rate_records"
+          ]
+        },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {
+          "solve_master_equation": [
+            "gas_phase_reaction_network"
+          ]
+        },
+        "validation_levels": {
+          "solve_master_equation": "real_smoke"
+        },
+        "health": {
+          "status": "available",
+          "available": true,
+          "runtime": "mess",
+          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/mess/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {},
+          "executables": {
+            "mess": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/mess/2020.1.24/build/mess"
+          },
+          "environment": {
+            "CHEMGRAPH_MESS_COMMAND": true
+          },
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [],
+          "pip_packages": [],
+          "required_data_resources": [],
+          "license_class": "open_source",
+          "install_notes": "Locally compiled PAPR MESS 2020.1.24 runtime and official manual/examples."
+        }
+      },
+      {
+        "id": "mesmer",
+        "display_name": "MESMER",
+        "runtime": "mesmer",
+        "capabilities": [
+          "solve_master_equation"
+        ],
+        "description": "MESMER 7.1 energy-grained master-equation solution from an Agent-supplied XML model, with structured first- and second-order phenomenological rate extraction.",
+        "python_modules": [],
+        "executables": [
+          "mesmer"
+        ],
+        "environment_variables": [
+          "CHEMGRAPH_MESMER_COMMAND"
+        ],
+        "conda_packages": [],
+        "pip_packages": [],
+        "required_data_resources": [],
+        "license_class": "open_source",
+        "install_notes": "Locally compiled official MESMER 7.1 SourceForge release and manual/examples.",
+        "method_schema": {},
+        "required_input_fields": {},
+        "required_method_fields": {},
+        "required_setting_fields": {
+          "solve_master_equation": [
+            "maximum_rate_records"
+          ]
+        },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {
+          "solve_master_equation": [
+            "gas_phase_reaction_network"
+          ]
+        },
+        "validation_levels": {
+          "solve_master_equation": "real_smoke"
+        },
+        "health": {
+          "status": "available",
+          "available": true,
+          "runtime": "mesmer",
+          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/mesmer/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {},
+          "executables": {
+            "mesmer": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/mesmer/7.1/bin/mesmer"
+          },
+          "environment": {
+            "CHEMGRAPH_MESMER_COMMAND": true
+          },
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [],
+          "pip_packages": [],
+          "required_data_resources": [],
+          "license_class": "open_source",
+          "install_notes": "Locally compiled official MESMER 7.1 SourceForge release and manual/examples."
+        }
+      },
+      {
         "id": "catmap",
         "display_name": "CatMAP",
         "runtime": "reaction",
@@ -3115,6 +6119,7 @@
         "license_class": "open_source",
         "install_notes": "",
         "method_schema": {},
+        "required_input_fields": {},
         "required_method_fields": {},
         "required_setting_fields": {
           "solve_microkinetic_model": [
@@ -3122,6 +6127,10 @@
             "pressure_bar"
           ]
         },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
         "health": {
           "status": "available",
           "available": true,
@@ -3154,9 +6163,12 @@
         "runtime": "md",
         "capabilities": [
           "minimize_system_energy",
-          "propagate_dynamics"
+          "propagate_dynamics",
+          "calculate_force_field_energy",
+          "calculate_force_field_forces",
+          "decompose_force_field_energy"
         ],
-        "description": "OpenMM minimization and one-segment dynamics propagation.",
+        "description": "OpenMM force/energy evaluation, force-object decomposition, minimization, and one-segment dynamics propagation.",
         "python_modules": [
           "openmm"
         ],
@@ -3170,6 +6182,7 @@
         "license_class": "open_source",
         "install_notes": "",
         "method_schema": {},
+        "required_input_fields": {},
         "required_method_fields": {},
         "required_setting_fields": {
           "minimize_system_energy": [
@@ -3182,8 +6195,25 @@
             "timestep_fs",
             "steps",
             "report_interval"
+          ],
+          "calculate_force_field_energy": [
+            "use_saved_state",
+            "enforce_periodic_box"
+          ],
+          "calculate_force_field_forces": [
+            "use_saved_state",
+            "enforce_periodic_box"
+          ],
+          "decompose_force_field_energy": [
+            "use_saved_state",
+            "enforce_periodic_box",
+            "include_zero_terms"
           ]
         },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
         "health": {
           "status": "available",
           "available": true,
@@ -3234,6 +6264,7 @@
         "license_class": "open_source",
         "install_notes": "",
         "method_schema": {},
+        "required_input_fields": {},
         "required_method_fields": {},
         "required_setting_fields": {
           "minimize_system_energy": [
@@ -3248,6 +6279,10 @@
             "report_interval"
           ]
         },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
         "health": {
           "status": "available",
           "available": true,
@@ -3299,6 +6334,7 @@
         "license_class": "open_source",
         "install_notes": "",
         "method_schema": {},
+        "required_input_fields": {},
         "required_method_fields": {},
         "required_setting_fields": {
           "minimize_system_energy": [
@@ -3314,6 +6350,10 @@
             "report_interval"
           ]
         },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
         "health": {
           "status": "available",
           "available": true,
@@ -3337,6 +6377,121 @@
           "missing_environment": [],
           "conda_packages": [
             "lammps"
+          ],
+          "pip_packages": [],
+          "required_data_resources": [],
+          "license_class": "open_source",
+          "install_notes": ""
+        }
+      },
+      {
+        "id": "hoomd",
+        "display_name": "HOOMD-blue",
+        "runtime": "free_energy",
+        "capabilities": [
+          "minimize_system_energy",
+          "propagate_dynamics",
+          "calculate_force_field_energy",
+          "calculate_force_field_forces"
+        ],
+        "description": "HOOMD-blue typed particle simulations with explicit device, reduced-unit force field, integration method, and segment controls.",
+        "python_modules": [
+          "hoomd",
+          "numpy"
+        ],
+        "executables": [],
+        "environment_variables": [],
+        "conda_packages": [
+          "hoomd=7.1.0",
+          "numpy"
+        ],
+        "pip_packages": [],
+        "required_data_resources": [],
+        "license_class": "open_source",
+        "install_notes": "",
+        "method_schema": {
+          "device": "cpu or gpu; no automatic device selection",
+          "unit_system": "explicit unit label, currently reduced_lj",
+          "pair_potential": "currently lj",
+          "pair_parameters": "type-pair mapping to epsilon, sigma, and r_cut",
+          "bond_potential/bond_parameters": "optional harmonic typed bond parameters"
+        },
+        "required_input_fields": {},
+        "required_method_fields": {
+          "minimize_system_energy": [
+            "device",
+            "unit_system",
+            "pair_potential",
+            "pair_parameters",
+            "neighbor_buffer"
+          ],
+          "propagate_dynamics": [
+            "device",
+            "unit_system",
+            "pair_potential",
+            "pair_parameters",
+            "neighbor_buffer"
+          ],
+          "calculate_force_field_energy": [
+            "device",
+            "unit_system",
+            "pair_potential",
+            "pair_parameters",
+            "neighbor_buffer"
+          ],
+          "calculate_force_field_forces": [
+            "device",
+            "unit_system",
+            "pair_potential",
+            "pair_parameters",
+            "neighbor_buffer"
+          ]
+        },
+        "required_setting_fields": {
+          "minimize_system_energy": [
+            "integration_timestep",
+            "force_tolerance",
+            "energy_tolerance",
+            "max_iterations"
+          ],
+          "propagate_dynamics": [
+            "ensemble",
+            "temperature_energy",
+            "timestep",
+            "steps",
+            "report_interval",
+            "random_seed",
+            "initialize_velocities"
+          ]
+        },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
+        "health": {
+          "status": "available",
+          "available": true,
+          "runtime": "free_energy",
+          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/free_energy/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {
+            "hoomd": {
+              "available": true,
+              "version": null
+            },
+            "numpy": {
+              "available": true,
+              "version": "2.4.6"
+            }
+          },
+          "executables": {},
+          "environment": {},
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [
+            "hoomd=7.1.0",
+            "numpy"
           ],
           "pip_packages": [],
           "required_data_resources": [],
@@ -3373,6 +6528,7 @@
           "rigid_bonds": "NAMD rigidBonds choice such as none, water, or all",
           "system": "namd_psf_path, coordinate_path or namd_binary_coordinates_path, and namd_parameter_paths"
         },
+        "required_input_fields": {},
         "required_method_fields": {
           "minimize_system_energy": [
             "force_field_family",
@@ -3411,6 +6567,10 @@
             "random_seed"
           ]
         },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
         "health": {
           "status": "available",
           "available": true,
@@ -3467,6 +6627,7 @@
           "igb/saltcon_molar": "explicit implicit-solvent model and optional salt concentration",
           "system": "amber_topology_path/prmtop_path plus amber_coordinate_path/coordinate_path"
         },
+        "required_input_fields": {},
         "required_method_fields": {
           "minimize_system_energy": [
             "boundary",
@@ -3496,6 +6657,10 @@
             "restart"
           ]
         },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
         "health": {
           "status": "available",
           "available": true,
@@ -3555,6 +6720,7 @@
           "nonbond_update_interval": "explicit CHARMM INBFRQ value for dynamics",
           "system": "charmm_topology_paths, charmm_parameter_paths, charmm_psf_path, and charmm_coordinate_path"
         },
+        "required_input_fields": {},
         "required_method_fields": {
           "minimize_system_energy": [
             "force_field_family",
@@ -3601,6 +6767,10 @@
             "restart"
           ]
         },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
         "health": {
           "status": "available",
           "available": true,
@@ -3632,7 +6802,11 @@
           "calculate_trajectory_rmsd",
           "calculate_radius_of_gyration",
           "calculate_radial_distribution",
-          "calculate_mean_squared_displacement"
+          "calculate_mean_squared_displacement",
+          "calculate_dihedral_distribution",
+          "calculate_hydrogen_bonds",
+          "calculate_principal_components",
+          "calculate_dynamic_cross_correlation"
         ],
         "description": "Trajectory analysis with explicit atom selections and analysis parameters.",
         "python_modules": [
@@ -3648,6 +6822,7 @@
         "license_class": "open_source",
         "install_notes": "",
         "method_schema": {},
+        "required_input_fields": {},
         "required_method_fields": {},
         "required_setting_fields": {
           "calculate_trajectory_rmsd": [
@@ -3665,8 +6840,48 @@
           "calculate_mean_squared_displacement": [
             "selection",
             "dimensions"
+          ],
+          "calculate_dihedral_distribution": [
+            "periodic"
+          ],
+          "calculate_hydrogen_bonds": [
+            "donor_selection",
+            "hydrogen_selection",
+            "acceptor_selection",
+            "donor_hydrogen_cutoff_angstrom",
+            "donor_acceptor_cutoff_angstrom",
+            "angle_cutoff_degrees",
+            "update_selections",
+            "start_frame",
+            "stop_frame",
+            "frame_stride",
+            "max_events"
+          ],
+          "calculate_principal_components": [
+            "selection",
+            "align",
+            "n_components",
+            "start_frame",
+            "stop_frame",
+            "frame_stride",
+            "include_eigenvectors",
+            "max_atoms"
+          ],
+          "calculate_dynamic_cross_correlation": [
+            "selection",
+            "align",
+            "alignment_selection",
+            "reference_frame",
+            "start_frame",
+            "stop_frame",
+            "frame_stride",
+            "max_atoms"
           ]
         },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
         "health": {
           "status": "available",
           "available": true,
@@ -3688,6 +6903,103 @@
           "pip_packages": [
             "MDAnalysis"
           ],
+          "required_data_resources": [],
+          "license_class": "open_source",
+          "install_notes": ""
+        }
+      },
+      {
+        "id": "mdtraj",
+        "display_name": "MDTraj",
+        "runtime": "workflows",
+        "capabilities": [
+          "calculate_trajectory_rmsd",
+          "calculate_radius_of_gyration",
+          "calculate_contacts",
+          "calculate_solvent_accessible_surface",
+          "calculate_dihedral_distribution",
+          "assign_secondary_structure",
+          "cluster_trajectory"
+        ],
+        "description": "Trajectory I/O and explicit geometric analyses using atom/residue indices supplied by the Agent.",
+        "python_modules": [
+          "mdtraj",
+          "numpy"
+        ],
+        "executables": [],
+        "environment_variables": [],
+        "conda_packages": [
+          "mdtraj",
+          "numpy"
+        ],
+        "pip_packages": [],
+        "required_data_resources": [],
+        "license_class": "open_source",
+        "install_notes": "",
+        "method_schema": {},
+        "required_input_fields": {},
+        "required_method_fields": {},
+        "required_setting_fields": {
+          "calculate_trajectory_rmsd": [
+            "atom_indices",
+            "reference_frame"
+          ],
+          "calculate_radius_of_gyration": [
+            "atom_indices"
+          ],
+          "calculate_contacts": [
+            "scheme",
+            "periodic",
+            "soft_min"
+          ],
+          "calculate_solvent_accessible_surface": [
+            "mode",
+            "probe_radius_nm",
+            "sphere_points"
+          ],
+          "calculate_dihedral_distribution": [
+            "periodic"
+          ],
+          "assign_secondary_structure": [
+            "simplified"
+          ],
+          "cluster_trajectory": [
+            "atom_indices",
+            "frame_stride",
+            "rmsd_cutoff_angstrom",
+            "max_clusters"
+          ]
+        },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
+        "health": {
+          "status": "available",
+          "available": true,
+          "runtime": "workflows",
+          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/workflows/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {
+            "mdtraj": {
+              "available": true,
+              "version": "1.11.1"
+            },
+            "numpy": {
+              "available": true,
+              "version": "2.4.6"
+            }
+          },
+          "executables": {},
+          "environment": {},
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [
+            "mdtraj",
+            "numpy"
+          ],
+          "pip_packages": [],
           "required_data_resources": [],
           "license_class": "open_source",
           "install_notes": ""
@@ -3716,8 +7028,13 @@
         "license_class": "open_source",
         "install_notes": "",
         "method_schema": {},
+        "required_input_fields": {},
         "required_method_fields": {},
         "required_setting_fields": {},
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
         "health": {
           "status": "available",
           "available": true,
@@ -3736,6 +7053,171 @@
           "missing_environment": [],
           "conda_packages": [
             "plumed"
+          ],
+          "pip_packages": [],
+          "required_data_resources": [],
+          "license_class": "open_source",
+          "install_notes": ""
+        }
+      },
+      {
+        "id": "pymbar",
+        "display_name": "PyMBAR",
+        "runtime": "free_energy",
+        "capabilities": [
+          "estimate_free_energy_difference",
+          "estimate_thermodynamic_expectations",
+          "calculate_potential_of_mean_force",
+          "analyze_free_energy_convergence"
+        ],
+        "description": "Multistate Bennett estimation, observable reweighting, and explicit-prefix convergence analysis from supplied reduced potentials; no simulation or state selection is hidden.",
+        "python_modules": [
+          "pymbar",
+          "numpy"
+        ],
+        "executables": [],
+        "environment_variables": [],
+        "conda_packages": [
+          "pymbar",
+          "numpy"
+        ],
+        "pip_packages": [],
+        "required_data_resources": [],
+        "license_class": "open_source",
+        "install_notes": "",
+        "method_schema": {},
+        "required_input_fields": {},
+        "required_method_fields": {},
+        "required_setting_fields": {
+          "estimate_free_energy_difference": [
+            "uncertainty_method",
+            "maximum_iterations",
+            "relative_tolerance"
+          ],
+          "estimate_thermodynamic_expectations": [
+            "output",
+            "observable_unit",
+            "maximum_iterations",
+            "relative_tolerance"
+          ],
+          "calculate_potential_of_mean_force": [
+            "bin_edges",
+            "reference",
+            "uncertainty_method",
+            "maximum_iterations",
+            "relative_tolerance"
+          ],
+          "analyze_free_energy_convergence": [
+            "fractions",
+            "state_pair",
+            "uncertainty_method",
+            "maximum_iterations",
+            "relative_tolerance"
+          ]
+        },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
+        "health": {
+          "status": "available",
+          "available": true,
+          "runtime": "free_energy",
+          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/free_energy/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {
+            "pymbar": {
+              "available": true,
+              "version": "4.2.0"
+            },
+            "numpy": {
+              "available": true,
+              "version": "2.4.6"
+            }
+          },
+          "executables": {},
+          "environment": {},
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [
+            "pymbar",
+            "numpy"
+          ],
+          "pip_packages": [],
+          "required_data_resources": [],
+          "license_class": "open_source",
+          "install_notes": ""
+        }
+      },
+      {
+        "id": "alchemlyb",
+        "display_name": "alchemlyb",
+        "runtime": "free_energy",
+        "capabilities": [
+          "parse_alchemical_energy_data"
+        ],
+        "description": "Engine-aware parsing and normalization of alchemical energy outputs without choosing an estimator or discarding samples implicitly.",
+        "python_modules": [
+          "alchemlyb",
+          "pandas",
+          "numpy"
+        ],
+        "executables": [],
+        "environment_variables": [],
+        "conda_packages": [
+          "alchemlyb=2.5.0",
+          "pandas",
+          "numpy"
+        ],
+        "pip_packages": [],
+        "required_data_resources": [],
+        "license_class": "open_source",
+        "install_notes": "",
+        "method_schema": {},
+        "required_input_fields": {},
+        "required_method_fields": {},
+        "required_setting_fields": {
+          "parse_alchemical_energy_data": [
+            "engine",
+            "observable",
+            "temperature_kelvin",
+            "filter_invalid_rows"
+          ]
+        },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
+        "health": {
+          "status": "available",
+          "available": true,
+          "runtime": "free_energy",
+          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/free_energy/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {
+            "alchemlyb": {
+              "available": true,
+              "version": "0.0.0"
+            },
+            "pandas": {
+              "available": true,
+              "version": "2.3.3"
+            },
+            "numpy": {
+              "available": true,
+              "version": "2.4.6"
+            }
+          },
+          "executables": {},
+          "environment": {},
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [
+            "alchemlyb=2.5.0",
+            "pandas",
+            "numpy"
           ],
           "pip_packages": [],
           "required_data_resources": [],
@@ -3777,6 +7259,7 @@
           "ecutrho_ry": "optional explicit charge-density cutoff in Ry",
           "k_points": "{grid:[nx,ny,nz], shift:[sx,sy,sz]}"
         },
+        "required_input_fields": {},
         "required_method_fields": {
           "calculate_periodic_energy": [
             "input_dft",
@@ -3810,6 +7293,10 @@
             "relax_cell"
           ]
         },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
         "health": {
           "status": "available",
           "available": true,
@@ -3863,6 +7350,7 @@
         "license_class": "open_source",
         "install_notes": "",
         "method_schema": {},
+        "required_input_fields": {},
         "required_method_fields": {
           "calculate_periodic_energy": [
             "method",
@@ -3904,6 +7392,10 @@
             "relax_cell"
           ]
         },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
         "health": {
           "status": "available",
           "available": true,
@@ -3963,6 +7455,7 @@
           "mesh_cutoff_ry": "explicit real-space mesh cutoff in Ry",
           "k_points": "{grid:[nx,ny,nz], shift:[sx,sy,sz]}"
         },
+        "required_input_fields": {},
         "required_method_fields": {
           "calculate_periodic_energy": [
             "xc_functional",
@@ -3996,6 +7489,10 @@
             "relax_cell"
           ]
         },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
         "health": {
           "status": "available",
           "available": true,
@@ -4059,6 +7556,7 @@
           "damp_xh_exponent": "optional explicit gamma^h damping exponent (3ob commonly documents 4.0)",
           "fermi_temperature_kelvin": "optional explicit electronic filling temperature"
         },
+        "required_input_fields": {},
         "required_method_fields": {
           "calculate_periodic_energy": [
             "parameter_set",
@@ -4096,6 +7594,10 @@
             "relax_cell"
           ]
         },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
         "health": {
           "status": "available",
           "available": true,
@@ -4160,6 +7662,7 @@
           "ecut_hartree": "explicit plane-wave cutoff in Hartree",
           "k_points": "{grid:[nx,ny,nz], shift:[sx,sy,sz]}"
         },
+        "required_input_fields": {},
         "required_method_fields": {
           "calculate_periodic_energy": [
             "ixc",
@@ -4193,6 +7696,10 @@
             "relax_cell"
           ]
         },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
         "health": {
           "status": "available",
           "available": true,
@@ -4276,6 +7783,7 @@
           "electron_count": "optional explicit NELECT",
           "additional_incar": "optional explicit extra INCAR mapping; relaxation-semantic keys are protected"
         },
+        "required_input_fields": {},
         "required_method_fields": {
           "calculate_periodic_energy": [
             "pseudopotentials",
@@ -4351,6 +7859,10 @@
             "relax_cell"
           ]
         },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
         "health": {
           "status": "available",
           "available": true,
@@ -4384,7 +7896,9 @@
           "generate_displaced_supercells",
           "assemble_force_constants",
           "calculate_phonon_dispersion",
-          "calculate_phonon_density_of_states"
+          "calculate_phonon_density_of_states",
+          "calculate_harmonic_thermodynamics",
+          "calculate_phonon_group_velocities"
         ],
         "description": "Second-order lattice-dynamics operations on explicit displacement/force artifacts.",
         "python_modules": [
@@ -4402,6 +7916,7 @@
         "license_class": "open_source",
         "install_notes": "",
         "method_schema": {},
+        "required_input_fields": {},
         "required_method_fields": {},
         "required_setting_fields": {
           "generate_displaced_supercells": [
@@ -4413,8 +7928,19 @@
           ],
           "calculate_phonon_density_of_states": [
             "q_mesh"
+          ],
+          "calculate_harmonic_thermodynamics": [
+            "q_mesh",
+            "temperatures_kelvin"
+          ],
+          "calculate_phonon_group_velocities": [
+            "q_path"
           ]
         },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
         "health": {
           "status": "available",
           "available": true,
@@ -4451,7 +7977,10 @@
           "generate_displaced_supercells",
           "assemble_force_constants",
           "calculate_phonon_dispersion",
-          "calculate_phonon_density_of_states"
+          "calculate_phonon_density_of_states",
+          "calculate_harmonic_thermodynamics",
+          "calculate_phonon_group_velocities",
+          "calculate_lattice_thermal_conductivity"
         ],
         "description": "Third-order-capable lattice-dynamics operations on explicit displacement/force artifacts.",
         "python_modules": [
@@ -4469,6 +7998,13 @@
         "license_class": "open_source",
         "install_notes": "",
         "method_schema": {},
+        "required_input_fields": {
+          "calculate_lattice_thermal_conductivity": [
+            "second_order_force_constants",
+            "third_order_force_constants",
+            "structure"
+          ]
+        },
         "required_method_fields": {},
         "required_setting_fields": {
           "generate_displaced_supercells": [
@@ -4481,8 +8017,27 @@
           ],
           "calculate_phonon_density_of_states": [
             "q_mesh"
+          ],
+          "calculate_harmonic_thermodynamics": [
+            "q_mesh",
+            "temperatures_kelvin"
+          ],
+          "calculate_phonon_group_velocities": [
+            "q_path"
+          ],
+          "calculate_lattice_thermal_conductivity": [
+            "q_mesh",
+            "temperatures_kelvin",
+            "solution_method",
+            "include_isotope_scattering",
+            "boundary_mean_free_path_micrometer",
+            "primitive_matrix"
           ]
         },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
         "health": {
           "status": "available",
           "available": true,
@@ -4512,6 +8067,75 @@
         }
       },
       {
+        "id": "shengbte",
+        "display_name": "ShengBTE",
+        "runtime": "shengbte",
+        "capabilities": [
+          "calculate_lattice_thermal_conductivity"
+        ],
+        "description": "ShengBTE source revision b0d2090 solution of an explicitly supplied native phonon-BTE model, with structured RTA or iterative conductivity-tensor extraction.",
+        "python_modules": [],
+        "executables": [
+          "ShengBTE"
+        ],
+        "environment_variables": [
+          "CHEMGRAPH_SHENGBTE_COMMAND"
+        ],
+        "conda_packages": [],
+        "pip_packages": [],
+        "required_data_resources": [],
+        "license_class": "open_source",
+        "install_notes": "Locally compiled official ShengBTE source; the bundled Test-RTA calculation passed.",
+        "method_schema": {},
+        "required_input_fields": {
+          "calculate_lattice_thermal_conductivity": [
+            "control_file",
+            "second_order_force_constants_file",
+            "third_order_force_constants_file"
+          ]
+        },
+        "required_method_fields": {},
+        "required_setting_fields": {
+          "calculate_lattice_thermal_conductivity": [
+            "solution_method",
+            "maximum_temperature_records",
+            "require_normal_exit"
+          ]
+        },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {
+          "calculate_lattice_thermal_conductivity": [
+            "periodic_crystal"
+          ]
+        },
+        "validation_levels": {
+          "calculate_lattice_thermal_conductivity": "real_smoke"
+        },
+        "health": {
+          "status": "available",
+          "available": true,
+          "runtime": "shengbte",
+          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/deepmd/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {},
+          "executables": {
+            "ShengBTE": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/shengbte/source/ShengBTE"
+          },
+          "environment": {
+            "CHEMGRAPH_SHENGBTE_COMMAND": true
+          },
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [],
+          "pip_packages": [],
+          "required_data_resources": [],
+          "license_class": "open_source",
+          "install_notes": "Locally compiled official ShengBTE source; the bundled Test-RTA calculation passed."
+        }
+      },
+      {
         "id": "vina",
         "display_name": "AutoDock Vina",
         "runtime": "docking",
@@ -4536,6 +8160,7 @@
         "license_class": "open_source",
         "install_notes": "",
         "method_schema": {},
+        "required_input_fields": {},
         "required_method_fields": {},
         "required_setting_fields": {
           "dock_ligand": [
@@ -4544,6 +8169,10 @@
             "energy_range_kcal_mol"
           ]
         },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
         "health": {
           "status": "available",
           "available": true,
@@ -4599,6 +8228,7 @@
           "cnn_scoring": "optional GNINA mode: none|rescore|refinement|metrorescore|metrorefine|all",
           "scoring_function": "optional explicit empirical scoring function"
         },
+        "required_input_fields": {},
         "required_method_fields": {
           "dock_ligand": [
             "cnn_model"
@@ -4611,6 +8241,10 @@
             "use_gpu"
           ]
         },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
         "health": {
           "status": "available",
           "available": true,
@@ -4639,7 +8273,12 @@
         "display_name": "PubChem PUG REST",
         "runtime": "services",
         "capabilities": [
-          "search_compounds"
+          "search_compounds",
+          "resolve_chemical_identity",
+          "retrieve_compound_properties",
+          "retrieve_compound_structure",
+          "search_similar_compounds",
+          "search_substructures"
         ],
         "description": "PubChem compound lookup through PubChemPy/PUG REST.",
         "python_modules": [
@@ -4655,8 +8294,35 @@
         "license_class": "open_source",
         "install_notes": "",
         "method_schema": {},
+        "required_input_fields": {},
         "required_method_fields": {},
-        "required_setting_fields": {},
+        "required_setting_fields": {
+          "resolve_chemical_identity": [
+            "require_unique"
+          ],
+          "retrieve_compound_properties": [
+            "properties",
+            "max_records"
+          ],
+          "retrieve_compound_structure": [
+            "record_type",
+            "hydrogen_policy",
+            "max_records",
+            "require_unique"
+          ],
+          "search_similar_compounds": [
+            "threshold",
+            "max_records"
+          ],
+          "search_substructures": [
+            "max_records",
+            "match_stereo"
+          ]
+        },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
         "health": {
           "status": "available",
           "available": true,
@@ -4704,8 +8370,13 @@
         "license_class": "open_source",
         "install_notes": "",
         "method_schema": {},
+        "required_input_fields": {},
         "required_method_fields": {},
         "required_setting_fields": {},
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
         "health": {
           "status": "available",
           "available": true,
@@ -4756,8 +8427,13 @@
         "license_class": "open_source",
         "install_notes": "",
         "method_schema": {},
+        "required_input_fields": {},
         "required_method_fields": {},
         "required_setting_fields": {},
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
         "health": {
           "status": "available",
           "available": true,
@@ -4811,8 +8487,13 @@
         "license_class": "open_source",
         "install_notes": "",
         "method_schema": {},
+        "required_input_fields": {},
         "required_method_fields": {},
         "required_setting_fields": {},
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
         "health": {
           "status": "available",
           "available": true,
@@ -4862,12 +8543,17 @@
         "license_class": "nist_srd_terms",
         "install_notes": "No local dataset is mirrored. Name/formula wildcards and responses over 2 MiB are rejected; formula isotope/ion choices remain explicit Agent settings.",
         "method_schema": {},
+        "required_input_fields": {},
         "required_method_fields": {},
         "required_setting_fields": {
           "lookup_nist_webbook_species": [
             "units"
           ]
         },
+        "required_component_roles": {},
+        "component_backend_options": {},
+        "supported_system_types": {},
+        "validation_levels": {},
         "health": {
           "status": "available",
           "available": true,
@@ -8904,15 +12590,45 @@
         "size_bytes": 150218
       }
     ],
-    "catalog_hash": "032e1aeb1c37fd56942cbb1c64d8a0ea31bcb2b88366f416df38f99c48f10405"
+    "catalog_hash": "7a15cb19ab2f7ab9c18a07f7b5cae5c527e6b1c3bf6d9efc3edfc87c1218c95b"
   },
   "installation": {
-    "catalog_hash": "032e1aeb1c37fd56942cbb1c64d8a0ea31bcb2b88366f416df38f99c48f10405",
+    "catalog_hash": "7a15cb19ab2f7ab9c18a07f7b5cae5c527e6b1c3bf6d9efc3edfc87c1218c95b",
     "unavailable_backend_count": 0,
     "unavailable_backends": [],
     "conda_packages": [],
     "pip_packages": [],
     "required_data_resources": [
+      {
+        "backend_id": "gpaw",
+        "resources": [
+          "GPAW PAW setup datasets under .software_cache/gpaw/setups"
+        ]
+      },
+      {
+        "backend_id": "nwchem",
+        "resources": [
+          "NWChem basis libraries under .software_cache/nwchem/source/src/basis/libraries"
+        ]
+      },
+      {
+        "backend_id": "openmolcas",
+        "resources": [
+          "OpenMolcas v25.10 basis_library managed under .software_cache/openmolcas/25.10"
+        ]
+      },
+      {
+        "backend_id": "multiwfn",
+        "resources": [
+          "Agent-supplied fch/fchk/wfn/wfx/mwfn/Molden/47 wavefunction file; both required Multiwfn citations are returned in provenance"
+        ]
+      },
+      {
+        "backend_id": "critic2",
+        "resources": [
+          "Agent-supplied electron-density grid or compatible wavefunction file; an explicit separate structure file is required when the density file does not contain geometry"
+        ]
+      },
       {
         "backend_id": "deepmd",
         "resources": [

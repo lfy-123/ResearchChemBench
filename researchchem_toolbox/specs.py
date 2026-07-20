@@ -17,6 +17,7 @@ def _action(
     input_description: str = "",
     data_action: bool = False,
     requires_network: bool = False,
+    selection_policy: str | None = None,
 ) -> ActionSpec:
     return ActionSpec(
         id=action_id,
@@ -29,10 +30,41 @@ def _action(
         input_description=input_description,
         data_action=data_action,
         requires_network=requires_network,
+        selection_policy=(selection_policy or ("fixed_source" if data_action else "agent_backend_required")),
     )
 
 
 ACTION_SPECS: tuple[ActionSpec, ...] = (
+    _action(
+        "normalize_qcschema_molecule",
+        "scientific_data_interchange",
+        "Validate and normalize one supplied molecular structure into a QCSchema Molecule record without launching a calculation.",
+        "QCSchemaMolecule",
+        ("qcelemental",),
+        ("structure",),
+        input_description="AtomicStructure or existing QCSchema Molecule mapping",
+        selection_policy="internal_deterministic",
+    ),
+    _action(
+        "validate_qcschema_record",
+        "scientific_data_interchange",
+        "Validate one explicit QCSchema/QCArchive record type and return a normalized record or structured validation errors without executing it.",
+        "QCSchemaValidationResult",
+        ("qcelemental",),
+        ("record",),
+        input_description="JSON-compatible record mapping or workspace JSON Artifact",
+        selection_policy="internal_deterministic",
+    ),
+    _action(
+        "parse_quantum_chemistry_output",
+        "scientific_data_interchange",
+        "Parse explicitly selected properties from one existing quantum-chemistry output file without rerunning the calculation.",
+        "ParsedQuantumChemistryResult",
+        ("cclib",),
+        ("output_file",),
+        input_description="workspace Gaussian, ORCA, NWChem, GAMESS, Q-Chem, Molpro, or other cclib-supported output Artifact",
+        selection_policy="internal_deterministic",
+    ),
     _action(
         "standardize_structure",
         "structure_and_system",
@@ -62,6 +94,24 @@ ACTION_SPECS: tuple[ActionSpec, ...] = (
         input_description="molecule plus optional initial_structure Artifact for CREST",
     ),
     _action(
+        "cluster_conformers",
+        "structure_and_system",
+        "Cluster an already supplied conformer ensemble by an explicit heavy/all-atom RMSD cutoff without generating or ranking conformers.",
+        "ConformerClusterResult",
+        ("rdkit",),
+        ("ensemble",),
+        input_description="ConformerEnsemble Artifact or structured ensemble plus an explicit RMSD clustering policy",
+    ),
+    _action(
+        "align_molecular_structures",
+        "structure_and_system",
+        "Rigidly align one supplied 3D probe structure to a reference using an explicit atom-to-atom map.",
+        "StructureAlignmentResult",
+        ("rdkit",),
+        ("reference", "probe", "atom_map"),
+        input_description="two coordinate-bearing molecular structures and explicit [probe_index, reference_index] atom pairs",
+    ),
+    _action(
         "rank_conformers_from_results",
         "structure_and_system",
         "Rank and weight conformers only from aligned energies or free energies already supplied by the agent.",
@@ -69,6 +119,7 @@ ACTION_SPECS: tuple[ActionSpec, ...] = (
         ("internal_statistics",),
         ("ensemble", "scores"),
         input_description="ensemble and one aligned score record per conformer",
+        selection_policy="internal_deterministic",
     ),
     _action(
         "repair_biomolecular_structure",
@@ -78,6 +129,36 @@ ACTION_SPECS: tuple[ActionSpec, ...] = (
         ("pdbfixer",),
         ("structure",),
         input_description="biomolecular structure or workspace PDB Artifact",
+    ),
+    _action(
+        "select_structure_subset",
+        "structure_and_system",
+        "Select explicit chains and/or models from one PDB structure, with an explicit choice about retaining heteroatom records.",
+        "AtomicStructure",
+        ("pdb_tools",),
+        ("structure",),
+        input_description="workspace PDB Artifact plus explicit chain/model filters",
+        selection_policy="internal_deterministic",
+    ),
+    _action(
+        "renumber_biomolecular_structure",
+        "structure_and_system",
+        "Renumber PDB atom serials and residue identifiers from explicit starting values without changing coordinates or chemistry.",
+        "AtomicStructure",
+        ("pdb_tools",),
+        ("structure",),
+        input_description="workspace PDB Artifact and explicit starting serial/residue values",
+        selection_policy="internal_deterministic",
+    ),
+    _action(
+        "normalize_pdb_records",
+        "structure_and_system",
+        "Sort and format one PDB record stream under explicit ordering, chain-break, and hybrid-36 choices.",
+        "AtomicStructure",
+        ("pdb_tools",),
+        ("structure",),
+        input_description="workspace PDB Artifact and explicit PDB formatting policy",
+        selection_policy="internal_deterministic",
     ),
     _action(
         "assign_protonation_states",
@@ -117,11 +198,101 @@ ACTION_SPECS: tuple[ActionSpec, ...] = (
         input_description="ParameterizedSystem plus explicit box, solvent, and ion settings",
     ),
     _action(
+        "analyze_crystal_symmetry",
+        "structure_and_system",
+        "Determine the crystallographic space group and symmetry-equivalent sites for one supplied periodic structure.",
+        "CrystalSymmetryResult",
+        ("spglib", "pymatgen"),
+        ("structure",),
+        input_description="periodic AtomicStructure plus explicit symmetry tolerances",
+    ),
+    _action(
+        "standardize_crystal_structure",
+        "structure_and_system",
+        "Standardize one periodic structure in an explicitly selected primitive or conventional crystallographic setting.",
+        "AtomicStructure",
+        ("spglib", "pymatgen"),
+        ("structure",),
+        input_description="periodic AtomicStructure and explicit primitive/conventional convention",
+    ),
+    _action(
+        "build_supercell",
+        "structure_and_system",
+        "Apply one explicit integer supercell transformation to a periodic structure.",
+        "AtomicStructure",
+        ("pymatgen",),
+        ("structure",),
+        input_description="periodic AtomicStructure and an integer 3-vector or 3x3 scaling matrix",
+    ),
+    _action(
+        "enumerate_surface_slabs",
+        "structure_and_system",
+        "Enumerate a bounded set of symmetry-distinct slabs for one explicit Miller index and slab/vacuum geometry.",
+        "StructureCollection",
+        ("pymatgen",),
+        ("structure",),
+        input_description="periodic bulk structure and explicit Miller index, thicknesses, and enumeration bound",
+    ),
+    _action(
+        "calculate_molecular_descriptors",
+        "cheminformatics",
+        "Calculate an explicitly selected set of graph-based molecular descriptors without generating coordinates or running electronic structure.",
+        "MolecularDescriptorResult",
+        ("rdkit",),
+        ("molecule",),
+        input_description="molecule: SMILES, molecular structure, or compatible Artifact",
+    ),
+    _action(
+        "calculate_molecular_fingerprint",
+        "cheminformatics",
+        "Calculate one explicitly selected molecular fingerprint representation.",
+        "MolecularFingerprint",
+        ("rdkit",),
+        ("molecule",),
+        input_description="molecule: SMILES or molecular structure",
+    ),
+    _action(
+        "calculate_molecular_similarity",
+        "cheminformatics",
+        "Calculate one similarity value between two molecules using an explicit fingerprint and metric.",
+        "MolecularSimilarityResult",
+        ("rdkit",),
+        ("molecule_a", "molecule_b"),
+        input_description="two molecular representations plus explicit fingerprint and similarity metric",
+    ),
+    _action(
+        "search_local_substructures",
+        "cheminformatics",
+        "Find atom-index matches for an explicit SMARTS or SMILES query in one supplied molecule.",
+        "SubstructureMatchResult",
+        ("rdkit",),
+        ("molecule", "query"),
+        input_description="target molecule and explicit SMARTS/SMILES query",
+    ),
+    _action(
+        "enumerate_tautomers",
+        "cheminformatics",
+        "Enumerate bounded tautomeric forms without selecting a preferred tautomer for the agent.",
+        "MoleculeCollection",
+        ("rdkit",),
+        ("molecule",),
+        input_description="one molecular representation and an explicit enumeration bound",
+    ),
+    _action(
+        "enumerate_stereoisomers",
+        "cheminformatics",
+        "Enumerate bounded stereoisomers under explicit uniqueness and assignment rules.",
+        "MoleculeCollection",
+        ("rdkit",),
+        ("molecule",),
+        input_description="one molecular representation and explicit stereoisomer enumeration settings",
+    ),
+    _action(
         "calculate_energy",
         "molecular_electronic",
         "Calculate one molecular or non-periodic scalar energy with the exact software and method selected by the agent.",
         "EnergyResult",
-        ("xtb", "pyscf", "psi4", "tblite", "mace", "chgnet", "deepmd", "orca", "gaussian", "gamess", "ase_emt"),
+        ("xtb", "pyscf", "psi4", "tblite", "gpaw", "nwchem", "openmolcas", "mace", "chgnet", "deepmd", "orca", "gaussian", "gamess", "ase_emt"),
         ("structure",),
         input_description="non-periodic AtomicStructure",
     ),
@@ -130,7 +301,7 @@ ACTION_SPECS: tuple[ActionSpec, ...] = (
         "molecular_electronic",
         "Calculate atomic forces for one non-periodic structure or an aligned batch.",
         "ForceResult",
-        ("tblite", "mace", "chgnet", "deepmd", "ase_emt"),
+        ("xtb", "pyscf", "tblite", "gpaw", "nwchem", "orca", "mace", "chgnet", "deepmd", "ase_emt"),
         ("structure",),
         input_description="AtomicStructure or a homogeneous structure batch",
     ),
@@ -139,7 +310,7 @@ ACTION_SPECS: tuple[ActionSpec, ...] = (
         "molecular_electronic",
         "Calculate one molecular Hessian without deriving modes, spectra, or thermochemistry.",
         "Hessian",
-        ("xtb", "psi4", "tblite", "orca", "gaussian", "ase_emt"),
+        ("xtb", "pyscf", "psi4", "tblite", "nwchem", "orca", "gaussian", "ase_emt"),
         ("structure",),
         input_description="AtomicStructure",
     ),
@@ -148,8 +319,9 @@ ACTION_SPECS: tuple[ActionSpec, ...] = (
         "molecular_electronic",
         "Optimize one non-periodic geometry and return the optimized structure only as the primary result.",
         "AtomicStructure",
-        ("xtb", "tblite", "mace", "chgnet", "deepmd", "orca", "gaussian", "gamess", "ase_emt"),
+        ("xtb", "tblite", "gpaw", "mace", "chgnet", "deepmd", "orca", "gaussian", "gamess", "ase_emt", "geometric", "sella"),
         ("structure",),
+        ("constraints",),
         input_description="AtomicStructure plus explicit convergence and optional constraints",
     ),
     _action(
@@ -157,7 +329,7 @@ ACTION_SPECS: tuple[ActionSpec, ...] = (
         "molecular_electronic",
         "Calculate one molecular dipole moment with an explicitly chosen electronic method.",
         "DipoleResult",
-        ("tblite", "pyscf", "psi4", "orca", "gaussian", "gamess"),
+        ("xtb", "tblite", "pyscf", "psi4", "nwchem", "openmolcas", "orca", "gaussian", "gamess"),
         ("structure",),
         input_description="AtomicStructure",
     ),
@@ -166,18 +338,76 @@ ACTION_SPECS: tuple[ActionSpec, ...] = (
         "molecular_electronic",
         "Calculate electronic-structure population-analysis charges without attaching force-field parameters.",
         "AtomicChargeResult",
-        ("pyscf", "psi4"),
+        ("xtb", "pyscf", "psi4", "nwchem", "openmolcas", "multiwfn", "orca"),
         ("structure",),
-        input_description="AtomicStructure or compatible ElectronicState Artifact",
+        input_description="AtomicStructure for calculation backends or a compatible wavefunction/ElectronicState Artifact for analysis backends",
     ),
     _action(
         "calculate_orbitals",
         "molecular_electronic",
         "Calculate orbital energies, occupations, and optional coefficient artifacts.",
         "OrbitalResult",
-        ("pyscf", "psi4"),
+        ("pyscf", "psi4", "openmolcas", "orca"),
         ("structure",),
         input_description="AtomicStructure or compatible ElectronicState Artifact",
+    ),
+    _action(
+        "calculate_bond_orders",
+        "molecular_electronic",
+        "Calculate atom-pair electronic bond-order indices using one explicitly selected population-analysis backend.",
+        "BondOrderResult",
+        ("xtb", "multiwfn", "orca"),
+        ("structure",),
+        input_description="non-periodic AtomicStructure or compatible wavefunction Artifact and explicit population definition/minimum reported bond order",
+    ),
+    _action(
+        "calculate_excited_states",
+        "molecular_electronic",
+        "Calculate a bounded set of vertical electronic excited states without constructing a broadened spectrum or propagating dynamics.",
+        "ExcitedStateResult",
+        ("pyscf", "orca"),
+        ("structure",),
+        input_description="non-periodic AtomicStructure plus explicit ground-state and excited-state methods",
+    ),
+    _action(
+        "analyze_electron_density_topology",
+        "molecular_electronic",
+        "Locate and characterize critical points in one supplied molecular or periodic electron-density field without generating that field or integrating atomic basins.",
+        "ElectronDensityTopologyResult",
+        ("critic2",),
+        ("density_file",),
+        ("structure_file",),
+        input_description=(
+            "electron-density grid or wavefunction file plus an optional separate structure file; "
+            "the Agent explicitly selects molecular/periodic interpretation, field format, "
+            "interpolation, critical-point classes, tolerances, and seeding strategy"
+        ),
+    ),
+    _action(
+        "calculate_atomic_basin_properties",
+        "molecular_electronic",
+        "Integrate population, Laplacian, and available volume properties over atomic or attractor basins in one supplied scalar-field grid using an explicitly selected partition algorithm.",
+        "AtomicBasinPropertyResult",
+        ("critic2",),
+        ("density_file",),
+        ("structure_file",),
+        input_description=(
+            "electron-density or scalar-field grid plus optional separate structure; the Agent "
+            "selects the Critic2 YT, Henkelman BADER, Hirshfeld, or Voronoi partition"
+        ),
+    ),
+    _action(
+        "calculate_bader_charges",
+        "molecular_electronic",
+        "Calculate atomic Bader charges from one supplied electron-density grid using an explicitly selected Yu-Trinkle or Henkelman grid partition.",
+        "AtomicChargeResult",
+        ("critic2",),
+        ("density_file",),
+        ("structure_file",),
+        input_description=(
+            "electron-density grid plus optional separate structure and explicit grid partition, "
+            "attractor-assignment, filtering, and reporting settings"
+        ),
     ),
     _action(
         "derive_vibrational_modes",
@@ -187,6 +417,7 @@ ACTION_SPECS: tuple[ActionSpec, ...] = (
         ("internal_vibrations",),
         ("hessian", "structure"),
         input_description="Hessian Artifact and matching AtomicStructure",
+        selection_policy="internal_deterministic",
     ),
     _action(
         "derive_ir_spectrum",
@@ -196,6 +427,17 @@ ACTION_SPECS: tuple[ActionSpec, ...] = (
         ("internal_spectroscopy",),
         ("vibrations",),
         input_description="FrequencyResult with intensities",
+        selection_policy="internal_deterministic",
+    ),
+    _action(
+        "derive_uv_vis_spectrum",
+        "molecular_electronic",
+        "Construct a deterministic broadened UV/visible spectrum from supplied transition energies and oscillator strengths.",
+        "SpectrumResult",
+        ("internal_spectroscopy",),
+        ("excited_states",),
+        input_description="ExcitedStateResult containing energy_ev and oscillator_strength for each state",
+        selection_policy="internal_deterministic",
     ),
     _action(
         "derive_thermochemistry",
@@ -211,7 +453,7 @@ ACTION_SPECS: tuple[ActionSpec, ...] = (
         "reaction_and_kinetics",
         "Locate one candidate transition-state structure without automatically running frequencies or IRC.",
         "AtomicStructure",
-        ("pysisyphus",),
+        ("pysisyphus", "sella"),
         ("initial_guess",),
         ("reactant", "product"),
         input_description="candidate structure and optional endpoint structures",
@@ -245,6 +487,39 @@ ACTION_SPECS: tuple[ActionSpec, ...] = (
         input_description="ReactionNetwork and initial concentrations/state",
     ),
     _action(
+        "calculate_rate_constants",
+        "reaction_and_kinetics",
+        "Evaluate an explicitly supplied Arrhenius, multi-Arrhenius, pressure-dependent Arrhenius, or Chebyshev kinetics model on explicit temperature/pressure points.",
+        "RateConstantResult",
+        ("rmg",),
+        ("kinetics_model", "temperatures_kelvin"),
+        ("pressures_pa",),
+        input_description="typed kinetics model plus temperature points and, for pressure-dependent models, pressure points",
+    ),
+    _action(
+        "calculate_tunneling_correction",
+        "reaction_and_kinetics",
+        "Calculate Wigner or Eckart transition-state tunneling correction factors at explicit temperatures.",
+        "TunnelingCorrectionResult",
+        ("rmg",),
+        ("temperatures_kelvin", "imaginary_frequency_cm1"),
+        ("reactant_energy_kj_mol", "transition_state_energy_kj_mol", "product_energy_kj_mol"),
+        input_description="temperature grid, imaginary transition-state frequency, and explicit Eckart energies when selected",
+    ),
+    _action(
+        "solve_master_equation",
+        "reaction_and_kinetics",
+        "Solve an explicitly supplied gas-phase chemical master-equation model and extract pressure/temperature-dependent phenomenological rate coefficients without constructing or modifying the reaction model.",
+        "MasterEquationResult",
+        ("mess", "mesmer"),
+        ("model_file",),
+        ("companion_files", "model_relative_path"),
+        input_description=(
+            "native MESS input or MESMER XML model Artifact; optional explicitly listed "
+            "companion files and safe staged relative paths preserve model-local references"
+        ),
+    ),
+    _action(
         "solve_microkinetic_model",
         "reaction_and_kinetics",
         "Solve one explicitly supplied microkinetic model without constructing the reaction model for the agent.",
@@ -258,16 +533,43 @@ ACTION_SPECS: tuple[ActionSpec, ...] = (
         "molecular_dynamics",
         "Minimize an already parameterized system without automatically equilibrating or propagating dynamics.",
         "ParameterizedSystem",
-        ("openmm", "gromacs", "lammps", "namd", "amber_pmemd", "charmm"),
+        ("openmm", "gromacs", "lammps", "hoomd", "namd", "amber_pmemd", "charmm"),
         ("system",),
         input_description="ParameterizedSystem Artifact",
+    ),
+    _action(
+        "calculate_force_field_energy",
+        "molecular_dynamics",
+        "Evaluate the total potential energy of an already parameterized system at explicitly selected stored coordinates/state without minimizing or propagating it.",
+        "ForceFieldEnergyResult",
+        ("openmm", "hoomd"),
+        ("system",),
+        input_description="backend-compatible ParameterizedSystem Artifact with explicit coordinates and force-field definition",
+    ),
+    _action(
+        "calculate_force_field_forces",
+        "molecular_dynamics",
+        "Evaluate atomic force-field forces for an already parameterized system at explicitly selected stored coordinates/state.",
+        "ForceResult",
+        ("openmm", "hoomd"),
+        ("system",),
+        input_description="backend-compatible ParameterizedSystem Artifact with explicit coordinates and force-field definition",
+    ),
+    _action(
+        "decompose_force_field_energy",
+        "molecular_dynamics",
+        "Decompose one OpenMM potential energy evaluation by the explicitly present Force objects without changing parameters or running dynamics.",
+        "ForceFieldEnergyDecompositionResult",
+        ("openmm",),
+        ("system",),
+        input_description="ParameterizedSystem Artifact; each existing OpenMM Force object is evaluated in its own temporary force group",
     ),
     _action(
         "propagate_dynamics",
         "molecular_dynamics",
         "Propagate exactly one agent-defined dynamics segment and return its trajectory and final state.",
         "Trajectory",
-        ("openmm", "gromacs", "lammps", "namd", "amber_pmemd", "charmm"),
+        ("openmm", "gromacs", "lammps", "hoomd", "namd", "amber_pmemd", "charmm"),
         ("system",),
         input_description="ParameterizedSystem or previous final-state Artifact",
     ),
@@ -276,7 +578,7 @@ ACTION_SPECS: tuple[ActionSpec, ...] = (
         "molecular_dynamics",
         "Calculate an RMSD time series for an explicitly selected trajectory atom group and reference.",
         "TimeSeries",
-        ("mdanalysis",),
+        ("mdanalysis", "mdtraj"),
         ("trajectory", "topology"),
         ("reference",),
         input_description="trajectory/topology Artifacts and optional reference",
@@ -286,7 +588,7 @@ ACTION_SPECS: tuple[ActionSpec, ...] = (
         "molecular_dynamics",
         "Calculate the radius-of-gyration time series for an explicitly selected atom group.",
         "TimeSeries",
-        ("mdanalysis",),
+        ("mdanalysis", "mdtraj"),
         ("trajectory", "topology"),
         input_description="trajectory/topology Artifacts",
     ),
@@ -309,6 +611,79 @@ ACTION_SPECS: tuple[ActionSpec, ...] = (
         input_description="trajectory/topology Artifacts",
     ),
     _action(
+        "calculate_contacts",
+        "molecular_dynamics",
+        "Calculate inter-residue contact distances for an explicitly supplied residue-pair set and contact definition.",
+        "ContactTimeSeries",
+        ("mdtraj",),
+        ("trajectory", "topology", "residue_pairs"),
+        input_description="trajectory/topology Artifacts plus explicit zero-based residue-index pairs",
+    ),
+    _action(
+        "calculate_solvent_accessible_surface",
+        "molecular_dynamics",
+        "Calculate solvent-accessible surface area per atom or residue for an existing trajectory.",
+        "SurfaceAreaTimeSeries",
+        ("mdtraj",),
+        ("trajectory", "topology"),
+        input_description="trajectory/topology Artifacts and explicit probe/sphere discretization settings",
+    ),
+    _action(
+        "calculate_dihedral_distribution",
+        "molecular_dynamics",
+        "Calculate dihedral-angle time series for explicitly supplied atom-index quartets.",
+        "DihedralTimeSeries",
+        ("mdtraj", "mdanalysis"),
+        ("trajectory", "topology", "atom_quartets"),
+        input_description="trajectory/topology Artifacts plus explicit zero-based atom-index quartets",
+    ),
+    _action(
+        "calculate_hydrogen_bonds",
+        "molecular_dynamics",
+        "Identify hydrogen-bond events in an existing trajectory using explicit donor, hydrogen, acceptor, distance, and angle definitions.",
+        "HydrogenBondResult",
+        ("mdanalysis",),
+        ("trajectory", "topology"),
+        ("between_selections",),
+        input_description="trajectory/topology Artifacts plus explicit MDAnalysis selections and geometric cutoffs",
+    ),
+    _action(
+        "calculate_principal_components",
+        "molecular_dynamics",
+        "Calculate coordinate principal components and frame projections for an explicitly selected trajectory atom group.",
+        "PrincipalComponentResult",
+        ("mdanalysis",),
+        ("trajectory", "topology"),
+        input_description="trajectory/topology Artifacts plus explicit atom selection, alignment policy, frame slice, and component count",
+    ),
+    _action(
+        "calculate_dynamic_cross_correlation",
+        "molecular_dynamics",
+        "Calculate an atom-wise dynamic cross-correlation matrix from explicitly selected and optionally aligned trajectory coordinates.",
+        "DynamicCrossCorrelationResult",
+        ("mdanalysis",),
+        ("trajectory", "topology"),
+        input_description="trajectory/topology Artifacts plus explicit analysis/alignment selections and frame slice",
+    ),
+    _action(
+        "assign_secondary_structure",
+        "molecular_dynamics",
+        "Assign per-residue secondary-structure labels for every frame of an existing protein trajectory.",
+        "SecondaryStructureTimeSeries",
+        ("mdtraj",),
+        ("trajectory", "topology"),
+        input_description="existing trajectory/topology Artifacts and explicit DSSP label granularity",
+    ),
+    _action(
+        "cluster_trajectory",
+        "molecular_dynamics",
+        "Cluster explicitly selected trajectory frames by RMSD using a deterministic cutoff-based leader assignment.",
+        "TrajectoryClusterResult",
+        ("mdtraj",),
+        ("trajectory", "topology"),
+        input_description="existing trajectory/topology Artifacts plus explicit atom indices, frame stride, RMSD cutoff, and cluster bound",
+    ),
+    _action(
         "evaluate_collective_variables",
         "molecular_dynamics",
         "Evaluate explicitly defined collective variables on an existing trajectory.",
@@ -318,11 +693,59 @@ ACTION_SPECS: tuple[ActionSpec, ...] = (
         input_description="trajectory/topology plus typed collective-variable definitions",
     ),
     _action(
+        "estimate_free_energy_difference",
+        "molecular_dynamics",
+        "Estimate dimensionless pairwise free-energy differences from an explicitly supplied reduced-potential matrix and sample counts.",
+        "FreeEnergyDifferenceResult",
+        ("pymbar",),
+        ("reduced_potentials", "samples_per_state"),
+        input_description="u_kn reduced-potential matrix with shape KxN and aligned N_k sample counts",
+    ),
+    _action(
+        "estimate_thermodynamic_expectations",
+        "molecular_dynamics",
+        "Estimate state-resolved observable expectations from explicitly supplied samples and a reduced-potential matrix.",
+        "ThermodynamicExpectationResult",
+        ("pymbar",),
+        ("reduced_potentials", "samples_per_state", "observables"),
+        input_description="u_kn matrix, aligned N_k counts, and one N-sample observable vector",
+    ),
+    _action(
+        "calculate_potential_of_mean_force",
+        "molecular_dynamics",
+        "Estimate a one-dimensional histogram free-energy profile from supplied uncorrelated samples; this does not integrate a mean-force trajectory or choose bins for the agent.",
+        "FreeEnergyProfileResult",
+        ("pymbar",),
+        (
+            "reduced_potentials", "samples_per_state", "target_reduced_potential",
+            "collective_variable",
+        ),
+        input_description="u_kn/N_k, one target-state reduced potential per sample, one scalar coordinate per sample, and explicit bin edges",
+    ),
+    _action(
+        "analyze_free_energy_convergence",
+        "molecular_dynamics",
+        "Re-estimate one explicitly selected pairwise free-energy difference over supplied sample fractions without generating or decorrelating samples.",
+        "FreeEnergyConvergenceResult",
+        ("pymbar",),
+        ("reduced_potentials", "samples_per_state"),
+        input_description="u_kn matrix with samples grouped by source state, N_k counts, explicit fractions, and one state pair",
+    ),
+    _action(
+        "parse_alchemical_energy_data",
+        "molecular_dynamics",
+        "Parse one or more explicitly identified engine output files into a normalized alchemical reduced-potential or derivative table.",
+        "AlchemicalEnergyData",
+        ("alchemlyb",),
+        ("files",),
+        input_description="workspace output-file Artifacts plus explicit engine, observable, and simulation temperature",
+    ),
+    _action(
         "calculate_periodic_energy",
         "periodic_and_phonons",
         "Calculate one periodic-system energy with the explicitly selected electronic-structure backend.",
         "EnergyResult",
-        ("quantum_espresso", "cp2k", "siesta", "dftbplus", "abinit", "vasp", "nequip", "allegro", "deepmd"),
+        ("quantum_espresso", "cp2k", "siesta", "dftbplus", "abinit", "vasp", "gpaw", "nequip", "allegro", "deepmd"),
         ("structure",),
         input_description="periodic AtomicStructure with cell and PBC",
     ),
@@ -331,7 +754,7 @@ ACTION_SPECS: tuple[ActionSpec, ...] = (
         "periodic_and_phonons",
         "Calculate periodic atomic forces for one structure or aligned displaced-structure batch.",
         "ForceResult",
-        ("quantum_espresso", "cp2k", "siesta", "dftbplus", "abinit", "vasp", "nequip", "allegro", "deepmd"),
+        ("quantum_espresso", "cp2k", "siesta", "dftbplus", "abinit", "vasp", "gpaw", "nequip", "allegro", "deepmd"),
         ("structure",),
         input_description="periodic AtomicStructure or homogeneous structure batch",
     ),
@@ -340,7 +763,7 @@ ACTION_SPECS: tuple[ActionSpec, ...] = (
         "periodic_and_phonons",
         "Calculate one periodic stress tensor without relaxing the structure.",
         "StressResult",
-        ("quantum_espresso", "cp2k", "abinit", "vasp", "nequip", "allegro", "deepmd"),
+        ("quantum_espresso", "cp2k", "abinit", "vasp", "gpaw", "nequip", "allegro", "deepmd"),
         ("structure",),
         input_description="periodic AtomicStructure",
     ),
@@ -349,9 +772,56 @@ ACTION_SPECS: tuple[ActionSpec, ...] = (
         "periodic_and_phonons",
         "Relax a periodic structure under explicit atomic/cell constraints.",
         "AtomicStructure",
-        ("quantum_espresso", "cp2k", "siesta", "dftbplus", "abinit", "vasp", "nequip", "allegro", "deepmd"),
+        ("quantum_espresso", "cp2k", "siesta", "dftbplus", "abinit", "vasp", "gpaw", "nequip", "allegro", "deepmd"),
         ("structure",),
         input_description="periodic AtomicStructure plus explicit relaxation controls",
+    ),
+    _action(
+        "calculate_electronic_band_structure",
+        "periodic_and_phonons",
+        "Calculate electronic eigenvalue bands along one explicit reciprocal-space path from an existing converged periodic ground-state restart.",
+        "ElectronicBandStructureResult",
+        ("gpaw",),
+        ("ground_state",),
+        input_description="converged GPAW ground-state restart Artifact plus an explicit high-symmetry path, sampling, and band count",
+    ),
+    _action(
+        "calculate_density_of_states",
+        "periodic_and_phonons",
+        "Calculate a total electronic density of states on an explicit energy grid from an existing converged periodic ground-state restart.",
+        "DensityOfStatesResult",
+        ("gpaw",),
+        ("ground_state",),
+        input_description="converged GPAW ground-state restart Artifact plus explicit energy range, grid, broadening, spin, and reference",
+    ),
+    _action(
+        "calculate_projected_density_of_states",
+        "periodic_and_phonons",
+        "Calculate or extract explicitly requested atom/orbital projected electronic densities of states from an existing compatible periodic electronic-state artifact.",
+        "ProjectedDensityOfStatesResult",
+        ("gpaw", "lobster"),
+        ("projections",),
+        ("ground_state", "dos_file", "structure_file"),
+        input_description="typed atom/orbital projections plus either a GPAW restart or LOBSTER DOSCAR/structure artifacts",
+    ),
+    _action(
+        "analyze_periodic_bonding",
+        "periodic_and_phonons",
+        "Extract explicitly selected integrated and optional energy-resolved COHP, COOP, or COBI bonding information from existing LOBSTER outputs.",
+        "PeriodicBondingResult",
+        ("lobster",),
+        ("integrated_bond_list",),
+        ("bond_curve_file",),
+        input_description="LOBSTER ICOHPLIST/ICOOPLIST/ICOBILIST and optional matching COHPCAR/COOPCAR/COBICAR Artifact",
+    ),
+    _action(
+        "calculate_charge_spilling",
+        "periodic_and_phonons",
+        "Assess LOBSTER wavefunction-projection charge/total spilling against explicit acceptance thresholds from an existing lobsterout file.",
+        "ProjectionQualityResult",
+        ("lobster",),
+        ("lobster_output",),
+        input_description="existing LOBSTER lobsterout Artifact and explicit charge/total spilling thresholds",
     ),
     _action(
         "generate_displaced_supercells",
@@ -390,6 +860,41 @@ ACTION_SPECS: tuple[ActionSpec, ...] = (
         input_description="ForceConstants, structure, and q_mesh setting",
     ),
     _action(
+        "calculate_harmonic_thermodynamics",
+        "periodic_and_phonons",
+        "Calculate harmonic free energy, entropy, and constant-volume heat capacity at explicitly supplied temperatures.",
+        "HarmonicThermodynamicsResult",
+        ("phonopy", "phono3py"),
+        ("force_constants", "structure"),
+        input_description="second-order ForceConstants, matching structure, q mesh, and explicit temperature list",
+    ),
+    _action(
+        "calculate_phonon_group_velocities",
+        "periodic_and_phonons",
+        "Calculate mode-resolved phonon group-velocity vectors along an explicitly supplied q-point path.",
+        "PhononGroupVelocityResult",
+        ("phonopy", "phono3py"),
+        ("force_constants", "structure"),
+        input_description="second-order ForceConstants, matching structure, and explicit q_path",
+    ),
+    _action(
+        "calculate_lattice_thermal_conductivity",
+        "periodic_and_phonons",
+        "Calculate the lattice thermal-conductivity tensor from explicit second-/third-order force constants or a complete native BTE model under Agent-selected solution and scattering settings.",
+        "LatticeThermalConductivityResult",
+        ("phono3py", "shengbte"),
+        (),
+        (
+            "second_order_force_constants", "third_order_force_constants", "structure",
+            "control_file", "second_order_force_constants_file",
+            "third_order_force_constants_file", "born_file", "companion_files",
+        ),
+        input_description=(
+            "Phono3py fc2/fc3 Artifacts plus structure, or explicit ShengBTE CONTROL/"
+            "FORCE_CONSTANTS files and optional BORN/companion files"
+        ),
+    ),
+    _action(
         "dock_ligand",
         "docking",
         "Dock an already prepared ligand into an already prepared receptor using an explicit search space.",
@@ -407,6 +912,61 @@ ACTION_SPECS: tuple[ActionSpec, ...] = (
         ("pubchem",),
         ("query",),
         input_description="query string plus namespace/max_records settings",
+        data_action=True,
+        requires_network=True,
+    ),
+    _action(
+        "resolve_chemical_identity",
+        "data_sources",
+        "Resolve one explicit compound identifier to a bounded ChemicalIdentity record through PubChem.",
+        "ChemicalIdentity",
+        ("pubchem",),
+        ("query",),
+        input_description="query={identifier, namespace: name|cid|smiles|inchi|inchikey}",
+        data_action=True,
+        requires_network=True,
+    ),
+    _action(
+        "retrieve_compound_properties",
+        "data_sources",
+        "Retrieve an explicitly selected bounded property set for matching PubChem compounds.",
+        "CompoundPropertyRecords",
+        ("pubchem",),
+        ("query",),
+        input_description="query={identifier, namespace}; action_settings.properties selects allowed fields",
+        data_action=True,
+        requires_network=True,
+    ),
+    _action(
+        "retrieve_compound_structure",
+        "data_sources",
+        "Retrieve bounded PubChem 2D or 3D coordinate records while leaving coordinate dimensionality and explicit-hydrogen handling to the agent.",
+        "StructureCollection",
+        ("pubchem",),
+        ("query",),
+        input_description="query={identifier, namespace}; explicit record_type and hydrogen policy select the returned coordinate representation",
+        data_action=True,
+        requires_network=True,
+    ),
+    _action(
+        "search_similar_compounds",
+        "data_sources",
+        "Run one bounded PubChem 2D similarity search from an explicit structure identifier.",
+        "CompoundRecords",
+        ("pubchem",),
+        ("query",),
+        input_description="query={identifier, namespace: cid|smiles|inchi} plus threshold/max_records",
+        data_action=True,
+        requires_network=True,
+    ),
+    _action(
+        "search_substructures",
+        "data_sources",
+        "Run one bounded PubChem substructure search from an explicit SMILES, SMARTS, InChI, or CID query.",
+        "CompoundRecords",
+        ("pubchem",),
+        ("query",),
+        input_description="query={identifier, namespace: cid|smiles|smarts|inchi} plus explicit matching controls",
         data_action=True,
         requires_network=True,
     ),
@@ -476,8 +1036,13 @@ def _backend(
     license_class: str = "open_source",
     install_notes: str = "",
     method_schema: dict[str, str] | None = None,
+    required_inputs: dict[str, tuple[str, ...]] | None = None,
     required_methods: dict[str, tuple[str, ...]] | None = None,
     required_settings: dict[str, tuple[str, ...]] | None = None,
+    required_components: dict[str, tuple[str, ...]] | None = None,
+    component_options: dict[str, dict[str, tuple[str, ...]]] | None = None,
+    supported_system_types: dict[str, tuple[str, ...]] | None = None,
+    validation_levels: dict[str, str] | None = None,
 ) -> BackendSpec:
     return BackendSpec(
         id=backend_id,
@@ -494,8 +1059,13 @@ def _backend(
         license_class=license_class,
         install_notes=install_notes,
         method_schema=method_schema or {},
+        required_input_fields=required_inputs or {},
         required_method_fields=required_methods or {},
         required_setting_fields=required_settings or {},
+        required_component_roles=required_components or {},
+        component_backend_options=component_options or {},
+        supported_system_types=supported_system_types or {},
+        validation_levels=validation_levels or {},
     )
 
 
@@ -547,14 +1117,54 @@ _VASP_SETTINGS = {
 
 BACKEND_SPECS: tuple[BackendSpec, ...] = (
     _backend(
+        "qcelemental", "QCElemental", "workflows",
+        ("normalize_qcschema_molecule", "validate_qcschema_record"),
+        "QCElemental 0.50.4 schema models and physical-data normalization without calculation execution.",
+        modules=("qcelemental",), conda=("qcelemental=0.50.4",),
+        required_settings={
+            "normalize_qcschema_molecule": ("fix_center_of_mass", "fix_orientation"),
+            "validate_qcschema_record": ("record_type",),
+        },
+    ),
+    _backend(
+        "cclib", "cclib", "workflows",
+        ("parse_quantum_chemistry_output",),
+        "cclib 1.8.1 parser for extracting selected properties from existing quantum-chemistry output files.",
+        modules=("cclib",), conda=("cclib=1.8.1",),
+        required_settings={
+            "parse_quantum_chemistry_output": (
+                "properties", "coordinate_frames", "include_orbital_coefficients",
+                "include_excited_state_configurations", "max_array_elements",
+            ),
+        },
+    ),
+    _backend(
         "rdkit", "RDKit", "core",
-        ("standardize_structure", "generate_3d_structure", "assign_protonation_states"),
+        (
+            "standardize_structure", "generate_3d_structure", "assign_protonation_states",
+            "cluster_conformers", "align_molecular_structures",
+            "calculate_molecular_descriptors", "calculate_molecular_fingerprint",
+            "calculate_molecular_similarity", "search_local_substructures",
+            "enumerate_tautomers", "enumerate_stereoisomers",
+        ),
         "Cheminformatics structure standardization, hydrogen handling, and 3D embedding.",
         modules=("rdkit",), conda=("rdkit",),
         required_settings={
             "standardize_structure": ("largest_fragment", "neutralize", "canonical_tautomer"),
             "generate_3d_structure": ("random_seed",),
+            "cluster_conformers": (
+                "rmsd_cutoff_angstrom", "atom_selection", "prealign_conformers",
+                "reorder_cluster_centers",
+            ),
+            "align_molecular_structures": ("reflect", "max_iterations"),
             "assign_protonation_states": ("ph", "rule"),
+            "enumerate_tautomers": ("max_tautomers",),
+            "enumerate_stereoisomers": ("max_isomers", "only_unassigned", "unique"),
+        },
+        required_methods={
+            "calculate_molecular_fingerprint": ("fingerprint_type",),
+            "calculate_molecular_similarity": ("fingerprint_type", "similarity_metric"),
+            "search_local_substructures": ("query_format",),
         },
     ),
     _backend(
@@ -589,6 +1199,23 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         required_settings={
             "repair_biomolecular_structure": ("add_missing_residues", "replace_nonstandard_residues", "keep_water"),
             "assign_protonation_states": ("ph",),
+        },
+    ),
+    _backend(
+        "pdb_tools", "pdb-tools", "core",
+        (
+            "select_structure_subset", "renumber_biomolecular_structure",
+            "normalize_pdb_records",
+        ),
+        "Composable pdb-tools 2.7.0 record transformations exposed as bounded typed structure actions.",
+        modules=("pdbtools",), executables=("pdb_selchain", "pdb_reres", "pdb_tidy"),
+        pip=("pdb-tools==2.7.0",),
+        required_settings={
+            "select_structure_subset": ("chains", "models", "keep_heteroatoms"),
+            "renumber_biomolecular_structure": (
+                "starting_atom_serial", "starting_residue_number", "hybrid36",
+            ),
+            "normalize_pdb_records": ("sort_by", "strict_chain_breaks", "hybrid36"),
         },
     ),
     _backend(
@@ -635,23 +1262,337 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         },
     ),
     _backend(
+        "spglib", "spglib", "workflows",
+        ("analyze_crystal_symmetry", "standardize_crystal_structure"),
+        "Crystallographic symmetry detection and cell standardization using explicit numerical tolerances.",
+        modules=("spglib", "numpy"), conda=("spglib", "numpy"),
+        required_settings={
+            "analyze_crystal_symmetry": ("symmetry_tolerance_angstrom", "angle_tolerance_degrees"),
+            "standardize_crystal_structure": (
+                "convention", "symmetry_tolerance_angstrom",
+                "angle_tolerance_degrees", "idealize",
+            ),
+        },
+    ),
+    _backend(
+        "pymatgen", "pymatgen", "workflows",
+        (
+            "analyze_crystal_symmetry", "standardize_crystal_structure",
+            "build_supercell", "enumerate_surface_slabs",
+        ),
+        "Materials structure, symmetry, supercell, and surface-slab operations with all structural choices supplied by the Agent.",
+        modules=("pymatgen", "numpy"), conda=("pymatgen", "numpy"),
+        required_settings={
+            "analyze_crystal_symmetry": ("symmetry_tolerance_angstrom", "angle_tolerance_degrees"),
+            "standardize_crystal_structure": (
+                "convention", "symmetry_tolerance_angstrom", "angle_tolerance_degrees",
+            ),
+            "build_supercell": ("scaling_matrix",),
+            "enumerate_surface_slabs": (
+                "miller_index", "minimum_slab_thickness_angstrom",
+                "minimum_vacuum_thickness_angstrom", "center_slab",
+                "primitive", "max_terminations",
+            ),
+        },
+    ),
+    _backend(
         "xtb", "xTB", "quantum",
-        ("calculate_energy", "calculate_hessian", "optimize_geometry"),
-        "Standalone xTB GFN calculations.", executables=("xtb",),
+        (
+            "calculate_energy", "calculate_forces", "calculate_hessian",
+            "optimize_geometry", "calculate_dipole_moment", "calculate_atomic_charges",
+            "calculate_bond_orders",
+        ),
+        "Standalone xTB GFN energy, derivative, optimization, dipole, and population-analysis calculations.", executables=("xtb",),
         environment=("CHEMGRAPH_XTB_COMMAND",), conda=("xtb",),
         required_methods={
-            "calculate_energy": ("method",), "calculate_hessian": ("method",),
-            "optimize_geometry": ("method",),
-        }, required_settings={"optimize_geometry": ("optimization_level",)},
+            action: ("method",) for action in (
+                "calculate_energy", "calculate_forces", "calculate_hessian",
+                "optimize_geometry", "calculate_dipole_moment", "calculate_atomic_charges",
+                "calculate_bond_orders",
+            )
+        }, required_settings={
+            "optimize_geometry": ("optimization_level",),
+            "calculate_bond_orders": ("minimum_bond_order",),
+        },
     ),
     _backend(
         "pyscf", "PySCF", "quantum",
-        ("calculate_energy", "calculate_dipole_moment", "calculate_atomic_charges", "calculate_orbitals"),
-        "PySCF molecular Hartree-Fock and density-functional calculations.", modules=("pyscf",),
+        (
+            "calculate_energy", "calculate_forces", "calculate_hessian",
+            "calculate_dipole_moment", "calculate_atomic_charges", "calculate_orbitals",
+            "calculate_excited_states",
+        ),
+        "PySCF molecular Hartree-Fock and density-functional energies, analytic derivatives, and electronic properties.", modules=("pyscf",),
         pip=("pyscf",), method_schema={"method": "rhf|uhf|rks|uks", "basis": "PySCF basis name"},
         required_methods={
             action: ("method", "basis") for action in
-            ("calculate_energy", "calculate_dipole_moment", "calculate_atomic_charges", "calculate_orbitals")
+            (
+                "calculate_energy", "calculate_forces", "calculate_hessian",
+                "calculate_dipole_moment", "calculate_atomic_charges", "calculate_orbitals",
+            )
+        } | {"calculate_excited_states": ("method", "basis", "excited_state_method")},
+        required_settings={
+            "calculate_excited_states": ("number_of_states", "spin_symmetry"),
+        },
+    ),
+    _backend(
+        "gpaw", "GPAW", "gpaw",
+        (
+            "calculate_energy", "calculate_forces", "optimize_geometry",
+            "calculate_periodic_energy", "calculate_periodic_forces",
+            "calculate_periodic_stress", "relax_periodic_structure",
+            "calculate_electronic_band_structure", "calculate_density_of_states",
+            "calculate_projected_density_of_states",
+        ),
+        "GPAW real-space, LCAO, or plane-wave DFT with explicit representation, PAW setup, k-point, spin, and convergence choices.",
+        modules=("gpaw", "ase", "numpy"), executables=("gpaw",),
+        conda=("gpaw=25.7.0", "ase", "numpy"),
+        data_resources=("GPAW PAW setup datasets under .software_cache/gpaw/setups",),
+        method_schema={
+            "mode": "fd or lcao for molecules; pw, fd, or lcao for periodic structures",
+            "xc": "explicit GPAW exchange-correlation functional",
+            "ecut_ev": "required for pw mode",
+            "grid_spacing_angstrom": "required for fd mode",
+            "basis": "required for lcao mode",
+            "k_points": "required periodic three-integer grid or {grid,gamma}",
+            "spin_polarized": "explicit boolean; true requires initial_magnetic_moments",
+        },
+        required_inputs={
+            "calculate_projected_density_of_states": ("ground_state",),
+        },
+        required_methods={
+            action: ("mode", "xc", "spin_polarized")
+            for action in ("calculate_energy", "calculate_forces", "optimize_geometry")
+        } | {
+            action: ("mode", "xc", "spin_polarized", "k_points")
+            for action in (
+                "calculate_periodic_energy", "calculate_periodic_forces",
+                "calculate_periodic_stress", "relax_periodic_structure",
+            )
+        },
+        required_settings={
+            "calculate_energy": ("vacuum_angstrom", "scf_energy_convergence_ev", "max_scf_cycles"),
+            "calculate_forces": ("vacuum_angstrom", "scf_energy_convergence_ev", "max_scf_cycles"),
+            "optimize_geometry": (
+                "vacuum_angstrom", "scf_energy_convergence_ev", "max_scf_cycles",
+                "force_threshold_ev_per_angstrom", "max_steps", "optimizer",
+            ),
+            "calculate_periodic_energy": ("scf_energy_convergence_ev", "max_scf_cycles"),
+            "calculate_periodic_forces": ("scf_energy_convergence_ev", "max_scf_cycles"),
+            "calculate_periodic_stress": ("scf_energy_convergence_ev", "max_scf_cycles"),
+            "relax_periodic_structure": (
+                "scf_energy_convergence_ev", "max_scf_cycles",
+                "force_threshold_ev_per_angstrom", "max_steps", "optimizer", "relax_cell",
+            ),
+            "calculate_electronic_band_structure": (
+                "band_path", "number_of_points", "number_of_bands",
+                "converged_bands", "energy_reference",
+            ),
+            "calculate_density_of_states": (
+                "minimum_energy_ev", "maximum_energy_ev", "grid_points",
+                "broadening_ev", "spin", "energy_reference",
+            ),
+            "calculate_projected_density_of_states": (
+                "minimum_energy_ev", "maximum_energy_ev", "grid_points",
+                "broadening_ev", "spin", "energy_reference",
+            ),
+        },
+    ),
+    _backend(
+        "lobster", "LOBSTER", "lobster",
+        (
+            "analyze_periodic_bonding", "calculate_projected_density_of_states",
+            "calculate_charge_spilling",
+        ),
+        "LOBSTER 5.1.0 periodic bonding, projected-DOS, and projection-quality postprocessing from explicit existing output Artifacts.",
+        modules=("pymatgen", "numpy"), executables=("lobster-5.1.0",),
+        environment=("CHEMGRAPH_LOBSTER_COMMAND",), conda=("pymatgen",),
+        license_class="academic_license",
+        install_notes=(
+            "Operator-supplied LOBSTER 5.1.0 is cached locally with its User Guide and FAQ. "
+            "These public actions parse bounded existing outputs and do not expose arbitrary lobsterin execution."
+        ),
+        required_inputs={
+            "analyze_periodic_bonding": ("integrated_bond_list",),
+            "calculate_projected_density_of_states": ("dos_file", "structure_file"),
+            "calculate_charge_spilling": ("lobster_output",),
+        },
+        required_settings={
+            "analyze_periodic_bonding": (
+                "bonding_metric", "spin", "minimum_absolute_integrated_value_ev",
+                "max_bonds", "include_curve_data", "minimum_energy_ev",
+                "maximum_energy_ev", "curve_stride", "max_curve_points",
+            ),
+            "calculate_projected_density_of_states": (
+                "minimum_energy_ev", "maximum_energy_ev", "spin", "curve_stride",
+            ),
+            "calculate_charge_spilling": (
+                "maximum_charge_spilling_percent",
+                "maximum_total_spilling_percent", "require_finished",
+            ),
+        },
+        supported_system_types={
+            action: ("periodic_crystal",)
+            for action in (
+                "analyze_periodic_bonding", "calculate_projected_density_of_states",
+                "calculate_charge_spilling",
+            )
+        },
+        validation_levels={
+            action: "validated"
+            for action in (
+                "analyze_periodic_bonding", "calculate_projected_density_of_states",
+                "calculate_charge_spilling",
+            )
+        },
+    ),
+    _backend(
+        "nwchem", "NWChem", "nwchem",
+        (
+            "calculate_energy", "calculate_forces", "calculate_hessian",
+            "calculate_dipole_moment", "calculate_atomic_charges",
+        ),
+        "NWChem single-geometry QCSchema calculations through QCEngine with explicit method, basis, convergence, and population/property requests.",
+        modules=("qcengine", "qcelemental", "numpy"), executables=("nwchem",),
+        environment=("NWCHEM_BASIS_LIBRARY",),
+        conda=("nwchem=7.3.1", "qcengine=0.50.0", "qcelemental=0.50.4", "cclib"),
+        data_resources=("NWChem basis libraries under .software_cache/nwchem/source/src/basis/libraries",),
+        method_schema={
+            "method": "NWChem/QCEngine method such as hf, dft, mp2, or ccsd",
+            "basis": "NWChem basis-library name",
+            "functional": "required explicit XC functional when method=dft",
+            "reference": "optional rhf, uhf, or rohf reference selection",
+            "charge/multiplicity": "optional values overriding the supplied structure metadata",
+        },
+        required_methods={
+            action: ("method", "basis")
+            for action in (
+                "calculate_energy", "calculate_forces", "calculate_hessian",
+                "calculate_dipole_moment", "calculate_atomic_charges",
+            )
+        },
+        required_settings={
+            action: ("scf_convergence", "max_scf_cycles")
+            for action in (
+                "calculate_energy", "calculate_forces", "calculate_hessian",
+                "calculate_dipole_moment", "calculate_atomic_charges",
+            )
+        },
+    ),
+    _backend(
+        "openmolcas", "OpenMolcas", "openmolcas",
+        (
+            "calculate_energy", "calculate_dipole_moment",
+            "calculate_atomic_charges", "calculate_orbitals",
+        ),
+        "OpenMolcas v25.10 molecular HF/Kohn-Sham SCF energy, dipole, Mulliken-charge, and orbital-property calculations from typed structures and explicit SCF controls.",
+        executables=("pymolcas",), environment=("CHEMGRAPH_OPENMOLCAS_COMMAND",),
+        data_resources=("OpenMolcas v25.10 basis_library managed under .software_cache/openmolcas/25.10",),
+        install_notes="Locally compiled OpenMolcas v25.10 serial/OpenMP build with built-in Libxc.",
+        method_schema={
+            "method": "hf or dft",
+            "basis": "explicit OpenMolcas basis-library label",
+            "functional": "required explicit OpenMolcas/Libxc functional when method=dft",
+            "charge/multiplicity": "optional explicit overrides of structure metadata",
+        },
+        required_methods={
+            action: ("method", "basis")
+            for action in (
+                "calculate_energy", "calculate_dipole_moment",
+                "calculate_atomic_charges", "calculate_orbitals",
+            )
+        },
+        required_settings={
+            action: (
+                "use_symmetry", "use_uhf", "use_cholesky", "initial_guess",
+                "max_scf_iterations", "scf_thresholds",
+            )
+            for action in (
+                "calculate_energy", "calculate_dipole_moment",
+                "calculate_atomic_charges", "calculate_orbitals",
+            )
+        },
+        supported_system_types={
+            action: ("molecule", "cluster")
+            for action in (
+                "calculate_energy", "calculate_dipole_moment",
+                "calculate_atomic_charges", "calculate_orbitals",
+            )
+        },
+        validation_levels={
+            action: "real_smoke"
+            for action in (
+                "calculate_energy", "calculate_dipole_moment",
+                "calculate_atomic_charges", "calculate_orbitals",
+            )
+        },
+    ),
+    _backend(
+        "multiwfn", "Multiwfn", "multiwfn",
+        ("calculate_atomic_charges", "calculate_bond_orders"),
+        "Multiwfn 2026.7.15 noGUI wavefunction post-processing for explicit Mulliken/Lowdin atomic charges and Mayer/Wiberg-Lowdin/Mulliken bond-order definitions.",
+        executables=("Multiwfn_noGUI",), environment=("CHEMGRAPH_MULTIWFN_COMMAND",),
+        license_class="custom_open_source_citation_required",
+        data_resources=(
+            "Agent-supplied fch/fchk/wfn/wfx/mwfn/Molden/47 wavefunction file; both required Multiwfn citations are returned in provenance",
+        ),
+        install_notes=(
+            "Official 2026.7.15 Linux noGUI binary is managed under .software_cache/multiwfn; "
+            "the adapter uses fixed version-specific menu sequences and accepts no arbitrary menu script."
+        ),
+        method_schema={
+            "population_analysis": "mulliken or lowdin",
+            "bond_order_definition": "mayer, wiberg_lowdin, or mulliken",
+        },
+        required_methods={
+            "calculate_atomic_charges": ("population_analysis",),
+            "calculate_bond_orders": ("bond_order_definition",),
+        },
+        required_settings={"calculate_bond_orders": ("minimum_bond_order",)},
+        supported_system_types={
+            "calculate_atomic_charges": ("molecular_wavefunction",),
+            "calculate_bond_orders": ("molecular_wavefunction",),
+        },
+        validation_levels={
+            "calculate_atomic_charges": "real_smoke",
+            "calculate_bond_orders": "real_smoke",
+        },
+    ),
+    _backend(
+        "critic2", "Critic2", "critic2",
+        (
+            "analyze_electron_density_topology", "calculate_atomic_basin_properties",
+            "calculate_bader_charges",
+        ),
+        "Critic2 1.2.1081 QTAIM critical-point search and typed grid-basin integration over Agent-supplied fields.",
+        executables=("critic2",), environment=("CHEMGRAPH_CRITIC2_COMMAND",),
+        data_resources=(
+            "Agent-supplied electron-density grid or compatible wavefunction file; an explicit separate structure file is required when the density file does not contain geometry",
+        ),
+        install_notes=(
+            "The locally compiled GPL-3.0 development build is managed under "
+            ".software_cache/critic2/install-conda. The adapter exposes typed AUTO/CPREPORT "
+            "controls and never accepts an arbitrary Critic2 command script."
+        ),
+        required_settings={
+            "analyze_electron_density_topology": (
+                "system_type", "density_format", "interpolation",
+                "critical_point_types", "gradient_tolerance",
+                "seed_strategy", "report_detail",
+                "max_reported_critical_points",
+            ),
+            "calculate_atomic_basin_properties": (
+                "system_type", "density_format", "interpolation",
+                "partition_method", "non_nuclear_maxima",
+                "all_maxima_non_atomic", "write_weight_cubes",
+                "max_reported_basins", "laplacian_sum_tolerance",
+            ),
+            "calculate_bader_charges": (
+                "system_type", "density_format", "interpolation",
+                "partition_method", "non_nuclear_maxima",
+                "all_maxima_non_atomic", "write_weight_cubes",
+                "max_reported_basins", "laplacian_sum_tolerance",
+            ),
         },
     ),
     _backend(
@@ -777,7 +1718,11 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
     ),
     _backend(
         "orca", "ORCA", "quantum",
-        ("calculate_energy", "calculate_hessian", "optimize_geometry", "calculate_dipole_moment"),
+        (
+            "calculate_energy", "calculate_forces", "calculate_hessian", "optimize_geometry",
+            "calculate_dipole_moment", "calculate_atomic_charges", "calculate_orbitals",
+            "calculate_bond_orders", "calculate_excited_states",
+        ),
         "Operator-provided ORCA 6.1.1 electronic-structure executable with an isolated OpenMPI 4.1.8 runtime.",
         executables=("orca",), environment=("CHEMGRAPH_ORCA_COMMAND",),
         license_class="manual_license",
@@ -792,9 +1737,22 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
             "charge": "optional explicit molecular charge",
             "multiplicity": "optional explicit spin multiplicity",
         },
-        required_methods={action: ("method", "basis") for action in ("calculate_energy", "calculate_hessian", "optimize_geometry", "calculate_dipole_moment")},
+        required_methods={
+            action: ("method", "basis") for action in (
+                "calculate_energy", "calculate_forces", "calculate_hessian", "optimize_geometry",
+                "calculate_dipole_moment", "calculate_orbitals", "calculate_bond_orders",
+            )
+        } | {
+            "calculate_atomic_charges": ("method", "basis", "population_analysis"),
+            "calculate_excited_states": ("method", "basis", "excited_state_method"),
+        },
         required_settings={
             "optimize_geometry": ("optimization_convergence", "max_steps"),
+            "calculate_bond_orders": ("minimum_bond_order",),
+            "calculate_excited_states": (
+                "number_of_states", "spin_symmetry",
+                "excited_energy_tolerance_hartree", "residual_tolerance",
+            ),
         },
     ),
     _backend(
@@ -869,9 +1827,16 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         required_settings={"derive_vibrational_modes": ("linearity",)},
     ),
     _backend(
-        "internal_spectroscopy", "ResearchChem spectrum builder", "core", ("derive_ir_spectrum",),
+        "internal_spectroscopy", "ResearchChem spectrum builder", "core",
+        ("derive_ir_spectrum", "derive_uv_vis_spectrum"),
         "Deterministic line/broadened spectrum construction from supplied frequencies and intensities.", modules=("numpy",), pip=("numpy",),
-        required_settings={"derive_ir_spectrum": ("broadening", "fwhm_cm1")},
+        required_settings={
+            "derive_ir_spectrum": ("broadening", "fwhm_cm1"),
+            "derive_uv_vis_spectrum": (
+                "broadening", "fwhm_ev", "minimum_energy_ev",
+                "maximum_energy_ev", "grid_points",
+            ),
+        },
     ),
     _backend(
         "internal_thermochemistry", "ResearchChem statistical thermochemistry", "core", ("derive_thermochemistry",),
@@ -882,6 +1847,82 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         "goodvibes", "GoodVibes", "reaction", ("derive_thermochemistry",),
         "GoodVibes thermochemistry from an explicitly supplied parsed quantum output.", modules=("goodvibes",), executables=("goodvibes",),
         conda=("goodvibes",), required_settings={"derive_thermochemistry": ("temperature_kelvin",)},
+    ),
+    _backend(
+        "geometric", "geomeTRIC", "nwchem", ("optimize_geometry",),
+        "geomeTRIC 1.1.1 molecular geometry optimization driven by the exact energy/force backend and settings selected in component_backends.calculator.",
+        modules=("geometric", "numpy"), pip=("geometric==1.1.1",),
+        method_schema={
+            "calculator_method": "complete method_spec mapping passed unchanged to the Agent-selected calculator backend",
+        },
+        required_methods={"optimize_geometry": ("calculator_method",)},
+        required_settings={
+            "optimize_geometry": (
+                "calculator_action_settings", "coordinate_system", "max_iterations",
+                "trust_radius_angstrom", "minimum_trust_radius_angstrom",
+                "maximum_trust_radius_angstrom", "hessian_strategy",
+                "project_rigid_force_torque", "convergence_energy_hartree",
+                "convergence_grms_hartree_per_bohr",
+                "convergence_gmax_hartree_per_bohr", "convergence_drms_angstrom",
+                "convergence_dmax_angstrom", "rigid_fragments",
+                "constraint_algorithm", "constraint_enforcement_tolerance",
+            ),
+        },
+        required_components={"optimize_geometry": ("calculator",)},
+        component_options={
+            "optimize_geometry": {
+                "calculator": (
+                    "xtb", "pyscf", "tblite", "gpaw", "nwchem", "orca",
+                    "mace", "chgnet", "deepmd", "ase_emt",
+                ),
+            },
+        },
+        supported_system_types={"optimize_geometry": ("molecule", "cluster")},
+        validation_levels={"optimize_geometry": "validated"},
+    ),
+    _backend(
+        "sella", "Sella", "sella", ("optimize_geometry", "locate_transition_state"),
+        "Sella 2.5.0 order-0 minimum optimization and order-1 transition-state search driven by the exact energy/force backend and settings selected in component_backends.calculator.",
+        modules=("sella", "ase", "numpy"), pip=("sella==2.5.0",),
+        method_schema={
+            "calculator_method": "complete method_spec mapping passed unchanged to the Agent-selected calculator backend",
+        },
+        required_methods={
+            action: ("calculator_method",)
+            for action in ("optimize_geometry", "locate_transition_state")
+        },
+        required_settings={
+            action: (
+                "calculator_action_settings", "force_threshold_ev_per_angstrom",
+                "max_steps", "internal_coordinates", "initial_trust_radius",
+                "minimum_model_quality", "finite_difference_step",
+                "three_point_differences", "steps_per_diagonalization",
+                "diagonalization_interval", "allow_fragments",
+                "refine_initial_hessian_iterations",
+            )
+            for action in ("optimize_geometry", "locate_transition_state")
+        },
+        required_components={
+            action: ("calculator",)
+            for action in ("optimize_geometry", "locate_transition_state")
+        },
+        component_options={
+            action: {
+                "calculator": (
+                    "xtb", "pyscf", "tblite", "gpaw", "nwchem", "orca",
+                    "mace", "chgnet", "deepmd", "ase_emt",
+                ),
+            }
+            for action in ("optimize_geometry", "locate_transition_state")
+        },
+        supported_system_types={
+            action: ("molecule", "cluster")
+            for action in ("optimize_geometry", "locate_transition_state")
+        },
+        validation_levels={
+            action: "validated"
+            for action in ("optimize_geometry", "locate_transition_state")
+        },
     ),
     _backend(
         "pysisyphus", "pysisyphus", "reaction", ("locate_transition_state", "trace_intrinsic_reaction_coordinate"),
@@ -907,17 +1948,57 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         required_settings={"integrate_reaction_network": ("time_end_seconds", "num_points")},
     ),
     _backend(
+        "rmg", "RMG-Py", "rmg",
+        ("calculate_rate_constants", "calculate_tunneling_correction"),
+        "RMG-Py 4.0.0 typed kinetics-model evaluation and Wigner/Eckart tunneling factors without mechanism generation or hidden database selection.",
+        modules=("rmgpy",), executables=("rmg.py",), conda=("rmg=4.0.0",),
+        required_methods={
+            "calculate_tunneling_correction": ("tunneling_model",),
+        },
+        required_settings={
+            "calculate_rate_constants": ("allow_extrapolation",),
+        },
+    ),
+    _backend(
+        "mess", "MESS", "mess", ("solve_master_equation",),
+        "MESS 2020.1.24 multi-well gas-phase master-equation solution from an Agent-supplied native model, with structured finite/high-pressure rate-table extraction.",
+        executables=("mess",), environment=("CHEMGRAPH_MESS_COMMAND",),
+        install_notes="Locally compiled PAPR MESS 2020.1.24 runtime and official manual/examples.",
+        required_settings={"solve_master_equation": ("maximum_rate_records",)},
+        supported_system_types={"solve_master_equation": ("gas_phase_reaction_network",)},
+        validation_levels={"solve_master_equation": "real_smoke"},
+    ),
+    _backend(
+        "mesmer", "MESMER", "mesmer", ("solve_master_equation",),
+        "MESMER 7.1 energy-grained master-equation solution from an Agent-supplied XML model, with structured first- and second-order phenomenological rate extraction.",
+        executables=("mesmer",), environment=("CHEMGRAPH_MESMER_COMMAND",),
+        install_notes="Locally compiled official MESMER 7.1 SourceForge release and manual/examples.",
+        required_settings={"solve_master_equation": ("maximum_rate_records",)},
+        supported_system_types={"solve_master_equation": ("gas_phase_reaction_network",)},
+        validation_levels={"solve_master_equation": "real_smoke"},
+    ),
+    _backend(
         "catmap", "CatMAP", "reaction", ("solve_microkinetic_model",),
         "CatMAP microkinetic solver through a typed model adapter.", modules=("catmap",),
         pip=("git+https://github.com/SUNCAT-Center/catmap.git",),
         required_settings={"solve_microkinetic_model": ("temperature_kelvin", "pressure_bar")},
     ),
     _backend(
-        "openmm", "OpenMM", "md", ("minimize_system_energy", "propagate_dynamics"),
-        "OpenMM minimization and one-segment dynamics propagation.", modules=("openmm",), conda=("openmm",),
+        "openmm", "OpenMM", "md",
+        (
+            "minimize_system_energy", "propagate_dynamics",
+            "calculate_force_field_energy", "calculate_force_field_forces",
+            "decompose_force_field_energy",
+        ),
+        "OpenMM force/energy evaluation, force-object decomposition, minimization, and one-segment dynamics propagation.", modules=("openmm",), conda=("openmm",),
         required_settings={
             "minimize_system_energy": ("force_tolerance_kj_mol_nm", "max_iterations"),
             "propagate_dynamics": ("ensemble", "temperature_kelvin", "timestep_fs", "steps", "report_interval"),
+            "calculate_force_field_energy": ("use_saved_state", "enforce_periodic_box"),
+            "calculate_force_field_forces": ("use_saved_state", "enforce_periodic_box"),
+            "decompose_force_field_energy": (
+                "use_saved_state", "enforce_periodic_box", "include_zero_terms",
+            ),
         },
     ),
     _backend(
@@ -936,6 +2017,38 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         required_settings={
             "minimize_system_energy": ("energy_tolerance", "force_tolerance", "max_iterations"),
             "propagate_dynamics": ("ensemble", "temperature_kelvin", "timestep_fs", "steps", "report_interval"),
+        },
+    ),
+    _backend(
+        "hoomd", "HOOMD-blue", "free_energy",
+        (
+            "minimize_system_energy", "propagate_dynamics",
+            "calculate_force_field_energy", "calculate_force_field_forces",
+        ),
+        "HOOMD-blue typed particle simulations with explicit device, reduced-unit force field, integration method, and segment controls.",
+        modules=("hoomd", "numpy"), conda=("hoomd=7.1.0", "numpy"),
+        method_schema={
+            "device": "cpu or gpu; no automatic device selection",
+            "unit_system": "explicit unit label, currently reduced_lj",
+            "pair_potential": "currently lj",
+            "pair_parameters": "type-pair mapping to epsilon, sigma, and r_cut",
+            "bond_potential/bond_parameters": "optional harmonic typed bond parameters",
+        },
+        required_methods={
+            action: ("device", "unit_system", "pair_potential", "pair_parameters", "neighbor_buffer")
+            for action in (
+                "minimize_system_energy", "propagate_dynamics",
+                "calculate_force_field_energy", "calculate_force_field_forces",
+            )
+        },
+        required_settings={
+            "minimize_system_energy": (
+                "integration_timestep", "force_tolerance", "energy_tolerance", "max_iterations",
+            ),
+            "propagate_dynamics": (
+                "ensemble", "temperature_energy", "timestep", "steps",
+                "report_interval", "random_seed", "initialize_velocities",
+            ),
         },
     ),
     _backend(
@@ -1047,19 +2160,96 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
     ),
     _backend(
         "mdanalysis", "MDAnalysis", "md",
-        ("calculate_trajectory_rmsd", "calculate_radius_of_gyration", "calculate_radial_distribution", "calculate_mean_squared_displacement"),
+        (
+            "calculate_trajectory_rmsd", "calculate_radius_of_gyration",
+            "calculate_radial_distribution", "calculate_mean_squared_displacement",
+            "calculate_dihedral_distribution", "calculate_hydrogen_bonds",
+            "calculate_principal_components", "calculate_dynamic_cross_correlation",
+        ),
         "Trajectory analysis with explicit atom selections and analysis parameters.", modules=("MDAnalysis",), pip=("MDAnalysis",),
         required_settings={
             "calculate_trajectory_rmsd": ("selection",),
             "calculate_radius_of_gyration": ("selection",),
             "calculate_radial_distribution": ("selection_a", "selection_b", "range_angstrom", "bins"),
             "calculate_mean_squared_displacement": ("selection", "dimensions"),
+            "calculate_dihedral_distribution": ("periodic",),
+            "calculate_hydrogen_bonds": (
+                "donor_selection", "hydrogen_selection", "acceptor_selection",
+                "donor_hydrogen_cutoff_angstrom", "donor_acceptor_cutoff_angstrom",
+                "angle_cutoff_degrees", "update_selections", "start_frame",
+                "stop_frame", "frame_stride", "max_events",
+            ),
+            "calculate_principal_components": (
+                "selection", "align", "n_components", "start_frame",
+                "stop_frame", "frame_stride", "include_eigenvectors", "max_atoms",
+            ),
+            "calculate_dynamic_cross_correlation": (
+                "selection", "align", "alignment_selection", "reference_frame",
+                "start_frame", "stop_frame", "frame_stride", "max_atoms",
+            ),
+        },
+    ),
+    _backend(
+        "mdtraj", "MDTraj", "workflows",
+        (
+            "calculate_trajectory_rmsd", "calculate_radius_of_gyration",
+            "calculate_contacts", "calculate_solvent_accessible_surface",
+            "calculate_dihedral_distribution", "assign_secondary_structure",
+            "cluster_trajectory",
+        ),
+        "Trajectory I/O and explicit geometric analyses using atom/residue indices supplied by the Agent.",
+        modules=("mdtraj", "numpy"), conda=("mdtraj", "numpy"),
+        required_settings={
+            "calculate_trajectory_rmsd": ("atom_indices", "reference_frame"),
+            "calculate_radius_of_gyration": ("atom_indices",),
+            "calculate_contacts": ("scheme", "periodic", "soft_min"),
+            "calculate_solvent_accessible_surface": ("mode", "probe_radius_nm", "sphere_points"),
+            "calculate_dihedral_distribution": ("periodic",),
+            "assign_secondary_structure": ("simplified",),
+            "cluster_trajectory": (
+                "atom_indices", "frame_stride", "rmsd_cutoff_angstrom", "max_clusters",
+            ),
         },
     ),
     _backend(
         "plumed", "PLUMED", "md", ("evaluate_collective_variables",),
         "PLUMED driver evaluation of supplied collective-variable definitions.", executables=("plumed",),
         environment=("CHEMGRAPH_PLUMED_COMMAND",), conda=("plumed",),
+    ),
+    _backend(
+        "pymbar", "PyMBAR", "free_energy",
+        (
+            "estimate_free_energy_difference", "estimate_thermodynamic_expectations",
+            "calculate_potential_of_mean_force", "analyze_free_energy_convergence",
+        ),
+        "Multistate Bennett estimation, observable reweighting, and explicit-prefix convergence analysis from supplied reduced potentials; no simulation or state selection is hidden.",
+        modules=("pymbar", "numpy"), conda=("pymbar", "numpy"),
+        required_settings={
+            "estimate_free_energy_difference": (
+                "uncertainty_method", "maximum_iterations", "relative_tolerance",
+            ),
+            "estimate_thermodynamic_expectations": (
+                "output", "observable_unit", "maximum_iterations", "relative_tolerance",
+            ),
+            "calculate_potential_of_mean_force": (
+                "bin_edges", "reference", "uncertainty_method",
+                "maximum_iterations", "relative_tolerance",
+            ),
+            "analyze_free_energy_convergence": (
+                "fractions", "state_pair", "uncertainty_method",
+                "maximum_iterations", "relative_tolerance",
+            ),
+        },
+    ),
+    _backend(
+        "alchemlyb", "alchemlyb", "free_energy", ("parse_alchemical_energy_data",),
+        "Engine-aware parsing and normalization of alchemical energy outputs without choosing an estimator or discarding samples implicitly.",
+        modules=("alchemlyb", "pandas", "numpy"), conda=("alchemlyb=2.5.0", "pandas", "numpy"),
+        required_settings={
+            "parse_alchemical_energy_data": (
+                "engine", "observable", "temperature_kelvin", "filter_invalid_rows",
+            ),
+        },
     ),
     _backend(
         "quantum_espresso", "Quantum ESPRESSO", "qe",
@@ -1192,25 +2382,69 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
     ),
     _backend(
         "phonopy", "Phonopy", "phonons",
-        ("generate_displaced_supercells", "assemble_force_constants", "calculate_phonon_dispersion", "calculate_phonon_density_of_states"),
+        (
+            "generate_displaced_supercells", "assemble_force_constants",
+            "calculate_phonon_dispersion", "calculate_phonon_density_of_states",
+            "calculate_harmonic_thermodynamics", "calculate_phonon_group_velocities",
+        ),
         "Second-order lattice-dynamics operations on explicit displacement/force artifacts.", modules=("phonopy",),
         executables=("phonopy",), conda=("phonopy",),
         required_settings={
             "generate_displaced_supercells": ("supercell_matrix", "displacement_distance_angstrom"),
             "calculate_phonon_dispersion": ("q_path",),
             "calculate_phonon_density_of_states": ("q_mesh",),
+            "calculate_harmonic_thermodynamics": ("q_mesh", "temperatures_kelvin"),
+            "calculate_phonon_group_velocities": ("q_path",),
         },
     ),
     _backend(
         "phono3py", "Phono3py", "phonons",
-        ("generate_displaced_supercells", "assemble_force_constants", "calculate_phonon_dispersion", "calculate_phonon_density_of_states"),
+        (
+            "generate_displaced_supercells", "assemble_force_constants",
+            "calculate_phonon_dispersion", "calculate_phonon_density_of_states",
+            "calculate_harmonic_thermodynamics", "calculate_phonon_group_velocities",
+            "calculate_lattice_thermal_conductivity",
+        ),
         "Third-order-capable lattice-dynamics operations on explicit displacement/force artifacts.", modules=("phono3py",),
         executables=("phono3py",), conda=("phono3py",),
+        required_inputs={
+            "calculate_lattice_thermal_conductivity": (
+                "second_order_force_constants", "third_order_force_constants", "structure",
+            ),
+        },
         required_settings={
             "generate_displaced_supercells": ("supercell_matrix", "displacement_distance_angstrom", "order"),
             "calculate_phonon_dispersion": ("q_path",),
             "calculate_phonon_density_of_states": ("q_mesh",),
+            "calculate_harmonic_thermodynamics": ("q_mesh", "temperatures_kelvin"),
+            "calculate_phonon_group_velocities": ("q_path",),
+            "calculate_lattice_thermal_conductivity": (
+                "q_mesh", "temperatures_kelvin", "solution_method",
+                "include_isotope_scattering", "boundary_mean_free_path_micrometer",
+                "primitive_matrix",
+            ),
         },
+    ),
+    _backend(
+        "shengbte", "ShengBTE", "shengbte", ("calculate_lattice_thermal_conductivity",),
+        "ShengBTE source revision b0d2090 solution of an explicitly supplied native phonon-BTE model, with structured RTA or iterative conductivity-tensor extraction.",
+        executables=("ShengBTE",), environment=("CHEMGRAPH_SHENGBTE_COMMAND",),
+        install_notes="Locally compiled official ShengBTE source; the bundled Test-RTA calculation passed.",
+        required_inputs={
+            "calculate_lattice_thermal_conductivity": (
+                "control_file", "second_order_force_constants_file",
+                "third_order_force_constants_file",
+            ),
+        },
+        required_settings={
+            "calculate_lattice_thermal_conductivity": (
+                "solution_method", "maximum_temperature_records", "require_normal_exit",
+            ),
+        },
+        supported_system_types={
+            "calculate_lattice_thermal_conductivity": ("periodic_crystal",),
+        },
+        validation_levels={"calculate_lattice_thermal_conductivity": "real_smoke"},
     ),
     _backend(
         "vina", "AutoDock Vina", "docking", ("dock_ligand",),
@@ -1232,8 +2466,22 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         required_settings={"dock_ligand": ("exhaustiveness", "num_modes", "use_gpu")},
     ),
     _backend(
-        "pubchem", "PubChem PUG REST", "services", ("search_compounds",),
+        "pubchem", "PubChem PUG REST", "services",
+        (
+            "search_compounds", "resolve_chemical_identity",
+            "retrieve_compound_properties", "retrieve_compound_structure", "search_similar_compounds",
+            "search_substructures",
+        ),
         "PubChem compound lookup through PubChemPy/PUG REST.", modules=("pubchempy",), pip=("pubchempy==1.0.5",),
+        required_settings={
+            "resolve_chemical_identity": ("require_unique",),
+            "retrieve_compound_properties": ("properties", "max_records"),
+            "retrieve_compound_structure": (
+                "record_type", "hydrogen_policy", "max_records", "require_unique",
+            ),
+            "search_similar_compounds": ("threshold", "max_records"),
+            "search_substructures": ("max_records", "match_stereo"),
+        },
     ),
     _backend(
         "rcsb_pdb", "RCSB PDB Data API", "services", ("search_protein_structures",),

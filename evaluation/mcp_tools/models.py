@@ -6,6 +6,7 @@ from researchchem_toolbox.models import (
     ActionSpec,
     ArtifactRef,
     BackendSpec,
+    ProviderSelectionPolicy,
     ResourceLimits,
 )
 
@@ -15,5 +16,6 @@ __all__ = [
     "ActionSpec",
     "ArtifactRef",
     "BackendSpec",
+    "ProviderSelectionPolicy",
     "ResourceLimits",
 ]

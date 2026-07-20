@@ -13,7 +13,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from evaluation.mcp_tools.profiles import load_profile_config
-from researchchem_toolbox.catalog import backend_specs, validate_catalog
+from researchchem_toolbox.catalog import action_specs, backend_specs, validate_catalog
 from researchchem_toolbox.runtime import probe_all_backends
 
 
@@ -53,7 +53,10 @@ def main() -> int:
     if args.require_available and unavailable:
         print("Unavailable backends: " + ", ".join(unavailable))
         return 1
-    print(f"Probed {len(health)} backends across {len(selected)} runtimes; public catalog remains 45 tools")
+    print(
+        f"Probed {len(health)} backends across {len(selected)} runtimes; "
+        f"public catalog contains {len(action_specs())} tools"
+    )
     return 0
 
 

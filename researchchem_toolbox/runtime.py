@@ -69,10 +69,12 @@ def _runtime_environment_value(value: Any) -> str:
 
     text = str(value)
     if text.startswith(".") or "/" in text:
+        preserve_trailing_slash = text.endswith("/")
         path = Path(text).expanduser()
         if not path.is_absolute():
             path = PROJECT_ROOT / path
-        return str(path.resolve())
+        resolved = str(path.resolve())
+        return resolved + "/" if preserve_trailing_slash else resolved
     return text
 
 

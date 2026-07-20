@@ -20,6 +20,13 @@ ActionStatus = Literal[
     "timeout",
     "cancelled",
 ]
+ProviderSelectionPolicy = Literal[
+    "agent_backend_required",
+    "agent_components_required",
+    "agent_source_required",
+    "fixed_source",
+    "internal_deterministic",
+]
 
 
 class ResourceLimits(BaseModel):
@@ -44,6 +51,18 @@ class ActionRequest(BaseModel):
             "Exact backend selected by the agent. Required for every Scientific "
             "Action; data actions use their fixed named data source."
         ),
+    )
+    component_backends: dict[str, str] = Field(
+        default_factory=dict,
+        description=(
+            "Agent-selected component backends for composite actions, such as an "
+            "optimizer plus an energy/gradient engine or a dynamics driver plus an "
+            "electronic-structure engine."
+        ),
+    )
+    source_id: str | None = Field(
+        default=None,
+        description="Exact Agent-selected data source when the Action offers multiple sources.",
     )
     inputs: dict[str, Any] = Field(
         default_factory=dict,
@@ -79,6 +98,36 @@ class ActionRequest(BaseModel):
             raise ValueError("backend_id must use lower_snake_case")
         return normalized
 
+    @field_validator("source_id")
+    @classmethod
+    def validate_source_id(cls, value: str | None) -> str | None:
+        if value is None:
+            return None
+        normalized = value.strip()
+        if not normalized:
+            raise ValueError("source_id cannot be empty")
+        if normalized == "auto":
+            raise ValueError("source_id='auto' is forbidden in the benchmark")
+        if not _ID_PATTERN.fullmatch(normalized):
+            raise ValueError("source_id must use lower_snake_case")
+        return normalized
+
+    @field_validator("component_backends")
+    @classmethod
+    def validate_component_backends(cls, value: dict[str, str]) -> dict[str, str]:
+        normalized: dict[str, str] = {}
+        for role, backend_id in value.items():
+            role_value = role.strip()
+            backend_value = backend_id.strip()
+            if not _ID_PATTERN.fullmatch(role_value):
+                raise ValueError(f"component backend role must use lower_snake_case: {role!r}")
+            if backend_value == "auto":
+                raise ValueError("component backend value 'auto' is forbidden in the benchmark")
+            if not _ID_PATTERN.fullmatch(backend_value):
+                raise ValueError(f"component backend id must use lower_snake_case: {backend_id!r}")
+            normalized[role_value] = backend_value
+        return normalized
+
 
 class ArtifactRef(BaseModel):
     """Stable semantic reference passed between atomic actions."""
@@ -106,7 +155,14 @@ class ActionResult(BaseModel):
     requested_backend: str | None
     backend: str | None
     backend_version: str | None = None
-    selection_source: Literal["agent", "task_constraint", "fixed_data_source"]
+    selection_source: Literal[
+        "agent",
+        "agent_components",
+        "agent_data_source",
+        "task_constraint",
+        "fixed_data_source",
+        "internal_deterministic",
+    ]
     result: Any = None
     input_artifacts: list[ArtifactRef] = Field(default_factory=list)
     output_artifacts: list[ArtifactRef] = Field(default_factory=list)
@@ -131,6 +187,7 @@ class ActionSpec:
     version: str = "1.0.0"
     data_action: bool = False
     requires_network: bool = False
+    selection_policy: ProviderSelectionPolicy = "agent_backend_required"
 
     def validate(self) -> None:
         if not _ID_PATTERN.fullmatch(self.id):
@@ -141,8 +198,16 @@ class ActionSpec:
             raise ValueError(f"Action {self.id} requires category and description")
         if not self.primary_output.strip():
             raise ValueError(f"Action {self.id} requires one primary output")
-        if not self.data_action and not self.backend_ids:
-            raise ValueError(f"Scientific Action {self.id} requires backend choices")
+        if not self.backend_ids:
+            raise ValueError(f"Action {self.id} requires at least one execution provider")
+        if self.data_action and self.selection_policy not in {"fixed_source", "agent_source_required"}:
+            raise ValueError(
+                f"Data Action {self.id} requires fixed_source or agent_source_required policy"
+            )
+        if not self.data_action and self.selection_policy in {"fixed_source", "agent_source_required"}:
+            raise ValueError(f"Scientific Action {self.id} cannot use a data-source policy")
+        if self.selection_policy in {"fixed_source", "internal_deterministic"} and len(self.backend_ids) != 1:
+            raise ValueError(f"Action {self.id} with {self.selection_policy} requires one provider")
         if "auto" in self.backend_ids:
             raise ValueError(f"Action {self.id} cannot advertise auto backend")
         if len(self.backend_ids) != len(set(self.backend_ids)):
@@ -178,8 +243,13 @@ class BackendSpec:
     license_class: str = "open_source"
     install_notes: str = ""
     method_schema: Mapping[str, str] = field(default_factory=dict)
+    required_input_fields: Mapping[str, tuple[str, ...]] = field(default_factory=dict)
     required_method_fields: Mapping[str, tuple[str, ...]] = field(default_factory=dict)
     required_setting_fields: Mapping[str, tuple[str, ...]] = field(default_factory=dict)
+    required_component_roles: Mapping[str, tuple[str, ...]] = field(default_factory=dict)
+    component_backend_options: Mapping[str, Mapping[str, tuple[str, ...]]] = field(default_factory=dict)
+    supported_system_types: Mapping[str, tuple[str, ...]] = field(default_factory=dict)
+    validation_levels: Mapping[str, str] = field(default_factory=dict)
 
     def validate(self) -> None:
         if not _ID_PATTERN.fullmatch(self.id) or self.id == "auto":
@@ -190,16 +260,34 @@ class BackendSpec:
             raise ValueError(f"Backend {self.id} must declare capabilities")
         if len(self.capabilities) != len(set(self.capabilities)):
             raise ValueError(f"Backend {self.id} repeats capabilities")
-        for mapping in (self.required_method_fields, self.required_setting_fields):
+        for mapping in (
+            self.required_input_fields,
+            self.required_method_fields,
+            self.required_setting_fields,
+            self.required_component_roles,
+            self.supported_system_types,
+            self.validation_levels,
+        ):
             for action_id, fields in mapping.items():
                 if action_id not in self.capabilities:
                     raise ValueError(
                         f"Backend {self.id} declares fields for unsupported {action_id}"
                     )
-                if len(fields) != len(set(fields)):
+                if isinstance(fields, tuple) and len(fields) != len(set(fields)):
                     raise ValueError(
                         f"Backend {self.id}/{action_id} repeats required fields"
                     )
+        for action_id, roles in self.component_backend_options.items():
+            if action_id not in self.capabilities:
+                raise ValueError(
+                    f"Backend {self.id} declares component options for unsupported {action_id}"
+                )
+            required_roles = set(self.required_component_roles.get(action_id, ()))
+            if not required_roles.issubset(roles):
+                raise ValueError(
+                    f"Backend {self.id}/{action_id} is missing component options for "
+                    f"roles {sorted(required_roles - set(roles))}"
+                )
 
     def as_dict(self) -> dict[str, Any]:
         value = asdict(self)
@@ -214,10 +302,24 @@ class BackendSpec:
         ):
             value[key] = list(value[key])
         value["method_schema"] = dict(self.method_schema)
+        value["required_input_fields"] = {
+            key: list(fields) for key, fields in self.required_input_fields.items()
+        }
         value["required_method_fields"] = {
             key: list(fields) for key, fields in self.required_method_fields.items()
         }
         value["required_setting_fields"] = {
             key: list(fields) for key, fields in self.required_setting_fields.items()
         }
+        value["required_component_roles"] = {
+            key: list(fields) for key, fields in self.required_component_roles.items()
+        }
+        value["component_backend_options"] = {
+            action_id: {role: list(options) for role, options in roles.items()}
+            for action_id, roles in self.component_backend_options.items()
+        }
+        value["supported_system_types"] = {
+            key: list(fields) for key, fields in self.supported_system_types.items()
+        }
+        value["validation_levels"] = dict(self.validation_levels)
         return value

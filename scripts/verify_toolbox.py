@@ -18,7 +18,17 @@ if str(ROOT) not in sys.path:
 
 from evaluation.mcp_tools.profiles import load_profile_config
 from evaluation.mcp_tools.tool_manager import installation_report
-from researchchem_toolbox.backends import data, docking, dynamics, electronic, periodic, reaction, structure
+from researchchem_toolbox.backends import (
+    cheminformatics,
+    data,
+    docking,
+    dynamics,
+    electronic,
+    interchange,
+    periodic,
+    reaction,
+    structure,
+)
 from researchchem_toolbox.catalog import action_specs, backend_specs, catalog_snapshot, validate_catalog
 from researchchem_toolbox.service import execute_action
 
@@ -40,7 +50,9 @@ def structural_checks() -> list[dict[str, Any]]:
     except Exception as exc:
         checks.append({"name": "runtime_profiles", "status": "fail", "error": str(exc)})
     handled = set().union(
+        interchange.ACTIONS,
         structure.ACTIONS,
+        cheminformatics.ACTIONS,
         electronic.ACTIONS,
         reaction.ACTIONS,
         dynamics.ACTIONS,

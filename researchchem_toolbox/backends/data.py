@@ -6,16 +6,19 @@ import os
 import re
 from html.parser import HTMLParser
 from typing import Any
-from urllib.parse import parse_qs, urlencode, urljoin, urlparse
+from urllib.parse import parse_qs, quote, urlencode, urljoin, urlparse
 
 import httpx
 
-from .common import module_version, request_parts, success, unavailable, unsupported
+from .common import module_version, partial_success, request_parts, success, unavailable, unsupported
 
 
 ACTIONS = {
     "search_compounds", "search_protein_structures", "search_materials",
     "search_catalysis_records", "lookup_nist_webbook_species",
+    "resolve_chemical_identity", "retrieve_compound_properties",
+    "retrieve_compound_structure",
+    "search_similar_compounds", "search_substructures",
 }
 
 
@@ -320,6 +323,304 @@ def _pubchem(request: dict[str, Any]) -> dict[str, Any]:
     )
 
 
+def _pubchem_query(request: dict[str, Any], *, allowed: set[str]) -> tuple[str, str, dict[str, Any]]:
+    inputs, _method, settings = request_parts(request)
+    query = inputs["query"]
+    if isinstance(query, dict):
+        extra = sorted(set(query) - {"identifier", "namespace"})
+        if extra:
+            raise ValueError(f"Unknown PubChem query fields: {extra}")
+        identifier = str(query.get("identifier") or "").strip()
+        namespace = str(query.get("namespace") or "").strip().lower()
+    else:
+        identifier = str(query).strip()
+        namespace = str(settings.get("namespace", "name")).strip().lower()
+    if not identifier or len(identifier) > 10000 or any(ord(character) < 32 for character in identifier):
+        raise ValueError("PubChem identifier must contain bounded printable text")
+    if namespace not in allowed:
+        raise ValueError(f"PubChem namespace must be one of {sorted(allowed)}")
+    return identifier, namespace, settings
+
+
+def _pubchem_identity(request: dict[str, Any]) -> dict[str, Any]:
+    import pubchempy as pcp
+
+    identifier, namespace, settings = _pubchem_query(
+        request,
+        allowed={"name", "cid", "smiles", "inchi", "inchikey"},
+    )
+    maximum = int(settings.get("max_records", 10))
+    if maximum < 1 or maximum > 100:
+        raise ValueError("max_records must be between 1 and 100")
+    compounds = pcp.get_compounds(identifier, namespace)[:maximum]
+    records = [
+        {
+            "cid": compound.cid,
+            "canonical_smiles": compound.canonical_smiles,
+            "isomeric_smiles": compound.isomeric_smiles,
+            "inchi": compound.inchi,
+            "inchikey": compound.inchikey,
+            "molecular_formula": compound.molecular_formula,
+            "molecular_weight": compound.molecular_weight,
+            "iupac_name": compound.iupac_name,
+        }
+        for compound in compounds
+    ]
+    require_unique = bool(settings["require_unique"])
+    payload = {
+        "query": {"identifier": identifier, "namespace": namespace},
+        "match_count": len(records),
+        "identity": records[0] if len(records) == 1 else None,
+        "candidates": records,
+        "unique": len(records) == 1,
+    }
+    if require_unique and len(records) != 1:
+        return partial_success(
+            payload,
+            backend_version=module_version("pubchempy"),
+            warnings=[f"PubChem identity resolution returned {len(records)} records instead of exactly one."],
+        )
+    return success(payload, backend_version=module_version("pubchempy"))
+
+
+_PUBCHEM_PROPERTIES = {
+    "cid": "cid",
+    "canonical_smiles": "canonical_smiles",
+    "isomeric_smiles": "isomeric_smiles",
+    "inchi": "inchi",
+    "inchikey": "inchikey",
+    "molecular_formula": "molecular_formula",
+    "molecular_weight": "molecular_weight",
+    "iupac_name": "iupac_name",
+    "xlogp": "xlogp",
+    "tpsa": "tpsa",
+    "charge": "charge",
+    "complexity": "complexity",
+    "h_bond_donor_count": "h_bond_donor_count",
+    "h_bond_acceptor_count": "h_bond_acceptor_count",
+    "rotatable_bond_count": "rotatable_bond_count",
+}
+
+
+def _pubchem_properties(request: dict[str, Any]) -> dict[str, Any]:
+    import pubchempy as pcp
+
+    identifier, namespace, settings = _pubchem_query(
+        request,
+        allowed={"name", "cid", "smiles", "inchi", "inchikey", "formula"},
+    )
+    properties = list(settings["properties"])
+    if not properties or len(properties) > len(_PUBCHEM_PROPERTIES):
+        raise ValueError("properties must contain a non-empty bounded list")
+    unknown = sorted(set(properties) - set(_PUBCHEM_PROPERTIES))
+    if unknown:
+        raise ValueError(f"Unsupported PubChem properties: {unknown}")
+    maximum = int(settings["max_records"])
+    if maximum < 1 or maximum > 100:
+        raise ValueError("max_records must be between 1 and 100")
+    compounds = pcp.get_compounds(identifier, namespace)[:maximum]
+    records = [
+        {name: getattr(compound, _PUBCHEM_PROPERTIES[name], None) for name in properties}
+        for compound in compounds
+    ]
+    return success(
+        {
+            "query": {"identifier": identifier, "namespace": namespace},
+            "properties": properties,
+            "count": len(records),
+            "records": records,
+        },
+        backend_version=module_version("pubchempy"),
+    )
+
+
+_ELEMENT_SYMBOLS = (
+    "X H He Li Be B C N O F Ne Na Mg Al Si P S Cl Ar K Ca Sc Ti V Cr Mn Fe Co Ni Cu Zn "
+    "Ga Ge As Se Br Kr Rb Sr Y Zr Nb Mo Tc Ru Rh Pd Ag Cd In Sn Sb Te I Xe Cs Ba La Ce Pr "
+    "Nd Pm Sm Eu Gd Tb Dy Ho Er Tm Yb Lu Hf Ta W Re Os Ir Pt Au Hg Tl Pb Bi Po At Rn Fr Ra "
+    "Ac Th Pa U Np Pu Am Cm Bk Cf Es Fm Md No Lr Rf Db Sg Bh Hs Mt Ds Rg Cn Nh Fl Mc Lv Ts Og"
+).split()
+
+
+def _pubchem_structure(request: dict[str, Any]) -> dict[str, Any]:
+    import pubchempy as pcp
+
+    identifier, namespace, settings = _pubchem_query(
+        request,
+        allowed={"name", "cid", "smiles", "inchi", "inchikey"},
+    )
+    record_type = str(settings["record_type"]).strip().lower()
+    if record_type not in {"2d", "3d"}:
+        raise ValueError("record_type must be 2d or 3d")
+    hydrogen_policy = str(settings["hydrogen_policy"]).strip().lower()
+    if hydrogen_policy not in {"explicit", "omit"}:
+        raise ValueError("hydrogen_policy must be explicit or omit")
+    maximum = int(settings["max_records"])
+    if maximum < 1 or maximum > 20:
+        raise ValueError("max_records must be between 1 and 20")
+    compounds = pcp.get_compounds(
+        identifier,
+        namespace,
+        record_type=record_type,
+    )[:maximum]
+    structures = []
+    for compound in compounds:
+        record = dict(compound.record)
+        atom_block = dict(record.get("atoms") or {})
+        coordinate_blocks = list(record.get("coords") or [])
+        if not coordinate_blocks:
+            raise RuntimeError(f"PubChem record {getattr(compound, 'cid', None)} contains no coordinates")
+        coordinate_block = coordinate_blocks[0]
+        conformers = list(coordinate_block.get("conformers") or [])
+        if not conformers:
+            raise RuntimeError(f"PubChem record {getattr(compound, 'cid', None)} contains no conformer")
+        conformer = conformers[0]
+        coordinate_aids = list(coordinate_block.get("aid") or [])
+        x_values = list(conformer.get("x") or [])
+        y_values = list(conformer.get("y") or [])
+        z_values = list(conformer.get("z") or [0.0] * len(coordinate_aids))
+        if not (
+            len(coordinate_aids) == len(x_values) == len(y_values) == len(z_values)
+        ):
+            raise RuntimeError("PubChem coordinate arrays are not aligned")
+        coordinates = {
+            int(aid): [float(x), float(y), float(z)]
+            for aid, x, y, z in zip(coordinate_aids, x_values, y_values, z_values)
+        }
+        atom_aids = list(atom_block.get("aid") or [])
+        atomic_numbers = list(atom_block.get("element") or [])
+        if len(atom_aids) != len(atomic_numbers):
+            raise RuntimeError("PubChem atom identifier and element arrays are not aligned")
+        retained_aids: set[int] = set()
+        atoms = []
+        for aid, atomic_number in zip(atom_aids, atomic_numbers):
+            aid = int(aid)
+            atomic_number = int(atomic_number)
+            if not 0 < atomic_number < len(_ELEMENT_SYMBOLS):
+                raise RuntimeError(f"Unsupported PubChem atomic number: {atomic_number}")
+            if hydrogen_policy == "omit" and atomic_number == 1:
+                continue
+            if aid not in coordinates:
+                raise RuntimeError(f"PubChem coordinates are missing atom id {aid}")
+            retained_aids.add(aid)
+            atoms.append(
+                {
+                    "atom_id": aid,
+                    "element": _ELEMENT_SYMBOLS[atomic_number],
+                    "position_angstrom": coordinates[aid],
+                }
+            )
+        bond_block = dict(record.get("bonds") or {})
+        aid1_values = list(bond_block.get("aid1") or [])
+        aid2_values = list(bond_block.get("aid2") or [])
+        order_values = list(bond_block.get("order") or [])
+        if not (len(aid1_values) == len(aid2_values) == len(order_values)):
+            raise RuntimeError("PubChem bond arrays are not aligned")
+        bonds = [
+            {"atom_id_a": int(aid1), "atom_id_b": int(aid2), "order": int(order)}
+            for aid1, aid2, order in zip(aid1_values, aid2_values, order_values)
+            if int(aid1) in retained_aids and int(aid2) in retained_aids
+        ]
+        structures.append(
+            {
+                "cid": int(compound.cid),
+                "record_type": record_type,
+                "hydrogen_policy": hydrogen_policy,
+                "structure": {
+                    "atoms": atoms,
+                    "bonds": bonds,
+                    "charge": int(getattr(compound, "charge", 0) or 0),
+                    "multiplicity": 1,
+                    "pbc": [False, False, False],
+                    "smiles": getattr(compound, "smiles", None)
+                    or getattr(compound, "canonical_smiles", None),
+                },
+            }
+        )
+    payload = {
+        "query": {"identifier": identifier, "namespace": namespace},
+        "record_type": record_type,
+        "hydrogen_policy": hydrogen_policy,
+        "count": len(structures),
+        "unique": len(structures) == 1,
+        "structures": structures,
+    }
+    if bool(settings["require_unique"]) and len(structures) != 1:
+        return partial_success(
+            payload,
+            backend_version=module_version("pubchempy"),
+            warnings=[f"PubChem structure retrieval returned {len(structures)} records instead of exactly one."],
+        )
+    return success(payload, backend_version=module_version("pubchempy"))
+
+
+def _bounded_pubchem_json(url: str, *, params: dict[str, Any], timeout: float) -> dict[str, Any]:
+    response = httpx.get(
+        url,
+        params=params,
+        headers={"Accept": "application/json", "User-Agent": "ResearchChemBench/1.0 bounded-pubchem-query"},
+        timeout=timeout,
+        follow_redirects=True,
+    )
+    response.raise_for_status()
+    content = getattr(response, "content", b"")
+    if content and len(content) > 2 * 1024 * 1024:
+        raise RuntimeError("PubChem response exceeds the 2 MiB bounded-response limit")
+    return response.json()
+
+
+def _pubchem_structure_search(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
+    if action_id == "search_similar_compounds":
+        allowed = {"cid", "smiles", "inchi"}
+        operation = "fastsimilarity_2d"
+    else:
+        allowed = {"cid", "smiles", "smarts", "inchi"}
+        operation = "fastsubstructure"
+    identifier, namespace, settings = _pubchem_query(request, allowed=allowed)
+    maximum = int(settings["max_records"])
+    if maximum < 1 or maximum > 1000:
+        raise ValueError("max_records must be between 1 and 1000")
+    parameters: dict[str, Any] = {
+        "MaxRecords": maximum,
+        "MaxSeconds": min(60, int(settings.get("timeout_seconds", 30))),
+    }
+    if action_id == "search_similar_compounds":
+        threshold = int(settings["threshold"])
+        if threshold < 0 or threshold > 100:
+            raise ValueError("threshold must be between 0 and 100")
+        parameters["Threshold"] = threshold
+    else:
+        parameters.update(
+            {
+                "Stereo": "exact" if bool(settings["match_stereo"]) else "ignore",
+                "MatchCharges": str(bool(settings.get("match_charges", False))).lower(),
+                "MatchIsotopes": str(bool(settings.get("match_isotopes", False))).lower(),
+            }
+        )
+    url = (
+        "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/"
+        f"{operation}/{namespace}/{quote(identifier, safe='')}/cids/JSON"
+    )
+    payload = _bounded_pubchem_json(
+        url,
+        params=parameters,
+        timeout=float(settings.get("timeout_seconds", 30)),
+    )
+    identifiers = list((payload.get("IdentifierList") or {}).get("CID") or [])
+    records = [{"cid": int(value)} for value in identifiers[:maximum]]
+    return success(
+        {
+            "query": {"identifier": identifier, "namespace": namespace},
+            "operation": operation,
+            "count": len(records),
+            "records": records,
+            "request_url": url,
+            "matching_controls": parameters,
+        },
+        backend_version=module_version("httpx"),
+    )
+
+
 def _rcsb(request: dict[str, Any]) -> dict[str, Any]:
     inputs, _method, settings = request_parts(request)
     query = inputs["query"]
@@ -485,6 +786,14 @@ def _catalysis_hub(request: dict[str, Any]) -> dict[str, Any]:
 def execute(action_id: str, backend_id: str, request: dict[str, Any]) -> dict[str, Any]:
     if action_id == "search_compounds" and backend_id == "pubchem":
         return _pubchem(request)
+    if action_id == "resolve_chemical_identity" and backend_id == "pubchem":
+        return _pubchem_identity(request)
+    if action_id == "retrieve_compound_properties" and backend_id == "pubchem":
+        return _pubchem_properties(request)
+    if action_id == "retrieve_compound_structure" and backend_id == "pubchem":
+        return _pubchem_structure(request)
+    if action_id in {"search_similar_compounds", "search_substructures"} and backend_id == "pubchem":
+        return _pubchem_structure_search(action_id, request)
     if action_id == "search_protein_structures" and backend_id == "rcsb_pdb":
         return _rcsb(request)
     if action_id == "search_materials" and backend_id == "materials_project":

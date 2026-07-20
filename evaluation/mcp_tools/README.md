@@ -4,7 +4,7 @@ This package is the transport layer for the task-independent atomic chemistry to
 
 ## Benchmark policy
 
-- All 40 Scientific Actions and 5 Data Actions are exposed to every task.
+- The complete versioned Scientific/Data Action catalog is exposed to every task.
 - Scientific Actions require an agent-selected `backend_id`; `auto` is invalid.
 - The dispatcher executes exactly the submitted backend and never falls back.
 - Dependency profiles isolate backend runtimes; they never filter public tools.

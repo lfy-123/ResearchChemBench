@@ -16,7 +16,9 @@ from .specs import ACTION_SPECS, BACKEND_SPECS
 
 
 CATEGORY_LABELS = {
+    "scientific_data_interchange": "Scientific records, schemas, and output parsing",
     "structure_and_system": "Structure, conformers, charges, and system construction",
+    "cheminformatics": "Molecular descriptors, fingerprints, identifiers, and graph operations",
     "molecular_electronic": "Molecular electronic structure and derived properties",
     "reaction_and_kinetics": "Reaction paths, equilibrium, and kinetics",
     "molecular_dynamics": "Molecular dynamics propagation and trajectory analysis",
@@ -87,22 +89,30 @@ def validate_catalog() -> None:
                 raise ValueError(
                     f"Backend {specification.id} is missing from action {action_id} choices"
                 )
+        for action_id, roles in specification.component_backend_options.items():
+            for role, options in roles.items():
+                unknown_components = sorted(set(options) - set(backends))
+                if unknown_components:
+                    raise ValueError(
+                        f"Backend {specification.id}/{action_id} role {role} references "
+                        f"unknown component backends: {unknown_components}"
+                    )
     scientific = [spec for spec in ACTION_SPECS if not spec.data_action]
     data = [spec for spec in ACTION_SPECS if spec.data_action]
-    if len(scientific) != 40 or len(data) != 5:
-        raise ValueError(
-            f"Catalog must contain 40 Scientific Actions and 5 Data Actions; "
-            f"received {len(scientific)} and {len(data)}"
-        )
+    if not scientific or not data:
+        raise ValueError("Catalog requires both Scientific Actions and Data Actions")
 
 
 def catalog_snapshot(*, include_health: bool = True) -> dict[str, Any]:
     validate_catalog()
     health = probe_all_backends(BACKEND_SPECS) if include_health else {}
     payload: dict[str, Any] = {
-        "schema_version": 3,
+        "schema_version": 4,
         "exposure_policy": "atomic_all",
-        "backend_selection_policy": "agent_required",
+        "backend_selection_policy": "per_action_explicit",
+        "provider_selection_policies": sorted(
+            {spec.selection_policy for spec in ACTION_SPECS}
+        ),
         "scientific_resource_selection_policy": "agent_explicit_no_default",
         "automatic_fallback": False,
         "actions": [spec.as_dict() for spec in ACTION_SPECS],
@@ -146,13 +156,26 @@ def mcp_action_description(specification: ActionSpec) -> str:
     backend_notes = []
     for backend_id in specification.backend_ids:
         backend = backends[backend_id]
+        input_fields = backend.required_input_fields.get(specification.id, ())
         method_fields = backend.required_method_fields.get(specification.id, ())
         setting_fields = backend.required_setting_fields.get(specification.id, ())
+        component_roles = backend.required_component_roles.get(specification.id, ())
+        component_options = backend.component_backend_options.get(specification.id, {})
         details = []
+        if input_fields:
+            details.append("inputs=" + ",".join(input_fields))
         if method_fields:
             details.append("method_spec=" + ",".join(method_fields))
         if setting_fields:
             details.append("action_settings=" + ",".join(setting_fields))
+        if component_roles:
+            details.append(
+                "component_backends="
+                + ",".join(
+                    f"{role}:[{'|'.join(component_options.get(role, ()))}]"
+                    for role in component_roles
+                )
+            )
         requirement_parts.append(
             backend_id + (" [" + "; ".join(details) + "]" if details else "")
         )
@@ -167,11 +190,20 @@ def mcp_action_description(specification: ActionSpec) -> str:
             )
             note += " Registered resources: " + resource_text
         backend_notes.append(note)
-    requirement = (
-        f"backend_id is optional and, if supplied, must be {backend_text}."
-        if specification.data_action
-        else f"backend_id is required; choose exactly one of: {backend_text}."
-    )
+    policy = specification.selection_policy
+    if policy == "fixed_source":
+        requirement = f"The fixed data source is {backend_text}; backend_id/source_id are not required."
+    elif policy == "internal_deterministic":
+        requirement = f"The deterministic internal provider is {backend_text}; backend_id is not required."
+    elif policy == "agent_source_required":
+        requirement = f"source_id is required; choose exactly one of: {backend_text}."
+    elif policy == "agent_components_required":
+        requirement = (
+            f"backend_id is required; choose exactly one primary backend from: {backend_text}. "
+            "Also supply every component_backends role required by that backend."
+        )
+    else:
+        requirement = f"backend_id is required; choose exactly one of: {backend_text}."
     required = ", ".join(specification.required_inputs) or "none"
     optional = ", ".join(specification.optional_inputs) or "none"
     input_contract = specification.input_description or "structured inputs described by the action"
@@ -181,8 +213,8 @@ def mcp_action_description(specification: ActionSpec) -> str:
         f"Required inputs keys: {required}. Optional inputs keys: {optional}. "
         f"{requirement} Backend-specific required fields: {' | '.join(requirement_parts)}. "
         f"Backend notes: {' | '.join(backend_notes)}. "
-        "The system validates and executes the exact choice; it never "
-        "selects or falls back to another backend."
+        f"Provider selection policy: {policy}. The system validates and executes the exact "
+        "declared provider choices; it never falls back to another backend or source."
     )
 
 
@@ -205,13 +237,15 @@ def agent_toolbox_overview(
         grouped[specification.category].append(specification)
     lines = [
         "All tasks receive this same complete atomic tool catalog. You decide which tools "
-        "to call, their order, and the backend/method for every computation. There is no "
+        "to call, their order, and every scientifically meaningful backend, component, source, "
+        "and method choice. There is no "
         "hidden workflow, task-specific tool retrieval, automatic backend selection, or fallback.",
         "",
-        "Every tool accepts one ActionRequest object with: backend_id, inputs, method_spec, "
-        "action_settings, and optional resource_limits. backend_id is mandatory for Scientific "
-        "Actions. Read each tool description before calling it; it lists the exact required keys "
-        "for each backend.",
+        "Every tool accepts one ActionRequest object with: backend_id, component_backends, "
+        "source_id, inputs, method_spec, action_settings, and optional resource_limits. Read each "
+        "tool description before calling it: numerical computations require an Agent-selected "
+        "backend; composite computations also require every component role; fixed-source data and "
+        "deterministic internal Actions do not require a fake backend choice.",
         "",
         "A minimal AtomicStructure is {'atoms': [{'element': 'H', "
         "'position_angstrom': [0, 0, 0]}], 'charge': 0, 'multiplicity': 1}. "
@@ -233,7 +267,8 @@ def agent_toolbox_overview(
                 backend_parts.append(f"{backend_id} ({state})" if state else backend_id)
             lines.append(
                 f"- `{specification.id}` — {specification.description} "
-                f"Backends/data source: {', '.join(backend_parts)}."
+                f"Providers: {', '.join(backend_parts)}. Selection policy: "
+                f"{specification.selection_policy}."
             )
     lines.extend(
         [
@@ -274,17 +309,18 @@ def markdown_catalog(*, include_health: bool = True) -> str:
         "",
         f"Catalog hash: `{snapshot['catalog_hash']}`",
         "",
-        "The benchmark exposes every action below for every task. Backends are selected by the agent.",
+        "The benchmark exposes every action below for every task. Provider selection follows each Action's policy.",
         "",
-        "| Action | Category | Primary output | Backends | Required inputs | Description |",
-        "|---|---|---|---|---|---|",
+        "| Action | Category | Primary output | Selection policy | Providers | Required inputs | Description |",
+        "|---|---|---|---|---|---|---|",
     ]
     for action in snapshot["actions"]:
         lines.append(
-            "| {id} | {category} | {primary_output} | {backends} | {required} | {description} |".format(
+            "| {id} | {category} | {primary_output} | {policy} | {backends} | {required} | {description} |".format(
                 id=action["id"],
                 category=action["category"],
                 primary_output=action["primary_output"],
+                policy=action["selection_policy"],
                 backends=", ".join(action["backend_ids"]),
                 required=", ".join(action["required_inputs"]),
                 description=action["description"].replace("|", "\\|"),

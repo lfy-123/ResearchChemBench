@@ -61,7 +61,7 @@ def load_tool_config() -> dict[str, Any]:
 
 
 def discovered_module_stems() -> list[str]:
-    """Return all 44 public action ids; task/profile filtering is intentionally absent."""
+    """Return every public action id; task/profile filtering is intentionally absent."""
 
     return sorted(action_specs())
 
@@ -75,8 +75,8 @@ def configuration_errors(config: dict[str, Any] | None = None) -> list[str]:
     errors: list[str] = []
     if value.get("exposure_policy", "atomic_all") != "atomic_all":
         errors.append("tool_config.json exposure_policy must be atomic_all")
-    if value.get("backend_selection_policy", "agent_required") != "agent_required":
-        errors.append("tool_config.json backend_selection_policy must be agent_required")
+    if value.get("backend_selection_policy", "per_action_explicit") != "per_action_explicit":
+        errors.append("tool_config.json backend_selection_policy must be per_action_explicit")
     if value.get("automatic_fallback", False) is not False:
         errors.append("tool_config.json automatic_fallback must be false")
     if "enabled_tools" in value or "disabled_tools" in value:
@@ -125,7 +125,7 @@ def _make_action_callable(specification: ActionSpec):
 
 
 def register_all_tools(mcp) -> list[str]:
-    """Register all 40 Scientific Actions and all 5 Data Actions, without filtering."""
+    """Register the complete Scientific/Data Action catalog without filtering."""
 
     discover_tools(strict=True)
     registered = []
