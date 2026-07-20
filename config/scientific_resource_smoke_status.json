@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-07-19T08:36:12.718709+00:00",
+  "generated_at": "2026-07-20T03:19:17.364678+00:00",
   "schema_version": 1,
   "summary": {
-    "case_count": 23,
-    "passed": 23,
+    "case_count": 24,
+    "passed": 24,
     "failed": 0,
     "all_ok": true
   },
@@ -14,7 +14,7 @@
       "backend": "quantum_espresso",
       "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 7.304418,
+      "elapsed_seconds": 12.462894,
       "result": {
         "energy": -10.99662568,
         "unit": "rydberg"
@@ -25,7 +25,7 @@
       "resource_refs": [
         {
           "resource_id": "qe_sssp_1_3_pbe_efficiency",
-          "element": "Si",
+          "selection": "Si",
           "registered": true,
           "kind": "element_file_collection",
           "version": "1.3.0",
@@ -33,6 +33,7 @@
           "compatible_backends": [
             "quantum_espresso"
           ],
+          "element": "Si",
           "element_metadata": {
             "filename": "Si.pbe-n-rrkjus_psl.1.0.0.UPF",
             "md5": "0b0bb1205258b0d07b9f9672cf965d36",
@@ -49,7 +50,7 @@
       "backend": "quantum_espresso",
       "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 6.800243,
+      "elapsed_seconds": 6.687758,
       "result": {
         "energy": -10.99662568,
         "unit": "rydberg"
@@ -60,7 +61,7 @@
       "resource_refs": [
         {
           "resource_id": "qe_sssp_1_3_pbe_precision",
-          "element": "Si",
+          "selection": "Si",
           "registered": true,
           "kind": "element_file_collection",
           "version": "1.3.0",
@@ -68,6 +69,7 @@
           "compatible_backends": [
             "quantum_espresso"
           ],
+          "element": "Si",
           "element_metadata": {
             "filename": "Si.pbe-n-rrkjus_psl.1.0.0.UPF",
             "md5": "0b0bb1205258b0d07b9f9672cf965d36",
@@ -84,7 +86,7 @@
       "backend": "siesta",
       "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 1.695914,
+      "elapsed_seconds": 5.586867,
       "result": {
         "energy": -108.6682,
         "unit": "eV"
@@ -95,14 +97,15 @@
       "resource_refs": [
         {
           "resource_id": "siesta_pseudo_dojo_nc_sr_05_pbe_standard_psml",
-          "element": "Si",
+          "selection": "Si",
           "registered": true,
           "kind": "element_file_collection",
           "version": "nc-sr-05 standard",
           "format": "PSML 1.1",
           "compatible_backends": [
             "siesta"
-          ]
+          ],
+          "element": "Si"
         }
       ]
     },
@@ -112,7 +115,7 @@
       "backend": "abinit",
       "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 2.516002,
+      "elapsed_seconds": 8.451525,
       "result": {
         "energy": -4.0197060046,
         "unit": "hartree"
@@ -123,14 +126,15 @@
       "resource_refs": [
         {
           "resource_id": "abinit_pseudo_dojo_nc_sr_pbe_standard_psp8",
-          "element": "Si",
+          "selection": "Si",
           "registered": true,
           "kind": "element_file_collection",
           "version": "standard",
           "format": "PSP8",
           "compatible_backends": [
             "abinit"
-          ]
+          ],
+          "element": "Si"
         }
       ]
     },
@@ -140,7 +144,7 @@
       "backend": "dftbplus",
       "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 1.298381,
+      "elapsed_seconds": 1.605275,
       "result": {
         "energy": -1.0828157173,
         "unit": "hartree"
@@ -151,7 +155,7 @@
       "resource_refs": [
         {
           "resource_id": "dftb_matsci_0_3",
-          "element": null,
+          "selection": null,
           "registered": true,
           "kind": "slater_koster_parameter_set",
           "version": "0.3.0",
@@ -168,7 +172,7 @@
       "backend": "dftbplus",
       "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 1.117203,
+      "elapsed_seconds": 1.170188,
       "result": {
         "energy": -1.3984936602,
         "unit": "hartree"
@@ -179,7 +183,7 @@
       "resource_refs": [
         {
           "resource_id": "dftb_3ob_3_1",
-          "element": null,
+          "selection": null,
           "registered": true,
           "kind": "slater_koster_parameter_set",
           "version": "3.1.0",
@@ -196,7 +200,7 @@
       "backend": "quantum_espresso",
       "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 7.263223,
+      "elapsed_seconds": 7.223032,
       "result": {
         "forces": [
           [
@@ -213,7 +217,7 @@
       "resource_refs": [
         {
           "resource_id": "qe_sssp_1_3_pbe_efficiency",
-          "element": "Si",
+          "selection": "Si",
           "registered": true,
           "kind": "element_file_collection",
           "version": "1.3.0",
@@ -221,6 +225,7 @@
           "compatible_backends": [
             "quantum_espresso"
           ],
+          "element": "Si",
           "element_metadata": {
             "filename": "Si.pbe-n-rrkjus_psl.1.0.0.UPF",
             "md5": "0b0bb1205258b0d07b9f9672cf965d36",
@@ -237,7 +242,7 @@
       "backend": "quantum_espresso",
       "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 8.931446,
+      "elapsed_seconds": 8.757873,
       "result": {
         "stress": [
           [
@@ -264,7 +269,7 @@
       "resource_refs": [
         {
           "resource_id": "qe_sssp_1_3_pbe_efficiency",
-          "element": "Si",
+          "selection": "Si",
           "registered": true,
           "kind": "element_file_collection",
           "version": "1.3.0",
@@ -272,6 +277,7 @@
           "compatible_backends": [
             "quantum_espresso"
           ],
+          "element": "Si",
           "element_metadata": {
             "filename": "Si.pbe-n-rrkjus_psl.1.0.0.UPF",
             "md5": "0b0bb1205258b0d07b9f9672cf965d36",
@@ -288,7 +294,7 @@
       "backend": "siesta",
       "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 1.408386,
+      "elapsed_seconds": 1.361677,
       "result": {
         "forces": [
           [
@@ -307,14 +313,15 @@
       "resource_refs": [
         {
           "resource_id": "siesta_pseudo_dojo_nc_sr_05_pbe_standard_psml",
-          "element": "Si",
+          "selection": "Si",
           "registered": true,
           "kind": "element_file_collection",
           "version": "nc-sr-05 standard",
           "format": "PSML 1.1",
           "compatible_backends": [
             "siesta"
-          ]
+          ],
+          "element": "Si"
         }
       ]
     },
@@ -324,7 +331,7 @@
       "backend": "dftbplus",
       "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 1.133455,
+      "elapsed_seconds": 1.149928,
       "result": {
         "forces": [
           [
@@ -343,7 +350,7 @@
       "resource_refs": [
         {
           "resource_id": "dftb_matsci_0_3",
-          "element": null,
+          "selection": null,
           "registered": true,
           "kind": "slater_koster_parameter_set",
           "version": "0.3.0",
@@ -360,7 +367,7 @@
       "backend": "abinit",
       "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 1.98061,
+      "elapsed_seconds": 1.944437,
       "result": {
         "forces": [
           [
@@ -379,14 +386,15 @@
       "resource_refs": [
         {
           "resource_id": "abinit_pseudo_dojo_nc_sr_pbe_standard_psp8",
-          "element": "Si",
+          "selection": "Si",
           "registered": true,
           "kind": "element_file_collection",
           "version": "standard",
           "format": "PSP8",
           "compatible_backends": [
             "abinit"
-          ]
+          ],
+          "element": "Si"
         }
       ]
     },
@@ -396,7 +404,7 @@
       "backend": "abinit",
       "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 1.964546,
+      "elapsed_seconds": 1.914235,
       "result": {
         "stress": [
           [
@@ -425,14 +433,15 @@
       "resource_refs": [
         {
           "resource_id": "abinit_pseudo_dojo_nc_sr_pbe_standard_psp8",
-          "element": "Si",
+          "selection": "Si",
           "registered": true,
           "kind": "element_file_collection",
           "version": "standard",
           "format": "PSP8",
           "compatible_backends": [
             "abinit"
-          ]
+          ],
+          "element": "Si"
         }
       ]
     },
@@ -442,7 +451,7 @@
       "backend": "dftbplus",
       "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 1.140913,
+      "elapsed_seconds": 1.114024,
       "result": {
         "structure": {
           "atoms": [
@@ -490,7 +499,7 @@
       "resource_refs": [
         {
           "resource_id": "dftb_matsci_0_3",
-          "element": null,
+          "selection": null,
           "registered": true,
           "kind": "slater_koster_parameter_set",
           "version": "0.3.0",
@@ -507,9 +516,9 @@
       "backend": "gnina",
       "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 7.980862,
+      "elapsed_seconds": 10.547848,
       "result": {
-        "poses_path": "outputs/dock_ligand/gnina/cfa43ca27386/poses.pdbqt",
+        "poses_path": "outputs/dock_ligand/gnina/d3a2c10e21ea/poses.pdbqt",
         "scores": [
           {
             "pose_index": 1,
@@ -542,7 +551,7 @@
       "backend": "orca",
       "backend_version": "6.1.1",
       "status": "success",
-      "elapsed_seconds": 2.830732,
+      "elapsed_seconds": 8.228626,
       "result": {
         "energy": -74.963709431238,
         "unit": "hartree"
@@ -558,10 +567,10 @@
       "backend": "orca",
       "backend_version": "6.1.1",
       "status": "success",
-      "elapsed_seconds": 1.992151,
+      "elapsed_seconds": 3.494533,
       "result": {
         "unit": "hartree/bohr^2",
-        "raw_hessian_path": "outputs/calculate_hessian/orca/360923faea57/job.hess",
+        "raw_hessian_path": "outputs/calculate_hessian/orca/673471a859e0/job.hess",
         "matrix_shape": [
           9,
           9
@@ -579,7 +588,7 @@
       "backend": "orca",
       "backend_version": "6.1.1",
       "status": "success",
-      "elapsed_seconds": 2.268195,
+      "elapsed_seconds": 2.343418,
       "result": {
         "structure": {
           "atoms": [
@@ -615,7 +624,7 @@
             false,
             false
           ],
-          "source_path": "outputs/optimize_geometry/orca/823533e1f0d6/job.xyz"
+          "source_path": "outputs/optimize_geometry/orca/8d83ec75ebd3/job.xyz"
         },
         "converged": true,
         "energy": -74.965901192191,
@@ -633,7 +642,7 @@
       "backend": "orca",
       "backend_version": "6.1.1",
       "status": "success",
-      "elapsed_seconds": 1.415352,
+      "elapsed_seconds": 1.392449,
       "result": {
         "dipole": [
           0.0,
@@ -654,7 +663,7 @@
       "backend": "nequip",
       "backend_version": "0.19.0",
       "status": "success",
-      "elapsed_seconds": 6.265443,
+      "elapsed_seconds": 108.603854,
       "result": {
         "forces": [
           [
@@ -676,7 +685,7 @@
       "resource_refs": [
         {
           "resource_id": "nequip_oam_s_0_1",
-          "element": null,
+          "selection": null,
           "registered": true,
           "kind": "model_checkpoint",
           "version": "0.1",
@@ -693,7 +702,7 @@
       "backend": "allegro",
       "backend_version": "0.19.0",
       "status": "success",
-      "elapsed_seconds": 6.101412,
+      "elapsed_seconds": 5.829997,
       "result": {
         "energy": -5.4477353208501835,
         "unit": "eV"
@@ -704,7 +713,7 @@
       "resource_refs": [
         {
           "resource_id": "allegro_oam_l_0_1",
-          "element": null,
+          "selection": null,
           "registered": true,
           "kind": "model_checkpoint",
           "version": "0.1",
@@ -721,7 +730,7 @@
       "backend": "deepmd",
       "backend_version": "3.2.0b0",
       "status": "success",
-      "elapsed_seconds": 11.563779,
+      "elapsed_seconds": 79.395914,
       "result": {
         "stress": [
           [
@@ -748,7 +757,7 @@
       "resource_refs": [
         {
           "resource_id": "deepmd_dpa_3_3_1m",
-          "element": null,
+          "selection": null,
           "registered": true,
           "kind": "model_checkpoint",
           "version": "DPA-3.3-1M",
@@ -790,7 +799,7 @@
       "backend": "deepmd",
       "backend_version": "3.2.0b0",
       "status": "success",
-      "elapsed_seconds": 13.357233,
+      "elapsed_seconds": 12.583282,
       "result": {
         "energy": -2079.739232241105,
         "unit": "eV"
@@ -801,7 +810,7 @@
       "resource_refs": [
         {
           "resource_id": "deepmd_dpa3_omol_large",
-          "element": null,
+          "selection": null,
           "registered": true,
           "kind": "model_checkpoint",
           "version": "DPA3-Omol-Large",
@@ -819,7 +828,7 @@
       "backend": "vasp",
       "backend_version": "6.3.2",
       "status": "success",
-      "elapsed_seconds": 3.381995,
+      "elapsed_seconds": 6.992748,
       "result": {
         "energy": -0.27428657,
         "unit": "eV"
@@ -830,7 +839,7 @@
       "resource_refs": [
         {
           "resource_id": "vasp_6_3_2_testsuite_si_potcar",
-          "element": null,
+          "selection": null,
           "registered": true,
           "kind": "single_file_resource",
           "version": "VASP 6.3.2 testsuite",
@@ -838,6 +847,41 @@
           "compatible_backends": [
             "vasp"
           ]
+        }
+      ]
+    },
+    {
+      "case_id": "vasp_paw_pbe_54_si_energy",
+      "action": "calculate_periodic_energy",
+      "backend": "vasp",
+      "backend_version": "6.3.2",
+      "status": "success",
+      "elapsed_seconds": 3.463693,
+      "result": {
+        "energy": 0.25831787,
+        "unit": "eV"
+      },
+      "error": null,
+      "warnings": [],
+      "parallel_processes": 1,
+      "resource_refs": [
+        {
+          "resource_id": "vasp_paw_pbe_54",
+          "selection": "Si",
+          "registered": true,
+          "kind": "variant_file_collection",
+          "version": "potpaw54 archive label; exact upstream revision unverified",
+          "format": "VASP POTCAR / PAW",
+          "compatible_backends": [
+            "vasp"
+          ],
+          "selection_metadata": {
+            "element": "Si",
+            "relative_path": "Si/POTCAR",
+            "sha256": "79d9987ad8750f624c4d6acb2a16d13abf6a777132adc04dc6c8399be72b42bb",
+            "size_bytes": 195673
+          },
+          "element": "Si"
         }
       ]
     }

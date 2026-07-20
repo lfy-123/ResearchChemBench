@@ -1,6 +1,6 @@
 # ResearchChem 化学工具箱重构实施报告
 
-> 完成日期：2026-07-18；下载资源扩展完成：2026-07-19
+> 完成日期：2026-07-18；下载资源扩展：2026-07-19；MATLAB/VASP POTCAR/NIST 扩展：2026-07-20
 > 目标：评估智能体自主选择、编排并调用多个化学工具完成科学任务的能力
 
 ## 1. 结论
@@ -8,8 +8,8 @@
 本轮重构已经完成核心实现。公共工具面不再包含 `run_ase`、`run_xtb`、`run_cp2k`、`run_openmm` 等软件启动器，也没有预置的一键流程工具。现在统一公开：
 
 - 40 个单一科学语义的 Scientific Actions；
-- 4 个独立 Data Actions；
-- 49 个可由智能体显式选择的 BackendSpecs；
+- 5 个独立 Data Actions；
+- 55 个可由智能体显式选择的 BackendSpecs；
 - 一个对所有任务完全相同的 MCP 工具目录；
 - 统一的 ActionRequest、ActionResult、ArtifactRef 和 provenance 协议。
 
@@ -29,7 +29,7 @@
 核心代码位于 `researchchem_toolbox/`：
 
 - `models.py`：统一 ActionRequest、ActionResult、ArtifactRef 与规格模型；
-- `specs.py`：44 个公共 Actions 和 49 个 BackendSpecs 的唯一事实源；
+- `specs.py`：45 个公共 Actions 和 55 个 BackendSpecs 的唯一事实源；
 - `catalog.py`：完整目录、目录哈希、系统提示词摘要和 MCP 描述；
 - `service.py`：显式后端校验、一次精确分派、结果封装；
 - `runtime.py`：跨隔离环境探测和 worker 执行；
@@ -58,20 +58,20 @@
 - 删除了对应的旧逐工具 wrapper 测试；
 - 不提供 legacy `run_*` 公共兼容层，避免两套层级继续共存；
 - profile 从“工具分组”改为“后端依赖运行时”；
-- `--mcp-tools` 不再允许裁剪目录，评测入口始终暴露全部 44 个 Actions；
+- `--mcp-tools` 不再允许裁剪目录，评测入口始终暴露全部 45 个 Actions；
 - 静态旧软件表改为由 BackendSpecs 动态生成的目录。
 
 ## 6. 最终真实验证
 
 下载资源接入完成后，本轮最终验证结果为：
 
-- 全量 Python 回归：`57 passed`；
-- MCP 注册：44/44 工具，原子调用、Artifact 与 trace 重放成功；
-- 运行环境：17/17 个 profile/support runtime 通过模块、命令、外部命令、`pip check` 和模型加载检查；
-- BackendSpec：49/49 available，不再保留允许缺失项；
-- 注册资源：22/22 通过归档、源码包、可执行文件、模型 checkpoint 和单文件资源校验；两套 SSSP 共 206 个 UPF 文件逐文件 MD5 通过；
-- 下载资源真实计算：23/23 通过，除原有 QE/SIESTA/ABINIT/DFTB+/GNINA/ORCA 外，新增 VASP Si 单点、NequIP 力、Allegro 能量、DeePMD 周期应力与 OMol 分子能量；
-- 在线 Data Actions：PubChem、RCSB PDB、Materials Project、Catalysis-Hub 4/4 实时请求成功；
+- 全量 Python 回归：`71 passed`；
+- MCP 注册：45/45 工具，原子调用、Artifact 与 trace 重放成功；
+- 运行环境：22/22 个 profile/support runtime 通过模块、命令、外部命令、`pip check` 和模型加载检查；
+- BackendSpec：55/55 available，不再保留允许缺失项；
+- 注册资源：27/27 通过归档、源码包、可执行文件、模型 checkpoint、单文件资源和 VASP 变体资源校验；两套 SSSP 共 206 个 UPF 文件逐文件 MD5、735 个 VASP POTCAR 逐文件 SHA-256 通过；
+- 下载资源真实计算：24/24 通过，新增 `resource://vasp_paw_pbe_54/Si` 的真实 VASP 6.3.2 单点；
+- 在线 Data Actions：PubChem、RCSB PDB、Materials Project、NIST WebBook 4/5 实时请求成功；Catalysis-Hub 本轮由远端返回 HTTP 503；
 - OpenFF AM1-BCC、OpenFF Interchange、Packmol 和既有核心 smoke 全部成功。
 
 过程中依据真实输出修复了 QE “Total force”误匹配、ABINIT 10 输出文件/力/应力单位解析、DFTB+ Parser 14 几何优化输入、GNINA 不支持 Vina `--energy_range`、ORCA 优化误读 `job_trj.xyz` 第一帧，以及 Materials Project/Catalysis-Hub 的有界在线请求问题。扩展阶段又补齐 VASP GCC 15 编译兼容、worker 基础依赖、DeePMD branch 强制选择和模型资源校验。
@@ -83,7 +83,7 @@
 - Conda/Pip 隔离环境继续位于 `.tool_envs/`；OpenFF 保持独立 Python 3.12 runtime；
 - 手工下载或独立构建的大型软件统一放入 `.software_cache/`；GNINA 1.3.3、ORCA 6.1.1、OpenMPI 4.1.8、VASP 6.3.2、RMG 4.0.0 数据库和 EasySpin 6.0.12 均使用版本化目录，runtime 只保留稳定链接或显式路径；
 - 模型缓存位于 `.model_cache/`；7 个 NequIP/Allegro 与 5 个 DeePMD checkpoint 已按精确 ID、路径和 SHA-256 登记，模型、branch、device 与化学域适用性仍由 Agent 显式决定；
-- 赝势与参数数据保留在被 Git 忽略的 `download/`，由 `config/toolbox_resources.json` 注册成只读 ResourceRef；
+- 赝势与参数数据保留在被 Git 忽略的 `download/` 或 `.software_cache/`，由 `config/toolbox_resources.json` 注册成只读 ResourceRef；VASP POTCAR 作为许可数据不提交或再分发；
 - `.tool_envs/abinit` 已补齐 NumPy、Pydantic、PyYAML 和 python-dotenv，使真实 worker 与健康探测均可启动；
 - 当前需补装的 Conda/Pip 包为零。
 
@@ -95,9 +95,10 @@ Agent 可显式选择的科学数据包括：
 - `dftb_3ob_3_1` 与 `dftb_matsci_0_3`；
 - `nequip_oam_{s,m,l,xl}_0_1`、`nequip_mp_l_0_1`、`allegro_oam_l_0_1`、`allegro_mp_l_0_1`；
 - `deepmd_dpa_3_1_3m`、`deepmd_dpa_3_2_5m`、`deepmd_dpa_3_3_1m`、`deepmd_dpa_2_4_7m`、`deepmd_dpa3_omol_large`；
-- `vasp_6_3_2_testsuite_si_potcar`（仅用于 Si 适配验证，不替代生产 PAW 库）。
+- `vasp_uspp_lda_legacy`、`vasp_uspp_gga_legacy`、`vasp_paw_lda_54`、`vasp_paw_pw91_54`、`vasp_paw_pbe_54`（共 735 个 Agent 显式选择的精确变体）；
+- `vasp_6_3_2_testsuite_si_potcar`（仅用于 Si 适配回归）。
 
-元素文件使用 `resource://<resource_id>/<Element>`，参数集、模型和单文件资源使用 `resource://<resource_id>`。系统不按元素、精度、模型规模、训练域或任务自动选择资源，也不会把一个参数族或 checkpoint 替换为另一个。
+元素文件使用 `resource://<resource_id>/<Element>`，VASP 精确变体使用 `resource://<resource_id>/<Variant>`，参数集、模型和单文件资源使用 `resource://<resource_id>`。系统不按元素、精度、势函数变体、模型规模、训练域或任务自动选择资源，也不会把一个参数族或 checkpoint 替换为另一个。
 
 ## 8. ORCA 6.1.1 完成项
 

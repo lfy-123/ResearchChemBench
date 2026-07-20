@@ -19,7 +19,7 @@ def test_registry_is_full_and_task_independent():
     assert configuration_errors() == []
     assert discovered_module_stems() == sorted(action_specs())
     records = discover_tools(strict=True)
-    assert len(records) == 44
+    assert len(records) == 45
     assert all(record.enabled and record.error is None for record in records)
 
 
@@ -30,7 +30,7 @@ def test_server_registers_all_actions_and_catalog_resource():
 
     tools, resources = asyncio.run(collect())
     assert {tool.name for tool in tools} == set(action_specs())
-    assert len(tools) == 44
+    assert len(tools) == 45
     assert {str(resource.uri) for resource in resources} == {"researchchem://catalog"}
     for tool in tools:
         assert set(tool.inputSchema["properties"]) == {"request"}

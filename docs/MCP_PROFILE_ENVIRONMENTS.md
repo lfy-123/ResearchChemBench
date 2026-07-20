@@ -1,6 +1,6 @@
 # ResearchChemBench MCP 工具发现与多环境设计
 
-> 2026-07-19 更新：profile 只表示后端依赖运行时，不筛选或拥有公共工具。所有任务始终连接一个暴露 44 个原子 Actions 的统一 MCP server；VASP、NequIP、Allegro、DeePMD 已作为显式 BackendSpec 接入，当前 49/49 BackendSpecs、17/17 runtime 可用。当前事实以 `evaluation/mcp_tools/TOOL_CATALOG.md` 和 `docs/tools/CHEMISTRY_TOOLBOX_TOOL_RESOURCE_MATRIX.md` 为准；下文旧命令/工具名仅保留为历史迁移背景。
+> 2026-07-20 更新：profile 只表示后端依赖运行时，不筛选或拥有公共工具。所有任务始终连接一个暴露 45 个原子 Actions 的统一 MCP server；VASP、NequIP、Allegro、DeePMD 和受限 NIST WebBook CGI 已作为显式 BackendSpec 接入，当前 55/55 BackendSpecs、22/22 runtime 可用。当前事实以 `evaluation/mcp_tools/TOOL_CATALOG.md` 和 `docs/tools/CHEMISTRY_TOOLBOX_TOOL_RESOURCE_MATRIX.md` 为准；下文旧命令/工具名仅保留为历史迁移背景。
 
 ## 1. 智能体如何看到 MCP 工具
 
@@ -242,7 +242,7 @@ Actions 暴露。checkpoint 必须是显式注册的 `ResourceRef`；DeePMD 多�
 ## 9. 当前验证结论
 
 最新自动报告为 `docs/MCP_PROFILE_STATUS.md`。当前 17/17 profile/support runtime 的必需模块、
-命令、`pip check` 和 Backend 健康均通过；公共目录始终是一个 44-Action server。2026-07-19
+命令、`pip check` 和 Backend 健康均通过；公共目录始终是一个 45-Action server。2026-07-20
 的最终回归结果如下：
 
 - 全量回归：57 passed；

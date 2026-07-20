@@ -68,7 +68,7 @@ bash scripts/run_agent_eval.sh --agent codex --task ChemGraph_001 --no-score
 bash scripts/run_agent_eval.sh --agent claude --task ChemGraph_003 --no-score
 bash scripts/run_agent_eval.sh --agent opencode --task ChemGraph_001 --no-score
 
-# Every run exposes the same full 44-action catalog.
+# Every run exposes the same full 45-action catalog.
 bash scripts/run_agent_eval.sh --agent opencode --task ChemGraph_001 --no-score
 ```
 

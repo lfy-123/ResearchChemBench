@@ -114,6 +114,79 @@ def test_common_file_resolver_accepts_only_registered_resource_refs(tmp_path, mo
         resolve_input_file("resource://not_registered/Si")
 
 
+def test_variant_collections_require_an_exact_agent_selection(tmp_path, monkeypatch):
+    family = tmp_path / "vasp_pbe"
+    potcar = family / "Fe_pv" / "POTCAR"
+    potcar.parent.mkdir(parents=True)
+    potcar.write_text("Fe_pv POTCAR", encoding="utf-8")
+    manifest = tmp_path / "vasp_manifest.json"
+    manifest.write_text(
+        json.dumps(
+            {
+                "schema_version": 1,
+                "resource_id": "test_vasp_variants",
+                "selection_policy": "agent_explicit_no_default",
+                "variants": {
+                    "Fe_pv": {
+                        "element": "Fe",
+                        "relative_path": "Fe_pv/POTCAR",
+                        "sha256": "unused-in-resolver-test",
+                    }
+                },
+            }
+        ),
+        encoding="utf-8",
+    )
+    config = tmp_path / "variant_resources.json"
+    config.write_text(
+        json.dumps(
+            {
+                "schema_version": 1,
+                "selection_policy": "agent_explicit_no_default",
+                "resources": [
+                    {
+                        "id": "test_vasp_variants",
+                        "display_name": "Test VASP variants",
+                        "kind": "variant_file_collection",
+                        "selectable": True,
+                        "compatible_backends": ["vasp"],
+                        "path": str(family),
+                        "manifest": str(manifest),
+                        "manifest_filename_field": "relative_path",
+                    }
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+    monkeypatch.setenv("RESEARCHCHEM_RESOURCE_CONFIG", str(config))
+    resources._load_config_at.cache_clear()
+
+    assert (
+        resources.resolve_resource_reference(
+            "resource://test_vasp_variants/Fe_pv"
+        )
+        == potcar
+    )
+    assert resources.resolve_resource_reference(
+        {"resource_id": "test_vasp_variants", "selection": "Fe_pv"}
+    ) == potcar
+    metadata = resources.resource_reference_metadata(
+        "resource://test_vasp_variants/Fe_pv"
+    )
+    assert metadata["element"] == "Fe"
+    assert metadata["selection"] == "Fe_pv"
+    snapshot = resources.resource_snapshot()[0]
+    assert snapshot["selection_syntax"] == "resource://test_vasp_variants/<Variant>"
+    assert snapshot["variants"] == ["Fe_pv"]
+    with pytest.raises(ValueError, match="explicit safe variant"):
+        resources.resolve_resource_reference("resource://test_vasp_variants")
+    with pytest.raises(ValueError, match="does not contain variant"):
+        resources.resolve_resource_reference("resource://test_vasp_variants/Fe")
+    with pytest.raises(ValueError):
+        resources.resolve_resource_reference("resource://test_vasp_variants/../Fe_pv")
+
+
 def test_catalog_exposes_resource_policy_and_coverage(tmp_path, monkeypatch):
     _test_registry(tmp_path, monkeypatch)
     snapshot = catalog_snapshot(include_health=False)
@@ -426,6 +499,51 @@ def test_vasp_input_requires_explicit_potcar_and_scientific_controls(
     assert (tmp_path / "POTCAR").read_text(encoding="utf-8").startswith(
         "Si test POTCAR"
     )
+
+
+def test_vasp_rejects_a_registered_variant_for_the_wrong_element(
+    tmp_path, monkeypatch
+):
+    potcar = tmp_path / "Fe_pv" / "POTCAR"
+    potcar.parent.mkdir()
+    potcar.write_text("Fe POTCAR", encoding="utf-8")
+    monkeypatch.setattr(periodic, "resolve_input_file", lambda _value: potcar)
+    monkeypatch.setattr(
+        periodic,
+        "resource_reference_metadata",
+        lambda _value: {
+            "kind": "variant_file_collection",
+            "selection": "Fe_pv",
+            "element": "Fe",
+        },
+    )
+    request = {
+        "inputs": {
+            "structure": {
+                "atoms": [{"element": "Si", "position_angstrom": [0, 0, 0]}],
+                "cell_angstrom": [[5, 0, 0], [0, 5, 0], [0, 0, 5]],
+                "pbc": [True, True, True],
+            }
+        },
+        "method_spec": {
+            "pseudopotentials": {
+                "Si": "resource://test_vasp_variants/Fe_pv"
+            },
+            "encut_ev": 400,
+            "k_points": {"grid": [1, 1, 1], "shift": [0, 0, 0]},
+            "kpoint_scheme": "gamma",
+            "precision": "Accurate",
+            "algorithm": "Normal",
+            "ismear": 0,
+            "sigma_ev": 0.05,
+            "spin_polarized": False,
+            "real_space_projection": False,
+            "xc_family": "pbe",
+        },
+        "action_settings": {"scf_convergence_ev": 1e-6, "max_scf_cycles": 60},
+    }
+    with pytest.raises(ValueError, match="belongs to element 'Fe', not 'Si'"):
+        periodic._write_vasp_inputs("calculate_periodic_energy", request, tmp_path)
 
 
 def test_vasp_parser_restores_original_atom_order(tmp_path):

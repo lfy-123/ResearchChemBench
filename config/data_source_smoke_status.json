@@ -1,18 +1,18 @@
 {
-  "generated_at": "2026-07-18T17:31:06.842833+00:00",
+  "generated_at": "2026-07-20T03:23:13.593918+00:00",
   "schema_version": 1,
   "summary": {
-    "case_count": 4,
+    "case_count": 5,
     "passed": 4,
-    "failed": 0,
-    "all_ok": true
+    "failed": 1,
+    "all_ok": false
   },
   "cases": [
     {
       "action": "search_compounds",
       "backend": "pubchem",
       "status": "success",
-      "elapsed_seconds": 1.488617,
+      "elapsed_seconds": 2.275247,
       "record_count": 1,
       "error": null,
       "warnings": []
@@ -21,7 +21,7 @@
       "action": "search_protein_structures",
       "backend": "rcsb_pdb",
       "status": "success",
-      "elapsed_seconds": 1.645985,
+      "elapsed_seconds": 1.74406,
       "record_count": 1,
       "error": null,
       "warnings": []
@@ -30,7 +30,7 @@
       "action": "search_materials",
       "backend": "materials_project",
       "status": "success",
-      "elapsed_seconds": 62.626134,
+      "elapsed_seconds": 2.017766,
       "record_count": 1,
       "error": null,
       "warnings": []
@@ -38,8 +38,21 @@
     {
       "action": "search_catalysis_records",
       "backend": "catalysis_hub",
+      "status": "failed",
+      "elapsed_seconds": 31.987748,
+      "record_count": null,
+      "error": {
+        "code": "backend_exception",
+        "message": "HTTPStatusError: Server error '503 Service Unavailable' for url 'https://api.catalysis-hub.org/graphql'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503",
+        "traceback": "Traceback (most recent call last):\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/researchchem_toolbox/worker.py\", line 20, in main\n    result = execute_local(\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/researchchem_toolbox/backends/__init__.py\", line 33, in execute_local\n    return module.execute(action_id, backend_id, request)\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/researchchem_toolbox/backends/data.py\", line 493, in execute\n    return _catalysis_hub(request)\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/researchchem_toolbox/backends/data.py\", line 468, in _catalysis_hub\n    response.raise_for_status()\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/site-packages/httpx/_models.py\", line 829, in raise_for_status\n    raise HTTPStatusError(message, request=request, response=self)\nhttpx.HTTPStatusError: Server error '503 Service Unavailable' for url 'https://api.catalysis-hub.org/graphql'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503\n"
+      },
+      "warnings": []
+    },
+    {
+      "action": "lookup_nist_webbook_species",
+      "backend": "nist_webbook",
       "status": "success",
-      "elapsed_seconds": 2.148075,
+      "elapsed_seconds": 1.903785,
       "record_count": 1,
       "error": null,
       "warnings": []

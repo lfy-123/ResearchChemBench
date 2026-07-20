@@ -30,6 +30,11 @@ def _resource_coverage(resource: dict[str, Any]) -> str:
     kind = resource.get("kind")
     if kind == "element_file_collection":
         return f"{resource.get('element_count', 0)} elements"
+    if kind == "variant_file_collection":
+        return (
+            f"{resource.get('variant_count', 0)} exact variants/"
+            f"{resource.get('element_count', 0)} elements"
+        )
     if kind == "slater_koster_parameter_set":
         return (
             f"{resource.get('element_count', 0)} elements/"
@@ -84,9 +89,9 @@ def validate_catalog() -> None:
                 )
     scientific = [spec for spec in ACTION_SPECS if not spec.data_action]
     data = [spec for spec in ACTION_SPECS if spec.data_action]
-    if len(scientific) != 40 or len(data) != 4:
+    if len(scientific) != 40 or len(data) != 5:
         raise ValueError(
-            f"Catalog must contain 40 Scientific Actions and 4 Data Actions; "
+            f"Catalog must contain 40 Scientific Actions and 5 Data Actions; "
             f"received {len(scientific)} and {len(data)}"
         )
 
@@ -214,8 +219,9 @@ def agent_toolbox_overview(
         "Outputs can be passed onward as structured result objects or registered ArtifactRef objects.",
         "Scientific files use explicit registered ResourceRef values. Use either "
         "resource://<resource_id>/<Element> for element-file collections or "
+        "resource://<resource_id>/<Variant> for exact variant collections such as VASP POTCARs, or "
         "resource://<resource_id> for a parameter set, model checkpoint, or other registered "
-        "single file. You must choose the resource family/checkpoint, element mapping, model "
+        "single file. You must choose the resource family/variant/checkpoint, element mapping, model "
         "branch, device, cutoffs, and compatible method; the dispatcher never chooses them.",
     ]
     for category in CATEGORY_LABELS:

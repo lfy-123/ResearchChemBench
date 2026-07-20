@@ -125,7 +125,7 @@ def _make_action_callable(specification: ActionSpec):
 
 
 def register_all_tools(mcp) -> list[str]:
-    """Register all 40 Scientific Actions and all 4 Data Actions, without filtering."""
+    """Register all 40 Scientific Actions and all 5 Data Actions, without filtering."""
 
     discover_tools(strict=True)
     registered = []

@@ -232,13 +232,41 @@ def verify_archive(specification: dict[str, Any], *, verify_only: bool) -> tuple
     return result, errors
 
 
+def manifest_records(specification: dict[str, Any]) -> dict[str, Any]:
+    manifest_path = declared_path(str(specification["manifest"]))
+    payload = json.loads(manifest_path.read_text(encoding="utf-8"))
+    if specification["kind"] == "variant_file_collection":
+        records = payload.get("variants") if isinstance(payload, dict) else None
+        if not isinstance(records, dict):
+            raise ValueError(f"Variant manifest requires a variants object: {manifest_path}")
+        return records
+    if not isinstance(payload, dict):
+        raise ValueError(f"Resource manifest must be an object: {manifest_path}")
+    return payload
+
+
 def data_files(specification: dict[str, Any], root: Path) -> list[Path]:
-    if specification["kind"] == "element_file_collection":
+    if specification["kind"] in {
+        "element_file_collection",
+        "variant_file_collection",
+    }:
         manifest_path = specification.get("manifest")
         if manifest_path:
-            manifest = json.loads(declared_path(str(manifest_path)).read_text(encoding="utf-8"))
-            field = str(specification.get("manifest_filename_field", "filename"))
-            return [root / str(manifest[element][field]) for element in sorted(manifest)]
+            manifest = manifest_records(specification)
+            default_field = (
+                "relative_path"
+                if specification["kind"] == "variant_file_collection"
+                else "filename"
+            )
+            field = str(
+                specification.get("manifest_filename_field", default_field)
+            )
+            return [
+                root / str(manifest[selection][field])
+                for selection in sorted(manifest)
+            ]
+        if specification["kind"] == "variant_file_collection":
+            raise ValueError("Variant file collections require a manifest")
         pattern = str(specification["element_pattern"])
         prefix, suffix = pattern.split("{element}", 1)
         return sorted(root.glob(f"{prefix}*{suffix}"))
@@ -282,28 +310,51 @@ def verify_data_resource(specification: dict[str, Any], *, verify_only: bool, de
         if not manifest_path.is_file():
             errors.append(f"Missing manifest: {manifest_path}")
         elif deep and not missing:
-            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-            filename_field = str(specification.get("manifest_filename_field", "filename"))
-            checksum_field = str(specification.get("manifest_checksum_field", "md5"))
+            manifest = manifest_records(specification)
+            filename_field = str(
+                specification.get(
+                    "manifest_filename_field",
+                    "relative_path"
+                    if specification["kind"] == "variant_file_collection"
+                    else "filename",
+                )
+            )
+            checksum_field = str(
+                specification.get(
+                    "manifest_checksum_field",
+                    "sha256"
+                    if specification["kind"] == "variant_file_collection"
+                    else "md5",
+                )
+            )
             mismatches = []
-            for element, record in manifest.items():
+            for selection, record in manifest.items():
                 path = root / str(record[filename_field])
                 if file_checksum(path, checksum_field) != str(record[checksum_field]).lower():
-                    mismatches.append(str(element))
-            result["deep_element_checksums"] = {
+                    mismatches.append(str(selection))
+            is_variant = specification["kind"] == "variant_file_collection"
+            deep_key = (
+                "deep_variant_checksums" if is_variant else "deep_element_checksums"
+            )
+            mismatch_key = (
+                "mismatched_selections" if is_variant else "mismatched_elements"
+            )
+            result[deep_key] = {
                 "checked": len(manifest),
                 "algorithm": checksum_field,
-                "mismatched_elements": mismatches,
+                mismatch_key: mismatches,
                 "ok": not mismatches,
             }
             if mismatches:
-                errors.append(f"Per-element checksum mismatches: {mismatches}")
+                errors.append(f"Per-selection checksum mismatches: {mismatches}")
     snapshot = next(
         (item for item in resource_snapshot() if item["id"] == specification["id"]),
         {},
     )
     result["elements"] = snapshot.get("elements", [])
     result["element_count"] = snapshot.get("element_count")
+    result["variants"] = snapshot.get("variants", [])
+    result["variant_count"] = snapshot.get("variant_count")
     result["pair_count"] = snapshot.get("pair_count")
     result["errors"] = errors
     result["status"] = "pass" if not errors else "fail"

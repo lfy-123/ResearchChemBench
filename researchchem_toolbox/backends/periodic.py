@@ -8,6 +8,7 @@ import shutil
 from pathlib import Path
 from typing import Any
 
+from ..resources import is_resource_reference, resource_reference_metadata
 from .common import (
     ase_atoms,
     atoms_and_coordinates,
@@ -1377,7 +1378,18 @@ def _write_vasp_inputs(
         raise ValueError(f"Missing VASP POTCAR resources for elements: {missing}")
     with (directory / "POTCAR").open("wb") as output:
         for element in species:
-            source = resolve_input_file(mapping[element])
+            selected = mapping[element]
+            if is_resource_reference(selected):
+                metadata = resource_reference_metadata(selected)
+                if (
+                    metadata.get("kind") == "variant_file_collection"
+                    and metadata.get("element") != element
+                ):
+                    raise ValueError(
+                        f"VASP POTCAR selection {metadata.get('selection')!r} belongs "
+                        f"to element {metadata.get('element')!r}, not {element!r}"
+                    )
+            source = resolve_input_file(selected)
             output.write(source.read_bytes())
             output.write(b"\n")
 

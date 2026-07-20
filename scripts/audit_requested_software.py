@@ -284,25 +284,36 @@ def audit(timeout: int) -> dict[str, Any]:
             "conda_packages": probe.get("conda_packages", []),
             "pip_packages": probe.get("pip_packages", []),
         }
+        module_results = {
+            name: probe.get("modules", {}).get(name, {"available": False})
+            for name in item.get("modules", [])
+        }
+        command_results = {
+            name: probe.get("commands", {}).get(name)
+            for name in item.get("commands", [])
+        }
+        cache_results = {}
+        for path_value in item.get("cache_paths", []) or []:
+            path = root_path(path_value)
+            cache_results[str(path_value)] = {
+                "exists": bool(path and path.exists()),
+                "path": relative(path),
+            }
         if policy == "specification":
             record["status"] = "specification"
             record["verification"] = {"reason": "data/specification contract"}
         elif policy == "manual":
             record["status"] = "manual_required"
-            record["verification"] = {"reason": item.get("notes", "operator action required")}
+            record["verification"] = {
+                "reason": item.get("notes", "operator action required"),
+                "modules": module_results,
+                "commands": command_results,
+                "cache_paths": cache_results,
+            }
         elif policy == "interface":
             record["status"] = "manual_api_review"
             record["verification"] = {"reason": item.get("notes", "stable API not verified")}
         else:
-            module_results = {name: probe.get("modules", {}).get(name, {"available": False}) for name in item.get("modules", [])}
-            command_results = {name: probe.get("commands", {}).get(name) for name in item.get("commands", [])}
-            cache_results = {}
-            for path_value in item.get("cache_paths", []) or []:
-                path = root_path(path_value)
-                cache_results[str(path_value)] = {
-                    "exists": bool(path and path.exists()),
-                    "path": relative(path),
-                }
             module_ok = all(value.get("available", False) for value in module_results.values())
             command_ok = all(value for value in command_results.values())
             cache_ok = all(value.get("exists", False) for value in cache_results.values())
@@ -401,7 +412,7 @@ def write_markdown(payload: dict[str, Any]) -> None:
             "",
         "## 逐项状态表",
         "",
-        "| 类别 | 名称 | 状态 | 类型 / 许可 | Runtime / Python 模块 / 命令 | 软件缓存 / 模型缓存 | 公共适配状态 | 功能与处理备注 | 官方入口 |",
+        "| 类别 | 名称 | 状态 | 类型 / 许可 | Runtime / Python 模块 / 命令 | 软件缓存 / 模型缓存 | 公共适配 / MCP 暴露 | 功能与处理备注 | 官方入口 |",
         "|---|---|---|---|---|---|---|---|---|",
         ]
     )
@@ -436,7 +447,7 @@ def write_markdown(payload: dict[str, Any]) -> None:
         url = item.get("official_url")
         url_text = f"[官方]({url})" if url else "—"
         lines.append(
-            f"| {md(item.get('category'))} | `{md(item.get('name'))}` | **{md(item.get('status'))}** | `{md(item.get('kind'))}`<br>{md(item.get('license'))} | {runtime_text} | {cache_text} | `{md(item.get('public_adapter'))}` | {md(item.get('role'))}<br>{md(item.get('notes'))} | {url_text} |"
+            f"| {md(item.get('category'))} | `{md(item.get('name'))}` | **{md(item.get('status'))}** | `{md(item.get('kind'))}`<br>{md(item.get('license'))} | {runtime_text} | {cache_text} | adapter=`{md(item.get('public_adapter'))}`<br>MCP=`{md(item.get('mcp_exposure', 'catalog_controlled'))}` | {md(item.get('role'))}<br>{md(item.get('notes'))} | {url_text} |"
         )
 
     lines.extend([
@@ -459,9 +470,9 @@ def write_markdown(payload: dict[str, Any]) -> None:
         "## 状态解释与后续手动处理",
         "",
         "- `configured` 仅表示本地依赖/入口已准备好，不代表已经为所有软件编写了公共 Action，也不代表已经替 Agent 选择模型、泛函、基组、赝势或工作流顺序。",
-        "- `partial` 项需按备注补齐宿主程序或修复 runtime。当前 Arkane 的入口/数据库齐全，但导入与 H 示例均超出有界时限；EasySpin 文件齐全但缺 MATLAB。不能用无界等待或仅检查文件存在来伪报完成。",
+        "- `partial` 项需按备注补齐宿主程序或修复 runtime。当前 Arkane 的入口/数据库齐全，但导入与 H 示例均超出有界时限；EasySpin 文件和 MATLAB 官方介质齐全，但仍缺合法安装后的 MATLAB 命令。不能用无界等待或仅检查文件存在来伪报完成。",
         "- `manual_required` 项需要用户提供许可证、注册下载、源码包或编译工具链；收到后可按本表的官方入口继续接入对应 runtime。",
-        "- NIST 两项保持 `manual_api_review`，不通过脆弱网页抓取伪装成稳定工具；在确认官方 API 和使用条款后再增加数据 Action。",
+        "- NIST CCCBDB 保持 `manual_api_review` 且不暴露；NIST WebBook 已按官方参数化 CGI 接入受限的单物种 Data Action，并明确禁止通用 REST/JSON、批量抓取和数据镜像的错误表述。",
         "",
         "## 重放命令",
         "",

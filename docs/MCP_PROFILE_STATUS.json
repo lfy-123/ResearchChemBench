@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-07-19T19:58:56.291825+00:00",
+  "generated_at": "2026-07-20T03:36:07.855485+00:00",
   "summary": {
     "profile_count": 22,
     "ready_profiles": 22,
-    "public_action_count": 44
+    "public_action_count": 45
   },
   "profiles": {
     "core": {
@@ -248,7 +248,12 @@
         "returncode": 0,
         "output": "No broken requirements found."
       },
-      "model_checks": {},
+      "model_checks": {
+        "mace_medium_mpa_0": {
+          "success": true,
+          "energy_ev": -0.88549809819065
+        }
+      },
       "manual_commands": {},
       "live_checks": {},
       "required_ok": true,
@@ -263,6 +268,7 @@
       "expected_backends": [
         "catalysis_hub",
         "materials_project",
+        "nist_webbook",
         "pubchem",
         "rcsb_pdb"
       ],
@@ -372,6 +378,33 @@
           "required_data_resources": [],
           "license_class": "open_source",
           "install_notes": ""
+        },
+        "nist_webbook": {
+          "status": "available",
+          "available": true,
+          "runtime": "services",
+          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {
+            "httpx": {
+              "available": true,
+              "version": "0.28.1"
+            }
+          },
+          "executables": {},
+          "environment": {},
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [],
+          "pip_packages": [
+            "httpx>=0.28"
+          ],
+          "required_data_resources": [
+            "NIST Chemistry WebBook SRD 69 official CGI and its SRD copyright/licensing terms"
+          ],
+          "license_class": "nist_srd_terms",
+          "install_notes": "No local dataset is mirrored. Name/formula wildcards and responses over 2 MiB are rejected; formula isotope/ion choices remain explicit Agent settings."
         }
       },
       "allowed_unavailable_backends": [],
@@ -583,7 +616,12 @@
         "returncode": 0,
         "output": "No broken requirements found."
       },
-      "model_checks": {},
+      "model_checks": {
+        "mace_medium_mpa_0": {
+          "success": true,
+          "energy_ev": -0.88549809819065
+        }
+      },
       "manual_commands": {},
       "live_checks": {},
       "required_ok": true,
@@ -1616,7 +1654,12 @@
         "returncode": 0,
         "output": "No broken requirements found."
       },
-      "model_checks": {},
+      "model_checks": {
+        "mace_medium_mpa_0": {
+          "success": true,
+          "energy_ev": -0.88549809819065
+        }
+      },
       "manual_commands": {},
       "live_checks": {},
       "required_ok": true,
@@ -1868,10 +1911,10 @@
           "conda_packages": [],
           "pip_packages": [],
           "required_data_resources": [
-            "One explicit POTCAR ResourceRef or workspace ArtifactRef per element; the registered Si POTCAR is testsuite-only and no production PAW family is selected automatically"
+            "One explicit POTCAR ResourceRef or workspace ArtifactRef per element; five operator-supplied production families expose exact directory-name variants and no family or variant is selected automatically"
           ],
           "license_class": "commercial_license",
-          "install_notes": "VASP 6.3.2 was built locally from the operator-provided source. A bundled Si testsuite POTCAR validates the adapter; production use still requires the operator's licensed PAW dataset."
+          "install_notes": "VASP 6.3.2 was built locally from the operator-provided source. The operator-supplied local POTCAR archive is registered as five explicit variant collections; treat it as licensed, non-redistributable data."
         }
       },
       "allowed_unavailable_backends": [],

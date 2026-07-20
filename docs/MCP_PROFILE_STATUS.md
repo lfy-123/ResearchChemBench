@@ -1,13 +1,13 @@
 # Backend runtime status
 
-Generated: 2026-07-19T19:58:56.291825+00:00
-Public MCP tools: 44 (same for every task)
+Generated: 2026-07-20T03:36:07.855485+00:00
+Public MCP tools: 45 (same for every task)
 Backend runtimes checked: 22
 
 | Runtime | Group | Conda environment | Backends | Required checks | Detail |
 |---|---|---|---:|---|---|
 | `core` | profiles | `researchchem-core` | 8 | 通过 | 8/8 backends currently available |
-| `services` | profiles | `researchchem-services` | 4 | 通过 | 4/4 backends currently available |
+| `services` | profiles | `researchchem-services` | 5 | 通过 | 5/5 backends currently available |
 | `quantum` | profiles | `researchchem-quantum` | 5 | 通过 | 5/5 backends currently available |
 | `psi4` | profiles | `researchchem-psi4` | 1 | 通过 | 1/1 backends currently available |
 | `reaction` | profiles | `researchchem-reaction` | 6 | 通过 | 6/6 backends currently available |

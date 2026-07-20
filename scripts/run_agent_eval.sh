@@ -53,7 +53,7 @@ Runtime options:
       --chemgraph-root PATH    Override the ChemGraph checkout.
       --chemgraph-python PATH  Python executable used by the Chemistry MCP server.
       --mcp-tools VALUE       Compatibility option; only `all` is accepted. Every
-                               task sees all 40 Scientific and 4 Data Actions.
+                               task sees all 40 Scientific and 5 Data Actions.
       --mcp-profiles CSV      Select runtimes for installation/probe validation only:
                                core, services, quantum, psi4, reaction, qe, cp2k,
                                periodic, phonons, md, mlip, docking. This never

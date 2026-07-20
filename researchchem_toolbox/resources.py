@@ -21,6 +21,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_RESOURCE_CONFIG = PROJECT_ROOT / "config" / "toolbox_resources.json"
 _RESOURCE_ID = re.compile(r"^[a-z][a-z0-9_]*$")
 _ELEMENT = re.compile(r"^[A-Z][a-z]?$|^[A-Z][a-z]{2}$")
+_SELECTION_KEY = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.+-]*$")
 
 
 def resource_config_path() -> Path:
@@ -52,11 +53,16 @@ def _load_config_at(path_text: str) -> dict[str, Any]:
         seen.add(resource_id)
         if not str(item.get("path", "")).strip():
             raise ValueError(f"Resource {resource_id} requires a path")
-        if item.get("kind") == "element_file_collection" and not (
+        kind = item.get("kind")
+        if kind == "element_file_collection" and not (
             item.get("manifest") or item.get("element_pattern")
         ):
             raise ValueError(
                 f"Element-file resource {resource_id} requires manifest or element_pattern"
+            )
+        if kind == "variant_file_collection" and not item.get("manifest"):
+            raise ValueError(
+                f"Variant-file resource {resource_id} requires a manifest"
             )
     return payload
 
@@ -84,19 +90,25 @@ def is_resource_reference(value: Any) -> bool:
 def parse_resource_reference(value: Any) -> tuple[str, str | None]:
     if isinstance(value, dict) and isinstance(value.get("resource_id"), str):
         resource_id = value["resource_id"].strip()
-        element_value = value.get("element")
-        element = str(element_value).strip() if element_value is not None else None
-        extra = sorted(set(value) - {"resource_id", "element"})
+        if value.get("selection") is not None and value.get("element") is not None:
+            raise ValueError("ResourceRef cannot contain both selection and element")
+        selection_value = value.get("selection", value.get("element"))
+        selection = (
+            str(selection_value).strip() if selection_value is not None else None
+        )
+        extra = sorted(set(value) - {"resource_id", "selection", "element"})
         if extra:
             raise ValueError(f"Unknown ResourceRef fields: {extra}")
-        return resource_id, element
+        return resource_id, selection
     if isinstance(value, str) and value.startswith("resource://"):
         remainder = unquote(value[len("resource://") :])
         if not remainder or remainder.startswith("/"):
             raise ValueError("Resource URI must contain a resource id")
         parts = remainder.split("/")
         if len(parts) > 2 or any(not part for part in parts):
-            raise ValueError("Resource URI syntax is resource://<resource_id>[/<element>]")
+            raise ValueError(
+                "Resource URI syntax is resource://<resource_id>[/<selection>]"
+            )
         return parts[0], parts[1] if len(parts) == 2 else None
     raise ValueError("Expected ResourceRef object or resource:// URI")
 
@@ -109,6 +121,11 @@ def _manifest(specification: dict[str, Any]) -> dict[str, Any] | None:
     payload = json.loads(path.read_text(encoding="utf-8"))
     if not isinstance(payload, dict):
         raise ValueError(f"Resource manifest must be an object: {path}")
+    if specification.get("kind") == "variant_file_collection":
+        variants = payload.get("variants")
+        if not isinstance(variants, dict):
+            raise ValueError(f"Variant resource manifest requires a variants object: {path}")
+        return variants
     return payload
 
 
@@ -119,7 +136,7 @@ def resolve_resource_reference(value: Any) -> Path:
 chooses a default family, model, or substitutes an unavailable entry.
     """
 
-    resource_id, element = parse_resource_reference(value)
+    resource_id, selection = parse_resource_reference(value)
     specifications = resource_specs()
     if resource_id not in specifications:
         raise ValueError(f"Unknown scientific resource: {resource_id!r}")
@@ -129,23 +146,28 @@ chooses a default family, model, or substitutes an unavailable entry.
     root = _declared_path(str(specification["path"]))
     kind = specification.get("kind")
     if kind == "element_file_collection":
-        if not element or not _ELEMENT.fullmatch(element):
+        if not selection or not _ELEMENT.fullmatch(selection):
             raise ValueError(
                 f"Resource {resource_id!r} requires an explicit chemical element"
             )
         manifest = _manifest(specification)
         if manifest is not None:
-            if element not in manifest:
-                raise ValueError(f"Resource {resource_id!r} does not contain element {element}")
+            if selection not in manifest:
+                raise ValueError(
+                    f"Resource {resource_id!r} does not contain element {selection}"
+                )
             filename_field = str(specification.get("manifest_filename_field", "filename"))
-            record = manifest[element]
+            record = manifest[selection]
             if not isinstance(record, dict) or not isinstance(record.get(filename_field), str):
                 raise ValueError(
-                    f"Resource manifest has no {filename_field!r} for element {element}"
+                    f"Resource manifest has no {filename_field!r} for element {selection}"
                 )
             candidate = (root / record[filename_field]).resolve()
         else:
-            candidate = (root / str(specification["element_pattern"]).format(element=element)).resolve()
+            candidate = (
+                root
+                / str(specification["element_pattern"]).format(element=selection)
+            ).resolve()
         try:
             candidate.relative_to(root)
         except ValueError as exc:
@@ -153,8 +175,36 @@ chooses a default family, model, or substitutes an unavailable entry.
         if not candidate.is_file():
             raise FileNotFoundError(f"Registered resource file is missing: {candidate}")
         return candidate
-    if element is not None:
-        raise ValueError(f"Resource {resource_id!r} does not accept an element suffix")
+    if kind == "variant_file_collection":
+        if not selection or not _SELECTION_KEY.fullmatch(selection):
+            raise ValueError(
+                f"Resource {resource_id!r} requires an explicit safe variant selection"
+            )
+        manifest = _manifest(specification) or {}
+        if selection not in manifest:
+            raise ValueError(
+                f"Resource {resource_id!r} does not contain variant {selection}"
+            )
+        filename_field = str(
+            specification.get("manifest_filename_field", "relative_path")
+        )
+        record = manifest[selection]
+        if not isinstance(record, dict) or not isinstance(
+            record.get(filename_field), str
+        ):
+            raise ValueError(
+                f"Resource manifest has no {filename_field!r} for variant {selection}"
+            )
+        candidate = (root / record[filename_field]).resolve()
+        try:
+            candidate.relative_to(root)
+        except ValueError as exc:
+            raise ValueError("Resource reference escapes its declared root") from exc
+        if not candidate.is_file():
+            raise FileNotFoundError(f"Registered resource file is missing: {candidate}")
+        return candidate
+    if selection is not None:
+        raise ValueError(f"Resource {resource_id!r} does not accept a selection suffix")
     if kind == "slater_koster_parameter_set":
         if not root.is_dir():
             raise FileNotFoundError(f"Registered parameter directory is missing: {root}")
@@ -167,13 +217,17 @@ chooses a default family, model, or substitutes an unavailable entry.
 
 
 def resource_reference_metadata(value: Any) -> dict[str, Any]:
-    resource_id, element = parse_resource_reference(value)
+    resource_id, selection = parse_resource_reference(value)
     specification = resource_specs().get(resource_id)
     if specification is None:
-        return {"resource_id": resource_id, "element": element, "registered": False}
+        return {
+            "resource_id": resource_id,
+            "selection": selection,
+            "registered": False,
+        }
     result: dict[str, Any] = {
         "resource_id": resource_id,
-        "element": element,
+        "selection": selection,
         "registered": True,
         "kind": specification.get("kind"),
         "version": specification.get("version"),
@@ -184,8 +238,16 @@ def resource_reference_metadata(value: Any) -> dict[str, Any]:
         if key in specification:
             result[key] = specification[key]
     manifest = _manifest(specification)
-    if manifest is not None and element in manifest:
-        result["element_metadata"] = manifest[element]
+    if specification.get("kind") == "element_file_collection":
+        result["element"] = selection
+        if manifest is not None and selection in manifest:
+            result["element_metadata"] = manifest[selection]
+    elif specification.get("kind") == "variant_file_collection":
+        if manifest is not None and selection in manifest:
+            record = manifest[selection]
+            result["selection_metadata"] = record
+            if isinstance(record, dict) and record.get("element"):
+                result["element"] = record["element"]
     return result
 
 
@@ -208,7 +270,7 @@ def collect_resource_references(value: Any) -> list[dict[str, Any]]:
     visit(value)
     unique: dict[tuple[str, str | None], dict[str, Any]] = {}
     for item in found:
-        unique[(str(item["resource_id"]), item.get("element"))] = item
+        unique[(str(item["resource_id"]), item.get("selection"))] = item
     return list(unique.values())
 
 
@@ -227,6 +289,21 @@ def _element_names(specification: dict[str, Any], root: Path) -> list[str]:
         if _ELEMENT.fullmatch(element):
             names.append(element)
     return sorted(set(names))
+
+
+def _variant_metadata(
+    specification: dict[str, Any],
+) -> tuple[list[str], list[str]]:
+    manifest = _manifest(specification) or {}
+    variants = sorted(str(key) for key in manifest)
+    elements = sorted(
+        {
+            str(record["element"])
+            for record in manifest.values()
+            if isinstance(record, dict) and record.get("element")
+        }
+    )
+    return variants, elements
 
 
 def _skf_coverage(root: Path, file_glob: str) -> tuple[list[str], list[str]]:
@@ -256,6 +333,18 @@ def resource_snapshot() -> list[dict[str, Any]]:
                     manifest = _manifest(item)
                     if manifest is not None:
                         item["element_metadata"] = manifest
+                except (OSError, ValueError, json.JSONDecodeError) as exc:
+                    item["available"] = False
+                    item["probe_error"] = str(exc)
+        elif item.get("kind") == "variant_file_collection":
+            item["selection_syntax"] = f"resource://{item['id']}/<Variant>"
+            if available:
+                try:
+                    variants, elements = _variant_metadata(item)
+                    item["variants"] = variants
+                    item["variant_count"] = len(variants)
+                    item["elements"] = elements
+                    item["element_count"] = len(elements)
                 except (OSError, ValueError, json.JSONDecodeError) as exc:
                     item["available"] = False
                     item["probe_error"] = str(exc)

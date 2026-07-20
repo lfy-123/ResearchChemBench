@@ -233,9 +233,9 @@ def main() -> int:
         "}",
         "```",
         "",
-        "等价对象形式为 `{" + '"resource_id":"qe_sssp_1_3_pbe_efficiency","element":"Si"' + "}`。参数集目录使用 `resource://dftb_3ob_3_1`；模型使用独立 ID，例如 `resource://nequip_oam_s_0_1` 或 `resource://deepmd_dpa_3_3_1m`，DeePMD branch 另由 `method_spec.model_branch` 明确给出。未知 ID、缺失元素、路径穿越、运行时管理二进制被当作请求资源等情况都会被拒绝。",
+        "等价对象形式为 `{" + '"resource_id":"qe_sssp_1_3_pbe_efficiency","element":"Si"' + "}`。VASP 精确变体使用 `resource://vasp_paw_pbe_54/Si`、`resource://vasp_paw_pbe_54/Fe_pv` 等 URI，或对象形式 `{" + '"resource_id":"vasp_paw_pbe_54","selection":"Fe_pv"' + "}`；资源族和变体均由 Agent 自选。参数集目录使用 `resource://dftb_3ob_3_1`；模型使用独立 ID，例如 `resource://nequip_oam_s_0_1` 或 `resource://deepmd_dpa_3_3_1m`，DeePMD branch 另由 `method_spec.model_branch` 明确给出。未知 ID、缺失选择、元素与已登记 POTCAR 变体错配、路径穿越、运行时管理二进制被当作请求资源等情况都会被拒绝。",
         "",
-        "## 4. 公共工具逐项矩阵（44 个）",
+        f"## 4. 公共工具逐项矩阵（{len(actions)} 个）",
         "",
         "| # | Tool / 类型 | 类别 | 功能与主输出 | 输入契约 | Agent 可选后端 / runtime / 健康 | 后端要求的显式字段 | 相关科学资源与联网情况 |",
         "|---:|---|---|---|---|---|---|---|",
@@ -423,6 +423,11 @@ def main() -> int:
         coverage = "runtime executable"
         if resource.get("kind") == "element_file_collection":
             coverage = f"{resource.get('element_count', 0)} elements"
+        elif resource.get("kind") == "variant_file_collection":
+            coverage = (
+                f"{resource.get('variant_count', 0)} exact variants; "
+                f"{resource.get('element_count', 0)} elements"
+            )
         elif resource.get("kind") == "slater_koster_parameter_set":
             coverage = (
                 f"{resource.get('element_count', 0)} elements; "
@@ -438,7 +443,12 @@ def main() -> int:
                 coverage = "one exact checkpoint"
         elif resource.get("kind") == "single_file_resource":
             coverage = "one exact registered scientific input file"
-        deep = status.get("deep_element_checksums") or {}
+        deep = (
+            status.get("deep_variant_checksums")
+            or status.get("deep_file_checksums")
+            or status.get("deep_element_checksums")
+            or {}
+        )
         if resource.get("kind") == "backend_executable":
             version_probe = status.get("version_probe") or {}
             validation = (
@@ -469,7 +479,7 @@ def main() -> int:
             f"| `{resource['id']}` | `{resource.get('kind')}`<br>v{md(resource.get('version'))}<br>{md(resource.get('format'))}<br>XC={md(resource.get('xc_functional'))} | {code_list(resource.get('compatible_backends'))} | `{md(relative(resource.get('path')))}` | {source_text} | {coverage} | `{md(resource.get('selection_syntax', 'runtime-managed'))}` | {validation} | {md(scope)} |"
         )
 
-    lines.extend(["", "### 8.1 元素与 Slater–Koster 覆盖明细", ""])
+    lines.extend(["", "### 8.1 元素、精确变体与 Slater–Koster 覆盖明细", ""])
     for resource in resources:
         elements = resource.get("elements") or []
         if not elements:
@@ -490,6 +500,15 @@ def main() -> int:
         pairs = resource.get("available_pairs") or []
         if pairs:
             lines.extend(["", "有向 SKF 文件：" + ", ".join(f"`{item}`" for item in pairs)])
+        variants = resource.get("variants") or []
+        if variants:
+            lines.extend(
+                [
+                    "",
+                    "精确变体选择键："
+                    + ", ".join(f"`{item}`" for item in variants),
+                ]
+            )
         lines.extend(["", "</details>", ""])
 
     efficiency = next(
@@ -529,7 +548,8 @@ def main() -> int:
     )
     for item in resource_smokes.get("cases", []):
         refs = ", ".join(
-            f"`{ref.get('resource_id')}`" + (f"/{ref.get('element')}" if ref.get("element") else "")
+            f"`{ref.get('resource_id')}`"
+            + (f"/{ref.get('selection')}" if ref.get("selection") else "")
             for ref in item.get("resource_refs", [])
         ) or "runtime-managed binary"
         execution = (
@@ -566,7 +586,7 @@ def main() -> int:
             "- 稳定入口：`.tool_envs/quantum/bin/orca` 与 `.tool_envs/quantum/bin/mpirun`；`CHEMGRAPH_ORCA_COMMAND` 使用主程序完整路径。",
             "- Agent 通过 `backend_id=orca`、`method_spec`、`action_settings` 和 `resource_limits.cpu_cores` 自主决定调用；`cpu_cores>1` 才生成对应 `%pal nprocs`。",
             "- 真实验证覆盖 energy（PAL2）、Hessian、geometry optimization 和 dipole；优化结果显式读取最终 `job.xyz`，不误取轨迹第一帧。",
-            "- VASP 6.3.2 已在 `.software_cache/vasp/6.3.2` 编译；`vasp` Backend 只接收 Agent 明确提供的 POTCAR、ENCUT、k 点、XC、展宽和收敛参数。随源码提供的 Si POTCAR 仅用于测试，生产 PAW 数据仍需许可证持有人补充。",
+            "- VASP 6.3.2 已在 `.software_cache/vasp/6.3.2` 编译；operator 提供的 `potpaw54.zip` 已缓存并登记为 5 个显式资源族、735 个精确变体。`vasp` Backend 仍只接收 Agent 明确提供的每元素 POTCAR ResourceRef、ENCUT、k 点、XC、展宽和收敛参数，不选择默认势。",
             "- NequIP/Allegro 的 7 个 checkpoint 与 DeePMD 的 5 个 checkpoint 均以独立 `resource://` ID 登记。适配器不会按任务描述选模型；DeePMD 多任务模型还强制 Agent 指定 branch。",
         ]
     )
@@ -578,7 +598,7 @@ def main() -> int:
             "",
             "本节覆盖新增请求清单。`configured` 表示依赖 runtime 已准备好，不等同于自动工作流，也不等同于已经为该软件增加公共 BackendSpec；`runtime_only` 保留给 Agent/后续原子适配使用。模型权重仍只进入 `.model_cache`，软件与独立数据只进入 `.software_cache`。",
             "",
-            "| 类别 | 名称 | 状态 | 类型 / 许可 | Runtime / 模块 / 命令 | 缓存与模型 | Agent 接口状态 | 功能、限制与手动处理 |",
+            "| 类别 | 名称 | 状态 | 类型 / 许可 | Runtime / 模块 / 命令 | 缓存与模型 | Agent 接口 / MCP 暴露 | 功能、限制与手动处理 |",
             "|---|---|---|---|---|---|---|---|",
         ]
     )
@@ -620,7 +640,7 @@ def main() -> int:
         if official:
             notes += f"<br>[official]({official})"
         lines.append(
-            f"| {md(item.get('category'))} | `{md(item.get('name'))}` | **{md(item.get('status'))}** | `{md(item.get('kind'))}`<br>{md(item.get('license'))} | {runtime_text} | {'<br>'.join(cache_parts) or '—'} | `{md(item.get('public_adapter'))}` | {notes} |"
+            f"| {md(item.get('category'))} | `{md(item.get('name'))}` | **{md(item.get('status'))}** | `{md(item.get('kind'))}`<br>{md(item.get('license'))} | {runtime_text} | {'<br>'.join(cache_parts) or '—'} | adapter=`{md(item.get('public_adapter'))}`<br>MCP=`{md(item.get('mcp_exposure', 'catalog_controlled'))}` | {notes} |"
         )
 
     lines.extend(
@@ -629,6 +649,7 @@ def main() -> int:
             "## 13. 重放命令",
             "",
             "```bash",
+            ".toolbox_env/bin/python scripts/import_vasp_potcar_library.py --check",
             ".toolbox_env/bin/python scripts/configure_toolbox_resources.py",
             ".toolbox_env/bin/python scripts/run_scientific_resource_smokes.py",
             ".toolbox_env/bin/python scripts/run_data_source_smokes.py",

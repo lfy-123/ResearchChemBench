@@ -7,7 +7,7 @@ audit:
 public_server:
   runtime: core
   server_name: researchchem_toolbox
-  description: Unified MCP server exposing all 40 Scientific Actions and 4 Data Actions.
+  description: Unified MCP server exposing all 40 Scientific Actions and 5 Data Actions.
 
 # Executable-only backend runtimes. No runtime owns or filters public tools.
 support_environments:
@@ -176,6 +176,7 @@ profiles:
       - rcsb_pdb
       - materials_project
       - catalysis_hub
+      - nist_webbook
 
   quantum:
     conda_name: researchchem-quantum

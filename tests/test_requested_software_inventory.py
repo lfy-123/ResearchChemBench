@@ -5,6 +5,8 @@ from pathlib import Path
 
 import yaml
 
+from researchchem_toolbox.catalog import backend_specs
+
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -85,10 +87,32 @@ def test_generated_requested_software_status_has_no_unaccounted_missing_item():
     }
 
 
-def test_nist_interfaces_require_api_review_instead_of_scraping():
+def test_nist_interfaces_keep_cccbdb_disabled_and_bound_webbook_to_official_cgi():
     items = _yaml("config/requested_software.yaml")["requested_software"]
-    nist = [item for item in items if item["name"].startswith("NIST ")]
-    assert len(nist) == 2
-    assert all(item["status_policy"] == "interface" for item in nist)
-    assert all(item["public_adapter"] == "not_implemented" for item in nist)
-    assert all("scrap" in item["notes"].lower() for item in nist)
+    nist = {item["name"]: item for item in items if item["name"].startswith("NIST ")}
+    assert set(nist) == {"NIST CCCBDB 接口", "NIST Chemistry WebBook 接口"}
+    cccbdb = nist["NIST CCCBDB 接口"]
+    assert cccbdb["status_policy"] == "interface"
+    assert cccbdb["public_adapter"] == "not_implemented"
+    assert cccbdb["mcp_exposure"] == "disabled_no_documented_api"
+    assert "scrap" in cccbdb["notes"].lower()
+    webbook = nist["NIST Chemistry WebBook 接口"]
+    assert webbook["status_policy"] == "probe"
+    assert webbook["environment"] == "services"
+    assert webbook["public_adapter"] == "existing"
+    assert "parameterized cgi" in webbook["notes"].lower()
+    assert "bulk" in webbook["notes"].lower()
+
+
+def test_operator_disabled_unlicensed_suites_are_absent_from_mcp_backends():
+    items = {
+        item["name"]: item
+        for item in _yaml("config/requested_software.yaml")["requested_software"]
+    }
+    disabled = {"Q-Chem", "Molpro", "TURBOMOLE", "CRYSTAL", "WIEN2k", "OpenEye"}
+    for name in disabled:
+        assert items[name]["mcp_exposure"] == "disabled_by_operator_no_license"
+        assert items[name]["public_adapter"] == "not_implemented"
+    assert {
+        "qchem", "molpro", "turbomole", "crystal", "wien2k", "openeye"
+    }.isdisjoint(backend_specs())

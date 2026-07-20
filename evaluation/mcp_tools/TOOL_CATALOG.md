@@ -1,6 +1,6 @@
 # ResearchChem Atomic Tool Catalog
 
-Catalog hash: `04f81e0f2ead56d3e2e8b57e69462eaad309d53ea43f2bd9f8b3939ca7585d0d`
+Catalog hash: `032e1aeb1c37fd56942cbb1c64d8a0ea31bcb2b88366f416df38f99c48f10405`
 
 The benchmark exposes every action below for every task. Backends are selected by the agent.
 
@@ -50,6 +50,7 @@ The benchmark exposes every action below for every task. Backends are selected b
 | search_protein_structures | data_sources | ProteinStructureRecords | rcsb_pdb | query | Search or retrieve RCSB PDB structure records using explicit identifiers or query terms. |
 | search_materials | data_sources | MaterialRecords | materials_project | query | Search Materials Project records by material id, formula, or explicit query fields. |
 | search_catalysis_records | data_sources | CatalysisRecords | catalysis_hub | query | Search Catalysis-Hub reaction records using explicit reactant/product filters. |
+| lookup_nist_webbook_species | data_sources | NISTWebBookSpeciesRecords | nist_webbook | query | Look up one bounded NIST Chemistry WebBook species query by explicit CAS number, exact name, or exact formula through the official CGI interface. |
 
 ## Registered scientific resources
 
@@ -76,6 +77,11 @@ The benchmark exposes every action below for every task. Backends are selected b
 | deepmd_dpa_3_3_1m | model_checkpoint | deepmd | DPA-3.3-1M | DeePMD PyTorch frozen multitask model | available | resource://deepmd_dpa_3_3_1m | one exact checkpoint/23 explicit branches |
 | deepmd_dpa_2_4_7m | model_checkpoint | deepmd | DPA-2.4-7M | DeePMD PyTorch frozen multitask model | available | resource://deepmd_dpa_2_4_7m | one exact checkpoint/39 explicit branches |
 | deepmd_dpa3_omol_large | model_checkpoint | deepmd | DPA3-Omol-Large | DeePMD PyTorch frozen single-task model | available | resource://deepmd_dpa3_omol_large | one exact single-task checkpoint |
+| vasp_uspp_lda_legacy | variant_file_collection | vasp | potpaw54 archive label; exact upstream revision unverified | VASP POTCAR / ultrasoft pseudopotential | available | resource://vasp_uspp_lda_legacy/<Variant> | 102 exact variants/66 elements |
+| vasp_uspp_gga_legacy | variant_file_collection | vasp | potpaw54 archive label; exact upstream revision unverified | VASP POTCAR / ultrasoft pseudopotential | available | resource://vasp_uspp_gga_legacy/<Variant> | 8 exact variants/8 elements |
+| vasp_paw_lda_54 | variant_file_collection | vasp | potpaw54 archive label; exact upstream revision unverified | VASP POTCAR / PAW | available | resource://vasp_paw_lda_54/<Variant> | 316 exact variants/81 elements |
+| vasp_paw_pw91_54 | variant_file_collection | vasp | potpaw54 archive label; exact upstream revision unverified | VASP POTCAR / PAW | available | resource://vasp_paw_pw91_54/<Variant> | 5 exact variants/5 elements |
+| vasp_paw_pbe_54 | variant_file_collection | vasp | potpaw54 archive label; exact upstream revision unverified | VASP POTCAR / PAW | available | resource://vasp_paw_pbe_54/<Variant> | 304 exact variants/96 elements |
 | vasp_6_3_2_testsuite_si_potcar | single_file_resource | vasp | VASP 6.3.2 testsuite | VASP POTCAR | available | resource://vasp_6_3_2_testsuite_si_potcar | one exact registered file |
 
 ## Backend installation and health
@@ -127,7 +133,7 @@ The benchmark exposes every action below for every task. Backends are selected b
 | siesta | periodic | available | siesta |  | siesta | Explicit ResourceRefs from siesta_pseudo_dojo_nc_sr_05_pbe_standard_psml, one per element; workspace ArtifactRefs remain accepted | open_source |
 | dftbplus | periodic | available | dftbplus |  | dftb+ | Explicit ResourceRef to dftb_3ob_3_1 or dftb_matsci_0_3 with all required directed element-pair SKF files; workspace directory ArtifactRefs remain accepted | open_source |
 | abinit | abinit | available | abinit |  | abinit | Explicit ResourceRefs from abinit_pseudo_dojo_nc_sr_pbe_standard_psp8, one per element; workspace ArtifactRefs remain accepted | open_source |
-| vasp | vasp | available |  |  | vasp_std | One explicit POTCAR ResourceRef or workspace ArtifactRef per element; the registered Si POTCAR is testsuite-only and no production PAW family is selected automatically | commercial_license |
+| vasp | vasp | available |  |  | vasp_std | One explicit POTCAR ResourceRef or workspace ArtifactRef per element; five operator-supplied production families expose exact directory-name variants and no family or variant is selected automatically | commercial_license |
 | phonopy | phonons | available | phonopy |  | phonopy |  | open_source |
 | phono3py | phonons | available | phono3py |  | phono3py |  | open_source |
 | vina | docking | available | vina |  | vina |  | open_source |
@@ -136,3 +142,4 @@ The benchmark exposes every action below for every task. Backends are selected b
 | rcsb_pdb | services | available |  | httpx>=0.28 |  |  | open_source |
 | materials_project | services | available | mp-api |  |  |  | open_source |
 | catalysis_hub | services | available |  | httpx>=0.28 |  |  | open_source |
+| nist_webbook | services | available |  | httpx>=0.28 |  | NIST Chemistry WebBook SRD 69 official CGI and its SRD copyright/licensing terms | nist_srd_terms |

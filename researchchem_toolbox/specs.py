@@ -443,6 +443,20 @@ ACTION_SPECS: tuple[ActionSpec, ...] = (
         data_action=True,
         requires_network=True,
     ),
+    _action(
+        "lookup_nist_webbook_species",
+        "data_sources",
+        "Look up one bounded NIST Chemistry WebBook species query by explicit CAS number, exact name, or exact formula through the official CGI interface.",
+        "NISTWebBookSpeciesRecords",
+        ("nist_webbook",),
+        ("query",),
+        input_description=(
+            "query={identifier, namespace: cas|name|formula}; formula queries also "
+            "require explicit match_isotopes and exclude_ions booleans"
+        ),
+        data_action=True,
+        requires_network=True,
+    ),
 )
 
 
@@ -1141,14 +1155,14 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         executables=("vasp_std",), environment=("CHEMGRAPH_VASP_COMMAND",),
         license_class="commercial_license",
         data_resources=(
-            "One explicit POTCAR ResourceRef or workspace ArtifactRef per element; the registered Si POTCAR is testsuite-only and no production PAW family is selected automatically",
+            "One explicit POTCAR ResourceRef or workspace ArtifactRef per element; five operator-supplied production families expose exact directory-name variants and no family or variant is selected automatically",
         ),
         install_notes=(
             "VASP 6.3.2 was built locally from the operator-provided source. "
-            "A bundled Si testsuite POTCAR validates the adapter; production use still requires the operator's licensed PAW dataset."
+            "The operator-supplied local POTCAR archive is registered as five explicit variant collections; treat it as licensed, non-redistributable data."
         ),
         method_schema={
-            "pseudopotentials": "element -> explicit registered POTCAR resource or workspace ArtifactRef",
+            "pseudopotentials": "element -> resource://<VASP family id>/<exact variant directory> or workspace ArtifactRef",
             "encut_ev": "explicit plane-wave cutoff in eV",
             "k_points": "{grid:[nx,ny,nz], shift:[sx,sy,sz]}",
             "kpoint_scheme": "gamma or monkhorst-pack",
@@ -1233,5 +1247,20 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
     _backend(
         "catalysis_hub", "Catalysis-Hub GraphQL", "services", ("search_catalysis_records",),
         "Catalysis-Hub GraphQL reaction lookup.", modules=("httpx",), pip=("httpx>=0.28",),
+    ),
+    _backend(
+        "nist_webbook", "NIST Chemistry WebBook SRD 69 CGI", "services",
+        ("lookup_nist_webbook_species",),
+        "Bounded single-species lookup through the official parameterized WebBook CGI; this is not represented as a REST/JSON API and does not perform bulk crawling.",
+        modules=("httpx",), pip=("httpx>=0.28",),
+        data_resources=(
+            "NIST Chemistry WebBook SRD 69 official CGI and its SRD copyright/licensing terms",
+        ),
+        license_class="nist_srd_terms",
+        install_notes=(
+            "No local dataset is mirrored. Name/formula wildcards and responses over 2 MiB "
+            "are rejected; formula isotope/ion choices remain explicit Agent settings."
+        ),
+        required_settings={"lookup_nist_webbook_species": ("units",)},
     ),
 )

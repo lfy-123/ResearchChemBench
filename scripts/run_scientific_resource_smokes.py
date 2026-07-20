@@ -527,6 +527,34 @@ def model_and_vasp_cases() -> list[tuple[str, str, dict[str, Any]]]:
                 "resource_limits": {"walltime_seconds": 300, "cpu_cores": 1},
             },
         ),
+        (
+            "vasp_paw_pbe_54_si_energy",
+            "calculate_periodic_energy",
+            {
+                "backend_id": "vasp",
+                "inputs": {"structure": SI_STRUCTURE},
+                "method_spec": {
+                    "pseudopotentials": {
+                        "Si": "resource://vasp_paw_pbe_54/Si"
+                    },
+                    "encut_ev": 300.0,
+                    "k_points": {"grid": [1, 1, 1], "shift": [0, 0, 0]},
+                    "kpoint_scheme": "gamma",
+                    "precision": "Normal",
+                    "algorithm": "Normal",
+                    "ismear": 0,
+                    "sigma_ev": 0.05,
+                    "spin_polarized": False,
+                    "real_space_projection": False,
+                    "xc_family": "pbe",
+                },
+                "action_settings": {
+                    "scf_convergence_ev": 1e-5,
+                    "max_scf_cycles": 80,
+                },
+                "resource_limits": {"walltime_seconds": 300, "cpu_cores": 1},
+            },
+        ),
     ]
 
 

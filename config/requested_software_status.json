@@ -1,20 +1,20 @@
 {
-  "generated_at": "2026-07-19T20:03:42.976350+00:00",
+  "generated_at": "2026-07-20T03:27:21.746008+00:00",
   "project_root": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench",
   "model_cache_root": ".model_cache",
   "software_cache_root": ".software_cache",
   "summary": {
     "total": 59,
     "counts": {
-      "configured": 45,
-      "manual_api_review": 2,
+      "configured": 46,
+      "manual_api_review": 1,
       "manual_required": 9,
       "partial": 2,
       "specification": 1
     },
-    "configured": 45,
-    "manual_or_review": 11,
-    "complete_for_inventory": 46
+    "configured": 46,
+    "manual_or_review": 10,
+    "complete_for_inventory": 47
   },
   "runtime_probes": {
     "workflows": {
@@ -663,7 +663,7 @@
       "modules": {
         "arkane": {
           "available": false,
-          "error": "module import timed out after 5s"
+          "error": "module import timed out after 20s"
         },
         "rmgpy": {
           "available": true,
@@ -772,7 +772,7 @@
         "1": {
           "success": true,
           "returncode": 0,
-          "output_tail": "\n\n          MOPAC Job: \"water.mop\" ended normally on Jul 19, 2026, at 20:03.\n\n"
+          "output_tail": "\n\n          MOPAC Job: \"water.mop\" ended normally on Jul 20, 2026, at 03:27.\n\n"
         }
       },
       "conda_packages": [
@@ -931,7 +931,28 @@
       "cache_paths": [
         ".software_cache/easyspin/6.0.12/easyspin"
       ],
-      "notes": "Toolbox files including easyspin.m, pepper.m and chili.m are present. MATLAB is not installed, so executable validation and public atomic spectral adapters remain pending."
+      "notes": "Toolbox files including easyspin.m, pepper.m and chili.m are present. MATLAB R2018a media are staged, but no licensed matlab command exists yet, so executable validation and public atomic spectral adapters remain pending."
+    },
+    "matlab": {
+      "name": "matlab",
+      "group": "auxiliary_environments",
+      "conda_name": "researchchem-matlab-r2018a-licensed",
+      "environment": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/matlab/R2018a/install",
+      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/matlab/R2018a/install/bin/python",
+      "python_exists": false,
+      "python_required": false,
+      "modules": {},
+      "commands": {
+        "matlab": null
+      },
+      "smokes": {},
+      "conda_packages": [],
+      "pip_packages": [],
+      "cache_paths": [
+        ".software_cache/matlab/R2018a/installation_media/R2018a_glnxa64_dvd1.iso",
+        ".software_cache/matlab/R2018a/installation_media/R2018a_glnxa64_dvd2.iso"
+      ],
+      "notes": "The crack archive present in the manual download folder is excluded. Supply a legitimate MathWorks File Installation Key and license file/server before installing into the declared install directory."
     },
     "vmd": {
       "name": "vmd",
@@ -949,7 +970,7 @@
         "1": {
           "success": true,
           "returncode": 0,
-          "output_tail": "k/ResearchChemBench/.tool_envs/vmd/lib/vmd/vmd_LINUXAMD64)\nInfo) VMD for LINUXAMD64, version 1.9.3 (November 30, 2016)\nInfo) http://www.ks.uiuc.edu/Research/vmd/                         \nInfo) Email questions and bug reports to vmd@ks.uiuc.edu           \nInfo) Please include this reference in published work using VMD:   \nInfo)    Humphrey, W., Dalke, A. and Schulten, K., `VMD - Visual   \nInfo)    Molecular Dynamics', J. Molec. Graphics 1996, 14.1, 33-38.\nInfo) -------------------------------------------------------------\nInfo) Multithreading available, 64 CPUs detected.\nInfo)   CPU features: SSE2 AVX AVX2 FMA KNL:AVX-512F+CD+ER+PF \nInfo) Free system memory: 394GB (78%)\nInfo) No CUDA accelerator devices available.\nInfo) Dynamically loaded 2 plugins in directory:\nInfo) /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/vmd/lib/vmd/plugins/LINUXAMD64/molfile\nInfo) VMD for LINUXAMD64, version 1.9.3 (November 30, 2016)\nInfo) Exiting normally.\n"
+          "output_tail": "k/ResearchChemBench/.tool_envs/vmd/lib/vmd/vmd_LINUXAMD64)\nInfo) VMD for LINUXAMD64, version 1.9.3 (November 30, 2016)\nInfo) http://www.ks.uiuc.edu/Research/vmd/                         \nInfo) Email questions and bug reports to vmd@ks.uiuc.edu           \nInfo) Please include this reference in published work using VMD:   \nInfo)    Humphrey, W., Dalke, A. and Schulten, K., `VMD - Visual   \nInfo)    Molecular Dynamics', J. Molec. Graphics 1996, 14.1, 33-38.\nInfo) -------------------------------------------------------------\nInfo) Multithreading available, 64 CPUs detected.\nInfo)   CPU features: SSE2 AVX AVX2 FMA KNL:AVX-512F+CD+ER+PF \nInfo) Free system memory: 392GB (77%)\nInfo) No CUDA accelerator devices available.\nInfo) Dynamically loaded 2 plugins in directory:\nInfo) /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/vmd/lib/vmd/plugins/LINUXAMD64/molfile\nInfo) VMD for LINUXAMD64, version 1.9.3 (November 30, 2016)\nInfo) Exiting normally.\n"
         }
       },
       "conda_packages": [
@@ -973,8 +994,8 @@
       },
       "smokes": {
         "1": {
-          "success": false,
-          "error": "timeout after 5s",
+          "success": true,
+          "returncode": 0,
           "output_tail": ""
         }
       },
@@ -1077,6 +1098,31 @@
         "pydantic",
         "pyyaml",
         "python-dotenv"
+      ],
+      "cache_paths": [],
+      "notes": ""
+    },
+    "services": {
+      "name": "services",
+      "group": "profiles",
+      "conda_name": "researchchem-services",
+      "environment": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services",
+      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/bin/python",
+      "python_exists": true,
+      "python_required": true,
+      "modules": {
+        "httpx": {
+          "available": true,
+          "version": "0.28.1"
+        }
+      },
+      "commands": {},
+      "smokes": {},
+      "conda_packages": [
+        "mp-api"
+      ],
+      "pip_packages": [
+        "pubchempy==1.0.5"
       ],
       "cache_paths": [],
       "notes": ""
@@ -1905,8 +1951,9 @@
       "status_policy": "manual",
       "license": "commercial",
       "public_adapter": "not_implemented",
+      "mcp_exposure": "disabled_by_operator_no_license",
       "role": "Molecular quantum chemistry executable.",
-      "notes": "Requires an encrypted license file and operator-provided installation.",
+      "notes": "Explicitly disabled by the operator because it is not needed and no license is available. It is absent from BackendSpecs and the MCP catalog; do not install or expose it unless the operator later reverses this decision and supplies a valid license.",
       "official_url": "https://www.q-chem.com/",
       "environment_detail": {
         "name": null,
@@ -1918,7 +1965,10 @@
       },
       "status": "manual_required",
       "verification": {
-        "reason": "Requires an encrypted license file and operator-provided installation."
+        "reason": "Explicitly disabled by the operator because it is not needed and no license is available. It is absent from BackendSpecs and the MCP catalog; do not install or expose it unless the operator later reverses this decision and supplies a valid license.",
+        "modules": {},
+        "commands": {},
+        "cache_paths": {}
       }
     },
     {
@@ -1928,8 +1978,9 @@
       "status_policy": "manual",
       "license": "commercial",
       "public_adapter": "not_implemented",
+      "mcp_exposure": "disabled_by_operator_no_license",
       "role": "High-level ab initio quantum chemistry executable.",
-      "notes": "Requires a license key and site-specific installation.",
+      "notes": "Explicitly disabled by the operator because it is not needed and no license is available. It is absent from BackendSpecs and the MCP catalog; re-enable only after a deliberate operator decision and valid license/site installation.",
       "official_url": "https://www.molpro.net/",
       "environment_detail": {
         "name": null,
@@ -1941,7 +1992,10 @@
       },
       "status": "manual_required",
       "verification": {
-        "reason": "Requires a license key and site-specific installation."
+        "reason": "Explicitly disabled by the operator because it is not needed and no license is available. It is absent from BackendSpecs and the MCP catalog; re-enable only after a deliberate operator decision and valid license/site installation.",
+        "modules": {},
+        "commands": {},
+        "cache_paths": {}
       }
     },
     {
@@ -1951,8 +2005,9 @@
       "status_policy": "manual",
       "license": "commercial",
       "public_adapter": "not_implemented",
+      "mcp_exposure": "disabled_by_operator_no_license",
       "role": "Molecular quantum chemistry executable.",
-      "notes": "Requires operator license/download and environment setup; CENSO may call it when explicitly selected.",
+      "notes": "Explicitly disabled by the operator because it is not needed and no license is available. It is absent from BackendSpecs and the MCP catalog; CENSO must not select it implicitly.",
       "official_url": "https://www.turbomole.org/",
       "environment_detail": {
         "name": null,
@@ -1964,7 +2019,10 @@
       },
       "status": "manual_required",
       "verification": {
-        "reason": "Requires operator license/download and environment setup; CENSO may call it when explicitly selected."
+        "reason": "Explicitly disabled by the operator because it is not needed and no license is available. It is absent from BackendSpecs and the MCP catalog; CENSO must not select it implicitly.",
+        "modules": {},
+        "commands": {},
+        "cache_paths": {}
       }
     },
     {
@@ -2277,12 +2335,14 @@
       "cache_paths": [
         ".software_cache/vasp/6.3.2/bin/vasp_std",
         ".software_cache/vasp/6.3.2/testsuite/POTCARS/POTCAR.Si",
-        ".software_cache/vasp/download/vasp.6.3.2.zip"
+        ".software_cache/vasp/download/vasp.6.3.2.zip",
+        ".software_cache/vasp/potcars/download/potpaw54.zip",
+        ".software_cache/vasp/potcars/potpaw54"
       ],
       "license": "commercial_registration",
       "public_adapter": "existing",
       "role": "Plane-wave periodic DFT executable.",
-      "notes": "Operator-provided VASP 6.3.2 source was compiled with the isolated GCC/OpenMPI/ScaLAPACK/FFTW runtime. The newly supplied archive is retained as a duplicate source copy and did not replace the validated build. An atomic periodic backend and bundled Si testsuite POTCAR are configured; general production chemistry still requires the operator's licensed PAW POTCAR library.",
+      "notes": "Operator-provided VASP 6.3.2 is compiled with the isolated GCC/OpenMPI/ScaLAPACK/FFTW runtime. The supplied potpaw54 archive is cached with SHA-256 e987c9d8a0789bdeac2ff7d49fa26944145b9c363b81016ba25aac0d0e0c006f and indexed as five explicit families containing 735 exact variants. The Agent must choose every family/variant; no default POTCAR is selected, and the data must be treated as licensed and non-redistributable.",
       "official_url": "https://vasp.at/wiki/Installing_VASP.6.X.X",
       "environment_detail": {
         "name": "vasp",
@@ -2325,6 +2385,14 @@
           ".software_cache/vasp/download/vasp.6.3.2.zip": {
             "exists": true,
             "path": ".software_cache/vasp/download/vasp.6.3.2.zip"
+          },
+          ".software_cache/vasp/potcars/download/potpaw54.zip": {
+            "exists": true,
+            "path": ".software_cache/vasp/potcars/download/potpaw54.zip"
+          },
+          ".software_cache/vasp/potcars/potpaw54": {
+            "exists": true,
+            "path": ".software_cache/vasp/potcars/potpaw54"
           }
         },
         "runtime_smokes": {}
@@ -2350,7 +2418,10 @@
       },
       "status": "manual_required",
       "verification": {
-        "reason": "Requires STFC academic/commercial license and a site build."
+        "reason": "Requires STFC academic/commercial license and a site build.",
+        "modules": {},
+        "commands": {},
+        "cache_paths": {}
       }
     },
     {
@@ -2360,8 +2431,9 @@
       "status_policy": "manual",
       "license": "commercial_registration",
       "public_adapter": "not_implemented",
+      "mcp_exposure": "disabled_by_operator_no_license",
       "role": "Periodic local-orbital quantum chemistry executable.",
-      "notes": "Requires an operator account/license and distribution.",
+      "notes": "Explicitly disabled by the operator because it is not needed and no license is available. It is absent from BackendSpecs and the MCP catalog.",
       "official_url": "https://www.crystal.unito.it/how_to_get_a_copy.html",
       "environment_detail": {
         "name": null,
@@ -2373,7 +2445,10 @@
       },
       "status": "manual_required",
       "verification": {
-        "reason": "Requires an operator account/license and distribution."
+        "reason": "Explicitly disabled by the operator because it is not needed and no license is available. It is absent from BackendSpecs and the MCP catalog.",
+        "modules": {},
+        "commands": {},
+        "cache_paths": {}
       }
     },
     {
@@ -2383,8 +2458,9 @@
       "status_policy": "manual",
       "license": "commercial_registration",
       "public_adapter": "not_implemented",
+      "mcp_exposure": "disabled_by_operator_no_license",
       "role": "Full-potential all-electron periodic code.",
-      "notes": "Requires registration/license and local compilation.",
+      "notes": "Explicitly disabled by the operator because it is not needed and no license is available. It is absent from BackendSpecs and the MCP catalog.",
       "official_url": "https://www.wien2k.at/",
       "environment_detail": {
         "name": null,
@@ -2396,7 +2472,10 @@
       },
       "status": "manual_required",
       "verification": {
-        "reason": "Requires registration/license and local compilation."
+        "reason": "Explicitly disabled by the operator because it is not needed and no license is available. It is absent from BackendSpecs and the MCP catalog.",
+        "modules": {},
+        "commands": {},
+        "cache_paths": {}
       }
     },
     {
@@ -2954,7 +3033,7 @@
         "modules": {
           "arkane": {
             "available": false,
-            "error": "module import timed out after 5s"
+            "error": "module import timed out after 20s"
           }
         },
         "commands": {
@@ -3155,7 +3234,7 @@
           "1": {
             "success": true,
             "returncode": 0,
-            "output_tail": "\n\n          MOPAC Job: \"water.mop\" ended normally on Jul 19, 2026, at 20:03.\n\n"
+            "output_tail": "\n\n          MOPAC Job: \"water.mop\" ended normally on Jul 20, 2026, at 03:27.\n\n"
           }
         }
       }
@@ -3448,7 +3527,7 @@
       "license": "MATLAB_toolbox",
       "public_adapter": "runtime_only",
       "role": "EPR/ESR spin-dynamics and spectral simulation.",
-      "notes": "EasySpin 6.0.12 toolbox files are staged and structurally validated. MATLAB is still absent, so executable tests and atomic spectral adapters cannot yet be completed.",
+      "notes": "EasySpin 6.0.12 toolbox files are staged and structurally validated. Official MATLAB R2018a installation media are now cached, but no licensed MATLAB executable exists yet; executable EasySpin validation remains blocked on a legitimate File Installation Key/license file or license server.",
       "official_url": "https://easyspin.org/",
       "environment_detail": {
         "name": "easyspin",
@@ -3479,22 +3558,46 @@
       "category": "激发态、光谱与可视化",
       "kind": "licensed_binary",
       "status_policy": "manual",
+      "environment": "matlab",
+      "modules": [],
+      "commands": [
+        "matlab"
+      ],
+      "cache_paths": [
+        ".software_cache/matlab/R2018a/installation_media/R2018a_glnxa64_dvd1.iso",
+        ".software_cache/matlab/R2018a/installation_media/R2018a_glnxa64_dvd2.iso"
+      ],
       "license": "commercial",
       "public_adapter": "not_implemented",
+      "mcp_exposure": "not_exposed_host_runtime",
       "role": "Numerical computing host for EasySpin and other scripts.",
-      "notes": "The manual-download directory contains an incompletely uploaded MATLAB R2018a image. Per the operator's instruction it was not copied, extracted, installed or adapted in this pass; finish uploading the licensed installer before any MATLAB/EasySpin executable work.",
+      "notes": "Both official MATLAB R2018a Linux ISO images are staged in .software_cache (DVD1 SHA-256 780717eeeaf11855a119ffe5e3e8be3443df4b1b79a2dcb04feb4c3ea7eb693e; DVD2 485467b9662b7d2f6bbf92b84b18b95fed93a9d6fc6ead4c806b1b67e9296997). The separately downloaded crack archive was deliberately not copied, opened or used. Installation and EasySpin execution require a legitimate MathWorks File Installation Key plus license file/server information.",
       "official_url": "https://www.mathworks.com/products/matlab.html",
       "environment_detail": {
-        "name": null,
-        "conda_name": null,
-        "path": "—",
-        "python": "—",
+        "name": "matlab",
+        "conda_name": "researchchem-matlab-r2018a-licensed",
+        "path": ".software_cache/matlab/R2018a/install",
+        "python": ".software_cache/matlab/R2018a/install/bin/python",
         "conda_packages": [],
         "pip_packages": []
       },
       "status": "manual_required",
       "verification": {
-        "reason": "The manual-download directory contains an incompletely uploaded MATLAB R2018a image. Per the operator's instruction it was not copied, extracted, installed or adapted in this pass; finish uploading the licensed installer before any MATLAB/EasySpin executable work."
+        "reason": "Both official MATLAB R2018a Linux ISO images are staged in .software_cache (DVD1 SHA-256 780717eeeaf11855a119ffe5e3e8be3443df4b1b79a2dcb04feb4c3ea7eb693e; DVD2 485467b9662b7d2f6bbf92b84b18b95fed93a9d6fc6ead4c806b1b67e9296997). The separately downloaded crack archive was deliberately not copied, opened or used. Installation and EasySpin execution require a legitimate MathWorks File Installation Key plus license file/server information.",
+        "modules": {},
+        "commands": {
+          "matlab": null
+        },
+        "cache_paths": {
+          ".software_cache/matlab/R2018a/installation_media/R2018a_glnxa64_dvd1.iso": {
+            "exists": true,
+            "path": ".software_cache/matlab/R2018a/installation_media/R2018a_glnxa64_dvd1.iso"
+          },
+          ".software_cache/matlab/R2018a/installation_media/R2018a_glnxa64_dvd2.iso": {
+            "exists": true,
+            "path": ".software_cache/matlab/R2018a/installation_media/R2018a_glnxa64_dvd2.iso"
+          }
+        }
       }
     },
     {
@@ -3534,7 +3637,7 @@
           "1": {
             "success": true,
             "returncode": 0,
-            "output_tail": "k/ResearchChemBench/.tool_envs/vmd/lib/vmd/vmd_LINUXAMD64)\nInfo) VMD for LINUXAMD64, version 1.9.3 (November 30, 2016)\nInfo) http://www.ks.uiuc.edu/Research/vmd/                         \nInfo) Email questions and bug reports to vmd@ks.uiuc.edu           \nInfo) Please include this reference in published work using VMD:   \nInfo)    Humphrey, W., Dalke, A. and Schulten, K., `VMD - Visual   \nInfo)    Molecular Dynamics', J. Molec. Graphics 1996, 14.1, 33-38.\nInfo) -------------------------------------------------------------\nInfo) Multithreading available, 64 CPUs detected.\nInfo)   CPU features: SSE2 AVX AVX2 FMA KNL:AVX-512F+CD+ER+PF \nInfo) Free system memory: 394GB (78%)\nInfo) No CUDA accelerator devices available.\nInfo) Dynamically loaded 2 plugins in directory:\nInfo) /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/vmd/lib/vmd/plugins/LINUXAMD64/molfile\nInfo) VMD for LINUXAMD64, version 1.9.3 (November 30, 2016)\nInfo) Exiting normally.\n"
+            "output_tail": "k/ResearchChemBench/.tool_envs/vmd/lib/vmd/vmd_LINUXAMD64)\nInfo) VMD for LINUXAMD64, version 1.9.3 (November 30, 2016)\nInfo) http://www.ks.uiuc.edu/Research/vmd/                         \nInfo) Email questions and bug reports to vmd@ks.uiuc.edu           \nInfo) Please include this reference in published work using VMD:   \nInfo)    Humphrey, W., Dalke, A. and Schulten, K., `VMD - Visual   \nInfo)    Molecular Dynamics', J. Molec. Graphics 1996, 14.1, 33-38.\nInfo) -------------------------------------------------------------\nInfo) Multithreading available, 64 CPUs detected.\nInfo)   CPU features: SSE2 AVX AVX2 FMA KNL:AVX-512F+CD+ER+PF \nInfo) Free system memory: 392GB (77%)\nInfo) No CUDA accelerator devices available.\nInfo) Dynamically loaded 2 plugins in directory:\nInfo) /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/vmd/lib/vmd/plugins/LINUXAMD64/molfile\nInfo) VMD for LINUXAMD64, version 1.9.3 (November 30, 2016)\nInfo) Exiting normally.\n"
           }
         }
       }
@@ -3585,8 +3688,8 @@
         },
         "runtime_smokes": {
           "1": {
-            "success": false,
-            "error": "timeout after 5s",
+            "success": true,
+            "returncode": 0,
             "output_tail": ""
           }
         }
@@ -3599,8 +3702,9 @@
       "status_policy": "manual",
       "license": "commercial",
       "public_adapter": "not_implemented",
+      "mcp_exposure": "disabled_by_operator_no_license",
       "role": "Commercial cheminformatics and docking toolkit.",
-      "notes": "Requires an OpenEye license and proprietary toolkit distribution.",
+      "notes": "Explicitly disabled by the operator because it is not needed and no license is available. It is absent from BackendSpecs and the MCP catalog; a conda package alone would not authorize use without a valid OpenEye license.",
       "official_url": "https://www.eyesopen.com/",
       "environment_detail": {
         "name": null,
@@ -3612,7 +3716,10 @@
       },
       "status": "manual_required",
       "verification": {
-        "reason": "Requires an OpenEye license and proprietary toolkit distribution."
+        "reason": "Explicitly disabled by the operator because it is not needed and no license is available. It is absent from BackendSpecs and the MCP catalog; a conda package alone would not authorize use without a valid OpenEye license.",
+        "modules": {},
+        "commands": {},
+        "cache_paths": {}
       }
     },
     {
@@ -3620,10 +3727,14 @@
       "category": "对接、结构处理与机器学习势",
       "kind": "licensed_software_suite",
       "status_policy": "manual",
+      "cache_paths": [
+        ".software_cache/schrodinger/rejected/dirac-video-codec/schroedinger-1.0.11-7-x86_64.pkg.tar.zst"
+      ],
       "license": "commercial",
       "public_adapter": "not_implemented",
+      "mcp_exposure": "not_exposed_missing_licensed_suite",
       "role": "Commercial molecular modeling and docking suite.",
-      "notes": "Requires site license, installer and host configuration.",
+      "notes": "The supplied schroedinger-1.0.11-7 Arch package was identified from .PKGINFO as an ANSI C implementation of the Dirac video codec, not the commercial Schrödinger chemistry suite. It is retained only under .software_cache/schrodinger/rejected with SHA-256 41906fcce0eeb74edcaf50ee46635c2f336703692d956782dba7dd1f419187b7 and is not installed or exposed. A genuine Schrödinger Suite installer and site license are still required if this backend is wanted.",
       "official_url": "https://www.schrodinger.com/",
       "environment_detail": {
         "name": null,
@@ -3635,7 +3746,15 @@
       },
       "status": "manual_required",
       "verification": {
-        "reason": "Requires site license, installer and host configuration."
+        "reason": "The supplied schroedinger-1.0.11-7 Arch package was identified from .PKGINFO as an ANSI C implementation of the Dirac video codec, not the commercial Schrödinger chemistry suite. It is retained only under .software_cache/schrodinger/rejected with SHA-256 41906fcce0eeb74edcaf50ee46635c2f336703692d956782dba7dd1f419187b7 and is not installed or exposed. A genuine Schrödinger Suite installer and site license are still required if this backend is wanted.",
+        "modules": {},
+        "commands": {},
+        "cache_paths": {
+          ".software_cache/schrodinger/rejected/dirac-video-codec/schroedinger-1.0.11-7-x86_64.pkg.tar.zst": {
+            "exists": true,
+            "path": ".software_cache/schrodinger/rejected/dirac-video-codec/schroedinger-1.0.11-7-x86_64.pkg.tar.zst"
+          }
+        }
       }
     },
     {
@@ -3817,8 +3936,9 @@
       "commands": [],
       "license": "NIST_SRD_terms",
       "public_adapter": "not_implemented",
+      "mcp_exposure": "disabled_no_documented_api",
       "role": "Access to the NIST Computational Chemistry Comparison and Benchmark Database.",
-      "notes": "The public site exposes web forms but no stable documented general API was found; do not add brittle HTML scraping. Manual/API review is required before an Agent-facing Action is added.",
+      "notes": "CCCBDB has no public documented REST/JSON API and is suitable only for limited interactive single-molecule webpage use. It remains outside BackendSpecs and is not exposed through MCP; no brittle page scraping or bulk crawler is added.",
       "official_url": "https://cccbdb.nist.gov/introx.asp",
       "environment_detail": {
         "name": null,
@@ -3830,33 +3950,48 @@
       },
       "status": "manual_api_review",
       "verification": {
-        "reason": "The public site exposes web forms but no stable documented general API was found; do not add brittle HTML scraping. Manual/API review is required before an Agent-facing Action is added."
+        "reason": "CCCBDB has no public documented REST/JSON API and is suitable only for limited interactive single-molecule webpage use. It remains outside BackendSpecs and is not exposed through MCP; no brittle page scraping or bulk crawler is added."
       }
     },
     {
       "name": "NIST Chemistry WebBook 接口",
       "category": "数据接口",
       "kind": "data_interface",
-      "status_policy": "interface",
-      "environment": "",
-      "modules": [],
+      "status_policy": "probe",
+      "environment": "services",
+      "modules": [
+        "httpx"
+      ],
       "commands": [],
       "license": "NIST_SRD_terms",
-      "public_adapter": "not_implemented",
+      "public_adapter": "existing",
       "role": "Access to NIST SRD 69 thermochemical and spectroscopic data.",
-      "notes": "The official WebBook supports parameterized web searches, but no stable documented general API was found; do not add brittle HTML scraping, and keep this manual until terms/API are verified.",
+      "notes": "Exposed as the atomic lookup_nist_webbook_species Data Action using only the official parameterized CGI for one bounded CAS/exact-name/exact-formula lookup. It is explicitly described as HTML CGI rather than REST/JSON; wildcard searches, bulk crawling, table mirroring, responses over 2 MiB and implicit formula isotope/ion choices are rejected. NIST SRD copyright/citation information is returned with each result.",
       "official_url": "https://webbook.nist.gov/chemistry/",
       "environment_detail": {
-        "name": null,
-        "conda_name": null,
-        "path": "—",
-        "python": "—",
-        "conda_packages": [],
-        "pip_packages": []
+        "name": "services",
+        "conda_name": "researchchem-services",
+        "path": ".tool_envs/services",
+        "python": ".tool_envs/services/bin/python3.10",
+        "conda_packages": [
+          "mp-api"
+        ],
+        "pip_packages": [
+          "pubchempy==1.0.5"
+        ]
       },
-      "status": "manual_api_review",
+      "status": "configured",
       "verification": {
-        "reason": "The official WebBook supports parameterized web searches, but no stable documented general API was found; do not add brittle HTML scraping, and keep this manual until terms/API are verified."
+        "python_exists": true,
+        "modules": {
+          "httpx": {
+            "available": true,
+            "version": "0.28.1"
+          }
+        },
+        "commands": {},
+        "cache_paths": {},
+        "runtime_smokes": {}
       }
     }
   ]

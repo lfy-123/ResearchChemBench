@@ -53,7 +53,7 @@ def main() -> int:
     if args.require_available and unavailable:
         print("Unavailable backends: " + ", ".join(unavailable))
         return 1
-    print(f"Probed {len(health)} backends across {len(selected)} runtimes; public catalog remains 44 tools")
+    print(f"Probed {len(health)} backends across {len(selected)} runtimes; public catalog remains 45 tools")
     return 0
 
 

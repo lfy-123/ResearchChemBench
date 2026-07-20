@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run bounded live requests against all four external chemistry data actions."""
+"""Run bounded live requests against all five external chemistry data actions."""
 
 from __future__ import annotations
 
@@ -63,7 +63,22 @@ def main() -> int:
             {
                 "inputs": {"query": {"reactants": "CO"}},
                 "method_spec": {},
-                "action_settings": {"max_records": 1, "timeout_seconds": 30},
+                "action_settings": {"max_records": 1, "timeout_seconds": 60},
+                "resource_limits": {"walltime_seconds": 90, "cpu_cores": 1},
+            },
+        ),
+        (
+            "lookup_nist_webbook_species",
+            {
+                "inputs": {
+                    "query": {"identifier": "7732-18-5", "namespace": "cas"}
+                },
+                "method_spec": {},
+                "action_settings": {
+                    "units": "SI",
+                    "max_records": 1,
+                    "timeout_seconds": 30,
+                },
                 "resource_limits": {"walltime_seconds": 60, "cpu_cores": 1},
             },
         ),

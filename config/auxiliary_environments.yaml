@@ -197,6 +197,18 @@ auxiliary_environments:
       - [bash, -c, 'cd .software_cache/automekin/smoke && mopac water.mop >/dev/null && grep -q "JOB ENDED NORMALLY" water.out']
     notes: A real water PM7 single-point calculation ended normally. Gaussian is now configured as an independent atomic backend, but AutoMeKin-to-Gaussian/Qcore coupling is intentionally not prewired because the Agent must select and compose engines explicitly.
 
+  matlab:
+    conda_name: researchchem-matlab-r2018a-licensed
+    environment: .software_cache/matlab/R2018a/install
+    description: Licensed MATLAB R2018a host runtime; official offline media are staged but installation remains license-gated.
+    conda_packages: []
+    pip_packages: []
+    modules: []
+    commands: [matlab]
+    path_entries: [.software_cache/matlab/R2018a/install/bin]
+    cache_paths: [.software_cache/matlab/R2018a/installation_media/R2018a_glnxa64_dvd1.iso, .software_cache/matlab/R2018a/installation_media/R2018a_glnxa64_dvd2.iso]
+    notes: The crack archive present in the manual download folder is excluded. Supply a legitimate MathWorks File Installation Key and license file/server before installing into the declared install directory.
+
   easyspin:
     conda_name: researchchem-easyspin-staged
     environment: .software_cache/easyspin/6.0.12
@@ -205,9 +217,9 @@ auxiliary_environments:
     pip_packages: []
     modules: []
     commands: [matlab]
-    path_entries: [.software_cache/easyspin/6.0.12/easyspin]
+    path_entries: [.software_cache/matlab/R2018a/install/bin, .software_cache/easyspin/6.0.12/easyspin]
     cache_paths: [.software_cache/easyspin/6.0.12/easyspin]
-    notes: Toolbox files including easyspin.m, pepper.m and chili.m are present. MATLAB is not installed, so executable validation and public atomic spectral adapters remain pending.
+    notes: Toolbox files including easyspin.m, pepper.m and chili.m are present. MATLAB R2018a media are staged, but no licensed matlab command exists yet, so executable validation and public atomic spectral adapters remain pending.
 
   vesta:
     conda_name: researchchem-binary-runtime-vesta

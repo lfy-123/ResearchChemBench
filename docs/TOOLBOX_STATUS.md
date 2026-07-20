@@ -1,14 +1,14 @@
 # ResearchChem Atomic Toolbox Status
 
-Generated: `2026-07-19T20:00:43.048660+00:00`
-Catalog hash: `04f81e0f2ead56d3e2e8b57e69462eaad309d53ea43f2bd9f8b3939ca7585d0d`
+Generated: `2026-07-20T03:37:59.669881+00:00`
+Catalog hash: `032e1aeb1c37fd56942cbb1c64d8a0ea31bcb2b88366f416df38f99c48f10405`
 
 ## Summary
 
 - Scientific Actions: 40
-- Data Actions: 4
-- BackendSpecs: 54
-- Available backends: 54
+- Data Actions: 5
+- BackendSpecs: 55
+- Available backends: 55
 - Unavailable backends: 0
 - Exposure: full catalog for every task
 - Backend selection: Agent required
@@ -53,6 +53,11 @@ Pip: none
 - `deepmd_dpa_3_3_1m` / deepmd: **available**; selection `resource://deepmd_dpa_3_3_1m`
 - `deepmd_dpa_2_4_7m` / deepmd: **available**; selection `resource://deepmd_dpa_2_4_7m`
 - `deepmd_dpa3_omol_large` / deepmd: **available**; selection `resource://deepmd_dpa3_omol_large`
+- `vasp_uspp_lda_legacy` / vasp: **available**; selection `resource://vasp_uspp_lda_legacy/<Variant>`
+- `vasp_uspp_gga_legacy` / vasp: **available**; selection `resource://vasp_uspp_gga_legacy/<Variant>`
+- `vasp_paw_lda_54` / vasp: **available**; selection `resource://vasp_paw_lda_54/<Variant>`
+- `vasp_paw_pw91_54` / vasp: **available**; selection `resource://vasp_paw_pw91_54/<Variant>`
+- `vasp_paw_pbe_54` / vasp: **available**; selection `resource://vasp_paw_pbe_54/<Variant>`
 - `vasp_6_3_2_testsuite_si_potcar` / vasp: **available**; selection `resource://vasp_6_3_2_testsuite_si_potcar`
 
 ## Smoke

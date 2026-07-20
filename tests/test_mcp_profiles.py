@@ -23,7 +23,7 @@ def test_runtimes_cover_each_backend_once():
     }
     assigned = [backend for value in assignments.values() for backend in value["backends"]]
     assert set(assigned) == set(backend_specs())
-    assert len(assigned) == len(set(assigned)) == 54
+    assert len(assigned) == len(set(assigned)) == 55
     for runtime, value in assignments.items():
         assert all(backend_specs()[backend].runtime == runtime for backend in value["backends"])
 
@@ -106,7 +106,7 @@ def test_task_workspace_gets_one_server_full_prompt_and_catalog(tmp_path, monkey
     assert set(claude["mcpServers"]) == {"researchchem_toolbox"}
     assert set(opencode["mcp"]) == {"researchchem_toolbox"}
     catalog = json.loads((runner.workspace / "_toolbox_catalog.json").read_text())
-    assert len(catalog["actions"]) == 44
+    assert len(catalog["actions"]) == 45
     prompt = (runner.workspace / "INSTRUCTIONS.md").read_text()
     assert "task-specific tool retrieval" in prompt
     assert "automatic backend selection" in prompt
