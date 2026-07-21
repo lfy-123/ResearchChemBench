@@ -1,6 +1,6 @@
 # ResearchChemBench 请求软件/工具配置状态
 
-> 生成时间：`2026-07-20T15:48:17.902806+00:00`。本报告由 `chemistry_toolbox/scripts/audit_requested_software.py` 生成，覆盖用户给出的全部 59 项；它把“依赖已安装”“规范已实现”“需要人工许可/下载”“接口尚未安全接入”分开记录。
+> 生成时间：`2026-07-21T05:36:28.754960+00:00`。本报告由 `chemistry_toolbox/scripts/audit_requested_software.py` 生成，覆盖用户给出的全部 59 项；它把“依赖已安装”“规范已实现”“需要人工许可/下载”“接口尚未安全接入”分开记录。
 
 ## 总结
 
@@ -108,7 +108,7 @@
 | Runtime | Conda 名称 | Python | Conda/Pip 依赖 | Smoke | 说明 |
 |---|---|---|---|---|---|
 | `workflows`<br>`.tool_envs/workflows` | `researchchem-workflows` | `.tool_envs/workflows/bin/python3.11`<br>存在 | Conda: qcelemental=0.50.4, qcengine=0.50.0, cclib=1.8.1, pymatgen, spglib, mdtraj<br>Pip: — | 未执行 | — |
-| `reaction`<br>`.tool_envs/reaction` | `researchchem-reaction` | `.tool_envs/reaction/bin/python3.10`<br>不需要（仅命令型 runtime） | Conda: xtb, crest, goodvibes, cantera<br>Pip: pysisyphus==1.0.0, git+https://github.com/SUNCAT-Center/catmap.git | 未执行 | — |
+| `reaction`<br>`.tool_envs/reaction` | `researchchem-reaction` | `.tool_envs/reaction/bin/python3.10`<br>不需要（仅命令型 runtime） | Conda: xtb, crest, goodvibes, cantera<br>Pip: pysisyphus==1.0.0, pyscf==2.13.1, git+https://github.com/SUNCAT-Center/catmap.git | 未执行 | — |
 | `quantum`<br>`.tool_envs/quantum` | `researchchem-quantum` | `.tool_envs/quantum/bin/python3.10`<br>不需要（仅命令型 runtime） | Conda: ase, xtb, openbabel<br>Pip: pyscf, tblite==0.4.0, mace-torch==0.3.16 | 未执行 | — |
 | `nwchem`<br>`.tool_envs/nwchem` | `researchchem-nwchem` | `.tool_envs/nwchem/bin/python3.11`<br>存在 | Conda: nwchem=7.3.1, qcengine=0.50.0, qcelemental=0.50.4, cclib, pydantic, pyyaml, python-dotenv<br>Pip: autode=1.4.5, geometric==1.1.1 | 未执行 | — |
 | `gamess`<br>`.tool_envs/gamess` | `researchchem-gamess` | `.tool_envs/gamess/bin/python3.11`<br>不需要（仅命令型 runtime） | Conda: gcc_linux-64, gfortran_linux-64, openblas, tcsh, jinja2<br>Pip: — | 1=pass | — |

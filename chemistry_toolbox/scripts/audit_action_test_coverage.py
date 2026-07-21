@@ -31,6 +31,7 @@ from researchchem_toolbox.service import execute_action
 
 DEFAULT_OUTPUT = TOOLBOX_ROOT / "config" / "action_test_coverage.json"
 EXTERNAL_REPORTS = (
+    (TOOLBOX_ROOT / "config" / "action_backend_matrix_smoke_status.json", "action_backend_matrix_smoke"),
     (TOOLBOX_ROOT / "config" / "action_gap_smoke_status.json", "action_gap_smoke"),
     (TOOLBOX_ROOT / "config" / "backend_gap_smoke_status.json", "backend_gap_smoke"),
     (TOOLBOX_ROOT / "config" / "scientific_resource_smoke_status.json", "scientific_resource_smoke"),

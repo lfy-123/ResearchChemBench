@@ -9,5 +9,5 @@ backend_selection_policy: agent_required
 automatic_fallback: false
 notes:
   - This manifest deliberately contains no task-specific tool list or backend ranking.
-  - Use `python -m evaluation.mcp_tools.tool_manager snapshot` for a full JSON snapshot.
-  - Use `python -m evaluation.mcp_tools.tool_manager missing` for live install status.
+  - Use `python -m chemistry_toolbox.mcp.tool_manager snapshot` for a full JSON snapshot.
+  - Use `python -m chemistry_toolbox.mcp.tool_manager missing` for live install status.

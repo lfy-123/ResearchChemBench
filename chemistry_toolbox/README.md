@@ -25,3 +25,5 @@ Large runtime assets remain outside the source tree:
 
 The completed migration and verification record is available in
 [`docs/CHEMISTRY_TOOLBOX_LAYOUT_REFACTOR_20260721.md`](docs/CHEMISTRY_TOOLBOX_LAYOUT_REFACTOR_20260721.md).
+The complete 233-pair Action/Backend audit is available in
+[`docs/ACTION_BACKEND_COMPLETE_AUDIT_20260721.md`](docs/ACTION_BACKEND_COMPLETE_AUDIT_20260721.md).

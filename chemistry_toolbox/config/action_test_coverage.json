@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-21T03:43:57.634265+00:00",
+  "generated_at": "2026-07-21T05:27:26.660965+00:00",
   "pytest_exit_code": null,
   "summary": {
     "action_count": 101,
@@ -7,9 +7,9 @@
     "failure_only_actions": 6,
     "not_observed_actions": 0,
     "action_backend_pair_count": 233,
-    "successful_action_backend_pairs": 165,
-    "failed_action_backend_pairs": 6,
-    "unobserved_action_backend_pairs": 62,
+    "successful_action_backend_pairs": 222,
+    "failed_action_backend_pairs": 11,
+    "unobserved_action_backend_pairs": 0,
     "backend_count": 76,
     "backends_with_runtime_success_evidence": 75,
     "backends_without_runtime_success_evidence": 1
@@ -563,13 +563,23 @@
       ],
       "status": "runtime_success",
       "successful_backends": [
+        "openmm_builder",
         "packmol"
       ],
       "failed_backends": [],
       "evidence_sources": [
+        "action_backend_matrix_smoke",
         "toolbox_smoke"
       ],
       "observations": [
+        {
+          "action": "solvate_molecular_system",
+          "backend": "openmm_builder",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 1.787073,
+          "detail": null
+        },
         {
           "action": "solvate_molecular_system",
           "backend": "packmol",
@@ -908,6 +918,7 @@
         "chgnet",
         "deepmd",
         "gamess",
+        "gaussian",
         "gpaw",
         "mace",
         "nwchem",
@@ -924,6 +935,7 @@
         "pyscf"
       ],
       "evidence_sources": [
+        "action_backend_matrix_smoke",
         "backend_gap_smoke",
         "pytest_dynamic",
         "scientific_resource_smoke",
@@ -1020,6 +1032,14 @@
         },
         {
           "action": "calculate_energy",
+          "backend": "gaussian",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 3.02107,
+          "detail": null
+        },
+        {
+          "action": "calculate_energy",
           "backend": "tblite",
           "status": "success",
           "source": "backend_gap_smoke",
@@ -1112,14 +1132,20 @@
       ],
       "status": "runtime_success",
       "successful_backends": [
+        "ase_emt",
+        "chgnet",
+        "deepmd",
         "gpaw",
+        "mace",
         "nwchem",
         "orca",
         "pyscf",
+        "tblite",
         "xtb"
       ],
       "failed_backends": [],
       "evidence_sources": [
+        "action_backend_matrix_smoke",
         "pytest_dynamic"
       ],
       "observations": [
@@ -1162,6 +1188,46 @@
           "source": "pytest_dynamic",
           "elapsed_seconds": 3.396804,
           "detail": null
+        },
+        {
+          "action": "calculate_forces",
+          "backend": "ase_emt",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 5.348662,
+          "detail": null
+        },
+        {
+          "action": "calculate_forces",
+          "backend": "chgnet",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 29.143463,
+          "detail": null
+        },
+        {
+          "action": "calculate_forces",
+          "backend": "deepmd",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 60.516982,
+          "detail": null
+        },
+        {
+          "action": "calculate_forces",
+          "backend": "mace",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 27.038289,
+          "detail": null
+        },
+        {
+          "action": "calculate_forces",
+          "backend": "tblite",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 1.697052,
+          "detail": null
         }
       ]
     },
@@ -1183,13 +1249,18 @@
       ],
       "status": "runtime_success",
       "successful_backends": [
+        "ase_emt",
         "gaussian",
         "nwchem",
         "orca",
-        "pyscf"
+        "psi4",
+        "pyscf",
+        "tblite",
+        "xtb"
       ],
       "failed_backends": [],
       "evidence_sources": [
+        "action_backend_matrix_smoke",
         "backend_gap_smoke",
         "pytest_dynamic",
         "scientific_resource_smoke"
@@ -1209,6 +1280,38 @@
           "status": "success",
           "source": "pytest_dynamic",
           "elapsed_seconds": 5.936876,
+          "detail": null
+        },
+        {
+          "action": "calculate_hessian",
+          "backend": "ase_emt",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 1.928419,
+          "detail": null
+        },
+        {
+          "action": "calculate_hessian",
+          "backend": "psi4",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 3.872646,
+          "detail": null
+        },
+        {
+          "action": "calculate_hessian",
+          "backend": "tblite",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 1.685088,
+          "detail": null
+        },
+        {
+          "action": "calculate_hessian",
+          "backend": "xtb",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 1.566179,
           "detail": null
         },
         {
@@ -1251,13 +1354,22 @@
       ],
       "status": "runtime_success",
       "successful_backends": [
+        "ase_emt",
+        "chgnet",
+        "deepmd",
+        "gamess",
+        "gaussian",
         "geometric",
         "gpaw",
+        "mace",
         "orca",
-        "sella"
+        "sella",
+        "tblite",
+        "xtb"
       ],
       "failed_backends": [],
       "evidence_sources": [
+        "action_backend_matrix_smoke",
         "pytest_dynamic",
         "scientific_resource_smoke"
       ],
@@ -1296,6 +1408,70 @@
         },
         {
           "action": "optimize_geometry",
+          "backend": "ase_emt",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 4.473645,
+          "detail": null
+        },
+        {
+          "action": "optimize_geometry",
+          "backend": "chgnet",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 5.050936,
+          "detail": null
+        },
+        {
+          "action": "optimize_geometry",
+          "backend": "deepmd",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 13.270564,
+          "detail": null
+        },
+        {
+          "action": "optimize_geometry",
+          "backend": "gamess",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 3.305996,
+          "detail": null
+        },
+        {
+          "action": "optimize_geometry",
+          "backend": "gaussian",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 13.679073,
+          "detail": null
+        },
+        {
+          "action": "optimize_geometry",
+          "backend": "mace",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 5.878072,
+          "detail": null
+        },
+        {
+          "action": "optimize_geometry",
+          "backend": "tblite",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 2.563101,
+          "detail": null
+        },
+        {
+          "action": "optimize_geometry",
+          "backend": "xtb",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 1.584758,
+          "detail": null
+        },
+        {
+          "action": "optimize_geometry",
           "backend": "orca",
           "status": "success",
           "source": "scientific_resource_smoke",
@@ -1323,13 +1499,20 @@
       ],
       "status": "runtime_success",
       "successful_backends": [
+        "gamess",
+        "gaussian",
         "nwchem",
         "openmolcas",
         "orca",
+        "pyscf",
+        "tblite",
         "xtb"
       ],
-      "failed_backends": [],
+      "failed_backends": [
+        "psi4"
+      ],
       "evidence_sources": [
+        "action_backend_matrix_smoke",
         "pytest_dynamic",
         "scientific_resource_smoke"
       ],
@@ -1356,6 +1539,46 @@
           "status": "success",
           "source": "pytest_dynamic",
           "elapsed_seconds": 2.98435,
+          "detail": null
+        },
+        {
+          "action": "calculate_dipole_moment",
+          "backend": "gamess",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 4.266397,
+          "detail": null
+        },
+        {
+          "action": "calculate_dipole_moment",
+          "backend": "gaussian",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 7.513151,
+          "detail": null
+        },
+        {
+          "action": "calculate_dipole_moment",
+          "backend": "psi4",
+          "status": "failed",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 2.619943,
+          "detail": "UpgradeHelper: Using `SCF DIPOLE X` instead of `SCF DIPOLE` is obsolete as of 1.6. Note the Debye -> a.u. units change."
+        },
+        {
+          "action": "calculate_dipole_moment",
+          "backend": "pyscf",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 1.821674,
+          "detail": null
+        },
+        {
+          "action": "calculate_dipole_moment",
+          "backend": "tblite",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 2.270733,
           "detail": null
         },
         {
@@ -1389,10 +1612,13 @@
         "nwchem",
         "openmolcas",
         "orca",
+        "psi4",
+        "pyscf",
         "xtb"
       ],
       "failed_backends": [],
       "evidence_sources": [
+        "action_backend_matrix_smoke",
         "pytest_dynamic"
       ],
       "observations": [
@@ -1443,6 +1669,22 @@
           "source": "pytest_dynamic",
           "elapsed_seconds": 1.90977,
           "detail": null
+        },
+        {
+          "action": "calculate_atomic_charges",
+          "backend": "psi4",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 10.963132,
+          "detail": null
+        },
+        {
+          "action": "calculate_atomic_charges",
+          "backend": "pyscf",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 5.974174,
+          "detail": null
         }
       ]
     },
@@ -1461,10 +1703,14 @@
       "status": "runtime_success",
       "successful_backends": [
         "openmolcas",
-        "orca"
+        "orca",
+        "pyscf"
       ],
-      "failed_backends": [],
+      "failed_backends": [
+        "psi4"
+      ],
       "evidence_sources": [
+        "action_backend_matrix_smoke",
         "pytest_dynamic"
       ],
       "observations": [
@@ -1482,6 +1728,22 @@
           "status": "success",
           "source": "pytest_dynamic",
           "elapsed_seconds": 1.93909,
+          "detail": null
+        },
+        {
+          "action": "calculate_orbitals",
+          "backend": "psi4",
+          "status": "failed",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 2.542235,
+          "detail": "ValidationError: __array__interface__ can only be called on Psi4 data object with only one irrep!"
+        },
+        {
+          "action": "calculate_orbitals",
+          "backend": "pyscf",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 2.178645,
           "detail": null
         }
       ]
@@ -1816,10 +2078,12 @@
       ],
       "status": "runtime_success",
       "successful_backends": [
+        "pysisyphus",
         "sella"
       ],
       "failed_backends": [],
       "evidence_sources": [
+        "action_backend_matrix_smoke",
         "pytest_dynamic"
       ],
       "observations": [
@@ -1829,6 +2093,14 @@
           "status": "success",
           "source": "pytest_dynamic",
           "elapsed_seconds": 2.945533,
+          "detail": null
+        },
+        {
+          "action": "locate_transition_state",
+          "backend": "pysisyphus",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 48.814346,
           "detail": null
         }
       ]
@@ -1909,13 +2181,23 @@
       ],
       "status": "runtime_success",
       "successful_backends": [
+        "cantera",
         "scipy"
       ],
       "failed_backends": [],
       "evidence_sources": [
+        "action_backend_matrix_smoke",
         "toolbox_smoke"
       ],
       "observations": [
+        {
+          "action": "integrate_reaction_network",
+          "backend": "cantera",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 3.379436,
+          "detail": null
+        },
         {
           "action": "integrate_reaction_network",
           "backend": "scipy",
@@ -2086,10 +2368,12 @@
         "gromacs",
         "hoomd",
         "lammps",
-        "namd"
+        "namd",
+        "openmm"
       ],
       "failed_backends": [],
       "evidence_sources": [
+        "action_backend_matrix_smoke",
         "backend_gap_smoke",
         "pytest_dynamic"
       ],
@@ -2100,6 +2384,14 @@
           "status": "success",
           "source": "pytest_dynamic",
           "elapsed_seconds": 2.016376,
+          "detail": null
+        },
+        {
+          "action": "minimize_system_energy",
+          "backend": "openmm",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 3.683425,
           "detail": null
         },
         {
@@ -2265,10 +2557,18 @@
       ],
       "status": "runtime_success",
       "successful_backends": [
-        "hoomd"
+        "amber_pmemd",
+        "charmm",
+        "hoomd",
+        "lammps",
+        "namd",
+        "openmm"
       ],
-      "failed_backends": [],
+      "failed_backends": [
+        "gromacs"
+      ],
       "evidence_sources": [
+        "action_backend_matrix_smoke",
         "pytest_dynamic"
       ],
       "observations": [
@@ -2278,6 +2578,54 @@
           "status": "success",
           "source": "pytest_dynamic",
           "elapsed_seconds": 1.987309,
+          "detail": null
+        },
+        {
+          "action": "propagate_dynamics",
+          "backend": "amber_pmemd",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 4.345908,
+          "detail": null
+        },
+        {
+          "action": "propagate_dynamics",
+          "backend": "charmm",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 2.697076,
+          "detail": null
+        },
+        {
+          "action": "propagate_dynamics",
+          "backend": "gromacs",
+          "status": "failed",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 1.671769,
+          "detail": "RuntimeError: gmx grompp failed:                 :-) GROMACS - gmx grompp, 2026.0-conda_forge (-:\n\nExecutable:   /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/md/bin.AVX2_256/gmx\nData prefix:  /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/md\nWorking dir:  /tmp/researchchem-action-backend-matrix-dv4p3rlh/outputs/propagate_dynamics/gromacs/015648a41251\nCommand line:\n  gmx grompp -f /tmp/researchchem-action-backend-matrix-dv4p3rlh/outputs/propagate_dynamics/gromacs/015648a41251/segment.mdp -c /tmp/researchchem-action-backend-matrix-dv4p3rlh/argon.gro -p /tmp/researchchem-action-backend-matrix-dv4p3rlh/argon.top -o /tmp/researchchem-action-backend-matrix-dv4p3rlh/outputs/propagate_dynamics/gromacs/015648a41251/segment.tpr -maxwarn 0\n\nGenerating 1-4 interactions: fudge = 0.5\n\n-------------------------------------------------------\nProgram:     gmx grompp, version 2026.0-conda_forge\nSource file: src/gromacs/gmxpreprocess/readir.cpp (line 4016)\n\nFatal error:\nInvalid T coupling input: 0 groups, 1 ref-t values and 1 tau-t values\n\nFor more information and tips for troubleshooting, please check the GROMACS\nwebsite at https://manual.gromacs.org/current/user-guide/run-time-errors.html\n-------------------------------------------------------\n"
+        },
+        {
+          "action": "propagate_dynamics",
+          "backend": "lammps",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 3.433712,
+          "detail": null
+        },
+        {
+          "action": "propagate_dynamics",
+          "backend": "namd",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 2.449544,
+          "detail": null
+        },
+        {
+          "action": "propagate_dynamics",
+          "backend": "openmm",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 1.637139,
           "detail": null
         }
       ]
@@ -2294,10 +2642,12 @@
       ],
       "status": "runtime_success",
       "successful_backends": [
+        "mdanalysis",
         "mdtraj"
       ],
       "failed_backends": [],
       "evidence_sources": [
+        "action_backend_matrix_smoke",
         "pytest_dynamic"
       ],
       "observations": [
@@ -2307,6 +2657,14 @@
           "status": "success",
           "source": "pytest_dynamic",
           "elapsed_seconds": 2.030276,
+          "detail": null
+        },
+        {
+          "action": "calculate_trajectory_rmsd",
+          "backend": "mdanalysis",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 2.388407,
           "detail": null
         }
       ]
@@ -2323,10 +2681,12 @@
       ],
       "status": "runtime_success",
       "successful_backends": [
+        "mdanalysis",
         "mdtraj"
       ],
       "failed_backends": [],
       "evidence_sources": [
+        "action_backend_matrix_smoke",
         "pytest_dynamic"
       ],
       "observations": [
@@ -2336,6 +2696,14 @@
           "status": "success",
           "source": "pytest_dynamic",
           "elapsed_seconds": 1.807477,
+          "detail": null
+        },
+        {
+          "action": "calculate_radius_of_gyration",
+          "backend": "mdanalysis",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 1.976516,
           "detail": null
         }
       ]
@@ -2464,10 +2832,12 @@
       ],
       "status": "runtime_success",
       "successful_backends": [
+        "mdanalysis",
         "mdtraj"
       ],
       "failed_backends": [],
       "evidence_sources": [
+        "action_backend_matrix_smoke",
         "pytest_dynamic"
       ],
       "observations": [
@@ -2477,6 +2847,14 @@
           "status": "success",
           "source": "pytest_dynamic",
           "elapsed_seconds": 1.805933,
+          "detail": null
+        },
+        {
+          "action": "calculate_dihedral_distribution",
+          "backend": "mdanalysis",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 13.518067,
           "detail": null
         }
       ]
@@ -2812,14 +3190,17 @@
         "abinit",
         "allegro",
         "cp2k",
+        "deepmd",
         "dftbplus",
         "gpaw",
+        "nequip",
         "quantum_espresso",
         "siesta",
         "vasp"
       ],
       "failed_backends": [],
       "evidence_sources": [
+        "action_backend_matrix_smoke",
         "backend_gap_smoke",
         "pytest_dynamic",
         "scientific_resource_smoke"
@@ -2831,6 +3212,22 @@
           "status": "success",
           "source": "pytest_dynamic",
           "elapsed_seconds": 5.716914,
+          "detail": null
+        },
+        {
+          "action": "calculate_periodic_energy",
+          "backend": "deepmd",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 8.998718,
+          "detail": null
+        },
+        {
+          "action": "calculate_periodic_energy",
+          "backend": "nequip",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 48.92101,
           "detail": null
         },
         {
@@ -2936,14 +3333,20 @@
       "status": "runtime_success",
       "successful_backends": [
         "abinit",
+        "allegro",
+        "deepmd",
         "dftbplus",
         "gpaw",
         "nequip",
         "quantum_espresso",
-        "siesta"
+        "siesta",
+        "vasp"
       ],
-      "failed_backends": [],
+      "failed_backends": [
+        "cp2k"
+      ],
       "evidence_sources": [
+        "action_backend_matrix_smoke",
         "pytest_dynamic",
         "scientific_resource_smoke"
       ],
@@ -2954,6 +3357,38 @@
           "status": "success",
           "source": "pytest_dynamic",
           "elapsed_seconds": 6.168324,
+          "detail": null
+        },
+        {
+          "action": "calculate_periodic_forces",
+          "backend": "allegro",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 5.913868,
+          "detail": null
+        },
+        {
+          "action": "calculate_periodic_forces",
+          "backend": "cp2k",
+          "status": "failed",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 12.073351,
+          "detail": "RuntimeError: Could not parse CP2K forces"
+        },
+        {
+          "action": "calculate_periodic_forces",
+          "backend": "deepmd",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 8.704396,
+          "detail": null
+        },
+        {
+          "action": "calculate_periodic_forces",
+          "backend": "vasp",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 6.044956,
           "detail": null
         },
         {
@@ -3017,12 +3452,18 @@
       "status": "runtime_success",
       "successful_backends": [
         "abinit",
+        "allegro",
         "deepmd",
         "gpaw",
-        "quantum_espresso"
+        "nequip",
+        "quantum_espresso",
+        "vasp"
       ],
-      "failed_backends": [],
+      "failed_backends": [
+        "cp2k"
+      ],
       "evidence_sources": [
+        "action_backend_matrix_smoke",
         "pytest_dynamic",
         "scientific_resource_smoke"
       ],
@@ -3033,6 +3474,38 @@
           "status": "success",
           "source": "pytest_dynamic",
           "elapsed_seconds": 4.135362,
+          "detail": null
+        },
+        {
+          "action": "calculate_periodic_stress",
+          "backend": "allegro",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 5.324134,
+          "detail": null
+        },
+        {
+          "action": "calculate_periodic_stress",
+          "backend": "cp2k",
+          "status": "failed",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 6.692138,
+          "detail": "RuntimeError: Could not parse CP2K stress"
+        },
+        {
+          "action": "calculate_periodic_stress",
+          "backend": "nequip",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 5.15968,
+          "detail": null
+        },
+        {
+          "action": "calculate_periodic_stress",
+          "backend": "vasp",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 3.51916,
           "detail": null
         },
         {
@@ -3081,11 +3554,20 @@
       ],
       "status": "runtime_success",
       "successful_backends": [
+        "abinit",
+        "allegro",
+        "cp2k",
+        "deepmd",
         "dftbplus",
-        "gpaw"
+        "gpaw",
+        "nequip",
+        "quantum_espresso",
+        "siesta",
+        "vasp"
       ],
       "failed_backends": [],
       "evidence_sources": [
+        "action_backend_matrix_smoke",
         "pytest_dynamic",
         "scientific_resource_smoke"
       ],
@@ -3096,6 +3578,70 @@
           "status": "success",
           "source": "pytest_dynamic",
           "elapsed_seconds": 6.202088,
+          "detail": null
+        },
+        {
+          "action": "relax_periodic_structure",
+          "backend": "abinit",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 4.296552,
+          "detail": null
+        },
+        {
+          "action": "relax_periodic_structure",
+          "backend": "allegro",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 6.417305,
+          "detail": null
+        },
+        {
+          "action": "relax_periodic_structure",
+          "backend": "cp2k",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 6.967019,
+          "detail": null
+        },
+        {
+          "action": "relax_periodic_structure",
+          "backend": "deepmd",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 8.683178,
+          "detail": null
+        },
+        {
+          "action": "relax_periodic_structure",
+          "backend": "nequip",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 5.17104,
+          "detail": null
+        },
+        {
+          "action": "relax_periodic_structure",
+          "backend": "quantum_espresso",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 10.353658,
+          "detail": null
+        },
+        {
+          "action": "relax_periodic_structure",
+          "backend": "siesta",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 3.296339,
+          "detail": null
+        },
+        {
+          "action": "relax_periodic_structure",
+          "backend": "vasp",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 5.163601,
           "detail": null
         },
         {
@@ -3270,13 +3816,23 @@
       ],
       "status": "runtime_success",
       "successful_backends": [
+        "phono3py",
         "phonopy"
       ],
       "failed_backends": [],
       "evidence_sources": [
+        "action_backend_matrix_smoke",
         "action_gap_smoke"
       ],
       "observations": [
+        {
+          "action": "generate_displaced_supercells",
+          "backend": "phono3py",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 1.729712,
+          "detail": null
+        },
         {
           "action": "generate_displaced_supercells",
           "backend": "phonopy",
@@ -3299,13 +3855,23 @@
       ],
       "status": "runtime_success",
       "successful_backends": [
+        "phono3py",
         "phonopy"
       ],
       "failed_backends": [],
       "evidence_sources": [
+        "action_backend_matrix_smoke",
         "action_gap_smoke"
       ],
       "observations": [
+        {
+          "action": "assemble_force_constants",
+          "backend": "phono3py",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 19.219102,
+          "detail": null
+        },
         {
           "action": "assemble_force_constants",
           "backend": "phonopy",
@@ -3328,13 +3894,23 @@
       ],
       "status": "runtime_success",
       "successful_backends": [
+        "phono3py",
         "phonopy"
       ],
       "failed_backends": [],
       "evidence_sources": [
+        "action_backend_matrix_smoke",
         "action_gap_smoke"
       ],
       "observations": [
+        {
+          "action": "calculate_phonon_dispersion",
+          "backend": "phono3py",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 1.657202,
+          "detail": null
+        },
         {
           "action": "calculate_phonon_dispersion",
           "backend": "phonopy",
@@ -3357,13 +3933,23 @@
       ],
       "status": "runtime_success",
       "successful_backends": [
+        "phono3py",
         "phonopy"
       ],
       "failed_backends": [],
       "evidence_sources": [
+        "action_backend_matrix_smoke",
         "action_gap_smoke"
       ],
       "observations": [
+        {
+          "action": "calculate_phonon_density_of_states",
+          "backend": "phono3py",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 1.748859,
+          "detail": null
+        },
         {
           "action": "calculate_phonon_density_of_states",
           "backend": "phonopy",
@@ -3855,6 +4441,10 @@
     ],
     [
       "assemble_force_constants",
+      "phono3py"
+    ],
+    [
+      "assemble_force_constants",
       "phonopy"
     ],
     [
@@ -3911,6 +4501,14 @@
     ],
     [
       "calculate_atomic_charges",
+      "psi4"
+    ],
+    [
+      "calculate_atomic_charges",
+      "pyscf"
+    ],
+    [
+      "calculate_atomic_charges",
       "xtb"
     ],
     [
@@ -3947,7 +4545,19 @@
     ],
     [
       "calculate_dihedral_distribution",
+      "mdanalysis"
+    ],
+    [
+      "calculate_dihedral_distribution",
       "mdtraj"
+    ],
+    [
+      "calculate_dipole_moment",
+      "gamess"
+    ],
+    [
+      "calculate_dipole_moment",
+      "gaussian"
     ],
     [
       "calculate_dipole_moment",
@@ -3960,6 +4570,14 @@
     [
       "calculate_dipole_moment",
       "orca"
+    ],
+    [
+      "calculate_dipole_moment",
+      "pyscf"
+    ],
+    [
+      "calculate_dipole_moment",
+      "tblite"
     ],
     [
       "calculate_dipole_moment",
@@ -3988,6 +4606,10 @@
     [
       "calculate_energy",
       "gamess"
+    ],
+    [
+      "calculate_energy",
+      "gaussian"
     ],
     [
       "calculate_energy",
@@ -4051,7 +4673,23 @@
     ],
     [
       "calculate_forces",
+      "ase_emt"
+    ],
+    [
+      "calculate_forces",
+      "chgnet"
+    ],
+    [
+      "calculate_forces",
+      "deepmd"
+    ],
+    [
+      "calculate_forces",
       "gpaw"
+    ],
+    [
+      "calculate_forces",
+      "mace"
     ],
     [
       "calculate_forces",
@@ -4064,6 +4702,10 @@
     [
       "calculate_forces",
       "pyscf"
+    ],
+    [
+      "calculate_forces",
+      "tblite"
     ],
     [
       "calculate_forces",
@@ -4079,6 +4721,10 @@
     ],
     [
       "calculate_hessian",
+      "ase_emt"
+    ],
+    [
+      "calculate_hessian",
       "gaussian"
     ],
     [
@@ -4091,7 +4737,19 @@
     ],
     [
       "calculate_hessian",
+      "psi4"
+    ],
+    [
+      "calculate_hessian",
       "pyscf"
+    ],
+    [
+      "calculate_hessian",
+      "tblite"
+    ],
+    [
+      "calculate_hessian",
+      "xtb"
     ],
     [
       "calculate_hydrogen_bonds",
@@ -4130,6 +4788,10 @@
       "orca"
     ],
     [
+      "calculate_orbitals",
+      "pyscf"
+    ],
+    [
       "calculate_periodic_energy",
       "abinit"
     ],
@@ -4143,11 +4805,19 @@
     ],
     [
       "calculate_periodic_energy",
+      "deepmd"
+    ],
+    [
+      "calculate_periodic_energy",
       "dftbplus"
     ],
     [
       "calculate_periodic_energy",
       "gpaw"
+    ],
+    [
+      "calculate_periodic_energy",
+      "nequip"
     ],
     [
       "calculate_periodic_energy",
@@ -4164,6 +4834,14 @@
     [
       "calculate_periodic_forces",
       "abinit"
+    ],
+    [
+      "calculate_periodic_forces",
+      "allegro"
+    ],
+    [
+      "calculate_periodic_forces",
+      "deepmd"
     ],
     [
       "calculate_periodic_forces",
@@ -4186,8 +4864,16 @@
       "siesta"
     ],
     [
+      "calculate_periodic_forces",
+      "vasp"
+    ],
+    [
       "calculate_periodic_stress",
       "abinit"
+    ],
+    [
+      "calculate_periodic_stress",
+      "allegro"
     ],
     [
       "calculate_periodic_stress",
@@ -4199,11 +4885,27 @@
     ],
     [
       "calculate_periodic_stress",
+      "nequip"
+    ],
+    [
+      "calculate_periodic_stress",
       "quantum_espresso"
+    ],
+    [
+      "calculate_periodic_stress",
+      "vasp"
+    ],
+    [
+      "calculate_phonon_density_of_states",
+      "phono3py"
     ],
     [
       "calculate_phonon_density_of_states",
       "phonopy"
+    ],
+    [
+      "calculate_phonon_dispersion",
+      "phono3py"
     ],
     [
       "calculate_phonon_dispersion",
@@ -4239,6 +4941,10 @@
     ],
     [
       "calculate_radius_of_gyration",
+      "mdanalysis"
+    ],
+    [
+      "calculate_radius_of_gyration",
       "mdtraj"
     ],
     [
@@ -4248,6 +4954,10 @@
     [
       "calculate_solvent_accessible_surface",
       "mdtraj"
+    ],
+    [
+      "calculate_trajectory_rmsd",
+      "mdanalysis"
     ],
     [
       "calculate_trajectory_rmsd",
@@ -4339,11 +5049,23 @@
     ],
     [
       "generate_displaced_supercells",
+      "phono3py"
+    ],
+    [
+      "generate_displaced_supercells",
       "phonopy"
     ],
     [
       "integrate_reaction_network",
+      "cantera"
+    ],
+    [
+      "integrate_reaction_network",
       "scipy"
+    ],
+    [
+      "locate_transition_state",
+      "pysisyphus"
     ],
     [
       "locate_transition_state",
@@ -4378,12 +5100,36 @@
       "namd"
     ],
     [
+      "minimize_system_energy",
+      "openmm"
+    ],
+    [
       "normalize_pdb_records",
       "pdb_tools"
     ],
     [
       "normalize_qcschema_molecule",
       "qcelemental"
+    ],
+    [
+      "optimize_geometry",
+      "ase_emt"
+    ],
+    [
+      "optimize_geometry",
+      "chgnet"
+    ],
+    [
+      "optimize_geometry",
+      "deepmd"
+    ],
+    [
+      "optimize_geometry",
+      "gamess"
+    ],
+    [
+      "optimize_geometry",
+      "gaussian"
     ],
     [
       "optimize_geometry",
@@ -4395,11 +5141,23 @@
     ],
     [
       "optimize_geometry",
+      "mace"
+    ],
+    [
+      "optimize_geometry",
       "orca"
     ],
     [
       "optimize_geometry",
       "sella"
+    ],
+    [
+      "optimize_geometry",
+      "tblite"
+    ],
+    [
+      "optimize_geometry",
+      "xtb"
     ],
     [
       "parse_alchemical_energy_data",
@@ -4411,11 +5169,47 @@
     ],
     [
       "propagate_dynamics",
+      "amber_pmemd"
+    ],
+    [
+      "propagate_dynamics",
+      "charmm"
+    ],
+    [
+      "propagate_dynamics",
       "hoomd"
+    ],
+    [
+      "propagate_dynamics",
+      "lammps"
+    ],
+    [
+      "propagate_dynamics",
+      "namd"
+    ],
+    [
+      "propagate_dynamics",
+      "openmm"
     ],
     [
       "rank_conformers_from_results",
       "internal_statistics"
+    ],
+    [
+      "relax_periodic_structure",
+      "abinit"
+    ],
+    [
+      "relax_periodic_structure",
+      "allegro"
+    ],
+    [
+      "relax_periodic_structure",
+      "cp2k"
+    ],
+    [
+      "relax_periodic_structure",
+      "deepmd"
     ],
     [
       "relax_periodic_structure",
@@ -4424,6 +5218,22 @@
     [
       "relax_periodic_structure",
       "gpaw"
+    ],
+    [
+      "relax_periodic_structure",
+      "nequip"
+    ],
+    [
+      "relax_periodic_structure",
+      "quantum_espresso"
+    ],
+    [
+      "relax_periodic_structure",
+      "siesta"
+    ],
+    [
+      "relax_periodic_structure",
+      "vasp"
     ],
     [
       "renumber_biomolecular_structure",
@@ -4452,6 +5262,10 @@
     [
       "select_structure_subset",
       "pdb_tools"
+    ],
+    [
+      "solvate_molecular_system",
+      "openmm_builder"
     ],
     [
       "solvate_molecular_system",
@@ -4492,6 +5306,26 @@
   ],
   "failed_action_backend_pairs": [
     [
+      "calculate_dipole_moment",
+      "psi4"
+    ],
+    [
+      "calculate_orbitals",
+      "psi4"
+    ],
+    [
+      "calculate_periodic_forces",
+      "cp2k"
+    ],
+    [
+      "calculate_periodic_stress",
+      "cp2k"
+    ],
+    [
+      "propagate_dynamics",
+      "gromacs"
+    ],
+    [
       "resolve_chemical_identity",
       "pubchem"
     ],
@@ -4516,256 +5350,7 @@
       "pubchem"
     ]
   ],
-  "unobserved_action_backend_pairs": [
-    [
-      "assemble_force_constants",
-      "phono3py"
-    ],
-    [
-      "calculate_atomic_charges",
-      "psi4"
-    ],
-    [
-      "calculate_atomic_charges",
-      "pyscf"
-    ],
-    [
-      "calculate_dihedral_distribution",
-      "mdanalysis"
-    ],
-    [
-      "calculate_dipole_moment",
-      "gamess"
-    ],
-    [
-      "calculate_dipole_moment",
-      "gaussian"
-    ],
-    [
-      "calculate_dipole_moment",
-      "psi4"
-    ],
-    [
-      "calculate_dipole_moment",
-      "pyscf"
-    ],
-    [
-      "calculate_dipole_moment",
-      "tblite"
-    ],
-    [
-      "calculate_energy",
-      "gaussian"
-    ],
-    [
-      "calculate_forces",
-      "ase_emt"
-    ],
-    [
-      "calculate_forces",
-      "chgnet"
-    ],
-    [
-      "calculate_forces",
-      "deepmd"
-    ],
-    [
-      "calculate_forces",
-      "mace"
-    ],
-    [
-      "calculate_forces",
-      "tblite"
-    ],
-    [
-      "calculate_hessian",
-      "ase_emt"
-    ],
-    [
-      "calculate_hessian",
-      "psi4"
-    ],
-    [
-      "calculate_hessian",
-      "tblite"
-    ],
-    [
-      "calculate_hessian",
-      "xtb"
-    ],
-    [
-      "calculate_orbitals",
-      "psi4"
-    ],
-    [
-      "calculate_orbitals",
-      "pyscf"
-    ],
-    [
-      "calculate_periodic_energy",
-      "deepmd"
-    ],
-    [
-      "calculate_periodic_energy",
-      "nequip"
-    ],
-    [
-      "calculate_periodic_forces",
-      "allegro"
-    ],
-    [
-      "calculate_periodic_forces",
-      "cp2k"
-    ],
-    [
-      "calculate_periodic_forces",
-      "deepmd"
-    ],
-    [
-      "calculate_periodic_forces",
-      "vasp"
-    ],
-    [
-      "calculate_periodic_stress",
-      "allegro"
-    ],
-    [
-      "calculate_periodic_stress",
-      "cp2k"
-    ],
-    [
-      "calculate_periodic_stress",
-      "nequip"
-    ],
-    [
-      "calculate_periodic_stress",
-      "vasp"
-    ],
-    [
-      "calculate_phonon_density_of_states",
-      "phono3py"
-    ],
-    [
-      "calculate_phonon_dispersion",
-      "phono3py"
-    ],
-    [
-      "calculate_radius_of_gyration",
-      "mdanalysis"
-    ],
-    [
-      "calculate_trajectory_rmsd",
-      "mdanalysis"
-    ],
-    [
-      "generate_displaced_supercells",
-      "phono3py"
-    ],
-    [
-      "integrate_reaction_network",
-      "cantera"
-    ],
-    [
-      "locate_transition_state",
-      "pysisyphus"
-    ],
-    [
-      "minimize_system_energy",
-      "openmm"
-    ],
-    [
-      "optimize_geometry",
-      "ase_emt"
-    ],
-    [
-      "optimize_geometry",
-      "chgnet"
-    ],
-    [
-      "optimize_geometry",
-      "deepmd"
-    ],
-    [
-      "optimize_geometry",
-      "gamess"
-    ],
-    [
-      "optimize_geometry",
-      "gaussian"
-    ],
-    [
-      "optimize_geometry",
-      "mace"
-    ],
-    [
-      "optimize_geometry",
-      "tblite"
-    ],
-    [
-      "optimize_geometry",
-      "xtb"
-    ],
-    [
-      "propagate_dynamics",
-      "amber_pmemd"
-    ],
-    [
-      "propagate_dynamics",
-      "charmm"
-    ],
-    [
-      "propagate_dynamics",
-      "gromacs"
-    ],
-    [
-      "propagate_dynamics",
-      "lammps"
-    ],
-    [
-      "propagate_dynamics",
-      "namd"
-    ],
-    [
-      "propagate_dynamics",
-      "openmm"
-    ],
-    [
-      "relax_periodic_structure",
-      "abinit"
-    ],
-    [
-      "relax_periodic_structure",
-      "allegro"
-    ],
-    [
-      "relax_periodic_structure",
-      "cp2k"
-    ],
-    [
-      "relax_periodic_structure",
-      "deepmd"
-    ],
-    [
-      "relax_periodic_structure",
-      "nequip"
-    ],
-    [
-      "relax_periodic_structure",
-      "quantum_espresso"
-    ],
-    [
-      "relax_periodic_structure",
-      "siesta"
-    ],
-    [
-      "relax_periodic_structure",
-      "vasp"
-    ],
-    [
-      "solvate_molecular_system",
-      "openmm_builder"
-    ]
-  ],
+  "unobserved_action_backend_pairs": [],
   "backends_without_runtime_success_evidence": [
     "catalysis_hub"
   ]
