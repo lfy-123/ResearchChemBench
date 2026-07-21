@@ -172,7 +172,11 @@ def main() -> int:
         "# ResearchChemBench Action–Backend 全组合测试与软件接入审计",
         "",
         f"> 生成时间：`{datetime.now(timezone.utc).isoformat()}`。",
-        "> 本报告合并 2026-07-20 已有证据与本轮 62 个缺口组合的真实统一分发调用；已测试组合不会重复运行。",
+        (
+            "> 本报告合并 2026-07-20 已有证据与本轮 "
+            f"{matrix['summary']['registered_gap_pair_count']} 个补测组合的真实统一分发调用；"
+            "已测试组合不会重复运行。"
+        ),
         "> 11个原失败组合的代码修复、现场复测及PubChem出口诊断见 [`ACTION_BACKEND_REPAIR_REPORT_20260721.md`](ACTION_BACKEND_REPAIR_REPORT_20260721.md)。",
         "",
         "## 1. 最终结论",
@@ -366,14 +370,14 @@ def main() -> int:
             "1. **本地5个组合已修复。** Psi4向量API、CP2K显式打印/版本化解析和GROMACS ensemble字段均已通过真实后端复测。",
             "2. **优先排查 PubChem 出口状态。** 当前响应明确显示 `Retry-After: 30` 和 `too many requests per second or blacklisted`；需检查共享 NAT/代理出口，代码不得伪造成功或隐藏切换数据源。",
             "3. **在线韧性代码已落地。** PubChem/Catalysis-Hub 使用有界重试、Retry-After、跨 worker PubChem 限速和 `retryable` 错误语义；Catalysis-Hub 已现场恢复成功。",
-            "4. **为每个 Backend capability 保留一个小型真实 smoke。** 将本轮62个用例长期纳入夜间/发布前矩阵，不必每次跑昂贵全量体系。",
-            "5. **PubChem解除阻塞后重跑六个网络用例。** 目标是 `successful_action_backend_pairs=233`、`failed=0`、`unobserved=0`。",
+            f"4. **为每个 Backend capability 保留一个小型真实 smoke。** 将本轮{matrix['summary']['registered_gap_pair_count']}个用例长期纳入夜间/发布前矩阵，不必每次跑昂贵全量体系。",
+            f"5. **PubChem解除阻塞后重跑六个网络用例。** 目标是 `successful_action_backend_pairs={coverage['summary']['action_backend_pair_count']}`、`failed=0`、`unobserved=0`。",
             "",
             "## 9. 收尾校验",
             "",
             "- MCP Catalog 校验：`ok: 101 actions, 76 backends, full exposure, agent-required backend selection, no fallback`。",
-            "- 完整测试集：`152 passed in 414.44s`。",
-            "- 新增矩阵审计测试会验证62个补测用例与历史缺口完全一致，并验证233个 Catalog 组合被成功集与失败集完整划分。",
+            "- 完整测试集：`183 passed in 442.70s`。",
+            f"- 矩阵审计测试会验证{matrix['summary']['registered_gap_pair_count']}个补测用例与 Catalog 一致，并验证{coverage['summary']['action_backend_pair_count']}个组合被成功集与失败集完整划分。",
             "- 修复涉及脚本和 Backend 模块的 `py_compile` 均通过。",
             "",
             "## 10. 复现命令",

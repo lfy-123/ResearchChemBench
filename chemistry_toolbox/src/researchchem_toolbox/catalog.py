@@ -319,6 +319,7 @@ def agent_toolbox_overview(
 
 def markdown_catalog(*, include_health: bool = True) -> str:
     snapshot = catalog_snapshot(include_health=include_health)
+    backend_by_id = {backend["id"]: backend for backend in snapshot["backends"]}
     lines = [
         "# ResearchChem Atomic Tool Catalog",
         "",
@@ -330,6 +331,16 @@ def markdown_catalog(*, include_health: bool = True) -> str:
         "|---|---|---|---|---|---|---|",
     ]
     for action in snapshot["actions"]:
+        required = ", ".join(action["required_inputs"])
+        if not required:
+            contracts = []
+            for backend_id in action["backend_ids"]:
+                fields = backend_by_id[backend_id]["required_input_fields"].get(
+                    action["id"], []
+                )
+                if fields:
+                    contracts.append(f"{backend_id}({','.join(fields)})")
+            required = "backend-specific: " + "; ".join(contracts) if contracts else "none"
         lines.append(
             "| {id} | {category} | {primary_output} | {policy} | {backends} | {required} | {description} |".format(
                 id=action["id"],
@@ -337,7 +348,7 @@ def markdown_catalog(*, include_health: bool = True) -> str:
                 primary_output=action["primary_output"],
                 policy=action["selection_policy"],
                 backends=", ".join(action["backend_ids"]),
-                required=", ".join(action["required_inputs"]),
+                required=required,
                 description=action["description"].replace("|", "\\|"),
             )
         )

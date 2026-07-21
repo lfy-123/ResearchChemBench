@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-07-21T07:54:15.139661+00:00",
+  "generated_at": "2026-07-21T11:57:00.402436+00:00",
   "pytest_exit_code": null,
   "summary": {
     "action_count": 101,
     "runtime_success_actions": 96,
     "failure_only_actions": 5,
     "not_observed_actions": 0,
-    "action_backend_pair_count": 233,
-    "successful_action_backend_pairs": 228,
+    "action_backend_pair_count": 236,
+    "successful_action_backend_pairs": 231,
     "failed_action_backend_pairs": 5,
     "unobserved_action_backend_pairs": 0,
     "backend_count": 76,
@@ -1245,12 +1245,18 @@
         "nwchem",
         "orca",
         "gaussian",
+        "mace",
+        "chgnet",
+        "deepmd",
         "ase_emt"
       ],
       "status": "runtime_success",
       "successful_backends": [
         "ase_emt",
+        "chgnet",
+        "deepmd",
         "gaussian",
+        "mace",
         "nwchem",
         "orca",
         "psi4",
@@ -1288,6 +1294,30 @@
           "status": "success",
           "source": "action_backend_matrix_smoke",
           "elapsed_seconds": 1.928419,
+          "detail": null
+        },
+        {
+          "action": "calculate_hessian",
+          "backend": "chgnet",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 24.936444,
+          "detail": null
+        },
+        {
+          "action": "calculate_hessian",
+          "backend": "deepmd",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 77.137657,
+          "detail": null
+        },
+        {
+          "action": "calculate_hessian",
+          "backend": "mace",
+          "status": "success",
+          "source": "action_backend_matrix_smoke",
+          "elapsed_seconds": 27.232974,
           "detail": null
         },
         {
@@ -4726,7 +4756,19 @@
     ],
     [
       "calculate_hessian",
+      "chgnet"
+    ],
+    [
+      "calculate_hessian",
+      "deepmd"
+    ],
+    [
+      "calculate_hessian",
       "gaussian"
+    ],
+    [
+      "calculate_hessian",
+      "mace"
     ],
     [
       "calculate_hessian",

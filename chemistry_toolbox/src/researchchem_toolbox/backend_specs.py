@@ -642,7 +642,8 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         allowed_settings={"optimize_geometry": {"optimizer": _ASE_OPTIMIZER_CHOICES}},
     ),
     _backend(
-        "mace", "MACE", "mlip", ("calculate_energy", "calculate_forces", "optimize_geometry"),
+        "mace", "MACE", "mlip",
+        ("calculate_energy", "calculate_forces", "calculate_hessian", "optimize_geometry"),
         "MACE machine-learned interatomic potential with explicit model/device selection.",
         modules=("mace.calculators", "ase"), pip=("mace-torch==0.3.16",),
         method_schema={
@@ -656,22 +657,39 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
             "default_dtype": "optional float32 or float64",
             "optimizer": "bfgs, lbfgs, or fire for optimize_geometry",
         },
-        required_methods={action: ("model", "device", "allow_model_download") for action in ("calculate_energy", "calculate_forces", "optimize_geometry")},
-        required_settings={"optimize_geometry": ("fmax_ev_per_angstrom", "optimizer", "max_steps")},
+        required_methods={
+            action: ("model", "device", "allow_model_download")
+            for action in (
+                "calculate_energy", "calculate_forces", "calculate_hessian", "optimize_geometry",
+            )
+        },
+        required_settings={
+            "calculate_hessian": ("displacement_angstrom",),
+            "optimize_geometry": ("fmax_ev_per_angstrom", "optimizer", "max_steps"),
+        },
         allowed_settings={"optimize_geometry": {"optimizer": _ASE_OPTIMIZER_CHOICES}},
     ),
     _backend(
-        "chgnet", "CHGNet", "mlip", ("calculate_energy", "calculate_forces", "optimize_geometry"),
+        "chgnet", "CHGNet", "mlip",
+        ("calculate_energy", "calculate_forces", "calculate_hessian", "optimize_geometry"),
         "CHGNet machine-learned interatomic potential with explicit model/device selection.",
         modules=("chgnet", "ase"), pip=("chgnet",),
-        required_methods={action: ("model", "device", "allow_model_download") for action in ("calculate_energy", "calculate_forces", "optimize_geometry")},
-        required_settings={"optimize_geometry": ("fmax_ev_per_angstrom", "optimizer", "max_steps")},
+        required_methods={
+            action: ("model", "device", "allow_model_download")
+            for action in (
+                "calculate_energy", "calculate_forces", "calculate_hessian", "optimize_geometry",
+            )
+        },
+        required_settings={
+            "calculate_hessian": ("displacement_angstrom",),
+            "optimize_geometry": ("fmax_ev_per_angstrom", "optimizer", "max_steps"),
+        },
         allowed_settings={"optimize_geometry": {"optimizer": _ASE_OPTIMIZER_CHOICES}},
     ),
     _backend(
         "deepmd", "DeePMD-kit", "deepmd",
         (
-            "calculate_energy", "calculate_forces", "optimize_geometry",
+            "calculate_energy", "calculate_forces", "calculate_hessian", "optimize_geometry",
             "calculate_periodic_energy", "calculate_periodic_forces",
             "calculate_periodic_stress", "relax_periodic_structure",
         ),
@@ -692,12 +710,13 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         required_methods={
             action: ("model", "device", "model_branch", "charge", "spin")
             for action in (
-                "calculate_energy", "calculate_forces", "optimize_geometry",
+                "calculate_energy", "calculate_forces", "calculate_hessian", "optimize_geometry",
                 "calculate_periodic_energy", "calculate_periodic_forces",
                 "calculate_periodic_stress", "relax_periodic_structure",
             )
         },
         required_settings={
+            "calculate_hessian": ("displacement_angstrom",),
             "optimize_geometry": ("fmax_ev_per_angstrom", "optimizer", "max_steps"),
             **_MLIP_PERIODIC_RELAX,
         },

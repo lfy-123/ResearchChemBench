@@ -275,6 +275,39 @@ def molecular_cases() -> list[Case]:
     add("calculate_forces", "tblite", request("tblite", WATER, tblite, {}))
 
     add("calculate_hessian", "ase_emt", request("ase_emt", WATER, {}, {"displacement_angstrom": 0.01}))
+    add(
+        "calculate_hessian",
+        "chgnet",
+        request(
+            "chgnet",
+            SILICON_CLUSTER,
+            {"model": "pretrained-0.3.0", "device": "cpu", "allow_model_download": True},
+            {"displacement_angstrom": 0.01},
+            limits={"walltime_seconds": 600, "memory_mb": 8192, "cpu_cores": 1},
+        ),
+    )
+    add(
+        "calculate_hessian",
+        "deepmd",
+        request(
+            "deepmd",
+            WATER,
+            deepmd_water,
+            {"displacement_angstrom": 0.01},
+            limits={"walltime_seconds": 600, "memory_mb": 8192, "cpu_cores": 1},
+        ),
+    )
+    add(
+        "calculate_hessian",
+        "mace",
+        request(
+            "mace",
+            WATER,
+            mace,
+            {"displacement_angstrom": 0.01},
+            limits={"walltime_seconds": 600, "memory_mb": 8192, "cpu_cores": 1},
+        ),
+    )
     add("calculate_hessian", "psi4", request("psi4", WATER, psi, {}, limits=quantum_limits))
     add("calculate_hessian", "tblite", request("tblite", WATER, tblite, {"displacement_angstrom": 0.01}))
     add("calculate_hessian", "xtb", request("xtb", WATER, {"method": "gfn2"}, {}, limits=quantum_limits))
@@ -703,9 +736,9 @@ def all_cases() -> list[Case]:
         *phonon_cases(),
     ]
     pairs = [(case.action, case.backend) for case in cases]
-    if len(cases) != 62 or len(set(pairs)) != 62:
+    if len(cases) != 65 or len(set(pairs)) != 65:
         raise RuntimeError(
-            f"Action/Backend gap registry must contain 62 unique pairs, found {len(cases)}/{len(set(pairs))}"
+            f"Action/Backend gap registry must contain 65 unique pairs, found {len(cases)}/{len(set(pairs))}"
         )
     catalog = action_specs()
     invalid = [
@@ -785,7 +818,10 @@ def _write_status(
     payload = {
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "schema_version": 1,
-        "purpose": "Complete the 62 Action/Backend pairs unobserved in the 2026-07-20 audit.",
+        "purpose": (
+            "Complete the original 62 Action/Backend gaps plus three explicitly exposed "
+            "finite-difference Hessian backends."
+        ),
         "summary": {
             "registered_gap_pair_count": len(expected),
             "observed_pair_count": len(observed),
@@ -811,7 +847,7 @@ def main() -> int:
     parser.add_argument("--output", type=Path, default=STATUS_PATH)
     parser.add_argument("--fresh", action="store_true", help="Discard existing checkpoint records before running.")
     parser.add_argument("--resume", action="store_true", help="Skip selected pairs already recorded as success/partial_success.")
-    parser.add_argument("--list", action="store_true", help="List the 62 registered cases without running them.")
+    parser.add_argument("--list", action="store_true", help="List the 65 registered cases without running them.")
     args = parser.parse_args()
 
     load_dotenv(ROOT / "config.local.env", override=False)

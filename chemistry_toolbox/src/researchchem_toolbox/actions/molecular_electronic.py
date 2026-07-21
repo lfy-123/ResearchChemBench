@@ -29,7 +29,10 @@ ACTION_SPECS = (
             "molecular_electronic",
             "Calculate one molecular Hessian without deriving modes, spectra, or thermochemistry.",
             "Hessian",
-            ("xtb", "pyscf", "psi4", "tblite", "nwchem", "orca", "gaussian", "ase_emt"),
+            (
+                "xtb", "pyscf", "psi4", "tblite", "nwchem", "orca", "gaussian",
+                "mace", "chgnet", "deepmd", "ase_emt",
+            ),
             ("structure",),
             input_description="AtomicStructure",
         ),

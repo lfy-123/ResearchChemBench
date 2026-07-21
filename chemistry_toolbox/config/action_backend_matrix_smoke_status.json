@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-07-21T07:53:00.995242+00:00",
+  "generated_at": "2026-07-21T11:43:36.319507+00:00",
   "schema_version": 1,
-  "purpose": "Complete the 62 Action/Backend pairs unobserved in the 2026-07-20 audit.",
+  "purpose": "Complete the original 62 Action/Backend gaps plus three explicitly exposed finite-difference Hessian backends.",
   "summary": {
-    "registered_gap_pair_count": 62,
-    "observed_pair_count": 62,
-    "passed_pair_count": 62,
+    "registered_gap_pair_count": 65,
+    "observed_pair_count": 65,
+    "passed_pair_count": 65,
     "failed_pair_count": 0,
     "missing_pair_count": 0,
     "all_observed": true,
@@ -586,6 +586,139 @@
       },
       "error": null,
       "warnings": [],
+      "output_artifact_count": 1
+    },
+    {
+      "case_id": "calculate_hessian__chgnet",
+      "group": "molecular_electronic",
+      "action": "calculate_hessian",
+      "backend": "chgnet",
+      "status": "success",
+      "backend_version": "0.4.2",
+      "elapsed_seconds": 24.936444,
+      "request_summary": {
+        "input_fields": [
+          "structure"
+        ],
+        "method_spec": {
+          "model": "pretrained-0.3.0",
+          "device": "cpu",
+          "allow_model_download": true
+        },
+        "action_settings": {
+          "displacement_angstrom": 0.01
+        },
+        "resource_limits": {
+          "walltime_seconds": 600,
+          "memory_mb": 8192,
+          "cpu_cores": 1
+        }
+      },
+      "result_summary": {
+        "keys": [
+          "displacement_angstrom",
+          "matrix",
+          "unit"
+        ],
+        "unit": "eV/angstrom^2",
+        "matrix_shape": [
+          6,
+          6
+        ]
+      },
+      "error": null,
+      "warnings": [
+        "Backend stdout was captured; see worker_stdout in provenance"
+      ],
+      "output_artifact_count": 1
+    },
+    {
+      "case_id": "calculate_hessian__deepmd",
+      "group": "molecular_electronic",
+      "action": "calculate_hessian",
+      "backend": "deepmd",
+      "status": "success",
+      "backend_version": "3.2.0b0",
+      "elapsed_seconds": 77.137657,
+      "request_summary": {
+        "input_fields": [
+          "structure"
+        ],
+        "method_spec": {
+          "model": "resource://deepmd_dpa3_omol_large",
+          "device": "cpu",
+          "model_branch": "single_task",
+          "charge": 0,
+          "spin": 0
+        },
+        "action_settings": {
+          "displacement_angstrom": 0.01
+        },
+        "resource_limits": {
+          "walltime_seconds": 600,
+          "memory_mb": 8192,
+          "cpu_cores": 1
+        }
+      },
+      "result_summary": {
+        "keys": [
+          "displacement_angstrom",
+          "matrix",
+          "unit"
+        ],
+        "unit": "eV/angstrom^2",
+        "matrix_shape": [
+          9,
+          9
+        ]
+      },
+      "error": null,
+      "warnings": [],
+      "output_artifact_count": 1
+    },
+    {
+      "case_id": "calculate_hessian__mace",
+      "group": "molecular_electronic",
+      "action": "calculate_hessian",
+      "backend": "mace",
+      "status": "success",
+      "backend_version": "0.3.16",
+      "elapsed_seconds": 27.232974,
+      "request_summary": {
+        "input_fields": [
+          "structure"
+        ],
+        "method_spec": {
+          "model": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.model_cache/mace/macempa0mediummodel",
+          "device": "cpu",
+          "allow_model_download": false,
+          "default_dtype": "float64"
+        },
+        "action_settings": {
+          "displacement_angstrom": 0.01
+        },
+        "resource_limits": {
+          "walltime_seconds": 600,
+          "memory_mb": 8192,
+          "cpu_cores": 1
+        }
+      },
+      "result_summary": {
+        "keys": [
+          "displacement_angstrom",
+          "matrix",
+          "unit"
+        ],
+        "unit": "eV/angstrom^2",
+        "matrix_shape": [
+          9,
+          9
+        ]
+      },
+      "error": null,
+      "warnings": [
+        "Backend stdout was captured; see worker_stdout in provenance"
+      ],
       "output_artifact_count": 1
     },
     {

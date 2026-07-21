@@ -1,7 +1,7 @@
 # ResearchChemBench Action–Backend 全组合测试与软件接入审计
 
-> 生成时间：`2026-07-21T08:04:58.722761+00:00`。
-> 本报告合并 2026-07-20 已有证据与本轮 62 个缺口组合的真实统一分发调用；已测试组合不会重复运行。
+> 生成时间：`2026-07-21T11:57:00.578648+00:00`。
+> 本报告合并 2026-07-20 已有证据与本轮 65 个补测组合的真实统一分发调用；已测试组合不会重复运行。
 > 11个原失败组合的代码修复、现场复测及PubChem出口诊断见 [`ACTION_BACKEND_REPAIR_REPORT_20260721.md`](ACTION_BACKEND_REPAIR_REPORT_20260721.md)。
 
 ## 1. 最终结论
@@ -10,21 +10,21 @@
 |---|---:|
 | 公开 Actions | 101 |
 | BackendSpecs | 76 |
-| Catalog Action–Backend 组合 | 233 |
-| 有成功证据的组合 | **228** |
+| Catalog Action–Backend 组合 | 236 |
+| 有成功证据的组合 | **231** |
 | 仅有失败证据的组合 | **5** |
 | 尚未测试组合 | **0** |
-| 本轮补测 | 62/62 通过，0 失败 |
+| 本轮补测 | 65/65 通过，0 失败 |
 | 至少有一个成功 Action 的 Backend | 76/76 |
 | 当前无任何成功证据的 Backend | — |
 
-结论：**233/233 个声明组合都有真实调用证据；228 个通过，5 个仍有问题。** 当前包含 0 个本地适配问题和 5 个远端数据服务问题。
+结论：**236/236 个声明组合都有真实调用证据；231 个通过，5 个仍有问题。** 当前包含 0 个本地适配问题和 5 个远端数据服务问题。
 
 ## 2. 本轮补测结果
 
 | 分组 | 组合数 | 通过 | 失败 |
 |---|---:|---:|---:|
-| 分子电子结构与ML势 | 27 | 27 | 0 |
+| 分子电子结构与ML势 | 30 | 30 | 0 |
 | 周期材料与弛豫 | 18 | 18 | 0 |
 | 分子动力学与溶剂化 | 8 | 8 | 0 |
 | 轨迹分析与反应 | 5 | 5 | 0 |
@@ -51,6 +51,7 @@
 | `pubchem` | 1 | 5 | 代码侧韧性修复已完成；当前现场失败来自远端503/出口黑名单。 |
 
 补充：`search_compounds/pubchem` 有历史成功证据，因此不属于“仅失败组合”；但最新连通性探测显示 PUG REST 仍返回503，应与其他 PubChem Actions 一起按远端降级处理。
+
 
 ## 4. 101个 Action 的完整 Backend 实测清单
 
@@ -87,7 +88,7 @@
 | 27 | `enumerate_stereoisomers` | 化学信息学与分子图操作 | ✅ `rdkit` |
 | 28 | `calculate_energy` | 分子电子结构与派生性质 | ✅ `xtb`<br>✅ `pyscf`<br>✅ `psi4`<br>✅ `tblite`<br>✅ `gpaw`<br>✅ `nwchem`<br>✅ `openmolcas`<br>✅ `mace`<br>✅ `chgnet`<br>✅ `deepmd`<br>✅ `orca`<br>✅ `gaussian`<br>✅ `gamess`<br>✅ `ase_emt` |
 | 29 | `calculate_forces` | 分子电子结构与派生性质 | ✅ `xtb`<br>✅ `pyscf`<br>✅ `tblite`<br>✅ `gpaw`<br>✅ `nwchem`<br>✅ `orca`<br>✅ `mace`<br>✅ `chgnet`<br>✅ `deepmd`<br>✅ `ase_emt` |
-| 30 | `calculate_hessian` | 分子电子结构与派生性质 | ✅ `xtb`<br>✅ `pyscf`<br>✅ `psi4`<br>✅ `tblite`<br>✅ `nwchem`<br>✅ `orca`<br>✅ `gaussian`<br>✅ `ase_emt` |
+| 30 | `calculate_hessian` | 分子电子结构与派生性质 | ✅ `xtb`<br>✅ `pyscf`<br>✅ `psi4`<br>✅ `tblite`<br>✅ `nwchem`<br>✅ `orca`<br>✅ `gaussian`<br>✅ `mace`<br>✅ `chgnet`<br>✅ `deepmd`<br>✅ `ase_emt` |
 | 31 | `optimize_geometry` | 分子电子结构与派生性质 | ✅ `xtb`<br>✅ `tblite`<br>✅ `gpaw`<br>✅ `mace`<br>✅ `chgnet`<br>✅ `deepmd`<br>✅ `orca`<br>✅ `gaussian`<br>✅ `gamess`<br>✅ `ase_emt`<br>✅ `geometric`<br>✅ `sella` |
 | 32 | `calculate_dipole_moment` | 分子电子结构与派生性质 | ✅ `xtb`<br>✅ `tblite`<br>✅ `pyscf`<br>✅ `psi4`<br>✅ `nwchem`<br>✅ `openmolcas`<br>✅ `orca`<br>✅ `gaussian`<br>✅ `gamess` |
 | 33 | `calculate_atomic_charges` | 分子电子结构与派生性质 | ✅ `xtb`<br>✅ `pyscf`<br>✅ `psi4`<br>✅ `nwchem`<br>✅ `openmolcas`<br>✅ `multiwfn`<br>✅ `orca` |
@@ -192,16 +193,16 @@
 | `critic2` | Critic2 | `critic2` | `critic2` | 3 | ✅ 3/3 |
 | `psi4` | Psi4 | `psi4` | `psi4`, `psi4` | 5 | ✅ 5/5 |
 | `tblite` | TBLite | `quantum` | `tblite`, `ase` | 5 | ✅ 5/5 |
-| `mace` | MACE | `mlip` | `mace.calculators`, `ase` | 3 | ✅ 3/3 |
-| `chgnet` | CHGNet | `mlip` | `chgnet`, `ase` | 3 | ✅ 3/3 |
-| `deepmd` | DeePMD-kit | `deepmd` | `dp`, `deepmd`, `ase` | 7 | ✅ 7/7 |
+| `mace` | MACE | `mlip` | `mace.calculators`, `ase` | 4 | ✅ 4/4 |
+| `chgnet` | CHGNet | `mlip` | `chgnet`, `ase` | 4 | ✅ 4/4 |
+| `deepmd` | DeePMD-kit | `deepmd` | `dp`, `deepmd`, `ase` | 8 | ✅ 8/8 |
 | `nequip` | NequIP | `nequip` | `nequip-train`, `nequip`, `torch`, `e3nn`, `ase` | 4 | ✅ 4/4 |
 | `allegro` | Allegro | `nequip` | `allegro`, `nequip`, `torch`, `e3nn`, `ase` | 4 | ✅ 4/4 |
 | `orca` | ORCA | `quantum` | `orca` | 9 | ✅ 9/9 |
 | `gaussian` | Gaussian 16 | `gaussian` | `g16`, `formchk` | 4 | ✅ 4/4 |
 | `gamess` | GAMESS | `gamess` | `rungms` | 3 | ✅ 3/3 |
 | `ase_emt` | ASE EMT | `core` | `ase.calculators.emt` | 4 | ✅ 4/4 |
-| `internal_vibrations` | ResearchChem vibrational analysis | `core` | `numpy` | 1 | ✅ 1/1 |
+| `internal_vibrations` | ResearchChem vibrational analysis | `core` | `ase`, `numpy` | 1 | ✅ 1/1 |
 | `internal_spectroscopy` | ResearchChem spectrum builder | `core` | `numpy` | 2 | ✅ 2/2 |
 | `internal_thermochemistry` | ResearchChem statistical thermochemistry | `core` | `ase`, `numpy` | 1 | ✅ 1/1 |
 | `goodvibes` | GoodVibes | `reaction` | `goodvibes`, `goodvibes` | 1 | ✅ 1/1 |
@@ -296,14 +297,14 @@
 1. **本地5个组合已修复。** Psi4向量API、CP2K显式打印/版本化解析和GROMACS ensemble字段均已通过真实后端复测。
 2. **优先排查 PubChem 出口状态。** 当前响应明确显示 `Retry-After: 30` 和 `too many requests per second or blacklisted`；需检查共享 NAT/代理出口，代码不得伪造成功或隐藏切换数据源。
 3. **在线韧性代码已落地。** PubChem/Catalysis-Hub 使用有界重试、Retry-After、跨 worker PubChem 限速和 `retryable` 错误语义；Catalysis-Hub 已现场恢复成功。
-4. **为每个 Backend capability 保留一个小型真实 smoke。** 将本轮62个用例长期纳入夜间/发布前矩阵，不必每次跑昂贵全量体系。
-5. **PubChem解除阻塞后重跑六个网络用例。** 目标是 `successful_action_backend_pairs=233`、`failed=0`、`unobserved=0`。
+4. **为每个 Backend capability 保留一个小型真实 smoke。** 将本轮65个用例长期纳入夜间/发布前矩阵，不必每次跑昂贵全量体系。
+5. **PubChem解除阻塞后重跑六个网络用例。** 目标是 `successful_action_backend_pairs=236`、`failed=0`、`unobserved=0`。
 
 ## 9. 收尾校验
 
 - MCP Catalog 校验：`ok: 101 actions, 76 backends, full exposure, agent-required backend selection, no fallback`。
-- 完整测试集：`152 passed in 414.44s`。
-- 新增矩阵审计测试会验证62个补测用例与历史缺口完全一致，并验证233个 Catalog 组合被成功集与失败集完整划分。
+- 完整测试集：`183 passed in 442.70s`。
+- 矩阵审计测试会验证65个补测用例与 Catalog 一致，并验证236个组合被成功集与失败集完整划分。
 - 修复涉及脚本和 Backend 模块的 `py_compile` 均通过。
 
 ## 10. 复现命令

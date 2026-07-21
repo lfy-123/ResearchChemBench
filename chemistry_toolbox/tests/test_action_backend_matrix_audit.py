@@ -16,7 +16,7 @@ def test_matrix_checkpoint_contains_every_registered_gap_case():
     expected = {(case.action, case.backend) for case in all_cases()}
     payload = _json(CONFIG_ROOT / "action_backend_matrix_smoke_status.json")
     observed = {(item["action"], item["backend"]) for item in payload["cases"]}
-    assert len(expected) == 62
+    assert len(expected) == 65
     assert observed == expected
     assert payload["summary"]["observed_pair_count"] == len(expected)
     assert payload["summary"]["missing_pair_count"] == 0
@@ -31,7 +31,7 @@ def test_combined_coverage_partitions_the_complete_catalog():
         for action in action_specs().values()
         for backend_id in action.backend_ids
     }
-    assert len(catalog) == 233
+    assert len(catalog) == 236
     assert successful.isdisjoint(failed)
     assert successful | failed == catalog
     assert payload["unobserved_action_backend_pairs"] == []

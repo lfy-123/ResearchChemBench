@@ -1,6 +1,6 @@
 # ResearchChem Atomic Tool Catalog
 
-Catalog hash: `7a15cb19ab2f7ab9c18a07f7b5cae5c527e6b1c3bf6d9efc3edfc87c1218c95b`
+Catalog hash: `62a5234cd4946edca48ed064f0b33ad2eebb509d0f0fcb91f1f59f7c2db66674`
 
 The benchmark exposes every action below for every task. Provider selection follows each Action's policy.
 
@@ -35,7 +35,7 @@ The benchmark exposes every action below for every task. Provider selection foll
 | enumerate_stereoisomers | cheminformatics | MoleculeCollection | agent_backend_required | rdkit | molecule | Enumerate bounded stereoisomers under explicit uniqueness and assignment rules. |
 | calculate_energy | molecular_electronic | EnergyResult | agent_backend_required | xtb, pyscf, psi4, tblite, gpaw, nwchem, openmolcas, mace, chgnet, deepmd, orca, gaussian, gamess, ase_emt | structure | Calculate one molecular or non-periodic scalar energy with the exact software and method selected by the agent. |
 | calculate_forces | molecular_electronic | ForceResult | agent_backend_required | xtb, pyscf, tblite, gpaw, nwchem, orca, mace, chgnet, deepmd, ase_emt | structure | Calculate atomic forces for one non-periodic structure or an aligned batch. |
-| calculate_hessian | molecular_electronic | Hessian | agent_backend_required | xtb, pyscf, psi4, tblite, nwchem, orca, gaussian, ase_emt | structure | Calculate one molecular Hessian without deriving modes, spectra, or thermochemistry. |
+| calculate_hessian | molecular_electronic | Hessian | agent_backend_required | xtb, pyscf, psi4, tblite, nwchem, orca, gaussian, mace, chgnet, deepmd, ase_emt | structure | Calculate one molecular Hessian without deriving modes, spectra, or thermochemistry. |
 | optimize_geometry | molecular_electronic | AtomicStructure | agent_backend_required | xtb, tblite, gpaw, mace, chgnet, deepmd, orca, gaussian, gamess, ase_emt, geometric, sella | structure | Optimize one non-periodic geometry and return the optimized structure only as the primary result. |
 | calculate_dipole_moment | molecular_electronic | DipoleResult | agent_backend_required | xtb, tblite, pyscf, psi4, nwchem, openmolcas, orca, gaussian, gamess | structure | Calculate one molecular dipole moment with an explicitly chosen electronic method. |
 | calculate_atomic_charges | molecular_electronic | AtomicChargeResult | agent_backend_required | xtb, pyscf, psi4, nwchem, openmolcas, multiwfn, orca | structure | Calculate electronic-structure population-analysis charges without attaching force-field parameters. |
@@ -48,7 +48,7 @@ The benchmark exposes every action below for every task. Provider selection foll
 | derive_vibrational_modes | molecular_electronic | FrequencyResult | internal_deterministic | internal_vibrations | hessian, structure | Derive frequencies and normal modes from an existing Hessian and structure. |
 | derive_ir_spectrum | molecular_electronic | SpectrumResult | internal_deterministic | internal_spectroscopy | vibrations | Construct an IR spectrum from vibration results that already contain intensities. |
 | derive_uv_vis_spectrum | molecular_electronic | SpectrumResult | internal_deterministic | internal_spectroscopy | excited_states | Construct a deterministic broadened UV/visible spectrum from supplied transition energies and oscillator strengths. |
-| derive_thermochemistry | molecular_electronic | ThermochemistryResult | agent_backend_required | internal_thermochemistry, goodvibes | energy, frequencies | Derive thermochemical quantities from supplied electronic energy and frequencies; no optimization or Hessian is hidden. |
+| derive_thermochemistry | molecular_electronic | ThermochemistryResult | agent_backend_required | internal_thermochemistry, goodvibes | backend-specific: internal_thermochemistry(energy,frequencies); goodvibes(output_file) | Derive thermochemical quantities from supplied electronic energy and frequencies; no optimization or Hessian is hidden. |
 | locate_transition_state | reaction_and_kinetics | AtomicStructure | agent_backend_required | pysisyphus, sella | initial_guess | Locate one candidate transition-state structure without automatically running frequencies or IRC. |
 | trace_intrinsic_reaction_coordinate | reaction_and_kinetics | ReactionPath | agent_backend_required | pysisyphus | transition_state | Trace an IRC from an already supplied transition-state structure. |
 | calculate_chemical_equilibrium | reaction_and_kinetics | EquilibriumResult | agent_backend_required | cantera | composition | Calculate an equilibrium composition/state for an explicitly supplied mechanism and thermodynamic condition. |
@@ -95,7 +95,7 @@ The benchmark exposes every action below for every task. Provider selection foll
 | calculate_phonon_density_of_states | periodic_and_phonons | PhononDensityOfStates | agent_backend_required | phonopy, phono3py | force_constants, structure | Calculate a phonon density of states from existing force constants and an explicit q mesh. |
 | calculate_harmonic_thermodynamics | periodic_and_phonons | HarmonicThermodynamicsResult | agent_backend_required | phonopy, phono3py | force_constants, structure | Calculate harmonic free energy, entropy, and constant-volume heat capacity at explicitly supplied temperatures. |
 | calculate_phonon_group_velocities | periodic_and_phonons | PhononGroupVelocityResult | agent_backend_required | phonopy, phono3py | force_constants, structure | Calculate mode-resolved phonon group-velocity vectors along an explicitly supplied q-point path. |
-| calculate_lattice_thermal_conductivity | periodic_and_phonons | LatticeThermalConductivityResult | agent_backend_required | phono3py, shengbte |  | Calculate the lattice thermal-conductivity tensor from explicit second-/third-order force constants or a complete native BTE model under Agent-selected solution and scattering settings. |
+| calculate_lattice_thermal_conductivity | periodic_and_phonons | LatticeThermalConductivityResult | agent_backend_required | phono3py, shengbte | backend-specific: phono3py(second_order_force_constants,third_order_force_constants,structure); shengbte(control_file,second_order_force_constants_file,third_order_force_constants_file) | Calculate the lattice thermal-conductivity tensor from explicit second-/third-order force constants or a complete native BTE model under Agent-selected solution and scattering settings. |
 | dock_ligand | docking | DockingResult | agent_backend_required | vina, gnina | receptor, ligand, search_space | Dock an already prepared ligand into an already prepared receptor using an explicit search space. |
 | search_compounds | data_sources | CompoundRecords | fixed_source | pubchem | query | Search PubChem compound records by an explicit identifier and namespace. |
 | resolve_chemical_identity | data_sources | ChemicalIdentity | fixed_source | pubchem | query | Resolve one explicit compound identifier to a bounded ChemicalIdentity record through PubChem. |
@@ -179,7 +179,7 @@ The benchmark exposes every action below for every task. Provider selection foll
 | gaussian | gaussian | available |  |  | g16, formchk |  | commercial_license |
 | gamess | gamess | available |  |  | rungms |  | registration_license |
 | ase_emt | core | available |  | ase |  |  | open_source |
-| internal_vibrations | core | available |  | numpy |  |  | open_source |
+| internal_vibrations | core | available |  | ase, numpy |  |  | open_source |
 | internal_spectroscopy | core | available |  | numpy |  |  | open_source |
 | internal_thermochemistry | core | available |  | ase, numpy |  |  | open_source |
 | goodvibes | reaction | available | goodvibes |  | goodvibes |  | open_source |
