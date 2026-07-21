@@ -1,0 +1,94 @@
+{
+  "evaluation_mode": "rubric_100",
+  "score_max": 100,
+  "expected_tool_calls": [],
+  "expected_result": {
+    "classification": [
+      "stepwise",
+      "asynchronous",
+      "apical-to-equatorial ligand coupling"
+    ],
+    "key_event": "One apical P-C(pyridyl) bond breaks while a new C-C bond forms; other equatorial P-C bonds change much less.",
+    "intermediate": "dearomatized post-coupling intermediate",
+    "published_P_C_distances_angstrom": {
+      "P1_apical": 1.95,
+      "P1_equatorial": 1.87,
+      "P2_apical": 1.99,
+      "P2_equatorial": 1.86
+    },
+    "oxygen_lone_pair_conclusion": "Little change along the published key reaction coordinate, but the raw population trajectory is not included in the task data."
+  },
+  "expected_structured_output": null,
+  "scoring_rubric": [
+    {
+      "id": "stationary_point_sequence",
+      "max_score": 20,
+      "criterion": "Reconstructs reactant-side P(V), bond-forming transition state, dearomatized intermediate, subsequent transition region, and product-side state."
+    },
+    {
+      "id": "connectivity_validation",
+      "max_score": 20,
+      "criterion": "Uses or attempts direct reaction-path connectivity evidence and does not present an unverified guess as proof."
+    },
+    {
+      "id": "bond_reorganization",
+      "max_score": 25,
+      "criterion": "Shows one apical P-C bond weakens/breaks as the new C-C bond forms while other equatorial P-C bonds change much less."
+    },
+    {
+      "id": "intermediate_and_classification",
+      "max_score": 20,
+      "criterion": "Identifies a dearomatized intermediate and classifies the event as stepwise, asynchronous, apical-to-equatorial ligand coupling."
+    },
+    {
+      "id": "oxygen_lone_pairs",
+      "max_score": 10,
+      "criterion": "Supports little direct oxygen lone-pair involvement with electronic evidence or explicitly limits the claim when that trajectory is unavailable."
+    },
+    {
+      "id": "uncertainty",
+      "max_score": 5,
+      "criterion": "Separates direct evidence from inference and records failed analyses."
+    }
+  ],
+  "critical_failures": [
+    "The report presents a precise literature target as an independently computed value without supporting provenance.",
+    "Charges, multiplicities, units, temperature, standard state, or energy layers are mixed in a way that invalidates the claimed comparison.",
+    "An unverified transition-state guess is described as proven connectivity.",
+    "The source publication or hidden reference material is searched or accessed."
+  ],
+  "judge_instructions": "Judge scientific dependencies and evidence, not exact tool names or a unique call order. Treat the declared archive limitations as part of the benchmark boundary. Flag objective framework/backend failures separately from model scientific errors.",
+  "reference_evidence": {
+    "conditions": {
+      "temperature_K": 353.15,
+      "standard_state_M": 1.0,
+      "solvent": "ethanol"
+    },
+    "thermochemistry_protocol": {
+      "entropy_model": "Grimme mRRHO",
+      "entropy_frequency_cutoff_cm-1": 100.0,
+      "free_rotor_inertia_model": "global",
+      "enthalpy_model": "RRHO",
+      "frequency_scale_factor": 1.0,
+      "zpe_scale_factor": 1.0,
+      "imaginary_frequency_policy": "invert modes between -5 and 0 cm-1 only",
+      "symmetry_correction": false
+    },
+    "published_rounding_is_not_exact_recompute": true,
+    "experimental_observation_ids": [
+      "E01",
+      "E02",
+      "E03",
+      "E04",
+      "E05",
+      "E06",
+      "E07",
+      "E08",
+      "E09",
+      "E10",
+      "E11",
+      "E12"
+    ],
+    "public_archive_sha256": "97fa402aec3fa9191d0352485c7c4a8c77415d47d7c917dcb1cc0548f04d495d"
+  }
+}

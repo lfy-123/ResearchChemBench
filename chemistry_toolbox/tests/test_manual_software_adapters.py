@@ -57,6 +57,22 @@ def test_gaussian_rejects_unparsed_correlated_total_energy_methods():
         )
 
 
+def test_gaussian_renderer_exposes_typed_smd_solvent():
+    text = quantum_legacy._render_gaussian(
+        "calculate_hessian",
+        WATER,
+        {
+            "method": "wB97XD",
+            "basis": "6-31+G(d)",
+            "solvation_model": "smd",
+            "solvent": "Ethanol",
+        },
+        {"scf_convergence": "Tight"},
+        {"cpu_cores": 1},
+    )
+    assert "SCRF=(SMD,Solvent=Ethanol)" in text
+
+
 def test_gamess_renderer_preserves_explicit_basis_and_convergence():
     text = quantum_legacy._render_gamess(
         "calculate_energy",

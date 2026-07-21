@@ -1,0 +1,124 @@
+{
+  "evaluation_mode": "rubric_100",
+  "score_max": 100,
+  "expected_tool_calls": [],
+  "expected_result": {
+    "published_profiles_kcal_mol": {
+      "P0": {
+        "BiPy": 30,
+        "PhPy": 37,
+        "BiPy_reaction": -39,
+        "PhPy_reaction": -38
+      },
+      "P1": {
+        "BiPy": 20,
+        "PhPy": 27,
+        "BiPy_reaction": -37,
+        "PhPy_reaction": -37
+      },
+      "P2": {
+        "BiPy": 14,
+        "PhPy": 25,
+        "BiPy_reaction": -38,
+        "PhPy_reaction": -41
+      }
+    },
+    "recomputed_353K_1M_profiles_kcal_mol": {
+      "P0": {
+        "BiPy": 30.91,
+        "PhPy": 37.32,
+        "delta_delta": 6.41,
+        "BiPy_reaction": -32.38,
+        "PhPy_reaction": -32.54
+      },
+      "P1": {
+        "BiPy": 19.81,
+        "PhPy": 26.86,
+        "delta_delta": 7.05,
+        "BiPy_reaction": -30.53,
+        "PhPy_reaction": -28.51
+      },
+      "P2": {
+        "BiPy": 14.3,
+        "PhPy": 25.57,
+        "delta_delta": 11.27,
+        "BiPy_reaction": -31.35,
+        "PhPy_reaction": -31.85
+      }
+    },
+    "conclusion": "Pyridyl-pyridyl selectivity is kinetic; product thermodynamics do not explain the observed selectivity."
+  },
+  "expected_structured_output": null,
+  "scoring_rubric": [
+    {
+      "id": "path_and_ensemble_assignment",
+      "max_score": 20,
+      "criterion": "Distinguishes pyridyl-pyridyl and phenyl-pyridyl reactant, transition-state, and product evidence across P0/P1/P2."
+    },
+    {
+      "id": "stationary_point_and_provenance",
+      "max_score": 15,
+      "criterion": "Uses defensible stationary-point evidence and records methods, units, standard state, and conformer treatment."
+    },
+    {
+      "id": "activation_selectivity",
+      "max_score": 25,
+      "criterion": "Finds positive PhPy-BiPy barrier gaps near 6.4, 7.1, and 11.3 kcal mol-1, consistent with published 7/7/11 ordering."
+    },
+    {
+      "id": "reaction_thermodynamics",
+      "max_score": 15,
+      "criterion": "Recognizes both products are strongly exergonic and that recomputed reaction free energies need not equal published rounded values."
+    },
+    {
+      "id": "kinetic_vs_thermodynamic_conclusion",
+      "max_score": 20,
+      "criterion": "Correctly attributes selectivity primarily to transition-state kinetics rather than product thermodynamics."
+    },
+    {
+      "id": "uncertainty",
+      "max_score": 5,
+      "criterion": "Explains method/version and pathway-assignment uncertainty."
+    }
+  ],
+  "critical_failures": [
+    "The report presents a precise literature target as an independently computed value without supporting provenance.",
+    "Charges, multiplicities, units, temperature, standard state, or energy layers are mixed in a way that invalidates the claimed comparison.",
+    "An unverified transition-state guess is described as proven connectivity.",
+    "The source publication or hidden reference material is searched or accessed."
+  ],
+  "judge_instructions": "Judge scientific dependencies and evidence, not exact tool names or a unique call order. Treat the declared archive limitations as part of the benchmark boundary. Flag objective framework/backend failures separately from model scientific errors.",
+  "reference_evidence": {
+    "conditions": {
+      "temperature_K": 353.15,
+      "standard_state_M": 1.0,
+      "solvent": "ethanol"
+    },
+    "thermochemistry_protocol": {
+      "entropy_model": "Grimme mRRHO",
+      "entropy_frequency_cutoff_cm-1": 100.0,
+      "free_rotor_inertia_model": "global",
+      "enthalpy_model": "RRHO",
+      "frequency_scale_factor": 1.0,
+      "zpe_scale_factor": 1.0,
+      "imaginary_frequency_policy": "invert modes between -5 and 0 cm-1 only",
+      "symmetry_correction": false
+    },
+    "published_rounding_is_not_exact_recompute": true,
+    "experimental_observation_ids": [
+      "E01",
+      "E02",
+      "E03",
+      "E04",
+      "E05",
+      "E06",
+      "E07",
+      "E08",
+      "E09",
+      "E10",
+      "E11",
+      "E12"
+    ],
+    "public_archive_sha256": "97fa402aec3fa9191d0352485c7c4a8c77415d47d7c917dcb1cc0548f04d495d"
+  }
+}

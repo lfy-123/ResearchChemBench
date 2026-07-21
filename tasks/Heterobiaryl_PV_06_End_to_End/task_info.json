@@ -1,0 +1,22 @@
+{
+  "task_id": "Heterobiaryl_PV_06_End_to_End",
+  "source_id": "hidden_pv_heterobiaryl_mechanism_2018",
+  "category": "end_to_end_scientific_investigation",
+  "task": "Develop a reproducible mechanistic and energetic account of the P(V)-mediated heterobiaryl-forming reaction represented by the anonymous structures, computational records, and experimental observations. Starting from the evidence rather than a predetermined workflow, formulate and test competing explanations for protonation effects, product selectivity, elementary bond reorganization, and observed kinetics. Produce a coherent final mechanism that distinguishes established facts, computed results, inference, failed or inconclusive analyses, and remaining uncertainty. Do not identify or search for the source publication.",
+  "data": [
+    {
+      "name": "Anonymous P(V) evidence package",
+      "path": "data/benchmark_data",
+      "type": "directory",
+      "description": "Anonymous candidate structures, paired computational records, starting conformers, experimental observations, manifests, and explicit data limitations."
+    }
+  ],
+  "archive_extractions": [
+    {
+      "source": "computational_records.zip",
+      "destination": "benchmark_data",
+      "format": "zip",
+      "sha256": "97fa402aec3fa9191d0352485c7c4a8c77415d47d7c917dcb1cc0548f04d495d"
+    }
+  ]
+}

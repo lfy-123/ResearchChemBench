@@ -1,0 +1,67 @@
+{
+  "task_id": "E2E_PV_HETEROBIARYL_MECHANISM_V1",
+  "scoring_philosophy": "scientific dependency and evidence validity, not exact tool-call order",
+  "hard_gates": [
+    "no paper or hidden-answer leakage",
+    "correct charge and multiplicity handling",
+    "transition states validated by mode and IRC",
+    "consistent energy level and standard state within comparisons",
+    "rate-limiting and selectivity-determining steps distinguished"
+  ],
+  "scientific_dependency_order": [
+    "input audit",
+    "candidate clustering and low-cost screening",
+    "stationary-point and Hessian classification",
+    "bidirectional IRC validation",
+    "consistent high-level single-point energies",
+    "353.15 K and 1 M thermochemistry",
+    "barrier and selectivity comparison",
+    "bond-change and electronic-structure analysis",
+    "experimental-computational integration",
+    "uncertainty-aware final report"
+  ],
+  "archive_label_mapping": {
+    "Int-I": "reactant-side P(V) conformer/intermediate; approximately main-text Int-III",
+    "TS-I": "key ligand-coupling transition state; main-text TS-I",
+    "Int-II": "dearomatized post-coupling intermediate; approximately main-text Int-IV",
+    "TS-II": "subsequent collapse/rearomatization transition state",
+    "Int-III": "product-side stationary state"
+  },
+  "reference_methods": {
+    "geometry_and_frequency": "Gaussian 16, omegaB97XD/6-31+G(d), SMD ethanol",
+    "large_basis_dft_check": "Gaussian 16, omegaB97XD/def2-QZVPP, SMD ethanol",
+    "high_level_single_point": "ORCA 4.0.1.2, SMD-DLPNO-CCSD(T)/cc-pV(DT)Z extrapolation",
+    "thermochemistry": "The paper cites GoodVibes 2.0.1. This benchmark defines the recomputation profile at 353.15 K and 1 M; published rounded values and recomputed values must be stored separately.",
+    "equivalent_backends": "allowed when scientifically justified, applied consistently, and fully recorded"
+  },
+  "required_process_artifacts": {
+    "research_plan.json": "declared evaluation mode plus pre-computation hypotheses, pathway priorities, validation and resource strategy",
+    "tool_trace.jsonl": "chronological Action/Backend/parameter/input/output/retry provenance",
+    "stationary_points.csv": "minimum/TS roles, Hessian evidence, IRC endpoints, acceptance or rejection",
+    "energy_profile.csv": "electronic energy, thermal correction, Gibbs energy and relative energy with common conditions",
+    "mechanism_evidence.json": "candidate-linked bond changes, IRC evidence, pathway alternatives and experimental observation IDs",
+    "failure_log.jsonl": "all failed calculations and repair outcomes, or an explicitly empty file",
+    "final_report.md": "facts, computations, inferences and limitations kept distinct",
+    "final_answer.json": "structured mechanism, key steps, barriers, confidence and unresolved issues"
+  },
+  "checkpoints": [
+    {"id": "M0", "name": "input_audit", "expected": ["P0/P1/P2 separated", "charges 0/+1/+2 checked", "duplicates and failures tracked"], "weight": 8},
+    {"id": "M1", "name": "hypothesis_decomposition", "expected": ["protonation effect", "BiPy versus PhPy", "C-C versus C-O", "concerted versus stepwise", "candidate rate-limiting step"], "weight": 8},
+    {"id": "M2", "name": "stationary_point_classification", "expected": ["minima have no meaningful imaginary frequency", "TS has target imaginary mode", "rejected candidates documented"], "weight": 14},
+    {"id": "M3", "name": "irc_validation", "expected": ["forward and reverse endpoints chemically assigned", "wrongly connected TS rejected"], "weight": 14},
+    {"id": "M4", "name": "consistent_energetics", "expected": ["geometry/frequency and single-point levels separated", "353.15 K and 1 M used for the main profile", "provenance complete"], "weight": 14},
+    {"id": "M5", "name": "barrier_and_selectivity_profile", "expected": ["paper-published BiPy targets approximately 30/20/14 stored separately", "paper-published PhPy targets approximately 37/27/25 stored separately", "paper-published P2 C-O target approximately 18", "353.15 K and 1 M recomputation has explicit provenance", "kinetic selectivity"], "weight": 16},
+    {"id": "M6", "name": "reaction_coordinate_mechanism", "expected": ["one apical P-C bond breaks", "new C-C bond forms", "dearomatized intermediate", "stepwise asynchronous mechanism"], "weight": 12},
+    {"id": "M7", "name": "experiment_computation_integration", "expected": ["relative-rate trend used", "alcohol addition assigned as rate-limiting", "ligand coupling assigned as selectivity-determining", "NMR non-detection interpreted cautiously"], "weight": 10},
+    {"id": "M8", "name": "uncertainty_and_reporting", "expected": ["failed calculations included", "method deviations stated", "claims linked to evidence", "limitations retained"], "weight": 4}
+  ],
+  "gold_final_answer": {
+    "active_protonation_state": "P2, doubly protonated",
+    "preferred_coupling_path": "pyridyl-pyridyl C-C coupling",
+    "mechanism_class": "stepwise asynchronous apical-to-equatorial ligand coupling",
+    "rate_limiting_step": "alcohol attack/addition at phosphonium phosphorus before ligand coupling",
+    "selectivity_determining_step": "intramolecular ligand-coupling transition state",
+    "irreversible_step": "collapse of the dearomatized intermediate to products",
+    "key_barriers_kcal_mol": {"BiPy_P0": 30, "BiPy_P1": 20, "BiPy_P2": 14, "PhPy_P0": 37, "PhPy_P1": 27, "PhPy_P2": 25, "CO_P2": 18}
+  }
+}

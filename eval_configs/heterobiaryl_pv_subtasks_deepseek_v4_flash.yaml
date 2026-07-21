@@ -1,0 +1,15 @@
+name: heterobiaryl_pv_subtasks_deepseek_v4_flash
+agents:
+  - opencode
+tasks:
+  - Heterobiaryl_PV_01_Protonation
+  - Heterobiaryl_PV_02_CC_Selectivity
+  - Heterobiaryl_PV_03_CC_vs_CO
+  - Heterobiaryl_PV_04_Coupling_Mechanism
+  - Heterobiaryl_PV_05_Rate_Determining_Step
+repeats: 1
+max_concurrent_runs: 2
+timeout_seconds: 7200
+max_turns: 220
+judge:
+  enabled: true

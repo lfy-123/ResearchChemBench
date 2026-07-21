@@ -1,0 +1,22 @@
+{
+  "task_id": "Heterobiaryl_PV_02_CC_Selectivity",
+  "source_id": "hidden_pv_heterobiaryl_mechanism_2018",
+  "category": "mechanistic_quantum_chemistry",
+  "task": "Using only the supplied anonymous evidence, determine whether pyridyl-pyridyl coupling is preferred over phenyl-pyridyl coupling for kinetic or thermodynamic reasons in each protonation state. Assign defensible reactant, transition-state, and product ensembles; compare activation and reaction free energies under a common 353.15 K, 1 M convention; report path rankings and confidence; and explain any difference between published-style rounded values and your own reprocessing. Do not identify or search for the source publication.",
+  "data": [
+    {
+      "name": "Anonymous P(V) evidence package",
+      "path": "data/benchmark_data",
+      "type": "directory",
+      "description": "Anonymous candidate structures, paired computational records, starting conformers, experimental observations, manifests, and explicit data limitations."
+    }
+  ],
+  "archive_extractions": [
+    {
+      "source": "computational_records.zip",
+      "destination": "benchmark_data",
+      "format": "zip",
+      "sha256": "97fa402aec3fa9191d0352485c7c4a8c77415d47d7c917dcb1cc0548f04d495d"
+    }
+  ]
+}

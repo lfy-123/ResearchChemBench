@@ -1,0 +1,83 @@
+{
+  "evaluation_mode": "rubric_100",
+  "score_max": 100,
+  "expected_tool_calls": [],
+  "expected_result": {
+    "published_P2_barriers_kcal_mol": {
+      "C-C": 14,
+      "C-O": 18,
+      "C-O_minus_C-C": 4
+    },
+    "recomputed_supported_C-C_barrier_kcal_mol": 14.3,
+    "archive_limitation": "No explicit C-O transition-state record is present in the supplied author archive.",
+    "conclusion": "C-C coupling is favored, while a minor C-O pathway remains chemically plausible and is experimentally observed only at trace level under ethoxide conditions."
+  },
+  "expected_structured_output": null,
+  "scoring_rubric": [
+    {
+      "id": "problem_definition",
+      "max_score": 15,
+      "criterion": "Defines comparable doubly protonated C-C and C-O pathways, charges, states, and reference convention."
+    },
+    {
+      "id": "supported_cc_barrier",
+      "max_score": 20,
+      "criterion": "Validates the supplied C-C evidence and obtains a barrier near 14-14.3 kcal mol-1."
+    },
+    {
+      "id": "co_path_investigation",
+      "max_score": 25,
+      "criterion": "Recognizes the archive lacks an explicit C-O transition-state record and either performs a defensible independent investigation or gives a rigorous bounded conclusion without fabrication."
+    },
+    {
+      "id": "barrier_comparison",
+      "max_score": 20,
+      "criterion": "If independently supported, recovers the paper checkpoint near 18 kcal mol-1 and a roughly 4 kcal mol-1 C-O penalty; otherwise reports why an exact number is not established."
+    },
+    {
+      "id": "product_prediction_and_uncertainty",
+      "max_score": 20,
+      "criterion": "Predicts dominant C-C coupling with at most minor C-O product, integrates the trace experimental product, and states uncertainty."
+    }
+  ],
+  "critical_failures": [
+    "The report presents a precise literature target as an independently computed value without supporting provenance.",
+    "Charges, multiplicities, units, temperature, standard state, or energy layers are mixed in a way that invalidates the claimed comparison.",
+    "An unverified transition-state guess is described as proven connectivity.",
+    "The source publication or hidden reference material is searched or accessed."
+  ],
+  "judge_instructions": "Judge scientific dependencies and evidence, not exact tool names or a unique call order. Treat the declared archive limitations as part of the benchmark boundary. Flag objective framework/backend failures separately from model scientific errors.",
+  "reference_evidence": {
+    "conditions": {
+      "temperature_K": 353.15,
+      "standard_state_M": 1.0,
+      "solvent": "ethanol"
+    },
+    "thermochemistry_protocol": {
+      "entropy_model": "Grimme mRRHO",
+      "entropy_frequency_cutoff_cm-1": 100.0,
+      "free_rotor_inertia_model": "global",
+      "enthalpy_model": "RRHO",
+      "frequency_scale_factor": 1.0,
+      "zpe_scale_factor": 1.0,
+      "imaginary_frequency_policy": "invert modes between -5 and 0 cm-1 only",
+      "symmetry_correction": false
+    },
+    "published_rounding_is_not_exact_recompute": true,
+    "experimental_observation_ids": [
+      "E01",
+      "E02",
+      "E03",
+      "E04",
+      "E05",
+      "E06",
+      "E07",
+      "E08",
+      "E09",
+      "E10",
+      "E11",
+      "E12"
+    ],
+    "public_archive_sha256": "97fa402aec3fa9191d0352485c7c4a8c77415d47d7c917dcb1cc0548f04d495d"
+  }
+}

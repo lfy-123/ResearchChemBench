@@ -1,0 +1,22 @@
+{
+  "task_id": "Heterobiaryl_PV_01_Protonation",
+  "source_id": "hidden_pv_heterobiaryl_mechanism_2018",
+  "category": "mechanistic_quantum_chemistry",
+  "task": "Using only the supplied anonymous evidence, determine how successive N-protonation changes the activation free energy of pyridyl-pyridyl ligand coupling in neutral, singly protonated, and doubly protonated P(V) systems. Establish which records support the reactant and transition-state ensembles, keep all three states on a common thermochemical convention at 353.15 K and 1 M, quantify the barrier trend, and explain the structural or electronic origin. Distinguish values taken from supplied records from any independent recalculation, and state uncertainties or missing connectivity evidence. Do not identify or search for the source publication.",
+  "data": [
+    {
+      "name": "Anonymous P(V) evidence package",
+      "path": "data/benchmark_data",
+      "type": "directory",
+      "description": "Anonymous candidate structures, paired computational records, starting conformers, experimental observations, manifests, and explicit data limitations."
+    }
+  ],
+  "archive_extractions": [
+    {
+      "source": "computational_records.zip",
+      "destination": "benchmark_data",
+      "format": "zip",
+      "sha256": "97fa402aec3fa9191d0352485c7c4a8c77415d47d7c917dcb1cc0548f04d495d"
+    }
+  ]
+}

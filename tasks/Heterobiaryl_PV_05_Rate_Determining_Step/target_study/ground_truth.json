@@ -1,0 +1,89 @@
+{
+  "evaluation_mode": "rubric_100",
+  "score_max": 100,
+  "expected_tool_calls": [],
+  "expected_result": {
+    "relative_rates": {
+      "OMe": 0.16,
+      "Me": 0.37,
+      "H": 1.0,
+      "Cl": 1.89
+    },
+    "rate_determining_step": "Alcohol attack/addition at phosphonium phosphorus to form the P(V) species.",
+    "selectivity_determining_step": "Intramolecular ligand coupling from the P(V) intermediate.",
+    "strongly_irreversible_stage": "Collapse of the dearomatized intermediate toward products."
+  },
+  "expected_structured_output": null,
+  "scoring_rubric": [
+    {
+      "id": "experimental_rate_trend",
+      "max_score": 20,
+      "criterion": "Correctly extracts OMe 0.16 < Me 0.37 < H 1.00 < Cl 1.89 and relates it to increasing phosphorus electrophilicity."
+    },
+    {
+      "id": "computed_barrier_integration",
+      "max_score": 20,
+      "criterion": "Uses the low doubly protonated ligand-coupling barrier without confusing a computed elementary barrier with the observed overall rate."
+    },
+    {
+      "id": "ethoxide_and_nmr_evidence",
+      "max_score": 20,
+      "criterion": "Uses rapid room-temperature ethoxide coupling and cautious P(V) NMR non-detection reasoning."
+    },
+    {
+      "id": "rate_determining_step",
+      "max_score": 20,
+      "criterion": "Assigns alcohol attack/addition at phosphonium phosphorus before ligand coupling as the most likely rate-determining step."
+    },
+    {
+      "id": "step_role_separation",
+      "max_score": 15,
+      "criterion": "Separates rate determination, ligand-coupling selectivity determination, and strongly exergonic/near-irreversible collapse."
+    },
+    {
+      "id": "alternatives",
+      "max_score": 5,
+      "criterion": "Retains detection-limit, steady-state, and other falsifiable alternatives."
+    }
+  ],
+  "critical_failures": [
+    "The report presents a precise literature target as an independently computed value without supporting provenance.",
+    "Charges, multiplicities, units, temperature, standard state, or energy layers are mixed in a way that invalidates the claimed comparison.",
+    "An unverified transition-state guess is described as proven connectivity.",
+    "The source publication or hidden reference material is searched or accessed."
+  ],
+  "judge_instructions": "Judge scientific dependencies and evidence, not exact tool names or a unique call order. Treat the declared archive limitations as part of the benchmark boundary. Flag objective framework/backend failures separately from model scientific errors.",
+  "reference_evidence": {
+    "conditions": {
+      "temperature_K": 353.15,
+      "standard_state_M": 1.0,
+      "solvent": "ethanol"
+    },
+    "thermochemistry_protocol": {
+      "entropy_model": "Grimme mRRHO",
+      "entropy_frequency_cutoff_cm-1": 100.0,
+      "free_rotor_inertia_model": "global",
+      "enthalpy_model": "RRHO",
+      "frequency_scale_factor": 1.0,
+      "zpe_scale_factor": 1.0,
+      "imaginary_frequency_policy": "invert modes between -5 and 0 cm-1 only",
+      "symmetry_correction": false
+    },
+    "published_rounding_is_not_exact_recompute": true,
+    "experimental_observation_ids": [
+      "E01",
+      "E02",
+      "E03",
+      "E04",
+      "E05",
+      "E06",
+      "E07",
+      "E08",
+      "E09",
+      "E10",
+      "E11",
+      "E12"
+    ],
+    "public_archive_sha256": "97fa402aec3fa9191d0352485c7c4a8c77415d47d7c917dcb1cc0548f04d495d"
+  }
+}

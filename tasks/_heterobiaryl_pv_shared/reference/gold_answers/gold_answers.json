@@ -1,0 +1,39 @@
+{
+  "energy_unit": "kcal/mol",
+  "reference_level_reported_in_figure": "SMD-DLPNO-CCSD(T)/cc-pV(DT)Z//omegaB97XD/6-31+G(d)",
+  "Q1_protonation_barriers": {
+    "P0": {"BiPy_dG_dagger": 30, "BiPy_dG_reaction": -39},
+    "P1": {"BiPy_dG_dagger": 20, "BiPy_dG_reaction": -37},
+    "P2": {"BiPy_dG_dagger": 14, "BiPy_dG_reaction": -38},
+    "conclusion": "successive protonation lowers the BiPy barrier by about 10 and then 6 kcal/mol"
+  },
+  "Q2_cc_chemoselectivity": {
+    "P0": {"BiPy_dG_dagger": 30, "PhPy_dG_dagger": 37, "delta_delta_G_dagger": 7, "BiPy_dG_reaction": -39, "PhPy_dG_reaction": -38},
+    "P1": {"BiPy_dG_dagger": 20, "PhPy_dG_dagger": 27, "delta_delta_G_dagger": 7, "BiPy_dG_reaction": -37, "PhPy_dG_reaction": -37},
+    "P2": {"BiPy_dG_dagger": 14, "PhPy_dG_dagger": 25, "delta_delta_G_dagger": 11, "BiPy_dG_reaction": -38, "PhPy_dG_reaction": -41},
+    "conclusion": "BiPy selectivity is kinetic rather than product-thermodynamic"
+  },
+  "Q3_cc_vs_co": {
+    "P2_BiPy_dG_dagger": 14,
+    "P2_CO_dG_dagger": 18,
+    "delta_delta_G_dagger_CO_minus_CC": 4,
+    "conclusion": "C-C coupling is kinetically preferred"
+  },
+  "Q4_mechanism": {
+    "classification": ["stepwise", "asynchronous", "apical-to-equatorial ligand coupling"],
+    "P2_apical_PC_A": 1.99,
+    "P2_equatorial_PC_A": 1.86,
+    "P1_apical_PC_A": 1.95,
+    "P1_equatorial_PC_A": 1.87,
+    "TS_relative_G": 14,
+    "dearomatized_intermediate_relative_G": -7,
+    "oxygen_lone_pair_role": "little change along the key IRC",
+    "key_event": "one apical P-C(py) bond breaks while the new C-C bond forms"
+  },
+  "Q5_rate_determining_step": {
+    "relative_rates": {"OMe": 0.16, "Me": 0.37, "H": 1.0, "Cl": 1.89},
+    "rate_limiting_step": "alcohol attack/addition at the phosphonium phosphorus center to form the P(V) species",
+    "selectivity_determining_step": "intramolecular ligand coupling from the P(V) intermediate",
+    "supporting_observations": ["rate increases with phosphorus electrophilicity", "P(V) intermediate not detected by 31P NMR", "EtONa enables rapid room-temperature reaction"]
+  }
+}

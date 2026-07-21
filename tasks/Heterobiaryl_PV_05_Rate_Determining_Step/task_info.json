@@ -1,0 +1,22 @@
+{
+  "task_id": "Heterobiaryl_PV_05_Rate_Determining_Step",
+  "source_id": "hidden_pv_heterobiaryl_mechanism_2018",
+  "category": "experimental_computational_integration",
+  "task": "Integrate the supplied experimental observations with the anonymous computational evidence to determine the rate-determining step under the reported acidic ethanol conditions. Quantify the substituent-rate trend, reconcile it with the accessible ligand-coupling barriers and the ethoxide experiment, and distinguish the rate-determining, selectivity-determining, and strongly irreversible stages. Explain the non-observation of a P(V) intermediate without treating non-detection as proof of absence, and retain plausible alternatives. Do not identify or search for the source publication.",
+  "data": [
+    {
+      "name": "Anonymous P(V) evidence package",
+      "path": "data/benchmark_data",
+      "type": "directory",
+      "description": "Anonymous candidate structures, paired computational records, starting conformers, experimental observations, manifests, and explicit data limitations."
+    }
+  ],
+  "archive_extractions": [
+    {
+      "source": "computational_records.zip",
+      "destination": "benchmark_data",
+      "format": "zip",
+      "sha256": "97fa402aec3fa9191d0352485c7c4a8c77415d47d7c917dcb1cc0548f04d495d"
+    }
+  ]
+}

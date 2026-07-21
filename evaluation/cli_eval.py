@@ -82,13 +82,31 @@ def resolve_specs(config: dict[str, Any]) -> list[RunSpec]:
 
 def _write_batch_report(batch_dir: Path, rows: list[dict[str, Any]], config: dict) -> Path:
     scores = [float(row["score"]) for row in rows if row.get("score") is not None]
+    normalized_scores = [
+        float(row["normalized_score"])
+        for row in rows
+        if row.get("normalized_score") is not None
+    ]
+    score_maxima = {
+        float(row["score_max"])
+        for row in rows
+        if row.get("score") is not None and row.get("score_max") is not None
+    }
     summary = {
         "runs": len(rows),
         "completed": sum(row.get("status") == "completed" for row in rows),
         "failed": sum(row.get("status") != "completed" for row in rows),
         "scored": len(scores),
-        "mean_score": statistics.mean(scores) if scores else None,
-        "pass_rate": statistics.mean(scores) if scores else None,
+        "mean_score": statistics.mean(scores) if scores and len(score_maxima) == 1 else None,
+        "score_max": next(iter(score_maxima)) if len(score_maxima) == 1 else None,
+        "mean_normalized_score": (
+            statistics.mean(normalized_scores) if normalized_scores else None
+        ),
+        "pass_rate": (
+            statistics.mean(scores)
+            if scores and score_maxima == {1.0}
+            else None
+        ),
     }
     json_path = batch_dir / "eval_report.json"
     json_path.write_text(
@@ -102,13 +120,19 @@ def _write_batch_report(batch_dir: Path, rows: list[dict[str, Any]], config: dic
         f"- Completed: {summary['completed']}",
         f"- Failed: {summary['failed']}",
         f"- Scored: {summary['scored']}",
-        f"- Mean/pass rate: {summary['mean_score'] if scores else 'N/A'}",
+        f"- Mean score: {summary['mean_score'] if summary['mean_score'] is not None else 'N/A'}",
+        f"- Score maximum: {summary['score_max'] if summary['score_max'] is not None else 'mixed/N/A'}",
+        f"- Mean normalized score: {summary['mean_normalized_score'] if normalized_scores else 'N/A'}",
         "",
         "| Task | Agent | Repeat | Status | Score | Duration (s) | Run ID |",
         "|---|---|---:|---|---:|---:|---|",
     ]
     for row in rows:
-        score_text = "" if row.get("score") is None else row["score"]
+        score_text = (
+            ""
+            if row.get("score") is None
+            else f"{row['score']}/{row.get('score_max', 1)}"
+        )
         lines.append(
             f"| {row['task_id']} | {row['agent_key']} | {row['repeat']} | "
             f"{row['status']} | {score_text} | "
@@ -163,6 +187,11 @@ def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False
         try:
             meta = runner.run()
             score = None
+            score_max = None
+            normalized_score = None
+            criteria = []
+            objective_issue_flags = []
+            judge_consistency_warnings = []
             score_error = ""
             if meta.get("status") == "completed" and not no_score and config.get("judge", {}).get("enabled", True):
                 score_result = score_workspace(runner.workspace)
@@ -170,6 +199,15 @@ def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False
                     score_error = str(score_result["error"])
                 else:
                     score = score_result.get("score")
+                    score_max = score_result.get("score_max")
+                    normalized_score = score_result.get("normalized_score")
+                    criteria = score_result.get("criteria", [])
+                    objective_issue_flags = score_result.get(
+                        "objective_issue_flags", []
+                    )
+                    judge_consistency_warnings = score_result.get(
+                        "judge_consistency_warnings", []
+                    )
             return {
                 "task_id": spec.task_id,
                 "agent_key": spec.agent_key,
@@ -177,6 +215,11 @@ def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False
                 "run_id": runner.run_id,
                 "status": meta.get("status", "failed"),
                 "score": score,
+                "score_max": score_max,
+                "normalized_score": normalized_score,
+                "criteria": criteria,
+                "objective_issue_flags": objective_issue_flags,
+                "judge_consistency_warnings": judge_consistency_warnings,
                 "score_error": score_error,
                 "duration_seconds": meta.get("duration_seconds"),
                 "workspace": str(runner.workspace),
@@ -189,6 +232,11 @@ def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False
                 "run_id": runner.run_id,
                 "status": "failed",
                 "score": None,
+                "score_max": None,
+                "normalized_score": None,
+                "criteria": [],
+                "objective_issue_flags": [],
+                "judge_consistency_warnings": [],
                 "score_error": f"{type(exc).__name__}: {exc}",
                 "duration_seconds": None,
                 "workspace": str(runner.workspace),

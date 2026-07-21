@@ -2,17 +2,21 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import queue
 import shutil
+import stat
 import subprocess
 import threading
 import time
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
+from pathlib import PurePosixPath
 from typing import Any
+from zipfile import ZipFile
 
 from .config import (
     AGENT_PRESETS,
@@ -91,6 +95,86 @@ class TaskRunner:
                 ),
             ),
         )
+
+    @staticmethod
+    def _resolve_under(base: Path, relative_path: str, *, field: str) -> Path:
+        if not relative_path or Path(relative_path).is_absolute():
+            raise ValueError(f"{field} must be a non-empty relative path")
+        base = base.resolve()
+        resolved = (base / relative_path).resolve()
+        try:
+            resolved.relative_to(base)
+        except ValueError as exc:
+            raise ValueError(f"{field} escapes the task data directory") from exc
+        return resolved
+
+    def _extract_task_archives(self) -> None:
+        data_root = (self.workspace / "data").resolve()
+        for specification in self.task_info.get("archive_extractions", []):
+            source = self._resolve_under(
+                data_root,
+                str(specification["source"]),
+                field="archive_extractions.source",
+            )
+            destination = self._resolve_under(
+                data_root,
+                str(specification["destination"]),
+                field="archive_extractions.destination",
+            )
+            if not source.is_file():
+                raise FileNotFoundError(f"Task data archive not found: {source}")
+            expected_sha256 = str(specification.get("sha256") or "").strip().lower()
+            if expected_sha256:
+                actual_sha256 = hashlib.sha256(source.read_bytes()).hexdigest()
+                if actual_sha256 != expected_sha256:
+                    raise ValueError(
+                        f"Task data archive SHA-256 mismatch for {source.name}: "
+                        f"expected {expected_sha256}, received {actual_sha256}"
+                    )
+            with ZipFile(source) as archive:
+                infos = archive.infolist()
+                if len(infos) > 100_000:
+                    raise ValueError("Task data archive contains too many entries")
+                total_size = sum(info.file_size for info in infos)
+                if total_size > 5_000_000_000:
+                    raise ValueError("Task data archive expands beyond the 5 GB safety limit")
+                targets: set[Path] = set()
+                for info in infos:
+                    name = info.filename
+                    member = PurePosixPath(name)
+                    mode = (info.external_attr >> 16) & 0o170000
+                    if (
+                        not name
+                        or member.is_absolute()
+                        or ".." in member.parts
+                        or "\\" in name
+                        or "\x00" in name
+                        or info.flag_bits & 0x1
+                        or (
+                            mode
+                            and mode not in {stat.S_IFREG, stat.S_IFDIR}
+                        )
+                    ):
+                        raise ValueError(f"Unsafe task archive member: {name!r}")
+                    target = destination.joinpath(*member.parts)
+                    try:
+                        resolved_target = target.resolve()
+                        resolved_target.relative_to(destination.resolve())
+                    except ValueError as exc:
+                        raise ValueError(f"Task archive member escapes destination: {name!r}") from exc
+                    if resolved_target in targets:
+                        raise ValueError(f"Duplicate task archive target: {name!r}")
+                    targets.add(resolved_target)
+                destination.mkdir(parents=True, exist_ok=False)
+                for info in infos:
+                    member = PurePosixPath(info.filename)
+                    target = destination.joinpath(*member.parts)
+                    if info.is_dir():
+                        target.mkdir(parents=True, exist_ok=True)
+                        continue
+                    target.parent.mkdir(parents=True, exist_ok=True)
+                    with archive.open(info) as source_handle, target.open("wb") as target_handle:
+                        shutil.copyfileobj(source_handle, target_handle)
 
     def _runtime_pythonpath(self) -> str:
         values = [str(PROJECT_ROOT), str(CHEMGRAPH_SRC)]
@@ -199,6 +283,7 @@ class TaskRunner:
             shutil.copytree(source_data, self.workspace / "data", dirs_exist_ok=True)
         else:
             (self.workspace / "data").mkdir()
+        self._extract_task_archives()
         for directory in (
             "code",
             "outputs",

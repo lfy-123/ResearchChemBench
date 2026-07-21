@@ -479,7 +479,11 @@ def _validation_issue_lines(text: str) -> list[str]:
     for line in text.splitlines():
         stripped = line.strip()
         lowered = stripped.casefold()
-        if not stripped or "point group symmetry parsed directly" in lowered:
+        if (
+            not stripped
+            or "point group symmetry parsed directly" in lowered
+            or "implicit solvation (smd/cpcm) detected" in lowered
+        ):
             continue
         if (
             "caution!" in lowered
@@ -491,6 +495,49 @@ def _validation_issue_lines(text: str) -> list[str]:
                 issues.append(stripped[:1000])
             if len(issues) >= 100:
                 break
+    return issues
+
+
+def _single_point_consistency_issues(payload: dict[str, Any]) -> list[str]:
+    """Validate SPC metadata without GoodVibes 4.3's ``--check --spc`` crash."""
+
+    entries = [dict(item.get("qcdata") or {}) for item in payload.get("results", [])]
+    if not entries:
+        return ["No single-point-corrected structures were parsed."]
+    issues: list[str] = []
+    fields = {
+        "sp_version_program": "single-point program/version",
+        "sp_solvation_model": "single-point solvation model",
+        "sp_charge": "single-point charge",
+        "sp_multiplicity": "single-point multiplicity",
+        "sp_suffix": "single-point suffix",
+    }
+    for field, label in fields.items():
+        values = [json.dumps(entry.get(field), sort_keys=True) for entry in entries]
+        if any(entry.get(field) is None for entry in entries):
+            issues.append(f"At least one structure is missing its {label} metadata.")
+        elif len(set(values)) != 1:
+            issues.append(f"Inconsistent {label} values were detected.")
+    for entry in entries:
+        if entry.get("sp_energy") is None:
+            issues.append("At least one structure is missing a single-point energy.")
+            break
+    for entry in entries:
+        if (
+            entry.get("charge") is not None
+            and entry.get("sp_charge") is not None
+            and entry["charge"] != entry["sp_charge"]
+        ):
+            issues.append("A frequency/single-point charge mismatch was detected.")
+            break
+    for entry in entries:
+        if (
+            entry.get("multiplicity") is not None
+            and entry.get("sp_multiplicity") is not None
+            and entry["multiplicity"] != entry["sp_multiplicity"]
+        ):
+            issues.append("A frequency/single-point multiplicity mismatch was detected.")
+            break
     return issues
 
 
@@ -698,7 +745,14 @@ def execute(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
                 )
             output_stem = "reaction_profile"
         elif action_id == "validate_thermochemistry_inputs":
-            arguments.append("--check")
+            # GoodVibes 4.3.0 shadows its level_of_theory parser with a list
+            # inside check_files(), so the native combination --check --spc
+            # raises TypeError after parsing otherwise valid data. With SPC we
+            # first parse the corrected records, then run the native check on
+            # the frequency files alone and validate SPC metadata here.
+            validation_with_spc = method.get("single_point_correction_suffix") is not None
+            if not validation_with_spc:
+                arguments.append("--check")
             arguments.extend(_validation_cutoff_arguments(settings))
             output_stem = "validation"
         else:  # pragma: no cover - guarded by GOODVIBES_ACTIONS
@@ -719,6 +773,34 @@ def execute(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
         commands.append(completed["command"])
         payloads.append(payload)
         captured_texts.extend([completed["stdout"], completed["stderr"]])
+        if action_id == "validate_thermochemistry_inputs" and validation_with_spc:
+            frequency_method = dict(method)
+            frequency_method.pop("single_point_correction_suffix", None)
+            check_arguments = [
+                *_common_arguments(
+                    settings, frequency_method, temperature_kelvin=temperature
+                ),
+                "--check",
+                *_validation_cutoff_arguments(settings),
+                *jobs_arguments,
+            ]
+            check_payload, check_completed = _run_once(
+                directory=directory,
+                output_files=output_files,
+                arguments=check_arguments,
+                output_stem="validation_frequency_files",
+                timeout_seconds=timeout,
+            )
+            if check_payload is None:
+                return unavailable(
+                    check_completed["stderr"],
+                    install="pip install 'goodvibes[full]==4.3.0'",
+                )
+            commands.append(check_completed["command"])
+            payloads.append(check_payload)
+            captured_texts.extend(
+                [check_completed["stdout"], check_completed["stderr"]]
+            )
         base = _base_result(payload, settings, temperature)
 
         if action_id == "analyze_thermochemical_ensemble":
@@ -765,11 +847,14 @@ def execute(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
         else:
             report_text = "\n".join(captured_texts)
             issues = _validation_issue_lines(report_text)
+            if validation_with_spc:
+                issues.extend(_single_point_consistency_issues(payload))
             result = {
                 **base,
                 "consistent": not issues,
                 "issues": issues,
                 "goodvibes_check_report": report_text[-30000:],
+                "single_point_check_workaround": bool(validation_with_spc),
             }
 
     warnings = _warning_lines(*captured_texts)

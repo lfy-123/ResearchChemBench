@@ -149,3 +149,85 @@ def test_goodvibes_label_groups_require_exact_disjoint_members(tmp_path, monkeyp
         goodvibes._label_groups(
             {"R": ["first"], "S": ["first"]}, [first, second]
         )
+
+
+def test_goodvibes_validation_avoids_native_check_spc_crash(tmp_path, monkeypatch):
+    monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
+    first = (tmp_path / "first.log").resolve()
+    second = (tmp_path / "second.log").resolve()
+    for path in (first, second, tmp_path / "first_DLPNO.out", tmp_path / "second_DLPNO.out"):
+        path.write_text("test", encoding="utf-8")
+    output = tmp_path / "output"
+    output.mkdir()
+    lookup = {"first": first, "second": second}
+    calls = []
+
+    monkeypatch.setattr(goodvibes, "output_directory", lambda *_args: output)
+    monkeypatch.setattr(goodvibes, "resolve_input_file", lambda value: lookup[value])
+    monkeypatch.setattr(goodvibes, "module_version", lambda _name: "4.3.0")
+
+    def fake_run_external(**kwargs):
+        calls.append(kwargs["arguments"])
+        files = [Path(item) for item in kwargs["arguments"] if str(item).endswith(".log")]
+        payload = _payload(files[0])
+        payload["results"] = []
+        for path in files:
+            entry = _payload(path)["results"][0]
+            entry["qcdata"].update(
+                {
+                    "charge": 0,
+                    "multiplicity": 1,
+                    "sp_energy": -11.0,
+                    "sp_version_program": "ORCA 4.0.1.2",
+                    "sp_solvation_model": "SMD,ETHANOL",
+                    "sp_charge": 0,
+                    "sp_multiplicity": 1,
+                    "sp_suffix": "DLPNO",
+                }
+            )
+            payload["results"].append(entry)
+        json_name = kwargs["arguments"][kwargs["arguments"].index("--json") + 1]
+        (kwargs["directory"] / json_name).write_text(
+            json.dumps(payload), encoding="utf-8"
+        )
+        return {
+            "available": True,
+            "returncode": 0,
+            "stdout": "checks completed",
+            "stderr": "",
+            "command": ["goodvibes", *kwargs["arguments"]],
+        }
+
+    monkeypatch.setattr(goodvibes, "run_external", fake_run_external)
+    settings = _settings(
+        duplicate_energy_cutoff_kcal_mol=0.05,
+        duplicate_rotational_cutoff_fraction=0.01,
+        duplicate_rmsd_cutoff_angstrom=None,
+    )
+    result = goodvibes.execute(
+        "validate_thermochemistry_inputs",
+        {
+            "inputs": {"output_files": ["first", "second"]},
+            "method_spec": {"single_point_correction_suffix": "DLPNO"},
+            "action_settings": settings,
+            "resource_limits": {"cpu_cores": 1, "walltime_seconds": 30},
+        },
+    )
+
+    assert result["status"] == "success"
+    assert result["result"]["consistent"] is True
+    assert result["result"]["single_point_check_workaround"] is True
+    assert len(calls) == 2
+    assert "--spc" in calls[0] and "--check" not in calls[0]
+    assert "--check" in calls[1] and "--spc" not in calls[1]
+
+
+def test_validation_keeps_general_solvation_caution_out_of_consistency_issues():
+    text = (
+        "Caution! Implicit solvation (SMD/CPCM) detected. Enthalpic and entropic "
+        "terms cannot be safely separated. Use them at your own risk!\n"
+        "Caution! A calculation may not have terminated normally.\n"
+    )
+    assert goodvibes._validation_issue_lines(text) == [
+        "Caution! A calculation may not have terminated normally."
+    ]

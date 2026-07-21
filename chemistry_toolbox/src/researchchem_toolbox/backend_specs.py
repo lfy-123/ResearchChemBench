@@ -802,6 +802,8 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
             "method": "ORCA method/functional keyword",
             "basis": "ORCA basis-set keyword",
             "dispersion": "optional ORCA dispersion keyword",
+            "solvation_model": "optional cpcm or smd implicit-solvation model",
+            "solvent": "required solvent name when solvation_model is supplied",
             "charge": "optional explicit molecular charge",
             "multiplicity": "optional explicit spin multiplicity",
         },
@@ -822,6 +824,15 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
                 "excited_energy_tolerance_hartree", "residual_tolerance",
             ),
         },
+        allowed_methods={
+            action: {"solvation_model": ("cpcm", "smd")}
+            for action in (
+                "calculate_energy", "calculate_forces", "calculate_hessian",
+                "optimize_geometry", "calculate_dipole_moment",
+                "calculate_atomic_charges", "calculate_orbitals",
+                "calculate_bond_orders", "calculate_excited_states",
+            )
+        },
     ),
     _backend(
         "gaussian", "Gaussian 16", "gaussian",
@@ -838,6 +849,8 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
             "method": "Gaussian SCF or DFT method keyword",
             "basis": "Gaussian built-in basis-set keyword",
             "dispersion": "optional single Gaussian dispersion route keyword",
+            "solvation_model": "optional pcm, cpcm, or smd implicit-solvation model",
+            "solvent": "required Gaussian solvent name when solvation_model is supplied",
             "charge": "optional explicit molecular charge",
             "multiplicity": "optional explicit spin multiplicity",
         },
@@ -850,6 +863,13 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
             "calculate_hessian": ("scf_convergence",),
             "calculate_dipole_moment": ("scf_convergence",),
             "optimize_geometry": ("scf_convergence", "optimization_convergence", "max_steps"),
+        },
+        allowed_methods={
+            action: {"solvation_model": ("pcm", "cpcm", "smd")}
+            for action in (
+                "calculate_energy", "calculate_hessian", "optimize_geometry",
+                "calculate_dipole_moment",
+            )
         },
     ),
     _backend(

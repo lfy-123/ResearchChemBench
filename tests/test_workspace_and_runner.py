@@ -1,7 +1,31 @@
+import hashlib
 import json
 from pathlib import Path
+from zipfile import ZipFile
+
+import pytest
 
 from evaluation.run_task import TaskRunner
+
+
+def _archive_runner(tmp_path: Path, members: dict[str, str]) -> TaskRunner:
+    runner = TaskRunner("ChemGraph_001", agent_key="mock", workspace_root=tmp_path)
+    runner.workspace.mkdir(parents=True)
+    data = runner.workspace / "data"
+    data.mkdir()
+    archive_path = data / "input.zip"
+    with ZipFile(archive_path, "w") as archive:
+        for name, content in members.items():
+            archive.writestr(name, content)
+    runner.task_info["archive_extractions"] = [
+        {
+            "source": "input.zip",
+            "destination": "expanded",
+            "format": "zip",
+            "sha256": hashlib.sha256(archive_path.read_bytes()).hexdigest(),
+        }
+    ]
+    return runner
 
 
 def test_workspace_does_not_copy_hidden_ground_truth(tmp_path: Path):
@@ -13,6 +37,21 @@ def test_workspace_does_not_copy_hidden_ground_truth(tmp_path: Path):
     assert (runner.workspace / ".mcp.json").is_file()
     mcp_config = json.loads((runner.workspace / ".mcp.json").read_text())
     assert "chemistry_toolbox.mcp.server" in mcp_config["mcpServers"]["researchchem_toolbox"]["args"]
+
+
+def test_task_archive_is_hash_checked_and_safely_extracted(tmp_path: Path):
+    runner = _archive_runner(tmp_path, {"nested/evidence.txt": "scientific evidence"})
+    runner._extract_task_archives()
+    assert (
+        runner.workspace / "data" / "expanded" / "nested" / "evidence.txt"
+    ).read_text() == "scientific evidence"
+
+
+def test_task_archive_rejects_path_traversal(tmp_path: Path):
+    runner = _archive_runner(tmp_path, {"../ground_truth.json": "hidden"})
+    with pytest.raises(ValueError, match="Unsafe task archive member"):
+        runner._extract_task_archives()
+    assert not (runner.workspace / "data" / "expanded").exists()
 
 
 def test_mock_agent_end_to_end(tmp_path: Path):

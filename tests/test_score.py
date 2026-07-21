@@ -32,3 +32,44 @@ def test_judge_failure_is_not_counted_as_zero_score(tmp_path: Path):
     assert result["score"] is None
     assert "error" in result
     assert "judge unavailable" in result["parse_error"]
+
+
+def test_rubric_score_is_derived_from_clamped_criterion_scores(
+    tmp_path: Path, monkeypatch
+):
+    runner = TaskRunner("ChemGraph_001", agent_key="mock", workspace_root=tmp_path)
+    runner.run()
+    rubric_truth = {
+        "expected_tool_calls": [],
+        "expected_result": {"answer": "reference"},
+        "evaluation_mode": "rubric_100",
+        "score_max": 100,
+        "scoring_rubric": [
+            {"id": "science", "max_score": 60, "criterion": "Scientific result"},
+            {"id": "process", "max_score": 40, "criterion": "Scientific process"},
+        ],
+        "critical_failures": [],
+        "judge_instructions": "",
+        "reference_evidence": {},
+    }
+    monkeypatch.setattr("evaluation.score.load_ground_truth", lambda _task_id: rubric_truth)
+
+    result = score_workspace(
+        runner.workspace,
+        judge_call=lambda _prompt: {
+            "score": 99,
+            "criteria": [
+                {"id": "science", "score": 70, "max_score": 60, "rationale": "high"},
+                {"id": "process", "score": 25, "max_score": 40, "rationale": "partial"},
+            ],
+            "critical_failures": [],
+            "objective_issue_flags": [],
+            "rationale": "Injected rubric judge",
+        },
+    )
+
+    assert result["score"] == 85
+    assert result["score_max"] == 100
+    assert result["normalized_score"] == 0.85
+    assert [item["score"] for item in result["criteria"]] == [60, 25]
+    assert result["judge_consistency_warnings"]

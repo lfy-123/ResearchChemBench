@@ -290,6 +290,28 @@ def test_orca_input_maps_agent_cpu_limit_to_pal_without_selecting_a_method():
     assert "%pal\n  nprocs 2\nend" in text
 
 
+def test_orca_input_exposes_typed_smd_solvent():
+    text = electronic._render_orca(
+        "calculate_energy",
+        {
+            "atoms": [
+                {"element": "H", "position_angstrom": [0, 0, 0]},
+                {"element": "H", "position_angstrom": [0, 0, 0.74]},
+            ]
+        },
+        {
+            "method": "wB97X-D3",
+            "basis": "def2-SVP",
+            "solvation_model": "smd",
+            "solvent": "Ethanol",
+        },
+        {},
+        {"cpu_cores": 1},
+    )
+    assert "! wB97X-D3 def2-SVP SP CPCM" in text
+    assert '%cpcm\n  smd true\n  solvent "Ethanol"\nend' in text
+
+
 def test_orca_optimization_reads_final_xyz_not_first_trajectory_frame(
     tmp_path, monkeypatch
 ):

@@ -2314,9 +2314,29 @@ def _render_orca(
     header = f"! {method['method']} {method['basis']} {keyword}"
     if method.get("dispersion"):
         header += f" {method['dispersion']}"
+    solvation_lines: list[str] = []
+    if method.get("solvation_model") is not None:
+        model = str(method["solvation_model"]).strip().casefold()
+        if model not in {"cpcm", "smd"}:
+            raise ValueError("ORCA solvation_model must be cpcm or smd")
+        if not method.get("solvent"):
+            raise ValueError("ORCA solvation_model requires method_spec.solvent")
+        solvent = str(method["solvent"]).strip()
+        if not re.fullmatch(r"[A-Za-z0-9_.+-]+", solvent):
+            raise ValueError("ORCA solvent contains unsupported characters")
+        if model == "cpcm":
+            header += f" CPCM({solvent})"
+        else:
+            header += " CPCM"
+            solvation_lines = [
+                "%cpcm",
+                "  smd true",
+                f'  solvent "{solvent}"',
+                "end",
+            ]
     charge = int(method.get("charge", structure.get("charge", 0)))
     multiplicity = int(method.get("multiplicity", structure.get("multiplicity", 1)))
-    lines = [header]
+    lines = [header, *solvation_lines]
     parallel_processes = int((resource_limits or {}).get("cpu_cores") or 1)
     if parallel_processes > 1:
         lines.extend(["%pal", f"  nprocs {parallel_processes}", "end"])

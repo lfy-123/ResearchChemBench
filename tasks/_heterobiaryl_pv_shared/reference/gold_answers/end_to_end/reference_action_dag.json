@@ -1,0 +1,109 @@
+{
+  "name": "reference scientific-action dependency graph",
+  "ordering_policy": "partial order; equivalent Actions and Backends are allowed when scientific invariants are preserved",
+  "modes": {
+    "candidate_assisted": "classify and validate the 66 supplied mixed candidates",
+    "open_path_search": "start from 27 reactant-side conformers and locate transition states and downstream intermediates"
+  },
+  "nodes": [
+    {
+      "id": "A0",
+      "goal": "audit structures, charges, multiplicities, hashes, duplicates and obvious geometry failures",
+      "acceptable_actions": ["normalize_qcschema_molecule", "calculate_energy", "calculate_forces"],
+      "outputs": ["audited_structure_set", "duplicate_groups", "rejection_log"]
+    },
+    {
+      "id": "A1",
+      "goal": "propose pyridyl-pyridyl, phenyl-pyridyl, C-O and alternative concerted or stepwise hypotheses",
+      "acceptable_actions": ["agent_reasoning_with_structure_inspection"],
+      "outputs": ["candidate_pathway_hypotheses", "forming_and_breaking_atom_pairs"]
+    },
+    {
+      "id": "A2",
+      "goal": "screen and optimize candidate conformers at controlled cost",
+      "acceptable_actions": ["optimize_geometry", "calculate_energy", "calculate_forces"],
+      "outputs": ["optimized_candidates", "screening_energies", "optimization_failures"]
+    },
+    {
+      "id": "A3",
+      "goal": "locate missing transition states in open_path_search mode or refine supplied TS candidates",
+      "acceptable_actions": ["locate_transition_state", "optimize_geometry"],
+      "outputs": ["ts_candidates", "search_failures"],
+      "mode_requirement": "mandatory for open_path_search; conditional refinement for candidate_assisted"
+    },
+    {
+      "id": "A4",
+      "goal": "classify minima and transition states by Hessian and target normal mode",
+      "acceptable_actions": ["calculate_hessian", "derive_vibrational_modes"],
+      "outputs": ["validated_minima", "single_target_imaginary_mode_ts", "rejected_stationary_points"]
+    },
+    {
+      "id": "A5",
+      "goal": "prove chemical connectivity of every key transition state",
+      "acceptable_actions": ["trace_intrinsic_reaction_coordinate", "optimize_geometry"],
+      "outputs": ["forward_endpoints", "reverse_endpoints", "wrong_connection_log"]
+    },
+    {
+      "id": "A6",
+      "goal": "compute consistent high-level electronic energies for all accepted competing pathways",
+      "acceptable_actions": ["calculate_energy"],
+      "paper_reference_backend": "ORCA 4.0.1.2 SMD-DLPNO-CCSD(T)/cc-pV(DT)Z with Gaussian large-basis DFT check",
+      "outputs": ["high_level_electronic_energies", "method_provenance"]
+    },
+    {
+      "id": "A7",
+      "goal": "derive a common-condition free-energy profile",
+      "acceptable_actions": ["derive_thermochemistry"],
+      "benchmark_conditions": {"temperature_K": 353.15, "standard_state_M": 1.0, "solvent": "ethanol"},
+      "outputs": ["recomputed_at_353K_1M_profile", "thermal_corrections", "uncertainty_notes"]
+    },
+    {
+      "id": "A8",
+      "goal": "quantify protonation effects and BiPy/PhPy/C-O selectivity",
+      "acceptable_actions": ["deterministic_energy_statistics"],
+      "outputs": ["activation_free_energies", "reaction_free_energies", "delta_delta_G_dagger", "pathway_rankings"]
+    },
+    {
+      "id": "A9",
+      "goal": "classify the reaction coordinate as concerted or stepwise and synchronous or asynchronous",
+      "acceptable_actions": ["calculate_bond_orders", "parse_quantum_chemistry_output"],
+      "outputs": ["bond_order_trajectory", "key_bond_distance_trajectory", "dearomatized_intermediate_evidence"]
+    },
+    {
+      "id": "A10",
+      "goal": "integrate calculations with relative rates, NMR, selectivity and EtONa observations",
+      "acceptable_actions": ["agent_scientific_evidence_integration"],
+      "outputs": ["rate_limiting_step", "selectivity_determining_step", "irreversible_step", "alternative_explanations"]
+    },
+    {
+      "id": "A11",
+      "goal": "produce a reproducible report with failures, provenance, uncertainty and structured final claims",
+      "acceptable_actions": ["structured_reporting"],
+      "outputs": ["research_plan.json", "tool_trace.jsonl", "stationary_points.csv", "energy_profile.csv", "mechanism_evidence.json", "failure_log.jsonl", "final_report.md", "final_answer.json"]
+    }
+  ],
+  "edges": [
+    ["A0", "A1"],
+    ["A0", "A2"],
+    ["A1", "A3"],
+    ["A2", "A3"],
+    ["A2", "A4"],
+    ["A3", "A4"],
+    ["A4", "A5"],
+    ["A5", "A6"],
+    ["A4", "A7"],
+    ["A6", "A7"],
+    ["A7", "A8"],
+    ["A5", "A9"],
+    ["A8", "A10"],
+    ["A9", "A10"],
+    ["A10", "A11"]
+  ],
+  "hard_invalidations": [
+    "a claimed transition state lacks target-mode and IRC validation",
+    "competing barriers mix methods, temperatures or standard states",
+    "paper-published rounded values are silently substituted for recomputed results",
+    "rate-limiting and selectivity-determining steps are conflated",
+    "failed calculations are omitted from provenance"
+  ]
+}

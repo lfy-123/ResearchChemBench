@@ -117,6 +117,19 @@ def _render_gaussian(
     route = [f"{method_name}/{basis}", task_keyword, f"SCF={scf_keyword}"]
     if method.get("dispersion"):
         route.append(_safe_keyword(method["dispersion"], "Gaussian dispersion"))
+    if method.get("solvation_model") is not None:
+        model = str(method["solvation_model"]).strip().casefold()
+        model_keyword = {"pcm": "PCM", "cpcm": "CPCM", "smd": "SMD"}.get(model)
+        if model_keyword is None:
+            raise ValueError("Gaussian solvation_model must be pcm, cpcm, or smd")
+        if not method.get("solvent"):
+            raise ValueError("Gaussian solvation_model requires method_spec.solvent")
+        solvent = _safe_keyword(
+            method["solvent"],
+            "Gaussian solvent",
+            r"[A-Za-z0-9_.+-]+",
+        )
+        route.append(f"SCRF=({model_keyword},Solvent={solvent})")
     limits = resource_limits or {}
     cores = max(1, int(limits.get("cpu_cores") or 1))
     memory_mb = max(128, int(limits.get("memory_mb") or 1000))
