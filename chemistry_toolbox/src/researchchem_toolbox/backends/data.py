@@ -12,6 +12,7 @@ from urllib.parse import parse_qs, quote, urlencode, urljoin, urlparse
 
 import httpx
 
+from ..proxy import configure_pubchem_proxy_environment
 from .common import failed, module_version, partial_success, request_parts, success, unavailable, unsupported
 
 
@@ -1076,6 +1077,8 @@ def _catalysis_hub(request: dict[str, Any]) -> dict[str, Any]:
 
 def execute(action_id: str, backend_id: str, request: dict[str, Any]) -> dict[str, Any]:
     try:
+        if backend_id == "pubchem":
+            configure_pubchem_proxy_environment()
         if action_id == "search_compounds" and backend_id == "pubchem":
             return _pubchem(request)
         if action_id == "resolve_chemical_identity" and backend_id == "pubchem":

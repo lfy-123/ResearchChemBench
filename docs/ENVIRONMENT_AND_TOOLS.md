@@ -127,6 +127,18 @@ export HTTPS_PROXY=http://proxy.example:3128
 export NO_PROXY=127.0.0.1,localhost
 ```
 
+For local persistent PubChem access, store a PubChem-only proxy in the ignored
+`config.local.env` file without changing the proxy behavior of other services:
+
+```bash
+RESEARCHCHEMBENCH_PUBCHEM_PROXY_URL=http://proxy.example:3128
+```
+
+PubChem actions and
+`chemistry_toolbox/scripts/check_pubchem_connectivity.py` load only the proxy
+variables from this file when no proxy is already exported. Set
+`RESEARCHCHEMBENCH_PUBCHEM_PROXY_MODE=off` to disable this local auto-loading.
+
 For local Streamable HTTP MCP, ensure localhost is excluded from the proxy.
 
 ## 6. Agent CLI setup

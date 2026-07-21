@@ -1596,7 +1596,9 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         install_notes=(
             "Live PUG REST access uses cross-worker rate limiting and bounded retries. Optional mechanical "
             "controls are max_retries, retry_backoff_seconds, minimum_request_interval_seconds, "
-            "timeout_seconds, max_poll_attempts, and poll_interval_seconds; no alternate data source is selected implicitly."
+            "timeout_seconds, max_poll_attempts, and poll_interval_seconds. Existing proxy variables take priority; "
+            "otherwise PubChem loads proxy-only values from the ignored config.local.env file. No alternate data "
+            "source is selected implicitly."
         ),
     ),
     _backend(

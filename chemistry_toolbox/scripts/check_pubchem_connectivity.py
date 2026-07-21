@@ -5,8 +5,8 @@ from __future__ import annotations
 
 import argparse
 import json
-import os
 import socket
+import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
@@ -14,6 +14,14 @@ from typing import Any, Callable
 
 import httpx
 import pubchempy as pcp
+
+
+TOOLBOX_ROOT = Path(__file__).resolve().parents[1]
+SOURCE_ROOT = TOOLBOX_ROOT / "src"
+if str(SOURCE_ROOT) not in sys.path:
+    sys.path.insert(0, str(SOURCE_ROOT))
+
+from researchchem_toolbox.proxy import configure_pubchem_proxy_environment
 
 
 HOST = "pubchem.ncbi.nlm.nih.gov"
@@ -46,13 +54,13 @@ def main() -> int:
         "Accept": "application/json",
         "User-Agent": "ResearchChemBench/1.0 pubchem-connectivity-check",
     }
+    proxy_status = configure_pubchem_proxy_environment()
     results: dict[str, Any] = {
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "host": HOST,
-        "proxy_environment_present": any(
-            bool(os.environ.get(name))
-            for name in ("HTTP_PROXY", "HTTPS_PROXY", "ALL_PROXY", "http_proxy", "https_proxy", "all_proxy")
-        ),
+        "proxy_environment_present": proxy_status["enabled"],
+        "proxy_source": proxy_status["source"],
+        "proxy_variables": proxy_status["variables"],
     }
 
     results["dns"] = _timed(
