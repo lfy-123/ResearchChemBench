@@ -19,10 +19,13 @@ GoodVibes 已从原先仅支持 `derive_thermochemistry`、且错误地把频率
 | 依赖检查 | `pip check` 通过 |
 | 源码/示例缓存 | `.software_cache/goodvibes/4.3.0/source` |
 | 本地资料索引 | `.software_cache/documentation/goodvibes/4.3.0` |
+| 精确环境锁 | `chemistry_toolbox/environment/locks/linux-64/goodvibes` |
 | Backend ID | `goodvibes` |
 | License | MIT |
 
 独立 runtime 健康检查确认 `goodvibes=4.3.0`、`numpy=2.4.6`、`pandas=3.0.3`、`pyarrow=25.0.0`、`PyYAML=6.0.3` 和 `goodvibes` 可执行文件均可用。当前 36 个已登记 runtime 全部通过健康检查。
+
+可迁移锁包含 44 行 Conda explicit lock、85 个精确 pip requirement 及带来源类型的 pip metadata；主 manifest 已保留其他 42 个既有环境并新增 `goodvibes`，没有覆盖或丢失已有环境锁。
 
 ## 3. 新增/升级 Actions
 

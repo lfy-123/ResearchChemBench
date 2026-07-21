@@ -582,6 +582,35 @@ def main() -> int:
     environments = list(all_environments)
     selected = {item.strip() for item in args.environments.split(",") if item.strip()}
     selected_all = selected == {"all"}
+    existing_manifest: dict[str, Any] = {}
+    head_manifest: dict[str, Any] = {}
+    existing_manifest_path = platform_lock_root / "manifest.json"
+    if not selected_all:
+        if existing_manifest_path.is_file():
+            try:
+                existing_manifest = json.loads(
+                    existing_manifest_path.read_text(encoding="utf-8")
+                )
+            except (json.JSONDecodeError, OSError):
+                existing_manifest = {}
+        try:
+            completed = subprocess.run(
+                [
+                    "git",
+                    "show",
+                    f"HEAD:{relative(existing_manifest_path)}",
+                ],
+                cwd=ROOT,
+                text=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.DEVNULL,
+                check=False,
+                timeout=30,
+            )
+            if completed.returncode == 0:
+                head_manifest = json.loads(completed.stdout)
+        except (json.JSONDecodeError, OSError, subprocess.TimeoutExpired):
+            head_manifest = {}
     if not selected_all:
         unknown = selected - {item["id"] for item in environments}
         if unknown:
@@ -600,20 +629,12 @@ def main() -> int:
             )
         )
     if not selected_all:
-        existing_manifest_path = platform_lock_root / "manifest.json"
         existing_environments: dict[str, dict[str, Any]] = {}
-        if existing_manifest_path.is_file():
-            try:
-                existing_manifest = json.loads(
-                    existing_manifest_path.read_text(encoding="utf-8")
-                )
-                existing_environments = {
-                    str(item["id"]): dict(item)
-                    for item in existing_manifest.get("environments") or []
-                    if isinstance(item, dict) and item.get("id")
-                }
-            except (json.JSONDecodeError, OSError):
-                existing_environments = {}
+        existing_environments = {
+            str(item["id"]): dict(item)
+            for item in existing_manifest.get("environments") or []
+            if isinstance(item, dict) and item.get("id")
+        }
         existing_environments.update({str(item["id"]): item for item in captured})
         order = [str(item["id"]) for item in all_environments]
         captured = [
@@ -622,6 +643,32 @@ def main() -> int:
             if environment_id in existing_environments
         ]
     assets, manual = collect_assets(hash_critical_assets=args.hash_critical_assets)
+    if not selected_all and not args.hash_critical_assets:
+        current_assets = {
+            str(item["path"]): item
+            for item in existing_manifest.get("assets") or []
+            if isinstance(item, dict) and item.get("path")
+        }
+        head_assets = {
+            str(item["path"]): item
+            for item in head_manifest.get("assets") or []
+            if isinstance(item, dict) and item.get("path")
+        }
+        for asset in assets:
+            previous = current_assets.get(str(asset["path"])) or head_assets.get(
+                str(asset["path"])
+            )
+            if not previous or previous.get("captured_sha256") is None:
+                previous = head_assets.get(str(asset["path"]))
+            if (
+                previous
+                and previous.get("captured_sha256")
+                and previous.get("size_bytes") == asset.get("size_bytes")
+            ):
+                expected_checksum = asset.pop("expected_checksum", None)
+                asset["captured_sha256"] = previous["captured_sha256"]
+                if expected_checksum is not None:
+                    asset["expected_checksum"] = expected_checksum
     asset_path_text = "\n".join(str(item["path"]).lower() for item in assets)
     required_cpu_flags = []
     if "avx2" in asset_path_text:

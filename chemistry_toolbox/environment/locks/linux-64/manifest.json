@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-07-21T10:03:58.760108+00:00",
-  "repository_commit": "560bf23b94f6b2a096f2f3f7741caaf03320694b",
+  "generated_at": "2026-07-21T18:12:43.679969+00:00",
+  "repository_commit": "5ca4f13679dd8788b1d7b9975cdf67017f3d91f3",
   "lock_platform": "linux-64",
   "source_host": {
     "system": "Linux",
@@ -36,7 +36,7 @@
   },
   "configuration_files": {
     "chemistry_toolbox/config/mcp_profiles.yaml": {
-      "sha256": "48820ad298f51610da27687bad259f5b4bbd40c5e311bbb7f92fa55ad5989c82"
+      "sha256": "dd20a0dec808cee53f1f4601099781a0385f73c858ca0f78e4f1a99685271f85"
     },
     "chemistry_toolbox/config/auxiliary_environments.yaml": {
       "sha256": "a4f67c0ba57fe2d3ba162a88ccb24d950e90cc7970d80044c16e9ffceeb0af27"
@@ -48,15 +48,15 @@
       "sha256": "5468f16631c48d8c43f26f451cc766158661c70ad2b3794173994f0e63cfe1c2"
     },
     "chemistry_toolbox/config/native_software_guides.yaml": {
-      "sha256": "1e72146dbbb9f93c85f810de0b0ac9e52137e353474adf91f74098d944093037"
+      "sha256": "d68fb8267f618350d004b8858338f0afdfe71a95f64ddfb15c98407fdad2899e"
     },
     "chemistry_toolbox/mcp/tool_config.json": {
       "sha256": "f2cf5fa92bc4be13092692395b3c32759588599cf0270efe2f436017d37cc877"
     }
   },
   "summary": {
-    "environment_count": 42,
-    "captured_conda_environments": 39,
+    "environment_count": 43,
+    "captured_conda_environments": 40,
     "asset_runtime_count": 3,
     "required_asset_count": 48,
     "missing_required_assets": 0,
@@ -581,6 +581,47 @@
       "conda_lock_sha256": "f49ca5e1a9e57740e14525508bbd2d4de2e0e8d3be9fd930840057a9633e534a",
       "pip_requirements_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "pip_metadata_sha256": "179bab8fdd11becb2b4270110cd7c9b19b0993d984864be197be2fcb5816899e",
+      "pip_check": {
+        "returncode": 0,
+        "ok": true,
+        "output": "No broken requirements found."
+      }
+    },
+    {
+      "prefix": ".tool_envs/goodvibes",
+      "declared_by": [
+        "mcp_profiles.profiles.goodvibes"
+      ],
+      "groups": [
+        "mcp_profiles.profiles"
+      ],
+      "names": [
+        "goodvibes"
+      ],
+      "conda_names": [
+        "researchchem-goodvibes"
+      ],
+      "backends": [
+        "goodvibes"
+      ],
+      "descriptions": [
+        "Isolated GoodVibes 4.3.0 thermochemistry, ensemble, selectivity, validation, and reaction-profile runtime."
+      ],
+      "discovered": true,
+      "id": "goodvibes",
+      "exists": true,
+      "kind": "conda",
+      "captured": true,
+      "python_version": "3.11.15",
+      "conda_package_count": 39,
+      "pip_package_count": 85,
+      "project_editable": false,
+      "conda_explicit_lock": "goodvibes/conda-explicit.txt",
+      "pip_requirements_lock": "goodvibes/pip-requirements.txt",
+      "pip_metadata_lock": "goodvibes/pip-lock.json",
+      "conda_lock_sha256": "1f0369a48669bc7fd541ed70f3bb66ad87cb08a968dd7baa5f37142b5c0d085b",
+      "pip_requirements_sha256": "b9ab6261bd91dc7e194f8206002277cd7532c6f3b162321e3eb15eeabeaa7f01",
+      "pip_metadata_sha256": "f7752c85ab779516e3ea5d1bd7bd318144cdfbae3343b31b66bb13a47f5eb6d6",
       "pip_check": {
         "returncode": 0,
         "ok": true,
@@ -2301,6 +2342,15 @@
         "algorithm": "sha256",
         "value": "3340c1f49cd3c7c84d8699182a1c6af13c7fa2a22448d1204640446106f72172"
       }
+    },
+    {
+      "path": ".software_cache/goodvibes/4.3.0/source",
+      "reasons": [
+        "mcp_profiles.profiles.goodvibes.cache_paths"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
     },
     {
       "path": ".software_cache/gpaw/setups",
