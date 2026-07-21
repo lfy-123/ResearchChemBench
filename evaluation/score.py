@@ -9,7 +9,12 @@ from pathlib import Path
 from typing import Any, Callable
 
 from .config import JUDGE_API_BASE, JUDGE_API_KEY, JUDGE_MODEL_NAME
-from .trace import load_tool_trace, normalized_tool_calls, process_metrics
+from .trace import (
+    load_native_agent_trace,
+    load_tool_trace,
+    normalized_tool_calls,
+    process_metrics,
+)
 from .utils import get_run_workspace, load_ground_truth
 
 
@@ -32,7 +37,7 @@ Respond with one JSON object only: {"score": 0 or 1, "rationale": "brief explana
 
 RUBRIC_JUDGE_SYSTEM_PROMPT = """You are an expert evaluator of an autonomous computational-chemistry investigation.
 
-Score the submission against the supplied 100-point rubric. Evaluate scientific validity, evidence provenance, uncertainty handling, and the observable computation trace. Do not require exact tool names or a unique call order when an alternative process preserves the scientific dependencies. Distinguish an agent mistake from an objective framework, unavailable-data, or backend failure. Never reward a paper value that appears without supporting evidence from the supplied data or an independently documented calculation.
+Score the submission against the supplied 100-point rubric. Evaluate scientific validity, evidence provenance, uncertainty handling, and the observable computation trace. Do not require exact tool names or a unique call order when an alternative process preserves the scientific dependencies. The benchmark has three valid execution layers: predefined Chemistry MCP Actions, native software/shell execution, and Agent-authored analysis code. A result supported by observable native commands, code, outputs, and submitted artifacts is not fabricated merely because an MCP call failed. Distinguish an agent mistake from an objective framework, unavailable-data, or backend failure. Never reward a paper value that appears without supporting evidence from the supplied data or an independently documented calculation.
 
 Rules:
 - Award each criterion no more than its declared maximum and make criterion scores sum to the total score.
@@ -85,6 +90,9 @@ RUBRIC_JUDGE_USER_TEMPLATE = """## Scientific task
 
 ## Observable tool events, including failures
 {actual_tool_events}
+
+## Observable native shell, file, and Agent-authored code events
+{native_execution_events}
 
 ## Agent final report
 {actual_report}
@@ -280,6 +288,26 @@ def _tool_events_for_judge(events: list[dict[str, Any]]) -> list[dict[str, Any]]
     return values
 
 
+def _native_events_for_judge(events: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    selected = events[:250]
+    values = [
+        {
+            "sequence": event.get("sequence"),
+            "tool": event.get("tool"),
+            "status": event.get("status"),
+            "duration_seconds": event.get("duration_seconds"),
+            "arguments": _compact_value(event.get("arguments", {})),
+            "result_preview": _compact_value(event.get("result_preview", "")),
+            "exit_code": event.get("exit_code"),
+            "error": _compact_value(event.get("error")),
+        }
+        for event in selected
+    ]
+    if len(events) > len(selected):
+        values.append({"omitted_native_events": len(events) - len(selected)})
+    return values
+
+
 def _submission_artifacts(workspace: Path) -> list[dict[str, str]]:
     allowed_suffixes = {".md", ".txt", ".json", ".jsonl", ".csv", ".tsv", ".yaml", ".yml"}
     values: list[dict[str, str]] = []
@@ -326,10 +354,30 @@ def score_workspace(
     truth = load_ground_truth(task_id)
     report = report_path.read_text(encoding="utf-8", errors="replace")
     events = load_tool_trace(workspace)
+    native_events = load_native_agent_trace(workspace)
     actual_calls = normalized_tool_calls(events)
     evaluation_mode = truth.get("evaluation_mode", "binary")
     score_max = int(truth.get("score_max") or (100 if evaluation_mode == "rubric_100" else 1))
     metrics = process_metrics(events)
+    metrics.update(
+        {
+            "native_execution_event_count": len(native_events),
+            "successful_native_events": sum(
+                event.get("status") == "success" for event in native_events
+            ),
+            "failed_native_events": sum(
+                event.get("status") != "success" for event in native_events
+            ),
+            "native_runtime_seconds": round(
+                sum(
+                    float(event.get("duration_seconds", 0) or 0)
+                    for event in native_events
+                ),
+                6,
+            ),
+            "native_tools_used": [event.get("tool") for event in native_events],
+        }
+    )
     if evaluation_mode == "rubric_100":
         prompt = RUBRIC_JUDGE_USER_TEMPLATE.format(
             query=meta.get("query") or meta.get("task") or task_id,
@@ -349,6 +397,9 @@ def score_workspace(
             process_metrics=json.dumps(metrics, indent=2, ensure_ascii=False),
             actual_tool_events=json.dumps(
                 _tool_events_for_judge(events), indent=2, ensure_ascii=False
+            ),
+            native_execution_events=json.dumps(
+                _native_events_for_judge(native_events), indent=2, ensure_ascii=False
             ),
             actual_report=report,
             submission_artifacts=json.dumps(

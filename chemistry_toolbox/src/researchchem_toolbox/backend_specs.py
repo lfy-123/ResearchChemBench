@@ -123,6 +123,24 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         ("parse_quantum_chemistry_output",),
         "cclib 1.8.1 parser for extracting selected properties from existing quantum-chemistry output files.",
         modules=("cclib",), conda=("cclib=1.8.1",),
+        method_schema={
+            "properties": (
+                "action_settings.properties must be a non-empty list chosen from metadata, "
+                "atom_coordinates, energies, gradients, hessian, vibrational_frequencies, "
+                "vibrational_intensities, molecular_orbitals, charges, multipoles, and "
+                "excited_states"
+            ),
+            "coordinate_frames": "action_settings.coordinate_frames is last or all",
+            "include_orbital_coefficients": (
+                "explicit action_settings boolean controlling large MO coefficient arrays"
+            ),
+            "include_excited_state_configurations": (
+                "explicit action_settings boolean controlling excited-state configuration arrays"
+            ),
+            "max_array_elements": (
+                "explicit action_settings integer limit between 1 and 100000000"
+            ),
+        },
         required_settings={
             "parse_quantum_chemistry_output": (
                 "properties", "coordinate_frames", "include_orbital_coefficients",

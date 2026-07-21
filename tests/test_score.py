@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 
 from evaluation.run_task import TaskRunner
@@ -53,10 +54,29 @@ def test_rubric_score_is_derived_from_clamped_criterion_scores(
         "reference_evidence": {},
     }
     monkeypatch.setattr("evaluation.score.load_ground_truth", lambda _task_id: rubric_truth)
+    native_event = {
+        "type": "tool_use",
+        "part": {
+            "type": "tool",
+            "tool": "bash",
+            "state": {
+                "status": "completed",
+                "input": {"command": "python code/analyze.py"},
+                "output": "computed barrier = 12.3 kcal/mol",
+                "metadata": {"exit": 0},
+                "time": {"start": 1000, "end": 2500},
+            },
+        },
+    }
+    with runner.output_path.open("a", encoding="utf-8") as handle:
+        handle.write(json.dumps(native_event) + "\n")
 
-    result = score_workspace(
-        runner.workspace,
-        judge_call=lambda _prompt: {
+    captured_prompt = ""
+
+    def rubric_judge(prompt: str):
+        nonlocal captured_prompt
+        captured_prompt = prompt
+        return {
             "score": 99,
             "criteria": [
                 {"id": "science", "score": 70, "max_score": 60, "rationale": "high"},
@@ -65,7 +85,11 @@ def test_rubric_score_is_derived_from_clamped_criterion_scores(
             "critical_failures": [],
             "objective_issue_flags": [],
             "rationale": "Injected rubric judge",
-        },
+        }
+
+    result = score_workspace(
+        runner.workspace,
+        judge_call=rubric_judge,
     )
 
     assert result["score"] == 85
@@ -73,3 +97,7 @@ def test_rubric_score_is_derived_from_clamped_criterion_scores(
     assert result["normalized_score"] == 0.85
     assert [item["score"] for item in result["criteria"]] == [60, 25]
     assert result["judge_consistency_warnings"]
+    assert "python code/analyze.py" in captured_prompt
+    assert "computed barrier = 12.3 kcal/mol" in captured_prompt
+    assert result["process_metrics"]["native_execution_event_count"] == 1
+    assert result["process_metrics"]["successful_native_events"] == 1
