@@ -1,0 +1,3280 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-07-21T10:03:58.760108+00:00",
+  "repository_commit": "560bf23b94f6b2a096f2f3f7741caaf03320694b",
+  "lock_platform": "linux-64",
+  "source_host": {
+    "system": "Linux",
+    "machine": "x86_64",
+    "libc": [
+      "glibc",
+      "2.35"
+    ],
+    "python": "3.10.20",
+    "conda_version": "25.7.0",
+    "cpu_flags_of_interest": [
+      "avx",
+      "avx2",
+      "avx512f",
+      "fma"
+    ]
+  },
+  "policy": {
+    "exact_conda_artifacts": true,
+    "pip_no_dependencies": true,
+    "automatic_licensed_downloads": false,
+    "automatic_credential_copy": false,
+    "asset_roots": [
+      ".software_cache",
+      ".model_cache",
+      "download"
+    ],
+    "required_cpu_flags": [
+      "avx2",
+      "avx512f"
+    ]
+  },
+  "configuration_files": {
+    "chemistry_toolbox/config/mcp_profiles.yaml": {
+      "sha256": "48820ad298f51610da27687bad259f5b4bbd40c5e311bbb7f92fa55ad5989c82"
+    },
+    "chemistry_toolbox/config/auxiliary_environments.yaml": {
+      "sha256": "36a5787759559e8a48647730dc0ca86c7729438a2ad603b41feda64e0e7e8682"
+    },
+    "chemistry_toolbox/config/toolbox_resources.json": {
+      "sha256": "8bb89d4467e6d72717c957d1b058b1352cdb8c9d10deb0229d089e6ec436aea8"
+    },
+    "chemistry_toolbox/config/requested_software.yaml": {
+      "sha256": "5468f16631c48d8c43f26f451cc766158661c70ad2b3794173994f0e63cfe1c2"
+    }
+  },
+  "summary": {
+    "environment_count": 42,
+    "captured_conda_environments": 39,
+    "asset_runtime_count": 3,
+    "required_asset_count": 48,
+    "missing_required_assets": 0,
+    "manual_or_interface_items": 10
+  },
+  "environments": [
+    {
+      "prefix": ".software_cache/easyspin/6.0.12",
+      "declared_by": [
+        "auxiliary_environments.easyspin"
+      ],
+      "groups": [
+        "auxiliary_environments"
+      ],
+      "names": [
+        "easyspin"
+      ],
+      "conda_names": [
+        "researchchem-easyspin-staged"
+      ],
+      "backends": [],
+      "descriptions": [
+        "EasySpin 6.0.12 MATLAB toolbox staged from the operator-provided archive."
+      ],
+      "id": "easyspin",
+      "exists": true,
+      "kind": "asset_runtime",
+      "captured": false
+    },
+    {
+      "prefix": ".software_cache/matlab/R2018a/install",
+      "declared_by": [
+        "auxiliary_environments.matlab"
+      ],
+      "groups": [
+        "auxiliary_environments"
+      ],
+      "names": [
+        "matlab"
+      ],
+      "conda_names": [
+        "researchchem-matlab-r2018a-licensed"
+      ],
+      "backends": [],
+      "descriptions": [
+        "Licensed MATLAB R2018a host runtime; official offline media are staged but installation remains license-gated."
+      ],
+      "id": "matlab",
+      "exists": false,
+      "kind": "asset_runtime",
+      "captured": false
+    },
+    {
+      "prefix": ".tool_envs/abinit",
+      "declared_by": [
+        "mcp_profiles.support_environments.abinit"
+      ],
+      "groups": [
+        "mcp_profiles.support_environments"
+      ],
+      "names": [
+        "abinit"
+      ],
+      "conda_names": [
+        "researchchem-abinit"
+      ],
+      "backends": [
+        "abinit"
+      ],
+      "descriptions": [
+        "Isolated ABINIT executable used only when the Agent selects backend_id=abinit."
+      ],
+      "discovered": true,
+      "id": "abinit",
+      "exists": true,
+      "kind": "conda",
+      "captured": true,
+      "python_version": "3.10.20",
+      "conda_package_count": 83,
+      "pip_package_count": 0,
+      "project_editable": false,
+      "conda_explicit_lock": "abinit/conda-explicit.txt",
+      "pip_requirements_lock": "abinit/pip-requirements.txt",
+      "pip_metadata_lock": "abinit/pip-lock.json",
+      "conda_lock_sha256": "b02ae8b5a2b675b930aa19a6bad1b75d31c762a3ded1cf9f089713d5416a51b7",
+      "pip_requirements_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "pip_metadata_sha256": "179bab8fdd11becb2b4270110cd7c9b19b0993d984864be197be2fcb5816899e",
+      "pip_check": {
+        "returncode": 0,
+        "ok": true,
+        "output": "No broken requirements found."
+      }
+    },
+    {
+      "prefix": ".tool_envs/amber",
+      "declared_by": [
+        "mcp_profiles.support_environments.amber"
+      ],
+      "groups": [
+        "mcp_profiles.support_environments"
+      ],
+      "names": [
+        "amber"
+      ],
+      "conda_names": [
+        "researchchem-amber"
+      ],
+      "backends": [
+        "amber_pmemd"
+      ],
+      "descriptions": [
+        "Amber 26 licensed PMEMD CPU serial and OpenMPI executables."
+      ],
+      "discovered": true,
+      "id": "amber",
+      "exists": true,
+      "kind": "conda",
+      "captured": true,
+      "python_version": "3.11.15",
+      "conda_package_count": 129,
+      "pip_package_count": 0,
+      "project_editable": false,
+      "conda_explicit_lock": "amber/conda-explicit.txt",
+      "pip_requirements_lock": "amber/pip-requirements.txt",
+      "pip_metadata_lock": "amber/pip-lock.json",
+      "conda_lock_sha256": "e1ef60d4732fe971dc228afb056f72d7f3d140ac8c03e013f83bcc2c79d3098f",
+      "pip_requirements_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "pip_metadata_sha256": "179bab8fdd11becb2b4270110cd7c9b19b0993d984864be197be2fcb5816899e",
+      "pip_check": {
+        "returncode": 0,
+        "ok": true,
+        "output": "No broken requirements found."
+      }
+    },
+    {
+      "prefix": ".tool_envs/automekin",
+      "declared_by": [
+        "auxiliary_environments.automekin"
+      ],
+      "groups": [
+        "auxiliary_environments"
+      ],
+      "names": [
+        "automekin"
+      ],
+      "conda_names": [
+        "researchchem-automekin"
+      ],
+      "backends": [],
+      "descriptions": [
+        "AutoMeKin source build with its bundled MOPAC engine and isolated Python/compiler dependencies."
+      ],
+      "discovered": true,
+      "id": "automekin",
+      "exists": true,
+      "kind": "conda",
+      "captured": true,
+      "python_version": "3.11.15",
+      "conda_package_count": 173,
+      "pip_package_count": 0,
+      "project_editable": false,
+      "conda_explicit_lock": "automekin/conda-explicit.txt",
+      "pip_requirements_lock": "automekin/pip-requirements.txt",
+      "pip_metadata_lock": "automekin/pip-lock.json",
+      "conda_lock_sha256": "93dd66864a765b4095e4bf18018f776a5a23ecc43acb63a04006eabb1b132013",
+      "pip_requirements_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "pip_metadata_sha256": "179bab8fdd11becb2b4270110cd7c9b19b0993d984864be197be2fcb5816899e",
+      "pip_check": {
+        "returncode": 0,
+        "ok": true,
+        "output": "No broken requirements found."
+      }
+    },
+    {
+      "prefix": ".tool_envs/charmm",
+      "declared_by": [
+        "mcp_profiles.support_environments.charmm"
+      ],
+      "groups": [
+        "mcp_profiles.support_environments"
+      ],
+      "names": [
+        "charmm"
+      ],
+      "conda_names": [
+        "researchchem-charmm"
+      ],
+      "backends": [
+        "charmm"
+      ],
+      "descriptions": [
+        "Academic CHARMM c50b2 serial/OpenMP GNU source build."
+      ],
+      "discovered": true,
+      "id": "charmm",
+      "exists": true,
+      "kind": "conda",
+      "captured": true,
+      "python_version": "3.11.15",
+      "conda_package_count": 85,
+      "pip_package_count": 0,
+      "project_editable": false,
+      "conda_explicit_lock": "charmm/conda-explicit.txt",
+      "pip_requirements_lock": "charmm/pip-requirements.txt",
+      "pip_metadata_lock": "charmm/pip-lock.json",
+      "conda_lock_sha256": "327ae32061494f8a93634b95c414546c9d307b40d08cdc223b1649ec9d11671c",
+      "pip_requirements_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "pip_metadata_sha256": "179bab8fdd11becb2b4270110cd7c9b19b0993d984864be197be2fcb5816899e",
+      "pip_check": {
+        "returncode": 0,
+        "ok": true,
+        "output": "No broken requirements found."
+      }
+    },
+    {
+      "prefix": ".tool_envs/cp2k",
+      "declared_by": [
+        "mcp_profiles.profiles.cp2k"
+      ],
+      "groups": [
+        "mcp_profiles.profiles"
+      ],
+      "names": [
+        "cp2k"
+      ],
+      "conda_names": [
+        "researchchem-cp2k"
+      ],
+      "backends": [
+        "cp2k"
+      ],
+      "descriptions": [
+        "Isolated CP2K runtime."
+      ],
+      "discovered": true,
+      "id": "cp2k",
+      "exists": true,
+      "kind": "conda",
+      "captured": true,
+      "python_version": "3.10.20",
+      "conda_package_count": 113,
+      "pip_package_count": 73,
+      "project_editable": false,
+      "conda_explicit_lock": "cp2k/conda-explicit.txt",
+      "pip_requirements_lock": "cp2k/pip-requirements.txt",
+      "pip_metadata_lock": "cp2k/pip-lock.json",
+      "conda_lock_sha256": "6e4197504e3ab61912f93880456081db6f9a23402f2c6aaaecaced5f43307cee",
+      "pip_requirements_sha256": "e0307243b45b08b7ec7cd131bd5a4fdcff69f20af857c6fea189616127ee7a06",
+      "pip_metadata_sha256": "839e7ba9b0e996eb42db37fc2fae6361a171f91f86aa9099998ee58146aaa133",
+      "pip_check": {
+        "returncode": 0,
+        "ok": true,
+        "output": "No broken requirements found."
+      }
+    },
+    {
+      "prefix": ".tool_envs/deepmd",
+      "declared_by": [
+        "auxiliary_environments.critic2",
+        "auxiliary_environments.openmolcas",
+        "auxiliary_environments.sharc",
+        "auxiliary_environments.shengbte",
+        "mcp_profiles.profiles.critic2",
+        "mcp_profiles.profiles.openmolcas",
+        "mcp_profiles.profiles.shengbte"
+      ],
+      "groups": [
+        "auxiliary_environments",
+        "mcp_profiles.profiles"
+      ],
+      "names": [
+        "critic2",
+        "openmolcas",
+        "sharc",
+        "shengbte"
+      ],
+      "conda_names": [
+        "researchchem-openmolcas",
+        "researchchem-shengbte",
+        "researchchem-source-runtime-critic2",
+        "researchchem-source-runtime-openmolcas",
+        "researchchem-source-runtime-sharc",
+        "researchchem-source-runtime-shengbte"
+      ],
+      "backends": [
+        "critic2",
+        "openmolcas",
+        "shengbte"
+      ],
+      "descriptions": [
+        "Critic2 1.2.1081 source build using the shared conda compiler/runtime libraries.",
+        "Critic2 1.2.1081 typed QTAIM critical-point analysis runtime.",
+        "OpenMolcas v25.10 molecular SCF runtime with typed HF/DFT property adapters.",
+        "OpenMolcas v25.10 serial/OpenMP source build with the pymolcas driver.",
+        "SHARC4 core source build plus the ASCII wfoverlap executable.",
+        "ShengBTE source build using OpenMPI, spglib, LAPACK and OpenMP.",
+        "ShengBTE source revision b0d2090 for Agent-supplied phonon-BTE models."
+      ],
+      "discovered": true,
+      "id": "deepmd",
+      "exists": true,
+      "kind": "conda",
+      "captured": true,
+      "python_version": "3.11.15",
+      "conda_package_count": 219,
+      "pip_package_count": 14,
+      "project_editable": false,
+      "conda_explicit_lock": "deepmd/conda-explicit.txt",
+      "pip_requirements_lock": "deepmd/pip-requirements.txt",
+      "pip_metadata_lock": "deepmd/pip-lock.json",
+      "conda_lock_sha256": "eabe2833eaf5e51bdf4231bdc1d556750c449f8c773e50e5dd31f870b364798f",
+      "pip_requirements_sha256": "dc6c44fe50edd0d40ea1c8d75ab471afd862a5796478467750abec02b3b8e04e",
+      "pip_metadata_sha256": "0a97a3089d5f4d9a06e685fced040a80ab9f513332353ab049516c4cb48219f4",
+      "pip_check": {
+        "returncode": 0,
+        "ok": true,
+        "output": "No broken requirements found."
+      }
+    },
+    {
+      "prefix": ".tool_envs/deepmd_models",
+      "declared_by": [
+        "mcp_profiles.profiles.deepmd"
+      ],
+      "groups": [
+        "mcp_profiles.profiles"
+      ],
+      "names": [
+        "deepmd"
+      ],
+      "conda_names": [
+        "researchchem-deepmd-models"
+      ],
+      "backends": [
+        "deepmd"
+      ],
+      "descriptions": [
+        "DeePMD-kit 3.2.0b0 CPU inference runtime for the downloaded DPA multitask and OMol checkpoints."
+      ],
+      "discovered": true,
+      "id": "deepmd_models",
+      "exists": true,
+      "kind": "conda",
+      "captured": true,
+      "python_version": "3.11.15",
+      "conda_package_count": 219,
+      "pip_package_count": 17,
+      "project_editable": false,
+      "conda_explicit_lock": "deepmd_models/conda-explicit.txt",
+      "pip_requirements_lock": "deepmd_models/pip-requirements.txt",
+      "pip_metadata_lock": "deepmd_models/pip-lock.json",
+      "conda_lock_sha256": "eabe2833eaf5e51bdf4231bdc1d556750c449f8c773e50e5dd31f870b364798f",
+      "pip_requirements_sha256": "ae11c3ec5144e05161bf110cf4059a047c449f3ce90a0984c598059f1925a2a6",
+      "pip_metadata_sha256": "197023972cacb612f5ea50980fba4e7870e0fb540406c2dafdedee07d7d1641a",
+      "pip_check": {
+        "returncode": 0,
+        "ok": true,
+        "output": "No broken requirements found."
+      }
+    },
+    {
+      "prefix": ".tool_envs/docking",
+      "declared_by": [
+        "mcp_profiles.profiles.docking"
+      ],
+      "groups": [
+        "mcp_profiles.profiles"
+      ],
+      "names": [
+        "docking"
+      ],
+      "conda_names": [
+        "researchchem-docking"
+      ],
+      "backends": [
+        "gnina",
+        "vina"
+      ],
+      "descriptions": [
+        "Protein-ligand docking binaries and model-specific docking tools."
+      ],
+      "discovered": true,
+      "id": "docking",
+      "exists": true,
+      "kind": "conda",
+      "captured": true,
+      "python_version": "3.10.20",
+      "conda_package_count": 38,
+      "pip_package_count": 75,
+      "project_editable": false,
+      "conda_explicit_lock": "docking/conda-explicit.txt",
+      "pip_requirements_lock": "docking/pip-requirements.txt",
+      "pip_metadata_lock": "docking/pip-lock.json",
+      "conda_lock_sha256": "0a204ecad7a1b74faf3a77f4914c0dbc06e8171de5c4afa1c5feb9ee52f17cca",
+      "pip_requirements_sha256": "20a8ad6f787e16e6d3d8fc77bd7f17e32d4616c3979170176441ed4702baf470",
+      "pip_metadata_sha256": "883d9b66edebf79e29eb9d0acba13b5806de5aaf3e5e2fc9750c90efaa65eecc",
+      "pip_check": {
+        "returncode": 0,
+        "ok": true,
+        "output": "No broken requirements found."
+      }
+    },
+    {
+      "prefix": ".tool_envs/free_energy",
+      "declared_by": [
+        "auxiliary_environments.free_energy",
+        "mcp_profiles.profiles.free_energy"
+      ],
+      "groups": [
+        "auxiliary_environments",
+        "mcp_profiles.profiles"
+      ],
+      "names": [
+        "free_energy"
+      ],
+      "conda_names": [
+        "researchchem-free-energy"
+      ],
+      "backends": [
+        "alchemlyb",
+        "hoomd",
+        "pymbar"
+      ],
+      "descriptions": [
+        "Explicit statistical free-energy estimation and alchemical analysis runtime.",
+        "HOOMD-blue, PyMBAR and alchemlyb analysis runtime."
+      ],
+      "discovered": true,
+      "id": "free_energy",
+      "exists": true,
+      "kind": "conda",
+      "captured": true,
+      "python_version": "3.11.15",
+      "conda_package_count": 184,
+      "pip_package_count": 6,
+      "project_editable": false,
+      "conda_explicit_lock": "free_energy/conda-explicit.txt",
+      "pip_requirements_lock": "free_energy/pip-requirements.txt",
+      "pip_metadata_lock": "free_energy/pip-lock.json",
+      "conda_lock_sha256": "dd5a247168eb0ed100c26dfbc414dda568bca5200660340ef53c629a8d513432",
+      "pip_requirements_sha256": "2bfb5852b855a93894b8307ec916893c1710ec172f836494c466db42681ae4ed",
+      "pip_metadata_sha256": "260c9a11c15314c22da25429f944a0d3caa852adcb62be583dc069917355eac4",
+      "pip_check": {
+        "returncode": 0,
+        "ok": true,
+        "output": "No broken requirements found."
+      }
+    },
+    {
+      "prefix": ".tool_envs/gamess",
+      "declared_by": [
+        "mcp_profiles.support_environments.gamess"
+      ],
+      "groups": [
+        "mcp_profiles.support_environments"
+      ],
+      "names": [
+        "gamess"
+      ],
+      "conda_names": [
+        "researchchem-gamess"
+      ],
+      "backends": [
+        "gamess"
+      ],
+      "descriptions": [
+        "Registered GAMESS 15 Jul 2024 R2 Patch 1 sockets-DDI source build."
+      ],
+      "discovered": true,
+      "id": "gamess",
+      "exists": true,
+      "kind": "conda",
+      "captured": true,
+      "python_version": "3.11.15",
+      "conda_package_count": 64,
+      "pip_package_count": 0,
+      "project_editable": false,
+      "conda_explicit_lock": "gamess/conda-explicit.txt",
+      "pip_requirements_lock": "gamess/pip-requirements.txt",
+      "pip_metadata_lock": "gamess/pip-lock.json",
+      "conda_lock_sha256": "c5083918ca6b6569da6d19f70cf6b5affaa0003b5e14381595b8a46feacf8315",
+      "pip_requirements_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "pip_metadata_sha256": "179bab8fdd11becb2b4270110cd7c9b19b0993d984864be197be2fcb5816899e",
+      "pip_check": {
+        "returncode": 0,
+        "ok": true,
+        "output": "No broken requirements found."
+      }
+    },
+    {
+      "prefix": ".tool_envs/gaussian",
+      "declared_by": [
+        "mcp_profiles.support_environments.gaussian"
+      ],
+      "groups": [
+        "mcp_profiles.support_environments"
+      ],
+      "names": [
+        "gaussian"
+      ],
+      "conda_names": [
+        "researchchem-gaussian"
+      ],
+      "backends": [
+        "gaussian"
+      ],
+      "descriptions": [
+        "Licensed Gaussian 16 C.01 executable and formatted-checkpoint runtime."
+      ],
+      "discovered": true,
+      "id": "gaussian",
+      "exists": true,
+      "kind": "conda",
+      "captured": true,
+      "python_version": "3.11.15",
+      "conda_package_count": 51,
+      "pip_package_count": 0,
+      "project_editable": false,
+      "conda_explicit_lock": "gaussian/conda-explicit.txt",
+      "pip_requirements_lock": "gaussian/pip-requirements.txt",
+      "pip_metadata_lock": "gaussian/pip-lock.json",
+      "conda_lock_sha256": "f49ca5e1a9e57740e14525508bbd2d4de2e0e8d3be9fd930840057a9633e534a",
+      "pip_requirements_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "pip_metadata_sha256": "179bab8fdd11becb2b4270110cd7c9b19b0993d984864be197be2fcb5816899e",
+      "pip_check": {
+        "returncode": 0,
+        "ok": true,
+        "output": "No broken requirements found."
+      }
+    },
+    {
+      "prefix": ".tool_envs/gpaw",
+      "declared_by": [
+        "auxiliary_environments.gpaw",
+        "mcp_profiles.profiles.gpaw"
+      ],
+      "groups": [
+        "auxiliary_environments",
+        "mcp_profiles.profiles"
+      ],
+      "names": [
+        "gpaw"
+      ],
+      "conda_names": [
+        "researchchem-gpaw"
+      ],
+      "backends": [
+        "gpaw"
+      ],
+      "descriptions": [
+        "GPAW 25.7.0 CPU runtime with PAW setup data.",
+        "GPAW 25.7.0 molecular and periodic PAW-DFT runtime with locally managed setup datasets."
+      ],
+      "discovered": true,
+      "id": "gpaw",
+      "exists": true,
+      "kind": "conda",
+      "captured": true,
+      "python_version": "3.11.15",
+      "conda_package_count": 120,
+      "pip_package_count": 5,
+      "project_editable": false,
+      "conda_explicit_lock": "gpaw/conda-explicit.txt",
+      "pip_requirements_lock": "gpaw/pip-requirements.txt",
+      "pip_metadata_lock": "gpaw/pip-lock.json",
+      "conda_lock_sha256": "4244baf121e6d212b6f06abff15573bbc07b1916ef1fa46d54ab212c821fd350",
+      "pip_requirements_sha256": "5a7e8a9b12d538044d47f51710a9d699eb626fe80a6ee1fe6671b8f841a2adbf",
+      "pip_metadata_sha256": "c2727b54b62c1f5f6a71a872a204fd7263e82f696ff222cca4b323d548e9a7b2",
+      "pip_check": {
+        "returncode": 0,
+        "ok": true,
+        "output": "No broken requirements found."
+      }
+    },
+    {
+      "prefix": ".tool_envs/kinbot",
+      "declared_by": [
+        "auxiliary_environments.kinbot"
+      ],
+      "groups": [
+        "auxiliary_environments"
+      ],
+      "names": [
+        "kinbot"
+      ],
+      "conda_names": [
+        "researchchem-kinbot"
+      ],
+      "backends": [],
+      "descriptions": [
+        "KinBot 2.2.2 with Sella/JAX and geometry dependencies."
+      ],
+      "discovered": true,
+      "id": "kinbot",
+      "exists": true,
+      "kind": "conda",
+      "captured": true,
+      "python_version": "3.11.15",
+      "conda_package_count": 163,
+      "pip_package_count": 9,
+      "project_editable": false,
+      "conda_explicit_lock": "kinbot/conda-explicit.txt",
+      "pip_requirements_lock": "kinbot/pip-requirements.txt",
+      "pip_metadata_lock": "kinbot/pip-lock.json",
+      "conda_lock_sha256": "708b73399b88d6fbdb6adad1fd3b1697fcefeb83e273252ab20ad09317fb63df",
+      "pip_requirements_sha256": "cca4056be24902d58038079b5ac5ca0b9cc4b82d8d84a8df92209c86537ebcbe",
+      "pip_metadata_sha256": "e4f69353817dd4449043ba043a9bc6e4177627e288c1e26501130e502a7bae0c",
+      "pip_check": {
+        "returncode": 0,
+        "ok": true,
+        "output": "No broken requirements found."
+      }
+    },
+    {
+      "prefix": ".tool_envs/lobster",
+      "declared_by": [
+        "auxiliary_environments.lobster",
+        "mcp_profiles.profiles.lobster"
+      ],
+      "groups": [
+        "auxiliary_environments",
+        "mcp_profiles.profiles"
+      ],
+      "names": [
+        "lobster"
+      ],
+      "conda_names": [
+        "researchchem-lobster"
+      ],
+      "backends": [
+        "lobster"
+      ],
+      "descriptions": [
+        "Licensed LOBSTER 5.1.0 periodic bonding and projected-DOS postprocessing runtime.",
+        "Licensed LOBSTER 5.1.0 periodic bonding-analysis executable with pymatgen support."
+      ],
+      "discovered": true,
+      "id": "lobster",
+      "exists": true,
+      "kind": "conda",
+      "captured": true,
+      "python_version": "3.11.15",
+      "conda_package_count": 147,
+      "pip_package_count": 0,
+      "project_editable": false,
+      "conda_explicit_lock": "lobster/conda-explicit.txt",
+      "pip_requirements_lock": "lobster/pip-requirements.txt",
+      "pip_metadata_lock": "lobster/pip-lock.json",
+      "conda_lock_sha256": "e80d2d24da40df415d6a87e155446428e02572e64af0ebb0ed276b8ed048bfb3",
+      "pip_requirements_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "pip_metadata_sha256": "179bab8fdd11becb2b4270110cd7c9b19b0993d984864be197be2fcb5816899e",
+      "pip_check": {
+        "returncode": 0,
+        "ok": true,
+        "output": "No broken requirements found."
+      }
+    },
+    {
+      "prefix": ".tool_envs/md",
+      "declared_by": [
+        "mcp_profiles.profiles.md"
+      ],
+      "groups": [
+        "mcp_profiles.profiles"
+      ],
+      "names": [
+        "md"
+      ],
+      "conda_names": [
+        "researchchem-md"
+      ],
+      "backends": [
+        "gromacs",
+        "lammps",
+        "mdanalysis",
+        "openmm",
+        "openmm_builder",
+        "packmol",
+        "pdbfixer",
+        "plumed"
+      ],
+      "descriptions": [
+        "Molecular dynamics preparation, execution, enhanced sampling, and analysis."
+      ],
+      "discovered": true,
+      "id": "md",
+      "exists": true,
+      "kind": "conda",
+      "captured": true,
+      "python_version": "3.10.20",
+      "conda_package_count": 139,
+      "pip_package_count": 93,
+      "project_editable": false,
+      "conda_explicit_lock": "md/conda-explicit.txt",
+      "pip_requirements_lock": "md/pip-requirements.txt",
+      "pip_metadata_lock": "md/pip-lock.json",
+      "conda_lock_sha256": "60fee5133e1a24884ac48042b82d4d97631a8432690760d76e5468c80ef5ef33",
+      "pip_requirements_sha256": "9b56d8a1a97f77cf740ebaa2e943e5db2ceca87ed1f75dd3bcc37a80700b8ab7",
+      "pip_metadata_sha256": "e245e7e77be7da7db9d9ac70f8a85b1e321ddf0a04a0b01e0de4f4caa2aa47c3",
+      "pip_check": {
+        "returncode": 0,
+        "ok": true,
+        "output": "No broken requirements found."
+      }
+    },
+    {
+      "prefix": ".tool_envs/mesmer",
+      "declared_by": [
+        "auxiliary_environments.mesmer",
+        "mcp_profiles.support_environments.mesmer"
+      ],
+      "groups": [
+        "auxiliary_environments",
+        "mcp_profiles.support_environments"
+      ],
+      "names": [
+        "mesmer"
+      ],
+      "conda_names": [
+        "researchchem-mesmer",
+        "researchchem-source-runtime-mesmer"
+      ],
+      "backends": [
+        "mesmer"
+      ],
+      "descriptions": [
+        "MESMER 7.1 command-line master-equation and energy-transfer solver.",
+        "MESMER 7.1 master-equation runtime for an Agent-supplied XML reaction model."
+      ],
+      "discovered": true,
+      "id": "mesmer",
+      "exists": true,
+      "kind": "conda",
+      "captured": true,
+      "python_version": "3.11.15",
+      "conda_package_count": 41,
+      "pip_package_count": 0,
+      "project_editable": false,
+      "conda_explicit_lock": "mesmer/conda-explicit.txt",
+      "pip_requirements_lock": "mesmer/pip-requirements.txt",
+      "pip_metadata_lock": "mesmer/pip-lock.json",
+      "conda_lock_sha256": "83cba121074fcef5ca78fddaf2b2ef94d64d6b0ac857b216d2fd3ed7ad866b24",
+      "pip_requirements_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "pip_metadata_sha256": "179bab8fdd11becb2b4270110cd7c9b19b0993d984864be197be2fcb5816899e",
+      "pip_check": {
+        "returncode": 0,
+        "ok": true,
+        "output": "No broken requirements found."
+      }
+    },
+    {
+      "prefix": ".tool_envs/mess",
+      "declared_by": [
+        "auxiliary_environments.mess",
+        "mcp_profiles.support_environments.mess"
+      ],
+      "groups": [
+        "auxiliary_environments",
+        "mcp_profiles.support_environments"
+      ],
+      "names": [
+        "mess"
+      ],
+      "conda_names": [
+        "researchchem-mess",
+        "researchchem-source-runtime-mess"
+      ],
+      "backends": [
+        "mess"
+      ],
+      "descriptions": [
+        "MESS 2020.1.24 master-equation runtime for an Agent-supplied native reaction model.",
+        "MESS 2020.1.24 master-equation solver built with SLATEC, OpenBLAS/LAPACK and OpenMP."
+      ],
+      "discovered": true,
+      "id": "mess",
+      "exists": true,
+      "kind": "conda",
+      "captured": true,
+      "python_version": "3.11.15",
+      "conda_package_count": 41,
+      "pip_package_count": 0,
+      "project_editable": false,
+      "conda_explicit_lock": "mess/conda-explicit.txt",
+      "pip_requirements_lock": "mess/pip-requirements.txt",
+      "pip_metadata_lock": "mess/pip-lock.json",
+      "conda_lock_sha256": "83cba121074fcef5ca78fddaf2b2ef94d64d6b0ac857b216d2fd3ed7ad866b24",
+      "pip_requirements_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "pip_metadata_sha256": "179bab8fdd11becb2b4270110cd7c9b19b0993d984864be197be2fcb5816899e",
+      "pip_check": {
+        "returncode": 0,
+        "ok": true,
+        "output": "No broken requirements found."
+      }
+    },
+    {
+      "prefix": ".tool_envs/mlip",
+      "declared_by": [
+        "mcp_profiles.profiles.mlip"
+      ],
+      "groups": [
+        "mcp_profiles.profiles"
+      ],
+      "names": [
+        "mlip"
+      ],
+      "conda_names": [
+        "researchchem-mlip"
+      ],
+      "backends": [
+        "chgnet",
+        "mace"
+      ],
+      "descriptions": [
+        "Machine-learning interatomic potentials and model-isolated runtimes."
+      ],
+      "discovered": true,
+      "id": "mlip",
+      "exists": true,
+      "kind": "conda",
+      "captured": true,
+      "python_version": "3.10.20",
+      "conda_package_count": 71,
+      "pip_package_count": 140,
+      "project_editable": false,
+      "conda_explicit_lock": "mlip/conda-explicit.txt",
+      "pip_requirements_lock": "mlip/pip-requirements.txt",
+      "pip_metadata_lock": "mlip/pip-lock.json",
+      "conda_lock_sha256": "7d6a57a0c8418aaf80fb44230c8edee7d7993e53c126fc8a896689064b88f93e",
+      "pip_requirements_sha256": "1c9c149ce0f2791fed18249b1e97eebc858d3d7584215619f6444758af31df47",
+      "pip_metadata_sha256": "625b6100447b34149ebd3754bc655717bc91e36376a9f5980a5c6c543b86fb3e",
+      "pip_check": {
+        "returncode": 0,
+        "ok": true,
+        "output": "No broken requirements found."
+      }
+    },
+    {
+      "prefix": ".tool_envs/multiwfn",
+      "declared_by": [
+        "auxiliary_environments.multiwfn",
+        "mcp_profiles.profiles.multiwfn"
+      ],
+      "groups": [
+        "auxiliary_environments",
+        "mcp_profiles.profiles"
+      ],
+      "names": [
+        "multiwfn"
+      ],
+      "conda_names": [
+        "researchchem-binary-runtime-multiwfn",
+        "researchchem-multiwfn"
+      ],
+      "backends": [
+        "multiwfn"
+      ],
+      "descriptions": [
+        "Multiwfn 2026.7.15 noGUI typed wavefunction-analysis runtime.",
+        "Official Multiwfn 2026.7.15 Linux noGUI wavefunction-analysis runtime."
+      ],
+      "discovered": true,
+      "id": "multiwfn",
+      "exists": true,
+      "kind": "conda",
+      "captured": true,
+      "python_version": "3.11.15",
+      "conda_package_count": 41,
+      "pip_package_count": 0,
+      "project_editable": false,
+      "conda_explicit_lock": "multiwfn/conda-explicit.txt",
+      "pip_requirements_lock": "multiwfn/pip-requirements.txt",
+      "pip_metadata_lock": "multiwfn/pip-lock.json",
+      "conda_lock_sha256": "83cba121074fcef5ca78fddaf2b2ef94d64d6b0ac857b216d2fd3ed7ad866b24",
+      "pip_requirements_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "pip_metadata_sha256": "179bab8fdd11becb2b4270110cd7c9b19b0993d984864be197be2fcb5816899e",
+      "pip_check": {
+        "returncode": 0,
+        "ok": true,
+        "output": "No broken requirements found."
+      }
+    },
+    {
+      "prefix": ".tool_envs/namd",
+      "declared_by": [
+        "mcp_profiles.support_environments.namd"
+      ],
+      "groups": [
+        "mcp_profiles.support_environments"
+      ],
+      "names": [
+        "namd"
+      ],
+      "conda_names": [
+        "researchchem-namd"
+      ],
+      "backends": [
+        "namd"
+      ],
+      "descriptions": [
+        "NAMD 3.0.2 multicore AVX-512 runtime; the CUDA bundle is cached but not selected automatically."
+      ],
+      "discovered": true,
+      "id": "namd",
+      "exists": true,
+      "kind": "conda",
+      "captured": true,
+      "python_version": "3.11.15",
+      "conda_package_count": 36,
+      "pip_package_count": 0,
+      "project_editable": false,
+      "conda_explicit_lock": "namd/conda-explicit.txt",
+      "pip_requirements_lock": "namd/pip-requirements.txt",
+      "pip_metadata_lock": "namd/pip-lock.json",
+      "conda_lock_sha256": "88e7870250f40a76869378df5e180c4789b3a6ade5d0825a792e3c4eabc0ef1b",
+      "pip_requirements_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "pip_metadata_sha256": "179bab8fdd11becb2b4270110cd7c9b19b0993d984864be197be2fcb5816899e",
+      "pip_check": {
+        "returncode": 0,
+        "ok": true,
+        "output": "No broken requirements found."
+      }
+    },
+    {
+      "prefix": ".tool_envs/nequip",
+      "declared_by": [
+        "mcp_profiles.profiles.nequip"
+      ],
+      "groups": [
+        "mcp_profiles.profiles"
+      ],
+      "names": [
+        "nequip"
+      ],
+      "conda_names": [
+        "researchchem-nequip"
+      ],
+      "backends": [
+        "allegro",
+        "nequip"
+      ],
+      "descriptions": [
+        "NequIP 0.19.0 and Allegro 0.8.3 inference runtime with explicitly registered local checkpoints."
+      ],
+      "discovered": true,
+      "id": "nequip",
+      "exists": true,
+      "kind": "conda",
+      "captured": true,
+      "python_version": "3.11.15",
+      "conda_package_count": 157,
+      "pip_package_count": 6,
+      "project_editable": false,
+      "conda_explicit_lock": "nequip/conda-explicit.txt",
+      "pip_requirements_lock": "nequip/pip-requirements.txt",
+      "pip_metadata_lock": "nequip/pip-lock.json",
+      "conda_lock_sha256": "d008d72e886e784edb49bbcdcfdf228176f6fad5b5124fdeeb7be9da91275415",
+      "pip_requirements_sha256": "5a7e8a9b12d538044d47f51710a9d699eb626fe80a6ee1fe6671b8f841a2adbf",
+      "pip_metadata_sha256": "13c7a066faf4a93bafe1a97d79c4f922e3e4c4a359ba42a5ef23ba60eaf2994b",
+      "pip_check": {
+        "returncode": 0,
+        "ok": true,
+        "output": "No broken requirements found."
+      }
+    },
+    {
+      "prefix": ".tool_envs/newtonx",
+      "declared_by": [
+        "auxiliary_environments.newtonx"
+      ],
+      "groups": [
+        "auxiliary_environments"
+      ],
+      "names": [
+        "newtonx"
+      ],
+      "conda_names": [
+        "researchchem-newtonx"
+      ],
+      "backends": [],
+      "descriptions": [
+        "Newton-X New Series 3.5.3 nonadiabatic dynamics and input-generation runtime."
+      ],
+      "discovered": true,
+      "id": "newtonx",
+      "exists": true,
+      "kind": "conda",
+      "captured": true,
+      "python_version": "3.11.15",
+      "conda_package_count": 175,
+      "pip_package_count": 0,
+      "project_editable": false,
+      "conda_explicit_lock": "newtonx/conda-explicit.txt",
+      "pip_requirements_lock": "newtonx/pip-requirements.txt",
+      "pip_metadata_lock": "newtonx/pip-lock.json",
+      "conda_lock_sha256": "594dda1d2252ac6754a00d43341dc58e17b8801cd5eca2faef6e36796a7c4cea",
+      "pip_requirements_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "pip_metadata_sha256": "179bab8fdd11becb2b4270110cd7c9b19b0993d984864be197be2fcb5816899e",
+      "pip_check": {
+        "returncode": 0,
+        "ok": true,
+        "output": "No broken requirements found."
+      }
+    },
+    {
+      "prefix": ".tool_envs/nwchem",
+      "declared_by": [
+        "auxiliary_environments.nwchem",
+        "mcp_profiles.profiles.nwchem"
+      ],
+      "groups": [
+        "auxiliary_environments",
+        "mcp_profiles.profiles"
+      ],
+      "names": [
+        "nwchem"
+      ],
+      "conda_names": [
+        "researchchem-nwchem"
+      ],
+      "backends": [
+        "geometric",
+        "nwchem"
+      ],
+      "descriptions": [
+        "NWChem 7.3.1 executable plus QCEngine/QCSchema bridge and parser libraries.",
+        "NWChem 7.3.x single-geometry QCSchema runtime with local official basis libraries."
+      ],
+      "discovered": true,
+      "id": "nwchem",
+      "exists": true,
+      "kind": "conda",
+      "captured": true,
+      "python_version": "3.11.15",
+      "conda_package_count": 170,
+      "pip_package_count": 0,
+      "project_editable": false,
+      "conda_explicit_lock": "nwchem/conda-explicit.txt",
+      "pip_requirements_lock": "nwchem/pip-requirements.txt",
+      "pip_metadata_lock": "nwchem/pip-lock.json",
+      "conda_lock_sha256": "428a465bff784dc6e34b952a0bf307fbca770087158e93775394c7fdd7dc3d2b",
+      "pip_requirements_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "pip_metadata_sha256": "179bab8fdd11becb2b4270110cd7c9b19b0993d984864be197be2fcb5816899e",
+      "pip_check": {
+        "returncode": 0,
+        "ok": true,
+        "output": "No broken requirements found."
+      }
+    },
+    {
+      "prefix": ".tool_envs/openff",
+      "declared_by": [
+        "mcp_profiles.profiles.openff"
+      ],
+      "groups": [
+        "mcp_profiles.profiles"
+      ],
+      "names": [
+        "openff"
+      ],
+      "conda_names": [
+        "researchchem-openff"
+      ],
+      "backends": [
+        "openff",
+        "openff_am1bcc"
+      ],
+      "descriptions": [
+        "Isolated modern OpenFF Toolkit, Interchange, and AmberTools runtime."
+      ],
+      "discovered": true,
+      "id": "openff",
+      "exists": true,
+      "kind": "conda",
+      "captured": true,
+      "python_version": "3.12.13",
+      "conda_package_count": 249,
+      "pip_package_count": 68,
+      "project_editable": false,
+      "conda_explicit_lock": "openff/conda-explicit.txt",
+      "pip_requirements_lock": "openff/pip-requirements.txt",
+      "pip_metadata_lock": "openff/pip-lock.json",
+      "conda_lock_sha256": "f78b7c5610a5abf99d5374e7b7aa4c52d1b1ecfcc843124b75ab801779c375fa",
+      "pip_requirements_sha256": "46740802f54bc3ef1834371659d36d623443fea0d8699b4c248a0424563c2682",
+      "pip_metadata_sha256": "9ec2272bcd55460e9ad5dc5051480d61ba05924c9dfe2cee751494ebb644b2a9",
+      "pip_check": {
+        "returncode": 0,
+        "ok": true,
+        "output": "No broken requirements found."
+      }
+    },
+    {
+      "prefix": ".tool_envs/periodic",
+      "declared_by": [
+        "mcp_profiles.profiles.periodic"
+      ],
+      "groups": [
+        "mcp_profiles.profiles"
+      ],
+      "names": [
+        "periodic"
+      ],
+      "conda_names": [
+        "researchchem-periodic"
+      ],
+      "backends": [
+        "dftbplus",
+        "siesta"
+      ],
+      "descriptions": [
+        "DFTB+ and SIESTA backend runtime; ABINIT remains separately isolated."
+      ],
+      "discovered": true,
+      "id": "periodic",
+      "exists": true,
+      "kind": "conda",
+      "captured": true,
+      "python_version": "3.10.20",
+      "conda_package_count": 90,
+      "pip_package_count": 76,
+      "project_editable": false,
+      "conda_explicit_lock": "periodic/conda-explicit.txt",
+      "pip_requirements_lock": "periodic/pip-requirements.txt",
+      "pip_metadata_lock": "periodic/pip-lock.json",
+      "conda_lock_sha256": "f850029ce3ca1f6bc11eaa10a67f87d224ce2312d2462495125b76deac81003d",
+      "pip_requirements_sha256": "3c155122bccee99bb590c18c916850edfdc2287de407c12cf84157093a54f305",
+      "pip_metadata_sha256": "e1010910760c1219527c7d707ae33b31c362f3e77e885326c5a06174f2863a57",
+      "pip_check": {
+        "returncode": 0,
+        "ok": true,
+        "output": "No broken requirements found."
+      }
+    },
+    {
+      "prefix": ".tool_envs/phonons",
+      "declared_by": [
+        "mcp_profiles.profiles.phonons"
+      ],
+      "groups": [
+        "mcp_profiles.profiles"
+      ],
+      "names": [
+        "phonons"
+      ],
+      "conda_names": [
+        "researchchem-phonons"
+      ],
+      "backends": [
+        "phono3py",
+        "phonopy"
+      ],
+      "descriptions": [
+        "Isolated Phonopy and Phono3py runtime."
+      ],
+      "discovered": true,
+      "id": "phonons",
+      "exists": true,
+      "kind": "conda",
+      "captured": true,
+      "python_version": "3.10.20",
+      "conda_package_count": 107,
+      "pip_package_count": 72,
+      "project_editable": false,
+      "conda_explicit_lock": "phonons/conda-explicit.txt",
+      "pip_requirements_lock": "phonons/pip-requirements.txt",
+      "pip_metadata_lock": "phonons/pip-lock.json",
+      "conda_lock_sha256": "e723c24cbbe4f0de5ab4f9e967e6da569b435039379990cd0570fba77d915426",
+      "pip_requirements_sha256": "30b07458282b89933d5a5dbf877ca5882c483ed6bfec9ea7f8becec112862876",
+      "pip_metadata_sha256": "de938748cd094e54d5694c0c3e5be7df92368642949d00471035bf9781681789",
+      "pip_check": {
+        "returncode": 0,
+        "ok": true,
+        "output": "No broken requirements found."
+      }
+    },
+    {
+      "prefix": ".tool_envs/psi4",
+      "declared_by": [
+        "mcp_profiles.profiles.psi4"
+      ],
+      "groups": [
+        "mcp_profiles.profiles"
+      ],
+      "names": [
+        "psi4"
+      ],
+      "conda_names": [
+        "researchchem-psi4"
+      ],
+      "backends": [
+        "psi4"
+      ],
+      "descriptions": [
+        "Isolated Psi4 Python runtime."
+      ],
+      "discovered": true,
+      "id": "psi4",
+      "exists": true,
+      "kind": "conda",
+      "captured": true,
+      "python_version": "3.10.20",
+      "conda_package_count": 100,
+      "pip_package_count": 68,
+      "project_editable": false,
+      "conda_explicit_lock": "psi4/conda-explicit.txt",
+      "pip_requirements_lock": "psi4/pip-requirements.txt",
+      "pip_metadata_lock": "psi4/pip-lock.json",
+      "conda_lock_sha256": "3b758c918b911a8f6d96d3ec93042fb2dd8cf6e7ba28e8db666f03e8296f8c3e",
+      "pip_requirements_sha256": "e2835b4a455d71997a4ac8dd585dc51d60ace76771d684f2232d10a5d204f651",
+      "pip_metadata_sha256": "520747b97da86906f3d4fed1cbe1bf28e9045490133b554dada1836bed6aa6b1",
+      "pip_check": {
+        "returncode": 0,
+        "ok": true,
+        "output": "No broken requirements found."
+      }
+    },
+    {
+      "prefix": ".tool_envs/qe",
+      "declared_by": [
+        "mcp_profiles.profiles.qe"
+      ],
+      "groups": [
+        "mcp_profiles.profiles"
+      ],
+      "names": [
+        "qe"
+      ],
+      "conda_names": [
+        "researchchem-qe"
+      ],
+      "backends": [
+        "quantum_espresso"
+      ],
+      "descriptions": [
+        "Isolated Quantum ESPRESSO runtime."
+      ],
+      "discovered": true,
+      "id": "qe",
+      "exists": true,
+      "kind": "conda",
+      "captured": true,
+      "python_version": "3.10.20",
+      "conda_package_count": 67,
+      "pip_package_count": 76,
+      "project_editable": false,
+      "conda_explicit_lock": "qe/conda-explicit.txt",
+      "pip_requirements_lock": "qe/pip-requirements.txt",
+      "pip_metadata_lock": "qe/pip-lock.json",
+      "conda_lock_sha256": "6fbaf838e1003df8ce038e914b5b293f174981326183f07b2451856b7696d1f6",
+      "pip_requirements_sha256": "3c155122bccee99bb590c18c916850edfdc2287de407c12cf84157093a54f305",
+      "pip_metadata_sha256": "e1010910760c1219527c7d707ae33b31c362f3e77e885326c5a06174f2863a57",
+      "pip_check": {
+        "returncode": 0,
+        "ok": true,
+        "output": "No broken requirements found."
+      }
+    },
+    {
+      "prefix": ".tool_envs/quantum",
+      "declared_by": [
+        "mcp_profiles.profiles.quantum"
+      ],
+      "groups": [
+        "mcp_profiles.profiles"
+      ],
+      "names": [
+        "quantum"
+      ],
+      "conda_names": [
+        "researchchem-quantum"
+      ],
+      "backends": [
+        "openbabel",
+        "orca",
+        "pyscf",
+        "tblite",
+        "xtb"
+      ],
+      "descriptions": [
+        "Molecular quantum chemistry and ASE calculation tools, including operator-provided ORCA 6.1.1; Psi4 remains isolated."
+      ],
+      "discovered": true,
+      "id": "quantum",
+      "exists": true,
+      "kind": "conda",
+      "captured": true,
+      "python_version": "3.10.20",
+      "conda_package_count": 100,
+      "pip_package_count": 125,
+      "project_editable": false,
+      "conda_explicit_lock": "quantum/conda-explicit.txt",
+      "pip_requirements_lock": "quantum/pip-requirements.txt",
+      "pip_metadata_lock": "quantum/pip-lock.json",
+      "conda_lock_sha256": "f68674075ce1cefb4665657d95605046223c7927dead78f758e1eee7d09eb2a5",
+      "pip_requirements_sha256": "c0a8ab0500f6b0a24f44969e3c0f6fefa520b952be90a5f6b5963b39a60672a5",
+      "pip_metadata_sha256": "1cb85aa3d83f8175741a1c9f7594c9a47c6c0254aafc76929d830baf21e19520",
+      "pip_check": {
+        "returncode": 0,
+        "ok": true,
+        "output": "No broken requirements found."
+      }
+    },
+    {
+      "prefix": ".tool_envs/reaction",
+      "declared_by": [
+        "mcp_profiles.profiles.reaction"
+      ],
+      "groups": [
+        "mcp_profiles.profiles"
+      ],
+      "names": [
+        "reaction"
+      ],
+      "conda_names": [
+        "researchchem-reaction"
+      ],
+      "backends": [
+        "cantera",
+        "catmap",
+        "crest",
+        "goodvibes",
+        "pysisyphus",
+        "scipy"
+      ],
+      "descriptions": [
+        "Conformer refinement, reaction paths, thermochemistry, and kinetics."
+      ],
+      "discovered": true,
+      "id": "reaction",
+      "exists": true,
+      "kind": "conda",
+      "captured": true,
+      "python_version": "3.10.20",
+      "conda_package_count": 97,
+      "pip_package_count": 136,
+      "project_editable": false,
+      "conda_explicit_lock": "reaction/conda-explicit.txt",
+      "pip_requirements_lock": "reaction/pip-requirements.txt",
+      "pip_metadata_lock": "reaction/pip-lock.json",
+      "conda_lock_sha256": "0968375130d170477ffd4f6db52a4242739baf3994ee2eacbeb6868acddf1509",
+      "pip_requirements_sha256": "f2b7721be93c2c3a5aabb1eb9722ea6e8dcf4a8aa53adcfb151ff335d65b0d33",
+      "pip_metadata_sha256": "32ef8ffde018caf6f5331264b64a7b8a93d063b8d493d086ad0f5d1c328dc2ed",
+      "pip_check": {
+        "returncode": 0,
+        "ok": true,
+        "output": "No broken requirements found."
+      }
+    },
+    {
+      "prefix": ".tool_envs/rmg",
+      "declared_by": [
+        "auxiliary_environments.rmg",
+        "mcp_profiles.support_environments.rmg"
+      ],
+      "groups": [
+        "auxiliary_environments",
+        "mcp_profiles.support_environments"
+      ],
+      "names": [
+        "rmg"
+      ],
+      "conda_names": [
+        "researchchem-rmg"
+      ],
+      "backends": [
+        "rmg"
+      ],
+      "descriptions": [
+        "RMG-Py 4.0.0 and Arkane package runtime.",
+        "RMG-Py 4.0.0 typed kinetics and tunneling runtime."
+      ],
+      "discovered": true,
+      "id": "rmg",
+      "exists": true,
+      "kind": "conda",
+      "captured": true,
+      "python_version": "3.11.15",
+      "conda_package_count": 416,
+      "pip_package_count": 5,
+      "project_editable": false,
+      "conda_explicit_lock": "rmg/conda-explicit.txt",
+      "pip_requirements_lock": "rmg/pip-requirements.txt",
+      "pip_metadata_lock": "rmg/pip-lock.json",
+      "conda_lock_sha256": "28d6619387f0db6d00661ed682ee18347f0e3f6e6d4ed2bf98c2e3c2d7cc9a32",
+      "pip_requirements_sha256": "5a7e8a9b12d538044d47f51710a9d699eb626fe80a6ee1fe6671b8f841a2adbf",
+      "pip_metadata_sha256": "c2727b54b62c1f5f6a71a872a204fd7263e82f696ff222cca4b323d548e9a7b2",
+      "pip_check": {
+        "returncode": 1,
+        "ok": false,
+        "output": "quantities 0.12.3 is not supported on this platform\ngprof2dot 2017.9.19 is not supported on this platform\nperiodictable 1.5.2 is not supported on this platform"
+      }
+    },
+    {
+      "prefix": ".tool_envs/sella",
+      "declared_by": [
+        "mcp_profiles.support_environments.sella"
+      ],
+      "groups": [
+        "mcp_profiles.support_environments"
+      ],
+      "names": [
+        "sella"
+      ],
+      "conda_names": [
+        "researchchem-sella"
+      ],
+      "backends": [
+        "sella"
+      ],
+      "descriptions": [
+        "Sella 2.5.0 composite minimum/transition-state optimizer using an Agent-selected calculator backend."
+      ],
+      "discovered": true,
+      "id": "sella",
+      "exists": true,
+      "kind": "conda",
+      "captured": true,
+      "python_version": "3.11.15",
+      "conda_package_count": 102,
+      "pip_package_count": 5,
+      "project_editable": false,
+      "conda_explicit_lock": "sella/conda-explicit.txt",
+      "pip_requirements_lock": "sella/pip-requirements.txt",
+      "pip_metadata_lock": "sella/pip-lock.json",
+      "conda_lock_sha256": "11732a71c40860f0981e83412cd8fb7a334f15eb5cb6363dff35218535712a40",
+      "pip_requirements_sha256": "a56facd3fee30e169324c02281e3c8016cfabbe4e47b862f4f67f44fa25974d6",
+      "pip_metadata_sha256": "6dca61ea67529177c18fc0ae1afa7ff3f9fe015fed0c50da72aa15601ca9abb6",
+      "pip_check": {
+        "returncode": 0,
+        "ok": true,
+        "output": "No broken requirements found."
+      }
+    },
+    {
+      "prefix": ".tool_envs/services",
+      "declared_by": [
+        "mcp_profiles.profiles.services"
+      ],
+      "groups": [
+        "mcp_profiles.profiles"
+      ],
+      "names": [
+        "services"
+      ],
+      "conda_names": [
+        "researchchem-services"
+      ],
+      "backends": [
+        "catalysis_hub",
+        "materials_project",
+        "nist_webbook",
+        "pubchem",
+        "rcsb_pdb"
+      ],
+      "descriptions": [
+        "Remote scientific data services and authenticated materials lookup."
+      ],
+      "discovered": true,
+      "id": "services",
+      "exists": true,
+      "kind": "conda",
+      "captured": true,
+      "python_version": "3.10.20",
+      "conda_package_count": 203,
+      "pip_package_count": 42,
+      "project_editable": false,
+      "conda_explicit_lock": "services/conda-explicit.txt",
+      "pip_requirements_lock": "services/pip-requirements.txt",
+      "pip_metadata_lock": "services/pip-lock.json",
+      "conda_lock_sha256": "30e64a5f7075e3c593dfcf291985870cb3209d96c5e3c2266a893a71d026deca",
+      "pip_requirements_sha256": "0386c55b019212fb75f551e21c7ed5f7d04c77a50e3801b6bc5cbf6ee6b02b0d",
+      "pip_metadata_sha256": "dad9ff7e27491580c3f6f075215897341eef2bb6e1fd9f5ddd103052d7b363c8",
+      "pip_check": {
+        "returncode": 0,
+        "ok": true,
+        "output": "No broken requirements found."
+      }
+    },
+    {
+      "prefix": ".tool_envs/theodore",
+      "declared_by": [
+        "auxiliary_environments.theodore"
+      ],
+      "groups": [
+        "auxiliary_environments"
+      ],
+      "names": [
+        "theodore"
+      ],
+      "conda_names": [
+        "researchchem-theodore"
+      ],
+      "backends": [],
+      "descriptions": [
+        "TheoDORE 2.5.0 excited-state analysis runtime with cclib."
+      ],
+      "discovered": true,
+      "id": "theodore",
+      "exists": true,
+      "kind": "conda",
+      "captured": true,
+      "python_version": "3.11.15",
+      "conda_package_count": 146,
+      "pip_package_count": 3,
+      "project_editable": false,
+      "conda_explicit_lock": "theodore/conda-explicit.txt",
+      "pip_requirements_lock": "theodore/pip-requirements.txt",
+      "pip_metadata_lock": "theodore/pip-lock.json",
+      "conda_lock_sha256": "e153c7ab879ed75d35cf96174a8f16be8849bf9c3d707ada71b9a8ec7ca37d59",
+      "pip_requirements_sha256": "24116f0693bc733e643307bb5d85334464762ace163f74decfd04c7e3c2b877b",
+      "pip_metadata_sha256": "fed03d93bfa7e2079b5bc588ab87fcb27eae7c9570243c52dbde5e89350daf38",
+      "pip_check": {
+        "returncode": 0,
+        "ok": true,
+        "output": "No broken requirements found."
+      }
+    },
+    {
+      "prefix": ".tool_envs/vasp",
+      "declared_by": [
+        "mcp_profiles.profiles.vasp"
+      ],
+      "groups": [
+        "mcp_profiles.profiles"
+      ],
+      "names": [
+        "vasp"
+      ],
+      "conda_names": [
+        "researchchem-vasp"
+      ],
+      "backends": [
+        "vasp"
+      ],
+      "descriptions": [
+        "Locally compiled VASP 6.3.2 standard executable with OpenMPI and an explicit-POTCAR atomic adapter."
+      ],
+      "discovered": true,
+      "id": "vasp",
+      "exists": true,
+      "kind": "conda",
+      "captured": true,
+      "python_version": "3.11.15",
+      "conda_package_count": 130,
+      "pip_package_count": 6,
+      "project_editable": false,
+      "conda_explicit_lock": "vasp/conda-explicit.txt",
+      "pip_requirements_lock": "vasp/pip-requirements.txt",
+      "pip_metadata_lock": "vasp/pip-lock.json",
+      "conda_lock_sha256": "0db06e1dfae4ac112b7c33f6d15fb4e4722db4b7a876e8d3bfdb7b963d1088b7",
+      "pip_requirements_sha256": "2bfb5852b855a93894b8307ec916893c1710ec172f836494c466db42681ae4ed",
+      "pip_metadata_sha256": "260c9a11c15314c22da25429f944a0d3caa852adcb62be583dc069917355eac4",
+      "pip_check": {
+        "returncode": 0,
+        "ok": true,
+        "output": "No broken requirements found."
+      }
+    },
+    {
+      "prefix": ".tool_envs/vesta",
+      "declared_by": [
+        "auxiliary_environments.vesta"
+      ],
+      "groups": [
+        "auxiliary_environments"
+      ],
+      "names": [
+        "vesta"
+      ],
+      "conda_names": [
+        "researchchem-binary-runtime-vesta"
+      ],
+      "backends": [],
+      "descriptions": [
+        "VESTA 3.90.5a GTK3 x86_64 GUI runtime with locally extracted system libraries."
+      ],
+      "discovered": true,
+      "id": "vesta",
+      "exists": true,
+      "kind": "asset_runtime",
+      "captured": false
+    },
+    {
+      "prefix": ".tool_envs/vmd",
+      "declared_by": [
+        "auxiliary_environments.vmd"
+      ],
+      "groups": [
+        "auxiliary_environments"
+      ],
+      "names": [
+        "vmd"
+      ],
+      "conda_names": [
+        "researchchem-vmd"
+      ],
+      "backends": [],
+      "descriptions": [
+        "VMD 1.9.3 text-mode molecular visualization/trajectory parser."
+      ],
+      "discovered": true,
+      "id": "vmd",
+      "exists": true,
+      "kind": "conda",
+      "captured": true,
+      "python_version": null,
+      "conda_package_count": 14,
+      "pip_package_count": 0,
+      "project_editable": false,
+      "conda_explicit_lock": "vmd/conda-explicit.txt",
+      "pip_requirements_lock": "vmd/pip-requirements.txt",
+      "pip_metadata_lock": "vmd/pip-lock.json",
+      "conda_lock_sha256": "1bfb2e236112fc22e99cad2c0d8ae4a650c45cdee327ac3448a4f871c017dc6d",
+      "pip_requirements_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "pip_metadata_sha256": "179bab8fdd11becb2b4270110cd7c9b19b0993d984864be197be2fcb5816899e",
+      "pip_check": {
+        "skipped": true
+      }
+    },
+    {
+      "prefix": ".tool_envs/workflows",
+      "declared_by": [
+        "auxiliary_environments.workflows",
+        "mcp_profiles.profiles.workflows"
+      ],
+      "groups": [
+        "auxiliary_environments",
+        "mcp_profiles.profiles"
+      ],
+      "names": [
+        "workflows"
+      ],
+      "conda_names": [
+        "researchchem-workflows"
+      ],
+      "backends": [
+        "cclib",
+        "mdtraj",
+        "pymatgen",
+        "qcelemental",
+        "spglib"
+      ],
+      "descriptions": [
+        "Crystal structure, symmetry, and lightweight trajectory-analysis libraries.",
+        "QCSchema/QCElemental/QCEngine, AiiDA, atomate2, jobflow and workflow data libraries."
+      ],
+      "discovered": true,
+      "id": "workflows",
+      "exists": true,
+      "kind": "conda",
+      "captured": true,
+      "python_version": "3.11.15",
+      "conda_package_count": 363,
+      "pip_package_count": 0,
+      "project_editable": false,
+      "conda_explicit_lock": "workflows/conda-explicit.txt",
+      "pip_requirements_lock": "workflows/pip-requirements.txt",
+      "pip_metadata_lock": "workflows/pip-lock.json",
+      "conda_lock_sha256": "47ad243b946e22537676a41399925ce79c42cfb1e01302acd427fe4e6f2ea190",
+      "pip_requirements_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "pip_metadata_sha256": "179bab8fdd11becb2b4270110cd7c9b19b0993d984864be197be2fcb5816899e",
+      "pip_check": {
+        "returncode": 0,
+        "ok": true,
+        "output": "No broken requirements found."
+      }
+    },
+    {
+      "prefix": ".tool_envs/yambo",
+      "declared_by": [
+        "auxiliary_environments.yambo"
+      ],
+      "groups": [
+        "auxiliary_environments"
+      ],
+      "names": [
+        "yambo"
+      ],
+      "conda_names": [
+        "researchchem-yambo"
+      ],
+      "backends": [],
+      "descriptions": [
+        "Yambo 5.3.0 single-process executable and p2y interface."
+      ],
+      "discovered": true,
+      "id": "yambo",
+      "exists": true,
+      "kind": "conda",
+      "captured": true,
+      "python_version": "3.11.15",
+      "conda_package_count": 65,
+      "pip_package_count": 0,
+      "project_editable": false,
+      "conda_explicit_lock": "yambo/conda-explicit.txt",
+      "pip_requirements_lock": "yambo/pip-requirements.txt",
+      "pip_metadata_lock": "yambo/pip-lock.json",
+      "conda_lock_sha256": "49f7bb148a662a0620956ebf090c31a0737563a93f5bf7bf65899c09ba7d9076",
+      "pip_requirements_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "pip_metadata_sha256": "179bab8fdd11becb2b4270110cd7c9b19b0993d984864be197be2fcb5816899e",
+      "pip_check": {
+        "returncode": 0,
+        "ok": true,
+        "output": "No broken requirements found."
+      }
+    },
+    {
+      "prefix": ".toolbox_env",
+      "declared_by": [
+        "mcp_profiles.profiles.core"
+      ],
+      "groups": [
+        "mcp_profiles.profiles"
+      ],
+      "names": [
+        "core"
+      ],
+      "conda_names": [
+        "researchchem-core"
+      ],
+      "backends": [
+        "ase_emt",
+        "internal_spectroscopy",
+        "internal_statistics",
+        "internal_thermochemistry",
+        "internal_vibrations",
+        "pdb_tools",
+        "rdkit",
+        "rdkit_etkdg",
+        "rdkit_gasteiger"
+      ],
+      "descriptions": [
+        "Core runtime for cheminformatics and deterministic analysis backends."
+      ],
+      "discovered": true,
+      "id": "core",
+      "exists": true,
+      "kind": "conda",
+      "captured": true,
+      "python_version": "3.10.20",
+      "conda_package_count": 277,
+      "pip_package_count": 222,
+      "project_editable": true,
+      "conda_explicit_lock": "core/conda-explicit.txt",
+      "pip_requirements_lock": "core/pip-requirements.txt",
+      "pip_metadata_lock": "core/pip-lock.json",
+      "conda_lock_sha256": "918ce942b9825c4a5746764778f9a4202bcd201046a5e37296e1ffbbedd4ae67",
+      "pip_requirements_sha256": "94d3eff7b951454737132ab673060f3eebb0f37e197538196a47cdbeb59c332c",
+      "pip_metadata_sha256": "da8e682e8889b6ed3ec3aaac249d53852563cfad23ca3114dfb37110b77e1da5",
+      "pip_check": {
+        "returncode": 0,
+        "ok": true,
+        "output": "No broken requirements found."
+      }
+    }
+  ],
+  "assets": [
+    {
+      "path": ".model_cache/deepmd/pretrained",
+      "reasons": [
+        "requested_software.DeePMD-kit.cache_paths"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".model_cache/deepmd/pretrained/DPA-3.1-3M.pt",
+      "reasons": [
+        "toolbox_resources.deepmd_dpa_3_1_3m"
+      ],
+      "required": true,
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 47176032,
+      "expected_checksum": {
+        "algorithm": "sha256",
+        "value": "86dd3a804d78ca5d203ebf98747e8f16dff9713ba8950097ceb760b161e19907"
+      }
+    },
+    {
+      "path": ".model_cache/deepmd/pretrained/DPA-3.2-5M.pt",
+      "reasons": [
+        "toolbox_resources.deepmd_dpa_3_2_5m"
+      ],
+      "required": true,
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 64800782,
+      "expected_checksum": {
+        "algorithm": "sha256",
+        "value": "876354744aeaae17b2639a6a690514470273784f2b4836280850f50cbb799165"
+      }
+    },
+    {
+      "path": ".model_cache/deepmd/pretrained/DPA-3.3-1M.pt",
+      "reasons": [
+        "toolbox_resources.deepmd_dpa_3_3_1m"
+      ],
+      "required": true,
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 41612295,
+      "expected_checksum": {
+        "algorithm": "sha256",
+        "value": "36fe440c111108d60cda54aa7d3fccac743794de25abef4d49564b9fb896a55b"
+      }
+    },
+    {
+      "path": ".model_cache/deepmd/pretrained/DPA3-Omol-Large.pt",
+      "reasons": [
+        "toolbox_resources.deepmd_dpa3_omol_large"
+      ],
+      "required": true,
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 224057430,
+      "expected_checksum": {
+        "algorithm": "sha256",
+        "value": "dc4d252b31450b41eb3546cc48f640ad0831c0b5d069ce27d996e0ff58fc037a"
+      }
+    },
+    {
+      "path": ".model_cache/deepmd/pretrained/dpa-2.4-7M.pt",
+      "reasons": [
+        "toolbox_resources.deepmd_dpa_2_4_7m"
+      ],
+      "required": true,
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 169224765,
+      "expected_checksum": {
+        "algorithm": "sha256",
+        "value": "904eb5560af9ff644347dedd3ebf1e9c97929d02ee37ce3cbe895de3df711198"
+      }
+    },
+    {
+      "path": ".model_cache/nequip/0.1",
+      "reasons": [
+        "requested_software.NequIP.cache_paths"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".model_cache/nequip/0.1/Allegro-MP-L-0.1.nequip.zip",
+      "reasons": [
+        "toolbox_resources.allegro_mp_l_0_1"
+      ],
+      "required": true,
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 153640224,
+      "expected_checksum": {
+        "algorithm": "sha256",
+        "value": "ccc412a2e46b70528235067d45baab2bcc8ca48fda85516529de6caa030eeb8b"
+      }
+    },
+    {
+      "path": ".model_cache/nequip/0.1/Allegro-OAM-L-0.1.nequip.zip",
+      "reasons": [
+        "toolbox_resources.allegro_oam_l_0_1"
+      ],
+      "required": true,
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 80738705,
+      "expected_checksum": {
+        "algorithm": "sha256",
+        "value": "3f0d3ca7bb136d4c2ee76278170fcbe756436f037e16c673a86e2c57d271c64e"
+      }
+    },
+    {
+      "path": ".model_cache/nequip/0.1/NequIP-MP-L-0.1.nequip.zip",
+      "reasons": [
+        "toolbox_resources.nequip_mp_l_0_1"
+      ],
+      "required": true,
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 78694081,
+      "expected_checksum": {
+        "algorithm": "sha256",
+        "value": "dfbb68f6fab8d8135fc2be9c1cd92d468fe858254f2454fb891ea0da08dd6592"
+      }
+    },
+    {
+      "path": ".model_cache/nequip/0.1/NequIP-OAM-L-0.1.nequip.zip",
+      "reasons": [
+        "toolbox_resources.nequip_oam_l_0_1"
+      ],
+      "required": true,
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 78464590,
+      "expected_checksum": {
+        "algorithm": "sha256",
+        "value": "5d01a4fab228abb3cdb6ace0033f93993729956bca6a42234a2a8816825b9a0f"
+      }
+    },
+    {
+      "path": ".model_cache/nequip/0.1/NequIP-OAM-M-0.1.nequip.zip",
+      "reasons": [
+        "toolbox_resources.nequip_oam_m_0_1"
+      ],
+      "required": true,
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 26554438,
+      "expected_checksum": {
+        "algorithm": "sha256",
+        "value": "3b528d235a98d6daa582ab17d4bac44aa108659b8a69046ba8f4f51c257fb328"
+      }
+    },
+    {
+      "path": ".model_cache/nequip/0.1/NequIP-OAM-S-0.1.nequip.zip",
+      "reasons": [
+        "toolbox_resources.nequip_oam_s_0_1"
+      ],
+      "required": true,
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 5638676,
+      "expected_checksum": {
+        "algorithm": "sha256",
+        "value": "63d4bafd872850a014fd21dedeea416b61173a17750dee0b2b8dd2b126f407aa"
+      }
+    },
+    {
+      "path": ".model_cache/nequip/0.1/NequIP-OAM-XL-0.1.nequip.zip",
+      "reasons": [
+        "toolbox_resources.nequip_oam_xl_0_1"
+      ],
+      "required": true,
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 259627903,
+      "expected_checksum": {
+        "algorithm": "sha256",
+        "value": "99c3799b28026f1ecf66c413292038a27a0749d4d4d7cd0b3a642f2e68df9e9c"
+      }
+    },
+    {
+      "path": ".software_cache/aiida",
+      "reasons": [
+        "auxiliary_environments.workflows.cache_paths",
+        "requested_software.AiiDA.cache_paths"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/amber/26",
+      "reasons": [
+        "mcp_profiles.support_environments.amber.cache_paths",
+        "requested_software.AMBER.cache_paths"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/amber/26/install/bin",
+      "reasons": [
+        "mcp_profiles.support_environments.amber.path_entries"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/amber/26/install/bin/pmemd",
+      "reasons": [
+        "mcp_profiles.support_environments.amber.command_variables.CHEMGRAPH_AMBER_COMMAND",
+        "mcp_profiles.support_environments.amber.external_commands"
+      ],
+      "required": true,
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 4250992,
+      "captured_sha256": "7a81fb79d17c817a59eb5b1e76602c0fee4e4d6090fae227282df0990e49db2d"
+    },
+    {
+      "path": ".software_cache/amber/26/install/bin/pmemd.MPI",
+      "reasons": [
+        "mcp_profiles.support_environments.amber.command_variables.CHEMGRAPH_AMBER_MPI_COMMAND",
+        "mcp_profiles.support_environments.amber.external_commands"
+      ],
+      "required": true,
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 5281768,
+      "captured_sha256": "64185a86202150731c64b2a199e1b1ab0885c6c182292d4c7c719b493e083397"
+    },
+    {
+      "path": ".software_cache/automekin/install",
+      "reasons": [
+        "auxiliary_environments.automekin.cache_paths",
+        "requested_software.AutoMeKin.cache_paths"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/automekin/install/bin",
+      "reasons": [
+        "auxiliary_environments.automekin.path_entries"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/automekin/install/bin/HLscripts",
+      "reasons": [
+        "auxiliary_environments.automekin.path_entries"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/automekin/install/bin/MOPAC_DEV",
+      "reasons": [
+        "auxiliary_environments.automekin.library_path_entries",
+        "auxiliary_environments.automekin.path_entries"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/automekin/install/lib",
+      "reasons": [
+        "auxiliary_environments.automekin.library_path_entries"
+      ],
+      "required": false,
+      "exists": false,
+      "kind": "missing"
+    },
+    {
+      "path": ".software_cache/automekin/source",
+      "reasons": [
+        "auxiliary_environments.automekin.cache_paths",
+        "requested_software.AutoMeKin.cache_paths"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/charmm/50b2",
+      "reasons": [
+        "mcp_profiles.support_environments.charmm.cache_paths",
+        "requested_software.CHARMM.cache_paths"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/charmm/50b2/install/bin",
+      "reasons": [
+        "mcp_profiles.support_environments.charmm.path_entries"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/charmm/50b2/install/bin/charmm",
+      "reasons": [
+        "mcp_profiles.support_environments.charmm.command_variables.CHEMGRAPH_CHARMM_COMMAND",
+        "mcp_profiles.support_environments.charmm.external_commands"
+      ],
+      "required": true,
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 33200,
+      "captured_sha256": "b95a3d518d18fd98fca212a387bd8afc1c44ee823eeaa2e8720131af49311fd3"
+    },
+    {
+      "path": ".software_cache/critic2/install-conda",
+      "reasons": [
+        "auxiliary_environments.critic2.cache_paths",
+        "mcp_profiles.profiles.critic2.cache_paths",
+        "requested_software.Critic2.cache_paths"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/critic2/install-conda/bin",
+      "reasons": [
+        "auxiliary_environments.critic2.path_entries",
+        "mcp_profiles.profiles.critic2.path_entries"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/critic2/install-conda/bin/critic2",
+      "reasons": [
+        "mcp_profiles.profiles.critic2.command_variables.CHEMGRAPH_CRITIC2_COMMAND",
+        "mcp_profiles.profiles.critic2.external_commands"
+      ],
+      "required": true,
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 10445832,
+      "captured_sha256": "ca205735e042d58da3c0015cf90f51cd2b6cab1b67ba8cdf59fd553ca9f27666"
+    },
+    {
+      "path": ".software_cache/critic2/source",
+      "reasons": [
+        "auxiliary_environments.critic2.cache_paths"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/easyspin/6.0.12/easyspin",
+      "reasons": [
+        "auxiliary_environments.easyspin.cache_paths",
+        "auxiliary_environments.easyspin.path_entries",
+        "requested_software.EasySpin.cache_paths"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/gamess/2024-r2-p1",
+      "reasons": [
+        "mcp_profiles.support_environments.gamess.cache_paths",
+        "requested_software.GAMESS.cache_paths"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/gamess/2024-r2-p1/build",
+      "reasons": [
+        "mcp_profiles.support_environments.gamess.path_entries"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/gamess/2024-r2-p1/build/gamess.00.x",
+      "reasons": [
+        "mcp_profiles.support_environments.gamess.external_commands"
+      ],
+      "required": true,
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 114469024,
+      "captured_sha256": "95164d6489db2723fb8c396b49a54e61cc9137dd0c732b3ba514d7a6eb7fac53"
+    },
+    {
+      "path": ".software_cache/gamess/2024-r2-p1/source",
+      "reasons": [
+        "mcp_profiles.support_environments.gamess.path_entries"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/gamess/2024-r2-p1/source/rungms",
+      "reasons": [
+        "mcp_profiles.support_environments.gamess.command_variables.CHEMGRAPH_GAMESS_COMMAND",
+        "mcp_profiles.support_environments.gamess.external_commands"
+      ],
+      "required": true,
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 51566,
+      "captured_sha256": "6bd7ad4045eb2dd43bef5b063f671cfed51482e9ac9cee778a80fc8e4a1434bf"
+    },
+    {
+      "path": ".software_cache/gaussian/g16",
+      "reasons": [
+        "mcp_profiles.support_environments.gaussian.cache_paths",
+        "requested_software.Gaussian.cache_paths"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/gaussian/g16/install/g16",
+      "reasons": [
+        "mcp_profiles.support_environments.gaussian.path_entries"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/gaussian/g16/install/g16/formchk",
+      "reasons": [
+        "mcp_profiles.support_environments.gaussian.command_variables.CHEMGRAPH_GAUSSIAN_FORMCHK_COMMAND",
+        "mcp_profiles.support_environments.gaussian.external_commands"
+      ],
+      "required": true,
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 127922688,
+      "captured_sha256": "78dc9981fd170cc99d8052aa26471244e04fd2c8aea7d73aaf641c193e7b6bd5"
+    },
+    {
+      "path": ".software_cache/gaussian/g16/install/g16/g16",
+      "reasons": [
+        "mcp_profiles.support_environments.gaussian.command_variables.CHEMGRAPH_GAUSSIAN_COMMAND",
+        "mcp_profiles.support_environments.gaussian.external_commands"
+      ],
+      "required": true,
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 127313512,
+      "captured_sha256": "384f3baca38297d3f11ed2168bb9be836778fa4c5f5d07cb38751e3ed1a66db5"
+    },
+    {
+      "path": ".software_cache/gnina/1.3.3/gnina.cuda12.8.static",
+      "reasons": [
+        "toolbox_resources.gnina_1_3_3_cuda12_8_linux_x86_64"
+      ],
+      "required": true,
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 2056131000,
+      "expected_checksum": {
+        "algorithm": "sha256",
+        "value": "3340c1f49cd3c7c84d8699182a1c6af13c7fa2a22448d1204640446106f72172"
+      }
+    },
+    {
+      "path": ".software_cache/gpaw/setups",
+      "reasons": [
+        "auxiliary_environments.gpaw.cache_paths",
+        "mcp_profiles.profiles.gpaw.cache_paths",
+        "requested_software.GPAW.cache_paths"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/lobster/5.1.0",
+      "reasons": [
+        "auxiliary_environments.lobster.cache_paths",
+        "mcp_profiles.profiles.lobster.cache_paths",
+        "requested_software.LOBSTER.cache_paths"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/lobster/5.1.0/package",
+      "reasons": [
+        "auxiliary_environments.lobster.path_entries",
+        "mcp_profiles.profiles.lobster.path_entries"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/lobster/5.1.0/package/lobster-5.1.0",
+      "reasons": [
+        "mcp_profiles.profiles.lobster.command_variables.CHEMGRAPH_LOBSTER_COMMAND",
+        "mcp_profiles.profiles.lobster.external_commands"
+      ],
+      "required": true,
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 12590064,
+      "captured_sha256": "b8fd372217c72c4169d55be194bc6aa6c0c33165c5f5a3f4a88d89b04f26c122"
+    },
+    {
+      "path": ".software_cache/matlab/R2018a/install/bin",
+      "reasons": [
+        "auxiliary_environments.easyspin.path_entries",
+        "auxiliary_environments.matlab.path_entries"
+      ],
+      "required": false,
+      "exists": false,
+      "kind": "missing"
+    },
+    {
+      "path": ".software_cache/matlab/R2018a/installation_media/R2018a_glnxa64_dvd1.iso",
+      "reasons": [
+        "auxiliary_environments.matlab.cache_paths",
+        "requested_software.MATLAB.cache_paths"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 7483115520
+    },
+    {
+      "path": ".software_cache/matlab/R2018a/installation_media/R2018a_glnxa64_dvd2.iso",
+      "reasons": [
+        "auxiliary_environments.matlab.cache_paths",
+        "requested_software.MATLAB.cache_paths"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 5279776768
+    },
+    {
+      "path": ".software_cache/mesmer/7.1",
+      "reasons": [
+        "auxiliary_environments.mesmer.cache_paths",
+        "mcp_profiles.support_environments.mesmer.cache_paths",
+        "requested_software.MESMER.cache_paths"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/mesmer/7.1/bin",
+      "reasons": [
+        "auxiliary_environments.mesmer.path_entries",
+        "mcp_profiles.support_environments.mesmer.path_entries"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/mesmer/7.1/bin/mesmer",
+      "reasons": [
+        "mcp_profiles.support_environments.mesmer.command_variables.CHEMGRAPH_MESMER_COMMAND",
+        "mcp_profiles.support_environments.mesmer.external_commands"
+      ],
+      "required": true,
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 2508336,
+      "captured_sha256": "a28e1c5d8f8ca0d64522415198463c1d08163003677fbae5133aaa60cfa5dc6d"
+    },
+    {
+      "path": ".software_cache/mess/2020.1.24",
+      "reasons": [
+        "auxiliary_environments.mess.cache_paths",
+        "mcp_profiles.support_environments.mess.cache_paths",
+        "requested_software.MESS.cache_paths"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/mess/2020.1.24/build",
+      "reasons": [
+        "auxiliary_environments.mess.path_entries",
+        "mcp_profiles.support_environments.mess.path_entries"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/mess/2020.1.24/build/mess",
+      "reasons": [
+        "mcp_profiles.support_environments.mess.command_variables.CHEMGRAPH_MESS_COMMAND",
+        "mcp_profiles.support_environments.mess.external_commands"
+      ],
+      "required": true,
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 1920840,
+      "captured_sha256": "5cd91f9cb7f76ff975e0ee1b5a900bdd8d15b970cff590d5bf35943cb059bc24"
+    },
+    {
+      "path": ".software_cache/multiwfn/2026.7.15",
+      "reasons": [
+        "auxiliary_environments.multiwfn.cache_paths",
+        "mcp_profiles.profiles.multiwfn.cache_paths",
+        "requested_software.Multiwfn.cache_paths"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/multiwfn/2026.7.15/Multiwfn_2026.7.15_bin_Linux_noGUI",
+      "reasons": [
+        "auxiliary_environments.multiwfn.path_entries",
+        "mcp_profiles.profiles.multiwfn.path_entries"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/multiwfn/2026.7.15/Multiwfn_2026.7.15_bin_Linux_noGUI/Multiwfn_noGUI",
+      "reasons": [
+        "mcp_profiles.profiles.multiwfn.command_variables.CHEMGRAPH_MULTIWFN_COMMAND",
+        "mcp_profiles.profiles.multiwfn.external_commands"
+      ],
+      "required": true,
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 41264837,
+      "captured_sha256": "d7d2539dae7b8d2faf03ca473d856cf1936a7b8ca4fdcfbb3e1cfa5f45184030"
+    },
+    {
+      "path": ".software_cache/namd/3.0.2",
+      "reasons": [
+        "mcp_profiles.support_environments.namd.cache_paths",
+        "requested_software.NAMD.cache_paths"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/namd/3.0.2/multicore-avx512",
+      "reasons": [
+        "mcp_profiles.support_environments.namd.path_entries"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/namd/3.0.2/multicore-avx512/namd3",
+      "reasons": [
+        "mcp_profiles.support_environments.namd.command_variables.CHEMGRAPH_NAMD_COMMAND",
+        "mcp_profiles.support_environments.namd.external_commands"
+      ],
+      "required": true,
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 20905656,
+      "captured_sha256": "dc7d8cefe2af0f634e76ad47213d70ed598a45486e878d2b302333cfb509f907"
+    },
+    {
+      "path": ".software_cache/namd/3.0.2/multicore-cuda/namd3",
+      "reasons": [
+        "mcp_profiles.support_environments.namd.external_commands"
+      ],
+      "required": true,
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 511824544,
+      "captured_sha256": "c6d4d21e997eccbf8745bf3ff2a524fe30ca478e76d67f70dc0cbfd4da27bb2c"
+    },
+    {
+      "path": ".software_cache/newton-x/26a",
+      "reasons": [
+        "auxiliary_environments.newtonx.cache_paths",
+        "requested_software.Newton-X.cache_paths"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/newton-x/26a/package/NX-NS/bin",
+      "reasons": [
+        "auxiliary_environments.newtonx.path_entries"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/newton-x/26a/package/NX-NS/lib/x86_64-linux-gnu",
+      "reasons": [
+        "auxiliary_environments.newtonx.library_path_entries"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/nwchem/source/src/basis/libraries",
+      "reasons": [
+        "auxiliary_environments.nwchem.cache_paths",
+        "mcp_profiles.profiles.nwchem.cache_paths",
+        "requested_software.NWChem.cache_paths"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/openmolcas/25.10",
+      "reasons": [
+        "auxiliary_environments.openmolcas.cache_paths",
+        "auxiliary_environments.openmolcas.path_entries",
+        "mcp_profiles.profiles.openmolcas.cache_paths",
+        "mcp_profiles.profiles.openmolcas.path_entries",
+        "requested_software.OpenMolcas.cache_paths"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/openmolcas/25.10/bin",
+      "reasons": [
+        "auxiliary_environments.openmolcas.path_entries",
+        "mcp_profiles.profiles.openmolcas.path_entries"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/openmolcas/25.10/lib",
+      "reasons": [
+        "auxiliary_environments.openmolcas.library_path_entries",
+        "mcp_profiles.profiles.openmolcas.library_path_entries"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/openmolcas/25.10/pymolcas",
+      "reasons": [
+        "mcp_profiles.profiles.openmolcas.command_variables.CHEMGRAPH_OPENMOLCAS_COMMAND",
+        "mcp_profiles.profiles.openmolcas.external_commands"
+      ],
+      "required": true,
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 65416,
+      "captured_sha256": "95497ab4c5d2e7f45ccc3faa4eaf8906e432a99b3d6349424584c788ffa341d9"
+    },
+    {
+      "path": ".software_cache/openmolcas/source",
+      "reasons": [
+        "auxiliary_environments.openmolcas.cache_paths",
+        "mcp_profiles.profiles.openmolcas.cache_paths"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/openmpi/4.1.8",
+      "reasons": [
+        "requested_software.ORCA.cache_paths"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/openmpi/4.1.8/bin",
+      "reasons": [
+        "mcp_profiles.profiles.quantum.path_entries",
+        "mcp_profiles.profiles.reaction.path_entries"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/openmpi/4.1.8/bin/orterun",
+      "reasons": [
+        "mcp_profiles.profiles.quantum.external_commands",
+        "mcp_profiles.profiles.reaction.external_commands",
+        "toolbox_resources.openmpi_4_1_8_orca_runtime"
+      ],
+      "required": true,
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 17064,
+      "captured_sha256": "c73d880535ee03984fae2aa98223157196ca15e6792c15d8ff30548e1a383f8e",
+      "expected_checksum": {
+        "algorithm": "sha256",
+        "value": "c73d880535ee03984fae2aa98223157196ca15e6792c15d8ff30548e1a383f8e"
+      }
+    },
+    {
+      "path": ".software_cache/openmpi/4.1.8/lib",
+      "reasons": [
+        "mcp_profiles.profiles.quantum.library_path_entries",
+        "mcp_profiles.profiles.reaction.library_path_entries"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/openmpi/source/openmpi-4.1.8.tar.bz2",
+      "reasons": [
+        "toolbox_resources.openmpi_4_1_8_orca_runtime.source_archive"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 10260353,
+      "expected_checksum": {
+        "algorithm": "sha256",
+        "value": "466f68e3132a1dc02710cc2011fafced8336d98359fa2dae4dddcfd5719f12a9"
+      }
+    },
+    {
+      "path": ".software_cache/orca/6.1.1",
+      "reasons": [
+        "mcp_profiles.profiles.quantum.path_entries",
+        "mcp_profiles.profiles.reaction.path_entries",
+        "requested_software.ORCA.cache_paths"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/orca/6.1.1/orca",
+      "reasons": [
+        "mcp_profiles.profiles.quantum.command_variables.CHEMGRAPH_ORCA_COMMAND",
+        "mcp_profiles.profiles.quantum.external_commands",
+        "mcp_profiles.profiles.reaction.external_commands",
+        "toolbox_resources.orca_6_1_1_linux_x86_64_shared_openmpi418_avx2"
+      ],
+      "required": true,
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 43977904,
+      "captured_sha256": "d65fe8fe3136e0008de9e5784ab8d853b0ef51a02635d7d6fb0f6a1c95d648d1",
+      "expected_checksum": {
+        "algorithm": "sha256",
+        "value": "d65fe8fe3136e0008de9e5784ab8d853b0ef51a02635d7d6fb0f6a1c95d648d1"
+      }
+    },
+    {
+      "path": ".software_cache/orca/download/orca_6_1_1_linux_x86-64_shared_openmpi418_nodmrg.tar.xz",
+      "reasons": [
+        "requested_software.ORCA.cache_paths"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 611348408
+    },
+    {
+      "path": ".software_cache/rmg/database/4.0.0/input",
+      "reasons": [
+        "auxiliary_environments.rmg.cache_paths",
+        "mcp_profiles.support_environments.rmg.cache_paths",
+        "requested_software.Arkane.cache_paths",
+        "requested_software.RMG-Py.cache_paths"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/rmg/source/4.0.0",
+      "reasons": [
+        "auxiliary_environments.rmg.cache_paths",
+        "mcp_profiles.support_environments.rmg.cache_paths",
+        "requested_software.RMG-Py.cache_paths"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/schrodinger/rejected/dirac-video-codec/schroedinger-1.0.11-7-x86_64.pkg.tar.zst",
+      "reasons": [
+        "requested_software.Schrödinger.cache_paths"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 369278
+    },
+    {
+      "path": ".software_cache/sharc/source",
+      "reasons": [
+        "auxiliary_environments.sharc.cache_paths",
+        "requested_software.SHARC.cache_paths"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/sharc/source/bin",
+      "reasons": [
+        "auxiliary_environments.sharc.path_entries"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/shengbte/source",
+      "reasons": [
+        "auxiliary_environments.shengbte.cache_paths",
+        "auxiliary_environments.shengbte.path_entries",
+        "mcp_profiles.profiles.shengbte.cache_paths",
+        "mcp_profiles.profiles.shengbte.path_entries",
+        "requested_software.ShengBTE.cache_paths"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/shengbte/source/ShengBTE",
+      "reasons": [
+        "mcp_profiles.profiles.shengbte.command_variables.CHEMGRAPH_SHENGBTE_COMMAND",
+        "mcp_profiles.profiles.shengbte.external_commands"
+      ],
+      "required": true,
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 299040,
+      "captured_sha256": "199a6425a18c8d4de1f0c503948ca99a08e97e91c19d9e000dc58c2ca3125f5b"
+    },
+    {
+      "path": ".software_cache/vasp/6.3.2/bin",
+      "reasons": [
+        "mcp_profiles.profiles.vasp.path_entries"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/vasp/6.3.2/bin/vasp_std",
+      "reasons": [
+        "mcp_profiles.profiles.vasp.command_variables.CHEMGRAPH_VASP_COMMAND",
+        "mcp_profiles.profiles.vasp.external_commands",
+        "requested_software.VASP.cache_paths"
+      ],
+      "required": true,
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 18091536,
+      "captured_sha256": "7fb83c27daffd14e67367724789b13ad9c6ec204a82db1565faeaad38f1b672e"
+    },
+    {
+      "path": ".software_cache/vasp/6.3.2/testsuite/POTCARS/POTCAR.Si",
+      "reasons": [
+        "requested_software.VASP.cache_paths",
+        "toolbox_resources.vasp_6_3_2_testsuite_si_potcar"
+      ],
+      "required": true,
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 150218,
+      "expected_checksum": {
+        "algorithm": "sha256",
+        "value": "813aade8d7556478a138318a1b54ce2f88eca7e031fc006066720bc984f36595"
+      }
+    },
+    {
+      "path": ".software_cache/vasp/download/vasp.6.3.2.zip",
+      "reasons": [
+        "requested_software.VASP.cache_paths"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 98624862
+    },
+    {
+      "path": ".software_cache/vasp/potcars/download/potpaw54.zip",
+      "reasons": [
+        "requested_software.VASP.cache_paths",
+        "toolbox_resources.vasp_paw_lda_54.archive",
+        "toolbox_resources.vasp_paw_pbe_54.archive",
+        "toolbox_resources.vasp_paw_pw91_54.archive",
+        "toolbox_resources.vasp_uspp_gga_legacy.archive",
+        "toolbox_resources.vasp_uspp_lda_legacy.archive"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 83865893,
+      "expected_checksum": {
+        "algorithm": "sha256",
+        "value": "e987c9d8a0789bdeac2ff7d49fa26944145b9c363b81016ba25aac0d0e0c006f"
+      }
+    },
+    {
+      "path": ".software_cache/vasp/potcars/potpaw54",
+      "reasons": [
+        "requested_software.VASP.cache_paths"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/vasp/potcars/potpaw54/pot/USPP_LDA",
+      "reasons": [
+        "toolbox_resources.vasp_uspp_lda_legacy"
+      ],
+      "required": true,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/vasp/potcars/potpaw54/pot_GGA/USPP_GGA",
+      "reasons": [
+        "toolbox_resources.vasp_uspp_gga_legacy"
+      ],
+      "required": true,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/vasp/potcars/potpaw54/potpaw/PAW_LDA",
+      "reasons": [
+        "toolbox_resources.vasp_paw_lda_54"
+      ],
+      "required": true,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/vasp/potcars/potpaw54/potpaw_GGA/PAW_GGA_PW91",
+      "reasons": [
+        "toolbox_resources.vasp_paw_pw91_54"
+      ],
+      "required": true,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/vasp/potcars/potpaw54/potpaw_PBE/PAW_GGA_PBE",
+      "reasons": [
+        "toolbox_resources.vasp_paw_pbe_54"
+      ],
+      "required": true,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/vesta/3.90.5a",
+      "reasons": [
+        "auxiliary_environments.vesta.cache_paths",
+        "auxiliary_environments.vesta.library_path_entries",
+        "auxiliary_environments.vesta.path_entries",
+        "requested_software.VESTA.cache_paths"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/vesta/deps",
+      "reasons": [
+        "auxiliary_environments.vesta.cache_paths",
+        "requested_software.VESTA.cache_paths"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".software_cache/vesta/deps/root/usr/lib/x86_64-linux-gnu",
+      "reasons": [
+        "auxiliary_environments.vesta.library_path_entries"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".tool_envs/abinit/bin/abinit",
+      "reasons": [
+        "mcp_profiles.profiles.periodic.command_variables.CHEMGRAPH_ABINIT_COMMAND",
+        "mcp_profiles.profiles.periodic.external_commands"
+      ],
+      "required": true,
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 72634040,
+      "captured_sha256": "a90424a9423707ee39e3e5aa554f3bfae4a8e33b658415479d790db2ad01b99d"
+    },
+    {
+      "path": ".tool_envs/amber/bin/mpirun",
+      "reasons": [
+        "mcp_profiles.support_environments.amber.command_variables.CHEMGRAPH_AMBER_MPIRUN_COMMAND"
+      ],
+      "required": true,
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 190592,
+      "captured_sha256": "03807f5e03455744566b86acf334aeaf11bdb80f0a1686bb2bf6d32dc3bdcc09"
+    },
+    {
+      "path": ".tool_envs/amber/lib",
+      "reasons": [
+        "mcp_profiles.support_environments.amber.library_path_entries"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".tool_envs/automekin/lib",
+      "reasons": [
+        "auxiliary_environments.automekin.library_path_entries"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".tool_envs/cp2k/bin/cp2k.psmp",
+      "reasons": [
+        "mcp_profiles.profiles.periodic.command_variables.CHEMGRAPH_CP2K_COMMAND",
+        "mcp_profiles.profiles.periodic.external_commands"
+      ],
+      "required": true,
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 64712,
+      "captured_sha256": "7899c24793e39749c21edd8e946fbcb0a2136e5a24494f6514f5f929a82782c5"
+    },
+    {
+      "path": ".tool_envs/deepmd/lib",
+      "reasons": [
+        "auxiliary_environments.critic2.library_path_entries",
+        "auxiliary_environments.mess.library_path_entries",
+        "auxiliary_environments.openmolcas.library_path_entries",
+        "auxiliary_environments.sharc.library_path_entries",
+        "auxiliary_environments.shengbte.library_path_entries",
+        "mcp_profiles.profiles.openmolcas.library_path_entries",
+        "mcp_profiles.profiles.shengbte.library_path_entries",
+        "mcp_profiles.support_environments.mess.library_path_entries"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".tool_envs/gamess/lib",
+      "reasons": [
+        "mcp_profiles.support_environments.gamess.library_path_entries"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": ".tool_envs/qe/bin/pw.x",
+      "reasons": [
+        "mcp_profiles.profiles.periodic.command_variables.CHEMGRAPH_QE_COMMAND",
+        "mcp_profiles.profiles.periodic.external_commands"
+      ],
+      "required": true,
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 10798648,
+      "captured_sha256": "1d66c7856f5d6b3cd9c66b8578e01512b16bbe907b4360e54234890712ccd6a1"
+    },
+    {
+      "path": ".tool_envs/vasp/lib",
+      "reasons": [
+        "mcp_profiles.profiles.vasp.library_path_entries"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": "download/abinit_pseudos/nc-sr_pbe_standard_psp8.tgz",
+      "reasons": [
+        "toolbox_resources.abinit_pseudo_dojo_nc_sr_pbe_standard_psp8.archive"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 4345032,
+      "expected_checksum": {
+        "algorithm": "sha256",
+        "value": "1163ea89cdc7f5c55a4fdad9c6a31d8da26927a6f0373e566ac7bb0d91e52f14"
+      }
+    },
+    {
+      "path": "download/abinit_pseudos/pseudo_dojo_psp8/pbe_s_sr",
+      "reasons": [
+        "toolbox_resources.abinit_pseudo_dojo_nc_sr_pbe_standard_psp8"
+      ],
+      "required": true,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": "download/dftb_params/3ob-3.1.0/skfiles",
+      "reasons": [
+        "toolbox_resources.dftb_3ob_3_1"
+      ],
+      "required": true,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": "download/dftb_params/3ob-v3.1.0.tar.gz",
+      "reasons": [
+        "toolbox_resources.dftb_3ob_3_1.archive"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 19123092,
+      "expected_checksum": {
+        "algorithm": "sha256",
+        "value": "9dacb26ffa4f9d6e54b2ac627ed171001b47638474b6c7194b34666f2b0101a0"
+      }
+    },
+    {
+      "path": "download/dftb_params/matsci-0.3.0/skfiles",
+      "reasons": [
+        "toolbox_resources.dftb_matsci_0_3"
+      ],
+      "required": true,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": "download/dftb_params/matsci-v0.3.0.tar.gz",
+      "reasons": [
+        "toolbox_resources.dftb_matsci_0_3.archive"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 1590577,
+      "expected_checksum": {
+        "algorithm": "sha256",
+        "value": "adcaadeafcc3ec6a6d6e37623d30455c81e84e00e99be554f0eec14e5d1fec98"
+      }
+    },
+    {
+      "path": "download/nc-sr-05_pbe_standard_psml",
+      "reasons": [
+        "toolbox_resources.siesta_pseudo_dojo_nc_sr_05_pbe_standard_psml"
+      ],
+      "required": true,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": "download/nc-sr-05_pbe_standard_psml.tgz",
+      "reasons": [
+        "toolbox_resources.siesta_pseudo_dojo_nc_sr_05_pbe_standard_psml.archive"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 2113139,
+      "expected_checksum": {
+        "algorithm": "sha256",
+        "value": "ce6a16ba495224a893b62935a4902fea02365f90d233830a08808531ef1aa752"
+      }
+    },
+    {
+      "path": "download/orca_6_1_1_linux_x86-64_shared_openmpi418_avx2.run",
+      "reasons": [
+        "toolbox_resources.orca_6_1_1_linux_x86_64_shared_openmpi418_avx2.distribution_archive"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 461921095,
+      "expected_checksum": {
+        "algorithm": "sha256",
+        "value": "bda447869a5afca37489176e6d5a53678ddfdb74573249670bc58ac1273ed977"
+      }
+    },
+    {
+      "path": "download/qe_pseudos/SSSP_1.3.0_PBE_efficiency.tar.gz",
+      "reasons": [
+        "toolbox_resources.qe_sssp_1_3_pbe_efficiency.archive"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 59513522,
+      "expected_checksum": {
+        "algorithm": "md5",
+        "value": "a58f1b3373f330179fd0832c48bb9a52"
+      }
+    },
+    {
+      "path": "download/qe_pseudos/SSSP_1.3.0_PBE_precision.tar.gz",
+      "reasons": [
+        "toolbox_resources.qe_sssp_1_3_pbe_precision.archive"
+      ],
+      "required": false,
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 62963841,
+      "expected_checksum": {
+        "algorithm": "md5",
+        "value": "fde94756886f32ada7bf597547557eb5"
+      }
+    },
+    {
+      "path": "download/qe_pseudos/efficiency",
+      "reasons": [
+        "toolbox_resources.qe_sssp_1_3_pbe_efficiency"
+      ],
+      "required": true,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": "download/qe_pseudos/precision",
+      "reasons": [
+        "toolbox_resources.qe_sssp_1_3_pbe_precision"
+      ],
+      "required": true,
+      "exists": true,
+      "kind": "directory"
+    },
+    {
+      "path": "download/software/gnina/gnina.cuda12.8.static",
+      "reasons": [
+        "toolbox_resources.gnina_1_3_3_cuda12_8_linux_x86_64.import_sources"
+      ],
+      "required": false,
+      "exists": false,
+      "kind": "missing"
+    }
+  ],
+  "manual_items": [
+    {
+      "name": "Q-Chem",
+      "status_policy": "manual",
+      "license": "commercial",
+      "public_adapter": "not_implemented",
+      "mcp_exposure": "disabled_by_operator_no_license",
+      "notes": "Explicitly disabled by the operator because it is not needed and no license is available. It is absent from BackendSpecs and the MCP catalog; do not install or expose it unless the operator later reverses this decision and supplies a valid license."
+    },
+    {
+      "name": "Molpro",
+      "status_policy": "manual",
+      "license": "commercial",
+      "public_adapter": "not_implemented",
+      "mcp_exposure": "disabled_by_operator_no_license",
+      "notes": "Explicitly disabled by the operator because it is not needed and no license is available. It is absent from BackendSpecs and the MCP catalog; re-enable only after a deliberate operator decision and valid license/site installation."
+    },
+    {
+      "name": "TURBOMOLE",
+      "status_policy": "manual",
+      "license": "commercial",
+      "public_adapter": "not_implemented",
+      "mcp_exposure": "disabled_by_operator_no_license",
+      "notes": "Explicitly disabled by the operator because it is not needed and no license is available. It is absent from BackendSpecs and the MCP catalog; CENSO must not select it implicitly."
+    },
+    {
+      "name": "CASTEP",
+      "status_policy": "manual",
+      "license": "academic_registration",
+      "public_adapter": "not_implemented",
+      "mcp_exposure": null,
+      "notes": "Requires STFC academic/commercial license and a site build."
+    },
+    {
+      "name": "CRYSTAL",
+      "status_policy": "manual",
+      "license": "commercial_registration",
+      "public_adapter": "not_implemented",
+      "mcp_exposure": "disabled_by_operator_no_license",
+      "notes": "Explicitly disabled by the operator because it is not needed and no license is available. It is absent from BackendSpecs and the MCP catalog."
+    },
+    {
+      "name": "WIEN2k",
+      "status_policy": "manual",
+      "license": "commercial_registration",
+      "public_adapter": "not_implemented",
+      "mcp_exposure": "disabled_by_operator_no_license",
+      "notes": "Explicitly disabled by the operator because it is not needed and no license is available. It is absent from BackendSpecs and the MCP catalog."
+    },
+    {
+      "name": "MATLAB",
+      "status_policy": "manual",
+      "license": "commercial",
+      "public_adapter": "not_implemented",
+      "mcp_exposure": "not_exposed_host_runtime",
+      "notes": "Both official MATLAB R2018a Linux ISO images are staged in .software_cache (DVD1 SHA-256 780717eeeaf11855a119ffe5e3e8be3443df4b1b79a2dcb04feb4c3ea7eb693e; DVD2 485467b9662b7d2f6bbf92b84b18b95fed93a9d6fc6ead4c806b1b67e9296997). The separately downloaded crack archive was deliberately not copied, opened or used. Installation and EasySpin execution require a legitimate MathWorks File Installation Key plus license file/server information."
+    },
+    {
+      "name": "OpenEye",
+      "status_policy": "manual",
+      "license": "commercial",
+      "public_adapter": "not_implemented",
+      "mcp_exposure": "disabled_by_operator_no_license",
+      "notes": "Explicitly disabled by the operator because it is not needed and no license is available. It is absent from BackendSpecs and the MCP catalog; a conda package alone would not authorize use without a valid OpenEye license."
+    },
+    {
+      "name": "Schrödinger",
+      "status_policy": "manual",
+      "license": "commercial",
+      "public_adapter": "not_implemented",
+      "mcp_exposure": "not_exposed_missing_licensed_suite",
+      "notes": "The supplied schroedinger-1.0.11-7 Arch package was identified from .PKGINFO as an ANSI C implementation of the Dirac video codec, not the commercial Schrödinger chemistry suite. It is retained only under .software_cache/schrodinger/rejected with SHA-256 41906fcce0eeb74edcaf50ee46635c2f336703692d956782dba7dd1f419187b7 and is not installed or exposed. A genuine Schrödinger Suite installer and site license are still required if this backend is wanted."
+    },
+    {
+      "name": "NIST CCCBDB 接口",
+      "status_policy": "interface",
+      "license": "NIST_SRD_terms",
+      "public_adapter": "not_implemented",
+      "mcp_exposure": "disabled_no_documented_api",
+      "notes": "CCCBDB has no public documented REST/JSON API and is suitable only for limited interactive single-molecule webpage use. It remains outside BackendSpecs and is not exposed through MCP; no brittle page scraping or bulk crawler is added."
+    }
+  ]
+}

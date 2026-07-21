@@ -286,7 +286,8 @@ def capture_pip_lock(
                     fallback = f"{package['name']}=={version}"
                     entry.update(
                         kind="index_fallback_from_local",
-                        original_source_path=str(path),
+                        original_source_kind="file_url_outside_repository",
+                        original_source_basename=path.name,
                         requirement=fallback,
                         portable=True,
                         byte_identical_source=False,
@@ -319,16 +320,15 @@ def capture_environment(
         return output
     lock_directory = platform_lock_root / record["id"]
     lock_directory.mkdir(parents=True, exist_ok=True)
-    explicit = run(
-        [conda, "list", "-p", str(prefix), "--explicit", "--sha256"],
-        timeout=600,
-    )
-    if "@EXPLICIT" not in explicit:
-        raise RuntimeError(f"Conda did not produce an explicit lock for {prefix}")
-    explicit_path = lock_directory / "conda-explicit.txt"
-    explicit_path.write_text(explicit.rstrip() + "\n", encoding="utf-8")
-    conda_packages = json.loads(run([conda, "list", "-p", str(prefix), "--json"], timeout=600))
     python = prefix / "bin" / "python"
+    # Conda's pip interoperability cache can change its view of shadowed Conda
+    # records the first time pip metadata is scanned.  Warm that view before
+    # exporting either the package inventory or the final explicit lock.
+    if python.is_file():
+        run([str(python), "-m", "pip", "list", "--format", "json"])
+    conda_packages = json.loads(
+        run([conda, "list", "-p", str(prefix), "--json"], timeout=600)
+    )
     pip_entries: list[dict[str, Any]] = []
     pip_requirements: list[str] = []
     project_editable = False
@@ -355,6 +355,14 @@ def capture_environment(
                 "ok": completed.returncode == 0,
                 "output": completed.stdout.strip(),
             }
+    explicit = run(
+        [conda, "list", "-p", str(prefix), "--explicit", "--sha256"],
+        timeout=600,
+    )
+    if "@EXPLICIT" not in explicit:
+        raise RuntimeError(f"Conda did not produce an explicit lock for {prefix}")
+    explicit_path = lock_directory / "conda-explicit.txt"
+    explicit_path.write_text(explicit.rstrip() + "\n", encoding="utf-8")
     requirements_path = lock_directory / "pip-requirements.txt"
     requirements_path.write_text(
         "\n".join(pip_requirements) + ("\n" if pip_requirements else ""),

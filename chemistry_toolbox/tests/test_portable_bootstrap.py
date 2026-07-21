@@ -126,5 +126,7 @@ def test_noneditable_build_path_falls_back_to_exact_index_version(monkeypatch):
     assert requirements == ["cffi==2.0.0"]
     assert entries[0]["conda_recorded_version"] == "2.1.0"
     assert entries[0]["kind"] == "index_fallback_from_local"
+    assert entries[0]["original_source_kind"] == "file_url_outside_repository"
+    assert "original_source_path" not in entries[0]
     assert project_editable is False
     assert local_entries == []
