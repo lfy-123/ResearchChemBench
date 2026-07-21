@@ -35,10 +35,19 @@ chemistry = [
 [project.scripts]
 researchchembench = "evaluation.server:main"
 researchchembench-eval = "evaluation.cli_eval:main"
-researchchem-mcp-server = "evaluation.mcp_tools.server:main"
+researchchem-mcp-server = "chemistry_toolbox.mcp.server:main"
 
 [tool.setuptools.packages.find]
-include = ["evaluation*", "researchchem_toolbox*"]
+where = [".", "chemistry_toolbox/src"]
+include = ["evaluation*", "chemistry_toolbox*", "researchchem_toolbox*"]
+exclude = [
+    "chemistry_toolbox.src*",
+    "chemistry_toolbox.build*",
+    "chemistry_toolbox.mcp.build*",
+    "chemistry_toolbox.scripts*",
+    "chemistry_toolbox.tests*",
+    "evaluation.mcp_tools*",
+]
 
 [tool.setuptools.package-data]
 evaluation = [
@@ -48,15 +57,17 @@ evaluation = [
     "templates/*.html",
     "static/*",
     "static/logos/*",
-    "mcp_tools/tool_config.json",
-    "mcp_tools/TOOL_CATALOG.md",
-    "mcp_tools/README.md",
-    "mcp_tools/pyproject.toml",
-    "mcp_tools/install.sh",
+]
+"chemistry_toolbox.mcp" = [
+    "tool_config.json",
+    "TOOL_CATALOG.md",
+    "README.md",
+    "pyproject.toml",
+    "install.sh",
 ]
 
 [tool.pytest.ini_options]
-testpaths = ["tests"]
+testpaths = ["tests", "chemistry_toolbox/tests"]
 markers = [
     "integration: requires ChemGraph and chemistry calculator dependencies",
     "agent: invokes an installed external agent CLI",

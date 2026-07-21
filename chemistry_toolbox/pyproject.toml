@@ -1,0 +1,52 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "researchchem-mcp-tools"
+version = "0.2.0"
+description = "Thin MCP transport for the ResearchChem atomic chemistry toolbox."
+requires-python = ">=3.10"
+dependencies = [
+    "mcp>=1.0",
+    "fastmcp>=2.0",
+    "numexpr>=2.0",
+    "pydantic>=2.0",
+    "uvicorn>=0.30",
+]
+
+[project.optional-dependencies]
+chemistry = [
+    "ase>=3.22",
+    "mace-torch==0.3.16",
+    "numpy==1.26.4",
+    "pubchempy==1.0.5",
+    "pymatgen",
+    "rdkit",
+    "tblite==0.4.0; python_version < '3.13' or platform_system != 'Darwin'",
+]
+test = ["pytest>=8.0", "pytest-asyncio>=0.23"]
+
+[project.scripts]
+researchchem-mcp-server = "researchchem_mcp_tools.server:main"
+researchchem-mcp-install = "researchchem_mcp_tools.installer:main"
+researchchem-tool = "researchchem_mcp_tools.tool_manager:main"
+
+[tool.setuptools]
+packages = [
+    "researchchem_mcp_tools",
+    "researchchem_mcp_tools.adapters",
+    "researchchem_toolbox",
+    "researchchem_toolbox.actions",
+    "researchchem_toolbox.backends",
+]
+
+[tool.setuptools.package-dir]
+researchchem_mcp_tools = "mcp"
+"researchchem_mcp_tools.adapters" = "mcp/adapters"
+"researchchem_toolbox" = "src/researchchem_toolbox"
+"researchchem_toolbox.actions" = "src/researchchem_toolbox/actions"
+"researchchem_toolbox.backends" = "src/researchchem_toolbox/backends"
+
+[tool.setuptools.package-data]
+researchchem_mcp_tools = ["tool_config.json", "TOOL_CATALOG.md", "README.md"]

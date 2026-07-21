@@ -291,7 +291,7 @@ unset RESEARCHCHEM_MCP_ENABLED_TOOLS RESEARCHCHEM_MCP_DISABLED_TOOLS
 if [[ -n "$MCP_PROFILES_VALUE" ]]; then
   export RESEARCHCHEMBENCH_MCP_PROFILES="$MCP_PROFILES_VALUE"
   python - <<'PY'
-from evaluation.mcp_tools.profiles import selected_profile_names
+from chemistry_toolbox.mcp.profiles import selected_profile_names
 selected_profile_names()
 PY
 fi

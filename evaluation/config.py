@@ -64,7 +64,7 @@ def chemistry_server_command() -> list[str]:
 def chemistry_server_specs() -> list[dict]:
     """Return the one full-catalog MCP server; profiles are backend workers only."""
 
-    from evaluation.mcp_tools.profiles import public_server_spec, selected_profile_names
+    from chemistry_toolbox.mcp.profiles import public_server_spec, selected_profile_names
 
     configured = os.environ.get("RESEARCHCHEMBENCH_MCP_PROFILES", "").strip()
     if configured:

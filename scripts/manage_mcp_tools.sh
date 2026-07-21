@@ -1,15 +1,1 @@
-#!/usr/bin/env bash
-set -euo pipefail
-
-ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-cd "$ROOT_DIR"
-
-if [[ -x "$ROOT_DIR/.toolbox_env/bin/python" ]]; then
-  export PATH="$ROOT_DIR/.toolbox_env/bin:$PATH"
-  export LD_LIBRARY_PATH="$ROOT_DIR/.toolbox_env/lib:${LD_LIBRARY_PATH:-}"
-elif [[ -f "$ROOT_DIR/.venv/bin/activate" ]]; then
-  # shellcheck disable=SC1091
-  source "$ROOT_DIR/.venv/bin/activate"
-fi
-
-exec python -m evaluation.mcp_tools.tool_manager "$@"
+../chemistry_toolbox/scripts/manage_mcp_tools.sh

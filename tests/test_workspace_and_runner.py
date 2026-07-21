@@ -12,7 +12,7 @@ def test_workspace_does_not_copy_hidden_ground_truth(tmp_path: Path):
     assert (runner.workspace / "report").is_dir()
     assert (runner.workspace / ".mcp.json").is_file()
     mcp_config = json.loads((runner.workspace / ".mcp.json").read_text())
-    assert "evaluation.mcp_tools.server" in mcp_config["mcpServers"]["researchchem_toolbox"]["args"]
+    assert "chemistry_toolbox.mcp.server" in mcp_config["mcpServers"]["researchchem_toolbox"]["args"]
 
 
 def test_mock_agent_end_to_end(tmp_path: Path):
