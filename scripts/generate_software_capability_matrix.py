@@ -1,1 +1,0 @@
-../chemistry_toolbox/scripts/generate_software_capability_matrix.py

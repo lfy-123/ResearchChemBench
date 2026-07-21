@@ -1,6 +1,6 @@
 # 化学工具箱初版实现说明
 
-> 2026-07-20 更新：旧 41 个文件式工具已经由 40 Scientific Actions、5 Data Actions 和 55 BackendSpecs 取代。当前实现报告见 `docs/tools/CHEMISTRY_TOOLBOX_REFACTOR_REPORT.md`，完整目录见 `evaluation/mcp_tools/TOOL_CATALOG.md`。下文旧接口说明仅作为迁移历史。
+> 2026-07-20 更新：旧 41 个文件式工具已经由 40 Scientific Actions、5 Data Actions 和 55 BackendSpecs 取代。当前实现报告见 `chemistry_toolbox/docs/CHEMISTRY_TOOLBOX_REFACTOR_REPORT.md`，完整目录见 `chemistry_toolbox/mcp/TOOL_CATALOG.md`。下文旧接口说明仅作为迁移历史。
 
 ## 1. 实现范围
 
@@ -8,8 +8,8 @@
 所有公开工具都遵循“一工具一文件”：
 
 ```text
-evaluation/mcp_tools/tools/<tool_name>.py
-evaluation/mcp_tools/test_tools/test_<tool_name>.py
+chemistry_toolbox/mcp/tools/<tool_name>.py
+chemistry_toolbox/mcp/test_tools/test_<tool_name>.py
 ```
 
 ChemGraph 原工具：
@@ -33,16 +33,16 @@ ChemGraph 原工具：
 - 结果检查：`validate_computation`。
 
 完整参数、后端、依赖和副作用见自动生成的
-`evaluation/mcp_tools/TOOL_CATALOG.md`。
+`chemistry_toolbox/mcp/TOOL_CATALOG.md`。
 
 ## 2. 公共管理层
 
 新增公共 adapter：
 
 ```text
-evaluation/mcp_tools/adapters/runtime.py
-evaluation/mcp_tools/adapters/http.py
-evaluation/mcp_tools/adapters/toolbox_registry.py
+chemistry_toolbox/mcp/adapters/runtime.py
+chemistry_toolbox/mcp/adapters/http.py
+chemistry_toolbox/mcp/adapters/toolbox_registry.py
 ```
 
 职责分别是：
@@ -72,7 +72,7 @@ evaluation/mcp_tools/adapters/toolbox_registry.py
 每个条目继承统一默认字段，并可覆盖：能力、官网、许可类别、安装方法、模块、命令、
 adapter、MCP 工具、状态、失败原因和人工操作。
 
-注册表描述“支持和配置意图”；`docs/TOOLBOX_STATUS.json` 则记录当前机器的实际检测和
+注册表描述“支持和配置意图”；`chemistry_toolbox/docs/TOOLBOX_STATUS.json` 则记录当前机器的实际检测和
 真实 smoke 结果。两者分开可以避免把某台机器的绝对路径或凭据写入可复用注册表。
 
 ## 4. 外部程序适配规则
@@ -92,7 +92,7 @@ Phonopy 适配器同时兼容旧版 `phonopy -c` 和 Phonopy 4 的
 
 ## 5. 测试设计
 
-`evaluation/mcp_tools/test_tools/` 下有 41 个 `test_<tool>.py`，与工具文件一一对应。公共 helper 负责：
+`chemistry_toolbox/mcp/test_tools/` 下有 41 个 `test_<tool>.py`，与工具文件一一对应。公共 helper 负责：
 
 - 校验文件名、`TOOL_SPEC.name`、元数据和 `register(mcp)`；
 - 对已安装的轻量 Python 后端执行最小功能输入；
@@ -100,7 +100,7 @@ Phonopy 适配器同时兼容旧版 `phonopy -c` 和 Phonopy 4 的
 - 对远程服务 mock HTTP 返回；
 - 检查缺依赖时返回结构化状态。
 
-真实验证另由 `scripts/verify_toolbox.py` 执行。它不会把“mock 单元测试通过”当作
+真实验证另由 `chemistry_toolbox/scripts/verify_toolbox.py` 执行。它不会把“mock 单元测试通过”当作
 “后端工作”，状态报告只把实际最小计算/API 请求成功记为 `正常工作`。
 
 ## 6. 增加、修改、删除工具
@@ -108,7 +108,7 @@ Phonopy 适配器同时兼容旧版 `phonopy -c` 和 Phonopy 4 的
 新增：
 
 ```bash
-bash scripts/manage_mcp_tools.sh scaffold new_tool \
+bash chemistry_toolbox/scripts/manage_mcp_tools.sh scaffold new_tool \
   --description "What the tool does" \
   --category simulation \
   --backend "SoftwareName"
@@ -117,24 +117,24 @@ bash scripts/manage_mcp_tools.sh scaffold new_tool \
 实现 `new_tool_core()` 和 `register(mcp)` 后，增加：
 
 ```text
-evaluation/mcp_tools/test_tools/test_new_tool.py
+chemistry_toolbox/mcp/test_tools/test_new_tool.py
 ```
 
 然后执行：
 
 ```bash
-bash scripts/manage_mcp_tools.sh validate
-pytest -q evaluation/mcp_tools/test_tools/test_new_tool.py
-bash scripts/manage_mcp_tools.sh enable new_tool
-bash scripts/manage_mcp_tools.sh catalog
+bash chemistry_toolbox/scripts/manage_mcp_tools.sh validate
+pytest -q chemistry_toolbox/mcp/test_tools/test_new_tool.py
+bash chemistry_toolbox/scripts/manage_mcp_tools.sh enable new_tool
+bash chemistry_toolbox/scripts/manage_mcp_tools.sh catalog
 ```
 
 临时停用、归档和恢复：
 
 ```bash
-bash scripts/manage_mcp_tools.sh disable new_tool
-bash scripts/manage_mcp_tools.sh archive new_tool --yes
-bash scripts/manage_mcp_tools.sh restore new_tool
+bash chemistry_toolbox/scripts/manage_mcp_tools.sh disable new_tool
+bash chemistry_toolbox/scripts/manage_mcp_tools.sh archive new_tool --yes
+bash chemistry_toolbox/scripts/manage_mcp_tools.sh restore new_tool
 ```
 
 `registry.py` 自动发现文件，因此新增工具不需要修改 `server.py` 或中心注册函数。
@@ -147,7 +147,7 @@ bash scripts/manage_mcp_tools.sh restore new_tool
 - 没有把所有软件伪装成 ASE calculator；
 - 没有修改 ChemGraph 或 ResearchClawBench 源码。
 
-未完成后端、安装状态、失败原因和人工步骤统一见 `docs/TOOLBOX_STATUS.md`。
+未完成后端、安装状态、失败原因和人工步骤统一见 `chemistry_toolbox/docs/TOOLBOX_STATUS.md`。
 
 ## 8. Agent 工具选择
 

@@ -1,13 +1,13 @@
 # MCP 化学工具的管理、扩展与维护
 
-> 2026-07-18 更新：不再通过新增 `tools/run_*.py` 文件扩展工具箱。新增能力应修改 `ActionSpec`/`BackendSpec`、后端 handler 和 conformance test；全部 Actions 对所有任务可见。当前架构见 `docs/tools/CHEMISTRY_TOOLBOX_REFACTOR_REPORT.md`。
+> 2026-07-18 更新：不再通过新增 `tools/run_*.py` 文件扩展工具箱。新增能力应修改 `ActionSpec`/`BackendSpec`、后端 handler 和 conformance test；全部 Actions 对所有任务可见。当前架构见 `chemistry_toolbox/docs/CHEMISTRY_TOOLBOX_REFACTOR_REPORT.md`。
 
 ## 1. 当前设计解决什么问题
 
 ResearchChemBench 将给 Agent 使用的化学能力放在：
 
 ```text
-evaluation/mcp_tools/
+chemistry_toolbox/mcp/
 ```
 
 当前实现首先考虑工具数量持续增加后的可维护性：
@@ -26,7 +26,7 @@ evaluation/mcp_tools/
 ## 2. 目录结构与职责
 
 ```text
-evaluation/mcp_tools/
+chemistry_toolbox/mcp/
 ├── __init__.py
 ├── models.py                 # ToolSpec 元数据契约
 ├── tool_config.json          # 显式启用/停用策略和 server 文本
@@ -69,7 +69,7 @@ evaluation/mcp_tools/
 
 ### 3.1 自动发现规则
 
-`registry.py` 扫描 `evaluation/mcp_tools/tools/*.py`，但忽略：
+`registry.py` 扫描 `chemistry_toolbox/mcp/tools/*.py`，但忽略：
 
 - `__init__.py`；
 - 文件名以 `_` 开头的内部辅助模块；
@@ -209,7 +209,7 @@ workspace 路径和副作用约束
 在 ResearchChemBench 根目录运行：
 
 ```bash
-bash scripts/manage_mcp_tools.sh <command> [arguments]
+bash chemistry_toolbox/scripts/manage_mcp_tools.sh <command> [arguments]
 ```
 
 脚本会优先激活项目的 `.venv`，然后调用 `python -m evaluation.mcp_tools.tool_manager`。
@@ -217,9 +217,9 @@ bash scripts/manage_mcp_tools.sh <command> [arguments]
 ### 6.1 查看工具
 
 ```bash
-bash scripts/manage_mcp_tools.sh list
-bash scripts/manage_mcp_tools.sh list --enabled-only
-bash scripts/manage_mcp_tools.sh list --json
+bash chemistry_toolbox/scripts/manage_mcp_tools.sh list
+bash chemistry_toolbox/scripts/manage_mcp_tools.sh list --enabled-only
+bash chemistry_toolbox/scripts/manage_mcp_tools.sh list --json
 ```
 
 列表包含工具名、启用状态、分类和导入/契约错误。JSON 输出还会包含完整 `ToolSpec`，方便后续自动化管理。
@@ -227,7 +227,7 @@ bash scripts/manage_mcp_tools.sh list --json
 ### 6.2 创建新工具骨架
 
 ```bash
-bash scripts/manage_mcp_tools.sh scaffold my_property \
+bash chemistry_toolbox/scripts/manage_mcp_tools.sh scaffold my_property \
   --description "Compute one molecular property" \
   --category property_prediction \
   --backend "MySoftware"
@@ -246,7 +246,7 @@ bash scripts/manage_mcp_tools.sh scaffold my_property \
 ### 6.3 校验
 
 ```bash
-bash scripts/manage_mcp_tools.sh validate
+bash chemistry_toolbox/scripts/manage_mcp_tools.sh validate
 ```
 
 校验会发现并检查工具文件的导入、名称、`TOOL_SPEC` 和 `register(mcp)`。配置文件引用不存在的工具文件也会被报告。已启用工具的错误会阻止 server 安全启动；禁用工具仍会显示其检查结果，便于在启用前修复。
@@ -256,13 +256,13 @@ bash scripts/manage_mcp_tools.sh validate
 完成实现和测试后启用：
 
 ```bash
-bash scripts/manage_mcp_tools.sh enable my_property
+bash chemistry_toolbox/scripts/manage_mcp_tools.sh enable my_property
 ```
 
 临时下线但保留源文件：
 
 ```bash
-bash scripts/manage_mcp_tools.sh disable my_property
+bash chemistry_toolbox/scripts/manage_mcp_tools.sh disable my_property
 ```
 
 命令会一致地更新 `enabled_tools` 和 `disabled_tools`，不要同时手工维护相互矛盾的状态。修改配置后需重启对应 MCP server/Agent 会话，正在运行的 server 不会自动热加载。
@@ -272,7 +272,7 @@ bash scripts/manage_mcp_tools.sh disable my_property
 安全归档：
 
 ```bash
-bash scripts/manage_mcp_tools.sh archive my_property --yes
+bash chemistry_toolbox/scripts/manage_mcp_tools.sh archive my_property --yes
 ```
 
 归档会把文件从 `tools/` 移至 `archived_tools/`，使它退出自动发现，同时清理对应启停配置。`--yes` 用来防止误操作。
@@ -280,7 +280,7 @@ bash scripts/manage_mcp_tools.sh archive my_property --yes
 恢复：
 
 ```bash
-bash scripts/manage_mcp_tools.sh restore my_property
+bash chemistry_toolbox/scripts/manage_mcp_tools.sh restore my_property
 ```
 
 恢复后的文件会回到 `tools/`，但默认处于 disabled，必须重新检查后显式启用。
@@ -288,10 +288,10 @@ bash scripts/manage_mcp_tools.sh restore my_property
 ### 6.6 生成工具目录
 
 ```bash
-bash scripts/manage_mcp_tools.sh catalog
+bash chemistry_toolbox/scripts/manage_mcp_tools.sh catalog
 ```
 
-该命令根据每个模块的 `TOOL_SPEC` 重新生成 `evaluation/mcp_tools/TOOL_CATALOG.md`。修改工具名称、描述、版本、分类、后端或依赖后应重新生成目录并提交变更。
+该命令根据每个模块的 `TOOL_SPEC` 重新生成 `chemistry_toolbox/mcp/TOOL_CATALOG.md`。修改工具名称、描述、版本、分类、后端或依赖后应重新生成目录并提交变更。
 
 ## 7. 新增一个软件工具的推荐流程
 
@@ -313,7 +313,7 @@ bash scripts/manage_mcp_tools.sh catalog
 如果一个软件提供多个能力，例如“构象生成”“几何优化”“频率计算”，应创建多个工具文件。共享代码可以放在：
 
 ```text
-evaluation/mcp_tools/adapters/<software>.py
+chemistry_toolbox/mcp/adapters/<software>.py
 ```
 
 或放在 `tools/_<software>_shared.py`。下划线开头的直接子文件不会被 registry 当作公开工具。
@@ -334,8 +334,8 @@ evaluation/mcp_tools/adapters/<software>.py
 修改后至少运行：
 
 ```bash
-bash scripts/manage_mcp_tools.sh validate
-bash scripts/manage_mcp_tools.sh catalog
+bash chemistry_toolbox/scripts/manage_mcp_tools.sh validate
+bash chemistry_toolbox/scripts/manage_mcp_tools.sh catalog
 pytest -q
 ```
 
@@ -428,26 +428,26 @@ RESEARCHCHEM_MCP_MAX_ARTIFACT_BYTES
 
 ## 11. 当前工具
 
-当前共有 41 个工具，覆盖 ChemGraph 原能力、数据服务、结构处理、量化、周期计算、声子、MD、反应动力学、对接和 MLIP。`TOOL_CATALOG.md` 是查看名称、分类、后端、依赖、网络和副作用的权威生成文档；`docs/TOOLBOX_STATUS.md` 是查看本机真实可用状态的权威文档。
+当前共有 41 个工具，覆盖 ChemGraph 原能力、数据服务、结构处理、量化、周期计算、声子、MD、反应动力学、对接和 MLIP。`TOOL_CATALOG.md` 是查看名称、分类、后端、依赖、网络和副作用的权威生成文档；`chemistry_toolbox/docs/TOOLBOX_STATUS.md` 是查看本机真实可用状态的权威文档。
 
 ## 12. 验证要求
 
 常规开发验证：
 
 ```bash
-bash scripts/manage_mcp_tools.sh list
-bash scripts/manage_mcp_tools.sh validate
-bash scripts/manage_mcp_tools.sh catalog
-python scripts/check_mcp_tools.py
+bash chemistry_toolbox/scripts/manage_mcp_tools.sh list
+bash chemistry_toolbox/scripts/manage_mcp_tools.sh validate
+bash chemistry_toolbox/scripts/manage_mcp_tools.sh catalog
+python chemistry_toolbox/scripts/check_mcp_tools.py
 pytest -q
 ```
 
 涉及真实化学执行时再运行：
 
 ```bash
-python scripts/check_mcp_tools.py --smoke
-python scripts/verify_toolbox.py
-bash evaluation/mcp_tools/test_tools/run_tests.sh --live-network --status-report
+python chemistry_toolbox/scripts/check_mcp_tools.py --smoke
+python chemistry_toolbox/scripts/verify_toolbox.py
+bash chemistry_toolbox/mcp/test_tools/run_tests.sh --live-network --status-report
 ```
 
 建议每个新增工具至少覆盖：
@@ -469,7 +469,7 @@ bash evaluation/mcp_tools/test_tools/run_tests.sh --live-network --status-report
 这是显式 allow-list 的预期行为。完成实现和测试后运行：
 
 ```bash
-bash scripts/manage_mcp_tools.sh enable <tool_name>
+bash chemistry_toolbox/scripts/manage_mcp_tools.sh enable <tool_name>
 ```
 
 然后重启 MCP server 或 Agent 会话。
@@ -494,7 +494,7 @@ bash scripts/manage_mcp_tools.sh enable <tool_name>
 
 工具目录仍可作为独立 package 使用，但当前维护重点是工具生命周期，而不是 Agent 安装适配。
 
-在 `evaluation/mcp_tools/` 中：
+在 `chemistry_toolbox/mcp/` 中：
 
 ```bash
 pip install .

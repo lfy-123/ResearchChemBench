@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-21T03:17:16.239988+00:00",
+  "generated_at": "2026-07-21T04:14:54.409696+00:00",
   "scientific_actions": 91,
   "data_actions": 10,
   "backend_count": 76,
@@ -8228,7 +8228,7 @@
         "pip_packages": [],
         "required_data_resources": [],
         "license_class": "open_source",
-        "install_notes": "Configured from registered GNINA 1.3.3 CUDA 12.8 binary; rerun scripts/configure_toolbox_resources.py to verify/relink.",
+        "install_notes": "Configured from registered GNINA 1.3.3 CUDA 12.8 binary; rerun chemistry_toolbox/scripts/configure_toolbox_resources.py to verify/relink.",
         "method_schema": {
           "cnn_model": "builtin_default or an explicit GNINA built-in --cnn model name",
           "cnn_scoring": "optional GNINA mode: none|rescore|refinement|metrorescore|metrorefine|all",
@@ -8271,7 +8271,7 @@
           "pip_packages": [],
           "required_data_resources": [],
           "license_class": "open_source",
-          "install_notes": "Configured from registered GNINA 1.3.3 CUDA 12.8 binary; rerun scripts/configure_toolbox_resources.py to verify/relink."
+          "install_notes": "Configured from registered GNINA 1.3.3 CUDA 12.8 binary; rerun chemistry_toolbox/scripts/configure_toolbox_resources.py to verify/relink."
         }
       },
       {
@@ -11420,7 +11420,7 @@
         "version": "potpaw54 archive label; exact upstream revision unverified",
         "xc_functional": "LDA",
         "path": ".software_cache/vasp/potcars/potpaw54/pot/USPP_LDA",
-        "manifest": "config/vasp_potcar_manifests/vasp_uspp_lda_legacy.json",
+        "manifest": "chemistry_toolbox/config/vasp_potcar_manifests/vasp_uspp_lda_legacy.json",
         "manifest_filename_field": "relative_path",
         "manifest_checksum_field": "sha256",
         "expected_file_count": 102,
@@ -11623,7 +11623,7 @@
         "version": "potpaw54 archive label; exact upstream revision unverified",
         "xc_functional": "legacy GGA; inspect local POTCAR provenance",
         "path": ".software_cache/vasp/potcars/potpaw54/pot_GGA/USPP_GGA",
-        "manifest": "config/vasp_potcar_manifests/vasp_uspp_gga_legacy.json",
+        "manifest": "chemistry_toolbox/config/vasp_potcar_manifests/vasp_uspp_gga_legacy.json",
         "manifest_filename_field": "relative_path",
         "manifest_checksum_field": "sha256",
         "expected_file_count": 8,
@@ -11674,7 +11674,7 @@
         "version": "potpaw54 archive label; exact upstream revision unverified",
         "xc_functional": "LDA",
         "path": ".software_cache/vasp/potcars/potpaw54/potpaw/PAW_LDA",
-        "manifest": "config/vasp_potcar_manifests/vasp_paw_lda_54.json",
+        "manifest": "chemistry_toolbox/config/vasp_potcar_manifests/vasp_paw_lda_54.json",
         "manifest_filename_field": "relative_path",
         "manifest_checksum_field": "sha256",
         "expected_file_count": 316,
@@ -12106,7 +12106,7 @@
         "version": "potpaw54 archive label; exact upstream revision unverified",
         "xc_functional": "PW91",
         "path": ".software_cache/vasp/potcars/potpaw54/potpaw_GGA/PAW_GGA_PW91",
-        "manifest": "config/vasp_potcar_manifests/vasp_paw_pw91_54.json",
+        "manifest": "chemistry_toolbox/config/vasp_potcar_manifests/vasp_paw_pw91_54.json",
         "manifest_filename_field": "relative_path",
         "manifest_checksum_field": "sha256",
         "expected_file_count": 5,
@@ -12151,7 +12151,7 @@
         "version": "potpaw54 archive label; exact upstream revision unverified",
         "xc_functional": "PBE",
         "path": ".software_cache/vasp/potcars/potpaw54/potpaw_PBE/PAW_GGA_PBE",
-        "manifest": "config/vasp_potcar_manifests/vasp_paw_pbe_54.json",
+        "manifest": "chemistry_toolbox/config/vasp_potcar_manifests/vasp_paw_pbe_54.json",
         "manifest_filename_field": "relative_path",
         "manifest_checksum_field": "sha256",
         "expected_file_count": 304,
@@ -12596,10 +12596,10 @@
         "size_bytes": 150218
       }
     ],
-    "catalog_hash": "877faba5882af49be69355a34221434226ac600b28d4044c01631f45aa2bcb33"
+    "catalog_hash": "2138da38fc3080639cf26c325cfdbc9c9cc2cfcd9b2a53078f55cd46af998283"
   },
   "installation": {
-    "catalog_hash": "877faba5882af49be69355a34221434226ac600b28d4044c01631f45aa2bcb33",
+    "catalog_hash": "2138da38fc3080639cf26c325cfdbc9c9cc2cfcd9b2a53078f55cd46af998283",
     "unavailable_backend_count": 0,
     "unavailable_backends": [],
     "conda_packages": [],

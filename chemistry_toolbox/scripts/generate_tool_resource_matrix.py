@@ -658,7 +658,7 @@ def main() -> int:
             ".toolbox_env/bin/python chemistry_toolbox/scripts/run_data_source_smokes.py",
             ".toolbox_env/bin/python chemistry_toolbox/scripts/check_mcp_profile_envs.py --check-models --timeout-seconds 600",
             ".toolbox_env/bin/python chemistry_toolbox/scripts/audit_requested_software.py --timeout-seconds 20",
-            ".toolbox_env/bin/python -m pytest -q --junitxml=config/pytest_status.xml",
+            ".toolbox_env/bin/python -m pytest -q --junitxml=chemistry_toolbox/config/pytest_status.xml",
             ".toolbox_env/bin/python chemistry_toolbox/scripts/verify_toolbox.py --smoke",
             ".toolbox_env/bin/python chemistry_toolbox/scripts/generate_tool_resource_matrix.py",
             "```",

@@ -46,9 +46,9 @@ ResearchChemBench/
 
 `researchchem_toolbox.specs` 继续作为兼容导出入口。Action顺序、字段、Backend选择策略和Catalog内容没有改变。
 
-## 3. 兼容入口
+## 3. 旧入口清理
 
-下列旧路径现在是符号链接，不再保存第二份实现：
+统一目录验证完成后，旧路径兼容链接已按要求删除。下表只记录迁移关系，左侧路径不再存在：
 
 | 旧路径 | 规范路径 |
 |---|---|
@@ -59,7 +59,9 @@ ResearchChemBench/
 | `scripts/<toolbox script>` | `chemistry_toolbox/scripts/<toolbox script>` |
 | `docs/tools/<toolbox doc>` | `chemistry_toolbox/docs/<toolbox doc>` |
 
-旧Python导入和旧脚本命令仍可使用；新代码、文档和启动命令应优先使用规范路径。
+Python包名 `researchchem_toolbox` 保持不变，但源码只存在于
+`chemistry_toolbox/src/researchchem_toolbox/`。旧文件系统路径、旧脚本命令和旧文档入口不再提供；
+源码检出通过 `chemistry_toolbox/__init__.py` 和测试引导直接加载 `src` 布局。
 
 ## 4. Git版本
 
@@ -68,6 +70,8 @@ ResearchChemBench/
 | `bdc332e` | 本次目录重构前的完整工具箱审计基线 |
 | `0e4b935` | 将Action定义按科学领域拆分 |
 | `4910926` | 把核心、MCP、配置、脚本、测试和文档迁入统一子项目 |
+| `50b064a` | 记录统一目录迁移及第一轮验证结果 |
+| `Remove pre-refactor compatibility paths` | 删除全部旧路径链接并统一命令、文档和源码加载入口 |
 
 已有文档中的本地格式调整在迁移时得到保留。用户未跟踪的 `docs/tools/CHEMISTRY_TOOLBOX_TOOL_RESOURCE_MATRIX copy.md` 未被移动、修改或提交。
 
@@ -77,12 +81,14 @@ ResearchChemBench/
 |---|---:|
 | 公开Action | 101 |
 | BackendSpec | 76 |
-| Catalog摘要SHA-256 | `73ead83fb7c160fc410606a1283575e37ce4f5a3f990fa20e43dedf1af6244e9`，重构前后完全一致 |
+| `TOOL_CATALOG.md` SHA-256 | `3b42e0c388c3e13aba61e60a8c27827aea7e6a16f4ead53f6be6cf91b0b36eca`，与目录迁移前一致 |
+| 旧实现/兼容符号链接 | 0；根级核心、MCP、config、environment、工具箱脚本和文档入口均已删除 |
 | MCP注册与Artifact/trace smoke | 通过 |
-| 全量Pytest | 150/150 passed，380.00秒 |
+| 全量Pytest | 150/150 passed，396.54秒；移除旧入口后的资源定向回归18/18 passed |
 | 隔离运行环境 | 35/35 ready |
 | 本地Backend健康检查 | 无意外不可用项 |
-| 根项目wheel | 构建通过，无旧MCP或重复源码目录 |
+| 科学资源 | VASP 5套POTCAR family manifest已改用规范路径，6/6 VASP资源可用 |
+| 根项目wheel | 构建通过，包含20个MCP文件和38个核心包文件，无旧MCP或重复源码目录 |
 | 独立chemistry_toolbox wheel | 构建通过，包含17个MCP文件和38个核心包文件 |
 
 ## 6. 推荐命令

@@ -34,8 +34,8 @@ The benchmark does **not** expose `run_ase`, `run_xtb`, `run_cp2k`, or other sof
 
 ```bash
 cd /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench
-bash scripts/setup_toolbox_env.sh
-.toolbox_env/bin/python scripts/setup_mcp_profile_envs.py --continue-on-error
+bash chemistry_toolbox/scripts/setup_toolbox_env.sh
+.toolbox_env/bin/python chemistry_toolbox/scripts/setup_mcp_profile_envs.py --continue-on-error
 cp config.local.env.example config.local.env
 ```
 
@@ -112,18 +112,18 @@ _score.json
 
 - [Environment and chemistry tool configuration](docs/ENVIRONMENT_AND_TOOLS.md)
 - [工具箱可复现环境配置](docs/TOOLBOX_SETUP.md)
-- [原子工具完整目录](evaluation/mcp_tools/TOOL_CATALOG.md)
-- [重构实施总结](docs/tools/CHEMISTRY_TOOLBOX_REFACTOR_REPORT.md)
-- [工具、后端与资源完整矩阵](docs/tools/CHEMISTRY_TOOLBOX_TOOL_RESOURCE_MATRIX.md)
-- [软件能力与候选能力矩阵](docs/tools/CHEMISTRY_TOOLBOX_SOFTWARE_CAPABILITY_MATRIX.md)
-- [能力扩展实施计划](docs/tools/CHEMISTRY_TOOLBOX_CAPABILITY_EXPANSION_PLAN.md)
-- [2026-07-20 能力扩展总结报告](docs/tools/CHEMISTRY_TOOLBOX_CAPABILITY_EXPANSION_REPORT_20260720.md)
-- [用户请求软件配置状态](docs/tools/CHEMISTRY_TOOLBOX_REQUESTED_SOFTWARE_STATUS.md)
+- [原子工具完整目录](chemistry_toolbox/mcp/TOOL_CATALOG.md)
+- [重构实施总结](chemistry_toolbox/docs/CHEMISTRY_TOOLBOX_REFACTOR_REPORT.md)
+- [工具、后端与资源完整矩阵](chemistry_toolbox/docs/CHEMISTRY_TOOLBOX_TOOL_RESOURCE_MATRIX.md)
+- [软件能力与候选能力矩阵](chemistry_toolbox/docs/CHEMISTRY_TOOLBOX_SOFTWARE_CAPABILITY_MATRIX.md)
+- [能力扩展实施计划](chemistry_toolbox/docs/CHEMISTRY_TOOLBOX_CAPABILITY_EXPANSION_PLAN.md)
+- [2026-07-20 能力扩展总结报告](chemistry_toolbox/docs/CHEMISTRY_TOOLBOX_CAPABILITY_EXPANSION_REPORT_20260720.md)
+- [用户请求软件配置状态](chemistry_toolbox/docs/CHEMISTRY_TOOLBOX_REQUESTED_SOFTWARE_STATUS.md)
 - [MCP 后端运行环境](docs/MCP_PROFILE_ENVIRONMENTS.md)
-- [MCP 多环境当前检查状态](docs/MCP_PROFILE_STATUS.md)
+- [MCP 多环境当前检查状态](chemistry_toolbox/docs/MCP_PROFILE_STATUS.md)
 - [工具箱实现说明](docs/TOOLBOX_IMPLEMENTATION.md)
 - [逐工具测试结果与未配置软件手动配置](docs/TOOL_TEST_AND_MANUAL_CONFIGURATION.md)
-- [工具箱实际状态报告](docs/TOOLBOX_STATUS.md)
+- [工具箱实际状态报告](chemistry_toolbox/docs/TOOLBOX_STATUS.md)
 - [MCP 工具编写、增删、打包与 Agent 一键安装](docs/MCP_TOOLS_DEVELOPMENT_AND_INSTALLATION.md)
 - [Running agents and evaluations](docs/RUNNING_EVALUATIONS.md)
 - [Detailed ResearchClawBench → ResearchChemBench code changes](docs/RESEARCHCLAWBENCH_CODE_CHANGES.md)

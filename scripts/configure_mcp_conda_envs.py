@@ -1,1 +1,0 @@
-../chemistry_toolbox/scripts/configure_mcp_conda_envs.py

@@ -27,7 +27,7 @@
 
 下载目录中的 `Matlab2018aLinux64Crack.tar.gz` 没有被复制、打开、解压或使用。当前容器不能 loop-mount ISO；这不是主要阻塞，因为 MATLAB R2018a 离线安装本身仍需要合法的 MathWorks File Installation Key 和许可证文件，或可访问的许可证服务器。
 
-已在 `config/auxiliary_environments.yaml` 中增加 `matlab` 宿主 runtime，并让 `easyspin` runtime 预留 `.software_cache/matlab/R2018a/install/bin`。一旦完成合法安装，审计会自动发现 `matlab` 命令，再进行 EasySpin 的真实 `pepper`/`chili` 等有界验证。
+已在 `chemistry_toolbox/config/auxiliary_environments.yaml` 中增加 `matlab` 宿主 runtime，并让 `easyspin` runtime 预留 `.software_cache/matlab/R2018a/install/bin`。一旦完成合法安装，审计会自动发现 `matlab` 命令，再进行 EasySpin 的真实 `pepper`/`chili` 等有界验证。
 
 ## 3. Schrödinger 包核验
 
@@ -155,12 +155,12 @@ Catalysis-Hub 的失败是远端服务返回 503；本地 `catalysis_hub` Backen
 ## 8. 重放命令
 
 ```bash
-.toolbox_env/bin/python scripts/import_vasp_potcar_library.py --check
-.toolbox_env/bin/python scripts/configure_toolbox_resources.py --verify-only
-.toolbox_env/bin/python scripts/run_scientific_resource_smokes.py
-.toolbox_env/bin/python scripts/run_data_source_smokes.py
-.toolbox_env/bin/python scripts/audit_requested_software.py --timeout-seconds 20
+.toolbox_env/bin/python chemistry_toolbox/scripts/import_vasp_potcar_library.py --check
+.toolbox_env/bin/python chemistry_toolbox/scripts/configure_toolbox_resources.py --verify-only
+.toolbox_env/bin/python chemistry_toolbox/scripts/run_scientific_resource_smokes.py
+.toolbox_env/bin/python chemistry_toolbox/scripts/run_data_source_smokes.py
+.toolbox_env/bin/python chemistry_toolbox/scripts/audit_requested_software.py --timeout-seconds 20
 .toolbox_env/bin/python -m pytest -q
-.toolbox_env/bin/python scripts/verify_toolbox.py --smoke
-.toolbox_env/bin/python scripts/generate_tool_resource_matrix.py
+.toolbox_env/bin/python chemistry_toolbox/scripts/verify_toolbox.py --smoke
+.toolbox_env/bin/python chemistry_toolbox/scripts/generate_tool_resource_matrix.py
 ```

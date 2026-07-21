@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
-  echo "This script must be sourced: source scripts/activate_toolbox_env.sh" >&2
+  echo "This script must be sourced: source chemistry_toolbox/scripts/activate_toolbox_env.sh" >&2
   exit 2
 fi
 

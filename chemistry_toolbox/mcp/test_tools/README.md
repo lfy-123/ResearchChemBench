@@ -8,5 +8,5 @@ fallback, one unified MCP server, Artifact chaining, runtime coverage, and
 real RDKit/ASE smoke calculations.
 
 ```bash
-bash evaluation/mcp_tools/test_tools/run_tests.sh
+bash chemistry_toolbox/mcp/test_tools/run_tests.sh
 ```

@@ -114,7 +114,7 @@ The following table is the main review index.
 | `evaluation/cli_eval.py` | Rewritten | Adds simple Agent × task × repeat expansion, concurrency, scoring, dry-run, and JSON/Markdown reports. |
 | `evaluation/config.py` | Rewritten | Loads `evaluation/.env` and adds overridable ChemGraph/task/workspace paths, limits, judge config, and MCP command construction. |
 | `evaluation/instructions_tmpl.py` | Rewritten | Replaces paper-reproduction instructions with autonomous chemistry-tool protocol and required report fields. |
-| `evaluation/mcp_tools/` | Added/refactored | Portable, self-describing MCP package with one tool per file, automatic discovery, explicit enable/disable policy, lifecycle management, shared confinement/tracing, standalone wheel metadata, and Codex/Claude/OpenCode installer. |
+| `chemistry_toolbox/mcp/` | Added/refactored | Portable, self-describing MCP package with one tool per file, automatic discovery, explicit enable/disable policy, lifecycle management, shared confinement/tracing, standalone wheel metadata, and Codex/Claude/OpenCode installer. |
 | `evaluation/mock_agent.py` | Added | Provides a no-API subprocess smoke Agent. |
 | `evaluation/requirements.txt` | Rewritten | Matches the new Flask/OpenAI/Pydantic/MCP/FastMCP harness stack. |
 | `evaluation/requirements-chemistry.txt` | Added | Installs chemistry engines without installing or writing into the sibling ChemGraph checkout. |
@@ -128,7 +128,7 @@ The following table is the main review index.
 | `evaluation/trace.py` | Added | Loads canonical MCP trace and converts it to ChemGraph-compatible call records/metrics. |
 | `evaluation/utils.py` | Rewritten | Adds schema validation, category grouping, CLI-run discovery, ground truth loading, and safe file traversal. |
 | `scripts/import_chemgraph_tasks.py` | Added | Deterministically converts ChemGraph's 40 ground-truth entries into benchmark task folders. |
-| `scripts/check_mcp_tools.py` | Added | Lists registered tools and optionally runs a no-network calculator→RDKit→ASE/EMT→JSON trace/artifact smoke flow. |
+| `chemistry_toolbox/scripts/check_mcp_tools.py` | Added | Lists registered tools and optionally runs a no-network calculator→RDKit→ASE/EMT→JSON trace/artifact smoke flow. |
 | `scripts/run_agent_eval.sh` | Added | Requested Agent evaluation script with named Agent/task/config/runtime/model/path parameters, discovery commands, help text, positional compatibility, and YAML batch mode. |
 | `tasks/ChemGraph_001..040/` | Added/generated | Public instruction plus private reference for every ChemGraph evaluation task. |
 | `tests/` | Replaced | Focuses on task integrity, hidden references, path safety, runner behavior, tracing, scorer, and CLI configs. |
@@ -234,9 +234,9 @@ The new MCP layer makes the chemistry API Agent-independent:
 - The server can reject unsafe paths before calling ChemGraph.
 - Full results and changed files can be preserved outside the Agent's context window.
 
-### 6.2 `evaluation/mcp_tools/server.py`, automatic registry, `ToolSpec`, configuration, and tool files
+### 6.2 `chemistry_toolbox/mcp/server.py`, automatic registry, `ToolSpec`, configuration, and tool files
 
-The original centralized `evaluation/mcp/chemistry_server.py` was replaced by a portable package. `server.py` now only creates the FastMCP server and transport. `registry.py` automatically scans direct, non-underscore Python files under `evaluation/mcp_tools/tools/`, validates each module's `TOOL_SPEC` and `register(mcp)`, applies the explicit allow/deny policy in `tool_config.json`, and calls `register(mcp)` only for enabled modules. Every public tool is isolated in one self-describing file; adding a file does not require editing the server or a duplicate central metadata list, and a newly added unreviewed file remains disabled until explicitly enabled.
+The original centralized `evaluation/mcp/chemistry_server.py` was replaced by a portable package. `server.py` now only creates the FastMCP server and transport. `registry.py` automatically scans direct, non-underscore Python files under `chemistry_toolbox/mcp/tools/`, validates each module's `TOOL_SPEC` and `register(mcp)`, applies the explicit allow/deny policy in `tool_config.json`, and calls `register(mcp)` only for enabled modules. Every public tool is isolated in one self-describing file; adding a file does not require editing the server or a duplicate central metadata list, and a newly added unreviewed file remains disabled until explicitly enabled.
 
 The tool modules import ChemGraph core functions rather than LangChain `BaseTool` wrappers or graph nodes:
 
@@ -260,7 +260,7 @@ The registry currently discovers and enables five FastMCP tools:
 
 The process changes its current directory to the run workspace before serving tools. Stdio is the normal Agent transport; Streamable HTTP is included for manual/integration use. Adding or disabling a tool no longer requires editing the server module.
 
-### 6.3 `evaluation/mcp_tools/workspace.py` and settings
+### 6.3 `chemistry_toolbox/mcp/workspace.py` and settings
 
 ResearchChemBench runs set `RESEARCHCHEMBENCH_WORKSPACE` explicitly. The portable package also accepts `RESEARCHCHEM_MCP_WORKSPACE`; when neither is set, it confines tools to the MCP process working directory so the installed package can follow the active Agent project. Every tool path is resolved and checked with `relative_to(workspace_root)`.
 
@@ -275,7 +275,7 @@ Parent directories may be created only after the resolved destination is proven 
 
 `settings.py` locates ChemGraph using `CHEMGRAPH_ROOT` first, then searches conventional parent/sibling locations. It does not import `evaluation.config`, which is what allows the directory to be copied outside ResearchChemBench.
 
-### 6.4 `evaluation/mcp_tools/tracing.py`
+### 6.4 `chemistry_toolbox/mcp/tracing.py`
 
 `execute_traced()` wraps the actual chemistry function and performs these steps:
 
@@ -711,7 +711,7 @@ The GitHub workflow now installs `-e '.[test]'` and runs pytest. It intentionall
 
 ### 12.4 Standalone MCP tool package
 
-`evaluation/mcp_tools/pyproject.toml` independently builds `researchchem-mcp-tools`. The standalone wheel maps the same source files to the installed package name `researchchem_mcp_tools` and includes every one-file tool module plus the `ToolSpec`/registry/manager implementation, `tool_config.json`, generated tool catalog, and README.
+`chemistry_toolbox/pyproject.toml` independently builds `researchchem-mcp-tools`. The standalone wheel maps the same source files to the installed package name `researchchem_mcp_tools` and includes every one-file tool module plus the `ToolSpec`/registry/manager implementation, `tool_config.json`, generated tool catalog, and README.
 
 Standalone entry points:
 
@@ -721,7 +721,7 @@ researchchem-mcp-install → researchchem_mcp_tools.installer:main
 researchchem-tool        → researchchem_mcp_tools.tool_manager:main
 ```
 
-`evaluation/mcp_tools/install.sh` can install the package (optionally with MACE/TBLite/RDKit/ASE dependencies) and then configure Codex, Claude Code, OpenCode, or all available Agents. Codex/Claude are configured through their official `mcp add/remove` CLI commands. OpenCode JSON is merged with backup creation.
+`chemistry_toolbox/mcp/install.sh` can install the package (optionally with MACE/TBLite/RDKit/ASE dependencies) and then configure Codex, Claude Code, OpenCode, or all available Agents. Codex/Claude are configured through their official `mcp add/remove` CLI commands. OpenCode JSON is merged with backup creation.
 
 ## 13. Test-suite replacement
 
@@ -792,7 +792,7 @@ python -m evaluation.cli_eval eval_configs/quick_codex.yaml --dry-run --no-score
 python -m evaluation.cli_eval eval_configs/quick_claude.yaml --dry-run --no-score
 
 # Once ChemGraph dependencies are installed
-python scripts/check_mcp_tools.py
+python chemistry_toolbox/scripts/check_mcp_tools.py
 
 # Inspect exact framework differences, excluding generated tasks/runs
 diff -qr ../ResearchClawBench . \
@@ -837,24 +837,24 @@ so the runner was extended without changing ResearchClawBench or ChemGraph.
 
 ### 18.1 New configuration and runtime layer
 
-- `config/mcp_profiles.yaml` assigns every one-file tool to exactly one compatibility profile,
+- `chemistry_toolbox/config/mcp_profiles.yaml` assigns every one-file tool to exactly one compatibility profile,
   declares profile-specific conda/pip packages, executable mappings, and health checks.
-- `evaluation/mcp_tools/profiles.py` validates complete/non-duplicate coverage of all 41 tools,
+- `chemistry_toolbox/mcp/profiles.py` validates complete/non-duplicate coverage of all 41 tools,
   resolves per-profile interpreters and cross-environment executable paths, and constructs MCP
   server specifications.
-- `evaluation/mcp_tools/server.py` accepts `--profile` and registers only that profile's tools.
+- `chemistry_toolbox/mcp/server.py` accepts `--profile` and registers only that profile's tools.
 - `evaluation/config.py` returns either the legacy single server or multiple profile servers.
 - `evaluation/run_task.py` now writes multiple Claude/OpenCode MCP entries and multiple Codex
   `mcp_servers.*` overrides. Server names provide the Agent-visible tool namespaces.
 
 ### 18.2 Installer and verification
 
-- `scripts/setup_mcp_profile_envs.py` creates resumable per-profile environments, records each
+- `chemistry_toolbox/scripts/setup_mcp_profile_envs.py` creates resumable per-profile environments, records each
   package operation, supports recreation/timeouts, and separately manages executable-only
   support environments.
-- `scripts/probe_mcp_profile.py` runs inside a target interpreter and checks imports, commands,
+- `chemistry_toolbox/scripts/probe_mcp_profile.py` runs inside a target interpreter and checks imports, commands,
   exact MCP tool listing, and optional Materials Project live access.
-- `scripts/check_mcp_profile_envs.py` orchestrates all probes and writes
+- `chemistry_toolbox/scripts/check_mcp_profile_envs.py` orchestrates all probes and writes
   `docs/MCP_PROFILE_STATUS.{md,json}` without serializing credential values.
 - `config.local.env` is an ignored root-level local configuration loaded by the shell runner and
   MCP profile loader; `config.local.env.example` is the publishable template.

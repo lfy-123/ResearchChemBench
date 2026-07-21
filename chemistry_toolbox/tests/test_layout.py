@@ -13,16 +13,16 @@ def test_canonical_toolbox_layout_exists():
         assert (TOOLBOX_ROOT / relative).is_dir()
 
 
-def test_legacy_paths_are_compatibility_links():
-    mappings = {
-        PROJECT_ROOT / "researchchem_toolbox": SOURCE_ROOT / "researchchem_toolbox",
-        PROJECT_ROOT / "evaluation" / "mcp_tools": TOOLBOX_ROOT / "mcp",
-        PROJECT_ROOT / "config": CONFIG_ROOT,
-        PROJECT_ROOT / "environment": TOOLBOX_ROOT / "environment",
-    }
-    for legacy, canonical in mappings.items():
-        assert legacy.is_symlink()
-        assert legacy.resolve() == canonical.resolve()
+def test_legacy_implementation_paths_are_removed():
+    legacy_paths = (
+        PROJECT_ROOT / "researchchem_toolbox",
+        PROJECT_ROOT / "evaluation" / "mcp_tools",
+        PROJECT_ROOT / "config",
+        PROJECT_ROOT / "environment",
+    )
+    for legacy in legacy_paths:
+        assert not legacy.exists()
+        assert not legacy.is_symlink()
 
 
 def test_runtime_assets_remain_outside_source_tree():
@@ -32,8 +32,7 @@ def test_runtime_assets_remain_outside_source_tree():
         assert TOOLBOX_ROOT not in path.parents
 
 
-def test_old_document_paths_resolve_to_canonical_documents():
+def test_old_document_compatibility_links_are_removed():
     old = PROJECT_ROOT / "docs" / "tools" / "CHEMISTRY_TOOLBOX_REFACTOR_PLAN.md"
-    new = TOOLBOX_ROOT / "docs" / "CHEMISTRY_TOOLBOX_REFACTOR_PLAN.md"
-    assert old.is_symlink()
-    assert old.resolve() == new.resolve()
+    assert not old.exists()
+    assert not old.is_symlink()

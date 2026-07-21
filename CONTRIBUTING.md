@@ -19,7 +19,7 @@ Chemistry integration work additionally requires:
 
 ```bash
 pip install -e '.[chemistry]'
-python scripts/check_mcp_tools.py
+python chemistry_toolbox/scripts/check_mcp_tools.py
 ```
 
 ## Before submitting a change

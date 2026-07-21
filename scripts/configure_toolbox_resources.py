@@ -1,1 +1,0 @@
-../chemistry_toolbox/scripts/configure_toolbox_resources.py

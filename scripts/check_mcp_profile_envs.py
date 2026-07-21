@@ -1,1 +1,0 @@
-../chemistry_toolbox/scripts/check_mcp_profile_envs.py

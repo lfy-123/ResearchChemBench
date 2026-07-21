@@ -1,1 +1,0 @@
-../chemistry_toolbox/scripts/audit_requested_software.py

@@ -1,1 +1,0 @@
-../chemistry_toolbox/scripts/manage_mcp_tools.sh

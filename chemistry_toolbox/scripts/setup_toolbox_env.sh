@@ -23,7 +23,8 @@ Options:
   -h, --help              Show this help.
 
 The script installs open-source conda-forge backends, then the Python
-dependencies in environment/toolbox-pip.txt under tested numerical pins.
+dependencies in chemistry_toolbox/environment/toolbox-pip.txt under tested
+numerical pins.
 Licensed/account-gated programs and API keys are never downloaded or written.
 EOF
 }

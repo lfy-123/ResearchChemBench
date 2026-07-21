@@ -1,1 +1,0 @@
-../chemistry_toolbox/scripts/cache_software_documentation.py

@@ -1,1 +1,0 @@
-../chemistry_toolbox/scripts/run_scientific_resource_smokes.py

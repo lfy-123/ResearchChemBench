@@ -594,7 +594,7 @@ Artifact 至少记录：
 ## 15. 推荐代码结构
 
 ~~~text
-researchchem_toolbox/
+chemistry_toolbox/src/researchchem_toolbox/
 ├── api.py
 ├── schemas/
 │   ├── structures.py
@@ -636,7 +636,7 @@ researchchem_toolbox/
     └── http.py
 ~~~
 
-现有 `evaluation/mcp_tools` 在迁移完成后不再保存 41 个工具实现，只保留薄的 MCP binding 或整体被 `researchchem_toolbox/transports/mcp.py` 取代。
+现有 `chemistry_toolbox/mcp` 在迁移完成后不再保存 41 个工具实现，只保留薄的 MCP binding 或整体被 `chemistry_toolbox/src/researchchem_toolbox/transports/mcp.py` 取代。
 
 ## 16. 当前 41 个工具的最终处理方式
 
@@ -1080,9 +1080,9 @@ BackendSpec 在 Benchmark 中不得包含供系统使用的推荐分数、默认
 
 ## 25. 参考基线
 
-- 当前工具目录：[TOOL_CATALOG.md](../../evaluation/mcp_tools/TOOL_CATALOG.md)
-- 当前工具元数据：[models.py](../../evaluation/mcp_tools/models.py)
-- 当前 profile 配置：[mcp_profiles.yaml](../../config/mcp_profiles.yaml)
-- 当前软件注册表：[toolbox_registry.yaml](../../config/toolbox_registry.yaml)
+- 当前工具目录：[TOOL_CATALOG.md](../mcp/TOOL_CATALOG.md)
+- 当前工具元数据：[models.py](../mcp/models.py)
+- 当前 profile 配置：[mcp_profiles.yaml](../config/mcp_profiles.yaml)
+- 当前软件注册表：[toolbox_registry.yaml](../config/toolbox_registry.yaml)
 - Biomni 论文：https://biomni.stanford.edu/paper.pdf
 - Biomni 代码：https://github.com/snap-stanford/Biomni

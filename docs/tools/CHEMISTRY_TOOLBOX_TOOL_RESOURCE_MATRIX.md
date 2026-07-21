@@ -1,1 +1,0 @@
-../../chemistry_toolbox/docs/CHEMISTRY_TOOLBOX_TOOL_RESOURCE_MATRIX.md

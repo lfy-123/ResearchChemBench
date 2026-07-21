@@ -673,7 +673,7 @@ def main() -> int:
             "复现命令：",
             "",
             "```bash",
-            ".toolbox_env/bin/python -m pytest -q --junitxml=config/pytest_status.xml",
+            ".toolbox_env/bin/python -m pytest -q --junitxml=chemistry_toolbox/config/pytest_status.xml",
             ".toolbox_env/bin/python chemistry_toolbox/scripts/run_action_gap_smokes.py",
             ".toolbox_env/bin/python chemistry_toolbox/scripts/run_action_gap_smokes.py --include-network",
             ".toolbox_env/bin/python chemistry_toolbox/scripts/run_backend_gap_smokes.py",

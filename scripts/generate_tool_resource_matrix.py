@@ -1,1 +1,0 @@
-../chemistry_toolbox/scripts/generate_tool_resource_matrix.py

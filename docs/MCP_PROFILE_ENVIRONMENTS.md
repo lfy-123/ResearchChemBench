@@ -1,6 +1,6 @@
 # ResearchChemBench MCP 工具发现与多环境设计
 
-> 2026-07-20 更新：profile 只表示后端依赖运行时，不筛选或拥有公共工具。所有任务始终连接一个暴露 45 个原子 Actions 的统一 MCP server；VASP、NequIP、Allegro、DeePMD 和受限 NIST WebBook CGI 已作为显式 BackendSpec 接入，当前 55/55 BackendSpecs、22/22 runtime 可用。当前事实以 `evaluation/mcp_tools/TOOL_CATALOG.md` 和 `docs/tools/CHEMISTRY_TOOLBOX_TOOL_RESOURCE_MATRIX.md` 为准；下文旧命令/工具名仅保留为历史迁移背景。
+> 2026-07-20 更新：profile 只表示后端依赖运行时，不筛选或拥有公共工具。所有任务始终连接一个暴露 45 个原子 Actions 的统一 MCP server；VASP、NequIP、Allegro、DeePMD 和受限 NIST WebBook CGI 已作为显式 BackendSpec 接入，当前 55/55 BackendSpecs、22/22 runtime 可用。当前事实以 `chemistry_toolbox/mcp/TOOL_CATALOG.md` 和 `chemistry_toolbox/docs/CHEMISTRY_TOOLBOX_TOOL_RESOURCE_MATRIX.md` 为准；下文旧命令/工具名仅保留为历史迁移背景。
 
 ## 1. 智能体如何看到 MCP 工具
 
@@ -39,7 +39,7 @@ researchchem_md/run_openmm
 工具源码仍保持一工具一文件：
 
 ```text
-evaluation/mcp_tools/tools/<tool_name>.py
+chemistry_toolbox/mcp/tools/<tool_name>.py
 ```
 
 环境拆分只发生在运行和安装层，不影响以后增加、删除或修改单个工具。
@@ -70,18 +70,18 @@ evaluation/mcp_tools/tools/<tool_name>.py
 
 | 文件 | 作用 |
 |---|---|
-| `config/mcp_profiles.yaml` | profile、工具归属、conda/pip 依赖、命令映射和健康检查 |
-| `evaluation/mcp_tools/profiles.py` | 加载配置、验证工具不重复、构建环境变量和 server 启动命令 |
-| `evaluation/mcp_tools/server.py` | 只注册选中 profile 的工具 |
+| `chemistry_toolbox/config/mcp_profiles.yaml` | profile、工具归属、conda/pip 依赖、命令映射和健康检查 |
+| `chemistry_toolbox/mcp/profiles.py` | 加载配置、验证工具不重复、构建环境变量和 server 启动命令 |
+| `chemistry_toolbox/mcp/server.py` | 只注册选中 profile 的工具 |
 | `evaluation/config.py` | 为一次 benchmark 运行生成一个或多个 MCP server spec |
 | `evaluation/run_task.py` | 写入 Claude/OpenCode 配置并构造 Codex MCP 参数 |
-| `scripts/setup_mcp_profile_envs.py` | 创建、续装和记录所有隔离环境 |
-| `scripts/configure_mcp_conda_envs.py` | 注册 `researchchem-*` 名称并安装运行库兼容 hook |
-| `scripts/check_mcp_profile_envs.py` | 跨解释器检查并生成状态报告 |
+| `chemistry_toolbox/scripts/setup_mcp_profile_envs.py` | 创建、续装和记录所有隔离环境 |
+| `chemistry_toolbox/scripts/configure_mcp_conda_envs.py` | 注册 `researchchem-*` 名称并安装运行库兼容 hook |
+| `chemistry_toolbox/scripts/check_mcp_profile_envs.py` | 跨解释器检查并生成状态报告 |
 
 ### 模型权重与工具源码为什么分开放
 
-`evaluation/mcp_tools/` 保存的是 MCP server、工具定义、参数 schema 和调用适配器，这些
+`chemistry_toolbox/mcp/` 保存的是 MCP server、工具定义、参数 schema 和调用适配器，这些
 源码应当体积小、可审查并提交到 Git。MACE 权重属于可重新下载的运行时资产，约几十到
 数百 MB，不能和一工具一文件的源码一起打包，也不应跟随某个 Agent CLI 的全局缓存。
 
@@ -105,7 +105,7 @@ ResearchChemBench/.model_cache/
 RESEARCHCHEMBENCH_MODEL_CACHE=/absolute/path/to/researchchem-model-cache
 ```
 
-修改后重新执行 `scripts/configure_mcp_conda_envs.py`，使直接激活 Conda 环境的 hook 也
+修改后重新执行 `chemistry_toolbox/scripts/configure_mcp_conda_envs.py`，使直接激活 Conda 环境的 hook 也
 使用新位置。MACE 0.3.16 会在该根目录下自动创建 `mace/` 子目录。
 
 ## 5. 安装和复查
@@ -114,16 +114,16 @@ RESEARCHCHEMBENCH_MODEL_CACHE=/absolute/path/to/researchchem-model-cache
 
 ```bash
 cd /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench
-.toolbox_env/bin/python scripts/setup_mcp_profile_envs.py --continue-on-error
+.toolbox_env/bin/python chemistry_toolbox/scripts/setup_mcp_profile_envs.py --continue-on-error
 ```
 
 只安装指定类别：
 
 ```bash
-.toolbox_env/bin/python scripts/setup_mcp_profile_envs.py \
+.toolbox_env/bin/python chemistry_toolbox/scripts/setup_mcp_profile_envs.py \
   --profiles services,quantum,psi4
 
-.toolbox_env/bin/python scripts/setup_mcp_profile_envs.py \
+.toolbox_env/bin/python chemistry_toolbox/scripts/setup_mcp_profile_envs.py \
   --profiles periodic,phonons \
   --support-environments abinit
 ```
@@ -148,13 +148,13 @@ Conda 的环境名称本质上是 `envs_dirs` 下的目录项。工具环境体�
 移动几十 GB 环境。名称丢失或换机器后可重新注册：
 
 ```bash
-.toolbox_env/bin/python scripts/configure_mcp_conda_envs.py
+.toolbox_env/bin/python chemistry_toolbox/scripts/configure_mcp_conda_envs.py
 ```
 
 检查所有环境并真实查询 Materials Project：
 
 ```bash
-.toolbox_env/bin/python scripts/check_mcp_profile_envs.py \
+.toolbox_env/bin/python chemistry_toolbox/scripts/check_mcp_profile_envs.py \
   --live-materials-project \
   --check-models
 ```
@@ -162,8 +162,8 @@ Conda 的环境名称本质上是 `envs_dirs` 下的目录项。工具环境体�
 结果写入：
 
 ```text
-docs/MCP_PROFILE_STATUS.md
-docs/MCP_PROFILE_STATUS.json
+chemistry_toolbox/docs/MCP_PROFILE_STATUS.md
+chemistry_toolbox/docs/MCP_PROFILE_STATUS.json
 ```
 
 ## 6. 本地 API key 和环境变量
@@ -241,7 +241,7 @@ Actions 暴露。checkpoint 必须是显式注册的 `ResourceRef`；DeePMD 多�
 
 ## 9. 当前验证结论
 
-最新自动报告为 `docs/MCP_PROFILE_STATUS.md`。当前 17/17 profile/support runtime 的必需模块、
+最新自动报告为 `chemistry_toolbox/docs/MCP_PROFILE_STATUS.md`。当前 17/17 profile/support runtime 的必需模块、
 命令、`pip check` 和 Backend 健康均通过；公共目录始终是一个 45-Action server。2026-07-20
 的最终回归结果如下：
 

@@ -1,6 +1,6 @@
 # ResearchChemBench 请求软件/工具配置状态
 
-> 生成时间：`2026-07-20T15:48:17.902806+00:00`。本报告由 `scripts/audit_requested_software.py` 生成，覆盖用户给出的全部 59 项；它把“依赖已安装”“规范已实现”“需要人工许可/下载”“接口尚未安全接入”分开记录。
+> 生成时间：`2026-07-20T15:48:17.902806+00:00`。本报告由 `chemistry_toolbox/scripts/audit_requested_software.py` 生成，覆盖用户给出的全部 59 项；它把“依赖已安装”“规范已实现”“需要人工许可/下载”“接口尚未安全接入”分开记录。
 
 ## 总结
 
@@ -16,7 +16,7 @@
 
 ## 目录约定
 
-- 软件和大体积二进制只放在 `.software_cache/` 的版本化子目录；运行时定义在 `config/mcp_profiles.yaml` 或 `config/auxiliary_environments.yaml`。
+- 软件和大体积二进制只放在 `.software_cache/` 的版本化子目录；运行时定义在 `chemistry_toolbox/config/mcp_profiles.yaml` 或 `chemistry_toolbox/config/auxiliary_environments.yaml`。
 - 模型权重只放在 `.model_cache/`；NequIP、Allegro 与 DeePMD checkpoint 已按精确文件和校验值登记，但每次调用仍必须由 Agent 显式选择。
 - auxiliary runtime 只用于依赖隔离、健康检查和后续原子适配，不改变公共 MCP 工具目录，也不自动替 Agent 编排流程。
 
@@ -154,5 +154,5 @@
 ## 重放命令
 
 ```bash
-.toolbox_env/bin/python scripts/audit_requested_software.py
+.toolbox_env/bin/python chemistry_toolbox/scripts/audit_requested_software.py
 ```

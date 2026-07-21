@@ -123,7 +123,7 @@
 
 - `.software_cache/documentation/`：官方资料、本机帮助输出、版本探测、下载校验；
 - `config/software_capability_sources.yaml`：受 Git 管理的官方来源和候选能力声明；
-- `docs/tools/CHEMISTRY_TOOLBOX_SOFTWARE_CAPABILITY_MATRIX.md`：可审查能力矩阵；
+- `chemistry_toolbox/docs/CHEMISTRY_TOOLBOX_SOFTWARE_CAPABILITY_MATRIX.md`：可审查能力矩阵；
 - `CHEMISTRY_TOOLBOX_TOOL_RESOURCE_MATRIX.md`：只记录最终公开且验证通过的能力。
 
 ## 8. 本轮实施结果

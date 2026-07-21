@@ -1,1 +1,0 @@
-../chemistry_toolbox/scripts/audit_action_test_coverage.py

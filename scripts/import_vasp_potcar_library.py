@@ -1,1 +1,0 @@
-../chemistry_toolbox/scripts/import_vasp_potcar_library.py

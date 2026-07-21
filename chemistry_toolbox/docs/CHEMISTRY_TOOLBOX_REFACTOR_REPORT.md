@@ -26,7 +26,7 @@
 
 ## 3. 已实施的架构
 
-核心代码位于 `researchchem_toolbox/`：
+核心代码位于 `chemistry_toolbox/src/researchchem_toolbox/`：
 
 - `models.py`：统一 ActionRequest、ActionResult、ArtifactRef 与规格模型；
 - `specs.py`：45 个公共 Actions 和 55 个 BackendSpecs 的唯一事实源；
@@ -54,7 +54,7 @@
 
 ## 5. 旧接口处理
 
-- 删除了旧 `evaluation/mcp_tools/tools/` 下 41 个公共工具实现；
+- 删除了旧 `chemistry_toolbox/mcp/tools/` 下 41 个公共工具实现；
 - 删除了对应的旧逐工具 wrapper 测试；
 - 不提供 legacy `run_*` 公共兼容层，避免两套层级继续共存；
 - profile 从“工具分组”改为“后端依赖运行时”；
@@ -76,7 +76,7 @@
 
 过程中依据真实输出修复了 QE “Total force”误匹配、ABINIT 10 输出文件/力/应力单位解析、DFTB+ Parser 14 几何优化输入、GNINA 不支持 Vina `--energy_range`、ORCA 优化误读 `job_trj.xyz` 第一帧，以及 Materials Project/Catalysis-Hub 的有界在线请求问题。扩展阶段又补齐 VASP GCC 15 编译兼容、worker 基础依赖、DeePMD branch 强制选择和模型资源校验。
 
-简要状态见 [TOOLBOX_STATUS.md](../TOOLBOX_STATUS.md)。逐个 Action、Backend、runtime、资源、元素覆盖、SSSP cutoff 与 smoke 证据见 [CHEMISTRY_TOOLBOX_TOOL_RESOURCE_MATRIX.md](CHEMISTRY_TOOLBOX_TOOL_RESOURCE_MATRIX.md)。
+简要状态见 [TOOLBOX_STATUS.md](TOOLBOX_STATUS.md)。逐个 Action、Backend、runtime、资源、元素覆盖、SSSP cutoff 与 smoke 证据见 [CHEMISTRY_TOOLBOX_TOOL_RESOURCE_MATRIX.md](CHEMISTRY_TOOLBOX_TOOL_RESOURCE_MATRIX.md)。
 
 ## 7. 软件、模型与科学数据管理
 

@@ -54,7 +54,7 @@
 | `config/backend_gap_smoke_status.json` | 18/18 passed | 补齐 17 个此前仅健康检查的本地后端，并追加 PySCF 单点能组合复核 |
 | `config/scientific_resource_smoke_status.json` | 24/24 passed | 真实赝势、基组、模型、周期程序和 GNINA/ORCA 等资源 smoke |
 | `config/data_source_smoke_status.json` | 3/5 passed | 在线数据源现场状态 |
-| `config/pytest_status.xml` | 146/146 passed | 最终全量回归，381.825 秒 |
+| `chemistry_toolbox/config/pytest_status.xml` | 146/146 passed | 最终全量回归，381.825 秒 |
 
 ### 2.1 本轮真实补测的软件后端
 
@@ -501,22 +501,22 @@
 
 关联文档：
 
-- `docs/tools/CHEMISTRY_TOOLBOX_TOOL_RESOURCE_MATRIX.md`：完整 Action/Backend/runtime/resource 参数矩阵。
-- `docs/tools/CHEMISTRY_TOOLBOX_SOFTWARE_CAPABILITY_MATRIX.md`：软件版本、官方资料缓存和候选能力。
-- `docs/tools/CHEMISTRY_TOOLBOX_REQUESTED_SOFTWARE_STATUS.md`：59 项用户软件清单。
+- `chemistry_toolbox/docs/CHEMISTRY_TOOLBOX_TOOL_RESOURCE_MATRIX.md`：完整 Action/Backend/runtime/resource 参数矩阵。
+- `chemistry_toolbox/docs/CHEMISTRY_TOOLBOX_SOFTWARE_CAPABILITY_MATRIX.md`：软件版本、官方资料缓存和候选能力。
+- `chemistry_toolbox/docs/CHEMISTRY_TOOLBOX_REQUESTED_SOFTWARE_STATUS.md`：59 项用户软件清单。
 - `.software_cache/documentation/catmap/0.3.1/`：本次 CatMAP 官方教程、代码概览和仓库页面缓存。
 
 复现命令：
 
 ```bash
-.toolbox_env/bin/python -m pytest -q --junitxml=config/pytest_status.xml
-.toolbox_env/bin/python scripts/run_action_gap_smokes.py
-.toolbox_env/bin/python scripts/run_action_gap_smokes.py --include-network
-.toolbox_env/bin/python scripts/run_backend_gap_smokes.py
-.toolbox_env/bin/python scripts/run_scientific_resource_smokes.py
-.toolbox_env/bin/python scripts/run_data_source_smokes.py
-.toolbox_env/bin/python scripts/audit_action_test_coverage.py
-.toolbox_env/bin/python scripts/generate_detailed_toolbox_audit_report.py
+.toolbox_env/bin/python -m pytest -q --junitxml=chemistry_toolbox/config/pytest_status.xml
+.toolbox_env/bin/python chemistry_toolbox/scripts/run_action_gap_smokes.py
+.toolbox_env/bin/python chemistry_toolbox/scripts/run_action_gap_smokes.py --include-network
+.toolbox_env/bin/python chemistry_toolbox/scripts/run_backend_gap_smokes.py
+.toolbox_env/bin/python chemistry_toolbox/scripts/run_scientific_resource_smokes.py
+.toolbox_env/bin/python chemistry_toolbox/scripts/run_data_source_smokes.py
+.toolbox_env/bin/python chemistry_toolbox/scripts/audit_action_test_coverage.py
+.toolbox_env/bin/python chemistry_toolbox/scripts/generate_detailed_toolbox_audit_report.py
 ```
 
 ## 11. 官方资料

@@ -1,6 +1,6 @@
 # ResearchChemBench 软件能力扩展矩阵
 
-> 生成时间：`2026-07-20T16:43:49.068153+00:00`。由 `scripts/generate_software_capability_matrix.py` 从本地资料缓存生成。
+> 生成时间：`2026-07-20T16:43:49.068153+00:00`。由 `chemistry_toolbox/scripts/generate_software_capability_matrix.py` 从本地资料缓存生成。
 
 ## 1. 审计摘要
 

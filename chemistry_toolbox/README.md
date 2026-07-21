@@ -12,9 +12,9 @@ chemistry_toolbox/
 └── docs/                       architecture, capability, and audit documentation
 ```
 
-The repository-root `researchchem_toolbox`, `evaluation/mcp_tools`, and `config`
-paths are compatibility links. New code and documentation should use the
-canonical paths under this directory.
+The pre-refactor repository-root implementations and compatibility links were
+removed. Source code, configuration, scripts, tests, and documentation now have
+one canonical location under this directory.
 
 Large runtime assets remain outside the source tree:
 

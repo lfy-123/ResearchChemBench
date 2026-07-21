@@ -41,9 +41,9 @@
 
 逐项模块、命令、缓存、许可、环境和公共适配信息见：
 
-- `docs/tools/CHEMISTRY_TOOLBOX_REQUESTED_SOFTWARE_STATUS.md`
-- `docs/tools/CHEMISTRY_TOOLBOX_TOOL_RESOURCE_MATRIX.md`
-- `docs/MCP_PROFILE_STATUS.md`
+- `chemistry_toolbox/docs/CHEMISTRY_TOOLBOX_REQUESTED_SOFTWARE_STATUS.md`
+- `chemistry_toolbox/docs/CHEMISTRY_TOOLBOX_TOOL_RESOURCE_MATRIX.md`
+- `chemistry_toolbox/docs/MCP_PROFILE_STATUS.md`
 
 ## 4. 仍需处理：按建议顺序
 

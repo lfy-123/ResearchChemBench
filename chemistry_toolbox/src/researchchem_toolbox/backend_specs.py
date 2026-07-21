@@ -1445,7 +1445,7 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         "gnina", "GNINA", "docking", ("dock_ligand",),
         "GNINA docking using prepared structures and an explicit search box/model.", executables=("gnina",),
         environment=("CHEMGRAPH_GNINA_COMMAND",),
-        install_notes="Configured from registered GNINA 1.3.3 CUDA 12.8 binary; rerun scripts/configure_toolbox_resources.py to verify/relink.",
+        install_notes="Configured from registered GNINA 1.3.3 CUDA 12.8 binary; rerun chemistry_toolbox/scripts/configure_toolbox_resources.py to verify/relink.",
         method_schema={
             "cnn_model": "builtin_default or an explicit GNINA built-in --cnn model name",
             "cnn_scoring": "optional GNINA mode: none|rescore|refinement|metrorescore|metrorefine|all",

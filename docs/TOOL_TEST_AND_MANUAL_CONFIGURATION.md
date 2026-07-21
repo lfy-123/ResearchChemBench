@@ -1,11 +1,11 @@
 # MCP 工具逐项测试与未配置软件手动配置指南
 
-> 2026-07-18 更新：本文主体记录旧 41 工具基线，下面的 `run_orca`/`run_gnina` 内容只作历史参考。ORCA 6.1.1、OpenMPI 4.1.8 和 GNINA 1.3.3 已配置完成；当前原子工具与资源状态请使用 `docs/TOOLBOX_STATUS.md` 和 `docs/tools/CHEMISTRY_TOOLBOX_TOOL_RESOURCE_MATRIX.md`。
+> 2026-07-18 更新：本文主体记录旧 41 工具基线，下面的 `run_orca`/`run_gnina` 内容只作历史参考。ORCA 6.1.1、OpenMPI 4.1.8 和 GNINA 1.3.3 已配置完成；当前原子工具与资源状态请使用 `chemistry_toolbox/docs/TOOLBOX_STATUS.md` 和 `chemistry_toolbox/docs/CHEMISTRY_TOOLBOX_TOOL_RESOURCE_MATRIX.md`。
 
 > 本文前半部分记录 2026-07-17 单一 `.toolbox_env` 下的逐工具测试。后续已经建立
 > 多 profile 环境并补装 Psi4、QE、CP2K、DFTB+、SIESTA、ABINIT、GROMACS、LAMMPS、
 > PLUMED、CENSO、GoodVibes、pysisyphus、CatMAP、Vina 等后端。当前状态请看
-> [MCP_PROFILE_STATUS.md](MCP_PROFILE_STATUS.md)，环境设计请看
+> [MCP_PROFILE_STATUS.md](../chemistry_toolbox/docs/MCP_PROFILE_STATUS.md)，环境设计请看
 > [MCP_PROFILE_ENVIRONMENTS.md](MCP_PROFILE_ENVIRONMENTS.md)。下面的人工安装说明仍可作为
 > ORCA、GNINA 和许可证软件的参考。
 
@@ -14,7 +14,7 @@
 测试目录：
 
 ```text
-evaluation/mcp_tools/test_tools/
+chemistry_toolbox/mcp/test_tools/
 ```
 
 公开工具文件与测试文件严格一一对应：
@@ -49,31 +49,31 @@ evaluation/mcp_tools/test_tools/
 
 ```bash
 cd /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench
-source scripts/activate_toolbox_env.sh
+source chemistry_toolbox/scripts/activate_toolbox_env.sh
 ```
 
 运行全部 41 个逐工具测试：
 
 ```bash
-bash evaluation/mcp_tools/test_tools/run_tests.sh
+bash chemistry_toolbox/mcp/test_tools/run_tests.sh
 ```
 
 真实访问 PubChem、RCSB PDB、Catalysis-Hub：
 
 ```bash
-bash evaluation/mcp_tools/test_tools/run_tests.sh --live-network
+bash chemistry_toolbox/mcp/test_tools/run_tests.sh --live-network
 ```
 
 测试后刷新真实软件状态报告：
 
 ```bash
-bash evaluation/mcp_tools/test_tools/run_tests.sh --live-network --status-report
+bash chemistry_toolbox/mcp/test_tools/run_tests.sh --live-network --status-report
 ```
 
 单独复测一个工具：
 
 ```bash
-python -m pytest -q   evaluation/mcp_tools/test_tools/test_run_cp2k.py
+python -m pytest -q   chemistry_toolbox/mcp/test_tools/test_run_cp2k.py
 ```
 
 ## 3. 41 个工具的测试状态
@@ -130,7 +130,7 @@ python -m pytest -q   evaluation/mcp_tools/test_tools/test_run_cp2k.py
 ### 4.1 GoodVibes：`compute_thermochemistry`
 
 ```bash
-source scripts/activate_toolbox_env.sh
+source chemistry_toolbox/scripts/activate_toolbox_env.sh
 python -m pip install goodvibes
 export CHEMGRAPH_GOODVIBES_COMMAND="$(command -v goodvibes)"
 goodvibes --help
@@ -155,7 +155,7 @@ export CHEMGRAPH_PYSIS_COMMAND=/absolute/path/to/pysis
 ### 4.3 Materials Project API：`query_materials_project`
 
 ```bash
-source scripts/activate_toolbox_env.sh
+source chemistry_toolbox/scripts/activate_toolbox_env.sh
 python -m pip install mp-api
 export MP_API_KEY='your-materials-project-key'
 python -c 'from mp_api.client import MPRester; print("mp-api import OK")'
@@ -179,7 +179,7 @@ CENSO 还可能需要 ORCA/TURBOMOLE 等量化后端；这类后端必须单独�
 ### 4.5 CatMAP：`run_catmap`
 
 ```bash
-source scripts/activate_toolbox_env.sh
+source chemistry_toolbox/scripts/activate_toolbox_env.sh
 python -m pip install catmap
 export CHEMGRAPH_CATMAP_COMMAND="$(command -v catmap)"
 catmap --help
@@ -371,7 +371,7 @@ mamba create -n rchem-psi4 -c conda-forge psi4 python=3.10
 以 CP2K 为例：
 
 ```bash
-source scripts/activate_toolbox_env.sh
+source chemistry_toolbox/scripts/activate_toolbox_env.sh
 export CHEMGRAPH_CP2K_COMMAND=/absolute/path/to/cp2k
 
 python - <<'PY'
@@ -381,7 +381,7 @@ from evaluation.mcp_tools.tools.check_backend_availability import (
 print(check_backend_availability_core("CP2K"))
 PY
 
-python -m pytest -q   evaluation/mcp_tools/test_tools/test_run_cp2k.py
+python -m pytest -q   chemistry_toolbox/mcp/test_tools/test_run_cp2k.py
 ```
 
 然后必须使用一个真实、最小、可收敛输入调用相应 core/MCP 工具，并确认：
@@ -391,7 +391,7 @@ python -m pytest -q   evaluation/mcp_tools/test_tools/test_run_cp2k.py
 3. `stdout.log`/`stderr.log` 可审计；
 4. 预期输出文件存在；
 5. `_tool_trace.jsonl` 和 `_tool_results/` 已记录；
-6. 再运行 `python scripts/verify_toolbox.py` 刷新状态文档。
+6. 再运行 `python chemistry_toolbox/scripts/verify_toolbox.py` 刷新状态文档。
 
 如果软件只能在另一个 conda/module 环境运行，可以让 `CHEMGRAPH_*_COMMAND` 指向一个由
 管理员编写的固定 wrapper 脚本。该脚本应只负责激活环境并 exec 固定程序，不能拼接或

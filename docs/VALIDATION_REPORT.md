@@ -2,7 +2,7 @@
 
 Validation date: 2026-07-17 UTC
 
-Toolbox expansion revalidation: the MCP server now registers 41 tools, the full suite reports `70 passed`, and `scripts/verify_toolbox.py` reports 25 real-smoke working tools, 16 not configured/without a safe real smoke, and 0 failed tools. The original DeepSeek V4 Flash Agent/judge validation below remains the live end-to-end benchmark validation.
+Toolbox expansion revalidation: the MCP server now registers 41 tools, the full suite reports `70 passed`, and `chemistry_toolbox/scripts/verify_toolbox.py` reports 25 real-smoke working tools, 16 not configured/without a safe real smoke, and 0 failed tools. The original DeepSeek V4 Flash Agent/judge validation below remains the live end-to-end benchmark validation.
 
 After the expansion, a fresh OpenCode/DeepSeek V4 Flash run also passed with the new task-specific tool selection. It used the default `chemgraph-core` profile, called `molecule_name_to_smiles`, returned `O=S=O`, wrote the report and trace, and received an independent DeepSeek judge score of 1. Workspace:
 
@@ -56,8 +56,8 @@ The tests cover all 40 tasks, hidden ground-truth isolation, structured Agent co
 The management layer was additionally checked with:
 
 ```text
-bash scripts/manage_mcp_tools.sh validate
-bash scripts/manage_mcp_tools.sh catalog
+bash chemistry_toolbox/scripts/manage_mcp_tools.sh validate
+bash chemistry_toolbox/scripts/manage_mcp_tools.sh catalog
 ```
 
 Both completed successfully, and the generated catalog reports all 41 current tools as enabled and valid.
@@ -78,7 +78,7 @@ smiles_to_coordinate_file
 
 ### 3.2 No-network functional smoke test
 
-`python scripts/check_mcp_tools.py --smoke` passed this sequence:
+`python chemistry_toolbox/scripts/check_mcp_tools.py --smoke` passed this sequence:
 
 ```text
 calculator
@@ -207,10 +207,10 @@ ChemGraph had pre-existing local modified/untracked files before this implementa
 ```bash
 cd /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench
 
-source scripts/activate_toolbox_env.sh
+source chemistry_toolbox/scripts/activate_toolbox_env.sh
 pytest -q
-python scripts/check_mcp_tools.py --smoke
-python scripts/verify_toolbox.py
+python chemistry_toolbox/scripts/check_mcp_tools.py --smoke
+python chemistry_toolbox/scripts/verify_toolbox.py
 
 python -m evaluation.cli_eval eval_configs/quick_codex.yaml --dry-run --no-score
 python -m evaluation.cli_eval eval_configs/quick_claude.yaml --dry-run --no-score

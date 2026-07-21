@@ -110,7 +110,7 @@
 | NWChem | 能量、力、Hessian、偶极和电荷均通过真实 QCEngine/NWChem 计算 |
 | GPAW | 分子能量/力与周期能量真实计算通过 |
 | Critic2/LOBSTER | 真实密度、成键与投影输出解析通过 |
-| 完整测试 | `146 passed in 396.22s`，JUnit 位于 `config/pytest_status.xml` |
+| 完整测试 | `146 passed in 396.22s`，JUnit 位于 `chemistry_toolbox/config/pytest_status.xml` |
 | 通用烟雾 | 7/7 Action 调用成功；Catalog、Runtime、Handler 覆盖与旧 runner 清理检查全部通过 |
 
 35 个 MCP Runtime 当前全部通过依赖与 Backend 健康检查。Sella 已从 KinBot 环境拆分到独立 `.tool_envs/sella`；KinBot 环境固定为 NumPy 1.26.4、JAX/JAXlib 0.4.35，`pip check` 无冲突。RMG 的三个旧包平台标记通过精确正则登记为已知例外，其他任何依赖问题仍会导致检查失败。
@@ -178,19 +178,19 @@ NIST Chemistry WebBook 已通过官方参数化 CGI 接入受限的单物种查�
 
 ## 12. 关键文档与重放命令
 
-- 完整 Action/Backend Schema：`evaluation/mcp_tools/TOOL_CATALOG.md`
-- 工具、Backend、资源与环境矩阵：`docs/tools/CHEMISTRY_TOOLBOX_TOOL_RESOURCE_MATRIX.md`
-- 软件能力与候选能力矩阵：`docs/tools/CHEMISTRY_TOOLBOX_SOFTWARE_CAPABILITY_MATRIX.md`
-- 59 项需求状态：`docs/tools/CHEMISTRY_TOOLBOX_REQUESTED_SOFTWARE_STATUS.md`
-- Runtime 状态：`docs/MCP_PROFILE_STATUS.md`
-- Toolbox 状态：`docs/TOOLBOX_STATUS.md`
+- 完整 Action/Backend Schema：`chemistry_toolbox/mcp/TOOL_CATALOG.md`
+- 工具、Backend、资源与环境矩阵：`chemistry_toolbox/docs/CHEMISTRY_TOOLBOX_TOOL_RESOURCE_MATRIX.md`
+- 软件能力与候选能力矩阵：`chemistry_toolbox/docs/CHEMISTRY_TOOLBOX_SOFTWARE_CAPABILITY_MATRIX.md`
+- 59 项需求状态：`chemistry_toolbox/docs/CHEMISTRY_TOOLBOX_REQUESTED_SOFTWARE_STATUS.md`
+- Runtime 状态：`chemistry_toolbox/docs/MCP_PROFILE_STATUS.md`
+- Toolbox 状态：`chemistry_toolbox/docs/TOOLBOX_STATUS.md`
 
 ```bash
 .toolbox_env/bin/python -m evaluation.mcp_tools.tool_manager validate
-.toolbox_env/bin/python scripts/check_mcp_profile_envs.py --timeout-seconds 180
-.toolbox_env/bin/python scripts/audit_requested_software.py --timeout-seconds 30
-.toolbox_env/bin/python scripts/verify_toolbox.py --smoke
-.toolbox_env/bin/python -m pytest -q --junitxml=config/pytest_status.xml
+.toolbox_env/bin/python chemistry_toolbox/scripts/check_mcp_profile_envs.py --timeout-seconds 180
+.toolbox_env/bin/python chemistry_toolbox/scripts/audit_requested_software.py --timeout-seconds 30
+.toolbox_env/bin/python chemistry_toolbox/scripts/verify_toolbox.py --smoke
+.toolbox_env/bin/python -m pytest -q --junitxml=chemistry_toolbox/config/pytest_status.xml
 ```
 
-用户自建的 `docs/tools/CHEMISTRY_TOOLBOX_TOOL_RESOURCE_MATRIX copy.md` 未被读取、修改或纳入提交。
+用户自建的 `chemistry_toolbox/docs/CHEMISTRY_TOOLBOX_TOOL_RESOURCE_MATRIX copy.md` 未被读取、修改或纳入提交。

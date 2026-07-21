@@ -2,7 +2,7 @@
 
 > Current deployment uses dependency-isolated MCP profiles. See
 > [MCP_PROFILE_ENVIRONMENTS.md](MCP_PROFILE_ENVIRONMENTS.md) for the authoritative
-> architecture and [MCP_PROFILE_STATUS.md](MCP_PROFILE_STATUS.md) for live status.
+> architecture and [MCP_PROFILE_STATUS.md](../chemistry_toolbox/docs/MCP_PROFILE_STATUS.md) for live status.
 
 ## 1. Repository layout
 
@@ -31,8 +31,8 @@ profile environments. ChemGraph source is loaded directly from `CHEMGRAPH_ROOT/s
 ```bash
 cd /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench
 
-bash scripts/setup_toolbox_env.sh
-.toolbox_env/bin/python scripts/setup_mcp_profile_envs.py --continue-on-error
+bash chemistry_toolbox/scripts/setup_toolbox_env.sh
+.toolbox_env/bin/python chemistry_toolbox/scripts/setup_mcp_profile_envs.py --continue-on-error
 ```
 
 The conda-forge package list, pip package list, and ABI-sensitive pins are kept under `environment/`. See `TOOLBOX_SETUP.md` for all setup options and the actual installed/unavailable backend split.
@@ -103,7 +103,7 @@ python -c 'import tblite; print(tblite.__version__)'
 ChemGraph declares `mace-torch`. The first calculation using a model such as `medium-mpa-0` may download model weights and can consume substantial memory and runtime.
 
 ResearchChemBench stores downloaded weights under the ignored project directory
-`.model_cache/mace/`, rather than under `evaluation/mcp_tools/` or an Agent CLI's
+`.model_cache/mace/`, rather than under `chemistry_toolbox/mcp/` or an Agent CLI's
 global cache. Set `RESEARCHCHEMBENCH_MODEL_CACHE` in `config.local.env` to override
 the cache root.
 
@@ -192,14 +192,14 @@ ResearchChemBench writes a run-local `opencode.json` containing the provider met
 The server is implemented at:
 
 ```text
-evaluation/mcp_tools/server.py
-evaluation/mcp_tools/tools/*.py
+chemistry_toolbox/mcp/server.py
+chemistry_toolbox/mcp/tools/*.py
 ```
 
 The 41 auto-discovered tools are divided across task-selectable, namespaced MCP servers.
-Tool source remains one-file-per-tool; `config/mcp_profiles.yaml` owns only environment and
+Tool source remains one-file-per-tool; `chemistry_toolbox/config/mcp_profiles.yaml` owns only environment and
 server grouping. The authoritative tool list is generated at
-`evaluation/mcp_tools/TOOL_CATALOG.md`.
+`chemistry_toolbox/mcp/TOOL_CATALOG.md`.
 
 The MCP wrappers call ChemGraph core functions rather than ChemGraph's LangGraph workflow. Each public tool has one self-describing file with a `TOOL_SPEC`; `registry.py` discovers those files automatically, while the explicit allow-list in `tool_config.json` controls which reviewed tools are enabled. The whole `mcp_tools/` directory remains an independently installable package. See `MCP_TOOLS_DEVELOPMENT_AND_INSTALLATION.md` for tool lifecycle management and extension guidance.
 
@@ -227,7 +227,7 @@ and records hashes in `_tool_trace.jsonl`.
 After installation, verify every profile with its own interpreter:
 
 ```bash
-.toolbox_env/bin/python scripts/check_mcp_profile_envs.py --live-materials-project
+.toolbox_env/bin/python chemistry_toolbox/scripts/check_mcp_profile_envs.py --live-materials-project
 ```
 
 The command checks that all 41 enabled tool names are assigned exactly once and that every
@@ -237,10 +237,10 @@ additionally checks each tool file and `TOOL_SPEC` registration contract.
 Run a local no-network functional smoke test:
 
 ```bash
-python scripts/check_mcp_tools.py --smoke
+python chemistry_toolbox/scripts/check_mcp_tools.py --smoke
 ```
 
-This executes calculator → water SMILES/XYZ → ASE/EMT energy → JSON extraction and verifies the canonical trace, full results, and artifact snapshots. Run `python scripts/verify_toolbox.py` for the broader real-backend/API status report.
+This executes calculator → water SMILES/XYZ → ASE/EMT energy → JSON extraction and verifies the canonical trace, full results, and artifact snapshots. Run `python chemistry_toolbox/scripts/verify_toolbox.py` for the broader real-backend/API status report.
 
 Run the complete test suite:
 

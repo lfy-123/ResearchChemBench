@@ -1,1 +1,0 @@
-../chemistry_toolbox/scripts/setup_toolbox_env.sh

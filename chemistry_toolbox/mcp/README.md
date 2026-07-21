@@ -18,8 +18,9 @@ chemistry_toolbox/mcp/                       FastMCP binding, tracing, workspace
 chemistry_toolbox/config/mcp_profiles.yaml   dependency-isolated backend runtimes
 ```
 
-Repository-root paths such as `researchchem_toolbox/`, `evaluation/mcp_tools/`,
-and `config/` are compatibility links and are not separate implementations.
+The pre-refactor repository-root paths (`researchchem_toolbox/`,
+`evaluation/mcp_tools/`, and `config/`) have been removed. Use only the
+canonical paths shown above.
 
 The generated complete catalog is [TOOL_CATALOG.md](TOOL_CATALOG.md).
 
