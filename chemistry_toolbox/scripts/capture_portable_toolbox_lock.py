@@ -578,9 +578,11 @@ def main() -> int:
     platform_lock_root = args.output_root.resolve() / subdir
     platform_lock_root.mkdir(parents=True, exist_ok=True)
 
-    environments = collect_environments()
+    all_environments = collect_environments()
+    environments = list(all_environments)
     selected = {item.strip() for item in args.environments.split(",") if item.strip()}
-    if selected != {"all"}:
+    selected_all = selected == {"all"}
+    if not selected_all:
         unknown = selected - {item["id"] for item in environments}
         if unknown:
             raise SystemExit(f"Unknown environment lock ids: {sorted(unknown)}")
@@ -597,6 +599,28 @@ def main() -> int:
                 skip_pip_check=args.skip_pip_check,
             )
         )
+    if not selected_all:
+        existing_manifest_path = platform_lock_root / "manifest.json"
+        existing_environments: dict[str, dict[str, Any]] = {}
+        if existing_manifest_path.is_file():
+            try:
+                existing_manifest = json.loads(
+                    existing_manifest_path.read_text(encoding="utf-8")
+                )
+                existing_environments = {
+                    str(item["id"]): dict(item)
+                    for item in existing_manifest.get("environments") or []
+                    if isinstance(item, dict) and item.get("id")
+                }
+            except (json.JSONDecodeError, OSError):
+                existing_environments = {}
+        existing_environments.update({str(item["id"]): item for item in captured})
+        order = [str(item["id"]) for item in all_environments]
+        captured = [
+            existing_environments[environment_id]
+            for environment_id in order
+            if environment_id in existing_environments
+        ]
     assets, manual = collect_assets(hash_critical_assets=args.hash_critical_assets)
     asset_path_text = "\n".join(str(item["path"]).lower() for item in assets)
     required_cpu_flags = []

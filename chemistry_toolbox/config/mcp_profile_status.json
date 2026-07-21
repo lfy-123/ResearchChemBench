@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-18T04:46:29.144563+00:00",
+  "generated_at": "2026-07-21T17:41:22.095293+00:00",
   "manager": "/inspire/hdd/global_user/lifangyuan-253108110077/Anaconda3/condabin/mamba",
   "profiles": {
     "services": {
@@ -828,6 +828,106 @@
         }
       ],
       "status": "installed"
+    },
+    "goodvibes": {
+      "description": "Isolated GoodVibes 4.3.0 thermochemistry, ensemble, selectivity, validation, and reaction-profile runtime.",
+      "conda_name": "researchchem-goodvibes",
+      "environment": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/goodvibes",
+      "conda_packages": [
+        "python=3.11",
+        "pydantic",
+        "pyyaml",
+        "python-dotenv"
+      ],
+      "pip_packages": [
+        "goodvibes[full]==4.3.0"
+      ],
+      "steps": [
+        {
+          "returncode": 0,
+          "command": [
+            "/inspire/hdd/global_user/lifangyuan-253108110077/Anaconda3/condabin/mamba",
+            "install",
+            "-y",
+            "-p",
+            "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/goodvibes",
+            "--override-channels",
+            "-c",
+            "conda-forge",
+            "python=3.11"
+          ],
+          "output_tail": "\n\nTransaction\n\n  Prefix: /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/goodvibes\n\n  All requested packages already installed\n\n\nTransaction starting\n\nTransaction finished\n\n"
+        },
+        {
+          "returncode": 0,
+          "command": [
+            "/inspire/hdd/global_user/lifangyuan-253108110077/Anaconda3/condabin/mamba",
+            "install",
+            "-y",
+            "-p",
+            "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/goodvibes",
+            "--override-channels",
+            "-c",
+            "conda-forge",
+            "pydantic"
+          ],
+          "output_tail": "conda-forge/linux-64                                        Using cache\nconda-forge/noarch                                          Using cache\n\nPinned packages:\n\n  - python=3.11\n\n\nTransaction\n\n  Prefix: /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/goodvibes\n\n  All requested packages already installed\n\n\nTransaction starting\n\nTransaction finished\n\n"
+        },
+        {
+          "returncode": 0,
+          "command": [
+            "/inspire/hdd/global_user/lifangyuan-253108110077/Anaconda3/condabin/mamba",
+            "install",
+            "-y",
+            "-p",
+            "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/goodvibes",
+            "--override-channels",
+            "-c",
+            "conda-forge",
+            "pyyaml"
+          ],
+          "output_tail": "conda-forge/linux-64                                        Using cache\nconda-forge/noarch                                          Using cache\n\nPinned packages:\n\n  - python=3.11\n\n\nTransaction\n\n  Prefix: /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/goodvibes\n\n  All requested packages already installed\n\n\nTransaction starting\n\nTransaction finished\n\n"
+        },
+        {
+          "returncode": 0,
+          "command": [
+            "/inspire/hdd/global_user/lifangyuan-253108110077/Anaconda3/condabin/mamba",
+            "install",
+            "-y",
+            "-p",
+            "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/goodvibes",
+            "--override-channels",
+            "-c",
+            "conda-forge",
+            "python-dotenv"
+          ],
+          "output_tail": "conda-forge/linux-64                                        Using cache\nconda-forge/noarch                                          Using cache\n\nPinned packages:\n\n  - python=3.11\n\n\nTransaction\n\n  Prefix: /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/goodvibes\n\n  All requested packages already installed\n\n\nTransaction starting\n\nTransaction finished\n\n"
+        },
+        {
+          "returncode": 0,
+          "command": [
+            "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/goodvibes/bin/python",
+            "-m",
+            "pip",
+            "install",
+            "-r",
+            "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/chemistry_toolbox/environment/profiles/common-pip.txt"
+          ],
+          "output_tail": "path, httpx, cryptography, sse-starlette, SecretStorage, jsonschema, joserfc, fastmcp-slim, cyclopts, mcp, keyring, authlib, fastmcp\n  Attempting uninstall: pydantic-core\n    Found existing installation: pydantic_core 2.46.4\n    Uninstalling pydantic_core-2.46.4:\n      Successfully uninstalled pydantic_core-2.46.4\n  Attempting uninstall: pydantic\n    Found existing installation: pydantic 2.13.4\n    Uninstalling pydantic-2.13.4:\n      Successfully uninstalled pydantic-2.13.4\n\nSuccessfully installed SecretStorage-3.5.0 aiofile-3.11.1 anyio-4.14.2 attrs-26.1.0 authlib-1.7.2 backports.tarfile-1.2.0 beartype-0.22.9 cachetools-7.1.4 caio-0.9.25 certifi-2026.6.17 cffi-2.1.0 click-8.4.2 cryptography-49.0.0 cyclopts-4.22.1 dnspython-2.8.0 docstring-parser-0.18.0 email-validator-2.3.0 exceptiongroup-1.3.1 fastmcp-3.4.4 fastmcp-slim-3.4.4 griffelib-2.1.0 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 httpx-sse-0.4.3 idna-3.18 importlib_metadata-9.0.0 iniconfig-2.3.0 jaraco.classes-3.4.0 jaraco.context-6.1.2 jaraco.functools-4.6.0 jeepney-0.9.0 joserfc-1.7.4 jsonref-1.1.0 jsonschema-4.26.0 jsonschema-path-0.5.0 jsonschema-specifications-2025.9.1 keyring-25.7.0 mcp-1.28.1 more-itertools-11.1.0 numexpr-2.14.2 openapi-pydantic-0.5.1 opentelemetry-api-1.44.0 pathable-0.6.0 platformdirs-4.11.0 pluggy-1.6.0 py-key-value-aio-0.4.5 pycparser-3.0 pydantic-2.11.7 pydantic-core-2.33.2 pydantic-settings-2.14.2 pyjwt-2.13.0 pyperclip-1.11.0 pytest-9.1.1 python-multipart-0.0.32 referencing-0.37.0 rich-rst-2.1.0 rpds-py-2026.6.3 sse-starlette-3.4.6 starlette-1.3.1 uncalled-for-0.3.2 uvicorn-0.51.0 watchfiles-1.2.0 websockets-16.1.1 zipp-4.1.0\nWARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.\n"
+        },
+        {
+          "returncode": 0,
+          "command": [
+            "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/goodvibes/bin/python",
+            "-m",
+            "pip",
+            "install",
+            "goodvibes[full]==4.3.0"
+          ],
+          "output_tail": ": fonttools>=4.28.2 in ./.tool_envs/goodvibes/lib/python3.11/site-packages (from matplotlib>=3.5->goodvibes[full]==4.3.0) (4.63.0)\nRequirement already satisfied: kiwisolver>=1.3.1 in ./.tool_envs/goodvibes/lib/python3.11/site-packages (from matplotlib>=3.5->goodvibes[full]==4.3.0) (1.5.0)\nRequirement already satisfied: packaging>=20.0 in ./.tool_envs/goodvibes/lib/python3.11/site-packages (from matplotlib>=3.5->goodvibes[full]==4.3.0) (26.0)\nRequirement already satisfied: pillow>=9 in ./.tool_envs/goodvibes/lib/python3.11/site-packages (from matplotlib>=3.5->goodvibes[full]==4.3.0) (12.3.0)\nRequirement already satisfied: pyparsing>=3 in ./.tool_envs/goodvibes/lib/python3.11/site-packages (from matplotlib>=3.5->goodvibes[full]==4.3.0) (3.3.2)\nRequirement already satisfied: python-dateutil>=2.7 in ./.tool_envs/goodvibes/lib/python3.11/site-packages (from matplotlib>=3.5->goodvibes[full]==4.3.0) (2.9.0.post0)\nRequirement already satisfied: six>=1.5 in ./.tool_envs/goodvibes/lib/python3.11/site-packages (from python-dateutil>=2.7->matplotlib>=3.5->goodvibes[full]==4.3.0) (1.17.0)\nRequirement already satisfied: markdown-it-py>=2.2.0 in ./.tool_envs/goodvibes/lib/python3.11/site-packages (from rich>=13.0->goodvibes==4.3.0->goodvibes[full]==4.3.0) (4.2.0)\nRequirement already satisfied: pygments<3.0.0,>=2.13.0 in ./.tool_envs/goodvibes/lib/python3.11/site-packages (from rich>=13.0->goodvibes==4.3.0->goodvibes[full]==4.3.0) (2.20.0)\nRequirement already satisfied: mdurl~=0.1 in ./.tool_envs/goodvibes/lib/python3.11/site-packages (from markdown-it-py>=2.2.0->rich>=13.0->goodvibes==4.3.0->goodvibes[full]==4.3.0) (0.1.2)\nWARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.\n"
+        }
+      ],
+      "status": "installed"
     }
   },
   "support_environments": {
@@ -876,5 +976,15 @@
       ],
       "status": "installed"
     }
+  },
+  "conda_registration": {
+    "returncode": 0,
+    "command": [
+      "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.toolbox_env/bin/python",
+      "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/chemistry_toolbox/scripts/configure_mcp_conda_envs.py",
+      "--conda",
+      "/inspire/hdd/global_user/lifangyuan-253108110077/Anaconda3/condabin/conda"
+    ],
+    "output_tail": "mBench/.tool_envs/gaussian\nresearchchem-gamess: /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.conda_envs/researchchem-gamess -> /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/gamess\nresearchchem-rmg: /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.conda_envs/researchchem-rmg -> /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/rmg\nresearchchem-mess: /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.conda_envs/researchchem-mess -> /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/mess\nresearchchem-mesmer: /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.conda_envs/researchchem-mesmer -> /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/mesmer\nresearchchem-sella: /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.conda_envs/researchchem-sella -> /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/sella\nresearchchem-namd: /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.conda_envs/researchchem-namd -> /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/namd\nresearchchem-amber: /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.conda_envs/researchchem-amber -> /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/amber\nresearchchem-charmm: /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.conda_envs/researchchem-charmm -> /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/charmm\n"
   }
 }

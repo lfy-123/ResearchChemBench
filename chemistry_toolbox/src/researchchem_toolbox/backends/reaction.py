@@ -13,6 +13,7 @@ from typing import Any
 import yaml
 
 from .composite import execute_sella
+from .goodvibes import execute as execute_goodvibes
 from .common import (
     command_artifacts,
     module_version,
@@ -36,6 +37,7 @@ ACTIONS = {
     "calculate_chemical_equilibrium", "integrate_reaction_network",
     "calculate_rate_constants", "calculate_tunneling_correction",
     "solve_microkinetic_model", "solve_master_equation",
+    "analyze_thermochemical_selectivity", "analyze_reaction_free_energy_profile",
 }
 
 
@@ -1067,6 +1069,8 @@ def _mesmer_master_equation(request: dict[str, Any]) -> dict[str, Any]:
 
 
 def execute(action_id: str, backend_id: str, request: dict[str, Any]) -> dict[str, Any]:
+    if backend_id == "goodvibes":
+        return execute_goodvibes(action_id, request)
     if backend_id == "sella" and action_id == "locate_transition_state":
         return execute_sella(action_id, request)
     if backend_id == "pysisyphus":

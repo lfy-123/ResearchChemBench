@@ -175,4 +175,37 @@ ACTION_SPECS = (
                 "separately); goodvibes requires one compatible quantum output_file Artifact"
             ),
         ),
+    _action(
+            "scan_thermochemistry_temperature",
+            "molecular_electronic",
+            "Evaluate thermochemical quantities for supplied quantum outputs at each explicitly listed temperature without rerunning electronic-structure calculations.",
+            "ThermochemistryTemperatureSeries",
+            ("goodvibes",),
+            ("output_files", "temperatures_kelvin"),
+            input_description=(
+                "one or more completed Gaussian, ORCA, NWChem, Q-Chem, xTB, or ASE-extxyz "
+                "outputs plus an explicit non-empty temperature list"
+            ),
+        ),
+    _action(
+            "analyze_thermochemical_ensemble",
+            "molecular_electronic",
+            "Calculate per-structure thermochemistry and Boltzmann populations for an explicitly supplied conformer or structure ensemble.",
+            "ThermochemicalEnsembleResult",
+            ("goodvibes",),
+            ("output_files",),
+            input_description=(
+                "two or more compatible completed quantum outputs representing the exact ensemble "
+                "chosen by the Agent"
+            ),
+        ),
+    _action(
+            "validate_thermochemistry_inputs",
+            "molecular_electronic",
+            "Check supplied quantum outputs for thermochemistry compatibility, calculation consistency, frequency issues, and possible duplicate structures.",
+            "ThermochemistryValidationReport",
+            ("goodvibes",),
+            ("output_files",),
+            input_description="one or more compatible completed quantum-chemistry output files",
+        ),
 )

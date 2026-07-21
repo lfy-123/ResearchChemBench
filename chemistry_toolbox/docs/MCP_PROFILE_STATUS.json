@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-07-21T04:12:08.513260+00:00",
+  "generated_at": "2026-07-21T17:54:30.005631+00:00",
   "summary": {
-    "profile_count": 35,
-    "ready_profiles": 35,
-    "public_action_count": 101
+    "profile_count": 36,
+    "ready_profiles": 36,
+    "public_action_count": 106
   },
   "profiles": {
     "core": {
@@ -148,6 +148,10 @@
           "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.toolbox_env/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
+            "ase": {
+              "available": true,
+              "version": "3.29.0"
+            },
             "numpy": {
               "available": true,
               "version": "1.26.4"
@@ -160,6 +164,7 @@
           "missing_environment": [],
           "conda_packages": [],
           "pip_packages": [
+            "ase",
             "numpy"
           ],
           "required_data_resources": [],
@@ -327,7 +332,7 @@
           ],
           "required_data_resources": [],
           "license_class": "open_source",
-          "install_notes": ""
+          "install_notes": "Live PUG REST access uses cross-worker rate limiting and bounded retries. Optional mechanical controls are max_retries, retry_backoff_seconds, minimum_request_interval_seconds, timeout_seconds, max_poll_attempts, and poll_interval_seconds. Existing proxy variables take priority; otherwise PubChem loads proxy-only values from the ignored config.local.env file. No alternate data source is selected implicitly."
         },
         "rcsb_pdb": {
           "status": "available",
@@ -408,7 +413,7 @@
           ],
           "required_data_resources": [],
           "license_class": "open_source",
-          "install_notes": ""
+          "install_notes": "Live GraphQL calls use bounded retry/backoff controls (max_retries, retry_backoff_seconds) and return retryable remote-service errors without hidden fallback."
         },
         "nist_webbook": {
           "status": "available",
@@ -1601,6 +1606,85 @@
       "runtime_group": "profiles",
       "returncode": 0
     },
+    "goodvibes": {
+      "profile": "goodvibes",
+      "conda_name": "researchchem-goodvibes",
+      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/goodvibes/bin/python3.11",
+      "python_version": "3.11.15",
+      "expected_backends": [
+        "goodvibes"
+      ],
+      "backend_health": {
+        "goodvibes": {
+          "status": "available",
+          "available": true,
+          "runtime": "goodvibes",
+          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/goodvibes/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {
+            "goodvibes": {
+              "available": true,
+              "version": "4.3.0"
+            }
+          },
+          "executables": {
+            "goodvibes": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/goodvibes/bin/goodvibes"
+          },
+          "environment": {},
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [],
+          "pip_packages": [
+            "goodvibes[full]==4.3.0"
+          ],
+          "required_data_resources": [],
+          "license_class": "open_source",
+          "install_notes": "Pinned GoodVibes 4.3.0 with full JSON/CSV/Parquet/plot dependencies; official v4.3.0 source and examples are cached under .software_cache/goodvibes/4.3.0/source."
+        }
+      },
+      "allowed_unavailable_backends": [],
+      "unexpected_unavailable_backends": [],
+      "modules": {
+        "goodvibes": {
+          "available": true,
+          "version": "4.3.0"
+        },
+        "numpy": {
+          "available": true,
+          "version": "2.4.6"
+        },
+        "pandas": {
+          "available": true,
+          "version": "3.0.3"
+        },
+        "pyarrow": {
+          "available": true,
+          "version": "25.0.0"
+        },
+        "yaml": {
+          "available": true,
+          "version": "6.0.3"
+        }
+      },
+      "commands": {
+        "goodvibes": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/goodvibes/bin/goodvibes"
+      },
+      "external_commands": {},
+      "dependency_check": {
+        "success": true,
+        "returncode": 0,
+        "output": "No broken requirements found.",
+        "ignored_issues": [],
+        "unignored_issues": []
+      },
+      "model_checks": {},
+      "manual_commands": {},
+      "live_checks": {},
+      "required_ok": true,
+      "runtime_group": "profiles",
+      "returncode": 0
+    },
     "reaction": {
       "profile": "reaction",
       "conda_name": "researchchem-reaction",
@@ -1610,7 +1694,6 @@
         "cantera",
         "catmap",
         "crest",
-        "goodvibes",
         "pysisyphus",
         "scipy"
       ],
@@ -1634,33 +1717,6 @@
           "conda_packages": [
             "crest",
             "xtb"
-          ],
-          "pip_packages": [],
-          "required_data_resources": [],
-          "license_class": "open_source",
-          "install_notes": ""
-        },
-        "goodvibes": {
-          "status": "available",
-          "available": true,
-          "runtime": "reaction",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/reaction/bin/python",
-          "runtime_python_exists": true,
-          "python_modules": {
-            "goodvibes": {
-              "available": true,
-              "version": "3.2"
-            }
-          },
-          "executables": {
-            "goodvibes": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/reaction/bin/goodvibes"
-          },
-          "environment": {},
-          "missing_python_modules": [],
-          "missing_executables": [],
-          "missing_environment": [],
-          "conda_packages": [
-            "goodvibes"
           ],
           "pip_packages": [],
           "required_data_resources": [],
@@ -1781,10 +1837,6 @@
           "available": true,
           "version": "0.3.1"
         },
-        "goodvibes": {
-          "available": true,
-          "version": "unknown"
-        },
         "pysisyphus": {
           "available": true,
           "version": "1.0.0"
@@ -1800,7 +1852,6 @@
       },
       "commands": {
         "crest": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/reaction/bin/crest",
-        "goodvibes": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/reaction/bin/goodvibes",
         "pysis": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/reaction/bin/pysis",
         "xtb": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/reaction/bin/xtb",
         "orca": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/orca/6.1.1/orca",
@@ -2261,7 +2312,7 @@
           "pip_packages": [],
           "required_data_resources": [],
           "license_class": "open_source",
-          "install_notes": ""
+          "install_notes": "For propagate_dynamics, generate_velocities=true also requires an explicit random_seed. NVT/NPT additionally require explicit temperature_coupling_groups; no coupling group is chosen implicitly."
         },
         "lammps": {
           "status": "available",

@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-07-21T11:57:00.402436+00:00",
+  "generated_at": "2026-07-21T18:07:19.875337+00:00",
   "pytest_exit_code": null,
   "summary": {
-    "action_count": 101,
-    "runtime_success_actions": 96,
+    "action_count": 106,
+    "runtime_success_actions": 101,
     "failure_only_actions": 5,
     "not_observed_actions": 0,
-    "action_backend_pair_count": 236,
-    "successful_action_backend_pairs": 231,
+    "action_backend_pair_count": 241,
+    "successful_action_backend_pairs": 236,
     "failed_action_backend_pairs": 5,
     "unobserved_action_backend_pairs": 0,
     "backend_count": 76,
@@ -2073,9 +2073,26 @@
       "failed_backends": [],
       "evidence_sources": [
         "action_gap_smoke",
-        "backend_gap_smoke"
+        "backend_gap_smoke",
+        "goodvibes_action_smoke"
       ],
       "observations": [
+        {
+          "action": "derive_thermochemistry",
+          "backend": "goodvibes",
+          "status": "success",
+          "source": "goodvibes_action_smoke",
+          "elapsed_seconds": 1.913717,
+          "detail": null
+        },
+        {
+          "action": "derive_thermochemistry",
+          "backend": "goodvibes",
+          "status": "success",
+          "source": "goodvibes_action_smoke",
+          "elapsed_seconds": 1.791336,
+          "detail": null
+        },
         {
           "action": "derive_thermochemistry",
           "backend": "internal_thermochemistry",
@@ -2090,6 +2107,90 @@
           "status": "success",
           "source": "backend_gap_smoke",
           "elapsed_seconds": 2.432431,
+          "detail": null
+        }
+      ]
+    },
+    {
+      "action": "scan_thermochemistry_temperature",
+      "category": "molecular_electronic",
+      "description": "Evaluate thermochemical quantities for supplied quantum outputs at each explicitly listed temperature without rerunning electronic-structure calculations.",
+      "primary_output": "ThermochemistryTemperatureSeries",
+      "selection_policy": "agent_backend_required",
+      "catalog_backends": [
+        "goodvibes"
+      ],
+      "status": "runtime_success",
+      "successful_backends": [
+        "goodvibes"
+      ],
+      "failed_backends": [],
+      "evidence_sources": [
+        "goodvibes_action_smoke"
+      ],
+      "observations": [
+        {
+          "action": "scan_thermochemistry_temperature",
+          "backend": "goodvibes",
+          "status": "success",
+          "source": "goodvibes_action_smoke",
+          "elapsed_seconds": 2.00227,
+          "detail": null
+        }
+      ]
+    },
+    {
+      "action": "analyze_thermochemical_ensemble",
+      "category": "molecular_electronic",
+      "description": "Calculate per-structure thermochemistry and Boltzmann populations for an explicitly supplied conformer or structure ensemble.",
+      "primary_output": "ThermochemicalEnsembleResult",
+      "selection_policy": "agent_backend_required",
+      "catalog_backends": [
+        "goodvibes"
+      ],
+      "status": "runtime_success",
+      "successful_backends": [
+        "goodvibes"
+      ],
+      "failed_backends": [],
+      "evidence_sources": [
+        "goodvibes_action_smoke"
+      ],
+      "observations": [
+        {
+          "action": "analyze_thermochemical_ensemble",
+          "backend": "goodvibes",
+          "status": "success",
+          "source": "goodvibes_action_smoke",
+          "elapsed_seconds": 1.985151,
+          "detail": null
+        }
+      ]
+    },
+    {
+      "action": "validate_thermochemistry_inputs",
+      "category": "molecular_electronic",
+      "description": "Check supplied quantum outputs for thermochemistry compatibility, calculation consistency, frequency issues, and possible duplicate structures.",
+      "primary_output": "ThermochemistryValidationReport",
+      "selection_policy": "agent_backend_required",
+      "catalog_backends": [
+        "goodvibes"
+      ],
+      "status": "runtime_success",
+      "successful_backends": [
+        "goodvibes"
+      ],
+      "failed_backends": [],
+      "evidence_sources": [
+        "goodvibes_action_smoke"
+      ],
+      "observations": [
+        {
+          "action": "validate_thermochemistry_inputs",
+          "backend": "goodvibes",
+          "status": "success",
+          "source": "goodvibes_action_smoke",
+          "elapsed_seconds": 1.721655,
           "detail": null
         }
       ]
@@ -2370,6 +2471,62 @@
           "status": "success",
           "source": "action_gap_smoke",
           "elapsed_seconds": 2.901028,
+          "detail": null
+        }
+      ]
+    },
+    {
+      "action": "analyze_thermochemical_selectivity",
+      "category": "reaction_and_kinetics",
+      "description": "Calculate N-way thermodynamic selectivity from explicitly labeled structure ensembles, including two-label excess and delta-delta-G when applicable.",
+      "primary_output": "ThermochemicalSelectivityResult",
+      "selection_policy": "agent_backend_required",
+      "catalog_backends": [
+        "goodvibes"
+      ],
+      "status": "runtime_success",
+      "successful_backends": [
+        "goodvibes"
+      ],
+      "failed_backends": [],
+      "evidence_sources": [
+        "goodvibes_action_smoke"
+      ],
+      "observations": [
+        {
+          "action": "analyze_thermochemical_selectivity",
+          "backend": "goodvibes",
+          "status": "success",
+          "source": "goodvibes_action_smoke",
+          "elapsed_seconds": 2.156883,
+          "detail": null
+        }
+      ]
+    },
+    {
+      "action": "analyze_reaction_free_energy_profile",
+      "category": "reaction_and_kinetics",
+      "description": "Calculate relative electronic and thermochemical energies along explicitly defined reaction pathways, including stoichiometric sums and conformer ensembles.",
+      "primary_output": "ReactionFreeEnergyProfileResult",
+      "selection_policy": "agent_backend_required",
+      "catalog_backends": [
+        "goodvibes"
+      ],
+      "status": "runtime_success",
+      "successful_backends": [
+        "goodvibes"
+      ],
+      "failed_backends": [],
+      "evidence_sources": [
+        "goodvibes_action_smoke"
+      ],
+      "observations": [
+        {
+          "action": "analyze_reaction_free_energy_profile",
+          "backend": "goodvibes",
+          "status": "success",
+          "source": "goodvibes_action_smoke",
+          "elapsed_seconds": 1.83429,
           "detail": null
         }
       ]
@@ -4467,6 +4624,18 @@
       "lobster"
     ],
     [
+      "analyze_reaction_free_energy_profile",
+      "goodvibes"
+    ],
+    [
+      "analyze_thermochemical_ensemble",
+      "goodvibes"
+    ],
+    [
+      "analyze_thermochemical_selectivity",
+      "goodvibes"
+    ],
+    [
       "assemble_force_constants",
       "phono3py"
     ],
@@ -5303,6 +5472,10 @@
       "pdbfixer"
     ],
     [
+      "scan_thermochemistry_temperature",
+      "goodvibes"
+    ],
+    [
       "search_catalysis_records",
       "catalysis_hub"
     ],
@@ -5365,6 +5538,10 @@
     [
       "validate_qcschema_record",
       "qcelemental"
+    ],
+    [
+      "validate_thermochemistry_inputs",
+      "goodvibes"
     ]
   ],
   "failed_action_backend_pairs": [

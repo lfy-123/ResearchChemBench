@@ -1,8 +1,8 @@
 # Backend runtime status
 
-Generated: 2026-07-21T04:12:08.513260+00:00
-Public MCP tools: 101 (same for every task)
-Backend runtimes checked: 35
+Generated: 2026-07-21T17:54:30.005631+00:00
+Public MCP tools: 106 (same for every task)
+Backend runtimes checked: 36
 
 | Runtime | Group | Conda environment | Backends | Required checks | Detail |
 |---|---|---|---:|---|---|
@@ -19,7 +19,8 @@ Backend runtimes checked: 35
 | `multiwfn` | profiles | `researchchem-multiwfn` | 1 | 通过 | 1/1 backends currently available |
 | `nwchem` | profiles | `researchchem-nwchem` | 2 | 通过 | 2/2 backends currently available |
 | `psi4` | profiles | `researchchem-psi4` | 1 | 通过 | 1/1 backends currently available |
-| `reaction` | profiles | `researchchem-reaction` | 6 | 通过 | 6/6 backends currently available |
+| `goodvibes` | profiles | `researchchem-goodvibes` | 1 | 通过 | 1/1 backends currently available |
+| `reaction` | profiles | `researchchem-reaction` | 5 | 通过 | 5/5 backends currently available |
 | `qe` | profiles | `researchchem-qe` | 1 | 通过 | 1/1 backends currently available |
 | `cp2k` | profiles | `researchchem-cp2k` | 1 | 通过 | 1/1 backends currently available |
 | `periodic` | profiles | `researchchem-periodic` | 2 | 通过 | 2/2 backends currently available |

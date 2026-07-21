@@ -90,4 +90,28 @@ ACTION_SPECS = (
                 "solver controls, and requested output variables"
             ),
         ),
+    _action(
+            "analyze_thermochemical_selectivity",
+            "reaction_and_kinetics",
+            "Calculate N-way thermodynamic selectivity from explicitly labeled structure ensembles, including two-label excess and delta-delta-G when applicable.",
+            "ThermochemicalSelectivityResult",
+            ("goodvibes",),
+            ("output_files", "label_groups"),
+            input_description=(
+                "compatible completed quantum outputs plus a mapping from at least two Agent-defined "
+                "labels to exact members of output_files"
+            ),
+        ),
+    _action(
+            "analyze_reaction_free_energy_profile",
+            "reaction_and_kinetics",
+            "Calculate relative electronic and thermochemical energies along explicitly defined reaction pathways, including stoichiometric sums and conformer ensembles.",
+            "ReactionFreeEnergyProfileResult",
+            ("goodvibes",),
+            ("output_files", "profile_definition_file"),
+            input_description=(
+                "compatible completed quantum outputs plus an Agent-authored GoodVibes PES YAML "
+                "defining pathways, species membership, zero references, and units"
+            ),
+        ),
 )

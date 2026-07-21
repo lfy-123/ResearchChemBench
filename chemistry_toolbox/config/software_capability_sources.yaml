@@ -141,6 +141,39 @@ software:
       - derive_uv_vis_spectrum
       - propagate_dynamics
 
+  goodvibes:
+    display_name: GoodVibes
+    installed_version: 4.3.0
+    aliases: [GoodVibes, goodvibes]
+    official_sources:
+      - title: GoodVibes official GitHub repository
+        url: https://github.com/patonlab/GoodVibes
+        kind: html
+        version_scope: 4.3.0
+      - title: GoodVibes 4.3.0 Python package
+        url: https://pypi.org/project/goodvibes/4.3.0/
+        kind: html
+        version_scope: 4.3.0
+      - title: GoodVibes documentation
+        url: https://goodvibespy.readthedocs.io/en/latest/
+        kind: html
+        version_scope: rolling
+      - title: GoodVibes methods paper
+        url: https://doi.org/10.12688/f1000research.22758.1
+        kind: html
+        version_scope: paper
+    local_documents:
+      - .software_cache/goodvibes/4.3.0/source/README.md
+      - .software_cache/goodvibes/4.3.0/source/pyproject.toml
+      - .software_cache/goodvibes/4.3.0/source/goodvibes/examples/pes/azabor_PES_v2.yaml
+    candidate_actions:
+      - derive_thermochemistry
+      - scan_thermochemistry_temperature
+      - analyze_thermochemical_ensemble
+      - validate_thermochemistry_inputs
+      - analyze_thermochemical_selectivity
+      - analyze_reaction_free_energy_profile
+
   cp2k:
     display_name: CP2K
     installed_version: 2026.1

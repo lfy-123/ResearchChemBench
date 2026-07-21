@@ -456,25 +456,41 @@ profiles:
       commands: [psi4]
     backends: [psi4]
 
+  goodvibes:
+    conda_name: researchchem-goodvibes
+    server_name: researchchem_goodvibes
+    description: Isolated GoodVibes 4.3.0 thermochemistry, ensemble, selectivity, validation, and reaction-profile runtime.
+    environment: .tool_envs/goodvibes
+    conda_packages: [python=3.11, pydantic, pyyaml, python-dotenv]
+    pip_packages: ['goodvibes[full]==4.3.0']
+    health_checks:
+      modules: [goodvibes, numpy, pandas, pyarrow, yaml]
+      commands: [goodvibes]
+    command_variables:
+      CHEMGRAPH_GOODVIBES_COMMAND: goodvibes
+    cache_paths: [.software_cache/goodvibes/4.3.0/source]
+    smoke_commands:
+      - [goodvibes, --help]
+    backends: [goodvibes]
+
   reaction:
     conda_name: researchchem-reaction
     server_name: researchchem_reaction
-    description: Conformer refinement, reaction paths, thermochemistry, and kinetics.
+    description: Conformer refinement, reaction paths, and kinetics.
     environment: .tool_envs/reaction
-    conda_packages: [xtb, crest, goodvibes, cantera]
+    conda_packages: [xtb, crest, cantera]
     pip_packages:
       - pysisyphus==1.0.0
       - pyscf==2.13.1
       - git+https://github.com/SUNCAT-Center/catmap.git
     health_checks:
-      modules: [cantera, catmap, goodvibes, pysisyphus, pyscf, scipy]
-      commands: [crest, goodvibes, pysis, xtb, orca, mpirun]
+      modules: [cantera, catmap, pysisyphus, pyscf, scipy]
+      commands: [crest, pysis, xtb, orca, mpirun]
       external_commands:
         - .software_cache/orca/6.1.1/orca
         - .software_cache/openmpi/4.1.8/bin/mpirun
     command_variables:
       CHEMGRAPH_CREST_COMMAND: crest
-      CHEMGRAPH_GOODVIBES_COMMAND: goodvibes
       CHEMGRAPH_PYSIS_COMMAND: pysis
       CHEMGRAPH_CATMAP_COMMAND: catmap
     path_entries:
@@ -487,7 +503,6 @@ profiles:
       OMPI_ALLOW_RUN_AS_ROOT_CONFIRM: "1"
     backends:
       - crest
-      - goodvibes
       - pysisyphus
       - cantera
       - scipy

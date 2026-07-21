@@ -938,15 +938,156 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         },
     ),
     _backend(
-        "goodvibes", "GoodVibes", "reaction", ("derive_thermochemistry",),
-        "GoodVibes thermochemistry from an explicitly supplied parsed quantum output.", modules=("goodvibes",), executables=("goodvibes",),
-        conda=("goodvibes",),
+        "goodvibes",
+        "GoodVibes",
+        "goodvibes",
+        (
+            "derive_thermochemistry",
+            "scan_thermochemistry_temperature",
+            "analyze_thermochemical_ensemble",
+            "validate_thermochemistry_inputs",
+            "analyze_thermochemical_selectivity",
+            "analyze_reaction_free_energy_profile",
+        ),
+        (
+            "GoodVibes 4.3.0 post-processing for explicit Gaussian, ORCA, NWChem, Q-Chem, "
+            "xTB, or ASE-extxyz outputs: RRHO/quasi-harmonic thermochemistry, temperature "
+            "analysis, conformer populations, selectivity, consistency checks, and reaction "
+            "free-energy profiles. It never runs or chooses the upstream quantum calculation."
+        ),
+        modules=("goodvibes",),
+        executables=("goodvibes",),
+        pip=("goodvibes[full]==4.3.0",),
+        install_notes=(
+            "Pinned GoodVibes 4.3.0 with full JSON/CSV/Parquet/plot dependencies; official "
+            "v4.3.0 source and examples are cached under .software_cache/goodvibes/4.3.0/source."
+        ),
         method_schema={
-            "output_file": "compatible Gaussian/ORCA/NWChem-style quantum output file or file ArtifactRef",
-            "frequency_scale": "optional explicit vibrational frequency scale factor",
+            "single_point_correction_suffix": (
+                "optional explicit GoodVibes --spc suffix; matching FILE_SUFFIX output files "
+                "must already exist beside each frequency output"
+            ),
+            "custom_file_extensions": (
+                "optional list of additional accepted extensions such as .qfi or .gaussian"
+            ),
+            "exclude_pattern": "optional explicit filename glob excluded by GoodVibes",
+            "free_space_solvent": (
+                "optional GoodVibes free-space solvent correction name; supported names are "
+                "version-specific and must be selected by the Agent"
+            ),
+            "frequency_scale_factor": (
+                "action_settings positive number or explicit 'auto'; mapped to --vscal, "
+                "never to --fs"
+            ),
+            "zpe_scale_factor": (
+                "action_settings positive number, 'auto', or 'same_as_frequency'; combinations "
+                "that the GoodVibes CLI cannot represent faithfully are rejected"
+            ),
+            "quasi_harmonic_conditionals": (
+                "grimme/truhlar entropy requires entropy_frequency_cutoff_cm1; grimme also "
+                "requires free_rotor_inertia_model; Head-Gordon enthalpy requires "
+                "enthalpy_frequency_cutoff_cm1"
+            ),
+            "standard_state_conditionals": (
+                "custom_concentration requires action_settings.concentration_mol_l"
+            ),
+            "imaginary_frequency_conditionals": (
+                "invert_below_threshold requires action_settings.imaginary_frequency_threshold_cm1"
+            ),
+            "duplicate_conditionals": (
+                "deduplicate_structures=true requires explicit energy, rotational, and nullable "
+                "RMSD duplicate cutoffs"
+            ),
         },
-        required_inputs={"derive_thermochemistry": ("output_file",)},
-        required_settings={"derive_thermochemistry": ("temperature_kelvin",)},
+        required_inputs={
+            "derive_thermochemistry": ("output_file",),
+            "scan_thermochemistry_temperature": ("output_files", "temperatures_kelvin"),
+            "analyze_thermochemical_ensemble": ("output_files",),
+            "validate_thermochemistry_inputs": ("output_files",),
+            "analyze_thermochemical_selectivity": ("output_files", "label_groups"),
+            "analyze_reaction_free_energy_profile": (
+                "output_files", "profile_definition_file",
+            ),
+        },
+        required_settings={
+            "derive_thermochemistry": (
+                "temperature_kelvin", "standard_state", "entropy_model",
+                "enthalpy_model", "frequency_scale_factor", "zpe_scale_factor",
+                "symmetry_correction", "imaginary_frequency_policy",
+            ),
+            "scan_thermochemistry_temperature": (
+                "standard_state", "entropy_model", "enthalpy_model",
+                "frequency_scale_factor", "zpe_scale_factor", "symmetry_correction",
+                "imaginary_frequency_policy",
+            ),
+            "analyze_thermochemical_ensemble": (
+                "temperature_kelvin", "standard_state", "entropy_model",
+                "enthalpy_model", "frequency_scale_factor", "zpe_scale_factor",
+                "symmetry_correction", "imaginary_frequency_policy", "population_basis",
+                "deduplicate_structures",
+            ),
+            "validate_thermochemistry_inputs": (
+                "temperature_kelvin", "standard_state", "entropy_model",
+                "enthalpy_model", "frequency_scale_factor", "zpe_scale_factor",
+                "symmetry_correction", "imaginary_frequency_policy",
+                "duplicate_energy_cutoff_kcal_mol",
+                "duplicate_rotational_cutoff_fraction", "duplicate_rmsd_cutoff_angstrom",
+            ),
+            "analyze_thermochemical_selectivity": (
+                "temperature_kelvin", "standard_state", "entropy_model",
+                "enthalpy_model", "frequency_scale_factor", "zpe_scale_factor",
+                "symmetry_correction", "imaginary_frequency_policy", "population_basis",
+                "deduplicate_structures",
+            ),
+            "analyze_reaction_free_energy_profile": (
+                "temperature_kelvin", "standard_state", "entropy_model",
+                "enthalpy_model", "frequency_scale_factor", "zpe_scale_factor",
+                "symmetry_correction", "imaginary_frequency_policy",
+                "profile_ensemble_mode",
+            ),
+        },
+        allowed_settings={
+            action_id: {
+                "standard_state": ("gas_1atm", "solution_1mol_l", "custom_concentration"),
+                "entropy_model": ("rrho", "grimme", "truhlar"),
+                "enthalpy_model": ("rrho", "head_gordon"),
+                "imaginary_frequency_policy": ("retain", "invert_below_threshold"),
+                "free_rotor_inertia_model": ("global", "per_conformer"),
+                **(
+                    {"population_basis": ("electronic_energy", "quasi_harmonic_gibbs")}
+                    if action_id in {
+                        "analyze_thermochemical_ensemble",
+                        "analyze_thermochemical_selectivity",
+                    }
+                    else {}
+                ),
+                **(
+                    {
+                        "profile_ensemble_mode": (
+                            "gconf", "lowest_conformer", "boltzmann_without_gconf",
+                        )
+                    }
+                    if action_id == "analyze_reaction_free_energy_profile"
+                    else {}
+                ),
+            }
+            for action_id in (
+                "derive_thermochemistry",
+                "scan_thermochemistry_temperature",
+                "analyze_thermochemical_ensemble",
+                "validate_thermochemistry_inputs",
+                "analyze_thermochemical_selectivity",
+                "analyze_reaction_free_energy_profile",
+            )
+        },
+        validation_levels={
+            "derive_thermochemistry": "validated",
+            "scan_thermochemistry_temperature": "validated",
+            "analyze_thermochemical_ensemble": "validated",
+            "validate_thermochemistry_inputs": "validated",
+            "analyze_thermochemical_selectivity": "validated",
+            "analyze_reaction_free_energy_profile": "validated",
+        },
     ),
     _backend(
         "geometric", "geomeTRIC", "nwchem", ("optimize_geometry",),

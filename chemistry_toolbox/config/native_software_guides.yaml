@@ -243,16 +243,23 @@ software:
           - The first argument is the staged input basename without .inp; version and core count must match the installed launcher contract.
 
   goodvibes:
-    purpose: Apply GoodVibes thermochemical analysis to explicit quantum-chemistry output files.
+    purpose: Apply GoodVibes 4.3.0 thermochemistry, ensemble, selectivity, consistency, and reaction-profile analysis to explicit completed quantum-chemistry outputs.
     commands:
       goodvibes:
-        synopsis: "goodvibes output.log [thermochemistry options]"
+        synopsis: "goodvibes OUTPUT... --temp K [state/scaling/qh options] [analysis option] --json result.json"
         input_mode: arguments
-        required_files: [one or more supported quantum-chemistry output files]
-        output_behavior: Writes thermochemistry tables to stdout and optional data files.
-        example_arguments: ["output.log", "--temperature", "298.15", "--conc", "1.0"]
+        required_files: [one or more Gaussian 09/16, ORCA 5/6, NWChem, Q-Chem 6, xTB, or ASE-extxyz output files]
+        output_behavior: Writes a GoodVibes_NAME.dat report and, when requested, structured JSON/CSV/Parquet plus plots or XYZ files in the isolated job directory.
+        example_arguments: ["output.log", "--temp", "298.15", "--conc", "1.0", "--qs", "grimme", "--qh", "--fs", "100", "--fh", "100", "-v", "0.99", "--zpe-vscal", "0.98", "--json", "result.json"]
         notes:
           - Temperature, concentration/standard state, frequency scaling, quasi-harmonic treatment, and solvation corrections are scientific choices.
+          - Use -v/--vscal for vibrational scaling. --fs is the quasi-harmonic entropy cutoff in cm-1; it is not a scale factor.
+          - Omit -v only when deliberately choosing GoodVibes level-of-theory auto lookup; record that choice in the task trace.
+          - Use --boltz energy or --boltz gibbs for ensemble populations, --dedup with explicit cutoffs for duplicate filtering, and --check for consistency diagnostics.
+          - Use repeated --label NAME=PATTERN or --selectivity labels.yaml for N-way selectivity; prefer the non-deprecated interfaces over --ee.
+          - Use --pes profile.yaml for a reaction profile. The YAML defines pathways, species file membership, zero references, and output units; --nogconf and --lowest-only select the conformer treatment.
+          - Use --ti START,END,STEP for the native integer-grid temperature report. The predefined temperature-scan Action instead accepts an explicit temperature list and returns structured results at every point.
+          - --json/--export writes schema 1.0 in GoodVibes 4.3.0, but upstream describes the schema as preview before v5; consumers should retain schema_version and goodvibes_version.
 
   pysisyphus:
     purpose: Execute a complete pysisyphus workflow configuration authored by the Agent.

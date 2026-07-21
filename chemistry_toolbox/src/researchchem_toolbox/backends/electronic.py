@@ -38,6 +38,7 @@ from .composite import (
     forces_ev_per_angstrom,
     invoke_calculator_component,
 )
+from .goodvibes import execute as execute_goodvibes
 from .mlip import build_calculator as build_mlip_calculator
 from .mlip import prepare_atoms as prepare_mlip_atoms
 from .quantum_legacy import gamess as _gamess
@@ -50,7 +51,8 @@ ACTIONS = {
     "derive_vibrational_modes", "derive_ir_spectrum", "derive_thermochemistry",
     "calculate_bond_orders", "calculate_excited_states", "derive_uv_vis_spectrum",
     "analyze_electron_density_topology", "calculate_atomic_basin_properties",
-    "calculate_bader_charges",
+    "calculate_bader_charges", "scan_thermochemistry_temperature",
+    "analyze_thermochemical_ensemble", "validate_thermochemistry_inputs",
 }
 
 
@@ -2884,34 +2886,6 @@ def _internal_thermochemistry(request: dict[str, Any]) -> dict[str, Any]:
     )
 
 
-def _goodvibes(request: dict[str, Any]) -> dict[str, Any]:
-    inputs, _method, settings = request_parts(request)
-    source_value = inputs["output_file"]
-    source = resolve_input_file(source_value)
-    directory = output_directory("derive_thermochemistry", "goodvibes")
-    arguments = [
-        "-t", str(settings["temperature_kelvin"]),
-        "--fs", str(settings.get("frequency_scale", 1.0)),
-        str(source),
-    ]
-    completed = run_external(
-        executable="goodvibes", environment_variable="CHEMGRAPH_GOODVIBES_COMMAND",
-        arguments=arguments, directory=directory,
-        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 1800)),
-    )
-    (directory / "stdout.log").write_text(completed["stdout"], encoding="utf-8")
-    (directory / "stderr.log").write_text(completed["stderr"], encoding="utf-8")
-    if not completed["available"]:
-        return unavailable(completed["stderr"], install="conda install -c conda-forge goodvibes")
-    if completed["returncode"] != 0:
-        raise RuntimeError(f"GoodVibes failed: {completed['stderr'][-2000:]}")
-    return success(
-        {"temperature_kelvin": float(settings["temperature_kelvin"]), "raw_output": completed["stdout"][-10000:]},
-        artifact_files=command_artifacts(directory),
-        provenance={"command": completed["command"]},
-    )
-
-
 def execute(action_id: str, backend_id: str, request: dict[str, Any]) -> dict[str, Any]:
     if backend_id == "sella" and action_id == "optimize_geometry":
         return execute_sella(action_id, request)
@@ -2951,6 +2925,6 @@ def execute(action_id: str, backend_id: str, request: dict[str, Any]) -> dict[st
         return _uv_vis_spectrum(request)
     if backend_id == "internal_thermochemistry" and action_id == "derive_thermochemistry":
         return _internal_thermochemistry(request)
-    if backend_id == "goodvibes" and action_id == "derive_thermochemistry":
-        return _goodvibes(request)
+    if backend_id == "goodvibes":
+        return execute_goodvibes(action_id, request)
     return unsupported(f"Unsupported electronic action/backend combination: {action_id}/{backend_id}")
