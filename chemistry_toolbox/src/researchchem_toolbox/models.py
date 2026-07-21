@@ -66,7 +66,10 @@ class ActionRequest(BaseModel):
     )
     inputs: dict[str, Any] = Field(
         default_factory=dict,
-        description="Structured chemistry objects, values, or ArtifactRef objects.",
+        description=(
+            "Structured chemistry objects and values. Artifact inputs may be a full immutable "
+            "ArtifactRef, compact {'artifact_id': 'art_...'}, or the exact artifact-id string."
+        ),
     )
     method_spec: dict[str, Any] = Field(
         default_factory=dict,
@@ -246,6 +249,12 @@ class BackendSpec:
     required_input_fields: Mapping[str, tuple[str, ...]] = field(default_factory=dict)
     required_method_fields: Mapping[str, tuple[str, ...]] = field(default_factory=dict)
     required_setting_fields: Mapping[str, tuple[str, ...]] = field(default_factory=dict)
+    allowed_method_values: Mapping[str, Mapping[str, tuple[str, ...]]] = field(
+        default_factory=dict
+    )
+    allowed_setting_values: Mapping[str, Mapping[str, tuple[str, ...]]] = field(
+        default_factory=dict
+    )
     required_component_roles: Mapping[str, tuple[str, ...]] = field(default_factory=dict)
     component_backend_options: Mapping[str, Mapping[str, tuple[str, ...]]] = field(default_factory=dict)
     supported_system_types: Mapping[str, tuple[str, ...]] = field(default_factory=dict)
@@ -277,6 +286,28 @@ class BackendSpec:
                     raise ValueError(
                         f"Backend {self.id}/{action_id} repeats required fields"
                     )
+        for mapping_name, mapping in (
+            ("method_spec", self.allowed_method_values),
+            ("action_settings", self.allowed_setting_values),
+        ):
+            for action_id, fields in mapping.items():
+                if action_id not in self.capabilities:
+                    raise ValueError(
+                        f"Backend {self.id} declares {mapping_name} choices for unsupported "
+                        f"{action_id}"
+                    )
+                for field_name, choices in fields.items():
+                    if not _ID_PATTERN.fullmatch(field_name):
+                        raise ValueError(
+                            f"Backend {self.id}/{action_id} has invalid {mapping_name} field "
+                            f"{field_name!r}"
+                        )
+                    normalized = [str(choice).casefold() for choice in choices]
+                    if not choices or len(normalized) != len(set(normalized)):
+                        raise ValueError(
+                            f"Backend {self.id}/{action_id} requires unique non-empty choices "
+                            f"for {mapping_name}.{field_name}"
+                        )
         for action_id, roles in self.component_backend_options.items():
             if action_id not in self.capabilities:
                 raise ValueError(
@@ -310,6 +341,14 @@ class BackendSpec:
         }
         value["required_setting_fields"] = {
             key: list(fields) for key, fields in self.required_setting_fields.items()
+        }
+        value["allowed_method_values"] = {
+            action_id: {field_name: list(choices) for field_name, choices in fields.items()}
+            for action_id, fields in self.allowed_method_values.items()
+        }
+        value["allowed_setting_values"] = {
+            action_id: {field_name: list(choices) for field_name, choices in fields.items()}
+            for action_id, fields in self.allowed_setting_values.items()
         }
         value["required_component_roles"] = {
             key: list(fields) for key, fields in self.required_component_roles.items()

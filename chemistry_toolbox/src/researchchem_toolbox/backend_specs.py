@@ -24,6 +24,8 @@ def _backend(
     required_inputs: dict[str, tuple[str, ...]] | None = None,
     required_methods: dict[str, tuple[str, ...]] | None = None,
     required_settings: dict[str, tuple[str, ...]] | None = None,
+    allowed_methods: dict[str, dict[str, tuple[str, ...]]] | None = None,
+    allowed_settings: dict[str, dict[str, tuple[str, ...]]] | None = None,
     required_components: dict[str, tuple[str, ...]] | None = None,
     component_options: dict[str, dict[str, tuple[str, ...]]] | None = None,
     supported_system_types: dict[str, tuple[str, ...]] | None = None,
@@ -47,6 +49,8 @@ def _backend(
         required_input_fields=required_inputs or {},
         required_method_fields=required_methods or {},
         required_setting_fields=required_settings or {},
+        allowed_method_values=allowed_methods or {},
+        allowed_setting_values=allowed_settings or {},
         required_component_roles=required_components or {},
         component_backend_options=component_options or {},
         supported_system_types=supported_system_types or {},
@@ -84,6 +88,9 @@ _MLIP_PERIODIC_RELAX = {
         "optimizer",
     )
 }
+
+
+_ASE_OPTIMIZER_CHOICES = ("bfgs", "lbfgs", "fire")
 
 
 _VASP_SETTINGS = {
@@ -289,6 +296,12 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         ),
         "Standalone xTB GFN energy, derivative, optimization, dipole, and population-analysis calculations.", executables=("xtb",),
         environment=("CHEMGRAPH_XTB_COMMAND",), conda=("xtb",),
+        method_schema={
+            "method": "gfn1, gfn1-xtb, gfn2, or gfn2-xtb",
+            "charge": "optional explicit integer molecular charge",
+            "unpaired_electrons": "optional explicit nonnegative integer number of unpaired electrons",
+            "optimization_level": "crude, sloppy, loose, normal, tight, verytight, or extreme",
+        },
         required_methods={
             action: ("method",) for action in (
                 "calculate_energy", "calculate_forces", "calculate_hessian",
@@ -298,6 +311,21 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         }, required_settings={
             "optimize_geometry": ("optimization_level",),
             "calculate_bond_orders": ("minimum_bond_order",),
+        },
+        allowed_methods={
+            action: {"method": ("gfn1", "gfn1-xtb", "gfn2", "gfn2-xtb")}
+            for action in (
+                "calculate_energy", "calculate_forces", "calculate_hessian",
+                "optimize_geometry", "calculate_dipole_moment", "calculate_atomic_charges",
+                "calculate_bond_orders",
+            )
+        },
+        allowed_settings={
+            "optimize_geometry": {
+                "optimization_level": (
+                    "crude", "sloppy", "loose", "normal", "tight", "verytight", "extreme",
+                )
+            }
         },
     ),
     _backend(
@@ -600,13 +628,37 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
             "calculate_hessian": ("displacement_angstrom",),
             "optimize_geometry": ("fmax_ev_per_angstrom", "optimizer", "max_steps"),
         },
+        method_schema={
+            "method": "gfn1, gfn1-xtb, gfn2, or gfn2-xtb",
+            "optimizer": "bfgs, lbfgs, or fire for optimize_geometry",
+        },
+        allowed_methods={
+            action: {"method": ("gfn1", "gfn1-xtb", "gfn2", "gfn2-xtb")}
+            for action in (
+                "calculate_energy", "calculate_forces", "calculate_hessian",
+                "optimize_geometry", "calculate_dipole_moment",
+            )
+        },
+        allowed_settings={"optimize_geometry": {"optimizer": _ASE_OPTIMIZER_CHOICES}},
     ),
     _backend(
         "mace", "MACE", "mlip", ("calculate_energy", "calculate_forces", "optimize_geometry"),
         "MACE machine-learned interatomic potential with explicit model/device selection.",
         modules=("mace.calculators", "ase"), pip=("mace-torch==0.3.16",),
+        method_schema={
+            "model": (
+                "installed cache alias medium-mpa-0/MACE-MPA-0-medium or "
+                "medium/MACE-MP-0-medium, an explicit local model path, "
+                "or a pinned MACE 0.3.16 foundation-model name/HTTPS URL when allow_model_download=true"
+            ),
+            "device": "explicit MACE device such as cpu, cuda, or cuda:<index>",
+            "allow_model_download": "explicit boolean; false still permits an installed cache alias/local path",
+            "default_dtype": "optional float32 or float64",
+            "optimizer": "bfgs, lbfgs, or fire for optimize_geometry",
+        },
         required_methods={action: ("model", "device", "allow_model_download") for action in ("calculate_energy", "calculate_forces", "optimize_geometry")},
         required_settings={"optimize_geometry": ("fmax_ev_per_angstrom", "optimizer", "max_steps")},
+        allowed_settings={"optimize_geometry": {"optimizer": _ASE_OPTIMIZER_CHOICES}},
     ),
     _backend(
         "chgnet", "CHGNet", "mlip", ("calculate_energy", "calculate_forces", "optimize_geometry"),
@@ -614,6 +666,7 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         modules=("chgnet", "ase"), pip=("chgnet",),
         required_methods={action: ("model", "device", "allow_model_download") for action in ("calculate_energy", "calculate_forces", "optimize_geometry")},
         required_settings={"optimize_geometry": ("fmax_ev_per_angstrom", "optimizer", "max_steps")},
+        allowed_settings={"optimize_geometry": {"optimizer": _ASE_OPTIMIZER_CHOICES}},
     ),
     _backend(
         "deepmd", "DeePMD-kit", "deepmd",
@@ -648,6 +701,10 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
             "optimize_geometry": ("fmax_ev_per_angstrom", "optimizer", "max_steps"),
             **_MLIP_PERIODIC_RELAX,
         },
+        allowed_settings={
+            "optimize_geometry": {"optimizer": _ASE_OPTIMIZER_CHOICES},
+            "relax_periodic_structure": {"optimizer": _ASE_OPTIMIZER_CHOICES},
+        },
     ),
     _backend(
         "nequip", "NequIP", "nequip",
@@ -674,6 +731,9 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
             )
         },
         required_settings=_MLIP_PERIODIC_RELAX,
+        allowed_settings={
+            "relax_periodic_structure": {"optimizer": _ASE_OPTIMIZER_CHOICES}
+        },
     ),
     _backend(
         "allegro", "Allegro", "nequip",
@@ -700,6 +760,9 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
             )
         },
         required_settings=_MLIP_PERIODIC_RELAX,
+        allowed_settings={
+            "relax_periodic_structure": {"optimizer": _ASE_OPTIMIZER_CHOICES}
+        },
     ),
     _backend(
         "orca", "ORCA", "quantum",
@@ -805,11 +868,20 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
             "calculate_hessian": ("displacement_angstrom",),
             "optimize_geometry": ("fmax_ev_per_angstrom", "optimizer", "max_steps"),
         },
+        allowed_settings={"optimize_geometry": {"optimizer": _ASE_OPTIMIZER_CHOICES}},
     ),
     _backend(
         "internal_vibrations", "ResearchChem vibrational analysis", "core", ("derive_vibrational_modes",),
-        "Mass-weighted Hessian diagonalization with explicit units and linearity handling.", modules=("numpy",), pip=("numpy",),
+        "Mass-weighted Hessian diagonalization with explicit units and linearity handling.", modules=("ase", "numpy"), pip=("ase", "numpy"),
+        method_schema={
+            "hessian": "full Hessian object, full ArtifactRef, compact {artifact_id}, or artifact-id string",
+            "structure": "matching AtomicStructure or its ArtifactRef",
+            "linearity": "linear, nonlinear, or explicitly selected auto metadata",
+        },
         required_settings={"derive_vibrational_modes": ("linearity",)},
+        allowed_settings={
+            "derive_vibrational_modes": {"linearity": ("linear", "nonlinear", "auto")}
+        },
     ),
     _backend(
         "internal_spectroscopy", "ResearchChem spectrum builder", "core",
@@ -826,12 +898,35 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
     _backend(
         "internal_thermochemistry", "ResearchChem statistical thermochemistry", "core", ("derive_thermochemistry",),
         "Ideal-gas rigid-rotor/harmonic-oscillator thermochemistry from supplied results.", modules=("ase", "numpy"), pip=("ase", "numpy"),
-        required_settings={"derive_thermochemistry": ("temperature_kelvin", "pressure_pa")},
+        method_schema={
+            "energy": "EnergyResult with an explicit eV/hartree unit, including ArtifactRef forms",
+            "frequencies": "FrequencyResult including its matching structure, or supply inputs.structure separately",
+            "geometry": "monatomic, linear, or nonlinear",
+            "symmetry_number": "explicit positive rotational symmetry number",
+            "spin": "explicit total electronic spin used by ASE IdealGasThermo",
+            "ignore_imaginary_modes": "explicit boolean controlling imaginary-mode handling",
+        },
+        required_inputs={"derive_thermochemistry": ("energy", "frequencies")},
+        required_settings={
+            "derive_thermochemistry": (
+                "temperature_kelvin", "pressure_pa", "geometry", "symmetry_number", "spin",
+                "ignore_imaginary_modes",
+            )
+        },
+        allowed_settings={
+            "derive_thermochemistry": {"geometry": ("monatomic", "linear", "nonlinear")}
+        },
     ),
     _backend(
         "goodvibes", "GoodVibes", "reaction", ("derive_thermochemistry",),
         "GoodVibes thermochemistry from an explicitly supplied parsed quantum output.", modules=("goodvibes",), executables=("goodvibes",),
-        conda=("goodvibes",), required_settings={"derive_thermochemistry": ("temperature_kelvin",)},
+        conda=("goodvibes",),
+        method_schema={
+            "output_file": "compatible Gaussian/ORCA/NWChem-style quantum output file or file ArtifactRef",
+            "frequency_scale": "optional explicit vibrational frequency scale factor",
+        },
+        required_inputs={"derive_thermochemistry": ("output_file",)},
+        required_settings={"derive_thermochemistry": ("temperature_kelvin",)},
     ),
     _backend(
         "geometric", "geomeTRIC", "nwchem", ("optimize_geometry",),

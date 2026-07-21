@@ -7,6 +7,9 @@ from pathlib import Path
 from typing import Any
 
 
+SUCCESSFUL_TOOL_STATUSES = {"success", "partial_success"}
+
+
 def load_tool_trace(workspace: Path) -> list[dict[str, Any]]:
     path = workspace / "_tool_trace.jsonl"
     if not path.exists():
@@ -27,7 +30,7 @@ def load_tool_trace(workspace: Path) -> list[dict[str, Any]]:
 def normalized_tool_calls(events: list[dict[str, Any]], *, successful_only: bool = True) -> list[dict]:
     calls: list[dict] = []
     for event in events:
-        if successful_only and event.get("status") != "success":
+        if successful_only and event.get("status") not in SUCCESSFUL_TOOL_STATUSES:
             continue
         name = event.get("tool")
         arguments = event.get("arguments", {})
@@ -39,8 +42,12 @@ def normalized_tool_calls(events: list[dict[str, Any]], *, successful_only: bool
 def process_metrics(events: list[dict[str, Any]]) -> dict[str, Any]:
     return {
         "tool_call_count": len(events),
-        "successful_tool_calls": sum(event.get("status") == "success" for event in events),
-        "failed_tool_calls": sum(event.get("status") != "success" for event in events),
+        "successful_tool_calls": sum(
+            event.get("status") in SUCCESSFUL_TOOL_STATUSES for event in events
+        ),
+        "failed_tool_calls": sum(
+            event.get("status") not in SUCCESSFUL_TOOL_STATUSES for event in events
+        ),
         "tool_runtime_seconds": round(
             sum(float(event.get("duration_seconds", 0) or 0) for event in events), 6
         ),

@@ -63,6 +63,29 @@ def test_trace_sequence_does_not_overwrite_after_multiple_calls(tmp_path: Path, 
     assert [path.name for path in results] == ["0001_first.json", "0002_second.json"]
 
 
+def test_trace_records_action_status_instead_of_transport_success(
+    tmp_path: Path, monkeypatch
+):
+    monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
+    returned = execute_traced(
+        "calculate_energy",
+        {"backend_id": "xtb"},
+        lambda: {
+            "status": "failed",
+            "error": {"code": "backend_failed", "message": "calculation failed"},
+        },
+    )
+    assert returned["status"] == "failed"
+    events = load_tool_trace(tmp_path)
+    assert events[0]["status"] == "failed"
+    assert events[0]["transport_status"] == "success"
+    assert normalized_tool_calls(events) == []
+    assert process_metrics(events)["failed_tool_calls"] == 1
+    result = json.loads((tmp_path / events[0]["result_path"]).read_text())
+    assert result["status"] == "failed"
+    assert result["transport_status"] == "success"
+
+
 def test_invalid_trace_limits_are_rejected_before_tool_execution(
     tmp_path: Path, monkeypatch
 ):

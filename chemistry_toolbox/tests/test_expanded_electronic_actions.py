@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import math
+
 import pytest
 
 from researchchem_toolbox.service import execute_action
@@ -45,6 +47,10 @@ def test_xtb_exposes_independent_derivative_and_property_actions(
         assert len(result["result"]["forces"]) == 3
     elif action_id == "calculate_dipole_moment":
         assert result["result"]["magnitude"] > 0
+        assert math.sqrt(sum(value**2 for value in result["result"]["dipole"])) == pytest.approx(
+            result["result"]["magnitude"], rel=0.01, abs=0.01
+        )
+        assert "dipole_atomic_units" in result["result"]
     else:
         assert len(result["result"]["charges"]) == 3
         assert sum(result["result"]["charges"]) == pytest.approx(0.0, abs=1e-6)

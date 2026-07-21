@@ -20,6 +20,16 @@ _LOCK = threading.Lock()
 DEFAULT_MAX_ARTIFACT_BYTES = 100 * 1024 * 1024
 DEFAULT_MAX_ARTIFACT_FILES = 1000
 LOGGER = logging.getLogger(__name__)
+ACTION_RESULT_STATUSES = {
+    "success",
+    "partial_success",
+    "invalid_request",
+    "unsupported",
+    "unavailable",
+    "failed",
+    "timeout",
+    "cancelled",
+}
 
 
 def _positive_environment_integer(name: str, default: int) -> int:
@@ -205,10 +215,26 @@ def execute_traced(
         try:
             duration = time.monotonic() - started
             result_payload = _jsonable(result)
+            transport_status = status
+            recorded_status = status
+            recorded_error: Any = error
+            if (
+                transport_status == "success"
+                and isinstance(result_payload, dict)
+                and result_payload.get("status") in ACTION_RESULT_STATUSES
+            ):
+                recorded_status = str(result_payload["status"])
+                if recorded_status not in {"success", "partial_success"}:
+                    recorded_error = result_payload.get("error")
             result_path = result_dir / f"{sequence:04d}_{tool_name}.json"
             result_path.write_text(
                 json.dumps(
-                    {"status": status, "result": result_payload, "error": error},
+                    {
+                        "status": recorded_status,
+                        "transport_status": transport_status,
+                        "result": result_payload,
+                        "error": recorded_error,
+                    },
                     ensure_ascii=False,
                     indent=2,
                 )
@@ -230,12 +256,13 @@ def execute_traced(
                 ),
                 "tool": tool_name,
                 "arguments": _jsonable(arguments),
-                "status": status,
+                "status": recorded_status,
+                "transport_status": transport_status,
                 "started_at": started_wall,
                 "duration_seconds": round(duration, 6),
                 "result_path": relative_workspace_path(result_path),
                 "result_preview": preview[:2000],
-                "error": error,
+                "error": recorded_error,
                 "artifacts": artifacts,
             }
             with _LOCK:

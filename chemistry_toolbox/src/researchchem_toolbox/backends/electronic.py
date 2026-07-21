@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import math
+import os
 import re
 import shutil
 from pathlib import Path
@@ -24,6 +25,7 @@ from .common import (
     structure_from_atoms,
     success,
     unavailable,
+    unwrap_artifact,
     unsupported,
     write_json,
     write_xyz,
@@ -52,6 +54,98 @@ ACTIONS = {
 }
 
 
+_MACE_INSTALLED_MODEL_ALIASES = {
+    "medium-mpa-0": "mace/macempa0mediummodel",
+    "mace-mpa-0-medium": "mace/macempa0mediummodel",
+    "medium": "mace/20231203mace128L1_epoch199model",
+    "mace-mp-0-medium": "mace/20231203mace128L1_epoch199model",
+}
+_MACE_0_3_16_MODEL_NAMES = (
+    "small",
+    "medium",
+    "large",
+    "small-0b",
+    "medium-0b",
+    "small-0b2",
+    "medium-0b2",
+    "large-0b2",
+    "medium-0b3",
+    "medium-mpa-0",
+    "small-omat-0",
+    "medium-omat-0",
+    "mace-matpes-pbe-0",
+    "mace-matpes-r2scan-0",
+    "mh-0",
+    "mh-1",
+)
+
+
+def _mace_model_cache_root() -> Path:
+    configured_cache = os.environ.get("RESEARCHCHEMBENCH_MODEL_CACHE", "").strip()
+    return (
+        Path(configured_cache).expanduser().resolve()
+        if configured_cache
+        else (Path(__file__).resolve().parents[4] / ".model_cache").resolve()
+    )
+
+
+def _resolve_mace_model(model_value: Any, *, allow_download: bool) -> str:
+    """Resolve exactly the MACE model named by the Agent.
+
+    Installed aliases map to their pinned local cache files.  Unknown labels are
+    rejected before MACE interprets them as URLs or paths; downloads are only
+    possible when the request explicitly enables them.
+    """
+
+    model = str(model_value).strip()
+    if not model:
+        raise ValueError("MACE method_spec.model cannot be empty")
+
+    alias_path = _MACE_INSTALLED_MODEL_ALIASES.get(model.casefold())
+    if alias_path is not None:
+        candidate = _mace_model_cache_root() / alias_path
+        if candidate.is_file():
+            return str(candidate)
+        if allow_download:
+            return model.casefold()
+        raise FileNotFoundError(
+            f"The explicitly selected installed MACE alias {model!r} is missing its pinned "
+            f"cache file {candidate}"
+        )
+
+    if model.startswith("https://"):
+        if not allow_download:
+            raise RuntimeError("An explicit HTTPS MACE model requires allow_model_download=true")
+        return model
+    if model.startswith("resource://"):
+        return str(resolve_input_file(model))
+
+    candidate = Path(model).expanduser()
+    if candidate.is_file():
+        resolved = candidate.resolve()
+        try:
+            resolved.relative_to(_mace_model_cache_root())
+        except ValueError:
+            return str(resolve_input_file(model))
+        return str(resolved)
+    if "/" in model or model.endswith(".model"):
+        return str(resolve_input_file(model))
+
+    if model in _MACE_0_3_16_MODEL_NAMES:
+        if not allow_download:
+            raise RuntimeError(
+                f"MACE model {model!r} is not one of the installed aliases "
+                f"{sorted(_MACE_INSTALLED_MODEL_ALIASES)}; set allow_model_download=true "
+                "only if this exact upstream model may be downloaded"
+            )
+        return model
+    raise ValueError(
+        f"Unknown MACE model label {model!r}. Installed aliases are "
+        f"{sorted(_MACE_INSTALLED_MODEL_ALIASES)}; pinned MACE 0.3.16 upstream names are "
+        f"{list(_MACE_0_3_16_MODEL_NAMES)}; an explicit local path or HTTPS URL is also accepted"
+    )
+
+
 def _ase_calculator(backend_id: str, method: dict[str, Any]):
     if backend_id == "ase_emt":
         from ase.calculators.emt import EMT
@@ -66,14 +160,10 @@ def _ase_calculator(backend_id: str, method: dict[str, Any]):
             raise ValueError("TBLite method must be gfn1 or gfn2")
         return TBLite(method=normalized), module_version("tblite")
     if backend_id == "mace":
+        allow_download = bool(method.get("allow_model_download", False))
+        model = _resolve_mace_model(method["model"], allow_download=allow_download)
         from mace.calculators import mace_mp
 
-        model = str(method["model"])
-        allow_download = bool(method.get("allow_model_download", False))
-        if not Path(model).expanduser().is_file() and not allow_download:
-            raise RuntimeError(
-                "MACE model is not a local file and allow_model_download was not explicitly true"
-            )
         return (
             mace_mp(
                 model=model,
@@ -560,10 +650,13 @@ def _xtb(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
         )
         if not match:
             raise RuntimeError("Could not parse the xTB molecular dipole")
+        dipole_atomic_units = [float(match.group(index)) for index in (1, 2, 3)]
+        atomic_unit_to_debye = 2.541746473
         result = {
-            "dipole": [float(match.group(index)) for index in (1, 2, 3)],
+            "dipole": [value * atomic_unit_to_debye for value in dipole_atomic_units],
             "magnitude": float(match.group(4)),
             "unit": "debye",
+            "dipole_atomic_units": dipole_atomic_units,
             "energy_hartree": energy,
         }
     elif action_id == "calculate_atomic_charges":
@@ -2564,9 +2657,11 @@ def _vibrations(request: dict[str, Any]) -> dict[str, Any]:
     from ase.vibrations.data import VibrationsData
 
     inputs, _method, settings = request_parts(request)
-    hessian_value = inputs["hessian"]
+    hessian_value = unwrap_artifact(inputs["hessian"])
     if isinstance(hessian_value, dict) and "matrix" not in hessian_value and "result" in hessian_value:
         hessian_value = hessian_value["result"]
+    if not isinstance(hessian_value, dict) or hessian_value.get("matrix") is None:
+        raise ValueError("hessian must resolve to a Hessian result containing a dense matrix")
     matrix = np.asarray(hessian_value["matrix"] if isinstance(hessian_value, dict) else hessian_value, dtype=float)
     unit = str(hessian_value.get("unit", "eV/angstrom^2")) if isinstance(hessian_value, dict) else "eV/angstrom^2"
     if unit == "hartree/bohr^2":
@@ -2590,7 +2685,8 @@ def _vibrations(request: dict[str, Any]) -> dict[str, Any]:
                 {"real": float(value.real), "imaginary": float(value.imag)} for value in energies
             ],
             "modes": np.asarray(modes).real.tolist(),
-            "linearity": settings.get("linearity", "auto"),
+            "linearity": settings["linearity"],
+            "structure": structure_from_atoms(atoms),
         },
         backend_version=module_version("ase"),
     )
@@ -2600,7 +2696,7 @@ def _ir_spectrum(request: dict[str, Any]) -> dict[str, Any]:
     import numpy as np
 
     inputs, _method, settings = request_parts(request)
-    vibrations = inputs["vibrations"]
+    vibrations = unwrap_artifact(inputs["vibrations"])
     if isinstance(vibrations, dict) and "result" in vibrations:
         vibrations = vibrations["result"]
     frequencies = vibrations.get("frequencies_cm1")
@@ -2647,7 +2743,7 @@ def _uv_vis_spectrum(request: dict[str, Any]) -> dict[str, Any]:
     import numpy as np
 
     inputs, _method, settings = request_parts(request)
-    supplied = inputs["excited_states"]
+    supplied = unwrap_artifact(inputs["excited_states"])
     if isinstance(supplied, dict) and "result" in supplied:
         supplied = supplied["result"]
     states = supplied.get("states") if isinstance(supplied, dict) else supplied
@@ -2693,42 +2789,83 @@ def _internal_thermochemistry(request: dict[str, Any]) -> dict[str, Any]:
     from ase.thermochemistry import IdealGasThermo
 
     inputs, _method, settings = request_parts(request)
-    energy_value = inputs["energy"]
-    frequencies = inputs["frequencies"]
+    energy_value = unwrap_artifact(inputs["energy"])
+    frequencies = unwrap_artifact(inputs["frequencies"])
     if isinstance(energy_value, dict) and "result" in energy_value:
         energy_value = energy_value["result"]
     if isinstance(frequencies, dict) and "result" in frequencies:
         frequencies = frequencies["result"]
-    energy = float(energy_value.get("energy", energy_value.get("energy_hartree", energy_value)))
-    unit = str(energy_value.get("unit", "hartree")) if isinstance(energy_value, dict) else "hartree"
-    if unit == "hartree":
+    if not isinstance(energy_value, dict):
+        raise ValueError("energy must be an EnergyResult containing both a value and explicit unit")
+    if "energy" in energy_value:
+        energy = float(energy_value["energy"])
+        unit_value = energy_value.get("unit") or energy_value.get("energy_unit")
+        if unit_value is None:
+            raise ValueError("EnergyResult.energy requires unit or energy_unit")
+        unit = str(unit_value)
+    elif "energy_hartree" in energy_value:
+        energy = float(energy_value["energy_hartree"])
+        unit = "hartree"
+    elif "energy_ev" in energy_value:
+        energy = float(energy_value["energy_ev"])
+        unit = "eV"
+    else:
+        raise ValueError("EnergyResult must contain energy, energy_hartree, or energy_ev")
+    normalized_unit = unit.strip().casefold()
+    if normalized_unit in {"hartree", "eh"}:
         energy *= 27.211386245988
-    elif unit != "eV":
+    elif normalized_unit != "ev":
         raise ValueError(f"Unsupported energy unit: {unit}")
+    if not isinstance(frequencies, dict):
+        raise ValueError("frequencies must resolve to a FrequencyResult object")
+
+    def mode_value(item: Any, conversion: float = 1.0) -> complex:
+        if isinstance(item, dict):
+            if "real" not in item:
+                raise ValueError("Frequency entries must contain real and optional imaginary values")
+            value = complex(float(item["real"]), float(item.get("imaginary", 0.0)))
+        else:
+            value = complex(float(item), 0.0)
+        return value * conversion
+
     vib_energies = frequencies.get("vibrational_energies_ev")
     if vib_energies is None:
         cm1 = frequencies["frequencies_cm1"]
-        vib_energies = [float(item.get("real", item)) * 1.2398419843320026e-4 for item in cm1]
+        vib_energies = [mode_value(item, 1.2398419843320026e-4) for item in cm1]
     else:
-        vib_energies = [float(item.get("real", item)) for item in vib_energies]
-    atoms_value = inputs.get("structure") or frequencies.get("structure")
+        vib_energies = [mode_value(item) for item in vib_energies]
+    atoms_value = inputs["structure"] if "structure" in inputs else frequencies.get("structure")
     if atoms_value is None:
         return unsupported("internal_thermochemistry requires structure in inputs or FrequencyResult")
     atoms = ase_atoms(atoms_value)
+    geometry = str(settings["geometry"]).strip().casefold()
+    symmetry_number = int(settings["symmetry_number"])
+    spin = float(settings["spin"])
+    temperature = float(settings["temperature_kelvin"])
+    pressure = float(settings["pressure_pa"])
+    if symmetry_number <= 0:
+        raise ValueError("symmetry_number must be a positive integer")
+    if spin < 0 or not math.isfinite(spin):
+        raise ValueError("spin must be a finite nonnegative number")
+    if temperature <= 0 or pressure <= 0:
+        raise ValueError("temperature_kelvin and pressure_pa must be positive")
     thermo = IdealGasThermo(
         vib_energies=vib_energies,
         potentialenergy=energy,
         atoms=atoms,
-        geometry=str(settings.get("geometry", "nonlinear")),
-        symmetrynumber=int(settings.get("symmetry_number", 1)),
-        spin=float(settings.get("spin", 0.0)),
-        ignore_imag_modes=bool(settings.get("ignore_imaginary_modes", False)),
+        geometry=geometry,
+        symmetrynumber=symmetry_number,
+        spin=spin,
+        ignore_imag_modes=bool(settings["ignore_imaginary_modes"]),
     )
-    temperature = float(settings["temperature_kelvin"])
-    pressure = float(settings["pressure_pa"])
     enthalpy = float(thermo.get_enthalpy(temperature, verbose=False))
     entropy = float(thermo.get_entropy(temperature, pressure, verbose=False))
     gibbs = float(thermo.get_gibbs_energy(temperature, pressure, verbose=False))
+    if not all(math.isfinite(value) for value in (enthalpy, entropy, gibbs)):
+        raise ValueError(
+            "Thermochemistry produced a non-finite value; verify the explicitly supplied "
+            "geometry, structure, symmetry number, spin, and vibrational modes"
+        )
     return success(
         {
             "temperature_kelvin": temperature,
@@ -2743,11 +2880,7 @@ def _internal_thermochemistry(request: dict[str, Any]) -> dict[str, Any]:
 
 def _goodvibes(request: dict[str, Any]) -> dict[str, Any]:
     inputs, _method, settings = request_parts(request)
-    source_value = inputs.get("output_file")
-    if source_value is None and isinstance(inputs.get("frequencies"), dict):
-        source_value = inputs["frequencies"].get("output_file") or inputs["frequencies"].get("path")
-    if source_value is None:
-        return unsupported("GoodVibes requires a compatible quantum-chemistry output_file Artifact")
+    source_value = inputs["output_file"]
     source = resolve_input_file(source_value)
     directory = output_directory("derive_thermochemistry", "goodvibes")
     arguments = [

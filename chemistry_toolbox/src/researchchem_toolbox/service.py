@@ -2,11 +2,11 @@
 
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Mapping
 
 from pydantic import ValidationError
 
-from .artifacts import ArtifactStore, collect_artifact_refs
+from .artifacts import ArtifactStore, canonicalize_artifact_refs, collect_artifact_refs
 from .catalog import action_specs, active_catalog_hash, backend_specs
 from .models import ActionRequest, ActionResult
 from .resources import collect_resource_references
@@ -34,6 +34,29 @@ def _invalid(
             "automatic_fallback_count": 0,
         },
     ).model_dump(mode="json")
+
+
+def _invalid_explicit_choice(
+    action_id: str,
+    backend_id: str,
+    *,
+    field_group: str,
+    supplied: dict[str, Any],
+    allowed: Mapping[str, tuple[str, ...]],
+) -> dict[str, Any] | None:
+    for field_name, choices in allowed.items():
+        if field_name not in supplied:
+            continue
+        received = supplied[field_name]
+        normalized = str(received).strip().casefold()
+        if normalized not in {str(choice).casefold() for choice in choices}:
+            return _invalid(
+                action_id,
+                backend_id,
+                f"Invalid {field_group}.{field_name}={received!r} for {backend_id}/{action_id}; "
+                f"choose exactly one of {list(choices)}",
+            )
+    return None
 
 
 def execute_action(action_id: str, request_value: ActionRequest | dict[str, Any]) -> dict[str, Any]:
@@ -169,9 +192,6 @@ def execute_action(action_id: str, request_value: ActionRequest | dict[str, Any]
                 f"choose one of {list(allowed)}",
             )
         component_specs.append(backends[component_backend_id])
-    resource_references = collect_resource_references(
-        {"inputs": request.inputs, "method_spec": request.method_spec}
-    )
     missing_methods = [
         name
         for name in backend.required_method_fields.get(action_id, ())
@@ -193,6 +213,36 @@ def execute_action(action_id: str, request_value: ActionRequest | dict[str, Any]
             backend_id,
             "Missing explicitly required scientific settings: " + "; ".join(parts),
         )
+
+    invalid_choice = _invalid_explicit_choice(
+        action_id,
+        backend_id,
+        field_group="method_spec",
+        supplied=request.method_spec,
+        allowed=backend.allowed_method_values.get(action_id, {}),
+    ) or _invalid_explicit_choice(
+        action_id,
+        backend_id,
+        field_group="action_settings",
+        supplied=request.action_settings,
+        allowed=backend.allowed_setting_values.get(action_id, {}),
+    )
+    if invalid_choice is not None:
+        return invalid_choice
+
+    try:
+        canonical_inputs = canonicalize_artifact_refs(request.inputs)
+    except (KeyError, OSError, ValueError, ValidationError) as exc:
+        return _invalid(
+            action_id,
+            backend_id,
+            f"Invalid explicit ArtifactRef: {exc}",
+            code="invalid_artifact_reference",
+        )
+    request = request.model_copy(update={"inputs": canonical_inputs})
+    resource_references = collect_resource_references(
+        {"inputs": request.inputs, "method_spec": request.method_spec}
+    )
 
     health_values = probe_all_backends((backend, *component_specs))
     health = health_values[backend_id]

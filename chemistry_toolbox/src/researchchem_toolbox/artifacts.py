@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import re
 import threading
 import uuid
 from datetime import datetime, timezone
@@ -15,6 +16,7 @@ from .models import ArtifactRef
 
 
 _LOCK = threading.Lock()
+_ARTIFACT_ID_PATTERN = re.compile(r"^art_[0-9a-f]{32}$")
 
 
 def workspace_root() -> Path:
@@ -130,7 +132,10 @@ class ArtifactStore:
         if isinstance(reference, ArtifactRef):
             item = reference
         elif isinstance(reference, dict):
-            item = ArtifactRef.model_validate(reference)
+            if set(reference) == {"artifact_id"}:
+                item = self.find(str(reference["artifact_id"]))
+            else:
+                item = ArtifactRef.model_validate(reference)
         else:
             item = self.find(reference)
         path = resolve_workspace_path(item.path, must_exist=True)
@@ -151,6 +156,47 @@ class ArtifactStore:
                 value.pop("created_at", None)
                 return ArtifactRef.model_validate(value)
         raise KeyError(f"Unknown ArtifactRef: {artifact_id}")
+
+
+def canonicalize_artifact_refs(
+    value: Any,
+    *,
+    store: ArtifactStore | None = None,
+) -> Any:
+    """Expand explicit compact ArtifactRefs without loading their payloads.
+
+    Public Action calls commonly pass only ``{"artifact_id": "art_..."}`` or the
+    artifact id string copied from a previous result.  Canonicalization verifies
+    that exact reference and expands it to the immutable full reference before a
+    worker is launched.  It never substitutes another artifact or scientific
+    value.
+    """
+
+    artifact_store = store or ArtifactStore()
+    if isinstance(value, ArtifactRef):
+        return value.model_dump(mode="json")
+    if isinstance(value, str) and _ARTIFACT_ID_PATTERN.fullmatch(value):
+        return artifact_store.find(value).model_dump(mode="json")
+    if isinstance(value, dict):
+        if "artifact_id" in value:
+            if set(value) == {"artifact_id"}:
+                return artifact_store.find(str(value["artifact_id"])).model_dump(mode="json")
+            required = {"artifact_id", "semantic_type", "media_type", "sha256", "path"}
+            if required <= set(value):
+                return ArtifactRef.model_validate(value).model_dump(mode="json")
+            raise ValueError(
+                "ArtifactRef dictionaries must contain either only artifact_id or the complete "
+                "immutable ArtifactRef fields"
+            )
+        return {
+            key: canonicalize_artifact_refs(item, store=artifact_store)
+            for key, item in value.items()
+        }
+    if isinstance(value, list):
+        return [canonicalize_artifact_refs(item, store=artifact_store) for item in value]
+    if isinstance(value, tuple):
+        return tuple(canonicalize_artifact_refs(item, store=artifact_store) for item in value)
+    return value
 
 
 def collect_artifact_refs(value: Any) -> list[ArtifactRef]:

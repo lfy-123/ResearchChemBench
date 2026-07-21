@@ -159,6 +159,8 @@ def mcp_action_description(specification: ActionSpec) -> str:
         input_fields = backend.required_input_fields.get(specification.id, ())
         method_fields = backend.required_method_fields.get(specification.id, ())
         setting_fields = backend.required_setting_fields.get(specification.id, ())
+        method_choices = backend.allowed_method_values.get(specification.id, {})
+        setting_choices = backend.allowed_setting_values.get(specification.id, {})
         component_roles = backend.required_component_roles.get(specification.id, ())
         component_options = backend.component_backend_options.get(specification.id, {})
         details = []
@@ -168,6 +170,14 @@ def mcp_action_description(specification: ActionSpec) -> str:
             details.append("method_spec=" + ",".join(method_fields))
         if setting_fields:
             details.append("action_settings=" + ",".join(setting_fields))
+        for field_name, choices in method_choices.items():
+            details.append(
+                f"method_spec.{field_name}=[{'|'.join(str(choice) for choice in choices)}]"
+            )
+        for field_name, choices in setting_choices.items():
+            details.append(
+                f"action_settings.{field_name}=[{'|'.join(str(choice) for choice in choices)}]"
+            )
         if component_roles:
             details.append(
                 "component_backends="
@@ -180,6 +190,11 @@ def mcp_action_description(specification: ActionSpec) -> str:
             backend_id + (" [" + "; ".join(details) + "]" if details else "")
         )
         note = f"{backend_id}: {backend.description}"
+        if backend.method_schema:
+            note += " Explicit parameter schema: " + "; ".join(
+                f"{name}={description}"
+                for name, description in backend.method_schema.items()
+            )
         if backend.required_data_resources:
             note += " External data: " + "; ".join(backend.required_data_resources)
         registered_resources = resources_for_backends((backend_id,))

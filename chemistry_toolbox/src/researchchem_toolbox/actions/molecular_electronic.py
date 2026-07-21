@@ -164,7 +164,12 @@ ACTION_SPECS = (
             "Derive thermochemical quantities from supplied electronic energy and frequencies; no optimization or Hessian is hidden.",
             "ThermochemistryResult",
             ("internal_thermochemistry", "goodvibes"),
-            ("energy", "frequencies"),
-            input_description="EnergyResult and FrequencyResult or a compatible parsed output Artifact",
+            (),
+            ("energy", "frequencies", "structure", "output_file"),
+            input_description=(
+                "Backend-specific contract: internal_thermochemistry requires EnergyResult plus "
+                "FrequencyResult (with its matching structure embedded, or structure supplied "
+                "separately); goodvibes requires one compatible quantum output_file Artifact"
+            ),
         ),
 )
