@@ -113,6 +113,8 @@ def resolve_input_file(value: Any) -> Path:
         return resolve_resource_reference(item)
     if isinstance(item, dict) and isinstance(item.get("path"), str):
         return resolve_workspace_path(item["path"], must_exist=True)
+    if isinstance(item, dict) and isinstance(item.get("file_path"), str):
+        return resolve_workspace_path(item["file_path"], must_exist=True)
     if isinstance(item, str):
         return resolve_workspace_path(item, must_exist=True)
     raise ValueError(

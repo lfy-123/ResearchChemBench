@@ -67,7 +67,7 @@ def test_cclib_parses_selected_existing_output_properties(tmp_path, monkeypatch)
     result = execute_action(
         "parse_quantum_chemistry_output",
         {
-            "inputs": {"output_file": "water.log"},
+            "inputs": {"output_file": {"file_path": "water.log"}},
             "method_spec": {},
             "action_settings": {
                 "properties": ["metadata", "atom_coordinates", "energies"],
