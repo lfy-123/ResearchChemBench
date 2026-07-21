@@ -205,9 +205,86 @@ def _array_elements(value: Any) -> int:
     return 1
 
 
+def _append_orca_scf_targets_compat(parser: Any, inputfile: Any, line: str) -> bool:
+    """Handle ORCA blocks whose first convergence report omits RMS-density."""
+
+    while "Last Energy change" not in line:
+        line = next(inputfile)
+    delta_energy_value = float(line.split()[4])
+    delta_energy_target = float(line.split()[7])
+    line = next(inputfile)
+    used_workaround = False
+    if "Last MAX-Density change" in line:
+        maximum_density_value = float(line.split()[4])
+        maximum_density_target = float(line.split()[7])
+        line = next(inputfile)
+        if "Last RMS-Density change" in line:
+            rms_density_value = float(line.split()[4])
+            rms_density_target = float(line.split()[7])
+        else:
+            previous_values = parser.scfvalues[-1][-1]
+            rms_density_value = (
+                float(previous_values[2]) if len(previous_values) > 2 else math.nan
+            )
+            if parser.scftargets:
+                rms_density_target = float(parser.scftargets[-1][2])
+                if delta_energy_target != parser.scftargets[-1][0]:
+                    raise ValueError("ORCA SCF energy target changed unexpectedly")
+                if maximum_density_target != parser.scftargets[-1][1]:
+                    raise ValueError("ORCA SCF maximum-density target changed unexpectedly")
+            else:
+                # ORCA 4 may omit the RMS target in the first convergence
+                # summary. cclib 1.8.1 indexes a nonexistent previous target.
+                # Preserve the missing value as NaN; it is parser metadata and
+                # does not alter any electronic energy or requested property.
+                rms_density_target = math.nan
+                used_workaround = True
+        parser.scfvalues[-1].append(
+            [delta_energy_value, maximum_density_value, rms_density_value]
+        )
+        parser.scftargets.append(
+            [delta_energy_target, maximum_density_target, rms_density_target]
+        )
+    return used_workaround
+
+
+def _ccread_with_orca_compatibility(source: Path) -> tuple[Any, list[str]]:
+    """Run cclib with a narrow ORCA 4/cclib 1.8.1 convergence-block fix."""
+
+    from cclib.io import ccread
+    from cclib.parser.orcaparser import ORCA
+
+    original = ORCA._append_scfvalues_scftargets
+    workaround_used = False
+
+    def patched(parser: Any, inputfile: Any, line: str) -> None:
+        nonlocal workaround_used
+        workaround_used = (
+            _append_orca_scf_targets_compat(parser, inputfile, line)
+            or workaround_used
+        )
+
+    ORCA._append_scfvalues_scftargets = patched
+    try:
+        parsed = ccread(str(source), loglevel=40)
+    except Exception as exc:
+        raise RuntimeError(
+            f"cclib could not parse {source.name}: {type(exc).__name__}: {exc}"
+        ) from exc
+    finally:
+        ORCA._append_scfvalues_scftargets = original
+    warnings = []
+    if workaround_used:
+        warnings.append(
+            "Applied the cclib 1.8.1 compatibility fix for an ORCA convergence block "
+            "whose first summary omitted the RMS-density target; electronic energies "
+            "and requested scientific properties were not changed."
+        )
+    return parsed, warnings
+
+
 def _parse_quantum_output(request: dict[str, Any]) -> dict[str, Any]:
     import cclib
-    from cclib.io import ccread
 
     inputs, _method, settings = request_parts(request)
     source = resolve_input_file(inputs["output_file"])
@@ -233,7 +310,7 @@ def _parse_quantum_output(request: dict[str, Any]) -> dict[str, Any]:
     if maximum < 1 or maximum > 100000000:
         raise ValueError("max_array_elements must be between 1 and 100000000")
 
-    parsed = ccread(str(source), loglevel=40)
+    parsed, parser_warnings = _ccread_with_orca_compatibility(source)
     if parsed is None:
         raise RuntimeError("cclib could not recognize or parse the supplied output file")
     attributes = parsed.getattributes(tolists=True)
@@ -287,10 +364,13 @@ def _parse_quantum_output(request: dict[str, Any]) -> dict[str, Any]:
             }
         ],
         "backend_version": version,
-        "warnings": (
-            [f"Requested property groups not present in this output: {', '.join(missing_groups)}"]
-            if missing_groups else []
-        ),
+        "warnings": [
+            *parser_warnings,
+            *(
+                [f"Requested property groups not present in this output: {', '.join(missing_groups)}"]
+                if missing_groups else []
+            ),
+        ],
     }
     return partial_success(result, **kwargs) if missing_groups else success(result, **kwargs)
 

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import shutil
+from zipfile import ZipFile
 
 from researchchem_toolbox.paths import PROJECT_ROOT as ROOT
 from researchchem_toolbox.service import execute_action
@@ -83,3 +84,36 @@ def test_cclib_parses_selected_existing_output_properties(tmp_path, monkeypatch)
     assert result["result"]["properties"]["scfenergies"]
     assert len(result["result"]["properties"]["atomcoords"]) == 3
     assert result["output_artifacts"]
+
+
+def test_cclib_parses_orca_output_with_missing_first_rms_target(tmp_path, monkeypatch):
+    archive_path = (
+        ROOT
+        / "tasks"
+        / "_heterobiaryl_pv_shared"
+        / "public"
+        / "computational_records.zip"
+    )
+    member = "records/P0/P0_C001_DLPNO.out"
+    with ZipFile(archive_path) as archive:
+        (tmp_path / "orca.out").write_bytes(archive.read(member))
+    monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
+
+    result = execute_action(
+        "parse_quantum_chemistry_output",
+        {
+            "inputs": {"output_file": "orca.out"},
+            "method_spec": {},
+            "action_settings": {
+                "properties": ["metadata", "energies"],
+                "coordinate_frames": "last",
+                "include_orbital_coefficients": False,
+                "include_excited_state_configurations": False,
+                "max_array_elements": 10000,
+            },
+        },
+    )
+
+    assert result["status"] == "success"
+    assert result["result"]["properties"]["scfenergies"]
+    assert any("compatibility fix" in warning for warning in result["warnings"])
