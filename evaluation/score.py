@@ -309,10 +309,13 @@ def _native_events_for_judge(events: list[dict[str, Any]]) -> list[dict[str, Any
 
 
 def _submission_artifacts(workspace: Path) -> list[dict[str, str]]:
-    allowed_suffixes = {".md", ".txt", ".json", ".jsonl", ".csv", ".tsv", ".yaml", ".yml"}
+    allowed_suffixes = {
+        ".csv", ".ipynb", ".jl", ".json", ".jsonl", ".md", ".py", ".r",
+        ".sh", ".tsv", ".txt", ".yaml", ".yml",
+    }
     values: list[dict[str, str]] = []
     total = 0
-    for root_name in ("report", "outputs"):
+    for root_name in ("report", "outputs", "code"):
         root = workspace / root_name
         if not root.is_dir():
             continue

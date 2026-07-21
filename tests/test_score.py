@@ -70,6 +70,9 @@ def test_rubric_score_is_derived_from_clamped_criterion_scores(
     }
     with runner.output_path.open("a", encoding="utf-8") as handle:
         handle.write(json.dumps(native_event) + "\n")
+    (runner.workspace / "code" / "analyze.py").write_text(
+        "print('independent scientific analysis')\n", encoding="utf-8"
+    )
 
     captured_prompt = ""
 
@@ -99,5 +102,6 @@ def test_rubric_score_is_derived_from_clamped_criterion_scores(
     assert result["judge_consistency_warnings"]
     assert "python code/analyze.py" in captured_prompt
     assert "computed barrier = 12.3 kcal/mol" in captured_prompt
+    assert "independent scientific analysis" in captured_prompt
     assert result["process_metrics"]["native_execution_event_count"] == 1
     assert result["process_metrics"]["successful_native_events"] == 1
