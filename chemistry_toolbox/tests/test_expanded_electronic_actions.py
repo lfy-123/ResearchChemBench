@@ -51,6 +51,8 @@ def test_xtb_exposes_independent_derivative_and_property_actions(
             result["result"]["magnitude"], rel=0.01, abs=0.01
         )
         assert "dipole_atomic_units" in result["result"]
+        assert "dipole_e_angstrom" in result["result"]
+        assert "magnitude_e_angstrom" in result["result"]
     else:
         assert len(result["result"]["charges"]) == 3
         assert sum(result["result"]["charges"]) == pytest.approx(0.0, abs=1e-6)

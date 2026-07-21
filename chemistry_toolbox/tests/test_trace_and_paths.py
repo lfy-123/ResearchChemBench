@@ -118,3 +118,18 @@ def test_trace_failure_does_not_replace_original_tool_exception(
 
     with pytest.raises(KeyError, match="original tool failure"):
         execute_traced("failing_tool", {}, operation)
+
+
+def test_workspace_snapshot_excludes_agent_runtime_state(
+    tmp_path: Path, monkeypatch
+):
+    monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
+    (tmp_path / "outputs").mkdir()
+    (tmp_path / "outputs" / "result.txt").write_text("science", encoding="utf-8")
+    (tmp_path / "_opencode").mkdir()
+    (tmp_path / "_opencode" / "opencode.db-wal").write_text("runtime", encoding="utf-8")
+
+    snapshot = tracing.workspace_snapshot()
+
+    assert "outputs/result.txt" in snapshot
+    assert "_opencode/opencode.db-wal" not in snapshot

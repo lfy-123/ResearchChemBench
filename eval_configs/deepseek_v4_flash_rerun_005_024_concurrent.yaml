@@ -1,0 +1,12 @@
+name: deepseek_v4_flash_opencode_db_isolation_rerun
+agents:
+  - opencode
+tasks:
+  - ChemGraph_005
+  - ChemGraph_024
+repeats: 1
+max_concurrent_runs: 2
+timeout_seconds: 7200
+max_turns: 160
+judge:
+  enabled: true

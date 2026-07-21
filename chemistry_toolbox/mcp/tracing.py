@@ -105,6 +105,7 @@ def _excluded(path: Path) -> bool:
     return first in {
         ".codex",
         ".claude",
+        "_opencode",
         "_tool_results",
         "_tool_artifacts",
         "tool_logs",

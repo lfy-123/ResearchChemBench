@@ -648,8 +648,9 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         modules=("mace.calculators", "ase"), pip=("mace-torch==0.3.16",),
         method_schema={
             "model": (
-                "installed cache alias medium-mpa-0/MACE-MPA-0-medium or "
-                "medium/MACE-MP-0-medium, an explicit local model path, "
+                "one exact installed cache alias: 'medium-mpa-0', "
+                "'MACE-MPA-0-medium', 'medium', or 'MACE-MP-0-medium'; "
+                "alternatively an explicit local model path, "
                 "or a pinned MACE 0.3.16 foundation-model name/HTTPS URL when allow_model_download=true"
             ),
             "device": "explicit MACE device such as cpu, cuda, or cuda:<index>",

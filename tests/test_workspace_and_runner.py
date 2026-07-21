@@ -49,6 +49,7 @@ def test_codex_and_claude_commands_include_mcp(tmp_path: Path):
     assert "--pure" in opencode_argv
     config = json.loads((opencode.workspace / "opencode.json").read_text())
     assert config["mcp"]["researchchem_toolbox"]["type"] == "local"
+    assert config["mcp"]["researchchem_toolbox"]["timeout"] == 3_600_000
     assert config["model"] == "deepseek/deepseek-v4-flash"
     assert "OPENAI_API_KEY" not in json.dumps(config)
 
@@ -62,3 +63,22 @@ def test_agent_environment_does_not_receive_judge_key(tmp_path: Path, monkeypatc
     assert "JUDGE_API_KEY" not in env
     assert env["OPENAI_API_KEY"] == "agent-auth-key"
     assert env["RESEARCHCHEMBENCH_WORKSPACE"] == str(runner.workspace.resolve())
+
+
+def test_concurrent_opencode_runs_use_isolated_databases(tmp_path: Path):
+    first = TaskRunner("ChemGraph_005", agent_key="opencode", workspace_root=tmp_path)
+    second = TaskRunner("ChemGraph_024", agent_key="opencode", workspace_root=tmp_path)
+    first.setup_workspace()
+    second.setup_workspace()
+
+    first_env = first._agent_environment()
+    second_env = second._agent_environment()
+    assert first_env["OPENCODE_DB"] == str(
+        (first.workspace / "_opencode/opencode.db").resolve()
+    )
+    assert second_env["OPENCODE_DB"] == str(
+        (second.workspace / "_opencode/opencode.db").resolve()
+    )
+    assert first_env["OPENCODE_DB"] != second_env["OPENCODE_DB"]
+    assert first_env["OPENCODE_WORKSPACE_ID"] == first.run_id
+    assert second_env["OPENCODE_WORKSPACE_ID"] == second.run_id

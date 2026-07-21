@@ -652,9 +652,15 @@ def _xtb(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
             raise RuntimeError("Could not parse the xTB molecular dipole")
         dipole_atomic_units = [float(match.group(index)) for index in (1, 2, 3)]
         atomic_unit_to_debye = 2.541746473
+        bohr_to_angstrom = 0.529177210903
+        dipole_debye = [value * atomic_unit_to_debye for value in dipole_atomic_units]
+        dipole_e_angstrom = [value * bohr_to_angstrom for value in dipole_atomic_units]
         result = {
-            "dipole": [value * atomic_unit_to_debye for value in dipole_atomic_units],
+            "dipole": dipole_debye,
+            "dipole_debye": dipole_debye,
+            "dipole_e_angstrom": dipole_e_angstrom,
             "magnitude": float(match.group(4)),
+            "magnitude_e_angstrom": float(match.group(4)) / 4.80320471257,
             "unit": "debye",
             "dipole_atomic_units": dipole_atomic_units,
             "energy_hartree": energy,

@@ -18,6 +18,7 @@ from .config import (
     AGENT_PRESETS,
     CHEMGRAPH_SRC,
     DEFAULT_AGENT_TIMEOUT_SECONDS,
+    DEFAULT_MCP_TOOL_TIMEOUT_MS,
     DEFAULT_MAX_TURNS,
     OPENCODE_BASE_URL,
     OPENCODE_MODEL,
@@ -126,6 +127,11 @@ class TaskRunner:
         env.pop("JUDGE_API_KEY", None)
         env.update(self._mcp_environment())
         env["PYTHONUNBUFFERED"] = "1"
+        if self.agent.get("kind") == "opencode":
+            database_directory = self.workspace / "_opencode"
+            database_directory.mkdir(parents=True, exist_ok=True)
+            env["OPENCODE_DB"] = str((database_directory / "opencode.db").resolve())
+            env["OPENCODE_WORKSPACE_ID"] = self.run_id
         return env
 
     def _write_claude_mcp_config(self) -> Path:
@@ -171,6 +177,10 @@ class TaskRunner:
                     "type": "local",
                     "command": spec["command"],
                     "environment": spec["environment"],
+                    # OpenCode otherwise applies a 30 s timeout to both MCP
+                    # discovery and tool execution. Scientific backends such
+                    # as finite-difference Hessians routinely exceed that.
+                    "timeout": DEFAULT_MCP_TOOL_TIMEOUT_MS,
                     "enabled": True,
                 }
                 for spec in server_specs
