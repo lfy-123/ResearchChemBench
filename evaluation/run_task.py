@@ -7,6 +7,7 @@ import json
 import os
 import queue
 import shutil
+import signal
 import stat
 import subprocess
 import threading
@@ -69,6 +70,7 @@ class TaskRunner:
         self.instructions_path = self.workspace / "INSTRUCTIONS.md"
         self.final_message_path = self.workspace / "_final_message.txt"
         self.process: subprocess.Popen[str] | None = None
+        self.process_group_id: int | None = None
         self.thread: threading.Thread | None = None
         self._stop_requested = False
 
@@ -470,8 +472,24 @@ class TaskRunner:
 
     def request_stop(self) -> None:
         self._stop_requested = True
-        if self.process and self.process.poll() is None:
-            self.process.terminate()
+        self._terminate_process_tree()
+
+    def _terminate_process_tree(self, *, force: bool = False) -> None:
+        if self.process is None:
+            return
+        if os.name == "posix" and self.process_group_id is not None:
+            try:
+                os.killpg(
+                    self.process_group_id,
+                    signal.SIGKILL if force else signal.SIGTERM,
+                )
+                return
+            except ProcessLookupError:
+                return
+            except PermissionError:
+                pass
+        if self.process.poll() is None:
+            self.process.kill() if force else self.process.terminate()
 
     def run(self) -> dict[str, Any]:
         if not self.workspace.exists():
@@ -496,7 +514,9 @@ class TaskRunner:
                 env=env,
                 shell=False,
                 bufsize=1,
+                start_new_session=(os.name == "posix"),
             )
+            self.process_group_id = self.process.pid if os.name == "posix" else None
             assert self.process.stdout is not None
             line_queue: queue.Queue[str | None] = queue.Queue()
 
@@ -509,17 +529,25 @@ class TaskRunner:
             reader = threading.Thread(target=read_stdout, daemon=True)
             reader.start()
             stream_done = False
+            process_exit_cleanup_started = False
             with self.output_path.open("w", encoding="utf-8") as output:
                 while not stream_done:
                     if time.monotonic() - started > self.timeout_seconds:
                         termination = "timeout"
-                        self.process.terminate()
+                        self._terminate_process_tree()
                         break
                     try:
                         line = line_queue.get(timeout=0.2)
                     except queue.Empty:
-                        if self.process.poll() is not None and not reader.is_alive():
-                            break
+                        if self.process.poll() is not None:
+                            if not reader.is_alive():
+                                break
+                            if not process_exit_cleanup_started:
+                                # Some Agent CLIs can exit before their MCP
+                                # descendants. Those descendants inherit stdout
+                                # and otherwise keep this reader open forever.
+                                self._terminate_process_tree()
+                                process_exit_cleanup_started = True
                         continue
                     if line is None:
                         stream_done = True
@@ -530,14 +558,13 @@ class TaskRunner:
             try:
                 exit_code = self.process.wait(timeout=10)
             except subprocess.TimeoutExpired:
-                self.process.kill()
+                self._terminate_process_tree(force=True)
                 exit_code = self.process.wait()
             if self._stop_requested:
                 termination = "stopped"
         except Exception as exc:
             termination = "runner_error"
-            if self.process and self.process.poll() is None:
-                self.process.terminate()
+            self._terminate_process_tree()
             self._write_meta("failed", {"error": f"{type(exc).__name__}: {exc}"})
             raise
         finally:

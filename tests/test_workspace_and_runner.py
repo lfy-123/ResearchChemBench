@@ -1,5 +1,7 @@
 import hashlib
 import json
+import os
+import signal
 from pathlib import Path
 from zipfile import ZipFile
 
@@ -121,3 +123,33 @@ def test_concurrent_opencode_runs_use_isolated_databases(tmp_path: Path):
     assert first_env["OPENCODE_DB"] != second_env["OPENCODE_DB"]
     assert first_env["OPENCODE_WORKSPACE_ID"] == first.run_id
     assert second_env["OPENCODE_WORKSPACE_ID"] == second.run_id
+
+
+@pytest.mark.skipif(os.name != "posix", reason="POSIX process-group behavior")
+def test_runner_terminates_the_dedicated_process_group(tmp_path: Path, monkeypatch):
+    runner = TaskRunner("ChemGraph_001", agent_key="mock", workspace_root=tmp_path)
+
+    class ProcessStub:
+        pid = 12345
+
+        @staticmethod
+        def poll():
+            return None
+
+        @staticmethod
+        def terminate():
+            raise AssertionError("POSIX process groups should be terminated with killpg")
+
+        @staticmethod
+        def kill():
+            raise AssertionError("POSIX process groups should be killed with killpg")
+
+    calls = []
+    runner.process = ProcessStub()  # type: ignore[assignment]
+    runner.process_group_id = 12345
+    monkeypatch.setattr(os, "killpg", lambda pgid, sig: calls.append((pgid, sig)))
+
+    runner._terminate_process_tree()
+    runner._terminate_process_tree(force=True)
+
+    assert calls == [(12345, signal.SIGTERM), (12345, signal.SIGKILL)]
