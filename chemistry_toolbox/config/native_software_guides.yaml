@@ -1,0 +1,736 @@
+schema_version: 1
+policy:
+  execution_model: exact_agent_authored_command
+  shell: false
+  automatic_scientific_defaults: false
+  automatic_backend_selection: false
+  automatic_fallback: false
+  notes:
+    - Every native call requires an explicit software_id, executable, argument list, staged input map, and resource limit object.
+    - The runner stages regular workspace files into an isolated job directory and records the exact command, stdout, stderr, exit code, and output hashes.
+    - These guides describe invocation mechanics only. They do not prescribe a scientific workflow, method, basis, force field, convergence setting, or ordering of calls.
+
+software:
+  openbabel:
+    purpose: Convert, filter, and manipulate molecular file formats with Open Babel.
+    commands:
+      obabel:
+        synopsis: "obabel -i<input_format> input -o<output_format> -O output [options]"
+        input_mode: arguments
+        required_files: [molecular input file]
+        output_behavior: Writes the path supplied after -O; diagnostics are written to stderr.
+        example_arguments: ["-ixyz", "input.xyz", "-osdf", "-O", "output.sdf"]
+        notes:
+          - Select input and output formats explicitly; do not rely on filename inference in benchmark calls.
+
+  crest:
+    purpose: Perform CREST conformer searches and related xTB-driven sampling from an Agent-authored structure and options.
+    commands:
+      crest:
+        synopsis: "crest input.xyz --gfn2 --T <threads> [sampling options]"
+        input_mode: arguments
+        required_files: [input.xyz]
+        output_behavior: Writes CREST result files such as crest_conformers.xyz in the job directory.
+        example_arguments: ["input.xyz", "--gfn2", "--T", "4"]
+        notes:
+          - Charge, spin, solvent, energy method, and sampling controls must be supplied explicitly when scientifically required.
+
+  pdb_tools:
+    purpose: Apply individual pdb-tools text transformations to PDB records.
+    commands:
+      pdb_selchain:
+        synopsis: "pdb_selchain -<chain_ids> input.pdb"
+        input_mode: arguments
+        required_files: [input.pdb]
+        output_behavior: Writes transformed PDB text to stdout; capture stdout.log as the result.
+        example_arguments: ["-A", "input.pdb"]
+      pdb_reres:
+        synopsis: "pdb_reres -<first_residue_number> input.pdb"
+        input_mode: arguments
+        required_files: [input.pdb]
+        output_behavior: Writes transformed PDB text to stdout.
+        example_arguments: ["-1", "input.pdb"]
+      pdb_tidy:
+        synopsis: "pdb_tidy input.pdb"
+        input_mode: arguments
+        required_files: [input.pdb]
+        output_behavior: Writes normalized PDB text to stdout.
+        example_arguments: ["input.pdb"]
+
+  openff_am1bcc:
+    purpose: Run AmberTools charge-generation components used by explicit OpenFF/AM1-BCC preparation.
+    commands:
+      antechamber:
+        synopsis: "antechamber -i input -fi <format> -o output -fo <format> -c bcc -nc <charge> [options]"
+        input_mode: arguments
+        required_files: [molecular input file]
+        output_behavior: Writes the file supplied with -o and intermediate charge-calculation files.
+        example_arguments: ["-i", "input.mol2", "-fi", "mol2", "-o", "charged.mol2", "-fo", "mol2", "-c", "bcc", "-nc", "0"]
+        notes:
+          - Net charge and input/output formats are scientific inputs and must be explicit.
+      sqm:
+        synopsis: "sqm -O -i sqm.in -o sqm.out"
+        input_mode: arguments
+        required_files: [sqm.in]
+        output_behavior: Writes the file supplied with -o.
+        example_arguments: ["-O", "-i", "sqm.in", "-o", "sqm.out"]
+
+  packmol:
+    purpose: Pack molecules into an Agent-defined simulation cell from a native Packmol input deck.
+    commands:
+      packmol:
+        synopsis: "packmol < packmol.inp"
+        input_mode: stdin_file
+        required_files: [packmol.inp, all structure files referenced by packmol.inp]
+        output_behavior: Writes the output filename declared inside packmol.inp and progress to stdout.
+        example_arguments: []
+        notes:
+          - Set stdin_file to the staged target packmol.inp; filenames inside it must match staged targets.
+
+  xtb:
+    purpose: Execute native xTB single points, properties, optimization, frequencies, dynamics, and related modes selected by the Agent.
+    commands:
+      xtb:
+        synopsis: "xtb structure.xyz --gfn <level> [--sp|--opt|--hess|--md] [explicit options]"
+        input_mode: arguments
+        required_files: [structure.xyz]
+        output_behavior: Writes primary text to stdout and mode-specific files in the job directory.
+        example_arguments: ["structure.xyz", "--gfn", "2", "--sp", "--chrg", "0", "--uhf", "0"]
+        notes:
+          - Choose the xTB level, charge, unpaired electrons, solvent, and requested calculation mode explicitly.
+
+  gpaw:
+    purpose: Run an Agent-authored GPAW Python program using the GPAW command wrapper.
+    commands:
+      gpaw:
+        synopsis: "gpaw python program.py [program arguments]"
+        input_mode: arguments
+        required_files: [program.py]
+        output_behavior: Determined by the Agent-authored GPAW program; stdout and stderr are always captured.
+        example_arguments: ["python", "program.py"]
+        notes:
+          - The script must specify calculator mode, basis/grid, exchange-correlation model, k-points, occupations, convergence, and outputs.
+
+  lobster:
+    purpose: Analyze bonding from compatible electronic-structure outputs using a native LOBSTER input.
+    commands:
+      lobster-5.1.0:
+        synopsis: "lobster-5.1.0"
+        input_mode: fixed_files
+        required_files: [lobsterin, POSCAR, POTCAR, WAVECAR]
+        output_behavior: Reads fixed filenames and writes lobsterout plus analysis files in the job directory.
+        example_arguments: []
+
+  nwchem:
+    purpose: Execute an Agent-authored NWChem input deck for molecular or periodic calculations supported by the installed build.
+    commands:
+      nwchem:
+        synopsis: "nwchem input.nw"
+        input_mode: arguments
+        required_files: [input.nw]
+        output_behavior: Writes the main output to stdout and task-specific files in the job directory.
+        example_arguments: ["input.nw"]
+
+  openmolcas:
+    purpose: Execute an Agent-authored OpenMolcas input deck for multireference and spectroscopy calculations.
+    commands:
+      pymolcas:
+        synopsis: "pymolcas input.inp [driver options]"
+        input_mode: arguments
+        required_files: [input.inp]
+        output_behavior: Writes a log and module-specific files in the job directory.
+        example_arguments: ["input.inp"]
+
+  multiwfn:
+    purpose: Run Multiwfn analyses using an explicit wavefunction file and menu-command stream.
+    commands:
+      Multiwfn_noGUI:
+        synopsis: "Multiwfn_noGUI wavefunction_file < commands.txt"
+        input_mode: arguments_and_stdin_file
+        required_files: [wavefunction file, commands.txt]
+        output_behavior: Writes interactive-menu output to stdout and selected analysis files to the job directory.
+        example_arguments: ["wavefunction.fchk"]
+        notes:
+          - Set stdin_file to commands.txt; the Agent must author every menu selection and numerical parameter.
+
+  critic2:
+    purpose: Run Critic2 topology and field analysis from an Agent-authored native input.
+    commands:
+      critic2:
+        synopsis: "critic2 input.cri"
+        input_mode: arguments
+        required_files: [input.cri, field/structure files referenced by input.cri]
+        output_behavior: Writes analysis text to stdout and requested files to the job directory.
+        example_arguments: ["input.cri"]
+
+  psi4:
+    purpose: Execute a complete Agent-authored Psi4 input file.
+    commands:
+      psi4:
+        synopsis: "psi4 input.dat output.dat [options]"
+        input_mode: arguments
+        required_files: [input.dat]
+        output_behavior: Writes the named output file and optional scratch/result files.
+        example_arguments: ["input.dat", "output.dat", "-n", "4"]
+        notes:
+          - The input must explicitly define molecular state, method, basis, task, and relevant convergence settings.
+
+  deepmd:
+    aliases: [deepmd_kit, deepmd-kit]
+    documentation_ids: [deepmd_kit]
+    purpose: Invoke a specific DeePMD-kit command selected by the Agent.
+    commands:
+      dp:
+        synopsis: "dp <train|freeze|test|compress|show|convert-backend> [subcommand options]"
+        input_mode: arguments
+        required_files: [subcommand-specific Agent-authored input and data files]
+        output_behavior: Subcommand-specific outputs are written in the job directory; stdout and stderr are captured.
+        example_arguments: ["test", "-m", "model.pb", "-s", "test_data"]
+        notes:
+          - The first argument must be an explicit DeePMD subcommand; datasets and model checkpoints must be staged deliberately.
+
+  nequip:
+    purpose: Train a NequIP model from a complete Agent-authored configuration.
+    commands:
+      nequip-train:
+        synopsis: "nequip-train config.yaml"
+        input_mode: arguments
+        required_files: [config.yaml, referenced training/validation datasets]
+        output_behavior: Writes training logs and checkpoints under paths selected in config.yaml.
+        example_arguments: ["config.yaml"]
+
+  orca:
+    purpose: Execute a complete ORCA 6.1 input deck.
+    commands:
+      orca:
+        synopsis: "orca input.inp"
+        input_mode: arguments
+        required_files: [input.inp, any geometry/basis files referenced by input.inp]
+        output_behavior: Writes the primary output to stdout and ORCA property/restart files in the job directory.
+        example_arguments: ["input.inp"]
+        notes:
+          - Method, basis, charge, multiplicity, calculation keywords, parallelism, memory, and convergence must be explicit in input.inp.
+          - ORCA should be launched by its resolved absolute path; the execution layer does this without changing the input.
+
+  gaussian:
+    purpose: Execute Gaussian 16 input and convert checkpoint files with formchk.
+    commands:
+      g16:
+        synopsis: "g16 < input.com"
+        input_mode: stdin_file
+        required_files: [input.com]
+        output_behavior: Writes Gaussian output to stdout and checkpoint/scratch files named in the route input.
+        example_arguments: []
+        notes:
+          - Set stdin_file to input.com and declare method, basis, charge, multiplicity, resources, and task in that file.
+      formchk:
+        synopsis: "formchk input.chk output.fchk"
+        input_mode: arguments
+        required_files: [input.chk]
+        output_behavior: Writes the formatted checkpoint path supplied as the second argument.
+        example_arguments: ["input.chk", "output.fchk"]
+
+  gamess:
+    purpose: Execute a GAMESS input through the installed rungms launcher.
+    commands:
+      rungms:
+        synopsis: "rungms job_name [version] [ncores]"
+        input_mode: arguments
+        required_files: [job_name.inp]
+        output_behavior: Writes main GAMESS text to stdout and scratch/restart files to configured locations.
+        example_arguments: ["water", "00", "4"]
+        notes:
+          - The first argument is the staged input basename without .inp; version and core count must match the installed launcher contract.
+
+  goodvibes:
+    purpose: Apply GoodVibes thermochemical analysis to explicit quantum-chemistry output files.
+    commands:
+      goodvibes:
+        synopsis: "goodvibes output.log [thermochemistry options]"
+        input_mode: arguments
+        required_files: [one or more supported quantum-chemistry output files]
+        output_behavior: Writes thermochemistry tables to stdout and optional data files.
+        example_arguments: ["output.log", "--temperature", "298.15", "--conc", "1.0"]
+        notes:
+          - Temperature, concentration/standard state, frequency scaling, quasi-harmonic treatment, and solvation corrections are scientific choices.
+
+  pysisyphus:
+    purpose: Execute a complete pysisyphus workflow configuration authored by the Agent.
+    commands:
+      pysis:
+        synopsis: "pysis config.yaml"
+        input_mode: arguments
+        required_files: [config.yaml, referenced structures/files]
+        output_behavior: Writes optimization, pathway, or dynamics outputs selected by config.yaml.
+        example_arguments: ["config.yaml"]
+
+  rmg:
+    purpose: Generate reaction mechanisms from a complete Agent-authored RMG-Py input file.
+    commands:
+      rmg.py:
+        synopsis: "rmg.py input.py"
+        input_mode: arguments
+        required_files: [input.py, any referenced seed/library files]
+        output_behavior: Writes the generated mechanism, species dictionaries, logs, and diagnostics in the configured output directory.
+        example_arguments: ["input.py"]
+
+  mess:
+    purpose: Solve an Agent-authored MESS master-equation model.
+    commands:
+      mess:
+        synopsis: "mess input.inp"
+        input_mode: arguments
+        required_files: [input.inp, any referenced energy-transfer or molecular data]
+        output_behavior: Writes rate-model results and diagnostics in the job directory.
+        example_arguments: ["input.inp"]
+
+  mesmer:
+    purpose: Solve an Agent-authored MESMER master-equation XML model.
+    commands:
+      mesmer:
+        synopsis: "mesmer input.xml -o output.xml [options]"
+        input_mode: arguments
+        required_files: [input.xml]
+        output_behavior: Writes audit/result XML and text diagnostics.
+        example_arguments: ["input.xml", "-o", "output.xml"]
+
+  gromacs:
+    purpose: Invoke one explicit GROMACS subcommand against staged topology, coordinate, trajectory, or run-input files.
+    commands:
+      gmx:
+        synopsis: "gmx <subcommand> [subcommand options]"
+        input_mode: arguments
+        required_files: [subcommand-specific input files]
+        output_behavior: Determined by the selected GROMACS subcommand; stdout and stderr are captured.
+        example_arguments: ["mdrun", "-deffnm", "production", "-nt", "4"]
+        notes:
+          - The first argument must be explicit, for example grompp, mdrun, energy, rms, rdf, or trjconv.
+          - Interactive group selections should be supplied through an explicit stdin_file.
+
+  lammps:
+    purpose: Execute a complete LAMMPS input script.
+    commands:
+      lmp:
+        synopsis: "lmp -in input.lammps [command-line variables]"
+        input_mode: arguments
+        required_files: [input.lammps, all data/potential files referenced by it]
+        output_behavior: Writes log.lammps plus dumps/restarts selected in the input script.
+        example_arguments: ["-in", "input.lammps"]
+
+  namd:
+    purpose: Execute a complete NAMD configuration.
+    commands:
+      namd3:
+        synopsis: "namd3 +p<threads> input.conf"
+        input_mode: arguments
+        required_files: [input.conf, topology, coordinates, parameters, and restart files referenced by it]
+        output_behavior: Writes simulation log to stdout and trajectory/restart files selected in input.conf.
+        example_arguments: ["+p4", "input.conf"]
+
+  amber_pmemd:
+    aliases: [amber]
+    documentation_ids: [amber_pmemd, amber]
+    purpose: Execute Amber PMEMD serial or MPI molecular dynamics from explicit control/topology/state files.
+    commands:
+      pmemd:
+        synopsis: "pmemd -O -i mdin -o mdout -p topology.prmtop -c input.rst7 -r output.rst7 -x trajectory.nc"
+        input_mode: arguments
+        required_files: [mdin, topology.prmtop, input.rst7]
+        output_behavior: Writes paths explicitly supplied by -o, -r, -x, and related options.
+        example_arguments: ["-O", "-i", "mdin", "-o", "mdout", "-p", "topology.prmtop", "-c", "input.rst7", "-r", "output.rst7", "-x", "trajectory.nc"]
+      pmemd.MPI:
+        synopsis: "pmemd.MPI -O -i mdin -o mdout -p topology.prmtop -c input.rst7 -r output.rst7 -x trajectory.nc"
+        input_mode: arguments
+        required_files: [mdin, topology.prmtop, input.rst7]
+        output_behavior: Writes paths explicitly supplied by PMEMD output options.
+        example_arguments: ["-O", "-i", "mdin", "-o", "mdout", "-p", "topology.prmtop", "-c", "input.rst7", "-r", "output.rst7", "-x", "trajectory.nc"]
+        notes:
+          - MPI rank allocation belongs to the deployment scheduler. The generic mpirun launcher is intentionally not exposed as a native command.
+      mpirun:
+        enabled: false
+        synopsis: "mpirun <program> [arguments]"
+        input_mode: arguments
+        required_files: []
+        output_behavior: Not publicly executable because it is a general process launcher.
+        example_arguments: []
+
+  charmm:
+    purpose: Execute a complete CHARMM input script.
+    commands:
+      charmm:
+        synopsis: "charmm -i input.inp -o output.out"
+        input_mode: arguments
+        required_files: [input.inp, referenced topology/parameter/coordinate files]
+        output_behavior: Writes the named output and files requested by CHARMM commands.
+        example_arguments: ["-i", "input.inp", "-o", "output.out"]
+
+  plumed:
+    purpose: Run an explicit PLUMED subcommand for enhanced sampling support or trajectory analysis.
+    commands:
+      plumed:
+        synopsis: "plumed <subcommand> [options]"
+        input_mode: arguments
+        required_files: [subcommand-specific PLUMED input and trajectory files]
+        output_behavior: Subcommand-specific outputs are written in the job directory.
+        example_arguments: ["driver", "--plumed", "plumed.dat", "--mf_xtc", "trajectory.xtc"]
+        notes:
+          - The first argument must be explicit, commonly driver, sum_hills, or info.
+
+  quantum_espresso:
+    purpose: Execute an Agent-authored Quantum ESPRESSO pw.x input deck.
+    commands:
+      pw.x:
+        synopsis: "pw.x -in input.in"
+        input_mode: arguments
+        required_files: [input.in, pseudopotentials referenced by input.in]
+        output_behavior: Writes the main output to stdout and save/restart data under outdir.
+        example_arguments: ["-in", "input.in"]
+        notes:
+          - Calculation type, structure, pseudopotentials, cutoffs, k-points, occupations, convergence, and outdir must be explicit.
+
+  cp2k:
+    purpose: Execute a complete CP2K input deck for molecular, periodic, dynamics, spectroscopy, or other supported calculations.
+    commands:
+      cp2k:
+        synopsis: "cp2k -i input.inp -o output.out"
+        input_mode: arguments
+        required_files: [input.inp, all basis/potential/coordinate files referenced by it]
+        output_behavior: Writes output.out and restart/trajectory/property files selected in the input.
+        example_arguments: ["-i", "input.inp", "-o", "output.out"]
+        notes:
+          - RUN_TYPE, FORCE_EVAL method, basis/potential data, charge, spin, cell, k-points, cutoffs, SCF, motion, and print sections are Agent choices.
+
+  siesta:
+    purpose: Execute a complete SIESTA input deck.
+    commands:
+      siesta:
+        synopsis: "siesta < input.fdf"
+        input_mode: stdin_file
+        required_files: [input.fdf, pseudopotentials and structure files referenced by it]
+        output_behavior: Writes primary output to stdout and SIESTA result/restart files in the job directory.
+        example_arguments: []
+
+  dftbplus:
+    purpose: Execute a complete DFTB+ calculation from native fixed-name input.
+    commands:
+      dftb+:
+        synopsis: "dftb+"
+        input_mode: fixed_files
+        required_files: [dftb_in.hsd, referenced Slater-Koster and geometry files]
+        output_behavior: Reads dftb_in.hsd and writes detailed.out, results.tag, and requested files.
+        example_arguments: []
+
+  abinit:
+    purpose: Execute a complete ABINIT input deck.
+    commands:
+      abinit:
+        synopsis: "abinit input.abi"
+        input_mode: arguments
+        required_files: [input.abi, pseudopotentials and files referenced by it]
+        output_behavior: Writes primary text to stdout and ABINIT files selected by input variables.
+        example_arguments: ["input.abi"]
+
+  vasp:
+    purpose: Execute a VASP calculation from the standard Agent-prepared input set.
+    commands:
+      vasp_std:
+        synopsis: "vasp_std"
+        input_mode: fixed_files
+        required_files: [INCAR, POSCAR, POTCAR, KPOINTS]
+        output_behavior: Reads standard fixed filenames and writes OUTCAR, OSZICAR, vasprun.xml, CONTCAR, WAVECAR, CHGCAR, and requested outputs.
+        example_arguments: []
+        notes:
+          - POTCAR assembly and every INCAR/KPOINTS setting must be explicit and license-compliant.
+
+  phonopy:
+    purpose: Invoke an explicit Phonopy command for displacement generation, force-constant construction, or phonon analysis.
+    commands:
+      phonopy:
+        synopsis: "phonopy [mode/options] [configuration files]"
+        input_mode: arguments
+        required_files: [mode-specific structure, force, or configuration files]
+        output_behavior: Writes displacement, force-constant, band, DOS, thermal, or other selected outputs.
+        example_arguments: ["--dim", "2 2 2", "-d", "--vasp", "POSCAR"]
+        notes:
+          - Calculator interface, supercell matrix, displacement settings, force data, mesh/path, and non-analytical corrections must be explicit.
+
+  phono3py:
+    purpose: Invoke an explicit Phono3py command for third-order force constants and lattice thermal transport.
+    commands:
+      phono3py:
+        synopsis: "phono3py [mode/options] [configuration files]"
+        input_mode: arguments
+        required_files: [mode-specific structure, displacement, force, and configuration files]
+        output_behavior: Writes fc2/fc3, collision, conductivity, and other selected files.
+        example_arguments: ["--dim", "2 2 2", "-d", "--pa", "auto", "POSCAR"]
+
+  shengbte:
+    purpose: Solve lattice thermal transport from an Agent-authored ShengBTE CONTROL and force constants.
+    commands:
+      ShengBTE:
+        synopsis: "ShengBTE"
+        input_mode: fixed_files
+        required_files: [CONTROL, FORCE_CONSTANTS_2ND, FORCE_CONSTANTS_3RD]
+        output_behavior: Reads fixed filenames and writes thermal-conductivity and convergence files in the job directory.
+        example_arguments: []
+
+  vina:
+    purpose: Run AutoDock Vina docking or scoring with explicitly selected receptor, ligand, box, and search settings.
+    commands:
+      vina:
+        synopsis: "vina --receptor receptor.pdbqt --ligand ligand.pdbqt --center_x X --center_y Y --center_z Z --size_x X --size_y Y --size_z Z --out poses.pdbqt [options]"
+        input_mode: arguments
+        required_files: [receptor.pdbqt, ligand.pdbqt]
+        output_behavior: Writes poses to --out and scores/logs to stdout or --log.
+        example_arguments: ["--receptor", "receptor.pdbqt", "--ligand", "ligand.pdbqt", "--center_x", "0", "--center_y", "0", "--center_z", "0", "--size_x", "20", "--size_y", "20", "--size_z", "20", "--out", "poses.pdbqt", "--exhaustiveness", "8"]
+
+  gnina:
+    purpose: Run GNINA docking/rescoring with explicitly selected receptor, ligand, box, CNN model, and search settings.
+    commands:
+      gnina:
+        synopsis: "gnina -r receptor.pdbqt -l ligand.sdf --center_x X --center_y Y --center_z Z --size_x X --size_y Y --size_z Z -o poses.sdf [options]"
+        input_mode: arguments
+        required_files: [receptor file, ligand file]
+        output_behavior: Writes poses to -o and scores/logs to stdout.
+        example_arguments: ["-r", "receptor.pdbqt", "-l", "ligand.sdf", "--center_x", "0", "--center_y", "0", "--center_z", "0", "--size_x", "20", "--size_y", "20", "--size_z", "20", "-o", "poses.sdf"]
+
+  qcengine:
+    runtime: workflows
+    purpose: Invoke the QCEngine command-line interface on an Agent-authored QCSchema input and explicitly selected program.
+    commands:
+      qcengine:
+        synopsis: "qcengine run <program> input.json [CLI options]"
+        input_mode: arguments
+        required_files: [QCSchema AtomicInput or procedure input JSON]
+        output_behavior: Writes the QCEngine result record to stdout or the explicitly selected CLI output.
+        example_arguments: ["run", "<program>", "input.json"]
+        notes:
+          - The program name, model chemistry, driver, molecule, keywords, protocols, and resources must be present explicitly in the command/input.
+
+  aiida:
+    runtime: workflows
+    purpose: Inspect and operate the configured AiiDA profile with explicit verdi subcommands.
+    commands:
+      verdi:
+        synopsis: "verdi <status|profile|code|computer|process|...> [subcommand options]"
+        input_mode: arguments
+        required_files: [subcommand-specific files]
+        output_behavior: Reads or updates the configured AiiDA profile and writes diagnostics/results to stdout.
+        example_arguments: ["status"]
+        notes:
+          - The first argument must be an explicit verdi subcommand. AiiDA workflow definitions themselves belong in the programmable layer.
+
+  censo:
+    runtime: reaction
+    purpose: Run CENSO ensemble refinement from an Agent-selected conformer ensemble and explicit settings.
+    commands:
+      censo:
+        synopsis: "censo -i conformers.xyz [explicit CENSO options]"
+        input_mode: arguments
+        required_files: [conformers.xyz, optional censo configuration/files]
+        output_behavior: Writes ensemble refinement logs, energies, populations, and refined structures in the job directory.
+        example_arguments: ["-i", "conformers.xyz"]
+        notes:
+          - Solvent, temperature, electronic-structure levels, thresholds, and parallel resources remain Agent choices.
+
+  geometric:
+    runtime: nwchem
+    purpose: Run the geomeTRIC command-line optimizer against an explicitly selected engine and Agent-authored input.
+    commands:
+      geometric-optimize:
+        synopsis: "geometric-optimize [optimizer options] input.xyz --engine <engine>"
+        input_mode: arguments
+        required_files: [input geometry and engine-specific files]
+        output_behavior: Writes optimization logs, trajectory, and optimized coordinates in the job directory.
+        example_arguments: ["input.xyz", "--engine", "<engine>"]
+        notes:
+          - Engine, constraints, coordinate system, convergence thresholds, and engine method are not selected by the runner.
+
+  wannier90:
+    runtime: qe
+    purpose: Preprocess and execute Wannier90 from an Agent-authored seedname.win and upstream interface files.
+    commands:
+      wannier90.x:
+        synopsis: "wannier90.x [-pp] seedname"
+        input_mode: arguments
+        required_files: [seedname.win and mode-specific .amn/.mmn/.eig/.chk files]
+        output_behavior: Writes seedname.wout and selected Wannier functions, matrices, bands, or transport files.
+        example_arguments: ["-pp", "seedname"]
+        notes:
+          - Run preprocessing and main execution as separate explicit jobs when both are required.
+
+  arkane:
+    runtime: rmg
+    purpose: Run Arkane thermochemistry, kinetics, pressure-dependence, or statmech jobs from a complete input file.
+    commands:
+      Arkane.py:
+        synopsis: "Arkane.py input.py [CLI options]"
+        input_mode: arguments
+        required_files: [input.py and all referenced quantum-chemistry/statmech files]
+        output_behavior: Writes Arkane logs, species/reaction data, plots, and library outputs in the selected output directory.
+        example_arguments: ["input.py"]
+
+  automekin:
+    runtime: automekin
+    purpose: Invoke individual AutoMeKin and bundled MOPAC entry points from explicit native inputs.
+    commands:
+      amk.sh:
+        synopsis: "amk.sh <Agent-prepared AutoMeKin input> [explicit options]"
+        input_mode: arguments
+        required_files: [AutoMeKin control/structure inputs and referenced resources]
+        output_behavior: Writes reaction-discovery intermediates, trajectories, candidates, and logs in the job directory.
+        example_arguments: ["input.dat"]
+        notes:
+          - This invokes the native program only; it does not prewire Gaussian, Qcore, or another electronic-structure engine.
+      mopac:
+        synopsis: "mopac input.mop"
+        input_mode: arguments
+        required_files: [input.mop]
+        output_behavior: Writes input.out, input.arc, and method-specific MOPAC files.
+        example_arguments: ["input.mop"]
+      bbfs.exe:
+        synopsis: "bbfs.exe [AutoMeKin component arguments]"
+        input_mode: arguments
+        required_files: [AutoMeKin component-specific inputs]
+        output_behavior: Writes component-specific search data to the job directory/stdout.
+        example_arguments: []
+        notes:
+          - Use only when the cached AutoMeKin documentation identifies bbfs.exe as the required native component for the Agent's planned step.
+
+  kinbot:
+    runtime: kinbot
+    purpose: Run KinBot species/reaction or PES searches from an Agent-authored JSON input.
+    commands:
+      kinbot:
+        synopsis: "kinbot input.json"
+        input_mode: arguments
+        required_files: [input.json and referenced structures/templates]
+        output_behavior: Writes KinBot logs, geometries, reaction candidates, and database files.
+        example_arguments: ["input.json"]
+      pes:
+        synopsis: "pes input.json"
+        input_mode: arguments
+        required_files: [input.json and referenced KinBot/PES files]
+        output_behavior: Writes PES search and postprocessing outputs in the job directory.
+        example_arguments: ["input.json"]
+
+  sharc:
+    runtime: sharc
+    purpose: Execute SHARC surface-hopping dynamics or wavefunction-overlap analysis from complete native inputs.
+    commands:
+      sharc.x:
+        synopsis: "sharc.x input"
+        input_mode: arguments
+        required_files: [SHARC input, initial conditions, and selected electronic-structure interface files]
+        output_behavior: Writes trajectory, hopping, energy, state, and restart files in the job directory.
+        example_arguments: ["input"]
+      wfoverlap.x:
+        configured_path: .software_cache/sharc/source/bin/wfoverlap_ascii.x
+        synopsis: "wfoverlap.x < overlap.inp"
+        input_mode: stdin_file
+        required_files: [overlap.inp and referenced wavefunction/orbital files]
+        output_behavior: Writes overlap diagnostics and matrices to stdout or requested files.
+        example_arguments: []
+        notes:
+          - The configured wfoverlap.x entry resolves to the installed ASCII executable.
+
+  newton_x:
+    runtime: newtonx
+    purpose: Generate and run Newton-X nonadiabatic dynamics from Agent-authored control files.
+    commands:
+      nx_geninp:
+        synopsis: "nx_geninp [explicit generator options]"
+        input_mode: arguments_or_stdin
+        required_files: [generator answers/options and system/electronic-structure inputs]
+        output_behavior: Writes Newton-X control and initial-condition files.
+        example_arguments: []
+      nx_moldyn:
+        synopsis: "nx_moldyn"
+        input_mode: fixed_files
+        required_files: [Newton-X control.dyn and all referenced initial/electronic-structure files]
+        output_behavior: Writes trajectory, state, energy, hopping, and restart outputs in the job directory.
+        example_arguments: []
+      nx_test:
+        synopsis: "nx_test <test_id> [options]"
+        input_mode: arguments
+        required_files: [test-specific files]
+        output_behavior: Writes Newton-X test diagnostics to stdout and test directories.
+        example_arguments: ["1"]
+
+  theodore:
+    runtime: theodore
+    purpose: Run TheoDORE excited-state and transition-density analyses from explicit subcommands and quantum-chemistry files.
+    commands:
+      theodore:
+        synopsis: "theodore <subcommand> [subcommand options]"
+        input_mode: arguments
+        required_files: [subcommand-specific excited-state, orbital, or density files]
+        output_behavior: Writes state-character tables, charge-transfer metrics, plots, and requested analysis files.
+        example_arguments: ["analyze_tden", "-f", "dens_ana.in"]
+
+  matlab:
+    runtime: matlab
+    purpose: Execute an Agent-authored MATLAB R2018a script when a legitimate local MATLAB installation and license are available.
+    commands:
+      matlab:
+        synopsis: "matlab -nodisplay -nosplash -nodesktop -r \"run('analysis.m'); exit\""
+        input_mode: arguments
+        required_files: [analysis.m and referenced data/toolboxes]
+        output_behavior: Writes script-selected files and MATLAB console output to stdout/stderr.
+        example_arguments: ["-nodisplay", "-nosplash", "-nodesktop", "-r", "run('analysis.m'); exit"]
+        notes:
+          - MATLAB is currently license-gated; this entry remains visible and reports unavailable until a legitimate installation is configured.
+
+  easyspin:
+    runtime: easyspin
+    purpose: Execute an Agent-authored MATLAB script using the staged EasySpin 6.0.12 toolbox when MATLAB is licensed and available.
+    commands:
+      matlab:
+        synopsis: "matlab -nodisplay -nosplash -nodesktop -r \"addpath('<EasySpin path>'); run('analysis.m'); exit\""
+        input_mode: arguments
+        required_files: [analysis.m, EasySpin inputs, and experimental data]
+        output_behavior: Writes simulated spectra, fitted parameters, figures/data, and console output selected by the script.
+        example_arguments: ["-nodisplay", "-nosplash", "-nodesktop", "-r", "run('analysis.m'); exit"]
+        notes:
+          - The EasySpin toolbox is staged, but execution remains unavailable until licensed MATLAB is configured.
+
+  yambo:
+    runtime: yambo
+    purpose: Convert compatible upstream databases and run Agent-authored Yambo MBPT/GW/BSE calculations.
+    commands:
+      p2y:
+        synopsis: "p2y [conversion options]"
+        input_mode: arguments
+        required_files: [compatible upstream electronic-structure save database]
+        output_behavior: Creates the Yambo SAVE database and conversion log.
+        example_arguments: []
+      yambo:
+        synopsis: "yambo -F input.in -J job_name [explicit options]"
+        input_mode: arguments
+        required_files: [input.in, SAVE database, and required restart databases]
+        output_behavior: Writes report, database, quasiparticle, response, or excitonic files selected by input.in.
+        example_arguments: ["-F", "input.in", "-J", "job"]
+
+  vmd:
+    runtime: vmd
+    purpose: Run an Agent-authored VMD/Tcl trajectory, structure, selection, measurement, or rendering script in text mode.
+    commands:
+      vmd:
+        synopsis: "vmd -dispdev text -e analysis.tcl [structure/trajectory options]"
+        input_mode: arguments
+        required_files: [analysis.tcl and referenced structures/trajectories]
+        output_behavior: Writes Tcl-selected measurements and files plus console output.
+        example_arguments: ["-dispdev", "text", "-e", "analysis.tcl"]
+
+  vesta:
+    runtime: vesta
+    purpose: Open or convert crystal/volumetric structure data with the installed VESTA GUI runtime.
+    commands:
+      VESTA:
+        synopsis: "VESTA structure_file"
+        input_mode: arguments
+        required_files: [supported crystal, density, or project file]
+        output_behavior: Starts VESTA and writes only outputs explicitly requested through its supported interface.
+        example_arguments: ["structure.cif"]
+        notes:
+          - VESTA is GUI-oriented; headless execution requires the deployment's Xvfb/display wrapper and many interactive operations are unsuitable for unattended benchmark runs.

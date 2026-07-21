@@ -1,4 +1,3 @@
-"""Portable, traced MCP wrappers around ChemGraph chemistry core functions."""
+"""Portable, traced MCP transport for the three-layer chemistry toolbox."""
 
-__version__ = "0.1.0"
-
+__version__ = "0.3.0"

@@ -1,8 +1,14 @@
 {
-  "schema_version": 2,
-  "server_name": "ResearchChem Atomic Chemistry Toolbox",
+  "schema_version": 3,
+  "server_name": "ResearchChem Three-Layer Chemistry Toolbox",
   "exposure_policy": "atomic_all",
   "backend_selection_policy": "per_action_explicit",
+  "open_execution_policy": "agent_explicit",
   "automatic_fallback": false,
-  "catalog_resource": "researchchem://catalog"
+  "catalog_resource": "researchchem://catalog",
+  "software_resource": "researchchem://software",
+  "execution_policy_resource": "researchchem://execution-policy",
+  "execution_layers": ["predefined_actions", "native_software", "programmable_analysis"],
+  "native_shell": false,
+  "programmable_shell": false
 }

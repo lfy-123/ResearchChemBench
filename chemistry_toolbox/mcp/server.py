@@ -12,6 +12,7 @@ from mcp.server.fastmcp import FastMCP
 from researchchem_toolbox.catalog import agent_toolbox_overview
 
 from .registry import load_tool_config, register_all_tools, register_catalog_resources
+from .software_catalog import open_execution_prompt
 from .workspace import workspace_root
 
 
@@ -22,7 +23,7 @@ def create_server(profile: str | None = None) -> FastMCP:
     config = load_tool_config()
     server = FastMCP(
         name=str(config.get("server_name", "ResearchChem Atomic Chemistry Toolbox")),
-        instructions=agent_toolbox_overview(include_health=True),
+        instructions=agent_toolbox_overview(include_health=True) + open_execution_prompt(),
     )
     register_all_tools(server)
     register_catalog_resources(server)

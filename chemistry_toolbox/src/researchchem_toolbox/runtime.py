@@ -18,6 +18,7 @@ from .paths import CONFIG_ROOT, PROJECT_ROOT, SOURCE_ROOT
 
 
 PROFILE_CONFIG_PATH = CONFIG_ROOT / "mcp_profiles.yaml"
+AUXILIARY_CONFIG_PATH = CONFIG_ROOT / "auxiliary_environments.yaml"
 
 
 @lru_cache(maxsize=1)
@@ -25,6 +26,14 @@ def load_runtime_config() -> dict[str, Any]:
     value = yaml.safe_load(PROFILE_CONFIG_PATH.read_text(encoding="utf-8")) or {}
     if not isinstance(value.get("profiles"), dict):
         raise ValueError(f"Invalid runtime profile configuration: {PROFILE_CONFIG_PATH}")
+    return value
+
+
+@lru_cache(maxsize=1)
+def load_auxiliary_runtime_config() -> dict[str, Any]:
+    value = yaml.safe_load(AUXILIARY_CONFIG_PATH.read_text(encoding="utf-8")) or {}
+    if not isinstance(value.get("auxiliary_environments"), dict):
+        raise ValueError(f"Invalid auxiliary runtime configuration: {AUXILIARY_CONFIG_PATH}")
     return value
 
 
@@ -37,6 +46,12 @@ def runtime_spec(name: str) -> dict[str, Any]:
             result["name"] = name
             result["group"] = group
             return result
+    auxiliary = load_auxiliary_runtime_config().get("auxiliary_environments") or {}
+    if name in auxiliary:
+        result = dict(auxiliary[name])
+        result["name"] = name
+        result["group"] = "auxiliary_environments"
+        return result
     raise KeyError(f"Unknown backend runtime {name!r}")
 
 
@@ -52,6 +67,23 @@ def runtime_python(name: str) -> Path:
         path = Path(configured).expanduser()
         return path.resolve() if path.is_absolute() else (PROJECT_ROOT / path).resolve()
     return runtime_path(name) / "bin" / "python"
+
+
+def runtime_names() -> tuple[str, ...]:
+    """Return every configured runtime id without treating runtimes as tool filters."""
+
+    config = load_runtime_config()
+    auxiliary = load_auxiliary_runtime_config()
+    return tuple(
+        sorted(
+            {
+                str(name)
+                for group in ("profiles", "support_environments")
+                for name in (config.get(group) or {})
+            }
+            | set(auxiliary.get("auxiliary_environments") or {})
+        )
+    )
 
 
 def _runtime_entries(specification: dict[str, Any], key: str) -> list[str]:
@@ -173,6 +205,7 @@ print(json.dumps(out))
 
 
 def _resolve_executable(runtime: str, executable: str) -> str | None:
+    specification = runtime_spec(runtime)
     bin_directory = runtime_path(runtime) / "bin"
     candidates = [bin_directory / executable]
     if executable == "cp2k":
@@ -180,10 +213,28 @@ def _resolve_executable(runtime: str, executable: str) -> str | None:
     for candidate in candidates:
         if candidate.is_file() and os.access(candidate, os.X_OK):
             return str(candidate.resolve())
+    external_commands = [
+        *(specification.get("external_commands") or []),
+        *((specification.get("health_checks") or {}).get("external_commands") or []),
+    ]
+    for value in external_commands:
+        candidate = Path(str(value)).expanduser()
+        if not candidate.is_absolute():
+            candidate = PROJECT_ROOT / candidate
+        if candidate.name == executable and candidate.is_file() and os.access(candidate, os.X_OK):
+            return str(candidate.resolve())
     configured = shutil.which(executable, path=runtime_environment(runtime).get("PATH"))
     if configured:
         return str(Path(configured).resolve())
     return None
+
+
+def resolve_executable(runtime: str, executable: str) -> str | None:
+    """Resolve one exact configured command name in one declared runtime."""
+
+    if "/" in executable or "\\" in executable or not executable.strip():
+        raise ValueError("executable must be a configured command name, not a path")
+    return _resolve_executable(runtime, executable)
 
 
 def probe_all_backends(specs: Iterable[BackendSpec]) -> dict[str, dict[str, Any]]:

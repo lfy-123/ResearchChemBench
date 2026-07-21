@@ -19,6 +19,8 @@ from researchchem_toolbox.catalog import (
 from researchchem_toolbox.paths import PROJECT_ROOT
 
 from .registry import configuration_errors
+from .open_tools import OPEN_EXECUTION_TOOL_NAMES
+from .software_catalog import load_native_guides, validate_native_guides
 
 
 PACKAGE_ROOT = Path(__file__).resolve().parent
@@ -140,12 +142,15 @@ def main() -> int:
         return 0
     if args.command == "validate":
         validate_catalog()
+        validate_native_guides()
         errors = configuration_errors()
         if errors:
             raise SystemExit("\n".join(errors))
         print(
             f"ok: {len(action_specs())} actions, {len(backend_specs())} backends, "
-            "full exposure, agent-required backend selection, no fallback"
+            f"{len(OPEN_EXECUTION_TOOL_NAMES)} open-execution tools, "
+            f"{len(load_native_guides()['software'])} native software guides, "
+            "three peer layers, agent-required choices, no fallback"
         )
         return 0
     if args.command == "catalog":

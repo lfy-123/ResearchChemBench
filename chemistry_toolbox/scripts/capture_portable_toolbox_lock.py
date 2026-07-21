@@ -33,6 +33,8 @@ MCP_CONFIG = TOOLBOX_ROOT / "config" / "mcp_profiles.yaml"
 AUX_CONFIG = TOOLBOX_ROOT / "config" / "auxiliary_environments.yaml"
 RESOURCE_CONFIG = TOOLBOX_ROOT / "config" / "toolbox_resources.json"
 REQUESTED_CONFIG = TOOLBOX_ROOT / "config" / "requested_software.yaml"
+NATIVE_GUIDE_CONFIG = TOOLBOX_ROOT / "config" / "native_software_guides.yaml"
+TOOL_CONFIG = TOOLBOX_ROOT / "mcp" / "tool_config.json"
 DEFAULT_LOCK_ROOT = TOOLBOX_ROOT / "environment" / "locks"
 PROJECT_DISTRIBUTION = "researchchembench"
 
@@ -629,7 +631,14 @@ def main() -> int:
         },
         "configuration_files": {
             relative(path): {"sha256": sha256(path)}
-            for path in (MCP_CONFIG, AUX_CONFIG, RESOURCE_CONFIG, REQUESTED_CONFIG)
+            for path in (
+                MCP_CONFIG,
+                AUX_CONFIG,
+                RESOURCE_CONFIG,
+                REQUESTED_CONFIG,
+                NATIVE_GUIDE_CONFIG,
+                TOOL_CONFIG,
+            )
         },
         "summary": {
             "environment_count": len(captured),

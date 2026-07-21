@@ -107,7 +107,24 @@ def catalog_snapshot(*, include_health: bool = True) -> dict[str, Any]:
     validate_catalog()
     health = probe_all_backends(BACKEND_SPECS) if include_health else {}
     payload: dict[str, Any] = {
-        "schema_version": 4,
+        "schema_version": 5,
+        "execution_layers": [
+            {
+                "id": "predefined_actions",
+                "role": "validated common scientific operations",
+                "mandatory": False,
+            },
+            {
+                "id": "native_software",
+                "role": "Agent-authored native inputs and exact allowlisted commands",
+                "mandatory": False,
+            },
+            {
+                "id": "programmable_analysis",
+                "role": "Agent-authored programs in explicitly selected chemistry runtimes",
+                "mandatory": False,
+            },
+        ],
         "exposure_policy": "atomic_all",
         "backend_selection_policy": "per_action_explicit",
         "provider_selection_policies": sorted(
@@ -251,12 +268,14 @@ def agent_toolbox_overview(
     for specification in ACTION_SPECS:
         grouped[specification.category].append(specification)
     lines = [
-        "All tasks receive this same complete atomic tool catalog. You decide which tools "
+        "Layer 1 exposes this same complete predefined Action catalog to every task. These "
+        "Actions are validated conveniences for common operations, not a required workflow or "
+        "the boundary of the toolbox. You decide which tools "
         "to call, their order, and every scientifically meaningful backend, component, source, "
         "and method choice. There is no "
         "hidden workflow, task-specific tool retrieval, automatic backend selection, or fallback.",
         "",
-        "Every tool accepts one ActionRequest object with: backend_id, component_backends, "
+        "Every predefined Action accepts one ActionRequest object with: backend_id, component_backends, "
         "source_id, inputs, method_spec, action_settings, and optional resource_limits. Read each "
         "tool description before calling it: numerical computations require an Agent-selected "
         "backend; composite computations also require every component role; fixed-source data and "
@@ -311,7 +330,8 @@ def agent_toolbox_overview(
             "",
             "An unavailable backend remains visible so that the choice set is not hidden. "
             "If a call fails, inspect that exact result and independently decide whether to "
-            "change parameters, call another tool, or submit a new call with another backend.",
+            "change parameters, call another Action, use the native-software layer, or write an "
+            "analysis program. The system never makes that decision for you.",
         ]
     )
     return "\n".join(lines)
@@ -325,7 +345,7 @@ def markdown_catalog(*, include_health: bool = True) -> str:
         "",
         f"Catalog hash: `{snapshot['catalog_hash']}`",
         "",
-        "The benchmark exposes every action below for every task. Provider selection follows each Action's policy.",
+        "These predefined Actions are the validated common-operation layer. They are exposed to every task but are not mandatory; the MCP server also exposes native-software and programmable-analysis layers. Provider selection follows each Action's policy.",
         "",
         "| Action | Category | Primary output | Selection policy | Providers | Required inputs | Description |",
         "|---|---|---|---|---|---|---|",

@@ -1,6 +1,7 @@
-# Dependency runtimes that are intentionally not public MCP profiles.
-# They provide installed software for inventory/health auditing and future
-# atomic adapters; they never hide or reorder the public Agent tool catalog.
+# Dependency runtimes that do not filter or own predefined Action tools.
+# Installed modules and reviewed commands can be selected explicitly through
+# the programmable/native MCP layers; no workflow or scientific parameter is
+# inferred from an auxiliary environment.
 auxiliary_environments:
   workflows:
     conda_name: researchchem-workflows

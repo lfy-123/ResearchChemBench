@@ -34,6 +34,7 @@ chemistry_toolbox/environment/locks/
 | Conda 包 | 完整构建 URL、build、平台和包文件 SHA-256 | 在 `linux-64` 上恢复完全相同的 Conda 构建 |
 | pip 包 | 以运行中 Python 的 `pip list` 为准锁定名称和版本 | 避免只依赖可能陈旧的 Conda `pypi_0` 元数据 |
 | 项目代码 | 记录 Git commit，项目包按 `--no-deps --editable` 重新安装 | 后端始终使用目标 checkout 的代码 |
+| 原生软件调用契约 | `native_software_guides.yaml` 的 SHA-256 纳入 lock manifest | 软件版本迁移后不会静默沿用不匹配的命令格式 |
 | 工具箱配置 | 对 MCP profile、辅助环境、软件清单和资源清单计算 SHA-256 | 防止用旧锁恢复已经改变的 Backend/资源配置 |
 | 模型、参数库和关键程序 | 记录路径、版本、存在性以及已登记校验和 | 迁移后检查模型、赝势、DFTB 参数和关键二进制是否完整 |
 | 手工/许可项目 | 在 manifest 中单独列出，不自动下载 | 避免绕过许可证、账号或人工审批 |

@@ -20,6 +20,13 @@ for path in (SOURCE_ROOT, ROOT):
         sys.path.insert(0, str(path))
 
 from chemistry_toolbox.mcp.profiles import load_profile_config
+from chemistry_toolbox.mcp.open_tools import OPEN_EXECUTION_TOOL_NAMES
+from chemistry_toolbox.mcp.software_catalog import (
+    list_analysis_runtimes,
+    load_native_guides,
+    validate_native_guides,
+)
+from chemistry_toolbox.mcp.execution_models import AnalysisRuntimeListRequest
 from chemistry_toolbox.mcp.tool_manager import installation_report
 from researchchem_toolbox.backends import (
     cheminformatics,
@@ -52,6 +59,13 @@ def structural_checks() -> list[dict[str, Any]]:
         checks.append({"name": "runtime_profiles", "status": "pass"})
     except Exception as exc:
         checks.append({"name": "runtime_profiles", "status": "fail", "error": str(exc)})
+    try:
+        validate_native_guides()
+        checks.append({"name": "native_invocation_guides", "status": "pass"})
+    except Exception as exc:
+        checks.append(
+            {"name": "native_invocation_guides", "status": "fail", "error": str(exc)}
+        )
     handled = set().union(
         interchange.ACTIONS,
         structure.ACTIONS,
@@ -227,7 +241,7 @@ def markdown(payload: dict[str, Any]) -> str:
     unavailable = [name for name, item in health.items() if not item or not item.get("available")]
     install = payload["installation"]
     lines = [
-        "# ResearchChem Atomic Toolbox Status",
+        "# ResearchChem Three-Layer Toolbox Status",
         "",
         f"Generated: `{payload['generated_at']}`",
         f"Catalog hash: `{payload['catalog']['catalog_hash']}`",
@@ -237,11 +251,16 @@ def markdown(payload: dict[str, Any]) -> str:
         f"- Scientific Actions: {payload['scientific_actions']}",
         f"- Data Actions: {payload['data_actions']}",
         f"- BackendSpecs: {payload['backend_count']}",
+        f"- Open execution MCP tools: {payload['open_execution_tool_count']}",
+        f"- Native software invocation guides: {payload['native_software_count']}",
+        f"- Native command guides: {payload['native_command_count']}",
+        f"- Available programmable runtimes: {payload['analysis_runtime_count']}",
         f"- Available backends: {len(available)}",
         f"- Unavailable backends: {len(unavailable)}",
         "- Exposure: full catalog for every task",
         "- Backend selection: Agent required",
         "- Automatic fallback: disabled",
+        "- Layers: predefined Actions, native software, programmable analysis",
         "",
         "## Structural checks",
         "",
@@ -291,6 +310,15 @@ def main() -> int:
         "scientific_actions": sum(not item.data_action for item in action_specs().values()),
         "data_actions": sum(item.data_action for item in action_specs().values()),
         "backend_count": len(backend_specs()),
+        "open_execution_tool_count": len(OPEN_EXECUTION_TOOL_NAMES),
+        "native_software_count": len(load_native_guides()["software"]),
+        "native_command_count": sum(
+            len(item["commands"])
+            for item in load_native_guides()["software"].values()
+        ),
+        "analysis_runtime_count": list_analysis_runtimes(
+            AnalysisRuntimeListRequest(available_only=True)
+        )["count"],
         "checks": checks,
         "catalog": catalog,
         "installation": installation_report(),

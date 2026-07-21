@@ -18,6 +18,8 @@ from researchchem_toolbox.models import ActionRequest, ActionSpec
 from researchchem_toolbox.service import execute_action
 
 from .tracing import execute_traced
+from .open_tools import register_open_execution_tools
+from .software_catalog import open_execution_prompt, software_resource_snapshot
 
 
 PACKAGE_ROOT = Path(__file__).resolve().parent
@@ -79,6 +81,16 @@ def configuration_errors(config: dict[str, Any] | None = None) -> list[str]:
         errors.append("tool_config.json backend_selection_policy must be per_action_explicit")
     if value.get("automatic_fallback", False) is not False:
         errors.append("tool_config.json automatic_fallback must be false")
+    if value.get("open_execution_policy") != "agent_explicit":
+        errors.append("tool_config.json open_execution_policy must be agent_explicit")
+    if value.get("execution_layers") != [
+        "predefined_actions",
+        "native_software",
+        "programmable_analysis",
+    ]:
+        errors.append("tool_config.json must declare the three execution layers in order")
+    if value.get("native_shell") is not False or value.get("programmable_shell") is not False:
+        errors.append("tool_config.json native_shell and programmable_shell must be false")
     if "enabled_tools" in value or "disabled_tools" in value:
         errors.append(
             "tool_config.json cannot contain enabled_tools/disabled_tools because the "
@@ -125,7 +137,7 @@ def _make_action_callable(specification: ActionSpec):
 
 
 def register_all_tools(mcp) -> list[str]:
-    """Register the complete Scientific/Data Action catalog without filtering."""
+    """Register all Actions plus the neutral native/program execution primitives."""
 
     discover_tools(strict=True)
     registered = []
@@ -136,12 +148,21 @@ def register_all_tools(mcp) -> list[str]:
             description=mcp_action_description(specification),
         )(function)
         registered.append(specification.id)
+    registered.extend(register_open_execution_tools(mcp))
     return registered
 
 
 def register_catalog_resources(mcp) -> None:
-    """Expose the same complete, read-only catalog as an MCP Resource, not a tool."""
+    """Expose complete read-only Action and open-execution catalogs."""
 
     @mcp.resource("researchchem://catalog")
     def complete_catalog() -> str:
         return json.dumps(active_catalog_snapshot(), ensure_ascii=False, indent=2)
+
+    @mcp.resource("researchchem://software")
+    def complete_software_inventory() -> str:
+        return json.dumps(software_resource_snapshot(), ensure_ascii=False, indent=2)
+
+    @mcp.resource("researchchem://execution-policy")
+    def execution_policy() -> str:
+        return open_execution_prompt()

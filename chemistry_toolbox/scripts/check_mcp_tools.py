@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the full MCP catalog and optionally run a no-network atomic smoke flow."""
+"""Validate all three MCP layers and optionally run a no-network Action smoke flow."""
 
 from __future__ import annotations
 
@@ -19,18 +19,22 @@ for path in (SOURCE_ROOT, ROOT):
         sys.path.insert(0, str(path))
 
 from researchchem_toolbox.catalog import action_specs, validate_catalog
+from chemistry_toolbox.mcp.open_tools import OPEN_EXECUTION_TOOL_NAMES
 
 
 def _require_success(name: str, result) -> None:
     if getattr(result, "is_error", False):
         raise RuntimeError(f"MCP smoke call failed: {name}: {result}")
+    data = getattr(result, "data", None)
+    if isinstance(data, dict) and data.get("status") not in {"success", "partial_success"}:
+        raise RuntimeError(f"MCP smoke call returned {data.get('status')}: {name}: {data}")
 
 
 async def run(*, smoke: bool = False) -> None:
     validate_catalog()
     with tempfile.TemporaryDirectory(prefix="researchchembench-mcp-") as temporary:
         workspace = Path(temporary)
-        for name in ("outputs", "report", "tool_logs", "_tool_results", "_tool_artifacts"):
+        for name in ("code", "outputs", "report", "tool_logs", "_tool_results", "_tool_artifacts"):
             (workspace / name).mkdir()
         os.environ["RESEARCHCHEMBENCH_WORKSPACE"] = str(workspace)
         os.environ["RESEARCHCHEMBENCH_RUN_ID"] = "mcp-tool-check"
@@ -41,12 +45,17 @@ async def run(*, smoke: bool = False) -> None:
         async with Client(create_server()) as client:
             tools = await client.list_tools()
             tool_names = {tool.name for tool in tools}
-            if tool_names != set(action_specs()):
+            expected_tools = set(action_specs()) | set(OPEN_EXECUTION_TOOL_NAMES)
+            if tool_names != expected_tools:
                 raise RuntimeError(
-                    f"Full catalog mismatch: missing={sorted(set(action_specs()) - tool_names)}, "
-                    f"extra={sorted(tool_names - set(action_specs()))}"
+                    f"Full three-layer catalog mismatch: "
+                    f"missing={sorted(expected_tools - tool_names)}, "
+                    f"extra={sorted(tool_names - expected_tools)}"
                 )
-            print(f"Registered {len(tools)} complete-catalog Chemistry MCP tools")
+            print(
+                f"Registered {len(action_specs())} Actions and "
+                f"{len(OPEN_EXECUTION_TOOL_NAMES)} open-execution MCP tools"
+            )
             if not smoke:
                 return
             calls = [
@@ -118,18 +127,105 @@ async def run(*, smoke: bool = False) -> None:
             for name, arguments in calls:
                 _require_success(name, await client.call_tool(name, arguments))
 
+            open_trace = []
+            result = await client.call_tool(
+                "inspect_software", {"request": {"software_id": "cp2k"}}
+            )
+            _require_success("inspect_software", result)
+            if not result.data["native_invocation_guides"]:
+                raise RuntimeError("CP2K native invocation guide was not returned")
+            open_trace.append("inspect_software")
+
+            result = await client.call_tool(
+                "write_workspace_text",
+                {
+                    "request": {
+                        "path": "code/mcp_smoke.py",
+                        "content": (
+                            "from pathlib import Path\n"
+                            "print('open-layer-ok')\n"
+                            "Path('open_result.json').write_text('{\\\"ok\\\": true}\\n')\n"
+                        ),
+                    }
+                },
+            )
+            _require_success("write_workspace_text", result)
+            open_trace.append("write_workspace_text")
+
+            result = await client.call_tool(
+                "submit_analysis_program",
+                {
+                    "request": {
+                        "runtime": "core",
+                        "script_path": "code/mcp_smoke.py",
+                        "resource_limits": {
+                            "walltime_seconds": 30,
+                            "memory_mb": 512,
+                            "cpu_cores": 1,
+                            "gpu_count": 0,
+                        },
+                    }
+                },
+            )
+            _require_success("submit_analysis_program", result)
+            open_trace.append("submit_analysis_program")
+            job_id = result.data["job_id"]
+            job = None
+            for _attempt in range(100):
+                result = await client.call_tool(
+                    "get_execution_job",
+                    {"request": {"job_id": job_id, "tail_chars": 1000}},
+                )
+                _require_success("get_execution_job", result)
+                open_trace.append("get_execution_job")
+                job = result.data
+                if job["terminal"]:
+                    break
+                await asyncio.sleep(0.05)
+            if not job or job["job"]["status"] != "success":
+                raise RuntimeError(f"Programmable MCP smoke did not succeed: {job}")
+
+            result = await client.call_tool(
+                "collect_execution_job",
+                {"request": {"job_id": job_id, "tail_chars": 0}},
+            )
+            _require_success("collect_execution_job", result)
+            open_trace.append("collect_execution_job")
+            output = next(
+                item
+                for item in result.data["outputs"]
+                if item["job_relative_path"] == "open_result.json"
+            )
+            result = await client.call_tool(
+                "declare_scientific_artifact",
+                {
+                    "request": {
+                        "path": output["path"],
+                        "semantic_type": "mcp_open_execution_smoke",
+                        "media_type": "application/json",
+                        "producer_layer": "programmable_analysis",
+                        "producer_id": "core:mcp_smoke.py",
+                    }
+                },
+            )
+            _require_success("declare_scientific_artifact", result)
+            open_trace.append("declare_scientific_artifact")
+
         events = [
             json.loads(line)
             for line in (workspace / "_tool_trace.jsonl").read_text(encoding="utf-8").splitlines()
             if line.strip()
         ]
-        expected = [name for name, _arguments in calls]
+        expected = [name for name, _arguments in calls] + open_trace
         actual = [event["tool"] for event in events]
         if actual != expected:
             raise RuntimeError(f"Unexpected trace sequence: expected {expected}, got {actual}")
         if not (workspace / "_tool_artifacts" / "index.jsonl").is_file():
             raise RuntimeError("Semantic Artifact index was not created")
-        print("Atomic MCP smoke passed: explicit tools, explicit backends, Artifact chain, trace")
+        print(
+            "Three-layer MCP smoke passed: explicit Actions/backends, software guide, "
+            "Agent program, persistent job, Artifact chain, trace"
+        )
 
 
 def main() -> int:
