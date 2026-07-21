@@ -1,0 +1,15 @@
+name: deepseek_v4_flash_toolbox_smoke_five
+agents:
+  - opencode
+tasks:
+  - ChemGraph_001
+  - ChemGraph_005
+  - ChemGraph_007
+  - ChemGraph_024
+  - ChemGraph_032
+repeats: 1
+max_concurrent_runs: 1
+timeout_seconds: 7200
+max_turns: 160
+judge:
+  enabled: true
