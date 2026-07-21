@@ -22,3 +22,6 @@ Large runtime assets remain outside the source tree:
 - `../.model_cache`: model weights
 - `../.tool_envs`: isolated backend runtimes
 - `../.toolbox_env`: development and audit environment
+
+The completed migration and verification record is available in
+[`docs/CHEMISTRY_TOOLBOX_LAYOUT_REFACTOR_20260721.md`](docs/CHEMISTRY_TOOLBOX_LAYOUT_REFACTOR_20260721.md).
