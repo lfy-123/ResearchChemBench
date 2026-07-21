@@ -96,6 +96,11 @@ def main() -> int:
     parser.add_argument("--timeout-seconds", type=int, default=180)
     parser.add_argument("--live-materials-project", action="store_true")
     parser.add_argument("--check-models", action="store_true")
+    parser.add_argument(
+        "--no-write",
+        action="store_true",
+        help="Print the JSON result without updating the tracked status reports.",
+    )
     args = parser.parse_args()
     config = yaml.safe_load(CONFIG_PATH.read_text(encoding="utf-8"))
     runtimes = {}
@@ -119,9 +124,14 @@ def main() -> int:
         },
         "profiles": results,
     }
-    JSON_REPORT.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    MARKDOWN_REPORT.write_text(markdown(payload), encoding="utf-8")
-    print(MARKDOWN_REPORT)
+    if args.no_write:
+        print(json.dumps(payload, indent=2, ensure_ascii=False))
+    else:
+        JSON_REPORT.write_text(
+            json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
+        )
+        MARKDOWN_REPORT.write_text(markdown(payload), encoding="utf-8")
+        print(MARKDOWN_REPORT)
     return 1 if any(not item.get("required_ok") for item in results.values()) else 0
 
 

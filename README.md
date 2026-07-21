@@ -39,6 +39,15 @@ bash chemistry_toolbox/scripts/setup_toolbox_env.sh
 cp config.local.env.example config.local.env
 ```
 
+To reproduce the exact currently audited multi-environment installation on
+another Linux x86-64 host, use the committed platform locks and portable
+bootstrap instead of the rolling dependency specifications:
+
+```bash
+bash chemistry_toolbox/scripts/bootstrap_chemistry_toolbox.sh \
+  --asset-source /path/to/existing/ResearchChemBench
+```
+
 The installer registers the project environments as `researchchem-*` Conda names. Verify or
 activate them with:
 
@@ -127,6 +136,7 @@ _score.json
 - [逐工具测试结果与未配置软件手动配置](docs/TOOL_TEST_AND_MANUAL_CONFIGURATION.md)
 - [工具箱实际状态报告](chemistry_toolbox/docs/TOOLBOX_STATUS.md)
 - [MCP 工具编写、增删、打包与 Agent 一键安装](docs/MCP_TOOLS_DEVELOPMENT_AND_INSTALLATION.md)
+- [化学工具箱自动配置与可迁移部署](chemistry_toolbox/docs/CHEMISTRY_TOOLBOX_PORTABLE_BOOTSTRAP.md)
 - [Running agents and evaluations](docs/RUNNING_EVALUATIONS.md)
 - [Detailed ResearchClawBench → ResearchChemBench code changes](docs/RESEARCHCLAWBENCH_CODE_CHANGES.md)
 - [Initial validation report, including live DeepSeek Agent/judge results](docs/VALIDATION_REPORT.md)
