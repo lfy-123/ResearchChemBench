@@ -50,6 +50,72 @@ def _system_mapping(value: Any) -> dict[str, Any]:
     return dict(value)
 
 
+def _gromacs_dynamics_mdp(method: dict[str, Any], settings: dict[str, Any]) -> dict[str, Any]:
+    ensemble = str(settings["ensemble"]).upper()
+    if ensemble not in {"NVE", "NVT", "NPT"}:
+        raise ValueError("ensemble must be NVE, NVT, or NPT")
+    if ensemble == "NPT" and "pressure_bar" not in settings:
+        raise ValueError("NPT propagation requires pressure_bar")
+    steps = int(settings["steps"])
+    interval = int(settings["report_interval"])
+    if interval < 1 or interval > steps:
+        raise ValueError("report_interval must be between 1 and steps")
+    mdp: dict[str, Any] = {
+        "integrator": "md",
+        "dt": float(settings["timestep_fs"]) / 1000.0,
+        "nsteps": steps,
+        "nstxout-compressed": interval,
+        "cutoff-scheme": str(method.get("cutoff_scheme", "Verlet")),
+        "continuation": "yes" if bool(settings.get("continuation", False)) else "no",
+    }
+    if bool(settings["generate_velocities"]):
+        if "random_seed" not in settings:
+            raise ValueError("generate_velocities=true requires an explicit random_seed")
+        mdp.update(
+            {
+                "gen-vel": "yes",
+                "gen-temp": float(settings["temperature_kelvin"]),
+                "gen-seed": int(settings["random_seed"]),
+            }
+        )
+    else:
+        mdp["gen-vel"] = "no"
+    if ensemble in {"NVT", "NPT"}:
+        if "temperature_coupling_groups" not in settings:
+            raise ValueError("NVT/NPT propagation requires explicit temperature_coupling_groups")
+        groups_value = settings["temperature_coupling_groups"]
+        if isinstance(groups_value, str):
+            groups = groups_value.split()
+        else:
+            groups = [str(value).strip() for value in groups_value]
+        if not groups or any(not group for group in groups):
+            raise ValueError("temperature_coupling_groups must contain at least one GROMACS group")
+        temperature = float(settings["temperature_kelvin"])
+        tau_t = float(settings.get("temperature_coupling_ps", 1.0))
+        mdp.update(
+            {
+                "tcoupl": "V-rescale",
+                "tc-grps": " ".join(groups),
+                "ref-t": " ".join(str(temperature) for _ in groups),
+                "tau-t": " ".join(str(tau_t) for _ in groups),
+            }
+        )
+    else:
+        mdp["tcoupl"] = "no"
+    if ensemble == "NPT":
+        mdp.update(
+            {
+                "pcoupl": "C-rescale",
+                "ref-p": float(settings["pressure_bar"]),
+                "tau-p": float(settings.get("pressure_coupling_ps", 5.0)),
+                "compressibility": float(settings.get("compressibility_bar_inverse", 4.5e-5)),
+            }
+        )
+    else:
+        mdp["pcoupl"] = "no"
+    return mdp
+
+
 def _openmm(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
     import openmm
     from openmm import XmlSerializer, unit
@@ -272,29 +338,7 @@ def _gromacs(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
             "cutoff-scheme": str(method.get("cutoff_scheme", "Verlet")),
         }
     else:
-        ensemble = str(settings["ensemble"]).upper()
-        if ensemble not in {"NVE", "NVT", "NPT"}:
-            raise ValueError("ensemble must be NVE, NVT, or NPT")
-        if ensemble == "NPT" and "pressure_bar" not in settings:
-            raise ValueError("NPT propagation requires pressure_bar")
-        steps = int(settings["steps"])
-        interval = int(settings["report_interval"])
-        if interval < 1 or interval > steps:
-            raise ValueError("report_interval must be between 1 and steps")
-        mdp = {
-            "integrator": "md",
-            "dt": float(settings["timestep_fs"]) / 1000.0,
-            "nsteps": steps,
-            "nstxout-compressed": interval,
-            "tcoupl": "V-rescale" if ensemble in {"NVT", "NPT"} else "no",
-            "ref-t": float(settings["temperature_kelvin"]),
-            "tau-t": float(settings.get("temperature_coupling_ps", 1.0)),
-            "pcoupl": "C-rescale" if ensemble == "NPT" else "no",
-            "ref-p": float(settings.get("pressure_bar", 1.0)),
-            "tau-p": float(settings.get("pressure_coupling_ps", 5.0)),
-            "compressibility": float(settings.get("compressibility_bar_inverse", 4.5e-5)),
-            "cutoff-scheme": str(method.get("cutoff_scheme", "Verlet")),
-        }
+        mdp = _gromacs_dynamics_mdp(method, settings)
     mdp_path.write_text("\n".join(f"{key} = {value}" for key, value in mdp.items()) + "\n", encoding="utf-8")
     tpr = directory / "segment.tpr"
     grompp = run_external(

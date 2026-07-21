@@ -120,6 +120,7 @@ _score.json
 - [2026-07-20 能力扩展总结报告](chemistry_toolbox/docs/CHEMISTRY_TOOLBOX_CAPABILITY_EXPANSION_REPORT_20260720.md)
 - [用户请求软件配置状态](chemistry_toolbox/docs/CHEMISTRY_TOOLBOX_REQUESTED_SOFTWARE_STATUS.md)
 - [Action–Backend 233个组合完整测试与软件接入审计](chemistry_toolbox/docs/ACTION_BACKEND_COMPLETE_AUDIT_20260721.md)
+- [11个失败组合修复与PubChem连通性报告](chemistry_toolbox/docs/ACTION_BACKEND_REPAIR_REPORT_20260721.md)
 - [MCP 后端运行环境](docs/MCP_PROFILE_ENVIRONMENTS.md)
 - [MCP 多环境当前检查状态](chemistry_toolbox/docs/MCP_PROFILE_STATUS.md)
 - [工具箱实现说明](docs/TOOLBOX_IMPLEMENTATION.md)

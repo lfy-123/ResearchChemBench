@@ -995,8 +995,15 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         executables=("gmx",), environment=("CHEMGRAPH_GROMACS_COMMAND",), conda=("gromacs",),
         required_settings={
             "minimize_system_energy": ("force_tolerance_kj_mol_nm", "max_iterations"),
-            "propagate_dynamics": ("ensemble", "temperature_kelvin", "timestep_fs", "steps", "report_interval"),
+            "propagate_dynamics": (
+                "ensemble", "temperature_kelvin", "timestep_fs", "steps", "report_interval",
+                "generate_velocities",
+            ),
         },
+        install_notes=(
+            "For propagate_dynamics, generate_velocities=true also requires an explicit random_seed. "
+            "NVT/NPT additionally require explicit temperature_coupling_groups; no coupling group is chosen implicitly."
+        ),
     ),
     _backend(
         "lammps", "LAMMPS", "md", ("minimize_system_energy", "propagate_dynamics"),
@@ -1471,6 +1478,11 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
             "search_similar_compounds": ("threshold", "max_records"),
             "search_substructures": ("max_records", "match_stereo"),
         },
+        install_notes=(
+            "Live PUG REST access uses cross-worker rate limiting and bounded retries. Optional mechanical "
+            "controls are max_retries, retry_backoff_seconds, minimum_request_interval_seconds, "
+            "timeout_seconds, max_poll_attempts, and poll_interval_seconds; no alternate data source is selected implicitly."
+        ),
     ),
     _backend(
         "rcsb_pdb", "RCSB PDB Data API", "services", ("search_protein_structures",),
@@ -1484,6 +1496,10 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
     _backend(
         "catalysis_hub", "Catalysis-Hub GraphQL", "services", ("search_catalysis_records",),
         "Catalysis-Hub GraphQL reaction lookup.", modules=("httpx",), pip=("httpx>=0.28",),
+        install_notes=(
+            "Live GraphQL calls use bounded retry/backoff controls (max_retries, retry_backoff_seconds) "
+            "and return retryable remote-service errors without hidden fallback."
+        ),
     ),
     _backend(
         "nist_webbook", "NIST Chemistry WebBook SRD 69 CGI", "services",

@@ -1,18 +1,18 @@
 {
-  "generated_at": "2026-07-21T05:27:26.660965+00:00",
+  "generated_at": "2026-07-21T07:54:15.139661+00:00",
   "pytest_exit_code": null,
   "summary": {
     "action_count": 101,
-    "runtime_success_actions": 95,
-    "failure_only_actions": 6,
+    "runtime_success_actions": 96,
+    "failure_only_actions": 5,
     "not_observed_actions": 0,
     "action_backend_pair_count": 233,
-    "successful_action_backend_pairs": 222,
-    "failed_action_backend_pairs": 11,
+    "successful_action_backend_pairs": 228,
+    "failed_action_backend_pairs": 5,
     "unobserved_action_backend_pairs": 0,
     "backend_count": 76,
-    "backends_with_runtime_success_evidence": 75,
-    "backends_without_runtime_success_evidence": 1
+    "backends_with_runtime_success_evidence": 76,
+    "backends_without_runtime_success_evidence": 0
   },
   "actions": [
     {
@@ -346,7 +346,7 @@
           "backend": "pdbfixer",
           "status": "success",
           "source": "action_gap_smoke",
-          "elapsed_seconds": 2.730746,
+          "elapsed_seconds": 3.326464,
           "detail": null
         }
       ]
@@ -460,7 +460,7 @@
           "backend": "rdkit",
           "status": "success",
           "source": "action_gap_smoke",
-          "elapsed_seconds": 2.550156,
+          "elapsed_seconds": 2.481175,
           "detail": null
         },
         {
@@ -468,7 +468,7 @@
           "backend": "pdbfixer",
           "status": "success",
           "source": "action_gap_smoke",
-          "elapsed_seconds": 1.711033,
+          "elapsed_seconds": 1.671,
           "detail": null
         }
       ]
@@ -653,7 +653,7 @@
           "backend": "spglib",
           "status": "success",
           "source": "action_gap_smoke",
-          "elapsed_seconds": 2.460554,
+          "elapsed_seconds": 5.805796,
           "detail": null
         },
         {
@@ -661,7 +661,7 @@
           "backend": "pymatgen",
           "status": "success",
           "source": "action_gap_smoke",
-          "elapsed_seconds": 4.8535,
+          "elapsed_seconds": 7.410694,
           "detail": null
         }
       ]
@@ -1504,13 +1504,12 @@
         "nwchem",
         "openmolcas",
         "orca",
+        "psi4",
         "pyscf",
         "tblite",
         "xtb"
       ],
-      "failed_backends": [
-        "psi4"
-      ],
+      "failed_backends": [],
       "evidence_sources": [
         "action_backend_matrix_smoke",
         "pytest_dynamic",
@@ -1560,10 +1559,10 @@
         {
           "action": "calculate_dipole_moment",
           "backend": "psi4",
-          "status": "failed",
+          "status": "success",
           "source": "action_backend_matrix_smoke",
-          "elapsed_seconds": 2.619943,
-          "detail": "UpgradeHelper: Using `SCF DIPOLE X` instead of `SCF DIPOLE` is obsolete as of 1.6. Note the Debye -> a.u. units change."
+          "elapsed_seconds": 18.947581,
+          "detail": null
         },
         {
           "action": "calculate_dipole_moment",
@@ -1704,11 +1703,10 @@
       "successful_backends": [
         "openmolcas",
         "orca",
+        "psi4",
         "pyscf"
       ],
-      "failed_backends": [
-        "psi4"
-      ],
+      "failed_backends": [],
       "evidence_sources": [
         "action_backend_matrix_smoke",
         "pytest_dynamic"
@@ -1733,10 +1731,10 @@
         {
           "action": "calculate_orbitals",
           "backend": "psi4",
-          "status": "failed",
+          "status": "success",
           "source": "action_backend_matrix_smoke",
-          "elapsed_seconds": 2.542235,
-          "detail": "ValidationError: __array__interface__ can only be called on Psi4 data object with only one irrep!"
+          "elapsed_seconds": 2.605482,
+          "detail": null
         },
         {
           "action": "calculate_orbitals",
@@ -1966,7 +1964,7 @@
           "backend": "internal_vibrations",
           "status": "success",
           "source": "action_gap_smoke",
-          "elapsed_seconds": 7.076715,
+          "elapsed_seconds": 9.762739,
           "detail": null
         }
       ]
@@ -1994,7 +1992,7 @@
           "backend": "internal_spectroscopy",
           "status": "success",
           "source": "action_gap_smoke",
-          "elapsed_seconds": 1.626287,
+          "elapsed_seconds": 1.610461,
           "detail": null
         }
       ]
@@ -2053,7 +2051,7 @@
           "backend": "internal_thermochemistry",
           "status": "success",
           "source": "action_gap_smoke",
-          "elapsed_seconds": 1.870905,
+          "elapsed_seconds": 1.817246,
           "detail": null
         },
         {
@@ -2128,7 +2126,7 @@
           "backend": "pysisyphus",
           "status": "success",
           "source": "action_gap_smoke",
-          "elapsed_seconds": 4.838325,
+          "elapsed_seconds": 46.221347,
           "detail": null
         },
         {
@@ -2136,7 +2134,7 @@
           "backend": "pysisyphus",
           "status": "success",
           "source": "action_gap_smoke",
-          "elapsed_seconds": 4.321396,
+          "elapsed_seconds": 5.684324,
           "detail": null
         }
       ]
@@ -2164,7 +2162,7 @@
           "backend": "cantera",
           "status": "success",
           "source": "action_gap_smoke",
-          "elapsed_seconds": 1.98251,
+          "elapsed_seconds": 3.494326,
           "detail": null
         }
       ]
@@ -2341,7 +2339,7 @@
           "backend": "catmap",
           "status": "success",
           "source": "action_gap_smoke",
-          "elapsed_seconds": 2.792761,
+          "elapsed_seconds": 2.901028,
           "detail": null
         }
       ]
@@ -2559,14 +2557,13 @@
       "successful_backends": [
         "amber_pmemd",
         "charmm",
+        "gromacs",
         "hoomd",
         "lammps",
         "namd",
         "openmm"
       ],
-      "failed_backends": [
-        "gromacs"
-      ],
+      "failed_backends": [],
       "evidence_sources": [
         "action_backend_matrix_smoke",
         "pytest_dynamic"
@@ -2599,10 +2596,10 @@
         {
           "action": "propagate_dynamics",
           "backend": "gromacs",
-          "status": "failed",
+          "status": "success",
           "source": "action_backend_matrix_smoke",
-          "elapsed_seconds": 1.671769,
-          "detail": "RuntimeError: gmx grompp failed:                 :-) GROMACS - gmx grompp, 2026.0-conda_forge (-:\n\nExecutable:   /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/md/bin.AVX2_256/gmx\nData prefix:  /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/md\nWorking dir:  /tmp/researchchem-action-backend-matrix-dv4p3rlh/outputs/propagate_dynamics/gromacs/015648a41251\nCommand line:\n  gmx grompp -f /tmp/researchchem-action-backend-matrix-dv4p3rlh/outputs/propagate_dynamics/gromacs/015648a41251/segment.mdp -c /tmp/researchchem-action-backend-matrix-dv4p3rlh/argon.gro -p /tmp/researchchem-action-backend-matrix-dv4p3rlh/argon.top -o /tmp/researchchem-action-backend-matrix-dv4p3rlh/outputs/propagate_dynamics/gromacs/015648a41251/segment.tpr -maxwarn 0\n\nGenerating 1-4 interactions: fudge = 0.5\n\n-------------------------------------------------------\nProgram:     gmx grompp, version 2026.0-conda_forge\nSource file: src/gromacs/gmxpreprocess/readir.cpp (line 4016)\n\nFatal error:\nInvalid T coupling input: 0 groups, 1 ref-t values and 1 tau-t values\n\nFor more information and tips for troubleshooting, please check the GROMACS\nwebsite at https://manual.gromacs.org/current/user-guide/run-time-errors.html\n-------------------------------------------------------\n"
+          "elapsed_seconds": 2.649215,
+          "detail": null
         },
         {
           "action": "propagate_dynamics",
@@ -2731,7 +2728,7 @@
           "backend": "mdanalysis",
           "status": "success",
           "source": "action_gap_smoke",
-          "elapsed_seconds": 3.913475,
+          "elapsed_seconds": 5.5112,
           "detail": null
         }
       ]
@@ -2759,7 +2756,7 @@
           "backend": "mdanalysis",
           "status": "success",
           "source": "action_gap_smoke",
-          "elapsed_seconds": 2.155921,
+          "elapsed_seconds": 2.076499,
           "detail": null
         }
       ]
@@ -3022,7 +3019,7 @@
           "backend": "plumed",
           "status": "success",
           "source": "action_gap_smoke",
-          "elapsed_seconds": 3.238274,
+          "elapsed_seconds": 3.163435,
           "detail": null
         }
       ]
@@ -3334,6 +3331,7 @@
       "successful_backends": [
         "abinit",
         "allegro",
+        "cp2k",
         "deepmd",
         "dftbplus",
         "gpaw",
@@ -3342,9 +3340,7 @@
         "siesta",
         "vasp"
       ],
-      "failed_backends": [
-        "cp2k"
-      ],
+      "failed_backends": [],
       "evidence_sources": [
         "action_backend_matrix_smoke",
         "pytest_dynamic",
@@ -3370,10 +3366,10 @@
         {
           "action": "calculate_periodic_forces",
           "backend": "cp2k",
-          "status": "failed",
+          "status": "success",
           "source": "action_backend_matrix_smoke",
-          "elapsed_seconds": 12.073351,
-          "detail": "RuntimeError: Could not parse CP2K forces"
+          "elapsed_seconds": 12.400261,
+          "detail": null
         },
         {
           "action": "calculate_periodic_forces",
@@ -3453,15 +3449,14 @@
       "successful_backends": [
         "abinit",
         "allegro",
+        "cp2k",
         "deepmd",
         "gpaw",
         "nequip",
         "quantum_espresso",
         "vasp"
       ],
-      "failed_backends": [
-        "cp2k"
-      ],
+      "failed_backends": [],
       "evidence_sources": [
         "action_backend_matrix_smoke",
         "pytest_dynamic",
@@ -3487,10 +3482,10 @@
         {
           "action": "calculate_periodic_stress",
           "backend": "cp2k",
-          "status": "failed",
+          "status": "success",
           "source": "action_backend_matrix_smoke",
-          "elapsed_seconds": 6.692138,
-          "detail": "RuntimeError: Could not parse CP2K stress"
+          "elapsed_seconds": 6.992735,
+          "detail": null
         },
         {
           "action": "calculate_periodic_stress",
@@ -3838,7 +3833,7 @@
           "backend": "phonopy",
           "status": "success",
           "source": "action_gap_smoke",
-          "elapsed_seconds": 3.08779,
+          "elapsed_seconds": 5.251523,
           "detail": null
         }
       ]
@@ -3877,7 +3872,7 @@
           "backend": "phonopy",
           "status": "success",
           "source": "action_gap_smoke",
-          "elapsed_seconds": 1.689946,
+          "elapsed_seconds": 1.777415,
           "detail": null
         }
       ]
@@ -3916,7 +3911,7 @@
           "backend": "phonopy",
           "status": "success",
           "source": "action_gap_smoke",
-          "elapsed_seconds": 1.671431,
+          "elapsed_seconds": 1.714469,
           "detail": null
         }
       ]
@@ -3955,7 +3950,7 @@
           "backend": "phonopy",
           "status": "success",
           "source": "action_gap_smoke",
-          "elapsed_seconds": 1.718803,
+          "elapsed_seconds": 1.704386,
           "detail": null
         }
       ]
@@ -4175,8 +4170,8 @@
           "backend": "pubchem",
           "status": "failed",
           "source": "action_gap_smoke",
-          "elapsed_seconds": 4.281574,
-          "detail": "ServerBusyError: PubChem HTTP Error 503 PUGREST.ServerBusy: Too many requests or server too busy"
+          "elapsed_seconds": 4.513014,
+          "detail": "PubChem PUG REST remained unavailable after 2 attempt(s): ServerBusyError: PubChem HTTP Error 503 PUGREST.ServerBusy: Too many requests or server too busy"
         }
       ]
     },
@@ -4203,8 +4198,8 @@
           "backend": "pubchem",
           "status": "failed",
           "source": "action_gap_smoke",
-          "elapsed_seconds": 2.389649,
-          "detail": "ServerBusyError: PubChem HTTP Error 503 PUGREST.ServerBusy: Too many requests or server too busy"
+          "elapsed_seconds": 3.4535,
+          "detail": "PubChem PUG REST remained unavailable after 2 attempt(s): ServerBusyError: PubChem HTTP Error 503 PUGREST.ServerBusy: Too many requests or server too busy"
         }
       ]
     },
@@ -4231,8 +4226,8 @@
           "backend": "pubchem",
           "status": "failed",
           "source": "action_gap_smoke",
-          "elapsed_seconds": 2.310107,
-          "detail": "ServerBusyError: PubChem HTTP Error 503 PUGREST.ServerBusy: Too many requests or server too busy"
+          "elapsed_seconds": 3.914024,
+          "detail": "PubChem PUG REST remained unavailable after 2 attempt(s): ServerBusyError: PubChem HTTP Error 503 PUGREST.ServerBusy: Too many requests or server too busy"
         }
       ]
     },
@@ -4259,8 +4254,8 @@
           "backend": "pubchem",
           "status": "failed",
           "source": "action_gap_smoke",
-          "elapsed_seconds": 3.321138,
-          "detail": "HTTPStatusError: Server error '503 PUGREST.ServerBusy' for url 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/fastsimilarity_2d/smiles/CCO/cids/JSON?MaxRecords=1&MaxSeconds=30&Threshold=99'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503"
+          "elapsed_seconds": 32.60505,
+          "detail": "PubChem PUG REST remained unavailable after 2 attempt(s): HTTPStatusError: Server error '503 PUGREST.ServerBusy' for url 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/fastsimilarity_2d/smiles/CCO/cids/JSON?MaxRecords=1&MaxSeconds=30&Threshold=99'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503"
         }
       ]
     },
@@ -4287,8 +4282,8 @@
           "backend": "pubchem",
           "status": "failed",
           "source": "action_gap_smoke",
-          "elapsed_seconds": 2.0721,
-          "detail": "HTTPStatusError: Server error '503 PUGREST.ServerBusy' for url 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/fastsubstructure/smarts/O/cids/JSON?MaxRecords=1&MaxSeconds=30&Stereo=ignore&MatchCharges=false&MatchIsotopes=false'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503"
+          "elapsed_seconds": 32.824973,
+          "detail": "PubChem PUG REST remained unavailable after 2 attempt(s): HTTPStatusError: Server error '503 PUGREST.ServerBusy' for url 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/fastsubstructure/smarts/O/cids/JSON?MaxRecords=1&MaxSeconds=30&Stereo=ignore&MatchCharges=false&MatchIsotopes=false'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503"
         }
       ]
     },
@@ -4357,8 +4352,10 @@
       "catalog_backends": [
         "catalysis_hub"
       ],
-      "status": "failure_only",
-      "successful_backends": [],
+      "status": "runtime_success",
+      "successful_backends": [
+        "catalysis_hub"
+      ],
       "failed_backends": [
         "catalysis_hub"
       ],
@@ -4370,10 +4367,10 @@
         {
           "action": "search_catalysis_records",
           "backend": "catalysis_hub",
-          "status": "failed",
+          "status": "success",
           "source": "action_gap_smoke",
-          "elapsed_seconds": 32.242141,
-          "detail": "ReadTimeout: The read operation timed out"
+          "elapsed_seconds": 3.164042,
+          "detail": null
         },
         {
           "action": "search_catalysis_records",
@@ -4570,6 +4567,10 @@
     [
       "calculate_dipole_moment",
       "orca"
+    ],
+    [
+      "calculate_dipole_moment",
+      "psi4"
     ],
     [
       "calculate_dipole_moment",
@@ -4789,6 +4790,10 @@
     ],
     [
       "calculate_orbitals",
+      "psi4"
+    ],
+    [
+      "calculate_orbitals",
       "pyscf"
     ],
     [
@@ -4841,6 +4846,10 @@
     ],
     [
       "calculate_periodic_forces",
+      "cp2k"
+    ],
+    [
+      "calculate_periodic_forces",
       "deepmd"
     ],
     [
@@ -4874,6 +4883,10 @@
     [
       "calculate_periodic_stress",
       "allegro"
+    ],
+    [
+      "calculate_periodic_stress",
+      "cp2k"
     ],
     [
       "calculate_periodic_stress",
@@ -5177,6 +5190,10 @@
     ],
     [
       "propagate_dynamics",
+      "gromacs"
+    ],
+    [
+      "propagate_dynamics",
       "hoomd"
     ],
     [
@@ -5244,6 +5261,10 @@
       "pdbfixer"
     ],
     [
+      "search_catalysis_records",
+      "catalysis_hub"
+    ],
+    [
       "search_compounds",
       "pubchem"
     ],
@@ -5306,26 +5327,6 @@
   ],
   "failed_action_backend_pairs": [
     [
-      "calculate_dipole_moment",
-      "psi4"
-    ],
-    [
-      "calculate_orbitals",
-      "psi4"
-    ],
-    [
-      "calculate_periodic_forces",
-      "cp2k"
-    ],
-    [
-      "calculate_periodic_stress",
-      "cp2k"
-    ],
-    [
-      "propagate_dynamics",
-      "gromacs"
-    ],
-    [
       "resolve_chemical_identity",
       "pubchem"
     ],
@@ -5338,10 +5339,6 @@
       "pubchem"
     ],
     [
-      "search_catalysis_records",
-      "catalysis_hub"
-    ],
-    [
       "search_similar_compounds",
       "pubchem"
     ],
@@ -5351,7 +5348,5 @@
     ]
   ],
   "unobserved_action_backend_pairs": [],
-  "backends_without_runtime_success_evidence": [
-    "catalysis_hub"
-  ]
+  "backends_without_runtime_success_evidence": []
 }

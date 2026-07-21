@@ -4,13 +4,15 @@ from __future__ import annotations
 
 import os
 import re
+import time
 from html.parser import HTMLParser
+from pathlib import Path
 from typing import Any
 from urllib.parse import parse_qs, quote, urlencode, urljoin, urlparse
 
 import httpx
 
-from .common import module_version, partial_success, request_parts, success, unavailable, unsupported
+from .common import failed, module_version, partial_success, request_parts, success, unavailable, unsupported
 
 
 ACTIONS = {
@@ -25,6 +27,243 @@ ACTIONS = {
 _NIST_WEBBOOK_ENDPOINT = "https://webbook.nist.gov/cgi/cbook.cgi"
 _CAS_NUMBER = re.compile(r"^\d{2,7}-\d{2}-\d$")
 _EXACT_FORMULA = re.compile(r"^[A-Za-z0-9()[\]+.\-]+$")
+_TRANSIENT_HTTP_STATUSES = {408, 425, 429, 500, 502, 503, 504}
+
+
+class _RemoteServiceUnavailable(RuntimeError):
+    def __init__(self, service: str, attempts: int, cause: Exception):
+        self.diagnostics = _remote_error_diagnostics(cause)
+        detail = f"; diagnostics={self.diagnostics}" if self.diagnostics else ""
+        super().__init__(
+            f"{service} remained unavailable after {attempts} attempt(s): "
+            f"{type(cause).__name__}: {cause}{detail}"
+        )
+        self.service = service
+        self.attempts = attempts
+        self.cause = cause
+
+
+def _remote_error_diagnostics(exc: Exception) -> dict[str, Any]:
+    response = getattr(exc, "response", None)
+    headers = getattr(response, "headers", {}) or {}
+    diagnostics = {
+        "status_code": getattr(response, "status_code", None) or getattr(exc, "code", None),
+        "retry_after": headers.get("Retry-After") or headers.get("retry-after"),
+        "x_throttling_control": headers.get("x-throttling-control"),
+    }
+    return {key: value for key, value in diagnostics.items() if value is not None}
+
+
+def _remote_retry_policy(settings: dict[str, Any]) -> tuple[int, float]:
+    retries = int(settings.get("max_retries", 1))
+    backoff = float(settings.get("retry_backoff_seconds", 1.0))
+    if retries < 0 or retries > 4:
+        raise ValueError("max_retries must be between 0 and 4")
+    if backoff < 0.0 or backoff > 30.0:
+        raise ValueError("retry_backoff_seconds must be between 0 and 30")
+    return retries + 1, backoff
+
+
+def _retryable_remote_exception(exc: Exception) -> bool:
+    response = getattr(exc, "response", None)
+    status_code = getattr(response, "status_code", None)
+    if status_code is None:
+        status_code = getattr(exc, "code", None)
+    if status_code in _TRANSIENT_HTTP_STATUSES:
+        return True
+    return isinstance(exc, (httpx.TimeoutException, httpx.TransportError, TimeoutError, ConnectionError))
+
+
+def _retry_after_seconds(exc: Exception) -> float | None:
+    response = getattr(exc, "response", None)
+    headers = getattr(response, "headers", {}) or {}
+    value = headers.get("Retry-After") or headers.get("retry-after")
+    try:
+        delay = float(value)
+    except (TypeError, ValueError):
+        return None
+    return min(60.0, max(0.0, delay))
+
+
+def _remote_call_with_retry(
+    operation: Any,
+    *,
+    service: str,
+    settings: dict[str, Any],
+) -> tuple[Any, int]:
+    attempts, base_backoff = _remote_retry_policy(settings)
+    for attempt in range(1, attempts + 1):
+        try:
+            return operation(), attempt
+        except Exception as exc:
+            if not _retryable_remote_exception(exc):
+                raise
+            if attempt == attempts:
+                raise _RemoteServiceUnavailable(service, attempt, exc) from exc
+            delay = _retry_after_seconds(exc)
+            if delay is None:
+                delay = base_backoff * (2 ** (attempt - 1))
+            if delay:
+                time.sleep(delay)
+    raise AssertionError("remote retry loop terminated unexpectedly")
+
+
+def _pubchem_rate_limit(settings: dict[str, Any]) -> None:
+    """Enforce a cross-worker request interval below PubChem's 5 request/s limit."""
+
+    interval = float(settings.get("minimum_request_interval_seconds", 0.25))
+    if interval < 0.0 or interval > 30.0:
+        raise ValueError("minimum_request_interval_seconds must be between 0 and 30")
+    if interval == 0.0:
+        return
+    state_path = Path(
+        os.environ.get(
+            "RESEARCHCHEMBENCH_PUBCHEM_RATE_STATE",
+            str(Path(__file__).resolve().parents[4] / ".software_cache" / "pubchem" / "request_rate.state"),
+        )
+    )
+    state_path.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        import fcntl
+
+        with state_path.open("a+", encoding="utf-8") as handle:
+            fcntl.flock(handle.fileno(), fcntl.LOCK_EX)
+            handle.seek(0)
+            try:
+                previous = float(handle.read().strip() or 0.0)
+            except ValueError:
+                previous = 0.0
+            delay = interval - (time.time() - previous)
+            if delay > 0.0:
+                time.sleep(delay)
+            handle.seek(0)
+            handle.truncate()
+            handle.write(str(time.time()))
+            handle.flush()
+            fcntl.flock(handle.fileno(), fcntl.LOCK_UN)
+    except OSError:
+        # The retry/backoff layer still protects the remote service if shared state
+        # cannot be written in a restricted deployment.
+        return
+
+
+def _pubchem_get_compounds(
+    pcp: Any,
+    identifier: str,
+    namespace: str,
+    settings: dict[str, Any],
+    **kwargs: Any,
+) -> tuple[list[Any], int]:
+    if hasattr(pcp, "Compound"):
+        payload, attempts = _pubchem_compound_json(
+            identifier,
+            namespace,
+            settings,
+            **kwargs,
+        )
+        return [pcp.Compound(record) for record in payload.get("PC_Compounds") or []], attempts
+    compounds, attempts = _remote_call_with_retry(
+        lambda: pcp.get_compounds(identifier, namespace, **kwargs),
+        service="PubChem PUG REST",
+        settings=settings,
+    )
+    return list(compounds), attempts
+
+
+def _pubchem_compound_json(
+    identifier: str,
+    namespace: str,
+    settings: dict[str, Any],
+    **parameters: Any,
+) -> tuple[dict[str, Any], int]:
+    """Fetch full PubChem compound JSON while preserving Retry-After headers."""
+
+    headers = {
+        "Accept": "application/json",
+        "User-Agent": "ResearchChemBench/1.0 bounded-pubchem-query",
+    }
+    base = "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound"
+
+    def fetch(query_namespace: str, query_identifier: str) -> tuple[dict[str, Any], int]:
+        if query_namespace == "formula":
+            url = f"{base}/formula/{quote(query_identifier, safe='')}/JSON"
+
+            def request_value():
+                _pubchem_rate_limit(settings)
+                response = httpx.get(
+                    url,
+                    params=parameters,
+                    headers=headers,
+                    timeout=float(settings.get("timeout_seconds", 30)),
+                    follow_redirects=True,
+                )
+                if getattr(response, "status_code", 200) != 404:
+                    response.raise_for_status()
+                return response
+        elif query_namespace == "listkey":
+            url = f"{base}/listkey/{quote(query_identifier, safe='')}/JSON"
+
+            def request_value():
+                _pubchem_rate_limit(settings)
+                response = httpx.get(
+                    url,
+                    params=parameters,
+                    headers=headers,
+                    timeout=float(settings.get("timeout_seconds", 30)),
+                    follow_redirects=True,
+                )
+                if getattr(response, "status_code", 200) != 404:
+                    response.raise_for_status()
+                return response
+        else:
+            url = f"{base}/{query_namespace}/JSON"
+
+            def request_value():
+                _pubchem_rate_limit(settings)
+                response = httpx.post(
+                    url,
+                    params=parameters,
+                    data={query_namespace: query_identifier},
+                    headers=headers,
+                    timeout=float(settings.get("timeout_seconds", 30)),
+                    follow_redirects=True,
+                )
+                if getattr(response, "status_code", 200) != 404:
+                    response.raise_for_status()
+                return response
+
+        response, request_attempts = _remote_call_with_retry(
+            request_value,
+            service="PubChem PUG REST",
+            settings=settings,
+        )
+        content = getattr(response, "content", b"")
+        if content and len(content) > 32 * 1024 * 1024:
+            raise RuntimeError("PubChem compound response exceeds the 32 MiB bounded-response limit")
+        return response.json(), request_attempts
+
+    payload, attempts = fetch(namespace, identifier)
+    waiting = payload.get("Waiting") or {}
+    maximum_polls = int(settings.get("max_poll_attempts", 15))
+    poll_interval = float(settings.get("poll_interval_seconds", 2.0))
+    if maximum_polls < 1 or maximum_polls > 60:
+        raise ValueError("max_poll_attempts must be between 1 and 60")
+    if poll_interval < 0.1 or poll_interval > 30.0:
+        raise ValueError("poll_interval_seconds must be between 0.1 and 30")
+    polls = 0
+    while waiting.get("ListKey"):
+        polls += 1
+        if polls > maximum_polls:
+            raise _RemoteServiceUnavailable(
+                "PubChem PUG REST",
+                attempts,
+                TimeoutError("asynchronous PubChem ListKey did not complete within the polling bound"),
+            )
+        time.sleep(poll_interval)
+        payload, poll_attempts = fetch("listkey", str(waiting["ListKey"]))
+        attempts += poll_attempts
+        waiting = payload.get("Waiting") or {}
+    return payload, attempts
 
 
 def _compact_html_text(parts: list[str]) -> str:
@@ -303,7 +542,8 @@ def _pubchem(request: dict[str, Any]) -> dict[str, Any]:
     limit = int(settings.get("max_records", 10))
     if limit < 1 or limit > 100:
         raise ValueError("max_records must be between 1 and 100")
-    compounds = pcp.get_compounds(identifier, namespace)[:limit]
+    compounds, attempts = _pubchem_get_compounds(pcp, identifier, namespace, settings)
+    compounds = compounds[:limit]
     records = [
         {
             "cid": compound.cid,
@@ -320,6 +560,7 @@ def _pubchem(request: dict[str, Any]) -> dict[str, Any]:
     return success(
         {"query": {"identifier": identifier, "namespace": namespace}, "count": len(records), "records": records},
         backend_version=module_version("pubchempy"),
+        provenance={"remote_attempts": attempts},
     )
 
 
@@ -352,7 +593,8 @@ def _pubchem_identity(request: dict[str, Any]) -> dict[str, Any]:
     maximum = int(settings.get("max_records", 10))
     if maximum < 1 or maximum > 100:
         raise ValueError("max_records must be between 1 and 100")
-    compounds = pcp.get_compounds(identifier, namespace)[:maximum]
+    compounds, attempts = _pubchem_get_compounds(pcp, identifier, namespace, settings)
+    compounds = compounds[:maximum]
     records = [
         {
             "cid": compound.cid,
@@ -379,8 +621,13 @@ def _pubchem_identity(request: dict[str, Any]) -> dict[str, Any]:
             payload,
             backend_version=module_version("pubchempy"),
             warnings=[f"PubChem identity resolution returned {len(records)} records instead of exactly one."],
+            provenance={"remote_attempts": attempts},
         )
-    return success(payload, backend_version=module_version("pubchempy"))
+    return success(
+        payload,
+        backend_version=module_version("pubchempy"),
+        provenance={"remote_attempts": attempts},
+    )
 
 
 _PUBCHEM_PROPERTIES = {
@@ -418,7 +665,8 @@ def _pubchem_properties(request: dict[str, Any]) -> dict[str, Any]:
     maximum = int(settings["max_records"])
     if maximum < 1 or maximum > 100:
         raise ValueError("max_records must be between 1 and 100")
-    compounds = pcp.get_compounds(identifier, namespace)[:maximum]
+    compounds, attempts = _pubchem_get_compounds(pcp, identifier, namespace, settings)
+    compounds = compounds[:maximum]
     records = [
         {name: getattr(compound, _PUBCHEM_PROPERTIES[name], None) for name in properties}
         for compound in compounds
@@ -431,6 +679,7 @@ def _pubchem_properties(request: dict[str, Any]) -> dict[str, Any]:
             "records": records,
         },
         backend_version=module_version("pubchempy"),
+        provenance={"remote_attempts": attempts},
     )
 
 
@@ -458,11 +707,14 @@ def _pubchem_structure(request: dict[str, Any]) -> dict[str, Any]:
     maximum = int(settings["max_records"])
     if maximum < 1 or maximum > 20:
         raise ValueError("max_records must be between 1 and 20")
-    compounds = pcp.get_compounds(
+    compounds, attempts = _pubchem_get_compounds(
+        pcp,
         identifier,
         namespace,
+        settings,
         record_type=record_type,
-    )[:maximum]
+    )
+    compounds = compounds[:maximum]
     structures = []
     for compound in compounds:
         record = dict(compound.record)
@@ -550,23 +802,44 @@ def _pubchem_structure(request: dict[str, Any]) -> dict[str, Any]:
             payload,
             backend_version=module_version("pubchempy"),
             warnings=[f"PubChem structure retrieval returned {len(structures)} records instead of exactly one."],
+            provenance={"remote_attempts": attempts},
         )
-    return success(payload, backend_version=module_version("pubchempy"))
-
-
-def _bounded_pubchem_json(url: str, *, params: dict[str, Any], timeout: float) -> dict[str, Any]:
-    response = httpx.get(
-        url,
-        params=params,
-        headers={"Accept": "application/json", "User-Agent": "ResearchChemBench/1.0 bounded-pubchem-query"},
-        timeout=timeout,
-        follow_redirects=True,
+    return success(
+        payload,
+        backend_version=module_version("pubchempy"),
+        provenance={"remote_attempts": attempts},
     )
-    response.raise_for_status()
+
+
+def _bounded_pubchem_json(
+    url: str,
+    *,
+    params: dict[str, Any],
+    timeout: float,
+    settings: dict[str, Any],
+) -> tuple[dict[str, Any], int]:
+    def request_value():
+        _pubchem_rate_limit(settings)
+        response = httpx.get(
+            url,
+            params=params,
+            headers={"Accept": "application/json", "User-Agent": "ResearchChemBench/1.0 bounded-pubchem-query"},
+            timeout=timeout,
+            follow_redirects=True,
+        )
+        if getattr(response, "status_code", 200) != 404:
+            response.raise_for_status()
+        return response
+
+    response, attempts = _remote_call_with_retry(
+        request_value,
+        service="PubChem PUG REST",
+        settings=settings,
+    )
     content = getattr(response, "content", b"")
     if content and len(content) > 2 * 1024 * 1024:
         raise RuntimeError("PubChem response exceeds the 2 MiB bounded-response limit")
-    return response.json()
+    return response.json(), attempts
 
 
 def _pubchem_structure_search(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
@@ -601,10 +874,11 @@ def _pubchem_structure_search(action_id: str, request: dict[str, Any]) -> dict[s
         "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/"
         f"{operation}/{namespace}/{quote(identifier, safe='')}/cids/JSON"
     )
-    payload = _bounded_pubchem_json(
+    payload, attempts = _bounded_pubchem_json(
         url,
         params=parameters,
         timeout=float(settings.get("timeout_seconds", 30)),
+        settings=settings,
     )
     identifiers = list((payload.get("IdentifierList") or {}).get("CID") or [])
     records = [{"cid": int(value)} for value in identifiers[:maximum]]
@@ -618,6 +892,7 @@ def _pubchem_structure_search(action_id: str, request: dict[str, Any]) -> dict[s
             "matching_controls": parameters,
         },
         backend_version=module_version("httpx"),
+        provenance={"remote_attempts": attempts},
     )
 
 
@@ -758,15 +1033,30 @@ def _catalysis_hub(request: dict[str, Any]) -> dict[str, Any]:
       }
     }
     """ % (", ".join(declarations), ", ".join(arguments))
-    response = httpx.post(
-        "https://api.catalysis-hub.org/graphql",
-        json={
-            "query": graphql,
-            "variables": variables,
-        },
-        timeout=float(settings.get("timeout_seconds", 60)),
+    endpoint = "https://api.catalysis-hub.org/graphql"
+
+    def request_value():
+        response = httpx.post(
+            endpoint,
+            json={
+                "query": graphql,
+                "variables": variables,
+            },
+            headers={
+                "Accept": "application/json",
+                "User-Agent": "ResearchChemBench/1.0 bounded-catalysis-hub-query",
+            },
+            timeout=float(settings.get("timeout_seconds", 60)),
+            follow_redirects=True,
+        )
+        response.raise_for_status()
+        return response
+
+    response, attempts = _remote_call_with_retry(
+        request_value,
+        service="Catalysis-Hub GraphQL",
+        settings=settings,
     )
-    response.raise_for_status()
     value = response.json()
     if value.get("errors"):
         raise RuntimeError(f"Catalysis-Hub GraphQL errors: {value['errors']}")
@@ -780,26 +1070,38 @@ def _catalysis_hub(request: dict[str, Any]) -> dict[str, Any]:
             "records": records,
         },
         backend_version=module_version("httpx"),
+        provenance={"remote_attempts": attempts, "endpoint": endpoint},
     )
 
 
 def execute(action_id: str, backend_id: str, request: dict[str, Any]) -> dict[str, Any]:
-    if action_id == "search_compounds" and backend_id == "pubchem":
-        return _pubchem(request)
-    if action_id == "resolve_chemical_identity" and backend_id == "pubchem":
-        return _pubchem_identity(request)
-    if action_id == "retrieve_compound_properties" and backend_id == "pubchem":
-        return _pubchem_properties(request)
-    if action_id == "retrieve_compound_structure" and backend_id == "pubchem":
-        return _pubchem_structure(request)
-    if action_id in {"search_similar_compounds", "search_substructures"} and backend_id == "pubchem":
-        return _pubchem_structure_search(action_id, request)
-    if action_id == "search_protein_structures" and backend_id == "rcsb_pdb":
-        return _rcsb(request)
-    if action_id == "search_materials" and backend_id == "materials_project":
-        return _materials_project(request)
-    if action_id == "search_catalysis_records" and backend_id == "catalysis_hub":
-        return _catalysis_hub(request)
-    if action_id == "lookup_nist_webbook_species" and backend_id == "nist_webbook":
-        return _nist_webbook(request)
-    return unsupported(f"Unsupported data action/backend combination: {action_id}/{backend_id}")
+    try:
+        if action_id == "search_compounds" and backend_id == "pubchem":
+            return _pubchem(request)
+        if action_id == "resolve_chemical_identity" and backend_id == "pubchem":
+            return _pubchem_identity(request)
+        if action_id == "retrieve_compound_properties" and backend_id == "pubchem":
+            return _pubchem_properties(request)
+        if action_id == "retrieve_compound_structure" and backend_id == "pubchem":
+            return _pubchem_structure(request)
+        if action_id in {"search_similar_compounds", "search_substructures"} and backend_id == "pubchem":
+            return _pubchem_structure_search(action_id, request)
+        if action_id == "search_protein_structures" and backend_id == "rcsb_pdb":
+            return _rcsb(request)
+        if action_id == "search_materials" and backend_id == "materials_project":
+            return _materials_project(request)
+        if action_id == "search_catalysis_records" and backend_id == "catalysis_hub":
+            return _catalysis_hub(request)
+        if action_id == "lookup_nist_webbook_species" and backend_id == "nist_webbook":
+            return _nist_webbook(request)
+        return unsupported(f"Unsupported data action/backend combination: {action_id}/{backend_id}")
+    except _RemoteServiceUnavailable as exc:
+        result = failed(str(exc), code="remote_service_unavailable", retryable=True)
+        result["error"].update(
+            {
+                "service": exc.service,
+                "attempts": exc.attempts,
+                "diagnostics": exc.diagnostics,
+            }
+        )
+        return result

@@ -507,7 +507,11 @@ def dynamics_cases() -> list[Case]:
             "backend_id": "gromacs",
             "inputs": {"system": {"coordinate_path": str(files["argon_gro"]), "gromacs_topology_path": str(files["argon_top"])}},
             "method_spec": {"cutoff_scheme": "Verlet"},
-            "action_settings": {"ensemble": "NVE", "temperature_kelvin": 300.0, "timestep_fs": 1.0, "steps": 2, "report_interval": 1},
+            "action_settings": {
+                "ensemble": "NVE", "temperature_kelvin": 300.0, "timestep_fs": 1.0,
+                "steps": 2, "report_interval": 1, "generate_velocities": True,
+                "random_seed": 13,
+            },
             "resource_limits": {"walltime_seconds": 300, "memory_mb": 2048, "cpu_cores": 1},
         }
 

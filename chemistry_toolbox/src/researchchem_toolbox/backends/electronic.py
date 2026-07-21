@@ -2065,6 +2065,60 @@ def _psi4_geometry(structure_value: Any) -> str:
     return "\n".join(lines)
 
 
+def _psi4_irrep_blocks(vector: Any) -> list[list[float]]:
+    """Convert a Psi4 Vector into explicit per-irrep numeric blocks."""
+
+    import numpy as np
+
+    value = vector.to_array() if hasattr(vector, "to_array") else vector
+    raw_blocks = value if isinstance(value, (tuple, list)) else (value,)
+    return [
+        np.asarray(block, dtype=float).reshape(-1).tolist()
+        for block in raw_blocks
+    ]
+
+
+def _psi4_irrep_occupations(
+    dimension: Any,
+    block_sizes: list[int],
+    occupied_value: float,
+) -> list[float]:
+    """Build occupations in the same flattened irrep order as orbital energies."""
+
+    counts_value = dimension.to_tuple() if hasattr(dimension, "to_tuple") else dimension
+    counts = [int(value) for value in counts_value]
+    if len(counts) != len(block_sizes):
+        raise RuntimeError("Psi4 occupation and orbital irrep dimensions do not match")
+    occupations: list[float] = []
+    for occupied, size in zip(counts, block_sizes):
+        if occupied < 0 or occupied > size:
+            raise RuntimeError("Psi4 occupied-orbital count is outside its irrep dimension")
+        occupations.extend([occupied_value] * occupied)
+        occupations.extend([0.0] * (size - occupied))
+    return occupations
+
+
+def _psi4_restricted_occupations(
+    alpha_dimension: Any,
+    beta_dimension: Any,
+    block_sizes: list[int],
+) -> list[float]:
+    alpha_value = alpha_dimension.to_tuple() if hasattr(alpha_dimension, "to_tuple") else alpha_dimension
+    beta_value = beta_dimension.to_tuple() if hasattr(beta_dimension, "to_tuple") else beta_dimension
+    alpha_counts = [int(value) for value in alpha_value]
+    beta_counts = [int(value) for value in beta_value]
+    if len(alpha_counts) != len(block_sizes) or len(beta_counts) != len(block_sizes):
+        raise RuntimeError("Psi4 restricted occupations do not match orbital irrep dimensions")
+    occupations: list[float] = []
+    for alpha, beta, size in zip(alpha_counts, beta_counts, block_sizes):
+        if beta < 0 or alpha < beta or alpha > size:
+            raise RuntimeError("Psi4 restricted occupied-orbital counts are inconsistent")
+        occupations.extend([2.0] * beta)
+        occupations.extend([1.0] * (alpha - beta))
+        occupations.extend([0.0] * (size - alpha))
+    return occupations
+
+
 def _psi4(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
     import numpy as np
     import psi4
@@ -2089,21 +2143,39 @@ def _psi4(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
             result = {**common, "energy": float(energy), "unit": "hartree"}
         elif action_id == "calculate_dipole_moment":
             psi4.oeprop(wavefunction, "DIPOLE")
-            dipole = [float(psi4.core.variable(f"SCF DIPOLE {axis}")) for axis in ("X", "Y", "Z")]
+            dipole_au = np.asarray(psi4.core.variable("SCF DIPOLE"), dtype=float).reshape(-1)
+            if dipole_au.size != 3:
+                raise RuntimeError("Psi4 SCF DIPOLE did not contain three Cartesian components")
+            dipole = (dipole_au * 2.541746473).tolist()
             result = {**common, "dipole": dipole, "unit": "debye"}
         elif action_id == "calculate_atomic_charges":
             psi4.oeprop(wavefunction, "MULLIKEN_CHARGES")
             charges = np.asarray(wavefunction.atomic_point_charges(), dtype=float).tolist()
             result = {**common, "charges": charges, "analysis": "mulliken", "unit": "elementary_charge"}
         elif action_id == "calculate_orbitals":
+            alpha_blocks = _psi4_irrep_blocks(wavefunction.epsilon_a())
+            alpha_sizes = [len(block) for block in alpha_blocks]
+            restricted = bool(wavefunction.same_a_b_orbs())
             result = {
                 **common,
-                "alpha_energies_hartree": np.asarray(wavefunction.epsilon_a()).reshape(-1).tolist(),
-                "alpha_occupations": [2.0 if i < wavefunction.nalpha() else 0.0 for i in range(wavefunction.nmo())],
+                "alpha_energies_hartree": [value for block in alpha_blocks for value in block],
+                "alpha_occupations": (
+                    _psi4_restricted_occupations(
+                        wavefunction.nalphapi(), wavefunction.nbetapi(), alpha_sizes
+                    )
+                    if restricted
+                    else _psi4_irrep_occupations(wavefunction.nalphapi(), alpha_sizes, 1.0)
+                ),
+                "alpha_irrep_dimensions": alpha_sizes,
             }
-            if wavefunction.same_a_b_orbs() is False:
-                result["beta_energies_hartree"] = np.asarray(wavefunction.epsilon_b()).reshape(-1).tolist()
-                result["beta_occupations"] = [1.0 if i < wavefunction.nbeta() else 0.0 for i in range(wavefunction.nmo())]
+            if not restricted:
+                beta_blocks = _psi4_irrep_blocks(wavefunction.epsilon_b())
+                beta_sizes = [len(block) for block in beta_blocks]
+                result["beta_energies_hartree"] = [value for block in beta_blocks for value in block]
+                result["beta_occupations"] = _psi4_irrep_occupations(
+                    wavefunction.nbetapi(), beta_sizes, 1.0
+                )
+                result["beta_irrep_dimensions"] = beta_sizes
         else:
             return unsupported(f"Psi4 does not implement {action_id}")
     result_path = write_json(directory, "result.json", result)

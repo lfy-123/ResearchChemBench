@@ -90,32 +90,32 @@ ISSUES: dict[tuple[str, str], dict[str, str]] = {
     },
     ("resolve_chemical_identity", "pubchem"): {
         "kind": "远端服务503",
-        "cause": "PubChem PUG REST 返回 `PUGREST.ServerBusy`，不是本地依赖缺失。",
-        "solution": "加入尊重 `Retry-After` 的指数退避、抖动、全局限速和查询缓存；将503标为 `retryable=true`，禁止静默切换数据源。",
+        "cause": "本机 DNS、TLS 和 PubChem 首页可达，但 PUG REST 当前返回 `503 PUGREST.ServerBusy`；响应头明确包含 `Retry-After: 30` 以及 `too many requests per second or blacklisted`。",
+        "solution": "代码已加入跨 worker 限速、尊重 `Retry-After` 的有界退避和 `retryable=true` 错误语义；剩余工作是检查共享出口 IP/代理或等待 PubChem 解除临时黑名单。",
         "priority": "P1",
     },
     ("retrieve_compound_properties", "pubchem"): {
         "kind": "远端服务503",
-        "cause": "PubChem PUG REST 返回 `PUGREST.ServerBusy`。",
-        "solution": "与其他 PubChem Actions 共用有界重试、速率限制、缓存和可重试错误模型。",
+        "cause": "PubChem PUG REST 当前对本服务器出口返回带黑名单提示的503。",
+        "solution": "本 Action 已共用限速、Retry-After 退避和可重试错误模型；需从服务器网络侧排查出口 IP。",
         "priority": "P1",
     },
     ("retrieve_compound_structure", "pubchem"): {
         "kind": "远端服务503",
-        "cause": "PubChem PUG REST 返回 `PUGREST.ServerBusy`。",
-        "solution": "与其他 PubChem Actions 共用有界重试、速率限制、缓存和可重试错误模型。",
+        "cause": "PubChem PUG REST 当前对本服务器出口返回带黑名单提示的503。",
+        "solution": "已改用可读取响应限流头的有界 HTTP 客户端并保留 PubChemPy 的 Compound 解析；需从服务器网络侧解除外部阻塞。",
         "priority": "P1",
     },
     ("search_similar_compounds", "pubchem"): {
         "kind": "远端服务503",
-        "cause": "PubChem fast similarity 端点返回503。",
-        "solution": "对异步/慢搜索端点设置独立超时与轮询上限，使用有界重试和缓存；不要自动降低阈值或改换算法。",
+        "cause": "PubChem fast similarity 端点当前对本服务器出口返回带黑名单提示的503。",
+        "solution": "已保留独立超时并加入限速、Retry-After 退避和可重试错误；不自动降低阈值或改换算法，需排查出口 IP。",
         "priority": "P1",
     },
     ("search_substructures", "pubchem"): {
         "kind": "远端服务503",
-        "cause": "PubChem fast substructure 端点返回503。",
-        "solution": "对结构搜索使用有界重试、限速和缓存，并把服务繁忙与无匹配结果严格区分。",
+        "cause": "PubChem fast substructure 端点当前对本服务器出口返回带黑名单提示的503。",
+        "solution": "已加入限速、Retry-After 退避，并把服务繁忙与无匹配结果严格区分；需排查出口 IP。",
         "priority": "P1",
     },
     ("search_catalysis_records", "catalysis_hub"): {
@@ -156,12 +156,24 @@ def main() -> int:
     successful = {tuple(pair) for pair in coverage["successful_action_backend_pairs"]}
     failed = {tuple(pair) for pair in coverage["failed_action_backend_pairs"]}
     matrix_records = {(item["action"], item["backend"]): item for item in matrix["cases"]}
+    remote_backends = {"pubchem", "catalysis_hub", "rcsb_pdb", "materials_project", "nist_webbook"}
+    remote_failures = {pair for pair in failed if pair[1] in remote_backends}
+    local_failures = failed - remote_failures
+    without_success = list(coverage.get("backends_without_runtime_success_evidence") or [])
+    connectivity_path = CONFIG_ROOT / "pubchem_connectivity_status.json"
+    pubchem_connectivity = (
+        json.loads(connectivity_path.read_text(encoding="utf-8"))
+        if connectivity_path.is_file()
+        else {}
+    )
+    pubchem_degraded = bool(pubchem_connectivity) and not bool(pubchem_connectivity.get("all_ok"))
 
     lines = [
         "# ResearchChemBench Action–Backend 全组合测试与软件接入审计",
         "",
         f"> 生成时间：`{datetime.now(timezone.utc).isoformat()}`。",
         "> 本报告合并 2026-07-20 已有证据与本轮 62 个缺口组合的真实统一分发调用；已测试组合不会重复运行。",
+        "> 11个原失败组合的代码修复、现场复测及PubChem出口诊断见 [`ACTION_BACKEND_REPAIR_REPORT_20260721.md`](ACTION_BACKEND_REPAIR_REPORT_20260721.md)。",
         "",
         "## 1. 最终结论",
         "",
@@ -175,9 +187,9 @@ def main() -> int:
         f"| 尚未测试组合 | **{coverage['summary']['unobserved_action_backend_pairs']}** |",
         f"| 本轮补测 | {matrix['summary']['passed_pair_count']}/{matrix['summary']['registered_gap_pair_count']} 通过，{matrix['summary']['failed_pair_count']} 失败 |",
         f"| 至少有一个成功 Action 的 Backend | {coverage['summary']['backends_with_runtime_success_evidence']}/{len(backends)} |",
-        "| 当前无任何成功证据的 Backend | `catalysis_hub` |",
+        f"| 当前无任何成功证据的 Backend | {codes(without_success)} |",
         "",
-        "结论：**233/233 个声明组合现在都有真实调用证据；222 个通过，11 个仍有问题。** 其中5个是本地适配器问题，6个是远端数据服务问题。",
+        f"结论：**{coverage['summary']['action_backend_pair_count']}/{coverage['summary']['action_backend_pair_count']} 个声明组合都有真实调用证据；{coverage['summary']['successful_action_backend_pairs']} 个通过，{coverage['summary']['failed_action_backend_pairs']} 个仍有问题。** 当前包含 {len(local_failures)} 个本地适配问题和 {len(remote_failures)} 个远端数据服务问题。",
         "",
         "## 2. 本轮补测结果",
         "",
@@ -206,7 +218,7 @@ def main() -> int:
             "",
             "## 3. 出现问题的 Backend 调用及修复建议",
             "",
-            "### 3.1 11个仅失败组合",
+            f"### 3.1 {len(failed)}个仅失败组合",
             "",
             "| 优先级 | Backend | Action | 问题类型 | 根因 | 建议修复 |",
             "|---|---|---|---|---|---|",
@@ -217,6 +229,8 @@ def main() -> int:
         lines.append(
             f"| {issue['priority']} | `{backend_id}` | `{action_id}` | {cell(issue['kind'])} | {cell(issue['cause'])} | {cell(issue['solution'])} |"
         )
+    if not failed:
+        lines.append("| — | — | — | — | 当前没有仅失败组合。 | — |")
 
     lines.extend(
         [
@@ -231,15 +245,16 @@ def main() -> int:
     backend_failure = Counter(pair[1] for pair in failed)
     for backend_id in sorted(set(backend_failure)):
         judgment = {
-            "psi4": "能量、Hessian、原子电荷可用；偶极和轨道适配需修复。",
-            "cp2k": "周期能量和结构弛豫可用；力和应力的打印/解析需修复。",
-            "gromacs": "能量最小化可用；动力学 MDP 生成需修复。",
-            "pubchem": "曾有成功证据，但本轮所有现场调用受远端503影响。",
-            "catalysis_hub": "唯一没有成功调用证据的 Backend，当前远端不可用。",
+            "psi4": "仍存在 Psi4 适配失败。",
+            "cp2k": "仍存在 CP2K 适配失败。",
+            "gromacs": "仍存在 GROMACS 适配失败。",
+            "pubchem": "代码侧韧性修复已完成；当前现场失败来自远端503/出口黑名单。",
+            "catalysis_hub": "Catalysis-Hub 当前仍存在远端调用失败。",
         }[backend_id]
         lines.append(f"| `{backend_id}` | {backend_success[backend_id]} | {backend_failure[backend_id]} | {judgment} |")
     lines.append("")
-    lines.append("补充：`search_compounds/pubchem` 有历史成功证据，因此不属于“仅失败组合”；但最新现场 smoke 同样返回503，应与其他 PubChem Actions 一起按远端降级处理。")
+    if pubchem_degraded:
+        lines.append("补充：`search_compounds/pubchem` 有历史成功证据，因此不属于“仅失败组合”；但最新连通性探测显示 PUG REST 仍返回503，应与其他 PubChem Actions 一起按远端降级处理。")
 
     lines.extend(
         [
@@ -256,7 +271,7 @@ def main() -> int:
         values = []
         for backend_id in specification.backend_ids:
             pair = (specification.id, backend_id)
-            if pair == ("search_compounds", "pubchem"):
+            if pair == ("search_compounds", "pubchem") and pubchem_degraded:
                 mark = "⚠️"
             elif pair in successful:
                 mark = "✅"
@@ -348,23 +363,25 @@ def main() -> int:
             "",
             "## 8. 推荐优化顺序",
             "",
-            "1. **P0：先修5个本地组合。** Psi4向量API、CP2K显式打印与版本化解析、GROMACS ensemble分支都属于确定性代码问题，修复后可离线回归。",
-            "2. **P1：统一在线数据后端韧性。** 为 PubChem/Catalysis-Hub 增加限速、缓存、Retry-After、指数退避和 `retryable` 错误语义，但保持数据源选择权属于智能体。",
-            "3. **为每个 Backend capability 保留一个小型真实 smoke。** 将本轮62个用例长期纳入夜间/发布前矩阵，不必每次跑昂贵全量体系。",
-            "4. **按科学价值接入 runtime-only 软件。** 优先 Wannier90/Yambo、SHARC/Newton-X、TheoDORE；工作流框架保持为执行基础设施，不公开固定流程工具。",
-            "5. **修复后重新生成覆盖文件。** 目标是 `successful_action_backend_pairs=233`、`failed=0`、`unobserved=0`；在线服务故障应单列为环境状态而非伪装成本地成功。",
+            "1. **本地5个组合已修复。** Psi4向量API、CP2K显式打印/版本化解析和GROMACS ensemble字段均已通过真实后端复测。",
+            "2. **优先排查 PubChem 出口状态。** 当前响应明确显示 `Retry-After: 30` 和 `too many requests per second or blacklisted`；需检查共享 NAT/代理出口，代码不得伪造成功或隐藏切换数据源。",
+            "3. **在线韧性代码已落地。** PubChem/Catalysis-Hub 使用有界重试、Retry-After、跨 worker PubChem 限速和 `retryable` 错误语义；Catalysis-Hub 已现场恢复成功。",
+            "4. **为每个 Backend capability 保留一个小型真实 smoke。** 将本轮62个用例长期纳入夜间/发布前矩阵，不必每次跑昂贵全量体系。",
+            "5. **PubChem解除阻塞后重跑六个网络用例。** 目标是 `successful_action_backend_pairs=233`、`failed=0`、`unobserved=0`。",
             "",
             "## 9. 收尾校验",
             "",
             "- MCP Catalog 校验：`ok: 101 actions, 76 backends, full exposure, agent-required backend selection, no fallback`。",
-            "- 完整测试集：`144 passed in 392.60s`。",
+            "- 完整测试集：`152 passed in 414.44s`。",
             "- 新增矩阵审计测试会验证62个补测用例与历史缺口完全一致，并验证233个 Catalog 组合被成功集与失败集完整划分。",
-            "- `git diff --check` 与三个新增/修改脚本的 `py_compile` 均通过。",
+            "- 修复涉及脚本和 Backend 模块的 `py_compile` 均通过。",
             "",
             "## 10. 复现命令",
             "",
             "```bash",
             ".toolbox_env/bin/python chemistry_toolbox/scripts/run_action_backend_matrix_smokes.py --resume",
+            ".toolbox_env/bin/python chemistry_toolbox/scripts/run_action_gap_smokes.py --network-only",
+            ".tool_envs/services/bin/python chemistry_toolbox/scripts/check_pubchem_connectivity.py --output chemistry_toolbox/config/pubchem_connectivity_status.json",
             ".toolbox_env/bin/python chemistry_toolbox/scripts/audit_action_test_coverage.py",
             ".toolbox_env/bin/python chemistry_toolbox/scripts/generate_action_backend_completion_report.py",
             ".toolbox_env/bin/python -m chemistry_toolbox.mcp.tool_manager validate",

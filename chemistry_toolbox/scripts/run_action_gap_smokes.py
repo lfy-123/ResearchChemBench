@@ -169,9 +169,109 @@ def _error_text(result: dict[str, Any]) -> str | None:
     return str(error) if error else None
 
 
+def _network_cases() -> list[tuple[str, dict[str, Any]]]:
+    return [
+        (
+            "resolve_chemical_identity",
+            {
+                "inputs": {"query": {"identifier": "water", "namespace": "name"}},
+                "method_spec": {},
+                "action_settings": {"require_unique": True, "max_records": 2},
+                "resource_limits": {"walltime_seconds": 90},
+            },
+        ),
+        (
+            "retrieve_compound_properties",
+            {
+                "inputs": {"query": {"identifier": "962", "namespace": "cid"}},
+                "method_spec": {},
+                "action_settings": {
+                    "properties": ["cid", "molecular_formula", "molecular_weight"],
+                    "max_records": 1,
+                },
+                "resource_limits": {"walltime_seconds": 90},
+            },
+        ),
+        (
+            "retrieve_compound_structure",
+            {
+                "inputs": {"query": {"identifier": "962", "namespace": "cid"}},
+                "method_spec": {},
+                "action_settings": {
+                    "record_type": "2d",
+                    "hydrogen_policy": "explicit",
+                    "max_records": 1,
+                    "require_unique": True,
+                },
+                "resource_limits": {"walltime_seconds": 90},
+            },
+        ),
+        (
+            "search_similar_compounds",
+            {
+                "inputs": {"query": {"identifier": "CCO", "namespace": "smiles"}},
+                "method_spec": {},
+                "action_settings": {"threshold": 99, "max_records": 1, "timeout_seconds": 30},
+                "resource_limits": {"walltime_seconds": 90},
+            },
+        ),
+        (
+            "search_substructures",
+            {
+                "inputs": {"query": {"identifier": "O", "namespace": "smarts"}},
+                "method_spec": {},
+                "action_settings": {
+                    "max_records": 1,
+                    "match_stereo": False,
+                    "match_charges": False,
+                    "match_isotopes": False,
+                    "timeout_seconds": 30,
+                },
+                "resource_limits": {"walltime_seconds": 90},
+            },
+        ),
+        (
+            "search_catalysis_records",
+            {
+                "inputs": {"query": {"reactants": "CO"}},
+                "method_spec": {},
+                "action_settings": {"max_records": 1, "timeout_seconds": 30},
+                "resource_limits": {"walltime_seconds": 90},
+            },
+        ),
+    ]
+
+
+def _write_status(records: list[dict[str, Any]], *, network_included: bool) -> int:
+    payload = {
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "schema_version": 1,
+        "network_included": network_included,
+        "summary": {
+            "case_count": len(records),
+            "passed": sum(item["status"] in {"success", "partial_success"} for item in records),
+            "failed": sum(item["status"] not in {"success", "partial_success"} for item in records),
+            "all_ok": all(item["status"] in {"success", "partial_success"} for item in records),
+        },
+        "cases": records,
+    }
+    STATUS_PATH.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print(STATUS_PATH)
+    print(json.dumps(payload["summary"], ensure_ascii=False))
+    failed = [item for item in records if item["status"] not in {"success", "partial_success"}]
+    for item in failed:
+        print(item["case_id"], item["status"], _error_text(item))
+    return 1 if failed else 0
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--include-network", action="store_true")
+    parser.add_argument(
+        "--network-only",
+        action="store_true",
+        help="Rerun only the six live data-source cases and preserve prior non-network records.",
+    )
     args = parser.parse_args()
     load_dotenv(ROOT / "config.local.env", override=False)
     records: list[dict[str, Any]] = []
@@ -191,6 +291,21 @@ def main() -> int:
             }
         )
         return response
+
+    if args.network_only:
+        network_ids = {action for action, _request in _network_cases()}
+        if STATUS_PATH.is_file():
+            previous = json.loads(STATUS_PATH.read_text(encoding="utf-8"))
+            records.extend(
+                item for item in previous.get("cases") or []
+                if item.get("case_id") not in network_ids
+            )
+        with tempfile.TemporaryDirectory(prefix="researchchem-action-gap-network-") as temporary:
+            os.environ["RESEARCHCHEMBENCH_WORKSPACE"] = temporary
+            for action, request in _network_cases():
+                run(action, request)
+                time.sleep(1.0)
+        return _write_status(records, network_included=True)
 
     with tempfile.TemporaryDirectory(prefix="researchchem-action-gap-") as temporary:
         workspace = Path(temporary)
@@ -571,99 +686,11 @@ def main() -> int:
                 )
 
         if args.include_network:
-            network_cases = [
-                (
-                    "resolve_chemical_identity",
-                    {
-                        "inputs": {"query": {"identifier": "water", "namespace": "name"}},
-                        "method_spec": {},
-                        "action_settings": {"require_unique": True, "max_records": 2},
-                        "resource_limits": {"walltime_seconds": 90},
-                    },
-                ),
-                (
-                    "retrieve_compound_properties",
-                    {
-                        "inputs": {"query": {"identifier": "962", "namespace": "cid"}},
-                        "method_spec": {},
-                        "action_settings": {
-                            "properties": ["cid", "molecular_formula", "molecular_weight"],
-                            "max_records": 1,
-                        },
-                        "resource_limits": {"walltime_seconds": 90},
-                    },
-                ),
-                (
-                    "retrieve_compound_structure",
-                    {
-                        "inputs": {"query": {"identifier": "962", "namespace": "cid"}},
-                        "method_spec": {},
-                        "action_settings": {
-                            "record_type": "2d",
-                            "hydrogen_policy": "explicit",
-                            "max_records": 1,
-                            "require_unique": True,
-                        },
-                        "resource_limits": {"walltime_seconds": 90},
-                    },
-                ),
-                (
-                    "search_similar_compounds",
-                    {
-                        "inputs": {"query": {"identifier": "CCO", "namespace": "smiles"}},
-                        "method_spec": {},
-                        "action_settings": {"threshold": 99, "max_records": 1, "timeout_seconds": 30},
-                        "resource_limits": {"walltime_seconds": 90},
-                    },
-                ),
-                (
-                    "search_substructures",
-                    {
-                        "inputs": {"query": {"identifier": "O", "namespace": "smarts"}},
-                        "method_spec": {},
-                        "action_settings": {
-                            "max_records": 1,
-                            "match_stereo": False,
-                            "match_charges": False,
-                            "match_isotopes": False,
-                            "timeout_seconds": 30,
-                        },
-                        "resource_limits": {"walltime_seconds": 90},
-                    },
-                ),
-                (
-                    "search_catalysis_records",
-                    {
-                        "inputs": {"query": {"reactants": "CO"}},
-                        "method_spec": {},
-                        "action_settings": {"max_records": 1, "timeout_seconds": 30},
-                        "resource_limits": {"walltime_seconds": 90},
-                    },
-                ),
-            ]
-            for action, request in network_cases:
+            for action, request in _network_cases():
                 run(action, request)
                 time.sleep(1.0)
 
-    payload = {
-        "generated_at": datetime.now(timezone.utc).isoformat(),
-        "schema_version": 1,
-        "network_included": args.include_network,
-        "summary": {
-            "case_count": len(records),
-            "passed": sum(item["status"] in {"success", "partial_success"} for item in records),
-            "failed": sum(item["status"] not in {"success", "partial_success"} for item in records),
-            "all_ok": all(item["status"] in {"success", "partial_success"} for item in records),
-        },
-        "cases": records,
-    }
-    STATUS_PATH.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print(STATUS_PATH)
-    print(json.dumps(payload["summary"], ensure_ascii=False))
-    for item in records:
-        if item["status"] not in {"success", "partial_success"}:
-            print(item["case_id"], item["status"], _error_text(item))
-    return 0 if payload["summary"]["all_ok"] else 1
+    return _write_status(records, network_included=args.include_network)
 
 
 if __name__ == "__main__":

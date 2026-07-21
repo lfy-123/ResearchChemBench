@@ -1,0 +1,35 @@
+{
+  "generated_at": "2026-07-21T07:34:04.217733+00:00",
+  "host": "pubchem.ncbi.nlm.nih.gov",
+  "proxy_environment_present": false,
+  "dns": {
+    "ok": true,
+    "addresses": [
+      "34.107.134.59"
+    ],
+    "elapsed_seconds": 0.001313
+  },
+  "https_homepage": {
+    "ok": true,
+    "status_code": 200,
+    "http_version": "HTTP/1.1",
+    "elapsed_seconds": 0.810846
+  },
+  "pug_rest_get": {
+    "ok": false,
+    "status_code": 503,
+    "http_version": "HTTP/1.1",
+    "record_count": 0,
+    "retry_after": "30",
+    "x_throttling_control": "Request Count status: Green (0%), Request Time status: Green (0%), Service status: Green (0%), too many requests per second or blacklisted",
+    "url": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/962/property/ConnectivitySMILES,MolecularFormula/JSON",
+    "elapsed_seconds": 0.764548
+  },
+  "pubchempy_name_lookup": {
+    "ok": false,
+    "error_type": "ServerBusyError",
+    "error": "PubChem HTTP Error 503 PUGREST.ServerBusy: Too many requests or server too busy",
+    "elapsed_seconds": 0.515843
+  },
+  "all_ok": false
+}

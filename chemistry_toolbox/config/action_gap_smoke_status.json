@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-07-20T17:36:13.026255+00:00",
+  "generated_at": "2026-07-21T06:49:32.310998+00:00",
   "schema_version": 1,
   "network_included": true,
   "summary": {
     "case_count": 25,
-    "passed": 19,
-    "failed": 6,
+    "passed": 20,
+    "failed": 5,
     "all_ok": false
   },
   "cases": [
@@ -14,7 +14,7 @@
       "action": "repair_biomolecular_structure",
       "backend": "pdbfixer",
       "status": "success",
-      "elapsed_seconds": 2.730746,
+      "elapsed_seconds": 3.326464,
       "error": null,
       "warnings": []
     },
@@ -23,7 +23,7 @@
       "action": "assign_protonation_states",
       "backend": "rdkit",
       "status": "success",
-      "elapsed_seconds": 2.550156,
+      "elapsed_seconds": 2.481175,
       "error": null,
       "warnings": [
         "RDKit explicit-hydrogen addition is rule based and does not predict pKa."
@@ -34,7 +34,7 @@
       "action": "assign_protonation_states",
       "backend": "pdbfixer",
       "status": "success",
-      "elapsed_seconds": 1.711033,
+      "elapsed_seconds": 1.671,
       "error": null,
       "warnings": []
     },
@@ -43,7 +43,7 @@
       "action": "standardize_crystal_structure",
       "backend": "spglib",
       "status": "success",
-      "elapsed_seconds": 2.460554,
+      "elapsed_seconds": 5.805796,
       "error": null,
       "warnings": []
     },
@@ -52,7 +52,7 @@
       "action": "standardize_crystal_structure",
       "backend": "pymatgen",
       "status": "success",
-      "elapsed_seconds": 4.8535,
+      "elapsed_seconds": 7.410694,
       "error": null,
       "warnings": []
     },
@@ -61,7 +61,7 @@
       "action": "derive_vibrational_modes",
       "backend": "internal_vibrations",
       "status": "success",
-      "elapsed_seconds": 7.076715,
+      "elapsed_seconds": 9.762739,
       "error": null,
       "warnings": []
     },
@@ -70,7 +70,7 @@
       "action": "derive_ir_spectrum",
       "backend": "internal_spectroscopy",
       "status": "success",
-      "elapsed_seconds": 1.626287,
+      "elapsed_seconds": 1.610461,
       "error": null,
       "warnings": []
     },
@@ -79,7 +79,7 @@
       "action": "derive_thermochemistry",
       "backend": "internal_thermochemistry",
       "status": "success",
-      "elapsed_seconds": 1.870905,
+      "elapsed_seconds": 1.817246,
       "error": null,
       "warnings": []
     },
@@ -88,7 +88,7 @@
       "action": "calculate_chemical_equilibrium",
       "backend": "cantera",
       "status": "success",
-      "elapsed_seconds": 1.98251,
+      "elapsed_seconds": 3.494326,
       "error": null,
       "warnings": []
     },
@@ -97,7 +97,7 @@
       "action": "trace_intrinsic_reaction_coordinate",
       "backend": "pysisyphus",
       "status": "success",
-      "elapsed_seconds": 4.838325,
+      "elapsed_seconds": 46.221347,
       "error": null,
       "warnings": []
     },
@@ -106,7 +106,7 @@
       "action": "trace_intrinsic_reaction_coordinate",
       "backend": "pysisyphus",
       "status": "success",
-      "elapsed_seconds": 4.321396,
+      "elapsed_seconds": 5.684324,
       "error": null,
       "warnings": []
     },
@@ -115,7 +115,7 @@
       "action": "solve_microkinetic_model",
       "backend": "catmap",
       "status": "success",
-      "elapsed_seconds": 2.792761,
+      "elapsed_seconds": 2.901028,
       "error": null,
       "warnings": [
         "Backend stdout was captured; see worker_stdout in provenance"
@@ -126,7 +126,7 @@
       "action": "calculate_radial_distribution",
       "backend": "mdanalysis",
       "status": "success",
-      "elapsed_seconds": 3.913475,
+      "elapsed_seconds": 5.5112,
       "error": null,
       "warnings": []
     },
@@ -135,7 +135,7 @@
       "action": "calculate_mean_squared_displacement",
       "backend": "mdanalysis",
       "status": "success",
-      "elapsed_seconds": 2.155921,
+      "elapsed_seconds": 2.076499,
       "error": null,
       "warnings": []
     },
@@ -144,7 +144,7 @@
       "action": "evaluate_collective_variables",
       "backend": "plumed",
       "status": "success",
-      "elapsed_seconds": 3.238274,
+      "elapsed_seconds": 3.163435,
       "error": null,
       "warnings": []
     },
@@ -153,7 +153,7 @@
       "action": "generate_displaced_supercells",
       "backend": "phonopy",
       "status": "success",
-      "elapsed_seconds": 3.08779,
+      "elapsed_seconds": 5.251523,
       "error": null,
       "warnings": []
     },
@@ -162,7 +162,7 @@
       "action": "assemble_force_constants",
       "backend": "phonopy",
       "status": "success",
-      "elapsed_seconds": 1.689946,
+      "elapsed_seconds": 1.777415,
       "error": null,
       "warnings": []
     },
@@ -171,7 +171,7 @@
       "action": "calculate_phonon_dispersion",
       "backend": "phonopy",
       "status": "success",
-      "elapsed_seconds": 1.671431,
+      "elapsed_seconds": 1.714469,
       "error": null,
       "warnings": []
     },
@@ -180,7 +180,7 @@
       "action": "calculate_phonon_density_of_states",
       "backend": "phonopy",
       "status": "success",
-      "elapsed_seconds": 1.718803,
+      "elapsed_seconds": 1.704386,
       "error": null,
       "warnings": []
     },
@@ -189,11 +189,10 @@
       "action": "resolve_chemical_identity",
       "backend": "pubchem",
       "status": "failed",
-      "elapsed_seconds": 4.281574,
+      "elapsed_seconds": 4.513014,
       "error": {
-        "code": "backend_exception",
-        "message": "ServerBusyError: PubChem HTTP Error 503 PUGREST.ServerBusy: Too many requests or server too busy",
-        "traceback": "Traceback (most recent call last):\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/site-packages/pubchempy.py\", line 380, in request\n    response = urlopen(apiurl, postdata, context=context)\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/urllib/request.py\", line 216, in urlopen\n    return opener.open(url, data, timeout)\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/urllib/request.py\", line 525, in open\n    response = meth(req, response)\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/urllib/request.py\", line 634, in http_response\n    response = self.parent.error(\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/urllib/request.py\", line 563, in error\n    return self._call_chain(*args)\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/urllib/request.py\", line 496, in _call_chain\n    result = func(*args)\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/urllib/request.py\", line 643, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: PUGREST.ServerBusy\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/researchchem_toolbox/worker.py\", line 20, in main\n    result = execute_local(\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/researchchem_toolbox/backends/__init__.py\", line 35, in execute_local\n    return module.execute(action_id, backend_id, request)\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/researchchem_toolbox/backends/data.py\", line 790, in execute\n    return _pubchem_identity(request)\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/researchchem_toolbox/backends/data.py\", line 355, in _pubchem_identity\n    compounds = pcp.get_compounds(identifier, namespace)[:maximum]\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/site-packages/pubchempy.py\", line 494, in get_compounds\n    results = get_json(identifier, namespace, searchtype=searchtype, **kwargs)\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/site-packages/pubchempy.py\", line 441, in get_json\n    get(\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/site-packages/pubchempy.py\", line 421, in get\n    response = request(\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/site-packages/pubchempy.py\", line 383, in request\n    raise create_http_error(e) from e\npubchempy.ServerBusyError: PubChem HTTP Error 503 PUGREST.ServerBusy: Too many requests or server too busy\n"
+        "code": "remote_service_unavailable",
+        "message": "PubChem PUG REST remained unavailable after 2 attempt(s): ServerBusyError: PubChem HTTP Error 503 PUGREST.ServerBusy: Too many requests or server too busy"
       },
       "warnings": []
     },
@@ -202,11 +201,10 @@
       "action": "retrieve_compound_properties",
       "backend": "pubchem",
       "status": "failed",
-      "elapsed_seconds": 2.389649,
+      "elapsed_seconds": 3.4535,
       "error": {
-        "code": "backend_exception",
-        "message": "ServerBusyError: PubChem HTTP Error 503 PUGREST.ServerBusy: Too many requests or server too busy",
-        "traceback": "Traceback (most recent call last):\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/site-packages/pubchempy.py\", line 380, in request\n    response = urlopen(apiurl, postdata, context=context)\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/urllib/request.py\", line 216, in urlopen\n    return opener.open(url, data, timeout)\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/urllib/request.py\", line 525, in open\n    response = meth(req, response)\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/urllib/request.py\", line 634, in http_response\n    response = self.parent.error(\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/urllib/request.py\", line 563, in error\n    return self._call_chain(*args)\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/urllib/request.py\", line 496, in _call_chain\n    result = func(*args)\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/urllib/request.py\", line 643, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: PUGREST.ServerBusy\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/researchchem_toolbox/worker.py\", line 20, in main\n    result = execute_local(\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/researchchem_toolbox/backends/__init__.py\", line 35, in execute_local\n    return module.execute(action_id, backend_id, request)\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/researchchem_toolbox/backends/data.py\", line 792, in execute\n    return _pubchem_properties(request)\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/researchchem_toolbox/backends/data.py\", line 421, in _pubchem_properties\n    compounds = pcp.get_compounds(identifier, namespace)[:maximum]\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/site-packages/pubchempy.py\", line 494, in get_compounds\n    results = get_json(identifier, namespace, searchtype=searchtype, **kwargs)\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/site-packages/pubchempy.py\", line 441, in get_json\n    get(\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/site-packages/pubchempy.py\", line 421, in get\n    response = request(\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/site-packages/pubchempy.py\", line 383, in request\n    raise create_http_error(e) from e\npubchempy.ServerBusyError: PubChem HTTP Error 503 PUGREST.ServerBusy: Too many requests or server too busy\n"
+        "code": "remote_service_unavailable",
+        "message": "PubChem PUG REST remained unavailable after 2 attempt(s): ServerBusyError: PubChem HTTP Error 503 PUGREST.ServerBusy: Too many requests or server too busy"
       },
       "warnings": []
     },
@@ -215,11 +213,10 @@
       "action": "retrieve_compound_structure",
       "backend": "pubchem",
       "status": "failed",
-      "elapsed_seconds": 2.310107,
+      "elapsed_seconds": 3.914024,
       "error": {
-        "code": "backend_exception",
-        "message": "ServerBusyError: PubChem HTTP Error 503 PUGREST.ServerBusy: Too many requests or server too busy",
-        "traceback": "Traceback (most recent call last):\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/site-packages/pubchempy.py\", line 380, in request\n    response = urlopen(apiurl, postdata, context=context)\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/urllib/request.py\", line 216, in urlopen\n    return opener.open(url, data, timeout)\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/urllib/request.py\", line 525, in open\n    response = meth(req, response)\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/urllib/request.py\", line 634, in http_response\n    response = self.parent.error(\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/urllib/request.py\", line 563, in error\n    return self._call_chain(*args)\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/urllib/request.py\", line 496, in _call_chain\n    result = func(*args)\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/urllib/request.py\", line 643, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: PUGREST.ServerBusy\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/researchchem_toolbox/worker.py\", line 20, in main\n    result = execute_local(\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/researchchem_toolbox/backends/__init__.py\", line 35, in execute_local\n    return module.execute(action_id, backend_id, request)\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/researchchem_toolbox/backends/data.py\", line 794, in execute\n    return _pubchem_structure(request)\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/researchchem_toolbox/backends/data.py\", line 461, in _pubchem_structure\n    compounds = pcp.get_compounds(\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/site-packages/pubchempy.py\", line 494, in get_compounds\n    results = get_json(identifier, namespace, searchtype=searchtype, **kwargs)\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/site-packages/pubchempy.py\", line 441, in get_json\n    get(\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/site-packages/pubchempy.py\", line 421, in get\n    response = request(\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/site-packages/pubchempy.py\", line 383, in request\n    raise create_http_error(e) from e\npubchempy.ServerBusyError: PubChem HTTP Error 503 PUGREST.ServerBusy: Too many requests or server too busy\n"
+        "code": "remote_service_unavailable",
+        "message": "PubChem PUG REST remained unavailable after 2 attempt(s): ServerBusyError: PubChem HTTP Error 503 PUGREST.ServerBusy: Too many requests or server too busy"
       },
       "warnings": []
     },
@@ -228,11 +225,10 @@
       "action": "search_similar_compounds",
       "backend": "pubchem",
       "status": "failed",
-      "elapsed_seconds": 3.321138,
+      "elapsed_seconds": 32.60505,
       "error": {
-        "code": "backend_exception",
-        "message": "HTTPStatusError: Server error '503 PUGREST.ServerBusy' for url 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/fastsimilarity_2d/smiles/CCO/cids/JSON?MaxRecords=1&MaxSeconds=30&Threshold=99'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503",
-        "traceback": "Traceback (most recent call last):\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/researchchem_toolbox/worker.py\", line 20, in main\n    result = execute_local(\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/researchchem_toolbox/backends/__init__.py\", line 35, in execute_local\n    return module.execute(action_id, backend_id, request)\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/researchchem_toolbox/backends/data.py\", line 796, in execute\n    return _pubchem_structure_search(action_id, request)\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/researchchem_toolbox/backends/data.py\", line 604, in _pubchem_structure_search\n    payload = _bounded_pubchem_json(\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/researchchem_toolbox/backends/data.py\", line 565, in _bounded_pubchem_json\n    response.raise_for_status()\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/site-packages/httpx/_models.py\", line 829, in raise_for_status\n    raise HTTPStatusError(message, request=request, response=self)\nhttpx.HTTPStatusError: Server error '503 PUGREST.ServerBusy' for url 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/fastsimilarity_2d/smiles/CCO/cids/JSON?MaxRecords=1&MaxSeconds=30&Threshold=99'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503\n"
+        "code": "remote_service_unavailable",
+        "message": "PubChem PUG REST remained unavailable after 2 attempt(s): HTTPStatusError: Server error '503 PUGREST.ServerBusy' for url 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/fastsimilarity_2d/smiles/CCO/cids/JSON?MaxRecords=1&MaxSeconds=30&Threshold=99'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503"
       },
       "warnings": []
     },
@@ -241,11 +237,10 @@
       "action": "search_substructures",
       "backend": "pubchem",
       "status": "failed",
-      "elapsed_seconds": 2.0721,
+      "elapsed_seconds": 32.824973,
       "error": {
-        "code": "backend_exception",
-        "message": "HTTPStatusError: Server error '503 PUGREST.ServerBusy' for url 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/fastsubstructure/smarts/O/cids/JSON?MaxRecords=1&MaxSeconds=30&Stereo=ignore&MatchCharges=false&MatchIsotopes=false'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503",
-        "traceback": "Traceback (most recent call last):\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/researchchem_toolbox/worker.py\", line 20, in main\n    result = execute_local(\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/researchchem_toolbox/backends/__init__.py\", line 35, in execute_local\n    return module.execute(action_id, backend_id, request)\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/researchchem_toolbox/backends/data.py\", line 796, in execute\n    return _pubchem_structure_search(action_id, request)\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/researchchem_toolbox/backends/data.py\", line 604, in _pubchem_structure_search\n    payload = _bounded_pubchem_json(\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/researchchem_toolbox/backends/data.py\", line 565, in _bounded_pubchem_json\n    response.raise_for_status()\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/site-packages/httpx/_models.py\", line 829, in raise_for_status\n    raise HTTPStatusError(message, request=request, response=self)\nhttpx.HTTPStatusError: Server error '503 PUGREST.ServerBusy' for url 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/fastsubstructure/smarts/O/cids/JSON?MaxRecords=1&MaxSeconds=30&Stereo=ignore&MatchCharges=false&MatchIsotopes=false'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503\n"
+        "code": "remote_service_unavailable",
+        "message": "PubChem PUG REST remained unavailable after 2 attempt(s): HTTPStatusError: Server error '503 PUGREST.ServerBusy' for url 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/fastsubstructure/smarts/O/cids/JSON?MaxRecords=1&MaxSeconds=30&Stereo=ignore&MatchCharges=false&MatchIsotopes=false'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503"
       },
       "warnings": []
     },
@@ -253,13 +248,9 @@
       "case_id": "search_catalysis_records",
       "action": "search_catalysis_records",
       "backend": "catalysis_hub",
-      "status": "failed",
-      "elapsed_seconds": 32.242141,
-      "error": {
-        "code": "backend_exception",
-        "message": "ReadTimeout: The read operation timed out",
-        "traceback": "Traceback (most recent call last):\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/site-packages/httpx/_transports/default.py\", line 101, in map_httpcore_exceptions\n    yield\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/site-packages/httpx/_transports/default.py\", line 250, in handle_request\n    resp = self._pool.handle_request(req)\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/site-packages/httpcore/_sync/connection_pool.py\", line 256, in handle_request\n    raise exc from None\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/site-packages/httpcore/_sync/connection_pool.py\", line 236, in handle_request\n    response = connection.handle_request(\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/site-packages/httpcore/_sync/connection.py\", line 103, in handle_request\n    return self._connection.handle_request(request)\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/site-packages/httpcore/_sync/http11.py\", line 136, in handle_request\n    raise exc\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/site-packages/httpcore/_sync/http11.py\", line 106, in handle_request\n    ) = self._receive_response_headers(**kwargs)\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/site-packages/httpcore/_sync/http11.py\", line 177, in _receive_response_headers\n    event = self._receive_event(timeout=timeout)\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/site-packages/httpcore/_sync/http11.py\", line 217, in _receive_event\n    data = self._network_stream.read(\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/site-packages/httpcore/_backends/sync.py\", line 126, in read\n    with map_exceptions(exc_map):\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/contextlib.py\", line 153, in __exit__\n    self.gen.throw(typ, value, traceback)\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/site-packages/httpcore/_exceptions.py\", line 14, in map_exceptions\n    raise to_exc(exc) from exc\nhttpcore.ReadTimeout: The read operation timed out\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/researchchem_toolbox/worker.py\", line 20, in main\n    result = execute_local(\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/researchchem_toolbox/backends/__init__.py\", line 35, in execute_local\n    return module.execute(action_id, backend_id, request)\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/researchchem_toolbox/backends/data.py\", line 802, in execute\n    return _catalysis_hub(request)\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/researchchem_toolbox/backends/data.py\", line 761, in _catalysis_hub\n    response = httpx.post(\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/site-packages/httpx/_api.py\", line 304, in post\n    return request(\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/site-packages/httpx/_api.py\", line 109, in request\n    return client.request(\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/site-packages/httpx/_client.py\", line 825, in request\n    return self.send(request, auth=auth, follow_redirects=follow_redirects)\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/site-packages/httpx/_client.py\", line 914, in send\n    response = self._send_handling_auth(\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/site-packages/httpx/_client.py\", line 942, in _send_handling_auth\n    response = self._send_handling_redirects(\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/site-packages/httpx/_client.py\", line 979, in _send_handling_redirects\n    response = self._send_single_request(request)\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/site-packages/httpx/_client.py\", line 1014, in _send_single_request\n    response = transport.handle_request(request)\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/site-packages/httpx/_transports/default.py\", line 249, in handle_request\n    with map_httpcore_exceptions():\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/contextlib.py\", line 153, in __exit__\n    self.gen.throw(typ, value, traceback)\n  File \"/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/lib/python3.10/site-packages/httpx/_transports/default.py\", line 118, in map_httpcore_exceptions\n    raise mapped_exc(message) from exc\nhttpx.ReadTimeout: The read operation timed out\n"
-      },
+      "status": "success",
+      "elapsed_seconds": 3.164042,
+      "error": null,
       "warnings": []
     }
   ]

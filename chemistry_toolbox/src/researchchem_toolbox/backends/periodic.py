@@ -431,7 +431,15 @@ def _cp2k_input(action_id: str, request: dict[str, Any]) -> str:
         basis = method["basis_set"][symbol] if isinstance(method["basis_set"], dict) else method["basis_set"]
         potential = method["potential"][symbol] if isinstance(method["potential"], dict) else method["potential"]
         lines.extend(["    &KIND " + symbol, f"      ELEMENT {symbol}", f"      BASIS_SET {basis}", f"      POTENTIAL {potential}", "    &END KIND"])
-    lines.extend(["  &END SUBSYS", "&END FORCE_EVAL"])
+    lines.extend(["  &END SUBSYS"])
+    if action_id in {"calculate_periodic_forces", "calculate_periodic_stress"}:
+        lines.extend(["  &PRINT"])
+        if action_id == "calculate_periodic_forces":
+            lines.extend(["    &FORCES ON", "    &END FORCES"])
+        if action_id == "calculate_periodic_stress":
+            lines.extend(["    &STRESS_TENSOR ON", "    &END STRESS_TENSOR"])
+        lines.extend(["  &END PRINT"])
+    lines.extend(["&END FORCE_EVAL"])
     if action_id == "relax_periodic_structure":
         section = "CELL_OPT" if bool(settings.get("relax_cell", False)) else "GEO_OPT"
         lines.extend(
@@ -458,16 +466,51 @@ def _parse_cp2k(
             raise RuntimeError("Could not parse CP2K energy")
         return {"energy": energy, "unit": "hartree"}
     if action_id == "calculate_periodic_forces":
-        matches = re.findall(r"^\s*\d+\s+\d+\s+\S+\s+(-?\S+)\s+(-?\S+)\s+(-?\S+)\s*$", stdout, re.M)
+        current_matches = re.findall(
+            r"^\s*FORCES\|\s+\d+\s+([+-]?\S+)\s+([+-]?\S+)\s+([+-]?\S+)(?:\s+\S+)?\s*$",
+            stdout,
+            re.M,
+        )
+        legacy_matches = re.findall(
+            r"^\s*\d+\s+\d+\s+\S+\s+(-?\S+)\s+(-?\S+)\s+(-?\S+)\s*$",
+            stdout,
+            re.M,
+        )
+        matches = current_matches or legacy_matches
         forces = [[float(value) for value in row] for row in matches]
         if not forces:
             raise RuntimeError("Could not parse CP2K forces")
         return {"forces": forces, "unit": "hartree/bohr", "energy_hartree": energy}
     if action_id == "calculate_periodic_stress":
+        current_header = re.search(
+            r"^\s*STRESS\|\s+Analytical stress tensor \[([^\]]+)\]",
+            stdout,
+            re.M,
+        )
+        if current_header:
+            rows = re.findall(
+                r"^\s*STRESS\|\s+[xyzXYZ]\s+([+-]?\S+)\s+([+-]?\S+)\s+([+-]?\S+)\s*$",
+                stdout[current_header.end() :],
+                re.M,
+            )[:3]
+            source_unit = current_header.group(1).strip().lower()
+            factors = {"bar": 1.0e-4, "kbar": 0.1, "gpa": 1.0, "pa": 1.0e-9}
+            if source_unit not in factors:
+                raise RuntimeError(f"Unsupported CP2K stress unit: {source_unit}")
+            factor = factors[source_unit]
+            stress = [[float(value) * factor for value in row] for row in rows]
+            if len(stress) != 3:
+                raise RuntimeError("Could not parse three CP2K analytical stress rows")
+            return {
+                "stress": stress,
+                "unit": "GPa",
+                "source_unit": source_unit,
+                "energy_hartree": energy,
+            }
         block = re.findall(r"STRESS TENSOR \[GPa\](.*?)(?:\n\s*\n)", stdout, re.S)
-        if not block:
+        rows = re.findall(r"^[XYZ]\s+(-?\S+)\s+(-?\S+)\s+(-?\S+)", block[-1], re.M) if block else []
+        if len(rows) != 3:
             raise RuntimeError("Could not parse CP2K stress")
-        rows = re.findall(r"^[XYZ]\s+(-?\S+)\s+(-?\S+)\s+(-?\S+)", block[-1], re.M)
         return {"stress": [[float(value) for value in row] for row in rows], "unit": "GPa", "energy_hartree": energy}
     original, _symbols, _coordinates, original_cell = _periodic_structure(
         request["inputs"]["structure"]
