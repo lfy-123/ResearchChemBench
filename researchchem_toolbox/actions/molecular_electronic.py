@@ -1,0 +1,170 @@
+"""ActionSpec declarations for molecular_electronic."""
+
+from __future__ import annotations
+
+from .._spec_builders import action as _action
+
+
+ACTION_SPECS = (
+    _action(
+            "calculate_energy",
+            "molecular_electronic",
+            "Calculate one molecular or non-periodic scalar energy with the exact software and method selected by the agent.",
+            "EnergyResult",
+            ("xtb", "pyscf", "psi4", "tblite", "gpaw", "nwchem", "openmolcas", "mace", "chgnet", "deepmd", "orca", "gaussian", "gamess", "ase_emt"),
+            ("structure",),
+            input_description="non-periodic AtomicStructure",
+        ),
+    _action(
+            "calculate_forces",
+            "molecular_electronic",
+            "Calculate atomic forces for one non-periodic structure or an aligned batch.",
+            "ForceResult",
+            ("xtb", "pyscf", "tblite", "gpaw", "nwchem", "orca", "mace", "chgnet", "deepmd", "ase_emt"),
+            ("structure",),
+            input_description="AtomicStructure or a homogeneous structure batch",
+        ),
+    _action(
+            "calculate_hessian",
+            "molecular_electronic",
+            "Calculate one molecular Hessian without deriving modes, spectra, or thermochemistry.",
+            "Hessian",
+            ("xtb", "pyscf", "psi4", "tblite", "nwchem", "orca", "gaussian", "ase_emt"),
+            ("structure",),
+            input_description="AtomicStructure",
+        ),
+    _action(
+            "optimize_geometry",
+            "molecular_electronic",
+            "Optimize one non-periodic geometry and return the optimized structure only as the primary result.",
+            "AtomicStructure",
+            ("xtb", "tblite", "gpaw", "mace", "chgnet", "deepmd", "orca", "gaussian", "gamess", "ase_emt", "geometric", "sella"),
+            ("structure",),
+            ("constraints",),
+            input_description="AtomicStructure plus explicit convergence and optional constraints",
+        ),
+    _action(
+            "calculate_dipole_moment",
+            "molecular_electronic",
+            "Calculate one molecular dipole moment with an explicitly chosen electronic method.",
+            "DipoleResult",
+            ("xtb", "tblite", "pyscf", "psi4", "nwchem", "openmolcas", "orca", "gaussian", "gamess"),
+            ("structure",),
+            input_description="AtomicStructure",
+        ),
+    _action(
+            "calculate_atomic_charges",
+            "molecular_electronic",
+            "Calculate electronic-structure population-analysis charges without attaching force-field parameters.",
+            "AtomicChargeResult",
+            ("xtb", "pyscf", "psi4", "nwchem", "openmolcas", "multiwfn", "orca"),
+            ("structure",),
+            input_description="AtomicStructure for calculation backends or a compatible wavefunction/ElectronicState Artifact for analysis backends",
+        ),
+    _action(
+            "calculate_orbitals",
+            "molecular_electronic",
+            "Calculate orbital energies, occupations, and optional coefficient artifacts.",
+            "OrbitalResult",
+            ("pyscf", "psi4", "openmolcas", "orca"),
+            ("structure",),
+            input_description="AtomicStructure or compatible ElectronicState Artifact",
+        ),
+    _action(
+            "calculate_bond_orders",
+            "molecular_electronic",
+            "Calculate atom-pair electronic bond-order indices using one explicitly selected population-analysis backend.",
+            "BondOrderResult",
+            ("xtb", "multiwfn", "orca"),
+            ("structure",),
+            input_description="non-periodic AtomicStructure or compatible wavefunction Artifact and explicit population definition/minimum reported bond order",
+        ),
+    _action(
+            "calculate_excited_states",
+            "molecular_electronic",
+            "Calculate a bounded set of vertical electronic excited states without constructing a broadened spectrum or propagating dynamics.",
+            "ExcitedStateResult",
+            ("pyscf", "orca"),
+            ("structure",),
+            input_description="non-periodic AtomicStructure plus explicit ground-state and excited-state methods",
+        ),
+    _action(
+            "analyze_electron_density_topology",
+            "molecular_electronic",
+            "Locate and characterize critical points in one supplied molecular or periodic electron-density field without generating that field or integrating atomic basins.",
+            "ElectronDensityTopologyResult",
+            ("critic2",),
+            ("density_file",),
+            ("structure_file",),
+            input_description=(
+                "electron-density grid or wavefunction file plus an optional separate structure file; "
+                "the Agent explicitly selects molecular/periodic interpretation, field format, "
+                "interpolation, critical-point classes, tolerances, and seeding strategy"
+            ),
+        ),
+    _action(
+            "calculate_atomic_basin_properties",
+            "molecular_electronic",
+            "Integrate population, Laplacian, and available volume properties over atomic or attractor basins in one supplied scalar-field grid using an explicitly selected partition algorithm.",
+            "AtomicBasinPropertyResult",
+            ("critic2",),
+            ("density_file",),
+            ("structure_file",),
+            input_description=(
+                "electron-density or scalar-field grid plus optional separate structure; the Agent "
+                "selects the Critic2 YT, Henkelman BADER, Hirshfeld, or Voronoi partition"
+            ),
+        ),
+    _action(
+            "calculate_bader_charges",
+            "molecular_electronic",
+            "Calculate atomic Bader charges from one supplied electron-density grid using an explicitly selected Yu-Trinkle or Henkelman grid partition.",
+            "AtomicChargeResult",
+            ("critic2",),
+            ("density_file",),
+            ("structure_file",),
+            input_description=(
+                "electron-density grid plus optional separate structure and explicit grid partition, "
+                "attractor-assignment, filtering, and reporting settings"
+            ),
+        ),
+    _action(
+            "derive_vibrational_modes",
+            "molecular_electronic",
+            "Derive frequencies and normal modes from an existing Hessian and structure.",
+            "FrequencyResult",
+            ("internal_vibrations",),
+            ("hessian", "structure"),
+            input_description="Hessian Artifact and matching AtomicStructure",
+            selection_policy="internal_deterministic",
+        ),
+    _action(
+            "derive_ir_spectrum",
+            "molecular_electronic",
+            "Construct an IR spectrum from vibration results that already contain intensities.",
+            "SpectrumResult",
+            ("internal_spectroscopy",),
+            ("vibrations",),
+            input_description="FrequencyResult with intensities",
+            selection_policy="internal_deterministic",
+        ),
+    _action(
+            "derive_uv_vis_spectrum",
+            "molecular_electronic",
+            "Construct a deterministic broadened UV/visible spectrum from supplied transition energies and oscillator strengths.",
+            "SpectrumResult",
+            ("internal_spectroscopy",),
+            ("excited_states",),
+            input_description="ExcitedStateResult containing energy_ev and oscillator_strength for each state",
+            selection_policy="internal_deterministic",
+        ),
+    _action(
+            "derive_thermochemistry",
+            "molecular_electronic",
+            "Derive thermochemical quantities from supplied electronic energy and frequencies; no optimization or Hessian is hidden.",
+            "ThermochemistryResult",
+            ("internal_thermochemistry", "goodvibes"),
+            ("energy", "frequencies"),
+            input_description="EnergyResult and FrequencyResult or a compatible parsed output Artifact",
+        ),
+)

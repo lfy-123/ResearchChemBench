@@ -1,0 +1,26 @@
+"""Task-independent ActionSpec declarations grouped by scientific domain."""
+
+from .scientific_data_interchange import ACTION_SPECS as SCIENTIFIC_DATA_INTERCHANGE_ACTIONS
+from .structure_and_system import ACTION_SPECS as STRUCTURE_AND_SYSTEM_ACTIONS
+from .cheminformatics import ACTION_SPECS as CHEMINFORMATICS_ACTIONS
+from .molecular_electronic import ACTION_SPECS as MOLECULAR_ELECTRONIC_ACTIONS
+from .reaction_and_kinetics import ACTION_SPECS as REACTION_AND_KINETICS_ACTIONS
+from .molecular_dynamics import ACTION_SPECS as MOLECULAR_DYNAMICS_ACTIONS
+from .periodic_and_phonons import ACTION_SPECS as PERIODIC_AND_PHONONS_ACTIONS
+from .docking import ACTION_SPECS as DOCKING_ACTIONS
+from .data_sources import ACTION_SPECS as DATA_SOURCES_ACTIONS
+
+
+ACTION_SPECS = (
+    SCIENTIFIC_DATA_INTERCHANGE_ACTIONS
+    + STRUCTURE_AND_SYSTEM_ACTIONS
+    + CHEMINFORMATICS_ACTIONS
+    + MOLECULAR_ELECTRONIC_ACTIONS
+    + REACTION_AND_KINETICS_ACTIONS
+    + MOLECULAR_DYNAMICS_ACTIONS
+    + PERIODIC_AND_PHONONS_ACTIONS
+    + DOCKING_ACTIONS
+    + DATA_SOURCES_ACTIONS
+)
+
+__all__ = ["ACTION_SPECS"]
