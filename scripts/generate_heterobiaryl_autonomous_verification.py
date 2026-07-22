@@ -56,12 +56,12 @@ REFERENCE_SUMMARIES = {
 }
 
 # These notes are an expert audit of the saved evidence, not another model score.
-# Q4 and Q6 are finalized after their last valid runs have completed.
 EXPERT_AUDIT_NOTES = {
     TASK_IDS[0]: [
-        "完成 P0/P1/P2 低成本筛选与多轮 TS/Hessian 尝试，但只有 P1 分支得到可接受 TS 证据。",
-        "最终把 P1 判断为关键状态，没有复现 P0 -> P1 -> P2 的单调降势垒关系。",
-        "失败主要来自具体 TS 初猜和数值收敛，未发现自动 Backend 替换或框架默认参数。",
+        "同步 ORCA 合同修复后的有效运行完成九种子筛选、三代表精修、反应物 Hessian/振动/353.15 K 1 M 热化学以及多种 TS 搜索；Judge 评分 58/100，objective flags 为空。",
+        "只有 P1 的 Sella 分支得到一个 64.4i cm-1 候选一阶鞍点和 38.7 kcal mol-1 势垒；隐藏参考 P1 约 20 kcal mol-1，且 Agent 没有运行 IRC 或验证该软模确实对应目标 C-C 坐标。",
+        "P0/P2 的 pysisyphus 端点经独立 Hessian 证实为 minima，畸变 Sella 初猜触发 xTB 数值异常。因此本轮没有 P0/P2 势垒，不能检验参考的 30 -> 20 -> 14 kcal mol-1 单调下降。",
+        "报告一方面声称质子化增加势垒，另一方面又称 P1 最优/趋势非单调，结论自相矛盾并与隐藏参考相反。一次分析作业遗漏 staged input 也是 Agent 合同错误；框架未自动换 Backend 或参数。",
     ],
     TASK_IDS[1]: [
         "收敛状态修复后的有效运行覆盖九个种子优化、两类竞争路径的 12 次 TS 尝试、Hessian、振动和热化学，Judge 评分 45/100，objective flags 为空。",
@@ -80,11 +80,18 @@ EXPERT_AUDIT_NOTES = {
         "Judge objective flags 为空，说明本轮低分来自科学搜索与证据不足，而不是框架阻塞。",
     ],
     TASK_IDS[4]: [
-        "正确复现实验相对速率和 Hammett 趋势，也生成了配体偶联计算证据。",
-        "把 ligand coupling 错当整体 RDS，未正确区分加成决速、偶联选择性决定和后续不可逆塌陷。",
-        "一次 ORCA PAL4 环境失败后由 Agent 显式改为单核；当前 Backend 合同已固定为本安装可验证的单核上限。",
+        "有效运行正确复现实验相对速率和 Hammett 趋势，但在受管证据边界修复后重评分仅 22/100，objective flags 为空。",
+        "关键 27--36 kcal mol-1 扫描和所谓全解离产品优化由 Agent 直接在 OpenCode bash 中启动 xTB，不属于三层 Chemistry MCP 的 managed scientific evidence；相关计算 criterion 因而为 0。",
+        "受管 pysisyphus 搜索在 200 个循环后被正确标记为 partial/unconverged，独立 Hessian 也没有确认一阶鞍点。Agent 最初遗漏 P2 电荷，但读到 provenance 后显式改为 charge=2。",
+        "最终仍把 ligand coupling 错当整体 RDS，未计算醇加成势垒，也未区分加成决速、偶联选择性决定和后续不可逆塌陷。这是模型的证据选择与科学结论错误。",
     ],
-    TASK_IDS[5]: [],
+    TASK_IDS[5]: [
+        "端到端运行产生 44 次 MCP 调用，其中按最终状态重算的 managed scientific success/attempt 为 25/28；Judge 评分 38/100 且 objective flags 为空。TS 达到循环上限被正确保留为 partial/unconverged，没有发生自动 Backend 或参数替换。",
+        "Agent 只优化每个质子化状态的 SEED_01，没有按任务要求筛选九个替代种子；P1 振动结果含 19.85i cm-1 模式，却仍被当作普通反应物热化学状态，驻点验证不充分。",
+        "受管计算只给出 P0 碎片化产品反应能约 +129 kcal mol-1 和一个未收敛搜索端点约 +136 kcal mol-1；没有构建 P0/P1/P2 势垒、BiPy/PhPy、C-C/C-O、醇加成或完整动力学的可比 profile。",
+        "最终声称 concerted reductive elimination，并把 Hammett 趋势直接解释为该单步坐标；这与隐藏参考的 P2 活性态、stepwise asynchronous/dearomatized intermediate 以及醇加成决速相冲突，也没有 IRC 或直接键重排证据。",
+        "三次热化学 ArtifactRef 类型错误在 schema 校验阶段被拒绝后由 Agent 显式修正；这些以及一次错误 Backend discovery 都是可观察的 Agent 合同错误，不是框架故障。",
+    ],
 }
 
 FIXES = [
@@ -101,6 +108,8 @@ FIXES = [
     ("0e46d94", "记录实际解析后的分子电荷与自旋 provenance"),
     ("e1c5896", "把达到最大循环数的 pysisyphus 搜索标记为未收敛 partial result"),
     ("6326396", "从完整 tool result 而非截断 preview 解析异步作业终态"),
+    ("954f889", "限制同步 ORCA Action，并为长作业暴露显式异步原生路径"),
+    ("425cae2", "禁止裁判把 OpenCode shell/file 调用计作 managed scientific evidence"),
 ]
 
 SUPERSEDED_RUNS = [
@@ -111,6 +120,14 @@ SUPERSEDED_RUNS = [
         "Heterobiaryl_PV_01_Protonation_opencode_20260722_134227_de5b37",
         "4 个达到最大循环数的 pysisyphus TS 搜索被旧适配层错误计为 converged。",
         "70 分结果作废，使用 e1c5896 后的收敛安全运行替代。",
+    ),
+    (
+        "同步/异步合同修复前 Q1",
+        ROOT
+        / "workspaces/cli_runs/batch_20260722_171802_f29209/"
+        "Heterobiaryl_PV_01_Protonation_opencode_20260722_171802_0d88bc",
+        "Agent 同时请求三个 walltime_seconds=86400 的同步 ORCA 优化，但 MCP 客户端上限为 3600 秒，且服务只实际启动第一个；后两个不可能在合同内完成。",
+        "在确定性超时前主动终止并作废；同步 ORCA Action 现限制为 1800 秒，长计算必须由 Agent 显式编写输入并提交异步 native job。",
     ),
     (
         "Q2 旧最终运行",
@@ -127,6 +144,14 @@ SUPERSEDED_RUNS = [
         "Heterobiaryl_PV_05_Rate_Determining_Step_opencode_20260722_141952_f16c49",
         "关键 pysisyphus TS 搜索达到最大循环数却被记作 converged。",
         "83 分结果作废，使用 e1c5896 后的收敛安全运行替代。",
+    ),
+    (
+        "Q5 managed-evidence 规则修复前评分",
+        ROOT
+        / "workspaces/cli_runs/batch_20260722_171802_f29209/"
+        "Heterobiaryl_PV_05_Rate_Determining_Step_opencode_20260722_173155_5a5a43",
+        "初次 Judge 把 OpenCode bash 中直接启动的 xTB 约束扫描当作 managed coupling evidence，给出 46 分。",
+        "Agent 轨迹不重跑；425cae2 后同轨迹重评分为 22 分，完整前后快照保存在 _score_history.jsonl。",
     ),
     (
         "初始子任务批次",
@@ -476,6 +501,7 @@ def collect_record(task_id: str) -> dict[str, Any]:
         "truth": load_json(task_dir / "target_study/ground_truth.json"),
         "meta": load_json(workspace / "_meta.json"),
         "score": load_json(workspace / "_score.json"),
+        "catalog": load_json(workspace / "_toolbox_catalog.json"),
         "events": events,
         "metrics": process_metrics(events, workspace=workspace),
         "native": load_native_agent_trace(workspace),
@@ -544,6 +570,7 @@ def append_task(lines: list[str], index: int, record: dict[str, Any]) -> None:
             "",
             f"- Workspace：{relative_link(workspace)}",
             f"- 状态：`{meta.get('status')}`；模型：`{meta.get('model')}`；耗时：{float(meta.get('duration_seconds') or 0):.3f} s。",
+            f"- Frozen catalog hash：`{record['catalog'].get('catalog_hash')}`。",
             f"- 报告：{relative_link(workspace / 'report/report.md', 'report/report.md')}；分数：**{score.get('score')}/{score.get('score_max')}**。",
             f"- 完整轨迹：{relative_link(workspace / '_model_io.jsonl', '_model_io.jsonl')}；MCP：{relative_link(workspace / '_tool_trace.jsonl', '_tool_trace.jsonl')}；Agent stream：{relative_link(workspace / '_agent_output.jsonl', '_agent_output.jsonl')}。",
             "",
@@ -600,6 +627,25 @@ def append_task(lines: list[str], index: int, record: dict[str, Any]) -> None:
             "Backend/runtime 计数：" + (", ".join(f"`{key}` x {value}" for key, value in backend_counts.most_common()) or "无"),
             "",
             "Native/OpenCode 工具压缩顺序：" + run_length([str(item.get("tool")) for item in native]),
+            "",
+            "### Native/OpenCode 工具流程",
+            "",
+            "这些调用用于文件检查、报告撰写或 Agent 自行运行 shell。即使 shell 中启动了化学程序，也不计入 managed scientific evidence；完整未截断内容保存在 `_model_io.jsonl`。",
+            "",
+            "| Seq | Tool | 状态 | 秒 | 参数摘要 | 结果摘要 | 管理边界 |",
+            "|---:|---|---|---:|---|---|---|",
+        ]
+    )
+    for event in native:
+        lines.append(
+            f"| {event.get('sequence')} | `{escape(event.get('tool'))}` | "
+            f"`{escape(event.get('status'))}` | {float(event.get('duration_seconds') or 0):.3f} | "
+            f"{escape(compact(event.get('arguments') or {}, 460))} | "
+            f"{escape(compact(event.get('result_preview') or event.get('error') or {}, 460))} | "
+            "OpenCode native；不计 managed evidence |"
+        )
+    lines.extend(
+        [
             "",
             "### 失败与异步作业终态",
             "",
@@ -755,7 +801,7 @@ def main() -> int:
             "",
             "## 3. 工具暴露与客观偏差修复",
             "",
-            "六题使用同一套 task-independent catalog 和渐进式发现入口。初始提示只提供领域索引；Agent 自主调用 `search_actions`/`inspect_action`、选择 Action/Backend/参数，或进入软件原生层与可编程层。框架不按任务推荐工具、不自动选择 Backend、不自动重试、不做失败回退。",
+            "六题使用同一套 task-independent Action/Backend 目录和渐进式发现入口。针对已证实的客观合同问题只重跑受影响任务，因此最终 workspace 的 frozen catalog hash 可能随修复提交不同；每题精确 hash 在逐题运行信息中列出。初始提示只提供领域索引；Agent 自主调用 `search_actions`/`inspect_action`、选择 Action/Backend/参数，或进入软件原生层与可编程层。框架不按任务推荐工具、不自动选择 Backend、不自动重试、不做失败回退。",
             "",
             "| Commit | 修复 |",
             "|---|---|",
@@ -801,7 +847,9 @@ def main() -> int:
         ]
     )
     REPORT.parent.mkdir(parents=True, exist_ok=True)
-    REPORT.write_text("\n".join(lines).rstrip() + "\n", encoding="utf-8")
+    rendered = "\n".join(lines)
+    rendered = "\n".join(line.rstrip() for line in rendered.splitlines()).rstrip() + "\n"
+    REPORT.write_text(rendered, encoding="utf-8")
     print(REPORT)
     return 0
 
