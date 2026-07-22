@@ -809,12 +809,20 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
             "calculate_dipole_moment", "calculate_atomic_charges", "calculate_orbitals",
             "calculate_bond_orders", "calculate_excited_states",
         ),
-        "Operator-provided ORCA 6.1.1 electronic-structure executable with an isolated OpenMPI 4.1.8 runtime.",
+        (
+            "Operator-provided ORCA 6.1.1 electronic-structure executable with an isolated "
+            "OpenMPI 4.1.8 runtime. The Agent explicitly selects method, basis, solvation, "
+            "and requested CPU cores."
+        ),
         executables=("orca",), environment=("CHEMGRAPH_ORCA_COMMAND",),
         license_class="manual_license",
         install_notes=(
             "Configured from the operator-downloaded ORCA 6.1.1 installer under "
-            ".software_cache/orca/6.1.1 with OpenMPI 4.1.8."
+            ".software_cache/orca/6.1.1 with OpenMPI 4.1.8. On this server, some larger "
+            "hybrid-DFT jobs using PAL>1 have produced MPI_Type_match_size/PMIX startup "
+            "errors even though smaller parallel jobs pass. Such runs are reported as "
+            "failed without automatic fallback; the Agent may explicitly retry with "
+            "resource_limits.cpu_cores=1 after inspecting the diagnostic."
         ),
         method_schema={
             "method": "ORCA method/functional keyword",

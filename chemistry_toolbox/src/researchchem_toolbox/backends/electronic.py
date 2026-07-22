@@ -2419,6 +2419,40 @@ def _parse_orca_hessian(path: Path) -> list[list[float]] | None:
     return matrix if len(populated) == dimension * dimension else None
 
 
+def _orca_completion_error(stdout: str, stderr: str) -> str | None:
+    """Return a concise diagnostic when ORCA did not finish normally.
+
+    ORCA can return process exit code zero even when one of its MPI helper
+    programs aborts.  The program's own termination banner is therefore the
+    authoritative completion signal.
+    """
+
+    error_markers = (
+        "ORCA finished by error termination",
+        "aborting the run",
+    )
+    combined = f"{stdout}\n{stderr}"
+    if not any(marker.casefold() in combined.casefold() for marker in error_markers):
+        if "ORCA TERMINATED NORMALLY" in stdout:
+            return None
+
+    diagnostic_lines = [
+        line.strip()
+        for line in (*stderr.splitlines(), *stdout.splitlines()[-40:])
+        if line.strip()
+        and (
+            "error" in line.casefold()
+            or "abort" in line.casefold()
+            or "pmix" in line.casefold()
+            or "mpi_" in line.casefold()
+            or "terminated" in line.casefold()
+        )
+    ]
+    if diagnostic_lines:
+        return " | ".join(dict.fromkeys(diagnostic_lines))[-4000:]
+    return "ORCA output did not contain the 'ORCA TERMINATED NORMALLY' completion marker"
+
+
 def _orca(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
     import numpy as np
 
@@ -2454,6 +2488,9 @@ def _orca(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
     if completed["returncode"] != 0:
         detail = (completed["stderr"] or completed["stdout"])[-4000:]
         raise RuntimeError(f"ORCA failed: {detail}")
+    completion_error = _orca_completion_error(completed["stdout"], completed["stderr"])
+    if completion_error is not None:
+        raise RuntimeError(f"ORCA did not terminate normally: {completion_error}")
     version_match = re.search(r"Program Version\s+(\d+\.\d+\.\d+)", completed["stdout"])
     backend_version = version_match.group(1) if version_match else None
     energy_matches = re.findall(r"FINAL SINGLE POINT ENERGY\s+(-?\d+(?:\.\d+)?)", completed["stdout"])

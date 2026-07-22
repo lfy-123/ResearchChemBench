@@ -332,6 +332,7 @@ def test_orca_optimization_reads_final_xyz_not_first_trajectory_frame(
                 "Program Version 6.1.1\n"
                 "FINAL SINGLE POINT ENERGY -1.0\n"
                 "THE OPTIMIZATION HAS CONVERGED\n"
+                "****ORCA TERMINATED NORMALLY****\n"
             ),
             "stderr": "",
             "command": ["orca", "job.inp"],
@@ -362,6 +363,105 @@ def test_orca_optimization_reads_final_xyz_not_first_trajectory_frame(
     assert result["backend_version"] == "6.1.1"
     assert result["result"]["structure"]["atoms"][1]["position_angstrom"][2] == pytest.approx(0.70)
     assert result["result"]["structure"]["source_path"].endswith("job.xyz")
+
+
+def test_orca_completion_rejects_zero_exit_error_termination():
+    diagnostic = electronic._orca_completion_error(
+        "ORCA finished by error termination in Startup\n  .... aborting the run\n",
+        "*** An error occurred in MPI_Type_match_size\nPMIX ERROR: UNREACHABLE\n",
+    )
+    assert diagnostic is not None
+    assert "MPI_Type_match_size" in diagnostic
+    assert "error termination" in diagnostic
+
+
+def test_orca_completion_requires_normal_termination_marker():
+    diagnostic = electronic._orca_completion_error(
+        "Program Version 6.1.1\nFINAL SINGLE POINT ENERGY -1.0\n",
+        "",
+    )
+    assert diagnostic is not None
+    assert "TERMINATED NORMALLY" in diagnostic
+
+
+def test_orca_completion_accepts_normal_termination_marker():
+    assert electronic._orca_completion_error(
+        "Program Version 6.1.1\n****ORCA TERMINATED NORMALLY****\n",
+        "",
+    ) is None
+
+
+def test_orca_adapter_rejects_zero_exit_error_termination(tmp_path, monkeypatch):
+    monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
+
+    def fake_run_external(**_kwargs):
+        return {
+            "available": True,
+            "returncode": 0,
+            "stdout": "ORCA finished by error termination in Startup\n  .... aborting the run\n",
+            "stderr": "*** An error occurred in MPI_Type_match_size\n",
+            "command": ["orca", "job.inp"],
+        }
+
+    monkeypatch.setattr(electronic, "run_external", fake_run_external)
+    with pytest.raises(RuntimeError, match="ORCA did not terminate normally"):
+        electronic.execute(
+            "calculate_energy",
+            "orca",
+            {
+                "inputs": {
+                    "structure": {
+                        "atoms": [{"element": "He", "position_angstrom": [0, 0, 0]}]
+                    }
+                },
+                "method_spec": {"method": "HF", "basis": "STO-3G"},
+                "action_settings": {},
+                "resource_limits": {"cpu_cores": 2},
+            },
+        )
+
+
+def test_orca_normal_nonconverged_optimization_remains_partial_success(
+    tmp_path, monkeypatch
+):
+    monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
+
+    def fake_run_external(**kwargs):
+        (kwargs["directory"] / "job.xyz").write_text(
+            "2\nlast geometry\nH 0 0 0\nH 0 0 0.80\n", encoding="utf-8"
+        )
+        return {
+            "available": True,
+            "returncode": 0,
+            "stdout": (
+                "Program Version 6.1.1\n"
+                "FINAL SINGLE POINT ENERGY -0.9\n"
+                "****ORCA TERMINATED NORMALLY****\n"
+            ),
+            "stderr": "",
+            "command": ["orca", "job.inp"],
+        }
+
+    monkeypatch.setattr(electronic, "run_external", fake_run_external)
+    result = electronic.execute(
+        "optimize_geometry",
+        "orca",
+        {
+            "inputs": {
+                "structure": {
+                    "atoms": [
+                        {"element": "H", "position_angstrom": [0, 0, 0]},
+                        {"element": "H", "position_angstrom": [0, 0, 0.90]},
+                    ]
+                }
+            },
+            "method_spec": {"method": "HF", "basis": "STO-3G"},
+            "action_settings": {"optimization_convergence": "Tight", "max_steps": 1},
+            "resource_limits": {"cpu_cores": 1},
+        },
+    )
+    assert result["status"] == "partial_success"
+    assert result["result"]["converged"] is False
 
 
 def test_dftb_input_uses_explicit_agent_method_fields(tmp_path, monkeypatch):
