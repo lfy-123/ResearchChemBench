@@ -267,6 +267,13 @@ class TaskRunner:
                     "models": {model_id: {"name": model_id}},
                 }
             },
+            "agent": {
+                # OpenCode does not expose a run-level --max-turns flag. Apply
+                # the benchmark budget to both the primary build Agent and the
+                # general child Agent used by the task tool.
+                "build": {"steps": self.max_turns},
+                "general": {"steps": self.max_turns},
+            },
             "mcp": {
                 spec["name"]: {
                     "type": "local",

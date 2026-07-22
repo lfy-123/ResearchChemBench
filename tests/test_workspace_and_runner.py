@@ -100,6 +100,8 @@ def test_codex_and_claude_commands_include_mcp(tmp_path: Path):
     assert config["provider"]["deepseek"]["options"]["apiKey"] == (
         "{env:OPENAI_API_KEY}"
     )
+    assert config["agent"]["build"]["steps"] == opencode.max_turns
+    assert config["agent"]["general"]["steps"] == opencode.max_turns
 
 
 def test_agent_environment_does_not_receive_judge_key(tmp_path: Path, monkeypatch):
