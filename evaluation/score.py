@@ -38,13 +38,16 @@ Respond with one JSON object only: {"score": 0 or 1, "rationale": "brief explana
 
 RUBRIC_JUDGE_SYSTEM_PROMPT = """You are an expert evaluator of an autonomous computational-chemistry investigation.
 
-Score the submission against the supplied 100-point rubric. Evaluate scientific validity, evidence provenance, uncertainty handling, and the observable computation trace. Do not require exact tool names or a unique call order when an alternative process preserves the scientific dependencies. The benchmark has three managed scientific execution layers: predefined Chemistry MCP Actions, native software jobs submitted through Chemistry MCP, and Agent-authored analysis programs submitted through Chemistry MCP. Built-in shell and file tools may prepare inputs, inspect raw data, and write reports, but a task-specific managed-computation policy may forbid treating those built-ins alone as scientific execution. A result supported by observable managed commands, code, outputs, and submitted artifacts is not fabricated merely because one predefined Action failed. Distinguish an agent mistake from an objective framework, unavailable-data, or backend failure. Never reward a paper value that appears without supporting evidence from the supplied data or an independently documented calculation.
+Score the submission against the supplied 100-point rubric. Evaluate scientific validity, evidence provenance, uncertainty handling, and the observable computation trace. Do not require exact tool names or a unique call order when an alternative process preserves the scientific dependencies. The benchmark has three managed scientific execution layers: predefined Chemistry MCP Actions, native software jobs submitted through Chemistry MCP, and Agent-authored analysis programs submitted through Chemistry MCP. Built-in shell and file tools may prepare inputs, inspect raw data, and write reports, but they are never managed scientific execution. A result supported by observable managed commands, code, outputs, and submitted artifacts is not fabricated merely because one predefined Action failed. Distinguish an agent mistake from an objective framework, unavailable-data, or backend failure. Never reward a paper value that appears without supporting evidence from the supplied data or an independently documented calculation.
 
 Rules:
 - Award each criterion no more than its declared maximum and make criterion scores sum to the total score.
 - Apply critical failures only when the trace/report actually demonstrates them.
 - Published rounded targets and benchmark recomputations may differ; use the reference evidence and tolerances stated in the rubric.
 - Failed calls are not automatically wrong: judge whether the agent diagnosed them, preserved provenance, and reached a defensible conclusion.
+- Only events in "Observable tool events, including failures" can establish managed scientific computation. Every event in "UNMANAGED native shell/file events" is an OpenCode built-in and has managed_scientific_evidence=false, even when its command directly launches xtb, ORCA, Python, or another scientific program.
+- Do not award computation-specific criterion credit for a numerical value, path, scan, optimization, or mechanism whose only calculation provenance is an unmanaged native event or an unregistered file. The same claim may receive credit only when a relevant successful managed event and its result/artifact independently support it.
+- Unrelated successful managed calls cannot launder a key result computed only through shell or file tools. File existence and an Agent-authored narrative are not substitutes for the relevant managed calculation trace.
 - A scientifically cautious statement that the supplied evidence is insufficient is better than a fabricated precise number.
 - objective_issue_flags must identify only failures outside the agent's scientific choices, such as malformed inputs, framework exceptions, backend adapter defects, missing declared files, or infrastructure timeouts.
 - Do not mark an objective issue merely because a call has status invalid_request, failed, or backend_exception. Classify the cause shown by the request and error message.
@@ -102,7 +105,7 @@ RUBRIC_JUDGE_USER_TEMPLATE = """## Scientific task
 ## Observable tool events, including failures
 {actual_tool_events}
 
-## Observable native shell, file, and Agent-authored code events
+## UNMANAGED native shell/file events (managed_scientific_evidence=false)
 {native_execution_events}
 
 ## Agent final report
@@ -375,6 +378,11 @@ def _native_events_for_judge(events: list[dict[str, Any]]) -> list[dict[str, Any
             "result_preview": _compact_value(event.get("result_preview", "")),
             "exit_code": event.get("exit_code"),
             "error": _compact_value(event.get("error")),
+            "managed_scientific_evidence": False,
+            "evidence_boundary": (
+                "OpenCode built-in only; may prepare/inspect/write but cannot establish managed "
+                "scientific computation, even if the command launches chemistry software."
+            ),
         }
         for event in selected
     ]

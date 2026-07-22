@@ -16,6 +16,11 @@ def test_rubric_judge_prompt_distinguishes_agent_request_errors():
     assert "cross-check it against the explicit fields" in RUBRIC_JUDGE_SYSTEM_PROMPT
     assert "rate-determining, selectivity-determining" in RUBRIC_JUDGE_SYSTEM_PROMPT
     assert "internally consistent with critical_failures" in RUBRIC_JUDGE_SYSTEM_PROMPT
+    assert "Built-in shell and file tools" in RUBRIC_JUDGE_SYSTEM_PROMPT
+    assert "never managed scientific execution" in RUBRIC_JUDGE_SYSTEM_PROMPT
+    assert "Unrelated successful managed calls cannot launder" in (
+        RUBRIC_JUDGE_SYSTEM_PROMPT
+    )
 
 
 def test_score_workspace_with_injected_judge(tmp_path: Path):
@@ -131,6 +136,8 @@ def test_rubric_score_is_derived_from_clamped_criterion_scores(
     assert "python code/analyze.py" in captured_prompt
     assert "computed barrier = 12.3 kcal/mol" in captured_prompt
     assert "independent scientific analysis" in captured_prompt
+    assert "UNMANAGED native shell/file events" in captured_prompt
+    assert '"managed_scientific_evidence": false' in captured_prompt
     assert result["process_metrics"]["native_execution_event_count"] == 1
     assert result["process_metrics"]["successful_native_events"] == 1
 
