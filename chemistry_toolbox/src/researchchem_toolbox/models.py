@@ -278,6 +278,17 @@ class BackendSpec:
                 f"Backend {self.id} resource_constraints.maximum_cpu_cores must be "
                 "a positive integer"
             )
+        maximum_walltime_seconds = self.resource_constraints.get(
+            "maximum_walltime_seconds"
+        )
+        if maximum_walltime_seconds is not None and (
+            not isinstance(maximum_walltime_seconds, int)
+            or maximum_walltime_seconds < 1
+        ):
+            raise ValueError(
+                f"Backend {self.id} resource_constraints.maximum_walltime_seconds "
+                "must be a positive integer"
+            )
         for mapping in (
             self.required_input_fields,
             self.required_method_fields,

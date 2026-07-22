@@ -429,14 +429,17 @@ def progressive_toolbox_overview(
         "action_settings, and resource_limits. Numerical Actions require the provider choices "
         "declared by `inspect_action`; fixed-source and deterministic internal Actions do not accept "
         "invented provider choices. The dispatcher validates exactly what you provide and never "
-        "substitutes another choice.",
+        "substitutes another choice. `execute_action` is synchronous: obey any provider-specific "
+        "maximum walltime returned by `inspect_action`.",
         "",
         "For capabilities outside the predefined Action layer, the software-native and programmable "
         "layers remain peers. Discover exact installed programs with `list_software`, retrieve one "
         "reviewed invocation guide with `inspect_software`, and search its cached manuals with "
         "`search_software_documentation`. You may instead author a complete Python analysis program "
-        "and explicitly select a listed runtime. You decide whether and how to interleave all three "
-        "layers.",
+        "and explicitly select a listed runtime. For a calculation longer than a synchronous Action "
+        "permits, author the complete native input, call `submit_native_job`, and explicitly poll or "
+        "collect that job; submission does not change the selected software or parameters. You "
+        "decide whether and how to interleave all three layers.",
         "",
         "Available Action domains:",
     ]

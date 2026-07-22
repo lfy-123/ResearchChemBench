@@ -180,6 +180,7 @@ def _validate_backend_resource_constraints(
     selected_backends: tuple[Any, ...],
 ) -> dict[str, Any] | None:
     cpu_cores = request.resource_limits.cpu_cores or 1
+    walltime_seconds = request.resource_limits.walltime_seconds
     for selected in selected_backends:
         maximum = selected.resource_constraints.get("maximum_cpu_cores")
         if maximum is not None and cpu_cores > int(maximum):
@@ -191,6 +192,23 @@ def _validate_backend_resource_constraints(
                 f"resource_limits.cpu_cores={cpu_cores} exceeds the validated maximum "
                 f"{maximum} for selected backend {selected.id!r}.{detail} Select resources "
                 "or a backend explicitly; no resource substitution or fallback is performed.",
+                code="invalid_resource_limits",
+            )
+        maximum_walltime = selected.resource_constraints.get(
+            "maximum_walltime_seconds"
+        )
+        if maximum_walltime is not None and walltime_seconds > int(maximum_walltime):
+            reason = selected.resource_constraints.get("walltime_reason")
+            detail = f" Reason: {reason}" if reason else ""
+            return _invalid(
+                action_id,
+                backend_id,
+                f"resource_limits.walltime_seconds={walltime_seconds} exceeds the validated "
+                f"synchronous Action maximum {maximum_walltime} for selected backend "
+                f"{selected.id!r}.{detail} For a longer calculation, explicitly inspect the "
+                "software-native contract and submit an asynchronous native job, or choose "
+                "different resources/backend yourself; no substitution, retry, or fallback "
+                "is performed.",
                 code="invalid_resource_limits",
             )
     return None

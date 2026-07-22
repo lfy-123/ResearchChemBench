@@ -348,6 +348,37 @@ def test_orca_parallel_request_is_rejected_before_health_or_worker(
     assert "no resource substitution or fallback" in result["error"]["message"]
 
 
+def test_long_orca_action_is_rejected_with_explicit_native_job_next_step(
+    tmp_path: Path, monkeypatch
+):
+    monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
+    monkeypatch.setattr(
+        service,
+        "probe_all_backends",
+        lambda _values: (_ for _ in ()).throw(AssertionError("health probe must not run")),
+    )
+
+    result = service.execute_action(
+        "optimize_geometry",
+        {
+            "backend_id": "orca",
+            "inputs": {"structure": H2},
+            "method_spec": {"method": "HF", "basis": "STO-3G"},
+            "action_settings": {
+                "optimization_convergence": "normal",
+                "max_steps": 100,
+            },
+            "resource_limits": {"cpu_cores": 1, "walltime_seconds": 86400},
+        },
+    )
+
+    assert result["status"] == "invalid_request"
+    assert result["error"]["code"] == "invalid_resource_limits"
+    assert "synchronous Action maximum 1800" in result["error"]["message"]
+    assert "submit an asynchronous native job" in result["error"]["message"]
+    assert "no substitution, retry, or fallback" in result["error"]["message"]
+
+
 def _available(specifications):
     return {
         item.id: {"available": True, "status": "available", "runtime": item.runtime}

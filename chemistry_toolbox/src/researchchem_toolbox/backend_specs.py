@@ -815,7 +815,8 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
             "Operator-provided ORCA 6.1.1 electronic-structure executable with an isolated "
             "OpenMPI 4.1.8 runtime. The Agent explicitly selects method, basis, solvation, "
             "and resources. This server's validated execution contract currently permits one "
-            "CPU core per ORCA call."
+            "CPU core and at most 1800 seconds per synchronous ORCA Action. Longer ORCA "
+            "calculations remain available through the Agent-selected asynchronous native layer."
         ),
         executables=("orca",), environment=("CHEMGRAPH_ORCA_COMMAND",),
         license_class="manual_license",
@@ -824,14 +825,22 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
             ".software_cache/orca/6.1.1 with OpenMPI 4.1.8. Repeated molecular PAL>1 calls "
             "produced MPI_Type_match_size/PMIX startup errors on this server, while real "
             "single-core energy, Hessian, optimization, and property calls pass. The public "
-            "contract therefore rejects cpu_cores>1 before execution; no automatic fallback "
-            "or resource substitution occurs."
+            "contract therefore rejects cpu_cores>1 and synchronous walltime_seconds>1800 before "
+            "execution. Use inspect_software plus submit_native_job for an explicitly authored "
+            "long ORCA input; no automatic fallback or resource substitution occurs."
         ),
         resource_constraints={
             "maximum_cpu_cores": 1,
+            "maximum_walltime_seconds": 1800,
             "reason": (
                 "This ORCA 6.1.1/OpenMPI installation repeatedly fails PAL>1 startup with "
                 "MPI_Type_match_size/PMIX errors; single-core execution is validated."
+            ),
+            "walltime_reason": (
+                "execute_action is synchronous and must finish comfortably inside the MCP client "
+                "timeout. Long ORCA jobs must be submitted explicitly through the asynchronous "
+                "software-native layer so their state can be polled without blocking discovery "
+                "or other Action calls."
             ),
         },
         method_schema={
