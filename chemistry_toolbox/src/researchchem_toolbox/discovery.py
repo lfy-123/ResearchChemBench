@@ -29,6 +29,12 @@ _ACTION_INPUT_HANDOFF_NOTES = {
         "AtomicStructure used to calculate that Hessian; never reuse one artifact_id "
         "for both fields."
     ),
+    "derive_thermochemistry": (
+        "For backend_id=internal_thermochemistry, inputs.energy expects an EnergyResult "
+        "ArtifactRef and inputs.frequencies expects the FrequencyResult ArtifactRef returned "
+        "by derive_vibrational_modes. A calculate_hessian primary artifact is a Hessian, not "
+        "a FrequencyResult; explicitly run the separate vibrational-mode Action first."
+    ),
 }
 
 

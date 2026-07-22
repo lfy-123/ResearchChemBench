@@ -206,6 +206,14 @@ def test_composite_and_typed_handoff_contracts_are_explicit():
         for item in vibrations["sections"]["inputs"]["required"]
     }
     assert required["hessian"]["type"] == "Hessian | ArtifactRef"
+    thermochemistry = inspect_action(
+        "derive_thermochemistry",
+        backend_id="internal_thermochemistry",
+        snapshot=snapshot,
+    )["selected_request_contract"]
+    thermochemistry_note = thermochemistry["output_contract"]["input_handoff_note"]
+    assert "derive_vibrational_modes" in thermochemistry_note
+    assert "Hessian, not a FrequencyResult" in thermochemistry_note
 
 
 def test_progressive_result_transport_keeps_scalars_and_compacts_dense_values():

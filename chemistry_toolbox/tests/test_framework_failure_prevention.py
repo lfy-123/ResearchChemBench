@@ -477,6 +477,55 @@ def test_hessian_artifact_chains_directly_into_finite_linear_thermochemistry(
     )
 
 
+def test_thermochemistry_rejects_hessian_in_frequency_slot_before_worker(
+    tmp_path: Path, monkeypatch
+):
+    monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
+    store = ArtifactStore()
+    hessian_ref = store.put_json(
+        {"matrix": [[1.0]], "unit": "eV/angstrom^2"},
+        semantic_type="Hessian",
+        producer_action="calculate_hessian",
+        producer_backend="test",
+    )
+    energy_ref = store.put_json(
+        {"energy": -1.0, "unit": "eV"},
+        semantic_type="EnergyResult",
+        producer_action="calculate_energy",
+        producer_backend="test",
+    )
+    monkeypatch.setattr(
+        service,
+        "probe_all_backends",
+        lambda _values: (_ for _ in ()).throw(AssertionError("health probe must not run")),
+    )
+
+    result = service.execute_action(
+        "derive_thermochemistry",
+        {
+            "backend_id": "internal_thermochemistry",
+            "inputs": {
+                "energy": energy_ref.artifact_id,
+                "frequencies": hessian_ref.artifact_id,
+            },
+            "method_spec": {},
+            "action_settings": {
+                "temperature_kelvin": 353.15,
+                "pressure_pa": 101325.0,
+                "geometry": "nonlinear",
+                "symmetry_number": 1,
+                "spin": 0.0,
+                "ignore_imaginary_modes": False,
+            },
+        },
+    )
+
+    assert result["status"] == "invalid_request"
+    assert result["error"]["code"] == "artifact_semantic_mismatch"
+    assert "requires FrequencyResult" in result["error"]["message"]
+    assert "derive_vibrational_modes explicitly" in result["error"]["message"]
+
+
 def test_scalar_frequency_entries_are_valid_thermochemistry_inputs(
     tmp_path: Path, monkeypatch
 ):

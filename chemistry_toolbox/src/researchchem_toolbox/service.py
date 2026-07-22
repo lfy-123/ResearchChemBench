@@ -203,6 +203,33 @@ def _validate_artifact_input_semantics(
 ) -> dict[str, Any] | None:
     """Reject a typed ArtifactRef placed in a demonstrably incompatible slot."""
 
+    if action_id == "derive_thermochemistry" and backend_id == "internal_thermochemistry":
+        expected = {
+            "energy": "EnergyResult",
+            "frequencies": "FrequencyResult",
+        }
+        for field_name, semantic_type in expected.items():
+            value = inputs.get(field_name)
+            if (
+                isinstance(value, Mapping)
+                and value.get("artifact_id")
+                and value.get("semantic_type") != semantic_type
+            ):
+                next_step = (
+                    " Call derive_vibrational_modes explicitly before thermochemistry; the "
+                    "framework will not insert that Action automatically."
+                    if field_name == "frequencies"
+                    and value.get("semantic_type") == "Hessian"
+                    else ""
+                )
+                return _invalid(
+                    action_id,
+                    backend_id,
+                    f"inputs.{field_name} received ArtifactRef semantic_type="
+                    f"{value.get('semantic_type')!r}; it requires {semantic_type}.{next_step}",
+                    code="artifact_semantic_mismatch",
+                )
+        return None
     if action_id != "derive_vibrational_modes":
         return None
     hessian = inputs.get("hessian")
