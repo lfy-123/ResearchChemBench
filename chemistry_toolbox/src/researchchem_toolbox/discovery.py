@@ -17,6 +17,47 @@ from .models import ActionSpec, BackendSpec
 ActionKind = Literal["all", "scientific", "data"]
 
 
+def _lexical_stem(value: str) -> str:
+    """Small deterministic morphology normalizer, not a relevance ranker."""
+
+    for suffix in (
+        "izations",
+        "isations",
+        "ization",
+        "isation",
+        "ations",
+        "ation",
+        "ments",
+        "ment",
+        "ing",
+        "ed",
+        "es",
+        "s",
+    ):
+        if value.endswith(suffix) and len(value) - len(suffix) >= 5:
+            return value[: -len(suffix)]
+    return value
+
+
+def _matches_all_terms(terms: list[str], haystack: str) -> bool:
+    if not terms:
+        return True
+    words = re.findall(r"[a-z0-9]+", haystack.casefold())
+    word_stems = [_lexical_stem(word) for word in words]
+    for term in terms:
+        if term in haystack:
+            continue
+        stem = _lexical_stem(term)
+        if not any(
+            word.startswith(stem)
+            or stem.startswith(word_stem)
+            and len(word_stem) >= 5
+            for word, word_stem in zip(words, word_stems)
+        ):
+            return False
+    return True
+
+
 def _snapshot(value: dict[str, Any] | None = None) -> dict[str, Any]:
     return value if value is not None else active_catalog_snapshot()
 
@@ -134,14 +175,17 @@ def _selection_instruction(specification: ActionSpec) -> str:
     return f"Select exactly one backend_id from: {providers}."
 
 
-def list_action_domains(*, snapshot: dict[str, Any] | None = None) -> dict[str, Any]:
+def list_action_domains(
+    *,
+    include_action_ids: bool = True,
+    snapshot: dict[str, Any] | None = None,
+) -> dict[str, Any]:
     current = _snapshot(snapshot)
     actions = list(current.get("actions", []))
     domains = []
     for category, label in CATEGORY_LABELS.items():
         values = [action for action in actions if action.get("category") == category]
-        domains.append(
-            {
+        item = {
                 "category": category,
                 "description": label,
                 "action_count": len(values),
@@ -152,13 +196,16 @@ def list_action_domains(*, snapshot: dict[str, Any] | None = None) -> dict[str, 
                     bool(action.get("data_action")) for action in values
                 ),
             }
-        )
+        if include_action_ids:
+            item["action_ids"] = sorted(str(action.get("id")) for action in values)
+        domains.append(item)
     return {
         "status": "success",
         "catalog_hash": current.get("catalog_hash"),
         "catalog_visibility_policy": "complete_task_independent",
         "task_specific_filtering": False,
         "count": len(domains),
+        "includes_action_ids": include_action_ids,
         "domains": domains,
     }
 
@@ -215,7 +262,7 @@ def search_actions(
                 *(provider.description for provider in provider_values),
             ]
         ).casefold()
-        if terms and not all(term in haystack for term in terms):
+        if not _matches_all_terms(terms, haystack):
             continue
         matches.append(specification)
 
@@ -407,7 +454,7 @@ def search_resources(
             )
             if value is not None
         ).casefold()
-        if terms and not all(term in haystack for term in terms):
+        if not _matches_all_terms(terms, haystack):
             continue
         matches.append(resource)
     page = matches[offset : offset + limit]

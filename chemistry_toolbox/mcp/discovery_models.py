@@ -25,6 +25,13 @@ class ActionDomainListRequest(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
+    include_action_ids: bool = Field(
+        default=True,
+        description=(
+            "Include every exact action_id grouped by domain. Disable only when counts alone are needed."
+        ),
+    )
+
 
 class ActionSearchRequest(BaseModel):
     """Apply Agent-supplied neutral filters to the complete Action catalog."""

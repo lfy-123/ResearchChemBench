@@ -44,8 +44,8 @@ PROGRESSIVE_DISCOVERY_TOOL_NAMES = (
 
 TOOL_DESCRIPTIONS = {
     "list_action_domains": (
-        "Return the compact complete domain index and Action counts. This does not select a domain "
-        "or infer anything from the task."
+        "Return the compact complete domain index, counts, and by default every exact action_id "
+        "grouped by domain. This does not select a domain or infer anything from the task."
     ),
     "search_actions": (
         "Search the complete frozen Action catalog using only the supplied query and exact filters. "
@@ -112,7 +112,9 @@ def _invoke_discovery(
 
 def list_action_domains(request: ActionDomainListRequest) -> dict[str, Any]:
     return _invoke_discovery(
-        "list_action_domains", request, lambda: _list_action_domains()
+        "list_action_domains",
+        request,
+        lambda: _list_action_domains(**request.model_dump(mode="python")),
     )
 
 

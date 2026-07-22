@@ -24,6 +24,12 @@ def test_domain_index_and_pagination_reach_the_complete_catalog():
     domains = list_action_domains(snapshot=snapshot)
     assert domains["status"] == "success"
     assert sum(item["action_count"] for item in domains["domains"]) == len(action_specs())
+    indexed = {
+        action_id
+        for domain in domains["domains"]
+        for action_id in domain["action_ids"]
+    }
+    assert indexed == set(action_specs())
 
     first = search_actions(limit=100, snapshot=snapshot)
     second = search_actions(limit=100, offset=100, snapshot=snapshot)
@@ -56,6 +62,15 @@ def test_action_search_and_inspection_return_exact_provider_contracts():
     assert contract["required_input_fields"]
     assert "method_parameter_reference" in contract
     assert action["automatic_fallback"] is False
+
+    morphology = search_actions(
+        query="geometry optimization",
+        category="molecular_electronic",
+        snapshot=snapshot,
+    )
+    assert "optimize_geometry" in {
+        item["action_id"] for item in morphology["actions"]
+    }
 
     backend = inspect_backend("goodvibes", snapshot=snapshot)
     assert "analyze_thermochemical_selectivity" in {

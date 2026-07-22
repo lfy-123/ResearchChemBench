@@ -414,8 +414,10 @@ def progressive_toolbox_overview(
         "No task-specific retrieval, recommendation, ranking, automatic backend selection, retry, "
         "or fallback is performed.",
         "",
-        "Use `list_action_domains` for the compact domain index and `search_actions` with your own "
-        "scientific terms or an exact category/backend filter. Call `inspect_action` before a new "
+        "If you do not know the exact Action id, call `list_action_domains` once to receive every "
+        "action_id grouped under the compact domain index; use `search_actions` when you need to "
+        "filter those catalog entries with your own scientific terms or an exact category/backend "
+        "filter. Call `inspect_action` before a new "
         "Action to obtain its exact inputs, provider policy, and provider-specific contract; use "
         "`inspect_backend` to see one Backend's capabilities. Scientific files and model/data "
         "families are found with `search_resources` and resolved exactly with `inspect_resource`. "
