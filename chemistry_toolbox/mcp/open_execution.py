@@ -14,6 +14,8 @@ from datetime import datetime, timezone
 from pathlib import Path, PurePosixPath
 from typing import Any
 
+import yaml
+
 from researchchem_toolbox.artifacts import ArtifactStore
 from researchchem_toolbox.runtime import (
     runtime_environment,
@@ -188,6 +190,94 @@ def read_workspace_text(request: WorkspaceTextReadRequest) -> dict[str, Any]:
     }
 
 
+def _validate_pysisyphus_input_deck(
+    request: NativeJobRequest,
+    guide: dict[str, Any],
+) -> dict[str, Any]:
+    """Validate pysisyphus' versioned YAML mechanics without choosing chemistry."""
+
+    staged = {item.target_path: item.source_path for item in request.staged_inputs}
+    config_targets = [
+        argument
+        for argument in request.arguments
+        if argument in staged and PurePosixPath(argument).suffix.lower() in {".yaml", ".yml"}
+    ]
+    if len(config_targets) != 1:
+        raise ValueError(
+            "pysisyphus/pysis requires exactly one staged .yaml or .yml argument; "
+            "the argument must equal that file's staged target_path"
+        )
+    config_target = config_targets[0]
+    source = resolve_workspace_path(staged[config_target], must_exist=True)
+    if source.is_symlink() or not source.is_file():
+        raise ValueError(f"pysisyphus config must be a regular non-symlink file: {source}")
+    if source.stat().st_size > 10 * 1024 * 1024:
+        raise ValueError("pysisyphus config exceeds the 10 MiB structural-validation limit")
+    try:
+        value = yaml.safe_load(source.read_text(encoding="utf-8"))
+    except (UnicodeDecodeError, yaml.YAMLError) as exc:
+        raise ValueError(f"pysisyphus config is not valid UTF-8 YAML: {exc}") from exc
+    if not isinstance(value, dict):
+        raise ValueError("pysisyphus config must be a YAML mapping at the top level")
+
+    contract = guide.get("configuration_contract") or {}
+    allowed = set(contract.get("valid_top_level_sections") or [])
+    unknown = sorted(set(value) - allowed)
+    if unknown:
+        raise ValueError(
+            "pysisyphus 1.0.0 config has invalid top-level section(s) "
+            f"{unknown}; endpoint structures belong in geom.fn, not an endpoints section"
+        )
+    geom = value.get("geom")
+    if not isinstance(geom, dict) or not geom.get("fn"):
+        raise ValueError(
+            "pysisyphus 1.0.0 requires geom.fn to name one structure, a trajectory, "
+            "or a list of endpoint structures"
+        )
+
+    cos = value.get("cos")
+    if cos is not None:
+        if not isinstance(cos, dict):
+            raise ValueError("pysisyphus cos must be a YAML mapping")
+        invalid_cos = sorted(set(cos) & {"images", "endpoints", "fixendpoints"})
+        if invalid_cos:
+            raise ValueError(
+                "pysisyphus 1.0.0 cos contains unsupported field(s) "
+                f"{invalid_cos}; put images/endpoints in geom.fn and use fix_first/fix_last"
+            )
+        opt = value.get("opt")
+        if not isinstance(opt, dict) or not opt.get("type"):
+            raise ValueError("a pysisyphus chain-of-states config requires opt.type")
+        path_optimizers = set(
+            (contract.get("common_exact_values") or {}).get("path_optimizer_types") or []
+        )
+        if path_optimizers and opt["type"] not in path_optimizers:
+            raise ValueError(
+                f"pysisyphus opt.type={opt['type']!r} is not a supported path optimizer; "
+                f"select explicitly from {sorted(path_optimizers)}"
+            )
+
+    references = geom["fn"] if isinstance(geom["fn"], list) else [geom["fn"]]
+    missing = []
+    for reference in references:
+        if not isinstance(reference, str):
+            continue
+        suffix = PurePosixPath(reference).suffix.lower()
+        if suffix in {".xyz", ".trj", ".pdb", ".mol", ".sdf", ".cif"} and reference not in staged:
+            missing.append(reference)
+    if missing:
+        raise ValueError(
+            "pysisyphus geom.fn references files absent from staged_inputs: "
+            f"{sorted(missing)}"
+        )
+    return {
+        "software_version": str(contract.get("tested_version") or "unknown"),
+        "config_target": config_target,
+        "top_level_sections": sorted(value),
+        "referenced_geometry_targets": references,
+    }
+
+
 def validate_native_job(request: NativeJobRequest) -> dict[str, Any]:
     guide = native_command_guide(request.software_id, request.executable)
     if not guide.get("resolved_path"):
@@ -214,6 +304,9 @@ def validate_native_job(request: NativeJobRequest) -> dict[str, Any]:
         )
     if request.stdin_target is not None and request.stdin_target not in targets:
         raise ValueError("stdin_target must be one of the explicitly staged target paths")
+    input_deck_validation = None
+    if guide["software_id"] == "pysisyphus" and request.executable == "pysis":
+        input_deck_validation = _validate_pysisyphus_input_deck(request, guide)
     return {
         "status": "success",
         "valid": True,
@@ -223,12 +316,13 @@ def validate_native_job(request: NativeJobRequest) -> dict[str, Any]:
         "command": [guide["resolved_path"], *request.arguments],
         "staged_targets": sorted(targets),
         "stdin_target": request.stdin_target,
+        "input_deck_validation": input_deck_validation,
         "resource_limits": request.resource_limits.model_dump(mode="json"),
         "invocation_guide": guide,
         "validation_boundary": (
             "Validation confirms the allowlisted executable, argv/path safety, staging map, "
-            "stdin contract, and mechanical resources. It does not judge scientific correctness "
-            "or add missing scientific settings."
+            "stdin contract, mechanical resources, and any declared version-specific input-deck "
+            "syntax. It does not judge scientific correctness or add missing scientific settings."
         ),
     }
 

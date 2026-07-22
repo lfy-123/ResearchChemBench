@@ -142,6 +142,73 @@ def test_workspace_text_tools_are_confined(chemistry_workspace: Path):
         )
 
 
+def test_pysisyphus_native_preflight_validates_versioned_yaml(
+    chemistry_workspace: Path,
+):
+    pysisyphus = inspect_software(SoftwareInspectRequest(software_id="pysisyphus"))
+    template = pysisyphus["native_invocation_guides"][0]["configuration_contract"][
+        "templates"
+    ]["two_endpoint_neb"]
+    write_workspace_text(
+        WorkspaceTextWriteRequest(path="code/pysis.yaml", content=template)
+    )
+    for name, distance in (("reactant.xyz", 0.74), ("product.xyz", 0.80)):
+        write_workspace_text(
+            WorkspaceTextWriteRequest(
+                path=f"code/{name}",
+                content=f"2\n{name}\nH 0 0 0\nH {distance} 0 0\n",
+            )
+        )
+    request = NativeJobRequest(
+        software_id="pysisyphus",
+        executable="pysis",
+        arguments=["pysis.yaml"],
+        staged_inputs=[
+            StagedInput(source_path="code/pysis.yaml", target_path="pysis.yaml"),
+            StagedInput(source_path="code/reactant.xyz", target_path="reactant.xyz"),
+            StagedInput(source_path="code/product.xyz", target_path="product.xyz"),
+        ],
+    )
+
+    result = validate_native_job(request)
+
+    assert result["status"] == "success"
+    assert result["input_deck_validation"] == {
+        "software_version": "1.0.0",
+        "config_target": "pysis.yaml",
+        "top_level_sections": ["calc", "cos", "geom", "interpol", "opt"],
+        "referenced_geometry_targets": ["reactant.xyz", "product.xyz"],
+    }
+
+
+def test_pysisyphus_native_preflight_rejects_guessed_endpoint_schema(
+    chemistry_workspace: Path,
+):
+    write_workspace_text(
+        WorkspaceTextWriteRequest(
+            path="code/bad_pysis.yaml",
+            content=(
+                "geom:\n  type: cart\n"
+                "calc:\n  type: xtb\n  charge: 0\n  mult: 1\n  gfn: 2\n"
+                "cos:\n  type: neb\n  images: [reactant.xyz, product.xyz]\n"
+                "opt:\n  type: rfo\n"
+                "endpoints:\n  reactant: reactant.xyz\n  product: product.xyz\n"
+            ),
+        )
+    )
+    request = NativeJobRequest(
+        software_id="pysisyphus",
+        executable="pysis",
+        arguments=["bad_pysis.yaml"],
+        staged_inputs=[
+            StagedInput(source_path="code/bad_pysis.yaml", target_path="bad_pysis.yaml")
+        ],
+    )
+
+    with pytest.raises(ValueError, match="invalid top-level.*endpoints"):
+        validate_native_job(request)
+
+
 def test_programmable_layer_runs_and_collects_auditable_outputs(
     chemistry_workspace: Path,
     monkeypatch: pytest.MonkeyPatch,
