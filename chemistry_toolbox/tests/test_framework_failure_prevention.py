@@ -9,6 +9,7 @@ from researchchem_toolbox import service
 from researchchem_toolbox.artifacts import ArtifactStore
 from researchchem_toolbox.backends.common import structure_dict
 from researchchem_toolbox.backends.electronic import _resolve_mace_model
+from researchchem_toolbox.backends.reaction import _pysisyphus_xtb_gfn
 from researchchem_toolbox.catalog import action_specs, mcp_action_description
 
 
@@ -36,6 +37,19 @@ def test_xyz_comment_charge_and_multiplicity_are_preserved(tmp_path: Path, monke
 
     assert parsed["charge"] == 2
     assert parsed["multiplicity"] == 3
+
+
+@pytest.mark.parametrize(
+    ("label", "expected"),
+    [
+        ("gfn2", 2),
+        ("GFN2-xTB", 2),
+        ("xTB_GFN2", 2),
+        ("GFN-FF", "ff"),
+    ],
+)
+def test_pysisyphus_accepts_conventional_xtb_method_labels(label, expected):
+    assert _pysisyphus_xtb_gfn(label) == expected
 
 
 def _available(specifications):

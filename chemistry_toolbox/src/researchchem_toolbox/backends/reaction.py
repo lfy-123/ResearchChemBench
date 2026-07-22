@@ -41,6 +41,36 @@ ACTIONS = {
 }
 
 
+def _pysisyphus_xtb_gfn(method_name: str) -> int | str:
+    """Map conventional xTB method spellings to pysisyphus' native GFN value."""
+
+    normalized = re.sub(r"[^a-z0-9]+", "", method_name.casefold())
+    values: dict[str, int | str] = {
+        "gfn0": 0,
+        "gfn0xtb": 0,
+        "xtbgfn0": 0,
+        "gfn1": 1,
+        "gfn1xtb": 1,
+        "xtbgfn1": 1,
+        "gfn2": 2,
+        "gfn2xtb": 2,
+        "xtbgfn2": 2,
+        "gfnff": "ff",
+        "gfnffxtb": "ff",
+        "xtbgfnff": "ff",
+        "0": 0,
+        "1": 1,
+        "2": 2,
+        "ff": "ff",
+    }
+    if normalized not in values:
+        raise ValueError(
+            "pysisyphus/XTB method must identify GFN0-xTB, GFN1-xTB, GFN2-xTB, "
+            "or GFN-FF (compact forms gfn0, gfn1, gfn2, and gfnff are also accepted)"
+        )
+    return values[normalized]
+
+
 def _pysisyphus(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
     inputs, method, settings = request_parts(request)
     directory = output_directory(action_id, "pysisyphus")
@@ -56,20 +86,7 @@ def _pysisyphus(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
         "mult": int(method.get("multiplicity", structure_dict(inputs[structure_key]).get("multiplicity", 1))),
     }
     if calculator_backend == "xtb":
-        normalized = method_name.lower().replace("-", "").replace("_", "")
-        gfn_values: dict[str, int | str] = {
-            "gfn0": 0,
-            "gfn1": 1,
-            "gfn2": 2,
-            "gfnff": "ff",
-            "0": 0,
-            "1": 1,
-            "2": 2,
-            "ff": "ff",
-        }
-        if normalized not in gfn_values:
-            raise ValueError("pysisyphus/XTB method must be gfn0, gfn1, gfn2, or gfnff")
-        calculator["gfn"] = gfn_values[normalized]
+        calculator["gfn"] = _pysisyphus_xtb_gfn(method_name)
     elif calculator_backend == "pyscf":
         if not method.get("basis"):
             raise ValueError("pysisyphus/PySCF requires method_spec.basis")

@@ -1219,7 +1219,11 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         modules=("pysisyphus",), executables=("pysis",), pip=("pysisyphus==1.0.0",),
         method_schema={
             "calculator_backend": "exact native pysisyphus calculator type: xtb, pyscf, or orca",
-            "method": "method interpreted by the explicitly selected calculator_backend",
+            "method": (
+                "method interpreted by the explicitly selected calculator_backend; for xtb use "
+                "GFN0-xTB, GFN1-xTB, GFN2-xTB, or GFN-FF (compact gfn0/gfn1/gfn2/gfnff "
+                "spellings are equivalent)"
+            ),
             "hessian_init": (
                 "explicit pysisyphus initial-Hessian strategy; calc requests an exact Hessian, "
                 "whereas unit/fischer/lindh/simple/swart/xtb/xtb1/xtbff select the named model"
