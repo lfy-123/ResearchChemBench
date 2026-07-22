@@ -99,6 +99,22 @@ def test_action_search_and_inspection_return_exact_provider_contracts():
     }
 
 
+def test_selected_structure_contract_includes_canonical_inline_example():
+    action = inspect_action(
+        "optimize_geometry", backend_id="xtb", snapshot=_snapshot()
+    )
+    structure = next(
+        field
+        for field in action["selected_request_contract"]["sections"]["inputs"]["required"]
+        if field["name"] == "structure"
+    )
+    example = structure["canonical_inline_example"]
+    assert example["atoms"][0] == {
+        "element": "H",
+        "position_angstrom": [0.0, 0.0, 0.0],
+    }
+
+
 def test_registered_resources_are_searchable_and_resolvable():
     snapshot = _snapshot()
     search = search_resources(

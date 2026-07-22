@@ -71,6 +71,36 @@ def _pysisyphus_xtb_gfn(method_name: str) -> int | str:
     return values[normalized]
 
 
+def _pysisyphus_failure_detail(directory: Path, stderr: str) -> str:
+    """Summarize native calculator failures without hiding scientific nonconvergence."""
+
+    scc_markers = sorted(directory.rglob(".sccnotconverged"))
+    if scc_markers:
+        marker = scc_markers[0].relative_to(directory)
+        return (
+            "the Agent-selected xTB calculator did not converge its SCC for the supplied "
+            f"geometry (native marker: {marker}). This is a numerical calculation failure, "
+            "not an automatic backend-selection event; inspect the saved geometry/logs and "
+            "explicitly decide the next scientific step."
+        )
+    crashed_outputs = sorted(directory.glob("crashed_calculator_*/xtb.out"))
+    if crashed_outputs:
+        lines = [
+            line.strip()
+            for line in crashed_outputs[-1].read_text(
+                encoding="utf-8", errors="replace"
+            ).splitlines()[-80:]
+            if line.strip()
+            and any(
+                token in line.casefold()
+                for token in ("error", "failed", "abnormal", "converg")
+            )
+        ]
+        if lines:
+            return "xTB calculator failure: " + " | ".join(dict.fromkeys(lines))[-1600:]
+    return stderr[-2000:] or "native pysisyphus process exited without a diagnostic message"
+
+
 def _pysisyphus(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
     inputs, method, settings = request_parts(request)
     directory = output_directory(action_id, "pysisyphus")
@@ -140,7 +170,9 @@ def _pysisyphus(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
     if not completed["available"]:
         return unavailable(completed["stderr"], install="pip install pysisyphus==1.0.0")
     if completed["returncode"] != 0:
-        raise RuntimeError(f"pysisyphus failed: {completed['stderr'][-2000:]}")
+        raise RuntimeError(
+            f"pysisyphus failed: {_pysisyphus_failure_detail(directory, completed['stderr'])}"
+        )
     xyz_outputs = [path for path in directory.rglob("*.xyz") if path != xyz]
     if action_id == "locate_transition_state":
         candidate = xyz_outputs[-1] if xyz_outputs else None

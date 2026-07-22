@@ -321,6 +321,17 @@ def _field_type(field_name: str, *, section: str) -> dict[str, Any]:
     if field_name in structure_fields:
         return {
             "type": "AtomicStructure | ArtifactRef | workspace-relative structure path",
+            "canonical_inline_example": {
+                "atoms": [
+                    {
+                        "element": "H",
+                        "position_angstrom": [0.0, 0.0, 0.0],
+                    }
+                ],
+                "charge": 0,
+                "multiplicity": 1,
+                "pbc": [False, False, False],
+            },
             "accepted_forms": [
                 "full AtomicStructure mapping",
                 "full immutable ArtifactRef",

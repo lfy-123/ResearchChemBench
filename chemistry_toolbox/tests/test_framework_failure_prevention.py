@@ -7,9 +7,12 @@ import pytest
 
 from researchchem_toolbox import service
 from researchchem_toolbox.artifacts import ArtifactStore
-from researchchem_toolbox.backends.common import structure_dict
+from researchchem_toolbox.backends.common import atoms_and_coordinates, structure_dict
 from researchchem_toolbox.backends.electronic import _resolve_mace_model
-from researchchem_toolbox.backends.reaction import _pysisyphus_xtb_gfn
+from researchchem_toolbox.backends.reaction import (
+    _pysisyphus_failure_detail,
+    _pysisyphus_xtb_gfn,
+)
 from researchchem_toolbox.catalog import action_specs, mcp_action_description
 
 
@@ -50,6 +53,57 @@ def test_xyz_comment_charge_and_multiplicity_are_preserved(tmp_path: Path, monke
 )
 def test_pysisyphus_accepts_conventional_xtb_method_labels(label, expected):
     assert _pysisyphus_xtb_gfn(label) == expected
+
+
+def test_atomic_structure_missing_coordinates_has_a_typed_error():
+    with pytest.raises(ValueError, match="position_angstrom.*xyz"):
+        atoms_and_coordinates(
+            {"atoms": [{"symbol": "H", "xyz": [0.0, 0.0, 0.0]}]}
+        )
+
+
+def test_pysisyphus_reports_xtb_scc_nonconvergence(tmp_path: Path):
+    marker = tmp_path / "crashed_calculator_000" / ".sccnotconverged"
+    marker.parent.mkdir()
+    marker.touch()
+
+    detail = _pysisyphus_failure_detail(tmp_path, "opaque native traceback")
+
+    assert "did not converge its SCC" in detail
+    assert "crashed_calculator_000/.sccnotconverged" in detail
+    assert "automatic backend-selection" in detail
+
+
+def test_inline_atomic_structure_is_rejected_before_worker(tmp_path: Path, monkeypatch):
+    monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
+    monkeypatch.setattr(service, "probe_all_backends", _available)
+    monkeypatch.setattr(
+        service,
+        "invoke_worker",
+        lambda **_kwargs: (_ for _ in ()).throw(
+            AssertionError("malformed inline structure must not reach the worker")
+        ),
+    )
+
+    result = service.execute_action(
+        "optimize_geometry",
+        {
+            "backend_id": "xtb",
+            "inputs": {
+                "structure": {
+                    "atoms": [{"symbol": "H", "xyz": [0.0, 0.0, 0.0]}],
+                    "charge": 0,
+                    "multiplicity": 1,
+                }
+            },
+            "method_spec": {"method": "gfn2"},
+            "action_settings": {"optimization_level": "normal"},
+        },
+    )
+
+    assert result["status"] == "invalid_request"
+    assert result["error"]["code"] == "invalid_atomic_structure"
+    assert "position_angstrom" in result["error"]["message"]
 
 
 def _available(specifications):

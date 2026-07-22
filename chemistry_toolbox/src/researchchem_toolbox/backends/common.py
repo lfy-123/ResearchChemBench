@@ -256,11 +256,36 @@ def structure_dict(value: Any) -> dict[str, Any]:
 
 def atoms_and_coordinates(structure: dict[str, Any]) -> tuple[list[str], list[list[float]]]:
     if "atoms" in structure:
-        symbols = [str(atom.get("element") or atom.get("symbol")) for atom in structure["atoms"]]
-        coordinates = [
-            [float(value) for value in (atom.get("position_angstrom") or atom.get("position"))]
-            for atom in structure["atoms"]
-        ]
+        atoms = structure["atoms"]
+        if not isinstance(atoms, list) or not atoms:
+            raise ValueError("AtomicStructure.atoms must be a non-empty array of atom mappings")
+        symbols = []
+        coordinates = []
+        for index, atom in enumerate(atoms):
+            if not isinstance(atom, dict):
+                raise ValueError(f"AtomicStructure.atoms[{index}] must be a mapping")
+            symbol = atom.get("element") or atom.get("symbol")
+            if not symbol:
+                raise ValueError(
+                    f"AtomicStructure.atoms[{index}] requires an element field"
+                )
+            position = atom.get("position_angstrom")
+            if position is None:
+                position = atom.get("position")
+            if position is None:
+                suffix = "; the key 'xyz' is not part of AtomicStructure" if "xyz" in atom else ""
+                raise ValueError(
+                    f"AtomicStructure.atoms[{index}] requires position_angstrom=[x, y, z]"
+                    f"{suffix}"
+                )
+            try:
+                row = [float(value) for value in position]
+            except (TypeError, ValueError) as exc:
+                raise ValueError(
+                    f"AtomicStructure.atoms[{index}].position_angstrom must contain three numbers"
+                ) from exc
+            symbols.append(str(symbol))
+            coordinates.append(row)
     else:
         symbols = [str(value) for value in structure.get("symbols", [])]
         coordinates = [

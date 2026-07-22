@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import math
 from pathlib import PurePosixPath
 from typing import Any, Mapping
 
@@ -226,6 +227,70 @@ def _validate_artifact_input_semantics(
     return None
 
 
+def _validate_inline_atomic_structures(
+    action_id: str,
+    backend_id: str,
+    inputs: Mapping[str, Any],
+) -> dict[str, Any] | None:
+    """Reject malformed inline AtomicStructure values before starting a worker."""
+
+    def validate(value: Any, path: str) -> str | None:
+        if isinstance(value, list):
+            for index, item in enumerate(value):
+                message = validate(item, f"{path}[{index}]")
+                if message is not None:
+                    return message
+            return None
+        if not isinstance(value, Mapping) or value.get("artifact_id"):
+            return None
+        if "structure" in value and isinstance(value["structure"], Mapping):
+            message = validate(value["structure"], f"{path}.structure")
+            if message is not None:
+                return message
+        if "atoms" not in value:
+            return None
+        atoms = value["atoms"]
+        if not isinstance(atoms, list) or not atoms:
+            return f"{path}.atoms must be a non-empty array of atom mappings"
+        for index, atom in enumerate(atoms):
+            atom_path = f"{path}.atoms[{index}]"
+            if not isinstance(atom, Mapping):
+                return f"{atom_path} must be a mapping"
+            if not (atom.get("element") or atom.get("symbol")):
+                return f"{atom_path} requires element (canonical) or symbol"
+            position = atom.get("position_angstrom")
+            if position is None:
+                position = atom.get("position")
+            if position is None:
+                received = "; received unsupported key 'xyz'" if "xyz" in atom else ""
+                return (
+                    f"{atom_path} requires position_angstrom=[x, y, z]{received}. "
+                    "Canonical example: {'atoms': [{'element': 'H', "
+                    "'position_angstrom': [0.0, 0.0, 0.0]}], 'charge': 0, "
+                    "'multiplicity': 1}"
+                )
+            if not isinstance(position, (list, tuple)) or len(position) != 3:
+                return f"{atom_path}.position_angstrom must contain exactly three values"
+            try:
+                numeric = [float(item) for item in position]
+            except (TypeError, ValueError):
+                return f"{atom_path}.position_angstrom must contain three numeric values"
+            if not all(math.isfinite(item) for item in numeric):
+                return f"{atom_path}.position_angstrom must contain three finite values"
+        return None
+
+    for field_name, value in inputs.items():
+        message = validate(value, f"inputs.{field_name}")
+        if message is not None:
+            return _invalid(
+                action_id,
+                backend_id,
+                message,
+                code="invalid_atomic_structure",
+            )
+    return None
+
+
 def execute_action(action_id: str, request_value: ActionRequest | dict[str, Any]) -> dict[str, Any]:
     actions = action_specs()
     backends = backend_specs()
@@ -418,6 +483,11 @@ def execute_action(action_id: str, request_value: ActionRequest | dict[str, Any]
     )
     if invalid_artifact_semantics is not None:
         return invalid_artifact_semantics
+    invalid_inline_structure = _validate_inline_atomic_structures(
+        action_id, backend_id, request.inputs
+    )
+    if invalid_inline_structure is not None:
+        return invalid_inline_structure
     resource_references = collect_resource_references(
         {"inputs": request.inputs, "method_spec": request.method_spec}
     )
