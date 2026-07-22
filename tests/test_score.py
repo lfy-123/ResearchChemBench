@@ -13,6 +13,9 @@ def test_rubric_judge_prompt_distinguishes_agent_request_errors():
     assert "does not convert the earlier agent-side invalid request" in (
         RUBRIC_JUDGE_SYSTEM_PROMPT
     )
+    assert "cross-check it against the explicit fields" in RUBRIC_JUDGE_SYSTEM_PROMPT
+    assert "rate-determining, selectivity-determining" in RUBRIC_JUDGE_SYSTEM_PROMPT
+    assert "internally consistent with critical_failures" in RUBRIC_JUDGE_SYSTEM_PROMPT
 
 
 def test_score_workspace_with_injected_judge(tmp_path: Path):
