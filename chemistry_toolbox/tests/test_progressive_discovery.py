@@ -4,6 +4,7 @@ import json
 
 from chemistry_toolbox.mcp.discovery_models import ProgressiveActionRequest
 from chemistry_toolbox.mcp.discovery_tools import execute_action
+from chemistry_toolbox.mcp.result_transport import compact_action_result
 from researchchem_toolbox.catalog import action_specs, catalog_snapshot
 from researchchem_toolbox.discovery import (
     inspect_action,
@@ -122,3 +123,80 @@ def test_progressive_dispatch_traces_the_real_action_id(tmp_path, monkeypatch):
     assert event["tool"] == "normalize_qcschema_molecule"
     assert event["arguments"]["entrypoint"] == "progressive_execute_action"
     assert event["status"] == "invalid_request"
+
+
+def test_composite_and_typed_handoff_contracts_are_explicit():
+    snapshot = _snapshot()
+    sella = inspect_action(
+        "locate_transition_state", backend_id="sella", snapshot=snapshot
+    )["selected_request_contract"]
+    assert sella["execute_action_request_template"]["action_settings"][
+        "calculator_action_settings"
+    ] == {"calculate_energy": {}, "calculate_forces": {}}
+    assert sella["component_request_contracts"]["calculator"][
+        "required_nested_actions"
+    ] == ["calculate_energy", "calculate_forces"]
+
+    pysisyphus = inspect_action(
+        "locate_transition_state", backend_id="pysisyphus", snapshot=snapshot
+    )["selected_request_contract"]
+    assert "hessian_init" in pysisyphus["execute_action_request_template"][
+        "action_settings"
+    ]
+
+    vibrations = inspect_action(
+        "derive_vibrational_modes",
+        backend_id="internal_vibrations",
+        snapshot=snapshot,
+    )["selected_request_contract"]
+    assert "never reuse one artifact_id" in vibrations["output_contract"][
+        "input_handoff_note"
+    ]
+    required = {
+        item["name"]: item
+        for item in vibrations["sections"]["inputs"]["required"]
+    }
+    assert required["hessian"]["type"] == "Hessian | ArtifactRef"
+
+
+def test_progressive_result_transport_keeps_scalars_and_compacts_dense_values():
+    primary = {
+        "artifact_id": "art_11111111111111111111111111111111",
+        "semantic_type": "Hessian",
+        "media_type": "application/json",
+        "sha256": "a" * 64,
+        "path": "_tool_artifacts/objects/hessian.json",
+        "producer_action": "calculate_hessian",
+        "producer_backend": "xtb",
+        "parent_artifact_ids": ["art_22222222222222222222222222222222"],
+    }
+    noisy = {
+        "artifact_id": "art_33333333333333333333333333333333",
+        "semantic_type": "BackendFile",
+        "media_type": "text/plain",
+        "sha256": "b" * 64,
+        "path": "outputs/stdout.log",
+        "producer_action": "calculate_hessian",
+        "producer_backend": "xtb",
+        "parent_artifact_ids": [],
+    }
+    compact = compact_action_result(
+        {
+            "status": "success",
+            "action": "calculate_hessian",
+            "result": {
+                "matrix": [[float(row + column) for column in range(300)] for row in range(300)],
+                "unit": "hartree/bohr^2",
+            },
+            "input_artifacts": [],
+            "output_artifacts": [primary, noisy],
+            "warnings": [],
+            "error": None,
+        }
+    )
+    assert compact["result"]["unit"] == "hartree/bohr^2"
+    assert compact["result"]["matrix"]["shape"] == [300, 300]
+    assert compact["result"]["matrix"]["artifact_id"] == primary["artifact_id"]
+    assert compact["output_artifacts"] == [primary]
+    assert compact["transport"]["supplementary_artifact_count"] == 1
+    assert len(json.dumps(compact)) < 10_000

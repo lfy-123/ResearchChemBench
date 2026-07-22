@@ -209,6 +209,20 @@ class AnalysisRuntimeListRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     available_only: bool = True
+    query: str | None = Field(default=None, max_length=200)
+    runtime: str | None = None
+    include_details: bool = False
+    limit: int = Field(default=100, ge=1, le=500)
+
+    @field_validator("runtime")
+    @classmethod
+    def validate_optional_runtime(cls, value: str | None) -> str | None:
+        if value is None:
+            return None
+        normalized = value.strip().lower()
+        if not _RUNTIME_ID.fullmatch(normalized):
+            raise ValueError("runtime must use lower_snake_case")
+        return normalized
 
 
 class JobStatusRequest(BaseModel):

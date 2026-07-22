@@ -1133,6 +1133,11 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         modules=("geometric", "numpy"), pip=("geometric==1.1.1",),
         method_schema={
             "calculator_method": "complete method_spec mapping passed unchanged to the Agent-selected calculator backend",
+            "calculator_action_settings": (
+                "action-keyed mapping with both calculate_energy and calculate_forces objects; "
+                "each object must contain the settings required by the exact Agent-selected "
+                "component_backends.calculator"
+            ),
         },
         required_methods={"optimize_geometry": ("calculator_method",)},
         required_settings={
@@ -1165,6 +1170,11 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         modules=("sella", "ase", "numpy"), pip=("sella==2.5.0",),
         method_schema={
             "calculator_method": "complete method_spec mapping passed unchanged to the Agent-selected calculator backend",
+            "calculator_action_settings": (
+                "action-keyed mapping with both calculate_energy and calculate_forces objects, "
+                "for example {'calculate_energy': {}, 'calculate_forces': {}} when the selected "
+                "calculator declares no nested settings"
+            ),
         },
         required_methods={
             action: ("calculator_method",)
@@ -1207,10 +1217,30 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         "pysisyphus", "pysisyphus", "reaction", ("locate_transition_state", "trace_intrinsic_reaction_coordinate"),
         "pysisyphus transition-state and IRC algorithms using explicit endpoint/calculator settings.",
         modules=("pysisyphus",), executables=("pysis",), pip=("pysisyphus==1.0.0",),
+        method_schema={
+            "calculator_backend": "exact native pysisyphus calculator type: xtb, pyscf, or orca",
+            "method": "method interpreted by the explicitly selected calculator_backend",
+            "hessian_init": (
+                "explicit pysisyphus initial-Hessian strategy; calc requests an exact Hessian, "
+                "whereas unit/fischer/lindh/simple/swart/xtb/xtb1/xtbff select the named model"
+            ),
+        },
         required_methods={"locate_transition_state": ("calculator_backend", "method"), "trace_intrinsic_reaction_coordinate": ("calculator_backend", "method")},
         required_settings={
-            "locate_transition_state": ("optimizer", "convergence", "max_cycles"),
-            "trace_intrinsic_reaction_coordinate": ("integrator", "step_length", "max_cycles", "forward", "backward"),
+            "locate_transition_state": ("optimizer", "convergence", "max_cycles", "hessian_init"),
+            "trace_intrinsic_reaction_coordinate": ("integrator", "step_length", "max_cycles", "forward", "backward", "hessian_init"),
+        },
+        allowed_methods={
+            "locate_transition_state": {"calculator_backend": ("xtb", "pyscf", "orca")},
+            "trace_intrinsic_reaction_coordinate": {"calculator_backend": ("xtb", "pyscf", "orca")},
+        },
+        allowed_settings={
+            "locate_transition_state": {
+                "hessian_init": ("calc", "unit", "fischer", "lindh", "simple", "swart", "xtb", "xtb1", "xtbff"),
+            },
+            "trace_intrinsic_reaction_coordinate": {
+                "hessian_init": ("calc", "unit", "fischer", "lindh", "simple", "swart", "xtb", "xtb1", "xtbff"),
+            },
         },
     ),
     _backend(

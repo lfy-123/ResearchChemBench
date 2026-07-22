@@ -98,6 +98,7 @@ def _pysisyphus(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
             "type": str(settings.get("optimizer", "rsirfo")),
             "thresh": str(settings.get("convergence", "gau")),
             "max_cycles": int(settings.get("max_cycles", 200)),
+            "hessian_init": str(settings["hessian_init"]),
         }
     else:
         configuration["irc"] = {
@@ -106,6 +107,7 @@ def _pysisyphus(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
             "max_cycles": int(settings.get("max_cycles", 150)),
             "forward": bool(settings.get("forward", True)),
             "backward": bool(settings.get("backward", True)),
+            "hessian_init": str(settings["hessian_init"]),
         }
     input_path = directory / "pysis.yaml"
     input_path.write_text(yaml.safe_dump(configuration, sort_keys=False), encoding="utf-8")

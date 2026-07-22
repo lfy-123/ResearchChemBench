@@ -639,7 +639,7 @@ def analysis_reaction_cases() -> list[Case]:
                     "backend_id": "pysisyphus",
                     "inputs": {"initial_guess": HCN_TS},
                     "method_spec": {"calculator_backend": "xtb", "method": "gfn2", "charge": 0, "multiplicity": 1},
-                    "action_settings": {"optimizer": "rsirfo", "convergence": "gau", "max_cycles": 10},
+                    "action_settings": {"optimizer": "rsirfo", "convergence": "gau", "max_cycles": 10, "hessian_init": "calc"},
                     "resource_limits": {"walltime_seconds": 600, "memory_mb": 2048, "cpu_cores": 1},
                 }
             ),

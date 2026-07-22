@@ -93,8 +93,9 @@ TOOL_DESCRIPTIONS = {
         "software choice, scientific default, callback, retry, or fallback is performed."
     ),
     "list_analysis_runtimes": (
-        "List configured Python runtimes, installed modules, commands, and paths available for an "
-        "Agent-authored scientific program. No runtime is selected automatically."
+        "Search the configured Python runtimes available for an Agent-authored scientific program. "
+        "The default response is a compact inventory; filter by query/runtime and request details "
+        "only for the selected environment. No runtime is selected automatically."
     ),
     "submit_analysis_program": (
         "Submit an Agent-authored .py file asynchronously in one explicitly selected chemistry "

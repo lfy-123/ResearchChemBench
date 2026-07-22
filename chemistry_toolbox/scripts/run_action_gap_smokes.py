@@ -475,6 +475,7 @@ def main() -> int:
                     "max_cycles": 5,
                     "forward": True,
                     "backward": False,
+                    "hessian_init": "calc",
                 },
                 "resource_limits": {
                     "walltime_seconds": 600,
@@ -503,6 +504,7 @@ def main() -> int:
                     "max_cycles": 2,
                     "forward": True,
                     "backward": False,
+                    "hessian_init": "calc",
                 },
                 "resource_limits": {
                     "walltime_seconds": 600,

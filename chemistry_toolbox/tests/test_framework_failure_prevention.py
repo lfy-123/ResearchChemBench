@@ -106,6 +106,104 @@ def test_unknown_compact_artifact_is_rejected_without_starting_backend(
     assert result["error"]["code"] == "invalid_artifact_reference"
 
 
+def test_vibration_inputs_reject_a_structure_artifact_in_the_hessian_slot(
+    tmp_path: Path, monkeypatch
+):
+    monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
+    structure_ref = ArtifactStore().put_json(
+        H2,
+        semantic_type="AtomicStructure",
+        producer_action="optimize_geometry",
+        producer_backend="xtb",
+    )
+    monkeypatch.setattr(
+        service,
+        "probe_all_backends",
+        lambda _values: (_ for _ in ()).throw(AssertionError("health probe must not run")),
+    )
+    result = service.execute_action(
+        "derive_vibrational_modes",
+        {
+            "inputs": {
+                "hessian": {"artifact_id": structure_ref.artifact_id},
+                "structure": {"artifact_id": structure_ref.artifact_id},
+            },
+            "action_settings": {"linearity": "nonlinear"},
+        },
+    )
+    assert result["status"] == "invalid_request"
+    assert result["error"]["code"] == "artifact_semantic_mismatch"
+    assert "two differently typed values" in result["error"]["message"]
+
+
+def test_sella_nested_calculator_settings_fail_before_worker(
+    tmp_path: Path, monkeypatch
+):
+    monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
+    monkeypatch.setattr(
+        service,
+        "probe_all_backends",
+        lambda _values: (_ for _ in ()).throw(AssertionError("health probe must not run")),
+    )
+    result = service.execute_action(
+        "locate_transition_state",
+        {
+            "backend_id": "sella",
+            "component_backends": {"calculator": "xtb"},
+            "inputs": {"initial_guess": H2},
+            "method_spec": {"calculator_method": {"method": "gfn2"}},
+            "action_settings": {
+                "calculator_action_settings": {"calculate_energy": {}},
+                "force_threshold_ev_per_angstrom": 0.1,
+                "max_steps": 5,
+                "internal_coordinates": False,
+                "initial_trust_radius": 0.1,
+                "minimum_model_quality": 1e-4,
+                "finite_difference_step": 0.05,
+                "three_point_differences": False,
+                "steps_per_diagonalization": 3,
+                "diagonalization_interval": 1,
+                "allow_fragments": True,
+                "refine_initial_hessian_iterations": 0,
+            },
+        },
+    )
+    assert result["status"] == "invalid_request"
+    assert "calculate_forces" in result["error"]["message"]
+
+
+def test_backend_failure_persists_a_diagnostic_artifact(tmp_path: Path, monkeypatch):
+    monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
+    monkeypatch.setattr(service, "probe_all_backends", _available)
+    monkeypatch.setattr(
+        service,
+        "invoke_worker",
+        lambda **_kwargs: {
+            "status": "failed",
+            "error": {
+                "code": "backend_exception",
+                "message": "synthetic calculator failure",
+                "traceback": "full diagnostic traceback",
+            },
+        },
+    )
+    result = service.execute_action(
+        "calculate_energy",
+        {
+            "backend_id": "xtb",
+            "inputs": {"structure": H2},
+            "method_spec": {"method": "gfn2"},
+            "action_settings": {},
+        },
+    )
+    assert result["status"] == "failed"
+    assert len(result["output_artifacts"]) == 1
+    diagnostic = result["output_artifacts"][0]
+    assert diagnostic["semantic_type"] == "BackendDiagnostic"
+    payload = ArtifactStore().load({"artifact_id": diagnostic["artifact_id"]})
+    assert payload["error"]["traceback"] == "full diagnostic traceback"
+
+
 def test_backend_specific_inputs_and_enums_fail_before_health_or_worker(
     tmp_path: Path, monkeypatch
 ):

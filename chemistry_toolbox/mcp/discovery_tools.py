@@ -25,6 +25,7 @@ from .discovery_models import (
     ResourceInspectRequest,
     ResourceSearchRequest,
 )
+from .result_transport import compact_action_result
 from .tracing import execute_traced
 
 
@@ -71,7 +72,9 @@ TOOL_DESCRIPTIONS = {
     "execute_action": (
         "Execute one exact predefined Scientific/Data Action selected by action_id. Supply all "
         "provider, component, source, scientific, and resource choices required by inspect_action. "
-        "The dispatcher validates the request and performs no defaults, retry, or fallback."
+        "The dispatcher validates the request and performs no defaults, retry, or fallback. Dense "
+        "results are returned as concise scalars plus a typed primary ArtifactRef; the immutable "
+        "artifact contains the complete coordinates, matrices, modes, or trajectories."
     ),
 }
 
@@ -170,7 +173,7 @@ def execute_action(request: ProgressiveActionRequest) -> dict[str, Any]:
     return execute_traced(
         action_id,
         arguments,
-        lambda: _execute_action(action_id, value),
+        lambda: compact_action_result(_execute_action(action_id, value)),
     )
 
 

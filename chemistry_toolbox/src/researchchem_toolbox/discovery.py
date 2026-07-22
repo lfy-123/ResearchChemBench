@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import re
-from typing import Any, Literal
+from typing import Any, Literal, Mapping
 
 from .catalog import (
     CATEGORY_LABELS,
@@ -15,6 +15,21 @@ from .models import ActionSpec, BackendSpec
 
 
 ActionKind = Literal["all", "scientific", "data"]
+
+
+_COMPOSITE_CALCULATOR_ACTIONS = {
+    "geometric": ("calculate_energy", "calculate_forces"),
+    "sella": ("calculate_energy", "calculate_forces"),
+}
+
+_ACTION_INPUT_HANDOFF_NOTES = {
+    "derive_vibrational_modes": (
+        "inputs.hessian expects the primary Hessian ArtifactRef returned by "
+        "calculate_hessian. inputs.structure separately expects the exact matching "
+        "AtomicStructure used to calculate that Hessian; never reuse one artifact_id "
+        "for both fields."
+    ),
+}
 
 
 def _lexical_stem(value: str) -> str:
@@ -328,6 +343,18 @@ def _field_type(field_name: str, *, section: str) -> dict[str, Any]:
         return {"type": "EnergyResult | ArtifactRef"}
     if field_name == "frequencies":
         return {"type": "FrequencyResult | ArtifactRef"}
+    if field_name == "hessian":
+        return {
+            "type": "Hessian | ArtifactRef",
+            "accepted_forms": [
+                "dense Hessian result mapping with matrix and unit",
+                "primary immutable ArtifactRef with semantic_type='Hessian'",
+                "compact {'artifact_id': 'art_...'} for that Hessian artifact",
+                "exact Hessian artifact-id string",
+            ],
+        }
+    if field_name == "vibrations":
+        return {"type": "FrequencyResult | ArtifactRef"}
     if field_name in mapping_fields:
         return {"type": "object"}
     if field_name in array_fields or field_name.endswith("_files"):
@@ -358,6 +385,8 @@ def _field_type(field_name: str, *, section: str) -> dict[str, Any]:
 def _placeholder(field_name: str, *, section: str, choices: tuple[str, ...] = ()) -> Any:
     if choices:
         return f"<choose exactly one: {' | '.join(str(choice) for choice in choices)}>"
+    if field_name == "hessian":
+        return "<dense Hessian result mapping or primary Hessian artifact_id>"
     shape = _field_type(field_name, section=section)["type"]
     if shape == "boolean":
         return "<boolean>"
@@ -424,7 +453,10 @@ def _action_request_contract(
     optional_methods = tuple(
         field_name
         for field_name in dict.fromkeys((*backend.method_schema, *method_choices))
-        if field_name not in required_methods and "conditional" not in field_name
+        if field_name not in required_methods
+        and field_name not in required_settings
+        and field_name not in setting_choices
+        and "conditional" not in field_name
     )
     optional_settings = tuple(
         field_name
@@ -471,6 +503,14 @@ def _action_request_contract(
         )
         for field_name in required_settings
     }
+    nested_component_actions = _COMPOSITE_CALCULATOR_ACTIONS.get(backend.id, ())
+    if (
+        nested_component_actions
+        and "calculator_action_settings" in template["action_settings"]
+    ):
+        template["action_settings"]["calculator_action_settings"] = {
+            action_id: {} for action_id in nested_component_actions
+        }
     template["resource_limits"] = {
         "walltime_seconds": 1800,
         "memory_mb": 4096,
@@ -528,6 +568,25 @@ def _action_request_contract(
             },
         },
         "conditional_requirements": conditional_rules,
+        "component_request_contracts": (
+            {
+                "calculator": {
+                    "required_nested_actions": list(nested_component_actions),
+                    "calculator_method_location": "method_spec.calculator_method",
+                    "calculator_settings_location": (
+                        "action_settings.calculator_action_settings.<nested_action>"
+                    ),
+                    "inspection_rule": (
+                        "After choosing component_backends.calculator, inspect that exact "
+                        "Backend for every required_nested_action and fill its required method "
+                        "and setting fields. Empty nested mappings are valid only when the "
+                        "selected calculator declares no settings for that nested Action."
+                    ),
+                }
+            }
+            if nested_component_actions
+            else {}
+        ),
         "output_contract": {
             "primary_output": specification.primary_output,
             "result_envelope": "ActionResult",
@@ -535,12 +594,14 @@ def _action_request_contract(
                 "Use each returned output_artifacts ArtifactRef, compact artifact_id object, or "
                 "exact artifact-id string as the typed input to a later Action."
             ),
+            "input_handoff_note": _ACTION_INPUT_HANDOFF_NOTES.get(specification.id),
         },
         "execution_checklist": [
             "Replace every angle-bracket placeholder; placeholders are not defaults.",
             "Preserve the exact selected action_id and backend_id/source_id.",
             "Supply every required field in the section where it is listed.",
             "Apply every conditional requirement triggered by an Agent-selected option.",
+            "Match ArtifactRef.semantic_type to each input field; differently typed required inputs normally require different artifact ids.",
             "Choose resource limits explicitly; the displayed numbers are mechanical examples, not scientific settings.",
         ],
     }

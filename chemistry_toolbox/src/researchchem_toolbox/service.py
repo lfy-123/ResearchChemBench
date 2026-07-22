@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from pathlib import PurePosixPath
 from typing import Any, Mapping
 
 from pydantic import ValidationError
@@ -55,6 +56,172 @@ def _invalid_explicit_choice(
                 backend_id,
                 f"Invalid {field_group}.{field_name}={received!r} for {backend_id}/{action_id}; "
                 f"choose exactly one of {list(choices)}",
+            )
+    return None
+
+
+def _validate_composite_calculator_contract(
+    action_id: str,
+    backend_id: str,
+    request: ActionRequest,
+    backends: Mapping[str, Any],
+) -> dict[str, Any] | None:
+    """Validate nested calculator requests before launching a composite worker.
+
+    Sella and geomeTRIC evaluate both energy and forces through the exact
+    ``component_backends.calculator`` selected by the Agent.  Their nested
+    settings are part of the public request contract and must not fail later as
+    an opaque optimizer exception.
+    """
+
+    if backend_id not in {"sella", "geometric"}:
+        return None
+    calculator_id = request.component_backends.get("calculator")
+    if not calculator_id:
+        return None  # The ordinary required-component check reports this first.
+    calculator_method = request.method_spec.get("calculator_method")
+    if not isinstance(calculator_method, Mapping):
+        return _invalid(
+            action_id,
+            backend_id,
+            "method_spec.calculator_method must be a mapping containing the exact method fields "
+            f"for component_backends.calculator={calculator_id!r}",
+        )
+    nested_settings = request.action_settings.get("calculator_action_settings")
+    if not isinstance(nested_settings, Mapping):
+        return _invalid(
+            action_id,
+            backend_id,
+            "action_settings.calculator_action_settings must be an action-keyed mapping with "
+            "both 'calculate_energy' and 'calculate_forces' entries",
+        )
+    calculator = backends[calculator_id]
+    for nested_action in ("calculate_energy", "calculate_forces"):
+        supplied_settings = nested_settings.get(nested_action)
+        if not isinstance(supplied_settings, Mapping):
+            return _invalid(
+                action_id,
+                backend_id,
+                "action_settings.calculator_action_settings must explicitly contain mapping "
+                f"{nested_action!r}; for example {{'calculate_energy': {{}}, "
+                "'calculate_forces': {}}}",
+            )
+        if nested_action not in calculator.capabilities:
+            return _invalid(
+                action_id,
+                backend_id,
+                f"Selected calculator {calculator_id!r} does not provide {nested_action!r}",
+            )
+        missing_methods = [
+            field_name
+            for field_name in calculator.required_method_fields.get(nested_action, ())
+            if field_name not in calculator_method
+        ]
+        missing_settings = [
+            field_name
+            for field_name in calculator.required_setting_fields.get(nested_action, ())
+            if field_name not in supplied_settings
+        ]
+        if missing_methods or missing_settings:
+            parts = []
+            if missing_methods:
+                parts.append(
+                    f"method_spec.calculator_method fields {missing_methods}"
+                )
+            if missing_settings:
+                parts.append(
+                    "action_settings.calculator_action_settings"
+                    f".{nested_action} fields {missing_settings}"
+                )
+            return _invalid(
+                action_id,
+                backend_id,
+                f"Nested calculator contract for {calculator_id}/{nested_action} is incomplete: "
+                + "; ".join(parts),
+            )
+        for field_name, choices in calculator.allowed_method_values.get(
+            nested_action, {}
+        ).items():
+            if field_name in calculator_method and str(
+                calculator_method[field_name]
+            ).strip().casefold() not in {
+                str(choice).casefold() for choice in choices
+            }:
+                return _invalid(
+                    action_id,
+                    backend_id,
+                    f"Invalid method_spec.calculator_method.{field_name}="
+                    f"{calculator_method[field_name]!r} for {calculator_id}/{nested_action}; "
+                    f"choose exactly one of {list(choices)}",
+                )
+        for field_name, choices in calculator.allowed_setting_values.get(
+            nested_action, {}
+        ).items():
+            if field_name in supplied_settings and str(
+                supplied_settings[field_name]
+            ).strip().casefold() not in {
+                str(choice).casefold() for choice in choices
+            }:
+                return _invalid(
+                    action_id,
+                    backend_id,
+                    "Invalid action_settings.calculator_action_settings"
+                    f".{nested_action}.{field_name}={supplied_settings[field_name]!r} "
+                    f"for {calculator_id}/{nested_action}; choose exactly one of {list(choices)}",
+                )
+    return None
+
+
+def _validate_artifact_input_semantics(
+    action_id: str,
+    backend_id: str,
+    inputs: Mapping[str, Any],
+) -> dict[str, Any] | None:
+    """Reject a typed ArtifactRef placed in a demonstrably incompatible slot."""
+
+    if action_id != "derive_vibrational_modes":
+        return None
+    hessian = inputs.get("hessian")
+    structure = inputs.get("structure")
+    if (
+        isinstance(hessian, Mapping)
+        and isinstance(structure, Mapping)
+        and hessian.get("artifact_id")
+        and hessian.get("artifact_id") == structure.get("artifact_id")
+    ):
+        return _invalid(
+            action_id,
+            backend_id,
+            "inputs.hessian and inputs.structure require two differently typed values: use the "
+            "Hessian primary artifact from calculate_hessian for inputs.hessian and reuse the "
+            "matching AtomicStructure input for inputs.structure",
+            code="artifact_semantic_mismatch",
+        )
+    if isinstance(hessian, Mapping) and hessian.get("artifact_id"):
+        if hessian.get("semantic_type") != "Hessian":
+            return _invalid(
+                action_id,
+                backend_id,
+                f"inputs.hessian received ArtifactRef semantic_type="
+                f"{hessian.get('semantic_type')!r}; it requires the primary 'Hessian' JSON "
+                "artifact returned by calculate_hessian",
+                code="artifact_semantic_mismatch",
+            )
+    if isinstance(structure, Mapping) and structure.get("artifact_id"):
+        semantic_type = str(structure.get("semantic_type") or "")
+        media_type = str(structure.get("media_type") or "")
+        suffix = PurePosixPath(str(structure.get("path") or "")).suffix.casefold()
+        if not (
+            semantic_type == "AtomicStructure"
+            or media_type.startswith("chemical/")
+            or suffix in {".xyz", ".pdb", ".sdf", ".mol"}
+        ):
+            return _invalid(
+                action_id,
+                backend_id,
+                f"inputs.structure received ArtifactRef semantic_type={semantic_type!r}; use the "
+                "matching AtomicStructure artifact or a registered structure file",
+                code="artifact_semantic_mismatch",
             )
     return None
 
@@ -230,6 +397,12 @@ def execute_action(action_id: str, request_value: ActionRequest | dict[str, Any]
     if invalid_choice is not None:
         return invalid_choice
 
+    invalid_composite = _validate_composite_calculator_contract(
+        action_id, backend_id, request, backends
+    )
+    if invalid_composite is not None:
+        return invalid_composite
+
     try:
         canonical_inputs = canonicalize_artifact_refs(request.inputs)
     except (KeyError, OSError, ValueError, ValidationError) as exc:
@@ -240,6 +413,11 @@ def execute_action(action_id: str, request_value: ActionRequest | dict[str, Any]
             code="invalid_artifact_reference",
         )
     request = request.model_copy(update={"inputs": canonical_inputs})
+    invalid_artifact_semantics = _validate_artifact_input_semantics(
+        action_id, backend_id, request.inputs
+    )
+    if invalid_artifact_semantics is not None:
+        return invalid_artifact_semantics
     resource_references = collect_resource_references(
         {"inputs": request.inputs, "method_spec": request.method_spec}
     )
@@ -326,8 +504,8 @@ def execute_action(action_id: str, request_value: ActionRequest | dict[str, Any]
 
     output_artifacts = []
     result_payload = worker.get("result")
+    store = ArtifactStore()
     if status in {"success", "partial_success"}:
-        store = ArtifactStore()
         parent_ids = [item.artifact_id for item in input_artifacts]
         output_artifacts.append(
             store.put_json(
@@ -352,6 +530,28 @@ def execute_action(action_id: str, request_value: ActionRequest | dict[str, Any]
                 )
             except (KeyError, OSError, ValueError) as exc:
                 worker.setdefault("warnings", []).append(f"Artifact registration failed: {exc}")
+    elif worker.get("error"):
+        parent_ids = [item.artifact_id for item in input_artifacts]
+        try:
+            output_artifacts.append(
+                store.put_json(
+                    {
+                        "action": action_id,
+                        "backend": backend_id,
+                        "status": status,
+                        "error": worker.get("error"),
+                        "warnings": list(worker.get("warnings") or []),
+                    },
+                    semantic_type="BackendDiagnostic",
+                    producer_action=action_id,
+                    producer_backend=backend_id,
+                    parent_artifact_ids=parent_ids,
+                )
+            )
+        except (OSError, ValueError) as exc:
+            worker.setdefault("warnings", []).append(
+                f"Backend diagnostic artifact registration failed: {exc}"
+            )
 
     provenance = {
         "catalog_hash": active_catalog_hash(),

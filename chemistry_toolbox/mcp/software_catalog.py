@@ -655,6 +655,8 @@ def list_analysis_runtimes(request: AnalysisRuntimeListRequest) -> dict[str, Any
         available = python.is_file()
         if request.available_only and not available:
             continue
+        if request.runtime is not None and name != request.runtime:
+            continue
         modules = probe.get("modules") or {
             module: {"available": None, "version": None}
             for module in (
@@ -663,30 +665,77 @@ def list_analysis_runtimes(request: AnalysisRuntimeListRequest) -> dict[str, Any
                 or []
             )
         }
-        result.append(
-            {
-                "runtime": name,
-                "description": specification.get("description"),
-                "available": available,
-                "python": str(python),
-                "modules": modules,
-                "configured_commands": sorted(
-                    set(
-                        (specification.get("health_checks") or {}).get("commands")
-                        or specification.get("commands")
-                        or []
-                    )
-                ),
-                "backends": specification.get("backends") or [],
-            }
+        commands = sorted(
+            set(
+                (specification.get("health_checks") or {}).get("commands")
+                or specification.get("commands")
+                or []
+            )
         )
+        backends = specification.get("backends") or []
+        query_haystack = " ".join(
+            [
+                name,
+                str(specification.get("description") or ""),
+                *modules,
+                *commands,
+                *backends,
+            ]
+        ).casefold()
+        if request.query and request.query.casefold() not in query_haystack:
+            continue
+        item: dict[str, Any] = {
+            "runtime": name,
+            "description": specification.get("description"),
+            "available": available,
+            "module_names": sorted(modules),
+            "configured_commands": commands,
+            "backends": backends,
+        }
+        if request.include_details:
+            item.update(
+                {
+                    "python": str(python),
+                    "modules": modules,
+                    "health_checks": specification.get("health_checks") or {},
+                }
+            )
+        result.append(item)
+    total_matches = len(result)
+    result = result[: request.limit]
     return {
         "status": "success",
         "count": len(result),
+        "total_matches": total_matches,
         "runtimes": result,
         "selection_note": (
             "Select one runtime explicitly according to the imports required by the Agent-authored "
-            "program. No runtime or library is chosen automatically."
+            "program. No runtime or library is chosen automatically. Use runtime=<exact id> and "
+            "include_details=true only after narrowing to inspect versions and the Python path."
+        ),
+        "submit_analysis_program_request_template": {
+            "runtime": request.runtime or "<exact runtime id>",
+            "script_path": "code/<agent-authored-program>.py",
+            "script_target": "agent_program.py",
+            "arguments": [],
+            "staged_inputs": [
+                {
+                    "source_path": "data/<required-input>",
+                    "target_path": "inputs/<required-input>",
+                }
+            ],
+            "resource_limits": {
+                "walltime_seconds": 1800,
+                "memory_mb": 4096,
+                "cpu_cores": 1,
+                "gpu_count": 0,
+            },
+            "label": "<descriptive scientific operation>",
+        },
+        "execution_note": (
+            "Execute an Agent-authored scientific program with submit_analysis_program, not a "
+            "built-in shell, so its source, staged inputs, resources, logs, exit status, and "
+            "outputs remain part of the benchmark trace."
         ),
     }
 
