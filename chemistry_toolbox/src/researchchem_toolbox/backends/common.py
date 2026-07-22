@@ -6,6 +6,7 @@ import importlib.metadata
 import json
 import math
 import os
+import re
 import shlex
 import shutil
 import subprocess
@@ -155,10 +156,15 @@ def _parse_xyz(path: Path) -> dict[str, Any]:
         )
     if len(atoms) != count:
         raise ValueError(f"XYZ atom count mismatch: {path}")
+    comment = lines[1] if len(lines) > 1 else ""
+    charge_match = re.search(r"(?:^|\s)charge=(-?\d+)(?:\s|$)", comment)
+    multiplicity_match = re.search(
+        r"(?:^|\s)multiplicity=(\d+)(?:\s|$)", comment
+    )
     return {
         "atoms": atoms,
-        "charge": 0,
-        "multiplicity": 1,
+        "charge": int(charge_match.group(1)) if charge_match else 0,
+        "multiplicity": int(multiplicity_match.group(1)) if multiplicity_match else 1,
         "pbc": [False, False, False],
         "source_path": relative_workspace_path(path),
     }

@@ -4,19 +4,6 @@
     "standard_state_M": 1.0,
     "solvent": "ethanol"
   },
-  "thermochemistry_protocol": {
-    "entropy_model": "Grimme mRRHO",
-    "entropy_frequency_cutoff_cm-1": 100.0,
-    "free_rotor_inertia_model": "global",
-    "enthalpy_model": "RRHO",
-    "frequency_scale_factor": 1.0,
-    "zpe_scale_factor": 1.0,
-    "imaginary_frequency_policy": "invert modes between -5 and 0 cm-1 only",
-    "symmetry_correction": false,
-    "single_point_correction": "author archived correlated single-point energies",
-    "software_version": "GoodVibes 4.3.0"
-  },
-  "common_reactant_ensemble_reference": true,
   "profiles_kcal_mol": {
     "P0": {
       "BiPy_dG_dagger": 30.91,
@@ -40,5 +27,5 @@
       "PhPy_dG_reaction": -31.85
     }
   },
-  "interpretation": "Barrier trends reproduce the published ordering and rounded barriers. Reaction free energies differ materially from the published integers and must be scored as a separate, provenance-bearing recomputation rather than an exact replacement."
+  "interpretation": "These are hidden high-level comparison values, not mandatory outputs for a lower-cost independent run. Method-dependent deviations are acceptable when provenance is complete."
 }

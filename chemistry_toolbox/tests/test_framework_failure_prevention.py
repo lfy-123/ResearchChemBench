@@ -7,6 +7,7 @@ import pytest
 
 from researchchem_toolbox import service
 from researchchem_toolbox.artifacts import ArtifactStore
+from researchchem_toolbox.backends.common import structure_dict
 from researchchem_toolbox.backends.electronic import _resolve_mace_model
 from researchchem_toolbox.catalog import action_specs, mcp_action_description
 
@@ -19,6 +20,22 @@ H2 = {
     "charge": 0,
     "multiplicity": 1,
 }
+
+
+def test_xyz_comment_charge_and_multiplicity_are_preserved(tmp_path: Path, monkeypatch):
+    monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
+    data = tmp_path / "data"
+    data.mkdir()
+    path = data / "charged.xyz"
+    path.write_text(
+        "2\nseed_id=test charge=2 multiplicity=3\nH 0 0 0\nH 0 0 0.8\n",
+        encoding="utf-8",
+    )
+
+    parsed = structure_dict("data/charged.xyz")
+
+    assert parsed["charge"] == 2
+    assert parsed["multiplicity"] == 3
 
 
 def _available(specifications):

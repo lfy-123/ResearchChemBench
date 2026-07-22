@@ -3,81 +3,81 @@
   "score_max": 100,
   "expected_tool_calls": [],
   "expected_result": {
-    "published_P2_barriers_kcal_mol": {
-      "C-C": 14,
-      "C-O": 18,
-      "C-O_minus_C-C": 4
+    "reference_P2_barriers_kcal_mol": {
+      "C_C": 14,
+      "C_O": 18,
+      "C_O_minus_C_C": 4
     },
-    "recomputed_supported_C-C_barrier_kcal_mol": 14.3,
-    "archive_limitation": "No explicit C-O transition-state record is present in the supplied author archive.",
-    "conclusion": "C-C coupling is favored, while a minor C-O pathway remains chemically plausible and is experimentally observed only at trace level under ethoxide conditions."
+    "required_conclusion": "C-C coupling is favored while minor C-O remains plausible"
   },
   "expected_structured_output": null,
   "scoring_rubric": [
     {
-      "id": "problem_definition",
+      "id": "independent_path_hypotheses",
       "max_score": 15,
-      "criterion": "Defines comparable doubly protonated C-C and C-O pathways, charges, states, and reference convention."
+      "criterion": "Constructs chemically comparable C-C and C-O hypotheses from P2 seeds."
     },
     {
-      "id": "supported_cc_barrier",
+      "id": "new_cc_evidence",
       "max_score": 20,
-      "criterion": "Validates the supplied C-C evidence and obtains a barrier near 14-14.3 kcal mol-1."
+      "criterion": "Generates and validates new evidence for the pyridyl-pyridyl path."
     },
     {
-      "id": "co_path_investigation",
+      "id": "new_co_evidence",
       "max_score": 25,
-      "criterion": "Recognizes the archive lacks an explicit C-O transition-state record and either performs a defensible independent investigation or gives a rigorous bounded conclusion without fabrication."
+      "criterion": "Actively investigates the C-O competitor and retains failed searches without fabrication."
     },
     {
-      "id": "barrier_comparison",
+      "id": "barrier_or_bound_comparison",
       "max_score": 20,
-      "criterion": "If independently supported, recovers the paper checkpoint near 18 kcal mol-1 and a roughly 4 kcal mol-1 C-O penalty; otherwise reports why an exact number is not established."
+      "criterion": "Provides a comparable barrier estimate or defensible computed bound and predicts the dominant path."
     },
     {
-      "id": "product_prediction_and_uncertainty",
-      "max_score": 20,
-      "criterion": "Predicts dominant C-C coupling with at most minor C-O product, integrates the trace experimental product, and states uncertainty."
+      "id": "experimental_integration",
+      "max_score": 10,
+      "criterion": "Uses the trace C-O observation and acidic/ethoxide conditions as constraints, not substitutes for computation."
+    },
+    {
+      "id": "provenance_and_uncertainty",
+      "max_score": 10,
+      "criterion": "Links conclusions to new artifacts and separates unresolved uncertainty."
     }
   ],
   "critical_failures": [
-    "The report presents a precise literature target as an independently computed value without supporting provenance.",
-    "Charges, multiplicities, units, temperature, standard state, or energy layers are mixed in a way that invalidates the claimed comparison.",
+    "A precise literature or hidden-reference value is presented as a calculation from this run without a supporting new artifact.",
+    "The report reaches its main computational conclusion without any managed Chemistry MCP scientific execution attempt.",
+    "A supplied seed is described as an optimized minimum or transition state without a new calculation.",
     "An unverified transition-state guess is described as proven connectivity.",
+    "Charges, multiplicities, units, methods, temperatures, or standard states are mixed so the claimed comparison is invalid.",
     "The source publication or hidden reference material is searched or accessed."
   ],
-  "judge_instructions": "Judge scientific dependencies and evidence, not exact tool names or a unique call order. Treat the declared archive limitations as part of the benchmark boundary. Flag objective framework/backend failures separately from model scientific errors.",
+  "judge_instructions": "This is an autonomous-reproduction task, not an analysis-of-supplied-results task. Only scientific results generated during this run count as computed evidence. Do not require exact tool names, software, methods, or a unique order; predefined Actions, managed native software jobs, and managed Agent-authored analysis programs are all valid. Built-in shell/file tools may inspect raw inputs and reports but do not by themselves satisfy managed scientific computation. Apply the managed-computation policy and score method-dependent independent values by validation and provenance, not exact equality to hidden high-level numbers.",
+  "managed_computation_policy": {
+    "required": true,
+    "minimum_successful_scientific_calls": 2,
+    "score_cap_without_managed_attempt": 20,
+    "score_cap_without_successful_managed_call": 40,
+    "score_cap_below_minimum_successes": 70
+  },
   "reference_evidence": {
     "conditions": {
       "temperature_K": 353.15,
       "standard_state_M": 1.0,
       "solvent": "ethanol"
     },
-    "thermochemistry_protocol": {
-      "entropy_model": "Grimme mRRHO",
-      "entropy_frequency_cutoff_cm-1": 100.0,
-      "free_rotor_inertia_model": "global",
-      "enthalpy_model": "RRHO",
-      "frequency_scale_factor": 1.0,
-      "zpe_scale_factor": 1.0,
-      "imaginary_frequency_policy": "invert modes between -5 and 0 cm-1 only",
-      "symmetry_correction": false
-    },
-    "published_rounding_is_not_exact_recompute": true,
-    "experimental_observation_ids": [
-      "E01",
-      "E02",
-      "E03",
-      "E04",
-      "E05",
-      "E06",
-      "E07",
-      "E08",
-      "E09",
-      "E10",
-      "E11",
-      "E12"
+    "required_evidence_classes": [
+      "new_P2_CC_path_evidence",
+      "new_P2_CO_path_attempt",
+      "comparable_energetic_result_or_bound",
+      "product_prediction"
     ],
-    "public_archive_sha256": "97fa402aec3fa9191d0352485c7c4a8c77415d47d7c917dcb1cc0548f04d495d"
+    "public_input_contract": {
+      "unoptimized_seed_count": 9,
+      "completed_computational_outputs": 0,
+      "optimized_stationary_points": 0,
+      "raw_instrument_files": 0
+    },
+    "public_archive_sha256": "74ab6cab8f8ca0a0b10dc3da2efb03840247d58a9c90fe83332a14622207ac2e",
+    "published_reference_is_hidden_comparison_only": true
   }
 }

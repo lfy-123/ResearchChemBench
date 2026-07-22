@@ -133,3 +133,48 @@ def test_rubric_score_is_derived_from_clamped_criterion_scores(
     assert "independent scientific analysis" in captured_prompt
     assert result["process_metrics"]["native_execution_event_count"] == 1
     assert result["process_metrics"]["successful_native_events"] == 1
+
+
+def test_managed_computation_policy_caps_narrative_only_rubric_score(
+    tmp_path: Path, monkeypatch
+):
+    runner = TaskRunner("ChemGraph_001", agent_key="mock", workspace_root=tmp_path)
+    runner.run()
+    rubric_truth = {
+        "expected_tool_calls": [],
+        "expected_result": {"answer": "reference"},
+        "evaluation_mode": "rubric_100",
+        "score_max": 100,
+        "scoring_rubric": [
+            {"id": "science", "max_score": 60, "criterion": "Scientific result"},
+            {"id": "process", "max_score": 40, "criterion": "Scientific process"},
+        ],
+        "critical_failures": [],
+        "judge_instructions": "",
+        "reference_evidence": {},
+        "managed_computation_policy": {
+            "required": True,
+            "minimum_successful_scientific_calls": 2,
+            "score_cap_without_managed_attempt": 20,
+        },
+    }
+    monkeypatch.setattr("evaluation.score.load_ground_truth", lambda _task_id: rubric_truth)
+
+    result = score_workspace(
+        runner.workspace,
+        judge_call=lambda _prompt: {
+            "score": 90,
+            "criteria": [
+                {"id": "science", "score": 55, "max_score": 60, "rationale": "narrative"},
+                {"id": "process", "score": 35, "max_score": 40, "rationale": "narrative"},
+            ],
+            "critical_failures": [],
+            "objective_issue_flags": [],
+            "rationale": "No managed computation, despite a plausible report.",
+        },
+    )
+
+    assert result["score"] == 20
+    assert sum(item["score"] for item in result["criteria"]) == 20
+    assert result["managed_computation_score_cap"] == 20
+    assert result["process_metrics"]["managed_scientific_attempt_count"] == 0

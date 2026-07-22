@@ -1,22 +1,22 @@
 {
   "task_id": "Heterobiaryl_PV_04_Coupling_Mechanism",
-  "source_id": "hidden_pv_heterobiaryl_mechanism_2018",
+  "source_id": "hidden_pv_heterobiaryl_mechanism_2018_autonomous_reproduction",
   "category": "reaction_coordinate_analysis",
-  "task": "Determine whether the key P(V) ligand-coupling event is concerted, stepwise, synchronous, or asynchronous. Reconstruct the most defensible stationary-point sequence from the anonymous records, analyze the forming C-C bond and relevant P-C bonds along the reaction coordinate, determine whether a dearomatized intermediate is required, and assess whether oxygen lone-pair participation is supported. Every mechanistic claim must be tied to direct structural, vibrational, connectivity, or electronic evidence, with missing trajectory evidence stated explicitly. Do not identify or search for the source publication.",
+  "task": "Use new calculations beginning from the supplied unoptimized P(V) seeds to determine whether the key pyridyl-pyridyl ligand-coupling event is concerted or stepwise and synchronous or asynchronous. Establish the most defensible stationary-point sequence, test transition-state connectivity, follow the forming carbon-carbon bond and relevant phosphorus-carbon bonds, and assess whether a dearomatized intermediate and oxygen participation are supported. Tie every mechanistic claim to a newly generated structural, vibrational, reaction-path, or electronic artifact. Do not identify or search for the source publication or any external answer.",
   "data": [
     {
-      "name": "Anonymous P(V) evidence package",
+      "name": "P(V) autonomous-computation inputs",
       "path": "data/benchmark_data",
       "type": "directory",
-      "description": "Anonymous candidate structures, paired computational records, starting conformers, experimental observations, manifests, and explicit data limitations."
+      "description": "Nine unoptimized molecular seeds, chemical-system metadata, experimental conditions, and paper-reported measurements. No completed calculation is included."
     }
   ],
   "archive_extractions": [
     {
-      "source": "computational_records.zip",
+      "source": "autonomous_inputs.zip",
       "destination": "benchmark_data",
       "format": "zip",
-      "sha256": "97fa402aec3fa9191d0352485c7c4a8c77415d47d7c917dcb1cc0548f04d495d"
+      "sha256": "74ab6cab8f8ca0a0b10dc3da2efb03840247d58a9c90fe83332a14622207ac2e"
     }
   ]
 }

@@ -18,6 +18,10 @@ CATALOG_DISCOVERY_TOOLS = {
     "search_resources",
     "inspect_resource",
 }
+MANAGED_OPEN_EXECUTION_TOOLS = {
+    "submit_native_job",
+    "submit_analysis_program",
+}
 
 
 def load_tool_trace(workspace: Path) -> list[dict[str, Any]]:
@@ -175,6 +179,17 @@ def normalized_tool_calls(events: list[dict[str, Any]], *, successful_only: bool
 
 def process_metrics(events: list[dict[str, Any]]) -> dict[str, Any]:
     action_ids = set(action_specs())
+    scientific_action_ids = {
+        action_id
+        for action_id, specification in action_specs().items()
+        if not specification.data_action
+    }
+    managed_scientific_events = [
+        event
+        for event in events
+        if event.get("tool") in scientific_action_ids
+        or event.get("tool") in MANAGED_OPEN_EXECUTION_TOOLS
+    ]
     return {
         "tool_call_count": len(events),
         "successful_tool_calls": sum(
@@ -198,4 +213,16 @@ def process_metrics(events: list[dict[str, Any]]) -> dict[str, Any]:
             and event.get("tool") not in action_ids
             for event in events
         ),
+        "managed_scientific_attempt_count": len(managed_scientific_events),
+        "successful_managed_scientific_calls": sum(
+            event.get("status") in SUCCESSFUL_TOOL_STATUSES
+            for event in managed_scientific_events
+        ),
+        "failed_managed_scientific_calls": sum(
+            event.get("status") not in SUCCESSFUL_TOOL_STATUSES
+            for event in managed_scientific_events
+        ),
+        "managed_scientific_tools_used": [
+            event.get("tool") for event in managed_scientific_events
+        ],
     }

@@ -1,19 +1,19 @@
-# Heterobiaryl P(V) benchmark curation audit
+# Heterobiaryl P(V) autonomous-computation curation audit
 
 - Source archive SHA-256: `8eabaa038742516b013e3b80301b9d420e98400a8e74d06f8246e06c8a806330`
-- Public anonymous archive SHA-256: `97fa402aec3fa9191d0352485c7c4a8c77415d47d7c917dcb1cc0548f04d495d`
-- Public archive size: 71388896 bytes
-- Public archive entries: 298 (240266644 uncompressed bytes)
-- Computational record files: 198
-- Starting structures: 27
-- Candidate systems: {'P0': 17, 'P1': 25, 'P2': 24}
-- Integrity and anonymity scans: passed
+- Agent-visible archive SHA-256: `74ab6cab8f8ca0a0b10dc3da2efb03840247d58a9c90fe83332a14622207ac2e`
+- Agent-visible archive size: 16752 bytes
+- Public unoptimized seeds: 9
+- Public completed computational outputs: **0**
+- Public optimized stationary-point structures: **0**
+- Hidden author output archives: 3
+- Integrity and result-leak scans: passed
 
-## Corrections and fairness decisions
+## Fairness decisions
 
-1. The protonation NMR observation points to Fig. S12 in the paper text; the supplied task package incorrectly cited Figs. S17-S18. The public evidence table is corrected.
-2. All explicit Action/backend/software recommendations were removed from tested task prompts.
-3. The author archive contains 66 frequency records, 66 large-basis single-point records, and 66 correlated single-point records, but no archived IRC trajectory, population trajectory, or explicit C-O transition-state record.
-4. The correlated single-point records took roughly 5-8 wall-clock hours each in the author archive. Requiring all 66 to be recomputed inside a normal Agent evaluation would test budget rather than scientific orchestration. The anonymous records are therefore supplied as auditable input, while independent recalculation remains available to the Agent.
-5. Published rounded free energies and the 353.15 K, 1 M GoodVibes 4.3 recomputation are stored separately.
-6. The five subtasks and end-to-end task use rubric scoring. No exact tool name or unique invocation order is part of the public question or hidden scoring requirement.
+1. All completed Gaussian/ORCA-style outputs, optimized candidate structures, frequencies, energies, labels, and pathway rankings are hidden reference assets.
+2. The public geometry seeds are deterministic perturbations, not author stationary points. Their IDs contain no pathway role.
+3. The source package has no raw NMR FID, chromatograms, or time-resolved kinetic traces. Only neutral paper-reported measurements are public; the interpretive dual-protonation statement without raw numeric shifts is hidden.
+4. Tasks require newly generated calculation artifacts. Reading inputs or writing a plausible narrative cannot earn the computation/orchestration score.
+5. Exact software, predefined Actions, method, and invocation order are never named in a tested task prompt. All three managed toolbox layers remain valid.
+6. Hidden high-level literature values are comparison targets, not mandatory equality constraints for resource-aware independent calculations.

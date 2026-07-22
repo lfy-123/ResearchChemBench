@@ -61,6 +61,14 @@ def test_action_search_and_inspection_return_exact_provider_contracts():
     assert contract["backend_id"] == "goodvibes"
     assert contract["required_input_fields"]
     assert "method_parameter_reference" in contract
+    request_contract = action["selected_request_contract"]
+    assert request_contract["execute_action_request_template"]["action_id"] == (
+        "analyze_thermochemical_selectivity"
+    )
+    assert request_contract["execute_action_request_template"]["backend_id"] == "goodvibes"
+    assert request_contract["sections"]["inputs"]["required"]
+    assert request_contract["sections"]["action_settings"]["required"]
+    assert request_contract["output_contract"]["primary_output"]
     assert action["automatic_fallback"] is False
 
     morphology = search_actions(
@@ -71,6 +79,10 @@ def test_action_search_and_inspection_return_exact_provider_contracts():
     assert "optimize_geometry" in {
         item["action_id"] for item in morphology["actions"]
     }
+
+    unresolved = inspect_action("optimize_geometry", snapshot=snapshot)
+    assert unresolved["selected_request_contract"] is None
+    assert "backend_id" in unresolved["request_contract_note"]
 
     backend = inspect_backend("goodvibes", snapshot=snapshot)
     assert "analyze_thermochemical_selectivity" in {

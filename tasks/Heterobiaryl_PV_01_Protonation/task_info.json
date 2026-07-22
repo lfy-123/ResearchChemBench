@@ -1,22 +1,22 @@
 {
   "task_id": "Heterobiaryl_PV_01_Protonation",
-  "source_id": "hidden_pv_heterobiaryl_mechanism_2018",
+  "source_id": "hidden_pv_heterobiaryl_mechanism_2018_autonomous_reproduction",
   "category": "mechanistic_quantum_chemistry",
-  "task": "Using only the supplied anonymous evidence, determine how successive N-protonation changes the activation free energy of pyridyl-pyridyl ligand coupling in neutral, singly protonated, and doubly protonated P(V) systems. Establish which records support the reactant and transition-state ensembles, keep all three states on a common thermochemical convention at 353.15 K and 1 M, quantify the barrier trend, and explain the structural or electronic origin. Distinguish values taken from supplied records from any independent recalculation, and state uncertainties or missing connectivity evidence. Do not identify or search for the source publication.",
+  "task": "Starting only from the supplied unoptimized neutral, singly protonated, and doubly protonated P(V) seeds, independently test how successive N-protonation changes the activation free energy of pyridyl-pyridyl ligand coupling. Formulate a resource-aware calculation plan, generate and validate the necessary reactant and transition-region evidence, and compare all states at 353.15 K and a 1 M solution standard state. Explain the structural or electronic origin of the trend. Every numerical claim must point to an artifact generated in this run; if a full pathway cannot be established, report the strongest computed bound and the missing validation instead of using a literature value. Do not identify or search for the source publication or any external answer.",
   "data": [
     {
-      "name": "Anonymous P(V) evidence package",
+      "name": "P(V) autonomous-computation inputs",
       "path": "data/benchmark_data",
       "type": "directory",
-      "description": "Anonymous candidate structures, paired computational records, starting conformers, experimental observations, manifests, and explicit data limitations."
+      "description": "Nine unoptimized molecular seeds, chemical-system metadata, experimental conditions, and paper-reported measurements. No completed calculation is included."
     }
   ],
   "archive_extractions": [
     {
-      "source": "computational_records.zip",
+      "source": "autonomous_inputs.zip",
       "destination": "benchmark_data",
       "format": "zip",
-      "sha256": "97fa402aec3fa9191d0352485c7c4a8c77415d47d7c917dcb1cc0548f04d495d"
+      "sha256": "74ab6cab8f8ca0a0b10dc3da2efb03840247d58a9c90fe83332a14622207ac2e"
     }
   ]
 }

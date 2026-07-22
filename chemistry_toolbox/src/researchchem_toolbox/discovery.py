@@ -153,6 +153,399 @@ def _provider_contract(
     return value
 
 
+def _field_type(field_name: str, *, section: str) -> dict[str, Any]:
+    """Return a compact machine-readable shape hint for progressive discovery.
+
+    The public Action dispatcher intentionally keeps three extensible mappings instead
+    of eagerly registering one large Pydantic model per Action.  These hints make the
+    selected Action/Backend contract explicit without loading every schema into the
+    initial model context or choosing any scientific value for the Agent.
+    """
+
+    structure_fields = {
+        "structure",
+        "initial_guess",
+        "reactant",
+        "product",
+        "ground_state",
+        "geometry",
+        "reference",
+    }
+    artifact_file_fields = {
+        "control_file",
+        "dos_file",
+        "lobster_output",
+        "output_file",
+        "profile_definition_file",
+        "second_order_force_constants_file",
+        "structure_file",
+        "third_order_force_constants_file",
+    }
+    mapping_fields = {
+        "calculator_action_settings",
+        "calculator_method",
+        "chemical_species_mapping",
+        "constraints",
+        "flexible_parameters",
+        "k_points",
+        "label_groups",
+        "molecule_counts",
+        "pair_parameters",
+        "pseudopotentials",
+    }
+    array_fields = {
+        "atom_indices",
+        "band_path",
+        "bin_edges",
+        "critical_point_types",
+        "fractions",
+        "integrated_bond_list",
+        "models",
+        "output_files",
+        "properties",
+        "q_mesh",
+        "q_path",
+        "scf_thresholds",
+        "selection",
+        "state_pair",
+        "temperatures_kelvin",
+    }
+    explicit_boolean_fields = {
+        "internal_coordinates",
+        "symmetry_correction",
+    }
+    explicit_integer_fields = {
+        "steps_per_diagonalization",
+    }
+    explicit_numeric_fields = {
+        "finite_difference_step",
+        "initial_trust_radius",
+        "minimum_bond_order",
+        "minimum_model_quality",
+        "step_length",
+        "threshold",
+        "trust_radius_angstrom",
+    }
+    boolean_prefixes = (
+        "add_",
+        "align",
+        "allow_",
+        "canonical_",
+        "center_",
+        "deduplicate_",
+        "enforce_",
+        "filter_",
+        "fix_",
+        "generate_",
+        "idealize",
+        "ignore_",
+        "include_",
+        "initialize_",
+        "keep_",
+        "largest_",
+        "match_",
+        "neutralize",
+        "only_",
+        "periodic",
+        "prealign_",
+        "project_",
+        "reflect",
+        "relax_",
+        "reorder_",
+        "replace_",
+        "require_",
+        "restart",
+        "simplified",
+        "soft_min",
+        "strict_",
+        "symmetry_correction",
+        "three_point_",
+        "unique",
+        "update_",
+        "use_",
+        "write_",
+    )
+    integer_tokens = (
+        "_count",
+        "_cycles",
+        "_interval",
+        "_iterations",
+        "_points",
+        "_steps",
+        "_stride",
+        "_bands",
+        "max_",
+        "num_",
+        "number_of_",
+        "random_seed",
+        "starting_atom_serial",
+        "starting_residue_number",
+    )
+    numeric_tokens = (
+        "_angstrom",
+        "_bar",
+        "_cm1",
+        "_degrees",
+        "_ev",
+        "_fraction",
+        "_fs",
+        "_hartree",
+        "_kelvin",
+        "_kj_mol_nm",
+        "_kcal_mol",
+        "_micrometer",
+        "_mol_l",
+        "_pa",
+        "_percent",
+        "_seconds",
+        "_threshold",
+        "_tolerance",
+        "_ry",
+    )
+
+    if field_name in structure_fields:
+        return {
+            "type": "AtomicStructure | ArtifactRef | workspace-relative structure path",
+            "accepted_forms": [
+                "full AtomicStructure mapping",
+                "full immutable ArtifactRef",
+                "compact {'artifact_id': 'art_...'}",
+                "exact artifact-id string",
+                "workspace-relative .xyz, .pdb, .sdf, .mol, or ASE-readable structure path",
+            ],
+        }
+    if field_name in artifact_file_fields or field_name.endswith("_file"):
+        return {
+            "type": "ArtifactRef | workspace-relative path",
+            "accepted_forms": [
+                "full immutable ArtifactRef",
+                "compact {'artifact_id': 'art_...'}",
+                "exact artifact-id string",
+                "workspace-relative input path when the selected adapter accepts files",
+            ],
+        }
+    if field_name == "energy":
+        return {"type": "EnergyResult | ArtifactRef"}
+    if field_name == "frequencies":
+        return {"type": "FrequencyResult | ArtifactRef"}
+    if field_name in mapping_fields:
+        return {"type": "object"}
+    if field_name in array_fields or field_name.endswith("_files"):
+        return {"type": "array"}
+    if field_name in explicit_boolean_fields or field_name.startswith(boolean_prefixes):
+        return {"type": "boolean"}
+    if field_name in explicit_integer_fields or field_name in {
+        "charge",
+        "multiplicity",
+        "spin",
+        "order",
+        "dimensions",
+    }:
+        return {"type": "integer"}
+    if any(token in field_name for token in integer_tokens):
+        return {"type": "integer"}
+    if field_name in {"frequency_scale_factor", "zpe_scale_factor"}:
+        return {"type": "number | documented symbolic value"}
+    if field_name in explicit_numeric_fields:
+        return {"type": "number"}
+    if any(field_name.endswith(token) for token in numeric_tokens):
+        return {"type": "number"}
+    if section == "inputs" and field_name.endswith("constants"):
+        return {"type": "array | ArtifactRef"}
+    return {"type": "string | documented structured value"}
+
+
+def _placeholder(field_name: str, *, section: str, choices: tuple[str, ...] = ()) -> Any:
+    if choices:
+        return f"<choose exactly one: {' | '.join(str(choice) for choice in choices)}>"
+    shape = _field_type(field_name, section=section)["type"]
+    if shape == "boolean":
+        return "<boolean>"
+    if shape == "integer":
+        return "<integer>"
+    if shape == "number":
+        return "<number>"
+    if shape == "object":
+        return {"<field>": "<value>"}
+    if shape == "array":
+        return ["<value>"]
+    if "AtomicStructure" in shape:
+        return "<AtomicStructure, artifact_id, or workspace-relative structure path>"
+    if "ArtifactRef" in shape:
+        return "<artifact_id or accepted workspace-relative path>"
+    return f"<{field_name}>"
+
+
+def _field_contracts(
+    fields: tuple[str, ...] | list[str],
+    *,
+    section: str,
+    required: bool,
+    choices: Mapping[str, tuple[str, ...]] | None = None,
+    reference: Mapping[str, str] | None = None,
+) -> list[dict[str, Any]]:
+    allowed = choices or {}
+    descriptions = reference or {}
+    return [
+        {
+            "name": field_name,
+            "required": required,
+            **_field_type(field_name, section=section),
+            **(
+                {"allowed_values": list(allowed[field_name])}
+                if field_name in allowed
+                else {}
+            ),
+            **(
+                {"description": descriptions[field_name]}
+                if field_name in descriptions
+                else {}
+            ),
+        }
+        for field_name in fields
+    ]
+
+
+def _action_request_contract(
+    specification: ActionSpec,
+    backend: BackendSpec,
+) -> dict[str, Any]:
+    backend_inputs = backend.required_input_fields.get(specification.id, ())
+    required_inputs = tuple(dict.fromkeys((*specification.required_inputs, *backend_inputs)))
+    optional_inputs = tuple(
+        field_name
+        for field_name in specification.optional_inputs
+        if field_name not in required_inputs
+    )
+    required_methods = backend.required_method_fields.get(specification.id, ())
+    required_settings = backend.required_setting_fields.get(specification.id, ())
+    method_choices = backend.allowed_method_values.get(specification.id, {})
+    setting_choices = backend.allowed_setting_values.get(specification.id, {})
+    optional_methods = tuple(
+        field_name
+        for field_name in dict.fromkeys((*backend.method_schema, *method_choices))
+        if field_name not in required_methods and "conditional" not in field_name
+    )
+    optional_settings = tuple(
+        field_name
+        for field_name in setting_choices
+        if field_name not in required_settings
+    )
+    conditional_rules = [
+        {"name": field_name, "rule": description}
+        for field_name, description in backend.method_schema.items()
+        if "conditional" in field_name or " requires " in f" {description.casefold()} "
+    ]
+
+    template: dict[str, Any] = {"action_id": specification.id}
+    if specification.selection_policy in {
+        "agent_backend_required",
+        "agent_components_required",
+    }:
+        template["backend_id"] = backend.id
+    elif specification.selection_policy == "agent_source_required":
+        template["source_id"] = backend.id
+    component_roles = backend.required_component_roles.get(specification.id, ())
+    if component_roles:
+        template["component_backends"] = {
+            role: f"<choose exactly one: {' | '.join(backend.component_backend_options[specification.id][role])}>"
+            for role in component_roles
+        }
+    template["inputs"] = {
+        field_name: _placeholder(field_name, section="inputs")
+        for field_name in required_inputs
+    }
+    template["method_spec"] = {
+        field_name: _placeholder(
+            field_name,
+            section="method_spec",
+            choices=method_choices.get(field_name, ()),
+        )
+        for field_name in required_methods
+    }
+    template["action_settings"] = {
+        field_name: _placeholder(
+            field_name,
+            section="action_settings",
+            choices=setting_choices.get(field_name, ()),
+        )
+        for field_name in required_settings
+    }
+    template["resource_limits"] = {
+        "walltime_seconds": 1800,
+        "memory_mb": 4096,
+        "cpu_cores": 1,
+        "gpu_count": 0,
+    }
+
+    return {
+        "template_kind": "fill_every_angle_bracket_before_execute_action",
+        "execute_action_request_template": template,
+        "sections": {
+            "inputs": {
+                "required": _field_contracts(
+                    required_inputs,
+                    section="inputs",
+                    required=True,
+                ),
+                "optional": _field_contracts(
+                    optional_inputs,
+                    section="inputs",
+                    required=False,
+                ),
+            },
+            "method_spec": {
+                "required": _field_contracts(
+                    required_methods,
+                    section="method_spec",
+                    required=True,
+                    choices=method_choices,
+                    reference=backend.method_schema,
+                ),
+                "optional_documented": _field_contracts(
+                    optional_methods,
+                    section="method_spec",
+                    required=False,
+                    choices=method_choices,
+                    reference=backend.method_schema,
+                ),
+            },
+            "action_settings": {
+                "required": _field_contracts(
+                    required_settings,
+                    section="action_settings",
+                    required=True,
+                    choices=setting_choices,
+                    reference=backend.method_schema,
+                ),
+                "optional_with_enumerated_values": _field_contracts(
+                    optional_settings,
+                    section="action_settings",
+                    required=False,
+                    choices=setting_choices,
+                    reference=backend.method_schema,
+                ),
+            },
+        },
+        "conditional_requirements": conditional_rules,
+        "output_contract": {
+            "primary_output": specification.primary_output,
+            "result_envelope": "ActionResult",
+            "artifact_handoff": (
+                "Use each returned output_artifacts ArtifactRef, compact artifact_id object, or "
+                "exact artifact-id string as the typed input to a later Action."
+            ),
+        },
+        "execution_checklist": [
+            "Replace every angle-bracket placeholder; placeholders are not defaults.",
+            "Preserve the exact selected action_id and backend_id/source_id.",
+            "Supply every required field in the section where it is listed.",
+            "Apply every conditional requirement triggered by an Agent-selected option.",
+            "Choose resource limits explicitly; the displayed numbers are mechanical examples, not scientific settings.",
+        ],
+    }
+
+
 def _selection_instruction(specification: ActionSpec) -> str:
     providers = ", ".join(specification.backend_ids)
     if specification.selection_policy == "fixed_source":
@@ -337,6 +730,11 @@ def inspect_action(
         )
         for item in selected
     ]
+    selected_request_contract = (
+        _action_request_contract(specification, backends[backend_id])
+        if backend_id is not None
+        else None
+    )
     return {
         "status": "success",
         "catalog_hash": current.get("catalog_hash"),
@@ -354,11 +752,18 @@ def inspect_action(
             "resource_limits",
         ],
         "provider_contracts": provider_contracts,
+        "selected_request_contract": selected_request_contract,
         "detail_note": (
             "Exact details for the requested provider are included."
             if backend_id is not None or len(selected) == 1
             else "Provider summaries are included. Call inspect_action again with backend_id for "
             "that provider's full parameter, health, runtime, and resource reference."
+        ),
+        "request_contract_note": (
+            "A complete fill-in request contract is included for the explicitly selected provider."
+            if selected_request_contract is not None
+            else "Select one provider and call inspect_action again with backend_id to obtain the "
+            "fill-in execute_action request contract."
         ),
         "automatic_fallback": False,
     }

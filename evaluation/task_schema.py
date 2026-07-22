@@ -68,6 +68,7 @@ class GroundTruth(BaseModel):
     critical_failures: list[str] = Field(default_factory=list)
     judge_instructions: str = ""
     reference_evidence: Any = None
+    managed_computation_policy: dict[str, Any] = Field(default_factory=dict)
 
     @model_validator(mode="after")
     def validate_scoring_definition(self) -> "GroundTruth":

@@ -38,7 +38,7 @@ Respond with one JSON object only: {"score": 0 or 1, "rationale": "brief explana
 
 RUBRIC_JUDGE_SYSTEM_PROMPT = """You are an expert evaluator of an autonomous computational-chemistry investigation.
 
-Score the submission against the supplied 100-point rubric. Evaluate scientific validity, evidence provenance, uncertainty handling, and the observable computation trace. Do not require exact tool names or a unique call order when an alternative process preserves the scientific dependencies. The benchmark has three valid execution layers: predefined Chemistry MCP Actions, native software/shell execution, and Agent-authored analysis code. A result supported by observable native commands, code, outputs, and submitted artifacts is not fabricated merely because an MCP call failed. Distinguish an agent mistake from an objective framework, unavailable-data, or backend failure. Never reward a paper value that appears without supporting evidence from the supplied data or an independently documented calculation.
+Score the submission against the supplied 100-point rubric. Evaluate scientific validity, evidence provenance, uncertainty handling, and the observable computation trace. Do not require exact tool names or a unique call order when an alternative process preserves the scientific dependencies. The benchmark has three managed scientific execution layers: predefined Chemistry MCP Actions, native software jobs submitted through Chemistry MCP, and Agent-authored analysis programs submitted through Chemistry MCP. Built-in shell and file tools may prepare inputs, inspect raw data, and write reports, but a task-specific managed-computation policy may forbid treating those built-ins alone as scientific execution. A result supported by observable managed commands, code, outputs, and submitted artifacts is not fabricated merely because one predefined Action failed. Distinguish an agent mistake from an objective framework, unavailable-data, or backend failure. Never reward a paper value that appears without supporting evidence from the supplied data or an independently documented calculation.
 
 Rules:
 - Award each criterion no more than its declared maximum and make criterion scores sum to the total score.
@@ -92,6 +92,9 @@ RUBRIC_JUDGE_USER_TEMPLATE = """## Scientific task
 
 ## Task-specific judge instructions
 {judge_instructions}
+
+## Managed scientific-computation policy
+{managed_computation_policy}
 
 ## Observable process metrics
 {process_metrics}
@@ -210,6 +213,58 @@ def _normalize_rubric_verdict(
     if unknown_ids:
         warnings.append(f"Ignored unknown judge criteria: {', '.join(unknown_ids)}.")
     return {"score": total, "criteria": normalized, "warnings": warnings}
+
+
+def _managed_computation_cap(
+    policy: dict[str, Any],
+    metrics: dict[str, Any],
+) -> tuple[float | None, str | None]:
+    """Return an objective score cap for tasks that require managed computation."""
+
+    if not policy or policy.get("required") is not True:
+        return None, None
+    attempts = int(metrics.get("managed_scientific_attempt_count", 0) or 0)
+    successes = int(metrics.get("successful_managed_scientific_calls", 0) or 0)
+    minimum = int(policy.get("minimum_successful_scientific_calls", 1) or 1)
+    if attempts == 0:
+        return float(policy.get("score_cap_without_managed_attempt", 20)), (
+            "No managed Chemistry MCP scientific execution was attempted."
+        )
+    if successes == 0:
+        return float(policy.get("score_cap_without_successful_managed_call", 40)), (
+            "Managed scientific execution was attempted, but no managed scientific call succeeded."
+        )
+    if successes < minimum:
+        return float(policy.get("score_cap_below_minimum_successes", 70)), (
+            f"Only {successes} managed scientific calls succeeded; the task requires at least "
+            f"{minimum} for uncapped process credit."
+        )
+    return None, None
+
+
+def _apply_rubric_score_cap(
+    score: float,
+    criteria: list[dict[str, Any]],
+    *,
+    cap: float | None,
+) -> tuple[float, list[dict[str, Any]]]:
+    if cap is None or score <= cap:
+        return score, criteria
+    if not criteria or score <= 0:
+        return round(cap, 2), criteria
+    scale = cap / score
+    adjusted = [
+        {**item, "score": round(float(item.get("score", 0)) * scale, 2)}
+        for item in criteria
+    ]
+    rounded_total = round(sum(float(item["score"]) for item in adjusted), 2)
+    difference = round(cap - rounded_total, 2)
+    if adjusted and difference:
+        adjusted[-1]["score"] = round(
+            max(0.0, min(float(adjusted[-1]["max_score"]), float(adjusted[-1]["score"]) + difference)),
+            2,
+        )
+    return round(cap, 2), adjusted
 
 
 def _default_judge_call(
@@ -417,6 +472,9 @@ def score_workspace(
                 truth.get("critical_failures", []), indent=2, ensure_ascii=False
             ),
             judge_instructions=truth.get("judge_instructions", ""),
+            managed_computation_policy=json.dumps(
+                truth.get("managed_computation_policy", {}), indent=2, ensure_ascii=False
+            ),
             process_metrics=json.dumps(metrics, indent=2, ensure_ascii=False),
             actual_tool_events=json.dumps(
                 _tool_events_for_judge(events), indent=2, ensure_ascii=False
@@ -461,11 +519,23 @@ def score_workspace(
             score = normalized_rubric["score"]
             criteria = normalized_rubric["criteria"]
             consistency_warnings = normalized_rubric["warnings"]
+            score_cap, score_cap_reason = _managed_computation_cap(
+                truth.get("managed_computation_policy", {}), metrics
+            )
+            score, criteria = _apply_rubric_score_cap(
+                float(score), criteria, cap=score_cap
+            )
+            if score_cap_reason and score_cap is not None:
+                consistency_warnings.append(
+                    f"Applied managed-computation score cap {score_cap:g}: {score_cap_reason}"
+                )
         else:
             raw_score = float(raw_verdict.get("score", 0))
             score = 1 if raw_score == 1 else 0
             criteria = []
             consistency_warnings = []
+            score_cap = None
+            score_cap_reason = None
         verdict = {
             "score": score,
             "score_max": score_max,
@@ -475,6 +545,8 @@ def score_workspace(
             "judge_consistency_warnings": consistency_warnings,
             "rationale": str(raw_verdict.get("rationale", "")),
             "parse_error": None,
+            "managed_computation_score_cap": score_cap,
+            "managed_computation_score_cap_reason": score_cap_reason,
         }
     except Exception as exc:
         verdict = {
@@ -486,6 +558,8 @@ def score_workspace(
             "judge_consistency_warnings": [],
             "rationale": f"Judge evaluation failed: {exc}",
             "parse_error": f"{type(exc).__name__}: {exc}",
+            "managed_computation_score_cap": None,
+            "managed_computation_score_cap_reason": None,
         }
 
     result = {
@@ -510,6 +584,11 @@ def score_workspace(
         "critical_failures": verdict["critical_failures"],
         "objective_issue_flags": verdict["objective_issue_flags"],
         "judge_consistency_warnings": verdict["judge_consistency_warnings"],
+        "managed_computation_policy": truth.get("managed_computation_policy", {}),
+        "managed_computation_score_cap": verdict["managed_computation_score_cap"],
+        "managed_computation_score_cap_reason": verdict[
+            "managed_computation_score_cap_reason"
+        ],
         "rationale": verdict["rationale"],
         "parse_error": verdict["parse_error"],
         "process_metrics": metrics,

@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""Build six leak-resistant P(V) heterobiaryl benchmark tasks from the user archive."""
+"""Build six P(V) benchmark tasks that require new, observable computation.
+
+The public package intentionally contains no completed quantum-chemistry output,
+optimized stationary point, energy, frequency, pathway label, or literature target.
+Author calculations remain under the hidden reference tree for scoring and audit.
+"""
 
 from __future__ import annotations
 
@@ -8,7 +13,9 @@ import csv
 import hashlib
 import io
 import json
+import math
 import os
+import random
 import re
 import stat
 import tempfile
@@ -22,8 +29,10 @@ TASKS_ROOT = PROJECT_ROOT / "tasks"
 SOURCE_ARCHIVE = TASKS_ROOT / "Heterobiaryl_PV_Benchmark.zip"
 SOURCE_ROOT = "Heterobiaryl_PV_Benchmark"
 SHARED_ROOT = TASKS_ROOT / "_heterobiaryl_pv_shared"
-PUBLIC_ARCHIVE = SHARED_ROOT / "public" / "computational_records.zip"
+PUBLIC_ARCHIVE = SHARED_ROOT / "public" / "autonomous_inputs.zip"
+LEGACY_PUBLIC_ARCHIVE = SHARED_ROOT / "public" / "computational_records.zip"
 REFERENCE_ROOT = SHARED_ROOT / "reference"
+REFERENCE_OUTPUT_ROOT = REFERENCE_ROOT / "author_computational_outputs"
 
 TASK_IDS = (
     "Heterobiaryl_PV_01_Protonation",
@@ -58,13 +67,26 @@ PUBLIC_LEAK_PATTERNS = tuple(
         r"hilton",
         r"aas8961",
         r"1439888",
-        r"TS_Int\d",
-        r"postTS",
-        r"preTS",
-        r"Pyrax",
-        r"Phrax",
+        r"TS[-_ ]?I",
+        r"Int[-_ ]?(?:II|III|IV)",
+        r"SCF Done",
+        r"FINAL SINGLE POINT ENERGY",
+        r"Frequencies\s*--",
+        r"thermal free energy",
+        r"Sum of electronic and thermal",
+        r"DLPNO-CCSD",
+        r"omegaB97",
+        r"def2-QZVPP",
+        r"imaginary frequenc",
     )
 )
+
+PUBLIC_ALLOWED_SUFFIXES = {".csv", ".json", ".md", ".xyz"}
+PUBLIC_SEED_IDS = {
+    "P0": ("P0_S001", "P0_S002", "P0_S003"),
+    "P1": ("P1_S001", "P1_S002", "P1_S003"),
+    "P2": ("P2_S001", "P2_S002", "P2_S003"),
+}
 
 
 def _json_bytes(value: object) -> bytes:
@@ -90,61 +112,6 @@ def _safe_outer_archive(path: Path) -> None:
                 raise ValueError(f"Unsafe source archive member: {info.filename!r}")
 
 
-def _repair_zip_name(name: str) -> str:
-    try:
-        return name.encode("cp437").decode("utf-8")
-    except (UnicodeEncodeError, UnicodeDecodeError):
-        return name
-
-
-def _nested_members(data: bytes) -> tuple[ZipFile, dict[str, str]]:
-    archive = ZipFile(io.BytesIO(data))
-    fixed_to_raw: dict[str, str] = {}
-    for raw in archive.namelist():
-        fixed_to_raw[_repair_zip_name(raw)] = raw
-    return archive, fixed_to_raw
-
-
-def _sanitize_output(text: str, candidate_id: str) -> str:
-    job_names = re.findall(r"(?m)^SLURM Job Name:\s*(.+?)\s*$", text)
-    for job_name in job_names:
-        text = text.replace(job_name, f"anonymous_{candidate_id}")
-    replacements = {
-        "jvalegre@colostate.edu": "anonymous_user",
-        "jvalegre": "anonymous_user",
-        "colostate.edu": "example.invalid",
-        "colostate": "anonymous_org",
-    }
-    for original, replacement in replacements.items():
-        text = re.sub(re.escape(original), replacement, text, flags=re.IGNORECASE)
-    text = re.sub(
-        r"(?i)(?:pre|post)?TS_Int\d[A-Za-z0-9_.+-]*",
-        f"anonymous_{candidate_id}",
-        text,
-    )
-    text = re.sub(
-        r"(?i)Int[123](?:_[A-Za-z0-9.+-]+)+",
-        f"anonymous_{candidate_id}",
-        text,
-    )
-    text = re.sub(
-        r"(?i)[A-Za-z0-9_.+-]*(?:Pyrax|Phrax)[A-Za-z0-9_.+-]*",
-        f"anonymous_{candidate_id}",
-        text,
-    )
-    text = re.sub(
-        r"(?m)^(Job Start Time|SLURM Job ID|SLURM Job Nodes):.*$",
-        lambda match: f"{match.group(1)}: redacted",
-        text,
-    )
-    for pattern in PUBLIC_LEAK_PATTERNS:
-        if pattern.search(text):
-            raise ValueError(
-                f"Sanitized record {candidate_id} still contains leak pattern {pattern.pattern!r}"
-            )
-    return text
-
-
 def _write_deterministic_zip(source: Path, destination: Path) -> None:
     destination.parent.mkdir(parents=True, exist_ok=True)
     temporary = destination.with_suffix(".tmp.zip")
@@ -154,13 +121,276 @@ def _write_deterministic_zip(source: Path, destination: Path) -> None:
             info = ZipInfo(relative, date_time=(1980, 1, 1, 0, 0, 0))
             info.compress_type = ZIP_DEFLATED
             info.external_attr = 0o100644 << 16
-            archive.writestr(info, path.read_bytes(), compress_type=ZIP_DEFLATED, compresslevel=6)
+            archive.writestr(
+                info,
+                path.read_bytes(),
+                compress_type=ZIP_DEFLATED,
+                compresslevel=6,
+            )
     temporary.replace(destination)
 
 
-def _verify_public_archive(path: Path) -> dict[str, object]:
-    """Verify public-record integrity, anonymity, and manifest completeness."""
+def _parse_xyz(data: bytes) -> tuple[list[str], list[list[float]]]:
+    lines = data.decode("utf-8").splitlines()
+    atom_count = int(lines[0].strip())
+    symbols: list[str] = []
+    coordinates: list[list[float]] = []
+    for line in lines[2 : 2 + atom_count]:
+        fields = line.split()
+        symbols.append(fields[0])
+        coordinates.append([float(value) for value in fields[1:4]])
+    if len(symbols) != atom_count:
+        raise ValueError("Incomplete XYZ structure")
+    return symbols, coordinates
 
+
+def _perturbed_seed_xyz(
+    source: bytes,
+    *,
+    public_id: str,
+    system: str,
+    charge: int,
+    multiplicity: int,
+) -> bytes:
+    """Create a deterministic non-stationary input geometry from a connectivity seed."""
+
+    symbols, coordinates = _parse_xyz(source)
+    rng = random.Random(int(hashlib.sha256(public_id.encode()).hexdigest()[:16], 16))
+    displacements = [
+        [rng.uniform(-0.14, 0.14) for _axis in range(3)] for _atom in symbols
+    ]
+    means = [sum(row[axis] for row in displacements) / len(displacements) for axis in range(3)]
+    perturbed = [
+        [
+            coordinate[axis] + displacement[axis] - means[axis]
+            for axis in range(3)
+        ]
+        for coordinate, displacement in zip(coordinates, displacements)
+    ]
+    lines = [
+        str(len(symbols)),
+        (
+            f"seed_id={public_id} system={system} charge={charge} "
+            f"multiplicity={multiplicity} geometry_status=generated_unoptimized_seed"
+        ),
+    ]
+    lines.extend(
+        f"{symbol:<2s} {row[0]: .10f} {row[1]: .10f} {row[2]: .10f}"
+        for symbol, row in zip(symbols, perturbed)
+    )
+    return ("\n".join(lines) + "\n").encode("utf-8")
+
+
+def _structure_index_metadata(data: bytes) -> dict[str, object]:
+    symbols, coordinates = _parse_xyz(data)
+    phosphorus = [index for index, symbol in enumerate(symbols) if symbol == "P"]
+    oxygen = [index for index, symbol in enumerate(symbols) if symbol == "O"]
+    nitrogen = [index for index, symbol in enumerate(symbols) if symbol == "N"]
+    if len(phosphorus) != 1:
+        raise ValueError("Expected exactly one phosphorus atom")
+    p_index = phosphorus[0]
+    p_coordinate = coordinates[p_index]
+    neighbours = []
+    for index, (symbol, coordinate) in enumerate(zip(symbols, coordinates)):
+        if index == p_index or symbol not in {"C", "N", "O"}:
+            continue
+        distance = math.dist(p_coordinate, coordinate)
+        cutoff = 2.25 if symbol in {"C", "N"} else 2.10
+        if distance <= cutoff:
+            neighbours.append(
+                {"atom_index": index, "element": symbol, "distance_angstrom": round(distance, 4)}
+            )
+    return {
+        "indexing": "zero_based",
+        "phosphorus_atom_index": p_index,
+        "oxygen_atom_indices": oxygen,
+        "nitrogen_atom_indices": nitrogen,
+        "initial_phosphorus_neighbours": neighbours,
+        "note": (
+            "Indices and initial distances describe only the supplied seed geometry. They are not "
+            "optimized values, stationary-point labels, bond orders, or pathway assignments."
+        ),
+    }
+
+
+def _clean_experimental_rows(outer: ZipFile) -> list[dict[str, str]]:
+    prefix = f"{SOURCE_ROOT}/01_agent_tasks_and_data/experimental_evidence"
+    text = outer.read(f"{prefix}/experimental_observations.csv").decode("utf-8")
+    rows = list(csv.DictReader(io.StringIO(text)))
+    cleaned = []
+    for row in rows:
+        # E03 is an author interpretation without an archived spectrum or numeric shift table.
+        # It remains in the hidden reference, not in the public measurement table.
+        if row.get("evidence_id") == "E03":
+            continue
+        cleaned.append(
+            {
+                "measurement_id": row.get("evidence_id", ""),
+                "category": row.get("category", ""),
+                "condition": row.get("system_or_condition", ""),
+                "reported_observation": row.get("observation", ""),
+                "reported_value": row.get("value", ""),
+                "unit": row.get("unit", ""),
+                "measurement_scope": "paper_reported_measurement_or_non_detection",
+            }
+        )
+    return cleaned
+
+
+def _build_public_archive(outer: ZipFile, destination: Path) -> dict[str, object]:
+    prefix = f"{SOURCE_ROOT}/01_agent_tasks_and_data/task_inputs"
+    starting_manifest = json.loads(
+        outer.read(f"{prefix}/starting_structure_manifest.json")
+    )
+    by_id = {item["starting_id"]: item for item in starting_manifest["structures"]}
+    missing = sorted(
+        seed_id
+        for values in PUBLIC_SEED_IDS.values()
+        for seed_id in values
+        if seed_id not in by_id
+    )
+    if missing:
+        raise FileNotFoundError(f"Missing selected seed structures: {missing}")
+    experimental_rows = _clean_experimental_rows(outer)
+
+    with tempfile.TemporaryDirectory(prefix="heterobiaryl_autonomous_inputs_") as temporary:
+        root = Path(temporary)
+        (root / "initial_structures").mkdir(parents=True)
+        (root / "experimental_measurements").mkdir(parents=True)
+        public_structures: list[dict[str, object]] = []
+
+        for system, source_ids in PUBLIC_SEED_IDS.items():
+            for offset, source_id in enumerate(source_ids, start=1):
+                source_record = by_id[source_id]
+                public_id = f"{system}_SEED_{offset:02d}"
+                source_path = f"{prefix}/{source_record['xyz_file']}"
+                seed_data = _perturbed_seed_xyz(
+                    outer.read(source_path),
+                    public_id=public_id,
+                    system=system,
+                    charge=int(source_record["charge"]),
+                    multiplicity=int(source_record["multiplicity"]),
+                )
+                target_relative = f"initial_structures/{system}/{public_id}.xyz"
+                target = root / target_relative
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_bytes(seed_data)
+                public_structures.append(
+                    {
+                        "seed_id": public_id,
+                        "system": system,
+                        "charge": int(source_record["charge"]),
+                        "multiplicity": int(source_record["multiplicity"]),
+                        "atom_count": int(source_record["atom_count"]),
+                        "xyz_file": target_relative,
+                        "xyz_sha256": _sha256_bytes(seed_data),
+                        "geometry_status": "generated_unoptimized_seed",
+                        "atom_index_metadata": _structure_index_metadata(seed_data),
+                    }
+                )
+
+        manifest = {
+            "schema_version": 2,
+            "description": (
+                "Nine deliberately perturbed, unoptimized molecular seeds: three for each "
+                "protonation state. They provide composition and starting coordinates only."
+            ),
+            "selection_rule": (
+                "The first three lexicographic source conformers in each protonation state were "
+                "selected before consulting energies or pathway labels, anonymized, and perturbed."
+            ),
+            "seed_count": len(public_structures),
+            "structures": public_structures,
+        }
+        (root / "initial_structure_manifest.json").write_bytes(_json_bytes(manifest))
+
+        system_definition = {
+            "system_family": "anonymous_pentacoordinate_PV_ligand_coupling_model",
+            "molecular_composition": (
+                "Each seed contains one pentacoordinate phosphorus center, two pyridyl-derived "
+                "ligands, two phenyl ligands, and one methoxy ligand."
+            ),
+            "protonation_states": {
+                "P0": {"charge": 0, "multiplicity": 1, "protonated_pyridyl_nitrogens": 0},
+                "P1": {"charge": 1, "multiplicity": 1, "protonated_pyridyl_nitrogens": 1},
+                "P2": {"charge": 2, "multiplicity": 1, "protonated_pyridyl_nitrogens": 2},
+            },
+            "scientific_hypotheses_to_test": [
+                "pyridyl-pyridyl carbon-carbon ligand coupling",
+                "phenyl-pyridyl carbon-carbon ligand coupling",
+                "competitive carbon-oxygen coupling",
+                "concerted versus stepwise and synchronous versus asynchronous bond reorganization",
+            ],
+            "experimental_conditions": {
+                "solvent": "ethanol",
+                "temperature_kelvin": 353.15,
+                "solution_standard_state_mol_l": 1.0,
+                "acidic_conditions": True,
+            },
+            "important_boundary": (
+                "The hypotheses are alternatives, not labels or conclusions. No preferred pathway, "
+                "stationary point, reaction coordinate, or numerical target is supplied."
+            ),
+        }
+        (root / "chemical_system.json").write_bytes(_json_bytes(system_definition))
+
+        fieldnames = list(experimental_rows[0])
+        buffer = io.StringIO()
+        writer = csv.DictWriter(buffer, fieldnames=fieldnames, lineterminator="\n")
+        writer.writeheader()
+        writer.writerows(experimental_rows)
+        (root / "experimental_measurements" / "measurements.csv").write_text(
+            buffer.getvalue(), encoding="utf-8"
+        )
+        (root / "experimental_measurements" / "measurements.json").write_bytes(
+            _json_bytes(
+                {
+                    "data_type": "paper-reported measurements and non-detections",
+                    "raw_instrument_files_available": False,
+                    "measurements": experimental_rows,
+                }
+            )
+        )
+
+        data_scope = {
+            "agent_visible": [
+                "nine generated unoptimized molecular seed geometries",
+                "charges, multiplicities, atom indices, and experimental conditions",
+                "paper-reported yields, relative rates, and qualitative non-detections",
+            ],
+            "intentionally_absent": [
+                "optimized geometries",
+                "transition-state guesses or stationary-point labels",
+                "electronic energies or free energies",
+                "frequency or Hessian results",
+                "reaction-coordinate trajectories",
+                "bond-order or population-analysis results",
+                "author input or output files",
+                "published barrier values, pathway rankings, and mechanism conclusions",
+            ],
+            "experimental_limitation": (
+                "The source package does not contain raw NMR FID, chromatograms, or time-resolved "
+                "kinetic traces. Public measurements are neutral paper-level reports, not raw files."
+            ),
+            "evaluation_intent": (
+                "Scientific conclusions must be supported by new computations and artifacts created "
+                "during the Agent run; reading the input package alone cannot establish them."
+            ),
+        }
+        (root / "data_scope.json").write_bytes(_json_bytes(data_scope))
+        (root / "README.md").write_text(
+            "# Autonomous P(V) computation input package\n\n"
+            "This package contains only experimental measurements, chemical-system metadata, and "
+            "deliberately unoptimized starting geometries. It contains no completed quantum-chemistry "
+            "calculation or reference answer. Inspect `data_scope.json` before planning calculations.\n",
+            encoding="utf-8",
+        )
+        _write_deterministic_zip(root, destination)
+
+    return _verify_public_archive(destination)
+
+
+def _verify_public_archive(path: Path) -> dict[str, object]:
     with ZipFile(path) as archive:
         infos = archive.infolist()
         names = [info.filename for info in infos]
@@ -169,6 +399,7 @@ def _verify_public_archive(path: Path) -> dict[str, object]:
         for info in infos:
             member = PurePosixPath(info.filename)
             mode = (info.external_attr >> 16) & 0o170000
+            suffix = member.suffix.casefold()
             if (
                 not info.filename
                 or member.is_absolute()
@@ -176,301 +407,57 @@ def _verify_public_archive(path: Path) -> dict[str, object]:
                 or "\\" in info.filename
                 or "\x00" in info.filename
                 or (mode and mode not in {stat.S_IFREG, stat.S_IFDIR})
+                or (not info.is_dir() and suffix not in PUBLIC_ALLOWED_SUFFIXES)
             ):
-                raise ValueError(f"Unsafe public archive member: {info.filename!r}")
-
-        candidate_manifest = json.loads(archive.read("candidate_manifest.json"))
-        starting_manifest = json.loads(
-            archive.read("starting_structure_manifest.json")
-        )
-        record_manifest = json.loads(archive.read("record_manifest.json"))
-        experimental = json.loads(
-            archive.read("experimental_evidence/experimental_observations.json")
-        )
-        candidates = candidate_manifest["candidates"]
-        starting_structures = starting_manifest["structures"]
-        records = record_manifest["records"]
-        if candidate_manifest["candidate_count"] != len(candidates) or len(candidates) != 66:
-            raise ValueError("Public candidate manifest is incomplete")
-        if (
-            starting_manifest["starting_structure_count"] != len(starting_structures)
-            or len(starting_structures) != 27
-        ):
-            raise ValueError("Public starting-structure manifest is incomplete")
-        if record_manifest["record_count"] != len(records) or len(records) != 66:
-            raise ValueError("Public computational-record manifest is incomplete")
-
-        for item in candidates:
-            data = archive.read(item["xyz_file"])
-            if _sha256_bytes(data) != item["xyz_sha256"]:
-                raise ValueError(f"Structure hash mismatch for {item['candidate_id']}")
-            if int(data.splitlines()[0]) != int(item["atom_count"]):
-                raise ValueError(f"Structure atom-count mismatch for {item['candidate_id']}")
-        for item in starting_structures:
-            data = archive.read(item["xyz_file"])
-            if _sha256_bytes(data) != item["xyz_sha256"]:
-                raise ValueError(f"Starting-structure hash mismatch for {item['starting_id']}")
-            if int(data.splitlines()[0]) != int(item["atom_count"]):
-                raise ValueError(
-                    f"Starting-structure atom-count mismatch for {item['starting_id']}"
-                )
-        record_fields = {
-            "frequency": "frequency_record",
-            "large_basis_single_point": "large_basis_single_point_record",
-            "correlated_single_point": "correlated_single_point_record",
-        }
-        for item in records:
-            for hash_key, path_key in record_fields.items():
-                data = archive.read(item[path_key])
-                if _sha256_bytes(data) != item["sha256"][hash_key]:
-                    raise ValueError(
-                        f"Computational-record hash mismatch for {item['candidate_id']} "
-                        f"({hash_key})"
-                    )
-
-        for info in infos:
-            if PurePosixPath(info.filename).suffix.casefold() not in {
-                ".csv", ".json", ".log", ".md", ".out", ".xyz",
-            }:
+                raise ValueError(f"Unsafe or forbidden public archive member: {info.filename!r}")
+            if any(part in {"records", "structures", "candidate_structures"} for part in member.parts):
+                raise ValueError(f"Completed-result directory leaked publicly: {info.filename!r}")
+            if info.is_dir():
                 continue
             text = archive.read(info).decode("utf-8", errors="replace")
             for pattern in PUBLIC_LEAK_PATTERNS:
                 if pattern.search(text):
                     raise ValueError(
-                        f"Public archive member {info.filename!r} contains leak pattern "
-                        f"{pattern.pattern!r}"
+                        f"Public archive member {info.filename!r} contains result leak "
+                        f"pattern {pattern.pattern!r}"
                     )
-        e03 = next(
-            item for item in experimental["observations"] if item["id"] == "E03"
-        )
-        if e03.get("source_location") != "main text citing Fig. S12":
-            raise ValueError("Corrected E03 source location was not preserved")
-        expected_entries = 3 * len(records) + len(candidates) + len(starting_structures) + 7
-        if len(infos) != expected_entries:
-            raise ValueError(
-                f"Public archive entry count mismatch: {len(infos)} != {expected_entries}"
-            )
-        return {
+
+        manifest = json.loads(archive.read("initial_structure_manifest.json"))
+        structures = manifest["structures"]
+        if manifest["seed_count"] != 9 or len(structures) != 9:
+            raise ValueError("Public seed manifest must contain exactly nine structures")
+        for item in structures:
+            data = archive.read(item["xyz_file"])
+            if _sha256_bytes(data) != item["xyz_sha256"]:
+                raise ValueError(f"Structure hash mismatch for {item['seed_id']}")
+            if b"generated_unoptimized_seed" not in data.splitlines()[1]:
+                raise ValueError(f"Seed status missing for {item['seed_id']}")
+        counts = Counter(item["system"] for item in structures)
+        if counts != Counter({"P0": 3, "P1": 3, "P2": 3}):
+            raise ValueError(f"Unexpected public seed balance: {counts}")
+
+        metadata = {
+            "archive_sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+            "archive_size_bytes": path.stat().st_size,
             "archive_entry_count": len(infos),
             "archive_uncompressed_bytes": sum(info.file_size for info in infos),
-            "record_file_count": len(records) * 3,
-            "starting_structure_count": len(starting_structures),
-            "anonymity_scan_passed": True,
+            "public_seed_count": len(structures),
+            "systems": dict(counts),
+            "completed_computational_output_count": 0,
+            "optimized_structure_count": 0,
+            "result_leak_scan_passed": True,
             "integrity_scan_passed": True,
         }
+        return metadata
 
 
-def _record_pair_names(frequency_entry: str) -> tuple[str, str]:
-    directory, filename = frequency_entry.rsplit("/", 1)
-    stem = Path(filename).stem
-    qz = f"{directory.replace(' freq', ' Def2QZVPP')}/{stem}_QZ.log"
-    dlpno = f"{directory.replace(' freq', ' DLPNO')}/{stem}_DLPNO.out"
-    return qz, dlpno
-
-
-def _build_public_archive(outer: ZipFile, destination: Path) -> dict[str, object]:
-    agent_prefix = f"{SOURCE_ROOT}/01_agent_tasks_and_data"
-    hidden_prefix = f"{SOURCE_ROOT}/02_hidden_reference_answers"
-    structure_manifest = json.loads(
-        outer.read(f"{agent_prefix}/task_inputs/structure_manifest.json")
-    )
-    starting_manifest = json.loads(
-        outer.read(f"{agent_prefix}/task_inputs/starting_structure_manifest.json")
-    )
-    private_mapping = json.loads(
-        outer.read(f"{hidden_prefix}/gold_answers/structure_private_mapping.json")
-    )["mapping"]
-    experimental_json = json.loads(
-        outer.read(f"{agent_prefix}/experimental_evidence/experimental_observations.json")
-    )
-    for observation in experimental_json["observations"]:
-        if observation["id"] == "E03":
-            observation["source_location"] = "main text citing Fig. S12"
-    experimental_csv = outer.read(
-        f"{agent_prefix}/experimental_evidence/experimental_observations.csv"
-    ).decode("utf-8")
-    rows = list(csv.DictReader(io.StringIO(experimental_csv)))
-    for row in rows:
-        if row["evidence_id"] == "E03":
-            row["source_location"] = "main text citing Fig. S12"
-    csv_buffer = io.StringIO()
-    writer = csv.DictWriter(csv_buffer, fieldnames=list(rows[0]))
-    writer.writeheader()
-    writer.writerows(rows)
-
-    archives = {
-        "P0": "Int-I_unprotonated.zip",
-        "P1": "Int-I_H_plus.zip",
-        "P2": "Int-I_2H_2plus.zip",
-    }
-    nested: dict[str, tuple[ZipFile, dict[str, str]]] = {}
-    for system, filename in archives.items():
-        nested[system] = _nested_members(
-            outer.read(f"{hidden_prefix}/zenodo_outputs/{filename}")
-        )
-
-    record_manifest: list[dict[str, object]] = []
-    mapping_by_id = {item["candidate_id"]: item for item in private_mapping}
-    with tempfile.TemporaryDirectory(prefix="heterobiaryl_public_") as temporary:
-        root = Path(temporary)
-        (root / "records").mkdir()
-        (root / "structures").mkdir()
-        (root / "starting_structures").mkdir()
-        (root / "experimental_evidence").mkdir()
-
-        for record in structure_manifest["candidates"]:
-            source = f"{agent_prefix}/task_inputs/{record['xyz_file']}"
-            target = root / "structures" / record["system"] / f"{record['candidate_id']}.xyz"
-            target.parent.mkdir(parents=True, exist_ok=True)
-            target.write_bytes(outer.read(source))
-        for record in starting_manifest["structures"]:
-            source = f"{agent_prefix}/task_inputs/{record['xyz_file']}"
-            target = root / "starting_structures" / record["system"] / f"{record['starting_id']}.xyz"
-            target.parent.mkdir(parents=True, exist_ok=True)
-            target.write_bytes(outer.read(source))
-
-        for public_record in structure_manifest["candidates"]:
-            candidate_id = public_record["candidate_id"]
-            private = mapping_by_id[candidate_id]
-            frequency_name = private["original_entry"]
-            qz_name, dlpno_name = _record_pair_names(frequency_name)
-            archive, fixed_to_raw = nested[public_record["system"]]
-            missing = [
-                name
-                for name in (frequency_name, qz_name, dlpno_name)
-                if name not in fixed_to_raw
-            ]
-            if missing:
-                raise FileNotFoundError(f"Missing records for {candidate_id}: {missing}")
-            record_dir = root / "records" / public_record["system"]
-            record_dir.mkdir(parents=True, exist_ok=True)
-            output_paths = {
-                "frequency": record_dir / f"{candidate_id}.log",
-                "large_basis_single_point": record_dir / f"{candidate_id}_QZ.log",
-                "correlated_single_point": record_dir / f"{candidate_id}_DLPNO.out",
-            }
-            source_names = {
-                "frequency": frequency_name,
-                "large_basis_single_point": qz_name,
-                "correlated_single_point": dlpno_name,
-            }
-            hashes: dict[str, str] = {}
-            for kind, output_path in output_paths.items():
-                raw = archive.read(fixed_to_raw[source_names[kind]])
-                sanitized = _sanitize_output(
-                    raw.decode("utf-8", errors="replace"), candidate_id
-                ).encode("utf-8")
-                output_path.write_bytes(sanitized)
-                hashes[kind] = _sha256_bytes(sanitized)
-            record_manifest.append(
-                {
-                    "candidate_id": candidate_id,
-                    "system": public_record["system"],
-                    "charge": public_record["charge"],
-                    "multiplicity": public_record["multiplicity"],
-                    "atom_count": public_record["atom_count"],
-                    "structure_file": f"structures/{public_record['system']}/{candidate_id}.xyz",
-                    "frequency_record": f"records/{public_record['system']}/{candidate_id}.log",
-                    "large_basis_single_point_record": f"records/{public_record['system']}/{candidate_id}_QZ.log",
-                    "correlated_single_point_record": f"records/{public_record['system']}/{candidate_id}_DLPNO.out",
-                    "sha256": hashes,
-                }
-            )
-
-        public_structure_manifest = {
-            **structure_manifest,
-            "description": (
-                "Anonymous candidate geometries grouped only by protonation state. "
-                "Mechanistic roles, pathway labels, energies, and frequencies are withheld "
-                "from this manifest and must be inferred from the supplied evidence."
-            ),
-            "candidates": [
-                {
-                    **record,
-                    "xyz_file": f"structures/{record['system']}/{record['candidate_id']}.xyz",
-                }
-                for record in structure_manifest["candidates"]
-            ],
-        }
-        public_starting_manifest = {
-            **starting_manifest,
-            "structures": [
-                {
-                    **record,
-                    "xyz_file": f"starting_structures/{record['system']}/{record['starting_id']}.xyz",
-                }
-                for record in starting_manifest["structures"]
-            ],
-        }
-        (root / "candidate_manifest.json").write_bytes(
-            _json_bytes(public_structure_manifest)
-        )
-        (root / "starting_structure_manifest.json").write_bytes(
-            _json_bytes(public_starting_manifest)
-        )
-        (root / "record_manifest.json").write_bytes(
-            _json_bytes(
-                {
-                    "record_count": len(record_manifest),
-                    "record_types_per_candidate": 3,
-                    "records": record_manifest,
-                }
-            )
-        )
-        (root / "experimental_evidence" / "experimental_observations.json").write_bytes(
-            _json_bytes(experimental_json)
-        )
-        (root / "experimental_evidence" / "experimental_observations.csv").write_text(
-            csv_buffer.getvalue(), encoding="utf-8"
-        )
-        limitations = {
-            "experimental_data_scope": (
-                "The experimental table contains paper-level observations, not raw NMR FID, "
-                "chromatograms, or time-resolved kinetic measurements."
-            ),
-            "computational_data_scope": (
-                "The archive contains optimized geometry/frequency records and two single-point "
-                "energy layers for 66 anonymous candidates."
-            ),
-            "not_archived": [
-                "intrinsic reaction-coordinate trajectories",
-                "bond-order or lone-pair trajectories",
-                "an explicit competitive C-O transition-state record",
-            ],
-            "interpretation_rule": (
-                "Absence of a record is not evidence that a pathway or intermediate does not exist."
-            ),
-        }
-        (root / "data_limitations.json").write_bytes(_json_bytes(limitations))
-        (root / "README.md").write_text(
-            "# Anonymous P(V) coupling evidence package\n\n"
-            "This directory contains 66 candidate structures, paired computational records, "
-            "27 reactant-side starting conformers, and paper-level experimental observations. "
-            "Candidate roles and pathway identities are intentionally withheld. The records are "
-            "evidence to be audited rather than labels to be trusted. See `data_limitations.json` "
-            "before drawing conclusions from missing files.\n",
-            encoding="utf-8",
-        )
-        _write_deterministic_zip(root, destination)
-
-    for archive, _mapping in nested.values():
-        archive.close()
-    systems = Counter(item["system"] for item in record_manifest)
-    verification = _verify_public_archive(destination)
-    return {
-        "archive_sha256": hashlib.sha256(destination.read_bytes()).hexdigest(),
-        "archive_size_bytes": destination.stat().st_size,
-        "uncompressed_candidate_count": len(record_manifest),
-        "systems": dict(systems),
-        **verification,
-    }
-
-
-def _extract_references(outer: ZipFile, source_sha256: str, public_meta: dict[str, object]) -> None:
+def _extract_references(
+    outer: ZipFile,
+    source_sha256: str,
+    public_meta: dict[str, object],
+) -> dict[str, object]:
     REFERENCE_ROOT.mkdir(parents=True, exist_ok=True)
-    selected_prefixes = (
-        f"{SOURCE_ROOT}/02_hidden_reference_answers/gold_answers/",
-    )
+    selected_prefixes = (f"{SOURCE_ROOT}/02_hidden_reference_answers/gold_answers/",)
     selected_files = {
         f"{SOURCE_ROOT}/02_hidden_reference_answers/paper/Heterobiaryl_synthesis_by_contractive_CC_coupling_via_PV_intermediates.pdf": "paper.pdf",
         f"{SOURCE_ROOT}/02_hidden_reference_answers/sources/Figure_2.jpg": "Figure_2.jpg",
@@ -487,85 +474,79 @@ def _extract_references(outer: ZipFile, source_sha256: str, public_meta: dict[st
             continue
         if name.endswith("/") or name.startswith("__MACOSX"):
             continue
-        relative = Path(name).relative_to(
-            f"{SOURCE_ROOT}/02_hidden_reference_answers"
-        )
+        relative = Path(name).relative_to(f"{SOURCE_ROOT}/02_hidden_reference_answers")
         target = REFERENCE_ROOT / relative
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_bytes(_normalized_reference_bytes(name, outer.read(name)))
 
+    REFERENCE_OUTPUT_ROOT.mkdir(parents=True, exist_ok=True)
+    output_manifest = []
+    for filename in (
+        "Int-I_unprotonated.zip",
+        "Int-I_H_plus.zip",
+        "Int-I_2H_2plus.zip",
+    ):
+        source = f"{SOURCE_ROOT}/02_hidden_reference_answers/zenodo_outputs/{filename}"
+        data = outer.read(source)
+        target = REFERENCE_OUTPUT_ROOT / filename
+        target.write_bytes(data)
+        output_manifest.append(
+            {
+                "file": target.relative_to(REFERENCE_ROOT).as_posix(),
+                "sha256": _sha256_bytes(data),
+                "size_bytes": len(data),
+                "agent_visible": False,
+            }
+        )
+    (REFERENCE_OUTPUT_ROOT / "manifest.json").write_bytes(
+        _json_bytes(
+            {
+                "description": (
+                    "Hidden author computational archives used only for scoring, reference "
+                    "comparison, and post-run audit. They are never copied to an Agent workspace."
+                ),
+                "archives": output_manifest,
+            }
+        )
+    )
+
     recomputed = {
-        "conditions": {
-            "temperature_K": 353.15,
-            "standard_state_M": 1.0,
-            "solvent": "ethanol",
-        },
-        "thermochemistry_protocol": {
-            "entropy_model": "Grimme mRRHO",
-            "entropy_frequency_cutoff_cm-1": 100.0,
-            "free_rotor_inertia_model": "global",
-            "enthalpy_model": "RRHO",
-            "frequency_scale_factor": 1.0,
-            "zpe_scale_factor": 1.0,
-            "imaginary_frequency_policy": "invert modes between -5 and 0 cm-1 only",
-            "symmetry_correction": False,
-            "single_point_correction": "author archived correlated single-point energies",
-            "software_version": "GoodVibes 4.3.0",
-        },
-        "common_reactant_ensemble_reference": True,
+        "conditions": {"temperature_K": 353.15, "standard_state_M": 1.0, "solvent": "ethanol"},
         "profiles_kcal_mol": {
-            "P0": {
-                "BiPy_dG_dagger": 30.91,
-                "PhPy_dG_dagger": 37.32,
-                "delta_delta_G_dagger": 6.41,
-                "BiPy_dG_reaction": -32.38,
-                "PhPy_dG_reaction": -32.54,
-            },
-            "P1": {
-                "BiPy_dG_dagger": 19.81,
-                "PhPy_dG_dagger": 26.86,
-                "delta_delta_G_dagger": 7.05,
-                "BiPy_dG_reaction": -30.53,
-                "PhPy_dG_reaction": -28.51,
-            },
-            "P2": {
-                "BiPy_dG_dagger": 14.30,
-                "PhPy_dG_dagger": 25.57,
-                "delta_delta_G_dagger": 11.27,
-                "BiPy_dG_reaction": -31.35,
-                "PhPy_dG_reaction": -31.85,
-            },
+            "P0": {"BiPy_dG_dagger": 30.91, "PhPy_dG_dagger": 37.32, "delta_delta_G_dagger": 6.41, "BiPy_dG_reaction": -32.38, "PhPy_dG_reaction": -32.54},
+            "P1": {"BiPy_dG_dagger": 19.81, "PhPy_dG_dagger": 26.86, "delta_delta_G_dagger": 7.05, "BiPy_dG_reaction": -30.53, "PhPy_dG_reaction": -28.51},
+            "P2": {"BiPy_dG_dagger": 14.30, "PhPy_dG_dagger": 25.57, "delta_delta_G_dagger": 11.27, "BiPy_dG_reaction": -31.35, "PhPy_dG_reaction": -31.85},
         },
         "interpretation": (
-            "Barrier trends reproduce the published ordering and rounded barriers. Reaction "
-            "free energies differ materially from the published integers and must be scored as "
-            "a separate, provenance-bearing recomputation rather than an exact replacement."
+            "These are hidden high-level comparison values, not mandatory outputs for a lower-cost "
+            "independent run. Method-dependent deviations are acceptable when provenance is complete."
         ),
     }
     (REFERENCE_ROOT / "recomputed_reference_353K_1M.json").write_bytes(
         _json_bytes(recomputed)
     )
-    audit = f"""# Heterobiaryl P(V) benchmark curation audit
+    audit = f"""# Heterobiaryl P(V) autonomous-computation curation audit
 
 - Source archive SHA-256: `{source_sha256}`
-- Public anonymous archive SHA-256: `{public_meta['archive_sha256']}`
-- Public archive size: {public_meta['archive_size_bytes']} bytes
-- Public archive entries: {public_meta['archive_entry_count']} ({public_meta['archive_uncompressed_bytes']} uncompressed bytes)
-- Computational record files: {public_meta['record_file_count']}
-- Starting structures: {public_meta['starting_structure_count']}
-- Candidate systems: {public_meta['systems']}
-- Integrity and anonymity scans: passed
+- Agent-visible archive SHA-256: `{public_meta['archive_sha256']}`
+- Agent-visible archive size: {public_meta['archive_size_bytes']} bytes
+- Public unoptimized seeds: {public_meta['public_seed_count']}
+- Public completed computational outputs: **0**
+- Public optimized stationary-point structures: **0**
+- Hidden author output archives: {len(output_manifest)}
+- Integrity and result-leak scans: passed
 
-## Corrections and fairness decisions
+## Fairness decisions
 
-1. The protonation NMR observation points to Fig. S12 in the paper text; the supplied task package incorrectly cited Figs. S17-S18. The public evidence table is corrected.
-2. All explicit Action/backend/software recommendations were removed from tested task prompts.
-3. The author archive contains 66 frequency records, 66 large-basis single-point records, and 66 correlated single-point records, but no archived IRC trajectory, population trajectory, or explicit C-O transition-state record.
-4. The correlated single-point records took roughly 5-8 wall-clock hours each in the author archive. Requiring all 66 to be recomputed inside a normal Agent evaluation would test budget rather than scientific orchestration. The anonymous records are therefore supplied as auditable input, while independent recalculation remains available to the Agent.
-5. Published rounded free energies and the 353.15 K, 1 M GoodVibes 4.3 recomputation are stored separately.
-6. The five subtasks and end-to-end task use rubric scoring. No exact tool name or unique invocation order is part of the public question or hidden scoring requirement.
+1. All completed Gaussian/ORCA-style outputs, optimized candidate structures, frequencies, energies, labels, and pathway rankings are hidden reference assets.
+2. The public geometry seeds are deterministic perturbations, not author stationary points. Their IDs contain no pathway role.
+3. The source package has no raw NMR FID, chromatograms, or time-resolved kinetic traces. Only neutral paper-reported measurements are public; the interpretive dual-protonation statement without raw numeric shifts is hidden.
+4. Tasks require newly generated calculation artifacts. Reading inputs or writing a plausible narrative cannot earn the computation/orchestration score.
+5. Exact software, predefined Actions, method, and invocation order are never named in a tested task prompt. All three managed toolbox layers remain valid.
+6. Hidden high-level literature values are comparison targets, not mandatory equality constraints for resource-aware independent calculations.
 """
     (REFERENCE_ROOT / "CURATION_AUDIT.md").write_text(audit, encoding="utf-8")
+    return {"hidden_output_archives": output_manifest}
 
 
 def _rubric(*rows: tuple[str, int, str]) -> list[dict[str, object]]:
@@ -580,7 +561,7 @@ def _rubric(*rows: tuple[str, int, str]) -> list[dict[str, object]]:
 def _task_definitions(archive_sha256: str) -> dict[str, tuple[dict, dict]]:
     common_archive = [
         {
-            "source": "computational_records.zip",
+            "source": "autonomous_inputs.zip",
             "destination": "benchmark_data",
             "format": "zip",
             "sha256": archive_sha256,
@@ -588,37 +569,77 @@ def _task_definitions(archive_sha256: str) -> dict[str, tuple[dict, dict]]:
     ]
     common_data = [
         {
-            "name": "Anonymous P(V) evidence package",
+            "name": "P(V) autonomous-computation inputs",
             "path": "data/benchmark_data",
             "type": "directory",
             "description": (
-                "Anonymous candidate structures, paired computational records, starting "
-                "conformers, experimental observations, manifests, and explicit data limitations."
+                "Nine unoptimized molecular seeds, chemical-system metadata, experimental "
+                "conditions, and paper-reported measurements. No completed calculation is included."
             ),
         }
     ]
-    published = {
-        "P0": {"BiPy": 30, "PhPy": 37, "BiPy_reaction": -39, "PhPy_reaction": -38},
-        "P1": {"BiPy": 20, "PhPy": 27, "BiPy_reaction": -37, "PhPy_reaction": -37},
-        "P2": {"BiPy": 14, "PhPy": 25, "BiPy_reaction": -38, "PhPy_reaction": -41},
-    }
-    recomputed = {
-        "P0": {"BiPy": 30.91, "PhPy": 37.32, "delta_delta": 6.41, "BiPy_reaction": -32.38, "PhPy_reaction": -32.54},
-        "P1": {"BiPy": 19.81, "PhPy": 26.86, "delta_delta": 7.05, "BiPy_reaction": -30.53, "PhPy_reaction": -28.51},
-        "P2": {"BiPy": 14.30, "PhPy": 25.57, "delta_delta": 11.27, "BiPy_reaction": -31.35, "PhPy_reaction": -31.85},
-    }
-
     prompts = {
-        TASK_IDS[0]: """Using only the supplied anonymous evidence, determine how successive N-protonation changes the activation free energy of pyridyl-pyridyl ligand coupling in neutral, singly protonated, and doubly protonated P(V) systems. Establish which records support the reactant and transition-state ensembles, keep all three states on a common thermochemical convention at 353.15 K and 1 M, quantify the barrier trend, and explain the structural or electronic origin. Distinguish values taken from supplied records from any independent recalculation, and state uncertainties or missing connectivity evidence. Do not identify or search for the source publication.""",
-        TASK_IDS[1]: """Using only the supplied anonymous evidence, determine whether pyridyl-pyridyl coupling is preferred over phenyl-pyridyl coupling for kinetic or thermodynamic reasons in each protonation state. Assign defensible reactant, transition-state, and product ensembles; compare activation and reaction free energies under a common 353.15 K, 1 M convention; report path rankings and confidence; and explain any difference between published-style rounded values and your own reprocessing. Do not identify or search for the source publication.""",
-        TASK_IDS[2]: """For the doubly protonated P(V) system, assess whether pyridyl-pyridyl C-C coupling or competitive C-O coupling should dominate under the reported acidic ethanol conditions. Use the supplied evidence without treating an absent archived record as proof that a pathway is absent. Quantify every barrier that is actually supported, investigate the missing competitor as far as the available data and resources permit, predict the dominant and minor products, and clearly separate calculated evidence, experimental constraints, and unresolved uncertainty. Do not identify or search for the source publication.""",
-        TASK_IDS[3]: """Determine whether the key P(V) ligand-coupling event is concerted, stepwise, synchronous, or asynchronous. Reconstruct the most defensible stationary-point sequence from the anonymous records, analyze the forming C-C bond and relevant P-C bonds along the reaction coordinate, determine whether a dearomatized intermediate is required, and assess whether oxygen lone-pair participation is supported. Every mechanistic claim must be tied to direct structural, vibrational, connectivity, or electronic evidence, with missing trajectory evidence stated explicitly. Do not identify or search for the source publication.""",
-        TASK_IDS[4]: """Integrate the supplied experimental observations with the anonymous computational evidence to determine the rate-determining step under the reported acidic ethanol conditions. Quantify the substituent-rate trend, reconcile it with the accessible ligand-coupling barriers and the ethoxide experiment, and distinguish the rate-determining, selectivity-determining, and strongly irreversible stages. Explain the non-observation of a P(V) intermediate without treating non-detection as proof of absence, and retain plausible alternatives. Do not identify or search for the source publication.""",
-        TASK_IDS[5]: """Develop a reproducible mechanistic and energetic account of the P(V)-mediated heterobiaryl-forming reaction represented by the anonymous structures, computational records, and experimental observations. Starting from the evidence rather than a predetermined workflow, formulate and test competing explanations for protonation effects, product selectivity, elementary bond reorganization, and observed kinetics. Produce a coherent final mechanism that distinguishes established facts, computed results, inference, failed or inconclusive analyses, and remaining uncertainty. Do not identify or search for the source publication.""",
+        TASK_IDS[0]: (
+            "Starting only from the supplied unoptimized neutral, singly protonated, and doubly "
+            "protonated P(V) seeds, independently test how successive N-protonation changes the "
+            "activation free energy of pyridyl-pyridyl ligand coupling. Formulate a resource-aware "
+            "calculation plan, generate and validate the necessary reactant and transition-region "
+            "evidence, and compare all states at 353.15 K and a 1 M solution standard state. Explain "
+            "the structural or electronic origin of the trend. Every numerical claim must point to "
+            "an artifact generated in this run; if a full pathway cannot be established, report the "
+            "strongest computed bound and the missing validation instead of using a literature value."
+        ),
+        TASK_IDS[1]: (
+            "Starting from the supplied unoptimized P(V) seeds, independently determine whether "
+            "pyridyl-pyridyl coupling is preferred over phenyl-pyridyl coupling for kinetic or "
+            "thermodynamic reasons in each protonation state. Construct and test competing pathways, "
+            "validate any claimed stationary points, and compare activation and reaction free energies "
+            "under one 353.15 K, 1 M convention. Use a staged calculation strategy appropriate to the "
+            "available resources. Do not substitute remembered or published values for calculations "
+            "performed during this run."
+        ),
+        TASK_IDS[2]: (
+            "For the doubly protonated P(V) system, independently compare pyridyl-pyridyl carbon-carbon "
+            "coupling with competitive carbon-oxygen coupling under the supplied acidic ethanol "
+            "conditions. Generate the needed pathway candidates from the unoptimized seeds, obtain "
+            "comparable energetic evidence, and predict dominant and minor products. Separate newly "
+            "calculated results, experimental constraints, failed searches, and unresolved uncertainty. "
+            "No precise barrier may be reported unless it is supported by an artifact created in this run."
+        ),
+        TASK_IDS[3]: (
+            "Use new calculations beginning from the supplied unoptimized P(V) seeds to determine "
+            "whether the key pyridyl-pyridyl ligand-coupling event is concerted or stepwise and "
+            "synchronous or asynchronous. Establish the most defensible stationary-point sequence, "
+            "test transition-state connectivity, follow the forming carbon-carbon bond and relevant "
+            "phosphorus-carbon bonds, and assess whether a dearomatized intermediate and oxygen "
+            "participation are supported. Tie every mechanistic claim to a newly generated structural, "
+            "vibrational, reaction-path, or electronic artifact."
+        ),
+        TASK_IDS[4]: (
+            "Integrate the supplied experimental measurements with new calculations on the P(V) seeds "
+            "to determine the most likely rate-determining step under acidic ethanol conditions. "
+            "Quantify the substituent-rate trend, independently test whether ligand coupling is fast "
+            "enough to be downstream of rate control, and distinguish the rate-determining, "
+            "selectivity-determining, and strongly irreversible stages. Treat non-detection cautiously "
+            "and retain falsifiable alternatives. A narrative based only on the measurement table is "
+            "insufficient; support the mechanistic assignment with computation generated in this run."
+        ),
+        TASK_IDS[5]: (
+            "Develop an end-to-end, reproducible mechanistic and energetic account of the anonymous "
+            "P(V)-mediated heterobiaryl-forming reaction using only the supplied unoptimized seeds and "
+            "experimental measurements. Formulate and test competing explanations for protonation "
+            "effects, carbon-carbon selectivity, carbon-oxygen competition, elementary bond "
+            "reorganization, and observed kinetics. Choose a resource-aware sequence of calculations, "
+            "retain failed or inconclusive branches, and produce a final mechanism that clearly "
+            "separates measurements, newly computed results, inference, and uncertainty. Values or "
+            "mechanistic claims without artifacts generated during this run do not count as evidence."
+        ),
     }
-
-    definitions: dict[str, tuple[dict, dict]] = {}
-    source_id = "hidden_pv_heterobiaryl_mechanism_2018"
+    prompts = {
+        task_id: prompt
+        + " Do not identify or search for the source publication or any external answer."
+        for task_id, prompt in prompts.items()
+    }
     categories = (
         "mechanistic_quantum_chemistry",
         "mechanistic_quantum_chemistry",
@@ -629,107 +650,94 @@ def _task_definitions(archive_sha256: str) -> dict[str, tuple[dict, dict]]:
     )
     rubrics = {
         TASK_IDS[0]: _rubric(
-            ("input_and_ensemble_assignment", 20, "Correctly separates P0/P1/P2 and identifies defensible common reactant and pyridyl-pyridyl transition-state ensembles without relying on hidden labels."),
-            ("stationary_point_evidence", 15, "Uses vibrational and, where available, connectivity evidence; unsupported transition-state claims are qualified."),
-            ("thermochemical_consistency", 20, "Uses a common energy layer, 353.15 K, 1 M convention, units, conformer treatment, and complete provenance."),
-            ("quantitative_barrier_trend", 25, "Recovers the approximately 31/20/14 kcal mol-1 recomputed trend or the published 30/20/14 trend with a justified distinction between them."),
-            ("mechanistic_explanation", 15, "Explains protonation through acceptor electrophilicity and weakening/polarization of the migrating apical P-C bond."),
-            ("uncertainty", 5, "States numerical, conformational, version, solvation, and missing-connectivity limitations."),
+            ("autonomous_plan", 10, "Builds a resource-aware plan from the public seeds without assuming hidden stationary-point labels."),
+            ("new_state_calculations", 20, "Creates traceable optimized/energetic evidence for P0, P1, and P2 rather than reading precomputed values."),
+            ("transition_state_validation", 25, "Searches for and validates relevant transition regions with vibrational and connectivity evidence, or reports a rigorous computed bound."),
+            ("thermochemical_consistency", 15, "Uses one documented method and 353.15 K, 1 M convention with units and comparable references."),
+            ("protonation_trend", 20, "Obtains and explains a protonation-dependent barrier trend consistent in sign and scale with the hidden reference, allowing method-dependent deviations."),
+            ("provenance_and_uncertainty", 10, "Links claims to new artifacts and records failed calculations and limitations."),
         ),
         TASK_IDS[1]: _rubric(
-            ("path_and_ensemble_assignment", 20, "Distinguishes pyridyl-pyridyl and phenyl-pyridyl reactant, transition-state, and product evidence across P0/P1/P2."),
-            ("stationary_point_and_provenance", 15, "Uses defensible stationary-point evidence and records methods, units, standard state, and conformer treatment."),
-            ("activation_selectivity", 25, "Finds positive PhPy-BiPy barrier gaps near 6.4, 7.1, and 11.3 kcal mol-1, consistent with published 7/7/11 ordering."),
-            ("reaction_thermodynamics", 15, "Recognizes both products are strongly exergonic and that recomputed reaction free energies need not equal published rounded values."),
-            ("kinetic_vs_thermodynamic_conclusion", 20, "Correctly attributes selectivity primarily to transition-state kinetics rather than product thermodynamics."),
-            ("uncertainty", 5, "Explains method/version and pathway-assignment uncertainty."),
+            ("competing_path_construction", 15, "Independently constructs both pyridyl-pyridyl and phenyl-pyridyl hypotheses across protonation states."),
+            ("new_computational_evidence", 25, "Runs traceable calculations on both pathway families instead of relying on supplied or remembered energies."),
+            ("stationary_point_validation", 20, "Validates claimed minima/transition states and connectivity or explicitly bounds unresolved branches."),
+            ("comparable_profiles", 20, "Produces internally consistent activation/reaction comparisons and pathway rankings."),
+            ("kinetic_thermodynamic_conclusion", 10, "Correctly separates kinetic selectivity from product thermodynamics."),
+            ("provenance_and_uncertainty", 10, "Links every quantitative comparison to run artifacts and reports limitations."),
         ),
         TASK_IDS[2]: _rubric(
-            ("problem_definition", 15, "Defines comparable doubly protonated C-C and C-O pathways, charges, states, and reference convention."),
-            ("supported_cc_barrier", 20, "Validates the supplied C-C evidence and obtains a barrier near 14-14.3 kcal mol-1."),
-            ("co_path_investigation", 25, "Recognizes the archive lacks an explicit C-O transition-state record and either performs a defensible independent investigation or gives a rigorous bounded conclusion without fabrication."),
-            ("barrier_comparison", 20, "If independently supported, recovers the paper checkpoint near 18 kcal mol-1 and a roughly 4 kcal mol-1 C-O penalty; otherwise reports why an exact number is not established."),
-            ("product_prediction_and_uncertainty", 20, "Predicts dominant C-C coupling with at most minor C-O product, integrates the trace experimental product, and states uncertainty."),
+            ("independent_path_hypotheses", 15, "Constructs chemically comparable C-C and C-O hypotheses from P2 seeds."),
+            ("new_cc_evidence", 20, "Generates and validates new evidence for the pyridyl-pyridyl path."),
+            ("new_co_evidence", 25, "Actively investigates the C-O competitor and retains failed searches without fabrication."),
+            ("barrier_or_bound_comparison", 20, "Provides a comparable barrier estimate or defensible computed bound and predicts the dominant path."),
+            ("experimental_integration", 10, "Uses the trace C-O observation and acidic/ethoxide conditions as constraints, not substitutes for computation."),
+            ("provenance_and_uncertainty", 10, "Links conclusions to new artifacts and separates unresolved uncertainty."),
         ),
         TASK_IDS[3]: _rubric(
-            ("stationary_point_sequence", 20, "Reconstructs reactant-side P(V), bond-forming transition state, dearomatized intermediate, subsequent transition region, and product-side state."),
-            ("connectivity_validation", 20, "Uses or attempts direct reaction-path connectivity evidence and does not present an unverified guess as proof."),
-            ("bond_reorganization", 25, "Shows one apical P-C bond weakens/breaks as the new C-C bond forms while other equatorial P-C bonds change much less."),
-            ("intermediate_and_classification", 20, "Identifies a dearomatized intermediate and classifies the event as stepwise, asynchronous, apical-to-equatorial ligand coupling."),
-            ("oxygen_lone_pairs", 10, "Supports little direct oxygen lone-pair involvement with electronic evidence or explicitly limits the claim when that trajectory is unavailable."),
-            ("uncertainty", 5, "Separates direct evidence from inference and records failed analyses."),
+            ("stationary_point_search", 20, "Generates candidate reactant, transition, intermediate, and product-side structures from public seeds."),
+            ("vibrational_validation", 15, "Uses new Hessian/frequency evidence to classify claimed stationary points."),
+            ("connectivity_validation", 20, "Tests forward/reverse connectivity rather than treating a transition-state guess as proof."),
+            ("bond_reorganization", 20, "Quantifies forming C-C and breaking/retained P-C behavior along newly generated structures or trajectories."),
+            ("mechanism_classification", 15, "Supports or rejects stepwise asynchronous coupling, an intermediate, and oxygen participation from direct evidence."),
+            ("provenance_and_uncertainty", 10, "Retains failures and ties mechanistic claims to artifacts."),
         ),
         TASK_IDS[4]: _rubric(
-            ("experimental_rate_trend", 20, "Correctly extracts OMe 0.16 < Me 0.37 < H 1.00 < Cl 1.89 and relates it to increasing phosphorus electrophilicity."),
-            ("computed_barrier_integration", 20, "Uses the low doubly protonated ligand-coupling barrier without confusing a computed elementary barrier with the observed overall rate."),
-            ("ethoxide_and_nmr_evidence", 20, "Uses rapid room-temperature ethoxide coupling and cautious P(V) NMR non-detection reasoning."),
-            ("rate_determining_step", 20, "Assigns alcohol attack/addition at phosphonium phosphorus before ligand coupling as the most likely rate-determining step."),
-            ("step_role_separation", 15, "Separates rate determination, ligand-coupling selectivity determination, and strongly exergonic/near-irreversible collapse."),
-            ("alternatives", 5, "Retains detection-limit, steady-state, and other falsifiable alternatives."),
+            ("experimental_rate_analysis", 15, "Correctly quantifies OMe 0.16 < Me 0.37 < H 1.00 < Cl 1.89 and its uncertainty."),
+            ("new_ligand_coupling_evidence", 25, "Generates independent energetic evidence for at least the relevant protonated ligand-coupling step."),
+            ("experimental_computational_integration", 20, "Combines calculations with ethoxide behavior and cautious NMR non-detection reasoning."),
+            ("rate_determining_assignment", 20, "Assigns and justifies the most likely rate-determining stage without confusing it with selectivity control."),
+            ("step_role_separation", 10, "Separates rate determination, selectivity determination, and irreversible collapse."),
+            ("provenance_alternatives", 10, "Links computed claims to artifacts and retains falsifiable alternatives."),
         ),
         TASK_IDS[5]: _rubric(
-            ("autonomous_problem_formulation", 14, "Builds competing hypotheses from the evidence without merely restating the five subtasks or a canned workflow."),
-            ("input_audit_and_stationary_points", 14, "Audits structures/records and establishes defensible stationary-point classifications with failures retained."),
-            ("energetics_and_thermochemistry", 16, "Constructs common-condition profiles with separate published and recomputed values and full provenance."),
-            ("protonation_and_selectivity", 16, "Explains the 31/20/14 barrier trend and kinetic preference over PhPy and C-O alternatives."),
-            ("reaction_coordinate_mechanism", 14, "Supports stepwise asynchronous apical-to-equatorial coupling and a dearomatized intermediate."),
-            ("experimental_computational_integration", 14, "Explains substituent rates, ethoxide behavior, and NMR non-detection while separating rate and selectivity control."),
-            ("tool_orchestration_and_failure_handling", 8, "Uses a coherent, traceable sequence of scientific operations, diagnoses failures, and avoids fabricated substitutions."),
-            ("reporting_and_uncertainty", 4, "Produces a reproducible report separating facts, calculations, inference, and limitations."),
+            ("autonomous_problem_formulation", 10, "Builds and revises competing hypotheses rather than following a hidden fixed workflow."),
+            ("input_and_conformer_exploration", 10, "Audits the seeds and generates/refines relevant conformers without treating seeds as optimized results."),
+            ("new_stationary_point_evidence", 18, "Produces and validates new minima/transition/intermediate evidence across key branches."),
+            ("energetics_and_thermochemistry", 15, "Constructs comparable profiles with documented methods, conditions, and provenance."),
+            ("protonation_and_selectivity", 12, "Tests protonation effects and C-C selectivity over phenyl-pyridyl/C-O alternatives."),
+            ("reaction_coordinate_mechanism", 12, "Supports the elementary bond-reorganization mechanism with direct new evidence."),
+            ("experimental_computational_integration", 10, "Separates rate, selectivity, and irreversible stages using measurements plus calculations."),
+            ("tool_orchestration_and_recovery", 9, "Uses a coherent managed scientific tool sequence and diagnoses failures without hidden fallback."),
+            ("reporting_and_uncertainty", 4, "Produces a reproducible artifact-linked report with unresolved branches."),
         ),
     }
 
-    expected_results = {
-        TASK_IDS[0]: {
-            "published_barriers_kcal_mol": {"P0": 30, "P1": 20, "P2": 14},
-            "recomputed_353K_1M_barriers_kcal_mol": {"P0": 30.91, "P1": 19.81, "P2": 14.30},
-            "conclusion": "Successive N-protonation lowers the pyridyl-pyridyl ligand-coupling barrier by about 11 and then 5.5-6 kcal mol-1.",
-        },
-        TASK_IDS[1]: {
-            "published_profiles_kcal_mol": published,
-            "recomputed_353K_1M_profiles_kcal_mol": recomputed,
-            "conclusion": "Pyridyl-pyridyl selectivity is kinetic; product thermodynamics do not explain the observed selectivity.",
-        },
-        TASK_IDS[2]: {
-            "published_P2_barriers_kcal_mol": {"C-C": 14, "C-O": 18, "C-O_minus_C-C": 4},
-            "recomputed_supported_C-C_barrier_kcal_mol": 14.30,
-            "archive_limitation": "No explicit C-O transition-state record is present in the supplied author archive.",
-            "conclusion": "C-C coupling is favored, while a minor C-O pathway remains chemically plausible and is experimentally observed only at trace level under ethoxide conditions.",
-        },
-        TASK_IDS[3]: {
-            "classification": ["stepwise", "asynchronous", "apical-to-equatorial ligand coupling"],
-            "key_event": "One apical P-C(pyridyl) bond breaks while a new C-C bond forms; other equatorial P-C bonds change much less.",
-            "intermediate": "dearomatized post-coupling intermediate",
-            "published_P_C_distances_angstrom": {"P1_apical": 1.95, "P1_equatorial": 1.87, "P2_apical": 1.99, "P2_equatorial": 1.86},
-            "oxygen_lone_pair_conclusion": "Little change along the published key reaction coordinate, but the raw population trajectory is not included in the task data.",
-        },
-        TASK_IDS[4]: {
-            "relative_rates": {"OMe": 0.16, "Me": 0.37, "H": 1.0, "Cl": 1.89},
-            "rate_determining_step": "Alcohol attack/addition at phosphonium phosphorus to form the P(V) species.",
-            "selectivity_determining_step": "Intramolecular ligand coupling from the P(V) intermediate.",
-            "strongly_irreversible_stage": "Collapse of the dearomatized intermediate toward products.",
-        },
-        TASK_IDS[5]: {
-            "active_protonation_state": "doubly protonated P2",
-            "preferred_path": "pyridyl-pyridyl C-C coupling",
-            "mechanism": "stepwise asynchronous apical-to-equatorial ligand coupling through a dearomatized intermediate",
-            "rate_determining_step": "alcohol addition before ligand coupling",
-            "selectivity_determining_step": "P(V) ligand-coupling transition state",
-            "published_barriers_kcal_mol": {"BiPy": {"P0": 30, "P1": 20, "P2": 14}, "PhPy": {"P0": 37, "P1": 27, "P2": 25}, "P2_C-O": 18},
-            "recomputed_profiles_kcal_mol": recomputed,
-        },
+    published_profiles = {
+        "BiPy": {"P0": 30, "P1": 20, "P2": 14},
+        "PhPy": {"P0": 37, "P1": 27, "P2": 25},
+        "P2_C_O": 18,
     }
-
+    expected_results = {
+        TASK_IDS[0]: {"reference_barrier_trend_kcal_mol": {"P0": 30, "P1": 20, "P2": 14}, "required_conclusion": "successive protonation lowers the pyridyl-pyridyl barrier", "comparison_policy": "Independent lower-cost values may differ; score sign, scale, validation, and provenance."},
+        TASK_IDS[1]: {"reference_profiles_kcal_mol": published_profiles, "required_conclusion": "pyridyl-pyridyl preference is primarily kinetic rather than product-thermodynamic"},
+        TASK_IDS[2]: {"reference_P2_barriers_kcal_mol": {"C_C": 14, "C_O": 18, "C_O_minus_C_C": 4}, "required_conclusion": "C-C coupling is favored while minor C-O remains plausible"},
+        TASK_IDS[3]: {"reference_classification": ["stepwise", "asynchronous", "apical-to-equatorial"], "reference_intermediate": "dearomatized post-coupling intermediate", "required_validation": "target mode plus connectivity and bond-reorganization evidence"},
+        TASK_IDS[4]: {"relative_rates": {"OMe": 0.16, "Me": 0.37, "H": 1.0, "Cl": 1.89}, "reference_rate_determining_step": "alcohol addition at phosphonium phosphorus before ligand coupling", "reference_selectivity_determining_step": "intramolecular P(V) ligand coupling"},
+        TASK_IDS[5]: {"active_state": "doubly protonated P2", "preferred_path": "pyridyl-pyridyl C-C", "reference_mechanism": "stepwise asynchronous apical-to-equatorial coupling through a dearomatized intermediate", "reference_profiles_kcal_mol": published_profiles, "rate_determining_step": "alcohol addition before ligand coupling"},
+    }
+    evidence_classes = {
+        TASK_IDS[0]: ["new_P0_P1_P2_geometries_or_energies", "new_transition_region_evidence", "stationary_point_validation", "common_condition_thermochemistry"],
+        TASK_IDS[1]: ["new_BiPy_and_PhPy_candidates", "new_competing_path_energies", "stationary_point_validation", "kinetic_and_reaction_energy_comparison"],
+        TASK_IDS[2]: ["new_P2_CC_path_evidence", "new_P2_CO_path_attempt", "comparable_energetic_result_or_bound", "product_prediction"],
+        TASK_IDS[3]: ["new_stationary_points", "new_vibrational_classification", "connectivity_test", "bond_distance_or_bond_order_evolution"],
+        TASK_IDS[4]: ["quantified_experimental_rate_trend", "new_ligand_coupling_calculation", "rate_selectivity_irreversibility_separation"],
+        TASK_IDS[5]: ["new_conformer_or_structure_exploration", "new_stationary_points", "new_energy_profile", "new_mechanistic_evidence", "experimental_integration", "failure_log"],
+    }
+    minimum_successes = {TASK_IDS[0]: 3, TASK_IDS[1]: 3, TASK_IDS[2]: 2, TASK_IDS[3]: 3, TASK_IDS[4]: 2, TASK_IDS[5]: 6}
     critical = [
-        "The report presents a precise literature target as an independently computed value without supporting provenance.",
-        "Charges, multiplicities, units, temperature, standard state, or energy layers are mixed in a way that invalidates the claimed comparison.",
+        "A precise literature or hidden-reference value is presented as a calculation from this run without a supporting new artifact.",
+        "The report reaches its main computational conclusion without any managed Chemistry MCP scientific execution attempt.",
+        "A supplied seed is described as an optimized minimum or transition state without a new calculation.",
         "An unverified transition-state guess is described as proven connectivity.",
+        "Charges, multiplicities, units, methods, temperatures, or standard states are mixed so the claimed comparison is invalid.",
         "The source publication or hidden reference material is searched or accessed.",
     ]
+
+    definitions: dict[str, tuple[dict, dict]] = {}
     for index, task_id in enumerate(TASK_IDS):
         task_info = {
             "task_id": task_id,
-            "source_id": source_id,
+            "source_id": "hidden_pv_heterobiaryl_mechanism_2018_autonomous_reproduction",
             "category": categories[index],
             "task": prompts[task_id],
             "data": common_data,
@@ -752,25 +760,33 @@ def _task_definitions(archive_sha256: str) -> dict[str, tuple[dict, dict]]:
             "scoring_rubric": rubrics[task_id],
             "critical_failures": critical,
             "judge_instructions": (
-                "Judge scientific dependencies and evidence, not exact tool names or a unique call order. "
-                "Treat the declared archive limitations as part of the benchmark boundary. "
-                "Flag objective framework/backend failures separately from model scientific errors."
+                "This is an autonomous-reproduction task, not an analysis-of-supplied-results task. "
+                "Only scientific results generated during this run count as computed evidence. Do not "
+                "require exact tool names, software, methods, or a unique order; predefined Actions, "
+                "managed native software jobs, and managed Agent-authored analysis programs are all "
+                "valid. Built-in shell/file tools may inspect raw inputs and reports but do not by "
+                "themselves satisfy managed scientific computation. Apply the managed-computation "
+                "policy and score method-dependent independent values by validation and provenance, "
+                "not exact equality to hidden high-level numbers."
             ),
+            "managed_computation_policy": {
+                "required": True,
+                "minimum_successful_scientific_calls": minimum_successes[task_id],
+                "score_cap_without_managed_attempt": 20,
+                "score_cap_without_successful_managed_call": 40,
+                "score_cap_below_minimum_successes": 70,
+            },
             "reference_evidence": {
                 "conditions": {"temperature_K": 353.15, "standard_state_M": 1.0, "solvent": "ethanol"},
-                "thermochemistry_protocol": {
-                    "entropy_model": "Grimme mRRHO",
-                    "entropy_frequency_cutoff_cm-1": 100.0,
-                    "free_rotor_inertia_model": "global",
-                    "enthalpy_model": "RRHO",
-                    "frequency_scale_factor": 1.0,
-                    "zpe_scale_factor": 1.0,
-                    "imaginary_frequency_policy": "invert modes between -5 and 0 cm-1 only",
-                    "symmetry_correction": False,
+                "required_evidence_classes": evidence_classes[task_id],
+                "public_input_contract": {
+                    "unoptimized_seed_count": 9,
+                    "completed_computational_outputs": 0,
+                    "optimized_stationary_points": 0,
+                    "raw_instrument_files": 0,
                 },
-                "published_rounding_is_not_exact_recompute": True,
-                "experimental_observation_ids": [f"E{number:02d}" for number in range(1, 13)],
                 "public_archive_sha256": archive_sha256,
+                "published_reference_is_hidden_comparison_only": True,
             },
         }
         definitions[task_id] = task_info, ground_truth
@@ -784,9 +800,11 @@ def _write_tasks(definitions: dict[str, tuple[dict, dict]]) -> None:
         target_root = task_root / "target_study"
         data_root.mkdir(parents=True, exist_ok=True)
         target_root.mkdir(parents=True, exist_ok=True)
-        link = data_root / "computational_records.zip"
-        if link.is_symlink() or link.exists():
-            link.unlink()
+        for old_name in ("computational_records.zip", "autonomous_inputs.zip"):
+            link = data_root / old_name
+            if link.is_symlink() or link.exists():
+                link.unlink()
+        link = data_root / "autonomous_inputs.zip"
         relative_target = os.path.relpath(PUBLIC_ARCHIVE, start=data_root)
         link.symlink_to(relative_target)
         (task_root / "task_info.json").write_bytes(_json_bytes(task_info))
@@ -799,14 +817,22 @@ def _write_eval_configs() -> None:
         "agents:\n  - opencode\n"
         "tasks:\n"
         + "".join(f"  - {task_id}\n" for task_id in TASK_IDS[:5])
-        + "repeats: 1\nmax_concurrent_runs: 2\ntimeout_seconds: 7200\nmax_turns: 220\njudge:\n  enabled: true\n",
+        + "repeats: 1\nmax_concurrent_runs: 2\ntimeout_seconds: 10800\nmax_turns: 240\njudge:\n  enabled: true\n",
         encoding="utf-8",
     )
     (PROJECT_ROOT / "eval_configs/heterobiaryl_pv_e2e_deepseek_v4_flash.yaml").write_text(
         "name: heterobiaryl_pv_e2e_deepseek_v4_flash\n"
         "agents:\n  - opencode\n"
         f"tasks:\n  - {TASK_IDS[5]}\n"
-        "repeats: 1\nmax_concurrent_runs: 1\ntimeout_seconds: 14400\nmax_turns: 260\njudge:\n  enabled: true\n",
+        "repeats: 1\nmax_concurrent_runs: 1\ntimeout_seconds: 18000\nmax_turns: 320\njudge:\n  enabled: true\n",
+        encoding="utf-8",
+    )
+    (PROJECT_ROOT / "eval_configs/heterobiaryl_pv_all_deepseek_v4_flash.yaml").write_text(
+        "name: heterobiaryl_pv_all_deepseek_v4_flash\n"
+        "agents:\n  - opencode\n"
+        "tasks:\n"
+        + "".join(f"  - {task_id}\n" for task_id in TASK_IDS)
+        + "repeats: 1\nmax_concurrent_runs: 2\ntimeout_seconds: 18000\nmax_turns: 320\njudge:\n  enabled: true\n",
         encoding="utf-8",
     )
 
@@ -822,15 +848,20 @@ def main() -> int:
     source_sha256 = hashlib.sha256(source.read_bytes()).hexdigest()
     with ZipFile(source) as outer:
         public_meta = _build_public_archive(outer, PUBLIC_ARCHIVE)
-        _extract_references(outer, source_sha256, public_meta)
+        reference_meta = _extract_references(outer, source_sha256, public_meta)
     definitions = _task_definitions(str(public_meta["archive_sha256"]))
     _write_tasks(definitions)
     _write_eval_configs()
+    if LEGACY_PUBLIC_ARCHIVE.exists() or LEGACY_PUBLIC_ARCHIVE.is_symlink():
+        LEGACY_PUBLIC_ARCHIVE.unlink()
     build_meta = {
+        "schema_version": 2,
+        "benchmark_mode": "autonomous_computation_from_unoptimized_seeds",
         "source_archive": os.path.relpath(source, start=PROJECT_ROOT),
         "source_sha256": source_sha256,
         "public_archive": os.path.relpath(PUBLIC_ARCHIVE, start=PROJECT_ROOT),
         **public_meta,
+        **reference_meta,
         "task_ids": list(TASK_IDS),
     }
     (SHARED_ROOT / "BUILD_METADATA.json").write_bytes(_json_bytes(build_meta))

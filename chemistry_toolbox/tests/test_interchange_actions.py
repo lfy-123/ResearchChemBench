@@ -91,10 +91,14 @@ def test_cclib_parses_orca_output_with_missing_first_rms_target(tmp_path, monkey
         ROOT
         / "tasks"
         / "_heterobiaryl_pv_shared"
-        / "public"
-        / "computational_records.zip"
+        / "reference"
+        / "author_computational_outputs"
+        / "Int-I_unprotonated.zip"
     )
-    member = "records/P0/P0_C001_DLPNO.out"
+    member = (
+        "[Int-I]/[Int-II]/[Int-II] DLPNO/"
+        "[Int-II]-Py,Ph,ax-a_DLPNO.out"
+    )
     with ZipFile(archive_path) as archive:
         (tmp_path / "orca.out").write_bytes(archive.read(member))
     monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))

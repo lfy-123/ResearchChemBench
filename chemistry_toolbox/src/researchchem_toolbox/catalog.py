@@ -418,7 +418,8 @@ def progressive_toolbox_overview(
         "action_id grouped under the compact domain index; use `search_actions` when you need to "
         "filter those catalog entries with your own scientific terms or an exact category/backend "
         "filter. Call `inspect_action` before a new "
-        "Action to obtain its exact inputs, provider policy, and provider-specific contract; use "
+        "Action to obtain its exact inputs, provider policy, provider-specific field types, "
+        "conditional rules, output contract, and fill-in `execute_action` request template; use "
         "`inspect_backend` to see one Backend's capabilities. Scientific files and model/data "
         "families are found with `search_resources` and resolved exactly with `inspect_resource`. "
         "These discovery operations only return catalog facts.",

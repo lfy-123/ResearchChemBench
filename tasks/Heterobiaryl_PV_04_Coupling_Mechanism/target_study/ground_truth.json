@@ -3,92 +3,82 @@
   "score_max": 100,
   "expected_tool_calls": [],
   "expected_result": {
-    "classification": [
+    "reference_classification": [
       "stepwise",
       "asynchronous",
-      "apical-to-equatorial ligand coupling"
+      "apical-to-equatorial"
     ],
-    "key_event": "One apical P-C(pyridyl) bond breaks while a new C-C bond forms; other equatorial P-C bonds change much less.",
-    "intermediate": "dearomatized post-coupling intermediate",
-    "published_P_C_distances_angstrom": {
-      "P1_apical": 1.95,
-      "P1_equatorial": 1.87,
-      "P2_apical": 1.99,
-      "P2_equatorial": 1.86
-    },
-    "oxygen_lone_pair_conclusion": "Little change along the published key reaction coordinate, but the raw population trajectory is not included in the task data."
+    "reference_intermediate": "dearomatized post-coupling intermediate",
+    "required_validation": "target mode plus connectivity and bond-reorganization evidence"
   },
   "expected_structured_output": null,
   "scoring_rubric": [
     {
-      "id": "stationary_point_sequence",
+      "id": "stationary_point_search",
       "max_score": 20,
-      "criterion": "Reconstructs reactant-side P(V), bond-forming transition state, dearomatized intermediate, subsequent transition region, and product-side state."
+      "criterion": "Generates candidate reactant, transition, intermediate, and product-side structures from public seeds."
+    },
+    {
+      "id": "vibrational_validation",
+      "max_score": 15,
+      "criterion": "Uses new Hessian/frequency evidence to classify claimed stationary points."
     },
     {
       "id": "connectivity_validation",
       "max_score": 20,
-      "criterion": "Uses or attempts direct reaction-path connectivity evidence and does not present an unverified guess as proof."
+      "criterion": "Tests forward/reverse connectivity rather than treating a transition-state guess as proof."
     },
     {
       "id": "bond_reorganization",
-      "max_score": 25,
-      "criterion": "Shows one apical P-C bond weakens/breaks as the new C-C bond forms while other equatorial P-C bonds change much less."
-    },
-    {
-      "id": "intermediate_and_classification",
       "max_score": 20,
-      "criterion": "Identifies a dearomatized intermediate and classifies the event as stepwise, asynchronous, apical-to-equatorial ligand coupling."
+      "criterion": "Quantifies forming C-C and breaking/retained P-C behavior along newly generated structures or trajectories."
     },
     {
-      "id": "oxygen_lone_pairs",
+      "id": "mechanism_classification",
+      "max_score": 15,
+      "criterion": "Supports or rejects stepwise asynchronous coupling, an intermediate, and oxygen participation from direct evidence."
+    },
+    {
+      "id": "provenance_and_uncertainty",
       "max_score": 10,
-      "criterion": "Supports little direct oxygen lone-pair involvement with electronic evidence or explicitly limits the claim when that trajectory is unavailable."
-    },
-    {
-      "id": "uncertainty",
-      "max_score": 5,
-      "criterion": "Separates direct evidence from inference and records failed analyses."
+      "criterion": "Retains failures and ties mechanistic claims to artifacts."
     }
   ],
   "critical_failures": [
-    "The report presents a precise literature target as an independently computed value without supporting provenance.",
-    "Charges, multiplicities, units, temperature, standard state, or energy layers are mixed in a way that invalidates the claimed comparison.",
+    "A precise literature or hidden-reference value is presented as a calculation from this run without a supporting new artifact.",
+    "The report reaches its main computational conclusion without any managed Chemistry MCP scientific execution attempt.",
+    "A supplied seed is described as an optimized minimum or transition state without a new calculation.",
     "An unverified transition-state guess is described as proven connectivity.",
+    "Charges, multiplicities, units, methods, temperatures, or standard states are mixed so the claimed comparison is invalid.",
     "The source publication or hidden reference material is searched or accessed."
   ],
-  "judge_instructions": "Judge scientific dependencies and evidence, not exact tool names or a unique call order. Treat the declared archive limitations as part of the benchmark boundary. Flag objective framework/backend failures separately from model scientific errors.",
+  "judge_instructions": "This is an autonomous-reproduction task, not an analysis-of-supplied-results task. Only scientific results generated during this run count as computed evidence. Do not require exact tool names, software, methods, or a unique order; predefined Actions, managed native software jobs, and managed Agent-authored analysis programs are all valid. Built-in shell/file tools may inspect raw inputs and reports but do not by themselves satisfy managed scientific computation. Apply the managed-computation policy and score method-dependent independent values by validation and provenance, not exact equality to hidden high-level numbers.",
+  "managed_computation_policy": {
+    "required": true,
+    "minimum_successful_scientific_calls": 3,
+    "score_cap_without_managed_attempt": 20,
+    "score_cap_without_successful_managed_call": 40,
+    "score_cap_below_minimum_successes": 70
+  },
   "reference_evidence": {
     "conditions": {
       "temperature_K": 353.15,
       "standard_state_M": 1.0,
       "solvent": "ethanol"
     },
-    "thermochemistry_protocol": {
-      "entropy_model": "Grimme mRRHO",
-      "entropy_frequency_cutoff_cm-1": 100.0,
-      "free_rotor_inertia_model": "global",
-      "enthalpy_model": "RRHO",
-      "frequency_scale_factor": 1.0,
-      "zpe_scale_factor": 1.0,
-      "imaginary_frequency_policy": "invert modes between -5 and 0 cm-1 only",
-      "symmetry_correction": false
-    },
-    "published_rounding_is_not_exact_recompute": true,
-    "experimental_observation_ids": [
-      "E01",
-      "E02",
-      "E03",
-      "E04",
-      "E05",
-      "E06",
-      "E07",
-      "E08",
-      "E09",
-      "E10",
-      "E11",
-      "E12"
+    "required_evidence_classes": [
+      "new_stationary_points",
+      "new_vibrational_classification",
+      "connectivity_test",
+      "bond_distance_or_bond_order_evolution"
     ],
-    "public_archive_sha256": "97fa402aec3fa9191d0352485c7c4a8c77415d47d7c917dcb1cc0548f04d495d"
+    "public_input_contract": {
+      "unoptimized_seed_count": 9,
+      "completed_computational_outputs": 0,
+      "optimized_stationary_points": 0,
+      "raw_instrument_files": 0
+    },
+    "public_archive_sha256": "74ab6cab8f8ca0a0b10dc3da2efb03840247d58a9c90fe83332a14622207ac2e",
+    "published_reference_is_hidden_comparison_only": true
   }
 }
