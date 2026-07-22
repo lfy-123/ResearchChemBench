@@ -108,6 +108,8 @@ Agent 可显式选择的科学数据包括：
 
 真实验证结果：energy（PAL2）、9×9 Hessian、收敛几何优化和 dipole 四条 Action 均为 `success`，并返回 `backend_version=6.1.1`。失败时仍不会自动改用 Psi4、PySCF、xTB 或其他后端。
 
+后续 benchmark 大体系验证补充：虽然上述小体系 PAL2 冒烟曾通过，但多个较大分子、不同电荷的 PAL4 调用均稳定复现 `MPI_Type_match_size`/PMIX 启动错误。当前 BackendSpec 因而公开 `maximum_cpu_cores=1`，并在 worker 启动前拒绝更高核数；执行器不会把请求悄悄改为单核，也不会自动切换 Backend。修复并重新验证 MPI 后可通过更新这一显式资源契约恢复并行。
+
 ## 9. 最终验收结论
 
 当前 44 个公共工具、49 个 BackendSpecs、17 个运行环境、22 个注册资源和 4 个在线数据源均已完成核心配置审计。工具箱继续满足：公共工具同粒度、无笼统 runner、全目录可见、Agent 显式选择工具/软件/方法/资源、无自动回退、结果可组合、执行可追踪。用户扩展软件清单中仍有 16 个许可/人工安装项、2 个 API 审查项，以及 Arkane/EasySpin 两个 partial 项；这些限制在独立状态报告中明确保留。
