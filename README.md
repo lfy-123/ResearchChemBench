@@ -1,6 +1,6 @@
 # ResearchChemBench
 
-ResearchChemBench evaluates whether external autonomous agents such as Codex CLI, Claude Code, and OpenCode can independently compose atomic chemistry tools to solve scientific tasks. Every task receives the same complete toolbox; the agent chooses the actions, call order, software backend, method, parameters, failure recovery, and stopping point.
+ResearchChemBench evaluates whether external autonomous agents such as Codex CLI, Claude Code, and OpenCode can independently compose atomic chemistry tools to solve scientific tasks. Every task can discover the same complete toolbox; the agent chooses the actions, call order, software backend, method, parameters, failure recovery, and stopping point. The default MCP surface loads the catalog progressively so unused Action schemas do not consume every model turn.
 
 ## Architecture
 
@@ -16,9 +16,11 @@ Codex / Claude / OpenCode / Mock agent CLI
         ▼
 one complete Chemistry MCP server
         │
-        ├── versioned atomic Scientific Actions
+        ├── compact domain index + neutral Action/Backend/resource discovery
+        ├── explicit execute_action transport for versioned Scientific/Data Actions
         ├── bounded atomic Data Actions
         ├── explicitly selectable BackendSpecs
+        ├── software-native and programmable execution primitives
         └── no workflow tool, automatic backend, or fallback
         │
         ▼
@@ -77,8 +79,12 @@ bash scripts/run_agent_eval.sh --agent codex --task ChemGraph_001 --no-score
 bash scripts/run_agent_eval.sh --agent claude --task ChemGraph_003 --no-score
 bash scripts/run_agent_eval.sh --agent opencode --task ChemGraph_001 --no-score
 
-# Every run exposes the same complete versioned action catalog.
+# Every run can discover the same complete versioned Action catalog.
 bash scripts/run_agent_eval.sh --agent opencode --task ChemGraph_001 --no-score
+
+# Historical eager one-MCP-tool-per-Action surface for regression comparisons.
+bash scripts/run_agent_eval.sh --agent opencode --task ChemGraph_001 \
+  --tool-discovery-mode full --no-score
 ```
 
 Set judge credentials and omit `--no-score` to score the run.
@@ -116,6 +122,14 @@ _tool_artifacts/
 _meta.json
 _score.json
 ```
+
+The default `progressive` discovery mode initially exposes a compact set of
+catalog search/inspection tools, one explicit Action dispatcher, and the
+software-native/program execution primitives. `search_actions` and
+`inspect_action` reveal exact contracts on demand. This changes context loading
+only: there is no task-specific filtering, ranking, backend selection, or
+fallback. Set `--tool-discovery-mode full` to reproduce the historical eager
+surface.
 
 ## Documentation
 

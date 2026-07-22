@@ -53,7 +53,10 @@ Runtime options:
       --chemgraph-root PATH    Override the ChemGraph checkout.
       --chemgraph-python PATH  Python executable used by the Chemistry MCP server.
       --mcp-tools VALUE       Compatibility option; only `all` is accepted. Every
-                               task sees all 40 Scientific and 5 Data Actions.
+                               task can discover the complete Action catalog.
+      --tool-discovery-mode MODE
+                              `progressive` (default) loads Action schemas on demand;
+                               `full` preserves one MCP tool per Action for regression.
       --mcp-profiles CSV      Select runtimes for installation/probe validation only:
                                core, services, quantum, psi4, reaction, qe, cp2k,
                                periodic, phonons, md, mlip, docking. This never
@@ -140,6 +143,7 @@ OPENCODE_MODEL_VALUE="${OPENCODE_MODEL_VALUE:-}"
 OPENCODE_BASE_URL_VALUE="${OPENCODE_BASE_URL_VALUE:-}"
 MCP_TOOLS_VALUE="${RESEARCHCHEMBENCH_MCP_TOOLS:-all}"
 MCP_PROFILES_VALUE="${RESEARCHCHEMBENCH_MCP_PROFILES:-}"
+TOOL_DISCOVERY_MODE_VALUE="${RESEARCHCHEM_TOOL_DISCOVERY_MODE:-progressive}"
 POSITIONAL=()
 
 while [[ $# -gt 0 ]]; do
@@ -219,6 +223,11 @@ while [[ $# -gt 0 ]]; do
       MCP_PROFILES_VALUE="$2"
       shift 2
       ;;
+    --tool-discovery-mode)
+      require_value "$1" "${2:-}"
+      TOOL_DISCOVERY_MODE_VALUE="$2"
+      shift 2
+      ;;
     --list-agents)
       LIST_AGENTS=1
       shift
@@ -291,6 +300,11 @@ if [[ "$MCP_TOOLS_VALUE" != "all" ]]; then
   exit 2
 fi
 unset RESEARCHCHEM_MCP_ENABLED_TOOLS RESEARCHCHEM_MCP_DISABLED_TOOLS
+if [[ "$TOOL_DISCOVERY_MODE_VALUE" != "progressive" && "$TOOL_DISCOVERY_MODE_VALUE" != "full" ]]; then
+  echo "Error: --tool-discovery-mode must be 'progressive' or 'full'." >&2
+  exit 2
+fi
+export RESEARCHCHEM_TOOL_DISCOVERY_MODE="$TOOL_DISCOVERY_MODE_VALUE"
 if [[ -n "$MCP_PROFILES_VALUE" ]]; then
   export RESEARCHCHEMBENCH_MCP_PROFILES="$MCP_PROFILES_VALUE"
   python - <<'PY'
@@ -333,6 +347,7 @@ if [[ -n "$CONFIG" ]]; then
   echo "  ChemGraph root:  $CHEMGRAPH_ROOT"
   echo "  MCP Python:      $CHEMGRAPH_PYTHON"
   echo "  MCP tools:       $MCP_TOOLS_VALUE"
+  echo "  Tool discovery:  $TOOL_DISCOVERY_MODE_VALUE"
   echo "  Backend runtimes:${MCP_PROFILES_VALUE:-all catalog entries; one public server}"
   echo "  Workspaces root: ${RESEARCHCHEMBENCH_WORKSPACES_DIR:-$ROOT_DIR/workspaces}"
   exec python -m evaluation.cli_eval "$CONFIG" "${CLI_ARGS[@]}"
@@ -344,6 +359,7 @@ echo "  Task:            $TASK"
 echo "  ChemGraph root:  $CHEMGRAPH_ROOT"
 echo "  MCP Python:      $CHEMGRAPH_PYTHON"
 echo "  MCP tools:       $MCP_TOOLS_VALUE"
+echo "  Tool discovery:  $TOOL_DISCOVERY_MODE_VALUE"
 echo "  Backend runtimes:${MCP_PROFILES_VALUE:-all catalog entries; one public server}"
 echo "  Timeout seconds: ${RESEARCHCHEMBENCH_AGENT_TIMEOUT_SECONDS:-7200}"
 echo "  Max turns:       ${RESEARCHCHEMBENCH_MAX_TURNS:-200}"

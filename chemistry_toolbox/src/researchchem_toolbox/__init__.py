@@ -5,6 +5,9 @@ from .catalog import (
     agent_toolbox_overview,
     backend_specs,
     catalog_snapshot,
+    progressive_toolbox_overview,
+    resolve_tool_discovery_mode,
+    toolbox_overview,
     validate_catalog,
 )
 from .models import ActionRequest, ActionResult, ActionSpec, ArtifactRef, BackendSpec
@@ -21,5 +24,8 @@ __all__ = [
     "backend_specs",
     "catalog_snapshot",
     "execute_action",
+    "progressive_toolbox_overview",
+    "resolve_tool_discovery_mode",
+    "toolbox_overview",
     "validate_catalog",
 ]

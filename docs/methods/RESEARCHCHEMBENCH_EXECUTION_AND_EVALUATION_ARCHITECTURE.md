@@ -847,7 +847,9 @@ ActionSpec 描述“要做什么”，BackendSpec 描述“由谁做、需要什
 
 Catalog 全局声明：
 
-- exposure_policy = atomic_all；
+- 默认 exposure_policy = progressive_discovery；
+- catalog_visibility_policy = complete_task_independent；
+- full 兼容模式 exposure_policy = atomic_all；
 - backend_selection_policy = per_action_explicit；
 - scientific_resource_selection_policy = agent_explicit_no_default；
 - automatic_fallback = false。
@@ -862,7 +864,7 @@ Catalog 全局声明：
 
 ### 9.4 不隐藏不可用后端
 
-Agent prompt 中仍会显示 unavailable backend。这样所有 Agent 面对相同的概念选择空间，并能观察到本次运行环境的真实健康状态。
+不可用 Backend 仍保留在同一完整 Catalog 中，并可通过 search_actions、inspect_action 和 inspect_backend 发现。渐进模式不再把全部 unavailable Backend 文本预先塞入 Agent prompt，但不会按任务或健康状态隐藏它们；只有 Agent 明确设置 available_only=true 时，才应用这个显式过滤条件。
 
 优点是可审计；缺点是 Agent 可能浪费调用去尝试明确不可用的软件。项目把这种选择也视为待评估的智能体决策。
 
@@ -1091,23 +1093,23 @@ agent_toolbox_overview 生成长文本，内容包括：
 - .toolbox_env/bin/python；
 - <code>python -m chemistry_toolbox.mcp.server --transport stdio</code>；
 - core runtime environment；
-- 排序后的全部 Action 名。
+- 默认的渐进发现/显式执行工具名；full 兼容模式则为排序后的全部 Action 名。
 
 evaluation.config.chemistry_server_specs 始终返回只包含这个 spec 的列表。
 
 RESEARCHCHEMBENCH_MCP_PROFILES 如果存在，只会调用 selected_profile_names 验证名称，既不会减少 server 数，也不会改变 Action 列表。
 
-### 11.2 动态注册 101 个工具
+### 11.2 两种等价 Catalog 可见性的 MCP 表面
 
-[chemistry_toolbox/mcp/registry.py](../../chemistry_toolbox/mcp/registry.py) 不再为每个工具维护独立 Python 文件，而是遍历 action_specs：
+[chemistry_toolbox/mcp/registry.py](../../chemistry_toolbox/mcp/registry.py) 支持两种表面，但底层 ActionSpec 集合完全相同：
 
-1. 为每个 ActionSpec 动态创建 invoke 函数；
-2. 函数只接受一个 ActionRequest；
-3. 先进入 execute_traced；
-4. 再调用 service.execute_action；
-5. 用 Action ID 注册为 FastMCP tool。
+1. 默认 progressive：注册 list_action_domains、search_actions、inspect_action、inspect_backend、search_resources、inspect_resource 和 execute_action；
+2. execute_action 接收显式 action_id 与原有 ActionRequest 字段；
+3. 执行仍进入 execute_traced，并用真实 Action ID 写轨迹；
+4. full 兼容模式仍为每个 ActionSpec 动态创建独立 MCP tool；
+5. 两种模式最终都调用同一个 service.execute_action，不改变验证、Backend 选择或 provenance。
 
-所以公开工具集合由 ActionSpec 自动导出，避免手工 registry 与 catalog 不一致。
+渐进搜索按稳定 ID 顺序返回 Catalog 事实，不做相关性排名、任务分类或候选推荐。
 
 ### 11.3 tool_config 的硬性策略
 
@@ -1115,8 +1117,9 @@ RESEARCHCHEMBENCH_MCP_PROFILES 如果存在，只会调用 selected_profile_name
 
 ~~~json
 {
-  "schema_version": 2,
-  "exposure_policy": "atomic_all",
+  "schema_version": 4,
+  "exposure_policy": "progressive_discovery",
+  "full_catalog_compatibility_mode": true,
   "backend_selection_policy": "per_action_explicit",
   "automatic_fallback": false,
   "catalog_resource": "researchchem://catalog"
@@ -1125,7 +1128,7 @@ RESEARCHCHEMBENCH_MCP_PROFILES 如果存在，只会调用 selected_profile_name
 
 registry.configuration_errors 会拒绝：
 
-- 非 atomic_all；
+- 非 progressive_discovery/atomic_all；
 - 非 per_action_explicit；
 - automatic_fallback=true；
 - enabled_tools；
@@ -1137,8 +1140,9 @@ registry.configuration_errors 会拒绝：
 
 [chemistry_toolbox/mcp/server.py](../../chemistry_toolbox/mcp/server.py)：
 
-- 用 agent_toolbox_overview 作为 server instructions；
-- 注册全部 Action；
+- progressive 默认使用仅含领域索引和发现协议的精简 instructions；
+- progressive 注册目录发现、显式 Action 执行和原生/可编程执行原语；
+- full 兼容模式使用 agent_toolbox_overview 并注册全部独立 Action；
 - 注册 catalog resource；
 - 默认 stdio transport；
 - 可选 streamable_http；
@@ -3080,4 +3084,3 @@ ResearchChemBench 当前已经形成了一个结构清晰的“Agent 决策层�
 6. 消除文档中的旧工具数量和旧架构描述。
 
 完成这些改进后，该项目才能更可靠地区分“Agent 真的理解并正确组合了计算化学工具”与“Agent 只是在报告中给出了看似正确的最终答案”。
-

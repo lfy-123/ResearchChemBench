@@ -7,7 +7,7 @@ import json
 import os
 from collections import defaultdict
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
 
 from .models import ActionSpec, BackendSpec
 from .runtime import probe_all_backends
@@ -26,6 +26,37 @@ CATEGORY_LABELS = {
     "docking": "Molecular docking",
     "data_sources": "External chemistry data sources",
 }
+
+
+TOOL_DISCOVERY_MODE_ENV = "RESEARCHCHEM_TOOL_DISCOVERY_MODE"
+ToolDiscoveryMode = Literal["progressive", "full"]
+
+
+def resolve_tool_discovery_mode(value: str | None = None) -> ToolDiscoveryMode:
+    """Resolve the public MCP surface without changing catalog membership.
+
+    ``progressive`` exposes neutral catalog-discovery tools plus one explicit
+    Action dispatcher. ``full`` retains the historical one-MCP-tool-per-Action
+    surface for regression comparisons. Both modes make the same immutable
+    task-independent catalog available and neither performs task retrieval.
+    """
+
+    raw = value
+    if raw is None:
+        raw = os.environ.get(TOOL_DISCOVERY_MODE_ENV, "progressive")
+    normalized = str(raw).strip().lower().replace("-", "_")
+    aliases = {
+        "progressive": "progressive",
+        "progressive_discovery": "progressive",
+        "full": "full",
+        "atomic_all": "full",
+    }
+    try:
+        return aliases[normalized]  # type: ignore[return-value]
+    except KeyError as exc:
+        raise ValueError(
+            f"Unsupported tool discovery mode {raw!r}; choose progressive or full"
+        ) from exc
 
 
 def _resource_coverage(resource: dict[str, Any]) -> str:
@@ -103,11 +134,16 @@ def validate_catalog() -> None:
         raise ValueError("Catalog requires both Scientific Actions and Data Actions")
 
 
-def catalog_snapshot(*, include_health: bool = True) -> dict[str, Any]:
+def catalog_snapshot(
+    *,
+    include_health: bool = True,
+    discovery_mode: str | None = None,
+) -> dict[str, Any]:
     validate_catalog()
+    mode = resolve_tool_discovery_mode(discovery_mode)
     health = probe_all_backends(BACKEND_SPECS) if include_health else {}
     payload: dict[str, Any] = {
-        "schema_version": 5,
+        "schema_version": 6,
         "execution_layers": [
             {
                 "id": "predefined_actions",
@@ -125,7 +161,12 @@ def catalog_snapshot(*, include_health: bool = True) -> dict[str, Any]:
                 "mandatory": False,
             },
         ],
-        "exposure_policy": "atomic_all",
+        "discovery_mode": mode,
+        "exposure_policy": (
+            "progressive_discovery" if mode == "progressive" else "atomic_all"
+        ),
+        "catalog_visibility_policy": "complete_task_independent",
+        "task_specific_tool_filtering": False,
         "backend_selection_policy": "per_action_explicit",
         "provider_selection_policies": sorted(
             {spec.selection_policy for spec in ACTION_SPECS}
@@ -335,6 +376,101 @@ def agent_toolbox_overview(
         ]
     )
     return "\n".join(lines)
+
+
+def progressive_toolbox_overview(
+    *,
+    snapshot: dict[str, Any] | None = None,
+) -> str:
+    """Compact first-layer index for on-demand, neutral catalog discovery."""
+
+    actions = (
+        list(snapshot.get("actions", []))
+        if snapshot is not None
+        else [specification.as_dict() for specification in ACTION_SPECS]
+    )
+    backends = (
+        list(snapshot.get("backends", []))
+        if snapshot is not None
+        else [specification.as_dict() for specification in BACKEND_SPECS]
+    )
+    resources = (
+        list(snapshot.get("resources", []))
+        if snapshot is not None
+        else resource_snapshot()
+    )
+    grouped: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for action in actions:
+        grouped[str(action.get("category", ""))].append(action)
+
+    scientific_count = sum(not bool(action.get("data_action")) for action in actions)
+    data_count = len(actions) - scientific_count
+    lines = [
+        "The same complete, task-independent chemistry catalog is available to every task, but it "
+        "is loaded progressively instead of placing every Action schema in the initial context. "
+        f"The frozen catalog contains {len(actions)} predefined Actions "
+        f"({scientific_count} Scientific Actions and {data_count} Data Actions), "
+        f"{len(backends)} Backend entries, and {len(resources)} registered scientific resources. "
+        "No task-specific retrieval, recommendation, ranking, automatic backend selection, retry, "
+        "or fallback is performed.",
+        "",
+        "Use `list_action_domains` for the compact domain index and `search_actions` with your own "
+        "scientific terms or an exact category/backend filter. Call `inspect_action` before a new "
+        "Action to obtain its exact inputs, provider policy, and provider-specific contract; use "
+        "`inspect_backend` to see one Backend's capabilities. Scientific files and model/data "
+        "families are found with `search_resources` and resolved exactly with `inspect_resource`. "
+        "These discovery operations only return catalog facts.",
+        "",
+        "Run a selected predefined Action through `execute_action`. Its request contains an explicit "
+        "action_id plus backend_id, component_backends, source_id, inputs, method_spec, "
+        "action_settings, and resource_limits. Numerical Actions require the provider choices "
+        "declared by `inspect_action`; fixed-source and deterministic internal Actions do not accept "
+        "invented provider choices. The dispatcher validates exactly what you provide and never "
+        "substitutes another choice.",
+        "",
+        "For capabilities outside the predefined Action layer, the software-native and programmable "
+        "layers remain peers. Discover exact installed programs with `list_software`, retrieve one "
+        "reviewed invocation guide with `inspect_software`, and search its cached manuals with "
+        "`search_software_documentation`. You may instead author a complete Python analysis program "
+        "and explicitly select a listed runtime. You decide whether and how to interleave all three "
+        "layers.",
+        "",
+        "Available Action domains:",
+    ]
+    for category, label in CATEGORY_LABELS.items():
+        values = grouped.get(category, [])
+        scientific = sum(not bool(value.get("data_action")) for value in values)
+        data = len(values) - scientific
+        kind_text = f"{scientific} scientific"
+        if data:
+            kind_text += f", {data} data"
+        lines.append(f"- `{category}` — {label} ({kind_text} Actions).")
+    lines.extend(
+        [
+            "",
+            "An unavailable Backend remains discoverable. If an exact call fails, inspect its result "
+            "and independently decide the next scientific step; the framework does not add defaults "
+            "or redirect the call.",
+        ]
+    )
+    return "\n".join(lines)
+
+
+def toolbox_overview(
+    *,
+    discovery_mode: str | None = None,
+    include_health: bool = True,
+    snapshot: dict[str, Any] | None = None,
+) -> str:
+    """Return the prompt index corresponding to the selected public surface."""
+
+    mode = resolve_tool_discovery_mode(discovery_mode)
+    if mode == "full":
+        return agent_toolbox_overview(
+            include_health=include_health,
+            snapshot=snapshot,
+        )
+    return progressive_toolbox_overview(snapshot=snapshot)
 
 
 def markdown_catalog(*, include_health: bool = True) -> str:

@@ -5,6 +5,7 @@ from researchchem_toolbox.catalog import (
     agent_toolbox_overview,
     backend_specs,
     catalog_snapshot,
+    progressive_toolbox_overview,
     validate_catalog,
 )
 
@@ -36,7 +37,10 @@ def test_catalog_snapshot_declares_benchmark_autonomy_policy():
     first = catalog_snapshot(include_health=False)
     second = catalog_snapshot(include_health=False)
     assert first["catalog_hash"] == second["catalog_hash"]
-    assert first["exposure_policy"] == "atomic_all"
+    assert first["discovery_mode"] == "progressive"
+    assert first["exposure_policy"] == "progressive_discovery"
+    assert first["catalog_visibility_policy"] == "complete_task_independent"
+    assert first["task_specific_tool_filtering"] is False
     assert first["backend_selection_policy"] == "per_action_explicit"
     assert set(first["provider_selection_policies"]) == {
         "agent_backend_required",
@@ -48,6 +52,10 @@ def test_catalog_snapshot_declares_benchmark_autonomy_policy():
     assert len(first["actions"]) == len(action_specs())
     assert len(first["actions"]) >= 55
     assert first["resources"]
+    full = catalog_snapshot(include_health=False, discovery_mode="full")
+    assert full["discovery_mode"] == "full"
+    assert full["exposure_policy"] == "atomic_all"
+    assert len(full["actions"]) == len(first["actions"])
 
 
 def test_agent_overview_is_complete_and_contains_no_recipe():
@@ -57,3 +65,14 @@ def test_agent_overview_is_complete_and_contains_no_recipe():
     assert "dispatcher never chooses them" in overview
     assert "deterministic internal Actions do not require a fake backend choice" in overview
     assert "standardize_structure →" not in overview
+
+
+def test_progressive_overview_is_compact_but_indexes_every_domain():
+    overview = progressive_toolbox_overview()
+    assert "search_actions" in overview
+    assert "execute_action" in overview
+    assert all(f"`{category}`" in overview for category in {
+        specification.category for specification in action_specs().values()
+    })
+    assert "`calculate_energy`" not in overview
+    assert "task-specific retrieval" in overview

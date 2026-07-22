@@ -493,6 +493,7 @@ def score_workspace(
         "task_id": task_id,
         "agent_key": meta.get("agent_key", ""),
         "agent_name": meta.get("agent_name", ""),
+        "tool_discovery_mode": meta.get("tool_discovery_mode", "legacy_full"),
         "query": meta.get("query", ""),
         "expected_tool_calls": truth.get("expected_tool_calls", []),
         "actual_tool_calls": actual_calls,

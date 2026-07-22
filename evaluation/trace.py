@@ -6,8 +6,18 @@ import json
 from pathlib import Path
 from typing import Any
 
+from researchchem_toolbox.catalog import action_specs
+
 
 SUCCESSFUL_TOOL_STATUSES = {"success", "partial_success"}
+CATALOG_DISCOVERY_TOOLS = {
+    "list_action_domains",
+    "search_actions",
+    "inspect_action",
+    "inspect_backend",
+    "search_resources",
+    "inspect_resource",
+}
 
 
 def load_tool_trace(workspace: Path) -> list[dict[str, Any]]:
@@ -164,6 +174,7 @@ def normalized_tool_calls(events: list[dict[str, Any]], *, successful_only: bool
 
 
 def process_metrics(events: list[dict[str, Any]]) -> dict[str, Any]:
+    action_ids = set(action_specs())
     return {
         "tool_call_count": len(events),
         "successful_tool_calls": sum(
@@ -176,4 +187,15 @@ def process_metrics(events: list[dict[str, Any]]) -> dict[str, Any]:
             sum(float(event.get("duration_seconds", 0) or 0) for event in events), 6
         ),
         "tools_used": [event.get("tool") for event in events],
+        "catalog_discovery_call_count": sum(
+            event.get("tool") in CATALOG_DISCOVERY_TOOLS for event in events
+        ),
+        "predefined_action_call_count": sum(
+            event.get("tool") in action_ids for event in events
+        ),
+        "open_execution_call_count": sum(
+            event.get("tool") not in CATALOG_DISCOVERY_TOOLS
+            and event.get("tool") not in action_ids
+            for event in events
+        ),
     }

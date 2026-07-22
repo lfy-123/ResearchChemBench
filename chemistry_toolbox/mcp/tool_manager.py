@@ -1,4 +1,4 @@
-"""Inspect, validate, document, and probe the immutable full atomic catalog."""
+"""Inspect, validate, document, and probe the immutable chemistry catalog."""
 
 from __future__ import annotations
 
@@ -20,6 +20,7 @@ from researchchem_toolbox.paths import PROJECT_ROOT
 
 from .registry import configuration_errors
 from .open_tools import OPEN_EXECUTION_TOOL_NAMES
+from .discovery_tools import PROGRESSIVE_DISCOVERY_TOOL_NAMES
 from .software_catalog import load_native_guides, validate_native_guides
 
 
@@ -149,6 +150,7 @@ def main() -> int:
         print(
             f"ok: {len(action_specs())} actions, {len(backend_specs())} backends, "
             f"{len(OPEN_EXECUTION_TOOL_NAMES)} open-execution tools, "
+            f"{len(PROGRESSIVE_DISCOVERY_TOOL_NAMES)} progressive discovery/dispatch tools, "
             f"{len(load_native_guides()['software'])} native software guides, "
             "three peer layers, agent-required choices, no fallback"
         )

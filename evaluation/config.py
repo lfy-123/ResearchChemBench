@@ -64,8 +64,8 @@ def chemistry_server_command() -> list[str]:
     return list(specs[0]["command"])
 
 
-def chemistry_server_specs() -> list[dict]:
-    """Return the one full-catalog MCP server; profiles are backend workers only."""
+def chemistry_server_specs(discovery_mode: str | None = None) -> list[dict]:
+    """Return one server over the complete catalog; only its discovery surface varies."""
 
     from chemistry_toolbox.mcp.profiles import public_server_spec, selected_profile_names
 
@@ -73,4 +73,4 @@ def chemistry_server_specs() -> list[dict]:
     if configured:
         # Retained only as an installation/probe selection compatibility check.
         selected_profile_names(configured)
-    return [public_server_spec()]
+    return [public_server_spec(discovery_mode)]

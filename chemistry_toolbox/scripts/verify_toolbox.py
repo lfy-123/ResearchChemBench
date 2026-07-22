@@ -20,6 +20,7 @@ for path in (SOURCE_ROOT, ROOT):
         sys.path.insert(0, str(path))
 
 from chemistry_toolbox.mcp.profiles import load_profile_config
+from chemistry_toolbox.mcp.discovery_tools import PROGRESSIVE_DISCOVERY_TOOL_NAMES
 from chemistry_toolbox.mcp.open_tools import OPEN_EXECUTION_TOOL_NAMES
 from chemistry_toolbox.mcp.software_catalog import (
     list_analysis_runtimes,
@@ -252,12 +253,14 @@ def markdown(payload: dict[str, Any]) -> str:
         f"- Data Actions: {payload['data_actions']}",
         f"- BackendSpecs: {payload['backend_count']}",
         f"- Open execution MCP tools: {payload['open_execution_tool_count']}",
+        f"- Progressive discovery/dispatch MCP tools: {payload['progressive_tool_count']}",
         f"- Native software invocation guides: {payload['native_software_count']}",
         f"- Native command guides: {payload['native_command_count']}",
         f"- Available programmable runtimes: {payload['analysis_runtime_count']}",
         f"- Available backends: {len(available)}",
         f"- Unavailable backends: {len(unavailable)}",
-        "- Exposure: full catalog for every task",
+        "- Exposure: complete task-independent catalog through progressive discovery",
+        "- Compatibility: full one-tool-per-Action mode remains available",
         "- Backend selection: Agent required",
         "- Automatic fallback: disabled",
         "- Layers: predefined Actions, native software, programmable analysis",
@@ -311,6 +314,7 @@ def main() -> int:
         "data_actions": sum(item.data_action for item in action_specs().values()),
         "backend_count": len(backend_specs()),
         "open_execution_tool_count": len(OPEN_EXECUTION_TOOL_NAMES),
+        "progressive_tool_count": len(PROGRESSIVE_DISCOVERY_TOOL_NAMES),
         "native_software_count": len(load_native_guides()["software"]),
         "native_command_count": sum(
             len(item["commands"])

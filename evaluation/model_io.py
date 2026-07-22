@@ -30,6 +30,20 @@ SENSITIVE_TEXT_PATTERNS = (
 )
 
 
+def _tool_catalog_delivery(workspace: Path) -> str:
+    meta_path = workspace / "_meta.json"
+    if meta_path.is_file():
+        try:
+            meta = json.loads(meta_path.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError):
+            meta = {}
+        if meta.get("tool_discovery_mode") == "progressive":
+            return "progressive_mcp_discovery"
+        if meta.get("tool_discovery_mode") == "full":
+            return "eager_full_mcp_tools"
+    return "legacy_or_unspecified"
+
+
 def _redact_text(value: str) -> str:
     redacted = value
     for pattern in SENSITIVE_TEXT_PATTERNS:
@@ -87,6 +101,7 @@ def _load_json(value: str) -> dict[str, Any]:
 def _opencode_records(
     workspace: Path,
 ) -> tuple[list[dict[str, Any]], dict[str, int], dict[str, list[str]]]:
+    catalog_delivery = _tool_catalog_delivery(workspace)
     database = workspace / "_opencode" / "opencode.db"
     connection = sqlite3.connect(f"file:{database}?mode=ro", uri=True)
     try:
@@ -198,6 +213,7 @@ def _opencode_records(
                     "new_context_refs_since_previous_step": new_refs,
                     "initial_instruction_ref": "artifact:INSTRUCTIONS.md",
                     "tool_catalog_ref": "artifact:_toolbox_catalog.json",
+                    "tool_catalog_delivery": catalog_delivery,
                     "provider_config_ref": "artifact:opencode.json",
                 },
                 "output": {
@@ -223,6 +239,7 @@ def _opencode_records(
 def _fallback_records(
     workspace: Path,
 ) -> tuple[list[dict[str, Any]], dict[str, int], dict[str, list[str]]]:
+    catalog_delivery = _tool_catalog_delivery(workspace)
     session_id = "primary"
     records: list[dict[str, Any]] = [
         {
@@ -295,6 +312,7 @@ def _fallback_records(
                             "new_context_refs_since_previous_step": new_refs,
                             "initial_instruction_ref": "artifact:INSTRUCTIONS.md",
                             "tool_catalog_ref": "artifact:_toolbox_catalog.json",
+                            "tool_catalog_delivery": catalog_delivery,
                         },
                         "output": {"record_ref": output_ref, "events": current},
                     }

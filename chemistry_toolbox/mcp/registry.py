@@ -12,12 +12,14 @@ from researchchem_toolbox.catalog import (
     action_specs,
     catalog_snapshot,
     mcp_action_description,
+    resolve_tool_discovery_mode,
     validate_catalog,
 )
 from researchchem_toolbox.models import ActionRequest, ActionSpec
 from researchchem_toolbox.service import execute_action
 
 from .tracing import execute_traced
+from .discovery_tools import register_progressive_discovery_tools
 from .open_tools import register_open_execution_tools
 from .software_catalog import open_execution_prompt, software_resource_snapshot
 
@@ -75,8 +77,13 @@ def tool_is_enabled(module_stem: str, config: dict[str, Any] | None = None) -> b
 def configuration_errors(config: dict[str, Any] | None = None) -> list[str]:
     value = config or load_tool_config()
     errors: list[str] = []
-    if value.get("exposure_policy", "atomic_all") != "atomic_all":
-        errors.append("tool_config.json exposure_policy must be atomic_all")
+    if value.get("exposure_policy", "progressive_discovery") not in {
+        "progressive_discovery",
+        "atomic_all",
+    }:
+        errors.append(
+            "tool_config.json exposure_policy must be progressive_discovery or atomic_all"
+        )
     if value.get("backend_selection_policy", "per_action_explicit") != "per_action_explicit":
         errors.append("tool_config.json backend_selection_policy must be per_action_explicit")
     if value.get("automatic_fallback", False) is not False:
@@ -137,7 +144,7 @@ def _make_action_callable(specification: ActionSpec):
 
 
 def register_all_tools(mcp) -> list[str]:
-    """Register all Actions plus the neutral native/program execution primitives."""
+    """Register the historical one-MCP-tool-per-Action compatibility surface."""
 
     discover_tools(strict=True)
     registered = []
@@ -152,8 +159,26 @@ def register_all_tools(mcp) -> list[str]:
     return registered
 
 
-def register_catalog_resources(mcp) -> None:
+def register_progressive_tools(mcp) -> list[str]:
+    """Register compact discovery/dispatch plus native/program primitives."""
+
+    discover_tools(strict=True)
+    registered = register_progressive_discovery_tools(mcp)
+    registered.extend(register_open_execution_tools(mcp))
+    return registered
+
+
+def register_public_tools(mcp, discovery_mode: str | None = None) -> list[str]:
+    """Register the selected transport surface over the same complete catalog."""
+
+    mode = resolve_tool_discovery_mode(discovery_mode)
+    return register_all_tools(mcp) if mode == "full" else register_progressive_tools(mcp)
+
+
+def register_catalog_resources(mcp, discovery_mode: str | None = None) -> None:
     """Expose complete read-only Action and open-execution catalogs."""
+
+    mode = resolve_tool_discovery_mode(discovery_mode)
 
     @mcp.resource("researchchem://catalog")
     def complete_catalog() -> str:
@@ -165,4 +190,4 @@ def register_catalog_resources(mcp) -> None:
 
     @mcp.resource("researchchem://execution-policy")
     def execution_policy() -> str:
-        return open_execution_prompt()
+        return open_execution_prompt(include_command_index=mode == "full")

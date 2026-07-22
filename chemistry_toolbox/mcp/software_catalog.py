@@ -691,8 +691,13 @@ def list_analysis_runtimes(request: AnalysisRuntimeListRequest) -> dict[str, Any
     }
 
 
-def open_execution_prompt() -> str:
-    """Return a compact neutral description of layers two and three."""
+def open_execution_prompt(*, include_command_index: bool = True) -> str:
+    """Return a neutral description of layers two and three.
+
+    Progressive discovery omits the eager command synopsis index because the
+    same exact information is available on demand through ``list_software`` and
+    ``inspect_software``.
+    """
 
     lines = [
         "",
@@ -705,15 +710,22 @@ def open_execution_prompt() -> str:
         "no fallback. Poll with `get_execution_job`, inspect logs, and collect files with "
         "`collect_execution_job`.",
         "",
-        "Reviewed native command ids and invocation synopses:",
     ]
-    for software_id, item in load_native_guides()["software"].items():
-        commands = []
-        for executable, command in (item.get("commands") or {}).items():
-            if command.get("enabled", True) is True:
-                commands.append(f"{executable}: {command.get('synopsis')}")
-        if commands:
-            lines.append(f"- `{software_id}` - " + " | ".join(commands))
+    if include_command_index:
+        lines.append("Reviewed native command ids and invocation synopses:")
+        for software_id, item in load_native_guides()["software"].items():
+            commands = []
+            for executable, command in (item.get("commands") or {}).items():
+                if command.get("enabled", True) is True:
+                    commands.append(f"{executable}: {command.get('synopsis')}")
+            if commands:
+                lines.append(f"- `{software_id}` - " + " | ".join(commands))
+    else:
+        lines.append(
+            "The complete software inventory and every reviewed command synopsis remain available "
+            "on demand through `list_software` and `inspect_software`; no program is hidden or "
+            "selected automatically."
+        )
     lines.extend(
         [
             "",

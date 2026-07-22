@@ -9,7 +9,12 @@ from typing import Any
 import yaml
 from dotenv import load_dotenv
 
-from researchchem_toolbox.catalog import action_specs, backend_specs
+from researchchem_toolbox.catalog import (
+    TOOL_DISCOVERY_MODE_ENV,
+    action_specs,
+    backend_specs,
+    resolve_tool_discovery_mode,
+)
 from researchchem_toolbox.paths import CONFIG_ROOT, PROJECT_ROOT, SOURCE_ROOT
 
 
@@ -212,16 +217,31 @@ def runtime_for_backend(backend_id: str) -> str:
     return backend_specs()[backend_id].runtime
 
 
-def public_server_spec() -> dict[str, Any]:
+def public_server_spec(discovery_mode: str | None = None) -> dict[str, Any]:
     config = load_profile_config()
     public = dict(config["public_server"])
     runtime = str(public["runtime"])
     python = profile_python(runtime)
+    mode = resolve_tool_discovery_mode(discovery_mode)
+    from .discovery_tools import PROGRESSIVE_DISCOVERY_TOOL_NAMES
+    from .open_tools import OPEN_EXECUTION_TOOL_NAMES
+
+    tools = (
+        sorted(action_specs()) + list(OPEN_EXECUTION_TOOL_NAMES)
+        if mode == "full"
+        else list(PROGRESSIVE_DISCOVERY_TOOL_NAMES) + list(OPEN_EXECUTION_TOOL_NAMES)
+    )
+    environment = profile_runtime_environment(runtime)
+    environment[TOOL_DISCOVERY_MODE_ENV] = mode
     return {
         "profile": None,
         "runtime": runtime,
+        "discovery_mode": mode,
         "name": str(public.get("server_name") or "researchchem_toolbox"),
-        "description": str(public.get("description") or "Complete ResearchChem atomic toolbox"),
+        "description": str(
+            public.get("description")
+            or "Complete ResearchChem catalog with progressive discovery"
+        ),
         "python": str(python),
         "command": [
             str(python),
@@ -229,14 +249,16 @@ def public_server_spec() -> dict[str, Any]:
             "chemistry_toolbox.mcp.server",
             "--transport",
             "stdio",
+            "--discovery-mode",
+            mode,
         ],
-        "environment": profile_runtime_environment(runtime),
-        "tools": sorted(action_specs()),
+        "environment": environment,
+        "tools": tools,
     }
 
 
 def profile_server_spec(name: str) -> dict[str, Any]:
-    """Deprecated compatibility alias; every name resolves to the one full server."""
+    """Deprecated compatibility alias; every name resolves to the one public server."""
 
     get_profile(name)
     return public_server_spec()

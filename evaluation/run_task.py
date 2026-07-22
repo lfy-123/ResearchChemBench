@@ -37,7 +37,12 @@ from .instructions_tmpl import INSTRUCTIONS_TEMPLATE
 from .model_io import export_model_io_trace
 from .trace import load_tool_trace, process_metrics
 from .utils import load_task_info
-from researchchem_toolbox.catalog import agent_toolbox_overview, catalog_snapshot
+from researchchem_toolbox.catalog import (
+    TOOL_DISCOVERY_MODE_ENV,
+    catalog_snapshot,
+    resolve_tool_discovery_mode,
+    toolbox_overview,
+)
 
 
 class TaskRunner:
@@ -51,6 +56,7 @@ class TaskRunner:
         workspace_root: Path | None = None,
         timeout_seconds: int = DEFAULT_AGENT_TIMEOUT_SECONDS,
         max_turns: int = DEFAULT_MAX_TURNS,
+        tool_discovery_mode: str | None = None,
     ):
         if agent_key not in AGENT_PRESETS:
             raise ValueError(f"Unknown agent preset: {agent_key}")
@@ -62,6 +68,7 @@ class TaskRunner:
         self.agent_name = self.agent["label"]
         self.timeout_seconds = timeout_seconds
         self.max_turns = max_turns
+        self.tool_discovery_mode = resolve_tool_discovery_mode(tool_discovery_mode)
         self.timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
         self.run_id = f"{task_id}_{agent_key}_{self.timestamp}_{uuid.uuid4().hex[:6]}"
         root = Path(workspace_root) if workspace_root else WORKSPACES_DIR
@@ -89,7 +96,8 @@ class TaskRunner:
             task_desc=self.task_info["task"],
             category=self.task_info.get("category", "uncategorized"),
             data_text=data_text,
-            toolbox_overview=agent_toolbox_overview(
+            toolbox_overview=toolbox_overview(
+                discovery_mode=self.tool_discovery_mode,
                 include_health=True,
                 snapshot=(
                     json.loads((self.workspace / "_toolbox_catalog.json").read_text(encoding="utf-8"))
@@ -190,6 +198,7 @@ class TaskRunner:
         values = {
             "RESEARCHCHEMBENCH_WORKSPACE": str(self.workspace.resolve()),
             "RESEARCHCHEMBENCH_RUN_ID": self.run_id,
+            TOOL_DISCOVERY_MODE_ENV: self.tool_discovery_mode,
             "PYTHONPATH": self._runtime_pythonpath(),
             "CHEMGRAPH_LOG_DIR": str((self.workspace / "tool_logs").resolve()),
         }
@@ -199,7 +208,7 @@ class TaskRunner:
 
     def _mcp_server_specs(self) -> list[dict[str, Any]]:
         values = []
-        for spec in chemistry_server_specs():
+        for spec in chemistry_server_specs(self.tool_discovery_mode):
             item = dict(spec)
             item["environment"] = self._mcp_environment(
                 dict(spec.get("environment") or {})
@@ -319,14 +328,29 @@ class TaskRunner:
                 path.chmod(0o444)
 
         (self.workspace / "_toolbox_catalog.json").write_text(
-            json.dumps(catalog_snapshot(include_health=True), indent=2, ensure_ascii=False)
+            json.dumps(
+                catalog_snapshot(
+                    include_health=True,
+                    discovery_mode=self.tool_discovery_mode,
+                ),
+                indent=2,
+                ensure_ascii=False,
+            )
             + "\n",
             encoding="utf-8",
         )
         self.instructions_path.write_text(self._build_instructions(), encoding="utf-8")
         self._write_claude_mcp_config()
         self._write_opencode_config()
-        self._write_meta("ready")
+        catalog_path = self.workspace / "_toolbox_catalog.json"
+        self._write_meta(
+            "ready",
+            {
+                "instruction_bytes": self.instructions_path.stat().st_size,
+                "catalog_snapshot_bytes": catalog_path.stat().st_size,
+                "mcp_public_tool_count": len(self._mcp_server_specs()[0].get("tools", [])),
+            },
+        )
 
     @staticmethod
     def _toml_string(value: str) -> str:
@@ -457,6 +481,7 @@ class TaskRunner:
             "workspace": str(self.workspace),
             "agent_key": self.agent_key,
             "agent_name": self.agent_name,
+            "tool_discovery_mode": self.tool_discovery_mode,
             "query": self.task_info.get("task", ""),
             "category": self.task_info.get("category", ""),
         }

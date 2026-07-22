@@ -11,6 +11,7 @@ from chemistry_toolbox.mcp.registry import (
     discovered_module_stems,
 )
 from chemistry_toolbox.mcp.open_tools import OPEN_EXECUTION_TOOL_NAMES
+from chemistry_toolbox.mcp.discovery_tools import PROGRESSIVE_DISCOVERY_TOOL_NAMES
 from chemistry_toolbox.mcp.server import create_server
 from researchchem_toolbox.catalog import action_specs, validate_catalog
 
@@ -24,13 +25,13 @@ def test_registry_is_full_and_task_independent():
     assert all(record.enabled and record.error is None for record in records)
 
 
-def test_server_registers_all_actions_and_catalog_resource():
+def test_progressive_server_registers_compact_surface_and_catalog_resources():
     async def collect():
         async with Client(create_server()) as client:
             return await client.list_tools(), await client.list_resources()
 
     tools, resources = asyncio.run(collect())
-    expected_tools = set(action_specs()) | set(OPEN_EXECUTION_TOOL_NAMES)
+    expected_tools = set(PROGRESSIVE_DISCOVERY_TOOL_NAMES) | set(OPEN_EXECUTION_TOOL_NAMES)
     assert {tool.name for tool in tools} == expected_tools
     assert len(tools) == len(expected_tools)
     assert {str(resource.uri) for resource in resources} == {
@@ -40,8 +41,24 @@ def test_server_registers_all_actions_and_catalog_resource():
     }
     for tool in tools:
         assert set(tool.inputSchema["properties"]) == {"request"}
-        if tool.name in action_specs():
-            assert "backend_id" in tool.inputSchema["$defs"]["ActionRequest"]["properties"]
+        if tool.name == "execute_action":
+            request_schema = next(
+                value
+                for key, value in tool.inputSchema["$defs"].items()
+                if key == "ProgressiveActionRequest"
+            )
+            assert "action_id" in request_schema["properties"]
+            assert "backend_id" in request_schema["properties"]
+
+
+def test_full_compatibility_server_registers_every_action():
+    async def collect():
+        async with Client(create_server(discovery_mode="full")) as client:
+            return await client.list_tools()
+
+    tools = asyncio.run(collect())
+    expected = set(action_specs()) | set(OPEN_EXECUTION_TOOL_NAMES)
+    assert {tool.name for tool in tools} == expected
 
 
 def test_legacy_public_tool_files_are_gone():

@@ -11,6 +11,8 @@ from chemistry_toolbox.mcp.profiles import (
     public_server_spec,
     project_model_cache_path,
 )
+from chemistry_toolbox.mcp.discovery_tools import PROGRESSIVE_DISCOVERY_TOOL_NAMES
+from chemistry_toolbox.mcp.open_tools import OPEN_EXECUTION_TOOL_NAMES
 from evaluation.run_task import TaskRunner
 from researchchem_toolbox.catalog import action_specs, backend_specs
 
@@ -36,12 +38,16 @@ def test_runtimes_have_unique_researchchem_conda_names():
     assert all(name.startswith("researchchem-") for name in names)
 
 
-def test_public_server_is_one_full_catalog_server():
+def test_public_server_is_one_progressive_complete_catalog_server():
     spec = public_server_spec()
     assert spec["name"] == "researchchem_toolbox"
     assert spec["profile"] is None
-    assert spec["tools"] == sorted(action_specs())
+    assert spec["discovery_mode"] == "progressive"
+    assert set(spec["tools"]) == set(PROGRESSIVE_DISCOVERY_TOOL_NAMES) | set(
+        OPEN_EXECUTION_TOOL_NAMES
+    )
     assert "--profile" not in spec["command"]
+    assert spec["command"][-2:] == ["--discovery-mode", "progressive"]
     assert "chemistry_toolbox.mcp.server" in spec["command"]
 
 
@@ -98,7 +104,7 @@ def test_manual_runtime_paths_are_exact_and_project_relative_values_are_resolved
     )
 
 
-def test_task_workspace_gets_one_server_full_prompt_and_catalog(tmp_path, monkeypatch):
+def test_task_workspace_gets_one_server_progressive_prompt_and_complete_catalog(tmp_path, monkeypatch):
     monkeypatch.setenv("RESEARCHCHEMBENCH_MCP_PROFILES", "core,services")
     runner = TaskRunner("ChemGraph_001", agent_key="opencode", workspace_root=tmp_path)
     runner.setup_workspace()
@@ -108,7 +114,23 @@ def test_task_workspace_gets_one_server_full_prompt_and_catalog(tmp_path, monkey
     assert set(opencode["mcp"]) == {"researchchem_toolbox"}
     catalog = json.loads((runner.workspace / "_toolbox_catalog.json").read_text())
     assert len(catalog["actions"]) == len(action_specs())
+    assert catalog["discovery_mode"] == "progressive"
     prompt = (runner.workspace / "INSTRUCTIONS.md").read_text()
-    assert "task-specific tool retrieval" in prompt
+    assert "task-specific retrieval" in prompt
     assert "automatic backend selection" in prompt
+    assert "`calculate_energy`" not in prompt
+    assert "search_actions" in prompt
+
+
+def test_task_workspace_can_preserve_full_compatibility_prompt(tmp_path):
+    runner = TaskRunner(
+        "ChemGraph_001",
+        agent_key="mock",
+        workspace_root=tmp_path,
+        tool_discovery_mode="full",
+    )
+    runner.setup_workspace()
+    prompt = (runner.workspace / "INSTRUCTIONS.md").read_text()
     assert all(f"`{action_id}`" in prompt for action_id in action_specs())
+    catalog = json.loads((runner.workspace / "_toolbox_catalog.json").read_text())
+    assert catalog["discovery_mode"] == "full"

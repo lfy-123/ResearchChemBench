@@ -1,8 +1,13 @@
 {
-  "generated_at": "2026-07-21T04:14:54.409696+00:00",
-  "scientific_actions": 91,
+  "generated_at": "2026-07-22T06:03:32.856927+00:00",
+  "scientific_actions": 96,
   "data_actions": 10,
   "backend_count": 76,
+  "open_execution_tool_count": 13,
+  "progressive_tool_count": 7,
+  "native_software_count": 56,
+  "native_command_count": 69,
+  "analysis_runtime_count": 42,
   "checks": [
     {
       "name": "catalog",
@@ -10,6 +15,10 @@
     },
     {
       "name": "runtime_profiles",
+      "status": "pass"
+    },
+    {
+      "name": "native_invocation_guides",
       "status": "pass"
     },
     {
@@ -25,8 +34,28 @@
     }
   ],
   "catalog": {
-    "schema_version": 4,
-    "exposure_policy": "atomic_all",
+    "schema_version": 6,
+    "execution_layers": [
+      {
+        "id": "predefined_actions",
+        "role": "validated common scientific operations",
+        "mandatory": false
+      },
+      {
+        "id": "native_software",
+        "role": "Agent-authored native inputs and exact allowlisted commands",
+        "mandatory": false
+      },
+      {
+        "id": "programmable_analysis",
+        "role": "Agent-authored programs in explicitly selected chemistry runtimes",
+        "mandatory": false
+      }
+    ],
+    "discovery_mode": "progressive",
+    "exposure_policy": "progressive_discovery",
+    "catalog_visibility_policy": "complete_task_independent",
+    "task_specific_tool_filtering": false,
     "backend_selection_policy": "per_action_explicit",
     "provider_selection_policies": [
       "agent_backend_required",
@@ -610,6 +639,9 @@
           "nwchem",
           "orca",
           "gaussian",
+          "mace",
+          "chgnet",
+          "deepmd",
           "ase_emt"
         ],
         "required_inputs": [
@@ -887,12 +919,69 @@
           "internal_thermochemistry",
           "goodvibes"
         ],
-        "required_inputs": [
+        "required_inputs": [],
+        "optional_inputs": [
           "energy",
-          "frequencies"
+          "frequencies",
+          "structure",
+          "output_file"
+        ],
+        "input_description": "Backend-specific contract: internal_thermochemistry requires EnergyResult plus FrequencyResult (with its matching structure embedded, or structure supplied separately); goodvibes requires one compatible quantum output_file Artifact",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
+      },
+      {
+        "id": "scan_thermochemistry_temperature",
+        "category": "molecular_electronic",
+        "description": "Evaluate thermochemical quantities for supplied quantum outputs at each explicitly listed temperature without rerunning electronic-structure calculations.",
+        "primary_output": "ThermochemistryTemperatureSeries",
+        "backend_ids": [
+          "goodvibes"
+        ],
+        "required_inputs": [
+          "output_files",
+          "temperatures_kelvin"
         ],
         "optional_inputs": [],
-        "input_description": "EnergyResult and FrequencyResult or a compatible parsed output Artifact",
+        "input_description": "one or more completed Gaussian, ORCA, NWChem, Q-Chem, xTB, or ASE-extxyz outputs plus an explicit non-empty temperature list",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
+      },
+      {
+        "id": "analyze_thermochemical_ensemble",
+        "category": "molecular_electronic",
+        "description": "Calculate per-structure thermochemistry and Boltzmann populations for an explicitly supplied conformer or structure ensemble.",
+        "primary_output": "ThermochemicalEnsembleResult",
+        "backend_ids": [
+          "goodvibes"
+        ],
+        "required_inputs": [
+          "output_files"
+        ],
+        "optional_inputs": [],
+        "input_description": "two or more compatible completed quantum outputs representing the exact ensemble chosen by the Agent",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
+      },
+      {
+        "id": "validate_thermochemistry_inputs",
+        "category": "molecular_electronic",
+        "description": "Check supplied quantum outputs for thermochemistry compatibility, calculation consistency, frequency issues, and possible duplicate structures.",
+        "primary_output": "ThermochemistryValidationReport",
+        "backend_ids": [
+          "goodvibes"
+        ],
+        "required_inputs": [
+          "output_files"
+        ],
+        "optional_inputs": [],
+        "input_description": "one or more compatible completed quantum-chemistry output files",
         "version": "1.0.0",
         "data_action": false,
         "requires_network": false,
@@ -1057,6 +1146,44 @@
         ],
         "optional_inputs": [],
         "input_description": "typed CatMAP model fields, including explicit reaction expressions, species/site definitions, descriptor space, energetics input Artifact, thermochemistry modes, solver controls, and requested output variables",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
+      },
+      {
+        "id": "analyze_thermochemical_selectivity",
+        "category": "reaction_and_kinetics",
+        "description": "Calculate N-way thermodynamic selectivity from explicitly labeled structure ensembles, including two-label excess and delta-delta-G when applicable.",
+        "primary_output": "ThermochemicalSelectivityResult",
+        "backend_ids": [
+          "goodvibes"
+        ],
+        "required_inputs": [
+          "output_files",
+          "label_groups"
+        ],
+        "optional_inputs": [],
+        "input_description": "compatible completed quantum outputs plus a mapping from at least two Agent-defined labels to exact members of output_files",
+        "version": "1.0.0",
+        "data_action": false,
+        "requires_network": false,
+        "selection_policy": "agent_backend_required"
+      },
+      {
+        "id": "analyze_reaction_free_energy_profile",
+        "category": "reaction_and_kinetics",
+        "description": "Calculate relative electronic and thermochemical energies along explicitly defined reaction pathways, including stoichiometric sums and conformer ensembles.",
+        "primary_output": "ReactionFreeEnergyProfileResult",
+        "backend_ids": [
+          "goodvibes"
+        ],
+        "required_inputs": [
+          "output_files",
+          "profile_definition_file"
+        ],
+        "optional_inputs": [],
+        "input_description": "compatible completed quantum outputs plus an Agent-authored GoodVibes PES YAML defining pathways, species membership, zero references, and units",
         "version": "1.0.0",
         "data_action": false,
         "requires_network": false,
@@ -2106,6 +2233,8 @@
             "record_type"
           ]
         },
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -2156,7 +2285,13 @@
         "required_data_resources": [],
         "license_class": "open_source",
         "install_notes": "",
-        "method_schema": {},
+        "method_schema": {
+          "properties": "action_settings.properties must be a non-empty list chosen from metadata, atom_coordinates, energies, gradients, hessian, vibrational_frequencies, vibrational_intensities, molecular_orbitals, charges, multipoles, and excited_states",
+          "coordinate_frames": "action_settings.coordinate_frames is last or all",
+          "include_orbital_coefficients": "explicit action_settings boolean controlling large MO coefficient arrays",
+          "include_excited_state_configurations": "explicit action_settings boolean controlling excited-state configuration arrays",
+          "max_array_elements": "explicit action_settings integer limit between 1 and 100000000"
+        },
         "required_input_fields": {},
         "required_method_fields": {},
         "required_setting_fields": {
@@ -2168,6 +2303,8 @@
             "max_array_elements"
           ]
         },
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -2274,6 +2411,8 @@
             "unique"
           ]
         },
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -2334,6 +2473,8 @@
           ]
         },
         "required_setting_fields": {},
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -2395,6 +2536,8 @@
             "random_seed"
           ]
         },
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -2456,6 +2599,8 @@
           ]
         },
         "required_setting_fields": {},
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -2511,6 +2656,8 @@
             "score_unit"
           ]
         },
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -2570,6 +2717,8 @@
             "ph"
           ]
         },
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -2651,6 +2800,8 @@
             "hybrid36"
           ]
         },
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -2713,6 +2864,8 @@
           ]
         },
         "required_setting_fields": {},
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -2775,6 +2928,8 @@
           ]
         },
         "required_setting_fields": {},
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -2839,6 +2994,8 @@
           ]
         },
         "required_setting_fields": {},
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -2909,6 +3066,8 @@
             "solvent_model"
           ]
         },
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -2971,6 +3130,8 @@
             "molecule_counts"
           ]
         },
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -3036,6 +3197,8 @@
             "idealize"
           ]
         },
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -3121,6 +3284,8 @@
             "max_terminations"
           ]
         },
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -3184,7 +3349,12 @@
         "required_data_resources": [],
         "license_class": "open_source",
         "install_notes": "",
-        "method_schema": {},
+        "method_schema": {
+          "method": "gfn1, gfn1-xtb, gfn2, or gfn2-xtb",
+          "charge": "optional explicit integer molecular charge",
+          "unpaired_electrons": "optional explicit nonnegative integer number of unpaired electrons",
+          "optimization_level": "crude, sloppy, loose, normal, tight, verytight, or extreme"
+        },
         "required_input_fields": {},
         "required_method_fields": {
           "calculate_energy": [
@@ -3216,6 +3386,77 @@
           "calculate_bond_orders": [
             "minimum_bond_order"
           ]
+        },
+        "allowed_method_values": {
+          "calculate_energy": {
+            "method": [
+              "gfn1",
+              "gfn1-xtb",
+              "gfn2",
+              "gfn2-xtb"
+            ]
+          },
+          "calculate_forces": {
+            "method": [
+              "gfn1",
+              "gfn1-xtb",
+              "gfn2",
+              "gfn2-xtb"
+            ]
+          },
+          "calculate_hessian": {
+            "method": [
+              "gfn1",
+              "gfn1-xtb",
+              "gfn2",
+              "gfn2-xtb"
+            ]
+          },
+          "optimize_geometry": {
+            "method": [
+              "gfn1",
+              "gfn1-xtb",
+              "gfn2",
+              "gfn2-xtb"
+            ]
+          },
+          "calculate_dipole_moment": {
+            "method": [
+              "gfn1",
+              "gfn1-xtb",
+              "gfn2",
+              "gfn2-xtb"
+            ]
+          },
+          "calculate_atomic_charges": {
+            "method": [
+              "gfn1",
+              "gfn1-xtb",
+              "gfn2",
+              "gfn2-xtb"
+            ]
+          },
+          "calculate_bond_orders": {
+            "method": [
+              "gfn1",
+              "gfn1-xtb",
+              "gfn2",
+              "gfn2-xtb"
+            ]
+          }
+        },
+        "allowed_setting_values": {
+          "optimize_geometry": {
+            "optimization_level": [
+              "crude",
+              "sloppy",
+              "loose",
+              "normal",
+              "tight",
+              "verytight",
+              "extreme"
+            ]
+          }
         },
         "required_component_roles": {},
         "component_backend_options": {},
@@ -3314,6 +3555,8 @@
             "spin_symmetry"
           ]
         },
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -3499,6 +3742,8 @@
             "energy_reference"
           ]
         },
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -3608,6 +3853,8 @@
             "require_finished"
           ]
         },
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {
@@ -3747,6 +3994,8 @@
             "max_scf_cycles"
           ]
         },
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -3878,6 +4127,8 @@
             "scf_thresholds"
           ]
         },
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {
@@ -3970,6 +4221,8 @@
             "minimum_bond_order"
           ]
         },
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {
@@ -4070,6 +4323,8 @@
             "laplacian_sum_tolerance"
           ]
         },
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -4150,6 +4405,8 @@
           ]
         },
         "required_setting_fields": {},
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -4207,7 +4464,10 @@
         "required_data_resources": [],
         "license_class": "open_source",
         "install_notes": "",
-        "method_schema": {},
+        "method_schema": {
+          "method": "gfn1, gfn1-xtb, gfn2, or gfn2-xtb",
+          "optimizer": "bfgs, lbfgs, or fire for optimize_geometry"
+        },
         "required_input_fields": {},
         "required_method_fields": {
           "calculate_energy": [
@@ -4235,6 +4495,57 @@
             "optimizer",
             "max_steps"
           ]
+        },
+        "allowed_method_values": {
+          "calculate_energy": {
+            "method": [
+              "gfn1",
+              "gfn1-xtb",
+              "gfn2",
+              "gfn2-xtb"
+            ]
+          },
+          "calculate_forces": {
+            "method": [
+              "gfn1",
+              "gfn1-xtb",
+              "gfn2",
+              "gfn2-xtb"
+            ]
+          },
+          "calculate_hessian": {
+            "method": [
+              "gfn1",
+              "gfn1-xtb",
+              "gfn2",
+              "gfn2-xtb"
+            ]
+          },
+          "optimize_geometry": {
+            "method": [
+              "gfn1",
+              "gfn1-xtb",
+              "gfn2",
+              "gfn2-xtb"
+            ]
+          },
+          "calculate_dipole_moment": {
+            "method": [
+              "gfn1",
+              "gfn1-xtb",
+              "gfn2",
+              "gfn2-xtb"
+            ]
+          }
+        },
+        "allowed_setting_values": {
+          "optimize_geometry": {
+            "optimizer": [
+              "bfgs",
+              "lbfgs",
+              "fire"
+            ]
+          }
         },
         "required_component_roles": {},
         "component_backend_options": {},
@@ -4277,6 +4588,7 @@
         "capabilities": [
           "calculate_energy",
           "calculate_forces",
+          "calculate_hessian",
           "optimize_geometry"
         ],
         "description": "MACE machine-learned interatomic potential with explicit model/device selection.",
@@ -4293,7 +4605,13 @@
         "required_data_resources": [],
         "license_class": "open_source",
         "install_notes": "",
-        "method_schema": {},
+        "method_schema": {
+          "model": "one exact installed cache alias: 'medium-mpa-0', 'MACE-MPA-0-medium', 'medium', or 'MACE-MP-0-medium'; alternatively an explicit local model path, or a pinned MACE 0.3.16 foundation-model name/HTTPS URL when allow_model_download=true",
+          "device": "explicit MACE device such as cpu, cuda, or cuda:<index>",
+          "allow_model_download": "explicit boolean; false still permits an installed cache alias/local path",
+          "default_dtype": "optional float32 or float64",
+          "optimizer": "bfgs, lbfgs, or fire for optimize_geometry"
+        },
         "required_input_fields": {},
         "required_method_fields": {
           "calculate_energy": [
@@ -4306,6 +4624,11 @@
             "device",
             "allow_model_download"
           ],
+          "calculate_hessian": [
+            "model",
+            "device",
+            "allow_model_download"
+          ],
           "optimize_geometry": [
             "model",
             "device",
@@ -4313,11 +4636,24 @@
           ]
         },
         "required_setting_fields": {
+          "calculate_hessian": [
+            "displacement_angstrom"
+          ],
           "optimize_geometry": [
             "fmax_ev_per_angstrom",
             "optimizer",
             "max_steps"
           ]
+        },
+        "allowed_method_values": {},
+        "allowed_setting_values": {
+          "optimize_geometry": {
+            "optimizer": [
+              "bfgs",
+              "lbfgs",
+              "fire"
+            ]
+          }
         },
         "required_component_roles": {},
         "component_backend_options": {},
@@ -4360,6 +4696,7 @@
         "capabilities": [
           "calculate_energy",
           "calculate_forces",
+          "calculate_hessian",
           "optimize_geometry"
         ],
         "description": "CHGNet machine-learned interatomic potential with explicit model/device selection.",
@@ -4389,6 +4726,11 @@
             "device",
             "allow_model_download"
           ],
+          "calculate_hessian": [
+            "model",
+            "device",
+            "allow_model_download"
+          ],
           "optimize_geometry": [
             "model",
             "device",
@@ -4396,11 +4738,24 @@
           ]
         },
         "required_setting_fields": {
+          "calculate_hessian": [
+            "displacement_angstrom"
+          ],
           "optimize_geometry": [
             "fmax_ev_per_angstrom",
             "optimizer",
             "max_steps"
           ]
+        },
+        "allowed_method_values": {},
+        "allowed_setting_values": {
+          "optimize_geometry": {
+            "optimizer": [
+              "bfgs",
+              "lbfgs",
+              "fire"
+            ]
+          }
         },
         "required_component_roles": {},
         "component_backend_options": {},
@@ -4443,6 +4798,7 @@
         "capabilities": [
           "calculate_energy",
           "calculate_forces",
+          "calculate_hessian",
           "optimize_geometry",
           "calculate_periodic_energy",
           "calculate_periodic_forces",
@@ -4493,6 +4849,13 @@
             "charge",
             "spin"
           ],
+          "calculate_hessian": [
+            "model",
+            "device",
+            "model_branch",
+            "charge",
+            "spin"
+          ],
           "optimize_geometry": [
             "model",
             "device",
@@ -4530,6 +4893,9 @@
           ]
         },
         "required_setting_fields": {
+          "calculate_hessian": [
+            "displacement_angstrom"
+          ],
           "optimize_geometry": [
             "fmax_ev_per_angstrom",
             "optimizer",
@@ -4541,6 +4907,23 @@
             "relax_cell",
             "optimizer"
           ]
+        },
+        "allowed_method_values": {},
+        "allowed_setting_values": {
+          "optimize_geometry": {
+            "optimizer": [
+              "bfgs",
+              "lbfgs",
+              "fire"
+            ]
+          },
+          "relax_periodic_structure": {
+            "optimizer": [
+              "bfgs",
+              "lbfgs",
+              "fire"
+            ]
+          }
         },
         "required_component_roles": {},
         "component_backend_options": {},
@@ -4653,6 +5036,16 @@
             "relax_cell",
             "optimizer"
           ]
+        },
+        "allowed_method_values": {},
+        "allowed_setting_values": {
+          "relax_periodic_structure": {
+            "optimizer": [
+              "bfgs",
+              "lbfgs",
+              "fire"
+            ]
+          }
         },
         "required_component_roles": {},
         "component_backend_options": {},
@@ -4772,6 +5165,16 @@
             "optimizer"
           ]
         },
+        "allowed_method_values": {},
+        "allowed_setting_values": {
+          "relax_periodic_structure": {
+            "optimizer": [
+              "bfgs",
+              "lbfgs",
+              "fire"
+            ]
+          }
+        },
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -4853,6 +5256,8 @@
           "method": "ORCA method/functional keyword",
           "basis": "ORCA basis-set keyword",
           "dispersion": "optional ORCA dispersion keyword",
+          "solvation_model": "optional cpcm or smd implicit-solvation model",
+          "solvent": "required solvent name when solvation_model is supplied",
           "charge": "optional explicit molecular charge",
           "multiplicity": "optional explicit spin multiplicity"
         },
@@ -4912,6 +5317,63 @@
             "residual_tolerance"
           ]
         },
+        "allowed_method_values": {
+          "calculate_energy": {
+            "solvation_model": [
+              "cpcm",
+              "smd"
+            ]
+          },
+          "calculate_forces": {
+            "solvation_model": [
+              "cpcm",
+              "smd"
+            ]
+          },
+          "calculate_hessian": {
+            "solvation_model": [
+              "cpcm",
+              "smd"
+            ]
+          },
+          "optimize_geometry": {
+            "solvation_model": [
+              "cpcm",
+              "smd"
+            ]
+          },
+          "calculate_dipole_moment": {
+            "solvation_model": [
+              "cpcm",
+              "smd"
+            ]
+          },
+          "calculate_atomic_charges": {
+            "solvation_model": [
+              "cpcm",
+              "smd"
+            ]
+          },
+          "calculate_orbitals": {
+            "solvation_model": [
+              "cpcm",
+              "smd"
+            ]
+          },
+          "calculate_bond_orders": {
+            "solvation_model": [
+              "cpcm",
+              "smd"
+            ]
+          },
+          "calculate_excited_states": {
+            "solvation_model": [
+              "cpcm",
+              "smd"
+            ]
+          }
+        },
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -4968,6 +5430,8 @@
           "method": "Gaussian SCF or DFT method keyword",
           "basis": "Gaussian built-in basis-set keyword",
           "dispersion": "optional single Gaussian dispersion route keyword",
+          "solvation_model": "optional pcm, cpcm, or smd implicit-solvation model",
+          "solvent": "required Gaussian solvent name when solvation_model is supplied",
           "charge": "optional explicit molecular charge",
           "multiplicity": "optional explicit spin multiplicity"
         },
@@ -5006,6 +5470,37 @@
             "max_steps"
           ]
         },
+        "allowed_method_values": {
+          "calculate_energy": {
+            "solvation_model": [
+              "pcm",
+              "cpcm",
+              "smd"
+            ]
+          },
+          "calculate_hessian": {
+            "solvation_model": [
+              "pcm",
+              "cpcm",
+              "smd"
+            ]
+          },
+          "optimize_geometry": {
+            "solvation_model": [
+              "pcm",
+              "cpcm",
+              "smd"
+            ]
+          },
+          "calculate_dipole_moment": {
+            "solvation_model": [
+              "pcm",
+              "cpcm",
+              "smd"
+            ]
+          }
+        },
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -5097,6 +5592,8 @@
             "max_steps"
           ]
         },
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -5160,6 +5657,16 @@
             "max_steps"
           ]
         },
+        "allowed_method_values": {},
+        "allowed_setting_values": {
+          "optimize_geometry": {
+            "optimizer": [
+              "bfgs",
+              "lbfgs",
+              "fire"
+            ]
+          }
+        },
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -5199,24 +5706,40 @@
         ],
         "description": "Mass-weighted Hessian diagonalization with explicit units and linearity handling.",
         "python_modules": [
+          "ase",
           "numpy"
         ],
         "executables": [],
         "environment_variables": [],
         "conda_packages": [],
         "pip_packages": [
+          "ase",
           "numpy"
         ],
         "required_data_resources": [],
         "license_class": "open_source",
         "install_notes": "",
-        "method_schema": {},
+        "method_schema": {
+          "hessian": "full Hessian object, full ArtifactRef, compact {artifact_id}, or artifact-id string",
+          "structure": "matching AtomicStructure or its ArtifactRef",
+          "linearity": "linear, nonlinear, or explicitly selected auto metadata"
+        },
         "required_input_fields": {},
         "required_method_fields": {},
         "required_setting_fields": {
           "derive_vibrational_modes": [
             "linearity"
           ]
+        },
+        "allowed_method_values": {},
+        "allowed_setting_values": {
+          "derive_vibrational_modes": {
+            "linearity": [
+              "linear",
+              "nonlinear",
+              "auto"
+            ]
+          }
         },
         "required_component_roles": {},
         "component_backend_options": {},
@@ -5229,6 +5752,10 @@
           "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.toolbox_env/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
+            "ase": {
+              "available": true,
+              "version": "3.29.0"
+            },
             "numpy": {
               "available": true,
               "version": "1.26.4"
@@ -5241,6 +5768,7 @@
           "missing_environment": [],
           "conda_packages": [],
           "pip_packages": [
+            "ase",
             "numpy"
           ],
           "required_data_resources": [],
@@ -5285,6 +5813,8 @@
             "grid_points"
           ]
         },
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -5337,14 +5867,40 @@
         "required_data_resources": [],
         "license_class": "open_source",
         "install_notes": "",
-        "method_schema": {},
-        "required_input_fields": {},
+        "method_schema": {
+          "energy": "EnergyResult with an explicit eV/hartree unit, including ArtifactRef forms",
+          "frequencies": "FrequencyResult including its matching structure, or supply inputs.structure separately",
+          "geometry": "monatomic, linear, or nonlinear",
+          "symmetry_number": "explicit positive rotational symmetry number",
+          "spin": "explicit total electronic spin used by ASE IdealGasThermo",
+          "ignore_imaginary_modes": "explicit boolean controlling imaginary-mode handling"
+        },
+        "required_input_fields": {
+          "derive_thermochemistry": [
+            "energy",
+            "frequencies"
+          ]
+        },
         "required_method_fields": {},
         "required_setting_fields": {
           "derive_thermochemistry": [
             "temperature_kelvin",
-            "pressure_pa"
+            "pressure_pa",
+            "geometry",
+            "symmetry_number",
+            "spin",
+            "ignore_imaginary_modes"
           ]
+        },
+        "allowed_method_values": {},
+        "allowed_setting_values": {
+          "derive_thermochemistry": {
+            "geometry": [
+              "monatomic",
+              "linear",
+              "nonlinear"
+            ]
+          }
         },
         "required_component_roles": {},
         "component_backend_options": {},
@@ -5384,11 +5940,16 @@
       {
         "id": "goodvibes",
         "display_name": "GoodVibes",
-        "runtime": "reaction",
+        "runtime": "goodvibes",
         "capabilities": [
-          "derive_thermochemistry"
+          "derive_thermochemistry",
+          "scan_thermochemistry_temperature",
+          "analyze_thermochemical_ensemble",
+          "validate_thermochemistry_inputs",
+          "analyze_thermochemical_selectivity",
+          "analyze_reaction_free_energy_profile"
         ],
-        "description": "GoodVibes thermochemistry from an explicitly supplied parsed quantum output.",
+        "description": "GoodVibes 4.3.0 post-processing for explicit Gaussian, ORCA, NWChem, Q-Chem, xTB, or ASE-extxyz outputs: RRHO/quasi-harmonic thermochemistry, temperature analysis, conformer populations, selectivity, consistency checks, and reaction free-energy profiles. It never runs or chooses the upstream quantum calculation.",
         "python_modules": [
           "goodvibes"
         ],
@@ -5396,51 +5957,315 @@
           "goodvibes"
         ],
         "environment_variables": [],
-        "conda_packages": [
-          "goodvibes"
+        "conda_packages": [],
+        "pip_packages": [
+          "goodvibes[full]==4.3.0"
         ],
-        "pip_packages": [],
         "required_data_resources": [],
         "license_class": "open_source",
-        "install_notes": "",
-        "method_schema": {},
-        "required_input_fields": {},
+        "install_notes": "Pinned GoodVibes 4.3.0 with full JSON/CSV/Parquet/plot dependencies; official v4.3.0 source and examples are cached under .software_cache/goodvibes/4.3.0/source.",
+        "method_schema": {
+          "single_point_correction_suffix": "optional explicit GoodVibes --spc suffix; matching FILE_SUFFIX output files must already exist beside each frequency output",
+          "custom_file_extensions": "optional list of additional accepted extensions such as .qfi or .gaussian",
+          "exclude_pattern": "optional explicit filename glob excluded by GoodVibes",
+          "free_space_solvent": "optional GoodVibes free-space solvent correction name; supported names are version-specific and must be selected by the Agent",
+          "frequency_scale_factor": "action_settings positive number or explicit 'auto'; mapped to --vscal, never to --fs",
+          "zpe_scale_factor": "action_settings positive number, 'auto', or 'same_as_frequency'; combinations that the GoodVibes CLI cannot represent faithfully are rejected",
+          "quasi_harmonic_conditionals": "grimme/truhlar entropy requires entropy_frequency_cutoff_cm1; grimme also requires free_rotor_inertia_model; Head-Gordon enthalpy requires enthalpy_frequency_cutoff_cm1",
+          "standard_state_conditionals": "custom_concentration requires action_settings.concentration_mol_l",
+          "imaginary_frequency_conditionals": "invert_below_threshold requires action_settings.imaginary_frequency_threshold_cm1",
+          "duplicate_conditionals": "deduplicate_structures=true requires explicit energy, rotational, and nullable RMSD duplicate cutoffs"
+        },
+        "required_input_fields": {
+          "derive_thermochemistry": [
+            "output_file"
+          ],
+          "scan_thermochemistry_temperature": [
+            "output_files",
+            "temperatures_kelvin"
+          ],
+          "analyze_thermochemical_ensemble": [
+            "output_files"
+          ],
+          "validate_thermochemistry_inputs": [
+            "output_files"
+          ],
+          "analyze_thermochemical_selectivity": [
+            "output_files",
+            "label_groups"
+          ],
+          "analyze_reaction_free_energy_profile": [
+            "output_files",
+            "profile_definition_file"
+          ]
+        },
         "required_method_fields": {},
         "required_setting_fields": {
           "derive_thermochemistry": [
-            "temperature_kelvin"
+            "temperature_kelvin",
+            "standard_state",
+            "entropy_model",
+            "enthalpy_model",
+            "frequency_scale_factor",
+            "zpe_scale_factor",
+            "symmetry_correction",
+            "imaginary_frequency_policy"
+          ],
+          "scan_thermochemistry_temperature": [
+            "standard_state",
+            "entropy_model",
+            "enthalpy_model",
+            "frequency_scale_factor",
+            "zpe_scale_factor",
+            "symmetry_correction",
+            "imaginary_frequency_policy"
+          ],
+          "analyze_thermochemical_ensemble": [
+            "temperature_kelvin",
+            "standard_state",
+            "entropy_model",
+            "enthalpy_model",
+            "frequency_scale_factor",
+            "zpe_scale_factor",
+            "symmetry_correction",
+            "imaginary_frequency_policy",
+            "population_basis",
+            "deduplicate_structures"
+          ],
+          "validate_thermochemistry_inputs": [
+            "temperature_kelvin",
+            "standard_state",
+            "entropy_model",
+            "enthalpy_model",
+            "frequency_scale_factor",
+            "zpe_scale_factor",
+            "symmetry_correction",
+            "imaginary_frequency_policy",
+            "duplicate_energy_cutoff_kcal_mol",
+            "duplicate_rotational_cutoff_fraction",
+            "duplicate_rmsd_cutoff_angstrom"
+          ],
+          "analyze_thermochemical_selectivity": [
+            "temperature_kelvin",
+            "standard_state",
+            "entropy_model",
+            "enthalpy_model",
+            "frequency_scale_factor",
+            "zpe_scale_factor",
+            "symmetry_correction",
+            "imaginary_frequency_policy",
+            "population_basis",
+            "deduplicate_structures"
+          ],
+          "analyze_reaction_free_energy_profile": [
+            "temperature_kelvin",
+            "standard_state",
+            "entropy_model",
+            "enthalpy_model",
+            "frequency_scale_factor",
+            "zpe_scale_factor",
+            "symmetry_correction",
+            "imaginary_frequency_policy",
+            "profile_ensemble_mode"
           ]
+        },
+        "allowed_method_values": {},
+        "allowed_setting_values": {
+          "derive_thermochemistry": {
+            "standard_state": [
+              "gas_1atm",
+              "solution_1mol_l",
+              "custom_concentration"
+            ],
+            "entropy_model": [
+              "rrho",
+              "grimme",
+              "truhlar"
+            ],
+            "enthalpy_model": [
+              "rrho",
+              "head_gordon"
+            ],
+            "imaginary_frequency_policy": [
+              "retain",
+              "invert_below_threshold"
+            ],
+            "free_rotor_inertia_model": [
+              "global",
+              "per_conformer"
+            ]
+          },
+          "scan_thermochemistry_temperature": {
+            "standard_state": [
+              "gas_1atm",
+              "solution_1mol_l",
+              "custom_concentration"
+            ],
+            "entropy_model": [
+              "rrho",
+              "grimme",
+              "truhlar"
+            ],
+            "enthalpy_model": [
+              "rrho",
+              "head_gordon"
+            ],
+            "imaginary_frequency_policy": [
+              "retain",
+              "invert_below_threshold"
+            ],
+            "free_rotor_inertia_model": [
+              "global",
+              "per_conformer"
+            ]
+          },
+          "analyze_thermochemical_ensemble": {
+            "standard_state": [
+              "gas_1atm",
+              "solution_1mol_l",
+              "custom_concentration"
+            ],
+            "entropy_model": [
+              "rrho",
+              "grimme",
+              "truhlar"
+            ],
+            "enthalpy_model": [
+              "rrho",
+              "head_gordon"
+            ],
+            "imaginary_frequency_policy": [
+              "retain",
+              "invert_below_threshold"
+            ],
+            "free_rotor_inertia_model": [
+              "global",
+              "per_conformer"
+            ],
+            "population_basis": [
+              "electronic_energy",
+              "quasi_harmonic_gibbs"
+            ]
+          },
+          "validate_thermochemistry_inputs": {
+            "standard_state": [
+              "gas_1atm",
+              "solution_1mol_l",
+              "custom_concentration"
+            ],
+            "entropy_model": [
+              "rrho",
+              "grimme",
+              "truhlar"
+            ],
+            "enthalpy_model": [
+              "rrho",
+              "head_gordon"
+            ],
+            "imaginary_frequency_policy": [
+              "retain",
+              "invert_below_threshold"
+            ],
+            "free_rotor_inertia_model": [
+              "global",
+              "per_conformer"
+            ]
+          },
+          "analyze_thermochemical_selectivity": {
+            "standard_state": [
+              "gas_1atm",
+              "solution_1mol_l",
+              "custom_concentration"
+            ],
+            "entropy_model": [
+              "rrho",
+              "grimme",
+              "truhlar"
+            ],
+            "enthalpy_model": [
+              "rrho",
+              "head_gordon"
+            ],
+            "imaginary_frequency_policy": [
+              "retain",
+              "invert_below_threshold"
+            ],
+            "free_rotor_inertia_model": [
+              "global",
+              "per_conformer"
+            ],
+            "population_basis": [
+              "electronic_energy",
+              "quasi_harmonic_gibbs"
+            ]
+          },
+          "analyze_reaction_free_energy_profile": {
+            "standard_state": [
+              "gas_1atm",
+              "solution_1mol_l",
+              "custom_concentration"
+            ],
+            "entropy_model": [
+              "rrho",
+              "grimme",
+              "truhlar"
+            ],
+            "enthalpy_model": [
+              "rrho",
+              "head_gordon"
+            ],
+            "imaginary_frequency_policy": [
+              "retain",
+              "invert_below_threshold"
+            ],
+            "free_rotor_inertia_model": [
+              "global",
+              "per_conformer"
+            ],
+            "profile_ensemble_mode": [
+              "gconf",
+              "lowest_conformer",
+              "boltzmann_without_gconf"
+            ]
+          }
         },
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
-        "validation_levels": {},
+        "validation_levels": {
+          "derive_thermochemistry": "validated",
+          "scan_thermochemistry_temperature": "validated",
+          "analyze_thermochemical_ensemble": "validated",
+          "validate_thermochemistry_inputs": "validated",
+          "analyze_thermochemical_selectivity": "validated",
+          "analyze_reaction_free_energy_profile": "validated"
+        },
         "health": {
           "status": "available",
           "available": true,
-          "runtime": "reaction",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/reaction/bin/python",
+          "runtime": "goodvibes",
+          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/goodvibes/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
             "goodvibes": {
               "available": true,
-              "version": "3.2"
+              "version": "4.3.0"
             }
           },
           "executables": {
-            "goodvibes": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/reaction/bin/goodvibes"
+            "goodvibes": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/goodvibes/bin/goodvibes"
           },
           "environment": {},
           "missing_python_modules": [],
           "missing_executables": [],
           "missing_environment": [],
-          "conda_packages": [
-            "goodvibes"
+          "conda_packages": [],
+          "pip_packages": [
+            "goodvibes[full]==4.3.0"
           ],
-          "pip_packages": [],
           "required_data_resources": [],
           "license_class": "open_source",
-          "install_notes": ""
+          "install_notes": "Pinned GoodVibes 4.3.0 with full JSON/CSV/Parquet/plot dependencies; official v4.3.0 source and examples are cached under .software_cache/goodvibes/4.3.0/source."
         }
       },
       {
@@ -5493,6 +6318,8 @@
             "constraint_enforcement_tolerance"
           ]
         },
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {
           "optimize_geometry": [
             "calculator"
@@ -5618,6 +6445,8 @@
             "refine_initial_hessian_iterations"
           ]
         },
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {
           "optimize_geometry": [
             "calculator"
@@ -5753,6 +6582,8 @@
             "backward"
           ]
         },
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -5820,6 +6651,8 @@
             "num_points"
           ]
         },
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -5879,6 +6712,8 @@
             "num_points"
           ]
         },
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -5944,6 +6779,8 @@
             "allow_extrapolation"
           ]
         },
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -6004,6 +6841,8 @@
             "maximum_rate_records"
           ]
         },
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {
@@ -6065,6 +6904,8 @@
             "maximum_rate_records"
           ]
         },
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {
@@ -6127,6 +6968,8 @@
             "pressure_bar"
           ]
         },
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {
@@ -6216,6 +7059,8 @@
             "include_zero_terms"
           ]
         },
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -6268,7 +7113,7 @@
         "pip_packages": [],
         "required_data_resources": [],
         "license_class": "open_source",
-        "install_notes": "",
+        "install_notes": "For propagate_dynamics, generate_velocities=true also requires an explicit random_seed. NVT/NPT additionally require explicit temperature_coupling_groups; no coupling group is chosen implicitly.",
         "method_schema": {},
         "required_input_fields": {},
         "required_method_fields": {},
@@ -6282,9 +7127,12 @@
             "temperature_kelvin",
             "timestep_fs",
             "steps",
-            "report_interval"
+            "report_interval",
+            "generate_velocities"
           ]
         },
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -6311,7 +7159,7 @@
           "pip_packages": [],
           "required_data_resources": [],
           "license_class": "open_source",
-          "install_notes": ""
+          "install_notes": "For propagate_dynamics, generate_velocities=true also requires an explicit random_seed. NVT/NPT additionally require explicit temperature_coupling_groups; no coupling group is chosen implicitly."
         }
       },
       {
@@ -6356,6 +7204,8 @@
             "report_interval"
           ]
         },
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -6470,6 +7320,8 @@
             "initialize_velocities"
           ]
         },
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -6573,6 +7425,8 @@
             "random_seed"
           ]
         },
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -6663,6 +7517,8 @@
             "restart"
           ]
         },
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -6773,6 +7629,8 @@
             "restart"
           ]
         },
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -6884,6 +7742,8 @@
             "max_atoms"
           ]
         },
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -6976,6 +7836,8 @@
             "max_clusters"
           ]
         },
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -7037,6 +7899,8 @@
         "required_input_fields": {},
         "required_method_fields": {},
         "required_setting_fields": {},
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -7121,6 +7985,8 @@
             "relative_tolerance"
           ]
         },
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -7191,6 +8057,8 @@
             "filter_invalid_rows"
           ]
         },
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -7299,6 +8167,8 @@
             "relax_cell"
           ]
         },
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -7398,6 +8268,8 @@
             "relax_cell"
           ]
         },
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -7495,6 +8367,8 @@
             "relax_cell"
           ]
         },
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -7600,6 +8474,8 @@
             "relax_cell"
           ]
         },
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -7702,6 +8578,8 @@
             "relax_cell"
           ]
         },
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -7865,6 +8743,8 @@
             "relax_cell"
           ]
         },
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -7943,6 +8823,8 @@
             "q_path"
           ]
         },
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -8040,6 +8922,8 @@
             "primitive_matrix"
           ]
         },
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -8108,6 +8992,8 @@
             "require_normal_exit"
           ]
         },
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {
@@ -8175,6 +9061,8 @@
             "energy_range_kcal_mol"
           ]
         },
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -8247,6 +9135,8 @@
             "use_gpu"
           ]
         },
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -8298,7 +9188,7 @@
         ],
         "required_data_resources": [],
         "license_class": "open_source",
-        "install_notes": "",
+        "install_notes": "Live PUG REST access uses cross-worker rate limiting and bounded retries. Optional mechanical controls are max_retries, retry_backoff_seconds, minimum_request_interval_seconds, timeout_seconds, max_poll_attempts, and poll_interval_seconds. Existing proxy variables take priority; otherwise PubChem loads proxy-only values from the ignored config.local.env file. No alternate data source is selected implicitly.",
         "method_schema": {},
         "required_input_fields": {},
         "required_method_fields": {},
@@ -8325,6 +9215,8 @@
             "match_stereo"
           ]
         },
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -8352,7 +9244,7 @@
           ],
           "required_data_resources": [],
           "license_class": "open_source",
-          "install_notes": ""
+          "install_notes": "Live PUG REST access uses cross-worker rate limiting and bounded retries. Optional mechanical controls are max_retries, retry_backoff_seconds, minimum_request_interval_seconds, timeout_seconds, max_poll_attempts, and poll_interval_seconds. Existing proxy variables take priority; otherwise PubChem loads proxy-only values from the ignored config.local.env file. No alternate data source is selected implicitly."
         }
       },
       {
@@ -8379,6 +9271,8 @@
         "required_input_fields": {},
         "required_method_fields": {},
         "required_setting_fields": {},
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -8436,6 +9330,8 @@
         "required_input_fields": {},
         "required_method_fields": {},
         "required_setting_fields": {},
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -8491,11 +9387,13 @@
         ],
         "required_data_resources": [],
         "license_class": "open_source",
-        "install_notes": "",
+        "install_notes": "Live GraphQL calls use bounded retry/backoff controls (max_retries, retry_backoff_seconds) and return retryable remote-service errors without hidden fallback.",
         "method_schema": {},
         "required_input_fields": {},
         "required_method_fields": {},
         "required_setting_fields": {},
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -8523,7 +9421,7 @@
           ],
           "required_data_resources": [],
           "license_class": "open_source",
-          "install_notes": ""
+          "install_notes": "Live GraphQL calls use bounded retry/backoff controls (max_retries, retry_backoff_seconds) and return retryable remote-service errors without hidden fallback."
         }
       },
       {
@@ -8556,6 +9454,8 @@
             "units"
           ]
         },
+        "allowed_method_values": {},
+        "allowed_setting_values": {},
         "required_component_roles": {},
         "component_backend_options": {},
         "supported_system_types": {},
@@ -12596,10 +13496,10 @@
         "size_bytes": 150218
       }
     ],
-    "catalog_hash": "2138da38fc3080639cf26c325cfdbc9c9cc2cfcd9b2a53078f55cd46af998283"
+    "catalog_hash": "bd3d7277b6814ca6c1a1e316cefb40b90312b02fde9370c36dea09c1a9fe48bd"
   },
   "installation": {
-    "catalog_hash": "2138da38fc3080639cf26c325cfdbc9c9cc2cfcd9b2a53078f55cd46af998283",
+    "catalog_hash": "bd3d7277b6814ca6c1a1e316cefb40b90312b02fde9370c36dea09c1a9fe48bd",
     "unavailable_backend_count": 0,
     "unavailable_backends": [],
     "conda_packages": [],
@@ -12939,48 +13839,5 @@
     "missing_credentials": [],
     "manual_installations": []
   },
-  "smoke": [
-    {
-      "action": "standardize_structure",
-      "backend": "rdkit",
-      "status": "success",
-      "error": null
-    },
-    {
-      "action": "generate_3d_structure",
-      "backend": "rdkit",
-      "status": "success",
-      "error": null
-    },
-    {
-      "action": "calculate_energy",
-      "backend": "ase_emt",
-      "status": "success",
-      "error": null
-    },
-    {
-      "action": "integrate_reaction_network",
-      "backend": "scipy",
-      "status": "success",
-      "error": null
-    },
-    {
-      "action": "assign_partial_charges",
-      "backend": "openff_am1bcc",
-      "status": "success",
-      "error": null
-    },
-    {
-      "action": "assign_force_field_parameters",
-      "backend": "openff",
-      "status": "success",
-      "error": null
-    },
-    {
-      "action": "solvate_molecular_system",
-      "backend": "packmol",
-      "status": "success",
-      "error": null
-    }
-  ]
+  "smoke": null
 }

@@ -15,6 +15,7 @@ from pathlib import Path
 from typing import Any
 
 import yaml
+from researchchem_toolbox.catalog import resolve_tool_discovery_mode
 
 from .config import (
     AGENT_PRESETS,
@@ -145,6 +146,7 @@ def _write_batch_report(batch_dir: Path, rows: list[dict[str, Any]], config: dic
 
 def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False) -> int:
     config = _load_yaml(config_path)
+    discovery_mode = resolve_tool_discovery_mode(config.get("tool_discovery_mode"))
     specs = resolve_specs(config)
     workers = int(config.get("max_concurrent_runs", 1))
     if workers < 1:
@@ -153,6 +155,7 @@ def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False
         print(f"Config: {config_path}")
         print(f"Planned runs: {len(specs)}")
         print(f"Max concurrent runs: {workers}")
+        print(f"Tool discovery mode: {discovery_mode}")
         for spec in specs:
             print(f"  - {spec.task_id} agent={spec.agent_key} repeat={spec.repeat}")
         return 0
@@ -182,6 +185,7 @@ def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False
                 config.get("timeout_seconds", DEFAULT_AGENT_TIMEOUT_SECONDS)
             ),
             max_turns=int(config.get("max_turns", DEFAULT_MAX_TURNS)),
+            tool_discovery_mode=discovery_mode,
         )
         active.append(runner)
         try:
