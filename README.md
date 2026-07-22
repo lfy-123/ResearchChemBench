@@ -142,6 +142,8 @@ surface.
 - [能力扩展实施计划](chemistry_toolbox/docs/CHEMISTRY_TOOLBOX_CAPABILITY_EXPANSION_PLAN.md)
 - [2026-07-20 能力扩展总结报告](chemistry_toolbox/docs/CHEMISTRY_TOOLBOX_CAPABILITY_EXPANSION_REPORT_20260720.md)
 - [用户请求软件配置状态](chemistry_toolbox/docs/CHEMISTRY_TOOLBOX_REQUESTED_SOFTWARE_STATUS.md)
+- [六个 Heterobiaryl P(V) 任务验证台账](docs/verification/HETEROBIARYL_PV_SIX_TASK_VERIFICATION_20260722.md)
+- [当前 Actions、Backends 与软件能力目录](docs/verification/CHEMISTRY_TOOLBOX_CURRENT_CAPABILITY_CATALOG_20260722.md)
 - [Action–Backend 233个组合完整测试与软件接入审计](chemistry_toolbox/docs/ACTION_BACKEND_COMPLETE_AUDIT_20260721.md)
 - [11个失败组合修复与PubChem连通性报告](chemistry_toolbox/docs/ACTION_BACKEND_REPAIR_REPORT_20260721.md)
 - [MCP 后端运行环境](docs/MCP_PROFILE_ENVIRONMENTS.md)
