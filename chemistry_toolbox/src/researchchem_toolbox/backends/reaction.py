@@ -118,10 +118,15 @@ def _pysisyphus(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
     if calculator_backend not in {"xtb", "pyscf", "orca"}:
         raise ValueError("pysisyphus calculator_backend must be xtb, pyscf, or orca")
     method_name = str(method["method"]).strip()
+    input_structure = structure_dict(inputs[structure_key])
+    charge = int(method.get("charge", input_structure.get("charge", 0)))
+    multiplicity = int(
+        method.get("multiplicity", input_structure.get("multiplicity", 1))
+    )
     calculator: dict[str, Any] = {
         "type": calculator_backend,
-        "charge": int(method.get("charge", structure_dict(inputs[structure_key]).get("charge", 0))),
-        "mult": int(method.get("multiplicity", structure_dict(inputs[structure_key]).get("multiplicity", 1))),
+        "charge": charge,
+        "mult": multiplicity,
     }
     if calculator_backend == "xtb":
         calculator["gfn"] = _pysisyphus_xtb_gfn(method_name)
@@ -184,8 +189,16 @@ def _pysisyphus(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
     xyz_outputs = [path for path in directory.rglob("*.xyz") if path != xyz]
     if action_id == "locate_transition_state":
         candidate = xyz_outputs[-1] if xyz_outputs else None
+        result_structure = (
+            structure_dict(relative_workspace_path(candidate)) if candidate else None
+        )
+        if result_structure is not None:
+            # Native XYZ writers rarely retain molecular electronic-state metadata.
+            # These values are the exact Agent-selected state used by the calculator.
+            result_structure["charge"] = charge
+            result_structure["multiplicity"] = multiplicity
         result = {
-            "structure": structure_dict(relative_workspace_path(candidate)) if candidate else None,
+            "structure": result_structure,
             "converged": bool(candidate),
             "validation_required": "Call calculate_hessian and derive_vibrational_modes explicitly.",
         }

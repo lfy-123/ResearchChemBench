@@ -584,8 +584,15 @@ def _xtb(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
         optimized = directory / "xtbopt.xyz"
         if not optimized.is_file():
             raise RuntimeError("xTB optimization completed without xtbopt.xyz")
+        optimized_structure = structure_dict(relative_workspace_path(optimized))
+        optimized_structure["charge"] = charge
+        optimized_structure["multiplicity"] = (
+            unpaired + 1
+            if "unpaired_electrons" in method
+            else int(structure.get("multiplicity", unpaired + 1))
+        )
         result = {
-            "structure": structure_dict(relative_workspace_path(optimized)),
+            "structure": optimized_structure,
             "converged": True,
             "energy": energy,
             "energy_unit": "hartree",

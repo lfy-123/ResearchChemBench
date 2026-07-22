@@ -7,7 +7,12 @@ import pytest
 
 from researchchem_toolbox import service
 from researchchem_toolbox.artifacts import ArtifactStore
-from researchchem_toolbox.backends.common import atoms_and_coordinates, structure_dict
+from researchchem_toolbox.backends import electronic, reaction
+from researchchem_toolbox.backends.common import (
+    atoms_and_coordinates,
+    structure_dict,
+    write_xyz,
+)
 from researchchem_toolbox.backends.electronic import _resolve_mace_model
 from researchchem_toolbox.backends.reaction import (
     _pysisyphus_failure_detail,
@@ -40,6 +45,96 @@ def test_xyz_comment_charge_and_multiplicity_are_preserved(tmp_path: Path, monke
 
     assert parsed["charge"] == 2
     assert parsed["multiplicity"] == 3
+
+
+def test_write_xyz_round_trips_charge_and_multiplicity(tmp_path: Path, monkeypatch):
+    monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
+    path = write_xyz({**H2, "charge": 2, "multiplicity": 3}, tmp_path / "state.xyz")
+
+    parsed = structure_dict(path.name)
+
+    assert parsed["charge"] == 2
+    assert parsed["multiplicity"] == 3
+
+
+def test_xtb_optimized_structure_retains_selected_electronic_state(
+    tmp_path: Path, monkeypatch
+):
+    monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
+
+    def fake_run_external(**kwargs):
+        (kwargs["directory"] / "xtbopt.xyz").write_text(
+            "2\nnative xTB output\nH 0 0 0\nH 0 0 0.75\n",
+            encoding="utf-8",
+        )
+        return {
+            "available": True,
+            "returncode": 0,
+            "stdout": "TOTAL ENERGY -1.000000\n",
+            "stderr": "",
+            "command": ["xtb", "input.xyz"],
+        }
+
+    monkeypatch.setattr(electronic, "run_external", fake_run_external)
+    result = electronic._xtb(
+        "optimize_geometry",
+        {
+            "inputs": {"structure": H2},
+            "method_spec": {
+                "method": "gfn2",
+                "charge": 2,
+                "unpaired_electrons": 2,
+            },
+            "action_settings": {"optimization_level": "normal"},
+            "resource_limits": {"walltime_seconds": 10},
+        },
+    )
+
+    assert result["result"]["structure"]["charge"] == 2
+    assert result["result"]["structure"]["multiplicity"] == 3
+
+
+def test_pysisyphus_ts_structure_retains_selected_electronic_state(
+    tmp_path: Path, monkeypatch
+):
+    monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
+
+    def fake_run_external(**kwargs):
+        (kwargs["directory"] / "ts_opt.xyz").write_text(
+            "2\nnative pysisyphus output\nH 0 0 0\nH 0 0 0.75\n",
+            encoding="utf-8",
+        )
+        return {
+            "available": True,
+            "returncode": 0,
+            "stdout": "Converged!\n",
+            "stderr": "",
+            "command": ["pysis", "pysis.yaml"],
+        }
+
+    monkeypatch.setattr(reaction, "run_external", fake_run_external)
+    result = reaction._pysisyphus(
+        "locate_transition_state",
+        {
+            "inputs": {"initial_guess": H2},
+            "method_spec": {
+                "calculator_backend": "xtb",
+                "method": "gfn2",
+                "charge": 2,
+                "multiplicity": 3,
+            },
+            "action_settings": {
+                "optimizer": "rsprfo",
+                "convergence": "gau_loose",
+                "max_cycles": 10,
+                "hessian_init": "xtb",
+            },
+            "resource_limits": {"walltime_seconds": 10},
+        },
+    )
+
+    assert result["result"]["structure"]["charge"] == 2
+    assert result["result"]["structure"]["multiplicity"] == 3
 
 
 @pytest.mark.parametrize(
