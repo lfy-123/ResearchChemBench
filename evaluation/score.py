@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 import os
 import re
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable
 
@@ -46,6 +47,10 @@ Rules:
 - Failed calls are not automatically wrong: judge whether the agent diagnosed them, preserved provenance, and reached a defensible conclusion.
 - A scientifically cautious statement that the supplied evidence is insufficient is better than a fabricated precise number.
 - objective_issue_flags must identify only failures outside the agent's scientific choices, such as malformed inputs, framework exceptions, backend adapter defects, missing declared files, or infrastructure timeouts.
+- Do not mark an objective issue merely because a call has status invalid_request, failed, or backend_exception. Classify the cause shown by the request and error message.
+- These are agent-side mistakes, not objective issues, when the relevant requirement was exposed in the tool schema or task protocol: omitted required fields; an explicitly chosen array/time/resource limit that is too small; a path outside the workspace; a nonexistent path invented by the agent; malformed tool-call JSON produced by the model; wrong native CLI syntax; wrong charge/multiplicity formatting; or an incompatible scientific method/input selected by the agent.
+- A backend exception is an objective issue only when the observable trace supports that a schema-valid, scientifically compatible request failed because of adapter/runtime behavior rather than an agent-selected input or limit. A missing declared file means a file promised by the benchmark is absent, not that the agent referenced the wrong location.
+- Recovery on a later call does not convert the earlier agent-side invalid request into a framework issue. Conversely, an infrastructure or adapter defect may still be flagged even when the agent successfully works around it.
 
 Respond with one JSON object only:
 {"score": 0-100, "score_max": 100, "criteria": [{"id": "...", "score": 0, "max_score": 0, "rationale": "..."}], "critical_failures": [], "objective_issue_flags": [], "rationale": "concise overall assessment"}.
@@ -228,9 +233,18 @@ def _default_judge_call(
             {"role": "user", "content": prompt},
         ],
     )
-    return _parse_judge_json(
+    verdict = _parse_judge_json(
         response.choices[0].message.content or "", score_max=score_max
     )
+    verdict["_judge_model"] = model
+    usage = getattr(response, "usage", None)
+    if usage is not None:
+        verdict["_judge_usage"] = {
+            "prompt_tokens": int(getattr(usage, "prompt_tokens", 0) or 0),
+            "completion_tokens": int(getattr(usage, "completion_tokens", 0) or 0),
+            "total_tokens": int(getattr(usage, "total_tokens", 0) or 0),
+        }
+    return verdict
 
 
 def _compact_value(value: Any, *, depth: int = 0) -> Any:
@@ -423,6 +437,7 @@ def score_workspace(
             actual_report=report,
         )
         system_prompt = JUDGE_SYSTEM_PROMPT
+    raw_verdict: dict[str, Any] = {}
     try:
         raw_verdict = (
             judge_call(prompt)
@@ -491,13 +506,34 @@ def score_workspace(
         "rationale": verdict["rationale"],
         "parse_error": verdict["parse_error"],
         "process_metrics": metrics,
+        "judge_model": str(raw_verdict.get("_judge_model", "")),
+        "judge_usage": raw_verdict.get("_judge_usage"),
+        "scored_at": datetime.now(timezone.utc).isoformat(),
     }
     if verdict["parse_error"]:
         result["error"] = verdict["parse_error"]
-    (workspace / "_score.json").write_text(
+    score_path = workspace / "_score.json"
+    history_path = workspace / "_score_history.jsonl"
+    if score_path.is_file() and not history_path.exists():
+        try:
+            previous = json.loads(score_path.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError):
+            previous = None
+        if isinstance(previous, dict):
+            previous = {
+                **previous,
+                "history_source": "pre_history_score_snapshot",
+                "history_recorded_at": datetime.now(timezone.utc).isoformat(),
+            }
+            with history_path.open("a", encoding="utf-8") as handle:
+                handle.write(json.dumps(previous, ensure_ascii=False) + "\n")
+    score_path.write_text(
         json.dumps(result, indent=2, ensure_ascii=False) + "\n",
         encoding="utf-8",
     )
+    history_record = {**result, "history_source": "judge_call"}
+    with history_path.open("a", encoding="utf-8") as handle:
+        handle.write(json.dumps(history_record, ensure_ascii=False) + "\n")
     return result
 
 
