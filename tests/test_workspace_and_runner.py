@@ -64,6 +64,11 @@ def test_mock_agent_end_to_end(tmp_path: Path):
     assert (runner.workspace / "report" / "report.md").is_file()
     events = [json.loads(line) for line in runner.output_path.read_text().splitlines()]
     assert events[-1]["type"] == "result"
+    trajectory = runner.workspace / "_model_io.jsonl"
+    assert trajectory.is_file()
+    manifest = json.loads(trajectory.read_text().splitlines()[0])
+    assert manifest["format_version"] == "researchchembench.model_io.v1"
+    assert meta["model_io_trace"]["path"] == str(trajectory)
 
 
 def test_codex_and_claude_commands_include_mcp(tmp_path: Path):

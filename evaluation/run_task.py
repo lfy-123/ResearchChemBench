@@ -34,6 +34,7 @@ from .config import (
     chemistry_server_specs,
 )
 from .instructions_tmpl import INSTRUCTIONS_TEMPLATE
+from .model_io import export_model_io_trace
 from .trace import load_tool_trace, process_metrics
 from .utils import load_task_info
 from researchchem_toolbox.catalog import agent_toolbox_overview, catalog_snapshot
@@ -573,7 +574,17 @@ class TaskRunner:
         except Exception as exc:
             termination = "runner_error"
             self._terminate_process_tree()
-            self._write_meta("failed", {"error": f"{type(exc).__name__}: {exc}"})
+            try:
+                model_io = export_model_io_trace(self.workspace)
+            except Exception as trace_exc:
+                model_io = {"error": f"{type(trace_exc).__name__}: {trace_exc}"}
+            self._write_meta(
+                "failed",
+                {
+                    "error": f"{type(exc).__name__}: {exc}",
+                    "model_io_trace": model_io,
+                },
+            )
             raise
         finally:
             duration = round(time.monotonic() - started, 3)
@@ -585,12 +596,17 @@ class TaskRunner:
         completed = exit_code == 0 and report_exists and termination == "process_exit"
         status = "completed" if completed else "failed"
         events = load_tool_trace(self.workspace)
+        try:
+            model_io = export_model_io_trace(self.workspace)
+        except Exception as exc:
+            model_io = {"error": f"{type(exc).__name__}: {exc}"}
         metadata = {
             "exit_code": exit_code,
             "termination": termination,
             "duration_seconds": duration,
             "model": self._detect_model(),
             "report_exists": report_exists,
+            "model_io_trace": model_io,
             **process_metrics(events),
         }
         self._write_meta(status, metadata)

@@ -204,12 +204,18 @@ Key files:
 |---|---|
 | `INSTRUCTIONS.md` | Prompt supplied to the Agent |
 | `_agent_output.jsonl` | Raw CLI stdout |
+| `_model_io.jsonl` | Redacted event-sourced model input/output trajectory for primary and child Agent sessions |
 | `_tool_trace.jsonl` | Agent-independent MCP tool trace |
 | `_tool_results/` | Full serialized return value per tool call |
 | `_tool_artifacts/` | Snapshot of files changed by each tool call |
 | `_meta.json` | Run status, command, duration, model, and process metrics |
 | `report/report.md` | Required final Agent answer |
 | `_score.json` | ChemGraph-style judge result |
+| `_score_history.jsonl` | Append-only history of judge calls, scores, model, timestamp, and token usage |
+
+See [`MODEL_IO_TRAJECTORY_FORMAT.md`](MODEL_IO_TRAJECTORY_FORMAT.md) for the
+trajectory schema, reconstruction procedure, redaction rules, and fidelity
+limits.
 
 ## 8. Completion semantics
 
