@@ -1,0 +1,12 @@
+name: heterobiaryl_pv_subtasks_rerun_q3_q4_deepseek_v4_flash
+agents:
+  - opencode
+tasks:
+  - Heterobiaryl_PV_03_CC_vs_CO
+  - Heterobiaryl_PV_04_Coupling_Mechanism
+repeats: 1
+max_concurrent_runs: 2
+timeout_seconds: 10800
+max_turns: 240
+judge:
+  enabled: true
