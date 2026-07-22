@@ -86,6 +86,73 @@ def test_trace_records_action_status_instead_of_transport_success(
     assert result["transport_status"] == "success"
 
 
+def _job_event(sequence: int, tool: str, result: dict, job_id: str) -> dict:
+    return {
+        "sequence": sequence,
+        "tool": tool,
+        "status": "success",
+        "arguments": {"request": {"job_id": job_id}},
+        "result_preview": json.dumps(result),
+    }
+
+
+@pytest.mark.parametrize(
+    ("terminal_state", "successes", "failures", "incomplete"),
+    [
+        ("success", 1, 0, 0),
+        ("failed", 0, 1, 0),
+        ("timeout", 0, 1, 0),
+        ("running", 0, 1, 1),
+    ],
+)
+def test_managed_job_metrics_use_observed_terminal_state(
+    terminal_state: str, successes: int, failures: int, incomplete: int
+):
+    job_id = "job_example"
+    events = [
+        _job_event(
+            1,
+            "submit_analysis_program",
+            {"status": "success", "job_id": job_id, "job_status": "queued"},
+            job_id,
+        ),
+        _job_event(
+            2,
+            "get_execution_job",
+            {
+                "status": "success",
+                "job": {"job_id": job_id, "status": terminal_state},
+            },
+            job_id,
+        ),
+    ]
+
+    metrics = process_metrics(events)
+
+    assert metrics["managed_scientific_attempt_count"] == 1
+    assert metrics["successful_managed_scientific_calls"] == successes
+    assert metrics["failed_managed_scientific_calls"] == failures
+    assert metrics["incomplete_managed_scientific_calls"] == incomplete
+
+
+def test_unobserved_queued_managed_job_is_not_counted_as_success():
+    job_id = "job_unobserved"
+    metrics = process_metrics(
+        [
+            _job_event(
+                1,
+                "submit_native_job",
+                {"status": "success", "job_id": job_id, "job_status": "queued"},
+                job_id,
+            )
+        ]
+    )
+
+    assert metrics["successful_managed_scientific_calls"] == 0
+    assert metrics["failed_managed_scientific_calls"] == 1
+    assert metrics["incomplete_managed_scientific_calls"] == 1
+
+
 def test_invalid_trace_limits_are_rejected_before_tool_execution(
     tmp_path: Path, monkeypatch
 ):

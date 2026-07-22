@@ -22,6 +22,12 @@ MANAGED_OPEN_EXECUTION_TOOLS = {
     "submit_native_job",
     "submit_analysis_program",
 }
+EXECUTION_JOB_OBSERVATION_TOOLS = {
+    "get_execution_job",
+    "collect_execution_job",
+}
+SUCCESSFUL_JOB_STATES = {"success"}
+FAILED_JOB_STATES = {"failed", "timeout", "cancelled"}
 
 
 def load_tool_trace(workspace: Path) -> list[dict[str, Any]]:
@@ -177,6 +183,44 @@ def normalized_tool_calls(events: list[dict[str, Any]], *, successful_only: bool
     return calls
 
 
+def _event_result(event: dict[str, Any]) -> dict[str, Any]:
+    value = event.get("result_preview")
+    if isinstance(value, dict):
+        return value
+    if isinstance(value, str):
+        try:
+            parsed = json.loads(value)
+        except json.JSONDecodeError:
+            return {}
+        return parsed if isinstance(parsed, dict) else {}
+    return {}
+
+
+def _execution_job_states(events: list[dict[str, Any]]) -> dict[str, str]:
+    """Return the last Agent-observed state for every submitted execution job."""
+
+    states: dict[str, str] = {}
+    for event in events:
+        tool = event.get("tool")
+        if tool not in MANAGED_OPEN_EXECUTION_TOOLS | EXECUTION_JOB_OBSERVATION_TOOLS:
+            continue
+        result = _event_result(event)
+        job = result.get("job") if isinstance(result.get("job"), dict) else {}
+        arguments = (
+            event.get("arguments") if isinstance(event.get("arguments"), dict) else {}
+        )
+        request = (
+            arguments.get("request")
+            if isinstance(arguments.get("request"), dict)
+            else arguments
+        )
+        job_id = result.get("job_id") or job.get("job_id") or request.get("job_id")
+        state = result.get("job_status") or job.get("status")
+        if isinstance(job_id, str) and isinstance(state, str):
+            states[job_id] = state.casefold()
+    return states
+
+
 def process_metrics(events: list[dict[str, Any]]) -> dict[str, Any]:
     action_ids = set(action_specs())
     scientific_action_ids = {
@@ -190,6 +234,32 @@ def process_metrics(events: list[dict[str, Any]]) -> dict[str, Any]:
         if event.get("tool") in scientific_action_ids
         or event.get("tool") in MANAGED_OPEN_EXECUTION_TOOLS
     ]
+    job_states = _execution_job_states(events)
+    managed_successes = 0
+    managed_failures = 0
+    managed_incomplete = 0
+    for event in managed_scientific_events:
+        if event.get("tool") not in MANAGED_OPEN_EXECUTION_TOOLS:
+            if event.get("status") in SUCCESSFUL_TOOL_STATUSES:
+                managed_successes += 1
+            else:
+                managed_failures += 1
+            continue
+        result = _event_result(event)
+        job_id = result.get("job_id")
+        state = job_states.get(str(job_id)) if job_id else None
+        if (
+            event.get("status") in SUCCESSFUL_TOOL_STATUSES
+            and state in SUCCESSFUL_JOB_STATES
+        ):
+            managed_successes += 1
+        else:
+            managed_failures += 1
+            if (
+                event.get("status") in SUCCESSFUL_TOOL_STATUSES
+                and state not in FAILED_JOB_STATES
+            ):
+                managed_incomplete += 1
     return {
         "tool_call_count": len(events),
         "successful_tool_calls": sum(
@@ -214,14 +284,9 @@ def process_metrics(events: list[dict[str, Any]]) -> dict[str, Any]:
             for event in events
         ),
         "managed_scientific_attempt_count": len(managed_scientific_events),
-        "successful_managed_scientific_calls": sum(
-            event.get("status") in SUCCESSFUL_TOOL_STATUSES
-            for event in managed_scientific_events
-        ),
-        "failed_managed_scientific_calls": sum(
-            event.get("status") not in SUCCESSFUL_TOOL_STATUSES
-            for event in managed_scientific_events
-        ),
+        "successful_managed_scientific_calls": managed_successes,
+        "failed_managed_scientific_calls": managed_failures,
+        "incomplete_managed_scientific_calls": managed_incomplete,
         "managed_scientific_tools_used": [
             event.get("tool") for event in managed_scientific_events
         ],
