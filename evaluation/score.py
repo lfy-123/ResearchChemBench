@@ -436,7 +436,7 @@ def score_workspace(
     actual_calls = normalized_tool_calls(events)
     evaluation_mode = truth.get("evaluation_mode", "binary")
     score_max = int(truth.get("score_max") or (100 if evaluation_mode == "rubric_100" else 1))
-    metrics = process_metrics(events)
+    metrics = process_metrics(events, workspace=workspace)
     metrics.update(
         {
             "native_execution_event_count": len(native_events),

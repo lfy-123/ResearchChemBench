@@ -153,6 +153,49 @@ def test_unobserved_queued_managed_job_is_not_counted_as_success():
     assert metrics["incomplete_managed_scientific_calls"] == 1
 
 
+def test_managed_job_metrics_read_complete_saved_result_when_preview_is_truncated(
+    tmp_path: Path,
+):
+    result_directory = tmp_path / "_tool_results"
+    result_directory.mkdir()
+    job_id = "job_full_result"
+    result_path = result_directory / "0002_get_execution_job.json"
+    result_path.write_text(
+        json.dumps(
+            {
+                "status": "success",
+                "result": {
+                    "status": "success",
+                    "job": {"job_id": job_id, "status": "failed"},
+                },
+            }
+        ),
+        encoding="utf-8",
+    )
+    events = [
+        _job_event(
+            1,
+            "submit_analysis_program",
+            {"status": "success", "job_id": job_id, "job_status": "queued"},
+            job_id,
+        ),
+        {
+            "sequence": 2,
+            "tool": "get_execution_job",
+            "status": "success",
+            "arguments": {"request": {"job_id": job_id}},
+            "result_preview": "{truncated",
+            "result_path": "_tool_results/0002_get_execution_job.json",
+        },
+    ]
+
+    metrics = process_metrics(events, workspace=tmp_path)
+
+    assert metrics["successful_managed_scientific_calls"] == 0
+    assert metrics["failed_managed_scientific_calls"] == 1
+    assert metrics["incomplete_managed_scientific_calls"] == 0
+
+
 def test_invalid_trace_limits_are_rejected_before_tool_execution(
     tmp_path: Path, monkeypatch
 ):

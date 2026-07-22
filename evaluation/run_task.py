@@ -639,7 +639,7 @@ class TaskRunner:
             "model": self._detect_model(),
             "report_exists": report_exists,
             "model_io_trace": model_io,
-            **process_metrics(events),
+            **process_metrics(events, workspace=self.workspace),
         }
         self._write_meta(status, metadata)
         return json.loads(self.meta_path.read_text(encoding="utf-8"))

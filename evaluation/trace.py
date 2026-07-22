@@ -183,7 +183,19 @@ def normalized_tool_calls(events: list[dict[str, Any]], *, successful_only: bool
     return calls
 
 
-def _event_result(event: dict[str, Any]) -> dict[str, Any]:
+def _event_result(
+    event: dict[str, Any], *, workspace: str | Path | None = None
+) -> dict[str, Any]:
+    if workspace is not None and isinstance(event.get("result_path"), str):
+        result_path = Path(workspace).resolve() / str(event["result_path"])
+        if result_path.is_file():
+            try:
+                saved = json.loads(result_path.read_text(encoding="utf-8"))
+            except (json.JSONDecodeError, OSError):
+                saved = None
+            if isinstance(saved, dict):
+                inner = saved.get("result")
+                return inner if isinstance(inner, dict) else saved
     value = event.get("result_preview")
     if isinstance(value, dict):
         return value
@@ -196,7 +208,9 @@ def _event_result(event: dict[str, Any]) -> dict[str, Any]:
     return {}
 
 
-def _execution_job_states(events: list[dict[str, Any]]) -> dict[str, str]:
+def _execution_job_states(
+    events: list[dict[str, Any]], *, workspace: str | Path | None = None
+) -> dict[str, str]:
     """Return the last Agent-observed state for every submitted execution job."""
 
     states: dict[str, str] = {}
@@ -204,7 +218,7 @@ def _execution_job_states(events: list[dict[str, Any]]) -> dict[str, str]:
         tool = event.get("tool")
         if tool not in MANAGED_OPEN_EXECUTION_TOOLS | EXECUTION_JOB_OBSERVATION_TOOLS:
             continue
-        result = _event_result(event)
+        result = _event_result(event, workspace=workspace)
         job = result.get("job") if isinstance(result.get("job"), dict) else {}
         arguments = (
             event.get("arguments") if isinstance(event.get("arguments"), dict) else {}
@@ -221,7 +235,9 @@ def _execution_job_states(events: list[dict[str, Any]]) -> dict[str, str]:
     return states
 
 
-def process_metrics(events: list[dict[str, Any]]) -> dict[str, Any]:
+def process_metrics(
+    events: list[dict[str, Any]], *, workspace: str | Path | None = None
+) -> dict[str, Any]:
     action_ids = set(action_specs())
     scientific_action_ids = {
         action_id
@@ -234,7 +250,7 @@ def process_metrics(events: list[dict[str, Any]]) -> dict[str, Any]:
         if event.get("tool") in scientific_action_ids
         or event.get("tool") in MANAGED_OPEN_EXECUTION_TOOLS
     ]
-    job_states = _execution_job_states(events)
+    job_states = _execution_job_states(events, workspace=workspace)
     managed_successes = 0
     managed_failures = 0
     managed_incomplete = 0
@@ -245,7 +261,7 @@ def process_metrics(events: list[dict[str, Any]]) -> dict[str, Any]:
             else:
                 managed_failures += 1
             continue
-        result = _event_result(event)
+        result = _event_result(event, workspace=workspace)
         job_id = result.get("job_id")
         state = job_states.get(str(job_id)) if job_id else None
         if (
