@@ -1,5 +1,9 @@
 # Heterobiaryl P(V) Benchmark 阶段性构建与评估报告
 
+> 本文档是 2026-07-21 的阶段性记录，已由
+> [`HETEROBIARYL_PV_BENCHMARK_FINAL_EVALUATION_REPORT_20260722.md`](HETEROBIARYL_PV_BENCHMARK_FINAL_EVALUATION_REPORT_20260722.md)
+> 取代。最终报告包含新 API 修复、五子任务有效重跑、完整 E2E、模型调用统计和主/子智能体 `_model_io.jsonl` 轨迹。
+
 日期：2026-07-21（UTC）
 
 状态：六个任务及其数据、隐藏参考答案和 100 分制评分规则已完成构建；五个子任务已完成一轮诊断评估和一轮修复后评估。第三轮五子任务及完整端到端任务因 DeepSeek Agent API 返回 HTTP 402 `Insufficient Balance` 暂未提交。
