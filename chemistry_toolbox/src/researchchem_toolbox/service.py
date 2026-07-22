@@ -173,6 +173,29 @@ def _validate_composite_calculator_contract(
     return None
 
 
+def _validate_backend_resource_constraints(
+    action_id: str,
+    backend_id: str,
+    request: ActionRequest,
+    selected_backends: tuple[Any, ...],
+) -> dict[str, Any] | None:
+    cpu_cores = request.resource_limits.cpu_cores or 1
+    for selected in selected_backends:
+        maximum = selected.resource_constraints.get("maximum_cpu_cores")
+        if maximum is not None and cpu_cores > int(maximum):
+            reason = selected.resource_constraints.get("reason")
+            detail = f" Reason: {reason}" if reason else ""
+            return _invalid(
+                action_id,
+                backend_id,
+                f"resource_limits.cpu_cores={cpu_cores} exceeds the validated maximum "
+                f"{maximum} for selected backend {selected.id!r}.{detail} Select resources "
+                "or a backend explicitly; no resource substitution or fallback is performed.",
+                code="invalid_resource_limits",
+            )
+    return None
+
+
 def _validate_artifact_input_semantics(
     action_id: str,
     backend_id: str,
@@ -467,6 +490,15 @@ def execute_action(action_id: str, request_value: ActionRequest | dict[str, Any]
     )
     if invalid_composite is not None:
         return invalid_composite
+
+    invalid_resources = _validate_backend_resource_constraints(
+        action_id,
+        backend_id,
+        request,
+        (backend, *component_specs),
+    )
+    if invalid_resources is not None:
+        return invalid_resources
 
     try:
         canonical_inputs = canonicalize_artifact_refs(request.inputs)

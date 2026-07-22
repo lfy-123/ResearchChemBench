@@ -245,6 +245,7 @@ class BackendSpec:
     required_data_resources: tuple[str, ...] = ()
     license_class: str = "open_source"
     install_notes: str = ""
+    resource_constraints: Mapping[str, Any] = field(default_factory=dict)
     method_schema: Mapping[str, str] = field(default_factory=dict)
     required_input_fields: Mapping[str, tuple[str, ...]] = field(default_factory=dict)
     required_method_fields: Mapping[str, tuple[str, ...]] = field(default_factory=dict)
@@ -269,6 +270,14 @@ class BackendSpec:
             raise ValueError(f"Backend {self.id} must declare capabilities")
         if len(self.capabilities) != len(set(self.capabilities)):
             raise ValueError(f"Backend {self.id} repeats capabilities")
+        maximum_cpu_cores = self.resource_constraints.get("maximum_cpu_cores")
+        if maximum_cpu_cores is not None and (
+            not isinstance(maximum_cpu_cores, int) or maximum_cpu_cores < 1
+        ):
+            raise ValueError(
+                f"Backend {self.id} resource_constraints.maximum_cpu_cores must be "
+                "a positive integer"
+            )
         for mapping in (
             self.required_input_fields,
             self.required_method_fields,

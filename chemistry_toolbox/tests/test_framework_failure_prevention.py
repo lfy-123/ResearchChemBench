@@ -124,6 +124,33 @@ def test_inline_atomic_structure_is_rejected_before_worker(tmp_path: Path, monke
     assert "position_angstrom" in result["error"]["message"]
 
 
+def test_orca_parallel_request_is_rejected_before_health_or_worker(
+    tmp_path: Path, monkeypatch
+):
+    monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
+    monkeypatch.setattr(
+        service,
+        "probe_all_backends",
+        lambda _values: (_ for _ in ()).throw(AssertionError("health probe must not run")),
+    )
+
+    result = service.execute_action(
+        "calculate_energy",
+        {
+            "backend_id": "orca",
+            "inputs": {"structure": H2},
+            "method_spec": {"method": "HF", "basis": "STO-3G"},
+            "action_settings": {},
+            "resource_limits": {"cpu_cores": 4, "walltime_seconds": 300},
+        },
+    )
+
+    assert result["status"] == "invalid_request"
+    assert result["error"]["code"] == "invalid_resource_limits"
+    assert "validated maximum 1" in result["error"]["message"]
+    assert "no resource substitution or fallback" in result["error"]["message"]
+
+
 def _available(specifications):
     return {
         item.id: {"available": True, "status": "available", "runtime": item.runtime}

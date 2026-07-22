@@ -20,6 +20,7 @@ def _backend(
     data_resources: tuple[str, ...] = (),
     license_class: str = "open_source",
     install_notes: str = "",
+    resource_constraints: dict[str, object] | None = None,
     method_schema: dict[str, str] | None = None,
     required_inputs: dict[str, tuple[str, ...]] | None = None,
     required_methods: dict[str, tuple[str, ...]] | None = None,
@@ -45,6 +46,7 @@ def _backend(
         required_data_resources=data_resources,
         license_class=license_class,
         install_notes=install_notes,
+        resource_constraints=resource_constraints or {},
         method_schema=method_schema or {},
         required_input_fields=required_inputs or {},
         required_method_fields=required_methods or {},
@@ -812,18 +814,26 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         (
             "Operator-provided ORCA 6.1.1 electronic-structure executable with an isolated "
             "OpenMPI 4.1.8 runtime. The Agent explicitly selects method, basis, solvation, "
-            "and requested CPU cores."
+            "and resources. This server's validated execution contract currently permits one "
+            "CPU core per ORCA call."
         ),
         executables=("orca",), environment=("CHEMGRAPH_ORCA_COMMAND",),
         license_class="manual_license",
         install_notes=(
             "Configured from the operator-downloaded ORCA 6.1.1 installer under "
-            ".software_cache/orca/6.1.1 with OpenMPI 4.1.8. On this server, some larger "
-            "hybrid-DFT jobs using PAL>1 have produced MPI_Type_match_size/PMIX startup "
-            "errors even though smaller parallel jobs pass. Such runs are reported as "
-            "failed without automatic fallback; the Agent may explicitly retry with "
-            "resource_limits.cpu_cores=1 after inspecting the diagnostic."
+            ".software_cache/orca/6.1.1 with OpenMPI 4.1.8. Repeated molecular PAL>1 calls "
+            "produced MPI_Type_match_size/PMIX startup errors on this server, while real "
+            "single-core energy, Hessian, optimization, and property calls pass. The public "
+            "contract therefore rejects cpu_cores>1 before execution; no automatic fallback "
+            "or resource substitution occurs."
         ),
+        resource_constraints={
+            "maximum_cpu_cores": 1,
+            "reason": (
+                "This ORCA 6.1.1/OpenMPI installation repeatedly fails PAL>1 startup with "
+                "MPI_Type_match_size/PMIX errors; single-core execution is validated."
+            ),
+        },
         method_schema={
             "method": "ORCA method/functional keyword",
             "basis": "ORCA basis-set keyword",

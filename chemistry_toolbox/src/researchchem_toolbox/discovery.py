@@ -150,6 +150,7 @@ def _provider_contract(
             backend.supported_system_types.get(action_id, ())
         ),
         "validation_level": backend.validation_levels.get(action_id),
+        "resource_constraints": dict(backend.resource_constraints),
     }
     if detailed:
         value.update(
@@ -883,6 +884,7 @@ def inspect_backend(
             "required_external_data": list(backend.required_data_resources),
             "license_class": backend.license_class,
             "install_notes": backend.install_notes,
+            "resource_constraints": dict(backend.resource_constraints),
             "method_parameter_reference": dict(backend.method_schema),
             "registered_resources": _registered_resources(current, backend.id),
         },
