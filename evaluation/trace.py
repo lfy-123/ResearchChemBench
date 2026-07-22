@@ -28,36 +28,95 @@ def load_tool_trace(workspace: Path) -> list[dict[str, Any]]:
 
 
 def load_native_agent_trace(workspace: Path) -> list[dict[str, Any]]:
-    """Load observable OpenCode shell/file/code events outside Chemistry MCP."""
+    """Load native tool events from primary and child Agent sessions.
 
-    path = workspace / "_agent_output.jsonl"
-    if not path.exists():
-        return []
+    ``_agent_output.jsonl`` contains the primary OpenCode stream. The
+    event-sourced ``_model_io.jsonl`` additionally contains child/subagent
+    sessions. Merge both sources and deduplicate their shared primary events by
+    OpenCode call ID.
+    """
+
+    candidates: list[tuple[dict[str, Any], dict[str, Any]]] = []
+    model_io_path = workspace / "_model_io.jsonl"
+    if model_io_path.is_file():
+        for line in model_io_path.read_text(
+            encoding="utf-8", errors="replace"
+        ).splitlines():
+            if not line.strip():
+                continue
+            try:
+                record = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            if not isinstance(record, dict) or record.get("record_type") != "model_step":
+                continue
+            output = record.get("output") if isinstance(record.get("output"), dict) else {}
+            parts = output.get("parts") if isinstance(output.get("parts"), list) else []
+            for part in parts:
+                if isinstance(part, dict) and part.get("type") == "tool":
+                    candidates.append(
+                        (
+                            part,
+                            {
+                                "source": "model_io",
+                                "session_id": record.get("session_id"),
+                                "session_step_index": record.get("session_step_index"),
+                                "message_id": record.get("message_id"),
+                            },
+                        )
+                    )
+
+    output_path = workspace / "_agent_output.jsonl"
+    if output_path.is_file():
+        for line in output_path.read_text(
+            encoding="utf-8", errors="replace"
+        ).splitlines():
+            if not line.strip():
+                continue
+            try:
+                value = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            if not isinstance(value, dict) or value.get("type") != "tool_use":
+                continue
+            part = value.get("part")
+            if isinstance(part, dict) and part.get("type") == "tool":
+                candidates.append(
+                    (
+                        part,
+                        {
+                            "source": "agent_output",
+                            "session_id": value.get("sessionID") or part.get("sessionID"),
+                            "session_step_index": None,
+                            "message_id": value.get("messageID") or part.get("messageID"),
+                        },
+                    )
+                )
+
     events: list[dict[str, Any]] = []
-    for line in path.read_text(encoding="utf-8", errors="replace").splitlines():
-        if not line.strip():
-            continue
-        try:
-            value = json.loads(line)
-        except json.JSONDecodeError:
-            continue
-        if not isinstance(value, dict) or value.get("type") != "tool_use":
-            continue
-        part = value.get("part")
-        if not isinstance(part, dict) or part.get("type") != "tool":
-            continue
+    seen_call_ids: set[str] = set()
+    for part, trace_context in candidates:
         tool = str(part.get("tool") or "")
         if not tool or tool.startswith("researchchem_toolbox_"):
             # Chemistry MCP has a separate authoritative trace with validated
             # scientific status and artifact provenance.
             continue
+        call_id = str(part.get("callID") or "")
+        if call_id and call_id in seen_call_ids:
+            continue
+        if call_id:
+            seen_call_ids.add(call_id)
         state = part.get("state") if isinstance(part.get("state"), dict) else {}
         metadata = (
             state.get("metadata") if isinstance(state.get("metadata"), dict) else {}
         )
         exit_code = metadata.get("exit")
         status = str(state.get("status") or "unknown")
-        if exit_code not in {None, 0} or status in {"error", "failed"}:
+        if (
+            tool == "invalid"
+            or exit_code not in {None, 0}
+            or status in {"error", "failed"}
+        ):
             normalized_status = "failed"
         elif status == "completed":
             normalized_status = "success"
@@ -80,6 +139,8 @@ def load_native_agent_trace(workspace: Path) -> list[dict[str, Any]]:
             "arguments": state.get("input") if isinstance(state.get("input"), dict) else {},
             "result_preview": output,
             "exit_code": exit_code,
+            "call_id": call_id or None,
+            **trace_context,
         }
         if normalized_status == "failed":
             event["error"] = {

@@ -310,6 +310,9 @@ def _native_events_for_judge(events: list[dict[str, Any]]) -> list[dict[str, Any
     values = [
         {
             "sequence": event.get("sequence"),
+            "source": event.get("source"),
+            "session_id": event.get("session_id"),
+            "session_step_index": event.get("session_step_index"),
             "tool": event.get("tool"),
             "status": event.get("status"),
             "duration_seconds": event.get("duration_seconds"),
