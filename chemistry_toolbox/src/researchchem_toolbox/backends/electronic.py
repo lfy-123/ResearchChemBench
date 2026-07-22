@@ -548,6 +548,15 @@ def _xtb(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
         raise ValueError("xTB method must be gfn1 or gfn2")
     charge = int(method.get("charge", structure.get("charge", 0)))
     unpaired = int(method.get("unpaired_electrons", max(0, int(structure.get("multiplicity", 1)) - 1)))
+    resolved_molecular_state = {
+        "charge": charge,
+        "unpaired_electrons": unpaired,
+        "multiplicity": unpaired + 1,
+        "charge_source": "method_spec" if "charge" in method else "input_structure",
+        "spin_source": (
+            "method_spec" if "unpaired_electrons" in method else "input_structure"
+        ),
+    }
     arguments = [str(xyz), "--gfn", method_number, "--chrg", str(charge), "--uhf", str(unpaired)]
     if action_id == "optimize_geometry":
         arguments.extend(["--opt", str(settings["optimization_level"])])
@@ -724,10 +733,20 @@ def _xtb(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
         return partial_success(
             result,
             artifact_files=command_artifacts(directory),
-            provenance={"command": completed["command"]},
+            provenance={
+                "command": completed["command"],
+                "resolved_molecular_state": resolved_molecular_state,
+            },
             warnings=["xTB produced a Hessian file, but the dense Hessian matrix could not be parsed."],
         )
-    return success(result, artifact_files=command_artifacts(directory), provenance={"command": completed["command"]})
+    return success(
+        result,
+        artifact_files=command_artifacts(directory),
+        provenance={
+            "command": completed["command"],
+            "resolved_molecular_state": resolved_molecular_state,
+        },
+    )
 
 
 def _pyscf(action_id: str, request: dict[str, Any]) -> dict[str, Any]:

@@ -92,6 +92,53 @@ def test_xtb_optimized_structure_retains_selected_electronic_state(
 
     assert result["result"]["structure"]["charge"] == 2
     assert result["result"]["structure"]["multiplicity"] == 3
+    assert result["provenance"]["resolved_molecular_state"] == {
+        "charge": 2,
+        "unpaired_electrons": 2,
+        "multiplicity": 3,
+        "charge_source": "method_spec",
+        "spin_source": "method_spec",
+    }
+
+
+def test_xtb_uses_charge_from_workspace_xyz_metadata(tmp_path: Path, monkeypatch):
+    monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
+    (tmp_path / "charged.xyz").write_text(
+        "2\nseed=P2 charge=2 multiplicity=1\nH 0 0 0\nH 0 0 0.75\n",
+        encoding="utf-8",
+    )
+    observed_command = []
+
+    def fake_run_external(**kwargs):
+        observed_command.extend(kwargs["arguments"])
+        (kwargs["directory"] / "xtbopt.xyz").write_text(
+            "2\nnative xTB output\nH 0 0 0\nH 0 0 0.74\n",
+            encoding="utf-8",
+        )
+        return {
+            "available": True,
+            "returncode": 0,
+            "stdout": "TOTAL ENERGY -1.000000\n",
+            "stderr": "",
+            "command": ["xtb", *kwargs["arguments"]],
+        }
+
+    monkeypatch.setattr(electronic, "run_external", fake_run_external)
+    result = electronic._xtb(
+        "optimize_geometry",
+        {
+            "inputs": {"structure": "charged.xyz"},
+            "method_spec": {"method": "gfn2"},
+            "action_settings": {"optimization_level": "normal"},
+            "resource_limits": {"walltime_seconds": 10},
+        },
+    )
+
+    assert observed_command[observed_command.index("--chrg") + 1] == "2"
+    assert result["result"]["structure"]["charge"] == 2
+    assert result["provenance"]["resolved_molecular_state"]["charge_source"] == (
+        "input_structure"
+    )
 
 
 def test_pysisyphus_ts_structure_retains_selected_electronic_state(
@@ -135,6 +182,12 @@ def test_pysisyphus_ts_structure_retains_selected_electronic_state(
 
     assert result["result"]["structure"]["charge"] == 2
     assert result["result"]["structure"]["multiplicity"] == 3
+    assert result["provenance"]["resolved_molecular_state"] == {
+        "charge": 2,
+        "multiplicity": 3,
+        "charge_source": "method_spec",
+        "multiplicity_source": "method_spec",
+    }
 
 
 @pytest.mark.parametrize(

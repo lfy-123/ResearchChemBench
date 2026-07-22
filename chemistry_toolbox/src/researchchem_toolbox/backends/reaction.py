@@ -209,7 +209,18 @@ def _pysisyphus(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
             "backward": bool(settings.get("backward", True)),
         }
     artifacts = command_artifacts(directory)
-    provenance = {"command": completed["command"], "generated_config": configuration}
+    provenance = {
+        "command": completed["command"],
+        "generated_config": configuration,
+        "resolved_molecular_state": {
+            "charge": charge,
+            "multiplicity": multiplicity,
+            "charge_source": "method_spec" if "charge" in method else "input_structure",
+            "multiplicity_source": (
+                "method_spec" if "multiplicity" in method else "input_structure"
+            ),
+        },
+    }
     complete = (
         action_id == "locate_transition_state" and result.get("structure") is not None
     ) or (
