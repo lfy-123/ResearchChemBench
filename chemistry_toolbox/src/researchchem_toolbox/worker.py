@@ -31,6 +31,16 @@ def main() -> int:
             result.setdefault("provenance", {})["worker_stdout"] = captured_stdout[-4000:]
         if captured_stderr:
             result.setdefault("provenance", {})["worker_stderr"] = captured_stderr[-4000:]
+    except ValueError as exc:
+        result = {
+            "status": "invalid_request",
+            "error": {
+                "code": "backend_input_error",
+                "message": f"{type(exc).__name__}: {exc}",
+                "traceback": traceback.format_exc()[-8000:],
+            },
+            "retryable": False,
+        }
     except Exception as exc:  # Worker boundary must always return structured JSON.
         result = {
             "status": "failed",

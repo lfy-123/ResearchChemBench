@@ -151,6 +151,22 @@ def test_composite_and_typed_handoff_contracts_are_explicit():
     assert "hessian_init" in pysisyphus["execute_action_request_template"][
         "action_settings"
     ]
+    pysis_settings = {
+        item["name"]: item
+        for item in pysisyphus["sections"]["action_settings"]["required"]
+    }
+    assert pysis_settings["optimizer"]["allowed_values"] == [
+        "rsprfo",
+        "prfo",
+        "trim",
+        "rsirfo",
+        "irfo",
+    ]
+    assert "normal" not in pysis_settings["convergence"]["allowed_values"]
+    assert any(
+        item["name"] == "basis"
+        for item in pysisyphus["sections"]["method_spec"]["optional_documented"]
+    )
 
     vibrations = inspect_action(
         "derive_vibrational_modes",

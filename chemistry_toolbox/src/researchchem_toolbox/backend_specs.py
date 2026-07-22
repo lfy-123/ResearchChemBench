@@ -1224,6 +1224,11 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
                 "GFN0-xTB, GFN1-xTB, GFN2-xTB, or GFN-FF (compact gfn0/gfn1/gfn2/gfnff "
                 "spellings are equivalent)"
             ),
+            "basis": "basis-set label used by calculator_backend=pyscf and optionally by orca",
+            "functional": "DFT functional used when calculator_backend=pyscf and method denotes DFT",
+            "charge": "explicit integer molecular charge; otherwise taken from the supplied structure",
+            "multiplicity": "explicit positive spin multiplicity; otherwise taken from the supplied structure",
+            "pyscf_basis_conditional": "calculator_backend=pyscf requires method_spec.basis",
             "hessian_init": (
                 "explicit pysisyphus initial-Hessian strategy; calc requests an exact Hessian, "
                 "whereas unit/fischer/lindh/simple/swart/xtb/xtb1/xtbff select the named model"
@@ -1240,9 +1245,12 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         },
         allowed_settings={
             "locate_transition_state": {
+                "optimizer": ("rsprfo", "prfo", "trim", "rsirfo", "irfo"),
+                "convergence": ("nwchem_loose", "gau_loose", "gau", "gau_tight", "gau_vtight", "baker", "never"),
                 "hessian_init": ("calc", "unit", "fischer", "lindh", "simple", "swart", "xtb", "xtb1", "xtbff"),
             },
             "trace_intrinsic_reaction_coordinate": {
+                "integrator": ("dvv", "euler", "eulerpc", "gs", "imk", "lqa", "modekill", "rk4"),
                 "hessian_init": ("calc", "unit", "fischer", "lindh", "simple", "swart", "xtb", "xtb1", "xtbff"),
             },
         },

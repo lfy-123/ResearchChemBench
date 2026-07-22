@@ -186,6 +186,37 @@ def test_sella_nested_calculator_settings_fail_before_worker(
     assert "calculate_forces" in result["error"]["message"]
 
 
+def test_pysisyphus_rejects_invalid_native_enums_before_worker(
+    tmp_path: Path, monkeypatch
+):
+    monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
+    monkeypatch.setattr(
+        service,
+        "probe_all_backends",
+        lambda _values: (_ for _ in ()).throw(AssertionError("health probe must not run")),
+    )
+    result = service.execute_action(
+        "locate_transition_state",
+        {
+            "backend_id": "pysisyphus",
+            "inputs": {"initial_guess": H2},
+            "method_spec": {
+                "calculator_backend": "xtb",
+                "method": "GFN2-xTB",
+            },
+            "action_settings": {
+                "optimizer": "dimer",
+                "convergence": "normal",
+                "max_cycles": 10,
+                "hessian_init": "lindh",
+            },
+        },
+    )
+    assert result["status"] == "invalid_request"
+    assert "optimizer='dimer'" in result["error"]["message"]
+    assert "rsirfo" in result["error"]["message"]
+
+
 def test_backend_failure_persists_a_diagnostic_artifact(tmp_path: Path, monkeypatch):
     monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
     monkeypatch.setattr(service, "probe_all_backends", _available)
