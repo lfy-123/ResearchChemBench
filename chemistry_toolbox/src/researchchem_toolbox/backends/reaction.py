@@ -85,16 +85,24 @@ def _pysisyphus_failure_detail(directory: Path, stderr: str) -> str:
         )
     crashed_outputs = sorted(directory.glob("crashed_calculator_*/xtb.out"))
     if crashed_outputs:
+        diagnostic_phrases = (
+            "error",
+            "failed",
+            "abnormal",
+            "converg",
+            "atoms in the start geometry",
+            "very close",
+            "too close",
+            "short distance",
+            "refuses",
+        )
         lines = [
             line.strip()
             for line in crashed_outputs[-1].read_text(
                 encoding="utf-8", errors="replace"
             ).splitlines()[-80:]
             if line.strip()
-            and any(
-                token in line.casefold()
-                for token in ("error", "failed", "abnormal", "converg")
-            )
+            and any(token in line.casefold() for token in diagnostic_phrases)
         ]
         if lines:
             return "xTB calculator failure: " + " | ".join(dict.fromkeys(lines))[-1600:]

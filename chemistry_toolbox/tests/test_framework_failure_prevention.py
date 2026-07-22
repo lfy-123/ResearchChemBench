@@ -74,6 +74,24 @@ def test_pysisyphus_reports_xtb_scc_nonconvergence(tmp_path: Path):
     assert "automatic backend-selection" in detail
 
 
+def test_pysisyphus_reports_overlapping_atoms_from_native_xtb_output(tmp_path: Path):
+    output = tmp_path / "crashed_calculator_000" / "xtb.out"
+    output.parent.mkdir()
+    output.write_text(
+        "Some atoms in the start geometry are *very* close.\n"
+        "XTB REFUSES TO CONTINUE\n"
+        "Found *very* short distance of 0.000E+00 for C52-O53\n"
+        "[ERROR] Program stopped due to fatal error\n",
+        encoding="utf-8",
+    )
+
+    detail = _pysisyphus_failure_detail(tmp_path, "opaque native traceback")
+
+    assert "atoms in the start geometry" in detail
+    assert "REFUSES TO CONTINUE" in detail
+    assert "0.000E+00 for C52-O53" in detail
+
+
 def test_inline_atomic_structure_is_rejected_before_worker(tmp_path: Path, monkeypatch):
     monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
     monkeypatch.setattr(service, "probe_all_backends", _available)

@@ -5,6 +5,7 @@ import time
 from pathlib import Path
 
 import pytest
+import yaml
 
 from chemistry_toolbox.mcp.execution_models import (
     AnalysisJobRequest,
@@ -99,6 +100,17 @@ def test_software_inventory_explains_native_and_module_only_access():
         "sharc.x",
         "wfoverlap.x",
     }
+
+    pysisyphus = inspect_software(SoftwareInspectRequest(software_id="pysisyphus"))
+    pysis_guide = pysisyphus["native_invocation_guides"][0]
+    contract = pysis_guide["configuration_contract"]
+    assert contract["tested_version"] == "1.0.0"
+    neb = yaml.safe_load(contract["templates"]["two_endpoint_neb"])
+    assert neb["geom"]["fn"] == ["reactant.xyz", "product.xyz"]
+    assert neb["cos"]["type"] == "neb"
+    assert neb["opt"]["type"] == "qm"
+    assert "endpoints" not in neb
+    assert "images" not in neb["cos"]
 
     newton_x = validate_native_job(
         NativeJobRequest(software_id="newton_x", executable="nx_geninp")

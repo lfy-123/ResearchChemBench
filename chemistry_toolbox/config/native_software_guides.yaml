@@ -267,9 +267,80 @@ software:
       pysis:
         synopsis: "pysis config.yaml"
         input_mode: arguments
-        required_files: [config.yaml, referenced structures/files]
+        required_files: [config.yaml, every structure or auxiliary file referenced inside config.yaml]
         output_behavior: Writes optimization, pathway, or dynamics outputs selected by config.yaml.
         example_arguments: ["config.yaml"]
+        configuration_contract:
+          tested_version: "1.0.0"
+          file_resolution: Referenced relative filenames are resolved inside the isolated native-job directory, so each one must be included in staged_inputs with the same target filename.
+          valid_top_level_sections: [assert, afir, barriers, calc, cos, endopt, geom, hindered_rotor, interpol, irc, md, mdp, opt, perf, precontr, preopt, scan, shake, stocastic, tsopt]
+          endpoint_rule: Put one endpoint file or a list of endpoint files in geom.fn. There is no top-level endpoints section and no cos.images field in pysisyphus 1.0.0.
+          common_exact_values:
+            geometry_types: [cart, redund, dlc, tric]
+            interpolation_types: [linear, idpp, lst, redund, geodesic]
+            chain_of_states_types: [neb, aneb, feneb, szts, gs, fs]
+            path_optimizer_types: [qm, lbfgs, bfgs, cg, fire, sd]
+            transition_state_optimizer_types: [rsprfo, prfo, trim, rsirfo, irfo]
+            irc_integrator_types: [dvv, euler, eulerpc, gs, imk, lqa, modekill, rk4]
+          templates:
+            two_endpoint_neb: |-
+              geom:
+                type: cart
+                fn: [reactant.xyz, product.xyz]
+              calc:
+                type: xtb
+                charge: 0
+                mult: 1
+                gfn: 2
+                pal: 1
+              interpol:
+                type: idpp
+                between: 8
+              cos:
+                type: neb
+                fix_first: true
+                fix_last: true
+                climb: true
+              opt:
+                type: qm
+                max_cycles: 200
+                thresh: gau_loose
+            transition_state_search: |-
+              geom:
+                type: cart
+                fn: transition_state_guess.xyz
+              calc:
+                type: xtb
+                charge: 0
+                mult: 1
+                gfn: 2
+                pal: 1
+              tsopt:
+                type: rsprfo
+                hessian_init: xtb
+                max_cycles: 150
+                thresh: gau
+            irc_from_transition_state: |-
+              geom:
+                type: cart
+                fn: validated_transition_state.xyz
+              calc:
+                type: xtb
+                charge: 0
+                mult: 1
+                gfn: 2
+                pal: 1
+              irc:
+                type: eulerpc
+                step_length: 0.1
+                max_cycles: 150
+                forward: true
+                backward: true
+                hessian_init: calc
+        notes:
+          - The templates document input mechanics, not recommended chemistry. Replace charge, multiplicity, calculator, method, cores, image count, optimizer, thresholds, and cycle limits deliberately for the system at hand.
+          - For a two-endpoint path, stage reactant.xyz and product.xyz and reference those exact target names from geom.fn. Do not invent endpoints or cos.images keys.
+          - A converged chain-of-states path is not automatically a validated transition state; explicitly inspect its highest-energy image and run the chosen TS, Hessian/mode, and connectivity checks when the scientific claim requires them.
 
   rmg:
     purpose: Generate reaction mechanisms from a complete Agent-authored RMG-Py input file.
