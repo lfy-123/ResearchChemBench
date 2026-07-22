@@ -44,7 +44,8 @@ class SoftwareListRequest(BaseModel):
     query: str | None = Field(default=None, max_length=200)
     native_only: bool = False
     available_only: bool = False
-    limit: int = Field(default=200, ge=1, le=500)
+    offset: int = Field(default=0, ge=0)
+    limit: int = Field(default=50, ge=1, le=200)
 
 
 class SoftwareInspectRequest(BaseModel):

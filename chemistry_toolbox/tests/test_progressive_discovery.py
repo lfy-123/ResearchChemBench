@@ -80,6 +80,14 @@ def test_action_search_and_inspection_return_exact_provider_contracts():
     assert "optimize_geometry" in {
         item["action_id"] for item in morphology["actions"]
     }
+    precise = search_actions(
+        query="optimize geometry",
+        action_kind="scientific",
+        snapshot=snapshot,
+    )
+    assert "calculate_atomic_charges" not in {
+        item["action_id"] for item in precise["actions"]
+    }
 
     unresolved = inspect_action("optimize_geometry", snapshot=snapshot)
     assert unresolved["selected_request_contract"] is None

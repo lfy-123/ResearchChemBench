@@ -62,8 +62,10 @@ OPEN_EXECUTION_TOOL_NAMES = (
 
 TOOL_DESCRIPTIONS = {
     "list_software": (
-        "List and filter the complete local software/library/documentation inventory. This is a "
-        "neutral inventory operation: it does not recommend, rank, or select a program."
+        "List and filter a paginated compact index of the complete local software/library inventory. "
+        "Use query to narrow it, then inspect_software for one exact id; detailed versions, paths, "
+        "commands, modules, and manuals are deliberately omitted here. This operation does not "
+        "recommend, rank, or select a program."
     ),
     "inspect_software": (
         "Inspect one exact software id before using it. Returns installed runtime/health, current "

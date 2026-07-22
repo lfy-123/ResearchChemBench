@@ -76,6 +76,10 @@ def test_software_inventory_explains_native_and_module_only_access():
     inventory = list_software(SoftwareListRequest())
     assert inventory["status"] == "success"
     assert inventory["count"] >= 40
+    assert inventory["next_offset"] is not None
+    assert all("native_commands" not in item for item in inventory["software"])
+    assert all("analysis_runtimes" not in item for item in inventory["software"])
+    assert all("detected_versions" not in item for item in inventory["software"])
 
     cp2k = inspect_software(SoftwareInspectRequest(software_id="cp2k"))
     assert cp2k["native_invocation_guides"][0]["synopsis"] == (

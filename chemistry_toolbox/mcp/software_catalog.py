@@ -483,15 +483,55 @@ def list_software(request: SoftwareListRequest) -> dict[str, Any]:
         entries = [item for item in entries if item["native_commands"]]
     if request.available_only:
         entries = [item for item in entries if item["available"]]
-    selected = entries[: request.limit]
+    selected = entries[request.offset : request.offset + request.limit]
+    expose_capabilities = bool(request.query)
+    compact = []
+    for item in selected:
+        native_executables = [
+            {
+                "executable": command["executable"],
+                "enabled": command["enabled"],
+                "available": command["available"],
+            }
+            for command in item["native_commands"]
+        ]
+        analysis_runtime_ids = sorted(
+            {
+                runtime["runtime"]
+                for runtime in item["analysis_runtimes"]
+                if runtime.get("runtime")
+            }
+        )
+        compact.append(
+            {
+                "software_id": item["software_id"],
+                "display_name": item["display_name"],
+                "available": item["available"],
+                "backend_registered": item["backend_registered"],
+                "runtime": item["runtime"],
+                "native_executables": native_executables,
+                "analysis_runtime_ids": analysis_runtime_ids,
+                "action_count": len(item["actions"]),
+                **({"matching_action_ids": item["actions"]} if expose_capabilities else {}),
+                "documentation_cached": item["documentation_cached"],
+            }
+        )
+    next_offset = request.offset + len(selected)
     return {
         "status": "success",
-        "count": len(selected),
+        "count": len(compact),
         "total_matching": len(entries),
-        "software": selected,
+        "offset": request.offset,
+        "next_offset": next_offset if next_offset < len(entries) else None,
+        "software": compact,
         "selection_note": (
-            "This is an inventory filter only. It does not recommend software, rank backends, "
-            "or choose a scientific method."
+            "This is a compact inventory filter only. It does not recommend software, rank "
+            "backends, or choose a scientific method. Filter with query to expose matching Action "
+            "ids, then call inspect_software for exactly one software_id to load versions, module "
+            "details, reviewed command synopses, paths, manuals, and request templates."
+        ),
+        "pagination_note": (
+            "Use next_offset with the same filters to continue until it is null."
         ),
     }
 
@@ -688,10 +728,13 @@ def list_analysis_runtimes(request: AnalysisRuntimeListRequest) -> dict[str, Any
             "runtime": name,
             "description": specification.get("description"),
             "available": available,
-            "module_names": sorted(modules),
-            "configured_commands": commands,
-            "backends": backends,
+            "module_count": len(modules),
+            "configured_command_count": len(commands),
+            "backend_ids": backends,
         }
+        if request.query or request.runtime is not None:
+            item["module_names"] = sorted(modules)
+            item["configured_commands"] = commands
         if request.include_details:
             item.update(
                 {
@@ -800,7 +843,7 @@ def software_resource_snapshot() -> dict[str, Any]:
     return {
         "schema_version": 1,
         "execution_policy": load_native_guides()["policy"],
-        **list_software(SoftwareListRequest()),
+        **list_software(SoftwareListRequest(limit=200)),
     }
 
 

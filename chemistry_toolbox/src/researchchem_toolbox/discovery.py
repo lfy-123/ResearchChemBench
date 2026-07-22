@@ -713,7 +713,6 @@ def search_actions(
                 *specification.optional_inputs,
                 *(provider.id for provider in provider_values),
                 *(provider.display_name for provider in provider_values),
-                *(provider.description for provider in provider_values),
             ]
         ).casefold()
         if not _matches_all_terms(terms, haystack):
@@ -726,7 +725,6 @@ def search_actions(
         providers = [
             {
                 "backend_id": backend,
-                "display_name": backends[backend].display_name,
                 "health_status": _health_status(current, backend),
             }
             for backend in specification.backend_ids

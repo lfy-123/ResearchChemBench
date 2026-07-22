@@ -1,15 +1,23 @@
 from __future__ import annotations
 
-from chemistry_toolbox.mcp.execution_models import AnalysisRuntimeListRequest
-from chemistry_toolbox.mcp.software_catalog import list_analysis_runtimes
+import json
+
+from chemistry_toolbox.mcp.execution_models import (
+    AnalysisRuntimeListRequest,
+    SoftwareListRequest,
+)
+from chemistry_toolbox.mcp.software_catalog import list_analysis_runtimes, list_software
 
 
 def test_runtime_inventory_is_compact_until_one_runtime_is_inspected():
     compact = list_analysis_runtimes(AnalysisRuntimeListRequest(limit=500))
     assert compact["status"] == "success"
     assert compact["runtimes"]
-    assert all("module_names" in item for item in compact["runtimes"])
-    assert all("python" not in item and "modules" not in item for item in compact["runtimes"])
+    assert all("module_count" in item for item in compact["runtimes"])
+    assert all(
+        "python" not in item and "modules" not in item and "module_names" not in item
+        for item in compact["runtimes"]
+    )
     assert "submit_analysis_program" in compact["execution_note"]
 
     runtime = compact["runtimes"][0]["runtime"]
@@ -24,3 +32,15 @@ def test_runtime_inventory_is_compact_until_one_runtime_is_inspected():
     assert detailed["runtimes"][0]["runtime"] == runtime
     assert "python" in detailed["runtimes"][0]
     assert "modules" in detailed["runtimes"][0]
+
+
+def test_software_inventory_is_a_paginated_compact_index():
+    first = list_software(SoftwareListRequest())
+    assert first["status"] == "success"
+    assert first["count"] <= 50
+    assert first["next_offset"] is not None
+    assert all("resolved_path" not in json.dumps(item) for item in first["software"])
+
+    complete = list_software(SoftwareListRequest(limit=200))
+    assert complete["count"] == complete["total_matching"]
+    assert len(json.dumps(complete)) < 40_000
