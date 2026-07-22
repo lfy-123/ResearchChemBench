@@ -68,5 +68,6 @@ def test_openmolcas_requires_explicit_uhf_for_open_shell(tmp_path, monkeypatch):
         "pbc": [False, False, False],
     }
     result = execute_action("calculate_energy", request)
-    assert result["status"] == "failed"
+    assert result["status"] == "invalid_request"
+    assert result["error"]["code"] == "backend_input_error"
     assert "use_uhf=true" in result["error"]["message"]
