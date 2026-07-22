@@ -190,6 +190,55 @@ def test_pysisyphus_ts_structure_retains_selected_electronic_state(
     }
 
 
+def test_pysisyphus_cycle_limit_is_partial_not_converged(
+    tmp_path: Path, monkeypatch
+):
+    monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
+
+    def fake_run_external(**kwargs):
+        (kwargs["directory"] / "ts_final_geometry.xyz").write_text(
+            "2\nlast unconverged geometry\nH 0 0 0\nH 0 0 0.75\n",
+            encoding="utf-8",
+        )
+        return {
+            "available": True,
+            "returncode": 0,
+            "stdout": (
+                " 199 0.000008 0.011930 0.002112\n"
+                "Number of cycles exceeded!\n"
+                "Wrote final, hopefully optimized, geometry to 'ts_final_geometry.xyz'\n"
+            ),
+            "stderr": "",
+            "command": ["pysis", "pysis.yaml"],
+        }
+
+    monkeypatch.setattr(reaction, "run_external", fake_run_external)
+    result = reaction._pysisyphus(
+        "locate_transition_state",
+        {
+            "inputs": {"initial_guess": H2},
+            "method_spec": {"calculator_backend": "xtb", "method": "gfn2"},
+            "action_settings": {
+                "optimizer": "rsprfo",
+                "convergence": "gau",
+                "max_cycles": 200,
+                "hessian_init": "calc",
+            },
+            "resource_limits": {"walltime_seconds": 10},
+        },
+    )
+
+    assert result["status"] == "partial_success"
+    assert result["result"]["structure"] is not None
+    assert result["result"]["converged"] is False
+    assert "must not be described as a converged transition state" in result["warnings"][0]
+    assert result["provenance"]["native_optimizer_convergence"] == {
+        "converged": False,
+        "positive_marker": None,
+        "cycle_limit_exceeded": True,
+    }
+
+
 @pytest.mark.parametrize(
     ("label", "expected"),
     [

@@ -187,6 +187,10 @@ def _pysisyphus(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
             f"pysisyphus failed: {_pysisyphus_failure_detail(directory, completed['stderr'])}"
         )
     xyz_outputs = [path for path in directory.rglob("*.xyz") if path != xyz]
+    native_converged = bool(
+        re.search(r"(?m)^\s*Converged!\s*$", completed["stdout"])
+    ) and "Number of cycles exceeded!" not in completed["stdout"]
+    partial_warnings: list[str] = []
     if action_id == "locate_transition_state":
         candidate = xyz_outputs[-1] if xyz_outputs else None
         result_structure = (
@@ -199,9 +203,19 @@ def _pysisyphus(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
             result_structure["multiplicity"] = multiplicity
         result = {
             "structure": result_structure,
-            "converged": bool(candidate),
+            "converged": bool(candidate) and native_converged,
             "validation_required": "Call calculate_hessian and derive_vibrational_modes explicitly.",
         }
+        if candidate is None:
+            partial_warnings.append(
+                "pysisyphus completed without a parseable transition-state geometry."
+            )
+        elif not native_converged:
+            partial_warnings.append(
+                "pysisyphus wrote a last geometry but did not satisfy its optimizer "
+                "convergence criteria; the structure is retained only as an unvalidated "
+                "search endpoint and must not be described as a converged transition state."
+            )
     else:
         result = {
             "path_files": [relative_workspace_path(path) for path in xyz_outputs],
@@ -221,8 +235,16 @@ def _pysisyphus(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
             ),
         },
     }
+    if action_id == "locate_transition_state":
+        provenance["native_optimizer_convergence"] = {
+            "converged": native_converged,
+            "positive_marker": "Converged!" if native_converged else None,
+            "cycle_limit_exceeded": "Number of cycles exceeded!" in completed["stdout"],
+        }
     complete = (
-        action_id == "locate_transition_state" and result.get("structure") is not None
+        action_id == "locate_transition_state"
+        and result.get("structure") is not None
+        and result.get("converged") is True
     ) or (
         action_id == "trace_intrinsic_reaction_coordinate" and bool(result.get("path_files"))
     )
@@ -232,7 +254,8 @@ def _pysisyphus(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
             artifact_files=artifacts,
             backend_version=module_version("pysisyphus"),
             provenance=provenance,
-            warnings=["pysisyphus completed without a parseable primary structure/path result."],
+            warnings=partial_warnings
+            or ["pysisyphus completed without a parseable primary structure/path result."],
         )
     return success(
         result,
