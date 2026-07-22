@@ -133,8 +133,11 @@ WORKSPACES_DIR=""
 TASKS_DIR=""
 CHEMGRAPH_ROOT_VALUE=""
 CHEMGRAPH_PYTHON_VALUE=""
-OPENCODE_MODEL_VALUE=""
-OPENCODE_BASE_URL_VALUE=""
+# Preserve values loaded from config.local.env. Command-line flags below may
+# still override them, but an omitted flag must not silently discard the local
+# provider/model configuration and fall back to evaluation.config defaults.
+OPENCODE_MODEL_VALUE="${OPENCODE_MODEL_VALUE:-}"
+OPENCODE_BASE_URL_VALUE="${OPENCODE_BASE_URL_VALUE:-}"
 MCP_TOOLS_VALUE="${RESEARCHCHEMBENCH_MCP_TOOLS:-all}"
 MCP_PROFILES_VALUE="${RESEARCHCHEMBENCH_MCP_PROFILES:-}"
 POSITIONAL=()

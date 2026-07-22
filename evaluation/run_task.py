@@ -254,7 +254,15 @@ class TaskRunner:
                 provider: {
                     "npm": "@ai-sdk/openai-compatible",
                     "name": provider,
-                    "options": {"baseURL": base_url},
+                    # Resolve the credential only inside the Agent process.
+                    # Custom provider IDs otherwise prefer OpenCode's saved
+                    # provider credential, which can silently ignore the
+                    # benchmark's OPENAI_API_KEY. The placeholder keeps the
+                    # actual secret out of the run-local config artifact.
+                    "options": {
+                        "baseURL": base_url,
+                        "apiKey": "{env:OPENAI_API_KEY}",
+                    },
                     "models": {model_id: {"name": model_id}},
                 }
             },

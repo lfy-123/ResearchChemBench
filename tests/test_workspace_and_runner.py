@@ -92,7 +92,9 @@ def test_codex_and_claude_commands_include_mcp(tmp_path: Path):
     assert config["mcp"]["researchchem_toolbox"]["type"] == "local"
     assert config["mcp"]["researchchem_toolbox"]["timeout"] == 3_600_000
     assert config["model"] == "deepseek/deepseek-v4-flash"
-    assert "OPENAI_API_KEY" not in json.dumps(config)
+    assert config["provider"]["deepseek"]["options"]["apiKey"] == (
+        "{env:OPENAI_API_KEY}"
+    )
 
 
 def test_agent_environment_does_not_receive_judge_key(tmp_path: Path, monkeypatch):
