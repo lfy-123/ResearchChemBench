@@ -558,26 +558,27 @@ def _rubric(*rows: tuple[str, int, str]) -> list[dict[str, object]]:
     ]
 
 
-def _task_definitions(archive_sha256: str) -> dict[str, tuple[dict, dict]]:
-    common_archive = [
-        {
-            "source": "autonomous_inputs.zip",
-            "destination": "benchmark_data",
-            "format": "zip",
-            "sha256": archive_sha256,
-        }
-    ]
-    common_data = [
-        {
-            "name": "P(V) autonomous-computation inputs",
-            "path": "data/benchmark_data",
-            "type": "directory",
-            "description": (
-                "Nine unoptimized molecular seeds, chemical-system metadata, experimental "
-                "conditions, and paper-reported measurements. No completed calculation is included."
-            ),
-        }
-    ]
+def _task_definitions(_archive_sha256: str) -> dict[str, tuple[dict, dict]]:
+    # Task inputs are now normal files under data/benchmark_data, materialized by
+    # organize_heterobiaryl_task_inputs.py.  The legacy shared ZIP is retained
+    # only as build provenance and must never be linked into a task again.
+    common_archive: list[dict] = []
+    task_input_contracts = {
+        TASK_IDS[0]: {"states": ["P0", "P1", "P2"], "seed_count": 9, "measurement_ids": []},
+        TASK_IDS[1]: {"states": ["P0", "P1", "P2"], "seed_count": 9, "measurement_ids": []},
+        TASK_IDS[2]: {"states": ["P2"], "seed_count": 3, "measurement_ids": ["E02", "E10", "E11", "E12"]},
+        TASK_IDS[3]: {"states": ["P0", "P1", "P2"], "seed_count": 9, "measurement_ids": []},
+        TASK_IDS[4]: {
+            "states": ["P2"],
+            "seed_count": 3,
+            "measurement_ids": ["E01", "E02", "E04", "E05", "E06", "E07", "E08", "E09", "E10", "E11", "E12"],
+        },
+        TASK_IDS[5]: {
+            "states": ["P0", "P1", "P2"],
+            "seed_count": 9,
+            "measurement_ids": ["E01", "E02", "E04", "E05", "E06", "E07", "E08", "E09", "E10", "E11", "E12"],
+        },
+    }
     prompts = {
         TASK_IDS[0]: (
             "Starting only from the supplied unoptimized neutral, singly protonated, and doubly "
@@ -1071,6 +1072,17 @@ def _task_definitions(archive_sha256: str) -> dict[str, tuple[dict, dict]]:
 
     definitions: dict[str, tuple[dict, dict]] = {}
     for index, task_id in enumerate(TASK_IDS):
+        input_contract = task_input_contracts[task_id]
+        data_description = (
+            f"{input_contract['seed_count']} independent unoptimized ETKDG seed XYZ files; "
+            "mapped molecular identity and conditions"
+            + (
+                f"; filtered experimental observations {input_contract['measurement_ids']}"
+                if input_contract["measurement_ids"]
+                else ""
+            )
+            + ". No archive, symlink, completed calculation, stationary point, pathway result, or reference answer is included."
+        )
         task_info = {
             "task_id": task_id,
             "source_id": "hidden_pv_heterobiaryl_mechanism_2018_autonomous_reproduction",
@@ -1080,7 +1092,14 @@ def _task_definitions(archive_sha256: str) -> dict[str, tuple[dict, dict]]:
             "scientific_mode_description": scientific_mode_descriptions[task_id],
             "scientific_requirements": scientific_requirements[task_id],
             "required_deliverables": required_deliverables[task_id],
-            "data": common_data,
+            "data": [
+                {
+                    "name": "Direct Heterobiaryl P(V) task inputs",
+                    "path": "data/benchmark_data",
+                    "type": "directory",
+                    "description": data_description,
+                }
+            ],
             "archive_extractions": common_archive,
         }
         visible_instruction_text = json.dumps(
@@ -1128,12 +1147,13 @@ def _task_definitions(archive_sha256: str) -> dict[str, tuple[dict, dict]]:
                 "conditions": {"temperature_K": 353.15, "standard_state_M": 1.0, "solvent": "ethanol"},
                 "required_evidence_classes": evidence_classes[task_id],
                 "public_input_contract": {
-                    "unoptimized_seed_count": 9,
+                    "unoptimized_seed_count": input_contract["seed_count"],
+                    "states": input_contract["states"],
+                    "measurement_ids": input_contract["measurement_ids"],
                     "completed_computational_outputs": 0,
                     "optimized_stationary_points": 0,
                     "raw_instrument_files": 0,
                 },
-                "public_archive_sha256": archive_sha256,
                 "published_reference_is_hidden_comparison_only": True,
             },
         }
@@ -1152,9 +1172,17 @@ def _write_tasks(definitions: dict[str, tuple[dict, dict]]) -> None:
             link = data_root / old_name
             if link.is_symlink() or link.exists():
                 link.unlink()
-        link = data_root / "autonomous_inputs.zip"
-        relative_target = os.path.relpath(PUBLIC_ARCHIVE, start=data_root)
-        link.symlink_to(relative_target)
+        benchmark_data = data_root / "benchmark_data"
+        if not benchmark_data.is_dir():
+            raise FileNotFoundError(
+                f"{benchmark_data} is missing; run scripts/organize_heterobiaryl_task_inputs.py first"
+            )
+        manifest_path = benchmark_data / "input_manifest.json"
+        if not manifest_path.is_file():
+            raise FileNotFoundError(manifest_path)
+        ground_truth["reference_evidence"]["input_manifest_sha256"] = hashlib.sha256(
+            manifest_path.read_bytes()
+        ).hexdigest()
         (task_root / "task_info.json").write_bytes(_json_bytes(task_info))
         (target_root / "ground_truth.json").write_bytes(_json_bytes(ground_truth))
 

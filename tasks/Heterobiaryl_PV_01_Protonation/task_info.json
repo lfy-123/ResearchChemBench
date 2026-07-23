@@ -33,18 +33,11 @@
   ],
   "data": [
     {
-      "name": "P(V) autonomous-computation inputs",
+      "name": "Direct Heterobiaryl P(V) task inputs",
       "path": "data/benchmark_data",
       "type": "directory",
-      "description": "Nine unoptimized molecular seeds, chemical-system metadata, experimental conditions, and paper-reported measurements. No completed calculation is included."
+      "description": "9 independent unoptimized ETKDG seed XYZ files; mapped molecular identity and conditions. No archive, symlink, completed calculation, stationary point, pathway result, or reference answer is included."
     }
   ],
-  "archive_extractions": [
-    {
-      "source": "autonomous_inputs.zip",
-      "destination": "benchmark_data",
-      "format": "zip",
-      "sha256": "74ab6cab8f8ca0a0b10dc3da2efb03840247d58a9c90fe83332a14622207ac2e"
-    }
-  ]
+  "archive_extractions": []
 }
