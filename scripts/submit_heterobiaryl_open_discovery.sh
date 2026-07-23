@@ -14,8 +14,8 @@ Usage:
   bash scripts/submit_heterobiaryl_open_discovery.sh all [OPTIONS]
 
 Model settings:
-  flash  Agent=bailian/deepseek-v4-flash, Judge=bailian/deepseek-v4-pro
-  pro    Agent=bailian/deepseek-v4-pro,   Judge=bailian/deepseek-v4-pro
+  flash  Agent=deepseek-v4-flash, Judge=deepseek-v4-pro
+  pro    Agent=deepseek-v4-pro,   Judge=deepseek-v4-pro
   all    Run flash and then pro sequentially.
 
 Options:
@@ -115,7 +115,7 @@ if [[ "$STAGE" != "all" && "$STAGE" != "subtasks" && "$STAGE" != "q6" ]]; then
   exit 2
 fi
 
-JUDGE_MODEL="bailian/deepseek-v4-pro"
+JUDGE_MODEL="deepseek-v4-pro"
 SUBTASK_CONFIG="eval_configs/heterobiaryl_pv_open_discovery_subtasks.yaml"
 Q6_CONFIG="eval_configs/heterobiaryl_pv_independent_discovery_q6.yaml"
 
@@ -168,11 +168,11 @@ run_setting() {
   local slug
   case "$name" in
     flash)
-      model="bailian/deepseek-v4-flash"
+      model="deepseek-v4-flash"
       slug="deepseek-v4-flash"
       ;;
     pro)
-      model="bailian/deepseek-v4-pro"
+      model="deepseek-v4-pro"
       slug="deepseek-v4-pro"
       ;;
   esac
