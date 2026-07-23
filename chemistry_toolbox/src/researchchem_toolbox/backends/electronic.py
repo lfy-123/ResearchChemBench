@@ -2367,10 +2367,23 @@ def _render_orca(
     if parallel_processes > 1:
         lines.extend(["%pal", f"  nprocs {parallel_processes}", "end"])
     if action_id == "optimize_geometry":
+        convergence = str(settings["optimization_convergence"]).strip()
+        convergence_choices = {
+            "loose": "Loose",
+            "normal": "Normal",
+            "tight": "Tight",
+            "verytight": "VeryTight",
+        }
+        try:
+            convergence = convergence_choices[convergence.casefold()]
+        except KeyError as exc:
+            raise ValueError(
+                "ORCA optimization_convergence must be Loose, Normal, Tight, or VeryTight"
+            ) from exc
         lines.extend(
             [
                 "%geom",
-                f"  Convergence {settings['optimization_convergence']}",
+                f"  Convergence {convergence}",
                 f"  MaxIter {int(settings['max_steps'])}",
                 "end",
             ]

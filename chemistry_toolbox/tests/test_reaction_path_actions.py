@@ -65,7 +65,7 @@ def test_double_ended_pysis_action_consumes_both_endpoints_and_parses_energies(
                 "calculator_backend": "xtb",
                 "method": "GFN2-xTB",
                 "solvation_model": "alpb",
-                "solvent": "ethanol",
+                "solvent": "methanol",
             },
             "action_settings": {
                 "path_method": "neb",
@@ -86,7 +86,7 @@ def test_double_ended_pysis_action_consumes_both_endpoints_and_parses_energies(
     assert result["result"]["highest_interior_energy_image_index"] == 1
     configuration = result["provenance"]["generated_config"]
     assert len(configuration["geom"]["fn"]) == 2
-    assert configuration["calc"]["alpb"] == "ethanol"
+    assert configuration["calc"]["alpb"] == "methanol"
     assert configuration["calc"]["pal"] == 4
 
 
@@ -109,6 +109,36 @@ def test_growing_string_rejects_optimizer_that_cannot_resize_history(tmp_path, m
                 },
             },
         )
+
+
+def test_pysisyphus_xtb_rejects_unparametrized_ethanol_before_execution():
+    with pytest.raises(ValueError, match="ethanol.*not parametrized"):
+        reaction._pysisyphus_calculator(
+            {
+                "calculator_backend": "xtb",
+                "method": "GFN2-xTB",
+                "solvation_model": "gbsa",
+                "solvent": "ethanol",
+            },
+            H2_REACTANT,
+            {"cpu_cores": 2},
+        )
+
+
+def test_pysisyphus_xtb_accepts_supported_model_specific_solvent():
+    calculator, charge, multiplicity = reaction._pysisyphus_calculator(
+        {
+            "calculator_backend": "xtb",
+            "method": "GFN2-xTB",
+            "solvation_model": "gbsa",
+            "solvent": "DMF",
+        },
+        H2_REACTANT,
+        {"cpu_cores": 2},
+    )
+    assert calculator["gbsa"] == "dmf"
+    assert charge == 0
+    assert multiplicity == 1
 
 
 def test_relaxed_scan_converts_angstrom_to_bohr_and_returns_aligned_points(
@@ -160,6 +190,9 @@ def test_relaxed_scan_converts_angstrom_to_bohr_and_returns_aligned_points(
     scan = result["provenance"]["generated_config"]["scan"]
     assert scan["start"] == pytest.approx(0.9 * 1.8897261254578281)
     assert scan["end"] == pytest.approx(1.0 * 1.8897261254578281)
+    assert result["provenance"]["generated_config"]["geom"]["coord_kwargs"] == {
+        "define_prims": [["BOND", 0, 1]]
+    }
 
 
 def test_internal_coordination_and_path_analysis_actions():

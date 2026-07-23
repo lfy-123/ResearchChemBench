@@ -33,6 +33,21 @@ def test_gaussian_renderer_uses_only_typed_method_and_resource_fields():
     assert "0 1" in text
 
 
+def test_gaussian_renderer_rejects_pysisyphus_convergence_labels():
+    with pytest.raises(ValueError, match="must be Loose, Tight, or VeryTight"):
+        quantum_legacy._render_gaussian(
+            "optimize_geometry",
+            WATER,
+            {"method": "B3LYP", "basis": "6-31G(d)"},
+            {
+                "scf_convergence": "Tight",
+                "optimization_convergence": "gau_loose",
+                "max_steps": 40,
+            },
+            {"cpu_cores": 1, "memory_mb": 512},
+        )
+
+
 def test_gaussian_formatted_checkpoint_hessian_is_reconstructed(tmp_path):
     path = tmp_path / "job.fchk"
     path.write_text(

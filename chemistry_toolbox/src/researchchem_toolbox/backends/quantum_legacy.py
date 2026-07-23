@@ -70,6 +70,33 @@ def _gaussian_scf_or_dft_method(value: Any) -> str:
     return method
 
 
+def _gaussian_optimization_convergence(value: Any) -> str:
+    """Return a canonical Gaussian Opt convergence keyword.
+
+    pysisyphus uses labels such as ``gau`` and ``gau_loose``. Passing those
+    labels through to Gaussian produces an invalid route and can make the
+    licensed executable abort with a core dump instead of a useful input
+    error, so keep this backend boundary deliberately strict.
+    """
+
+    text = _safe_keyword(
+        value,
+        "Gaussian optimization convergence",
+        r"[A-Za-z0-9_-]+",
+    )
+    canonical = {
+        "loose": "Loose",
+        "tight": "Tight",
+        "verytight": "VeryTight",
+    }
+    try:
+        return canonical[text.casefold()]
+    except KeyError as exc:
+        raise ValueError(
+            "Gaussian optimization_convergence must be Loose, Tight, or VeryTight"
+        ) from exc
+
+
 def _molecular_structure(value: Any) -> tuple[dict[str, Any], list[str], list[list[float]]]:
     structure = structure_dict(value)
     if any(bool(flag) for flag in structure.get("pbc", [])):
@@ -96,10 +123,8 @@ def _render_gaussian(
             raise ValueError("Gaussian max_steps must be positive")
         task_keyword = (
             "Opt=("
-            + _safe_keyword(
-                settings["optimization_convergence"],
-                "Gaussian optimization convergence",
-                r"[A-Za-z0-9_-]+",
+            + _gaussian_optimization_convergence(
+                settings["optimization_convergence"]
             )
             + f",MaxCycles={max_steps})"
         )

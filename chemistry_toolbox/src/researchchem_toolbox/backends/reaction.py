@@ -74,6 +74,50 @@ def _pysisyphus_xtb_gfn(method_name: str) -> int | str:
     return values[normalized]
 
 
+_XTB_ALPB_SOLVENTS = {
+    "acetone", "acetonitrile", "aniline", "benzaldehyde", "benzene",
+    "ch2cl2", "chcl3", "cs2", "dioxane", "dmf", "dmso", "ether",
+    "ethylacetate", "furane", "hexandecane", "hexane", "methanol",
+    "nitromethane", "octanol", "woctanol", "phenol", "toluene", "thf",
+    "water",
+}
+_XTB_GBSA_COMMON_SOLVENTS = {
+    "acetone", "acetonitrile", "ch2cl2", "chcl3", "cs2", "dmso", "ether",
+    "h2o", "methanol", "thf", "toluene",
+}
+
+
+def _validated_xtb_solvent(model: str, solvent: str, gfn: int | str) -> str:
+    """Validate xTB 6.7's model- and GFN-specific built-in solvents."""
+
+    normalized = solvent.strip().casefold()
+    normalized = {
+        "dichloromethane": "ch2cl2",
+        "chloroform": "chcl3",
+        "carbon disulfide": "cs2",
+        "dimethylformamide": "dmf",
+        "dimethyl sulfoxide": "dmso",
+        "tetrahydrofuran": "thf",
+    }.get(normalized, normalized)
+    if model == "alpb":
+        normalized = "water" if normalized == "h2o" else normalized
+        choices = _XTB_ALPB_SOLVENTS
+    else:
+        normalized = "h2o" if normalized == "water" else normalized
+        normalized = "n-hexane" if normalized == "hexane" else normalized
+        choices = set(_XTB_GBSA_COMMON_SOLVENTS)
+        if gfn == 1:
+            choices.add("benzene")
+        if gfn == 2:
+            choices.update({"dmf", "n-hexane"})
+    if normalized not in choices:
+        raise ValueError(
+            f"xTB {model.upper()} solvent {solvent!r} is not parametrized for GFN{gfn}; "
+            f"choose one of {sorted(choices)} or omit implicit solvation"
+        )
+    return normalized
+
+
 def _pysisyphus_failure_detail(directory: Path, stderr: str) -> str:
     """Summarize native calculator failures without hiding scientific nonconvergence."""
 
@@ -159,7 +203,9 @@ def _pysisyphus_calculator(
         if not solvent:
             raise ValueError("pysisyphus solvation_model requires method_spec.solvent")
         if calculator_backend == "xtb" and solvation_model in {"alpb", "gbsa"}:
-            calculator[solvation_model] = solvent
+            calculator[solvation_model] = _validated_xtb_solvent(
+                solvation_model, solvent, calculator["gfn"]
+            )
         elif calculator_backend == "orca" and solvation_model == "cpcm":
             calculator["keywords"] += f" CPCM({solvent})"
         elif calculator_backend == "orca" and solvation_model == "smd":
@@ -496,6 +542,14 @@ def _pysisyphus(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
         atom_count = len(input_structure.get("atoms") or [])
         if any(index < 0 or index >= atom_count for index in indices):
             raise ValueError("atom_indices contains an index outside the supplied structure")
+        # A reaction-coordinate bond scan commonly starts from two atoms that
+        # are not bonded yet. pysisyphus only auto-defines geometrically
+        # perceived primitives; when start_value is explicit its scan driver
+        # does not add a missing primitive itself. Register the requested
+        # primitive up front so forming-bond scans are valid too.
+        configuration["geom"]["coord_kwargs"] = {
+            "define_prims": [[primitive, *indices]]
+        }
         value_unit = str(settings["value_unit"]).strip().lower()
         start = float(settings["start_value"])
         end = float(settings["end_value"])

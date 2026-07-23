@@ -907,6 +907,11 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
                 "calculate_bond_orders", "calculate_excited_states",
             )
         },
+        allowed_settings={
+            "optimize_geometry": {
+                "optimization_convergence": ("Loose", "Normal", "Tight", "VeryTight")
+            }
+        },
     ),
     _backend(
         "gaussian", "Gaussian 16", "gaussian",
@@ -944,6 +949,12 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
                 "calculate_energy", "calculate_hessian", "optimize_geometry",
                 "calculate_dipole_moment",
             )
+        },
+        allowed_settings={
+            "optimize_geometry": {
+                "scf_convergence": ("Loose", "Tight", "VeryTight"),
+                "optimization_convergence": ("Loose", "Tight", "VeryTight"),
+            }
         },
     ),
     _backend(
@@ -1297,7 +1308,10 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
             "charge": "explicit integer molecular charge; otherwise taken from the supplied structure",
             "multiplicity": "explicit positive spin multiplicity; otherwise taken from the supplied structure",
             "solvation_model": "optional alpb/gbsa for xTB or cpcm/smd for ORCA",
-            "solvent": "required solvent name when solvation_model is supplied",
+            "solvent": (
+                "required solvent name when solvation_model is supplied; xTB 6.7 validates "
+                "its exact built-in ALPB/GBSA parameter set and does not provide ethanol"
+            ),
             "pyscf_basis_conditional": "calculator_backend=pyscf requires method_spec.basis",
             "hessian_init": (
                 "explicit pysisyphus initial-Hessian strategy; calc requests an exact Hessian, "

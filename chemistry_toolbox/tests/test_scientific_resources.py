@@ -312,6 +312,22 @@ def test_orca_input_exposes_typed_smd_solvent():
     assert '%cpcm\n  smd true\n  SMDsolvent "Ethanol"\nend' in text
 
 
+def test_orca_renderer_rejects_simple_input_optimization_alias():
+    with pytest.raises(ValueError, match="must be Loose, Normal, Tight, or VeryTight"):
+        electronic._render_orca(
+            "optimize_geometry",
+            {
+                "atoms": [
+                    {"element": "H", "position_angstrom": [0, 0, 0]},
+                    {"element": "H", "position_angstrom": [0, 0, 0.74]},
+                ]
+            },
+            {"method": "HF", "basis": "STO-3G"},
+            {"optimization_convergence": "TightOpt", "max_steps": 20},
+            {"cpu_cores": 1},
+        )
+
+
 def test_orca_optimization_reads_final_xyz_not_first_trajectory_frame(
     tmp_path, monkeypatch
 ):
