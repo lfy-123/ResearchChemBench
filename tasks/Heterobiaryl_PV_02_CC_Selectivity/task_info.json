@@ -3,6 +3,34 @@
   "source_id": "hidden_pv_heterobiaryl_mechanism_2018_autonomous_reproduction",
   "category": "mechanistic_quantum_chemistry",
   "task": "Starting from the supplied unoptimized P(V) seeds, independently determine whether pyridyl-pyridyl coupling is preferred over phenyl-pyridyl coupling for kinetic or thermodynamic reasons in each protonation state. The three seeds in each protonation class are alternative starting guesses, not completed results; screen them and refine only representatives justified by your own intermediate calculations. Construct and test competing pathways, validate any claimed stationary points, and compare activation and reaction free energies under one 353.15 K, 1 M convention. Use a staged calculation strategy appropriate to the available resources. The central evidence must come from new managed chemical calculations and their artifacts, not from descriptive analysis of the input files. Do not substitute remembered or published values for calculations performed during this run. Do not identify or search for the source publication or any external answer.",
+  "scientific_mode": "focused_open_discovery",
+  "scientific_mode_description": "The scientific question and validity standard are fixed, but no software, calculation sequence, provider, or stopping path is prescribed. Plan, branch, and revise autonomously.",
+  "scientific_requirements": [
+    "Write an initial resource-tiered plan before numerical work and record how intermediate results change seed and pathway choices.",
+    "Audit the supplied alternatives and construct both pyridyl-pyridyl and phenyl-pyridyl pathway hypotheses for every protonation state covered by the final conclusion.",
+    "A kinetic-selectivity conclusion requires comparable activation evidence; a thermodynamic-selectivity conclusion requires comparable product/reaction free energies. Do not infer one from the other.",
+    "Validate each minimum and claimed transition state, or label that branch unresolved and report a defensible computed bound with its assumptions.",
+    "Use one internally consistent main profile at 353.15 K, 1 M, and ethanol conditions, with explicit energy references and units."
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/research_plan.json",
+      "description": "Initial hypotheses, resource tiers, seed/path choices, validation gates, stopping criteria, and dated revisions."
+    },
+    {
+      "path": "report/evidence_summary.json",
+      "description": "Claim-to-artifact map with method, conditions, validation status, and uncertainty for each scientific conclusion."
+    },
+    {
+      "path": "report/failure_log.jsonl",
+      "description": "One record per failed or inconclusive branch, including attempted remedy and scientific consequence; an empty file is allowed only when no failure occurred.",
+      "allow_empty": true
+    },
+    {
+      "path": "report/report.md",
+      "description": "Final artifact-linked scientific answer that distinguishes computed results, measurements, inference, and unresolved uncertainty."
+    }
+  ],
   "data": [
     {
       "name": "P(V) autonomous-computation inputs",

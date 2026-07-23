@@ -10,9 +10,15 @@
       "Cl": 1.89
     },
     "reference_rate_determining_step": "alcohol addition at phosphonium phosphorus before ligand coupling",
-    "reference_selectivity_determining_step": "intramolecular P(V) ligand coupling"
+    "reference_selectivity_determining_step": "intramolecular P(V) ligand coupling",
+    "reference_strongly_irreversible_stage": "collapse of the dearomatized post-coupling intermediate to product"
   },
-  "expected_structured_output": null,
+  "expected_structured_output": [
+    "report/research_plan.json",
+    "report/evidence_summary.json",
+    "report/failure_log.jsonl",
+    "report/report.md"
+  ],
   "scoring_rubric": [
     {
       "id": "experimental_rate_analysis",
@@ -32,12 +38,12 @@
     {
       "id": "rate_determining_assignment",
       "max_score": 20,
-      "criterion": "Assigns and justifies the most likely rate-determining stage without confusing it with selectivity control."
+      "criterion": "Uses experiments plus new downstream energetic evidence to identify alcohol addition as the most likely rate-determining stage, or gives a rigorously supported alternative without confusing it with coupling."
     },
     {
       "id": "step_role_separation",
       "max_score": 10,
-      "criterion": "Separates rate determination, selectivity determination, and irreversible collapse."
+      "criterion": "Separately assigns alcohol addition rate control, ligand-coupling selectivity control, and the strongly irreversible post-coupling collapse."
     },
     {
       "id": "provenance_alternatives",
@@ -50,16 +56,37 @@
     "The report reaches its main computational conclusion without any managed Chemistry MCP scientific execution attempt.",
     "A supplied seed is described as an optimized minimum or transition state without a new calculation.",
     "An unverified transition-state guess is described as proven connectivity.",
+    "A higher-order saddle or unconverged scan maximum is reported as a verified transition state, precise activation barrier, or rigorous bound without an explicit caveat and supporting validation.",
     "Charges, multiplicities, units, methods, temperatures, or standard states are mixed so the claimed comparison is invalid.",
     "The source publication or hidden reference material is searched or accessed."
   ],
-  "judge_instructions": "This is an autonomous-reproduction task, not an analysis-of-supplied-results task. Only scientific results generated during this run count as computed evidence. Do not require exact tool names, software, methods, or a unique order; predefined Actions, managed native software jobs, and managed Agent-authored analysis programs are all valid. Built-in shell/file tools may inspect raw inputs and reports but do not by themselves satisfy managed scientific computation. Apply the managed-computation policy and score method-dependent independent values by validation and provenance, not exact equality to hidden high-level numbers.",
+  "judge_instructions": "This is an autonomous-reproduction task, not an analysis-of-supplied-results task. Only scientific results generated during this run count as computed evidence. Do not require exact tool names, software, methods, or a unique order; predefined Actions, managed native software jobs, and managed Agent-authored analysis programs are all valid. Built-in shell/file tools may inspect raw inputs and reports but do not by themselves satisfy managed scientific computation. Apply the managed-computation and evidence-gate policies. Score independent method-dependent values by stationarity, connectivity, consistency, scale, and provenance rather than exact equality alone. Quantified experimental rates alone do not answer the task. Check the three mechanistic roles separately and do not praise role separation when the report assigns ligand coupling as the overall rate-determining step.",
   "managed_computation_policy": {
     "required": true,
     "minimum_successful_scientific_calls": 2,
     "score_cap_without_managed_attempt": 20,
     "score_cap_without_successful_managed_call": 40,
     "score_cap_below_minimum_successes": 70
+  },
+  "evidence_gate_policy": {
+    "judge_must_assess_all": true,
+    "gates": [
+      {
+        "id": "new_downstream_computation",
+        "score_cap_if_failed": 55,
+        "requirement": "The claim that ligand coupling is downstream of rate control is supported by new managed energetic evidence with valid charge/state and stationary-point provenance, not only experimental regression or unmanaged shell output."
+      },
+      {
+        "id": "role_separation",
+        "score_cap_if_failed": 60,
+        "requirement": "The report separately assigns alcohol addition as rate-determining, ligand coupling as selectivity-determining, and post-coupling collapse as strongly irreversible, or provides direct evidence for a defensible alternative without conflation."
+      },
+      {
+        "id": "experiment_not_substitute",
+        "score_cap_if_failed": 40,
+        "requirement": "The main mechanistic conclusion is not based only on the supplied rate table, ethoxide result, or qualitative non-detection."
+      }
+    ]
   },
   "reference_evidence": {
     "conditions": {

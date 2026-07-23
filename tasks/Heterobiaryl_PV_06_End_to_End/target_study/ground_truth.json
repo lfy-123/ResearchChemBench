@@ -19,44 +19,54 @@
       },
       "P2_C_O": 18
     },
-    "rate_determining_step": "alcohol addition before ligand coupling"
+    "rate_determining_step": "alcohol addition before ligand coupling",
+    "selectivity_determining_step": "intramolecular P(V) ligand coupling",
+    "strongly_irreversible_stage": "collapse of the dearomatized post-coupling intermediate to product"
   },
-  "expected_structured_output": null,
+  "expected_structured_output": [
+    "report/research_plan.json",
+    "report/stationary_points.csv",
+    "report/energy_profile.csv",
+    "report/mechanism_evidence.json",
+    "report/failure_log.jsonl",
+    "report/final_answer.json",
+    "report/report.md"
+  ],
   "scoring_rubric": [
     {
       "id": "autonomous_problem_formulation",
       "max_score": 10,
-      "criterion": "Builds and revises competing hypotheses rather than following a hidden fixed workflow."
+      "criterion": "Writes and revises an independent competing-hypothesis decision tree before numerical work rather than following a hidden fixed workflow."
     },
     {
       "id": "input_and_conformer_exploration",
       "max_score": 10,
-      "criterion": "Audits the seeds and generates/refines relevant conformers without treating seeds as optimized results."
+      "criterion": "Audits all nine seeds and generates/refines justified representatives without treating seeds as optimized results."
     },
     {
       "id": "new_stationary_point_evidence",
       "max_score": 18,
-      "criterion": "Produces and validates new minima/transition/intermediate evidence across key branches."
+      "criterion": "Produces and validates minima, first-order transition structures, and intermediate evidence across every core branch, or explicitly records unresolved searches."
     },
     {
       "id": "energetics_and_thermochemistry",
       "max_score": 15,
-      "criterion": "Constructs comparable profiles with documented methods, conditions, and provenance."
+      "criterion": "Constructs one comparable 353.15 K, 1 M ethanol main profile with documented references, validation state, provenance, and separate sensitivity results."
     },
     {
       "id": "protonation_and_selectivity",
       "max_score": 12,
-      "criterion": "Tests protonation effects and C-C selectivity over phenyl-pyridyl/C-O alternatives."
+      "criterion": "Tests P0/P1/P2 protonation effects and both BiPy/PhPy and C-C/C-O selectivity rather than completing only one favorable branch."
     },
     {
       "id": "reaction_coordinate_mechanism",
       "max_score": 12,
-      "criterion": "Supports the elementary bond-reorganization mechanism with direct new evidence."
+      "criterion": "Uses direct target-mode and connectivity/coordinate evidence to test stepwise asynchronous reorganization and the dearomatized intermediate."
     },
     {
       "id": "experimental_computational_integration",
       "max_score": 10,
-      "criterion": "Separates rate, selectivity, and irreversible stages using measurements plus calculations."
+      "criterion": "Separately assigns alcohol-addition rate control, ligand-coupling selectivity control, and strongly irreversible collapse using measurements plus calculations."
     },
     {
       "id": "tool_orchestration_and_recovery",
@@ -66,7 +76,7 @@
     {
       "id": "reporting_and_uncertainty",
       "max_score": 4,
-      "criterion": "Produces a reproducible artifact-linked report with unresolved branches."
+      "criterion": "Produces all required structured evidence files and a reproducible artifact-linked report with failed and unresolved branches."
     }
   ],
   "critical_failures": [
@@ -74,16 +84,67 @@
     "The report reaches its main computational conclusion without any managed Chemistry MCP scientific execution attempt.",
     "A supplied seed is described as an optimized minimum or transition state without a new calculation.",
     "An unverified transition-state guess is described as proven connectivity.",
+    "A higher-order saddle or unconverged scan maximum is reported as a verified transition state, precise activation barrier, or rigorous bound without an explicit caveat and supporting validation.",
     "Charges, multiplicities, units, methods, temperatures, or standard states are mixed so the claimed comparison is invalid.",
     "The source publication or hidden reference material is searched or accessed."
   ],
-  "judge_instructions": "This is an autonomous-reproduction task, not an analysis-of-supplied-results task. Only scientific results generated during this run count as computed evidence. Do not require exact tool names, software, methods, or a unique order; predefined Actions, managed native software jobs, and managed Agent-authored analysis programs are all valid. Built-in shell/file tools may inspect raw inputs and reports but do not by themselves satisfy managed scientific computation. Apply the managed-computation policy and score method-dependent independent values by validation and provenance, not exact equality to hidden high-level numbers.",
+  "judge_instructions": "This is an autonomous-reproduction task, not an analysis-of-supplied-results task. Only scientific results generated during this run count as computed evidence. Do not require exact tool names, software, methods, or a unique order; predefined Actions, managed native software jobs, and managed Agent-authored analysis programs are all valid. Built-in shell/file tools may inspect raw inputs and reports but do not by themselves satisfy managed scientific computation. Apply the managed-computation and evidence-gate policies. Score independent method-dependent values by stationarity, connectivity, consistency, scale, and provenance rather than exact equality alone. This is independent open discovery, not a literal concatenation requirement or a fixed workflow. Reuse valid evidence, but enforce coverage of every core scientific branch; many calls on one branch cannot substitute for missing protonation, selectivity, C-O, mechanism, intermediate, or kinetic-role evidence.",
   "managed_computation_policy": {
     "required": true,
-    "minimum_successful_scientific_calls": 6,
+    "minimum_successful_scientific_calls": 8,
     "score_cap_without_managed_attempt": 20,
     "score_cap_without_successful_managed_call": 40,
     "score_cap_below_minimum_successes": 70
+  },
+  "evidence_gate_policy": {
+    "judge_must_assess_all": true,
+    "gates": [
+      {
+        "id": "independent_plan_and_seed_audit",
+        "score_cap_if_failed": 80,
+        "requirement": "An initial/revised independent plan is submitted and all nine seeds are screened or individually excluded with calculation-backed reasons."
+      },
+      {
+        "id": "protonation_coverage",
+        "score_cap_if_failed": 70,
+        "requirement": "The final mechanism includes comparable P0/P1/P2 activation evidence or explicit controlled bounds, rather than absolute minima or one seed per state only."
+      },
+      {
+        "id": "selectivity_coverage",
+        "score_cap_if_failed": 65,
+        "requirement": "Both pyridyl-pyridyl and phenyl-pyridyl pathways are investigated sufficiently to support the kinetic selectivity conclusion."
+      },
+      {
+        "id": "co_competition_coverage",
+        "score_cap_if_failed": 65,
+        "requirement": "The C-O competitor receives a validated transition-state investigation or a reproducible controlled bound comparable to the C-C branch."
+      },
+      {
+        "id": "stationary_point_and_connectivity_validation",
+        "score_cap_if_failed": 55,
+        "requirement": "Reported minima have stationarity evidence and transition-state claims have exactly one target imaginary mode plus forward/reverse connectivity or equivalent direct coordinate evidence."
+      },
+      {
+        "id": "mechanism_and_intermediate_coverage",
+        "score_cap_if_failed": 60,
+        "requirement": "Concerted and stepwise alternatives, asynchronous bond reorganization, and the dearomatized intermediate are directly tested before the elementary mechanism is assigned."
+      },
+      {
+        "id": "kinetic_role_coverage",
+        "score_cap_if_failed": 60,
+        "requirement": "Alcohol-addition rate control, ligand-coupling selectivity control, and strongly irreversible collapse are separately evaluated using computation and supplied measurements."
+      },
+      {
+        "id": "coherent_main_profile",
+        "score_cap_if_failed": 70,
+        "requirement": "The main energy profile uses compatible references and one 353.15 K, 1 M ethanol convention; incompatible methods or standard states are not mixed as one profile."
+      },
+      {
+        "id": "structured_evidence_products",
+        "score_cap_if_failed": 90,
+        "requirement": "The required research plan, stationary-point table, energy profile, mechanism evidence, failure log, machine-readable final answer, and final report are present and mutually consistent."
+      }
+    ]
   },
   "reference_evidence": {
     "conditions": {

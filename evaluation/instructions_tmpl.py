@@ -15,6 +15,14 @@ You are an autonomous computational chemistry agent. Complete the task by using 
 ### Available input files
 {data_text}
 
+## Scientific evaluation mode
+
+`{scientific_mode}` — {scientific_mode_description}
+
+### Task-specific scientific validity requirements
+
+{scientific_requirements}
+
 ## Chemistry toolbox access
 
 {toolbox_overview}
@@ -52,9 +60,15 @@ report/images/   optional figures
 
 Use distinct, descriptive output filenames, especially for multi-molecule reaction tasks.
 
-## Required deliverable
+## Required deliverables
 
-Before finishing, write `report/report.md`. It must contain:
+{required_deliverables}
+
+The files above are evidence products, not a prescribed calculation sequence. Choose the
+scientific route yourself, revise it when results justify doing so, and make every submitted
+claim traceable to the corresponding artifact.
+
+At minimum, `report/report.md` must contain:
 
 1. A direct answer to the task, with units where applicable.
 2. The action sequence, software backend, chemistry method/model, temperature, and other key parameters used.
@@ -62,5 +76,8 @@ Before finishing, write `report/report.md`. It must contain:
 4. Paths to relevant output files.
 5. For reaction-energy tasks, the stoichiometric expression and arithmetic used to compute the reaction value.
 
-The benchmark treats the task as incomplete if `report/report.md` is missing or empty. Continue using tools until the result is computed and the report is written.
+The benchmark treats the task as incomplete if `report/report.md` is missing or empty. Other
+task-specific deliverables are scored as part of process quality and scientific auditability.
+Continue using tools until the result is computed, unresolved branches are explicitly recorded,
+and the required evidence products are written.
 """

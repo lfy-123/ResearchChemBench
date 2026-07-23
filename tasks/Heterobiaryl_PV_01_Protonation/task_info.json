@@ -3,6 +3,34 @@
   "source_id": "hidden_pv_heterobiaryl_mechanism_2018_autonomous_reproduction",
   "category": "mechanistic_quantum_chemistry",
   "task": "Starting only from the supplied unoptimized neutral, singly protonated, and doubly protonated P(V) seeds, independently test how successive N-protonation changes the activation free energy of pyridyl-pyridyl ligand coupling. The three seeds in each protonation class are alternative starting guesses, not completed results; use your own staged screening to choose which representatives merit refinement rather than exhaustively calculating every seed without evidence. Formulate a resource-aware calculation plan, generate and validate the necessary reactant and transition-region evidence, and compare all states at 353.15 K and a 1 M solution standard state. Explain the structural or electronic origin of the trend. This is a calculation-and-tool-orchestration task: reading or tabulating the supplied metadata is only preparation and cannot establish the answer. Every numerical claim must point to an artifact generated in this run; if a full pathway cannot be established, report the strongest computed bound and the missing validation instead of using a literature value. Do not identify or search for the source publication or any external answer.",
+  "scientific_mode": "focused_open_discovery",
+  "scientific_mode_description": "The scientific question and validity standard are fixed, but no software, calculation sequence, provider, or stopping path is prescribed. Plan, branch, and revise autonomously.",
+  "scientific_requirements": [
+    "Write an initial resource-tiered plan before numerical work and record later revisions, selected seed representatives, and stopping criteria.",
+    "Audit all three seeds in each protonation class with an appropriate screening calculation, or give a calculation-backed reason for excluding a seed before refinement.",
+    "For every reported activation free energy, connect a reactant basin to the corresponding transition region in the same protonation state; validate minima and any claimed first-order saddle rather than comparing absolute energies or static bond orders.",
+    "Use one internally consistent main-profile convention at 353.15 K, 1 M, and ethanol conditions. Keep sensitivity calculations separate instead of mixing methods or reference states.",
+    "If a transition region cannot be validated, report only a clearly defined computed bracket or bound, the failed attempts, and the missing evidence."
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/research_plan.json",
+      "description": "Initial hypotheses, resource tiers, seed/path choices, validation gates, stopping criteria, and dated revisions."
+    },
+    {
+      "path": "report/evidence_summary.json",
+      "description": "Claim-to-artifact map with method, conditions, validation status, and uncertainty for each scientific conclusion."
+    },
+    {
+      "path": "report/failure_log.jsonl",
+      "description": "One record per failed or inconclusive branch, including attempted remedy and scientific consequence; an empty file is allowed only when no failure occurred.",
+      "allow_empty": true
+    },
+    {
+      "path": "report/report.md",
+      "description": "Final artifact-linked scientific answer that distinguishes computed results, measurements, inference, and unresolved uncertainty."
+    }
+  ],
   "data": [
     {
       "name": "P(V) autonomous-computation inputs",

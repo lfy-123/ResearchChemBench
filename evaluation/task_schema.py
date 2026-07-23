@@ -49,11 +49,37 @@ class ArchiveExtraction(BaseModel):
         return normalized
 
 
+class RequiredDeliverable(BaseModel):
+    """One task-specific evidence product written inside the run workspace."""
+
+    path: str
+    description: str = ""
+    allow_empty: bool = False
+
+    @field_validator("path")
+    @classmethod
+    def relative_deliverable_path(cls, value: str) -> str:
+        path = PurePosixPath(value)
+        if (
+            not value
+            or path.is_absolute()
+            or ".." in path.parts
+            or "\\" in value
+            or "\x00" in value
+        ):
+            raise ValueError("deliverable paths must be safe non-empty relative POSIX paths")
+        return value
+
+
 class TaskInfo(BaseModel):
     task_id: str
     source_id: str
     category: str
     task: str
+    scientific_mode: str = "standard_autonomous_investigation"
+    scientific_mode_description: str = ""
+    scientific_requirements: list[str] = Field(default_factory=list)
+    required_deliverables: list[RequiredDeliverable] = Field(default_factory=list)
     data: list[DataFile] = Field(default_factory=list)
     archive_extractions: list[ArchiveExtraction] = Field(default_factory=list)
 
@@ -61,7 +87,7 @@ class TaskInfo(BaseModel):
 class GroundTruth(BaseModel):
     expected_tool_calls: list[dict[str, Any]] = Field(default_factory=list)
     expected_result: Any = ""
-    expected_structured_output: dict[str, Any] | None = None
+    expected_structured_output: Any = None
     evaluation_mode: Literal["binary", "rubric_100"] = "binary"
     score_max: int = 1
     scoring_rubric: list[dict[str, Any]] = Field(default_factory=list)
@@ -69,6 +95,7 @@ class GroundTruth(BaseModel):
     judge_instructions: str = ""
     reference_evidence: Any = None
     managed_computation_policy: dict[str, Any] = Field(default_factory=dict)
+    evidence_gate_policy: dict[str, Any] = Field(default_factory=dict)
 
     @model_validator(mode="after")
     def validate_scoring_definition(self) -> "GroundTruth":
@@ -93,4 +120,17 @@ class GroundTruth(BaseModel):
             raise ValueError("rubric criterion ids must be unique")
         if abs(maximum_total - self.score_max) > 1e-9:
             raise ValueError("rubric max_score values must sum to score_max")
+        gates = self.evidence_gate_policy.get("gates", [])
+        if gates:
+            gate_ids: list[str] = []
+            for gate in gates:
+                gate_id = str(gate.get("id") or "").strip()
+                cap = float(gate.get("score_cap_if_failed", -1))
+                if not gate_id or cap < 0 or cap > self.score_max:
+                    raise ValueError(
+                        "each evidence gate requires an id and a score cap within score_max"
+                    )
+                gate_ids.append(gate_id)
+            if len(gate_ids) != len(set(gate_ids)):
+                raise ValueError("evidence gate ids must be unique")
         return self

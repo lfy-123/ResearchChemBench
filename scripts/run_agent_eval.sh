@@ -66,14 +66,18 @@ OpenCode/OpenAI-compatible options:
       --opencode-model MODEL   Example: deepseek/deepseek-v4-flash.
       --opencode-base-url URL  Example: https://api.deepseek.com/v1.
                                 Supply the API credential through OPENAI_API_KEY.
+      --judge-model MODEL      Override only the scoring model for this run.
+                                Judge URL and key still come from local environment.
 
 Discovery/help:
       --list-agents            Print available Agent presets and exit.
       --list-tasks             Print available tasks grouped by category and exit.
   -h, --help                   Show this help text and exit.
 
-Scoring credentials are read from environment variables, not command-line flags:
-  JUDGE_API_KEY, JUDGE_API_BASE, JUDGE_MODEL_NAME
+Scoring URL and credentials are read from environment variables:
+  JUDGE_API_KEY, JUDGE_API_BASE
+The default scoring model comes from JUDGE_MODEL_NAME and may be overridden with
+--judge-model for one submission.
 
 Local credentials and environment variables can be placed in:
   config.local.env
@@ -141,6 +145,7 @@ CHEMGRAPH_PYTHON_VALUE=""
 # provider/model configuration and fall back to evaluation.config defaults.
 OPENCODE_MODEL_VALUE="${OPENCODE_MODEL_VALUE:-}"
 OPENCODE_BASE_URL_VALUE="${OPENCODE_BASE_URL_VALUE:-}"
+JUDGE_MODEL_VALUE="${JUDGE_MODEL_NAME:-}"
 MCP_TOOLS_VALUE="${RESEARCHCHEMBENCH_MCP_TOOLS:-all}"
 MCP_PROFILES_VALUE="${RESEARCHCHEMBENCH_MCP_PROFILES:-}"
 TOOL_DISCOVERY_MODE_VALUE="${RESEARCHCHEM_TOOL_DISCOVERY_MODE:-progressive}"
@@ -211,6 +216,11 @@ while [[ $# -gt 0 ]]; do
     --opencode-base-url)
       require_value "$1" "${2:-}"
       OPENCODE_BASE_URL_VALUE="$2"
+      shift 2
+      ;;
+    --judge-model)
+      require_value "$1" "${2:-}"
+      JUDGE_MODEL_VALUE="$2"
       shift 2
       ;;
     --mcp-tools)
@@ -294,6 +304,9 @@ fi
 if [[ -n "$OPENCODE_BASE_URL_VALUE" ]]; then
   export RESEARCHCHEMBENCH_OPENCODE_BASE_URL="$OPENCODE_BASE_URL_VALUE"
 fi
+if [[ -n "$JUDGE_MODEL_VALUE" ]]; then
+  export JUDGE_MODEL_NAME="$JUDGE_MODEL_VALUE"
+fi
 
 if [[ "$MCP_TOOLS_VALUE" != "all" ]]; then
   echo "Error: --mcp-tools only accepts 'all'; task-specific tool filtering is disabled for this benchmark." >&2
@@ -350,6 +363,7 @@ if [[ -n "$CONFIG" ]]; then
   echo "  Tool discovery:  $TOOL_DISCOVERY_MODE_VALUE"
   echo "  Backend runtimes:${MCP_PROFILES_VALUE:-all catalog entries; one public server}"
   echo "  Workspaces root: ${RESEARCHCHEMBENCH_WORKSPACES_DIR:-$ROOT_DIR/workspaces}"
+  echo "  Judge model:     ${JUDGE_MODEL_NAME:-<not configured>}"
   exec python -m evaluation.cli_eval "$CONFIG" "${CLI_ARGS[@]}"
 fi
 
@@ -364,6 +378,7 @@ echo "  Backend runtimes:${MCP_PROFILES_VALUE:-all catalog entries; one public s
 echo "  Timeout seconds: ${RESEARCHCHEMBENCH_AGENT_TIMEOUT_SECONDS:-7200}"
 echo "  Max turns:       ${RESEARCHCHEMBENCH_MAX_TURNS:-200}"
 echo "  Workspaces root: ${RESEARCHCHEMBENCH_WORKSPACES_DIR:-$ROOT_DIR/workspaces}"
+echo "  Judge model:     ${JUDGE_MODEL_NAME:-<not configured>}"
 
 exec python -m evaluation.cli_eval \
   --agent "$AGENT" \

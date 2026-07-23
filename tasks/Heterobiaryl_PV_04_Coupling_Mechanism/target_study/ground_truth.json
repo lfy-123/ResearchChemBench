@@ -9,9 +9,15 @@
       "apical-to-equatorial"
     ],
     "reference_intermediate": "dearomatized post-coupling intermediate",
-    "required_validation": "target mode plus connectivity and bond-reorganization evidence"
+    "oxygen_role": "oxygen lone-pair participation changes little along the key coordinate",
+    "required_validation": "exactly one target imaginary mode plus forward/reverse connectivity and bond-reorganization evidence"
   },
-  "expected_structured_output": null,
+  "expected_structured_output": [
+    "report/research_plan.json",
+    "report/evidence_summary.json",
+    "report/failure_log.jsonl",
+    "report/report.md"
+  ],
   "scoring_rubric": [
     {
       "id": "stationary_point_search",
@@ -21,12 +27,12 @@
     {
       "id": "vibrational_validation",
       "max_score": 15,
-      "criterion": "Uses new Hessian/frequency evidence to classify claimed stationary points."
+      "criterion": "Classifies every claimed stationary point from new Hessian/frequency evidence; a transition state requires exactly one chemically relevant imaginary mode."
     },
     {
       "id": "connectivity_validation",
       "max_score": 20,
-      "criterion": "Tests forward/reverse connectivity rather than treating a transition-state guess as proof."
+      "criterion": "Tests forward/reverse connectivity or an equivalent direct reaction coordinate rather than treating a transition-state guess or static structure as proof."
     },
     {
       "id": "bond_reorganization",
@@ -36,7 +42,7 @@
     {
       "id": "mechanism_classification",
       "max_score": 15,
-      "criterion": "Supports or rejects stepwise asynchronous coupling, an intermediate, and oxygen participation from direct evidence."
+      "criterion": "Supports the reference stepwise asynchronous classification, dearomatized intermediate, and limited oxygen participation from direct evidence, or explicitly leaves unsupported elements unresolved."
     },
     {
       "id": "provenance_and_uncertainty",
@@ -49,16 +55,42 @@
     "The report reaches its main computational conclusion without any managed Chemistry MCP scientific execution attempt.",
     "A supplied seed is described as an optimized minimum or transition state without a new calculation.",
     "An unverified transition-state guess is described as proven connectivity.",
+    "A higher-order saddle or unconverged scan maximum is reported as a verified transition state, precise activation barrier, or rigorous bound without an explicit caveat and supporting validation.",
     "Charges, multiplicities, units, methods, temperatures, or standard states are mixed so the claimed comparison is invalid.",
     "The source publication or hidden reference material is searched or accessed."
   ],
-  "judge_instructions": "This is an autonomous-reproduction task, not an analysis-of-supplied-results task. Only scientific results generated during this run count as computed evidence. Do not require exact tool names, software, methods, or a unique order; predefined Actions, managed native software jobs, and managed Agent-authored analysis programs are all valid. Built-in shell/file tools may inspect raw inputs and reports but do not by themselves satisfy managed scientific computation. Apply the managed-computation policy and score method-dependent independent values by validation and provenance, not exact equality to hidden high-level numbers.",
+  "judge_instructions": "This is an autonomous-reproduction task, not an analysis-of-supplied-results task. Only scientific results generated during this run count as computed evidence. Do not require exact tool names, software, methods, or a unique order; predefined Actions, managed native software jobs, and managed Agent-authored analysis programs are all valid. Built-in shell/file tools may inspect raw inputs and reports but do not by themselves satisfy managed scientific computation. Apply the managed-computation and evidence-gate policies. Score independent method-dependent values by stationarity, connectivity, consistency, scale, and provenance rather than exact equality alone. Static optimized structures cannot distinguish concerted from stepwise chemistry. Require target-mode and connectivity/coordinate evidence, and compare the confident final assignment with the hidden reference mechanism.",
   "managed_computation_policy": {
     "required": true,
     "minimum_successful_scientific_calls": 3,
     "score_cap_without_managed_attempt": 20,
     "score_cap_without_successful_managed_call": 40,
     "score_cap_below_minimum_successes": 70
+  },
+  "evidence_gate_policy": {
+    "judge_must_assess_all": true,
+    "gates": [
+      {
+        "id": "first_order_target_mode",
+        "score_cap_if_failed": 60,
+        "requirement": "Any transition-state claim has exactly one chemically relevant imaginary mode matching the intended C-C/P-C reorganization."
+      },
+      {
+        "id": "direct_connectivity",
+        "score_cap_if_failed": 60,
+        "requirement": "Forward/reverse connectivity or an equivalent direct reaction-coordinate calculation links the claimed transition structure to the stated adjacent states."
+      },
+      {
+        "id": "intermediate_and_coordinate_test",
+        "score_cap_if_failed": 70,
+        "requirement": "The Agent explicitly searches for the dearomatized post-coupling intermediate and follows forming C-C and changing P-C coordinates before classifying concerted/stepwise and synchronous/asynchronous behavior."
+      },
+      {
+        "id": "reference_mechanism_alignment",
+        "score_cap_if_failed": 60,
+        "requirement": "The final supported assignment agrees with the hidden stepwise asynchronous apical-to-equatorial mechanism, or remains appropriately unresolved rather than confidently asserting a conflicting mechanism."
+      }
+    ]
   },
   "reference_evidence": {
     "conditions": {

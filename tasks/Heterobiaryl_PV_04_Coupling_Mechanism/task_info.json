@@ -3,6 +3,34 @@
   "source_id": "hidden_pv_heterobiaryl_mechanism_2018_autonomous_reproduction",
   "category": "reaction_coordinate_analysis",
   "task": "Use new calculations beginning from the supplied alternative unoptimized P(V) seeds to determine whether the key pyridyl-pyridyl ligand-coupling event is concerted or stepwise and synchronous or asynchronous. Use a resource-aware screen to choose starting representatives, then establish the most defensible stationary-point sequence, test transition-state connectivity, follow the forming carbon-carbon bond and relevant phosphorus-carbon bonds, and assess whether a dearomatized intermediate and oxygen participation are supported. Input-file inspection alone cannot answer the task. Tie every mechanistic claim to a newly generated managed structural, vibrational, reaction-path, or electronic artifact, and label any branch that could not be validated. Do not identify or search for the source publication or any external answer.",
+  "scientific_mode": "focused_open_discovery",
+  "scientific_mode_description": "The scientific question and validity standard are fixed, but no software, calculation sequence, provider, or stopping path is prescribed. Plan, branch, and revise autonomously.",
+  "scientific_requirements": [
+    "Write an initial mechanism-discrimination plan before numerical work, including concerted and stepwise alternatives and the observations that would falsify each.",
+    "Justify the selected protonation state and seed representatives through screening rather than treating any supplied geometry as a stationary point.",
+    "A claimed transition state must have exactly one chemically relevant imaginary mode and direct forward/reverse connectivity or an equivalent reaction-coordinate validation.",
+    "Search explicitly for a post-coupling intermediate and quantify forming carbon-carbon and changing phosphorus-carbon distances or electronic indicators along the coordinate.",
+    "Classify concerted versus stepwise and synchronous versus asynchronous only from the generated coordinate evidence; otherwise mark the classification unresolved."
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/research_plan.json",
+      "description": "Initial hypotheses, resource tiers, seed/path choices, validation gates, stopping criteria, and dated revisions."
+    },
+    {
+      "path": "report/evidence_summary.json",
+      "description": "Claim-to-artifact map with method, conditions, validation status, and uncertainty for each scientific conclusion."
+    },
+    {
+      "path": "report/failure_log.jsonl",
+      "description": "One record per failed or inconclusive branch, including attempted remedy and scientific consequence; an empty file is allowed only when no failure occurred.",
+      "allow_empty": true
+    },
+    {
+      "path": "report/report.md",
+      "description": "Final artifact-linked scientific answer that distinguishes computed results, measurements, inference, and unresolved uncertainty."
+    }
+  ],
   "data": [
     {
       "name": "P(V) autonomous-computation inputs",

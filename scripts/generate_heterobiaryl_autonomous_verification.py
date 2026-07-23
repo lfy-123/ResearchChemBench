@@ -226,6 +226,8 @@ def compact(value: Any, limit: int = 280) -> str:
 
 def relative_link(path: Path, label: str | None = None) -> str:
     relative = os.path.relpath(path, REPORT.parent).replace(os.sep, "/")
+    if not path.exists():
+        return f"`{label or relative}`（已按 workspace 保留策略清理）"
     return f"[{label or path.name}]({relative})"
 
 

@@ -645,14 +645,17 @@ def _task_definitions(archive_sha256: str) -> dict[str, tuple[dict, dict]]:
             "mechanistic assignment requires managed chemical computation generated in this run."
         ),
         TASK_IDS[5]: (
-            "Develop an end-to-end, reproducible mechanistic and energetic account of the anonymous "
+            "Treat this as an independent open-discovery investigation. Develop an end-to-end, "
+            "reproducible mechanistic and energetic account of the anonymous "
             "P(V)-mediated heterobiaryl-forming reaction using only the supplied unoptimized seeds and "
             "experimental measurements. The three seeds in each protonation class are alternative "
             "starting guesses; design a staged screen and refine only representatives justified by "
-            "your own intermediate results. Formulate and computationally test competing explanations "
+            "your own intermediate results. Before numerical work, formulate competing explanations "
             "for protonation effects, carbon-carbon selectivity, carbon-oxygen competition, elementary bond "
-            "reorganization, and observed kinetics. Choose a resource-aware sequence of calculations, "
-            "retain failed or inconclusive branches, and produce a final mechanism that clearly "
+            "reorganization, and observed kinetics, then independently choose and revise a resource-aware "
+            "sequence of calculations. Reuse evidence across questions when scientifically valid, but do "
+            "not stop after one plausible pathway while core alternatives remain untested. Retain failed "
+            "or inconclusive branches, and produce a final mechanism that clearly "
             "separates measurements, newly computed results, inference, and uncertainty. Descriptive "
             "analysis of the supplied files is preparation only: values or "
             "mechanistic claims without artifacts generated during this run do not count as evidence."
@@ -671,57 +674,175 @@ def _task_definitions(archive_sha256: str) -> dict[str, tuple[dict, dict]]:
         "experimental_computational_integration",
         "end_to_end_scientific_investigation",
     )
+    scientific_modes = {
+        task_id: "focused_open_discovery" for task_id in TASK_IDS[:5]
+    }
+    scientific_modes[TASK_IDS[5]] = "independent_open_discovery"
+    scientific_mode_descriptions = {
+        task_id: (
+            "The scientific question and validity standard are fixed, but no software, calculation "
+            "sequence, provider, or stopping path is prescribed. Plan, branch, and revise autonomously."
+        )
+        for task_id in TASK_IDS[:5]
+    }
+    scientific_mode_descriptions[TASK_IDS[5]] = (
+        "Only the research objective, input boundary, and evidence standard are fixed. Independently "
+        "formulate the research plan, choose calculations and programs, allocate resources, revise "
+        "hypotheses, and decide when each branch is supported or remains unresolved."
+    )
+    scientific_requirements = {
+        TASK_IDS[0]: [
+            "Write an initial resource-tiered plan before numerical work and record later revisions, selected seed representatives, and stopping criteria.",
+            "Audit all three seeds in each protonation class with an appropriate screening calculation, or give a calculation-backed reason for excluding a seed before refinement.",
+            "For every reported activation free energy, connect a reactant basin to the corresponding transition region in the same protonation state; validate minima and any claimed first-order saddle rather than comparing absolute energies or static bond orders.",
+            "Use one internally consistent main-profile convention at 353.15 K, 1 M, and ethanol conditions. Keep sensitivity calculations separate instead of mixing methods or reference states.",
+            "If a transition region cannot be validated, report only a clearly defined computed bracket or bound, the failed attempts, and the missing evidence.",
+        ],
+        TASK_IDS[1]: [
+            "Write an initial resource-tiered plan before numerical work and record how intermediate results change seed and pathway choices.",
+            "Audit the supplied alternatives and construct both pyridyl-pyridyl and phenyl-pyridyl pathway hypotheses for every protonation state covered by the final conclusion.",
+            "A kinetic-selectivity conclusion requires comparable activation evidence; a thermodynamic-selectivity conclusion requires comparable product/reaction free energies. Do not infer one from the other.",
+            "Validate each minimum and claimed transition state, or label that branch unresolved and report a defensible computed bound with its assumptions.",
+            "Use one internally consistent main profile at 353.15 K, 1 M, and ethanol conditions, with explicit energy references and units.",
+        ],
+        TASK_IDS[2]: [
+            "Write an initial comparison plan before numerical work, including distinct carbon-carbon and carbon-oxygen hypotheses, validation tests, and stopping criteria.",
+            "Screen all supplied P2 seeds or give a calculation-backed exclusion reason before refining pathway representatives.",
+            "Treat both competing paths with comparable electronic, solvation, thermal, and standard-state conventions at 353.15 K and 1 M.",
+            "A transition-state barrier requires a first-order saddle whose imaginary mode matches the intended bond reorganization plus connectivity evidence. A structure with multiple relevant imaginary modes is neither a validated barrier nor, by itself, a rigorous upper bound.",
+            "If either path remains unresolved, preserve the failed searches and state only a controlled bracket or bound supported by explicit scan endpoints or other reproducible evidence.",
+        ],
+        TASK_IDS[3]: [
+            "Write an initial mechanism-discrimination plan before numerical work, including concerted and stepwise alternatives and the observations that would falsify each.",
+            "Justify the selected protonation state and seed representatives through screening rather than treating any supplied geometry as a stationary point.",
+            "A claimed transition state must have exactly one chemically relevant imaginary mode and direct forward/reverse connectivity or an equivalent reaction-coordinate validation.",
+            "Search explicitly for a post-coupling intermediate and quantify forming carbon-carbon and changing phosphorus-carbon distances or electronic indicators along the coordinate.",
+            "Classify concerted versus stepwise and synchronous versus asynchronous only from the generated coordinate evidence; otherwise mark the classification unresolved.",
+        ],
+        TASK_IDS[4]: [
+            "Write an initial hypothesis table before numerical work that separates candidate rate-determining, selectivity-determining, and strongly irreversible stages.",
+            "Quantify the experimental substituent-rate trend with uncertainty, but do not treat that regression or non-detection alone as a computed mechanism.",
+            "Generate new energetic evidence for the relevant protonated ligand-coupling event and validate any stationary-point claim before deciding whether coupling can be downstream of rate control.",
+            "Use the alcohol/ethoxide observations to compare plausible addition and coupling roles, state which stage is directly computed versus experimentally inferred, and retain falsifiable alternatives.",
+            "The final answer must assign the three mechanistic roles separately and must not use the same label as a substitute for all three.",
+        ],
+        TASK_IDS[5]: [
+            "Before numerical work, write an independent research plan containing competing hypotheses, a resource-tiered decision tree, validation gates, and stopping criteria; revise it when intermediate results warrant a different route.",
+            "Audit or screen all nine unoptimized seeds before selecting representatives, or record a calculation-backed exclusion reason for every omitted seed.",
+            "Obtain or explicitly bound a common-condition main profile that addresses protonation effects, pyridyl-pyridyl versus phenyl-pyridyl selectivity, and carbon-carbon versus carbon-oxygen competition. Reuse validated states when appropriate without mixing incompatible references.",
+            "For every minimum in the reported profile provide stationarity evidence. For every transition-state claim provide a target imaginary mode and forward/reverse connectivity or equivalent direct reaction-coordinate evidence; otherwise mark the branch unresolved.",
+            "Test concerted and stepwise alternatives, search for a post-coupling intermediate, and follow the forming carbon-carbon and changing phosphorus-carbon coordinates before assigning synchronous/asynchronous behavior.",
+            "Separate the rate-determining, selectivity-determining, and strongly irreversible stages using computation plus the supplied measurements; label which portions are computed, inferred, failed, or unknown.",
+            "Continue until every core hypothesis is supported, falsified, or represented by a documented failed/inconclusive attempt. A single successful pathway is not an end-to-end result.",
+        ],
+    }
+
+    def focused_deliverables() -> list[dict[str, object]]:
+        return [
+            {
+                "path": "report/research_plan.json",
+                "description": "Initial hypotheses, resource tiers, seed/path choices, validation gates, stopping criteria, and dated revisions.",
+            },
+            {
+                "path": "report/evidence_summary.json",
+                "description": "Claim-to-artifact map with method, conditions, validation status, and uncertainty for each scientific conclusion.",
+            },
+            {
+                "path": "report/failure_log.jsonl",
+                "description": "One record per failed or inconclusive branch, including attempted remedy and scientific consequence; an empty file is allowed only when no failure occurred.",
+                "allow_empty": True,
+            },
+            {
+                "path": "report/report.md",
+                "description": "Final artifact-linked scientific answer that distinguishes computed results, measurements, inference, and unresolved uncertainty.",
+            },
+        ]
+
+    required_deliverables = {
+        task_id: focused_deliverables() for task_id in TASK_IDS[:5]
+    }
+    required_deliverables[TASK_IDS[5]] = [
+        {
+            "path": "report/research_plan.json",
+            "description": "Initial and revised independent research plan, competing hypotheses, decision tree, resource tiers, validation gates, and stopping criteria.",
+        },
+        {
+            "path": "report/stationary_points.csv",
+            "description": "Every claimed minimum, transition structure, intermediate, and product-side state with charge, multiplicity, method, energy reference, frequency classification, connectivity status, and artifact path.",
+        },
+        {
+            "path": "report/energy_profile.csv",
+            "description": "Comparable relative electronic/free energies, units, temperature, standard state, solvent convention, pathway, protonation state, and uncertainty or bound status.",
+        },
+        {
+            "path": "report/mechanism_evidence.json",
+            "description": "Claim-by-claim evidence for protonation, selectivity, competing products, reaction-coordinate mechanism, intermediate, and kinetic role assignments.",
+        },
+        {
+            "path": "report/failure_log.jsonl",
+            "description": "One record per failed or inconclusive branch, attempted remedy, retained artifact, and consequence for the final conclusion.",
+            "allow_empty": True,
+        },
+        {
+            "path": "report/final_answer.json",
+            "description": "Machine-readable final mechanism, active state, pathway rankings, barriers or bounds, kinetic roles, confidence, and unresolved branches.",
+        },
+        {
+            "path": "report/report.md",
+            "description": "Human-readable end-to-end scientific account linked to every supporting artifact.",
+        },
+    ]
     rubrics = {
         TASK_IDS[0]: _rubric(
             ("autonomous_plan", 10, "Builds a resource-aware plan from the public seeds without assuming hidden stationary-point labels."),
             ("new_state_calculations", 20, "Creates traceable optimized/energetic evidence for P0, P1, and P2 rather than reading precomputed values."),
-            ("transition_state_validation", 25, "Searches for and validates relevant transition regions with vibrational and connectivity evidence, or reports a rigorous computed bound."),
+            ("transition_state_validation", 25, "Validates each reported barrier with a reactant minimum, a first-order target mode, and connectivity evidence, or reports only a controlled computed bracket/bound for unresolved states."),
             ("thermochemical_consistency", 15, "Uses one documented method and 353.15 K, 1 M convention with units and comparable references."),
-            ("protonation_trend", 20, "Obtains and explains a protonation-dependent barrier trend consistent in sign and scale with the hidden reference, allowing method-dependent deviations."),
+            ("protonation_trend", 20, "Obtains and explains a P0/P1/P2 activation-barrier trend consistent in sign and chemically credible scale with the hidden reference; absolute state energies or static bond orders alone receive no barrier credit."),
             ("provenance_and_uncertainty", 10, "Links claims to new artifacts and records failed calculations and limitations."),
         ),
         TASK_IDS[1]: _rubric(
             ("competing_path_construction", 15, "Independently constructs both pyridyl-pyridyl and phenyl-pyridyl hypotheses across protonation states."),
-            ("new_computational_evidence", 25, "Runs traceable calculations on both pathway families instead of relying on supplied or remembered energies."),
+            ("new_computational_evidence", 25, "Runs traceable calculations on both pathway families over every protonation state claimed in the conclusion instead of relying on supplied or remembered energies."),
             ("stationary_point_validation", 20, "Validates claimed minima/transition states and connectivity or explicitly bounds unresolved branches."),
-            ("comparable_profiles", 20, "Produces internally consistent activation/reaction comparisons and pathway rankings."),
-            ("kinetic_thermodynamic_conclusion", 10, "Correctly separates kinetic selectivity from product thermodynamics."),
+            ("comparable_profiles", 20, "Produces internally consistent activation and reaction-free-energy comparisons at common conditions with explicit references and no mixed profiles."),
+            ("kinetic_thermodynamic_conclusion", 10, "Correctly separates kinetic selectivity from product thermodynamics and does not infer either without the corresponding profile."),
             ("provenance_and_uncertainty", 10, "Links every quantitative comparison to run artifacts and reports limitations."),
         ),
         TASK_IDS[2]: _rubric(
             ("independent_path_hypotheses", 15, "Constructs chemically comparable C-C and C-O hypotheses from P2 seeds."),
-            ("new_cc_evidence", 20, "Generates and validates new evidence for the pyridyl-pyridyl path."),
-            ("new_co_evidence", 25, "Actively investigates the C-O competitor and retains failed searches without fabrication."),
-            ("barrier_or_bound_comparison", 20, "Provides a comparable barrier estimate or defensible computed bound and predicts the dominant path."),
+            ("new_cc_evidence", 20, "Generates new pyridyl-pyridyl pathway evidence and validates any claimed first-order transition state and its connectivity."),
+            ("new_co_evidence", 25, "Actively investigates the C-O competitor; full credit requires a validated first-order target mode and connectivity, while a higher-order saddle alone is neither a barrier nor a rigorous bound."),
+            ("barrier_or_bound_comparison", 20, "Provides common-condition comparable barriers or controlled computed bounds, reconciles major scale deviations, and predicts the dominant path without treating an unconverged structure as quantitative evidence."),
             ("experimental_integration", 10, "Uses the trace C-O observation and acidic/ethoxide conditions as constraints, not substitutes for computation."),
             ("provenance_and_uncertainty", 10, "Links conclusions to new artifacts and separates unresolved uncertainty."),
         ),
         TASK_IDS[3]: _rubric(
             ("stationary_point_search", 20, "Generates candidate reactant, transition, intermediate, and product-side structures from public seeds."),
-            ("vibrational_validation", 15, "Uses new Hessian/frequency evidence to classify claimed stationary points."),
-            ("connectivity_validation", 20, "Tests forward/reverse connectivity rather than treating a transition-state guess as proof."),
+            ("vibrational_validation", 15, "Classifies every claimed stationary point from new Hessian/frequency evidence; a transition state requires exactly one chemically relevant imaginary mode."),
+            ("connectivity_validation", 20, "Tests forward/reverse connectivity or an equivalent direct reaction coordinate rather than treating a transition-state guess or static structure as proof."),
             ("bond_reorganization", 20, "Quantifies forming C-C and breaking/retained P-C behavior along newly generated structures or trajectories."),
-            ("mechanism_classification", 15, "Supports or rejects stepwise asynchronous coupling, an intermediate, and oxygen participation from direct evidence."),
+            ("mechanism_classification", 15, "Supports the reference stepwise asynchronous classification, dearomatized intermediate, and limited oxygen participation from direct evidence, or explicitly leaves unsupported elements unresolved."),
             ("provenance_and_uncertainty", 10, "Retains failures and ties mechanistic claims to artifacts."),
         ),
         TASK_IDS[4]: _rubric(
             ("experimental_rate_analysis", 15, "Correctly quantifies OMe 0.16 < Me 0.37 < H 1.00 < Cl 1.89 and its uncertainty."),
             ("new_ligand_coupling_evidence", 25, "Generates independent energetic evidence for at least the relevant protonated ligand-coupling step."),
             ("experimental_computational_integration", 20, "Combines calculations with ethoxide behavior and cautious NMR non-detection reasoning."),
-            ("rate_determining_assignment", 20, "Assigns and justifies the most likely rate-determining stage without confusing it with selectivity control."),
-            ("step_role_separation", 10, "Separates rate determination, selectivity determination, and irreversible collapse."),
+            ("rate_determining_assignment", 20, "Uses experiments plus new downstream energetic evidence to identify alcohol addition as the most likely rate-determining stage, or gives a rigorously supported alternative without confusing it with coupling."),
+            ("step_role_separation", 10, "Separately assigns alcohol addition rate control, ligand-coupling selectivity control, and the strongly irreversible post-coupling collapse."),
             ("provenance_alternatives", 10, "Links computed claims to artifacts and retains falsifiable alternatives."),
         ),
         TASK_IDS[5]: _rubric(
-            ("autonomous_problem_formulation", 10, "Builds and revises competing hypotheses rather than following a hidden fixed workflow."),
-            ("input_and_conformer_exploration", 10, "Audits the seeds and generates/refines relevant conformers without treating seeds as optimized results."),
-            ("new_stationary_point_evidence", 18, "Produces and validates new minima/transition/intermediate evidence across key branches."),
-            ("energetics_and_thermochemistry", 15, "Constructs comparable profiles with documented methods, conditions, and provenance."),
-            ("protonation_and_selectivity", 12, "Tests protonation effects and C-C selectivity over phenyl-pyridyl/C-O alternatives."),
-            ("reaction_coordinate_mechanism", 12, "Supports the elementary bond-reorganization mechanism with direct new evidence."),
-            ("experimental_computational_integration", 10, "Separates rate, selectivity, and irreversible stages using measurements plus calculations."),
+            ("autonomous_problem_formulation", 10, "Writes and revises an independent competing-hypothesis decision tree before numerical work rather than following a hidden fixed workflow."),
+            ("input_and_conformer_exploration", 10, "Audits all nine seeds and generates/refines justified representatives without treating seeds as optimized results."),
+            ("new_stationary_point_evidence", 18, "Produces and validates minima, first-order transition structures, and intermediate evidence across every core branch, or explicitly records unresolved searches."),
+            ("energetics_and_thermochemistry", 15, "Constructs one comparable 353.15 K, 1 M ethanol main profile with documented references, validation state, provenance, and separate sensitivity results."),
+            ("protonation_and_selectivity", 12, "Tests P0/P1/P2 protonation effects and both BiPy/PhPy and C-C/C-O selectivity rather than completing only one favorable branch."),
+            ("reaction_coordinate_mechanism", 12, "Uses direct target-mode and connectivity/coordinate evidence to test stepwise asynchronous reorganization and the dearomatized intermediate."),
+            ("experimental_computational_integration", 10, "Separately assigns alcohol-addition rate control, ligand-coupling selectivity control, and strongly irreversible collapse using measurements plus calculations."),
             ("tool_orchestration_and_recovery", 9, "Uses a coherent managed scientific tool sequence and diagnoses failures without hidden fallback."),
-            ("reporting_and_uncertainty", 4, "Produces a reproducible artifact-linked report with unresolved branches."),
+            ("reporting_and_uncertainty", 4, "Produces all required structured evidence files and a reproducible artifact-linked report with failed and unresolved branches."),
         ),
     }
 
@@ -734,9 +855,9 @@ def _task_definitions(archive_sha256: str) -> dict[str, tuple[dict, dict]]:
         TASK_IDS[0]: {"reference_barrier_trend_kcal_mol": {"P0": 30, "P1": 20, "P2": 14}, "required_conclusion": "successive protonation lowers the pyridyl-pyridyl barrier", "comparison_policy": "Independent lower-cost values may differ; score sign, scale, validation, and provenance."},
         TASK_IDS[1]: {"reference_profiles_kcal_mol": published_profiles, "required_conclusion": "pyridyl-pyridyl preference is primarily kinetic rather than product-thermodynamic"},
         TASK_IDS[2]: {"reference_P2_barriers_kcal_mol": {"C_C": 14, "C_O": 18, "C_O_minus_C_C": 4}, "required_conclusion": "C-C coupling is favored while minor C-O remains plausible"},
-        TASK_IDS[3]: {"reference_classification": ["stepwise", "asynchronous", "apical-to-equatorial"], "reference_intermediate": "dearomatized post-coupling intermediate", "required_validation": "target mode plus connectivity and bond-reorganization evidence"},
-        TASK_IDS[4]: {"relative_rates": {"OMe": 0.16, "Me": 0.37, "H": 1.0, "Cl": 1.89}, "reference_rate_determining_step": "alcohol addition at phosphonium phosphorus before ligand coupling", "reference_selectivity_determining_step": "intramolecular P(V) ligand coupling"},
-        TASK_IDS[5]: {"active_state": "doubly protonated P2", "preferred_path": "pyridyl-pyridyl C-C", "reference_mechanism": "stepwise asynchronous apical-to-equatorial coupling through a dearomatized intermediate", "reference_profiles_kcal_mol": published_profiles, "rate_determining_step": "alcohol addition before ligand coupling"},
+        TASK_IDS[3]: {"reference_classification": ["stepwise", "asynchronous", "apical-to-equatorial"], "reference_intermediate": "dearomatized post-coupling intermediate", "oxygen_role": "oxygen lone-pair participation changes little along the key coordinate", "required_validation": "exactly one target imaginary mode plus forward/reverse connectivity and bond-reorganization evidence"},
+        TASK_IDS[4]: {"relative_rates": {"OMe": 0.16, "Me": 0.37, "H": 1.0, "Cl": 1.89}, "reference_rate_determining_step": "alcohol addition at phosphonium phosphorus before ligand coupling", "reference_selectivity_determining_step": "intramolecular P(V) ligand coupling", "reference_strongly_irreversible_stage": "collapse of the dearomatized post-coupling intermediate to product"},
+        TASK_IDS[5]: {"active_state": "doubly protonated P2", "preferred_path": "pyridyl-pyridyl C-C", "reference_mechanism": "stepwise asynchronous apical-to-equatorial coupling through a dearomatized intermediate", "reference_profiles_kcal_mol": published_profiles, "rate_determining_step": "alcohol addition before ligand coupling", "selectivity_determining_step": "intramolecular P(V) ligand coupling", "strongly_irreversible_stage": "collapse of the dearomatized post-coupling intermediate to product"},
     }
     evidence_classes = {
         TASK_IDS[0]: ["new_P0_P1_P2_geometries_or_energies", "new_transition_region_evidence", "stationary_point_validation", "common_condition_thermochemistry"],
@@ -746,12 +867,204 @@ def _task_definitions(archive_sha256: str) -> dict[str, tuple[dict, dict]]:
         TASK_IDS[4]: ["quantified_experimental_rate_trend", "new_ligand_coupling_calculation", "rate_selectivity_irreversibility_separation"],
         TASK_IDS[5]: ["new_conformer_or_structure_exploration", "new_stationary_points", "new_energy_profile", "new_mechanistic_evidence", "experimental_integration", "failure_log"],
     }
-    minimum_successes = {TASK_IDS[0]: 3, TASK_IDS[1]: 3, TASK_IDS[2]: 2, TASK_IDS[3]: 3, TASK_IDS[4]: 2, TASK_IDS[5]: 6}
+
+    def evidence_gate(
+        identifier: str, score_cap: int, requirement: str
+    ) -> dict[str, object]:
+        return {
+            "id": identifier,
+            "score_cap_if_failed": score_cap,
+            "requirement": requirement,
+        }
+
+    evidence_gate_policies = {
+        TASK_IDS[0]: {
+            "judge_must_assess_all": True,
+            "gates": [
+                evidence_gate(
+                    "all_protonation_states",
+                    60,
+                    "The final trend is supported by newly generated evidence for P0, P1, and P2; omitted states are not replaced by remembered or absolute cross-composition energies.",
+                ),
+                evidence_gate(
+                    "validated_activation_claims",
+                    55,
+                    "Every precise activation barrier has a same-state reactant reference and a validated first-order target mode with connectivity evidence, or is explicitly downgraded to a controlled bracket/bound. Static bond orders, absolute energies, minima, and unvalidated saddles do not pass.",
+                ),
+                evidence_gate(
+                    "common_thermochemistry",
+                    70,
+                    "The main P0/P1/P2 comparison uses compatible methods and one 353.15 K, 1 M ethanol convention; sensitivity calculations are not mixed into the main profile.",
+                ),
+            ],
+        },
+        TASK_IDS[1]: {
+            "judge_must_assess_all": True,
+            "gates": [
+                evidence_gate(
+                    "both_path_families",
+                    55,
+                    "Both pyridyl-pyridyl and phenyl-pyridyl pathways have new evidence for every protonation state included in the final all-state conclusion.",
+                ),
+                evidence_gate(
+                    "validated_selectivity_profiles",
+                    55,
+                    "Quantitative activation comparisons use validated first-order target modes and connectivity, or clearly identified rigorous bounds, under compatible references.",
+                ),
+                evidence_gate(
+                    "kinetic_thermodynamic_separation",
+                    65,
+                    "Kinetic preference is supported by activation evidence and product thermodynamics by reaction/product free energies; the report does not infer either category solely from the other.",
+                ),
+            ],
+        },
+        TASK_IDS[2]: {
+            "judge_must_assess_all": True,
+            "gates": [
+                evidence_gate(
+                    "cc_branch_validated",
+                    60,
+                    "The C-C branch has a validated first-order target mode plus connectivity, or is explicitly reported only as a controlled computed bracket/bound.",
+                ),
+                evidence_gate(
+                    "co_branch_validated_or_bounded",
+                    60,
+                    "The C-O branch has a validated first-order target mode plus connectivity, or a reproducible controlled bound from suitable endpoints. A higher-order saddle with multiple relevant imaginary modes is neither a barrier nor a bound by itself.",
+                ),
+                evidence_gate(
+                    "comparable_competing_paths",
+                    70,
+                    "The C-C and C-O values or bounds use compatible electronic, solvation, thermal, standard-state, and reference conventions at the main reported conditions.",
+                ),
+                evidence_gate(
+                    "reference_scale_reconciliation",
+                    85,
+                    "Gross deviations from the hidden 14 versus 18 kcal mol-1 scale are explicitly reconciled with validation/convergence evidence; a qualitatively correct ordering alone cannot receive full quantitative credit.",
+                ),
+            ],
+        },
+        TASK_IDS[3]: {
+            "judge_must_assess_all": True,
+            "gates": [
+                evidence_gate(
+                    "first_order_target_mode",
+                    60,
+                    "Any transition-state claim has exactly one chemically relevant imaginary mode matching the intended C-C/P-C reorganization.",
+                ),
+                evidence_gate(
+                    "direct_connectivity",
+                    60,
+                    "Forward/reverse connectivity or an equivalent direct reaction-coordinate calculation links the claimed transition structure to the stated adjacent states.",
+                ),
+                evidence_gate(
+                    "intermediate_and_coordinate_test",
+                    70,
+                    "The Agent explicitly searches for the dearomatized post-coupling intermediate and follows forming C-C and changing P-C coordinates before classifying concerted/stepwise and synchronous/asynchronous behavior.",
+                ),
+                evidence_gate(
+                    "reference_mechanism_alignment",
+                    60,
+                    "The final supported assignment agrees with the hidden stepwise asynchronous apical-to-equatorial mechanism, or remains appropriately unresolved rather than confidently asserting a conflicting mechanism.",
+                ),
+            ],
+        },
+        TASK_IDS[4]: {
+            "judge_must_assess_all": True,
+            "gates": [
+                evidence_gate(
+                    "new_downstream_computation",
+                    55,
+                    "The claim that ligand coupling is downstream of rate control is supported by new managed energetic evidence with valid charge/state and stationary-point provenance, not only experimental regression or unmanaged shell output.",
+                ),
+                evidence_gate(
+                    "role_separation",
+                    60,
+                    "The report separately assigns alcohol addition as rate-determining, ligand coupling as selectivity-determining, and post-coupling collapse as strongly irreversible, or provides direct evidence for a defensible alternative without conflation.",
+                ),
+                evidence_gate(
+                    "experiment_not_substitute",
+                    40,
+                    "The main mechanistic conclusion is not based only on the supplied rate table, ethoxide result, or qualitative non-detection.",
+                ),
+            ],
+        },
+        TASK_IDS[5]: {
+            "judge_must_assess_all": True,
+            "gates": [
+                evidence_gate(
+                    "independent_plan_and_seed_audit",
+                    80,
+                    "An initial/revised independent plan is submitted and all nine seeds are screened or individually excluded with calculation-backed reasons.",
+                ),
+                evidence_gate(
+                    "protonation_coverage",
+                    70,
+                    "The final mechanism includes comparable P0/P1/P2 activation evidence or explicit controlled bounds, rather than absolute minima or one seed per state only.",
+                ),
+                evidence_gate(
+                    "selectivity_coverage",
+                    65,
+                    "Both pyridyl-pyridyl and phenyl-pyridyl pathways are investigated sufficiently to support the kinetic selectivity conclusion.",
+                ),
+                evidence_gate(
+                    "co_competition_coverage",
+                    65,
+                    "The C-O competitor receives a validated transition-state investigation or a reproducible controlled bound comparable to the C-C branch.",
+                ),
+                evidence_gate(
+                    "stationary_point_and_connectivity_validation",
+                    55,
+                    "Reported minima have stationarity evidence and transition-state claims have exactly one target imaginary mode plus forward/reverse connectivity or equivalent direct coordinate evidence.",
+                ),
+                evidence_gate(
+                    "mechanism_and_intermediate_coverage",
+                    60,
+                    "Concerted and stepwise alternatives, asynchronous bond reorganization, and the dearomatized intermediate are directly tested before the elementary mechanism is assigned.",
+                ),
+                evidence_gate(
+                    "kinetic_role_coverage",
+                    60,
+                    "Alcohol-addition rate control, ligand-coupling selectivity control, and strongly irreversible collapse are separately evaluated using computation and supplied measurements.",
+                ),
+                evidence_gate(
+                    "coherent_main_profile",
+                    70,
+                    "The main energy profile uses compatible references and one 353.15 K, 1 M ethanol convention; incompatible methods or standard states are not mixed as one profile.",
+                ),
+                evidence_gate(
+                    "structured_evidence_products",
+                    90,
+                    "The required research plan, stationary-point table, energy profile, mechanism evidence, failure log, machine-readable final answer, and final report are present and mutually consistent.",
+                ),
+            ],
+        },
+    }
+
+    base_judge_instruction = (
+        "This is an autonomous-reproduction task, not an analysis-of-supplied-results task. "
+        "Only scientific results generated during this run count as computed evidence. Do not "
+        "require exact tool names, software, methods, or a unique order; predefined Actions, "
+        "managed native software jobs, and managed Agent-authored analysis programs are all "
+        "valid. Built-in shell/file tools may inspect raw inputs and reports but do not by "
+        "themselves satisfy managed scientific computation. Apply the managed-computation and "
+        "evidence-gate policies. Score independent method-dependent values by stationarity, "
+        "connectivity, consistency, scale, and provenance rather than exact equality alone. "
+    )
+    task_judge_instructions = {
+        TASK_IDS[0]: "Absolute energies of differently protonated compositions and static bond orders cannot establish activation barriers or their trend.",
+        TASK_IDS[1]: "Do not award kinetic-versus-thermodynamic causation unless the corresponding activation and reaction/product free-energy evidence exists for both pathway families.",
+        TASK_IDS[2]: "A higher-order C-O saddle is not a validated barrier and is not a rigorous upper bound by itself. The previous qualitative ordering must not receive full credit when stationary-point validity, common conditions, or quantitative scale is wrong.",
+        TASK_IDS[3]: "Static optimized structures cannot distinguish concerted from stepwise chemistry. Require target-mode and connectivity/coordinate evidence, and compare the confident final assignment with the hidden reference mechanism.",
+        TASK_IDS[4]: "Quantified experimental rates alone do not answer the task. Check the three mechanistic roles separately and do not praise role separation when the report assigns ligand coupling as the overall rate-determining step.",
+        TASK_IDS[5]: "This is independent open discovery, not a literal concatenation requirement or a fixed workflow. Reuse valid evidence, but enforce coverage of every core scientific branch; many calls on one branch cannot substitute for missing protonation, selectivity, C-O, mechanism, intermediate, or kinetic-role evidence.",
+    }
+    minimum_successes = {TASK_IDS[0]: 3, TASK_IDS[1]: 3, TASK_IDS[2]: 2, TASK_IDS[3]: 3, TASK_IDS[4]: 2, TASK_IDS[5]: 8}
     critical = [
         "A precise literature or hidden-reference value is presented as a calculation from this run without a supporting new artifact.",
         "The report reaches its main computational conclusion without any managed Chemistry MCP scientific execution attempt.",
         "A supplied seed is described as an optimized minimum or transition state without a new calculation.",
         "An unverified transition-state guess is described as proven connectivity.",
+        "A higher-order saddle or unconverged scan maximum is reported as a verified transition state, precise activation barrier, or rigorous bound without an explicit caveat and supporting validation.",
         "Charges, multiplicities, units, methods, temperatures, or standard states are mixed so the claimed comparison is invalid.",
         "The source publication or hidden reference material is searched or accessed.",
     ]
@@ -763,10 +1076,26 @@ def _task_definitions(archive_sha256: str) -> dict[str, tuple[dict, dict]]:
             "source_id": "hidden_pv_heterobiaryl_mechanism_2018_autonomous_reproduction",
             "category": categories[index],
             "task": prompts[task_id],
+            "scientific_mode": scientific_modes[task_id],
+            "scientific_mode_description": scientific_mode_descriptions[task_id],
+            "scientific_requirements": scientific_requirements[task_id],
+            "required_deliverables": required_deliverables[task_id],
             "data": common_data,
             "archive_extractions": common_archive,
         }
-        lowered = task_info["task"].casefold()
+        visible_instruction_text = json.dumps(
+            {
+                "task": task_info["task"],
+                "scientific_mode": task_info["scientific_mode"],
+                "scientific_mode_description": task_info[
+                    "scientific_mode_description"
+                ],
+                "scientific_requirements": task_info["scientific_requirements"],
+                "required_deliverables": task_info["required_deliverables"],
+            },
+            ensure_ascii=False,
+        )
+        lowered = visible_instruction_text.casefold()
         leaked = [
             term
             for term in FORBIDDEN_PROMPT_TERMS
@@ -779,18 +1108,13 @@ def _task_definitions(archive_sha256: str) -> dict[str, tuple[dict, dict]]:
             "score_max": 100,
             "expected_tool_calls": [],
             "expected_result": expected_results[task_id],
-            "expected_structured_output": None,
+            "expected_structured_output": [
+                item["path"] for item in required_deliverables[task_id]
+            ],
             "scoring_rubric": rubrics[task_id],
             "critical_failures": critical,
             "judge_instructions": (
-                "This is an autonomous-reproduction task, not an analysis-of-supplied-results task. "
-                "Only scientific results generated during this run count as computed evidence. Do not "
-                "require exact tool names, software, methods, or a unique order; predefined Actions, "
-                "managed native software jobs, and managed Agent-authored analysis programs are all "
-                "valid. Built-in shell/file tools may inspect raw inputs and reports but do not by "
-                "themselves satisfy managed scientific computation. Apply the managed-computation "
-                "policy and score method-dependent independent values by validation and provenance, "
-                "not exact equality to hidden high-level numbers."
+                base_judge_instruction + task_judge_instructions[task_id]
             ),
             "managed_computation_policy": {
                 "required": True,
@@ -799,6 +1123,7 @@ def _task_definitions(archive_sha256: str) -> dict[str, tuple[dict, dict]]:
                 "score_cap_without_successful_managed_call": 40,
                 "score_cap_below_minimum_successes": 70,
             },
+            "evidence_gate_policy": evidence_gate_policies[task_id],
             "reference_evidence": {
                 "conditions": {"temperature_K": 353.15, "standard_state_M": 1.0, "solvent": "ethanol"},
                 "required_evidence_classes": evidence_classes[task_id],
@@ -856,6 +1181,23 @@ def _write_eval_configs() -> None:
         "tasks:\n"
         + "".join(f"  - {task_id}\n" for task_id in TASK_IDS)
         + "repeats: 1\nmax_concurrent_runs: 2\ntimeout_seconds: 18000\nmax_turns: 320\njudge:\n  enabled: true\n",
+        encoding="utf-8",
+    )
+    (PROJECT_ROOT / "eval_configs/heterobiaryl_pv_open_discovery_subtasks.yaml").write_text(
+        "name: heterobiaryl_pv_open_discovery_subtasks\n"
+        "agents:\n  - opencode\n"
+        "tasks:\n"
+        + "".join(f"  - {task_id}\n" for task_id in TASK_IDS[:5])
+        + "repeats: 1\nmax_concurrent_runs: 1\ntimeout_seconds: 14400\nmax_turns: 280\n"
+        "tool_discovery_mode: progressive\njudge:\n  enabled: true\n",
+        encoding="utf-8",
+    )
+    (PROJECT_ROOT / "eval_configs/heterobiaryl_pv_independent_discovery_q6.yaml").write_text(
+        "name: heterobiaryl_pv_independent_discovery_q6\n"
+        "agents:\n  - opencode\n"
+        f"tasks:\n  - {TASK_IDS[5]}\n"
+        "repeats: 1\nmax_concurrent_runs: 1\ntimeout_seconds: 21600\nmax_turns: 400\n"
+        "tool_discovery_mode: progressive\njudge:\n  enabled: true\n",
         encoding="utf-8",
     )
 

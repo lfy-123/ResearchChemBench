@@ -57,9 +57,11 @@ Rules:
 - Before calling any conclusion correct, cross-check it against the explicit fields in the reference answer. A coherent narrative is not evidence that a conflicting mechanistic assignment is correct.
 - Compare rate-determining, selectivity-determining, and irreversible steps separately when the reference distinguishes them. Do not state that the Agent separated these roles if its report conflates them or assigns any role to a different elementary step than the reference.
 - Keep criterion rationales internally consistent with critical_failures and the total: do not refer to an applied critical failure that is absent from critical_failures, and do not praise a conclusion that another criterion identifies as contrary to the reference.
+- Assess every task-specific evidence gate. Put the ids of all failed gates in evidence_gate_failures. A gate fails when the required evidence is absent, scientifically invalid, internally inconsistent, or only asserted in prose. Do not fail a gate merely because the Agent chose a different valid software package, method, or call order.
+- A higher-order saddle with multiple chemically relevant imaginary modes is not a validated transition state. By itself it is also not a rigorous activation barrier or upper bound. A precise transition-state claim requires the validation stated by the task-specific gate.
 
 Respond with one JSON object only:
-{"score": 0-100, "score_max": 100, "criteria": [{"id": "...", "score": 0, "max_score": 0, "rationale": "..."}], "critical_failures": [], "objective_issue_flags": [], "rationale": "concise overall assessment"}.
+{"score": 0-100, "score_max": 100, "criteria": [{"id": "...", "score": 0, "max_score": 0, "rationale": "..."}], "critical_failures": [], "evidence_gate_failures": [], "objective_issue_flags": [], "rationale": "concise overall assessment"}.
 """
 
 JUDGE_USER_TEMPLATE = """## Query
@@ -81,6 +83,9 @@ JUDGE_USER_TEMPLATE = """## Query
 RUBRIC_JUDGE_USER_TEMPLATE = """## Scientific task
 {query}
 
+## Agent-visible scientific mode, requirements, and deliverables
+{agent_visible_protocol}
+
 ## Reference answer and numerical evidence
 {expected_result}
 
@@ -98,6 +103,9 @@ RUBRIC_JUDGE_USER_TEMPLATE = """## Scientific task
 
 ## Managed scientific-computation policy
 {managed_computation_policy}
+
+## Evidence-gate policy
+{evidence_gate_policy}
 
 ## Observable process metrics
 {process_metrics}
@@ -137,6 +145,7 @@ def _parse_judge_json(text: str, *, score_max: int = 1) -> dict[str, Any]:
         "score_max": score_max,
         "criteria": value.get("criteria", []),
         "critical_failures": value.get("critical_failures", []),
+        "evidence_gate_failures": value.get("evidence_gate_failures"),
         "objective_issue_flags": value.get("objective_issue_flags", []),
         "rationale": str(value.get("rationale", "")),
     }
@@ -243,6 +252,51 @@ def _managed_computation_cap(
             f"{minimum} for uncapped process credit."
         )
     return None, None
+
+
+def _evidence_gate_cap(
+    policy: dict[str, Any],
+    reported_failures: Any,
+) -> tuple[float | None, str | None, list[str], list[str]]:
+    """Translate judge-reported task evidence failures into a reproducible cap."""
+
+    gates = policy.get("gates", []) if isinstance(policy, dict) else []
+    if not gates:
+        return None, None, [], []
+    warnings: list[str] = []
+    if not isinstance(reported_failures, list):
+        warnings.append(
+            "Judge omitted evidence_gate_failures; no evidence-gate cap was applied."
+        )
+        return None, None, [], warnings
+
+    gate_by_id = {
+        str(item.get("id") or "").strip(): item
+        for item in gates
+        if isinstance(item, dict) and str(item.get("id") or "").strip()
+    }
+    failures: list[str] = []
+    for value in reported_failures:
+        gate_id = str(value or "").strip()
+        if not gate_id or gate_id in failures:
+            continue
+        if gate_id not in gate_by_id:
+            warnings.append(f"Ignored unknown evidence-gate id {gate_id!r}.")
+            continue
+        failures.append(gate_id)
+    if not failures:
+        return None, None, [], warnings
+
+    cap = min(
+        float(gate_by_id[gate_id].get("score_cap_if_failed", 100))
+        for gate_id in failures
+    )
+    return (
+        cap,
+        "Failed required evidence gates: " + ", ".join(failures) + ".",
+        failures,
+        warnings,
+    )
 
 
 def _apply_rubric_score_cap(
@@ -467,6 +521,25 @@ def score_workspace(
     if evaluation_mode == "rubric_100":
         prompt = RUBRIC_JUDGE_USER_TEMPLATE.format(
             query=meta.get("query") or meta.get("task") or task_id,
+            agent_visible_protocol=json.dumps(
+                {
+                    "scientific_mode": meta.get("scientific_mode", ""),
+                    "scientific_mode_description": meta.get(
+                        "scientific_mode_description", ""
+                    ),
+                    "scientific_requirements": meta.get(
+                        "scientific_requirements", []
+                    ),
+                    "required_deliverables": meta.get(
+                        "required_deliverables", []
+                    ),
+                    "required_deliverable_status": meta.get(
+                        "required_deliverable_status", []
+                    ),
+                },
+                indent=2,
+                ensure_ascii=False,
+            ),
             expected_result=json.dumps(
                 truth.get("expected_result", ""), indent=2, ensure_ascii=False
             ),
@@ -482,6 +555,9 @@ def score_workspace(
             judge_instructions=truth.get("judge_instructions", ""),
             managed_computation_policy=json.dumps(
                 truth.get("managed_computation_policy", {}), indent=2, ensure_ascii=False
+            ),
+            evidence_gate_policy=json.dumps(
+                truth.get("evidence_gate_policy", {}), indent=2, ensure_ascii=False
             ),
             process_metrics=json.dumps(metrics, indent=2, ensure_ascii=False),
             actual_tool_events=json.dumps(
@@ -530,12 +606,33 @@ def score_workspace(
             score_cap, score_cap_reason = _managed_computation_cap(
                 truth.get("managed_computation_policy", {}), metrics
             )
+            (
+                evidence_gate_cap,
+                evidence_gate_cap_reason,
+                evidence_gate_failures,
+                evidence_gate_warnings,
+            ) = _evidence_gate_cap(
+                truth.get("evidence_gate_policy", {}),
+                raw_verdict.get("evidence_gate_failures"),
+            )
+            consistency_warnings.extend(evidence_gate_warnings)
+            applicable_caps = [
+                value
+                for value in (score_cap, evidence_gate_cap)
+                if value is not None
+            ]
+            applied_score_cap = min(applicable_caps) if applicable_caps else None
             score, criteria = _apply_rubric_score_cap(
-                float(score), criteria, cap=score_cap
+                float(score), criteria, cap=applied_score_cap
             )
             if score_cap_reason and score_cap is not None:
                 consistency_warnings.append(
                     f"Applied managed-computation score cap {score_cap:g}: {score_cap_reason}"
+                )
+            if evidence_gate_cap_reason and evidence_gate_cap is not None:
+                consistency_warnings.append(
+                    f"Applied evidence-gate score cap {evidence_gate_cap:g}: "
+                    f"{evidence_gate_cap_reason}"
                 )
         else:
             raw_score = float(raw_verdict.get("score", 0))
@@ -544,17 +641,25 @@ def score_workspace(
             consistency_warnings = []
             score_cap = None
             score_cap_reason = None
+            evidence_gate_cap = None
+            evidence_gate_cap_reason = None
+            evidence_gate_failures = []
+            applied_score_cap = None
         verdict = {
             "score": score,
             "score_max": score_max,
             "criteria": criteria,
             "critical_failures": raw_verdict.get("critical_failures", []),
+            "evidence_gate_failures": evidence_gate_failures,
             "objective_issue_flags": raw_verdict.get("objective_issue_flags", []),
             "judge_consistency_warnings": consistency_warnings,
             "rationale": str(raw_verdict.get("rationale", "")),
             "parse_error": None,
             "managed_computation_score_cap": score_cap,
             "managed_computation_score_cap_reason": score_cap_reason,
+            "evidence_gate_score_cap": evidence_gate_cap,
+            "evidence_gate_score_cap_reason": evidence_gate_cap_reason,
+            "applied_score_cap": applied_score_cap,
         }
     except Exception as exc:
         verdict = {
@@ -562,12 +667,16 @@ def score_workspace(
             "score_max": score_max,
             "criteria": [],
             "critical_failures": [],
+            "evidence_gate_failures": [],
             "objective_issue_flags": [],
             "judge_consistency_warnings": [],
             "rationale": f"Judge evaluation failed: {exc}",
             "parse_error": f"{type(exc).__name__}: {exc}",
             "managed_computation_score_cap": None,
             "managed_computation_score_cap_reason": None,
+            "evidence_gate_score_cap": None,
+            "evidence_gate_score_cap_reason": None,
+            "applied_score_cap": None,
         }
 
     result = {
@@ -590,6 +699,8 @@ def score_workspace(
         ),
         "criteria": verdict["criteria"],
         "critical_failures": verdict["critical_failures"],
+        "evidence_gate_policy": truth.get("evidence_gate_policy", {}),
+        "evidence_gate_failures": verdict["evidence_gate_failures"],
         "objective_issue_flags": verdict["objective_issue_flags"],
         "judge_consistency_warnings": verdict["judge_consistency_warnings"],
         "managed_computation_policy": truth.get("managed_computation_policy", {}),
@@ -597,6 +708,11 @@ def score_workspace(
         "managed_computation_score_cap_reason": verdict[
             "managed_computation_score_cap_reason"
         ],
+        "evidence_gate_score_cap": verdict["evidence_gate_score_cap"],
+        "evidence_gate_score_cap_reason": verdict[
+            "evidence_gate_score_cap_reason"
+        ],
+        "applied_score_cap": verdict["applied_score_cap"],
         "rationale": verdict["rationale"],
         "parse_error": verdict["parse_error"],
         "process_metrics": metrics,

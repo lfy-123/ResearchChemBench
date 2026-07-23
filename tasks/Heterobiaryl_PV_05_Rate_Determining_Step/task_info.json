@@ -3,6 +3,34 @@
   "source_id": "hidden_pv_heterobiaryl_mechanism_2018_autonomous_reproduction",
   "category": "experimental_computational_integration",
   "task": "Use the supplied experimental measurements as constraints on a new calculation-backed test of the most likely rate-determining step under acidic ethanol conditions. The unoptimized P(V) structures are alternative starting guesses; select and refine representatives through your own staged calculations. Quantify the substituent-rate trend, independently compute whether the relevant protonated ligand-coupling step is fast enough to be downstream of rate control, and distinguish the rate-determining, selectivity-determining, and strongly irreversible stages. Treat non-detection cautiously and retain falsifiable alternatives. A narrative or regression based only on the measurement table is insufficient and must receive no computational credit; the mechanistic assignment requires managed chemical computation generated in this run. Do not identify or search for the source publication or any external answer.",
+  "scientific_mode": "focused_open_discovery",
+  "scientific_mode_description": "The scientific question and validity standard are fixed, but no software, calculation sequence, provider, or stopping path is prescribed. Plan, branch, and revise autonomously.",
+  "scientific_requirements": [
+    "Write an initial hypothesis table before numerical work that separates candidate rate-determining, selectivity-determining, and strongly irreversible stages.",
+    "Quantify the experimental substituent-rate trend with uncertainty, but do not treat that regression or non-detection alone as a computed mechanism.",
+    "Generate new energetic evidence for the relevant protonated ligand-coupling event and validate any stationary-point claim before deciding whether coupling can be downstream of rate control.",
+    "Use the alcohol/ethoxide observations to compare plausible addition and coupling roles, state which stage is directly computed versus experimentally inferred, and retain falsifiable alternatives.",
+    "The final answer must assign the three mechanistic roles separately and must not use the same label as a substitute for all three."
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/research_plan.json",
+      "description": "Initial hypotheses, resource tiers, seed/path choices, validation gates, stopping criteria, and dated revisions."
+    },
+    {
+      "path": "report/evidence_summary.json",
+      "description": "Claim-to-artifact map with method, conditions, validation status, and uncertainty for each scientific conclusion."
+    },
+    {
+      "path": "report/failure_log.jsonl",
+      "description": "One record per failed or inconclusive branch, including attempted remedy and scientific consequence; an empty file is allowed only when no failure occurred.",
+      "allow_empty": true
+    },
+    {
+      "path": "report/report.md",
+      "description": "Final artifact-linked scientific answer that distinguishes computed results, measurements, inference, and unresolved uncertainty."
+    }
+  ],
   "data": [
     {
       "name": "P(V) autonomous-computation inputs",

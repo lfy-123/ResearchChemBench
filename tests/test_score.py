@@ -185,3 +185,60 @@ def test_managed_computation_policy_caps_narrative_only_rubric_score(
     assert sum(item["score"] for item in result["criteria"]) == 20
     assert result["managed_computation_score_cap"] == 20
     assert result["process_metrics"]["managed_scientific_attempt_count"] == 0
+
+
+def test_evidence_gate_policy_caps_scientifically_unvalidated_high_score(
+    tmp_path: Path, monkeypatch
+):
+    runner = TaskRunner("ChemGraph_001", agent_key="mock", workspace_root=tmp_path)
+    runner.run()
+    rubric_truth = {
+        "expected_tool_calls": [],
+        "expected_result": {"answer": "reference"},
+        "evaluation_mode": "rubric_100",
+        "score_max": 100,
+        "scoring_rubric": [
+            {"id": "science", "max_score": 60, "criterion": "Scientific result"},
+            {"id": "process", "max_score": 40, "criterion": "Scientific process"},
+        ],
+        "critical_failures": [],
+        "judge_instructions": "",
+        "reference_evidence": {},
+        "evidence_gate_policy": {
+            "judge_must_assess_all": True,
+            "gates": [
+                {
+                    "id": "validated_transition_state",
+                    "score_cap_if_failed": 55,
+                    "requirement": "Exactly one target imaginary mode and connectivity.",
+                }
+            ],
+        },
+    }
+    monkeypatch.setattr("evaluation.score.load_ground_truth", lambda _task_id: rubric_truth)
+    captured_prompt = ""
+
+    def judge(prompt: str):
+        nonlocal captured_prompt
+        captured_prompt = prompt
+        return {
+            "score": 95,
+            "criteria": [
+                {"id": "science", "score": 57, "max_score": 60, "rationale": "high"},
+                {"id": "process", "score": 38, "max_score": 40, "rationale": "high"},
+            ],
+            "critical_failures": [],
+            "evidence_gate_failures": ["validated_transition_state"],
+            "objective_issue_flags": [],
+            "rationale": "A higher-order saddle was overclaimed.",
+        }
+
+    result = score_workspace(runner.workspace, judge_call=judge)
+
+    assert result["score"] == 55
+    assert sum(item["score"] for item in result["criteria"]) == 55
+    assert result["evidence_gate_failures"] == ["validated_transition_state"]
+    assert result["evidence_gate_score_cap"] == 55
+    assert result["applied_score_cap"] == 55
+    assert "Evidence-gate policy" in captured_prompt
+    assert "Exactly one target imaginary mode" in captured_prompt

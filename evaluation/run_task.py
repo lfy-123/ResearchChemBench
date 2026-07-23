@@ -91,11 +91,46 @@ class TaskRunner:
                 f"(`{item.get('path', '')}`): {item.get('description', '')}"
             )
         data_text = "\n".join(data_parts) if data_parts else "No additional input files."
+        scientific_requirements = self.task_info.get("scientific_requirements") or []
+        requirements_text = (
+            "\n".join(
+                f"{index}. {requirement}"
+                for index, requirement in enumerate(scientific_requirements, start=1)
+            )
+            if scientific_requirements
+            else "Follow the scientific validity requirements stated in the task."
+        )
+        deliverables = self.task_info.get("required_deliverables") or []
+        deliverable_lines = []
+        for item in deliverables:
+            if isinstance(item, str):
+                deliverable_lines.append(f"- `{item}`")
+                continue
+            path = str(item.get("path") or "").strip()
+            description = str(item.get("description") or "").strip()
+            if path:
+                deliverable_lines.append(
+                    f"- `{path}`" + (f": {description}" if description else "")
+                )
+        required_deliverables = (
+            "\n".join(deliverable_lines)
+            if deliverable_lines
+            else "- `report/report.md`: final answer and artifact-linked scientific account."
+        )
         return INSTRUCTIONS_TEMPLATE.format(
             workspace=str(self.workspace.resolve()),
             task_desc=self.task_info["task"],
             category=self.task_info.get("category", "uncategorized"),
             data_text=data_text,
+            scientific_mode=self.task_info.get(
+                "scientific_mode", "standard_autonomous_investigation"
+            ),
+            scientific_mode_description=self.task_info.get(
+                "scientific_mode_description",
+                "The objective is fixed, while scientific planning and execution remain autonomous.",
+            ),
+            scientific_requirements=requirements_text,
+            required_deliverables=required_deliverables,
             toolbox_overview=toolbox_overview(
                 discovery_mode=self.tool_discovery_mode,
                 include_health=True,
@@ -106,6 +141,35 @@ class TaskRunner:
                 ),
             ),
         )
+
+    def _required_deliverable_status(self) -> list[dict[str, Any]]:
+        """Record task-specific evidence-product presence without making it a run gate."""
+
+        values: list[dict[str, Any]] = []
+        root = self.workspace.resolve()
+        for item in self.task_info.get("required_deliverables") or []:
+            specification = {"path": item} if isinstance(item, str) else dict(item)
+            relative = str(specification.get("path") or "").strip()
+            if not relative or Path(relative).is_absolute():
+                continue
+            path = (root / relative).resolve()
+            try:
+                path.relative_to(root)
+            except ValueError:
+                continue
+            exists = path.is_file()
+            size = path.stat().st_size if exists else 0
+            allow_empty = bool(specification.get("allow_empty", False))
+            values.append(
+                {
+                    "path": relative,
+                    "exists": exists,
+                    "size_bytes": size,
+                    "satisfied": exists and (allow_empty or size > 0),
+                    "allow_empty": allow_empty,
+                }
+            )
+        return values
 
     @staticmethod
     def _resolve_under(base: Path, relative_path: str, *, field: str) -> Path:
@@ -484,6 +548,16 @@ class TaskRunner:
             "tool_discovery_mode": self.tool_discovery_mode,
             "query": self.task_info.get("task", ""),
             "category": self.task_info.get("category", ""),
+            "scientific_mode": self.task_info.get("scientific_mode", ""),
+            "scientific_mode_description": self.task_info.get(
+                "scientific_mode_description", ""
+            ),
+            "scientific_requirements": self.task_info.get(
+                "scientific_requirements", []
+            ),
+            "required_deliverables": self.task_info.get(
+                "required_deliverables", []
+            ),
         }
         if extra:
             meta.update(extra)
@@ -638,6 +712,7 @@ class TaskRunner:
             "duration_seconds": duration,
             "model": self._detect_model(),
             "report_exists": report_exists,
+            "required_deliverable_status": self._required_deliverable_status(),
             "model_io_trace": model_io,
             **process_metrics(events, workspace=self.workspace),
         }
