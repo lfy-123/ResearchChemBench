@@ -1,0 +1,58 @@
+{
+  "task_id": "Heterobiaryl_PV_Reproduction_06_End_to_End",
+  "source_id": "heterobiaryl_pv_2018_guided_reproduction",
+  "category": "end_to_end_scientific_investigation",
+  "task": "Perform a guided end-to-end reproduction using the supplied paper-reconstructed protocol, mapped pathway set, experimental observations, and evidence gates. Recompute protonation effects, pyridyl-pyridyl versus phenyl-pyridyl selectivity, carbon-carbon versus carbon-oxygen competition, the key reaction-coordinate mechanism, and the experimental-computational kinetic-role assignment. Generate all numerical and structural evidence in this run, preserve failures, and report paper-published targets separately from current-toolbox values.",
+  "scientific_mode": "guided_reproduction",
+  "scientific_mode_description": "The paper-reconstructed method hierarchy and candidate reaction routes are supplied. The Agent must execute, debug, validate, and report the reproduction without reading hidden results or author stationary points.",
+  "scientific_requirements": [
+    "Execute the supplied protocol hierarchy for all core pathway families or retain a documented failed attempt and defensible bound.",
+    "Require stationarity and connectivity before including a state in the final profile.",
+    "Use one 353.15 K, 1 M main profile and keep version/method sensitivities separate.",
+    "Complete the NBO-free reaction-coordinate analysis and the experimental-computational kinetic-role integration."
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/research_plan.json",
+      "description": "Initial and revised independent research plan, competing hypotheses, decision tree, resource tiers, validation gates, and stopping criteria."
+    },
+    {
+      "path": "report/stationary_points.csv",
+      "description": "Every claimed minimum, transition structure, intermediate, and product-side state with charge, multiplicity, method, energy reference, frequency classification, connectivity status, and artifact path."
+    },
+    {
+      "path": "report/energy_profile.csv",
+      "description": "Comparable relative electronic/free energies, units, temperature, standard state, solvent convention, pathway, protonation state, and uncertainty or bound status."
+    },
+    {
+      "path": "report/mechanism_evidence.json",
+      "description": "Claim-by-claim evidence for protonation, selectivity, competing products, reaction-coordinate mechanism, intermediate, and kinetic role assignments."
+    },
+    {
+      "path": "report/failure_log.jsonl",
+      "description": "One record per failed or inconclusive branch, attempted remedy, retained artifact, and consequence for the final conclusion.",
+      "allow_empty": true
+    },
+    {
+      "path": "report/final_answer.json",
+      "description": "Machine-readable final mechanism, active state, pathway rankings, barriers or bounds, kinetic roles, confidence, and unresolved branches."
+    },
+    {
+      "path": "report/report.md",
+      "description": "Human-readable end-to-end scientific account linked to every supporting artifact."
+    }
+  ],
+  "data": [
+    {
+      "name": "Guided Heterobiaryl P(V) reproduction inputs",
+      "path": "data/benchmark_data",
+      "type": "directory",
+      "description": "Decontaminated raw structures and measurements copied from the open-discovery task, plus a paper-reconstructed method protocol, mapped candidate pathways, and workflow requirements. No author stationary point, calculation output, published numerical result, or reference answer is visible."
+    }
+  ],
+  "archive_extractions": [],
+  "benchmark_family": "heterobiaryl_pv",
+  "task_mode": "guided_reproduction",
+  "method_disclosure": "paper_reconstructed_protocol",
+  "pathway_disclosure": "mapped_candidate_routes"
+}

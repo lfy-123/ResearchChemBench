@@ -1,0 +1,136 @@
+{
+  "evaluation_mode": "rubric_100",
+  "score_max": 100,
+  "expected_tool_calls": [],
+  "expected_result": {
+    "reference_profiles_kcal_mol": {
+      "BiPy": {
+        "P0": 30,
+        "P1": 20,
+        "P2": 14
+      },
+      "PhPy": {
+        "P0": 37,
+        "P1": 27,
+        "P2": 25
+      },
+      "P2_C_O": 18
+    },
+    "required_conclusion": "pyridyl-pyridyl preference is primarily kinetic rather than product-thermodynamic"
+  },
+  "expected_structured_output": [
+    "report/research_plan.json",
+    "report/evidence_summary.json",
+    "report/failure_log.jsonl",
+    "report/report.md"
+  ],
+  "scoring_rubric": [
+    {
+      "id": "protocol_fidelity",
+      "max_score": 15,
+      "criterion": "Uses the supplied paper-reconstructed method hierarchy or documents a scientifically controlled version-compatible substitution."
+    },
+    {
+      "id": "managed_execution",
+      "max_score": 15,
+      "criterion": "Runs traceable predefined Actions, native software, or Agent-authored programs and preserves retries and failures."
+    },
+    {
+      "id": "stationary_point_validation",
+      "max_score": 20,
+      "criterion": "Every profile minimum and transition-state claim has appropriate Hessian/mode evidence; transition states also have direct connectivity evidence."
+    },
+    {
+      "id": "common_condition_profile",
+      "max_score": 20,
+      "criterion": "Builds a comparable 353.15 K, 1 M profile with matched electronic and thermal references and no hidden-value substitution."
+    },
+    {
+      "id": "task_conclusion",
+      "max_score": 20,
+      "criterion": "Reproduces the main scientific conclusion for Q2 from newly generated evidence and explains version-dependent numerical differences."
+    },
+    {
+      "id": "provenance_and_limits",
+      "max_score": 10,
+      "criterion": "Links claims to artifacts, separates paper targets from recomputation, and states unresolved branches and unavailable raw experimental uncertainty."
+    }
+  ],
+  "critical_failures": [
+    "A precise literature or hidden-reference value is presented as a calculation from this run without a supporting new artifact.",
+    "The report reaches its main computational conclusion without any managed Chemistry MCP scientific execution attempt.",
+    "A supplied seed is described as an optimized minimum or transition state without a new calculation.",
+    "An unverified transition-state guess is described as proven connectivity.",
+    "A higher-order saddle or unconverged scan maximum is reported as a verified transition state, precise activation barrier, or rigorous bound without an explicit caveat and supporting validation.",
+    "Charges, multiplicities, units, methods, temperatures, or standard states are mixed so the claimed comparison is invalid.",
+    "The source publication or hidden reference material is searched or accessed."
+  ],
+  "judge_instructions": "This is a guided paper-reproduction task. Methods and mapped candidate routes are public, but all numerical, structural, stationarity, connectivity, and thermochemical evidence must be newly generated. Accept predefined Actions, managed native jobs, and managed Agent-authored programs. Score protocol fidelity, scientific validation, troubleshooting, common-condition comparability, and provenance. Do not reward copying a paper-published number without a new artifact.",
+  "managed_computation_policy": {
+    "required": true,
+    "minimum_successful_scientific_calls": 3,
+    "score_cap_without_managed_attempt": 20,
+    "score_cap_without_successful_managed_call": 40,
+    "score_cap_below_minimum_successes": 70
+  },
+  "evidence_gate_policy": {
+    "judge_must_assess_all": true,
+    "gates": [
+      {
+        "id": "both_path_families",
+        "score_cap_if_failed": 55,
+        "requirement": "Both pyridyl-pyridyl and phenyl-pyridyl pathways have new evidence for every protonation state included in the final all-state conclusion."
+      },
+      {
+        "id": "validated_selectivity_profiles",
+        "score_cap_if_failed": 55,
+        "requirement": "Quantitative activation comparisons use validated first-order target modes and connectivity, or clearly identified rigorous bounds, under compatible references."
+      },
+      {
+        "id": "kinetic_thermodynamic_separation",
+        "score_cap_if_failed": 65,
+        "requirement": "Kinetic preference is supported by activation evidence and product thermodynamics by reaction/product free energies; the report does not infer either category solely from the other."
+      }
+    ]
+  },
+  "reference_evidence": {
+    "conditions": {
+      "temperature_K": 353.15,
+      "standard_state_M": 1.0,
+      "solvent": "ethanol"
+    },
+    "required_evidence_classes": [
+      "new_BiPy_and_PhPy_candidates",
+      "new_competing_path_energies",
+      "stationary_point_validation",
+      "kinetic_and_reaction_energy_comparison"
+    ],
+    "public_input_contract": {
+      "unoptimized_seed_count": 9,
+      "states": [
+        "P0",
+        "P1",
+        "P2"
+      ],
+      "measurement_ids": [],
+      "completed_computational_outputs": 0,
+      "optimized_stationary_points": 0,
+      "raw_instrument_files": 0
+    },
+    "published_reference_is_hidden_comparison_only": true,
+    "input_manifest_sha256": "b48c8cc498ebc91edf19310b3311611061d7aa4caed25c00f37418920737460f",
+    "task_mode": "guided_reproduction",
+    "method_protocol_public": true,
+    "mapped_candidate_routes_public": true
+  },
+  "current_toolbox_reproduction_baseline": {
+    "status": "pending_post_repair_baseline",
+    "software_family": [
+      "Gaussian 16",
+      "ORCA 6.1.1",
+      "GoodVibes 4.3"
+    ],
+    "temperature_kelvin": 353.15,
+    "standard_state_mol_l": 1.0
+  }
+}

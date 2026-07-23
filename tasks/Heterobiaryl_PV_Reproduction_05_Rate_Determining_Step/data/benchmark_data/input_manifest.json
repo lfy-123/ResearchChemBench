@@ -1,0 +1,126 @@
+{
+  "schema_version": 1,
+  "task_id": "Heterobiaryl_PV_Reproduction_05_Rate_Determining_Step",
+  "purpose": "P2 downstream coupling plus the supplied selectivity, non-detection, rate-series, and alcohol/ethoxide observations.",
+  "unoptimized_seed_count": 3,
+  "states": [
+    "P2"
+  ],
+  "measurement_ids": [
+    "E01",
+    "E02",
+    "E04",
+    "E05",
+    "E06",
+    "E07",
+    "E08",
+    "E09",
+    "E10",
+    "E11",
+    "E12"
+  ],
+  "completed_computational_outputs": 0,
+  "optimized_stationary_points": 0,
+  "transition_states": 0,
+  "reaction_path_outputs": 0,
+  "reference_answers": 0,
+  "seed_records": [
+    {
+      "seed_id": "P2_SEED_01",
+      "state": "P2",
+      "path": "initial_structures/P2/P2_SEED_01.xyz",
+      "sha256": "fb0f78578b712c13ccbe166189afeaca723f9f336114771fe8ca4d986558f4f7",
+      "atom_count": 50,
+      "charge": 2,
+      "multiplicity": 1,
+      "geometry_status": "rdkit_etkdg_unoptimized",
+      "generation_random_seed": 20260726
+    },
+    {
+      "seed_id": "P2_SEED_02",
+      "state": "P2",
+      "path": "initial_structures/P2/P2_SEED_02.xyz",
+      "sha256": "bd34f34a39ebc14cbc7515e18a7d9f64e3cf85ee9cf087b2ecffeef671ee59c6",
+      "atom_count": 50,
+      "charge": 2,
+      "multiplicity": 1,
+      "geometry_status": "rdkit_etkdg_unoptimized",
+      "generation_random_seed": 20260726
+    },
+    {
+      "seed_id": "P2_SEED_03",
+      "state": "P2",
+      "path": "initial_structures/P2/P2_SEED_03.xyz",
+      "sha256": "f2f697afbf6691c3ff6accb5743465509921c63880698eb7dad52c8424ba2699",
+      "atom_count": 50,
+      "charge": 2,
+      "multiplicity": 1,
+      "geometry_status": "rdkit_etkdg_unoptimized",
+      "generation_random_seed": 20260726
+    }
+  ],
+  "files": [
+    {
+      "path": "README.md",
+      "size_bytes": 1494,
+      "sha256": "62f2a56f02cd49dbc987ea846506e4a5ff5858bb1885a2b48cd1d1905bc3746a"
+    },
+    {
+      "path": "computational_protocol.json",
+      "size_bytes": 3056,
+      "sha256": "14085b419175a9406c175e5026f6ead88b2a4bc742b6dcc2311b7cb5f57dcf4e"
+    },
+    {
+      "path": "conditions.json",
+      "size_bytes": 717,
+      "sha256": "3a2ad61d10ec66536b62cae8cc540abcd7611b4dbc63f0e18693631190b80a4d"
+    },
+    {
+      "path": "experimental_measurements/measurements.json",
+      "size_bytes": 3885,
+      "sha256": "bd7624ccf9b56af30653ce6b31be223b1ba8fdb3836ac79a7e4a8efe0c839c2b"
+    },
+    {
+      "path": "initial_structures/P2/P2_SEED_01.xyz",
+      "size_bytes": 2382,
+      "sha256": "fb0f78578b712c13ccbe166189afeaca723f9f336114771fe8ca4d986558f4f7"
+    },
+    {
+      "path": "initial_structures/P2/P2_SEED_02.xyz",
+      "size_bytes": 2382,
+      "sha256": "bd34f34a39ebc14cbc7515e18a7d9f64e3cf85ee9cf087b2ecffeef671ee59c6"
+    },
+    {
+      "path": "initial_structures/P2/P2_SEED_03.xyz",
+      "size_bytes": 2382,
+      "sha256": "f2f697afbf6691c3ff6accb5743465509921c63880698eb7dad52c8424ba2699"
+    },
+    {
+      "path": "molecular_systems.json",
+      "size_bytes": 916,
+      "sha256": "138e648cb387ea0586eb3bba59efc21be64f6fd5b10753244f19a58310c19ab9"
+    },
+    {
+      "path": "reaction_definitions.json",
+      "size_bytes": 1147,
+      "sha256": "ef366c3fa5ab53fce6b00dd11191eb0773e2adbd7aaf22026df8856514210a37"
+    },
+    {
+      "path": "workflow_requirements.json",
+      "size_bytes": 1124,
+      "sha256": "77bec8f26247a5cf8d5e3aff93373a1ab031fd43af8eaf1f7de168769db81cae"
+    }
+  ],
+  "task_mode": "guided_reproduction",
+  "method_protocol_files": [
+    "computational_protocol.json"
+  ],
+  "reaction_definition_files": [
+    "reaction_definitions.json"
+  ],
+  "workflow_requirement_files": [
+    "workflow_requirements.json"
+  ],
+  "published_numerical_results": 0,
+  "author_coordinates": 0
+}

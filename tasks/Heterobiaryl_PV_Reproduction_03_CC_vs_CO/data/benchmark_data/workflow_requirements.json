@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "mode": "guided_reproduction",
+  "required_stages": [
+    "audit molecular identity, charge, multiplicity, atom mapping, and seed quality",
+    "enumerate or screen coordination isomers and conformers without using author coordinates",
+    "generate a double-ended path or controlled reaction-coordinate scan from the supplied endpoints/bond edits",
+    "refine candidate transition states",
+    "calculate Hessians and classify normal modes",
+    "trace forward and reverse connectivity and optimize the endpoints",
+    "perform paper-level or documented version-compatible electronic-structure refinement",
+    "derive 353.15 K, 1 M thermochemistry with matched single-point corrections",
+    "analyze pathway ordering and NBO-free reaction-coordinate evidence",
+    "integrate calculations with only the supplied public experimental observations"
+  ],
+  "failure_policy": "Retain failed searches and do not replace missing evidence with paper-published numerical values.",
+  "nbo_policy": "NBO is optional; equivalent bond-order, charge, geometry, and optional density evidence is accepted."
+}

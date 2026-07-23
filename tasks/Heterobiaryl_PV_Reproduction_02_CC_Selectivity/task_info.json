@@ -1,0 +1,45 @@
+{
+  "task_id": "Heterobiaryl_PV_Reproduction_02_CC_Selectivity",
+  "source_id": "heterobiaryl_pv_2018_guided_reproduction",
+  "category": "mechanistic_quantum_chemistry",
+  "task": "Using the supplied protocol and mapped pyridyl-pyridyl and phenyl-pyridyl pathway definitions, reproduce the paper's carbon-carbon chemoselectivity analysis across P0, P1, and P2. Validate all stationary points and connectivity, use common numerical conditions for competing paths, test the supplied donor-direction control candidate, and determine whether the recomputed selectivity is kinetic or product-thermodynamic without reading any hidden reference result.",
+  "scientific_mode": "guided_reproduction",
+  "scientific_mode_description": "The paper-reconstructed method hierarchy and candidate reaction routes are supplied. The Agent must execute, debug, validate, and report the reproduction without reading hidden results or author stationary points.",
+  "scientific_requirements": [
+    "Use the supplied mapped Py-Py and Ph-Py definitions and common conditions across every comparison.",
+    "Validate both reactant and transition-state references; a scan maximum alone is not a barrier.",
+    "Test the supplied donor-direction control and explain rejected or higher-cost pathway hypotheses."
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/research_plan.json",
+      "description": "Initial hypotheses, resource tiers, seed/path choices, validation gates, stopping criteria, and dated revisions."
+    },
+    {
+      "path": "report/evidence_summary.json",
+      "description": "Claim-to-artifact map with method, conditions, validation status, and uncertainty for each scientific conclusion."
+    },
+    {
+      "path": "report/failure_log.jsonl",
+      "description": "One record per failed or inconclusive branch, including attempted remedy and scientific consequence; an empty file is allowed only when no failure occurred.",
+      "allow_empty": true
+    },
+    {
+      "path": "report/report.md",
+      "description": "Final artifact-linked scientific answer that distinguishes computed results, measurements, inference, and unresolved uncertainty."
+    }
+  ],
+  "data": [
+    {
+      "name": "Guided Heterobiaryl P(V) reproduction inputs",
+      "path": "data/benchmark_data",
+      "type": "directory",
+      "description": "Decontaminated raw structures and measurements copied from the open-discovery task, plus a paper-reconstructed method protocol, mapped candidate pathways, and workflow requirements. No author stationary point, calculation output, published numerical result, or reference answer is visible."
+    }
+  ],
+  "archive_extractions": [],
+  "benchmark_family": "heterobiaryl_pv",
+  "task_mode": "guided_reproduction",
+  "method_disclosure": "paper_reconstructed_protocol",
+  "pathway_disclosure": "mapped_candidate_routes"
+}

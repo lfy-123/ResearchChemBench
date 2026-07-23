@@ -16,9 +16,11 @@ def test_all_chemgraph_tasks_were_imported():
     assert chemgraph_tasks[-1] == "ChemGraph_040"
 
 
-def test_six_heterobiaryl_tasks_use_complete_100_point_rubrics():
-    tasks = [task for task in list_tasks() if task.startswith("Heterobiaryl_PV_")]
-    assert tasks == [
+def test_heterobiaryl_dual_track_tasks_use_complete_100_point_rubrics():
+    all_heterobiaryl = [task for task in list_tasks() if task.startswith("Heterobiaryl_PV_")]
+    open_tasks = [task for task in all_heterobiaryl if "_Reproduction_" not in task]
+    reproduction_tasks = [task for task in all_heterobiaryl if "_Reproduction_" in task]
+    assert open_tasks == [
         "Heterobiaryl_PV_01_Protonation",
         "Heterobiaryl_PV_02_CC_Selectivity",
         "Heterobiaryl_PV_03_CC_vs_CO",
@@ -26,14 +28,26 @@ def test_six_heterobiaryl_tasks_use_complete_100_point_rubrics():
         "Heterobiaryl_PV_05_Rate_Determining_Step",
         "Heterobiaryl_PV_06_End_to_End",
     ]
-    forbidden_prompt_terms = {
+    assert reproduction_tasks == [
+        "Heterobiaryl_PV_Reproduction_01_Protonation",
+        "Heterobiaryl_PV_Reproduction_02_CC_Selectivity",
+        "Heterobiaryl_PV_Reproduction_03_CC_vs_CO",
+        "Heterobiaryl_PV_Reproduction_04_Coupling_Mechanism",
+        "Heterobiaryl_PV_Reproduction_05_Rate_Determining_Step",
+        "Heterobiaryl_PV_Reproduction_06_End_to_End",
+    ]
+    forbidden_open_terms = {
         "gaussian",
         "orca",
         "goodvibes",
         "xtb",
-        "backend",
-        "action",
-        "mcp",
+        "wb97xd",
+        "dlpno",
+        "growing string",
+        "freezing string",
+        "10.1126/science.aas8961",
+        "ts-i",
+        "int-iii",
     }
     input_contracts = {
         "Heterobiaryl_PV_01_Protonation": (["P0", "P1", "P2"], []),
@@ -50,7 +64,7 @@ def test_six_heterobiaryl_tasks_use_complete_100_point_rubrics():
         ),
     }
     shared_seed_hashes = {}
-    for task_id in tasks:
+    for task_id in open_tasks:
         info = load_task_info(task_id)
         truth = load_ground_truth(task_id)
         visible_protocol = json.dumps(
@@ -65,13 +79,25 @@ def test_six_heterobiaryl_tasks_use_complete_100_point_rubrics():
             },
             ensure_ascii=False,
         ).casefold()
-        for term in forbidden_prompt_terms:
-            assert re.search(rf"\b{re.escape(term)}\b", visible_protocol) is None
+        data_root = TASKS_DIR / task_id / "data" / "benchmark_data"
+        visible_text = visible_protocol + "\n" + "\n".join(
+            path.read_text(encoding="utf-8", errors="ignore").casefold()
+            for path in data_root.rglob("*")
+            if path.is_file() and path.suffix.casefold() in {".json", ".md", ".txt"}
+        )
+        for term in forbidden_open_terms:
+            assert term not in visible_text
+        assert info["benchmark_family"] == "heterobiaryl_pv"
+        assert info["task_mode"] == "open_discovery"
+        assert info["method_disclosure"] == "none"
+        assert info["pathway_disclosure"] == "none"
+        assert not (data_root / "computational_protocol.json").exists()
+        assert not (data_root / "reaction_definitions.json").exists()
+        assert not (data_root / "workflow_requirements.json").exists()
         assert truth["evaluation_mode"] == "rubric_100"
         assert truth["score_max"] == 100
         assert sum(item["max_score"] for item in truth["scoring_rubric"]) == 100
         assert info["archive_extractions"] == []
-        data_root = TASKS_DIR / task_id / "data" / "benchmark_data"
         assert data_root.is_dir()
         assert not data_root.is_symlink()
         assert not any(path.is_symlink() for path in data_root.rglob("*"))
@@ -127,9 +153,9 @@ def test_six_heterobiaryl_tasks_use_complete_100_point_rubrics():
         expected_paths = [item["path"] for item in info["required_deliverables"]]
         assert truth["expected_structured_output"] == expected_paths
 
-    for task_id in tasks[:5]:
+    for task_id in open_tasks[:5]:
         assert load_task_info(task_id)["scientific_mode"] == "focused_open_discovery"
-    q6 = load_task_info(tasks[5])
+    q6 = load_task_info(open_tasks[5])
     assert q6["scientific_mode"] == "independent_open_discovery"
     assert len(q6["scientific_requirements"]) >= 7
     assert {item["path"] for item in q6["required_deliverables"]} == {
@@ -141,6 +167,71 @@ def test_six_heterobiaryl_tasks_use_complete_100_point_rubrics():
         "report/final_answer.json",
         "report/report.md",
     }
+
+    open_by_suffix = {task.split("Heterobiaryl_PV_", 1)[1]: task for task in open_tasks}
+    for task_id in reproduction_tasks:
+        info = load_task_info(task_id)
+        truth = load_ground_truth(task_id)
+        assert info["benchmark_family"] == "heterobiaryl_pv"
+        assert info["task_mode"] == "guided_reproduction"
+        assert info["scientific_mode"] == "guided_reproduction"
+        assert info["method_disclosure"] == "paper_reconstructed_protocol"
+        assert info["pathway_disclosure"] == "mapped_candidate_routes"
+        assert truth["evaluation_mode"] == "rubric_100"
+        assert truth["score_max"] == 100
+        assert sum(item["max_score"] for item in truth["scoring_rubric"]) == 100
+        assert truth["reference_evidence"]["task_mode"] == "guided_reproduction"
+        assert truth["current_toolbox_reproduction_baseline"]["status"] == "pending_post_repair_baseline"
+        data_root = TASKS_DIR / task_id / "data" / "benchmark_data"
+        protocol_path = data_root / "computational_protocol.json"
+        paths_path = data_root / "reaction_definitions.json"
+        workflow_path = data_root / "workflow_requirements.json"
+        assert protocol_path.is_file()
+        assert paths_path.is_file()
+        assert workflow_path.is_file()
+        protocol = json.loads(protocol_path.read_text(encoding="utf-8"))
+        definitions = json.loads(paths_path.read_text(encoding="utf-8"))
+        assert protocol["geometry_and_frequency"]["reference_method"] == "wB97XD"
+        assert protocol["high_level_single_points"]["method"] == "DLPNO-CCSD(T)"
+        assert protocol["mechanism_analysis"]["nbo_required"] is False
+        assert definitions["result_values_included"] is False
+        assert definitions["author_coordinates_included"] is False
+        assert definitions["paths"]
+        assert not any(path.suffix.casefold() in {".log", ".out", ".zip"} for path in data_root.rglob("*"))
+        assert not any(path.is_symlink() for path in data_root.rglob("*"))
+        manifest_path = data_root / "input_manifest.json"
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        assert manifest["task_mode"] == "guided_reproduction"
+        assert manifest["published_numerical_results"] == 0
+        assert manifest["author_coordinates"] == 0
+        assert truth["reference_evidence"]["input_manifest_sha256"] == hashlib.sha256(
+            manifest_path.read_bytes()
+        ).hexdigest()
+        for record in manifest["files"]:
+            path = data_root / record["path"]
+            assert path.stat().st_size == record["size_bytes"]
+            assert hashlib.sha256(path.read_bytes()).hexdigest() == record["sha256"]
+        visible_text = "\n".join(
+            path.read_text(encoding="utf-8", errors="ignore").casefold()
+            for path in data_root.rglob("*")
+            if path.is_file() and path.suffix.casefold() in {".json", ".md", ".txt"}
+        )
+        for leaked_result in (
+            "bipy_dg_dagger",
+            "phpy_dg_dagger",
+            "delta_delta_g_dagger",
+            "paper_published_target",
+            "correct barrier",
+            "reference barrier",
+        ):
+            assert leaked_result not in visible_text
+        suffix = task_id.split("Heterobiaryl_PV_Reproduction_", 1)[1]
+        open_id = open_by_suffix[suffix]
+        open_root = TASKS_DIR / open_id / "data" / "benchmark_data"
+        for xyz in data_root.glob("initial_structures/*/*.xyz"):
+            assert hashlib.sha256(xyz.read_bytes()).hexdigest() == hashlib.sha256(
+                (open_root / xyz.relative_to(data_root)).read_bytes()
+            ).hexdigest()
 
 
 def test_q6_instruction_rendering_exposes_evidence_contract_without_fixed_workflow(

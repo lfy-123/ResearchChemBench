@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "coordinate_provenance": {
+    "action": "generate_conformer_ensemble",
+    "backend": "rdkit_etkdg",
+    "status": "unoptimized_embedding",
+    "author_coordinates_used": false,
+    "author_computational_outputs_used": false
+  },
+  "atom_map": {
+    "indexing": "zero_based",
+    "methoxy_carbon": 0,
+    "methoxy_oxygen": 1,
+    "phosphorus": 2,
+    "p_bound_phenyl_ipso_carbons": [
+      3,
+      9
+    ],
+    "p_bound_pyridyl_ipso_carbons": [
+      15,
+      21
+    ],
+    "pyridyl_nitrogens": [
+      18,
+      24
+    ]
+  },
+  "systems": {
+    "P0": {
+      "ordered_generation_smiles": "CO[P](c1ccccc1)(c1ccccc1)(c1ccncc1)c1ccncc1",
+      "formula": "C23H21N2OP",
+      "atom_count": 48,
+      "charge": 0,
+      "multiplicity": 1,
+      "protonated_pyridyl_nitrogen_indices_zero_based": [],
+      "generation_random_seed": 20260724
+    },
+    "P1": {
+      "ordered_generation_smiles": "CO[P](c1ccccc1)(c1ccccc1)(c1cc[nH+]cc1)c1ccncc1",
+      "formula": "C23H22N2OP",
+      "atom_count": 49,
+      "charge": 1,
+      "multiplicity": 1,
+      "protonated_pyridyl_nitrogen_indices_zero_based": [
+        18
+      ],
+      "generation_random_seed": 20260725
+    },
+    "P2": {
+      "ordered_generation_smiles": "CO[P](c1ccccc1)(c1ccccc1)(c1cc[nH+]cc1)c1cc[nH+]cc1",
+      "formula": "C23H23N2OP",
+      "atom_count": 50,
+      "charge": 2,
+      "multiplicity": 1,
+      "protonated_pyridyl_nitrogen_indices_zero_based": [
+        18,
+        24
+      ],
+      "generation_random_seed": 20260726
+    }
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "task_id": "Heterobiaryl_PV_Reproduction_05_Rate_Determining_Step",
+  "atom_labels": {
+    "indexing": "zero_based",
+    "methoxy_carbon": 0,
+    "methoxy_oxygen": 1,
+    "phosphorus": 2,
+    "phenyl_ipso_carbons": [
+      3,
+      9
+    ],
+    "pyridyl_ipso_carbons": [
+      15,
+      21
+    ],
+    "pyridyl_nitrogens": [
+      18,
+      24
+    ]
+  },
+  "result_values_included": false,
+  "author_coordinates_included": false,
+  "paths": {
+    "P2_PyPy": {
+      "state": "P2",
+      "path_family": "pyridyl_pyridyl_C_C",
+      "forming_bonds": [
+        [
+          15,
+          21
+        ]
+      ],
+      "breaking_bonds": [
+        [
+          2,
+          21
+        ]
+      ],
+      "retained_bonds_to_monitor": [
+        [
+          2,
+          15
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          9
+        ]
+      ],
+      "donor": {
+        "ligand": "pyridyl_C21",
+        "starting_role": "apical"
+      },
+      "acceptor": {
+        "ligand": "pyridyl_C15",
+        "starting_role": "equatorial"
+      }
+    }
+  }
+}

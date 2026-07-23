@@ -82,6 +82,10 @@ class TaskInfo(BaseModel):
     required_deliverables: list[RequiredDeliverable] = Field(default_factory=list)
     data: list[DataFile] = Field(default_factory=list)
     archive_extractions: list[ArchiveExtraction] = Field(default_factory=list)
+    benchmark_family: str = ""
+    task_mode: Literal["", "open_discovery", "guided_reproduction"] = ""
+    method_disclosure: str = ""
+    pathway_disclosure: str = ""
 
 
 class GroundTruth(BaseModel):
@@ -96,6 +100,7 @@ class GroundTruth(BaseModel):
     reference_evidence: Any = None
     managed_computation_policy: dict[str, Any] = Field(default_factory=dict)
     evidence_gate_policy: dict[str, Any] = Field(default_factory=dict)
+    current_toolbox_reproduction_baseline: dict[str, Any] = Field(default_factory=dict)
 
     @model_validator(mode="after")
     def validate_scoring_definition(self) -> "GroundTruth":

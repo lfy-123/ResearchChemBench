@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "protocol_type": "paper_reconstructed_guided_reproduction",
+  "result_values_included": false,
+  "author_coordinates_included": false,
+  "stationary_points_included": false,
+  "geometry_and_frequency": {
+    "reference_software": "Gaussian",
+    "reference_method": "wB97XD",
+    "basis": "6-31+G(d)",
+    "solvation_model": "SMD",
+    "solvent": "Ethanol",
+    "minimum_route_requirements": [
+      "geometry optimization",
+      "frequency calculation",
+      "stable minima have no chemically significant imaginary frequency"
+    ],
+    "transition_state_route_requirements": [
+      "transition-state optimization with an initial Hessian",
+      "one chemically relevant imaginary frequency",
+      "forward and reverse IRC or an equivalent direct connectivity test"
+    ],
+    "reference_route_notes": {
+      "minima": "opt=(maxcycles=200) scrf=(solvent=ethanol,smd) freq=noraman",
+      "transition_states": "opt=(calcfc,ts,noeigentest,maxcycle=600) scrf=(solvent=ethanol,smd) freq=noraman"
+    }
+  },
+  "large_basis_dft_check": {
+    "reference_software": "Gaussian",
+    "method": "wB97XD",
+    "basis": "def2-QZVPP",
+    "solvation_model": "SMD",
+    "solvent": "Ethanol",
+    "calculation": "single_point"
+  },
+  "high_level_single_points": {
+    "reference_software": "ORCA 4.0.1.2",
+    "deployed_software_may_be_newer": true,
+    "method": "DLPNO-CCSD(T)",
+    "basis_sets": [
+      "cc-pVDZ",
+      "cc-pVTZ"
+    ],
+    "target_combination": "cc-pV(DT)Z extrapolation",
+    "solvation": "use the paper-consistent solvent treatment recorded in the generated input and output",
+    "require_same_settings_across_competing_paths": true
+  },
+  "thermochemistry": {
+    "reference_software": "GoodVibes 2.0.1",
+    "deployed_software": "GoodVibes 4.3",
+    "temperature_kelvin": 353.15,
+    "standard_state": "1 mol/L solution",
+    "solvent": "Ethanol",
+    "requirements": [
+      "record low-frequency and quasi-harmonic settings",
+      "record frequency and zero-point scale factors",
+      "combine thermal corrections with explicitly matched high-level single-point outputs",
+      "keep paper-published values separate from values recomputed with the deployed versions"
+    ]
+  },
+  "mechanism_analysis": {
+    "nbo_required": false,
+    "accepted_equivalent_evidence": [
+      "forming and breaking bond distances along the IRC",
+      "Wiberg or Mayer bond-order changes",
+      "oxygen atomic-charge changes",
+      "optional electron-density or bond-critical-point analysis"
+    ],
+    "claim_boundary": "Equivalent evidence may establish limited direct oxygen involvement but must not be reported as an exact NBO lone-pair occupation."
+  },
+  "version_policy": {
+    "published_values": "not included; compare only after scoring",
+    "current_toolbox_values": "primary reproducible calculation output",
+    "exact_numeric_identity_required": false,
+    "required": "stationarity, connectivity, consistent conditions, pathway ordering, provenance, and an explanation of version-dependent deviations"
+  }
+}

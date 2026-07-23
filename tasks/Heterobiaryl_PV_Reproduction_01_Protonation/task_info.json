@@ -1,0 +1,45 @@
+{
+  "task_id": "Heterobiaryl_PV_Reproduction_01_Protonation",
+  "source_id": "heterobiaryl_pv_2018_guided_reproduction",
+  "category": "mechanistic_quantum_chemistry",
+  "task": "Using the supplied paper-reconstructed computational protocol and mapped pyridyl-pyridyl pathway definitions, reproduce the protonation-state activation-free-energy comparison for P0, P1, and P2. Independently generate every geometry, stationary point, frequency, IRC, electronic energy, and thermochemical result in this run. Follow the supplied method hierarchy where the deployed software supports it, document any necessary version-compatible substitution, and keep paper-published targets separate from newly recomputed values.",
+  "scientific_mode": "guided_reproduction",
+  "scientific_mode_description": "The paper-reconstructed method hierarchy and candidate reaction routes are supplied. The Agent must execute, debug, validate, and report the reproduction without reading hidden results or author stationary points.",
+  "scientific_requirements": [
+    "Apply the supplied geometry/frequency, high-level single-point, and thermochemistry hierarchy consistently to P0, P1, and P2.",
+    "Validate every reported transition state by a target imaginary mode and forward/reverse connectivity.",
+    "Report current-toolbox activation free energies and their protonation trend separately from hidden paper-published comparison values."
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/research_plan.json",
+      "description": "Initial hypotheses, resource tiers, seed/path choices, validation gates, stopping criteria, and dated revisions."
+    },
+    {
+      "path": "report/evidence_summary.json",
+      "description": "Claim-to-artifact map with method, conditions, validation status, and uncertainty for each scientific conclusion."
+    },
+    {
+      "path": "report/failure_log.jsonl",
+      "description": "One record per failed or inconclusive branch, including attempted remedy and scientific consequence; an empty file is allowed only when no failure occurred.",
+      "allow_empty": true
+    },
+    {
+      "path": "report/report.md",
+      "description": "Final artifact-linked scientific answer that distinguishes computed results, measurements, inference, and unresolved uncertainty."
+    }
+  ],
+  "data": [
+    {
+      "name": "Guided Heterobiaryl P(V) reproduction inputs",
+      "path": "data/benchmark_data",
+      "type": "directory",
+      "description": "Decontaminated raw structures and measurements copied from the open-discovery task, plus a paper-reconstructed method protocol, mapped candidate pathways, and workflow requirements. No author stationary point, calculation output, published numerical result, or reference answer is visible."
+    }
+  ],
+  "archive_extractions": [],
+  "benchmark_family": "heterobiaryl_pv",
+  "task_mode": "guided_reproduction",
+  "method_disclosure": "paper_reconstructed_protocol",
+  "pathway_disclosure": "mapped_candidate_routes"
+}
