@@ -204,6 +204,37 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         required_settings={"rank_conformers_from_results": ("temperature_kelvin", "score_unit")},
     ),
     _backend(
+        "internal_reaction_analysis", "ResearchChem reaction/coordination analysis", "core",
+        (
+            "enumerate_coordination_isomers", "validate_reaction_path",
+            "analyze_reaction_coordinate",
+        ),
+        (
+            "Deterministic coordination-site enumeration and reaction-path analysis from "
+            "explicitly supplied structures, paths, bond changes, and energies. It does not "
+            "run electronic-structure calculations or infer a mechanism."
+        ),
+        required_settings={
+            "enumerate_coordination_isomers": ("coordination_geometry", "max_isomers"),
+            "validate_reaction_path": (
+                "endpoint_rmsd_tolerance_angstrom",
+                "maximum_image_step_rmsd_angstrom",
+                "bond_distance_tolerance_angstrom",
+            ),
+            "analyze_reaction_coordinate": ("energy_unit",),
+        },
+        allowed_settings={
+            "enumerate_coordination_isomers": {
+                "coordination_geometry": (
+                    "trigonal_bipyramidal", "square_pyramidal", "octahedral"
+                ),
+            },
+            "analyze_reaction_coordinate": {
+                "energy_unit": ("hartree", "kj/mol", "kcal/mol", "ev")
+            },
+        },
+    ),
+    _backend(
         "pdbfixer", "PDBFixer", "md",
         ("repair_biomolecular_structure", "assign_protonation_states"),
         "Biomolecular structure repair and explicit pH-based hydrogen addition.",
@@ -814,27 +845,25 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         (
             "Operator-provided ORCA 6.1.1 electronic-structure executable with an isolated "
             "OpenMPI 4.1.8 runtime. The Agent explicitly selects method, basis, solvation, "
-            "and resources. This server's validated execution contract currently permits one "
-            "CPU core and at most 1800 seconds per synchronous ORCA Action. Longer ORCA "
+            "and resources. This server's validated execution contract permits up to 48 "
+            "CPU cores and 7200 seconds per synchronous ORCA Action. Longer ORCA "
             "calculations remain available through the Agent-selected asynchronous native layer."
         ),
         executables=("orca",), environment=("CHEMGRAPH_ORCA_COMMAND",),
         license_class="manual_license",
         install_notes=(
             "Configured from the operator-downloaded ORCA 6.1.1 installer under "
-            ".software_cache/orca/6.1.1 with OpenMPI 4.1.8. Repeated molecular PAL>1 calls "
-            "produced MPI_Type_match_size/PMIX startup errors on this server, while real "
-            "single-core energy, Hessian, optimization, and property calls pass. The public "
-            "contract therefore rejects cpu_cores>1 and synchronous walltime_seconds>1800 before "
-            "execution. Use inspect_software plus submit_native_job for an explicitly authored "
-            "long ORCA input; no automatic fallback or resource substitution occurs."
+            ".software_cache/orca/6.1.1 with the exact OpenMPI 4.1.8 runtime required by this "
+            "ORCA build. Parallel Actions retain the Agent-selected PAL process count without "
+            "automatic fallback or resource substitution. Use inspect_software plus "
+            "submit_native_job for explicitly authored jobs beyond the synchronous limits."
         ),
         resource_constraints={
-            "maximum_cpu_cores": 1,
-            "maximum_walltime_seconds": 1800,
+            "maximum_cpu_cores": 48,
+            "maximum_walltime_seconds": 7200,
             "reason": (
-                "This ORCA 6.1.1/OpenMPI installation repeatedly fails PAL>1 startup with "
-                "MPI_Type_match_size/PMIX errors; single-core execution is validated."
+                "The current 64-online-CPU server reserves capacity for the service and exposes "
+                "at most 48 ORCA MPI processes per synchronous Action."
             ),
             "walltime_reason": (
                 "execute_action is synchronous and must finish comfortably inside the MCP client "
@@ -1241,9 +1270,21 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         },
     ),
     _backend(
-        "pysisyphus", "pysisyphus", "reaction", ("locate_transition_state", "trace_intrinsic_reaction_coordinate"),
-        "pysisyphus transition-state and IRC algorithms using explicit endpoint/calculator settings.",
+        "pysisyphus", "pysisyphus", "reaction",
+        (
+            "locate_transition_state", "search_reaction_path",
+            "scan_reaction_coordinates", "trace_intrinsic_reaction_coordinate",
+        ),
+        (
+            "pysisyphus transition-state, double-ended chain-of-states, relaxed coordinate "
+            "scan, and IRC algorithms using explicit structures and calculator settings."
+        ),
         modules=("pysisyphus",), executables=("pysis",), pip=("pysisyphus==1.0.0",),
+        resource_constraints={
+            "maximum_cpu_cores": 48,
+            "maximum_walltime_seconds": 7200,
+            "reason": "Calculator processes/threads remain exactly Agent-selected, capped at 48 on this server.",
+        },
         method_schema={
             "calculator_backend": "exact native pysisyphus calculator type: xtb, pyscf, or orca",
             "method": (
@@ -1255,24 +1296,60 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
             "functional": "DFT functional used when calculator_backend=pyscf and method denotes DFT",
             "charge": "explicit integer molecular charge; otherwise taken from the supplied structure",
             "multiplicity": "explicit positive spin multiplicity; otherwise taken from the supplied structure",
+            "solvation_model": "optional alpb/gbsa for xTB or cpcm/smd for ORCA",
+            "solvent": "required solvent name when solvation_model is supplied",
             "pyscf_basis_conditional": "calculator_backend=pyscf requires method_spec.basis",
             "hessian_init": (
                 "explicit pysisyphus initial-Hessian strategy; calc requests an exact Hessian, "
                 "whereas unit/fischer/lindh/simple/swart/xtb/xtb1/xtbff select the named model"
             ),
         },
-        required_methods={"locate_transition_state": ("calculator_backend", "method"), "trace_intrinsic_reaction_coordinate": ("calculator_backend", "method")},
+        required_methods={
+            action: ("calculator_backend", "method")
+            for action in (
+                "locate_transition_state", "search_reaction_path",
+                "scan_reaction_coordinates", "trace_intrinsic_reaction_coordinate",
+            )
+        },
         required_settings={
             "locate_transition_state": ("optimizer", "convergence", "max_cycles", "hessian_init"),
+            "search_reaction_path": (
+                "path_method", "interpolation", "images", "optimizer",
+                "convergence", "max_cycles", "climb",
+            ),
+            "scan_reaction_coordinates": (
+                "coordinate_type", "atom_indices", "start_value", "end_value",
+                "value_unit", "steps", "optimizer", "convergence", "max_cycles",
+                "hessian_init",
+            ),
             "trace_intrinsic_reaction_coordinate": ("integrator", "step_length", "max_cycles", "forward", "backward", "hessian_init"),
         },
         allowed_methods={
-            "locate_transition_state": {"calculator_backend": ("xtb", "pyscf", "orca")},
-            "trace_intrinsic_reaction_coordinate": {"calculator_backend": ("xtb", "pyscf", "orca")},
+            action: {
+                "calculator_backend": ("xtb", "pyscf", "orca"),
+                "solvation_model": ("alpb", "gbsa", "cpcm", "smd"),
+            }
+            for action in (
+                "locate_transition_state", "search_reaction_path",
+                "scan_reaction_coordinates", "trace_intrinsic_reaction_coordinate",
+            )
         },
         allowed_settings={
             "locate_transition_state": {
                 "optimizer": ("rsprfo", "prfo", "trim", "rsirfo", "irfo"),
+                "convergence": ("nwchem_loose", "gau_loose", "gau", "gau_tight", "gau_vtight", "baker", "never"),
+                "hessian_init": ("calc", "unit", "fischer", "lindh", "simple", "swart", "xtb", "xtb1", "xtbff"),
+            },
+            "search_reaction_path": {
+                "path_method": ("neb", "growing_string", "freezing_string"),
+                "interpolation": ("linear", "idpp", "redund"),
+                "optimizer": ("qm", "fire", "lbfgs", "string", "sd"),
+                "convergence": ("nwchem_loose", "gau_loose", "gau", "gau_tight", "gau_vtight", "baker", "never"),
+            },
+            "scan_reaction_coordinates": {
+                "coordinate_type": ("bond", "angle", "dihedral"),
+                "value_unit": ("angstrom", "degree", "radian"),
+                "optimizer": ("rfo", "lbfgs", "fire"),
                 "convergence": ("nwchem_loose", "gau_loose", "gau", "gau_tight", "gau_vtight", "baker", "never"),
                 "hessian_init": ("calc", "unit", "fischer", "lindh", "simple", "swart", "xtb", "xtb1", "xtbff"),
             },

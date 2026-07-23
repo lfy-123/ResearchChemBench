@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-07-23T00:00:00+00:00",
+  "purpose": "Real backend calls added while repairing the Heterobiaryl P(V) benchmark path-search and analysis capabilities.",
+  "workspace": "docs/check/heterobiaryl_toolbox_repair",
+  "cases": [
+    {
+      "action": "search_reaction_path",
+      "backend": "pysisyphus",
+      "status": "success",
+      "elapsed_seconds": null,
+      "artifact_directory": "docs/check/heterobiaryl_toolbox_repair/outputs/search_reaction_path/pysisyphus/c8ee56f76ada",
+      "detail": "Real five-image NEB calculation with GFN2-xTB and ALPB ethanol; both endpoints were consumed and the path optimizer converged. Growing-string and freezing-string variants were also exercised in sibling artifact directories."
+    },
+    {
+      "action": "scan_reaction_coordinates",
+      "backend": "pysisyphus",
+      "status": "success",
+      "elapsed_seconds": null,
+      "artifact_directory": "docs/check/heterobiaryl_toolbox_repair/outputs/scan_reaction_coordinates/pysisyphus/37593c2d5ee0",
+      "detail": "Real relaxed O-H distance scan with GFN2-xTB; two aligned structures and energies were returned and both optimizations converged."
+    },
+    {
+      "action": "enumerate_coordination_isomers",
+      "backend": "internal_reaction_analysis",
+      "status": "success",
+      "elapsed_seconds": null,
+      "artifact_directory": "docs/check/heterobiaryl_toolbox_repair/_tool_artifacts",
+      "detail": "Real service dispatch enumerated five symmetry-distinct trigonal-bipyramidal assignments for the P2 ligand-label pattern without inventing coordinates or energies."
+    },
+    {
+      "action": "validate_reaction_path",
+      "backend": "internal_reaction_analysis",
+      "status": "success",
+      "elapsed_seconds": null,
+      "artifact_directory": "docs/check/heterobiaryl_toolbox_repair/_tool_artifacts",
+      "detail": "Real service dispatch checked atom/state consistency, endpoint agreement, image continuity, and an explicit bond-change definition."
+    },
+    {
+      "action": "analyze_reaction_coordinate",
+      "backend": "internal_reaction_analysis",
+      "status": "success",
+      "elapsed_seconds": null,
+      "artifact_directory": "docs/check/heterobiaryl_toolbox_repair/_tool_artifacts",
+      "detail": "Real service dispatch aligned three path images with supplied electronic energies and identified the highest-energy image while explicitly not claiming transition-state validation."
+    }
+  ]
+}

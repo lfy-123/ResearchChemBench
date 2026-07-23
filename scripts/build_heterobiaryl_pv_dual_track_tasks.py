@@ -93,7 +93,10 @@ COMPUTATIONAL_PROTOCOL = {
         "method": "DLPNO-CCSD(T)",
         "basis_sets": ["cc-pVDZ", "cc-pVTZ"],
         "target_combination": "cc-pV(DT)Z extrapolation",
-        "solvation": "use the paper-consistent solvent treatment recorded in the generated input and output",
+        "solvation_model": "SMD",
+        "solvent": "Ethanol",
+        "reference_orca_route": "! CPCM DLPNO-CCSD(T) Extrapolate(2/3,cc) RIJCOSX GRIDX5 TightSCF KDIIS; %cpcm smd true; solvent Ethanol",
+        "version_compatibility_note": "Translate the ORCA 4 route to valid ORCA 6.1.1 syntax while preserving SMD ethanol, DLPNO-CCSD(T), cc-pVDZ/cc-pVTZ 2/3 extrapolation, SCF tightness, and common settings across paths.",
         "require_same_settings_across_competing_paths": True,
     },
     "thermochemistry": {
@@ -102,9 +105,14 @@ COMPUTATIONAL_PROTOCOL = {
         "temperature_kelvin": 353.15,
         "standard_state": "1 mol/L solution",
         "solvent": "Ethanol",
+        "quasi_harmonic_entropy_model": "Grimme",
+        "quasi_harmonic_cutoff_wavenumber_cm-1": 100.0,
+        "small_imaginary_frequency_inversion_threshold_cm-1": -5.0,
+        "single_point_suffix": "DLPNO",
+        "paper_related_example_command": "goodvibes *.log --spc DLPNO --pes <profile.yaml> -t 353.15 --imag --invertifreq -5 --media ethanol -c 1",
         "requirements": [
             "record low-frequency and quasi-harmonic settings",
-            "record frequency and zero-point scale factors",
+            "record frequency and zero-point scale factors; the accessible paper text and public example do not uniquely recover a paper-era scale factor, so do not invent one",
             "combine thermal corrections with explicitly matched high-level single-point outputs",
             "keep paper-published values separate from values recomputed with the deployed versions",
         ],
@@ -282,6 +290,96 @@ WORKFLOW_STAGES = [
 ]
 
 
+BASELINE_COMMON = {
+    "assessment_date": "2026-07-23",
+    "status": "assessed_post_repair",
+    "classification": "partially_solvable",
+    "major_paper_conclusion_reproduced_in_this_audit": False,
+    "evidence_level": "real_backend_smokes_and_action_validation_without_a_complete_PV_paper_level_profile",
+    "software_family": [
+        "Gaussian 16 C.01",
+        "ORCA 6.1.1",
+        "GoodVibes 4.3",
+        "pysisyphus 1.0.0",
+        "xTB",
+    ],
+    "verified_shared_capabilities": [
+        "native Gaussian execution is installed for optimization, frequencies, transition-state searches, and IRC jobs",
+        "ORCA SMD input generation was repaired and a real SMD-ethanol calculation terminated normally",
+        "ORCA accepted 2, 4, 8, 16, 32, and 48 CPU cores in real calculations with consistent energies",
+        "real pysisyphus/xTB NEB, growing-string, freezing-string, and relaxed-scan calculations produced saved paths",
+        "reaction-path validation, reaction-coordinate analysis, and coordination-isomer enumeration are available as deterministic Actions",
+        "GoodVibes thermochemistry Actions have existing successful real-software smoke evidence",
+        "Agent-authored managed programs may call the installed native software when a typed Action is not sufficiently expressive",
+    ],
+    "resource_guidance": {
+        "server_logical_cpu_cores": 54,
+        "toolbox_per_job_cpu_core_cap": 48,
+        "observed_small_ORCA_HF_sweet_spot_cores": 32,
+        "recommendation": "Benchmark 24-32 cores first for large molecular jobs; use up to 48 only after method- and system-specific scaling evidence, and reserve cores for the operating system and monitoring.",
+    },
+    "actual_run_evidence_root": "docs/check/heterobiaryl_toolbox_repair",
+}
+
+
+REPRODUCTION_BASELINES = {
+    "Q1": {
+        "capability_if_protocol_is_disclosed": "supported_in_principle_but_not_yet_demonstrated_end_to_end",
+        "supported_scope": "The installed native programs and repaired Actions can generate and validate candidate P0/P1/P2 paths and assemble 353.15 K, 1 M thermochemistry.",
+        "unresolved_requirements": [
+            "No P0/P1/P2 paper-level reactant/TS set was optimized and frequency-checked during this audit.",
+            "No bidirectional connectivity and matched SMD-DLPNO-CCSD(T)/cc-pV(DT)Z profile was completed for the three charge states.",
+            "Therefore the published protonation barrier trend has not been independently reproduced from current-task inputs.",
+        ],
+    },
+    "Q2": {
+        "capability_if_protocol_is_disclosed": "supported_in_principle_but_requires_a_large_multi_path_campaign",
+        "supported_scope": "The toolbox can search mapped Py-Py and Ph-Py paths, validate stationary points, calculate products, and compare common-condition free energies.",
+        "unresolved_requirements": [
+            "Validated Py-Py and Ph-Py reactant, transition-state, and product sets were not generated for all P0/P1/P2 states.",
+            "The donor-direction control and coordination/conformer alternatives remain unrefined at the paper level.",
+            "Neither kinetic nor product-thermodynamic selectivity has yet been reproduced with complete matched evidence.",
+        ],
+    },
+    "Q3": {
+        "capability_if_protocol_is_disclosed": "supported_in_principle_with_endpoint_generation_and_transition_state_work",
+        "supported_scope": "Mapped C-C and C-O bond changes, double-ended path search, relaxed scans, native TS/IRC, ORCA refinement, and thermochemistry are available.",
+        "unresolved_requirements": [
+            "The public input deliberately contains no author product or transition-state coordinates; the C-O product/endpoints must be generated from the supplied bond edit.",
+            "No first-order C-O saddle or bidirectional connectivity was established for the P2 system in this audit.",
+            "A same-condition quantitative C-C versus C-O barrier difference has not been recomputed.",
+        ],
+    },
+    "Q4": {
+        "capability_if_protocol_is_disclosed": "path_screening_supported_but_full_mechanistic_proof_not_yet_completed",
+        "supported_scope": "The repaired path/scan Actions can test stepwise and concerted candidates; native Hessian/IRC and NBO-free bond-order, charge, geometry, and density analyses can supply validation evidence.",
+        "unresolved_requirements": [
+            "No P(V) transition state was refined to a single target imaginary mode and connected in both directions during this audit.",
+            "The dearomatized post-coupling minimum and the concerted control path remain unverified.",
+            "NBO is not a blocker, but equivalent electronic evidence still must be calculated on the validated P(V) coordinate.",
+        ],
+    },
+    "Q5": {
+        "capability_if_protocol_is_disclosed": "computational_downstream_test_supported_but_the_full_kinetic_assignment_remains_evidence_limited",
+        "supported_scope": "The toolbox can regress the supplied relative-rate series, recompute a P2 ligand-coupling path, and integrate reported product/NMR/ethoxide observations with explicit limitations.",
+        "unresolved_requirements": [
+            "The public package contains reported measurements but no time-resolved kinetic traces, raw NMR FIDs, or uncertainty-bearing primary rate data.",
+            "It also lacks a fully specified alcohol-addition reaction system/path, so an independent comparison of every candidate rate-controlling elementary step is not currently defined.",
+            "A downstream P2 coupling profile was not completed at the paper level in this audit; the rate-, selectivity-, and irreversibility assignments therefore remain partial rather than fully reproduced.",
+        ],
+    },
+    "Q6": {
+        "capability_if_protocol_is_disclosed": "all_required_software_families_are_present_but_the_full_campaign_is_not_yet_executed",
+        "supported_scope": "The guided track now exposes the complete method hierarchy and mapped candidate set, and the toolbox supports the constituent screening, path, stationary-point, electronic-energy, thermochemistry, and analysis stages.",
+        "unresolved_requirements": [
+            "The complete P0/P1/P2 and Py-Py/Ph-Py/C-O stationary-point network has not been generated and validated.",
+            "Q5 retains primary experimental-data and full reaction-network limitations.",
+            "Consequently no complete end-to-end paper-level free-energy surface or integrated mechanism was independently reproduced in this audit.",
+        ],
+    },
+}
+
+
 def json_bytes(value: Any) -> bytes:
     return (json.dumps(value, ensure_ascii=False, indent=2) + "\n").encode("utf-8")
 
@@ -418,8 +516,8 @@ def build_one(open_task: str, reproduction_task: str, task_key: str, stage_root:
         "comparability, and provenance. Do not reward copying a paper-published number without a new artifact."
     )
     truth["current_toolbox_reproduction_baseline"] = {
-        "status": "pending_post_repair_baseline",
-        "software_family": ["Gaussian 16", "ORCA 6.1.1", "GoodVibes 4.3"],
+        **deepcopy(BASELINE_COMMON),
+        **deepcopy(REPRODUCTION_BASELINES[task_key]),
         "temperature_kelvin": 353.15,
         "standard_state_mol_l": 1.0,
     }

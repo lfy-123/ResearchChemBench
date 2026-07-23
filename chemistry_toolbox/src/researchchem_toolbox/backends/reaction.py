@@ -26,6 +26,7 @@ from .common import (
     structure_dict,
     success,
     unavailable,
+    unwrap_artifact,
     unsupported,
     write_json,
     write_xyz,
@@ -33,7 +34,9 @@ from .common import (
 
 
 ACTIONS = {
-    "locate_transition_state", "trace_intrinsic_reaction_coordinate",
+    "locate_transition_state", "search_reaction_path", "scan_reaction_coordinates",
+    "validate_reaction_path", "analyze_reaction_coordinate",
+    "trace_intrinsic_reaction_coordinate",
     "calculate_chemical_equilibrium", "integrate_reaction_network",
     "calculate_rate_constants", "calculate_tunneling_correction",
     "solve_microkinetic_model", "solve_master_equation",
@@ -109,16 +112,15 @@ def _pysisyphus_failure_detail(directory: Path, stderr: str) -> str:
     return stderr[-2000:] or "native pysisyphus process exited without a diagnostic message"
 
 
-def _pysisyphus(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
-    inputs, method, settings = request_parts(request)
-    directory = output_directory(action_id, "pysisyphus")
-    structure_key = "initial_guess" if action_id == "locate_transition_state" else "transition_state"
-    xyz = write_xyz(inputs[structure_key], directory / "input.xyz")
+def _pysisyphus_calculator(
+    method: dict[str, Any],
+    input_structure: dict[str, Any],
+    resource_limits: dict[str, Any],
+) -> tuple[dict[str, Any], int, int]:
     calculator_backend = str(method["calculator_backend"]).lower()
     if calculator_backend not in {"xtb", "pyscf", "orca"}:
         raise ValueError("pysisyphus calculator_backend must be xtb, pyscf, or orca")
     method_name = str(method["method"]).strip()
-    input_structure = structure_dict(inputs[structure_key])
     charge = int(method.get("charge", input_structure.get("charge", 0)))
     multiplicity = int(
         method.get("multiplicity", input_structure.get("multiplicity", 1))
@@ -127,6 +129,7 @@ def _pysisyphus(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
         "type": calculator_backend,
         "charge": charge,
         "mult": multiplicity,
+        "pal": int(resource_limits.get("cpu_cores") or 1),
     }
     if calculator_backend == "xtb":
         calculator["gfn"] = _pysisyphus_xtb_gfn(method_name)
@@ -149,8 +152,271 @@ def _pysisyphus(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
         if method.get("basis"):
             keywords.append(str(method["basis"]))
         calculator["keywords"] = " ".join(keywords)
+
+    solvation_model = str(method.get("solvation_model") or "").strip().lower()
+    if solvation_model:
+        solvent = str(method.get("solvent") or "").strip()
+        if not solvent:
+            raise ValueError("pysisyphus solvation_model requires method_spec.solvent")
+        if calculator_backend == "xtb" and solvation_model in {"alpb", "gbsa"}:
+            calculator[solvation_model] = solvent
+        elif calculator_backend == "orca" and solvation_model == "cpcm":
+            calculator["keywords"] += f" CPCM({solvent})"
+        elif calculator_backend == "orca" and solvation_model == "smd":
+            calculator["keywords"] += " CPCM"
+            calculator["blocks"] = (
+                f'%cpcm\n  smd true\n  SMDsolvent "{solvent}"\nend'
+            )
+        else:
+            raise ValueError(
+                f"solvation_model={solvation_model!r} is not supported with "
+                f"calculator_backend={calculator_backend!r}"
+            )
+    return calculator, charge, multiplicity
+
+
+def _assert_matching_endpoint_atoms(
+    reactant: dict[str, Any], product: dict[str, Any]
+) -> None:
+    reactant_elements = [atom["element"] for atom in reactant.get("atoms") or []]
+    product_elements = [atom["element"] for atom in product.get("atoms") or []]
+    if reactant_elements != product_elements:
+        raise ValueError(
+            "Double-ended path endpoints must have identical atom counts, elements, and ordering"
+        )
+    if int(reactant.get("charge", 0)) != int(product.get("charge", 0)):
+        raise ValueError("Double-ended path endpoints must have the same charge")
+    if int(reactant.get("multiplicity", 1)) != int(product.get("multiplicity", 1)):
+        raise ValueError("Double-ended path endpoints must have the same multiplicity")
+
+
+def _parse_multixyz(path: Path, *, charge: int, multiplicity: int) -> list[dict[str, Any]]:
+    lines = path.read_text(encoding="utf-8", errors="replace").splitlines()
+    frames: list[dict[str, Any]] = []
+    cursor = 0
+    while cursor < len(lines):
+        if not lines[cursor].strip():
+            cursor += 1
+            continue
+        try:
+            atom_count = int(lines[cursor].strip())
+        except ValueError as exc:
+            raise ValueError(f"Invalid multi-XYZ atom count in {path}: {lines[cursor]!r}") from exc
+        if cursor + atom_count + 1 >= len(lines):
+            raise ValueError(f"Truncated multi-XYZ frame in {path}")
+        comment = lines[cursor + 1]
+        atoms = []
+        for line in lines[cursor + 2 : cursor + 2 + atom_count]:
+            parts = line.split()
+            if len(parts) < 4:
+                raise ValueError(f"Invalid multi-XYZ atom line in {path}: {line!r}")
+            atoms.append(
+                {
+                    "element": parts[0],
+                    "position_angstrom": [float(parts[1]), float(parts[2]), float(parts[3])],
+                }
+            )
+        frame: dict[str, Any] = {
+            "atoms": atoms,
+            "charge": charge,
+            "multiplicity": multiplicity,
+            "comment": comment,
+        }
+        energy_match = re.search(
+            r"\b(?:energy|E)\b\s*[=:]\s*(-?\d+(?:\.\d+)?(?:[Ee][+-]?\d+)?)",
+            comment,
+            re.IGNORECASE,
+        )
+        if energy_match is None:
+            energy_match = re.match(
+                r"\s*(-?\d+(?:\.\d+)?(?:[Ee][+-]?\d+)?)\s*(?:,|$)", comment
+            )
+        if energy_match:
+            frame["energy_hartree"] = float(energy_match.group(1))
+        frames.append(frame)
+        cursor += atom_count + 2
+    return frames
+
+
+def _pysisyphus_freezing_string(
+    *,
+    directory: Path,
+    endpoint_paths: list[Path],
+    calculator: dict[str, Any],
+    charge: int,
+    multiplicity: int,
+    settings: dict[str, Any],
+    configuration: dict[str, Any],
+) -> dict[str, Any]:
+    """Drive pysisyphus FreezingString directly around upstream CLI incompatibilities."""
+
+    import numpy as np
+    from pysisyphus.cos.FreezingString import FreezingString
+    from pysisyphus.run import get_calc_closure
+    from pysisyphus.trj import get_geoms
+
+    calculator_kwargs = dict(calculator)
+    calculator_key = str(calculator_kwargs.pop("type"))
+    calculator_kwargs["out_dir"] = directory / "qm_calcs"
+    calculator_getter = get_calc_closure(
+        "freezing_string_image", calculator_key, calculator_kwargs
+    )
+    endpoints = get_geoms([str(path) for path in endpoint_paths], quiet=True)
+    for endpoint in endpoints:
+        endpoint.set_calculator(calculator_getter())
+    internal_images = int(settings["images"]) - 2
+    string = FreezingString(
+        endpoints,
+        calculator_getter,
+        max_nodes=internal_images,
+        opt_steps=3,
+    )
+    max_cycles = int(settings["max_cycles"])
+    if max_cycles < internal_images:
+        raise ValueError(
+            "freezing_string max_cycles is too small to grow the requested number of images"
+        )
+    force_thresholds = {
+        "nwchem_loose": 5.0e-3,
+        "gau_loose": 2.5e-3,
+        "gau": 4.5e-4,
+        "gau_tight": 1.5e-5,
+        "gau_vtight": 2.0e-6,
+        "baker": 3.0e-4,
+        "never": 0.0,
+    }
+    threshold = force_thresholds[str(settings["convergence"])]
+    cycles_after_growth = 0
+    history = []
+    final_max_force = math.inf
+    for cycle in range(max_cycles):
+        forces = np.asarray(string.forces, dtype=float)
+        final_max_force = float(np.max(np.abs(forces)))
+        step = 0.20 * forces
+        max_component = float(np.max(np.abs(step)))
+        if max_component > 0.08:
+            step *= 0.08 / max_component
+        string.coords = np.asarray(string.coords, dtype=float) + step
+        was_fully_grown = string.fully_grown
+        string.reparametrize(string.energy, forces)
+        if string.fully_grown:
+            cycles_after_growth = cycles_after_growth + 1 if was_fully_grown else 0
+        history.append(
+            {
+                "cycle": cycle,
+                "image_count": len(string.left_string) + len(string.right_string),
+                "maximum_frontier_force_hartree_per_bohr": final_max_force,
+                "fully_grown": bool(string.fully_grown),
+            }
+        )
+        if string.fully_grown and cycles_after_growth >= 3:
+            break
+
+    images = string.left_string + string.right_string
+    energies = [float(image.energy) for image in images]
+    trajectory_path = directory / "freezing_string_final.trj"
+    trajectory_path.write_text(
+        "\n".join(image.as_xyz() for image in images), encoding="utf-8"
+    )
+    frames = _parse_multixyz(
+        trajectory_path, charge=charge, multiplicity=multiplicity
+    )
+    image_files = []
+    for index, frame in enumerate(frames):
+        image_files.append(
+            relative_workspace_path(
+                write_xyz(frame, directory / f"path_image_{index:03d}.xyz")
+            )
+        )
+    highest = max(range(len(energies)), key=energies.__getitem__)
+    highest_interior = max(range(1, len(energies) - 1), key=energies.__getitem__)
+    fully_grown = bool(string.fully_grown)
+    force_converged = threshold > 0 and final_max_force <= threshold
+    result = {
+        "path_file": relative_workspace_path(trajectory_path),
+        "image_files": image_files,
+        "image_count": len(image_files),
+        "energies_hartree": energies,
+        "highest_energy_image_index": highest,
+        "highest_interior_energy_image_index": highest_interior,
+        "highest_energy_image": frames[highest],
+        "highest_interior_energy_image": frames[highest_interior],
+        "converged": fully_grown,
+        "fully_grown": fully_grown,
+        "frontier_force_converged": force_converged,
+        "final_maximum_frontier_force_hartree_per_bohr": final_max_force,
+        "endpoints_consumed": True,
+        "transition_state_validated": False,
+    }
+    history_path = write_json(directory, "freezing_string_history.json", history)
+    warnings = []
+    if not fully_grown:
+        warnings.append("Freezing String did not grow all requested images before max_cycles.")
+    if not force_converged:
+        warnings.append(
+            "Freezing String grew the requested path, but the last frontier force did not "
+            "meet the selected threshold; refine the highest image before TS validation."
+        )
+    provenance = {
+        "command": ["python:pysisyphus.FreezingString"],
+        "generated_config": configuration,
+        "upstream_cli_workaround": (
+            "pysisyphus 1.0.0 CLI passes ChainOfStates-only keywords to FreezingString; "
+            "the adapter invokes the installed class directly without changing its calculator"
+        ),
+        "resolved_molecular_state": {"charge": charge, "multiplicity": multiplicity},
+    }
+    artifacts = command_artifacts(directory)
+    complete = fully_grown and len(image_files) == int(settings["images"])
+    if complete:
+        return success(
+            result,
+            artifact_files=artifacts,
+            backend_version=module_version("pysisyphus"),
+            provenance=provenance,
+            warnings=warnings,
+        )
+    return partial_success(
+        result,
+        artifact_files=artifacts,
+        backend_version=module_version("pysisyphus"),
+        provenance=provenance,
+        warnings=warnings or [f"Incomplete Freezing String history: {history_path}"],
+    )
+
+
+def _pysisyphus(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
+    inputs, method, settings = request_parts(request)
+    directory = output_directory(action_id, "pysisyphus")
+    resource_limits = dict(request.get("resource_limits") or {})
+    staged_inputs: list[Path] = []
+    if action_id == "search_reaction_path":
+        reactant = structure_dict(inputs["reactant"])
+        product = structure_dict(inputs["product"])
+        _assert_matching_endpoint_atoms(reactant, product)
+        reactant_xyz = write_xyz(reactant, directory / "reactant.xyz")
+        product_xyz = write_xyz(product, directory / "product.xyz")
+        staged_inputs = [reactant_xyz, product_xyz]
+        input_structure = reactant
+        geom = {"type": "cart", "fn": [str(reactant_xyz), str(product_xyz)]}
+    elif action_id == "scan_reaction_coordinates":
+        input_structure = structure_dict(inputs["structure"])
+        xyz = write_xyz(input_structure, directory / "input.xyz")
+        staged_inputs = [xyz]
+        geom = {"type": "redund", "fn": str(xyz)}
+    else:
+        structure_key = (
+            "initial_guess" if action_id == "locate_transition_state" else "transition_state"
+        )
+        input_structure = structure_dict(inputs[structure_key])
+        xyz = write_xyz(input_structure, directory / "input.xyz")
+        staged_inputs = [xyz]
+        geom = {"type": "cart", "fn": str(xyz)}
+    calculator, charge, multiplicity = _pysisyphus_calculator(
+        method, input_structure, resource_limits
+    )
     configuration: dict[str, Any] = {
-        "geom": {"type": "cart", "fn": str(xyz)},
+        "geom": geom,
         "calc": calculator,
     }
     if action_id == "locate_transition_state":
@@ -160,7 +426,7 @@ def _pysisyphus(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
             "max_cycles": int(settings.get("max_cycles", 200)),
             "hessian_init": str(settings["hessian_init"]),
         }
-    else:
+    elif action_id == "trace_intrinsic_reaction_coordinate":
         configuration["irc"] = {
             "type": str(settings.get("integrator", "eulerpc")),
             "step_length": float(settings.get("step_length", 0.1)),
@@ -169,8 +435,116 @@ def _pysisyphus(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
             "backward": bool(settings.get("backward", True)),
             "hessian_init": str(settings["hessian_init"]),
         }
+    elif action_id == "search_reaction_path":
+        images = int(settings["images"])
+        if images < 3:
+            raise ValueError("search_reaction_path requires at least three total images")
+        path_method = str(settings["path_method"]).strip().lower()
+        pysis_path_method = {
+            "neb": "neb",
+            "growing_string": "gs",
+            "freezing_string": "fs",
+        }[path_method]
+        optimizer = str(settings["optimizer"]).lower()
+        if pysis_path_method == "gs" and optimizer != "string":
+            raise ValueError(
+                "growing_string requires optimizer=string because generic optimizers cannot "
+                "safely resize their history when pysisyphus adds nodes"
+            )
+        if pysis_path_method == "fs" and optimizer != "sd":
+            raise ValueError(
+                "freezing_string requires optimizer=sd in the direct installed-class driver"
+            )
+        cos: dict[str, Any] = {"type": pysis_path_method}
+        if pysis_path_method != "fs":
+            cos.update({"fix_first": True, "fix_last": True})
+        if pysis_path_method == "neb":
+            configuration["interpol"] = {
+                "type": str(settings["interpolation"]),
+                "between": images - 2,
+                "align": True,
+            }
+            cos["climb"] = bool(settings["climb"])
+        else:
+            if pysis_path_method == "fs" and (images - 2) % 2:
+                raise ValueError(
+                    "freezing_string requires an even number of internal images "
+                    "(images - 2 must be even)"
+                )
+            cos["max_nodes"] = images - 2
+            if pysis_path_method == "gs":
+                cos["climb"] = bool(settings["climb"])
+        configuration["cos"] = cos
+        configuration["opt"] = {
+            "type": optimizer,
+            "thresh": str(settings["convergence"]),
+            "max_cycles": int(settings["max_cycles"]),
+            "dump": True,
+        }
+    elif action_id == "scan_reaction_coordinates":
+        coordinate_type = str(settings["coordinate_type"]).strip().lower()
+        primitive, expected_indices = {
+            "bond": ("BOND", 2),
+            "angle": ("BEND", 3),
+            "dihedral": ("PROPER_DIHEDRAL", 4),
+        }[coordinate_type]
+        indices = [int(value) for value in settings["atom_indices"]]
+        if len(indices) != expected_indices or len(indices) != len(set(indices)):
+            raise ValueError(
+                f"coordinate_type={coordinate_type} requires {expected_indices} unique atom_indices"
+            )
+        atom_count = len(input_structure.get("atoms") or [])
+        if any(index < 0 or index >= atom_count for index in indices):
+            raise ValueError("atom_indices contains an index outside the supplied structure")
+        value_unit = str(settings["value_unit"]).strip().lower()
+        start = float(settings["start_value"])
+        end = float(settings["end_value"])
+        if coordinate_type == "bond":
+            if value_unit != "angstrom":
+                raise ValueError("bond scans require value_unit=angstrom")
+            start *= 1.8897261254578281
+            end *= 1.8897261254578281
+        else:
+            if value_unit == "degree":
+                start = math.radians(start)
+                end = math.radians(end)
+            elif value_unit != "radian":
+                raise ValueError("angle/dihedral scans require value_unit=degree or radian")
+        steps = int(settings["steps"])
+        if steps < 1:
+            raise ValueError("steps must be positive")
+        opt: dict[str, Any] = {
+            "type": str(settings["optimizer"]),
+            "thresh": str(settings["convergence"]),
+            "max_cycles": int(settings["max_cycles"]),
+            "dump": True,
+        }
+        if str(settings["optimizer"]).lower() == "rfo":
+            opt["hessian_init"] = str(settings["hessian_init"])
+        configuration["scan"] = {
+            "type": primitive,
+            "indices": indices,
+            "start": start,
+            "end": end,
+            "steps": steps,
+            "symmetric": False,
+            "opt": opt,
+        }
     input_path = directory / "pysis.yaml"
     input_path.write_text(yaml.safe_dump(configuration, sort_keys=False), encoding="utf-8")
+    if (
+        action_id == "search_reaction_path"
+        and str(settings["path_method"]).strip().lower() == "freezing_string"
+    ):
+        return _pysisyphus_freezing_string(
+            directory=directory,
+            endpoint_paths=staged_inputs,
+            calculator=calculator,
+            charge=charge,
+            multiplicity=multiplicity,
+            settings=settings,
+            configuration=configuration,
+        )
     completed = run_external(
         executable="pysis",
         environment_variable="CHEMGRAPH_PYSIS_COMMAND",
@@ -186,7 +560,7 @@ def _pysisyphus(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
         raise RuntimeError(
             f"pysisyphus failed: {_pysisyphus_failure_detail(directory, completed['stderr'])}"
         )
-    xyz_outputs = [path for path in directory.rglob("*.xyz") if path != xyz]
+    xyz_outputs = [path for path in directory.rglob("*.xyz") if path not in staged_inputs]
     native_converged = bool(
         re.search(r"(?m)^\s*Converged!\s*$", completed["stdout"])
     ) and "Number of cycles exceeded!" not in completed["stdout"]
@@ -216,12 +590,114 @@ def _pysisyphus(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
                 "convergence criteria; the structure is retained only as an unvalidated "
                 "search endpoint and must not be described as a converged transition state."
             )
-    else:
+    elif action_id == "trace_intrinsic_reaction_coordinate":
         result = {
             "path_files": [relative_workspace_path(path) for path in xyz_outputs],
             "forward": bool(settings.get("forward", True)),
             "backward": bool(settings.get("backward", True)),
         }
+    elif action_id == "search_reaction_path":
+        path_candidates = [
+            directory / "final_geometries.trj",
+            directory / "current_geometries.trj",
+            directory / "interpolated.trj",
+        ]
+        path_file = next((path for path in path_candidates if path.is_file()), None)
+        frames = (
+            _parse_multixyz(path_file, charge=charge, multiplicity=multiplicity)
+            if path_file
+            else []
+        )
+        image_files = []
+        for index, frame in enumerate(frames):
+            image_path = write_xyz(frame, directory / f"path_image_{index:03d}.xyz")
+            image_files.append(relative_workspace_path(image_path))
+        energies = [frame.get("energy_hartree") for frame in frames]
+        numeric_energies = [value for value in energies if value is not None]
+        highest_index = (
+            max(range(len(energies)), key=lambda index: float(energies[index]))
+            if energies and len(numeric_energies) == len(energies)
+            else None
+        )
+        highest_interior_index = (
+            max(range(1, len(energies) - 1), key=lambda index: float(energies[index]))
+            if len(energies) >= 3 and len(numeric_energies) == len(energies)
+            else None
+        )
+        result = {
+            "path_file": relative_workspace_path(path_file) if path_file else None,
+            "image_files": image_files,
+            "image_count": len(image_files),
+            "energies_hartree": energies if numeric_energies else None,
+            "highest_energy_image_index": highest_index,
+            "highest_interior_energy_image_index": highest_interior_index,
+            "highest_energy_image": (
+                frames[highest_index] if highest_index is not None else None
+            ),
+            "highest_interior_energy_image": (
+                frames[highest_interior_index]
+                if highest_interior_index is not None
+                else None
+            ),
+            "converged": native_converged,
+            "endpoints_consumed": True,
+            "transition_state_validated": False,
+        }
+        if not image_files:
+            partial_warnings.append(
+                "pysisyphus completed without a parseable final/current chain-of-states trajectory."
+            )
+        elif not native_converged:
+            partial_warnings.append(
+                "The saved path did not satisfy the selected chain-of-states convergence criteria."
+            )
+    else:
+        data_path = directory / "relaxed_scan.dat"
+        trajectory_path = directory / "relaxed_scan.trj"
+        values: list[float] = []
+        energies: list[float] = []
+        if data_path.is_file():
+            for line in data_path.read_text(encoding="utf-8", errors="replace").splitlines():
+                parts = line.split()
+                if len(parts) >= 2:
+                    values.append(float(parts[0]))
+                    energies.append(float(parts[1]))
+        frames = (
+            _parse_multixyz(trajectory_path, charge=charge, multiplicity=multiplicity)
+            if trajectory_path.is_file()
+            else []
+        )
+        if str(settings["coordinate_type"]).lower() == "bond":
+            reported_values = [value / 1.8897261254578281 for value in values]
+            reported_unit = "angstrom"
+        elif str(settings["value_unit"]).lower() == "degree":
+            reported_values = [math.degrees(value) for value in values]
+            reported_unit = "degree"
+        else:
+            reported_values = values
+            reported_unit = "radian"
+        result = {
+            "coordinate_type": str(settings["coordinate_type"]).lower(),
+            "atom_indices": [int(value) for value in settings["atom_indices"]],
+            "coordinate_values": reported_values,
+            "coordinate_unit": reported_unit,
+            "energies_hartree": energies,
+            "structures": frames,
+            "trajectory_file": (
+                relative_workspace_path(trajectory_path) if trajectory_path.is_file() else None
+            ),
+            "data_file": relative_workspace_path(data_path) if data_path.is_file() else None,
+            "completed_points": len(values),
+            "requested_points": int(settings["steps"]) + 1,
+        }
+        native_converged = (
+            len(values) == int(settings["steps"]) + 1
+            and "did not converge. Breaking!" not in completed["stdout"]
+        )
+        if not native_converged:
+            partial_warnings.append(
+                "The relaxed scan did not complete every requested point with native convergence."
+            )
     artifacts = command_artifacts(directory)
     provenance = {
         "command": completed["command"],
@@ -235,7 +711,7 @@ def _pysisyphus(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
             ),
         },
     }
-    if action_id == "locate_transition_state":
+    if action_id in {"locate_transition_state", "search_reaction_path", "scan_reaction_coordinates"}:
         provenance["native_optimizer_convergence"] = {
             "converged": native_converged,
             "positive_marker": "Converged!" if native_converged else None,
@@ -247,6 +723,12 @@ def _pysisyphus(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
         and result.get("converged") is True
     ) or (
         action_id == "trace_intrinsic_reaction_coordinate" and bool(result.get("path_files"))
+    ) or (
+        action_id == "search_reaction_path"
+        and bool(result.get("image_files"))
+        and result.get("converged") is True
+    ) or (
+        action_id == "scan_reaction_coordinates" and native_converged
     )
     if not complete:
         return partial_success(
@@ -262,6 +744,276 @@ def _pysisyphus(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
         artifact_files=artifacts,
         backend_version=module_version("pysisyphus"),
         provenance=provenance,
+    )
+
+
+def _path_frames(value: Any) -> list[dict[str, Any]]:
+    item = unwrap_artifact(value)
+    if isinstance(item, dict) and isinstance(item.get("result"), dict):
+        item = item["result"]
+    candidates: Any = item
+    if isinstance(item, dict):
+        for key in ("structures", "images", "image_files", "path_files"):
+            if isinstance(item.get(key), list) and item[key]:
+                candidates = item[key]
+                break
+        else:
+            for key in ("path_file", "trajectory_file"):
+                if item.get(key):
+                    path = resolve_input_file(item[key])
+                    return _parse_multixyz(
+                        path,
+                        charge=int(item.get("charge", 0)),
+                        multiplicity=int(item.get("multiplicity", 1)),
+                    )
+    if not isinstance(candidates, list) or not candidates:
+        raise ValueError(
+            "path must contain a non-empty structures/images/image_files/path_files list "
+            "or one path_file/trajectory_file"
+        )
+    frames = []
+    for value in candidates:
+        try:
+            frames.append(structure_dict(value))
+        except (TypeError, ValueError):
+            path = resolve_input_file(value)
+            if path.suffix.lower() == ".trj":
+                frames.extend(_parse_multixyz(path, charge=0, multiplicity=1))
+            else:
+                frames.append(structure_dict(relative_workspace_path(path)))
+    if not frames:
+        raise ValueError("path contains no parseable structures")
+    return frames
+
+
+def _coordinates(structure: dict[str, Any]):
+    import numpy as np
+
+    return np.asarray(
+        [atom["position_angstrom"] for atom in structure.get("atoms") or []],
+        dtype=float,
+    )
+
+
+def _aligned_rmsd(first: dict[str, Any], second: dict[str, Any]) -> float:
+    import numpy as np
+
+    first_elements = [atom["element"] for atom in first.get("atoms") or []]
+    second_elements = [atom["element"] for atom in second.get("atoms") or []]
+    if first_elements != second_elements or not first_elements:
+        raise ValueError("RMSD comparison requires identical non-empty atom ordering")
+    a = _coordinates(first)
+    b = _coordinates(second)
+    a = a - a.mean(axis=0)
+    b = b - b.mean(axis=0)
+    u, _singular, vt = np.linalg.svd(a.T @ b)
+    correction = np.eye(3)
+    correction[-1, -1] = np.sign(np.linalg.det(u @ vt))
+    rotated = a @ u @ correction @ vt
+    return float(np.sqrt(np.mean(np.sum((rotated - b) ** 2, axis=1))))
+
+
+def _bond_change_records(value: Any) -> list[dict[str, Any]]:
+    item = unwrap_artifact(value) if value is not None else None
+    if item is None:
+        return []
+    records: list[dict[str, Any]] = []
+    if isinstance(item, dict):
+        for key, change_type in (
+            ("forming_bonds", "form"),
+            ("breaking_bonds", "break"),
+            ("retained_bonds_to_monitor", "monitor"),
+        ):
+            for pair in item.get(key) or []:
+                records.append({"type": change_type, "atom_indices": pair})
+        if records:
+            return records
+        item = item.get("bond_changes") or item.get("changes") or []
+    if not isinstance(item, list):
+        raise ValueError("bond_changes must be a list or a forming_bonds/breaking_bonds mapping")
+    for record in item:
+        if not isinstance(record, dict):
+            raise ValueError("each bond change must be a mapping")
+        pair = record.get("atom_indices") or record.get("atoms")
+        if pair is None and "atom1" in record and "atom2" in record:
+            pair = [record["atom1"], record["atom2"]]
+        change_type = str(record.get("type") or record.get("change") or "monitor").lower()
+        if change_type in {"forming", "formed"}:
+            change_type = "form"
+        if change_type in {"breaking", "broken"}:
+            change_type = "break"
+        records.append({"type": change_type, "atom_indices": pair})
+    return records
+
+
+def _bond_distance(structure: dict[str, Any], pair: Any) -> float:
+    if not isinstance(pair, (list, tuple)) or len(pair) != 2:
+        raise ValueError("bond atom_indices must contain exactly two indices")
+    first, second = (int(pair[0]), int(pair[1]))
+    atoms = structure.get("atoms") or []
+    if first == second or min(first, second) < 0 or max(first, second) >= len(atoms):
+        raise ValueError("bond atom_indices are outside the supplied path structures")
+    return math.dist(
+        atoms[first]["position_angstrom"], atoms[second]["position_angstrom"]
+    )
+
+
+def _validate_reaction_path(request: dict[str, Any]) -> dict[str, Any]:
+    inputs, _method, settings = request_parts(request)
+    frames = _path_frames(inputs["path"])
+    reactant = structure_dict(inputs["reactant"])
+    product = structure_dict(inputs["product"])
+    _assert_matching_endpoint_atoms(reactant, product)
+    endpoint_tolerance = float(settings["endpoint_rmsd_tolerance_angstrom"])
+    step_tolerance = float(settings["maximum_image_step_rmsd_angstrom"])
+    bond_tolerance = float(settings["bond_distance_tolerance_angstrom"])
+    if min(endpoint_tolerance, step_tolerance, bond_tolerance) <= 0:
+        raise ValueError("reaction-path validation tolerances must be positive")
+
+    expected_elements = [atom["element"] for atom in reactant["atoms"]]
+    atom_order_consistent = all(
+        [atom["element"] for atom in frame.get("atoms") or []] == expected_elements
+        for frame in frames
+    )
+    state_consistent = all(
+        int(frame.get("charge", reactant.get("charge", 0))) == int(reactant.get("charge", 0))
+        and int(frame.get("multiplicity", reactant.get("multiplicity", 1)))
+        == int(reactant.get("multiplicity", 1))
+        for frame in frames
+    )
+    endpoint_rmsd = {
+        "reactant_angstrom": _aligned_rmsd(frames[0], reactant),
+        "product_angstrom": _aligned_rmsd(frames[-1], product),
+    }
+    step_rmsd = [
+        _aligned_rmsd(first, second) for first, second in zip(frames, frames[1:])
+    ]
+    bond_progress = []
+    for change in _bond_change_records(inputs.get("bond_changes")):
+        distances = [_bond_distance(frame, change["atom_indices"]) for frame in frames]
+        if change["type"] == "form":
+            progress_ok = distances[-1] <= distances[0] - bond_tolerance
+        elif change["type"] == "break":
+            progress_ok = distances[-1] >= distances[0] + bond_tolerance
+        else:
+            progress_ok = True
+        bond_progress.append(
+            {
+                **change,
+                "distances_angstrom": distances,
+                "endpoint_progress_ok": progress_ok,
+            }
+        )
+    checks = {
+        "at_least_three_images": len(frames) >= 3,
+        "atom_order_consistent": atom_order_consistent,
+        "charge_and_multiplicity_consistent": state_consistent,
+        "reactant_endpoint_matches": endpoint_rmsd["reactant_angstrom"] <= endpoint_tolerance,
+        "product_endpoint_matches": endpoint_rmsd["product_angstrom"] <= endpoint_tolerance,
+        "image_steps_continuous": bool(step_rmsd) and max(step_rmsd) <= step_tolerance,
+        "bond_changes_progress": all(item["endpoint_progress_ok"] for item in bond_progress),
+    }
+    return success(
+        {
+            "valid": all(checks.values()),
+            "checks": checks,
+            "image_count": len(frames),
+            "endpoint_rmsd_angstrom": endpoint_rmsd,
+            "consecutive_image_rmsd_angstrom": step_rmsd,
+            "maximum_consecutive_image_rmsd_angstrom": max(step_rmsd) if step_rmsd else None,
+            "bond_progress": bond_progress,
+            "tolerances": {
+                "endpoint_rmsd_angstrom": endpoint_tolerance,
+                "maximum_image_step_rmsd_angstrom": step_tolerance,
+                "bond_distance_progress_angstrom": bond_tolerance,
+            },
+        }
+    )
+
+
+def _aligned_energies(value: Any) -> list[float]:
+    item = unwrap_artifact(value)
+    if isinstance(item, dict):
+        for key in ("energies", "energies_hartree", "values"):
+            if isinstance(item.get(key), list):
+                item = item[key]
+                break
+    if not isinstance(item, list):
+        raise ValueError("energies must be an aligned list or a mapping containing one")
+    values = [
+        float(record.get("value") if isinstance(record, dict) else record)
+        for record in item
+    ]
+    if not all(math.isfinite(value) for value in values):
+        raise ValueError("energies must contain only finite values")
+    return values
+
+
+def _analyze_reaction_coordinate(request: dict[str, Any]) -> dict[str, Any]:
+    inputs, _method, settings = request_parts(request)
+    frames = _path_frames(inputs["path"])
+    energies = _aligned_energies(inputs["energies"])
+    if len(frames) != len(energies):
+        raise ValueError("energies must contain exactly one value per path image")
+    unit = str(settings["energy_unit"]).strip().lower()
+    kcal_factor = {
+        "hartree": 627.5094740631,
+        "kj/mol": 1.0 / 4.184,
+        "kcal/mol": 1.0,
+        "ev": 23.0605478306,
+    }[unit]
+    minimum = min(energies)
+    relative_input_unit = [value - minimum for value in energies]
+    relative_kcal = [value * kcal_factor for value in relative_input_unit]
+    step_rmsd = [
+        _aligned_rmsd(first, second) for first, second in zip(frames, frames[1:])
+    ]
+    cumulative = [0.0]
+    for value in step_rmsd:
+        cumulative.append(cumulative[-1] + value)
+    total = cumulative[-1]
+    normalized = [value / total for value in cumulative] if total > 0 else [0.0] * len(frames)
+    maxima = [
+        index
+        for index in range(1, len(energies) - 1)
+        if energies[index] >= energies[index - 1] and energies[index] >= energies[index + 1]
+    ]
+    minima = [
+        index
+        for index in range(1, len(energies) - 1)
+        if energies[index] <= energies[index - 1] and energies[index] <= energies[index + 1]
+    ]
+    highest = max(range(len(energies)), key=energies.__getitem__)
+    bond_profiles = []
+    for change in _bond_change_records(inputs.get("bond_changes")):
+        bond_profiles.append(
+            {
+                **change,
+                "distances_angstrom": [
+                    _bond_distance(frame, change["atom_indices"]) for frame in frames
+                ],
+            }
+        )
+    return success(
+        {
+            "image_count": len(frames),
+            "reaction_coordinate": normalized,
+            "cumulative_aligned_rmsd_angstrom": cumulative,
+            "energies": energies,
+            "energy_unit": unit,
+            "relative_energies": relative_input_unit,
+            "relative_energies_kcal_mol": relative_kcal,
+            "highest_energy_image_index": highest,
+            "highest_energy_relative_kcal_mol": relative_kcal[highest],
+            "interior_local_maxima_indices": maxima,
+            "interior_local_minima_indices": minima,
+            "bond_distance_profiles": bond_profiles,
+            "transition_state_validated": False,
+            "validation_note": (
+                "A highest path image is only a candidate; validate with a TS optimization, "
+                "one-imaginary-frequency Hessian, and endpoint-connected IRC."
+            ),
+        }
     )
 
 
@@ -1181,6 +1933,11 @@ def execute(action_id: str, backend_id: str, request: dict[str, Any]) -> dict[st
         return execute_sella(action_id, request)
     if backend_id == "pysisyphus":
         return _pysisyphus(action_id, request)
+    if backend_id == "internal_reaction_analysis":
+        if action_id == "validate_reaction_path":
+            return _validate_reaction_path(request)
+        if action_id == "analyze_reaction_coordinate":
+            return _analyze_reaction_coordinate(request)
     if action_id == "calculate_chemical_equilibrium" and backend_id == "cantera":
         return _cantera_equilibrium(request)
     if action_id == "integrate_reaction_network":

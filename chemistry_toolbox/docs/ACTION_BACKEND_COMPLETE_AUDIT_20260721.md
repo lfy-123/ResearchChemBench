@@ -1,6 +1,6 @@
 # ResearchChemBench Action–Backend 全组合测试与软件接入审计
 
-> 生成时间：`2026-07-21T18:09:25.964513+00:00`。
+> 生成时间：`2026-07-23T17:02:45.321771+00:00`。
 > 本报告合并 2026-07-20 已有证据与本轮 65 个补测组合的真实统一分发调用；已测试组合不会重复运行。
 > 另合并 GoodVibes 4.3.0 的 7 个真实 smoke，覆盖新增/升级的 6 个 Actions。
 > 11个原失败组合的代码修复、现场复测及PubChem出口诊断见 [`ACTION_BACKEND_REPAIR_REPORT_20260721.md`](ACTION_BACKEND_REPAIR_REPORT_20260721.md)。
@@ -9,18 +9,18 @@
 
 | 指标 | 结果 |
 |---|---:|
-| 公开 Actions | 106 |
-| BackendSpecs | 76 |
-| Catalog Action–Backend 组合 | 241 |
-| 有成功证据的组合 | **236** |
+| 公开 Actions | 111 |
+| BackendSpecs | 77 |
+| Catalog Action–Backend 组合 | 246 |
+| 有成功证据的组合 | **241** |
 | 仅有失败证据的组合 | **5** |
 | 尚未测试组合 | **0** |
 | 本轮补测 | 65/65 通过，0 失败 |
 | GoodVibes 4.3.0 专项 | 7/7 通过，覆盖 6/6 Actions |
-| 至少有一个成功 Action 的 Backend | 76/76 |
+| 至少有一个成功 Action 的 Backend | 77/77 |
 | 当前无任何成功证据的 Backend | — |
 
-结论：**241/241 个声明组合都有真实调用证据；236 个通过，5 个仍有问题。** 当前包含 0 个本地适配问题和 5 个远端数据服务问题。
+结论：**246/246 个声明组合都有真实调用证据；241 个通过，5 个仍有问题。** 当前包含 0 个本地适配问题和 5 个远端数据服务问题。
 
 ## 2. 本轮补测结果
 
@@ -68,107 +68,112 @@
 | 7 | `cluster_conformers` | 结构、构象、电荷与体系构建 | ✅ `rdkit` |
 | 8 | `align_molecular_structures` | 结构、构象、电荷与体系构建 | ✅ `rdkit` |
 | 9 | `rank_conformers_from_results` | 结构、构象、电荷与体系构建 | ✅ `internal_statistics` |
-| 10 | `repair_biomolecular_structure` | 结构、构象、电荷与体系构建 | ✅ `pdbfixer` |
-| 11 | `select_structure_subset` | 结构、构象、电荷与体系构建 | ✅ `pdb_tools` |
-| 12 | `renumber_biomolecular_structure` | 结构、构象、电荷与体系构建 | ✅ `pdb_tools` |
-| 13 | `normalize_pdb_records` | 结构、构象、电荷与体系构建 | ✅ `pdb_tools` |
-| 14 | `assign_protonation_states` | 结构、构象、电荷与体系构建 | ✅ `rdkit`<br>✅ `pdbfixer` |
-| 15 | `assign_partial_charges` | 结构、构象、电荷与体系构建 | ✅ `rdkit_gasteiger`<br>✅ `openff_am1bcc` |
-| 16 | `assign_force_field_parameters` | 结构、构象、电荷与体系构建 | ✅ `openff`<br>✅ `openmm_builder` |
-| 17 | `solvate_molecular_system` | 结构、构象、电荷与体系构建 | ✅ `openmm_builder`<br>✅ `packmol` |
-| 18 | `analyze_crystal_symmetry` | 结构、构象、电荷与体系构建 | ✅ `spglib`<br>✅ `pymatgen` |
-| 19 | `standardize_crystal_structure` | 结构、构象、电荷与体系构建 | ✅ `spglib`<br>✅ `pymatgen` |
-| 20 | `build_supercell` | 结构、构象、电荷与体系构建 | ✅ `pymatgen` |
-| 21 | `enumerate_surface_slabs` | 结构、构象、电荷与体系构建 | ✅ `pymatgen` |
-| 22 | `calculate_molecular_descriptors` | 化学信息学与分子图操作 | ✅ `rdkit` |
-| 23 | `calculate_molecular_fingerprint` | 化学信息学与分子图操作 | ✅ `rdkit` |
-| 24 | `calculate_molecular_similarity` | 化学信息学与分子图操作 | ✅ `rdkit` |
-| 25 | `search_local_substructures` | 化学信息学与分子图操作 | ✅ `rdkit` |
-| 26 | `enumerate_tautomers` | 化学信息学与分子图操作 | ✅ `rdkit` |
-| 27 | `enumerate_stereoisomers` | 化学信息学与分子图操作 | ✅ `rdkit` |
-| 28 | `calculate_energy` | 分子电子结构与派生性质 | ✅ `xtb`<br>✅ `pyscf`<br>✅ `psi4`<br>✅ `tblite`<br>✅ `gpaw`<br>✅ `nwchem`<br>✅ `openmolcas`<br>✅ `mace`<br>✅ `chgnet`<br>✅ `deepmd`<br>✅ `orca`<br>✅ `gaussian`<br>✅ `gamess`<br>✅ `ase_emt` |
-| 29 | `calculate_forces` | 分子电子结构与派生性质 | ✅ `xtb`<br>✅ `pyscf`<br>✅ `tblite`<br>✅ `gpaw`<br>✅ `nwchem`<br>✅ `orca`<br>✅ `mace`<br>✅ `chgnet`<br>✅ `deepmd`<br>✅ `ase_emt` |
-| 30 | `calculate_hessian` | 分子电子结构与派生性质 | ✅ `xtb`<br>✅ `pyscf`<br>✅ `psi4`<br>✅ `tblite`<br>✅ `nwchem`<br>✅ `orca`<br>✅ `gaussian`<br>✅ `mace`<br>✅ `chgnet`<br>✅ `deepmd`<br>✅ `ase_emt` |
-| 31 | `optimize_geometry` | 分子电子结构与派生性质 | ✅ `xtb`<br>✅ `tblite`<br>✅ `gpaw`<br>✅ `mace`<br>✅ `chgnet`<br>✅ `deepmd`<br>✅ `orca`<br>✅ `gaussian`<br>✅ `gamess`<br>✅ `ase_emt`<br>✅ `geometric`<br>✅ `sella` |
-| 32 | `calculate_dipole_moment` | 分子电子结构与派生性质 | ✅ `xtb`<br>✅ `tblite`<br>✅ `pyscf`<br>✅ `psi4`<br>✅ `nwchem`<br>✅ `openmolcas`<br>✅ `orca`<br>✅ `gaussian`<br>✅ `gamess` |
-| 33 | `calculate_atomic_charges` | 分子电子结构与派生性质 | ✅ `xtb`<br>✅ `pyscf`<br>✅ `psi4`<br>✅ `nwchem`<br>✅ `openmolcas`<br>✅ `multiwfn`<br>✅ `orca` |
-| 34 | `calculate_orbitals` | 分子电子结构与派生性质 | ✅ `pyscf`<br>✅ `psi4`<br>✅ `openmolcas`<br>✅ `orca` |
-| 35 | `calculate_bond_orders` | 分子电子结构与派生性质 | ✅ `xtb`<br>✅ `multiwfn`<br>✅ `orca` |
-| 36 | `calculate_excited_states` | 分子电子结构与派生性质 | ✅ `pyscf`<br>✅ `orca` |
-| 37 | `analyze_electron_density_topology` | 分子电子结构与派生性质 | ✅ `critic2` |
-| 38 | `calculate_atomic_basin_properties` | 分子电子结构与派生性质 | ✅ `critic2` |
-| 39 | `calculate_bader_charges` | 分子电子结构与派生性质 | ✅ `critic2` |
-| 40 | `derive_vibrational_modes` | 分子电子结构与派生性质 | ✅ `internal_vibrations` |
-| 41 | `derive_ir_spectrum` | 分子电子结构与派生性质 | ✅ `internal_spectroscopy` |
-| 42 | `derive_uv_vis_spectrum` | 分子电子结构与派生性质 | ✅ `internal_spectroscopy` |
-| 43 | `derive_thermochemistry` | 分子电子结构与派生性质 | ✅ `internal_thermochemistry`<br>✅ `goodvibes` |
-| 44 | `scan_thermochemistry_temperature` | 分子电子结构与派生性质 | ✅ `goodvibes` |
-| 45 | `analyze_thermochemical_ensemble` | 分子电子结构与派生性质 | ✅ `goodvibes` |
-| 46 | `validate_thermochemistry_inputs` | 分子电子结构与派生性质 | ✅ `goodvibes` |
-| 47 | `locate_transition_state` | 反应路径、平衡与动力学 | ✅ `pysisyphus`<br>✅ `sella` |
-| 48 | `trace_intrinsic_reaction_coordinate` | 反应路径、平衡与动力学 | ✅ `pysisyphus` |
-| 49 | `calculate_chemical_equilibrium` | 反应路径、平衡与动力学 | ✅ `cantera` |
-| 50 | `integrate_reaction_network` | 反应路径、平衡与动力学 | ✅ `scipy`<br>✅ `cantera` |
-| 51 | `calculate_rate_constants` | 反应路径、平衡与动力学 | ✅ `rmg` |
-| 52 | `calculate_tunneling_correction` | 反应路径、平衡与动力学 | ✅ `rmg` |
-| 53 | `solve_master_equation` | 反应路径、平衡与动力学 | ✅ `mess`<br>✅ `mesmer` |
-| 54 | `solve_microkinetic_model` | 反应路径、平衡与动力学 | ✅ `catmap` |
-| 55 | `analyze_thermochemical_selectivity` | 反应路径、平衡与动力学 | ✅ `goodvibes` |
-| 56 | `analyze_reaction_free_energy_profile` | 反应路径、平衡与动力学 | ✅ `goodvibes` |
-| 57 | `minimize_system_energy` | 分子动力学、轨迹与自由能 | ✅ `openmm`<br>✅ `gromacs`<br>✅ `lammps`<br>✅ `hoomd`<br>✅ `namd`<br>✅ `amber_pmemd`<br>✅ `charmm` |
-| 58 | `calculate_force_field_energy` | 分子动力学、轨迹与自由能 | ✅ `openmm`<br>✅ `hoomd` |
-| 59 | `calculate_force_field_forces` | 分子动力学、轨迹与自由能 | ✅ `openmm`<br>✅ `hoomd` |
-| 60 | `decompose_force_field_energy` | 分子动力学、轨迹与自由能 | ✅ `openmm` |
-| 61 | `propagate_dynamics` | 分子动力学、轨迹与自由能 | ✅ `openmm`<br>✅ `gromacs`<br>✅ `lammps`<br>✅ `hoomd`<br>✅ `namd`<br>✅ `amber_pmemd`<br>✅ `charmm` |
-| 62 | `calculate_trajectory_rmsd` | 分子动力学、轨迹与自由能 | ✅ `mdanalysis`<br>✅ `mdtraj` |
-| 63 | `calculate_radius_of_gyration` | 分子动力学、轨迹与自由能 | ✅ `mdanalysis`<br>✅ `mdtraj` |
-| 64 | `calculate_radial_distribution` | 分子动力学、轨迹与自由能 | ✅ `mdanalysis` |
-| 65 | `calculate_mean_squared_displacement` | 分子动力学、轨迹与自由能 | ✅ `mdanalysis` |
-| 66 | `calculate_contacts` | 分子动力学、轨迹与自由能 | ✅ `mdtraj` |
-| 67 | `calculate_solvent_accessible_surface` | 分子动力学、轨迹与自由能 | ✅ `mdtraj` |
-| 68 | `calculate_dihedral_distribution` | 分子动力学、轨迹与自由能 | ✅ `mdtraj`<br>✅ `mdanalysis` |
-| 69 | `calculate_hydrogen_bonds` | 分子动力学、轨迹与自由能 | ✅ `mdanalysis` |
-| 70 | `calculate_principal_components` | 分子动力学、轨迹与自由能 | ✅ `mdanalysis` |
-| 71 | `calculate_dynamic_cross_correlation` | 分子动力学、轨迹与自由能 | ✅ `mdanalysis` |
-| 72 | `assign_secondary_structure` | 分子动力学、轨迹与自由能 | ✅ `mdtraj` |
-| 73 | `cluster_trajectory` | 分子动力学、轨迹与自由能 | ✅ `mdtraj` |
-| 74 | `evaluate_collective_variables` | 分子动力学、轨迹与自由能 | ✅ `plumed` |
-| 75 | `estimate_free_energy_difference` | 分子动力学、轨迹与自由能 | ✅ `pymbar` |
-| 76 | `estimate_thermodynamic_expectations` | 分子动力学、轨迹与自由能 | ✅ `pymbar` |
-| 77 | `calculate_potential_of_mean_force` | 分子动力学、轨迹与自由能 | ✅ `pymbar` |
-| 78 | `analyze_free_energy_convergence` | 分子动力学、轨迹与自由能 | ✅ `pymbar` |
-| 79 | `parse_alchemical_energy_data` | 分子动力学、轨迹与自由能 | ✅ `alchemlyb` |
-| 80 | `calculate_periodic_energy` | 周期电子结构、声子与热输运 | ✅ `quantum_espresso`<br>✅ `cp2k`<br>✅ `siesta`<br>✅ `dftbplus`<br>✅ `abinit`<br>✅ `vasp`<br>✅ `gpaw`<br>✅ `nequip`<br>✅ `allegro`<br>✅ `deepmd` |
-| 81 | `calculate_periodic_forces` | 周期电子结构、声子与热输运 | ✅ `quantum_espresso`<br>✅ `cp2k`<br>✅ `siesta`<br>✅ `dftbplus`<br>✅ `abinit`<br>✅ `vasp`<br>✅ `gpaw`<br>✅ `nequip`<br>✅ `allegro`<br>✅ `deepmd` |
-| 82 | `calculate_periodic_stress` | 周期电子结构、声子与热输运 | ✅ `quantum_espresso`<br>✅ `cp2k`<br>✅ `abinit`<br>✅ `vasp`<br>✅ `gpaw`<br>✅ `nequip`<br>✅ `allegro`<br>✅ `deepmd` |
-| 83 | `relax_periodic_structure` | 周期电子结构、声子与热输运 | ✅ `quantum_espresso`<br>✅ `cp2k`<br>✅ `siesta`<br>✅ `dftbplus`<br>✅ `abinit`<br>✅ `vasp`<br>✅ `gpaw`<br>✅ `nequip`<br>✅ `allegro`<br>✅ `deepmd` |
-| 84 | `calculate_electronic_band_structure` | 周期电子结构、声子与热输运 | ✅ `gpaw` |
-| 85 | `calculate_density_of_states` | 周期电子结构、声子与热输运 | ✅ `gpaw` |
-| 86 | `calculate_projected_density_of_states` | 周期电子结构、声子与热输运 | ✅ `gpaw`<br>✅ `lobster` |
-| 87 | `analyze_periodic_bonding` | 周期电子结构、声子与热输运 | ✅ `lobster` |
-| 88 | `calculate_charge_spilling` | 周期电子结构、声子与热输运 | ✅ `lobster` |
-| 89 | `generate_displaced_supercells` | 周期电子结构、声子与热输运 | ✅ `phonopy`<br>✅ `phono3py` |
-| 90 | `assemble_force_constants` | 周期电子结构、声子与热输运 | ✅ `phonopy`<br>✅ `phono3py` |
-| 91 | `calculate_phonon_dispersion` | 周期电子结构、声子与热输运 | ✅ `phonopy`<br>✅ `phono3py` |
-| 92 | `calculate_phonon_density_of_states` | 周期电子结构、声子与热输运 | ✅ `phonopy`<br>✅ `phono3py` |
-| 93 | `calculate_harmonic_thermodynamics` | 周期电子结构、声子与热输运 | ✅ `phonopy`<br>✅ `phono3py` |
-| 94 | `calculate_phonon_group_velocities` | 周期电子结构、声子与热输运 | ✅ `phonopy`<br>✅ `phono3py` |
-| 95 | `calculate_lattice_thermal_conductivity` | 周期电子结构、声子与热输运 | ✅ `phono3py`<br>✅ `shengbte` |
-| 96 | `dock_ligand` | 分子对接 | ✅ `vina`<br>✅ `gnina` |
-| 97 | `search_compounds` | 外部化学数据源 | ✅ `pubchem` |
-| 98 | `resolve_chemical_identity` | 外部化学数据源 | ❌ `pubchem` |
-| 99 | `retrieve_compound_properties` | 外部化学数据源 | ❌ `pubchem` |
-| 100 | `retrieve_compound_structure` | 外部化学数据源 | ❌ `pubchem` |
-| 101 | `search_similar_compounds` | 外部化学数据源 | ❌ `pubchem` |
-| 102 | `search_substructures` | 外部化学数据源 | ❌ `pubchem` |
-| 103 | `search_protein_structures` | 外部化学数据源 | ✅ `rcsb_pdb` |
-| 104 | `search_materials` | 外部化学数据源 | ✅ `materials_project` |
-| 105 | `search_catalysis_records` | 外部化学数据源 | ✅ `catalysis_hub` |
-| 106 | `lookup_nist_webbook_species` | 外部化学数据源 | ✅ `nist_webbook` |
+| 10 | `enumerate_coordination_isomers` | 结构、构象、电荷与体系构建 | ✅ `internal_reaction_analysis` |
+| 11 | `repair_biomolecular_structure` | 结构、构象、电荷与体系构建 | ✅ `pdbfixer` |
+| 12 | `select_structure_subset` | 结构、构象、电荷与体系构建 | ✅ `pdb_tools` |
+| 13 | `renumber_biomolecular_structure` | 结构、构象、电荷与体系构建 | ✅ `pdb_tools` |
+| 14 | `normalize_pdb_records` | 结构、构象、电荷与体系构建 | ✅ `pdb_tools` |
+| 15 | `assign_protonation_states` | 结构、构象、电荷与体系构建 | ✅ `rdkit`<br>✅ `pdbfixer` |
+| 16 | `assign_partial_charges` | 结构、构象、电荷与体系构建 | ✅ `rdkit_gasteiger`<br>✅ `openff_am1bcc` |
+| 17 | `assign_force_field_parameters` | 结构、构象、电荷与体系构建 | ✅ `openff`<br>✅ `openmm_builder` |
+| 18 | `solvate_molecular_system` | 结构、构象、电荷与体系构建 | ✅ `openmm_builder`<br>✅ `packmol` |
+| 19 | `analyze_crystal_symmetry` | 结构、构象、电荷与体系构建 | ✅ `spglib`<br>✅ `pymatgen` |
+| 20 | `standardize_crystal_structure` | 结构、构象、电荷与体系构建 | ✅ `spglib`<br>✅ `pymatgen` |
+| 21 | `build_supercell` | 结构、构象、电荷与体系构建 | ✅ `pymatgen` |
+| 22 | `enumerate_surface_slabs` | 结构、构象、电荷与体系构建 | ✅ `pymatgen` |
+| 23 | `calculate_molecular_descriptors` | 化学信息学与分子图操作 | ✅ `rdkit` |
+| 24 | `calculate_molecular_fingerprint` | 化学信息学与分子图操作 | ✅ `rdkit` |
+| 25 | `calculate_molecular_similarity` | 化学信息学与分子图操作 | ✅ `rdkit` |
+| 26 | `search_local_substructures` | 化学信息学与分子图操作 | ✅ `rdkit` |
+| 27 | `enumerate_tautomers` | 化学信息学与分子图操作 | ✅ `rdkit` |
+| 28 | `enumerate_stereoisomers` | 化学信息学与分子图操作 | ✅ `rdkit` |
+| 29 | `calculate_energy` | 分子电子结构与派生性质 | ✅ `xtb`<br>✅ `pyscf`<br>✅ `psi4`<br>✅ `tblite`<br>✅ `gpaw`<br>✅ `nwchem`<br>✅ `openmolcas`<br>✅ `mace`<br>✅ `chgnet`<br>✅ `deepmd`<br>✅ `orca`<br>✅ `gaussian`<br>✅ `gamess`<br>✅ `ase_emt` |
+| 30 | `calculate_forces` | 分子电子结构与派生性质 | ✅ `xtb`<br>✅ `pyscf`<br>✅ `tblite`<br>✅ `gpaw`<br>✅ `nwchem`<br>✅ `orca`<br>✅ `mace`<br>✅ `chgnet`<br>✅ `deepmd`<br>✅ `ase_emt` |
+| 31 | `calculate_hessian` | 分子电子结构与派生性质 | ✅ `xtb`<br>✅ `pyscf`<br>✅ `psi4`<br>✅ `tblite`<br>✅ `nwchem`<br>✅ `orca`<br>✅ `gaussian`<br>✅ `mace`<br>✅ `chgnet`<br>✅ `deepmd`<br>✅ `ase_emt` |
+| 32 | `optimize_geometry` | 分子电子结构与派生性质 | ✅ `xtb`<br>✅ `tblite`<br>✅ `gpaw`<br>✅ `mace`<br>✅ `chgnet`<br>✅ `deepmd`<br>✅ `orca`<br>✅ `gaussian`<br>✅ `gamess`<br>✅ `ase_emt`<br>✅ `geometric`<br>✅ `sella` |
+| 33 | `calculate_dipole_moment` | 分子电子结构与派生性质 | ✅ `xtb`<br>✅ `tblite`<br>✅ `pyscf`<br>✅ `psi4`<br>✅ `nwchem`<br>✅ `openmolcas`<br>✅ `orca`<br>✅ `gaussian`<br>✅ `gamess` |
+| 34 | `calculate_atomic_charges` | 分子电子结构与派生性质 | ✅ `xtb`<br>✅ `pyscf`<br>✅ `psi4`<br>✅ `nwchem`<br>✅ `openmolcas`<br>✅ `multiwfn`<br>✅ `orca` |
+| 35 | `calculate_orbitals` | 分子电子结构与派生性质 | ✅ `pyscf`<br>✅ `psi4`<br>✅ `openmolcas`<br>✅ `orca` |
+| 36 | `calculate_bond_orders` | 分子电子结构与派生性质 | ✅ `xtb`<br>✅ `multiwfn`<br>✅ `orca` |
+| 37 | `calculate_excited_states` | 分子电子结构与派生性质 | ✅ `pyscf`<br>✅ `orca` |
+| 38 | `analyze_electron_density_topology` | 分子电子结构与派生性质 | ✅ `critic2` |
+| 39 | `calculate_atomic_basin_properties` | 分子电子结构与派生性质 | ✅ `critic2` |
+| 40 | `calculate_bader_charges` | 分子电子结构与派生性质 | ✅ `critic2` |
+| 41 | `derive_vibrational_modes` | 分子电子结构与派生性质 | ✅ `internal_vibrations` |
+| 42 | `derive_ir_spectrum` | 分子电子结构与派生性质 | ✅ `internal_spectroscopy` |
+| 43 | `derive_uv_vis_spectrum` | 分子电子结构与派生性质 | ✅ `internal_spectroscopy` |
+| 44 | `derive_thermochemistry` | 分子电子结构与派生性质 | ✅ `internal_thermochemistry`<br>✅ `goodvibes` |
+| 45 | `scan_thermochemistry_temperature` | 分子电子结构与派生性质 | ✅ `goodvibes` |
+| 46 | `analyze_thermochemical_ensemble` | 分子电子结构与派生性质 | ✅ `goodvibes` |
+| 47 | `validate_thermochemistry_inputs` | 分子电子结构与派生性质 | ✅ `goodvibes` |
+| 48 | `locate_transition_state` | 反应路径、平衡与动力学 | ✅ `pysisyphus`<br>✅ `sella` |
+| 49 | `search_reaction_path` | 反应路径、平衡与动力学 | ✅ `pysisyphus` |
+| 50 | `scan_reaction_coordinates` | 反应路径、平衡与动力学 | ✅ `pysisyphus` |
+| 51 | `validate_reaction_path` | 反应路径、平衡与动力学 | ✅ `internal_reaction_analysis` |
+| 52 | `analyze_reaction_coordinate` | 反应路径、平衡与动力学 | ✅ `internal_reaction_analysis` |
+| 53 | `trace_intrinsic_reaction_coordinate` | 反应路径、平衡与动力学 | ✅ `pysisyphus` |
+| 54 | `calculate_chemical_equilibrium` | 反应路径、平衡与动力学 | ✅ `cantera` |
+| 55 | `integrate_reaction_network` | 反应路径、平衡与动力学 | ✅ `scipy`<br>✅ `cantera` |
+| 56 | `calculate_rate_constants` | 反应路径、平衡与动力学 | ✅ `rmg` |
+| 57 | `calculate_tunneling_correction` | 反应路径、平衡与动力学 | ✅ `rmg` |
+| 58 | `solve_master_equation` | 反应路径、平衡与动力学 | ✅ `mess`<br>✅ `mesmer` |
+| 59 | `solve_microkinetic_model` | 反应路径、平衡与动力学 | ✅ `catmap` |
+| 60 | `analyze_thermochemical_selectivity` | 反应路径、平衡与动力学 | ✅ `goodvibes` |
+| 61 | `analyze_reaction_free_energy_profile` | 反应路径、平衡与动力学 | ✅ `goodvibes` |
+| 62 | `minimize_system_energy` | 分子动力学、轨迹与自由能 | ✅ `openmm`<br>✅ `gromacs`<br>✅ `lammps`<br>✅ `hoomd`<br>✅ `namd`<br>✅ `amber_pmemd`<br>✅ `charmm` |
+| 63 | `calculate_force_field_energy` | 分子动力学、轨迹与自由能 | ✅ `openmm`<br>✅ `hoomd` |
+| 64 | `calculate_force_field_forces` | 分子动力学、轨迹与自由能 | ✅ `openmm`<br>✅ `hoomd` |
+| 65 | `decompose_force_field_energy` | 分子动力学、轨迹与自由能 | ✅ `openmm` |
+| 66 | `propagate_dynamics` | 分子动力学、轨迹与自由能 | ✅ `openmm`<br>✅ `gromacs`<br>✅ `lammps`<br>✅ `hoomd`<br>✅ `namd`<br>✅ `amber_pmemd`<br>✅ `charmm` |
+| 67 | `calculate_trajectory_rmsd` | 分子动力学、轨迹与自由能 | ✅ `mdanalysis`<br>✅ `mdtraj` |
+| 68 | `calculate_radius_of_gyration` | 分子动力学、轨迹与自由能 | ✅ `mdanalysis`<br>✅ `mdtraj` |
+| 69 | `calculate_radial_distribution` | 分子动力学、轨迹与自由能 | ✅ `mdanalysis` |
+| 70 | `calculate_mean_squared_displacement` | 分子动力学、轨迹与自由能 | ✅ `mdanalysis` |
+| 71 | `calculate_contacts` | 分子动力学、轨迹与自由能 | ✅ `mdtraj` |
+| 72 | `calculate_solvent_accessible_surface` | 分子动力学、轨迹与自由能 | ✅ `mdtraj` |
+| 73 | `calculate_dihedral_distribution` | 分子动力学、轨迹与自由能 | ✅ `mdtraj`<br>✅ `mdanalysis` |
+| 74 | `calculate_hydrogen_bonds` | 分子动力学、轨迹与自由能 | ✅ `mdanalysis` |
+| 75 | `calculate_principal_components` | 分子动力学、轨迹与自由能 | ✅ `mdanalysis` |
+| 76 | `calculate_dynamic_cross_correlation` | 分子动力学、轨迹与自由能 | ✅ `mdanalysis` |
+| 77 | `assign_secondary_structure` | 分子动力学、轨迹与自由能 | ✅ `mdtraj` |
+| 78 | `cluster_trajectory` | 分子动力学、轨迹与自由能 | ✅ `mdtraj` |
+| 79 | `evaluate_collective_variables` | 分子动力学、轨迹与自由能 | ✅ `plumed` |
+| 80 | `estimate_free_energy_difference` | 分子动力学、轨迹与自由能 | ✅ `pymbar` |
+| 81 | `estimate_thermodynamic_expectations` | 分子动力学、轨迹与自由能 | ✅ `pymbar` |
+| 82 | `calculate_potential_of_mean_force` | 分子动力学、轨迹与自由能 | ✅ `pymbar` |
+| 83 | `analyze_free_energy_convergence` | 分子动力学、轨迹与自由能 | ✅ `pymbar` |
+| 84 | `parse_alchemical_energy_data` | 分子动力学、轨迹与自由能 | ✅ `alchemlyb` |
+| 85 | `calculate_periodic_energy` | 周期电子结构、声子与热输运 | ✅ `quantum_espresso`<br>✅ `cp2k`<br>✅ `siesta`<br>✅ `dftbplus`<br>✅ `abinit`<br>✅ `vasp`<br>✅ `gpaw`<br>✅ `nequip`<br>✅ `allegro`<br>✅ `deepmd` |
+| 86 | `calculate_periodic_forces` | 周期电子结构、声子与热输运 | ✅ `quantum_espresso`<br>✅ `cp2k`<br>✅ `siesta`<br>✅ `dftbplus`<br>✅ `abinit`<br>✅ `vasp`<br>✅ `gpaw`<br>✅ `nequip`<br>✅ `allegro`<br>✅ `deepmd` |
+| 87 | `calculate_periodic_stress` | 周期电子结构、声子与热输运 | ✅ `quantum_espresso`<br>✅ `cp2k`<br>✅ `abinit`<br>✅ `vasp`<br>✅ `gpaw`<br>✅ `nequip`<br>✅ `allegro`<br>✅ `deepmd` |
+| 88 | `relax_periodic_structure` | 周期电子结构、声子与热输运 | ✅ `quantum_espresso`<br>✅ `cp2k`<br>✅ `siesta`<br>✅ `dftbplus`<br>✅ `abinit`<br>✅ `vasp`<br>✅ `gpaw`<br>✅ `nequip`<br>✅ `allegro`<br>✅ `deepmd` |
+| 89 | `calculate_electronic_band_structure` | 周期电子结构、声子与热输运 | ✅ `gpaw` |
+| 90 | `calculate_density_of_states` | 周期电子结构、声子与热输运 | ✅ `gpaw` |
+| 91 | `calculate_projected_density_of_states` | 周期电子结构、声子与热输运 | ✅ `gpaw`<br>✅ `lobster` |
+| 92 | `analyze_periodic_bonding` | 周期电子结构、声子与热输运 | ✅ `lobster` |
+| 93 | `calculate_charge_spilling` | 周期电子结构、声子与热输运 | ✅ `lobster` |
+| 94 | `generate_displaced_supercells` | 周期电子结构、声子与热输运 | ✅ `phonopy`<br>✅ `phono3py` |
+| 95 | `assemble_force_constants` | 周期电子结构、声子与热输运 | ✅ `phonopy`<br>✅ `phono3py` |
+| 96 | `calculate_phonon_dispersion` | 周期电子结构、声子与热输运 | ✅ `phonopy`<br>✅ `phono3py` |
+| 97 | `calculate_phonon_density_of_states` | 周期电子结构、声子与热输运 | ✅ `phonopy`<br>✅ `phono3py` |
+| 98 | `calculate_harmonic_thermodynamics` | 周期电子结构、声子与热输运 | ✅ `phonopy`<br>✅ `phono3py` |
+| 99 | `calculate_phonon_group_velocities` | 周期电子结构、声子与热输运 | ✅ `phonopy`<br>✅ `phono3py` |
+| 100 | `calculate_lattice_thermal_conductivity` | 周期电子结构、声子与热输运 | ✅ `phono3py`<br>✅ `shengbte` |
+| 101 | `dock_ligand` | 分子对接 | ✅ `vina`<br>✅ `gnina` |
+| 102 | `search_compounds` | 外部化学数据源 | ✅ `pubchem` |
+| 103 | `resolve_chemical_identity` | 外部化学数据源 | ❌ `pubchem` |
+| 104 | `retrieve_compound_properties` | 外部化学数据源 | ❌ `pubchem` |
+| 105 | `retrieve_compound_structure` | 外部化学数据源 | ❌ `pubchem` |
+| 106 | `search_similar_compounds` | 外部化学数据源 | ❌ `pubchem` |
+| 107 | `search_substructures` | 外部化学数据源 | ❌ `pubchem` |
+| 108 | `search_protein_structures` | 外部化学数据源 | ✅ `rcsb_pdb` |
+| 109 | `search_materials` | 外部化学数据源 | ✅ `materials_project` |
+| 110 | `search_catalysis_records` | 外部化学数据源 | ✅ `catalysis_hub` |
+| 111 | `lookup_nist_webbook_species` | 外部化学数据源 | ✅ `nist_webbook` |
 
 ## 5. 当前作为 Backend 使用的软件、程序库和数据接口
 
-共注册 **76 个 BackendSpecs**；其中 75 个由外部程序、Python库或在线接口支撑，`internal_statistics` 是纯内部确定性实现。一个软件可对应多个 BackendSpec（例如 RDKit）。
+共注册 **77 个 BackendSpecs**；其中 75 个由外部程序、Python库或在线接口支撑，`internal_statistics` 是纯内部确定性实现。一个软件可对应多个 BackendSpec（例如 RDKit）。
 
 | Backend ID | 软件/实现 | Runtime | 可执行文件/模块 | Action数 | 全组合结果 |
 |---|---|---|---|---:|---|
@@ -179,6 +184,7 @@
 | `rdkit_etkdg` | RDKit ETKDG | `core` | `rdkit` | 1 | ✅ 1/1 |
 | `crest` | CREST | `reaction` | `crest` | 1 | ✅ 1/1 |
 | `internal_statistics` | ResearchChem deterministic statistics | `core` | — | 1 | ✅ 1/1 |
+| `internal_reaction_analysis` | ResearchChem reaction/coordination analysis | `core` | — | 3 | ✅ 3/3 |
 | `pdbfixer` | PDBFixer | `md` | `pdbfixer`, `openmm` | 2 | ✅ 2/2 |
 | `pdb_tools` | pdb-tools | `core` | `pdb_selchain`, `pdb_reres`, `pdb_tidy`, `pdbtools` | 3 | ✅ 3/3 |
 | `rdkit_gasteiger` | RDKit Gasteiger charges | `core` | `rdkit` | 1 | ✅ 1/1 |
@@ -213,7 +219,7 @@
 | `goodvibes` | GoodVibes | `goodvibes` | `goodvibes`, `goodvibes` | 6 | ✅ 6/6 |
 | `geometric` | geomeTRIC | `nwchem` | `geometric`, `numpy` | 1 | ✅ 1/1 |
 | `sella` | Sella | `sella` | `sella`, `ase`, `numpy` | 2 | ✅ 2/2 |
-| `pysisyphus` | pysisyphus | `reaction` | `pysis`, `pysisyphus` | 2 | ✅ 2/2 |
+| `pysisyphus` | pysisyphus | `reaction` | `pysis`, `pysisyphus` | 4 | ✅ 4/4 |
 | `cantera` | Cantera | `reaction` | `cantera` | 2 | ✅ 2/2 |
 | `scipy` | SciPy | `reaction` | `scipy` | 1 | ✅ 1/1 |
 | `rmg` | RMG-Py | `rmg` | `rmg.py`, `rmgpy` | 2 | ✅ 2/2 |
@@ -303,13 +309,13 @@
 2. **优先排查 PubChem 出口状态。** 当前响应明确显示 `Retry-After: 30` 和 `too many requests per second or blacklisted`；需检查共享 NAT/代理出口，代码不得伪造成功或隐藏切换数据源。
 3. **在线韧性代码已落地。** PubChem/Catalysis-Hub 使用有界重试、Retry-After、跨 worker PubChem 限速和 `retryable` 错误语义；Catalysis-Hub 已现场恢复成功。
 4. **为每个 Backend capability 保留一个小型真实 smoke。** 将原65个矩阵用例和7个 GoodVibes 用例长期纳入夜间/发布前矩阵，不必每次跑昂贵全量体系。
-5. **PubChem解除阻塞后重跑六个网络用例。** 目标是 `successful_action_backend_pairs=241`、`failed=0`、`unobserved=0`。
+5. **PubChem解除阻塞后重跑六个网络用例。** 目标是 `successful_action_backend_pairs=246`、`failed=0`、`unobserved=0`。
 
 ## 9. 收尾校验
 
-- MCP Catalog 校验：`ok: 106 actions, 76 backends, full exposure, agent-required backend selection, no fallback`。
+- MCP Catalog 校验：`ok: 111 actions, 77 backends, full exposure, agent-required backend selection, no fallback`。
 - 完整测试集：`186 passed in 413.69s`。
-- 矩阵审计测试会验证65个补测用例与 Catalog 一致，并验证241个组合被成功集与失败集完整划分。
+- 矩阵审计测试会验证65个补测用例与 Catalog 一致，并验证246个组合被成功集与失败集完整划分。
 - 修复涉及脚本和 Backend 模块的 `py_compile` 均通过。
 
 ## 10. 复现命令

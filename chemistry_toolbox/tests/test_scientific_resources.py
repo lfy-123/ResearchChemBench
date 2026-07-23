@@ -309,7 +309,7 @@ def test_orca_input_exposes_typed_smd_solvent():
         {"cpu_cores": 1},
     )
     assert "! wB97X-D3 def2-SVP SP CPCM" in text
-    assert '%cpcm\n  smd true\n  solvent "Ethanol"\nend' in text
+    assert '%cpcm\n  smd true\n  SMDsolvent "Ethanol"\nend' in text
 
 
 def test_orca_optimization_reads_final_xyz_not_first_trajectory_frame(

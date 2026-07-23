@@ -1,17 +1,17 @@
 {
-  "generated_at": "2026-07-21T18:07:19.875337+00:00",
+  "generated_at": "2026-07-23T17:02:45.149396+00:00",
   "pytest_exit_code": null,
   "summary": {
-    "action_count": 106,
-    "runtime_success_actions": 101,
+    "action_count": 111,
+    "runtime_success_actions": 106,
     "failure_only_actions": 5,
     "not_observed_actions": 0,
-    "action_backend_pair_count": 241,
-    "successful_action_backend_pairs": 236,
+    "action_backend_pair_count": 246,
+    "successful_action_backend_pairs": 241,
     "failed_action_backend_pairs": 5,
     "unobserved_action_backend_pairs": 0,
-    "backend_count": 76,
-    "backends_with_runtime_success_evidence": 76,
+    "backend_count": 77,
+    "backends_with_runtime_success_evidence": 77,
     "backends_without_runtime_success_evidence": 0
   },
   "actions": [
@@ -122,8 +122,7 @@
       ],
       "failed_backends": [],
       "evidence_sources": [
-        "pytest_dynamic",
-        "toolbox_smoke"
+        "pytest_dynamic"
       ],
       "observations": [
         {
@@ -132,14 +131,6 @@
           "status": "success",
           "source": "pytest_dynamic",
           "elapsed_seconds": 2.195297,
-          "detail": null
-        },
-        {
-          "action": "standardize_structure",
-          "backend": "rdkit",
-          "status": "success",
-          "source": "toolbox_smoke",
-          "elapsed_seconds": null,
           "detail": null
         }
       ]
@@ -162,8 +153,7 @@
       "failed_backends": [],
       "evidence_sources": [
         "backend_gap_smoke",
-        "pytest_dynamic",
-        "toolbox_smoke"
+        "pytest_dynamic"
       ],
       "observations": [
         {
@@ -180,14 +170,6 @@
           "status": "success",
           "source": "backend_gap_smoke",
           "elapsed_seconds": 1.818821,
-          "detail": null
-        },
-        {
-          "action": "generate_3d_structure",
-          "backend": "rdkit",
-          "status": "success",
-          "source": "toolbox_smoke",
-          "elapsed_seconds": null,
           "detail": null
         }
       ]
@@ -319,6 +301,34 @@
           "status": "success",
           "source": "pytest_dynamic",
           "elapsed_seconds": 1.455889,
+          "detail": null
+        }
+      ]
+    },
+    {
+      "action": "enumerate_coordination_isomers",
+      "category": "structure_and_system",
+      "description": "Enumerate symmetry-distinct ligand-to-site assignments for an explicitly selected coordination geometry without inventing coordinates or ranking their energies.",
+      "primary_output": "CoordinationIsomerAssignments",
+      "selection_policy": "internal_deterministic",
+      "catalog_backends": [
+        "internal_reaction_analysis"
+      ],
+      "status": "runtime_success",
+      "successful_backends": [
+        "internal_reaction_analysis"
+      ],
+      "failed_backends": [],
+      "evidence_sources": [
+        "heterobiaryl_reaction_action_smoke"
+      ],
+      "observations": [
+        {
+          "action": "enumerate_coordination_isomers",
+          "backend": "internal_reaction_analysis",
+          "status": "success",
+          "source": "heterobiaryl_reaction_action_smoke",
+          "elapsed_seconds": null,
           "detail": null
         }
       ]
@@ -938,8 +948,7 @@
         "action_backend_matrix_smoke",
         "backend_gap_smoke",
         "pytest_dynamic",
-        "scientific_resource_smoke",
-        "toolbox_smoke"
+        "scientific_resource_smoke"
       ],
       "observations": [
         {
@@ -1100,14 +1109,6 @@
           "status": "success",
           "source": "scientific_resource_smoke",
           "elapsed_seconds": 12.583282,
-          "detail": null
-        },
-        {
-          "action": "calculate_energy",
-          "backend": "ase_emt",
-          "status": "success",
-          "source": "toolbox_smoke",
-          "elapsed_seconds": null,
           "detail": null
         }
       ]
@@ -2230,6 +2231,118 @@
           "status": "success",
           "source": "action_backend_matrix_smoke",
           "elapsed_seconds": 48.814346,
+          "detail": null
+        }
+      ]
+    },
+    {
+      "action": "search_reaction_path",
+      "category": "reaction_and_kinetics",
+      "description": "Run an explicitly selected double-ended chain-of-states search between supplied reactant and product structures without asserting that the highest image is a validated transition state.",
+      "primary_output": "ReactionPath",
+      "selection_policy": "agent_backend_required",
+      "catalog_backends": [
+        "pysisyphus"
+      ],
+      "status": "runtime_success",
+      "successful_backends": [
+        "pysisyphus"
+      ],
+      "failed_backends": [],
+      "evidence_sources": [
+        "heterobiaryl_reaction_action_smoke"
+      ],
+      "observations": [
+        {
+          "action": "search_reaction_path",
+          "backend": "pysisyphus",
+          "status": "success",
+          "source": "heterobiaryl_reaction_action_smoke",
+          "elapsed_seconds": null,
+          "detail": null
+        }
+      ]
+    },
+    {
+      "action": "scan_reaction_coordinates",
+      "category": "reaction_and_kinetics",
+      "description": "Run one relaxed one-dimensional internal-coordinate scan from a supplied structure using explicit coordinate, range, optimizer, and calculator settings.",
+      "primary_output": "ReactionCoordinateScan",
+      "selection_policy": "agent_backend_required",
+      "catalog_backends": [
+        "pysisyphus"
+      ],
+      "status": "runtime_success",
+      "successful_backends": [
+        "pysisyphus"
+      ],
+      "failed_backends": [],
+      "evidence_sources": [
+        "heterobiaryl_reaction_action_smoke"
+      ],
+      "observations": [
+        {
+          "action": "scan_reaction_coordinates",
+          "backend": "pysisyphus",
+          "status": "success",
+          "source": "heterobiaryl_reaction_action_smoke",
+          "elapsed_seconds": null,
+          "detail": null
+        }
+      ]
+    },
+    {
+      "action": "validate_reaction_path",
+      "category": "reaction_and_kinetics",
+      "description": "Check atom/state consistency, endpoint agreement, image continuity, and optional bond-change progress for an already calculated reaction path.",
+      "primary_output": "ReactionPathValidationResult",
+      "selection_policy": "internal_deterministic",
+      "catalog_backends": [
+        "internal_reaction_analysis"
+      ],
+      "status": "runtime_success",
+      "successful_backends": [
+        "internal_reaction_analysis"
+      ],
+      "failed_backends": [],
+      "evidence_sources": [
+        "heterobiaryl_reaction_action_smoke"
+      ],
+      "observations": [
+        {
+          "action": "validate_reaction_path",
+          "backend": "internal_reaction_analysis",
+          "status": "success",
+          "source": "heterobiaryl_reaction_action_smoke",
+          "elapsed_seconds": null,
+          "detail": null
+        }
+      ]
+    },
+    {
+      "action": "analyze_reaction_coordinate",
+      "category": "reaction_and_kinetics",
+      "description": "Convert supplied path images and aligned electronic energies into a normalized reaction-coordinate profile with relative energies and highest-image candidates.",
+      "primary_output": "ReactionCoordinateAnalysisResult",
+      "selection_policy": "internal_deterministic",
+      "catalog_backends": [
+        "internal_reaction_analysis"
+      ],
+      "status": "runtime_success",
+      "successful_backends": [
+        "internal_reaction_analysis"
+      ],
+      "failed_backends": [],
+      "evidence_sources": [
+        "heterobiaryl_reaction_action_smoke"
+      ],
+      "observations": [
+        {
+          "action": "analyze_reaction_coordinate",
+          "backend": "internal_reaction_analysis",
+          "status": "success",
+          "source": "heterobiaryl_reaction_action_smoke",
+          "elapsed_seconds": null,
           "detail": null
         }
       ]
@@ -4624,6 +4737,10 @@
       "lobster"
     ],
     [
+      "analyze_reaction_coordinate",
+      "internal_reaction_analysis"
+    ],
+    [
       "analyze_reaction_free_energy_profile",
       "goodvibes"
     ],
@@ -5232,6 +5349,10 @@
       "vina"
     ],
     [
+      "enumerate_coordination_isomers",
+      "internal_reaction_analysis"
+    ],
+    [
       "enumerate_stereoisomers",
       "rdkit"
     ],
@@ -5472,6 +5593,10 @@
       "pdbfixer"
     ],
     [
+      "scan_reaction_coordinates",
+      "pysisyphus"
+    ],
+    [
       "scan_thermochemistry_temperature",
       "goodvibes"
     ],
@@ -5494,6 +5619,10 @@
     [
       "search_protein_structures",
       "rcsb_pdb"
+    ],
+    [
+      "search_reaction_path",
+      "pysisyphus"
     ],
     [
       "select_structure_subset",
@@ -5538,6 +5667,10 @@
     [
       "validate_qcschema_record",
       "qcelemental"
+    ],
+    [
+      "validate_reaction_path",
+      "internal_reaction_analysis"
     ],
     [
       "validate_thermochemistry_inputs",

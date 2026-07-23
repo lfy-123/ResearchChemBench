@@ -122,17 +122,46 @@
       "raw_instrument_files": 0
     },
     "published_reference_is_hidden_comparison_only": true,
-    "input_manifest_sha256": "af9ea78d5808e9c1acde1c41b07f6a39dd9d05ba208a96f80328f7eccf0b9961",
+    "input_manifest_sha256": "dd92bc7885d2f8ae5de2905ef1a3687ef03a1b1c8467e086db27cbfa4e66c538",
     "task_mode": "guided_reproduction",
     "method_protocol_public": true,
     "mapped_candidate_routes_public": true
   },
   "current_toolbox_reproduction_baseline": {
-    "status": "pending_post_repair_baseline",
+    "assessment_date": "2026-07-23",
+    "status": "assessed_post_repair",
+    "classification": "partially_solvable",
+    "major_paper_conclusion_reproduced_in_this_audit": false,
+    "evidence_level": "real_backend_smokes_and_action_validation_without_a_complete_PV_paper_level_profile",
     "software_family": [
-      "Gaussian 16",
+      "Gaussian 16 C.01",
       "ORCA 6.1.1",
-      "GoodVibes 4.3"
+      "GoodVibes 4.3",
+      "pysisyphus 1.0.0",
+      "xTB"
+    ],
+    "verified_shared_capabilities": [
+      "native Gaussian execution is installed for optimization, frequencies, transition-state searches, and IRC jobs",
+      "ORCA SMD input generation was repaired and a real SMD-ethanol calculation terminated normally",
+      "ORCA accepted 2, 4, 8, 16, 32, and 48 CPU cores in real calculations with consistent energies",
+      "real pysisyphus/xTB NEB, growing-string, freezing-string, and relaxed-scan calculations produced saved paths",
+      "reaction-path validation, reaction-coordinate analysis, and coordination-isomer enumeration are available as deterministic Actions",
+      "GoodVibes thermochemistry Actions have existing successful real-software smoke evidence",
+      "Agent-authored managed programs may call the installed native software when a typed Action is not sufficiently expressive"
+    ],
+    "resource_guidance": {
+      "server_logical_cpu_cores": 54,
+      "toolbox_per_job_cpu_core_cap": 48,
+      "observed_small_ORCA_HF_sweet_spot_cores": 32,
+      "recommendation": "Benchmark 24-32 cores first for large molecular jobs; use up to 48 only after method- and system-specific scaling evidence, and reserve cores for the operating system and monitoring."
+    },
+    "actual_run_evidence_root": "docs/check/heterobiaryl_toolbox_repair",
+    "capability_if_protocol_is_disclosed": "computational_downstream_test_supported_but_the_full_kinetic_assignment_remains_evidence_limited",
+    "supported_scope": "The toolbox can regress the supplied relative-rate series, recompute a P2 ligand-coupling path, and integrate reported product/NMR/ethoxide observations with explicit limitations.",
+    "unresolved_requirements": [
+      "The public package contains reported measurements but no time-resolved kinetic traces, raw NMR FIDs, or uncertainty-bearing primary rate data.",
+      "It also lacks a fully specified alcohol-addition reaction system/path, so an independent comparison of every candidate rate-controlling elementary step is not currently defined.",
+      "A downstream P2 coupling profile was not completed at the paper level in this audit; the rate-, selectivity-, and irreversibility assignments therefore remain partial rather than fully reproduced."
     ],
     "temperature_kelvin": 353.15,
     "standard_state_mol_l": 1.0

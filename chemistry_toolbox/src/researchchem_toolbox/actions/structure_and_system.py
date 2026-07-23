@@ -63,6 +63,17 @@ ACTION_SPECS = (
             selection_policy="internal_deterministic",
         ),
     _action(
+            "enumerate_coordination_isomers",
+            "structure_and_system",
+            "Enumerate symmetry-distinct ligand-to-site assignments for an explicitly selected coordination geometry without inventing coordinates or ranking their energies.",
+            "CoordinationIsomerAssignments",
+            ("internal_reaction_analysis",),
+            ("structure", "coordination_center_index", "ligand_anchor_indices"),
+            ("ligand_labels",),
+            input_description="one fixed structure, zero-based center/anchor indices, and optional labels identifying chemically equivalent ligands",
+            selection_policy="internal_deterministic",
+        ),
+    _action(
             "repair_biomolecular_structure",
             "structure_and_system",
             "Repair missing biomolecular residues or atoms without choosing protonation, force field, solvent, or dynamics settings.",

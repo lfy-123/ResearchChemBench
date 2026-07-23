@@ -2357,7 +2357,7 @@ def _render_orca(
             solvation_lines = [
                 "%cpcm",
                 "  smd true",
-                f'  solvent "{solvent}"',
+                f'  SMDsolvent "{solvent}"',
                 "end",
             ]
     charge = int(method.get("charge", structure.get("charge", 0)))

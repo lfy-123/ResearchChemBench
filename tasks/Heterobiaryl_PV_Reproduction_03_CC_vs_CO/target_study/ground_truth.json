@@ -118,17 +118,46 @@
       "raw_instrument_files": 0
     },
     "published_reference_is_hidden_comparison_only": true,
-    "input_manifest_sha256": "495a777a9a7c7313459ee970900a556c57a721c163a84cf8a53ad79131b749b1",
+    "input_manifest_sha256": "8418cdf0c8508be1f4f85116454b642f05912736f8d4ef51c527fd3bd958b73a",
     "task_mode": "guided_reproduction",
     "method_protocol_public": true,
     "mapped_candidate_routes_public": true
   },
   "current_toolbox_reproduction_baseline": {
-    "status": "pending_post_repair_baseline",
+    "assessment_date": "2026-07-23",
+    "status": "assessed_post_repair",
+    "classification": "partially_solvable",
+    "major_paper_conclusion_reproduced_in_this_audit": false,
+    "evidence_level": "real_backend_smokes_and_action_validation_without_a_complete_PV_paper_level_profile",
     "software_family": [
-      "Gaussian 16",
+      "Gaussian 16 C.01",
       "ORCA 6.1.1",
-      "GoodVibes 4.3"
+      "GoodVibes 4.3",
+      "pysisyphus 1.0.0",
+      "xTB"
+    ],
+    "verified_shared_capabilities": [
+      "native Gaussian execution is installed for optimization, frequencies, transition-state searches, and IRC jobs",
+      "ORCA SMD input generation was repaired and a real SMD-ethanol calculation terminated normally",
+      "ORCA accepted 2, 4, 8, 16, 32, and 48 CPU cores in real calculations with consistent energies",
+      "real pysisyphus/xTB NEB, growing-string, freezing-string, and relaxed-scan calculations produced saved paths",
+      "reaction-path validation, reaction-coordinate analysis, and coordination-isomer enumeration are available as deterministic Actions",
+      "GoodVibes thermochemistry Actions have existing successful real-software smoke evidence",
+      "Agent-authored managed programs may call the installed native software when a typed Action is not sufficiently expressive"
+    ],
+    "resource_guidance": {
+      "server_logical_cpu_cores": 54,
+      "toolbox_per_job_cpu_core_cap": 48,
+      "observed_small_ORCA_HF_sweet_spot_cores": 32,
+      "recommendation": "Benchmark 24-32 cores first for large molecular jobs; use up to 48 only after method- and system-specific scaling evidence, and reserve cores for the operating system and monitoring."
+    },
+    "actual_run_evidence_root": "docs/check/heterobiaryl_toolbox_repair",
+    "capability_if_protocol_is_disclosed": "supported_in_principle_with_endpoint_generation_and_transition_state_work",
+    "supported_scope": "Mapped C-C and C-O bond changes, double-ended path search, relaxed scans, native TS/IRC, ORCA refinement, and thermochemistry are available.",
+    "unresolved_requirements": [
+      "The public input deliberately contains no author product or transition-state coordinates; the C-O product/endpoints must be generated from the supplied bond edit.",
+      "No first-order C-O saddle or bidirectional connectivity was established for the P2 system in this audit.",
+      "A same-condition quantitative C-C versus C-O barrier difference has not been recomputed."
     ],
     "temperature_kelvin": 353.15,
     "standard_state_mol_l": 1.0

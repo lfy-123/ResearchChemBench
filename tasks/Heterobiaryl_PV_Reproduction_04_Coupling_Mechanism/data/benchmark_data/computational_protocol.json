@@ -42,7 +42,10 @@
       "cc-pVTZ"
     ],
     "target_combination": "cc-pV(DT)Z extrapolation",
-    "solvation": "use the paper-consistent solvent treatment recorded in the generated input and output",
+    "solvation_model": "SMD",
+    "solvent": "Ethanol",
+    "reference_orca_route": "! CPCM DLPNO-CCSD(T) Extrapolate(2/3,cc) RIJCOSX GRIDX5 TightSCF KDIIS; %cpcm smd true; solvent Ethanol",
+    "version_compatibility_note": "Translate the ORCA 4 route to valid ORCA 6.1.1 syntax while preserving SMD ethanol, DLPNO-CCSD(T), cc-pVDZ/cc-pVTZ 2/3 extrapolation, SCF tightness, and common settings across paths.",
     "require_same_settings_across_competing_paths": true
   },
   "thermochemistry": {
@@ -51,9 +54,14 @@
     "temperature_kelvin": 353.15,
     "standard_state": "1 mol/L solution",
     "solvent": "Ethanol",
+    "quasi_harmonic_entropy_model": "Grimme",
+    "quasi_harmonic_cutoff_wavenumber_cm-1": 100.0,
+    "small_imaginary_frequency_inversion_threshold_cm-1": -5.0,
+    "single_point_suffix": "DLPNO",
+    "paper_related_example_command": "goodvibes *.log --spc DLPNO --pes <profile.yaml> -t 353.15 --imag --invertifreq -5 --media ethanol -c 1",
     "requirements": [
       "record low-frequency and quasi-harmonic settings",
-      "record frequency and zero-point scale factors",
+      "record frequency and zero-point scale factors; the accessible paper text and public example do not uniquely recover a paper-era scale factor, so do not invent one",
       "combine thermal corrections with explicitly matched high-level single-point outputs",
       "keep paper-published values separate from values recomputed with the deployed versions"
     ]

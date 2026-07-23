@@ -1,0 +1,99 @@
+{
+  "assessment_date": "2026-07-23",
+  "scope_warning": "These are real software calls used to validate repaired capabilities. They are not a completed reproduction of the Heterobiaryl P(V) paper-level free-energy surface.",
+  "workspace": "docs/check/heterobiaryl_toolbox_repair",
+  "orca_smd_smoke": {
+    "action": "calculate_energy",
+    "backend": "orca",
+    "input": "water, charge 0, multiplicity 1",
+    "method": "HF/STO-3G, SMD ethanol",
+    "cpu_cores": 1,
+    "status": "success",
+    "energy_hartree": -74.970047221478,
+    "orca_runtime_seconds": 1.446,
+    "artifact_directory": "outputs/calculate_energy/orca/cecbcb1038a9"
+  },
+  "orca_p2_cpu_scaling": {
+    "action": "calculate_energy",
+    "backend": "orca",
+    "input": "50-atom P2 unoptimized seed, charge +2, multiplicity 1",
+    "method": "HF/STO-3G gas-phase single point",
+    "status": "success_at_all_tested_core_counts",
+    "runs": [
+      {"cpu_cores": 2, "energy_hartree": -1391.202666095757, "orca_runtime_seconds": 27.879, "artifact_directory": "outputs/calculate_energy/orca/77df17dcc621"},
+      {"cpu_cores": 4, "energy_hartree": -1391.202666095753, "orca_runtime_seconds": 15.679, "artifact_directory": "outputs/calculate_energy/orca/6eceb7f4b2f2"},
+      {"cpu_cores": 8, "energy_hartree": -1391.202666095754, "orca_runtime_seconds": 9.404, "artifact_directory": "outputs/calculate_energy/orca/4a9326c8ab7f"},
+      {"cpu_cores": 16, "energy_hartree": -1391.202666095758, "orca_runtime_seconds": 6.337, "artifact_directory": "outputs/calculate_energy/orca/04a013d91943"},
+      {"cpu_cores": 32, "energy_hartree": -1391.202666095754, "orca_runtime_seconds": 5.873, "artifact_directory": "outputs/calculate_energy/orca/b9e1d7e33206"},
+      {"cpu_cores": 48, "energy_hartree": -1391.202666095755, "orca_runtime_seconds": 6.052, "artifact_directory": "outputs/calculate_energy/orca/18a25b2639a9"}
+    ],
+    "interpretation": "The 48-core limit works, but 32 cores was marginally faster for this small HF case. Correlated calculations require their own scaling check."
+  },
+  "pysisyphus_paths": [
+    {
+      "action": "search_reaction_path",
+      "backend": "pysisyphus",
+      "path_method": "neb",
+      "calculator": "GFN2-xTB with ALPB ethanol",
+      "cpu_cores": 2,
+      "status": "success",
+      "image_count": 5,
+      "energies_hartree": [-5.07876652, -5.07891425, -5.07845491, -5.07741232, -5.07579647],
+      "artifact_directory": "outputs/search_reaction_path/pysisyphus/c8ee56f76ada"
+    },
+    {
+      "action": "search_reaction_path",
+      "backend": "pysisyphus",
+      "path_method": "growing_string",
+      "calculator": "GFN2-xTB",
+      "cpu_cores": 2,
+      "status": "success_after_requiring_optimizer_string",
+      "image_count": 6,
+      "energies_hartree": [-5.07036982, -5.07054317, -5.070349, -5.06981808, -5.06895202, -5.06730538],
+      "artifact_directory": "outputs/search_reaction_path/pysisyphus/c6536c4de783"
+    },
+    {
+      "action": "search_reaction_path",
+      "backend": "pysisyphus",
+      "path_method": "freezing_string",
+      "calculator": "GFN2-xTB",
+      "cpu_cores": 2,
+      "status": "partial_success_requires_transition_state_refinement",
+      "image_count": 6,
+      "fully_grown": true,
+      "final_maximum_frontier_force_hartree_per_bohr": 0.011256417438195207,
+      "energies_hartree": [-5.07036982, -5.07053699, -5.07035878, -5.06985459, -5.0688662, -5.06730538],
+      "artifact_directory": "outputs/search_reaction_path/pysisyphus/80d5c6c5c073"
+    }
+  ],
+  "pysisyphus_relaxed_scan": {
+    "action": "scan_reaction_coordinates",
+    "backend": "pysisyphus",
+    "calculator": "GFN2-xTB",
+    "coordinate": "water O-H bond, 0.95 to 1.05 angstrom",
+    "status": "success",
+    "coordinate_values_angstrom": [0.95, 1.05],
+    "energies_hartree": [-5.07046982861, -5.06498790355],
+    "artifact_directory": "outputs/scan_reaction_coordinates/pysisyphus/37593c2d5ee0"
+  },
+  "internal_action_smokes": [
+    {
+      "action": "enumerate_coordination_isomers",
+      "backend": "internal_reaction_analysis",
+      "status": "success",
+      "result": "five symmetry-distinct trigonal-bipyramidal site assignments for ligand labels OMe/Ph/Ph/PyH/PyH; no coordinates or energies invented"
+    },
+    {
+      "action": "validate_reaction_path",
+      "backend": "internal_reaction_analysis",
+      "status": "success",
+      "result": "synthetic three-image path passed atom/state, endpoint, continuity, and bond-change checks"
+    },
+    {
+      "action": "analyze_reaction_coordinate",
+      "backend": "internal_reaction_analysis",
+      "status": "success",
+      "result": "highest-energy image identified from aligned structures and supplied energies without claiming a validated transition state"
+    }
+  ]
+}

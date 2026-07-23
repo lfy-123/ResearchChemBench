@@ -181,7 +181,15 @@ def test_heterobiaryl_dual_track_tasks_use_complete_100_point_rubrics():
         assert truth["score_max"] == 100
         assert sum(item["max_score"] for item in truth["scoring_rubric"]) == 100
         assert truth["reference_evidence"]["task_mode"] == "guided_reproduction"
-        assert truth["current_toolbox_reproduction_baseline"]["status"] == "pending_post_repair_baseline"
+        baseline = truth["current_toolbox_reproduction_baseline"]
+        assert baseline["status"] == "assessed_post_repair"
+        assert baseline["classification"] in {
+            "solvable",
+            "partially_solvable",
+            "not_solvable",
+        }
+        assert baseline["major_paper_conclusion_reproduced_in_this_audit"] is False
+        assert baseline["unresolved_requirements"]
         data_root = TASKS_DIR / task_id / "data" / "benchmark_data"
         protocol_path = data_root / "computational_protocol.json"
         paths_path = data_root / "reaction_definitions.json"

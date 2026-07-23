@@ -31,6 +31,10 @@ from researchchem_toolbox.service import execute_action
 
 DEFAULT_OUTPUT = TOOLBOX_ROOT / "config" / "action_test_coverage.json"
 EXTERNAL_REPORTS = (
+    (
+        TOOLBOX_ROOT / "config" / "heterobiaryl_reaction_action_smoke_status.json",
+        "heterobiaryl_reaction_action_smoke",
+    ),
     (TOOLBOX_ROOT / "config" / "goodvibes_action_smoke_status.json", "goodvibes_action_smoke"),
     (TOOLBOX_ROOT / "config" / "action_backend_matrix_smoke_status.json", "action_backend_matrix_smoke"),
     (TOOLBOX_ROOT / "config" / "action_gap_smoke_status.json", "action_gap_smoke"),
@@ -90,14 +94,20 @@ def _merge_external_reports(records: list[dict[str, Any]]) -> None:
             )
 
 
-def _reuse_previous_pytest(records: list[dict[str, Any]], path: Path) -> None:
+def _reuse_previous_observations(records: list[dict[str, Any]], path: Path) -> None:
+    """Retain recorded execution evidence when a source report is later rotated.
+
+    Some expensive/manual smoke runs are preserved only in the generated coverage
+    checkpoint after their original aggregate status file is refreshed.  Keeping
+    all prior observations makes this audit idempotent instead of silently turning
+    previously tested catalog pairs back into ``unobserved``.
+    """
     if not path.is_file():
         return
     payload = json.loads(path.read_text(encoding="utf-8"))
     for action in payload.get("actions") or []:
         for item in action.get("observations") or []:
-            if item.get("source") == "pytest_dynamic":
-                records.append(dict(item))
+            records.append(dict(item))
 
 
 def _run_pytest(records: list[dict[str, Any]], pytest_args: list[str]) -> int:
@@ -138,6 +148,15 @@ def _run_pytest(records: list[dict[str, Any]], pytest_args: list[str]) -> int:
 
 
 def _summary(records: list[dict[str, Any]], pytest_exit_code: int | None) -> dict[str, Any]:
+    deduplicated: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    for item in records:
+        key = json.dumps(item, ensure_ascii=False, sort_keys=True)
+        if key not in seen:
+            seen.add(key)
+            deduplicated.append(item)
+    records = deduplicated
+
     observations: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for item in records:
         observations[item["action"]].append(item)
@@ -232,7 +251,7 @@ def main() -> int:
     if args.run_pytest:
         pytest_exit_code = _run_pytest(records, args.pytest_args or ["-q"])
     else:
-        _reuse_previous_pytest(records, args.output)
+        _reuse_previous_observations(records, args.output)
     _merge_external_reports(records)
     payload = _summary(records, pytest_exit_code)
     args.output.write_text(

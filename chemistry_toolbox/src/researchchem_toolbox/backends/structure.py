@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import itertools
 import math
 from pathlib import Path
 from typing import Any
@@ -34,6 +35,7 @@ ACTIONS = {
     "build_supercell", "enumerate_surface_slabs",
     "select_structure_subset", "renumber_biomolecular_structure",
     "normalize_pdb_records",
+    "enumerate_coordination_isomers",
 }
 
 
@@ -665,6 +667,87 @@ def _rank(request: dict[str, Any]) -> dict[str, Any]:
     return success({"ensemble": records, "temperature_kelvin": temperature, "weighting": "boltzmann"})
 
 
+def _enumerate_coordination_isomers(request: dict[str, Any]) -> dict[str, Any]:
+    inputs, _method, settings = request_parts(request)
+    structure = structure_dict(inputs["structure"])
+    atom_count = len(structure.get("atoms") or [])
+    center = int(inputs["coordination_center_index"])
+    anchors = [int(value) for value in inputs["ligand_anchor_indices"]]
+    if center < 0 or center >= atom_count:
+        raise ValueError("coordination_center_index is outside the supplied structure")
+    if len(anchors) != len(set(anchors)) or center in anchors:
+        raise ValueError("ligand_anchor_indices must be unique and exclude the coordination center")
+    if any(index < 0 or index >= atom_count for index in anchors):
+        raise ValueError("ligand_anchor_indices contains an index outside the supplied structure")
+
+    geometry = str(settings["coordination_geometry"]).strip().lower()
+    group_definition = {
+        "trigonal_bipyramidal": (5, "axial", 2, "equatorial"),
+        "square_pyramidal": (5, "apical", 1, "basal"),
+        "octahedral": (6, "axial", 2, "equatorial"),
+    }
+    required_count, special_name, special_count, remaining_name = group_definition[geometry]
+    if len(anchors) != required_count:
+        raise ValueError(
+            f"{geometry} requires exactly {required_count} ligand_anchor_indices"
+        )
+    max_isomers = int(settings["max_isomers"])
+    if max_isomers < 1:
+        raise ValueError("max_isomers must be positive")
+
+    raw_labels = inputs.get("ligand_labels")
+    if raw_labels is None:
+        labels = {index: str(index) for index in anchors}
+    elif isinstance(raw_labels, list) and len(raw_labels) == len(anchors):
+        labels = {index: str(label) for index, label in zip(anchors, raw_labels)}
+    elif isinstance(raw_labels, dict):
+        labels = {index: str(raw_labels.get(str(index), raw_labels.get(index, index))) for index in anchors}
+    else:
+        raise ValueError(
+            "ligand_labels must be omitted, an anchor-aligned list, or an index-to-label mapping"
+        )
+
+    records = []
+    seen_label_partitions: set[tuple[tuple[str, ...], tuple[str, ...]]] = set()
+    for selected in itertools.combinations(anchors, special_count):
+        selected_set = set(selected)
+        remaining = tuple(index for index in anchors if index not in selected_set)
+        label_partition = (
+            tuple(sorted(labels[index] for index in selected)),
+            tuple(sorted(labels[index] for index in remaining)),
+        )
+        if label_partition in seen_label_partitions:
+            continue
+        seen_label_partitions.add(label_partition)
+        records.append(
+            {
+                "isomer_id": f"{geometry}_{len(records) + 1:03d}",
+                "site_groups": {
+                    special_name: list(selected),
+                    remaining_name: list(remaining),
+                },
+                "ligand_labels": {str(index): labels[index] for index in anchors},
+                "symmetry_treatment": (
+                    f"positions within {special_name} and within {remaining_name} are treated "
+                    "as symmetry-equivalent; mirror/orientation permutations are not duplicated"
+                ),
+            }
+        )
+        if len(records) >= max_isomers:
+            break
+    return success(
+        {
+            "coordination_geometry": geometry,
+            "coordination_center_index": center,
+            "ligand_anchor_indices": anchors,
+            "isomer_count": len(records),
+            "isomers": records,
+            "coordinates_generated": False,
+            "energies_ranked": False,
+        }
+    )
+
+
 def _pdbfixer(request: dict[str, Any], *, protonate: bool) -> dict[str, Any]:
     from openmm.app import PDBFile
     from pdbfixer import PDBFixer
@@ -1084,6 +1167,8 @@ def _normalize_pdb(request: dict[str, Any]) -> dict[str, Any]:
 
 
 def execute(action_id: str, backend_id: str, request: dict[str, Any]) -> dict[str, Any]:
+    if action_id == "enumerate_coordination_isomers" and backend_id == "internal_reaction_analysis":
+        return _enumerate_coordination_isomers(request)
     if action_id == "analyze_crystal_symmetry" and backend_id in {"spglib", "pymatgen"}:
         return _analyze_crystal_symmetry(backend_id, request)
     if action_id == "standardize_crystal_structure" and backend_id in {"spglib", "pymatgen"}:

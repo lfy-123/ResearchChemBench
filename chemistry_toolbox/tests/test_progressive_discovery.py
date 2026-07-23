@@ -187,10 +187,10 @@ def test_composite_and_typed_handoff_contracts_are_explicit():
     orca = inspect_action("calculate_energy", backend_id="orca", snapshot=snapshot)
     assert orca["provider_contracts"][0]["resource_constraints"][
         "maximum_cpu_cores"
-    ] == 1
+    ] == 48
     assert orca["provider_contracts"][0]["resource_constraints"][
         "maximum_walltime_seconds"
-    ] == 1800
+    ] == 7200
     assert "asynchronous" in orca["provider_contracts"][0][
         "resource_constraints"
     ]["walltime_reason"]

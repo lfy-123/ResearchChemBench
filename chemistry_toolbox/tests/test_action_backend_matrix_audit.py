@@ -31,7 +31,7 @@ def test_combined_coverage_partitions_the_complete_catalog():
         for action in action_specs().values()
         for backend_id in action.backend_ids
     }
-    assert len(catalog) == 241
+    assert len(catalog) == 246
     assert successful.isdisjoint(failed)
     assert successful | failed == catalog
     assert payload["unobserved_action_backend_pairs"] == []
