@@ -130,8 +130,19 @@ def test_concurrent_opencode_runs_use_isolated_databases(tmp_path: Path):
         (second.workspace / "_opencode/opencode.db").resolve()
     )
     assert first_env["OPENCODE_DB"] != second_env["OPENCODE_DB"]
-    assert first_env["OPENCODE_WORKSPACE_ID"] == first.run_id
-    assert second_env["OPENCODE_WORKSPACE_ID"] == second.run_id
+    assert "OPENCODE_WORKSPACE_ID" not in first_env
+    assert "OPENCODE_WORKSPACE_ID" not in second_env
+
+
+def test_opencode_command_qualifies_bare_deepseek_model(tmp_path: Path, monkeypatch):
+    monkeypatch.setattr("evaluation.run_task.OPENCODE_MODEL", "deepseek-v4-flash")
+    runner = TaskRunner("ChemGraph_005", agent_key="opencode", workspace_root=tmp_path)
+    runner.setup_workspace()
+
+    command = runner.build_agent_argv()
+
+    assert command[command.index("--model") + 1] == "deepseek/deepseek-v4-flash"
+    assert "--auto" in command
 
 
 @pytest.mark.skipif(os.name != "posix", reason="POSIX process-group behavior")

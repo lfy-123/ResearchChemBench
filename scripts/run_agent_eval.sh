@@ -20,6 +20,15 @@ elif [[ -f "$ROOT_DIR/.venv/bin/activate" ]]; then
   source "$ROOT_DIR/.venv/bin/activate"
 fi
 
+# OpenCode installs its standalone executable under the invoking account rather
+# than a system bin directory on some benchmark hosts. Resolve that location
+# without assuming that the caller's interactive shell initialization ran.
+ACCOUNT_HOME_DIR="$(getent passwd "$(id -u)" | cut -d: -f6)"
+OPENCODE_BIN_DIR="${RESEARCHCHEMBENCH_OPENCODE_BIN_DIR:-$ACCOUNT_HOME_DIR/.opencode/bin}"
+if [[ -x "$OPENCODE_BIN_DIR/opencode" ]]; then
+  export PATH="$OPENCODE_BIN_DIR:$PATH"
+fi
+
 usage() {
   cat <<'EOF'
 ResearchChemBench Agent evaluation
@@ -319,6 +328,11 @@ fi
 if [[ -z "$CONFIG" ]]; then
   AGENT="${AGENT:-${POSITIONAL[0]:-mock}}"
   TASK="${TASK:-${POSITIONAL[1]:-ChemGraph_001}}"
+fi
+
+if [[ -z "$CONFIG" && "$AGENT" == "opencode" ]] && ! command -v opencode >/dev/null 2>&1; then
+  echo "Error: OpenCode executable not found. Checked PATH and $OPENCODE_BIN_DIR/opencode." >&2
+  exit 2
 fi
 
 export CHEMGRAPH_ROOT="${CHEMGRAPH_ROOT_VALUE:-${CHEMGRAPH_ROOT:-$ROOT_DIR/../ChemGraph}}"

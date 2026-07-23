@@ -301,7 +301,12 @@ class TaskRunner:
             database_directory = self.workspace / "_opencode"
             database_directory.mkdir(parents=True, exist_ok=True)
             env["OPENCODE_DB"] = str((database_directory / "opencode.db").resolve())
-            env["OPENCODE_WORKSPACE_ID"] = self.run_id
+            # OpenCode 1.18 interprets OPENCODE_WORKSPACE_ID as the identifier of
+            # an already-created OpenCode workspace/session. A benchmark run ID
+            # is not such an identifier and makes `opencode run` fail before the
+            # first model call with "Session not found". The per-run database is
+            # sufficient to isolate concurrent benchmark executions.
+            env.pop("OPENCODE_WORKSPACE_ID", None)
         return env
 
     def _write_claude_mcp_config(self) -> Path:
@@ -513,6 +518,9 @@ class TaskRunner:
             ]
 
         if kind == "opencode":
+            model = OPENCODE_MODEL
+            if "/" not in model:
+                model = f"deepseek/{model}"
             return [
                 executable,
                 "run",
@@ -520,10 +528,10 @@ class TaskRunner:
                 "--dir",
                 str(self.workspace.resolve()),
                 "--model",
-                OPENCODE_MODEL,
+                model,
                 "--format",
                 "json",
-                "--dangerously-skip-permissions",
+                "--auto",
                 prompt,
             ]
 
