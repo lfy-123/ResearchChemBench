@@ -38,6 +38,15 @@ DEFAULT_MCP_TOOL_TIMEOUT_MS = int(
     os.environ.get("RESEARCHCHEMBENCH_MCP_TOOL_TIMEOUT_MS", "3600000")
 )
 DEFAULT_MAX_TURNS = int(os.environ.get("RESEARCHCHEMBENCH_MAX_TURNS", "200"))
+DEFAULT_LIVE_PROGRESS = os.environ.get(
+    "RESEARCHCHEMBENCH_LIVE_PROGRESS", "1"
+).strip().casefold() not in {"0", "false", "no", "off"}
+DEFAULT_PROGRESS_CONSOLE = os.environ.get(
+    "RESEARCHCHEMBENCH_PROGRESS_CONSOLE", "0"
+).strip().casefold() not in {"0", "false", "no", "off"}
+DEFAULT_PROGRESS_MAX_CHARS = max(
+    80, int(os.environ.get("RESEARCHCHEMBENCH_PROGRESS_MAX_CHARS", "600"))
+)
 OPENCODE_MODEL = os.environ.get(
     "RESEARCHCHEMBENCH_OPENCODE_MODEL", "deepseek/deepseek-v4-flash"
 )

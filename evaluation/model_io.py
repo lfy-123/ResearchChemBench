@@ -71,6 +71,12 @@ def _redact(value: Any) -> Any:
     return value
 
 
+def redact_trace_value(value: Any) -> Any:
+    """Public redaction helper shared by persisted and live execution traces."""
+
+    return _redact(value)
+
+
 def _sha256(path: Path) -> str | None:
     if not path.is_file():
         return None

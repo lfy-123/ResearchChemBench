@@ -27,6 +27,8 @@ def test_local_config_opencode_route_reaches_generated_workspace(tmp_path):
             "--no-score",
             "--workspaces-dir",
             str(workspaces),
+            "--progress-max-chars",
+            "123",
         ],
         cwd=root,
         env=env,
@@ -37,6 +39,11 @@ def test_local_config_opencode_route_reaches_generated_workspace(tmp_path):
     )
 
     assert result.returncode == 0, result.stdout + result.stderr
+    assert "[RUN_START]" not in result.stdout
+    assert "[MODEL_INPUT]" not in result.stdout
+    assert "[MODEL_OUTPUT]" not in result.stdout
+    assert "[MCP_CALL]" not in result.stdout
+    assert "Live progress=1 console=0 max_chars=123" in result.stdout
     configs = list((workspaces / "cli_runs").glob("batch_*/*/opencode.json"))
     assert len(configs) == 1
     config = json.loads(configs[0].read_text(encoding="utf-8"))
@@ -47,6 +54,15 @@ def test_local_config_opencode_route_reaches_generated_workspace(tmp_path):
     assert config["provider"]["gateway"]["options"]["apiKey"] == (
         "{env:OPENAI_API_KEY}"
     )
+    progress_logs = list((workspaces / "cli_runs").glob("batch_*/*/_live_progress.log"))
+    assert len(progress_logs) == 1
+    progress = progress_logs[0].read_text(encoding="utf-8")
+    assert "[RUN_START]" in progress
+    assert "[MODEL_INPUT]" in progress
+    assert "[RUN_END]" in progress
+    meta = json.loads((progress_logs[0].parent / "_meta.json").read_text(encoding="utf-8"))
+    assert meta["progress_max_chars"] == 123
+    assert meta["progress_console"] is False
 
 
 def test_cli_judge_model_override_is_visible_in_batch_dry_run(tmp_path):
@@ -70,6 +86,9 @@ def test_cli_judge_model_override_is_visible_in_batch_dry_run(tmp_path):
             "--judge-model",
             "bailian/deepseek-v4-pro",
             "--dry-run",
+            "--no-progress-console",
+            "--progress-max-chars",
+            "240",
         ],
         cwd=root,
         env=env,
@@ -102,6 +121,9 @@ def test_open_discovery_submission_script_has_model_specific_output_roots(tmp_pa
             "--stage",
             "q6",
             "--dry-run",
+            "--no-progress-console",
+            "--progress-max-chars",
+            "240",
         ],
         cwd=root,
         env=env,
@@ -116,3 +138,5 @@ def test_open_discovery_submission_script_has_model_specific_output_roots(tmp_pa
     assert "Judge model:     bailian/deepseek-v4-pro" in result.stdout
     assert "agent_deepseek-v4-pro__judge_deepseek-v4-pro" in result.stdout
     assert "Heterobiaryl_PV_06_End_to_End" in result.stdout
+    assert "Progress console: False" in result.stdout
+    assert "Progress max chars: 240" in result.stdout

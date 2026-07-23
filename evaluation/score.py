@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import Any, Callable
 
 from .config import JUDGE_API_BASE, JUDGE_API_KEY, JUDGE_MODEL_NAME
+from .live_progress import append_progress_event
 from .trace import (
     load_native_agent_trace,
     load_tool_trace,
@@ -585,6 +586,29 @@ def score_workspace(
             actual_report=report,
         )
         system_prompt = JUDGE_SYSTEM_PROMPT
+    run_id = str(meta.get("run_id") or workspace.name)
+    progress_enabled = bool(meta.get("live_progress", False))
+    progress_console = bool(meta.get("progress_console", False))
+    try:
+        progress_max_chars = max(80, int(meta.get("progress_max_chars", 600)))
+    except (TypeError, ValueError):
+        progress_max_chars = 600
+    judge_model = (
+        getattr(judge_call, "__name__", "injected_judge")
+        if judge_call is not None
+        else os.environ.get("JUDGE_MODEL_NAME", JUDGE_MODEL_NAME)
+    )
+    append_progress_event(
+        workspace,
+        run_id,
+        "JUDGE_INPUT",
+        enabled=progress_enabled,
+        console=progress_console,
+        max_chars=progress_max_chars,
+        model=judge_model,
+        system=system_prompt,
+        prompt=prompt,
+    )
     raw_verdict: dict[str, Any] = {}
     try:
         raw_verdict = (
@@ -593,6 +617,16 @@ def score_workspace(
             else _default_judge_call(
                 prompt, system_prompt=system_prompt, score_max=score_max
             )
+        )
+        append_progress_event(
+            workspace,
+            run_id,
+            "JUDGE_OUTPUT",
+            enabled=progress_enabled,
+            console=progress_console,
+            max_chars=progress_max_chars,
+            model=raw_verdict.get("_judge_model") or judge_model,
+            verdict=raw_verdict,
         )
         if evaluation_mode == "rubric_100":
             normalized_rubric = _normalize_rubric_verdict(
@@ -678,6 +712,16 @@ def score_workspace(
             "evidence_gate_score_cap_reason": None,
             "applied_score_cap": None,
         }
+        append_progress_event(
+            workspace,
+            run_id,
+            "JUDGE_ERROR",
+            enabled=progress_enabled,
+            console=progress_console,
+            max_chars=progress_max_chars,
+            model=judge_model,
+            error=f"{type(exc).__name__}: {exc}",
+        )
 
     result = {
         "run_id": meta.get("run_id", workspace.name),
@@ -744,6 +788,18 @@ def score_workspace(
     history_record = {**result, "history_source": "judge_call"}
     with history_path.open("a", encoding="utf-8") as handle:
         handle.write(json.dumps(history_record, ensure_ascii=False) + "\n")
+    append_progress_event(
+        workspace,
+        run_id,
+        "SCORE_RESULT",
+        enabled=progress_enabled,
+        console=progress_console,
+        max_chars=progress_max_chars,
+        score=result.get("score"),
+        score_max=result.get("score_max"),
+        normalized_score=result.get("normalized_score"),
+        error=result.get("error"),
+    )
     return result
 
 

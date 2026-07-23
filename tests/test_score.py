@@ -53,6 +53,10 @@ def test_score_workspace_with_injected_judge(tmp_path: Path):
     history = (runner.workspace / "_score_history.jsonl").read_text().splitlines()
     assert len(history) == 2
     assert [json.loads(line)["score"] for line in history] == [1, 0]
+    progress = (runner.workspace / "_live_progress.log").read_text(encoding="utf-8")
+    assert progress.count("[JUDGE_INPUT]") == 2
+    assert progress.count("[JUDGE_OUTPUT]") == 2
+    assert progress.count("[SCORE_RESULT]") == 2
 
 
 def test_judge_failure_is_not_counted_as_zero_score(tmp_path: Path):

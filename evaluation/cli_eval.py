@@ -20,9 +20,13 @@ from researchchem_toolbox.catalog import resolve_tool_discovery_mode
 from .config import (
     AGENT_PRESETS,
     DEFAULT_AGENT_TIMEOUT_SECONDS,
+    DEFAULT_LIVE_PROGRESS,
     DEFAULT_MAX_TURNS,
+    DEFAULT_PROGRESS_CONSOLE,
+    DEFAULT_PROGRESS_MAX_CHARS,
     WORKSPACES_DIR,
 )
+from .live_progress import progress_timestamp
 from .run_task import TaskRunner
 from .score import score_workspace
 from .utils import list_tasks
@@ -37,6 +41,16 @@ class RunSpec:
     task_id: str
     agent_key: str
     repeat: int
+
+
+def _log(message: str, *, stream=None) -> None:
+    """Print one timestamped batch-level line."""
+
+    print(
+        f"[RCB][{progress_timestamp()}][BATCH] {message}",
+        file=stream if stream is not None else sys.stdout,
+        flush=True,
+    )
 
 
 def _load_yaml(path: Path) -> dict[str, Any]:
@@ -55,6 +69,20 @@ def _normalize_list(value: Any, *, name: str) -> list[str]:
     if isinstance(value, list) and all(isinstance(item, str) for item in value):
         return value
     raise EvalConfigError(f"{name} must be a string or list of strings")
+
+
+def _normalize_bool(value: Any, *, name: str) -> bool:
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, int) and value in {0, 1}:
+        return bool(value)
+    if isinstance(value, str):
+        normalized = value.strip().casefold()
+        if normalized in {"1", "true", "yes", "on"}:
+            return True
+        if normalized in {"0", "false", "no", "off"}:
+            return False
+    raise EvalConfigError(f"{name} must be a boolean")
 
 
 def resolve_specs(config: dict[str, Any]) -> list[RunSpec]:
@@ -151,13 +179,32 @@ def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False
     workers = int(config.get("max_concurrent_runs", 1))
     if workers < 1:
         raise EvalConfigError("max_concurrent_runs must be >= 1")
+    live_progress = _normalize_bool(
+        config.get("live_progress", DEFAULT_LIVE_PROGRESS),
+        name="live_progress",
+    )
+    progress_console = _normalize_bool(
+        config.get("progress_console", DEFAULT_PROGRESS_CONSOLE),
+        name="progress_console",
+    )
+    try:
+        progress_max_chars = int(
+            config.get("progress_max_chars", DEFAULT_PROGRESS_MAX_CHARS)
+        )
+    except (TypeError, ValueError) as exc:
+        raise EvalConfigError("progress_max_chars must be an integer") from exc
+    if progress_max_chars < 80:
+        raise EvalConfigError("progress_max_chars must be >= 80")
     if dry_run:
-        print(f"Config: {config_path}")
-        print(f"Planned runs: {len(specs)}")
-        print(f"Max concurrent runs: {workers}")
-        print(f"Tool discovery mode: {discovery_mode}")
+        _log(f"Config: {config_path}")
+        _log(f"Planned runs: {len(specs)}")
+        _log(f"Max concurrent runs: {workers}")
+        _log(f"Tool discovery mode: {discovery_mode}")
+        _log(f"Live progress: {live_progress}")
+        _log(f"Progress console: {progress_console}")
+        _log(f"Progress max chars: {progress_max_chars}")
         for spec in specs:
-            print(f"  - {spec.task_id} agent={spec.agent_key} repeat={spec.repeat}")
+            _log(f"run={spec.task_id} agent={spec.agent_key} repeat={spec.repeat}")
         return 0
 
     batch_id = (
@@ -186,6 +233,9 @@ def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False
             ),
             max_turns=int(config.get("max_turns", DEFAULT_MAX_TURNS)),
             tool_discovery_mode=discovery_mode,
+            live_progress=live_progress,
+            progress_console=progress_console,
+            progress_max_chars=progress_max_chars,
         )
         active.append(runner)
         try:
@@ -256,18 +306,25 @@ def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False
             for future in as_completed(futures):
                 row = future.result()
                 rows.append(row)
-                print(
+                _log(
                     f"[{len(rows)}/{len(specs)}] {row['task_id']} {row['agent_key']} "
-                    f"status={row['status']} score={row.get('score')} run={row['run_id']}\n"
-                    f"  workspace={row['workspace']}"
+                    f"status={row['status']} score={row.get('score')} run={row['run_id']}"
+                )
+                _log(
+                    f"workspace={row['workspace']} "
+                    + (
+                        f"progress_log={row['workspace']}/_live_progress.log"
+                        if live_progress
+                        else "progress_log=disabled"
+                    )
                 )
     finally:
         signal.signal(signal.SIGINT, previous_sigint)
 
     rows.sort(key=lambda row: (row["task_id"], row["agent_key"], row["repeat"]))
     report = _write_batch_report(batch_dir, rows, config)
-    print(f"Batch directory: {batch_dir}")
-    print(f"Evaluation report: {report}")
+    _log(f"Batch directory: {batch_dir}")
+    _log(f"Evaluation report: {report}")
     return 0 if all(row["status"] == "completed" for row in rows) else 1
 
 
@@ -305,7 +362,7 @@ def main(argv: list[str] | None = None) -> int:
     try:
         return run_eval(config_path, dry_run=args.dry_run, no_score=args.no_score)
     except EvalConfigError as exc:
-        print(f"Configuration error: {exc}", file=sys.stderr)
+        _log(f"Configuration error: {exc}", stream=sys.stderr)
         return 2
     finally:
         if temporary is not None:

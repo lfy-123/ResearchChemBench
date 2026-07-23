@@ -23,8 +23,11 @@ from .config import (
     AGENT_PRESETS,
     CHEMGRAPH_SRC,
     DEFAULT_AGENT_TIMEOUT_SECONDS,
+    DEFAULT_LIVE_PROGRESS,
     DEFAULT_MCP_TOOL_TIMEOUT_MS,
     DEFAULT_MAX_TURNS,
+    DEFAULT_PROGRESS_CONSOLE,
+    DEFAULT_PROGRESS_MAX_CHARS,
     OPENCODE_BASE_URL,
     OPENCODE_MODEL,
     PROJECT_ROOT,
@@ -34,6 +37,7 @@ from .config import (
     chemistry_server_specs,
 )
 from .instructions_tmpl import INSTRUCTIONS_TEMPLATE
+from .live_progress import LiveProgressReporter
 from .model_io import export_model_io_trace
 from .trace import load_tool_trace, process_metrics
 from .utils import load_task_info
@@ -57,6 +61,9 @@ class TaskRunner:
         timeout_seconds: int = DEFAULT_AGENT_TIMEOUT_SECONDS,
         max_turns: int = DEFAULT_MAX_TURNS,
         tool_discovery_mode: str | None = None,
+        live_progress: bool = DEFAULT_LIVE_PROGRESS,
+        progress_console: bool = DEFAULT_PROGRESS_CONSOLE,
+        progress_max_chars: int = DEFAULT_PROGRESS_MAX_CHARS,
     ):
         if agent_key not in AGENT_PRESETS:
             raise ValueError(f"Unknown agent preset: {agent_key}")
@@ -69,6 +76,9 @@ class TaskRunner:
         self.timeout_seconds = timeout_seconds
         self.max_turns = max_turns
         self.tool_discovery_mode = resolve_tool_discovery_mode(tool_discovery_mode)
+        self.live_progress = bool(live_progress)
+        self.progress_console = bool(progress_console)
+        self.progress_max_chars = max(80, int(progress_max_chars))
         self.timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
         self.run_id = f"{task_id}_{agent_key}_{self.timestamp}_{uuid.uuid4().hex[:6]}"
         root = Path(workspace_root) if workspace_root else WORKSPACES_DIR
@@ -558,6 +568,10 @@ class TaskRunner:
             "required_deliverables": self.task_info.get(
                 "required_deliverables", []
             ),
+            "live_progress": self.live_progress,
+            "progress_console": self.progress_console,
+            "progress_max_chars": self.progress_max_chars,
+            "live_progress_path": "_live_progress.log",
         }
         if extra:
             meta.update(extra)
@@ -606,6 +620,35 @@ class TaskRunner:
         if self.process.poll() is None:
             self.process.kill() if force else self.process.terminate()
 
+    def _tail_tool_trace(
+        self,
+        reporter: LiveProgressReporter,
+        stop_event: threading.Event,
+    ) -> None:
+        """Follow completed MCP events without delaying the Agent stdout reader."""
+
+        path = self.workspace / "_tool_trace.jsonl"
+        offset = 0
+        while True:
+            saw_new_line = False
+            if path.is_file():
+                try:
+                    with path.open("r", encoding="utf-8", errors="replace") as handle:
+                        handle.seek(offset)
+                        while True:
+                            line = handle.readline()
+                            if not line:
+                                break
+                            offset = handle.tell()
+                            if line.strip():
+                                saw_new_line = True
+                                reporter.handle_tool_trace_line(line)
+                except OSError as exc:
+                    reporter.emit("MCP_TRACE_READ_ERROR", error=str(exc))
+            if stop_event.is_set() and not saw_new_line:
+                break
+            stop_event.wait(0.2)
+
     def run(self) -> dict[str, Any]:
         if not self.workspace.exists():
             self.setup_workspace()
@@ -615,6 +658,33 @@ class TaskRunner:
         started = time.monotonic()
         termination = "process_exit"
         exit_code = -1
+        reporter = LiveProgressReporter(
+            self.workspace,
+            self.run_id,
+            enabled=self.live_progress,
+            console=self.progress_console,
+            max_chars=self.progress_max_chars,
+        )
+        trace_stop = threading.Event()
+        trace_thread = threading.Thread(
+            target=self._tail_tool_trace,
+            args=(reporter, trace_stop),
+            daemon=True,
+        )
+        reporter.emit(
+            "RUN_START",
+            task=self.task_id,
+            agent=self.agent_key,
+            model=OPENCODE_MODEL if self.agent.get("kind") == "opencode" else self.agent_name,
+            timeout_seconds=self.timeout_seconds,
+            max_turns=self.max_turns,
+        )
+        reporter.emit(
+            "MODEL_INPUT",
+            source="initial_instructions",
+            text=self.instructions_path.read_text(encoding="utf-8", errors="replace"),
+        )
+        trace_thread.start()
 
         try:
             self.process = subprocess.Popen(
@@ -669,6 +739,7 @@ class TaskRunner:
                     elif line:
                         output.write(line + "\n")
                         output.flush()
+                        reporter.handle_agent_line(line)
 
             try:
                 exit_code = self.process.wait(timeout=10)
@@ -680,6 +751,8 @@ class TaskRunner:
         except Exception as exc:
             termination = "runner_error"
             self._terminate_process_tree()
+            trace_stop.set()
+            trace_thread.join(timeout=2)
             try:
                 model_io = export_model_io_trace(self.workspace)
             except Exception as trace_exc:
@@ -691,9 +764,14 @@ class TaskRunner:
                     "model_io_trace": model_io,
                 },
             )
+            reporter.emit("RUN_ERROR", error=f"{type(exc).__name__}: {exc}")
+            reporter.close()
             raise
         finally:
             duration = round(time.monotonic() - started, 3)
+
+        trace_stop.set()
+        trace_thread.join(timeout=2)
 
         report_path = self.workspace / "report" / "report.md"
         report_exists = report_path.is_file() and bool(
@@ -717,6 +795,19 @@ class TaskRunner:
             **process_metrics(events, workspace=self.workspace),
         }
         self._write_meta(status, metadata)
+        reporter.emit(
+            "RUN_END",
+            status=status,
+            termination=termination,
+            exit_code=exit_code,
+            duration_seconds=duration,
+            report_exists=report_exists,
+            tool_calls=metadata.get("tool_call_count"),
+            successful_tools=metadata.get("successful_tool_calls"),
+            failed_tools=metadata.get("failed_tool_calls"),
+            model_io_path=(model_io.get("path") if isinstance(model_io, dict) else None),
+        )
+        reporter.close()
         return json.loads(self.meta_path.read_text(encoding="utf-8"))
 
     def run_async(self) -> str:

@@ -61,6 +61,12 @@ Runtime options:
                                core, services, quantum, psi4, reaction, qe, cp2k,
                                periodic, phonons, md, mlip, docking. This never
                                changes the public tool catalog.
+      --live-progress         Record timestamped model/tool/judge progress (default).
+      --no-live-progress      Disable the human-readable progress log.
+      --progress-console      Also mirror detailed progress to the terminal.
+      --no-progress-console   Keep detailed progress file-only (default).
+      --progress-max-chars N  Maximum characters stored for each progress field.
+                               Default: 600; minimum: 80. Full traces remain on disk.
 
 OpenCode/OpenAI-compatible options:
       --opencode-model MODEL   Example: deepseek/deepseek-v4-flash.
@@ -82,6 +88,9 @@ The default scoring model comes from JUDGE_MODEL_NAME and may be overridden with
 Local credentials and environment variables can be placed in:
   config.local.env
 This file is automatically loaded and is excluded from version control.
+
+Detailed progress is appended to <run-workspace>/_live_progress.log. The default
+is file-only; use --progress-console only when an interactive mirror is desired.
 
 Examples:
   # Local no-API harness smoke test
@@ -127,6 +136,10 @@ require_positive_integer() {
   fi
 }
 
+log_info() {
+  printf '[RCB][%s][LAUNCH] %s\n' "$(date -u +'%Y-%m-%dT%H:%M:%SZ')" "$*"
+}
+
 AGENT=""
 TASK=""
 CONFIG=""
@@ -149,6 +162,9 @@ JUDGE_MODEL_VALUE="${JUDGE_MODEL_NAME:-}"
 MCP_TOOLS_VALUE="${RESEARCHCHEMBENCH_MCP_TOOLS:-all}"
 MCP_PROFILES_VALUE="${RESEARCHCHEMBENCH_MCP_PROFILES:-}"
 TOOL_DISCOVERY_MODE_VALUE="${RESEARCHCHEM_TOOL_DISCOVERY_MODE:-progressive}"
+LIVE_PROGRESS_VALUE="${RESEARCHCHEMBENCH_LIVE_PROGRESS:-1}"
+PROGRESS_CONSOLE_VALUE="${RESEARCHCHEMBENCH_PROGRESS_CONSOLE:-0}"
+PROGRESS_MAX_CHARS_VALUE="${RESEARCHCHEMBENCH_PROGRESS_MAX_CHARS:-600}"
 POSITIONAL=()
 
 while [[ $# -gt 0 ]]; do
@@ -238,6 +254,28 @@ while [[ $# -gt 0 ]]; do
       TOOL_DISCOVERY_MODE_VALUE="$2"
       shift 2
       ;;
+    --live-progress)
+      LIVE_PROGRESS_VALUE=1
+      shift
+      ;;
+    --no-live-progress)
+      LIVE_PROGRESS_VALUE=0
+      shift
+      ;;
+    --progress-console)
+      PROGRESS_CONSOLE_VALUE=1
+      shift
+      ;;
+    --no-progress-console)
+      PROGRESS_CONSOLE_VALUE=0
+      shift
+      ;;
+    --progress-max-chars)
+      require_value "$1" "${2:-}"
+      require_positive_integer "$1" "$2"
+      PROGRESS_MAX_CHARS_VALUE="$2"
+      shift 2
+      ;;
     --list-agents)
       LIST_AGENTS=1
       shift
@@ -307,6 +345,38 @@ fi
 if [[ -n "$JUDGE_MODEL_VALUE" ]]; then
   export JUDGE_MODEL_NAME="$JUDGE_MODEL_VALUE"
 fi
+case "${LIVE_PROGRESS_VALUE,,}" in
+  1|true|yes|on)
+    LIVE_PROGRESS_VALUE=1
+    ;;
+  0|false|no|off)
+    LIVE_PROGRESS_VALUE=0
+    ;;
+  *)
+    echo "Error: live progress must be one of 1/0, true/false, yes/no, or on/off." >&2
+    exit 2
+    ;;
+esac
+case "${PROGRESS_CONSOLE_VALUE,,}" in
+  1|true|yes|on)
+    PROGRESS_CONSOLE_VALUE=1
+    ;;
+  0|false|no|off)
+    PROGRESS_CONSOLE_VALUE=0
+    ;;
+  *)
+    echo "Error: progress console must be one of 1/0, true/false, yes/no, or on/off." >&2
+    exit 2
+    ;;
+esac
+require_positive_integer "--progress-max-chars" "$PROGRESS_MAX_CHARS_VALUE"
+if (( PROGRESS_MAX_CHARS_VALUE < 80 )); then
+  echo "Error: --progress-max-chars must be at least 80." >&2
+  exit 2
+fi
+export RESEARCHCHEMBENCH_LIVE_PROGRESS="$LIVE_PROGRESS_VALUE"
+export RESEARCHCHEMBENCH_PROGRESS_CONSOLE="$PROGRESS_CONSOLE_VALUE"
+export RESEARCHCHEMBENCH_PROGRESS_MAX_CHARS="$PROGRESS_MAX_CHARS_VALUE"
 
 if [[ "$MCP_TOOLS_VALUE" != "all" ]]; then
   echo "Error: --mcp-tools only accepts 'all'; task-specific tool filtering is disabled for this benchmark." >&2
@@ -355,30 +425,32 @@ if [[ "$NO_SCORE" -eq 1 ]]; then
 fi
 
 if [[ -n "$CONFIG" ]]; then
-  echo "ResearchChemBench batch evaluation"
-  echo "  Config:          $CONFIG"
-  echo "  ChemGraph root:  $CHEMGRAPH_ROOT"
-  echo "  MCP Python:      $CHEMGRAPH_PYTHON"
-  echo "  MCP tools:       $MCP_TOOLS_VALUE"
-  echo "  Tool discovery:  $TOOL_DISCOVERY_MODE_VALUE"
-  echo "  Backend runtimes:${MCP_PROFILES_VALUE:-all catalog entries; one public server}"
-  echo "  Workspaces root: ${RESEARCHCHEMBENCH_WORKSPACES_DIR:-$ROOT_DIR/workspaces}"
-  echo "  Judge model:     ${JUDGE_MODEL_NAME:-<not configured>}"
+  log_info "ResearchChemBench batch evaluation"
+  log_info "Config=$CONFIG"
+  log_info "ChemGraph root=$CHEMGRAPH_ROOT"
+  log_info "MCP Python=$CHEMGRAPH_PYTHON"
+  log_info "MCP tools=$MCP_TOOLS_VALUE"
+  log_info "Tool discovery=$TOOL_DISCOVERY_MODE_VALUE"
+  log_info "Backend runtimes=${MCP_PROFILES_VALUE:-all catalog entries; one public server}"
+  log_info "Workspaces root=${RESEARCHCHEMBENCH_WORKSPACES_DIR:-$ROOT_DIR/workspaces}"
+  log_info "Judge model:     ${JUDGE_MODEL_NAME:-<not configured>}"
+  log_info "Live progress=$LIVE_PROGRESS_VALUE console=$PROGRESS_CONSOLE_VALUE max_chars=$PROGRESS_MAX_CHARS_VALUE"
   exec python -m evaluation.cli_eval "$CONFIG" "${CLI_ARGS[@]}"
 fi
 
-echo "ResearchChemBench single-task evaluation"
-echo "  Agent:           $AGENT"
-echo "  Task:            $TASK"
-echo "  ChemGraph root:  $CHEMGRAPH_ROOT"
-echo "  MCP Python:      $CHEMGRAPH_PYTHON"
-echo "  MCP tools:       $MCP_TOOLS_VALUE"
-echo "  Tool discovery:  $TOOL_DISCOVERY_MODE_VALUE"
-echo "  Backend runtimes:${MCP_PROFILES_VALUE:-all catalog entries; one public server}"
-echo "  Timeout seconds: ${RESEARCHCHEMBENCH_AGENT_TIMEOUT_SECONDS:-7200}"
-echo "  Max turns:       ${RESEARCHCHEMBENCH_MAX_TURNS:-200}"
-echo "  Workspaces root: ${RESEARCHCHEMBENCH_WORKSPACES_DIR:-$ROOT_DIR/workspaces}"
-echo "  Judge model:     ${JUDGE_MODEL_NAME:-<not configured>}"
+log_info "ResearchChemBench single-task evaluation"
+log_info "Agent=$AGENT"
+log_info "Task=$TASK"
+log_info "ChemGraph root=$CHEMGRAPH_ROOT"
+log_info "MCP Python=$CHEMGRAPH_PYTHON"
+log_info "MCP tools=$MCP_TOOLS_VALUE"
+log_info "Tool discovery=$TOOL_DISCOVERY_MODE_VALUE"
+log_info "Backend runtimes=${MCP_PROFILES_VALUE:-all catalog entries; one public server}"
+log_info "Timeout seconds=${RESEARCHCHEMBENCH_AGENT_TIMEOUT_SECONDS:-7200}"
+log_info "Max turns=${RESEARCHCHEMBENCH_MAX_TURNS:-200}"
+log_info "Workspaces root=${RESEARCHCHEMBENCH_WORKSPACES_DIR:-$ROOT_DIR/workspaces}"
+log_info "Judge model:     ${JUDGE_MODEL_NAME:-<not configured>}"
+log_info "Live progress=$LIVE_PROGRESS_VALUE console=$PROGRESS_CONSOLE_VALUE max_chars=$PROGRESS_MAX_CHARS_VALUE"
 
 exec python -m evaluation.cli_eval \
   --agent "$AGENT" \
