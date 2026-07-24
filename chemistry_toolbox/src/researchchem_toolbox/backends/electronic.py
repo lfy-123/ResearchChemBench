@@ -2765,7 +2765,12 @@ def _orca_correlated_electron_density(request: dict[str, Any]) -> dict[str, Any]
     completed = run_external(
         executable="orca",
         environment_variable="CHEMGRAPH_ORCA_COMMAND",
-        arguments=[str(input_path)],
+        # ORCA propagates the supplied input path to module-specific scratch
+        # basenames.  The MDCI/CCSD modules in ORCA 6.1.1 can crash when that
+        # basename is the full, deeply nested benchmark workspace path.  A
+        # bare filename is not accepted by ORCA, so use an explicit short
+        # relative path while keeping the calculation cwd at ``directory``.
+        arguments=[f"./{input_path.name}"],
         directory=directory,
         timeout_seconds=int(
             request.get("resource_limits", {}).get("walltime_seconds", 1800)

@@ -74,6 +74,52 @@ def test_orca_density_renderer_rejects_unavailable_ccsd_t_density():
         )
 
 
+def test_orca_correlated_density_uses_short_relative_input_path(tmp_path, monkeypatch):
+    monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
+    observed: dict[str, object] = {}
+
+    def fake_run_external(**kwargs):
+        observed.update(kwargs)
+        directory = kwargs["directory"]
+        (directory / "job.gbw").write_bytes(b"gbw")
+        return {
+            "available": True,
+            "returncode": 0,
+            "stdout": (
+                "Program Version 6.1.1\n"
+                "FINAL SINGLE POINT ENERGY -75.000000000000\n"
+                "ORCA TERMINATED NORMALLY\n"
+            ),
+            "stderr": "",
+            "command": ["orca", *kwargs["arguments"]],
+        }
+
+    monkeypatch.setattr(electronic, "run_external", fake_run_external)
+    result = electronic._orca_correlated_electron_density(
+        {
+            "inputs": {"structure": WATER},
+            "method_spec": {
+                "method": "HF",
+                "basis": "STO-3G",
+                "density_type": "scf",
+            },
+            "action_settings": {
+                "scf_convergence": "TightSCF",
+                "max_scf_cycles": 100,
+                "stability_analysis": False,
+            },
+            "resource_limits": {
+                "cpu_cores": 1,
+                "memory_mb": 1000,
+                "walltime_seconds": 120,
+            },
+        }
+    )
+
+    assert result["status"] == "success"
+    assert observed["arguments"] == ["./job.inp"]
+
+
 def test_real_orca_to_multiwfn_surface_action_chain(tmp_path, monkeypatch):
     monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
     density = execute_action(
