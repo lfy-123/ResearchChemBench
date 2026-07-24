@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-24T04:51:00Z",
+  "generated_at": "2026-07-24T07:26:10Z",
   "purpose": "Real ORCA 6.1.1 and Multiwfn 2026.7.15 validation of the typed Electron Isodensity Action chain using task-supplied ethane coordinates.",
   "cases": [
     {
@@ -42,7 +42,7 @@
       "method": "CCSD/def2-TZVPD NoFrozenCore",
       "density_source": "unrelaxed_ccsd",
       "energy_hartree": -79.686552385998,
-      "verified_artifacts": ["gbw", "densities", "mdcip"]
+      "verified_artifacts": ["gbw", "densities", "densitiesinfo", "mdcip"]
     },
     {
       "case_id": "ethane_mdci_cube_export",
@@ -62,6 +62,18 @@
       "cutoffs_au": [0.0016],
       "surface_areas_angstrom2": [76.49432],
       "grid_spacing_angstrom": 0.1
+    }
+  ],
+  "regression_repairs": [
+    {
+      "issue": "ORCA 6.1.1 MDCI/CCSD crash when a deeply nested absolute input path was propagated to module scratch basenames",
+      "repair": "Run ORCA from the calculation directory with the short explicit relative input path ./job.inp",
+      "validation": "Real ethane CCSD/def2-TZVPD Action succeeded with energy -79.686552386003 Eh"
+    },
+    {
+      "issue": "MDCI cube export omitted job.densitiesinfo and renamed the ORCA density bundle inconsistently",
+      "repair": "Stage job.gbw, job.densities, and job.densitiesinfo under their shared original basename before invoking orca_plot",
+      "validation": "Final Flash Q1 run completed all three MDCI cube exports with no backend export failure"
     }
   ]
 }
