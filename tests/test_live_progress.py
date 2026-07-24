@@ -9,7 +9,7 @@ from evaluation.run_task import TaskRunner
 
 TIMESTAMPED_LINE = re.compile(
     r"^\[RCB\]\[\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z\]"
-    r"\[[^\]]+\]\[[A-Z_]+\]"
+    r"\[[A-Z_]+\]"
 )
 
 
@@ -84,6 +84,7 @@ def test_progress_is_timestamped_redacted_truncated_and_file_only(tmp_path: Path
     assert lines
     assert all(TIMESTAMPED_LINE.match(line) for line in lines)
     combined = "\n".join(lines)
+    assert "test-run" not in combined
     assert "secret-value" not in combined
     assert "<redacted>" in combined
     assert "<truncated " in combined

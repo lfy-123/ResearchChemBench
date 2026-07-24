@@ -53,6 +53,10 @@ class LiveProgressReporter:
         stream: TextIO | None = None,
     ):
         self.workspace = Path(workspace)
+        # Retain the constructor argument for API compatibility and potential
+        # structured metadata use.  The log already lives inside this run's
+        # workspace, so repeating a long run id on every human-readable line
+        # adds noise without disambiguating the file.
         self.run_id = run_id
         self.enabled = bool(enabled)
         self.console = bool(console)
@@ -79,7 +83,7 @@ class LiveProgressReporter:
             for key, value in redacted_fields.items()
             if value is not None and value != ""
         ]
-        line = f"[RCB][{timestamp}][{self.run_id}][{kind}]"
+        line = f"[RCB][{timestamp}][{kind}]"
         if parts:
             line += " " + " ".join(parts)
         with self._lock:
