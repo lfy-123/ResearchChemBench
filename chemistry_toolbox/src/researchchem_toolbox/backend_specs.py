@@ -924,6 +924,20 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
             "Configured from the operator-provided Gaussian 16 C.01 distribution under "
             ".software_cache/gaussian/g16; the adapter accepts no arbitrary route deck."
         ),
+        resource_constraints={
+            "maximum_cpu_cores": 48,
+            "maximum_walltime_seconds": 1800,
+            "reason": (
+                "The current 64-online-CPU server reserves capacity for the service and "
+                "exposes at most 48 Gaussian shared-memory cores per synchronous Action."
+            ),
+            "walltime_reason": (
+                "execute_action is synchronous and shares the MCP service event loop. "
+                "Gaussian calculations expected to exceed 1800 seconds must be submitted "
+                "through inspect_software plus submit_native_job so they can be polled "
+                "without blocking discovery and unrelated tool calls."
+            ),
+        },
         method_schema={
             "method": "Gaussian SCF or DFT method keyword",
             "basis": "Gaussian built-in basis-set keyword",

@@ -379,6 +379,41 @@ def test_long_orca_action_is_rejected_with_explicit_native_job_next_step(
     assert "no substitution, retry, or fallback" in result["error"]["message"]
 
 
+def test_long_gaussian_action_is_rejected_before_it_can_block_mcp(
+    tmp_path: Path, monkeypatch
+):
+    monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
+    monkeypatch.setattr(
+        service,
+        "probe_all_backends",
+        lambda _values: (_ for _ in ()).throw(AssertionError("health probe must not run")),
+    )
+
+    result = service.execute_action(
+        "optimize_geometry",
+        {
+            "backend_id": "gaussian",
+            "inputs": {"structure": H2},
+            "method_spec": {"method": "B3LYP", "basis": "STO-3G"},
+            "action_settings": {
+                "scf_convergence": "Tight",
+                "optimization_convergence": "Tight",
+                "max_steps": 100,
+            },
+            "resource_limits": {
+                "cpu_cores": 8,
+                "memory_mb": 4096,
+                "walltime_seconds": 43200,
+            },
+        },
+    )
+
+    assert result["status"] == "invalid_request"
+    assert result["error"]["code"] == "invalid_resource_limits"
+    assert "synchronous Action maximum 1800" in result["error"]["message"]
+    assert "submit_native_job" in result["error"]["message"]
+
+
 def _available(specifications):
     return {
         item.id: {"available": True, "status": "available", "runtime": item.runtime}
