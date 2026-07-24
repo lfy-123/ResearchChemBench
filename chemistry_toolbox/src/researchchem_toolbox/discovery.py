@@ -255,6 +255,7 @@ def _field_type(field_name: str, *, section: str) -> dict[str, Any]:
     }
     explicit_boolean_fields = {
         "internal_coordinates",
+        "stability_analysis",
         "symmetry_correction",
     }
     explicit_integer_fields = {
@@ -547,6 +548,35 @@ def _action_request_contract(
     )
     fixed_parameters.update(backend.fixed_parameter_specs.get(specification.id, {}))
 
+    resource_parameter_specs = {
+        field_name: dict(metadata)
+        for field_name, metadata in RESOURCE_LIMIT_PARAMETER_SPECS.items()
+    }
+    for field_name, metadata in registered_by_section["resource_limits"].items():
+        resource_parameter_specs.setdefault(field_name, {}).update(dict(metadata))
+    resource_maximum_fields = {
+        "cpu_cores": "maximum_cpu_cores",
+        "walltime_seconds": "maximum_walltime_seconds",
+    }
+    for field_name, constraint_name in resource_maximum_fields.items():
+        maximum = backend.resource_constraints.get(constraint_name)
+        if maximum is None:
+            continue
+        current_maximum = resource_parameter_specs[field_name].get("maximum")
+        resource_parameter_specs[field_name]["maximum"] = (
+            min(int(current_maximum), int(maximum))
+            if current_maximum is not None
+            else int(maximum)
+        )
+        reason_key = (
+            "walltime_reason"
+            if field_name == "walltime_seconds"
+            else "reason"
+        )
+        reason = backend.resource_constraints.get(reason_key)
+        if reason:
+            resource_parameter_specs[field_name]["backend_limit_reason"] = str(reason)
+
     template: dict[str, Any] = {"action_id": specification.id}
     if specification.selection_policy in {
         "agent_backend_required",
@@ -590,10 +620,8 @@ def _action_request_contract(
             action_id: {} for action_id in nested_component_actions
         }
     template["resource_limits"] = {
-        "walltime_seconds": 1800,
-        "memory_mb": None,
-        "cpu_cores": None,
-        "gpu_count": None,
+        field_name: metadata.get("default")
+        for field_name, metadata in resource_parameter_specs.items()
     }
 
     return {
@@ -671,7 +699,7 @@ def _action_request_contract(
             "resource_limits": {
                 "optional_with_defaults": [
                     {"name": field_name, "required": False, **dict(metadata)}
-                    for field_name, metadata in RESOURCE_LIMIT_PARAMETER_SPECS.items()
+                    for field_name, metadata in resource_parameter_specs.items()
                 ],
             },
         },

@@ -57,6 +57,25 @@ def test_orca_density_renderer_requests_relaxed_double_hybrid_density():
     assert "STABPerform true" in rendered
 
 
+def test_orca_density_renderer_defaults_to_2000_mb_maxcore_per_process():
+    rendered = electronic._render_orca_density(
+        WATER,
+        {
+            "method": "CCSD",
+            "basis": "def2-TZVPD",
+            "density_type": "unrelaxed_ccsd",
+        },
+        {
+            "scf_convergence": "VeryTightSCF",
+            "max_scf_cycles": 300,
+            "stability_analysis": False,
+        },
+        {"cpu_cores": 8},
+    )
+    assert "%maxcore 2000" in rendered
+    assert "nprocs 8" in rendered
+
+
 def test_orca_density_renderer_rejects_unavailable_ccsd_t_density():
     with pytest.raises(ValueError, match=r"does not provide an unrelaxed CCSD\(T\)"):
         electronic._render_orca_density(
@@ -123,6 +142,50 @@ def test_orca_correlated_density_uses_short_relative_input_path(tmp_path, monkey
     assert result["status"] == "success"
     assert observed["arguments"] == ["./job.inp"]
     assert result["result"]["files"]["density_info"].endswith("job.densitiesinfo")
+    assert result["provenance"]["requested_total_memory_mb"] == 1000
+    assert result["provenance"]["orca_maxcore_mb_per_process"] == 1000
+    assert result["provenance"]["memory_default_applied"] is False
+
+
+def test_orca_density_contract_exposes_exact_types_limits_and_memory_mapping():
+    contract = inspect_action(
+        "calculate_correlated_electron_density",
+        backend_id="orca",
+        snapshot={"actions": [], "backends": [], "resources": [], "catalog_hash": "test"},
+    )["selected_request_contract"]
+
+    settings = {
+        item["name"]: item
+        for item in contract["sections"]["action_settings"]["required"]
+    }
+    assert settings["stability_analysis"]["type"] == "boolean"
+    assert contract["execute_action_request_template"]["action_settings"][
+        "stability_analysis"
+    ] == "<boolean>"
+    methods = {
+        item["name"]: item
+        for item in contract["sections"]["method_spec"]["optional_documented"]
+    }
+    assert methods["frozen_core"]["type"] == "boolean"
+    assert methods["pmodel"]["type"] == "boolean"
+    assert methods["charge"]["type"] == "integer"
+    assert methods["multiplicity"]["type"] == "integer"
+
+    resources = {
+        item["name"]: item
+        for item in contract["sections"]["resource_limits"][
+            "optional_with_defaults"
+        ]
+    }
+    assert resources["walltime_seconds"]["maximum"] == 7200
+    assert resources["cpu_cores"]["maximum"] == 48
+    assert "floor(memory_mb / cpu_cores)" in resources["memory_mb"][
+        "description"
+    ]
+    assert resources["memory_mb"]["derived_backend_parameter"]["name"] == (
+        "orca_maxcore_mb_per_process"
+    )
+    assert "2000 MB per process" in resources["memory_mb"]["default_behavior"]
 
 
 def test_orca_mdci_export_preserves_density_bundle_basename(tmp_path, monkeypatch):

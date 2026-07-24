@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import Any
 
 from ..artifacts import resolve_workspace_path
+from ..parameter_specs import ORCA_DENSITY_DEFAULT_MAXCORE_MB
 from .common import (
     ase_atoms,
     atom_spec,
@@ -2622,6 +2623,25 @@ def _orca_density_token(value: Any, *, field_name: str) -> str:
     return token
 
 
+def _orca_density_resource_allocation(
+    resource_limits: dict[str, Any] | None,
+) -> dict[str, Any]:
+    limits = resource_limits or {}
+    cores = max(1, int(limits.get("cpu_cores") or 1))
+    explicit_memory = limits.get("memory_mb") is not None
+    total_memory_mb = int(
+        limits.get("memory_mb")
+        if explicit_memory
+        else ORCA_DENSITY_DEFAULT_MAXCORE_MB * cores
+    )
+    return {
+        "cpu_cores": cores,
+        "requested_total_memory_mb": total_memory_mb,
+        "orca_maxcore_mb_per_process": max(128, total_memory_mb // cores),
+        "memory_default_applied": not explicit_memory,
+    }
+
+
 def _render_orca_density(
     structure_value: Any,
     method: dict[str, Any],
@@ -2684,10 +2704,9 @@ def _render_orca_density(
         header.append("PModel")
     header.extend([convergence, "SP"])
 
-    limits = resource_limits or {}
-    cores = int(limits.get("cpu_cores") or 1)
-    memory_mb = int(limits.get("memory_mb") or (1500 * cores))
-    maxcore_mb = max(128, memory_mb // cores)
+    allocation = _orca_density_resource_allocation(resource_limits)
+    cores = int(allocation["cpu_cores"])
+    maxcore_mb = int(allocation["orca_maxcore_mb_per_process"])
     lines = ["! " + " ".join(header), f"%maxcore {maxcore_mb}"]
     if cores > 1:
         lines.extend(["%pal", f"  nprocs {cores}", "end"])
@@ -2751,6 +2770,9 @@ def _orca_density_artifacts(directory: Path) -> list[dict[str, str]]:
 
 def _orca_correlated_electron_density(request: dict[str, Any]) -> dict[str, Any]:
     inputs, method, settings = request_parts(request)
+    allocation = _orca_density_resource_allocation(
+        dict(request.get("resource_limits") or {})
+    )
     directory = output_directory("calculate_correlated_electron_density", "orca")
     input_path = directory / "job.inp"
     input_path.write_text(
@@ -2862,9 +2884,12 @@ def _orca_correlated_electron_density(request: dict[str, Any]) -> dict[str, Any]
         warnings=[warning] if warning else [],
         provenance={
             "command": completed["command"],
-            "parallel_processes": int(
-                request.get("resource_limits", {}).get("cpu_cores") or 1
-            ),
+            "parallel_processes": allocation["cpu_cores"],
+            "requested_total_memory_mb": allocation["requested_total_memory_mb"],
+            "orca_maxcore_mb_per_process": allocation[
+                "orca_maxcore_mb_per_process"
+            ],
+            "memory_default_applied": allocation["memory_default_applied"],
             "density_source": density_type,
             "silent_density_fallback_allowed": False,
         },

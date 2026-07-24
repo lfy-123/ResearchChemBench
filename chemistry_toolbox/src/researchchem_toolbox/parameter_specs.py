@@ -14,6 +14,9 @@ from typing import Any, Mapping
 ParameterMetadata = Mapping[str, Any]
 
 
+ORCA_DENSITY_DEFAULT_MAXCORE_MB = 2000
+
+
 RESOURCE_LIMIT_PARAMETER_SPECS: dict[str, ParameterMetadata] = {
     "walltime_seconds": {
         "description": "Maximum synchronous wall-clock time allowed for this Action call.",
@@ -608,15 +611,53 @@ for _field_path, _description, _impact in (
 ):
     _register_parameter("orca", _ORCA_STANDARD_ACTIONS, _field_path, description=_description, default=None, impact=_impact)
 _ORCA_DENSITY_ACTION = "calculate_correlated_electron_density"
-for _field_path, _description, _impact in (
-    ("method_spec.auxiliary_basis", "Optional ORCA auxiliary/C basis for MP2 or double-hybrid density calculations.", "Changing it changes density-fitting accuracy and cost."),
-    ("method_spec.dispersion", "Optional ORCA dispersion-correction keyword.", "Dispersion typically changes energy and gradients; exact density influence depends on the selected ORCA method implementation."),
-    ("method_spec.frozen_core", "Whether correlated density calculations use the frozen-core approximation.", "Disabling frozen core correlates more electrons and increases cost; it can change correlated density."),
-    ("method_spec.pmodel", "Whether ORCA PModel is enabled for the density calculation.", "Changing PModel changes the double-hybrid/MP2 model details used by ORCA."),
-    ("method_spec.charge", "Optional molecular charge override.", "Changing charge changes electron count and density."),
-    ("method_spec.multiplicity", "Optional spin multiplicity override.", "Changing multiplicity changes electronic state and density."),
+for _field_path, _description, _impact, _extra in (
+    ("method_spec.auxiliary_basis", "Optional ORCA auxiliary/C basis for MP2 or double-hybrid density calculations.", "Changing it changes density-fitting accuracy and cost.", {}),
+    ("method_spec.dispersion", "Optional ORCA dispersion-correction keyword.", "Dispersion typically changes energy and gradients; exact density influence depends on the selected ORCA method implementation.", {}),
+    ("method_spec.frozen_core", "Whether correlated density calculations use the frozen-core approximation.", "Disabling frozen core correlates more electrons and increases cost; it can change correlated density.", {"type": "boolean"}),
+    ("method_spec.pmodel", "Whether ORCA PModel is enabled for the density calculation.", "Changing PModel changes the double-hybrid/MP2 model details used by ORCA.", {"type": "boolean"}),
+    ("method_spec.charge", "Optional molecular charge override.", "Changing charge changes electron count and density.", {"type": "integer"}),
+    ("method_spec.multiplicity", "Optional spin multiplicity override.", "Changing multiplicity changes electronic state and density.", {"type": "integer", "minimum": 1}),
 ):
-    _register_parameter("orca", _ORCA_DENSITY_ACTION, _field_path, description=_description, default=None, impact=_impact)
+    _register_parameter(
+        "orca", _ORCA_DENSITY_ACTION, _field_path,
+        description=_description, default=None, impact=_impact, **_extra,
+    )
+_register_parameter(
+    "orca", _ORCA_DENSITY_ACTION, "action_settings.stability_analysis",
+    description="Whether ORCA performs an SCF wavefunction-stability analysis before the density calculation.",
+    type="boolean",
+    impact=(
+        "Enabling it can detect and restart an unstable SCF solution at additional cost; "
+        "disabling it skips that validation."
+    ),
+)
+_register_parameter(
+    "orca", _ORCA_DENSITY_ACTION, "resource_limits.memory_mb",
+    description=(
+        "Total memory budget in MB across all requested ORCA MPI processes. The adapter "
+        "sets %maxcore to floor(memory_mb / cpu_cores), with a 128 MB floor."
+    ),
+    default=None,
+    type="integer | null",
+    minimum=128,
+    default_behavior=(
+        f"When null, the adapter allocates {ORCA_DENSITY_DEFAULT_MAXCORE_MB} MB per "
+        "process, so total memory is that value multiplied by the effective cpu_cores."
+    ),
+    derived_backend_parameter={
+        "name": "orca_maxcore_mb_per_process",
+        "formula": "max(128, floor(memory_mb / effective_cpu_cores))",
+        "null_memory_formula": (
+            f"{ORCA_DENSITY_DEFAULT_MAXCORE_MB} MB per process"
+        ),
+    },
+    impact=(
+        "Increasing the total budget raises ORCA %maxcore at fixed cpu_cores and can "
+        "prevent correlated-method out-of-memory failures. Increasing cpu_cores without "
+        "also increasing memory_mb lowers %maxcore per process."
+    ),
+)
 
 _GAUSSIAN_ACTIONS = ("calculate_energy", "calculate_hessian", "optimize_geometry", "calculate_dipole_moment")
 for _field_path, _description, _impact in (
@@ -1015,9 +1056,14 @@ def common_fixed_parameter_specs(
         }
     for field_name in ("maximum_cpu_cores", "maximum_walltime_seconds"):
         if field_name in resource_constraints:
+            reason_key = (
+                "walltime_reason"
+                if field_name == "maximum_walltime_seconds"
+                else "reason"
+            )
             values[f"resource_limits.{field_name}"] = {
                 "description": f"Backend-enforced {field_name.replace('_', ' ')}: {resource_constraints[field_name]}.",
-                "reason": str(resource_constraints.get("reason") or "Operator-defined backend resource safety cap."),
+                "reason": str(resource_constraints.get(reason_key) or "Operator-defined backend resource safety cap."),
             }
     return values
 
