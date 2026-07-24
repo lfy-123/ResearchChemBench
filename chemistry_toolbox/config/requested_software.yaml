@@ -160,7 +160,7 @@ requested_software:
     license: free_academic_registration
     public_adapter: existing
     role: Molecular quantum chemistry executable.
-    notes: ORCA 6.1.1 and matching OpenMPI 4.1.8 are installed and validated by real energy/Hessian/optimization/dipole smokes. The newly supplied no-DMRG archive is cached for provenance but was not allowed to replace the already validated, more capable active installation.
+    notes: ORCA 6.1.1 and matching OpenMPI 4.1.8 are installed and validated by real energy, Hessian, optimization, dipole, SCF/relaxed-MP2/CCSD density, orca_2aim, and MDCI cube-export smokes. Typed density export rejects unavailable CCSD(T) one-particle densities and silent source substitution.
     official_url: https://www.faccts.de/orca/
 
   - name: NWChem
@@ -288,7 +288,7 @@ requested_software:
     license: custom_open_source_citation_required
     public_adapter: existing
     role: Wavefunction analysis and visualization executable.
-    notes: Official Multiwfn 2026.7.15 Linux noGUI package is exposed for explicit Mulliken/Lowdin charges and Mayer/Wiberg-Lowdin/Mulliken bond orders from supplied wavefunctions. Fixed version-specific menu sequences are used; arbitrary scripts are rejected and both required citations are returned.
+    notes: Official Multiwfn 2026.7.15 Linux noGUI package is exposed for explicit Mulliken/Lowdin charges, Mayer/Wiberg-Lowdin/Mulliken bond orders, and batch electron-isodensity surface areas/volumes from supplied wavefunctions or cube grids. Fixed version-specific menu sequences are used; arbitrary scripts are rejected and required citations are returned.
     official_url: http://sobereva.com/multiwfn/
 
   - name: Critic2

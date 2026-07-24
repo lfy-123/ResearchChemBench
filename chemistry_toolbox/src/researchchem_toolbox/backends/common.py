@@ -385,6 +385,7 @@ def run_external(
     environment_variable: str | None = None,
     stdin_text: str | None = None,
     timeout_seconds: int = 1800,
+    environment_overrides: dict[str, str] | None = None,
 ) -> dict[str, Any]:
     command = resolve_command(executable, environment_variable)
     if command is None:
@@ -396,6 +397,8 @@ def run_external(
             "command": [executable, *arguments],
         }
     try:
+        environment = os.environ.copy()
+        environment.update(environment_overrides or {})
         completed = subprocess.run(
             [*command, *arguments],
             cwd=directory,
@@ -405,7 +408,7 @@ def run_external(
             stderr=subprocess.PIPE,
             timeout=timeout_seconds,
             check=False,
-            env=os.environ.copy(),
+            env=environment,
         )
     except subprocess.TimeoutExpired as exc:
         return {

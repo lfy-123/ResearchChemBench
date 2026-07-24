@@ -121,6 +121,14 @@ software:
         url: https://www.faccts.de/docs/orca/6.1/manual/contents/spectroscopyproperties/tddft.html
         kind: html
         version_scope: 6.1
+      - title: ORCA 6.1 coupled-cluster density reference
+        url: https://www.faccts.de/docs/orca/6.1/manual/contents/modelchemistries/mdci.html
+        kind: html
+        version_scope: 6.1
+      - title: ORCA 6.1 orbital and density plotting reference
+        url: https://www.faccts.de/docs/orca/6.1/manual/contents/utilitiesvisualization/plots.html
+        kind: html
+        version_scope: 6.1
     candidate_actions:
       - calculate_forces
       - calculate_atomic_charges
@@ -130,6 +138,8 @@ software:
       - trace_intrinsic_reaction_coordinate
       - calculate_minimum_energy_path
       - calculate_excited_states
+      - calculate_correlated_electron_density
+      - export_electron_density_grid
       - calculate_transition_properties
       - calculate_spin_orbit_couplings
       - calculate_polarizability
@@ -608,6 +618,7 @@ software:
       - analyze_electron_density_topology
       - calculate_atomic_basin_properties
       - calculate_bond_orders
+      - calculate_electron_isodensity_surface
       - analyze_non_covalent_interactions
       - calculate_electrostatic_potential
       - calculate_orbital_composition

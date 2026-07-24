@@ -74,6 +74,54 @@ ACTION_SPECS = (
             input_description="AtomicStructure or compatible ElectronicState Artifact",
         ),
     _action(
+            "calculate_correlated_electron_density",
+            "molecular_electronic",
+            (
+                "Calculate and retain one explicitly selected molecular electron density, "
+                "including SCF/DFT, relaxed MP2 or double-hybrid, and unrelaxed CCSD density "
+                "sources, without silently substituting an unavailable density model."
+            ),
+            "ElectronDensityResult",
+            ("orca",),
+            ("structure",),
+            input_description=(
+                "one molecular AtomicStructure plus an explicit ORCA method, basis, density "
+                "source, SCF controls, charge/spin, and resource limits"
+            ),
+        ),
+    _action(
+            "export_electron_density_grid",
+            "molecular_electronic",
+            (
+                "Export a previously calculated ORCA electron density to an explicitly "
+                "selected WFN, WFX, or cube representation while preserving the named "
+                "density source in provenance."
+            ),
+            "ElectronDensityExportResult",
+            ("orca",),
+            ("electron_density",),
+            input_description=(
+                "ElectronDensityResult from calculate_correlated_electron_density plus an "
+                "explicit density source and output format"
+            ),
+        ),
+    _action(
+            "calculate_electron_isodensity_surface",
+            "molecular_electronic",
+            (
+                "Calculate molecular electron-isodensity surface area and enclosed volume "
+                "for an explicit list of density cutoffs using one supplied wavefunction or "
+                "electron-density grid."
+            ),
+            "ElectronIsodensitySurfaceResult",
+            ("multiwfn",),
+            ("density_file",),
+            input_description=(
+                "one WFN/WFX/FCHK/MWFN/Molden wavefunction or cube density grid plus explicit "
+                "cutoff values and surface-grid spacing"
+            ),
+        ),
+    _action(
             "calculate_bond_orders",
             "molecular_electronic",
             "Calculate atom-pair electronic bond-order indices using one explicitly selected population-analysis backend.",

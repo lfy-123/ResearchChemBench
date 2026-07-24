@@ -32,6 +32,10 @@ from researchchem_toolbox.service import execute_action
 DEFAULT_OUTPUT = TOOLBOX_ROOT / "config" / "action_test_coverage.json"
 EXTERNAL_REPORTS = (
     (
+        TOOLBOX_ROOT / "config" / "electron_density_action_smoke_status.json",
+        "electron_density_action_smoke",
+    ),
+    (
         TOOLBOX_ROOT / "config" / "heterobiaryl_reaction_action_smoke_status.json",
         "heterobiaryl_reaction_action_smoke",
     ),

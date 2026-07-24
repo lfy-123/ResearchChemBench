@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-07-23T17:02:45.149396+00:00",
+  "generated_at": "2026-07-24T05:07:58.201598+00:00",
   "pytest_exit_code": null,
   "summary": {
-    "action_count": 111,
-    "runtime_success_actions": 106,
+    "action_count": 114,
+    "runtime_success_actions": 109,
     "failure_only_actions": 5,
     "not_observed_actions": 0,
-    "action_backend_pair_count": 246,
-    "successful_action_backend_pairs": 241,
+    "action_backend_pair_count": 249,
+    "successful_action_backend_pairs": 244,
     "failed_action_backend_pairs": 5,
     "unobserved_action_backend_pairs": 0,
     "backend_count": 77,
@@ -1773,6 +1773,114 @@
           "status": "success",
           "source": "action_backend_matrix_smoke",
           "elapsed_seconds": 2.178645,
+          "detail": null
+        }
+      ]
+    },
+    {
+      "action": "calculate_correlated_electron_density",
+      "category": "molecular_electronic",
+      "description": "Calculate and retain one explicitly selected molecular electron density, including SCF/DFT, relaxed MP2 or double-hybrid, and unrelaxed CCSD density sources, without silently substituting an unavailable density model.",
+      "primary_output": "ElectronDensityResult",
+      "selection_policy": "agent_backend_required",
+      "catalog_backends": [
+        "orca"
+      ],
+      "status": "runtime_success",
+      "successful_backends": [
+        "orca"
+      ],
+      "failed_backends": [],
+      "evidence_sources": [
+        "electron_density_action_smoke"
+      ],
+      "observations": [
+        {
+          "action": "calculate_correlated_electron_density",
+          "backend": "orca",
+          "status": "success",
+          "source": "electron_density_action_smoke",
+          "elapsed_seconds": 11.4,
+          "detail": null
+        },
+        {
+          "action": "calculate_correlated_electron_density",
+          "backend": "orca",
+          "status": "success",
+          "source": "electron_density_action_smoke",
+          "elapsed_seconds": 24.9,
+          "detail": null
+        }
+      ]
+    },
+    {
+      "action": "export_electron_density_grid",
+      "category": "molecular_electronic",
+      "description": "Export a previously calculated ORCA electron density to an explicitly selected WFN, WFX, or cube representation while preserving the named density source in provenance.",
+      "primary_output": "ElectronDensityExportResult",
+      "selection_policy": "agent_backend_required",
+      "catalog_backends": [
+        "orca"
+      ],
+      "status": "runtime_success",
+      "successful_backends": [
+        "orca"
+      ],
+      "failed_backends": [],
+      "evidence_sources": [
+        "electron_density_action_smoke"
+      ],
+      "observations": [
+        {
+          "action": "export_electron_density_grid",
+          "backend": "orca",
+          "status": "success",
+          "source": "electron_density_action_smoke",
+          "elapsed_seconds": 0.2,
+          "detail": null
+        },
+        {
+          "action": "export_electron_density_grid",
+          "backend": "orca",
+          "status": "success",
+          "source": "electron_density_action_smoke",
+          "elapsed_seconds": null,
+          "detail": null
+        }
+      ]
+    },
+    {
+      "action": "calculate_electron_isodensity_surface",
+      "category": "molecular_electronic",
+      "description": "Calculate molecular electron-isodensity surface area and enclosed volume for an explicit list of density cutoffs using one supplied wavefunction or electron-density grid.",
+      "primary_output": "ElectronIsodensitySurfaceResult",
+      "selection_policy": "agent_backend_required",
+      "catalog_backends": [
+        "multiwfn"
+      ],
+      "status": "runtime_success",
+      "successful_backends": [
+        "multiwfn"
+      ],
+      "failed_backends": [],
+      "evidence_sources": [
+        "electron_density_action_smoke"
+      ],
+      "observations": [
+        {
+          "action": "calculate_electron_isodensity_surface",
+          "backend": "multiwfn",
+          "status": "success",
+          "source": "electron_density_action_smoke",
+          "elapsed_seconds": 12.3,
+          "detail": null
+        },
+        {
+          "action": "calculate_electron_isodensity_surface",
+          "backend": "multiwfn",
+          "status": "success",
+          "source": "electron_density_action_smoke",
+          "elapsed_seconds": null,
           "detail": null
         }
       ]
@@ -4853,6 +4961,10 @@
       "mdtraj"
     ],
     [
+      "calculate_correlated_electron_density",
+      "orca"
+    ],
+    [
       "calculate_density_of_states",
       "gpaw"
     ],
@@ -4903,6 +5015,10 @@
     [
       "calculate_dynamic_cross_correlation",
       "mdanalysis"
+    ],
+    [
+      "calculate_electron_isodensity_surface",
+      "multiwfn"
     ],
     [
       "calculate_electronic_band_structure",
@@ -5375,6 +5491,10 @@
     [
       "evaluate_collective_variables",
       "plumed"
+    ],
+    [
+      "export_electron_density_grid",
+      "orca"
     ],
     [
       "generate_3d_structure",

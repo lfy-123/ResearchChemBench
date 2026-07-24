@@ -593,8 +593,11 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
     ),
     _backend(
         "multiwfn", "Multiwfn", "multiwfn",
-        ("calculate_atomic_charges", "calculate_bond_orders"),
-        "Multiwfn 2026.7.15 noGUI wavefunction post-processing for explicit Mulliken/Lowdin atomic charges and Mayer/Wiberg-Lowdin/Mulliken bond-order definitions.",
+        (
+            "calculate_atomic_charges", "calculate_bond_orders",
+            "calculate_electron_isodensity_surface",
+        ),
+        "Multiwfn 2026.7.15 noGUI wavefunction post-processing for explicit population analysis, bond orders, and batch molecular electron-isodensity surface areas/volumes.",
         executables=("Multiwfn_noGUI",), environment=("CHEMGRAPH_MULTIWFN_COMMAND",),
         license_class="custom_open_source_citation_required",
         data_resources=(
@@ -607,19 +610,29 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         method_schema={
             "population_analysis": "mulliken or lowdin",
             "bond_order_definition": "mayer, wiberg_lowdin, or mulliken",
+            "surface_input": "wavefunction electron density or an external cube grid, inferred from the supplied file extension",
         },
         required_methods={
             "calculate_atomic_charges": ("population_analysis",),
             "calculate_bond_orders": ("bond_order_definition",),
         },
-        required_settings={"calculate_bond_orders": ("minimum_bond_order",)},
+        required_settings={
+            "calculate_bond_orders": ("minimum_bond_order",),
+            "calculate_electron_isodensity_surface": (
+                "cutoffs_au", "grid_spacing_angstrom",
+            ),
+        },
         supported_system_types={
             "calculate_atomic_charges": ("molecular_wavefunction",),
             "calculate_bond_orders": ("molecular_wavefunction",),
+            "calculate_electron_isodensity_surface": (
+                "molecular_wavefunction", "molecular_density_grid",
+            ),
         },
         validation_levels={
             "calculate_atomic_charges": "real_smoke",
             "calculate_bond_orders": "real_smoke",
+            "calculate_electron_isodensity_surface": "real_smoke",
         },
     ),
     _backend(
@@ -841,6 +854,7 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
             "calculate_energy", "calculate_forces", "calculate_hessian", "optimize_geometry",
             "calculate_dipole_moment", "calculate_atomic_charges", "calculate_orbitals",
             "calculate_bond_orders", "calculate_excited_states",
+            "calculate_correlated_electron_density", "export_electron_density_grid",
         ),
         (
             "Operator-provided ORCA 6.1.1 electronic-structure executable with an isolated "
@@ -880,6 +894,10 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
             "solvent": "required solvent name when solvation_model is supplied",
             "charge": "optional explicit molecular charge",
             "multiplicity": "optional explicit spin multiplicity",
+            "density_type": "scf, relaxed_mp2, or unrelaxed_ccsd; unavailable combinations are rejected rather than silently substituted",
+            "auxiliary_basis": "optional ORCA auxiliary/C basis keyword for MP2 and double-hybrid methods",
+            "frozen_core": "optional explicit boolean; false emits NoFrozenCore",
+            "pmodel": "optional explicit boolean enabling ORCA PModel for the density calculation",
         },
         required_methods={
             action: ("method", "basis") for action in (
@@ -889,6 +907,9 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         } | {
             "calculate_atomic_charges": ("method", "basis", "population_analysis"),
             "calculate_excited_states": ("method", "basis", "excited_state_method"),
+            "calculate_correlated_electron_density": (
+                "method", "basis", "density_type",
+            ),
         },
         required_settings={
             "optimize_geometry": ("optimization_convergence", "max_steps"),
@@ -897,6 +918,10 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
                 "number_of_states", "spin_symmetry",
                 "excited_energy_tolerance_hartree", "residual_tolerance",
             ),
+            "calculate_correlated_electron_density": (
+                "scf_convergence", "max_scf_cycles", "stability_analysis",
+            ),
+            "export_electron_density_grid": ("density_source", "output_format"),
         },
         allowed_methods={
             action: {"solvation_model": ("cpcm", "smd")}
@@ -906,11 +931,22 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
                 "calculate_atomic_charges", "calculate_orbitals",
                 "calculate_bond_orders", "calculate_excited_states",
             )
+        } | {
+            "calculate_correlated_electron_density": {
+                "density_type": ("scf", "relaxed_mp2", "unrelaxed_ccsd"),
+            }
         },
         allowed_settings={
             "optimize_geometry": {
                 "optimization_convergence": ("Loose", "Normal", "Tight", "VeryTight")
-            }
+            },
+            "calculate_correlated_electron_density": {
+                "scf_convergence": ("LooseSCF", "TightSCF", "VeryTightSCF"),
+            },
+            "export_electron_density_grid": {
+                "density_source": ("scf", "relaxed_mp2", "mdci"),
+                "output_format": ("wfn", "wfx", "cube"),
+            },
         },
     ),
     _backend(

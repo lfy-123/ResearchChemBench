@@ -275,7 +275,7 @@ profiles:
   quantum:
     conda_name: researchchem-quantum
     server_name: researchchem_quantum
-    description: Molecular quantum chemistry and ASE calculation tools, including operator-provided ORCA 6.1.1; Psi4 remains isolated.
+    description: Molecular quantum chemistry and ASE calculation tools, including typed ORCA 6.1.1 correlated-density generation and density export; Psi4 remains isolated.
     environment: .tool_envs/quantum
     runtime_preload_libraries: [libstdc++.so.6, libgcc_s.so.1]
     conda_packages: [ase, xtb, openbabel]
@@ -410,7 +410,7 @@ profiles:
 
   multiwfn:
     conda_name: researchchem-multiwfn
-    description: Multiwfn 2026.7.15 noGUI typed wavefunction-analysis runtime.
+    description: Multiwfn 2026.7.15 noGUI typed wavefunction, density-grid, and electron-isodensity-surface analysis runtime.
     environment: .tool_envs/multiwfn
     conda_packages: [python=3.11, pydantic, pyyaml, python-dotenv]
     pip_packages: []

@@ -221,6 +221,42 @@ def _validate_artifact_input_semantics(
 ) -> dict[str, Any] | None:
     """Reject a typed ArtifactRef placed in a demonstrably incompatible slot."""
 
+    if action_id == "export_electron_density_grid":
+        value = inputs.get("electron_density")
+        if (
+            isinstance(value, Mapping)
+            and value.get("artifact_id")
+            and value.get("semantic_type") != "ElectronDensityResult"
+        ):
+            return _invalid(
+                action_id,
+                backend_id,
+                "inputs.electron_density requires the primary ElectronDensityResult artifact "
+                "returned by calculate_correlated_electron_density",
+                code="artifact_semantic_mismatch",
+            )
+        return None
+    if action_id == "calculate_electron_isodensity_surface":
+        value = inputs.get("density_file")
+        if isinstance(value, Mapping) and value.get("artifact_id"):
+            semantic_type = str(value.get("semantic_type") or "")
+            suffix = PurePosixPath(str(value.get("path") or "")).suffix.casefold()
+            if semantic_type not in {
+                "ElectronDensityWavefunction",
+                "ElectronDensityGrid",
+                "BackendFile",
+            } and suffix not in {
+                ".fch", ".fchk", ".wfn", ".wfx", ".mwfn", ".molden", ".47", ".cube",
+            }:
+                return _invalid(
+                    action_id,
+                    backend_id,
+                    "inputs.density_file requires a wavefunction or electron-density grid "
+                    "artifact returned by export_electron_density_grid",
+                    code="artifact_semantic_mismatch",
+                )
+        return None
+
     if action_id == "derive_thermochemistry" and backend_id == "internal_thermochemistry":
         expected = {
             "energy": "EnergyResult",

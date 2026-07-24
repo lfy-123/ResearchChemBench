@@ -10,6 +10,7 @@ import shutil
 from pathlib import Path
 from typing import Any
 
+from ..artifacts import resolve_workspace_path
 from .common import (
     ase_atoms,
     atom_spec,
@@ -53,6 +54,8 @@ ACTIONS = {
     "analyze_electron_density_topology", "calculate_atomic_basin_properties",
     "calculate_bader_charges", "scan_thermochemistry_temperature",
     "analyze_thermochemical_ensemble", "validate_thermochemistry_inputs",
+    "calculate_correlated_electron_density", "export_electron_density_grid",
+    "calculate_electron_isodensity_surface",
 }
 
 
@@ -1424,6 +1427,160 @@ def _multiwfn_wavefunction_analysis(action_id: str, request: dict[str, Any]) -> 
     )
 
 
+def _multiwfn_isodensity_surface(request: dict[str, Any]) -> dict[str, Any]:
+    inputs, _method, settings = request_parts(request)
+    source = resolve_input_file(inputs["density_file"])
+    if not source.is_file():
+        raise ValueError("Multiwfn requires one regular wavefunction or cube file")
+    suffix = source.suffix.casefold()
+    wavefunction_suffixes = {
+        ".fch", ".fchk", ".wfn", ".wfx", ".mwfn", ".molden", ".47",
+    }
+    if suffix == ".cube":
+        surface_definition = 11
+        source_kind = "external_density_grid"
+    elif suffix in wavefunction_suffixes:
+        surface_definition = 1
+        source_kind = "wavefunction_electron_density"
+    else:
+        raise ValueError(
+            "calculate_electron_isodensity_surface accepts WFN/WFX/FCHK/MWFN/"
+            "Molden/47 wavefunctions or a cube density grid"
+        )
+
+    raw_cutoffs = settings["cutoffs_au"]
+    if not isinstance(raw_cutoffs, (list, tuple)) or not raw_cutoffs:
+        raise ValueError("cutoffs_au must be a non-empty list")
+    if len(raw_cutoffs) > 100:
+        raise ValueError("cutoffs_au accepts at most 100 explicit values per Action")
+    cutoffs: list[float] = []
+    for value in raw_cutoffs:
+        cutoff = float(value)
+        if not math.isfinite(cutoff) or cutoff <= 0 or cutoff >= 0.1:
+            raise ValueError("Every density cutoff must be finite and between 0 and 0.1 a.u.")
+        if cutoff in cutoffs:
+            raise ValueError("cutoffs_au must not contain duplicate values")
+        cutoffs.append(cutoff)
+    spacing = float(settings["grid_spacing_angstrom"])
+    if not math.isfinite(spacing) or spacing < 0.02 or spacing > 1.0:
+        raise ValueError("grid_spacing_angstrom must be between 0.02 and 1.0")
+
+    directory = output_directory("calculate_electron_isodensity_surface", "multiwfn")
+    staged = directory / source.name
+    shutil.copy2(source, staged)
+    cores = int(request.get("resource_limits", {}).get("cpu_cores") or 1)
+    timeout_seconds = int(
+        request.get("resource_limits", {}).get("walltime_seconds", 1800)
+    )
+    rows: list[dict[str, Any]] = []
+    failures: list[dict[str, Any]] = []
+    commands: list[list[str]] = []
+    for index, cutoff in enumerate(cutoffs):
+        stdin_text = (
+            f"12\n1\n{surface_definition}\n{cutoff:.10g}\n"
+            f"3\n{spacing:.10g}\n6\n-1\n-1\nq\n"
+        )
+        completed = run_external(
+            executable="Multiwfn_noGUI",
+            environment_variable="CHEMGRAPH_MULTIWFN_COMMAND",
+            arguments=[staged.name],
+            directory=directory,
+            stdin_text=stdin_text,
+            timeout_seconds=timeout_seconds,
+            environment_overrides={
+                "OMP_NUM_THREADS": str(cores),
+                "OMP_STACKSIZE": os.environ.get("OMP_STACKSIZE", "2G"),
+            },
+        )
+        commands.append(completed["command"])
+        stdout_path = directory / f"cutoff_{index:03d}_{cutoff:.7f}.out"
+        stderr_path = directory / f"cutoff_{index:03d}_{cutoff:.7f}.err"
+        stdout_path.write_text(completed["stdout"], encoding="utf-8")
+        stderr_path.write_text(completed["stderr"], encoding="utf-8")
+        if not completed["available"]:
+            return unavailable(
+                completed["stderr"], install="Configure Multiwfn 2026.7.15 noGUI"
+            )
+        output = re.sub(r"\x1b\[[0-9;]*m", "", completed["stdout"])
+        loaded = (
+            f"Loaded {staged.name} successfully!" in output
+            or f"Loaded {staged} successfully!" in output
+        )
+        area_match = re.search(
+            r"Isosurface area:\s*[-+0-9.eEdD]+\s+Bohr\^2\s*"
+            r"\(\s*([-+0-9.eEdD]+)\s+Angstrom\^2\)",
+            output,
+        )
+        volume_match = re.search(
+            r"Volume enclosed by the isosurface:\s*[-+0-9.eEdD]+\s+Bohr\^3\s*"
+            r"\(\s*([-+0-9.eEdD]+)\s+Angstrom\^3\)",
+            output,
+        )
+        if completed["returncode"] != 0 or not loaded or not area_match or not volume_match:
+            failures.append(
+                {
+                    "cutoff_au": cutoff,
+                    "returncode": completed["returncode"],
+                    "loaded": loaded,
+                    "message": (completed["stderr"] or output)[-2000:],
+                }
+            )
+            continue
+        rows.append(
+            {
+                "cutoff_au": cutoff,
+                "surface_area_angstrom2": float(
+                    area_match.group(1).replace("D", "E").replace("d", "e")
+                ),
+                "enclosed_volume_angstrom3": float(
+                    volume_match.group(1).replace("D", "E").replace("d", "e")
+                ),
+            }
+        )
+
+    result = {
+        "source_file": relative_workspace_path(source),
+        "source_kind": source_kind,
+        "density_unit": "electrons/bohr^3",
+        "surface_area_unit": "angstrom^2",
+        "volume_unit": "angstrom^3",
+        "grid_spacing_angstrom": spacing,
+        "surfaces": rows,
+        "failures": failures,
+    }
+    result_path = write_json(directory, "result.json", result)
+    artifacts = command_artifacts(directory)
+    result_relative = relative_workspace_path(result_path)
+    for item in artifacts:
+        if item["path"] == result_relative:
+            item["semantic_type"] = "ElectronIsodensitySurfaceResult"
+            item["media_type"] = "application/json"
+    common = {
+        "artifact_files": artifacts,
+        "backend_version": "2026.7.15",
+        "warnings": (
+            [f"{len(failures)} of {len(cutoffs)} requested cutoffs failed"]
+            if failures
+            else []
+        ),
+        "provenance": {
+            "commands": commands,
+            "menu_template": [12, 1, surface_definition, "<cutoff>", 3, spacing, 6, -1, -1, "q"],
+            "parallel_threads": cores,
+            "source_density_file": relative_workspace_path(source),
+            "required_citations": [
+                "T. Lu and F. Chen, J. Comput. Chem. 33, 580 (2012), DOI 10.1002/jcc.22885",
+                "T. Lu, J. Chem. Phys. 161, 082503 (2024), DOI 10.1063/5.0216272",
+                "T. Lu and F. Chen, J. Mol. Graph. Model. 38, 314-323 (2012)",
+            ],
+            "arbitrary_menu_input_allowed": False,
+        },
+    }
+    if failures:
+        return partial_success(result, **common)
+    return success(result, **common)
+
+
 def _critic2_path(path: Path) -> str:
     text = str(path)
     if any(character.isspace() for character in text) or '"' in text:
@@ -2458,6 +2615,430 @@ def _parse_orca_hessian(path: Path) -> list[list[float]] | None:
     return matrix if len(populated) == dimension * dimension else None
 
 
+def _orca_density_token(value: Any, *, field_name: str) -> str:
+    token = str(value).strip()
+    if not token or not re.fullmatch(r"[A-Za-z0-9_+().,/=-]+", token):
+        raise ValueError(f"ORCA {field_name} contains unsupported characters")
+    return token
+
+
+def _render_orca_density(
+    structure_value: Any,
+    method: dict[str, Any],
+    settings: dict[str, Any],
+    resource_limits: dict[str, Any] | None = None,
+) -> str:
+    structure = structure_dict(structure_value)
+    symbols = [atom["element"] for atom in structure["atoms"]]
+    coordinates = [atom["position_angstrom"] for atom in structure["atoms"]]
+    method_name = _orca_density_token(method["method"], field_name="method")
+    basis = _orca_density_token(method["basis"], field_name="basis")
+    density_type = str(method["density_type"]).strip().casefold()
+    normalized_method = method_name.casefold().replace("-", "")
+    if density_type == "unrelaxed_ccsd" and normalized_method != "ccsd":
+        if "ccsd(t)" in method_name.casefold():
+            raise ValueError(
+                "ORCA does not provide an unrelaxed CCSD(T) one-particle density; "
+                "request method=CCSD and label any separate CCSD(T) energy explicitly"
+            )
+        raise ValueError("unrelaxed_ccsd density_type requires method=CCSD")
+    if density_type == "relaxed_mp2" and not (
+        "mp2" in method_name.casefold() or "dsd" in method_name.casefold()
+    ):
+        raise ValueError(
+            "relaxed_mp2 density_type requires an MP2 or double-hybrid DSD method"
+        )
+    if density_type == "scf" and normalized_method == "ccsd":
+        raise ValueError("CCSD density must use density_type=unrelaxed_ccsd")
+
+    convergence_map = {
+        "loosescf": "LooseSCF",
+        "tightscf": "TightSCF",
+        "verytightscf": "VeryTightSCF",
+    }
+    try:
+        convergence = convergence_map[str(settings["scf_convergence"]).casefold()]
+    except KeyError as exc:
+        raise ValueError(
+            "scf_convergence must be LooseSCF, TightSCF, or VeryTightSCF"
+        ) from exc
+    max_cycles = int(settings["max_scf_cycles"])
+    if max_cycles < 1 or max_cycles > 5000:
+        raise ValueError("max_scf_cycles must be between 1 and 5000")
+    stability = settings["stability_analysis"]
+    if not isinstance(stability, bool):
+        raise ValueError("stability_analysis must be a boolean")
+
+    header = [method_name, basis]
+    if method.get("auxiliary_basis"):
+        header.append(
+            _orca_density_token(method["auxiliary_basis"], field_name="auxiliary_basis")
+        )
+    if method.get("dispersion"):
+        header.append(_orca_density_token(method["dispersion"], field_name="dispersion"))
+    if method.get("frozen_core") is False:
+        header.append("NoFrozenCore")
+    elif method.get("frozen_core") is True:
+        header.append("FrozenCore")
+    if method.get("pmodel") is True:
+        header.append("PModel")
+    header.extend([convergence, "SP"])
+
+    limits = resource_limits or {}
+    cores = int(limits.get("cpu_cores") or 1)
+    memory_mb = int(limits.get("memory_mb") or (1500 * cores))
+    maxcore_mb = max(128, memory_mb // cores)
+    lines = ["! " + " ".join(header), f"%maxcore {maxcore_mb}"]
+    if cores > 1:
+        lines.extend(["%pal", f"  nprocs {cores}", "end"])
+    lines.extend(["%scf", f"  MaxIter {max_cycles}"])
+    if stability:
+        lines.extend(
+            [
+                "  GuessMode CMatrix",
+                "  STABPerform true",
+                "  STABRestartUHFifUnstable true",
+            ]
+        )
+    lines.append("end")
+    if density_type == "relaxed_mp2":
+        lines.extend(["%mp2", "  Density relaxed", "  NatOrbs true", "end"])
+    elif density_type == "unrelaxed_ccsd":
+        lines.extend(["%mdci", "  Density unrelaxed", "end"])
+
+    charge = int(method.get("charge", structure.get("charge", 0)))
+    multiplicity = int(
+        method.get("multiplicity", structure.get("multiplicity", 1))
+    )
+    lines.append(f"* xyz {charge} {multiplicity}")
+    lines.extend(
+        f"{symbol} {row[0]:.12f} {row[1]:.12f} {row[2]:.12f}"
+        for symbol, row in zip(symbols, coordinates)
+    )
+    lines.append("*")
+    return "\n".join(lines) + "\n"
+
+
+def _orca_density_artifacts(directory: Path) -> list[dict[str, str]]:
+    semantic_by_suffix = {
+        ".inp": ("BackendInput", "text/plain"),
+        ".out": ("BackendOutput", "text/plain"),
+        ".err": ("BackendDiagnostic", "text/plain"),
+        ".gbw": ("ORCAWavefunction", "application/octet-stream"),
+        ".mp2nat": ("ElectronDensityNaturalOrbitals", "application/octet-stream"),
+        ".densities": ("ElectronDensityContainer", "application/octet-stream"),
+        ".wfn": ("ElectronDensityWavefunction", "chemical/x-wfn"),
+        ".wfx": ("ElectronDensityWavefunction", "chemical/x-wfx"),
+        ".cube": ("ElectronDensityGrid", "chemical/x-gaussian-cube"),
+        ".json": ("ElectronicResult", "application/json"),
+    }
+    artifacts: list[dict[str, str]] = []
+    for path in sorted(directory.rglob("*")):
+        if not path.is_file():
+            continue
+        semantic, media = semantic_by_suffix.get(
+            path.suffix.casefold(), ("BackendFile", "application/octet-stream")
+        )
+        artifacts.append(
+            {
+                "path": relative_workspace_path(path),
+                "semantic_type": semantic,
+                "media_type": media,
+            }
+        )
+    return artifacts
+
+
+def _orca_correlated_electron_density(request: dict[str, Any]) -> dict[str, Any]:
+    inputs, method, settings = request_parts(request)
+    directory = output_directory("calculate_correlated_electron_density", "orca")
+    input_path = directory / "job.inp"
+    input_path.write_text(
+        _render_orca_density(
+            inputs["structure"],
+            method,
+            settings,
+            dict(request.get("resource_limits") or {}),
+        ),
+        encoding="utf-8",
+    )
+    completed = run_external(
+        executable="orca",
+        environment_variable="CHEMGRAPH_ORCA_COMMAND",
+        arguments=[str(input_path)],
+        directory=directory,
+        timeout_seconds=int(
+            request.get("resource_limits", {}).get("walltime_seconds", 1800)
+        ),
+    )
+    output_path = directory / "job.out"
+    error_path = directory / "job.err"
+    output_path.write_text(completed["stdout"], encoding="utf-8")
+    error_path.write_text(completed["stderr"], encoding="utf-8")
+    if not completed["available"]:
+        return unavailable(
+            completed["stderr"],
+            install="Configure the licensed ORCA 6.1.1 bundle and OpenMPI 4.1.8 runtime",
+        )
+    if completed["returncode"] != 0:
+        detail = (completed["stderr"] or completed["stdout"])[-4000:]
+        raise RuntimeError(f"ORCA electron-density calculation failed: {detail}")
+    completion_error = _orca_completion_error(completed["stdout"], completed["stderr"])
+    if completion_error is not None:
+        raise RuntimeError(
+            f"ORCA electron-density calculation did not terminate normally: {completion_error}"
+        )
+
+    density_type = str(method["density_type"]).casefold()
+    files = {
+        "input": relative_workspace_path(input_path),
+        "output": relative_workspace_path(output_path),
+    }
+    candidates = {
+        "gbw": directory / "job.gbw",
+        "density_container": directory / "job.densities",
+        "natural_orbitals": directory / "job.mp2nat",
+    }
+    for key, path in candidates.items():
+        if path.is_file():
+            files[key] = relative_workspace_path(path)
+    required_key = {
+        "scf": "gbw",
+        "relaxed_mp2": "natural_orbitals",
+        "unrelaxed_ccsd": "density_container",
+    }[density_type]
+    if required_key not in files:
+        raise RuntimeError(
+            f"ORCA completed but did not produce the required {required_key} density artifact"
+        )
+    if density_type == "unrelaxed_ccsd" and not re.search(
+        r"(?:unrelaxed density|mdcip)", completed["stdout"], re.I
+    ):
+        raise RuntimeError("ORCA output did not confirm an unrelaxed CCSD/MDCI density")
+    if density_type == "relaxed_mp2" and "mp2nat" not in completed["stdout"].casefold():
+        # The physical file is authoritative, but make the version-dependent omission visible.
+        warning = "ORCA produced .mp2nat but did not mention that filename in the main output"
+    else:
+        warning = None
+
+    energy_matches = re.findall(
+        r"FINAL SINGLE POINT ENERGY\s+(-?\d+(?:\.\d+)?)", completed["stdout"]
+    )
+    version_match = re.search(r"Program Version\s+(\d+\.\d+\.\d+)", completed["stdout"])
+    result = {
+        "method": str(method["method"]),
+        "basis": str(method["basis"]),
+        "density_type": density_type,
+        "energy_hartree": float(energy_matches[-1]) if energy_matches else None,
+        "charge": int(method.get("charge", structure_dict(inputs["structure"]).get("charge", 0))),
+        "multiplicity": int(
+            method.get(
+                "multiplicity", structure_dict(inputs["structure"]).get("multiplicity", 1)
+            )
+        ),
+        "files": files,
+    }
+    result_path = write_json(directory, "result.json", result)
+    artifacts = _orca_density_artifacts(directory)
+    result_relative = relative_workspace_path(result_path)
+    for item in artifacts:
+        if item["path"] == result_relative:
+            item["semantic_type"] = "ElectronDensityResult"
+            item["media_type"] = "application/json"
+    return success(
+        result,
+        artifact_files=artifacts,
+        backend_version=version_match.group(1) if version_match else None,
+        warnings=[warning] if warning else [],
+        provenance={
+            "command": completed["command"],
+            "parallel_processes": int(
+                request.get("resource_limits", {}).get("cpu_cores") or 1
+            ),
+            "density_source": density_type,
+            "silent_density_fallback_allowed": False,
+        },
+    )
+
+
+def _electron_density_result(value: Any) -> dict[str, Any]:
+    item = unwrap_artifact(value)
+    if isinstance(item, dict) and isinstance(item.get("result"), dict):
+        item = item["result"]
+    if not isinstance(item, dict) or not isinstance(item.get("files"), dict):
+        raise ValueError(
+            "electron_density must resolve to the ElectronDensityResult returned by "
+            "calculate_correlated_electron_density"
+        )
+    return item
+
+
+def _copy_density_file(result: dict[str, Any], key: str, target: Path) -> Path:
+    raw = result["files"].get(key)
+    if not raw:
+        raise ValueError(f"ElectronDensityResult does not contain required file {key!r}")
+    source = resolve_workspace_path(raw, must_exist=True)
+    shutil.copy2(source, target)
+    return target
+
+
+def _cube_electron_integral(path: Path) -> float | None:
+    lines = path.read_text(encoding="utf-8", errors="replace").splitlines()
+    if len(lines) < 7:
+        return None
+    try:
+        atom_count = abs(int(lines[2].split()[0]))
+        vectors = []
+        grid_counts = []
+        for line in lines[3:6]:
+            fields = line.split()
+            grid_counts.append(abs(int(fields[0])))
+            vectors.append([float(fields[1]), float(fields[2]), float(fields[3])])
+        a, b, c = vectors
+        voxel = abs(
+            a[0] * (b[1] * c[2] - b[2] * c[1])
+            - a[1] * (b[0] * c[2] - b[2] * c[0])
+            + a[2] * (b[0] * c[1] - b[1] * c[0])
+        )
+        values = [
+            float(token.replace("D", "E").replace("d", "e"))
+            for line in lines[6 + atom_count :]
+            for token in line.split()
+        ]
+        expected = grid_counts[0] * grid_counts[1] * grid_counts[2]
+        if len(values) < expected:
+            return None
+        return sum(values[:expected]) * voxel
+    except (ValueError, IndexError):
+        return None
+
+
+def _orca_export_electron_density(request: dict[str, Any]) -> dict[str, Any]:
+    inputs, _method, settings = request_parts(request)
+    density = _electron_density_result(inputs["electron_density"])
+    requested_source = str(settings["density_source"]).casefold()
+    output_format = str(settings["output_format"]).casefold()
+    calculated_type = str(density.get("density_type", "")).casefold()
+    compatible_source = {
+        "scf": "scf",
+        "relaxed_mp2": "relaxed_mp2",
+        "unrelaxed_ccsd": "mdci",
+    }.get(calculated_type)
+    if requested_source != compatible_source:
+        raise ValueError(
+            f"Requested density_source={requested_source!r} does not match the calculated "
+            f"density_type={calculated_type!r}; silent density substitution is forbidden"
+        )
+    if requested_source == "mdci" and output_format != "cube":
+        raise ValueError(
+            "ORCA MDCI density export requires output_format=cube; orca_2aim on the ordinary "
+            "GBW would export reference orbitals instead of the MDCI density"
+        )
+    if requested_source != "mdci" and output_format == "cube":
+        raise ValueError(
+            "The validated typed ORCA adapter exports SCF/relaxed-MP2 densities as WFN/WFX; "
+            "request one of those formats for provenance-safe Multiwfn analysis"
+        )
+
+    directory = output_directory("export_electron_density_grid", "orca")
+    commands: list[list[str]] = []
+    warnings: list[str] = []
+    if requested_source == "mdci":
+        _copy_density_file(density, "gbw", directory / "density.gbw")
+        _copy_density_file(density, "density_container", directory / "density.densities")
+        grid_points = int(settings.get("grid_points_per_axis", 100))
+        if grid_points < 20 or grid_points > 400:
+            raise ValueError("grid_points_per_axis must be between 20 and 400")
+        menu = f"1\n7\ny\n4\n{grid_points} {grid_points} {grid_points}\n11\n12\n"
+        completed = run_external(
+            executable="orca_plot",
+            arguments=["density.gbw", "-i"],
+            directory=directory,
+            stdin_text=menu,
+            timeout_seconds=int(
+                request.get("resource_limits", {}).get("walltime_seconds", 1800)
+            ),
+        )
+        commands.append(completed["command"])
+        (directory / "orca_plot.out").write_text(completed["stdout"], encoding="utf-8")
+        (directory / "orca_plot.err").write_text(completed["stderr"], encoding="utf-8")
+        if not completed["available"]:
+            return unavailable(completed["stderr"], install="Configure ORCA orca_plot")
+        if completed["returncode"] != 0:
+            raise RuntimeError(
+                "orca_plot MDCI density export failed: "
+                + (completed["stderr"] or completed["stdout"])[-3000:]
+            )
+        candidates = sorted(directory.glob("*.cube"))
+        if not candidates:
+            raise RuntimeError("orca_plot completed without producing an MDCI density cube")
+        primary = candidates[-1]
+        integrated_electrons = _cube_electron_integral(primary)
+        if integrated_electrons is None:
+            warnings.append("Could not integrate the generated cube for an electron-count check")
+    else:
+        _copy_density_file(density, "gbw", directory / "density.gbw")
+        if requested_source == "relaxed_mp2":
+            _copy_density_file(
+                density, "natural_orbitals", directory / "density.mp2nat"
+            )
+        completed = run_external(
+            executable="orca_2aim",
+            arguments=["density"],
+            directory=directory,
+            timeout_seconds=int(
+                request.get("resource_limits", {}).get("walltime_seconds", 1800)
+            ),
+        )
+        commands.append(completed["command"])
+        (directory / "orca_2aim.out").write_text(completed["stdout"], encoding="utf-8")
+        (directory / "orca_2aim.err").write_text(completed["stderr"], encoding="utf-8")
+        if not completed["available"]:
+            return unavailable(completed["stderr"], install="Configure ORCA orca_2aim")
+        if completed["returncode"] != 0:
+            raise RuntimeError(
+                "orca_2aim density export failed: "
+                + (completed["stderr"] or completed["stdout"])[-3000:]
+            )
+        if requested_source == "relaxed_mp2" and "mp2nat" not in completed["stdout"].casefold():
+            raise RuntimeError(
+                "orca_2aim did not confirm reading the requested relaxed-MP2 .mp2nat density"
+            )
+        primary = directory / f"density.{output_format}"
+        if not primary.is_file():
+            raise RuntimeError(
+                f"orca_2aim completed without producing the requested {output_format.upper()} file"
+            )
+        integrated_electrons = None
+
+    result = {
+        "density_source": requested_source,
+        "output_format": output_format,
+        "output_file": relative_workspace_path(primary),
+        "integrated_electrons": integrated_electrons,
+        "source_method": density.get("method"),
+        "source_basis": density.get("basis"),
+    }
+    result_path = write_json(directory, "result.json", result)
+    artifacts = _orca_density_artifacts(directory)
+    result_relative = relative_workspace_path(result_path)
+    for item in artifacts:
+        if item["path"] == result_relative:
+            item["semantic_type"] = "ElectronDensityExportResult"
+            item["media_type"] = "application/json"
+    return success(
+        result,
+        artifact_files=artifacts,
+        backend_version="6.1.1",
+        warnings=warnings,
+        provenance={
+            "commands": commands,
+            "density_source": requested_source,
+            "silent_density_fallback_allowed": False,
+        },
+    )
+
+
 def _orca_completion_error(stdout: str, stderr: str) -> str | None:
     """Return a concise diagnostic when ORCA did not finish normally.
 
@@ -2494,6 +3075,11 @@ def _orca_completion_error(stdout: str, stderr: str) -> str | None:
 
 def _orca(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
     import numpy as np
+
+    if action_id == "calculate_correlated_electron_density":
+        return _orca_correlated_electron_density(request)
+    if action_id == "export_electron_density_grid":
+        return _orca_export_electron_density(request)
 
     inputs, method, settings = request_parts(request)
     directory = output_directory(action_id, "orca")
@@ -3002,6 +3588,8 @@ def execute(action_id: str, backend_id: str, request: dict[str, Any]) -> dict[st
     if backend_id == "openmolcas":
         return _openmolcas(action_id, request)
     if backend_id == "multiwfn":
+        if action_id == "calculate_electron_isodensity_surface":
+            return _multiwfn_isodensity_surface(request)
         return _multiwfn_wavefunction_analysis(action_id, request)
     if backend_id == "critic2":
         return _critic2(action_id, request)
