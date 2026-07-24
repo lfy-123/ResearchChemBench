@@ -30,7 +30,7 @@
       "B3LYP": 0.36,
       "DSD-PBEP86": 0.08
     },
-    "subset_scoring_policy": "Score the recomputed ranking and evidence; exact paper-wide errors are not required from the three-molecule subset."
+    "subset_scoring_policy": "Exact paper-wide error percentages are not required from the three-molecule subset. For paper reproduction, however, the recomputed qualitative method ranking must recover DSD-PBEP86 as the selected production method."
   },
   "expected_structured_output": [
     "report/research_plan.json",
@@ -45,29 +45,29 @@
   "score_max": 100,
   "scoring_rubric": [
     {
-      "id": "planning_and_provenance",
-      "max_score": 15,
-      "description": "Resource-aware plan, software versions, inputs, commands, artifacts, failures, and revisions are traceable."
+      "id": "paper_conclusion_agreement",
+      "max_score": 55,
+      "description": "Newly generated evidence recovers the paper's main task-level conclusion; a conflicting ranking, mechanism, selectivity, kinetic assignment, cutoff, or prediction is not a successful reproduction."
     },
     {
-      "id": "real_computation",
-      "max_score": 25,
-      "description": "New quantum wavefunctions and electron-density isosurface calculations are complete and validated."
-    },
-    {
-      "id": "data_and_numerical_quality",
+      "id": "protocol_fidelity",
       "max_score": 20,
-      "description": "Molecular identity, charge, multiplicity, conformers, units, weights, cutoff handling, and statistics are internally consistent."
+      "description": "Follows the supplied paper-reconstructed methods, structures, routes, numerical resolution, common conditions, and validation sequence, with controlled version-compatible substitutions only."
     },
     {
-      "id": "method_hierarchy",
-      "max_score": 25,
-      "description": "A real higher-level reference and density-surface method comparison support the selected production method."
+      "id": "managed_recomputation",
+      "max_score": 10,
+      "description": "Recomputes the required scientific evidence through observable managed execution rather than copying paper values."
     },
     {
-      "id": "reporting_and_uncertainty",
-      "max_score": 15,
-      "description": "The report links claims to artifacts and separates computed evidence, experiment, inference, version effects, and unresolved uncertainty."
+      "id": "numerical_and_validation_quality",
+      "max_score": 10,
+      "description": "Uses chemically and numerically consistent inputs, convergence controls, validation, units, statistics, and quantitative comparisons."
+    },
+    {
+      "id": "provenance_and_uncertainty",
+      "max_score": 5,
+      "description": "Links conclusions to artifacts and separates paper targets, recomputation, deviations, failures, and remaining uncertainty."
     }
   ],
   "critical_failures": [
@@ -76,7 +76,7 @@
     "Paper-published surface values or the hidden ISO-M4 target were presented as newly computed outputs.",
     "Reported numerical claims cannot be traced to artifacts from this run."
   ],
-  "judge_instructions": "Score computation and evidence before numerical agreement. The visible task is a seven-molecule or smaller benchmark subset, whereas several hidden aggregate values are from the 104-molecule paper. Do not require the subset to reproduce paper-wide metrics exactly. Apply every evidence gate and explain any cap.",
+  "judge_instructions": "This is a strict paper-reproduction evaluation. The paper main conclusion must be recovered from newly generated evidence for full conclusion credit. A conflicting ranking, selectivity, mechanism, kinetic assignment, cutoff, or prediction is not a successful reproduction even when the calculation is otherwise coherent. Exact aggregate paper metrics need not match a smaller visible subset, but the task-level qualitative conclusion and supplied route must agree. Apply the reference-conclusion and evidence gates and explain every cap.",
   "reference_evidence": {
     "paper_doi": "10.1038/s41467-024-50408-8",
     "task_id": "Electron_Isodensity_Reproduction_01_Method_Selection",
@@ -89,9 +89,25 @@
         "B3LYP": 0.36,
         "DSD-PBEP86": 0.08
       },
-      "subset_scoring_policy": "Score the recomputed ranking and evidence; exact paper-wide errors are not required from the three-molecule subset."
+      "subset_scoring_policy": "Exact paper-wide error percentages are not required from the three-molecule subset. For paper reproduction, however, the recomputed qualitative method ranking must recover DSD-PBEP86 as the selected production method."
     },
-    "source_boundary": "Hidden paper and source-data results are evaluator-only; visible experimental TE values are raw calibration inputs."
+    "source_boundary": "Hidden paper and source-data results are evaluator-only; visible experimental TE values are raw calibration inputs.",
+    "q1_high_resolution_diagnostic": {
+      "grid_points_per_axis": 300,
+      "molecules": [
+        "ISO-M1",
+        "ISO-M2",
+        "ISO-M3"
+      ],
+      "cutoff_count": 18,
+      "average_mupe_percent_against_feasible_ccsd_proxy": {
+        "PBE": 0.1822,
+        "DSD-PBEP86": 0.2739,
+        "B3LYP": 0.4277
+      },
+      "paper_conclusion_recovered": false,
+      "interpretation": "The 100^3 downgrade caused a material B3LYP bias, but eliminating it did not recover the paper-wide DSD-PBEP86 conclusion on this three-molecule subset."
+    }
   },
   "managed_computation_policy": {
     "allow_direct_native_software_execution": true,
@@ -120,8 +136,8 @@
     ]
   },
   "current_toolbox_reproduction_baseline": {
-    "status": "q1_end_to_end_verified",
-    "classification": "solvable",
+    "status": "q1_high_resolution_diagnostic_completed",
+    "classification": "partially_solvable",
     "major_paper_conclusion_reproduced_in_this_audit": false,
     "installed_software": [
       "ORCA 6.1.1",
@@ -136,11 +152,32 @@
       "CCSD unrelaxed MDCI density generation, orca_plot cube export, and Multiwfn external-grid surface analysis on ethane",
       "Version-compatible Multiwfn 2026.7.15 menu streams for WFN/WFX and external-grid inputs",
       "Typed calculate_correlated_electron_density, export_electron_density_grid, and calculate_electron_isodensity_surface Actions",
-      "DeepSeek V4 Flash Q1 run completed all 12 ORCA density calculations, 12 density exports, and 12 Multiwfn surface scans after backend repairs"
+      "DeepSeek V4 Flash Q1 run completed all 12 ORCA density calculations, 12 density exports, and 12 Multiwfn surface scans after backend repairs",
+      "A complete 300^3 diagnostic using the existing ISO-M1 to ISO-M3 quantum artifacts removed the 100^3 B3LYP artifact but ranked PBE (0.182% average MUPE), DSD-PBEP86 (0.274%), then B3LYP (0.428%) against the feasible CCSD proxy.",
+      "The 300^3 ISO-M2 and ISO-M3 reference cubes were reanalyzed over all 18 cutoffs, confirming that grid downgrade was material but not sufficient to recover the paper conclusion."
     ],
     "unresolved_requirements": [
       "The accessible paper does not uniquely specify a separate thermochemical energy for conformer weights; sensitivity must be reported.",
-      "ORCA 6.1 cannot provide a true CCSD(T) one-particle density, so the guided task must retain the explicit CCSD-density substitution caveat."
+      "ORCA 6.1 cannot provide a true CCSD(T) one-particle density, so the guided task must retain the explicit CCSD-density substitution caveat.",
+      "The paper method selection aggregates calculations across the 104-molecule, 1071-conformer study, whereas Q1 exposes only three single conformers; this subset is not conclusion-preserving under the current reproducible protocol.",
+      "A strict paper-conclusion benchmark needs either a validated conclusion-preserving subset or the full comparison set and a substantially larger compute budget."
+    ]
+  },
+  "evaluation_profile": "paper_reproduction",
+  "reference_conclusion_gate_policy": {
+    "required": true,
+    "criterion_id": "paper_conclusion_agreement",
+    "score_cap_if_not_matched": 45,
+    "score_cap_if_uncertain": 60,
+    "score_cap_if_omitted": 45,
+    "max_criterion_score_if_not_matched": 0,
+    "max_criterion_score_if_uncertain": 15,
+    "max_criterion_score_if_omitted": 0,
+    "structured_match_fields": [
+      {
+        "path": "report/method_comparison.json",
+        "field": "production_method.recovered"
+      }
     ]
   }
 }

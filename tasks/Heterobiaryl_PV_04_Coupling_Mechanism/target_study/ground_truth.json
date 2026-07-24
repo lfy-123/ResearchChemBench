@@ -20,34 +20,29 @@
   ],
   "scoring_rubric": [
     {
-      "id": "stationary_point_search",
-      "max_score": 20,
-      "criterion": "Generates candidate reactant, transition, intermediate, and product-side structures from public seeds."
-    },
-    {
-      "id": "vibrational_validation",
+      "id": "scientific_problem_framing",
       "max_score": 15,
-      "criterion": "Classifies every claimed stationary point from new Hessian/frequency evidence; a transition state requires exactly one chemically relevant imaginary mode."
+      "description": "Defines testable hypotheses, decision criteria, resource tiers, and stopping rules without relying on a disclosed paper route."
     },
     {
-      "id": "connectivity_validation",
+      "id": "autonomous_method_and_route_design",
+      "max_score": 25,
+      "description": "Independently selects defensible structures, methods, sampling, numerical controls, and alternative routes appropriate to the question."
+    },
+    {
+      "id": "adaptive_managed_execution",
+      "max_score": 25,
+      "description": "Executes real managed calculations, diagnoses failures, and revises the workflow without fabricating or importing hidden results."
+    },
+    {
+      "id": "validation_and_falsification",
       "max_score": 20,
-      "criterion": "Tests forward/reverse connectivity or an equivalent direct reaction coordinate rather than treating a transition-state guess or static structure as proof."
+      "description": "Checks convergence, numerical sensitivity, chemical validity, competing explanations, uncertainty, and evidence sufficiency."
     },
     {
-      "id": "bond_reorganization",
-      "max_score": 20,
-      "criterion": "Quantifies forming C-C and breaking/retained P-C behavior along newly generated structures or trajectories."
-    },
-    {
-      "id": "mechanism_classification",
+      "id": "defensible_scientific_conclusion",
       "max_score": 15,
-      "criterion": "Supports the reference stepwise asynchronous classification, dearomatized intermediate, and limited oxygen participation from direct evidence, or explicitly leaves unsupported elements unresolved."
-    },
-    {
-      "id": "provenance_and_uncertainty",
-      "max_score": 10,
-      "criterion": "Retains failures and ties mechanistic claims to artifacts."
+      "description": "Draws a traceable conclusion from the generated evidence. Agreement with the hidden paper conclusion is not required."
     }
   ],
   "critical_failures": [
@@ -59,7 +54,7 @@
     "Charges, multiplicities, units, methods, temperatures, or standard states are mixed so the claimed comparison is invalid.",
     "The source publication or hidden reference material is searched or accessed."
   ],
-  "judge_instructions": "This is an autonomous-reproduction task, not an analysis-of-supplied-results task. Only scientific results generated during this run count as computed evidence. Do not require exact tool names, software, methods, or a unique order; predefined Actions, managed native software jobs, and managed Agent-authored analysis programs are all valid. Built-in shell/file tools may inspect raw inputs and reports but do not by themselves satisfy managed scientific computation. Apply the managed-computation and evidence-gate policies. Score independent method-dependent values by stationarity, connectivity, consistency, scale, and provenance rather than exact equality alone. Static optimized structures cannot distinguish concerted from stepwise chemistry. Require target-mode and connectivity/coordinate evidence, and compare the confident final assignment with the hidden reference mechanism.",
+  "judge_instructions": "This is an autonomous-discovery evaluation. Reward independent hypothesis formation, method and route selection, adaptive managed execution, validation, falsification, and an evidence-bound conclusion. Do not require agreement with the hidden paper conclusion merely because it is the reference.",
   "managed_computation_policy": {
     "required": true,
     "minimum_successful_scientific_calls": 3,
@@ -118,5 +113,7 @@
     },
     "published_reference_is_hidden_comparison_only": true,
     "input_manifest_sha256": "b7a2b4c5ea5c575340b775894ecca7295ca35ad146a213e65988943826027568"
-  }
+  },
+  "evaluation_profile": "autonomous_discovery",
+  "reference_conclusion_gate_policy": {}
 }

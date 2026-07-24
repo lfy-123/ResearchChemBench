@@ -9,7 +9,10 @@
     "Use the supplied def2-TZVPD method-comparison hierarchy consistently across ISO-M1 to ISO-M3.",
     "Run the complete supplied cutoff grid for each successful method and molecule.",
     "Keep current-software recomputations separate from hidden paper-published numerical targets.",
-    "Within the advertised backend limits and currently available server capacity, prioritize wall-clock efficiency by using substantial CPU parallelism and running independent calculations concurrently. Scale total memory with the process count so each ORCA process receives at least 2000 MB, use more per-process memory when correlated-method diagnostics require it, and use low-core execution only when justified by memory, scaling, or numerical-stability considerations."
+    "Within the advertised backend limits and currently available server capacity, prioritize wall-clock efficiency by using substantial CPU parallelism and running independent calculations concurrently. Scale total memory with the process count so each ORCA process receives at least 2000 MB, use more per-process memory when correlated-method diagnostics require it, and use low-core execution only when justified by memory, scaling, or numerical-stability considerations.",
+    "For every CCSD/MDCI reference, export one common 300^3 electron-density cube, set resource_limits.walltime_seconds to at least 1800 for orca_plot, enable strict_electron_count_validation with a tolerance no larger than 0.2 percent, and do not lower grid resolution merely to recover from a timeout.",
+    "Preserve NoFrozenCore, VeryTightSCF, and stability settings required by the supplied protocol. If a synchronous calculation approaches its deadline, use the managed asynchronous native-job layer or increase the declared walltime instead of silently changing the scientific method.",
+    "Within the advertised backend limits and available server capacity, use substantial CPU parallelism for ORCA and run independent molecules concurrently. Scale total memory so each ORCA process receives at least 2000 MB. Note that orca_plot cube export itself is single-process and must be accelerated by concurrent independent exports rather than a larger cpu_cores value."
   ],
   "required_deliverables": [
     {

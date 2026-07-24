@@ -85,6 +85,34 @@ BACKEND_PARAMETER_SPECS: dict[
                     "molecular boxes, so quantitative work should verify convergence."
                 ),
             },
+            "action_settings.electron_count_tolerance_percent": {
+                "description": (
+                    "Maximum allowed relative difference between the integrated cube "
+                    "density and the source density's expected electron count."
+                ),
+                "default": 0.2,
+                "type": "number",
+                "minimum": 0.001,
+                "maximum": 10.0,
+                "impact": (
+                    "A smaller tolerance rejects or warns about more discretization loss; "
+                    "a larger tolerance accepts coarser cubes but may allow isosurface-area "
+                    "bias large enough to change close method rankings."
+                ),
+            },
+            "action_settings.strict_electron_count_validation": {
+                "description": (
+                    "Whether an electron-count error above the selected tolerance makes "
+                    "the cube export fail instead of returning it with a warning."
+                ),
+                "default": False,
+                "type": "boolean",
+                "impact": (
+                    "Enabling strict validation prevents downstream use of a demonstrably "
+                    "under-resolved cube. Disabling it preserves exploratory workflows but "
+                    "requires the Agent to treat the warning as numerical uncertainty."
+                ),
+            },
         },
     },
 }
@@ -103,6 +131,17 @@ BACKEND_FIXED_PARAMETER_SPECS: dict[
                 "reason": (
                     "The installed interactive orca_plot adapter currently exposes grid "
                     "resolution but not an independently typed bounding-box override."
+                ),
+            },
+            "backend_runtime.cube_export_parallelism": {
+                "description": (
+                    "The installed ORCA orca_plot MDCI cube exporter runs as one process; "
+                    "resource_limits.cpu_cores does not parallelize this export stage."
+                ),
+                "reason": (
+                    "orca_plot does not expose a validated parallel cube-export control. "
+                    "Use sufficient walltime, and parallelize independent molecule exports "
+                    "as separate jobs when server capacity permits."
                 ),
             },
         },

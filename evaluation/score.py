@@ -37,7 +37,7 @@ Rules:
 Respond with one JSON object only: {"score": 0 or 1, "rationale": "brief explanation"}.
 """
 
-RUBRIC_JUDGE_SYSTEM_PROMPT = """You are an expert evaluator of an autonomous computational-chemistry investigation.
+RUBRIC_JUDGE_SYSTEM_PROMPT = """You are an expert evaluator of a computational-chemistry investigation.
 
 Score the submission against the supplied 100-point rubric. Evaluate scientific validity, evidence provenance, uncertainty handling, and the observable computation trace. Do not require exact tool names or a unique call order when an alternative process preserves the scientific dependencies. The benchmark has three managed scientific execution layers: predefined Chemistry MCP Actions, native software jobs submitted through Chemistry MCP, and Agent-authored analysis programs submitted through Chemistry MCP. Built-in shell and file tools may prepare inputs, inspect raw data, and write reports, but they are never managed scientific execution. A result supported by observable managed commands, code, outputs, and submitted artifacts is not fabricated merely because one predefined Action failed. Distinguish an agent mistake from an objective framework, unavailable-data, or backend failure. Never reward a paper value that appears without supporting evidence from the supplied data or an independently documented calculation.
 
@@ -62,7 +62,17 @@ Rules:
 - A higher-order saddle with multiple chemically relevant imaginary modes is not a validated transition state. By itself it is also not a rigorous activation barrier or upper bound. A precise transition-state claim requires the validation stated by the task-specific gate.
 
 Respond with one JSON object only:
-{"score": 0-100, "score_max": 100, "criteria": [{"id": "...", "score": 0, "max_score": 0, "rationale": "..."}], "critical_failures": [], "evidence_gate_failures": [], "objective_issue_flags": [], "rationale": "concise overall assessment"}.
+{"score": 0-100, "score_max": 100, "criteria": [{"id": "...", "score": 0, "max_score": 0, "rationale": "..."}], "critical_failures": [], "evidence_gate_failures": [], "objective_issue_flags": [], "reference_conclusion_status": "matched|not_matched|uncertain", "rationale": "concise overall assessment"}.
+"""
+
+AUTONOMOUS_DISCOVERY_JUDGE_PROMPT = """
+Evaluation profile: AUTONOMOUS SCIENTIFIC DISCOVERY.
+Judge the Agent's ability to formulate hypotheses, select and revise methods or pathways without a supplied paper route, execute real calculations, falsify alternatives, and reach a defensible evidence-bound conclusion. Agreement with a hidden paper conclusion is not itself required and must not be used as a score gate. A conclusion that differs from the reference can receive full credit when it follows from valid, sufficiently broad, independently generated evidence.
+"""
+
+PAPER_REPRODUCTION_JUDGE_PROMPT = """
+Evaluation profile: PAPER REPRODUCTION.
+This profile is deliberately stricter. The main paper conclusion must be recovered from newly generated evidence, and the paper-conclusion criterion is the majority of the score. A scientifically coherent calculation that reaches the opposite ranking, mechanism, selectivity, rate-determining step, or other main conclusion is not a successful reproduction. Protocol deviations, reduced numerical resolution, substitute methods, incomplete sampling, or version limitations must be scored separately and cannot convert a conflicting conclusion into a match. Set reference_conclusion_status to matched only when the main conclusion stated in the reference answer is actually reproduced; use not_matched for a conflicting conclusion and uncertain when the submitted evidence cannot decide it.
 """
 
 JUDGE_USER_TEMPLATE = """## Query
@@ -89,6 +99,12 @@ RUBRIC_JUDGE_USER_TEMPLATE = """## Scientific task
 
 ## Reference answer and numerical evidence
 {expected_result}
+
+## Evaluation profile
+{evaluation_profile}
+
+## Reference-conclusion gate policy
+{reference_conclusion_gate_policy}
 
 ## Additional reference evidence
 {reference_evidence}
@@ -148,6 +164,7 @@ def _parse_judge_json(text: str, *, score_max: int = 1) -> dict[str, Any]:
         "critical_failures": value.get("critical_failures", []),
         "evidence_gate_failures": value.get("evidence_gate_failures"),
         "objective_issue_flags": value.get("objective_issue_flags", []),
+        "reference_conclusion_status": value.get("reference_conclusion_status"),
         "rationale": str(value.get("rationale", "")),
     }
 
@@ -298,6 +315,124 @@ def _evidence_gate_cap(
         failures,
         warnings,
     )
+
+
+def _nested_value(value: Any, dotted_path: str) -> Any:
+    current = value
+    for part in dotted_path.split("."):
+        if not isinstance(current, dict) or part not in current:
+            return None
+        current = current[part]
+    return current
+
+
+def _structured_conclusion_mismatches(
+    workspace: Path,
+    policy: dict[str, Any],
+) -> list[str]:
+    """Return explicit submitted JSON fields that declare reproduction failure."""
+
+    mismatches: list[str] = []
+    specifications = policy.get("structured_match_fields", [])
+    if not isinstance(specifications, list):
+        return mismatches
+    for specification in specifications:
+        if not isinstance(specification, dict):
+            continue
+        relative = str(specification.get("path") or "").strip()
+        field = str(specification.get("field") or "").strip()
+        path = (workspace / relative).resolve()
+        try:
+            path.relative_to(workspace)
+        except ValueError:
+            continue
+        if not relative or not field or not path.is_file() or path.suffix.casefold() != ".json":
+            continue
+        try:
+            value = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            continue
+        if _nested_value(value, field) is False:
+            mismatches.append(f"{relative}:{field}=false")
+    return mismatches
+
+
+def _reference_conclusion_cap(
+    policy: dict[str, Any],
+    reported_status: Any,
+    *,
+    structured_mismatches: list[str],
+) -> tuple[
+    float | None,
+    str | None,
+    str,
+    str | None,
+    float | None,
+    list[str],
+]:
+    """Apply the strict main-conclusion gate used by reproduction tasks."""
+
+    if not policy or policy.get("required") is not True:
+        return None, None, "not_applicable", None, None, []
+    warnings: list[str] = []
+    status = str(reported_status or "").strip().casefold()
+    if structured_mismatches:
+        if status == "matched":
+            warnings.append(
+                "Overrode the judge's matched status because a submitted structured "
+                "artifact explicitly records that the paper conclusion was not recovered."
+            )
+        status = "not_matched"
+    elif status not in {"matched", "not_matched", "uncertain"}:
+        status = "omitted"
+        warnings.append(
+            "Judge omitted or invalidated reference_conclusion_status; treated it as omitted."
+        )
+    if status == "matched":
+        return None, None, status, None, None, warnings
+
+    suffix = {
+        "not_matched": "not_matched",
+        "uncertain": "uncertain",
+        "omitted": "omitted",
+    }[status]
+    default_cap = {"not_matched": 45, "uncertain": 60, "omitted": 45}[status]
+    default_criterion_cap = {"not_matched": 0, "uncertain": 15, "omitted": 0}[status]
+    cap = float(policy.get(f"score_cap_if_{suffix}", default_cap))
+    criterion_id = str(policy.get("criterion_id") or "").strip() or None
+    criterion_cap = float(
+        policy.get(
+            f"max_criterion_score_if_{suffix}", default_criterion_cap
+        )
+    )
+    reason = (
+        f"Reference conclusion status is {status}; the paper-reproduction profile "
+        "does not award full reproduction credit without a matched main conclusion."
+    )
+    if structured_mismatches:
+        reason += " Explicit mismatch evidence: " + ", ".join(structured_mismatches) + "."
+    return cap, reason, status, criterion_id, criterion_cap, warnings
+
+
+def _apply_criterion_score_limit(
+    criteria: list[dict[str, Any]],
+    *,
+    criterion_id: str | None,
+    maximum_score: float | None,
+) -> tuple[list[dict[str, Any]], bool]:
+    if not criterion_id or maximum_score is None:
+        return criteria, False
+    changed = False
+    adjusted: list[dict[str, Any]] = []
+    for item in criteria:
+        if item.get("id") != criterion_id:
+            adjusted.append(item)
+            continue
+        score = float(item.get("score", 0))
+        limited = min(score, maximum_score)
+        changed = changed or limited < score
+        adjusted.append({**item, "score": round(limited, 2)})
+    return adjusted, changed
 
 
 def _apply_rubric_score_cap(
@@ -520,6 +655,7 @@ def score_workspace(
         }
     )
     if evaluation_mode == "rubric_100":
+        evaluation_profile = str(truth.get("evaluation_profile") or "").strip()
         prompt = RUBRIC_JUDGE_USER_TEMPLATE.format(
             query=meta.get("query") or meta.get("task") or task_id,
             agent_visible_protocol=json.dumps(
@@ -543,6 +679,12 @@ def score_workspace(
             ),
             expected_result=json.dumps(
                 truth.get("expected_result", ""), indent=2, ensure_ascii=False
+            ),
+            evaluation_profile=evaluation_profile or "unspecified",
+            reference_conclusion_gate_policy=json.dumps(
+                truth.get("reference_conclusion_gate_policy", {}),
+                indent=2,
+                ensure_ascii=False,
             ),
             reference_evidence=json.dumps(
                 truth.get("reference_evidence"), indent=2, ensure_ascii=False
@@ -573,6 +715,10 @@ def score_workspace(
             ),
         )
         system_prompt = RUBRIC_JUDGE_SYSTEM_PROMPT
+        if evaluation_profile == "autonomous_discovery":
+            system_prompt += AUTONOMOUS_DISCOVERY_JUDGE_PROMPT
+        elif evaluation_profile == "paper_reproduction":
+            system_prompt += PAPER_REPRODUCTION_JUDGE_PROMPT
     else:
         prompt = JUDGE_USER_TEMPLATE.format(
             query=meta.get("query") or meta.get("task") or task_id,
@@ -650,9 +796,41 @@ def score_workspace(
                 raw_verdict.get("evidence_gate_failures"),
             )
             consistency_warnings.extend(evidence_gate_warnings)
+            conclusion_policy = truth.get(
+                "reference_conclusion_gate_policy", {}
+            )
+            structured_mismatches = _structured_conclusion_mismatches(
+                workspace, conclusion_policy
+            )
+            (
+                conclusion_cap,
+                conclusion_cap_reason,
+                reference_conclusion_status,
+                conclusion_criterion_id,
+                conclusion_criterion_cap,
+                conclusion_warnings,
+            ) = _reference_conclusion_cap(
+                conclusion_policy,
+                raw_verdict.get("reference_conclusion_status"),
+                structured_mismatches=structured_mismatches,
+            )
+            consistency_warnings.extend(conclusion_warnings)
+            criteria, conclusion_criterion_limited = _apply_criterion_score_limit(
+                criteria,
+                criterion_id=conclusion_criterion_id,
+                maximum_score=conclusion_criterion_cap,
+            )
+            if conclusion_criterion_limited:
+                score = round(
+                    sum(float(item.get("score", 0)) for item in criteria), 2
+                )
+                consistency_warnings.append(
+                    "Limited paper-conclusion criterion credit according to the "
+                    f"{reference_conclusion_status} conclusion status."
+                )
             applicable_caps = [
                 value
-                for value in (score_cap, evidence_gate_cap)
+                for value in (score_cap, evidence_gate_cap, conclusion_cap)
                 if value is not None
             ]
             applied_score_cap = min(applicable_caps) if applicable_caps else None
@@ -668,6 +846,11 @@ def score_workspace(
                     f"Applied evidence-gate score cap {evidence_gate_cap:g}: "
                     f"{evidence_gate_cap_reason}"
                 )
+            if conclusion_cap_reason and conclusion_cap is not None:
+                consistency_warnings.append(
+                    f"Applied reference-conclusion score cap {conclusion_cap:g}: "
+                    f"{conclusion_cap_reason}"
+                )
         else:
             raw_score = float(raw_verdict.get("score", 0))
             score = 1 if raw_score == 1 else 0
@@ -678,6 +861,10 @@ def score_workspace(
             evidence_gate_cap = None
             evidence_gate_cap_reason = None
             evidence_gate_failures = []
+            conclusion_cap = None
+            conclusion_cap_reason = None
+            reference_conclusion_status = "not_applicable"
+            structured_mismatches = []
             applied_score_cap = None
         verdict = {
             "score": score,
@@ -693,6 +880,10 @@ def score_workspace(
             "managed_computation_score_cap_reason": score_cap_reason,
             "evidence_gate_score_cap": evidence_gate_cap,
             "evidence_gate_score_cap_reason": evidence_gate_cap_reason,
+            "reference_conclusion_status": reference_conclusion_status,
+            "reference_conclusion_score_cap": conclusion_cap,
+            "reference_conclusion_score_cap_reason": conclusion_cap_reason,
+            "structured_conclusion_mismatches": structured_mismatches,
             "applied_score_cap": applied_score_cap,
         }
     except Exception as exc:
@@ -710,6 +901,10 @@ def score_workspace(
             "managed_computation_score_cap_reason": None,
             "evidence_gate_score_cap": None,
             "evidence_gate_score_cap_reason": None,
+            "reference_conclusion_status": "unknown",
+            "reference_conclusion_score_cap": None,
+            "reference_conclusion_score_cap_reason": None,
+            "structured_conclusion_mismatches": [],
             "applied_score_cap": None,
         }
         append_progress_event(
@@ -734,6 +929,7 @@ def score_workspace(
         "actual_tool_calls": actual_calls,
         "expected_result": truth.get("expected_result", ""),
         "evaluation_mode": evaluation_mode,
+        "evaluation_profile": truth.get("evaluation_profile", ""),
         "score": verdict["score"],
         "score_max": verdict["score_max"],
         "normalized_score": (
@@ -755,6 +951,19 @@ def score_workspace(
         "evidence_gate_score_cap": verdict["evidence_gate_score_cap"],
         "evidence_gate_score_cap_reason": verdict[
             "evidence_gate_score_cap_reason"
+        ],
+        "reference_conclusion_gate_policy": truth.get(
+            "reference_conclusion_gate_policy", {}
+        ),
+        "reference_conclusion_status": verdict["reference_conclusion_status"],
+        "reference_conclusion_score_cap": verdict[
+            "reference_conclusion_score_cap"
+        ],
+        "reference_conclusion_score_cap_reason": verdict[
+            "reference_conclusion_score_cap_reason"
+        ],
+        "structured_conclusion_mismatches": verdict[
+            "structured_conclusion_mismatches"
         ],
         "applied_score_cap": verdict["applied_score_cap"],
         "rationale": verdict["rationale"],

@@ -227,6 +227,9 @@ TASK_SPECS = (
             "Use the supplied def2-TZVPD method-comparison hierarchy consistently across ISO-M1 to ISO-M3.",
             "Run the complete supplied cutoff grid for each successful method and molecule.",
             "Keep current-software recomputations separate from hidden paper-published numerical targets.",
+            "For every CCSD/MDCI reference, export one common 300^3 electron-density cube, set resource_limits.walltime_seconds to at least 1800 for orca_plot, enable strict_electron_count_validation with a tolerance no larger than 0.2 percent, and do not lower grid resolution merely to recover from a timeout.",
+            "Preserve NoFrozenCore, VeryTightSCF, and stability settings required by the supplied protocol. If a synchronous calculation approaches its deadline, use the managed asynchronous native-job layer or increase the declared walltime instead of silently changing the scientific method.",
+            "Within the advertised backend limits and available server capacity, use substantial CPU parallelism for ORCA and run independent molecules concurrently. Scale total memory so each ORCA process receives at least 2000 MB. Note that orca_plot cube export itself is single-process and must be accelerated by concurrent independent exports rather than a larger cpu_cores value.",
         ),
         deliverables=COMMON_DELIVERABLES
         + (
@@ -915,7 +918,7 @@ def _reference_result(spec: TaskSpec) -> dict[str, Any]:
         return {
             "paper_conclusion": "DSD-PBEP86 is the closest tested DFT density to CCSD(T) and is selected for production calculations.",
             "paper_full_comparison_mupe_percent": {"PBE": 0.24, "B3LYP": 0.36, "DSD-PBEP86": 0.08},
-            "subset_scoring_policy": "Score the recomputed ranking and evidence; exact paper-wide errors are not required from the three-molecule subset.",
+            "subset_scoring_policy": "Exact paper-wide error percentages are not required from the three-molecule subset. In the paper-reproduction profile, however, the recomputed qualitative method ranking must recover DSD-PBEP86 as the selected production method; in autonomous discovery, judge the independently supported conclusion instead.",
         }
     if spec.reference_key == "conformer_effects":
         return {
@@ -965,14 +968,6 @@ def _reference_result(spec: TaskSpec) -> dict[str, Any]:
 def _ground_truth(spec: TaskSpec, reproduction: bool, manifest_sha256: str) -> dict[str, Any]:
     task_id = spec.reproduction_id if reproduction else spec.open_id
     expected_paths = [path for path, _, _ in spec.deliverables]
-    task_specific = {
-        "01": ("method_hierarchy", "A real higher-level reference and density-surface method comparison support the selected production method."),
-        "02": ("conformer_ensemble", "Multiple validated conformers, consistent weights, and single-versus-ensemble surfaces support the conformer conclusion."),
-        "03": ("cutoff_curve", "A recomputed multi-point cutoff curve and statistics support the selected optimum."),
-        "04": ("blind_prediction", "Calibration choices are locked before a newly computed ISO-M4 prediction is reported."),
-        "05": ("end_to_end_science", "Method, conformer, cutoff, and blind-prediction conclusions form one internally consistent computed workflow."),
-    }
-    criterion_id, criterion_description = task_specific[spec.number]
     gates = [
         {
             "id": "real_quantum_evidence",
@@ -1006,6 +1001,70 @@ def _ground_truth(spec: TaskSpec, reproduction: bool, manifest_sha256: str) -> d
                 "score_cap_if_failed": 70,
             }
         )
+    autonomous_rubric = [
+        {"id": "scientific_problem_framing", "max_score": 15, "description": "Defines testable hypotheses, decision criteria, resource tiers, and stopping rules without relying on a disclosed paper route."},
+        {"id": "autonomous_method_and_route_design", "max_score": 25, "description": "Independently selects defensible structures, methods, sampling, numerical controls, and alternative routes appropriate to the question."},
+        {"id": "adaptive_managed_execution", "max_score": 25, "description": "Executes real managed calculations, diagnoses failures, and revises the workflow without fabricating or laundering unmanaged results."},
+        {"id": "validation_and_falsification", "max_score": 20, "description": "Checks convergence, numerical sensitivity, chemical validity, competing explanations, uncertainty, and evidence sufficiency."},
+        {"id": "defensible_scientific_conclusion", "max_score": 15, "description": "Draws a traceable conclusion from the generated evidence. Agreement with the hidden paper conclusion is not required."},
+    ]
+    reproduction_rubric = [
+        {"id": "paper_conclusion_agreement", "max_score": 55, "description": "Newly generated evidence recovers the paper's main method, ranking, conformer, cutoff, prediction, or end-to-end conclusion for this task; a conflicting conclusion receives no full reproduction credit."},
+        {"id": "protocol_fidelity", "max_score": 20, "description": "Follows the supplied paper-reconstructed methods, structures, routes, numerical resolution, and validation sequence, with controlled and explicit version-compatible substitutions only."},
+        {"id": "managed_recomputation", "max_score": 10, "description": "Recomputes the required quantum and isosurface evidence through observable managed scientific execution rather than copying paper values."},
+        {"id": "numerical_and_validation_quality", "max_score": 10, "description": "Uses consistent identities, charge, spin, conformers, grids, cutoffs, units, weights, convergence tests, and quantitative comparisons."},
+        {"id": "provenance_and_uncertainty", "max_score": 5, "description": "Links conclusions to artifacts and clearly separates paper targets, recomputation, deviations, failures, and remaining uncertainty."},
+    ]
+    conclusion_gate: dict[str, Any] = {}
+    if reproduction:
+        conclusion_gate = {
+            "required": True,
+            "criterion_id": "paper_conclusion_agreement",
+            "score_cap_if_not_matched": 45,
+            "score_cap_if_uncertain": 60,
+            "score_cap_if_omitted": 45,
+            "max_criterion_score_if_not_matched": 0,
+            "max_criterion_score_if_uncertain": 15,
+            "max_criterion_score_if_omitted": 0,
+        }
+        if spec.number == "01":
+            conclusion_gate["structured_match_fields"] = [
+                {
+                    "path": "report/method_comparison.json",
+                    "field": "production_method.recovered",
+                }
+            ]
+    baseline = {
+        "status": "representative_components_verified",
+        "classification": "solvable",
+        "major_paper_conclusion_reproduced_in_this_audit": False,
+        "installed_software": ["ORCA 6.1.1", "Multiwfn 2026.7.15", "CREST 3.0.2", "xTB 6.7.1"],
+        "verified_components": [
+            "Typed calculate_correlated_electron_density, export_electron_density_grid, and calculate_electron_isodensity_surface Actions",
+            "ORCA GBW/WFN and MDCI cube export with Multiwfn isodensity surface analysis",
+            "Agent-controllable density grid, electron-count validation, resource limits, and version-compatible menu streams",
+        ],
+        "unresolved_requirements": [
+            "The accessible paper does not uniquely specify a separate thermochemical energy for conformer weights; sensitivity must be reported.",
+            "ORCA 6.1 cannot provide a true CCSD(T) one-particle density, so any CCSD-density substitution must remain explicit.",
+        ],
+    }
+    if spec.number == "01":
+        baseline.update(
+            {
+                "status": "q1_high_resolution_diagnostic_completed",
+                "classification": "partially_solvable",
+                "verified_components": baseline["verified_components"]
+                + [
+                    "A complete 300^3 diagnostic on the existing ISO-M1 to ISO-M3 run removed the 100^3 B3LYP artifact but ranked PBE, then DSD-PBEP86, then B3LYP against the feasible CCSD proxy."
+                ],
+                "unresolved_requirements": baseline["unresolved_requirements"]
+                + [
+                    "The paper's DSD-PBEP86 selection aggregates the full 104-molecule, 1071-conformer comparison, whereas Q1 exposes only three single conformers; this subset is not conclusion-preserving under the current reproducible protocol.",
+                    "A strict paper-conclusion benchmark needs either a validated conclusion-preserving subset or the full comparison set and substantially larger compute budget.",
+                ],
+            }
+        )
     return {
         "expected_tool_calls": [
             {"class": "structure_or_conformer_generation", "required": not reproduction},
@@ -1016,14 +1075,11 @@ def _ground_truth(spec: TaskSpec, reproduction: bool, manifest_sha256: str) -> d
         "expected_result": _reference_result(spec),
         "expected_structured_output": expected_paths,
         "evaluation_mode": "rubric_100",
+        "evaluation_profile": (
+            "paper_reproduction" if reproduction else "autonomous_discovery"
+        ),
         "score_max": 100,
-        "scoring_rubric": [
-            {"id": "planning_and_provenance", "max_score": 15, "description": "Resource-aware plan, software versions, inputs, commands, artifacts, failures, and revisions are traceable."},
-            {"id": "real_computation", "max_score": 25, "description": "New quantum wavefunctions and electron-density isosurface calculations are complete and validated."},
-            {"id": "data_and_numerical_quality", "max_score": 20, "description": "Molecular identity, charge, multiplicity, conformers, units, weights, cutoff handling, and statistics are internally consistent."},
-            {"id": criterion_id, "max_score": 25, "description": criterion_description},
-            {"id": "reporting_and_uncertainty", "max_score": 15, "description": "The report links claims to artifacts and separates computed evidence, experiment, inference, version effects, and unresolved uncertainty."},
-        ],
+        "scoring_rubric": reproduction_rubric if reproduction else autonomous_rubric,
         "critical_failures": [
             "No real electronic-structure calculation was executed.",
             "No real electron-density isosurface calculation was executed.",
@@ -1031,7 +1087,9 @@ def _ground_truth(spec: TaskSpec, reproduction: bool, manifest_sha256: str) -> d
             "Reported numerical claims cannot be traced to artifacts from this run.",
         ],
         "judge_instructions": (
-            "Score computation and evidence before numerical agreement. The visible task is a seven-molecule or smaller benchmark subset, whereas several hidden aggregate values are from the 104-molecule paper. Do not require the subset to reproduce paper-wide metrics exactly. Apply every evidence gate and explain any cap."
+            "This is a strict paper-reproduction evaluation. The main paper conclusion must be recovered from new evidence for full conclusion credit, and a conclusion that ranks or assigns the scientific outcome differently is not a successful reproduction. Exact 104-molecule aggregate numbers are not required from a smaller visible subset, but the task-level qualitative conclusion and supplied protocol route must agree. Apply the reference-conclusion and evidence gates and explain every cap."
+            if reproduction
+            else "This is an autonomous-discovery evaluation. Reward independent hypothesis formation, method and route selection, adaptive execution, falsification, and an evidence-bound conclusion. Do not require agreement with the hidden paper conclusion merely because it is the reference answer. Apply every evidence gate and explain any cap."
         ),
         "reference_evidence": {
             "paper_doi": DOI,
@@ -1048,23 +1106,8 @@ def _ground_truth(spec: TaskSpec, reproduction: bool, manifest_sha256: str) -> d
             "do_not_fabricate_on_timeout": True,
         },
         "evidence_gate_policy": {"judge_must_assess_all": True, "gates": gates},
-        "current_toolbox_reproduction_baseline": {
-            "status": "representative_components_verified",
-            "classification": "solvable",
-            "major_paper_conclusion_reproduced_in_this_audit": False,
-            "installed_software": ["ORCA 6.1.1", "Multiwfn 2026.7.15", "CREST 3.0.2", "xTB 6.7.1"],
-            "verified_components": [
-                "DSD-PBEP86/def2-QZVPD ORCA wavefunction generation on ethane and 1-pentanethiol",
-                "ORCA GBW to WFN conversion with orca_2aim",
-                "Multiwfn molecular electron-isodensity surface area at a paper-relevant cutoff",
-                "CCSD unrelaxed MDCI density generation, orca_plot cube export, and Multiwfn external-grid surface analysis on ethane",
-                "Version-compatible Multiwfn 2026.7.15 menu streams for WFN/WFX and external-grid inputs",
-            ],
-            "unresolved_requirements": [
-                "No typed batch Action currently exposes electron-isodensity surface-area scans; direct native Multiwfn execution is required.",
-                "The accessible paper does not uniquely specify a separate thermochemical energy for conformer weights; sensitivity must be reported.",
-            ],
-        },
+        "reference_conclusion_gate_policy": conclusion_gate,
+        "current_toolbox_reproduction_baseline": baseline,
     }
 
 

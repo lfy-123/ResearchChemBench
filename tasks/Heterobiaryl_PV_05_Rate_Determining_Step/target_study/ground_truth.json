@@ -21,34 +21,29 @@
   ],
   "scoring_rubric": [
     {
-      "id": "experimental_rate_analysis",
+      "id": "scientific_problem_framing",
       "max_score": 15,
-      "criterion": "Correctly quantifies OMe 0.16 < Me 0.37 < H 1.00 < Cl 1.89 and its uncertainty."
+      "description": "Defines testable hypotheses, decision criteria, resource tiers, and stopping rules without relying on a disclosed paper route."
     },
     {
-      "id": "new_ligand_coupling_evidence",
+      "id": "autonomous_method_and_route_design",
       "max_score": 25,
-      "criterion": "Generates independent energetic evidence for at least the relevant protonated ligand-coupling step."
+      "description": "Independently selects defensible structures, methods, sampling, numerical controls, and alternative routes appropriate to the question."
     },
     {
-      "id": "experimental_computational_integration",
+      "id": "adaptive_managed_execution",
+      "max_score": 25,
+      "description": "Executes real managed calculations, diagnoses failures, and revises the workflow without fabricating or importing hidden results."
+    },
+    {
+      "id": "validation_and_falsification",
       "max_score": 20,
-      "criterion": "Combines calculations with ethoxide behavior and cautious NMR non-detection reasoning."
+      "description": "Checks convergence, numerical sensitivity, chemical validity, competing explanations, uncertainty, and evidence sufficiency."
     },
     {
-      "id": "rate_determining_assignment",
-      "max_score": 20,
-      "criterion": "Uses experiments plus new downstream energetic evidence to identify alcohol addition as the most likely rate-determining stage, or gives a rigorously supported alternative without confusing it with coupling."
-    },
-    {
-      "id": "step_role_separation",
-      "max_score": 10,
-      "criterion": "Separately assigns alcohol addition rate control, ligand-coupling selectivity control, and the strongly irreversible post-coupling collapse."
-    },
-    {
-      "id": "provenance_alternatives",
-      "max_score": 10,
-      "criterion": "Links computed claims to artifacts and retains falsifiable alternatives."
+      "id": "defensible_scientific_conclusion",
+      "max_score": 15,
+      "description": "Draws a traceable conclusion from the generated evidence. Agreement with the hidden paper conclusion is not required."
     }
   ],
   "critical_failures": [
@@ -60,7 +55,7 @@
     "Charges, multiplicities, units, methods, temperatures, or standard states are mixed so the claimed comparison is invalid.",
     "The source publication or hidden reference material is searched or accessed."
   ],
-  "judge_instructions": "This is an autonomous-reproduction task, not an analysis-of-supplied-results task. Only scientific results generated during this run count as computed evidence. Do not require exact tool names, software, methods, or a unique order; predefined Actions, managed native software jobs, and managed Agent-authored analysis programs are all valid. Built-in shell/file tools may inspect raw inputs and reports but do not by themselves satisfy managed scientific computation. Apply the managed-computation and evidence-gate policies. Score independent method-dependent values by stationarity, connectivity, consistency, scale, and provenance rather than exact equality alone. Quantified experimental rates alone do not answer the task. Check the three mechanistic roles separately and do not praise role separation when the report assigns ligand coupling as the overall rate-determining step.",
+  "judge_instructions": "This is an autonomous-discovery evaluation. Reward independent hypothesis formation, method and route selection, adaptive managed execution, validation, falsification, and an evidence-bound conclusion. Do not require agreement with the hidden paper conclusion merely because it is the reference.",
   "managed_computation_policy": {
     "required": true,
     "minimum_successful_scientific_calls": 2,
@@ -123,5 +118,7 @@
     },
     "published_reference_is_hidden_comparison_only": true,
     "input_manifest_sha256": "3a0cb9cec5eed0370b4f705c3dae88a24cad8a824022a36306863b1793060b84"
-  }
+  },
+  "evaluation_profile": "autonomous_discovery",
+  "reference_conclusion_gate_policy": {}
 }

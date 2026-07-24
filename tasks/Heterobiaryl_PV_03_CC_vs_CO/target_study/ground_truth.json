@@ -18,34 +18,29 @@
   ],
   "scoring_rubric": [
     {
-      "id": "independent_path_hypotheses",
+      "id": "scientific_problem_framing",
       "max_score": 15,
-      "criterion": "Constructs chemically comparable C-C and C-O hypotheses from P2 seeds."
+      "description": "Defines testable hypotheses, decision criteria, resource tiers, and stopping rules without relying on a disclosed paper route."
     },
     {
-      "id": "new_cc_evidence",
-      "max_score": 20,
-      "criterion": "Generates new pyridyl-pyridyl pathway evidence and validates any claimed first-order transition state and its connectivity."
-    },
-    {
-      "id": "new_co_evidence",
+      "id": "autonomous_method_and_route_design",
       "max_score": 25,
-      "criterion": "Actively investigates the C-O competitor; full credit requires a validated first-order target mode and connectivity, while a higher-order saddle alone is neither a barrier nor a rigorous bound."
+      "description": "Independently selects defensible structures, methods, sampling, numerical controls, and alternative routes appropriate to the question."
     },
     {
-      "id": "barrier_or_bound_comparison",
+      "id": "adaptive_managed_execution",
+      "max_score": 25,
+      "description": "Executes real managed calculations, diagnoses failures, and revises the workflow without fabricating or importing hidden results."
+    },
+    {
+      "id": "validation_and_falsification",
       "max_score": 20,
-      "criterion": "Provides common-condition comparable barriers or controlled computed bounds, reconciles major scale deviations, and predicts the dominant path without treating an unconverged structure as quantitative evidence."
+      "description": "Checks convergence, numerical sensitivity, chemical validity, competing explanations, uncertainty, and evidence sufficiency."
     },
     {
-      "id": "experimental_integration",
-      "max_score": 10,
-      "criterion": "Uses the trace C-O observation and acidic/ethoxide conditions as constraints, not substitutes for computation."
-    },
-    {
-      "id": "provenance_and_uncertainty",
-      "max_score": 10,
-      "criterion": "Links conclusions to new artifacts and separates unresolved uncertainty."
+      "id": "defensible_scientific_conclusion",
+      "max_score": 15,
+      "description": "Draws a traceable conclusion from the generated evidence. Agreement with the hidden paper conclusion is not required."
     }
   ],
   "critical_failures": [
@@ -57,7 +52,7 @@
     "Charges, multiplicities, units, methods, temperatures, or standard states are mixed so the claimed comparison is invalid.",
     "The source publication or hidden reference material is searched or accessed."
   ],
-  "judge_instructions": "This is an autonomous-reproduction task, not an analysis-of-supplied-results task. Only scientific results generated during this run count as computed evidence. Do not require exact tool names, software, methods, or a unique order; predefined Actions, managed native software jobs, and managed Agent-authored analysis programs are all valid. Built-in shell/file tools may inspect raw inputs and reports but do not by themselves satisfy managed scientific computation. Apply the managed-computation and evidence-gate policies. Score independent method-dependent values by stationarity, connectivity, consistency, scale, and provenance rather than exact equality alone. A higher-order C-O saddle is not a validated barrier and is not a rigorous upper bound by itself. The previous qualitative ordering must not receive full credit when stationary-point validity, common conditions, or quantitative scale is wrong.",
+  "judge_instructions": "This is an autonomous-discovery evaluation. Reward independent hypothesis formation, method and route selection, adaptive managed execution, validation, falsification, and an evidence-bound conclusion. Do not require agreement with the hidden paper conclusion merely because it is the reference.",
   "managed_computation_policy": {
     "required": true,
     "minimum_successful_scientific_calls": 2,
@@ -119,5 +114,7 @@
     },
     "published_reference_is_hidden_comparison_only": true,
     "input_manifest_sha256": "b99e0b579a3e7119bd9d74b9d379572d5fceda6864f2ec72effa4bf82e84a3a3"
-  }
+  },
+  "evaluation_profile": "autonomous_discovery",
+  "reference_conclusion_gate_policy": {}
 }

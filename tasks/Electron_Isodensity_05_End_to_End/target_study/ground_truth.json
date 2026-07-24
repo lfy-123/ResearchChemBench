@@ -52,29 +52,29 @@
   "score_max": 100,
   "scoring_rubric": [
     {
-      "id": "planning_and_provenance",
+      "id": "scientific_problem_framing",
       "max_score": 15,
-      "description": "Resource-aware plan, software versions, inputs, commands, artifacts, failures, and revisions are traceable."
+      "description": "Defines testable hypotheses, decision criteria, resource tiers, and stopping rules without relying on a disclosed paper route."
     },
     {
-      "id": "real_computation",
+      "id": "autonomous_method_and_route_design",
       "max_score": 25,
-      "description": "New quantum wavefunctions and electron-density isosurface calculations are complete and validated."
+      "description": "Independently selects defensible structures, methods, sampling, numerical controls, and alternative routes appropriate to the question."
     },
     {
-      "id": "data_and_numerical_quality",
+      "id": "adaptive_managed_execution",
+      "max_score": 25,
+      "description": "Executes real managed calculations, diagnoses failures, and revises the workflow without fabricating or importing hidden results."
+    },
+    {
+      "id": "validation_and_falsification",
       "max_score": 20,
-      "description": "Molecular identity, charge, multiplicity, conformers, units, weights, cutoff handling, and statistics are internally consistent."
+      "description": "Checks convergence, numerical sensitivity, chemical validity, competing explanations, uncertainty, and evidence sufficiency."
     },
     {
-      "id": "end_to_end_science",
-      "max_score": 25,
-      "description": "Method, conformer, cutoff, and blind-prediction conclusions form one internally consistent computed workflow."
-    },
-    {
-      "id": "reporting_and_uncertainty",
+      "id": "defensible_scientific_conclusion",
       "max_score": 15,
-      "description": "The report links claims to artifacts and separates computed evidence, experiment, inference, version effects, and unresolved uncertainty."
+      "description": "Draws a traceable conclusion from the generated evidence. Agreement with the hidden paper conclusion is not required."
     }
   ],
   "critical_failures": [
@@ -83,7 +83,7 @@
     "Paper-published surface values or the hidden ISO-M4 target were presented as newly computed outputs.",
     "Reported numerical claims cannot be traced to artifacts from this run."
   ],
-  "judge_instructions": "Score computation and evidence before numerical agreement. The visible task is a seven-molecule or smaller benchmark subset, whereas several hidden aggregate values are from the 104-molecule paper. Do not require the subset to reproduce paper-wide metrics exactly. Apply every evidence gate and explain any cap.",
+  "judge_instructions": "This is an autonomous-discovery evaluation. Reward independent hypothesis formation, method and route selection, adaptive managed execution, validation, falsification, and an evidence-bound conclusion. Do not require agreement with the hidden paper conclusion merely because it is the reference.",
   "reference_evidence": {
     "paper_doi": "10.1038/s41467-024-50408-8",
     "task_id": "Electron_Isodensity_05_End_to_End",
@@ -160,5 +160,7 @@
       "No typed batch Action currently exposes electron-isodensity surface-area scans; direct native Multiwfn execution is required.",
       "The accessible paper does not uniquely specify a separate thermochemical energy for conformer weights; sensitivity must be reported."
     ]
-  }
+  },
+  "evaluation_profile": "autonomous_discovery",
+  "reference_conclusion_gate_policy": {}
 }

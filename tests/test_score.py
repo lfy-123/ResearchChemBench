@@ -246,3 +246,121 @@ def test_evidence_gate_policy_caps_scientifically_unvalidated_high_score(
     assert result["applied_score_cap"] == 55
     assert "Evidence-gate policy" in captured_prompt
     assert "Exactly one target imaginary mode" in captured_prompt
+
+
+def test_paper_reproduction_mismatch_cannot_receive_self_awarded_full_score(
+    tmp_path: Path, monkeypatch
+):
+    runner = TaskRunner("ChemGraph_001", agent_key="mock", workspace_root=tmp_path)
+    runner.run()
+    (runner.workspace / "report" / "method_comparison.json").write_text(
+        json.dumps({"production_method": {"recovered": False}}),
+        encoding="utf-8",
+    )
+    rubric = [
+        {"id": "paper_conclusion_agreement", "max_score": 55},
+        {"id": "protocol_fidelity", "max_score": 20},
+        {"id": "managed_recomputation", "max_score": 10},
+        {"id": "numerical_and_validation_quality", "max_score": 10},
+        {"id": "provenance_and_uncertainty", "max_score": 5},
+    ]
+    truth = {
+        "expected_tool_calls": [],
+        "expected_result": {"paper_conclusion": "DSD-PBEP86 is best"},
+        "evaluation_mode": "rubric_100",
+        "evaluation_profile": "paper_reproduction",
+        "score_max": 100,
+        "scoring_rubric": rubric,
+        "critical_failures": [],
+        "judge_instructions": "Strict reproduction.",
+        "reference_evidence": {},
+        "reference_conclusion_gate_policy": {
+            "required": True,
+            "criterion_id": "paper_conclusion_agreement",
+            "score_cap_if_not_matched": 45,
+            "max_criterion_score_if_not_matched": 0,
+            "structured_match_fields": [
+                {
+                    "path": "report/method_comparison.json",
+                    "field": "production_method.recovered",
+                }
+            ],
+        },
+    }
+    monkeypatch.setattr("evaluation.score.load_ground_truth", lambda _task_id: truth)
+
+    result = score_workspace(
+        runner.workspace,
+        judge_call=lambda _prompt: {
+            "score": 100,
+            "criteria": [
+                {
+                    "id": item["id"],
+                    "score": item["max_score"],
+                    "max_score": item["max_score"],
+                    "rationale": "Agent self-reported full reproduction.",
+                }
+                for item in rubric
+            ],
+            "critical_failures": [],
+            "evidence_gate_failures": [],
+            "objective_issue_flags": [],
+            "reference_conclusion_status": "matched",
+            "rationale": "Incorrectly self-awarded 100.",
+        },
+    )
+
+    assert result["score"] == 45
+    assert result["reference_conclusion_status"] == "not_matched"
+    assert result["reference_conclusion_score_cap"] == 45
+    assert result["structured_conclusion_mismatches"]
+    conclusion = next(
+        item
+        for item in result["criteria"]
+        if item["id"] == "paper_conclusion_agreement"
+    )
+    assert conclusion["score"] == 0
+
+
+def test_autonomous_discovery_is_not_capped_for_a_reference_disagreement(
+    tmp_path: Path, monkeypatch
+):
+    runner = TaskRunner("ChemGraph_001", agent_key="mock", workspace_root=tmp_path)
+    runner.run()
+    rubric = [
+        {"id": "autonomous_method_and_route_design", "max_score": 50},
+        {"id": "defensible_scientific_conclusion", "max_score": 50},
+    ]
+    truth = {
+        "expected_tool_calls": [],
+        "expected_result": {"paper_conclusion": "reference differs"},
+        "evaluation_mode": "rubric_100",
+        "evaluation_profile": "autonomous_discovery",
+        "score_max": 100,
+        "scoring_rubric": rubric,
+        "critical_failures": [],
+        "judge_instructions": "Independent discovery.",
+        "reference_evidence": {},
+        "reference_conclusion_gate_policy": {},
+    }
+    monkeypatch.setattr("evaluation.score.load_ground_truth", lambda _task_id: truth)
+
+    result = score_workspace(
+        runner.workspace,
+        judge_call=lambda _prompt: {
+            "score": 100,
+            "criteria": [
+                {"id": item["id"], "score": 50, "max_score": 50, "rationale": "valid"}
+                for item in rubric
+            ],
+            "critical_failures": [],
+            "evidence_gate_failures": [],
+            "objective_issue_flags": [],
+            "reference_conclusion_status": "not_matched",
+            "rationale": "Independent conclusion is well supported.",
+        },
+    )
+
+    assert result["score"] == 100
+    assert result["reference_conclusion_status"] == "not_applicable"
+    assert result["reference_conclusion_score_cap"] is None

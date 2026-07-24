@@ -480,7 +480,10 @@ class TaskRunner:
                         "-c",
                         f"mcp_servers.{name}.startup_timeout_sec=60",
                         "-c",
-                        f"mcp_servers.{name}.tool_timeout_sec=3600",
+                        (
+                            f"mcp_servers.{name}.tool_timeout_sec="
+                            f"{max(1, (DEFAULT_MCP_TOOL_TIMEOUT_MS + 999) // 1000)}"
+                        ),
                     ]
                 )
                 for key, value in spec["environment"].items():

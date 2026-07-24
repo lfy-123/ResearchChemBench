@@ -7,6 +7,7 @@ import json
 import math
 import os
 import re
+import signal
 import shlex
 import shutil
 import subprocess
@@ -396,34 +397,55 @@ def run_external(
             "stderr": f"Executable {executable!r} was not found",
             "command": [executable, *arguments],
         }
+    environment = os.environ.copy()
+    environment.update(environment_overrides or {})
+    process = subprocess.Popen(
+        [*command, *arguments],
+        cwd=directory,
+        stdin=subprocess.PIPE if stdin_text is not None else None,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        env=environment,
+        # Scientific launchers frequently spawn worker processes.  Give every
+        # call its own process group so a timeout cannot leave an unobserved
+        # ORCA/orca_plot child consuming resources and writing late artifacts.
+        start_new_session=os.name == "posix",
+    )
     try:
-        environment = os.environ.copy()
-        environment.update(environment_overrides or {})
-        completed = subprocess.run(
-            [*command, *arguments],
-            cwd=directory,
-            input=stdin_text,
-            text=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            timeout=timeout_seconds,
-            check=False,
-            env=environment,
-        )
-    except subprocess.TimeoutExpired as exc:
+        stdout, stderr = process.communicate(stdin_text, timeout=timeout_seconds)
+    except subprocess.TimeoutExpired:
+        if os.name == "posix":
+            try:
+                os.killpg(process.pid, signal.SIGTERM)
+            except ProcessLookupError:
+                pass
+        else:
+            process.terminate()
+        try:
+            stdout, stderr = process.communicate(timeout=5)
+        except subprocess.TimeoutExpired:
+            if os.name == "posix":
+                try:
+                    os.killpg(process.pid, signal.SIGKILL)
+                except ProcessLookupError:
+                    pass
+            else:
+                process.kill()
+            stdout, stderr = process.communicate()
         return {
             "available": True,
             "returncode": 124,
-            "stdout": (exc.stdout or "") if isinstance(exc.stdout, str) else "",
-            "stderr": (exc.stderr or "") if isinstance(exc.stderr, str) else "",
+            "stdout": stdout or "",
+            "stderr": stderr or "",
             "command": [Path(command[0]).name, *command[1:], *arguments],
             "timeout": True,
         }
     return {
         "available": True,
-        "returncode": completed.returncode,
-        "stdout": completed.stdout,
-        "stderr": completed.stderr,
+        "returncode": process.returncode,
+        "stdout": stdout,
+        "stderr": stderr,
         "command": [Path(command[0]).name, *command[1:], *arguments],
     }
 

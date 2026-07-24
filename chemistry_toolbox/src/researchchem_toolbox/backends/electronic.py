@@ -2857,17 +2857,24 @@ def _orca_correlated_electron_density(request: dict[str, Any]) -> dict[str, Any]
         r"FINAL SINGLE POINT ENERGY\s+(-?\d+(?:\.\d+)?)", completed["stdout"]
     )
     version_match = re.search(r"Program Version\s+(\d+\.\d+\.\d+)", completed["stdout"])
+    charge = int(
+        method.get("charge", structure_dict(inputs["structure"]).get("charge", 0))
+    )
+    expected_electron_count = int(
+        sum(ase_atoms(inputs["structure"]).get_atomic_numbers()) - charge
+    )
     result = {
         "method": str(method["method"]),
         "basis": str(method["basis"]),
         "density_type": density_type,
         "energy_hartree": float(energy_matches[-1]) if energy_matches else None,
-        "charge": int(method.get("charge", structure_dict(inputs["structure"]).get("charge", 0))),
+        "charge": charge,
         "multiplicity": int(
             method.get(
                 "multiplicity", structure_dict(inputs["structure"]).get("multiplicity", 1)
             )
         ),
+        "electron_count": expected_electron_count,
         "files": files,
     }
     result_path = write_json(directory, "result.json", result)
@@ -2989,15 +2996,39 @@ def _orca_export_electron_density(request: dict[str, Any]) -> dict[str, Any]:
         grid_points = int(settings.get("grid_points_per_axis", 300))
         if grid_points < 20 or grid_points > 400:
             raise ValueError("grid_points_per_axis must be between 20 and 400")
+        electron_tolerance = float(
+            settings.get("electron_count_tolerance_percent", 0.2)
+        )
+        if (
+            not math.isfinite(electron_tolerance)
+            or electron_tolerance < 0.001
+            or electron_tolerance > 10
+        ):
+            raise ValueError(
+                "electron_count_tolerance_percent must be between 0.001 and 10"
+            )
+        strict_electron_validation = settings.get(
+            "strict_electron_count_validation", False
+        )
+        if not isinstance(strict_electron_validation, bool):
+            raise ValueError("strict_electron_count_validation must be a boolean")
+        walltime_seconds = int(
+            request.get("resource_limits", {}).get("walltime_seconds", 1800)
+        )
+        if grid_points >= 300 and walltime_seconds < 1800:
+            raise ValueError(
+                "A 300^3-or-larger MDCI cube export requires "
+                "resource_limits.walltime_seconds>=1800. orca_plot is a "
+                "single-process exporter, so additional cpu_cores do not compensate "
+                "for a shorter walltime."
+            )
         menu = f"1\n7\ny\n4\n{grid_points} {grid_points} {grid_points}\n11\n12\n"
         completed = run_external(
             executable="orca_plot",
             arguments=["job.gbw", "-i"],
             directory=directory,
             stdin_text=menu,
-            timeout_seconds=int(
-                request.get("resource_limits", {}).get("walltime_seconds", 1800)
-            ),
+            timeout_seconds=walltime_seconds,
         )
         commands.append(completed["command"])
         (directory / "orca_plot.out").write_text(completed["stdout"], encoding="utf-8")
@@ -3014,8 +3045,35 @@ def _orca_export_electron_density(request: dict[str, Any]) -> dict[str, Any]:
             raise RuntimeError("orca_plot completed without producing an MDCI density cube")
         primary = candidates[-1]
         integrated_electrons = _cube_electron_integral(primary)
+        expected_electrons = density.get("electron_count")
+        electron_count_error_percent = None
+        electron_count_validation_passed = None
         if integrated_electrons is None:
             warnings.append("Could not integrate the generated cube for an electron-count check")
+        elif expected_electrons is None or float(expected_electrons) <= 0:
+            warnings.append(
+                "The source density artifact does not declare an expected electron count"
+            )
+        else:
+            electron_count_error_percent = (
+                abs(float(integrated_electrons) - float(expected_electrons))
+                / float(expected_electrons)
+                * 100.0
+            )
+            electron_count_validation_passed = (
+                electron_count_error_percent <= electron_tolerance
+            )
+            if not electron_count_validation_passed:
+                message = (
+                    f"Generated cube integrates to {integrated_electrons:.8g} electrons "
+                    f"instead of {float(expected_electrons):.8g} "
+                    f"({electron_count_error_percent:.4g}% error; tolerance "
+                    f"{electron_tolerance:.4g}%). Increase grid_points_per_axis or "
+                    "review the density/ECP electron-count convention."
+                )
+                if strict_electron_validation:
+                    raise RuntimeError(message)
+                warnings.append(message)
     else:
         _copy_density_file(density, "gbw", directory / "density.gbw")
         if requested_source == "relaxed_mp2":
@@ -3050,6 +3108,11 @@ def _orca_export_electron_density(request: dict[str, Any]) -> dict[str, Any]:
                 f"orca_2aim completed without producing the requested {output_format.upper()} file"
             )
         integrated_electrons = None
+        expected_electrons = None
+        electron_count_error_percent = None
+        electron_count_validation_passed = None
+        electron_tolerance = None
+        strict_electron_validation = None
 
     result = {
         "density_source": requested_source,
@@ -3057,6 +3120,11 @@ def _orca_export_electron_density(request: dict[str, Any]) -> dict[str, Any]:
         "output_file": relative_workspace_path(primary),
         "grid_points_per_axis": grid_points if requested_source == "mdci" else None,
         "integrated_electrons": integrated_electrons,
+        "expected_electrons": expected_electrons,
+        "electron_count_error_percent": electron_count_error_percent,
+        "electron_count_tolerance_percent": electron_tolerance,
+        "electron_count_validation_passed": electron_count_validation_passed,
+        "strict_electron_count_validation": strict_electron_validation,
         "source_method": density.get("method"),
         "source_basis": density.get("basis"),
     }
@@ -3076,6 +3144,9 @@ def _orca_export_electron_density(request: dict[str, Any]) -> dict[str, Any]:
             "commands": commands,
             "density_source": requested_source,
             "grid_points_per_axis": grid_points if requested_source == "mdci" else None,
+            "electron_count_tolerance_percent": electron_tolerance,
+            "strict_electron_count_validation": strict_electron_validation,
+            "orca_plot_parallel_processes": 1 if requested_source == "mdci" else None,
             "silent_density_fallback_allowed": False,
         },
     )

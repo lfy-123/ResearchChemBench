@@ -93,6 +93,9 @@ class GroundTruth(BaseModel):
     expected_result: Any = ""
     expected_structured_output: Any = None
     evaluation_mode: Literal["binary", "rubric_100"] = "binary"
+    evaluation_profile: Literal[
+        "", "autonomous_discovery", "paper_reproduction"
+    ] = ""
     score_max: int = 1
     scoring_rubric: list[dict[str, Any]] = Field(default_factory=list)
     critical_failures: list[str] = Field(default_factory=list)
@@ -100,6 +103,7 @@ class GroundTruth(BaseModel):
     reference_evidence: Any = None
     managed_computation_policy: dict[str, Any] = Field(default_factory=dict)
     evidence_gate_policy: dict[str, Any] = Field(default_factory=dict)
+    reference_conclusion_gate_policy: dict[str, Any] = Field(default_factory=dict)
     current_toolbox_reproduction_baseline: dict[str, Any] = Field(default_factory=dict)
 
     @model_validator(mode="after")
@@ -138,4 +142,32 @@ class GroundTruth(BaseModel):
                 gate_ids.append(gate_id)
             if len(gate_ids) != len(set(gate_ids)):
                 raise ValueError("evidence gate ids must be unique")
+        conclusion_policy = self.reference_conclusion_gate_policy
+        if conclusion_policy:
+            criterion_id = str(
+                conclusion_policy.get("criterion_id") or ""
+            ).strip()
+            if conclusion_policy.get("required") is True and not criterion_id:
+                raise ValueError(
+                    "a required reference-conclusion gate needs criterion_id"
+                )
+            if criterion_id and criterion_id not in criterion_ids:
+                raise ValueError(
+                    "reference-conclusion criterion_id must exist in scoring_rubric"
+                )
+            for field_name in (
+                "score_cap_if_not_matched",
+                "score_cap_if_uncertain",
+                "score_cap_if_omitted",
+                "max_criterion_score_if_not_matched",
+                "max_criterion_score_if_uncertain",
+                "max_criterion_score_if_omitted",
+            ):
+                if field_name not in conclusion_policy:
+                    continue
+                value = float(conclusion_policy[field_name])
+                if value < 0 or value > self.score_max:
+                    raise ValueError(
+                        f"{field_name} must be between zero and score_max"
+                    )
         return self

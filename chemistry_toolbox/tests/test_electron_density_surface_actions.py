@@ -283,7 +283,7 @@ def test_orca_mdci_export_defaults_to_300_grid_points_and_catalog_exposes_contro
             },
             "method_spec": {},
             "action_settings": {"density_source": "mdci", "output_format": "cube"},
-            "resource_limits": {"walltime_seconds": 120},
+            "resource_limits": {"walltime_seconds": 1800},
         }
     )
 
@@ -301,6 +301,54 @@ def test_orca_mdci_export_defaults_to_300_grid_points_and_catalog_exposes_contro
     assert grid["minimum"] == 20
     assert grid["maximum"] == 400
     assert "cube" in grid["impact"]
+    tolerance = next(
+        item
+        for item in optional
+        if item["name"] == "electron_count_tolerance_percent"
+    )
+    strict = next(
+        item
+        for item in optional
+        if item["name"] == "strict_electron_count_validation"
+    )
+    assert tolerance["default"] == 0.2
+    assert strict["default"] is False
+
+
+def test_orca_300_grid_rejects_walltime_too_short_for_single_process_export(
+    tmp_path, monkeypatch
+):
+    monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
+    source = tmp_path / "source"
+    source.mkdir()
+    (source / "job.gbw").write_bytes(b"gbw")
+    (source / "job.densities").write_bytes(b"densities")
+    (source / "job.densitiesinfo").write_text("density metadata")
+
+    with pytest.raises(ValueError, match="walltime_seconds>=1800"):
+        electronic._orca_export_electron_density(
+            {
+                "inputs": {
+                    "electron_density": {
+                        "method": "CCSD",
+                        "basis": "STO-3G",
+                        "density_type": "unrelaxed_ccsd",
+                        "electron_count": 10,
+                        "files": {
+                            "gbw": "source/job.gbw",
+                            "density_container": "source/job.densities",
+                            "density_info": "source/job.densitiesinfo",
+                        },
+                    }
+                },
+                "method_spec": {},
+                "action_settings": {
+                    "density_source": "mdci",
+                    "output_format": "cube",
+                },
+                "resource_limits": {"walltime_seconds": 600},
+            }
+        )
 
 
 def test_real_orca_to_multiwfn_surface_action_chain(tmp_path, monkeypatch):

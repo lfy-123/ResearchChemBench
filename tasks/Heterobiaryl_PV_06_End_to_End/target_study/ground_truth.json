@@ -34,49 +34,29 @@
   ],
   "scoring_rubric": [
     {
-      "id": "autonomous_problem_formulation",
-      "max_score": 10,
-      "criterion": "Writes and revises an independent competing-hypothesis decision tree before numerical work rather than following a hidden fixed workflow."
-    },
-    {
-      "id": "input_and_conformer_exploration",
-      "max_score": 10,
-      "criterion": "Audits all nine seeds and generates/refines justified representatives without treating seeds as optimized results."
-    },
-    {
-      "id": "new_stationary_point_evidence",
-      "max_score": 18,
-      "criterion": "Produces and validates minima, first-order transition structures, and intermediate evidence across every core branch, or explicitly records unresolved searches."
-    },
-    {
-      "id": "energetics_and_thermochemistry",
+      "id": "scientific_problem_framing",
       "max_score": 15,
-      "criterion": "Constructs one comparable 353.15 K, 1 M ethanol main profile with documented references, validation state, provenance, and separate sensitivity results."
+      "description": "Defines testable hypotheses, decision criteria, resource tiers, and stopping rules without relying on a disclosed paper route."
     },
     {
-      "id": "protonation_and_selectivity",
-      "max_score": 12,
-      "criterion": "Tests P0/P1/P2 protonation effects and both BiPy/PhPy and C-C/C-O selectivity rather than completing only one favorable branch."
+      "id": "autonomous_method_and_route_design",
+      "max_score": 25,
+      "description": "Independently selects defensible structures, methods, sampling, numerical controls, and alternative routes appropriate to the question."
     },
     {
-      "id": "reaction_coordinate_mechanism",
-      "max_score": 12,
-      "criterion": "Uses direct target-mode and connectivity/coordinate evidence to test stepwise asynchronous reorganization and the dearomatized intermediate."
+      "id": "adaptive_managed_execution",
+      "max_score": 25,
+      "description": "Executes real managed calculations, diagnoses failures, and revises the workflow without fabricating or importing hidden results."
     },
     {
-      "id": "experimental_computational_integration",
-      "max_score": 10,
-      "criterion": "Separately assigns alcohol-addition rate control, ligand-coupling selectivity control, and strongly irreversible collapse using measurements plus calculations."
+      "id": "validation_and_falsification",
+      "max_score": 20,
+      "description": "Checks convergence, numerical sensitivity, chemical validity, competing explanations, uncertainty, and evidence sufficiency."
     },
     {
-      "id": "tool_orchestration_and_recovery",
-      "max_score": 9,
-      "criterion": "Uses a coherent managed scientific tool sequence and diagnoses failures without hidden fallback."
-    },
-    {
-      "id": "reporting_and_uncertainty",
-      "max_score": 4,
-      "criterion": "Produces all required structured evidence files and a reproducible artifact-linked report with failed and unresolved branches."
+      "id": "defensible_scientific_conclusion",
+      "max_score": 15,
+      "description": "Draws a traceable conclusion from the generated evidence. Agreement with the hidden paper conclusion is not required."
     }
   ],
   "critical_failures": [
@@ -88,7 +68,7 @@
     "Charges, multiplicities, units, methods, temperatures, or standard states are mixed so the claimed comparison is invalid.",
     "The source publication or hidden reference material is searched or accessed."
   ],
-  "judge_instructions": "This is an autonomous-reproduction task, not an analysis-of-supplied-results task. Only scientific results generated during this run count as computed evidence. Do not require exact tool names, software, methods, or a unique order; predefined Actions, managed native software jobs, and managed Agent-authored analysis programs are all valid. Built-in shell/file tools may inspect raw inputs and reports but do not by themselves satisfy managed scientific computation. Apply the managed-computation and evidence-gate policies. Score independent method-dependent values by stationarity, connectivity, consistency, scale, and provenance rather than exact equality alone. This is independent open discovery, not a literal concatenation requirement or a fixed workflow. Reuse valid evidence, but enforce coverage of every core scientific branch; many calls on one branch cannot substitute for missing protonation, selectivity, C-O, mechanism, intermediate, or kinetic-role evidence.",
+  "judge_instructions": "This is an autonomous-discovery evaluation. Reward independent hypothesis formation, method and route selection, adaptive managed execution, validation, falsification, and an evidence-bound conclusion. Do not require agreement with the hidden paper conclusion merely because it is the reference.",
   "managed_computation_policy": {
     "required": true,
     "minimum_successful_scientific_calls": 8,
@@ -186,5 +166,7 @@
     },
     "published_reference_is_hidden_comparison_only": true,
     "input_manifest_sha256": "1fd0d7255df4e1474c6956d2090f2c97748551b043664e0ea20a580463bdbfdb"
-  }
+  },
+  "evaluation_profile": "autonomous_discovery",
+  "reference_conclusion_gate_policy": {}
 }

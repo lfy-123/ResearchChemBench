@@ -19,34 +19,29 @@
   ],
   "scoring_rubric": [
     {
-      "id": "autonomous_plan",
-      "max_score": 10,
-      "criterion": "Builds a resource-aware plan from the public seeds without assuming hidden stationary-point labels."
-    },
-    {
-      "id": "new_state_calculations",
-      "max_score": 20,
-      "criterion": "Creates traceable optimized/energetic evidence for P0, P1, and P2 rather than reading precomputed values."
-    },
-    {
-      "id": "transition_state_validation",
-      "max_score": 25,
-      "criterion": "Validates each reported barrier with a reactant minimum, a first-order target mode, and connectivity evidence, or reports only a controlled computed bracket/bound for unresolved states."
-    },
-    {
-      "id": "thermochemical_consistency",
+      "id": "scientific_problem_framing",
       "max_score": 15,
-      "criterion": "Uses one documented method and 353.15 K, 1 M convention with units and comparable references."
+      "description": "Defines testable hypotheses, decision criteria, resource tiers, and stopping rules without relying on a disclosed paper route."
     },
     {
-      "id": "protonation_trend",
+      "id": "autonomous_method_and_route_design",
+      "max_score": 25,
+      "description": "Independently selects defensible structures, methods, sampling, numerical controls, and alternative routes appropriate to the question."
+    },
+    {
+      "id": "adaptive_managed_execution",
+      "max_score": 25,
+      "description": "Executes real managed calculations, diagnoses failures, and revises the workflow without fabricating or importing hidden results."
+    },
+    {
+      "id": "validation_and_falsification",
       "max_score": 20,
-      "criterion": "Obtains and explains a P0/P1/P2 activation-barrier trend consistent in sign and chemically credible scale with the hidden reference; absolute state energies or static bond orders alone receive no barrier credit."
+      "description": "Checks convergence, numerical sensitivity, chemical validity, competing explanations, uncertainty, and evidence sufficiency."
     },
     {
-      "id": "provenance_and_uncertainty",
-      "max_score": 10,
-      "criterion": "Links claims to new artifacts and records failed calculations and limitations."
+      "id": "defensible_scientific_conclusion",
+      "max_score": 15,
+      "description": "Draws a traceable conclusion from the generated evidence. Agreement with the hidden paper conclusion is not required."
     }
   ],
   "critical_failures": [
@@ -58,7 +53,7 @@
     "Charges, multiplicities, units, methods, temperatures, or standard states are mixed so the claimed comparison is invalid.",
     "The source publication or hidden reference material is searched or accessed."
   ],
-  "judge_instructions": "This is an autonomous-reproduction task, not an analysis-of-supplied-results task. Only scientific results generated during this run count as computed evidence. Do not require exact tool names, software, methods, or a unique order; predefined Actions, managed native software jobs, and managed Agent-authored analysis programs are all valid. Built-in shell/file tools may inspect raw inputs and reports but do not by themselves satisfy managed scientific computation. Apply the managed-computation and evidence-gate policies. Score independent method-dependent values by stationarity, connectivity, consistency, scale, and provenance rather than exact equality alone. Absolute energies of differently protonated compositions and static bond orders cannot establish activation barriers or their trend.",
+  "judge_instructions": "This is an autonomous-discovery evaluation. Reward independent hypothesis formation, method and route selection, adaptive managed execution, validation, falsification, and an evidence-bound conclusion. Do not require agreement with the hidden paper conclusion merely because it is the reference.",
   "managed_computation_policy": {
     "required": true,
     "minimum_successful_scientific_calls": 3,
@@ -112,5 +107,7 @@
     },
     "published_reference_is_hidden_comparison_only": true,
     "input_manifest_sha256": "fa76412bfa0a628902f42f0d6a47916d5cbeac3d61b50794e9b0d6b6860d6611"
-  }
+  },
+  "evaluation_profile": "autonomous_discovery",
+  "reference_conclusion_gate_policy": {}
 }

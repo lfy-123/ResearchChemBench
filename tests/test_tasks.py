@@ -440,6 +440,43 @@ def test_electron_isodensity_dual_track_tasks_are_decontaminated_and_complete():
             ).hexdigest()
 
 
+def test_dual_track_evaluation_profiles_separate_discovery_from_reproduction():
+    task_ids = [
+        task
+        for task in list_tasks()
+        if task.startswith("Electron_Isodensity_")
+        or task.startswith("Heterobiaryl_PV_")
+    ]
+    assert len(task_ids) == 22
+    for task_id in task_ids:
+        info = load_task_info(task_id)
+        truth = load_ground_truth(task_id)
+        rubric = {item["id"]: item["max_score"] for item in truth["scoring_rubric"]}
+        if info["task_mode"] == "guided_reproduction":
+            assert truth["evaluation_profile"] == "paper_reproduction"
+            assert rubric["paper_conclusion_agreement"] == 55
+            assert sum(rubric.values()) == 100
+            gate = truth["reference_conclusion_gate_policy"]
+            assert gate["required"] is True
+            assert gate["criterion_id"] == "paper_conclusion_agreement"
+            assert gate["score_cap_if_not_matched"] <= 45
+        else:
+            assert info["task_mode"] == "open_discovery"
+            assert truth["evaluation_profile"] == "autonomous_discovery"
+            assert "paper_conclusion_agreement" not in rubric
+            assert rubric["autonomous_method_and_route_design"] == 25
+            assert truth["reference_conclusion_gate_policy"] == {}
+
+    q1_info = load_task_info(
+        "Electron_Isodensity_Reproduction_01_Method_Selection"
+    )
+    q1_requirements = "\n".join(q1_info["scientific_requirements"])
+    assert "300^3" in q1_requirements
+    assert "walltime_seconds" in q1_requirements
+    assert "strict_electron_count_validation" in q1_requirements
+    assert "single-process" in q1_requirements
+
+
 def test_q6_instruction_rendering_exposes_evidence_contract_without_fixed_workflow(
     tmp_path: Path,
 ):

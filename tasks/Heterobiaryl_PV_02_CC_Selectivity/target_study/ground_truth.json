@@ -26,34 +26,29 @@
   ],
   "scoring_rubric": [
     {
-      "id": "competing_path_construction",
+      "id": "scientific_problem_framing",
       "max_score": 15,
-      "criterion": "Independently constructs both pyridyl-pyridyl and phenyl-pyridyl hypotheses across protonation states."
+      "description": "Defines testable hypotheses, decision criteria, resource tiers, and stopping rules without relying on a disclosed paper route."
     },
     {
-      "id": "new_computational_evidence",
+      "id": "autonomous_method_and_route_design",
       "max_score": 25,
-      "criterion": "Runs traceable calculations on both pathway families over every protonation state claimed in the conclusion instead of relying on supplied or remembered energies."
+      "description": "Independently selects defensible structures, methods, sampling, numerical controls, and alternative routes appropriate to the question."
     },
     {
-      "id": "stationary_point_validation",
+      "id": "adaptive_managed_execution",
+      "max_score": 25,
+      "description": "Executes real managed calculations, diagnoses failures, and revises the workflow without fabricating or importing hidden results."
+    },
+    {
+      "id": "validation_and_falsification",
       "max_score": 20,
-      "criterion": "Validates claimed minima/transition states and connectivity or explicitly bounds unresolved branches."
+      "description": "Checks convergence, numerical sensitivity, chemical validity, competing explanations, uncertainty, and evidence sufficiency."
     },
     {
-      "id": "comparable_profiles",
-      "max_score": 20,
-      "criterion": "Produces internally consistent activation and reaction-free-energy comparisons at common conditions with explicit references and no mixed profiles."
-    },
-    {
-      "id": "kinetic_thermodynamic_conclusion",
-      "max_score": 10,
-      "criterion": "Correctly separates kinetic selectivity from product thermodynamics and does not infer either without the corresponding profile."
-    },
-    {
-      "id": "provenance_and_uncertainty",
-      "max_score": 10,
-      "criterion": "Links every quantitative comparison to run artifacts and reports limitations."
+      "id": "defensible_scientific_conclusion",
+      "max_score": 15,
+      "description": "Draws a traceable conclusion from the generated evidence. Agreement with the hidden paper conclusion is not required."
     }
   ],
   "critical_failures": [
@@ -65,7 +60,7 @@
     "Charges, multiplicities, units, methods, temperatures, or standard states are mixed so the claimed comparison is invalid.",
     "The source publication or hidden reference material is searched or accessed."
   ],
-  "judge_instructions": "This is an autonomous-reproduction task, not an analysis-of-supplied-results task. Only scientific results generated during this run count as computed evidence. Do not require exact tool names, software, methods, or a unique order; predefined Actions, managed native software jobs, and managed Agent-authored analysis programs are all valid. Built-in shell/file tools may inspect raw inputs and reports but do not by themselves satisfy managed scientific computation. Apply the managed-computation and evidence-gate policies. Score independent method-dependent values by stationarity, connectivity, consistency, scale, and provenance rather than exact equality alone. Do not award kinetic-versus-thermodynamic causation unless the corresponding activation and reaction/product free-energy evidence exists for both pathway families.",
+  "judge_instructions": "This is an autonomous-discovery evaluation. Reward independent hypothesis formation, method and route selection, adaptive managed execution, validation, falsification, and an evidence-bound conclusion. Do not require agreement with the hidden paper conclusion merely because it is the reference.",
   "managed_computation_policy": {
     "required": true,
     "minimum_successful_scientific_calls": 3,
@@ -119,5 +114,7 @@
     },
     "published_reference_is_hidden_comparison_only": true,
     "input_manifest_sha256": "1ba6e481ef312e2409cd06d76388a90783837f7fe3b0608fedbe5b4349acc714"
-  }
+  },
+  "evaluation_profile": "autonomous_discovery",
+  "reference_conclusion_gate_policy": {}
 }

@@ -403,15 +403,23 @@ def public_files(root: Path) -> list[dict[str, Any]]:
 
 
 def guided_rubric(task_key: str) -> list[dict[str, Any]]:
-    common = [
-        {"id": "protocol_fidelity", "max_score": 15, "criterion": "Uses the supplied paper-reconstructed method hierarchy or documents a scientifically controlled version-compatible substitution."},
-        {"id": "managed_execution", "max_score": 15, "criterion": "Runs traceable predefined Actions, native software, or Agent-authored programs and preserves retries and failures."},
-        {"id": "stationary_point_validation", "max_score": 20, "criterion": "Every profile minimum and transition-state claim has appropriate Hessian/mode evidence; transition states also have direct connectivity evidence."},
-        {"id": "common_condition_profile", "max_score": 20, "criterion": "Builds a comparable 353.15 K, 1 M profile with matched electronic and thermal references and no hidden-value substitution."},
-        {"id": "task_conclusion", "max_score": 20, "criterion": f"Reproduces the main scientific conclusion for {task_key} from newly generated evidence and explains version-dependent numerical differences."},
-        {"id": "provenance_and_limits", "max_score": 10, "criterion": "Links claims to artifacts, separates paper targets from recomputation, and states unresolved branches and unavailable raw experimental uncertainty."},
+    return [
+        {"id": "paper_conclusion_agreement", "max_score": 55, "criterion": f"Recovers the paper's main {task_key} conclusion from newly generated evidence. A conflicting selectivity, mechanism, or kinetic assignment is not a successful reproduction."},
+        {"id": "protocol_fidelity", "max_score": 20, "criterion": "Uses the supplied paper-reconstructed method hierarchy, mapped routes, common conditions, stationary-point validation, and controlled version-compatible substitutions."},
+        {"id": "managed_recomputation", "max_score": 10, "criterion": "Runs traceable managed Actions, native software jobs, or Agent-authored programs and does not substitute hidden paper values."},
+        {"id": "numerical_and_validation_quality", "max_score": 10, "criterion": "Builds comparable 353.15 K, 1 M profiles with valid minima/transition states, connectivity evidence, consistent references, and quantified numerical uncertainty."},
+        {"id": "provenance_and_uncertainty", "max_score": 5, "criterion": "Links claims to artifacts and separates paper targets, recomputation, deviations, failed branches, and remaining limitations."},
     ]
-    return common
+
+
+def autonomous_rubric() -> list[dict[str, Any]]:
+    return [
+        {"id": "scientific_problem_framing", "max_score": 15, "criterion": "Defines testable hypotheses, competing pathways, decision criteria, resource tiers, and stopping rules without a disclosed paper route."},
+        {"id": "autonomous_method_and_route_design", "max_score": 25, "criterion": "Independently selects defensible protonation states, structures, mechanisms, electronic methods, sampling, and validation strategy."},
+        {"id": "adaptive_managed_execution", "max_score": 25, "criterion": "Executes real managed calculations, diagnoses failures, and revises searches without fabricating or importing hidden results."},
+        {"id": "validation_and_falsification", "max_score": 20, "criterion": "Validates stationary points and connectivity, compares alternatives at common conditions, and tests uncertainty and competing explanations."},
+        {"id": "defensible_scientific_conclusion", "max_score": 15, "criterion": "Draws a traceable evidence-bound conclusion; agreement with the hidden paper conclusion is not itself required."},
+    ]
 
 
 def update_open_metadata() -> None:
@@ -423,6 +431,18 @@ def update_open_metadata() -> None:
         info["method_disclosure"] = "none"
         info["pathway_disclosure"] = "none"
         path.write_bytes(json_bytes(info))
+        truth_path = TASKS_ROOT / task_id / "target_study" / "ground_truth.json"
+        truth = json.loads(truth_path.read_text(encoding="utf-8"))
+        truth["evaluation_profile"] = "autonomous_discovery"
+        truth["scoring_rubric"] = autonomous_rubric()
+        truth["reference_conclusion_gate_policy"] = {}
+        truth["judge_instructions"] = (
+            "This is an autonomous-discovery evaluation. Reward independent hypothesis "
+            "formation, method and route selection, adaptive managed execution, validation, "
+            "falsification, and a defensible conclusion from generated evidence. Agreement "
+            "with the hidden paper conclusion is not a scoring requirement."
+        )
+        truth_path.write_bytes(json_bytes(truth))
 
 
 def build_one(open_task: str, reproduction_task: str, task_key: str, stage_root: Path) -> Path:
@@ -506,15 +526,28 @@ def build_one(open_task: str, reproduction_task: str, task_key: str, stage_root:
     truth_path = target / "target_study" / "ground_truth.json"
     truth = json.loads(truth_path.read_text(encoding="utf-8"))
     truth["evaluation_mode"] = "rubric_100"
+    truth["evaluation_profile"] = "paper_reproduction"
     truth["score_max"] = 100
     truth["scoring_rubric"] = guided_rubric(task_key)
     truth["judge_instructions"] = (
         "This is a guided paper-reproduction task. Methods and mapped candidate routes are public, "
         "but all numerical, structural, stationarity, connectivity, and thermochemical evidence must "
         "be newly generated. Accept predefined Actions, managed native jobs, and managed Agent-authored "
-        "programs. Score protocol fidelity, scientific validation, troubleshooting, common-condition "
-        "comparability, and provenance. Do not reward copying a paper-published number without a new artifact."
+        "programs. The paper's main task-level conclusion must be recovered from newly generated "
+        "evidence; a conflicting selectivity, mechanism, or kinetic assignment is not a successful "
+        "reproduction even when the calculation is otherwise coherent. Do not reward copying a "
+        "paper-published number without a new artifact."
     )
+    truth["reference_conclusion_gate_policy"] = {
+        "required": True,
+        "criterion_id": "paper_conclusion_agreement",
+        "score_cap_if_not_matched": 45,
+        "score_cap_if_uncertain": 60,
+        "score_cap_if_omitted": 45,
+        "max_criterion_score_if_not_matched": 0,
+        "max_criterion_score_if_uncertain": 15,
+        "max_criterion_score_if_omitted": 0,
+    }
     truth["current_toolbox_reproduction_baseline"] = {
         **deepcopy(BASELINE_COMMON),
         **deepcopy(REPRODUCTION_BASELINES[task_key]),

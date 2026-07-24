@@ -7,6 +7,7 @@ from zipfile import ZipFile
 
 import pytest
 
+from evaluation.config import DEFAULT_MCP_TOOL_TIMEOUT_MS
 from evaluation.run_task import TaskRunner
 
 
@@ -95,7 +96,10 @@ def test_codex_and_claude_commands_include_mcp(tmp_path: Path):
     assert "--pure" in opencode_argv
     config = json.loads((opencode.workspace / "opencode.json").read_text())
     assert config["mcp"]["researchchem_toolbox"]["type"] == "local"
-    assert config["mcp"]["researchchem_toolbox"]["timeout"] == 3_600_000
+    assert (
+        config["mcp"]["researchchem_toolbox"]["timeout"]
+        == DEFAULT_MCP_TOOL_TIMEOUT_MS
+    )
     assert config["model"] == "deepseek/deepseek-v4-flash"
     assert config["provider"]["deepseek"]["options"]["apiKey"] == (
         "{env:OPENAI_API_KEY}"
