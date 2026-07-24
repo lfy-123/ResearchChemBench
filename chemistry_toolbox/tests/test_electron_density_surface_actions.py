@@ -82,12 +82,15 @@ def test_orca_correlated_density_uses_short_relative_input_path(tmp_path, monkey
         observed.update(kwargs)
         directory = kwargs["directory"]
         (directory / "job.gbw").write_bytes(b"gbw")
+        (directory / "job.densities").write_bytes(b"densities")
+        (directory / "job.densitiesinfo").write_text("density metadata")
         return {
             "available": True,
             "returncode": 0,
             "stdout": (
                 "Program Version 6.1.1\n"
                 "FINAL SINGLE POINT ENERGY -75.000000000000\n"
+                "MDCIP unrelaxed density\n"
                 "ORCA TERMINATED NORMALLY\n"
             ),
             "stderr": "",
@@ -99,9 +102,9 @@ def test_orca_correlated_density_uses_short_relative_input_path(tmp_path, monkey
         {
             "inputs": {"structure": WATER},
             "method_spec": {
-                "method": "HF",
+                "method": "CCSD",
                 "basis": "STO-3G",
-                "density_type": "scf",
+                "density_type": "unrelaxed_ccsd",
             },
             "action_settings": {
                 "scf_convergence": "TightSCF",
@@ -118,6 +121,60 @@ def test_orca_correlated_density_uses_short_relative_input_path(tmp_path, monkey
 
     assert result["status"] == "success"
     assert observed["arguments"] == ["./job.inp"]
+    assert result["result"]["files"]["density_info"].endswith("job.densitiesinfo")
+
+
+def test_orca_mdci_export_preserves_density_bundle_basename(tmp_path, monkeypatch):
+    monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
+    source = tmp_path / "source"
+    source.mkdir()
+    (source / "job.gbw").write_bytes(b"gbw")
+    (source / "job.densities").write_bytes(b"densities")
+    (source / "job.densitiesinfo").write_text("density metadata")
+
+    def fake_run_external(**kwargs):
+        directory = kwargs["directory"]
+        assert kwargs["arguments"] == ["job.gbw", "-i"]
+        assert (directory / "job.gbw").is_file()
+        assert (directory / "job.densities").is_file()
+        assert (directory / "job.densitiesinfo").is_file()
+        (directory / "job.eldens.cube").write_text("cube")
+        return {
+            "available": True,
+            "returncode": 0,
+            "stdout": "orca_plot completed",
+            "stderr": "",
+            "command": ["orca_plot", *kwargs["arguments"]],
+        }
+
+    monkeypatch.setattr(electronic, "run_external", fake_run_external)
+    monkeypatch.setattr(electronic, "_cube_electron_integral", lambda _path: 10.0)
+    result = electronic._orca_export_electron_density(
+        {
+            "inputs": {
+                "electron_density": {
+                    "method": "CCSD",
+                    "basis": "STO-3G",
+                    "density_type": "unrelaxed_ccsd",
+                    "files": {
+                        "gbw": "source/job.gbw",
+                        "density_container": "source/job.densities",
+                        "density_info": "source/job.densitiesinfo",
+                    },
+                }
+            },
+            "method_spec": {},
+            "action_settings": {
+                "density_source": "mdci",
+                "output_format": "cube",
+                "grid_points_per_axis": 60,
+            },
+            "resource_limits": {"walltime_seconds": 120},
+        }
+    )
+
+    assert result["status"] == "success"
+    assert result["result"]["output_file"].endswith("job.eldens.cube")
 
 
 def test_real_orca_to_multiwfn_surface_action_chain(tmp_path, monkeypatch):

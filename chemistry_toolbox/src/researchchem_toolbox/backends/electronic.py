@@ -2767,7 +2767,7 @@ def _orca_correlated_electron_density(request: dict[str, Any]) -> dict[str, Any]
         environment_variable="CHEMGRAPH_ORCA_COMMAND",
         # ORCA propagates the supplied input path to module-specific scratch
         # basenames.  The MDCI/CCSD modules in ORCA 6.1.1 can crash when that
-        # basename is the full, deeply nested benchmark workspace path.  A
+        # basename is a full, deeply nested output path.  A
         # bare filename is not accepted by ORCA, so use an explicit short
         # relative path while keeping the calculation cwd at ``directory``.
         arguments=[f"./{input_path.name}"],
@@ -2802,6 +2802,7 @@ def _orca_correlated_electron_density(request: dict[str, Any]) -> dict[str, Any]
     candidates = {
         "gbw": directory / "job.gbw",
         "density_container": directory / "job.densities",
+        "density_info": directory / "job.densitiesinfo",
         "natural_orbitals": directory / "job.mp2nat",
     }
     for key, path in candidates.items():
@@ -2815,6 +2816,10 @@ def _orca_correlated_electron_density(request: dict[str, Any]) -> dict[str, Any]
     if required_key not in files:
         raise RuntimeError(
             f"ORCA completed but did not produce the required {required_key} density artifact"
+        )
+    if density_type == "unrelaxed_ccsd" and "density_info" not in files:
+        raise RuntimeError(
+            "ORCA completed but did not produce the density metadata required by orca_plot"
         )
     if density_type == "unrelaxed_ccsd" and not re.search(
         r"(?:unrelaxed density|mdcip)", completed["stdout"], re.I
@@ -2949,15 +2954,20 @@ def _orca_export_electron_density(request: dict[str, Any]) -> dict[str, Any]:
     commands: list[list[str]] = []
     warnings: list[str] = []
     if requested_source == "mdci":
-        _copy_density_file(density, "gbw", directory / "density.gbw")
-        _copy_density_file(density, "density_container", directory / "density.densities")
+        # Keep the original ORCA basename.  The GBW/density metadata records
+        # sibling files as ``job.densities`` and ``job.densitiesinfo``;
+        # renaming only the copied bundle makes orca_plot look for missing
+        # original-name files even when all three payloads are present.
+        _copy_density_file(density, "gbw", directory / "job.gbw")
+        _copy_density_file(density, "density_container", directory / "job.densities")
+        _copy_density_file(density, "density_info", directory / "job.densitiesinfo")
         grid_points = int(settings.get("grid_points_per_axis", 100))
         if grid_points < 20 or grid_points > 400:
             raise ValueError("grid_points_per_axis must be between 20 and 400")
         menu = f"1\n7\ny\n4\n{grid_points} {grid_points} {grid_points}\n11\n12\n"
         completed = run_external(
             executable="orca_plot",
-            arguments=["density.gbw", "-i"],
+            arguments=["job.gbw", "-i"],
             directory=directory,
             stdin_text=menu,
             timeout_seconds=int(
