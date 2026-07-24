@@ -12,6 +12,11 @@ from .catalog import (
     backend_specs,
 )
 from .models import ActionSpec, BackendSpec
+from .parameter_specs import (
+    RESOURCE_LIMIT_PARAMETER_SPECS,
+    common_fixed_parameter_specs,
+    inferred_parameter_metadata,
+)
 
 
 ActionKind = Literal["all", "scientific", "data"]
@@ -128,6 +133,14 @@ def _provider_contract(
     *,
     detailed: bool,
 ) -> dict[str, Any]:
+    fixed_parameters = common_fixed_parameter_specs(
+        runtime=backend.runtime,
+        executables=backend.executables,
+        python_modules=backend.python_modules,
+        resource_constraints=backend.resource_constraints,
+        validation_level=backend.validation_levels.get(action_id),
+    )
+    fixed_parameters.update(backend.fixed_parameter_specs.get(action_id, {}))
     value: dict[str, Any] = {
         "backend_id": backend.id,
         "display_name": backend.display_name,
@@ -157,6 +170,14 @@ def _provider_contract(
         ),
         "validation_level": backend.validation_levels.get(action_id),
         "resource_constraints": dict(backend.resource_constraints),
+        "agent_controllable_parameters": {
+            field_path: dict(metadata)
+            for field_path, metadata in backend.parameter_specs.get(action_id, {}).items()
+        },
+        "backend_fixed_parameters": {
+            field_path: dict(metadata)
+            for field_path, metadata in fixed_parameters.items()
+        },
     }
     if detailed:
         value.update(
@@ -430,14 +451,20 @@ def _field_contracts(
     required: bool,
     choices: Mapping[str, tuple[str, ...]] | None = None,
     reference: Mapping[str, str] | None = None,
+    metadata: Mapping[str, Mapping[str, Any]] | None = None,
 ) -> list[dict[str, Any]]:
     allowed = choices or {}
     descriptions = reference or {}
-    return [
-        {
+    details = metadata or {}
+    contracts: list[dict[str, Any]] = []
+    for field_name in fields:
+        contract = {
             "name": field_name,
             "required": required,
             **_field_type(field_name, section=section),
+            **inferred_parameter_metadata(
+                section, field_name, required=required
+            ),
             **(
                 {"allowed_values": list(allowed[field_name])}
                 if field_name in allowed
@@ -448,9 +475,15 @@ def _field_contracts(
                 if field_name in descriptions
                 else {}
             ),
+            **dict(details.get(field_name, {})),
         }
-        for field_name in fields
-    ]
+        if required:
+            # Required fields have no operational default because the dispatcher
+            # rejects omission.  Some backend adapters keep defensive direct-call
+            # fallbacks; those must not be presented as public Action defaults.
+            contract.pop("default", None)
+        contracts.append(contract)
+    return contracts
 
 
 def _action_request_contract(
@@ -459,26 +492,45 @@ def _action_request_contract(
 ) -> dict[str, Any]:
     backend_inputs = backend.required_input_fields.get(specification.id, ())
     required_inputs = tuple(dict.fromkeys((*specification.required_inputs, *backend_inputs)))
-    optional_inputs = tuple(
-        field_name
-        for field_name in specification.optional_inputs
-        if field_name not in required_inputs
-    )
     required_methods = backend.required_method_fields.get(specification.id, ())
     required_settings = backend.required_setting_fields.get(specification.id, ())
     method_choices = backend.allowed_method_values.get(specification.id, {})
     setting_choices = backend.allowed_setting_values.get(specification.id, {})
+    registered_parameters = backend.parameter_specs.get(specification.id, {})
+    registered_by_section: dict[str, dict[str, Mapping[str, Any]]] = {
+        "inputs": {},
+        "method_spec": {},
+        "action_settings": {},
+        "resource_limits": {},
+    }
+    for field_path, metadata in registered_parameters.items():
+        section, field_name = field_path.split(".", 1)
+        if section in registered_by_section:
+            registered_by_section[section][field_name] = metadata
+    optional_inputs = tuple(
+        field_name
+        for field_name in dict.fromkeys(
+            (*specification.optional_inputs, *registered_by_section["inputs"])
+        )
+        if field_name not in required_inputs
+    )
     optional_methods = tuple(
         field_name
-        for field_name in dict.fromkeys((*backend.method_schema, *method_choices))
+        for field_name in dict.fromkeys(
+            (
+                *method_choices,
+                *registered_by_section["method_spec"],
+            )
+        )
         if field_name not in required_methods
         and field_name not in required_settings
         and field_name not in setting_choices
         and "conditional" not in field_name
     )
     optional_settings = tuple(
-        field_name
-        for field_name in setting_choices
+        field_name for field_name in dict.fromkeys(
+            (*setting_choices, *registered_by_section["action_settings"])
+        )
         if field_name not in required_settings
     )
     conditional_rules = [
@@ -486,6 +538,14 @@ def _action_request_contract(
         for field_name, description in backend.method_schema.items()
         if "conditional" in field_name or " requires " in f" {description.casefold()} "
     ]
+    fixed_parameters = common_fixed_parameter_specs(
+        runtime=backend.runtime,
+        executables=backend.executables,
+        python_modules=backend.python_modules,
+        resource_constraints=backend.resource_constraints,
+        validation_level=backend.validation_levels.get(specification.id),
+    )
+    fixed_parameters.update(backend.fixed_parameter_specs.get(specification.id, {}))
 
     template: dict[str, Any] = {"action_id": specification.id}
     if specification.selection_policy in {
@@ -531,9 +591,9 @@ def _action_request_contract(
         }
     template["resource_limits"] = {
         "walltime_seconds": 1800,
-        "memory_mb": 4096,
-        "cpu_cores": 1,
-        "gpu_count": 0,
+        "memory_mb": None,
+        "cpu_cores": None,
+        "gpu_count": None,
     }
 
     return {
@@ -545,11 +605,13 @@ def _action_request_contract(
                     required_inputs,
                     section="inputs",
                     required=True,
+                    metadata=registered_by_section["inputs"],
                 ),
                 "optional": _field_contracts(
                     optional_inputs,
                     section="inputs",
                     required=False,
+                    metadata=registered_by_section["inputs"],
                 ),
             },
             "method_spec": {
@@ -559,6 +621,7 @@ def _action_request_contract(
                     required=True,
                     choices=method_choices,
                     reference=backend.method_schema,
+                    metadata=registered_by_section["method_spec"],
                 ),
                 "optional_documented": _field_contracts(
                     optional_methods,
@@ -566,6 +629,17 @@ def _action_request_contract(
                     required=False,
                     choices=method_choices,
                     reference=backend.method_schema,
+                    metadata=registered_by_section["method_spec"],
+                ),
+                # Compatibility alias retained for clients written against the
+                # original discovery schema name.
+                "optional_with_enumerated_values": _field_contracts(
+                    optional_methods,
+                    section="method_spec",
+                    required=False,
+                    choices=method_choices,
+                    reference=backend.method_schema,
+                    metadata=registered_by_section["method_spec"],
                 ),
             },
             "action_settings": {
@@ -575,6 +649,15 @@ def _action_request_contract(
                     required=True,
                     choices=setting_choices,
                     reference=backend.method_schema,
+                    metadata=registered_by_section["action_settings"],
+                ),
+                "optional_documented": _field_contracts(
+                    optional_settings,
+                    section="action_settings",
+                    required=False,
+                    choices=setting_choices,
+                    reference=backend.method_schema,
+                    metadata=registered_by_section["action_settings"],
                 ),
                 "optional_with_enumerated_values": _field_contracts(
                     optional_settings,
@@ -582,9 +665,20 @@ def _action_request_contract(
                     required=False,
                     choices=setting_choices,
                     reference=backend.method_schema,
+                    metadata=registered_by_section["action_settings"],
                 ),
             },
+            "resource_limits": {
+                "optional_with_defaults": [
+                    {"name": field_name, "required": False, **dict(metadata)}
+                    for field_name, metadata in RESOURCE_LIMIT_PARAMETER_SPECS.items()
+                ],
+            },
         },
+        "backend_fixed_parameters": [
+            {"path": field_path, **dict(metadata)}
+            for field_path, metadata in fixed_parameters.items()
+        ],
         "conditional_requirements": conditional_rules,
         "component_request_contracts": (
             {
@@ -620,7 +714,7 @@ def _action_request_contract(
             "Supply every required field in the section where it is listed.",
             "Apply every conditional requirement triggered by an Agent-selected option.",
             "Match ArtifactRef.semantic_type to each input field; differently typed required inputs normally require different artifact ids.",
-            "Choose resource limits explicitly; the displayed numbers are mechanical examples, not scientific settings.",
+            "The displayed resource limits are active defaults; override any of them when the selected calculation needs different resources.",
         ],
     }
 

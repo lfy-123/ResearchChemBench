@@ -197,7 +197,7 @@ def test_composite_and_typed_handoff_contracts_are_explicit():
     orca_template = orca["selected_request_contract"][
         "execute_action_request_template"
     ]
-    assert orca_template["resource_limits"]["cpu_cores"] == 1
+    assert orca_template["resource_limits"]["cpu_cores"] is None
 
     vibrations = inspect_action(
         "derive_vibrational_modes",

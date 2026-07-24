@@ -13,6 +13,7 @@ from .models import ActionSpec, BackendSpec
 from .runtime import probe_all_backends
 from .resources import resource_snapshot, resources_for_backends
 from .specs import ACTION_SPECS, BACKEND_SPECS
+from .parameter_specs import RESOURCE_LIMIT_PARAMETER_SPECS, common_fixed_parameter_specs
 
 
 CATEGORY_LABELS = {
@@ -143,7 +144,7 @@ def catalog_snapshot(
     mode = resolve_tool_discovery_mode(discovery_mode)
     health = probe_all_backends(BACKEND_SPECS) if include_health else {}
     payload: dict[str, Any] = {
-        "schema_version": 6,
+        "schema_version": 7,
         "execution_layers": [
             {
                 "id": "predefined_actions",
@@ -262,6 +263,39 @@ def mcp_action_description(specification: ActionSpec) -> str:
                 for item in registered_resources
             )
             note += " Registered resources: " + resource_text
+        parameter_specs = backend.parameter_specs.get(specification.id, {})
+        if parameter_specs:
+            required_parameter_paths = {
+                *(f"inputs.{name}" for name in (*specification.required_inputs, *input_fields)),
+                *(f"method_spec.{name}" for name in method_fields),
+                *(f"action_settings.{name}" for name in setting_fields),
+            }
+            note += " Agent-controllable parameter metadata: " + "; ".join(
+                (
+                    f"{field_path} "
+                    + (
+                        "required"
+                        if field_path in required_parameter_paths
+                        else f"optional default={metadata.get('default')!r}"
+                    )
+                    + ": "
+                    f"{metadata.get('description')} Impact: {metadata.get('impact', 'documented by the backend contract')}"
+                )
+                for field_path, metadata in parameter_specs.items()
+            )
+        fixed_specs = common_fixed_parameter_specs(
+            runtime=backend.runtime,
+            executables=backend.executables,
+            python_modules=backend.python_modules,
+            resource_constraints=backend.resource_constraints,
+            validation_level=backend.validation_levels.get(specification.id),
+        )
+        fixed_specs.update(backend.fixed_parameter_specs.get(specification.id, {}))
+        if fixed_specs:
+            note += " Backend-fixed parameters: " + "; ".join(
+                f"{field_path}: {metadata.get('description')} Reason: {metadata.get('reason', 'backend implementation constraint')}"
+                for field_path, metadata in fixed_specs.items()
+            )
         backend_notes.append(note)
     policy = specification.selection_policy
     if policy == "fixed_source":
@@ -286,6 +320,12 @@ def mcp_action_description(specification: ActionSpec) -> str:
         f"Required inputs keys: {required}. Optional inputs keys: {optional}. "
         f"{requirement} Backend-specific required fields: {' | '.join(requirement_parts)}. "
         f"Backend notes: {' | '.join(backend_notes)}. "
+        "Global optional resource_limits and defaults: "
+        + "; ".join(
+            f"{name}={metadata.get('default')!r} ({metadata.get('impact')})"
+            for name, metadata in RESOURCE_LIMIT_PARAMETER_SPECS.items()
+        )
+        + ". "
         f"Provider selection policy: {policy}. The system validates and executes the exact "
         "declared provider choices; it never falls back to another backend or source."
     )

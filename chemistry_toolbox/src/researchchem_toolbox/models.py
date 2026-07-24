@@ -260,6 +260,12 @@ class BackendSpec:
     component_backend_options: Mapping[str, Mapping[str, tuple[str, ...]]] = field(default_factory=dict)
     supported_system_types: Mapping[str, tuple[str, ...]] = field(default_factory=dict)
     validation_levels: Mapping[str, str] = field(default_factory=dict)
+    parameter_specs: Mapping[str, Mapping[str, Mapping[str, Any]]] = field(
+        default_factory=dict
+    )
+    fixed_parameter_specs: Mapping[str, Mapping[str, Mapping[str, Any]]] = field(
+        default_factory=dict
+    )
 
     def validate(self) -> None:
         if not _ID_PATTERN.fullmatch(self.id) or self.id == "auto":
@@ -339,6 +345,38 @@ class BackendSpec:
                     f"Backend {self.id}/{action_id} is missing component options for "
                     f"roles {sorted(required_roles - set(roles))}"
                 )
+        for mapping_name, mapping in (
+            ("parameter_specs", self.parameter_specs),
+            ("fixed_parameter_specs", self.fixed_parameter_specs),
+        ):
+            for action_id, fields in mapping.items():
+                if action_id not in self.capabilities:
+                    raise ValueError(
+                        f"Backend {self.id} declares {mapping_name} for unsupported "
+                        f"{action_id}"
+                    )
+                for field_path, metadata in fields.items():
+                    if "." not in field_path:
+                        raise ValueError(
+                            f"Backend {self.id}/{action_id} {mapping_name} key "
+                            f"{field_path!r} must be a section-qualified field path"
+                        )
+                    section, field_name = field_path.split(".", 1)
+                    if section not in {
+                        "inputs", "method_spec", "action_settings", "resource_limits",
+                        "backend_runtime",
+                    } or not _ID_PATTERN.fullmatch(field_name):
+                        raise ValueError(
+                            f"Backend {self.id}/{action_id} has invalid parameter path "
+                            f"{field_path!r}"
+                        )
+                    if not isinstance(metadata, Mapping) or not str(
+                        metadata.get("description", "")
+                    ).strip():
+                        raise ValueError(
+                            f"Backend {self.id}/{action_id} {field_path} requires a "
+                            "non-empty description"
+                        )
 
     def as_dict(self) -> dict[str, Any]:
         value = asdict(self)
@@ -381,4 +419,18 @@ class BackendSpec:
             key: list(fields) for key, fields in self.supported_system_types.items()
         }
         value["validation_levels"] = dict(self.validation_levels)
+        value["parameter_specs"] = {
+            action_id: {
+                field_path: dict(metadata)
+                for field_path, metadata in fields.items()
+            }
+            for action_id, fields in self.parameter_specs.items()
+        }
+        value["fixed_parameter_specs"] = {
+            action_id: {
+                field_path: dict(metadata)
+                for field_path, metadata in fields.items()
+            }
+            for action_id, fields in self.fixed_parameter_specs.items()
+        }
         return value

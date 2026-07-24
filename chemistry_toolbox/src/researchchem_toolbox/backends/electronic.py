@@ -2961,7 +2961,7 @@ def _orca_export_electron_density(request: dict[str, Any]) -> dict[str, Any]:
         _copy_density_file(density, "gbw", directory / "job.gbw")
         _copy_density_file(density, "density_container", directory / "job.densities")
         _copy_density_file(density, "density_info", directory / "job.densitiesinfo")
-        grid_points = int(settings.get("grid_points_per_axis", 100))
+        grid_points = int(settings.get("grid_points_per_axis", 300))
         if grid_points < 20 or grid_points > 400:
             raise ValueError("grid_points_per_axis must be between 20 and 400")
         menu = f"1\n7\ny\n4\n{grid_points} {grid_points} {grid_points}\n11\n12\n"
@@ -3030,6 +3030,7 @@ def _orca_export_electron_density(request: dict[str, Any]) -> dict[str, Any]:
         "density_source": requested_source,
         "output_format": output_format,
         "output_file": relative_workspace_path(primary),
+        "grid_points_per_axis": grid_points if requested_source == "mdci" else None,
         "integrated_electrons": integrated_electrons,
         "source_method": density.get("method"),
         "source_basis": density.get("basis"),
@@ -3049,6 +3050,7 @@ def _orca_export_electron_density(request: dict[str, Any]) -> dict[str, Any]:
         provenance={
             "commands": commands,
             "density_source": requested_source,
+            "grid_points_per_axis": grid_points if requested_source == "mdci" else None,
             "silent_density_fallback_allowed": False,
         },
     )

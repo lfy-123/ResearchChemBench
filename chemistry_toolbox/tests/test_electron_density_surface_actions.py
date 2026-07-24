@@ -4,6 +4,7 @@ import pytest
 
 from researchchem_toolbox.backends import electronic
 from researchchem_toolbox.catalog import action_specs, backend_specs, validate_catalog
+from researchchem_toolbox.discovery import inspect_action
 from researchchem_toolbox.service import execute_action
 
 
@@ -175,6 +176,68 @@ def test_orca_mdci_export_preserves_density_bundle_basename(tmp_path, monkeypatc
 
     assert result["status"] == "success"
     assert result["result"]["output_file"].endswith("job.eldens.cube")
+    assert result["result"]["grid_points_per_axis"] == 60
+
+
+def test_orca_mdci_export_defaults_to_300_grid_points_and_catalog_exposes_control(
+    tmp_path, monkeypatch
+):
+    monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
+    source = tmp_path / "source"
+    source.mkdir()
+    (source / "job.gbw").write_bytes(b"gbw")
+    (source / "job.densities").write_bytes(b"densities")
+    (source / "job.densitiesinfo").write_text("density metadata")
+    observed: dict[str, str] = {}
+
+    def fake_run_external(**kwargs):
+        observed["stdin_text"] = kwargs["stdin_text"]
+        directory = kwargs["directory"]
+        (directory / "job.eldens.cube").write_text("cube")
+        return {
+            "available": True,
+            "returncode": 0,
+            "stdout": "orca_plot completed",
+            "stderr": "",
+            "command": ["orca_plot", *kwargs["arguments"]],
+        }
+
+    monkeypatch.setattr(electronic, "run_external", fake_run_external)
+    monkeypatch.setattr(electronic, "_cube_electron_integral", lambda _path: 10.0)
+    result = electronic._orca_export_electron_density(
+        {
+            "inputs": {
+                "electron_density": {
+                    "method": "CCSD",
+                    "basis": "STO-3G",
+                    "density_type": "unrelaxed_ccsd",
+                    "files": {
+                        "gbw": "source/job.gbw",
+                        "density_container": "source/job.densities",
+                        "density_info": "source/job.densitiesinfo",
+                    },
+                }
+            },
+            "method_spec": {},
+            "action_settings": {"density_source": "mdci", "output_format": "cube"},
+            "resource_limits": {"walltime_seconds": 120},
+        }
+    )
+
+    assert result["status"] == "success"
+    assert "300 300 300" in observed["stdin_text"]
+
+    contract = inspect_action(
+        "export_electron_density_grid",
+        backend_id="orca",
+        snapshot={"actions": [], "backends": [], "resources": [], "catalog_hash": "test"},
+    )["selected_request_contract"]
+    optional = contract["sections"]["action_settings"]["optional_documented"]
+    grid = next(item for item in optional if item["name"] == "grid_points_per_axis")
+    assert grid["default"] == 300
+    assert grid["minimum"] == 20
+    assert grid["maximum"] == 400
+    assert "cube" in grid["impact"]
 
 
 def test_real_orca_to_multiwfn_surface_action_chain(tmp_path, monkeypatch):

@@ -3,6 +3,10 @@
 from __future__ import annotations
 
 from .models import BackendSpec
+from .parameter_specs import (
+    fixed_parameter_specs_for_backend,
+    parameter_specs_for_backend,
+)
 
 
 def _backend(
@@ -57,6 +61,8 @@ def _backend(
         component_backend_options=component_options or {},
         supported_system_types=supported_system_types or {},
         validation_levels=validation_levels or {},
+        parameter_specs=parameter_specs_for_backend(backend_id),
+        fixed_parameter_specs=fixed_parameter_specs_for_backend(backend_id),
     )
 
 
