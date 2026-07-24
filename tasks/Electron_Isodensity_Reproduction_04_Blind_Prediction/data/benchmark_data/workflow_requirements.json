@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "task_id_suffix": "04_Blind_Prediction",
+  "result_values_included": false,
+  "author_quantum_outputs_included": false,
+  "required_main_profile_stages": [
+    "recompute calibration-molecule surfaces",
+    "select and lock a cutoff",
+    "recompute the ISO-M4 surface",
+    "submit the blind prediction before hidden comparison"
+  ],
+  "failure_policy": [
+    "Retain failed ORCA and Multiwfn logs and record the attempted remedy.",
+    "Do not silently remove a conformer or change molecular connectivity.",
+    "Do not substitute paper-computed surfaces for failed calculations.",
+    "Report a partial result and missing evidence when a required stage cannot be completed."
+  ]
+}

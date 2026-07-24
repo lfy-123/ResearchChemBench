@@ -1,0 +1,92 @@
+{
+  "paper_level": {
+    "optimal_density_cutoff_au": 0.0016,
+    "ensemble_mupe_percent": 1.5922920870480508,
+    "ensemble_pearson_r": 0.995,
+    "single_lowest_conformer_mupe_percent": 1.87,
+    "method_validation_mupe_percent": {
+      "PBE": 0.24,
+      "B3LYP": 0.36,
+      "DSD-PBEP86": 0.08
+    },
+    "cutoff_mupe_curve_percent": {
+      "0.0008": 10.40862824831,
+      "0.0009": 8.59042749507472,
+      "0.0010": 6.983977915614389,
+      "0.0011": 5.547764622689169,
+      "0.0012": 4.313527166731575,
+      "0.0013": 3.2656707175422146,
+      "0.0014": 2.4291555602334407,
+      "0.0015": 1.8430780321134992,
+      "0.0016": 1.5922920870480508,
+      "0.0017": 1.7123077185580835,
+      "0.0018": 2.1015745078180954,
+      "0.0019": 2.6093848553808394,
+      "0.0020": 3.1672347890461414,
+      "0.0021": 3.7864502111219207,
+      "0.0022": 4.394986623871028,
+      "0.0023": 4.987117230524248,
+      "0.0024": 5.561497411438547,
+      "0.0025": 6.1088686723640855
+    }
+  },
+  "molecules": {
+    "ISO-M1": {
+      "name": "ethane",
+      "source_prefix": "995",
+      "published_conformer_count": 1,
+      "te_surface_angstrom2": 75.0867,
+      "paper_iso_surface_0_0016_angstrom2": 75.61296
+    },
+    "ISO-M2": {
+      "name": "furan",
+      "source_prefix": "1081",
+      "published_conformer_count": 1,
+      "te_surface_angstrom2": 97.7096,
+      "paper_iso_surface_0_0016_angstrom2": 95.76939
+    },
+    "ISO-M3": {
+      "name": "pyridine",
+      "source_prefix": "1679",
+      "published_conformer_count": 1,
+      "te_surface_angstrom2": 113.206,
+      "paper_iso_surface_0_0016_angstrom2": 110.9705
+    },
+    "ISO-M4": {
+      "name": "tetrahydrofuran",
+      "source_prefix": "1765",
+      "published_conformer_count": 1,
+      "te_surface_angstrom2": 110.538,
+      "paper_iso_surface_0_0016_angstrom2": 109.9966
+    },
+    "ISO-M5": {
+      "name": "1,4-dioxane",
+      "source_prefix": "142",
+      "published_conformer_count": 3,
+      "te_surface_angstrom2": 118.956,
+      "paper_iso_surface_0_0016_angstrom2": 117.1575
+    },
+    "ISO-M6": {
+      "name": "1-pentanethiol",
+      "source_prefix": "1475",
+      "published_conformer_count": 25,
+      "te_surface_angstrom2": 156.507,
+      "paper_iso_surface_0_0016_angstrom2": 157.1994
+    },
+    "ISO-M7": {
+      "name": "cyclohexanone",
+      "source_prefix": "805",
+      "published_conformer_count": 3,
+      "te_surface_angstrom2": 143.248,
+      "paper_iso_surface_0_0016_angstrom2": 136.6333
+    }
+  },
+  "conformer_example": {
+    "molecule_id": "ISO-M6",
+    "individual_surface_areas_angstrom2": [
+      159.8,
+      149.2
+    ],
+    "paper_ensemble_surface_angstrom2": 157.1994
+  }
+}

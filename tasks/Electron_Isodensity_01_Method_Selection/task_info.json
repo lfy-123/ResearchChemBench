@@ -1,0 +1,57 @@
+{
+  "task_id": "Electron_Isodensity_01_Method_Selection",
+  "source_id": "electron_isodensity_2024_open_discovery",
+  "category": "molecular_surface_quantum_chemistry",
+  "task": "Starting only from the supplied neutral molecular identities, independently determine which affordable electronic-structure approach gives electron-density isosurface areas closest to a higher-level reference on the same geometries. Generate all three-dimensional structures, choose a defensible hierarchy of candidate and reference calculations, evaluate multiple density cutoffs, and justify the production method from newly computed evidence. Do not identify or search for the source publication or use published surface values.",
+  "scientific_mode": "focused_open_discovery",
+  "scientific_mode_description": "The scientific question and input data are fixed, but no software, method, conformer route, cutoff grid, provider, or stopping path is prescribed.",
+  "scientific_requirements": [
+    "Compare at least three meaningfully different affordable electronic-structure approximations on common structures and basis-quality conditions.",
+    "Create a higher-level reference for at least the smallest molecule, or provide calculation-backed bounds when that reference is unaffordable.",
+    "Evaluate more than one density cutoff and keep wavefunction-to-surface provenance for every numerical comparison."
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/research_plan.json",
+      "description": "Initial hypotheses, resource tiers, validation gates, stopping criteria, and revisions."
+    },
+    {
+      "path": "report/tool_trace.jsonl",
+      "description": "One provenance record per real chemistry-software invocation."
+    },
+    {
+      "path": "report/failure_log.jsonl",
+      "description": "Failed or inconclusive branches and their scientific consequence.",
+      "allow_empty": true
+    },
+    {
+      "path": "report/report.md",
+      "description": "Artifact-linked scientific report separating computed results, experiment, inference, and uncertainty."
+    },
+    {
+      "path": "report/quantum_calculations.csv",
+      "description": "Method, basis, convergence, energy, and wavefunction artifact inventory."
+    },
+    {
+      "path": "report/surface_matrix.csv",
+      "description": "Molecule by method by cutoff recomputed surface areas."
+    },
+    {
+      "path": "report/method_comparison.json",
+      "description": "Reference-relative errors, selected production method, and uncertainty."
+    }
+  ],
+  "data": [
+    {
+      "name": "Electron Isodensity open-discovery inputs",
+      "path": "data/benchmark_data",
+      "type": "directory",
+      "description": "Task-specific molecular identities and experimental TE inputs only. No paper method, route, conformer, calculation output, or result is included."
+    }
+  ],
+  "archive_extractions": [],
+  "benchmark_family": "electron_isodensity_surface",
+  "task_mode": "open_discovery",
+  "method_disclosure": "none",
+  "pathway_disclosure": "none"
+}

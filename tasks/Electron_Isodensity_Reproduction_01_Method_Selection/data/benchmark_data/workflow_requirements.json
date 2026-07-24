@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "task_id_suffix": "01_Method_Selection",
+  "result_values_included": false,
+  "author_quantum_outputs_included": false,
+  "required_main_profile_stages": [
+    "validate public conformers",
+    "run PBE/B3LYP/DSD-PBEP86/CCSD(T) at def2-TZVPD as feasible",
+    "export wavefunctions",
+    "run the full cutoff grid",
+    "compare DFT surfaces to newly computed CCSD(T) references"
+  ],
+  "failure_policy": [
+    "Retain failed ORCA and Multiwfn logs and record the attempted remedy.",
+    "Do not silently remove a conformer or change molecular connectivity.",
+    "Do not substitute paper-computed surfaces for failed calculations.",
+    "Report a partial result and missing evidence when a required stage cannot be completed."
+  ]
+}

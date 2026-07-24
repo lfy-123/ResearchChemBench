@@ -1,0 +1,184 @@
+{
+  "expected_tool_calls": [
+    {
+      "class": "structure_or_conformer_generation",
+      "required": false
+    },
+    {
+      "class": "electronic_structure",
+      "backend_examples": [
+        "orca"
+      ]
+    },
+    {
+      "class": "wavefunction_conversion",
+      "backend_examples": [
+        "orca_2aim"
+      ]
+    },
+    {
+      "class": "electron_isodensity_surface",
+      "backend_examples": [
+        "multiwfn"
+      ]
+    }
+  ],
+  "expected_result": {
+    "paper_104_molecule_optimum_cutoff_au": 0.0016,
+    "paper_104_molecule_mupe_percent": 1.5922920870480508,
+    "paper_104_molecule_pearson_r": 0.995,
+    "paper_cutoff_mupe_curve_percent": {
+      "0.0008": 10.40862824831,
+      "0.0009": 8.59042749507472,
+      "0.0010": 6.983977915614389,
+      "0.0011": 5.547764622689169,
+      "0.0012": 4.313527166731575,
+      "0.0013": 3.2656707175422146,
+      "0.0014": 2.4291555602334407,
+      "0.0015": 1.8430780321134992,
+      "0.0016": 1.5922920870480508,
+      "0.0017": 1.7123077185580835,
+      "0.0018": 2.1015745078180954,
+      "0.0019": 2.6093848553808394,
+      "0.0020": 3.1672347890461414,
+      "0.0021": 3.7864502111219207,
+      "0.0022": 4.394986623871028,
+      "0.0023": 4.987117230524248,
+      "0.0024": 5.561497411438547,
+      "0.0025": 6.1088686723640855
+    },
+    "subset_scoring_policy": "The supplied six-molecule optimum must be computed and reported separately; closeness to 0.0016 is supportive but process evidence is primary."
+  },
+  "expected_structured_output": [
+    "report/research_plan.json",
+    "report/tool_trace.jsonl",
+    "report/failure_log.jsonl",
+    "report/report.md",
+    "report/conformer_weights.csv",
+    "report/surface_by_molecule_and_cutoff.csv",
+    "report/cutoff_metrics.csv",
+    "report/cutoff_selection.json"
+  ],
+  "evaluation_mode": "rubric_100",
+  "score_max": 100,
+  "scoring_rubric": [
+    {
+      "id": "planning_and_provenance",
+      "max_score": 15,
+      "description": "Resource-aware plan, software versions, inputs, commands, artifacts, failures, and revisions are traceable."
+    },
+    {
+      "id": "real_computation",
+      "max_score": 25,
+      "description": "New quantum wavefunctions and electron-density isosurface calculations are complete and validated."
+    },
+    {
+      "id": "data_and_numerical_quality",
+      "max_score": 20,
+      "description": "Molecular identity, charge, multiplicity, conformers, units, weights, cutoff handling, and statistics are internally consistent."
+    },
+    {
+      "id": "cutoff_curve",
+      "max_score": 25,
+      "description": "A recomputed multi-point cutoff curve and statistics support the selected optimum."
+    },
+    {
+      "id": "reporting_and_uncertainty",
+      "max_score": 15,
+      "description": "The report links claims to artifacts and separates computed evidence, experiment, inference, version effects, and unresolved uncertainty."
+    }
+  ],
+  "critical_failures": [
+    "No real electronic-structure calculation was executed.",
+    "No real electron-density isosurface calculation was executed.",
+    "Paper-published surface values or the hidden ISO-M4 target were presented as newly computed outputs.",
+    "Reported numerical claims cannot be traced to artifacts from this run."
+  ],
+  "judge_instructions": "Score computation and evidence before numerical agreement. The visible task is a seven-molecule or smaller benchmark subset, whereas several hidden aggregate values are from the 104-molecule paper. Do not require the subset to reproduce paper-wide metrics exactly. Apply every evidence gate and explain any cap.",
+  "reference_evidence": {
+    "paper_doi": "10.1038/s41467-024-50408-8",
+    "task_id": "Electron_Isodensity_Reproduction_03_Cutoff_Calibration",
+    "task_mode": "guided_reproduction",
+    "input_manifest_sha256": "91a497e4ab175331b448ab855ac9f4fae37caeb68547083817b696d600864b58",
+    "paper_reference": {
+      "paper_104_molecule_optimum_cutoff_au": 0.0016,
+      "paper_104_molecule_mupe_percent": 1.5922920870480508,
+      "paper_104_molecule_pearson_r": 0.995,
+      "paper_cutoff_mupe_curve_percent": {
+        "0.0008": 10.40862824831,
+        "0.0009": 8.59042749507472,
+        "0.0010": 6.983977915614389,
+        "0.0011": 5.547764622689169,
+        "0.0012": 4.313527166731575,
+        "0.0013": 3.2656707175422146,
+        "0.0014": 2.4291555602334407,
+        "0.0015": 1.8430780321134992,
+        "0.0016": 1.5922920870480508,
+        "0.0017": 1.7123077185580835,
+        "0.0018": 2.1015745078180954,
+        "0.0019": 2.6093848553808394,
+        "0.0020": 3.1672347890461414,
+        "0.0021": 3.7864502111219207,
+        "0.0022": 4.394986623871028,
+        "0.0023": 4.987117230524248,
+        "0.0024": 5.561497411438547,
+        "0.0025": 6.1088686723640855
+      },
+      "subset_scoring_policy": "The supplied six-molecule optimum must be computed and reported separately; closeness to 0.0016 is supportive but process evidence is primary."
+    },
+    "source_boundary": "Hidden paper and source-data results are evaluator-only; visible experimental TE values are raw calibration inputs."
+  },
+  "managed_computation_policy": {
+    "allow_direct_native_software_execution": true,
+    "per_calculation_target_minutes": 10,
+    "parallel_execution_allowed": true,
+    "do_not_fabricate_on_timeout": true
+  },
+  "evidence_gate_policy": {
+    "judge_must_assess_all": true,
+    "gates": [
+      {
+        "id": "real_quantum_evidence",
+        "description": "At least one valid newly generated quantum-chemistry output and wavefunction artifact supports reported surface values.",
+        "score_cap_if_failed": 35
+      },
+      {
+        "id": "real_surface_evidence",
+        "description": "Surface areas come from a real electron-density isosurface program in this run, not from paper tables or geometric proxies.",
+        "score_cap_if_failed": 45
+      },
+      {
+        "id": "input_and_hidden_boundary",
+        "description": "No hidden reference, source-data surface, or internet-discovered answer is substituted for computation.",
+        "score_cap_if_failed": 20
+      },
+      {
+        "id": "conformer_evidence",
+        "description": "Flexible-molecule conclusions include multiple conformers or an explicit calculation-backed limitation.",
+        "score_cap_if_failed": 60
+      }
+    ]
+  },
+  "current_toolbox_reproduction_baseline": {
+    "status": "representative_components_verified",
+    "classification": "solvable",
+    "major_paper_conclusion_reproduced_in_this_audit": false,
+    "installed_software": [
+      "ORCA 6.1.1",
+      "Multiwfn 2026.7.15",
+      "CREST 3.0.2",
+      "xTB 6.7.1"
+    ],
+    "verified_components": [
+      "DSD-PBEP86/def2-QZVPD ORCA wavefunction generation on ethane and 1-pentanethiol",
+      "ORCA GBW to WFN conversion with orca_2aim",
+      "Multiwfn molecular electron-isodensity surface area at a paper-relevant cutoff",
+      "CCSD unrelaxed MDCI density generation, orca_plot cube export, and Multiwfn external-grid surface analysis on ethane",
+      "Version-compatible Multiwfn 2026.7.15 menu streams for WFN/WFX and external-grid inputs"
+    ],
+    "unresolved_requirements": [
+      "No typed batch Action currently exposes electron-isodensity surface-area scans; direct native Multiwfn execution is required.",
+      "The accessible paper does not uniquely specify a separate thermochemical energy for conformer weights; sensitivity must be reported."
+    ]
+  }
+}

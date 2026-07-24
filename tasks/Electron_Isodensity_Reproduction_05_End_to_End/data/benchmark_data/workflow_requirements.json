@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "task_id_suffix": "05_End_to_End",
+  "result_values_included": false,
+  "author_quantum_outputs_included": false,
+  "required_main_profile_stages": [
+    "reproduce the method comparison",
+    "recompute production wavefunctions for all public conformers",
+    "run the full cutoff grid",
+    "reconstruct conformer ensembles and cutoff statistics",
+    "lock and report the ISO-M4 blind prediction"
+  ],
+  "failure_policy": [
+    "Retain failed ORCA and Multiwfn logs and record the attempted remedy.",
+    "Do not silently remove a conformer or change molecular connectivity.",
+    "Do not substitute paper-computed surfaces for failed calculations.",
+    "Report a partial result and missing evidence when a required stage cannot be completed."
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "task_id": "Electron_Isodensity_Reproduction_02_Conformer_Effects",
+  "source_id": "electron_isodensity_2024_guided_reproduction",
+  "category": "molecular_surface_quantum_chemistry",
+  "task": "Using the supplied public paper conformers and production electronic-density protocol, reproduce the single-conformer versus Boltzmann-ensemble surface comparison for 1,4-dioxane and 1-pentanethiol. Do not rerun conformer discovery unless validating the published set; recompute all energies, wavefunctions, cutoff surfaces, and weights in this run.",
+  "scientific_mode": "guided_reproduction",
+  "scientific_mode_description": "The paper-reconstructed method hierarchy, public conformers, cutoff route, and validation sequence are supplied; all numerical results must be recomputed.",
+  "scientific_requirements": [
+    "Validate all supplied public conformer files before calculation and report any connectivity changes or failures.",
+    "Apply the supplied production electron-density and cutoff protocol to every retained conformer.",
+    "Use one documented, internally consistent energy convention for Boltzmann weights and identify the paper ambiguity in the weighting energy if it affects the result."
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/research_plan.json",
+      "description": "Initial hypotheses, resource tiers, validation gates, stopping criteria, and revisions."
+    },
+    {
+      "path": "report/tool_trace.jsonl",
+      "description": "One provenance record per real chemistry-software invocation."
+    },
+    {
+      "path": "report/failure_log.jsonl",
+      "description": "Failed or inconclusive branches and their scientific consequence.",
+      "allow_empty": true
+    },
+    {
+      "path": "report/report.md",
+      "description": "Artifact-linked scientific report separating computed results, experiment, inference, and uncertainty."
+    },
+    {
+      "path": "report/conformer_inventory.csv",
+      "description": "All generated or supplied conformers, validation, deduplication, and status."
+    },
+    {
+      "path": "report/conformer_weights.csv",
+      "description": "Energy convention and normalized statistical weights."
+    },
+    {
+      "path": "report/surface_by_conformer.csv",
+      "description": "Conformer and cutoff resolved surface areas."
+    },
+    {
+      "path": "report/ensemble_comparison.json",
+      "description": "Single-conformer versus ensemble results and experimental errors."
+    }
+  ],
+  "data": [
+    {
+      "name": "Guided Electron Isodensity reproduction inputs",
+      "path": "data/benchmark_data",
+      "type": "directory",
+      "description": "Task-specific molecular identities and experimental inputs plus public paper conformers, method protocol, author input templates, and workflow requirements. No author quantum output or result is included."
+    }
+  ],
+  "archive_extractions": [],
+  "benchmark_family": "electron_isodensity_surface",
+  "task_mode": "guided_reproduction",
+  "method_disclosure": "paper_reconstructed_protocol",
+  "pathway_disclosure": "paper_execution_route"
+}

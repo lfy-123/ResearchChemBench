@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "task_id": "Electron_Isodensity_04_Blind_Prediction",
+  "task_mode": "open_discovery",
+  "molecule_ids": [
+    "ISO-M1",
+    "ISO-M2",
+    "ISO-M3",
+    "ISO-M4"
+  ],
+  "visible_te_measurement_ids": [
+    "TE-ISO-M1",
+    "TE-ISO-M2",
+    "TE-ISO-M3"
+  ],
+  "hidden_measurement_ids": [
+    "TE-ISO-M4"
+  ],
+  "published_conformer_count": 0,
+  "published_conformer_records": [],
+  "author_quantum_outputs": 0,
+  "author_wavefunctions": 0,
+  "author_surface_results": 0,
+  "published_optimal_cutoff_values": 0,
+  "reference_answers": 0,
+  "method_protocol_files": [],
+  "workflow_requirement_files": [],
+  "files": [
+    {
+      "path": "README.md",
+      "size_bytes": 643,
+      "sha256": "47cd13b959fb283e843d1465a5e7c3dc3d882af4b0607272111501d18a34e4d2"
+    },
+    {
+      "path": "conditions.json",
+      "size_bytes": 177,
+      "sha256": "30c85f07cdc47fed0501934924b50d771750da828d868401dc78f7b20198d624"
+    },
+    {
+      "path": "experimental_measurements/te_surfaces.json",
+      "size_bytes": 766,
+      "sha256": "c48318d06a70197c3012e82fc2886363d85769e3164be6be1c9ebda99aa7a168"
+    },
+    {
+      "path": "molecular_systems.json",
+      "size_bytes": 891,
+      "sha256": "34d78fc48fed9d6bf41cab38c25e0dba2ba6c494b0aeb0ad1560e2d4a539ae25"
+    }
+  ]
+}

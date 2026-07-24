@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "protocol_type": "paper_reconstructed_guided_reproduction",
+  "paper_doi": "10.1038/s41467-024-50408-8",
+  "result_values_included": false,
+  "author_wavefunctions_included": false,
+  "author_quantum_outputs_included": false,
+  "conformer_source": {
+    "paper_method": "CREST with GFN2-xTB",
+    "paper_limit": "up to 25 low-energy conformers per molecule",
+    "task_policy": "Use the supplied public Supplementary Data 2 XYZ conformers; rerunning CREST is not required for the main reproduction profile."
+  },
+  "method_comparison": {
+    "software": "ORCA 5.0.3 or a documented compatible newer ORCA version",
+    "methods": [
+      "PBE",
+      "B3LYP",
+      "DSD-PBEP86",
+      "CCSD(T)"
+    ],
+    "basis": "def2-TZVPD",
+    "comparison_rule": "Compare DFT surface areas against feasible CCSD(T) surface areas on the same geometry and cutoff grid.",
+    "resource_policy": "CCSD(T) may be restricted to the smallest molecule when a larger reference is unaffordable, but the missing comparison must be explicit.",
+    "correlated_density_compatibility": {
+      "paper_label": "CCSD(T)",
+      "orca_6_limitation": "ORCA 6.1 does not provide an unrelaxed CCSD(T) one-particle density because the perturbative triples correction has no supported density. It does provide an unrelaxed CCSD density from the same coupled-cluster module.",
+      "reproduction_policy": "Use a canonical CCSD unrelaxed density at def2-TZVPD as the reproducible correlated-density reference, optionally report the matching CCSD(T) energy separately, and label this substitution explicitly rather than claiming an exact CCSD(T) density.",
+      "density_export": "Export the MDCI density with orca_plot to a density grid or another format accepted by the surface analyzer; orca_2aim on the ordinary GBW would export reference orbitals rather than the MDCI density.",
+      "compatible_template": "author_input_templates/ccsd_density_orca_6.in",
+      "orca_plot_menu_template": "author_input_templates/orca_plot_ccsd_density.menu",
+      "multiwfn_grid_menu_template": "author_input_templates/Multiwfn_2026_external_grid_surface.menu"
+    }
+  },
+  "production_density": {
+    "software": "ORCA 5.0.3 or compatible version",
+    "method": "DSD-PBEP86",
+    "orbital_basis": "def2-QZVPD",
+    "auxiliary_basis": "def2-TZVPD/C",
+    "dispersion": "D3BJ",
+    "frozen_core": false,
+    "density": "relaxed MP2/double-hybrid density",
+    "scf": "VeryTightSCF with stability checking",
+    "paper_template": "author_input_templates/orca_input.in",
+    "compatible_template": "author_input_templates/orca_6_compatible.in",
+    "paper_template_note": "The verbatim Supplementary Software snippet ends with an incomplete '*xyzfile molecule.xyz' placeholder and does not explicitly request MP2 natural orbitals. A runnable ORCA input must add charge and multiplicity. The compatible template also requests NatOrbs so orca_2aim exports the relaxed double-hybrid density rather than silently falling back to the reference-orbital GBW.",
+    "required_outputs": [
+      "ORCA text output",
+      "GBW",
+      "WFN or WFX readable by Multiwfn"
+    ]
+  },
+  "surface_analysis": {
+    "software": "Multiwfn using the improved marching tetrahedra molecular-surface implementation",
+    "density_cutoff_start_au": 0.0008,
+    "density_cutoff_stop_au": 0.0025,
+    "density_cutoff_step_au": 0.0001,
+    "paper_grid_spacing": 0.1,
+    "surface_area_unit": "angstrom^2",
+    "paper_template": "author_input_templates/Multiwfn.in",
+    "compatible_menu_template": "author_input_templates/Multiwfn_2026_surface_area.menu",
+    "version_note": "The author command stream is retained verbatim as provenance. Multiwfn menu numbering changed in the installed 2026.7.15 version, so use a tested version-compatible menu stream while preserving cutoff and grid settings."
+  },
+  "ensemble": {
+    "temperature_kelvin": 298.15,
+    "aggregation": "Boltzmann-weighted surface area over retained conformers",
+    "consistency_requirement": "Use one documented energy convention and unit for all conformers of a molecule, normalize weights to one, and do not mix electronic and free energies silently.",
+    "paper_ambiguity": "The accessible paper and public templates do not uniquely specify a separate thermochemistry calculation for conformer weights. Report the chosen paper-compatible energy convention and sensitivity instead of inventing unavailable details."
+  },
+  "statistics": {
+    "mupe_formula": "mean(abs((TE - isodensity) / TE)) * 100",
+    "correlation": "Pearson R across molecules",
+    "blind_policy": "Choose and lock the cutoff using calibration molecules before evaluating ISO-M4."
+  },
+  "version_policy": {
+    "exact_numeric_identity_required": false,
+    "required": "real recomputation, preserved scientific settings, provenance, convergence checks, and an explicit explanation of version-dependent deviations"
+  },
+  "task_scope": {
+    "task_id": "Electron_Isodensity_Reproduction_02_Conformer_Effects",
+    "molecule_ids": [
+      "ISO-M5",
+      "ISO-M6"
+    ],
+    "visible_experimental_ids": [
+      "ISO-M5",
+      "ISO-M6"
+    ]
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "paper": {
+    "title": "Electron iso-density surfaces provide a thermodynamically consistent representation of atomic and molecular surfaces",
+    "authors": [
+      "Amin Alibakhshi",
+      "Lars V. Schaefer"
+    ],
+    "journal": "Nature Communications",
+    "year": 2024,
+    "doi": "10.1038/s41467-024-50408-8",
+    "official_url": "https://doi.org/10.1038/s41467-024-50408-8",
+    "pmcid": "PMC11271626",
+    "pmc_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11271626/",
+    "license": "CC BY 4.0",
+    "local_path": "paper.pdf",
+    "sha256": "0641a6bf8e7ba503327501c582c1bf9704cf4534f360bdcfaf5d311fdbd87701"
+  },
+  "official_resources": [
+    {
+      "name": "Supplementary Information",
+      "local_path": "supplementary/Supplementary_Information.docx",
+      "size_bytes": 79864,
+      "sha256": "ef83676c82dbdaa4c65cfb930a4973332b2d9d2b59a2271771d8f96e01128681"
+    },
+    {
+      "name": "Supplementary Data 1",
+      "local_path": "supplementary/Supplementary_Data_1.xlsx",
+      "size_bytes": 13130,
+      "sha256": "20d488d01f9fdcf77c993ba6ec3365624ea7303300e00a0734af678a7be4e9d4"
+    },
+    {
+      "name": "Supplementary Data 2",
+      "local_path": "supplementary/Supplementary_Data_2.zip",
+      "size_bytes": 698097,
+      "sha256": "037401776874a10b04d4279de17e000e43b10e9417314169f67417f9b533e1be"
+    },
+    {
+      "name": "Supplementary Software",
+      "local_path": "supplementary/Supplementary_Software.zip",
+      "size_bytes": 1199,
+      "sha256": "eb48a78bc23571d67100f2ded131611c0f97964c15e55d1dc86e66a76e7ca0e4"
+    },
+    {
+      "name": "Source Data",
+      "local_path": "supplementary/Source_Data.xlsx",
+      "size_bytes": 13253,
+      "sha256": "9286a1384e1fab185fa42665c4ef017ab605522937d16f87eea044bb0f51040b"
+    }
+  ],
+  "online_search_audit": {
+    "checked": [
+      "Nature article and data/code availability sections",
+      "PubMed Central article package",
+      "DOI and general web search for separate repositories"
+    ],
+    "separate_public_repository_found": false,
+    "missing_public_resource_detected": false,
+    "note": "The official article points to article supplements and source data; no separate author repository was identified."
+  },
+  "dataset_count_discrepancy": {
+    "paper_reported_conformers": 1071,
+    "supplementary_data_2_xyz_files": 1074,
+    "unique_molecule_prefixes": 104,
+    "policy": "Retain the discrepancy in provenance; do not silently rewrite either count."
+  }
+}

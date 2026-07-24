@@ -242,6 +242,204 @@ def test_heterobiaryl_dual_track_tasks_use_complete_100_point_rubrics():
             ).hexdigest()
 
 
+def test_electron_isodensity_dual_track_tasks_are_decontaminated_and_complete():
+    open_tasks = [
+        "Electron_Isodensity_01_Method_Selection",
+        "Electron_Isodensity_02_Conformer_Effects",
+        "Electron_Isodensity_03_Cutoff_Calibration",
+        "Electron_Isodensity_04_Blind_Prediction",
+        "Electron_Isodensity_05_End_to_End",
+    ]
+    reproduction_tasks = [
+        "Electron_Isodensity_Reproduction_01_Method_Selection",
+        "Electron_Isodensity_Reproduction_02_Conformer_Effects",
+        "Electron_Isodensity_Reproduction_03_Cutoff_Calibration",
+        "Electron_Isodensity_Reproduction_04_Blind_Prediction",
+        "Electron_Isodensity_Reproduction_05_End_to_End",
+    ]
+    assert [task for task in list_tasks() if task.startswith("Electron_Isodensity_")] == [
+        open_tasks[0],
+        open_tasks[1],
+        open_tasks[2],
+        open_tasks[3],
+        open_tasks[4],
+        reproduction_tasks[0],
+        reproduction_tasks[1],
+        reproduction_tasks[2],
+        reproduction_tasks[3],
+        reproduction_tasks[4],
+    ]
+
+    molecule_contracts = {
+        "01_Method_Selection": (["ISO-M1", "ISO-M2", "ISO-M3"], [], 3),
+        "02_Conformer_Effects": (["ISO-M5", "ISO-M6"], ["TE-ISO-M5", "TE-ISO-M6"], 28),
+        "03_Cutoff_Calibration": (
+            ["ISO-M1", "ISO-M2", "ISO-M3", "ISO-M5", "ISO-M6", "ISO-M7"],
+            ["TE-ISO-M1", "TE-ISO-M2", "TE-ISO-M3", "TE-ISO-M5", "TE-ISO-M6", "TE-ISO-M7"],
+            34,
+        ),
+        "04_Blind_Prediction": (
+            ["ISO-M1", "ISO-M2", "ISO-M3", "ISO-M4"],
+            ["TE-ISO-M1", "TE-ISO-M2", "TE-ISO-M3"],
+            4,
+        ),
+        "05_End_to_End": (
+            ["ISO-M1", "ISO-M2", "ISO-M3", "ISO-M4", "ISO-M5", "ISO-M6", "ISO-M7"],
+            ["TE-ISO-M1", "TE-ISO-M2", "TE-ISO-M3", "TE-ISO-M5", "TE-ISO-M6", "TE-ISO-M7"],
+            35,
+        ),
+    }
+    forbidden_open_terms = {
+        "orca",
+        "multiwfn",
+        "crest",
+        "xtb",
+        "pbe",
+        "b3lyp",
+        "dsd-pbep86",
+        "ccsd",
+        "def2",
+        "marching tetrahedra",
+        "0.0016",
+        "0.0008",
+        "0.0025",
+        "10.1038/s41467-024-50408-8",
+    }
+    formula_contract = {
+        "ISO-M1": ("C2H6", 8),
+        "ISO-M2": ("C4H4O", 9),
+        "ISO-M3": ("C5H5N", 11),
+        "ISO-M4": ("C4H8O", 13),
+        "ISO-M5": ("C4H8O2", 14),
+        "ISO-M6": ("C5H12S", 18),
+        "ISO-M7": ("C6H10O", 17),
+    }
+
+    for task_id in open_tasks:
+        suffix = task_id.split("Electron_Isodensity_", 1)[1]
+        expected_molecules, expected_measurements, _ = molecule_contracts[suffix]
+        info = load_task_info(task_id)
+        truth = load_ground_truth(task_id)
+        data_root = TASKS_DIR / task_id / "data" / "benchmark_data"
+        assert info["benchmark_family"] == "electron_isodensity_surface"
+        assert info["task_mode"] == "open_discovery"
+        assert info["method_disclosure"] == "none"
+        assert info["pathway_disclosure"] == "none"
+        assert info["archive_extractions"] == []
+        assert truth["evaluation_mode"] == "rubric_100"
+        assert sum(item["max_score"] for item in truth["scoring_rubric"]) == 100
+        assert not (data_root / "computational_protocol.json").exists()
+        assert not (data_root / "workflow_requirements.json").exists()
+        assert not (data_root / "initial_structures").exists()
+        assert not any(path.is_symlink() for path in data_root.rglob("*"))
+        assert not any(path.suffix.casefold() == ".zip" for path in data_root.rglob("*"))
+        visible_text = json.dumps(info, ensure_ascii=False).casefold() + "\n" + "\n".join(
+            path.read_text(encoding="utf-8", errors="ignore").casefold()
+            for path in data_root.rglob("*")
+            if path.is_file() and path.suffix.casefold() in {".json", ".md", ".txt"}
+        )
+        for term in forbidden_open_terms:
+            assert term not in visible_text
+        manifest_path = data_root / "input_manifest.json"
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        assert manifest["molecule_ids"] == expected_molecules
+        assert manifest["visible_te_measurement_ids"] == expected_measurements
+        assert manifest["published_conformer_count"] == 0
+        assert manifest["author_quantum_outputs"] == 0
+        assert manifest["author_wavefunctions"] == 0
+        assert manifest["author_surface_results"] == 0
+        assert manifest["published_optimal_cutoff_values"] == 0
+        assert truth["reference_evidence"]["input_manifest_sha256"] == hashlib.sha256(
+            manifest_path.read_bytes()
+        ).hexdigest()
+        for record in manifest["files"]:
+            path = data_root / record["path"]
+            assert path.stat().st_size == record["size_bytes"]
+            assert hashlib.sha256(path.read_bytes()).hexdigest() == record["sha256"]
+        systems = json.loads((data_root / "molecular_systems.json").read_text(encoding="utf-8"))["systems"]
+        assert list(systems) == expected_molecules
+        for molecule_id in expected_molecules:
+            formula, atom_count = formula_contract[molecule_id]
+            assert systems[molecule_id]["formula"] == formula
+            assert systems[molecule_id]["atom_count"] == atom_count
+            assert systems[molecule_id]["charge"] == 0
+            assert systems[molecule_id]["multiplicity"] == 1
+        measurement_path = data_root / "experimental_measurements" / "te_surfaces.json"
+        if expected_measurements:
+            measurements = json.loads(measurement_path.read_text(encoding="utf-8"))
+            assert [item["measurement_id"] for item in measurements["measurements"]] == expected_measurements
+            assert not any(item["molecule_id"] == "ISO-M4" for item in measurements["measurements"])
+        else:
+            assert not measurement_path.exists()
+
+    open_by_suffix = {task.split("Electron_Isodensity_", 1)[1]: task for task in open_tasks}
+    for task_id in reproduction_tasks:
+        suffix = task_id.split("Electron_Isodensity_Reproduction_", 1)[1]
+        expected_molecules, expected_measurements, expected_conformers = molecule_contracts[suffix]
+        info = load_task_info(task_id)
+        truth = load_ground_truth(task_id)
+        data_root = TASKS_DIR / task_id / "data" / "benchmark_data"
+        assert info["benchmark_family"] == "electron_isodensity_surface"
+        assert info["task_mode"] == "guided_reproduction"
+        assert info["method_disclosure"] == "paper_reconstructed_protocol"
+        assert info["pathway_disclosure"] == "paper_execution_route"
+        assert truth["evaluation_mode"] == "rubric_100"
+        assert sum(item["max_score"] for item in truth["scoring_rubric"]) == 100
+        protocol = json.loads((data_root / "computational_protocol.json").read_text(encoding="utf-8"))
+        assert protocol["paper_doi"] == "10.1038/s41467-024-50408-8"
+        assert protocol["production_density"]["method"] == "DSD-PBEP86"
+        assert protocol["production_density"]["orbital_basis"] == "def2-QZVPD"
+        assert protocol["surface_analysis"]["density_cutoff_start_au"] == 0.0008
+        assert protocol["surface_analysis"]["density_cutoff_stop_au"] == 0.0025
+        assert protocol["surface_analysis"]["density_cutoff_step_au"] == 0.0001
+        assert protocol["result_values_included"] is False
+        assert protocol["author_wavefunctions_included"] is False
+        assert protocol["author_quantum_outputs_included"] is False
+        assert (data_root / "workflow_requirements.json").is_file()
+        assert (data_root / "author_input_templates" / "orca_input.in").is_file()
+        assert (data_root / "author_input_templates" / "Multiwfn.in").is_file()
+        assert (data_root / "author_input_templates" / "orca_6_compatible.in").is_file()
+        assert (data_root / "author_input_templates" / "ccsd_density_orca_6.in").is_file()
+        assert (data_root / "author_input_templates" / "orca_plot_ccsd_density.menu").is_file()
+        assert (data_root / "author_input_templates" / "Multiwfn_2026_surface_area.menu").is_file()
+        assert (
+            data_root / "author_input_templates" / "Multiwfn_2026_external_grid_surface.menu"
+        ).is_file()
+        assert not any(path.is_symlink() for path in data_root.rglob("*"))
+        assert not any(path.suffix.casefold() in {".zip", ".gbw", ".wfn", ".wfx", ".out", ".log"} for path in data_root.rglob("*"))
+        manifest_path = data_root / "input_manifest.json"
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        assert manifest["molecule_ids"] == expected_molecules
+        assert manifest["visible_te_measurement_ids"] == expected_measurements
+        assert manifest["published_conformer_count"] == expected_conformers
+        assert len(manifest["published_conformer_records"]) == expected_conformers
+        assert manifest["author_quantum_outputs"] == 0
+        assert manifest["author_wavefunctions"] == 0
+        assert manifest["author_surface_results"] == 0
+        assert manifest["published_optimal_cutoff_values"] == 0
+        assert truth["reference_evidence"]["input_manifest_sha256"] == hashlib.sha256(
+            manifest_path.read_bytes()
+        ).hexdigest()
+        for record in manifest["files"]:
+            path = data_root / record["path"]
+            assert path.stat().st_size == record["size_bytes"]
+            assert hashlib.sha256(path.read_bytes()).hexdigest() == record["sha256"]
+        for record in manifest["published_conformer_records"]:
+            xyz = data_root / record["path"]
+            assert int(xyz.read_text(encoding="utf-8").splitlines()[0]) == record["atom_count"]
+            assert hashlib.sha256(xyz.read_bytes()).hexdigest() == record["sha256"]
+        open_root = TASKS_DIR / open_by_suffix[suffix] / "data" / "benchmark_data"
+        assert hashlib.sha256((data_root / "molecular_systems.json").read_bytes()).hexdigest() == hashlib.sha256(
+            (open_root / "molecular_systems.json").read_bytes()
+        ).hexdigest()
+        reproduction_measurements = data_root / "experimental_measurements" / "te_surfaces.json"
+        open_measurements = open_root / "experimental_measurements" / "te_surfaces.json"
+        if expected_measurements:
+            assert hashlib.sha256(reproduction_measurements.read_bytes()).hexdigest() == hashlib.sha256(
+                open_measurements.read_bytes()
+            ).hexdigest()
+
+
 def test_q6_instruction_rendering_exposes_evidence_contract_without_fixed_workflow(
     tmp_path: Path,
 ):

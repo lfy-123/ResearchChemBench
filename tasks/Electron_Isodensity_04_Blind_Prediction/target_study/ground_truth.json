@@ -1,0 +1,144 @@
+{
+  "expected_tool_calls": [
+    {
+      "class": "structure_or_conformer_generation",
+      "required": true
+    },
+    {
+      "class": "electronic_structure",
+      "backend_examples": [
+        "orca"
+      ]
+    },
+    {
+      "class": "wavefunction_conversion",
+      "backend_examples": [
+        "orca_2aim"
+      ]
+    },
+    {
+      "class": "electron_isodensity_surface",
+      "backend_examples": [
+        "multiwfn"
+      ]
+    }
+  ],
+  "expected_result": {
+    "held_out_molecule_id": "ISO-M4",
+    "hidden_te_surface_angstrom2": 110.538,
+    "paper_iso_surface_0_0016_angstrom2": 109.9966,
+    "full_credit_relative_error_to_paper_percent": 2.0,
+    "partial_credit_relative_error_to_paper_percent": 5.0
+  },
+  "expected_structured_output": [
+    "report/research_plan.json",
+    "report/tool_trace.jsonl",
+    "report/failure_log.jsonl",
+    "report/report.md",
+    "report/calibration_evidence.csv",
+    "report/blind_prediction.json"
+  ],
+  "evaluation_mode": "rubric_100",
+  "score_max": 100,
+  "scoring_rubric": [
+    {
+      "id": "planning_and_provenance",
+      "max_score": 15,
+      "description": "Resource-aware plan, software versions, inputs, commands, artifacts, failures, and revisions are traceable."
+    },
+    {
+      "id": "real_computation",
+      "max_score": 25,
+      "description": "New quantum wavefunctions and electron-density isosurface calculations are complete and validated."
+    },
+    {
+      "id": "data_and_numerical_quality",
+      "max_score": 20,
+      "description": "Molecular identity, charge, multiplicity, conformers, units, weights, cutoff handling, and statistics are internally consistent."
+    },
+    {
+      "id": "blind_prediction",
+      "max_score": 25,
+      "description": "Calibration choices are locked before a newly computed ISO-M4 prediction is reported."
+    },
+    {
+      "id": "reporting_and_uncertainty",
+      "max_score": 15,
+      "description": "The report links claims to artifacts and separates computed evidence, experiment, inference, version effects, and unresolved uncertainty."
+    }
+  ],
+  "critical_failures": [
+    "No real electronic-structure calculation was executed.",
+    "No real electron-density isosurface calculation was executed.",
+    "Paper-published surface values or the hidden ISO-M4 target were presented as newly computed outputs.",
+    "Reported numerical claims cannot be traced to artifacts from this run."
+  ],
+  "judge_instructions": "Score computation and evidence before numerical agreement. The visible task is a seven-molecule or smaller benchmark subset, whereas several hidden aggregate values are from the 104-molecule paper. Do not require the subset to reproduce paper-wide metrics exactly. Apply every evidence gate and explain any cap.",
+  "reference_evidence": {
+    "paper_doi": "10.1038/s41467-024-50408-8",
+    "task_id": "Electron_Isodensity_04_Blind_Prediction",
+    "task_mode": "open_discovery",
+    "input_manifest_sha256": "a3ed2b54a4766dac27b8c01a53733a190490a073852a5d7a0e4b6e6cdeecc4a4",
+    "paper_reference": {
+      "held_out_molecule_id": "ISO-M4",
+      "hidden_te_surface_angstrom2": 110.538,
+      "paper_iso_surface_0_0016_angstrom2": 109.9966,
+      "full_credit_relative_error_to_paper_percent": 2.0,
+      "partial_credit_relative_error_to_paper_percent": 5.0
+    },
+    "source_boundary": "Hidden paper and source-data results are evaluator-only; visible experimental TE values are raw calibration inputs."
+  },
+  "managed_computation_policy": {
+    "allow_direct_native_software_execution": true,
+    "per_calculation_target_minutes": 10,
+    "parallel_execution_allowed": true,
+    "do_not_fabricate_on_timeout": true
+  },
+  "evidence_gate_policy": {
+    "judge_must_assess_all": true,
+    "gates": [
+      {
+        "id": "real_quantum_evidence",
+        "description": "At least one valid newly generated quantum-chemistry output and wavefunction artifact supports reported surface values.",
+        "score_cap_if_failed": 35
+      },
+      {
+        "id": "real_surface_evidence",
+        "description": "Surface areas come from a real electron-density isosurface program in this run, not from paper tables or geometric proxies.",
+        "score_cap_if_failed": 45
+      },
+      {
+        "id": "input_and_hidden_boundary",
+        "description": "No hidden reference, source-data surface, or internet-discovered answer is substituted for computation.",
+        "score_cap_if_failed": 20
+      },
+      {
+        "id": "blind_lock",
+        "description": "The ISO-M4 prediction is recorded before hidden-target comparison.",
+        "score_cap_if_failed": 70
+      }
+    ]
+  },
+  "current_toolbox_reproduction_baseline": {
+    "status": "representative_components_verified",
+    "classification": "solvable",
+    "major_paper_conclusion_reproduced_in_this_audit": false,
+    "installed_software": [
+      "ORCA 6.1.1",
+      "Multiwfn 2026.7.15",
+      "CREST 3.0.2",
+      "xTB 6.7.1"
+    ],
+    "verified_components": [
+      "DSD-PBEP86/def2-QZVPD ORCA wavefunction generation on ethane and 1-pentanethiol",
+      "ORCA GBW to WFN conversion with orca_2aim",
+      "Multiwfn molecular electron-isodensity surface area at a paper-relevant cutoff",
+      "CCSD unrelaxed MDCI density generation, orca_plot cube export, and Multiwfn external-grid surface analysis on ethane",
+      "Version-compatible Multiwfn 2026.7.15 menu streams for WFN/WFX and external-grid inputs"
+    ],
+    "unresolved_requirements": [
+      "No typed batch Action currently exposes electron-isodensity surface-area scans; direct native Multiwfn execution is required.",
+      "The accessible paper does not uniquely specify a separate thermochemical energy for conformer weights; sensitivity must be reported."
+    ]
+  }
+}

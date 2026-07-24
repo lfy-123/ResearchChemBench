@@ -1,0 +1,9 @@
+! dsd-pbep86 def2-qzvpd def2-tzvpd/c d3bj nofrozencore PModel verytightscf PAL16 
+%maxcore 1500 
+%mp2 Density relaxed end 
+%scf 
+guessmode Cmatrix 
+STABPerform true 
+STABRestartUHFifUnstable true 
+End 
+*xyzfile molecule.xyz # xyz file of the molecule 
