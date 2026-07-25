@@ -25,10 +25,8 @@
   ],
   "expected_result": {
     "held_out_molecule_id": "ISO-M4",
-    "hidden_te_surface_angstrom2": 110.538,
-    "paper_iso_surface_0_0016_angstrom2": 109.9966,
-    "full_credit_relative_error_to_paper_percent": 2.0,
-    "partial_credit_relative_error_to_paper_percent": 5.0
+    "hidden_experimental_te_surface_angstrom2": 110.538,
+    "reference_use_policy": "Use the hidden experimental value only for post-hoc assessment of blind predictive quality. Do not require agreement with the paper calculation, a paper method, or a paper cutoff, and do not use this value to score method selection or workflow autonomy."
   },
   "expected_structured_output": [
     "report/research_plan.json",
@@ -36,6 +34,7 @@
     "report/failure_log.jsonl",
     "report/report.md",
     "report/calibration_evidence.csv",
+    "report/calibration_lock.json",
     "report/blind_prediction.json"
   ],
   "evaluation_mode": "rubric_100",
@@ -44,49 +43,48 @@
     {
       "id": "scientific_problem_framing",
       "max_score": 15,
-      "description": "Defines testable hypotheses, decision criteria, resource tiers, and stopping rules without relying on a disclosed paper route."
+      "description": "Defines a blind-prediction hypothesis, pre-ISO-M4 lock point, small-calibration-set risks, decision criteria, resource tiers, and stopping rules without relying on a paper route."
     },
     {
       "id": "autonomous_method_and_route_design",
       "max_score": 25,
-      "description": "Independently selects defensible structures, methods, sampling, numerical controls, and alternative routes appropriate to the question."
+      "description": "Independently designs defensible structure/conformer generation, electronic-density method selection, cutoff calibration, numerical controls, and alternatives without using ISO-M4 property results for tuning."
     },
     {
       "id": "adaptive_managed_execution",
       "max_score": 25,
-      "description": "Executes real managed calculations, diagnoses failures, and revises the workflow without fabricating or importing hidden results."
+      "description": "Executes real managed structure, quantum, wavefunction, and isosurface calculations; diagnoses failures and revises only within the declared blind protocol."
     },
     {
       "id": "validation_and_falsification",
       "max_score": 20,
-      "description": "Checks convergence, numerical sensitivity, chemical validity, competing explanations, uncertainty, and evidence sufficiency."
+      "description": "Uses multi-point and nearby-cutoff checks, leave-one-out or equivalent robustness analysis, numerical sensitivity, chemical validation, competing explanations, and explicit small-sample/extrapolation uncertainty."
     },
     {
       "id": "defensible_scientific_conclusion",
       "max_score": 15,
-      "description": "Draws a traceable conclusion from the generated evidence. Agreement with the hidden paper conclusion is not required."
+      "description": "Records a genuinely blind ISO-M4 prediction with traceable uncertainty. Hidden experimental accuracy is a post-hoc diagnostic, while agreement with a paper method, cutoff, or computed value is not required."
     }
   ],
   "critical_failures": [
     "No real electronic-structure calculation was executed.",
     "No real electron-density isosurface calculation was executed.",
     "Paper-published surface values or the hidden ISO-M4 target were presented as newly computed outputs.",
-    "Reported numerical claims cannot be traced to artifacts from this run."
+    "Reported numerical claims cannot be traced to artifacts from this run.",
+    "An ISO-M4 electronic-structure or isosurface result was used to tune the workflow before the blind prediction protocol was locked."
   ],
-  "judge_instructions": "This is an autonomous-discovery evaluation. Reward independent hypothesis formation, method and route selection, adaptive managed execution, validation, falsification, and an evidence-bound conclusion. Do not require agreement with the hidden paper conclusion merely because it is the reference.",
+  "judge_instructions": "This is an autonomous-discovery evaluation. Reward independent hypothesis formation, method and route selection, adaptive execution, falsification, and an evidence-bound conclusion. Do not require agreement with a hidden paper method, cutoff, calculation, or conclusion. For Q4, use the hidden experimental ISO-M4 value only as a post-hoc diagnostic within conclusion quality; do not let numerical proximity substitute for a pre-declared calibration lock, robust validation, or autonomous workflow design. Apply every evidence gate and explain any cap.",
   "reference_evidence": {
-    "paper_doi": "10.1038/s41467-024-50408-8",
     "task_id": "Electron_Isodensity_04_Blind_Prediction",
     "task_mode": "open_discovery",
     "input_manifest_sha256": "a3ed2b54a4766dac27b8c01a53733a190490a073852a5d7a0e4b6e6cdeecc4a4",
-    "paper_reference": {
+    "hidden_posthoc_reference": {
       "held_out_molecule_id": "ISO-M4",
-      "hidden_te_surface_angstrom2": 110.538,
-      "paper_iso_surface_0_0016_angstrom2": 109.9966,
-      "full_credit_relative_error_to_paper_percent": 2.0,
-      "partial_credit_relative_error_to_paper_percent": 5.0
+      "hidden_experimental_te_surface_angstrom2": 110.538,
+      "reference_use_policy": "Use the hidden experimental value only for post-hoc assessment of blind predictive quality. Do not require agreement with the paper calculation, a paper method, or a paper cutoff, and do not use this value to score method selection or workflow autonomy."
     },
-    "source_boundary": "Hidden paper and source-data results are evaluator-only; visible experimental TE values are raw calibration inputs."
+    "source_boundary": "Hidden reference values are evaluator-only; visible experimental TE values are raw calibration inputs.",
+    "reference_use_policy": "Assess autonomous scientific process first. Hidden numerical values may diagnose blind predictive quality but must not impose a paper-method, paper-cutoff, or paper-conclusion gate."
   },
   "managed_computation_policy": {
     "allow_direct_native_software_execution": true,
@@ -116,13 +114,17 @@
         "id": "blind_lock",
         "description": "The ISO-M4 prediction is recorded before hidden-target comparison.",
         "score_cap_if_failed": 70
+      },
+      {
+        "id": "pre_prediction_calibration_lock",
+        "description": "A structured calibration lock was written before the first ISO-M4 electronic-structure or isosurface calculation, and no ISO-M4 property result was used to tune the workflow.",
+        "score_cap_if_failed": 70
       }
     ]
   },
-  "current_toolbox_reproduction_baseline": {
-    "status": "representative_components_verified",
+  "current_toolbox_feasibility_baseline": {
+    "status": "autonomous_workflow_components_verified",
     "classification": "solvable",
-    "major_paper_conclusion_reproduced_in_this_audit": false,
     "installed_software": [
       "ORCA 6.1.1",
       "Multiwfn 2026.7.15",
@@ -130,16 +132,12 @@
       "xTB 6.7.1"
     ],
     "verified_components": [
-      "DSD-PBEP86/def2-QZVPD ORCA wavefunction generation on ethane and 1-pentanethiol",
-      "ORCA GBW to WFN conversion with orca_2aim",
-      "Multiwfn molecular electron-isodensity surface area at a paper-relevant cutoff",
-      "CCSD unrelaxed MDCI density generation, orca_plot cube export, and Multiwfn external-grid surface analysis on ethane",
-      "Version-compatible Multiwfn 2026.7.15 menu streams for WFN/WFX and external-grid inputs"
+      "Typed structure/conformer generation, calculate_correlated_electron_density, export_electron_density_grid, and calculate_electron_isodensity_surface Actions",
+      "ORCA GBW/WFN and MDCI cube export with Multiwfn isodensity surface analysis",
+      "Agent-controllable cutoff lists, grid settings, electron-count validation, resource limits, and version-compatible menu streams",
+      "A complete four-molecule ORCA-to-Multiwfn execution has run within the benchmark time target without backend failures"
     ],
-    "unresolved_requirements": [
-      "No typed batch Action currently exposes electron-isodensity surface-area scans; direct native Multiwfn execution is required.",
-      "The accessible paper does not uniquely specify a separate thermochemical energy for conformer weights; sensitivity must be reported."
-    ]
+    "unresolved_requirements": []
   },
   "evaluation_profile": "autonomous_discovery",
   "reference_conclusion_gate_policy": {}

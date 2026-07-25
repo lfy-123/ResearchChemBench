@@ -328,6 +328,9 @@ def test_electron_isodensity_dual_track_tasks_are_decontaminated_and_complete():
         assert info["archive_extractions"] == []
         assert truth["evaluation_mode"] == "rubric_100"
         assert sum(item["max_score"] for item in truth["scoring_rubric"]) == 100
+        assert truth["expected_structured_output"] == [
+            item["path"] for item in info["required_deliverables"]
+        ]
         assert not (data_root / "computational_protocol.json").exists()
         assert not (data_root / "workflow_requirements.json").exists()
         assert not (data_root / "initial_structures").exists()
@@ -371,6 +374,45 @@ def test_electron_isodensity_dual_track_tasks_are_decontaminated_and_complete():
             assert not any(item["molecule_id"] == "ISO-M4" for item in measurements["measurements"])
         else:
             assert not measurement_path.exists()
+        if suffix == "04_Blind_Prediction":
+            deliverable_paths = {
+                item["path"] for item in info["required_deliverables"]
+            }
+            assert "report/calibration_lock.json" in deliverable_paths
+            requirements = "\n".join(info["scientific_requirements"])
+            assert "before the first ISO-M4" in requirements
+            assert "leave-one-out" in requirements
+            assert "substantial CPU parallelism" in requirements
+            assert set(truth["expected_result"]) == {
+                "held_out_molecule_id",
+                "hidden_experimental_te_surface_angstrom2",
+                "reference_use_policy",
+            }
+            assert truth["expected_result"]["held_out_molecule_id"] == "ISO-M4"
+            assert (
+                truth["expected_result"]["hidden_experimental_te_surface_angstrom2"]
+                == 110.538
+            )
+            assert "post-hoc" in truth["expected_result"]["reference_use_policy"]
+            assert "paper_iso_surface_0_0016_angstrom2" not in truth[
+                "expected_result"
+            ]
+            assert "full_credit_relative_error_to_paper_percent" not in truth[
+                "expected_result"
+            ]
+            assert "paper_reference" not in truth["reference_evidence"]
+            assert "hidden_posthoc_reference" in truth["reference_evidence"]
+            gate_ids = {
+                item["id"] for item in truth["evidence_gate_policy"]["gates"]
+            }
+            assert "pre_prediction_calibration_lock" in gate_ids
+            baseline = truth["current_toolbox_feasibility_baseline"]
+            assert baseline["classification"] == "solvable"
+            assert baseline["unresolved_requirements"] == []
+            assert any(
+                "calculate_electron_isodensity_surface" in item
+                for item in baseline["verified_components"]
+            )
 
     open_by_suffix = {task.split("Electron_Isodensity_", 1)[1]: task for task in open_tasks}
     for task_id in reproduction_tasks:

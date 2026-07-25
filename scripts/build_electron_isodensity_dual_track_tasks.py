@@ -325,11 +325,13 @@ TASK_SPECS = (
         molecule_ids=("ISO-M1", "ISO-M2", "ISO-M3", "ISO-M4"),
         visible_te_ids=("ISO-M1", "ISO-M2", "ISO-M3"),
         open_task=(
-            "Calibrate an electron-density surface workflow using the three supplied molecules with known "
-            "experimental TE areas, lock all choices before inspecting the held-out system, and predict "
-            "the molecular surface area of tetrahydrofuran from its supplied identity. The tetrahydrofuran "
-            "experimental value is intentionally hidden. Generate all structural, quantum, isosurface, and "
-            "uncertainty evidence in this run without searching for the source publication."
+            "Using only the supplied molecular identities and the three visible experimental TE areas, "
+            "independently design and calibrate an electron-density surface workflow, then make a blind "
+            "molecular-surface prediction for tetrahydrofuran. Before running any ISO-M4 electronic-structure "
+            "or isosurface calculation, lock the structure/conformer policy, electronic-density protocol, "
+            "cutoff-selection rule, numerical settings, and uncertainty plan. The ISO-M4 experimental value "
+            "is intentionally hidden. Generate all structural, quantum, isosurface, validation, and uncertainty "
+            "evidence in this run without identifying or searching for the source publication."
         ),
         reproduction_task=(
             "Follow the supplied paper route on the public conformers for ISO-M1 to ISO-M4. Treat the "
@@ -339,8 +341,12 @@ TASK_SPECS = (
             "and paper-computed ISO-M4 values remain hidden until scoring."
         ),
         open_requirements=(
-            "Record the calibration procedure and lock the selected method and cutoff before calculating the held-out prediction.",
-            "Generate a tetrahydrofuran conformer treatment appropriate to its flexibility and quantify its contribution to uncertainty.",
+            "Generate and validate three-dimensional structures for all four molecules, checking connectivity, charge, multiplicity, and whether each system requires more than one conformer.",
+            "Use a calculation-backed staged comparison of defensible electronic-density protocols and numerical settings; do not select a method or cutoff from convention alone.",
+            "Treat the three-molecule calibration set as small and chemically limited: evaluate a multi-point cutoff curve, use leave-one-out or an equivalent internal robustness check, inspect nearby alternatives, and report overfitting and extrapolation risk.",
+            "Write report/calibration_lock.json before the first ISO-M4 electronic-structure or isosurface calculation. Lock the structure/conformer rule, method, basis or numerical representation, density type, cutoff-selection rule, grid controls, and prediction-uncertainty procedure; do not tune them using an ISO-M4 property result.",
+            "Generate a tetrahydrofuran conformer treatment appropriate to its flexibility and quantify conformer and structural uncertainty without using the hidden target to select a conformer.",
+            "Within server and backend limits, use substantial CPU parallelism and sufficient memory, and run independent calibration molecules or candidate protocols concurrently when safe; justify deliberately low-resource calculations.",
             "Do not infer or search for the hidden tetrahydrofuran TE surface.",
         ),
         reproduction_requirements=(
@@ -355,7 +361,7 @@ TASK_SPECS = (
         ),
         deliverables=COMMON_DELIVERABLES
         + (
-            ("report/calibration_evidence.csv", "Validation surfaces at the locked paper-calibrated cutoff and protocol provenance.", False),
+            ("report/calibration_evidence.csv", "Calibration or validation surfaces, metrics, and locked-choice provenance.", False),
             ("report/blind_prediction.json", "Held-out surface prediction and uncertainty decomposition.", False),
         ),
         reference_key="blind_prediction",
@@ -872,12 +878,44 @@ def _manifest_records(data_root: Path) -> list[dict[str, Any]]:
     return records
 
 
+def _deliverables_for_mode(
+    spec: TaskSpec, reproduction: bool
+) -> tuple[tuple[str, str, bool], ...]:
+    deliverables = list(spec.deliverables)
+    if spec.number == "04" and reproduction:
+        calibration_index = next(
+            index
+            for index, (path, _, _) in enumerate(deliverables)
+            if path == "report/calibration_evidence.csv"
+        )
+        deliverables[calibration_index] = (
+            "report/calibration_evidence.csv",
+            "Validation surfaces at the locked paper-calibrated cutoff and protocol provenance.",
+            False,
+        )
+    elif spec.number == "04":
+        blind_index = next(
+            index
+            for index, (path, _, _) in enumerate(deliverables)
+            if path == "report/blind_prediction.json"
+        )
+        deliverables.insert(
+            blind_index,
+            (
+                "report/calibration_lock.json",
+                "Pre-ISO-M4 immutable lock of the independently selected workflow, numerical settings, and uncertainty procedure.",
+                False,
+            ),
+        )
+    return tuple(deliverables)
+
+
 def _task_info(spec: TaskSpec, reproduction: bool) -> dict[str, Any]:
     task_id = spec.reproduction_id if reproduction else spec.open_id
     requirements = spec.reproduction_requirements if reproduction else spec.open_requirements
     deliverables = [
         {"path": path, "description": description, **({"allow_empty": True} if allow_empty else {})}
-        for path, description, allow_empty in spec.deliverables
+        for path, description, allow_empty in _deliverables_for_mode(spec, reproduction)
     ]
     return {
         "task_id": task_id,
@@ -922,7 +960,7 @@ def _task_info(spec: TaskSpec, reproduction: bool) -> dict[str, Any]:
     }
 
 
-def _reference_result(spec: TaskSpec) -> dict[str, Any]:
+def _reference_result(spec: TaskSpec, reproduction: bool) -> dict[str, Any]:
     if spec.reference_key == "method_selection":
         return {
             "paper_conclusion": "DSD-PBEP86 is the closest tested DFT density to CCSD(T) and is selected for production calculations.",
@@ -953,6 +991,15 @@ def _reference_result(spec: TaskSpec) -> dict[str, Any]:
             "subset_scoring_policy": "The supplied six-molecule optimum must be computed and reported separately; closeness to 0.0016 is supportive but process evidence is primary.",
         }
     if spec.reference_key == "blind_prediction":
+        if not reproduction:
+            return {
+                "held_out_molecule_id": "ISO-M4",
+                "hidden_experimental_te_surface_angstrom2": MOLECULES["ISO-M4"]["te_surface_angstrom2"],
+                "reference_use_policy": (
+                    "Use the hidden experimental value only for post-hoc assessment of blind predictive quality. "
+                    "Do not require agreement with the paper calculation, a paper method, or a paper cutoff, and do not use this value to score method selection or workflow autonomy."
+                ),
+            }
         return {
             "held_out_molecule_id": "ISO-M4",
             "locked_paper_calibrated_cutoff_au": 0.0016,
@@ -977,7 +1024,9 @@ def _reference_result(spec: TaskSpec) -> dict[str, Any]:
 
 def _ground_truth(spec: TaskSpec, reproduction: bool, manifest_sha256: str) -> dict[str, Any]:
     task_id = spec.reproduction_id if reproduction else spec.open_id
-    expected_paths = [path for path, _, _ in spec.deliverables]
+    expected_paths = [
+        path for path, _, _ in _deliverables_for_mode(spec, reproduction)
+    ]
     gates = [
         {
             "id": "real_quantum_evidence",
@@ -1011,6 +1060,14 @@ def _ground_truth(spec: TaskSpec, reproduction: bool, manifest_sha256: str) -> d
                 "score_cap_if_failed": 70,
             }
         )
+    if spec.number == "04" and not reproduction:
+        gates.append(
+            {
+                "id": "pre_prediction_calibration_lock",
+                "description": "A structured calibration lock was written before the first ISO-M4 electronic-structure or isosurface calculation, and no ISO-M4 property result was used to tune the workflow.",
+                "score_cap_if_failed": 70,
+            }
+        )
     autonomous_rubric = [
         {"id": "scientific_problem_framing", "max_score": 15, "description": "Defines testable hypotheses, decision criteria, resource tiers, and stopping rules without relying on a disclosed paper route."},
         {"id": "autonomous_method_and_route_design", "max_score": 25, "description": "Independently selects defensible structures, methods, sampling, numerical controls, and alternative routes appropriate to the question."},
@@ -1018,6 +1075,14 @@ def _ground_truth(spec: TaskSpec, reproduction: bool, manifest_sha256: str) -> d
         {"id": "validation_and_falsification", "max_score": 20, "description": "Checks convergence, numerical sensitivity, chemical validity, competing explanations, uncertainty, and evidence sufficiency."},
         {"id": "defensible_scientific_conclusion", "max_score": 15, "description": "Draws a traceable conclusion from the generated evidence. Agreement with the hidden paper conclusion is not required."},
     ]
+    if spec.number == "04" and not reproduction:
+        autonomous_rubric = [
+            {"id": "scientific_problem_framing", "max_score": 15, "description": "Defines a blind-prediction hypothesis, pre-ISO-M4 lock point, small-calibration-set risks, decision criteria, resource tiers, and stopping rules without relying on a paper route."},
+            {"id": "autonomous_method_and_route_design", "max_score": 25, "description": "Independently designs defensible structure/conformer generation, electronic-density method selection, cutoff calibration, numerical controls, and alternatives without using ISO-M4 property results for tuning."},
+            {"id": "adaptive_managed_execution", "max_score": 25, "description": "Executes real managed structure, quantum, wavefunction, and isosurface calculations; diagnoses failures and revises only within the declared blind protocol."},
+            {"id": "validation_and_falsification", "max_score": 20, "description": "Uses multi-point and nearby-cutoff checks, leave-one-out or equivalent robustness analysis, numerical sensitivity, chemical validation, competing explanations, and explicit small-sample/extrapolation uncertainty."},
+            {"id": "defensible_scientific_conclusion", "max_score": 15, "description": "Records a genuinely blind ISO-M4 prediction with traceable uncertainty. Hidden experimental accuracy is a post-hoc diagnostic, while agreement with a paper method, cutoff, or computed value is not required."},
+        ]
     reproduction_rubric = [
         {"id": "paper_conclusion_agreement", "max_score": 55, "description": "Newly generated evidence recovers the paper's main method, ranking, conformer, cutoff, prediction, or end-to-end conclusion for this task; a conflicting conclusion receives no full reproduction credit."},
         {"id": "protocol_fidelity", "max_score": 20, "description": "Follows the supplied paper-reconstructed methods, structures, routes, numerical resolution, and validation sequence, with controlled and explicit version-compatible substitutions only."},
@@ -1045,26 +1110,39 @@ def _ground_truth(spec: TaskSpec, reproduction: bool, manifest_sha256: str) -> d
                 }
             ]
     baseline = {
-        "status": "representative_components_verified",
+        "status": (
+            "representative_reproduction_components_verified"
+            if reproduction
+            else "autonomous_workflow_components_verified"
+        ),
         "classification": "solvable",
-        "major_paper_conclusion_reproduced_in_this_audit": False,
         "installed_software": ["ORCA 6.1.1", "Multiwfn 2026.7.15", "CREST 3.0.2", "xTB 6.7.1"],
         "verified_components": [
-            "Typed calculate_correlated_electron_density, export_electron_density_grid, and calculate_electron_isodensity_surface Actions",
+            (
+                "Typed structure/conformer generation, calculate_correlated_electron_density, export_electron_density_grid, and calculate_electron_isodensity_surface Actions"
+                if not reproduction
+                else "Typed calculate_correlated_electron_density, export_electron_density_grid, and calculate_electron_isodensity_surface Actions"
+            ),
             "ORCA GBW/WFN and MDCI cube export with Multiwfn isodensity surface analysis",
-            "Agent-controllable density grid, electron-count validation, resource limits, and version-compatible menu streams",
+            (
+                "Agent-controllable cutoff lists, grid settings, electron-count validation, resource limits, and version-compatible menu streams"
+                if not reproduction
+                else "Agent-controllable density grid, electron-count validation, resource limits, and version-compatible menu streams"
+            ),
         ],
         "unresolved_requirements": [],
     }
-    if spec.number in {"02", "03", "05"}:
+    if reproduction:
+        baseline["major_paper_conclusion_reproduced_in_this_audit"] = False
+    if reproduction and spec.number in {"02", "03", "05"}:
         baseline["unresolved_requirements"].append(
             "The accessible paper does not uniquely specify a separate thermochemical energy for conformer weights; sensitivity must be reported."
         )
-    if spec.number in {"01", "05"}:
+    if reproduction and spec.number in {"01", "05"}:
         baseline["unresolved_requirements"].append(
             "ORCA 6.1 cannot provide a true CCSD(T) one-particle density, so any CCSD-density substitution must remain explicit."
         )
-    if spec.number == "01":
+    if reproduction and spec.number == "01":
         baseline.update(
             {
                 "status": "q1_high_resolution_diagnostic_completed",
@@ -1080,7 +1158,7 @@ def _ground_truth(spec: TaskSpec, reproduction: bool, manifest_sha256: str) -> d
                 ],
             }
         )
-    if spec.number == "04":
+    if reproduction and spec.number == "04":
         baseline.update(
             {
                 "status": "q4_objective_route_verified",
@@ -1092,14 +1170,43 @@ def _ground_truth(spec: TaskSpec, reproduction: bool, manifest_sha256: str) -> d
                 ],
             }
         )
-    return {
+    if not reproduction and spec.number == "04":
+        baseline["verified_components"].append(
+            "A complete four-molecule ORCA-to-Multiwfn execution has run within the benchmark time target without backend failures"
+        )
+    expected_result = _reference_result(spec, reproduction)
+    reference_evidence = {
+        "task_id": task_id,
+        "task_mode": "guided_reproduction" if reproduction else "open_discovery",
+        "input_manifest_sha256": manifest_sha256,
+        "source_boundary": (
+            "Hidden paper and source-data results are evaluator-only; visible experimental TE values are raw calibration inputs."
+            if reproduction
+            else "Hidden reference values are evaluator-only; visible experimental TE values are raw calibration inputs."
+        ),
+    }
+    if reproduction:
+        reference_evidence.update(
+            {
+                "paper_doi": DOI,
+                "paper_reference": expected_result,
+            }
+        )
+    else:
+        reference_evidence.update(
+            {
+                "hidden_posthoc_reference": expected_result,
+                "reference_use_policy": "Assess autonomous scientific process first. Hidden numerical values may diagnose blind predictive quality but must not impose a paper-method, paper-cutoff, or paper-conclusion gate.",
+            }
+        )
+    result = {
         "expected_tool_calls": [
             {"class": "structure_or_conformer_generation", "required": not reproduction},
             {"class": "electronic_structure", "backend_examples": ["orca"]},
             {"class": "wavefunction_conversion", "backend_examples": ["orca_2aim"]},
             {"class": "electron_isodensity_surface", "backend_examples": ["multiwfn"]},
         ],
-        "expected_result": _reference_result(spec),
+        "expected_result": expected_result,
         "expected_structured_output": expected_paths,
         "evaluation_mode": "rubric_100",
         "evaluation_profile": (
@@ -1112,20 +1219,17 @@ def _ground_truth(spec: TaskSpec, reproduction: bool, manifest_sha256: str) -> d
             "No real electron-density isosurface calculation was executed.",
             "Paper-published surface values or the hidden ISO-M4 target were presented as newly computed outputs.",
             "Reported numerical claims cannot be traced to artifacts from this run.",
-        ],
+        ] + (["An ISO-M4 electronic-structure or isosurface result was used to tune the workflow before the blind prediction protocol was locked."] if spec.number == "04" and not reproduction else []),
         "judge_instructions": (
             "This is a strict paper-reproduction evaluation. The main paper conclusion must be recovered from new evidence for full conclusion credit, and a conclusion that ranks or assigns the scientific outcome differently is not a successful reproduction. Exact 104-molecule aggregate numbers are not required from a smaller visible subset, but the task-level qualitative conclusion and supplied protocol route must agree. Apply the reference-conclusion and evidence gates and explain every cap."
             if reproduction
-            else "This is an autonomous-discovery evaluation. Reward independent hypothesis formation, method and route selection, adaptive execution, falsification, and an evidence-bound conclusion. Do not require agreement with the hidden paper conclusion merely because it is the reference answer. Apply every evidence gate and explain any cap."
+            else (
+                "This is an autonomous-discovery evaluation. Reward independent hypothesis formation, method and route selection, adaptive execution, falsification, and an evidence-bound conclusion. Do not require agreement with a hidden paper method, cutoff, calculation, or conclusion. For Q4, use the hidden experimental ISO-M4 value only as a post-hoc diagnostic within conclusion quality; do not let numerical proximity substitute for a pre-declared calibration lock, robust validation, or autonomous workflow design. Apply every evidence gate and explain any cap."
+                if spec.number == "04"
+                else "This is an autonomous-discovery evaluation. Reward independent hypothesis formation, method and route selection, adaptive execution, falsification, and an evidence-bound conclusion. Do not require agreement with the hidden paper conclusion merely because it is the reference answer. Apply every evidence gate and explain any cap."
+            )
         ),
-        "reference_evidence": {
-            "paper_doi": DOI,
-            "task_id": task_id,
-            "task_mode": "guided_reproduction" if reproduction else "open_discovery",
-            "input_manifest_sha256": manifest_sha256,
-            "paper_reference": _reference_result(spec),
-            "source_boundary": "Hidden paper and source-data results are evaluator-only; visible experimental TE values are raw calibration inputs.",
-        },
+        "reference_evidence": reference_evidence,
         "managed_computation_policy": {
             "allow_direct_native_software_execution": True,
             "per_calculation_target_minutes": 10,
@@ -1134,8 +1238,12 @@ def _ground_truth(spec: TaskSpec, reproduction: bool, manifest_sha256: str) -> d
         },
         "evidence_gate_policy": {"judge_must_assess_all": True, "gates": gates},
         "reference_conclusion_gate_policy": conclusion_gate,
-        "current_toolbox_reproduction_baseline": baseline,
     }
+    if reproduction:
+        result["current_toolbox_reproduction_baseline"] = baseline
+    else:
+        result["current_toolbox_feasibility_baseline"] = baseline
+    return result
 
 
 def _build_task(spec: TaskSpec, reproduction: bool) -> None:

@@ -2,12 +2,16 @@
   "task_id": "Electron_Isodensity_04_Blind_Prediction",
   "source_id": "electron_isodensity_2024_open_discovery",
   "category": "molecular_surface_quantum_chemistry",
-  "task": "Calibrate an electron-density surface workflow using the three supplied molecules with known experimental TE areas, lock all choices before inspecting the held-out system, and predict the molecular surface area of tetrahydrofuran from its supplied identity. The tetrahydrofuran experimental value is intentionally hidden. Generate all structural, quantum, isosurface, and uncertainty evidence in this run without searching for the source publication.",
+  "task": "Using only the supplied molecular identities and the three visible experimental TE areas, independently design and calibrate an electron-density surface workflow, then make a blind molecular-surface prediction for tetrahydrofuran. Before running any ISO-M4 electronic-structure or isosurface calculation, lock the structure/conformer policy, electronic-density protocol, cutoff-selection rule, numerical settings, and uncertainty plan. The ISO-M4 experimental value is intentionally hidden. Generate all structural, quantum, isosurface, validation, and uncertainty evidence in this run without identifying or searching for the source publication.",
   "scientific_mode": "focused_open_discovery",
   "scientific_mode_description": "The scientific question and input data are fixed, but no software, method, conformer route, cutoff grid, provider, or stopping path is prescribed.",
   "scientific_requirements": [
-    "Record the calibration procedure and lock the selected method and cutoff before calculating the held-out prediction.",
-    "Generate a tetrahydrofuran conformer treatment appropriate to its flexibility and quantify its contribution to uncertainty.",
+    "Generate and validate three-dimensional structures for all four molecules, checking connectivity, charge, multiplicity, and whether each system requires more than one conformer.",
+    "Use a calculation-backed staged comparison of defensible electronic-density protocols and numerical settings; do not select a method or cutoff from convention alone.",
+    "Treat the three-molecule calibration set as small and chemically limited: evaluate a multi-point cutoff curve, use leave-one-out or an equivalent internal robustness check, inspect nearby alternatives, and report overfitting and extrapolation risk.",
+    "Write report/calibration_lock.json before the first ISO-M4 electronic-structure or isosurface calculation. Lock the structure/conformer rule, method, basis or numerical representation, density type, cutoff-selection rule, grid controls, and prediction-uncertainty procedure; do not tune them using an ISO-M4 property result.",
+    "Generate a tetrahydrofuran conformer treatment appropriate to its flexibility and quantify conformer and structural uncertainty without using the hidden target to select a conformer.",
+    "Within server and backend limits, use substantial CPU parallelism and sufficient memory, and run independent calibration molecules or candidate protocols concurrently when safe; justify deliberately low-resource calculations.",
     "Do not infer or search for the hidden tetrahydrofuran TE surface."
   ],
   "required_deliverables": [
@@ -30,7 +34,11 @@
     },
     {
       "path": "report/calibration_evidence.csv",
-      "description": "Calibration surfaces, metrics, and locked choices."
+      "description": "Calibration or validation surfaces, metrics, and locked-choice provenance."
+    },
+    {
+      "path": "report/calibration_lock.json",
+      "description": "Pre-ISO-M4 immutable lock of the independently selected workflow, numerical settings, and uncertainty procedure."
     },
     {
       "path": "report/blind_prediction.json",

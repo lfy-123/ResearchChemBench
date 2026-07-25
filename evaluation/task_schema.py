@@ -104,6 +104,7 @@ class GroundTruth(BaseModel):
     managed_computation_policy: dict[str, Any] = Field(default_factory=dict)
     evidence_gate_policy: dict[str, Any] = Field(default_factory=dict)
     reference_conclusion_gate_policy: dict[str, Any] = Field(default_factory=dict)
+    current_toolbox_feasibility_baseline: dict[str, Any] = Field(default_factory=dict)
     current_toolbox_reproduction_baseline: dict[str, Any] = Field(default_factory=dict)
 
     @model_validator(mode="after")
