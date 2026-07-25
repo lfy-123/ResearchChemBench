@@ -5,7 +5,9 @@ The open-discovery track exposes only scientific questions and raw molecular /
 experimental inputs.  The guided-reproduction track adds the paper's public
 conformer coordinates, method hierarchy, and execution route.  Neither track
 exposes author wavefunctions, quantum-chemistry outputs, computed surface
-matrices, the optimal cutoff, or reference answers.
+matrices, or reference answers. Q4 discloses the paper-calibrated production
+cutoff because it evaluates blind application of the locked protocol; Q3 is
+the separate task that evaluates cutoff calibration.
 
 The source archive supplied during curation is used only to bootstrap a small,
 versioned shared reference area.  Generated task data are ordinary files: no
@@ -15,6 +17,7 @@ agent-visible task directory.
 
 from __future__ import annotations
 
+import copy
 import hashlib
 import json
 import os
@@ -329,10 +332,11 @@ TASK_SPECS = (
             "uncertainty evidence in this run without searching for the source publication."
         ),
         reproduction_task=(
-            "Follow the supplied paper route on the public conformers for ISO-M1 to ISO-M4: use the three "
-            "calibration molecules to select the cutoff from recomputed surfaces, lock it, then reproduce "
-            "the held-out tetrahydrofuran surface prediction. The experimental and paper-computed ISO-M4 "
-            "values remain hidden until scoring."
+            "Follow the supplied paper route on the public conformers for ISO-M1 to ISO-M4. Treat the "
+            "paper-calibrated 0.0016 a.u. cutoff as a locked production-protocol parameter: validate it by "
+            "recomputing ISO-M1 to ISO-M3, then reproduce the held-out tetrahydrofuran surface prediction "
+            "without re-optimizing the cutoff on this non-representative three-molecule subset. The experimental "
+            "and paper-computed ISO-M4 values remain hidden until scoring."
         ),
         open_requirements=(
             "Record the calibration procedure and lock the selected method and cutoff before calculating the held-out prediction.",
@@ -340,13 +344,18 @@ TASK_SPECS = (
             "Do not infer or search for the hidden tetrahydrofuran TE surface.",
         ),
         reproduction_requirements=(
-            "Use the supplied public conformers and paper method hierarchy for the main calculation.",
-            "Select the cutoff only from newly recomputed ISO-M1 to ISO-M3 calibration evidence.",
+            "Use the supplied public conformers and the already selected paper production-density protocol "
+            "(DSD-PBEP86-D3BJ/def2-QZVPD with def2-TZVPD/C, NoFrozenCore, PModel, VeryTightSCF, "
+            "stability checking, and the relaxed MP2/double-hybrid density); do not repeat the Q1 method-selection study.",
+            "Use the paper-calibrated cutoff of 0.0016 a.u. as a locked Q4 production parameter; recompute ISO-M1 to ISO-M3 as validation, not as a smaller replacement calibration set.",
             "Report the blind ISO-M4 value before any hidden-target comparison.",
+            "Within the server and backend limits, use substantial CPU parallelism and sufficient memory to finish promptly: "
+            "prefer at least 8 ORCA processes with about 2000 MB per process, run independent molecules concurrently when safe, "
+            "and avoid low-core calculations unless a backend limitation or measured scaling result justifies them.",
         ),
         deliverables=COMMON_DELIVERABLES
         + (
-            ("report/calibration_evidence.csv", "Calibration surfaces, metrics, and locked choices.", False),
+            ("report/calibration_evidence.csv", "Validation surfaces at the locked paper-calibrated cutoff and protocol provenance.", False),
             ("report/blind_prediction.json", "Held-out surface prediction and uncertainty decomposition.", False),
         ),
         reference_key="blind_prediction",
@@ -820,8 +829,8 @@ def _workflow_requirements(spec: TaskSpec) -> dict[str, Any]:
             "select the subset optimum without reading hidden paper values",
         ],
         "04": [
-            "recompute calibration-molecule surfaces",
-            "select and lock a cutoff",
+            "accept the paper-calibrated 0.0016 a.u. cutoff as a locked production parameter",
+            "recompute ISO-M1 to ISO-M3 validation surfaces at the locked cutoff",
             "recompute the ISO-M4 surface",
             "submit the blind prediction before hidden comparison",
         ],
@@ -946,6 +955,7 @@ def _reference_result(spec: TaskSpec) -> dict[str, Any]:
     if spec.reference_key == "blind_prediction":
         return {
             "held_out_molecule_id": "ISO-M4",
+            "locked_paper_calibrated_cutoff_au": 0.0016,
             "hidden_te_surface_angstrom2": MOLECULES["ISO-M4"]["te_surface_angstrom2"],
             "paper_iso_surface_0_0016_angstrom2": MOLECULES["ISO-M4"]["paper_iso_surface_0_0016_angstrom2"],
             "full_credit_relative_error_to_paper_percent": 2.0,
@@ -1044,11 +1054,16 @@ def _ground_truth(spec: TaskSpec, reproduction: bool, manifest_sha256: str) -> d
             "ORCA GBW/WFN and MDCI cube export with Multiwfn isodensity surface analysis",
             "Agent-controllable density grid, electron-count validation, resource limits, and version-compatible menu streams",
         ],
-        "unresolved_requirements": [
-            "The accessible paper does not uniquely specify a separate thermochemical energy for conformer weights; sensitivity must be reported.",
-            "ORCA 6.1 cannot provide a true CCSD(T) one-particle density, so any CCSD-density substitution must remain explicit.",
-        ],
+        "unresolved_requirements": [],
     }
+    if spec.number in {"02", "03", "05"}:
+        baseline["unresolved_requirements"].append(
+            "The accessible paper does not uniquely specify a separate thermochemical energy for conformer weights; sensitivity must be reported."
+        )
+    if spec.number in {"01", "05"}:
+        baseline["unresolved_requirements"].append(
+            "ORCA 6.1 cannot provide a true CCSD(T) one-particle density, so any CCSD-density substitution must remain explicit."
+        )
     if spec.number == "01":
         baseline.update(
             {
@@ -1062,6 +1077,18 @@ def _ground_truth(spec: TaskSpec, reproduction: bool, manifest_sha256: str) -> d
                 + [
                     "The paper's DSD-PBEP86 selection aggregates the full 104-molecule, 1071-conformer comparison, whereas Q1 exposes only three single conformers; this subset is not conclusion-preserving under the current reproducible protocol.",
                     "A strict paper-conclusion benchmark needs either a validated conclusion-preserving subset or the full comparison set and substantially larger compute budget.",
+                ],
+            }
+        )
+    if spec.number == "04":
+        baseline.update(
+            {
+                "status": "q4_objective_route_verified",
+                "classification": "solvable",
+                "major_paper_conclusion_reproduced_in_this_audit": True,
+                "verified_components": baseline["verified_components"]
+                + [
+                    "A fresh four-molecule Q4 oracle run at the locked 0.0016 a.u. cutoff produced ISO-M4 = 110.05219 angstrom^2 versus the paper value 109.9966 angstrom^2 (0.0505% relative error)."
                 ],
             }
         )
@@ -1136,12 +1163,18 @@ def _build_task(spec: TaskSpec, reproduction: bool) -> None:
         conformer_records: list[dict[str, Any]] = []
         if reproduction:
             conformer_records = _copy_published_conformers(spec, data_root)
-            protocol = dict(COMPUTATIONAL_PROTOCOL)
+            protocol = copy.deepcopy(COMPUTATIONAL_PROTOCOL)
             protocol["task_scope"] = {
                 "task_id": task_id,
                 "molecule_ids": list(spec.molecule_ids),
                 "visible_experimental_ids": list(spec.visible_te_ids),
             }
+            if spec.number == "04":
+                protocol["surface_analysis"]["locked_production_cutoff_au"] = 0.0016
+                protocol["statistics"]["blind_policy"] = (
+                    "Use the paper-calibrated 0.0016 a.u. cutoff as a locked Q4 production parameter; "
+                    "validate ISO-M1 to ISO-M3 at that cutoff and do not re-optimize it on this three-molecule subset."
+                )
             _write_json(data_root / "computational_protocol.json", protocol)
             _write_json(data_root / "workflow_requirements.json", _workflow_requirements(spec))
             template_root = data_root / "author_input_templates"
@@ -1181,7 +1214,7 @@ def _build_task(spec: TaskSpec, reproduction: bool) -> None:
             "author_quantum_outputs": 0,
             "author_wavefunctions": 0,
             "author_surface_results": 0,
-            "published_optimal_cutoff_values": 0,
+            "published_optimal_cutoff_values": 1 if reproduction and spec.number == "04" else 0,
             "reference_answers": 0,
             "method_protocol_files": ["computational_protocol.json"] if reproduction else [],
             "workflow_requirement_files": ["workflow_requirements.json"] if reproduction else [],

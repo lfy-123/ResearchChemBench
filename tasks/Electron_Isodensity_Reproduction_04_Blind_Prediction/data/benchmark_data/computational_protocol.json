@@ -54,6 +54,7 @@
     "density_cutoff_start_au": 0.0008,
     "density_cutoff_stop_au": 0.0025,
     "density_cutoff_step_au": 0.0001,
+    "locked_production_cutoff_au": 0.0016,
     "paper_grid_spacing": 0.1,
     "surface_area_unit": "angstrom^2",
     "paper_template": "author_input_templates/Multiwfn.in",
@@ -69,7 +70,7 @@
   "statistics": {
     "mupe_formula": "mean(abs((TE - isodensity) / TE)) * 100",
     "correlation": "Pearson R across molecules",
-    "blind_policy": "Choose and lock the cutoff using calibration molecules before evaluating ISO-M4."
+    "blind_policy": "Use the paper-calibrated 0.0016 a.u. cutoff as a locked Q4 production parameter; validate ISO-M1 to ISO-M3 at that cutoff and do not re-optimize it on this three-molecule subset."
   },
   "version_policy": {
     "exact_numeric_identity_required": false,

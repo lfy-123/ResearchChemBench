@@ -150,15 +150,13 @@
       "xTB 6.7.1"
     ],
     "verified_components": [
-      "DSD-PBEP86/def2-QZVPD ORCA wavefunction generation on ethane and 1-pentanethiol",
-      "ORCA GBW to WFN conversion with orca_2aim",
-      "Multiwfn molecular electron-isodensity surface area at a paper-relevant cutoff",
-      "CCSD unrelaxed MDCI density generation, orca_plot cube export, and Multiwfn external-grid surface analysis on ethane",
-      "Version-compatible Multiwfn 2026.7.15 menu streams for WFN/WFX and external-grid inputs"
+      "Typed calculate_correlated_electron_density, export_electron_density_grid, and calculate_electron_isodensity_surface Actions",
+      "ORCA GBW/WFN and MDCI cube export with Multiwfn isodensity surface analysis",
+      "Agent-controllable density grid, electron-count validation, resource limits, and version-compatible menu streams"
     ],
     "unresolved_requirements": [
-      "No typed batch Action currently exposes electron-isodensity surface-area scans; direct native Multiwfn execution is required.",
-      "The accessible paper does not uniquely specify a separate thermochemical energy for conformer weights; sensitivity must be reported."
+      "The accessible paper does not uniquely specify a separate thermochemical energy for conformer weights; sensitivity must be reported.",
+      "ORCA 6.1 cannot provide a true CCSD(T) one-particle density, so any CCSD-density substitution must remain explicit."
     ]
   },
   "evaluation_profile": "paper_reproduction",

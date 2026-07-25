@@ -416,7 +416,11 @@ def test_electron_isodensity_dual_track_tasks_are_decontaminated_and_complete():
         assert manifest["author_quantum_outputs"] == 0
         assert manifest["author_wavefunctions"] == 0
         assert manifest["author_surface_results"] == 0
-        assert manifest["published_optimal_cutoff_values"] == 0
+        assert manifest["published_optimal_cutoff_values"] == (
+            1 if suffix == "04_Blind_Prediction" else 0
+        )
+        if suffix == "04_Blind_Prediction":
+            assert protocol["surface_analysis"]["locked_production_cutoff_au"] == 0.0016
         assert truth["reference_evidence"]["input_manifest_sha256"] == hashlib.sha256(
             manifest_path.read_bytes()
         ).hexdigest()

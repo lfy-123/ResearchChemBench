@@ -25,6 +25,7 @@
   ],
   "expected_result": {
     "held_out_molecule_id": "ISO-M4",
+    "locked_paper_calibrated_cutoff_au": 0.0016,
     "hidden_te_surface_angstrom2": 110.538,
     "paper_iso_surface_0_0016_angstrom2": 109.9966,
     "full_credit_relative_error_to_paper_percent": 2.0,
@@ -78,9 +79,10 @@
     "paper_doi": "10.1038/s41467-024-50408-8",
     "task_id": "Electron_Isodensity_Reproduction_04_Blind_Prediction",
     "task_mode": "guided_reproduction",
-    "input_manifest_sha256": "28e5b3eb8dded962d20d6d30d3f26982b44fa56c596f233de2801b50874cf29e",
+    "input_manifest_sha256": "fd086da0e5af898b907604b160fc75d02178917ae165a3c144b0eb1bb3fe8f5c",
     "paper_reference": {
       "held_out_molecule_id": "ISO-M4",
+      "locked_paper_calibrated_cutoff_au": 0.0016,
       "hidden_te_surface_angstrom2": 110.538,
       "paper_iso_surface_0_0016_angstrom2": 109.9966,
       "full_credit_relative_error_to_paper_percent": 2.0,
@@ -120,9 +122,9 @@
     ]
   },
   "current_toolbox_reproduction_baseline": {
-    "status": "representative_components_verified",
+    "status": "q4_objective_route_verified",
     "classification": "solvable",
-    "major_paper_conclusion_reproduced_in_this_audit": false,
+    "major_paper_conclusion_reproduced_in_this_audit": true,
     "installed_software": [
       "ORCA 6.1.1",
       "Multiwfn 2026.7.15",
@@ -130,16 +132,12 @@
       "xTB 6.7.1"
     ],
     "verified_components": [
-      "DSD-PBEP86/def2-QZVPD ORCA wavefunction generation on ethane and 1-pentanethiol",
-      "ORCA GBW to WFN conversion with orca_2aim",
-      "Multiwfn molecular electron-isodensity surface area at a paper-relevant cutoff",
-      "CCSD unrelaxed MDCI density generation, orca_plot cube export, and Multiwfn external-grid surface analysis on ethane",
-      "Version-compatible Multiwfn 2026.7.15 menu streams for WFN/WFX and external-grid inputs"
+      "Typed calculate_correlated_electron_density, export_electron_density_grid, and calculate_electron_isodensity_surface Actions",
+      "ORCA GBW/WFN and MDCI cube export with Multiwfn isodensity surface analysis",
+      "Agent-controllable density grid, electron-count validation, resource limits, and version-compatible menu streams",
+      "A fresh four-molecule Q4 oracle run at the locked 0.0016 a.u. cutoff produced ISO-M4 = 110.05219 angstrom^2 versus the paper value 109.9966 angstrom^2 (0.0505% relative error)."
     ],
-    "unresolved_requirements": [
-      "No typed batch Action currently exposes electron-isodensity surface-area scans; direct native Multiwfn execution is required.",
-      "The accessible paper does not uniquely specify a separate thermochemical energy for conformer weights; sensitivity must be reported."
-    ]
+    "unresolved_requirements": []
   },
   "evaluation_profile": "paper_reproduction",
   "reference_conclusion_gate_policy": {

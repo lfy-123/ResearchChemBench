@@ -2,13 +2,14 @@
   "task_id": "Electron_Isodensity_Reproduction_04_Blind_Prediction",
   "source_id": "electron_isodensity_2024_guided_reproduction",
   "category": "molecular_surface_quantum_chemistry",
-  "task": "Follow the supplied paper route on the public conformers for ISO-M1 to ISO-M4: use the three calibration molecules to select the cutoff from recomputed surfaces, lock it, then reproduce the held-out tetrahydrofuran surface prediction. The experimental and paper-computed ISO-M4 values remain hidden until scoring.",
+  "task": "Follow the supplied paper route on the public conformers for ISO-M1 to ISO-M4. Treat the paper-calibrated 0.0016 a.u. cutoff as a locked production-protocol parameter: validate it by recomputing ISO-M1 to ISO-M3, then reproduce the held-out tetrahydrofuran surface prediction without re-optimizing the cutoff on this non-representative three-molecule subset. The experimental and paper-computed ISO-M4 values remain hidden until scoring.",
   "scientific_mode": "guided_reproduction",
   "scientific_mode_description": "The paper-reconstructed method hierarchy, public conformers, cutoff route, and validation sequence are supplied; all numerical results must be recomputed.",
   "scientific_requirements": [
-    "Use the supplied public conformers and paper method hierarchy for the main calculation.",
-    "Select the cutoff only from newly recomputed ISO-M1 to ISO-M3 calibration evidence.",
-    "Report the blind ISO-M4 value before any hidden-target comparison."
+    "Use the supplied public conformers and the already selected paper production-density protocol (DSD-PBEP86-D3BJ/def2-QZVPD with def2-TZVPD/C, NoFrozenCore, PModel, VeryTightSCF, stability checking, and the relaxed MP2/double-hybrid density); do not repeat the Q1 method-selection study.",
+    "Use the paper-calibrated cutoff of 0.0016 a.u. as a locked Q4 production parameter; recompute ISO-M1 to ISO-M3 as validation, not as a smaller replacement calibration set.",
+    "Report the blind ISO-M4 value before any hidden-target comparison.",
+    "Within the server and backend limits, use substantial CPU parallelism and sufficient memory to finish promptly: prefer at least 8 ORCA processes with about 2000 MB per process, run independent molecules concurrently when safe, and avoid low-core calculations unless a backend limitation or measured scaling result justifies them."
   ],
   "required_deliverables": [
     {
@@ -30,7 +31,7 @@
     },
     {
       "path": "report/calibration_evidence.csv",
-      "description": "Calibration surfaces, metrics, and locked choices."
+      "description": "Validation surfaces at the locked paper-calibrated cutoff and protocol provenance."
     },
     {
       "path": "report/blind_prediction.json",
