@@ -37,7 +37,17 @@
       },
       "paper_conclusion": "NHC4 has stronger local Pd-C bonding indicators than NHC1, while the total binding-energy difference is moderated by deformation and other energetic contributions."
     },
-    "reference_use_policy": "Use the hidden paper result only after assessing autonomous planning, execution, validation, and evidence quality. Agreement is not required."
+    "scientific_acceptance_contract": {
+      "required_findings": [
+        "New matched-reference adsorption calculations recover NHC4 as only modestly more strongly bound overall than NHC1.",
+        "Quality-gated local Pd-C descriptors are stronger for NHC4, while deformation and other energetic contributions moderate the total adsorption-energy difference."
+      ],
+      "not_required": [
+        "Exact paper binding energies, bond lengths, ICOBI, or ICOHP values when the same ordering and decomposition conclusion are robust."
+      ],
+      "decision_rule": "Full conclusion credit requires the adsorption ordering, local-bonding ordering, and the distinction between local bonding and total-energy decomposition."
+    },
+    "reference_use_policy": "Keep the paper method and route hidden from the Agent. Use the evaluator-only scientific acceptance contract as a mandatory outcome gate after checking that the conclusion is supported by newly generated evidence."
   },
   "expected_structured_output": [
     "report/research_plan.json",
@@ -53,29 +63,29 @@
   "score_max": 100,
   "scoring_rubric": [
     {
-      "id": "scientific_problem_framing",
-      "max_score": 15,
-      "description": "Defines testable hypotheses, decision criteria, resource tiers, alternatives, and stopping rules without relying on a disclosed paper route."
+      "id": "hidden_scientific_conclusion_recovery",
+      "max_score": 50,
+      "description": "Recovers every evaluator-only task-level scientific finding from newly generated evidence. The paper route is not required, but a conflicting or unsupported scientific outcome is not successful task completion."
     },
     {
       "id": "autonomous_method_and_route_design",
-      "max_score": 25,
-      "description": "Independently selects defensible structures, software, methods, sampling, numerical controls, and fallback routes appropriate to the question."
+      "max_score": 20,
+      "description": "Independently frames competing hypotheses and selects defensible structures, software, methods, sampling, numerical controls, fallback routes, and stopping rules without a disclosed paper route."
     },
     {
       "id": "adaptive_managed_execution",
-      "max_score": 25,
+      "max_score": 10,
       "description": "Executes real managed calculations, passes artifacts correctly, diagnoses failures, and revises the workflow without importing hidden results."
     },
     {
       "id": "validation_and_falsification",
-      "max_score": 20,
+      "max_score": 15,
       "description": "Tests convergence, numerical sensitivity, chemical validity, competing explanations, uncertainty, and whether the evidence is sufficient for each claim."
     },
     {
-      "id": "defensible_scientific_conclusion",
-      "max_score": 15,
-      "description": "Draws a traceable conclusion from newly generated evidence. Hidden paper agreement is diagnostic, not a mandatory conclusion gate."
+      "id": "provenance_and_uncertainty",
+      "max_score": 5,
+      "description": "Links claims to managed artifacts and clearly separates calculations, experimental constraints, inference, failed branches, uncertainty, and unresolved limitations."
     }
   ],
   "critical_failures": [
@@ -84,7 +94,7 @@
     "No real periodic electronic-structure calculation was executed.",
     "Local bond metrics were treated as identical to total adsorption energy without decomposition or caveat."
   ],
-  "judge_instructions": "This is an autonomous-discovery evaluation. Reward independent hypothesis formation, method and route selection, adaptive managed execution, validation, falsification, and an evidence-bound conclusion. Do not require agreement with the hidden paper route or conclusion.",
+  "judge_instructions": "This is a strict autonomous-discovery evaluation. The Agent receives no paper method or route and may use any scientifically valid workflow, but high task-completion credit requires recovering every finding in the hidden scientific acceptance contract from new managed evidence. Do not reward an opposite or indeterminate conclusion as successful discovery merely because the tool sequence is plausible. Apply every evidence gate and the reference-conclusion score cap.",
   "reference_evidence": {
     "task_id": "NHC_Adsorption_Decomposition_Bonding",
     "paired_reproduction_task_id": "NHC_Adsorption_Decomposition_Bonding_Reproduction",
@@ -109,8 +119,18 @@
       },
       "paper_conclusion": "NHC4 has stronger local Pd-C bonding indicators than NHC1, while the total binding-energy difference is moderated by deformation and other energetic contributions."
     },
+    "scientific_acceptance_contract": {
+      "required_findings": [
+        "New matched-reference adsorption calculations recover NHC4 as only modestly more strongly bound overall than NHC1.",
+        "Quality-gated local Pd-C descriptors are stronger for NHC4, while deformation and other energetic contributions moderate the total adsorption-energy difference."
+      ],
+      "not_required": [
+        "Exact paper binding energies, bond lengths, ICOBI, or ICOHP values when the same ordering and decomposition conclusion are robust."
+      ],
+      "decision_rule": "Full conclusion credit requires the adsorption ordering, local-bonding ordering, and the distinction between local bonding and total-energy decomposition."
+    },
     "source_boundary": "Paper protocols, author intermediates, completed calculations, and numerical conclusions are evaluator-only.",
-    "reference_use_policy": "Assess autonomous scientific process first; use the hidden reference only to diagnose scientific agreement or productive disagreement."
+    "reference_use_policy": "The route remains evaluator-only and is never required. The task-level scientific outcome is mandatory for high credit and must be supported by independent calculations."
   },
   "managed_computation_policy": {
     "required": true,
@@ -139,6 +159,16 @@
         "id": "constraint_and_geometry_validity",
         "description": "Relaxation constraints and final adsorption identity are verified.",
         "score_cap_if_failed": 65
+      },
+      {
+        "id": "adsorption_order_and_decomposition",
+        "description": "Fresh matched calculations resolve the NHC4/NHC1 adsorption ordering and quantify deformation or equivalent nonlocal energetic contributions.",
+        "score_cap_if_failed": 55
+      },
+      {
+        "id": "bonding_vs_total_energy_interpretation",
+        "description": "Quality-gated local Pd-C descriptors are compared without equating them to total adsorption energy.",
+        "score_cap_if_failed": 65
       }
     ]
   },
@@ -153,5 +183,14 @@
     ]
   },
   "evaluation_profile": "autonomous_discovery",
-  "reference_conclusion_gate_policy": {}
+  "reference_conclusion_gate_policy": {
+    "required": true,
+    "criterion_id": "hidden_scientific_conclusion_recovery",
+    "score_cap_if_not_matched": 40,
+    "score_cap_if_uncertain": 60,
+    "score_cap_if_omitted": 35,
+    "max_criterion_score_if_not_matched": 0,
+    "max_criterion_score_if_uncertain": 20,
+    "max_criterion_score_if_omitted": 0
+  }
 }

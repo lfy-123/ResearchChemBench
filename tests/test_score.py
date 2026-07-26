@@ -364,3 +364,70 @@ def test_autonomous_discovery_is_not_capped_for_a_reference_disagreement(
     assert result["score"] == 100
     assert result["reference_conclusion_status"] == "not_applicable"
     assert result["reference_conclusion_score_cap"] is None
+
+
+def test_strict_autonomous_discovery_caps_a_hidden_scientific_outcome_mismatch(
+    tmp_path: Path, monkeypatch
+):
+    runner = TaskRunner("ChemGraph_001", agent_key="mock", workspace_root=tmp_path)
+    runner.run()
+    rubric = [
+        {"id": "hidden_scientific_conclusion_recovery", "max_score": 50},
+        {"id": "autonomous_method_and_route_design", "max_score": 20},
+        {"id": "adaptive_managed_execution", "max_score": 10},
+        {"id": "validation_and_falsification", "max_score": 15},
+        {"id": "provenance_and_uncertainty", "max_score": 5},
+    ]
+    truth = {
+        "expected_tool_calls": [],
+        "expected_result": {
+            "scientific_acceptance_contract": {
+                "required_findings": ["The refined ranking reverses the low-cost ranking."]
+            }
+        },
+        "evaluation_mode": "rubric_100",
+        "evaluation_profile": "autonomous_discovery",
+        "score_max": 100,
+        "scoring_rubric": rubric,
+        "critical_failures": [],
+        "judge_instructions": "Strict hidden scientific outcome.",
+        "reference_evidence": {},
+        "reference_conclusion_gate_policy": {
+            "required": True,
+            "criterion_id": "hidden_scientific_conclusion_recovery",
+            "score_cap_if_not_matched": 40,
+            "max_criterion_score_if_not_matched": 0,
+        },
+    }
+    monkeypatch.setattr("evaluation.score.load_ground_truth", lambda _task_id: truth)
+
+    result = score_workspace(
+        runner.workspace,
+        judge_call=lambda _prompt: {
+            "score": 100,
+            "criteria": [
+                {
+                    "id": item["id"],
+                    "score": item["max_score"],
+                    "max_score": item["max_score"],
+                    "rationale": "The workflow was coherent.",
+                }
+                for item in rubric
+            ],
+            "critical_failures": [],
+            "evidence_gate_failures": [],
+            "objective_issue_flags": [],
+            "reference_conclusion_status": "not_matched",
+            "rationale": "The independently generated conclusion is opposite to the target.",
+        },
+    )
+
+    assert result["score"] == 40
+    assert result["reference_conclusion_status"] == "not_matched"
+    assert result["reference_conclusion_score_cap"] == 40
+    conclusion = next(
+        item
+        for item in result["criteria"]
+        if item["id"] == "hidden_scientific_conclusion_recovery"
+    )
+    assert conclusion["score"] == 0

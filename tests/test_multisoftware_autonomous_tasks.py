@@ -48,7 +48,17 @@ def test_autonomous_tasks_are_complete_paired_and_hashed():
         assert truth["evaluation_mode"] == "rubric_100"
         assert truth["score_max"] == 100
         assert sum(item["max_score"] for item in truth["scoring_rubric"]) == 100
-        assert truth["reference_conclusion_gate_policy"] == {}
+        rubric = {item["id"]: item["max_score"] for item in truth["scoring_rubric"]}
+        assert rubric["hidden_scientific_conclusion_recovery"] == 50
+        assert rubric["adaptive_managed_execution"] == 10
+        gate = truth["reference_conclusion_gate_policy"]
+        assert gate["required"] is True
+        assert gate["criterion_id"] == "hidden_scientific_conclusion_recovery"
+        assert gate["score_cap_if_not_matched"] == 40
+        assert gate["score_cap_if_uncertain"] == 60
+        assert truth["expected_result"]["scientific_acceptance_contract"][
+            "required_findings"
+        ]
         assert truth["reference_evidence"]["paired_reproduction_task_id"] == repro_id
         assert truth["expected_structured_output"] == [
             item["path"] for item in info["required_deliverables"]
@@ -84,6 +94,35 @@ def test_autonomous_tasks_are_complete_paired_and_hashed():
             assert path.is_file()
             assert path.stat().st_size == record["size_bytes"]
             assert hashlib.sha256(path.read_bytes()).hexdigest() == record["sha256"]
+
+
+def test_autonomous_tasks_have_task_specific_hidden_scientific_gates():
+    expected_gate_ids = {
+        "GEOM_Hierarchical_Conformer_Reranking": {
+            "sampling_coverage_and_convergence",
+            "thermochemical_population_validity",
+        },
+        "Electron_Flexible_Ensemble_Surface": {
+            "surface_materiality_vs_numerics",
+            "ensemble_validity",
+        },
+        "PV_Protonation_Barrier_Trend": {"barrier_trend_resolution"},
+        "BaO_Phase_Crossover_And_5d_Bonding": {
+            "phase_sequence_resolution",
+            "five_d_bonding_evidence",
+        },
+        "PV_CC_CO_Pathway_Selectivity": {"selectivity_direction_resolution"},
+        "NHC_Adsorption_Decomposition_Bonding": {
+            "adsorption_order_and_decomposition",
+            "bonding_vs_total_energy_interpretation",
+        },
+    }
+    for task_id, required_ids in expected_gate_ids.items():
+        truth = load_ground_truth(task_id)
+        actual_ids = {
+            gate["id"] for gate in truth["evidence_gate_policy"]["gates"]
+        }
+        assert required_ids <= actual_ids
 
 
 def test_visible_inputs_do_not_disclose_paper_route_or_targets():

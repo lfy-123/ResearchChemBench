@@ -32,7 +32,17 @@
       },
       "paper_conclusion": "Successive N-protonation lowers the BiPy coupling barrier by about 10 and then 6 kcal/mol."
     },
-    "reference_use_policy": "Use the hidden paper result only after assessing autonomous planning, execution, validation, and evidence quality. Agreement is not required."
+    "scientific_acceptance_contract": {
+      "required_findings": [
+        "The comparable P0, P1, and P2 kinetic evidence shows that successive N-protonation lowers the BiPy coupling barrier in the order P0 > P1 > P2.",
+        "The magnitude is qualitatively consistent with a large first reduction and a smaller second reduction, without requiring exact paper barriers."
+      ],
+      "not_required": [
+        "Exact reproduction of 30, 20, and 14 kcal/mol when an independently valid route recovers the same robust trend."
+      ],
+      "decision_rule": "All three states require comparable validated transition-state evidence or controlled bounds strong enough to determine the ordering."
+    },
+    "reference_use_policy": "Keep the paper method and route hidden from the Agent. Use the evaluator-only scientific acceptance contract as a mandatory outcome gate after checking that the conclusion is supported by newly generated evidence."
   },
   "expected_structured_output": [
     "report/research_plan.json",
@@ -48,29 +58,29 @@
   "score_max": 100,
   "scoring_rubric": [
     {
-      "id": "scientific_problem_framing",
-      "max_score": 15,
-      "description": "Defines testable hypotheses, decision criteria, resource tiers, alternatives, and stopping rules without relying on a disclosed paper route."
+      "id": "hidden_scientific_conclusion_recovery",
+      "max_score": 50,
+      "description": "Recovers every evaluator-only task-level scientific finding from newly generated evidence. The paper route is not required, but a conflicting or unsupported scientific outcome is not successful task completion."
     },
     {
       "id": "autonomous_method_and_route_design",
-      "max_score": 25,
-      "description": "Independently selects defensible structures, software, methods, sampling, numerical controls, and fallback routes appropriate to the question."
+      "max_score": 20,
+      "description": "Independently frames competing hypotheses and selects defensible structures, software, methods, sampling, numerical controls, fallback routes, and stopping rules without a disclosed paper route."
     },
     {
       "id": "adaptive_managed_execution",
-      "max_score": 25,
+      "max_score": 10,
       "description": "Executes real managed calculations, passes artifacts correctly, diagnoses failures, and revises the workflow without importing hidden results."
     },
     {
       "id": "validation_and_falsification",
-      "max_score": 20,
+      "max_score": 15,
       "description": "Tests convergence, numerical sensitivity, chemical validity, competing explanations, uncertainty, and whether the evidence is sufficient for each claim."
     },
     {
-      "id": "defensible_scientific_conclusion",
-      "max_score": 15,
-      "description": "Draws a traceable conclusion from newly generated evidence. Hidden paper agreement is diagnostic, not a mandatory conclusion gate."
+      "id": "provenance_and_uncertainty",
+      "max_score": 5,
+      "description": "Links claims to managed artifacts and clearly separates calculations, experimental constraints, inference, failed branches, uncertainty, and unresolved limitations."
     }
   ],
   "critical_failures": [
@@ -79,7 +89,7 @@
     "P0/P1/P2 comparisons mix incompatible references, conditions, or energy conventions.",
     "Hidden stationary points or literature barriers are presented as newly generated."
   ],
-  "judge_instructions": "This is an autonomous-discovery evaluation. Reward independent hypothesis formation, method and route selection, adaptive managed execution, validation, falsification, and an evidence-bound conclusion. Do not require agreement with the hidden paper route or conclusion.",
+  "judge_instructions": "This is a strict autonomous-discovery evaluation. The Agent receives no paper method or route and may use any scientifically valid workflow, but high task-completion credit requires recovering every finding in the hidden scientific acceptance contract from new managed evidence. Do not reward an opposite or indeterminate conclusion as successful discovery merely because the tool sequence is plausible. Apply every evidence gate and the reference-conclusion score cap.",
   "reference_evidence": {
     "task_id": "PV_Protonation_Barrier_Trend",
     "paired_reproduction_task_id": "PV_Protonation_Barrier_Trend_Reproduction",
@@ -99,8 +109,18 @@
       },
       "paper_conclusion": "Successive N-protonation lowers the BiPy coupling barrier by about 10 and then 6 kcal/mol."
     },
+    "scientific_acceptance_contract": {
+      "required_findings": [
+        "The comparable P0, P1, and P2 kinetic evidence shows that successive N-protonation lowers the BiPy coupling barrier in the order P0 > P1 > P2.",
+        "The magnitude is qualitatively consistent with a large first reduction and a smaller second reduction, without requiring exact paper barriers."
+      ],
+      "not_required": [
+        "Exact reproduction of 30, 20, and 14 kcal/mol when an independently valid route recovers the same robust trend."
+      ],
+      "decision_rule": "All three states require comparable validated transition-state evidence or controlled bounds strong enough to determine the ordering."
+    },
     "source_boundary": "Paper protocols, author intermediates, completed calculations, and numerical conclusions are evaluator-only.",
-    "reference_use_policy": "Assess autonomous scientific process first; use the hidden reference only to diagnose scientific agreement or productive disagreement."
+    "reference_use_policy": "The route remains evaluator-only and is never required. The task-level scientific outcome is mandatory for high credit and must be supported by independent calculations."
   },
   "managed_computation_policy": {
     "required": true,
@@ -129,6 +149,11 @@
         "id": "three_state_evidence",
         "description": "Each state has a new managed computational attempt and an evidence-status conclusion.",
         "score_cap_if_failed": 70
+      },
+      {
+        "id": "barrier_trend_resolution",
+        "description": "Validated comparable evidence is strong enough to determine the P0 > P1 > P2 barrier ordering rather than merely proposing it.",
+        "score_cap_if_failed": 50
       }
     ]
   },
@@ -142,5 +167,14 @@
     ]
   },
   "evaluation_profile": "autonomous_discovery",
-  "reference_conclusion_gate_policy": {}
+  "reference_conclusion_gate_policy": {
+    "required": true,
+    "criterion_id": "hidden_scientific_conclusion_recovery",
+    "score_cap_if_not_matched": 40,
+    "score_cap_if_uncertain": 60,
+    "score_cap_if_omitted": 35,
+    "max_criterion_score_if_not_matched": 0,
+    "max_criterion_score_if_uncertain": 20,
+    "max_criterion_score_if_omitted": 0
+  }
 }

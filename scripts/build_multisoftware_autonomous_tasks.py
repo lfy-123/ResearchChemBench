@@ -114,29 +114,29 @@ def common_deliverables(specific: list[dict[str, Any]]) -> list[dict[str, Any]]:
 def common_rubric() -> list[dict[str, Any]]:
     return [
         {
-            "id": "scientific_problem_framing",
-            "max_score": 15,
-            "description": "Defines testable hypotheses, decision criteria, resource tiers, alternatives, and stopping rules without relying on a disclosed paper route.",
+            "id": "hidden_scientific_conclusion_recovery",
+            "max_score": 50,
+            "description": "Recovers every evaluator-only task-level scientific finding from newly generated evidence. The paper route is not required, but a conflicting or unsupported scientific outcome is not successful task completion.",
         },
         {
             "id": "autonomous_method_and_route_design",
-            "max_score": 25,
-            "description": "Independently selects defensible structures, software, methods, sampling, numerical controls, and fallback routes appropriate to the question.",
+            "max_score": 20,
+            "description": "Independently frames competing hypotheses and selects defensible structures, software, methods, sampling, numerical controls, fallback routes, and stopping rules without a disclosed paper route.",
         },
         {
             "id": "adaptive_managed_execution",
-            "max_score": 25,
+            "max_score": 10,
             "description": "Executes real managed calculations, passes artifacts correctly, diagnoses failures, and revises the workflow without importing hidden results.",
         },
         {
             "id": "validation_and_falsification",
-            "max_score": 20,
+            "max_score": 15,
             "description": "Tests convergence, numerical sensitivity, chemical validity, competing explanations, uncertainty, and whether the evidence is sufficient for each claim.",
         },
         {
-            "id": "defensible_scientific_conclusion",
-            "max_score": 15,
-            "description": "Draws a traceable conclusion from newly generated evidence. Hidden paper agreement is diagnostic, not a mandatory conclusion gate.",
+            "id": "provenance_and_uncertainty",
+            "max_score": 5,
+            "description": "Links claims to managed artifacts and clearly separates calculations, experimental constraints, inference, failed branches, uncertainty, and unresolved limitations.",
         },
     ]
 
@@ -186,6 +186,7 @@ def ground_truth(
     paired_reproduction_task_id: str,
     expected_tool_calls: list[dict[str, Any]],
     hidden_reference: dict[str, Any],
+    scientific_acceptance_contract: dict[str, Any],
     deliverables: list[dict[str, Any]],
     critical_failures: list[str],
     gates: list[dict[str, Any]],
@@ -195,9 +196,11 @@ def ground_truth(
         "expected_tool_calls": expected_tool_calls,
         "expected_result": {
             "hidden_posthoc_reference": hidden_reference,
+            "scientific_acceptance_contract": scientific_acceptance_contract,
             "reference_use_policy": (
-                "Use the hidden paper result only after assessing autonomous planning, execution, "
-                "validation, and evidence quality. Agreement is not required."
+                "Keep the paper method and route hidden from the Agent. Use the evaluator-only "
+                "scientific acceptance contract as a mandatory outcome gate after checking that "
+                "the conclusion is supported by newly generated evidence."
             ),
         },
         "expected_structured_output": [item["path"] for item in deliverables],
@@ -206,9 +209,12 @@ def ground_truth(
         "scoring_rubric": common_rubric(),
         "critical_failures": critical_failures,
         "judge_instructions": (
-            "This is an autonomous-discovery evaluation. Reward independent hypothesis formation, "
-            "method and route selection, adaptive managed execution, validation, falsification, and "
-            "an evidence-bound conclusion. Do not require agreement with the hidden paper route or conclusion."
+            "This is a strict autonomous-discovery evaluation. The Agent receives no paper method "
+            "or route and may use any scientifically valid workflow, but high task-completion credit "
+            "requires recovering every finding in the hidden scientific acceptance contract from new "
+            "managed evidence. Do not reward an opposite or indeterminate conclusion as successful "
+            "discovery merely because the tool sequence is plausible. Apply every evidence gate and "
+            "the reference-conclusion score cap."
         ),
         "reference_evidence": {
             "task_id": task_id,
@@ -216,11 +222,13 @@ def ground_truth(
             "task_mode": "open_discovery",
             "input_manifest_sha256": "PENDING",
             "hidden_posthoc_reference": hidden_reference,
+            "scientific_acceptance_contract": scientific_acceptance_contract,
             "source_boundary": (
                 "Paper protocols, author intermediates, completed calculations, and numerical conclusions are evaluator-only."
             ),
             "reference_use_policy": (
-                "Assess autonomous scientific process first; use the hidden reference only to diagnose scientific agreement or productive disagreement."
+                "The route remains evaluator-only and is never required. The task-level scientific "
+                "outcome is mandatory for high credit and must be supported by independent calculations."
             ),
         },
         "managed_computation_policy": {
@@ -236,7 +244,16 @@ def ground_truth(
         "evidence_gate_policy": {"judge_must_assess_all": True, "gates": gates},
         "current_toolbox_feasibility_baseline": feasibility,
         "evaluation_profile": "autonomous_discovery",
-        "reference_conclusion_gate_policy": {},
+        "reference_conclusion_gate_policy": {
+            "required": True,
+            "criterion_id": "hidden_scientific_conclusion_recovery",
+            "score_cap_if_not_matched": 40,
+            "score_cap_if_uncertain": 60,
+            "score_cap_if_omitted": 35,
+            "max_criterion_score_if_not_matched": 0,
+            "max_criterion_score_if_uncertain": 20,
+            "max_criterion_score_if_omitted": 0,
+        },
     }
 
 
@@ -349,6 +366,17 @@ conformers, software route, or result is included.
             {"class": "structure_alignment_and_statistics", "required": True},
         ],
         hidden_reference=hidden,
+        scientific_acceptance_contract={
+            "required_findings": [
+                "The low-cost search recovers multiple thermally relevant structural basins rather than one arbitrary geometry.",
+                "After identity-preserving alignment, higher-confidence quantum refinement and thermochemical treatment materially change at least one ranking or population conclusion relative to the low-cost ranking.",
+            ],
+            "not_required": [
+                "The paper's exact generated conformer count, file indices, or rounded population values.",
+                "The paper's exact software sequence when an independently valid alternative establishes the same findings.",
+            ],
+            "decision_rule": "Both required findings must be supported by new calculations; otherwise reference_conclusion_status is uncertain or not_matched.",
+        },
         deliverables=deliverables,
         critical_failures=[
             "No real conformer search or generation was executed.",
@@ -360,6 +388,8 @@ conformers, software route, or result is included.
             {"id": "real_search", "description": "A real multi-conformer search was executed.", "score_cap_if_failed": 35},
             {"id": "identity_and_lineage", "description": "Compared conformers retain connectivity and traceable lineage.", "score_cap_if_failed": 55},
             {"id": "independent_refinement", "description": "At least one higher-confidence calculation tests the low-cost ranking.", "score_cap_if_failed": 65},
+            {"id": "sampling_coverage_and_convergence", "description": "The search covers multiple distinct basins and has a calculation-backed coverage or convergence check; a single search pass without a stopping justification is insufficient.", "score_cap_if_failed": 70},
+            {"id": "thermochemical_population_validity", "description": "Any 298.15 K population claim is supported by computed thermochemical free energies or is explicitly limited to a validated electronic-energy proxy with sensitivity bounds.", "score_cap_if_failed": 65},
         ],
         feasibility={
             "status": "pre_release_pilot_ready",
@@ -445,6 +475,17 @@ surface prediction with uncertainty.
             {"class": "ensemble_and_sensitivity_analysis", "required": True},
         ],
         hidden_reference=hidden,
+        scientific_acceptance_contract={
+            "required_findings": [
+                "New per-conformer density-isosurface calculations show a conformer effect that is material relative to the measured numerical/grid sensitivity.",
+                "A traceable thermally weighted ensemble reduces dependence on an arbitrary single conformer and is therefore the more defensible reported estimate.",
+            ],
+            "not_required": [
+                "The paper's exact 25-conformer aggregate or exact individual surface values.",
+                "The paper's exact density method, cutoff, or software route when an independently validated definition establishes the same findings.",
+            ],
+            "decision_rule": "Both flexibility and ensemble findings must be supported by new density/surface artifacts and weighting evidence; numerical proximity alone is insufficient.",
+        },
         deliverables=deliverables,
         critical_failures=[
             "No real electronic-structure calculation was executed.",
@@ -456,7 +497,8 @@ surface prediction with uncertainty.
         gates=[
             {"id": "real_density_and_surface", "description": "New density and isosurface artifacts support the numerical results.", "score_cap_if_failed": 40},
             {"id": "independent_conformer_sampling", "description": "Multiple conformers were generated without author coordinates.", "score_cap_if_failed": 55},
-            {"id": "ensemble_validity", "description": "Weights, normalization, truncation, and numerical sensitivity are addressed.", "score_cap_if_failed": 70},
+            {"id": "surface_materiality_vs_numerics", "description": "The claimed conformer effect is larger than and distinguished from cutoff/grid or integration uncertainty.", "score_cap_if_failed": 65},
+            {"id": "ensemble_validity", "description": "Weights, normalization, conformer truncation/convergence, and weighting sensitivity are computed and addressed; an electronic-energy proxy must be labeled and bounded rather than presented as exact thermal free energy.", "score_cap_if_failed": 65},
         ],
         feasibility={
             "status": "pre_release_pilot_ready",
@@ -563,6 +605,16 @@ hypotheses, validation tests, and stopping rules independently.
             {"class": "comparable_free_energy_analysis", "required": True},
         ],
         hidden_reference=hidden,
+        scientific_acceptance_contract={
+            "required_findings": [
+                "The comparable P0, P1, and P2 kinetic evidence shows that successive N-protonation lowers the BiPy coupling barrier in the order P0 > P1 > P2.",
+                "The magnitude is qualitatively consistent with a large first reduction and a smaller second reduction, without requiring exact paper barriers.",
+            ],
+            "not_required": [
+                "Exact reproduction of 30, 20, and 14 kcal/mol when an independently valid route recovers the same robust trend.",
+            ],
+            "decision_rule": "All three states require comparable validated transition-state evidence or controlled bounds strong enough to determine the ordering.",
+        },
         deliverables=deliverables,
         critical_failures=[
             "A supplied seed is described as an optimized minimum or transition state without a new calculation.",
@@ -574,6 +626,7 @@ hypotheses, validation tests, and stopping rules independently.
             {"id": "state_comparability", "description": "All three protonation states use comparable conditions and references.", "score_cap_if_failed": 60},
             {"id": "pathway_validity", "description": "Claims are supported by validated paths/TSs or explicitly limited controlled bounds.", "score_cap_if_failed": 55},
             {"id": "three_state_evidence", "description": "Each state has a new managed computational attempt and an evidence-status conclusion.", "score_cap_if_failed": 70},
+            {"id": "barrier_trend_resolution", "description": "Validated comparable evidence is strong enough to determine the P0 > P1 > P2 barrier ordering rather than merely proposing it.", "score_cap_if_failed": 50},
         ],
         feasibility={
             "status": "pre_release_blocked",
@@ -670,6 +723,16 @@ and optional bonding analysis independently. No paper protocol or result is visi
             {"class": "optional_periodic_bonding_analysis", "required": False},
         ],
         hidden_reference=hidden,
+        scientific_acceptance_contract={
+            "required_findings": [
+                "The newly calculated enthalpy curves recover the B1 -> B8 -> dB2 stability sequence over 0-80 GPa with crossovers in the neighborhoods of the paper transitions.",
+                "A quality-gated orbital/bonding comparison supports selective Ba 5d-O covalent stabilization of the denser B8 and dB2 phases, while separating correlation from the phase enthalpy evidence.",
+            ],
+            "not_required": [
+                "Exact 8 and 25 GPa crossing values when convergence and interpolation uncertainty overlap the reference neighborhoods.",
+            ],
+            "decision_rule": "Full conclusion credit requires both the phase sequence and the 5d-bonding finding; phase stability alone is partial completion.",
+        },
         deliverables=deliverables,
         critical_failures=[
             "No real periodic electronic-structure calculation was executed.",
@@ -681,6 +744,8 @@ and optional bonding analysis independently. No paper protocol or result is visi
             {"id": "periodic_evidence", "description": "New converged periodic calculations support the stability analysis.", "score_cap_if_failed": 35},
             {"id": "thermodynamic_consistency", "description": "Pressure/volume, PV units, references, and normalization are consistent.", "score_cap_if_failed": 55},
             {"id": "phase_identity", "description": "Relaxed candidates remain distinguishable or transformations are explicitly analyzed.", "score_cap_if_failed": 65},
+            {"id": "phase_sequence_resolution", "description": "Sampling and interpolation resolve both stability crossovers with quantified convergence uncertainty.", "score_cap_if_failed": 55},
+            {"id": "five_d_bonding_evidence", "description": "A fresh, quality-gated projection ablation or equivalent orbital-resolved analysis tests the selective Ba 5d-O stabilization claim.", "score_cap_if_failed": 65},
         ],
         feasibility={
             "status": "pre_release_split_recommended",
@@ -750,6 +815,16 @@ pathway hypotheses without consulting the source publication.
             {"class": "comparable_kinetic_analysis", "required": True},
         ],
         hidden_reference=hidden,
+        scientific_acceptance_contract={
+            "required_findings": [
+                "Comparable validated kinetic evidence shows C-C coupling is preferred over C-O coupling for P2 under the stated conditions.",
+                "C-O remains a plausible accessible minor pathway rather than being treated as impossible solely because it is disfavored.",
+            ],
+            "not_required": [
+                "Exact 14 and 18 kcal/mol barriers when controlled uncertainty still preserves the C-C preference.",
+            ],
+            "decision_rule": "Both pathways must be tested comparably and the selectivity direction must follow from validated transition states or controlled bounds.",
+        },
         deliverables=deliverables,
         critical_failures=[
             "Only one competing pathway was attempted without a justified bound for the other.",
@@ -761,6 +836,7 @@ pathway hypotheses without consulting the source publication.
             {"id": "two_path_attempt", "description": "Both C-C and C-O hypotheses receive new managed computational tests.", "score_cap_if_failed": 55},
             {"id": "ts_or_bound_validity", "description": "Precise barriers are validated; otherwise conclusions are limited to controlled bounds.", "score_cap_if_failed": 60},
             {"id": "path_comparability", "description": "The two paths use compatible energetic and thermochemical conventions.", "score_cap_if_failed": 70},
+            {"id": "selectivity_direction_resolution", "description": "The new comparable evidence actually resolves C-C as kinetically preferred while retaining C-O as accessible, rather than only listing possible paths.", "score_cap_if_failed": 50},
         ],
         feasibility={
             "status": "pre_release_blocked",
@@ -857,6 +933,16 @@ bonding analyses independently. No optimized adsorbed structure is included.
             {"class": "optional_periodic_bonding_analysis", "required": False},
         ],
         hidden_reference=hidden,
+        scientific_acceptance_contract={
+            "required_findings": [
+                "New matched-reference adsorption calculations recover NHC4 as only modestly more strongly bound overall than NHC1.",
+                "Quality-gated local Pd-C descriptors are stronger for NHC4, while deformation and other energetic contributions moderate the total adsorption-energy difference.",
+            ],
+            "not_required": [
+                "Exact paper binding energies, bond lengths, ICOBI, or ICOHP values when the same ordering and decomposition conclusion are robust.",
+            ],
+            "decision_rule": "Full conclusion credit requires the adsorption ordering, local-bonding ordering, and the distinction between local bonding and total-energy decomposition.",
+        },
         deliverables=deliverables,
         critical_failures=[
             "A hidden/published adsorbed structure was used as an independently generated result.",
@@ -868,6 +954,8 @@ bonding analyses independently. No optimized adsorbed structure is included.
             {"id": "independent_adsorption_search", "description": "Multiple adsorption candidates were generated from clean surface and ligand inputs.", "score_cap_if_failed": 45},
             {"id": "matched_references", "description": "Adsorption comparisons use matched cells and compatible settings.", "score_cap_if_failed": 55},
             {"id": "constraint_and_geometry_validity", "description": "Relaxation constraints and final adsorption identity are verified.", "score_cap_if_failed": 65},
+            {"id": "adsorption_order_and_decomposition", "description": "Fresh matched calculations resolve the NHC4/NHC1 adsorption ordering and quantify deformation or equivalent nonlocal energetic contributions.", "score_cap_if_failed": 55},
+            {"id": "bonding_vs_total_energy_interpretation", "description": "Quality-gated local Pd-C descriptors are compared without equating them to total adsorption energy.", "score_cap_if_failed": 65},
         ],
         feasibility={
             "status": "pre_release_blocked",

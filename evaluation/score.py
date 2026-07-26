@@ -70,6 +70,11 @@ Evaluation profile: AUTONOMOUS SCIENTIFIC DISCOVERY.
 Judge the Agent's ability to formulate hypotheses, select and revise methods or pathways without a supplied paper route, execute real calculations, falsify alternatives, and reach a defensible evidence-bound conclusion. Agreement with a hidden paper conclusion is not itself required and must not be used as a score gate. A conclusion that differs from the reference can receive full credit when it follows from valid, sufficiently broad, independently generated evidence.
 """
 
+STRICT_AUTONOMOUS_DISCOVERY_JUDGE_PROMPT = """
+Evaluation profile: AUTONOMOUS SCIENTIFIC DISCOVERY WITH A HIDDEN SCIENTIFIC OUTCOME GATE.
+The Agent was not given the paper method, software route, parameter protocol, intermediate structures, or numerical answer. Judge autonomy from the independently designed and executed workflow, but judge task completion from whether newly generated evidence recovers the evaluator-only scientific conclusion or acceptance contract. Method agreement is not required: a different scientifically valid route is acceptable. Outcome agreement is required for high credit: an opposite ranking, trend, selectivity, phase sequence, mechanistic assignment, or other required finding is not successful autonomous completion merely because the workflow is coherent. Exact legacy scalar values are required only when the task-specific acceptance contract says so. Set reference_conclusion_status to matched only when every required qualitative finding is supported by valid new evidence; use not_matched for a conflicting finding and uncertain when sampling, validation, numerical controls, or evidence are insufficient to decide.
+"""
+
 PAPER_REPRODUCTION_JUDGE_PROMPT = """
 Evaluation profile: PAPER REPRODUCTION.
 This profile is deliberately stricter. The main paper conclusion must be recovered from newly generated evidence, and the paper-conclusion criterion is the majority of the score. A scientifically coherent calculation that reaches the opposite ranking, mechanism, selectivity, rate-determining step, or other main conclusion is not a successful reproduction. Protocol deviations, reduced numerical resolution, substitute methods, incomplete sampling, or version limitations must be scored separately and cannot convert a conflicting conclusion into a match. Set reference_conclusion_status to matched only when the main conclusion stated in the reference answer is actually reproduced; use not_matched for a conflicting conclusion and uncertain when the submitted evidence cannot decide it.
@@ -406,8 +411,8 @@ def _reference_conclusion_cap(
         )
     )
     reason = (
-        f"Reference conclusion status is {status}; the paper-reproduction profile "
-        "does not award full reproduction credit without a matched main conclusion."
+        f"Reference conclusion status is {status}; the configured scientific-outcome "
+        "gate does not award full task-completion credit without a matched main conclusion."
     )
     if structured_mismatches:
         reason += " Explicit mismatch evidence: " + ", ".join(structured_mismatches) + "."
@@ -716,7 +721,11 @@ def score_workspace(
         )
         system_prompt = RUBRIC_JUDGE_SYSTEM_PROMPT
         if evaluation_profile == "autonomous_discovery":
-            system_prompt += AUTONOMOUS_DISCOVERY_JUDGE_PROMPT
+            conclusion_policy = truth.get("reference_conclusion_gate_policy", {})
+            if conclusion_policy.get("required") is True:
+                system_prompt += STRICT_AUTONOMOUS_DISCOVERY_JUDGE_PROMPT
+            else:
+                system_prompt += AUTONOMOUS_DISCOVERY_JUDGE_PROMPT
         elif evaluation_profile == "paper_reproduction":
             system_prompt += PAPER_REPRODUCTION_JUDGE_PROMPT
     else:
@@ -825,7 +834,7 @@ def score_workspace(
                     sum(float(item.get("score", 0)) for item in criteria), 2
                 )
                 consistency_warnings.append(
-                    "Limited paper-conclusion criterion credit according to the "
+                    "Limited reference-conclusion criterion credit according to the "
                     f"{reference_conclusion_status} conclusion status."
                 )
             applicable_caps = [
