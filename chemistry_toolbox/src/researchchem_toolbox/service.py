@@ -61,6 +61,45 @@ def _invalid_explicit_choice(
     return None
 
 
+def _validate_deprecated_setting_aliases(
+    action_id: str,
+    backend_id: str,
+    settings: Mapping[str, Any],
+) -> dict[str, Any] | None:
+    """Reject ambiguous requests while preserving explicit legacy aliases."""
+
+    if (
+        action_id == "calculate_electron_isodensity_surface"
+        and backend_id == "multiwfn"
+        and "grid_spacing_bohr" in settings
+        and "grid_spacing_angstrom" in settings
+    ):
+        return _invalid(
+            action_id,
+            backend_id,
+            "Supply exactly one of action_settings.grid_spacing_bohr (canonical) or "
+            "action_settings.grid_spacing_angstrom (deprecated compatibility alias), not both.",
+            code="conflicting_setting_aliases",
+        )
+    return None
+
+
+def _required_setting_is_present(
+    action_id: str,
+    backend_id: str,
+    field_name: str,
+    settings: Mapping[str, Any],
+) -> bool:
+    if field_name in settings:
+        return True
+    return (
+        action_id == "calculate_electron_isodensity_surface"
+        and backend_id == "multiwfn"
+        and field_name == "grid_spacing_bohr"
+        and "grid_spacing_angstrom" in settings
+    )
+
+
 def _validate_composite_calculator_contract(
     action_id: str,
     backend_id: str,
@@ -528,6 +567,12 @@ def execute_action(action_id: str, request_value: ActionRequest | dict[str, Any]
                 f"choose one of {list(allowed)}",
             )
         component_specs.append(backends[component_backend_id])
+    invalid_aliases = _validate_deprecated_setting_aliases(
+        action_id, backend_id, request.action_settings
+    )
+    if invalid_aliases is not None:
+        return invalid_aliases
+
     missing_methods = [
         name
         for name in backend.required_method_fields.get(action_id, ())
@@ -536,7 +581,9 @@ def execute_action(action_id: str, request_value: ActionRequest | dict[str, Any]
     missing_settings = [
         name
         for name in backend.required_setting_fields.get(action_id, ())
-        if name not in request.action_settings
+        if not _required_setting_is_present(
+            action_id, backend_id, name, request.action_settings
+        )
     ]
     if missing_methods or missing_settings:
         parts = []

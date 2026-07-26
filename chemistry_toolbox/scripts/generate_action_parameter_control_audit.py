@@ -127,7 +127,7 @@ def main() -> int:
     lines = [
         "# Chemistry Toolbox Action 参数可控性审计",
         "",
-        "> 生成日期：2026-07-24  ",
+        "> 生成日期：2026-07-26",
         "> 范围：当前冻结目录中的全部预设 Action 及其全部 Backend 组合。  ",
         "> 生成器：`chemistry_toolbox/scripts/generate_action_parameter_control_audit.py`",
         "",
@@ -281,7 +281,7 @@ def main() -> int:
             "## 7. 已知固定边界",
             "",
             "1. ORCA `orca_plot` 的 cube 包围盒/padding 当前仍由软件内部决定；只开放每轴点数。若后续需要严格比较不同尺寸分子的体素间距，应新增通用的“显式网格边界/原点/轴向”能力。",
-            "2. Multiwfn `calculate_electron_isodensity_surface` 的历史字段名为 `grid_spacing_angstrom`，而安装版菜单提示输入单位为 Bohr。当前审计把该单位语义差异显式列入不可控制约束，没有在本次参数目录修改中静默改变旧任务数值；建议另行做带迁移兼容的字段修正。",
+            "2. Multiwfn `calculate_electron_isodensity_surface` 现在使用明确的 `grid_spacing_bohr` 标准字段，并在结果中同时回显 bohr 值和换算后的 angstrom 值。历史 `grid_spacing_angstrom` 字段仅作为废弃兼容别名保留，其数值继续按 bohr 解释并产生警告；同时提供两个字段会被拒绝。",
             "3. 可执行程序、Python 模块、许可证和安装数据由运维环境固定；智能体可以选择目录中其他 Backend，或使用允许的原生软件/可编程层，但预设 Action 不允许替换已选 Backend 的实现。",
             "",
             "## 8. 验证",

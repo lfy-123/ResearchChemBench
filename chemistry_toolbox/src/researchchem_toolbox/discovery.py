@@ -328,6 +328,7 @@ def _field_type(field_name: str, *, section: str) -> dict[str, Any]:
     numeric_tokens = (
         "_angstrom",
         "_bar",
+        "_bohr",
         "_cm1",
         "_degrees",
         "_ev",

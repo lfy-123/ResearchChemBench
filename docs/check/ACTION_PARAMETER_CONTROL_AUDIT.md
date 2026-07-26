@@ -1,6 +1,6 @@
 # Chemistry Toolbox Action 参数可控性审计
 
-> 生成日期：2026-07-24  
+> 生成日期：2026-07-26
 > 范围：当前冻结目录中的全部预设 Action 及其全部 Backend 组合。  
 > 生成器：`chemistry_toolbox/scripts/generate_action_parameter_control_audit.py`
 
@@ -1032,9 +1032,9 @@ Calculate electronic-structure population-analysis charges without attaching for
 | `method_spec.solvent` | 否 | `null` | string \| documented structured value | Solvent name used when an ORCA solvation model is selected. | Changing solvent changes dielectric/solvation parameters and computed properties. |
 | `method_spec.charge` | 否 | `null` | integer | Optional ORCA molecular charge override. | Changing charge changes electron count and electronic state. |
 | `method_spec.multiplicity` | 否 | `null` | integer | Optional ORCA spin multiplicity override. | Changing multiplicity changes electronic state and reference occupation. |
-| `resource_limits.walltime_seconds` | 否 | `1800` | integer; min=1; max=172800 | Maximum synchronous wall-clock time allowed for this Action call. | A larger value allows longer calculations but occupies a synchronous worker for longer; backend-specific maximum walltimes still apply. |
+| `resource_limits.walltime_seconds` | 否 | `1800` | integer; min=1; max=7200 | Maximum synchronous wall-clock time allowed for this Action call. | A larger value allows longer calculations but occupies a synchronous worker for longer; backend-specific maximum walltimes still apply. |
 | `resource_limits.memory_mb` | 否 | `null` | integer \| null; min=128 | Requested memory budget in megabytes when the backend supports it. | More memory may enable larger calculations, while excessive per-process memory combined with many CPU processes can exceed the host budget. Null leaves memory allocation to the validated backend adapter. |
-| `resource_limits.cpu_cores` | 否 | `null` | integer \| null; min=1 | Requested CPU process/thread count for the selected backend. | More cores may reduce elapsed time, but scaling is backend- and system-dependent and may increase total memory use. Null uses the adapter's documented single-core or software-managed behavior. |
+| `resource_limits.cpu_cores` | 否 | `null` | integer \| null; min=1; max=48 | Requested CPU process/thread count for the selected backend. | More cores may reduce elapsed time, but scaling is backend- and system-dependent and may increase total memory use. Null uses the adapter's documented single-core or software-managed behavior. |
 | `resource_limits.gpu_count` | 否 | `null` | integer \| null; min=0 | Requested GPU count for a backend that supports GPU execution. | A positive value requests accelerator resources but does not change the selected scientific method. Null leaves GPU allocation unspecified. |
 
 不可控制参数：
@@ -1045,7 +1045,7 @@ Calculate electronic-structure population-analysis charges without attaching for
 | `backend_runtime.implementation` | Executable/module implementation: orca. | Executable and module allowlists are operator-installed security and reproducibility boundaries. |
 | `backend_runtime.automatic_fallback` | Automatic fallback to another scientific backend is disabled. | Benchmark provenance requires the declared provider to be executed or to fail explicitly. |
 | `resource_limits.maximum_cpu_cores` | Backend-enforced maximum cpu cores: 48. | The current 64-online-CPU server reserves capacity for the service and exposes at most 48 ORCA MPI processes per synchronous Action. |
-| `resource_limits.maximum_walltime_seconds` | Backend-enforced maximum walltime seconds: 7200. | The current 64-online-CPU server reserves capacity for the service and exposes at most 48 ORCA MPI processes per synchronous Action. |
+| `resource_limits.maximum_walltime_seconds` | Backend-enforced maximum walltime seconds: 7200. | execute_action is synchronous and must finish comfortably inside the MCP client timeout. Long ORCA jobs must be submitted explicitly through the asynchronous software-native layer so their state can be polled without blocking discovery or other Action calls. |
 
 ### `calculate_bader_charges`
 
@@ -1175,9 +1175,9 @@ Calculate atom-pair electronic bond-order indices using one explicitly selected 
 | `method_spec.charge` | 否 | `null` | integer | Optional ORCA molecular charge override. | Changing charge changes electron count and electronic state. |
 | `method_spec.multiplicity` | 否 | `null` | integer | Optional ORCA spin multiplicity override. | Changing multiplicity changes electronic state and reference occupation. |
 | `action_settings.minimum_bond_order` | 是 | —（必须显式提供） | number | Agent-selected execution setting controlling minimum bond order. | Changing this value changes the named Action behavior or numerical result. |
-| `resource_limits.walltime_seconds` | 否 | `1800` | integer; min=1; max=172800 | Maximum synchronous wall-clock time allowed for this Action call. | A larger value allows longer calculations but occupies a synchronous worker for longer; backend-specific maximum walltimes still apply. |
+| `resource_limits.walltime_seconds` | 否 | `1800` | integer; min=1; max=7200 | Maximum synchronous wall-clock time allowed for this Action call. | A larger value allows longer calculations but occupies a synchronous worker for longer; backend-specific maximum walltimes still apply. |
 | `resource_limits.memory_mb` | 否 | `null` | integer \| null; min=128 | Requested memory budget in megabytes when the backend supports it. | More memory may enable larger calculations, while excessive per-process memory combined with many CPU processes can exceed the host budget. Null leaves memory allocation to the validated backend adapter. |
-| `resource_limits.cpu_cores` | 否 | `null` | integer \| null; min=1 | Requested CPU process/thread count for the selected backend. | More cores may reduce elapsed time, but scaling is backend- and system-dependent and may increase total memory use. Null uses the adapter's documented single-core or software-managed behavior. |
+| `resource_limits.cpu_cores` | 否 | `null` | integer \| null; min=1; max=48 | Requested CPU process/thread count for the selected backend. | More cores may reduce elapsed time, but scaling is backend- and system-dependent and may increase total memory use. Null uses the adapter's documented single-core or software-managed behavior. |
 | `resource_limits.gpu_count` | 否 | `null` | integer \| null; min=0 | Requested GPU count for a backend that supports GPU execution. | A positive value requests accelerator resources but does not change the selected scientific method. Null leaves GPU allocation unspecified. |
 
 不可控制参数：
@@ -1188,7 +1188,7 @@ Calculate atom-pair electronic bond-order indices using one explicitly selected 
 | `backend_runtime.implementation` | Executable/module implementation: orca. | Executable and module allowlists are operator-installed security and reproducibility boundaries. |
 | `backend_runtime.automatic_fallback` | Automatic fallback to another scientific backend is disabled. | Benchmark provenance requires the declared provider to be executed or to fail explicitly. |
 | `resource_limits.maximum_cpu_cores` | Backend-enforced maximum cpu cores: 48. | The current 64-online-CPU server reserves capacity for the service and exposes at most 48 ORCA MPI processes per synchronous Action. |
-| `resource_limits.maximum_walltime_seconds` | Backend-enforced maximum walltime seconds: 7200. | The current 64-online-CPU server reserves capacity for the service and exposes at most 48 ORCA MPI processes per synchronous Action. |
+| `resource_limits.maximum_walltime_seconds` | Backend-enforced maximum walltime seconds: 7200. | execute_action is synchronous and must finish comfortably inside the MCP client timeout. Long ORCA jobs must be submitted explicitly through the asynchronous software-native layer so their state can be polled without blocking discovery or other Action calls. |
 
 ### `calculate_charge_spilling`
 
@@ -1322,16 +1322,16 @@ Calculate and retain one explicitly selected molecular electron density, includi
 | `method_spec.density_type` | 是 | —（必须显式提供） | string \| documented structured value; 可选=["scf","relaxed_mp2","unrelaxed_ccsd"] | scf, relaxed_mp2, or unrelaxed_ccsd; unavailable combinations are rejected rather than silently substituted | Changing this value changes the scientific model or representation used by the backend. |
 | `method_spec.auxiliary_basis` | 否 | `null` | string \| documented structured value | Optional ORCA auxiliary/C basis for MP2 or double-hybrid density calculations. | Changing it changes density-fitting accuracy and cost. |
 | `method_spec.dispersion` | 否 | `null` | string \| documented structured value | Optional ORCA dispersion-correction keyword. | Dispersion typically changes energy and gradients; exact density influence depends on the selected ORCA method implementation. |
-| `method_spec.frozen_core` | 否 | `null` | string \| documented structured value | Whether correlated density calculations use the frozen-core approximation. | Disabling frozen core correlates more electrons and increases cost; it can change correlated density. |
-| `method_spec.pmodel` | 否 | `null` | string \| documented structured value | Whether ORCA PModel is enabled for the density calculation. | Changing PModel changes the double-hybrid/MP2 model details used by ORCA. |
+| `method_spec.frozen_core` | 否 | `null` | boolean | Whether correlated density calculations use the frozen-core approximation. | Disabling frozen core correlates more electrons and increases cost; it can change correlated density. |
+| `method_spec.pmodel` | 否 | `null` | boolean | Whether ORCA PModel is enabled for the density calculation. | Changing PModel changes the double-hybrid/MP2 model details used by ORCA. |
 | `method_spec.charge` | 否 | `null` | integer | Optional molecular charge override. | Changing charge changes electron count and density. |
-| `method_spec.multiplicity` | 否 | `null` | integer | Optional spin multiplicity override. | Changing multiplicity changes electronic state and density. |
+| `method_spec.multiplicity` | 否 | `null` | integer; min=1 | Optional spin multiplicity override. | Changing multiplicity changes electronic state and density. |
 | `action_settings.scf_convergence` | 是 | —（必须显式提供） | string \| documented structured value; 可选=["LooseSCF","TightSCF","VeryTightSCF"] | Agent-selected execution setting controlling scf convergence. | A stricter numerical threshold usually improves convergence quality or filtering selectivity but may increase cost or reject more results; interpret the direction according to the selected backend definition. |
 | `action_settings.max_scf_cycles` | 是 | —（必须显式提供） | integer | Agent-selected execution setting controlling max scf cycles. | A larger bound allows more search, iteration, or returned records and can increase runtime and output size; it does not guarantee convergence or higher scientific quality. |
-| `action_settings.stability_analysis` | 是 | —（必须显式提供） | string \| documented structured value | Agent-selected execution setting controlling stability analysis. | Changing this value changes the named Action behavior or numerical result. |
-| `resource_limits.walltime_seconds` | 否 | `1800` | integer; min=1; max=172800 | Maximum synchronous wall-clock time allowed for this Action call. | A larger value allows longer calculations but occupies a synchronous worker for longer; backend-specific maximum walltimes still apply. |
-| `resource_limits.memory_mb` | 否 | `null` | integer \| null; min=128 | Requested memory budget in megabytes when the backend supports it. | More memory may enable larger calculations, while excessive per-process memory combined with many CPU processes can exceed the host budget. Null leaves memory allocation to the validated backend adapter. |
-| `resource_limits.cpu_cores` | 否 | `null` | integer \| null; min=1 | Requested CPU process/thread count for the selected backend. | More cores may reduce elapsed time, but scaling is backend- and system-dependent and may increase total memory use. Null uses the adapter's documented single-core or software-managed behavior. |
+| `action_settings.stability_analysis` | 是 | —（必须显式提供） | boolean | Whether ORCA performs an SCF wavefunction-stability analysis before the density calculation. | Enabling it can detect and restart an unstable SCF solution at additional cost; disabling it skips that validation. |
+| `resource_limits.walltime_seconds` | 否 | `1800` | integer; min=1; max=7200 | Maximum synchronous wall-clock time allowed for this Action call. | A larger value allows longer calculations but occupies a synchronous worker for longer; backend-specific maximum walltimes still apply. |
+| `resource_limits.memory_mb` | 否 | `null` | integer \| null; min=128 | Total memory budget in MB across all requested ORCA MPI processes. The adapter sets %maxcore to floor(memory_mb / cpu_cores), with a 128 MB floor. | Increasing the total budget raises ORCA %maxcore at fixed cpu_cores and can prevent correlated-method out-of-memory failures. Increasing cpu_cores without also increasing memory_mb lowers %maxcore per process. |
+| `resource_limits.cpu_cores` | 否 | `null` | integer \| null; min=1; max=48 | Requested CPU process/thread count for the selected backend. | More cores may reduce elapsed time, but scaling is backend- and system-dependent and may increase total memory use. Null uses the adapter's documented single-core or software-managed behavior. |
 | `resource_limits.gpu_count` | 否 | `null` | integer \| null; min=0 | Requested GPU count for a backend that supports GPU execution. | A positive value requests accelerator resources but does not change the selected scientific method. Null leaves GPU allocation unspecified. |
 
 不可控制参数：
@@ -1342,7 +1342,7 @@ Calculate and retain one explicitly selected molecular electron density, includi
 | `backend_runtime.implementation` | Executable/module implementation: orca. | Executable and module allowlists are operator-installed security and reproducibility boundaries. |
 | `backend_runtime.automatic_fallback` | Automatic fallback to another scientific backend is disabled. | Benchmark provenance requires the declared provider to be executed or to fail explicitly. |
 | `resource_limits.maximum_cpu_cores` | Backend-enforced maximum cpu cores: 48. | The current 64-online-CPU server reserves capacity for the service and exposes at most 48 ORCA MPI processes per synchronous Action. |
-| `resource_limits.maximum_walltime_seconds` | Backend-enforced maximum walltime seconds: 7200. | The current 64-online-CPU server reserves capacity for the service and exposes at most 48 ORCA MPI processes per synchronous Action. |
+| `resource_limits.maximum_walltime_seconds` | Backend-enforced maximum walltime seconds: 7200. | execute_action is synchronous and must finish comfortably inside the MCP client timeout. Long ORCA jobs must be submitted explicitly through the asynchronous software-native layer so their state can be polled without blocking discovery or other Action calls. |
 
 ### `calculate_density_of_states`
 
@@ -1645,9 +1645,9 @@ Calculate one molecular dipole moment with an explicitly chosen electronic metho
 | `method_spec.solvent` | 否 | `null` | string \| documented structured value | Solvent name used when an ORCA solvation model is selected. | Changing solvent changes dielectric/solvation parameters and computed properties. |
 | `method_spec.charge` | 否 | `null` | integer | Optional ORCA molecular charge override. | Changing charge changes electron count and electronic state. |
 | `method_spec.multiplicity` | 否 | `null` | integer | Optional ORCA spin multiplicity override. | Changing multiplicity changes electronic state and reference occupation. |
-| `resource_limits.walltime_seconds` | 否 | `1800` | integer; min=1; max=172800 | Maximum synchronous wall-clock time allowed for this Action call. | A larger value allows longer calculations but occupies a synchronous worker for longer; backend-specific maximum walltimes still apply. |
+| `resource_limits.walltime_seconds` | 否 | `1800` | integer; min=1; max=7200 | Maximum synchronous wall-clock time allowed for this Action call. | A larger value allows longer calculations but occupies a synchronous worker for longer; backend-specific maximum walltimes still apply. |
 | `resource_limits.memory_mb` | 否 | `null` | integer \| null; min=128 | Requested memory budget in megabytes when the backend supports it. | More memory may enable larger calculations, while excessive per-process memory combined with many CPU processes can exceed the host budget. Null leaves memory allocation to the validated backend adapter. |
-| `resource_limits.cpu_cores` | 否 | `null` | integer \| null; min=1 | Requested CPU process/thread count for the selected backend. | More cores may reduce elapsed time, but scaling is backend- and system-dependent and may increase total memory use. Null uses the adapter's documented single-core or software-managed behavior. |
+| `resource_limits.cpu_cores` | 否 | `null` | integer \| null; min=1; max=48 | Requested CPU process/thread count for the selected backend. | More cores may reduce elapsed time, but scaling is backend- and system-dependent and may increase total memory use. Null uses the adapter's documented single-core or software-managed behavior. |
 | `resource_limits.gpu_count` | 否 | `null` | integer \| null; min=0 | Requested GPU count for a backend that supports GPU execution. | A positive value requests accelerator resources but does not change the selected scientific method. Null leaves GPU allocation unspecified. |
 
 不可控制参数：
@@ -1658,7 +1658,7 @@ Calculate one molecular dipole moment with an explicitly chosen electronic metho
 | `backend_runtime.implementation` | Executable/module implementation: orca. | Executable and module allowlists are operator-installed security and reproducibility boundaries. |
 | `backend_runtime.automatic_fallback` | Automatic fallback to another scientific backend is disabled. | Benchmark provenance requires the declared provider to be executed or to fail explicitly. |
 | `resource_limits.maximum_cpu_cores` | Backend-enforced maximum cpu cores: 48. | The current 64-online-CPU server reserves capacity for the service and exposes at most 48 ORCA MPI processes per synchronous Action. |
-| `resource_limits.maximum_walltime_seconds` | Backend-enforced maximum walltime seconds: 7200. | The current 64-online-CPU server reserves capacity for the service and exposes at most 48 ORCA MPI processes per synchronous Action. |
+| `resource_limits.maximum_walltime_seconds` | Backend-enforced maximum walltime seconds: 7200. | execute_action is synchronous and must finish comfortably inside the MCP client timeout. Long ORCA jobs must be submitted explicitly through the asynchronous software-native layer so their state can be polled without blocking discovery or other Action calls. |
 
 #### Backend `gaussian`
 
@@ -1678,9 +1678,9 @@ Calculate one molecular dipole moment with an explicitly chosen electronic metho
 | `method_spec.charge` | 否 | `null` | integer | Optional molecular charge override. | Changing charge changes electron count and electronic state. |
 | `method_spec.multiplicity` | 否 | `null` | integer | Optional spin multiplicity override. | Changing multiplicity changes electronic state. |
 | `action_settings.scf_convergence` | 是 | —（必须显式提供） | string \| documented structured value | Agent-selected execution setting controlling scf convergence. | A stricter numerical threshold usually improves convergence quality or filtering selectivity but may increase cost or reject more results; interpret the direction according to the selected backend definition. |
-| `resource_limits.walltime_seconds` | 否 | `1800` | integer; min=1; max=172800 | Maximum synchronous wall-clock time allowed for this Action call. | A larger value allows longer calculations but occupies a synchronous worker for longer; backend-specific maximum walltimes still apply. |
+| `resource_limits.walltime_seconds` | 否 | `1800` | integer; min=1; max=1800 | Maximum synchronous wall-clock time allowed for this Action call. | A larger value allows longer calculations but occupies a synchronous worker for longer; backend-specific maximum walltimes still apply. |
 | `resource_limits.memory_mb` | 否 | `null` | integer \| null; min=128 | Requested memory budget in megabytes when the backend supports it. | More memory may enable larger calculations, while excessive per-process memory combined with many CPU processes can exceed the host budget. Null leaves memory allocation to the validated backend adapter. |
-| `resource_limits.cpu_cores` | 否 | `null` | integer \| null; min=1 | Requested CPU process/thread count for the selected backend. | More cores may reduce elapsed time, but scaling is backend- and system-dependent and may increase total memory use. Null uses the adapter's documented single-core or software-managed behavior. |
+| `resource_limits.cpu_cores` | 否 | `null` | integer \| null; min=1; max=48 | Requested CPU process/thread count for the selected backend. | More cores may reduce elapsed time, but scaling is backend- and system-dependent and may increase total memory use. Null uses the adapter's documented single-core or software-managed behavior. |
 | `resource_limits.gpu_count` | 否 | `null` | integer \| null; min=0 | Requested GPU count for a backend that supports GPU execution. | A positive value requests accelerator resources but does not change the selected scientific method. Null leaves GPU allocation unspecified. |
 
 不可控制参数：
@@ -1691,7 +1691,7 @@ Calculate one molecular dipole moment with an explicitly chosen electronic metho
 | `backend_runtime.implementation` | Executable/module implementation: g16, formchk. | Executable and module allowlists are operator-installed security and reproducibility boundaries. |
 | `backend_runtime.automatic_fallback` | Automatic fallback to another scientific backend is disabled. | Benchmark provenance requires the declared provider to be executed or to fail explicitly. |
 | `resource_limits.maximum_cpu_cores` | Backend-enforced maximum cpu cores: 48. | The current 64-online-CPU server reserves capacity for the service and exposes at most 48 Gaussian shared-memory cores per synchronous Action. |
-| `resource_limits.maximum_walltime_seconds` | Backend-enforced maximum walltime seconds: 1800. | The current 64-online-CPU server reserves capacity for the service and exposes at most 48 Gaussian shared-memory cores per synchronous Action. |
+| `resource_limits.maximum_walltime_seconds` | Backend-enforced maximum walltime seconds: 1800. | execute_action is synchronous and shares the MCP service event loop. Gaussian calculations expected to exceed 1800 seconds must be submitted through inspect_software plus submit_native_job so they can be polled without blocking discovery and unrelated tool calls. |
 
 #### Backend `gamess`
 
@@ -1779,7 +1779,7 @@ Calculate molecular electron-isodensity surface area and enclosed volume for an 
 
 #### Backend `multiwfn`
 
-可控参数 8 项；不可控制参数 5 项。
+可控参数 9 项；不可控制参数 5 项。
 
 可控参数：
 
@@ -1788,7 +1788,8 @@ Calculate molecular electron-isodensity surface area and enclosed volume for an 
 | `backend_id` | 是 | —（必须显式提供） | provider id; 可选=["multiwfn"] | 智能体为该 Action 显式选择的科学软件/后端。 | 改变后端可能改变可用方法、数值实现、性能、许可证约束和结果；系统不会自动回退。 |
 | `inputs.density_file` | 是 | —（必须显式提供） | ArtifactRef \| workspace-relative path | Input value for density file. | Changing this value changes the scientific data supplied to the Action. |
 | `action_settings.cutoffs_au` | 是 | —（必须显式提供） | string \| documented structured value | Explicit electron-density isovalue list in atomic units. | Changing this boundary changes which interactions, structures, records, or numerical region are included and may also change cost. |
-| `action_settings.grid_spacing_angstrom` | 是 | —（必须显式提供） | number | Requested real-space grid spacing as currently named by the backend contract. | Finer or more numerous samples can reduce discretization error or increase resolution at greater runtime, memory, and output cost; convergence should be checked. |
+| `action_settings.grid_spacing_bohr` | 是 | —（必须显式提供） | number; min=0.02; max=1.0 | Real-space spacing, in bohr, used by Multiwfn when constructing the electron-isodensity surface grid. | A smaller spacing produces a finer surface grid and usually reduces discretization error, but increases runtime and memory use. Quantitative surface comparisons should verify convergence with at least one finer value. |
+| `action_settings.grid_spacing_angstrom` | 否 | `null` | number \| null; min=0.02; max=1.0 | Deprecated compatibility alias for grid_spacing_bohr. Despite its historical name, its numeric value is interpreted in bohr so existing calls preserve their original numerical behavior. Omit it in new requests. | When supplied alone, it selects exactly the same bohr spacing as the canonical field and emits a deprecation warning. Supplying both fields is rejected. |
 | `resource_limits.walltime_seconds` | 否 | `1800` | integer; min=1; max=172800 | Maximum synchronous wall-clock time allowed for this Action call. | A larger value allows longer calculations but occupies a synchronous worker for longer; backend-specific maximum walltimes still apply. |
 | `resource_limits.memory_mb` | 否 | `null` | integer \| null; min=128 | Requested memory budget in megabytes when the backend supports it. | More memory may enable larger calculations, while excessive per-process memory combined with many CPU processes can exceed the host budget. Null leaves memory allocation to the validated backend adapter. |
 | `resource_limits.cpu_cores` | 否 | `null` | integer \| null; min=1 | Requested CPU process/thread count for the selected backend. | More cores may reduce elapsed time, but scaling is backend- and system-dependent and may increase total memory use. Null uses the adapter's documented single-core or software-managed behavior. |
@@ -1802,7 +1803,7 @@ Calculate molecular electron-isodensity surface area and enclosed volume for an 
 | `backend_runtime.implementation` | Executable/module implementation: Multiwfn_noGUI. | Executable and module allowlists are operator-installed security and reproducibility boundaries. |
 | `backend_runtime.automatic_fallback` | Automatic fallback to another scientific backend is disabled. | Benchmark provenance requires the declared provider to be executed or to fail explicitly. |
 | `backend_runtime.validation_level` | Declared adapter validation level: real_smoke. | Validation status records tested implementation coverage; it is not a per-call scientific parameter. |
-| `backend_runtime.grid_spacing_unit_interpretation` | The existing Multiwfn adapter forwards grid_spacing_angstrom numerically to a menu that interprets the value in bohr. | This legacy contract-name/unit mismatch is preserved for compatibility and is reported explicitly; a separate migration is required before changing numerical semantics. |
+| `backend_runtime.native_grid_spacing_unit` | The installed Multiwfn surface-grid menu accepts grid spacing in bohr. | The software-native unit is fixed by Multiwfn; the public Action exposes it explicitly as action_settings.grid_spacing_bohr. |
 
 ### `calculate_electronic_band_structure`
 
@@ -2163,9 +2164,9 @@ Calculate one molecular or non-periodic scalar energy with the exact software an
 | `method_spec.solvent` | 否 | `null` | string \| documented structured value | Solvent name used when an ORCA solvation model is selected. | Changing solvent changes dielectric/solvation parameters and computed properties. |
 | `method_spec.charge` | 否 | `null` | integer | Optional ORCA molecular charge override. | Changing charge changes electron count and electronic state. |
 | `method_spec.multiplicity` | 否 | `null` | integer | Optional ORCA spin multiplicity override. | Changing multiplicity changes electronic state and reference occupation. |
-| `resource_limits.walltime_seconds` | 否 | `1800` | integer; min=1; max=172800 | Maximum synchronous wall-clock time allowed for this Action call. | A larger value allows longer calculations but occupies a synchronous worker for longer; backend-specific maximum walltimes still apply. |
+| `resource_limits.walltime_seconds` | 否 | `1800` | integer; min=1; max=7200 | Maximum synchronous wall-clock time allowed for this Action call. | A larger value allows longer calculations but occupies a synchronous worker for longer; backend-specific maximum walltimes still apply. |
 | `resource_limits.memory_mb` | 否 | `null` | integer \| null; min=128 | Requested memory budget in megabytes when the backend supports it. | More memory may enable larger calculations, while excessive per-process memory combined with many CPU processes can exceed the host budget. Null leaves memory allocation to the validated backend adapter. |
-| `resource_limits.cpu_cores` | 否 | `null` | integer \| null; min=1 | Requested CPU process/thread count for the selected backend. | More cores may reduce elapsed time, but scaling is backend- and system-dependent and may increase total memory use. Null uses the adapter's documented single-core or software-managed behavior. |
+| `resource_limits.cpu_cores` | 否 | `null` | integer \| null; min=1; max=48 | Requested CPU process/thread count for the selected backend. | More cores may reduce elapsed time, but scaling is backend- and system-dependent and may increase total memory use. Null uses the adapter's documented single-core or software-managed behavior. |
 | `resource_limits.gpu_count` | 否 | `null` | integer \| null; min=0 | Requested GPU count for a backend that supports GPU execution. | A positive value requests accelerator resources but does not change the selected scientific method. Null leaves GPU allocation unspecified. |
 
 不可控制参数：
@@ -2176,7 +2177,7 @@ Calculate one molecular or non-periodic scalar energy with the exact software an
 | `backend_runtime.implementation` | Executable/module implementation: orca. | Executable and module allowlists are operator-installed security and reproducibility boundaries. |
 | `backend_runtime.automatic_fallback` | Automatic fallback to another scientific backend is disabled. | Benchmark provenance requires the declared provider to be executed or to fail explicitly. |
 | `resource_limits.maximum_cpu_cores` | Backend-enforced maximum cpu cores: 48. | The current 64-online-CPU server reserves capacity for the service and exposes at most 48 ORCA MPI processes per synchronous Action. |
-| `resource_limits.maximum_walltime_seconds` | Backend-enforced maximum walltime seconds: 7200. | The current 64-online-CPU server reserves capacity for the service and exposes at most 48 ORCA MPI processes per synchronous Action. |
+| `resource_limits.maximum_walltime_seconds` | Backend-enforced maximum walltime seconds: 7200. | execute_action is synchronous and must finish comfortably inside the MCP client timeout. Long ORCA jobs must be submitted explicitly through the asynchronous software-native layer so their state can be polled without blocking discovery or other Action calls. |
 
 #### Backend `gaussian`
 
@@ -2196,9 +2197,9 @@ Calculate one molecular or non-periodic scalar energy with the exact software an
 | `method_spec.charge` | 否 | `null` | integer | Optional molecular charge override. | Changing charge changes electron count and electronic state. |
 | `method_spec.multiplicity` | 否 | `null` | integer | Optional spin multiplicity override. | Changing multiplicity changes electronic state. |
 | `action_settings.scf_convergence` | 是 | —（必须显式提供） | string \| documented structured value | Agent-selected execution setting controlling scf convergence. | A stricter numerical threshold usually improves convergence quality or filtering selectivity but may increase cost or reject more results; interpret the direction according to the selected backend definition. |
-| `resource_limits.walltime_seconds` | 否 | `1800` | integer; min=1; max=172800 | Maximum synchronous wall-clock time allowed for this Action call. | A larger value allows longer calculations but occupies a synchronous worker for longer; backend-specific maximum walltimes still apply. |
+| `resource_limits.walltime_seconds` | 否 | `1800` | integer; min=1; max=1800 | Maximum synchronous wall-clock time allowed for this Action call. | A larger value allows longer calculations but occupies a synchronous worker for longer; backend-specific maximum walltimes still apply. |
 | `resource_limits.memory_mb` | 否 | `null` | integer \| null; min=128 | Requested memory budget in megabytes when the backend supports it. | More memory may enable larger calculations, while excessive per-process memory combined with many CPU processes can exceed the host budget. Null leaves memory allocation to the validated backend adapter. |
-| `resource_limits.cpu_cores` | 否 | `null` | integer \| null; min=1 | Requested CPU process/thread count for the selected backend. | More cores may reduce elapsed time, but scaling is backend- and system-dependent and may increase total memory use. Null uses the adapter's documented single-core or software-managed behavior. |
+| `resource_limits.cpu_cores` | 否 | `null` | integer \| null; min=1; max=48 | Requested CPU process/thread count for the selected backend. | More cores may reduce elapsed time, but scaling is backend- and system-dependent and may increase total memory use. Null uses the adapter's documented single-core or software-managed behavior. |
 | `resource_limits.gpu_count` | 否 | `null` | integer \| null; min=0 | Requested GPU count for a backend that supports GPU execution. | A positive value requests accelerator resources but does not change the selected scientific method. Null leaves GPU allocation unspecified. |
 
 不可控制参数：
@@ -2209,7 +2210,7 @@ Calculate one molecular or non-periodic scalar energy with the exact software an
 | `backend_runtime.implementation` | Executable/module implementation: g16, formchk. | Executable and module allowlists are operator-installed security and reproducibility boundaries. |
 | `backend_runtime.automatic_fallback` | Automatic fallback to another scientific backend is disabled. | Benchmark provenance requires the declared provider to be executed or to fail explicitly. |
 | `resource_limits.maximum_cpu_cores` | Backend-enforced maximum cpu cores: 48. | The current 64-online-CPU server reserves capacity for the service and exposes at most 48 Gaussian shared-memory cores per synchronous Action. |
-| `resource_limits.maximum_walltime_seconds` | Backend-enforced maximum walltime seconds: 1800. | The current 64-online-CPU server reserves capacity for the service and exposes at most 48 Gaussian shared-memory cores per synchronous Action. |
+| `resource_limits.maximum_walltime_seconds` | Backend-enforced maximum walltime seconds: 1800. | execute_action is synchronous and shares the MCP service event loop. Gaussian calculations expected to exceed 1800 seconds must be submitted through inspect_software plus submit_native_job so they can be polled without blocking discovery and unrelated tool calls. |
 
 #### Backend `gamess`
 
@@ -2333,9 +2334,9 @@ Calculate a bounded set of vertical electronic excited states without constructi
 | `action_settings.spin_symmetry` | 是 | —（必须显式提供） | string \| documented structured value | Agent-selected execution setting controlling spin symmetry. | Changing this value changes the named Action behavior or numerical result. |
 | `action_settings.excited_energy_tolerance_hartree` | 是 | —（必须显式提供） | number | Agent-selected execution setting controlling excited energy tolerance hartree. | A stricter numerical threshold usually improves convergence quality or filtering selectivity but may increase cost or reject more results; interpret the direction according to the selected backend definition. |
 | `action_settings.residual_tolerance` | 是 | —（必须显式提供） | number | Agent-selected execution setting controlling residual tolerance. | A stricter numerical threshold usually improves convergence quality or filtering selectivity but may increase cost or reject more results; interpret the direction according to the selected backend definition. |
-| `resource_limits.walltime_seconds` | 否 | `1800` | integer; min=1; max=172800 | Maximum synchronous wall-clock time allowed for this Action call. | A larger value allows longer calculations but occupies a synchronous worker for longer; backend-specific maximum walltimes still apply. |
+| `resource_limits.walltime_seconds` | 否 | `1800` | integer; min=1; max=7200 | Maximum synchronous wall-clock time allowed for this Action call. | A larger value allows longer calculations but occupies a synchronous worker for longer; backend-specific maximum walltimes still apply. |
 | `resource_limits.memory_mb` | 否 | `null` | integer \| null; min=128 | Requested memory budget in megabytes when the backend supports it. | More memory may enable larger calculations, while excessive per-process memory combined with many CPU processes can exceed the host budget. Null leaves memory allocation to the validated backend adapter. |
-| `resource_limits.cpu_cores` | 否 | `null` | integer \| null; min=1 | Requested CPU process/thread count for the selected backend. | More cores may reduce elapsed time, but scaling is backend- and system-dependent and may increase total memory use. Null uses the adapter's documented single-core or software-managed behavior. |
+| `resource_limits.cpu_cores` | 否 | `null` | integer \| null; min=1; max=48 | Requested CPU process/thread count for the selected backend. | More cores may reduce elapsed time, but scaling is backend- and system-dependent and may increase total memory use. Null uses the adapter's documented single-core or software-managed behavior. |
 | `resource_limits.gpu_count` | 否 | `null` | integer \| null; min=0 | Requested GPU count for a backend that supports GPU execution. | A positive value requests accelerator resources but does not change the selected scientific method. Null leaves GPU allocation unspecified. |
 
 不可控制参数：
@@ -2346,7 +2347,7 @@ Calculate a bounded set of vertical electronic excited states without constructi
 | `backend_runtime.implementation` | Executable/module implementation: orca. | Executable and module allowlists are operator-installed security and reproducibility boundaries. |
 | `backend_runtime.automatic_fallback` | Automatic fallback to another scientific backend is disabled. | Benchmark provenance requires the declared provider to be executed or to fail explicitly. |
 | `resource_limits.maximum_cpu_cores` | Backend-enforced maximum cpu cores: 48. | The current 64-online-CPU server reserves capacity for the service and exposes at most 48 ORCA MPI processes per synchronous Action. |
-| `resource_limits.maximum_walltime_seconds` | Backend-enforced maximum walltime seconds: 7200. | The current 64-online-CPU server reserves capacity for the service and exposes at most 48 ORCA MPI processes per synchronous Action. |
+| `resource_limits.maximum_walltime_seconds` | Backend-enforced maximum walltime seconds: 7200. | execute_action is synchronous and must finish comfortably inside the MCP client timeout. Long ORCA jobs must be submitted explicitly through the asynchronous software-native layer so their state can be polled without blocking discovery or other Action calls. |
 
 ### `calculate_force_field_energy`
 
@@ -2656,9 +2657,9 @@ Calculate atomic forces for one non-periodic structure or an aligned batch.
 | `method_spec.solvent` | 否 | `null` | string \| documented structured value | Solvent name used when an ORCA solvation model is selected. | Changing solvent changes dielectric/solvation parameters and computed properties. |
 | `method_spec.charge` | 否 | `null` | integer | Optional ORCA molecular charge override. | Changing charge changes electron count and electronic state. |
 | `method_spec.multiplicity` | 否 | `null` | integer | Optional ORCA spin multiplicity override. | Changing multiplicity changes electronic state and reference occupation. |
-| `resource_limits.walltime_seconds` | 否 | `1800` | integer; min=1; max=172800 | Maximum synchronous wall-clock time allowed for this Action call. | A larger value allows longer calculations but occupies a synchronous worker for longer; backend-specific maximum walltimes still apply. |
+| `resource_limits.walltime_seconds` | 否 | `1800` | integer; min=1; max=7200 | Maximum synchronous wall-clock time allowed for this Action call. | A larger value allows longer calculations but occupies a synchronous worker for longer; backend-specific maximum walltimes still apply. |
 | `resource_limits.memory_mb` | 否 | `null` | integer \| null; min=128 | Requested memory budget in megabytes when the backend supports it. | More memory may enable larger calculations, while excessive per-process memory combined with many CPU processes can exceed the host budget. Null leaves memory allocation to the validated backend adapter. |
-| `resource_limits.cpu_cores` | 否 | `null` | integer \| null; min=1 | Requested CPU process/thread count for the selected backend. | More cores may reduce elapsed time, but scaling is backend- and system-dependent and may increase total memory use. Null uses the adapter's documented single-core or software-managed behavior. |
+| `resource_limits.cpu_cores` | 否 | `null` | integer \| null; min=1; max=48 | Requested CPU process/thread count for the selected backend. | More cores may reduce elapsed time, but scaling is backend- and system-dependent and may increase total memory use. Null uses the adapter's documented single-core or software-managed behavior. |
 | `resource_limits.gpu_count` | 否 | `null` | integer \| null; min=0 | Requested GPU count for a backend that supports GPU execution. | A positive value requests accelerator resources but does not change the selected scientific method. Null leaves GPU allocation unspecified. |
 
 不可控制参数：
@@ -2669,7 +2670,7 @@ Calculate atomic forces for one non-periodic structure or an aligned batch.
 | `backend_runtime.implementation` | Executable/module implementation: orca. | Executable and module allowlists are operator-installed security and reproducibility boundaries. |
 | `backend_runtime.automatic_fallback` | Automatic fallback to another scientific backend is disabled. | Benchmark provenance requires the declared provider to be executed or to fail explicitly. |
 | `resource_limits.maximum_cpu_cores` | Backend-enforced maximum cpu cores: 48. | The current 64-online-CPU server reserves capacity for the service and exposes at most 48 ORCA MPI processes per synchronous Action. |
-| `resource_limits.maximum_walltime_seconds` | Backend-enforced maximum walltime seconds: 7200. | The current 64-online-CPU server reserves capacity for the service and exposes at most 48 ORCA MPI processes per synchronous Action. |
+| `resource_limits.maximum_walltime_seconds` | Backend-enforced maximum walltime seconds: 7200. | execute_action is synchronous and must finish comfortably inside the MCP client timeout. Long ORCA jobs must be submitted explicitly through the asynchronous software-native layer so their state can be polled without blocking discovery or other Action calls. |
 
 #### Backend `mace`
 
@@ -3005,9 +3006,9 @@ Calculate one molecular Hessian without deriving modes, spectra, or thermochemis
 | `method_spec.solvent` | 否 | `null` | string \| documented structured value | Solvent name used when an ORCA solvation model is selected. | Changing solvent changes dielectric/solvation parameters and computed properties. |
 | `method_spec.charge` | 否 | `null` | integer | Optional ORCA molecular charge override. | Changing charge changes electron count and electronic state. |
 | `method_spec.multiplicity` | 否 | `null` | integer | Optional ORCA spin multiplicity override. | Changing multiplicity changes electronic state and reference occupation. |
-| `resource_limits.walltime_seconds` | 否 | `1800` | integer; min=1; max=172800 | Maximum synchronous wall-clock time allowed for this Action call. | A larger value allows longer calculations but occupies a synchronous worker for longer; backend-specific maximum walltimes still apply. |
+| `resource_limits.walltime_seconds` | 否 | `1800` | integer; min=1; max=7200 | Maximum synchronous wall-clock time allowed for this Action call. | A larger value allows longer calculations but occupies a synchronous worker for longer; backend-specific maximum walltimes still apply. |
 | `resource_limits.memory_mb` | 否 | `null` | integer \| null; min=128 | Requested memory budget in megabytes when the backend supports it. | More memory may enable larger calculations, while excessive per-process memory combined with many CPU processes can exceed the host budget. Null leaves memory allocation to the validated backend adapter. |
-| `resource_limits.cpu_cores` | 否 | `null` | integer \| null; min=1 | Requested CPU process/thread count for the selected backend. | More cores may reduce elapsed time, but scaling is backend- and system-dependent and may increase total memory use. Null uses the adapter's documented single-core or software-managed behavior. |
+| `resource_limits.cpu_cores` | 否 | `null` | integer \| null; min=1; max=48 | Requested CPU process/thread count for the selected backend. | More cores may reduce elapsed time, but scaling is backend- and system-dependent and may increase total memory use. Null uses the adapter's documented single-core or software-managed behavior. |
 | `resource_limits.gpu_count` | 否 | `null` | integer \| null; min=0 | Requested GPU count for a backend that supports GPU execution. | A positive value requests accelerator resources but does not change the selected scientific method. Null leaves GPU allocation unspecified. |
 
 不可控制参数：
@@ -3018,7 +3019,7 @@ Calculate one molecular Hessian without deriving modes, spectra, or thermochemis
 | `backend_runtime.implementation` | Executable/module implementation: orca. | Executable and module allowlists are operator-installed security and reproducibility boundaries. |
 | `backend_runtime.automatic_fallback` | Automatic fallback to another scientific backend is disabled. | Benchmark provenance requires the declared provider to be executed or to fail explicitly. |
 | `resource_limits.maximum_cpu_cores` | Backend-enforced maximum cpu cores: 48. | The current 64-online-CPU server reserves capacity for the service and exposes at most 48 ORCA MPI processes per synchronous Action. |
-| `resource_limits.maximum_walltime_seconds` | Backend-enforced maximum walltime seconds: 7200. | The current 64-online-CPU server reserves capacity for the service and exposes at most 48 ORCA MPI processes per synchronous Action. |
+| `resource_limits.maximum_walltime_seconds` | Backend-enforced maximum walltime seconds: 7200. | execute_action is synchronous and must finish comfortably inside the MCP client timeout. Long ORCA jobs must be submitted explicitly through the asynchronous software-native layer so their state can be polled without blocking discovery or other Action calls. |
 
 #### Backend `gaussian`
 
@@ -3038,9 +3039,9 @@ Calculate one molecular Hessian without deriving modes, spectra, or thermochemis
 | `method_spec.charge` | 否 | `null` | integer | Optional molecular charge override. | Changing charge changes electron count and electronic state. |
 | `method_spec.multiplicity` | 否 | `null` | integer | Optional spin multiplicity override. | Changing multiplicity changes electronic state. |
 | `action_settings.scf_convergence` | 是 | —（必须显式提供） | string \| documented structured value | Agent-selected execution setting controlling scf convergence. | A stricter numerical threshold usually improves convergence quality or filtering selectivity but may increase cost or reject more results; interpret the direction according to the selected backend definition. |
-| `resource_limits.walltime_seconds` | 否 | `1800` | integer; min=1; max=172800 | Maximum synchronous wall-clock time allowed for this Action call. | A larger value allows longer calculations but occupies a synchronous worker for longer; backend-specific maximum walltimes still apply. |
+| `resource_limits.walltime_seconds` | 否 | `1800` | integer; min=1; max=1800 | Maximum synchronous wall-clock time allowed for this Action call. | A larger value allows longer calculations but occupies a synchronous worker for longer; backend-specific maximum walltimes still apply. |
 | `resource_limits.memory_mb` | 否 | `null` | integer \| null; min=128 | Requested memory budget in megabytes when the backend supports it. | More memory may enable larger calculations, while excessive per-process memory combined with many CPU processes can exceed the host budget. Null leaves memory allocation to the validated backend adapter. |
-| `resource_limits.cpu_cores` | 否 | `null` | integer \| null; min=1 | Requested CPU process/thread count for the selected backend. | More cores may reduce elapsed time, but scaling is backend- and system-dependent and may increase total memory use. Null uses the adapter's documented single-core or software-managed behavior. |
+| `resource_limits.cpu_cores` | 否 | `null` | integer \| null; min=1; max=48 | Requested CPU process/thread count for the selected backend. | More cores may reduce elapsed time, but scaling is backend- and system-dependent and may increase total memory use. Null uses the adapter's documented single-core or software-managed behavior. |
 | `resource_limits.gpu_count` | 否 | `null` | integer \| null; min=0 | Requested GPU count for a backend that supports GPU execution. | A positive value requests accelerator resources but does not change the selected scientific method. Null leaves GPU allocation unspecified. |
 
 不可控制参数：
@@ -3051,7 +3052,7 @@ Calculate one molecular Hessian without deriving modes, spectra, or thermochemis
 | `backend_runtime.implementation` | Executable/module implementation: g16, formchk. | Executable and module allowlists are operator-installed security and reproducibility boundaries. |
 | `backend_runtime.automatic_fallback` | Automatic fallback to another scientific backend is disabled. | Benchmark provenance requires the declared provider to be executed or to fail explicitly. |
 | `resource_limits.maximum_cpu_cores` | Backend-enforced maximum cpu cores: 48. | The current 64-online-CPU server reserves capacity for the service and exposes at most 48 Gaussian shared-memory cores per synchronous Action. |
-| `resource_limits.maximum_walltime_seconds` | Backend-enforced maximum walltime seconds: 1800. | The current 64-online-CPU server reserves capacity for the service and exposes at most 48 Gaussian shared-memory cores per synchronous Action. |
+| `resource_limits.maximum_walltime_seconds` | Backend-enforced maximum walltime seconds: 1800. | execute_action is synchronous and shares the MCP service event loop. Gaussian calculations expected to exceed 1800 seconds must be submitted through inspect_software plus submit_native_job so they can be polled without blocking discovery and unrelated tool calls. |
 
 #### Backend `mace`
 
@@ -3550,9 +3551,9 @@ Calculate orbital energies, occupations, and optional coefficient artifacts.
 | `method_spec.solvent` | 否 | `null` | string \| documented structured value | Solvent name used when an ORCA solvation model is selected. | Changing solvent changes dielectric/solvation parameters and computed properties. |
 | `method_spec.charge` | 否 | `null` | integer | Optional ORCA molecular charge override. | Changing charge changes electron count and electronic state. |
 | `method_spec.multiplicity` | 否 | `null` | integer | Optional ORCA spin multiplicity override. | Changing multiplicity changes electronic state and reference occupation. |
-| `resource_limits.walltime_seconds` | 否 | `1800` | integer; min=1; max=172800 | Maximum synchronous wall-clock time allowed for this Action call. | A larger value allows longer calculations but occupies a synchronous worker for longer; backend-specific maximum walltimes still apply. |
+| `resource_limits.walltime_seconds` | 否 | `1800` | integer; min=1; max=7200 | Maximum synchronous wall-clock time allowed for this Action call. | A larger value allows longer calculations but occupies a synchronous worker for longer; backend-specific maximum walltimes still apply. |
 | `resource_limits.memory_mb` | 否 | `null` | integer \| null; min=128 | Requested memory budget in megabytes when the backend supports it. | More memory may enable larger calculations, while excessive per-process memory combined with many CPU processes can exceed the host budget. Null leaves memory allocation to the validated backend adapter. |
-| `resource_limits.cpu_cores` | 否 | `null` | integer \| null; min=1 | Requested CPU process/thread count for the selected backend. | More cores may reduce elapsed time, but scaling is backend- and system-dependent and may increase total memory use. Null uses the adapter's documented single-core or software-managed behavior. |
+| `resource_limits.cpu_cores` | 否 | `null` | integer \| null; min=1; max=48 | Requested CPU process/thread count for the selected backend. | More cores may reduce elapsed time, but scaling is backend- and system-dependent and may increase total memory use. Null uses the adapter's documented single-core or software-managed behavior. |
 | `resource_limits.gpu_count` | 否 | `null` | integer \| null; min=0 | Requested GPU count for a backend that supports GPU execution. | A positive value requests accelerator resources but does not change the selected scientific method. Null leaves GPU allocation unspecified. |
 
 不可控制参数：
@@ -3563,7 +3564,7 @@ Calculate orbital energies, occupations, and optional coefficient artifacts.
 | `backend_runtime.implementation` | Executable/module implementation: orca. | Executable and module allowlists are operator-installed security and reproducibility boundaries. |
 | `backend_runtime.automatic_fallback` | Automatic fallback to another scientific backend is disabled. | Benchmark provenance requires the declared provider to be executed or to fail explicitly. |
 | `resource_limits.maximum_cpu_cores` | Backend-enforced maximum cpu cores: 48. | The current 64-online-CPU server reserves capacity for the service and exposes at most 48 ORCA MPI processes per synchronous Action. |
-| `resource_limits.maximum_walltime_seconds` | Backend-enforced maximum walltime seconds: 7200. | The current 64-online-CPU server reserves capacity for the service and exposes at most 48 ORCA MPI processes per synchronous Action. |
+| `resource_limits.maximum_walltime_seconds` | Backend-enforced maximum walltime seconds: 7200. | execute_action is synchronous and must finish comfortably inside the MCP client timeout. Long ORCA jobs must be submitted explicitly through the asynchronous software-native layer so their state can be polled without blocking discovery or other Action calls. |
 
 ### `calculate_periodic_energy`
 
@@ -5767,7 +5768,7 @@ Export a previously calculated ORCA electron density to an explicitly selected W
 
 #### Backend `orca`
 
-可控参数 9 项；不可控制参数 6 项。
+可控参数 11 项；不可控制参数 7 项。
 
 可控参数：
 
@@ -5778,9 +5779,11 @@ Export a previously calculated ORCA electron density to an explicitly selected W
 | `action_settings.density_source` | 是 | —（必须显式提供） | string \| documented structured value; 可选=["scf","relaxed_mp2","mdci"] | Named electronic density stored by the preceding calculation. | Changing this value changes the named Action behavior or numerical result. |
 | `action_settings.output_format` | 是 | —（必须显式提供） | string \| documented structured value; 可选=["wfn","wfx","cube"] | Agent-selected representation or serialization format for the result. | Changing this value changes the named Action behavior or numerical result. |
 | `action_settings.grid_points_per_axis` | 否 | `300` | integer; min=20; max=400 | Number of ORCA cube grid points along each Cartesian axis when exporting an MDCI/CCSD density. | Larger values reduce density discretization and isosurface-area error but increase time, memory, and cube size approximately with the cube of this value. Fixed point counts also give coarser voxels for larger molecular boxes, so quantitative work should verify convergence. |
-| `resource_limits.walltime_seconds` | 否 | `1800` | integer; min=1; max=172800 | Maximum synchronous wall-clock time allowed for this Action call. | A larger value allows longer calculations but occupies a synchronous worker for longer; backend-specific maximum walltimes still apply. |
+| `action_settings.electron_count_tolerance_percent` | 否 | `0.2` | number; min=0.001; max=10.0 | Maximum allowed relative difference between the integrated cube density and the source density's expected electron count. | A smaller tolerance rejects or warns about more discretization loss; a larger tolerance accepts coarser cubes but may allow isosurface-area bias large enough to change close method rankings. |
+| `action_settings.strict_electron_count_validation` | 否 | `false` | boolean | Whether an electron-count error above the selected tolerance makes the cube export fail instead of returning it with a warning. | Enabling strict validation prevents downstream use of a demonstrably under-resolved cube. Disabling it preserves exploratory workflows but requires the Agent to treat the warning as numerical uncertainty. |
+| `resource_limits.walltime_seconds` | 否 | `1800` | integer; min=1; max=7200 | Maximum synchronous wall-clock time allowed for this Action call. | A larger value allows longer calculations but occupies a synchronous worker for longer; backend-specific maximum walltimes still apply. |
 | `resource_limits.memory_mb` | 否 | `null` | integer \| null; min=128 | Requested memory budget in megabytes when the backend supports it. | More memory may enable larger calculations, while excessive per-process memory combined with many CPU processes can exceed the host budget. Null leaves memory allocation to the validated backend adapter. |
-| `resource_limits.cpu_cores` | 否 | `null` | integer \| null; min=1 | Requested CPU process/thread count for the selected backend. | More cores may reduce elapsed time, but scaling is backend- and system-dependent and may increase total memory use. Null uses the adapter's documented single-core or software-managed behavior. |
+| `resource_limits.cpu_cores` | 否 | `null` | integer \| null; min=1; max=48 | Requested CPU process/thread count for the selected backend. | More cores may reduce elapsed time, but scaling is backend- and system-dependent and may increase total memory use. Null uses the adapter's documented single-core or software-managed behavior. |
 | `resource_limits.gpu_count` | 否 | `null` | integer \| null; min=0 | Requested GPU count for a backend that supports GPU execution. | A positive value requests accelerator resources but does not change the selected scientific method. Null leaves GPU allocation unspecified. |
 
 不可控制参数：
@@ -5791,8 +5794,9 @@ Export a previously calculated ORCA electron density to an explicitly selected W
 | `backend_runtime.implementation` | Executable/module implementation: orca. | Executable and module allowlists are operator-installed security and reproducibility boundaries. |
 | `backend_runtime.automatic_fallback` | Automatic fallback to another scientific backend is disabled. | Benchmark provenance requires the declared provider to be executed or to fail explicitly. |
 | `resource_limits.maximum_cpu_cores` | Backend-enforced maximum cpu cores: 48. | The current 64-online-CPU server reserves capacity for the service and exposes at most 48 ORCA MPI processes per synchronous Action. |
-| `resource_limits.maximum_walltime_seconds` | Backend-enforced maximum walltime seconds: 7200. | The current 64-online-CPU server reserves capacity for the service and exposes at most 48 ORCA MPI processes per synchronous Action. |
+| `resource_limits.maximum_walltime_seconds` | Backend-enforced maximum walltime seconds: 7200. | execute_action is synchronous and must finish comfortably inside the MCP client timeout. Long ORCA jobs must be submitted explicitly through the asynchronous software-native layer so their state can be polled without blocking discovery or other Action calls. |
 | `backend_runtime.cube_boundary_selection` | ORCA orca_plot determines the density-cube bounding box from the calculated molecular density and its internal padding policy. | The installed interactive orca_plot adapter currently exposes grid resolution but not an independently typed bounding-box override. |
+| `backend_runtime.cube_export_parallelism` | The installed ORCA orca_plot MDCI cube exporter runs as one process; resource_limits.cpu_cores does not parallelize this export stage. | orca_plot does not expose a validated parallel cube-export control. Use sufficient walltime, and parallelize independent molecule exports as separate jobs when server capacity permits. |
 
 ### `generate_3d_structure`
 
@@ -6070,9 +6074,9 @@ Locate one candidate transition-state structure without automatically running fr
 | `action_settings.convergence` | 是 | —（必须显式提供） | string \| documented structured value; 可选=["nwchem_loose","gau_loose","gau","gau_tight","gau_vtight","baker","never"] | Agent-selected execution setting controlling convergence. | A stricter numerical threshold usually improves convergence quality or filtering selectivity but may increase cost or reject more results; interpret the direction according to the selected backend definition. |
 | `action_settings.max_cycles` | 是 | —（必须显式提供） | integer | Maximum number of solver or optimizer cycles. | A larger bound allows more search, iteration, or returned records and can increase runtime and output size; it does not guarantee convergence or higher scientific quality. |
 | `action_settings.hessian_init` | 是 | —（必须显式提供） | string \| documented structured value; 可选=["calc","unit","fischer","lindh","simple","swart","xtb","xtb1","xtbff"] | explicit pysisyphus initial-Hessian strategy; calc requests an exact Hessian, whereas unit/fischer/lindh/simple/swart/xtb/xtb1/xtbff select the named model | Changing this value changes the named Action behavior or numerical result. |
-| `resource_limits.walltime_seconds` | 否 | `1800` | integer; min=1; max=172800 | Maximum synchronous wall-clock time allowed for this Action call. | A larger value allows longer calculations but occupies a synchronous worker for longer; backend-specific maximum walltimes still apply. |
+| `resource_limits.walltime_seconds` | 否 | `1800` | integer; min=1; max=7200 | Maximum synchronous wall-clock time allowed for this Action call. | A larger value allows longer calculations but occupies a synchronous worker for longer; backend-specific maximum walltimes still apply. |
 | `resource_limits.memory_mb` | 否 | `null` | integer \| null; min=128 | Requested memory budget in megabytes when the backend supports it. | More memory may enable larger calculations, while excessive per-process memory combined with many CPU processes can exceed the host budget. Null leaves memory allocation to the validated backend adapter. |
-| `resource_limits.cpu_cores` | 否 | `null` | integer \| null; min=1 | Requested CPU process/thread count for the selected backend. | More cores may reduce elapsed time, but scaling is backend- and system-dependent and may increase total memory use. Null uses the adapter's documented single-core or software-managed behavior. |
+| `resource_limits.cpu_cores` | 否 | `null` | integer \| null; min=1; max=48 | Requested CPU process/thread count for the selected backend. | More cores may reduce elapsed time, but scaling is backend- and system-dependent and may increase total memory use. Null uses the adapter's documented single-core or software-managed behavior. |
 | `resource_limits.gpu_count` | 否 | `null` | integer \| null; min=0 | Requested GPU count for a backend that supports GPU execution. | A positive value requests accelerator resources but does not change the selected scientific method. Null leaves GPU allocation unspecified. |
 
 不可控制参数：
@@ -6083,7 +6087,7 @@ Locate one candidate transition-state structure without automatically running fr
 | `backend_runtime.implementation` | Executable/module implementation: pysis. | Executable and module allowlists are operator-installed security and reproducibility boundaries. |
 | `backend_runtime.automatic_fallback` | Automatic fallback to another scientific backend is disabled. | Benchmark provenance requires the declared provider to be executed or to fail explicitly. |
 | `resource_limits.maximum_cpu_cores` | Backend-enforced maximum cpu cores: 48. | Calculator processes/threads remain exactly Agent-selected, capped at 48 on this server. |
-| `resource_limits.maximum_walltime_seconds` | Backend-enforced maximum walltime seconds: 7200. | Calculator processes/threads remain exactly Agent-selected, capped at 48 on this server. |
+| `resource_limits.maximum_walltime_seconds` | Backend-enforced maximum walltime seconds: 7200. | Operator-defined backend resource safety cap. |
 
 条件要求：
 
@@ -6688,9 +6692,9 @@ Optimize one non-periodic geometry and return the optimized structure only as th
 | `method_spec.multiplicity` | 否 | `null` | integer | Optional ORCA spin multiplicity override. | Changing multiplicity changes electronic state and reference occupation. |
 | `action_settings.optimization_convergence` | 是 | —（必须显式提供） | string \| documented structured value; 可选=["Loose","Normal","Tight","VeryTight"] | Agent-selected execution setting controlling optimization convergence. | A stricter numerical threshold usually improves convergence quality or filtering selectivity but may increase cost or reject more results; interpret the direction according to the selected backend definition. |
 | `action_settings.max_steps` | 是 | —（必须显式提供） | integer | Maximum number of optimization, dynamics, or iteration steps. | A larger bound allows more search, iteration, or returned records and can increase runtime and output size; it does not guarantee convergence or higher scientific quality. |
-| `resource_limits.walltime_seconds` | 否 | `1800` | integer; min=1; max=172800 | Maximum synchronous wall-clock time allowed for this Action call. | A larger value allows longer calculations but occupies a synchronous worker for longer; backend-specific maximum walltimes still apply. |
+| `resource_limits.walltime_seconds` | 否 | `1800` | integer; min=1; max=7200 | Maximum synchronous wall-clock time allowed for this Action call. | A larger value allows longer calculations but occupies a synchronous worker for longer; backend-specific maximum walltimes still apply. |
 | `resource_limits.memory_mb` | 否 | `null` | integer \| null; min=128 | Requested memory budget in megabytes when the backend supports it. | More memory may enable larger calculations, while excessive per-process memory combined with many CPU processes can exceed the host budget. Null leaves memory allocation to the validated backend adapter. |
-| `resource_limits.cpu_cores` | 否 | `null` | integer \| null; min=1 | Requested CPU process/thread count for the selected backend. | More cores may reduce elapsed time, but scaling is backend- and system-dependent and may increase total memory use. Null uses the adapter's documented single-core or software-managed behavior. |
+| `resource_limits.cpu_cores` | 否 | `null` | integer \| null; min=1; max=48 | Requested CPU process/thread count for the selected backend. | More cores may reduce elapsed time, but scaling is backend- and system-dependent and may increase total memory use. Null uses the adapter's documented single-core or software-managed behavior. |
 | `resource_limits.gpu_count` | 否 | `null` | integer \| null; min=0 | Requested GPU count for a backend that supports GPU execution. | A positive value requests accelerator resources but does not change the selected scientific method. Null leaves GPU allocation unspecified. |
 
 不可控制参数：
@@ -6701,7 +6705,7 @@ Optimize one non-periodic geometry and return the optimized structure only as th
 | `backend_runtime.implementation` | Executable/module implementation: orca. | Executable and module allowlists are operator-installed security and reproducibility boundaries. |
 | `backend_runtime.automatic_fallback` | Automatic fallback to another scientific backend is disabled. | Benchmark provenance requires the declared provider to be executed or to fail explicitly. |
 | `resource_limits.maximum_cpu_cores` | Backend-enforced maximum cpu cores: 48. | The current 64-online-CPU server reserves capacity for the service and exposes at most 48 ORCA MPI processes per synchronous Action. |
-| `resource_limits.maximum_walltime_seconds` | Backend-enforced maximum walltime seconds: 7200. | The current 64-online-CPU server reserves capacity for the service and exposes at most 48 ORCA MPI processes per synchronous Action. |
+| `resource_limits.maximum_walltime_seconds` | Backend-enforced maximum walltime seconds: 7200. | execute_action is synchronous and must finish comfortably inside the MCP client timeout. Long ORCA jobs must be submitted explicitly through the asynchronous software-native layer so their state can be polled without blocking discovery or other Action calls. |
 
 #### Backend `gaussian`
 
@@ -6724,9 +6728,9 @@ Optimize one non-periodic geometry and return the optimized structure only as th
 | `action_settings.scf_convergence` | 是 | —（必须显式提供） | string \| documented structured value; 可选=["Loose","Tight","VeryTight"] | Agent-selected execution setting controlling scf convergence. | A stricter numerical threshold usually improves convergence quality or filtering selectivity but may increase cost or reject more results; interpret the direction according to the selected backend definition. |
 | `action_settings.optimization_convergence` | 是 | —（必须显式提供） | string \| documented structured value; 可选=["Loose","Tight","VeryTight"] | Agent-selected execution setting controlling optimization convergence. | A stricter numerical threshold usually improves convergence quality or filtering selectivity but may increase cost or reject more results; interpret the direction according to the selected backend definition. |
 | `action_settings.max_steps` | 是 | —（必须显式提供） | integer | Maximum number of optimization, dynamics, or iteration steps. | A larger bound allows more search, iteration, or returned records and can increase runtime and output size; it does not guarantee convergence or higher scientific quality. |
-| `resource_limits.walltime_seconds` | 否 | `1800` | integer; min=1; max=172800 | Maximum synchronous wall-clock time allowed for this Action call. | A larger value allows longer calculations but occupies a synchronous worker for longer; backend-specific maximum walltimes still apply. |
+| `resource_limits.walltime_seconds` | 否 | `1800` | integer; min=1; max=1800 | Maximum synchronous wall-clock time allowed for this Action call. | A larger value allows longer calculations but occupies a synchronous worker for longer; backend-specific maximum walltimes still apply. |
 | `resource_limits.memory_mb` | 否 | `null` | integer \| null; min=128 | Requested memory budget in megabytes when the backend supports it. | More memory may enable larger calculations, while excessive per-process memory combined with many CPU processes can exceed the host budget. Null leaves memory allocation to the validated backend adapter. |
-| `resource_limits.cpu_cores` | 否 | `null` | integer \| null; min=1 | Requested CPU process/thread count for the selected backend. | More cores may reduce elapsed time, but scaling is backend- and system-dependent and may increase total memory use. Null uses the adapter's documented single-core or software-managed behavior. |
+| `resource_limits.cpu_cores` | 否 | `null` | integer \| null; min=1; max=48 | Requested CPU process/thread count for the selected backend. | More cores may reduce elapsed time, but scaling is backend- and system-dependent and may increase total memory use. Null uses the adapter's documented single-core or software-managed behavior. |
 | `resource_limits.gpu_count` | 否 | `null` | integer \| null; min=0 | Requested GPU count for a backend that supports GPU execution. | A positive value requests accelerator resources but does not change the selected scientific method. Null leaves GPU allocation unspecified. |
 
 不可控制参数：
@@ -6737,7 +6741,7 @@ Optimize one non-periodic geometry and return the optimized structure only as th
 | `backend_runtime.implementation` | Executable/module implementation: g16, formchk. | Executable and module allowlists are operator-installed security and reproducibility boundaries. |
 | `backend_runtime.automatic_fallback` | Automatic fallback to another scientific backend is disabled. | Benchmark provenance requires the declared provider to be executed or to fail explicitly. |
 | `resource_limits.maximum_cpu_cores` | Backend-enforced maximum cpu cores: 48. | The current 64-online-CPU server reserves capacity for the service and exposes at most 48 Gaussian shared-memory cores per synchronous Action. |
-| `resource_limits.maximum_walltime_seconds` | Backend-enforced maximum walltime seconds: 1800. | The current 64-online-CPU server reserves capacity for the service and exposes at most 48 Gaussian shared-memory cores per synchronous Action. |
+| `resource_limits.maximum_walltime_seconds` | Backend-enforced maximum walltime seconds: 1800. | execute_action is synchronous and shares the MCP service event loop. Gaussian calculations expected to exceed 1800 seconds must be submitted through inspect_software plus submit_native_job so they can be polled without blocking discovery and unrelated tool calls. |
 
 #### Backend `gamess`
 
@@ -6763,7 +6767,7 @@ Optimize one non-periodic geometry and return the optimized structure only as th
 | `method_spec.diffsp` | 否 | `null` | boolean | Whether GAMESS adds diffuse s/p functions. | Enabling diffuse functions is important for anions and diffuse states but increases cost and linear-dependence risk. |
 | `method_spec.diffs` | 否 | `null` | boolean | Whether GAMESS adds diffuse s functions on hydrogens. | Enabling it improves diffuse hydrogen basis flexibility at added cost. |
 | `action_settings.scf_convergence` | 是 | —（必须显式提供） | string \| documented structured value | Agent-selected execution setting controlling scf convergence. | A stricter numerical threshold usually improves convergence quality or filtering selectivity but may increase cost or reject more results; interpret the direction according to the selected backend definition. |
-| `action_settings.gradient_tolerance_hartree_per_bohr` | 是 | —（必须显式提供） | string \| documented structured value | Agent-selected execution setting controlling gradient tolerance hartree per bohr. | A stricter numerical threshold usually improves convergence quality or filtering selectivity but may increase cost or reject more results; interpret the direction according to the selected backend definition. |
+| `action_settings.gradient_tolerance_hartree_per_bohr` | 是 | —（必须显式提供） | number | Agent-selected execution setting controlling gradient tolerance hartree per bohr. | A stricter numerical threshold usually improves convergence quality or filtering selectivity but may increase cost or reject more results; interpret the direction according to the selected backend definition. |
 | `action_settings.max_steps` | 是 | —（必须显式提供） | integer | Maximum number of optimization, dynamics, or iteration steps. | A larger bound allows more search, iteration, or returned records and can increase runtime and output size; it does not guarantee convergence or higher scientific quality. |
 | `resource_limits.walltime_seconds` | 否 | `1800` | integer; min=1; max=172800 | Maximum synchronous wall-clock time allowed for this Action call. | A larger value allows longer calculations but occupies a synchronous worker for longer; backend-specific maximum walltimes still apply. |
 | `resource_limits.memory_mb` | 否 | `null` | integer \| null; min=128 | Requested memory budget in megabytes when the backend supports it. | More memory may enable larger calculations, while excessive per-process memory combined with many CPU processes can exceed the host budget. Null leaves memory allocation to the validated backend adapter. |
@@ -6827,7 +6831,7 @@ Optimize one non-periodic geometry and return the optimized structure only as th
 | `action_settings.hessian_strategy` | 是 | —（必须显式提供） | string \| documented structured value | Agent-selected execution setting controlling hessian strategy. | Changing this value changes the named Action behavior or numerical result. |
 | `action_settings.project_rigid_force_torque` | 是 | —（必须显式提供） | boolean | Agent-selected execution setting controlling project rigid force torque. | Changing this value changes the named Action behavior or numerical result. |
 | `action_settings.convergence_energy_hartree` | 是 | —（必须显式提供） | number | Agent-selected execution setting controlling convergence energy hartree. | A stricter numerical threshold usually improves convergence quality or filtering selectivity but may increase cost or reject more results; interpret the direction according to the selected backend definition. |
-| `action_settings.convergence_grms_hartree_per_bohr` | 是 | —（必须显式提供） | string \| documented structured value | Agent-selected execution setting controlling convergence grms hartree per bohr. | A stricter numerical threshold usually improves convergence quality or filtering selectivity but may increase cost or reject more results; interpret the direction according to the selected backend definition. |
+| `action_settings.convergence_grms_hartree_per_bohr` | 是 | —（必须显式提供） | number | Agent-selected execution setting controlling convergence grms hartree per bohr. | A stricter numerical threshold usually improves convergence quality or filtering selectivity but may increase cost or reject more results; interpret the direction according to the selected backend definition. |
 | `action_settings.convergence_gmax_hartree_per_bohr` | 是 | —（必须显式提供） | integer | Agent-selected execution setting controlling convergence gmax hartree per bohr. | A stricter numerical threshold usually improves convergence quality or filtering selectivity but may increase cost or reject more results; interpret the direction according to the selected backend definition. |
 | `action_settings.convergence_drms_angstrom` | 是 | —（必须显式提供） | number | Agent-selected execution setting controlling convergence drms angstrom. | A stricter numerical threshold usually improves convergence quality or filtering selectivity but may increase cost or reject more results; interpret the direction according to the selected backend definition. |
 | `action_settings.convergence_dmax_angstrom` | 是 | —（必须显式提供） | integer | Agent-selected execution setting controlling convergence dmax angstrom. | A stricter numerical threshold usually improves convergence quality or filtering selectivity but may increase cost or reject more results; interpret the direction according to the selected backend definition. |
@@ -7875,9 +7879,9 @@ Run one relaxed one-dimensional internal-coordinate scan from a supplied structu
 | `action_settings.convergence` | 是 | —（必须显式提供） | string \| documented structured value; 可选=["nwchem_loose","gau_loose","gau","gau_tight","gau_vtight","baker","never"] | Agent-selected execution setting controlling convergence. | A stricter numerical threshold usually improves convergence quality or filtering selectivity but may increase cost or reject more results; interpret the direction according to the selected backend definition. |
 | `action_settings.max_cycles` | 是 | —（必须显式提供） | integer | Maximum number of solver or optimizer cycles. | A larger bound allows more search, iteration, or returned records and can increase runtime and output size; it does not guarantee convergence or higher scientific quality. |
 | `action_settings.hessian_init` | 是 | —（必须显式提供） | string \| documented structured value; 可选=["calc","unit","fischer","lindh","simple","swart","xtb","xtb1","xtbff"] | explicit pysisyphus initial-Hessian strategy; calc requests an exact Hessian, whereas unit/fischer/lindh/simple/swart/xtb/xtb1/xtbff select the named model | Changing this value changes the named Action behavior or numerical result. |
-| `resource_limits.walltime_seconds` | 否 | `1800` | integer; min=1; max=172800 | Maximum synchronous wall-clock time allowed for this Action call. | A larger value allows longer calculations but occupies a synchronous worker for longer; backend-specific maximum walltimes still apply. |
+| `resource_limits.walltime_seconds` | 否 | `1800` | integer; min=1; max=7200 | Maximum synchronous wall-clock time allowed for this Action call. | A larger value allows longer calculations but occupies a synchronous worker for longer; backend-specific maximum walltimes still apply. |
 | `resource_limits.memory_mb` | 否 | `null` | integer \| null; min=128 | Requested memory budget in megabytes when the backend supports it. | More memory may enable larger calculations, while excessive per-process memory combined with many CPU processes can exceed the host budget. Null leaves memory allocation to the validated backend adapter. |
-| `resource_limits.cpu_cores` | 否 | `null` | integer \| null; min=1 | Requested CPU process/thread count for the selected backend. | More cores may reduce elapsed time, but scaling is backend- and system-dependent and may increase total memory use. Null uses the adapter's documented single-core or software-managed behavior. |
+| `resource_limits.cpu_cores` | 否 | `null` | integer \| null; min=1; max=48 | Requested CPU process/thread count for the selected backend. | More cores may reduce elapsed time, but scaling is backend- and system-dependent and may increase total memory use. Null uses the adapter's documented single-core or software-managed behavior. |
 | `resource_limits.gpu_count` | 否 | `null` | integer \| null; min=0 | Requested GPU count for a backend that supports GPU execution. | A positive value requests accelerator resources but does not change the selected scientific method. Null leaves GPU allocation unspecified. |
 
 不可控制参数：
@@ -7888,7 +7892,7 @@ Run one relaxed one-dimensional internal-coordinate scan from a supplied structu
 | `backend_runtime.implementation` | Executable/module implementation: pysis. | Executable and module allowlists are operator-installed security and reproducibility boundaries. |
 | `backend_runtime.automatic_fallback` | Automatic fallback to another scientific backend is disabled. | Benchmark provenance requires the declared provider to be executed or to fail explicitly. |
 | `resource_limits.maximum_cpu_cores` | Backend-enforced maximum cpu cores: 48. | Calculator processes/threads remain exactly Agent-selected, capped at 48 on this server. |
-| `resource_limits.maximum_walltime_seconds` | Backend-enforced maximum walltime seconds: 7200. | Calculator processes/threads remain exactly Agent-selected, capped at 48 on this server. |
+| `resource_limits.maximum_walltime_seconds` | Backend-enforced maximum walltime seconds: 7200. | Operator-defined backend resource safety cap. |
 
 条件要求：
 
@@ -8159,9 +8163,9 @@ Run an explicitly selected double-ended chain-of-states search between supplied 
 | `action_settings.convergence` | 是 | —（必须显式提供） | string \| documented structured value; 可选=["nwchem_loose","gau_loose","gau","gau_tight","gau_vtight","baker","never"] | Agent-selected execution setting controlling convergence. | A stricter numerical threshold usually improves convergence quality or filtering selectivity but may increase cost or reject more results; interpret the direction according to the selected backend definition. |
 | `action_settings.max_cycles` | 是 | —（必须显式提供） | integer | Maximum number of solver or optimizer cycles. | A larger bound allows more search, iteration, or returned records and can increase runtime and output size; it does not guarantee convergence or higher scientific quality. |
 | `action_settings.climb` | 是 | —（必须显式提供） | string \| documented structured value | Agent-selected execution setting controlling climb. | Changing this value changes the named Action behavior or numerical result. |
-| `resource_limits.walltime_seconds` | 否 | `1800` | integer; min=1; max=172800 | Maximum synchronous wall-clock time allowed for this Action call. | A larger value allows longer calculations but occupies a synchronous worker for longer; backend-specific maximum walltimes still apply. |
+| `resource_limits.walltime_seconds` | 否 | `1800` | integer; min=1; max=7200 | Maximum synchronous wall-clock time allowed for this Action call. | A larger value allows longer calculations but occupies a synchronous worker for longer; backend-specific maximum walltimes still apply. |
 | `resource_limits.memory_mb` | 否 | `null` | integer \| null; min=128 | Requested memory budget in megabytes when the backend supports it. | More memory may enable larger calculations, while excessive per-process memory combined with many CPU processes can exceed the host budget. Null leaves memory allocation to the validated backend adapter. |
-| `resource_limits.cpu_cores` | 否 | `null` | integer \| null; min=1 | Requested CPU process/thread count for the selected backend. | More cores may reduce elapsed time, but scaling is backend- and system-dependent and may increase total memory use. Null uses the adapter's documented single-core or software-managed behavior. |
+| `resource_limits.cpu_cores` | 否 | `null` | integer \| null; min=1; max=48 | Requested CPU process/thread count for the selected backend. | More cores may reduce elapsed time, but scaling is backend- and system-dependent and may increase total memory use. Null uses the adapter's documented single-core or software-managed behavior. |
 | `resource_limits.gpu_count` | 否 | `null` | integer \| null; min=0 | Requested GPU count for a backend that supports GPU execution. | A positive value requests accelerator resources but does not change the selected scientific method. Null leaves GPU allocation unspecified. |
 
 不可控制参数：
@@ -8172,7 +8176,7 @@ Run an explicitly selected double-ended chain-of-states search between supplied 
 | `backend_runtime.implementation` | Executable/module implementation: pysis. | Executable and module allowlists are operator-installed security and reproducibility boundaries. |
 | `backend_runtime.automatic_fallback` | Automatic fallback to another scientific backend is disabled. | Benchmark provenance requires the declared provider to be executed or to fail explicitly. |
 | `resource_limits.maximum_cpu_cores` | Backend-enforced maximum cpu cores: 48. | Calculator processes/threads remain exactly Agent-selected, capped at 48 on this server. |
-| `resource_limits.maximum_walltime_seconds` | Backend-enforced maximum walltime seconds: 7200. | Calculator processes/threads remain exactly Agent-selected, capped at 48 on this server. |
+| `resource_limits.maximum_walltime_seconds` | Backend-enforced maximum walltime seconds: 7200. | Operator-defined backend resource safety cap. |
 
 条件要求：
 
@@ -8582,9 +8586,9 @@ Trace an IRC from an already supplied transition-state structure.
 | `action_settings.forward` | 是 | —（必须显式提供） | string \| documented structured value | Agent-selected execution setting controlling forward. | Changing this value changes the named Action behavior or numerical result. |
 | `action_settings.backward` | 是 | —（必须显式提供） | string \| documented structured value | Agent-selected execution setting controlling backward. | Changing this value changes the named Action behavior or numerical result. |
 | `action_settings.hessian_init` | 是 | —（必须显式提供） | string \| documented structured value; 可选=["calc","unit","fischer","lindh","simple","swart","xtb","xtb1","xtbff"] | explicit pysisyphus initial-Hessian strategy; calc requests an exact Hessian, whereas unit/fischer/lindh/simple/swart/xtb/xtb1/xtbff select the named model | Changing this value changes the named Action behavior or numerical result. |
-| `resource_limits.walltime_seconds` | 否 | `1800` | integer; min=1; max=172800 | Maximum synchronous wall-clock time allowed for this Action call. | A larger value allows longer calculations but occupies a synchronous worker for longer; backend-specific maximum walltimes still apply. |
+| `resource_limits.walltime_seconds` | 否 | `1800` | integer; min=1; max=7200 | Maximum synchronous wall-clock time allowed for this Action call. | A larger value allows longer calculations but occupies a synchronous worker for longer; backend-specific maximum walltimes still apply. |
 | `resource_limits.memory_mb` | 否 | `null` | integer \| null; min=128 | Requested memory budget in megabytes when the backend supports it. | More memory may enable larger calculations, while excessive per-process memory combined with many CPU processes can exceed the host budget. Null leaves memory allocation to the validated backend adapter. |
-| `resource_limits.cpu_cores` | 否 | `null` | integer \| null; min=1 | Requested CPU process/thread count for the selected backend. | More cores may reduce elapsed time, but scaling is backend- and system-dependent and may increase total memory use. Null uses the adapter's documented single-core or software-managed behavior. |
+| `resource_limits.cpu_cores` | 否 | `null` | integer \| null; min=1; max=48 | Requested CPU process/thread count for the selected backend. | More cores may reduce elapsed time, but scaling is backend- and system-dependent and may increase total memory use. Null uses the adapter's documented single-core or software-managed behavior. |
 | `resource_limits.gpu_count` | 否 | `null` | integer \| null; min=0 | Requested GPU count for a backend that supports GPU execution. | A positive value requests accelerator resources but does not change the selected scientific method. Null leaves GPU allocation unspecified. |
 
 不可控制参数：
@@ -8595,7 +8599,7 @@ Trace an IRC from an already supplied transition-state structure.
 | `backend_runtime.implementation` | Executable/module implementation: pysis. | Executable and module allowlists are operator-installed security and reproducibility boundaries. |
 | `backend_runtime.automatic_fallback` | Automatic fallback to another scientific backend is disabled. | Benchmark provenance requires the declared provider to be executed or to fail explicitly. |
 | `resource_limits.maximum_cpu_cores` | Backend-enforced maximum cpu cores: 48. | Calculator processes/threads remain exactly Agent-selected, capped at 48 on this server. |
-| `resource_limits.maximum_walltime_seconds` | Backend-enforced maximum walltime seconds: 7200. | Calculator processes/threads remain exactly Agent-selected, capped at 48 on this server. |
+| `resource_limits.maximum_walltime_seconds` | Backend-enforced maximum walltime seconds: 7200. | Operator-defined backend resource safety cap. |
 
 条件要求：
 
@@ -8731,8 +8735,8 @@ Check supplied quantum outputs for thermochemistry compatibility, calculation co
 
 ## 6. 汇总统计与维护规则
 
-- 逐合同列出的智能体可控参数行：3337 行（同名全局参数在不同合同中分别计数）。
-- 逐合同列出的不可控制参数行：833 行。
+- 逐合同列出的智能体可控参数行：3340 行（同名全局参数在不同合同中分别计数）。
+- 逐合同列出的不可控制参数行：834 行。
 - 所有可选参数必须具有 `default`、`description` 和 `impact`。
 - 所有必填参数必须具有 `description` 和 `impact`，且目录不得声称其有公开默认值。
 - 后端源码新增 `.get(default)` 或条件参数后，若未进入公开合同，`test_action_parameter_exposure.py` 会失败。
@@ -8741,7 +8745,7 @@ Check supplied quantum outputs for thermochemistry compatibility, calculation co
 ## 7. 已知固定边界
 
 1. ORCA `orca_plot` 的 cube 包围盒/padding 当前仍由软件内部决定；只开放每轴点数。若后续需要严格比较不同尺寸分子的体素间距，应新增通用的“显式网格边界/原点/轴向”能力。
-2. Multiwfn `calculate_electron_isodensity_surface` 的历史字段名为 `grid_spacing_angstrom`，而安装版菜单提示输入单位为 Bohr。当前审计把该单位语义差异显式列入不可控制约束，没有在本次参数目录修改中静默改变旧任务数值；建议另行做带迁移兼容的字段修正。
+2. Multiwfn `calculate_electron_isodensity_surface` 现在使用明确的 `grid_spacing_bohr` 标准字段，并在结果中同时回显 bohr 值和换算后的 angstrom 值。历史 `grid_spacing_angstrom` 字段仅作为废弃兼容别名保留，其数值继续按 bohr 解释并产生警告；同时提供两个字段会被拒绝。
 3. 可执行程序、Python 模块、许可证和安装数据由运维环境固定；智能体可以选择目录中其他 Backend，或使用允许的原生软件/可编程层，但预设 Action 不允许替换已选 Backend 的实现。
 
 ## 8. 验证

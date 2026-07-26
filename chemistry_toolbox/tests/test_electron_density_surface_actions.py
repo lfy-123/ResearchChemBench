@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import pytest
 
+from researchchem_toolbox import service
 from researchchem_toolbox.backends import electronic
 from researchchem_toolbox.catalog import action_specs, backend_specs, validate_catalog
 from researchchem_toolbox.discovery import inspect_action
@@ -28,6 +29,164 @@ def test_electron_density_actions_are_catalog_complete():
     assert actions["calculate_electron_isodensity_surface"].backend_ids == ("multiwfn",)
     assert "calculate_correlated_electron_density" in backends["orca"].capabilities
     assert "calculate_electron_isodensity_surface" in backends["multiwfn"].capabilities
+
+
+def test_multiwfn_surface_contract_uses_bohr_and_documents_legacy_alias():
+    contract = inspect_action(
+        "calculate_electron_isodensity_surface",
+        backend_id="multiwfn",
+        snapshot={"actions": [], "backends": [], "resources": [], "catalog_hash": "test"},
+    )["selected_request_contract"]
+
+    required = {
+        item["name"]: item
+        for item in contract["sections"]["action_settings"]["required"]
+    }
+    optional = {
+        item["name"]: item
+        for item in contract["sections"]["action_settings"]["optional_documented"]
+    }
+    assert set(required) == {"cutoffs_au", "grid_spacing_bohr"}
+    assert required["grid_spacing_bohr"]["minimum"] == 0.02
+    assert required["grid_spacing_bohr"]["maximum"] == 1.0
+    assert "bohr" in required["grid_spacing_bohr"]["description"].casefold()
+    assert contract["execute_action_request_template"]["action_settings"][
+        "grid_spacing_bohr"
+    ] == "<number>"
+
+    legacy = optional["grid_spacing_angstrom"]
+    assert legacy["deprecated"] is True
+    assert legacy["replacement"] == "action_settings.grid_spacing_bohr"
+    assert legacy["default"] is None
+    assert "interpreted in bohr" in legacy["description"]
+    fixed = {
+        item["path"]: item for item in contract["backend_fixed_parameters"]
+    }
+    assert "backend_runtime.native_grid_spacing_unit" in fixed
+    assert "backend_runtime.grid_spacing_unit_interpretation" not in fixed
+
+
+def test_multiwfn_surface_backend_reports_physical_units_and_legacy_warning(
+    tmp_path, monkeypatch
+):
+    monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
+    (tmp_path / "density.wfn").write_text("wavefunction", encoding="utf-8")
+    observed_stdin: list[str] = []
+
+    def fake_run_external(**kwargs):
+        observed_stdin.append(kwargs["stdin_text"])
+        return {
+            "available": True,
+            "returncode": 0,
+            "stdout": (
+                "Loaded density.wfn successfully!\n"
+                "Isosurface area: 100.0 Bohr^2 ( 28.0 Angstrom^2)\n"
+                "Volume enclosed by the isosurface: 100.0 Bohr^3 "
+                "( 14.0 Angstrom^3)\n"
+            ),
+            "stderr": "",
+            "command": ["Multiwfn_noGUI", "density.wfn"],
+        }
+
+    monkeypatch.setattr(electronic, "run_external", fake_run_external)
+    canonical = electronic._multiwfn_isodensity_surface(
+        {
+            "inputs": {"density_file": "density.wfn"},
+            "method_spec": {},
+            "action_settings": {
+                "cutoffs_au": [0.0016],
+                "grid_spacing_bohr": 0.1,
+            },
+            "resource_limits": {"walltime_seconds": 120},
+        }
+    )
+    assert canonical["status"] == "success"
+    assert canonical["result"]["grid_spacing_bohr"] == 0.1
+    assert canonical["result"]["grid_spacing_angstrom"] == pytest.approx(
+        0.0529177210903
+    )
+    assert canonical["result"]["grid_spacing_input_field"] == "grid_spacing_bohr"
+    assert canonical["warnings"] == []
+    assert "\n3\n0.1\n6\n" in observed_stdin[-1]
+
+    legacy = electronic._multiwfn_isodensity_surface(
+        {
+            "inputs": {"density_file": "density.wfn"},
+            "method_spec": {},
+            "action_settings": {
+                "cutoffs_au": [0.0016],
+                "grid_spacing_angstrom": 0.1,
+            },
+            "resource_limits": {"walltime_seconds": 120},
+        }
+    )
+    assert legacy["status"] == "success"
+    assert legacy["result"]["grid_spacing_bohr"] == 0.1
+    assert legacy["result"]["grid_spacing_input_field"] == "grid_spacing_angstrom"
+    assert any("deprecated" in warning for warning in legacy["warnings"])
+
+
+def test_multiwfn_surface_dispatch_accepts_only_one_spacing_field(
+    tmp_path, monkeypatch
+):
+    monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
+    (tmp_path / "density.wfn").write_text("wavefunction", encoding="utf-8")
+    calls = []
+
+    def available(backends):
+        return {
+            backend.id: {
+                "available": True,
+                "status": "available",
+                "runtime": backend.runtime,
+            }
+            for backend in backends
+        }
+
+    monkeypatch.setattr(service, "probe_all_backends", available)
+    monkeypatch.setattr(
+        service,
+        "invoke_worker",
+        lambda **kwargs: calls.append(kwargs)
+        or {
+            "status": "success",
+            "result": {"surfaces": []},
+            "warnings": ["legacy alias accepted"],
+        },
+    )
+    legacy = service.execute_action(
+        "calculate_electron_isodensity_surface",
+        {
+            "backend_id": "multiwfn",
+            "inputs": {"density_file": "density.wfn"},
+            "method_spec": {},
+            "action_settings": {
+                "cutoffs_au": [0.0016],
+                "grid_spacing_angstrom": 0.1,
+            },
+        },
+    )
+    assert legacy["status"] == "success"
+    assert calls[-1]["payload"]["request"]["action_settings"][
+        "grid_spacing_angstrom"
+    ] == 0.1
+
+    conflict = service.execute_action(
+        "calculate_electron_isodensity_surface",
+        {
+            "backend_id": "multiwfn",
+            "inputs": {"density_file": "density.wfn"},
+            "method_spec": {},
+            "action_settings": {
+                "cutoffs_au": [0.0016],
+                "grid_spacing_bohr": 0.1,
+                "grid_spacing_angstrom": 0.1,
+            },
+        },
+    )
+    assert conflict["status"] == "invalid_request"
+    assert conflict["error"]["code"] == "conflicting_setting_aliases"
+    assert len(calls) == 1
 
 
 def test_orca_density_renderer_requests_relaxed_double_hybrid_density():
@@ -412,7 +571,7 @@ def test_real_orca_to_multiwfn_surface_action_chain(tmp_path, monkeypatch):
             "method_spec": {},
             "action_settings": {
                 "cutoffs_au": [0.001, 0.002],
-                "grid_spacing_angstrom": 0.2,
+                "grid_spacing_bohr": 0.2,
             },
             "resource_limits": {
                 "cpu_cores": 2,
@@ -430,4 +589,8 @@ def test_real_orca_to_multiwfn_surface_action_chain(tmp_path, monkeypatch):
         item["surface_area_angstrom2"] > 0
         and item["enclosed_volume_angstrom3"] > 0
         for item in surfaces["result"]["surfaces"]
+    )
+    assert surfaces["result"]["grid_spacing_bohr"] == 0.2
+    assert surfaces["result"]["grid_spacing_angstrom"] == pytest.approx(
+        0.1058354421806
     )

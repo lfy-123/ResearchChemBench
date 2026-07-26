@@ -625,7 +625,7 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         required_settings={
             "calculate_bond_orders": ("minimum_bond_order",),
             "calculate_electron_isodensity_surface": (
-                "cutoffs_au", "grid_spacing_angstrom",
+                "cutoffs_au", "grid_spacing_bohr",
             ),
         },
         supported_system_types={

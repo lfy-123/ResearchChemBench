@@ -51,5 +51,5 @@ The directory contains about 92 MB of generated calculation evidence and is inte
 
 ## Remaining caveats
 
-- The installed Multiwfn adapter's historical public field is named `grid_spacing_angstrom`, while the installed Multiwfn menu describes this numerical input in Bohr. The numerical value 0.1 reproduces the paper values closely, but the API unit label should eventually receive a compatibility-safe cleanup.
+- Historical note: this audit used the former `grid_spacing_angstrom` field whose numeric value was interpreted in bohr. The compatibility-safe cleanup was completed on 2026-07-26: new calls use `grid_spacing_bohr`, results report both physical units, and the old field remains only as a warning-emitting legacy alias.
 - This check establishes objective environmental feasibility. It does not establish that a particular language model will follow the supplied route, preserve the blind boundary, or use resources efficiently.

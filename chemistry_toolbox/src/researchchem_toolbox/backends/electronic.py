@@ -1462,9 +1462,28 @@ def _multiwfn_isodensity_surface(request: dict[str, Any]) -> dict[str, Any]:
         if cutoff in cutoffs:
             raise ValueError("cutoffs_au must not contain duplicate values")
         cutoffs.append(cutoff)
-    spacing = float(settings["grid_spacing_angstrom"])
-    if not math.isfinite(spacing) or spacing < 0.02 or spacing > 1.0:
-        raise ValueError("grid_spacing_angstrom must be between 0.02 and 1.0")
+    canonical_spacing_supplied = "grid_spacing_bohr" in settings
+    legacy_spacing_supplied = "grid_spacing_angstrom" in settings
+    if canonical_spacing_supplied and legacy_spacing_supplied:
+        raise ValueError(
+            "Supply exactly one of grid_spacing_bohr or the deprecated "
+            "grid_spacing_angstrom compatibility alias"
+        )
+    if canonical_spacing_supplied:
+        spacing_bohr = float(settings["grid_spacing_bohr"])
+        spacing_input_field = "grid_spacing_bohr"
+    elif legacy_spacing_supplied:
+        # Compatibility promise: old requests already used this numeric value as
+        # bohr.  Preserve that behavior while reporting the physical unit honestly.
+        spacing_bohr = float(settings["grid_spacing_angstrom"])
+        spacing_input_field = "grid_spacing_angstrom"
+    else:
+        raise ValueError(
+            "calculate_electron_isodensity_surface requires grid_spacing_bohr; "
+            "legacy calls may instead supply deprecated grid_spacing_angstrom"
+        )
+    if not math.isfinite(spacing_bohr) or spacing_bohr < 0.02 or spacing_bohr > 1.0:
+        raise ValueError("grid_spacing_bohr must be between 0.02 and 1.0")
 
     directory = output_directory("calculate_electron_isodensity_surface", "multiwfn")
     staged = directory / source.name
@@ -1479,7 +1498,7 @@ def _multiwfn_isodensity_surface(request: dict[str, Any]) -> dict[str, Any]:
     for index, cutoff in enumerate(cutoffs):
         stdin_text = (
             f"12\n1\n{surface_definition}\n{cutoff:.10g}\n"
-            f"3\n{spacing:.10g}\n6\n-1\n-1\nq\n"
+            f"3\n{spacing_bohr:.10g}\n6\n-1\n-1\nq\n"
         )
         completed = run_external(
             executable="Multiwfn_noGUI",
@@ -1545,7 +1564,9 @@ def _multiwfn_isodensity_surface(request: dict[str, Any]) -> dict[str, Any]:
         "density_unit": "electrons/bohr^3",
         "surface_area_unit": "angstrom^2",
         "volume_unit": "angstrom^3",
-        "grid_spacing_angstrom": spacing,
+        "grid_spacing_bohr": spacing_bohr,
+        "grid_spacing_angstrom": spacing_bohr * BOHR_TO_ANGSTROM,
+        "grid_spacing_input_field": spacing_input_field,
         "surfaces": rows,
         "failures": failures,
     }
@@ -1560,13 +1581,29 @@ def _multiwfn_isodensity_surface(request: dict[str, Any]) -> dict[str, Any]:
         "artifact_files": artifacts,
         "backend_version": "2026.7.15",
         "warnings": (
-            [f"{len(failures)} of {len(cutoffs)} requested cutoffs failed"]
-            if failures
-            else []
+            (
+                [f"{len(failures)} of {len(cutoffs)} requested cutoffs failed"]
+                if failures
+                else []
+            )
+            + (
+                [
+                    "action_settings.grid_spacing_angstrom is deprecated and its numeric "
+                    "value was interpreted in bohr for compatibility; use grid_spacing_bohr"
+                ]
+                if legacy_spacing_supplied
+                else []
+            )
         ),
         "provenance": {
             "commands": commands,
-            "menu_template": [12, 1, surface_definition, "<cutoff>", 3, spacing, 6, -1, -1, "q"],
+            "menu_template": [
+                12, 1, surface_definition, "<cutoff>", 3, spacing_bohr,
+                6, -1, -1, "q",
+            ],
+            "grid_spacing_bohr": spacing_bohr,
+            "grid_spacing_angstrom": spacing_bohr * BOHR_TO_ANGSTROM,
+            "grid_spacing_input_field": spacing_input_field,
             "parallel_threads": cores,
             "source_density_file": relative_workspace_path(source),
             "required_citations": [

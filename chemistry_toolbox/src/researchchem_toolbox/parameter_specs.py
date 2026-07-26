@@ -115,6 +115,41 @@ BACKEND_PARAMETER_SPECS: dict[
             },
         },
     },
+    "multiwfn": {
+        "calculate_electron_isodensity_surface": {
+            "action_settings.grid_spacing_bohr": {
+                "description": (
+                    "Real-space spacing, in bohr, used by Multiwfn when constructing the "
+                    "electron-isodensity surface grid."
+                ),
+                "type": "number",
+                "minimum": 0.02,
+                "maximum": 1.0,
+                "impact": (
+                    "A smaller spacing produces a finer surface grid and usually reduces "
+                    "discretization error, but increases runtime and memory use. Quantitative "
+                    "surface comparisons should verify convergence with at least one finer value."
+                ),
+            },
+            "action_settings.grid_spacing_angstrom": {
+                "description": (
+                    "Deprecated compatibility alias for grid_spacing_bohr. Despite its historical "
+                    "name, its numeric value is interpreted in bohr so existing calls preserve "
+                    "their original numerical behavior. Omit it in new requests."
+                ),
+                "default": None,
+                "type": "number | null",
+                "minimum": 0.02,
+                "maximum": 1.0,
+                "deprecated": True,
+                "replacement": "action_settings.grid_spacing_bohr",
+                "impact": (
+                    "When supplied alone, it selects exactly the same bohr spacing as the canonical "
+                    "field and emits a deprecation warning. Supplying both fields is rejected."
+                ),
+            },
+        },
+    },
 }
 
 
@@ -1043,11 +1078,12 @@ _register_parameter(
 )
 
 
-# Record a currently fixed Multiwfn unit-interpretation constraint explicitly.
+# Record the native Multiwfn unit as an implementation fact, separate from the
+# Agent-controlled canonical grid_spacing_bohr request parameter.
 _register_fixed(
-    "multiwfn", "calculate_electron_isodensity_surface", "backend_runtime.grid_spacing_unit_interpretation",
-    description="The existing Multiwfn adapter forwards grid_spacing_angstrom numerically to a menu that interprets the value in bohr.",
-    reason="This legacy contract-name/unit mismatch is preserved for compatibility and is reported explicitly; a separate migration is required before changing numerical semantics.",
+    "multiwfn", "calculate_electron_isodensity_surface", "backend_runtime.native_grid_spacing_unit",
+    description="The installed Multiwfn surface-grid menu accepts grid spacing in bohr.",
+    reason="The software-native unit is fixed by Multiwfn; the public Action exposes it explicitly as action_settings.grid_spacing_bohr.",
 )
 
 
@@ -1123,6 +1159,7 @@ _FIELD_DESCRIPTIONS = {
     "max_iterations": "Maximum number of numerical iterations.",
     "max_cycles": "Maximum number of solver or optimizer cycles.",
     "grid_points_per_axis": "Number of density-grid samples along every Cartesian axis.",
+    "grid_spacing_bohr": "Requested real-space grid spacing in bohr.",
     "grid_spacing_angstrom": "Requested real-space grid spacing as currently named by the backend contract.",
     "cutoffs_au": "Explicit electron-density isovalue list in atomic units.",
     "output_format": "Agent-selected representation or serialization format for the result.",

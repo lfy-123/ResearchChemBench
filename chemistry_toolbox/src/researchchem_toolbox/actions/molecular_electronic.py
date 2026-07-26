@@ -118,7 +118,7 @@ ACTION_SPECS = (
             ("density_file",),
             input_description=(
                 "one WFN/WFX/FCHK/MWFN/Molden wavefunction or cube density grid plus explicit "
-                "cutoff values and surface-grid spacing"
+                "cutoff values and surface-grid spacing in bohr"
             ),
         ),
     _action(
