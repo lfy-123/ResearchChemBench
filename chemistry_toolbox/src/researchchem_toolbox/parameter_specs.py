@@ -792,8 +792,11 @@ for _field_name in ("match_charges", "match_isotopes"):
         impact="Enabling this restriction narrows matches and can exclude records lacking the requested annotation.",
     )
 for _field_path, _description, _impact in (
+    ("method_spec.method", "CREST Hamiltonian: GFN1-xTB, GFN2-xTB, or GFN-FF; common compact and -xTB aliases are accepted.", "Changing the Hamiltonian changes conformer energies, geometries, sampling cost, and potentially basin coverage."),
     ("method_spec.charge", "Optional CREST molecular charge override; otherwise the input structure charge is used.", "Changing charge changes electron count and the conformational potential-energy surface."),
     ("method_spec.multiplicity", "Optional CREST spin multiplicity override; otherwise the input structure multiplicity is used.", "Changing multiplicity changes the electronic state used by xTB/CREST."),
+    ("method_spec.solvation_model", "Optional CREST implicit-solvation model: ALPB or GBSA.", "Adding or changing implicit solvation changes conformer stabilization and may change the sampled/ranked ensemble."),
+    ("method_spec.solvent", "Solvent name passed to CREST when an implicit-solvation model is selected.", "Changing solvent changes implicit-solvation parameters and relative conformer energies."),
 ):
     _register_parameter("crest", "generate_conformer_ensemble", _field_path, description=_description, default=None, impact=_impact)
 _register_parameter(

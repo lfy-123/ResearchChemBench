@@ -350,13 +350,76 @@ def _conformer_records(value: Any) -> list[dict[str, Any]]:
     return normalized
 
 
+def _conformer_file_molecules(path: Path) -> list[tuple[str, Any]]:
+    """Load every conformer from a managed SDF/MOL or multi-XYZ artifact."""
+
+    from rdkit import Chem
+
+    suffix = path.suffix.casefold()
+    if suffix in {".sdf", ".mol"}:
+        supplier = Chem.SDMolSupplier(str(path), removeHs=False)
+        molecules = [molecule for molecule in supplier if molecule is not None]
+        if not molecules:
+            raise ValueError(f"Conformer file contains no readable molecules: {path}")
+        return [
+            (
+                molecule.GetProp("_Name") if molecule.HasProp("_Name") else str(index),
+                molecule,
+            )
+            for index, molecule in enumerate(molecules)
+        ]
+    if suffix != ".xyz":
+        raise ValueError("Conformer file must be SDF, MOL, or multi-XYZ")
+
+    lines = path.read_text(encoding="utf-8", errors="replace").splitlines()
+    molecules = []
+    offset = 0
+    while offset < len(lines):
+        if not lines[offset].strip():
+            offset += 1
+            continue
+        try:
+            atom_count = int(lines[offset].strip())
+        except ValueError as exc:
+            raise ValueError(f"Invalid multi-XYZ atom count at line {offset + 1}: {path}") from exc
+        end = offset + atom_count + 2
+        if end > len(lines):
+            raise ValueError(f"Truncated multi-XYZ conformer at line {offset + 1}: {path}")
+        block = "\n".join(lines[offset:end]) + "\n"
+        molecule = Chem.MolFromXYZBlock(block)
+        if molecule is None:
+            raise ValueError(f"RDKit could not parse multi-XYZ conformer {len(molecules)}: {path}")
+        molecules.append((str(len(molecules)), molecule))
+        offset = end
+    if not molecules:
+        raise ValueError(f"Conformer file contains no XYZ blocks: {path}")
+    return molecules
+
+
+def _conformer_molecules(value: Any) -> list[tuple[str, Any]]:
+    item = unwrap_artifact(value)
+    if isinstance(item, dict):
+        file_value = item.get("ensemble_file") or item.get("path")
+        if isinstance(file_value, str):
+            return _conformer_file_molecules(resolve_input_file(file_value))
+    if isinstance(item, str):
+        candidate = resolve_input_file(item)
+        return _conformer_file_molecules(candidate)
+    records = _conformer_records(item)
+    return [
+        (record["conformer_id"], _rdkit_coordinate_molecule(record["structure"]))
+        for record in records
+    ]
+
+
 def _cluster_conformers(request: dict[str, Any]) -> dict[str, Any]:
     from rdkit.Chem import AllChem
     from rdkit.ML.Cluster import Butina
 
     inputs, _method, settings = request_parts(request)
-    records = _conformer_records(inputs["ensemble"])
-    molecules = [_rdkit_coordinate_molecule(record["structure"]) for record in records]
+    loaded = _conformer_molecules(inputs["ensemble"])
+    records = [{"conformer_id": conformer_id} for conformer_id, _molecule in loaded]
+    molecules = [molecule for _conformer_id, molecule in loaded]
     molecule = molecules[0]
     first_symbols = [atom.GetSymbol() for atom in molecule.GetAtoms()]
     for candidate in molecules[1:]:
@@ -593,22 +656,43 @@ def _conformers_crest(request: dict[str, Any]) -> dict[str, Any]:
     initial = inputs.get("initial_structure") or inputs.get("molecule")
     directory = output_directory("generate_conformer_ensemble", "crest")
     xyz = write_xyz(initial, directory / "input.xyz")
-    method_name = str(method["method"]).lower().replace("-", "")
-    method_argument = {"gfn1": "--gfn1", "gfn2": "--gfn2", "gfnff": "--gfnff"}.get(method_name)
+    method_name = "".join(character for character in str(method["method"]).casefold() if character.isalnum())
+    method_argument = {
+        "gfn1": "--gfn1",
+        "gfn1xtb": "--gfn1",
+        "xtbgfn1": "--gfn1",
+        "gfn2": "--gfn2",
+        "gfn2xtb": "--gfn2",
+        "xtbgfn2": "--gfn2",
+        "gfnff": "--gfnff",
+        "gfnffxtb": "--gfnff",
+        "xtbgfnff": "--gfnff",
+    }.get(method_name)
     if method_argument is None:
-        raise ValueError("CREST method must be gfn1, gfn2, or gfnff")
+        raise ValueError("CREST method must be GFN1-xTB, GFN2-xTB, or GFN-FF")
     structure = structure_dict(initial)
     charge = int(method.get("charge", structure.get("charge", 0)))
     multiplicity = int(method.get("multiplicity", structure.get("multiplicity", 1)))
     arguments = [str(xyz), method_argument, "--chrg", str(charge), "--uhf", str(max(0, multiplicity - 1))]
+    solvation_model = str(method.get("solvation_model", "")).strip().casefold()
+    if solvation_model:
+        if solvation_model not in {"alpb", "gbsa"}:
+            raise ValueError("CREST solvation_model must be alpb or gbsa")
+        solvent = str(method.get("solvent", "")).strip()
+        if not solvent:
+            raise ValueError("CREST solvent is required when solvation_model is supplied")
+        arguments.extend([f"--{solvation_model}", solvent])
     if "energy_window_kcal_mol" in settings:
         arguments.extend(["--ewin", str(settings["energy_window_kcal_mol"])])
+    cpu_cores = int(request.get("resource_limits", {}).get("cpu_cores", 1))
+    arguments.extend(["--T", str(cpu_cores)])
     completed = run_external(
         executable="crest",
         environment_variable="CHEMGRAPH_CREST_COMMAND",
         arguments=arguments,
         directory=directory,
         timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 1800)),
+        environment_overrides={"OMP_NUM_THREADS": str(cpu_cores)},
     )
     (directory / "stdout.log").write_text(completed["stdout"], encoding="utf-8")
     (directory / "stderr.log").write_text(completed["stderr"], encoding="utf-8")

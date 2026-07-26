@@ -201,6 +201,18 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         "crest", "CREST", "reaction", ("generate_conformer_ensemble",),
         "CREST conformer search from an explicit starting geometry.", executables=("crest",),
         environment=("CHEMGRAPH_CREST_COMMAND",), conda=("crest", "xtb"),
+        resource_constraints={
+            "maximum_cpu_cores": 48,
+            "maximum_walltime_seconds": 7200,
+            "reason": "CREST/xTB threads are set from the Agent-selected resource limits and capped on this server.",
+        },
+        method_schema={
+            "method": "GFN1-xTB, GFN2-xTB, or GFN-FF; compact gfn1/gfn2/gfnff spellings are equivalent",
+            "charge": "optional explicit integer molecular charge; otherwise taken from the starting structure",
+            "multiplicity": "optional explicit positive spin multiplicity; otherwise taken from the starting structure",
+            "solvation_model": "optional alpb or gbsa",
+            "solvent": "required solvent name when solvation_model is supplied",
+        },
         required_methods={"generate_conformer_ensemble": ("method",)},
     ),
     _backend(
