@@ -3246,7 +3246,13 @@ def _orca(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
     )
     completed = run_external(
         executable="orca", environment_variable="CHEMGRAPH_ORCA_COMMAND",
-        arguments=[str(input_path)], directory=directory,
+        # ORCA reuses the supplied input pathname as the basename for several
+        # module-specific files.  Passing the deeply nested absolute workspace
+        # path can make property, frequency, and correlated-density modules
+        # terminate without a useful diagnostic.  Keep the calculation cwd at
+        # the output directory and give ORCA a short explicit relative path.
+        # (A bare ``job.inp`` is rejected by some ORCA builds.)
+        arguments=[f"./{input_path.name}"], directory=directory,
         timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 1800)),
     )
     output_path = directory / "job.out"

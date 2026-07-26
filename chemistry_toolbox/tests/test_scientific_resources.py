@@ -273,6 +273,44 @@ def test_gnina_adapter_keeps_hardware_and_model_choice_explicit(tmp_path, monkey
     assert result["result"]["scores"][0]["cnn_pose_score"] == pytest.approx(0.81)
 
 
+def test_orca_generic_actions_use_short_relative_input_path(tmp_path, monkeypatch):
+    monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
+    captured = {}
+
+    def fake_run_external(**kwargs):
+        captured.update(kwargs)
+        (kwargs["directory"] / "job.hess").write_text("placeholder", encoding="utf-8")
+        return {
+            "available": True,
+            "returncode": 0,
+            "stdout": "Program Version 6.1.1\nORCA TERMINATED NORMALLY\n",
+            "stderr": "",
+            "command": ["orca", *kwargs["arguments"]],
+        }
+
+    monkeypatch.setattr(electronic, "run_external", fake_run_external)
+    monkeypatch.setattr(electronic, "_parse_orca_hessian", lambda _path: [[1.0]])
+    result = electronic._orca(
+        "calculate_hessian",
+        {
+            "inputs": {
+                "structure": {
+                    "atoms": [{"element": "H", "position_angstrom": [0.0, 0.0, 0.0]}],
+                    "charge": 0,
+                    "multiplicity": 2,
+                }
+            },
+            "method_spec": {"method": "HF", "basis": "STO-3G"},
+            "action_settings": {},
+            "resource_limits": {"cpu_cores": 1, "walltime_seconds": 60},
+        },
+    )
+
+    assert result["status"] == "success"
+    assert captured["arguments"] == ["./job.inp"]
+    assert captured["directory"].is_dir()
+
+
 def test_orca_input_maps_agent_cpu_limit_to_pal_without_selecting_a_method():
     text = electronic._render_orca(
         "calculate_energy",
