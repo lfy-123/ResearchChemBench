@@ -43,6 +43,125 @@ TASK_IDS = (
 )
 
 
+SCIENTIFIC_CONCLUSION_RUBRICS: dict[str, list[dict[str, Any]]] = {
+    "Electron_Flexible_Ensemble_Surface_Reproduction": [
+        {
+            "id": "conformer_surface_variation",
+            "max_score": 35,
+            "statement": "New density-isosurface calculations show that distinct ISO-M6 conformers have materially different molecular surface areas.",
+            "acceptance_rule": "The conformer range or dispersion must exceed demonstrated grid/integration uncertainty and derive from valid per-conformer density artifacts; exact paper example values are not mandatory.",
+            "required_evidence": ["multiple validated conformers", "per-conformer density and surface artifacts", "numerical surface sensitivity"],
+        },
+        {
+            "id": "thermal_ensemble_reduces_single_structure_bias",
+            "max_score": 35,
+            "statement": "A normalized thermally weighted conformer ensemble is more defensible than an arbitrary single-conformer surface and reduces single-structure selection bias.",
+            "acceptance_rule": "Require a converged or sensitivity-bounded conformer set and traceable thermal weights. Electronic-energy-only weights receive partial rather than full credit unless the approximation is quantitatively bounded.",
+            "required_evidence": ["weighting energies or free energies", "normalization", "conformer truncation and weighting sensitivity"],
+        },
+        {
+            "id": "paper_scale_ensemble_surface",
+            "max_score": 30,
+            "statement": "The recomputed ISO-M6 ensemble surface is consistent with the paper-scale result near 157.1994 A^2 and the TE reference 156.507 A^2 under the disclosed reproduction definition.",
+            "acceptance_rule": "Full credit when the new estimate and uncertainty are compatible with the paper/TE neighborhood; partial credit for a justified controlled subset or protocol deviation that preserves the qualitative conclusion.",
+            "required_evidence": ["new ensemble surface", "uncertainty or sensitivity interval", "post-computation reference comparison"],
+        },
+    ],
+    "PV_Protonation_Barrier_Trend_Reproduction": [
+        {
+            "id": "successive_protonation_barrier_order",
+            "max_score": 40,
+            "statement": "The recomputed ligand-coupling activation free energies reproduce the P0 > P1 > P2 barrier order.",
+            "acceptance_rule": "Require fresh stationary-point validation, high-level single points, and one common 353.15 K, 1 M ethanol thermochemical convention for all three states.",
+            "required_evidence": ["validated P0/P1/P2 minima and transition states", "new high-level energies", "aligned activation free energies"],
+        },
+        {
+            "id": "paper_scale_barriers_and_reductions",
+            "max_score": 35,
+            "statement": "The recomputed barriers are compatible with the paper-scale 30, 20, and 14 kcal/mol values and the approximately 10 then 6 kcal/mol successive reductions.",
+            "acceptance_rule": "Full credit requires uncertainty-compatible agreement with all three paper barriers and both reductions; controlled protocol deviations or incomplete candidate coverage receive partial credit only when the direction remains supported.",
+            "required_evidence": ["three newly computed barrier values", "paper-versus-recomputation deviations", "candidate and low-frequency sensitivity"],
+        },
+        {
+            "id": "paper_scale_reaction_free_energies",
+            "max_score": 25,
+            "statement": "The recomputed P0, P1, and P2 reactions remain strongly exergonic and compatible with the paper-scale values near -39, -37, and -38 kcal/mol.",
+            "acceptance_rule": "Require newly computed products and consistently referenced reaction free energies; activation barriers alone cannot satisfy this claim.",
+            "required_evidence": ["reactant and product thermochemistry", "three reaction free energies", "kinetic-versus-thermodynamic interpretation"],
+        },
+    ],
+    "BaO_Phase_Crossover_And_5d_Bonding_Reproduction": [
+        {
+            "id": "bao_phase_sequence",
+            "max_score": 40,
+            "statement": "The reconstructed VASP/EOS workflow reproduces the B1 -> B8 -> dB2 stability sequence over 0-80 GPa.",
+            "acceptance_rule": "Require converged, consistently normalized calculations for all three supplied phases and phase-identity checks after relaxation or internal-coordinate refinement.",
+            "required_evidence": ["new VASP E(V) data", "per-formula-unit normalization", "phase enthalpy comparison"],
+        },
+        {
+            "id": "bao_transition_pressure_reproduction",
+            "max_score": 35,
+            "statement": "Adaptive EOS/enthalpy analysis reproduces crossovers near 8-10 GPa and 25 GPa.",
+            "acceptance_rule": "Full credit requires refined crossings with numerical/model uncertainty overlapping both paper neighborhoods; unrefined grid endpoints or copied values receive no credit.",
+            "required_evidence": ["physical EOS or controlled alternative", "adaptive crossing points", "fit and convergence uncertainty"],
+        },
+        {
+            "id": "bao_5d_projection_reproduction",
+            "max_score": 25,
+            "statement": "A paired same-wavefunction LOBSTER ablation reproduces the improved projection quality and stronger Ba-O bonding evidence when Ba 5d functions are included.",
+            "acceptance_rule": "Require fresh with/without-5d LOBSTER runs, spilling assessment, and Ba-O ICOHP/PDOS evidence on the same parent wavefunction; qualitative repetition of the paper conclusion is insufficient.",
+            "required_evidence": ["two fresh LOBSTER projections", "charge and total spilling", "Ba-O ICOHP and Ba 5d PDOS comparison"],
+        },
+    ],
+    "PV_CC_CO_Pathway_Selectivity_Reproduction": [
+        {
+            "id": "two_valid_competing_paths",
+            "max_score": 30,
+            "statement": "The supplied/reconstructed P2 C-C and C-O pathways both pass endpoint, path-continuity, transition-state, and connection validation.",
+            "acceptance_rule": "Require a chemically relevant single imaginary mode and forward/reverse connection evidence for each barrier-defining transition state; a highest path image alone is insufficient.",
+            "required_evidence": ["validated C-C path", "validated C-O path", "frequency and connection evidence"],
+        },
+        {
+            "id": "cc_preference_and_delta_delta_g",
+            "max_score": 45,
+            "statement": "The recomputed profiles reproduce C-C as kinetically preferred, with the C-O barrier higher by approximately 4 kcal/mol.",
+            "acceptance_rule": "Full credit requires newly computed barriers compatible with the paper-scale 14 and 18 kcal/mol values and a positive C-O minus C-C difference near 4 kcal/mol under identical thermochemistry.",
+            "required_evidence": ["two new high-level activation free energies", "delta-delta-G", "paper comparison and uncertainty"],
+        },
+        {
+            "id": "accessible_minor_co_path",
+            "max_score": 25,
+            "statement": "The reconstructed C-O path is accessible but kinetically suppressed under the standard conditions, consistent with the experimental observations.",
+            "acceptance_rule": "Require finite C-O pathway evidence and a clearly labeled kinetic inference; experiments support but do not replace the computed comparison.",
+            "required_evidence": ["finite C-O barrier", "selectivity or rate-ratio interpretation", "experimental cross-check"],
+        },
+    ],
+    "NHC_Adsorption_Decomposition_Bonding_Reproduction": [
+        {
+            "id": "nhc_binding_energy_reproduction",
+            "max_score": 35,
+            "statement": "Matched periodic references reproduce NHC4 as only modestly more strongly bound than NHC1, on the paper scale near -44.1 and -43.0 kcal/mol.",
+            "acceptance_rule": "Require new compatible adsorbed, clean-slab, and isolated-ligand calculations for each cell; full credit requires the ordering and paper-scale values within disclosed numerical uncertainty.",
+            "required_evidence": ["matched new VASP energies", "binding-energy algebra", "paper comparison and uncertainty"],
+        },
+        {
+            "id": "nhc_local_bonding_reproduction",
+            "max_score": 35,
+            "statement": "Fresh quality-gated LOBSTER analysis reproduces the stronger and shorter local Pd-C bond for NHC4 than NHC1.",
+            "acceptance_rule": "Require final-geometry distance selection, valid ICOHP/ICOBI or equivalent descriptors, and acceptable or explicitly qualified spilling; paper values may only be used after recomputation for comparison.",
+            "required_evidence": ["Pd-C distances", "fresh ICOHP/ICOBI or equivalent", "projection-quality metrics"],
+        },
+        {
+            "id": "nhc_decomposition_interpretation",
+            "max_score": 30,
+            "statement": "The recomputed energy decomposition shows that deformation and reference-state terms moderate the total binding difference, so local Pd-C strength alone is not the adsorption-energy explanation.",
+            "acceptance_rule": "Require frozen and relaxed fragment energies whose binding, interaction, and deformation terms close algebraically, followed by a joint energetic/bonding interpretation.",
+            "required_evidence": ["frozen-fragment energies", "closed decomposition", "local-versus-total energy analysis"],
+        },
+    ],
+}
+
+
 def write_json(path: Path, value: Any) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(
@@ -159,6 +278,11 @@ def task_info(
     requirements: list[str],
     deliverables: list[dict[str, Any]],
 ) -> dict[str, Any]:
+    requirements = list(requirements)
+    if not any("server resources allow" in item for item in requirements):
+        requirements.append(
+            "When server resources allow, parallelize independent calculations and use substantial CPU and memory resources without oversubscribing the host."
+        )
     return {
         "task_id": task_id,
         "source_id": source_id,
@@ -203,6 +327,8 @@ def ground_truth(
     baseline: dict[str, Any],
     scientific_conclusion_rubric: list[dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
+    if scientific_conclusion_rubric is None:
+        scientific_conclusion_rubric = SCIENTIFIC_CONCLUSION_RUBRICS.get(task_id)
     dual_axis = bool(scientific_conclusion_rubric)
     result = {
         "expected_tool_calls": expected_tool_calls,
@@ -212,6 +338,14 @@ def ground_truth(
         "score_max": 100,
         "scoring_rubric": (
             process_rubric(reproduction=True) if dual_axis else common_rubric()
+        ),
+        **(
+            {
+                "scientific_conclusion_rubric": scientific_conclusion_rubric,
+                "dual_axis_scoring_policy": dual_axis_policy(),
+            }
+            if dual_axis
+            else {}
         ),
         "critical_failures": critical_failures,
         "judge_instructions": (
@@ -263,9 +397,6 @@ def ground_truth(
             }
         ),
     }
-    if dual_axis:
-        result["scientific_conclusion_rubric"] = scientific_conclusion_rubric
-        result["dual_axis_scoring_policy"] = dual_axis_policy()
     return result
 
 
@@ -591,7 +722,18 @@ Paper: 10.1126/science.aas8961.
 """)
     write_json(data / "candidate_manifest.json", {"candidate_count": len(records), "state": "P2", "candidates": records})
     protocol = pv_protocol()
-    protocol["path_search"] = {"backend": "pysisyphus", "low_cost_calculator": "GFN2-xTB", "solvation": "ALPB ethanol", "accepted_methods": ["NEB", "growing string", "relaxed coordinate scan", "IRC from validated TS"]}
+    protocol["path_search"] = {
+        "backend": "pysisyphus",
+        "low_cost_calculator": "GFN2-xTB",
+        "solvation_model": "ALPB",
+        "solvent": "methanol",
+        "version_compatibility_note": (
+            "xTB 6.7 has no ALPB ethanol parameters. Use ALPB methanol only as a "
+            "low-cost protic-solvent path-search proxy; all formal Gaussian/ORCA/GoodVibes "
+            "barriers remain evaluated with the disclosed ethanol convention."
+        ),
+        "accepted_methods": ["NEB", "growing string", "relaxed coordinate scan", "IRC from validated TS"],
+    }
     write_json(data / "computational_protocol.json", protocol)
     write_json(data / "workflow_requirements.json", {"required_stages": ["route_candidate_selection", "low_cost_path_continuity", "transition_state_frequency_validation", "forward_reverse_connection_check", "ORCA_high_level_single_points", "GoodVibes_profiles", "kinetic_selectivity_analysis", "experimental_cross_check"], "hard_gates": ["The highest path image alone is not a validated transition state.", "Each formal TS must have one chemically relevant significant imaginary mode.", "C-C and C-O profiles must use the same reference and thermochemical convention.", "A pathway with wrong endpoint connectivity cannot support selectivity credit."], "rate_ratio_note": "Any Eyring ratio is an inference with equal-prefactor assumptions, not a directly measured product ratio."})
     info = task_info(task_id=task_id, source_id="heterobiaryl_pv_2019_cc_co_selectivity", category="reaction_path_and_kinetic_selectivity", benchmark_family="heterobiaryl_pv", task=("Orchestrate P2 pathway screening, pysisyphus/xTB path validation, Gaussian stationary-point validation, ORCA high-level single points, and GoodVibes profiles to reproduce the paper conclusion that pyridyl-pyridyl C-C coupling is kinetically preferred over the competing C-O pathway."), requirements=["Construct and validate both a C-C and a C-O path.", "Do not equate a path maximum with a transition state without Hessian evidence.", "Use identical thermochemical settings and reference states for both paths.", "Integrate the supplied experiments as supporting evidence without using them as computed barriers."], deliverables=deliverables)

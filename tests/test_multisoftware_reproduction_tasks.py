@@ -30,26 +30,23 @@ def test_multisoftware_reproduction_tasks_are_complete_and_hashed():
         assert info["scientific_mode"] == "guided_reproduction"
         assert info["method_disclosure"] == "paper_reconstructed_protocol"
         assert info["required_deliverables"]
-        assert truth["evaluation_profile"] == "paper_reproduction"
-        dual_axis = task_id in TASK_IDS[:2]
-        assert truth["evaluation_mode"] == (
-            "dual_axis_100" if dual_axis else "rubric_100"
+        assert any(
+            "server resources allow" in item
+            for item in info["scientific_requirements"]
         )
+        assert truth["evaluation_profile"] == "paper_reproduction"
+        assert truth["evaluation_mode"] == "dual_axis_100"
         assert truth["score_max"] == 100
         assert sum(item["max_score"] for item in truth["scoring_rubric"]) == 100
         rubric = {item["id"]: item for item in truth["scoring_rubric"]}
-        if dual_axis:
-            assert rubric["protocol_interpretation_and_execution_plan"]["max_score"] == 20
-            assert len(truth["scientific_conclusion_rubric"]) == 3
-            assert sum(
-                item["max_score"]
-                for item in truth["scientific_conclusion_rubric"]
-            ) == 100
-            assert truth["reference_conclusion_gate_policy"] == {}
-            assert truth["evidence_gate_policy"] == {}
-        else:
-            assert rubric["paper_conclusion_agreement"]["max_score"] == 55
-            assert truth["reference_conclusion_gate_policy"]["required"] is True
+        assert rubric["protocol_interpretation_and_execution_plan"]["max_score"] == 20
+        assert len(truth["scientific_conclusion_rubric"]) == 3
+        assert sum(
+            item["max_score"]
+            for item in truth["scientific_conclusion_rubric"]
+        ) == 100
+        assert truth["reference_conclusion_gate_policy"] == {}
+        assert truth["evidence_gate_policy"] == {}
         assert truth["expected_structured_output"] == [
             item["path"] for item in info["required_deliverables"]
         ]
@@ -122,6 +119,46 @@ def test_hidden_numerical_targets_are_not_visible():
             assert marker not in visible
 
 
+def test_reproduction_tasks_have_three_task_specific_paper_claims():
+    expected_claim_ids = {
+        "GEOM_Hierarchical_Conformer_Reranking_Reproduction": {
+            "major_basin_coverage",
+            "quantum_ranking_reorder",
+            "thermochemical_population_change",
+        },
+        "Electron_Flexible_Ensemble_Surface_Reproduction": {
+            "conformer_surface_variation",
+            "thermal_ensemble_reduces_single_structure_bias",
+            "paper_scale_ensemble_surface",
+        },
+        "PV_Protonation_Barrier_Trend_Reproduction": {
+            "successive_protonation_barrier_order",
+            "paper_scale_barriers_and_reductions",
+            "paper_scale_reaction_free_energies",
+        },
+        "BaO_Phase_Crossover_And_5d_Bonding_Reproduction": {
+            "bao_phase_sequence",
+            "bao_transition_pressure_reproduction",
+            "bao_5d_projection_reproduction",
+        },
+        "PV_CC_CO_Pathway_Selectivity_Reproduction": {
+            "two_valid_competing_paths",
+            "cc_preference_and_delta_delta_g",
+            "accessible_minor_co_path",
+        },
+        "NHC_Adsorption_Decomposition_Bonding_Reproduction": {
+            "nhc_binding_energy_reproduction",
+            "nhc_local_bonding_reproduction",
+            "nhc_decomposition_interpretation",
+        },
+    }
+    for task_id, expected_ids in expected_claim_ids.items():
+        truth = load_ground_truth(task_id)
+        assert {
+            item["id"] for item in truth["scientific_conclusion_rubric"]
+        } == expected_ids
+
+
 def test_task_specific_input_contracts():
     geom = json.loads(
         (
@@ -174,6 +211,18 @@ def test_task_specific_input_contracts():
     )
     assert pv_selectivity["candidate_count"] == 24
     assert {item["system"] for item in pv_selectivity["candidates"]} == {"P2"}
+    pv_selectivity_protocol = json.loads(
+        (
+            TASKS_DIR
+            / TASK_IDS[4]
+            / "data/benchmark_data/computational_protocol.json"
+        ).read_text(encoding="utf-8")
+    )
+    assert pv_selectivity_protocol["path_search"]["solvation_model"] == "ALPB"
+    assert pv_selectivity_protocol["path_search"]["solvent"] == "methanol"
+    assert "no ALPB ethanol" in pv_selectivity_protocol["path_search"][
+        "version_compatibility_note"
+    ]
 
     nhc = json.loads(
         (

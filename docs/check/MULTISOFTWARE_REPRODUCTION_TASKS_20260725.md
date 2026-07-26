@@ -37,18 +37,17 @@ The manifest SHA-256 is stored in hidden `reference_evidence`.
 
 ## Evaluation design
 
-The common 100-point rubric assigns:
+All six tasks now use `dual_axis_100`:
 
-- 35 points to recovery of the scoped paper conclusion;
-- 20 points to multi-software orchestration;
-- 20 points to intermediate scientific validity;
-- 10 points to protocol fidelity;
-- 10 points to numerical/statistical quality;
-- 5 points to provenance and uncertainty.
+- scientific-conclusion score `C`: three task-specific paper claims totaling 100;
+- reproduction-process score `P`: protocol interpretation, method/parameter fidelity,
+  managed recomputation, validation, failure recovery, efficiency, and provenance,
+  totaling 100;
+- final score: `C * P / 100`.
 
-Each task adds domain-specific evidence gates. Examples include conformer lineage,
-frequency validation, density provenance, EOS crossover refinement, matched surface
-reference states, and LOBSTER spilling quality.
+The conclusion axis directly covers conformer ranking, ensemble surface, protonation
+barrier trend, BaO phase/bonding claims, C-C/C-O selectivity, or NHC adsorption and
+decomposition as applicable. Copied paper values do not receive conclusion credit.
 
 ## Reproducible generation
 

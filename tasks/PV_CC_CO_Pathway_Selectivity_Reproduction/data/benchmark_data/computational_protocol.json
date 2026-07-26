@@ -37,7 +37,9 @@
   "path_search": {
     "backend": "pysisyphus",
     "low_cost_calculator": "GFN2-xTB",
-    "solvation": "ALPB ethanol",
+    "solvation_model": "ALPB",
+    "solvent": "methanol",
+    "version_compatibility_note": "xTB 6.7 has no ALPB ethanol parameters. Use ALPB methanol only as a low-cost protic-solvent path-search proxy; all formal Gaussian/ORCA/GoodVibes barriers remain evaluated with the disclosed ethanol convention.",
     "accepted_methods": [
       "NEB",
       "growing string",

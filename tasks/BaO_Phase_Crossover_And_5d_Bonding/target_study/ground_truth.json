@@ -61,42 +61,96 @@
     "report/bonding_hypotheses.json",
     "report/report.md"
   ],
-  "evaluation_mode": "rubric_100",
+  "evaluation_mode": "dual_axis_100",
   "score_max": 100,
   "scoring_rubric": [
     {
-      "id": "hidden_scientific_conclusion_recovery",
-      "max_score": 50,
-      "description": "Recovers every evaluator-only task-level scientific finding from newly generated evidence. The paper route is not required, but a conflicting or unsupported scientific outcome is not successful task completion."
-    },
-    {
-      "id": "autonomous_method_and_route_design",
+      "id": "problem_framing_and_route_design",
       "max_score": 20,
-      "description": "Independently frames competing hypotheses and selects defensible structures, software, methods, sampling, numerical controls, fallback routes, and stopping rules without a disclosed paper route."
+      "description": "Independently defines hypotheses, alternatives, decision criteria, a staged route, budgets, and stopping rules without a disclosed paper method."
     },
     {
-      "id": "adaptive_managed_execution",
-      "max_score": 10,
-      "description": "Executes real managed calculations, passes artifacts correctly, diagnoses failures, and revises the workflow without importing hidden results."
-    },
-    {
-      "id": "validation_and_falsification",
+      "id": "method_and_tool_selection",
       "max_score": 15,
-      "description": "Tests convergence, numerical sensitivity, chemical validity, competing explanations, uncertainty, and whether the evidence is sufficient for each claim."
+      "description": "Selects chemically appropriate structures, software, methods, parameters, numerical controls, and fallback routes."
     },
     {
-      "id": "provenance_and_uncertainty",
-      "max_score": 5,
-      "description": "Links claims to managed artifacts and clearly separates calculations, experimental constraints, inference, failed branches, uncertainty, and unresolved limitations."
+      "id": "managed_execution_and_artifact_flow",
+      "max_score": 15,
+      "description": "Executes real managed scientific calculations and passes identities, structures, parameters, and artifacts correctly between stages."
+    },
+    {
+      "id": "validation_falsification_and_uncertainty",
+      "max_score": 20,
+      "description": "Tests convergence, numerical sensitivity, chemical validity, alternative explanations, evidence sufficiency, and uncertainty."
+    },
+    {
+      "id": "failure_diagnosis_and_adaptation",
+      "max_score": 10,
+      "description": "Diagnoses failed or inconclusive calls, avoids repeating preventable errors, and adapts without fabricating or laundering results."
+    },
+    {
+      "id": "resource_and_search_efficiency",
+      "max_score": 10,
+      "description": "Uses CPU, memory, parallelism, numerical resolution, search breadth, and stopping decisions efficiently without avoidable under-allocation or waste."
+    },
+    {
+      "id": "provenance_reporting_and_reproducibility",
+      "max_score": 10,
+      "description": "Links claims to managed artifacts and clearly reports assumptions, failed branches, deviations, units, uncertainty, and reproducible parameters."
     }
   ],
+  "scientific_conclusion_rubric": [
+    {
+      "id": "bao_phase_sequence",
+      "max_score": 40,
+      "statement": "New periodic enthalpy calculations recover the B1 -> B8 -> dB2 stability sequence between 0 and 80 GPa.",
+      "acceptance_rule": "Require converged per-formula-unit periodic energies, preserved phase identities, and enthalpy comparison over the pressure interval; labels may be decoded only from the supplied structures and new calculations.",
+      "required_evidence": [
+        "new periodic energy or stress calculations for all candidates",
+        "formula-unit normalization",
+        "phase-identity validation"
+      ]
+    },
+    {
+      "id": "bao_transition_pressure_neighborhoods",
+      "max_score": 35,
+      "statement": "The two crossovers occur near the paper neighborhoods around 8-10 GPa and 25 GPa.",
+      "acceptance_rule": "Full credit requires adaptively refined crossings with convergence, EOS/interpolation, and model sensitivity whose uncertainty overlaps the reference neighborhoods; grid endpoints alone are insufficient.",
+      "required_evidence": [
+        "EOS or equivalent enthalpy interpolation",
+        "adaptive points around both crossings",
+        "numerical uncertainty"
+      ]
+    },
+    {
+      "id": "bao_5d_bonding_ablation",
+      "max_score": 25,
+      "statement": "A quality-gated same-wavefunction orbital projection comparison supports selective Ba 5d-O covalent participation in the denser B8 and dB2 phases.",
+      "acceptance_rule": "Require a fresh with/without-Ba-5d ablation or a scientifically equivalent orbital-resolved test, acceptable or explicitly qualified spilling, and separation of bonding correlation from enthalpy causation.",
+      "required_evidence": [
+        "paired projection analysis",
+        "spilling or projection-quality metrics",
+        "Ba-O bonding and Ba 5d orbital evidence"
+      ]
+    }
+  ],
+  "dual_axis_scoring_policy": {
+    "formula": "scientific_conclusion_score * research_process_score / 100",
+    "scientific_conclusion_score_max": 100,
+    "research_process_score_max": 100,
+    "final_score_max": 100,
+    "unsupported_claim_policy": "A conclusion copied, guessed, or asserted without newly generated valid evidence receives no scientific-conclusion credit.",
+    "objective_failure_policy": "A demonstrated benchmark input, framework, backend, or infrastructure failure may make the run not_scorable_objective; agent-selected invalid inputs or resource limits do not.",
+    "invalid_submission_policy": "Fabricated evidence, hidden-answer leakage, or paper values presented as new calculations make the final score zero."
+  },
   "critical_failures": [
     "No real periodic electronic-structure calculation was executed.",
     "Energies or enthalpies were compared without formula-unit normalization.",
     "A relaxed structure changed phase identity but was retained without disclosure.",
     "Literature transition pressures or bonding values were presented as new results."
   ],
-  "judge_instructions": "This is a strict autonomous-discovery evaluation. The Agent receives no paper method or route and may use any scientifically valid workflow, but high task-completion credit requires recovering every finding in the hidden scientific acceptance contract from new managed evidence. Do not reward an opposite or indeterminate conclusion as successful discovery merely because the tool sequence is plausible. Apply every evidence gate and the reference-conclusion score cap.",
+  "judge_instructions": "Score every hidden paper claim independently from newly generated evidence, then score autonomous research-process quality separately. Do not require the paper route, and do not let a good process excuse a wrong conclusion. The scorer applies the multiplicative formula.",
   "reference_evidence": {
     "task_id": "BaO_Phase_Crossover_And_5d_Bonding",
     "paired_reproduction_task_id": "BaO_Phase_Crossover_And_5d_Bonding_Reproduction",
@@ -150,54 +204,17 @@
     "score_cap_without_managed_attempt": 20,
     "score_cap_without_successful_managed_call": 40
   },
-  "evidence_gate_policy": {
-    "judge_must_assess_all": true,
-    "gates": [
-      {
-        "id": "periodic_evidence",
-        "description": "New converged periodic calculations support the stability analysis.",
-        "score_cap_if_failed": 35
-      },
-      {
-        "id": "thermodynamic_consistency",
-        "description": "Pressure/volume, PV units, references, and normalization are consistent.",
-        "score_cap_if_failed": 55
-      },
-      {
-        "id": "phase_identity",
-        "description": "Relaxed candidates remain distinguishable or transformations are explicitly analyzed.",
-        "score_cap_if_failed": 65
-      },
-      {
-        "id": "phase_sequence_resolution",
-        "description": "Sampling and interpolation resolve both stability crossovers with quantified convergence uncertainty.",
-        "score_cap_if_failed": 55
-      },
-      {
-        "id": "five_d_bonding_evidence",
-        "description": "A fresh, quality-gated projection ablation or equivalent orbital-resolved analysis tests the selective Ba 5d-O stabilization claim.",
-        "score_cap_if_failed": 65
-      }
-    ]
-  },
+  "evidence_gate_policy": {},
   "current_toolbox_feasibility_baseline": {
-    "status": "pre_release_split_recommended",
-    "classification": "phase_stability_solvable_bonding_blocked",
+    "status": "pre_release_native_oracle_required",
+    "classification": "conditionally_solvable_with_native_execution",
     "paired_reproduction_reference_run_complete": false,
     "known_limitations": [
       "The phase-stability part can be piloted after locking pseudopotentials and convergence settings.",
-      "Fresh LOBSTER generation remains blocked by the POTCAR/native-job staging gap; bonding is optional and cannot be a hard completion gate yet."
+      "Fresh LOBSTER generation is available through the direct native-software layer, while public LOBSTER Actions currently parse and quality-gate existing outputs.",
+      "A fresh end-to-end Gold Run is still required before both the phase and bonding claims enter formal ranking."
     ]
   },
   "evaluation_profile": "autonomous_discovery",
-  "reference_conclusion_gate_policy": {
-    "required": true,
-    "criterion_id": "hidden_scientific_conclusion_recovery",
-    "score_cap_if_not_matched": 40,
-    "score_cap_if_uncertain": 60,
-    "score_cap_if_omitted": 35,
-    "max_criterion_score_if_not_matched": 0,
-    "max_criterion_score_if_uncertain": 20,
-    "max_criterion_score_if_omitted": 0
-  }
+  "reference_conclusion_gate_policy": {}
 }

@@ -59,42 +59,96 @@
     "report/adsorption_interpretation.json",
     "report/report.md"
   ],
-  "evaluation_mode": "rubric_100",
+  "evaluation_mode": "dual_axis_100",
   "score_max": 100,
   "scoring_rubric": [
     {
-      "id": "hidden_scientific_conclusion_recovery",
-      "max_score": 50,
-      "description": "Recovers every evaluator-only task-level scientific finding from newly generated evidence. The paper route is not required, but a conflicting or unsupported scientific outcome is not successful task completion."
-    },
-    {
-      "id": "autonomous_method_and_route_design",
+      "id": "problem_framing_and_route_design",
       "max_score": 20,
-      "description": "Independently frames competing hypotheses and selects defensible structures, software, methods, sampling, numerical controls, fallback routes, and stopping rules without a disclosed paper route."
+      "description": "Independently defines hypotheses, alternatives, decision criteria, a staged route, budgets, and stopping rules without a disclosed paper method."
     },
     {
-      "id": "adaptive_managed_execution",
-      "max_score": 10,
-      "description": "Executes real managed calculations, passes artifacts correctly, diagnoses failures, and revises the workflow without importing hidden results."
-    },
-    {
-      "id": "validation_and_falsification",
+      "id": "method_and_tool_selection",
       "max_score": 15,
-      "description": "Tests convergence, numerical sensitivity, chemical validity, competing explanations, uncertainty, and whether the evidence is sufficient for each claim."
+      "description": "Selects chemically appropriate structures, software, methods, parameters, numerical controls, and fallback routes."
     },
     {
-      "id": "provenance_and_uncertainty",
-      "max_score": 5,
-      "description": "Links claims to managed artifacts and clearly separates calculations, experimental constraints, inference, failed branches, uncertainty, and unresolved limitations."
+      "id": "managed_execution_and_artifact_flow",
+      "max_score": 15,
+      "description": "Executes real managed scientific calculations and passes identities, structures, parameters, and artifacts correctly between stages."
+    },
+    {
+      "id": "validation_falsification_and_uncertainty",
+      "max_score": 20,
+      "description": "Tests convergence, numerical sensitivity, chemical validity, alternative explanations, evidence sufficiency, and uncertainty."
+    },
+    {
+      "id": "failure_diagnosis_and_adaptation",
+      "max_score": 10,
+      "description": "Diagnoses failed or inconclusive calls, avoids repeating preventable errors, and adapts without fabricating or laundering results."
+    },
+    {
+      "id": "resource_and_search_efficiency",
+      "max_score": 10,
+      "description": "Uses CPU, memory, parallelism, numerical resolution, search breadth, and stopping decisions efficiently without avoidable under-allocation or waste."
+    },
+    {
+      "id": "provenance_reporting_and_reproducibility",
+      "max_score": 10,
+      "description": "Links claims to managed artifacts and clearly reports assumptions, failed branches, deviations, units, uncertainty, and reproducible parameters."
     }
   ],
+  "scientific_conclusion_rubric": [
+    {
+      "id": "nhc_adsorption_order_and_scale",
+      "max_score": 35,
+      "statement": "Matched-reference periodic calculations find NHC4 only modestly more strongly adsorbed overall than NHC1.",
+      "acceptance_rule": "Require independently generated adsorption candidates, converged matched-cell reference energies, and uncertainty that resolves the ordering without comparing raw energies from different cells.",
+      "required_evidence": [
+        "new adsorption searches and relaxations",
+        "matched slab and ligand references",
+        "relative adsorption energy and uncertainty"
+      ]
+    },
+    {
+      "id": "nhc_local_pd_c_bonding_order",
+      "max_score": 35,
+      "statement": "Quality-gated local Pd-C metrics show stronger bonding for NHC4 than NHC1.",
+      "acceptance_rule": "Require distance-selected Pd-C pairs and fresh validated bonding descriptors, such as shorter Pd-C distance together with stronger ICOHP/ICOBI or a scientifically equivalent analysis; copied paper values receive no credit.",
+      "required_evidence": [
+        "final-geometry Pd-C distances",
+        "fresh local bonding descriptors",
+        "projection quality or equivalent validation"
+      ]
+    },
+    {
+      "id": "nhc_deformation_moderates_total_binding",
+      "max_score": 30,
+      "statement": "Surface/ligand deformation and other reference-state contributions moderate the total adsorption-energy difference, so local Pd-C strength alone does not determine binding.",
+      "acceptance_rule": "Require an algebraically closed decomposition or an equivalent controlled energy analysis that separates local interaction from deformation/reference contributions.",
+      "required_evidence": [
+        "frozen and relaxed fragment energies",
+        "closed energy decomposition",
+        "joint local-bonding versus total-energy interpretation"
+      ]
+    }
+  ],
+  "dual_axis_scoring_policy": {
+    "formula": "scientific_conclusion_score * research_process_score / 100",
+    "scientific_conclusion_score_max": 100,
+    "research_process_score_max": 100,
+    "final_score_max": 100,
+    "unsupported_claim_policy": "A conclusion copied, guessed, or asserted without newly generated valid evidence receives no scientific-conclusion credit.",
+    "objective_failure_policy": "A demonstrated benchmark input, framework, backend, or infrastructure failure may make the run not_scorable_objective; agent-selected invalid inputs or resource limits do not.",
+    "invalid_submission_policy": "Fabricated evidence, hidden-answer leakage, or paper values presented as new calculations make the final score zero."
+  },
   "critical_failures": [
     "A hidden/published adsorbed structure was used as an independently generated result.",
     "Adsorption energies used unmatched surface cells or incompatible reference settings.",
     "No real periodic electronic-structure calculation was executed.",
     "Local bond metrics were treated as identical to total adsorption energy without decomposition or caveat."
   ],
-  "judge_instructions": "This is a strict autonomous-discovery evaluation. The Agent receives no paper method or route and may use any scientifically valid workflow, but high task-completion credit requires recovering every finding in the hidden scientific acceptance contract from new managed evidence. Do not reward an opposite or indeterminate conclusion as successful discovery merely because the tool sequence is plausible. Apply every evidence gate and the reference-conclusion score cap.",
+  "judge_instructions": "Score every hidden paper claim independently from newly generated evidence, then score autonomous research-process quality separately. Do not require the paper route, and do not let a good process excuse a wrong conclusion. The scorer applies the multiplicative formula.",
   "reference_evidence": {
     "task_id": "NHC_Adsorption_Decomposition_Bonding",
     "paired_reproduction_task_id": "NHC_Adsorption_Decomposition_Bonding_Reproduction",
@@ -142,55 +196,17 @@
     "score_cap_without_managed_attempt": 20,
     "score_cap_without_successful_managed_call": 40
   },
-  "evidence_gate_policy": {
-    "judge_must_assess_all": true,
-    "gates": [
-      {
-        "id": "independent_adsorption_search",
-        "description": "Multiple adsorption candidates were generated from clean surface and ligand inputs.",
-        "score_cap_if_failed": 45
-      },
-      {
-        "id": "matched_references",
-        "description": "Adsorption comparisons use matched cells and compatible settings.",
-        "score_cap_if_failed": 55
-      },
-      {
-        "id": "constraint_and_geometry_validity",
-        "description": "Relaxation constraints and final adsorption identity are verified.",
-        "score_cap_if_failed": 65
-      },
-      {
-        "id": "adsorption_order_and_decomposition",
-        "description": "Fresh matched calculations resolve the NHC4/NHC1 adsorption ordering and quantify deformation or equivalent nonlocal energetic contributions.",
-        "score_cap_if_failed": 55
-      },
-      {
-        "id": "bonding_vs_total_energy_interpretation",
-        "description": "Quality-gated local Pd-C descriptors are compared without equating them to total adsorption energy.",
-        "score_cap_if_failed": 65
-      }
-    ]
-  },
+  "evidence_gate_policy": {},
   "current_toolbox_feasibility_baseline": {
-    "status": "pre_release_blocked",
-    "classification": "toolbox_gap",
+    "status": "pre_release_native_oracle_required",
+    "classification": "conditionally_solvable_with_native_execution",
     "paired_reproduction_reference_run_complete": false,
     "known_limitations": [
-      "The public toolbox lacks a validated adsorption-placement workflow for these systems.",
-      "VASP Selective Dynamics and POTCAR-to-native staging are not yet sufficient for the requested production protocol.",
-      "Fresh LOBSTER generation remains blocked; bonding must remain optional until repaired."
+      "Adsorption placement and Selective Dynamics are not covered by dedicated public Actions, but may be implemented through the allowed direct programming/native VASP layer.",
+      "Fresh LOBSTER generation is available through direct native execution; public LOBSTER Actions parse and quality-gate the generated outputs.",
+      "A fresh adsorption-search and decomposition Gold Run is still required before formal ranking."
     ]
   },
   "evaluation_profile": "autonomous_discovery",
-  "reference_conclusion_gate_policy": {
-    "required": true,
-    "criterion_id": "hidden_scientific_conclusion_recovery",
-    "score_cap_if_not_matched": 40,
-    "score_cap_if_uncertain": 60,
-    "score_cap_if_omitted": 35,
-    "max_criterion_score_if_not_matched": 0,
-    "max_criterion_score_if_uncertain": 20,
-    "max_criterion_score_if_omitted": 0
-  }
+  "reference_conclusion_gate_policy": {}
 }

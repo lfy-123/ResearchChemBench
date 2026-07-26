@@ -54,42 +54,96 @@
     "report/protonation_comparison.csv",
     "report/report.md"
   ],
-  "evaluation_mode": "rubric_100",
+  "evaluation_mode": "dual_axis_100",
   "score_max": 100,
   "scoring_rubric": [
     {
-      "id": "hidden_scientific_conclusion_recovery",
-      "max_score": 50,
-      "description": "Recovers every evaluator-only task-level scientific finding from newly generated evidence. The paper route is not required, but a conflicting or unsupported scientific outcome is not successful task completion."
-    },
-    {
-      "id": "autonomous_method_and_route_design",
+      "id": "problem_framing_and_route_design",
       "max_score": 20,
-      "description": "Independently frames competing hypotheses and selects defensible structures, software, methods, sampling, numerical controls, fallback routes, and stopping rules without a disclosed paper route."
+      "description": "Independently defines hypotheses, alternatives, decision criteria, a staged route, budgets, and stopping rules without a disclosed paper method."
     },
     {
-      "id": "adaptive_managed_execution",
-      "max_score": 10,
-      "description": "Executes real managed calculations, passes artifacts correctly, diagnoses failures, and revises the workflow without importing hidden results."
-    },
-    {
-      "id": "validation_and_falsification",
+      "id": "method_and_tool_selection",
       "max_score": 15,
-      "description": "Tests convergence, numerical sensitivity, chemical validity, competing explanations, uncertainty, and whether the evidence is sufficient for each claim."
+      "description": "Selects chemically appropriate structures, software, methods, parameters, numerical controls, and fallback routes."
     },
     {
-      "id": "provenance_and_uncertainty",
-      "max_score": 5,
-      "description": "Links claims to managed artifacts and clearly separates calculations, experimental constraints, inference, failed branches, uncertainty, and unresolved limitations."
+      "id": "managed_execution_and_artifact_flow",
+      "max_score": 15,
+      "description": "Executes real managed scientific calculations and passes identities, structures, parameters, and artifacts correctly between stages."
+    },
+    {
+      "id": "validation_falsification_and_uncertainty",
+      "max_score": 20,
+      "description": "Tests convergence, numerical sensitivity, chemical validity, alternative explanations, evidence sufficiency, and uncertainty."
+    },
+    {
+      "id": "failure_diagnosis_and_adaptation",
+      "max_score": 10,
+      "description": "Diagnoses failed or inconclusive calls, avoids repeating preventable errors, and adapts without fabricating or laundering results."
+    },
+    {
+      "id": "resource_and_search_efficiency",
+      "max_score": 10,
+      "description": "Uses CPU, memory, parallelism, numerical resolution, search breadth, and stopping decisions efficiently without avoidable under-allocation or waste."
+    },
+    {
+      "id": "provenance_reporting_and_reproducibility",
+      "max_score": 10,
+      "description": "Links claims to managed artifacts and clearly reports assumptions, failed branches, deviations, units, uncertainty, and reproducible parameters."
     }
   ],
+  "scientific_conclusion_rubric": [
+    {
+      "id": "successive_protonation_barrier_order",
+      "max_score": 45,
+      "statement": "Comparable new kinetic evidence establishes the coupling-barrier order P0 > P1 > P2.",
+      "acceptance_rule": "Require validated transition states and connection evidence, or controlled bounds that resolve all three states under one energy, solvation, temperature, standard-state, and reference convention.",
+      "required_evidence": [
+        "new P0/P1/P2 pathway calculations",
+        "first-order saddle and connection validation or controlled bounds",
+        "common free-energy convention"
+      ]
+    },
+    {
+      "id": "stepwise_barrier_reduction_scale",
+      "max_score": 30,
+      "statement": "The first protonation causes a large barrier reduction and the second causes an additional smaller reduction, consistent with the paper-scale approximately 10 and 6 kcal/mol changes.",
+      "acceptance_rule": "Full credit requires newly computed reductions with the correct direction and relative scale; partial credit is available when uncertainty preserves the qualitative successive lowering but not both magnitudes.",
+      "required_evidence": [
+        "three comparable activation free energies",
+        "difference and uncertainty analysis",
+        "candidate or conformer sensitivity"
+      ]
+    },
+    {
+      "id": "exergonic_profiles_distinct_from_kinetic_trend",
+      "max_score": 25,
+      "statement": "All three coupling profiles remain strongly exergonic on a similar scale, so the protonation effect is primarily a kinetic-barrier trend rather than a large change in reaction thermodynamics.",
+      "acceptance_rule": "Require newly computed, consistently referenced reaction free energies for P0, P1, and P2; barrier ordering alone cannot receive this credit.",
+      "required_evidence": [
+        "reactant and product free energies for all states",
+        "common thermochemical treatment",
+        "kinetic-versus-thermodynamic interpretation"
+      ]
+    }
+  ],
+  "dual_axis_scoring_policy": {
+    "formula": "scientific_conclusion_score * research_process_score / 100",
+    "scientific_conclusion_score_max": 100,
+    "research_process_score_max": 100,
+    "final_score_max": 100,
+    "unsupported_claim_policy": "A conclusion copied, guessed, or asserted without newly generated valid evidence receives no scientific-conclusion credit.",
+    "objective_failure_policy": "A demonstrated benchmark input, framework, backend, or infrastructure failure may make the run not_scorable_objective; agent-selected invalid inputs or resource limits do not.",
+    "invalid_submission_policy": "Fabricated evidence, hidden-answer leakage, or paper values presented as new calculations make the final score zero."
+  },
   "critical_failures": [
     "A supplied seed is described as an optimized minimum or transition state without a new calculation.",
     "A precise barrier is reported without first-order saddle and connection evidence.",
     "P0/P1/P2 comparisons mix incompatible references, conditions, or energy conventions.",
     "Hidden stationary points or literature barriers are presented as newly generated."
   ],
-  "judge_instructions": "This is a strict autonomous-discovery evaluation. The Agent receives no paper method or route and may use any scientifically valid workflow, but high task-completion credit requires recovering every finding in the hidden scientific acceptance contract from new managed evidence. Do not reward an opposite or indeterminate conclusion as successful discovery merely because the tool sequence is plausible. Apply every evidence gate and the reference-conclusion score cap.",
+  "judge_instructions": "Score every hidden paper claim independently from newly generated evidence, then score autonomous research-process quality separately. Do not require the paper route, and do not let a good process excuse a wrong conclusion. The scorer applies the multiplicative formula.",
   "reference_evidence": {
     "task_id": "PV_Protonation_Barrier_Trend",
     "paired_reproduction_task_id": "PV_Protonation_Barrier_Trend_Reproduction",
@@ -132,31 +186,7 @@
     "score_cap_without_managed_attempt": 20,
     "score_cap_without_successful_managed_call": 40
   },
-  "evidence_gate_policy": {
-    "judge_must_assess_all": true,
-    "gates": [
-      {
-        "id": "state_comparability",
-        "description": "All three protonation states use comparable conditions and references.",
-        "score_cap_if_failed": 60
-      },
-      {
-        "id": "pathway_validity",
-        "description": "Claims are supported by validated paths/TSs or explicitly limited controlled bounds.",
-        "score_cap_if_failed": 55
-      },
-      {
-        "id": "three_state_evidence",
-        "description": "Each state has a new managed computational attempt and an evidence-status conclusion.",
-        "score_cap_if_failed": 70
-      },
-      {
-        "id": "barrier_trend_resolution",
-        "description": "Validated comparable evidence is strong enough to determine the P0 > P1 > P2 barrier ordering rather than merely proposing it.",
-        "score_cap_if_failed": 50
-      }
-    ]
-  },
+  "evidence_gate_policy": {},
   "current_toolbox_feasibility_baseline": {
     "status": "pre_release_blocked",
     "classification": "partially_solvable",
@@ -167,14 +197,5 @@
     ]
   },
   "evaluation_profile": "autonomous_discovery",
-  "reference_conclusion_gate_policy": {
-    "required": true,
-    "criterion_id": "hidden_scientific_conclusion_recovery",
-    "score_cap_if_not_matched": 40,
-    "score_cap_if_uncertain": 60,
-    "score_cap_if_omitted": 35,
-    "max_criterion_score_if_not_matched": 0,
-    "max_criterion_score_if_uncertain": 20,
-    "max_criterion_score_if_omitted": 0
-  }
+  "reference_conclusion_gate_policy": {}
 }

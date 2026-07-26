@@ -43,52 +43,101 @@
     "report/selectivity_conclusion.json",
     "report/report.md"
   ],
-  "evaluation_mode": "rubric_100",
+  "evaluation_mode": "dual_axis_100",
   "score_max": 100,
   "scoring_rubric": [
     {
-      "id": "paper_conclusion_agreement",
-      "max_score": 55,
-      "description": "Newly generated evidence recovers the scoped paper conclusion. A conflicting ranking, phase sequence, barrier trend, selectivity, ensemble effect, or bonding interpretation is not a reproduction."
+      "id": "protocol_interpretation_and_execution_plan",
+      "max_score": 20,
+      "description": "Correctly interprets the supplied paper method and route, maps dependencies, budgets stages, and defines validation and stopping rules."
     },
     {
-      "id": "multisoftware_orchestration",
+      "id": "method_parameter_and_structure_fidelity",
       "max_score": 15,
-      "description": "Correctly composes the required software stages, passes artifacts between them, and respects dependency, retry, and stopping logic."
+      "description": "Uses the supplied identities, structures, methods, parameters, reference states, and controlled version-compatible substitutions faithfully."
     },
     {
-      "id": "intermediate_evidence_validity",
+      "id": "managed_recomputation_and_artifact_flow",
       "max_score": 15,
-      "description": "Validates chemical identity, convergence, stationary-point type, wavefunction or periodic-output quality, and rejects invalid branches."
+      "description": "Recomputes the required evidence through managed scientific execution and passes artifacts correctly across the disclosed workflow."
     },
     {
-      "id": "protocol_fidelity",
-      "max_score": 5,
-      "description": "Follows the supplied paper-reconstructed protocol and clearly labels any controlled, version-compatible substitution."
+      "id": "validation_numerical_quality_and_uncertainty",
+      "max_score": 20,
+      "description": "Validates convergence, identities, stationary points or surfaces, numerical resolution, statistics, uncertainty, and paper-comparison tolerances."
     },
     {
-      "id": "numerical_and_statistical_quality",
-      "max_score": 5,
-      "description": "Uses consistent units, reference states, normalization, statistics, and uncertainty estimates."
+      "id": "failure_diagnosis_and_protocol_recovery",
+      "max_score": 10,
+      "description": "Diagnoses failures, makes scientifically controlled recovery choices, and records any unavoidable protocol deviation."
     },
     {
-      "id": "provenance_and_uncertainty",
-      "max_score": 5,
-      "description": "Links every conclusion to artifacts and separates computation, paper targets, inference, failures, and unresolved uncertainty."
+      "id": "resource_and_execution_efficiency",
+      "max_score": 10,
+      "description": "Uses available resources, parallelism, retries, numerical settings, and stopping decisions efficiently while preserving protocol validity."
+    },
+    {
+      "id": "provenance_reporting_and_reproducibility",
+      "max_score": 10,
+      "description": "Separates paper targets from recomputation and links conclusions, parameters, deviations, failures, and uncertainty to artifacts."
     }
   ],
+  "scientific_conclusion_rubric": [
+    {
+      "id": "two_valid_competing_paths",
+      "max_score": 30,
+      "statement": "The supplied/reconstructed P2 C-C and C-O pathways both pass endpoint, path-continuity, transition-state, and connection validation.",
+      "acceptance_rule": "Require a chemically relevant single imaginary mode and forward/reverse connection evidence for each barrier-defining transition state; a highest path image alone is insufficient.",
+      "required_evidence": [
+        "validated C-C path",
+        "validated C-O path",
+        "frequency and connection evidence"
+      ]
+    },
+    {
+      "id": "cc_preference_and_delta_delta_g",
+      "max_score": 45,
+      "statement": "The recomputed profiles reproduce C-C as kinetically preferred, with the C-O barrier higher by approximately 4 kcal/mol.",
+      "acceptance_rule": "Full credit requires newly computed barriers compatible with the paper-scale 14 and 18 kcal/mol values and a positive C-O minus C-C difference near 4 kcal/mol under identical thermochemistry.",
+      "required_evidence": [
+        "two new high-level activation free energies",
+        "delta-delta-G",
+        "paper comparison and uncertainty"
+      ]
+    },
+    {
+      "id": "accessible_minor_co_path",
+      "max_score": 25,
+      "statement": "The reconstructed C-O path is accessible but kinetically suppressed under the standard conditions, consistent with the experimental observations.",
+      "acceptance_rule": "Require finite C-O pathway evidence and a clearly labeled kinetic inference; experiments support but do not replace the computed comparison.",
+      "required_evidence": [
+        "finite C-O barrier",
+        "selectivity or rate-ratio interpretation",
+        "experimental cross-check"
+      ]
+    }
+  ],
+  "dual_axis_scoring_policy": {
+    "formula": "scientific_conclusion_score * research_process_score / 100",
+    "scientific_conclusion_score_max": 100,
+    "research_process_score_max": 100,
+    "final_score_max": 100,
+    "unsupported_claim_policy": "A conclusion copied, guessed, or asserted without newly generated valid evidence receives no scientific-conclusion credit.",
+    "objective_failure_policy": "A demonstrated benchmark input, framework, backend, or infrastructure failure may make the run not_scorable_objective; agent-selected invalid inputs or resource limits do not.",
+    "invalid_submission_policy": "Fabricated evidence, hidden-answer leakage, or paper values presented as new calculations make the final score zero."
+  },
   "critical_failures": [
     "Only one pathway was computed.",
     "A path maximum was reported as a TS without frequency validation.",
     "The two barriers use inconsistent references or thermochemistry.",
     "Paper barriers were copied as newly calculated values."
   ],
-  "judge_instructions": "Evaluate this as a multi-software paper reproduction. Do not award conclusion credit for copied paper values, invalid intermediates, or numerically plausible results unsupported by artifacts from this run. The paper-conclusion criterion is the majority of the score. Apply every evidence gate.",
+  "judge_instructions": "Evaluate every hidden paper claim independently from newly generated evidence, then evaluate reproduction-process quality separately. Do not copy conclusion deficiencies into the process axis or use process quality to excuse a wrong claim. The scorer applies the multiplicative formula.",
   "reference_evidence": {
     "paper_doi": "10.1126/science.aas8961",
     "task_id": "PV_CC_CO_Pathway_Selectivity_Reproduction",
     "task_mode": "guided_reproduction",
-    "input_manifest_sha256": "9f4852d95e4719aa5da494206bb3d2f1c67db51cce67817cc9421a1d0c5dac42",
+    "input_manifest_sha256": "9db62baa0efcbeec38d2201417b2184fd7463eddd6b21c6828a789c67ca551ee",
     "paper_reference": {
       "state": "P2",
       "paper_cc_barrier_kcal_mol": 14,
@@ -104,26 +153,7 @@
     "do_not_fabricate_on_timeout": true,
     "require_workspace_confined_artifacts": true
   },
-  "evidence_gate_policy": {
-    "judge_must_assess_all": true,
-    "gates": [
-      {
-        "id": "two_valid_paths",
-        "description": "Both C-C and C-O paths have connectivity and endpoint evidence.",
-        "score_cap_if_failed": 45
-      },
-      {
-        "id": "ts_validation",
-        "description": "Barrier-defining structures pass frequency and connection checks.",
-        "score_cap_if_failed": 50
-      },
-      {
-        "id": "common_energy_model",
-        "description": "Both profiles use identical energy and thermochemical treatment.",
-        "score_cap_if_failed": 60
-      }
-    ]
-  },
+  "evidence_gate_policy": {},
   "current_toolbox_reproduction_baseline": {
     "status": "partially_solvable_reference_run_required",
     "classification": "partially_solvable",
@@ -147,14 +177,5 @@
     ]
   },
   "evaluation_profile": "paper_reproduction",
-  "reference_conclusion_gate_policy": {
-    "required": true,
-    "criterion_id": "paper_conclusion_agreement",
-    "score_cap_if_not_matched": 50,
-    "score_cap_if_uncertain": 65,
-    "score_cap_if_omitted": 50,
-    "max_criterion_score_if_not_matched": 0,
-    "max_criterion_score_if_uncertain": 12,
-    "max_criterion_score_if_omitted": 0
-  }
+  "reference_conclusion_gate_policy": {}
 }

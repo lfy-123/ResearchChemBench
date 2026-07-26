@@ -36,6 +36,102 @@ REPRO_IDS = (
 TASK_IDS = tuple(task_id.removesuffix("_Reproduction") for task_id in REPRO_IDS)
 
 
+SCIENTIFIC_CONCLUSION_RUBRICS: dict[str, list[dict[str, Any]]] = {
+    "PV_Protonation_Barrier_Trend": [
+        {
+            "id": "successive_protonation_barrier_order",
+            "max_score": 45,
+            "statement": "Comparable new kinetic evidence establishes the coupling-barrier order P0 > P1 > P2.",
+            "acceptance_rule": "Require validated transition states and connection evidence, or controlled bounds that resolve all three states under one energy, solvation, temperature, standard-state, and reference convention.",
+            "required_evidence": ["new P0/P1/P2 pathway calculations", "first-order saddle and connection validation or controlled bounds", "common free-energy convention"],
+        },
+        {
+            "id": "stepwise_barrier_reduction_scale",
+            "max_score": 30,
+            "statement": "The first protonation causes a large barrier reduction and the second causes an additional smaller reduction, consistent with the paper-scale approximately 10 and 6 kcal/mol changes.",
+            "acceptance_rule": "Full credit requires newly computed reductions with the correct direction and relative scale; partial credit is available when uncertainty preserves the qualitative successive lowering but not both magnitudes.",
+            "required_evidence": ["three comparable activation free energies", "difference and uncertainty analysis", "candidate or conformer sensitivity"],
+        },
+        {
+            "id": "exergonic_profiles_distinct_from_kinetic_trend",
+            "max_score": 25,
+            "statement": "All three coupling profiles remain strongly exergonic on a similar scale, so the protonation effect is primarily a kinetic-barrier trend rather than a large change in reaction thermodynamics.",
+            "acceptance_rule": "Require newly computed, consistently referenced reaction free energies for P0, P1, and P2; barrier ordering alone cannot receive this credit.",
+            "required_evidence": ["reactant and product free energies for all states", "common thermochemical treatment", "kinetic-versus-thermodynamic interpretation"],
+        },
+    ],
+    "BaO_Phase_Crossover_And_5d_Bonding": [
+        {
+            "id": "bao_phase_sequence",
+            "max_score": 40,
+            "statement": "New periodic enthalpy calculations recover the B1 -> B8 -> dB2 stability sequence between 0 and 80 GPa.",
+            "acceptance_rule": "Require converged per-formula-unit periodic energies, preserved phase identities, and enthalpy comparison over the pressure interval; labels may be decoded only from the supplied structures and new calculations.",
+            "required_evidence": ["new periodic energy or stress calculations for all candidates", "formula-unit normalization", "phase-identity validation"],
+        },
+        {
+            "id": "bao_transition_pressure_neighborhoods",
+            "max_score": 35,
+            "statement": "The two crossovers occur near the paper neighborhoods around 8-10 GPa and 25 GPa.",
+            "acceptance_rule": "Full credit requires adaptively refined crossings with convergence, EOS/interpolation, and model sensitivity whose uncertainty overlaps the reference neighborhoods; grid endpoints alone are insufficient.",
+            "required_evidence": ["EOS or equivalent enthalpy interpolation", "adaptive points around both crossings", "numerical uncertainty"],
+        },
+        {
+            "id": "bao_5d_bonding_ablation",
+            "max_score": 25,
+            "statement": "A quality-gated same-wavefunction orbital projection comparison supports selective Ba 5d-O covalent participation in the denser B8 and dB2 phases.",
+            "acceptance_rule": "Require a fresh with/without-Ba-5d ablation or a scientifically equivalent orbital-resolved test, acceptable or explicitly qualified spilling, and separation of bonding correlation from enthalpy causation.",
+            "required_evidence": ["paired projection analysis", "spilling or projection-quality metrics", "Ba-O bonding and Ba 5d orbital evidence"],
+        },
+    ],
+    "PV_CC_CO_Pathway_Selectivity": [
+        {
+            "id": "two_valid_competing_paths",
+            "max_score": 30,
+            "statement": "Both the pyridyl-pyridyl C-C and competing C-O pathways are represented by chemically valid, comparably treated paths.",
+            "acceptance_rule": "Require endpoint connectivity, atom identity, path continuity, and transition-state/connection validation for both paths, or explicit controlled bounds when one formal TS remains unresolved.",
+            "required_evidence": ["new C-C path evidence", "new C-O path evidence", "stationary-point and connection checks"],
+        },
+        {
+            "id": "cc_kinetic_preference",
+            "max_score": 45,
+            "statement": "The new free-energy comparison establishes C-C coupling as kinetically preferred, with C-O higher by a paper-scale value near 4 kcal/mol.",
+            "acceptance_rule": "Full credit requires compatible activation free energies whose uncertainty preserves a positive C-O minus C-C difference near the reference scale; a qualitative guess without two computed paths receives no credit.",
+            "required_evidence": ["two comparable activation free energies", "delta-delta-G and uncertainty", "common solvation and thermochemistry"],
+        },
+        {
+            "id": "co_accessible_minor_path",
+            "max_score": 25,
+            "statement": "C-O coupling remains an accessible but suppressed minor route, consistent with the experimental constraints rather than being chemically impossible.",
+            "acceptance_rule": "Require a finite validated C-O path or defensible bound plus a clearly labeled kinetic/selectivity inference; experimental observations may support but not replace computation.",
+            "required_evidence": ["finite C-O pathway evidence", "rate/selectivity interpretation", "experimental cross-check separated from computed barriers"],
+        },
+    ],
+    "NHC_Adsorption_Decomposition_Bonding": [
+        {
+            "id": "nhc_adsorption_order_and_scale",
+            "max_score": 35,
+            "statement": "Matched-reference periodic calculations find NHC4 only modestly more strongly adsorbed overall than NHC1.",
+            "acceptance_rule": "Require independently generated adsorption candidates, converged matched-cell reference energies, and uncertainty that resolves the ordering without comparing raw energies from different cells.",
+            "required_evidence": ["new adsorption searches and relaxations", "matched slab and ligand references", "relative adsorption energy and uncertainty"],
+        },
+        {
+            "id": "nhc_local_pd_c_bonding_order",
+            "max_score": 35,
+            "statement": "Quality-gated local Pd-C metrics show stronger bonding for NHC4 than NHC1.",
+            "acceptance_rule": "Require distance-selected Pd-C pairs and fresh validated bonding descriptors, such as shorter Pd-C distance together with stronger ICOHP/ICOBI or a scientifically equivalent analysis; copied paper values receive no credit.",
+            "required_evidence": ["final-geometry Pd-C distances", "fresh local bonding descriptors", "projection quality or equivalent validation"],
+        },
+        {
+            "id": "nhc_deformation_moderates_total_binding",
+            "max_score": 30,
+            "statement": "Surface/ligand deformation and other reference-state contributions moderate the total adsorption-energy difference, so local Pd-C strength alone does not determine binding.",
+            "acceptance_rule": "Require an algebraically closed decomposition or an equivalent controlled energy analysis that separates local interaction from deformation/reference contributions.",
+            "required_evidence": ["frozen and relaxed fragment energies", "closed energy decomposition", "joint local-bonding versus total-energy interpretation"],
+        },
+    ],
+}
+
+
 def write_json(path: Path, value: Any) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
@@ -158,6 +254,11 @@ def task_info(
     deliverables: list[dict[str, Any]],
     data_description: str,
 ) -> dict[str, Any]:
+    requirements = list(requirements)
+    if not any("server resources allow" in item for item in requirements):
+        requirements.append(
+            "When server resources allow, parallelize independent calculations and use substantial CPU and memory resources without oversubscribing the host."
+        )
     return {
         "task_id": task_id,
         "source_id": source_id,
@@ -199,6 +300,8 @@ def ground_truth(
     feasibility: dict[str, Any],
     scientific_conclusion_rubric: list[dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
+    if scientific_conclusion_rubric is None:
+        scientific_conclusion_rubric = SCIENTIFIC_CONCLUSION_RUBRICS.get(task_id)
     dual_axis = bool(scientific_conclusion_rubric)
     result = {
         "expected_tool_calls": expected_tool_calls,
@@ -216,6 +319,14 @@ def ground_truth(
         "score_max": 100,
         "scoring_rubric": (
             process_rubric(reproduction=False) if dual_axis else common_rubric()
+        ),
+        **(
+            {
+                "scientific_conclusion_rubric": scientific_conclusion_rubric,
+                "dual_axis_scoring_policy": dual_axis_policy(),
+            }
+            if dual_axis
+            else {}
         ),
         "critical_failures": critical_failures,
         "judge_instructions": (
@@ -278,9 +389,6 @@ def ground_truth(
             }
         ),
     }
-    if dual_axis:
-        result["scientific_conclusion_rubric"] = scientific_conclusion_rubric
-        result["dual_axis_scoring_policy"] = dual_axis_policy()
     return result
 
 
@@ -785,12 +893,13 @@ and optional bonding analysis independently. No paper protocol or result is visi
             {"id": "five_d_bonding_evidence", "description": "A fresh, quality-gated projection ablation or equivalent orbital-resolved analysis tests the selective Ba 5d-O stabilization claim.", "score_cap_if_failed": 65},
         ],
         feasibility={
-            "status": "pre_release_split_recommended",
-            "classification": "phase_stability_solvable_bonding_blocked",
+            "status": "pre_release_native_oracle_required",
+            "classification": "conditionally_solvable_with_native_execution",
             "paired_reproduction_reference_run_complete": False,
             "known_limitations": [
                 "The phase-stability part can be piloted after locking pseudopotentials and convergence settings.",
-                "Fresh LOBSTER generation remains blocked by the POTCAR/native-job staging gap; bonding is optional and cannot be a hard completion gate yet.",
+                "Fresh LOBSTER generation is available through the direct native-software layer, while public LOBSTER Actions currently parse and quality-gate existing outputs.",
+                "A fresh end-to-end Gold Run is still required before both the phase and bonding claims enter formal ranking.",
             ],
         },
     )
@@ -881,7 +990,7 @@ pathway hypotheses without consulting the source publication.
             "paired_reproduction_reference_run_complete": False,
             "known_limitations": [
                 "No curated pair of C-C/C-O endpoints and atom mappings has yet been reference-validated.",
-                "The public pysisyphus ethanol-solvation contract is inconsistent with an older smoke record and must be reconciled.",
+                "xTB 6.7 does not parameterize ALPB ethanol; an independently chosen low-cost solvent proxy must be treated only as a search approximation before ethanol-level validation.",
             ],
         },
     )
@@ -995,13 +1104,13 @@ bonding analyses independently. No optimized adsorbed structure is included.
             {"id": "bonding_vs_total_energy_interpretation", "description": "Quality-gated local Pd-C descriptors are compared without equating them to total adsorption energy.", "score_cap_if_failed": 65},
         ],
         feasibility={
-            "status": "pre_release_blocked",
-            "classification": "toolbox_gap",
+            "status": "pre_release_native_oracle_required",
+            "classification": "conditionally_solvable_with_native_execution",
             "paired_reproduction_reference_run_complete": False,
             "known_limitations": [
-                "The public toolbox lacks a validated adsorption-placement workflow for these systems.",
-                "VASP Selective Dynamics and POTCAR-to-native staging are not yet sufficient for the requested production protocol.",
-                "Fresh LOBSTER generation remains blocked; bonding must remain optional until repaired.",
+                "Adsorption placement and Selective Dynamics are not covered by dedicated public Actions, but may be implemented through the allowed direct programming/native VASP layer.",
+                "Fresh LOBSTER generation is available through direct native execution; public LOBSTER Actions parse and quality-gate the generated outputs.",
+                "A fresh adsorption-search and decomposition Gold Run is still required before formal ranking.",
             ],
         },
     )
