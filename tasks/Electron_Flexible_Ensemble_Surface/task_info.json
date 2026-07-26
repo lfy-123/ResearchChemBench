@@ -2,15 +2,16 @@
   "task_id": "Electron_Flexible_Ensemble_Surface",
   "source_id": "electron_isodensity_2024_autonomous_flexibility_question",
   "category": "autonomous_conformer_and_molecular_surface",
-  "task": "Using only the supplied 1-pentanethiol identity and experimental TE surface area, independently determine whether conformational flexibility materially changes an electron-density-derived molecular surface and whether a thermally weighted ensemble is more defensible than a single structure. Generate all conformers, choose the density and isosurface methodology, validate numerical settings, quantify truncation and weighting uncertainty, and compare with experiment.",
+  "task": "Using only the supplied 1-pentanethiol identity, independently determine whether conformational flexibility materially changes an electron-density-derived molecular surface and whether a thermally weighted ensemble is more defensible than a single structure. Generate all conformers, choose the density and isosurface methodology, validate numerical settings, quantify truncation and weighting uncertainty, and make a blind surface prediction for evaluator-only posthoc comparison with experiment.",
   "scientific_mode": "focused_open_discovery",
   "scientific_mode_description": "The scientific question and raw input boundary are fixed, but no paper method, software sequence, parameter protocol, candidate pathway, or stopping route is disclosed.",
   "scientific_requirements": [
-    "Predeclare the conformer, electronic-density, surface-definition, and uncertainty plan before inspecting final agreement with experiment.",
+    "Predeclare the conformer, electronic-density, surface-definition, calibration, and uncertainty plan before production calculations.",
     "Generate and validate multiple conformers in this run; do not import author conformers.",
     "Every reported surface must trace to a real wavefunction/density artifact and surface calculation.",
     "Test sensitivity to conformer truncation and at least one numerical surface control.",
-    "Separate agreement with experiment from evidence that the chosen computational definition is physically appropriate."
+    "Do not infer or tune against the withheld ISO-M6 experimental value; justify the computational definition independently.",
+    "When server resources allow, run independent conformer calculations concurrently and use substantial CPU resources without oversubscribing the host."
   ],
   "required_deliverables": [
     {
@@ -40,7 +41,7 @@
     },
     {
       "path": "report/ensemble_surface.json",
-      "description": "Single-structure and ensemble estimates, sensitivity, experiment comparison, and uncertainty."
+      "description": "Single-structure and ensemble estimates, blind prediction, sensitivity, and uncertainty."
     },
     {
       "path": "report/report.md",
@@ -52,7 +53,7 @@
       "name": "Autonomous multi-software research inputs",
       "path": "data/benchmark_data",
       "type": "directory",
-      "description": "One flexible molecule identity and its experimental TE surface area; no conformers, cutoff, density method, grid, or paper value."
+      "description": "One flexible molecule identity; no experimental target, conformers, cutoff, density method, grid, or paper value."
     }
   ],
   "archive_extractions": [],

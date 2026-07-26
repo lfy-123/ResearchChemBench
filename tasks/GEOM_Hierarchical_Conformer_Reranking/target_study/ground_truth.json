@@ -16,13 +16,21 @@
   "expected_result": {
     "hidden_posthoc_reference": {
       "reference_molecule": "GEOM-C3",
-      "reference_major_conformer_count": 7,
-      "reference_lowest_free_energy_population_percent": 26.50143932748048,
-      "reference_xtb_top_conformer_index": 1,
-      "reference_free_energy_top_conformer_index": 2,
-      "paper_conclusion": "GFN2-xTB/CREST covers major basins at low cost, but quantum refinement and thermochemistry can reorder conformers and materially change populations.",
-      "paper_dataset_xtb_vs_r2scan3c_mae_kcal_mol": 1.96,
-      "paper_dataset_mean_spearman": 0.39
+      "scoped_acceptance_target": {
+        "low_cost_search_covers_multiple_major_basins": true,
+        "quantum_refinement_materially_changes_an_aligned_ranking_or_population_distribution": true,
+        "exact_generated_conformer_count_required": false,
+        "exact_file_order_index_required": false
+      },
+      "conformer_identity_policy": "Match regenerated conformers as atom-mapped structural basins using connectivity, symmetry-aware heavy-atom alignment, and torsion fingerprints. File order and generated conformer indices have no scientific identity.",
+      "paper_reference_diagnostics": {
+        "reference_major_conformer_count": 7,
+        "reference_lowest_free_energy_population_percent": 26.50143932748048,
+        "paper_dataset_xtb_vs_r2scan3c_mae_kcal_mol": 1.96,
+        "paper_dataset_mean_spearman": 0.39,
+        "use_policy": "Diagnostic context only; regenerated stochastic ensembles are not required to reproduce these exact scalar values."
+      },
+      "paper_conclusion": "GFN2-xTB/CREST covers major basins at low cost, but quantum refinement and thermochemistry can reorder conformers and materially change populations."
     },
     "reference_use_policy": "Use the hidden paper result only after assessing autonomous planning, execution, validation, and evidence quality. Agreement is not required."
   },
@@ -79,13 +87,21 @@
     "input_manifest_sha256": "f3a0947d349e709deae9265040fdb7eecc00624f3c663aaa8eebf704be0ec520",
     "hidden_posthoc_reference": {
       "reference_molecule": "GEOM-C3",
-      "reference_major_conformer_count": 7,
-      "reference_lowest_free_energy_population_percent": 26.50143932748048,
-      "reference_xtb_top_conformer_index": 1,
-      "reference_free_energy_top_conformer_index": 2,
-      "paper_conclusion": "GFN2-xTB/CREST covers major basins at low cost, but quantum refinement and thermochemistry can reorder conformers and materially change populations.",
-      "paper_dataset_xtb_vs_r2scan3c_mae_kcal_mol": 1.96,
-      "paper_dataset_mean_spearman": 0.39
+      "scoped_acceptance_target": {
+        "low_cost_search_covers_multiple_major_basins": true,
+        "quantum_refinement_materially_changes_an_aligned_ranking_or_population_distribution": true,
+        "exact_generated_conformer_count_required": false,
+        "exact_file_order_index_required": false
+      },
+      "conformer_identity_policy": "Match regenerated conformers as atom-mapped structural basins using connectivity, symmetry-aware heavy-atom alignment, and torsion fingerprints. File order and generated conformer indices have no scientific identity.",
+      "paper_reference_diagnostics": {
+        "reference_major_conformer_count": 7,
+        "reference_lowest_free_energy_population_percent": 26.50143932748048,
+        "paper_dataset_xtb_vs_r2scan3c_mae_kcal_mol": 1.96,
+        "paper_dataset_mean_spearman": 0.39,
+        "use_policy": "Diagnostic context only; regenerated stochastic ensembles are not required to reproduce these exact scalar values."
+      },
+      "paper_conclusion": "GFN2-xTB/CREST covers major basins at low cost, but quantum refinement and thermochemistry can reorder conformers and materially change populations."
     },
     "source_boundary": "Paper protocols, author intermediates, completed calculations, and numerical conclusions are evaluator-only.",
     "reference_use_policy": "Assess autonomous scientific process first; use the hidden reference only to diagnose scientific agreement or productive disagreement."

@@ -20,13 +20,21 @@
   "expected_result": {
     "hidden_posthoc_reference": {
       "molecule_id": "ISO-M6",
-      "paper_published_conformer_count": 25,
-      "paper_ensemble_surface_angstrom2": 157.1994,
-      "paper_example_individual_surfaces_angstrom2": [
-        159.8,
-        149.2
-      ],
-      "paper_te_surface_angstrom2": 156.507,
+      "scoped_acceptance_target": {
+        "multiple_conformers_show_materially_different_newly_computed_surfaces": true,
+        "a_traceable_thermally_weighted_ensemble_reduces_arbitrary_single_conformer_choice": true,
+        "exact_full_25_conformer_aggregate_required": false
+      },
+      "paper_reference_diagnostics": {
+        "paper_published_conformer_count": 25,
+        "paper_ensemble_surface_angstrom2": 157.1994,
+        "paper_example_individual_surfaces_angstrom2": [
+          159.8,
+          149.2
+        ],
+        "paper_te_surface_angstrom2": 156.507,
+        "use_policy": "Diagnostic comparison only for this 4-6-conformer controlled reproduction; exact equality is not required."
+      },
       "paper_conclusion": "For a flexible molecule, conformer-dependent surface areas differ materially; Boltzmann ensemble treatment reduces arbitrary single-conformer bias."
     },
     "reference_use_policy": "Use the hidden paper result only after assessing autonomous planning, execution, validation, and evidence quality. Agreement is not required."
@@ -74,23 +82,32 @@
     "No real electronic-structure calculation was executed.",
     "No real electron-density isosurface calculation was executed.",
     "Publication conformers or hidden surface values were used as newly generated evidence.",
-    "A single-conformer result was labeled an ensemble without computed weights."
+    "A single-conformer result was labeled an ensemble without computed weights.",
+    "The withheld ISO-M6 experimental value was inferred or imported and used to tune the surface definition."
   ],
   "judge_instructions": "This is an autonomous-discovery evaluation. Reward independent hypothesis formation, method and route selection, adaptive managed execution, validation, falsification, and an evidence-bound conclusion. Do not require agreement with the hidden paper route or conclusion.",
   "reference_evidence": {
     "task_id": "Electron_Flexible_Ensemble_Surface",
     "paired_reproduction_task_id": "Electron_Flexible_Ensemble_Surface_Reproduction",
     "task_mode": "open_discovery",
-    "input_manifest_sha256": "48db85094beada4833fa8a1d2d29eb9a434c4fc189a9f3be0c4ae54641d552ea",
+    "input_manifest_sha256": "66d3c1478e2f2973efae55d79951e04b32ba5e29b821439f8a8cae73e2b0a90e",
     "hidden_posthoc_reference": {
       "molecule_id": "ISO-M6",
-      "paper_published_conformer_count": 25,
-      "paper_ensemble_surface_angstrom2": 157.1994,
-      "paper_example_individual_surfaces_angstrom2": [
-        159.8,
-        149.2
-      ],
-      "paper_te_surface_angstrom2": 156.507,
+      "scoped_acceptance_target": {
+        "multiple_conformers_show_materially_different_newly_computed_surfaces": true,
+        "a_traceable_thermally_weighted_ensemble_reduces_arbitrary_single_conformer_choice": true,
+        "exact_full_25_conformer_aggregate_required": false
+      },
+      "paper_reference_diagnostics": {
+        "paper_published_conformer_count": 25,
+        "paper_ensemble_surface_angstrom2": 157.1994,
+        "paper_example_individual_surfaces_angstrom2": [
+          159.8,
+          149.2
+        ],
+        "paper_te_surface_angstrom2": 156.507,
+        "use_policy": "Diagnostic comparison only for this 4-6-conformer controlled reproduction; exact equality is not required."
+      },
       "paper_conclusion": "For a flexible molecule, conformer-dependent surface areas differ materially; Boltzmann ensemble treatment reduces arbitrary single-conformer bias."
     },
     "source_boundary": "Paper protocols, author intermediates, completed calculations, and numerical conclusions are evaluator-only.",
@@ -131,7 +148,8 @@
     "classification": "solvable",
     "paired_reproduction_reference_run_complete": false,
     "known_limitations": [
-      "The paired reproduction task must lock its grid settings and regenerate a subset-specific oracle before formal ranking."
+      "The paired reproduction task must lock its grid settings and regenerate a subset-specific oracle before formal ranking.",
+      "The experimental TE value is intentionally evaluator-only to preserve blind-method selection."
     ]
   },
   "evaluation_profile": "autonomous_discovery",

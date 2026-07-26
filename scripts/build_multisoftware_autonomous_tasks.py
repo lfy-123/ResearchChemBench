@@ -334,6 +334,7 @@ conformers, software route, or result is included.
             "Preserve connectivity, atom mapping, and lineage when comparing rankings.",
             "Use calculation-backed convergence or population-coverage evidence to justify stopping.",
             "Test whether the main ranking conclusion survives at least one reasonable method or sampling perturbation.",
+            "When server resources allow, parallelize independent conformers and use substantial CPU resources without oversubscribing the host.",
         ],
         deliverables=deliverables,
         data_description="One molecular identity and physical conditions; no conformers, protocol, software route, or reference energies.",
@@ -379,10 +380,11 @@ def build_electron(force: bool) -> None:
         """# Autonomous flexible-molecule surface investigation
 
 Investigate how conformational flexibility affects an electron-density-derived
-molecular surface for 1-pentanethiol and whether an ensemble treatment improves
-agreement with the supplied experimental TE area. Only identity and experiment are
-visible. Generate all structures and choose all electronic, numerical, and
-statistical methods independently.
+molecular surface for 1-pentanethiol and whether an ensemble treatment is more
+defensible than an arbitrary single conformer. The experimental TE value is held
+back for evaluator-only posthoc comparison. Generate all structures, choose all
+electronic, numerical, and statistical methods independently, and make a blind
+surface prediction with uncertainty.
 """,
     )
     write_json(
@@ -395,18 +397,17 @@ statistical methods independently.
                     "formula": "C5H12S",
                     "charge": 0,
                     "multiplicity": 1,
-                    "experimental_te_surface_angstrom2": 156.507,
                     "temperature_kelvin": 298.15,
                 }
             },
-            "experimental_value_scope": "raw comparison target; not a computational protocol",
+            "experimental_value_scope": "withheld evaluator-only blind target",
         },
     )
     deliverables = common_deliverables(
         [
             {"path": "report/conformer_sampling.csv", "description": "Generated conformers, clustering, energies, validation, and selection decisions."},
             {"path": "report/surface_evidence.csv", "description": "Per-conformer density/surface provenance and numerical controls."},
-            {"path": "report/ensemble_surface.json", "description": "Single-structure and ensemble estimates, sensitivity, experiment comparison, and uncertainty."},
+            {"path": "report/ensemble_surface.json", "description": "Single-structure and ensemble estimates, blind prediction, sensitivity, and uncertainty."},
         ]
     )
     info = task_info(
@@ -415,21 +416,23 @@ statistical methods independently.
         category="autonomous_conformer_and_molecular_surface",
         benchmark_family="electron_isodensity_surface",
         task=(
-            "Using only the supplied 1-pentanethiol identity and experimental TE surface area, independently "
+            "Using only the supplied 1-pentanethiol identity, independently "
             "determine whether conformational flexibility materially changes an electron-density-derived "
             "molecular surface and whether a thermally weighted ensemble is more defensible than a single "
             "structure. Generate all conformers, choose the density and isosurface methodology, validate "
-            "numerical settings, quantify truncation and weighting uncertainty, and compare with experiment."
+            "numerical settings, quantify truncation and weighting uncertainty, and make a blind surface "
+            "prediction for evaluator-only posthoc comparison with experiment."
         ),
         requirements=[
-            "Predeclare the conformer, electronic-density, surface-definition, and uncertainty plan before inspecting final agreement with experiment.",
+            "Predeclare the conformer, electronic-density, surface-definition, calibration, and uncertainty plan before production calculations.",
             "Generate and validate multiple conformers in this run; do not import author conformers.",
             "Every reported surface must trace to a real wavefunction/density artifact and surface calculation.",
             "Test sensitivity to conformer truncation and at least one numerical surface control.",
-            "Separate agreement with experiment from evidence that the chosen computational definition is physically appropriate.",
+            "Do not infer or tune against the withheld ISO-M6 experimental value; justify the computational definition independently.",
+            "When server resources allow, run independent conformer calculations concurrently and use substantial CPU resources without oversubscribing the host.",
         ],
         deliverables=deliverables,
-        data_description="One flexible molecule identity and its experimental TE surface area; no conformers, cutoff, density method, grid, or paper value.",
+        data_description="One flexible molecule identity; no experimental target, conformers, cutoff, density method, grid, or paper value.",
     )
     hidden = repro_truth(repro_id)["expected_result"]
     truth = ground_truth(
@@ -448,6 +451,7 @@ statistical methods independently.
             "No real electron-density isosurface calculation was executed.",
             "Publication conformers or hidden surface values were used as newly generated evidence.",
             "A single-conformer result was labeled an ensemble without computed weights.",
+            "The withheld ISO-M6 experimental value was inferred or imported and used to tune the surface definition.",
         ],
         gates=[
             {"id": "real_density_and_surface", "description": "New density and isosurface artifacts support the numerical results.", "score_cap_if_failed": 40},
@@ -458,10 +462,10 @@ statistical methods independently.
             "status": "pre_release_pilot_ready",
             "classification": "solvable",
             "paired_reproduction_reference_run_complete": False,
-            "known_limitations": ["The paired reproduction task must lock its grid settings and regenerate a subset-specific oracle before formal ranking."],
+            "known_limitations": ["The paired reproduction task must lock its grid settings and regenerate a subset-specific oracle before formal ranking.", "The experimental TE value is intentionally evaluator-only to preserve blind-method selection."],
         },
     )
-    finalize_task(task_id=task_id, paired_reproduction_task_id=repro_id, info=info, truth=truth, metadata={"molecule_ids": ["ISO-M6"], "starting_structure_count": 0, "visible_experimental_measurement_count": 1})
+    finalize_task(task_id=task_id, paired_reproduction_task_id=repro_id, info=info, truth=truth, metadata={"molecule_ids": ["ISO-M6"], "starting_structure_count": 0, "visible_experimental_measurement_count": 0})
 
 
 def copy_pv_open_inputs(source_task: str, data: Path, include_measurements: bool) -> dict[str, Any]:

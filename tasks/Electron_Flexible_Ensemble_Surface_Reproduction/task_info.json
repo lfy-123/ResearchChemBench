@@ -9,7 +9,9 @@
     "Use at least four different software backends, including ORCA and Multiwfn.",
     "Select 4-6 high-level conformers using both energy and structural diversity.",
     "Use the locked paper cutoff 0.0016 a.u.; do not recalibrate it on ISO-M6.",
-    "Quantify conformer truncation uncertainty and compare ensemble with the lowest-free-energy conformer."
+    "Quantify conformer truncation uncertainty and compare ensemble with the lowest-free-energy conformer.",
+    "Treat this as a scoped 4-6-conformer reproduction: do not claim exact reproduction of the paper's full 25-conformer aggregate.",
+    "When server resources allow, run independent conformer calculations concurrently and use substantial CPU resources without oversubscribing the host."
   ],
   "required_deliverables": [
     {

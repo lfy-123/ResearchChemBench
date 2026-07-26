@@ -102,6 +102,7 @@ def test_visible_inputs_do_not_disclose_paper_route_or_targets():
         "Multiwfn",
         "0.0016",
         "157.1994",
+        "156.507",
         "26.50143932748048",
         "paper_cc_barrier_kcal_mol",
         "paper_transition_pressures_gpa",
@@ -124,7 +125,9 @@ def test_task_specific_autonomous_input_contracts():
     electron_root = TASKS_DIR / TASK_IDS[1] / "data" / "benchmark_data"
     electron = json.loads((electron_root / "molecular_systems.json").read_text(encoding="utf-8"))
     assert list(electron["systems"]) == ["ISO-M6"]
-    assert electron["systems"]["ISO-M6"]["experimental_te_surface_angstrom2"] == 156.507
+    assert "experimental_te_surface_angstrom2" not in electron["systems"]["ISO-M6"]
+    electron_manifest = json.loads((electron_root / "input_manifest.json").read_text(encoding="utf-8"))
+    assert electron_manifest["visible_experimental_measurement_count"] == 0
     assert not list(electron_root.rglob("*.xyz"))
 
     protonation_root = TASKS_DIR / TASK_IDS[2] / "data" / "benchmark_data"

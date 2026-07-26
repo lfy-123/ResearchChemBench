@@ -8,8 +8,9 @@
   "scientific_requirements": [
     "Run at least four distinct software stages from the supplied DAG.",
     "Preserve atom mapping and conformer lineage across every stage.",
-    "Compare aligned rankings; do not compare unrelated file-order indices.",
-    "Report how refinement-budget truncation affects the conclusion."
+    "Compare aligned rankings by atom-mapped structural basins; never compare unrelated file-order indices.",
+    "Report how refinement-budget truncation affects the conclusion.",
+    "When server resources allow, parallelize independent conformers and use substantial CPU resources without oversubscribing the host."
   ],
   "required_deliverables": [
     {

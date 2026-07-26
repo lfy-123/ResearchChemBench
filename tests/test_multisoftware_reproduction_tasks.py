@@ -34,6 +34,8 @@ def test_multisoftware_reproduction_tasks_are_complete_and_hashed():
         assert truth["evaluation_mode"] == "rubric_100"
         assert truth["score_max"] == 100
         assert sum(item["max_score"] for item in truth["scoring_rubric"]) == 100
+        rubric = {item["id"]: item for item in truth["scoring_rubric"]}
+        assert rubric["paper_conclusion_agreement"]["max_score"] == 55
         assert truth["reference_conclusion_gate_policy"]["required"] is True
         assert truth["expected_structured_output"] == [
             item["path"] for item in info["required_deliverables"]
@@ -116,9 +118,15 @@ def test_task_specific_input_contracts():
         ).read_text(encoding="utf-8")
     )
     assert list(geom["systems"]) == ["GEOM-C3"]
+    geom_truth = load_ground_truth(TASK_IDS[0])["expected_result"]
+    assert "reference_xtb_top_conformer_index" not in geom_truth
+    assert "reference_free_energy_top_conformer_index" not in geom_truth
+    assert geom_truth["scoped_acceptance_target"]["exact_file_order_index_required"] is False
 
     electron_root = TASKS_DIR / TASK_IDS[1] / "data/benchmark_data"
     assert len(list(electron_root.glob("published_conformers/ISO-M6/*.xyz"))) == 25
+    electron_truth = load_ground_truth(TASK_IDS[1])["expected_result"]
+    assert electron_truth["scoped_acceptance_target"]["exact_full_25_conformer_aggregate_required"] is False
 
     pv_protonation = json.loads(
         (
