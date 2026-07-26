@@ -1,0 +1,66 @@
+{
+  "task_id": "NHC_Adsorption_Decomposition_Bonding_Reproduction",
+  "source_id": "nhc_pdcu111_2025_adsorption",
+  "category": "surface_adsorption_energy_decomposition_and_bonding",
+  "task": "Orchestrate periodic structure validation, VASP relaxation and matched reference calculations, frozen-fragment adsorption-energy decomposition, and LOBSTER Pd-C bonding analysis for NHC1 and NHC4. Reproduce the paper conclusion that local Pd-C bonding strength alone does not determine the full adsorption-energy difference because deformation and reference-state contributions also matter.",
+  "scientific_mode": "guided_reproduction",
+  "scientific_mode_description": "A scoped part of a published research workflow is supplied. The agent must orchestrate multiple chemistry programs, validate intermediate artifacts, and recover the paper conclusion from newly generated evidence.",
+  "scientific_requirements": [
+    "Use matched cells and clean surfaces for both adsorbates.",
+    "Compute all binding and deformation components rather than reporting only one adsorption energy.",
+    "Generate and quality-gate LOBSTER evidence for a distance-selected Pd-C pair.",
+    "Explain agreement or tension between total adsorption energetics and local ICOHP/ICOBI metrics."
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/research_plan.json",
+      "description": "Initial hypotheses, software DAG, budgets, gates, and stopping rules."
+    },
+    {
+      "path": "report/tool_trace.jsonl",
+      "description": "One provenance record for every chemistry-software invocation."
+    },
+    {
+      "path": "report/failure_log.jsonl",
+      "description": "Failed, rejected, retried, or inconclusive branches.",
+      "allow_empty": true
+    },
+    {
+      "path": "report/structure_validation.csv",
+      "description": "Cell, layer, Pd-site, constraints, distances, and RMSD checks."
+    },
+    {
+      "path": "report/energy_components.csv",
+      "description": "Composite, clean-slab, isolated, and frozen-fragment energies."
+    },
+    {
+      "path": "report/binding_decomposition.json",
+      "description": "Binding, surface deformation, NHC deformation, and interaction terms."
+    },
+    {
+      "path": "report/lobster_bonding.csv",
+      "description": "Pd-C ICOHP/ICOBI, PDOS, charge, and spilling evidence."
+    },
+    {
+      "path": "report/adsorption_conclusion.json",
+      "description": "Joint energetic and bonding interpretation."
+    },
+    {
+      "path": "report/report.md",
+      "description": "Artifact-linked paper-reproduction report and uncertainty analysis."
+    }
+  ],
+  "data": [
+    {
+      "name": "Guided multi-software reproduction inputs",
+      "path": "data/benchmark_data",
+      "type": "directory",
+      "description": "Visible structures, protocol, workflow gates, and manifests. No paper result values or completed quantum-chemistry outputs are included."
+    }
+  ],
+  "archive_extractions": [],
+  "benchmark_family": "nhc_pdcu111",
+  "task_mode": "guided_reproduction",
+  "method_disclosure": "paper_reconstructed_protocol",
+  "pathway_disclosure": "scoped_execution_route"
+}

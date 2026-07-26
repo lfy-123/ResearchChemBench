@@ -1,0 +1,62 @@
+{
+  "task_id": "PV_Protonation_Barrier_Trend_Reproduction",
+  "source_id": "heterobiaryl_pv_2019_protonation_barriers",
+  "category": "reaction_mechanism_and_thermochemistry",
+  "task": "From the supplied P0/P1/P2 candidate structures, orchestrate candidate screening, Gaussian stationary-point validation, ORCA high-level single points, and GoodVibes thermochemistry to reconstruct comparable ligand-coupling free-energy profiles and reproduce the conclusion that successive protonation lowers the coupling barrier.",
+  "scientific_mode": "guided_reproduction",
+  "scientific_mode_description": "A scoped part of a published research workflow is supplied. The agent must orchestrate multiple chemistry programs, validate intermediate artifacts, and recover the paper conclusion from newly generated evidence.",
+  "scientific_requirements": [
+    "Use candidates from all three protonation states and justify a consistent pathway alignment.",
+    "Generate new frequency or Hessian evidence for every barrier-defining stationary point.",
+    "Use ORCA high-level single points and GoodVibes rather than manually adding paper values.",
+    "Report whether the trend survives reasonable low-frequency and candidate-selection sensitivity tests."
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/research_plan.json",
+      "description": "Initial hypotheses, software DAG, budgets, gates, and stopping rules."
+    },
+    {
+      "path": "report/tool_trace.jsonl",
+      "description": "One provenance record for every chemistry-software invocation."
+    },
+    {
+      "path": "report/failure_log.jsonl",
+      "description": "Failed, rejected, retried, or inconclusive branches.",
+      "allow_empty": true
+    },
+    {
+      "path": "report/candidate_screening.csv",
+      "description": "Candidate selection, rejection, and stage assignment evidence."
+    },
+    {
+      "path": "report/stationary_point_validation.csv",
+      "description": "Convergence and imaginary-mode validation."
+    },
+    {
+      "path": "report/protonation_profiles.csv",
+      "description": "P0/P1/P2 electronic, thermal, and relative free energies."
+    },
+    {
+      "path": "report/barrier_trend.json",
+      "description": "Barrier trend, sensitivity, and conclusion."
+    },
+    {
+      "path": "report/report.md",
+      "description": "Artifact-linked paper-reproduction report and uncertainty analysis."
+    }
+  ],
+  "data": [
+    {
+      "name": "Guided multi-software reproduction inputs",
+      "path": "data/benchmark_data",
+      "type": "directory",
+      "description": "Visible structures, protocol, workflow gates, and manifests. No paper result values or completed quantum-chemistry outputs are included."
+    }
+  ],
+  "archive_extractions": [],
+  "benchmark_family": "heterobiaryl_pv",
+  "task_mode": "guided_reproduction",
+  "method_disclosure": "paper_reconstructed_protocol",
+  "pathway_disclosure": "scoped_execution_route"
+}

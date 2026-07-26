@@ -1,0 +1,160 @@
+{
+  "expected_tool_calls": [
+    {
+      "class": "reaction_path_search",
+      "backend_examples": [
+        "pysisyphus",
+        "xtb"
+      ]
+    },
+    {
+      "class": "stationary_point_frequency",
+      "backend_examples": [
+        "gaussian"
+      ]
+    },
+    {
+      "class": "high_level_single_point",
+      "backend_examples": [
+        "orca"
+      ]
+    },
+    {
+      "class": "thermochemical_selectivity",
+      "backend_examples": [
+        "goodvibes"
+      ]
+    }
+  ],
+  "expected_result": {
+    "state": "P2",
+    "paper_cc_barrier_kcal_mol": 14,
+    "paper_co_barrier_kcal_mol": 18,
+    "paper_delta_delta_g_dagger_co_minus_cc_kcal_mol": 4,
+    "paper_conclusion": "C-C coupling is kinetically preferred; C-O is accessible but suppressed under the standard acidic ethanol conditions."
+  },
+  "expected_structured_output": [
+    "report/research_plan.json",
+    "report/tool_trace.jsonl",
+    "report/failure_log.jsonl",
+    "report/pathway_screening.csv",
+    "report/path_validation.json",
+    "report/competing_profiles.csv",
+    "report/selectivity_conclusion.json",
+    "report/report.md"
+  ],
+  "evaluation_mode": "rubric_100",
+  "score_max": 100,
+  "scoring_rubric": [
+    {
+      "id": "paper_conclusion_agreement",
+      "max_score": 35,
+      "description": "Newly generated evidence recovers the scoped paper conclusion. A conflicting ranking, phase sequence, barrier trend, selectivity, ensemble effect, or bonding interpretation is not a reproduction."
+    },
+    {
+      "id": "multisoftware_orchestration",
+      "max_score": 20,
+      "description": "Correctly composes the required software stages, passes artifacts between them, and respects dependency, retry, and stopping logic."
+    },
+    {
+      "id": "intermediate_evidence_validity",
+      "max_score": 20,
+      "description": "Validates chemical identity, convergence, stationary-point type, wavefunction or periodic-output quality, and rejects invalid branches."
+    },
+    {
+      "id": "protocol_fidelity",
+      "max_score": 10,
+      "description": "Follows the supplied paper-reconstructed protocol and clearly labels any controlled, version-compatible substitution."
+    },
+    {
+      "id": "numerical_and_statistical_quality",
+      "max_score": 10,
+      "description": "Uses consistent units, reference states, normalization, statistics, and uncertainty estimates."
+    },
+    {
+      "id": "provenance_and_uncertainty",
+      "max_score": 5,
+      "description": "Links every conclusion to artifacts and separates computation, paper targets, inference, failures, and unresolved uncertainty."
+    }
+  ],
+  "critical_failures": [
+    "Only one pathway was computed.",
+    "A path maximum was reported as a TS without frequency validation.",
+    "The two barriers use inconsistent references or thermochemistry.",
+    "Paper barriers were copied as newly calculated values."
+  ],
+  "judge_instructions": "Evaluate this as a multi-software paper reproduction. Do not award conclusion credit for copied paper values, invalid intermediates, or numerically plausible results unsupported by artifacts from this run. Apply every evidence gate.",
+  "reference_evidence": {
+    "paper_doi": "10.1126/science.aas8961",
+    "task_id": "PV_CC_CO_Pathway_Selectivity_Reproduction",
+    "task_mode": "guided_reproduction",
+    "input_manifest_sha256": "9f4852d95e4719aa5da494206bb3d2f1c67db51cce67817cc9421a1d0c5dac42",
+    "paper_reference": {
+      "state": "P2",
+      "paper_cc_barrier_kcal_mol": 14,
+      "paper_co_barrier_kcal_mol": 18,
+      "paper_delta_delta_g_dagger_co_minus_cc_kcal_mol": 4,
+      "paper_conclusion": "C-C coupling is kinetically preferred; C-O is accessible but suppressed under the standard acidic ethanol conditions."
+    },
+    "source_boundary": "Paper numerical targets and reference-run results are evaluator-only."
+  },
+  "managed_computation_policy": {
+    "allow_direct_native_software_execution": true,
+    "parallel_execution_allowed": true,
+    "do_not_fabricate_on_timeout": true,
+    "require_workspace_confined_artifacts": true
+  },
+  "evidence_gate_policy": {
+    "judge_must_assess_all": true,
+    "gates": [
+      {
+        "id": "two_valid_paths",
+        "description": "Both C-C and C-O paths have connectivity and endpoint evidence.",
+        "score_cap_if_failed": 45
+      },
+      {
+        "id": "ts_validation",
+        "description": "Barrier-defining structures pass frequency and connection checks.",
+        "score_cap_if_failed": 50
+      },
+      {
+        "id": "common_energy_model",
+        "description": "Both profiles use identical energy and thermochemical treatment.",
+        "score_cap_if_failed": 60
+      }
+    ]
+  },
+  "current_toolbox_reproduction_baseline": {
+    "status": "partially_solvable_reference_run_required",
+    "classification": "partially_solvable",
+    "major_paper_conclusion_reproduced_in_this_audit": false,
+    "installed_software": [
+      "pysisyphus 1.0.0",
+      "xTB 6.7.1",
+      "Gaussian 16",
+      "ORCA 6.1.1",
+      "GoodVibes 4.3.0"
+    ],
+    "verified_components": [
+      "Real pysisyphus/xTB NEB and scan smokes",
+      "Gaussian Hessian Actions",
+      "ORCA energy Actions",
+      "GoodVibes selectivity/profile Actions"
+    ],
+    "unresolved_requirements": [
+      "The visible P2 candidates do not constitute a prevalidated one-to-one pair of the paper main C-C and C-O paths.",
+      "A curated oracle mapping and full path reference run are required before production scoring."
+    ]
+  },
+  "evaluation_profile": "paper_reproduction",
+  "reference_conclusion_gate_policy": {
+    "required": true,
+    "criterion_id": "paper_conclusion_agreement",
+    "score_cap_if_not_matched": 50,
+    "score_cap_if_uncertain": 65,
+    "score_cap_if_omitted": 50,
+    "max_criterion_score_if_not_matched": 0,
+    "max_criterion_score_if_uncertain": 12,
+    "max_criterion_score_if_omitted": 0
+  }
+}

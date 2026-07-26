@@ -1,0 +1,167 @@
+{
+  "expected_tool_calls": [
+    {
+      "class": "conformer_generation",
+      "backend_examples": [
+        "rdkit_etkdg",
+        "crest"
+      ]
+    },
+    {
+      "class": "geometry_optimization",
+      "backend_examples": [
+        "xtb",
+        "orca"
+      ]
+    },
+    {
+      "class": "frequency_and_thermochemistry",
+      "backend_examples": [
+        "orca",
+        "goodvibes"
+      ]
+    },
+    {
+      "class": "structure_alignment_and_statistics",
+      "backend_examples": [
+        "rdkit",
+        "internal_statistics"
+      ]
+    }
+  ],
+  "expected_result": {
+    "reference_molecule": "GEOM-C3",
+    "reference_major_conformer_count": 7,
+    "reference_lowest_free_energy_population_percent": 26.50143932748048,
+    "reference_xtb_top_conformer_index": 1,
+    "reference_free_energy_top_conformer_index": 2,
+    "paper_conclusion": "GFN2-xTB/CREST covers major basins at low cost, but quantum refinement and thermochemistry can reorder conformers and materially change populations.",
+    "paper_dataset_xtb_vs_r2scan3c_mae_kcal_mol": 1.96,
+    "paper_dataset_mean_spearman": 0.39
+  },
+  "expected_structured_output": [
+    "report/research_plan.json",
+    "report/tool_trace.jsonl",
+    "report/failure_log.jsonl",
+    "report/stage_summary.csv",
+    "report/conformer_lineage.csv",
+    "report/energy_ranking.csv",
+    "report/ensemble.json",
+    "report/report.md"
+  ],
+  "evaluation_mode": "rubric_100",
+  "score_max": 100,
+  "scoring_rubric": [
+    {
+      "id": "paper_conclusion_agreement",
+      "max_score": 35,
+      "description": "Newly generated evidence recovers the scoped paper conclusion. A conflicting ranking, phase sequence, barrier trend, selectivity, ensemble effect, or bonding interpretation is not a reproduction."
+    },
+    {
+      "id": "multisoftware_orchestration",
+      "max_score": 20,
+      "description": "Correctly composes the required software stages, passes artifacts between them, and respects dependency, retry, and stopping logic."
+    },
+    {
+      "id": "intermediate_evidence_validity",
+      "max_score": 20,
+      "description": "Validates chemical identity, convergence, stationary-point type, wavefunction or periodic-output quality, and rejects invalid branches."
+    },
+    {
+      "id": "protocol_fidelity",
+      "max_score": 10,
+      "description": "Follows the supplied paper-reconstructed protocol and clearly labels any controlled, version-compatible substitution."
+    },
+    {
+      "id": "numerical_and_statistical_quality",
+      "max_score": 10,
+      "description": "Uses consistent units, reference states, normalization, statistics, and uncertainty estimates."
+    },
+    {
+      "id": "provenance_and_uncertainty",
+      "max_score": 5,
+      "description": "Links every conclusion to artifacts and separates computation, paper targets, inference, failures, and unresolved uncertainty."
+    }
+  ],
+  "critical_failures": [
+    "No real conformer search was executed.",
+    "No quantum refinement or Hessian evidence was generated.",
+    "Rankings were compared without atom-mapped alignment.",
+    "Reference conformers or hidden populations were presented as newly generated."
+  ],
+  "judge_instructions": "Evaluate this as a multi-software paper reproduction. Do not award conclusion credit for copied paper values, invalid intermediates, or numerically plausible results unsupported by artifacts from this run. Apply every evidence gate.",
+  "reference_evidence": {
+    "paper_doi": "10.1038/s41597-022-01288-4",
+    "task_id": "GEOM_Hierarchical_Conformer_Reranking_Reproduction",
+    "task_mode": "guided_reproduction",
+    "input_manifest_sha256": "2f04d8969b5a9ddc86d4f6abfb490a04c2190b7bff038d4d885e5de3cbbbc2ea",
+    "paper_reference": {
+      "reference_molecule": "GEOM-C3",
+      "reference_major_conformer_count": 7,
+      "reference_lowest_free_energy_population_percent": 26.50143932748048,
+      "reference_xtb_top_conformer_index": 1,
+      "reference_free_energy_top_conformer_index": 2,
+      "paper_conclusion": "GFN2-xTB/CREST covers major basins at low cost, but quantum refinement and thermochemistry can reorder conformers and materially change populations.",
+      "paper_dataset_xtb_vs_r2scan3c_mae_kcal_mol": 1.96,
+      "paper_dataset_mean_spearman": 0.39
+    },
+    "source_boundary": "Paper numerical targets and reference-run results are evaluator-only."
+  },
+  "managed_computation_policy": {
+    "allow_direct_native_software_execution": true,
+    "parallel_execution_allowed": true,
+    "do_not_fabricate_on_timeout": true,
+    "require_workspace_confined_artifacts": true
+  },
+  "evidence_gate_policy": {
+    "judge_must_assess_all": true,
+    "gates": [
+      {
+        "id": "real_multistage_search",
+        "description": "At least RDKit, one xTB/CREST stage, ORCA, and thermochemistry were executed.",
+        "score_cap_if_failed": 45
+      },
+      {
+        "id": "identity_and_lineage",
+        "description": "Final conformers have valid connectivity and traceable parents.",
+        "score_cap_if_failed": 55
+      },
+      {
+        "id": "frequency_validity",
+        "description": "Final population analysis handles significant imaginary modes.",
+        "score_cap_if_failed": 65
+      }
+    ]
+  },
+  "current_toolbox_reproduction_baseline": {
+    "status": "components_available_reference_run_required",
+    "classification": "solvable",
+    "major_paper_conclusion_reproduced_in_this_audit": false,
+    "installed_software": [
+      "RDKit",
+      "xTB 6.7.1",
+      "CREST 3.0.2",
+      "ORCA 6.1.1",
+      "GoodVibes 4.3.0"
+    ],
+    "verified_components": [
+      "RDKit and CREST conformer Actions",
+      "xTB and ORCA optimization/Hessian Actions",
+      "GoodVibes ensemble analysis"
+    ],
+    "unresolved_requirements": [
+      "A fresh end-to-end oracle run is required to set benchmark-specific numerical tolerances for the regenerated ensemble."
+    ]
+  },
+  "evaluation_profile": "paper_reproduction",
+  "reference_conclusion_gate_policy": {
+    "required": true,
+    "criterion_id": "paper_conclusion_agreement",
+    "score_cap_if_not_matched": 50,
+    "score_cap_if_uncertain": 65,
+    "score_cap_if_omitted": 50,
+    "max_criterion_score_if_not_matched": 0,
+    "max_criterion_score_if_uncertain": 12,
+    "max_criterion_score_if_omitted": 0
+  }
+}

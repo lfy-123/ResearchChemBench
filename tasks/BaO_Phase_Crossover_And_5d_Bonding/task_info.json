@@ -1,0 +1,63 @@
+{
+  "task_id": "BaO_Phase_Crossover_And_5d_Bonding",
+  "source_id": "bao_2025_autonomous_high_pressure_question",
+  "category": "autonomous_high_pressure_phase_and_bonding",
+  "task": "Using the three supplied opaque BaO crystal candidates, independently determine the stable phase sequence between 0 and 80 GPa and estimate any crossover pressures. Then investigate whether an electronic-structure or bonding analysis can explain the observed structural preference, while distinguishing descriptive correlation from causal evidence.",
+  "scientific_mode": "focused_open_discovery",
+  "scientific_mode_description": "The scientific question and raw input boundary are fixed, but no paper method, software sequence, parameter protocol, candidate pathway, or stopping route is disclosed.",
+  "scientific_requirements": [
+    "Choose and justify a pressure/volume sampling and refinement strategy with adaptive crossover refinement.",
+    "Use compatible periodic settings and normalize energies/enthalpies per BaO formula unit.",
+    "Validate structural identity after relaxation and do not silently compare collapsed phases.",
+    "Quantify convergence and interpolation uncertainty for every crossover claim.",
+    "Any orbital/bonding interpretation must be quality-gated and may not by itself prove energetic causation."
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/research_plan.json",
+      "description": "Initial hypotheses, method alternatives, budgets, validation gates, stopping rules, and dated revisions."
+    },
+    {
+      "path": "report/tool_trace.jsonl",
+      "description": "One provenance record for every real chemistry-software invocation."
+    },
+    {
+      "path": "report/evidence_summary.json",
+      "description": "Claim-to-artifact map separating calculation, experiment, inference, and uncertainty."
+    },
+    {
+      "path": "report/failure_log.jsonl",
+      "description": "Failed, rejected, retried, or inconclusive branches and their scientific consequence.",
+      "allow_empty": true
+    },
+    {
+      "path": "report/periodic_calculations.csv",
+      "description": "Structures, pressures/volumes, convergence, energies, volumes, and stresses."
+    },
+    {
+      "path": "report/phase_stability.json",
+      "description": "Stable sequence, crossover estimates, interpolation uncertainty, and structural checks."
+    },
+    {
+      "path": "report/bonding_hypotheses.json",
+      "description": "Chosen electronic/bonding descriptors, validation, alternatives, and causal limitations."
+    },
+    {
+      "path": "report/report.md",
+      "description": "Final artifact-linked scientific report with limitations and unresolved uncertainty."
+    }
+  ],
+  "data": [
+    {
+      "name": "Autonomous multi-software research inputs",
+      "path": "data/benchmark_data",
+      "type": "directory",
+      "description": "Three opaque BaO candidate crystal seeds and a 0-80 GPa investigation range; no volume grid, protocol, phase sequence, bonding basis, or transition pressure."
+    }
+  ],
+  "archive_extractions": [],
+  "benchmark_family": "bao_high_pressure",
+  "task_mode": "open_discovery",
+  "method_disclosure": "none",
+  "pathway_disclosure": "none"
+}

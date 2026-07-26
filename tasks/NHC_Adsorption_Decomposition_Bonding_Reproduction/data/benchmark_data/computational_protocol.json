@@ -1,0 +1,43 @@
+{
+  "paper_doi": "10.1021/acsomega.4c11197",
+  "software_dag": [
+    "pymatgen",
+    "VASP",
+    "LOBSTER",
+    "internal energy decomposition"
+  ],
+  "vasp": {
+    "functional": "optPBE-vdW",
+    "encut_ev": 500,
+    "k_points": [
+      9,
+      9,
+      1
+    ],
+    "dipole_correction_axis": 3,
+    "relaxation": "adsorbate and top metal layer; bottom two layers fixed",
+    "additional_incar_guidance": {
+      "GGA": "OR",
+      "LUSE_VDW": true,
+      "AGGAC": 0.0,
+      "LASPH": true
+    }
+  },
+  "energy_definitions": {
+    "binding": "E_adsorbed - E_relaxed_surface - E_relaxed_NHC",
+    "surface_deformation": "E_frozen_surface_at_ads_geometry - E_relaxed_surface",
+    "nhc_deformation": "E_frozen_NHC_at_ads_geometry - E_relaxed_NHC",
+    "interaction": "E_adsorbed - E_frozen_surface_at_ads_geometry - E_frozen_NHC_at_ads_geometry"
+  },
+  "lobster": {
+    "metrics": [
+      "ICOHP",
+      "ICOBI",
+      "PDOS",
+      "Lowdin charge",
+      "absolute and total spilling"
+    ],
+    "preferred_spilling_threshold_percent": 2.0
+  },
+  "result_values_included": false
+}

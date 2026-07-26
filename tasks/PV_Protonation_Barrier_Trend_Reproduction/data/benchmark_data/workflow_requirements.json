@@ -1,0 +1,18 @@
+{
+  "required_stages": [
+    "candidate_screening",
+    "identity_and_charge_validation",
+    "stationary_point_hessian",
+    "high_level_single_points",
+    "GoodVibes_thermochemistry",
+    "profile_alignment",
+    "protonation_trend_analysis"
+  ],
+  "hard_gates": [
+    "A TS without exactly one chemically relevant significant imaginary mode may not define a formal barrier.",
+    "All three protonation profiles must use the same thermochemical convention.",
+    "File matching between frequency and single-point calculations must be explicit.",
+    "The agent must separate a paper-published trend from any benchmark-compatible substitution."
+  ],
+  "budget_rule": "Use labels and low-cost screening to select a bounded consistent path; report excluded candidates and sensitivity."
+}

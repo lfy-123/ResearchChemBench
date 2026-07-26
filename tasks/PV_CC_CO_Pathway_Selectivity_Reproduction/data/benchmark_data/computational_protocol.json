@@ -1,0 +1,48 @@
+{
+  "paper_doi": "10.1126/science.aas8961",
+  "software_dag": [
+    "RDKit/cclib",
+    "Gaussian",
+    "ORCA",
+    "GoodVibes",
+    "pysisyphus as needed"
+  ],
+  "geometry_and_frequency": {
+    "backend": "Gaussian 16",
+    "method": "wB97XD",
+    "basis": "6-31+G(d)",
+    "solvation_model": "SMD",
+    "solvent": "ethanol",
+    "stable_point_imaginary_modes": 0,
+    "transition_state_meaningful_imaginary_modes": 1
+  },
+  "high_level_single_points": {
+    "backend": "ORCA",
+    "method": "DLPNO-CCSD(T)",
+    "basis_pair": [
+      "cc-pVDZ",
+      "cc-pVTZ"
+    ],
+    "target_interpretation": "cc-pV(DT)Z-compatible composite"
+  },
+  "thermochemistry": {
+    "backend": "GoodVibes",
+    "temperature_kelvin": 353.15,
+    "concentration_molar": 1.0,
+    "solvent": "ethanol",
+    "quasiharmonic_low_frequency_treatment": true
+  },
+  "result_values_included": false,
+  "author_quantum_outputs_included": false,
+  "path_search": {
+    "backend": "pysisyphus",
+    "low_cost_calculator": "GFN2-xTB",
+    "solvation": "ALPB ethanol",
+    "accepted_methods": [
+      "NEB",
+      "growing string",
+      "relaxed coordinate scan",
+      "IRC from validated TS"
+    ]
+  }
+}

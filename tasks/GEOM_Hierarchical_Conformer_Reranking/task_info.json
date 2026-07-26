@@ -1,0 +1,63 @@
+{
+  "task_id": "GEOM_Hierarchical_Conformer_Reranking",
+  "source_id": "geom_2022_autonomous_conformer_question",
+  "category": "autonomous_conformer_search_and_reranking",
+  "task": "Starting only from the supplied GEOM-C3 molecular identity and aqueous 298.15 K conditions, independently investigate whether an affordable conformer-search energy ranking is reliable for predicting the thermally important conformers. Generate the ensemble, choose validation and refinement levels, align structures across stages, quantify ranking/population changes, and state what can and cannot be concluded within the computational budget.",
+  "scientific_mode": "focused_open_discovery",
+  "scientific_mode_description": "The scientific question and raw input boundary are fixed, but no paper method, software sequence, parameter protocol, candidate pathway, or stopping route is disclosed.",
+  "scientific_requirements": [
+    "Write competing hypotheses and a staged sampling/refinement plan before calculations.",
+    "Generate structures in this run; no hidden or publication conformer may be imported.",
+    "Preserve connectivity, atom mapping, and lineage when comparing rankings.",
+    "Use calculation-backed convergence or population-coverage evidence to justify stopping.",
+    "Test whether the main ranking conclusion survives at least one reasonable method or sampling perturbation."
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/research_plan.json",
+      "description": "Initial hypotheses, method alternatives, budgets, validation gates, stopping rules, and dated revisions."
+    },
+    {
+      "path": "report/tool_trace.jsonl",
+      "description": "One provenance record for every real chemistry-software invocation."
+    },
+    {
+      "path": "report/evidence_summary.json",
+      "description": "Claim-to-artifact map separating calculation, experiment, inference, and uncertainty."
+    },
+    {
+      "path": "report/failure_log.jsonl",
+      "description": "Failed, rejected, retried, or inconclusive branches and their scientific consequence.",
+      "allow_empty": true
+    },
+    {
+      "path": "report/conformer_lineage.csv",
+      "description": "Generated conformers, identity checks, clustering, and parent lineage."
+    },
+    {
+      "path": "report/ranking_comparison.csv",
+      "description": "Aligned low-cost and refined energy/free-energy rankings with uncertainty."
+    },
+    {
+      "path": "report/ensemble_conclusion.json",
+      "description": "Dominant basins, population coverage, ranking stability, and stopping justification."
+    },
+    {
+      "path": "report/report.md",
+      "description": "Final artifact-linked scientific report with limitations and unresolved uncertainty."
+    }
+  ],
+  "data": [
+    {
+      "name": "Autonomous multi-software research inputs",
+      "path": "data/benchmark_data",
+      "type": "directory",
+      "description": "One molecular identity and physical conditions; no conformers, protocol, software route, or reference energies."
+    }
+  ],
+  "archive_extractions": [],
+  "benchmark_family": "geom_conformer",
+  "task_mode": "open_discovery",
+  "method_disclosure": "none",
+  "pathway_disclosure": "none"
+}

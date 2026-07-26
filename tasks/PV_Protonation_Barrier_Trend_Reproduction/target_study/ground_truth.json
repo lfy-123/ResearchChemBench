@@ -1,0 +1,175 @@
+{
+  "expected_tool_calls": [
+    {
+      "class": "structure_and_output_validation",
+      "backend_examples": [
+        "rdkit",
+        "cclib"
+      ]
+    },
+    {
+      "class": "stationary_point_frequency",
+      "backend_examples": [
+        "gaussian"
+      ]
+    },
+    {
+      "class": "high_level_single_point",
+      "backend_examples": [
+        "orca"
+      ]
+    },
+    {
+      "class": "thermochemical_profile",
+      "backend_examples": [
+        "goodvibes"
+      ]
+    }
+  ],
+  "expected_result": {
+    "energy_unit": "kcal/mol",
+    "paper_barriers": {
+      "P0": 30,
+      "P1": 20,
+      "P2": 14
+    },
+    "paper_reaction_free_energies": {
+      "P0": -39,
+      "P1": -37,
+      "P2": -38
+    },
+    "paper_conclusion": "Successive N-protonation lowers the BiPy coupling barrier by about 10 and then 6 kcal/mol."
+  },
+  "expected_structured_output": [
+    "report/research_plan.json",
+    "report/tool_trace.jsonl",
+    "report/failure_log.jsonl",
+    "report/candidate_screening.csv",
+    "report/stationary_point_validation.csv",
+    "report/protonation_profiles.csv",
+    "report/barrier_trend.json",
+    "report/report.md"
+  ],
+  "evaluation_mode": "rubric_100",
+  "score_max": 100,
+  "scoring_rubric": [
+    {
+      "id": "paper_conclusion_agreement",
+      "max_score": 35,
+      "description": "Newly generated evidence recovers the scoped paper conclusion. A conflicting ranking, phase sequence, barrier trend, selectivity, ensemble effect, or bonding interpretation is not a reproduction."
+    },
+    {
+      "id": "multisoftware_orchestration",
+      "max_score": 20,
+      "description": "Correctly composes the required software stages, passes artifacts between them, and respects dependency, retry, and stopping logic."
+    },
+    {
+      "id": "intermediate_evidence_validity",
+      "max_score": 20,
+      "description": "Validates chemical identity, convergence, stationary-point type, wavefunction or periodic-output quality, and rejects invalid branches."
+    },
+    {
+      "id": "protocol_fidelity",
+      "max_score": 10,
+      "description": "Follows the supplied paper-reconstructed protocol and clearly labels any controlled, version-compatible substitution."
+    },
+    {
+      "id": "numerical_and_statistical_quality",
+      "max_score": 10,
+      "description": "Uses consistent units, reference states, normalization, statistics, and uncertainty estimates."
+    },
+    {
+      "id": "provenance_and_uncertainty",
+      "max_score": 5,
+      "description": "Links every conclusion to artifacts and separates computation, paper targets, inference, failures, and unresolved uncertainty."
+    }
+  ],
+  "critical_failures": [
+    "No real Hessian/frequency validation was executed.",
+    "No ORCA high-level single-point evidence was generated.",
+    "Candidate stages or protonation states were mixed in one profile.",
+    "Paper barriers were copied as recomputed values."
+  ],
+  "judge_instructions": "Evaluate this as a multi-software paper reproduction. Do not award conclusion credit for copied paper values, invalid intermediates, or numerically plausible results unsupported by artifacts from this run. Apply every evidence gate.",
+  "reference_evidence": {
+    "paper_doi": "10.1126/science.aas8961",
+    "task_id": "PV_Protonation_Barrier_Trend_Reproduction",
+    "task_mode": "guided_reproduction",
+    "input_manifest_sha256": "235d0f9edb529672d037718b7b31eb26d5acb4bc29a093dbfcac1c9a6b3a6551",
+    "paper_reference": {
+      "energy_unit": "kcal/mol",
+      "paper_barriers": {
+        "P0": 30,
+        "P1": 20,
+        "P2": 14
+      },
+      "paper_reaction_free_energies": {
+        "P0": -39,
+        "P1": -37,
+        "P2": -38
+      },
+      "paper_conclusion": "Successive N-protonation lowers the BiPy coupling barrier by about 10 and then 6 kcal/mol."
+    },
+    "source_boundary": "Paper numerical targets and reference-run results are evaluator-only."
+  },
+  "managed_computation_policy": {
+    "allow_direct_native_software_execution": true,
+    "parallel_execution_allowed": true,
+    "do_not_fabricate_on_timeout": true,
+    "require_workspace_confined_artifacts": true
+  },
+  "evidence_gate_policy": {
+    "judge_must_assess_all": true,
+    "gates": [
+      {
+        "id": "stationary_point_validity",
+        "description": "Barrier-defining TS and minima pass frequency gates.",
+        "score_cap_if_failed": 45
+      },
+      {
+        "id": "profile_consistency",
+        "description": "P0/P1/P2 use aligned stages and one thermochemical convention.",
+        "score_cap_if_failed": 55
+      },
+      {
+        "id": "high_level_energy_evidence",
+        "description": "Selected stationary points have traceable ORCA single points.",
+        "score_cap_if_failed": 60
+      }
+    ]
+  },
+  "current_toolbox_reproduction_baseline": {
+    "status": "partially_solvable_reference_run_required",
+    "classification": "partially_solvable",
+    "major_paper_conclusion_reproduced_in_this_audit": false,
+    "installed_software": [
+      "RDKit",
+      "cclib",
+      "Gaussian 16",
+      "ORCA 6.1.1",
+      "GoodVibes 4.3.0",
+      "pysisyphus 1.0.0"
+    ],
+    "verified_components": [
+      "Gaussian energy/Hessian Actions",
+      "ORCA molecular energy Actions",
+      "GoodVibes profile Actions",
+      "pysisyphus reaction-path smoke tests"
+    ],
+    "unresolved_requirements": [
+      "The public candidate collection is not a complete one-to-one set of paper main-path minima and transition states.",
+      "A curated oracle path mapping and fresh composite-energy run are required before production scoring tolerances are activated."
+    ]
+  },
+  "evaluation_profile": "paper_reproduction",
+  "reference_conclusion_gate_policy": {
+    "required": true,
+    "criterion_id": "paper_conclusion_agreement",
+    "score_cap_if_not_matched": 50,
+    "score_cap_if_uncertain": 65,
+    "score_cap_if_omitted": 50,
+    "max_criterion_score_if_not_matched": 0,
+    "max_criterion_score_if_uncertain": 12,
+    "max_criterion_score_if_omitted": 0
+  }
+}

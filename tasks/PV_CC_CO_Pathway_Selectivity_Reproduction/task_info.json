@@ -1,0 +1,62 @@
+{
+  "task_id": "PV_CC_CO_Pathway_Selectivity_Reproduction",
+  "source_id": "heterobiaryl_pv_2019_cc_co_selectivity",
+  "category": "reaction_path_and_kinetic_selectivity",
+  "task": "Orchestrate P2 pathway screening, pysisyphus/xTB path validation, Gaussian stationary-point validation, ORCA high-level single points, and GoodVibes profiles to reproduce the paper conclusion that pyridyl-pyridyl C-C coupling is kinetically preferred over the competing C-O pathway.",
+  "scientific_mode": "guided_reproduction",
+  "scientific_mode_description": "A scoped part of a published research workflow is supplied. The agent must orchestrate multiple chemistry programs, validate intermediate artifacts, and recover the paper conclusion from newly generated evidence.",
+  "scientific_requirements": [
+    "Construct and validate both a C-C and a C-O path.",
+    "Do not equate a path maximum with a transition state without Hessian evidence.",
+    "Use identical thermochemical settings and reference states for both paths.",
+    "Integrate the supplied experiments as supporting evidence without using them as computed barriers."
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/research_plan.json",
+      "description": "Initial hypotheses, software DAG, budgets, gates, and stopping rules."
+    },
+    {
+      "path": "report/tool_trace.jsonl",
+      "description": "One provenance record for every chemistry-software invocation."
+    },
+    {
+      "path": "report/failure_log.jsonl",
+      "description": "Failed, rejected, retried, or inconclusive branches.",
+      "allow_empty": true
+    },
+    {
+      "path": "report/pathway_screening.csv",
+      "description": "P2 C-C and C-O candidate/path decisions."
+    },
+    {
+      "path": "report/path_validation.json",
+      "description": "Endpoint, image-continuity, imaginary-mode, and IRC evidence."
+    },
+    {
+      "path": "report/competing_profiles.csv",
+      "description": "Aligned C-C and C-O free-energy profiles."
+    },
+    {
+      "path": "report/selectivity_conclusion.json",
+      "description": "Delta-delta-G, estimated rate ratio, experimental consistency, and uncertainty."
+    },
+    {
+      "path": "report/report.md",
+      "description": "Artifact-linked paper-reproduction report and uncertainty analysis."
+    }
+  ],
+  "data": [
+    {
+      "name": "Guided multi-software reproduction inputs",
+      "path": "data/benchmark_data",
+      "type": "directory",
+      "description": "Visible structures, protocol, workflow gates, and manifests. No paper result values or completed quantum-chemistry outputs are included."
+    }
+  ],
+  "archive_extractions": [],
+  "benchmark_family": "heterobiaryl_pv",
+  "task_mode": "guided_reproduction",
+  "method_disclosure": "paper_reconstructed_protocol",
+  "pathway_disclosure": "scoped_execution_route"
+}

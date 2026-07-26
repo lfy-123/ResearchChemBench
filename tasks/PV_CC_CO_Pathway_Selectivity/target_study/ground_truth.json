@@ -1,0 +1,128 @@
+{
+  "expected_tool_calls": [
+    {
+      "class": "reaction_path_or_coordinate_search",
+      "required": true
+    },
+    {
+      "class": "stationary_point_and_frequency_validation",
+      "required": true
+    },
+    {
+      "class": "comparable_kinetic_analysis",
+      "required": true
+    }
+  ],
+  "expected_result": {
+    "hidden_posthoc_reference": {
+      "state": "P2",
+      "paper_cc_barrier_kcal_mol": 14,
+      "paper_co_barrier_kcal_mol": 18,
+      "paper_delta_delta_g_dagger_co_minus_cc_kcal_mol": 4,
+      "paper_conclusion": "C-C coupling is kinetically preferred; C-O is accessible but suppressed under the standard acidic ethanol conditions."
+    },
+    "reference_use_policy": "Use the hidden paper result only after assessing autonomous planning, execution, validation, and evidence quality. Agreement is not required."
+  },
+  "expected_structured_output": [
+    "report/research_plan.json",
+    "report/tool_trace.jsonl",
+    "report/evidence_summary.json",
+    "report/failure_log.jsonl",
+    "report/pathway_hypotheses.json",
+    "report/pathway_validation.json",
+    "report/selectivity_comparison.json",
+    "report/report.md"
+  ],
+  "evaluation_mode": "rubric_100",
+  "score_max": 100,
+  "scoring_rubric": [
+    {
+      "id": "scientific_problem_framing",
+      "max_score": 15,
+      "description": "Defines testable hypotheses, decision criteria, resource tiers, alternatives, and stopping rules without relying on a disclosed paper route."
+    },
+    {
+      "id": "autonomous_method_and_route_design",
+      "max_score": 25,
+      "description": "Independently selects defensible structures, software, methods, sampling, numerical controls, and fallback routes appropriate to the question."
+    },
+    {
+      "id": "adaptive_managed_execution",
+      "max_score": 25,
+      "description": "Executes real managed calculations, passes artifacts correctly, diagnoses failures, and revises the workflow without importing hidden results."
+    },
+    {
+      "id": "validation_and_falsification",
+      "max_score": 20,
+      "description": "Tests convergence, numerical sensitivity, chemical validity, competing explanations, uncertainty, and whether the evidence is sufficient for each claim."
+    },
+    {
+      "id": "defensible_scientific_conclusion",
+      "max_score": 15,
+      "description": "Draws a traceable conclusion from newly generated evidence. Hidden paper agreement is diagnostic, not a mandatory conclusion gate."
+    }
+  ],
+  "critical_failures": [
+    "Only one competing pathway was attempted without a justified bound for the other.",
+    "A supplied seed or path maximum was reported as a validated transition state.",
+    "C-C and C-O results use incompatible reference or thermochemical conventions.",
+    "Hidden/literature barriers were presented as new calculations."
+  ],
+  "judge_instructions": "This is an autonomous-discovery evaluation. Reward independent hypothesis formation, method and route selection, adaptive managed execution, validation, falsification, and an evidence-bound conclusion. Do not require agreement with the hidden paper route or conclusion.",
+  "reference_evidence": {
+    "task_id": "PV_CC_CO_Pathway_Selectivity",
+    "paired_reproduction_task_id": "PV_CC_CO_Pathway_Selectivity_Reproduction",
+    "task_mode": "open_discovery",
+    "input_manifest_sha256": "885d5fd3a013784dcf03e5f5e22d3d07efa79ca03383f81c9341b017a47a1f44",
+    "hidden_posthoc_reference": {
+      "state": "P2",
+      "paper_cc_barrier_kcal_mol": 14,
+      "paper_co_barrier_kcal_mol": 18,
+      "paper_delta_delta_g_dagger_co_minus_cc_kcal_mol": 4,
+      "paper_conclusion": "C-C coupling is kinetically preferred; C-O is accessible but suppressed under the standard acidic ethanol conditions."
+    },
+    "source_boundary": "Paper protocols, author intermediates, completed calculations, and numerical conclusions are evaluator-only.",
+    "reference_use_policy": "Assess autonomous scientific process first; use the hidden reference only to diagnose scientific agreement or productive disagreement."
+  },
+  "managed_computation_policy": {
+    "required": true,
+    "allow_direct_native_software_execution": true,
+    "parallel_execution_allowed": true,
+    "do_not_fabricate_on_timeout": true,
+    "require_workspace_confined_artifacts": true,
+    "minimum_successful_scientific_calls": 2,
+    "score_cap_without_managed_attempt": 20,
+    "score_cap_without_successful_managed_call": 40
+  },
+  "evidence_gate_policy": {
+    "judge_must_assess_all": true,
+    "gates": [
+      {
+        "id": "two_path_attempt",
+        "description": "Both C-C and C-O hypotheses receive new managed computational tests.",
+        "score_cap_if_failed": 55
+      },
+      {
+        "id": "ts_or_bound_validity",
+        "description": "Precise barriers are validated; otherwise conclusions are limited to controlled bounds.",
+        "score_cap_if_failed": 60
+      },
+      {
+        "id": "path_comparability",
+        "description": "The two paths use compatible energetic and thermochemical conventions.",
+        "score_cap_if_failed": 70
+      }
+    ]
+  },
+  "current_toolbox_feasibility_baseline": {
+    "status": "pre_release_blocked",
+    "classification": "partially_solvable",
+    "paired_reproduction_reference_run_complete": false,
+    "known_limitations": [
+      "No curated pair of C-C/C-O endpoints and atom mappings has yet been reference-validated.",
+      "The public pysisyphus ethanol-solvation contract is inconsistent with an older smoke record and must be reconciled."
+    ]
+  },
+  "evaluation_profile": "autonomous_discovery",
+  "reference_conclusion_gate_policy": {}
+}

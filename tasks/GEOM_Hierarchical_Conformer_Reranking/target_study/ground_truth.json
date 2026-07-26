@@ -1,0 +1,133 @@
+{
+  "expected_tool_calls": [
+    {
+      "class": "conformer_generation_or_search",
+      "required": true
+    },
+    {
+      "class": "energy_or_free_energy_refinement",
+      "required": true
+    },
+    {
+      "class": "structure_alignment_and_statistics",
+      "required": true
+    }
+  ],
+  "expected_result": {
+    "hidden_posthoc_reference": {
+      "reference_molecule": "GEOM-C3",
+      "reference_major_conformer_count": 7,
+      "reference_lowest_free_energy_population_percent": 26.50143932748048,
+      "reference_xtb_top_conformer_index": 1,
+      "reference_free_energy_top_conformer_index": 2,
+      "paper_conclusion": "GFN2-xTB/CREST covers major basins at low cost, but quantum refinement and thermochemistry can reorder conformers and materially change populations.",
+      "paper_dataset_xtb_vs_r2scan3c_mae_kcal_mol": 1.96,
+      "paper_dataset_mean_spearman": 0.39
+    },
+    "reference_use_policy": "Use the hidden paper result only after assessing autonomous planning, execution, validation, and evidence quality. Agreement is not required."
+  },
+  "expected_structured_output": [
+    "report/research_plan.json",
+    "report/tool_trace.jsonl",
+    "report/evidence_summary.json",
+    "report/failure_log.jsonl",
+    "report/conformer_lineage.csv",
+    "report/ranking_comparison.csv",
+    "report/ensemble_conclusion.json",
+    "report/report.md"
+  ],
+  "evaluation_mode": "rubric_100",
+  "score_max": 100,
+  "scoring_rubric": [
+    {
+      "id": "scientific_problem_framing",
+      "max_score": 15,
+      "description": "Defines testable hypotheses, decision criteria, resource tiers, alternatives, and stopping rules without relying on a disclosed paper route."
+    },
+    {
+      "id": "autonomous_method_and_route_design",
+      "max_score": 25,
+      "description": "Independently selects defensible structures, software, methods, sampling, numerical controls, and fallback routes appropriate to the question."
+    },
+    {
+      "id": "adaptive_managed_execution",
+      "max_score": 25,
+      "description": "Executes real managed calculations, passes artifacts correctly, diagnoses failures, and revises the workflow without importing hidden results."
+    },
+    {
+      "id": "validation_and_falsification",
+      "max_score": 20,
+      "description": "Tests convergence, numerical sensitivity, chemical validity, competing explanations, uncertainty, and whether the evidence is sufficient for each claim."
+    },
+    {
+      "id": "defensible_scientific_conclusion",
+      "max_score": 15,
+      "description": "Draws a traceable conclusion from newly generated evidence. Hidden paper agreement is diagnostic, not a mandatory conclusion gate."
+    }
+  ],
+  "critical_failures": [
+    "No real conformer search or generation was executed.",
+    "Rankings were compared without identity-preserving structural alignment.",
+    "Hidden/reference conformers or populations were presented as newly generated.",
+    "A dominant-population claim relies only on unvalidated file order or a single unconverged search."
+  ],
+  "judge_instructions": "This is an autonomous-discovery evaluation. Reward independent hypothesis formation, method and route selection, adaptive managed execution, validation, falsification, and an evidence-bound conclusion. Do not require agreement with the hidden paper route or conclusion.",
+  "reference_evidence": {
+    "task_id": "GEOM_Hierarchical_Conformer_Reranking",
+    "paired_reproduction_task_id": "GEOM_Hierarchical_Conformer_Reranking_Reproduction",
+    "task_mode": "open_discovery",
+    "input_manifest_sha256": "f3a0947d349e709deae9265040fdb7eecc00624f3c663aaa8eebf704be0ec520",
+    "hidden_posthoc_reference": {
+      "reference_molecule": "GEOM-C3",
+      "reference_major_conformer_count": 7,
+      "reference_lowest_free_energy_population_percent": 26.50143932748048,
+      "reference_xtb_top_conformer_index": 1,
+      "reference_free_energy_top_conformer_index": 2,
+      "paper_conclusion": "GFN2-xTB/CREST covers major basins at low cost, but quantum refinement and thermochemistry can reorder conformers and materially change populations.",
+      "paper_dataset_xtb_vs_r2scan3c_mae_kcal_mol": 1.96,
+      "paper_dataset_mean_spearman": 0.39
+    },
+    "source_boundary": "Paper protocols, author intermediates, completed calculations, and numerical conclusions are evaluator-only.",
+    "reference_use_policy": "Assess autonomous scientific process first; use the hidden reference only to diagnose scientific agreement or productive disagreement."
+  },
+  "managed_computation_policy": {
+    "required": true,
+    "allow_direct_native_software_execution": true,
+    "parallel_execution_allowed": true,
+    "do_not_fabricate_on_timeout": true,
+    "require_workspace_confined_artifacts": true,
+    "minimum_successful_scientific_calls": 2,
+    "score_cap_without_managed_attempt": 20,
+    "score_cap_without_successful_managed_call": 40
+  },
+  "evidence_gate_policy": {
+    "judge_must_assess_all": true,
+    "gates": [
+      {
+        "id": "real_search",
+        "description": "A real multi-conformer search was executed.",
+        "score_cap_if_failed": 35
+      },
+      {
+        "id": "identity_and_lineage",
+        "description": "Compared conformers retain connectivity and traceable lineage.",
+        "score_cap_if_failed": 55
+      },
+      {
+        "id": "independent_refinement",
+        "description": "At least one higher-confidence calculation tests the low-cost ranking.",
+        "score_cap_if_failed": 65
+      }
+    ]
+  },
+  "current_toolbox_feasibility_baseline": {
+    "status": "pre_release_pilot_ready",
+    "classification": "solvable_after_oracle_tolerance_calibration",
+    "paired_reproduction_reference_run_complete": false,
+    "known_limitations": [
+      "Regenerated ensembles are stochastic; score basin coverage and ranking changes, not an exact legacy conformer count."
+    ]
+  },
+  "evaluation_profile": "autonomous_discovery",
+  "reference_conclusion_gate_policy": {}
+}

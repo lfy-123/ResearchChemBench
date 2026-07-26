@@ -1,0 +1,157 @@
+{
+  "expected_tool_calls": [
+    {
+      "class": "adsorption_structure_generation",
+      "required": true
+    },
+    {
+      "class": "periodic_relaxation_and_energy",
+      "required": true
+    },
+    {
+      "class": "matched_reference_or_energy_decomposition",
+      "required": true
+    },
+    {
+      "class": "optional_periodic_bonding_analysis",
+      "required": false
+    }
+  ],
+  "expected_result": {
+    "hidden_posthoc_reference": {
+      "systems": {
+        "NHC1": {
+          "binding_energy_kcal_mol": -43.0,
+          "pd_c_angstrom": 2.061,
+          "icobi": 0.774,
+          "icohp_ev": -2.441,
+          "charge_spilling_percent": 1.84
+        },
+        "NHC4": {
+          "binding_energy_kcal_mol": -44.1,
+          "pd_c_angstrom": 2.043,
+          "icobi": 1.05,
+          "icohp_ev": -3.349,
+          "charge_spilling_percent": 1.8
+        }
+      },
+      "paper_conclusion": "NHC4 has stronger local Pd-C bonding indicators than NHC1, while the total binding-energy difference is moderated by deformation and other energetic contributions."
+    },
+    "reference_use_policy": "Use the hidden paper result only after assessing autonomous planning, execution, validation, and evidence quality. Agreement is not required."
+  },
+  "expected_structured_output": [
+    "report/research_plan.json",
+    "report/tool_trace.jsonl",
+    "report/evidence_summary.json",
+    "report/failure_log.jsonl",
+    "report/adsorption_search.csv",
+    "report/reference_energies.csv",
+    "report/adsorption_interpretation.json",
+    "report/report.md"
+  ],
+  "evaluation_mode": "rubric_100",
+  "score_max": 100,
+  "scoring_rubric": [
+    {
+      "id": "scientific_problem_framing",
+      "max_score": 15,
+      "description": "Defines testable hypotheses, decision criteria, resource tiers, alternatives, and stopping rules without relying on a disclosed paper route."
+    },
+    {
+      "id": "autonomous_method_and_route_design",
+      "max_score": 25,
+      "description": "Independently selects defensible structures, software, methods, sampling, numerical controls, and fallback routes appropriate to the question."
+    },
+    {
+      "id": "adaptive_managed_execution",
+      "max_score": 25,
+      "description": "Executes real managed calculations, passes artifacts correctly, diagnoses failures, and revises the workflow without importing hidden results."
+    },
+    {
+      "id": "validation_and_falsification",
+      "max_score": 20,
+      "description": "Tests convergence, numerical sensitivity, chemical validity, competing explanations, uncertainty, and whether the evidence is sufficient for each claim."
+    },
+    {
+      "id": "defensible_scientific_conclusion",
+      "max_score": 15,
+      "description": "Draws a traceable conclusion from newly generated evidence. Hidden paper agreement is diagnostic, not a mandatory conclusion gate."
+    }
+  ],
+  "critical_failures": [
+    "A hidden/published adsorbed structure was used as an independently generated result.",
+    "Adsorption energies used unmatched surface cells or incompatible reference settings.",
+    "No real periodic electronic-structure calculation was executed.",
+    "Local bond metrics were treated as identical to total adsorption energy without decomposition or caveat."
+  ],
+  "judge_instructions": "This is an autonomous-discovery evaluation. Reward independent hypothesis formation, method and route selection, adaptive managed execution, validation, falsification, and an evidence-bound conclusion. Do not require agreement with the hidden paper route or conclusion.",
+  "reference_evidence": {
+    "task_id": "NHC_Adsorption_Decomposition_Bonding",
+    "paired_reproduction_task_id": "NHC_Adsorption_Decomposition_Bonding_Reproduction",
+    "task_mode": "open_discovery",
+    "input_manifest_sha256": "5b743a97a9590c747137e43808693f51ef8b045d364046af153a0000147ed6fa",
+    "hidden_posthoc_reference": {
+      "systems": {
+        "NHC1": {
+          "binding_energy_kcal_mol": -43.0,
+          "pd_c_angstrom": 2.061,
+          "icobi": 0.774,
+          "icohp_ev": -2.441,
+          "charge_spilling_percent": 1.84
+        },
+        "NHC4": {
+          "binding_energy_kcal_mol": -44.1,
+          "pd_c_angstrom": 2.043,
+          "icobi": 1.05,
+          "icohp_ev": -3.349,
+          "charge_spilling_percent": 1.8
+        }
+      },
+      "paper_conclusion": "NHC4 has stronger local Pd-C bonding indicators than NHC1, while the total binding-energy difference is moderated by deformation and other energetic contributions."
+    },
+    "source_boundary": "Paper protocols, author intermediates, completed calculations, and numerical conclusions are evaluator-only.",
+    "reference_use_policy": "Assess autonomous scientific process first; use the hidden reference only to diagnose scientific agreement or productive disagreement."
+  },
+  "managed_computation_policy": {
+    "required": true,
+    "allow_direct_native_software_execution": true,
+    "parallel_execution_allowed": true,
+    "do_not_fabricate_on_timeout": true,
+    "require_workspace_confined_artifacts": true,
+    "minimum_successful_scientific_calls": 2,
+    "score_cap_without_managed_attempt": 20,
+    "score_cap_without_successful_managed_call": 40
+  },
+  "evidence_gate_policy": {
+    "judge_must_assess_all": true,
+    "gates": [
+      {
+        "id": "independent_adsorption_search",
+        "description": "Multiple adsorption candidates were generated from clean surface and ligand inputs.",
+        "score_cap_if_failed": 45
+      },
+      {
+        "id": "matched_references",
+        "description": "Adsorption comparisons use matched cells and compatible settings.",
+        "score_cap_if_failed": 55
+      },
+      {
+        "id": "constraint_and_geometry_validity",
+        "description": "Relaxation constraints and final adsorption identity are verified.",
+        "score_cap_if_failed": 65
+      }
+    ]
+  },
+  "current_toolbox_feasibility_baseline": {
+    "status": "pre_release_blocked",
+    "classification": "toolbox_gap",
+    "paired_reproduction_reference_run_complete": false,
+    "known_limitations": [
+      "The public toolbox lacks a validated adsorption-placement workflow for these systems.",
+      "VASP Selective Dynamics and POTCAR-to-native staging are not yet sufficient for the requested production protocol.",
+      "Fresh LOBSTER generation remains blocked; bonding must remain optional until repaired."
+    ]
+  },
+  "evaluation_profile": "autonomous_discovery",
+  "reference_conclusion_gate_policy": {}
+}

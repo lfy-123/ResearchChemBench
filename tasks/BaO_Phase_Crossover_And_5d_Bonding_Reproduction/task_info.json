@@ -1,0 +1,66 @@
+{
+  "task_id": "BaO_Phase_Crossover_And_5d_Bonding_Reproduction",
+  "source_id": "bao_high_pressure_polymorphism_2025",
+  "category": "high_pressure_phase_stability_and_bonding",
+  "task": "Orchestrate crystal validation, VASP volume-grid calculations, EOS/enthalpy analysis, adaptive crossover refinement, and paired LOBSTER projection analysis to reproduce the BaO B1 to B8 to dB2 high-pressure sequence and test the role of Ba 5d functions in the bonding interpretation.",
+  "scientific_mode": "guided_reproduction",
+  "scientific_mode_description": "A scoped part of a published research workflow is supplied. The agent must orchestrate multiple chemistry programs, validate intermediate artifacts, and recover the paper conclusion from newly generated evidence.",
+  "scientific_requirements": [
+    "Use all three phases and compute a traceable E(V) dataset with VASP.",
+    "Fit at least one physical EOS and assess fit sensitivity.",
+    "Adaptively refine every detected enthalpy crossing.",
+    "Run paired LOBSTER projections on the same wavefunction and gate bonding conclusions on spilling quality."
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/research_plan.json",
+      "description": "Initial hypotheses, software DAG, budgets, gates, and stopping rules."
+    },
+    {
+      "path": "report/tool_trace.jsonl",
+      "description": "One provenance record for every chemistry-software invocation."
+    },
+    {
+      "path": "report/failure_log.jsonl",
+      "description": "Failed, rejected, retried, or inconclusive branches.",
+      "allow_empty": true
+    },
+    {
+      "path": "report/structure_validation.csv",
+      "description": "Space group, normalization, volume, and structural checks."
+    },
+    {
+      "path": "report/eos_points.csv",
+      "description": "VASP energies, stresses, convergence, and per-formula-unit normalization."
+    },
+    {
+      "path": "report/phase_enthalpy.csv",
+      "description": "Fitted enthalpy curves and adaptive crossover evidence."
+    },
+    {
+      "path": "report/lobster_ablation.json",
+      "description": "With/without Ba 5d spilling and bonding analysis."
+    },
+    {
+      "path": "report/phase_conclusion.json",
+      "description": "Phase sequence, transition estimates, bonding interpretation, and uncertainty."
+    },
+    {
+      "path": "report/report.md",
+      "description": "Artifact-linked paper-reproduction report and uncertainty analysis."
+    }
+  ],
+  "data": [
+    {
+      "name": "Guided multi-software reproduction inputs",
+      "path": "data/benchmark_data",
+      "type": "directory",
+      "description": "Visible structures, protocol, workflow gates, and manifests. No paper result values or completed quantum-chemistry outputs are included."
+    }
+  ],
+  "archive_extractions": [],
+  "benchmark_family": "bao_high_pressure",
+  "task_mode": "guided_reproduction",
+  "method_disclosure": "paper_reconstructed_protocol",
+  "pathway_disclosure": "scoped_execution_route"
+}

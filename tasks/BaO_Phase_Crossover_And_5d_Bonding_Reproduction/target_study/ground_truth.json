@@ -1,0 +1,203 @@
+{
+  "expected_tool_calls": [
+    {
+      "class": "crystal_validation",
+      "backend_examples": [
+        "pymatgen",
+        "spglib"
+      ]
+    },
+    {
+      "class": "periodic_electronic_structure",
+      "backend_examples": [
+        "vasp"
+      ]
+    },
+    {
+      "class": "equation_of_state_and_enthalpy",
+      "backend_examples": [
+        "scipy",
+        "internal_statistics"
+      ]
+    },
+    {
+      "class": "periodic_bonding_projection",
+      "backend_examples": [
+        "lobster"
+      ]
+    }
+  ],
+  "expected_result": {
+    "paper_phase_sequence": [
+      "B1",
+      "B8",
+      "dB2"
+    ],
+    "paper_transition_pressures_gpa": [
+      8,
+      25
+    ],
+    "first_transition_reference_interval_gpa": [
+      8,
+      10
+    ],
+    "paper_projection_ablation": {
+      "BaO_without_5d_max_spilling_percent": 5.13,
+      "BaO_with_5d_max_spilling_percent": 3.35,
+      "with_d_icohp_ev_range": [
+        -3,
+        -1
+      ],
+      "without_d_icohp_magnitude_ev": 0.5
+    },
+    "paper_conclusion": "Ba 5d-O covalency selectively contributes to stabilization of the denser B8 and dB2 phases."
+  },
+  "expected_structured_output": [
+    "report/research_plan.json",
+    "report/tool_trace.jsonl",
+    "report/failure_log.jsonl",
+    "report/structure_validation.csv",
+    "report/eos_points.csv",
+    "report/phase_enthalpy.csv",
+    "report/lobster_ablation.json",
+    "report/phase_conclusion.json",
+    "report/report.md"
+  ],
+  "evaluation_mode": "rubric_100",
+  "score_max": 100,
+  "scoring_rubric": [
+    {
+      "id": "paper_conclusion_agreement",
+      "max_score": 35,
+      "description": "Newly generated evidence recovers the scoped paper conclusion. A conflicting ranking, phase sequence, barrier trend, selectivity, ensemble effect, or bonding interpretation is not a reproduction."
+    },
+    {
+      "id": "multisoftware_orchestration",
+      "max_score": 20,
+      "description": "Correctly composes the required software stages, passes artifacts between them, and respects dependency, retry, and stopping logic."
+    },
+    {
+      "id": "intermediate_evidence_validity",
+      "max_score": 20,
+      "description": "Validates chemical identity, convergence, stationary-point type, wavefunction or periodic-output quality, and rejects invalid branches."
+    },
+    {
+      "id": "protocol_fidelity",
+      "max_score": 10,
+      "description": "Follows the supplied paper-reconstructed protocol and clearly labels any controlled, version-compatible substitution."
+    },
+    {
+      "id": "numerical_and_statistical_quality",
+      "max_score": 10,
+      "description": "Uses consistent units, reference states, normalization, statistics, and uncertainty estimates."
+    },
+    {
+      "id": "provenance_and_uncertainty",
+      "max_score": 5,
+      "description": "Links every conclusion to artifacts and separates computation, paper targets, inference, failures, and unresolved uncertainty."
+    }
+  ],
+  "critical_failures": [
+    "No real periodic DFT calculation was executed.",
+    "Energies from different formula-unit normalizations were compared.",
+    "Transition pressures were copied from the paper or assigned from grid endpoints.",
+    "LOBSTER results from different parent wavefunctions were compared."
+  ],
+  "judge_instructions": "Evaluate this as a multi-software paper reproduction. Do not award conclusion credit for copied paper values, invalid intermediates, or numerically plausible results unsupported by artifacts from this run. Apply every evidence gate.",
+  "reference_evidence": {
+    "paper_doi": "10.1002/chem.202501536",
+    "task_id": "BaO_Phase_Crossover_And_5d_Bonding_Reproduction",
+    "task_mode": "guided_reproduction",
+    "input_manifest_sha256": "6650703bf8f6d92e18c07a91a97f8731a5f481e3fb2927d02821c365f149be94",
+    "paper_reference": {
+      "paper_phase_sequence": [
+        "B1",
+        "B8",
+        "dB2"
+      ],
+      "paper_transition_pressures_gpa": [
+        8,
+        25
+      ],
+      "first_transition_reference_interval_gpa": [
+        8,
+        10
+      ],
+      "paper_projection_ablation": {
+        "BaO_without_5d_max_spilling_percent": 5.13,
+        "BaO_with_5d_max_spilling_percent": 3.35,
+        "with_d_icohp_ev_range": [
+          -3,
+          -1
+        ],
+        "without_d_icohp_magnitude_ev": 0.5
+      },
+      "paper_conclusion": "Ba 5d-O covalency selectively contributes to stabilization of the denser B8 and dB2 phases."
+    },
+    "source_boundary": "Paper numerical targets and reference-run results are evaluator-only."
+  },
+  "managed_computation_policy": {
+    "allow_direct_native_software_execution": true,
+    "parallel_execution_allowed": true,
+    "do_not_fabricate_on_timeout": true,
+    "require_workspace_confined_artifacts": true
+  },
+  "evidence_gate_policy": {
+    "judge_must_assess_all": true,
+    "gates": [
+      {
+        "id": "periodic_evidence",
+        "description": "Each reported phase has converged VASP energy/stress evidence.",
+        "score_cap_if_failed": 40
+      },
+      {
+        "id": "eos_and_crossing",
+        "description": "Transitions follow from fitted/refined enthalpy crossings with uncertainty.",
+        "score_cap_if_failed": 55
+      },
+      {
+        "id": "projection_ablation",
+        "description": "Ba 5d attribution is supported by a paired same-wavefunction LOBSTER comparison.",
+        "score_cap_if_failed": 70
+      },
+      {
+        "id": "spilling_quality",
+        "description": "Bonding interpretation is qualified by charge/total spilling.",
+        "score_cap_if_failed": 75
+      }
+    ]
+  },
+  "current_toolbox_reproduction_baseline": {
+    "status": "partially_solvable_reference_run_required",
+    "classification": "partially_solvable",
+    "major_paper_conclusion_reproduced_in_this_audit": false,
+    "installed_software": [
+      "pymatgen",
+      "spglib",
+      "VASP 6.3.2",
+      "LOBSTER 5.1.0",
+      "SciPy"
+    ],
+    "verified_components": [
+      "VASP periodic energy/force/stress/relaxation Actions",
+      "pymatgen symmetry Actions",
+      "LOBSTER COHP/PDOS/spilling parsers"
+    ],
+    "unresolved_requirements": [
+      "The VASP Action does not expose direct target-pressure relaxation; this task uses a controlled E(V)-EOS-H(P) route.",
+      "New LOBSTER calculations currently require the native-job layer.",
+      "A production-cost oracle run is required before numerical tolerances are finalized."
+    ]
+  },
+  "evaluation_profile": "paper_reproduction",
+  "reference_conclusion_gate_policy": {
+    "required": true,
+    "criterion_id": "paper_conclusion_agreement",
+    "score_cap_if_not_matched": 50,
+    "score_cap_if_uncertain": 65,
+    "score_cap_if_omitted": 50,
+    "max_criterion_score_if_not_matched": 0,
+    "max_criterion_score_if_uncertain": 12,
+    "max_criterion_score_if_omitted": 0
+  }
+}

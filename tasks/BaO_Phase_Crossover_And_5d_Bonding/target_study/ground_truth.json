@@ -1,0 +1,164 @@
+{
+  "expected_tool_calls": [
+    {
+      "class": "periodic_relaxation_or_equation_of_state",
+      "required": true
+    },
+    {
+      "class": "enthalpy_and_crossover_analysis",
+      "required": true
+    },
+    {
+      "class": "optional_periodic_bonding_analysis",
+      "required": false
+    }
+  ],
+  "expected_result": {
+    "hidden_posthoc_reference": {
+      "paper_phase_sequence": [
+        "B1",
+        "B8",
+        "dB2"
+      ],
+      "paper_transition_pressures_gpa": [
+        8,
+        25
+      ],
+      "first_transition_reference_interval_gpa": [
+        8,
+        10
+      ],
+      "paper_projection_ablation": {
+        "BaO_without_5d_max_spilling_percent": 5.13,
+        "BaO_with_5d_max_spilling_percent": 3.35,
+        "with_d_icohp_ev_range": [
+          -3,
+          -1
+        ],
+        "without_d_icohp_magnitude_ev": 0.5
+      },
+      "paper_conclusion": "Ba 5d-O covalency selectively contributes to stabilization of the denser B8 and dB2 phases."
+    },
+    "reference_use_policy": "Use the hidden paper result only after assessing autonomous planning, execution, validation, and evidence quality. Agreement is not required."
+  },
+  "expected_structured_output": [
+    "report/research_plan.json",
+    "report/tool_trace.jsonl",
+    "report/evidence_summary.json",
+    "report/failure_log.jsonl",
+    "report/periodic_calculations.csv",
+    "report/phase_stability.json",
+    "report/bonding_hypotheses.json",
+    "report/report.md"
+  ],
+  "evaluation_mode": "rubric_100",
+  "score_max": 100,
+  "scoring_rubric": [
+    {
+      "id": "scientific_problem_framing",
+      "max_score": 15,
+      "description": "Defines testable hypotheses, decision criteria, resource tiers, alternatives, and stopping rules without relying on a disclosed paper route."
+    },
+    {
+      "id": "autonomous_method_and_route_design",
+      "max_score": 25,
+      "description": "Independently selects defensible structures, software, methods, sampling, numerical controls, and fallback routes appropriate to the question."
+    },
+    {
+      "id": "adaptive_managed_execution",
+      "max_score": 25,
+      "description": "Executes real managed calculations, passes artifacts correctly, diagnoses failures, and revises the workflow without importing hidden results."
+    },
+    {
+      "id": "validation_and_falsification",
+      "max_score": 20,
+      "description": "Tests convergence, numerical sensitivity, chemical validity, competing explanations, uncertainty, and whether the evidence is sufficient for each claim."
+    },
+    {
+      "id": "defensible_scientific_conclusion",
+      "max_score": 15,
+      "description": "Draws a traceable conclusion from newly generated evidence. Hidden paper agreement is diagnostic, not a mandatory conclusion gate."
+    }
+  ],
+  "critical_failures": [
+    "No real periodic electronic-structure calculation was executed.",
+    "Energies or enthalpies were compared without formula-unit normalization.",
+    "A relaxed structure changed phase identity but was retained without disclosure.",
+    "Literature transition pressures or bonding values were presented as new results."
+  ],
+  "judge_instructions": "This is an autonomous-discovery evaluation. Reward independent hypothesis formation, method and route selection, adaptive managed execution, validation, falsification, and an evidence-bound conclusion. Do not require agreement with the hidden paper route or conclusion.",
+  "reference_evidence": {
+    "task_id": "BaO_Phase_Crossover_And_5d_Bonding",
+    "paired_reproduction_task_id": "BaO_Phase_Crossover_And_5d_Bonding_Reproduction",
+    "task_mode": "open_discovery",
+    "input_manifest_sha256": "38532e6d22d69a45c9cabc368a3e9d2848c9ead160725a4d90de1eff629e59ae",
+    "hidden_posthoc_reference": {
+      "paper_phase_sequence": [
+        "B1",
+        "B8",
+        "dB2"
+      ],
+      "paper_transition_pressures_gpa": [
+        8,
+        25
+      ],
+      "first_transition_reference_interval_gpa": [
+        8,
+        10
+      ],
+      "paper_projection_ablation": {
+        "BaO_without_5d_max_spilling_percent": 5.13,
+        "BaO_with_5d_max_spilling_percent": 3.35,
+        "with_d_icohp_ev_range": [
+          -3,
+          -1
+        ],
+        "without_d_icohp_magnitude_ev": 0.5
+      },
+      "paper_conclusion": "Ba 5d-O covalency selectively contributes to stabilization of the denser B8 and dB2 phases."
+    },
+    "source_boundary": "Paper protocols, author intermediates, completed calculations, and numerical conclusions are evaluator-only.",
+    "reference_use_policy": "Assess autonomous scientific process first; use the hidden reference only to diagnose scientific agreement or productive disagreement."
+  },
+  "managed_computation_policy": {
+    "required": true,
+    "allow_direct_native_software_execution": true,
+    "parallel_execution_allowed": true,
+    "do_not_fabricate_on_timeout": true,
+    "require_workspace_confined_artifacts": true,
+    "minimum_successful_scientific_calls": 2,
+    "score_cap_without_managed_attempt": 20,
+    "score_cap_without_successful_managed_call": 40
+  },
+  "evidence_gate_policy": {
+    "judge_must_assess_all": true,
+    "gates": [
+      {
+        "id": "periodic_evidence",
+        "description": "New converged periodic calculations support the stability analysis.",
+        "score_cap_if_failed": 35
+      },
+      {
+        "id": "thermodynamic_consistency",
+        "description": "Pressure/volume, PV units, references, and normalization are consistent.",
+        "score_cap_if_failed": 55
+      },
+      {
+        "id": "phase_identity",
+        "description": "Relaxed candidates remain distinguishable or transformations are explicitly analyzed.",
+        "score_cap_if_failed": 65
+      }
+    ]
+  },
+  "current_toolbox_feasibility_baseline": {
+    "status": "pre_release_split_recommended",
+    "classification": "phase_stability_solvable_bonding_blocked",
+    "paired_reproduction_reference_run_complete": false,
+    "known_limitations": [
+      "The phase-stability part can be piloted after locking pseudopotentials and convergence settings.",
+      "Fresh LOBSTER generation remains blocked by the POTCAR/native-job staging gap; bonding is optional and cannot be a hard completion gate yet."
+    ]
+  },
+  "evaluation_profile": "autonomous_discovery",
+  "reference_conclusion_gate_policy": {}
+}

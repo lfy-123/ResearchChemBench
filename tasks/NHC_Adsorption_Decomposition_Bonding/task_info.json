@@ -1,0 +1,63 @@
+{
+  "task_id": "NHC_Adsorption_Decomposition_Bonding",
+  "source_id": "nhc_pdcu111_2025_autonomous_adsorption_question",
+  "category": "autonomous_surface_adsorption_and_bonding",
+  "task": "Using only the two matched clean PdCu(111) surfaces and isolated NHC ligand seeds, independently determine plausible adsorption structures and compare the adsorption energetics of NHC1 and NHC4. Investigate whether local Pd-C bonding descriptors alone explain the total-energy difference, or whether geometry deformation and reference-state contributions are required.",
+  "scientific_mode": "focused_open_discovery",
+  "scientific_mode_description": "The scientific question and raw input boundary are fixed, but no paper method, software sequence, parameter protocol, candidate pathway, or stopping route is disclosed.",
+  "scientific_requirements": [
+    "Generate and compare multiple physically distinct adsorption sites/orientations for each ligand.",
+    "Use each ligand with its own matched clean-surface cell and compatible periodic settings.",
+    "Declare and algebraically validate all adsorption, interaction, and deformation energy definitions.",
+    "Respect surface-layer constraints and document which atoms were allowed to relax.",
+    "Quality-gate any bonding analysis and distinguish local bond descriptors from total adsorption energetics."
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/research_plan.json",
+      "description": "Initial hypotheses, method alternatives, budgets, validation gates, stopping rules, and dated revisions."
+    },
+    {
+      "path": "report/tool_trace.jsonl",
+      "description": "One provenance record for every real chemistry-software invocation."
+    },
+    {
+      "path": "report/evidence_summary.json",
+      "description": "Claim-to-artifact map separating calculation, experiment, inference, and uncertainty."
+    },
+    {
+      "path": "report/failure_log.jsonl",
+      "description": "Failed, rejected, retried, or inconclusive branches and their scientific consequence.",
+      "allow_empty": true
+    },
+    {
+      "path": "report/adsorption_search.csv",
+      "description": "Generated sites/orientations, screening, relaxation, identity, and convergence evidence."
+    },
+    {
+      "path": "report/reference_energies.csv",
+      "description": "Matched adsorbed, clean-surface, isolated-ligand, and optional frozen-fragment energies."
+    },
+    {
+      "path": "report/adsorption_interpretation.json",
+      "description": "Relative adsorption, deformation/interaction analysis, bonding evidence, and uncertainty."
+    },
+    {
+      "path": "report/report.md",
+      "description": "Final artifact-linked scientific report with limitations and unresolved uncertainty."
+    }
+  ],
+  "data": [
+    {
+      "name": "Autonomous multi-software research inputs",
+      "path": "data/benchmark_data",
+      "type": "directory",
+      "description": "Two matched clean PdCu(111) surfaces and two isolated ligand seeds; no adsorbed geometry, adsorption site, prescribed software route, computational protocol, or reference values."
+    }
+  ],
+  "archive_extractions": [],
+  "benchmark_family": "nhc_pdcu111",
+  "task_mode": "open_discovery",
+  "method_disclosure": "none",
+  "pathway_disclosure": "none"
+}

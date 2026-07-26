@@ -1,0 +1,62 @@
+{
+  "task_id": "GEOM_Hierarchical_Conformer_Reranking_Reproduction",
+  "source_id": "geom_2022_energy_annotated_conformations",
+  "category": "conformer_search_and_quantum_refinement",
+  "task": "Starting from GEOM-C3 SMILES, orchestrate RDKit, xTB/CREST, ORCA, and GoodVibes to reconstruct the major conformer basins and test whether low-cost ranking agrees with the quantum free-energy ranking. Recover the paper conclusion that low-cost search provides coverage but quantum refinement can change the dominant conformer and populations.",
+  "scientific_mode": "guided_reproduction",
+  "scientific_mode_description": "A scoped part of a published research workflow is supplied. The agent must orchestrate multiple chemistry programs, validate intermediate artifacts, and recover the paper conclusion from newly generated evidence.",
+  "scientific_requirements": [
+    "Run at least four distinct software stages from the supplied DAG.",
+    "Preserve atom mapping and conformer lineage across every stage.",
+    "Compare aligned rankings; do not compare unrelated file-order indices.",
+    "Report how refinement-budget truncation affects the conclusion."
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/research_plan.json",
+      "description": "Initial hypotheses, software DAG, budgets, gates, and stopping rules."
+    },
+    {
+      "path": "report/tool_trace.jsonl",
+      "description": "One provenance record for every chemistry-software invocation."
+    },
+    {
+      "path": "report/failure_log.jsonl",
+      "description": "Failed, rejected, retried, or inconclusive branches.",
+      "allow_empty": true
+    },
+    {
+      "path": "report/stage_summary.csv",
+      "description": "Counts and failures by software stage."
+    },
+    {
+      "path": "report/conformer_lineage.csv",
+      "description": "Atom-mapped lineage from RDKit through quantum refinement."
+    },
+    {
+      "path": "report/energy_ranking.csv",
+      "description": "Aligned xTB, electronic-energy, and free-energy rankings."
+    },
+    {
+      "path": "report/ensemble.json",
+      "description": "Final relative free energies, weights, and population coverage."
+    },
+    {
+      "path": "report/report.md",
+      "description": "Artifact-linked paper-reproduction report and uncertainty analysis."
+    }
+  ],
+  "data": [
+    {
+      "name": "Guided multi-software reproduction inputs",
+      "path": "data/benchmark_data",
+      "type": "directory",
+      "description": "Visible structures, protocol, workflow gates, and manifests. No paper result values or completed quantum-chemistry outputs are included."
+    }
+  ],
+  "archive_extractions": [],
+  "benchmark_family": "geom_conformer_reproduction",
+  "task_mode": "guided_reproduction",
+  "method_disclosure": "paper_reconstructed_protocol",
+  "pathway_disclosure": "scoped_execution_route"
+}

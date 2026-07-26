@@ -1,0 +1,182 @@
+{
+  "expected_tool_calls": [
+    {
+      "class": "periodic_structure_validation",
+      "backend_examples": [
+        "pymatgen"
+      ]
+    },
+    {
+      "class": "periodic_relaxation_and_energy",
+      "backend_examples": [
+        "vasp"
+      ]
+    },
+    {
+      "class": "periodic_bonding",
+      "backend_examples": [
+        "lobster"
+      ]
+    },
+    {
+      "class": "energy_decomposition",
+      "backend_examples": [
+        "internal_statistics"
+      ]
+    }
+  ],
+  "expected_result": {
+    "systems": {
+      "NHC1": {
+        "binding_energy_kcal_mol": -43.0,
+        "pd_c_angstrom": 2.061,
+        "icobi": 0.774,
+        "icohp_ev": -2.441,
+        "charge_spilling_percent": 1.84
+      },
+      "NHC4": {
+        "binding_energy_kcal_mol": -44.1,
+        "pd_c_angstrom": 2.043,
+        "icobi": 1.05,
+        "icohp_ev": -3.349,
+        "charge_spilling_percent": 1.8
+      }
+    },
+    "paper_conclusion": "NHC4 has stronger local Pd-C bonding indicators than NHC1, while the total binding-energy difference is moderated by deformation and other energetic contributions."
+  },
+  "expected_structured_output": [
+    "report/research_plan.json",
+    "report/tool_trace.jsonl",
+    "report/failure_log.jsonl",
+    "report/structure_validation.csv",
+    "report/energy_components.csv",
+    "report/binding_decomposition.json",
+    "report/lobster_bonding.csv",
+    "report/adsorption_conclusion.json",
+    "report/report.md"
+  ],
+  "evaluation_mode": "rubric_100",
+  "score_max": 100,
+  "scoring_rubric": [
+    {
+      "id": "paper_conclusion_agreement",
+      "max_score": 35,
+      "description": "Newly generated evidence recovers the scoped paper conclusion. A conflicting ranking, phase sequence, barrier trend, selectivity, ensemble effect, or bonding interpretation is not a reproduction."
+    },
+    {
+      "id": "multisoftware_orchestration",
+      "max_score": 20,
+      "description": "Correctly composes the required software stages, passes artifacts between them, and respects dependency, retry, and stopping logic."
+    },
+    {
+      "id": "intermediate_evidence_validity",
+      "max_score": 20,
+      "description": "Validates chemical identity, convergence, stationary-point type, wavefunction or periodic-output quality, and rejects invalid branches."
+    },
+    {
+      "id": "protocol_fidelity",
+      "max_score": 10,
+      "description": "Follows the supplied paper-reconstructed protocol and clearly labels any controlled, version-compatible substitution."
+    },
+    {
+      "id": "numerical_and_statistical_quality",
+      "max_score": 10,
+      "description": "Uses consistent units, reference states, normalization, statistics, and uncertainty estimates."
+    },
+    {
+      "id": "provenance_and_uncertainty",
+      "max_score": 5,
+      "description": "Links every conclusion to artifacts and separates computation, paper targets, inference, failures, and unresolved uncertainty."
+    }
+  ],
+  "critical_failures": [
+    "No real periodic DFT calculation was executed.",
+    "Adsorption energies used unmatched cells or reference states.",
+    "Frozen fragments were confused with relaxed references.",
+    "LOBSTER values were copied from the paper or interpreted without spilling evidence."
+  ],
+  "judge_instructions": "Evaluate this as a multi-software paper reproduction. Do not award conclusion credit for copied paper values, invalid intermediates, or numerically plausible results unsupported by artifacts from this run. Apply every evidence gate.",
+  "reference_evidence": {
+    "paper_doi": "10.1021/acsomega.4c11197",
+    "task_id": "NHC_Adsorption_Decomposition_Bonding_Reproduction",
+    "task_mode": "guided_reproduction",
+    "input_manifest_sha256": "237fab75fcdd30e1f96352795426e029abed9e6dafed365f646bcf2e1e5731c5",
+    "paper_reference": {
+      "systems": {
+        "NHC1": {
+          "binding_energy_kcal_mol": -43.0,
+          "pd_c_angstrom": 2.061,
+          "icobi": 0.774,
+          "icohp_ev": -2.441,
+          "charge_spilling_percent": 1.84
+        },
+        "NHC4": {
+          "binding_energy_kcal_mol": -44.1,
+          "pd_c_angstrom": 2.043,
+          "icobi": 1.05,
+          "icohp_ev": -3.349,
+          "charge_spilling_percent": 1.8
+        }
+      },
+      "paper_conclusion": "NHC4 has stronger local Pd-C bonding indicators than NHC1, while the total binding-energy difference is moderated by deformation and other energetic contributions."
+    },
+    "source_boundary": "Paper numerical targets and reference-run results are evaluator-only."
+  },
+  "managed_computation_policy": {
+    "allow_direct_native_software_execution": true,
+    "parallel_execution_allowed": true,
+    "do_not_fabricate_on_timeout": true,
+    "require_workspace_confined_artifacts": true
+  },
+  "evidence_gate_policy": {
+    "judge_must_assess_all": true,
+    "gates": [
+      {
+        "id": "matched_reference_states",
+        "description": "Both systems use compatible adsorbed, slab, molecule, and frozen-fragment references.",
+        "score_cap_if_failed": 45
+      },
+      {
+        "id": "complete_decomposition",
+        "description": "Binding, deformation, and interaction terms close algebraically.",
+        "score_cap_if_failed": 55
+      },
+      {
+        "id": "lobster_quality",
+        "description": "Pd-C bonding metrics derive from valid outputs with acceptable or qualified spilling.",
+        "score_cap_if_failed": 65
+      }
+    ]
+  },
+  "current_toolbox_reproduction_baseline": {
+    "status": "partially_solvable_reference_run_required",
+    "classification": "partially_solvable",
+    "major_paper_conclusion_reproduced_in_this_audit": false,
+    "installed_software": [
+      "pymatgen",
+      "VASP 6.3.2",
+      "LOBSTER 5.1.0"
+    ],
+    "verified_components": [
+      "VASP periodic energy/force/stress/relaxation Actions",
+      "LOBSTER COHP/COBI/PDOS/spilling parsers",
+      "Published adsorbed and isolated structures are available"
+    ],
+    "unresolved_requirements": [
+      "The optPBE-vdW settings require a production reference run through the VASP additional-INCAR contract.",
+      "Fresh LOBSTER generation requires the native-job layer.",
+      "The two published systems use different surface-cell sizes and must be assessed with matched per-system references rather than direct raw-energy subtraction."
+    ]
+  },
+  "evaluation_profile": "paper_reproduction",
+  "reference_conclusion_gate_policy": {
+    "required": true,
+    "criterion_id": "paper_conclusion_agreement",
+    "score_cap_if_not_matched": 50,
+    "score_cap_if_uncertain": 65,
+    "score_cap_if_omitted": 50,
+    "max_criterion_score_if_not_matched": 0,
+    "max_criterion_score_if_uncertain": 12,
+    "max_criterion_score_if_omitted": 0
+  }
+}

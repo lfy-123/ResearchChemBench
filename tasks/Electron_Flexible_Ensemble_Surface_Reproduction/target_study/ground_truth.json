@@ -1,0 +1,181 @@
+{
+  "expected_tool_calls": [
+    {
+      "class": "conformer_validation_and_clustering",
+      "backend_examples": [
+        "rdkit",
+        "crest"
+      ]
+    },
+    {
+      "class": "low_cost_energy",
+      "backend_examples": [
+        "xtb"
+      ]
+    },
+    {
+      "class": "thermochemistry",
+      "backend_examples": [
+        "orca",
+        "goodvibes"
+      ]
+    },
+    {
+      "class": "correlated_density_and_export",
+      "backend_examples": [
+        "orca"
+      ]
+    },
+    {
+      "class": "electron_isodensity_surface",
+      "backend_examples": [
+        "multiwfn"
+      ]
+    }
+  ],
+  "expected_result": {
+    "molecule_id": "ISO-M6",
+    "paper_published_conformer_count": 25,
+    "paper_ensemble_surface_angstrom2": 157.1994,
+    "paper_example_individual_surfaces_angstrom2": [
+      159.8,
+      149.2
+    ],
+    "paper_te_surface_angstrom2": 156.507,
+    "paper_conclusion": "For a flexible molecule, conformer-dependent surface areas differ materially; Boltzmann ensemble treatment reduces arbitrary single-conformer bias."
+  },
+  "expected_structured_output": [
+    "report/research_plan.json",
+    "report/tool_trace.jsonl",
+    "report/failure_log.jsonl",
+    "report/conformer_selection.csv",
+    "report/thermochemical_weights.csv",
+    "report/conformer_surfaces.csv",
+    "report/ensemble_surface.json",
+    "report/report.md"
+  ],
+  "evaluation_mode": "rubric_100",
+  "score_max": 100,
+  "scoring_rubric": [
+    {
+      "id": "paper_conclusion_agreement",
+      "max_score": 35,
+      "description": "Newly generated evidence recovers the scoped paper conclusion. A conflicting ranking, phase sequence, barrier trend, selectivity, ensemble effect, or bonding interpretation is not a reproduction."
+    },
+    {
+      "id": "multisoftware_orchestration",
+      "max_score": 20,
+      "description": "Correctly composes the required software stages, passes artifacts between them, and respects dependency, retry, and stopping logic."
+    },
+    {
+      "id": "intermediate_evidence_validity",
+      "max_score": 20,
+      "description": "Validates chemical identity, convergence, stationary-point type, wavefunction or periodic-output quality, and rejects invalid branches."
+    },
+    {
+      "id": "protocol_fidelity",
+      "max_score": 10,
+      "description": "Follows the supplied paper-reconstructed protocol and clearly labels any controlled, version-compatible substitution."
+    },
+    {
+      "id": "numerical_and_statistical_quality",
+      "max_score": 10,
+      "description": "Uses consistent units, reference states, normalization, statistics, and uncertainty estimates."
+    },
+    {
+      "id": "provenance_and_uncertainty",
+      "max_score": 5,
+      "description": "Links every conclusion to artifacts and separates computation, paper targets, inference, failures, and unresolved uncertainty."
+    }
+  ],
+  "critical_failures": [
+    "No real correlated-density calculation was executed.",
+    "No real Multiwfn surface analysis was executed.",
+    "Weights from mixed or undeclared energy conventions were combined.",
+    "Paper surface values were copied as computed outputs."
+  ],
+  "judge_instructions": "Evaluate this as a multi-software paper reproduction. Do not award conclusion credit for copied paper values, invalid intermediates, or numerically plausible results unsupported by artifacts from this run. Apply every evidence gate.",
+  "reference_evidence": {
+    "paper_doi": "10.1038/s41467-024-50408-8",
+    "task_id": "Electron_Flexible_Ensemble_Surface_Reproduction",
+    "task_mode": "guided_reproduction",
+    "input_manifest_sha256": "0f2b08b9252ea2c93d191884155675657086755ed00a47eb782103f4b8e05b9b",
+    "paper_reference": {
+      "molecule_id": "ISO-M6",
+      "paper_published_conformer_count": 25,
+      "paper_ensemble_surface_angstrom2": 157.1994,
+      "paper_example_individual_surfaces_angstrom2": [
+        159.8,
+        149.2
+      ],
+      "paper_te_surface_angstrom2": 156.507,
+      "paper_conclusion": "For a flexible molecule, conformer-dependent surface areas differ materially; Boltzmann ensemble treatment reduces arbitrary single-conformer bias."
+    },
+    "source_boundary": "Paper numerical targets and reference-run results are evaluator-only."
+  },
+  "managed_computation_policy": {
+    "allow_direct_native_software_execution": true,
+    "parallel_execution_allowed": true,
+    "do_not_fabricate_on_timeout": true,
+    "require_workspace_confined_artifacts": true
+  },
+  "evidence_gate_policy": {
+    "judge_must_assess_all": true,
+    "gates": [
+      {
+        "id": "multisoftware_chain",
+        "description": "Screening, thermochemistry, density export, and surface analysis all have real artifacts.",
+        "score_cap_if_failed": 45
+      },
+      {
+        "id": "density_provenance",
+        "description": "Each surface derives from the required relaxed double-hybrid density.",
+        "score_cap_if_failed": 50
+      },
+      {
+        "id": "weight_validity",
+        "description": "Weights use one convention, sum to one, and exclude invalid structures explicitly.",
+        "score_cap_if_failed": 60
+      },
+      {
+        "id": "conformer_sensitivity",
+        "description": "The conclusion is supported by newly computed conformer-level dispersion rather than paper examples.",
+        "score_cap_if_failed": 55
+      }
+    ]
+  },
+  "current_toolbox_reproduction_baseline": {
+    "status": "objective_components_verified_reference_run_required",
+    "classification": "solvable",
+    "major_paper_conclusion_reproduced_in_this_audit": false,
+    "installed_software": [
+      "RDKit",
+      "xTB 6.7.1",
+      "CREST 3.0.2",
+      "ORCA 6.1.1",
+      "GoodVibes 4.3.0",
+      "Multiwfn 2026.7.15"
+    ],
+    "verified_components": [
+      "ORCA relaxed double-hybrid density",
+      "WFN export",
+      "Multiwfn isodensity surface",
+      "GoodVibes ensemble analysis"
+    ],
+    "unresolved_requirements": [
+      "The paper does not uniquely specify the conformer weighting energy; this task declares r2SCAN-3c thermochemistry as a benchmark-defined controlled substitution.",
+      "A fresh oracle run is required to set subset-specific surface and truncation tolerances."
+    ]
+  },
+  "evaluation_profile": "paper_reproduction",
+  "reference_conclusion_gate_policy": {
+    "required": true,
+    "criterion_id": "paper_conclusion_agreement",
+    "score_cap_if_not_matched": 50,
+    "score_cap_if_uncertain": 65,
+    "score_cap_if_omitted": 50,
+    "max_criterion_score_if_not_matched": 0,
+    "max_criterion_score_if_uncertain": 12,
+    "max_criterion_score_if_omitted": 0
+  }
+}

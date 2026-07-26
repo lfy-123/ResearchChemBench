@@ -1,0 +1,20 @@
+{
+  "required_stages": [
+    "cell_and_layer_validation",
+    "adsorbed_relaxation",
+    "matched_clean_slab_reference",
+    "isolated_NHC_relaxation",
+    "frozen_fragment_extraction",
+    "energy_decomposition",
+    "LOBSTER_generation_and_quality_gate",
+    "joint_interpretation"
+  ],
+  "hard_gates": [
+    "Each adsorbate must use its own matched cell and clean-slab reference.",
+    "Frozen and relaxed fragments must not be interchanged.",
+    "All energy components must share compatible pseudopotentials, cutoffs, and electronic settings.",
+    "Pd-C pairs must be selected from the final geometry using a recorded distance rule.",
+    "LOBSTER bonding conclusions must be qualified by spilling."
+  ],
+  "native_layer_note": "Generating fresh LOBSTER outputs currently requires the toolbox native-job layer; public LOBSTER Actions parse and validate the resulting files."
+}

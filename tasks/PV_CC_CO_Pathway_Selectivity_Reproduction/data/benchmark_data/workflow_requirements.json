@@ -1,0 +1,19 @@
+{
+  "required_stages": [
+    "route_candidate_selection",
+    "low_cost_path_continuity",
+    "transition_state_frequency_validation",
+    "forward_reverse_connection_check",
+    "ORCA_high_level_single_points",
+    "GoodVibes_profiles",
+    "kinetic_selectivity_analysis",
+    "experimental_cross_check"
+  ],
+  "hard_gates": [
+    "The highest path image alone is not a validated transition state.",
+    "Each formal TS must have one chemically relevant significant imaginary mode.",
+    "C-C and C-O profiles must use the same reference and thermochemical convention.",
+    "A pathway with wrong endpoint connectivity cannot support selectivity credit."
+  ],
+  "rate_ratio_note": "Any Eyring ratio is an inference with equal-prefactor assumptions, not a directly measured product ratio."
+}

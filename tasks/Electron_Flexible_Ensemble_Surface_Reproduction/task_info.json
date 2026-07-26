@@ -1,0 +1,62 @@
+{
+  "task_id": "Electron_Flexible_Ensemble_Surface_Reproduction",
+  "source_id": "electron_isodensity_2024_flexible_ensemble",
+  "category": "conformer_ensemble_electron_density_surface",
+  "task": "Orchestrate conformer validation and screening, thermochemical weighting, correlated-density generation, wavefunction conversion, and Multiwfn surface analysis for ISO-M6. Reproduce the paper conclusion that flexible conformers have materially different electron-isodensity surface areas and that an ensemble is scientifically preferable to an arbitrary single conformer.",
+  "scientific_mode": "guided_reproduction",
+  "scientific_mode_description": "A scoped part of a published research workflow is supplied. The agent must orchestrate multiple chemistry programs, validate intermediate artifacts, and recover the paper conclusion from newly generated evidence.",
+  "scientific_requirements": [
+    "Use at least four different software backends, including ORCA and Multiwfn.",
+    "Select 4-6 high-level conformers using both energy and structural diversity.",
+    "Use the locked paper cutoff 0.0016 a.u.; do not recalibrate it on ISO-M6.",
+    "Quantify conformer truncation uncertainty and compare ensemble with the lowest-free-energy conformer."
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/research_plan.json",
+      "description": "Initial hypotheses, software DAG, budgets, gates, and stopping rules."
+    },
+    {
+      "path": "report/tool_trace.jsonl",
+      "description": "One provenance record for every chemistry-software invocation."
+    },
+    {
+      "path": "report/failure_log.jsonl",
+      "description": "Failed, rejected, retried, or inconclusive branches.",
+      "allow_empty": true
+    },
+    {
+      "path": "report/conformer_selection.csv",
+      "description": "Low-cost energies, clusters, and high-level selection decisions."
+    },
+    {
+      "path": "report/thermochemical_weights.csv",
+      "description": "Validated free energies and normalized weights."
+    },
+    {
+      "path": "report/conformer_surfaces.csv",
+      "description": "Density provenance and isodensity surface for each refined conformer."
+    },
+    {
+      "path": "report/ensemble_surface.json",
+      "description": "Lowest-conformer, ensemble, truncation, and uncertainty results."
+    },
+    {
+      "path": "report/report.md",
+      "description": "Artifact-linked paper-reproduction report and uncertainty analysis."
+    }
+  ],
+  "data": [
+    {
+      "name": "Guided multi-software reproduction inputs",
+      "path": "data/benchmark_data",
+      "type": "directory",
+      "description": "Visible structures, protocol, workflow gates, and manifests. No paper result values or completed quantum-chemistry outputs are included."
+    }
+  ],
+  "archive_extractions": [],
+  "benchmark_family": "electron_isodensity_surface",
+  "task_mode": "guided_reproduction",
+  "method_disclosure": "paper_reconstructed_protocol",
+  "pathway_disclosure": "scoped_execution_route"
+}

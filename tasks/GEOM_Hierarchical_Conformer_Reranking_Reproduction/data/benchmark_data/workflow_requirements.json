@@ -1,0 +1,24 @@
+{
+  "required_stages": [
+    "embedding",
+    "force_field_preoptimization",
+    "low_cost_search",
+    "identity_aware_clustering",
+    "quantum_refinement",
+    "frequency_validation",
+    "thermochemical_ensemble",
+    "ranking_comparison"
+  ],
+  "required_statistics": [
+    "Spearman rank correlation",
+    "Top-1 change",
+    "Top-k overlap",
+    "population coverage"
+  ],
+  "hard_gates": [
+    "No connectivity-changing conformer may enter the aligned ranking.",
+    "Every final conformer must have an atom-mapped parent lineage.",
+    "Significant imaginary frequencies must be reported and handled before population analysis."
+  ],
+  "budget_rule": "The agent may limit ORCA refinement, but must justify the rule and estimate missed population."
+}

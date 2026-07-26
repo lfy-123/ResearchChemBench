@@ -1,0 +1,146 @@
+{
+  "expected_tool_calls": [
+    {
+      "class": "reactant_or_intermediate_screening",
+      "required": true
+    },
+    {
+      "class": "reaction_path_or_transition_state_search",
+      "required": true
+    },
+    {
+      "class": "frequency_and_connectivity_validation",
+      "required": true
+    },
+    {
+      "class": "comparable_free_energy_analysis",
+      "required": true
+    }
+  ],
+  "expected_result": {
+    "hidden_posthoc_reference": {
+      "energy_unit": "kcal/mol",
+      "paper_barriers": {
+        "P0": 30,
+        "P1": 20,
+        "P2": 14
+      },
+      "paper_reaction_free_energies": {
+        "P0": -39,
+        "P1": -37,
+        "P2": -38
+      },
+      "paper_conclusion": "Successive N-protonation lowers the BiPy coupling barrier by about 10 and then 6 kcal/mol."
+    },
+    "reference_use_policy": "Use the hidden paper result only after assessing autonomous planning, execution, validation, and evidence quality. Agreement is not required."
+  },
+  "expected_structured_output": [
+    "report/research_plan.json",
+    "report/tool_trace.jsonl",
+    "report/evidence_summary.json",
+    "report/failure_log.jsonl",
+    "report/state_screening.csv",
+    "report/pathway_evidence.json",
+    "report/protonation_comparison.csv",
+    "report/report.md"
+  ],
+  "evaluation_mode": "rubric_100",
+  "score_max": 100,
+  "scoring_rubric": [
+    {
+      "id": "scientific_problem_framing",
+      "max_score": 15,
+      "description": "Defines testable hypotheses, decision criteria, resource tiers, alternatives, and stopping rules without relying on a disclosed paper route."
+    },
+    {
+      "id": "autonomous_method_and_route_design",
+      "max_score": 25,
+      "description": "Independently selects defensible structures, software, methods, sampling, numerical controls, and fallback routes appropriate to the question."
+    },
+    {
+      "id": "adaptive_managed_execution",
+      "max_score": 25,
+      "description": "Executes real managed calculations, passes artifacts correctly, diagnoses failures, and revises the workflow without importing hidden results."
+    },
+    {
+      "id": "validation_and_falsification",
+      "max_score": 20,
+      "description": "Tests convergence, numerical sensitivity, chemical validity, competing explanations, uncertainty, and whether the evidence is sufficient for each claim."
+    },
+    {
+      "id": "defensible_scientific_conclusion",
+      "max_score": 15,
+      "description": "Draws a traceable conclusion from newly generated evidence. Hidden paper agreement is diagnostic, not a mandatory conclusion gate."
+    }
+  ],
+  "critical_failures": [
+    "A supplied seed is described as an optimized minimum or transition state without a new calculation.",
+    "A precise barrier is reported without first-order saddle and connection evidence.",
+    "P0/P1/P2 comparisons mix incompatible references, conditions, or energy conventions.",
+    "Hidden stationary points or literature barriers are presented as newly generated."
+  ],
+  "judge_instructions": "This is an autonomous-discovery evaluation. Reward independent hypothesis formation, method and route selection, adaptive managed execution, validation, falsification, and an evidence-bound conclusion. Do not require agreement with the hidden paper route or conclusion.",
+  "reference_evidence": {
+    "task_id": "PV_Protonation_Barrier_Trend",
+    "paired_reproduction_task_id": "PV_Protonation_Barrier_Trend_Reproduction",
+    "task_mode": "open_discovery",
+    "input_manifest_sha256": "a401c0923b6c7995c48e762ae22360017745e9fac7c418defcba95a84fc58a1b",
+    "hidden_posthoc_reference": {
+      "energy_unit": "kcal/mol",
+      "paper_barriers": {
+        "P0": 30,
+        "P1": 20,
+        "P2": 14
+      },
+      "paper_reaction_free_energies": {
+        "P0": -39,
+        "P1": -37,
+        "P2": -38
+      },
+      "paper_conclusion": "Successive N-protonation lowers the BiPy coupling barrier by about 10 and then 6 kcal/mol."
+    },
+    "source_boundary": "Paper protocols, author intermediates, completed calculations, and numerical conclusions are evaluator-only.",
+    "reference_use_policy": "Assess autonomous scientific process first; use the hidden reference only to diagnose scientific agreement or productive disagreement."
+  },
+  "managed_computation_policy": {
+    "required": true,
+    "allow_direct_native_software_execution": true,
+    "parallel_execution_allowed": true,
+    "do_not_fabricate_on_timeout": true,
+    "require_workspace_confined_artifacts": true,
+    "minimum_successful_scientific_calls": 2,
+    "score_cap_without_managed_attempt": 20,
+    "score_cap_without_successful_managed_call": 40
+  },
+  "evidence_gate_policy": {
+    "judge_must_assess_all": true,
+    "gates": [
+      {
+        "id": "state_comparability",
+        "description": "All three protonation states use comparable conditions and references.",
+        "score_cap_if_failed": 60
+      },
+      {
+        "id": "pathway_validity",
+        "description": "Claims are supported by validated paths/TSs or explicitly limited controlled bounds.",
+        "score_cap_if_failed": 55
+      },
+      {
+        "id": "three_state_evidence",
+        "description": "Each state has a new managed computational attempt and an evidence-status conclusion.",
+        "score_cap_if_failed": 70
+      }
+    ]
+  },
+  "current_toolbox_feasibility_baseline": {
+    "status": "pre_release_blocked",
+    "classification": "partially_solvable",
+    "paired_reproduction_reference_run_complete": false,
+    "known_limitations": [
+      "The toolbox can attempt searches, but no curated closed reactant-TS-product mapping exists for all three states.",
+      "This task must not enter formal model ranking until a feasible oracle route or defensible bound-based rubric is validated."
+    ]
+  },
+  "evaluation_profile": "autonomous_discovery",
+  "reference_conclusion_gate_policy": {}
+}
