@@ -198,6 +198,50 @@ def install_executable(specification: dict[str, Any], *, verify_only: bool) -> d
                 errors.append("Executable version output did not match expected pattern")
         except (OSError, subprocess.TimeoutExpired) as exc:
             errors.append(f"Executable version probe failed: {exc}")
+        capability_results = []
+        for capability in specification.get("capability_probes") or []:
+            capability_path = declared_path(str(capability.get("path") or specification["path"]))
+            capability_arguments = [
+                str(value) for value in capability.get("arguments", [])
+            ]
+            capability_pattern = str(capability.get("output_regex") or "")
+            capability_result = {
+                "path": relative(capability_path),
+                "arguments": capability_arguments,
+                "output_regex": capability_pattern or None,
+                "description": capability.get("description"),
+            }
+            try:
+                capability_completed = subprocess.run(
+                    [str(capability_path), *capability_arguments],
+                    text=True,
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.STDOUT,
+                    timeout=60,
+                    check=False,
+                )
+                capability_match = (
+                    re.search(capability_pattern, capability_completed.stdout)
+                    if capability_pattern else None
+                )
+                capability_result.update(
+                    returncode=capability_completed.returncode,
+                    matched_text=capability_match.group(0) if capability_match else None,
+                )
+                if capability_completed.returncode != 0 or (
+                    capability_pattern and capability_match is None
+                ):
+                    errors.append(
+                        f"Executable capability probe failed: {capability_path}"
+                    )
+            except (OSError, subprocess.TimeoutExpired) as exc:
+                capability_result["error"] = str(exc)
+                errors.append(
+                    f"Executable capability probe failed: {capability_path}: {exc}"
+                )
+            capability_results.append(capability_result)
+        if capability_results:
+            result["capability_probes"] = capability_results
     elif not verify_only:
         errors.append("Configured executable target is missing")
     result["errors"] = errors

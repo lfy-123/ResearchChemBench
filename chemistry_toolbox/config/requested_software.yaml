@@ -156,11 +156,11 @@ requested_software:
     environment: quantum
     modules: []
     commands: [orca]
-    cache_paths: [.software_cache/orca/6.1.1, .software_cache/openmpi/4.1.8, .software_cache/orca/download/orca_6_1_1_linux_x86-64_shared_openmpi418_nodmrg.tar.xz]
+    cache_paths: [.software_cache/orca/6.1.1, .software_cache/openmpi/4.1.8-fortran, .software_cache/orca/download/orca_6_1_1_linux_x86-64_shared_openmpi418_nodmrg.tar.xz]
     license: free_academic_registration
     public_adapter: existing
     role: Molecular quantum chemistry executable.
-    notes: ORCA 6.1.1 and matching OpenMPI 4.1.8 are installed and validated by real energy, Hessian, optimization, dipole, SCF/relaxed-MP2/CCSD density, orca_2aim, and MDCI cube-export smokes. Typed density export rejects unavailable CCSD(T) one-particle densities and silent source substitution.
+    notes: ORCA 6.1.1 and matching OpenMPI 4.1.8 with Fortran bindings are installed and validated by real energy, Hessian, optimization, dipole, SCF/relaxed-MP2/CCSD density, orca_2aim, MDCI cube-export, and large-system r2SCAN-3c/CPCM smokes. Typed density export rejects unavailable CCSD(T) one-particle densities and silent source substitution.
     official_url: https://www.faccts.de/orca/
 
   - name: NWChem

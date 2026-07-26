@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-20T03:48:54.235025+00:00",
+  "generated_at": "2026-07-26T08:35:44.045035+00:00",
   "schema_version": 1,
   "selection_policy": "agent_explicit_no_default",
   "configuration_mode": "verify_only",
@@ -622,7 +622,7 @@
     {
       "id": "openmpi_4_1_8_orca_runtime",
       "kind": "backend_executable",
-      "source": ".software_cache/openmpi/4.1.8/bin/orterun",
+      "source": ".software_cache/openmpi/4.1.8-fortran/bin/orterun",
       "install_target": ".tool_envs/quantum/bin/mpirun",
       "source_exists": true,
       "supporting_files": {
@@ -637,8 +637,8 @@
       },
       "checksum": {
         "algorithm": "sha256",
-        "expected": "c73d880535ee03984fae2aa98223157196ca15e6792c15d8ff30548e1a383f8e",
-        "actual": "c73d880535ee03984fae2aa98223157196ca15e6792c15d8ff30548e1a383f8e",
+        "expected": "f5e6ea2e7efa72d816c2bfad7a348b6f0011ac66c96413f82b85ed8a91b2a1c8",
+        "actual": "f5e6ea2e7efa72d816c2bfad7a348b6f0011ac66c96413f82b85ed8a91b2a1c8",
         "ok": true
       },
       "target_exists": true,
@@ -652,6 +652,24 @@
         "output_regex": "mpirun \\(Open MPI\\) 4\\.1\\.8",
         "matched_text": "mpirun (Open MPI) 4.1.8"
       },
+      "capability_probes": [
+        {
+          "path": ".software_cache/openmpi/4.1.8-fortran/bin/ompi_info",
+          "arguments": [],
+          "output_regex": "Fort mpif\\.h: yes \\(all\\)",
+          "description": "ORCA large-system modules require OpenMPI Fortran numeric datatypes.",
+          "returncode": 0,
+          "matched_text": "Fort mpif.h: yes (all)"
+        },
+        {
+          "path": ".software_cache/openmpi/4.1.8-fortran/bin/ompi_info",
+          "arguments": [],
+          "output_regex": "Fort use mpi: yes",
+          "description": "Validate that the OpenMPI Fortran module bindings are enabled.",
+          "returncode": 0,
+          "matched_text": "Fort use mpi: yes"
+        }
+      ],
       "errors": [],
       "status": "pass"
     },
@@ -852,7 +870,7 @@
       "expected_file_count": 102,
       "file_count_ok": true,
       "missing_files": [],
-      "manifest": "config/vasp_potcar_manifests/vasp_uspp_lda_legacy.json",
+      "manifest": "chemistry_toolbox/config/vasp_potcar_manifests/vasp_uspp_lda_legacy.json",
       "manifest_exists": true,
       "deep_variant_checksums": {
         "checked": 102,
@@ -1055,7 +1073,7 @@
       "expected_file_count": 8,
       "file_count_ok": true,
       "missing_files": [],
-      "manifest": "config/vasp_potcar_manifests/vasp_uspp_gga_legacy.json",
+      "manifest": "chemistry_toolbox/config/vasp_potcar_manifests/vasp_uspp_gga_legacy.json",
       "manifest_exists": true,
       "deep_variant_checksums": {
         "checked": 8,
@@ -1106,7 +1124,7 @@
       "expected_file_count": 316,
       "file_count_ok": true,
       "missing_files": [],
-      "manifest": "config/vasp_potcar_manifests/vasp_paw_lda_54.json",
+      "manifest": "chemistry_toolbox/config/vasp_potcar_manifests/vasp_paw_lda_54.json",
       "manifest_exists": true,
       "deep_variant_checksums": {
         "checked": 316,
@@ -1538,7 +1556,7 @@
       "expected_file_count": 5,
       "file_count_ok": true,
       "missing_files": [],
-      "manifest": "config/vasp_potcar_manifests/vasp_paw_pw91_54.json",
+      "manifest": "chemistry_toolbox/config/vasp_potcar_manifests/vasp_paw_pw91_54.json",
       "manifest_exists": true,
       "deep_variant_checksums": {
         "checked": 5,
@@ -1583,7 +1601,7 @@
       "expected_file_count": 304,
       "file_count_ok": true,
       "missing_files": [],
-      "manifest": "config/vasp_potcar_manifests/vasp_paw_pbe_54.json",
+      "manifest": "chemistry_toolbox/config/vasp_potcar_manifests/vasp_paw_pbe_54.json",
       "manifest_exists": true,
       "deep_variant_checksums": {
         "checked": 304,

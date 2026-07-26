@@ -194,15 +194,29 @@
       "compatible_backends": ["orca"],
       "format": "Linux x86-64 shared MPI runtime",
       "version": "4.1.8",
-      "path": ".software_cache/openmpi/4.1.8/bin/mpirun",
+      "path": ".software_cache/openmpi/4.1.8-fortran/bin/mpirun",
       "install_target": ".tool_envs/quantum/bin/mpirun",
       "checksum_algorithm": "sha256",
-      "checksum": "c73d880535ee03984fae2aa98223157196ca15e6792c15d8ff30548e1a383f8e",
+      "checksum": "f5e6ea2e7efa72d816c2bfad7a348b6f0011ac66c96413f82b85ed8a91b2a1c8",
       "version_probe": {
         "arguments": ["--version"],
         "accepted_returncodes": [0],
         "output_regex": "mpirun \\(Open MPI\\) 4\\.1\\.8"
       },
+      "capability_probes": [
+        {
+          "path": ".software_cache/openmpi/4.1.8-fortran/bin/ompi_info",
+          "arguments": [],
+          "output_regex": "Fort mpif\\.h: yes \\(all\\)",
+          "description": "ORCA large-system modules require OpenMPI Fortran numeric datatypes."
+        },
+        {
+          "path": ".software_cache/openmpi/4.1.8-fortran/bin/ompi_info",
+          "arguments": [],
+          "output_regex": "Fort use mpi: yes",
+          "description": "Validate that the OpenMPI Fortran module bindings are enabled."
+        }
+      ],
       "source_archive": {
         "path": ".software_cache/openmpi/source/openmpi-4.1.8.tar.bz2",
         "checksum_algorithm": "sha256",
@@ -210,7 +224,7 @@
       },
       "source_url": "https://www.open-mpi.org/software/ompi/v4.1/",
       "license_and_citation": "Open MPI is distributed under the BSD 3-Clause license; retain upstream notices.",
-      "scientific_scope": "Exact shared MPI runtime required by the downloaded ORCA build. It is runtime-managed and never an Agent-selectable scientific resource."
+      "scientific_scope": "Exact shared MPI runtime required by the downloaded ORCA build. The runtime is built with mpif.h and use-mpi Fortran bindings because ORCA large-system SHARK/CPCM modules require the corresponding numeric datatypes. It is runtime-managed and never an Agent-selectable scientific resource."
     },
     {
       "id": "nequip_oam_s_0_1",

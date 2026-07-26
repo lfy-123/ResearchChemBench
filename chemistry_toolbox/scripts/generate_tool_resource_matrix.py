@@ -594,7 +594,7 @@ def main() -> int:
             "ORCA 已作为 Agent 可显式选择的 `orca` BackendSpec 完成配置；它仍不是固定流程工具，系统不会替 Agent 选择 ORCA，也不会在 ORCA 失败时自动改用其他量化软件。",
             "",
             "- 主程序：`.software_cache/orca/6.1.1/orca`（ORCA 6.1.1，AVX2，共享 OpenMPI 4.1.8 构建）。",
-            "- MPI：`.software_cache/openmpi/4.1.8/`；`PATH` 与 `LD_LIBRARY_PATH` 只注入 `quantum`/`reaction` runtime。",
+            "- MPI：`.software_cache/openmpi/4.1.8-fortran/`（启用 `mpif.h` 与 `use mpi`）；`PATH` 与 `LD_LIBRARY_PATH` 只注入 `quantum`/`reaction` runtime。",
             "- 稳定入口：`.tool_envs/quantum/bin/orca` 与 `.tool_envs/quantum/bin/mpirun`；`CHEMGRAPH_ORCA_COMMAND` 使用主程序完整路径。",
             "- Agent 通过 `backend_id=orca`、`method_spec`、`action_settings` 和 `resource_limits.cpu_cores` 自主决定调用；`cpu_cores>1` 才生成对应 `%pal nprocs`。",
             "- 真实验证覆盖 energy（PAL2）、Hessian、geometry optimization 和 dipole；优化结果显式读取最终 `job.xyz`，不误取轨迹第一帧。",

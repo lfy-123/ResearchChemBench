@@ -67,8 +67,27 @@ def test_orca_runtime_injects_exact_binary_and_mpi_paths():
         ".software_cache/orca/6.1.1/orca"
     )
     assert ".software_cache/orca/6.1.1" in environment["PATH"]
-    assert ".software_cache/openmpi/4.1.8/bin" in environment["PATH"]
-    assert ".software_cache/openmpi/4.1.8/lib" in environment["LD_LIBRARY_PATH"]
+    assert ".software_cache/openmpi/4.1.8-fortran/bin" in environment["PATH"]
+    assert ".software_cache/openmpi/4.1.8-fortran/lib" in environment["LD_LIBRARY_PATH"]
+
+
+def test_orca_openmpi_runtime_has_required_fortran_capabilities():
+    status = json.loads(
+        (Path(__file__).parents[1] / "config" / "toolbox_resource_status.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    resource = next(
+        item
+        for item in status["resources"]
+        if item["id"] == "openmpi_4_1_8_orca_runtime"
+    )
+    assert resource["status"] == "pass"
+    matched = {
+        probe["matched_text"] for probe in resource["capability_probes"]
+    }
+    assert "Fort mpif.h: yes (all)" in matched
+    assert "Fort use mpi: yes" in matched
 
 
 def test_vasp_runtime_injects_exact_binary_path_without_selecting_potcars():
