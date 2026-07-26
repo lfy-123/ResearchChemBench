@@ -236,10 +236,14 @@ def test_workspace_snapshot_excludes_agent_runtime_state(
     monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
     (tmp_path / "outputs").mkdir()
     (tmp_path / "outputs" / "result.txt").write_text("science", encoding="utf-8")
+    job_dir = tmp_path / "outputs" / "execution_jobs" / ("job_" + "a" * 32)
+    job_dir.mkdir(parents=True)
+    (job_dir / "scratch.tmp").write_text("transient", encoding="utf-8")
     (tmp_path / "_opencode").mkdir()
     (tmp_path / "_opencode" / "opencode.db-wal").write_text("runtime", encoding="utf-8")
 
     snapshot = tracing.workspace_snapshot()
 
     assert "outputs/result.txt" in snapshot
+    assert not any(path.startswith("outputs/execution_jobs/") for path in snapshot)
     assert "_opencode/opencode.db-wal" not in snapshot

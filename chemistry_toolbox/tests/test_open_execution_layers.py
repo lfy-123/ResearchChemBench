@@ -297,6 +297,46 @@ def test_native_layer_launches_exact_allowlisted_argv(
     assert "Python" in finished["stdout_tail"] or "Python" in finished["stderr_tail"]
 
 
+def test_native_layer_prevents_nested_openblas_parallelism(
+    chemistry_workspace: Path,
+    monkeypatch: pytest.MonkeyPatch,
+):
+    def test_guide(software_id: str, executable: str) -> dict:
+        assert (software_id, executable) == ("openbabel", "obabel")
+        return {
+            "software_id": software_id,
+            "display_name": "test python",
+            "runtime": "core",
+            "executable": executable,
+            "resolved_path": sys.executable,
+            "synopsis": "python -c <program>",
+            "input_mode": "arguments",
+            "required_files": [],
+        }
+
+    monkeypatch.setattr(
+        "chemistry_toolbox.mcp.open_execution.native_command_guide", test_guide
+    )
+    submitted = submit_native_job(
+        NativeJobRequest(
+            software_id="openbabel",
+            executable="obabel",
+            arguments=[
+                "-c",
+                (
+                    "import os; print(os.environ['OMP_NUM_THREADS'], "
+                    "os.environ['OPENBLAS_NUM_THREADS'], "
+                    "os.environ['NUMEXPR_NUM_THREADS'])"
+                ),
+            ],
+            resource_limits=ResourceLimits(walltime_seconds=30, cpu_cores=4),
+        )
+    )
+    finished = _wait(submitted["job_id"])
+    assert finished["job"]["status"] == "success"
+    assert "4 1 1" in finished["stdout_tail"]
+
+
 def test_programmable_layer_enforces_walltime(chemistry_workspace: Path):
     write_workspace_text(
         WorkspaceTextWriteRequest(

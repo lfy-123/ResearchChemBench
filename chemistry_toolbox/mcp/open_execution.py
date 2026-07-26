@@ -327,7 +327,14 @@ def validate_native_job(request: NativeJobRequest) -> dict[str, Any]:
     }
 
 
-def _job_environment(runtime: str, job_id: str, job_directory: Path, resources: dict[str, Any]) -> dict[str, str]:
+def _job_environment(
+    runtime: str,
+    job_id: str,
+    job_directory: Path,
+    resources: dict[str, Any],
+    *,
+    job_type: str,
+) -> dict[str, str]:
     inherited = {
         name: os.environ[name]
         for name in SAFE_INHERITED_ENVIRONMENT
@@ -345,6 +352,13 @@ def _job_environment(runtime: str, job_id: str, job_directory: Path, resources: 
             "VECLIB_MAXIMUM_THREADS",
         ):
             environment[variable] = threads
+        if job_type == "native_software":
+            # Native chemistry programs receive their explicit process/thread
+            # count in the Agent-authored argv/input and through OMP.  A second
+            # OpenBLAS/NumExpr pool is nested parallelism rather than additional
+            # requested capacity, so keep it serial inside that outer pool.
+            environment["OPENBLAS_NUM_THREADS"] = "1"
+            environment["NUMEXPR_NUM_THREADS"] = "1"
     if resources.get("gpu_count") == 0:
         environment["CUDA_VISIBLE_DEVICES"] = ""
     temporary = job_directory / ".tmp"
@@ -433,7 +447,13 @@ def _start_job(
     }
     spec_path = job_directory / "supervisor_spec.json"
     _atomic_json(spec_path, supervisor_spec)
-    environment = _job_environment(runtime, job_id, job_directory, resource_limits)
+    environment = _job_environment(
+        runtime,
+        job_id,
+        job_directory,
+        resource_limits,
+        job_type=job_type,
+    )
     try:
         supervisor = subprocess.Popen(
             [sys.executable, str(SUPERVISOR_PATH), str(spec_path)],

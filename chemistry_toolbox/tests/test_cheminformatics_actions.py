@@ -231,10 +231,13 @@ def test_crest_accepts_common_method_alias_solvent_and_cpu_limit(tmp_path, monke
         }
 
     monkeypatch.setattr(structure, "run_external", fake_run_external)
-    result = execute_action(
+    # Exercise the backend function in-process so the monkeypatched external
+    # runner and its exact environment contract are observable in this unit
+    # test; service-level dispatch is covered separately through worker tests.
+    result = structure.execute(
         "generate_conformer_ensemble",
+        "crest",
         {
-            "backend_id": "crest",
             "inputs": {
                 "molecule": "O",
                 "initial_structure": {
@@ -262,3 +265,5 @@ def test_crest_accepts_common_method_alias_solvent_and_cpu_limit(tmp_path, monke
     alpb_index = captured["arguments"].index("--alpb")
     assert captured["arguments"][alpb_index : alpb_index + 2] == ["--alpb", "water"]
     assert captured["environment_overrides"]["OMP_NUM_THREADS"] == "8"
+    assert captured["environment_overrides"]["OPENBLAS_NUM_THREADS"] == "1"
+    assert captured["environment_overrides"]["NUMEXPR_NUM_THREADS"] == "1"

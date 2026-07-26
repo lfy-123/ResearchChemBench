@@ -692,7 +692,16 @@ def _conformers_crest(request: dict[str, Any]) -> dict[str, Any]:
         arguments=arguments,
         directory=directory,
         timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 1800)),
-        environment_overrides={"OMP_NUM_THREADS": str(cpu_cores)},
+        # CREST/xTB already parallelizes its sampling and electronic-structure
+        # work through --T/OMP.  A second pthread OpenBLAS pool creates nested
+        # parallelism, can exceed the Agent-selected CPU budget, and emits one
+        # warning per linear-algebra call.  Keep BLAS serial inside the explicit
+        # CREST worker pool while leaving the scientific --T choice untouched.
+        environment_overrides={
+            "OMP_NUM_THREADS": str(cpu_cores),
+            "OPENBLAS_NUM_THREADS": "1",
+            "NUMEXPR_NUM_THREADS": "1",
+        },
     )
     (directory / "stdout.log").write_text(completed["stdout"], encoding="utf-8")
     (directory / "stderr.log").write_text(completed["stderr"], encoding="utf-8")

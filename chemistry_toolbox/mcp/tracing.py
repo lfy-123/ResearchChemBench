@@ -102,7 +102,11 @@ def _next_sequence(root: Path) -> int:
 def _excluded(path: Path) -> bool:
     rel = path.relative_to(workspace_root())
     first = rel.parts[0] if rel.parts else ""
-    return first in {
+    execution_job_file = len(rel.parts) >= 2 and rel.parts[:2] == (
+        "outputs",
+        "execution_jobs",
+    )
+    return execution_job_file or first in {
         ".codex",
         ".claude",
         "_opencode",
