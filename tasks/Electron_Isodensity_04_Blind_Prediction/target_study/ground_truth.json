@@ -26,7 +26,7 @@
   "expected_result": {
     "held_out_molecule_id": "ISO-M4",
     "hidden_experimental_te_surface_angstrom2": 110.538,
-    "reference_use_policy": "Use the hidden experimental value only for post-hoc assessment of blind predictive quality. Do not require agreement with the paper calculation, a paper method, or a paper cutoff, and do not use this value to score method selection or workflow autonomy."
+    "reference_use_policy": "Use the hidden experimental value and paper-scale blind-prediction conclusion for post-hoc scientific-outcome scoring after the prediction is locked. Do not require the paper method or cutoff in autonomous discovery, and score process quality separately."
   },
   "expected_structured_output": [
     "report/research_plan.json",
@@ -37,33 +37,44 @@
     "report/calibration_lock.json",
     "report/blind_prediction.json"
   ],
-  "evaluation_mode": "rubric_100",
+  "evaluation_mode": "dual_axis_100",
+  "evaluation_profile": "autonomous_discovery",
   "score_max": 100,
   "scoring_rubric": [
     {
-      "id": "scientific_problem_framing",
-      "max_score": 15,
-      "description": "Defines a blind-prediction hypothesis, pre-ISO-M4 lock point, small-calibration-set risks, decision criteria, resource tiers, and stopping rules without relying on a paper route."
-    },
-    {
-      "id": "autonomous_method_and_route_design",
-      "max_score": 25,
-      "description": "Independently designs defensible structure/conformer generation, electronic-density method selection, cutoff calibration, numerical controls, and alternatives without using ISO-M4 property results for tuning."
-    },
-    {
-      "id": "adaptive_managed_execution",
-      "max_score": 25,
-      "description": "Executes real managed structure, quantum, wavefunction, and isosurface calculations; diagnoses failures and revises only within the declared blind protocol."
-    },
-    {
-      "id": "validation_and_falsification",
+      "id": "problem_framing_and_route_design",
       "max_score": 20,
-      "description": "Uses multi-point and nearby-cutoff checks, leave-one-out or equivalent robustness analysis, numerical sensitivity, chemical validation, competing explanations, and explicit small-sample/extrapolation uncertainty."
+      "description": "Independently defines hypotheses, alternatives, decision criteria, a staged route, budgets, and stopping rules without a disclosed paper method."
     },
     {
-      "id": "defensible_scientific_conclusion",
+      "id": "method_and_tool_selection",
       "max_score": 15,
-      "description": "Records a genuinely blind ISO-M4 prediction with traceable uncertainty. Hidden experimental accuracy is a post-hoc diagnostic, while agreement with a paper method, cutoff, or computed value is not required."
+      "description": "Selects chemically appropriate structures, software, methods, parameters, numerical controls, and fallback routes."
+    },
+    {
+      "id": "managed_execution_and_artifact_flow",
+      "max_score": 15,
+      "description": "Executes real managed scientific calculations and passes identities, structures, parameters, and artifacts correctly between stages."
+    },
+    {
+      "id": "validation_falsification_and_uncertainty",
+      "max_score": 20,
+      "description": "Tests convergence, numerical sensitivity, chemical validity, alternative explanations, evidence sufficiency, and uncertainty."
+    },
+    {
+      "id": "failure_diagnosis_and_adaptation",
+      "max_score": 10,
+      "description": "Diagnoses failed or inconclusive calls, avoids repeating preventable errors, and adapts without fabricating or laundering results."
+    },
+    {
+      "id": "resource_and_search_efficiency",
+      "max_score": 10,
+      "description": "Uses CPU, memory, parallelism, numerical resolution, search breadth, and stopping decisions efficiently without avoidable under-allocation or waste."
+    },
+    {
+      "id": "provenance_reporting_and_reproducibility",
+      "max_score": 10,
+      "description": "Links claims to managed artifacts and clearly reports assumptions, failed branches, deviations, units, uncertainty, and reproducible parameters."
     }
   ],
   "critical_failures": [
@@ -73,18 +84,18 @@
     "Reported numerical claims cannot be traced to artifacts from this run.",
     "An ISO-M4 electronic-structure or isosurface result was used to tune the workflow before the blind prediction protocol was locked."
   ],
-  "judge_instructions": "This is an autonomous-discovery evaluation. Reward independent hypothesis formation, method and route selection, adaptive execution, falsification, and an evidence-bound conclusion. Do not require agreement with a hidden paper method, cutoff, calculation, or conclusion. For Q4, use the hidden experimental ISO-M4 value only as a post-hoc diagnostic within conclusion quality; do not let numerical proximity substitute for a pre-declared calibration lock, robust validation, or autonomous workflow design. Apply every evidence gate and explain any cap.",
+  "judge_instructions": "Score each hidden blind-prediction conclusion from new evidence, then score autonomous planning and execution separately. Do not require the paper method or cutoff; the scorer applies the multiplicative formula.",
   "reference_evidence": {
     "task_id": "Electron_Isodensity_04_Blind_Prediction",
     "task_mode": "open_discovery",
     "input_manifest_sha256": "a3ed2b54a4766dac27b8c01a53733a190490a073852a5d7a0e4b6e6cdeecc4a4",
+    "source_boundary": "Hidden reference values are evaluator-only; visible experimental TE values are raw calibration inputs.",
     "hidden_posthoc_reference": {
       "held_out_molecule_id": "ISO-M4",
       "hidden_experimental_te_surface_angstrom2": 110.538,
-      "reference_use_policy": "Use the hidden experimental value only for post-hoc assessment of blind predictive quality. Do not require agreement with the paper calculation, a paper method, or a paper cutoff, and do not use this value to score method selection or workflow autonomy."
+      "reference_use_policy": "Use the hidden experimental value and paper-scale blind-prediction conclusion for post-hoc scientific-outcome scoring after the prediction is locked. Do not require the paper method or cutoff in autonomous discovery, and score process quality separately."
     },
-    "source_boundary": "Hidden reference values are evaluator-only; visible experimental TE values are raw calibration inputs.",
-    "reference_use_policy": "Assess autonomous scientific process first. Hidden numerical values may diagnose blind predictive quality but must not impose a paper-method, paper-cutoff, or paper-conclusion gate."
+    "reference_use_policy": "Score the hidden scientific claims as the conclusion axis only after verifying their newly generated evidence. Score process quality on the separate process axis."
   },
   "managed_computation_policy": {
     "allow_direct_native_software_execution": true,
@@ -92,35 +103,51 @@
     "parallel_execution_allowed": true,
     "do_not_fabricate_on_timeout": true
   },
-  "evidence_gate_policy": {
-    "judge_must_assess_all": true,
-    "gates": [
-      {
-        "id": "real_quantum_evidence",
-        "description": "At least one valid newly generated quantum-chemistry output and wavefunction artifact supports reported surface values.",
-        "score_cap_if_failed": 35
-      },
-      {
-        "id": "real_surface_evidence",
-        "description": "Surface areas come from a real electron-density isosurface program in this run, not from paper tables or geometric proxies.",
-        "score_cap_if_failed": 45
-      },
-      {
-        "id": "input_and_hidden_boundary",
-        "description": "No hidden reference, source-data surface, or internet-discovered answer is substituted for computation.",
-        "score_cap_if_failed": 20
-      },
-      {
-        "id": "blind_lock",
-        "description": "The ISO-M4 prediction is recorded before hidden-target comparison.",
-        "score_cap_if_failed": 70
-      },
-      {
-        "id": "pre_prediction_calibration_lock",
-        "description": "A structured calibration lock was written before the first ISO-M4 electronic-structure or isosurface calculation, and no ISO-M4 property result was used to tune the workflow.",
-        "score_cap_if_failed": 70
-      }
-    ]
+  "evidence_gate_policy": {},
+  "reference_conclusion_gate_policy": {},
+  "scientific_conclusion_rubric": [
+    {
+      "id": "blind_prediction_accuracy",
+      "max_score": 50,
+      "statement": "The independently designed and pre-locked workflow predicts the hidden ISO-M4 experimental TE surface of 110.538 A^2 accurately.",
+      "acceptance_rule": "Full credit within 2 percent relative error, partial credit within 5 percent, and graduated limited credit beyond 5 percent only when the blind prediction and uncertainty are validly supported.",
+      "required_evidence": [
+        "prediction fixed before hidden comparison",
+        "new ISO-M4 density and surface",
+        "relative-error calculation"
+      ]
+    },
+    {
+      "id": "calibration_robustness",
+      "max_score": 25,
+      "statement": "The calibration chosen from visible molecules is stable enough to support a blind held-out prediction rather than reflecting one arbitrary calibration choice.",
+      "acceptance_rule": "Require leave-one-out, resampling, nearby-cutoff, or equivalent sensitivity evidence completed before ISO-M4 tuning is possible.",
+      "required_evidence": [
+        "pre-prediction calibration lock",
+        "multi-point calibration",
+        "calibration sensitivity analysis"
+      ]
+    },
+    {
+      "id": "held_out_transfer_conclusion",
+      "max_score": 25,
+      "statement": "The calibrated electron-isodensity relationship generalizes to the chemically held-out ISO-M4 molecule with uncertainty consistent with the observed prediction error.",
+      "acceptance_rule": "Require a genuinely held-out computation, an uncertainty interval derived without ISO-M4 target leakage, and a post-hoc comparison showing whether the error is covered.",
+      "required_evidence": [
+        "held-out workflow",
+        "predeclared uncertainty",
+        "post-hoc coverage assessment"
+      ]
+    }
+  ],
+  "dual_axis_scoring_policy": {
+    "formula": "scientific_conclusion_score * research_process_score / 100",
+    "scientific_conclusion_score_max": 100,
+    "research_process_score_max": 100,
+    "final_score_max": 100,
+    "unsupported_claim_policy": "A conclusion copied, guessed, or asserted without newly generated valid evidence receives no scientific-conclusion credit.",
+    "objective_failure_policy": "A demonstrated benchmark input, framework, backend, or infrastructure failure may make the run not_scorable_objective; agent-selected invalid inputs or resource limits do not.",
+    "invalid_submission_policy": "Fabricated evidence, hidden-answer leakage, or paper values presented as new calculations make the final score zero."
   },
   "current_toolbox_feasibility_baseline": {
     "status": "autonomous_workflow_components_verified",
@@ -138,7 +165,5 @@
       "A complete four-molecule ORCA-to-Multiwfn execution has run within the benchmark time target without backend failures"
     ],
     "unresolved_requirements": []
-  },
-  "evaluation_profile": "autonomous_discovery",
-  "reference_conclusion_gate_policy": {}
+  }
 }

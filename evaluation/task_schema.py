@@ -92,12 +92,14 @@ class GroundTruth(BaseModel):
     expected_tool_calls: list[dict[str, Any]] = Field(default_factory=list)
     expected_result: Any = ""
     expected_structured_output: Any = None
-    evaluation_mode: Literal["binary", "rubric_100"] = "binary"
+    evaluation_mode: Literal["binary", "rubric_100", "dual_axis_100"] = "binary"
     evaluation_profile: Literal[
         "", "autonomous_discovery", "paper_reproduction"
     ] = ""
     score_max: int = 1
     scoring_rubric: list[dict[str, Any]] = Field(default_factory=list)
+    scientific_conclusion_rubric: list[dict[str, Any]] = Field(default_factory=list)
+    dual_axis_scoring_policy: dict[str, Any] = Field(default_factory=dict)
     critical_failures: list[str] = Field(default_factory=list)
     judge_instructions: str = ""
     reference_evidence: Any = None
@@ -114,9 +116,9 @@ class GroundTruth(BaseModel):
                 raise ValueError("binary evaluation requires score_max=1")
             return self
         if self.score_max != 100:
-            raise ValueError("rubric_100 evaluation requires score_max=100")
+            raise ValueError("100-point evaluation modes require score_max=100")
         if not self.scoring_rubric:
-            raise ValueError("rubric_100 evaluation requires a non-empty scoring_rubric")
+            raise ValueError("100-point evaluation modes require a non-empty scoring_rubric")
         criterion_ids: list[str] = []
         maximum_total = 0.0
         for criterion in self.scoring_rubric:
@@ -130,6 +132,46 @@ class GroundTruth(BaseModel):
             raise ValueError("rubric criterion ids must be unique")
         if abs(maximum_total - self.score_max) > 1e-9:
             raise ValueError("rubric max_score values must sum to score_max")
+        if self.evaluation_mode == "dual_axis_100":
+            if not self.scientific_conclusion_rubric:
+                raise ValueError(
+                    "dual_axis_100 requires a non-empty scientific_conclusion_rubric"
+                )
+            claim_ids: list[str] = []
+            claim_total = 0.0
+            for claim in self.scientific_conclusion_rubric:
+                claim_id = str(claim.get("id") or "").strip()
+                maximum = float(claim.get("max_score") or 0)
+                statement = str(claim.get("statement") or "").strip()
+                acceptance_rule = str(claim.get("acceptance_rule") or "").strip()
+                required_evidence = claim.get("required_evidence")
+                if (
+                    not claim_id
+                    or not statement
+                    or not acceptance_rule
+                    or maximum <= 0
+                    or not isinstance(required_evidence, list)
+                    or not required_evidence
+                ):
+                    raise ValueError(
+                        "each scientific conclusion requires id, statement, acceptance_rule, "
+                        "non-empty required_evidence, and positive max_score"
+                    )
+                claim_ids.append(claim_id)
+                claim_total += maximum
+            if len(claim_ids) != len(set(claim_ids)):
+                raise ValueError("scientific conclusion ids must be unique")
+            if abs(claim_total - 100.0) > 1e-9:
+                raise ValueError(
+                    "scientific conclusion max_score values must sum to 100"
+                )
+            formula = str(
+                self.dual_axis_scoring_policy.get("formula") or ""
+            ).strip()
+            if formula != "scientific_conclusion_score * research_process_score / 100":
+                raise ValueError(
+                    "dual_axis_100 requires the standard multiplicative formula"
+                )
         gates = self.evidence_gate_policy.get("gates", [])
         if gates:
             gate_ids: list[str] = []

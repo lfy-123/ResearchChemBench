@@ -22,14 +22,19 @@ import hashlib
 import json
 import os
 import shutil
+import sys
 import tempfile
 import zipfile
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+from evaluation.dual_axis import dual_axis_policy, process_rubric
+
 TASKS_ROOT = PROJECT_ROOT / "tasks"
 SOURCE_ARCHIVE = TASKS_ROOT / "ResearchChemBench_Paper_Datasets.zip"
 SHARED_ROOT = TASKS_ROOT / "_electron_isodensity_shared"
@@ -996,8 +1001,9 @@ def _reference_result(spec: TaskSpec, reproduction: bool) -> dict[str, Any]:
                 "held_out_molecule_id": "ISO-M4",
                 "hidden_experimental_te_surface_angstrom2": MOLECULES["ISO-M4"]["te_surface_angstrom2"],
                 "reference_use_policy": (
-                    "Use the hidden experimental value only for post-hoc assessment of blind predictive quality. "
-                    "Do not require agreement with the paper calculation, a paper method, or a paper cutoff, and do not use this value to score method selection or workflow autonomy."
+                    "Use the hidden experimental value and paper-scale blind-prediction conclusion "
+                    "for post-hoc scientific-outcome scoring after the prediction is locked. Do not require "
+                    "the paper method or cutoff in autonomous discovery, and score process quality separately."
                 ),
             }
         return {
@@ -1020,6 +1026,56 @@ def _reference_result(spec: TaskSpec, reproduction: bool) -> dict[str, Any]:
         },
         "subset_scoring_policy": "Evaluate the seven-molecule reproduction as a benchmark subset and do not require exact equality to the 104-molecule aggregate.",
     }
+
+
+def _q4_scientific_conclusion_rubric(reproduction: bool) -> list[dict[str, Any]]:
+    if reproduction:
+        return [
+            {
+                "id": "locked_cutoff_surface_reproduction",
+                "max_score": 45,
+                "statement": "At the supplied locked 0.0016 a.u. cutoff, the newly computed ISO-M4 surface reproduces the paper value 109.9966 A^2.",
+                "acceptance_rule": "Full credit within 2 percent relative error to the paper value, partial credit within 5 percent, and no numerical credit for copied or unsupported values.",
+                "required_evidence": ["new ISO-M4 density", "new isosurface calculation at 0.0016 a.u.", "artifact-linked numerical comparison"],
+            },
+            {
+                "id": "agreement_with_hidden_experiment",
+                "max_score": 35,
+                "statement": "The reproduced ISO-M4 surface agrees closely with the hidden experimental TE surface 110.538 A^2.",
+                "acceptance_rule": "Full credit within 2 percent relative error and partial credit within 5 percent, with numerical and method uncertainty reported.",
+                "required_evidence": ["locked prediction before hidden comparison", "relative-error calculation", "uncertainty discussion"],
+            },
+            {
+                "id": "held_out_transfer_conclusion",
+                "max_score": 20,
+                "statement": "The paper-calibrated electron-isodensity protocol transfers successfully to the held-out ISO-M4 molecule.",
+                "acceptance_rule": "Require the locked protocol, valid calibration checks on ISO-M1 to ISO-M3, and a successful held-out prediction without retuning on ISO-M4.",
+                "required_evidence": ["calibration-set validation", "pre-prediction lock", "held-out calculation"],
+            },
+        ]
+    return [
+        {
+            "id": "blind_prediction_accuracy",
+            "max_score": 50,
+            "statement": "The independently designed and pre-locked workflow predicts the hidden ISO-M4 experimental TE surface of 110.538 A^2 accurately.",
+            "acceptance_rule": "Full credit within 2 percent relative error, partial credit within 5 percent, and graduated limited credit beyond 5 percent only when the blind prediction and uncertainty are validly supported.",
+            "required_evidence": ["prediction fixed before hidden comparison", "new ISO-M4 density and surface", "relative-error calculation"],
+        },
+        {
+            "id": "calibration_robustness",
+            "max_score": 25,
+            "statement": "The calibration chosen from visible molecules is stable enough to support a blind held-out prediction rather than reflecting one arbitrary calibration choice.",
+            "acceptance_rule": "Require leave-one-out, resampling, nearby-cutoff, or equivalent sensitivity evidence completed before ISO-M4 tuning is possible.",
+            "required_evidence": ["pre-prediction calibration lock", "multi-point calibration", "calibration sensitivity analysis"],
+        },
+        {
+            "id": "held_out_transfer_conclusion",
+            "max_score": 25,
+            "statement": "The calibrated electron-isodensity relationship generalizes to the chemically held-out ISO-M4 molecule with uncertainty consistent with the observed prediction error.",
+            "acceptance_rule": "Require a genuinely held-out computation, an uncertainty interval derived without ISO-M4 target leakage, and a post-hoc comparison showing whether the error is covered.",
+            "required_evidence": ["held-out workflow", "predeclared uncertainty", "post-hoc coverage assessment"],
+        },
+    ]
 
 
 def _ground_truth(spec: TaskSpec, reproduction: bool, manifest_sha256: str) -> dict[str, Any]:
@@ -1239,6 +1295,34 @@ def _ground_truth(spec: TaskSpec, reproduction: bool, manifest_sha256: str) -> d
         "evidence_gate_policy": {"judge_must_assess_all": True, "gates": gates},
         "reference_conclusion_gate_policy": conclusion_gate,
     }
+    if spec.number == "04":
+        reference_evidence["reference_use_policy"] = (
+            "Score the hidden scientific claims as the conclusion axis only after verifying "
+            "their newly generated evidence. Score process quality on the separate process axis."
+        )
+        result.update(
+            {
+                "evaluation_mode": "dual_axis_100",
+                "scoring_rubric": process_rubric(reproduction=reproduction),
+                "scientific_conclusion_rubric": _q4_scientific_conclusion_rubric(
+                    reproduction
+                ),
+                "dual_axis_scoring_policy": dual_axis_policy(),
+                "judge_instructions": (
+                    "Score each hidden Q4 paper/experimental conclusion from new evidence, "
+                    "then score reproduction-process quality separately. The supplied paper "
+                    "route is part of process fidelity; the scorer applies the multiplicative formula."
+                    if reproduction
+                    else (
+                        "Score each hidden blind-prediction conclusion from new evidence, then "
+                        "score autonomous planning and execution separately. Do not require the "
+                        "paper method or cutoff; the scorer applies the multiplicative formula."
+                    )
+                ),
+                "evidence_gate_policy": {},
+                "reference_conclusion_gate_policy": {},
+            }
+        )
     if reproduction:
         result["current_toolbox_reproduction_baseline"] = baseline
     else:

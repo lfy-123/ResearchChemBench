@@ -431,3 +431,175 @@ def test_strict_autonomous_discovery_caps_a_hidden_scientific_outcome_mismatch(
         if item["id"] == "hidden_scientific_conclusion_recovery"
     )
     assert conclusion["score"] == 0
+
+
+def test_dual_axis_score_multiplies_conclusion_and_process_scores(
+    tmp_path: Path, monkeypatch
+):
+    runner = TaskRunner("ChemGraph_001", agent_key="mock", workspace_root=tmp_path)
+    runner.run()
+    process_rubric = [
+        {"id": "route_design", "max_score": 40},
+        {"id": "execution_quality", "max_score": 60},
+    ]
+    conclusion_rubric = [
+        {"id": "claim_a", "max_score": 30, "statement": "Claim A"},
+        {"id": "claim_b", "max_score": 70, "statement": "Claim B"},
+    ]
+    truth = {
+        "expected_tool_calls": [],
+        "expected_result": {},
+        "evaluation_mode": "dual_axis_100",
+        "evaluation_profile": "autonomous_discovery",
+        "score_max": 100,
+        "scoring_rubric": process_rubric,
+        "scientific_conclusion_rubric": conclusion_rubric,
+        "dual_axis_scoring_policy": {
+            "formula": "scientific_conclusion_score * research_process_score / 100"
+        },
+        "critical_failures": [],
+        "judge_instructions": "Dual axis.",
+        "reference_evidence": {},
+        "managed_computation_policy": {},
+        "evidence_gate_policy": {},
+        "reference_conclusion_gate_policy": {},
+    }
+    monkeypatch.setattr("evaluation.score.load_ground_truth", lambda _task_id: truth)
+
+    result = score_workspace(
+        runner.workspace,
+        judge_call=lambda _prompt: {
+            "scientific_conclusions": [
+                {
+                    "id": "claim_a",
+                    "score": 30,
+                    "max_score": 30,
+                    "evidence_status": "supported",
+                    "rationale": "Recovered.",
+                },
+                {
+                    "id": "claim_b",
+                    "score": 30,
+                    "max_score": 70,
+                    "evidence_status": "partially_supported",
+                    "rationale": "Only partial evidence.",
+                },
+            ],
+            "scientific_conclusion_score": 99,
+            "process_criteria": [
+                {"id": "route_design", "score": 35, "max_score": 40, "rationale": "good"},
+                {"id": "execution_quality", "score": 55, "max_score": 60, "rationale": "good"},
+            ],
+            "research_process_score": 100,
+            "submission_validity": "valid",
+            "critical_failures": [],
+            "objective_issue_flags": [],
+            "rationale": "Independent axis evaluation.",
+        },
+    )
+
+    assert result["scientific_conclusion_score"] == 60
+    assert result["research_process_score"] == 90
+    assert result["score"] == 54
+    assert result["reference_conclusion_score_cap"] is None
+    assert result["applied_score_cap"] is None
+    assert result["scientific_conclusions"][1]["evidence_status"] == "partially_supported"
+    assert any(
+        "Replaced inconsistent judge total" in warning
+        for warning in result["judge_consistency_warnings"]
+    )
+
+
+def test_dual_axis_invalid_submission_forces_zero_without_task_specific_cap(
+    tmp_path: Path, monkeypatch
+):
+    runner = TaskRunner("ChemGraph_001", agent_key="mock", workspace_root=tmp_path)
+    runner.run()
+    truth = {
+        "expected_tool_calls": [],
+        "expected_result": {},
+        "evaluation_mode": "dual_axis_100",
+        "evaluation_profile": "paper_reproduction",
+        "score_max": 100,
+        "scoring_rubric": [{"id": "process", "max_score": 100}],
+        "scientific_conclusion_rubric": [
+            {"id": "claim", "max_score": 100, "statement": "Claim"}
+        ],
+        "dual_axis_scoring_policy": {
+            "formula": "scientific_conclusion_score * research_process_score / 100"
+        },
+        "critical_failures": [],
+        "judge_instructions": "Dual axis.",
+        "reference_evidence": {},
+        "managed_computation_policy": {},
+        "evidence_gate_policy": {},
+        "reference_conclusion_gate_policy": {},
+    }
+    monkeypatch.setattr("evaluation.score.load_ground_truth", lambda _task_id: truth)
+
+    result = score_workspace(
+        runner.workspace,
+        judge_call=lambda _prompt: {
+            "scientific_conclusions": [
+                {"id": "claim", "score": 100, "max_score": 100, "evidence_status": "supported", "rationale": "copied"}
+            ],
+            "process_criteria": [
+                {"id": "process", "score": 100, "max_score": 100, "rationale": "copied"}
+            ],
+            "submission_validity": "invalid_submission",
+            "critical_failures": ["hidden answer leakage"],
+            "objective_issue_flags": [],
+            "rationale": "Reference values were presented as new calculations.",
+        },
+    )
+
+    assert result["scientific_conclusion_score"] == 100
+    assert result["research_process_score"] == 100
+    assert result["submission_validity"] == "invalid_submission"
+    assert result["score"] == 0
+
+
+def test_dual_axis_requires_itemized_scores_instead_of_trusting_axis_totals(
+    tmp_path: Path, monkeypatch
+):
+    runner = TaskRunner("ChemGraph_001", agent_key="mock", workspace_root=tmp_path)
+    runner.run()
+    truth = {
+        "expected_tool_calls": [],
+        "expected_result": {},
+        "evaluation_mode": "dual_axis_100",
+        "evaluation_profile": "autonomous_discovery",
+        "score_max": 100,
+        "scoring_rubric": [{"id": "process", "max_score": 100}],
+        "scientific_conclusion_rubric": [
+            {"id": "claim", "max_score": 100, "statement": "Claim"}
+        ],
+        "dual_axis_scoring_policy": {
+            "formula": "scientific_conclusion_score * research_process_score / 100"
+        },
+        "critical_failures": [],
+        "judge_instructions": "Dual axis.",
+        "reference_evidence": {},
+        "managed_computation_policy": {},
+        "evidence_gate_policy": {},
+        "reference_conclusion_gate_policy": {},
+    }
+    monkeypatch.setattr("evaluation.score.load_ground_truth", lambda _task_id: truth)
+
+    result = score_workspace(
+        runner.workspace,
+        judge_call=lambda _prompt: {
+            "scientific_conclusion_score": 100,
+            "research_process_score": 100,
+            "submission_validity": "valid",
+            "critical_failures": [],
+            "objective_issue_flags": [],
+            "rationale": "Axis totals without required itemized evidence.",
+        },
+    )
+
+    assert result["scientific_conclusion_score"] == 0
+    assert result["research_process_score"] == 0
+    assert result["score"] == 0
+    assert len(result["scientific_conclusions"]) == 1
+    assert len(result["criteria"]) == 1

@@ -326,8 +326,16 @@ def test_electron_isodensity_dual_track_tasks_are_decontaminated_and_complete():
         assert info["method_disclosure"] == "none"
         assert info["pathway_disclosure"] == "none"
         assert info["archive_extractions"] == []
-        assert truth["evaluation_mode"] == "rubric_100"
+        assert truth["evaluation_mode"] == (
+            "dual_axis_100" if suffix == "04_Blind_Prediction" else "rubric_100"
+        )
         assert sum(item["max_score"] for item in truth["scoring_rubric"]) == 100
+        if suffix == "04_Blind_Prediction":
+            assert len(truth["scientific_conclusion_rubric"]) == 3
+            assert sum(
+                item["max_score"]
+                for item in truth["scientific_conclusion_rubric"]
+            ) == 100
         assert truth["expected_structured_output"] == [
             item["path"] for item in info["required_deliverables"]
         ]
@@ -402,10 +410,12 @@ def test_electron_isodensity_dual_track_tasks_are_decontaminated_and_complete():
             ]
             assert "paper_reference" not in truth["reference_evidence"]
             assert "hidden_posthoc_reference" in truth["reference_evidence"]
-            gate_ids = {
-                item["id"] for item in truth["evidence_gate_policy"]["gates"]
+            assert truth["evidence_gate_policy"] == {}
+            claim_ids = {
+                item["id"] for item in truth["scientific_conclusion_rubric"]
             }
-            assert "pre_prediction_calibration_lock" in gate_ids
+            assert "blind_prediction_accuracy" in claim_ids
+            assert "calibration_robustness" in claim_ids
             baseline = truth["current_toolbox_feasibility_baseline"]
             assert baseline["classification"] == "solvable"
             assert baseline["unresolved_requirements"] == []
@@ -425,8 +435,16 @@ def test_electron_isodensity_dual_track_tasks_are_decontaminated_and_complete():
         assert info["task_mode"] == "guided_reproduction"
         assert info["method_disclosure"] == "paper_reconstructed_protocol"
         assert info["pathway_disclosure"] == "paper_execution_route"
-        assert truth["evaluation_mode"] == "rubric_100"
+        assert truth["evaluation_mode"] == (
+            "dual_axis_100" if suffix == "04_Blind_Prediction" else "rubric_100"
+        )
         assert sum(item["max_score"] for item in truth["scoring_rubric"]) == 100
+        if suffix == "04_Blind_Prediction":
+            assert len(truth["scientific_conclusion_rubric"]) == 3
+            assert sum(
+                item["max_score"]
+                for item in truth["scientific_conclusion_rubric"]
+            ) == 100
         protocol = json.loads((data_root / "computational_protocol.json").read_text(encoding="utf-8"))
         assert protocol["paper_doi"] == "10.1038/s41467-024-50408-8"
         assert protocol["production_density"]["method"] == "DSD-PBEP86"
@@ -498,6 +516,20 @@ def test_dual_track_evaluation_profiles_separate_discovery_from_reproduction():
         info = load_task_info(task_id)
         truth = load_ground_truth(task_id)
         rubric = {item["id"]: item["max_score"] for item in truth["scoring_rubric"]}
+        is_electron_q4 = task_id in {
+            "Electron_Isodensity_04_Blind_Prediction",
+            "Electron_Isodensity_Reproduction_04_Blind_Prediction",
+        }
+        if is_electron_q4:
+            assert truth["evaluation_mode"] == "dual_axis_100"
+            assert len(truth["scientific_conclusion_rubric"]) == 3
+            assert truth["reference_conclusion_gate_policy"] == {}
+            assert truth["evidence_gate_policy"] == {}
+            if info["task_mode"] == "guided_reproduction":
+                assert rubric["protocol_interpretation_and_execution_plan"] == 20
+            else:
+                assert rubric["problem_framing_and_route_design"] == 20
+            continue
         if info["task_mode"] == "guided_reproduction":
             assert truth["evaluation_profile"] == "paper_reproduction"
             assert rubric["paper_conclusion_agreement"] == 55

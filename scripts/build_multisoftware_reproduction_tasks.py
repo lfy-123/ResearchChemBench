@@ -14,11 +14,17 @@ import hashlib
 import json
 import math
 import shutil
+import sys
 from pathlib import Path
 from typing import Any
 
 
 ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from evaluation.dual_axis import dual_axis_policy, process_rubric
+
 TASKS_ROOT = ROOT / "tasks"
 PAPER_ROOT = (
     TASKS_ROOT
@@ -195,20 +201,31 @@ def ground_truth(
     critical_failures: list[str],
     gates: list[dict[str, Any]],
     baseline: dict[str, Any],
+    scientific_conclusion_rubric: list[dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
-    return {
+    dual_axis = bool(scientific_conclusion_rubric)
+    result = {
         "expected_tool_calls": expected_tool_calls,
         "expected_result": expected_result,
         "expected_structured_output": [item["path"] for item in deliverables],
-        "evaluation_mode": "rubric_100",
+        "evaluation_mode": "dual_axis_100" if dual_axis else "rubric_100",
         "score_max": 100,
-        "scoring_rubric": common_rubric(),
+        "scoring_rubric": (
+            process_rubric(reproduction=True) if dual_axis else common_rubric()
+        ),
         "critical_failures": critical_failures,
         "judge_instructions": (
-            "Evaluate this as a multi-software paper reproduction. Do not award conclusion "
-            "credit for copied paper values, invalid intermediates, or numerically plausible "
-            "results unsupported by artifacts from this run. The paper-conclusion criterion is "
-            "the majority of the score. Apply every evidence gate."
+            "Evaluate every hidden paper claim independently from newly generated evidence, "
+            "then evaluate reproduction-process quality separately. Do not copy conclusion "
+            "deficiencies into the process axis or use process quality to excuse a wrong claim. "
+            "The scorer applies the multiplicative formula."
+            if dual_axis
+            else (
+                "Evaluate this as a multi-software paper reproduction. Do not award conclusion "
+                "credit for copied paper values, invalid intermediates, or numerically plausible "
+                "results unsupported by artifacts from this run. The paper-conclusion criterion is "
+                "the majority of the score. Apply every evidence gate."
+            )
         ),
         "reference_evidence": {
             "paper_doi": paper_doi,
@@ -226,20 +243,30 @@ def ground_truth(
             "do_not_fabricate_on_timeout": True,
             "require_workspace_confined_artifacts": True,
         },
-        "evidence_gate_policy": {"judge_must_assess_all": True, "gates": gates},
+        "evidence_gate_policy": (
+            {} if dual_axis else {"judge_must_assess_all": True, "gates": gates}
+        ),
         "current_toolbox_reproduction_baseline": baseline,
         "evaluation_profile": "paper_reproduction",
-        "reference_conclusion_gate_policy": {
-            "required": True,
-            "criterion_id": "paper_conclusion_agreement",
-            "score_cap_if_not_matched": 50,
-            "score_cap_if_uncertain": 65,
-            "score_cap_if_omitted": 50,
-            "max_criterion_score_if_not_matched": 0,
-            "max_criterion_score_if_uncertain": 12,
-            "max_criterion_score_if_omitted": 0,
-        },
+        "reference_conclusion_gate_policy": (
+            {}
+            if dual_axis
+            else {
+                "required": True,
+                "criterion_id": "paper_conclusion_agreement",
+                "score_cap_if_not_matched": 50,
+                "score_cap_if_uncertain": 65,
+                "score_cap_if_omitted": 50,
+                "max_criterion_score_if_not_matched": 0,
+                "max_criterion_score_if_uncertain": 12,
+                "max_criterion_score_if_omitted": 0,
+            }
+        ),
     }
+    if dual_axis:
+        result["scientific_conclusion_rubric"] = scientific_conclusion_rubric
+        result["dual_axis_scoring_policy"] = dual_axis_policy()
+    return result
 
 
 def read_xyz_atom_count(path: Path) -> int:
@@ -404,6 +431,11 @@ Paper: 10.1038/s41597-022-01288-4.
         deliverables=deliverables,
         critical_failures=["No real conformer search was executed.", "No quantum refinement or Hessian evidence was generated.", "Rankings were compared without atom-mapped alignment.", "Reference conformers or hidden populations were presented as newly generated."],
         gates=[{"id": "real_multistage_search", "description": "At least RDKit, one xTB/CREST stage, ORCA, and thermochemistry were executed.", "score_cap_if_failed": 45}, {"id": "identity_and_lineage", "description": "Final conformers have valid connectivity and traceable parents.", "score_cap_if_failed": 55}, {"id": "frequency_validity", "description": "Final population analysis handles significant imaginary modes.", "score_cap_if_failed": 65}],
+        scientific_conclusion_rubric=[
+            {"id": "major_basin_coverage", "max_score": 30, "statement": "The low-cost RDKit/xTB/CREST stage recovers multiple major chemically valid conformer basins for GEOM-C3.", "acceptance_rule": "Require new identity-preserving search and clustering evidence covering multiple major basins; exact legacy conformer count and file order are not required.", "required_evidence": ["managed conformer search", "connectivity and lineage checks", "basin or clustering summary"]},
+            {"id": "quantum_ranking_reorder", "max_score": 35, "statement": "Aligned higher-level quantum refinement materially changes the low-cost conformer ranking or dominant-basin assignment.", "acceptance_rule": "Require an atom-mapped aligned comparison supported by newly computed quantum energies; paper-dataset diagnostics are context rather than exact task targets.", "required_evidence": ["new quantum refinement", "identity-preserving alignment", "ranking statistic or dominant-basin comparison"]},
+            {"id": "thermochemical_population_change", "max_score": 35, "statement": "Validated thermochemistry changes or materially sharpens the population distribution relative to the low-cost electronic-energy ranking.", "acceptance_rule": "Require frequency-validated thermal free energies and normalized populations. Exact legacy population is not required, but electronic-energy-only Boltzmann weights cannot receive full credit.", "required_evidence": ["frequency or Hessian validation", "thermal free energies at 298.15 K", "normalized population comparison"]},
+        ],
         baseline={"status": "components_available_reference_run_required", "classification": "solvable", "major_paper_conclusion_reproduced_in_this_audit": False, "installed_software": ["RDKit", "xTB 6.7.1", "CREST 3.0.2", "ORCA 6.1.1", "GoodVibes 4.3.0"], "verified_components": ["RDKit and CREST conformer Actions", "xTB and ORCA optimization/Hessian Actions", "GoodVibes ensemble analysis"], "unresolved_requirements": ["A fresh end-to-end oracle run is required to set benchmark-specific numerical tolerances for the regenerated ensemble."]},
     )
     finalize_task(task_id=task_id, info=info, truth=truth, manifest_metadata={"molecule_ids": ["GEOM-C3"], "starting_structures": 0, "software_stage_count": 5})
@@ -443,6 +475,21 @@ Paper: 10.1038/s41467-024-50408-8.
     write_json(data / "workflow_requirements.json", {"required_stages": ["identity_validation", "low_cost_energy_screen", "RMSD_or_dihedral_clustering", "budgeted_high_level_selection", "frequency_or_weight_validation", "correlated_density", "wavefunction_export", "isodensity_surface", "Boltzmann_aggregation"], "hard_gates": ["Weights must be derived from one declared energy/free-energy convention and sum to one.", "The density artifact must be relaxed_mp2 from the selected production method.", "Every surface must be linked to its wavefunction and conformer.", "The ensemble must include a truncation-sensitivity estimate."], "paper_scope_note": "This scoped subset tests conformer sensitivity. It must not claim to recalibrate the paper-wide density cutoff."})
     info = task_info(task_id=task_id, source_id="electron_isodensity_2024_flexible_ensemble", category="conformer_ensemble_electron_density_surface", benchmark_family="electron_isodensity_surface", task=("Orchestrate conformer validation and screening, thermochemical weighting, correlated-density generation, wavefunction conversion, and Multiwfn surface analysis for ISO-M6. Reproduce the paper conclusion that flexible conformers have materially different electron-isodensity surface areas and that an ensemble is scientifically preferable to an arbitrary single conformer."), requirements=["Use at least four different software backends, including ORCA and Multiwfn.", "Select 4-6 high-level conformers using both energy and structural diversity.", "Use the locked paper cutoff 0.0016 a.u.; do not recalibrate it on ISO-M6.", "Quantify conformer truncation uncertainty and compare ensemble with the lowest-free-energy conformer.", "Treat this as a scoped 4-6-conformer reproduction: do not claim exact reproduction of the paper's full 25-conformer aggregate.", "When server resources allow, run independent conformer calculations concurrently and use substantial CPU resources without oversubscribing the host."], deliverables=deliverables)
     truth = ground_truth(task_id=task_id, paper_doi="10.1038/s41467-024-50408-8", expected_tool_calls=[{"class": "conformer_validation_and_clustering", "backend_examples": ["rdkit", "crest"]}, {"class": "low_cost_energy", "backend_examples": ["xtb"]}, {"class": "thermochemistry", "backend_examples": ["orca", "goodvibes"]}, {"class": "correlated_density_and_export", "backend_examples": ["orca"]}, {"class": "electron_isodensity_surface", "backend_examples": ["multiwfn"]}], expected_result={"molecule_id": "ISO-M6", "scoped_acceptance_target": {"multiple_conformers_show_materially_different_newly_computed_surfaces": True, "a_traceable_thermally_weighted_ensemble_reduces_arbitrary_single_conformer_choice": True, "exact_full_25_conformer_aggregate_required": False}, "paper_reference_diagnostics": {"paper_published_conformer_count": 25, "paper_ensemble_surface_angstrom2": 157.1994, "paper_example_individual_surfaces_angstrom2": [159.8, 149.2], "paper_te_surface_angstrom2": 156.507, "use_policy": "Diagnostic comparison only for this 4-6-conformer controlled reproduction; exact equality is not required."}, "paper_conclusion": "For a flexible molecule, conformer-dependent surface areas differ materially; Boltzmann ensemble treatment reduces arbitrary single-conformer bias."}, deliverables=deliverables, critical_failures=["No real correlated-density calculation was executed.", "No real Multiwfn surface analysis was executed.", "Weights from mixed or undeclared energy conventions were combined.", "Paper surface values were copied as computed outputs."], gates=[{"id": "multisoftware_chain", "description": "Screening, thermochemistry, density export, and surface analysis all have real artifacts.", "score_cap_if_failed": 45}, {"id": "density_provenance", "description": "Each surface derives from the required relaxed double-hybrid density.", "score_cap_if_failed": 50}, {"id": "weight_validity", "description": "Weights use one convention, sum to one, and exclude invalid structures explicitly.", "score_cap_if_failed": 60}, {"id": "conformer_sensitivity", "description": "The conclusion is supported by newly computed conformer-level dispersion rather than paper examples.", "score_cap_if_failed": 55}], baseline={"status": "objective_components_verified_reference_run_required", "classification": "solvable", "major_paper_conclusion_reproduced_in_this_audit": False, "installed_software": ["RDKit", "xTB 6.7.1", "CREST 3.0.2", "ORCA 6.1.1", "GoodVibes 4.3.0", "Multiwfn 2026.7.15"], "verified_components": ["ORCA relaxed double-hybrid density", "WFN export", "Multiwfn isodensity surface", "GoodVibes ensemble analysis"], "unresolved_requirements": ["The paper does not uniquely specify the conformer weighting energy; this task declares r2SCAN-3c thermochemistry as a benchmark-defined controlled substitution.", "A fresh oracle run is required to set subset-specific surface and truncation tolerances."]})
+    truth.update(
+        {
+            "evaluation_mode": "dual_axis_100",
+            "scoring_rubric": process_rubric(reproduction=True),
+            "scientific_conclusion_rubric": [
+                {"id": "conformer_surface_variation", "max_score": 35, "statement": "New density-isosurface calculations show that distinct ISO-M6 conformers have materially different molecular surface areas.", "acceptance_rule": "The conformer range or dispersion must exceed demonstrated grid/integration uncertainty and derive from valid per-conformer density artifacts; exact paper example values are not mandatory.", "required_evidence": ["multiple validated conformers", "per-conformer density and surface artifacts", "numerical surface sensitivity"]},
+                {"id": "thermal_ensemble_reduces_single_structure_bias", "max_score": 35, "statement": "A normalized thermally weighted conformer ensemble is more defensible than an arbitrary single-conformer surface and reduces single-structure selection bias.", "acceptance_rule": "Require a converged or sensitivity-bounded conformer set and traceable thermal weights. Electronic-energy-only weights receive partial rather than full credit unless the approximation is quantitatively bounded.", "required_evidence": ["weighting energies or free energies", "normalization", "conformer truncation and weighting sensitivity"]},
+                {"id": "paper_scale_ensemble_surface", "max_score": 30, "statement": "The recomputed ISO-M6 ensemble surface is consistent with the paper-scale result near 157.1994 A^2 and the TE reference 156.507 A^2 under the disclosed reproduction definition.", "acceptance_rule": "Full credit when the new estimate and uncertainty are compatible with the paper/TE neighborhood; partial credit for a justified controlled subset or protocol deviation that preserves the qualitative conclusion.", "required_evidence": ["new ensemble surface", "uncertainty or sensitivity interval", "post-computation reference comparison"]},
+            ],
+            "dual_axis_scoring_policy": dual_axis_policy(),
+            "judge_instructions": "Score the three hidden paper claims and the reproduction process independently; the scorer applies the multiplicative formula.",
+            "evidence_gate_policy": {},
+            "reference_conclusion_gate_policy": {},
+        }
+    )
     finalize_task(task_id=task_id, info=info, truth=truth, manifest_metadata={"molecule_ids": ["ISO-M6"], "published_conformer_count": len(records), "high_level_selection_count_range": [4, 6], "software_stage_count": 6})
 
 

@@ -45,17 +45,31 @@ def test_autonomous_tasks_are_complete_paired_and_hashed():
         assert info["pathway_disclosure"] == "none"
         assert info["required_deliverables"]
         assert truth["evaluation_profile"] == "autonomous_discovery"
-        assert truth["evaluation_mode"] == "rubric_100"
+        dual_axis = task_id in TASK_IDS[:2]
+        assert truth["evaluation_mode"] == (
+            "dual_axis_100" if dual_axis else "rubric_100"
+        )
         assert truth["score_max"] == 100
         assert sum(item["max_score"] for item in truth["scoring_rubric"]) == 100
         rubric = {item["id"]: item["max_score"] for item in truth["scoring_rubric"]}
-        assert rubric["hidden_scientific_conclusion_recovery"] == 50
-        assert rubric["adaptive_managed_execution"] == 10
-        gate = truth["reference_conclusion_gate_policy"]
-        assert gate["required"] is True
-        assert gate["criterion_id"] == "hidden_scientific_conclusion_recovery"
-        assert gate["score_cap_if_not_matched"] == 40
-        assert gate["score_cap_if_uncertain"] == 60
+        if dual_axis:
+            assert rubric["problem_framing_and_route_design"] == 20
+            assert rubric["resource_and_search_efficiency"] == 10
+            assert len(truth["scientific_conclusion_rubric"]) == 3
+            assert sum(
+                item["max_score"]
+                for item in truth["scientific_conclusion_rubric"]
+            ) == 100
+            assert truth["reference_conclusion_gate_policy"] == {}
+            assert truth["evidence_gate_policy"] == {}
+        else:
+            assert rubric["hidden_scientific_conclusion_recovery"] == 50
+            assert rubric["adaptive_managed_execution"] == 10
+            gate = truth["reference_conclusion_gate_policy"]
+            assert gate["required"] is True
+            assert gate["criterion_id"] == "hidden_scientific_conclusion_recovery"
+            assert gate["score_cap_if_not_matched"] == 40
+            assert gate["score_cap_if_uncertain"] == 60
         assert truth["expected_result"]["scientific_acceptance_contract"][
             "required_findings"
         ]
@@ -118,11 +132,33 @@ def test_autonomous_tasks_have_task_specific_hidden_scientific_gates():
         },
     }
     for task_id, required_ids in expected_gate_ids.items():
+        if task_id in TASK_IDS[:2]:
+            continue
         truth = load_ground_truth(task_id)
         actual_ids = {
             gate["id"] for gate in truth["evidence_gate_policy"]["gates"]
         }
         assert required_ids <= actual_ids
+
+
+def test_dual_axis_autonomous_tasks_have_multiple_hidden_paper_claims():
+    expected_claim_ids = {
+        "GEOM_Hierarchical_Conformer_Reranking": {
+            "major_basin_coverage",
+            "quantum_ranking_reorder",
+            "thermochemical_population_change",
+        },
+        "Electron_Flexible_Ensemble_Surface": {
+            "conformer_surface_variation",
+            "thermal_ensemble_reduces_single_structure_bias",
+            "blind_surface_prediction_scale",
+        },
+    }
+    for task_id, expected_ids in expected_claim_ids.items():
+        truth = load_ground_truth(task_id)
+        assert {
+            item["id"] for item in truth["scientific_conclusion_rubric"]
+        } == expected_ids
 
 
 def test_visible_inputs_do_not_disclose_paper_route_or_targets():

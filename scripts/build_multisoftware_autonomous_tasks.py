@@ -13,11 +13,17 @@ import argparse
 import hashlib
 import json
 import shutil
+import sys
 from pathlib import Path
 from typing import Any
 
 
 ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from evaluation.dual_axis import dual_axis_policy, process_rubric
+
 TASKS_ROOT = ROOT / "tasks"
 REPRO_IDS = (
     "GEOM_Hierarchical_Conformer_Reranking_Reproduction",
@@ -191,8 +197,10 @@ def ground_truth(
     critical_failures: list[str],
     gates: list[dict[str, Any]],
     feasibility: dict[str, Any],
+    scientific_conclusion_rubric: list[dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
-    return {
+    dual_axis = bool(scientific_conclusion_rubric)
+    result = {
         "expected_tool_calls": expected_tool_calls,
         "expected_result": {
             "hidden_posthoc_reference": hidden_reference,
@@ -204,17 +212,26 @@ def ground_truth(
             ),
         },
         "expected_structured_output": [item["path"] for item in deliverables],
-        "evaluation_mode": "rubric_100",
+        "evaluation_mode": "dual_axis_100" if dual_axis else "rubric_100",
         "score_max": 100,
-        "scoring_rubric": common_rubric(),
+        "scoring_rubric": (
+            process_rubric(reproduction=False) if dual_axis else common_rubric()
+        ),
         "critical_failures": critical_failures,
         "judge_instructions": (
-            "This is a strict autonomous-discovery evaluation. The Agent receives no paper method "
-            "or route and may use any scientifically valid workflow, but high task-completion credit "
-            "requires recovering every finding in the hidden scientific acceptance contract from new "
-            "managed evidence. Do not reward an opposite or indeterminate conclusion as successful "
-            "discovery merely because the tool sequence is plausible. Apply every evidence gate and "
-            "the reference-conclusion score cap."
+            "Score every hidden paper claim independently from newly generated evidence, then "
+            "score autonomous research-process quality separately. Do not require the paper route, "
+            "and do not let a good process excuse a wrong conclusion. The scorer applies the "
+            "multiplicative formula."
+            if dual_axis
+            else (
+                "This is a strict autonomous-discovery evaluation. The Agent receives no paper method "
+                "or route and may use any scientifically valid workflow, but high task-completion credit "
+                "requires recovering every finding in the hidden scientific acceptance contract from new "
+                "managed evidence. Do not reward an opposite or indeterminate conclusion as successful "
+                "discovery merely because the tool sequence is plausible. Apply every evidence gate and "
+                "the reference-conclusion score cap."
+            )
         ),
         "reference_evidence": {
             "task_id": task_id,
@@ -241,20 +258,30 @@ def ground_truth(
             "score_cap_without_managed_attempt": 20,
             "score_cap_without_successful_managed_call": 40,
         },
-        "evidence_gate_policy": {"judge_must_assess_all": True, "gates": gates},
+        "evidence_gate_policy": (
+            {} if dual_axis else {"judge_must_assess_all": True, "gates": gates}
+        ),
         "current_toolbox_feasibility_baseline": feasibility,
         "evaluation_profile": "autonomous_discovery",
-        "reference_conclusion_gate_policy": {
-            "required": True,
-            "criterion_id": "hidden_scientific_conclusion_recovery",
-            "score_cap_if_not_matched": 40,
-            "score_cap_if_uncertain": 60,
-            "score_cap_if_omitted": 35,
-            "max_criterion_score_if_not_matched": 0,
-            "max_criterion_score_if_uncertain": 20,
-            "max_criterion_score_if_omitted": 0,
-        },
+        "reference_conclusion_gate_policy": (
+            {}
+            if dual_axis
+            else {
+                "required": True,
+                "criterion_id": "hidden_scientific_conclusion_recovery",
+                "score_cap_if_not_matched": 40,
+                "score_cap_if_uncertain": 60,
+                "score_cap_if_omitted": 35,
+                "max_criterion_score_if_not_matched": 0,
+                "max_criterion_score_if_uncertain": 20,
+                "max_criterion_score_if_omitted": 0,
+            }
+        ),
     }
+    if dual_axis:
+        result["scientific_conclusion_rubric"] = scientific_conclusion_rubric
+        result["dual_axis_scoring_policy"] = dual_axis_policy()
+    return result
 
 
 def finalize_task(
@@ -377,6 +404,11 @@ conformers, software route, or result is included.
             ],
             "decision_rule": "Both required findings must be supported by new calculations; otherwise reference_conclusion_status is uncertain or not_matched.",
         },
+        scientific_conclusion_rubric=[
+            {"id": "major_basin_coverage", "max_score": 30, "statement": "The independently chosen low-cost search recovers multiple major chemically valid conformer basins for GEOM-C3.", "acceptance_rule": "Require new identity-preserving search and clustering evidence; exact paper conformer count and route are not required.", "required_evidence": ["managed conformer search", "connectivity and lineage checks", "basin or clustering summary"]},
+            {"id": "quantum_ranking_reorder", "max_score": 35, "statement": "Aligned higher-confidence quantum refinement materially changes the low-cost conformer ranking or dominant-basin assignment.", "acceptance_rule": "Require an atom-mapped comparison supported by newly computed quantum energies and a ranking statistic or dominant-basin change.", "required_evidence": ["new quantum refinement", "identity-preserving alignment", "ranking statistic or dominant-basin comparison"]},
+            {"id": "thermochemical_population_change", "max_score": 35, "statement": "Validated thermochemistry changes or materially sharpens the population distribution relative to the low-cost electronic-energy ranking.", "acceptance_rule": "Require frequency-validated thermal free energies and normalized populations. Electronic-energy-only weights receive partial rather than full credit.", "required_evidence": ["frequency or Hessian validation", "thermal free energies at 298.15 K", "normalized population comparison"]},
+        ],
         deliverables=deliverables,
         critical_failures=[
             "No real conformer search or generation was executed.",
@@ -486,6 +518,11 @@ surface prediction with uncertainty.
             ],
             "decision_rule": "Both flexibility and ensemble findings must be supported by new density/surface artifacts and weighting evidence; numerical proximity alone is insufficient.",
         },
+        scientific_conclusion_rubric=[
+            {"id": "conformer_surface_variation", "max_score": 40, "statement": "New density-isosurface calculations show that distinct ISO-M6 conformers have materially different molecular surface areas.", "acceptance_rule": "The conformer dispersion must exceed demonstrated numerical integration uncertainty and derive from valid per-conformer density artifacts.", "required_evidence": ["multiple independently generated conformers", "per-conformer density and surface artifacts", "grid or numerical sensitivity"]},
+            {"id": "thermal_ensemble_reduces_single_structure_bias", "max_score": 40, "statement": "A normalized thermally weighted conformer ensemble is more defensible than an arbitrary single-conformer surface and reduces selection bias.", "acceptance_rule": "Require a converged or sensitivity-bounded conformer set and traceable weights. Electronic-energy-only weights receive partial rather than full credit unless quantitatively bounded.", "required_evidence": ["weighting energies or free energies", "normalization", "conformer-space and weighting sensitivity"]},
+            {"id": "blind_surface_prediction_scale", "max_score": 20, "statement": "The independently selected workflow predicts an ISO-M6 ensemble surface compatible with the hidden paper/TE neighborhood near 157 A^2.", "acceptance_rule": "Full credit when the new estimate or uncertainty interval is within 5 percent of the paper/TE neighborhood; partial credit within 10 percent when the discrepancy is scientifically analyzed without post-hoc tuning.", "required_evidence": ["prediction fixed before hidden comparison", "new ensemble surface", "uncertainty and post-hoc reference comparison"]},
+        ],
         deliverables=deliverables,
         critical_failures=[
             "No real electronic-structure calculation was executed.",

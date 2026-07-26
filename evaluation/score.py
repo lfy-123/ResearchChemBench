@@ -80,6 +80,22 @@ Evaluation profile: PAPER REPRODUCTION.
 This profile is deliberately stricter. The main paper conclusion must be recovered from newly generated evidence, and the paper-conclusion criterion is the majority of the score. A scientifically coherent calculation that reaches the opposite ranking, mechanism, selectivity, rate-determining step, or other main conclusion is not a successful reproduction. Protocol deviations, reduced numerical resolution, substitute methods, incomplete sampling, or version limitations must be scored separately and cannot convert a conflicting conclusion into a match. Set reference_conclusion_status to matched only when the main conclusion stated in the reference answer is actually reproduced; use not_matched for a conflicting conclusion and uncertain when the submitted evidence cannot decide it.
 """
 
+DUAL_AXIS_JUDGE_SYSTEM_PROMPT = """You are an expert evaluator of a computational-chemistry investigation using two independent 100-point axes.
+
+Axis 1 is SCIENTIFIC CONCLUSION SCORE. Score every evaluator-only scientific claim in the supplied scientific-conclusion rubric. Claim points measure whether newly generated, scientifically valid evidence supports the hidden paper conclusion. Do not award points for a correct sentence copied, guessed, or asserted without supporting managed computation. Use the claim-specific acceptance rule, tolerance, and required evidence. Different valid software or methods are acceptable in autonomous discovery unless the claim or visible task requires protocol fidelity.
+
+Axis 2 is RESEARCH PROCESS SCORE. Score every criterion in the supplied process rubric. This covers route design or protocol interpretation, method and tool selection, managed execution, validation, failure recovery, efficiency, provenance, and reproducibility. A useful exploratory failure is not automatically bad; penalize preventable, repeated, undiagnosed, or wasteful failures.
+
+The benchmark has three managed execution layers: predefined Chemistry MCP Actions, native software jobs submitted through Chemistry MCP, and Agent-authored analysis programs submitted through Chemistry MCP. Built-in shell and file tools may prepare inputs, inspect raw data, and write reports, but they cannot establish managed scientific computation. Do not let unrelated successful calls launder a key result computed only through unmanaged events.
+
+Judge conclusion correctness and process quality independently. Do not manually cap either axis because of the other. The scorer will deterministically compute final_score = scientific_conclusion_score * research_process_score / 100.
+
+Set submission_validity to invalid_submission only for fabricated evidence, hidden-answer leakage, or paper/reference values presented as new calculations. Set it to not_scorable_objective only when the observable trace demonstrates a benchmark input, framework, backend, or infrastructure failure that prevents a fair evaluation. Agent-selected invalid inputs, insufficient resources, wrong parameters, or avoidable timeouts are Agent performance, not objective invalidity.
+
+Respond with one JSON object only:
+{"scientific_conclusions": [{"id": "...", "score": 0, "max_score": 0, "evidence_status": "supported|partially_supported|unsupported|contradicted", "rationale": "..."}], "scientific_conclusion_score": 0-100, "process_criteria": [{"id": "...", "score": 0, "max_score": 0, "rationale": "..."}], "research_process_score": 0-100, "submission_validity": "valid|invalid_submission|not_scorable_objective", "critical_failures": [], "objective_issue_flags": [], "rationale": "concise overall assessment"}.
+"""
+
 JUDGE_USER_TEMPLATE = """## Query
 {query}
 
@@ -116,6 +132,12 @@ RUBRIC_JUDGE_USER_TEMPLATE = """## Scientific task
 
 ## Scoring rubric
 {scoring_rubric}
+
+## Hidden scientific-conclusion rubric
+{scientific_conclusion_rubric}
+
+## Dual-axis scoring policy
+{dual_axis_scoring_policy}
 
 ## Critical failures
 {critical_failures}
@@ -166,6 +188,11 @@ def _parse_judge_json(text: str, *, score_max: int = 1) -> dict[str, Any]:
         "score": score,
         "score_max": score_max,
         "criteria": value.get("criteria", []),
+        "process_criteria": value.get("process_criteria", []),
+        "scientific_conclusions": value.get("scientific_conclusions", []),
+        "research_process_score": value.get("research_process_score"),
+        "scientific_conclusion_score": value.get("scientific_conclusion_score"),
+        "submission_validity": value.get("submission_validity"),
         "critical_failures": value.get("critical_failures", []),
         "evidence_gate_failures": value.get("evidence_gate_failures"),
         "objective_issue_flags": value.get("objective_issue_flags", []),
@@ -179,19 +206,27 @@ def _normalize_rubric_verdict(
     rubric: list[dict[str, Any]],
     *,
     score_max: int,
+    allow_total_fallback: bool = True,
 ) -> dict[str, Any]:
     """Clamp criterion scores and derive a reproducible total when supplied."""
 
     warnings: list[str] = []
     reported = verdict.get("criteria")
     if not isinstance(reported, list) or not reported:
-        raw_score = float(verdict.get("score", 0))
-        warnings.append("Judge omitted criterion-level scores; retained its clamped total.")
-        return {
-            "score": round(min(float(score_max), max(0.0, raw_score)), 2),
-            "criteria": [],
-            "warnings": warnings,
-        }
+        if allow_total_fallback:
+            raw_score = float(verdict.get("score", 0))
+            warnings.append(
+                "Judge omitted criterion-level scores; retained its clamped total."
+            )
+            return {
+                "score": round(min(float(score_max), max(0.0, raw_score)), 2),
+                "criteria": [],
+                "warnings": warnings,
+            }
+        warnings.append(
+            "Judge omitted required criterion-level scores; scored every criterion as zero."
+        )
+        reported = []
 
     by_id: dict[str, dict[str, Any]] = {}
     for item in reported:
@@ -248,6 +283,46 @@ def _normalize_rubric_verdict(
     if unknown_ids:
         warnings.append(f"Ignored unknown judge criteria: {', '.join(unknown_ids)}.")
     return {"score": total, "criteria": normalized, "warnings": warnings}
+
+
+def _normalize_scientific_conclusions(
+    verdict: dict[str, Any],
+    rubric: list[dict[str, Any]],
+) -> dict[str, Any]:
+    """Normalize weighted hidden claims while preserving evidence-status labels."""
+
+    reported = verdict.get("scientific_conclusions")
+    normalized = _normalize_rubric_verdict(
+        {
+            "criteria": reported,
+            "score": verdict.get("scientific_conclusion_score"),
+        },
+        rubric,
+        score_max=100,
+        allow_total_fallback=False,
+    )
+    evidence_by_id: dict[str, str] = {}
+    if isinstance(reported, list):
+        for item in reported:
+            if not isinstance(item, dict):
+                continue
+            claim_id = str(item.get("id") or "").strip()
+            status = str(item.get("evidence_status") or "").strip().casefold()
+            if claim_id and status in {
+                "supported",
+                "partially_supported",
+                "unsupported",
+                "contradicted",
+            }:
+                evidence_by_id[claim_id] = status
+    normalized["criteria"] = [
+        {
+            **item,
+            "evidence_status": evidence_by_id.get(item["id"], "unspecified"),
+        }
+        for item in normalized["criteria"]
+    ]
+    return normalized
 
 
 def _managed_computation_cap(
@@ -638,7 +713,10 @@ def score_workspace(
     native_events = load_native_agent_trace(workspace)
     actual_calls = normalized_tool_calls(events)
     evaluation_mode = truth.get("evaluation_mode", "binary")
-    score_max = int(truth.get("score_max") or (100 if evaluation_mode == "rubric_100" else 1))
+    score_max = int(
+        truth.get("score_max")
+        or (100 if evaluation_mode in {"rubric_100", "dual_axis_100"} else 1)
+    )
     metrics = process_metrics(events, workspace=workspace)
     metrics.update(
         {
@@ -659,7 +737,7 @@ def score_workspace(
             "native_tools_used": [event.get("tool") for event in native_events],
         }
     )
-    if evaluation_mode == "rubric_100":
+    if evaluation_mode in {"rubric_100", "dual_axis_100"}:
         evaluation_profile = str(truth.get("evaluation_profile") or "").strip()
         prompt = RUBRIC_JUDGE_USER_TEMPLATE.format(
             query=meta.get("query") or meta.get("task") or task_id,
@@ -697,6 +775,16 @@ def score_workspace(
             scoring_rubric=json.dumps(
                 truth.get("scoring_rubric", []), indent=2, ensure_ascii=False
             ),
+            scientific_conclusion_rubric=json.dumps(
+                truth.get("scientific_conclusion_rubric", []),
+                indent=2,
+                ensure_ascii=False,
+            ),
+            dual_axis_scoring_policy=json.dumps(
+                truth.get("dual_axis_scoring_policy", {}),
+                indent=2,
+                ensure_ascii=False,
+            ),
             critical_failures=json.dumps(
                 truth.get("critical_failures", []), indent=2, ensure_ascii=False
             ),
@@ -719,14 +807,24 @@ def score_workspace(
                 _submission_artifacts(workspace), indent=2, ensure_ascii=False
             ),
         )
-        system_prompt = RUBRIC_JUDGE_SYSTEM_PROMPT
-        if evaluation_profile == "autonomous_discovery":
+        system_prompt = (
+            DUAL_AXIS_JUDGE_SYSTEM_PROMPT
+            if evaluation_mode == "dual_axis_100"
+            else RUBRIC_JUDGE_SYSTEM_PROMPT
+        )
+        if (
+            evaluation_mode != "dual_axis_100"
+            and evaluation_profile == "autonomous_discovery"
+        ):
             conclusion_policy = truth.get("reference_conclusion_gate_policy", {})
             if conclusion_policy.get("required") is True:
                 system_prompt += STRICT_AUTONOMOUS_DISCOVERY_JUDGE_PROMPT
             else:
                 system_prompt += AUTONOMOUS_DISCOVERY_JUDGE_PROMPT
-        elif evaluation_profile == "paper_reproduction":
+        elif (
+            evaluation_mode != "dual_axis_100"
+            and evaluation_profile == "paper_reproduction"
+        ):
             system_prompt += PAPER_REPRODUCTION_JUDGE_PROMPT
     else:
         prompt = JUDGE_USER_TEMPLATE.format(
@@ -783,7 +881,60 @@ def score_workspace(
             model=raw_verdict.get("_judge_model") or judge_model,
             verdict=raw_verdict,
         )
-        if evaluation_mode == "rubric_100":
+        if evaluation_mode == "dual_axis_100":
+            process_rubric = _normalize_rubric_verdict(
+                {
+                    "criteria": raw_verdict.get("process_criteria"),
+                    "score": raw_verdict.get("research_process_score"),
+                },
+                truth.get("scoring_rubric", []),
+                score_max=100,
+                allow_total_fallback=False,
+            )
+            conclusion_rubric = _normalize_scientific_conclusions(
+                raw_verdict,
+                truth.get("scientific_conclusion_rubric", []),
+            )
+            research_process_score = float(process_rubric["score"])
+            scientific_conclusion_score = float(conclusion_rubric["score"])
+            criteria = process_rubric["criteria"]
+            scientific_conclusions = conclusion_rubric["criteria"]
+            consistency_warnings = [
+                *process_rubric["warnings"],
+                *conclusion_rubric["warnings"],
+            ]
+            submission_validity = str(
+                raw_verdict.get("submission_validity") or "valid"
+            ).strip().casefold()
+            if submission_validity not in {
+                "valid",
+                "invalid_submission",
+                "not_scorable_objective",
+            }:
+                consistency_warnings.append(
+                    "Judge returned an invalid submission_validity; treated it as valid."
+                )
+                submission_validity = "valid"
+            if submission_validity == "invalid_submission":
+                score = 0.0
+            elif submission_validity == "not_scorable_objective":
+                score = None
+            else:
+                score = round(
+                    scientific_conclusion_score * research_process_score / 100.0,
+                    2,
+                )
+            score_cap = None
+            score_cap_reason = None
+            evidence_gate_cap = None
+            evidence_gate_cap_reason = None
+            evidence_gate_failures = []
+            conclusion_cap = None
+            conclusion_cap_reason = None
+            reference_conclusion_status = "multi_claim_scored"
+            structured_mismatches = []
+            applied_score_cap = None
+        elif evaluation_mode == "rubric_100":
             normalized_rubric = _normalize_rubric_verdict(
                 raw_verdict,
                 truth.get("scoring_rubric", []),
@@ -860,6 +1011,10 @@ def score_workspace(
                     f"Applied reference-conclusion score cap {conclusion_cap:g}: "
                     f"{conclusion_cap_reason}"
                 )
+            research_process_score = None
+            scientific_conclusion_score = None
+            scientific_conclusions = []
+            submission_validity = "valid"
         else:
             raw_score = float(raw_verdict.get("score", 0))
             score = 1 if raw_score == 1 else 0
@@ -875,10 +1030,18 @@ def score_workspace(
             reference_conclusion_status = "not_applicable"
             structured_mismatches = []
             applied_score_cap = None
+            research_process_score = None
+            scientific_conclusion_score = None
+            scientific_conclusions = []
+            submission_validity = "valid"
         verdict = {
             "score": score,
             "score_max": score_max,
             "criteria": criteria,
+            "research_process_score": research_process_score,
+            "scientific_conclusion_score": scientific_conclusion_score,
+            "scientific_conclusions": scientific_conclusions,
+            "submission_validity": submission_validity,
             "critical_failures": raw_verdict.get("critical_failures", []),
             "evidence_gate_failures": evidence_gate_failures,
             "objective_issue_flags": raw_verdict.get("objective_issue_flags", []),
@@ -900,6 +1063,10 @@ def score_workspace(
             "score": None,
             "score_max": score_max,
             "criteria": [],
+            "research_process_score": None,
+            "scientific_conclusion_score": None,
+            "scientific_conclusions": [],
+            "submission_validity": "unknown",
             "critical_failures": [],
             "evidence_gate_failures": [],
             "objective_issue_flags": [],
@@ -947,6 +1114,11 @@ def score_workspace(
             else round(float(verdict["score"]) / float(verdict["score_max"]), 6)
         ),
         "criteria": verdict["criteria"],
+        "research_process_score": verdict["research_process_score"],
+        "scientific_conclusion_score": verdict["scientific_conclusion_score"],
+        "scientific_conclusions": verdict["scientific_conclusions"],
+        "dual_axis_scoring_policy": truth.get("dual_axis_scoring_policy", {}),
+        "submission_validity": verdict["submission_validity"],
         "critical_failures": verdict["critical_failures"],
         "evidence_gate_policy": truth.get("evidence_gate_policy", {}),
         "evidence_gate_failures": verdict["evidence_gate_failures"],

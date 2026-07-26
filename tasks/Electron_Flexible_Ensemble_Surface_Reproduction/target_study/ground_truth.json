@@ -62,47 +62,96 @@
     "report/ensemble_surface.json",
     "report/report.md"
   ],
-  "evaluation_mode": "rubric_100",
+  "evaluation_mode": "dual_axis_100",
   "score_max": 100,
   "scoring_rubric": [
     {
-      "id": "paper_conclusion_agreement",
-      "max_score": 55,
-      "description": "Newly generated evidence recovers the scoped paper conclusion. A conflicting ranking, phase sequence, barrier trend, selectivity, ensemble effect, or bonding interpretation is not a reproduction."
+      "id": "protocol_interpretation_and_execution_plan",
+      "max_score": 20,
+      "description": "Correctly interprets the supplied paper method and route, maps dependencies, budgets stages, and defines validation and stopping rules."
     },
     {
-      "id": "multisoftware_orchestration",
+      "id": "method_parameter_and_structure_fidelity",
       "max_score": 15,
-      "description": "Correctly composes the required software stages, passes artifacts between them, and respects dependency, retry, and stopping logic."
+      "description": "Uses the supplied identities, structures, methods, parameters, reference states, and controlled version-compatible substitutions faithfully."
     },
     {
-      "id": "intermediate_evidence_validity",
+      "id": "managed_recomputation_and_artifact_flow",
       "max_score": 15,
-      "description": "Validates chemical identity, convergence, stationary-point type, wavefunction or periodic-output quality, and rejects invalid branches."
+      "description": "Recomputes the required evidence through managed scientific execution and passes artifacts correctly across the disclosed workflow."
     },
     {
-      "id": "protocol_fidelity",
-      "max_score": 5,
-      "description": "Follows the supplied paper-reconstructed protocol and clearly labels any controlled, version-compatible substitution."
+      "id": "validation_numerical_quality_and_uncertainty",
+      "max_score": 20,
+      "description": "Validates convergence, identities, stationary points or surfaces, numerical resolution, statistics, uncertainty, and paper-comparison tolerances."
     },
     {
-      "id": "numerical_and_statistical_quality",
-      "max_score": 5,
-      "description": "Uses consistent units, reference states, normalization, statistics, and uncertainty estimates."
+      "id": "failure_diagnosis_and_protocol_recovery",
+      "max_score": 10,
+      "description": "Diagnoses failures, makes scientifically controlled recovery choices, and records any unavoidable protocol deviation."
     },
     {
-      "id": "provenance_and_uncertainty",
-      "max_score": 5,
-      "description": "Links every conclusion to artifacts and separates computation, paper targets, inference, failures, and unresolved uncertainty."
+      "id": "resource_and_execution_efficiency",
+      "max_score": 10,
+      "description": "Uses available resources, parallelism, retries, numerical settings, and stopping decisions efficiently while preserving protocol validity."
+    },
+    {
+      "id": "provenance_reporting_and_reproducibility",
+      "max_score": 10,
+      "description": "Separates paper targets from recomputation and links conclusions, parameters, deviations, failures, and uncertainty to artifacts."
     }
   ],
+  "scientific_conclusion_rubric": [
+    {
+      "id": "conformer_surface_variation",
+      "max_score": 35,
+      "statement": "New density-isosurface calculations show that distinct ISO-M6 conformers have materially different molecular surface areas.",
+      "acceptance_rule": "The conformer range or dispersion must exceed demonstrated grid/integration uncertainty and derive from valid per-conformer density artifacts; exact paper example values are not mandatory.",
+      "required_evidence": [
+        "multiple validated conformers",
+        "per-conformer density and surface artifacts",
+        "numerical surface sensitivity"
+      ]
+    },
+    {
+      "id": "thermal_ensemble_reduces_single_structure_bias",
+      "max_score": 35,
+      "statement": "A normalized thermally weighted conformer ensemble is more defensible than an arbitrary single-conformer surface and reduces single-structure selection bias.",
+      "acceptance_rule": "Require a converged or sensitivity-bounded conformer set and traceable thermal weights. Electronic-energy-only weights receive partial rather than full credit unless the approximation is quantitatively bounded.",
+      "required_evidence": [
+        "weighting energies or free energies",
+        "normalization",
+        "conformer truncation and weighting sensitivity"
+      ]
+    },
+    {
+      "id": "paper_scale_ensemble_surface",
+      "max_score": 30,
+      "statement": "The recomputed ISO-M6 ensemble surface is consistent with the paper-scale result near 157.1994 A^2 and the TE reference 156.507 A^2 under the disclosed reproduction definition.",
+      "acceptance_rule": "Full credit when the new estimate and uncertainty are compatible with the paper/TE neighborhood; partial credit for a justified controlled subset or protocol deviation that preserves the qualitative conclusion.",
+      "required_evidence": [
+        "new ensemble surface",
+        "uncertainty or sensitivity interval",
+        "post-computation reference comparison"
+      ]
+    }
+  ],
+  "dual_axis_scoring_policy": {
+    "formula": "scientific_conclusion_score * research_process_score / 100",
+    "scientific_conclusion_score_max": 100,
+    "research_process_score_max": 100,
+    "final_score_max": 100,
+    "unsupported_claim_policy": "A conclusion copied, guessed, or asserted without newly generated valid evidence receives no scientific-conclusion credit.",
+    "objective_failure_policy": "A demonstrated benchmark input, framework, backend, or infrastructure failure may make the run not_scorable_objective; agent-selected invalid inputs or resource limits do not.",
+    "invalid_submission_policy": "Fabricated evidence, hidden-answer leakage, or paper values presented as new calculations make the final score zero."
+  },
   "critical_failures": [
     "No real correlated-density calculation was executed.",
     "No real Multiwfn surface analysis was executed.",
     "Weights from mixed or undeclared energy conventions were combined.",
     "Paper surface values were copied as computed outputs."
   ],
-  "judge_instructions": "Evaluate this as a multi-software paper reproduction. Do not award conclusion credit for copied paper values, invalid intermediates, or numerically plausible results unsupported by artifacts from this run. The paper-conclusion criterion is the majority of the score. Apply every evidence gate.",
+  "judge_instructions": "Score the three hidden paper claims and the reproduction process independently; the scorer applies the multiplicative formula.",
   "reference_evidence": {
     "paper_doi": "10.1038/s41467-024-50408-8",
     "task_id": "Electron_Flexible_Ensemble_Surface_Reproduction",
@@ -135,31 +184,7 @@
     "do_not_fabricate_on_timeout": true,
     "require_workspace_confined_artifacts": true
   },
-  "evidence_gate_policy": {
-    "judge_must_assess_all": true,
-    "gates": [
-      {
-        "id": "multisoftware_chain",
-        "description": "Screening, thermochemistry, density export, and surface analysis all have real artifacts.",
-        "score_cap_if_failed": 45
-      },
-      {
-        "id": "density_provenance",
-        "description": "Each surface derives from the required relaxed double-hybrid density.",
-        "score_cap_if_failed": 50
-      },
-      {
-        "id": "weight_validity",
-        "description": "Weights use one convention, sum to one, and exclude invalid structures explicitly.",
-        "score_cap_if_failed": 60
-      },
-      {
-        "id": "conformer_sensitivity",
-        "description": "The conclusion is supported by newly computed conformer-level dispersion rather than paper examples.",
-        "score_cap_if_failed": 55
-      }
-    ]
-  },
+  "evidence_gate_policy": {},
   "current_toolbox_reproduction_baseline": {
     "status": "objective_components_verified_reference_run_required",
     "classification": "solvable",
@@ -184,14 +209,5 @@
     ]
   },
   "evaluation_profile": "paper_reproduction",
-  "reference_conclusion_gate_policy": {
-    "required": true,
-    "criterion_id": "paper_conclusion_agreement",
-    "score_cap_if_not_matched": 50,
-    "score_cap_if_uncertain": 65,
-    "score_cap_if_omitted": 50,
-    "max_criterion_score_if_not_matched": 0,
-    "max_criterion_score_if_uncertain": 12,
-    "max_criterion_score_if_omitted": 0
-  }
+  "reference_conclusion_gate_policy": {}
 }

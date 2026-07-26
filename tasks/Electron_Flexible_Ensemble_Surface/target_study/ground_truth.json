@@ -60,35 +60,89 @@
     "report/ensemble_surface.json",
     "report/report.md"
   ],
-  "evaluation_mode": "rubric_100",
+  "evaluation_mode": "dual_axis_100",
   "score_max": 100,
   "scoring_rubric": [
     {
-      "id": "hidden_scientific_conclusion_recovery",
-      "max_score": 50,
-      "description": "Recovers every evaluator-only task-level scientific finding from newly generated evidence. The paper route is not required, but a conflicting or unsupported scientific outcome is not successful task completion."
-    },
-    {
-      "id": "autonomous_method_and_route_design",
+      "id": "problem_framing_and_route_design",
       "max_score": 20,
-      "description": "Independently frames competing hypotheses and selects defensible structures, software, methods, sampling, numerical controls, fallback routes, and stopping rules without a disclosed paper route."
+      "description": "Independently defines hypotheses, alternatives, decision criteria, a staged route, budgets, and stopping rules without a disclosed paper method."
     },
     {
-      "id": "adaptive_managed_execution",
-      "max_score": 10,
-      "description": "Executes real managed calculations, passes artifacts correctly, diagnoses failures, and revises the workflow without importing hidden results."
-    },
-    {
-      "id": "validation_and_falsification",
+      "id": "method_and_tool_selection",
       "max_score": 15,
-      "description": "Tests convergence, numerical sensitivity, chemical validity, competing explanations, uncertainty, and whether the evidence is sufficient for each claim."
+      "description": "Selects chemically appropriate structures, software, methods, parameters, numerical controls, and fallback routes."
     },
     {
-      "id": "provenance_and_uncertainty",
-      "max_score": 5,
-      "description": "Links claims to managed artifacts and clearly separates calculations, experimental constraints, inference, failed branches, uncertainty, and unresolved limitations."
+      "id": "managed_execution_and_artifact_flow",
+      "max_score": 15,
+      "description": "Executes real managed scientific calculations and passes identities, structures, parameters, and artifacts correctly between stages."
+    },
+    {
+      "id": "validation_falsification_and_uncertainty",
+      "max_score": 20,
+      "description": "Tests convergence, numerical sensitivity, chemical validity, alternative explanations, evidence sufficiency, and uncertainty."
+    },
+    {
+      "id": "failure_diagnosis_and_adaptation",
+      "max_score": 10,
+      "description": "Diagnoses failed or inconclusive calls, avoids repeating preventable errors, and adapts without fabricating or laundering results."
+    },
+    {
+      "id": "resource_and_search_efficiency",
+      "max_score": 10,
+      "description": "Uses CPU, memory, parallelism, numerical resolution, search breadth, and stopping decisions efficiently without avoidable under-allocation or waste."
+    },
+    {
+      "id": "provenance_reporting_and_reproducibility",
+      "max_score": 10,
+      "description": "Links claims to managed artifacts and clearly reports assumptions, failed branches, deviations, units, uncertainty, and reproducible parameters."
     }
   ],
+  "scientific_conclusion_rubric": [
+    {
+      "id": "conformer_surface_variation",
+      "max_score": 40,
+      "statement": "New density-isosurface calculations show that distinct ISO-M6 conformers have materially different molecular surface areas.",
+      "acceptance_rule": "The conformer dispersion must exceed demonstrated numerical integration uncertainty and derive from valid per-conformer density artifacts.",
+      "required_evidence": [
+        "multiple independently generated conformers",
+        "per-conformer density and surface artifacts",
+        "grid or numerical sensitivity"
+      ]
+    },
+    {
+      "id": "thermal_ensemble_reduces_single_structure_bias",
+      "max_score": 40,
+      "statement": "A normalized thermally weighted conformer ensemble is more defensible than an arbitrary single-conformer surface and reduces selection bias.",
+      "acceptance_rule": "Require a converged or sensitivity-bounded conformer set and traceable weights. Electronic-energy-only weights receive partial rather than full credit unless quantitatively bounded.",
+      "required_evidence": [
+        "weighting energies or free energies",
+        "normalization",
+        "conformer-space and weighting sensitivity"
+      ]
+    },
+    {
+      "id": "blind_surface_prediction_scale",
+      "max_score": 20,
+      "statement": "The independently selected workflow predicts an ISO-M6 ensemble surface compatible with the hidden paper/TE neighborhood near 157 A^2.",
+      "acceptance_rule": "Full credit when the new estimate or uncertainty interval is within 5 percent of the paper/TE neighborhood; partial credit within 10 percent when the discrepancy is scientifically analyzed without post-hoc tuning.",
+      "required_evidence": [
+        "prediction fixed before hidden comparison",
+        "new ensemble surface",
+        "uncertainty and post-hoc reference comparison"
+      ]
+    }
+  ],
+  "dual_axis_scoring_policy": {
+    "formula": "scientific_conclusion_score * research_process_score / 100",
+    "scientific_conclusion_score_max": 100,
+    "research_process_score_max": 100,
+    "final_score_max": 100,
+    "unsupported_claim_policy": "A conclusion copied, guessed, or asserted without newly generated valid evidence receives no scientific-conclusion credit.",
+    "objective_failure_policy": "A demonstrated benchmark input, framework, backend, or infrastructure failure may make the run not_scorable_objective; agent-selected invalid inputs or resource limits do not.",
+    "invalid_submission_policy": "Fabricated evidence, hidden-answer leakage, or paper values presented as new calculations make the final score zero."
+  },
   "critical_failures": [
     "No real electronic-structure calculation was executed.",
     "No real electron-density isosurface calculation was executed.",
@@ -96,7 +150,7 @@
     "A single-conformer result was labeled an ensemble without computed weights.",
     "The withheld ISO-M6 experimental value was inferred or imported and used to tune the surface definition."
   ],
-  "judge_instructions": "This is a strict autonomous-discovery evaluation. The Agent receives no paper method or route and may use any scientifically valid workflow, but high task-completion credit requires recovering every finding in the hidden scientific acceptance contract from new managed evidence. Do not reward an opposite or indeterminate conclusion as successful discovery merely because the tool sequence is plausible. Apply every evidence gate and the reference-conclusion score cap.",
+  "judge_instructions": "Score every hidden paper claim independently from newly generated evidence, then score autonomous research-process quality separately. Do not require the paper route, and do not let a good process excuse a wrong conclusion. The scorer applies the multiplicative formula.",
   "reference_evidence": {
     "task_id": "Electron_Flexible_Ensemble_Surface",
     "paired_reproduction_task_id": "Electron_Flexible_Ensemble_Surface_Reproduction",
@@ -145,31 +199,7 @@
     "score_cap_without_managed_attempt": 20,
     "score_cap_without_successful_managed_call": 40
   },
-  "evidence_gate_policy": {
-    "judge_must_assess_all": true,
-    "gates": [
-      {
-        "id": "real_density_and_surface",
-        "description": "New density and isosurface artifacts support the numerical results.",
-        "score_cap_if_failed": 40
-      },
-      {
-        "id": "independent_conformer_sampling",
-        "description": "Multiple conformers were generated without author coordinates.",
-        "score_cap_if_failed": 55
-      },
-      {
-        "id": "surface_materiality_vs_numerics",
-        "description": "The claimed conformer effect is larger than and distinguished from cutoff/grid or integration uncertainty.",
-        "score_cap_if_failed": 65
-      },
-      {
-        "id": "ensemble_validity",
-        "description": "Weights, normalization, conformer truncation/convergence, and weighting sensitivity are computed and addressed; an electronic-energy proxy must be labeled and bounded rather than presented as exact thermal free energy.",
-        "score_cap_if_failed": 65
-      }
-    ]
-  },
+  "evidence_gate_policy": {},
   "current_toolbox_feasibility_baseline": {
     "status": "pre_release_pilot_ready",
     "classification": "solvable",
@@ -180,14 +210,5 @@
     ]
   },
   "evaluation_profile": "autonomous_discovery",
-  "reference_conclusion_gate_policy": {
-    "required": true,
-    "criterion_id": "hidden_scientific_conclusion_recovery",
-    "score_cap_if_not_matched": 40,
-    "score_cap_if_uncertain": 60,
-    "score_cap_if_omitted": 35,
-    "max_criterion_score_if_not_matched": 0,
-    "max_criterion_score_if_uncertain": 20,
-    "max_criterion_score_if_omitted": 0
-  }
+  "reference_conclusion_gate_policy": {}
 }

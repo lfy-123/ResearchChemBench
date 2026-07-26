@@ -31,12 +31,25 @@ def test_multisoftware_reproduction_tasks_are_complete_and_hashed():
         assert info["method_disclosure"] == "paper_reconstructed_protocol"
         assert info["required_deliverables"]
         assert truth["evaluation_profile"] == "paper_reproduction"
-        assert truth["evaluation_mode"] == "rubric_100"
+        dual_axis = task_id in TASK_IDS[:2]
+        assert truth["evaluation_mode"] == (
+            "dual_axis_100" if dual_axis else "rubric_100"
+        )
         assert truth["score_max"] == 100
         assert sum(item["max_score"] for item in truth["scoring_rubric"]) == 100
         rubric = {item["id"]: item for item in truth["scoring_rubric"]}
-        assert rubric["paper_conclusion_agreement"]["max_score"] == 55
-        assert truth["reference_conclusion_gate_policy"]["required"] is True
+        if dual_axis:
+            assert rubric["protocol_interpretation_and_execution_plan"]["max_score"] == 20
+            assert len(truth["scientific_conclusion_rubric"]) == 3
+            assert sum(
+                item["max_score"]
+                for item in truth["scientific_conclusion_rubric"]
+            ) == 100
+            assert truth["reference_conclusion_gate_policy"] == {}
+            assert truth["evidence_gate_policy"] == {}
+        else:
+            assert rubric["paper_conclusion_agreement"]["max_score"] == 55
+            assert truth["reference_conclusion_gate_policy"]["required"] is True
         assert truth["expected_structured_output"] == [
             item["path"] for item in info["required_deliverables"]
         ]
