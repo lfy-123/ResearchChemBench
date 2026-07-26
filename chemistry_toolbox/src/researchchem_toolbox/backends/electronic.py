@@ -2532,9 +2532,10 @@ def _render_orca(
         "calculate_bond_orders": "SP",
         "calculate_excited_states": "SP",
     }[action_id]
-    header = f"! {method['method']} {method['basis']} {keyword}"
-    if method.get("dispersion"):
-        header += f" {method['dispersion']}"
+    method_name, dispersion = _orca_method_and_dispersion_tokens(method)
+    header = f"! {method_name} {method['basis']} {keyword}"
+    if dispersion:
+        header += f" {dispersion}"
     solvation_lines: list[str] = []
     if method.get("solvation_model") is not None:
         model = str(method["solvation_model"]).strip().casefold()
@@ -2660,6 +2661,39 @@ def _orca_density_token(value: Any, *, field_name: str) -> str:
     return token
 
 
+def _orca_method_and_dispersion_tokens(method: dict[str, Any]) -> tuple[str, str | None]:
+    """Normalize literature-style method labels to valid ORCA tokens.
+
+    Scientific papers often join a functional and dispersion correction into
+    one hyphenated label, while ORCA's simple input requires two tokens.  This
+    compatibility layer accepts those conventional labels without overriding
+    a conflicting correction explicitly selected by the agent.
+    """
+
+    method_name = _orca_density_token(method["method"], field_name="method")
+    explicit_dispersion = (
+        _orca_density_token(method["dispersion"], field_name="dispersion")
+        if method.get("dispersion")
+        else None
+    )
+    aliases = {
+        "dsd-pbep86-d3bj": ("DSD-PBEP86", "D3BJ"),
+    }
+    normalized = aliases.get(method_name.casefold())
+    if normalized is None:
+        return method_name, explicit_dispersion
+    normalized_method, implied_dispersion = normalized
+    if (
+        explicit_dispersion is not None
+        and explicit_dispersion.casefold() != implied_dispersion.casefold()
+    ):
+        raise ValueError(
+            f"ORCA method alias {method_name} implies dispersion={implied_dispersion}, "
+            f"but dispersion={explicit_dispersion} was requested"
+        )
+    return normalized_method, explicit_dispersion or implied_dispersion
+
+
 def _orca_density_resource_allocation(
     resource_limits: dict[str, Any] | None,
 ) -> dict[str, Any]:
@@ -2688,7 +2722,7 @@ def _render_orca_density(
     structure = structure_dict(structure_value)
     symbols = [atom["element"] for atom in structure["atoms"]]
     coordinates = [atom["position_angstrom"] for atom in structure["atoms"]]
-    method_name = _orca_density_token(method["method"], field_name="method")
+    method_name, dispersion = _orca_method_and_dispersion_tokens(method)
     basis = _orca_density_token(method["basis"], field_name="basis")
     density_type = str(method["density_type"]).strip().casefold()
     normalized_method = method_name.casefold().replace("-", "")
@@ -2731,8 +2765,8 @@ def _render_orca_density(
         header.append(
             _orca_density_token(method["auxiliary_basis"], field_name="auxiliary_basis")
         )
-    if method.get("dispersion"):
-        header.append(_orca_density_token(method["dispersion"], field_name="dispersion"))
+    if dispersion:
+        header.append(dispersion)
     if method.get("frozen_core") is False:
         header.append("NoFrozenCore")
     elif method.get("frozen_core") is True:

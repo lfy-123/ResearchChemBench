@@ -216,6 +216,27 @@ def test_orca_density_renderer_requests_relaxed_double_hybrid_density():
     assert "STABPerform true" in rendered
 
 
+def test_orca_density_renderer_accepts_literature_style_dispersion_alias():
+    rendered = electronic._render_orca_density(
+        WATER,
+        {
+            "method": "DSD-PBEP86-D3BJ",
+            "basis": "def2-QZVPD",
+            "auxiliary_basis": "def2-TZVPD/C",
+            "density_type": "relaxed_mp2",
+        },
+        {
+            "scf_convergence": "VeryTightSCF",
+            "max_scf_cycles": 300,
+            "stability_analysis": False,
+        },
+        {"cpu_cores": 1, "memory_mb": 2000},
+    )
+
+    assert "! DSD-PBEP86 def2-QZVPD def2-TZVPD/C D3BJ" in rendered
+    assert "DSD-PBEP86-D3BJ" not in rendered
+
+
 def test_orca_density_renderer_defaults_to_2000_mb_maxcore_per_process():
     rendered = electronic._render_orca_density(
         WATER,
