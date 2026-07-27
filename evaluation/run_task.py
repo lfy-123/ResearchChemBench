@@ -49,6 +49,9 @@ from researchchem_toolbox.catalog import (
 )
 
 
+TERMINAL_EXECUTION_JOB_STATES = {"success", "failed", "timeout", "cancelled"}
+
+
 class TaskRunner:
     """Set up one benchmark workspace and run one configured agent."""
 
@@ -631,6 +634,186 @@ class TaskRunner:
         if self.process.poll() is None:
             self.process.kill() if force else self.process.terminate()
 
+    @staticmethod
+    def _write_execution_job_status(path: Path, value: dict[str, Any]) -> None:
+        """Atomically replace one detached execution-job status record."""
+
+        temporary = path.with_suffix(path.suffix + ".runner-cleanup.tmp")
+        temporary.write_text(
+            json.dumps(value, indent=2, ensure_ascii=False) + "\n",
+            encoding="utf-8",
+        )
+        os.replace(temporary, path)
+
+    def _cancel_workspace_execution_jobs(
+        self,
+        *,
+        reason: str,
+        grace_seconds: float = 7.0,
+    ) -> dict[str, Any]:
+        """Stop detached native/program jobs owned by this run workspace.
+
+        Native execution supervisors intentionally start in independent sessions
+        so a normal Agent/MCP restart does not destroy submitted scientific work.
+        A benchmark-level timeout is different: the run is terminal and no
+        detached work may continue consuming host resources.  Status files under
+        the immutable execution-job directory are the ownership boundary.
+        """
+
+        root = self.workspace / "outputs" / "execution_jobs"
+        summary: dict[str, Any] = {
+            "reason": reason,
+            "job_root": str(root),
+            "discovered_jobs": 0,
+            "active_jobs": 0,
+            "already_terminal_jobs": 0,
+            "termination_signals_sent": 0,
+            "forced_jobs": 0,
+            "cancelled_jobs": 0,
+            "errors": [],
+            "jobs": [],
+        }
+        if not root.is_dir():
+            return summary
+
+        pending: dict[Path, dict[str, Any]] = {}
+        for status_path in sorted(root.glob("job_*/status.json")):
+            summary["discovered_jobs"] += 1
+            try:
+                status = json.loads(status_path.read_text(encoding="utf-8"))
+            except Exception as exc:
+                summary["errors"].append(
+                    {
+                        "status_path": str(status_path),
+                        "error": f"{type(exc).__name__}: {exc}",
+                    }
+                )
+                continue
+            job_id = str(status.get("job_id") or status_path.parent.name)
+            state = str(status.get("status") or "unknown")
+            if state in TERMINAL_EXECUTION_JOB_STATES:
+                summary["already_terminal_jobs"] += 1
+                continue
+            summary["active_jobs"] += 1
+            pending[status_path] = status
+            supervisor_pid = status.get("supervisor_pid")
+            sent = False
+            if isinstance(supervisor_pid, int) and supervisor_pid > 0:
+                try:
+                    os.kill(supervisor_pid, signal.SIGTERM)
+                    sent = True
+                    summary["termination_signals_sent"] += 1
+                except ProcessLookupError:
+                    pass
+                except (PermissionError, OSError) as exc:
+                    summary["errors"].append(
+                        {
+                            "job_id": job_id,
+                            "stage": "supervisor_sigterm",
+                            "error": f"{type(exc).__name__}: {exc}",
+                        }
+                    )
+            summary["jobs"].append(
+                {
+                    "job_id": job_id,
+                    "initial_status": state,
+                    "supervisor_pid": supervisor_pid,
+                    "termination_signal_sent": sent,
+                }
+            )
+
+        deadline = time.monotonic() + max(0.0, float(grace_seconds))
+        while pending and time.monotonic() < deadline:
+            for status_path in list(pending):
+                try:
+                    status = json.loads(status_path.read_text(encoding="utf-8"))
+                except (OSError, json.JSONDecodeError):
+                    continue
+                if status.get("status") in TERMINAL_EXECUTION_JOB_STATES:
+                    pending.pop(status_path, None)
+                    summary["cancelled_jobs"] += int(status.get("status") == "cancelled")
+            if pending:
+                time.sleep(0.1)
+
+        # A supervisor normally terminates its child process group and records
+        # cancellation.  Force the group only when that cooperative path did not
+        # reach a terminal state within the bounded grace period.
+        for status_path, original_status in list(pending.items()):
+            try:
+                status = json.loads(status_path.read_text(encoding="utf-8"))
+            except Exception:
+                status = dict(original_status)
+            if status.get("status") in TERMINAL_EXECUTION_JOB_STATES:
+                summary["cancelled_jobs"] += int(status.get("status") == "cancelled")
+                continue
+            job_id = str(status.get("job_id") or status_path.parent.name)
+            child_pid = status.get("child_pid")
+            supervisor_pid = status.get("supervisor_pid")
+            forced = False
+            if isinstance(child_pid, int) and child_pid > 0:
+                try:
+                    if os.name == "posix":
+                        os.killpg(child_pid, signal.SIGKILL)
+                    else:
+                        os.kill(child_pid, signal.SIGKILL)
+                    forced = True
+                except ProcessLookupError:
+                    pass
+                except (PermissionError, OSError) as exc:
+                    summary["errors"].append(
+                        {
+                            "job_id": job_id,
+                            "stage": "child_sigkill",
+                            "error": f"{type(exc).__name__}: {exc}",
+                        }
+                    )
+            if isinstance(supervisor_pid, int) and supervisor_pid > 0:
+                try:
+                    os.kill(supervisor_pid, signal.SIGKILL)
+                    forced = True
+                except ProcessLookupError:
+                    pass
+                except (PermissionError, OSError) as exc:
+                    summary["errors"].append(
+                        {
+                            "job_id": job_id,
+                            "stage": "supervisor_sigkill",
+                            "error": f"{type(exc).__name__}: {exc}",
+                        }
+                    )
+            if forced:
+                summary["forced_jobs"] += 1
+            status.update(
+                {
+                    "status": "cancelled",
+                    "finished_at": datetime.now(timezone.utc).isoformat(),
+                    "return_code": status.get("return_code"),
+                    "error": {
+                        "code": "benchmark_run_terminated",
+                        "message": (
+                            "Detached execution job was stopped because its owning "
+                            f"benchmark run ended with {reason}."
+                        ),
+                    },
+                    "benchmark_cleanup": {
+                        "reason": reason,
+                        "forced": forced,
+                    },
+                }
+            )
+            try:
+                self._write_execution_job_status(status_path, status)
+                summary["cancelled_jobs"] += 1
+            except Exception as exc:
+                summary["errors"].append(
+                    {
+                        "job_id": job_id,
+                        "stage": "status_update",
+                        "error": f"{type(exc).__name__}: {exc}",
+                    }
+                )
+        return summary
+
     def _tail_tool_trace(
         self,
         reporter: LiveProgressReporter,
@@ -669,6 +852,7 @@ class TaskRunner:
         started = time.monotonic()
         termination = "process_exit"
         exit_code = -1
+        background_job_cleanup: dict[str, Any] | None = None
         reporter = LiveProgressReporter(
             self.workspace,
             self.run_id,
@@ -759,9 +943,20 @@ class TaskRunner:
                 exit_code = self.process.wait()
             if self._stop_requested:
                 termination = "stopped"
+            if termination in {"timeout", "stopped"}:
+                background_job_cleanup = self._cancel_workspace_execution_jobs(
+                    reason=termination
+                )
+                reporter.emit(
+                    "BACKGROUND_JOB_CLEANUP",
+                    **background_job_cleanup,
+                )
         except Exception as exc:
             termination = "runner_error"
             self._terminate_process_tree()
+            background_job_cleanup = self._cancel_workspace_execution_jobs(
+                reason=termination
+            )
             trace_stop.set()
             trace_thread.join(timeout=2)
             try:
@@ -773,6 +968,7 @@ class TaskRunner:
                 {
                     "error": f"{type(exc).__name__}: {exc}",
                     "model_io_trace": model_io,
+                    "background_job_cleanup": background_job_cleanup,
                 },
             )
             reporter.emit("RUN_ERROR", error=f"{type(exc).__name__}: {exc}")
@@ -805,6 +1001,8 @@ class TaskRunner:
             "model_io_trace": model_io,
             **process_metrics(events, workspace=self.workspace),
         }
+        if background_job_cleanup is not None:
+            metadata["background_job_cleanup"] = background_job_cleanup
         self._write_meta(status, metadata)
         reporter.emit(
             "RUN_END",

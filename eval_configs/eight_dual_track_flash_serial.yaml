@@ -1,0 +1,21 @@
+name: eight_dual_track_flash_serial
+agents:
+  - opencode
+tasks:
+  - PV_Protonation_Barrier_Trend
+  - PV_Protonation_Barrier_Trend_Reproduction
+  - BaO_Phase_Crossover_And_5d_Bonding
+  - BaO_Phase_Crossover_And_5d_Bonding_Reproduction
+  - PV_CC_CO_Pathway_Selectivity
+  - PV_CC_CO_Pathway_Selectivity_Reproduction
+  - NHC_Adsorption_Decomposition_Bonding
+  - NHC_Adsorption_Decomposition_Bonding_Reproduction
+repeats: 1
+max_concurrent_runs: 1
+timeout_seconds: 10800
+max_turns: 200
+live_progress: true
+progress_console: false
+progress_max_chars: 600
+judge:
+  enabled: true

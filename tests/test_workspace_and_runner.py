@@ -2,6 +2,7 @@ import hashlib
 import json
 import os
 import signal
+import sys
 from pathlib import Path
 from zipfile import ZipFile
 
@@ -177,3 +178,98 @@ def test_runner_terminates_the_dedicated_process_group(tmp_path: Path, monkeypat
     runner._terminate_process_tree(force=True)
 
     assert calls == [(12345, signal.SIGTERM), (12345, signal.SIGKILL)]
+
+
+@pytest.mark.skipif(os.name != "posix", reason="POSIX process-group behavior")
+def test_runner_cancels_detached_execution_jobs(tmp_path: Path, monkeypatch):
+    runner = TaskRunner("ChemGraph_001", agent_key="mock", workspace_root=tmp_path)
+    job_root = runner.workspace / "outputs" / "execution_jobs"
+    running = job_root / "job_running" / "status.json"
+    terminal = job_root / "job_finished" / "status.json"
+    running.parent.mkdir(parents=True)
+    terminal.parent.mkdir(parents=True)
+    running.write_text(
+        json.dumps(
+            {
+                "job_id": "job_running",
+                "status": "running",
+                "supervisor_pid": 12345,
+                "child_pid": 23456,
+            }
+        )
+        + "\n"
+    )
+    terminal.write_text(
+        json.dumps(
+            {
+                "job_id": "job_finished",
+                "status": "success",
+                "supervisor_pid": 34567,
+            }
+        )
+        + "\n"
+    )
+    signals = []
+    group_signals = []
+    monkeypatch.setattr(os, "kill", lambda pid, sig: signals.append((pid, sig)))
+    monkeypatch.setattr(
+        os, "killpg", lambda pgid, sig: group_signals.append((pgid, sig))
+    )
+
+    summary = runner._cancel_workspace_execution_jobs(
+        reason="timeout", grace_seconds=0
+    )
+
+    assert summary["discovered_jobs"] == 2
+    assert summary["active_jobs"] == 1
+    assert summary["already_terminal_jobs"] == 1
+    assert summary["termination_signals_sent"] == 1
+    assert summary["forced_jobs"] == 1
+    assert summary["cancelled_jobs"] == 1
+    assert signals == [
+        (12345, signal.SIGTERM),
+        (12345, signal.SIGKILL),
+    ]
+    assert group_signals == [(23456, signal.SIGKILL)]
+    updated = json.loads(running.read_text())
+    assert updated["status"] == "cancelled"
+    assert updated["error"]["code"] == "benchmark_run_terminated"
+    assert updated["benchmark_cleanup"] == {
+        "reason": "timeout",
+        "forced": True,
+    }
+    assert json.loads(terminal.read_text())["status"] == "success"
+
+
+def test_runner_timeout_records_background_job_cleanup(tmp_path: Path, monkeypatch):
+    runner = TaskRunner(
+        "ChemGraph_001",
+        agent_key="mock",
+        workspace_root=tmp_path,
+        timeout_seconds=0.01,
+    )
+    runner.setup_workspace()
+    monkeypatch.setattr(
+        runner,
+        "build_agent_argv",
+        lambda: [sys.executable, "-c", "import time; time.sleep(30)"],
+    )
+    cleanup_calls = []
+
+    def cleanup(*, reason: str, grace_seconds: float = 7.0):
+        cleanup_calls.append((reason, grace_seconds))
+        return {
+            "reason": reason,
+            "discovered_jobs": 1,
+            "active_jobs": 1,
+            "cancelled_jobs": 1,
+        }
+
+    monkeypatch.setattr(runner, "_cancel_workspace_execution_jobs", cleanup)
+
+    meta = runner.run()
+
+    assert meta["status"] == "failed"
+    assert meta["termination"] == "timeout"
+    assert cleanup_calls == [("timeout", 7.0)]
+    assert meta["background_job_cleanup"]["cancelled_jobs"] == 1
