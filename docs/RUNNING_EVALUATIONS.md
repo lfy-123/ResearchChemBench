@@ -23,7 +23,7 @@ Important parameters:
 | `--tasks-dir` | Use another task directory | `--tasks-dir /path/to/tasks` |
 | `--chemgraph-root` | Use another ChemGraph checkout | `--chemgraph-root /path/to/ChemGraph` |
 | `--chemgraph-python` | Python used to start Chemistry MCP | `--chemgraph-python .toolbox_env/bin/python` |
-| `--mcp-tools` | Tool selection: `chemgraph-core`, `all`, or comma-separated names | `--mcp-tools run_xtb,validate_computation` |
+| `--mcp-tools` | Compatibility option; the current benchmark accepts only `all` | `--mcp-tools all` |
 | `--mcp-profiles` | Dependency-isolated MCP server profiles | `--mcp-profiles core,services,quantum` |
 | `--opencode-model` | OpenCode provider/model | `--opencode-model deepseek/deepseek-v4-flash` |
 | `--opencode-base-url` | OpenAI-compatible endpoint | `--opencode-base-url https://api.deepseek.com/v1` |
@@ -57,18 +57,14 @@ bash scripts/run_agent_eval.sh opencode ChemGraph_010 --no-score
 
 For batch mode, values inside the YAML file such as `timeout_seconds` and `max_turns` take precedence over shell defaults.
 
-`run_agent_eval.sh` defaults to `--mcp-tools chemgraph-core`, which exposes the five tools required by the current 40 ChemGraph tasks. This avoids giving smaller models a large irrelevant schema. For a future task, pass only the required expanded tools, for example:
+The current benchmark always exposes the same complete task-independent catalog.
+`--mcp-tools` is retained for compatibility but accepts only `all`. Use
+`--tool-discovery-mode progressive` to load Action schemas on demand or `full`
+to expose the historical eager surface.
 
-```bash
-bash scripts/run_agent_eval.sh --agent opencode --task ChemGraph_001 \
-  --mcp-tools query_pubchem,molecule_name_to_smiles --no-score
-```
-
-Use `--mcp-tools all` to expose all 41 reviewed tools. Direct Python/Web UI runs can use the equivalent environment variable `RESEARCHCHEM_MCP_ENABLED_TOOLS` with a comma-separated list; an empty value uses all enabled tools from `tool_config.json`.
-
-For the installed multi-environment toolbox, prefer `--mcp-profiles`. It starts one
-namespaced MCP server per selected compatibility class and overrides the legacy single-server
-`--mcp-tools` selection:
+For the installed multi-environment toolbox, `--mcp-profiles` validates selected
+runtime compatibility classes. It does not filter the public Action catalog or
+perform backend selection:
 
 ```bash
 bash scripts/run_agent_eval.sh --agent opencode --task ChemGraph_003 \
@@ -80,6 +76,35 @@ bash scripts/run_agent_eval.sh --agent codex --task ChemGraph_010 \
 
 The script automatically loads root-level `config.local.env`, which is ignored by version
 control. Use `config.local.env.example` as the publishable template.
+
+## 1.1 Persistent multi-task submission
+
+Use `submit_evaluation.sh` when tasks should survive terminal disconnection and
+need compact status, follow, attach, stop, and summary commands:
+
+```bash
+bash scripts/submit_evaluation.sh submit \
+  --model deepseek-v4-flash \
+  --judge-model deepseek-v4-flash \
+  --timeout-seconds 10800 \
+  --max-turns 200 \
+  --max-concurrent-runs 1 \
+  --follow \
+  Task_A Task_B Task_C
+```
+
+The command prints the submission root and tmux session. Query it later with:
+
+```bash
+bash scripts/submit_evaluation.sh status --run-root workspaces/submissions/<UTC>
+bash scripts/submit_evaluation.sh follow --run-root workspaces/submissions/<UTC>
+bash scripts/submit_evaluation.sh summary --run-root workspaces/submissions/<UTC>
+bash scripts/submit_evaluation.sh attach --session rcb_<UTC>
+bash scripts/submit_evaluation.sh stop --session rcb_<UTC>
+```
+
+`stop` sends SIGINT to the evaluator so the active Agent and detached chemistry
+jobs are cleaned up and final metadata is written.
 
 ## 2. Local harness smoke test
 
@@ -212,6 +237,16 @@ Key files:
 | `report/report.md` | Required final Agent answer |
 | `_score.json` | ChemGraph-style judge result |
 | `_score_history.jsonl` | Append-only history of judge calls, scores, model, timestamp, and token usage |
+| `results.json` | Stable summary of status, models, scores, criterion scores, tools, failures, Agent/Judge tokens, and artifact paths |
+
+After a CLI batch finishes, the batch directory also contains `results.json`.
+Its `summary` aggregates completion counts, scores, duration, tool calls, failed
+tool calls, Agent tokens, Judge tokens, and combined tokens. Its `runs` array
+contains the complete per-task summaries.
+
+Agent token usage is reconstructed from `_opencode/opencode.db` and separated
+into uncached input, cache read, cache write, output, reasoning, and total.
+Judge prompt/completion/total tokens come from `_score.json`.
 
 See [`MODEL_IO_TRAJECTORY_FORMAT.md`](MODEL_IO_TRAJECTORY_FORMAT.md) for the
 trajectory schema, reconstruction procedure, redaction rules, and fidelity

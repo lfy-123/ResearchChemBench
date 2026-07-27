@@ -11,6 +11,7 @@ from typing import Any, Callable
 
 from .config import JUDGE_API_BASE, JUDGE_API_KEY, JUDGE_MODEL_NAME
 from .live_progress import append_progress_event
+from .results import write_workspace_results
 from .trace import (
     load_native_agent_trace,
     load_tool_trace,
@@ -1178,6 +1179,7 @@ def score_workspace(
     history_record = {**result, "history_source": "judge_call"}
     with history_path.open("a", encoding="utf-8") as handle:
         handle.write(json.dumps(history_record, ensure_ascii=False) + "\n")
+    write_workspace_results(workspace)
     append_progress_event(
         workspace,
         run_id,

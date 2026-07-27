@@ -28,6 +28,7 @@ from .config import (
     DEFAULT_MAX_TURNS,
     DEFAULT_PROGRESS_CONSOLE,
     DEFAULT_PROGRESS_MAX_CHARS,
+    JUDGE_MODEL_NAME,
     OPENCODE_BASE_URL,
     OPENCODE_MODEL,
     PROJECT_ROOT,
@@ -39,6 +40,7 @@ from .config import (
 from .instructions_tmpl import INSTRUCTIONS_TEMPLATE
 from .live_progress import LiveProgressReporter
 from .model_io import export_model_io_trace
+from .results import write_workspace_results
 from .trace import load_tool_trace, process_metrics
 from .utils import load_task_info
 from researchchem_toolbox.catalog import (
@@ -569,6 +571,12 @@ class TaskRunner:
             "workspace": str(self.workspace),
             "agent_key": self.agent_key,
             "agent_name": self.agent_name,
+            "configured_agent_model": (
+                OPENCODE_MODEL
+                if self.agent.get("kind") == "opencode"
+                else str(self.agent.get("model", ""))
+            ),
+            "configured_judge_model": JUDGE_MODEL_NAME,
             "tool_discovery_mode": self.tool_discovery_mode,
             "query": self.task_info.get("task", ""),
             "category": self.task_info.get("category", ""),
@@ -971,6 +979,7 @@ class TaskRunner:
                     "background_job_cleanup": background_job_cleanup,
                 },
             )
+            write_workspace_results(self.workspace)
             reporter.emit("RUN_ERROR", error=f"{type(exc).__name__}: {exc}")
             reporter.close()
             raise
@@ -1004,6 +1013,7 @@ class TaskRunner:
         if background_job_cleanup is not None:
             metadata["background_job_cleanup"] = background_job_cleanup
         self._write_meta(status, metadata)
+        write_workspace_results(self.workspace)
         reporter.emit(
             "RUN_END",
             status=status,

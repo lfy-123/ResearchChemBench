@@ -27,6 +27,7 @@ from .config import (
     WORKSPACES_DIR,
 )
 from .live_progress import progress_timestamp
+from .results import write_batch_results
 from .run_task import TaskRunner
 from .score import score_workspace
 from .utils import list_tasks
@@ -323,8 +324,10 @@ def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False
 
     rows.sort(key=lambda row: (row["task_id"], row["agent_key"], row["repeat"]))
     report = _write_batch_report(batch_dir, rows, config)
+    write_batch_results(batch_dir, config=config)
     _log(f"Batch directory: {batch_dir}")
     _log(f"Evaluation report: {report}")
+    _log(f"Results summary: {batch_dir / 'results.json'}")
     return 0 if all(row["status"] == "completed" for row in rows) else 1
 
 
