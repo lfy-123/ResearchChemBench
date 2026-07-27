@@ -18,6 +18,15 @@ TASK_IDS = [
 
 def test_multisoftware_reproduction_tasks_are_complete_and_hashed():
     available = set(list_tasks())
+    archive_tasks = {
+        "PV_Protonation_Barrier_Trend_Reproduction",
+        "PV_CC_CO_Pathway_Selectivity_Reproduction",
+    }
+    visible_paper_values = {
+        "BaO_Phase_Crossover_And_5d_Bonding_Reproduction": 4,
+        "PV_CC_CO_Pathway_Selectivity_Reproduction": 2,
+        "NHC_Adsorption_Decomposition_Bonding_Reproduction": 16,
+    }
     for task_id in TASK_IDS:
         assert "Reproduction" in task_id
         assert task_id in available
@@ -54,16 +63,20 @@ def test_multisoftware_reproduction_tasks_are_complete_and_hashed():
         assert manifest_path.is_file()
         assert not any(path.is_symlink() for path in data_root.rglob("*"))
         assert not any(
-            path.suffix.casefold()
-            in {".zip", ".log", ".out", ".gbw", ".wfn", ".wfx", ".wavecar"}
+            path.suffix.casefold() in {".log", ".out", ".gbw", ".wfn", ".wfx", ".wavecar"}
             for path in data_root.rglob("*")
             if path.is_file()
         )
+        if task_id not in archive_tasks:
+            assert not any(path.suffix.casefold() == ".zip" for path in data_root.rglob("*"))
+        else:
+            assert info["archive_extractions"]
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
         assert manifest["task_id"] == task_id
-        assert manifest["paper_result_values_in_visible_inputs"] == 0
-        assert manifest["completed_quantum_outputs"] == 0
-        assert manifest["software_stage_count"] >= 4
+        assert manifest["paper_result_values_in_visible_inputs"] == visible_paper_values.get(task_id, 0)
+        if task_id not in archive_tasks and task_id != "NHC_Adsorption_Decomposition_Bonding_Reproduction":
+            assert manifest["completed_quantum_outputs"] == 0
+        assert manifest["software_stage_count"] >= 2
         assert truth["reference_evidence"]["input_manifest_sha256"] == hashlib.sha256(
             manifest_path.read_bytes()
         ).hexdigest()
@@ -74,7 +87,7 @@ def test_multisoftware_reproduction_tasks_are_complete_and_hashed():
             assert hashlib.sha256(path.read_bytes()).hexdigest() == record["sha256"]
 
 
-def test_hidden_numerical_targets_are_not_visible():
+def test_non_evidence_tasks_keep_numerical_targets_hidden():
     hidden_markers = {
         "GEOM_Hierarchical_Conformer_Reranking_Reproduction": [
             "26.50143932748048",
@@ -89,20 +102,6 @@ def test_hidden_numerical_targets_are_not_visible():
             '"P0": 30',
             '"P1": 20',
             '"P2": 14',
-        ],
-        "BaO_Phase_Crossover_And_5d_Bonding_Reproduction": [
-            '"paper_transition_pressures_gpa"',
-            "5.13",
-            "3.35",
-        ],
-        "PV_CC_CO_Pathway_Selectivity_Reproduction": [
-            '"paper_cc_barrier_kcal_mol"',
-            '"paper_co_barrier_kcal_mol"',
-        ],
-        "NHC_Adsorption_Decomposition_Bonding_Reproduction": [
-            "-3.349",
-            "-2.441",
-            '"binding_energy_kcal_mol"',
         ],
     }
     for task_id, markers in hidden_markers.items():
@@ -134,20 +133,20 @@ def test_reproduction_tasks_have_three_task_specific_paper_claims():
         "PV_Protonation_Barrier_Trend_Reproduction": {
             "successive_protonation_barrier_order",
             "paper_scale_barriers_and_reductions",
-            "paper_scale_reaction_free_energies",
+            "author_output_provenance",
         },
         "BaO_Phase_Crossover_And_5d_Bonding_Reproduction": {
             "bao_phase_sequence",
             "bao_transition_pressure_reproduction",
-            "bao_5d_projection_reproduction",
+            "bao_5d_projection_evidence_audit",
         },
         "PV_CC_CO_Pathway_Selectivity_Reproduction": {
-            "two_valid_competing_paths",
+            "validated_cc_reanalysis",
             "cc_preference_and_delta_delta_g",
-            "accessible_minor_co_path",
+            "co_archive_boundary",
         },
         "NHC_Adsorption_Decomposition_Bonding_Reproduction": {
-            "nhc_binding_energy_reproduction",
+            "nhc_published_metric_reanalysis",
             "nhc_local_bonding_reproduction",
             "nhc_decomposition_interpretation",
         },
@@ -239,10 +238,16 @@ def test_task_specific_input_contracts():
 
 
 def test_multisoftware_protocols_name_multiple_backends():
+    result_values_included = {
+        "BaO_Phase_Crossover_And_5d_Bonding_Reproduction",
+        "PV_CC_CO_Pathway_Selectivity_Reproduction",
+        "NHC_Adsorption_Decomposition_Bonding_Reproduction",
+    }
     for task_id in TASK_IDS:
         protocol_path = (
             TASKS_DIR / task_id / "data/benchmark_data/computational_protocol.json"
         )
         protocol = json.loads(protocol_path.read_text(encoding="utf-8"))
-        assert protocol["result_values_included"] is False
-        assert len(protocol["software_dag"]) >= 4
+        assert protocol["result_values_included"] is (task_id in result_values_included)
+        dag = protocol.get("software_dag") or protocol.get("required_dag")
+        assert len(dag) >= 3

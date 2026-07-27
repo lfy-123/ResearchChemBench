@@ -2,12 +2,27 @@
   "task_id": "PV_Protonation_Barrier_Trend_Reproduction",
   "task_mode": "guided_reproduction",
   "paper_result_values_in_visible_inputs": 0,
-  "completed_quantum_outputs": 0,
+  "completed_quantum_outputs": "contained_in_author_archives",
   "files": [
     {
       "path": "README.md",
-      "size_bytes": 490,
-      "sha256": "770ec67e770a3251c074f71dde60a3cd3f0a83d42c39784eee6be5505a10c850"
+      "size_bytes": 456,
+      "sha256": "368fd889cd84d33e33ef31a698f4f0fd6f2de3f9313dac151fd3a4a120239191"
+    },
+    {
+      "path": "author_outputs/Int-I_2H_2plus.zip",
+      "size_bytes": 24503412,
+      "sha256": "ab75a34d728aa095ea0e02b595be2d17fe780080a7920ac086f285bf51a765bd"
+    },
+    {
+      "path": "author_outputs/Int-I_H_plus.zip",
+      "size_bytes": 22575886,
+      "sha256": "a4eb10d5864b8835c9a8ea3462d79429add0873ca0dccea2d6a236c04a696ce6"
+    },
+    {
+      "path": "author_outputs/Int-I_unprotonated.zip",
+      "size_bytes": 24258617,
+      "sha256": "b0fead3eb766cd93abce61dc616abc86c0ce21e04aabeb7cd48c66de6f0eb956"
     },
     {
       "path": "candidate_manifest.json",
@@ -346,13 +361,13 @@
     },
     {
       "path": "computational_protocol.json",
-      "size_bytes": 915,
-      "sha256": "8b94e16ac0373f074b6006534975e73287a007fd9e8df7a32ea78192ccedab83"
+      "size_bytes": 1756,
+      "sha256": "6405d91deb58ae622ac80a2ec068e05d0bab2b163f7323e63112a2ca7f40bd41"
     },
     {
       "path": "workflow_requirements.json",
-      "size_bytes": 789,
-      "sha256": "3cdbdfd142ad4efbde42676b801647d28355ba725c24e9db85a2b1683266a802"
+      "size_bytes": 1285,
+      "sha256": "49312b09465c080829f840138bdb565a38b825ddee4521331c09fc17ca974b44"
     }
   ],
   "candidate_count": 66,
@@ -361,5 +376,28 @@
     "P1",
     "P2"
   ],
-  "software_stage_count": 5
+  "software_stage_count": 2,
+  "author_output_archives": [
+    {
+      "state": "P0",
+      "path": "author_outputs/Int-I_unprotonated.zip",
+      "size_bytes": 24258617,
+      "sha256": "b0fead3eb766cd93abce61dc616abc86c0ce21e04aabeb7cd48c66de6f0eb956",
+      "source_doi": "10.5281/zenodo.1439888"
+    },
+    {
+      "state": "P1",
+      "path": "author_outputs/Int-I_H_plus.zip",
+      "size_bytes": 22575886,
+      "sha256": "a4eb10d5864b8835c9a8ea3462d79429add0873ca0dccea2d6a236c04a696ce6",
+      "source_doi": "10.5281/zenodo.1439888"
+    },
+    {
+      "state": "P2",
+      "path": "author_outputs/Int-I_2H_2plus.zip",
+      "size_bytes": 24503412,
+      "sha256": "ab75a34d728aa095ea0e02b595be2d17fe780080a7920ac086f285bf51a765bd",
+      "source_doi": "10.5281/zenodo.1439888"
+    }
+  ]
 }

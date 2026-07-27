@@ -2,14 +2,14 @@
   "task_id": "PV_Protonation_Barrier_Trend_Reproduction",
   "source_id": "heterobiaryl_pv_2019_protonation_barriers",
   "category": "reaction_mechanism_and_thermochemistry",
-  "task": "From the supplied P0/P1/P2 candidate structures, orchestrate candidate screening, Gaussian stationary-point validation, ORCA high-level single points, and GoodVibes thermochemistry to reconstruct comparable ligand-coupling free-energy profiles and reproduce the conclusion that successive protonation lowers the coupling barrier.",
+  "task": "Independently validate and reanalyze the supplied author Gaussian and ORCA raw outputs for P0, P1, and P2 with GoodVibes, reproducing the successive-protonation barrier trend under one 353.15 K, 1 M ethanol convention.",
   "scientific_mode": "guided_reproduction",
   "scientific_mode_description": "A scoped part of a published research workflow is supplied. The agent must orchestrate multiple chemistry programs, validate intermediate artifacts, and recover the paper conclusion from newly generated evidence.",
   "scientific_requirements": [
-    "Use candidates from all three protonation states and justify a consistent pathway alignment.",
-    "Generate new frequency or Hessian evidence for every barrier-defining stationary point.",
-    "Use ORCA high-level single points and GoodVibes rather than manually adding paper values.",
-    "Report whether the trend survives reasonable low-frequency and candidate-selection sensitivity tests.",
+    "Verify all three archive hashes and output identities.",
+    "Validate barrier-defining frequencies and matched DLPNO corrections.",
+    "Use a common initial-state reference within each protonation state.",
+    "Report newly generated GoodVibes values separately from publication targets.",
     "When server resources allow, parallelize independent calculations and use substantial CPU and memory resources without oversubscribing the host."
   ],
   "required_deliverables": [
@@ -52,10 +52,29 @@
       "name": "Guided multi-software reproduction inputs",
       "path": "data/benchmark_data",
       "type": "directory",
-      "description": "Visible structures, protocol, workflow gates, and manifests. No paper result values or completed quantum-chemistry outputs are included."
+      "description": "Mapped candidates plus author-deposited Gaussian frequency and ORCA DLPNO raw-output archives from Zenodo 1439888."
     }
   ],
-  "archive_extractions": [],
+  "archive_extractions": [
+    {
+      "source": "benchmark_data/author_outputs/Int-I_unprotonated.zip",
+      "format": "zip",
+      "destination": "benchmark_data/extracted_author_outputs/P0",
+      "sha256": "b0fead3eb766cd93abce61dc616abc86c0ce21e04aabeb7cd48c66de6f0eb956"
+    },
+    {
+      "source": "benchmark_data/author_outputs/Int-I_H_plus.zip",
+      "format": "zip",
+      "destination": "benchmark_data/extracted_author_outputs/P1",
+      "sha256": "a4eb10d5864b8835c9a8ea3462d79429add0873ca0dccea2d6a236c04a696ce6"
+    },
+    {
+      "source": "benchmark_data/author_outputs/Int-I_2H_2plus.zip",
+      "format": "zip",
+      "destination": "benchmark_data/extracted_author_outputs/P2",
+      "sha256": "ab75a34d728aa095ea0e02b595be2d17fe780080a7920ac086f285bf51a765bd"
+    }
+  ],
   "benchmark_family": "heterobiaryl_pv",
   "task_mode": "guided_reproduction",
   "method_disclosure": "paper_reconstructed_protocol",

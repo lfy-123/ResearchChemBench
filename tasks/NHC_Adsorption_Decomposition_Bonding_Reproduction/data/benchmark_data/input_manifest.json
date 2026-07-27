@@ -1,13 +1,13 @@
 {
   "task_id": "NHC_Adsorption_Decomposition_Bonding_Reproduction",
   "task_mode": "guided_reproduction",
-  "paper_result_values_in_visible_inputs": 0,
-  "completed_quantum_outputs": 0,
+  "paper_result_values_in_visible_inputs": 16,
+  "completed_quantum_outputs": "published_SI_structures_and_metrics",
   "files": [
     {
       "path": "README.md",
-      "size_bytes": 515,
-      "sha256": "d64ae149fed72244283727a3558345a81c4ca4c9486f12006a93799213ee5e51"
+      "size_bytes": 512,
+      "sha256": "d02adbf73d37e26158f77e6a8aea31f862286ffc7bf1e12a96ce931ac863b63f"
     },
     {
       "path": "adsorbed_structures/NHC1_published_adsorbed_start.vasp",
@@ -31,8 +31,8 @@
     },
     {
       "path": "computational_protocol.json",
-      "size_bytes": 1082,
-      "sha256": "f4e13ed3431afd22583a201037874344b770b83d607bd89357d7840981156413"
+      "size_bytes": 858,
+      "sha256": "d7a6492d59bb9effbe4c4a205ed6dd3119ce8ac83d3537ddaaf7b2c349027bce"
     },
     {
       "path": "isolated_nhc_seeds/NHC1_detached_seed.xyz",
@@ -45,14 +45,19 @@
       "sha256": "2a69ea01f6eba0437428ee6102c97e4f48e9d435d754d9f4b6ff65b0cf810a3c"
     },
     {
+      "path": "paper_reference_metrics.json",
+      "size_bytes": 1062,
+      "sha256": "ef2bd63a707a5fe7cabd03ccde1c439cd9d6a18abd29b64313f25a5f3f4323c5"
+    },
+    {
       "path": "system_manifest.json",
       "size_bytes": 1325,
       "sha256": "2010144179ef19fe4241aa0aa8eb4d5191922179a59605f691c2b2bfeb11ff8e"
     },
     {
       "path": "workflow_requirements.json",
-      "size_bytes": 883,
-      "sha256": "28b1978c022b3015f7d38fd3c9a13d87ca54ae2e076a6ea69823f77fc27c043b"
+      "size_bytes": 741,
+      "sha256": "501c48e0d5cebf29b3d603e17d877ba501b4f21e310f199562d9c03afc2d711d"
     }
   ],
   "system_ids": [
@@ -62,5 +67,8 @@
   "adsorbed_structure_count": 2,
   "clean_slab_count": 2,
   "isolated_seed_count": 2,
-  "software_stage_count": 4
+  "software_stage_count": 3,
+  "publication_evidence_files": [
+    "paper_reference_metrics.json"
+  ]
 }

@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "protocol_type": "paper_reconstructed_guided_reproduction",
+  "protocol_type": "author_raw_output_reanalysis",
   "result_values_included": false,
-  "author_coordinates_included": false,
-  "stationary_points_included": false,
+  "author_coordinates_included": true,
+  "stationary_points_included": true,
   "geometry_and_frequency": {
     "reference_software": "Gaussian",
     "reference_method": "wB97XD",
@@ -23,7 +23,8 @@
     "reference_route_notes": {
       "minima": "opt=(maxcycles=200) scrf=(solvent=ethanol,smd) freq=noraman",
       "transition_states": "opt=(calcfc,ts,noeigentest,maxcycle=600) scrf=(solvent=ethanol,smd) freq=noraman"
-    }
+    },
+    "required_operation": "parse and independently validate the supplied completed outputs; rerunning the expensive optimizations is optional"
   },
   "large_basis_dft_check": {
     "reference_software": "Gaussian",
@@ -64,7 +65,8 @@
       "record frequency and zero-point scale factors; the accessible paper text and public example do not uniquely recover a paper-era scale factor, so do not invent one",
       "combine thermal corrections with explicitly matched high-level single-point outputs",
       "keep paper-published values separate from values recomputed with the deployed versions"
-    ]
+    ],
+    "toolbox_media_solvent": "ethanol"
   },
   "mechanism_analysis": {
     "nbo_required": false,
@@ -81,5 +83,15 @@
     "current_toolbox_values": "primary reproducible calculation output",
     "exact_numeric_identity_required": false,
     "required": "stationarity, connectivity, consistent conditions, pathway ordering, provenance, and an explanation of version-dependent deviations"
+  },
+  "author_quantum_outputs_included": true,
+  "data_source": {
+    "doi": "10.5281/zenodo.1439888",
+    "states": [
+      "P0",
+      "P1",
+      "P2"
+    ],
+    "contents": "Gaussian wB97XD frequency outputs and ORCA DLPNO-CCSD(T) single-point outputs"
   }
 }

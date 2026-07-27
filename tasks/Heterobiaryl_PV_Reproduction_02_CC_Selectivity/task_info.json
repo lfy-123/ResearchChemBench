@@ -2,13 +2,13 @@
   "task_id": "Heterobiaryl_PV_Reproduction_02_CC_Selectivity",
   "source_id": "heterobiaryl_pv_2018_guided_reproduction",
   "category": "mechanistic_quantum_chemistry",
-  "task": "Using the supplied protocol and mapped pyridyl-pyridyl and phenyl-pyridyl pathway definitions, reproduce the paper's carbon-carbon chemoselectivity analysis across P0, P1, and P2. Validate all stationary points and connectivity, use common numerical conditions for competing paths, test the supplied donor-direction control candidate, and determine whether the recomputed selectivity is kinetic or product-thermodynamic without reading any hidden reference result.",
+  "task": "Using the supplied author-deposited Gaussian and ORCA raw outputs, independently reconstruct the pyridyl-pyridyl and phenyl-pyridyl carbon-carbon free-energy profiles for P0, P1, and P2. Use a common initial-state reference for each protonation state, distinguish kinetic barriers from product thermodynamics, and report both the reanalysis and its provenance.",
   "scientific_mode": "guided_reproduction",
-  "scientific_mode_description": "The paper-reconstructed method hierarchy and candidate reaction routes are supplied. The Agent must execute, debug, validate, and report the reproduction without reading hidden results or author stationary points.",
+  "scientific_mode_description": "Author-deposited raw quantum-chemistry outputs and a paper-reconstructed analysis protocol are supplied. The Agent must independently validate and reanalyze them, create new managed analysis artifacts, and keep publication-only evidence separate.",
   "scientific_requirements": [
     "Use the supplied mapped Py-Py and Ph-Py definitions and common conditions across every comparison.",
-    "Validate both reactant and transition-state references; a scan maximum alone is not a barrier.",
-    "Test the supplied donor-direction control and explain rejected or higher-cost pathway hypotheses."
+    "Validate reactant, transition-state, and product output identities before constructing each profile.",
+    "Use a shared Int-I reference within each protonation state and explain the difference between common-reference and path-local zeroing."
   ],
   "required_deliverables": [
     {
@@ -34,12 +34,31 @@
       "name": "Guided Heterobiaryl P(V) reproduction inputs",
       "path": "data/benchmark_data",
       "type": "directory",
-      "description": "Decontaminated raw structures and measurements copied from the open-discovery task, plus a paper-reconstructed method protocol, mapped candidate pathways, and workflow requirements. No author stationary point, calculation output, published numerical result, or reference answer is visible."
+      "description": "Paper-reconstructed protocol and mapped pathways plus author-deposited Gaussian frequency and ORCA DLPNO raw outputs for independent validation and thermochemical reanalysis."
     }
   ],
-  "archive_extractions": [],
+  "archive_extractions": [
+    {
+      "source": "benchmark_data/author_outputs/Int-I_unprotonated.zip",
+      "format": "zip",
+      "destination": "benchmark_data/extracted_author_outputs/P0",
+      "sha256": "b0fead3eb766cd93abce61dc616abc86c0ce21e04aabeb7cd48c66de6f0eb956"
+    },
+    {
+      "source": "benchmark_data/author_outputs/Int-I_H_plus.zip",
+      "format": "zip",
+      "destination": "benchmark_data/extracted_author_outputs/P1",
+      "sha256": "a4eb10d5864b8835c9a8ea3462d79429add0873ca0dccea2d6a236c04a696ce6"
+    },
+    {
+      "source": "benchmark_data/author_outputs/Int-I_2H_2plus.zip",
+      "format": "zip",
+      "destination": "benchmark_data/extracted_author_outputs/P2",
+      "sha256": "ab75a34d728aa095ea0e02b595be2d17fe780080a7920ac086f285bf51a765bd"
+    }
+  ],
   "benchmark_family": "heterobiaryl_pv",
   "task_mode": "guided_reproduction",
   "method_disclosure": "paper_reconstructed_protocol",
-  "pathway_disclosure": "mapped_candidate_routes"
+  "pathway_disclosure": "author_output_reanalysis"
 }

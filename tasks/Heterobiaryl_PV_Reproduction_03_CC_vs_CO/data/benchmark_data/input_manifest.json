@@ -12,7 +12,7 @@
     "E11",
     "E12"
   ],
-  "completed_computational_outputs": 0,
+  "completed_computational_outputs": "contained_in_author_archives",
   "optimized_stationary_points": 0,
   "transition_states": 0,
   "reaction_path_outputs": 0,
@@ -55,13 +55,18 @@
   "files": [
     {
       "path": "README.md",
-      "size_bytes": 1433,
-      "sha256": "599a856d1603fb02be0b239e9ee956eb2cd9fe3289fed9b3accc9a52d52bcbb2"
+      "size_bytes": 1324,
+      "sha256": "1933fa1c4055f38f1ef364f76a5405d6ab442d73393134b30abd93a492f830aa"
+    },
+    {
+      "path": "author_outputs/Int-I_2H_2plus.zip",
+      "size_bytes": 24503412,
+      "sha256": "ab75a34d728aa095ea0e02b595be2d17fe780080a7920ac086f285bf51a765bd"
     },
     {
       "path": "computational_protocol.json",
-      "size_bytes": 3820,
-      "sha256": "2d7936716d0401e66da34063ee847c750f2bc1fbc901dc6777623699a9dfb33b"
+      "size_bytes": 4225,
+      "sha256": "636f337e4fe18eec34f932a57c1e55035b94f6821451ffed918cfa1834c45a85"
     },
     {
       "path": "conditions.json",
@@ -94,14 +99,19 @@
       "sha256": "138e648cb387ea0586eb3bba59efc21be64f6fd5b10753244f19a58310c19ab9"
     },
     {
+      "path": "publication_evidence.json",
+      "size_bytes": 580,
+      "sha256": "e30fea2ec15a869a480c557962b444fe47aa480de140b82fdfec9de9ca7649c0"
+    },
+    {
       "path": "reaction_definitions.json",
-      "size_bytes": 2052,
-      "sha256": "f89a101f0da5fde12a6470bf91675f8b920ca2209b08a787075831c118de8fd9"
+      "size_bytes": 2050,
+      "sha256": "2bf3740ad6d5c5eaeff2c2a14551f30ac37172260ad7e41ed8ec9773bc17c00a"
     },
     {
       "path": "workflow_requirements.json",
-      "size_bytes": 1124,
-      "sha256": "77bec8f26247a5cf8d5e3aff93373a1ab031fd43af8eaf1f7de168769db81cae"
+      "size_bytes": 1206,
+      "sha256": "32826996b78c590f6ca574af84388151252a23e2a5d23a7a710c1a7a071b5fc6"
     }
   ],
   "task_mode": "guided_reproduction",
@@ -114,6 +124,14 @@
   "workflow_requirement_files": [
     "workflow_requirements.json"
   ],
-  "published_numerical_results": 0,
-  "author_coordinates": 0
+  "published_numerical_results": 2,
+  "author_coordinates": 1,
+  "author_output_archives": [
+    {
+      "state": "P2",
+      "path": "author_outputs/Int-I_2H_2plus.zip",
+      "sha256": "ab75a34d728aa095ea0e02b595be2d17fe780080a7920ac086f285bf51a765bd",
+      "source_doi": "10.5281/zenodo.1439888"
+    }
+  ]
 }

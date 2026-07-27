@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 """Build the guided-reproduction Heterobiaryl P(V) task track.
 
-The existing six tasks remain open-discovery benchmarks.  This builder copies
-their decontaminated raw inputs and adds paper-reconstructed protocols and
-atom-mapped pathway definitions to a second, guided-reproduction track.  It
-never copies author optimized coordinates, transition states, energies, IRCs,
-or published numerical answers into agent-visible data.
+The existing six tasks remain open-discovery benchmarks. Selected guided tasks
+also expose the author's public Zenodo quantum-output archives so the benchmark
+tests reproducible validation and thermochemical reanalysis instead of an
+unbounded rediscovery of every stationary point.
 """
 
 from __future__ import annotations
@@ -41,6 +40,24 @@ REPRODUCTION_TASKS = [
 ]
 
 TASK_KEYS = ["Q1", "Q2", "Q3", "Q4", "Q5", "Q6"]
+
+AUTHOR_OUTPUT_ROOT = (
+    TASKS_ROOT
+    / "_heterobiaryl_pv_shared"
+    / "reference"
+    / "author_computational_outputs"
+)
+AUTHOR_OUTPUT_ARCHIVES = {
+    "P0": "Int-I_unprotonated.zip",
+    "P1": "Int-I_H_plus.zip",
+    "P2": "Int-I_2H_2plus.zip",
+}
+TASK_AUTHOR_OUTPUT_STATES = {
+    "Q1": ("P0", "P1", "P2"),
+    "Q2": ("P0", "P1", "P2"),
+    "Q3": ("P2",),
+    "Q5": ("P2",),
+}
 
 ATOM_LABELS = {
     "indexing": "zero_based",
@@ -232,11 +249,11 @@ PATH_IDS = {
 
 
 REPRODUCTION_PROMPTS = {
-    "Q1": "Using the supplied paper-reconstructed computational protocol and mapped pyridyl-pyridyl pathway definitions, reproduce the protonation-state activation-free-energy comparison for P0, P1, and P2. Independently generate every geometry, stationary point, frequency, IRC, electronic energy, and thermochemical result in this run. Follow the supplied method hierarchy where the deployed software supports it, document any necessary version-compatible substitution, and keep paper-published targets separate from newly recomputed values.",
-    "Q2": "Using the supplied protocol and mapped pyridyl-pyridyl and phenyl-pyridyl pathway definitions, reproduce the paper's carbon-carbon chemoselectivity analysis across P0, P1, and P2. Validate all stationary points and connectivity, use common numerical conditions for competing paths, test the supplied donor-direction control candidate, and determine whether the recomputed selectivity is kinetic or product-thermodynamic without reading any hidden reference result.",
-    "Q3": "Using the supplied protocol and mapped P2 pyridyl-pyridyl and alkoxy-pyridyl pathways, reproduce the comparison between carbon-carbon and carbon-oxygen coupling. The alkoxy pathway forms O-C while breaking P-O; do not substitute a different bond-edit hypothesis. Generate and validate both pathways under common conditions, retain failed searches, and compare newly computed barriers or defensible bounds without using a published value as calculation evidence.",
+    "Q1": "Using the supplied author-deposited Gaussian frequency outputs and ORCA DLPNO-CCSD(T) single-point outputs, independently reanalyze the pyridyl-pyridyl activation free energies for P0, P1, and P2. Validate file matching and stationary-point character, apply one 353.15 K and 1 M ethanol GoodVibes convention, and reproduce the protonation trend without presenting publication values as calculations from this run.",
+    "Q2": "Using the supplied author-deposited Gaussian and ORCA raw outputs, independently reconstruct the pyridyl-pyridyl and phenyl-pyridyl carbon-carbon free-energy profiles for P0, P1, and P2. Use a common initial-state reference for each protonation state, distinguish kinetic barriers from product thermodynamics, and report both the reanalysis and its provenance.",
+    "Q3": "Reproduce the evidence-supported P2 carbon-carbon versus carbon-oxygen comparison. Recompute and validate the pyridyl-pyridyl C-C barrier from the supplied author raw outputs, audit the archive for a C-O transition state, and compare the recomputed C-C result with the explicitly supplied publication-reported C-O benchmark. The C-O value must remain labeled literature evidence because the public author archive does not contain its frequency, IRC, or DLPNO files.",
     "Q4": "Reproduce the paper's reaction-coordinate analysis using the supplied P2 stepwise pathway and concerted control definition. Locate and validate the key transition region, run bidirectional connectivity tests, search for a post-coupling dearomatized minimum, and quantify axial P-C cleavage, C-C formation, retained equatorial bonds, and oxygen involvement. NBO is not required: use the supplied equivalent geometry, bond-order, charge, and optional density criteria, and do not report them as exact NBO occupations.",
-    "Q5": "Reproduce the paper's experimental-computational rate-determining-step argument using the supplied protocol, P2 ligand-coupling route, and public relative-rate, NMR, product, and ethoxide observations. Recompute the downstream ligand-coupling evidence, then separately assign the rate-determining, selectivity-determining, and strongly irreversible stages. The public source package has no time-resolved kinetic traces or raw NMR FIDs; do not invent uncertainties or claim that non-detection proves absence. An alcohol-addition transition-state calculation is an optional extension, not a required reconstruction of the published analysis.",
+    "Q5": "Reproduce the paper's experimental-computational rate-determining-step argument using the supplied P2 author raw outputs and public relative-rate, NMR, product, and ethoxide observations. Reconstruct the full Int-I to TS-I to Int-II to TS-II to Int-III ligand-coupling profile, then separately assign the rate-determining, selectivity-determining, and strongly irreversible stages. Do not claim that the downstream profile alone calculates the alcohol-addition barrier.",
     "Q6": "Perform a guided end-to-end reproduction using the supplied paper-reconstructed protocol, mapped pathway set, experimental observations, and evidence gates. Recompute protonation effects, pyridyl-pyridyl versus phenyl-pyridyl selectivity, carbon-carbon versus carbon-oxygen competition, the key reaction-coordinate mechanism, and the experimental-computational kinetic-role assignment. Generate all numerical and structural evidence in this run, preserve failures, and report paper-published targets separately from current-toolbox values.",
 }
 
@@ -244,18 +261,18 @@ REPRODUCTION_PROMPTS = {
 REPRODUCTION_REQUIREMENTS = {
     "Q1": [
         "Apply the supplied geometry/frequency, high-level single-point, and thermochemistry hierarchy consistently to P0, P1, and P2.",
-        "Validate every reported transition state by a target imaginary mode and forward/reverse connectivity.",
-        "Report current-toolbox activation free energies and their protonation trend separately from hidden paper-published comparison values.",
+        "Validate every barrier-defining supplied transition state by its frequency output and forming/breaking-bond geometry.",
+        "Report newly generated GoodVibes activation free energies and their protonation trend separately from publication comparison values.",
     ],
     "Q2": [
         "Use the supplied mapped Py-Py and Ph-Py definitions and common conditions across every comparison.",
-        "Validate both reactant and transition-state references; a scan maximum alone is not a barrier.",
-        "Test the supplied donor-direction control and explain rejected or higher-cost pathway hypotheses.",
+        "Validate reactant, transition-state, and product output identities before constructing each profile.",
+        "Use a shared Int-I reference within each protonation state and explain the difference between common-reference and path-local zeroing.",
     ],
     "Q3": [
-        "Use the supplied C-O definition that forms O-C and breaks P-O, including the symmetry-related candidate when needed.",
-        "Produce same-condition validated barriers or explicit reproducible bounds for both C-C and C-O.",
-        "Do not infer the quantitative barrier difference from the measurement table.",
+        "Recompute the P2 C-C barrier from supplied Gaussian and matched DLPNO outputs and verify the TS-I forming bond.",
+        "Audit the supplied P2 archive and explicitly report that it contains no independently reanalyzable C-O transition-state output when that remains the case.",
+        "Treat the publication-reported 18 kcal/mol C-O barrier as literature evidence, not as a newly computed result.",
     ],
     "Q4": [
         "Validate the stepwise candidate and actively test the supplied concerted control path.",
@@ -263,7 +280,7 @@ REPRODUCTION_REQUIREMENTS = {
         "Use NBO-free equivalent geometry, Wiberg/Mayer bond-order, oxygen-charge, and optional density evidence without claiming exact lone-pair occupations.",
     ],
     "Q5": [
-        "Recompute at least the supplied P2 downstream ligand-coupling path using validated stationary-point evidence.",
+        "Reanalyze the supplied P2 Int-I, TS-I, Int-II, TS-II, and Int-III outputs with matched stationary-point evidence.",
         "Use the public relative rates, NMR non-detection, product selectivity, and ethoxide observations with their stated limitations.",
         "Do not fabricate time-series uncertainty; separate rate control, selectivity control, and irreversibility.",
     ],
@@ -451,7 +468,68 @@ def build_one(open_task: str, reproduction_task: str, task_key: str, stage_root:
     shutil.copytree(source, target)
 
     data_root = target / "data" / "benchmark_data"
-    (data_root / "computational_protocol.json").write_bytes(json_bytes(COMPUTATIONAL_PROTOCOL))
+    author_states = TASK_AUTHOR_OUTPUT_STATES.get(task_key, ())
+    protocol = deepcopy(COMPUTATIONAL_PROTOCOL)
+    if author_states:
+        protocol.update(
+            {
+                "protocol_type": "author_raw_output_reanalysis",
+                "author_coordinates_included": True,
+                "stationary_points_included": True,
+                "author_quantum_outputs_included": True,
+                "data_source": {
+                    "doi": "10.5281/zenodo.1439888",
+                    "states": list(author_states),
+                    "contents": "Gaussian wB97XD frequency outputs and ORCA DLPNO-CCSD(T) single-point outputs",
+                },
+            }
+        )
+        protocol["geometry_and_frequency"]["required_operation"] = (
+            "parse and independently validate the supplied completed outputs; rerunning "
+            "the expensive optimizations is optional"
+        )
+        protocol["thermochemistry"]["toolbox_media_solvent"] = "ethanol"
+    (data_root / "computational_protocol.json").write_bytes(json_bytes(protocol))
+
+    archive_records = []
+    for state in author_states:
+        filename = AUTHOR_OUTPUT_ARCHIVES[state]
+        source_archive = AUTHOR_OUTPUT_ROOT / filename
+        destination_archive = data_root / "author_outputs" / filename
+        destination_archive.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source_archive, destination_archive)
+        archive_records.append(
+            {
+                "state": state,
+                "path": str(destination_archive.relative_to(data_root)),
+                "sha256": sha256(destination_archive),
+                "source_doi": "10.5281/zenodo.1439888",
+            }
+        )
+
+    if task_key == "Q3":
+        protocol["result_values_included"] = True
+        (data_root / "publication_evidence.json").write_bytes(
+            json_bytes(
+                {
+                    "paper_doi": "10.1126/science.aas8961",
+                    "evidence_scope": "Figure S8 comparison reported by the publication",
+                    "reported_activation_free_energies_kcal_mol": {
+                        "P2_pyridyl_pyridyl_C_C": 14.0,
+                        "P2_carbon_oxygen": 18.0,
+                    },
+                    "reported_delta_delta_g_dagger_co_minus_cc_kcal_mol": 4.0,
+                    "public_archive_boundary": (
+                        "Zenodo record 1439888 contains reanalyzable P2 C-C TS-I outputs "
+                        "but no identified C-O TS frequency, IRC, or matched DLPNO output."
+                    ),
+                    "use_policy": (
+                        "Recompute C-C from raw outputs; use 18 kcal/mol only as an "
+                        "explicitly labeled publication benchmark."
+                    ),
+                }
+            )
+        )
     selected_paths = {path_id: deepcopy(PATHS[path_id]) for path_id in PATH_IDS[task_key]}
     (data_root / "reaction_definitions.json").write_bytes(
         json_bytes(
@@ -459,20 +537,36 @@ def build_one(open_task: str, reproduction_task: str, task_key: str, stage_root:
                 "schema_version": 1,
                 "task_id": reproduction_task,
                 "atom_labels": ATOM_LABELS,
-                "result_values_included": False,
-                "author_coordinates_included": False,
+                "result_values_included": task_key == "Q3",
+                "author_coordinates_included": bool(author_states),
                 "paths": selected_paths,
             }
         )
     )
+    required_stages = WORKFLOW_STAGES
+    if author_states:
+        required_stages = [
+            "verify archive hashes and extract the supplied author raw outputs",
+            "pair each Gaussian frequency output with its matched ORCA DLPNO output",
+            "validate molecular identity, charge, multiplicity, convergence, and stationary-point type",
+            "validate barrier-defining forming and breaking bonds from the output geometry",
+            "run GoodVibes at 353.15 K and 1 M with matched DLPNO corrections",
+            "construct common-reference free-energy profiles and quantify uncertainty",
+            "separate recomputed values from publication-reported evidence",
+        ]
+        if task_key == "Q3":
+            required_stages.append("audit the public archive for the absent C-O stationary-point evidence")
+        if task_key == "Q5":
+            required_stages.append("integrate the P2 profile with the supplied kinetic and product observations")
     (data_root / "workflow_requirements.json").write_bytes(
         json_bytes(
             {
                 "schema_version": 1,
                 "mode": "guided_reproduction",
-                "required_stages": WORKFLOW_STAGES,
-                "failure_policy": "Retain failed searches and do not replace missing evidence with paper-published numerical values.",
+                "required_stages": required_stages,
+                "failure_policy": "Retain failed analyses and never present a publication-only value as a calculation from this run.",
                 "nbo_policy": "NBO is optional; equivalent bond-order, charge, geometry, and optional density evidence is accepted.",
+                "author_output_archives": archive_records,
             }
         )
     )
@@ -480,7 +574,11 @@ def build_one(open_task: str, reproduction_task: str, task_key: str, stage_root:
     readme.write_text(
         readme.read_text(encoding="utf-8")
         + "\n## Guided-reproduction additions\n\n"
-        + "This copied raw-input set additionally contains a paper-reconstructed computational protocol, mapped pathway definitions, and workflow requirements. These files disclose methods and candidate routes but contain no published barrier, pathway ranking, author stationary-point coordinate, author IRC, or reference answer. Every numerical result must be regenerated.\n",
+        + (
+            "This task includes the author-deposited Gaussian frequency and ORCA DLPNO raw-output archives from Zenodo record 1439888. Independently parse, validate, and reanalyze those outputs; do not describe the publication's tabulated values as newly calculated.\n"
+            if author_states
+            else "This copied raw-input set contains a paper-reconstructed protocol and mapped routes but no author quantum outputs. Every numerical result must be regenerated.\n"
+        ),
         encoding="utf-8",
     )
 
@@ -491,8 +589,10 @@ def build_one(open_task: str, reproduction_task: str, task_key: str, stage_root:
     manifest["method_protocol_files"] = ["computational_protocol.json"]
     manifest["reaction_definition_files"] = ["reaction_definitions.json"]
     manifest["workflow_requirement_files"] = ["workflow_requirements.json"]
-    manifest["published_numerical_results"] = 0
-    manifest["author_coordinates"] = 0
+    manifest["published_numerical_results"] = 2 if task_key == "Q3" else 0
+    manifest["author_coordinates"] = int(bool(author_states))
+    manifest["author_output_archives"] = archive_records
+    manifest["completed_computational_outputs"] = "contained_in_author_archives" if author_states else 0
     manifest["files"] = public_files(data_root)
     manifest_path.write_bytes(json_bytes(manifest))
 
@@ -505,12 +605,24 @@ def build_one(open_task: str, reproduction_task: str, task_key: str, stage_root:
             "benchmark_family": "heterobiaryl_pv",
             "task_mode": "guided_reproduction",
             "method_disclosure": "paper_reconstructed_protocol",
-            "pathway_disclosure": "mapped_candidate_routes",
+            "pathway_disclosure": "author_output_reanalysis" if author_states else "mapped_candidate_routes",
             "scientific_mode": "guided_reproduction",
-            "scientific_mode_description": "The paper-reconstructed method hierarchy and candidate reaction routes are supplied. The Agent must execute, debug, validate, and report the reproduction without reading hidden results or author stationary points.",
+            "scientific_mode_description": (
+                "Author-deposited raw quantum-chemistry outputs and a paper-reconstructed analysis protocol are supplied. The Agent must independently validate and reanalyze them, create new managed analysis artifacts, and keep publication-only evidence separate."
+                if author_states
+                else "The paper-reconstructed method hierarchy and candidate reaction routes are supplied. The Agent must execute, debug, validate, and report the reproduction without reading hidden results."
+            ),
             "task": REPRODUCTION_PROMPTS[task_key],
             "scientific_requirements": REPRODUCTION_REQUIREMENTS[task_key],
-            "archive_extractions": [],
+            "archive_extractions": [
+                {
+                    "source": f"benchmark_data/{record['path']}",
+                    "format": "zip",
+                    "destination": f"benchmark_data/extracted_author_outputs/{record['state']}",
+                    "sha256": record["sha256"],
+                }
+                for record in archive_records
+            ],
         }
     )
     info["data"] = [
@@ -518,7 +630,11 @@ def build_one(open_task: str, reproduction_task: str, task_key: str, stage_root:
             "name": "Guided Heterobiaryl P(V) reproduction inputs",
             "path": "data/benchmark_data",
             "type": "directory",
-            "description": "Decontaminated raw structures and measurements copied from the open-discovery task, plus a paper-reconstructed method protocol, mapped candidate pathways, and workflow requirements. No author stationary point, calculation output, published numerical result, or reference answer is visible.",
+            "description": (
+                "Paper-reconstructed protocol and mapped pathways plus author-deposited Gaussian frequency and ORCA DLPNO raw outputs for independent validation and thermochemical reanalysis."
+                if author_states
+                else "Decontaminated raw structures and measurements plus a paper-reconstructed method protocol and mapped candidate pathways."
+            ),
         }
     ]
     info_path.write_bytes(json_bytes(info))
@@ -531,12 +647,10 @@ def build_one(open_task: str, reproduction_task: str, task_key: str, stage_root:
     truth["scoring_rubric"] = guided_rubric(task_key)
     truth["judge_instructions"] = (
         "This is a guided paper-reproduction task. Methods and mapped candidate routes are public, "
-        "but all numerical, structural, stationarity, connectivity, and thermochemical evidence must "
-        "be newly generated. Accept predefined Actions, managed native jobs, and managed Agent-authored "
-        "programs. The paper's main task-level conclusion must be recovered from newly generated "
-        "evidence; a conflicting selectivity, mechanism, or kinetic assignment is not a successful "
-        "reproduction even when the calculation is otherwise coherent. Do not reward copying a "
-        "paper-published number without a new artifact."
+        "and, for selected tasks, author-deposited raw quantum outputs are public. Numerical conclusions "
+        "must come from new managed parsing, validation, and thermochemical analysis artifacts. Accept "
+        "predefined Actions, managed native jobs, and managed Agent-authored programs. Do not reward "
+        "copying a publication value or confusing it with a value recomputed from the supplied raw outputs."
     )
     truth["reference_conclusion_gate_policy"] = {
         "required": True,
@@ -551,6 +665,25 @@ def build_one(open_task: str, reproduction_task: str, task_key: str, stage_root:
     truth["current_toolbox_reproduction_baseline"] = {
         **deepcopy(BASELINE_COMMON),
         **deepcopy(REPRODUCTION_BASELINES[task_key]),
+        **(
+            {
+                "assessment_date": "2026-07-27",
+                "status": "validated_author_output_reanalysis",
+                "classification": "solvable",
+                "major_paper_conclusion_reproduced_in_this_audit": True,
+                "evidence_level": "toolbox_GoodVibes_reanalysis_of_author_Gaussian_and_ORCA_outputs",
+                "validated_artifact_root": "workspaces/paper_reproduction_recovery_20260727/pv",
+                "unresolved_requirements": (
+                    [
+                        "The public archive does not contain the C-O transition-state frequency, IRC, or matched DLPNO output; the C-O value is therefore publication evidence only."
+                    ]
+                    if task_key == "Q3"
+                    else []
+                ),
+            }
+            if author_states
+            else {}
+        ),
         "temperature_kelvin": 353.15,
         "standard_state_mol_l": 1.0,
     }
@@ -558,7 +691,45 @@ def build_one(open_task: str, reproduction_task: str, task_key: str, stage_root:
     evidence["task_mode"] = "guided_reproduction"
     evidence["method_protocol_public"] = True
     evidence["mapped_candidate_routes_public"] = True
-    evidence["published_reference_is_hidden_comparison_only"] = True
+    evidence["published_reference_is_hidden_comparison_only"] = task_key != "Q3"
+    evidence["author_raw_outputs_public"] = bool(author_states)
+    evidence["author_output_archives"] = archive_records
+    public_contract = evidence.setdefault("public_input_contract", {})
+    if author_states:
+        public_contract.update(
+            {
+                "completed_computational_outputs": "contained_in_author_archives",
+                "optimized_stationary_points": "contained_in_author_archives",
+                "raw_quantum_output_archives": len(archive_records),
+            }
+        )
+    truth["critical_failures"] = [
+        item
+        for item in truth.get("critical_failures", [])
+        if item != "The source publication or hidden reference material is searched or accessed."
+    ]
+    if task_key == "Q3":
+        truth["expected_result"]["evidence_boundary"] = (
+            "C-C is recomputed from supplied raw outputs; C-O=18 kcal/mol is publication-reported only."
+        )
+        truth["evidence_gate_policy"]["gates"] = [
+            {
+                "id": "cc_branch_reanalyzed",
+                "score_cap_if_failed": 55,
+                "requirement": "The C-C barrier is independently regenerated from the supplied Gaussian and matched DLPNO outputs with TS geometry/frequency validation.",
+            },
+            {
+                "id": "co_evidence_boundary",
+                "score_cap_if_failed": 60,
+                "requirement": "The report identifies that the public archive lacks a C-O stationary-point package and labels 18 kcal/mol as publication evidence rather than a new computation.",
+            },
+            {
+                "id": "comparison_provenance",
+                "score_cap_if_failed": 70,
+                "requirement": "The approximately 4 kcal/mol comparison keeps recomputed and literature-only quantities visibly distinct.",
+            },
+        ]
+        truth["managed_computation_policy"]["minimum_successful_scientific_calls"] = 1
     evidence["input_manifest_sha256"] = sha256(manifest_path)
     truth_path.write_bytes(json_bytes(truth))
     return target

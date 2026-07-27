@@ -2,13 +2,13 @@
   "task_id": "Heterobiaryl_PV_Reproduction_03_CC_vs_CO",
   "source_id": "heterobiaryl_pv_2018_guided_reproduction",
   "category": "competing_reaction_pathways",
-  "task": "Using the supplied protocol and mapped P2 pyridyl-pyridyl and alkoxy-pyridyl pathways, reproduce the comparison between carbon-carbon and carbon-oxygen coupling. The alkoxy pathway forms O-C while breaking P-O; do not substitute a different bond-edit hypothesis. Generate and validate both pathways under common conditions, retain failed searches, and compare newly computed barriers or defensible bounds without using a published value as calculation evidence.",
+  "task": "Reproduce the evidence-supported P2 carbon-carbon versus carbon-oxygen comparison. Recompute and validate the pyridyl-pyridyl C-C barrier from the supplied author raw outputs, audit the archive for a C-O transition state, and compare the recomputed C-C result with the explicitly supplied publication-reported C-O benchmark. The C-O value must remain labeled literature evidence because the public author archive does not contain its frequency, IRC, or DLPNO files.",
   "scientific_mode": "guided_reproduction",
-  "scientific_mode_description": "The paper-reconstructed method hierarchy and candidate reaction routes are supplied. The Agent must execute, debug, validate, and report the reproduction without reading hidden results or author stationary points.",
+  "scientific_mode_description": "Author-deposited raw quantum-chemistry outputs and a paper-reconstructed analysis protocol are supplied. The Agent must independently validate and reanalyze them, create new managed analysis artifacts, and keep publication-only evidence separate.",
   "scientific_requirements": [
-    "Use the supplied C-O definition that forms O-C and breaks P-O, including the symmetry-related candidate when needed.",
-    "Produce same-condition validated barriers or explicit reproducible bounds for both C-C and C-O.",
-    "Do not infer the quantitative barrier difference from the measurement table."
+    "Recompute the P2 C-C barrier from supplied Gaussian and matched DLPNO outputs and verify the TS-I forming bond.",
+    "Audit the supplied P2 archive and explicitly report that it contains no independently reanalyzable C-O transition-state output when that remains the case.",
+    "Treat the publication-reported 18 kcal/mol C-O barrier as literature evidence, not as a newly computed result."
   ],
   "required_deliverables": [
     {
@@ -34,12 +34,19 @@
       "name": "Guided Heterobiaryl P(V) reproduction inputs",
       "path": "data/benchmark_data",
       "type": "directory",
-      "description": "Decontaminated raw structures and measurements copied from the open-discovery task, plus a paper-reconstructed method protocol, mapped candidate pathways, and workflow requirements. No author stationary point, calculation output, published numerical result, or reference answer is visible."
+      "description": "Paper-reconstructed protocol and mapped pathways plus author-deposited Gaussian frequency and ORCA DLPNO raw outputs for independent validation and thermochemical reanalysis."
     }
   ],
-  "archive_extractions": [],
+  "archive_extractions": [
+    {
+      "source": "benchmark_data/author_outputs/Int-I_2H_2plus.zip",
+      "format": "zip",
+      "destination": "benchmark_data/extracted_author_outputs/P2",
+      "sha256": "ab75a34d728aa095ea0e02b595be2d17fe780080a7920ac086f285bf51a765bd"
+    }
+  ],
   "benchmark_family": "heterobiaryl_pv",
   "task_mode": "guided_reproduction",
   "method_disclosure": "paper_reconstructed_protocol",
-  "pathway_disclosure": "mapped_candidate_routes"
+  "pathway_disclosure": "author_output_reanalysis"
 }

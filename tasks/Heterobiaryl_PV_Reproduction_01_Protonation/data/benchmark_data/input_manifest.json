@@ -9,7 +9,7 @@
     "P2"
   ],
   "measurement_ids": [],
-  "completed_computational_outputs": 0,
+  "completed_computational_outputs": "contained_in_author_archives",
   "optimized_stationary_points": 0,
   "transition_states": 0,
   "reaction_path_outputs": 0,
@@ -118,13 +118,28 @@
   "files": [
     {
       "path": "README.md",
-      "size_bytes": 1267,
-      "sha256": "9ec7a3469517acd21c572d4dd9bc7b165ac7b7eba91436acb5366aead794367b"
+      "size_bytes": 1158,
+      "sha256": "57123777ff44676b9d5222fb51cdf94789f9a7d2ce3e18bb88fab9169672536c"
+    },
+    {
+      "path": "author_outputs/Int-I_2H_2plus.zip",
+      "size_bytes": 24503412,
+      "sha256": "ab75a34d728aa095ea0e02b595be2d17fe780080a7920ac086f285bf51a765bd"
+    },
+    {
+      "path": "author_outputs/Int-I_H_plus.zip",
+      "size_bytes": 22575886,
+      "sha256": "a4eb10d5864b8835c9a8ea3462d79429add0873ca0dccea2d6a236c04a696ce6"
+    },
+    {
+      "path": "author_outputs/Int-I_unprotonated.zip",
+      "size_bytes": 24258617,
+      "sha256": "b0fead3eb766cd93abce61dc616abc86c0ce21e04aabeb7cd48c66de6f0eb956"
     },
     {
       "path": "computational_protocol.json",
-      "size_bytes": 3820,
-      "sha256": "2d7936716d0401e66da34063ee847c750f2bc1fbc901dc6777623699a9dfb33b"
+      "size_bytes": 4249,
+      "sha256": "c022afc3436f090187ad2ad50dc19f7e6059ba38f39b31b47b3892cc16529d05"
     },
     {
       "path": "conditions.json",
@@ -183,13 +198,13 @@
     },
     {
       "path": "reaction_definitions.json",
-      "size_bytes": 2483,
-      "sha256": "9421cd430f11cba21e0cfdfedc05b036dfea32023baf104cea7cd7f3d2b73b29"
+      "size_bytes": 2482,
+      "sha256": "e5463986477c34740a69204d93136c50ca0434ba3d7774251e900f137c0e060f"
     },
     {
       "path": "workflow_requirements.json",
-      "size_bytes": 1124,
-      "sha256": "77bec8f26247a5cf8d5e3aff93373a1ab031fd43af8eaf1f7de168769db81cae"
+      "size_bytes": 1559,
+      "sha256": "3356671c0bb4322ff6bed42a64999997619011ffa29503a0620046a37c2528f8"
     }
   ],
   "task_mode": "guided_reproduction",
@@ -203,5 +218,25 @@
     "workflow_requirements.json"
   ],
   "published_numerical_results": 0,
-  "author_coordinates": 0
+  "author_coordinates": 1,
+  "author_output_archives": [
+    {
+      "state": "P0",
+      "path": "author_outputs/Int-I_unprotonated.zip",
+      "sha256": "b0fead3eb766cd93abce61dc616abc86c0ce21e04aabeb7cd48c66de6f0eb956",
+      "source_doi": "10.5281/zenodo.1439888"
+    },
+    {
+      "state": "P1",
+      "path": "author_outputs/Int-I_H_plus.zip",
+      "sha256": "a4eb10d5864b8835c9a8ea3462d79429add0873ca0dccea2d6a236c04a696ce6",
+      "source_doi": "10.5281/zenodo.1439888"
+    },
+    {
+      "state": "P2",
+      "path": "author_outputs/Int-I_2H_2plus.zip",
+      "sha256": "ab75a34d728aa095ea0e02b595be2d17fe780080a7920ac086f285bf51a765bd",
+      "source_doi": "10.5281/zenodo.1439888"
+    }
+  ]
 }

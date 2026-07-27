@@ -1,20 +1,17 @@
 {
   "required_stages": [
-    "cell_and_layer_validation",
-    "adsorbed_relaxation",
-    "matched_clean_slab_reference",
-    "isolated_NHC_relaxation",
-    "frozen_fragment_extraction",
-    "energy_decomposition",
-    "LOBSTER_generation_and_quality_gate",
-    "joint_interpretation"
+    "cell_and_atom_count_validation",
+    "coordinate_derived_Pd_C_distance",
+    "paper_metric_source_validation",
+    "deformation_and_lateral_term_arithmetic",
+    "ICOHP_ICOBI_and_spilling_comparison",
+    "joint_local_versus_total_interpretation"
   ],
   "hard_gates": [
-    "Each adsorbate must use its own matched cell and clean-slab reference.",
-    "Frozen and relaxed fragments must not be interchanged.",
-    "All energy components must share compatible pseudopotentials, cutoffs, and electronic settings.",
-    "Pd-C pairs must be selected from the final geometry using a recorded distance rule.",
-    "LOBSTER bonding conclusions must be qualified by spilling."
-  ],
-  "native_layer_note": "Generating fresh LOBSTER outputs currently requires the toolbox native-job layer; public LOBSTER Actions parse and validate the resulting files."
+    "NHC1 and NHC4 must retain their published 48- and 36-metal-atom cells, respectively.",
+    "Pd-C distances must be measured from the supplied coordinates rather than copied from the metric table.",
+    "Paper metrics must remain labeled publication outputs.",
+    "ICOHP is a pairwise bonding descriptor and must not be treated as the total adsorption energy.",
+    "Spilling quality must accompany every LOBSTER interpretation."
+  ]
 }

@@ -20,4 +20,4 @@ A pre-addition phosphonium/ethanol model, the OMe/Me/H/Cl precursor series, coun
 
 ## Guided-reproduction additions
 
-This copied raw-input set additionally contains a paper-reconstructed computational protocol, mapped pathway definitions, and workflow requirements. These files disclose methods and candidate routes but contain no published barrier, pathway ranking, author stationary-point coordinate, author IRC, or reference answer. Every numerical result must be regenerated.
+This task includes the author-deposited Gaussian frequency and ORCA DLPNO raw-output archives from Zenodo record 1439888. Independently parse, validate, and reanalyze those outputs; do not describe the publication's tabulated values as newly calculated.

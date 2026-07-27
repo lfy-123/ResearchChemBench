@@ -1,0 +1,22 @@
+{
+  "paper_doi": "10.1002/chem.202501536",
+  "basis_provenance": {
+    "standard_lobster_limitation": "standard basis libraries do not contain nd functions for group-II metals",
+    "author_custom_mapping": {
+      "Ca_3d": "Sc_3d",
+      "Sr_4d": "Y_4d",
+      "Ba_5d": "La_5d"
+    },
+    "public_resource_boundary": "the article and SI do not publish the complete custom radial-basis file"
+  },
+  "paper_projection_results": {
+    "BaO_without_5d_max_spilling_percent": 5.13,
+    "BaO_with_5d_max_spilling_percent": 3.35,
+    "with_5d_Ba_O_icohp_ev_range": [
+      -3.0,
+      -1.0
+    ],
+    "without_5d_Ba_O_icohp_magnitude_ev": 0.5
+  },
+  "required_realized_basis_gate": "A requested Ba 5d label is insufficient; the LOBSTER output must show a realized Ba 5d local basis before any ablation is accepted."
+}

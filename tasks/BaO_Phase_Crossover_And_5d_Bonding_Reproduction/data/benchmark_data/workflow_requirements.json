@@ -2,18 +2,19 @@
   "required_stages": [
     "symmetry_and_formula_validation",
     "VASP_volume_grid",
+    "fixed_volume_internal_coordinate_relaxation",
     "convergence_and_stress_check",
     "EOS_model_comparison",
     "enthalpy_minimization",
     "adaptive_crossing_refinement",
-    "paired_LOBSTER_projection",
+    "custom_basis_provenance_audit",
     "causal_interpretation"
   ],
   "hard_gates": [
     "All energies must be normalized per BaO formula unit.",
+    "B8 and dB2 internal coordinates must be relaxed at fixed volume before final EOS fitting.",
     "A grid endpoint may not be reported as a transition pressure without refinement or uncertainty.",
-    "The two LOBSTER projections must use the same VASP wavefunction.",
-    "Spilling quality must be reported before interpreting ICOHP or PDOS."
-  ],
-  "native_layer_note": "The current public LOBSTER Actions parse outputs. Generating new LOBSTER outputs requires the toolbox native-job layer until a dedicated run Action is added."
+    "A nominal Ba 5d request is invalid unless the realized LOBSTER basis contains Ba 5d.",
+    "Publication projection values must not be described as fresh calculations."
+  ]
 }

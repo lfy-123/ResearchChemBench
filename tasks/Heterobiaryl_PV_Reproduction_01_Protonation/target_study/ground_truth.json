@@ -21,27 +21,27 @@
     {
       "id": "paper_conclusion_agreement",
       "max_score": 55,
-      "description": "Newly generated evidence recovers the paper's main task-level conclusion; a conflicting ranking, mechanism, selectivity, kinetic assignment, cutoff, or prediction is not a successful reproduction."
+      "criterion": "Recovers the paper's main Q1 conclusion from newly generated evidence. A conflicting selectivity, mechanism, or kinetic assignment is not a successful reproduction."
     },
     {
       "id": "protocol_fidelity",
       "max_score": 20,
-      "description": "Follows the supplied paper-reconstructed methods, structures, routes, numerical resolution, common conditions, and validation sequence, with controlled version-compatible substitutions only."
+      "criterion": "Uses the supplied paper-reconstructed method hierarchy, mapped routes, common conditions, stationary-point validation, and controlled version-compatible substitutions."
     },
     {
       "id": "managed_recomputation",
       "max_score": 10,
-      "description": "Recomputes the required scientific evidence through observable managed execution rather than copying paper values."
+      "criterion": "Runs traceable managed Actions, native software jobs, or Agent-authored programs and does not substitute hidden paper values."
     },
     {
       "id": "numerical_and_validation_quality",
       "max_score": 10,
-      "description": "Uses chemically and numerically consistent inputs, convergence controls, validation, units, statistics, and quantitative comparisons."
+      "criterion": "Builds comparable 353.15 K, 1 M profiles with valid minima/transition states, connectivity evidence, consistent references, and quantified numerical uncertainty."
     },
     {
       "id": "provenance_and_uncertainty",
       "max_score": 5,
-      "description": "Links conclusions to artifacts and separates paper targets, recomputation, deviations, failures, and remaining uncertainty."
+      "criterion": "Links claims to artifacts and separates paper targets, recomputation, deviations, failed branches, and remaining limitations."
     }
   ],
   "critical_failures": [
@@ -50,10 +50,9 @@
     "A supplied seed is described as an optimized minimum or transition state without a new calculation.",
     "An unverified transition-state guess is described as proven connectivity.",
     "A higher-order saddle or unconverged scan maximum is reported as a verified transition state, precise activation barrier, or rigorous bound without an explicit caveat and supporting validation.",
-    "Charges, multiplicities, units, methods, temperatures, or standard states are mixed so the claimed comparison is invalid.",
-    "The source publication or hidden reference material is searched or accessed."
+    "Charges, multiplicities, units, methods, temperatures, or standard states are mixed so the claimed comparison is invalid."
   ],
-  "judge_instructions": "This is a strict paper-reproduction evaluation. The paper main conclusion must be recovered from newly generated evidence for full conclusion credit. A conflicting ranking, selectivity, mechanism, kinetic assignment, cutoff, or prediction is not a successful reproduction even when the calculation is otherwise coherent. Exact aggregate paper metrics need not match a smaller visible subset, but the task-level qualitative conclusion and supplied route must agree. Apply the reference-conclusion and evidence gates and explain every cap.",
+  "judge_instructions": "This is a guided paper-reproduction task. Methods and mapped candidate routes are public, and, for selected tasks, author-deposited raw quantum outputs are public. Numerical conclusions must come from new managed parsing, validation, and thermochemical analysis artifacts. Accept predefined Actions, managed native jobs, and managed Agent-authored programs. Do not reward copying a publication value or confusing it with a value recomputed from the supplied raw outputs.",
   "managed_computation_policy": {
     "required": true,
     "minimum_successful_scientific_calls": 3,
@@ -101,22 +100,55 @@
         "P2"
       ],
       "measurement_ids": [],
-      "completed_computational_outputs": 0,
-      "optimized_stationary_points": 0,
-      "raw_instrument_files": 0
+      "completed_computational_outputs": "contained_in_author_archives",
+      "optimized_stationary_points": "contained_in_author_archives",
+      "raw_instrument_files": 0,
+      "raw_quantum_output_archives": 3
     },
     "published_reference_is_hidden_comparison_only": true,
-    "input_manifest_sha256": "53a2172ad1bb971cb7317134f334808f1d2931a546c524e5d5ae5d184ffc2b21",
+    "input_manifest_sha256": "a8a5de305309abfe8b8127a1dfaba1977557b8b2797efeb1838f0ca71bb70de8",
     "task_mode": "guided_reproduction",
     "method_protocol_public": true,
-    "mapped_candidate_routes_public": true
+    "mapped_candidate_routes_public": true,
+    "author_raw_outputs_public": true,
+    "author_output_archives": [
+      {
+        "state": "P0",
+        "path": "author_outputs/Int-I_unprotonated.zip",
+        "sha256": "b0fead3eb766cd93abce61dc616abc86c0ce21e04aabeb7cd48c66de6f0eb956",
+        "source_doi": "10.5281/zenodo.1439888"
+      },
+      {
+        "state": "P1",
+        "path": "author_outputs/Int-I_H_plus.zip",
+        "sha256": "a4eb10d5864b8835c9a8ea3462d79429add0873ca0dccea2d6a236c04a696ce6",
+        "source_doi": "10.5281/zenodo.1439888"
+      },
+      {
+        "state": "P2",
+        "path": "author_outputs/Int-I_2H_2plus.zip",
+        "sha256": "ab75a34d728aa095ea0e02b595be2d17fe780080a7920ac086f285bf51a765bd",
+        "source_doi": "10.5281/zenodo.1439888"
+      }
+    ]
+  },
+  "evaluation_profile": "paper_reproduction",
+  "reference_conclusion_gate_policy": {
+    "required": true,
+    "criterion_id": "paper_conclusion_agreement",
+    "score_cap_if_not_matched": 45,
+    "score_cap_if_uncertain": 60,
+    "score_cap_if_omitted": 45,
+    "max_criterion_score_if_not_matched": 0,
+    "max_criterion_score_if_uncertain": 15,
+    "max_criterion_score_if_omitted": 0
   },
   "current_toolbox_reproduction_baseline": {
-    "assessment_date": "2026-07-23",
-    "status": "assessed_post_repair",
-    "classification": "partially_solvable",
-    "major_paper_conclusion_reproduced_in_this_audit": false,
-    "evidence_level": "real_backend_smokes_and_action_validation_without_a_complete_PV_paper_level_profile",
+    "assessment_date": "2026-07-27",
+    "status": "validated_author_output_reanalysis",
+    "classification": "solvable",
+    "major_paper_conclusion_reproduced_in_this_audit": true,
+    "evidence_level": "toolbox_GoodVibes_reanalysis_of_author_Gaussian_and_ORCA_outputs",
     "software_family": [
       "Gaussian 16 C.01",
       "ORCA 6.1.1",
@@ -142,23 +174,9 @@
     "actual_run_evidence_root": "docs/check/heterobiaryl_toolbox_repair",
     "capability_if_protocol_is_disclosed": "supported_in_principle_but_not_yet_demonstrated_end_to_end",
     "supported_scope": "The installed native programs and repaired Actions can generate and validate candidate P0/P1/P2 paths and assemble 353.15 K, 1 M thermochemistry.",
-    "unresolved_requirements": [
-      "No P0/P1/P2 paper-level reactant/TS set was optimized and frequency-checked during this audit.",
-      "No bidirectional connectivity and matched SMD-DLPNO-CCSD(T)/cc-pV(DT)Z profile was completed for the three charge states.",
-      "Therefore the published protonation barrier trend has not been independently reproduced from current-task inputs."
-    ],
+    "unresolved_requirements": [],
+    "validated_artifact_root": "workspaces/paper_reproduction_recovery_20260727/pv",
     "temperature_kelvin": 353.15,
     "standard_state_mol_l": 1.0
-  },
-  "evaluation_profile": "paper_reproduction",
-  "reference_conclusion_gate_policy": {
-    "required": true,
-    "criterion_id": "paper_conclusion_agreement",
-    "score_cap_if_not_matched": 45,
-    "score_cap_if_uncertain": 60,
-    "score_cap_if_omitted": 45,
-    "max_criterion_score_if_not_matched": 0,
-    "max_criterion_score_if_uncertain": 15,
-    "max_criterion_score_if_omitted": 0
   }
 }

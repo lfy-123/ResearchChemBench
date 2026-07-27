@@ -169,6 +169,12 @@ def test_heterobiaryl_dual_track_tasks_use_complete_100_point_rubrics():
     }
 
     open_by_suffix = {task.split("Heterobiaryl_PV_", 1)[1]: task for task in open_tasks}
+    author_reanalysis_suffixes = {
+        "01_Protonation",
+        "02_CC_Selectivity",
+        "03_CC_vs_CO",
+        "05_Rate_Determining_Step",
+    }
     for task_id in reproduction_tasks:
         info = load_task_info(task_id)
         truth = load_ground_truth(task_id)
@@ -176,20 +182,29 @@ def test_heterobiaryl_dual_track_tasks_use_complete_100_point_rubrics():
         assert info["task_mode"] == "guided_reproduction"
         assert info["scientific_mode"] == "guided_reproduction"
         assert info["method_disclosure"] == "paper_reconstructed_protocol"
-        assert info["pathway_disclosure"] == "mapped_candidate_routes"
+        suffix = task_id.split("Heterobiaryl_PV_Reproduction_", 1)[1]
+        author_reanalysis = suffix in author_reanalysis_suffixes
+        assert info["pathway_disclosure"] == (
+            "author_output_reanalysis" if author_reanalysis else "mapped_candidate_routes"
+        )
         assert truth["evaluation_mode"] == "rubric_100"
         assert truth["score_max"] == 100
         assert sum(item["max_score"] for item in truth["scoring_rubric"]) == 100
         assert truth["reference_evidence"]["task_mode"] == "guided_reproduction"
         baseline = truth["current_toolbox_reproduction_baseline"]
-        assert baseline["status"] == "assessed_post_repair"
+        assert baseline["status"] == (
+            "validated_author_output_reanalysis"
+            if author_reanalysis
+            else "assessed_post_repair"
+        )
         assert baseline["classification"] in {
             "solvable",
             "partially_solvable",
             "not_solvable",
         }
-        assert baseline["major_paper_conclusion_reproduced_in_this_audit"] is False
-        assert baseline["unresolved_requirements"]
+        assert baseline["major_paper_conclusion_reproduced_in_this_audit"] is author_reanalysis
+        if not author_reanalysis or suffix == "03_CC_vs_CO":
+            assert baseline["unresolved_requirements"]
         data_root = TASKS_DIR / task_id / "data" / "benchmark_data"
         protocol_path = data_root / "computational_protocol.json"
         paths_path = data_root / "reaction_definitions.json"
@@ -202,16 +217,21 @@ def test_heterobiaryl_dual_track_tasks_use_complete_100_point_rubrics():
         assert protocol["geometry_and_frequency"]["reference_method"] == "wB97XD"
         assert protocol["high_level_single_points"]["method"] == "DLPNO-CCSD(T)"
         assert protocol["mechanism_analysis"]["nbo_required"] is False
-        assert definitions["result_values_included"] is False
-        assert definitions["author_coordinates_included"] is False
+        assert definitions["result_values_included"] is (suffix == "03_CC_vs_CO")
+        assert definitions["author_coordinates_included"] is author_reanalysis
         assert definitions["paths"]
-        assert not any(path.suffix.casefold() in {".log", ".out", ".zip"} for path in data_root.rglob("*"))
+        assert not any(path.suffix.casefold() in {".log", ".out"} for path in data_root.rglob("*"))
+        if author_reanalysis:
+            assert info["archive_extractions"]
+            assert any(path.suffix.casefold() == ".zip" for path in data_root.rglob("*"))
+        else:
+            assert not any(path.suffix.casefold() == ".zip" for path in data_root.rglob("*"))
         assert not any(path.is_symlink() for path in data_root.rglob("*"))
         manifest_path = data_root / "input_manifest.json"
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
         assert manifest["task_mode"] == "guided_reproduction"
-        assert manifest["published_numerical_results"] == 0
-        assert manifest["author_coordinates"] == 0
+        assert manifest["published_numerical_results"] == (2 if suffix == "03_CC_vs_CO" else 0)
+        assert manifest["author_coordinates"] == int(author_reanalysis)
         assert truth["reference_evidence"]["input_manifest_sha256"] == hashlib.sha256(
             manifest_path.read_bytes()
         ).hexdigest()
@@ -224,16 +244,16 @@ def test_heterobiaryl_dual_track_tasks_use_complete_100_point_rubrics():
             for path in data_root.rglob("*")
             if path.is_file() and path.suffix.casefold() in {".json", ".md", ".txt"}
         )
-        for leaked_result in (
-            "bipy_dg_dagger",
-            "phpy_dg_dagger",
-            "delta_delta_g_dagger",
-            "paper_published_target",
-            "correct barrier",
-            "reference barrier",
-        ):
-            assert leaked_result not in visible_text
-        suffix = task_id.split("Heterobiaryl_PV_Reproduction_", 1)[1]
+        if suffix != "03_CC_vs_CO":
+            for leaked_result in (
+                "bipy_dg_dagger",
+                "phpy_dg_dagger",
+                "delta_delta_g_dagger",
+                "paper_published_target",
+                "correct barrier",
+                "reference barrier",
+            ):
+                assert leaked_result not in visible_text
         open_id = open_by_suffix[suffix]
         open_root = TASKS_DIR / open_id / "data" / "benchmark_data"
         for xyz in data_root.glob("initial_structures/*/*.xyz"):

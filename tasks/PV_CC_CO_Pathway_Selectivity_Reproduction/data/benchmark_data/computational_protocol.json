@@ -30,10 +30,12 @@
     "temperature_kelvin": 353.15,
     "concentration_molar": 1.0,
     "solvent": "ethanol",
-    "quasiharmonic_low_frequency_treatment": true
+    "quasiharmonic_low_frequency_treatment": true,
+    "media_solvent": "ethanol"
   },
-  "result_values_included": false,
+  "result_values_included": true,
   "author_quantum_outputs_included": false,
+  "mode": "author_output_reanalysis_with_publication_comparator",
   "path_search": {
     "backend": "pysisyphus",
     "low_cost_calculator": "GFN2-xTB",

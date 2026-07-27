@@ -1,9 +1,9 @@
 # P(V) C-C versus C-O pathway-selectivity reproduction
 
-Use the supplied P2 candidate structures and experimental observations to build and
-validate one pyridyl-pyridyl C-C path and one competing C-O path. Use low-cost path
-search only to generate or validate connectivity, then validate barrier-defining
-stationary points, recompute high-level energies, and compare free-energy barriers.
-Paper barrier values are hidden.
+Reanalyze the supplied official P2 author-output archive to reproduce the validated
+pyridyl-pyridyl C-C free-energy barrier. Compare it with the source-labeled C-O
+barrier reported in the paper and explain the resulting selectivity. The public
+author archive contains five C-C TS-I candidates but no C-O transition-state output,
+so the C-O value is publication evidence rather than a fresh calculation.
 
 Paper: 10.1126/science.aas8961.

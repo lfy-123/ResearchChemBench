@@ -2,11 +2,11 @@
   "task_id": "Heterobiaryl_PV_Reproduction_05_Rate_Determining_Step",
   "source_id": "heterobiaryl_pv_2018_guided_reproduction",
   "category": "experimental_computational_integration",
-  "task": "Reproduce the paper's experimental-computational rate-determining-step argument using the supplied protocol, P2 ligand-coupling route, and public relative-rate, NMR, product, and ethoxide observations. Recompute the downstream ligand-coupling evidence, then separately assign the rate-determining, selectivity-determining, and strongly irreversible stages. The public source package has no time-resolved kinetic traces or raw NMR FIDs; do not invent uncertainties or claim that non-detection proves absence. An alcohol-addition transition-state calculation is an optional extension, not a required reconstruction of the published analysis.",
+  "task": "Reproduce the paper's experimental-computational rate-determining-step argument using the supplied P2 author raw outputs and public relative-rate, NMR, product, and ethoxide observations. Reconstruct the full Int-I to TS-I to Int-II to TS-II to Int-III ligand-coupling profile, then separately assign the rate-determining, selectivity-determining, and strongly irreversible stages. Do not claim that the downstream profile alone calculates the alcohol-addition barrier.",
   "scientific_mode": "guided_reproduction",
-  "scientific_mode_description": "The paper-reconstructed method hierarchy and candidate reaction routes are supplied. The Agent must execute, debug, validate, and report the reproduction without reading hidden results or author stationary points.",
+  "scientific_mode_description": "Author-deposited raw quantum-chemistry outputs and a paper-reconstructed analysis protocol are supplied. The Agent must independently validate and reanalyze them, create new managed analysis artifacts, and keep publication-only evidence separate.",
   "scientific_requirements": [
-    "Recompute at least the supplied P2 downstream ligand-coupling path using validated stationary-point evidence.",
+    "Reanalyze the supplied P2 Int-I, TS-I, Int-II, TS-II, and Int-III outputs with matched stationary-point evidence.",
     "Use the public relative rates, NMR non-detection, product selectivity, and ethoxide observations with their stated limitations.",
     "Do not fabricate time-series uncertainty; separate rate control, selectivity control, and irreversibility."
   ],
@@ -34,12 +34,19 @@
       "name": "Guided Heterobiaryl P(V) reproduction inputs",
       "path": "data/benchmark_data",
       "type": "directory",
-      "description": "Decontaminated raw structures and measurements copied from the open-discovery task, plus a paper-reconstructed method protocol, mapped candidate pathways, and workflow requirements. No author stationary point, calculation output, published numerical result, or reference answer is visible."
+      "description": "Paper-reconstructed protocol and mapped pathways plus author-deposited Gaussian frequency and ORCA DLPNO raw outputs for independent validation and thermochemical reanalysis."
     }
   ],
-  "archive_extractions": [],
+  "archive_extractions": [
+    {
+      "source": "benchmark_data/author_outputs/Int-I_2H_2plus.zip",
+      "format": "zip",
+      "destination": "benchmark_data/extracted_author_outputs/P2",
+      "sha256": "ab75a34d728aa095ea0e02b595be2d17fe780080a7920ac086f285bf51a765bd"
+    }
+  ],
   "benchmark_family": "heterobiaryl_pv",
   "task_mode": "guided_reproduction",
   "method_disclosure": "paper_reconstructed_protocol",
-  "pathway_disclosure": "mapped_candidate_routes"
+  "pathway_disclosure": "author_output_reanalysis"
 }

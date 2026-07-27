@@ -1,13 +1,23 @@
 {
   "task_id": "PV_CC_CO_Pathway_Selectivity_Reproduction",
   "task_mode": "guided_reproduction",
-  "paper_result_values_in_visible_inputs": 0,
-  "completed_quantum_outputs": 0,
+  "paper_result_values_in_visible_inputs": 2,
+  "completed_quantum_outputs": "official_P2_author_archive",
   "files": [
     {
       "path": "README.md",
-      "size_bytes": 455,
-      "sha256": "7d39298162a114bab706e220c91ee173ad259aee96def8a7911482c41a0009d7"
+      "size_bytes": 492,
+      "sha256": "0b3bfef6ccd7cd25829d875e947b27d649c7ca37b7ad9496e90e78c4ad2ae980"
+    },
+    {
+      "path": "author_output_manifest.json",
+      "size_bytes": 267,
+      "sha256": "46486a33c5751925ee7f739b70a22fd385d09f10537d7081ae2e5d2264018082"
+    },
+    {
+      "path": "author_outputs/Int-I_2H_2plus.zip",
+      "size_bytes": 24503412,
+      "sha256": "ab75a34d728aa095ea0e02b595be2d17fe780080a7920ac086f285bf51a765bd"
     },
     {
       "path": "candidate_manifest.json",
@@ -136,8 +146,8 @@
     },
     {
       "path": "computational_protocol.json",
-      "size_bytes": 1445,
-      "sha256": "735087d176e34aa8428046129486a5edf7f90c97861a1573a0c67f155e9b1968"
+      "size_bytes": 1542,
+      "sha256": "aaa8b88fff57e6f18e0305a5e8b54821e9ee61f913826bdfe6ddf57c6ffa5b08"
     },
     {
       "path": "experimental_observations.json",
@@ -145,9 +155,14 @@
       "sha256": "38efb4a4ae92d8a7c1a30fa8ddf46df8bd4faf4cb2483855fd45463ef82645b3"
     },
     {
+      "path": "publication_evidence.json",
+      "size_bytes": 330,
+      "sha256": "b4a443b425850973ad992c061e08a3d532b71a854dfa4fb89de8374b92673c2a"
+    },
+    {
       "path": "workflow_requirements.json",
-      "size_bytes": 792,
-      "sha256": "1d99529abb3b845870839af449a47f346bdd37678bc2705d3ef107874ea3cdeb"
+      "size_bytes": 822,
+      "sha256": "d503bfce0206a8c6e483970fdc310594676b06a909d7163761948f20e277d6ef"
     }
   ],
   "candidate_count": 24,
@@ -155,5 +170,9 @@
     "P2"
   ],
   "experimental_observation_file_count": 1,
-  "software_stage_count": 5
+  "author_archive_count": 1,
+  "publication_evidence_files": [
+    "publication_evidence.json"
+  ],
+  "software_stage_count": 4
 }

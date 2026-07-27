@@ -19,7 +19,7 @@
     "E11",
     "E12"
   ],
-  "completed_computational_outputs": 0,
+  "completed_computational_outputs": "contained_in_author_archives",
   "optimized_stationary_points": 0,
   "transition_states": 0,
   "reaction_path_outputs": 0,
@@ -62,13 +62,18 @@
   "files": [
     {
       "path": "README.md",
-      "size_bytes": 1494,
-      "sha256": "62f2a56f02cd49dbc987ea846506e4a5ff5858bb1885a2b48cd1d1905bc3746a"
+      "size_bytes": 1385,
+      "sha256": "641a9d5714e6720e0620c5eda40afd48ea7cd739bb4c818251f973ddb253f0f8"
+    },
+    {
+      "path": "author_outputs/Int-I_2H_2plus.zip",
+      "size_bytes": 24503412,
+      "sha256": "ab75a34d728aa095ea0e02b595be2d17fe780080a7920ac086f285bf51a765bd"
     },
     {
       "path": "computational_protocol.json",
-      "size_bytes": 3820,
-      "sha256": "2d7936716d0401e66da34063ee847c750f2bc1fbc901dc6777623699a9dfb33b"
+      "size_bytes": 4225,
+      "sha256": "636f337e4fe18eec34f932a57c1e55035b94f6821451ffed918cfa1834c45a85"
     },
     {
       "path": "conditions.json",
@@ -102,13 +107,13 @@
     },
     {
       "path": "reaction_definitions.json",
-      "size_bytes": 1147,
-      "sha256": "ef366c3fa5ab53fce6b00dd11191eb0773e2adbd7aaf22026df8856514210a37"
+      "size_bytes": 1146,
+      "sha256": "1a70d2af540e9011722a791d2593e98dd536ad4117eee67ce36544a39f6f9f4b"
     },
     {
       "path": "workflow_requirements.json",
-      "size_bytes": 1124,
-      "sha256": "77bec8f26247a5cf8d5e3aff93373a1ab031fd43af8eaf1f7de168769db81cae"
+      "size_bytes": 1212,
+      "sha256": "16fd4795bfb37aebbc1be67d52f7b23ccaeafbf5decdad3f95d6fa2ee49be5dc"
     }
   ],
   "task_mode": "guided_reproduction",
@@ -122,5 +127,13 @@
     "workflow_requirements.json"
   ],
   "published_numerical_results": 0,
-  "author_coordinates": 0
+  "author_coordinates": 1,
+  "author_output_archives": [
+    {
+      "state": "P2",
+      "path": "author_outputs/Int-I_2H_2plus.zip",
+      "sha256": "ab75a34d728aa095ea0e02b595be2d17fe780080a7920ac086f285bf51a765bd",
+      "source_doi": "10.5281/zenodo.1439888"
+    }
+  ]
 }

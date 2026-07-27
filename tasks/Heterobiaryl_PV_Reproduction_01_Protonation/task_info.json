@@ -2,13 +2,13 @@
   "task_id": "Heterobiaryl_PV_Reproduction_01_Protonation",
   "source_id": "heterobiaryl_pv_2018_guided_reproduction",
   "category": "mechanistic_quantum_chemistry",
-  "task": "Using the supplied paper-reconstructed computational protocol and mapped pyridyl-pyridyl pathway definitions, reproduce the protonation-state activation-free-energy comparison for P0, P1, and P2. Independently generate every geometry, stationary point, frequency, IRC, electronic energy, and thermochemical result in this run. Follow the supplied method hierarchy where the deployed software supports it, document any necessary version-compatible substitution, and keep paper-published targets separate from newly recomputed values.",
+  "task": "Using the supplied author-deposited Gaussian frequency outputs and ORCA DLPNO-CCSD(T) single-point outputs, independently reanalyze the pyridyl-pyridyl activation free energies for P0, P1, and P2. Validate file matching and stationary-point character, apply one 353.15 K and 1 M ethanol GoodVibes convention, and reproduce the protonation trend without presenting publication values as calculations from this run.",
   "scientific_mode": "guided_reproduction",
-  "scientific_mode_description": "The paper-reconstructed method hierarchy and candidate reaction routes are supplied. The Agent must execute, debug, validate, and report the reproduction without reading hidden results or author stationary points.",
+  "scientific_mode_description": "Author-deposited raw quantum-chemistry outputs and a paper-reconstructed analysis protocol are supplied. The Agent must independently validate and reanalyze them, create new managed analysis artifacts, and keep publication-only evidence separate.",
   "scientific_requirements": [
     "Apply the supplied geometry/frequency, high-level single-point, and thermochemistry hierarchy consistently to P0, P1, and P2.",
-    "Validate every reported transition state by a target imaginary mode and forward/reverse connectivity.",
-    "Report current-toolbox activation free energies and their protonation trend separately from hidden paper-published comparison values."
+    "Validate every barrier-defining supplied transition state by its frequency output and forming/breaking-bond geometry.",
+    "Report newly generated GoodVibes activation free energies and their protonation trend separately from publication comparison values."
   ],
   "required_deliverables": [
     {
@@ -34,12 +34,31 @@
       "name": "Guided Heterobiaryl P(V) reproduction inputs",
       "path": "data/benchmark_data",
       "type": "directory",
-      "description": "Decontaminated raw structures and measurements copied from the open-discovery task, plus a paper-reconstructed method protocol, mapped candidate pathways, and workflow requirements. No author stationary point, calculation output, published numerical result, or reference answer is visible."
+      "description": "Paper-reconstructed protocol and mapped pathways plus author-deposited Gaussian frequency and ORCA DLPNO raw outputs for independent validation and thermochemical reanalysis."
     }
   ],
-  "archive_extractions": [],
+  "archive_extractions": [
+    {
+      "source": "benchmark_data/author_outputs/Int-I_unprotonated.zip",
+      "format": "zip",
+      "destination": "benchmark_data/extracted_author_outputs/P0",
+      "sha256": "b0fead3eb766cd93abce61dc616abc86c0ce21e04aabeb7cd48c66de6f0eb956"
+    },
+    {
+      "source": "benchmark_data/author_outputs/Int-I_H_plus.zip",
+      "format": "zip",
+      "destination": "benchmark_data/extracted_author_outputs/P1",
+      "sha256": "a4eb10d5864b8835c9a8ea3462d79429add0873ca0dccea2d6a236c04a696ce6"
+    },
+    {
+      "source": "benchmark_data/author_outputs/Int-I_2H_2plus.zip",
+      "format": "zip",
+      "destination": "benchmark_data/extracted_author_outputs/P2",
+      "sha256": "ab75a34d728aa095ea0e02b595be2d17fe780080a7920ac086f285bf51a765bd"
+    }
+  ],
   "benchmark_family": "heterobiaryl_pv",
   "task_mode": "guided_reproduction",
   "method_disclosure": "paper_reconstructed_protocol",
-  "pathway_disclosure": "mapped_candidate_routes"
+  "pathway_disclosure": "author_output_reanalysis"
 }

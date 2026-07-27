@@ -4,7 +4,7 @@
     "pymatgen/spglib",
     "VASP",
     "SciPy/internal EOS fitting",
-    "LOBSTER"
+    "publication-evidence and LOBSTER-basis audit"
   ],
   "vasp": {
     "xc": "PBE",
@@ -31,8 +31,7 @@
       "energy",
       "stress",
       "volume",
-      "convergence",
-      "wavefunction_for_selected_ablation"
+      "convergence"
     ]
   },
   "eos": {
@@ -44,18 +43,13 @@
       0,
       80
     ],
-    "adaptive_refinement_minimum_new_points": 3
+    "adaptive_refinement_minimum_new_points": 3,
+    "internal_coordinate_relaxation_required_for_B8_and_dB2": true
   },
-  "lobster_ablation": {
-    "paired_same_wavefunction": true,
-    "control_projection": "Ba s,p plus O basis without explicit Ba 5d",
-    "expanded_projection": "same basis plus Ba 5d",
-    "compare": [
-      "absolute_charge_spilling",
-      "total_charge_spilling",
-      "Ba-O ICOHP",
-      "Ba 5d PDOS"
-    ]
+  "lobster_evidence_policy": {
+    "fresh_custom_basis_run_required": false,
+    "reason": "complete La-5d-on-Ba custom basis file is not public",
+    "optional_run_gate": "verify the realized basis contains Ba 5d and use the same parent wavefunction for control and expanded projections"
   },
-  "result_values_included": false
+  "result_values_included": true
 }

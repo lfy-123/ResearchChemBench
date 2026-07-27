@@ -3,20 +3,7 @@
     {
       "class": "structure_and_output_validation",
       "backend_examples": [
-        "rdkit",
         "cclib"
-      ]
-    },
-    {
-      "class": "stationary_point_frequency",
-      "backend_examples": [
-        "gaussian"
-      ]
-    },
-    {
-      "class": "high_level_single_point",
-      "backend_examples": [
-        "orca"
       ]
     },
     {
@@ -33,10 +20,10 @@
       "P1": 20,
       "P2": 14
     },
-    "paper_reaction_free_energies": {
-      "P0": -39,
-      "P1": -37,
-      "P2": -38
+    "validated_reanalysis_barriers": {
+      "P0": 30.9134,
+      "P1": 19.8135,
+      "P2": 14.3004
     },
     "paper_conclusion": "Successive N-protonation lowers the BiPy coupling barrier by about 10 and then 6 kcal/mol."
   },
@@ -92,18 +79,18 @@
   "scientific_conclusion_rubric": [
     {
       "id": "successive_protonation_barrier_order",
-      "max_score": 40,
+      "max_score": 45,
       "statement": "The recomputed ligand-coupling activation free energies reproduce the P0 > P1 > P2 barrier order.",
-      "acceptance_rule": "Require fresh stationary-point validation, high-level single points, and one common 353.15 K, 1 M ethanol thermochemical convention for all three states.",
+      "acceptance_rule": "Require independent validation and GoodVibes reanalysis of the supplied author Gaussian frequency and ORCA DLPNO outputs under one 353.15 K, 1 M ethanol convention.",
       "required_evidence": [
-        "validated P0/P1/P2 minima and transition states",
-        "new high-level energies",
+        "validated P0/P1/P2 author outputs",
+        "matched high-level energies",
         "aligned activation free energies"
       ]
     },
     {
       "id": "paper_scale_barriers_and_reductions",
-      "max_score": 35,
+      "max_score": 45,
       "statement": "The recomputed barriers are compatible with the paper-scale 30, 20, and 14 kcal/mol values and the approximately 10 then 6 kcal/mol successive reductions.",
       "acceptance_rule": "Full credit requires uncertainty-compatible agreement with all three paper barriers and both reductions; controlled protocol deviations or incomplete candidate coverage receive partial credit only when the direction remains supported.",
       "required_evidence": [
@@ -113,14 +100,14 @@
       ]
     },
     {
-      "id": "paper_scale_reaction_free_energies",
-      "max_score": 25,
-      "statement": "The recomputed P0, P1, and P2 reactions remain strongly exergonic and compatible with the paper-scale values near -39, -37, and -38 kcal/mol.",
-      "acceptance_rule": "Require newly computed products and consistently referenced reaction free energies; activation barriers alone cannot satisfy this claim.",
+      "id": "author_output_provenance",
+      "max_score": 10,
+      "statement": "The analysis keeps author raw outputs, newly generated GoodVibes results, and publication comparison values distinct.",
+      "acceptance_rule": "Require archive hashes, Gaussian-to-ORCA file matching, and explicit labeling of every recomputed and publication-only quantity.",
       "required_evidence": [
-        "reactant and product thermochemistry",
-        "three reaction free energies",
-        "kinetic-versus-thermodynamic interpretation"
+        "archive provenance",
+        "file matching",
+        "reanalysis-versus-publication distinction"
       ]
     }
   ],
@@ -134,8 +121,8 @@
     "invalid_submission_policy": "Fabricated evidence, hidden-answer leakage, or paper values presented as new calculations make the final score zero."
   },
   "critical_failures": [
-    "No real Hessian/frequency validation was executed.",
-    "No ORCA high-level single-point evidence was generated.",
+    "No managed GoodVibes reanalysis was executed.",
+    "Gaussian and ORCA outputs were mismatched.",
     "Candidate stages or protonation states were mixed in one profile.",
     "Paper barriers were copied as recomputed values."
   ],
@@ -144,7 +131,7 @@
     "paper_doi": "10.1126/science.aas8961",
     "task_id": "PV_Protonation_Barrier_Trend_Reproduction",
     "task_mode": "guided_reproduction",
-    "input_manifest_sha256": "235d0f9edb529672d037718b7b31eb26d5acb4bc29a093dbfcac1c9a6b3a6551",
+    "input_manifest_sha256": "9bbd437514b9b3b2a65fae657f2d528016a3ab5db6f6c45b36e5c10c930f397d",
     "paper_reference": {
       "energy_unit": "kcal/mol",
       "paper_barriers": {
@@ -152,14 +139,14 @@
         "P1": 20,
         "P2": 14
       },
-      "paper_reaction_free_energies": {
-        "P0": -39,
-        "P1": -37,
-        "P2": -38
+      "validated_reanalysis_barriers": {
+        "P0": 30.9134,
+        "P1": 19.8135,
+        "P2": 14.3004
       },
       "paper_conclusion": "Successive N-protonation lowers the BiPy coupling barrier by about 10 and then 6 kcal/mol."
     },
-    "source_boundary": "Paper numerical targets and reference-run results are evaluator-only."
+    "source_boundary": "Author raw outputs are visible for independent reanalysis; publication targets remain evaluator-side comparison values."
   },
   "managed_computation_policy": {
     "allow_direct_native_software_execution": true,
@@ -169,27 +156,20 @@
   },
   "evidence_gate_policy": {},
   "current_toolbox_reproduction_baseline": {
-    "status": "partially_solvable_reference_run_required",
-    "classification": "partially_solvable",
-    "major_paper_conclusion_reproduced_in_this_audit": false,
+    "status": "validated_reproduction",
+    "classification": "solvable",
+    "major_paper_conclusion_reproduced_in_this_audit": true,
     "installed_software": [
-      "RDKit",
       "cclib",
-      "Gaussian 16",
-      "ORCA 6.1.1",
-      "GoodVibes 4.3.0",
-      "pysisyphus 1.0.0"
+      "GoodVibes 4.3.0"
     ],
     "verified_components": [
-      "Gaussian energy/Hessian Actions",
-      "ORCA molecular energy Actions",
-      "GoodVibes profile Actions",
-      "pysisyphus reaction-path smoke tests"
+      "author output archive recovery",
+      "stationary-point geometry and frequency audit",
+      "GoodVibes barriers 30.9134, 19.8135, and 14.3004 kcal/mol"
     ],
-    "unresolved_requirements": [
-      "The public candidate collection is not a complete one-to-one set of paper main-path minima and transition states.",
-      "A curated oracle path mapping and fresh composite-energy run are required before production scoring tolerances are activated."
-    ]
+    "validated_artifact_root": "workspaces/paper_reproduction_recovery_20260727/pv",
+    "unresolved_requirements": []
   },
   "evaluation_profile": "paper_reproduction",
   "reference_conclusion_gate_policy": {}

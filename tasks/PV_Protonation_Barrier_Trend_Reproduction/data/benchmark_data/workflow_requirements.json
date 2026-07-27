@@ -1,18 +1,38 @@
 {
   "required_stages": [
-    "candidate_screening",
-    "identity_and_charge_validation",
-    "stationary_point_hessian",
-    "high_level_single_points",
-    "GoodVibes_thermochemistry",
-    "profile_alignment",
+    "archive_hash_validation",
+    "Gaussian_ORCA_file_matching",
+    "stationary_point_and_frequency_validation",
+    "GoodVibes_353K_1M_reanalysis",
+    "common_reference_profile_alignment",
     "protonation_trend_analysis"
   ],
   "hard_gates": [
-    "A TS without exactly one chemically relevant significant imaginary mode may not define a formal barrier.",
-    "All three protonation profiles must use the same thermochemical convention.",
-    "File matching between frequency and single-point calculations must be explicit.",
-    "The agent must separate a paper-published trend from any benchmark-compatible substitution."
+    "Every precise barrier must trace to a supplied frequency output and matched DLPNO output.",
+    "All three states must use one thermochemical convention.",
+    "Publication values must not be presented as the new GoodVibes output."
   ],
-  "budget_rule": "Use labels and low-cost screening to select a bounded consistent path; report excluded candidates and sensitivity."
+  "author_output_archives": [
+    {
+      "state": "P0",
+      "path": "author_outputs/Int-I_unprotonated.zip",
+      "size_bytes": 24258617,
+      "sha256": "b0fead3eb766cd93abce61dc616abc86c0ce21e04aabeb7cd48c66de6f0eb956",
+      "source_doi": "10.5281/zenodo.1439888"
+    },
+    {
+      "state": "P1",
+      "path": "author_outputs/Int-I_H_plus.zip",
+      "size_bytes": 22575886,
+      "sha256": "a4eb10d5864b8835c9a8ea3462d79429add0873ca0dccea2d6a236c04a696ce6",
+      "source_doi": "10.5281/zenodo.1439888"
+    },
+    {
+      "state": "P2",
+      "path": "author_outputs/Int-I_2H_2plus.zip",
+      "size_bytes": 24503412,
+      "sha256": "ab75a34d728aa095ea0e02b595be2d17fe780080a7920ac086f285bf51a765bd",
+      "source_doi": "10.5281/zenodo.1439888"
+    }
+  ]
 }
