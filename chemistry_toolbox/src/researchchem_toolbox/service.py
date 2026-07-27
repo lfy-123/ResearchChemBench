@@ -11,6 +11,13 @@ from pydantic import ValidationError
 from .artifacts import ArtifactStore, canonicalize_artifact_refs, collect_artifact_refs
 from .catalog import action_specs, active_catalog_hash, backend_specs
 from .models import ActionRequest, ActionResult
+from .resource_budget import (
+    ResourceBudgetExceeded,
+    normalize_resource_limits,
+    reserve_resources,
+    resource_budget_record,
+    validate_resource_limits,
+)
 from .resources import collect_resource_references
 from .runtime import invoke_worker, probe_all_backends
 from .timeout_policy import timeout_policy_record, timeout_seconds_for
@@ -22,6 +29,8 @@ def _invalid(
     message: str,
     *,
     code: str = "invalid_request",
+    error_details: Mapping[str, Any] | None = None,
+    retryable: bool = False,
 ) -> dict[str, Any]:
     return ActionResult(
         status="invalid_request",
@@ -30,8 +39,8 @@ def _invalid(
         requested_backend=request_backend,
         backend=None,
         selection_source="agent",
-        error={"code": code, "message": message},
-        retryable=False,
+        error={"code": code, "message": message, **dict(error_details or {})},
+        retryable=retryable,
         provenance={
             "catalog_hash": active_catalog_hash(),
             "automatic_fallback_count": 0,
@@ -220,7 +229,8 @@ def _validate_backend_resource_constraints(
     selected_backends: tuple[Any, ...],
     timeout_seconds: int,
 ) -> dict[str, Any] | None:
-    cpu_cores = request.resource_limits.cpu_cores or 1
+    resources = normalize_resource_limits(request.resource_limits)
+    cpu_cores = resources["cpu_cores"]
     for selected in selected_backends:
         maximum = selected.resource_constraints.get("maximum_cpu_cores")
         if maximum is not None and cpu_cores > int(maximum):
@@ -249,6 +259,22 @@ def _validate_backend_resource_constraints(
                 "running this benchmark; the Agent cannot change this value.",
                 code="invalid_timeout_policy",
             )
+    try:
+        validate_resource_limits(resources)
+    except ResourceBudgetExceeded as exc:
+        error = exc.as_error()
+        return _invalid(
+            action_id,
+            backend_id,
+            error["message"],
+            code=error["code"],
+            error_details={
+                key: value
+                for key, value in error.items()
+                if key not in {"code", "message", "retryable"}
+            },
+            retryable=bool(error.get("retryable")),
+        )
     return None
 
 
@@ -724,6 +750,9 @@ def execute_action(action_id: str, request_value: ActionRequest | dict[str, Any]
 
     input_artifacts = collect_artifact_refs(request.inputs)
     execution_request = request.model_dump(mode="json")
+    execution_request["resource_limits"].update(
+        normalize_resource_limits(request.resource_limits)
+    )
     execution_request["resource_limits"]["walltime_seconds"] = execution_timeout
     execution_request["action_settings"]["timeout_seconds"] = execution_timeout
     worker_payload = {
@@ -731,11 +760,30 @@ def execute_action(action_id: str, request_value: ActionRequest | dict[str, Any]
         "backend_id": backend_id,
         "request": execution_request,
     }
-    worker = invoke_worker(
-        runtime=backend.runtime,
-        payload=worker_payload,
-        timeout_seconds=execution_timeout,
-    )
+    try:
+        reservation = reserve_resources(
+            execution_request["resource_limits"],
+            kind="predefined_action",
+            label=f"{action_id}/{backend_id}",
+        )
+    except ResourceBudgetExceeded as exc:
+        error = exc.as_error()
+        return _invalid(
+            action_id,
+            backend_id,
+            error["message"],
+            code=error["code"],
+            error_details={key: value for key, value in error.items() if key not in {"code", "message", "retryable"}},
+            retryable=bool(error.get("retryable")),
+        )
+    try:
+        worker = invoke_worker(
+            runtime=backend.runtime,
+            payload=worker_payload,
+            timeout_seconds=execution_timeout,
+        )
+    finally:
+        reservation.release()
     status = worker.get("status", "failed")
     if status not in {
         "success", "partial_success", "invalid_request", "unsupported", "unavailable",
@@ -811,6 +859,10 @@ def execute_action(action_id: str, request_value: ActionRequest | dict[str, Any]
         "dispatcher_executed_backend": backend_id,
         "automatic_fallback_count": 0,
         "execution_timeout_policy": timeout_policy,
+        "evaluation_resource_budget": resource_budget_record(),
+        "requested_resource_limits": normalize_resource_limits(
+            request.resource_limits
+        ),
         **dict(worker.get("provenance") or {}),
     }
     return ActionResult(

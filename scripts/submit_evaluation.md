@@ -8,9 +8,9 @@ timeout 是评测环境统一规定的资源预算，不再由智能体设置。
 
 | 层级 | 默认值 | 脚本参数 | 智能体能否修改 |
 |---|---:|---|---|
-| 快速/数据 Action | 60秒 | `--fast-action-timeout-seconds` | 否 |
-| 计算 Action、native job、analysis program | 7200秒 | `--compute-action-timeout-seconds` | 否 |
-| MCP单次工具调用 | 7500秒 | `--mcp-tool-timeout-seconds` | 否 |
+| 快速/数据 Action | 240秒 | `--fast-action-timeout-seconds` | 否 |
+| 计算 Action、native job、analysis program | 10800秒 | `--compute-action-timeout-seconds` | 否 |
+| MCP单次工具调用 | 14000秒 | `--mcp-tool-timeout-seconds` | 否 |
 | 单个Agent任务总时间 | 14400秒 | `--timeout-seconds` | 否 |
 
 计算类包括ORCA、Gaussian、CREST、xTB、VASP、QE、GPAW、结构优化、频率、TS、IRC、反应路径、电子密度、热化学、native software job和Agent编写的analysis program。
@@ -28,7 +28,7 @@ timeout 是评测环境统一规定的资源预算，不再由智能体设置。
 默认关系为：
 
 ```text
-60 < 7200 < 7500 < 14400
+240 < 10800 < 14000 < 14400
 ```
 
 `submit_evaluation.sh` 会检查：
@@ -36,9 +36,29 @@ timeout 是评测环境统一规定的资源预算，不再由智能体设置。
 - 快速Action timeout不能超过计算Action timeout；
 - MCP timeout必须大于计算Action timeout。
 
-7200秒只是计算类默认值，不是硬上限。人工可以通过脚本增大或减小它；相应地必须把MCP和Agent总timeout设置得更长。
+10800秒只是计算类默认值，不是硬上限。人工可以通过脚本增大或减小它；相应地必须把MCP和Agent总timeout设置得更长。
 
-### 智能体仍可控制的资源
+## 2. CPU、内存和GPU资源预算
+
+资源总量由评测者在提交任务时设置，并作为每个任务的固定环境条件告诉智能体：
+
+| 参数 | 默认值 | 含义 |
+|---|---:|---|
+| `--available-cpu-cores N` | `48` | 单个任务可使用的逻辑CPU核数上限 |
+| `--available-memory-mb N` | `196608` | 单个任务可使用的内存上限，单位MiB |
+| `--available-gpu-count N` | `0` | 单个任务可使用的GPU数量上限 |
+
+示例：
+
+```bash
+bash scripts/submit_evaluation.sh submit \
+  --available-cpu-cores 48 \
+  --available-memory-mb 196608 \
+  --available-gpu-count 0 \
+  Task_A
+```
+
+智能体不能修改这三个环境上限，但可以为每次计算选择不超过上限的资源：
 
 智能体仍然可以在backend允许范围内选择：
 
@@ -52,6 +72,25 @@ timeout 是评测环境统一规定的资源预算，不再由智能体设置。
 }
 ```
 
+工具箱同时检查两层约束：
+
+- 单次Action或作业的CPU、内存、GPU请求不得超过任务预算；
+- 同一任务内所有并发排队或运行的托管计算，资源请求总和不得超过任务预算。
+
+超额请求会返回结构化的 `resource_budget_exceeded` 或
+`aggregate_resource_budget_exceeded` 错误，不会静默缩小。CPU通过进程亲和性和线程环境变量约束，内存通过进程地址空间上限约束，GPU通过可见设备列表约束。
+
+默认 `--max-concurrent-runs 1`。如果并行执行多个完整任务，每个任务均拥有上述独立预算，因此评测者应确保“单任务预算 × 并发任务数”不超过服务器实际资源。
+
+资源预算会写入：
+
+- 智能体初始任务指令；
+- Action和原生软件工具目录；
+- `evaluation_config.yaml`、`submission.json`；
+- 每个任务的 `_meta.json`、`_toolbox_catalog.json` 和 `results.json`。
+
+### timeout仍不可由智能体控制
+
 公开Action请求中不再包含：
 
 ```json
@@ -62,7 +101,7 @@ timeout 是评测环境统一规定的资源预算，不再由智能体设置。
 
 如果智能体猜测并提交 `resource_limits.walltime_seconds` 或 `action_settings.timeout_seconds`，工具箱会拒绝请求并说明timeout由评测策略控制。
 
-## 2. 基本用法
+## 3. 基本用法
 
 在项目根目录执行：
 
@@ -93,8 +132,8 @@ bash scripts/submit_evaluation.sh submit \
 ```bash
 bash scripts/submit_evaluation.sh submit \
   --fast-action-timeout-seconds 60 \
-  --compute-action-timeout-seconds 7200 \
-  --mcp-tool-timeout-seconds 7500 \
+  --compute-action-timeout-seconds 10800 \
+  --mcp-tool-timeout-seconds 14000 \
   --timeout-seconds 14400 \
   Task_A
 ```
@@ -146,7 +185,7 @@ bash scripts/submit_evaluation.sh submit \
   Task_A
 ```
 
-## 3. `submit` 参数
+## 4. `submit` 参数
 
 | 参数 | 默认值 | 作用 |
 |---|---:|---|
@@ -154,9 +193,12 @@ bash scripts/submit_evaluation.sh submit \
 | `--model MODEL` | `deepseek-v4-flash` | 执行任务的模型 |
 | `--judge-model MODEL` | 与Agent模型相同 | Judge模型 |
 | `--timeout-seconds N` | `14400` | 每个Agent任务的总walltime |
-| `--compute-action-timeout-seconds N` | `7200` | 所有计算Action和计算作业的固定timeout |
-| `--fast-action-timeout-seconds N` | `60` | 所有快速/数据Action的固定timeout |
-| `--mcp-tool-timeout-seconds N` | `7500` | MCP客户端等待单次工具调用的最长时间 |
+| `--compute-action-timeout-seconds N` | `10800` | 所有计算Action和计算作业的固定timeout |
+| `--fast-action-timeout-seconds N` | `240` | 所有快速/数据Action的固定timeout |
+| `--mcp-tool-timeout-seconds N` | `14000` | MCP客户端等待单次工具调用的最长时间 |
+| `--available-cpu-cores N` | `48` | 每个任务的CPU核数预算 |
+| `--available-memory-mb N` | `196608` | 每个任务的内存预算，单位MiB |
+| `--available-gpu-count N` | `0` | 每个任务的GPU数量预算 |
 | `--max-turns N` | `200` | 每个任务最大Agent轮数 |
 | `--max-concurrent-runs N` | `1` | 同时运行的完整任务数 |
 | `--repeats N` | `1` | 每个任务重复次数 |
@@ -170,7 +212,7 @@ bash scripts/submit_evaluation.sh submit \
 | `--follow` | 关闭 | 后台提交后持续显示状态 |
 | `--dry-run` | 关闭 | 只验证并打印计划 |
 
-## 4. 查看和控制任务
+## 5. 查看和控制任务
 
 提交后会打印：
 
@@ -223,7 +265,7 @@ bash scripts/submit_evaluation.sh summary \
   --run-root workspaces/submissions/20260727_120000
 ```
 
-## 5. 输出文件
+## 6. 输出文件
 
 ```text
 workspaces/submissions/<UTC>/
@@ -242,11 +284,11 @@ workspaces/submissions/<UTC>/
                 └── _live_progress.log
 ```
 
-`submission.json`、批次配置、任务 `_meta.json` 和 `results.json` 会记录本次使用的四层timeout策略。
+`submission.json`、批次配置、任务 `_meta.json` 和 `results.json` 会记录本次使用的四层timeout策略和资源预算。
 
-## 6. 常见问题
+## 7. 常见问题
 
-### timeout设置为7200秒，简单Action会等待7200秒吗？
+### timeout设置为10800秒，简单Action会等待10800秒吗？
 
 不会。timeout是上限，不是固定执行时间。10秒完成的Action仍会在10秒左右返回。
 
@@ -268,6 +310,12 @@ timeout属于benchmark资源预算。统一设置可以保证不同模型处在�
 
 ```bash
 jq '.timeout_policy // .run.timeout_policy' /path/to/task_workspace/{_meta.json,results.json}
+```
+
+资源预算可使用：
+
+```bash
+jq '.resource_budget // .run.resource_budget' /path/to/task_workspace/{_meta.json,results.json}
 ```
 
 ### 查看脚本帮助

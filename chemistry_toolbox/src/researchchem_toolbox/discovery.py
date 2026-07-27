@@ -17,6 +17,7 @@ from .parameter_specs import (
     common_fixed_parameter_specs,
     inferred_parameter_metadata,
 )
+from .resource_budget import resource_budget_record
 from .timeout_policy import timeout_policy_record
 
 
@@ -560,6 +561,18 @@ def _action_request_contract(
             "an Agent-selectable scientific parameter."
         ),
     }
+    budget_record = resource_budget_record()
+    for field_name in ("cpu_cores", "memory_mb", "gpu_count"):
+        fixed_parameters[f"evaluation_resource_budget.{field_name}"] = {
+            "description": (
+                f"Per-task evaluator budget for {field_name}: "
+                f"{budget_record[field_name]}."
+            ),
+            "reason": (
+                "The benchmark operator fixes the resource envelope. The Agent may request "
+                "resources within it but cannot enlarge it."
+            ),
+        }
 
     resource_parameter_specs = {
         field_name: dict(metadata)
@@ -567,6 +580,18 @@ def _action_request_contract(
     }
     for field_name, metadata in registered_by_section["resource_limits"].items():
         resource_parameter_specs.setdefault(field_name, {}).update(dict(metadata))
+    for field_name in ("cpu_cores", "memory_mb", "gpu_count"):
+        current_maximum = resource_parameter_specs[field_name].get("maximum")
+        budget_maximum = int(budget_record[field_name])
+        resource_parameter_specs[field_name]["maximum"] = (
+            min(int(current_maximum), budget_maximum)
+            if current_maximum is not None
+            else budget_maximum
+        )
+        resource_parameter_specs[field_name]["evaluation_budget_reason"] = (
+            "Single requests and the sum of concurrently active managed jobs cannot exceed "
+            "the evaluator-controlled per-task resource budget."
+        )
     resource_maximum_fields = {"cpu_cores": "maximum_cpu_cores"}
     for field_name, constraint_name in resource_maximum_fields.items():
         maximum = backend.resource_constraints.get(constraint_name)
@@ -742,6 +767,7 @@ def _action_request_contract(
             "input_handoff_note": _ACTION_INPUT_HANDOFF_NOTES.get(specification.id),
         },
         "execution_timeout_policy": policy_record,
+        "evaluation_resource_budget": budget_record,
         "execution_checklist": [
             "Replace every angle-bracket placeholder; placeholders are not defaults.",
             "Preserve the exact selected action_id and backend_id/source_id.",
@@ -885,6 +911,7 @@ def search_actions(
                 "execution_timeout_policy": timeout_policy_record(
                     specification.execution_class
                 ),
+                "evaluation_resource_budget": resource_budget_record(),
                 "selection_policy": specification.selection_policy,
                 "providers": providers,
             }
@@ -950,6 +977,7 @@ def inspect_action(
         "execution_timeout_policy": timeout_policy_record(
             specification.execution_class
         ),
+        "evaluation_resource_budget": resource_budget_record(),
         "selection_instruction": _selection_instruction(specification),
         "execute_with": "execute_action",
         "action_request_fields": [

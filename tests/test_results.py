@@ -7,7 +7,14 @@ from evaluation.score import score_workspace
 
 
 def test_run_results_exist_before_and_after_scoring(tmp_path: Path, monkeypatch):
-    runner = TaskRunner("ChemGraph_001", agent_key="mock", workspace_root=tmp_path)
+    runner = TaskRunner(
+        "ChemGraph_001",
+        agent_key="mock",
+        workspace_root=tmp_path,
+        available_cpu_cores=6,
+        available_memory_mb=12288,
+        available_gpu_count=0,
+    )
     meta = runner.run()
     assert meta["status"] == "completed"
 
@@ -16,6 +23,14 @@ def test_run_results_exist_before_and_after_scoring(tmp_path: Path, monkeypatch)
     assert initial["agent"]["framework"] == "mock"
     assert initial["score"]["available"] is False
     assert initial["tokens"]["agent"]["available"] is False
+    assert initial["run"]["resource_budget"] == {
+        "cpu_cores": 6,
+        "memory_mb": 12288,
+        "gpu_count": 0,
+        "source": "evaluation_policy",
+        "agent_controllable": False,
+        "scope": "per_task",
+    }
 
     monkeypatch.setattr(
         "evaluation.results.workspace_token_usage",

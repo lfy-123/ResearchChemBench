@@ -306,4 +306,12 @@ def process_metrics(
         "managed_scientific_tools_used": [
             event.get("tool") for event in managed_scientific_events
         ],
+        "resource_budget_rejection_count": sum(
+            (_event_result(event, workspace=workspace).get("error") or {}).get("code")
+            in {
+                "resource_budget_exceeded",
+                "aggregate_resource_budget_exceeded",
+            }
+            for event in events
+        ),
     }

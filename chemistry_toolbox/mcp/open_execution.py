@@ -22,6 +22,13 @@ from researchchem_toolbox.runtime import (
     runtime_names,
     runtime_python,
 )
+from researchchem_toolbox.resource_budget import (
+    ResourceBudgetExceeded,
+    normalize_resource_limits,
+    reserve_resources,
+    resource_budget_record,
+    validate_resource_limits,
+)
 from researchchem_toolbox.timeout_policy import (
     timeout_policy_record,
     timeout_seconds_for,
@@ -122,9 +129,19 @@ def _validate_argument_paths(arguments: list[str]) -> None:
 
 
 def _compute_resource_limits(request_limits) -> dict[str, Any]:
-    resources = request_limits.model_dump(mode="json")
+    resources = normalize_resource_limits(request_limits)
+    validate_resource_limits(resources)
     resources["walltime_seconds"] = timeout_seconds_for("compute")
     return resources
+
+
+def _resource_budget_error(exc: ResourceBudgetExceeded) -> dict[str, Any]:
+    return {
+        "status": "invalid_request",
+        "valid": False,
+        "error": exc.as_error(),
+        "evaluation_resource_budget": resource_budget_record(),
+    }
 
 
 def _stage_inputs(job_directory: Path, items: list[Any]) -> list[dict[str, Any]]:
@@ -317,6 +334,10 @@ def validate_native_job(request: NativeJobRequest) -> dict[str, Any]:
     input_deck_validation = None
     if guide["software_id"] == "pysisyphus" and request.executable == "pysis":
         input_deck_validation = _validate_pysisyphus_input_deck(request, guide)
+    try:
+        resources = _compute_resource_limits(request.resource_limits)
+    except ResourceBudgetExceeded as exc:
+        return _resource_budget_error(exc)
     return {
         "status": "success",
         "valid": True,
@@ -327,8 +348,9 @@ def validate_native_job(request: NativeJobRequest) -> dict[str, Any]:
         "staged_targets": sorted(targets),
         "stdin_target": request.stdin_target,
         "input_deck_validation": input_deck_validation,
-        "resource_limits": _compute_resource_limits(request.resource_limits),
+        "resource_limits": resources,
         "execution_timeout_policy": timeout_policy_record("compute"),
+        "evaluation_resource_budget": resource_budget_record(),
         "invocation_guide": guide,
         "validation_boundary": (
             "Validation confirms the allowlisted executable, argv/path safety, staging map, "
@@ -370,8 +392,19 @@ def _job_environment(
             # requested capacity, so keep it serial inside that outer pool.
             environment["OPENBLAS_NUM_THREADS"] = "1"
             environment["NUMEXPR_NUM_THREADS"] = "1"
-    if resources.get("gpu_count") == 0:
+    gpu_count = int(resources.get("gpu_count") or 0)
+    if gpu_count == 0:
         environment["CUDA_VISIBLE_DEVICES"] = ""
+        environment["ROCR_VISIBLE_DEVICES"] = ""
+    else:
+        for variable in ("CUDA_VISIBLE_DEVICES", "ROCR_VISIBLE_DEVICES"):
+            visible = [
+                item.strip()
+                for item in environment.get(variable, "").split(",")
+                if item.strip()
+            ]
+            selected = visible[:gpu_count] if visible else list(map(str, range(gpu_count)))
+            environment[variable] = ",".join(selected)
     temporary = job_directory / ".tmp"
     home = job_directory / ".home"
     temporary.mkdir(parents=True, exist_ok=True)
@@ -389,6 +422,42 @@ def _job_environment(
 
 
 def _start_job(
+    *,
+    job_type: str,
+    runtime: str,
+    command: list[str],
+    stdin_target: str | None,
+    staged_inputs: list[Any],
+    resource_limits: dict[str, Any],
+    metadata: dict[str, Any],
+) -> dict[str, Any]:
+    try:
+        reservation = reserve_resources(
+            resource_limits,
+            kind=job_type,
+            label=str(metadata.get("label") or command[0]),
+        )
+    except ResourceBudgetExceeded as exc:
+        return _resource_budget_error(exc)
+    try:
+        return _start_reserved_job(
+            job_type=job_type,
+            runtime=runtime,
+            command=command,
+            stdin_target=stdin_target,
+            staged_inputs=staged_inputs,
+            resource_limits=reservation.resource_limits
+            | {"walltime_seconds": resource_limits["walltime_seconds"]},
+            metadata={
+                **metadata,
+                "evaluation_resource_budget": resource_budget_record(),
+            },
+        )
+    finally:
+        reservation.release()
+
+
+def _start_reserved_job(
     *,
     job_type: str,
     runtime: str,
@@ -447,6 +516,7 @@ def _start_job(
     _atomic_json(status_path, status)
     supervisor_spec = {
         **request_record,
+        "evaluation_resource_budget": resource_budget_record(),
         "job_directory": str(job_directory),
         "relative_job_directory": relative_directory,
         "status_path": str(status_path),
@@ -502,6 +572,7 @@ def _start_job(
         "resource_limits": resource_limits,
         "supervisor_pid": supervisor.pid,
         "automatic_fallback": False,
+        "evaluation_resource_budget": resource_budget_record(),
         "next_step": "Call get_execution_job with this exact job_id to inspect state and logs.",
     }
 
@@ -554,13 +625,17 @@ def submit_analysis_program(request: AnalysisJobRequest) -> dict[str, Any]:
         ),
         *request.staged_inputs,
     ]
+    try:
+        resources = _compute_resource_limits(request.resource_limits)
+    except ResourceBudgetExceeded as exc:
+        return _resource_budget_error(exc)
     return _start_job(
         job_type="programmable_analysis",
         runtime=request.runtime,
         command=[str(python), request.script_target, *request.arguments],
         stdin_target=None,
         staged_inputs=staged,
-        resource_limits=_compute_resource_limits(request.resource_limits),
+        resource_limits=resources,
         metadata={
             "runtime": request.runtime,
             "script_source": relative_workspace_path(script),

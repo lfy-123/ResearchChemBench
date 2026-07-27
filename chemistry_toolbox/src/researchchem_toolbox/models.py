@@ -34,9 +34,9 @@ class ResourceLimits(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    memory_mb: int | None = Field(default=None, ge=128)
-    cpu_cores: int | None = Field(default=None, ge=1)
-    gpu_count: int | None = Field(default=None, ge=0)
+    memory_mb: int = Field(default=4096, ge=128)
+    cpu_cores: int = Field(default=1, ge=1)
+    gpu_count: int = Field(default=0, ge=0)
 
 
 class ActionRequest(BaseModel):

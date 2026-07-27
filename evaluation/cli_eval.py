@@ -19,6 +19,9 @@ from researchchem_toolbox.catalog import resolve_tool_discovery_mode
 
 from .config import (
     AGENT_PRESETS,
+    DEFAULT_AVAILABLE_CPU_CORES,
+    DEFAULT_AVAILABLE_GPU_COUNT,
+    DEFAULT_AVAILABLE_MEMORY_MB,
     DEFAULT_AGENT_TIMEOUT_SECONDS,
     DEFAULT_COMPUTE_ACTION_TIMEOUT_SECONDS,
     DEFAULT_FAST_ACTION_TIMEOUT_SECONDS,
@@ -96,6 +99,16 @@ def _positive_integer(value: Any, *, name: str) -> int:
         raise EvalConfigError(f"{name} must be an integer") from exc
     if normalized < 1:
         raise EvalConfigError(f"{name} must be positive")
+    return normalized
+
+
+def _nonnegative_integer(value: Any, *, name: str) -> int:
+    try:
+        normalized = int(value)
+    except (TypeError, ValueError) as exc:
+        raise EvalConfigError(f"{name} must be an integer") from exc
+    if normalized < 0:
+        raise EvalConfigError(f"{name} must be non-negative")
     return normalized
 
 
@@ -231,6 +244,20 @@ def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False
         ),
         name="mcp_tool_timeout_seconds",
     )
+    available_cpu_cores = _positive_integer(
+        config.get("available_cpu_cores", DEFAULT_AVAILABLE_CPU_CORES),
+        name="available_cpu_cores",
+    )
+    available_memory_mb = _positive_integer(
+        config.get("available_memory_mb", DEFAULT_AVAILABLE_MEMORY_MB),
+        name="available_memory_mb",
+    )
+    if available_memory_mb < 128:
+        raise EvalConfigError("available_memory_mb must be >= 128")
+    available_gpu_count = _nonnegative_integer(
+        config.get("available_gpu_count", DEFAULT_AVAILABLE_GPU_COUNT),
+        name="available_gpu_count",
+    )
     if fast_action_timeout_seconds > compute_action_timeout_seconds:
         raise EvalConfigError(
             "fast_action_timeout_seconds cannot exceed compute_action_timeout_seconds"
@@ -253,6 +280,12 @@ def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False
             f"compute_action={compute_action_timeout_seconds}s "
             f"mcp_tool={mcp_tool_timeout_seconds}s "
             f"agent={agent_timeout_seconds}s"
+        )
+        _log(
+            "Per-task resource budget: "
+            f"cpu={available_cpu_cores} "
+            f"memory={available_memory_mb}MiB "
+            f"gpu={available_gpu_count}"
         )
         for spec in specs:
             _log(f"run={spec.task_id} agent={spec.agent_key} repeat={spec.repeat}")
@@ -283,6 +316,9 @@ def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False
             compute_action_timeout_seconds=compute_action_timeout_seconds,
             fast_action_timeout_seconds=fast_action_timeout_seconds,
             mcp_tool_timeout_ms=mcp_tool_timeout_seconds * 1000,
+            available_cpu_cores=available_cpu_cores,
+            available_memory_mb=available_memory_mb,
+            available_gpu_count=available_gpu_count,
             max_turns=int(config.get("max_turns", DEFAULT_MAX_TURNS)),
             tool_discovery_mode=discovery_mode,
             live_progress=live_progress,

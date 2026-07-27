@@ -86,6 +86,24 @@ def test_trace_records_action_status_instead_of_transport_success(
     assert result["transport_status"] == "success"
 
 
+def test_resource_budget_rejections_are_counted(tmp_path: Path, monkeypatch):
+    monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
+    (tmp_path / "outputs").mkdir()
+    execute_traced(
+        "calculate_energy",
+        {"backend_id": "xtb"},
+        lambda: {
+            "status": "invalid_request",
+            "error": {
+                "code": "resource_budget_exceeded",
+                "message": "requested resources exceed the task budget",
+            },
+        },
+    )
+    metrics = process_metrics(load_tool_trace(tmp_path), workspace=tmp_path)
+    assert metrics["resource_budget_rejection_count"] == 1
+
+
 def _job_event(sequence: int, tool: str, result: dict, job_id: str) -> dict:
     return {
         "sequence": sequence,

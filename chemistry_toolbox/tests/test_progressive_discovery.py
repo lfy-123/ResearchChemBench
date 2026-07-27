@@ -194,7 +194,19 @@ def test_composite_and_typed_handoff_contracts_are_explicit():
     orca_template = orca["selected_request_contract"][
         "execute_action_request_template"
     ]
-    assert orca_template["resource_limits"]["cpu_cores"] is None
+    assert orca_template["resource_limits"]["cpu_cores"] == 1
+    assert orca_template["resource_limits"]["memory_mb"] == 4096
+    assert orca_template["resource_limits"]["gpu_count"] == 0
+    assert orca["evaluation_resource_budget"]["cpu_cores"] == 48
+    resource_parameters = {
+        item["name"]: item
+        for item in orca["selected_request_contract"]["sections"][
+            "resource_limits"
+        ]["optional_with_defaults"]
+    }
+    assert resource_parameters["cpu_cores"]["maximum"] == 48
+    assert resource_parameters["memory_mb"]["maximum"] == 196608
+    assert resource_parameters["gpu_count"]["maximum"] == 0
 
     vibrations = inspect_action(
         "derive_vibrational_modes",

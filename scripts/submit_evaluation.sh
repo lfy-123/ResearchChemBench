@@ -27,10 +27,13 @@ Submit options:
   --judge-model MODEL           Judge model. Default: same as --model.
   --timeout-seconds N           Per-task Agent wall time. Default: 14400.
   --compute-action-timeout-seconds N
-                                Fixed timeout for compute Actions/jobs. Default: 7200.
+                                Fixed timeout for compute Actions/jobs. Default: 10800.
   --fast-action-timeout-seconds N
-                                Fixed timeout for fast/data Actions. Default: 60.
-  --mcp-tool-timeout-seconds N  MCP client deadline per tool call. Default: 7500.
+                                Fixed timeout for fast/data Actions. Default: 240.
+  --mcp-tool-timeout-seconds N  MCP client deadline per tool call. Default: 14000.
+  --available-cpu-cores N       CPU cores available to each task. Default: 48.
+  --available-memory-mb N       Memory available to each task, in MiB. Default: 196608.
+  --available-gpu-count N       GPUs available to each task. Default: 0.
   --max-turns N                 Maximum Agent turns. Default: 200.
   --max-concurrent-runs N       Concurrent task runs. Default: 1.
   --repeats N                   Repetitions per task. Default: 1.
@@ -78,6 +81,15 @@ require_positive_integer() {
   local value="$2"
   if [[ ! "$value" =~ ^[1-9][0-9]*$ ]]; then
     echo "Error: $option must be a positive integer; received '$value'." >&2
+    exit 2
+  fi
+}
+
+require_nonnegative_integer() {
+  local option="$1"
+  local value="$2"
+  if [[ ! "$value" =~ ^[0-9]+$ ]]; then
+    echo "Error: $option must be a non-negative integer; received '$value'." >&2
     exit 2
   fi
 }
@@ -178,9 +190,12 @@ case "$command" in
     model="deepseek-v4-flash"
     judge_model=""
     timeout_seconds=14400
-    compute_action_timeout_seconds=7200
-    fast_action_timeout_seconds=60
-    mcp_tool_timeout_seconds=7500
+    compute_action_timeout_seconds=10800
+    fast_action_timeout_seconds=240
+    mcp_tool_timeout_seconds=14000
+    available_cpu_cores=48
+    available_memory_mb=196608
+    available_gpu_count=0
     max_turns=200
     max_concurrent_runs=1
     repeats=1
@@ -214,6 +229,15 @@ case "$command" in
         --mcp-tool-timeout-seconds)
           require_value "$1" "${2:-}"; require_positive_integer "$1" "$2"
           mcp_tool_timeout_seconds="$2"; shift 2 ;;
+        --available-cpu-cores)
+          require_value "$1" "${2:-}"; require_positive_integer "$1" "$2"
+          available_cpu_cores="$2"; shift 2 ;;
+        --available-memory-mb)
+          require_value "$1" "${2:-}"; require_positive_integer "$1" "$2"
+          available_memory_mb="$2"; shift 2 ;;
+        --available-gpu-count)
+          require_value "$1" "${2:-}"; require_nonnegative_integer "$1" "$2"
+          available_gpu_count="$2"; shift 2 ;;
         --max-turns)
           require_value "$1" "${2:-}"; require_positive_integer "$1" "$2"
           max_turns="$2"; shift 2 ;;
@@ -259,6 +283,10 @@ case "$command" in
       echo "Error: --mcp-tool-timeout-seconds must exceed --compute-action-timeout-seconds." >&2
       exit 2
     fi
+    if (( available_memory_mb < 128 )); then
+      echo "Error: --available-memory-mb must be at least 128 MiB." >&2
+      exit 2
+    fi
     for task in "${tasks[@]}"; do
       if [[ ! -f "$ROOT_DIR/tasks/$task/task_info.json" ]]; then
         echo "Error: unknown task '$task'." >&2
@@ -282,7 +310,9 @@ case "$command" in
       "$agent" "$model" "$judge_model" "$timeout_seconds" "$max_turns" \
       "$max_concurrent_runs" "$repeats" "$discovery_mode" "$progress_max_chars" \
       "$progress_console" "$score_enabled" "$compute_action_timeout_seconds" \
-      "$fast_action_timeout_seconds" "$mcp_tool_timeout_seconds" "${tasks[@]}" <<'PY'
+      "$fast_action_timeout_seconds" "$mcp_tool_timeout_seconds" \
+      "$available_cpu_cores" "$available_memory_mb" "$available_gpu_count" \
+      "${tasks[@]}" <<'PY'
 import json
 import sys
 from datetime import datetime, timezone
@@ -293,7 +323,8 @@ from pathlib import Path
     judge_model, timeout_seconds, max_turns, max_concurrent_runs, repeats,
     discovery_mode, progress_max_chars, progress_console, score_enabled,
     compute_action_timeout_seconds, fast_action_timeout_seconds,
-    mcp_tool_timeout_seconds, *tasks
+    mcp_tool_timeout_seconds, available_cpu_cores, available_memory_mb,
+    available_gpu_count, *tasks
 ) = sys.argv[1:]
 def flag(value):
     return value.casefold() == "true"
@@ -307,6 +338,9 @@ config = {
     "compute_action_timeout_seconds": int(compute_action_timeout_seconds),
     "fast_action_timeout_seconds": int(fast_action_timeout_seconds),
     "mcp_tool_timeout_seconds": int(mcp_tool_timeout_seconds),
+    "available_cpu_cores": int(available_cpu_cores),
+    "available_memory_mb": int(available_memory_mb),
+    "available_gpu_count": int(available_gpu_count),
     "max_turns": int(max_turns),
     "tool_discovery_mode": discovery_mode,
     "live_progress": True,
@@ -330,6 +364,12 @@ submission = {
     "compute_action_timeout_seconds": int(compute_action_timeout_seconds),
     "fast_action_timeout_seconds": int(fast_action_timeout_seconds),
     "mcp_tool_timeout_seconds": int(mcp_tool_timeout_seconds),
+    "resource_budget": {
+        "cpu_cores": int(available_cpu_cores),
+        "memory_mb": int(available_memory_mb),
+        "gpu_count": int(available_gpu_count),
+        "scope": "per_task",
+    },
     "max_turns": int(max_turns),
     "tool_discovery_mode": discovery_mode,
     "score_enabled": flag(score_enabled),
@@ -353,6 +393,7 @@ PY
     echo "Agent: $agent model=$model"
     echo "Judge: enabled=$score_enabled model=$judge_model"
     echo "Limits: agent=${timeout_seconds}s mcp=${mcp_tool_timeout_seconds}s compute_action=${compute_action_timeout_seconds}s fast_action=${fast_action_timeout_seconds}s max_turns=$max_turns concurrency=$max_concurrent_runs repeats=$repeats"
+    echo "Per-task resources: cpu=${available_cpu_cores} memory=${available_memory_mb}MiB gpu=${available_gpu_count}"
     if [[ "$foreground" == true ]]; then
       "${eval_command[@]}" 2>&1 | tee "$launcher_log"
       exit "${PIPESTATUS[0]}"

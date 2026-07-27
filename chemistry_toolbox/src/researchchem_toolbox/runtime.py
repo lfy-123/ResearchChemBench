@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import os
+import resource
 import shutil
 import subprocess
 import sys
@@ -15,6 +16,7 @@ import yaml
 
 from .models import BackendSpec
 from .paths import CONFIG_ROOT, PROJECT_ROOT, SOURCE_ROOT
+from .resource_budget import evaluation_resource_budget
 
 
 PROFILE_CONFIG_PATH = CONFIG_ROOT / "mcp_profiles.yaml"
@@ -328,9 +330,10 @@ def invoke_worker(
             "retryable": False,
         }
     environment = {**os.environ, **runtime_environment(runtime)}
-    requested_cores = (
+    requested_resources = (
         (payload.get("request") or {}).get("resource_limits") or {}
-    ).get("cpu_cores")
+    )
+    requested_cores = requested_resources.get("cpu_cores")
     if requested_cores is not None:
         threads = str(max(1, int(requested_cores)))
         for variable in (
@@ -341,6 +344,40 @@ def invoke_worker(
             "VECLIB_MAXIMUM_THREADS",
         ):
             environment[variable] = threads
+    requested_gpus = int(requested_resources.get("gpu_count") or 0)
+    if requested_gpus == 0:
+        environment["CUDA_VISIBLE_DEVICES"] = ""
+        environment["ROCR_VISIBLE_DEVICES"] = ""
+    else:
+        for variable in ("CUDA_VISIBLE_DEVICES", "ROCR_VISIBLE_DEVICES"):
+            visible = [
+                item.strip()
+                for item in environment.get(variable, "").split(",")
+                if item.strip()
+            ]
+            selected = visible[:requested_gpus] if visible else list(
+                map(str, range(requested_gpus))
+            )
+            environment[variable] = ",".join(selected)
+
+    def configure_worker_limits() -> None:
+        # Backend memory parameters describe calculation memory, not the full
+        # Python worker's virtual address space.  Scientific libraries often
+        # reserve large mappings without consuming equivalent RSS, so applying
+        # request.memory_mb as RLIMIT_AS causes false out-of-memory failures.
+        # The evaluator's task-wide memory envelope remains a genuine hard cap.
+        limit = evaluation_resource_budget().memory_mb * 1024 * 1024
+        _soft, inherited_hard = resource.getrlimit(resource.RLIMIT_AS)
+        if inherited_hard != resource.RLIM_INFINITY:
+            limit = min(limit, inherited_hard)
+        resource.setrlimit(resource.RLIMIT_AS, (limit, limit))
+        if requested_cores is not None and hasattr(os, "sched_getaffinity"):
+            allowed = sorted(os.sched_getaffinity(0))
+            if allowed:
+                os.sched_setaffinity(
+                    0,
+                    set(allowed[: max(1, int(requested_cores))]),
+                )
     try:
         completed = subprocess.run(
             [str(python), "-m", "researchchem_toolbox.worker"],
@@ -352,6 +389,7 @@ def invoke_worker(
             check=False,
             cwd=PROJECT_ROOT,
             env=environment,
+            preexec_fn=configure_worker_limits,
         )
     except subprocess.TimeoutExpired as exc:
         return {

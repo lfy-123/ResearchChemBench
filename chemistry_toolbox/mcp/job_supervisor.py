@@ -32,11 +32,14 @@ def _atomic_json(path: Path, value: dict[str, Any]) -> None:
     os.replace(temporary, path)
 
 
-def _preexec(resources: dict[str, Any]):
+def _preexec(resources: dict[str, Any], evaluation_budget: dict[str, Any]):
     def configure() -> None:
-        memory_mb = resources.get("memory_mb")
+        memory_mb = evaluation_budget.get("memory_mb")
         if memory_mb is not None:
             limit = int(memory_mb) * 1024 * 1024
+            _soft, inherited_hard = resource.getrlimit(resource.RLIMIT_AS)
+            if inherited_hard != resource.RLIM_INFINITY:
+                limit = min(limit, inherited_hard)
             resource.setrlimit(resource.RLIMIT_AS, (limit, limit))
         walltime = max(1, int(resources.get("walltime_seconds") or 7200))
         cpu_limit = walltime + 5
@@ -58,6 +61,7 @@ def supervise(spec_path: Path) -> int:
     stderr_path = Path(specification["stderr_path"]).resolve()
     command = [str(item) for item in specification["command"]]
     resources = dict(specification.get("resource_limits") or {})
+    evaluation_budget = dict(specification.get("evaluation_resource_budget") or {})
     walltime = max(1, int(resources.get("walltime_seconds") or 7200))
     started_at = _now()
     started_monotonic = time.monotonic()
@@ -113,7 +117,7 @@ def supervise(spec_path: Path) -> int:
                     shell=False,
                     start_new_session=True,
                     close_fds=True,
-                    preexec_fn=_preexec(resources),
+                    preexec_fn=_preexec(resources, evaluation_budget),
                 )
             except Exception as exc:
                 status(

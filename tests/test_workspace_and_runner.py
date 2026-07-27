@@ -43,6 +43,32 @@ def test_workspace_does_not_copy_hidden_ground_truth(tmp_path: Path):
     assert "chemistry_toolbox.mcp.server" in mcp_config["mcpServers"]["researchchem_toolbox"]["args"]
 
 
+def test_resource_budget_is_visible_and_recorded_end_to_end(tmp_path: Path):
+    runner = TaskRunner(
+        "ChemGraph_001",
+        agent_key="mock",
+        workspace_root=tmp_path,
+        available_cpu_cores=12,
+        available_memory_mb=24576,
+        available_gpu_count=1,
+    )
+    runner.setup_workspace()
+
+    instructions = runner.instructions_path.read_text(encoding="utf-8")
+    assert "CPU: 12 logical cores" in instructions
+    assert "Memory: 24576 MiB" in instructions
+    assert "GPU: 1" in instructions
+    catalog = json.loads((runner.workspace / "_toolbox_catalog.json").read_text())
+    assert catalog["evaluation_resource_budget"]["cpu_cores"] == 12
+    environment = runner._agent_environment()
+    assert environment["RESEARCHCHEMBENCH_AVAILABLE_CPU_CORES"] == "12"
+    assert environment["RESEARCHCHEMBENCH_AVAILABLE_MEMORY_MB"] == "24576"
+    assert environment["RESEARCHCHEMBENCH_AVAILABLE_GPU_COUNT"] == "1"
+    runner._write_meta("prepared")
+    meta = json.loads(runner.meta_path.read_text())
+    assert meta["resource_budget"] == runner.resource_budget_record()
+
+
 def test_task_archive_is_hash_checked_and_safely_extracted(tmp_path: Path):
     runner = _archive_runner(tmp_path, {"nested/evidence.txt": "scientific evidence"})
     runner._extract_task_archives()

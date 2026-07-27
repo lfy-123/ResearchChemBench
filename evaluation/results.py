@@ -114,6 +114,9 @@ def build_workspace_results(workspace: str | Path) -> dict[str, Any]:
         "incomplete_managed_scientific_calls": int(
             meta.get("incomplete_managed_scientific_calls") or 0
         ),
+        "resource_budget_rejections": int(
+            meta.get("resource_budget_rejection_count") or 0
+        ),
     }
     return {
         "schema_version": RESULTS_SCHEMA_VERSION,
@@ -136,6 +139,7 @@ def build_workspace_results(workspace: str | Path) -> dict[str, Any]:
             "report_exists": bool(meta.get("report_exists")),
             "background_job_cleanup": meta.get("background_job_cleanup"),
             "timeout_policy": meta.get("timeout_policy", {}),
+            "resource_budget": meta.get("resource_budget", {}),
         },
         "agent": {
             "framework": meta.get("agent_key", score.get("agent_key", "")),

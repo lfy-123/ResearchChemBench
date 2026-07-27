@@ -20,34 +20,34 @@ ORCA_DENSITY_DEFAULT_MAXCORE_MB = 2000
 RESOURCE_LIMIT_PARAMETER_SPECS: dict[str, ParameterMetadata] = {
     "memory_mb": {
         "description": "Requested memory budget in megabytes when the backend supports it.",
-        "default": None,
-        "type": "integer | null",
+        "default": 4096,
+        "type": "integer",
         "minimum": 128,
         "impact": (
             "More memory may enable larger calculations, while excessive per-process memory "
-            "combined with many CPU processes can exceed the host budget. Null leaves memory "
-            "allocation to the validated backend adapter."
+            "combined with many CPU processes can exceed the task budget. The evaluator rejects "
+            "single or concurrent requests above the declared per-task maximum."
         ),
     },
     "cpu_cores": {
         "description": "Requested CPU process/thread count for the selected backend.",
-        "default": None,
-        "type": "integer | null",
+        "default": 1,
+        "type": "integer",
         "minimum": 1,
         "impact": (
             "More cores may reduce elapsed time, but scaling is backend- and system-dependent "
-            "and may increase total memory use. Null uses the adapter's documented single-core "
-            "or software-managed behavior."
+            "and may increase total memory use. The evaluator rejects single or concurrent "
+            "requests above the declared per-task maximum."
         ),
     },
     "gpu_count": {
         "description": "Requested GPU count for a backend that supports GPU execution.",
-        "default": None,
-        "type": "integer | null",
+        "default": 0,
+        "type": "integer",
         "minimum": 0,
         "impact": (
             "A positive value requests accelerator resources but does not change the selected "
-            "scientific method. Null leaves GPU allocation unspecified."
+            "scientific method. Zero disables GPU visibility for managed execution."
         ),
     },
 }

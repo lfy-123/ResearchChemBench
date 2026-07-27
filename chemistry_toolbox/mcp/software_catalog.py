@@ -20,6 +20,7 @@ from researchchem_toolbox.runtime import (
     runtime_python,
     runtime_spec,
 )
+from researchchem_toolbox.resource_budget import resource_budget_record
 from researchchem_toolbox.timeout_policy import timeout_policy_record
 
 from .execution_models import (
@@ -525,6 +526,7 @@ def list_software(request: SoftwareListRequest) -> dict[str, Any]:
         "offset": request.offset,
         "next_offset": next_offset if next_offset < len(entries) else None,
         "software": compact,
+        "evaluation_resource_budget": resource_budget_record(),
         "selection_note": (
             "This is a compact inventory filter only. It does not recommend software, rank "
             "backends, or choose a scientific method. Filter with query to expose matching Action "
@@ -581,6 +583,7 @@ def inspect_software(request: SoftwareInspectRequest) -> dict[str, Any]:
                         "cpu_cores": 1,
                         "gpu_count": 0,
                     },
+                    "evaluation_resource_budget": resource_budget_record(),
                     "execution_timeout_policy": timeout_policy_record("compute"),
                 },
             }
@@ -588,6 +591,7 @@ def inspect_software(request: SoftwareInspectRequest) -> dict[str, Any]:
     return {
         "status": "success",
         **entry,
+        "evaluation_resource_budget": resource_budget_record(),
         "purpose": guide.get("purpose") or (backend.description if backend is not None else None),
         "backend_health": health,
         "python_modules": list(backend.python_modules) if backend is not None else [],
@@ -752,6 +756,7 @@ def list_analysis_runtimes(request: AnalysisRuntimeListRequest) -> dict[str, Any
         "count": len(result),
         "total_matches": total_matches,
         "runtimes": result,
+        "evaluation_resource_budget": resource_budget_record(),
         "selection_note": (
             "Select one runtime explicitly according to the imports required by the Agent-authored "
             "program. No runtime or library is chosen automatically. Use runtime=<exact id> and "
@@ -773,6 +778,7 @@ def list_analysis_runtimes(request: AnalysisRuntimeListRequest) -> dict[str, Any
                 "cpu_cores": 1,
                 "gpu_count": 0,
             },
+            "evaluation_resource_budget": resource_budget_record(),
             "execution_timeout_policy": timeout_policy_record("compute"),
             "label": "<descriptive scientific operation>",
         },

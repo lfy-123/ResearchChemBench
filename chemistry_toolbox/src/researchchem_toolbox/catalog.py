@@ -14,6 +14,7 @@ from .runtime import probe_all_backends
 from .resources import resource_snapshot, resources_for_backends
 from .specs import ACTION_SPECS, BACKEND_SPECS
 from .parameter_specs import RESOURCE_LIMIT_PARAMETER_SPECS, common_fixed_parameter_specs
+from .resource_budget import resource_budget_record
 from .timeout_policy import timeout_policy_record
 
 
@@ -140,6 +141,7 @@ def catalog_snapshot(
     *,
     include_health: bool = True,
     discovery_mode: str | None = None,
+    resource_budget: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     validate_catalog()
     mode = resolve_tool_discovery_mode(discovery_mode)
@@ -175,6 +177,7 @@ def catalog_snapshot(
         ),
         "scientific_resource_selection_policy": "agent_explicit_no_default",
         "automatic_fallback": False,
+        "evaluation_resource_budget": resource_budget or resource_budget_record(),
         "actions": [spec.as_dict() for spec in ACTION_SPECS],
         "backends": [
             {**spec.as_dict(), "health": health.get(spec.id)}
@@ -316,6 +319,7 @@ def mcp_action_description(specification: ActionSpec) -> str:
     optional = ", ".join(specification.optional_inputs) or "none"
     input_contract = specification.input_description or "structured inputs described by the action"
     timeout_policy = timeout_policy_record(specification.execution_class)
+    budget = resource_budget_record()
     return (
         f"{specification.description} Primary output: {specification.primary_output}. "
         f"Input contract: {input_contract}. "
@@ -330,6 +334,9 @@ def mcp_action_description(specification: ActionSpec) -> str:
         + ". "
         f"Execution class: {specification.execution_class}; timeout is evaluator-controlled "
         f"at {timeout_policy['timeout_seconds']} seconds and cannot be supplied by the Agent. "
+        f"Per-task evaluator resource budget: cpu_cores={budget['cpu_cores']}, "
+        f"memory_mb={budget['memory_mb']}, gpu_count={budget['gpu_count']}; individual and "
+        "concurrent requests above it are rejected without automatic reduction. "
         f"Provider selection policy: {policy}. The system validates and executes the exact "
         "declared provider choices; it never falls back to another backend or source."
     )
@@ -349,6 +356,13 @@ def agent_toolbox_overview(
         }
     else:
         health = probe_all_backends(BACKEND_SPECS) if include_health else {}
+    budget = (
+        dict(snapshot.get("evaluation_resource_budget") or {})
+        if snapshot is not None
+        else resource_budget_record()
+    )
+    if not budget:
+        budget = resource_budget_record()
     grouped: dict[str, list[ActionSpec]] = defaultdict(list)
     for specification in ACTION_SPECS:
         grouped[specification.category].append(specification)
@@ -359,6 +373,15 @@ def agent_toolbox_overview(
         "to call, their order, and every scientifically meaningful backend, component, source, "
         "and method choice. There is no "
         "hidden workflow, task-specific tool retrieval, automatic backend selection, or fallback.",
+        "",
+        (
+            "Evaluator-controlled per-task resource budget: "
+            f"cpu_cores={budget['cpu_cores']}, "
+            f"memory_mb={budget['memory_mb']}, "
+            f"gpu_count={budget['gpu_count']}. The Agent may choose requests "
+            "within this envelope; single requests and concurrent reservations above it are "
+            "rejected without automatic reduction."
+        ),
         "",
         "Every predefined Action accepts one ActionRequest object with: backend_id, component_backends, "
         "source_id, inputs, method_spec, action_settings, and optional resource_limits. Read each "
@@ -443,6 +466,13 @@ def progressive_toolbox_overview(
         if snapshot is not None
         else resource_snapshot()
     )
+    budget = (
+        dict(snapshot.get("evaluation_resource_budget") or {})
+        if snapshot is not None
+        else resource_budget_record()
+    )
+    if not budget:
+        budget = resource_budget_record()
     grouped: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for action in actions:
         grouped[str(action.get("category", ""))].append(action)
@@ -457,6 +487,15 @@ def progressive_toolbox_overview(
         f"{len(backends)} Backend entries, and {len(resources)} registered scientific resources. "
         "No task-specific retrieval, recommendation, ranking, automatic backend selection, retry, "
         "or fallback is performed.",
+        "",
+        (
+            "Evaluator-controlled per-task resource budget: "
+            f"cpu_cores={budget['cpu_cores']}, "
+            f"memory_mb={budget['memory_mb']}, "
+            f"gpu_count={budget['gpu_count']}. "
+            "Single requests and the sum of concurrently active managed jobs cannot exceed it; "
+            "the framework rejects excess requests rather than reducing them."
+        ),
         "",
         "If you do not know the exact Action id, call `list_action_domains` once to receive every "
         "action_id grouped under the compact domain index; use `search_actions` when you need to "

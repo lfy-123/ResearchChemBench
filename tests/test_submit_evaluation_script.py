@@ -21,6 +21,9 @@ def test_submit_evaluation_help():
     assert "--compute-action-timeout-seconds" in result.stdout
     assert "--fast-action-timeout-seconds" in result.stdout
     assert "--mcp-tool-timeout-seconds" in result.stdout
+    assert "--available-cpu-cores" in result.stdout
+    assert "--available-memory-mb" in result.stdout
+    assert "--available-gpu-count" in result.stdout
 
 
 def test_submit_evaluation_multi_task_dry_run(tmp_path: Path):
@@ -44,6 +47,12 @@ def test_submit_evaluation_multi_task_dry_run(tmp_path: Path):
             "30",
             "--mcp-tool-timeout-seconds",
             "600",
+            "--available-cpu-cores",
+            "12",
+            "--available-memory-mb",
+            "24576",
+            "--available-gpu-count",
+            "1",
             "ChemGraph_001",
             "ChemGraph_002",
         ],
@@ -62,12 +71,21 @@ def test_submit_evaluation_multi_task_dry_run(tmp_path: Path):
     assert config["compute_action_timeout_seconds"] == 500
     assert config["fast_action_timeout_seconds"] == 30
     assert config["mcp_tool_timeout_seconds"] == 600
+    assert config["available_cpu_cores"] == 12
+    assert config["available_memory_mb"] == 24576
+    assert config["available_gpu_count"] == 1
     submission = json.loads((run_root / "submission.json").read_text())
     assert submission["tasks"] == ["ChemGraph_001", "ChemGraph_002"]
     assert submission["agent_model"] == "deepseek-v4-flash"
     assert submission["compute_action_timeout_seconds"] == 500
     assert submission["fast_action_timeout_seconds"] == 30
     assert submission["mcp_tool_timeout_seconds"] == 600
+    assert submission["resource_budget"] == {
+        "cpu_cores": 12,
+        "memory_mb": 24576,
+        "gpu_count": 1,
+        "scope": "per_task",
+    }
 
 
 def test_submit_evaluation_allows_operator_compute_timeout_above_default(tmp_path: Path):

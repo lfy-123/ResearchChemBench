@@ -22,6 +22,9 @@ from zipfile import ZipFile
 from .config import (
     AGENT_PRESETS,
     CHEMGRAPH_SRC,
+    DEFAULT_AVAILABLE_CPU_CORES,
+    DEFAULT_AVAILABLE_GPU_COUNT,
+    DEFAULT_AVAILABLE_MEMORY_MB,
     DEFAULT_AGENT_TIMEOUT_SECONDS,
     DEFAULT_COMPUTE_ACTION_TIMEOUT_SECONDS,
     DEFAULT_FAST_ACTION_TIMEOUT_SECONDS,
@@ -69,6 +72,9 @@ class TaskRunner:
         compute_action_timeout_seconds: int = DEFAULT_COMPUTE_ACTION_TIMEOUT_SECONDS,
         fast_action_timeout_seconds: int = DEFAULT_FAST_ACTION_TIMEOUT_SECONDS,
         mcp_tool_timeout_ms: int = DEFAULT_MCP_TOOL_TIMEOUT_MS,
+        available_cpu_cores: int = DEFAULT_AVAILABLE_CPU_CORES,
+        available_memory_mb: int = DEFAULT_AVAILABLE_MEMORY_MB,
+        available_gpu_count: int = DEFAULT_AVAILABLE_GPU_COUNT,
         max_turns: int = DEFAULT_MAX_TURNS,
         tool_discovery_mode: str | None = None,
         live_progress: bool = DEFAULT_LIVE_PROGRESS,
@@ -87,6 +93,15 @@ class TaskRunner:
         self.compute_action_timeout_seconds = int(compute_action_timeout_seconds)
         self.fast_action_timeout_seconds = int(fast_action_timeout_seconds)
         self.mcp_tool_timeout_ms = int(mcp_tool_timeout_ms)
+        self.available_cpu_cores = int(available_cpu_cores)
+        self.available_memory_mb = int(available_memory_mb)
+        self.available_gpu_count = int(available_gpu_count)
+        if self.available_cpu_cores < 1:
+            raise ValueError("available_cpu_cores must be positive")
+        if self.available_memory_mb < 128:
+            raise ValueError("available_memory_mb must be >= 128")
+        if self.available_gpu_count < 0:
+            raise ValueError("available_gpu_count must be non-negative")
         self.max_turns = max_turns
         self.tool_discovery_mode = resolve_tool_discovery_mode(tool_discovery_mode)
         self.live_progress = bool(live_progress)
@@ -104,6 +119,16 @@ class TaskRunner:
         self.process_group_id: int | None = None
         self.thread: threading.Thread | None = None
         self._stop_requested = False
+
+    def resource_budget_record(self) -> dict[str, Any]:
+        return {
+            "cpu_cores": self.available_cpu_cores,
+            "memory_mb": self.available_memory_mb,
+            "gpu_count": self.available_gpu_count,
+            "source": "evaluation_policy",
+            "agent_controllable": False,
+            "scope": "per_task",
+        }
 
     def _build_instructions(self) -> str:
         data_parts = []
@@ -153,6 +178,9 @@ class TaskRunner:
                 "The objective is fixed, while scientific planning and execution remain autonomous.",
             ),
             scientific_requirements=requirements_text,
+            available_cpu_cores=self.available_cpu_cores,
+            available_memory_mb=self.available_memory_mb,
+            available_gpu_count=self.available_gpu_count,
             required_deliverables=required_deliverables,
             toolbox_overview=toolbox_overview(
                 discovery_mode=self.tool_discovery_mode,
@@ -294,6 +322,15 @@ class TaskRunner:
             "RESEARCHCHEMBENCH_FAST_ACTION_TIMEOUT_SECONDS": str(
                 self.fast_action_timeout_seconds
             ),
+            "RESEARCHCHEMBENCH_AVAILABLE_CPU_CORES": str(
+                self.available_cpu_cores
+            ),
+            "RESEARCHCHEMBENCH_AVAILABLE_MEMORY_MB": str(
+                self.available_memory_mb
+            ),
+            "RESEARCHCHEMBENCH_AVAILABLE_GPU_COUNT": str(
+                self.available_gpu_count
+            ),
         }
         if extra:
             values.update(extra)
@@ -425,12 +462,14 @@ class TaskRunner:
             if path.is_file():
                 path.chmod(0o444)
 
+        catalog = catalog_snapshot(
+            include_health=True,
+            discovery_mode=self.tool_discovery_mode,
+            resource_budget=self.resource_budget_record(),
+        )
         (self.workspace / "_toolbox_catalog.json").write_text(
             json.dumps(
-                catalog_snapshot(
-                    include_health=True,
-                    discovery_mode=self.tool_discovery_mode,
-                ),
+                catalog,
                 indent=2,
                 ensure_ascii=False,
             )
@@ -616,6 +655,7 @@ class TaskRunner:
                 "fast_action_timeout_seconds": self.fast_action_timeout_seconds,
                 "action_timeout_agent_controllable": False,
             },
+            "resource_budget": self.resource_budget_record(),
             "live_progress_path": "_live_progress.log",
         }
         if extra:
@@ -906,6 +946,9 @@ class TaskRunner:
             compute_action_timeout_seconds=self.compute_action_timeout_seconds,
             fast_action_timeout_seconds=self.fast_action_timeout_seconds,
             mcp_tool_timeout_seconds=(self.mcp_tool_timeout_ms + 999) // 1000,
+            available_cpu_cores=self.available_cpu_cores,
+            available_memory_mb=self.available_memory_mb,
+            available_gpu_count=self.available_gpu_count,
             max_turns=self.max_turns,
         )
         reporter.emit(
