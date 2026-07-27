@@ -25,7 +25,12 @@ Submit options:
   --agent NAME                  Agent framework preset. Default: opencode.
   --model MODEL                 Agent model. Default: deepseek-v4-flash.
   --judge-model MODEL           Judge model. Default: same as --model.
-  --timeout-seconds N           Per-task Agent wall time. Default: 7200.
+  --timeout-seconds N           Per-task Agent wall time. Default: 14400.
+  --compute-action-timeout-seconds N
+                                Fixed timeout for compute Actions/jobs. Default: 7200.
+  --fast-action-timeout-seconds N
+                                Fixed timeout for fast/data Actions. Default: 60.
+  --mcp-tool-timeout-seconds N  MCP client deadline per tool call. Default: 7500.
   --max-turns N                 Maximum Agent turns. Default: 200.
   --max-concurrent-runs N       Concurrent task runs. Default: 1.
   --repeats N                   Repetitions per task. Default: 1.
@@ -172,7 +177,10 @@ case "$command" in
     agent="opencode"
     model="deepseek-v4-flash"
     judge_model=""
-    timeout_seconds=7200
+    timeout_seconds=14400
+    compute_action_timeout_seconds=7200
+    fast_action_timeout_seconds=60
+    mcp_tool_timeout_seconds=7500
     max_turns=200
     max_concurrent_runs=1
     repeats=1
@@ -197,6 +205,15 @@ case "$command" in
         --timeout-seconds)
           require_value "$1" "${2:-}"; require_positive_integer "$1" "$2"
           timeout_seconds="$2"; shift 2 ;;
+        --compute-action-timeout-seconds)
+          require_value "$1" "${2:-}"; require_positive_integer "$1" "$2"
+          compute_action_timeout_seconds="$2"; shift 2 ;;
+        --fast-action-timeout-seconds)
+          require_value "$1" "${2:-}"; require_positive_integer "$1" "$2"
+          fast_action_timeout_seconds="$2"; shift 2 ;;
+        --mcp-tool-timeout-seconds)
+          require_value "$1" "${2:-}"; require_positive_integer "$1" "$2"
+          mcp_tool_timeout_seconds="$2"; shift 2 ;;
         --max-turns)
           require_value "$1" "${2:-}"; require_positive_integer "$1" "$2"
           max_turns="$2"; shift 2 ;;
@@ -234,6 +251,14 @@ case "$command" in
       echo "Error: --tool-discovery-mode must be progressive or full." >&2
       exit 2
     fi
+    if (( fast_action_timeout_seconds > compute_action_timeout_seconds )); then
+      echo "Error: --fast-action-timeout-seconds cannot exceed --compute-action-timeout-seconds." >&2
+      exit 2
+    fi
+    if (( mcp_tool_timeout_seconds <= compute_action_timeout_seconds )); then
+      echo "Error: --mcp-tool-timeout-seconds must exceed --compute-action-timeout-seconds." >&2
+      exit 2
+    fi
     for task in "${tasks[@]}"; do
       if [[ ! -f "$ROOT_DIR/tasks/$task/task_info.json" ]]; then
         echo "Error: unknown task '$task'." >&2
@@ -256,7 +281,8 @@ case "$command" in
     "$PYTHON" - "$config_path" "$submission_path" "$run_root" "$session_name" \
       "$agent" "$model" "$judge_model" "$timeout_seconds" "$max_turns" \
       "$max_concurrent_runs" "$repeats" "$discovery_mode" "$progress_max_chars" \
-      "$progress_console" "$score_enabled" "${tasks[@]}" <<'PY'
+      "$progress_console" "$score_enabled" "$compute_action_timeout_seconds" \
+      "$fast_action_timeout_seconds" "$mcp_tool_timeout_seconds" "${tasks[@]}" <<'PY'
 import json
 import sys
 from datetime import datetime, timezone
@@ -265,7 +291,9 @@ from pathlib import Path
 (
     config_path, submission_path, run_root, session_name, agent, model,
     judge_model, timeout_seconds, max_turns, max_concurrent_runs, repeats,
-    discovery_mode, progress_max_chars, progress_console, score_enabled, *tasks
+    discovery_mode, progress_max_chars, progress_console, score_enabled,
+    compute_action_timeout_seconds, fast_action_timeout_seconds,
+    mcp_tool_timeout_seconds, *tasks
 ) = sys.argv[1:]
 def flag(value):
     return value.casefold() == "true"
@@ -276,6 +304,9 @@ config = {
     "repeats": int(repeats),
     "max_concurrent_runs": int(max_concurrent_runs),
     "timeout_seconds": int(timeout_seconds),
+    "compute_action_timeout_seconds": int(compute_action_timeout_seconds),
+    "fast_action_timeout_seconds": int(fast_action_timeout_seconds),
+    "mcp_tool_timeout_seconds": int(mcp_tool_timeout_seconds),
     "max_turns": int(max_turns),
     "tool_discovery_mode": discovery_mode,
     "live_progress": True,
@@ -296,6 +327,9 @@ submission = {
     "repeats": int(repeats),
     "max_concurrent_runs": int(max_concurrent_runs),
     "timeout_seconds": int(timeout_seconds),
+    "compute_action_timeout_seconds": int(compute_action_timeout_seconds),
+    "fast_action_timeout_seconds": int(fast_action_timeout_seconds),
+    "mcp_tool_timeout_seconds": int(mcp_tool_timeout_seconds),
     "max_turns": int(max_turns),
     "tool_discovery_mode": discovery_mode,
     "score_enabled": flag(score_enabled),
@@ -318,7 +352,7 @@ PY
     echo "Tasks: ${tasks[*]}"
     echo "Agent: $agent model=$model"
     echo "Judge: enabled=$score_enabled model=$judge_model"
-    echo "Limits: timeout=${timeout_seconds}s max_turns=$max_turns concurrency=$max_concurrent_runs repeats=$repeats"
+    echo "Limits: agent=${timeout_seconds}s mcp=${mcp_tool_timeout_seconds}s compute_action=${compute_action_timeout_seconds}s fast_action=${fast_action_timeout_seconds}s max_turns=$max_turns concurrency=$max_concurrent_runs repeats=$repeats"
     if [[ "$foreground" == true ]]; then
       "${eval_command[@]}" 2>&1 | tee "$launcher_log"
       exit "${PIPESTATUS[0]}"

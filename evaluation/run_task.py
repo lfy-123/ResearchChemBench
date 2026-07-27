@@ -23,6 +23,8 @@ from .config import (
     AGENT_PRESETS,
     CHEMGRAPH_SRC,
     DEFAULT_AGENT_TIMEOUT_SECONDS,
+    DEFAULT_COMPUTE_ACTION_TIMEOUT_SECONDS,
+    DEFAULT_FAST_ACTION_TIMEOUT_SECONDS,
     DEFAULT_LIVE_PROGRESS,
     DEFAULT_MCP_TOOL_TIMEOUT_MS,
     DEFAULT_MAX_TURNS,
@@ -64,6 +66,9 @@ class TaskRunner:
         agent_key: str = "mock",
         workspace_root: Path | None = None,
         timeout_seconds: int = DEFAULT_AGENT_TIMEOUT_SECONDS,
+        compute_action_timeout_seconds: int = DEFAULT_COMPUTE_ACTION_TIMEOUT_SECONDS,
+        fast_action_timeout_seconds: int = DEFAULT_FAST_ACTION_TIMEOUT_SECONDS,
+        mcp_tool_timeout_ms: int = DEFAULT_MCP_TOOL_TIMEOUT_MS,
         max_turns: int = DEFAULT_MAX_TURNS,
         tool_discovery_mode: str | None = None,
         live_progress: bool = DEFAULT_LIVE_PROGRESS,
@@ -79,6 +84,9 @@ class TaskRunner:
         self.agent = AGENT_PRESETS[agent_key]
         self.agent_name = self.agent["label"]
         self.timeout_seconds = timeout_seconds
+        self.compute_action_timeout_seconds = int(compute_action_timeout_seconds)
+        self.fast_action_timeout_seconds = int(fast_action_timeout_seconds)
+        self.mcp_tool_timeout_ms = int(mcp_tool_timeout_ms)
         self.max_turns = max_turns
         self.tool_discovery_mode = resolve_tool_discovery_mode(tool_discovery_mode)
         self.live_progress = bool(live_progress)
@@ -280,6 +288,12 @@ class TaskRunner:
             TOOL_DISCOVERY_MODE_ENV: self.tool_discovery_mode,
             "PYTHONPATH": self._runtime_pythonpath(),
             "CHEMGRAPH_LOG_DIR": str((self.workspace / "tool_logs").resolve()),
+            "RESEARCHCHEMBENCH_COMPUTE_ACTION_TIMEOUT_SECONDS": str(
+                self.compute_action_timeout_seconds
+            ),
+            "RESEARCHCHEMBENCH_FAST_ACTION_TIMEOUT_SECONDS": str(
+                self.fast_action_timeout_seconds
+            ),
         }
         if extra:
             values.update(extra)
@@ -375,7 +389,7 @@ class TaskRunner:
                     # OpenCode otherwise applies a 30 s timeout to both MCP
                     # discovery and tool execution. Scientific backends such
                     # as finite-difference Hessians routinely exceed that.
-                    "timeout": DEFAULT_MCP_TOOL_TIMEOUT_MS,
+                    "timeout": self.mcp_tool_timeout_ms,
                     "enabled": True,
                 }
                 for spec in server_specs
@@ -487,7 +501,7 @@ class TaskRunner:
                         "-c",
                         (
                             f"mcp_servers.{name}.tool_timeout_sec="
-                            f"{max(1, (DEFAULT_MCP_TOOL_TIMEOUT_MS + 999) // 1000)}"
+                            f"{max(1, (self.mcp_tool_timeout_ms + 999) // 1000)}"
                         ),
                     ]
                 )
@@ -593,6 +607,15 @@ class TaskRunner:
             "live_progress": self.live_progress,
             "progress_console": self.progress_console,
             "progress_max_chars": self.progress_max_chars,
+            "timeout_policy": {
+                "agent_timeout_seconds": self.timeout_seconds,
+                "mcp_tool_timeout_seconds": (
+                    self.mcp_tool_timeout_ms + 999
+                ) // 1000,
+                "compute_action_timeout_seconds": self.compute_action_timeout_seconds,
+                "fast_action_timeout_seconds": self.fast_action_timeout_seconds,
+                "action_timeout_agent_controllable": False,
+            },
             "live_progress_path": "_live_progress.log",
         }
         if extra:
@@ -880,6 +903,9 @@ class TaskRunner:
             agent=self.agent_key,
             model=OPENCODE_MODEL if self.agent.get("kind") == "opencode" else self.agent_name,
             timeout_seconds=self.timeout_seconds,
+            compute_action_timeout_seconds=self.compute_action_timeout_seconds,
+            fast_action_timeout_seconds=self.fast_action_timeout_seconds,
+            mcp_tool_timeout_seconds=(self.mcp_tool_timeout_ms + 999) // 1000,
             max_turns=self.max_turns,
         )
         reporter.emit(

@@ -135,6 +135,7 @@ def build_workspace_results(workspace: str | Path) -> dict[str, Any]:
             "duration_seconds": meta.get("duration_seconds"),
             "report_exists": bool(meta.get("report_exists")),
             "background_job_cleanup": meta.get("background_job_cleanup"),
+            "timeout_policy": meta.get("timeout_policy", {}),
         },
         "agent": {
             "framework": meta.get("agent_key", score.get("agent_key", "")),

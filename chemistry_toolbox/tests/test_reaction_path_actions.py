@@ -76,7 +76,7 @@ def test_double_ended_pysis_action_consumes_both_endpoints_and_parses_energies(
                 "max_cycles": 10,
                 "climb": False,
             },
-            "resource_limits": {"cpu_cores": 4, "walltime_seconds": 10},
+            "resource_limits": {"cpu_cores": 4,},
         },
     )
 

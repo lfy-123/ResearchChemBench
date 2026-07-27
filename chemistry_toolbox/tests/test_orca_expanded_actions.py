@@ -22,7 +22,7 @@ def _orca_request(*, method=None, settings=None):
         "inputs": {"structure": WATER},
         "method_spec": {"method": "HF", "basis": "STO-3G", **(method or {})},
         "action_settings": settings or {},
-        "resource_limits": {"cpu_cores": 1, "walltime_seconds": 300},
+        "resource_limits": {"cpu_cores": 1,},
     }
 
 
@@ -93,7 +93,7 @@ def test_orca_and_pyscf_excited_states_feed_internal_spectrum(tmp_path, monkeypa
                 "spin_symmetry": "singlet",
                 "scf_convergence": 1e-9,
             },
-            "resource_limits": {"cpu_cores": 1, "walltime_seconds": 300},
+            "resource_limits": {"cpu_cores": 1,},
         },
     )
     assert pyscf["status"] == "success"

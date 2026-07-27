@@ -5,7 +5,7 @@ from pathlib import Path
 
 from researchchem_toolbox.backend_specs import BACKEND_SPECS
 from researchchem_toolbox.catalog import catalog_snapshot, validate_catalog
-from researchchem_toolbox.discovery import inspect_action
+from researchchem_toolbox.discovery import inspect_action, search_actions
 from researchchem_toolbox.specs import ACTION_SPECS
 
 
@@ -151,12 +151,50 @@ def test_backend_mapping_defaults_are_not_hidden_from_the_catalog():
             ):
                 section = mapping_sections.get(node.comparators[0].id)
                 field_name = node.left.value
-            if section and field_name and field_name not in public[section]:
+            if (
+                section
+                and field_name
+                and field_name not in public[section]
+                and not (
+                    section == "action_settings"
+                    and field_name == "timeout_seconds"
+                )
+            ):
                 missing.append(
                     (str(path.relative_to(source_root)), node.lineno, section, field_name)
                 )
 
     assert missing == []
+
+
+def test_timeout_is_fixed_policy_not_agent_controllable():
+    snapshot = catalog_snapshot(include_health=False)
+    for action in ACTION_SPECS:
+        backend_id = action.backend_ids[0]
+        inspected = inspect_action(
+            action.id, backend_id=backend_id, snapshot=snapshot
+        )
+        contract = inspected["selected_request_contract"]
+        assert "walltime_seconds" not in contract["execute_action_request_template"][
+            "resource_limits"
+        ]
+        assert "timeout_seconds" not in contract["execute_action_request_template"][
+            "action_settings"
+        ]
+        policy = contract["execution_timeout_policy"]
+        assert policy["agent_controllable"] is False
+        assert policy["execution_class"] == ("fast" if action.data_action else "compute")
+        assert policy["timeout_seconds"] == (60 if action.data_action else 7200)
+        assert inspected["execution_timeout_policy"] == policy
+
+    searched = search_actions(query="search compounds", snapshot=snapshot)
+    search_policy = searched["actions"][0]["execution_timeout_policy"]
+    assert search_policy == {
+        "execution_class": "fast",
+        "timeout_seconds": 60,
+        "source": "evaluation_policy",
+        "agent_controllable": False,
+    }
 
 
 def test_orca_density_grid_default_is_300_cubed_and_agent_overridable():

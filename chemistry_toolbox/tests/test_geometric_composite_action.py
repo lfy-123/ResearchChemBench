@@ -45,7 +45,7 @@ def test_geometric_uses_exact_agent_selected_calculator_component(tmp_path, monk
                 "constraint_algorithm": 0,
                 "constraint_enforcement_tolerance": 0.0,
             },
-            "resource_limits": {"cpu_cores": 1, "walltime_seconds": 300},
+            "resource_limits": {"cpu_cores": 1,},
         },
     )
     assert result["status"] == "success"
@@ -99,7 +99,7 @@ def test_sella_minimum_optimizer_uses_exact_agent_calculator(tmp_path, monkeypat
                 "allow_fragments": True,
                 "refine_initial_hessian_iterations": 0,
             },
-            "resource_limits": {"cpu_cores": 1, "walltime_seconds": 300},
+            "resource_limits": {"cpu_cores": 1,},
         },
     )
     assert result["status"] == "success"
@@ -145,7 +145,7 @@ def test_sella_transition_state_search_is_agent_composed(tmp_path, monkeypatch):
                 "allow_fragments": True,
                 "refine_initial_hessian_iterations": 0,
             },
-            "resource_limits": {"cpu_cores": 1, "walltime_seconds": 300},
+            "resource_limits": {"cpu_cores": 1,},
         },
     )
     assert result["status"] == "success"

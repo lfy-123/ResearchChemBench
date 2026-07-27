@@ -32,12 +32,18 @@ JUDGE_API_BASE = os.environ.get("JUDGE_API_BASE", "")
 JUDGE_API_KEY = os.environ.get("JUDGE_API_KEY", "")
 
 DEFAULT_AGENT_TIMEOUT_SECONDS = int(
-    os.environ.get("RESEARCHCHEMBENCH_AGENT_TIMEOUT_SECONDS", "7200")
+    os.environ.get("RESEARCHCHEMBENCH_AGENT_TIMEOUT_SECONDS", "14400")
 )
 DEFAULT_MCP_TOOL_TIMEOUT_MS = int(
     # Keep the client deadline beyond the toolbox's 7200 s synchronous ORCA
     # ceiling so a valid backend result is not misreported as a client timeout.
     os.environ.get("RESEARCHCHEMBENCH_MCP_TOOL_TIMEOUT_MS", "7500000")
+)
+DEFAULT_COMPUTE_ACTION_TIMEOUT_SECONDS = int(
+    os.environ.get("RESEARCHCHEMBENCH_COMPUTE_ACTION_TIMEOUT_SECONDS", "7200")
+)
+DEFAULT_FAST_ACTION_TIMEOUT_SECONDS = int(
+    os.environ.get("RESEARCHCHEMBENCH_FAST_ACTION_TIMEOUT_SECONDS", "60")
 )
 DEFAULT_MAX_TURNS = int(os.environ.get("RESEARCHCHEMBENCH_MAX_TURNS", "200"))
 DEFAULT_LIVE_PROGRESS = os.environ.get(

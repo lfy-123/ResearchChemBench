@@ -86,7 +86,7 @@ def test_xtb_optimized_structure_retains_selected_electronic_state(
                 "unpaired_electrons": 2,
             },
             "action_settings": {"optimization_level": "normal"},
-            "resource_limits": {"walltime_seconds": 10},
+            "resource_limits": {},
         },
     )
 
@@ -130,7 +130,7 @@ def test_xtb_uses_charge_from_workspace_xyz_metadata(tmp_path: Path, monkeypatch
             "inputs": {"structure": "charged.xyz"},
             "method_spec": {"method": "gfn2"},
             "action_settings": {"optimization_level": "normal"},
-            "resource_limits": {"walltime_seconds": 10},
+            "resource_limits": {},
         },
     )
 
@@ -176,7 +176,7 @@ def test_pysisyphus_ts_structure_retains_selected_electronic_state(
                 "max_cycles": 10,
                 "hessian_init": "xtb",
             },
-            "resource_limits": {"walltime_seconds": 10},
+            "resource_limits": {},
         },
     )
 
@@ -224,7 +224,7 @@ def test_pysisyphus_cycle_limit_is_partial_not_converged(
                 "max_cycles": 200,
                 "hessian_init": "calc",
             },
-            "resource_limits": {"walltime_seconds": 10},
+            "resource_limits": {},
         },
     )
 
@@ -338,7 +338,7 @@ def test_orca_request_above_parallel_limit_is_rejected_before_health_or_worker(
             "inputs": {"structure": H2},
             "method_spec": {"method": "HF", "basis": "STO-3G"},
             "action_settings": {},
-            "resource_limits": {"cpu_cores": 49, "walltime_seconds": 300},
+            "resource_limits": {"cpu_cores": 49},
         },
     )
 
@@ -348,7 +348,7 @@ def test_orca_request_above_parallel_limit_is_rejected_before_health_or_worker(
     assert "no resource substitution or fallback" in result["error"]["message"]
 
 
-def test_long_orca_action_is_rejected_with_explicit_native_job_next_step(
+def test_agent_cannot_override_orca_action_timeout(
     tmp_path: Path, monkeypatch
 ):
     monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
@@ -373,13 +373,12 @@ def test_long_orca_action_is_rejected_with_explicit_native_job_next_step(
     )
 
     assert result["status"] == "invalid_request"
-    assert result["error"]["code"] == "invalid_resource_limits"
-    assert "synchronous Action maximum 7200" in result["error"]["message"]
-    assert "submit an asynchronous native job" in result["error"]["message"]
-    assert "no substitution, retry, or fallback" in result["error"]["message"]
+    assert result["error"]["code"] == "invalid_request"
+    assert "walltime_seconds" in result["error"]["message"]
+    assert "Extra inputs are not permitted" in result["error"]["message"]
 
 
-def test_long_gaussian_action_is_rejected_before_it_can_block_mcp(
+def test_agent_cannot_override_gaussian_action_timeout(
     tmp_path: Path, monkeypatch
 ):
     monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
@@ -409,9 +408,9 @@ def test_long_gaussian_action_is_rejected_before_it_can_block_mcp(
     )
 
     assert result["status"] == "invalid_request"
-    assert result["error"]["code"] == "invalid_resource_limits"
-    assert "synchronous Action maximum 1800" in result["error"]["message"]
-    assert "submit_native_job" in result["error"]["message"]
+    assert result["error"]["code"] == "invalid_request"
+    assert "walltime_seconds" in result["error"]["message"]
+    assert "Extra inputs are not permitted" in result["error"]["message"]
 
 
 def _available(specifications):

@@ -355,7 +355,7 @@ def gaussian(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
             environment_variable="CHEMGRAPH_GAUSSIAN_FORMCHK_COMMAND",
             arguments=[str(checkpoint), str(formatted)],
             directory=directory,
-            timeout_seconds=min(300, int(request.get("resource_limits", {}).get("walltime_seconds", 1800))),
+            timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 7200)),
         )
         (directory / "formchk.stdout.log").write_text(formchk["stdout"], encoding="utf-8")
         (directory / "formchk.stderr.log").write_text(formchk["stderr"], encoding="utf-8")

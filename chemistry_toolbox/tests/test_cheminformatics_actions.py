@@ -256,7 +256,7 @@ def test_crest_accepts_common_method_alias_solvent_and_cpu_limit(tmp_path, monke
                 "solvent": "water",
             },
             "action_settings": {"energy_window_kcal_mol": 6.0},
-            "resource_limits": {"cpu_cores": 8, "walltime_seconds": 300},
+            "resource_limits": {"cpu_cores": 8,},
         },
     )
     assert result["status"] == "success"

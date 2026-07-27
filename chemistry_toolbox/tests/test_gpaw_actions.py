@@ -37,7 +37,7 @@ def test_gpaw_molecular_energy_and_forces(tmp_path, monkeypatch):
             "scf_energy_convergence_ev": 1e-4,
             "max_scf_cycles": 120,
         },
-        "resource_limits": {"cpu_cores": 1, "walltime_seconds": 300},
+        "resource_limits": {"cpu_cores": 1,},
     }
     energy = execute_action("calculate_energy", base)
     forces = execute_action("calculate_forces", base)
@@ -72,7 +72,7 @@ def test_gpaw_periodic_energy(tmp_path, monkeypatch):
                 "spin_polarized": False, "k_points": {"grid": [1, 1, 1], "gamma": True},
             },
             "action_settings": {"scf_energy_convergence_ev": 1e-4, "max_scf_cycles": 120},
-            "resource_limits": {"cpu_cores": 1, "walltime_seconds": 300},
+            "resource_limits": {"cpu_cores": 1,},
         },
     )
     assert result["status"] == "success"
@@ -92,7 +92,7 @@ def test_gpaw_periodic_energy(tmp_path, monkeypatch):
                 "converged_bands": 4,
                 "energy_reference": "fermi",
             },
-            "resource_limits": {"cpu_cores": 1, "walltime_seconds": 300},
+            "resource_limits": {"cpu_cores": 1,},
         },
     )
     assert band_structure["status"] == "success"
@@ -146,7 +146,7 @@ def test_gpaw_periodic_energy(tmp_path, monkeypatch):
                 "spin_polarized": False, "k_points": {"grid": [1, 1, 1], "gamma": True},
             },
             "action_settings": {"scf_energy_convergence_ev": 1e-4, "max_scf_cycles": 120},
-            "resource_limits": {"cpu_cores": 1, "walltime_seconds": 300},
+            "resource_limits": {"cpu_cores": 1,},
         },
     )
     assert forces["status"] == "success"
@@ -166,7 +166,7 @@ def test_gpaw_periodic_energy(tmp_path, monkeypatch):
                 "force_threshold_ev_per_angstrom": 5.0, "max_steps": 2,
                 "optimizer": "bfgs", "relax_cell": False,
             },
-            "resource_limits": {"cpu_cores": 1, "walltime_seconds": 300},
+            "resource_limits": {"cpu_cores": 1,},
         },
     )
     assert relaxation["status"] == "success"
@@ -182,7 +182,7 @@ def test_gpaw_periodic_energy(tmp_path, monkeypatch):
                 "spin_polarized": False, "k_points": {"grid": [1, 1, 1], "gamma": True},
             },
             "action_settings": {"scf_energy_convergence_ev": 1e-4, "max_scf_cycles": 120},
-            "resource_limits": {"cpu_cores": 1, "walltime_seconds": 300},
+            "resource_limits": {"cpu_cores": 1,},
         },
     )
     assert stress["status"] == "success"

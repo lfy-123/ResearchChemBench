@@ -302,7 +302,7 @@ def test_orca_generic_actions_use_short_relative_input_path(tmp_path, monkeypatc
             },
             "method_spec": {"method": "HF", "basis": "STO-3G"},
             "action_settings": {},
-            "resource_limits": {"cpu_cores": 1, "walltime_seconds": 60},
+            "resource_limits": {"cpu_cores": 1,},
         },
     )
 

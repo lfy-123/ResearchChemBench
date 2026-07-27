@@ -38,7 +38,7 @@ def _preexec(resources: dict[str, Any]):
         if memory_mb is not None:
             limit = int(memory_mb) * 1024 * 1024
             resource.setrlimit(resource.RLIMIT_AS, (limit, limit))
-        walltime = max(1, int(resources.get("walltime_seconds") or 1800))
+        walltime = max(1, int(resources.get("walltime_seconds") or 7200))
         cpu_limit = walltime + 5
         resource.setrlimit(resource.RLIMIT_CPU, (cpu_limit, cpu_limit))
         cpu_cores = resources.get("cpu_cores")
@@ -58,7 +58,7 @@ def supervise(spec_path: Path) -> int:
     stderr_path = Path(specification["stderr_path"]).resolve()
     command = [str(item) for item in specification["command"]]
     resources = dict(specification.get("resource_limits") or {})
-    walltime = max(1, int(resources.get("walltime_seconds") or 1800))
+    walltime = max(1, int(resources.get("walltime_seconds") or 7200))
     started_at = _now()
     started_monotonic = time.monotonic()
     child: subprocess.Popen[bytes] | None = None

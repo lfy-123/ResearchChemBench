@@ -345,7 +345,7 @@ def _gromacs(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
         executable="gmx", environment_variable="CHEMGRAPH_GROMACS_COMMAND",
         arguments=["grompp", "-f", str(mdp_path), "-c", str(coordinates), "-p", str(topology), "-o", str(tpr), "-maxwarn", "0"],
         directory=directory,
-        timeout_seconds=min(600, int(request.get("resource_limits", {}).get("walltime_seconds", 1800))),
+        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 7200)),
     )
     (directory / "grompp.stdout.log").write_text(grompp["stdout"], encoding="utf-8")
     (directory / "grompp.stderr.log").write_text(grompp["stderr"], encoding="utf-8")

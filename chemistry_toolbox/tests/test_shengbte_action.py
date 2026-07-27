@@ -37,7 +37,7 @@ def test_shengbte_rta_conductivity_from_explicit_native_model(tmp_path, monkeypa
                 "maximum_temperature_records": 100,
                 "require_normal_exit": True,
             },
-            "resource_limits": {"walltime_seconds": 180, "cpu_cores": 1},
+            "resource_limits": { "cpu_cores": 1},
         },
     )
     assert result["status"] == "success"

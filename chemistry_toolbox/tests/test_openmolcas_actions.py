@@ -29,7 +29,7 @@ def _request():
             "max_scf_iterations": 100,
             "scf_thresholds": [1.0e-9, 1.0e-4, 1.5e-4, 1.0e-3],
         },
-        "resource_limits": {"walltime_seconds": 120, "cpu_cores": 1},
+        "resource_limits": { "cpu_cores": 1},
     }
 
 

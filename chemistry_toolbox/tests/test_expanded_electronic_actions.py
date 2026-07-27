@@ -24,7 +24,7 @@ def _request(backend_id: str, method_spec: dict[str, object]) -> dict[str, objec
         "inputs": {"structure": WATER},
         "method_spec": method_spec,
         "action_settings": {"scf_convergence": 1e-9},
-        "resource_limits": {"cpu_cores": 1, "walltime_seconds": 300},
+        "resource_limits": {"cpu_cores": 1,},
     }
 
 

@@ -31,7 +31,7 @@ def test_multiwfn_atomic_charges(tmp_path, monkeypatch, population: str):
             "inputs": {"structure": str(wavefunction)},
             "method_spec": {"population_analysis": population},
             "action_settings": {},
-            "resource_limits": {"walltime_seconds": 60, "cpu_cores": 1},
+            "resource_limits": { "cpu_cores": 1},
         },
     )
     assert result["status"] == "success"
@@ -62,7 +62,7 @@ def test_multiwfn_bond_order_definitions(
             "inputs": {"structure": str(wavefunction)},
             "method_spec": {"bond_order_definition": definition},
             "action_settings": {"minimum_bond_order": 0.05},
-            "resource_limits": {"walltime_seconds": 60, "cpu_cores": 1},
+            "resource_limits": { "cpu_cores": 1},
         },
     )
     assert result["status"] == "success"

@@ -231,7 +231,6 @@ def test_programmable_layer_runs_and_collects_auditable_outputs(
             runtime="core",
             script_path="code/program.py",
             resource_limits=ResourceLimits(
-                walltime_seconds=30,
                 memory_mb=512,
                 cpu_cores=1,
                 gpu_count=0,
@@ -288,7 +287,7 @@ def test_native_layer_launches_exact_allowlisted_argv(
             software_id="openbabel",
             executable="obabel",
             arguments=["--version"],
-            resource_limits=ResourceLimits(walltime_seconds=30, cpu_cores=1),
+            resource_limits=ResourceLimits(cpu_cores=1),
         )
     )
     assert submitted["command"] == [sys.executable, "--version"]
@@ -329,7 +328,7 @@ def test_native_layer_prevents_nested_openblas_parallelism(
                     "os.environ['NUMEXPR_NUM_THREADS'])"
                 ),
             ],
-            resource_limits=ResourceLimits(walltime_seconds=30, cpu_cores=4),
+            resource_limits=ResourceLimits(cpu_cores=4),
         )
     )
     finished = _wait(submitted["job_id"])
@@ -337,7 +336,11 @@ def test_native_layer_prevents_nested_openblas_parallelism(
     assert "4 1 1" in finished["stdout_tail"]
 
 
-def test_programmable_layer_enforces_walltime(chemistry_workspace: Path):
+def test_programmable_layer_enforces_walltime(
+    chemistry_workspace: Path,
+    monkeypatch: pytest.MonkeyPatch,
+):
+    monkeypatch.setenv("RESEARCHCHEMBENCH_COMPUTE_ACTION_TIMEOUT_SECONDS", "1")
     write_workspace_text(
         WorkspaceTextWriteRequest(
             path="code/sleep.py",
@@ -348,7 +351,7 @@ def test_programmable_layer_enforces_walltime(chemistry_workspace: Path):
         AnalysisJobRequest(
             runtime="core",
             script_path="code/sleep.py",
-            resource_limits=ResourceLimits(walltime_seconds=1, cpu_cores=1),
+            resource_limits=ResourceLimits(cpu_cores=1),
         )
     )
     finished = _wait(submitted["job_id"], timeout=8)

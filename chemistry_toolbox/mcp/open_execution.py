@@ -22,6 +22,10 @@ from researchchem_toolbox.runtime import (
     runtime_names,
     runtime_python,
 )
+from researchchem_toolbox.timeout_policy import (
+    timeout_policy_record,
+    timeout_seconds_for,
+)
 
 from .execution_models import (
     AnalysisJobRequest,
@@ -115,6 +119,12 @@ def _validate_argument_paths(arguments: list[str]) -> None:
                 f"Native arguments cannot reference absolute paths or '..': {argument!r}; "
                 "stage the file and use its target_path instead"
             )
+
+
+def _compute_resource_limits(request_limits) -> dict[str, Any]:
+    resources = request_limits.model_dump(mode="json")
+    resources["walltime_seconds"] = timeout_seconds_for("compute")
+    return resources
 
 
 def _stage_inputs(job_directory: Path, items: list[Any]) -> list[dict[str, Any]]:
@@ -317,7 +327,8 @@ def validate_native_job(request: NativeJobRequest) -> dict[str, Any]:
         "staged_targets": sorted(targets),
         "stdin_target": request.stdin_target,
         "input_deck_validation": input_deck_validation,
-        "resource_limits": request.resource_limits.model_dump(mode="json"),
+        "resource_limits": _compute_resource_limits(request.resource_limits),
+        "execution_timeout_policy": timeout_policy_record("compute"),
         "invocation_guide": guide,
         "validation_boundary": (
             "Validation confirms the allowlisted executable, argv/path safety, staging map, "
@@ -506,12 +517,13 @@ def submit_native_job(request: NativeJobRequest) -> dict[str, Any]:
         command=validation["command"],
         stdin_target=request.stdin_target,
         staged_inputs=request.staged_inputs,
-        resource_limits=request.resource_limits.model_dump(mode="json"),
+        resource_limits=dict(validation["resource_limits"]),
         metadata={
             "software_id": validation["software_id"],
             "executable": request.executable,
             "label": request.label,
             "invocation_synopsis": guide.get("synopsis"),
+            "execution_timeout_policy": timeout_policy_record("compute"),
         },
     )
 
@@ -548,12 +560,13 @@ def submit_analysis_program(request: AnalysisJobRequest) -> dict[str, Any]:
         command=[str(python), request.script_target, *request.arguments],
         stdin_target=None,
         staged_inputs=staged,
-        resource_limits=request.resource_limits.model_dump(mode="json"),
+        resource_limits=_compute_resource_limits(request.resource_limits),
         metadata={
             "runtime": request.runtime,
             "script_source": relative_workspace_path(script),
             "script_target": request.script_target,
             "label": request.label,
+            "execution_timeout_policy": timeout_policy_record("compute"),
             "security_boundary": (
                 "Subprocess/resource/workspace convention only; deploy MCP inside an OS container "
                 "or scheduler sandbox when executing untrusted programs."

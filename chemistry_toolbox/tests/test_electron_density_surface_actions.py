@@ -97,7 +97,7 @@ def test_multiwfn_surface_backend_reports_physical_units_and_legacy_warning(
                 "cutoffs_au": [0.0016],
                 "grid_spacing_bohr": 0.1,
             },
-            "resource_limits": {"walltime_seconds": 120},
+            "resource_limits": {},
         }
     )
     assert canonical["status"] == "success"
@@ -117,7 +117,7 @@ def test_multiwfn_surface_backend_reports_physical_units_and_legacy_warning(
                 "cutoffs_au": [0.0016],
                 "grid_spacing_angstrom": 0.1,
             },
-            "resource_limits": {"walltime_seconds": 120},
+            "resource_limits": {},
         }
     )
     assert legacy["status"] == "success"
@@ -314,7 +314,6 @@ def test_orca_correlated_density_uses_short_relative_input_path(tmp_path, monkey
             "resource_limits": {
                 "cpu_cores": 1,
                 "memory_mb": 1000,
-                "walltime_seconds": 120,
             },
         }
     )
@@ -357,7 +356,13 @@ def test_orca_density_contract_exposes_exact_types_limits_and_memory_mapping():
             "optional_with_defaults"
         ]
     }
-    assert resources["walltime_seconds"]["maximum"] == 7200
+    assert "walltime_seconds" not in resources
+    assert contract["execution_timeout_policy"] == {
+        "execution_class": "compute",
+        "timeout_seconds": 7200,
+        "source": "evaluation_policy",
+        "agent_controllable": False,
+    }
     assert resources["cpu_cores"]["maximum"] == 48
     assert "floor(memory_mb / cpu_cores)" in resources["memory_mb"][
         "description"
@@ -413,7 +418,7 @@ def test_orca_mdci_export_preserves_density_bundle_basename(tmp_path, monkeypatc
                 "output_format": "cube",
                 "grid_points_per_axis": 60,
             },
-            "resource_limits": {"walltime_seconds": 120},
+            "resource_limits": {},
         }
     )
 
@@ -463,7 +468,7 @@ def test_orca_mdci_export_defaults_to_300_grid_points_and_catalog_exposes_contro
             },
             "method_spec": {},
             "action_settings": {"density_source": "mdci", "output_format": "cube"},
-            "resource_limits": {"walltime_seconds": 1800},
+            "resource_limits": {},
         }
     )
 
@@ -551,7 +556,6 @@ def test_real_orca_to_multiwfn_surface_action_chain(tmp_path, monkeypatch):
             "resource_limits": {
                 "cpu_cores": 1,
                 "memory_mb": 1000,
-                "walltime_seconds": 120,
             },
         },
     )
@@ -572,7 +576,6 @@ def test_real_orca_to_multiwfn_surface_action_chain(tmp_path, monkeypatch):
             "resource_limits": {
                 "cpu_cores": 1,
                 "memory_mb": 1000,
-                "walltime_seconds": 120,
             },
         },
     )
@@ -597,7 +600,6 @@ def test_real_orca_to_multiwfn_surface_action_chain(tmp_path, monkeypatch):
             "resource_limits": {
                 "cpu_cores": 2,
                 "memory_mb": 1000,
-                "walltime_seconds": 120,
             },
         },
     )

@@ -32,7 +32,7 @@ def test_mess_solves_native_master_equation_model(tmp_path, monkeypatch):
             "inputs": {"model_file": str(model)},
             "method_spec": {},
             "action_settings": {"maximum_rate_records": 1000},
-            "resource_limits": {"walltime_seconds": 120, "cpu_cores": 1},
+            "resource_limits": { "cpu_cores": 1},
         },
     )
     assert result["status"] == "success"
@@ -71,7 +71,7 @@ def test_mesmer_solves_xml_model_with_explicit_layout(tmp_path, monkeypatch):
             },
             "method_spec": {},
             "action_settings": {"maximum_rate_records": 100},
-            "resource_limits": {"walltime_seconds": 120, "cpu_cores": 1},
+            "resource_limits": { "cpu_cores": 1},
         },
     )
     assert result["status"] == "success"

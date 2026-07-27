@@ -47,7 +47,7 @@ def test_phono3py_rta_thermal_conductivity(tmp_path, monkeypatch):
                 "boundary_mean_free_path_micrometer": 1000.0,
                 "primitive_matrix": "P",
             },
-            "resource_limits": {"cpu_cores": 1, "walltime_seconds": 300},
+            "resource_limits": {"cpu_cores": 1,},
         },
     )
     assert result["status"] == "success"

@@ -18,17 +18,6 @@ ORCA_DENSITY_DEFAULT_MAXCORE_MB = 2000
 
 
 RESOURCE_LIMIT_PARAMETER_SPECS: dict[str, ParameterMetadata] = {
-    "walltime_seconds": {
-        "description": "Maximum synchronous wall-clock time allowed for this Action call.",
-        "default": 1800,
-        "type": "integer",
-        "minimum": 1,
-        "maximum": 172800,
-        "impact": (
-            "A larger value allows longer calculations but occupies a synchronous worker "
-            "for longer; backend-specific maximum walltimes still apply."
-        ),
-    },
     "memory_mb": {
         "description": "Requested memory budget in megabytes when the backend supports it.",
         "default": None,
@@ -278,7 +267,8 @@ _register_parameter(
 )
 
 
-# Network/data-source mechanical controls remain Agent-selectable and visible.
+# Network/data-source retry controls remain Agent-selectable. Timeouts are fixed
+# by the evaluation policy and are intentionally absent from this public catalog.
 _PUBCHEM_ACTIONS = (
     "search_compounds", "resolve_chemical_identity", "retrieve_compound_properties",
     "retrieve_compound_structure", "search_similar_compounds", "search_substructures",
@@ -287,7 +277,6 @@ for _field_path, _default, _description, _impact, _extra in (
     ("action_settings.max_retries", 1, "Maximum retry count for a transient PubChem request failure.", "More retries improve resilience but increase worst-case latency and duplicate remote requests.", {"type": "integer", "minimum": 0}),
     ("action_settings.retry_backoff_seconds", 1.0, "Initial delay between PubChem retry attempts.", "Longer backoff reduces pressure on a failing service but increases latency.", {"type": "number", "minimum": 0}),
     ("action_settings.minimum_request_interval_seconds", 0.25, "Cross-worker minimum interval between PubChem HTTP requests.", "A longer interval reduces rate-limit risk but lowers throughput.", {"type": "number", "minimum": 0}),
-    ("action_settings.timeout_seconds", 30, "Per-request PubChem HTTP timeout.", "A larger timeout tolerates slow responses but delays failure detection.", {"type": "number", "minimum": 1}),
     ("action_settings.max_poll_attempts", 15, "Maximum PubChem asynchronous-search polling attempts.", "More attempts allow longer remote searches but increase worst-case elapsed time.", {"type": "integer", "minimum": 1}),
     ("action_settings.poll_interval_seconds", 2.0, "Delay between PubChem asynchronous-search polls.", "Longer intervals reduce polling traffic but delay result collection.", {"type": "number", "minimum": 0}),
 ):
@@ -310,18 +299,6 @@ _register_parameter(
     type="integer", minimum=1,
     impact="A larger limit can expose ambiguous matches but increases response processing.",
 )
-for _backend_id, _action_id, _default_timeout in (
-    ("rcsb_pdb", "search_protein_structures", 30),
-    ("materials_project", "search_materials", 30),
-    ("catalysis_hub", "search_catalysis_records", 60),
-    ("nist_webbook", "lookup_nist_webbook_species", 30),
-):
-    _register_parameter(
-        _backend_id, _action_id, "action_settings.timeout_seconds",
-        description="Per-request HTTP timeout for the selected remote data source.",
-        default=_default_timeout, type="number", minimum=1,
-        impact="A larger timeout tolerates slower services but delays failure detection.",
-    )
 for _backend_id, _action_id, _default_records in (
     ("rcsb_pdb", "search_protein_structures", 10),
     ("materials_project", "search_materials", 20),
@@ -364,11 +341,6 @@ _register_parameter(
     "rdkit", "generate_3d_structure", "action_settings.max_attempts",
     description="Maximum RDKit embedding attempts.", default=1000, type="integer", minimum=1,
     impact="More attempts improve the chance of embedding difficult molecules but increase runtime.",
-)
-_register_parameter(
-    "openbabel", "generate_3d_structure", "action_settings.timeout_seconds",
-    description="Maximum Open Babel 3D generation wall time.", default=600, type="integer", minimum=1,
-    impact="A larger timeout allows more difficult generation jobs to finish but delays failure detection.",
 )
 _register_parameter(
     "rdkit_etkdg", "generate_conformer_ensemble", "action_settings.prune_rms_threshold_angstrom",

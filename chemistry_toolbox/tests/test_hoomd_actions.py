@@ -63,7 +63,7 @@ def test_hoomd_minimization_and_one_dynamics_segment(tmp_path, monkeypatch):
                 "energy_tolerance": 1e-8,
                 "max_iterations": 1000,
             },
-            "resource_limits": {"cpu_cores": 1, "walltime_seconds": 300},
+            "resource_limits": {"cpu_cores": 1,},
         },
     )
     assert minimized["status"] == "success"
@@ -84,7 +84,7 @@ def test_hoomd_minimization_and_one_dynamics_segment(tmp_path, monkeypatch):
                 "random_seed": 20260720,
                 "initialize_velocities": True,
             },
-            "resource_limits": {"cpu_cores": 1, "walltime_seconds": 300},
+            "resource_limits": {"cpu_cores": 1,},
         },
     )
     assert trajectory["status"] == "success"

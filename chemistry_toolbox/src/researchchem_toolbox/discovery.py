@@ -17,6 +17,7 @@ from .parameter_specs import (
     common_fixed_parameter_specs,
     inferred_parameter_metadata,
 )
+from .timeout_policy import timeout_policy_record
 
 
 ActionKind = Literal["all", "scientific", "data"]
@@ -548,6 +549,17 @@ def _action_request_contract(
         validation_level=backend.validation_levels.get(specification.id),
     )
     fixed_parameters.update(backend.fixed_parameter_specs.get(specification.id, {}))
+    policy_record = timeout_policy_record(specification.execution_class)
+    fixed_parameters["execution_policy.timeout_seconds"] = {
+        "description": (
+            f"Evaluator-controlled {specification.execution_class} Action timeout: "
+            f"{policy_record['timeout_seconds']} seconds."
+        ),
+        "reason": (
+            "Timeout is a benchmark resource budget shared by all Agents and is not "
+            "an Agent-selectable scientific parameter."
+        ),
+    }
 
     resource_parameter_specs = {
         field_name: dict(metadata)
@@ -555,10 +567,7 @@ def _action_request_contract(
     }
     for field_name, metadata in registered_by_section["resource_limits"].items():
         resource_parameter_specs.setdefault(field_name, {}).update(dict(metadata))
-    resource_maximum_fields = {
-        "cpu_cores": "maximum_cpu_cores",
-        "walltime_seconds": "maximum_walltime_seconds",
-    }
+    resource_maximum_fields = {"cpu_cores": "maximum_cpu_cores"}
     for field_name, constraint_name in resource_maximum_fields.items():
         maximum = backend.resource_constraints.get(constraint_name)
         if maximum is None:
@@ -569,12 +578,7 @@ def _action_request_contract(
             if current_maximum is not None
             else int(maximum)
         )
-        reason_key = (
-            "walltime_reason"
-            if field_name == "walltime_seconds"
-            else "reason"
-        )
-        reason = backend.resource_constraints.get(reason_key)
+        reason = backend.resource_constraints.get("reason")
         if reason:
             resource_parameter_specs[field_name]["backend_limit_reason"] = str(reason)
 
@@ -737,6 +741,7 @@ def _action_request_contract(
             ),
             "input_handoff_note": _ACTION_INPUT_HANDOFF_NOTES.get(specification.id),
         },
+        "execution_timeout_policy": policy_record,
         "execution_checklist": [
             "Replace every angle-bracket placeholder; placeholders are not defaults.",
             "Preserve the exact selected action_id and backend_id/source_id.",
@@ -877,6 +882,9 @@ def search_actions(
                 "description": specification.description,
                 "primary_output": specification.primary_output,
                 "data_action": specification.data_action,
+                "execution_timeout_policy": timeout_policy_record(
+                    specification.execution_class
+                ),
                 "selection_policy": specification.selection_policy,
                 "providers": providers,
             }
@@ -939,6 +947,9 @@ def inspect_action(
         "status": "success",
         "catalog_hash": current.get("catalog_hash"),
         "action": specification.as_dict(),
+        "execution_timeout_policy": timeout_policy_record(
+            specification.execution_class
+        ),
         "selection_instruction": _selection_instruction(specification),
         "execute_with": "execute_action",
         "action_request_fields": [

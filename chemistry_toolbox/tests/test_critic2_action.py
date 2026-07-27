@@ -43,7 +43,6 @@ def test_critic2_electron_density_topology_real_cube(tmp_path, monkeypatch):
             "resource_limits": {
                 "cpu_cores": 1,
                 "memory_mb": 1024,
-                "walltime_seconds": 120,
             },
         },
     )
@@ -115,7 +114,6 @@ def test_critic2_grid_basin_integrations(
             "resource_limits": {
                 "cpu_cores": 1,
                 "memory_mb": 1024,
-                "walltime_seconds": 120,
             },
         },
     )

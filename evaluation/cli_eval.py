@@ -20,7 +20,10 @@ from researchchem_toolbox.catalog import resolve_tool_discovery_mode
 from .config import (
     AGENT_PRESETS,
     DEFAULT_AGENT_TIMEOUT_SECONDS,
+    DEFAULT_COMPUTE_ACTION_TIMEOUT_SECONDS,
+    DEFAULT_FAST_ACTION_TIMEOUT_SECONDS,
     DEFAULT_LIVE_PROGRESS,
+    DEFAULT_MCP_TOOL_TIMEOUT_MS,
     DEFAULT_MAX_TURNS,
     DEFAULT_PROGRESS_CONSOLE,
     DEFAULT_PROGRESS_MAX_CHARS,
@@ -84,6 +87,16 @@ def _normalize_bool(value: Any, *, name: str) -> bool:
         if normalized in {"0", "false", "no", "off"}:
             return False
     raise EvalConfigError(f"{name} must be a boolean")
+
+
+def _positive_integer(value: Any, *, name: str) -> int:
+    try:
+        normalized = int(value)
+    except (TypeError, ValueError) as exc:
+        raise EvalConfigError(f"{name} must be an integer") from exc
+    if normalized < 1:
+        raise EvalConfigError(f"{name} must be positive")
+    return normalized
 
 
 def resolve_specs(config: dict[str, Any]) -> list[RunSpec]:
@@ -196,6 +209,36 @@ def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False
         raise EvalConfigError("progress_max_chars must be an integer") from exc
     if progress_max_chars < 80:
         raise EvalConfigError("progress_max_chars must be >= 80")
+    agent_timeout_seconds = _positive_integer(
+        config.get("timeout_seconds", DEFAULT_AGENT_TIMEOUT_SECONDS),
+        name="timeout_seconds",
+    )
+    compute_action_timeout_seconds = _positive_integer(
+        config.get(
+            "compute_action_timeout_seconds",
+            DEFAULT_COMPUTE_ACTION_TIMEOUT_SECONDS,
+        ),
+        name="compute_action_timeout_seconds",
+    )
+    fast_action_timeout_seconds = _positive_integer(
+        config.get("fast_action_timeout_seconds", DEFAULT_FAST_ACTION_TIMEOUT_SECONDS),
+        name="fast_action_timeout_seconds",
+    )
+    mcp_tool_timeout_seconds = _positive_integer(
+        config.get(
+            "mcp_tool_timeout_seconds",
+            (DEFAULT_MCP_TOOL_TIMEOUT_MS + 999) // 1000,
+        ),
+        name="mcp_tool_timeout_seconds",
+    )
+    if fast_action_timeout_seconds > compute_action_timeout_seconds:
+        raise EvalConfigError(
+            "fast_action_timeout_seconds cannot exceed compute_action_timeout_seconds"
+        )
+    if mcp_tool_timeout_seconds <= compute_action_timeout_seconds:
+        raise EvalConfigError(
+            "mcp_tool_timeout_seconds must exceed compute_action_timeout_seconds"
+        )
     if dry_run:
         _log(f"Config: {config_path}")
         _log(f"Planned runs: {len(specs)}")
@@ -204,6 +247,13 @@ def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False
         _log(f"Live progress: {live_progress}")
         _log(f"Progress console: {progress_console}")
         _log(f"Progress max chars: {progress_max_chars}")
+        _log(
+            "Timeouts: "
+            f"fast_action={fast_action_timeout_seconds}s "
+            f"compute_action={compute_action_timeout_seconds}s "
+            f"mcp_tool={mcp_tool_timeout_seconds}s "
+            f"agent={agent_timeout_seconds}s"
+        )
         for spec in specs:
             _log(f"run={spec.task_id} agent={spec.agent_key} repeat={spec.repeat}")
         return 0
@@ -229,9 +279,10 @@ def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False
             spec.task_id,
             agent_key=spec.agent_key,
             workspace_root=batch_dir,
-            timeout_seconds=int(
-                config.get("timeout_seconds", DEFAULT_AGENT_TIMEOUT_SECONDS)
-            ),
+            timeout_seconds=agent_timeout_seconds,
+            compute_action_timeout_seconds=compute_action_timeout_seconds,
+            fast_action_timeout_seconds=fast_action_timeout_seconds,
+            mcp_tool_timeout_ms=mcp_tool_timeout_seconds * 1000,
             max_turns=int(config.get("max_turns", DEFAULT_MAX_TURNS)),
             tool_discovery_mode=discovery_mode,
             live_progress=live_progress,

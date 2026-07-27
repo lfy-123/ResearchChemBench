@@ -13,6 +13,7 @@ from .catalog import action_specs, active_catalog_hash, backend_specs
 from .models import ActionRequest, ActionResult
 from .resources import collect_resource_references
 from .runtime import invoke_worker, probe_all_backends
+from .timeout_policy import timeout_policy_record, timeout_seconds_for
 
 
 def _invalid(
@@ -217,9 +218,9 @@ def _validate_backend_resource_constraints(
     backend_id: str,
     request: ActionRequest,
     selected_backends: tuple[Any, ...],
+    timeout_seconds: int,
 ) -> dict[str, Any] | None:
     cpu_cores = request.resource_limits.cpu_cores or 1
-    walltime_seconds = request.resource_limits.walltime_seconds
     for selected in selected_backends:
         maximum = selected.resource_constraints.get("maximum_cpu_cores")
         if maximum is not None and cpu_cores > int(maximum):
@@ -236,19 +237,17 @@ def _validate_backend_resource_constraints(
         maximum_walltime = selected.resource_constraints.get(
             "maximum_walltime_seconds"
         )
-        if maximum_walltime is not None and walltime_seconds > int(maximum_walltime):
+        if maximum_walltime is not None and timeout_seconds > int(maximum_walltime):
             reason = selected.resource_constraints.get("walltime_reason")
             detail = f" Reason: {reason}" if reason else ""
             return _invalid(
                 action_id,
                 backend_id,
-                f"resource_limits.walltime_seconds={walltime_seconds} exceeds the validated "
-                f"synchronous Action maximum {maximum_walltime} for selected backend "
-                f"{selected.id!r}.{detail} For a longer calculation, explicitly inspect the "
-                "software-native contract and submit an asynchronous native job, or choose "
-                "different resources/backend yourself; no substitution, retry, or fallback "
-                "is performed.",
-                code="invalid_resource_limits",
+                f"The evaluator-controlled timeout_seconds={timeout_seconds} exceeds the "
+                f"validated Action maximum {maximum_walltime} for selected backend "
+                f"{selected.id!r}.{detail} Adjust the evaluation timeout policy before "
+                "running this benchmark; the Agent cannot change this value.",
+                code="invalid_timeout_policy",
             )
     return None
 
@@ -449,6 +448,16 @@ def execute_action(action_id: str, request_value: ActionRequest | dict[str, Any]
         return _invalid(action_id, None, str(exc))
 
     specification = actions[action_id]
+    if "timeout_seconds" in request.action_settings:
+        return _invalid(
+            action_id,
+            request.backend_id or request.source_id,
+            "action_settings.timeout_seconds is controlled by the evaluation policy and "
+            "cannot be supplied by the Agent",
+            code="evaluator_controlled_timeout",
+        )
+    execution_timeout = timeout_seconds_for(specification.execution_class)
+    timeout_policy = timeout_policy_record(specification.execution_class)
     policy = specification.selection_policy
     if policy == "fixed_source":
         fixed_backend = specification.backend_ids[0]
@@ -624,6 +633,7 @@ def execute_action(action_id: str, request_value: ActionRequest | dict[str, Any]
         backend_id,
         request,
         (backend, *component_specs),
+        execution_timeout,
     )
     if invalid_resources is not None:
         return invalid_resources
@@ -680,6 +690,7 @@ def execute_action(action_id: str, request_value: ActionRequest | dict[str, Any]
                 "agent_selected_component_backends": request.component_backends,
                 "agent_selected_source_id": request.source_id,
                 "automatic_fallback_count": 0,
+                "execution_timeout_policy": timeout_policy,
             },
         ).model_dump(mode="json")
     if not health["available"]:
@@ -707,19 +718,23 @@ def execute_action(action_id: str, request_value: ActionRequest | dict[str, Any]
                 "agent_selected_source_id": request.source_id,
                 "runtime_profile": backend.runtime,
                 "automatic_fallback_count": 0,
+                "execution_timeout_policy": timeout_policy,
             },
         ).model_dump(mode="json")
 
     input_artifacts = collect_artifact_refs(request.inputs)
+    execution_request = request.model_dump(mode="json")
+    execution_request["resource_limits"]["walltime_seconds"] = execution_timeout
+    execution_request["action_settings"]["timeout_seconds"] = execution_timeout
     worker_payload = {
         "action_id": action_id,
         "backend_id": backend_id,
-        "request": request.model_dump(mode="json"),
+        "request": execution_request,
     }
     worker = invoke_worker(
         runtime=backend.runtime,
         payload=worker_payload,
-        timeout_seconds=request.resource_limits.walltime_seconds,
+        timeout_seconds=execution_timeout,
     )
     status = worker.get("status", "failed")
     if status not in {
@@ -795,6 +810,7 @@ def execute_action(action_id: str, request_value: ActionRequest | dict[str, Any]
         "runtime_profile": backend.runtime,
         "dispatcher_executed_backend": backend_id,
         "automatic_fallback_count": 0,
+        "execution_timeout_policy": timeout_policy,
         **dict(worker.get("provenance") or {}),
     }
     return ActionResult(

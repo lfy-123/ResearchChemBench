@@ -20,6 +20,7 @@ from researchchem_toolbox.runtime import (
     runtime_python,
     runtime_spec,
 )
+from researchchem_toolbox.timeout_policy import timeout_policy_record
 
 from .execution_models import (
     AnalysisRuntimeListRequest,
@@ -576,11 +577,11 @@ def inspect_software(request: SoftwareInspectRequest) -> dict[str, Any]:
                         else None
                     ),
                     "resource_limits": {
-                        "walltime_seconds": 1800,
                         "memory_mb": 4096,
                         "cpu_cores": 1,
                         "gpu_count": 0,
                     },
+                    "execution_timeout_policy": timeout_policy_record("compute"),
                 },
             }
         )
@@ -768,11 +769,11 @@ def list_analysis_runtimes(request: AnalysisRuntimeListRequest) -> dict[str, Any
                 }
             ],
             "resource_limits": {
-                "walltime_seconds": 1800,
                 "memory_mb": 4096,
                 "cpu_cores": 1,
                 "gpu_count": 0,
             },
+            "execution_timeout_policy": timeout_policy_record("compute"),
             "label": "<descriptive scientific operation>",
         },
         "execution_note": (

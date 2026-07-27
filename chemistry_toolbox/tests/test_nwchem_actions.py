@@ -35,7 +35,7 @@ def test_nwchem_qcschema_atomic_actions(tmp_path, monkeypatch, action_id: str, r
             "inputs": {"structure": WATER},
             "method_spec": {"method": "hf", "basis": "sto-3g", "reference": "rhf"},
             "action_settings": {"scf_convergence": 1e-8, "max_scf_cycles": 100},
-            "resource_limits": {"cpu_cores": 1, "memory_mb": 1024, "walltime_seconds": 300},
+            "resource_limits": {"cpu_cores": 1, "memory_mb": 1024,},
         },
     )
     assert result["status"] == "success"

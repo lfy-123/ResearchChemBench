@@ -14,6 +14,7 @@ from .runtime import probe_all_backends
 from .resources import resource_snapshot, resources_for_backends
 from .specs import ACTION_SPECS, BACKEND_SPECS
 from .parameter_specs import RESOURCE_LIMIT_PARAMETER_SPECS, common_fixed_parameter_specs
+from .timeout_policy import timeout_policy_record
 
 
 CATEGORY_LABELS = {
@@ -314,6 +315,7 @@ def mcp_action_description(specification: ActionSpec) -> str:
     required = ", ".join(specification.required_inputs) or "none"
     optional = ", ".join(specification.optional_inputs) or "none"
     input_contract = specification.input_description or "structured inputs described by the action"
+    timeout_policy = timeout_policy_record(specification.execution_class)
     return (
         f"{specification.description} Primary output: {specification.primary_output}. "
         f"Input contract: {input_contract}. "
@@ -326,6 +328,8 @@ def mcp_action_description(specification: ActionSpec) -> str:
             for name, metadata in RESOURCE_LIMIT_PARAMETER_SPECS.items()
         )
         + ". "
+        f"Execution class: {specification.execution_class}; timeout is evaluator-controlled "
+        f"at {timeout_policy['timeout_seconds']} seconds and cannot be supplied by the Agent. "
         f"Provider selection policy: {policy}. The system validates and executes the exact "
         "declared provider choices; it never falls back to another backend or source."
     )

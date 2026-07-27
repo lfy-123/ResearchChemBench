@@ -120,7 +120,7 @@ def test_goodvibes_derive_returns_structured_json_result(tmp_path, monkeypatch):
             "inputs": {"output_file": "water.log"},
             "method_spec": {},
             "action_settings": _settings(),
-            "resource_limits": {"cpu_cores": 2, "walltime_seconds": 30},
+            "resource_limits": {"cpu_cores": 2,},
         },
     )
 
@@ -210,7 +210,7 @@ def test_goodvibes_validation_avoids_native_check_spc_crash(tmp_path, monkeypatc
             "inputs": {"output_files": ["first", "second"]},
             "method_spec": {"single_point_correction_suffix": "DLPNO"},
             "action_settings": settings,
-            "resource_limits": {"cpu_cores": 1, "walltime_seconds": 30},
+            "resource_limits": {"cpu_cores": 1,},
         },
     )
 

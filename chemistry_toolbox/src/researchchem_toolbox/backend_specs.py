@@ -203,7 +203,6 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         environment=("CHEMGRAPH_CREST_COMMAND",), conda=("crest", "xtb"),
         resource_constraints={
             "maximum_cpu_cores": 48,
-            "maximum_walltime_seconds": 7200,
             "reason": "CREST/xTB threads are set from the Agent-selected resource limits and capped on this server.",
         },
         method_schema={
@@ -878,8 +877,7 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
             "Operator-provided ORCA 6.1.1 electronic-structure executable with an isolated "
             "OpenMPI 4.1.8 runtime. The Agent explicitly selects method, basis, solvation, "
             "and resources. This server's validated execution contract permits up to 48 "
-            "CPU cores and 7200 seconds per synchronous ORCA Action. Longer ORCA "
-            "calculations remain available through the Agent-selected asynchronous native layer."
+            "CPU cores; the evaluator supplies the common compute timeout."
         ),
         executables=("orca",), environment=("CHEMGRAPH_ORCA_COMMAND",),
         license_class="manual_license",
@@ -887,21 +885,13 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
             "Configured from the operator-downloaded ORCA 6.1.1 installer under "
             ".software_cache/orca/6.1.1 with the exact OpenMPI 4.1.8 runtime required by this "
             "ORCA build. Parallel Actions retain the Agent-selected PAL process count without "
-            "automatic fallback or resource substitution. Use inspect_software plus "
-            "submit_native_job for explicitly authored jobs beyond the synchronous limits."
+            "automatic fallback or resource substitution."
         ),
         resource_constraints={
             "maximum_cpu_cores": 48,
-            "maximum_walltime_seconds": 7200,
             "reason": (
                 "The current 64-online-CPU server reserves capacity for the service and exposes "
                 "at most 48 ORCA MPI processes per synchronous Action."
-            ),
-            "walltime_reason": (
-                "execute_action is synchronous and must finish comfortably inside the MCP client "
-                "timeout. Long ORCA jobs must be submitted explicitly through the asynchronous "
-                "software-native layer so their state can be polled without blocking discovery "
-                "or other Action calls."
             ),
         },
         method_schema={
@@ -980,16 +970,9 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         ),
         resource_constraints={
             "maximum_cpu_cores": 48,
-            "maximum_walltime_seconds": 1800,
             "reason": (
                 "The current 64-online-CPU server reserves capacity for the service and "
                 "exposes at most 48 Gaussian shared-memory cores per synchronous Action."
-            ),
-            "walltime_reason": (
-                "execute_action is synchronous and shares the MCP service event loop. "
-                "Gaussian calculations expected to exceed 1800 seconds must be submitted "
-                "through inspect_software plus submit_native_job so they can be polled "
-                "without blocking discovery and unrelated tool calls."
             ),
         },
         method_schema={
@@ -1361,7 +1344,6 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         modules=("pysisyphus",), executables=("pysis",), pip=("pysisyphus==1.0.0",),
         resource_constraints={
             "maximum_cpu_cores": 48,
-            "maximum_walltime_seconds": 7200,
             "reason": "Calculator processes/threads remain exactly Agent-selected, capped at 48 on this server.",
         },
         method_schema={
@@ -2003,7 +1985,8 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         install_notes=(
             "Live PUG REST access uses cross-worker rate limiting and bounded retries. Optional mechanical "
             "controls are max_retries, retry_backoff_seconds, minimum_request_interval_seconds, "
-            "timeout_seconds, max_poll_attempts, and poll_interval_seconds. Existing proxy variables take priority; "
+            "max_poll_attempts, and poll_interval_seconds. Request timeout is evaluator-controlled. "
+            "Existing proxy variables take priority; "
             "otherwise PubChem loads proxy-only values from the ignored config.local.env file. No alternate data "
             "source is selected implicitly."
         ),

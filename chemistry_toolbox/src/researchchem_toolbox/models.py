@@ -30,11 +30,10 @@ ProviderSelectionPolicy = Literal[
 
 
 class ResourceLimits(BaseModel):
-    """Mechanical execution limits; these do not choose scientific settings."""
+    """Agent-selected placement limits; walltime is evaluator-controlled."""
 
     model_config = ConfigDict(extra="forbid")
 
-    walltime_seconds: int = Field(default=1800, ge=1, le=172800)
     memory_mb: int | None = Field(default=None, ge=128)
     cpu_cores: int | None = Field(default=None, ge=1)
     gpu_count: int | None = Field(default=None, ge=0)
@@ -192,6 +191,10 @@ class ActionSpec:
     requires_network: bool = False
     selection_policy: ProviderSelectionPolicy = "agent_backend_required"
 
+    @property
+    def execution_class(self) -> Literal["compute", "fast"]:
+        return "fast" if self.data_action else "compute"
+
     def validate(self) -> None:
         if not _ID_PATTERN.fullmatch(self.id):
             raise ValueError(f"Invalid action id: {self.id!r}")
@@ -223,6 +226,7 @@ class ActionSpec:
 
     def as_dict(self) -> dict[str, Any]:
         value = asdict(self)
+        value["execution_class"] = self.execution_class
         for key in ("backend_ids", "required_inputs", "optional_inputs"):
             value[key] = list(value[key])
         return value
