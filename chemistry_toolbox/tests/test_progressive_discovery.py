@@ -205,7 +205,7 @@ def test_composite_and_typed_handoff_contracts_are_explicit():
         ]["optional_with_defaults"]
     }
     assert resource_parameters["cpu_cores"]["maximum"] == 48
-    assert resource_parameters["memory_mb"]["maximum"] == 196608
+    assert resource_parameters["memory_mb"]["maximum"] == 204800
     assert resource_parameters["gpu_count"]["maximum"] == 0
 
     vibrations = inspect_action(

@@ -45,15 +45,20 @@ timeout 是评测环境统一规定的资源预算，不再由智能体设置。
 | 参数 | 默认值 | 含义 |
 |---|---:|---|
 | `--available-cpu-cores N` | `48` | 单个任务可使用的逻辑CPU核数上限 |
-| `--available-memory-mb N` | `196608` | 单个任务可使用的内存上限，单位MiB |
+| `--available-memory-mb N` | `204800` | 单个任务可使用的内存上限，单位MiB |
 | `--available-gpu-count N` | `0` | 单个任务可使用的GPU数量上限 |
+
+这些默认值依据当前服务器的实际进程约束设置：64个在线且位于当前CPU
+亲和性集合中的物理核、300 GiB cgroup内存上限、无swap。默认保留16个CPU核和约
+100 GiB cgroup内存给评测服务、操作系统及其他进程；不会根据提交瞬间的系统负载
+动态变化，以保持不同评测运行之间的资源条件可复现。
 
 示例：
 
 ```bash
 bash scripts/submit_evaluation.sh submit \
   --available-cpu-cores 48 \
-  --available-memory-mb 196608 \
+  --available-memory-mb 204800 \
   --available-gpu-count 0 \
   Task_A
 ```
@@ -197,7 +202,7 @@ bash scripts/submit_evaluation.sh submit \
 | `--fast-action-timeout-seconds N` | `240` | 所有快速/数据Action的固定timeout |
 | `--mcp-tool-timeout-seconds N` | `14000` | MCP客户端等待单次工具调用的最长时间 |
 | `--available-cpu-cores N` | `48` | 每个任务的CPU核数预算 |
-| `--available-memory-mb N` | `196608` | 每个任务的内存预算，单位MiB |
+| `--available-memory-mb N` | `204800` | 每个任务的内存预算，单位MiB |
 | `--available-gpu-count N` | `0` | 每个任务的GPU数量预算 |
 | `--max-turns N` | `200` | 每个任务最大Agent轮数 |
 | `--max-concurrent-runs N` | `1` | 同时运行的完整任务数 |

@@ -32,7 +32,7 @@ Submit options:
                                 Fixed timeout for fast/data Actions. Default: 240.
   --mcp-tool-timeout-seconds N  MCP client deadline per tool call. Default: 14000.
   --available-cpu-cores N       CPU cores available to each task. Default: 48.
-  --available-memory-mb N       Memory available to each task, in MiB. Default: 196608.
+  --available-memory-mb N       Memory available to each task, in MiB. Default: 204800.
   --available-gpu-count N       GPUs available to each task. Default: 0.
   --max-turns N                 Maximum Agent turns. Default: 200.
   --max-concurrent-runs N       Concurrent task runs. Default: 1.
@@ -194,7 +194,7 @@ case "$command" in
     fast_action_timeout_seconds=240
     mcp_tool_timeout_seconds=14000
     available_cpu_cores=48
-    available_memory_mb=196608
+    available_memory_mb=204800
     available_gpu_count=0
     max_turns=200
     max_concurrent_runs=1
