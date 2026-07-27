@@ -1131,6 +1131,10 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
                 "optional GoodVibes free-space solvent correction name; supported names are "
                 "version-specific and must be selected by the Agent"
             ),
+            "media_solvent": (
+                "optional GoodVibes --media solution solvent; supported names are "
+                "version-specific and must be selected by the Agent"
+            ),
             "frequency_scale_factor": (
                 "action_settings positive number or explicit 'auto'; mapped to --vscal, "
                 "never to --fs"

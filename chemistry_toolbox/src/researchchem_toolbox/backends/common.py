@@ -225,6 +225,28 @@ def _parse_sdf(path: Path) -> dict[str, Any]:
     }
 
 
+def _parse_vasp_structure(path: Path) -> dict[str, Any]:
+    from pymatgen.io.vasp.inputs import Poscar
+
+    structure = Poscar.from_file(path, check_for_potcar=False).structure
+    return {
+        "atoms": [
+            {
+                "element": str(site.specie.symbol),
+                "position_angstrom": [float(value) for value in site.coords],
+            }
+            for site in structure
+        ],
+        "cell_angstrom": [
+            [float(value) for value in row] for row in structure.lattice.matrix
+        ],
+        "charge": 0,
+        "multiplicity": 1,
+        "pbc": [True, True, True],
+        "source_path": relative_workspace_path(path),
+    }
+
+
 def structure_dict(value: Any) -> dict[str, Any]:
     item = unwrap_artifact(value)
     if isinstance(item, dict) and "result" in item and isinstance(item["result"], dict):
@@ -245,6 +267,16 @@ def structure_dict(value: Any) -> dict[str, Any]:
                 return _parse_pdb(candidate)
             if candidate.suffix.lower() in {".sdf", ".mol"}:
                 return _parse_sdf(candidate)
+            if candidate.suffix.lower() in {".vasp", ".poscar"} or candidate.name.upper() in {
+                "POSCAR",
+                "CONTCAR",
+            }:
+                try:
+                    return _parse_vasp_structure(candidate)
+                except Exception as exc:
+                    raise ValueError(
+                        f"Could not parse VASP structure file {candidate}: {exc}"
+                    ) from exc
             try:
                 from ase.io import read
 

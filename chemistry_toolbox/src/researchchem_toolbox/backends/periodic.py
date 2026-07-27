@@ -1820,8 +1820,10 @@ def _write_vasp_inputs(
                         f"to element {metadata.get('element')!r}, not {element!r}"
                     )
             source = resolve_input_file(selected)
-            output.write(source.read_bytes())
-            output.write(b"\n")
+            dataset = source.read_bytes()
+            output.write(dataset)
+            if not dataset.endswith((b"\n", b"\r")):
+                output.write(b"\n")
 
     k_points = _k_points(method["k_points"])
     scheme = str(method["kpoint_scheme"]).strip().lower()

@@ -839,6 +839,7 @@ for _field_path, _description, _impact in (
     ("method_spec.custom_file_extensions", "Optional additional quantum-output filename extensions accepted by GoodVibes.", "Adding extensions broadens input discovery but does not change parsed scientific data."),
     ("method_spec.exclude_pattern", "Optional filename glob excluded from GoodVibes analysis.", "A broader pattern removes more structures and can change ensemble/profile conclusions."),
     ("method_spec.free_space_solvent", "Optional GoodVibes free-space solvent correction name.", "Changing the solvent changes the free-volume entropy correction."),
+    ("method_spec.media_solvent", "Optional GoodVibes solution-media solvent used for concentration correction.", "Changing the solvent changes the solution-phase standard-state correction applied by GoodVibes."),
 ):
     _register_parameter("goodvibes", _GOODVIBES_ACTIONS, _field_path, description=_description, default=None, impact=_impact)
 for _field_path, _default, _description, _impact in (

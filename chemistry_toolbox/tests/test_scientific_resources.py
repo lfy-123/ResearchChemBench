@@ -6,7 +6,7 @@ import pytest
 
 from researchchem_toolbox import resources
 from researchchem_toolbox.backends import docking, electronic, mlip, periodic
-from researchchem_toolbox.backends.common import resolve_input_file
+from researchchem_toolbox.backends.common import resolve_input_file, structure_dict
 from researchchem_toolbox.catalog import catalog_snapshot
 
 
@@ -112,6 +112,31 @@ def test_common_file_resolver_accepts_only_registered_resource_refs(tmp_path, mo
     assert resolve_input_file("resource://test_pseudos/Si") == element_root / "Si.psp8"
     with pytest.raises(ValueError, match="Unknown scientific resource"):
         resolve_input_file("resource://not_registered/Si")
+
+
+def test_vasp_structure_files_parse_without_ase_fallback(tmp_path, monkeypatch):
+    monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
+    poscar = tmp_path / "surface.vasp"
+    poscar.write_text(
+        """test
+1.0
+2.0 0.0 0.0
+0.0 2.0 0.0
+0.0 0.0 8.0
+Pd C
+1 1
+Direct
+0.0 0.0 0.0
+0.5 0.5 0.25
+""",
+        encoding="utf-8",
+    )
+
+    structure = structure_dict("surface.vasp")
+
+    assert [atom["element"] for atom in structure["atoms"]] == ["Pd", "C"]
+    assert structure["cell_angstrom"][2] == pytest.approx([0.0, 0.0, 8.0])
+    assert structure["pbc"] == [True, True, True]
 
 
 def test_variant_collections_require_an_exact_agent_selection(tmp_path, monkeypatch):
@@ -675,6 +700,55 @@ def test_vasp_input_requires_explicit_potcar_and_scientific_controls(
     assert (tmp_path / "POTCAR").read_text(encoding="utf-8").startswith(
         "Si test POTCAR"
     )
+
+
+def test_vasp_potcar_concatenation_does_not_add_blank_dataset_boundaries(
+    tmp_path, monkeypatch
+):
+    potcars = {}
+    for element, content in (("Cu", b"Cu dataset\n"), ("Pd", b"Pd dataset")):
+        path = tmp_path / f"POTCAR.{element}"
+        path.write_bytes(content)
+        potcars[element] = path
+
+    monkeypatch.setattr(
+        periodic,
+        "resolve_input_file",
+        lambda value: potcars[value.rsplit("/", 1)[-1]],
+    )
+    request = {
+        "inputs": {
+            "structure": {
+                "atoms": [
+                    {"element": "Cu", "position_angstrom": [0, 0, 0]},
+                    {"element": "Pd", "position_angstrom": [1, 1, 1]},
+                ],
+                "cell_angstrom": [[5, 0, 0], [0, 5, 0], [0, 0, 5]],
+                "pbc": [True, True, True],
+            }
+        },
+        "method_spec": {
+            "pseudopotentials": {
+                "Cu": "resource://potcar/Cu",
+                "Pd": "resource://potcar/Pd",
+            },
+            "encut_ev": 500,
+            "k_points": {"grid": [1, 1, 1], "shift": [0, 0, 0]},
+            "kpoint_scheme": "gamma",
+            "precision": "Accurate",
+            "algorithm": "Normal",
+            "ismear": 0,
+            "sigma_ev": 0.05,
+            "spin_polarized": False,
+            "real_space_projection": False,
+            "xc_family": "pbe",
+        },
+        "action_settings": {"scf_convergence_ev": 1e-6, "max_scf_cycles": 10},
+    }
+
+    periodic._write_vasp_inputs("calculate_periodic_energy", request, tmp_path)
+
+    assert (tmp_path / "POTCAR").read_bytes() == b"Cu dataset\nPd dataset\n"
 
 
 def test_vasp_rejects_a_registered_variant_for_the_wrong_element(

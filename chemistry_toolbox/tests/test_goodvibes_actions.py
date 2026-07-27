@@ -69,13 +69,14 @@ def test_goodvibes_catalog_exposes_six_generic_actions():
 
 def test_goodvibes_cli_mapping_distinguishes_scale_from_entropy_cutoff():
     arguments = goodvibes._common_arguments(
-        _settings(), {}, temperature_kelvin=298.15
+        _settings(), {"media_solvent": "ethanol"}, temperature_kelvin=298.15
     )
     assert arguments[arguments.index("--vscal") + 1] == "0.99"
     assert arguments[arguments.index("--zpe-vscal") + 1] == "0.98"
     assert arguments[arguments.index("--fs") + 1] == "100"
     assert arguments[arguments.index("--fh") + 1] == "75"
     assert arguments[arguments.index("--bav") + 1] == "global"
+    assert arguments[arguments.index("--media") + 1] == "ethanol"
 
 
 def test_goodvibes_rejects_unrepresentable_independent_auto_zpe_scale():

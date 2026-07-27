@@ -265,6 +265,13 @@ def _common_arguments(
             raise ValueError("method_spec.free_space_solvent cannot be empty")
         arguments.extend(["--freespace", solvent])
 
+    media_solvent = method.get("media_solvent")
+    if media_solvent is not None:
+        solvent = str(media_solvent).strip()
+        if not solvent:
+            raise ValueError("method_spec.media_solvent cannot be empty")
+        arguments.extend(["--media", solvent])
+
     return arguments
 
 
