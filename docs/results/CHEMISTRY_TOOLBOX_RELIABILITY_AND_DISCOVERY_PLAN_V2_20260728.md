@@ -15,141 +15,138 @@
 改造重点是在三层之上补充两个公共平面：
 
 - **发现平面**：分类浏览、混合检索、文档检索和可解释排序。
-- **执行契约平面**：模板、预检、资源、结果校验、错误诊断和 provenance。
+- **执行契约平面**：结构化操作文档、最小机械校验、资源、结果校验、错误诊断和 provenance。
 
 ## 二、提高原生软件调用成功率
 
-### 1. 更详细的使用文档是必要条件，但不能是唯一措施
+### 1. 采用轻量的 Markdown 文档驱动方案
 
-当前有 56 个软件指南、69 个命令，但多数只说明 executable、synopsis、输入方式、必需文件和简单参数。历史上 Agent 很少主动搜索软件文档，而且 ORCA、Gaussian 等错误即使读过简略说明也很难完全避免。
+当前代码已经提供 `inspect_software` 和 `search_software_documentation`，具备按需读取软件调用信息的基础。没有必要一开始为 56 个软件建设完整的专属语法解析器和预检框架。
 
-因此建议采用四件套：
+推荐方案调整为：
 
 ```text
-详细文档 + 版本化模板 + 软件特定预检 + 结构化错误诊断
+结构化 Markdown 操作手册
+  + 按功能和章节检索
+  + 文档内经过测试的最小输入示例
+  + 通用机械校验
+  + 失败后按需读取故障章节
 ```
 
-文档负责告诉 Agent 正确做法；模板降低从零编写输入的难度；预检阻止确定性错误进入计算；诊断帮助 Agent修复仍然发生的失败。
+文档负责输入语法、任务流程、收敛判断和故障修复；现有 `validate_native_job` 只保留路径、命令、staging 和资源等低成本硬约束。只有轨迹证明文档仍无法消除某类高频错误时，才为个别软件增加针对性检查。
 
-### 2. 每个软件统一使用 SoftwareGuideV2
+### 2. 文档按共享规则、软件和功能三级组织
 
-每个软件和命令至少包含以下内容：
+建议目录如下：
+
+```text
+native_software_docs/
+├── _shared/
+│   ├── EXECUTION_CONTRACT.md
+│   ├── STAGING_AND_PATHS.md
+│   ├── RESOURCE_GUIDE.md
+│   └── SUCCESS_AND_CONVERGENCE.md
+├── orca/
+│   ├── INDEX.md
+│   ├── QUICKSTART.md
+│   ├── SINGLE_POINT.md
+│   ├── OPTIMIZATION_AND_FREQUENCY.md
+│   ├── EXCITED_STATES.md
+│   └── TROUBLESHOOTING.md
+├── gaussian/
+│   ├── INDEX.md
+│   ├── QUICKSTART.md
+│   ├── OPTIMIZATION_AND_FREQUENCY.md
+│   ├── LINK1.md
+│   └── TROUBLESHOOTING.md
+└── lobster/
+    ├── INDEX.md
+    ├── VASP_REQUIREMENTS.md
+    ├── PROJECTION_SETUP.md
+    └── TROUBLESHOOTING.md
+```
+
+共享文档只维护一次，用于解释所有原生作业共同遵守的 cwd、staging、资源和成功状态。每个软件的 `INDEX.md` 是短导航页，只返回任务意图、对应文档和主要输出，不包含完整手册。
+
+### 3. 功能文档采用统一格式
+
+每个功能文档包含：
+
+1. 适用软件版本和 executable。
+2. 使用场景和输入前提。
+3. 完整且真实测试过的最小输入代码块。
+4. staged target、stdin 和工作目录规则。
+5. CPU、内存和并行参数映射。
+6. 预期输出文件。
+7. 软件正常结束标志。
+8. 科学收敛标志。
+9. 高频错误、原因和修复方法。
+10. 提交前自检清单。
+
+测试输入直接保存在 Markdown 代码块中，不另外建设复杂模板服务。方法、泛函、基组、溶剂和收敛阈值等科学选择仍由 Agent 根据任务决定。
+
+每个文档使用统一 front matter，支持精确过滤和索引：
 
 ```yaml
+---
 software_id: orca
-tested_versions: [6.1.1]
-executables: [orca]
-working_directory_contract: ...
-staging_rules: ...
-input_sections: ...
-resource_mapping: ...
-normal_termination_rules: ...
-scientific_convergence_rules: ...
-expected_outputs: ...
-common_errors: ...
-compatibility_requirements: ...
-templates: ...
-official_document_sections: ...
+versions: ["6.1.1"]
+topics: [optimization, frequency, thermochemistry]
+aliases: [几何优化, 频率计算, opt, freq]
+inputs: [orca_input, xyz]
+outputs: [orca_output, hessian]
+last_smoke_tested: 2026-07-28
+---
 ```
 
-详细内容包括：
+### 4. 按需读取以减少上下文消耗
 
-- 作业实际 cwd 和 staged target 规则；
-- 输入文件中所有相对路径如何解析；
-- 常见任务的完整最小输入；
-- 并行、内存和作业资源的映射关系；
-- 正常结束标志和科学收敛标志；
-- 必需输出及其用途；
-- 高频错误日志、原因和修改方式；
-- 上下游文件兼容条件；
-- 与当前安装版本对应的官方文档章节。
-
-### 3. 模板不是静态示例，而是经过真实测试的版本化资产
-
-建议为每个高频软件提供 `template_id`：
-
-| 软件 | 第一批模板 |
-|---|---|
-| ORCA | 单点、优化、频率、DLPNO 单点、外部坐标文件 |
-| Gaussian | 单点、优化、频率、TS、ModRedundant、Link1、GenECP |
-| CREST | 普通构象搜索、约束搜索、protonation/deprotonation、QCG |
-| VASP | 静态能、离子弛豫、体积点、DOS、LOBSTER 上游计算 |
-| LOBSTER | COHP/COBI、DOS、投影基组显式配置 |
-
-模板只能补全输入语法和文件结构，方法、泛函、基组、溶剂、收敛阈值等科学选择仍由 Agent 填写。每个模板必须：
-
-- 绑定软件版本；
-- 有独立文件和 SHA-256；
-- 有真实最小 smoke；
-- 记录最后验证时间；
-- 在软件升级后自动重新测试。
-
-### 4. 增加软件特定预检
-
-统一接口：
+原生调用顺序简化为：
 
 ```text
-validate_native_job
-  mechanical_validation
-  syntax_validation
-  compatibility_validation
-  resource_reconciliation
-  preflight_errors[]
-  preflight_warnings[]
-```
-
-重点校验：
-
-- ORCA：关键词、block/end、坐标、外部文件、charge/multiplicity、`%pal/%maxcore`。
-- Gaussian：Link0、route、空行分段、坐标、GenECP、ModRedundant、Link1、checkpoint。
-- CREST：当前版本支持的 flags、runtype、charge/UHF、线程数和输入格式。
-- VASP：INCAR/POSCAR/KPOINTS/POTCAR、元素顺序、POTCAR 拼接、约束和输出开关。
-- LOBSTER：WAVECAR/POSCAR/POTCAR/vasprun.xml 一致性、NBANDS、ISYM、LWAVE 和投影覆盖。
-
-预检不自动修改输入，也不自动选择科学参数。它只拒绝确定不合法或确定不兼容的请求。
-
-### 5. 将文档和模板嵌入调用流程
-
-建议的原生调用顺序：
-
-```text
-search/list software
-  -> inspect_software
-  -> get_native_recipe(template_id 或 custom_input)
-  -> write input
-  -> validate_native_job
+确定软件
+  -> inspect_software 返回软件索引和可用主题
+  -> 读取 INDEX.md
+  -> 按任务读取一个功能文档或其中一个章节
+  -> 参考已测试示例生成输入
+  -> validate_native_job 执行通用机械校验
   -> submit_native_job
-  -> assess_native_job
-  -> collect outputs
+  -> 按收敛章节判断结果
+  -> 失败时只检索 TROUBLESHOOTING 对应章节
 ```
 
-`inspect_software` 首屏只返回简洁的调用检查表、模板列表和文档章节，不直接返回大段手册。Agent 选择模板或自定义输入后，再按需读取详细内容。
+正常调用通常只读取几百 token 的索引和一个功能章节，不把完整官方手册放入上下文。推荐为文档读取接口增加 `software_id + topic + section` 精确入口；只有无法确定章节时才执行 BM25 和语义检索。
 
-提交记录必须包含：
+### 5. 保留最小机械校验，不建设全面专属预检
 
-- `guide_version`；
-- `template_id/template_version` 或 `custom_input`；
-- preflight report；
-- 输入文件哈希；
-- 软件和 runtime 版本。
+以下检查属于安全和执行契约，必须保留：
+
+- executable 是否在白名单；
+- staged source 是否存在；
+- target path 是否安全；
+- stdin 文件是否已经 staged；
+- arguments、工作目录和输入模式是否一致；
+- CPU、内存和时间是否超过预算。
+
+第一阶段不建设完整 ORCA、Gaussian、VASP 或 LOBSTER 语法解析器。后续从失败轨迹中提取仍然重复出现、可以确定判断的错误，例如 Gaussian 缺少必要空行或 LOBSTER 上游文件明显缺失，再以少量规则补充到校验器中。
 
 ### 6. 实施顺序
 
-不建议一开始平均投入 56 个软件。应按失败量和使用频率推进：
-
-1. 第一批：ORCA、Gaussian、CREST、VASP、LOBSTER。
-2. 第二批：xTB、GoodVibes、Multiwfn、Quantum ESPRESSO、CP2K、NWChem、GAMESS 等常用软件。
-3. 第三批：其余低频软件完成统一文档 schema 和最小模板。
-
-最终要求仍是 56/56 软件具备完整指南，但优先解决已被轨迹证明的主要失败源。
+1. 先完成 `_shared` 文档和统一 front matter。
+2. 为 ORCA、Gaussian、CREST、VASP、LOBSTER 建立索引、常用功能文档和故障文档。
+3. 将 `inspect_software` 改为返回主题索引，不默认返回长文本。
+4. 将文档切分到标题和子标题级，建立精确 topic、BM25 和向量索引。
+5. 回放历史失败，确认哪些错误仍然需要代码级检查。
+6. 按使用频率扩展到其余软件。
 
 ### 7. 验收指标
 
-- 112 个历史原生失败形成固定回放集。
-- 第一批软件的确定性输入错误执行前拦截率不低于 90%。
-- 经过预检的作业，启动后 10 秒内输入失败率低于 5%。
-- 第一批模板真实 smoke 成功率为 100%。
-- 原生作业必须区分进程结束、软件正常结束和科学收敛。
+- 高频软件所有常用任务都能通过 `software_id + topic` 精确找到一个操作章节。
+- 文档中的最小输入示例真实 smoke 成功率为 100%。
+- 正常一次调用只读取索引和一个任务章节，记录实际检索 token 数。
+- 112 个历史失败形成回放集，统计文档方案实施后的即时失败率变化。
+- 路径、staging、白名单和资源越界仍在执行前 100% 拦截。
+- 原生作业继续区分进程结束、软件正常结束和科学收敛。
 
 ## 三、提高 Action 搜索准确性
 
@@ -237,7 +234,86 @@ tags: quantum chemistry, scalar energy, non-periodic
 
 优先完成 aliases、中文别名和 tags，再引入向量检索。对于只有 114 个短文档的目录，优质元数据和 BM25 往往比直接增加 embedding 更稳定。
 
-### 5. 搜索结果必须可解释
+### 5. 小型 embedding 模型和运行方式
+
+语义相似度检索需要把查询和目录文本编码为向量，因此需要 embedding 模型。该模型只负责候选召回，不负责选择科学方法，也不替代精确匹配、分类浏览和 BM25。
+
+首选本地模型：
+
+```text
+BAAI/bge-small-zh-v1.5
+参数量：约 24M
+向量维度：512
+许可证：MIT
+运行位置：本地 CPU
+```
+
+选择该模型的原因：
+
+- 模型较小，适合低延迟 CPU 推理；
+- 中文检索能力较好；
+- Action 和文档元数据会同时写入中英文 aliases、标签和术语，因此不要求模型独立完成所有跨语言映射；
+- 114 个 Action 和有限数量的文档章节不需要大型向量数据库或大型 embedding 服务。
+
+模型信息以官方模型卡为准：`https://huggingface.co/BAAI/bge-small-zh-v1.5`。如果中英双语回归集证明其英文科学查询召回不足，再评估 `intfloat/multilingual-e5-small`，而不是在第一阶段同时维护多个模型。
+
+#### 5.1 离线生成目录向量
+
+Action 向量不应在每次查询时重新生成。索引构建时，将下列字段拼接后一次性编码：
+
+```text
+action_id
+category
+description
+aliases
+zh_aliases
+keywords
+capability_tags
+input_semantic_types
+output_semantic_types
+```
+
+软件文档按照 Markdown 标题和子标题切分，每个章节单独编码。只有源文件 hash 或 embedding 模型版本发生变化时才重新生成对应向量。
+
+索引 manifest 至少记录：
+
+```text
+model_id
+model_revision
+embedding_dimension
+normalization
+source_file_hash
+chunk_id
+index_built_at
+```
+
+#### 5.2 查询时只编码一次
+
+每次搜索只对用户查询生成一个向量，再与已经缓存的目录向量计算余弦相似度。当前数据规模很小，可以直接使用 NumPy 矩阵点积，不必引入独立向量数据库或 FAISS 服务。
+
+模型在 MCP 服务启动时加载一次并保持驻留。模型文件缓存在本地，正式评估期间使用离线模式，避免网络下载和外部 API 波动。
+
+#### 5.3 向量结果只做补召回
+
+推荐排序顺序：
+
+1. 精确 ID 和 alias 命中始终最高优先级。
+2. 分类候选和结构化 capability 命中进入主候选集。
+3. BM25 负责专业关键词和缩写匹配。
+4. embedding 补充中文表达、同义改写和跨分类结果。
+5. 使用 reciprocal rank fusion 合并 BM25 和向量结果，避免不同分数尺度难以校准。
+
+向量相似度较低或各结果分数接近时，不应强行返回一个 Action；应返回 top 分类及其紧凑 Action 列表，让 Agent 继续选择。
+
+#### 5.4 性能和质量验收
+
+- 模型预热后，短查询在当前 CPU 上的 embedding 加检索 p95 目标低于 300 ms。
+- Action 目录常驻内存，向量矩阵检索本身目标低于 10 ms。
+- 更新一个 Action 或一个 Markdown 章节时只增量重建对应向量。
+- 必须通过 200 条中英双语查询集后才能默认启用语义补召回。
+- 对比 `BM25` 与 `BM25 + embedding`，只有 recall@5 明显提高且误召回可控时才正式启用。
+
+### 6. 搜索结果必须可解释
 
 每个结果返回：
 
@@ -252,7 +328,7 @@ ranking_reason
 
 这样 Agent 可以判断结果是因为精确 alias、分类命中、backend capability，还是仅仅语义相似。
 
-### 6. Action 搜索推荐流程
+### 7. Action 搜索推荐流程
 
 ```text
 Agent 有明确分类
@@ -267,7 +343,7 @@ Agent 只有自然语言需求
   -> inspect_action
 ```
 
-### 7. Action 搜索验收指标
+### 8. Action 搜索验收指标
 
 构建中英双语查询集，覆盖同义词、缩写、任务表达和错误拼写。至少包含：
 
@@ -295,7 +371,7 @@ Agent 只有自然语言需求
 | Backend | capability、支持的 Action、system type、runtime、资源和软件版本过滤 |
 | 软件 | software ID、alias、executable、版本精确匹配，描述 BM25 补充 |
 | 科学资源 | 元素覆盖、格式、版本、兼容 backend、模型类型等结构化过滤 |
-| 软件文档 | 章节级 BM25 + 语义检索，返回章节、页码、版本和原文件 hash |
+| 软件文档 | 优先按 `software_id + topic + section` 精确读取；未知章节时使用 BM25 + 小型 embedding 补召回 |
 | Artifact | semantic type、producer、parent/child lineage 和依赖图查询 |
 | Python runtime | module、版本、backend、executable 和 capability 过滤 |
 
@@ -312,26 +388,27 @@ matched_fields
 source_version
 ```
 
-但每类对象使用自己的 index adapter。DOI/CAS 不需要 embedding；文档最适合语义检索；Artifact 最适合图查询。
+但每类对象使用自己的 index adapter。DOI/CAS 不需要 embedding；结构化 Markdown 文档适合 topic 精确读取和章节级语义补召回；Artifact 最适合图查询。
 
-### 2. 文档检索是语义检索最有价值的场景
+### 2. 软件文档先精确路由，再使用语义检索
 
-软件手册通常很长，Agent 查询的是“ORCA 6.1 如何设置 DLPNO 内存”或“LOBSTER 要求 VASP 使用什么 ISYM”。这类查询比 Action 名称检索更需要章节级语义相似度。
+自行维护的原生软件操作文档已经按软件、任务和章节组织，因此大部分查询不需要向量检索。例如几何优化可以直接读取 `orca/OPTIMIZATION_AND_FREQUENCY.md`，只在 Agent 不知道主题名称或提出开放式故障问题时使用语义召回。
 
-缓存阶段应：
+文档索引顺序为：
 
-- 提取 PDF 文本；
-- 按标题和章节切块；
-- 保留页码；
-- 建立 BM25 和本地 embedding；
-- 返回原文件和 SHA-256；
-- 严格按软件版本过滤。
+1. `software_id` 和版本硬过滤。
+2. topic、section、aliases 精确匹配。
+3. 标题和正文 BM25。
+4. `BAAI/bge-small-zh-v1.5` 章节向量补召回。
+5. 本地结构化文档没有答案时，才检索缓存的官方 HTML/PDF 手册。
+
+缓存官方文档时应提取文本、按标题切块、保留页码和源文件 SHA-256。最终只返回命中的少量章节，而不是返回整份手册。
 
 ### 3. 检索实施优先级
 
 1. 精确 ID、aliases、中文别名和分类浏览。
 2. BM25 与结构化过滤。
-3. 文档章节 embedding。
+3. 使用同一个小型本地模型建立文档章节 embedding。
 4. Action embedding 作为补召回。
 5. Artifact lineage 图查询。
 
@@ -504,7 +581,8 @@ allowed_executables: []
 
 ### 第一阶段：先消除确定性失败
 
-- 完成 ORCA、Gaussian、CREST、VASP、LOBSTER 的详细指南、模板和预检。
+- 完成共享原生执行规则，以及 ORCA、Gaussian、CREST、VASP、LOBSTER 的 Markdown 导航页、功能文档和故障文档。
+- 保留原生作业的白名单、路径、staging 和资源机械校验，不建设全面的软件专属预检。
 - 增加 `validate_analysis_program`、固定 job layout 和路径 SDK。
 - 修复 runtime 依赖错误被记为 `invalid_request` 的分类问题。
 - 为 Action 增加 aliases、中文别名和 `browse_action_domain`。
@@ -513,7 +591,8 @@ allowed_executables: []
 
 - Action 使用分类浏览 + BM25 + 语义补召回。
 - Backend、软件、资源使用结构化字段检索。
-- PDF 文档建立章节级 BM25 和 embedding 索引。
+- 使用 `BAAI/bge-small-zh-v1.5` 为 Action 和 Markdown 章节建立缓存向量索引。
+- 官方 PDF/HTML 文档作为本地操作文档没有答案时的后备检索源。
 - 建立中英查询回归集和搜索质量指标。
 
 ### 第三阶段：统一科学成功与审计
@@ -527,8 +606,8 @@ allowed_executables: []
 
 三个方向的核心选择如下：
 
-1. **原生软件**：详细文档必须做，但必须和版本化模板、提交前预检、结构化诊断一起实施，否则文档利用率低的问题仍会存在。
-2. **Action 搜索**：优先建设分类浏览和高质量 aliases；使用 BM25 做主排序、语义相似度做跨分类补召回。不要只依赖 Agent 的一次分类，也不要只依赖 embedding。
+1. **原生软件**：采用共享规则、软件导航页、按功能拆分的 Markdown 文档和文档内真实测试示例；按需读取章节并保留通用机械校验，只对轨迹中持续出现的确定性错误增加少量专属规则。
+2. **Action 搜索**：优先建设分类浏览和高质量 aliases；使用 BM25 做主排序，`BAAI/bge-small-zh-v1.5` 做跨分类补召回。目录向量离线缓存，查询时只编码一次，不依赖外部 embedding API。
 3. **通用编程接口**：通过固定 job layout、路径 SDK、runtime 内预检和声明式输出契约消除主要失败，同时保留 Agent 编写任意科学程序的能力。
 
 这套方案不改变三层架构，只让每一层更容易被发现、更难被错误调用，并让“运行成功”和“科学结果有效”能够被分别审计。
