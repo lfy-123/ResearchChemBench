@@ -19,6 +19,7 @@
 - 三层状态明确区分请求、进程、软件、收敛、产物和机械科学校验。真实 LOBSTER 退出码 0 但正文报错的轨迹会被判为 mechanically invalid；第三层外部 executable 静态审计与 `JobContext` 均明确不是 OS 权限边界。
 - 从当前保留的工作区中建立了 81 个可审计独立失败样本，包含 47 个原生软件和 34 个通用程序失败。当前预检可提前拒绝 69 个，剩余 12 个属于运行期路径、数据解析或程序逻辑问题；重复状态轮询不计为独立失败。
 - 前一轮英文检查、Python 编译检查、文档/证据哈希验证和完整测试套件全部通过，结果为 322 passed、耗时 534.69 秒；详细手册和全目录 smoke 新增后的完整验证结果记录在任务 16。
+- Flash 代表任务经过数据库稳定性、GoodVibes 参数契约和构象 lineage 契约修正后完成验证：科学结论分 100、科研过程分 86、最终分 86，无 critical failure 或 evidence gate failure；其余 13 个任务已提交到第二版结果工作区。
 
 本方案结合已有代码和轨迹核查结果，重点解决三个问题：原生软件调用成功率、Action 及其他目录的检索准确性、第三层通用编程接口的失败率。现有三层架构保持不变。
 
@@ -930,3 +931,31 @@ external_execution: native_job_runner_only
 - 真实 hybrid 查询耗时为：冷启动 0.2694 秒；后续两次 0.0605 和 0.0571 秒。代表性结果分别首位召回 `rank_conformers_from_results`、`generate_conformer_ensemble` 和 `validate_thermochemistry_inputs`。
 - 软件文档 MCP hybrid 查询冷启动为 0.3427 秒并首位返回 `Projection quality`。
 - 最终完整命令为 `chemistry_toolbox/.venv/bin/python -m pytest -q chemistry_toolbox/tests`；公共追踪层修复后的结果为 329 passed，耗时 399.70 秒。
+
+### 任务 18：稳定 OpenCode 运行数据库并验证归档
+
+状态：已完成。
+
+- 首次 Flash 代表任务在共享文件系统上运行约 656 秒后出现 Bun/OpenCode `SIGBUS`。排查后将活动 SQLite 数据库迁移到本机 `/tmp/researchchembench-opencode/<run_id>/opencode.db`，任务结束时使用 SQLite backup API 归档到 workspace 的 `_opencode/opencode.db`。
+- 归档过程记录数据库大小和 SHA-256，并在成功后清理本机运行目录；可通过 `RESEARCHCHEMBENCH_OPENCODE_RUNTIME_ROOT` 覆盖本机根目录。
+- 后续两次代表任务均正常完成数据库归档。最终验证归档文件大小为 3,297,280 bytes，SHA-256 为 `5c591f95aacbd6b7fe5ee252313ab714cbde260262f826b7f50c4b993228dbe5`，本机临时目录已清理。
+- 运行器针对性测试覆盖正常归档、专用进程组终止、后台执行作业取消和超时清理。
+
+### 任务 19：明确 GoodVibes Gibbs 人口与构象 lineage 契约
+
+状态：已完成。
+
+- 早期代表任务虽然调用了 GoodVibes，但使用 `population_basis=electronic_energy`，报告却将权重描述为 Gibbs 人口；另一次 lineage 缺少逐原子映射并错误复用无关 artifact 列表。两项均不满足完全复现要求。
+- GoodVibes BackendSpec 新增公开条件：`population_basis=quasi_harmonic_gibbs` 必须配合 `entropy_model=grimme` 或 `truhlar`，提供 `entropy_frequency_cutoff_cm1`，使用 Grimme 时还需提供 `free_rotor_inertia_model`。`inspect_action` 会在执行前返回该规则。
+- GEOM 复现任务明确要求逐行 `atom_index_mapping`、实际 source conformer id，以及 RDKit、CREST、ORCA optimization、ORCA Hessian 和 GoodVibes 的对应 artifact id；同时要求归一化人口必须来自 GoodVibes 准谐 Gibbs 自由能。
+- 输入 manifest 的文件大小、SHA-256 和隐藏参考中的 manifest hash 已同步更新。相关 Action 元数据与任务合同测试共收集 30 项并全部通过。
+- 最终 Flash 代表任务执行 4 个 RDKit seed、21 个 CREST 构象、8 个 ORCA 优化、8 个 ORCA Hessian 和 1 个 GoodVibes ensemble Action。GoodVibes 使用 Grimme 准谐 Gibbs、100 cm-1 cutoff，人口归一化为 1；8 行 lineage 均包含 28 个原子的显式映射和逐行 ORCA artifact。
+- 最终 Judger 结果：科学结论分 100、科研过程分 86、最终分 86；无 critical failure、evidence gate failure 或资源预算拒绝。
+
+### 任务 20：提交第二版 14 个 Flash 评估任务
+
+状态：已完成提交。
+
+- 代表任务 `GEOM_Hierarchical_Conformer_Reranking_Reproduction` 的最终验证目录为 `workspaces/second_version_results/representative_final/runs/cli_runs/batch_20260728_230500_0e7ed2/`。
+- 其余 13 个任务使用 `deepseek-v4-flash` 作为 Agent 和 Judger，提交目录为 `workspaces/second_version_results/remaining_13/`，tmux session 为 `rcb_second_v_remaining_20260728`。
+- 提交参数为每任务 48 CPU、204800 MiB 内存、0 GPU、单任务并发、Agent 超时 14400 秒。按照要求，13 个任务提交后不继续监督。
