@@ -8,8 +8,10 @@ import os
 import queue
 import shutil
 import signal
+import sqlite3
 import stat
 import subprocess
+import tempfile
 import threading
 import time
 import uuid
@@ -119,6 +121,7 @@ class TaskRunner:
         self.process_group_id: int | None = None
         self.thread: threading.Thread | None = None
         self._stop_requested = False
+        self._opencode_runtime_database: Path | None = None
 
     def resource_budget_record(self) -> dict[str, Any]:
         return {
@@ -354,16 +357,70 @@ class TaskRunner:
         env.update(self._mcp_environment())
         env["PYTHONUNBUFFERED"] = "1"
         if self.agent.get("kind") == "opencode":
-            database_directory = self.workspace / "_opencode"
+            runtime_root = Path(
+                os.environ.get(
+                    "RESEARCHCHEMBENCH_OPENCODE_RUNTIME_ROOT",
+                    str(Path(tempfile.gettempdir()) / "researchchembench-opencode"),
+                )
+            )
+            database_directory = runtime_root / self.run_id
             database_directory.mkdir(parents=True, exist_ok=True)
-            env["OPENCODE_DB"] = str((database_directory / "opencode.db").resolve())
+            self._opencode_runtime_database = database_directory / "opencode.db"
+            env["OPENCODE_DB"] = str(self._opencode_runtime_database.resolve())
             # OpenCode 1.18 interprets OPENCODE_WORKSPACE_ID as the identifier of
             # an already-created OpenCode workspace/session. A benchmark run ID
             # is not such an identifier and makes `opencode run` fail before the
-            # first model call with "Session not found". The per-run database is
-            # sufficient to isolate concurrent benchmark executions.
+            # first model call with "Session not found". Keep the live SQLite WAL
+            # on node-local storage to avoid mmap/SIGBUS failures on network file
+            # systems; the closed database is archived into the run workspace.
             env.pop("OPENCODE_WORKSPACE_ID", None)
         return env
+
+    def _sync_opencode_database(self) -> dict[str, Any]:
+        """Archive the closed node-local OpenCode database into the workspace."""
+
+        source = self._opencode_runtime_database
+        if self.agent.get("kind") != "opencode" or source is None:
+            return {"status": "not_applicable"}
+        destination_dir = self.workspace / "_opencode"
+        destination = destination_dir / "opencode.db"
+        record: dict[str, Any] = {
+            "status": "missing",
+            "runtime_database": str(source),
+            "archive_database": str(destination),
+        }
+        if not source.is_file():
+            return record
+
+        destination_dir.mkdir(parents=True, exist_ok=True)
+        temporary = destination.with_suffix(".db.sync.tmp")
+        temporary.unlink(missing_ok=True)
+        try:
+            with sqlite3.connect(f"file:{source}?mode=ro", uri=True) as source_db:
+                with sqlite3.connect(temporary) as archive_db:
+                    source_db.backup(archive_db)
+            os.replace(temporary, destination)
+            for suffix in ("-wal", "-shm"):
+                (destination_dir / f"opencode.db{suffix}").unlink(missing_ok=True)
+            record.update(
+                {
+                    "status": "archived",
+                    "size_bytes": destination.stat().st_size,
+                    "sha256": hashlib.sha256(destination.read_bytes()).hexdigest(),
+                }
+            )
+        except Exception as exc:
+            temporary.unlink(missing_ok=True)
+            record.update(
+                {
+                    "status": "failed",
+                    "error": f"{type(exc).__name__}: {exc}",
+                }
+            )
+        finally:
+            if record["status"] == "archived":
+                shutil.rmtree(source.parent, ignore_errors=True)
+        return record
 
     def _write_claude_mcp_config(self) -> Path:
         servers = {}
@@ -924,6 +981,7 @@ class TaskRunner:
         termination = "process_exit"
         exit_code = -1
         background_job_cleanup: dict[str, Any] | None = None
+        opencode_database_sync: dict[str, Any] | None = None
         reporter = LiveProgressReporter(
             self.workspace,
             self.run_id,
@@ -1028,6 +1086,7 @@ class TaskRunner:
                     "BACKGROUND_JOB_CLEANUP",
                     **background_job_cleanup,
                 )
+            opencode_database_sync = self._sync_opencode_database()
         except Exception as exc:
             termination = "runner_error"
             self._terminate_process_tree()
@@ -1036,6 +1095,7 @@ class TaskRunner:
             )
             trace_stop.set()
             trace_thread.join(timeout=2)
+            opencode_database_sync = self._sync_opencode_database()
             try:
                 model_io = export_model_io_trace(self.workspace)
             except Exception as trace_exc:
@@ -1046,6 +1106,7 @@ class TaskRunner:
                     "error": f"{type(exc).__name__}: {exc}",
                     "model_io_trace": model_io,
                     "background_job_cleanup": background_job_cleanup,
+                    "opencode_database_sync": opencode_database_sync,
                 },
             )
             write_workspace_results(self.workspace)
@@ -1081,6 +1142,8 @@ class TaskRunner:
         }
         if background_job_cleanup is not None:
             metadata["background_job_cleanup"] = background_job_cleanup
+        if opencode_database_sync is not None:
+            metadata["opencode_database_sync"] = opencode_database_sync
         self._write_meta(status, metadata)
         write_workspace_results(self.workspace)
         reporter.emit(

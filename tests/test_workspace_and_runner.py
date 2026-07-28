@@ -2,6 +2,7 @@ import hashlib
 import json
 import os
 import signal
+import sqlite3
 import sys
 from pathlib import Path
 from zipfile import ZipFile
@@ -146,7 +147,13 @@ def test_agent_environment_does_not_receive_judge_key(tmp_path: Path, monkeypatc
     assert env["RESEARCHCHEMBENCH_WORKSPACE"] == str(runner.workspace.resolve())
 
 
-def test_concurrent_opencode_runs_use_isolated_databases(tmp_path: Path):
+def test_concurrent_opencode_runs_use_isolated_databases(
+    tmp_path: Path, monkeypatch
+):
+    runtime_root = tmp_path / "opencode-runtime"
+    monkeypatch.setenv(
+        "RESEARCHCHEMBENCH_OPENCODE_RUNTIME_ROOT", str(runtime_root)
+    )
     first = TaskRunner("ChemGraph_005", agent_key="opencode", workspace_root=tmp_path)
     second = TaskRunner("ChemGraph_024", agent_key="opencode", workspace_root=tmp_path)
     first.setup_workspace()
@@ -155,14 +162,41 @@ def test_concurrent_opencode_runs_use_isolated_databases(tmp_path: Path):
     first_env = first._agent_environment()
     second_env = second._agent_environment()
     assert first_env["OPENCODE_DB"] == str(
-        (first.workspace / "_opencode/opencode.db").resolve()
+        (runtime_root / first.run_id / "opencode.db").resolve()
     )
     assert second_env["OPENCODE_DB"] == str(
-        (second.workspace / "_opencode/opencode.db").resolve()
+        (runtime_root / second.run_id / "opencode.db").resolve()
     )
     assert first_env["OPENCODE_DB"] != second_env["OPENCODE_DB"]
     assert "OPENCODE_WORKSPACE_ID" not in first_env
     assert "OPENCODE_WORKSPACE_ID" not in second_env
+
+
+def test_opencode_database_is_archived_from_local_runtime(
+    tmp_path: Path, monkeypatch
+):
+    runtime_root = tmp_path / "opencode-runtime"
+    monkeypatch.setenv(
+        "RESEARCHCHEMBENCH_OPENCODE_RUNTIME_ROOT", str(runtime_root)
+    )
+    runner = TaskRunner("ChemGraph_005", agent_key="opencode", workspace_root=tmp_path)
+    runner.setup_workspace()
+    environment = runner._agent_environment()
+    runtime_database = Path(environment["OPENCODE_DB"])
+    with sqlite3.connect(runtime_database) as connection:
+        connection.execute("CREATE TABLE messages (value TEXT)")
+        connection.execute("INSERT INTO messages VALUES ('persisted')")
+
+    result = runner._sync_opencode_database()
+
+    archived = runner.workspace / "_opencode" / "opencode.db"
+    assert result["status"] == "archived"
+    assert archived.is_file()
+    with sqlite3.connect(archived) as connection:
+        assert connection.execute("SELECT value FROM messages").fetchone() == (
+            "persisted",
+        )
+    assert not runtime_database.parent.exists()
 
 
 def test_opencode_command_qualifies_bare_deepseek_model(tmp_path: Path, monkeypatch):
