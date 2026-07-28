@@ -20,4 +20,4 @@ A pre-addition phosphonium/ethanol model, the OMe/Me/H/Cl precursor series, coun
 
 ## Guided-reproduction additions
 
-This copied raw-input set additionally contains a paper-reconstructed computational protocol, mapped pathway definitions, and workflow requirements. These files disclose methods and candidate routes but contain no published barrier, pathway ranking, author stationary-point coordinate, author IRC, or reference answer. Every numerical result must be regenerated.
+This copied raw-input set contains a paper-reconstructed protocol and mapped routes but no author quantum outputs. Every numerical result must be regenerated.

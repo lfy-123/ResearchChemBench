@@ -3,8 +3,7 @@
   "software_dag": [
     "pymatgen/spglib",
     "VASP",
-    "SciPy/internal EOS fitting",
-    "publication-evidence and LOBSTER-basis audit"
+    "SciPy/internal EOS fitting"
   ],
   "vasp": {
     "xc": "PBE",
@@ -46,10 +45,6 @@
     "adaptive_refinement_minimum_new_points": 3,
     "internal_coordinate_relaxation_required_for_B8_and_dB2": true
   },
-  "lobster_evidence_policy": {
-    "fresh_custom_basis_run_required": false,
-    "reason": "complete La-5d-on-Ba custom basis file is not public",
-    "optional_run_gate": "verify the realized basis contains Ba 5d and use the same parent wavefunction for control and expanded projections"
-  },
-  "result_values_included": true
+  "scope_exclusion": "Ba 5d projection ablation is excluded because the complete custom basis is not public.",
+  "result_values_included": false
 }

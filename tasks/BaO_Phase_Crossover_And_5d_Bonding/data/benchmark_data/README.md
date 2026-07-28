@@ -1,7 +1,6 @@
-# Autonomous BaO high-pressure investigation
+# Autonomous BaO phase-crossover investigation
 
-Determine the pressure-dependent stability sequence among three supplied BaO
-candidate crystals and investigate which electronic/bonding descriptors, if any,
-provide a defensible explanation. The structures are unlabeled candidates. Choose
-the pressure grid, relaxation strategy, convergence controls, thermodynamic model,
-and optional bonding analysis independently. No paper protocol or result is visible.
+The same B1, B8, and dB2 volume structures are supplied to both tracks. Choose the
+periodic electronic-structure method, relaxation strategy, convergence controls,
+EOS/enthalpy analysis, adaptive refinement, and uncertainty treatment independently.
+No paper computational protocol or prescribed analysis route is disclosed here.

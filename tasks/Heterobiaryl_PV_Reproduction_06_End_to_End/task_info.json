@@ -4,7 +4,7 @@
   "category": "end_to_end_scientific_investigation",
   "task": "Perform a guided end-to-end reproduction using the supplied paper-reconstructed protocol, mapped pathway set, experimental observations, and evidence gates. Recompute protonation effects, pyridyl-pyridyl versus phenyl-pyridyl selectivity, carbon-carbon versus carbon-oxygen competition, the key reaction-coordinate mechanism, and the experimental-computational kinetic-role assignment. Generate all numerical and structural evidence in this run, preserve failures, and report paper-published targets separately from current-toolbox values.",
   "scientific_mode": "guided_reproduction",
-  "scientific_mode_description": "The paper-reconstructed method hierarchy and candidate reaction routes are supplied. The Agent must execute, debug, validate, and report the reproduction without reading hidden results or author stationary points.",
+  "scientific_mode_description": "The paper-reconstructed method hierarchy and candidate reaction routes are supplied. The Agent must execute, debug, validate, and report the reproduction without reading hidden results.",
   "scientific_requirements": [
     "Execute the supplied protocol hierarchy for all core pathway families or retain a documented failed attempt and defensible bound.",
     "Require stationarity and connectivity before including a state in the final profile.",
@@ -47,7 +47,7 @@
       "name": "Guided Heterobiaryl P(V) reproduction inputs",
       "path": "data/benchmark_data",
       "type": "directory",
-      "description": "Decontaminated raw structures and measurements copied from the open-discovery task, plus a paper-reconstructed method protocol, mapped candidate pathways, and workflow requirements. No author stationary point, calculation output, published numerical result, or reference answer is visible."
+      "description": "Decontaminated raw structures and measurements plus a paper-reconstructed method protocol and mapped candidate pathways."
     }
   ],
   "archive_extractions": [],

@@ -1,19 +1,19 @@
 {
   "expected_tool_calls": [
     {
-      "class": "reactant_or_intermediate_screening",
+      "class": "archive_and_output_validation",
       "required": true
     },
     {
-      "class": "reaction_path_or_transition_state_search",
+      "class": "frequency_and_stationary_point_validation",
       "required": true
     },
     {
-      "class": "frequency_and_connectivity_validation",
+      "class": "high_level_single_point_matching",
       "required": true
     },
     {
-      "class": "comparable_free_energy_analysis",
+      "class": "comparable_thermochemical_profile_analysis",
       "required": true
     }
   ],
@@ -25,33 +25,39 @@
         "P1": 20,
         "P2": 14
       },
-      "paper_reaction_free_energies": {
-        "P0": -39,
-        "P1": -37,
-        "P2": -38
+      "validated_reanalysis_barriers": {
+        "P0": 30.9134,
+        "P1": 19.8135,
+        "P2": 14.3004
       },
-      "paper_conclusion": "Successive N-protonation lowers the BiPy coupling barrier by about 10 and then 6 kcal/mol."
+      "validated_reanalysis_reaction_free_energies": {
+        "P0": -32.38,
+        "P1": -30.53,
+        "P2": -31.35
+      },
+      "paper_conclusion": "Successive N-protonation lowers the BiPy coupling barrier by about 10 and then 6 kcal/mol while all three profiles remain similarly exergonic."
     },
     "scientific_acceptance_contract": {
       "required_findings": [
-        "The comparable P0, P1, and P2 kinetic evidence shows that successive N-protonation lowers the BiPy coupling barrier in the order P0 > P1 > P2.",
-        "The magnitude is qualitatively consistent with a large first reduction and a smaller second reduction, without requiring exact paper barriers."
+        "Independent reanalysis of the supplied raw outputs establishes the P0 > P1 > P2 coupling-barrier order.",
+        "The first protonation gives a large reduction and the second gives an additional smaller reduction under one consistent convention.",
+        "Reaction thermodynamics are reported separately from the kinetic trend."
       ],
       "not_required": [
         "Exact reproduction of 30, 20, and 14 kcal/mol when an independently valid route recovers the same robust trend."
       ],
-      "decision_rule": "All three states require comparable validated transition-state evidence or controlled bounds strong enough to determine the ordering."
+      "decision_rule": "All three states require validated, matched raw-output evidence and one comparable analysis convention strong enough to determine the ordering."
     },
     "reference_use_policy": "Keep the paper method and route hidden from the Agent. Use the evaluator-only scientific acceptance contract as a mandatory outcome gate after checking that the conclusion is supported by newly generated evidence."
   },
   "expected_structured_output": [
     "report/research_plan.json",
     "report/tool_trace.jsonl",
-    "report/evidence_summary.json",
     "report/failure_log.jsonl",
-    "report/state_screening.csv",
-    "report/pathway_evidence.json",
-    "report/protonation_comparison.csv",
+    "report/candidate_screening.csv",
+    "report/stationary_point_validation.csv",
+    "report/protonation_profiles.csv",
+    "report/barrier_trend.json",
     "report/report.md"
   ],
   "evaluation_mode": "dual_axis_100",
@@ -96,7 +102,7 @@
   "scientific_conclusion_rubric": [
     {
       "id": "successive_protonation_barrier_order",
-      "max_score": 45,
+      "max_score": 40,
       "statement": "Comparable new kinetic evidence establishes the coupling-barrier order P0 > P1 > P2.",
       "acceptance_rule": "Require validated transition states and connection evidence, or controlled bounds that resolve all three states under one energy, solvation, temperature, standard-state, and reference convention.",
       "required_evidence": [
@@ -107,7 +113,7 @@
     },
     {
       "id": "stepwise_barrier_reduction_scale",
-      "max_score": 30,
+      "max_score": 35,
       "statement": "The first protonation causes a large barrier reduction and the second causes an additional smaller reduction, consistent with the paper-scale approximately 10 and 6 kcal/mol changes.",
       "acceptance_rule": "Full credit requires newly computed reductions with the correct direction and relative scale; partial credit is available when uncertainty preserves the qualitative successive lowering but not both magnitudes.",
       "required_evidence": [
@@ -138,17 +144,17 @@
     "invalid_submission_policy": "Fabricated evidence, hidden-answer leakage, or paper values presented as new calculations make the final score zero."
   },
   "critical_failures": [
-    "A supplied seed is described as an optimized minimum or transition state without a new calculation.",
-    "A precise barrier is reported without first-order saddle and connection evidence.",
+    "No managed author-output validation or thermochemical analysis was executed.",
+    "A precise barrier is reported without frequency, geometry, and matched single-point validation.",
     "P0/P1/P2 comparisons mix incompatible references, conditions, or energy conventions.",
-    "Hidden stationary points or literature barriers are presented as newly generated."
+    "Evaluator-only paper values are presented as newly generated analysis results."
   ],
   "judge_instructions": "Score every hidden paper claim independently from newly generated evidence, then score autonomous research-process quality separately. Do not require the paper route, and do not let a good process excuse a wrong conclusion. The scorer applies the multiplicative formula.",
   "reference_evidence": {
     "task_id": "PV_Protonation_Barrier_Trend",
     "paired_reproduction_task_id": "PV_Protonation_Barrier_Trend_Reproduction",
     "task_mode": "open_discovery",
-    "input_manifest_sha256": "a401c0923b6c7995c48e762ae22360017745e9fac7c418defcba95a84fc58a1b",
+    "input_manifest_sha256": "60ecf817014059bf6f1c92a554934d3177c266ca46bc2e0bb97e7115b2e3bc04",
     "hidden_posthoc_reference": {
       "energy_unit": "kcal/mol",
       "paper_barriers": {
@@ -156,24 +162,30 @@
         "P1": 20,
         "P2": 14
       },
-      "paper_reaction_free_energies": {
-        "P0": -39,
-        "P1": -37,
-        "P2": -38
+      "validated_reanalysis_barriers": {
+        "P0": 30.9134,
+        "P1": 19.8135,
+        "P2": 14.3004
       },
-      "paper_conclusion": "Successive N-protonation lowers the BiPy coupling barrier by about 10 and then 6 kcal/mol."
+      "validated_reanalysis_reaction_free_energies": {
+        "P0": -32.38,
+        "P1": -30.53,
+        "P2": -31.35
+      },
+      "paper_conclusion": "Successive N-protonation lowers the BiPy coupling barrier by about 10 and then 6 kcal/mol while all three profiles remain similarly exergonic."
     },
     "scientific_acceptance_contract": {
       "required_findings": [
-        "The comparable P0, P1, and P2 kinetic evidence shows that successive N-protonation lowers the BiPy coupling barrier in the order P0 > P1 > P2.",
-        "The magnitude is qualitatively consistent with a large first reduction and a smaller second reduction, without requiring exact paper barriers."
+        "Independent reanalysis of the supplied raw outputs establishes the P0 > P1 > P2 coupling-barrier order.",
+        "The first protonation gives a large reduction and the second gives an additional smaller reduction under one consistent convention.",
+        "Reaction thermodynamics are reported separately from the kinetic trend."
       ],
       "not_required": [
         "Exact reproduction of 30, 20, and 14 kcal/mol when an independently valid route recovers the same robust trend."
       ],
-      "decision_rule": "All three states require comparable validated transition-state evidence or controlled bounds strong enough to determine the ordering."
+      "decision_rule": "All three states require validated, matched raw-output evidence and one comparable analysis convention strong enough to determine the ordering."
     },
-    "source_boundary": "Paper protocols, author intermediates, completed calculations, and numerical conclusions are evaluator-only.",
+    "source_boundary": "Both tracks receive the same author raw outputs; only the guided track receives the paper-reconstructed method and route.",
     "reference_use_policy": "The route remains evaluator-only and is never required. The task-level scientific outcome is mandatory for high credit and must be supported by independent calculations."
   },
   "managed_computation_policy": {
@@ -188,13 +200,10 @@
   },
   "evidence_gate_policy": {},
   "current_toolbox_feasibility_baseline": {
-    "status": "pre_release_blocked",
-    "classification": "partially_solvable",
-    "paired_reproduction_reference_run_complete": false,
-    "known_limitations": [
-      "The toolbox can attempt searches, but no curated closed reactant-TS-product mapping exists for all three states.",
-      "This task must not enter formal model ranking until a feasible oracle route or defensible bound-based rubric is validated."
-    ]
+    "status": "validated_for_evaluation",
+    "classification": "solvable",
+    "paired_reproduction_reference_run_complete": true,
+    "known_limitations": []
   },
   "evaluation_profile": "autonomous_discovery",
   "reference_conclusion_gate_policy": {}

@@ -10,9 +10,9 @@
   ],
   "measurement_ids": [],
   "completed_computational_outputs": "contained_in_author_archives",
-  "optimized_stationary_points": 0,
-  "transition_states": 0,
-  "reaction_path_outputs": 0,
+  "optimized_stationary_points": "contained_in_author_archives",
+  "transition_states": "contained_in_author_archives",
+  "reaction_path_outputs": "stationary_point_profiles_contained_in_author_archives",
   "reference_answers": 0,
   "seed_records": [
     {
@@ -118,8 +118,13 @@
   "files": [
     {
       "path": "README.md",
-      "size_bytes": 1139,
-      "sha256": "7f5f29efe893c2035c256806d259ccf684121a74371a7f2432138ee982e34aa2"
+      "size_bytes": 1739,
+      "sha256": "ece1e9378c125664fa176c274b1da8e663ba9d73d533e84fe05ba80dd388acc7"
+    },
+    {
+      "path": "author_output_manifest.json",
+      "size_bytes": 757,
+      "sha256": "768942cf3673d9a19426fb800bceb2f274c74e2bb9fa84eaf75e036f8788ab95"
     },
     {
       "path": "author_outputs/Int-I_2H_2plus.zip",
@@ -207,18 +212,6 @@
       "sha256": "3356671c0bb4322ff6bed42a64999997619011ffa29503a0620046a37c2528f8"
     }
   ],
-  "task_mode": "guided_reproduction",
-  "method_protocol_files": [
-    "computational_protocol.json"
-  ],
-  "reaction_definition_files": [
-    "reaction_definitions.json"
-  ],
-  "workflow_requirement_files": [
-    "workflow_requirements.json"
-  ],
-  "published_numerical_results": 0,
-  "author_coordinates": 1,
   "author_output_archives": [
     {
       "state": "P0",
@@ -238,5 +231,17 @@
       "sha256": "ab75a34d728aa095ea0e02b595be2d17fe780080a7920ac086f285bf51a765bd",
       "source_doi": "10.5281/zenodo.1439888"
     }
-  ]
+  ],
+  "task_mode": "guided_reproduction",
+  "method_protocol_files": [
+    "computational_protocol.json"
+  ],
+  "reaction_definition_files": [
+    "reaction_definitions.json"
+  ],
+  "workflow_requirement_files": [
+    "workflow_requirements.json"
+  ],
+  "published_numerical_results": 0,
+  "author_coordinates": 1
 }

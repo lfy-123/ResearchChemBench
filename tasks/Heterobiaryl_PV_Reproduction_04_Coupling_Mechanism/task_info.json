@@ -4,7 +4,7 @@
   "category": "reaction_coordinate_analysis",
   "task": "Reproduce the paper's reaction-coordinate analysis using the supplied P2 stepwise pathway and concerted control definition. Locate and validate the key transition region, run bidirectional connectivity tests, search for a post-coupling dearomatized minimum, and quantify axial P-C cleavage, C-C formation, retained equatorial bonds, and oxygen involvement. NBO is not required: use the supplied equivalent geometry, bond-order, charge, and optional density criteria, and do not report them as exact NBO occupations.",
   "scientific_mode": "guided_reproduction",
-  "scientific_mode_description": "The paper-reconstructed method hierarchy and candidate reaction routes are supplied. The Agent must execute, debug, validate, and report the reproduction without reading hidden results or author stationary points.",
+  "scientific_mode_description": "The paper-reconstructed method hierarchy and candidate reaction routes are supplied. The Agent must execute, debug, validate, and report the reproduction without reading hidden results.",
   "scientific_requirements": [
     "Validate the stepwise candidate and actively test the supplied concerted control path.",
     "Search for and frequency-check a dearomatized post-coupling minimum.",
@@ -34,7 +34,7 @@
       "name": "Guided Heterobiaryl P(V) reproduction inputs",
       "path": "data/benchmark_data",
       "type": "directory",
-      "description": "Decontaminated raw structures and measurements copied from the open-discovery task, plus a paper-reconstructed method protocol, mapped candidate pathways, and workflow requirements. No author stationary point, calculation output, published numerical result, or reference answer is visible."
+      "description": "Decontaminated raw structures and measurements plus a paper-reconstructed method protocol and mapped candidate pathways."
     }
   ],
   "archive_extractions": [],

@@ -13,6 +13,7 @@
     "analyze pathway ordering and NBO-free reaction-coordinate evidence",
     "integrate calculations with only the supplied public experimental observations"
   ],
-  "failure_policy": "Retain failed searches and do not replace missing evidence with paper-published numerical values.",
-  "nbo_policy": "NBO is optional; equivalent bond-order, charge, geometry, and optional density evidence is accepted."
+  "failure_policy": "Retain failed analyses and never present a publication-only value as a calculation from this run.",
+  "nbo_policy": "NBO is optional; equivalent bond-order, charge, geometry, and optional density evidence is accepted.",
+  "author_output_archives": []
 }

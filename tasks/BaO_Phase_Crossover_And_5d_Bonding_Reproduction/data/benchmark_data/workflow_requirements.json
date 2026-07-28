@@ -6,15 +6,11 @@
     "convergence_and_stress_check",
     "EOS_model_comparison",
     "enthalpy_minimization",
-    "adaptive_crossing_refinement",
-    "custom_basis_provenance_audit",
-    "causal_interpretation"
+    "adaptive_crossing_refinement"
   ],
   "hard_gates": [
     "All energies must be normalized per BaO formula unit.",
     "B8 and dB2 internal coordinates must be relaxed at fixed volume before final EOS fitting.",
-    "A grid endpoint may not be reported as a transition pressure without refinement or uncertainty.",
-    "A nominal Ba 5d request is invalid unless the realized LOBSTER basis contains Ba 5d.",
-    "Publication projection values must not be described as fresh calculations."
+    "A grid endpoint may not be reported as a transition pressure without refinement or uncertainty."
   ]
 }

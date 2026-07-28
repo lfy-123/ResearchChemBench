@@ -17,3 +17,11 @@ the coordinates do not contain an ethoxy ligand, explicit solvent, acid, or
 counterion. P1/P2 are therefore bare +1/+2 molecular ions in the supplied model.
 
 A pre-addition phosphonium/ethanol model, the OMe/Me/H/Cl precursor series, counterions, and raw kinetic traces are not available and are not silently invented.
+
+## Shared completed-output inputs
+
+This autonomous task receives the same completed author output archives as its guided counterpart. Select the validation, matching, thermochemistry, profile construction, and uncertainty route independently; no paper protocol or mapped reaction route is supplied.
+
+## Shared completed-output inputs
+
+This autonomous task receives the same completed author output archives as its guided counterpart. Select the validation, matching, thermochemistry, profile construction, and uncertainty route independently; no paper protocol or mapped reaction route is supplied.

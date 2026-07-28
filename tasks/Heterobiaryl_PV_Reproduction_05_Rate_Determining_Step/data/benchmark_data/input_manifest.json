@@ -20,9 +20,9 @@
     "E12"
   ],
   "completed_computational_outputs": "contained_in_author_archives",
-  "optimized_stationary_points": 0,
-  "transition_states": 0,
-  "reaction_path_outputs": 0,
+  "optimized_stationary_points": "contained_in_author_archives",
+  "transition_states": "contained_in_author_archives",
+  "reaction_path_outputs": "stationary_point_profiles_contained_in_author_archives",
   "reference_answers": 0,
   "seed_records": [
     {
@@ -62,8 +62,13 @@
   "files": [
     {
       "path": "README.md",
-      "size_bytes": 1385,
-      "sha256": "641a9d5714e6720e0620c5eda40afd48ea7cd739bb4c818251f973ddb253f0f8"
+      "size_bytes": 1985,
+      "sha256": "27c165760192367d3683bbef45ac1a51dc2f7367242ac44175f8d033d4b736d7"
+    },
+    {
+      "path": "author_output_manifest.json",
+      "size_bytes": 267,
+      "sha256": "46486a33c5751925ee7f739b70a22fd385d09f10537d7081ae2e5d2264018082"
     },
     {
       "path": "author_outputs/Int-I_2H_2plus.zip",
@@ -116,6 +121,14 @@
       "sha256": "16fd4795bfb37aebbc1be67d52f7b23ccaeafbf5decdad3f95d6fa2ee49be5dc"
     }
   ],
+  "author_output_archives": [
+    {
+      "state": "P2",
+      "path": "author_outputs/Int-I_2H_2plus.zip",
+      "sha256": "ab75a34d728aa095ea0e02b595be2d17fe780080a7920ac086f285bf51a765bd",
+      "source_doi": "10.5281/zenodo.1439888"
+    }
+  ],
   "task_mode": "guided_reproduction",
   "method_protocol_files": [
     "computational_protocol.json"
@@ -127,13 +140,5 @@
     "workflow_requirements.json"
   ],
   "published_numerical_results": 0,
-  "author_coordinates": 1,
-  "author_output_archives": [
-    {
-      "state": "P2",
-      "path": "author_outputs/Int-I_2H_2plus.zip",
-      "sha256": "ab75a34d728aa095ea0e02b595be2d17fe780080a7920ac086f285bf51a765bd",
-      "source_doi": "10.5281/zenodo.1439888"
-    }
-  ]
+  "author_coordinates": 1
 }

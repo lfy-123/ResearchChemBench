@@ -1,51 +1,51 @@
 {
   "task_id": "PV_Protonation_Barrier_Trend",
-  "source_id": "heterobiaryl_pv_2018_autonomous_protonation_question",
-  "category": "autonomous_reaction_mechanism_and_protonation",
-  "task": "For the supplied neutral, singly protonated, and doubly protonated P(V) reactant identities, independently determine whether protonation changes the kinetically relevant heterobiaryl coupling barrier under acidic ethanol conditions. Propose plausible mechanisms, generate and validate the needed intermediates and transition-path evidence, use comparable conventions across charge states, and report a trend only to the precision supported by new calculations.",
+  "source_id": "heterobiaryl_pv_2018_autonomous_author_output_analysis",
+  "category": "autonomous_author_output_thermochemistry",
+  "task": "Using the supplied P0, P1, and P2 completed author quantum-chemistry output archives, independently determine whether successive protonation changes the kinetically relevant pyridyl-pyridyl coupling barrier under acidic ethanol conditions. Infer and validate file identities, choose a consistent thermochemical and reference-state analysis, quantify uncertainty, and distinguish kinetic barrier changes from reaction thermodynamics.",
   "scientific_mode": "focused_open_discovery",
   "scientific_mode_description": "The scientific question and raw input boundary are fixed, but no paper method, software sequence, parameter protocol, candidate pathway, or stopping route is disclosed.",
   "scientific_requirements": [
-    "Write alternative mechanistic hypotheses and a comparable P0/P1/P2 protocol before pathway searches.",
-    "Treat every supplied XYZ as an unoptimized reactant seed, never as a stationary point.",
-    "A precise barrier requires a validated first-order saddle and connection evidence; otherwise report only a reproducible bracket or bound.",
-    "Keep solvation, temperature, standard state, electronic treatment, and reference definitions comparable across protonation states.",
-    "Preserve failed searches and explain whether missing evidence weakens or prevents a protonation-trend conclusion.",
+    "Choose and record an independent archive-validation, output-matching, thermochemistry, and profile-alignment plan before numerical analysis.",
+    "Validate molecular identity, charge, multiplicity, convergence, and stationary-point character before using any output.",
+    "Use one internally consistent 353.15 K, 1 M ethanol convention and one disclosed reference definition across P0, P1, and P2.",
+    "Separate newly generated analysis results from filenames, supplied raw outputs, and evaluator-only paper targets.",
+    "Preserve parsing, matching, and validation failures and quantify their consequence for the final trend.",
     "When server resources allow, parallelize independent calculations and use substantial CPU and memory resources without oversubscribing the host."
   ],
   "required_deliverables": [
     {
       "path": "report/research_plan.json",
-      "description": "Initial hypotheses, method alternatives, budgets, validation gates, stopping rules, and dated revisions."
+      "description": "Initial hypotheses, software DAG, budgets, gates, and stopping rules."
     },
     {
       "path": "report/tool_trace.jsonl",
-      "description": "One provenance record for every real chemistry-software invocation."
-    },
-    {
-      "path": "report/evidence_summary.json",
-      "description": "Claim-to-artifact map separating calculation, experiment, inference, and uncertainty."
+      "description": "One provenance record for every chemistry-software invocation."
     },
     {
       "path": "report/failure_log.jsonl",
-      "description": "Failed, rejected, retried, or inconclusive branches and their scientific consequence.",
+      "description": "Failed, rejected, retried, or inconclusive branches.",
       "allow_empty": true
     },
     {
-      "path": "report/state_screening.csv",
-      "description": "P0/P1/P2 seed, protonation, conformer, and intermediate screening decisions."
+      "path": "report/candidate_screening.csv",
+      "description": "Candidate selection, rejection, and stage assignment evidence."
     },
     {
-      "path": "report/pathway_evidence.json",
-      "description": "Per-state endpoints, bond changes, path/TS attempts, validation, and uncertainty."
+      "path": "report/stationary_point_validation.csv",
+      "description": "Convergence and imaginary-mode validation."
     },
     {
-      "path": "report/protonation_comparison.csv",
-      "description": "Comparable energetic results or controlled bounds across P0/P1/P2."
+      "path": "report/protonation_profiles.csv",
+      "description": "P0/P1/P2 electronic, thermal, and relative free energies."
+    },
+    {
+      "path": "report/barrier_trend.json",
+      "description": "Barrier trend, sensitivity, and conclusion."
     },
     {
       "path": "report/report.md",
-      "description": "Final artifact-linked scientific report with limitations and unresolved uncertainty."
+      "description": "Artifact-linked paper-reproduction report and uncertainty analysis."
     }
   ],
   "data": [
@@ -53,10 +53,29 @@
       "name": "Autonomous multi-software research inputs",
       "path": "data/benchmark_data",
       "type": "directory",
-      "description": "Nine unoptimized P0/P1/P2 reactant embeddings, molecular identities, atom mapping, and physical conditions; no intermediates, TS candidates, pathway labels, software route, or barriers."
+      "description": "The same P0/P1/P2 author-output archives, candidate coordinates, identities, and physical conditions as the guided track; no paper protocol, route definition, or target values."
     }
   ],
-  "archive_extractions": [],
+  "archive_extractions": [
+    {
+      "source": "benchmark_data/author_outputs/Int-I_unprotonated.zip",
+      "format": "zip",
+      "destination": "benchmark_data/extracted_author_outputs/P0",
+      "sha256": "b0fead3eb766cd93abce61dc616abc86c0ce21e04aabeb7cd48c66de6f0eb956"
+    },
+    {
+      "source": "benchmark_data/author_outputs/Int-I_H_plus.zip",
+      "format": "zip",
+      "destination": "benchmark_data/extracted_author_outputs/P1",
+      "sha256": "a4eb10d5864b8835c9a8ea3462d79429add0873ca0dccea2d6a236c04a696ce6"
+    },
+    {
+      "source": "benchmark_data/author_outputs/Int-I_2H_2plus.zip",
+      "format": "zip",
+      "destination": "benchmark_data/extracted_author_outputs/P2",
+      "sha256": "ab75a34d728aa095ea0e02b595be2d17fe780080a7920ac086f285bf51a765bd"
+    }
+  ],
   "benchmark_family": "heterobiaryl_pv",
   "task_mode": "open_discovery",
   "method_disclosure": "none",

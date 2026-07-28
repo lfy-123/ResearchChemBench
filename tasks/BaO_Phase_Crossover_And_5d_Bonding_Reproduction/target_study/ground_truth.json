@@ -19,13 +19,6 @@
         "scipy",
         "internal_statistics"
       ]
-    },
-    {
-      "class": "projection_basis_evidence_audit",
-      "backend_examples": [
-        "lobster output parser",
-        "internal_statistics"
-      ]
     }
   ],
   "expected_result": {
@@ -49,20 +42,11 @@
       ]
     ],
     "validated_reference_crossings_gpa": [
-      6.05,
-      28.9
+      6.0234,
+      28.9091
     ],
-    "paper_projection_ablation": {
-      "BaO_without_5d_max_spilling_percent": 5.13,
-      "BaO_with_5d_max_spilling_percent": 3.35,
-      "with_d_icohp_ev_range": [
-        -3,
-        -1
-      ],
-      "without_d_icohp_magnitude_ev": 0.5
-    },
-    "paper_conclusion": "Ba 5d-O covalency selectively contributes to stabilization of the denser B8 and dB2 phases.",
-    "resource_boundary": "The complete La-5d-on-Ba custom basis is not public; a fresh projection ablation is optional and cannot be scored as required."
+    "paper_conclusion": "BaO follows the B1 to B8 to dB2 stability sequence over 0-80 GPa.",
+    "scope_boundary": "The unpublished custom Ba 5d projection basis is outside this scored task."
   },
   "expected_structured_output": [
     "report/research_plan.json",
@@ -71,7 +55,6 @@
     "report/structure_validation.csv",
     "report/eos_points.csv",
     "report/phase_enthalpy.csv",
-    "report/lobster_ablation.json",
     "report/phase_conclusion.json",
     "report/report.md"
   ],
@@ -127,25 +110,25 @@
       ]
     },
     {
-      "id": "bao_transition_pressure_reproduction",
-      "max_score": 35,
-      "statement": "Adaptive EOS/enthalpy analysis reproduces crossovers near 8-10 GPa and 25 GPa.",
-      "acceptance_rule": "Full credit requires refined crossings with numerical/model uncertainty overlapping both paper neighborhoods; unrefined grid endpoints or copied values receive no credit.",
+      "id": "bao_first_transition_pressure",
+      "max_score": 30,
+      "statement": "Adaptive EOS/enthalpy analysis reproduces the B1 to B8 crossover within 6-12 GPa.",
+      "acceptance_rule": "Require a refined crossing inside the interval with fit, convergence, and interpolation uncertainty; a copied value or unrefined grid endpoint receives no credit.",
       "required_evidence": [
         "physical EOS or controlled alternative",
-        "adaptive crossing points",
+        "refined B1-B8 crossing",
         "fit and convergence uncertainty"
       ]
     },
     {
-      "id": "bao_5d_projection_evidence_audit",
-      "max_score": 25,
-      "statement": "The analysis correctly reproduces the paper's conclusion that La-5d-on-Ba custom projection functions improve spilling and reveal the Ba 5d-O bonding contribution.",
-      "acceptance_rule": "Require a traceable audit of the supplied publication evidence, explicit recognition that standard LOBSTER lacks group-II nd functions, and rejection of a nominal Ba 5d request when the realized basis does not contain 5d. A fresh custom-basis LOBSTER run is optional because the author basis file is not public.",
+      "id": "bao_second_transition_pressure",
+      "max_score": 30,
+      "statement": "Adaptive EOS/enthalpy analysis reproduces the B8 to dB2 crossover within 20-30 GPa.",
+      "acceptance_rule": "Require a refined crossing inside the interval with fixed-volume internal-coordinate relaxation and numerical uncertainty; a copied value or unrelaxed dB2 grid receives no credit.",
       "required_evidence": [
-        "custom-basis provenance",
-        "paper spilling and ICOHP evidence",
-        "realized-basis validation rule"
+        "relaxed B8/dB2 E(V) data",
+        "refined B8-dB2 crossing",
+        "fit and convergence uncertainty"
       ]
     }
   ],
@@ -162,14 +145,14 @@
     "No real periodic DFT calculation was executed.",
     "Energies from different formula-unit normalizations were compared.",
     "Transition pressures were copied from the paper or assigned from grid endpoints.",
-    "A standard LOBSTER projection that did not realize Ba 5d was presented as the paper's custom-basis ablation."
+    "B8 or dB2 was used in the final EOS without required fixed-volume internal-coordinate relaxation."
   ],
   "judge_instructions": "Evaluate every hidden paper claim independently from newly generated evidence, then evaluate reproduction-process quality separately. Do not copy conclusion deficiencies into the process axis or use process quality to excuse a wrong claim. The scorer applies the multiplicative formula.",
   "reference_evidence": {
     "paper_doi": "10.1002/chem.202501536",
     "task_id": "BaO_Phase_Crossover_And_5d_Bonding_Reproduction",
     "task_mode": "guided_reproduction",
-    "input_manifest_sha256": "308a7275657c206ffa8029f2299219f69f8c5cf5886a57ad85d9bb3fb16a2204",
+    "input_manifest_sha256": "247e5a9c6c5651cb3dfdfff82cb0f071e8fdc924710773389f1f4cdf64f81456",
     "paper_reference": {
       "paper_phase_sequence": [
         "B1",
@@ -191,22 +174,13 @@
         ]
       ],
       "validated_reference_crossings_gpa": [
-        6.05,
-        28.9
+        6.0234,
+        28.9091
       ],
-      "paper_projection_ablation": {
-        "BaO_without_5d_max_spilling_percent": 5.13,
-        "BaO_with_5d_max_spilling_percent": 3.35,
-        "with_d_icohp_ev_range": [
-          -3,
-          -1
-        ],
-        "without_d_icohp_magnitude_ev": 0.5
-      },
-      "paper_conclusion": "Ba 5d-O covalency selectively contributes to stabilization of the denser B8 and dB2 phases.",
-      "resource_boundary": "The complete La-5d-on-Ba custom basis is not public; a fresh projection ablation is optional and cannot be scored as required."
+      "paper_conclusion": "BaO follows the B1 to B8 to dB2 stability sequence over 0-80 GPa.",
+      "scope_boundary": "The unpublished custom Ba 5d projection basis is outside this scored task."
     },
-    "source_boundary": "Phase targets are evaluator-side; custom-basis provenance and projection values are public task evidence and must remain labeled publication data."
+    "source_boundary": "Phase sequence and transition targets are evaluator-side; the unpublished 5d projection basis is excluded from the task."
   },
   "managed_computation_policy": {
     "allow_direct_native_software_execution": true,
@@ -223,19 +197,15 @@
       "pymatgen",
       "spglib",
       "VASP 6.3.2",
-      "LOBSTER 5.1.0",
       "SciPy"
     ],
     "verified_components": [
       "15 VASP phase-volume calculations",
       "10 fixed-volume B8/dB2 internal relaxations",
-      "Birch-Murnaghan EOS and enthalpy crossings at 6.05 and 28.90 GPa",
-      "paired standard-LOBSTER audit showing nominal Ba 5d was not realized"
+      "Birch-Murnaghan EOS and enthalpy crossings at 6.023 and 28.909 GPa"
     ],
     "validated_artifact_root": "workspaces/manual_reproduction_validation_20260727/bao",
-    "unresolved_requirements": [
-      "A fresh paper-equivalent 5d ablation requires the unpublished La-5d-on-Ba custom basis file."
-    ]
+    "unresolved_requirements": []
   },
   "evaluation_profile": "paper_reproduction",
   "reference_conclusion_gate_policy": {}

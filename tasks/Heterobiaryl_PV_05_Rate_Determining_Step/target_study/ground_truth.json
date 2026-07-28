@@ -23,27 +23,27 @@
     {
       "id": "scientific_problem_framing",
       "max_score": 15,
-      "description": "Defines testable hypotheses, decision criteria, resource tiers, and stopping rules without relying on a disclosed paper route."
+      "criterion": "Defines testable hypotheses, competing pathways, decision criteria, resource tiers, and stopping rules without a disclosed paper route."
     },
     {
       "id": "autonomous_method_and_route_design",
       "max_score": 25,
-      "description": "Independently selects defensible structures, methods, sampling, numerical controls, and alternative routes appropriate to the question."
+      "criterion": "Independently selects defensible protonation states, structures, mechanisms, electronic methods, sampling, and validation strategy."
     },
     {
       "id": "adaptive_managed_execution",
       "max_score": 25,
-      "description": "Executes real managed calculations, diagnoses failures, and revises the workflow without fabricating or importing hidden results."
+      "criterion": "Executes real managed calculations, diagnoses failures, and revises searches without fabricating or importing hidden results."
     },
     {
       "id": "validation_and_falsification",
       "max_score": 20,
-      "description": "Checks convergence, numerical sensitivity, chemical validity, competing explanations, uncertainty, and evidence sufficiency."
+      "criterion": "Validates stationary points and connectivity, compares alternatives at common conditions, and tests uncertainty and competing explanations."
     },
     {
       "id": "defensible_scientific_conclusion",
       "max_score": 15,
-      "description": "Draws a traceable conclusion from the generated evidence. Agreement with the hidden paper conclusion is not required."
+      "criterion": "Draws a traceable evidence-bound conclusion; agreement with the hidden paper conclusion is not itself required."
     }
   ],
   "critical_failures": [
@@ -55,7 +55,7 @@
     "Charges, multiplicities, units, methods, temperatures, or standard states are mixed so the claimed comparison is invalid.",
     "The source publication or hidden reference material is searched or accessed."
   ],
-  "judge_instructions": "This is an autonomous-discovery evaluation. Reward independent hypothesis formation, method and route selection, adaptive managed execution, validation, falsification, and an evidence-bound conclusion. Do not require agreement with the hidden paper conclusion merely because it is the reference.",
+  "judge_instructions": "This is an autonomous-discovery evaluation. Reward independent hypothesis formation, method and route selection, adaptive managed execution, validation, falsification, and a defensible conclusion from generated evidence. Agreement with the hidden paper conclusion is not a scoring requirement.",
   "managed_computation_policy": {
     "required": true,
     "minimum_successful_scientific_calls": 2,
@@ -117,8 +117,27 @@
       "raw_instrument_files": 0
     },
     "published_reference_is_hidden_comparison_only": true,
-    "input_manifest_sha256": "3a0cb9cec5eed0370b4f705c3dae88a24cad8a824022a36306863b1793060b84"
+    "input_manifest_sha256": "56ed446cd4ac6d8c51c27621b1f073426514fb6e7f9aa6a03bea08b3e415f985",
+    "source_boundary": "Both tracks receive the same completed author outputs and experimental inputs; only the guided track receives the paper-reconstructed method and mapped route.",
+    "author_raw_outputs_public": true,
+    "author_output_archives": [
+      {
+        "state": "P2",
+        "path": "author_outputs/Int-I_2H_2plus.zip",
+        "size_bytes": 24503412,
+        "sha256": "ab75a34d728aa095ea0e02b595be2d17fe780080a7920ac086f285bf51a765bd",
+        "source_doi": "10.5281/zenodo.1439888"
+      }
+    ]
   },
   "evaluation_profile": "autonomous_discovery",
-  "reference_conclusion_gate_policy": {}
+  "reference_conclusion_gate_policy": {},
+  "current_toolbox_feasibility_baseline": {
+    "assessment_date": "2026-07-28",
+    "status": "validated_for_evaluation",
+    "classification": "solvable",
+    "paired_reproduction_reference_run_complete": true,
+    "validated_artifact_root": "workspaces/paper_reproduction_recovery_20260727/pv",
+    "known_limitations": []
+  }
 }

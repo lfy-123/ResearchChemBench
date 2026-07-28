@@ -1,15 +1,15 @@
 {
   "task_id": "BaO_Phase_Crossover_And_5d_Bonding_Reproduction",
   "source_id": "bao_high_pressure_polymorphism_2025",
-  "category": "high_pressure_phase_stability_and_bonding",
-  "task": "Orchestrate crystal validation, VASP volume-grid calculations, fixed-volume internal relaxation, EOS/enthalpy analysis, adaptive crossover refinement, and a provenance-aware audit of the paper's custom La-5d-on-Ba LOBSTER evidence. Reproduce the BaO B1 to B8 to dB2 sequence and the evidence-supported 5d bonding interpretation without pretending that standard LOBSTER contains the unpublished custom basis.",
+  "category": "high_pressure_phase_stability",
+  "task": "Orchestrate crystal validation, VASP volume-grid calculations, fixed-volume internal relaxation, EOS/enthalpy analysis, and adaptive crossover refinement. Reproduce the BaO B1 to B8 to dB2 stability sequence and both paper-scale transition-pressure neighborhoods.",
   "scientific_mode": "guided_reproduction",
   "scientific_mode_description": "A scoped part of a published research workflow is supplied. The agent must orchestrate multiple chemistry programs, validate intermediate artifacts, and recover the paper conclusion from newly generated evidence.",
   "scientific_requirements": [
     "Use all three phases and compute a traceable E(V) dataset with VASP.",
     "Relax B8 and dB2 internal coordinates at fixed volume before final EOS fitting.",
     "Fit at least one physical EOS and assess fit sensitivity.",
-    "Audit the supplied custom-basis evidence and enforce a realized-basis check on any optional LOBSTER run.",
+    "Refine both crossings and report convergence, fitting, and interpolation uncertainty.",
     "When server resources allow, parallelize independent calculations and use substantial CPU and memory resources without oversubscribing the host."
   ],
   "required_deliverables": [
@@ -39,12 +39,8 @@
       "description": "Fitted enthalpy curves and adaptive crossover evidence."
     },
     {
-      "path": "report/lobster_ablation.json",
-      "description": "Audit of the paper's custom La-5d-on-Ba projection evidence and the realized-basis gate for any optional local LOBSTER run."
-    },
-    {
       "path": "report/phase_conclusion.json",
-      "description": "Phase sequence, transition estimates, bonding interpretation, and uncertainty."
+      "description": "Phase sequence, transition estimates, and numerical uncertainty."
     },
     {
       "path": "report/report.md",
@@ -56,7 +52,7 @@
       "name": "Guided multi-software reproduction inputs",
       "path": "data/benchmark_data",
       "type": "directory",
-      "description": "Visible phase structures and protocol plus publication-reported custom-basis LOBSTER evidence with an explicit provenance boundary. Transition pressures remain evaluator-side targets."
+      "description": "Visible phase-volume structures and paper-reconstructed phase-stability protocol. Transition pressures remain evaluator-side targets."
     }
   ],
   "archive_extractions": [],

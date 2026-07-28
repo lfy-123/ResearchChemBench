@@ -2,14 +2,14 @@
   "task_id": "PV_Protonation_Barrier_Trend_Reproduction",
   "source_id": "heterobiaryl_pv_2019_protonation_barriers",
   "category": "reaction_mechanism_and_thermochemistry",
-  "task": "Independently validate and reanalyze the supplied author Gaussian and ORCA raw outputs for P0, P1, and P2 with GoodVibes, reproducing the successive-protonation barrier trend under one 353.15 K, 1 M ethanol convention.",
+  "task": "Independently validate and reanalyze the supplied author Gaussian and ORCA raw outputs for P0, P1, and P2 with GoodVibes. Reproduce the successive-protonation barrier trend under one 353.15 K, 1 M ethanol convention and distinguish the kinetic change from the reaction-free-energy trend.",
   "scientific_mode": "guided_reproduction",
   "scientific_mode_description": "A scoped part of a published research workflow is supplied. The agent must orchestrate multiple chemistry programs, validate intermediate artifacts, and recover the paper conclusion from newly generated evidence.",
   "scientific_requirements": [
     "Verify all three archive hashes and output identities.",
-    "Validate barrier-defining frequencies and matched DLPNO corrections.",
+    "Validate barrier- and reaction-energy-defining frequencies and matched DLPNO corrections.",
     "Use a common initial-state reference within each protonation state.",
-    "Report newly generated GoodVibes values separately from publication targets.",
+    "Report activation and reaction free energies plus newly generated GoodVibes values separately from publication targets.",
     "When server resources allow, parallelize independent calculations and use substantial CPU and memory resources without oversubscribing the host."
   ],
   "required_deliverables": [

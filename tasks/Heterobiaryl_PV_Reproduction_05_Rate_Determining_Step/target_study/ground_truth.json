@@ -117,10 +117,8 @@
       "raw_quantum_output_archives": 1
     },
     "published_reference_is_hidden_comparison_only": true,
-    "input_manifest_sha256": "b4b03a84cb814f969234dc4ec5e4c8ad40d02fb3de5a9a2fa3673779409860b6",
-    "task_mode": "guided_reproduction",
-    "method_protocol_public": true,
-    "mapped_candidate_routes_public": true,
+    "input_manifest_sha256": "d83837172675bfd2b521906d1cecc203a0511f63d67f5e3187e443e6e5e3fcf3",
+    "source_boundary": "Both tracks receive the same completed author outputs and experimental inputs; only the guided track receives the paper-reconstructed method and mapped route.",
     "author_raw_outputs_public": true,
     "author_output_archives": [
       {
@@ -129,7 +127,10 @@
         "sha256": "ab75a34d728aa095ea0e02b595be2d17fe780080a7920ac086f285bf51a765bd",
         "source_doi": "10.5281/zenodo.1439888"
       }
-    ]
+    ],
+    "task_mode": "guided_reproduction",
+    "method_protocol_public": true,
+    "mapped_candidate_routes_public": true
   },
   "evaluation_profile": "paper_reproduction",
   "reference_conclusion_gate_policy": {
@@ -141,6 +142,14 @@
     "max_criterion_score_if_not_matched": 0,
     "max_criterion_score_if_uncertain": 15,
     "max_criterion_score_if_omitted": 0
+  },
+  "current_toolbox_feasibility_baseline": {
+    "assessment_date": "2026-07-28",
+    "status": "validated_for_evaluation",
+    "classification": "solvable",
+    "paired_reproduction_reference_run_complete": true,
+    "validated_artifact_root": "workspaces/paper_reproduction_recovery_20260727/pv",
+    "known_limitations": []
   },
   "current_toolbox_reproduction_baseline": {
     "assessment_date": "2026-07-27",

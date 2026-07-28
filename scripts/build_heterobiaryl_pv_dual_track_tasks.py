@@ -462,6 +462,128 @@ def update_open_metadata() -> None:
         truth_path.write_bytes(json_bytes(truth))
 
 
+AUTONOMOUS_REANALYSIS_PROMPTS = {
+    "Q2": (
+        "Using the supplied P0, P1, and P2 completed quantum-chemistry output archives, "
+        "independently determine whether pyridyl-pyridyl coupling is preferred over "
+        "phenyl-pyridyl coupling for kinetic or thermodynamic reasons. Infer and validate "
+        "the file groupings, stationary-point identities, reference states, thermochemical "
+        "analysis, and uncertainty treatment without a disclosed paper route."
+    ),
+    "Q5": (
+        "Use the supplied P2 completed quantum-chemistry output archive and experimental "
+        "measurements to independently test the most likely rate-determining step under "
+        "acidic ethanol conditions. Choose and validate the output analysis and kinetic "
+        "reasoning workflow, then distinguish the rate-determining, selectivity-determining, "
+        "and strongly irreversible stages without a disclosed paper route."
+    ),
+}
+
+
+AUTONOMOUS_REANALYSIS_REQUIREMENTS = {
+    "Q2": [
+        "Predeclare an independent archive audit, file-matching, stationary-point validation, thermochemistry, and profile-alignment plan.",
+        "Validate identity, charge, multiplicity, convergence, frequencies, and the forming-bond geometry before using any output.",
+        "Compare Py-Py and Ph-Py activation and reaction free energies for P0, P1, and P2 under one 353.15 K, 1 M ethanol convention.",
+        "Use a shared initial-state reference within each protonation state and keep kinetic and thermodynamic selectivity separate.",
+        "Treat supplied outputs as source data and every numerical conclusion as a newly generated analysis result with provenance.",
+        "When server resources allow, parallelize independent validation and analysis stages without oversubscribing the host.",
+    ],
+    "Q5": [
+        "Predeclare competing rate-control hypotheses and an independent output-validation and thermochemistry plan.",
+        "Infer and validate the P2 reactant, transition-state, intermediate, and product output identities before constructing any downstream profile.",
+        "Quantify the experimental substituent-rate trend and keep measurements, computations, and inference explicitly separate.",
+        "Assign rate control, selectivity control, and irreversibility separately and retain falsifiable alternatives.",
+        "Do not claim that the downstream coupling profile directly computes an unobserved alcohol-addition barrier.",
+        "When server resources allow, parallelize independent validation and analysis stages without oversubscribing the host.",
+    ],
+}
+
+
+def align_open_author_output_inputs(task_id: str, task_key: str) -> None:
+    data_root = TASKS_ROOT / task_id / "data" / "benchmark_data"
+    states = TASK_AUTHOR_OUTPUT_STATES[task_key]
+    archive_records = []
+    for state in states:
+        filename = AUTHOR_OUTPUT_ARCHIVES[state]
+        source = AUTHOR_OUTPUT_ROOT / filename
+        destination = data_root / "author_outputs" / filename
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source, destination)
+        archive_records.append(
+            {
+                "state": state,
+                "path": str(destination.relative_to(data_root)),
+                "size_bytes": destination.stat().st_size,
+                "sha256": sha256(destination),
+                "source_doi": "10.5281/zenodo.1439888",
+            }
+        )
+    (data_root / "author_output_manifest.json").write_bytes(
+        json_bytes({"archives": archive_records})
+    )
+    readme = data_root / "README.md"
+    readme.write_text(
+        readme.read_text(encoding="utf-8")
+        + "\n## Shared completed-output inputs\n\n"
+        + "This autonomous task receives the same completed author output archives as its guided counterpart. Select the validation, matching, thermochemistry, profile construction, and uncertainty route independently; no paper protocol or mapped reaction route is supplied.\n",
+        encoding="utf-8",
+    )
+
+    info_path = TASKS_ROOT / task_id / "task_info.json"
+    info = json.loads(info_path.read_text(encoding="utf-8"))
+    info["task"] = AUTONOMOUS_REANALYSIS_PROMPTS[task_key]
+    info["scientific_requirements"] = AUTONOMOUS_REANALYSIS_REQUIREMENTS[task_key]
+    info["scientific_mode_description"] = (
+        "The scientific question and completed raw outputs are fixed, but no paper "
+        "analysis method, file grouping, reference construction, or interpretation route is disclosed."
+    )
+    info["archive_extractions"] = [
+        {
+            "source": f"benchmark_data/{record['path']}",
+            "format": "zip",
+            "destination": f"benchmark_data/extracted_author_outputs/{record['state']}",
+            "sha256": record["sha256"],
+        }
+        for record in archive_records
+    ]
+    info["data"][0]["description"] = (
+        "Initial structures, molecular identities, physical conditions, applicable experimental measurements, "
+        "and the same completed author-output archives as the guided track; no paper protocol, mapped route, or reference answer."
+    )
+    info_path.write_bytes(json_bytes(info))
+
+    manifest_path = data_root / "input_manifest.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    manifest["completed_computational_outputs"] = "contained_in_author_archives"
+    manifest["optimized_stationary_points"] = "contained_in_author_archives"
+    manifest["transition_states"] = "contained_in_author_archives"
+    manifest["reaction_path_outputs"] = "stationary_point_profiles_contained_in_author_archives"
+    manifest["author_output_archives"] = archive_records
+    manifest["files"] = public_files(data_root)
+    manifest_path.write_bytes(json_bytes(manifest))
+
+    truth_path = TASKS_ROOT / task_id / "target_study" / "ground_truth.json"
+    truth = json.loads(truth_path.read_text(encoding="utf-8"))
+    truth["current_toolbox_feasibility_baseline"] = {
+        "assessment_date": "2026-07-28",
+        "status": "validated_for_evaluation",
+        "classification": "solvable",
+        "paired_reproduction_reference_run_complete": True,
+        "validated_artifact_root": "workspaces/paper_reproduction_recovery_20260727/pv",
+        "known_limitations": [],
+    }
+    evidence = truth.setdefault("reference_evidence", {})
+    evidence["source_boundary"] = (
+        "Both tracks receive the same completed author outputs and experimental inputs; "
+        "only the guided track receives the paper-reconstructed method and mapped route."
+    )
+    evidence["author_raw_outputs_public"] = True
+    evidence["author_output_archives"] = archive_records
+    evidence["input_manifest_sha256"] = sha256(manifest_path)
+    truth_path.write_bytes(json_bytes(truth))
+
+
 def build_one(open_task: str, reproduction_task: str, task_key: str, stage_root: Path) -> Path:
     source = TASKS_ROOT / open_task
     target = stage_root / reproduction_task
@@ -737,6 +859,8 @@ def build_one(open_task: str, reproduction_task: str, task_key: str, stage_root:
 
 def main() -> int:
     update_open_metadata()
+    align_open_author_output_inputs("Heterobiaryl_PV_02_CC_Selectivity", "Q2")
+    align_open_author_output_inputs("Heterobiaryl_PV_05_Rate_Determining_Step", "Q5")
     built: dict[str, Any] = {}
     with tempfile.TemporaryDirectory(prefix="heterobiaryl_dual_track_") as temporary:
         stage_root = Path(temporary)

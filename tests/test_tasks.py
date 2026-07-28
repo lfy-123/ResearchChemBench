@@ -64,6 +64,10 @@ def test_heterobiaryl_dual_track_tasks_use_complete_100_point_rubrics():
         ),
     }
     shared_seed_hashes = {}
+    aligned_author_output_tasks = {
+        "Heterobiaryl_PV_02_CC_Selectivity",
+        "Heterobiaryl_PV_05_Rate_Determining_Step",
+    }
     for task_id in open_tasks:
         info = load_task_info(task_id)
         truth = load_ground_truth(task_id)
@@ -97,11 +101,17 @@ def test_heterobiaryl_dual_track_tasks_use_complete_100_point_rubrics():
         assert truth["evaluation_mode"] == "rubric_100"
         assert truth["score_max"] == 100
         assert sum(item["max_score"] for item in truth["scoring_rubric"]) == 100
-        assert info["archive_extractions"] == []
+        if task_id in aligned_author_output_tasks:
+            assert info["archive_extractions"]
+        else:
+            assert info["archive_extractions"] == []
         assert data_root.is_dir()
         assert not data_root.is_symlink()
         assert not any(path.is_symlink() for path in data_root.rglob("*"))
-        assert not any(path.suffix.casefold() == ".zip" for path in data_root.rglob("*"))
+        if task_id in aligned_author_output_tasks:
+            assert any(path.suffix.casefold() == ".zip" for path in data_root.rglob("*"))
+        else:
+            assert not any(path.suffix.casefold() == ".zip" for path in data_root.rglob("*"))
         manifest = json.loads(
             (data_root / "input_manifest.json").read_text(encoding="utf-8")
         )
@@ -111,10 +121,16 @@ def test_heterobiaryl_dual_track_tasks_use_complete_100_point_rubrics():
         assert manifest["states"] == expected_states
         assert manifest["measurement_ids"] == expected_measurement_ids
         assert len(list(data_root.glob("initial_structures/*/*.xyz"))) == expected_seed_count
-        assert manifest["completed_computational_outputs"] == 0
-        assert manifest["optimized_stationary_points"] == 0
-        assert manifest["transition_states"] == 0
-        assert manifest["reaction_path_outputs"] == 0
+        if task_id in aligned_author_output_tasks:
+            assert manifest["completed_computational_outputs"] == "contained_in_author_archives"
+            assert manifest["optimized_stationary_points"] == "contained_in_author_archives"
+            assert manifest["transition_states"] == "contained_in_author_archives"
+            assert manifest["reaction_path_outputs"] == "stationary_point_profiles_contained_in_author_archives"
+        else:
+            assert manifest["completed_computational_outputs"] == 0
+            assert manifest["optimized_stationary_points"] == 0
+            assert manifest["transition_states"] == 0
+            assert manifest["reaction_path_outputs"] == 0
         assert manifest["reference_answers"] == 0
         for record in manifest["files"]:
             path = data_root / record["path"]
@@ -260,6 +276,30 @@ def test_heterobiaryl_dual_track_tasks_use_complete_100_point_rubrics():
             assert hashlib.sha256(xyz.read_bytes()).hexdigest() == hashlib.sha256(
                 (open_root / xyz.relative_to(data_root)).read_bytes()
             ).hexdigest()
+
+    for suffix in ("02_CC_Selectivity", "05_Rate_Determining_Step"):
+        open_id = open_by_suffix[suffix]
+        repro_id = f"Heterobiaryl_PV_Reproduction_{suffix}"
+        open_root = TASKS_DIR / open_id / "data" / "benchmark_data"
+        repro_root = TASKS_DIR / repro_id / "data" / "benchmark_data"
+        guided_only = {
+            "computational_protocol.json",
+            "reaction_definitions.json",
+            "workflow_requirements.json",
+        }
+
+        def shared_hashes(root: Path) -> dict[str, str]:
+            return {
+                path.relative_to(root).as_posix(): hashlib.sha256(path.read_bytes()).hexdigest()
+                for path in root.rglob("*")
+                if path.is_file()
+                and path.name not in {"README.md", "input_manifest.json"}
+                and path.name not in guided_only
+            }
+
+        assert shared_hashes(open_root) == shared_hashes(repro_root)
+        assert load_task_info(open_id)["required_deliverables"] == load_task_info(repro_id)["required_deliverables"]
+        assert load_ground_truth(open_id)["expected_result"] == load_ground_truth(repro_id)["expected_result"]
 
 
 def test_electron_isodensity_dual_track_tasks_are_decontaminated_and_complete():

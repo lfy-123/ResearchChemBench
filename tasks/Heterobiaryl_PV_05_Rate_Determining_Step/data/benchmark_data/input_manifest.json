@@ -19,10 +19,10 @@
     "E11",
     "E12"
   ],
-  "completed_computational_outputs": 0,
-  "optimized_stationary_points": 0,
-  "transition_states": 0,
-  "reaction_path_outputs": 0,
+  "completed_computational_outputs": "contained_in_author_archives",
+  "optimized_stationary_points": "contained_in_author_archives",
+  "transition_states": "contained_in_author_archives",
+  "reaction_path_outputs": "stationary_point_profiles_contained_in_author_archives",
   "reference_answers": 0,
   "seed_records": [
     {
@@ -62,8 +62,18 @@
   "files": [
     {
       "path": "README.md",
-      "size_bytes": 1096,
-      "sha256": "2197af6333d4bbcdaf6f40781c34e7c4523b898754d910743947f783c0fc6d24"
+      "size_bytes": 1696,
+      "sha256": "11e13dd237173a0da80f0845c7fbf072f7dac4160f6c9593925275f9e9be0768"
+    },
+    {
+      "path": "author_output_manifest.json",
+      "size_bytes": 267,
+      "sha256": "46486a33c5751925ee7f739b70a22fd385d09f10537d7081ae2e5d2264018082"
+    },
+    {
+      "path": "author_outputs/Int-I_2H_2plus.zip",
+      "size_bytes": 24503412,
+      "sha256": "ab75a34d728aa095ea0e02b595be2d17fe780080a7920ac086f285bf51a765bd"
     },
     {
       "path": "conditions.json",
@@ -94,6 +104,15 @@
       "path": "molecular_systems.json",
       "size_bytes": 916,
       "sha256": "138e648cb387ea0586eb3bba59efc21be64f6fd5b10753244f19a58310c19ab9"
+    }
+  ],
+  "author_output_archives": [
+    {
+      "state": "P2",
+      "path": "author_outputs/Int-I_2H_2plus.zip",
+      "size_bytes": 24503412,
+      "sha256": "ab75a34d728aa095ea0e02b595be2d17fe780080a7920ac086f285bf51a765bd",
+      "source_doi": "10.5281/zenodo.1439888"
     }
   ]
 }

@@ -1,7 +1,6 @@
-# Autonomous protonation-effect mechanism investigation
+# Autonomous protonation-effect output analysis
 
-Determine whether and how protonation changes the kinetically relevant ligand-
-coupling pathway for P0, P1, and P2 under the supplied conditions. The XYZ files are
-independent unoptimized embeddings of reactant identities, not minima,
-intermediates, transition states, or paper structures. Select all methods, pathway
-hypotheses, validation tests, and stopping rules independently.
+The P0, P1, and P2 author-output archives and candidate coordinates are supplied to
+both tracks. Independently determine a defensible validation, file-matching,
+thermochemistry, reference-state, and uncertainty workflow. No paper protocol or
+preselected reaction-profile construction is disclosed in this autonomous track.

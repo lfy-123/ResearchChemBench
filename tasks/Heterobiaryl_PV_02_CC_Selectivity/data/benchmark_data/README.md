@@ -16,3 +16,11 @@ The explicit P(V) ligand is methoxy (P-O-Me). Ethanol is the bulk solvent/protoc
 the coordinates do not contain an ethoxy ligand, explicit solvent, acid, or
 counterion. P1/P2 are therefore bare +1/+2 molecular ions in the supplied model.
 
+
+## Shared completed-output inputs
+
+This autonomous task receives the same completed author output archives as its guided counterpart. Select the validation, matching, thermochemistry, profile construction, and uncertainty route independently; no paper protocol or mapped reaction route is supplied.
+
+## Shared completed-output inputs
+
+This autonomous task receives the same completed author output archives as its guided counterpart. Select the validation, matching, thermochemistry, profile construction, and uncertainty route independently; no paper protocol or mapped reaction route is supplied.

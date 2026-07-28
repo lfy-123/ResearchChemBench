@@ -40,14 +40,14 @@ SCIENTIFIC_CONCLUSION_RUBRICS: dict[str, list[dict[str, Any]]] = {
     "PV_Protonation_Barrier_Trend": [
         {
             "id": "successive_protonation_barrier_order",
-            "max_score": 45,
+            "max_score": 40,
             "statement": "Comparable new kinetic evidence establishes the coupling-barrier order P0 > P1 > P2.",
             "acceptance_rule": "Require validated transition states and connection evidence, or controlled bounds that resolve all three states under one energy, solvation, temperature, standard-state, and reference convention.",
             "required_evidence": ["new P0/P1/P2 pathway calculations", "first-order saddle and connection validation or controlled bounds", "common free-energy convention"],
         },
         {
             "id": "stepwise_barrier_reduction_scale",
-            "max_score": 30,
+            "max_score": 35,
             "statement": "The first protonation causes a large barrier reduction and the second causes an additional smaller reduction, consistent with the paper-scale approximately 10 and 6 kcal/mol changes.",
             "acceptance_rule": "Full credit requires newly computed reductions with the correct direction and relative scale; partial credit is available when uncertainty preserves the qualitative successive lowering but not both magnitudes.",
             "required_evidence": ["three comparable activation free energies", "difference and uncertainty analysis", "candidate or conformer sensitivity"],
@@ -69,18 +69,18 @@ SCIENTIFIC_CONCLUSION_RUBRICS: dict[str, list[dict[str, Any]]] = {
             "required_evidence": ["new periodic energy or stress calculations for all candidates", "formula-unit normalization", "phase-identity validation"],
         },
         {
-            "id": "bao_transition_pressure_neighborhoods",
-            "max_score": 35,
-            "statement": "The two crossovers occur near the paper neighborhoods around 8-10 GPa and 25 GPa.",
-            "acceptance_rule": "Full credit requires adaptively refined crossings with convergence, EOS/interpolation, and model sensitivity whose uncertainty overlaps the reference neighborhoods; grid endpoints alone are insufficient.",
-            "required_evidence": ["EOS or equivalent enthalpy interpolation", "adaptive points around both crossings", "numerical uncertainty"],
+            "id": "bao_first_transition_pressure",
+            "max_score": 30,
+            "statement": "The independently computed B1 to B8 crossover falls within 6-12 GPa.",
+            "acceptance_rule": "Require a refined crossing with convergence, EOS/interpolation, and model uncertainty; copied values or grid endpoints receive no credit.",
+            "required_evidence": ["EOS or equivalent enthalpy interpolation", "refined B1-B8 crossing", "numerical uncertainty"],
         },
         {
-            "id": "bao_5d_bonding_ablation",
-            "max_score": 25,
-            "statement": "A quality-gated same-wavefunction orbital projection comparison supports selective Ba 5d-O covalent participation in the denser B8 and dB2 phases.",
-            "acceptance_rule": "Require a fresh with/without-Ba-5d ablation or a scientifically equivalent orbital-resolved test, acceptable or explicitly qualified spilling, and separation of bonding correlation from enthalpy causation.",
-            "required_evidence": ["paired projection analysis", "spilling or projection-quality metrics", "Ba-O bonding and Ba 5d orbital evidence"],
+            "id": "bao_second_transition_pressure",
+            "max_score": 30,
+            "statement": "The independently computed B8 to dB2 crossover falls within 20-30 GPa.",
+            "acceptance_rule": "Require fixed-volume internal-coordinate relaxation, a refined crossing, and numerical uncertainty; copied values or an unrelaxed dB2 grid receive no credit.",
+            "required_evidence": ["relaxed B8/dB2 energy-volume data", "refined B8-dB2 crossing", "numerical uncertainty"],
         },
     ],
     "PV_CC_CO_Pathway_Selectivity": [
@@ -253,6 +253,7 @@ def task_info(
     requirements: list[str],
     deliverables: list[dict[str, Any]],
     data_description: str,
+    archive_extractions: list[dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
     requirements = list(requirements)
     if not any("server resources allow" in item for item in requirements):
@@ -279,7 +280,7 @@ def task_info(
                 "description": data_description,
             }
         ],
-        "archive_extractions": [],
+        "archive_extractions": archive_extractions or [],
         "benchmark_family": benchmark_family,
         "task_mode": "open_discovery",
         "method_disclosure": "none",
@@ -399,6 +400,8 @@ def finalize_task(
     info: dict[str, Any],
     truth: dict[str, Any],
     metadata: dict[str, Any],
+    author_stationary_points_in_visible_inputs: int | str = 0,
+    completed_quantum_outputs: int | str = 0,
 ) -> None:
     root = TASKS_ROOT / task_id
     data_root = root / "data" / "benchmark_data"
@@ -414,8 +417,8 @@ def finalize_task(
         "pathway_disclosure": "none",
         "paper_result_values_in_visible_inputs": 0,
         "paper_protocol_files_in_visible_inputs": 0,
-        "author_stationary_points_in_visible_inputs": 0,
-        "completed_quantum_outputs": 0,
+        "author_stationary_points_in_visible_inputs": author_stationary_points_in_visible_inputs,
+        "completed_quantum_outputs": completed_quantum_outputs,
         "files": files,
         **metadata,
     }
@@ -430,6 +433,26 @@ def repro_truth(repro_id: str) -> dict[str, Any]:
     return json.loads(
         (TASKS_ROOT / repro_id / "target_study" / "ground_truth.json").read_text(encoding="utf-8")
     )
+
+
+def repro_info(repro_id: str) -> dict[str, Any]:
+    return json.loads(
+        (TASKS_ROOT / repro_id / "task_info.json").read_text(encoding="utf-8")
+    )
+
+
+def copy_reproduction_data_without_route(repro_id: str, data: Path) -> None:
+    source = TASKS_ROOT / repro_id / "data" / "benchmark_data"
+    excluded = {
+        "README.md",
+        "input_manifest.json",
+        "computational_protocol.json",
+        "workflow_requirements.json",
+        "reaction_definitions.json",
+    }
+    for path in sorted(source.rglob("*")):
+        if path.is_file() and path.name not in excluded:
+            copy_file(path, data / path.relative_to(source))
 
 
 def build_geom(force: bool) -> None:
@@ -698,74 +721,70 @@ def build_pv_protonation(force: bool) -> None:
     task_id, repro_id = TASK_IDS[2], REPRO_IDS[2]
     root = prepare_task_root(task_id, force)
     data = root / "data" / "benchmark_data"
-    records = copy_pv_open_inputs("Heterobiaryl_PV_01_Protonation", data, include_measurements=False)
+    copy_reproduction_data_without_route(repro_id, data)
     write_text(
         data / "README.md",
-        """# Autonomous protonation-effect mechanism investigation
+        """# Autonomous protonation-effect output analysis
 
-Determine whether and how protonation changes the kinetically relevant ligand-
-coupling pathway for P0, P1, and P2 under the supplied conditions. The XYZ files are
-independent unoptimized embeddings of reactant identities, not minima,
-intermediates, transition states, or paper structures. Select all methods, pathway
-hypotheses, validation tests, and stopping rules independently.
+The P0, P1, and P2 author-output archives and candidate coordinates are supplied to
+both tracks. Independently determine a defensible validation, file-matching,
+thermochemistry, reference-state, and uncertainty workflow. No paper protocol or
+preselected reaction-profile construction is disclosed in this autonomous track.
 """,
     )
-    deliverables = common_deliverables(
-        [
-            {"path": "report/state_screening.csv", "description": "P0/P1/P2 seed, protonation, conformer, and intermediate screening decisions."},
-            {"path": "report/pathway_evidence.json", "description": "Per-state endpoints, bond changes, path/TS attempts, validation, and uncertainty."},
-            {"path": "report/protonation_comparison.csv", "description": "Comparable energetic results or controlled bounds across P0/P1/P2."},
-        ]
-    )
+    reproduction_info = repro_info(repro_id)
+    deliverables = reproduction_info["required_deliverables"]
     info = task_info(
         task_id=task_id,
-        source_id="heterobiaryl_pv_2018_autonomous_protonation_question",
-        category="autonomous_reaction_mechanism_and_protonation",
+        source_id="heterobiaryl_pv_2018_autonomous_author_output_analysis",
+        category="autonomous_author_output_thermochemistry",
         benchmark_family="heterobiaryl_pv",
         task=(
-            "For the supplied neutral, singly protonated, and doubly protonated P(V) reactant identities, "
-            "independently determine whether protonation changes the kinetically relevant heterobiaryl "
-            "coupling barrier under acidic ethanol conditions. Propose plausible mechanisms, generate and "
-            "validate the needed intermediates and transition-path evidence, use comparable conventions "
-            "across charge states, and report a trend only to the precision supported by new calculations."
+            "Using the supplied P0, P1, and P2 completed author quantum-chemistry output archives, independently "
+            "determine whether successive protonation changes the kinetically relevant pyridyl-pyridyl "
+            "coupling barrier under acidic ethanol conditions. Infer and validate file identities, choose "
+            "a consistent thermochemical and reference-state analysis, quantify uncertainty, and distinguish "
+            "kinetic barrier changes from reaction thermodynamics."
         ),
         requirements=[
-            "Write alternative mechanistic hypotheses and a comparable P0/P1/P2 protocol before pathway searches.",
-            "Treat every supplied XYZ as an unoptimized reactant seed, never as a stationary point.",
-            "A precise barrier requires a validated first-order saddle and connection evidence; otherwise report only a reproducible bracket or bound.",
-            "Keep solvation, temperature, standard state, electronic treatment, and reference definitions comparable across protonation states.",
-            "Preserve failed searches and explain whether missing evidence weakens or prevents a protonation-trend conclusion.",
+            "Choose and record an independent archive-validation, output-matching, thermochemistry, and profile-alignment plan before numerical analysis.",
+            "Validate molecular identity, charge, multiplicity, convergence, and stationary-point character before using any output.",
+            "Use one internally consistent 353.15 K, 1 M ethanol convention and one disclosed reference definition across P0, P1, and P2.",
+            "Separate newly generated analysis results from filenames, supplied raw outputs, and evaluator-only paper targets.",
+            "Preserve parsing, matching, and validation failures and quantify their consequence for the final trend.",
         ],
         deliverables=deliverables,
-        data_description="Nine unoptimized P0/P1/P2 reactant embeddings, molecular identities, atom mapping, and physical conditions; no intermediates, TS candidates, pathway labels, software route, or barriers.",
+        data_description="The same P0/P1/P2 author-output archives, candidate coordinates, identities, and physical conditions as the guided track; no paper protocol, route definition, or target values.",
+        archive_extractions=reproduction_info["archive_extractions"],
     )
     hidden = repro_truth(repro_id)["expected_result"]
     truth = ground_truth(
         task_id=task_id,
         paired_reproduction_task_id=repro_id,
         expected_tool_calls=[
-            {"class": "reactant_or_intermediate_screening", "required": True},
-            {"class": "reaction_path_or_transition_state_search", "required": True},
-            {"class": "frequency_and_connectivity_validation", "required": True},
-            {"class": "comparable_free_energy_analysis", "required": True},
+            {"class": "archive_and_output_validation", "required": True},
+            {"class": "frequency_and_stationary_point_validation", "required": True},
+            {"class": "high_level_single_point_matching", "required": True},
+            {"class": "comparable_thermochemical_profile_analysis", "required": True},
         ],
         hidden_reference=hidden,
         scientific_acceptance_contract={
             "required_findings": [
-                "The comparable P0, P1, and P2 kinetic evidence shows that successive N-protonation lowers the BiPy coupling barrier in the order P0 > P1 > P2.",
-                "The magnitude is qualitatively consistent with a large first reduction and a smaller second reduction, without requiring exact paper barriers.",
+                "Independent reanalysis of the supplied raw outputs establishes the P0 > P1 > P2 coupling-barrier order.",
+                "The first protonation gives a large reduction and the second gives an additional smaller reduction under one consistent convention.",
+                "Reaction thermodynamics are reported separately from the kinetic trend.",
             ],
             "not_required": [
                 "Exact reproduction of 30, 20, and 14 kcal/mol when an independently valid route recovers the same robust trend.",
             ],
-            "decision_rule": "All three states require comparable validated transition-state evidence or controlled bounds strong enough to determine the ordering.",
+            "decision_rule": "All three states require validated, matched raw-output evidence and one comparable analysis convention strong enough to determine the ordering.",
         },
         deliverables=deliverables,
         critical_failures=[
-            "A supplied seed is described as an optimized minimum or transition state without a new calculation.",
-            "A precise barrier is reported without first-order saddle and connection evidence.",
+            "No managed author-output validation or thermochemical analysis was executed.",
+            "A precise barrier is reported without frequency, geometry, and matched single-point validation.",
             "P0/P1/P2 comparisons mix incompatible references, conditions, or energy conventions.",
-            "Hidden stationary points or literature barriers are presented as newly generated.",
+            "Evaluator-only paper values are presented as newly generated analysis results.",
         ],
         gates=[
             {"id": "state_comparability", "description": "All three protonation states use comparable conditions and references.", "score_cap_if_failed": 60},
@@ -774,89 +793,60 @@ hypotheses, validation tests, and stopping rules independently.
             {"id": "barrier_trend_resolution", "description": "Validated comparable evidence is strong enough to determine the P0 > P1 > P2 barrier ordering rather than merely proposing it.", "score_cap_if_failed": 50},
         ],
         feasibility={
-            "status": "pre_release_blocked",
-            "classification": "partially_solvable",
-            "paired_reproduction_reference_run_complete": False,
-            "known_limitations": [
-                "The toolbox can attempt searches, but no curated closed reactant-TS-product mapping exists for all three states.",
-                "This task must not enter formal model ranking until a feasible oracle route or defensible bound-based rubric is validated.",
-            ],
+            "status": "validated_for_evaluation",
+            "classification": "solvable",
+            "paired_reproduction_reference_run_complete": True,
+            "known_limitations": [],
         },
     )
-    finalize_task(task_id=task_id, paired_reproduction_task_id=repro_id, info=info, truth=truth, metadata={"states": ["P0", "P1", "P2"], "starting_structure_count": len(records["starting_structures"]), "visible_experimental_measurement_count": 0})
+    truth["reference_evidence"]["source_boundary"] = "Both tracks receive the same author raw outputs; only the guided track receives the paper-reconstructed method and route."
+    finalize_task(
+        task_id=task_id,
+        paired_reproduction_task_id=repro_id,
+        info=info,
+        truth=truth,
+        metadata={"states": ["P0", "P1", "P2"], "author_archive_count": 3, "candidate_count": 66, "visible_experimental_measurement_count": 0},
+        author_stationary_points_in_visible_inputs="contained_in_author_archives",
+        completed_quantum_outputs="official_author_archives",
+    )
 
 
 def build_bao(force: bool) -> None:
     task_id, repro_id = TASK_IDS[3], REPRO_IDS[3]
     root = prepare_task_root(task_id, force)
     data = root / "data" / "benchmark_data"
-    source_root = (
-        TASKS_ROOT
-        / "ResearchChemBench_Paper_Datasets"
-        / "02_Guided_Paper_Reproduction_Benchmark"
-        / "BaO_High_Pressure_Reproduction"
-        / "01_agent_tasks_and_data"
-        / "task_inputs"
-        / "phase_structures"
-    )
-    phase_files = {
-        "phase_A": "BaO_B1_Fm-3m.vasp",
-        "phase_B": "BaO_B8_P63mmc.vasp",
-        "phase_C": "BaO_dB2_P4nmm.vasp",
-    }
-    phase_records = []
-    for public_id, filename in phase_files.items():
-        destination = data / "candidate_phases" / f"{public_id}.vasp"
-        copy_poscar_with_title(source_root / filename, destination, f"BaO opaque candidate {public_id}")
-        phase_records.append({"phase_id": public_id, "path": destination.relative_to(data).as_posix()})
+    copy_reproduction_data_without_route(repro_id, data)
     write_text(
         data / "README.md",
-        """# Autonomous BaO high-pressure investigation
+        """# Autonomous BaO phase-crossover investigation
 
-Determine the pressure-dependent stability sequence among three supplied BaO
-candidate crystals and investigate which electronic/bonding descriptors, if any,
-provide a defensible explanation. The structures are unlabeled candidates. Choose
-the pressure grid, relaxation strategy, convergence controls, thermodynamic model,
-and optional bonding analysis independently. No paper protocol or result is visible.
+The same B1, B8, and dB2 volume structures are supplied to both tracks. Choose the
+periodic electronic-structure method, relaxation strategy, convergence controls,
+EOS/enthalpy analysis, adaptive refinement, and uncertainty treatment independently.
+No paper computational protocol or prescribed analysis route is disclosed here.
 """,
     )
-    write_json(
-        data / "candidate_phase_manifest.json",
-        {
-            "compound": "BaO",
-            "candidate_phases": phase_records,
-            "investigation_pressure_range_gpa": [0.0, 80.0],
-            "phase_labels_are_opaque": True,
-            "normalization_required": "per BaO formula unit",
-        },
-    )
-    deliverables = common_deliverables(
-        [
-            {"path": "report/periodic_calculations.csv", "description": "Structures, pressures/volumes, convergence, energies, volumes, and stresses."},
-            {"path": "report/phase_stability.json", "description": "Stable sequence, crossover estimates, interpolation uncertainty, and structural checks."},
-            {"path": "report/bonding_hypotheses.json", "description": "Chosen electronic/bonding descriptors, validation, alternatives, and causal limitations."},
-        ]
-    )
+    deliverables = repro_info(repro_id)["required_deliverables"]
     info = task_info(
         task_id=task_id,
-        source_id="bao_2025_autonomous_high_pressure_question",
-        category="autonomous_high_pressure_phase_and_bonding",
+        source_id="bao_2025_autonomous_phase_crossover",
+        category="autonomous_high_pressure_phase_stability",
         benchmark_family="bao_high_pressure",
         task=(
-            "Using the three supplied opaque BaO crystal candidates, independently determine the stable "
-            "phase sequence between 0 and 80 GPa and estimate any crossover pressures. Then investigate "
-            "whether an electronic-structure or bonding analysis can explain the observed structural "
-            "preference, while distinguishing descriptive correlation from causal evidence."
+            "Using the supplied B1, B8, and dB2 BaO phase-volume structures, independently determine the "
+            "stable phase sequence between 0 and 80 GPa and estimate both crossover pressures. Select "
+            "and validate the periodic electronic-structure, relaxation, EOS/enthalpy, refinement, and "
+            "uncertainty workflow without a disclosed paper method."
         ),
         requirements=[
-            "Choose and justify a pressure/volume sampling and refinement strategy with adaptive crossover refinement.",
+            "Choose and justify the periodic method, volume sampling, relaxation, and adaptive crossover strategy.",
             "Use compatible periodic settings and normalize energies/enthalpies per BaO formula unit.",
             "Validate structural identity after relaxation and do not silently compare collapsed phases.",
             "Quantify convergence and interpolation uncertainty for every crossover claim.",
-            "Any orbital/bonding interpretation must be quality-gated and may not by itself prove energetic causation.",
+            "Use fixed-volume internal-coordinate relaxation where required by residual-force checks.",
         ],
         deliverables=deliverables,
-        data_description="Three opaque BaO candidate crystal seeds and a 0-80 GPa investigation range; no volume grid, protocol, phase sequence, bonding basis, or transition pressure.",
+        data_description="The same B1, B8, and dB2 phase-volume structures and pressure range as the guided track; no paper method, EOS route, or transition pressure.",
     )
     hidden = repro_truth(repro_id)["expected_result"]
     truth = ground_truth(
@@ -865,18 +855,16 @@ and optional bonding analysis independently. No paper protocol or result is visi
         expected_tool_calls=[
             {"class": "periodic_relaxation_or_equation_of_state", "required": True},
             {"class": "enthalpy_and_crossover_analysis", "required": True},
-            {"class": "optional_periodic_bonding_analysis", "required": False},
         ],
         hidden_reference=hidden,
         scientific_acceptance_contract={
             "required_findings": [
                 "The newly calculated enthalpy curves recover the B1 -> B8 -> dB2 stability sequence over 0-80 GPa with crossovers in the neighborhoods of the paper transitions.",
-                "A quality-gated orbital/bonding comparison supports selective Ba 5d-O covalent stabilization of the denser B8 and dB2 phases, while separating correlation from the phase enthalpy evidence.",
             ],
             "not_required": [
                 "Exact 8 and 25 GPa crossing values when convergence and interpolation uncertainty overlap the reference neighborhoods.",
             ],
-            "decision_rule": "Full conclusion credit requires both the phase sequence and the 5d-bonding finding; phase stability alone is partial completion.",
+            "decision_rule": "Full conclusion credit requires the complete three-phase sequence and both refined transition-pressure intervals.",
         },
         deliverables=deliverables,
         critical_failures=[
@@ -884,26 +872,23 @@ and optional bonding analysis independently. No paper protocol or result is visi
             "Energies or enthalpies were compared without formula-unit normalization.",
             "A relaxed structure changed phase identity but was retained without disclosure.",
             "Literature transition pressures or bonding values were presented as new results.",
+            "B8 or dB2 was used in the final EOS without required fixed-volume internal-coordinate relaxation.",
         ],
         gates=[
             {"id": "periodic_evidence", "description": "New converged periodic calculations support the stability analysis.", "score_cap_if_failed": 35},
             {"id": "thermodynamic_consistency", "description": "Pressure/volume, PV units, references, and normalization are consistent.", "score_cap_if_failed": 55},
             {"id": "phase_identity", "description": "Relaxed candidates remain distinguishable or transformations are explicitly analyzed.", "score_cap_if_failed": 65},
             {"id": "phase_sequence_resolution", "description": "Sampling and interpolation resolve both stability crossovers with quantified convergence uncertainty.", "score_cap_if_failed": 55},
-            {"id": "five_d_bonding_evidence", "description": "A fresh, quality-gated projection ablation or equivalent orbital-resolved analysis tests the selective Ba 5d-O stabilization claim.", "score_cap_if_failed": 65},
         ],
         feasibility={
-            "status": "pre_release_native_oracle_required",
-            "classification": "conditionally_solvable_with_native_execution",
-            "paired_reproduction_reference_run_complete": False,
-            "known_limitations": [
-                "The phase-stability part can be piloted after locking pseudopotentials and convergence settings.",
-                "Fresh LOBSTER generation is available through the direct native-software layer, while public LOBSTER Actions currently parse and quality-gate existing outputs.",
-                "A fresh end-to-end Gold Run is still required before both the phase and bonding claims enter formal ranking.",
-            ],
+            "status": "validated_for_evaluation",
+            "classification": "solvable",
+            "paired_reproduction_reference_run_complete": True,
+            "known_limitations": [],
         },
     )
-    finalize_task(task_id=task_id, paired_reproduction_task_id=repro_id, info=info, truth=truth, metadata={"compound": "BaO", "candidate_phase_count": 3, "starting_structure_count": 3})
+    truth["reference_evidence"]["source_boundary"] = "Both tracks receive the same phase-volume structures; only the guided track receives the paper-reconstructed periodic method and EOS route."
+    finalize_task(task_id=task_id, paired_reproduction_task_id=repro_id, info=info, truth=truth, metadata={"compound": "BaO", "phases": ["B1", "B8", "dB2"], "volume_structure_count": 15})
 
 
 def build_pv_selectivity(force: bool) -> None:

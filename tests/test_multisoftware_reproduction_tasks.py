@@ -23,7 +23,6 @@ def test_multisoftware_reproduction_tasks_are_complete_and_hashed():
         "PV_CC_CO_Pathway_Selectivity_Reproduction",
     }
     visible_paper_values = {
-        "BaO_Phase_Crossover_And_5d_Bonding_Reproduction": 4,
         "PV_CC_CO_Pathway_Selectivity_Reproduction": 2,
         "NHC_Adsorption_Decomposition_Bonding_Reproduction": 16,
     }
@@ -132,13 +131,13 @@ def test_reproduction_tasks_have_three_task_specific_paper_claims():
         },
         "PV_Protonation_Barrier_Trend_Reproduction": {
             "successive_protonation_barrier_order",
-            "paper_scale_barriers_and_reductions",
-            "author_output_provenance",
+            "stepwise_barrier_reduction_scale",
+            "exergonic_profiles_distinct_from_kinetic_trend",
         },
         "BaO_Phase_Crossover_And_5d_Bonding_Reproduction": {
             "bao_phase_sequence",
-            "bao_transition_pressure_reproduction",
-            "bao_5d_projection_evidence_audit",
+            "bao_first_transition_pressure",
+            "bao_second_transition_pressure",
         },
         "PV_CC_CO_Pathway_Selectivity_Reproduction": {
             "validated_cc_reanalysis",
@@ -200,6 +199,11 @@ def test_task_specific_input_contracts():
     )
     assert bao["phases"] == ["B1", "B8", "dB2"]
     assert len(bao["structures"]) == 15
+    assert not (
+        TASKS_DIR
+        / TASK_IDS[3]
+        / "data/benchmark_data/paper_projection_evidence.json"
+    ).exists()
 
     pv_selectivity = json.loads(
         (
@@ -239,7 +243,6 @@ def test_task_specific_input_contracts():
 
 def test_multisoftware_protocols_name_multiple_backends():
     result_values_included = {
-        "BaO_Phase_Crossover_And_5d_Bonding_Reproduction",
         "PV_CC_CO_Pathway_Selectivity_Reproduction",
         "NHC_Adsorption_Decomposition_Bonding_Reproduction",
     }

@@ -18,6 +18,14 @@ counterion. P1/P2 are therefore bare +1/+2 molecular ions in the supplied model.
 
 A pre-addition phosphonium/ethanol model, the OMe/Me/H/Cl precursor series, counterions, and raw kinetic traces are not available and are not silently invented.
 
+## Shared completed-output inputs
+
+This autonomous task receives the same completed author output archives as its guided counterpart. Select the validation, matching, thermochemistry, profile construction, and uncertainty route independently; no paper protocol or mapped reaction route is supplied.
+
+## Shared completed-output inputs
+
+This autonomous task receives the same completed author output archives as its guided counterpart. Select the validation, matching, thermochemistry, profile construction, and uncertainty route independently; no paper protocol or mapped reaction route is supplied.
+
 ## Guided-reproduction additions
 
 This task includes the author-deposited Gaussian frequency and ORCA DLPNO raw-output archives from Zenodo record 1439888. Independently parse, validate, and reanalyze those outputs; do not describe the publication's tabulated values as newly calculated.

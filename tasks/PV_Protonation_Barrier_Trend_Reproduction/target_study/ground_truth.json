@@ -25,7 +25,12 @@
       "P1": 19.8135,
       "P2": 14.3004
     },
-    "paper_conclusion": "Successive N-protonation lowers the BiPy coupling barrier by about 10 and then 6 kcal/mol."
+    "validated_reanalysis_reaction_free_energies": {
+      "P0": -32.38,
+      "P1": -30.53,
+      "P2": -31.35
+    },
+    "paper_conclusion": "Successive N-protonation lowers the BiPy coupling barrier by about 10 and then 6 kcal/mol while all three profiles remain similarly exergonic."
   },
   "expected_structured_output": [
     "report/research_plan.json",
@@ -79,7 +84,7 @@
   "scientific_conclusion_rubric": [
     {
       "id": "successive_protonation_barrier_order",
-      "max_score": 45,
+      "max_score": 40,
       "statement": "The recomputed ligand-coupling activation free energies reproduce the P0 > P1 > P2 barrier order.",
       "acceptance_rule": "Require independent validation and GoodVibes reanalysis of the supplied author Gaussian frequency and ORCA DLPNO outputs under one 353.15 K, 1 M ethanol convention.",
       "required_evidence": [
@@ -89,9 +94,9 @@
       ]
     },
     {
-      "id": "paper_scale_barriers_and_reductions",
-      "max_score": 45,
-      "statement": "The recomputed barriers are compatible with the paper-scale 30, 20, and 14 kcal/mol values and the approximately 10 then 6 kcal/mol successive reductions.",
+      "id": "stepwise_barrier_reduction_scale",
+      "max_score": 35,
+      "statement": "The recomputed barriers are compatible with the paper-scale 30, 20, and 14 kcal/mol values and show a large first reduction followed by a smaller second reduction.",
       "acceptance_rule": "Full credit requires uncertainty-compatible agreement with all three paper barriers and both reductions; controlled protocol deviations or incomplete candidate coverage receive partial credit only when the direction remains supported.",
       "required_evidence": [
         "three newly computed barrier values",
@@ -100,14 +105,14 @@
       ]
     },
     {
-      "id": "author_output_provenance",
-      "max_score": 10,
-      "statement": "The analysis keeps author raw outputs, newly generated GoodVibes results, and publication comparison values distinct.",
-      "acceptance_rule": "Require archive hashes, Gaussian-to-ORCA file matching, and explicit labeling of every recomputed and publication-only quantity.",
+      "id": "exergonic_profiles_distinct_from_kinetic_trend",
+      "max_score": 25,
+      "statement": "All three coupling profiles remain strongly exergonic on a similar scale, so protonation primarily changes the kinetic barrier rather than reaction thermodynamics.",
+      "acceptance_rule": "Require consistently referenced reaction free energies for P0, P1, and P2 from the supplied outputs; barrier ordering alone cannot receive this credit.",
       "required_evidence": [
-        "archive provenance",
-        "file matching",
-        "reanalysis-versus-publication distinction"
+        "reactant and product free energies for all states",
+        "common thermochemical treatment",
+        "kinetic-versus-thermodynamic interpretation"
       ]
     }
   ],
@@ -131,7 +136,7 @@
     "paper_doi": "10.1126/science.aas8961",
     "task_id": "PV_Protonation_Barrier_Trend_Reproduction",
     "task_mode": "guided_reproduction",
-    "input_manifest_sha256": "9bbd437514b9b3b2a65fae657f2d528016a3ab5db6f6c45b36e5c10c930f397d",
+    "input_manifest_sha256": "d64f9324b8498bbc754798bac6383e2ec30ae3bded54de7baef0e64e541a3769",
     "paper_reference": {
       "energy_unit": "kcal/mol",
       "paper_barriers": {
@@ -144,7 +149,12 @@
         "P1": 19.8135,
         "P2": 14.3004
       },
-      "paper_conclusion": "Successive N-protonation lowers the BiPy coupling barrier by about 10 and then 6 kcal/mol."
+      "validated_reanalysis_reaction_free_energies": {
+        "P0": -32.38,
+        "P1": -30.53,
+        "P2": -31.35
+      },
+      "paper_conclusion": "Successive N-protonation lowers the BiPy coupling barrier by about 10 and then 6 kcal/mol while all three profiles remain similarly exergonic."
     },
     "source_boundary": "Author raw outputs are visible for independent reanalysis; publication targets remain evaluator-side comparison values."
   },
@@ -166,7 +176,8 @@
     "verified_components": [
       "author output archive recovery",
       "stationary-point geometry and frequency audit",
-      "GoodVibes barriers 30.9134, 19.8135, and 14.3004 kcal/mol"
+      "GoodVibes barriers 30.9134, 19.8135, and 14.3004 kcal/mol",
+      "full-profile reaction free energies near -32.38, -30.53, and -31.35 kcal/mol"
     ],
     "validated_artifact_root": "workspaces/paper_reproduction_recovery_20260727/pv",
     "unresolved_requirements": []

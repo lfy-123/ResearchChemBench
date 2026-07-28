@@ -10,31 +10,95 @@
   "files": [
     {
       "path": "README.md",
-      "size_bytes": 454,
-      "sha256": "937771c6d146375dac1fa4c4dd3f0ae1367d8b272b359d96ecb7e154e409239d"
+      "size_bytes": 377,
+      "sha256": "3e6ce0e152bf2ef80bb73e0fc62f4b13c3b3ffb610cd063b6a2ab3df78cfa2f5"
     },
     {
-      "path": "candidate_phase_manifest.json",
-      "size_bytes": 466,
-      "sha256": "71253877441d34c88ff83d6adbe43f6e8bf9209f15a6ffc1b51a068421189ad5"
+      "path": "phase_volume_grid.json",
+      "size_bytes": 1979,
+      "sha256": "17a33011b745bdfb609ab73d0df95f71a8fb0fd07c1ff6a13bce85b077c7cd60"
     },
     {
-      "path": "candidate_phases/phase_A.vasp",
-      "size_bytes": 303,
-      "sha256": "ee26fe5e578a262cb052710a902c46ebfddf913d233dfebe0c38f8e938189d70"
+      "path": "volume_structures/B1/BaO_B1_V0.82.vasp",
+      "size_bytes": 344,
+      "sha256": "94741eee6450eb858009071aea1ed98077940e0cb9a88ac1397e942279300e49"
     },
     {
-      "path": "candidate_phases/phase_B.vasp",
-      "size_bytes": 406,
-      "sha256": "125e5213bdbf30eb80f87b5ef45e442982e3ae00e70722d4b1c42f27b250bce1"
+      "path": "volume_structures/B1/BaO_B1_V0.88.vasp",
+      "size_bytes": 344,
+      "sha256": "20e01af387e8e65ca40a3d99c54d796869d20acf02ff41cce721c0d5e1754cdb"
     },
     {
-      "path": "candidate_phases/phase_C.vasp",
-      "size_bytes": 406,
-      "sha256": "74d1b50ba79a6e6ca3a0ecc1096ac1d23b551e6ffc96324bb50d957c2082ba97"
+      "path": "volume_structures/B1/BaO_B1_V0.94.vasp",
+      "size_bytes": 344,
+      "sha256": "30e9d5d66df742bf1a5855a2c7226398251ee744ca147eaea648e605010a740e"
+    },
+    {
+      "path": "volume_structures/B1/BaO_B1_V1.00.vasp",
+      "size_bytes": 344,
+      "sha256": "1d40da55aadbce1386e995da7ac4e1b32b87e8e08b6159c7eb11a53026eaee04"
+    },
+    {
+      "path": "volume_structures/B1/BaO_B1_V1.06.vasp",
+      "size_bytes": 344,
+      "sha256": "1c63162b6cdfb09a2c7195669ebdd14a683cfd957c20279c47af73056a39722c"
+    },
+    {
+      "path": "volume_structures/B8/BaO_B8_V0.82.vasp",
+      "size_bytes": 398,
+      "sha256": "cd0141b4e740eb270517a5f3af6df31fe7351e1a44edd105eb3d7250b4e12c84"
+    },
+    {
+      "path": "volume_structures/B8/BaO_B8_V0.88.vasp",
+      "size_bytes": 398,
+      "sha256": "01f3b5a8de2b560d911686d4e8586a5d6e767742487daf5ca99d17030779d424"
+    },
+    {
+      "path": "volume_structures/B8/BaO_B8_V0.94.vasp",
+      "size_bytes": 398,
+      "sha256": "fbef7347f2706060c0ba84f0f4a7d6f51bd6719f5a774e3edc61123d05d076e1"
+    },
+    {
+      "path": "volume_structures/B8/BaO_B8_V1.00.vasp",
+      "size_bytes": 398,
+      "sha256": "4a728bf141dec30fabf4161c3fdb515d33edd4f1162a60fe47d2f78b997cfcf1"
+    },
+    {
+      "path": "volume_structures/B8/BaO_B8_V1.06.vasp",
+      "size_bytes": 398,
+      "sha256": "784f62236eeb1eab938b5080a69c57fd2b5b08b568a6205999f4c386ddd0f3c3"
+    },
+    {
+      "path": "volume_structures/dB2/BaO_dB2_V0.82.vasp",
+      "size_bytes": 397,
+      "sha256": "b2b148423f89a2ec43183a122737e1757e8e6a5b465363d0d39664d523d36966"
+    },
+    {
+      "path": "volume_structures/dB2/BaO_dB2_V0.88.vasp",
+      "size_bytes": 397,
+      "sha256": "f43d4d9cd733676cc7e4a49c130d59422ddf35762d22d6026ce81572d571de46"
+    },
+    {
+      "path": "volume_structures/dB2/BaO_dB2_V0.94.vasp",
+      "size_bytes": 397,
+      "sha256": "662a80292f7d8a5ff98699c5d9f91d3c36ad304c1edad7cc664e114cadfa1233"
+    },
+    {
+      "path": "volume_structures/dB2/BaO_dB2_V1.00.vasp",
+      "size_bytes": 397,
+      "sha256": "12bfa7b7c710913b95637eeaecb941010f18d13a382ade8312e28e7dd107bdd1"
+    },
+    {
+      "path": "volume_structures/dB2/BaO_dB2_V1.06.vasp",
+      "size_bytes": 397,
+      "sha256": "3a150b62746cc4c15b90beebf97906b40930371abe688de6d2d6c5385e7b3483"
     }
   ],
   "compound": "BaO",
-  "candidate_phase_count": 3,
-  "starting_structure_count": 3
+  "phases": [
+    "B1",
+    "B8",
+    "dB2"
+  ],
+  "volume_structure_count": 15
 }

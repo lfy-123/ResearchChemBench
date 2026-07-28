@@ -2,15 +2,16 @@
   "task_id": "Heterobiaryl_PV_02_CC_Selectivity",
   "source_id": "hidden_pv_heterobiaryl_mechanism_2018_autonomous_reproduction",
   "category": "mechanistic_quantum_chemistry",
-  "task": "Starting from the supplied unoptimized P(V) seeds, independently determine whether pyridyl-pyridyl coupling is preferred over phenyl-pyridyl coupling for kinetic or thermodynamic reasons in each protonation state. The three seeds in each protonation class are alternative starting guesses, not completed results; screen them and refine only representatives justified by your own intermediate calculations. Construct and test competing pathways, validate any claimed stationary points, and compare activation and reaction free energies under one 353.15 K, 1 M convention. Use a staged calculation strategy appropriate to the available resources. The central evidence must come from new managed chemical calculations and their artifacts, not from descriptive analysis of the input files. Do not substitute remembered or published values for calculations performed during this run. Do not identify or search for the source publication or any external answer.",
+  "task": "Using the supplied P0, P1, and P2 completed quantum-chemistry output archives, independently determine whether pyridyl-pyridyl coupling is preferred over phenyl-pyridyl coupling for kinetic or thermodynamic reasons. Infer and validate the file groupings, stationary-point identities, reference states, thermochemical analysis, and uncertainty treatment without a disclosed paper route.",
   "scientific_mode": "focused_open_discovery",
-  "scientific_mode_description": "The scientific question and validity standard are fixed, but no software, calculation sequence, provider, or stopping path is prescribed. Plan, branch, and revise autonomously.",
+  "scientific_mode_description": "The scientific question and completed raw outputs are fixed, but no paper analysis method, file grouping, reference construction, or interpretation route is disclosed.",
   "scientific_requirements": [
-    "Write an initial resource-tiered plan before numerical work and record how intermediate results change seed and pathway choices.",
-    "Audit the supplied alternatives and construct both pyridyl-pyridyl and phenyl-pyridyl pathway hypotheses for every protonation state covered by the final conclusion.",
-    "A kinetic-selectivity conclusion requires comparable activation evidence; a thermodynamic-selectivity conclusion requires comparable product/reaction free energies. Do not infer one from the other.",
-    "Validate each minimum and claimed transition state, or label that branch unresolved and report a defensible computed bound with its assumptions.",
-    "Use one internally consistent main profile at 353.15 K, 1 M, and ethanol conditions, with explicit energy references and units."
+    "Predeclare an independent archive audit, file-matching, stationary-point validation, thermochemistry, and profile-alignment plan.",
+    "Validate identity, charge, multiplicity, convergence, frequencies, and the forming-bond geometry before using any output.",
+    "Compare Py-Py and Ph-Py activation and reaction free energies for P0, P1, and P2 under one 353.15 K, 1 M ethanol convention.",
+    "Use a shared initial-state reference within each protonation state and keep kinetic and thermodynamic selectivity separate.",
+    "Treat supplied outputs as source data and every numerical conclusion as a newly generated analysis result with provenance.",
+    "When server resources allow, parallelize independent validation and analysis stages without oversubscribing the host."
   ],
   "required_deliverables": [
     {
@@ -36,10 +37,29 @@
       "name": "Direct Heterobiaryl P(V) task inputs",
       "path": "data/benchmark_data",
       "type": "directory",
-      "description": "9 independent unoptimized ETKDG seed XYZ files; mapped molecular identity and conditions. No archive, symlink, completed calculation, stationary point, pathway result, or reference answer is included."
+      "description": "Initial structures, molecular identities, physical conditions, applicable experimental measurements, and the same completed author-output archives as the guided track; no paper protocol, mapped route, or reference answer."
     }
   ],
-  "archive_extractions": [],
+  "archive_extractions": [
+    {
+      "source": "benchmark_data/author_outputs/Int-I_unprotonated.zip",
+      "format": "zip",
+      "destination": "benchmark_data/extracted_author_outputs/P0",
+      "sha256": "b0fead3eb766cd93abce61dc616abc86c0ce21e04aabeb7cd48c66de6f0eb956"
+    },
+    {
+      "source": "benchmark_data/author_outputs/Int-I_H_plus.zip",
+      "format": "zip",
+      "destination": "benchmark_data/extracted_author_outputs/P1",
+      "sha256": "a4eb10d5864b8835c9a8ea3462d79429add0873ca0dccea2d6a236c04a696ce6"
+    },
+    {
+      "source": "benchmark_data/author_outputs/Int-I_2H_2plus.zip",
+      "format": "zip",
+      "destination": "benchmark_data/extracted_author_outputs/P2",
+      "sha256": "ab75a34d728aa095ea0e02b595be2d17fe780080a7920ac086f285bf51a765bd"
+    }
+  ],
   "benchmark_family": "heterobiaryl_pv",
   "task_mode": "open_discovery",
   "method_disclosure": "none",

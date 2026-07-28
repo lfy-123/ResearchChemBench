@@ -81,24 +81,24 @@ SCIENTIFIC_CONCLUSION_RUBRICS: dict[str, list[dict[str, Any]]] = {
     "PV_Protonation_Barrier_Trend_Reproduction": [
         {
             "id": "successive_protonation_barrier_order",
-            "max_score": 45,
+            "max_score": 40,
             "statement": "The recomputed ligand-coupling activation free energies reproduce the P0 > P1 > P2 barrier order.",
             "acceptance_rule": "Require independent validation and GoodVibes reanalysis of the supplied author Gaussian frequency and ORCA DLPNO outputs under one 353.15 K, 1 M ethanol convention.",
             "required_evidence": ["validated P0/P1/P2 author outputs", "matched high-level energies", "aligned activation free energies"],
         },
         {
-            "id": "paper_scale_barriers_and_reductions",
-            "max_score": 45,
-            "statement": "The recomputed barriers are compatible with the paper-scale 30, 20, and 14 kcal/mol values and the approximately 10 then 6 kcal/mol successive reductions.",
+            "id": "stepwise_barrier_reduction_scale",
+            "max_score": 35,
+            "statement": "The recomputed barriers are compatible with the paper-scale 30, 20, and 14 kcal/mol values and show a large first reduction followed by a smaller second reduction.",
             "acceptance_rule": "Full credit requires uncertainty-compatible agreement with all three paper barriers and both reductions; controlled protocol deviations or incomplete candidate coverage receive partial credit only when the direction remains supported.",
             "required_evidence": ["three newly computed barrier values", "paper-versus-recomputation deviations", "candidate and low-frequency sensitivity"],
         },
         {
-            "id": "author_output_provenance",
-            "max_score": 10,
-            "statement": "The analysis keeps author raw outputs, newly generated GoodVibes results, and publication comparison values distinct.",
-            "acceptance_rule": "Require archive hashes, Gaussian-to-ORCA file matching, and explicit labeling of every recomputed and publication-only quantity.",
-            "required_evidence": ["archive provenance", "file matching", "reanalysis-versus-publication distinction"],
+            "id": "exergonic_profiles_distinct_from_kinetic_trend",
+            "max_score": 25,
+            "statement": "All three coupling profiles remain strongly exergonic on a similar scale, so protonation primarily changes the kinetic barrier rather than reaction thermodynamics.",
+            "acceptance_rule": "Require consistently referenced reaction free energies for P0, P1, and P2 from the supplied outputs; barrier ordering alone cannot receive this credit.",
+            "required_evidence": ["reactant and product free energies for all states", "common thermochemical treatment", "kinetic-versus-thermodynamic interpretation"],
         },
     ],
     "BaO_Phase_Crossover_And_5d_Bonding_Reproduction": [
@@ -110,18 +110,18 @@ SCIENTIFIC_CONCLUSION_RUBRICS: dict[str, list[dict[str, Any]]] = {
             "required_evidence": ["new VASP E(V) data", "per-formula-unit normalization", "phase enthalpy comparison"],
         },
         {
-            "id": "bao_transition_pressure_reproduction",
-            "max_score": 35,
-            "statement": "Adaptive EOS/enthalpy analysis reproduces the paper-scale crossovers near 8 and 25 GPa within the benchmark intervals 6-12 and 20-30 GPa.",
-            "acceptance_rule": "Full credit requires refined crossings inside both benchmark intervals with numerical/model uncertainty; unrefined grid endpoints or copied values receive no credit.",
-            "required_evidence": ["physical EOS or controlled alternative", "adaptive crossing points", "fit and convergence uncertainty"],
+            "id": "bao_first_transition_pressure",
+            "max_score": 30,
+            "statement": "Adaptive EOS/enthalpy analysis reproduces the B1 to B8 crossover within 6-12 GPa.",
+            "acceptance_rule": "Require a refined crossing inside the interval with fit, convergence, and interpolation uncertainty; a copied value or unrefined grid endpoint receives no credit.",
+            "required_evidence": ["physical EOS or controlled alternative", "refined B1-B8 crossing", "fit and convergence uncertainty"],
         },
         {
-            "id": "bao_5d_projection_evidence_audit",
-            "max_score": 25,
-            "statement": "The analysis correctly reproduces the paper's conclusion that La-5d-on-Ba custom projection functions improve spilling and reveal the Ba 5d-O bonding contribution.",
-            "acceptance_rule": "Require a traceable audit of the supplied publication evidence, explicit recognition that standard LOBSTER lacks group-II nd functions, and rejection of a nominal Ba 5d request when the realized basis does not contain 5d. A fresh custom-basis LOBSTER run is optional because the author basis file is not public.",
-            "required_evidence": ["custom-basis provenance", "paper spilling and ICOHP evidence", "realized-basis validation rule"],
+            "id": "bao_second_transition_pressure",
+            "max_score": 30,
+            "statement": "Adaptive EOS/enthalpy analysis reproduces the B8 to dB2 crossover within 20-30 GPa.",
+            "acceptance_rule": "Require a refined crossing inside the interval with fixed-volume internal-coordinate relaxation and numerical uncertainty; a copied value or unrelaxed dB2 grid receives no credit.",
+            "required_evidence": ["relaxed B8/dB2 E(V) data", "refined B8-dB2 crossing", "fit and convergence uncertainty"],
         },
     ],
     "PV_CC_CO_Pathway_Selectivity_Reproduction": [
@@ -699,11 +699,11 @@ Paper: 10.1126/science.aas8961.
     protocol.update({"mode": "author_raw_output_reanalysis", "author_quantum_outputs_included": True, "author_output_archives": archive_records})
     protocol["thermochemistry"]["media_solvent"] = "ethanol"
     write_json(data / "computational_protocol.json", protocol)
-    write_json(data / "workflow_requirements.json", {"required_stages": ["archive_hash_validation", "Gaussian_ORCA_file_matching", "stationary_point_and_frequency_validation", "GoodVibes_353K_1M_reanalysis", "common_reference_profile_alignment", "protonation_trend_analysis"], "hard_gates": ["Every precise barrier must trace to a supplied frequency output and matched DLPNO output.", "All three states must use one thermochemical convention.", "Publication values must not be presented as the new GoodVibes output."], "author_output_archives": archive_records})
-    info = task_info(task_id=task_id, source_id="heterobiaryl_pv_2019_protonation_barriers", category="reaction_mechanism_and_thermochemistry", benchmark_family="heterobiaryl_pv", task="Independently validate and reanalyze the supplied author Gaussian and ORCA raw outputs for P0, P1, and P2 with GoodVibes, reproducing the successive-protonation barrier trend under one 353.15 K, 1 M ethanol convention.", requirements=["Verify all three archive hashes and output identities.", "Validate barrier-defining frequencies and matched DLPNO corrections.", "Use a common initial-state reference within each protonation state.", "Report newly generated GoodVibes values separately from publication targets."], deliverables=deliverables)
+    write_json(data / "workflow_requirements.json", {"required_stages": ["archive_hash_validation", "Gaussian_ORCA_file_matching", "stationary_point_and_frequency_validation", "GoodVibes_353K_1M_reanalysis", "common_reference_profile_alignment", "full_profile_reaction_thermodynamics", "protonation_trend_analysis"], "hard_gates": ["Every precise barrier and reaction free energy must trace to supplied frequency outputs and matched DLPNO outputs.", "All three states must use one thermochemical convention.", "Publication values must not be presented as the new GoodVibes output."], "author_output_archives": archive_records})
+    info = task_info(task_id=task_id, source_id="heterobiaryl_pv_2019_protonation_barriers", category="reaction_mechanism_and_thermochemistry", benchmark_family="heterobiaryl_pv", task="Independently validate and reanalyze the supplied author Gaussian and ORCA raw outputs for P0, P1, and P2 with GoodVibes. Reproduce the successive-protonation barrier trend under one 353.15 K, 1 M ethanol convention and distinguish the kinetic change from the reaction-free-energy trend.", requirements=["Verify all three archive hashes and output identities.", "Validate barrier- and reaction-energy-defining frequencies and matched DLPNO corrections.", "Use a common initial-state reference within each protonation state.", "Report activation and reaction free energies plus newly generated GoodVibes values separately from publication targets."], deliverables=deliverables)
     info["archive_extractions"] = [{"source": f"benchmark_data/{record['path']}", "format": "zip", "destination": f"benchmark_data/extracted_author_outputs/{record['state']}", "sha256": record["sha256"]} for record in archive_records]
     info["data"][0]["description"] = "Mapped candidates plus author-deposited Gaussian frequency and ORCA DLPNO raw-output archives from Zenodo 1439888."
-    truth = ground_truth(task_id=task_id, paper_doi="10.1126/science.aas8961", expected_tool_calls=[{"class": "structure_and_output_validation", "backend_examples": ["cclib"]}, {"class": "thermochemical_profile", "backend_examples": ["goodvibes"]}], expected_result={"energy_unit": "kcal/mol", "paper_barriers": {"P0": 30, "P1": 20, "P2": 14}, "validated_reanalysis_barriers": {"P0": 30.9134, "P1": 19.8135, "P2": 14.3004}, "paper_conclusion": "Successive N-protonation lowers the BiPy coupling barrier by about 10 and then 6 kcal/mol."}, deliverables=deliverables, critical_failures=["No managed GoodVibes reanalysis was executed.", "Gaussian and ORCA outputs were mismatched.", "Candidate stages or protonation states were mixed in one profile.", "Paper barriers were copied as recomputed values."], gates=[], baseline={"status": "validated_reproduction", "classification": "solvable", "major_paper_conclusion_reproduced_in_this_audit": True, "installed_software": ["cclib", "GoodVibes 4.3.0"], "verified_components": ["author output archive recovery", "stationary-point geometry and frequency audit", "GoodVibes barriers 30.9134, 19.8135, and 14.3004 kcal/mol"], "validated_artifact_root": "workspaces/paper_reproduction_recovery_20260727/pv", "unresolved_requirements": []})
+    truth = ground_truth(task_id=task_id, paper_doi="10.1126/science.aas8961", expected_tool_calls=[{"class": "structure_and_output_validation", "backend_examples": ["cclib"]}, {"class": "thermochemical_profile", "backend_examples": ["goodvibes"]}], expected_result={"energy_unit": "kcal/mol", "paper_barriers": {"P0": 30, "P1": 20, "P2": 14}, "validated_reanalysis_barriers": {"P0": 30.9134, "P1": 19.8135, "P2": 14.3004}, "validated_reanalysis_reaction_free_energies": {"P0": -32.38, "P1": -30.53, "P2": -31.35}, "paper_conclusion": "Successive N-protonation lowers the BiPy coupling barrier by about 10 and then 6 kcal/mol while all three profiles remain similarly exergonic."}, deliverables=deliverables, critical_failures=["No managed GoodVibes reanalysis was executed.", "Gaussian and ORCA outputs were mismatched.", "Candidate stages or protonation states were mixed in one profile.", "Paper barriers were copied as recomputed values."], gates=[], baseline={"status": "validated_reproduction", "classification": "solvable", "major_paper_conclusion_reproduced_in_this_audit": True, "installed_software": ["cclib", "GoodVibes 4.3.0"], "verified_components": ["author output archive recovery", "stationary-point geometry and frequency audit", "GoodVibes barriers 30.9134, 19.8135, and 14.3004 kcal/mol", "full-profile reaction free energies near -32.38, -30.53, and -31.35 kcal/mol"], "validated_artifact_root": "workspaces/paper_reproduction_recovery_20260727/pv", "unresolved_requirements": []})
     truth["reference_evidence"]["source_boundary"] = "Author raw outputs are visible for independent reanalysis; publication targets remain evaluator-side comparison values."
     finalize_task(task_id=task_id, info=info, truth=truth, manifest_metadata={"candidate_count": len(records), "states": ["P0", "P1", "P2"], "software_stage_count": 2, "author_output_archives": archive_records}, completed_quantum_outputs="contained_in_author_archives")
 
@@ -725,70 +725,53 @@ def build_bao(force: bool) -> None:
         {"path": "report/structure_validation.csv", "description": "Space group, normalization, volume, and structural checks."},
         {"path": "report/eos_points.csv", "description": "VASP energies, stresses, convergence, and per-formula-unit normalization."},
         {"path": "report/phase_enthalpy.csv", "description": "Fitted enthalpy curves and adaptive crossover evidence."},
-        {"path": "report/lobster_ablation.json", "description": "Audit of the paper's custom La-5d-on-Ba projection evidence and the realized-basis gate for any optional local LOBSTER run."},
-        {"path": "report/phase_conclusion.json", "description": "Phase sequence, transition estimates, bonding interpretation, and uncertainty."},
+        {"path": "report/phase_conclusion.json", "description": "Phase sequence, transition estimates, and numerical uncertainty."},
     ])
-    write_text(data / "README.md", """# BaO phase-crossover and 5d-bonding reproduction
+    write_text(data / "README.md", """# BaO phase-crossover reproduction
 
 Validate the supplied B1, B8, and dB2 volume grids, compute consistent PBE
 energies and stresses with VASP, fit E(V), derive H(P), and refine the phase
-crossings. Reproduce the 5d bonding interpretation by auditing the supplied
-publication evidence and the custom-basis provenance. A fresh custom-basis
-LOBSTER ablation is optional because the La-5d-on-Ba basis file was not
-published and standard LOBSTER does not contain group-II nd functions.
+crossings. This benchmark is intentionally limited to the phase-stability
+conclusion because the paper's custom La-5d-on-Ba LOBSTER basis was not
+published and cannot support a fully reproducible scored ablation.
 
 Paper: 10.1002/chem.202501536.
 """)
     write_json(data / "phase_volume_grid.json", {"compound": "BaO", "phases": ["B1", "B8", "dB2"], "volume_ratios": ratios, "structures": structures, "normalization": "per BaO formula unit"})
-    write_json(data / "paper_projection_evidence.json", {
-        "paper_doi": "10.1002/chem.202501536",
-        "basis_provenance": {
-            "standard_lobster_limitation": "standard basis libraries do not contain nd functions for group-II metals",
-            "author_custom_mapping": {"Ca_3d": "Sc_3d", "Sr_4d": "Y_4d", "Ba_5d": "La_5d"},
-            "public_resource_boundary": "the article and SI do not publish the complete custom radial-basis file",
-        },
-        "paper_projection_results": {
-            "BaO_without_5d_max_spilling_percent": 5.13,
-            "BaO_with_5d_max_spilling_percent": 3.35,
-            "with_5d_Ba_O_icohp_ev_range": [-3.0, -1.0],
-            "without_5d_Ba_O_icohp_magnitude_ev": 0.5,
-        },
-        "required_realized_basis_gate": "A requested Ba 5d label is insufficient; the LOBSTER output must show a realized Ba 5d local basis before any ablation is accepted.",
-    })
     write_json(data / "computational_protocol.json", {
         "paper_doi": "10.1002/chem.202501536",
-        "software_dag": ["pymatgen/spglib", "VASP", "SciPy/internal EOS fitting", "publication-evidence and LOBSTER-basis audit"],
+        "software_dag": ["pymatgen/spglib", "VASP", "SciPy/internal EOS fitting"],
         "vasp": {"xc": "PBE", "encut_ev": 600, "paw_family": "vasp_paw_pbe_54", "k_points": {"B1": [5, 5, 5], "B8": [7, 7, 4], "dB2": [4, 4, 8]}, "required_outputs": ["energy", "stress", "volume", "convergence"]},
         "eos": {"allowed_models": ["Birch-Murnaghan", "Vinet"], "pressure_range_gpa": [0, 80], "adaptive_refinement_minimum_new_points": 3, "internal_coordinate_relaxation_required_for_B8_and_dB2": True},
-        "lobster_evidence_policy": {"fresh_custom_basis_run_required": False, "reason": "complete La-5d-on-Ba custom basis file is not public", "optional_run_gate": "verify the realized basis contains Ba 5d and use the same parent wavefunction for control and expanded projections"},
-        "result_values_included": True,
+        "scope_exclusion": "Ba 5d projection ablation is excluded because the complete custom basis is not public.",
+        "result_values_included": False,
     })
     write_json(data / "workflow_requirements.json", {
-        "required_stages": ["symmetry_and_formula_validation", "VASP_volume_grid", "fixed_volume_internal_coordinate_relaxation", "convergence_and_stress_check", "EOS_model_comparison", "enthalpy_minimization", "adaptive_crossing_refinement", "custom_basis_provenance_audit", "causal_interpretation"],
-        "hard_gates": ["All energies must be normalized per BaO formula unit.", "B8 and dB2 internal coordinates must be relaxed at fixed volume before final EOS fitting.", "A grid endpoint may not be reported as a transition pressure without refinement or uncertainty.", "A nominal Ba 5d request is invalid unless the realized LOBSTER basis contains Ba 5d.", "Publication projection values must not be described as fresh calculations."],
+        "required_stages": ["symmetry_and_formula_validation", "VASP_volume_grid", "fixed_volume_internal_coordinate_relaxation", "convergence_and_stress_check", "EOS_model_comparison", "enthalpy_minimization", "adaptive_crossing_refinement"],
+        "hard_gates": ["All energies must be normalized per BaO formula unit.", "B8 and dB2 internal coordinates must be relaxed at fixed volume before final EOS fitting.", "A grid endpoint may not be reported as a transition pressure without refinement or uncertainty."],
     })
     info = task_info(
         task_id=task_id,
         source_id="bao_high_pressure_polymorphism_2025",
-        category="high_pressure_phase_stability_and_bonding",
+        category="high_pressure_phase_stability",
         benchmark_family="bao_high_pressure",
-        task="Orchestrate crystal validation, VASP volume-grid calculations, fixed-volume internal relaxation, EOS/enthalpy analysis, adaptive crossover refinement, and a provenance-aware audit of the paper's custom La-5d-on-Ba LOBSTER evidence. Reproduce the BaO B1 to B8 to dB2 sequence and the evidence-supported 5d bonding interpretation without pretending that standard LOBSTER contains the unpublished custom basis.",
-        requirements=["Use all three phases and compute a traceable E(V) dataset with VASP.", "Relax B8 and dB2 internal coordinates at fixed volume before final EOS fitting.", "Fit at least one physical EOS and assess fit sensitivity.", "Audit the supplied custom-basis evidence and enforce a realized-basis check on any optional LOBSTER run."],
+        task="Orchestrate crystal validation, VASP volume-grid calculations, fixed-volume internal relaxation, EOS/enthalpy analysis, and adaptive crossover refinement. Reproduce the BaO B1 to B8 to dB2 stability sequence and both paper-scale transition-pressure neighborhoods.",
+        requirements=["Use all three phases and compute a traceable E(V) dataset with VASP.", "Relax B8 and dB2 internal coordinates at fixed volume before final EOS fitting.", "Fit at least one physical EOS and assess fit sensitivity.", "Refine both crossings and report convergence, fitting, and interpolation uncertainty."],
         deliverables=deliverables,
     )
-    info["data"][0]["description"] = "Visible phase structures and protocol plus publication-reported custom-basis LOBSTER evidence with an explicit provenance boundary. Transition pressures remain evaluator-side targets."
+    info["data"][0]["description"] = "Visible phase-volume structures and paper-reconstructed phase-stability protocol. Transition pressures remain evaluator-side targets."
     truth = ground_truth(
         task_id=task_id,
         paper_doi="10.1002/chem.202501536",
-        expected_tool_calls=[{"class": "crystal_validation", "backend_examples": ["pymatgen", "spglib"]}, {"class": "periodic_electronic_structure", "backend_examples": ["vasp"]}, {"class": "equation_of_state_and_enthalpy", "backend_examples": ["scipy", "internal_statistics"]}, {"class": "projection_basis_evidence_audit", "backend_examples": ["lobster output parser", "internal_statistics"]}],
-        expected_result={"paper_phase_sequence": ["B1", "B8", "dB2"], "paper_transition_pressures_gpa": [8, 25], "benchmark_acceptance_intervals_gpa": [[6, 12], [20, 30]], "validated_reference_crossings_gpa": [6.05, 28.90], "paper_projection_ablation": {"BaO_without_5d_max_spilling_percent": 5.13, "BaO_with_5d_max_spilling_percent": 3.35, "with_d_icohp_ev_range": [-3, -1], "without_d_icohp_magnitude_ev": 0.5}, "paper_conclusion": "Ba 5d-O covalency selectively contributes to stabilization of the denser B8 and dB2 phases.", "resource_boundary": "The complete La-5d-on-Ba custom basis is not public; a fresh projection ablation is optional and cannot be scored as required."},
+        expected_tool_calls=[{"class": "crystal_validation", "backend_examples": ["pymatgen", "spglib"]}, {"class": "periodic_electronic_structure", "backend_examples": ["vasp"]}, {"class": "equation_of_state_and_enthalpy", "backend_examples": ["scipy", "internal_statistics"]}],
+        expected_result={"paper_phase_sequence": ["B1", "B8", "dB2"], "paper_transition_pressures_gpa": [8, 25], "benchmark_acceptance_intervals_gpa": [[6, 12], [20, 30]], "validated_reference_crossings_gpa": [6.0234, 28.9091], "paper_conclusion": "BaO follows the B1 to B8 to dB2 stability sequence over 0-80 GPa.", "scope_boundary": "The unpublished custom Ba 5d projection basis is outside this scored task."},
         deliverables=deliverables,
-        critical_failures=["No real periodic DFT calculation was executed.", "Energies from different formula-unit normalizations were compared.", "Transition pressures were copied from the paper or assigned from grid endpoints.", "A standard LOBSTER projection that did not realize Ba 5d was presented as the paper's custom-basis ablation."],
+        critical_failures=["No real periodic DFT calculation was executed.", "Energies from different formula-unit normalizations were compared.", "Transition pressures were copied from the paper or assigned from grid endpoints.", "B8 or dB2 was used in the final EOS without required fixed-volume internal-coordinate relaxation."],
         gates=[],
-        baseline={"status": "validated_reproduction", "classification": "solvable", "major_paper_conclusion_reproduced_in_this_audit": True, "installed_software": ["pymatgen", "spglib", "VASP 6.3.2", "LOBSTER 5.1.0", "SciPy"], "verified_components": ["15 VASP phase-volume calculations", "10 fixed-volume B8/dB2 internal relaxations", "Birch-Murnaghan EOS and enthalpy crossings at 6.05 and 28.90 GPa", "paired standard-LOBSTER audit showing nominal Ba 5d was not realized"], "validated_artifact_root": "workspaces/manual_reproduction_validation_20260727/bao", "unresolved_requirements": ["A fresh paper-equivalent 5d ablation requires the unpublished La-5d-on-Ba custom basis file."]},
+        baseline={"status": "validated_reproduction", "classification": "solvable", "major_paper_conclusion_reproduced_in_this_audit": True, "installed_software": ["pymatgen", "spglib", "VASP 6.3.2", "SciPy"], "verified_components": ["15 VASP phase-volume calculations", "10 fixed-volume B8/dB2 internal relaxations", "Birch-Murnaghan EOS and enthalpy crossings at 6.023 and 28.909 GPa"], "validated_artifact_root": "workspaces/manual_reproduction_validation_20260727/bao", "unresolved_requirements": []},
     )
-    truth["reference_evidence"]["source_boundary"] = "Phase targets are evaluator-side; custom-basis provenance and projection values are public task evidence and must remain labeled publication data."
-    finalize_task(task_id=task_id, info=info, truth=truth, manifest_metadata={"compound": "BaO", "phases": list(phases), "volume_structure_count": len(structures), "software_stage_count": 4, "publication_evidence_files": ["paper_projection_evidence.json"]}, paper_result_values_in_visible_inputs=4)
+    truth["reference_evidence"]["source_boundary"] = "Phase sequence and transition targets are evaluator-side; the unpublished 5d projection basis is excluded from the task."
+    finalize_task(task_id=task_id, info=info, truth=truth, manifest_metadata={"compound": "BaO", "phases": list(phases), "volume_structure_count": len(structures), "software_stage_count": 3, "publication_evidence_files": []})
 
 
 def build_pv_selectivity(force: bool) -> None:
