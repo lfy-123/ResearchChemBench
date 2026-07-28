@@ -17,8 +17,10 @@
   ],
   "hard_gates": [
     "No connectivity-changing conformer may enter the aligned ranking.",
-    "Every final conformer must have an atom-mapped parent lineage.",
-    "Significant imaginary frequencies must be reported and handled before population analysis."
+    "Every final conformer must have an atom-mapped parent lineage with explicit source conformer id, atom-index mapping, and non-empty parent artifact ids.",
+    "Ranking statistics may only use conformers whose connectivity and explicit atom-index mapping were validated before alignment.",
+    "Significant imaginary frequencies must be reported and handled before population analysis.",
+    "GoodVibes must be executed through the managed GoodVibes Action on completed quantum output files. Python-only thermochemistry or Boltzmann population code is not an acceptable substitute."
   ],
   "budget_rule": "The agent may limit ORCA refinement, but must justify the rule and estimate missed population."
 }

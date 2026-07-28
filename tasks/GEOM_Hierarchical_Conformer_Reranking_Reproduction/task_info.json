@@ -6,9 +6,9 @@
   "scientific_mode": "guided_reproduction",
   "scientific_mode_description": "A scoped part of a published research workflow is supplied. The agent must orchestrate multiple chemistry programs, validate intermediate artifacts, and recover the paper conclusion from newly generated evidence.",
   "scientific_requirements": [
-    "Run at least four distinct software stages from the supplied DAG.",
-    "Preserve atom mapping and conformer lineage across every stage.",
-    "Compare aligned rankings by atom-mapped structural basins; never compare unrelated file-order indices.",
+    "Execute the RDKit, xTB/CREST, ORCA, and GoodVibes stages as managed chemistry-toolbox calls. The GoodVibes stage must use a GoodVibes Action on the completed quantum outputs; a Python-only thermochemistry or Boltzmann calculation does not satisfy this requirement.",
+    "Preserve atom mapping and conformer lineage across every stage. Every extracted or transformed conformer must retain its source conformer id, explicit atom-index mapping, and non-empty parent artifact lineage.",
+    "Before comparing rankings, validate identical connectivity and the explicit atom-index mapping for every aligned basin. Never align structures by unrelated file-order indices or labels created after extraction.",
     "Report how refinement-budget truncation affects the conclusion.",
     "When server resources allow, parallelize independent conformers and use substantial CPU resources without oversubscribing the host."
   ],
@@ -32,7 +32,7 @@
     },
     {
       "path": "report/conformer_lineage.csv",
-      "description": "Atom-mapped lineage from RDKit through quantum refinement."
+      "description": "Atom-mapped lineage from RDKit through quantum refinement, including source conformer ids, explicit atom-index mapping, connectivity validation, and parent artifact ids."
     },
     {
       "path": "report/energy_ranking.csv",
