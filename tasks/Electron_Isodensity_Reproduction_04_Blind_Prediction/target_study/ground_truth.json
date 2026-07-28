@@ -79,37 +79,6 @@
       "description": "Separates paper targets from recomputation and links conclusions, parameters, deviations, failures, and uncertainty to artifacts."
     }
   ],
-  "critical_failures": [
-    "No real electronic-structure calculation was executed.",
-    "No real electron-density isosurface calculation was executed.",
-    "Paper-published surface values or the hidden ISO-M4 target were presented as newly computed outputs.",
-    "Reported numerical claims cannot be traced to artifacts from this run."
-  ],
-  "judge_instructions": "Score each hidden Q4 paper/experimental conclusion from new evidence, then score reproduction-process quality separately. The supplied paper route is part of process fidelity; the scorer applies the multiplicative formula.",
-  "reference_evidence": {
-    "task_id": "Electron_Isodensity_Reproduction_04_Blind_Prediction",
-    "task_mode": "guided_reproduction",
-    "input_manifest_sha256": "fd086da0e5af898b907604b160fc75d02178917ae165a3c144b0eb1bb3fe8f5c",
-    "source_boundary": "Hidden paper and source-data results are evaluator-only; visible experimental TE values are raw calibration inputs.",
-    "paper_doi": "10.1038/s41467-024-50408-8",
-    "paper_reference": {
-      "held_out_molecule_id": "ISO-M4",
-      "locked_paper_calibrated_cutoff_au": 0.0016,
-      "hidden_te_surface_angstrom2": 110.538,
-      "paper_iso_surface_0_0016_angstrom2": 109.9966,
-      "full_credit_relative_error_to_paper_percent": 2.0,
-      "partial_credit_relative_error_to_paper_percent": 5.0
-    },
-    "reference_use_policy": "Score the hidden scientific claims as the conclusion axis only after verifying their newly generated evidence. Score process quality on the separate process axis."
-  },
-  "managed_computation_policy": {
-    "allow_direct_native_software_execution": true,
-    "per_calculation_target_minutes": 10,
-    "parallel_execution_allowed": true,
-    "do_not_fabricate_on_timeout": true
-  },
-  "evidence_gate_policy": {},
-  "reference_conclusion_gate_policy": {},
   "scientific_conclusion_rubric": [
     {
       "id": "locked_cutoff_surface_reproduction",
@@ -154,6 +123,37 @@
     "objective_failure_policy": "A demonstrated benchmark input, framework, backend, or infrastructure failure may make the run not_scorable_objective; agent-selected invalid inputs or resource limits do not.",
     "invalid_submission_policy": "Fabricated evidence, hidden-answer leakage, or paper values presented as new calculations make the final score zero."
   },
+  "critical_failures": [
+    "No real electronic-structure calculation was executed.",
+    "No real electron-density isosurface calculation was executed.",
+    "Paper-published surface values or the hidden ISO-M4 target were presented as newly computed outputs.",
+    "Reported numerical claims cannot be traced to artifacts from this run."
+  ],
+  "judge_instructions": "Score each hidden Q4 paper/experimental conclusion from new evidence, then score reproduction-process quality separately. The supplied paper route is part of process fidelity; the scorer applies the multiplicative formula.",
+  "reference_evidence": {
+    "task_id": "Electron_Isodensity_Reproduction_04_Blind_Prediction",
+    "task_mode": "guided_reproduction",
+    "input_manifest_sha256": "fd086da0e5af898b907604b160fc75d02178917ae165a3c144b0eb1bb3fe8f5c",
+    "source_boundary": "Hidden paper and source-data results are evaluator-only; visible experimental TE values are raw calibration inputs.",
+    "paper_doi": "10.1038/s41467-024-50408-8",
+    "paper_reference": {
+      "held_out_molecule_id": "ISO-M4",
+      "locked_paper_calibrated_cutoff_au": 0.0016,
+      "hidden_te_surface_angstrom2": 110.538,
+      "paper_iso_surface_0_0016_angstrom2": 109.9966,
+      "full_credit_relative_error_to_paper_percent": 2.0,
+      "partial_credit_relative_error_to_paper_percent": 5.0
+    },
+    "reference_use_policy": "Score the hidden scientific claims as the conclusion axis only after verifying their newly generated evidence. Score process quality on the separate process axis."
+  },
+  "managed_computation_policy": {
+    "allow_direct_native_software_execution": true,
+    "per_calculation_target_minutes": 10,
+    "parallel_execution_allowed": true,
+    "do_not_fabricate_on_timeout": true
+  },
+  "evidence_gate_policy": {},
+  "reference_conclusion_gate_policy": {},
   "current_toolbox_reproduction_baseline": {
     "status": "q4_objective_route_verified",
     "classification": "solvable",

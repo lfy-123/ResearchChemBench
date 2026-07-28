@@ -1,5 +1,5 @@
 {
-  "evaluation_mode": "rubric_100",
+  "evaluation_mode": "dual_axis_100",
   "score_max": 100,
   "expected_tool_calls": [],
   "expected_result": {
@@ -21,29 +21,39 @@
   ],
   "scoring_rubric": [
     {
-      "id": "scientific_problem_framing",
-      "max_score": 15,
-      "criterion": "Defines testable hypotheses, competing pathways, decision criteria, resource tiers, and stopping rules without a disclosed paper route."
-    },
-    {
-      "id": "autonomous_method_and_route_design",
-      "max_score": 25,
-      "criterion": "Independently selects defensible protonation states, structures, mechanisms, electronic methods, sampling, and validation strategy."
-    },
-    {
-      "id": "adaptive_managed_execution",
-      "max_score": 25,
-      "criterion": "Executes real managed calculations, diagnoses failures, and revises searches without fabricating or importing hidden results."
-    },
-    {
-      "id": "validation_and_falsification",
+      "id": "problem_framing_and_route_design",
       "max_score": 20,
-      "criterion": "Validates stationary points and connectivity, compares alternatives at common conditions, and tests uncertainty and competing explanations."
+      "description": "Independently defines hypotheses, alternatives, decision criteria, a staged route, budgets, and stopping rules without a disclosed paper method."
     },
     {
-      "id": "defensible_scientific_conclusion",
+      "id": "method_and_tool_selection",
       "max_score": 15,
-      "criterion": "Draws a traceable evidence-bound conclusion; agreement with the hidden paper conclusion is not itself required."
+      "description": "Selects chemically appropriate structures, software, methods, parameters, numerical controls, and fallback routes."
+    },
+    {
+      "id": "managed_execution_and_artifact_flow",
+      "max_score": 15,
+      "description": "Executes real managed scientific calculations and passes identities, structures, parameters, and artifacts correctly between stages."
+    },
+    {
+      "id": "validation_falsification_and_uncertainty",
+      "max_score": 20,
+      "description": "Tests convergence, numerical sensitivity, chemical validity, alternative explanations, evidence sufficiency, and uncertainty."
+    },
+    {
+      "id": "failure_diagnosis_and_adaptation",
+      "max_score": 10,
+      "description": "Diagnoses failed or inconclusive calls, avoids repeating preventable errors, and adapts without fabricating or laundering results."
+    },
+    {
+      "id": "resource_and_search_efficiency",
+      "max_score": 10,
+      "description": "Uses CPU, memory, parallelism, numerical resolution, search breadth, and stopping decisions efficiently without avoidable under-allocation or waste."
+    },
+    {
+      "id": "provenance_reporting_and_reproducibility",
+      "max_score": 10,
+      "description": "Links claims to managed artifacts and clearly reports assumptions, failed branches, deviations, units, uncertainty, and reproducible parameters."
     }
   ],
   "critical_failures": [
@@ -55,7 +65,7 @@
     "Charges, multiplicities, units, methods, temperatures, or standard states are mixed so the claimed comparison is invalid.",
     "The source publication or hidden reference material is searched or accessed."
   ],
-  "judge_instructions": "This is an autonomous-discovery evaluation. Reward independent hypothesis formation, method and route selection, adaptive managed execution, validation, falsification, and a defensible conclusion from generated evidence. Agreement with the hidden paper conclusion is not a scoring requirement.",
+  "judge_instructions": "Score each task-level scientific conclusion from newly generated evidence, then score autonomous research-process quality separately. Do not require the paper method or route, and do not let a good process excuse a wrong conclusion. The scorer applies the multiplicative dual-axis formula.",
   "managed_computation_policy": {
     "required": true,
     "minimum_successful_scientific_calls": 2,
@@ -139,5 +149,49 @@
     "paired_reproduction_reference_run_complete": true,
     "validated_artifact_root": "workspaces/paper_reproduction_recovery_20260727/pv",
     "known_limitations": []
+  },
+  "scientific_conclusion_rubric": [
+    {
+      "id": "alcohol_addition_rate_determining",
+      "max_score": 40,
+      "statement": "Alcohol addition at phosphonium phosphorus before ligand coupling is the overall rate-determining step.",
+      "acceptance_rule": "Require integration of the experimental substituent-rate trend with the downstream computational profile, while acknowledging that the downstream profile alone does not calculate the alcohol-addition barrier.",
+      "required_evidence": [
+        "relative-rate analysis",
+        "experimental observations",
+        "scope-aware kinetic inference"
+      ]
+    },
+    {
+      "id": "ligand_coupling_selectivity_determining",
+      "max_score": 35,
+      "statement": "Intramolecular P(V) ligand coupling is the selectivity-determining stage.",
+      "acceptance_rule": "Require a validated coupling profile and a clear distinction between selectivity control and overall rate control.",
+      "required_evidence": [
+        "Int-I through coupling profile",
+        "pathway comparison",
+        "separate kinetic-role assignment"
+      ]
+    },
+    {
+      "id": "post_coupling_collapse_irreversible",
+      "max_score": 25,
+      "statement": "Collapse of the dearomatized post-coupling intermediate to product is strongly irreversible.",
+      "acceptance_rule": "Require thermochemical and experimental evidence supporting a strongly downhill post-coupling stage.",
+      "required_evidence": [
+        "post-coupling free-energy change",
+        "product or ethoxide observation",
+        "reversibility interpretation"
+      ]
+    }
+  ],
+  "dual_axis_scoring_policy": {
+    "formula": "scientific_conclusion_score * research_process_score / 100",
+    "scientific_conclusion_score_max": 100,
+    "research_process_score_max": 100,
+    "final_score_max": 100,
+    "unsupported_claim_policy": "A conclusion copied, guessed, or asserted without newly generated valid evidence receives no scientific-conclusion credit.",
+    "objective_failure_policy": "A demonstrated benchmark input, framework, backend, or infrastructure failure may make the run not_scorable_objective; agent-selected invalid inputs or resource limits do not.",
+    "invalid_submission_policy": "Fabricated evidence, hidden-answer leakage, or paper values presented as new calculations make the final score zero."
   }
 }

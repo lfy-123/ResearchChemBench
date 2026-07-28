@@ -1,5 +1,5 @@
 {
-  "evaluation_mode": "rubric_100",
+  "evaluation_mode": "dual_axis_100",
   "score_max": 100,
   "expected_tool_calls": [],
   "expected_result": {
@@ -19,29 +19,39 @@
   ],
   "scoring_rubric": [
     {
-      "id": "paper_conclusion_agreement",
-      "max_score": 55,
-      "criterion": "Recovers the paper's main Q3 conclusion from newly generated evidence. A conflicting selectivity, mechanism, or kinetic assignment is not a successful reproduction."
-    },
-    {
-      "id": "protocol_fidelity",
+      "id": "protocol_interpretation_and_execution_plan",
       "max_score": 20,
-      "criterion": "Uses the supplied paper-reconstructed method hierarchy, mapped routes, common conditions, stationary-point validation, and controlled version-compatible substitutions."
+      "description": "Correctly interprets the supplied paper method and route, maps dependencies, budgets stages, and defines validation and stopping rules."
     },
     {
-      "id": "managed_recomputation",
+      "id": "method_parameter_and_structure_fidelity",
+      "max_score": 15,
+      "description": "Uses the supplied identities, structures, methods, parameters, reference states, and controlled version-compatible substitutions faithfully."
+    },
+    {
+      "id": "managed_recomputation_and_artifact_flow",
+      "max_score": 15,
+      "description": "Recomputes the required evidence through managed scientific execution and passes artifacts correctly across the disclosed workflow."
+    },
+    {
+      "id": "validation_numerical_quality_and_uncertainty",
+      "max_score": 20,
+      "description": "Validates convergence, identities, stationary points or surfaces, numerical resolution, statistics, uncertainty, and paper-comparison tolerances."
+    },
+    {
+      "id": "failure_diagnosis_and_protocol_recovery",
       "max_score": 10,
-      "criterion": "Runs traceable managed Actions, native software jobs, or Agent-authored programs and does not substitute hidden paper values."
+      "description": "Diagnoses failures, makes scientifically controlled recovery choices, and records any unavoidable protocol deviation."
     },
     {
-      "id": "numerical_and_validation_quality",
+      "id": "resource_and_execution_efficiency",
       "max_score": 10,
-      "criterion": "Builds comparable 353.15 K, 1 M profiles with valid minima/transition states, connectivity evidence, consistent references, and quantified numerical uncertainty."
+      "description": "Uses available resources, parallelism, retries, numerical settings, and stopping decisions efficiently while preserving protocol validity."
     },
     {
-      "id": "provenance_and_uncertainty",
-      "max_score": 5,
-      "criterion": "Links claims to artifacts and separates paper targets, recomputation, deviations, failed branches, and remaining limitations."
+      "id": "provenance_reporting_and_reproducibility",
+      "max_score": 10,
+      "description": "Separates paper targets from recomputation and links conclusions, parameters, deviations, failures, and uncertainty to artifacts."
     }
   ],
   "critical_failures": [
@@ -52,7 +62,7 @@
     "A higher-order saddle or unconverged scan maximum is reported as a verified transition state, precise activation barrier, or rigorous bound without an explicit caveat and supporting validation.",
     "Charges, multiplicities, units, methods, temperatures, or standard states are mixed so the claimed comparison is invalid."
   ],
-  "judge_instructions": "This is a guided paper-reproduction task. Methods and mapped candidate routes are public, and, for selected tasks, author-deposited raw quantum outputs are public. Numerical conclusions must come from new managed parsing, validation, and thermochemical analysis artifacts. Accept predefined Actions, managed native jobs, and managed Agent-authored programs. Do not reward copying a publication value or confusing it with a value recomputed from the supplied raw outputs.",
+  "judge_instructions": "Score each paper conclusion from newly generated evidence, then score reproduction-process quality separately. Methods, mapped routes, and selected author raw outputs are public, but publication values must not be presented as new calculations. The scorer applies the multiplicative dual-axis formula.",
   "managed_computation_policy": {
     "required": true,
     "minimum_successful_scientific_calls": 1,
@@ -124,15 +134,50 @@
     ]
   },
   "evaluation_profile": "paper_reproduction",
-  "reference_conclusion_gate_policy": {
-    "required": true,
-    "criterion_id": "paper_conclusion_agreement",
-    "score_cap_if_not_matched": 45,
-    "score_cap_if_uncertain": 60,
-    "score_cap_if_omitted": 45,
-    "max_criterion_score_if_not_matched": 0,
-    "max_criterion_score_if_uncertain": 15,
-    "max_criterion_score_if_omitted": 0
+  "reference_conclusion_gate_policy": {},
+  "scientific_conclusion_rubric": [
+    {
+      "id": "cc_over_co_barrier_preference",
+      "max_score": 45,
+      "statement": "For P2, carbon-carbon coupling is kinetically favored over carbon-oxygen coupling.",
+      "acceptance_rule": "Require a validated C-C barrier and a defensible C-O comparison under a clearly stated evidence boundary.",
+      "required_evidence": [
+        "P2 C-C barrier evidence",
+        "P2 C-O evidence or explicit publication benchmark",
+        "comparable conditions"
+      ]
+    },
+    {
+      "id": "cc_co_barrier_difference",
+      "max_score": 35,
+      "statement": "The P2 C-O barrier is about 4 kcal/mol higher than the C-C barrier, on the paper scale of about 18 versus 14 kcal/mol.",
+      "acceptance_rule": "Full credit requires the correct sign and approximate magnitude, with any publication-only C-O value labeled separately from recomputation.",
+      "required_evidence": [
+        "barrier-difference calculation",
+        "source labeling",
+        "uncertainty discussion"
+      ]
+    },
+    {
+      "id": "minor_co_pathway_plausibility",
+      "max_score": 20,
+      "statement": "C-C is preferred, but the modest barrier separation leaves minor C-O coupling chemically plausible.",
+      "acceptance_rule": "Require a quantitative selectivity interpretation that does not incorrectly rule out the higher-barrier pathway.",
+      "required_evidence": [
+        "barrier separation",
+        "temperature-aware interpretation",
+        "scope limitation"
+      ]
+    }
+  ],
+  "dual_axis_scoring_policy": {
+    "formula": "scientific_conclusion_score * research_process_score / 100",
+    "scientific_conclusion_score_max": 100,
+    "research_process_score_max": 100,
+    "final_score_max": 100,
+    "unsupported_claim_policy": "A conclusion copied, guessed, or asserted without newly generated valid evidence receives no scientific-conclusion credit.",
+    "objective_failure_policy": "A demonstrated benchmark input, framework, backend, or infrastructure failure may make the run not_scorable_objective; agent-selected invalid inputs or resource limits do not.",
+    "invalid_submission_policy": "Fabricated evidence, hidden-answer leakage, or paper values presented as new calculations make the final score zero."
   },
   "current_toolbox_reproduction_baseline": {
     "assessment_date": "2026-07-27",

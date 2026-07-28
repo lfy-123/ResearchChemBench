@@ -12,6 +12,7 @@ from __future__ import annotations
 import hashlib
 import json
 import shutil
+import sys
 import tempfile
 from copy import deepcopy
 from pathlib import Path
@@ -19,6 +20,11 @@ from typing import Any
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+from evaluation.dual_axis import dual_axis_policy, process_rubric
+
 TASKS_ROOT = PROJECT_ROOT / "tasks"
 
 OPEN_TASKS = [
@@ -419,24 +425,143 @@ def public_files(root: Path) -> list[dict[str, Any]]:
     return records
 
 
-def guided_rubric(task_key: str) -> list[dict[str, Any]]:
-    return [
-        {"id": "paper_conclusion_agreement", "max_score": 55, "criterion": f"Recovers the paper's main {task_key} conclusion from newly generated evidence. A conflicting selectivity, mechanism, or kinetic assignment is not a successful reproduction."},
-        {"id": "protocol_fidelity", "max_score": 20, "criterion": "Uses the supplied paper-reconstructed method hierarchy, mapped routes, common conditions, stationary-point validation, and controlled version-compatible substitutions."},
-        {"id": "managed_recomputation", "max_score": 10, "criterion": "Runs traceable managed Actions, native software jobs, or Agent-authored programs and does not substitute hidden paper values."},
-        {"id": "numerical_and_validation_quality", "max_score": 10, "criterion": "Builds comparable 353.15 K, 1 M profiles with valid minima/transition states, connectivity evidence, consistent references, and quantified numerical uncertainty."},
-        {"id": "provenance_and_uncertainty", "max_score": 5, "criterion": "Links claims to artifacts and separates paper targets, recomputation, deviations, failed branches, and remaining limitations."},
-    ]
+def write_readme_section(path: Path, heading: str, body: str) -> None:
+    marker = f"\n## {heading}\n"
+    text = path.read_text(encoding="utf-8")
+    if marker in text:
+        return
+    path.write_text(
+        text + f"\n## {heading}\n\n{body.rstrip()}\n",
+        encoding="utf-8",
+    )
 
 
-def autonomous_rubric() -> list[dict[str, Any]]:
-    return [
-        {"id": "scientific_problem_framing", "max_score": 15, "criterion": "Defines testable hypotheses, competing pathways, decision criteria, resource tiers, and stopping rules without a disclosed paper route."},
-        {"id": "autonomous_method_and_route_design", "max_score": 25, "criterion": "Independently selects defensible protonation states, structures, mechanisms, electronic methods, sampling, and validation strategy."},
-        {"id": "adaptive_managed_execution", "max_score": 25, "criterion": "Executes real managed calculations, diagnoses failures, and revises searches without fabricating or importing hidden results."},
-        {"id": "validation_and_falsification", "max_score": 20, "criterion": "Validates stationary points and connectivity, compares alternatives at common conditions, and tests uncertainty and competing explanations."},
-        {"id": "defensible_scientific_conclusion", "max_score": 15, "criterion": "Draws a traceable evidence-bound conclusion; agreement with the hidden paper conclusion is not itself required."},
-    ]
+def scientific_conclusion_rubric(task_key: str) -> list[dict[str, Any]]:
+    rubrics = {
+        "Q1": [
+            {
+                "id": "successive_protonation_barrier_order",
+                "max_score": 40,
+                "statement": "Comparable kinetic evidence establishes the pyridyl-pyridyl coupling-barrier order P0 > P1 > P2.",
+                "acceptance_rule": "Require validated or defensibly bounded P0, P1, and P2 activation free energies under one thermochemical and reference-state convention.",
+                "required_evidence": ["P0/P1/P2 pathway evidence", "common free-energy convention", "stationary-point or controlled-bound validation"],
+            },
+            {
+                "id": "stepwise_barrier_reduction_scale",
+                "max_score": 35,
+                "statement": "The first and second protonations successively lower the barrier on the paper scale of approximately 10 and 6 kcal/mol.",
+                "acceptance_rule": "Full credit requires the correct direction and approximate relative scale; partial credit is available when uncertainty preserves only the qualitative trend.",
+                "required_evidence": ["three comparable barriers", "barrier-difference analysis", "uncertainty or sensitivity analysis"],
+            },
+            {
+                "id": "protonation_kinetic_conclusion",
+                "max_score": 25,
+                "statement": "Successive protonation promotes pyridyl-pyridyl coupling primarily by lowering its kinetic barrier.",
+                "acceptance_rule": "Require an evidence-linked kinetic interpretation that is not inferred solely from copied reference values.",
+                "required_evidence": ["activation-free-energy trend", "alternative explanation check", "artifact-linked conclusion"],
+            },
+        ],
+        "Q2": [
+            {
+                "id": "pypy_over_phpy_barrier_preference",
+                "max_score": 40,
+                "statement": "Pyridyl-pyridyl coupling has a lower activation barrier than phenyl-pyridyl coupling for P0, P1, and P2.",
+                "acceptance_rule": "Require common-reference profiles for both coupling families in all three protonation states; full credit should recover the paper ordering and approximate barrier separations.",
+                "required_evidence": ["P0/P1/P2 Py-Py profiles", "P0/P1/P2 Ph-Py profiles", "common-reference comparison"],
+            },
+            {
+                "id": "kinetic_selectivity_assignment",
+                "max_score": 35,
+                "statement": "The pyridyl-pyridyl product preference is primarily kinetic rather than a consequence of product thermodynamics.",
+                "acceptance_rule": "Require activation and reaction free energies to be analyzed separately and compared under consistent conditions.",
+                "required_evidence": ["activation free energies", "reaction free energies", "kinetic-versus-thermodynamic interpretation"],
+            },
+            {
+                "id": "protonation_dependence_of_selectivity",
+                "max_score": 25,
+                "statement": "Protonation lowers both pathway barriers while retaining a kinetic preference for pyridyl-pyridyl coupling.",
+                "acceptance_rule": "Require the cross-state trend to be supported by validated numerical profiles rather than a single-state comparison.",
+                "required_evidence": ["cross-state barrier trends", "pathway identity validation", "uncertainty analysis"],
+            },
+        ],
+        "Q3": [
+            {
+                "id": "cc_over_co_barrier_preference",
+                "max_score": 45,
+                "statement": "For P2, carbon-carbon coupling is kinetically favored over carbon-oxygen coupling.",
+                "acceptance_rule": "Require a validated C-C barrier and a defensible C-O comparison under a clearly stated evidence boundary.",
+                "required_evidence": ["P2 C-C barrier evidence", "P2 C-O evidence or explicit publication benchmark", "comparable conditions"],
+            },
+            {
+                "id": "cc_co_barrier_difference",
+                "max_score": 35,
+                "statement": "The P2 C-O barrier is about 4 kcal/mol higher than the C-C barrier, on the paper scale of about 18 versus 14 kcal/mol.",
+                "acceptance_rule": "Full credit requires the correct sign and approximate magnitude, with any publication-only C-O value labeled separately from recomputation.",
+                "required_evidence": ["barrier-difference calculation", "source labeling", "uncertainty discussion"],
+            },
+            {
+                "id": "minor_co_pathway_plausibility",
+                "max_score": 20,
+                "statement": "C-C is preferred, but the modest barrier separation leaves minor C-O coupling chemically plausible.",
+                "acceptance_rule": "Require a quantitative selectivity interpretation that does not incorrectly rule out the higher-barrier pathway.",
+                "required_evidence": ["barrier separation", "temperature-aware interpretation", "scope limitation"],
+            },
+        ],
+        "Q4": [
+            {
+                "id": "stepwise_asynchronous_mechanism",
+                "max_score": 40,
+                "statement": "Ligand coupling proceeds by a stepwise, asynchronous apical-to-equatorial C-C coupling mechanism rather than a fully concerted two-bond cleavage.",
+                "acceptance_rule": "Require reaction-coordinate evidence that distinguishes the stepwise path from the concerted control.",
+                "required_evidence": ["validated transition region", "concerted-path control", "forming and breaking bond evolution"],
+            },
+            {
+                "id": "dearomatized_intermediate_and_connectivity",
+                "max_score": 35,
+                "statement": "The key coupling transition region connects to a dearomatized post-coupling intermediate.",
+                "acceptance_rule": "Require one target imaginary mode plus forward/reverse connectivity or equivalent direct endpoint validation and an optimized intermediate.",
+                "required_evidence": ["frequency evidence", "bidirectional connectivity", "dearomatized minimum"],
+            },
+            {
+                "id": "limited_oxygen_participation",
+                "max_score": 25,
+                "statement": "Oxygen electronic participation changes little along the key coupling coordinate.",
+                "acceptance_rule": "Accept NBO or equivalent bond-order, charge, geometry, or density evidence, but do not accept an unsupported exact lone-pair occupation claim.",
+                "required_evidence": ["oxygen-sensitive electronic descriptor", "coordinate comparison", "method-bound interpretation"],
+            },
+        ],
+        "Q5": [
+            {
+                "id": "alcohol_addition_rate_determining",
+                "max_score": 40,
+                "statement": "Alcohol addition at phosphonium phosphorus before ligand coupling is the overall rate-determining step.",
+                "acceptance_rule": "Require integration of the experimental substituent-rate trend with the downstream computational profile, while acknowledging that the downstream profile alone does not calculate the alcohol-addition barrier.",
+                "required_evidence": ["relative-rate analysis", "experimental observations", "scope-aware kinetic inference"],
+            },
+            {
+                "id": "ligand_coupling_selectivity_determining",
+                "max_score": 35,
+                "statement": "Intramolecular P(V) ligand coupling is the selectivity-determining stage.",
+                "acceptance_rule": "Require a validated coupling profile and a clear distinction between selectivity control and overall rate control.",
+                "required_evidence": ["Int-I through coupling profile", "pathway comparison", "separate kinetic-role assignment"],
+            },
+            {
+                "id": "post_coupling_collapse_irreversible",
+                "max_score": 25,
+                "statement": "Collapse of the dearomatized post-coupling intermediate to product is strongly irreversible.",
+                "acceptance_rule": "Require thermochemical and experimental evidence supporting a strongly downhill post-coupling stage.",
+                "required_evidence": ["post-coupling free-energy change", "product or ethoxide observation", "reversibility interpretation"],
+            },
+        ],
+        "Q6": [
+            {"id": "active_protonation_state", "max_score": 20, "statement": "The doubly protonated P2 state is the most kinetically competent coupling state.", "acceptance_rule": "Require comparable P0/P1/P2 evidence recovering the protonation-dependent barrier trend.", "required_evidence": ["P0/P1/P2 profiles", "common reference convention"]},
+            {"id": "preferred_cc_path", "max_score": 20, "statement": "Pyridyl-pyridyl C-C coupling is preferred over phenyl-pyridyl C-C and P2 C-O alternatives.", "acceptance_rule": "Require matched pathway comparisons that separate kinetic and thermodynamic selectivity.", "required_evidence": ["Py-Py profile", "Ph-Py profile", "C-O comparison"]},
+            {"id": "integrated_coupling_mechanism", "max_score": 20, "statement": "The preferred path is stepwise, asynchronous apical-to-equatorial coupling through a dearomatized intermediate.", "acceptance_rule": "Require stationary-point, connectivity, and bond-reorganization evidence.", "required_evidence": ["frequency and connectivity", "dearomatized intermediate", "coordinate analysis"]},
+            {"id": "integrated_kinetic_roles", "max_score": 25, "statement": "Alcohol addition is rate-determining, ligand coupling is selectivity-determining, and post-coupling collapse is strongly irreversible.", "acceptance_rule": "Require the three kinetic roles to be assigned separately from combined experimental and computational evidence.", "required_evidence": ["relative rates", "coupling profile", "post-coupling evidence"]},
+            {"id": "coherent_end_to_end_model", "max_score": 15, "statement": "The protonation, chemoselectivity, mechanism, and kinetic-role results form one internally consistent reaction model.", "acceptance_rule": "Require conflicts, missing branches, and uncertainty to be reconciled rather than merely listing the component conclusions.", "required_evidence": ["integrated profile", "cross-claim consistency", "limitations and uncertainty"]},
+        ],
+    }
+    return deepcopy(rubrics[task_key])
 
 
 def update_open_metadata() -> None:
@@ -450,14 +575,19 @@ def update_open_metadata() -> None:
         path.write_bytes(json_bytes(info))
         truth_path = TASKS_ROOT / task_id / "target_study" / "ground_truth.json"
         truth = json.loads(truth_path.read_text(encoding="utf-8"))
+        task_key = TASK_KEYS[OPEN_TASKS.index(task_id)]
+        truth["evaluation_mode"] = "dual_axis_100"
         truth["evaluation_profile"] = "autonomous_discovery"
-        truth["scoring_rubric"] = autonomous_rubric()
+        truth["score_max"] = 100
+        truth["scoring_rubric"] = process_rubric(reproduction=False)
+        truth["scientific_conclusion_rubric"] = scientific_conclusion_rubric(task_key)
+        truth["dual_axis_scoring_policy"] = dual_axis_policy()
         truth["reference_conclusion_gate_policy"] = {}
         truth["judge_instructions"] = (
-            "This is an autonomous-discovery evaluation. Reward independent hypothesis "
-            "formation, method and route selection, adaptive managed execution, validation, "
-            "falsification, and a defensible conclusion from generated evidence. Agreement "
-            "with the hidden paper conclusion is not a scoring requirement."
+            "Score each task-level scientific conclusion from newly generated evidence, then "
+            "score autonomous research-process quality separately. Do not require the paper "
+            "method or route, and do not let a good process excuse a wrong conclusion. The "
+            "scorer applies the multiplicative dual-axis formula."
         )
         truth_path.write_bytes(json_bytes(truth))
 
@@ -523,11 +653,10 @@ def align_open_author_output_inputs(task_id: str, task_key: str) -> None:
         json_bytes({"archives": archive_records})
     )
     readme = data_root / "README.md"
-    readme.write_text(
-        readme.read_text(encoding="utf-8")
-        + "\n## Shared completed-output inputs\n\n"
-        + "This autonomous task receives the same completed author output archives as its guided counterpart. Select the validation, matching, thermochemistry, profile construction, and uncertainty route independently; no paper protocol or mapped reaction route is supplied.\n",
-        encoding="utf-8",
+    write_readme_section(
+        readme,
+        "Shared completed-output inputs",
+        "This autonomous task receives the same completed author output archives as its guided counterpart. Select the validation, matching, thermochemistry, profile construction, and uncertainty route independently; no paper protocol or mapped reaction route is supplied.",
     )
 
     info_path = TASKS_ROOT / task_id / "task_info.json"
@@ -693,15 +822,14 @@ def build_one(open_task: str, reproduction_task: str, task_key: str, stage_root:
         )
     )
     readme = data_root / "README.md"
-    readme.write_text(
-        readme.read_text(encoding="utf-8")
-        + "\n## Guided-reproduction additions\n\n"
-        + (
+    write_readme_section(
+        readme,
+        "Guided-reproduction additions",
+        (
             "This task includes the author-deposited Gaussian frequency and ORCA DLPNO raw-output archives from Zenodo record 1439888. Independently parse, validate, and reanalyze those outputs; do not describe the publication's tabulated values as newly calculated.\n"
             if author_states
             else "This copied raw-input set contains a paper-reconstructed protocol and mapped routes but no author quantum outputs. Every numerical result must be regenerated.\n"
         ),
-        encoding="utf-8",
     )
 
     manifest_path = data_root / "input_manifest.json"
@@ -763,27 +891,19 @@ def build_one(open_task: str, reproduction_task: str, task_key: str, stage_root:
 
     truth_path = target / "target_study" / "ground_truth.json"
     truth = json.loads(truth_path.read_text(encoding="utf-8"))
-    truth["evaluation_mode"] = "rubric_100"
+    truth["evaluation_mode"] = "dual_axis_100"
     truth["evaluation_profile"] = "paper_reproduction"
     truth["score_max"] = 100
-    truth["scoring_rubric"] = guided_rubric(task_key)
+    truth["scoring_rubric"] = process_rubric(reproduction=True)
+    truth["scientific_conclusion_rubric"] = scientific_conclusion_rubric(task_key)
+    truth["dual_axis_scoring_policy"] = dual_axis_policy()
     truth["judge_instructions"] = (
-        "This is a guided paper-reproduction task. Methods and mapped candidate routes are public, "
-        "and, for selected tasks, author-deposited raw quantum outputs are public. Numerical conclusions "
-        "must come from new managed parsing, validation, and thermochemical analysis artifacts. Accept "
-        "predefined Actions, managed native jobs, and managed Agent-authored programs. Do not reward "
-        "copying a publication value or confusing it with a value recomputed from the supplied raw outputs."
+        "Score each paper conclusion from newly generated evidence, then score reproduction-process "
+        "quality separately. Methods, mapped routes, and selected author raw outputs are public, but "
+        "publication values must not be presented as new calculations. The scorer applies the "
+        "multiplicative dual-axis formula."
     )
-    truth["reference_conclusion_gate_policy"] = {
-        "required": True,
-        "criterion_id": "paper_conclusion_agreement",
-        "score_cap_if_not_matched": 45,
-        "score_cap_if_uncertain": 60,
-        "score_cap_if_omitted": 45,
-        "max_criterion_score_if_not_matched": 0,
-        "max_criterion_score_if_uncertain": 15,
-        "max_criterion_score_if_omitted": 0,
-    }
+    truth["reference_conclusion_gate_policy"] = {}
     truth["current_toolbox_reproduction_baseline"] = {
         **deepcopy(BASELINE_COMMON),
         **deepcopy(REPRODUCTION_BASELINES[task_key]),

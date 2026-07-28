@@ -98,9 +98,15 @@ def test_heterobiaryl_dual_track_tasks_use_complete_100_point_rubrics():
         assert not (data_root / "computational_protocol.json").exists()
         assert not (data_root / "reaction_definitions.json").exists()
         assert not (data_root / "workflow_requirements.json").exists()
-        assert truth["evaluation_mode"] == "rubric_100"
+        assert truth["evaluation_mode"] == "dual_axis_100"
         assert truth["score_max"] == 100
         assert sum(item["max_score"] for item in truth["scoring_rubric"]) == 100
+        assert sum(
+            item["max_score"] for item in truth["scientific_conclusion_rubric"]
+        ) == 100
+        assert truth["dual_axis_scoring_policy"]["formula"] == (
+            "scientific_conclusion_score * research_process_score / 100"
+        )
         if task_id in aligned_author_output_tasks:
             assert info["archive_extractions"]
         else:
@@ -203,9 +209,13 @@ def test_heterobiaryl_dual_track_tasks_use_complete_100_point_rubrics():
         assert info["pathway_disclosure"] == (
             "author_output_reanalysis" if author_reanalysis else "mapped_candidate_routes"
         )
-        assert truth["evaluation_mode"] == "rubric_100"
+        assert truth["evaluation_mode"] == "dual_axis_100"
         assert truth["score_max"] == 100
         assert sum(item["max_score"] for item in truth["scoring_rubric"]) == 100
+        assert sum(
+            item["max_score"] for item in truth["scientific_conclusion_rubric"]
+        ) == 100
+        assert truth["reference_conclusion_gate_policy"] == {}
         assert truth["reference_evidence"]["task_mode"] == "guided_reproduction"
         baseline = truth["current_toolbox_reproduction_baseline"]
         assert baseline["status"] == (
@@ -386,16 +396,12 @@ def test_electron_isodensity_dual_track_tasks_are_decontaminated_and_complete():
         assert info["method_disclosure"] == "none"
         assert info["pathway_disclosure"] == "none"
         assert info["archive_extractions"] == []
-        assert truth["evaluation_mode"] == (
-            "dual_axis_100" if suffix == "04_Blind_Prediction" else "rubric_100"
-        )
+        assert truth["evaluation_mode"] == "dual_axis_100"
         assert sum(item["max_score"] for item in truth["scoring_rubric"]) == 100
-        if suffix == "04_Blind_Prediction":
-            assert len(truth["scientific_conclusion_rubric"]) == 3
-            assert sum(
-                item["max_score"]
-                for item in truth["scientific_conclusion_rubric"]
-            ) == 100
+        assert sum(
+            item["max_score"]
+            for item in truth["scientific_conclusion_rubric"]
+        ) == 100
         assert truth["expected_structured_output"] == [
             item["path"] for item in info["required_deliverables"]
         ]
@@ -495,16 +501,12 @@ def test_electron_isodensity_dual_track_tasks_are_decontaminated_and_complete():
         assert info["task_mode"] == "guided_reproduction"
         assert info["method_disclosure"] == "paper_reconstructed_protocol"
         assert info["pathway_disclosure"] == "paper_execution_route"
-        assert truth["evaluation_mode"] == (
-            "dual_axis_100" if suffix == "04_Blind_Prediction" else "rubric_100"
-        )
+        assert truth["evaluation_mode"] == "dual_axis_100"
         assert sum(item["max_score"] for item in truth["scoring_rubric"]) == 100
-        if suffix == "04_Blind_Prediction":
-            assert len(truth["scientific_conclusion_rubric"]) == 3
-            assert sum(
-                item["max_score"]
-                for item in truth["scientific_conclusion_rubric"]
-            ) == 100
+        assert sum(
+            item["max_score"]
+            for item in truth["scientific_conclusion_rubric"]
+        ) == 100
         protocol = json.loads((data_root / "computational_protocol.json").read_text(encoding="utf-8"))
         assert protocol["paper_doi"] == "10.1038/s41467-024-50408-8"
         assert protocol["production_density"]["method"] == "DSD-PBEP86"
@@ -576,34 +578,34 @@ def test_dual_track_evaluation_profiles_separate_discovery_from_reproduction():
         info = load_task_info(task_id)
         truth = load_ground_truth(task_id)
         rubric = {item["id"]: item["max_score"] for item in truth["scoring_rubric"]}
-        is_electron_q4 = task_id in {
-            "Electron_Isodensity_04_Blind_Prediction",
-            "Electron_Isodensity_Reproduction_04_Blind_Prediction",
-        }
-        if is_electron_q4:
-            assert truth["evaluation_mode"] == "dual_axis_100"
-            assert len(truth["scientific_conclusion_rubric"]) == 3
-            assert truth["reference_conclusion_gate_policy"] == {}
-            assert truth["evidence_gate_policy"] == {}
-            if info["task_mode"] == "guided_reproduction":
-                assert rubric["protocol_interpretation_and_execution_plan"] == 20
-            else:
-                assert rubric["problem_framing_and_route_design"] == 20
-            continue
+        assert truth["evaluation_mode"] == "dual_axis_100"
+        assert sum(
+            item["max_score"] for item in truth["scientific_conclusion_rubric"]
+        ) == 100
+        assert truth["reference_conclusion_gate_policy"] == {}
         if info["task_mode"] == "guided_reproduction":
             assert truth["evaluation_profile"] == "paper_reproduction"
-            assert rubric["paper_conclusion_agreement"] == 55
+            assert rubric["protocol_interpretation_and_execution_plan"] == 20
             assert sum(rubric.values()) == 100
-            gate = truth["reference_conclusion_gate_policy"]
-            assert gate["required"] is True
-            assert gate["criterion_id"] == "paper_conclusion_agreement"
-            assert gate["score_cap_if_not_matched"] <= 45
         else:
             assert info["task_mode"] == "open_discovery"
             assert truth["evaluation_profile"] == "autonomous_discovery"
-            assert "paper_conclusion_agreement" not in rubric
-            assert rubric["autonomous_method_and_route_design"] == 25
-            assert truth["reference_conclusion_gate_policy"] == {}
+            assert rubric["problem_framing_and_route_design"] == 20
+
+
+def test_all_non_chemgraph_tasks_use_dual_axis_scoring():
+    paper_tasks = [task for task in list_tasks() if not task.startswith("ChemGraph_")]
+    assert len(paper_tasks) == 34
+    for task_id in paper_tasks:
+        truth = load_ground_truth(task_id)
+        assert truth["evaluation_mode"] == "dual_axis_100", task_id
+        assert sum(item["max_score"] for item in truth["scoring_rubric"]) == 100
+        assert sum(
+            item["max_score"] for item in truth["scientific_conclusion_rubric"]
+        ) == 100
+        assert truth["dual_axis_scoring_policy"]["formula"] == (
+            "scientific_conclusion_score * research_process_score / 100"
+        )
 
     q1_info = load_task_info(
         "Electron_Isodensity_Reproduction_01_Method_Selection"

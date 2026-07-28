@@ -59,48 +59,103 @@
     "report/cutoff_metrics.csv",
     "report/cutoff_selection.json"
   ],
-  "evaluation_mode": "rubric_100",
+  "evaluation_mode": "dual_axis_100",
+  "evaluation_profile": "autonomous_discovery",
   "score_max": 100,
   "scoring_rubric": [
     {
-      "id": "scientific_problem_framing",
-      "max_score": 15,
-      "description": "Defines testable hypotheses, decision criteria, resource tiers, and stopping rules without relying on a disclosed paper route."
-    },
-    {
-      "id": "autonomous_method_and_route_design",
-      "max_score": 25,
-      "description": "Independently selects defensible structures, methods, sampling, numerical controls, and alternative routes appropriate to the question."
-    },
-    {
-      "id": "adaptive_managed_execution",
-      "max_score": 25,
-      "description": "Executes real managed calculations, diagnoses failures, and revises the workflow without fabricating or importing hidden results."
-    },
-    {
-      "id": "validation_and_falsification",
+      "id": "problem_framing_and_route_design",
       "max_score": 20,
-      "description": "Checks convergence, numerical sensitivity, chemical validity, competing explanations, uncertainty, and evidence sufficiency."
+      "description": "Independently defines hypotheses, alternatives, decision criteria, a staged route, budgets, and stopping rules without a disclosed paper method."
     },
     {
-      "id": "defensible_scientific_conclusion",
+      "id": "method_and_tool_selection",
       "max_score": 15,
-      "description": "Draws a traceable conclusion from the generated evidence. Agreement with the hidden paper conclusion is not required."
+      "description": "Selects chemically appropriate structures, software, methods, parameters, numerical controls, and fallback routes."
+    },
+    {
+      "id": "managed_execution_and_artifact_flow",
+      "max_score": 15,
+      "description": "Executes real managed scientific calculations and passes identities, structures, parameters, and artifacts correctly between stages."
+    },
+    {
+      "id": "validation_falsification_and_uncertainty",
+      "max_score": 20,
+      "description": "Tests convergence, numerical sensitivity, chemical validity, alternative explanations, evidence sufficiency, and uncertainty."
+    },
+    {
+      "id": "failure_diagnosis_and_adaptation",
+      "max_score": 10,
+      "description": "Diagnoses failed or inconclusive calls, avoids repeating preventable errors, and adapts without fabricating or laundering results."
+    },
+    {
+      "id": "resource_and_search_efficiency",
+      "max_score": 10,
+      "description": "Uses CPU, memory, parallelism, numerical resolution, search breadth, and stopping decisions efficiently without avoidable under-allocation or waste."
+    },
+    {
+      "id": "provenance_reporting_and_reproducibility",
+      "max_score": 10,
+      "description": "Links claims to managed artifacts and clearly reports assumptions, failed branches, deviations, units, uncertainty, and reproducible parameters."
     }
   ],
+  "scientific_conclusion_rubric": [
+    {
+      "id": "optimal_cutoff_near_00016",
+      "max_score": 45,
+      "statement": "The electron-density isosurface cutoff that best matches experimental surfaces is near 0.0016 a.u.",
+      "acceptance_rule": "Require the complete declared cutoff grid and a newly computed error minimum; distinguish the task-subset optimum from the 104-molecule paper optimum.",
+      "required_evidence": [
+        "cutoff-by-molecule surface matrix",
+        "cutoff error curve",
+        "identified minimum"
+      ]
+    },
+    {
+      "id": "calibrated_surface_accuracy",
+      "max_score": 35,
+      "statement": "At the calibrated cutoff, calculated isodensity surfaces correlate strongly with experiment and achieve low percent error on the paper scale.",
+      "acceptance_rule": "Require artifact-linked aggregate error and correlation statistics, with the paper references of about 1.59 percent MUPE and r = 0.995 used only for comparison.",
+      "required_evidence": [
+        "calibrated predictions",
+        "MUPE or equivalent error",
+        "correlation statistic"
+      ]
+    },
+    {
+      "id": "cutoff_robustness_and_transferability",
+      "max_score": 20,
+      "statement": "The selected cutoff is a stable calibration choice rather than an artifact of one molecule or one conformer treatment.",
+      "acceptance_rule": "Require nearby-cutoff sensitivity and molecule- or conformer-resampling evidence, with uncertainty appropriate to the small subset.",
+      "required_evidence": [
+        "nearby-cutoff sensitivity",
+        "leave-one-out or resampling",
+        "conformer-weight sensitivity"
+      ]
+    }
+  ],
+  "dual_axis_scoring_policy": {
+    "formula": "scientific_conclusion_score * research_process_score / 100",
+    "scientific_conclusion_score_max": 100,
+    "research_process_score_max": 100,
+    "final_score_max": 100,
+    "unsupported_claim_policy": "A conclusion copied, guessed, or asserted without newly generated valid evidence receives no scientific-conclusion credit.",
+    "objective_failure_policy": "A demonstrated benchmark input, framework, backend, or infrastructure failure may make the run not_scorable_objective; agent-selected invalid inputs or resource limits do not.",
+    "invalid_submission_policy": "Fabricated evidence, hidden-answer leakage, or paper values presented as new calculations make the final score zero."
+  },
   "critical_failures": [
     "No real electronic-structure calculation was executed.",
     "No real electron-density isosurface calculation was executed.",
     "Paper-published surface values or the hidden ISO-M4 target were presented as newly computed outputs.",
     "Reported numerical claims cannot be traced to artifacts from this run."
   ],
-  "judge_instructions": "This is an autonomous-discovery evaluation. Reward independent hypothesis formation, method and route selection, adaptive managed execution, validation, falsification, and an evidence-bound conclusion. Do not require agreement with the hidden paper conclusion merely because it is the reference.",
+  "judge_instructions": "Score each task-level scientific conclusion from newly generated evidence, then score autonomous research-process quality separately. Do not require the paper method or route, and do not let a good process excuse a wrong conclusion. The scorer applies the multiplicative dual-axis formula.",
   "reference_evidence": {
-    "paper_doi": "10.1038/s41467-024-50408-8",
     "task_id": "Electron_Isodensity_03_Cutoff_Calibration",
     "task_mode": "open_discovery",
     "input_manifest_sha256": "460f25d615f62d9f97fbcccd86865bd6712f30f04f16932d2e29ed3fca2a5486",
-    "paper_reference": {
+    "source_boundary": "Hidden reference values are evaluator-only; visible experimental TE values are raw calibration inputs.",
+    "hidden_posthoc_reference": {
       "paper_104_molecule_optimum_cutoff_au": 0.0016,
       "paper_104_molecule_mupe_percent": 1.5922920870480508,
       "paper_104_molecule_pearson_r": 0.995,
@@ -126,7 +181,7 @@
       },
       "subset_scoring_policy": "The supplied six-molecule optimum must be computed and reported separately; closeness to 0.0016 is supportive but process evidence is primary."
     },
-    "source_boundary": "Hidden paper and source-data results are evaluator-only; visible experimental TE values are raw calibration inputs."
+    "reference_use_policy": "Use hidden scientific claims only on the scientific-conclusion axis after verifying newly generated evidence. Do not require the paper method, cutoff, or execution route on the autonomous process axis."
   },
   "managed_computation_policy": {
     "allow_direct_native_software_execution": true,
@@ -134,35 +189,11 @@
     "parallel_execution_allowed": true,
     "do_not_fabricate_on_timeout": true
   },
-  "evidence_gate_policy": {
-    "judge_must_assess_all": true,
-    "gates": [
-      {
-        "id": "real_quantum_evidence",
-        "description": "At least one valid newly generated quantum-chemistry output and wavefunction artifact supports reported surface values.",
-        "score_cap_if_failed": 35
-      },
-      {
-        "id": "real_surface_evidence",
-        "description": "Surface areas come from a real electron-density isosurface program in this run, not from paper tables or geometric proxies.",
-        "score_cap_if_failed": 45
-      },
-      {
-        "id": "input_and_hidden_boundary",
-        "description": "No hidden reference, source-data surface, or internet-discovered answer is substituted for computation.",
-        "score_cap_if_failed": 20
-      },
-      {
-        "id": "conformer_evidence",
-        "description": "Flexible-molecule conclusions include multiple conformers or an explicit calculation-backed limitation.",
-        "score_cap_if_failed": 60
-      }
-    ]
-  },
-  "current_toolbox_reproduction_baseline": {
-    "status": "representative_components_verified",
+  "evidence_gate_policy": {},
+  "reference_conclusion_gate_policy": {},
+  "current_toolbox_feasibility_baseline": {
+    "status": "autonomous_workflow_components_verified",
     "classification": "solvable",
-    "major_paper_conclusion_reproduced_in_this_audit": false,
     "installed_software": [
       "ORCA 6.1.1",
       "Multiwfn 2026.7.15",
@@ -170,17 +201,10 @@
       "xTB 6.7.1"
     ],
     "verified_components": [
-      "DSD-PBEP86/def2-QZVPD ORCA wavefunction generation on ethane and 1-pentanethiol",
-      "ORCA GBW to WFN conversion with orca_2aim",
-      "Multiwfn molecular electron-isodensity surface area at a paper-relevant cutoff",
-      "CCSD unrelaxed MDCI density generation, orca_plot cube export, and Multiwfn external-grid surface analysis on ethane",
-      "Version-compatible Multiwfn 2026.7.15 menu streams for WFN/WFX and external-grid inputs"
+      "Typed structure/conformer generation, calculate_correlated_electron_density, export_electron_density_grid, and calculate_electron_isodensity_surface Actions",
+      "ORCA GBW/WFN and MDCI cube export with Multiwfn isodensity surface analysis",
+      "Agent-controllable cutoff lists, grid settings, electron-count validation, resource limits, and version-compatible menu streams"
     ],
-    "unresolved_requirements": [
-      "No typed batch Action currently exposes electron-isodensity surface-area scans; direct native Multiwfn execution is required.",
-      "The accessible paper does not uniquely specify a separate thermochemical energy for conformer weights; sensitivity must be reported."
-    ]
-  },
-  "evaluation_profile": "autonomous_discovery",
-  "reference_conclusion_gate_policy": {}
+    "unresolved_requirements": []
+  }
 }

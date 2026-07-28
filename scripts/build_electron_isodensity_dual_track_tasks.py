@@ -235,6 +235,7 @@ TASK_SPECS = (
             "Use the supplied def2-TZVPD method-comparison hierarchy consistently across ISO-M1 to ISO-M3.",
             "Run the complete supplied cutoff grid for each successful method and molecule.",
             "Keep current-software recomputations separate from hidden paper-published numerical targets.",
+            "Within the advertised backend limits and currently available server capacity, prioritize wall-clock efficiency by using substantial CPU parallelism and running independent calculations concurrently. Scale total memory with the process count so each ORCA process receives at least 2000 MB, use more per-process memory when correlated-method diagnostics require it, and use low-core execution only when justified by memory, scaling, or numerical-stability considerations.",
             "For every CCSD/MDCI reference, export one common 300^3 electron-density cube, set resource_limits.walltime_seconds to at least 1800 for orca_plot, enable strict_electron_count_validation with a tolerance no larger than 0.2 percent, and do not lower grid resolution merely to recover from a timeout.",
             "Preserve NoFrozenCore, VeryTightSCF, and stability settings required by the supplied protocol. If a synchronous calculation approaches its deadline, use the managed asynchronous native-job layer or increase the declared walltime instead of silently changing the scientific method.",
             "Within the advertised backend limits and available server capacity, use substantial CPU parallelism for ORCA and run independent molecules concurrently. Scale total memory so each ORCA process receives at least 2000 MB. Note that orca_plot cube export itself is single-process and must be accelerated by concurrent independent exports rather than a larger cpu_cores value.",
@@ -1078,93 +1079,127 @@ def _q4_scientific_conclusion_rubric(reproduction: bool) -> list[dict[str, Any]]
     ]
 
 
+def _scientific_conclusion_rubric(
+    spec: TaskSpec, reproduction: bool
+) -> list[dict[str, Any]]:
+    if spec.number == "04":
+        return _q4_scientific_conclusion_rubric(reproduction)
+    rubrics = {
+        "method_selection": [
+            {
+                "id": "dsd_pbep86_closest_density_method",
+                "max_score": 45,
+                "statement": "Among the tested affordable DFT approaches, DSD-PBEP86 gives electron-density isosurface areas closest to the feasible CCSD(T)-level reference and is the preferred production method.",
+                "acceptance_rule": "Require newly computed common-geometry, common-basis density surfaces. Full credit requires recovering the DSD-PBEP86 selection; partial credit may reflect a correctly documented non-conclusion-preserving subset.",
+                "required_evidence": ["PBE/B3LYP/DSD-PBEP86 surfaces", "feasible correlated reference surfaces", "reference-relative error ranking"],
+            },
+            {
+                "id": "quantitative_method_comparison",
+                "max_score": 30,
+                "statement": "The computed method comparison supports the paper ordering, with DSD-PBEP86 substantially closer to the correlated density than PBE or B3LYP on the benchmark scale.",
+                "acceptance_rule": "Require artifact-linked numerical errors, consistent grids and cutoffs, electron-count validation, and uncertainty or subset sensitivity.",
+                "required_evidence": ["surface matrix", "error statistics", "grid and electron-count validation"],
+            },
+            {
+                "id": "production_method_selection_justified",
+                "max_score": 25,
+                "statement": "The selected production density method is justified by accuracy, numerical stability, and feasible computational cost rather than assumed from the paper.",
+                "acceptance_rule": "Require an explicit selection decision tied to newly generated evidence and limitations of the feasible correlated-density proxy.",
+                "required_evidence": ["selection criteria", "cost and convergence evidence", "proxy and subset limitations"],
+            },
+        ],
+        "conformer_effects": [
+            {
+                "id": "ensemble_improves_surface_agreement",
+                "max_score": 40,
+                "statement": "Boltzmann-weighted conformer sampling improves agreement between electron-isodensity surfaces and experimental thermodynamic-equivalent surfaces relative to using only the lowest conformer.",
+                "acceptance_rule": "Require matched single-conformer and ensemble calculations with the same density method, cutoff, and surface analysis.",
+                "required_evidence": ["multiple conformer surfaces", "ensemble weights", "single-versus-ensemble error comparison"],
+            },
+            {
+                "id": "flexible_molecules_show_larger_effect",
+                "max_score": 35,
+                "statement": "Conformer sampling matters most for flexible molecules and can materially change the predicted surface area.",
+                "acceptance_rule": "Require molecule-resolved conformer spread and a comparison between flexible and relatively rigid systems.",
+                "required_evidence": ["conformer-resolved areas", "flexibility comparison", "weight sensitivity"],
+            },
+            {
+                "id": "ensemble_error_reduction_scale",
+                "max_score": 25,
+                "statement": "The ensemble treatment reduces the aggregate error on the paper scale, from about 1.87 percent for the single-lowest treatment to about 1.59 percent for the ensemble.",
+                "acceptance_rule": "Exact 104-molecule values are not required from the task subset, but the direction, magnitude, and subset-versus-paper boundary must be reported quantitatively.",
+                "required_evidence": ["aggregate errors", "paper-scale comparison", "subset uncertainty"],
+            },
+        ],
+        "cutoff_calibration": [
+            {
+                "id": "optimal_cutoff_near_00016",
+                "max_score": 45,
+                "statement": "The electron-density isosurface cutoff that best matches experimental surfaces is near 0.0016 a.u.",
+                "acceptance_rule": "Require the complete declared cutoff grid and a newly computed error minimum; distinguish the task-subset optimum from the 104-molecule paper optimum.",
+                "required_evidence": ["cutoff-by-molecule surface matrix", "cutoff error curve", "identified minimum"],
+            },
+            {
+                "id": "calibrated_surface_accuracy",
+                "max_score": 35,
+                "statement": "At the calibrated cutoff, calculated isodensity surfaces correlate strongly with experiment and achieve low percent error on the paper scale.",
+                "acceptance_rule": "Require artifact-linked aggregate error and correlation statistics, with the paper references of about 1.59 percent MUPE and r = 0.995 used only for comparison.",
+                "required_evidence": ["calibrated predictions", "MUPE or equivalent error", "correlation statistic"],
+            },
+            {
+                "id": "cutoff_robustness_and_transferability",
+                "max_score": 20,
+                "statement": "The selected cutoff is a stable calibration choice rather than an artifact of one molecule or one conformer treatment.",
+                "acceptance_rule": "Require nearby-cutoff sensitivity and molecule- or conformer-resampling evidence, with uncertainty appropriate to the small subset.",
+                "required_evidence": ["nearby-cutoff sensitivity", "leave-one-out or resampling", "conformer-weight sensitivity"],
+            },
+        ],
+        "end_to_end": [
+            {
+                "id": "production_density_method",
+                "max_score": 20,
+                "statement": "DSD-PBEP86 is selected as the production density method after comparison with feasible correlated references.",
+                "acceptance_rule": "Require newly generated method-comparison evidence and an explicit treatment of proxy and subset limitations.",
+                "required_evidence": ["method comparison", "reference-relative ranking"],
+            },
+            {
+                "id": "conformer_ensemble_benefit",
+                "max_score": 20,
+                "statement": "Boltzmann-weighted conformer ensembles improve surface prediction, especially for flexible molecules.",
+                "acceptance_rule": "Require conformer-resolved calculations and single-versus-ensemble comparison.",
+                "required_evidence": ["conformer surfaces", "ensemble weights", "error comparison"],
+            },
+            {
+                "id": "calibrated_cutoff_and_global_fit",
+                "max_score": 25,
+                "statement": "A cutoff near 0.0016 a.u. provides the best surface agreement and a strong experiment-computation relationship.",
+                "acceptance_rule": "Require a complete cutoff calibration curve plus error and correlation statistics, separating subset results from paper aggregates.",
+                "required_evidence": ["cutoff curve", "calibrated error", "correlation"],
+            },
+            {
+                "id": "held_out_iso_m4_prediction",
+                "max_score": 20,
+                "statement": "The locked calibrated workflow predicts the held-out ISO-M4 surface close to the hidden experimental value 110.538 A^2 and paper-computed value 109.9966 A^2.",
+                "acceptance_rule": "Require the prediction to be locked before hidden comparison; full credit is within 2 percent and partial credit within 5 percent.",
+                "required_evidence": ["pre-prediction lock", "new ISO-M4 surface", "post-hoc relative errors"],
+            },
+            {
+                "id": "integrated_transfer_conclusion",
+                "max_score": 15,
+                "statement": "The method, conformer, and cutoff choices form a coherent transferable electron-isodensity protocol rather than independent fitted observations.",
+                "acceptance_rule": "Require cross-stage provenance, sensitivity analysis, and an uncertainty assessment consistent with the held-out error.",
+                "required_evidence": ["end-to-end artifact flow", "cross-stage validation", "uncertainty coverage"],
+            },
+        ],
+    }
+    return copy.deepcopy(rubrics[spec.reference_key])
+
+
 def _ground_truth(spec: TaskSpec, reproduction: bool, manifest_sha256: str) -> dict[str, Any]:
     task_id = spec.reproduction_id if reproduction else spec.open_id
     expected_paths = [
         path for path, _, _ in _deliverables_for_mode(spec, reproduction)
     ]
-    gates = [
-        {
-            "id": "real_quantum_evidence",
-            "description": "At least one valid newly generated quantum-chemistry output and wavefunction artifact supports reported surface values.",
-            "score_cap_if_failed": 35,
-        },
-        {
-            "id": "real_surface_evidence",
-            "description": "Surface areas come from a real electron-density isosurface program in this run, not from paper tables or geometric proxies.",
-            "score_cap_if_failed": 45,
-        },
-        {
-            "id": "input_and_hidden_boundary",
-            "description": "No hidden reference, source-data surface, or internet-discovered answer is substituted for computation.",
-            "score_cap_if_failed": 20,
-        },
-    ]
-    if spec.number in {"02", "03", "05"}:
-        gates.append(
-            {
-                "id": "conformer_evidence",
-                "description": "Flexible-molecule conclusions include multiple conformers or an explicit calculation-backed limitation.",
-                "score_cap_if_failed": 60,
-            }
-        )
-    if spec.number in {"04", "05"}:
-        gates.append(
-            {
-                "id": "blind_lock",
-                "description": "The ISO-M4 prediction is recorded before hidden-target comparison.",
-                "score_cap_if_failed": 70,
-            }
-        )
-    if spec.number == "04" and not reproduction:
-        gates.append(
-            {
-                "id": "pre_prediction_calibration_lock",
-                "description": "A structured calibration lock was written before the first ISO-M4 electronic-structure or isosurface calculation, and no ISO-M4 property result was used to tune the workflow.",
-                "score_cap_if_failed": 70,
-            }
-        )
-    autonomous_rubric = [
-        {"id": "scientific_problem_framing", "max_score": 15, "description": "Defines testable hypotheses, decision criteria, resource tiers, and stopping rules without relying on a disclosed paper route."},
-        {"id": "autonomous_method_and_route_design", "max_score": 25, "description": "Independently selects defensible structures, methods, sampling, numerical controls, and alternative routes appropriate to the question."},
-        {"id": "adaptive_managed_execution", "max_score": 25, "description": "Executes real managed calculations, diagnoses failures, and revises the workflow without fabricating or laundering unmanaged results."},
-        {"id": "validation_and_falsification", "max_score": 20, "description": "Checks convergence, numerical sensitivity, chemical validity, competing explanations, uncertainty, and evidence sufficiency."},
-        {"id": "defensible_scientific_conclusion", "max_score": 15, "description": "Draws a traceable conclusion from the generated evidence. Agreement with the hidden paper conclusion is not required."},
-    ]
-    if spec.number == "04" and not reproduction:
-        autonomous_rubric = [
-            {"id": "scientific_problem_framing", "max_score": 15, "description": "Defines a blind-prediction hypothesis, pre-ISO-M4 lock point, small-calibration-set risks, decision criteria, resource tiers, and stopping rules without relying on a paper route."},
-            {"id": "autonomous_method_and_route_design", "max_score": 25, "description": "Independently designs defensible structure/conformer generation, electronic-density method selection, cutoff calibration, numerical controls, and alternatives without using ISO-M4 property results for tuning."},
-            {"id": "adaptive_managed_execution", "max_score": 25, "description": "Executes real managed structure, quantum, wavefunction, and isosurface calculations; diagnoses failures and revises only within the declared blind protocol."},
-            {"id": "validation_and_falsification", "max_score": 20, "description": "Uses multi-point and nearby-cutoff checks, leave-one-out or equivalent robustness analysis, numerical sensitivity, chemical validation, competing explanations, and explicit small-sample/extrapolation uncertainty."},
-            {"id": "defensible_scientific_conclusion", "max_score": 15, "description": "Records a genuinely blind ISO-M4 prediction with traceable uncertainty. Hidden experimental accuracy is a post-hoc diagnostic, while agreement with a paper method, cutoff, or computed value is not required."},
-        ]
-    reproduction_rubric = [
-        {"id": "paper_conclusion_agreement", "max_score": 55, "description": "Newly generated evidence recovers the paper's main method, ranking, conformer, cutoff, prediction, or end-to-end conclusion for this task; a conflicting conclusion receives no full reproduction credit."},
-        {"id": "protocol_fidelity", "max_score": 20, "description": "Follows the supplied paper-reconstructed methods, structures, routes, numerical resolution, and validation sequence, with controlled and explicit version-compatible substitutions only."},
-        {"id": "managed_recomputation", "max_score": 10, "description": "Recomputes the required quantum and isosurface evidence through observable managed scientific execution rather than copying paper values."},
-        {"id": "numerical_and_validation_quality", "max_score": 10, "description": "Uses consistent identities, charge, spin, conformers, grids, cutoffs, units, weights, convergence tests, and quantitative comparisons."},
-        {"id": "provenance_and_uncertainty", "max_score": 5, "description": "Links conclusions to artifacts and clearly separates paper targets, recomputation, deviations, failures, and remaining uncertainty."},
-    ]
-    conclusion_gate: dict[str, Any] = {}
-    if reproduction:
-        conclusion_gate = {
-            "required": True,
-            "criterion_id": "paper_conclusion_agreement",
-            "score_cap_if_not_matched": 45,
-            "score_cap_if_uncertain": 60,
-            "score_cap_if_omitted": 45,
-            "max_criterion_score_if_not_matched": 0,
-            "max_criterion_score_if_uncertain": 15,
-            "max_criterion_score_if_omitted": 0,
-        }
-        if spec.number == "01":
-            conclusion_gate["structured_match_fields"] = [
-                {
-                    "path": "report/method_comparison.json",
-                    "field": "production_method.recovered",
-                }
-            ]
     baseline = {
         "status": (
             "representative_reproduction_components_verified"
@@ -1252,7 +1287,7 @@ def _ground_truth(spec: TaskSpec, reproduction: bool, manifest_sha256: str) -> d
         reference_evidence.update(
             {
                 "hidden_posthoc_reference": expected_result,
-                "reference_use_policy": "Assess autonomous scientific process first. Hidden numerical values may diagnose blind predictive quality but must not impose a paper-method, paper-cutoff, or paper-conclusion gate.",
+                "reference_use_policy": "Use hidden scientific claims only on the scientific-conclusion axis after verifying newly generated evidence. Do not require the paper method, cutoff, or execution route on the autonomous process axis.",
             }
         )
     result = {
@@ -1264,12 +1299,16 @@ def _ground_truth(spec: TaskSpec, reproduction: bool, manifest_sha256: str) -> d
         ],
         "expected_result": expected_result,
         "expected_structured_output": expected_paths,
-        "evaluation_mode": "rubric_100",
+        "evaluation_mode": "dual_axis_100",
         "evaluation_profile": (
             "paper_reproduction" if reproduction else "autonomous_discovery"
         ),
         "score_max": 100,
-        "scoring_rubric": reproduction_rubric if reproduction else autonomous_rubric,
+        "scoring_rubric": process_rubric(reproduction=reproduction),
+        "scientific_conclusion_rubric": _scientific_conclusion_rubric(
+            spec, reproduction
+        ),
+        "dual_axis_scoring_policy": dual_axis_policy(),
         "critical_failures": [
             "No real electronic-structure calculation was executed.",
             "No real electron-density isosurface calculation was executed.",
@@ -1277,12 +1316,12 @@ def _ground_truth(spec: TaskSpec, reproduction: bool, manifest_sha256: str) -> d
             "Reported numerical claims cannot be traced to artifacts from this run.",
         ] + (["An ISO-M4 electronic-structure or isosurface result was used to tune the workflow before the blind prediction protocol was locked."] if spec.number == "04" and not reproduction else []),
         "judge_instructions": (
-            "This is a strict paper-reproduction evaluation. The main paper conclusion must be recovered from new evidence for full conclusion credit, and a conclusion that ranks or assigns the scientific outcome differently is not a successful reproduction. Exact 104-molecule aggregate numbers are not required from a smaller visible subset, but the task-level qualitative conclusion and supplied protocol route must agree. Apply the reference-conclusion and evidence gates and explain every cap."
+            "Score each paper conclusion from newly generated evidence, then score reproduction-process quality separately. Exact 104-molecule aggregate numbers are not required from a smaller visible subset, but the task-level qualitative conclusion remains part of the scientific-conclusion axis. The supplied paper route is part of process fidelity, and the scorer applies the multiplicative dual-axis formula."
             if reproduction
             else (
-                "This is an autonomous-discovery evaluation. Reward independent hypothesis formation, method and route selection, adaptive execution, falsification, and an evidence-bound conclusion. Do not require agreement with a hidden paper method, cutoff, calculation, or conclusion. For Q4, use the hidden experimental ISO-M4 value only as a post-hoc diagnostic within conclusion quality; do not let numerical proximity substitute for a pre-declared calibration lock, robust validation, or autonomous workflow design. Apply every evidence gate and explain any cap."
+                "Score the hidden blind-prediction conclusions from newly generated evidence, then score autonomous planning and execution separately. Do not require the paper method or cutoff, and do not let numerical proximity substitute for a pre-declared calibration lock or robust validation. The scorer applies the multiplicative dual-axis formula."
                 if spec.number == "04"
-                else "This is an autonomous-discovery evaluation. Reward independent hypothesis formation, method and route selection, adaptive execution, falsification, and an evidence-bound conclusion. Do not require agreement with the hidden paper conclusion merely because it is the reference answer. Apply every evidence gate and explain any cap."
+                else "Score each task-level scientific conclusion from newly generated evidence, then score autonomous research-process quality separately. Do not require the paper method or route, and do not let a good process excuse a wrong conclusion. The scorer applies the multiplicative dual-axis formula."
             )
         ),
         "reference_evidence": reference_evidence,
@@ -1292,8 +1331,8 @@ def _ground_truth(spec: TaskSpec, reproduction: bool, manifest_sha256: str) -> d
             "parallel_execution_allowed": True,
             "do_not_fabricate_on_timeout": True,
         },
-        "evidence_gate_policy": {"judge_must_assess_all": True, "gates": gates},
-        "reference_conclusion_gate_policy": conclusion_gate,
+        "evidence_gate_policy": {},
+        "reference_conclusion_gate_policy": {},
     }
     if spec.number == "04":
         reference_evidence["reference_use_policy"] = (
@@ -1302,12 +1341,6 @@ def _ground_truth(spec: TaskSpec, reproduction: bool, manifest_sha256: str) -> d
         )
         result.update(
             {
-                "evaluation_mode": "dual_axis_100",
-                "scoring_rubric": process_rubric(reproduction=reproduction),
-                "scientific_conclusion_rubric": _q4_scientific_conclusion_rubric(
-                    reproduction
-                ),
-                "dual_axis_scoring_policy": dual_axis_policy(),
                 "judge_instructions": (
                     "Score each hidden Q4 paper/experimental conclusion from new evidence, "
                     "then score reproduction-process quality separately. The supplied paper "
@@ -1319,8 +1352,6 @@ def _ground_truth(spec: TaskSpec, reproduction: bool, manifest_sha256: str) -> d
                         "paper method or cutoff; the scorer applies the multiplicative formula."
                     )
                 ),
-                "evidence_gate_policy": {},
-                "reference_conclusion_gate_policy": {},
             }
         )
     if reproduction:
@@ -1362,7 +1393,12 @@ def _build_task(spec: TaskSpec, reproduction: bool) -> None:
                 "visible_experimental_ids": list(spec.visible_te_ids),
             }
             if spec.number == "04":
-                protocol["surface_analysis"]["locked_production_cutoff_au"] = 0.0016
+                surface_items = list(protocol["surface_analysis"].items())
+                protocol["surface_analysis"] = dict(
+                    surface_items[:4]
+                    + [("locked_production_cutoff_au", 0.0016)]
+                    + surface_items[4:]
+                )
                 protocol["statistics"]["blind_policy"] = (
                     "Use the paper-calibrated 0.0016 a.u. cutoff as a locked Q4 production parameter; "
                     "validate ISO-M1 to ISO-M3 at that cutoff and do not re-optimize it on this three-molecule subset."

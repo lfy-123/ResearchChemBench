@@ -54,47 +54,103 @@
     "report/surface_by_conformer.csv",
     "report/ensemble_comparison.json"
   ],
-  "evaluation_mode": "rubric_100",
+  "evaluation_mode": "dual_axis_100",
+  "evaluation_profile": "paper_reproduction",
   "score_max": 100,
   "scoring_rubric": [
     {
-      "id": "paper_conclusion_agreement",
-      "max_score": 55,
-      "description": "Newly generated evidence recovers the paper's main task-level conclusion; a conflicting ranking, mechanism, selectivity, kinetic assignment, cutoff, or prediction is not a successful reproduction."
-    },
-    {
-      "id": "protocol_fidelity",
+      "id": "protocol_interpretation_and_execution_plan",
       "max_score": 20,
-      "description": "Follows the supplied paper-reconstructed methods, structures, routes, numerical resolution, common conditions, and validation sequence, with controlled version-compatible substitutions only."
+      "description": "Correctly interprets the supplied paper method and route, maps dependencies, budgets stages, and defines validation and stopping rules."
     },
     {
-      "id": "managed_recomputation",
+      "id": "method_parameter_and_structure_fidelity",
+      "max_score": 15,
+      "description": "Uses the supplied identities, structures, methods, parameters, reference states, and controlled version-compatible substitutions faithfully."
+    },
+    {
+      "id": "managed_recomputation_and_artifact_flow",
+      "max_score": 15,
+      "description": "Recomputes the required evidence through managed scientific execution and passes artifacts correctly across the disclosed workflow."
+    },
+    {
+      "id": "validation_numerical_quality_and_uncertainty",
+      "max_score": 20,
+      "description": "Validates convergence, identities, stationary points or surfaces, numerical resolution, statistics, uncertainty, and paper-comparison tolerances."
+    },
+    {
+      "id": "failure_diagnosis_and_protocol_recovery",
       "max_score": 10,
-      "description": "Recomputes the required scientific evidence through observable managed execution rather than copying paper values."
+      "description": "Diagnoses failures, makes scientifically controlled recovery choices, and records any unavoidable protocol deviation."
     },
     {
-      "id": "numerical_and_validation_quality",
+      "id": "resource_and_execution_efficiency",
       "max_score": 10,
-      "description": "Uses chemically and numerically consistent inputs, convergence controls, validation, units, statistics, and quantitative comparisons."
+      "description": "Uses available resources, parallelism, retries, numerical settings, and stopping decisions efficiently while preserving protocol validity."
     },
     {
-      "id": "provenance_and_uncertainty",
-      "max_score": 5,
-      "description": "Links conclusions to artifacts and separates paper targets, recomputation, deviations, failures, and remaining uncertainty."
+      "id": "provenance_reporting_and_reproducibility",
+      "max_score": 10,
+      "description": "Separates paper targets from recomputation and links conclusions, parameters, deviations, failures, and uncertainty to artifacts."
     }
   ],
+  "scientific_conclusion_rubric": [
+    {
+      "id": "ensemble_improves_surface_agreement",
+      "max_score": 40,
+      "statement": "Boltzmann-weighted conformer sampling improves agreement between electron-isodensity surfaces and experimental thermodynamic-equivalent surfaces relative to using only the lowest conformer.",
+      "acceptance_rule": "Require matched single-conformer and ensemble calculations with the same density method, cutoff, and surface analysis.",
+      "required_evidence": [
+        "multiple conformer surfaces",
+        "ensemble weights",
+        "single-versus-ensemble error comparison"
+      ]
+    },
+    {
+      "id": "flexible_molecules_show_larger_effect",
+      "max_score": 35,
+      "statement": "Conformer sampling matters most for flexible molecules and can materially change the predicted surface area.",
+      "acceptance_rule": "Require molecule-resolved conformer spread and a comparison between flexible and relatively rigid systems.",
+      "required_evidence": [
+        "conformer-resolved areas",
+        "flexibility comparison",
+        "weight sensitivity"
+      ]
+    },
+    {
+      "id": "ensemble_error_reduction_scale",
+      "max_score": 25,
+      "statement": "The ensemble treatment reduces the aggregate error on the paper scale, from about 1.87 percent for the single-lowest treatment to about 1.59 percent for the ensemble.",
+      "acceptance_rule": "Exact 104-molecule values are not required from the task subset, but the direction, magnitude, and subset-versus-paper boundary must be reported quantitatively.",
+      "required_evidence": [
+        "aggregate errors",
+        "paper-scale comparison",
+        "subset uncertainty"
+      ]
+    }
+  ],
+  "dual_axis_scoring_policy": {
+    "formula": "scientific_conclusion_score * research_process_score / 100",
+    "scientific_conclusion_score_max": 100,
+    "research_process_score_max": 100,
+    "final_score_max": 100,
+    "unsupported_claim_policy": "A conclusion copied, guessed, or asserted without newly generated valid evidence receives no scientific-conclusion credit.",
+    "objective_failure_policy": "A demonstrated benchmark input, framework, backend, or infrastructure failure may make the run not_scorable_objective; agent-selected invalid inputs or resource limits do not.",
+    "invalid_submission_policy": "Fabricated evidence, hidden-answer leakage, or paper values presented as new calculations make the final score zero."
+  },
   "critical_failures": [
     "No real electronic-structure calculation was executed.",
     "No real electron-density isosurface calculation was executed.",
     "Paper-published surface values or the hidden ISO-M4 target were presented as newly computed outputs.",
     "Reported numerical claims cannot be traced to artifacts from this run."
   ],
-  "judge_instructions": "This is a strict paper-reproduction evaluation. The paper main conclusion must be recovered from newly generated evidence for full conclusion credit. A conflicting ranking, selectivity, mechanism, kinetic assignment, cutoff, or prediction is not a successful reproduction even when the calculation is otherwise coherent. Exact aggregate paper metrics need not match a smaller visible subset, but the task-level qualitative conclusion and supplied route must agree. Apply the reference-conclusion and evidence gates and explain every cap.",
+  "judge_instructions": "Score each paper conclusion from newly generated evidence, then score reproduction-process quality separately. Exact 104-molecule aggregate numbers are not required from a smaller visible subset, but the task-level qualitative conclusion remains part of the scientific-conclusion axis. The supplied paper route is part of process fidelity, and the scorer applies the multiplicative dual-axis formula.",
   "reference_evidence": {
-    "paper_doi": "10.1038/s41467-024-50408-8",
     "task_id": "Electron_Isodensity_Reproduction_02_Conformer_Effects",
     "task_mode": "guided_reproduction",
     "input_manifest_sha256": "3b01b1ce25aa1e7df663e7df20b9407f6791a0e3a0746f35af961243a4db0192",
+    "source_boundary": "Hidden paper and source-data results are evaluator-only; visible experimental TE values are raw calibration inputs.",
+    "paper_doi": "10.1038/s41467-024-50408-8",
     "paper_reference": {
       "paper_conclusion": "Conformer sampling improves agreement, especially for flexible molecules.",
       "paper_global_single_lowest_mupe_percent": 1.87,
@@ -115,8 +171,7 @@
         159.8,
         149.2
       ]
-    },
-    "source_boundary": "Hidden paper and source-data results are evaluator-only; visible experimental TE values are raw calibration inputs."
+    }
   },
   "managed_computation_policy": {
     "allow_direct_native_software_execution": true,
@@ -124,35 +179,11 @@
     "parallel_execution_allowed": true,
     "do_not_fabricate_on_timeout": true
   },
-  "evidence_gate_policy": {
-    "judge_must_assess_all": true,
-    "gates": [
-      {
-        "id": "real_quantum_evidence",
-        "description": "At least one valid newly generated quantum-chemistry output and wavefunction artifact supports reported surface values.",
-        "score_cap_if_failed": 35
-      },
-      {
-        "id": "real_surface_evidence",
-        "description": "Surface areas come from a real electron-density isosurface program in this run, not from paper tables or geometric proxies.",
-        "score_cap_if_failed": 45
-      },
-      {
-        "id": "input_and_hidden_boundary",
-        "description": "No hidden reference, source-data surface, or internet-discovered answer is substituted for computation.",
-        "score_cap_if_failed": 20
-      },
-      {
-        "id": "conformer_evidence",
-        "description": "Flexible-molecule conclusions include multiple conformers or an explicit calculation-backed limitation.",
-        "score_cap_if_failed": 60
-      }
-    ]
-  },
+  "evidence_gate_policy": {},
+  "reference_conclusion_gate_policy": {},
   "current_toolbox_reproduction_baseline": {
-    "status": "representative_components_verified",
+    "status": "representative_reproduction_components_verified",
     "classification": "solvable",
-    "major_paper_conclusion_reproduced_in_this_audit": false,
     "installed_software": [
       "ORCA 6.1.1",
       "Multiwfn 2026.7.15",
@@ -166,17 +197,7 @@
     ],
     "unresolved_requirements": [
       "The accessible paper does not uniquely specify a separate thermochemical energy for conformer weights; sensitivity must be reported."
-    ]
-  },
-  "evaluation_profile": "paper_reproduction",
-  "reference_conclusion_gate_policy": {
-    "required": true,
-    "criterion_id": "paper_conclusion_agreement",
-    "score_cap_if_not_matched": 45,
-    "score_cap_if_uncertain": 60,
-    "score_cap_if_omitted": 45,
-    "max_criterion_score_if_not_matched": 0,
-    "max_criterion_score_if_uncertain": 15,
-    "max_criterion_score_if_omitted": 0
+    ],
+    "major_paper_conclusion_reproduced_in_this_audit": false
   }
 }
