@@ -505,12 +505,16 @@ SDK 负责：
 
 - 返回 job-local 绝对路径；
 - 创建输出父目录；
-- 阻止访问未声明的相对输入；
+- 对传入 `ctx.input()` 和 `ctx.output()` 的逻辑名称执行声明校验，未知名称返回明确错误；
 - 写入结构化数值结果时检查 NaN/Inf；
 - 把输出登记到 manifest；
 - 记录输入输出 lineage。
 
 同时提供环境变量 `RESEARCHCHEM_JOB_ROOT/INPUTS/OUTPUTS/REPORT`，供不使用 SDK 的脚本使用。
+
+`JobContext` 是路径辅助和执行契约 API，不是文件系统权限边界。普通 Python 程序仍然可以绕过 SDK，使用 `open()`、`pathlib`、绝对路径或第三方库访问进程权限允许读取的文件。SDK 不能拦截或阻止这些操作，也不能保证程序只读取已声明输入。
+
+如果需要强制文件访问隔离，必须由作业运行器、容器、mount namespace 或操作系统权限实现。SDK 只能提高正确性和 provenance 完整性，不能替代系统级沙箱。
 
 ### 4. 提交前强制预检
 
@@ -599,9 +603,11 @@ external_execution: native_job_runner_only
 ```
 
 - 普通分析 runtime 默认 `in_process_only`，允许 ASE 结构、优化器和注册的进程内 Calculator。
-- Python/ASE 不允许直接通过 `subprocess` 启动 ORCA、Gaussian、VASP、LOBSTER 等外部 executable。
+- 执行契约规定 Python/ASE 不应直接通过 `subprocess` 启动 ORCA、Gaussian、VASP、LOBSTER 等外部 executable；`JobContext` 本身无法强制执行该规定。
 - 第三层确需外部程序时，调用已有原生作业提交接口，由其统一控制资源、超时、取消和进程终止。
 - 每个原生子作业继续生成独立 tool trace 和 provenance，并与父程序作业关联。
+
+若要强制禁止程序直接启动外部 executable，需要在作业运行器或操作系统隔离层限制可见 executable 和子进程权限；仅依赖 SDK、提示词或静态检查只能提供约束提示和审计，不能形成安全边界。
 
 ### 9. 编程接口验收指标
 
