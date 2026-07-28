@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import hashlib
+import importlib.util
 import json
 from pathlib import Path
 
@@ -43,6 +44,23 @@ def test_native_smoke_manifest_matches_versioned_examples() -> None:
         if isinstance(case.get("source_sha256"), str):
             path = TOOLBOX_ROOT.parent / case["example_path"]
             assert hashlib.sha256(path.read_bytes()).hexdigest() == case["source_sha256"]
+        elif isinstance(case.get("source_sha256"), dict):
+            paths = {Path(item).name: TOOLBOX_ROOT.parent / item for item in case["example_paths"]}
+            for name, expected in case["source_sha256"].items():
+                assert hashlib.sha256(paths[name].read_bytes()).hexdigest() == expected
+
+
+def test_archived_native_smoke_evidence_is_independently_verifiable() -> None:
+    script = TOOLBOX_ROOT / "scripts" / "run_native_smokes.py"
+    spec = importlib.util.spec_from_file_location("run_native_smokes", script)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    evidence = TOOLBOX_ROOT / "evidence/native_smoke/20260728_reliability_fix_v3"
+    result = module.verify(evidence)
+    assert result == {"valid": True, "errors": [], "case_count": 5}
+    manifest = json.loads((evidence / "manifest.json").read_text(encoding="utf-8"))
+    assert all(case["calculation_intent"] for case in manifest["cases"])
 
 
 def test_reviewed_orca_gaussian_and_crest_examples_pass_lint(workspace: Path) -> None:
@@ -57,6 +75,7 @@ def test_reviewed_orca_gaussian_and_crest_examples_pass_lint(workspace: Path) ->
         )
     )
     assert result["input_deck_validation"]["lint_profile"] == "orca_high_frequency_v1"
+    assert result["calculation_intent"] == "single_point"
 
     gaussian = _copy_text(
         workspace, EXAMPLES / "gaussian/link1/input.gjf", "gaussian.gjf"
@@ -71,6 +90,7 @@ def test_reviewed_orca_gaussian_and_crest_examples_pass_lint(workspace: Path) ->
         )
     )
     assert result["input_deck_validation"]["link1_segment_count"] == 2
+    assert result["calculation_intent"] == "optimization_frequency"
 
     crest = _copy_text(
         workspace, EXAMPLES / "crest/conformer_search/input.xyz", "input.xyz"
@@ -85,6 +105,7 @@ def test_reviewed_orca_gaussian_and_crest_examples_pass_lint(workspace: Path) ->
         )
     )
     assert result["input_deck_validation"]["selected_mode"] == "conformer_search"
+    assert result["calculation_intent"] == "conformer_search"
 
 
 def test_vasp_and_lobster_fixed_file_examples_pass_lint(workspace: Path) -> None:
@@ -104,6 +125,7 @@ def test_vasp_and_lobster_fixed_file_examples_pass_lint(workspace: Path) -> None
         )
     )
     assert result["input_deck_validation"]["atom_count"] == 2
+    assert result["calculation_intent"] == "single_point"
 
     lobster_inputs = [
         _copy_text(workspace, EXAMPLES / "lobster/cohp/lobsterin", "lobsterin"),
@@ -127,6 +149,7 @@ def test_vasp_and_lobster_fixed_file_examples_pass_lint(workspace: Path) -> None
         )
     )
     assert result["input_deck_validation"]["wavecar_size_bytes"] > 0
+    assert result["calculation_intent"] == "projection"
 
 
 @pytest.mark.parametrize(

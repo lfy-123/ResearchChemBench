@@ -3,6 +3,9 @@ software_id: crest
 versions: ["3"]
 topics: [troubleshooting, errors]
 aliases: [CREST failed, incompatible CREST flags]
+inputs: ["XYZ structure"]
+outputs: ["stdout.log", "CREST ensemble or protonation files"]
+last_smoke_tested: null
 ---
 # CREST Troubleshooting
 

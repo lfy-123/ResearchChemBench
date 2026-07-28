@@ -3,6 +3,9 @@ software_id: gaussian
 versions: ["16"]
 topics: [quickstart, input-syntax]
 aliases: [Gaussian input, route section, blank lines]
+inputs: ["Gaussian input deck", "optional checkpoint files"]
+outputs: ["stdout.log", "checkpoint and requested property files"]
+last_smoke_tested: null
 example_path: chemistry_toolbox/examples/native/gaussian/optimization/input.gjf
 ---
 # Gaussian Quickstart

@@ -3,6 +3,9 @@ software_id: vasp
 versions: ["6"]
 topics: [troubleshooting, errors]
 aliases: [VASP failed, POTCAR mismatch, electronic convergence]
+inputs: ["INCAR", "POSCAR", "POTCAR", "KPOINTS"]
+outputs: ["OUTCAR", "vasprun.xml", "CONTCAR", "WAVECAR"]
+last_smoke_tested: null
 ---
 # VASP Troubleshooting
 

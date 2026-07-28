@@ -3,6 +3,9 @@ software_id: lobster
 versions: ["5"]
 topics: [vasp-requirements, upstream]
 aliases: [LOBSTER VASP compatibility, required VASP files]
+inputs: ["lobsterin", "compatible VASP output set"]
+outputs: ["lobsterout", "COHP, COOP, COBI, DOS, and charge files"]
+last_smoke_tested: null
 ---
 # LOBSTER VASP Requirements
 

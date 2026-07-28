@@ -1,7 +1,11 @@
 ---
 software_id: _shared
+versions: []
 topics: [success, convergence, validation]
 aliases: [normal termination, scientific convergence, artifact validation]
+inputs: []
+outputs: []
+last_smoke_tested: null
 ---
 # Success and Convergence
 

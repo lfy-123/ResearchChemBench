@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "job_id": "job_f954427387c34b458e530c3853606c82",
+  "job_type": "native_software",
+  "status": "success",
+  "supervisor_pid": 1818649,
+  "command": [
+    "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/reaction/bin/crest",
+    "input.xyz",
+    "--gfn2",
+    "--T",
+    "1"
+  ],
+  "job_directory": "outputs/execution_jobs/job_f954427387c34b458e530c3853606c82",
+  "stdout_path": "outputs/execution_jobs/job_f954427387c34b458e530c3853606c82/stdout.log",
+  "stderr_path": "outputs/execution_jobs/job_f954427387c34b458e530c3853606c82/stderr.log",
+  "resource_limits": {
+    "cpu_cores": 1,
+    "memory_mb": 1024,
+    "gpu_count": 0,
+    "walltime_seconds": 7200
+  },
+  "submitted_at": "2026-07-28T18:39:23.298002+00:00",
+  "started_at": "2026-07-28T18:39:23.333372+00:00",
+  "metadata": {
+    "software_id": "crest",
+    "executable": "crest",
+    "label": null,
+    "parent_job_id": null,
+    "calculation_intent": "conformer_search",
+    "input_deck_validation": {
+      "lint_profile": "crest_high_frequency_v1",
+      "input_target": "input.xyz",
+      "selected_mode": "conformer_search",
+      "calculation_intent": "conformer_search",
+      "checks": [
+        "xyz_format",
+        "mode_exclusivity",
+        "cpu_mapping"
+      ]
+    },
+    "invocation_synopsis": "crest input.xyz --gfn2 --T <threads> [sampling options]",
+    "execution_timeout_policy": {
+      "execution_class": "compute",
+      "timeout_seconds": 7200,
+      "source": "evaluation_policy",
+      "agent_controllable": false
+    },
+    "evaluation_resource_budget": {
+      "cpu_cores": 48,
+      "memory_mb": 204800,
+      "gpu_count": 0,
+      "source": "evaluation_policy",
+      "agent_controllable": false,
+      "scope": "per_task"
+    }
+  },
+  "finished_at": "2026-07-28T18:40:23.479651+00:00",
+  "duration_seconds": 60.146282,
+  "return_code": 0,
+  "background_process_cleanup": "none_detected",
+  "resource_usage": {
+    "user_cpu_seconds": 58.461127,
+    "system_cpu_seconds": 1.165633,
+    "max_rss_kb": 17508
+  },
+  "error": null
+}

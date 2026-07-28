@@ -3,6 +3,9 @@ software_id: orca
 versions: ["6.1.1"]
 topics: [single-point, energy]
 aliases: [ORCA SP, ORCA electronic energy]
+inputs: ["ORCA input deck", "referenced geometry or basis files"]
+outputs: ["stdout.log", "ORCA property and restart files"]
+last_smoke_tested: 2026-07-28
 example_path: chemistry_toolbox/examples/native/orca/single_point/input.inp
 ---
 # ORCA Single Point

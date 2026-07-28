@@ -3,6 +3,9 @@ software_id: crest
 versions: ["3"]
 topics: [conformer-search, conformers]
 aliases: [CREST conformer sampling, GFN conformer search]
+inputs: ["XYZ structure"]
+outputs: ["stdout.log", "CREST ensemble or protonation files"]
+last_smoke_tested: 2026-07-28
 example_path: chemistry_toolbox/examples/native/crest/conformer_search/input.xyz
 ---
 # CREST Conformer Search

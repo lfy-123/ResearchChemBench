@@ -818,12 +818,16 @@ def read_software_documentation(request: DocumentationReadRequest) -> dict[str, 
                 "path": chunk["path"],
                 "heading": chunk["heading"],
                 "content": content,
+                "character_count": len(content),
+                "word_count": len(content.split()),
+                "estimated_context_tokens": (len(content) + 3) // 4,
             }
         )
         remaining -= len(content)
         if remaining <= 0:
             truncated = True
             break
+    character_count = sum(item["character_count"] for item in sections)
     return {
         "status": "success",
         "software_id": software_id,
@@ -832,6 +836,12 @@ def read_software_documentation(request: DocumentationReadRequest) -> dict[str, 
         "sections": sections,
         "truncated": truncated,
         "source_policy": "first_party_markdown_exact_route",
+        "retrieval_usage": {
+            "character_count": character_count,
+            "word_count": sum(item["word_count"] for item in sections),
+            "estimated_context_tokens": (character_count + 3) // 4,
+            "token_estimate_policy": "UTF-8 character count divided by four; exact Agent-model tokens are recorded by the evaluation runner",
+        },
     }
 
 
@@ -891,6 +901,7 @@ def search_software_documentation(request: DocumentationSearchRequest) -> dict[s
     results = []
     for chunk in candidates[: request.max_results]:
         text = chunk["text"]
+        excerpt = text[: request.context_chars]
         results.append(
             {
                 "chunk_id": chunk["chunk_id"],
@@ -899,7 +910,10 @@ def search_software_documentation(request: DocumentationSearchRequest) -> dict[s
                 "topics": chunk["topics"],
                 "source_type": chunk["source_type"],
                 "score": scores.get(chunk["chunk_id"]),
-                "excerpt": text[: request.context_chars],
+                "excerpt": excerpt,
+                "character_count": len(excerpt),
+                "word_count": len(excerpt.split()),
+                "estimated_context_tokens": (len(excerpt) + 3) // 4,
             }
         )
     skipped = [
@@ -908,6 +922,7 @@ def search_software_documentation(request: DocumentationSearchRequest) -> dict[s
         if _searchable_text(path) is None
     ]
     docs = _documentation_for_software(software_id)
+    character_count = sum(item["character_count"] for item in results)
     return {
         "status": "success",
         "software_id": software_id,
@@ -924,6 +939,10 @@ def search_software_documentation(request: DocumentationSearchRequest) -> dict[s
             "lexical_ranker": "bm25",
             "semantic_model": MODEL_ID if request.retrieval_mode == "hybrid" else None,
             "semantic_status": semantic_status,
+            "returned_character_count": character_count,
+            "returned_word_count": sum(item["word_count"] for item in results),
+            "estimated_context_tokens": (character_count + 3) // 4,
+            "token_estimate_policy": "UTF-8 character count divided by four; exact Agent-model tokens are recorded by the evaluation runner",
         },
         "note": "First-party Markdown is indexed by heading. Cached text/HTML is a fallback; unparsed PDFs and archives are listed separately.",
     }

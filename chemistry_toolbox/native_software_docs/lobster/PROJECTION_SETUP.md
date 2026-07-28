@@ -3,6 +3,9 @@ software_id: lobster
 versions: ["5"]
 topics: [projection-setup, cohp, coop, cobi]
 aliases: [lobsterin, COHP projection, bonding projection]
+inputs: ["lobsterin", "compatible VASP output set"]
+outputs: ["lobsterout", "COHP, COOP, COBI, DOS, and charge files"]
+last_smoke_tested: 2026-07-28
 example_path: chemistry_toolbox/examples/native/lobster/cohp/lobsterin
 ---
 # LOBSTER Projection Setup

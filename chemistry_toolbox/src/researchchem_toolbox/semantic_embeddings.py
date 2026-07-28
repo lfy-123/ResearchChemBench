@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+from functools import lru_cache
 from pathlib import Path
 from typing import Mapping, Sequence
 
@@ -99,7 +100,42 @@ def write_embedding_cache(documents: Mapping[str, str], path: Path | None = None
         digest=np.asarray(document_digest(documents)),
         model_id=np.asarray(MODEL_ID),
     )
+    clear_semantic_runtime_cache()
     return destination
+
+
+@lru_cache(maxsize=4)
+def _resident_encoder(
+    directory: str,
+    model_mtime_ns: int,
+    tokenizer_mtime_ns: int,
+) -> MiniLMEncoder:
+    del model_mtime_ns, tokenizer_mtime_ns
+    return MiniLMEncoder(Path(directory))
+
+
+@lru_cache(maxsize=8)
+def _resident_embedding_cache(
+    path: str,
+    mtime_ns: int,
+    size_bytes: int,
+):
+    del mtime_ns, size_bytes
+    import numpy as np
+
+    with np.load(path, allow_pickle=False) as cached:
+        return (
+            str(cached["digest"].item()),
+            tuple(str(item) for item in cached["ids"]),
+            cached["vectors"].copy(),
+        )
+
+
+def clear_semantic_runtime_cache() -> None:
+    """Drop resident model and vector state after an index or model update."""
+
+    _resident_encoder.cache_clear()
+    _resident_embedding_cache.cache_clear()
 
 
 def semantic_scores(
@@ -118,13 +154,22 @@ def semantic_scores(
     if not path.is_file():
         return {}, "unavailable_embedding_cache"
     try:
-        cached = np.load(path, allow_pickle=False)
-        if str(cached["digest"].item()) != document_digest(documents):
+        stat = path.stat()
+        cached_digest, ids, vectors = _resident_embedding_cache(
+            str(path.resolve()), stat.st_mtime_ns, stat.st_size
+        )
+        if cached_digest != document_digest(documents):
             return {}, "stale_embedding_cache"
-        encoder = MiniLMEncoder(model_directory())
+        directory = model_directory().resolve()
+        model_path = directory / "model.onnx"
+        tokenizer_path = directory / "tokenizer.json"
+        encoder = _resident_encoder(
+            str(directory),
+            model_path.stat().st_mtime_ns,
+            tokenizer_path.stat().st_mtime_ns,
+        )
         query_vector = encoder.encode([query])[0]
-        ids = [str(item) for item in cached["ids"]]
-        scores = cached["vectors"] @ query_vector
+        scores = vectors @ query_vector
         return {item: float(score) for item, score in zip(ids, scores)}, "available"
     except (FileNotFoundError, RuntimeError, ValueError, OSError) as exc:
         return {}, f"unavailable:{type(exc).__name__}"
@@ -135,6 +180,7 @@ __all__ = [
     "MODEL_DIRECTORY_ENV",
     "MODEL_ID",
     "MiniLMEncoder",
+    "clear_semantic_runtime_cache",
     "document_digest",
     "embedding_cache_path",
     "model_directory",

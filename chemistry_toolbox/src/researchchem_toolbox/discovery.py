@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import difflib
 import re
 from typing import Any, Literal, Mapping
 
@@ -11,6 +12,7 @@ from .catalog import (
     active_catalog_snapshot,
     action_specs,
     backend_specs,
+    catalog_snapshot,
 )
 from .models import ActionSpec, BackendSpec
 from .parameter_specs import (
@@ -19,7 +21,7 @@ from .parameter_specs import (
     inferred_parameter_metadata,
 )
 from .resource_budget import resource_budget_record
-from .search_index import BM25Index, normalize_scores, weighted_text
+from .search_index import BM25Index, normalize_scores, tokenize, weighted_text
 from .semantic_embeddings import MODEL_ID, semantic_scores
 from .timeout_policy import timeout_policy_record
 
@@ -860,25 +862,59 @@ def browse_action_category(
     return result
 
 
-def _action_search_documents(
+def _action_search_fields(
     specifications: list[ActionSpec], backends: Mapping[str, BackendSpec]
-) -> dict[str, str]:
-    documents: dict[str, str] = {}
+) -> dict[str, dict[str, str]]:
+    fields: dict[str, dict[str, str]] = {}
     for specification in specifications:
         providers = [backends[item] for item in specification.backend_ids]
-        aliases = " ".join(aliases_for_action(specification.id))
-        documents[specification.id] = weighted_text(
+        aliases = " ".join(
+            dict.fromkeys((*aliases_for_action(specification.id), *specification.aliases))
+        )
+        fields[specification.id] = {
+            "action_id": specification.id.replace("_", " "),
+            "aliases": aliases,
+            "primary_output": specification.primary_output,
+            "category": CATEGORY_LABELS.get(specification.category, ""),
+            "description": specification.description,
+            "keywords": " ".join(specification.keywords),
+            "capability_tags": " ".join(specification.capability_tags),
+            "scientific_entities": " ".join(specification.scientific_entities),
+            "task_verbs": " ".join(specification.task_verbs),
+            "input_semantic_types": " ".join(
+                specification.input_semantic_types or specification.required_inputs
+            ),
+            "output_semantic_types": " ".join(
+                specification.output_semantic_types or (specification.primary_output,)
+            ),
+            "input_description": specification.input_description,
+            "optional_inputs": " ".join(specification.optional_inputs),
+            "backend_ids": " ".join(provider.id for provider in providers),
+            "backend_names": " ".join(provider.display_name for provider in providers),
+        }
+    return fields
+
+
+def _action_search_documents(fields: Mapping[str, Mapping[str, str]]) -> dict[str, str]:
+    documents: dict[str, str] = {}
+    for action_id, item in fields.items():
+        documents[action_id] = weighted_text(
             (
-                (specification.id.replace("_", " "), 5),
-                (aliases, 4),
-                (specification.primary_output, 3),
-                (CATEGORY_LABELS.get(specification.category, ""), 2),
-                (specification.description, 2),
-                (specification.input_description, 1),
-                (" ".join(specification.required_inputs), 1),
-                (" ".join(specification.optional_inputs), 1),
-                (" ".join(provider.id for provider in providers), 1),
-                (" ".join(provider.display_name for provider in providers), 1),
+                (item["action_id"], 5),
+                (item["aliases"], 4),
+                (item["primary_output"], 3),
+                (item["category"], 2),
+                (item["description"], 2),
+                (item["keywords"], 2),
+                (item["capability_tags"], 2),
+                (item["scientific_entities"], 1),
+                (item["task_verbs"], 1),
+                (item["input_semantic_types"], 1),
+                (item["output_semantic_types"], 1),
+                (item["input_description"], 1),
+                (item["optional_inputs"], 1),
+                (item["backend_ids"], 1),
+                (item["backend_names"], 1),
             )
         )
     return documents
@@ -896,7 +932,11 @@ def search_actions(
     offset: int = 0,
     snapshot: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
-    current = _snapshot(snapshot)
+    current = (
+        _snapshot(snapshot)
+        if snapshot is not None or available_only
+        else catalog_snapshot(include_health=False)
+    )
     actions = action_specs()
     backends = backend_specs()
     if category is not None and category not in CATEGORY_LABELS:
@@ -923,13 +963,35 @@ def search_actions(
             continue
         eligible.append(specification)
 
-    documents = _action_search_documents(eligible, backends)
+    search_fields = _action_search_fields(eligible, backends)
+    documents = _action_search_documents(search_fields)
     normalized_query = (query or "").casefold().strip()
     semantic_status = "not_requested"
     per_action_scores: dict[str, dict[str, float]] = {}
+    per_action_explanations: dict[str, dict[str, Any]] = {}
+    predicted_categories: list[dict[str, Any]] = []
     if normalized_query:
-        lexical_ranked = BM25Index(documents).search(normalized_query)
+        document_vocabulary = sorted(
+            {token for document in documents.values() for token in tokenize(document)}
+        )
+        query_tokens = tokenize(normalized_query)
+        query_expansions: dict[str, str] = {}
+        for token in query_tokens:
+            if token in document_vocabulary or len(token) < 5:
+                continue
+            matches = difflib.get_close_matches(
+                token, document_vocabulary, n=1, cutoff=0.86
+            )
+            if matches:
+                query_expansions[token] = matches[0]
+        lexical_query = " ".join(
+            [normalized_query, *query_expansions.values()]
+        ).strip()
+        lexical_ranked = BM25Index(documents).search(lexical_query)
         lexical_raw = {item.document_id: item.score for item in lexical_ranked}
+        lexical_terms = {
+            item.document_id: list(item.matched_terms) for item in lexical_ranked
+        }
         lexical = normalize_scores(lexical_raw)
         semantic_raw: dict[str, float] = {}
         if retrieval_mode == "hybrid":
@@ -951,18 +1013,62 @@ def search_actions(
                 exact_bonus = 0.08
             lexical_score = lexical.get(action_id, 0.0)
             semantic_score = semantic.get(action_id, 0.0)
-            combined = lexical_score + 0.25 * semantic_score + exact_bonus
+            combined = lexical_score + 0.12 * semantic_score + exact_bonus
             per_action_scores[action_id] = {
                 "combined": combined,
                 "bm25": lexical_score,
                 "semantic": semantic_score,
                 "exact_bonus": exact_bonus,
             }
+            query_terms = set(tokenize(normalized_query))
+            matched_fields = [
+                field_name
+                for field_name, field_text in search_fields[action_id].items()
+                if query_terms & set(tokenize(field_text))
+            ]
+            exact_matches = []
+            if normalized_query in {action_id.casefold(), action_text.casefold()}:
+                exact_matches.append("action_id")
+            if any(normalized_query == alias.casefold() for alias in aliases):
+                exact_matches.append("alias")
+            if exact_matches:
+                ranking_reason = f"exact {' and '.join(exact_matches)} match"
+            elif lexical_score and semantic_score:
+                ranking_reason = "BM25 match with MiniLM semantic support"
+            elif lexical_score:
+                ranking_reason = "BM25 field match"
+            else:
+                ranking_reason = "MiniLM semantic recall"
+            per_action_explanations[action_id] = {
+                "matched_fields": matched_fields,
+                "exact_matches": exact_matches,
+                "expanded_terms": sorted(
+                    set(lexical_terms.get(action_id, []))
+                    | set(query_expansions.values())
+                ),
+                "ranking_reason": ranking_reason,
+            }
         matches = sorted(
             (actions[action_id] for action_id in candidate_ids),
             key=lambda item: (-per_action_scores[item.id]["combined"], item.id),
         )
         ordering = "bm25_with_optional_minilm_semantic_recall"
+        category_scores: dict[str, float] = {}
+        for action_id, scores in per_action_scores.items():
+            category_name = actions[action_id].category
+            category_scores[category_name] = max(
+                category_scores.get(category_name, 0.0), scores["combined"]
+            )
+        predicted_categories = [
+            {
+                "category": category_name,
+                "label": CATEGORY_LABELS[category_name],
+                "score": score,
+            }
+            for category_name, score in sorted(
+                category_scores.items(), key=lambda item: (-item[1], item[0])
+            )[:3]
+        ]
     else:
         matches = eligible
         ordering = "stable_action_id_order"
@@ -981,7 +1087,21 @@ def search_actions(
             {
                 "action_id": specification.id,
                 "category": specification.category,
-                "aliases": list(aliases_for_action(specification.id)),
+                "aliases": list(
+                    dict.fromkeys(
+                        (*aliases_for_action(specification.id), *specification.aliases)
+                    )
+                ),
+                "keywords": list(specification.keywords),
+                "capability_tags": list(specification.capability_tags),
+                "scientific_entities": list(specification.scientific_entities),
+                "task_verbs": list(specification.task_verbs),
+                "input_semantic_types": list(
+                    specification.input_semantic_types or specification.required_inputs
+                ),
+                "output_semantic_types": list(
+                    specification.output_semantic_types or (specification.primary_output,)
+                ),
                 "description": specification.description,
                 "primary_output": specification.primary_output,
                 "data_action": specification.data_action,
@@ -992,6 +1112,15 @@ def search_actions(
                 "selection_policy": specification.selection_policy,
                 "providers": providers,
                 "relevance": per_action_scores.get(specification.id),
+                **per_action_explanations.get(
+                    specification.id,
+                    {
+                        "matched_fields": [],
+                        "exact_matches": [],
+                        "expanded_terms": [],
+                        "ranking_reason": "stable catalog order",
+                    },
+                ),
             }
         )
     next_offset = offset + len(page)
@@ -1006,12 +1135,14 @@ def search_actions(
             "available_only": available_only,
         },
         "ordering": ordering,
+        "predicted_categories": predicted_categories,
         "retrieval": {
             "mode": retrieval_mode,
             "lexical_ranker": "bm25",
             "semantic_model": MODEL_ID if retrieval_mode == "hybrid" else None,
             "semantic_status": semantic_status,
             "semantic_threshold": 0.20 if retrieval_mode == "hybrid" else None,
+            "query_expansions": query_expansions if normalized_query else {},
             "language": "English",
         },
         "total_matches": len(matches),

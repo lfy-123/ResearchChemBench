@@ -34,16 +34,12 @@ def _atomic_json(path: Path, value: dict[str, Any]) -> None:
 
 def _preexec(resources: dict[str, Any], evaluation_budget: dict[str, Any]):
     def configure() -> None:
-        memory_mb = evaluation_budget.get("memory_mb")
-        if memory_mb is not None:
-            limit = int(memory_mb) * 1024 * 1024
-            _soft, inherited_hard = resource.getrlimit(resource.RLIMIT_AS)
-            if inherited_hard != resource.RLIM_INFINITY:
-                limit = min(limit, inherited_hard)
-            resource.setrlimit(resource.RLIMIT_AS, (limit, limit))
-        walltime = max(1, int(resources.get("walltime_seconds") or 7200))
-        cpu_limit = walltime + 5
-        resource.setrlimit(resource.RLIMIT_CPU, (cpu_limit, cpu_limit))
+        # The supervisor enforces walltime for the complete process group.
+        # RLIMIT_CPU counts aggregate thread CPU time for one process and can
+        # terminate a valid parallel calculation well before its walltime.
+        # RLIMIT_AS is also unsuitable here because scientific executables may
+        # reserve a large virtual address space while using little resident
+        # memory. The parent supervisor monitors process-group RSS instead.
         cpu_cores = resources.get("cpu_cores")
         if cpu_cores is not None and hasattr(os, "sched_getaffinity"):
             allowed = sorted(os.sched_getaffinity(0))
@@ -51,6 +47,47 @@ def _preexec(resources: dict[str, Any], evaluation_budget: dict[str, Any]):
                 os.sched_setaffinity(0, set(allowed[: max(1, int(cpu_cores))]))
 
     return configure
+
+
+def _memory_limit_mb(
+    resources: dict[str, Any], evaluation_budget: dict[str, Any]
+) -> int | None:
+    candidates = [
+        int(value)
+        for value in (
+            resources.get("memory_mb"),
+            evaluation_budget.get("memory_mb"),
+        )
+        if value is not None
+    ]
+    return min(candidates) if candidates else None
+
+
+def _process_group_rss_kb(process_group_id: int) -> int | None:
+    proc = Path("/proc")
+    if not proc.is_dir():
+        return None
+    total = 0
+    observed = False
+    for entry in proc.iterdir():
+        if not entry.name.isdigit():
+            continue
+        try:
+            stat = (entry / "stat").read_text(encoding="utf-8")
+            fields = stat[stat.rfind(")") + 2 :].split()
+            if len(fields) < 3 or int(fields[2]) != process_group_id:
+                continue
+            status = (entry / "status").read_text(encoding="utf-8")
+            match = next(
+                (line for line in status.splitlines() if line.startswith("VmRSS:")),
+                None,
+            )
+            if match:
+                total += int(match.split()[1])
+            observed = True
+        except (FileNotFoundError, PermissionError, ProcessLookupError, ValueError):
+            continue
+    return total if observed else None
 
 
 def supervise(spec_path: Path) -> int:
@@ -63,6 +100,7 @@ def supervise(spec_path: Path) -> int:
     resources = dict(specification.get("resource_limits") or {})
     evaluation_budget = dict(specification.get("evaluation_resource_budget") or {})
     walltime = max(1, int(resources.get("walltime_seconds") or 7200))
+    memory_limit_mb = _memory_limit_mb(resources, evaluation_budget)
     started_at = _now()
     started_monotonic = time.monotonic()
     child: subprocess.Popen[bytes] | None = None
@@ -130,6 +168,8 @@ def supervise(spec_path: Path) -> int:
                 return 1
             status("running", child_pid=child.pid, return_code=None)
             timed_out = False
+            memory_exceeded = False
+            peak_process_group_rss_kb = 0
             while child.poll() is None:
                 if cancellation_signal is not None:
                     break
@@ -140,6 +180,21 @@ def supervise(spec_path: Path) -> int:
                     except ProcessLookupError:
                         pass
                     break
+                process_group_rss_kb = _process_group_rss_kb(child.pid)
+                if process_group_rss_kb is not None:
+                    peak_process_group_rss_kb = max(
+                        peak_process_group_rss_kb, process_group_rss_kb
+                    )
+                    if (
+                        memory_limit_mb is not None
+                        and process_group_rss_kb > memory_limit_mb * 1024
+                    ):
+                        memory_exceeded = True
+                        try:
+                            os.killpg(child.pid, signal.SIGTERM)
+                        except ProcessLookupError:
+                            pass
+                        break
                 time.sleep(0.2)
             if child.poll() is None:
                 try:
@@ -173,6 +228,8 @@ def supervise(spec_path: Path) -> int:
                     "user_cpu_seconds": round(usage.ru_utime, 6),
                     "system_cpu_seconds": round(usage.ru_stime, 6),
                     "max_rss_kb": usage.ru_maxrss,
+                    "peak_process_group_rss_kb": peak_process_group_rss_kb,
+                    "memory_limit_mb": memory_limit_mb,
                 },
             }
             if cancellation_signal is not None:
@@ -192,6 +249,18 @@ def supervise(spec_path: Path) -> int:
                     },
                 )
                 return 3
+            if memory_exceeded:
+                status(
+                    "failed",
+                    **common,
+                    error={
+                        "code": "memory_limit_exceeded",
+                        "message": (
+                            f"Process group exceeded the {memory_limit_mb} MB job memory limit"
+                        ),
+                    },
+                )
+                return 5
             if child.returncode == 0:
                 status("success", **common, error=None)
                 return 0

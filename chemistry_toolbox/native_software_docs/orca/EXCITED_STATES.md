@@ -3,6 +3,9 @@ software_id: orca
 versions: ["6.1.1"]
 topics: [excited-states, tddft]
 aliases: [ORCA TDDFT, vertical excitations]
+inputs: ["ORCA input deck", "referenced geometry or basis files"]
+outputs: ["stdout.log", "ORCA property and restart files"]
+last_smoke_tested: null
 ---
 # ORCA Excited States
 

@@ -16,7 +16,7 @@ for path in (SOURCE_ROOT, TOOLBOX_ROOT.parent):
         sys.path.insert(0, str(path))
 
 from researchchem_toolbox.catalog import action_specs, backend_specs
-from researchchem_toolbox.discovery import _action_search_documents
+from researchchem_toolbox.discovery import _action_search_documents, _action_search_fields
 from researchchem_toolbox.semantic_embeddings import (
     MODEL_ID,
     MODEL_REVISION,
@@ -71,7 +71,9 @@ def main() -> int:
     model_cache_directory = model_directory()
     for destination_name, (source_name, checksum) in FILES.items():
         _download(source_name, model_cache_directory / destination_name, checksum)
-    documents = _action_search_documents(list(action_specs().values()), backend_specs())
+    documents = _action_search_documents(
+        _action_search_fields(list(action_specs().values()), backend_specs())
+    )
     cache = write_embedding_cache(documents)
     documentation_caches = []
     documentation_root = TOOLBOX_ROOT / "native_software_docs"

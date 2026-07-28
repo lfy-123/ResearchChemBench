@@ -1,7 +1,11 @@
 ---
 software_id: _shared
+versions: []
 topics: [staging, paths, working-directory]
 aliases: [file paths, staged target, cwd]
+inputs: []
+outputs: []
+last_smoke_tested: null
 ---
 # Staging and Paths
 

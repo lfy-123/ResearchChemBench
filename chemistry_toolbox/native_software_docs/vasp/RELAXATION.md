@@ -3,6 +3,9 @@ software_id: vasp
 versions: ["6"]
 topics: [relaxation, optimization]
 aliases: [VASP geometry optimization, ionic relaxation, cell relaxation]
+inputs: ["INCAR", "POSCAR", "POTCAR", "KPOINTS"]
+outputs: ["OUTCAR", "vasprun.xml", "CONTCAR", "WAVECAR"]
+last_smoke_tested: null
 ---
 # VASP Relaxation
 

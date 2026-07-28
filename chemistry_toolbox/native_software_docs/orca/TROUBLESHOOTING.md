@@ -3,6 +3,9 @@ software_id: orca
 versions: ["6.1.1"]
 topics: [troubleshooting, errors]
 aliases: [ORCA failed, ORCA parser error, SCF not converged]
+inputs: ["ORCA input deck", "referenced geometry or basis files"]
+outputs: ["stdout.log", "ORCA property and restart files"]
+last_smoke_tested: null
 ---
 # ORCA Troubleshooting
 

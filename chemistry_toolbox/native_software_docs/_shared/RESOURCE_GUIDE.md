@@ -1,7 +1,11 @@
 ---
 software_id: _shared
+versions: []
 topics: [resources, cpu, memory, parallelism]
 aliases: [resource limits, threads, MPI, memory allocation]
+inputs: []
+outputs: []
+last_smoke_tested: null
 ---
 # Resource Guide
 

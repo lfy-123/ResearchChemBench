@@ -80,6 +80,16 @@ def test_action_search_uses_aliases_and_bm25_ranking():
     assert electronic["retrieval"]["semantic_status"].startswith(
         ("available", "unavailable", "stale")
     )
+    assert electronic["predicted_categories"]
+    assert electronic["actions"][0]["matched_fields"]
+    assert electronic["actions"][0]["ranking_reason"]
+
+    transition_state = search_actions(
+        query="find a stationary structure with one negative curvature",
+        retrieval_mode="hybrid",
+        snapshot=snapshot,
+    )
+    assert transition_state["actions"][0]["action_id"] == "locate_transition_state"
 
 
 def test_action_search_and_inspection_return_exact_provider_contracts():

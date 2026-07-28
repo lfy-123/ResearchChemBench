@@ -3,6 +3,9 @@ software_id: lobster
 versions: ["5"]
 topics: [troubleshooting, errors]
 aliases: [LOBSTER failed, basis error, charge spilling]
+inputs: ["lobsterin", "compatible VASP output set"]
+outputs: ["lobsterout", "COHP, COOP, COBI, DOS, and charge files"]
+last_smoke_tested: null
 ---
 # LOBSTER Troubleshooting
 

@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "job_id": "job_a160b9c151b543b1bf8d1e5a083a79ad",
+  "job_status": "success",
+  "collected_at": "2026-07-28T18:43:06.337934+00:00",
+  "include_inputs": false,
+  "truncated": false,
+  "outputs": [
+    {
+      "path": "outputs/execution_jobs/job_a160b9c151b543b1bf8d1e5a083a79ad/fort.7",
+      "job_relative_path": "fort.7",
+      "size_bytes": 1657,
+      "sha256": "ea7d72d73b53184443fb3c0a7974f8b23a1cf1c2cef22bdfea77f0752e13ac95",
+      "kind": "output"
+    },
+    {
+      "path": "outputs/execution_jobs/job_a160b9c151b543b1bf8d1e5a083a79ad/stderr.log",
+      "job_relative_path": "stderr.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "log"
+    },
+    {
+      "path": "outputs/execution_jobs/job_a160b9c151b543b1bf8d1e5a083a79ad/stdout.log",
+      "job_relative_path": "stdout.log",
+      "size_bytes": 68275,
+      "sha256": "f80518d7af2ee801a18a0c9b153c6d2e6ef99769fbcef1f665066fcbf262ecd7",
+      "kind": "log"
+    },
+    {
+      "path": "outputs/execution_jobs/job_a160b9c151b543b1bf8d1e5a083a79ad/water.chk",
+      "job_relative_path": "water.chk",
+      "size_bytes": 663552,
+      "sha256": "b5079457eb60f2fd3c174d703c91b0d6227f9e363b2eafaf54ff45053a9acf15",
+      "kind": "output"
+    }
+  ],
+  "request_status": "accepted",
+  "process_status": "completed",
+  "software_status": "normal_termination",
+  "convergence_status": "converged",
+  "artifact_status": "valid",
+  "scientific_validation_status": "mechanically_valid",
+  "execution_status_details": {
+    "software": {
+      "status": "normal_termination",
+      "evidence": [
+        "Normal termination of Gaussian"
+      ]
+    },
+    "convergence": {
+      "status": "converged",
+      "evidence": [
+        "SCF Done:",
+        "Optimization completed",
+        "frequency calculation completed",
+        "imaginary_frequency_count=0"
+      ],
+      "calculation_intent": "optimization_frequency"
+    },
+    "artifacts": {
+      "status": "valid",
+      "evidence": [
+        "stdout.log"
+      ]
+    },
+    "scientific_validation_boundary": "Mechanical validation does not judge whether the Agent's final scientific interpretation or paper conclusion is correct; that remains the Judger's role."
+  },
+  "declared_artifacts": []
+}

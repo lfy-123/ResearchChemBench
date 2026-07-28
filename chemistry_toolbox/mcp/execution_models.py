@@ -6,6 +6,7 @@ import re
 from pathlib import PurePosixPath
 from typing import Literal
 
+from packaging.specifiers import InvalidSpecifier, SpecifierSet
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 from researchchem_toolbox.models import ResourceLimits
@@ -24,6 +25,7 @@ _JOB_CONTROL_FILES = {
     "stdout.log",
     "stderr.log",
     "researchchem_job.py",
+    "runtime_output_registrations.json",
 }
 
 
@@ -196,6 +198,21 @@ class NativeJobRequest(BaseModel):
     staged_inputs: list[StagedInput] = Field(default_factory=list, max_length=1000)
     stdin_target: str | None = Field(default=None, max_length=1000)
     resource_limits: ResourceLimits = Field(default_factory=ResourceLimits)
+    calculation_intent: Literal[
+        "single_point",
+        "geometry_optimization",
+        "frequency",
+        "optimization_frequency",
+        "transition_state",
+        "ionic_relaxation",
+        "reaction_path",
+        "conformer_search",
+        "protonation",
+        "deprotonation",
+        "tautomerization",
+        "projection",
+        "other",
+    ] | None = None
     label: str | None = Field(default=None, max_length=200)
     parent_job_id: str | None = None
 
@@ -258,6 +275,8 @@ class AnalysisJobRequest(BaseModel):
     arguments: list[str] = Field(default_factory=list, max_length=500)
     staged_inputs: list[StagedInput] = Field(default_factory=list, max_length=1000)
     required_modules: list[str] = Field(default_factory=list, max_length=500)
+    required_module_versions: dict[str, str] = Field(default_factory=dict)
+    required_symbols: dict[str, list[str]] = Field(default_factory=dict)
     inputs: list[AnalysisInputDeclaration] = Field(default_factory=list, max_length=1000)
     outputs: list[AnalysisOutputDeclaration] = Field(default_factory=list, max_length=1000)
     execution_policy: Literal["in_process_only"] = "in_process_only"
@@ -301,6 +320,43 @@ class AnalysisJobRequest(BaseModel):
             normalized.append(name)
         if len(normalized) != len(set(normalized)):
             raise ValueError("required_modules contains duplicates")
+        return normalized
+
+    @field_validator("required_module_versions")
+    @classmethod
+    def validate_required_module_versions(cls, values: dict[str, str]) -> dict[str, str]:
+        normalized: dict[str, str] = {}
+        for raw_name, raw_specifier in values.items():
+            name = raw_name.strip()
+            if not re.fullmatch(r"[A-Za-z_][A-Za-z0-9_.]*", name):
+                raise ValueError(f"invalid Python module name: {raw_name!r}")
+            specifier = raw_specifier.strip()
+            try:
+                SpecifierSet(specifier)
+            except InvalidSpecifier as exc:
+                raise ValueError(
+                    f"invalid version specifier for {name!r}: {raw_specifier!r}"
+                ) from exc
+            normalized[name] = specifier
+        return normalized
+
+    @field_validator("required_symbols")
+    @classmethod
+    def validate_required_symbols(cls, values: dict[str, list[str]]) -> dict[str, list[str]]:
+        normalized: dict[str, list[str]] = {}
+        for raw_name, raw_symbols in values.items():
+            name = raw_name.strip()
+            if not re.fullmatch(r"[A-Za-z_][A-Za-z0-9_.]*", name):
+                raise ValueError(f"invalid Python module name: {raw_name!r}")
+            symbols = [item.strip() for item in raw_symbols]
+            if any(
+                not re.fullmatch(r"[A-Za-z_][A-Za-z0-9_.]*", item)
+                for item in symbols
+            ):
+                raise ValueError(f"invalid required symbol for module {name!r}")
+            if len(symbols) != len(set(symbols)):
+                raise ValueError(f"required_symbols for {name!r} contains duplicates")
+            normalized[name] = symbols
         return normalized
 
     @field_validator("parent_job_id")

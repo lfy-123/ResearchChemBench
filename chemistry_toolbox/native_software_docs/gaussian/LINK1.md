@@ -3,6 +3,9 @@ software_id: gaussian
 versions: ["16"]
 topics: [link1, multi-step]
 aliases: [Gaussian Link1, checkpoint workflow]
+inputs: ["Gaussian input deck", "optional checkpoint files"]
+outputs: ["stdout.log", "checkpoint and requested property files"]
+last_smoke_tested: null
 example_path: chemistry_toolbox/examples/native/gaussian/link1/input.gjf
 ---
 # Gaussian Link1

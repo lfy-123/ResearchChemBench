@@ -3,6 +3,9 @@ software_id: orca
 versions: ["6.1.1"]
 topics: [optimization-frequency, optimization, frequency]
 aliases: [ORCA Opt Freq, geometry optimization, frequency calculation]
+inputs: ["ORCA input deck", "referenced geometry or basis files"]
+outputs: ["stdout.log", "ORCA property and restart files"]
+last_smoke_tested: null
 example_path: chemistry_toolbox/examples/native/orca/optimization_frequency/input.inp
 ---
 # ORCA Optimization and Frequency

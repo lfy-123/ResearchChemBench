@@ -357,3 +357,29 @@ def test_programmable_layer_enforces_walltime(
     finished = _wait(submitted["job_id"], timeout=8)
     assert finished["job"]["status"] == "timeout"
     assert finished["job"]["error"]["code"] == "walltime_exceeded"
+
+
+def test_programmable_layer_enforces_process_group_memory(
+    chemistry_workspace: Path,
+) -> None:
+    write_workspace_text(
+        WorkspaceTextWriteRequest(
+            path="code/memory.py",
+            content=(
+                "import time\n"
+                "payload = bytearray(256 * 1024 * 1024)\n"
+                "print(len(payload), flush=True)\n"
+                "time.sleep(5)\n"
+            ),
+        )
+    )
+    submitted = submit_analysis_program(
+        AnalysisJobRequest(
+            runtime="core",
+            script_path="code/memory.py",
+            resource_limits=ResourceLimits(memory_mb=128, cpu_cores=1),
+        )
+    )
+    finished = _wait(submitted["job_id"], timeout=10)
+    assert finished["job"]["status"] == "failed"
+    assert finished["job"]["error"]["code"] == "memory_limit_exceeded"

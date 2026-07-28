@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "job_id": "job_fe3dc12e348d4a6a9fffc278476b3e65",
+  "job_type": "native_software",
+  "runtime": "vasp",
+  "command": [
+    "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/vasp/6.3.2/bin/vasp_std"
+  ],
+  "stdin_target": null,
+  "staged_inputs": [
+    {
+      "source_path": "code/vasp_INCAR",
+      "target_path": "INCAR",
+      "size_bytes": 129,
+      "sha256": "6a45a7c23e6fb4aaed1735629e19444364ce0d53085fa39c976e367c9a3b4957"
+    },
+    {
+      "source_path": "code/vasp_POSCAR",
+      "target_path": "POSCAR",
+      "size_bytes": 174,
+      "sha256": "8a557e2dd55cf6e5cd87ad03659589bd6334b98309cac8de97b9a052aa6fd1ec"
+    },
+    {
+      "source_path": "code/vasp_KPOINTS",
+      "target_path": "KPOINTS",
+      "size_bytes": 42,
+      "sha256": "fdab3c9b113278755ccdcbfbffbcd151efdbaa2e066eafb270c3109cff3867e5"
+    },
+    {
+      "source_path": "code/vasp_POTCAR",
+      "target_path": "POTCAR",
+      "size_bytes": 150218,
+      "sha256": "813aade8d7556478a138318a1b54ce2f88eca7e031fc006066720bc984f36595"
+    }
+  ],
+  "resource_limits": {
+    "cpu_cores": 1,
+    "memory_mb": 2048,
+    "gpu_count": 0,
+    "walltime_seconds": 7200
+  },
+  "metadata": {
+    "software_id": "vasp",
+    "executable": "vasp_std",
+    "label": null,
+    "parent_job_id": null,
+    "calculation_intent": "single_point",
+    "input_deck_validation": {
+      "lint_profile": "vasp_high_frequency_v1",
+      "required_targets": [
+        "INCAR",
+        "KPOINTS",
+        "POSCAR",
+        "POTCAR"
+      ],
+      "species": [
+        "Si"
+      ],
+      "atom_count": 2,
+      "potcar_dataset_count": 1,
+      "incar_ibrion": -1,
+      "incar_nsw": 0,
+      "calculation_intent": "single_point",
+      "checks": [
+        "fixed_files",
+        "poscar_counts",
+        "potcar_dataset_count"
+      ]
+    },
+    "invocation_synopsis": "vasp_std",
+    "execution_timeout_policy": {
+      "execution_class": "compute",
+      "timeout_seconds": 7200,
+      "source": "evaluation_policy",
+      "agent_controllable": false
+    },
+    "evaluation_resource_budget": {
+      "cpu_cores": 48,
+      "memory_mb": 204800,
+      "gpu_count": 0,
+      "source": "evaluation_policy",
+      "agent_controllable": false,
+      "scope": "per_task"
+    }
+  },
+  "submitted_at": "2026-07-28T18:40:23.568068+00:00",
+  "automatic_fallback": false,
+  "shell": false
+}

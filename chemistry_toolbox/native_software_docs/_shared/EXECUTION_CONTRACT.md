@@ -1,7 +1,11 @@
 ---
 software_id: _shared
+versions: []
 topics: [execution, contract]
 aliases: [native job lifecycle, execution rules]
+inputs: []
+outputs: []
+last_smoke_tested: null
 ---
 # Native Execution Contract
 

@@ -3,6 +3,9 @@ software_id: gaussian
 versions: ["16"]
 topics: [optimization-frequency, optimization, frequency]
 aliases: [Gaussian Opt Freq, geometry optimization, vibrational frequencies]
+inputs: ["Gaussian input deck", "optional checkpoint files"]
+outputs: ["stdout.log", "checkpoint and requested property files"]
+last_smoke_tested: 2026-07-28
 example_path: chemistry_toolbox/examples/native/gaussian/optimization/input.gjf
 ---
 # Gaussian Optimization and Frequency

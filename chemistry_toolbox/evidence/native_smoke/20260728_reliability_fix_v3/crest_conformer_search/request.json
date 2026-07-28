@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "job_id": "job_2ff9d0b7304a4ae192caaf8cd5b5f019",
+  "job_type": "native_software",
+  "runtime": "reaction",
+  "command": [
+    "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/reaction/bin/crest",
+    "input.xyz",
+    "--gfn2",
+    "--T",
+    "1"
+  ],
+  "stdin_target": null,
+  "staged_inputs": [
+    {
+      "source_path": "code/crest_input.xyz",
+      "target_path": "input.xyz",
+      "size_bytes": 371,
+      "sha256": "30a6c23858136c688cb5f3e24e6324e0306b2b0242b02254423be9f7b63d28cd"
+    }
+  ],
+  "resource_limits": {
+    "cpu_cores": 1,
+    "memory_mb": 1024,
+    "gpu_count": 0,
+    "walltime_seconds": 7200
+  },
+  "metadata": {
+    "software_id": "crest",
+    "executable": "crest",
+    "label": null,
+    "parent_job_id": null,
+    "calculation_intent": "conformer_search",
+    "input_deck_validation": {
+      "lint_profile": "crest_high_frequency_v1",
+      "input_target": "input.xyz",
+      "selected_mode": "conformer_search",
+      "calculation_intent": "conformer_search",
+      "checks": [
+        "xyz_format",
+        "mode_exclusivity",
+        "cpu_mapping"
+      ]
+    },
+    "invocation_synopsis": "crest input.xyz --gfn2 --T <threads> [sampling options]",
+    "execution_timeout_policy": {
+      "execution_class": "compute",
+      "timeout_seconds": 7200,
+      "source": "evaluation_policy",
+      "agent_controllable": false
+    },
+    "evaluation_resource_budget": {
+      "cpu_cores": 48,
+      "memory_mb": 204800,
+      "gpu_count": 0,
+      "source": "evaluation_policy",
+      "agent_controllable": false,
+      "scope": "per_task"
+    }
+  },
+  "submitted_at": "2026-07-28T18:43:06.346699+00:00",
+  "automatic_fallback": false,
+  "shell": false
+}

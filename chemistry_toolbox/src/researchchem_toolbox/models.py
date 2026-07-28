@@ -190,6 +190,28 @@ class ActionSpec:
     data_action: bool = False
     requires_network: bool = False
     selection_policy: ProviderSelectionPolicy = "agent_backend_required"
+    aliases: tuple[str, ...] = ()
+    keywords: tuple[str, ...] = ()
+    capability_tags: tuple[str, ...] = ()
+    scientific_entities: tuple[str, ...] = ()
+    task_verbs: tuple[str, ...] = ()
+    input_semantic_types: tuple[str, ...] = ()
+    output_semantic_types: tuple[str, ...] = ()
+
+    def __post_init__(self) -> None:
+        id_terms = tuple(self.id.split("_"))
+        if not self.keywords:
+            object.__setattr__(self, "keywords", id_terms)
+        if not self.capability_tags:
+            object.__setattr__(self, "capability_tags", (self.category,))
+        if not self.scientific_entities:
+            object.__setattr__(self, "scientific_entities", (self.primary_output,))
+        if not self.task_verbs:
+            object.__setattr__(self, "task_verbs", id_terms[:1])
+        if not self.input_semantic_types:
+            object.__setattr__(self, "input_semantic_types", self.required_inputs)
+        if not self.output_semantic_types:
+            object.__setattr__(self, "output_semantic_types", (self.primary_output,))
 
     @property
     def execution_class(self) -> Literal["compute", "fast"]:

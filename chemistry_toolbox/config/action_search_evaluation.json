@@ -18,5 +18,10 @@
   {"query": "PDB search", "relevant": ["search_protein_structures"]},
   {"query": "CAS lookup", "relevant": ["resolve_chemical_identity", "lookup_nist_webbook_species"]},
   {"query": "space group", "relevant": ["analyze_crystal_symmetry"]},
-  {"query": "protonate molecule at pH", "relevant": ["assign_protonation_states"]}
+  {"query": "protonate molecule at pH", "relevant": ["assign_protonation_states"]},
+  {"query": "find a stationary structure with one negative curvature", "relevant": ["locate_transition_state"]},
+  {"query": "walk downhill from a saddle point toward reactant and product", "relevant": ["trace_intrinsic_reaction_coordinate"]},
+  {"query": "check whether a geometry has imaginary vibrational modes", "relevant": ["derive_vibrational_modes"]},
+  {"query": "estimate a molecule total electronic energy", "relevant": ["calculate_energy"]},
+  {"query": "intrisic reaction coordinate", "relevant": ["trace_intrinsic_reaction_coordinate"]}
 ]

@@ -19,6 +19,7 @@ from pathlib import Path, PurePosixPath
 from typing import Any
 
 import yaml
+from packaging.specifiers import SpecifierSet
 
 from researchchem_toolbox.artifacts import ArtifactStore
 from researchchem_toolbox.runtime import (
@@ -406,10 +407,25 @@ def _validate_orca_input_deck(request: NativeJobRequest) -> dict[str, Any]:
         raise ValueError(
             "orca_cpu_mismatch: %pal nprocs exceeds resource_limits.cpu_cores"
         )
+    keyword_text = first.casefold()
+    has_frequency = bool(re.search(r"\bfreq\b", keyword_text))
+    has_transition_state = bool(re.search(r"\boptts\b", keyword_text))
+    has_optimization = has_transition_state or bool(re.search(r"\bopt\b", keyword_text))
+    if has_transition_state:
+        calculation_intent = "transition_state"
+    elif has_optimization and has_frequency:
+        calculation_intent = "optimization_frequency"
+    elif has_optimization:
+        calculation_intent = "geometry_optimization"
+    elif has_frequency:
+        calculation_intent = "frequency"
+    else:
+        calculation_intent = "single_point"
     return {
         "lint_profile": "orca_high_frequency_v1",
         "input_target": target,
         "keyword_line": first,
+        "calculation_intent": calculation_intent,
         "coordinate_section_count": len(coordinate_headers),
         "checks": ["keyword_line", "block_closure", "coordinate_closure", "cpu_mapping"],
     }
@@ -426,8 +442,28 @@ def _gaussian_segment_sections(segment: str, segment_number: int) -> dict[str, A
             f"gaussian_route_separator: Link1 segment {segment_number} needs a blank line after the route"
         )
     route = " ".join(line.strip() for line in lines[route_start:route_end])
-    if "geom=allcheck" in route.casefold():
-        return {"route": route, "geometry_source": "checkpoint"}
+    route_normalized = route.casefold()
+    has_frequency = bool(re.search(r"(?:^|[\s,])freq(?:\b|=)", route_normalized))
+    has_optimization = bool(re.search(r"(?:^|[\s,])opt(?:\b|=)", route_normalized))
+    has_transition_state = has_optimization and bool(
+        re.search(r"opt\s*=\s*(?:\([^)]*\bts\b|ts\b)", route_normalized)
+    )
+    if has_transition_state:
+        calculation_intent = "transition_state"
+    elif has_optimization and has_frequency:
+        calculation_intent = "optimization_frequency"
+    elif has_optimization:
+        calculation_intent = "geometry_optimization"
+    elif has_frequency:
+        calculation_intent = "frequency"
+    else:
+        calculation_intent = "single_point"
+    if "geom=allcheck" in route_normalized:
+        return {
+            "route": route,
+            "geometry_source": "checkpoint",
+            "calculation_intent": calculation_intent,
+        }
     cursor = route_end + 1
     title_start = next((index for index in range(cursor, len(lines)) if lines[index].strip()), None)
     if title_start is None:
@@ -450,7 +486,11 @@ def _gaussian_segment_sections(segment: str, segment_number: int) -> dict[str, A
         raise ValueError(
             f"gaussian_coordinate_separator: Link1 segment {segment_number} needs coordinates and a final blank line"
         )
-    return {"route": route, "geometry_source": "coordinates"}
+    return {
+        "route": route,
+        "geometry_source": "coordinates",
+        "calculation_intent": calculation_intent,
+    }
 
 
 def _validate_gaussian_input_deck(request: NativeJobRequest) -> dict[str, Any]:
@@ -474,11 +514,26 @@ def _validate_gaussian_input_deck(request: NativeJobRequest) -> dict[str, Any]:
     factors = {"KB": 1 / 1024, "MB": 1, "GB": 1024, "TB": 1024 * 1024}
     if any(float(value) * factors[unit.upper()] > request.resource_limits.memory_mb for value, unit in memory):
         raise ValueError("gaussian_memory_mismatch: %Mem exceeds resource_limits.memory_mb")
+    step_intents = [item["calculation_intent"] for item in parsed]
+    if "transition_state" in step_intents:
+        calculation_intent = "transition_state"
+    elif "optimization_frequency" in step_intents or {
+        "geometry_optimization",
+        "frequency",
+    }.issubset(step_intents):
+        calculation_intent = "optimization_frequency"
+    elif "geometry_optimization" in step_intents:
+        calculation_intent = "geometry_optimization"
+    elif "frequency" in step_intents:
+        calculation_intent = "frequency"
+    else:
+        calculation_intent = "single_point"
     return {
         "lint_profile": "gaussian_high_frequency_v1",
         "input_target": request.stdin_target,
         "link1_segment_count": len(parsed),
         "segments": parsed,
+        "calculation_intent": calculation_intent,
         "checks": ["route", "blank_lines", "title", "molecule", "cpu_mapping", "memory_mapping"],
     }
 
@@ -494,11 +549,21 @@ def _validate_crest_invocation(request: NativeJobRequest) -> dict[str, Any]:
         raise ValueError(
             "crest_xyz_argument: CREST requires exactly one staged XYZ positional argument"
         )
-    modes = {"--protonate", "--deprotonate", "--tautomerize"}
-    selected_modes = sorted(modes & {item.casefold() for item in request.arguments})
-    if len(selected_modes) > 1:
+    intent_by_flag = {
+        "-protonate": "protonation",
+        "--protonate": "protonation",
+        "-deprotonate": "deprotonation",
+        "--deprotonate": "deprotonation",
+        "-tautomerize": "tautomerization",
+        "--tautomerize": "tautomerization",
+    }
+    selected_flags = sorted(
+        set(intent_by_flag) & {item.casefold() for item in request.arguments}
+    )
+    selected_intents = sorted({intent_by_flag[item] for item in selected_flags})
+    if len(selected_intents) > 1:
         raise ValueError(
-            f"crest_conflicting_modes: choose only one of {selected_modes}"
+            f"crest_conflicting_modes: choose only one of {selected_flags}"
         )
     for flag in ("--t", "-t"):
         lowered = [item.casefold() for item in request.arguments]
@@ -512,10 +577,12 @@ def _validate_crest_invocation(request: NativeJobRequest) -> dict[str, Any]:
     lines = text.splitlines()
     if not lines or not lines[0].strip().isdigit() or len(lines) < int(lines[0]) + 2:
         raise ValueError("crest_xyz_format: XYZ atom count does not match the coordinate records")
+    calculation_intent = selected_intents[0] if selected_intents else "conformer_search"
     return {
         "lint_profile": "crest_high_frequency_v1",
         "input_target": xyz_targets[0],
-        "selected_mode": selected_modes[0] if selected_modes else "conformer_search",
+        "selected_mode": selected_flags[0] if selected_flags else "conformer_search",
+        "calculation_intent": calculation_intent,
         "checks": ["xyz_format", "mode_exclusivity", "cpu_mapping"],
     }
 
@@ -537,6 +604,7 @@ def _require_fixed_targets(
 
 def _validate_vasp_inputs(request: NativeJobRequest) -> dict[str, Any]:
     sources = _require_fixed_targets(request, "vasp", {"INCAR", "POSCAR", "POTCAR", "KPOINTS"})
+    incar_text = _read_staged_text(sources, "INCAR", software_id="vasp")
     poscar = _read_staged_text(sources, "POSCAR", software_id="vasp").splitlines()
     if len(poscar) < 8:
         raise ValueError("vasp_poscar_structure: POSCAR is too short")
@@ -555,12 +623,33 @@ def _validate_vasp_inputs(request: NativeJobRequest) -> dict[str, Any]:
         raise ValueError(
             "vasp_potcar_order: POTCAR dataset count does not match POSCAR element count"
         )
+    incar_values: dict[str, str] = {}
+    for raw_line in incar_text.splitlines():
+        active = raw_line.split("!", 1)[0].split("#", 1)[0].strip()
+        if "=" not in active:
+            continue
+        key, value = active.split("=", 1)
+        incar_values[key.strip().upper()] = value.strip()
+    try:
+        ibrion = int(float(incar_values.get("IBRION", "-1")))
+        nsw = int(float(incar_values.get("NSW", "0")))
+    except ValueError as exc:
+        raise ValueError("vasp_incar_integer: IBRION and NSW must be integer values") from exc
+    if ibrion in {5, 6, 7, 8}:
+        calculation_intent = "frequency"
+    elif nsw > 0 and ibrion >= 0:
+        calculation_intent = "ionic_relaxation"
+    else:
+        calculation_intent = "single_point"
     return {
         "lint_profile": "vasp_high_frequency_v1",
         "required_targets": sorted(sources),
         "species": species,
         "atom_count": sum(int(item) for item in counts_line),
         "potcar_dataset_count": datasets,
+        "incar_ibrion": ibrion,
+        "incar_nsw": nsw,
+        "calculation_intent": calculation_intent,
         "checks": ["fixed_files", "poscar_counts", "potcar_dataset_count"],
     }
 
@@ -578,6 +667,7 @@ def _validate_lobster_inputs(request: NativeJobRequest) -> dict[str, Any]:
         "lint_profile": "lobster_high_frequency_v1",
         "required_targets": sorted(required),
         "wavecar_size_bytes": sources["WAVECAR"].stat().st_size,
+        "calculation_intent": "projection",
         "checks": ["fixed_files", "nonempty_wavecar", "active_lobsterin"],
         "compatibility_boundary": (
             "File presence is validated mechanically. VASP/LOBSTER version, PAW basis, band, "
@@ -632,6 +722,22 @@ def validate_native_job(request: NativeJobRequest) -> dict[str, Any]:
     if request.stdin_target is not None and request.stdin_target not in targets:
         raise ValueError("stdin_target must be one of the explicitly staged target paths")
     input_deck_validation = _validate_native_input_deck(request, guide)
+    inferred_intent = (
+        str(input_deck_validation.get("calculation_intent"))
+        if input_deck_validation and input_deck_validation.get("calculation_intent")
+        else None
+    )
+    if (
+        request.calculation_intent
+        and inferred_intent
+        and request.calculation_intent != "other"
+        and request.calculation_intent != inferred_intent
+    ):
+        raise ValueError(
+            "calculation_intent_mismatch: declared calculation_intent "
+            f"{request.calculation_intent!r} conflicts with inferred intent {inferred_intent!r}"
+        )
+    calculation_intent = request.calculation_intent or inferred_intent or "unknown"
     try:
         resources = _compute_resource_limits(request.resource_limits)
     except ResourceBudgetExceeded as exc:
@@ -646,6 +752,7 @@ def validate_native_job(request: NativeJobRequest) -> dict[str, Any]:
         "staged_targets": sorted(targets),
         "stdin_target": request.stdin_target,
         "input_deck_validation": input_deck_validation,
+        "calculation_intent": calculation_intent,
         "resource_limits": resources,
         "execution_timeout_policy": timeout_policy_record("compute"),
         "evaluation_resource_budget": resource_budget_record(),
@@ -714,6 +821,10 @@ def _job_environment(
             "MPLCONFIGDIR": str(temporary / "matplotlib"),
             "RESEARCHCHEM_EXECUTION_JOB_ID": job_id,
             "RESEARCHCHEM_EXECUTION_JOB_DIRECTORY": str(job_directory),
+            "RESEARCHCHEM_JOB_ROOT": str(job_directory),
+            "RESEARCHCHEM_JOB_INPUTS": str(job_directory / "inputs"),
+            "RESEARCHCHEM_JOB_OUTPUTS": str(job_directory / "outputs"),
+            "RESEARCHCHEM_JOB_REPORT": str(job_directory / "report"),
         }
     )
     if job_type == "programmable_analysis":
@@ -905,6 +1016,8 @@ def submit_native_job(request: NativeJobRequest) -> dict[str, Any]:
             "executable": request.executable,
             "label": request.label,
             "parent_job_id": request.parent_job_id,
+            "calculation_intent": validation["calculation_intent"],
+            "input_deck_validation": validation["input_deck_validation"],
             "invocation_synopsis": guide.get("synopsis"),
             "execution_timeout_policy": timeout_policy_record("compute"),
         },
@@ -979,24 +1092,97 @@ def _external_execution_findings(tree: ast.AST) -> list[dict[str, Any]]:
 
 
 def _probe_runtime_modules(
-    runtime: str, modules: list[str], *, local_modules: set[str]
-) -> dict[str, bool]:
+    runtime: str,
+    modules: list[str],
+    *,
+    local_modules: set[str],
+    required_symbols: dict[str, list[str]],
+) -> tuple[dict[str, bool], dict[str, dict[str, Any]]]:
     if not modules:
-        return {}
+        return {}, {}
     python = runtime_python(runtime)
     probe_modules = [
         name for name in modules if name.split(".", 1)[0] not in local_modules
     ]
-    result = {name: True for name in modules if name not in probe_modules}
+    details = {
+        name: {
+            "available": True,
+            "importable": True,
+            "source": "staged_or_framework_module",
+            "version": None,
+            "missing_symbols": [],
+        }
+        for name in modules
+        if name not in probe_modules
+    }
     if not probe_modules:
-        return result
-    program = (
-        "import importlib.util,json,sys; "
-        "print(json.dumps({name: importlib.util.find_spec(name) is not None for name in sys.argv[1:]}))"
-    )
+        return {name: True for name in modules}, details
+    program = r'''
+import contextlib
+import importlib
+import importlib.metadata
+import io
+import json
+import sys
+
+requirements = json.loads(sys.argv[1])
+package_map = importlib.metadata.packages_distributions()
+results = {}
+for name, symbols in requirements.items():
+    try:
+        captured_stdout = io.StringIO()
+        captured_stderr = io.StringIO()
+        with contextlib.redirect_stdout(captured_stdout), contextlib.redirect_stderr(captured_stderr):
+            module = importlib.import_module(name)
+        distributions = package_map.get(name.split('.', 1)[0], [])
+        versions = {}
+        for distribution in distributions:
+            try:
+                versions[distribution] = importlib.metadata.version(distribution)
+            except importlib.metadata.PackageNotFoundError:
+                pass
+        module_version = getattr(module, '__version__', None)
+        missing_symbols = []
+        for symbol in symbols:
+            value = module
+            try:
+                for part in symbol.split('.'):
+                    value = getattr(value, part)
+            except AttributeError:
+                missing_symbols.append(symbol)
+        results[name] = {
+            'available': True,
+            'importable': True,
+            'source': 'runtime_import',
+            'version': str(module_version) if module_version is not None else None,
+            'distribution_versions': versions,
+            'missing_symbols': missing_symbols,
+            'captured_stdout': captured_stdout.getvalue()[-1000:],
+            'captured_stderr': captured_stderr.getvalue()[-1000:],
+        }
+    except BaseException as exc:
+        results[name] = {
+            'available': False,
+            'importable': False,
+            'source': 'runtime_import',
+            'version': None,
+            'distribution_versions': {},
+            'missing_symbols': list(symbols),
+            'error': f'{type(exc).__name__}: {exc}',
+        }
+print('__RESEARCHCHEM_MODULE_PROBE__' + json.dumps(results, sort_keys=True))
+'''
     environment = runtime_environment(runtime)
     completed = subprocess.run(
-        [str(python), "-c", program, *probe_modules],
+        [
+            str(python),
+            "-c",
+            program,
+            json.dumps(
+                {name: required_symbols.get(name, []) for name in probe_modules},
+                sort_keys=True,
+            ),
+        ],
         check=False,
         capture_output=True,
         text=True,
@@ -1008,8 +1194,19 @@ def _probe_runtime_modules(
             f"Runtime module probe failed with exit code {completed.returncode}: "
             f"{completed.stderr[-2000:]}"
         )
-    result.update({str(key): bool(value) for key, value in json.loads(completed.stdout).items()})
-    return result
+    marker = "__RESEARCHCHEM_MODULE_PROBE__"
+    line = next(
+        (item for item in reversed(completed.stdout.splitlines()) if item.startswith(marker)),
+        None,
+    )
+    if line is None:
+        raise RuntimeError("Runtime module probe returned no structured result")
+    details.update(json.loads(line[len(marker) :]))
+    result = {
+        name: bool(item.get("importable")) and not item.get("missing_symbols")
+        for name, item in details.items()
+    }
+    return result, details
 
 
 def validate_analysis_program(request: AnalysisJobRequest) -> dict[str, Any]:
@@ -1088,15 +1285,75 @@ def validate_analysis_program(request: AnalysisJobRequest) -> dict[str, Any]:
                 "Set parent_job_id on the native request to link the orchestration provenance.",
             ],
         )
-    local_modules = {
-        PurePosixPath(item.target_path).stem
-        for item in [*request.staged_inputs]
-        if PurePosixPath(item.target_path).suffix == ".py"
-    } | {"researchchem_job"}
-    modules = sorted(set(imports) | set(request.required_modules))
+    local_modules: set[str] = {"researchchem_job"}
+    local_module_details: dict[str, dict[str, Any]] = {
+        "researchchem_job": {
+            "available": True,
+            "importable": True,
+            "source": "framework_module",
+            "version": None,
+            "missing_symbols": [],
+        }
+    }
+    for item in request.staged_inputs:
+        target = PurePosixPath(item.target_path)
+        if target.suffix.casefold() != ".py":
+            continue
+        local_name = target.stem
+        local_source = resolve_workspace_path(item.source_path, must_exist=True)
+        try:
+            local_text = local_source.read_text(encoding="utf-8")
+            local_tree = ast.parse(local_text, filename=item.source_path)
+            compile(local_tree, item.source_path, "exec")
+        except (UnicodeDecodeError, SyntaxError) as exc:
+            return _analysis_failure(
+                stage="preflight",
+                code="staged_python_syntax_error",
+                message=f"Staged Python module {local_name!r} is not valid Python",
+                file=item.source_path,
+                line=getattr(exc, "lineno", None),
+                evidence=str(exc),
+                candidate_fixes=["Correct or remove the staged Python module before submission."],
+            )
+        declared_names = {
+            node.name
+            for node in local_tree.body
+            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef))
+        }
+        for node in local_tree.body:
+            if isinstance(node, (ast.Assign, ast.AnnAssign)):
+                targets = node.targets if isinstance(node, ast.Assign) else [node.target]
+                declared_names.update(
+                    target_node.id
+                    for target_node in targets
+                    if isinstance(target_node, ast.Name)
+                )
+        missing_symbols = [
+            symbol
+            for symbol in request.required_symbols.get(local_name, [])
+            if "." in symbol or symbol not in declared_names
+        ]
+        local_modules.add(local_name)
+        local_module_details[local_name] = {
+            "available": True,
+            "importable": True,
+            "source": "staged_python_syntax_and_symbols",
+            "version": None,
+            "missing_symbols": missing_symbols,
+            "source_sha256": _sha256(local_source),
+        }
+    modules = sorted(
+        set(imports)
+        | set(request.required_modules)
+        | set(request.required_module_versions)
+        | set(request.required_symbols)
+    )
     try:
-        module_status = _probe_runtime_modules(
-            request.runtime, modules, local_modules=local_modules
+        module_status, module_details = _probe_runtime_modules(
+            request.runtime,
+            modules,
+            local_modules=local_modules,
+            required_symbols=request.required_symbols,
         )
     except (OSError, RuntimeError, subprocess.SubprocessError) as exc:
         return _analysis_failure(
@@ -1107,7 +1364,19 @@ def validate_analysis_program(request: AnalysisJobRequest) -> dict[str, Any]:
             evidence=str(exc),
             candidate_fixes=["Inspect the runtime and retry with an available configured environment."],
         )
-    missing = sorted(name for name, available in module_status.items() if not available)
+    module_details.update(local_module_details)
+    module_status.update(
+        {
+            name: not details.get("missing_symbols")
+            for name, details in local_module_details.items()
+            if name in modules or name == "researchchem_job"
+        }
+    )
+    missing = sorted(
+        name
+        for name, details in module_details.items()
+        if name in modules and not details.get("importable")
+    )
     if missing:
         return _analysis_failure(
             stage="import",
@@ -1118,6 +1387,46 @@ def validate_analysis_program(request: AnalysisJobRequest) -> dict[str, Any]:
             candidate_fixes=[
                 "Select a runtime returned by list_analysis_runtimes that provides every module.",
                 "Remove unused imports or declare and stage a local Python module explicitly.",
+            ],
+        )
+    missing_symbols = {
+        name: list(details.get("missing_symbols") or [])
+        for name, details in module_details.items()
+        if details.get("missing_symbols")
+    }
+    if missing_symbols:
+        return _analysis_failure(
+            stage="import",
+            code="runtime_symbols_missing",
+            message=f"Selected runtime modules lack required symbols: {missing_symbols}",
+            file=request.script_path,
+            evidence=json.dumps(module_details, sort_keys=True),
+            candidate_fixes=[
+                "Use symbols provided by the selected runtime version or select another runtime."
+            ],
+        )
+    version_mismatches: dict[str, dict[str, Any]] = {}
+    for name, specifier_text in request.required_module_versions.items():
+        details = module_details[name]
+        versions = list((details.get("distribution_versions") or {}).values())
+        if details.get("version"):
+            versions.append(str(details["version"]))
+        unique_versions = list(dict.fromkeys(versions))
+        specifier = SpecifierSet(specifier_text)
+        if not unique_versions or not any(version in specifier for version in unique_versions):
+            version_mismatches[name] = {
+                "required": specifier_text,
+                "detected": unique_versions,
+            }
+    if version_mismatches:
+        return _analysis_failure(
+            stage="import",
+            code="runtime_module_version_mismatch",
+            message=f"Selected runtime does not satisfy module versions: {version_mismatches}",
+            file=request.script_path,
+            evidence=json.dumps(module_details, sort_keys=True),
+            candidate_fixes=[
+                "Select a runtime with a compatible module version or update the declared constraint."
             ],
         )
     _validate_argument_paths(request.arguments)
@@ -1152,7 +1461,10 @@ def validate_analysis_program(request: AnalysisJobRequest) -> dict[str, Any]:
         "script_target": request.script_target,
         "discovered_imports": imports,
         "required_modules": request.required_modules,
+        "required_module_versions": request.required_module_versions,
+        "required_symbols": request.required_symbols,
         "module_status": module_status,
+        "module_details": module_details,
         "external_execution_findings": external_findings,
         "script_sha256": _sha256(script),
         "analysis_contract": contract,
@@ -1198,7 +1510,10 @@ def submit_analysis_program(request: AnalysisJobRequest) -> dict[str, Any]:
             "preflight": {
                 "discovered_imports": validation["discovered_imports"],
                 "required_modules": validation["required_modules"],
+                "required_module_versions": validation["required_module_versions"],
+                "required_symbols": validation["required_symbols"],
                 "module_status": validation["module_status"],
+                "module_details": validation["module_details"],
                 "external_execution_findings": validation[
                     "external_execution_findings"
                 ],
@@ -1254,6 +1569,7 @@ def _native_scientific_axes(
 ) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
     metadata = status.get("metadata") or {}
     software_id = str(metadata.get("software_id") or "")
+    calculation_intent = str(metadata.get("calculation_intent") or "unknown")
     process_ok = status.get("status") == "success"
     stdout = _bounded_text(directory / "stdout.log")
     software = {"status": "not_checked", "evidence": []}
@@ -1270,14 +1586,47 @@ def _native_scientific_axes(
             "status": "normal_termination" if normal else "failed",
             "evidence": ["ORCA TERMINATED NORMALLY"] if normal else ["normal termination marker missing"],
         }
-        markers = [
-            item
-            for item in ("SCF CONVERGED", "THE OPTIMIZATION HAS CONVERGED")
-            if item in stdout
+        scf_converged = "SCF CONVERGED" in stdout
+        optimization_converged = "THE OPTIMIZATION HAS CONVERGED" in stdout
+        frequency_complete = "VIBRATIONAL FREQUENCIES" in stdout
+        frequencies = [
+            float(value)
+            for value in re.findall(
+                r"^\s*\d+:\s*(-?\d+(?:\.\d+)?)\s+cm\*\*-1",
+                stdout,
+                flags=re.MULTILINE,
+            )
         ]
+        imaginary_count = sum(value < -1.0 for value in frequencies)
+        requirements = {
+            "single_point": scf_converged,
+            "geometry_optimization": optimization_converged,
+            "frequency": scf_converged and frequency_complete,
+            "optimization_frequency": optimization_converged and frequency_complete,
+            "transition_state": (
+                optimization_converged and frequency_complete and imaginary_count == 1
+            ),
+        }
+        converged = requirements.get(calculation_intent)
+        markers = [
+            marker
+            for marker, present in (
+                ("SCF CONVERGED", scf_converged),
+                ("THE OPTIMIZATION HAS CONVERGED", optimization_converged),
+                ("VIBRATIONAL FREQUENCIES", frequency_complete),
+            )
+            if present
+        ]
+        if frequency_complete:
+            markers.append(f"imaginary_frequency_count={imaginary_count}")
         convergence = {
-            "status": "converged" if markers else "not_checked",
+            "status": (
+                "not_checked"
+                if converged is None
+                else "converged" if converged else "failed"
+            ),
             "evidence": markers,
+            "calculation_intent": calculation_intent,
         }
         artifacts = {
             "status": "valid" if normal and (directory / "stdout.log").stat().st_size else "invalid",
@@ -1289,8 +1638,41 @@ def _native_scientific_axes(
             "status": "normal_termination" if normal else "failed",
             "evidence": ["Normal termination of Gaussian"] if normal else ["normal termination marker missing"],
         }
-        markers = [item for item in ("SCF Done:", "Optimization completed", "NImag=") if item in stdout]
-        convergence = {"status": "converged" if markers else "not_checked", "evidence": markers}
+        scf_converged = "SCF Done:" in stdout
+        optimization_converged = "Optimization completed" in stdout
+        nimag_matches = re.findall(r"NImag=\s*(\d+)", stdout)
+        imaginary_count = int(nimag_matches[-1]) if nimag_matches else None
+        frequency_complete = imaginary_count is not None or "Harmonic frequencies" in stdout
+        requirements = {
+            "single_point": scf_converged,
+            "geometry_optimization": optimization_converged,
+            "frequency": scf_converged and frequency_complete,
+            "optimization_frequency": optimization_converged and frequency_complete,
+            "transition_state": (
+                optimization_converged and frequency_complete and imaginary_count == 1
+            ),
+        }
+        converged = requirements.get(calculation_intent)
+        markers = [
+            marker
+            for marker, present in (
+                ("SCF Done:", scf_converged),
+                ("Optimization completed", optimization_converged),
+                ("frequency calculation completed", frequency_complete),
+            )
+            if present
+        ]
+        if imaginary_count is not None:
+            markers.append(f"imaginary_frequency_count={imaginary_count}")
+        convergence = {
+            "status": (
+                "not_checked"
+                if converged is None
+                else "converged" if converged else "failed"
+            ),
+            "evidence": markers,
+            "calculation_intent": calculation_intent,
+        }
         artifacts = {"status": "valid" if normal else "invalid", "evidence": ["stdout.log"]}
     elif software_id == "crest":
         normal = "CREST terminated normally" in stdout
@@ -1298,26 +1680,60 @@ def _native_scientific_axes(
             "status": "normal_termination" if normal else "failed",
             "evidence": ["CREST terminated normally"] if normal else ["normal termination marker missing"],
         }
-        ensemble = directory / "crest_conformers.xyz"
+        expected_by_intent = {
+            "conformer_search": "crest_conformers.xyz",
+            "protonation": "protonated.xyz",
+            "deprotonation": "deprotonated.xyz",
+            "tautomerization": "tautomers.xyz",
+        }
+        expected_name = expected_by_intent.get(calculation_intent)
+        expected = directory / expected_name if expected_name else None
+        valid = bool(expected and expected.is_file() and expected.stat().st_size)
         convergence = {
-            "status": "converged" if normal and ensemble.is_file() else "failed",
-            "evidence": ["crest_conformers.xyz"] if ensemble.is_file() else [],
+            "status": (
+                "not_checked"
+                if expected is None
+                else "converged" if normal and valid else "failed"
+            ),
+            "evidence": [expected_name] if valid and expected_name else [],
+            "calculation_intent": calculation_intent,
         }
         artifacts = {
-            "status": "valid" if ensemble.is_file() and ensemble.stat().st_size else "invalid",
-            "evidence": ["crest_conformers.xyz"] if ensemble.is_file() else [],
+            "status": "not_checked" if expected is None else "valid" if valid else "invalid",
+            "evidence": [expected_name] if valid and expected_name else [],
         }
     elif software_id == "vasp":
         outcar = _bounded_text(directory / "OUTCAR")
         normal = "General timing and accounting informations for this job" in outcar
-        converged = "aborting loop because EDIFF is reached" in outcar or "reached required accuracy" in outcar
+        electronic_converged = "aborting loop because EDIFF is reached" in outcar
+        ionic_converged = "reached required accuracy" in outcar
+        frequency_complete = "Eigenvectors and eigenvalues of the dynamical matrix" in outcar
+        requirements = {
+            "single_point": electronic_converged,
+            "ionic_relaxation": electronic_converged and ionic_converged,
+            "frequency": electronic_converged and frequency_complete,
+        }
+        converged = requirements.get(calculation_intent)
         software = {
             "status": "normal_termination" if normal else "failed",
             "evidence": ["General timing and accounting informations for this job"] if normal else ["OUTCAR timing footer missing"],
         }
         convergence = {
-            "status": "converged" if converged else "failed",
-            "evidence": ["EDIFF reached"] if converged else ["electronic convergence marker missing"],
+            "status": (
+                "not_checked"
+                if converged is None
+                else "converged" if converged else "failed"
+            ),
+            "evidence": [
+                marker
+                for marker, present in (
+                    ("electronic EDIFF reached", electronic_converged),
+                    ("ionic relaxation reached required accuracy", ionic_converged),
+                    ("dynamical matrix frequencies completed", frequency_complete),
+                )
+                if present
+            ],
+            "calculation_intent": calculation_intent,
         }
         required = ["OUTCAR", "vasprun.xml"]
         valid = all((directory / item).is_file() and (directory / item).stat().st_size for item in required)
@@ -1333,6 +1749,7 @@ def _native_scientific_axes(
         convergence = {
             "status": "projection_complete" if normal else "failed",
             "evidence": ([f"absolute_charge_spilling_percent={spilling.group(1)}"] if spilling else []),
+            "calculation_intent": calculation_intent,
         }
         required = ["lobsterout", "COHPCAR.lobster"]
         valid = all((directory / item).is_file() and (directory / item).stat().st_size for item in required)
@@ -1363,7 +1780,11 @@ def _execution_status_axes(
         artifacts = {"status": artifact_value, "evidence": ["artifact_manifest.json"] if analysis_artifact_status else []}
     if process_status != "completed":
         scientific = "not_reached"
-    elif software["status"] == "failed" or artifacts["status"] == "invalid":
+    elif (
+        software["status"] == "failed"
+        or convergence["status"] == "failed"
+        or artifacts["status"] == "invalid"
+    ):
         scientific = "mechanically_invalid"
     elif convergence["status"] in {"converged", "projection_complete"} and artifacts["status"] == "valid":
         scientific = "mechanically_valid"
@@ -1530,6 +1951,12 @@ def _analysis_artifact_manifest(
     if status.get("job_type") != "programmable_analysis":
         return None
     contract = (request_record.get("metadata") or {}).get("analysis_contract") or {}
+    registration_path = directory / "runtime_output_registrations.json"
+    registrations = (
+        json.loads(registration_path.read_text(encoding="utf-8")).get("outputs", {})
+        if registration_path.is_file()
+        else {}
+    )
     declarations = list(contract.get("outputs") or [])
     artifacts = []
     required_failures = 0
@@ -1563,6 +1990,7 @@ def _analysis_artifact_manifest(
                 "required": required,
                 "validation_status": validation_status,
                 "validation_errors": validation_errors,
+                "runtime_registration": registrations.get(declaration["name"]),
             }
         )
     if not declarations:
@@ -1605,6 +2033,7 @@ def collect_execution_job(request: JobCollectRequest) -> dict[str, Any]:
         "artifact_manifest.json",
         "request.json",
         "researchchem_job.py",
+        "runtime_output_registrations.json",
         "status.json",
         "supervisor_spec.json",
         "collection.json",

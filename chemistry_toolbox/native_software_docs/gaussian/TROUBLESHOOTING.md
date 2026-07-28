@@ -3,6 +3,9 @@ software_id: gaussian
 versions: ["16"]
 topics: [troubleshooting, errors]
 aliases: [Gaussian failed, route error, EOF error]
+inputs: ["Gaussian input deck", "optional checkpoint files"]
+outputs: ["stdout.log", "checkpoint and requested property files"]
+last_smoke_tested: null
 ---
 # Gaussian Troubleshooting
 

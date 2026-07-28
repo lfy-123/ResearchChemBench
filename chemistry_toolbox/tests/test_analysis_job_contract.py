@@ -11,6 +11,7 @@ from chemistry_toolbox.mcp.execution_models import (
     AnalysisOutputDeclaration,
     JobCollectRequest,
     JobStatusRequest,
+    StagedInput,
 )
 from chemistry_toolbox.mcp.open_execution import (
     collect_execution_job,
@@ -19,6 +20,9 @@ from chemistry_toolbox.mcp.open_execution import (
     validate_analysis_program,
 )
 from researchchem_toolbox.models import ResourceLimits
+
+
+TOOLBOX_ROOT = Path(__file__).resolve().parents[1]
 
 
 @pytest.fixture
@@ -39,6 +43,13 @@ def _wait(job_id: str) -> dict:
     raise AssertionError(f"job did not finish: {job_id}")
 
 
+def test_programmable_analysis_templates_are_versioned_and_compile() -> None:
+    templates = sorted((TOOLBOX_ROOT / "examples/analysis").glob("*.py"))
+    assert len(templates) == 8
+    for template in templates:
+        compile(template.read_text(encoding="utf-8"), str(template), "exec")
+
+
 def test_preflight_rejects_syntax_and_missing_runtime_modules(workspace: Path) -> None:
     (workspace / "code/bad.py").write_text("if True print('bad')\n", encoding="utf-8")
     syntax = validate_analysis_program(
@@ -56,6 +67,50 @@ def test_preflight_rejects_syntax_and_missing_runtime_modules(workspace: Path) -
     )
     assert missing["status"] == "invalid_request"
     assert missing["error"]["code"] == "runtime_modules_missing"
+
+    (workspace / "code/main.py").write_text("import broken_local\n", encoding="utf-8")
+    (workspace / "code/broken_local.py").write_text("def broken(:\n", encoding="utf-8")
+    broken_local = validate_analysis_program(
+        AnalysisJobRequest(
+            runtime="core",
+            script_path="code/main.py",
+            staged_inputs=[
+                StagedInput(
+                    source_path="code/broken_local.py",
+                    target_path="broken_local.py",
+                )
+            ],
+        )
+    )
+    assert broken_local["status"] == "invalid_request"
+    assert broken_local["error"]["code"] == "staged_python_syntax_error"
+
+
+def test_preflight_imports_modules_and_checks_versions_and_symbols(workspace: Path) -> None:
+    (workspace / "code/imports.py").write_text(
+        "import json\nimport packaging\n", encoding="utf-8"
+    )
+    valid = validate_analysis_program(
+        AnalysisJobRequest(
+            runtime="core",
+            script_path="code/imports.py",
+            required_module_versions={"packaging": ">=20"},
+            required_symbols={"json": ["loads", "JSONDecoder"]},
+        )
+    )
+    assert valid["status"] == "success"
+    assert valid["module_details"]["json"]["source"] == "runtime_import"
+    assert valid["module_details"]["packaging"]["version"]
+
+    missing_symbol = validate_analysis_program(
+        AnalysisJobRequest(
+            runtime="core",
+            script_path="code/imports.py",
+            required_symbols={"json": ["symbol_that_does_not_exist"]},
+        )
+    )
+    assert missing_symbol["status"] == "invalid_request"
+    assert missing_symbol["error"]["code"] == "runtime_symbols_missing"
 
 
 @pytest.mark.parametrize(
@@ -81,11 +136,16 @@ def test_declared_job_context_and_artifact_manifest(workspace: Path) -> None:
     (workspace / "code/value.txt").write_text("7\n", encoding="utf-8")
     (workspace / "code/program.py").write_text(
         "from researchchem_job import JobContext\n"
-        "import json\n"
+        "import os\n"
         "ctx = JobContext.load()\n"
+        "assert os.environ['RESEARCHCHEM_JOB_ROOT'] == str(ctx.root)\n"
+        "assert os.environ['RESEARCHCHEM_JOB_INPUTS'] == str(ctx.root / 'inputs')\n"
+        "assert os.environ['RESEARCHCHEM_JOB_OUTPUTS'] == str(ctx.root / 'outputs')\n"
+        "assert os.environ['RESEARCHCHEM_JOB_REPORT'] == str(ctx.root / 'report')\n"
         "value = int(ctx.input('value').read_text())\n"
-        "ctx.output('result').write_text(json.dumps({'value': value, 'square': value * value}) + '\\n')\n"
-        "ctx.output('table').write_text('value,square\\n7,49\\n')\n",
+        "ctx.write_json('result', {'value': value, 'square': value * value})\n"
+        "ctx.output('table').write_text('value,square\\n7,49\\n')\n"
+        "ctx.register_output('table')\n",
         encoding="utf-8",
     )
     request = AnalysisJobRequest(
@@ -146,6 +206,7 @@ def test_declared_job_context_and_artifact_manifest(workspace: Path) -> None:
         item["validation_status"] == "valid"
         for item in collected["declared_artifacts"]
     )
+    assert all(item["runtime_registration"] for item in collected["declared_artifacts"])
     assert collected["artifact_manifest"].endswith("artifact_manifest.json")
 
 

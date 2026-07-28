@@ -3,6 +3,9 @@ software_id: lobster
 versions: ["5"]
 topics: [index]
 aliases: [LOBSTER navigation, chemical bonding analysis]
+inputs: ["lobsterin", "compatible VASP output set"]
+outputs: ["lobsterout", "COHP, COOP, COBI, DOS, and charge files"]
+last_smoke_tested: null
 ---
 # LOBSTER Native Guide
 

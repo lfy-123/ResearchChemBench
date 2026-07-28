@@ -26,3 +26,15 @@ def test_versioned_action_queries_meet_lexical_quality_floor() -> None:
     assert metrics["recall_at_k"] >= 0.95
     assert metrics["mean_reciprocal_rank"] >= 0.95
     assert metrics["ndcg_at_k"] >= 0.95
+
+
+def test_versioned_action_queries_meet_hybrid_quality_floor() -> None:
+    evaluator = _load_evaluator()
+    result = evaluator.evaluate(
+        evaluator.DEFAULT_QUERIES, retrieval_mode="hybrid", cutoff=5
+    )
+    metrics = result["metrics"]
+    assert metrics["hit_at_1"] >= 0.90
+    assert metrics["recall_at_k"] >= 0.95
+    assert metrics["mean_reciprocal_rank"] >= 0.95
+    assert metrics["ndcg_at_k"] >= 0.95

@@ -3,6 +3,9 @@ software_id: vasp
 versions: ["6"]
 topics: [lobster-upstream, wavefunction]
 aliases: [VASP for LOBSTER, WAVECAR compatibility]
+inputs: ["INCAR", "POSCAR", "POTCAR", "KPOINTS"]
+outputs: ["OUTCAR", "vasprun.xml", "CONTCAR", "WAVECAR"]
+last_smoke_tested: null
 ---
 # VASP Inputs for LOBSTER
 

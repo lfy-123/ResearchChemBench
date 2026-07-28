@@ -11,6 +11,7 @@ from researchchem_toolbox.resource_budget import (
     resource_budget_record,
     validate_resource_limits,
 )
+from chemistry_toolbox.mcp.job_supervisor import _memory_limit_mb, _preexec
 
 
 H2 = {
@@ -111,3 +112,18 @@ def test_action_rejects_resources_above_budget_before_backend_execution(
     assert result["status"] == "invalid_request"
     assert result["error"]["code"] == "resource_budget_exceeded"
     assert worker_called is False
+
+
+def test_supervisor_enforces_job_memory_without_process_cpu_limit(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.delattr("os.sched_getaffinity", raising=False)
+
+    _preexec(
+        {"memory_mb": 512, "cpu_cores": 8, "walltime_seconds": 30},
+        {"memory_mb": 4096},
+    )()
+
+    assert _memory_limit_mb(
+        {"memory_mb": 512}, {"memory_mb": 4096}
+    ) == 512

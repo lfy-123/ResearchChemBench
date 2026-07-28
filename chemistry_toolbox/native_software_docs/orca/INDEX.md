@@ -3,6 +3,9 @@ software_id: orca
 versions: ["6.1.1"]
 topics: [index]
 aliases: [ORCA navigation, ORCA tasks]
+inputs: ["ORCA input deck", "referenced geometry or basis files"]
+outputs: ["stdout.log", "ORCA property and restart files"]
+last_smoke_tested: null
 ---
 # ORCA Native Guide
 
