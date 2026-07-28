@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "tested_at": "2026-07-28",
+  "runner": "native job execution layer",
+  "cases": [
+    {
+      "case_id": "orca_single_point",
+      "software_id": "orca",
+      "software_version": "6.1.1",
+      "example_path": "chemistry_toolbox/examples/native/orca/single_point/input.inp",
+      "source_sha256": "7ab60f224d3ca2107efada0277c3a3d1236088d78f14d95ddf6c9d9c0198ed65",
+      "job_id": "job_d3f2b0bc34e543c3a4b615868e139be5",
+      "process_status": "success",
+      "software_status": "normal_termination",
+      "convergence_status": "scf_converged",
+      "evidence": ["ORCA TERMINATED NORMALLY", "SCF CONVERGED"],
+      "duration_seconds": 0.709
+    },
+    {
+      "case_id": "gaussian_optimization_frequency",
+      "software_id": "gaussian",
+      "software_version": "16 Rev. C.01",
+      "example_path": "chemistry_toolbox/examples/native/gaussian/optimization/input.gjf",
+      "source_sha256": "45a01ca7b1cd9c7f5ca46f17f9c750422dd564d68ff8cf6849f0f8e85ddb231c",
+      "job_id": "job_aa5f605f51774d1cad3b40a68f31ff62",
+      "process_status": "success",
+      "software_status": "normal_termination",
+      "convergence_status": "optimization_and_frequency_complete",
+      "evidence": ["Normal termination of Gaussian 16", "NImag=0"],
+      "duration_seconds": 15.439
+    },
+    {
+      "case_id": "crest_conformer_search",
+      "software_id": "crest",
+      "software_version": "3.0.2",
+      "example_path": "chemistry_toolbox/examples/native/crest/conformer_search/input.xyz",
+      "source_sha256": "30a6c23858136c688cb5f3e24e6324e0306b2b0242b02254423be9f7b63d28cd",
+      "job_id": "job_25236b04fa99404ea4ed25c3b3dbd34d",
+      "process_status": "success",
+      "software_status": "normal_termination",
+      "convergence_status": "ensemble_generated",
+      "evidence": ["CREST terminated normally", "number of unique conformers for further calc 3"],
+      "duration_seconds": 15.14
+    },
+    {
+      "case_id": "vasp_ground_state",
+      "software_id": "vasp",
+      "software_version": "6.3.2",
+      "example_paths": [
+        "chemistry_toolbox/examples/native/vasp/ground_state/INCAR",
+        "chemistry_toolbox/examples/native/vasp/ground_state/POSCAR",
+        "chemistry_toolbox/examples/native/vasp/ground_state/KPOINTS"
+      ],
+      "source_sha256": {
+        "INCAR": "6a45a7c23e6fb4aaed1735629e19444364ce0d53085fa39c976e367c9a3b4957",
+        "POSCAR": "8a557e2dd55cf6e5cd87ad03659589bd6334b98309cac8de97b9a052aa6fd1ec",
+        "KPOINTS": "fdab3c9b113278755ccdcbfbffbcd151efdbaa2e066eafb270c3109cff3867e5"
+      },
+      "external_resource": "VASP 6.3.2 testsuite Si POTCAR; licensed and not stored in Git",
+      "job_id": "job_19f46516690a434d9013d2114bbb277d",
+      "process_status": "success",
+      "software_status": "normal_termination",
+      "convergence_status": "electronic_converged",
+      "evidence": ["writing wavefunctions", "final electronic dE below EDIFF"],
+      "duration_seconds": 1.914
+    },
+    {
+      "case_id": "lobster_cohp",
+      "software_id": "lobster",
+      "software_version": "5.1.0",
+      "example_path": "chemistry_toolbox/examples/native/lobster/cohp/lobsterin",
+      "source_sha256": "e8280ba01e8a2de5d1a7257500089f3668d5d93c3819bfe3ce08b21ddabfede0",
+      "upstream_case_id": "vasp_ground_state",
+      "job_id": "job_97b4310cdb1946abb6b986abb148a3cb",
+      "process_status": "success",
+      "software_status": "normal_termination",
+      "convergence_status": "projection_complete",
+      "artifact_status": "requested_bonding_outputs_present",
+      "evidence": ["finished in 0 h 0 min 0 s", "abs. charge spilling: 3.71%", "COHPCAR.lobster written"],
+      "duration_seconds": 0.609
+    }
+  ],
+  "repaired_smoke_failures": [
+    {
+      "software_id": "crest",
+      "failure": "Initial coordinates caused a topology-change safety stop.",
+      "repair": "Replaced the hand-written geometry with a UFF-optimized ethanol geometry."
+    },
+    {
+      "software_id": "lobster",
+      "failure": "Exit code zero accompanied an explicit missing-upstream-files error.",
+      "repair": "Expanded the required file contract and lint to include CONTCAR, KPOINTS, OUTCAR, and vasprun.xml."
+    },
+    {
+      "software_id": "lobster",
+      "failure": "The original cohpGenerator line treated 'all' as an invalid case-sensitive sum formula.",
+      "repair": "Removed the invalid type token and disabled VASP symmetry with ISYM=-1 for the upstream wavefunction."
+    }
+  ]
+}

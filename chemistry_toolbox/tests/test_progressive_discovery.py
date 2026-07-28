@@ -7,6 +7,7 @@ from chemistry_toolbox.mcp.discovery_tools import execute_action
 from chemistry_toolbox.mcp.result_transport import compact_action_result
 from researchchem_toolbox.catalog import action_specs, catalog_snapshot
 from researchchem_toolbox.discovery import (
+    browse_action_category,
     inspect_action,
     inspect_backend,
     inspect_resource,
@@ -38,7 +39,47 @@ def test_domain_index_and_pagination_reach_the_complete_catalog():
         item["action_id"] for item in [*first["actions"], *second["actions"]]
     }
     assert discovered == set(action_specs())
-    assert first["ordering"] == "stable_action_id_order_not_relevance_ranked"
+    assert first["ordering"] == "stable_action_id_order"
+
+
+def test_category_browse_returns_the_complete_domain_choice_set():
+    snapshot = _snapshot()
+    result = browse_action_category(
+        category="molecular_electronic", snapshot=snapshot
+    )
+    expected = {
+        item.id
+        for item in action_specs().values()
+        if item.category == "molecular_electronic"
+    }
+    assert result["browse_mode"] == "complete_category"
+    assert {item["action_id"] for item in result["actions"]} == expected
+
+
+def test_action_search_uses_aliases_and_bm25_ranking():
+    snapshot = _snapshot()
+    cases = {
+        "single point energy": "calculate_energy",
+        "conformer energy": "calculate_energy",
+        "electron density surface": "calculate_electron_isodensity_surface",
+        "transition state search": "locate_transition_state",
+        "phonon DOS": "calculate_phonon_density_of_states",
+    }
+    for query, expected_first in cases.items():
+        result = search_actions(
+            query=query, retrieval_mode="lexical", snapshot=snapshot
+        )
+        assert result["actions"][0]["action_id"] == expected_first
+        assert result["actions"][0]["relevance"]["bm25"] > 0
+        assert result["retrieval"]["lexical_ranker"] == "bm25"
+
+    electronic = search_actions(
+        query="electronic energy", retrieval_mode="hybrid", snapshot=snapshot
+    )
+    assert electronic["actions"][0]["action_id"] == "calculate_energy"
+    assert electronic["retrieval"]["semantic_status"].startswith(
+        ("available", "unavailable", "stale")
+    )
 
 
 def test_action_search_and_inspection_return_exact_provider_contracts():

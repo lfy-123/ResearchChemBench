@@ -6,7 +6,7 @@
 #   interface = no stable supported API is declared; do not implement brittle scraping
 requested_software:
   - name: QCSchema
-    category: 数据与工作流基础
+    category: Data and Workflow Infrastructure
     kind: specification
     status_policy: specification
     environment: workflows
@@ -19,7 +19,7 @@ requested_software:
     official_url: https://molssi.github.io/QCElemental/
 
   - name: QCElemental
-    category: 数据与工作流基础
+    category: Data and Workflow Infrastructure
     kind: python_library
     status_policy: probe
     environment: workflows
@@ -32,7 +32,7 @@ requested_software:
     official_url: https://molssi.github.io/QCElemental/
 
   - name: QCEngine
-    category: 数据与工作流基础
+    category: Data and Workflow Infrastructure
     kind: python_library
     status_policy: probe
     environment: workflows
@@ -45,7 +45,7 @@ requested_software:
     official_url: https://molssi.github.io/QCEngine/
 
   - name: cclib
-    category: 数据与工作流基础
+    category: Data and Workflow Infrastructure
     kind: python_library
     status_policy: probe
     environment: workflows
@@ -58,7 +58,7 @@ requested_software:
     official_url: https://cclib.github.io/
 
   - name: pymatgen
-    category: 数据与工作流基础
+    category: Data and Workflow Infrastructure
     kind: python_library
     status_policy: probe
     environment: workflows
@@ -71,7 +71,7 @@ requested_software:
     official_url: https://pymatgen.org/
 
   - name: spglib
-    category: 数据与工作流基础
+    category: Data and Workflow Infrastructure
     kind: python_library
     status_policy: probe
     environment: workflows
@@ -84,7 +84,7 @@ requested_software:
     official_url: https://spglib.readthedocs.io/
 
   - name: MDTraj
-    category: 数据与工作流基础
+    category: Data and Workflow Infrastructure
     kind: python_library
     status_policy: probe
     environment: workflows
@@ -97,7 +97,7 @@ requested_software:
     official_url: https://mdtraj.org/
 
   - name: AiiDA
-    category: 数据与工作流基础
+    category: Data and Workflow Infrastructure
     kind: workflow_framework
     status_policy: probe
     environment: workflows
@@ -111,7 +111,7 @@ requested_software:
     official_url: https://aiida.readthedocs.io/
 
   - name: atomate2
-    category: 数据与工作流基础
+    category: Data and Workflow Infrastructure
     kind: workflow_framework
     status_policy: probe
     environment: workflows
@@ -124,7 +124,7 @@ requested_software:
     official_url: https://materialsproject.github.io/atomate2/
 
   - name: jobflow
-    category: 数据与工作流基础
+    category: Data and Workflow Infrastructure
     kind: workflow_framework
     status_policy: probe
     environment: workflows
@@ -137,7 +137,7 @@ requested_software:
     official_url: https://materialsproject.github.io/jobflow/
 
   - name: CENSO
-    category: 构象与分子量子化学
+    category: Conformers and Molecular Quantum Chemistry
     kind: executable
     status_policy: probe
     environment: reaction
@@ -150,7 +150,7 @@ requested_software:
     official_url: https://pypi.org/project/censo/
 
   - name: ORCA
-    category: 构象与分子量子化学
+    category: Conformers and Molecular Quantum Chemistry
     kind: licensed_binary
     status_policy: probe
     environment: quantum
@@ -164,7 +164,7 @@ requested_software:
     official_url: https://www.faccts.de/orca/
 
   - name: NWChem
-    category: 构象与分子量子化学
+    category: Conformers and Molecular Quantum Chemistry
     kind: executable
     status_policy: probe
     environment: nwchem
@@ -178,7 +178,7 @@ requested_software:
     official_url: https://nwchemgit.github.io/Download.html
 
   - name: GAMESS
-    category: 构象与分子量子化学
+    category: Conformers and Molecular Quantum Chemistry
     kind: licensed_binary
     status_policy: probe
     environment: gamess
@@ -192,7 +192,7 @@ requested_software:
     official_url: https://www.msg.chem.iastate.edu/GAMESS/download/register/
 
   - name: Gaussian
-    category: 构象与分子量子化学
+    category: Conformers and Molecular Quantum Chemistry
     kind: licensed_binary
     status_policy: probe
     environment: gaussian
@@ -206,7 +206,7 @@ requested_software:
     official_url: https://gaussian.com/
 
   - name: Q-Chem
-    category: 构象与分子量子化学
+    category: Conformers and Molecular Quantum Chemistry
     kind: licensed_binary
     status_policy: manual
     license: commercial
@@ -217,7 +217,7 @@ requested_software:
     official_url: https://www.q-chem.com/
 
   - name: Molpro
-    category: 构象与分子量子化学
+    category: Conformers and Molecular Quantum Chemistry
     kind: licensed_binary
     status_policy: manual
     license: commercial
@@ -228,7 +228,7 @@ requested_software:
     official_url: https://www.molpro.net/
 
   - name: TURBOMOLE
-    category: 构象与分子量子化学
+    category: Conformers and Molecular Quantum Chemistry
     kind: licensed_binary
     status_policy: manual
     license: commercial
@@ -239,7 +239,7 @@ requested_software:
     official_url: https://www.turbomole.org/
 
   - name: autodE
-    category: 构象与分子量子化学
+    category: Conformers and Molecular Quantum Chemistry
     kind: python_library
     status_policy: probe
     environment: nwchem
@@ -252,7 +252,7 @@ requested_software:
     official_url: https://duartegroup.github.io/autodE/
 
   - name: geomeTRIC
-    category: 构象与分子量子化学
+    category: Conformers and Molecular Quantum Chemistry
     kind: python_library
     status_policy: probe
     environment: nwchem
@@ -265,7 +265,7 @@ requested_software:
     official_url: https://github.com/leeping/geomeTRIC
 
   - name: Sella
-    category: 构象与分子量子化学
+    category: Conformers and Molecular Quantum Chemistry
     kind: python_library
     status_policy: probe
     environment: sella
@@ -278,7 +278,7 @@ requested_software:
     official_url: https://github.com/zadorlab/sella
 
   - name: Multiwfn
-    category: 构象与分子量子化学
+    category: Conformers and Molecular Quantum Chemistry
     kind: executable
     status_policy: probe
     environment: multiwfn
@@ -292,7 +292,7 @@ requested_software:
     official_url: http://sobereva.com/multiwfn/
 
   - name: Critic2
-    category: 构象与分子量子化学
+    category: Conformers and Molecular Quantum Chemistry
     kind: source_build
     status_policy: probe
     environment: critic2
@@ -306,7 +306,7 @@ requested_software:
     official_url: https://github.com/aoterodelaroza/critic2
 
   - name: GPAW
-    category: 周期材料、声子与输运
+    category: Periodic Materials, Phonons, and Transport
     kind: python_library
     status_policy: probe
     environment: gpaw
@@ -320,7 +320,7 @@ requested_software:
     official_url: https://gpaw.readthedocs.io/
 
   - name: VASP
-    category: 周期材料、声子与输运
+    category: Periodic Materials, Phonons, and Transport
     kind: licensed_binary
     status_policy: probe
     environment: vasp
@@ -334,7 +334,7 @@ requested_software:
     official_url: https://vasp.at/wiki/Installing_VASP.6.X.X
 
   - name: CASTEP
-    category: 周期材料、声子与输运
+    category: Periodic Materials, Phonons, and Transport
     kind: licensed_binary
     status_policy: manual
     license: academic_registration
@@ -344,7 +344,7 @@ requested_software:
     official_url: https://licences.stfc.ac.uk/product/castep/print
 
   - name: CRYSTAL
-    category: 周期材料、声子与输运
+    category: Periodic Materials, Phonons, and Transport
     kind: licensed_binary
     status_policy: manual
     license: commercial_registration
@@ -355,7 +355,7 @@ requested_software:
     official_url: https://www.crystal.unito.it/how_to_get_a_copy.html
 
   - name: WIEN2k
-    category: 周期材料、声子与输运
+    category: Periodic Materials, Phonons, and Transport
     kind: licensed_binary
     status_policy: manual
     license: commercial_registration
@@ -366,7 +366,7 @@ requested_software:
     official_url: https://www.wien2k.at/
 
   - name: ShengBTE
-    category: 周期材料、声子与输运
+    category: Periodic Materials, Phonons, and Transport
     kind: source_build
     status_policy: probe
     environment: shengbte
@@ -380,7 +380,7 @@ requested_software:
     official_url: https://www.shengbte.org/home
 
   - name: Wannier90
-    category: 周期材料、声子与输运
+    category: Periodic Materials, Phonons, and Transport
     kind: executable
     status_policy: probe
     environment: qe
@@ -393,7 +393,7 @@ requested_software:
     official_url: https://wannier.org/
 
   - name: Yambo
-    category: 周期材料、声子与输运
+    category: Periodic Materials, Phonons, and Transport
     kind: executable
     status_policy: probe
     environment: yambo
@@ -406,7 +406,7 @@ requested_software:
     official_url: https://www.yambo-code.eu/
 
   - name: LOBSTER
-    category: 周期材料、声子与输运
+    category: Periodic Materials, Phonons, and Transport
     kind: licensed_binary
     status_policy: probe
     environment: lobster
@@ -420,7 +420,7 @@ requested_software:
     official_url: https://www.cohp.de/
 
   - name: NAMD
-    category: 分子动力学与自由能
+    category: Molecular Dynamics and Free Energy
     kind: licensed_binary
     status_policy: probe
     environment: namd
@@ -434,7 +434,7 @@ requested_software:
     official_url: https://www.ks.uiuc.edu/Research/namd/
 
   - name: AMBER
-    category: 分子动力学与自由能
+    category: Molecular Dynamics and Free Energy
     kind: licensed_binary
     status_policy: probe
     environment: amber
@@ -448,7 +448,7 @@ requested_software:
     official_url: https://ambermd.org/GetAmber.php
 
   - name: CHARMM
-    category: 分子动力学与自由能
+    category: Molecular Dynamics and Free Energy
     kind: licensed_binary
     status_policy: probe
     environment: charmm
@@ -462,7 +462,7 @@ requested_software:
     official_url: https://academiccharmm.org/
 
   - name: HOOMD-blue
-    category: 分子动力学与自由能
+    category: Molecular Dynamics and Free Energy
     kind: python_library
     status_policy: probe
     environment: free_energy
@@ -475,7 +475,7 @@ requested_software:
     official_url: https://hoomd-blue.readthedocs.io/
 
   - name: pymbar
-    category: 分子动力学与自由能
+    category: Molecular Dynamics and Free Energy
     kind: python_library
     status_policy: probe
     environment: free_energy
@@ -488,7 +488,7 @@ requested_software:
     official_url: https://pymbar.readthedocs.io/
 
   - name: alchemlyb
-    category: 分子动力学与自由能
+    category: Molecular Dynamics and Free Energy
     kind: python_library
     status_policy: probe
     environment: free_energy
@@ -501,7 +501,7 @@ requested_software:
     official_url: https://alchemlyb.readthedocs.io/
 
   - name: RMG-Py
-    category: 反应网络与动力学
+    category: Reaction Networks and Kinetics
     kind: workflow_framework
     status_policy: probe
     environment: rmg
@@ -515,7 +515,7 @@ requested_software:
     official_url: https://reactionmechanismgenerator.github.io/RMG-Py/
 
   - name: Arkane
-    category: 反应网络与动力学
+    category: Reaction Networks and Kinetics
     kind: executable
     status_policy: probe
     environment: rmg
@@ -529,7 +529,7 @@ requested_software:
     official_url: https://reactionmechanismgenerator.github.io/RMG-Py/users/arkane/
 
   - name: MESS
-    category: 反应网络与动力学
+    category: Reaction Networks and Kinetics
     kind: source_build
     status_policy: probe
     environment: mess
@@ -543,7 +543,7 @@ requested_software:
     official_url: https://tcg.cse.anl.gov/papr/codes/mess.html
 
   - name: MESMER
-    category: 反应网络与动力学
+    category: Reaction Networks and Kinetics
     kind: source_build
     status_policy: probe
     environment: mesmer
@@ -557,7 +557,7 @@ requested_software:
     official_url: https://sourceforge.net/projects/mesmer/
 
   - name: AutoMeKin
-    category: 反应网络与动力学
+    category: Reaction Networks and Kinetics
     kind: source_build
     status_policy: probe
     environment: automekin
@@ -571,7 +571,7 @@ requested_software:
     official_url: https://github.com/emartineznunez/AutoMeKin
 
   - name: KinBot
-    category: 反应网络与动力学
+    category: Reaction Networks and Kinetics
     kind: python_library
     status_policy: probe
     environment: kinbot
@@ -584,7 +584,7 @@ requested_software:
     official_url: https://pypi.org/project/kinbot/
 
   - name: OpenMolcas
-    category: 激发态、光谱与可视化
+    category: Excited States, Spectroscopy, and Visualization
     kind: source_build
     status_policy: probe
     environment: openmolcas
@@ -598,7 +598,7 @@ requested_software:
     official_url: https://molcas.gitlab.io/OpenMolcas/sphinx/installation.guide/install.html
 
   - name: SHARC
-    category: 激发态、光谱与可视化
+    category: Excited States, Spectroscopy, and Visualization
     kind: source_build
     status_policy: probe
     environment: sharc
@@ -612,7 +612,7 @@ requested_software:
     official_url: https://sharc-md.org/
 
   - name: Newton-X
-    category: 激发态、光谱与可视化
+    category: Excited States, Spectroscopy, and Visualization
     kind: licensed_binary
     status_policy: probe
     environment: newtonx
@@ -626,7 +626,7 @@ requested_software:
     official_url: https://newtonx.org/download/
 
   - name: TheoDORE
-    category: 激发态、光谱与可视化
+    category: Excited States, Spectroscopy, and Visualization
     kind: python_library
     status_policy: probe
     environment: theodore
@@ -639,7 +639,7 @@ requested_software:
     official_url: https://theodore-qc.sourceforge.io/
 
   - name: EasySpin
-    category: 激发态、光谱与可视化
+    category: Excited States, Spectroscopy, and Visualization
     kind: licensed_toolbox
     status_policy: probe
     environment: easyspin
@@ -653,7 +653,7 @@ requested_software:
     official_url: https://easyspin.org/
 
   - name: MATLAB
-    category: 激发态、光谱与可视化
+    category: Excited States, Spectroscopy, and Visualization
     kind: licensed_binary
     status_policy: manual
     environment: matlab
@@ -668,7 +668,7 @@ requested_software:
     official_url: https://www.mathworks.com/products/matlab.html
 
   - name: VMD
-    category: 激发态、光谱与可视化
+    category: Excited States, Spectroscopy, and Visualization
     kind: executable
     status_policy: probe
     environment: vmd
@@ -681,7 +681,7 @@ requested_software:
     official_url: https://www.ks.uiuc.edu/Research/vmd/
 
   - name: VESTA
-    category: 激发态、光谱与可视化
+    category: Excited States, Spectroscopy, and Visualization
     kind: licensed_binary
     status_policy: probe
     environment: vesta
@@ -695,7 +695,7 @@ requested_software:
     official_url: https://jp-minerals.org/vesta/jp/download.html
 
   - name: OpenEye
-    category: 对接、结构处理与机器学习势
+    category: Docking, Structure Processing, and Machine-Learned Potentials
     kind: licensed_software_suite
     status_policy: manual
     license: commercial
@@ -706,7 +706,7 @@ requested_software:
     official_url: https://www.eyesopen.com/
 
   - name: Schrödinger
-    category: 对接、结构处理与机器学习势
+    category: Docking, Structure Processing, and Machine-Learned Potentials
     kind: licensed_software_suite
     status_policy: manual
     cache_paths: [.software_cache/schrodinger/rejected/dirac-video-codec/schroedinger-1.0.11-7-x86_64.pkg.tar.zst]
@@ -718,7 +718,7 @@ requested_software:
     official_url: https://www.schrodinger.com/
 
   - name: pdb-tools
-    category: 对接、结构处理与机器学习势
+    category: Docking, Structure Processing, and Machine-Learned Potentials
     kind: python_library
     status_policy: probe
     environment: core
@@ -731,7 +731,7 @@ requested_software:
     official_url: https://github.com/haddocking/pdb-tools
 
   - name: NequIP
-    category: 对接、结构处理与机器学习势
+    category: Docking, Structure Processing, and Machine-Learned Potentials
     kind: python_library
     status_policy: probe
     environment: nequip
@@ -746,7 +746,7 @@ requested_software:
     official_url: https://nequip.readthedocs.io/
 
   - name: DeePMD-kit
-    category: 对接、结构处理与机器学习势
+    category: Docking, Structure Processing, and Machine-Learned Potentials
     kind: python_library
     status_policy: probe
     environment: deepmd
@@ -760,8 +760,8 @@ requested_software:
     notes: A dedicated DeePMD-kit 3.2.0b0 CPU inference runtime loads all five downloaded DPA/OMol checkpoints; the original 3.1.3/LAMMPS runtime is preserved separately. Molecular and periodic atomic adapters require an exact checkpoint, explicit branch (or single_task), charge, spin and device.
     official_url: https://docs.deepmodeling.com/projects/deepmd/
 
-  - name: NIST CCCBDB 接口
-    category: 数据接口
+  - name: NIST CCCBDB Interface
+    category: Data Interfaces
     kind: data_interface
     status_policy: interface
     environment: ""
@@ -774,8 +774,8 @@ requested_software:
     notes: CCCBDB has no public documented REST/JSON API and is suitable only for limited interactive single-molecule webpage use. It remains outside BackendSpecs and is not exposed through MCP; no brittle page scraping or bulk crawler is added.
     official_url: https://cccbdb.nist.gov/introx.asp
 
-  - name: NIST Chemistry WebBook 接口
-    category: 数据接口
+  - name: NIST Chemistry WebBook Interface
+    category: Data Interfaces
     kind: data_interface
     status_policy: probe
     environment: services

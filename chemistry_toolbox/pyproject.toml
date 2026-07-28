@@ -10,6 +10,7 @@ requires-python = ">=3.10"
 dependencies = [
     "mcp>=1.0",
     "fastmcp>=2.0",
+    "jsonschema>=4.0",
     "numexpr>=2.0",
     "pydantic>=2.0",
     "uvicorn>=0.30",
@@ -26,6 +27,7 @@ chemistry = [
     "tblite==0.4.0; python_version < '3.13' or platform_system != 'Darwin'",
 ]
 test = ["pytest>=8.0", "pytest-asyncio>=0.23"]
+semantic-search = ["numpy>=1.24", "onnxruntime>=1.17", "tokenizers>=0.15"]
 
 [project.scripts]
 researchchem-mcp-server = "researchchem_mcp_tools.server:main"

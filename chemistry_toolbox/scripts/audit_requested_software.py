@@ -369,27 +369,27 @@ def write_markdown(payload: dict[str, Any]) -> None:
     summary = payload["summary"]
     records = payload["software"]
     lines = [
-        "# ResearchChemBench 请求软件/工具配置状态",
+        "# ResearchChemBench Requested Software and Tool Configuration Status",
         "",
-        f"> 生成时间：`{payload['generated_at']}`。本报告由 `chemistry_toolbox/scripts/audit_requested_software.py` 生成，覆盖用户给出的全部 {summary['total']} 项；它把“依赖已安装”“规范已实现”“需要人工许可/下载”“接口尚未安全接入”分开记录。",
+        f"> Generated at `{payload['generated_at']}` by `chemistry_toolbox/scripts/audit_requested_software.py`. The report covers all {summary['total']} requested entries and distinguishes installed dependencies, implemented specifications, manual license/download requirements, and interfaces that are not safely integrated.",
         "",
-        "## 总结",
+        "## Summary",
         "",
-        "| 状态 | 数量 | 含义 |",
+        "| Status | Count | Meaning |",
         "|---|---:|---|",
-        f"| configured | {summary['counts'].get('configured', 0)} | 声明 runtime 中的模块/命令/缓存路径均通过检查 |",
-        f"| partial | {summary['counts'].get('partial', 0)} | 有部分组件可用，但仍有导入、数据库、数据文件或其他检查未通过 |",
-        f"| specification | {summary['counts'].get('specification', 0)} | QCSchema 这类规范由其他库实现，不是独立安装包 |",
-        f"| manual_required | {summary['counts'].get('manual_required', 0)} | 需要许可证、注册、供应商下载、源码编译或 GUI 主机配置 |",
-        f"| manual_api_review | {summary['counts'].get('manual_api_review', 0)} | 官方站点可访问，但尚未确认稳定且条款允许的通用 API |",
-        f"| not_found | {summary['counts'].get('not_found', 0)} | 声明为自动探测的软件没有任何模块、命令或缓存检查通过 |",
-        f"| 总计 | {summary['total']} | 用户名单逐项覆盖 |",
+        f"| configured | {summary['counts'].get('configured', 0)} | All declared runtime modules, commands, and cache paths passed checks |",
+        f"| partial | {summary['counts'].get('partial', 0)} | Some components are available, but imports, databases, data files, or other checks remain incomplete |",
+        f"| specification | {summary['counts'].get('specification', 0)} | Specifications such as QCSchema are implemented by other libraries rather than standalone packages |",
+        f"| manual_required | {summary['counts'].get('manual_required', 0)} | Requires a license, registration, vendor download, source compilation, or GUI host configuration |",
+        f"| manual_api_review | {summary['counts'].get('manual_api_review', 0)} | The official site is reachable, but a stable and permitted general API has not been confirmed |",
+        f"| not_found | {summary['counts'].get('not_found', 0)} | No declared module, command, or cache check passed for an automatically probed entry |",
+        f"| Total | {summary['total']} | Complete coverage of the requested inventory |",
         "",
-        "## 目录约定",
+        "## Directory Conventions",
         "",
-        "- 软件和大体积二进制只放在 `.software_cache/` 的版本化子目录；运行时定义在 `chemistry_toolbox/config/mcp_profiles.yaml` 或 `chemistry_toolbox/config/auxiliary_environments.yaml`。",
-        "- 模型权重只放在 `.model_cache/`；NequIP、Allegro 与 DeePMD checkpoint 已按精确文件和校验值登记，但每次调用仍必须由 Agent 显式选择。",
-        "- auxiliary runtime 只用于依赖隔离、健康检查和后续原子适配，不改变公共 MCP 工具目录，也不自动替 Agent 编排流程。",
+        "- Software and large binaries live only in versioned `.software_cache/` subdirectories; runtimes are declared in `chemistry_toolbox/config/mcp_profiles.yaml` or `chemistry_toolbox/config/auxiliary_environments.yaml`.",
+        "- Model weights live only in `.model_cache/`; NequIP, Allegro, and DeePMD checkpoints are registered by exact file and checksum, but the Agent must still select them explicitly for each call.",
+        "- Auxiliary runtimes provide dependency isolation, health checks, and later atomic adapters. They do not change the public MCP tool catalog or automatically orchestrate Agent workflows.",
         "",
     ]
     pending = [
@@ -399,25 +399,25 @@ def write_markdown(payload: dict[str, Any]) -> None:
     ]
     lines.extend(
         [
-            "## 剩余待处理清单",
+            "## Remaining Manual Work",
             "",
-            "下表是需要用户提供许可文件/安装包、补宿主软件，或共同确认接口策略的项目；顺序与原始请求清单一致。",
+            "The following entries require license files, installers, host software, or an agreed interface policy. Their order matches the original request inventory.",
             "",
-            "| 顺序 | 名称 | 状态 | 下一步 / 所需输入 | 官方入口 |",
+            "| Order | Name | Status | Next step / Required input | Official source |",
             "|---:|---|---|---|---|",
         ]
     )
     for index, item in enumerate(pending, start=1):
         url = item.get("official_url")
         lines.append(
-            f"| {index} | `{md(item.get('name'))}` | **{md(item.get('status'))}** | {md(item.get('notes'))} | {f'[官方]({url})' if url else '—'} |"
+            f"| {index} | `{md(item.get('name'))}` | **{md(item.get('status'))}** | {md(item.get('notes'))} | {f'[official]({url})' if url else '—'} |"
         )
     lines.extend(
         [
             "",
-        "## 逐项状态表",
+        "## Per-Entry Status",
         "",
-        "| 类别 | 名称 | 状态 | 类型 / 许可 | Runtime / Python 模块 / 命令 | 软件缓存 / 模型缓存 | 公共适配 / MCP 暴露 | 功能与处理备注 | 官方入口 |",
+        "| Category | Name | Status | Type / License | Runtime / Python modules / Commands | Software cache / Model cache | Public adapter / MCP exposure | Capability and handling notes | Official source |",
         "|---|---|---|---|---|---|---|---|---|",
         ]
     )
@@ -429,11 +429,11 @@ def write_markdown(payload: dict[str, Any]) -> None:
             if value.get("available"):
                 state = "OK"
             elif "timed out" in str(value.get("error") or ""):
-                state = "超时"
+                state = "timeout"
             else:
-                state = "失败"
+                state = "failed"
             modules.append(f"{name}={state}" + (f" ({version})" if version else ""))
-        commands = [f"{name}={'OK' if path else '缺失'}" for name, path in (verification.get("commands") or {}).items()]
+        commands = [f"{name}={'OK' if path else 'missing'}" for name, path in (verification.get("commands") or {}).items()]
         environment = item.get("environment_detail") or {}
         runtime_text = "<br>".join(
             part for part in [
@@ -445,21 +445,21 @@ def write_markdown(payload: dict[str, Any]) -> None:
         cache = []
         for value in item.get("cache_paths") or []:
             result = (verification.get("cache_paths") or {}).get(str(value), {})
-            cache.append(f"{value}={'存在' if result.get('exists') else '缺失'}")
+            cache.append(f"{value}={'present' if result.get('exists') else 'missing'}")
         if item.get("model_cache"):
-            cache.append(f"model: {item['model_cache']}（显式选择；调用时不自动下载）")
+            cache.append(f"model: {item['model_cache']} (explicit selection; no automatic download during calls)")
         cache_text = "<br>".join(cache) or "—"
         url = item.get("official_url")
-        url_text = f"[官方]({url})" if url else "—"
+        url_text = f"[official]({url})" if url else "—"
         lines.append(
             f"| {md(item.get('category'))} | `{md(item.get('name'))}` | **{md(item.get('status'))}** | `{md(item.get('kind'))}`<br>{md(item.get('license'))} | {runtime_text} | {cache_text} | adapter=`{md(item.get('public_adapter'))}`<br>MCP=`{md(item.get('mcp_exposure', 'catalog_controlled'))}` | {md(item.get('role'))}<br>{md(item.get('notes'))} | {url_text} |"
         )
 
     lines.extend([
         "",
-        "## Runtime 级检查明细",
+        "## Runtime-Level Check Details",
         "",
-        "| Runtime | Conda 名称 | Python | Conda/Pip 依赖 | Smoke | 说明 |",
+        "| Runtime | Conda name | Python | Conda/Pip dependencies | Smoke | Notes |",
         "|---|---|---|---|---|---|",
     ])
     for name, runtime in payload.get("runtime_probes", {}).items():
@@ -468,18 +468,18 @@ def write_markdown(payload: dict[str, Any]) -> None:
             smoke.append(f"{key}={'pass' if value.get('success') else 'fail'}")
         packages = "Conda: " + (", ".join(runtime.get("conda_packages") or []) or "—") + "<br>Pip: " + (", ".join(runtime.get("pip_packages") or []) or "—")
         lines.append(
-            f"| `{name}`<br>`{relative(runtime.get('environment'))}` | `{md(runtime.get('conda_name'))}` | `{relative(runtime.get('python'))}`<br>{('存在' if runtime.get('python_exists') else '缺失') if runtime.get('python_required') else '不需要（仅命令型 runtime）'} | {md(packages)} | {', '.join(smoke) or '未执行'} | {md(runtime.get('notes'))} |"
+            f"| `{name}`<br>`{relative(runtime.get('environment'))}` | `{md(runtime.get('conda_name'))}` | `{relative(runtime.get('python'))}`<br>{('present' if runtime.get('python_exists') else 'missing') if runtime.get('python_required') else 'not required (command-only runtime)'} | {md(packages)} | {', '.join(smoke) or 'not run'} | {md(runtime.get('notes'))} |"
         )
     lines.extend([
         "",
-        "## 状态解释与后续手动处理",
+        "## Status Interpretation and Manual Follow-Up",
         "",
-        "- `configured` 仅表示本地依赖/入口已准备好，不代表已经为所有软件编写了公共 Action，也不代表已经替 Agent 选择模型、泛函、基组、赝势或工作流顺序。",
-        "- `partial` 项需按备注补齐宿主程序或修复 runtime。当前 Arkane 的入口/数据库齐全，但导入与 H 示例均超出有界时限；EasySpin 文件和 MATLAB 官方介质齐全，但仍缺合法安装后的 MATLAB 命令。不能用无界等待或仅检查文件存在来伪报完成。",
-        "- `manual_required` 项需要用户提供许可证、注册下载、源码包或编译工具链；收到后可按本表的官方入口继续接入对应 runtime。",
-        "- NIST CCCBDB 保持 `manual_api_review` 且不暴露；NIST WebBook 已按官方参数化 CGI 接入受限的单物种 Data Action，并明确禁止通用 REST/JSON、批量抓取和数据镜像的错误表述。",
+        "- `configured` only means local dependencies and entry points are ready. It does not mean every program has a public Action or that the system selected a model, functional, basis, pseudopotential, or workflow order for the Agent.",
+        "- `partial` entries require the host application or runtime repairs described in their notes. Bounded timeouts and functional probes must not be replaced by unbounded waits or file-existence checks.",
+        "- `manual_required` entries require a user-provided license, registered download, source package, or compiler toolchain before runtime integration can continue.",
+        "- NIST CCCBDB remains `manual_api_review` and is not exposed. NIST WebBook is integrated through its official parameterized CGI as a restricted single-species Data Action; it is not described as a general REST/JSON API, bulk scraper, or mirror.",
         "",
-        "## 重放命令",
+        "## Replay Command",
         "",
         "```bash",
         ".toolbox_env/bin/python chemistry_toolbox/scripts/audit_requested_software.py",

@@ -20,14 +20,14 @@ def test_requested_software_inventory_covers_all_59_unique_items():
     names = [item["name"] for item in items]
     assert len(names) == len(set(names)) == 59
     assert {item["category"] for item in items} == {
-        "数据与工作流基础",
-        "构象与分子量子化学",
-        "周期材料、声子与输运",
-        "分子动力学与自由能",
-        "反应网络与动力学",
-        "激发态、光谱与可视化",
-        "对接、结构处理与机器学习势",
-        "数据接口",
+        "Data and Workflow Infrastructure",
+        "Conformers and Molecular Quantum Chemistry",
+        "Periodic Materials, Phonons, and Transport",
+        "Molecular Dynamics and Free Energy",
+        "Reaction Networks and Kinetics",
+        "Excited States, Spectroscopy, and Visualization",
+        "Docking, Structure Processing, and Machine-Learned Potentials",
+        "Data Interfaces",
     }
 
 
@@ -94,13 +94,13 @@ def test_generated_requested_software_status_has_no_unaccounted_missing_item():
 def test_nist_interfaces_keep_cccbdb_disabled_and_bound_webbook_to_official_cgi():
     items = _yaml("config/requested_software.yaml")["requested_software"]
     nist = {item["name"]: item for item in items if item["name"].startswith("NIST ")}
-    assert set(nist) == {"NIST CCCBDB 接口", "NIST Chemistry WebBook 接口"}
-    cccbdb = nist["NIST CCCBDB 接口"]
+    assert set(nist) == {"NIST CCCBDB Interface", "NIST Chemistry WebBook Interface"}
+    cccbdb = nist["NIST CCCBDB Interface"]
     assert cccbdb["status_policy"] == "interface"
     assert cccbdb["public_adapter"] == "not_implemented"
     assert cccbdb["mcp_exposure"] == "disabled_no_documented_api"
     assert "scrap" in cccbdb["notes"].lower()
-    webbook = nist["NIST Chemistry WebBook 接口"]
+    webbook = nist["NIST Chemistry WebBook Interface"]
     assert webbook["status_policy"] == "probe"
     assert webbook["environment"] == "services"
     assert webbook["public_adapter"] == "existing"

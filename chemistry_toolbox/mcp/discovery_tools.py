@@ -7,6 +7,7 @@ from typing import Any, Callable, TypeVar
 from pydantic import BaseModel
 
 from researchchem_toolbox.discovery import (
+    browse_action_category as _browse_action_category,
     inspect_action as _inspect_action,
     inspect_backend as _inspect_backend,
     inspect_resource as _inspect_resource,
@@ -17,6 +18,7 @@ from researchchem_toolbox.discovery import (
 from researchchem_toolbox.service import execute_action as _execute_action
 
 from .discovery_models import (
+    ActionCategoryBrowseRequest,
     ActionDomainListRequest,
     ActionInspectRequest,
     ActionSearchRequest,
@@ -34,6 +36,7 @@ RequestT = TypeVar("RequestT", bound=BaseModel)
 
 PROGRESSIVE_DISCOVERY_TOOL_NAMES = (
     "list_action_domains",
+    "browse_action_category",
     "search_actions",
     "inspect_action",
     "inspect_backend",
@@ -48,9 +51,15 @@ TOOL_DESCRIPTIONS = {
         "Return the compact complete domain index, counts, and by default every exact action_id "
         "grouped by domain. This does not select a domain or infer anything from the task."
     ),
+    "browse_action_category": (
+        "Return all compact Action summaries in one exact category selected from "
+        "list_action_domains. Use this when the category is known and the Agent needs to compare "
+        "the complete local choice set before inspecting one Action."
+    ),
     "search_actions": (
-        "Search the complete frozen Action catalog using only the supplied query and exact filters. "
-        "Results are stable id-ordered facts, not recommendations or task-specific retrieval."
+        "Search the complete frozen Action catalog using English aliases and BM25 relevance. "
+        "Hybrid mode adds offline all-MiniLM-L6-v2 semantic recall when its local cache is present; "
+        "it never downloads a model or changes the catalog."
     ),
     "inspect_action": (
         "Inspect one exact Action before calling it. Returns its input contract, provider-selection "
@@ -118,6 +127,14 @@ def list_action_domains(request: ActionDomainListRequest) -> dict[str, Any]:
         "list_action_domains",
         request,
         lambda: _list_action_domains(**request.model_dump(mode="python")),
+    )
+
+
+def browse_action_category(request: ActionCategoryBrowseRequest) -> dict[str, Any]:
+    return _invoke_discovery(
+        "browse_action_category",
+        request,
+        lambda: _browse_action_category(**request.model_dump(mode="python")),
     )
 
 

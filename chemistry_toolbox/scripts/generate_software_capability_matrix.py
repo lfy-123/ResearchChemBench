@@ -21,7 +21,7 @@ def _cell(values: list[str] | None, *, limit: int = 12) -> str:
     shown = items[:limit]
     text = "<br>".join(f"`{value}`" for value in shown)
     if len(items) > limit:
-        text += f"<br>…另有 {len(items) - limit} 项"
+        text += f"<br>...and {len(items) - limit} more"
     return text
 
 
@@ -37,24 +37,24 @@ def main() -> int:
     candidate = [item for item in records if item.get("candidate_actions")]
     documented = [item for item in records if item.get("official_sources")]
     lines = [
-        "# ResearchChemBench 软件能力扩展矩阵",
+        "# ResearchChemBench Software Capability Expansion Matrix",
         "",
-        f"> 生成时间：`{value.get('generated_at')}`。由 `chemistry_toolbox/scripts/generate_software_capability_matrix.py` 从本地资料缓存生成。",
+        f"> Generated at `{value.get('generated_at')}` from the local documentation cache by `chemistry_toolbox/scripts/generate_software_capability_matrix.py`.",
         "",
-        "## 1. 审计摘要",
+        "## 1. Audit Summary",
         "",
-        "| 项目 | 数量 |",
+        "| Item | Count |",
         "|---|---:|",
-        f"| 软件/算法/数据源记录 | {len(records)} |",
-        f"| 已有公开 Action 映射 | {len(public)} |",
-        f"| 已登记候选扩展 Action | {len(candidate)} |",
-        f"| 已登记官方资料入口 | {len(documented)} |",
+        f"| Software, algorithm, and data-source records | {len(records)} |",
+        f"| Records with public Action mappings | {len(public)} |",
+        f"| Records with candidate Action extensions | {len(candidate)} |",
+        f"| Records with official documentation sources | {len(documented)} |",
         "",
-        "能力状态必须按 `documented → installed → adapted → validated` 逐级提升。表中的候选 Action 不能直接理解为当前 MCP 可用能力。",
+        "Capability status advances through `documented -> installed -> adapted -> validated`. Candidate Actions are not current MCP capabilities.",
         "",
-        "## 2. 已审计候选扩展",
+        "## 2. Audited Candidate Extensions",
         "",
-        "| 软件 | 检测版本 | 当前已验证 Actions | 候选 Actions | 官方资料 |",
+        "| Software | Detected versions | Current validated Actions | Candidate Actions | Official sources |",
         "|---|---|---|---|---|",
     ]
     for item in sorted(candidate, key=lambda row: row["software_id"]):
@@ -76,9 +76,9 @@ def main() -> int:
     lines.extend(
         [
             "",
-            "## 3. 完整软件、算法和数据源清单",
+            "## 3. Complete Software, Algorithm, and Data-Source Inventory",
             "",
-            "| ID / 名称 | 检测版本 | 清单状态 / Adapter | 当前公开 Actions | 候选 Actions | 本地资料 | 备注 |",
+            "| ID / Name | Detected versions | Inventory status / Adapter | Current public Actions | Candidate Actions | Local documentation | Notes |",
             "|---|---|---|---|---|---|---|",
         ]
     )
@@ -110,14 +110,14 @@ def main() -> int:
     lines.extend(
         [
             "",
-            "## 4. 判定规则",
+            "## 4. Interpretation Rules",
             "",
-            "- `current_validated_actions` 来自当前 `BACKEND_SPECS`，表示已经进入公共 Catalog；仍需以测试报告确认科学正确性。",
-            "- `candidate_actions` 来自官方功能审计，只表示计划适配方向。",
-            "- `runtime_only` 表示软件已安装或已缓存，但没有完整 ActionSpec、BackendSpec、Handler、Artifact 和端到端测试链。",
-            "- 数据源客户端、解析库和工作流框架不自动成为 Agent 可选计算 Backend。",
-            "- 本地资料位于 `.software_cache/documentation/<software>/<version>/`，下载文件带 SHA-256 和原始 URL。",
-            "- 软件包内置手册保留在对应 `.software_cache/<software>/<version>/`，矩阵同时记录路径、大小和 SHA-256，不重复复制大型许可文件。",
+            "- `current_validated_actions` comes from the active `BACKEND_SPECS` and means the capability is present in the public catalog; scientific correctness still requires test evidence.",
+            "- `candidate_actions` comes from official capability review and only records planned adaptation targets.",
+            "- `runtime_only` means software is installed or cached without a complete ActionSpec, BackendSpec, handler, Artifact contract, and end-to-end test chain.",
+            "- Data-source clients, parsing libraries, and workflow frameworks do not automatically become Agent-selectable compute Backends.",
+            "- Cached documentation lives under `.software_cache/documentation/<software>/<version>/` with SHA-256 and source URL records.",
+            "- Package-provided manuals remain in their versioned `.software_cache/<software>/<version>/` locations; the matrix records paths, sizes, and hashes without duplicating large licensed files.",
             "",
         ]
     )

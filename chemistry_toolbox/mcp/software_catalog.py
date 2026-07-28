@@ -21,10 +21,13 @@ from researchchem_toolbox.runtime import (
     runtime_spec,
 )
 from researchchem_toolbox.resource_budget import resource_budget_record
+from researchchem_toolbox.search_index import BM25Index, normalize_scores, weighted_text
+from researchchem_toolbox.semantic_embeddings import MODEL_ID, embedding_cache_path, semantic_scores
 from researchchem_toolbox.timeout_policy import timeout_policy_record
 
 from .execution_models import (
     AnalysisRuntimeListRequest,
+    DocumentationReadRequest,
     DocumentationSearchRequest,
     SoftwareInspectRequest,
     SoftwareListRequest,
@@ -32,12 +35,14 @@ from .execution_models import (
 
 
 GUIDE_PATH = CONFIG_ROOT / "native_software_guides.yaml"
+NATIVE_DOCS_ROOT = PROJECT_ROOT / "chemistry_toolbox" / "native_software_docs"
 DOCUMENTATION_INDEX_PATH = PROJECT_ROOT / ".software_cache" / "documentation" / "index.json"
 REQUESTED_STATUS_PATH = CONFIG_ROOT / "requested_software_status.json"
 CAPABILITY_SOURCES_PATH = CONFIG_ROOT / "software_capability_sources.yaml"
 REQUESTED_SOFTWARE_PATH = CONFIG_ROOT / "requested_software.yaml"
 _HTML_TAG = re.compile(r"<[^>]+>")
 _SPACE = re.compile(r"\s+")
+_HEADING = re.compile(r"^(#{1,6})\s+(.+?)\s*$")
 
 
 @lru_cache(maxsize=1)
@@ -588,6 +593,22 @@ def inspect_software(request: SoftwareInspectRequest) -> dict[str, Any]:
                 },
             }
         )
+    document_chunks = software_document_chunks(software_id, include_cached=False)
+    document_index: dict[str, dict[str, Any]] = {}
+    for chunk in document_chunks:
+        if chunk["shared"]:
+            continue
+        item = document_index.setdefault(
+            chunk["path"],
+            {
+                "path": chunk["path"],
+                "topics": chunk["topics"],
+                "aliases": chunk["aliases"],
+                "sections": [],
+            },
+        )
+        if chunk["heading"] not in item["sections"]:
+            item["sections"].append(chunk["heading"])
     return {
         "status": "success",
         **entry,
@@ -601,6 +622,15 @@ def inspect_software(request: SoftwareInspectRequest) -> dict[str, Any]:
             item.get("path") for item in docs.get("downloads") or [] if item.get("path")
         ],
         "local_documents": docs.get("local_documents") or [],
+        "documentation_index": list(document_index.values()),
+        "shared_documentation_topics": sorted(
+            {
+                topic
+                for chunk in document_chunks
+                if chunk["shared"]
+                for topic in chunk["topics"]
+            }
+        ),
         "candidate_capabilities": docs.get("candidate_actions") or [],
         "notes": docs.get("notes"),
         "decision_boundary": (
@@ -645,48 +675,257 @@ def _searchable_text(path: Path) -> str | None:
     return _SPACE.sub(" ", text)
 
 
-def search_software_documentation(request: DocumentationSearchRequest) -> dict[str, Any]:
-    software_id = resolve_software_id(request.software_id)
-    needle = request.query.casefold()
-    results: list[dict[str, Any]] = []
-    skipped: list[str] = []
-    for path in _document_paths(software_id):
+def _normalize_topic(value: str) -> str:
+    return re.sub(r"[^a-z0-9]+", "-", value.casefold()).strip("-")
+
+
+def _parse_markdown(path: Path) -> tuple[dict[str, Any], str]:
+    text = path.read_text(encoding="utf-8")
+    if not text.startswith("---\n"):
+        return {}, text
+    end = text.find("\n---\n", 4)
+    if end < 0:
+        raise ValueError(f"Unclosed YAML front matter in {path}")
+    metadata = yaml.safe_load(text[4:end]) or {}
+    if not isinstance(metadata, dict):
+        raise ValueError(f"Invalid YAML front matter in {path}")
+    return metadata, text[end + 5 :]
+
+
+def _markdown_chunks(path: Path) -> list[dict[str, Any]]:
+    metadata, body = _parse_markdown(path)
+    headings: list[tuple[str, list[str]]] = []
+    current_heading = "Document"
+    current_lines: list[str] = []
+    for line in body.splitlines():
+        match = _HEADING.match(line)
+        if match:
+            if current_lines or current_heading != "Document":
+                headings.append((current_heading, current_lines))
+            current_heading = match.group(2).strip()
+            current_lines = []
+        else:
+            current_lines.append(line)
+    headings.append((current_heading, current_lines))
+    relative = path.relative_to(PROJECT_ROOT)
+    topics = [_normalize_topic(str(item)) for item in metadata.get("topics") or []]
+    aliases = [str(item) for item in metadata.get("aliases") or []]
+    software_id = str(metadata.get("software_id") or path.parent.name)
+    chunks = []
+    for index, (heading, lines) in enumerate(headings):
+        content = "\n".join(lines).strip()
+        if not content and heading == "Document":
+            continue
+        chunks.append(
+            {
+                "chunk_id": f"{relative}#{index}-{_normalize_topic(heading)}",
+                "software_id": software_id,
+                "path": str(relative),
+                "heading": heading,
+                "section": _normalize_topic(heading),
+                "topics": topics,
+                "aliases": aliases,
+                "text": content,
+                "shared": software_id == "_shared",
+                "source_type": "first_party_markdown",
+            }
+        )
+    return chunks
+
+
+@lru_cache(maxsize=64)
+def _first_party_chunks(software_id: str) -> tuple[dict[str, Any], ...]:
+    paths = sorted((NATIVE_DOCS_ROOT / "_shared").glob("*.md"))
+    software_directory = NATIVE_DOCS_ROOT / software_id
+    if software_directory.is_dir():
+        paths.extend(sorted(software_directory.glob("*.md")))
+    return tuple(chunk for path in paths for chunk in _markdown_chunks(path))
+
+
+def software_document_chunks(
+    software_id: str, *, include_cached: bool = True
+) -> list[dict[str, Any]]:
+    resolved_id = resolve_software_id(software_id)
+    chunks = [dict(item) for item in _first_party_chunks(resolved_id)]
+    if not include_cached:
+        return chunks
+    for path in _document_paths(resolved_id):
         text = _searchable_text(path)
         if text is None:
-            skipped.append(str(path.relative_to(PROJECT_ROOT)))
             continue
-        lower = text.casefold()
-        cursor = 0
-        while len(results) < request.max_results:
-            index = lower.find(needle, cursor)
-            if index < 0:
-                break
-            half = request.context_chars // 2
-            start = max(0, index - half)
-            end = min(len(text), index + len(request.query) + half)
-            results.append(
+        relative = str(path.relative_to(PROJECT_ROOT))
+        for index, start in enumerate(range(0, len(text), 1800)):
+            excerpt = text[start : start + 2000]
+            chunks.append(
                 {
-                    "path": str(path.relative_to(PROJECT_ROOT)),
-                    "character_offset": index,
-                    "excerpt": text[start:end],
+                    "chunk_id": f"{relative}#cached-{index}",
+                    "software_id": resolved_id,
+                    "path": relative,
+                    "heading": "Cached documentation",
+                    "section": "cached-documentation",
+                    "topics": [],
+                    "aliases": [],
+                    "text": excerpt,
+                    "shared": False,
+                    "source_type": "cached_external_document",
                 }
             )
-            cursor = index + len(request.query)
-        if len(results) >= request.max_results:
+    return chunks
+
+
+def _topic_matches(chunk: dict[str, Any], value: str) -> bool:
+    target = _normalize_topic(value)
+    candidates = {
+        *chunk["topics"],
+        *(_normalize_topic(item) for item in chunk["aliases"]),
+    }
+    return target in candidates
+
+
+def software_document_search_text(chunk: dict[str, Any]) -> str:
+    return weighted_text(
+        (
+            (chunk["heading"], 4),
+            (" ".join(chunk["topics"]), 4),
+            (" ".join(chunk["aliases"]), 3),
+            (chunk["text"], 1),
+        )
+    )
+
+
+def read_software_documentation(request: DocumentationReadRequest) -> dict[str, Any]:
+    software_id = resolve_software_id(request.software_id)
+    matches = [
+        chunk
+        for chunk in software_document_chunks(software_id, include_cached=False)
+        if _topic_matches(chunk, request.topic)
+    ]
+    if request.section:
+        section = _normalize_topic(request.section)
+        matches = [chunk for chunk in matches if chunk["section"] == section]
+    if not matches:
+        raise KeyError(
+            f"No first-party documentation for software_id={software_id!r}, "
+            f"topic={request.topic!r}, section={request.section!r}"
+        )
+    remaining = request.max_chars
+    sections = []
+    truncated = False
+    for chunk in matches:
+        content = chunk["text"][:remaining]
+        sections.append(
+            {
+                "path": chunk["path"],
+                "heading": chunk["heading"],
+                "content": content,
+            }
+        )
+        remaining -= len(content)
+        if remaining <= 0:
+            truncated = True
             break
+    return {
+        "status": "success",
+        "software_id": software_id,
+        "topic": _normalize_topic(request.topic),
+        "section": _normalize_topic(request.section) if request.section else None,
+        "sections": sections,
+        "truncated": truncated,
+        "source_policy": "first_party_markdown_exact_route",
+    }
+
+
+def search_software_documentation(request: DocumentationSearchRequest) -> dict[str, Any]:
+    software_id = resolve_software_id(request.software_id)
+    all_chunks = software_document_chunks(software_id, include_cached=True)
+    candidates = list(all_chunks)
+    if request.topic:
+        candidates = [chunk for chunk in candidates if _topic_matches(chunk, request.topic)]
+    if request.section:
+        section = _normalize_topic(request.section)
+        candidates = [chunk for chunk in candidates if chunk["section"] == section]
+    documents = {
+        chunk["chunk_id"]: software_document_search_text(chunk)
+        for chunk in all_chunks
+    }
+    semantic_documents = {
+        chunk["chunk_id"]: documents[chunk["chunk_id"]]
+        for chunk in all_chunks
+        if chunk["source_type"] == "first_party_markdown"
+    }
+    scores: dict[str, dict[str, float]] = {}
+    semantic_status = "not_requested"
+    if request.query:
+        lexical_raw = {
+            item.document_id: item.score
+            for item in BM25Index(documents).search(request.query)
+        }
+        lexical = normalize_scores(lexical_raw)
+        semantic: dict[str, float] = {}
+        if request.retrieval_mode == "hybrid":
+            semantic_raw, semantic_status = semantic_scores(
+                request.query,
+                semantic_documents,
+                cache_path=embedding_cache_path().parent
+                / f"software_docs_{software_id}.npz",
+            )
+            semantic = normalize_scores(
+                {key: max(0.0, value) for key, value in semantic_raw.items() if value >= 0.20}
+            )
+        for chunk in candidates:
+            chunk_id = chunk["chunk_id"]
+            lexical_score = lexical.get(chunk_id, 0.0)
+            semantic_score = semantic.get(chunk_id, 0.0)
+            if lexical_score or semantic_score:
+                scores[chunk_id] = {
+                    "combined": lexical_score + 0.25 * semantic_score,
+                    "bm25": lexical_score,
+                    "semantic": semantic_score,
+                }
+        candidates = [chunk for chunk in candidates if chunk["chunk_id"] in scores]
+        candidates.sort(
+            key=lambda chunk: (-scores[chunk["chunk_id"]]["combined"], chunk["chunk_id"])
+        )
+    else:
+        candidates.sort(key=lambda chunk: chunk["chunk_id"])
+    results = []
+    for chunk in candidates[: request.max_results]:
+        text = chunk["text"]
+        results.append(
+            {
+                "chunk_id": chunk["chunk_id"],
+                "path": chunk["path"],
+                "heading": chunk["heading"],
+                "topics": chunk["topics"],
+                "source_type": chunk["source_type"],
+                "score": scores.get(chunk["chunk_id"]),
+                "excerpt": text[: request.context_chars],
+            }
+        )
+    skipped = [
+        str(path.relative_to(PROJECT_ROOT))
+        for path in _document_paths(software_id)
+        if _searchable_text(path) is None
+    ]
     docs = _documentation_for_software(software_id)
     return {
         "status": "success",
         "software_id": software_id,
         "query": request.query,
+        "topic": request.topic,
+        "section": request.section,
         "match_count": len(results),
         "matches": results,
         "unsearchable_cached_files": skipped,
         "official_sources": docs.get("official_sources") or [],
-        "note": (
-            "Search results are excerpts from the locally cached documentation. PDFs and archives "
-            "are listed but not parsed by this text-search tool."
-        ),
+        "retrieval": {
+            "mode": request.retrieval_mode,
+            "exact_route_first": True,
+            "lexical_ranker": "bm25",
+            "semantic_model": MODEL_ID if request.retrieval_mode == "hybrid" else None,
+            "semantic_status": semantic_status,
+        },
+        "note": "First-party Markdown is indexed by heading. Cached text/HTML is a fallback; unparsed PDFs and archives are listed separately.",
     }
 
 
@@ -861,8 +1100,11 @@ __all__ = [
     "load_native_guides",
     "native_command_guide",
     "open_execution_prompt",
+    "read_software_documentation",
     "resolve_software_id",
     "search_software_documentation",
+    "software_document_chunks",
+    "software_document_search_text",
     "software_resource_snapshot",
     "validate_native_guides",
 ]

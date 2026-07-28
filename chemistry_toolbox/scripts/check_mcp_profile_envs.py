@@ -75,7 +75,7 @@ def markdown(payload: dict[str, Any]) -> str:
         detail = result.get("error") or f"{available}/{total} backends currently available"
         rows.append(
             f"| `{name}` | {result.get('runtime_group', 'profiles')} | `{result.get('conda_name', '-')}` | {total} | "
-            f"{'通过' if result.get('required_ok') else '失败'} | {detail} |"
+            f"{'pass' if result.get('required_ok') else 'fail'} | {detail} |"
         )
     return "\n".join(
         [

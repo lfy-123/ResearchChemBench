@@ -2,6 +2,19 @@
 
 日期：2026-07-28
 
+## 修改总结
+
+本方案中的修改已全部完成，现有三层架构保持不变。主要结果如下：
+
+- 工具箱第一方运行时文本、配置、脚本、测试和活动操作文档已统一为英文，并由自动检查阻止中文重新进入；历史中文材料保存在工具箱之外的归档目录。
+- Action 发现新增分类浏览、英文 aliases、BM25 和本地量化 `all-MiniLM-L6-v2` 补召回。20 条固定查询的 lexical/hybrid Hit@1、Recall@5、MRR、nDCG@5 均为 1.00；60 次真实 hybrid 查询 p95 为 256.79 ms。
+- 原生软件文档形成共享规则和 ORCA、Gaussian、CREST、VASP、LOBSTER 的 28 份主题化 Markdown，可按 software/topic/section 精确读取，也可执行章节级混合检索。
+- 5 个高频原生软件均有独立示例和确定性 lint，真实 smoke 最终全部成功。测试过程实际发现并修复了 CREST 初始几何、LOBSTER 缺少上游文件、无效投影参数和 VASP 对称性设置问题。
+- 通用编程接口新增语法/import/input/output 预检、固定 job layout、`JobContext`、声明式产物合同、JSON schema、NaN/Inf 检查和统一 artifact manifest；旧请求保持兼容。
+- 三层状态语义已明确区分请求接受、进程结束、软件结束、科学收敛、产物有效和机械科学校验。真实 LOBSTER 退出码 0 但正文报错的轨迹会被判为 mechanically invalid。
+- 第三层直接启动外部 executable 会被静态预检拦截并引导到原生作业接口；该检查与 `JobContext` 均明确不是 OS 安全边界。Supervisor 会清理遗留后台进程并记录原因。
+- 最终英文检查、变更 Python 编译检查和完整测试套件均通过；完整结果为 308 passed，耗时 380.12 秒。
+
 本方案结合已有代码和轨迹核查结果，重点解决三个问题：原生软件调用成功率、Action 及其他目录的检索准确性、第三层通用编程接口的失败率。现有三层架构保持不变。
 
 ## 一、总体设计
@@ -640,3 +653,166 @@ external_execution: native_job_runner_only
 4. **语言规范**：工具箱第一方实现统一使用英文，中文仅保留在工具箱之外的项目级分析报告中。
 
 这套方案不改变三层架构，只让每一层更容易被发现、更难被错误调用，并让“运行成功”和“科学结果有效”能够被分别审计。
+
+## 八、实施记录
+
+实施开始日期：2026-07-28
+
+本节在每项修改完成后记录实际改动、验证命令和结果。文档开头的修改总结将在全部任务完成后补充。
+
+### 任务 1：基线审计与实施范围确认
+
+状态：已完成。
+
+基线结果：
+
+- 当前目录包含 114 个 Action、9 个 Action domain、56 个原生软件指南和 69 个原生命令。
+- `search_actions` 使用英文分词、简单词干和全部查询词 AND 匹配，结果按稳定 Action ID 排序，没有相关性分数。
+- 原生接口具备 executable、路径、staging、stdin 和资源校验，但软件专属输入检查主要只有 pysisyphus。
+- `submit_analysis_program` 检查 runtime、脚本路径、扩展名和资源，但没有 Python 语法预编译、import 可用性检查、声明式输出和通用产物 manifest。
+- 第一方受版本控制文件中有 34 个文件包含中文，集中在软件清单、生成脚本和历史工具箱文档。
+- 基线测试命令：`chemistry_toolbox/.venv/bin/pytest -q chemistry_toolbox/tests/test_progressive_discovery.py chemistry_toolbox/tests/test_open_execution_layers.py chemistry_toolbox/tests/test_progressive_program_runtime_discovery.py`。
+- 基线测试结果：18 passed，耗时 4.13 秒。
+
+### 任务 2：工具箱第一方文本统一为英文
+
+状态：已完成。
+
+修改内容：
+
+- 将 `requested_software.yaml`、`requested_software_status.json`、相关清单测试以及软件审计、缓存、环境检查和能力矩阵脚本中的第一方中文界面文本改为英文。
+- 将 23 份日期特定的中文工具箱历史文档移至 `docs/archive/chemistry_toolbox_legacy_cn/`，原路径保留英文归档说明，避免旧链接失效。
+- 将 4 个仅生成历史中文报告的脚本源文件归档到上述目录，在原命令路径提供英文兼容入口；当前目录和参数合同继续由实时 Catalog 与测试套件校验。
+- 新增 `scripts/check_english_only.py`，扫描活动工具箱中的代码、配置、测试、脚本和 Markdown，并排除第三方虚拟环境、缓存及不可修改的环境锁文件。
+- 新增 `tests/test_english_only.py`，同时验证当前工具箱无 CJK 文本以及检查器能够报告文件和行号。
+
+验证结果：
+
+- `chemistry_toolbox/.venv/bin/python chemistry_toolbox/scripts/check_english_only.py`：通过，输出 `English-only check passed.`。
+- `chemistry_toolbox/.venv/bin/pytest -q chemistry_toolbox/tests/test_english_only.py chemistry_toolbox/tests/test_requested_software_inventory.py`：9 passed，耗时 1.00 秒。
+
+### 任务 3：Action 分类浏览与混合检索
+
+状态：已完成。
+
+修改内容：
+
+- 新增 `browse_action_category` MCP 工具，可从 `list_action_domains` 返回的精确分类进入，并一次返回该类全部紧凑 Action 摘要。
+- 新增 60 余组人工维护的英文 Action aliases，并为所有 Action 自动加入可读化 Action ID alias；结果中显式返回 aliases。
+- 将 `search_actions` 从全部查询词 AND 过滤改为 OR 召回和 BM25 相关性排序，对精确 Action ID、完整 alias 和短语匹配进行透明加权。
+- 新增本地语义检索模块，固定使用 `sentence-transformers/all-MiniLM-L6-v2` 的提交 `1110a243...` 和 8-bit AVX2 ONNX 模型；模型仅由显式缓存脚本下载，运行时不联网。
+- 新增 `cache_minilm_model.py`，校验模型文件 SHA-256，并离线生成 114 个 Action 的 384 维向量缓存；查询阶段只编码一次 query，以 NumPy 余弦相似度补召回。
+- 模型、ONNX runtime 或向量缓存不可用时，搜索结果显式报告原因并稳定降级到 BM25，不影响目录可用性。
+- 新增 20 条版本化英文检索评估集和 `evaluate_action_search.py`，统计 Hit@1、Recall@5、Precision@5、MRR 和 nDCG@5，并加入质量下限测试。
+
+验证结果：
+
+- 已在工具箱 `.venv` 中安装 `onnxruntime 1.28.0` 和 `tokenizers 0.23.1`，成功缓存约 23 MB 的量化模型和 114 个 Action 向量。
+- 真实查询 `single point energy`、`conformer energy`、`electron density surface` 和 `molecular energy` 均首位命中预期 Action，语义状态为 `available`。
+- 20 条固定查询的 lexical 与 hybrid 结果均为 Hit@1=1.00、Recall@5=1.00、MRR=1.00、nDCG@5=1.00；Precision@5=0.22，原因是每条查询平均只有 1.1 个标注相关 Action，而固定返回前 5 项。
+- `pytest -q test_action_search_evaluation.py test_search_index.py test_progressive_discovery.py`：12 passed，耗时 0.85 秒。
+
+### 任务 4：原生软件文档组织与按需检索
+
+状态：已完成。
+
+修改内容：
+
+- 新建 `chemistry_toolbox/native_software_docs/`，包含 4 份共享执行契约文档，以及 ORCA 6 份、Gaussian 5 份、CREST 4 份、VASP 5 份、LOBSTER 4 份主题文档。
+- 所有文档使用统一英文 YAML front matter，记录 `software_id`、版本、topics、aliases 和示例路径；内容覆盖 cwd、staging、CPU/内存映射、正常结束、科学收敛、必要产物和高频故障修复。
+- `inspect_software` 现在返回紧凑 `documentation_index` 和共享主题列表，不默认注入长文档正文。
+- 新增 `read_software_documentation` MCP 工具，按 `software_id + topic + optional section` 精确读取有限正文；找不到精确主题时明确报错。
+- 重写 `search_software_documentation`：Markdown 按标题切块，先应用 software/topic/section 精确过滤，再执行 BM25 和同一 MiniLM 模型的章节语义补召回；缓存官方 text/HTML 只作为后备，PDF/压缩包仍显式列为不可解析。
+- `cache_minilm_model.py` 同时离线建立 5 个高频软件的章节向量索引；每个软件独立校验源文档 digest，文档变化后旧缓存会被标记为 stale。
+
+验证结果：
+
+- `inspect_software` 对 ORCA、Gaussian、CREST、VASP、LOBSTER 均返回预期索引，分别覆盖 6、5、4、5、4 个第一方文档路径（Gaussian 计入共享检索时显示 5 个索引项）。
+- 精确读取 `gaussian + quickstart + required sections` 返回必需空行规则；`orca + single point` 返回对应独立文档。
+- 真实 hybrid 查询能够将 ORCA memory、Gaussian blank-line EOF、CREST mutually-exclusive mode、VASP POTCAR order、LOBSTER charge spilling 的正确章节排在前两位，语义状态均为 `available`。
+- `pytest -q test_native_software_documentation.py test_english_only.py`：6 passed，耗时 1.10 秒。
+
+### 任务 5：原生软件示例与确定性 lint
+
+状态：已完成。
+
+修改内容：
+
+- 新增独立最小示例：ORCA 单点和优化/频率、Gaussian 优化/频率和 Link1、CREST 构象搜索、VASP 基态输入集、LOBSTER COHP 输入；VASP POTCAR 继续从已注册许可资源显式选择，不进入 Git。
+- `validate_native_job` 新增 5 个小型确定性 lint profile：ORCA 检查关键词行、block/坐标闭合和 CPU 映射；Gaussian 检查 route、必需空行、title、charge/multiplicity、Link1、CPU/内存映射；CREST 检查 XYZ、互斥模式和线程；VASP 检查固定文件、POSCAR 计数和 POTCAR dataset 数；LOBSTER 检查上游文件和非空输入。
+- lint 错误使用稳定英文代码前缀，例如 `orca_unclosed_block`、`gaussian_route_separator`、`crest_conflicting_modes`、`vasp_missing_fixed_files` 和 `lobster_empty_fixed_files`，便于 Agent 定位故障章节。
+- 根据真实 smoke 修正 CREST 初始几何；根据 LOBSTER 5.1.0 现场错误，将必需文件合同扩展为 `lobsterin/POSCAR/POTCAR/WAVECAR/CONTCAR/KPOINTS/OUTCAR/vasprun.xml`，并修正 `cohpGenerator` 与 VASP `ISYM=-1` 设置。
+- 新增 `examples/native/smoke_manifest.json`，记录版本、输入 SHA-256、作业 ID、进程状态、软件终止、收敛证据、产物状态、耗时和失败修复历史。
+
+真实 smoke 结果：
+
+| 软件 | 版本 | 最终结果 | 关键科学证据 | 耗时 |
+|---|---:|---|---|---:|
+| ORCA | 6.1.1 | 成功 | `SCF CONVERGED`、`ORCA TERMINATED NORMALLY` | 0.709 s |
+| Gaussian | 16 C.01 | 成功 | normal termination、优化/频率完成、`NImag=0` | 15.439 s |
+| CREST | 3.0.2 | 成功 | normal termination、生成 3 个唯一构象 | 15.140 s |
+| VASP | 6.3.2 | 成功 | 电子迭代达到 `EDIFF`、WAVECAR/vasprun.xml 等产物存在 | 1.914 s |
+| LOBSTER | 5.1.0 | 成功 | projection 完成、COHP/COOP/COBI 产物存在、charge spilling 3.71% | 0.609 s |
+
+发现并修复的关键问题：首次 LOBSTER 调用退出码为 0，但正文明确报告缺少上游文件；补齐文件后又发现无效 `type all` 参数导致 abort。该轨迹已保留为“进程成功不等于软件成功”的状态判定回归依据。
+
+验证结果：`pytest -q test_native_input_lint.py test_native_software_documentation.py test_open_execution_layers.py`：21 passed，耗时 3.65 秒。
+
+### 任务 6：通用编程接口执行契约
+
+状态：已完成。
+
+修改内容：
+
+- `AnalysisJobRequest` 新增 `required_modules`、命名 `inputs`、声明式 `outputs`、JSON schema、semantic/media type、required 标志和 parent artifact lineage，同时保留旧 `staged_inputs` 兼容字段。
+- 新增 `validate_analysis_program` MCP 工具；执行前检查 UTF-8、Python AST/compile、选定 runtime 中的 import、输入文件、目标路径、参数和资源，并返回包含 stage/code/file/line/evidence/candidate_fixes/retryable 的结构化诊断。
+- 程序作业固定创建 `code/`、`inputs/`、`outputs/`、`report/`、`logs/`，默认脚本目标为 `code/agent_program.py`；任务 cwd 仍是作业根目录，并通过合同显式说明。
+- 新增 `researchchem_job.JobContext`，允许脚本按声明名读取输入和获取输出路径。SDK 明确只提供可靠性和审计帮助，无法阻止普通 Python 使用 `open()`、绝对路径、subprocess 或其他库。
+- 提交时生成 `analysis_contract.json`；收集时生成统一 `artifact_manifest.json`，记录 name/path/semantic type/media type/size/SHA-256/producer/parent/validation status。
+- 输出校验支持 JSON parse、JSON schema、NaN/Inf 拒绝、CSV/TSV 非有限值检查、常见图像签名以及通用非空文件检查；非 JSON 的 cube、结构、轨迹和其他二进制产物可正常登记。
+- 进程退出 0 但必需输出缺失、JSON 无效、schema 不匹配或含 NaN/Inf 时，`artifact_status` 为 `invalid`，不再把进程状态误当作产物有效。
+
+验证结果：
+
+- 语法错误和不存在的 import 均在创建作业前被拦截，并返回精确错误代码和修复建议。
+- 使用 `JobContext` 的真实程序成功读取命名输入，生成 JSON/CSV 两类产物，schema 与 manifest 校验均为 `valid`。
+- 另一个真实程序以退出码 0 写出含 `NaN` 的 JSON；收集结果正确保持 process success，同时将 `artifact_status` 标为 `invalid`。
+- `pytest -q test_analysis_job_contract.py test_open_execution_layers.py test_progressive_program_runtime_discovery.py`：14 passed，耗时 3.27 秒。
+
+### 任务 7：统一执行状态与外部程序审计边界
+
+状态：已完成。
+
+修改内容：
+
+- `get_execution_job` 和 `collect_execution_job` 统一返回 `request_status`、`process_status`、`software_status`、`convergence_status`、`artifact_status`、`scientific_validation_status`，并附带每一轴的证据与 Judger 边界说明。
+- 为 ORCA、Gaussian、CREST、VASP 和 LOBSTER 增加轻量结束/收敛/关键产物判定；未知软件保持 `not_checked`，不使用退出码伪造软件成功。
+- LOBSTER 判定会拒绝正文中的 `ERROR:`，即使进程退出码为 0；同时提取 absolute charge spilling 作为可审计证据，但不在 Agent 未声明阈值时替 Agent 判断论文结论。
+- 默认编程政策固定为 `in_process_only`，外部 executable 固定要求 `native_job_runner_only`。AST 预检拦截直接 `subprocess`/`os.system` 进程启动和常见 ASE 外部 Calculator 导入，并要求改用原生作业接口。
+- 文档和返回值再次明确：静态检查、SDK 和提示不能构成安全边界；动态导入或其他规避只能由 OS/容器/调度器隔离强制限制。
+- Native/Analysis 请求支持可选 `parent_job_id`；程序 hash、父作业、模块预检和外部执行发现写入 metadata，形成重试与跨层编排 provenance。
+- Supervisor 在主进程结束后检查同一进程组，主动终止遗留后台进程，并记录 `background_process_cleanup`；取消、超时和非零退出继续保留明确原因。
+- 作业状态同时返回总预算、当前占用和剩余 CPU/内存/GPU；现有文件锁 reservation 与 queued/running 状态共同执行并发预算。
+
+验证结果：
+
+- 复查真实 smoke 轨迹：ORCA、Gaussian、CREST、VASP、修正后的 LOBSTER 均为 process completed + software normal + convergence/projection complete + artifact valid + mechanically valid。
+- 首次 LOBSTER 缺文件轨迹保持 process completed，但新判定正确返回 software failed、convergence failed、artifact invalid、mechanically invalid。
+- 直接 `subprocess.run(['orca', ...])` 和 `ase.calculators.vasp.Vasp` 均在程序创建作业前被拦截；提示改用 `submit_native_job` 并关联 parent job。
+- 后台 `sleep` 回归用例由 Supervisor 清理，状态记录 `terminated_remaining_process_group`；父作业 ID 正确保存在 metadata。
+- `pytest -q test_analysis_job_contract.py test_execution_status_axes.py test_open_execution_layers.py test_resource_budget.py`：19 passed，耗时 13.09 秒。
+
+### 任务 8：完整验证与总结
+
+状态：已完成。
+
+验证与收尾结果：
+
+- 运行 `check_english_only.py`：通过；活动工具箱第一方文本无 CJK 字符。
+- 对所有变更 Python 文件运行 `py_compile`：通过。
+- Catalog 实时统计为 114 Actions、77 BackendSpecs、56 个原生软件指南；英文 `ACTION_BACKEND_COMPLETE_AUDIT_20260721.md` 已改为从实时 Catalog 自动生成，并由测试检查每个 Action/Backend ID。
+- MiniLM 模型固定版本、量化 ONNX、SHA-256 校验、Action 向量和 5 个软件文档向量缓存均已真实构建；模型缓存受 `.gitignore` 管理，评估运行不依赖联网下载。
+- 首次完整测试结果为 305 passed、3 failed。1 项失败暴露历史报告归档破坏了实时 Catalog 报告合同，已改成英文实时生成器；另 2 项为 `.venv` 缺少声明的 chemistry 可选依赖，补齐 ASE 和 pymatgen 后对应测试通过。
+- 最终完整命令：`chemistry_toolbox/.venv/bin/pytest -q chemistry_toolbox/tests`。
+- 最终完整结果：308 passed，耗时 380.12 秒。
+- 本次只纳入化学工具箱实现、测试、文档、示例、英文历史归档和本实施文档；工作区中原有的评估输出、task 数据、core 文件和本地配置副本不属于本次修改。

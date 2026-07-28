@@ -5,6 +5,7 @@ from __future__ import annotations
 import re
 from typing import Any, Literal, Mapping
 
+from .action_aliases import aliases_for_action
 from .catalog import (
     CATEGORY_LABELS,
     active_catalog_snapshot,
@@ -18,6 +19,8 @@ from .parameter_specs import (
     inferred_parameter_metadata,
 )
 from .resource_budget import resource_budget_record
+from .search_index import BM25Index, normalize_scores, weighted_text
+from .semantic_embeddings import MODEL_ID, semantic_scores
 from .timeout_policy import timeout_policy_record
 
 
@@ -836,12 +839,58 @@ def list_action_domains(
     }
 
 
+def browse_action_category(
+    *,
+    category: str,
+    action_kind: ActionKind = "all",
+    available_only: bool = False,
+    snapshot: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Return the complete compact choice set inside one exact Action category."""
+
+    result = search_actions(
+        category=category,
+        action_kind=action_kind,
+        available_only=available_only,
+        limit=100,
+        snapshot=snapshot,
+    )
+    result["browse_mode"] = "complete_category"
+    result["category_description"] = CATEGORY_LABELS[category]
+    return result
+
+
+def _action_search_documents(
+    specifications: list[ActionSpec], backends: Mapping[str, BackendSpec]
+) -> dict[str, str]:
+    documents: dict[str, str] = {}
+    for specification in specifications:
+        providers = [backends[item] for item in specification.backend_ids]
+        aliases = " ".join(aliases_for_action(specification.id))
+        documents[specification.id] = weighted_text(
+            (
+                (specification.id.replace("_", " "), 5),
+                (aliases, 4),
+                (specification.primary_output, 3),
+                (CATEGORY_LABELS.get(specification.category, ""), 2),
+                (specification.description, 2),
+                (specification.input_description, 1),
+                (" ".join(specification.required_inputs), 1),
+                (" ".join(specification.optional_inputs), 1),
+                (" ".join(provider.id for provider in providers), 1),
+                (" ".join(provider.display_name for provider in providers), 1),
+            )
+        )
+    return documents
+
+
 def search_actions(
     *,
     query: str | None = None,
     category: str | None = None,
     backend_id: str | None = None,
     action_kind: ActionKind = "all",
+    retrieval_mode: Literal["lexical", "hybrid"] = "hybrid",
     available_only: bool = False,
     limit: int = 20,
     offset: int = 0,
@@ -856,8 +905,7 @@ def search_actions(
         )
     if backend_id is not None and backend_id not in backends:
         raise ValueError(f"Unknown backend_id {backend_id!r}")
-    terms = [term for term in re.split(r"\s+", (query or "").casefold().strip()) if term]
-    matches: list[ActionSpec] = []
+    eligible: list[ActionSpec] = []
     for specification in sorted(actions.values(), key=lambda item: item.id):
         if category is not None and specification.category != category:
             continue
@@ -873,23 +921,51 @@ def search_actions(
             for provider in provider_values
         ):
             continue
-        haystack = " ".join(
-            [
-                specification.id,
-                specification.category,
-                CATEGORY_LABELS.get(specification.category, ""),
-                specification.description,
-                specification.primary_output,
-                specification.input_description,
-                *specification.required_inputs,
-                *specification.optional_inputs,
-                *(provider.id for provider in provider_values),
-                *(provider.display_name for provider in provider_values),
-            ]
-        ).casefold()
-        if not _matches_all_terms(terms, haystack):
-            continue
-        matches.append(specification)
+        eligible.append(specification)
+
+    documents = _action_search_documents(eligible, backends)
+    normalized_query = (query or "").casefold().strip()
+    semantic_status = "not_requested"
+    per_action_scores: dict[str, dict[str, float]] = {}
+    if normalized_query:
+        lexical_ranked = BM25Index(documents).search(normalized_query)
+        lexical_raw = {item.document_id: item.score for item in lexical_ranked}
+        lexical = normalize_scores(lexical_raw)
+        semantic_raw: dict[str, float] = {}
+        if retrieval_mode == "hybrid":
+            semantic_raw, semantic_status = semantic_scores(normalized_query, documents)
+        semantic_positive = {
+            key: max(0.0, value) for key, value in semantic_raw.items() if value >= 0.20
+        }
+        semantic = normalize_scores(semantic_positive)
+        candidate_ids = set(lexical) | set(semantic)
+        for action_id in candidate_ids:
+            action_text = action_id.replace("_", " ")
+            aliases = aliases_for_action(action_id)
+            exact_bonus = 0.0
+            if normalized_query in {action_id.casefold(), action_text.casefold()}:
+                exact_bonus = 0.35
+            elif any(normalized_query == alias.casefold() for alias in aliases):
+                exact_bonus = 0.25
+            elif normalized_query in documents[action_id].casefold():
+                exact_bonus = 0.08
+            lexical_score = lexical.get(action_id, 0.0)
+            semantic_score = semantic.get(action_id, 0.0)
+            combined = lexical_score + 0.25 * semantic_score + exact_bonus
+            per_action_scores[action_id] = {
+                "combined": combined,
+                "bm25": lexical_score,
+                "semantic": semantic_score,
+                "exact_bonus": exact_bonus,
+            }
+        matches = sorted(
+            (actions[action_id] for action_id in candidate_ids),
+            key=lambda item: (-per_action_scores[item.id]["combined"], item.id),
+        )
+        ordering = "bm25_with_optional_minilm_semantic_recall"
+    else:
+        matches = eligible
+        ordering = "stable_action_id_order"
 
     page = matches[offset : offset + limit]
     results = []
@@ -905,6 +981,7 @@ def search_actions(
             {
                 "action_id": specification.id,
                 "category": specification.category,
+                "aliases": list(aliases_for_action(specification.id)),
                 "description": specification.description,
                 "primary_output": specification.primary_output,
                 "data_action": specification.data_action,
@@ -914,6 +991,7 @@ def search_actions(
                 "evaluation_resource_budget": resource_budget_record(),
                 "selection_policy": specification.selection_policy,
                 "providers": providers,
+                "relevance": per_action_scores.get(specification.id),
             }
         )
     next_offset = offset + len(page)
@@ -927,7 +1005,15 @@ def search_actions(
             "action_kind": action_kind,
             "available_only": available_only,
         },
-        "ordering": "stable_action_id_order_not_relevance_ranked",
+        "ordering": ordering,
+        "retrieval": {
+            "mode": retrieval_mode,
+            "lexical_ranker": "bm25",
+            "semantic_model": MODEL_ID if retrieval_mode == "hybrid" else None,
+            "semantic_status": semantic_status,
+            "semantic_threshold": 0.20 if retrieval_mode == "hybrid" else None,
+            "language": "English",
+        },
         "total_matches": len(matches),
         "offset": offset,
         "count": len(results),

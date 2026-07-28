@@ -289,15 +289,15 @@ def main() -> int:
             "notes": requested_item.get("notes") if requested_item else None,
         }
         (directory / "metadata.json").write_text(json.dumps(metadata, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-        source_lines = "\n".join(f"- [{item['title']}]({item['url']}) ({item.get('version_scope', 'unspecified')})" for item in metadata["official_sources"]) or "- 尚未登记"
+        source_lines = "\n".join(f"- [{item['title']}]({item['url']}) ({item.get('version_scope', 'unspecified')})" for item in metadata["official_sources"]) or "- Not registered"
         local_lines = "\n".join(
             f"- `{item['path']}` — {'available' if item.get('available') else 'missing'}"
             + (f", SHA-256 `{item['sha256']}`" if item.get("sha256") else "")
             for item in metadata["local_documents"]
-        ) or "- 无"
-        current_lines = "\n".join(f"- `{item}`" for item in metadata["current_validated_actions"]) or "- 无"
-        candidate_lines = "\n".join(f"- `{item}`" for item in metadata["candidate_actions"]) or "- 无"
-        readme = f"""# {metadata['display_name']} 本地能力资料\n\n- 检测版本：{', '.join(versions) if versions else 'unknown'}\n- 清单状态：{metadata['inventory_status'] or 'not listed'}\n- 生成时间：{generated_at}\n\n## 官方资料\n\n{source_lines}\n\n## 软件包内置/本地手册\n\n{local_lines}\n\n## 当前已验证 MCP Actions\n\n{current_lines}\n\n## 待适配候选 Actions\n\n{candidate_lines}\n\n## 管理说明\n\n本目录中的下载文件是官方资料的本地缓存，不代表相应科学能力已经通过适配或验证。公开状态以主仓库 Catalog 和测试结果为准。\n"""
+        ) or "- None"
+        current_lines = "\n".join(f"- `{item}`" for item in metadata["current_validated_actions"]) or "- None"
+        candidate_lines = "\n".join(f"- `{item}`" for item in metadata["candidate_actions"]) or "- None"
+        readme = f"""# {metadata['display_name']} Local Capability Documentation\n\n- Detected versions: {', '.join(versions) if versions else 'unknown'}\n- Inventory status: {metadata['inventory_status'] or 'not listed'}\n- Generated at: {generated_at}\n\n## Official Sources\n\n{source_lines}\n\n## Package and Local Manuals\n\n{local_lines}\n\n## Current Validated MCP Actions\n\n{current_lines}\n\n## Candidate Actions\n\n{candidate_lines}\n\n## Management Note\n\nDownloaded files in this directory are local caches of official documentation. Their presence does not mean the corresponding scientific capability has been adapted or validated. Public status is defined by the repository catalog and tests.\n"""
         (directory / "README.md").write_text(readme, encoding="utf-8")
         index.append(metadata)
 

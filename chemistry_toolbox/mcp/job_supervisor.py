@@ -150,11 +150,25 @@ def supervise(spec_path: Path) -> int:
                     except ProcessLookupError:
                         pass
                     child.wait()
+            background_process_cleanup = "none_detected"
+            try:
+                os.killpg(child.pid, 0)
+            except ProcessLookupError:
+                pass
+            else:
+                background_process_cleanup = "terminated_remaining_process_group"
+                try:
+                    os.killpg(child.pid, signal.SIGTERM)
+                    time.sleep(0.2)
+                    os.killpg(child.pid, signal.SIGKILL)
+                except ProcessLookupError:
+                    pass
             usage = resource.getrusage(resource.RUSAGE_CHILDREN)
             common = {
                 "finished_at": _now(),
                 "duration_seconds": round(time.monotonic() - started_monotonic, 6),
                 "return_code": child.returncode,
+                "background_process_cleanup": background_process_cleanup,
                 "resource_usage": {
                     "user_cpu_seconds": round(usage.ru_utime, 6),
                     "system_cpu_seconds": round(usage.ru_stime, 6),

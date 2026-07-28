@@ -1,0 +1,19 @@
+%NProcShared=1
+%Mem=512MB
+%Chk=water_link1.chk
+# HF/STO-3G Opt
+
+Water Link1 optimization smoke
+
+0 1
+O  0.000000  0.000000  0.000000
+H  0.758602  0.000000  0.504284
+H -0.758602  0.000000  0.504284
+
+--Link1--
+%NProcShared=1
+%Mem=512MB
+%Chk=water_link1.chk
+# HF/STO-3G Freq Geom=AllCheck Guess=Read
+
+

@@ -10,6 +10,7 @@ from .execution_models import (
     AnalysisJobRequest,
     AnalysisRuntimeListRequest,
     ArtifactDeclarationRequest,
+    DocumentationReadRequest,
     DocumentationSearchRequest,
     JobCancelRequest,
     JobCollectRequest,
@@ -29,12 +30,14 @@ from .open_execution import (
     submit_analysis_program as _submit_analysis_program,
     submit_native_job as _submit_native_job,
     validate_native_job as _validate_native_job,
+    validate_analysis_program as _validate_analysis_program,
     write_workspace_text as _write_workspace_text,
 )
 from .software_catalog import (
     inspect_software as _inspect_software,
     list_analysis_runtimes as _list_analysis_runtimes,
     list_software as _list_software,
+    read_software_documentation as _read_software_documentation,
     search_software_documentation as _search_software_documentation,
 )
 from .tracing import execute_traced
@@ -46,12 +49,14 @@ RequestT = TypeVar("RequestT", bound=BaseModel)
 OPEN_EXECUTION_TOOL_NAMES = (
     "list_software",
     "inspect_software",
+    "read_software_documentation",
     "search_software_documentation",
     "write_workspace_text",
     "read_workspace_text",
     "validate_native_job",
     "submit_native_job",
     "list_analysis_runtimes",
+    "validate_analysis_program",
     "submit_analysis_program",
     "get_execution_job",
     "collect_execution_job",
@@ -73,9 +78,13 @@ TOOL_DESCRIPTIONS = {
         "mode, required filenames, output behavior, cached manuals, and official sources. Use this "
         "instead of guessing a command line."
     ),
+    "read_software_documentation": (
+        "Read a bounded first-party Markdown topic for one exact software id, optionally narrowed "
+        "to one heading. Use inspect_software to discover topic ids."
+    ),
     "search_software_documentation": (
-        "Search locally cached text/HTML documentation for one exact software id and term. Returns "
-        "bounded excerpts and source paths; PDFs/archives are listed when they cannot be text-searched."
+        "Search heading-level local documentation chunks for one exact software id. Exact topic and "
+        "section routing is applied first, then BM25 and optional offline MiniLM semantic recall."
     ),
     "write_workspace_text": (
         "Write an Agent-authored UTF-8 input deck, configuration, or Python program under code/ or "
@@ -103,6 +112,11 @@ TOOL_DESCRIPTIONS = {
         "Submit an Agent-authored .py file asynchronously in one explicitly selected chemistry "
         "runtime. The script and inputs are staged and hashed; stdout/stderr/resources/outputs share "
         "the native job record. This process confinement is not an OS container security boundary."
+    ),
+    "validate_analysis_program": (
+        "Preflight an Agent-authored Python analysis without executing it. Checks UTF-8 syntax, "
+        "imports in the selected runtime, declared inputs and outputs, paths, and resources, then "
+        "returns the exact job layout and structured repair diagnostics."
     ),
     "get_execution_job": (
         "Poll one native/program job by exact job_id and return persistent state plus bounded stdout "
@@ -175,6 +189,12 @@ def inspect_software(request: SoftwareInspectRequest) -> dict[str, Any]:
     return _invoke("inspect_software", request, _inspect_software)
 
 
+def read_software_documentation(request: DocumentationReadRequest) -> dict[str, Any]:
+    return _invoke(
+        "read_software_documentation", request, _read_software_documentation
+    )
+
+
 def search_software_documentation(request: DocumentationSearchRequest) -> dict[str, Any]:
     return _invoke(
         "search_software_documentation", request, _search_software_documentation
@@ -199,6 +219,10 @@ def submit_native_job(request: NativeJobRequest) -> dict[str, Any]:
 
 def list_analysis_runtimes(request: AnalysisRuntimeListRequest) -> dict[str, Any]:
     return _invoke("list_analysis_runtimes", request, _list_analysis_runtimes)
+
+
+def validate_analysis_program(request: AnalysisJobRequest) -> dict[str, Any]:
+    return _invoke("validate_analysis_program", request, _validate_analysis_program)
 
 
 def submit_analysis_program(request: AnalysisJobRequest) -> dict[str, Any]:

@@ -34,7 +34,7 @@ class ActionDomainListRequest(BaseModel):
 
 
 class ActionSearchRequest(BaseModel):
-    """Apply Agent-supplied neutral filters to the complete Action catalog."""
+    """Search and relevance-rank the complete Action catalog."""
 
     model_config = ConfigDict(extra="forbid")
 
@@ -42,6 +42,7 @@ class ActionSearchRequest(BaseModel):
     category: str | None = None
     backend_id: str | None = None
     action_kind: Literal["all", "scientific", "data"] = "all"
+    retrieval_mode: Literal["lexical", "hybrid"] = "hybrid"
     available_only: bool = False
     limit: int = Field(default=20, ge=1, le=100)
     offset: int = Field(default=0, ge=0, le=100_000)
@@ -50,6 +51,21 @@ class ActionSearchRequest(BaseModel):
     @classmethod
     def validate_optional_ids(cls, value: str | None, info) -> str | None:
         return _catalog_id(value, field_name=info.field_name) if value is not None else None
+
+
+class ActionCategoryBrowseRequest(BaseModel):
+    """Return every compact Action summary in one exact category."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    category: str
+    action_kind: Literal["all", "scientific", "data"] = "all"
+    available_only: bool = False
+
+    @field_validator("category")
+    @classmethod
+    def validate_category(cls, value: str) -> str:
+        return _catalog_id(value, field_name="category")
 
 
 class ActionInspectRequest(BaseModel):
@@ -124,6 +140,7 @@ class ProgressiveActionRequest(ActionRequest):
 
 
 __all__ = [
+    "ActionCategoryBrowseRequest",
     "ActionDomainListRequest",
     "ActionInspectRequest",
     "ActionSearchRequest",

@@ -1,0 +1,22 @@
+[
+  {"query": "single point energy", "relevant": ["calculate_energy"]},
+  {"query": "conformer energy", "relevant": ["calculate_energy", "rank_conformers_from_results"]},
+  {"query": "electron density surface", "relevant": ["calculate_electron_isodensity_surface"]},
+  {"query": "geometry optimization", "relevant": ["optimize_geometry"]},
+  {"query": "transition state search", "relevant": ["locate_transition_state"]},
+  {"query": "intrinsic reaction coordinate", "relevant": ["trace_intrinsic_reaction_coordinate"]},
+  {"query": "infrared spectrum", "relevant": ["derive_ir_spectrum"]},
+  {"query": "UV visible spectrum", "relevant": ["derive_uv_vis_spectrum"]},
+  {"query": "Gibbs free energy from frequencies", "relevant": ["derive_thermochemistry"]},
+  {"query": "protein ligand docking", "relevant": ["dock_ligand"]},
+  {"query": "radial distribution function", "relevant": ["calculate_radial_distribution"]},
+  {"query": "solvent accessible surface area", "relevant": ["calculate_solvent_accessible_surface"]},
+  {"query": "electronic band structure", "relevant": ["calculate_electronic_band_structure"]},
+  {"query": "projected DOS", "relevant": ["calculate_projected_density_of_states"]},
+  {"query": "phonon DOS", "relevant": ["calculate_phonon_density_of_states"]},
+  {"query": "phonon thermal conductivity", "relevant": ["calculate_lattice_thermal_conductivity"]},
+  {"query": "PDB search", "relevant": ["search_protein_structures"]},
+  {"query": "CAS lookup", "relevant": ["resolve_chemical_identity", "lookup_nist_webbook_species"]},
+  {"query": "space group", "relevant": ["analyze_crystal_symmetry"]},
+  {"query": "protonate molecule at pH", "relevant": ["assign_protonation_states"]}
+]

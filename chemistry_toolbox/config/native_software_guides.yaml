@@ -117,7 +117,7 @@ software:
       lobster-5.1.0:
         synopsis: "lobster-5.1.0"
         input_mode: fixed_files
-        required_files: [lobsterin, POSCAR, POTCAR, WAVECAR]
+        required_files: [lobsterin, POSCAR, POTCAR, WAVECAR, CONTCAR, KPOINTS, OUTCAR, vasprun.xml]
         output_behavior: Reads fixed filenames and writes lobsterout plus analysis files in the job directory.
         example_arguments: []
 
