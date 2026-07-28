@@ -1,0 +1,66 @@
+{
+  "archived_files": [
+    {
+      "path": "request.json",
+      "sha256": "15b2caa7e3dbb9da87c51740ef37d6b1d46c5b9a81c7b9200659eea1f83d744f",
+      "size_bytes": 1475
+    },
+    {
+      "path": "status.json",
+      "sha256": "337366372c8a85b26f50c70d1434eab2c7593ec7c27c94b2de3ff6b4f740c8d3",
+      "size_bytes": 1836
+    },
+    {
+      "path": "collection.json",
+      "sha256": "a5d6ee4c099d53106b439813963b7cfb8acdf61365a8ee24931a38606ea736cc",
+      "size_bytes": 1487
+    },
+    {
+      "path": "stdout.log",
+      "sha256": "22fa258ae4fed0ecc6e629cba91f2179de4c67ab95dab67b859eeb8e0609b0bd",
+      "size_bytes": 676
+    },
+    {
+      "path": "stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    }
+  ],
+  "artifact_status": "not_declared",
+  "convergence_status": "not_checked",
+  "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/siesta",
+  "job_id": "job_f681286321024237b3bb80d49defba8a",
+  "process_status": "completed",
+  "reason": "The configured executable completed the interface probe through the native job runner.",
+  "request": {
+    "arguments": [
+      "--version"
+    ],
+    "calculation_intent": null,
+    "executable": "siesta",
+    "label": "manual-interface-smoke-siesta",
+    "parent_job_id": null,
+    "resource_limits": {
+      "cpu_cores": 1,
+      "gpu_count": 0,
+      "memory_mb": 1024
+    },
+    "software_id": "siesta",
+    "staged_inputs": [
+      {
+        "source_path": "code/siesta_interface_smoke.stdin",
+        "target_path": "interface_smoke.stdin"
+      }
+    ],
+    "stdin_target": "interface_smoke.stdin"
+  },
+  "request_status": "accepted",
+  "scientific_validation_status": "not_checked",
+  "software_id": "siesta",
+  "software_status": "not_checked",
+  "status": "passed",
+  "stderr_tail": "",
+  "stdout_tail": "Executable      : /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/periodic/bin/siesta\nVersion         : 5.4.2\nArchitecture    : x86_64\nCompiler version: GNU-14.3.0\nCompiler flags  : -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -fno-merge-constants -isystem <prefix>/include -I<prefix>/_build_env/include -fdebug-prefix-map=<prefix>/work=/usr/local/src/conda/siesta-5.4.2 -fdebug-prefix-map=<prefix>=/usr/local/src/conda-prefix -I<prefix>/lib -fallow-argument-mismatch -O3\nParallelisations: none\nNetCDF support\nNetCDF-4 support\nLua support\nDFT-D3 support\n",
+  "test_level": "interface_smoke",
+  "tested_at": "2026-07-28T20:16:58.943969+00:00"
+}

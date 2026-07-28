@@ -1,0 +1,61 @@
+{
+  "archived_files": [
+    {
+      "path": "request.json",
+      "sha256": "f087e941673e079b521b236002571d013de8a17914ae406566eb479f6f0ed7da",
+      "size_bytes": 1225
+    },
+    {
+      "path": "status.json",
+      "sha256": "9cc97efd631af43b0727e772ec310e37000554a3eb386c157e5cdd9c98f02fa0",
+      "size_bytes": 1834
+    },
+    {
+      "path": "collection.json",
+      "sha256": "2688e8279ca49fd751e37a0bf19d26e0ff297a25f765266013d1a43c933d41db",
+      "size_bytes": 1487
+    },
+    {
+      "path": "stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "stderr.log",
+      "sha256": "76b7f97efd5a5207ee9297191db2bd8a74bb3e98af66ee98355a4492b3a9d47d",
+      "size_bytes": 244
+    }
+  ],
+  "artifact_status": "not_declared",
+  "convergence_status": "not_checked",
+  "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/vesta",
+  "job_id": "job_7d4176a6c3a1469685efdd01dfec0d9e",
+  "process_status": "completed",
+  "reason": "The executable was reached, but startup reported a runtime, import, or configuration failure.",
+  "request": {
+    "arguments": [
+      "-h"
+    ],
+    "calculation_intent": null,
+    "executable": "VESTA",
+    "label": "manual-interface-smoke-vesta",
+    "parent_job_id": null,
+    "resource_limits": {
+      "cpu_cores": 1,
+      "gpu_count": 0,
+      "memory_mb": 1024
+    },
+    "software_id": "vesta",
+    "staged_inputs": [],
+    "stdin_target": null
+  },
+  "request_status": "accepted",
+  "scientific_validation_status": "not_checked",
+  "software_id": "vesta",
+  "software_status": "not_checked",
+  "status": "failed",
+  "stderr_tail": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/vesta/3.90.5a/VESTA-gui: error while loading shared libraries: libxkbcommon.so.0: cannot open shared object file: No such file or directory\n",
+  "stdout_tail": "",
+  "test_level": "interface_smoke",
+  "tested_at": "2026-07-28T20:16:58.943969+00:00"
+}

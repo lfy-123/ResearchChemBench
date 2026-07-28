@@ -1,0 +1,69 @@
+{
+  "archived_files": [
+    {
+      "path": "request.json",
+      "sha256": "12b63c97dd68044a720cbae9adb0bf4317dc7cf44d1975a71e530081ccf2bbf4",
+      "size_bytes": 1550
+    },
+    {
+      "path": "status.json",
+      "sha256": "8cdd5453d2d0d7776e4b0451bb5bdad5cff427d9fc28dfe33e7dfa89c32b897d",
+      "size_bytes": 1938
+    },
+    {
+      "path": "collection.json",
+      "sha256": "6766aa375a84f79f0241307b56e05fe50da5d419fbd48c04f64b3b2162fe29b4",
+      "size_bytes": 1485
+    },
+    {
+      "path": "stdout.log",
+      "sha256": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "size_bytes": 3
+    },
+    {
+      "path": "stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    }
+  ],
+  "artifact_status": "not_declared",
+  "convergence_status": "not_checked",
+  "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/nequip",
+  "job_id": "job_32001556aefe4a728604d4d5458fc980",
+  "process_status": "completed",
+  "reason": "The configured executable completed the interface probe through the native job runner.",
+  "request": {
+    "arguments": [
+      "-cn",
+      "interface_smoke",
+      "--cfg",
+      "job"
+    ],
+    "calculation_intent": null,
+    "executable": "nequip-train",
+    "label": "manual-interface-smoke-nequip",
+    "parent_job_id": null,
+    "resource_limits": {
+      "cpu_cores": 1,
+      "gpu_count": 0,
+      "memory_mb": 1024
+    },
+    "software_id": "nequip",
+    "staged_inputs": [
+      {
+        "source_path": "code/nequip_interface_smoke.yaml",
+        "target_path": "interface_smoke.yaml"
+      }
+    ],
+    "stdin_target": null
+  },
+  "request_status": "accepted",
+  "scientific_validation_status": "not_checked",
+  "software_id": "nequip",
+  "software_status": "not_checked",
+  "status": "passed",
+  "stderr_tail": "",
+  "stdout_tail": "{}\n",
+  "test_level": "interface_smoke",
+  "tested_at": "2026-07-28T20:16:58.943969+00:00"
+}

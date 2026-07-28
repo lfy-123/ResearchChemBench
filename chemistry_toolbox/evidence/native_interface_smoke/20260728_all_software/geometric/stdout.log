@@ -1,0 +1,204 @@
+usage: geometric-optimize [--coordsys COORDSYS] [--engine ENGINE] [--nt NT]
+                          [--transition TRANSITION] [--irc IRC]
+                          [--irc_direction IRC_DIRECTION]
+                          [--meci MECI [MECI ...]] [--meci_sigma MECI_SIGMA]
+                          [--meci_alpha MECI_ALPHA] [--rigid RIGID]
+                          [--hessian HESSIAN] [--wqport WQPORT]
+                          [--bigchem BIGCHEM] [--frequency FREQUENCY]
+                          [--thermo THERMO THERMO] [--wigner WIGNER]
+                          [--ignore_modes IGNORE_MODES] [--maxiter MAXITER]
+                          [--converge CONVERGE [CONVERGE ...]] [--trust TRUST]
+                          [--tmax TMAX] [--tmin TMIN] [--usedmax USEDMAX]
+                          [--enforce ENFORCE] [--conmethod CONMETHOD]
+                          [--reset RESET] [--epsilon EPSILON] [--check CHECK]
+                          [--subfrctor SUBFRCTOR] [--radii RADII [RADII ...]]
+                          [--pdb PDB] [--coords COORDS] [--frag FRAG]
+                          [--bothre BOTHRE] [--prefix PREFIX]
+                          [--verbose VERBOSE] [--qdata QDATA]
+                          [--logINI LOGINI]
+                          [--write_cart_hess WRITE_CART_HESS]
+                          [--molproexe MOLPROEXE] [--molcnv MOLCNV]
+                          [--qcdir QCDIR] [--qccnv QCCNV]
+                          [--bagelexe BAGELEXE] [--ase-class ASE_CLASS]
+                          [--ase-kwargs ASE_KWARGS] [--displace DISPLACE]
+                          [--fdcheck FDCHECK] [-h]
+                          input [constraints]
+
+universal:
+  Relevant to every job
+
+  input                 REQUIRED positional argument: Quantum chemistry or MM input file for calculation
+                         
+  constraints           OPTIONAL positional argument: File containing constraint specifications and/or additional options
+                         
+  --coordsys COORDSYS   Coordinate system:
+                        "tric" for Translation-Rotation Internal Coordinates (default)
+                        "cart" = Cartesian coordinate system
+                        "prim" = Primitive (a.k.a redundant internal coordinates)
+                         "dlc" = Delocalized Internal Coordinates,
+                        "hdlc" = Hybrid Delocalized Internal Coordinates
+                        "tric-p" for primitive Translation-Rotation Internal Coordinates (no delocalization)
+                         
+  --engine ENGINE       Specify engine for computing energies and gradients.
+                        "tera" = TeraChem (default)         "qchem" = Q-Chem
+                        "psi4" = Psi4                       "openmm" = OpenMM (pass a force field or XML input file)
+                        "molpro" = Molpro                   "gmx" = Gromacs (pass conf.gro; requires topol.top and shot.mdp
+                         "gaussian" = Gaussian09/16          "ase" = ASE calculator, use --ase-class/--ase-kwargs
+                         "quick" = QUICK                     "bagel" = Bagel
+  --nt NT               Specify number of threads for running in parallel
+                        (for TeraChem this should be number of GPUs)
+
+jobtype:
+  Control the type of optimization job
+
+  --transition TRANSITION
+                        Provide "yes" to Search for a first order saddle point / transition state.
+                         
+  --irc IRC             Provide "yes" to perform the IRC method.
+                         
+  --irc_direction IRC_DIRECTION
+                        Provide the IRC direction as either 'forward', 'backward' or 'both' (default). When 'both' is selected, the forward direction will be run first.
+  --meci MECI [MECI ...]
+                        Provide second input file and search for minimum-energy conical
+                         intersection or crossing point between two SCF solutions (TeraChem and Q-Chem supported).
+                        Or, provide "engine" if the engine directly provides the MECI objective function and gradient.
+  --meci_sigma MECI_SIGMA
+                        Sigma parameter for MECI penalty function (default 3.5).
+                        Not used if the engine computes the MECI objective function directly.
+                         
+  --meci_alpha MECI_ALPHA
+                        Alpha parameter for MECI penalty function (default 0.025).
+                        Not used if the engine computes the MECI objective function directly.
+                         
+  --rigid RIGID         Provide "yes" to keep molecules rigid during optimization (only with TRIC)
+
+hessian:
+  Control the calculation of Hessian (force constant) matrices and derived quantities
+
+  --hessian HESSIAN     Specify when to calculate Cartesian Hessian using finite difference of gradient.
+                        "never" : Do not calculate or read Hessian data. (default for minimization)
+                        "first" : Calculate Hessian for the initial structure. (default for TS optimization)
+                        "last" : Calculate Hessian at conclusion of optimization.
+                        "first+last" : Calculate Hessian for both the first and last structure.
+                        "each" : Calculate for each step in the optimization (costly).
+                        "stop" : Calculate Hessian for initial structure, then exit.
+                        file:<path> : Read initial Hessian data in NumPy format from path, e.g. file:folder/hessian.txt
+                        file+last:<path> : Read initial Hessian data as above, then compute for the last structure.
+                         
+  --wqport WQPORT       Work Queue port used to distribute Hessian calculations. Workers must be started separately. 
+                         
+  --bigchem BIGCHEM     Provide "Yes" to use BigChem for performing the Hessian calculation in parallel. 
+                        Please ensure that BigChem is running with workers properly. 
+                         
+  --frequency FREQUENCY
+                        Perform frequency analysis whenever Hessian is calculated, default is yes/true. 
+  --thermo THERMO THERMO
+                        Temperature (K) and pressure (bar) for harmonic free energy
+                        following frequency analysis, default is 300 K and 1.0 bar.
+                         
+  --wigner WIGNER       Number of desired samples from Wigner distribution after frequency analysis.
+                        Provide negative number to overwrite any existing samples.
+                         
+  --ignore_modes IGNORE_MODES
+                        Number of modes to ignore when computing harmonic free energy (default 0).
+                        The lowest/most negative force constants are ignored first.
+                         
+
+optparam:
+  Control various aspects of the optimization algorithm
+
+  --maxiter MAXITER     Maximum number of optimization steps, default 300.
+                         
+  --converge CONVERGE [CONVERGE ...]
+                        Custom convergence criteria as key/value pairs.
+                        Provide the name of a criteria set as "set GAU_LOOSE" or "set TURBOMOLE",
+                        and/or set specific criteria using key/value pairs e.g. "energy 1e-5 grms 1e-3"
+                         and/or add the MAXITER keyword to enable successful convergence on maximum iterations reached
+  --trust TRUST         Starting trust radius, defaults to 0.1 (energy minimization) or 0.01 (TS optimization).
+                         
+  --tmax TMAX           Maximum trust radius, defaults to 0.3 (energy minimization) or 0.03 (TS optimization).
+                         
+  --tmin TMIN           Minimum trust radius, do not reject steps trust radius is below this threshold (method-dependent).
+                         
+  --usedmax USEDMAX     Use maximum component instead of RMS displacement when applying trust radius.
+                         
+  --enforce ENFORCE     Enforce exact constraints when within provided tolerance (in a.u./radian, default 0.0)
+                         
+  --conmethod CONMETHOD
+                        Set to 1 to enable alternate constraint algorithm (default 0).
+                         
+  --reset RESET         Reset approximate Hessian to guess when eigenvalues are under epsilon.
+                         Defaults to True for minimization and False for transition states.
+                         
+  --epsilon EPSILON     Small eigenvalue threshold for resetting Hessian, default 1e-5.
+                         
+  --check CHECK         Check coordinates every <N> steps and rebuild coordinate system, disabled by default.
+  --subfrctor SUBFRCTOR
+                        Project out net force and torque components from nuclear gradient.
+                        0 = never project; 1 = auto-detect (default); 2 = always project.
+
+structure:
+  Modify the starting molecular structure or connectivity
+
+  --radii RADII [RADII ...]
+                        List of atomic radii for construction of coordinate system.
+                         Provide pairs of symbol/radius values such as Na 0.0 Fe 1.5
+                         
+  --pdb PDB             PDB file name with coordinates and resids. TRIC will add T+R coordinates for each residue.
+                         
+  --coords COORDS       Coordinate file to override the QM input file / PDB file. The LAST frame will be used.
+                         
+  --frag FRAG           Provide "yes" to delete bonds between residues, producing
+                        separate fragments in the internal coordinate system.
+  --bothre BOTHRE       Set the bond order threshold for building bonds in transition state calculations (Q-Chem, TeraChem only). Set 0.0 to disable.
+                         
+
+output:
+  Control the format and amount of the output
+
+  --prefix PREFIX       Specify a prefix for log file and temporary directory.
+                        Defaults to the input file path (incl. file name with extension removed).
+                         
+  --verbose VERBOSE     Set to positive for more verbose printout.
+                        0 = Default print level.     1 = Basic info about optimization step.
+                        2 = Include microiterations. 3 = Lots of printout from low-level functions.
+                         
+  --qdata QDATA         Provide "yes" to write qdata.txt containing coordinates, energies, gradients for each structure.
+                         
+  --logINI LOGINI       .ini file for customizing logging output.
+                         
+  --write_cart_hess WRITE_CART_HESS
+                        Write approximate cartesian Hessian at optimized geometry to specified file.
+                         
+
+software:
+  Options specific for certain software packages
+
+  --molproexe MOLPROEXE
+                        Specify absolute path of Molpro executable.
+                         
+  --molcnv MOLCNV       Provide "yes" to use Molpro style convergence criteria instead of the default.
+                         
+  --qcdir QCDIR         Provide an initial Q-Chem scratch folder (e.g. supplied initial guess).
+                         
+  --qccnv QCCNV         Provide "yes" to Use Q-Chem style convergence criteria instead of the default.
+                         
+  --bagelexe BAGELEXE   Specify how to run Bagel, e.g. "mpirun -np 4 BAGEL".
+                         
+  --ase-class ASE_CLASS
+                        ASE calculator import path, eg. "ase.calculators.lj.LennardJones"
+  --ase-kwargs ASE_KWARGS
+                        ASE calculator keyword args, as JSON dictionary, eg. {"param_filename":"path/to/file.xml"}
+
+debug:
+  Relevant for development and debugging
+
+  --displace DISPLACE   Provide "yes" to write out displacements of the internal coordinates.
+                         
+  --fdcheck FDCHECK     Provide "yes" to check internal coordinate gradients using finite difference.
+                         
+
+help:
+  Get help
+
+  -h, --help            Show this help message and exit

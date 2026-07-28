@@ -1,0 +1,61 @@
+{
+  "archived_files": [
+    {
+      "path": "request.json",
+      "sha256": "74076226403e9ad054bc943d85b7601da5fc81c1c6c2093299ae81304fdc1787",
+      "size_bytes": 1316
+    },
+    {
+      "path": "status.json",
+      "sha256": "e71a4f5731db3f408815784b9a12e9ef70c51bf0c61dfd56cf384be6e9b02265",
+      "size_bytes": 1921
+    },
+    {
+      "path": "collection.json",
+      "sha256": "48c596ce57886fc4e063554a5e90b9f787caeb0f129c3ea4bddd58b23a138e4f",
+      "size_bytes": 1489
+    },
+    {
+      "path": "stdout.log",
+      "sha256": "f28e70dd6a497d1ea12544d81edf7ddb9cc44cc4245dd4ed8496255f4eb48a25",
+      "size_bytes": 10103
+    },
+    {
+      "path": "stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    }
+  ],
+  "artifact_status": "not_declared",
+  "convergence_status": "not_checked",
+  "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/goodvibes",
+  "job_id": "job_a11e1757bc024191a09d395fa9f0baa0",
+  "process_status": "completed",
+  "reason": "The configured executable completed the interface probe through the native job runner.",
+  "request": {
+    "arguments": [
+      "--help"
+    ],
+    "calculation_intent": null,
+    "executable": "goodvibes",
+    "label": "manual-interface-smoke-goodvibes",
+    "parent_job_id": null,
+    "resource_limits": {
+      "cpu_cores": 1,
+      "gpu_count": 0,
+      "memory_mb": 1024
+    },
+    "software_id": "goodvibes",
+    "staged_inputs": [],
+    "stdin_target": null
+  },
+  "request_status": "accepted",
+  "scientific_validation_status": "not_checked",
+  "software_id": "goodvibes",
+  "software_status": "not_checked",
+  "status": "passed",
+  "stderr_tail": "",
+  "stdout_tail": "    per structure; columns mirror ThermoResult). Requires\n                        pandas; install with `pip install goodvibes[full]`.\n  --parquet PATH        Write per-file thermochemistry to PATH as Parquet\n                        (same columns as --csv). Requires pandas + a Parquet\n                        engine (pyarrow); install with `pip install\n                        goodvibes[full]`.\n  --xyz                 Write optimized Cartesian coordinates to a .xyz file\n  --strip-plot PATH     Save a per-species \u0394G strip plot to PATH (PNG/PDF/SVG\n                        by extension). Requires --label or --selectivity to\n                        define buckets; matplotlib via `pip install\n                        goodvibes[plot]`.\n  --pes-plot PATH       Save a clean reaction-profile diagram to PATH\n                        (PNG/PDF/SVG by extension). Requires --pes; uses\n                        goodvibes.plot.plot_pes (simpler than the legacy\n                        --graph FILE.yaml, no styling YAML needed). matplotlib\n                        via `pip install goodvibes[plot]`.\n  --export PATH         Write the unified v1.0 JSON payload to PATH (per-file\n                        QCData + thermo + run options + selectivity / pes\n                        blocks). Identical to --json. The same file can be re-\n                        loaded via --import to skip parsing on a follow-up\n                        run.\n  --cache-save FILE     (deprecated, use --export instead) Save parsed data to\n                        a JSON file.\n  --cpu                 Print total CPU time from output files\n  --check               Verify all files use the same program, level of\n                        theory, and solvation model; also flag potential\n                        duplicates\n\nPerformance:\n  --jobs N              Parse and compute thermochemistry in parallel across N\n                        worker processes (default 1, sequential). 0 = use all\n                        available CPU cores.\n",
+  "test_level": "interface_smoke",
+  "tested_at": "2026-07-28T20:16:58.943969+00:00"
+}

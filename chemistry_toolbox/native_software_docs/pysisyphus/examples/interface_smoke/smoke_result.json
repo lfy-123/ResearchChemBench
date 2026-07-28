@@ -1,0 +1,70 @@
+{
+  "archived_files": [
+    {
+      "path": "request.json",
+      "sha256": "6296f796766a2008d42213cb328a25eced1f7f96be39c3342ba4741f8093a1a8",
+      "size_bytes": 1947
+    },
+    {
+      "path": "status.json",
+      "sha256": "ac6aa1d473aeee11962701719bd958c3d34877c76ac666da1fd2019a99c9ee42",
+      "size_bytes": 2102
+    },
+    {
+      "path": "collection.json",
+      "sha256": "18a2b9f371ce0432cd83a02cd6800bb38dd79f4b522599cc3b6a57c37ee9d220",
+      "size_bytes": 7367
+    },
+    {
+      "path": "stdout.log",
+      "sha256": "889c84cfc737c88928095d00bc32668b650d8039db359e0e73174f27af3b8998",
+      "size_bytes": 3400
+    },
+    {
+      "path": "stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    }
+  ],
+  "artifact_status": "not_declared",
+  "convergence_status": "not_checked",
+  "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/pysisyphus",
+  "job_id": "job_5fb3220872f649528b7c21e2a0694a34",
+  "process_status": "completed",
+  "reason": "The configured executable completed the interface probe through the native job runner.",
+  "request": {
+    "arguments": [
+      "interface_smoke.yaml"
+    ],
+    "calculation_intent": null,
+    "executable": "pysis",
+    "label": "manual-interface-smoke-pysisyphus",
+    "parent_job_id": null,
+    "resource_limits": {
+      "cpu_cores": 1,
+      "gpu_count": 0,
+      "memory_mb": 1024
+    },
+    "software_id": "pysisyphus",
+    "staged_inputs": [
+      {
+        "source_path": "code/pysisyphus_interface_smoke.yaml",
+        "target_path": "interface_smoke.yaml"
+      },
+      {
+        "source_path": "code/pysisyphus_interface_smoke.xyz",
+        "target_path": "interface_smoke.xyz"
+      }
+    ],
+    "stdin_target": null
+  },
+  "request_status": "accepted",
+  "scientific_validation_status": "not_checked",
+  "software_id": "pysisyphus",
+  "software_status": "not_checked",
+  "status": "passed",
+  "stderr_tail": "",
+  "stdout_tail": "0/outputs/execution_jobs/job_5fb3220872f649528b7c21e2a0694a34\n\nIf pysisyphus benefitted your research please cite:\n\n\thttps://doi.org/10.1002/qua.26390\n\nGood luck!\n\n{'calc': {'charge': 0, 'gfn': 2, 'mult': 1, 'pal': 1, 'type': 'xtb'},\n 'geom': {'coord_kwargs': {}, 'fn': 'interface_smoke.xyz', 'type': 'cart'},\n 'opt': {'T': 298.15,\n         'do_hess': False,\n         'dump': True,\n         'max_cycles': 5,\n         'overachieve_factor': 5,\n         'p': 101325,\n         'type': 'rfo'}}\n\nRead 1 geometry.\n                            ########################\n                            # RUNNING OPTIMIZATION #\n                            ########################\n\n     Input geometry: Geometry(H\u2082, 2 atoms)\n  Coordinate system: cart\n  Coordinate number: 6\n         Calculator: XTB calculator\n             Charge: 0\n       Multiplicity: 1\n          Optimizer: rfo\n\n\nIf not specified otherwise, all quantities are given in au.\n\nConvergence thresholds, (overachieved when):\n\tmax(|force|) <= 0.002500, (0.000500) E_h a_0\u207b\u00b9\n\t  rms(force) <= 0.001700, (0.000340) E_h a_0\u207b\u00b9\n\t max(|step|) <= 0.010000 a_0\n\t   rms(step) <= 0.006700 a_0\n\t'Superscript *' indicates convergence\n\nSpent 0.0 s preparing the first cycle.\n               cycle     \u0394(energy)  max(|force|)    rms(force)   max(|step|)     rms(step)  s/cycle\n        --------------------------------------------------------------------------------------------\n                   0           nan*     0.014843      0.008569      0.014836      0.008566    0.032 \n                   1     -0.000304*     0.005791      0.003343      0.009492*     0.005480*   0.019 \n                   2     -0.000059*     0.000484*     0.000279*     0.000866*     0.000500*   0.017 \n        Converged!\n\nFinal summary:\n        \tmax(forces,cartesian): 0.000484 hartree/bohr\n        \trms(forces,cartesian): 0.000279 hartree/bohr\n        \tenergy: -0.98268574 hartree\n        Wrote final, hopefully optimized, geometry to 'final_geometry.xyz'\n\npysisyphus run took 0:00:00 h.\n",
+  "test_level": "interface_smoke",
+  "tested_at": "2026-07-28T20:16:58.943969+00:00"
+}

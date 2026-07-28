@@ -1,0 +1,61 @@
+{
+  "archived_files": [
+    {
+      "path": "request.json",
+      "sha256": "eebe4354da06c354c4c2a3271b612c4277a9a5a478a737591d19c5ed84f54626",
+      "size_bytes": 1312
+    },
+    {
+      "path": "status.json",
+      "sha256": "e052bd18fb2bd06c9b78ad8e5eb11d8853716185c1b4086f62cf3ec3eef4510a",
+      "size_bytes": 1920
+    },
+    {
+      "path": "collection.json",
+      "sha256": "7f1384476966c0a8b082922d68a6f80c62bb748354db74557846c8703ce0b708",
+      "size_bytes": 1488
+    },
+    {
+      "path": "stdout.log",
+      "sha256": "fd584f2ffc1f6b5c3db340b0f4ce2381baead6bc81e3e80937e8a23c925389f9",
+      "size_bytes": 5132
+    },
+    {
+      "path": "stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    }
+  ],
+  "artifact_status": "not_declared",
+  "convergence_status": "not_checked",
+  "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/openff_am1bcc",
+  "job_id": "job_486325938cf44c998c2f4c08d2986b8b",
+  "process_status": "completed",
+  "reason": "The configured executable completed the interface probe through the native job runner.",
+  "request": {
+    "arguments": [
+      "-h"
+    ],
+    "calculation_intent": null,
+    "executable": "antechamber",
+    "label": "manual-interface-smoke-openff_am1bcc",
+    "parent_job_id": null,
+    "resource_limits": {
+      "cpu_cores": 1,
+      "gpu_count": 0,
+      "memory_mb": 1024
+    },
+    "software_id": "openff_am1bcc",
+    "staged_inputs": [],
+    "stdin_target": null
+  },
+  "request_status": "accepted",
+  "scientific_validation_status": "not_checked",
+  "software_id": "openff_am1bcc",
+  "software_status": "not_checked",
+  "status": "passed",
+  "stderr_tail": "",
+  "stdout_tail": "ck Id, for ccif\n\u001b[31m                   -an   \u001b[0m adjust atom names: yes(y) or no(n)\n                          the default is 'y' for 'mol2' and 'ac' and 'n' for the other formats \n\u001b[31m                   -j    \u001b[0m atom type and bond type prediction index, default is 4 \n\u001b[34m                          0    \u001b[0m: no assignment\n\u001b[34m                          1    \u001b[0m: atom type \n\u001b[34m                          2    \u001b[0m: full  bond types \n\u001b[34m                          3    \u001b[0m: part  bond types \n\u001b[34m                          4    \u001b[0m: atom and full bond type \n\u001b[34m                          5    \u001b[0m: atom and part bond type \n\u001b[31m                   -s    \u001b[0m status information: 0(brief), 1(default) or 2(verbose)\n\u001b[31m                   -eq   \u001b[0m equalizing atomic charge, default is 1 for '-c resp', '-c bcc', '-c abcg2' and 0 for the other charge methods \n\u001b[34m                          0    \u001b[0m: no use\n\u001b[34m                          1    \u001b[0m: by atomic paths \n\u001b[34m                          2    \u001b[0m: by atomic paths and structural information, i.e. E/Z configurations \n\u001b[31m                   -pf   \u001b[0m remove intermediate files: yes(y) or no(n)[default]\n\u001b[31m                   -pl   \u001b[0m maximum path length to determin equivalence of atomic charges for resp, bcc and abcg2,\n\u001b[31m                         \u001b[0m the smaller the value, the faster the algorithm, default is -1 (use full length),\n\u001b[31m                         \u001b[0m set this parameter to 10 to 30 if your molecule is big (# atoms >= 100)\n\u001b[31m                   -seq  \u001b[0m atomic sequence order changable: yes(y)[default] or no(n)\n\u001b[31m                   -dr   \u001b[0m acdoctor mode: yes(y)[default] or no(n)\n^[[31m                   -f    ^[[0m The reweighting factor used to scale RESP charges obtained using QUICK, default is 17.00\n\u001b[31m                   -i -o -fi and -fo must appear; others are optional\u001b[0m\n\u001b[32m                   Use 'antechamber -L' to list the supported file formats and charge methods\u001b[0m\n",
+  "test_level": "interface_smoke",
+  "tested_at": "2026-07-28T20:16:58.943969+00:00"
+}

@@ -1,0 +1,13 @@
+At line 114 of file config.f90 (unit = 1)
+Fortran runtime error: Cannot open file 'CONTROL': No such file or directory
+
+Error termination. Backtrace:
+#0  0x7f38c330dd2b in already_open
+	at ../../../libgfortran/io/open.c:742
+#1  0x5630998684e4 in ???
+#2  0x56309988f116 in ???
+#3  0x56309986451e in ???
+#4  0x7f38c2bbad8f in ???
+#5  0x7f38c2bbae3f in ???
+#6  0x563099864554 in ???
+#7  0xffffffffffffffff in ???

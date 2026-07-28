@@ -1,0 +1,58 @@
+{
+  "artifact_status": "valid",
+  "convergence_status": "projection_complete",
+  "evidence_path": "chemistry_toolbox/evidence/native_smoke/20260728_reliability_fix_v3/lobster_cohp",
+  "job_id": "job_4bf728b5a0ea4761b9e2d69627a82389",
+  "process_status": "completed",
+  "reason": "A self-contained scientific smoke completed with normal software termination, task-specific convergence, and valid artifacts.",
+  "request": {
+    "arguments": [],
+    "executable": "lobster-5.1.0",
+    "resource_limits": {
+      "cpu_cores": 1,
+      "gpu_count": 0,
+      "memory_mb": 1024
+    },
+    "software_id": "lobster",
+    "staged_inputs": [
+      {
+        "source_path": "chemistry_toolbox/examples/native/lobster/cohp/lobsterin",
+        "target_path": "lobsterin"
+      },
+      {
+        "source_path": "<compatible-vasp-job>/POSCAR",
+        "target_path": "POSCAR"
+      },
+      {
+        "source_path": "<compatible-vasp-job>/POTCAR",
+        "target_path": "POTCAR"
+      },
+      {
+        "source_path": "<compatible-vasp-job>/WAVECAR",
+        "target_path": "WAVECAR"
+      },
+      {
+        "source_path": "<compatible-vasp-job>/CONTCAR",
+        "target_path": "CONTCAR"
+      },
+      {
+        "source_path": "<compatible-vasp-job>/KPOINTS",
+        "target_path": "KPOINTS"
+      },
+      {
+        "source_path": "<compatible-vasp-job>/OUTCAR",
+        "target_path": "OUTCAR"
+      },
+      {
+        "source_path": "<compatible-vasp-job>/vasprun.xml",
+        "target_path": "vasprun.xml"
+      }
+    ]
+  },
+  "scientific_validation_status": "mechanically_valid",
+  "software_id": "lobster",
+  "software_status": "normal_termination",
+  "status": "passed",
+  "test_level": "scientific_smoke",
+  "tested_at": "2026-07-28T20:16:58.943969+00:00"
+}

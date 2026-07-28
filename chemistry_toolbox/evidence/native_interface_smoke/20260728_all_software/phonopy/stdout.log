@@ -1,0 +1,238 @@
+usage: phonopy [-h] [--pa PRIMITIVE_AXES [PRIMITIVE_AXES ...]]
+               [--tolerance SYMMETRY_TOLERANCE] [--nosym]
+               [--magmom MAGMOMS [MAGMOMS ...]]
+               [--site-mixture SITE_MIXTURE [SITE_MIXTURE ...]]
+               [--split-site-mixture] [--mass MASSES [MASSES ...]]
+               [--mass-ase-iupac2016] [--hdf5]
+               [--hdf5-compression HDF5_COMPRESSION] [--include-fc]
+               [--include-fs] [--include-disp] [--include-all] [--sp]
+               [--rd RANDOM_DISPLACEMENTS] [--random-seed RANDOM_SEED] [-q]
+               [-v] [--loglevel LOGLEVEL] [--config FILE] [--alm]
+               [--anime ANIME [ANIME ...]]
+               [--band BAND_PATHS [BAND_PATHS ...]] [--band-connection]
+               [--band-const-interval]
+               [--band-labels BAND_LABELS [BAND_LABELS ...]]
+               [--band-format BAND_FORMAT] [--band-points BAND_POINTS]
+               [--bi BAND_INDICES [BAND_INDICES ...]] [--classical]
+               [--cutoff-freq CUTOFF_FREQUENCY]
+               [--cutoff-radius CUTOFF_RADIUS]
+               [--dm-decimals DYNAMICAL_MATRIX_DECIMALS] [--dos] [--eigvecs]
+               [--exclude-born] [--factor FREQUENCY_CONVERSION_FACTOR]
+               [--fc-calc FC_CALCULATOR] [--fc-calc-opt FC_CALCULATOR_OPTIONS]
+               [--fc-decimals FORCE_CONSTANTS_DECIMALS]
+               [--fc-format FC_FORMAT] [--fc-spg-symmetry]
+               [--fits-debye-model] [--full-fc] [--fmax FMAX] [--fmin FMIN]
+               [--fpitch FPITCH] [--gc] [--gv] [--gv-delta-q GV_DELTA_Q]
+               [--irreps IRREPS_QPOINT [IRREPS_QPOINT ...]] [--legend]
+               [--legacy-plot] [--lcg] [--mesh-format MESH_FORMAT]
+               [--modulation MODULATION [MODULATION ...]]
+               [--mp MESH_NUMBERS [MESH_NUMBERS ...]]
+               [--mlp-params MLP_PARAMS] [--moment]
+               [--moment-order MOMENT_ORDER] [--nac-method NAC_METHOD]
+               [--no-fc-symmetry] [--nomeshsym] [--nonac] [--noreadfc]
+               [--nowritemesh] [-p]
+               [--pd PROJECTION_DIRECTION [PROJECTION_DIRECTION ...]]
+               [--pdos PDOS [PDOS ...]] [--pr] [--pt] [--pypolymlp]
+               [--qpoints QPOINTS [QPOINTS ...]]
+               [--qpoints-format QPOINTS_FORMAT]
+               [--q-direction NAC_Q_DIRECTION [NAC_Q_DIRECTION ...]]
+               [--rd-temperature TEMPERATURE] [--readfc-format READFC_FORMAT]
+               [--read-qpoints] [--relax-atomic-positions] [--rust]
+               [--legacy-backend] [-s] [--show-irreps] [--sigma SIGMA]
+               [--sscha SSCHA_ITERATIONS] [-t] [--td] [--tdm]
+               [--tdm-cif TEMPERATURE] [--temperature TEMPERATURE]
+               [--tmax TMAX] [--tmin TMIN] [--tstep TSTEP] [--writefc]
+               [--writefc-format WRITEFC_FORMAT] [--writedm]
+               [--xyz-projection]
+               [filename ...]
+
+phonopy: phonon calculation from a phonopy.yaml-like file.
+
+positional arguments:
+  filename              phonopy.yaml like file
+
+options:
+  -h, --help            show this help message and exit
+  --alm                 Use ALM for generating force constants
+  --anime ANIME [ANIME ...]
+                        Same as ANIME tag
+  --band BAND_PATHS [BAND_PATHS ...]
+                        Same behavior as BAND tag
+  --band-connection     Treat band crossings
+  --band-const-interval
+                        Band paths are sampled with similar interval.
+  --band-format BAND_FORMAT
+                        Band structure output file-format
+  --band-labels BAND_LABELS [BAND_LABELS ...]
+                        Show labels at band segments
+  --band-points BAND_POINTS
+                        Number of points calculated on a band segment in the
+                        band structure mode
+  --bi BAND_INDICES [BAND_INDICES ...], --band-indices BAND_INDICES [BAND_INDICES ...]
+                        Band indices to be included to calculate thermal
+                        properties
+  --classical           Compute thermodynamic properties using classical
+                        statistics.
+  --config FILE         Phonopy configuration file
+  --cutoff-freq CUTOFF_FREQUENCY, --cutoff-frequency CUTOFF_FREQUENCY
+                        Thermal properties are not calculated below this
+                        cutoff frequency.
+  --cutoff-radius CUTOFF_RADIUS
+                        Out of cutoff radius, force constants are set zero.
+  --dm-decimals DYNAMICAL_MATRIX_DECIMALS
+                        Decimals of values of decimals
+  --dos                 Calculate (P)DOS
+  --eigvecs, --eigenvectors
+                        Output eigenvectors
+  --exclude-born, --exclude-nac-params
+                        Exclude born effective charge and dielectric tensor in
+                        phonopy.yaml
+  --factor FREQUENCY_CONVERSION_FACTOR
+                        Frequency unit conversion factor
+  --fc-calc FC_CALCULATOR, --fc-calculator FC_CALCULATOR
+                        Force constants calculator
+  --fc-calc-opt FC_CALCULATOR_OPTIONS, --fc-calculator-options FC_CALCULATOR_OPTIONS
+                        Options for force constants calculator as comma
+                        separated string with the style of key = values
+  --fc-decimals FORCE_CONSTANTS_DECIMALS
+                        Decimals of values of force constants
+  --fc-format FC_FORMAT
+                        Force constants input/output file-format
+  --fc-spg-symmetry     Enforce space group symmetry to force constants
+  --fits-debye-model    Fits total DOS to a Debye model
+  --fmax FMAX           Maximum frequency used for DOS or moment calculation
+  --fmin FMIN           Minimum frequency used for DOS or moment calculation
+  --fpitch FPITCH       Frequency pitch used for DOS or moment calculation
+  --full-fc             Calculate full supercell force constants matrix
+  --gc, --gamma-center  Set mesh as Gamma center
+  --gv, --group-velocity
+                        Calculate group velocities at q-points
+  --gv-delta-q GV_DELTA_Q
+                        Delta-q distance used for group velocity calculation
+  --hdf5                Use hdf5 for force constants
+  --hdf5-compression HDF5_COMPRESSION
+                        hdf5 compression filter (default: "gzip") and "none"
+                        for no compression
+  --include-all         Include all output file data in phonopy.yaml
+  --include-disp        Include displacements in phonopy.yaml
+  --include-fc          Include force constants in phonopy.yaml
+  --include-fs          Include force sets in phonopy.yaml
+  --irreps IRREPS_QPOINT [IRREPS_QPOINT ...], --irreps-qpoint IRREPS_QPOINT [IRREPS_QPOINT ...]
+                        A q-point where characters of irreps are calculated
+  --lcg, --little-cogroup
+                        Show irreps of little co-group (or point-group of wave
+                        vector q) instead of little group
+  --legacy-backend      Use the legacy C-extension backend instead of the
+                        default Rust backend
+  --legacy-plot         Legacy style band structure pl
+  --legend              Legend of plots is shown in thermal displacements
+  --loglevel LOGLEVEL   Log level
+  --magmom MAGMOMS [MAGMOMS ...]
+                        Same as MAGMOM tag
+  --mass MASSES [MASSES ...]
+                        Same as MASS tag
+  --mass-ase-iupac2016  Import atomic weights from ASE according to IUPAC 2016
+  --mesh-format MESH_FORMAT
+                        Mesh output file-format
+  --mlp-params MLP_PARAMS
+                        Parameters for machine learning potentials as comma
+                        separated string with the style of key = values
+  --modulation MODULATION [MODULATION ...]
+                        Same as MODULATION tag
+  --moment              Calculate moment of phonon states distribution
+  --moment-order MOMENT_ORDER
+                        Order of moment of phonon states distribution
+  --mp MESH_NUMBERS [MESH_NUMBERS ...], --mesh MESH_NUMBERS [MESH_NUMBERS ...]
+                        Same behavior as MP tag
+  --nac-method NAC_METHOD
+                        Non-analytical term correction method: Gonze (default)
+                        or Wang
+  --no-fc-symmetry, --no-sym-fc
+                        Do not symmetrize force constants
+  --nomeshsym           Symmetry is not imposed for mesh sampling.
+  --nonac               Non-analytical term correction
+  --noreadfc            Do not read force constants from file
+  --nosym               Symmetry is not imposed.
+  --nowritemesh         Do not write mesh.yaml or mesh.hdf5
+  -p, --plot            Plot data
+  --pa PRIMITIVE_AXES [PRIMITIVE_AXES ...], --primitive-axis PRIMITIVE_AXES [PRIMITIVE_AXES ...], --primitive-axes PRIMITIVE_AXES [PRIMITIVE_AXES ...]
+                        Same as PRIMITIVE_AXES tag
+  --pd PROJECTION_DIRECTION [PROJECTION_DIRECTION ...], --projection-direction PROJECTION_DIRECTION [PROJECTION_DIRECTION ...]
+                        Same as PROJECTION_DIRECTION tag
+  --pdos PDOS [PDOS ...]
+                        Same as PDOS tag
+  --pr, --pretend-real  Use imaginary frequency as real for thermal property
+                        calculation. For a testing purpose only, when a small
+                        amount of imaginary branches obtained.
+  --pt, --projected-thermal-property
+                        Output projected thermal properties
+  --pypolymlp           Use pypolymlp for generating force constants
+  -q, --quiet           Print out smallest information
+  --q-direction NAC_Q_DIRECTION [NAC_Q_DIRECTION ...]
+                        Direction of q-vector perturbation used for NAC at
+                        q->0, and group velocity for degenerate phonon mode in
+                        q-points mode
+  --qpoints QPOINTS [QPOINTS ...]
+                        Calculate at specified q-points
+  --qpoints-format QPOINTS_FORMAT
+                        Q-points output file-format
+  --random-seed RANDOM_SEED
+                        Random seed by a 32 bit unsigned integer
+  --rd RANDOM_DISPLACEMENTS, --random-displacements RANDOM_DISPLACEMENTS
+                        Number of supercells with random displacements or
+                        "auto".
+  --rd-temperature TEMPERATURE
+                        A temperature used to generate random displacements.
+  --read-qpoints        Read QPOINTS
+  --readfc-format READFC_FORMAT
+                        Force constants input file-format
+  --relax-atomic-positions
+                        Relax atomic positions using polynomial MLPs
+  --rust                Deprecated no-op: the Rust backend (phonors) is the
+                        default in phonopy v4. Pass --legacy-backend to opt
+                        back into the C extension.
+  -s, --save            Save plot data in pdf
+  --show-irreps         Show IR-Reps along with characters
+  --sigma SIGMA         Smearing width for DOS
+  --site-mixture SITE_MIXTURE [SITE_MIXTURE ...]
+                        [Experimental] Per-atom mixture weights in the order
+                        atoms appear in the input cell. Weights within each
+                        overlapping group of atoms must sum to 1.0. By default
+                        the overlapping atoms are merged into mixed-species
+                        sites (Virtual Crystal Approximation); pass --split-
+                        site-mixture to instead keep them as separate species-
+                        resolved atoms. Note that this is per-atom and
+                        distinct from the VASP INCAR VCA tag, which lists one
+                        weight per element row in POSCAR.
+  --sp, --save-params   Save parameters that can run phonopy in
+                        phonopy_params.yaml.
+  --split-site-mixture  [Experimental] With --site-mixture, keep overlapping
+                        atoms as separate species-resolved atoms instead of
+                        merging them into mixed-species sites.
+  --sscha SSCHA_ITERATIONS
+                        Number of iterations in SSCHA calculation
+  -t, --thermal-property
+                        Output thermal properties
+  --td, --thermal-displacements
+                        Output thermal displacements
+  --tdm, --thermal-displacement-matrix
+                        Output thermal displacement matrices
+  --tdm-cif TEMPERATURE, --thermal-displacement-matrix-cif TEMPERATURE
+                        Write cif with aniso_U for which temperature is
+                        specified
+  --temperature TEMPERATURE
+                        (Deprecated) A temperature used to generate random
+                        displacements.
+  --tmax TMAX           Maximum calculated temperature
+  --tmin TMIN           Minimum calculated temperature
+  --tolerance SYMMETRY_TOLERANCE
+                        Symmetry tolerance to search
+  --tstep TSTEP         Calculated temperature step
+  -v, --verbose         Detailed information is shown.
+  --writedm             Write dynamical matrices. This has to be used with
+                        QPOINTS setting (or --qpoints)
+  --writefc             Write FORCE_CONSTANTS
+  --writefc-format WRITEFC_FORMAT
+                        Force constants output file-format
+  --xyz-projection      Project PDOS x, y, z directions in Cartesian
+                        coordinates

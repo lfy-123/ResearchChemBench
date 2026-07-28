@@ -192,6 +192,8 @@ def execute_traced(
     tool_name: str,
     arguments: dict[str, Any],
     function: Callable[[], Any],
+    *,
+    capture_artifacts: bool = True,
 ) -> Any:
     """Execute one tool and persist a canonical result/trace/artifact record."""
 
@@ -201,7 +203,7 @@ def execute_traced(
     result_dir = root / "_tool_results"
     result_dir.mkdir(parents=True, exist_ok=True)
     trace_path = root / "_tool_trace.jsonl"
-    before = workspace_snapshot()
+    before = workspace_snapshot() if capture_artifacts else {}
     started_wall = datetime.now(timezone.utc).isoformat()
     started = time.monotonic()
     status = "success"
@@ -246,11 +248,15 @@ def execute_traced(
                 + "\n",
                 encoding="utf-8",
             )
-            artifacts = _capture_changed_artifacts(
-                sequence,
-                before,
-                max_files=max_artifact_files,
-                max_bytes=max_artifact_bytes,
+            artifacts = (
+                _capture_changed_artifacts(
+                    sequence,
+                    before,
+                    max_files=max_artifact_files,
+                    max_bytes=max_artifact_bytes,
+                )
+                if capture_artifacts
+                else []
             )
             preview = json.dumps(result_payload, ensure_ascii=False, default=str)
             event = {

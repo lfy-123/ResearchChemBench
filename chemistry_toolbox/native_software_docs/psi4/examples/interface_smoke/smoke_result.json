@@ -1,0 +1,61 @@
+{
+  "archived_files": [
+    {
+      "path": "request.json",
+      "sha256": "902dc46edd6ef30920f8e15f7264ef2d45f9eb2fe2569fae096142692c258e39",
+      "size_bytes": 1232
+    },
+    {
+      "path": "status.json",
+      "sha256": "1ded510bbd2a217887acdf313c4982134b129c03c7fb3b5d0d99e3732479b695",
+      "size_bytes": 1842
+    },
+    {
+      "path": "collection.json",
+      "sha256": "d5c1cc0c8c85f7b92011dabe878d1a24bb3f7ee24ccc02008c2c39cce5e0d53c",
+      "size_bytes": 1485
+    },
+    {
+      "path": "stdout.log",
+      "sha256": "582f149887973349c8799a31ea4e7d78b7bb10810cd657410ffe9209b0027e4b",
+      "size_bytes": 5
+    },
+    {
+      "path": "stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    }
+  ],
+  "artifact_status": "not_declared",
+  "convergence_status": "not_checked",
+  "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/psi4",
+  "job_id": "job_39982517e45b44af9412662bd2b3f731",
+  "process_status": "completed",
+  "reason": "The configured executable completed the interface probe through the native job runner.",
+  "request": {
+    "arguments": [
+      "--version"
+    ],
+    "calculation_intent": null,
+    "executable": "psi4",
+    "label": "manual-interface-smoke-psi4",
+    "parent_job_id": null,
+    "resource_limits": {
+      "cpu_cores": 1,
+      "gpu_count": 0,
+      "memory_mb": 1024
+    },
+    "software_id": "psi4",
+    "staged_inputs": [],
+    "stdin_target": null
+  },
+  "request_status": "accepted",
+  "scientific_validation_status": "not_checked",
+  "software_id": "psi4",
+  "software_status": "not_checked",
+  "status": "passed",
+  "stderr_tail": "",
+  "stdout_tail": "1.11\n",
+  "test_level": "interface_smoke",
+  "tested_at": "2026-07-28T20:16:58.943969+00:00"
+}

@@ -1,0 +1,61 @@
+{
+  "archived_files": [
+    {
+      "path": "request.json",
+      "sha256": "91067a0d55a63f802b6ffa48bdb0bbe815fa824d8f2f929c5cccc603c0c3d862",
+      "size_bytes": 1248
+    },
+    {
+      "path": "status.json",
+      "sha256": "904b3a4e567b21e7904cb1e910f5bbd0014d3653bde46bd8f93332f129a5303a",
+      "size_bytes": 1858
+    },
+    {
+      "path": "collection.json",
+      "sha256": "e2ced23419f20d11108cde1543bafbb83986404e339871b8f3cef3e76905093c",
+      "size_bytes": 1485
+    },
+    {
+      "path": "stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    }
+  ],
+  "artifact_status": "not_declared",
+  "convergence_status": "not_checked",
+  "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/pdb_tools",
+  "job_id": "job_7ff2f5ea0b8641cfa1607ec6dc8156ac",
+  "process_status": "completed",
+  "reason": "The configured executable completed the interface probe through the native job runner.",
+  "request": {
+    "arguments": [
+      "-h"
+    ],
+    "calculation_intent": null,
+    "executable": "pdb_selchain",
+    "label": "manual-interface-smoke-pdb_tools",
+    "parent_job_id": null,
+    "resource_limits": {
+      "cpu_cores": 1,
+      "gpu_count": 0,
+      "memory_mb": 1024
+    },
+    "software_id": "pdb_tools",
+    "staged_inputs": [],
+    "stdin_target": null
+  },
+  "request_status": "accepted",
+  "scientific_validation_status": "not_checked",
+  "software_id": "pdb_tools",
+  "software_status": "not_checked",
+  "status": "passed",
+  "stderr_tail": "",
+  "stdout_tail": "",
+  "test_level": "interface_smoke",
+  "tested_at": "2026-07-28T20:16:58.943969+00:00"
+}

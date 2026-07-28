@@ -1,0 +1,61 @@
+{
+  "archived_files": [
+    {
+      "path": "request.json",
+      "sha256": "7d46e39382ce09b3f1ef66a39a7599685019d80515379fdf3eba8f14994831bb",
+      "size_bytes": 1263
+    },
+    {
+      "path": "status.json",
+      "sha256": "1fc4ae5518808f119364b515a62546b0b3c281f733385dae86ae0680f29df96b",
+      "size_bytes": 1869
+    },
+    {
+      "path": "collection.json",
+      "sha256": "01b51faab066702eb1acda4ffe8789a56e29ac10b7290928d33f09d79ea53429",
+      "size_bytes": 1488
+    },
+    {
+      "path": "stdout.log",
+      "sha256": "c72d5d038ec1a6d225b5ad6fb44eb4d7d653576d9bc23699cc4e7b4375e92d23",
+      "size_bytes": 1768
+    },
+    {
+      "path": "stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    }
+  ],
+  "artifact_status": "not_declared",
+  "convergence_status": "not_checked",
+  "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/theodore",
+  "job_id": "job_8340ca316a3f472e878b121def30bf6e",
+  "process_status": "completed",
+  "reason": "The configured executable completed the interface probe through the native job runner.",
+  "request": {
+    "arguments": [
+      "--version"
+    ],
+    "calculation_intent": null,
+    "executable": "theodore",
+    "label": "manual-interface-smoke-theodore",
+    "parent_job_id": null,
+    "resource_limits": {
+      "cpu_cores": 1,
+      "gpu_count": 0,
+      "memory_mb": 1024
+    },
+    "software_id": "theodore",
+    "staged_inputs": [],
+    "stdin_target": null
+  },
+  "request_status": "accepted",
+  "scientific_validation_status": "not_checked",
+  "software_id": "theodore",
+  "software_status": "not_checked",
+  "status": "passed",
+  "stderr_tail": "",
+  "stdout_tail": " *** Warning: python-openbabel not found! ***\n Using emulation program with limited capabilities ...\n *** Warning: python-openbabel not found! ***\n Using emulation program with limited capabilities ...\n *** Orbkit installation not found. ***\n Install orbkit for extended plotting capabilities.\n\n================================================================================\n|                                 TheoDORE 2.4                                 |\n|         Theoretical Density, Orbital Relaxation and Exciton analysis         |\n|                                                                              |\n|                            Author: Felix Plasser                             |\n|             Contributions by: L. Stojanovic, G. Hermann, S. Mai,             |\n|                          M.F.S.J. Menger, P. Kimber                          |\n--------------------------------------------------------------------------------\n|                       References for the modules used                        |\n|        (see also http://theodore-qc.sourceforge.net/literature.html)         |\n|                                                                              |\n|   Program citation:                                                          |\n|     F. Plasser, J. Chem. Phys. (2020), 152, 084108.                          |\n================================================================================\n\n\n\n  optional arguments:\n  ---------------------------------------------------\n    -h/--help            | show this help message and exit                   \n\n\n\nusage: /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/theodore/bin/theodore [-h]  \n\n\nError: Cannot understand option --version\n",
+  "test_level": "interface_smoke",
+  "tested_at": "2026-07-28T20:16:58.943969+00:00"
+}

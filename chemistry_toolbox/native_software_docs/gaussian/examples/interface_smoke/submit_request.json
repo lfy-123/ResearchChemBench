@@ -1,0 +1,17 @@
+{
+  "arguments": [],
+  "executable": "g16",
+  "resource_limits": {
+    "cpu_cores": 1,
+    "gpu_count": 0,
+    "memory_mb": 1024
+  },
+  "software_id": "gaussian",
+  "staged_inputs": [
+    {
+      "source_path": "chemistry_toolbox/examples/native/gaussian/optimization/input.gjf",
+      "target_path": "input.gjf"
+    }
+  ],
+  "stdin_target": "input.gjf"
+}

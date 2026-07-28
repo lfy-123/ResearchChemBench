@@ -1,0 +1,61 @@
+{
+  "archived_files": [
+    {
+      "path": "request.json",
+      "sha256": "03586707c1cd7c1662358032733cf9daad74bdf2d99a14fbc47417cbe859a546",
+      "size_bytes": 1252
+    },
+    {
+      "path": "status.json",
+      "sha256": "f482a20932048f92a984c6da197726357eaee1830958c04722b35827fd26d3d9",
+      "size_bytes": 1860
+    },
+    {
+      "path": "collection.json",
+      "sha256": "ba6d39e8c9e24d5a4ae4a0a9dad267226bbb073ecca683b9da14b0d699097ede",
+      "size_bytes": 1489
+    },
+    {
+      "path": "stdout.log",
+      "sha256": "49b32f42ee3d1a45d38eb4e158b622474b7c33f13033f101345a8e8c043d5e46",
+      "size_bytes": 13254
+    },
+    {
+      "path": "stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    }
+  ],
+  "artifact_status": "not_declared",
+  "convergence_status": "not_checked",
+  "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/phonopy",
+  "job_id": "job_f01b46a35cfb438484f919e164a77e6d",
+  "process_status": "completed",
+  "reason": "The configured executable completed the interface probe through the native job runner.",
+  "request": {
+    "arguments": [
+      "-h"
+    ],
+    "calculation_intent": null,
+    "executable": "phonopy",
+    "label": "manual-interface-smoke-phonopy",
+    "parent_job_id": null,
+    "resource_limits": {
+      "cpu_cores": 1,
+      "gpu_count": 0,
+      "memory_mb": 1024
+    },
+    "software_id": "phonopy",
+    "staged_inputs": [],
+    "stdin_target": null
+  },
+  "request_status": "accepted",
+  "scientific_validation_status": "not_checked",
+  "software_id": "phonopy",
+  "software_status": "not_checked",
+  "status": "passed",
+  "stderr_tail": "",
+  "stdout_tail": "l Crystal Approximation); pass --split-\n                        site-mixture to instead keep them as separate species-\n                        resolved atoms. Note that this is per-atom and\n                        distinct from the VASP INCAR VCA tag, which lists one\n                        weight per element row in POSCAR.\n  --sp, --save-params   Save parameters that can run phonopy in\n                        phonopy_params.yaml.\n  --split-site-mixture  [Experimental] With --site-mixture, keep overlapping\n                        atoms as separate species-resolved atoms instead of\n                        merging them into mixed-species sites.\n  --sscha SSCHA_ITERATIONS\n                        Number of iterations in SSCHA calculation\n  -t, --thermal-property\n                        Output thermal properties\n  --td, --thermal-displacements\n                        Output thermal displacements\n  --tdm, --thermal-displacement-matrix\n                        Output thermal displacement matrices\n  --tdm-cif TEMPERATURE, --thermal-displacement-matrix-cif TEMPERATURE\n                        Write cif with aniso_U for which temperature is\n                        specified\n  --temperature TEMPERATURE\n                        (Deprecated) A temperature used to generate random\n                        displacements.\n  --tmax TMAX           Maximum calculated temperature\n  --tmin TMIN           Minimum calculated temperature\n  --tolerance SYMMETRY_TOLERANCE\n                        Symmetry tolerance to search\n  --tstep TSTEP         Calculated temperature step\n  -v, --verbose         Detailed information is shown.\n  --writedm             Write dynamical matrices. This has to be used with\n                        QPOINTS setting (or --qpoints)\n  --writefc             Write FORCE_CONSTANTS\n  --writefc-format WRITEFC_FORMAT\n                        Force constants output file-format\n  --xyz-projection      Project PDOS x, y, z directions in Cartesian\n                        coordinates\n",
+  "test_level": "interface_smoke",
+  "tested_at": "2026-07-28T20:16:58.943969+00:00"
+}

@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "job_id": "job_b7660f069326437e8129e6a0833c0d3f",
+  "job_type": "native_software",
+  "runtime": "newtonx",
+  "command": [
+    "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/newton-x/26a/package/NX-NS/bin/nx_test",
+    "1"
+  ],
+  "stdin_target": null,
+  "staged_inputs": [],
+  "resource_limits": {
+    "cpu_cores": 1,
+    "memory_mb": 1024,
+    "gpu_count": 0,
+    "walltime_seconds": 7200
+  },
+  "metadata": {
+    "software_id": "newton_x",
+    "executable": "nx_test",
+    "label": "manual-interface-smoke-newton_x",
+    "parent_job_id": null,
+    "calculation_intent": "unknown",
+    "input_deck_validation": null,
+    "invocation_synopsis": "nx_test <test_id> [options]",
+    "execution_timeout_policy": {
+      "execution_class": "compute",
+      "timeout_seconds": 7200,
+      "source": "evaluation_policy",
+      "agent_controllable": false
+    },
+    "evaluation_resource_budget": {
+      "cpu_cores": 48,
+      "memory_mb": 204800,
+      "gpu_count": 0,
+      "source": "evaluation_policy",
+      "agent_controllable": false,
+      "scope": "per_task"
+    }
+  },
+  "submitted_at": "2026-07-28T20:17:32.855427+00:00",
+  "automatic_fallback": false,
+  "shell": false
+}

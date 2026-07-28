@@ -1,0 +1,25 @@
+{
+  "arguments": [
+    "-cn",
+    "interface_smoke",
+    "--cfg",
+    "job"
+  ],
+  "calculation_intent": null,
+  "executable": "nequip-train",
+  "label": "manual-interface-smoke-nequip",
+  "parent_job_id": null,
+  "resource_limits": {
+    "cpu_cores": 1,
+    "gpu_count": 0,
+    "memory_mb": 1024
+  },
+  "software_id": "nequip",
+  "staged_inputs": [
+    {
+      "source_path": "chemistry_toolbox/native_software_docs/nequip/examples/interface_smoke/interface_smoke.yaml",
+      "target_path": "interface_smoke.yaml"
+    }
+  ],
+  "stdin_target": null
+}

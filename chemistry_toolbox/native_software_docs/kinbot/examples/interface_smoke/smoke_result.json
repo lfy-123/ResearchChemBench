@@ -1,0 +1,61 @@
+{
+  "archived_files": [
+    {
+      "path": "request.json",
+      "sha256": "16f7bceba3fc75bdb36f71abd94f57cf71a7a4639108e74dd869b955402ae63e",
+      "size_bytes": 1223
+    },
+    {
+      "path": "status.json",
+      "sha256": "deee4bb13692c23ba7c2c36f214396a8da2f1cfcc4f6e354418e9921a43b8f77",
+      "size_bytes": 1908
+    },
+    {
+      "path": "collection.json",
+      "sha256": "e056e5a15a545fef442629dd7013765c7c8047b39798788393d955183fb5c7dc",
+      "size_bytes": 1784
+    },
+    {
+      "path": "stdout.log",
+      "sha256": "be8509958a599914580f81a9ab4b4951ff06951d4fee454298187464386209ca",
+      "size_bytes": 200
+    },
+    {
+      "path": "stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    }
+  ],
+  "artifact_status": "not_validated",
+  "convergence_status": "not_reached",
+  "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/kinbot",
+  "job_id": "job_40d4adc13ade41298c20d6a78c8ea434",
+  "process_status": "failed",
+  "reason": "The executable started and emitted its banner, usage, or expected missing-input diagnostic, but did not complete successfully.",
+  "request": {
+    "arguments": [
+      "--help"
+    ],
+    "calculation_intent": null,
+    "executable": "kinbot",
+    "label": "manual-interface-smoke-kinbot",
+    "parent_job_id": null,
+    "resource_limits": {
+      "cpu_cores": 1,
+      "gpu_count": 0,
+      "memory_mb": 1024
+    },
+    "software_id": "kinbot",
+    "staged_inputs": [],
+    "stdin_target": null
+  },
+  "request_status": "accepted",
+  "scientific_validation_status": "not_reached",
+  "software_id": "kinbot",
+  "software_status": "not_reached",
+  "status": "started_input_required",
+  "stderr_tail": "",
+  "stdout_tail": "\nCopyright 2018 National Technology & Engineering Solutions of Sandia,\nLLC (NTESS). Under the terms of Contract DE-NA0003525 with NTESS, \nthe U.S. Government retains certain rights in this software.\n\n",
+  "test_level": "interface_smoke",
+  "tested_at": "2026-07-28T20:16:58.943969+00:00"
+}

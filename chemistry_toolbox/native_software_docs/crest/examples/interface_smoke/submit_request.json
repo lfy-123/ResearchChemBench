@@ -1,0 +1,21 @@
+{
+  "arguments": [
+    "input.xyz",
+    "--gfn2",
+    "--T",
+    "1"
+  ],
+  "executable": "crest",
+  "resource_limits": {
+    "cpu_cores": 1,
+    "gpu_count": 0,
+    "memory_mb": 1024
+  },
+  "software_id": "crest",
+  "staged_inputs": [
+    {
+      "source_path": "chemistry_toolbox/examples/native/crest/conformer_search/input.xyz",
+      "target_path": "input.xyz"
+    }
+  ]
+}

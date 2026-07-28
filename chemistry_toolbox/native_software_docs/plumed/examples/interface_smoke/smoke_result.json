@@ -1,0 +1,62 @@
+{
+  "archived_files": [
+    {
+      "path": "request.json",
+      "sha256": "e219a2f9e35d73ba597e5df909edc684fbb4bf4bc8ba7baf573d259c93463f34",
+      "size_bytes": 1242
+    },
+    {
+      "path": "status.json",
+      "sha256": "d270a3bd73e4496627794ed665ebaf1f80ea6016703672dd12428f51ec578db9",
+      "size_bytes": 1855
+    },
+    {
+      "path": "collection.json",
+      "sha256": "b9ffaf6402bf1832d237dd9dd133060809d11684518ae9a413162c076abb85db",
+      "size_bytes": 1485
+    },
+    {
+      "path": "stdout.log",
+      "sha256": "2064f18e70f1201ceadb8f52c46938efc6c90651e983fb5d617898881b40daa8",
+      "size_bytes": 4
+    },
+    {
+      "path": "stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    }
+  ],
+  "artifact_status": "not_declared",
+  "convergence_status": "not_checked",
+  "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/plumed",
+  "job_id": "job_1f41bd18d9c94e43b5b4079c09eb05ec",
+  "process_status": "completed",
+  "reason": "The configured executable completed the interface probe through the native job runner.",
+  "request": {
+    "arguments": [
+      "info",
+      "--version"
+    ],
+    "calculation_intent": null,
+    "executable": "plumed",
+    "label": "manual-interface-smoke-plumed",
+    "parent_job_id": null,
+    "resource_limits": {
+      "cpu_cores": 1,
+      "gpu_count": 0,
+      "memory_mb": 1024
+    },
+    "software_id": "plumed",
+    "staged_inputs": [],
+    "stdin_target": null
+  },
+  "request_status": "accepted",
+  "scientific_validation_status": "not_checked",
+  "software_id": "plumed",
+  "software_status": "not_checked",
+  "status": "passed",
+  "stderr_tail": "",
+  "stdout_tail": "2.9\n",
+  "test_level": "interface_smoke",
+  "tested_at": "2026-07-28T20:16:58.943969+00:00"
+}

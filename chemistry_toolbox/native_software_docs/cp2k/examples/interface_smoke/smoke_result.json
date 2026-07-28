@@ -1,0 +1,61 @@
+{
+  "archived_files": [
+    {
+      "path": "request.json",
+      "sha256": "f61e8b7305135aeed3044ebbc3e9fa43d1ec803d2f61574a3cb22542e2b65778",
+      "size_bytes": 1232
+    },
+    {
+      "path": "status.json",
+      "sha256": "bb84afbf0f24b891c9a5556a1e6813c5441c7b12ee7b55f4a9129bab7e28d7a7",
+      "size_bytes": 1845
+    },
+    {
+      "path": "collection.json",
+      "sha256": "b3d87343aced696e177461e5ba0a5e8695b4f9890993b9bc465ed04b2249e49f",
+      "size_bytes": 1488
+    },
+    {
+      "path": "stdout.log",
+      "sha256": "c3fb64255603a9793ac105a6d9e37f825487d676192d945022d34ef6efa1ce21",
+      "size_bytes": 1474
+    },
+    {
+      "path": "stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    }
+  ],
+  "artifact_status": "not_declared",
+  "convergence_status": "not_checked",
+  "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/cp2k",
+  "job_id": "job_b14faa9eddfd446e805e89dd6ca5bec8",
+  "process_status": "completed",
+  "reason": "The configured executable completed the interface probe through the native job runner.",
+  "request": {
+    "arguments": [
+      "-version"
+    ],
+    "calculation_intent": null,
+    "executable": "cp2k",
+    "label": "manual-interface-smoke-cp2k",
+    "parent_job_id": null,
+    "resource_limits": {
+      "cpu_cores": 1,
+      "gpu_count": 0,
+      "memory_mb": 1024
+    },
+    "software_id": "cp2k",
+    "staged_inputs": [],
+    "stdin_target": null
+  },
+  "request_status": "accepted",
+  "scientific_validation_status": "not_checked",
+  "software_id": "cp2k",
+  "software_status": "not_checked",
+  "status": "passed",
+  "stderr_tail": "",
+  "stdout_tail": "\n ERROR: An input file name is required\n\n cp2k.psmp [-c|--check] [-e|--echo] [-h|--help]\n           [-i] <input_file>\n           [-mpi-mapping|--mpi-mapping] <method>\n           [-o] <output_file>\n           [-r|-run] [-s|--shell] [--xml]\n\n starts the CP2K program, see <https://www.cp2k.org/>\n\n The easiest way is cp2k.psmp <input_file>\n\n The following options can be used:\n\n  -i <input_file>      : provides an input file name, if it is the last\n                         argument, the -i flag is not needed\n  -o <output_file>     : provides an output file name [default: screen]\n\n These switches skip the simulation, unless [-r|-run] is specified:\n\n  --check, -c          : performs a syntax check of the <input_file>\n  --echo, -e           : echoes the <input_file>, and make all defaults explicit\n                         The input is also checked, but only a failure is reported\n  --help, -h           : writes this message\n  --license            : prints the CP2K license\n  --mpi-mapping        : applies a given MPI reordering to CP2K\n  --run, -r            : forces a CP2K run regardless of other specified flags\n  --shell, -s          : start interactive shell mode\n  --version, -v        : prints the CP2K version and the revision number\n  --xml                : dumps the whole CP2K input structure as a XML file\n                         xml2htm generates a HTML manual from this XML file\n  --set, -E name=value : set the initial value of a preprocessor value\n  \n",
+  "test_level": "interface_smoke",
+  "tested_at": "2026-07-28T20:16:58.943969+00:00"
+}

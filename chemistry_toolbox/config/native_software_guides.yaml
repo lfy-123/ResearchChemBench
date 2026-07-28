@@ -193,11 +193,13 @@ software:
     purpose: Train a NequIP model from a complete Agent-authored configuration.
     commands:
       nequip-train:
-        synopsis: "nequip-train config.yaml"
+        synopsis: "nequip-train -cn <config_basename_without_yaml> [Hydra overrides]"
         input_mode: arguments
         required_files: [config.yaml, referenced training/validation datasets]
         output_behavior: Writes training logs and checkpoints under paths selected in config.yaml.
-        example_arguments: ["config.yaml"]
+        example_arguments: ["-cn", "config"]
+        notes:
+          - The installed NequIP 0.19 entry point uses Hydra with the job directory as its config search path; stage config.yaml and pass -cn config rather than a positional YAML path.
 
   orca:
     purpose: Execute a complete ORCA 6.1 input deck.

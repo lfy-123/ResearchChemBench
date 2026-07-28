@@ -1,0 +1,61 @@
+{
+  "archived_files": [
+    {
+      "path": "request.json",
+      "sha256": "d30faae18c65e55dadfa7db3bb7332ba35be2d4b28ccda4d73d97db9fec842a1",
+      "size_bytes": 1355
+    },
+    {
+      "path": "status.json",
+      "sha256": "69e523976bb7d6597f8f4a4d828c899a8b1620e69e46f6695f5ca603948373d9",
+      "size_bytes": 1961
+    },
+    {
+      "path": "collection.json",
+      "sha256": "efeedd578c8180d313e99c2a6e8241d5fa069be5d2976144e02a71c250ccc55f",
+      "size_bytes": 1486
+    },
+    {
+      "path": "stdout.log",
+      "sha256": "d81a74069d67775aa590e3f77944765bc9eb20064fe08d774f4862f429a2679b",
+      "size_bytes": 26
+    },
+    {
+      "path": "stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    }
+  ],
+  "artifact_status": "not_declared",
+  "convergence_status": "not_checked",
+  "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/vina",
+  "job_id": "job_f92e462588554513b58910728e44bea0",
+  "process_status": "completed",
+  "reason": "The configured executable completed the interface probe through the native job runner.",
+  "request": {
+    "arguments": [
+      "--version"
+    ],
+    "calculation_intent": null,
+    "executable": "vina",
+    "label": "manual-interface-smoke-vina",
+    "parent_job_id": null,
+    "resource_limits": {
+      "cpu_cores": 1,
+      "gpu_count": 0,
+      "memory_mb": 1024
+    },
+    "software_id": "vina",
+    "staged_inputs": [],
+    "stdin_target": null
+  },
+  "request_status": "accepted",
+  "scientific_validation_status": "not_checked",
+  "software_id": "vina",
+  "software_status": "not_checked",
+  "status": "passed",
+  "stderr_tail": "",
+  "stdout_tail": "AutoDock Vina f458505-mod\n",
+  "test_level": "interface_smoke",
+  "tested_at": "2026-07-28T20:16:58.943969+00:00"
+}

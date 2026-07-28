@@ -1,0 +1,34 @@
+
+ ERROR: An input file name is required
+
+ cp2k.psmp [-c|--check] [-e|--echo] [-h|--help]
+           [-i] <input_file>
+           [-mpi-mapping|--mpi-mapping] <method>
+           [-o] <output_file>
+           [-r|-run] [-s|--shell] [--xml]
+
+ starts the CP2K program, see <https://www.cp2k.org/>
+
+ The easiest way is cp2k.psmp <input_file>
+
+ The following options can be used:
+
+  -i <input_file>      : provides an input file name, if it is the last
+                         argument, the -i flag is not needed
+  -o <output_file>     : provides an output file name [default: screen]
+
+ These switches skip the simulation, unless [-r|-run] is specified:
+
+  --check, -c          : performs a syntax check of the <input_file>
+  --echo, -e           : echoes the <input_file>, and make all defaults explicit
+                         The input is also checked, but only a failure is reported
+  --help, -h           : writes this message
+  --license            : prints the CP2K license
+  --mpi-mapping        : applies a given MPI reordering to CP2K
+  --run, -r            : forces a CP2K run regardless of other specified flags
+  --shell, -s          : start interactive shell mode
+  --version, -v        : prints the CP2K version and the revision number
+  --xml                : dumps the whole CP2K input structure as a XML file
+                         xml2htm generates a HTML manual from this XML file
+  --set, -E name=value : set the initial value of a preprocessor value
+  

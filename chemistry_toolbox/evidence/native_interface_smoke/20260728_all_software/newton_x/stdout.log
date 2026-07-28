@@ -1,0 +1,46 @@
+Unrecognized option: 1
+
+Usage:
+  nx_test [-p prog_list [-t test_list]][-m path_to_executable] [-d dir] [--make_env]
+
+Options:
+  -h, --help      Print this help.
+  -p, --prog      Comma-separated list of interfaces for which
+                   to run the tests.  If left empty, all interfaces
+                   present in $NXHOME/examples/ will be tested.
+  -t, --tests     List of tests to run for each interface. The
+                   tests must be comma-separated, and the tests 
+                   for different programs are sperated by '|'.
+                   For instance, to run the test 1 for columbus
+                   interface and 1 and 2 for turbomole interface,
+                   the following line commands must be used: 
+                   -p turbomole,columbus -t "01|01,02".
+                   This option can be used ONLY WHEN a list 
+                   of programs is specified.
+  -m, --mdexe     Full path to the program used for running 
+                   trajectories.
+                   Default: $NXHOME/bin/md
+  -d, --dir       Directory where the tests will be run.
+                   Default: "./tests/"
+  --make_env      Indicate if the this program is run via 
+                   "make check".
+
+--------------- Examples ---------------
+
+  1) Run all tests:
+
+       nx_test
+
+  2) Run all tests for interface COLUMBUS only:
+
+       nx_test -p columbus
+
+  3) Run tests 01, 02 and 03 for interface COLUMBUS:
+
+       nx_test -p columbus -t "1,2,3"
+
+  4) Run tests 01, 02 and 03 for interface COLUMBUS, and
+     01 and 04 for TURBOMOLE:
+
+       nx_test -p columbus,turbomole -t "1,2,3|1,4"
+

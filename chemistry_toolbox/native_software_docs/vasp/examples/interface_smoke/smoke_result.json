@@ -1,0 +1,42 @@
+{
+  "artifact_status": "valid",
+  "convergence_status": "converged",
+  "evidence_path": "chemistry_toolbox/evidence/native_smoke/20260728_reliability_fix_v3/vasp_ground_state",
+  "job_id": "job_7ce46a8d25a84e248fc27224849b97e9",
+  "process_status": "completed",
+  "reason": "A self-contained scientific smoke completed with normal software termination, task-specific convergence, and valid artifacts.",
+  "request": {
+    "arguments": [],
+    "executable": "vasp_std",
+    "resource_limits": {
+      "cpu_cores": 1,
+      "gpu_count": 0,
+      "memory_mb": 2048
+    },
+    "software_id": "vasp",
+    "staged_inputs": [
+      {
+        "source_path": "chemistry_toolbox/examples/native/vasp/ground_state/INCAR",
+        "target_path": "INCAR"
+      },
+      {
+        "source_path": "chemistry_toolbox/examples/native/vasp/ground_state/POSCAR",
+        "target_path": "POSCAR"
+      },
+      {
+        "source_path": "chemistry_toolbox/examples/native/vasp/ground_state/KPOINTS",
+        "target_path": "KPOINTS"
+      },
+      {
+        "source_path": "<licensed-si-potcar-workspace-path>",
+        "target_path": "POTCAR"
+      }
+    ]
+  },
+  "scientific_validation_status": "mechanically_valid",
+  "software_id": "vasp",
+  "software_status": "normal_termination",
+  "status": "passed",
+  "test_level": "scientific_smoke",
+  "tested_at": "2026-07-28T20:16:58.943969+00:00"
+}

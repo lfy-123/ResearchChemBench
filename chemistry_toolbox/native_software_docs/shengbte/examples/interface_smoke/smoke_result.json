@@ -1,0 +1,61 @@
+{
+  "archived_files": [
+    {
+      "path": "request.json",
+      "sha256": "d09073c3f5307fe9a3eed131fca9da9b9788f4ced937c89a046bcbc323f8a8c1",
+      "size_bytes": 1234
+    },
+    {
+      "path": "status.json",
+      "sha256": "5175fe6be777523a23dcc53bbc91e946d41d36311ed560b41c79c1ca9f24841f",
+      "size_bytes": 1915
+    },
+    {
+      "path": "collection.json",
+      "sha256": "c9154dbfa9e7a485deae2729e949804ad575ebf990e520ba7bdad3c11efdb829",
+      "size_bytes": 1509
+    },
+    {
+      "path": "stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "stderr.log",
+      "sha256": "b1110a1e5b46f5d769f223d3bd23a2ce46848cdf25a7e9724f74a65553f23ebf",
+      "size_bytes": 410
+    }
+  ],
+  "artifact_status": "not_validated",
+  "convergence_status": "not_reached",
+  "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/shengbte",
+  "job_id": "job_fa806262252f4779b5985b1606dd11f8",
+  "process_status": "failed",
+  "reason": "The executable started and emitted its banner, usage, or expected missing-input diagnostic, but did not complete successfully.",
+  "request": {
+    "arguments": [
+      "--help"
+    ],
+    "calculation_intent": null,
+    "executable": "ShengBTE",
+    "label": "manual-interface-smoke-shengbte",
+    "parent_job_id": null,
+    "resource_limits": {
+      "cpu_cores": 1,
+      "gpu_count": 0,
+      "memory_mb": 1024
+    },
+    "software_id": "shengbte",
+    "staged_inputs": [],
+    "stdin_target": null
+  },
+  "request_status": "accepted",
+  "scientific_validation_status": "not_reached",
+  "software_id": "shengbte",
+  "software_status": "not_reached",
+  "status": "started_input_required",
+  "stderr_tail": "At line 114 of file config.f90 (unit = 1)\nFortran runtime error: Cannot open file 'CONTROL': No such file or directory\n\nError termination. Backtrace:\n#0  0x7f38c330dd2b in already_open\n\tat ../../../libgfortran/io/open.c:742\n#1  0x5630998684e4 in ???\n#2  0x56309988f116 in ???\n#3  0x56309986451e in ???\n#4  0x7f38c2bbad8f in ???\n#5  0x7f38c2bbae3f in ???\n#6  0x563099864554 in ???\n#7  0xffffffffffffffff in ???\n",
+  "stdout_tail": "",
+  "test_level": "interface_smoke",
+  "tested_at": "2026-07-28T20:16:58.943969+00:00"
+}

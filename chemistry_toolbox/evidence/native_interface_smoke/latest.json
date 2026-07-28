@@ -1,0 +1,3248 @@
+{
+  "counts": {
+    "failed": 3,
+    "passed": 40,
+    "skipped": 2,
+    "started_input_required": 11
+  },
+  "generated_at": "2026-07-28T20:16:58.943969+00:00",
+  "runner": "chemistry_toolbox/scripts/run_native_interface_smokes.py",
+  "schema_version": 1,
+  "scope": "56 Catalog software entries; scientific smoke where self-contained evidence exists, interface smoke otherwise",
+  "software": [
+    {
+      "archived_files": [
+        {
+          "path": "request.json",
+          "sha256": "7464a33c0b1699a1e137d15d939e1af9e78a2b3c075323bcc3cb07ecd6745e04",
+          "size_bytes": 1225
+        },
+        {
+          "path": "status.json",
+          "sha256": "09b3e207fda8da3f13e831eaab99ea28193e72607aa04902f5aaea557c56a0fa",
+          "size_bytes": 1832
+        },
+        {
+          "path": "collection.json",
+          "sha256": "975c20cede1009030bb5743559b4b5593c895f601db6292f4608bdabe65a1bae",
+          "size_bytes": 1485
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "83919a30549dd52a498aa34f9f4a24ae13b162538352ee9ed53ff92a2b77405b",
+          "size_bytes": 7
+        },
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        }
+      ],
+      "artifact_status": "not_declared",
+      "convergence_status": "not_checked",
+      "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/abinit",
+      "job_id": "job_8058396ddc8d41e8a179daa7cffdcfd9",
+      "process_status": "completed",
+      "reason": "The configured executable completed the interface probe through the native job runner.",
+      "request": {
+        "arguments": [
+          "--version"
+        ],
+        "calculation_intent": null,
+        "executable": "abinit",
+        "label": "manual-interface-smoke-abinit",
+        "parent_job_id": null,
+        "resource_limits": {
+          "cpu_cores": 1,
+          "gpu_count": 0,
+          "memory_mb": 1024
+        },
+        "software_id": "abinit",
+        "staged_inputs": [],
+        "stdin_target": null
+      },
+      "request_status": "accepted",
+      "scientific_validation_status": "not_checked",
+      "software_id": "abinit",
+      "software_status": "not_checked",
+      "status": "passed",
+      "stderr_tail": "",
+      "stdout_tail": "10.0.3\n",
+      "test_level": "interface_smoke",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    },
+    {
+      "archived_files": [
+        {
+          "path": "request.json",
+          "sha256": "e4c9c0902c2f7b2b2348f561eaf3d784e7209b2a4dc3bfcfadeb030ed4688931",
+          "size_bytes": 1280
+        },
+        {
+          "path": "status.json",
+          "sha256": "acc0d126d7945589ffd013a116e1c8e8537bab3fd077ba410c894e9efcc6d9f3",
+          "size_bytes": 1885
+        },
+        {
+          "path": "collection.json",
+          "sha256": "5f7f98a661f7c25655dc874eb5cb4ef96df4d5af846abab06f294bee402abb05",
+          "size_bytes": 1488
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "68ed04c42c4d798327e30ab9ac2e4611764397c5a8f28c286f04022caf6121bf",
+          "size_bytes": 20
+        },
+        {
+          "path": "stderr.log",
+          "sha256": "e396b3fef0e009aa0ae01f0841d5aa5c1165d1fa00a01c4adae552978b7fefb2",
+          "size_bytes": 431
+        }
+      ],
+      "artifact_status": "not_declared",
+      "convergence_status": "not_checked",
+      "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/aiida",
+      "job_id": "job_02bb11586c4246d98fa79ea46ec39602",
+      "process_status": "completed",
+      "reason": "The configured executable completed the interface probe through the native job runner.",
+      "request": {
+        "arguments": [
+          "--version"
+        ],
+        "calculation_intent": null,
+        "executable": "verdi",
+        "label": "manual-interface-smoke-aiida",
+        "parent_job_id": null,
+        "resource_limits": {
+          "cpu_cores": 1,
+          "gpu_count": 0,
+          "memory_mb": 1024
+        },
+        "software_id": "aiida",
+        "staged_inputs": [],
+        "stdin_target": null
+      },
+      "request_status": "accepted",
+      "scientific_validation_status": "not_checked",
+      "software_id": "aiida",
+      "software_status": "not_checked",
+      "status": "passed",
+      "stderr_tail": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/workflows/lib/python3.11/site-packages/aiida/manage/configuration/settings.py:110: UserWarning: Creating AiiDA configuration folder `/tmp/researchchem-all-native-smoke-final3-20260728-923240/outputs/execution_jobs/job_02bb11586c4246d98fa79ea46ec39602/.home/.aiida`.\n  warnings.warn(f'Creating AiiDA configuration folder `{path}`.')\n",
+      "stdout_tail": "AiiDA version 2.8.0\n",
+      "test_level": "interface_smoke",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    },
+    {
+      "archived_files": [
+        {
+          "path": "request.json",
+          "sha256": "99f46fbac9b74df8aabd91965c920acb59f864f174cf6b28e1f18edaef843aa3",
+          "size_bytes": 1314
+        },
+        {
+          "path": "status.json",
+          "sha256": "be2a129707a520c02222e480a2dd9c9f03ef31474fe59d0c7fea9b47fb640363",
+          "size_bytes": 1996
+        },
+        {
+          "path": "collection.json",
+          "sha256": "8d730d35883276e28bed3c3c47b990875fc53aebfa3591ae3439bb3ddbde3b9b",
+          "size_bytes": 1778
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        },
+        {
+          "path": "stderr.log",
+          "sha256": "e2b9a4e17c1d29ce6c5b48c10b036a65265a0ef8b043cce7e9747e836e9fc546",
+          "size_bytes": 34
+        }
+      ],
+      "artifact_status": "not_validated",
+      "convergence_status": "not_reached",
+      "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/amber_pmemd",
+      "job_id": "job_a4946ef29afa4daeb831d75c7db212df",
+      "process_status": "failed",
+      "reason": "The executable started and emitted its banner, usage, or expected missing-input diagnostic, but did not complete successfully.",
+      "request": {
+        "arguments": [
+          "-h"
+        ],
+        "calculation_intent": null,
+        "executable": "pmemd",
+        "label": "manual-interface-smoke-amber_pmemd",
+        "parent_job_id": null,
+        "resource_limits": {
+          "cpu_cores": 1,
+          "gpu_count": 0,
+          "memory_mb": 1024
+        },
+        "software_id": "amber_pmemd",
+        "staged_inputs": [],
+        "stdin_target": null
+      },
+      "request_status": "accepted",
+      "scientific_validation_status": "not_reached",
+      "software_id": "amber_pmemd",
+      "software_status": "not_reached",
+      "status": "started_input_required",
+      "stderr_tail": "STOP PMEMD Terminated Abnormally!\n",
+      "stdout_tail": "",
+      "test_level": "interface_smoke",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    },
+    {
+      "archived_files": [
+        {
+          "path": "request.json",
+          "sha256": "279e9b0a3d66f51af73d68466a533ac70adb0efa8ce6c5243509fe20ec45a2a1",
+          "size_bytes": 1238
+        },
+        {
+          "path": "status.json",
+          "sha256": "2b811b21de58d6e683a810a09682c47174cad5d69f5ad34cfe68e8a940b3380f",
+          "size_bytes": 1932
+        },
+        {
+          "path": "collection.json",
+          "sha256": "c074fb6fcc57365ad924f5181ecc634a1cf226434d1933244f460e694c15353f",
+          "size_bytes": 1517
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        },
+        {
+          "path": "stderr.log",
+          "sha256": "590cedd2009e6ae9b7308d834941ce8d995ee23b5223510ca71966ec0481aad0",
+          "size_bytes": 55
+        }
+      ],
+      "artifact_status": "not_validated",
+      "convergence_status": "not_reached",
+      "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/arkane",
+      "job_id": "job_e7badf9952324fa784bbdcd162c6a073",
+      "process_status": "cancelled",
+      "reason": "The command did not reach a terminal state before the interface-smoke deadline and was cancelled.",
+      "request": {
+        "arguments": [
+          "--help"
+        ],
+        "calculation_intent": null,
+        "executable": "Arkane.py",
+        "label": "manual-interface-smoke-arkane",
+        "parent_job_id": null,
+        "resource_limits": {
+          "cpu_cores": 1,
+          "gpu_count": 0,
+          "memory_mb": 1024
+        },
+        "software_id": "arkane",
+        "staged_inputs": [],
+        "stdin_target": null
+      },
+      "request_status": "accepted",
+      "scientific_validation_status": "not_reached",
+      "software_id": "arkane",
+      "software_status": "not_reached",
+      "status": "failed",
+      "stderr_tail": "INFO:matplotlib.font_manager:generated new fontManager\n",
+      "stdout_tail": "",
+      "test_level": "interface_smoke",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    },
+    {
+      "archived_files": [
+        {
+          "path": "request.json",
+          "sha256": "0b8aef4639191661a6a02465a3366c727e07124e6616673a4cc9ed85e0d8e096",
+          "size_bytes": 1292
+        },
+        {
+          "path": "status.json",
+          "sha256": "6083f6e09849d977603831b97a04312d81f3423a77e89ad803c5b4cf54b3d7f7",
+          "size_bytes": 1897
+        },
+        {
+          "path": "collection.json",
+          "sha256": "4111616e49cb0b6418af1dcc6a6ac877b872bf1a9e2459fe95f7641605f92687",
+          "size_bytes": 1487
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "abeb2b5a358e8f72f5e1095faa43f8d7c3598d37694c0520fead8e0c13de7120",
+          "size_bytes": 324
+        },
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        }
+      ],
+      "artifact_status": "not_declared",
+      "convergence_status": "not_checked",
+      "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/automekin",
+      "job_id": "job_df8c18c1fdac442b86d4faea6e7cb8a2",
+      "process_status": "completed",
+      "reason": "The executable started but the selected route reported a missing scientific input.",
+      "request": {
+        "arguments": [
+          "--version"
+        ],
+        "calculation_intent": null,
+        "executable": "amk.sh",
+        "label": "manual-interface-smoke-automekin",
+        "parent_job_id": null,
+        "resource_limits": {
+          "cpu_cores": 1,
+          "gpu_count": 0,
+          "memory_mb": 1024
+        },
+        "software_id": "automekin",
+        "staged_inputs": [],
+        "stdin_target": null
+      },
+      "request_status": "accepted",
+      "scientific_validation_status": "not_checked",
+      "software_id": "automekin",
+      "software_status": "not_checked",
+      "status": "started_input_required",
+      "stderr_tail": "",
+      "stdout_tail": "===================================\n                                   \n           AutoMeKin2021           \n                                   \n        revision number 1142   \n                                   \n===================================\nThe file --version does not exist\n\nCleaning up tmp files and exiting amk.sh\n",
+      "test_level": "interface_smoke",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    },
+    {
+      "archived_files": [
+        {
+          "path": "request.json",
+          "sha256": "5fd577986bac3be0cf4e016d98937e0f69e413f023eee1d88286bc48e8b5777c",
+          "size_bytes": 1257
+        },
+        {
+          "path": "status.json",
+          "sha256": "1b5f696376cc51819f7a9692e3f1b32e8f84aa6649f1c4401426a28e15adbae9",
+          "size_bytes": 1863
+        },
+        {
+          "path": "collection.json",
+          "sha256": "27331f36feb16d0a827ff6fe5051410d580be54045ee1a33c233b71baef2bc57",
+          "size_bytes": 1758
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "34cc7f975300e8298c17f2e820b94cc21b10586fca0cfba94228e9ebd304d710",
+          "size_bytes": 1439
+        },
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        }
+      ],
+      "artifact_status": "not_declared",
+      "convergence_status": "not_checked",
+      "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/censo",
+      "job_id": "job_a399ffab320144c2815da6edbc96f3fa",
+      "process_status": "completed",
+      "reason": "The configured executable completed the interface probe through the native job runner.",
+      "request": {
+        "arguments": [
+          "--version"
+        ],
+        "calculation_intent": null,
+        "executable": "censo",
+        "label": "manual-interface-smoke-censo",
+        "parent_job_id": null,
+        "resource_limits": {
+          "cpu_cores": 1,
+          "gpu_count": 0,
+          "memory_mb": 1024
+        },
+        "software_id": "censo",
+        "staged_inputs": [],
+        "stdin_target": null
+      },
+      "request_status": "accepted",
+      "scientific_validation_status": "not_checked",
+      "software_id": "censo",
+      "software_status": "not_checked",
+      "status": "passed",
+      "stderr_tail": "",
+      "stdout_tail": "\n         ______________________________________________________________\n        |                                                              |\n        |                                                              |\n        |                   CENSO - Commandline ENSO                   |\n        |                           v 2.1.2                            |\n        |    energetic sorting of CREST Conformer Rotamer Ensembles    |\n        |                    University of Bonn, MCTC                  |\n        |                           Oct 2024                           |\n        |                 based on ENSO version 2.0.1                  |\n        |             L. M. Seidler, F. Bohle and S. Grimme            |\n        |                                                              |\n        |______________________________________________________________|\n\n        Please cite:\n        (TBA)\n        S. Grimme, F. Bohle, A. Hansen, P. Pracht, S. Spicher, and M. Stahn\n        J. Phys. Chem. A 2021, 125, 19, 4039-4054.\n        DOI: https://doi.org/10.1021/acs.jpca.1c00971\n\n        This program is distributed in the hope that it will be useful,\n        but WITHOUT ANY WARRANTY; without even the implied warranty of\n        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\nCALL: /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/reaction/bin/censo --version\n2.1.2\n",
+      "test_level": "interface_smoke",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    },
+    {
+      "archived_files": [
+        {
+          "path": "request.json",
+          "sha256": "21fffa2b35e86fc0fbe93561e20bc03714d4bc7d7868857975cdfa89558c2e9e",
+          "size_bytes": 1253
+        },
+        {
+          "path": "status.json",
+          "sha256": "935bee132160db34b317e5870a0bb1f02c31a4e0d5b97c59688459e675a9c0c4",
+          "size_bytes": 1855
+        },
+        {
+          "path": "collection.json",
+          "sha256": "0f0b3a8fe99daefaeffaa7c3920bbc2a2ac4f8e288133075a9b101d0c4fc3644",
+          "size_bytes": 1487
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "bb1e245435bd3265fbf36519e1f2ce33ec8d50e4a103e3a3a4825e024aefe775",
+          "size_bytes": 477
+        },
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        }
+      ],
+      "artifact_status": "not_declared",
+      "convergence_status": "not_checked",
+      "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/charmm",
+      "job_id": "job_d4a3df1b837941249b26d1cc1f55b5d9",
+      "process_status": "completed",
+      "reason": "The configured executable completed the interface probe through the native job runner.",
+      "request": {
+        "arguments": [
+          "-h"
+        ],
+        "calculation_intent": null,
+        "executable": "charmm",
+        "label": "manual-interface-smoke-charmm",
+        "parent_job_id": null,
+        "resource_limits": {
+          "cpu_cores": 1,
+          "gpu_count": 0,
+          "memory_mb": 1024
+        },
+        "software_id": "charmm",
+        "staged_inputs": [],
+        "stdin_target": null
+      },
+      "request_status": "accepted",
+      "scientific_validation_status": "not_checked",
+      "software_id": "charmm",
+      "software_status": "not_checked",
+      "status": "passed",
+      "stderr_tail": "",
+      "stdout_tail": "CHARMM>\nCHARMM> available command line arguments:\nCHARMM> <varname>=<value>  or  <varname>:<value>  \nCHARMM>                  sets @ variable in charmm to value\nCHARMM> -h, -help    This text.\nCHARMM> -input, -i f get input script from file f.\nCHARMM> -output,-o f put output to file f.\nCHARMM> -prevclcg    Compatibility mode with previous CLCG.\nCHARMM> -prevrandom  Compatibility mode with previous RANDOM.\nCHARMM> -chsize N    Allocate arrays to hold up to N atoms.\nCHARMM>\n",
+      "test_level": "interface_smoke",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    },
+    {
+      "archived_files": [
+        {
+          "path": "request.json",
+          "sha256": "f61e8b7305135aeed3044ebbc3e9fa43d1ec803d2f61574a3cb22542e2b65778",
+          "size_bytes": 1232
+        },
+        {
+          "path": "status.json",
+          "sha256": "bb84afbf0f24b891c9a5556a1e6813c5441c7b12ee7b55f4a9129bab7e28d7a7",
+          "size_bytes": 1845
+        },
+        {
+          "path": "collection.json",
+          "sha256": "b3d87343aced696e177461e5ba0a5e8695b4f9890993b9bc465ed04b2249e49f",
+          "size_bytes": 1488
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "c3fb64255603a9793ac105a6d9e37f825487d676192d945022d34ef6efa1ce21",
+          "size_bytes": 1474
+        },
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        }
+      ],
+      "artifact_status": "not_declared",
+      "convergence_status": "not_checked",
+      "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/cp2k",
+      "job_id": "job_b14faa9eddfd446e805e89dd6ca5bec8",
+      "process_status": "completed",
+      "reason": "The configured executable completed the interface probe through the native job runner.",
+      "request": {
+        "arguments": [
+          "-version"
+        ],
+        "calculation_intent": null,
+        "executable": "cp2k",
+        "label": "manual-interface-smoke-cp2k",
+        "parent_job_id": null,
+        "resource_limits": {
+          "cpu_cores": 1,
+          "gpu_count": 0,
+          "memory_mb": 1024
+        },
+        "software_id": "cp2k",
+        "staged_inputs": [],
+        "stdin_target": null
+      },
+      "request_status": "accepted",
+      "scientific_validation_status": "not_checked",
+      "software_id": "cp2k",
+      "software_status": "not_checked",
+      "status": "passed",
+      "stderr_tail": "",
+      "stdout_tail": "\n ERROR: An input file name is required\n\n cp2k.psmp [-c|--check] [-e|--echo] [-h|--help]\n           [-i] <input_file>\n           [-mpi-mapping|--mpi-mapping] <method>\n           [-o] <output_file>\n           [-r|-run] [-s|--shell] [--xml]\n\n starts the CP2K program, see <https://www.cp2k.org/>\n\n The easiest way is cp2k.psmp <input_file>\n\n The following options can be used:\n\n  -i <input_file>      : provides an input file name, if it is the last\n                         argument, the -i flag is not needed\n  -o <output_file>     : provides an output file name [default: screen]\n\n These switches skip the simulation, unless [-r|-run] is specified:\n\n  --check, -c          : performs a syntax check of the <input_file>\n  --echo, -e           : echoes the <input_file>, and make all defaults explicit\n                         The input is also checked, but only a failure is reported\n  --help, -h           : writes this message\n  --license            : prints the CP2K license\n  --mpi-mapping        : applies a given MPI reordering to CP2K\n  --run, -r            : forces a CP2K run regardless of other specified flags\n  --shell, -s          : start interactive shell mode\n  --version, -v        : prints the CP2K version and the revision number\n  --xml                : dumps the whole CP2K input structure as a XML file\n                         xml2htm generates a HTML manual from this XML file\n  --set, -E name=value : set the initial value of a preprocessor value\n  \n",
+      "test_level": "interface_smoke",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    },
+    {
+      "artifact_status": "valid",
+      "convergence_status": "converged",
+      "evidence_path": "chemistry_toolbox/evidence/native_smoke/20260728_reliability_fix_v3/crest_conformer_search",
+      "job_id": "job_2ff9d0b7304a4ae192caaf8cd5b5f019",
+      "process_status": "completed",
+      "reason": "A self-contained scientific smoke completed with normal software termination, task-specific convergence, and valid artifacts.",
+      "request": {
+        "arguments": [
+          "input.xyz",
+          "--gfn2",
+          "--T",
+          "1"
+        ],
+        "executable": "crest",
+        "resource_limits": {
+          "cpu_cores": 1,
+          "gpu_count": 0,
+          "memory_mb": 1024
+        },
+        "software_id": "crest",
+        "staged_inputs": [
+          {
+            "source_path": "chemistry_toolbox/examples/native/crest/conformer_search/input.xyz",
+            "target_path": "input.xyz"
+          }
+        ]
+      },
+      "scientific_validation_status": "mechanically_valid",
+      "software_id": "crest",
+      "software_status": "normal_termination",
+      "status": "passed",
+      "test_level": "scientific_smoke",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    },
+    {
+      "archived_files": [
+        {
+          "path": "request.json",
+          "sha256": "0b009504b211f71efb64250a62399f3051c90107210e87b505454f1b96428a1c",
+          "size_bytes": 1251
+        },
+        {
+          "path": "status.json",
+          "sha256": "cdb1e7a5475faea7340f1f4c802e04869bb125d8f041f9a587eba161c006a8f4",
+          "size_bytes": 1853
+        },
+        {
+          "path": "collection.json",
+          "sha256": "cc97d15d5248a653bd6c4a7ba1535146a8f87e1bbecd6d77bf14e300c19b51c7",
+          "size_bytes": 1488
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "e22ec9bb8ac4aaddf9ec184ce392f8675513f5bc8c5e6585508aa7eaa727074d",
+          "size_bytes": 1565
+        },
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        }
+      ],
+      "artifact_status": "not_declared",
+      "convergence_status": "not_checked",
+      "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/critic2",
+      "job_id": "job_f8679c457e6546b8aaa1d09c1666f81a",
+      "process_status": "completed",
+      "reason": "The configured executable completed the interface probe through the native job runner.",
+      "request": {
+        "arguments": [
+          "--version"
+        ],
+        "calculation_intent": null,
+        "executable": "critic2",
+        "label": "manual-interface-smoke-critic2",
+        "parent_job_id": null,
+        "resource_limits": {
+          "cpu_cores": 1,
+          "gpu_count": 0,
+          "memory_mb": 1024
+        },
+        "software_id": "critic2",
+        "staged_inputs": [],
+        "stdin_target": null
+      },
+      "request_status": "accepted",
+      "scientific_validation_status": "not_checked",
+      "software_id": "critic2",
+      "software_status": "not_checked",
+      "status": "passed",
+      "stderr_tail": "",
+      "stdout_tail": "                  _   _     _          ___     \n                 (_) | |   (_)        |__ \\    \n     ___   _ __   _  | |_   _    ___     ) |   \n    / __| | '__| | | | __| | |  / __|   / /    \n   | (__  | |    | | | |_  | | | (__   / /_    \n    \\___| |_|    |_|  \\__| |_|  \\___| |____|   \n\n* CRITIC2: analysis of real-space scalar fields in solids and molecules.\n  (c) 1996-2019 A. Otero-de-la-Roza, A. Martin-Pendas, V. Lua~na\n  Distributed under GNU GPL v.3 (see COPYING for details)\n  Bugs, requests, and rants: aoterodelaroza@gmail.com \n  Website: https://aoterodelaroza.github.io/critic2/\n  If you find this software useful, please cite:\n  A. Otero-de-la-Roza et al., Comput. Phys. Commun. 185 (2014) 1007-1018. (10.1016/j.cpc.2013.10.026)\n  A. Otero-de-la-Roza et al., Comput. Phys. Commun. 180 (2009) 157-166. (10.1016/j.cpc.2008.07.018)\n\n+ critic2 (development), version 1.2.1081\n         host: Linux-5.15.0-119-generic\n         date: Sat 18 Jul 2026 20:30:21\n compiled dat: /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/critic2/install-conda/share/critic2\n      datadir: /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/critic2/install-conda/bin/../share/critic2\n...was found?: T\n       spglib: 2.7.0\n     features: LAPACK(internal)\n       openmp: yes (1 max threads)\n\nCRITIC2--2026/7/28, 20:17:17.914\n\ncritic2:1> \nCRITIC2 ended successfully (0 WARNINGS, 0 COMMENTS)\n\nElapsed wall time: 0s\nElapsed CPU time: 0s\nCRITIC2--2026/7/28, 20:17:17.914\n",
+      "test_level": "interface_smoke",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    },
+    {
+      "archived_files": [
+        {
+          "path": "request.json",
+          "sha256": "3230b1783f4babaf335ed8d7223a89cd56dfff2dc63effa1437d29b8d301fee2",
+          "size_bytes": 1281
+        },
+        {
+          "path": "status.json",
+          "sha256": "9108eda9cd6ab528d273d710a5720c45131fc86a532820233005288c591ba0ca",
+          "size_bytes": 1889
+        },
+        {
+          "path": "collection.json",
+          "sha256": "c395bc3763f07c40172f06f5d0f46d7477ad24330a54c599b612f96fa82909f9",
+          "size_bytes": 1486
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "6b7025e361599c050278c9cbbb8e6fb61f4930d8e949cb98b227a86cd1daf292",
+          "size_bytes": 20
+        },
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        }
+      ],
+      "artifact_status": "not_declared",
+      "convergence_status": "not_checked",
+      "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/deepmd",
+      "job_id": "job_abaf9b3abbed4fec9787a93c4d2a92bd",
+      "process_status": "completed",
+      "reason": "The configured executable completed the interface probe through the native job runner.",
+      "request": {
+        "arguments": [
+          "--version"
+        ],
+        "calculation_intent": null,
+        "executable": "dp",
+        "label": "manual-interface-smoke-deepmd",
+        "parent_job_id": null,
+        "resource_limits": {
+          "cpu_cores": 1,
+          "gpu_count": 0,
+          "memory_mb": 1024
+        },
+        "software_id": "deepmd",
+        "staged_inputs": [],
+        "stdin_target": null
+      },
+      "request_status": "accepted",
+      "scientific_validation_status": "not_checked",
+      "software_id": "deepmd",
+      "software_status": "not_checked",
+      "status": "passed",
+      "stderr_tail": "",
+      "stdout_tail": "DeePMD-kit v3.2.0b0\n",
+      "test_level": "interface_smoke",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    },
+    {
+      "archived_files": [
+        {
+          "path": "request.json",
+          "sha256": "96d432aef0284ae974285fd9a14bf9abc81ecf260711d8bc62b42074ffecdc4b",
+          "size_bytes": 1220
+        },
+        {
+          "path": "status.json",
+          "sha256": "073ac48cbfabc433b991912126eafbae30bdc178b82c594847d44448338c079a",
+          "size_bytes": 1899
+        },
+        {
+          "path": "collection.json",
+          "sha256": "7d12fbd4243be68df3d3230e912336fa749ecc7da0e0979c4245c23a19ac81f7",
+          "size_bytes": 1510
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "9284c40b89284c21483106f03ca02a83d372590baf9eac4171ca978f0d21ca3b",
+          "size_bytes": 867
+        },
+        {
+          "path": "stderr.log",
+          "sha256": "8fc1f66adcb202cfd5d36b4838b16157c0da2ae38e06ee37d904a64a44d0253e",
+          "size_bytes": 12
+        }
+      ],
+      "artifact_status": "not_validated",
+      "convergence_status": "not_reached",
+      "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/dftbplus",
+      "job_id": "job_c0566ebaea4644b985b859154fda714e",
+      "process_status": "failed",
+      "reason": "The executable started and emitted its banner, usage, or expected missing-input diagnostic, but did not complete successfully.",
+      "request": {
+        "arguments": [
+          "--version"
+        ],
+        "calculation_intent": null,
+        "executable": "dftb+",
+        "label": "manual-interface-smoke-dftbplus",
+        "parent_job_id": null,
+        "resource_limits": {
+          "cpu_cores": 1,
+          "gpu_count": 0,
+          "memory_mb": 1024
+        },
+        "software_id": "dftbplus",
+        "staged_inputs": [],
+        "stdin_target": null
+      },
+      "request_status": "accepted",
+      "scientific_validation_status": "not_reached",
+      "software_id": "dftbplus",
+      "software_status": "not_reached",
+      "status": "started_input_required",
+      "stderr_tail": "ERROR STOP \n",
+      "stdout_tail": "|===============================================================================\n|\n|  DFTB+ development version (commit: a23bfb2)\n|\n|  Copyright (C) 2006 - 2025  DFTB+ developers group\n|\n|===============================================================================\n|\n|  When publishing results obtained with DFTB+, please cite the following\n|  reference:\n|\n|    Recent Developments in DFTB+, a Software Package for Efficient Atomistic\n|    Quantum Mechanical Simulations, J. Phys. Chem. A 129, 5373\u22125390 (2025).\n|    [https://doi.org/10.1021/acs.jpca.5c01146]\n|\n|  You should also cite additional publications crediting the parametrization\n|  data you use. Please consult the documentation of the SK-files for the\n|  references.\n|\n|===============================================================================\n\nERROR!\n-> No input file 'dftb_in.hsd' not found.\n",
+      "test_level": "interface_smoke",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    },
+    {
+      "reason": "MATLAB host and valid license are unavailable.",
+      "software_id": "easyspin",
+      "status": "skipped",
+      "test_level": "not_run_placeholder",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    },
+    {
+      "archived_files": [
+        {
+          "path": "request.json",
+          "sha256": "93ecfae83cf5ff0af82f261802149cf0c1361aa431ccb346c0947011bded5258",
+          "size_bytes": 1255
+        },
+        {
+          "path": "status.json",
+          "sha256": "1533edb13b336c9a450afef3850abded6b081a98893ba2a33850e72a217f3095",
+          "size_bytes": 1937
+        },
+        {
+          "path": "collection.json",
+          "sha256": "07a157139674fbc91b3f56cf5e007719407dbbc33300bcd4a4fe403b2a653ac7",
+          "size_bytes": 1512
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "bc547ef97d771b0aa6b379e364dbc6d24ceeee646ca3275eddf138c967384973",
+          "size_bytes": 968
+        },
+        {
+          "path": "stderr.log",
+          "sha256": "33269e471c736729cd3b9cd85f399ed7178650fc238d59877d7187aafa943a55",
+          "size_bytes": 2230
+        }
+      ],
+      "artifact_status": "not_validated",
+      "convergence_status": "not_reached",
+      "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/gamess",
+      "job_id": "job_9e78fce67eca46bea8739fff41f1ce1f",
+      "process_status": "failed",
+      "reason": "The executable started and emitted its banner, usage, or expected missing-input diagnostic, but did not complete successfully.",
+      "request": {
+        "arguments": [
+          "-v"
+        ],
+        "calculation_intent": null,
+        "executable": "rungms",
+        "label": "manual-interface-smoke-gamess",
+        "parent_job_id": null,
+        "resource_limits": {
+          "cpu_cores": 1,
+          "gpu_count": 0,
+          "memory_mb": 1024
+        },
+        "software_id": "gamess",
+        "staged_inputs": [],
+        "stdin_target": null
+      },
+      "request_status": "accepted",
+      "scientific_validation_status": "not_reached",
+      "software_id": "gamess",
+      "software_status": "not_reached",
+      "status": "started_input_required",
+      "stderr_tail": "0077/lifangyuan/benchmark/ResearchChemBench/.software_cache/gamess/2024-r2-p1/source\nsetenv GMS_BUILD_DIR /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/gamess/2024-r2-p1/build\nsetenv GMS_TARGET linux64\nsetenv GMS_HPC_SYSTEM_TARGET generic\nsetenv GMS_ARCH `uname -p`\nuname -p\nsetenv GMS_FORTRAN gfortran\nsetenv GMS_GFORTRAN_VERNO 14.3\nsetenv GMS_MATHLIB openblas\nsetenv GMS_MATHLIB_PATH /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/gamess/lib\nsetenv GMS_MATHLIB_INCLUDE_PATH\nsetenv GMS_MKL_VERNO\nsetenv GMS_THREADED_BLAS false\nsetenv GMS_LAPACK_LINK_LINE\nsetenv GMS_DDI_COMM sockets\nsetenv GMS_LIBCCHEM false\nsetenv GMS_LIBCCHEM_GPU_SUPPORT\nsetenv GMS_LIBCCHEM_LIBS -ldl -lrt\nsetenv GMS_HDF5_PATH\nsetenv GMS_CUDA_BOARD\nsetenv GMS_CUDA_PATH\nsetenv GMS_EIGEN_PATH\nsetenv GMS_BOOST_PATH\nsetenv GMS_GA_PATH\nsetenv GMS_HPCCHEM false\nsetenv GMS_HPCCHEM_USE_DATA_SERVERS\nsetenv GMS_HPCCHEM_CUDA\nsetenv GMS_HPCCHEM_MAGMA\nsetenv GMS_HPCCHEM_PATH\nsetenv GMS_HPC_ROCM_PATH\nsetenv GMS_HPC_MAGMA_PATH\nsetenv GMS_HPC_CUDA_PATH\nsetenv GMS_PHI none\nsetenv GMS_SHMTYPE sysv\nsetenv GMS_OPENMP false\nsetenv GMS_OPENMP_OFFLOAD false\nsetenv GMS_USE_HIPFORT false\nsetenv USE_CUBLAS false\nsetenv USE_HIPBLAS false\nsetenv GMS_LIBXC false\nsetenv GMS_MDI false\nsetenv GMS_MSUAUTO false\nsetenv GMS_VM2 false\nsetenv TINKER false\nsetenv VB2000 false\nsetenv XMVB false\nsetenv NEO false\nsetenv NBO false\nsetenv RISM false\nsetenv GMS_FPE_FLAGS \nunset echo\nbasename: invalid option -- 'v'\nTry 'basename --help' for more information.\nreadlink: missing operand\nTry 'readlink --help' for more information.\ndirname: missing operand\nTry 'dirname --help' for more information.\nInput file .inp does not exist.\nThis job expected the input file to be in directory /tmp/researchchem-all-native-smoke-final3-20260728-923240/outputs/execution_jobs/job_9e78fce67eca46bea8739fff41f1ce1f\nPlease fix your file name problem, and resubmit.\n",
+      "stdout_tail": "No scheduler so we must be running locally on lfy-54-cpu--c9ead987dbc8-u3f46qxwe6\nInput file supplied : -v\n----- GAMESS execution script 'rungms' -----\nThis job is running on host lfy-54-cpu--c9ead987dbc8-u3f46qxwe6\nunder operating system Linux at Tue Jul 28 20:17:19 UTC 2026 with sockets communication mode\nAvailable scratch disk space (Kbyte units) at beginning of the job is\nFilesystem       1K-blocks       Used  Available Use% Mounted on\ngpfs_hdd       10737418240 8224686080 2512732160  77% /inspire/hdd/global_user/lifangyuan-253108110077\nGAMESS temporary binary files will be written to /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/gamess/2024-r2-p1/scratch\nGAMESS supplementary output files will be written to /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/gamess/2024-r2-p1/restart\nCopying input file .inp to your run's scratch directory...\n",
+      "test_level": "interface_smoke",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    },
+    {
+      "artifact_status": "valid",
+      "convergence_status": "converged",
+      "evidence_path": "chemistry_toolbox/evidence/native_smoke/20260728_reliability_fix_v3/gaussian_optimization_frequency",
+      "job_id": "job_a160b9c151b543b1bf8d1e5a083a79ad",
+      "process_status": "completed",
+      "reason": "A self-contained scientific smoke completed with normal software termination, task-specific convergence, and valid artifacts.",
+      "request": {
+        "arguments": [],
+        "executable": "g16",
+        "resource_limits": {
+          "cpu_cores": 1,
+          "gpu_count": 0,
+          "memory_mb": 1024
+        },
+        "software_id": "gaussian",
+        "staged_inputs": [
+          {
+            "source_path": "chemistry_toolbox/examples/native/gaussian/optimization/input.gjf",
+            "target_path": "input.gjf"
+          }
+        ],
+        "stdin_target": "input.gjf"
+      },
+      "scientific_validation_status": "mechanically_valid",
+      "software_id": "gaussian",
+      "software_status": "normal_termination",
+      "status": "passed",
+      "test_level": "scientific_smoke",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    },
+    {
+      "archived_files": [
+        {
+          "path": "request.json",
+          "sha256": "bc092f66cac6b0b816762b45cbc52fc388635363f90b929897e4836eb2bde976",
+          "size_bytes": 1302
+        },
+        {
+          "path": "status.json",
+          "sha256": "e4d7c1c91e4911dc330c9f10f9780f740a711347c476f32f21ab4539738abc71",
+          "size_bytes": 1911
+        },
+        {
+          "path": "collection.json",
+          "sha256": "4fd5603cc3159d8dac0deb11185d2072c3603828068d88a8493ca430448074d4",
+          "size_bytes": 1489
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "f0f16e27f254db02041ba60244dd9ab28cecc97185e0979c36cc935b55849a16",
+          "size_bytes": 12052
+        },
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        }
+      ],
+      "artifact_status": "not_declared",
+      "convergence_status": "not_checked",
+      "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/geometric",
+      "job_id": "job_523d5c849ecd45b08c07bc15659bf35d",
+      "process_status": "completed",
+      "reason": "The configured executable completed the interface probe through the native job runner.",
+      "request": {
+        "arguments": [
+          "--help"
+        ],
+        "calculation_intent": null,
+        "executable": "geometric-optimize",
+        "label": "manual-interface-smoke-geometric",
+        "parent_job_id": null,
+        "resource_limits": {
+          "cpu_cores": 1,
+          "gpu_count": 0,
+          "memory_mb": 1024
+        },
+        "software_id": "geometric",
+        "staged_inputs": [],
+        "stdin_target": null
+      },
+      "request_status": "accepted",
+      "scientific_validation_status": "not_checked",
+      "software_id": "geometric",
+      "software_status": "not_checked",
+      "status": "passed",
+      "stderr_tail": "",
+      "stdout_tail": "                     \n  --verbose VERBOSE     Set to positive for more verbose printout.\n                        0 = Default print level.     1 = Basic info about optimization step.\n                        2 = Include microiterations. 3 = Lots of printout from low-level functions.\n                         \n  --qdata QDATA         Provide \"yes\" to write qdata.txt containing coordinates, energies, gradients for each structure.\n                         \n  --logINI LOGINI       .ini file for customizing logging output.\n                         \n  --write_cart_hess WRITE_CART_HESS\n                        Write approximate cartesian Hessian at optimized geometry to specified file.\n                         \n\nsoftware:\n  Options specific for certain software packages\n\n  --molproexe MOLPROEXE\n                        Specify absolute path of Molpro executable.\n                         \n  --molcnv MOLCNV       Provide \"yes\" to use Molpro style convergence criteria instead of the default.\n                         \n  --qcdir QCDIR         Provide an initial Q-Chem scratch folder (e.g. supplied initial guess).\n                         \n  --qccnv QCCNV         Provide \"yes\" to Use Q-Chem style convergence criteria instead of the default.\n                         \n  --bagelexe BAGELEXE   Specify how to run Bagel, e.g. \"mpirun -np 4 BAGEL\".\n                         \n  --ase-class ASE_CLASS\n                        ASE calculator import path, eg. \"ase.calculators.lj.LennardJones\"\n  --ase-kwargs ASE_KWARGS\n                        ASE calculator keyword args, as JSON dictionary, eg. {\"param_filename\":\"path/to/file.xml\"}\n\ndebug:\n  Relevant for development and debugging\n\n  --displace DISPLACE   Provide \"yes\" to write out displacements of the internal coordinates.\n                         \n  --fdcheck FDCHECK     Provide \"yes\" to check internal coordinate gradients using finite difference.\n                         \n\nhelp:\n  Get help\n\n  -h, --help            Show this help message and exit\n",
+      "test_level": "interface_smoke",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    },
+    {
+      "archived_files": [
+        {
+          "path": "request.json",
+          "sha256": "a7bf2d26eccabef5cf2e8e75b9a2a71265c6d56b50ecd4c63bdcb10e1efa0634",
+          "size_bytes": 1360
+        },
+        {
+          "path": "status.json",
+          "sha256": "639b539e111edc6f07cf2e27f100703f06fe260be7840eeb7b1b86d294c2e9c7",
+          "size_bytes": 1970
+        },
+        {
+          "path": "collection.json",
+          "sha256": "e6b7c597f54c20b640df08eb50d5398b09b9a1b94922a22afed001dc5a8e1edc",
+          "size_bytes": 1486
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "27c18876fe44e934cbdc2f67072e1cec74da677c734be794be4525fb59046519",
+          "size_bytes": 49
+        },
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        }
+      ],
+      "artifact_status": "not_declared",
+      "convergence_status": "not_checked",
+      "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/gnina",
+      "job_id": "job_d391c6d15df849c49e55199f821dd910",
+      "process_status": "completed",
+      "reason": "The configured executable completed the interface probe through the native job runner.",
+      "request": {
+        "arguments": [
+          "--version"
+        ],
+        "calculation_intent": null,
+        "executable": "gnina",
+        "label": "manual-interface-smoke-gnina",
+        "parent_job_id": null,
+        "resource_limits": {
+          "cpu_cores": 1,
+          "gpu_count": 0,
+          "memory_mb": 1024
+        },
+        "software_id": "gnina",
+        "staged_inputs": [],
+        "stdin_target": null
+      },
+      "request_status": "accepted",
+      "scientific_validation_status": "not_checked",
+      "software_id": "gnina",
+      "software_status": "not_checked",
+      "status": "passed",
+      "stderr_tail": "",
+      "stdout_tail": "gnina v1.3.3 master:6fe1ce2   Built Jun 30 2026.\n",
+      "test_level": "interface_smoke",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    },
+    {
+      "archived_files": [
+        {
+          "path": "request.json",
+          "sha256": "74076226403e9ad054bc943d85b7601da5fc81c1c6c2093299ae81304fdc1787",
+          "size_bytes": 1316
+        },
+        {
+          "path": "status.json",
+          "sha256": "e71a4f5731db3f408815784b9a12e9ef70c51bf0c61dfd56cf384be6e9b02265",
+          "size_bytes": 1921
+        },
+        {
+          "path": "collection.json",
+          "sha256": "48c596ce57886fc4e063554a5e90b9f787caeb0f129c3ea4bddd58b23a138e4f",
+          "size_bytes": 1489
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "f28e70dd6a497d1ea12544d81edf7ddb9cc44cc4245dd4ed8496255f4eb48a25",
+          "size_bytes": 10103
+        },
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        }
+      ],
+      "artifact_status": "not_declared",
+      "convergence_status": "not_checked",
+      "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/goodvibes",
+      "job_id": "job_a11e1757bc024191a09d395fa9f0baa0",
+      "process_status": "completed",
+      "reason": "The configured executable completed the interface probe through the native job runner.",
+      "request": {
+        "arguments": [
+          "--help"
+        ],
+        "calculation_intent": null,
+        "executable": "goodvibes",
+        "label": "manual-interface-smoke-goodvibes",
+        "parent_job_id": null,
+        "resource_limits": {
+          "cpu_cores": 1,
+          "gpu_count": 0,
+          "memory_mb": 1024
+        },
+        "software_id": "goodvibes",
+        "staged_inputs": [],
+        "stdin_target": null
+      },
+      "request_status": "accepted",
+      "scientific_validation_status": "not_checked",
+      "software_id": "goodvibes",
+      "software_status": "not_checked",
+      "status": "passed",
+      "stderr_tail": "",
+      "stdout_tail": "    per structure; columns mirror ThermoResult). Requires\n                        pandas; install with `pip install goodvibes[full]`.\n  --parquet PATH        Write per-file thermochemistry to PATH as Parquet\n                        (same columns as --csv). Requires pandas + a Parquet\n                        engine (pyarrow); install with `pip install\n                        goodvibes[full]`.\n  --xyz                 Write optimized Cartesian coordinates to a .xyz file\n  --strip-plot PATH     Save a per-species \u0394G strip plot to PATH (PNG/PDF/SVG\n                        by extension). Requires --label or --selectivity to\n                        define buckets; matplotlib via `pip install\n                        goodvibes[plot]`.\n  --pes-plot PATH       Save a clean reaction-profile diagram to PATH\n                        (PNG/PDF/SVG by extension). Requires --pes; uses\n                        goodvibes.plot.plot_pes (simpler than the legacy\n                        --graph FILE.yaml, no styling YAML needed). matplotlib\n                        via `pip install goodvibes[plot]`.\n  --export PATH         Write the unified v1.0 JSON payload to PATH (per-file\n                        QCData + thermo + run options + selectivity / pes\n                        blocks). Identical to --json. The same file can be re-\n                        loaded via --import to skip parsing on a follow-up\n                        run.\n  --cache-save FILE     (deprecated, use --export instead) Save parsed data to\n                        a JSON file.\n  --cpu                 Print total CPU time from output files\n  --check               Verify all files use the same program, level of\n                        theory, and solvation model; also flag potential\n                        duplicates\n\nPerformance:\n  --jobs N              Parse and compute thermochemistry in parallel across N\n                        worker processes (default 1, sequential). 0 = use all\n                        available CPU cores.\n",
+      "test_level": "interface_smoke",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    },
+    {
+      "archived_files": [
+        {
+          "path": "request.json",
+          "sha256": "f1d68d60e1b59f9d986468336ac4325ccc50d2c93c9e5346b367dcb0417990df",
+          "size_bytes": 1239
+        },
+        {
+          "path": "status.json",
+          "sha256": "e51daa00be8bfdf511f4401cd2fa63682f4c0fdce22534284d4c7720175df637",
+          "size_bytes": 1850
+        },
+        {
+          "path": "collection.json",
+          "sha256": "9f13475bad5453d98f12f58399e93ba30e71a77de8cc3e07b96066809d8bbdf2",
+          "size_bytes": 1486
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "0d7fb9aa5bc6112ea79b63e945f3624d8adb12bb0e1eaa7e787e5de3ddb13168",
+          "size_bytes": 12
+        },
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        }
+      ],
+      "artifact_status": "not_declared",
+      "convergence_status": "not_checked",
+      "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/gpaw",
+      "job_id": "job_dd92a87cc4fd4c3888b7882dc20b71cf",
+      "process_status": "completed",
+      "reason": "The configured executable completed the interface probe through the native job runner.",
+      "request": {
+        "arguments": [
+          "--version"
+        ],
+        "calculation_intent": null,
+        "executable": "gpaw",
+        "label": "manual-interface-smoke-gpaw",
+        "parent_job_id": null,
+        "resource_limits": {
+          "cpu_cores": 1,
+          "gpu_count": 0,
+          "memory_mb": 1024
+        },
+        "software_id": "gpaw",
+        "staged_inputs": [],
+        "stdin_target": null
+      },
+      "request_status": "accepted",
+      "scientific_validation_status": "not_checked",
+      "software_id": "gpaw",
+      "software_status": "not_checked",
+      "status": "passed",
+      "stderr_tail": "",
+      "stdout_tail": "gpaw-25.7.0\n",
+      "test_level": "interface_smoke",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    },
+    {
+      "archived_files": [
+        {
+          "path": "request.json",
+          "sha256": "207ba1ec58340c0cd3514e2e9ab6167fbc249496b11edf384195c32351409234",
+          "size_bytes": 1234
+        },
+        {
+          "path": "status.json",
+          "sha256": "ebfbe16743f0f61a0d7de985d83f3f2538fde177e5120181e671564aa460aa7f",
+          "size_bytes": 1846
+        },
+        {
+          "path": "collection.json",
+          "sha256": "10ccbd52bc35c509608bd17d10bf7c4855643836ab2c0e732a7501175881eacd",
+          "size_bytes": 1488
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "ea6df0ba1027fc56d9856a7eb323089c4de70768d177ecf4e5a1dd6e53945b4a",
+          "size_bytes": 2132
+        },
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        }
+      ],
+      "artifact_status": "not_declared",
+      "convergence_status": "not_checked",
+      "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/gromacs",
+      "job_id": "job_856741d199fc46b780dbd728d6e912f8",
+      "process_status": "completed",
+      "reason": "The configured executable completed the interface probe through the native job runner.",
+      "request": {
+        "arguments": [
+          "--version"
+        ],
+        "calculation_intent": null,
+        "executable": "gmx",
+        "label": "manual-interface-smoke-gromacs",
+        "parent_job_id": null,
+        "resource_limits": {
+          "cpu_cores": 1,
+          "gpu_count": 0,
+          "memory_mb": 1024
+        },
+        "software_id": "gromacs",
+        "staged_inputs": [],
+        "stdin_target": null
+      },
+      "request_status": "accepted",
+      "scientific_validation_status": "not_checked",
+      "software_id": "gromacs",
+      "software_status": "not_checked",
+      "status": "passed",
+      "stderr_tail": "",
+      "stdout_tail": "uan/benchmark/ResearchChemBench/.tool_envs/md/bin.AVX2_256/gmx\nData prefix:  /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/md\nWorking dir:  /tmp/researchchem-all-native-smoke-final3-20260728-923240/outputs/execution_jobs/job_856741d199fc46b780dbd728d6e912f8\nCommand line:\n  gmx --version\n\nGROMACS version:     2026.0-conda_forge\nPrecision:           mixed\nMemory model:        64 bit\nMPI library:         thread_mpi\nMPI version:         built in\nOpenMP support:      enabled (GMX_OPENMP_MAX_THREADS = 128)\nGPU support:         OpenCL\nNBNxM GPU setup:     super-cluster 2x2x2 / cluster 8 (cluster-pair splitting on)\nSIMD instructions:   AVX2_256\nCPU FFT library:     fftw-3.3.11-sse2-avx\nGPU FFT library:     clFFT\nMulti-GPU FFT:       none\nRDTSCP:              disabled\nTNG support:         enabled\nHwloc support:       disabled\nTracing support:     disabled\nColvars support:     enabled (version 2025-10-13)\nCP2K support:        disabled\nTorch support:       disabled\nPlumed support:      enabled\nC compiler:          /home/conda/feedstock_root/build_artifacts/gromacs_1770909732141/_build_env/bin/x86_64-conda-linux-gnu-cc GNU 14.3.0\nC compiler flags:    -fexcess-precision=fast -funroll-all-loops -mavx2 -mfma -Wno-missing-field-initializers -O3 -DNDEBUG\nC++ compiler:        /home/conda/feedstock_root/build_artifacts/gromacs_1770909732141/_build_env/bin/x86_64-conda-linux-gnu-c++ GNU 14.3.0\nC++ compiler flags:  -fexcess-precision=fast -funroll-all-loops -mavx2 -mfma -Wno-missing-field-initializers -Wno-stringop-truncation -Wno-cast-function-type-strict SHELL:-fopenmp -O3 -DNDEBUG\nBLAS library:        Internal\nLAPACK library:      Internal\nOpenCL include dir:  /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/md/include\nOpenCL library:      /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/md/lib/libOpenCL.so\nOpenCL version:      3.0\n\n",
+      "test_level": "interface_smoke",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    },
+    {
+      "archived_files": [
+        {
+          "path": "request.json",
+          "sha256": "16f7bceba3fc75bdb36f71abd94f57cf71a7a4639108e74dd869b955402ae63e",
+          "size_bytes": 1223
+        },
+        {
+          "path": "status.json",
+          "sha256": "deee4bb13692c23ba7c2c36f214396a8da2f1cfcc4f6e354418e9921a43b8f77",
+          "size_bytes": 1908
+        },
+        {
+          "path": "collection.json",
+          "sha256": "e056e5a15a545fef442629dd7013765c7c8047b39798788393d955183fb5c7dc",
+          "size_bytes": 1784
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "be8509958a599914580f81a9ab4b4951ff06951d4fee454298187464386209ca",
+          "size_bytes": 200
+        },
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        }
+      ],
+      "artifact_status": "not_validated",
+      "convergence_status": "not_reached",
+      "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/kinbot",
+      "job_id": "job_40d4adc13ade41298c20d6a78c8ea434",
+      "process_status": "failed",
+      "reason": "The executable started and emitted its banner, usage, or expected missing-input diagnostic, but did not complete successfully.",
+      "request": {
+        "arguments": [
+          "--help"
+        ],
+        "calculation_intent": null,
+        "executable": "kinbot",
+        "label": "manual-interface-smoke-kinbot",
+        "parent_job_id": null,
+        "resource_limits": {
+          "cpu_cores": 1,
+          "gpu_count": 0,
+          "memory_mb": 1024
+        },
+        "software_id": "kinbot",
+        "staged_inputs": [],
+        "stdin_target": null
+      },
+      "request_status": "accepted",
+      "scientific_validation_status": "not_reached",
+      "software_id": "kinbot",
+      "software_status": "not_reached",
+      "status": "started_input_required",
+      "stderr_tail": "",
+      "stdout_tail": "\nCopyright 2018 National Technology & Engineering Solutions of Sandia,\nLLC (NTESS). Under the terms of Contract DE-NA0003525 with NTESS, \nthe U.S. Government retains certain rights in this software.\n\n",
+      "test_level": "interface_smoke",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    },
+    {
+      "archived_files": [
+        {
+          "path": "request.json",
+          "sha256": "ed0ca132fda664e1e1c6cc491995e3185edcfba2f713bf161f6ccb0dc8934352",
+          "size_bytes": 1236
+        },
+        {
+          "path": "status.json",
+          "sha256": "e4833327b659af20667e198c105258f29b7cc04453d6702d838da553deb70293",
+          "size_bytes": 1849
+        },
+        {
+          "path": "collection.json",
+          "sha256": "946e9c2f0a2f9e0c0b2cb722c203c96c086eec5b29692eab132d72b87ccd5825",
+          "size_bytes": 1489
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "5483cc1838bc4fde62fcce79ec2ad0370ccf7a8b946e43236463e7bd35dab9a3",
+          "size_bytes": 20933
+        },
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        }
+      ],
+      "artifact_status": "not_declared",
+      "convergence_status": "not_checked",
+      "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/lammps",
+      "job_id": "job_dcbabb50aa4e44019606bf17a98be5c5",
+      "process_status": "completed",
+      "reason": "The configured executable completed the interface probe through the native job runner.",
+      "request": {
+        "arguments": [
+          "-help"
+        ],
+        "calculation_intent": null,
+        "executable": "lmp",
+        "label": "manual-interface-smoke-lammps",
+        "parent_job_id": null,
+        "resource_limits": {
+          "cpu_cores": 1,
+          "gpu_count": 0,
+          "memory_mb": 1024
+        },
+        "software_id": "lammps",
+        "staged_inputs": [],
+        "stdin_target": null
+      },
+      "request_status": "accepted",
+      "scientific_validation_status": "not_checked",
+      "software_id": "lammps",
+      "software_status": "not_checked",
+      "status": "passed",
+      "stderr_tail": "",
+      "stdout_tail": "educe          reduce/chunk    reduce/region   rigid/local     slcsa/atom      \nslice           sna/atom        sna/grid        sna/grid/local  snad/atom       \nsnap            snav/atom       stress/atom     stress/cartesian                \nstress/cylinder pressure/cylinder               stress/mop      \nstress/mop/profile              stress/spherical                temp            \ntemp/asphere    temp/body       temp/chunk      temp/com        temp/cs         \ntemp/deform     temp/partial    temp/profile    temp/ramp       temp/region     \ntemp/rotate     temp/sphere     ti              torque/chunk    vacf            \nvacf/chunk      vcm/chunk       viscosity/cos   voronoi/atom    \n\n* Region styles:\n\nblock           cone            cylinder        ellipsoid       intersect       \nplane           prism           sphere          union           \n\n* Dump styles:\n\natom            cfg             custom          dcd             atom/mpiio      \ncfg/mpiio       custom/mpiio    xyz/mpiio       extxyz          grid            \ngrid/vtk        h5md            image           local           movie           \nnetcdf          netcdf/mpiio    xtc             xyz             yaml            \n\n* Command styles\n\nangle_write     balance         change_box      create_atoms    create_bonds    \ncreate_box      delete_atoms    delete_bonds    box             kim_init        \nkim_interactions                kim_param       kim_property    kim_query       \nreset_ids       reset_atom_ids  reset_mol_ids   message         server          \ndihedral_write  displace_atoms  dynamical_matrix                hyper           \ninfo            kim             minimize        neb             plugin          \nprd             read_data       read_dump       read_restart    replicate       \nrerun           run             set             tad             temper          \ntemper/grem     temper/npt      third_order     velocity        write_coeff     \nwrite_data      write_dump      write_restart   \n\n",
+      "test_level": "interface_smoke",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    },
+    {
+      "artifact_status": "valid",
+      "convergence_status": "projection_complete",
+      "evidence_path": "chemistry_toolbox/evidence/native_smoke/20260728_reliability_fix_v3/lobster_cohp",
+      "job_id": "job_4bf728b5a0ea4761b9e2d69627a82389",
+      "process_status": "completed",
+      "reason": "A self-contained scientific smoke completed with normal software termination, task-specific convergence, and valid artifacts.",
+      "request": {
+        "arguments": [],
+        "executable": "lobster-5.1.0",
+        "resource_limits": {
+          "cpu_cores": 1,
+          "gpu_count": 0,
+          "memory_mb": 1024
+        },
+        "software_id": "lobster",
+        "staged_inputs": [
+          {
+            "source_path": "chemistry_toolbox/examples/native/lobster/cohp/lobsterin",
+            "target_path": "lobsterin"
+          },
+          {
+            "source_path": "<compatible-vasp-job>/POSCAR",
+            "target_path": "POSCAR"
+          },
+          {
+            "source_path": "<compatible-vasp-job>/POTCAR",
+            "target_path": "POTCAR"
+          },
+          {
+            "source_path": "<compatible-vasp-job>/WAVECAR",
+            "target_path": "WAVECAR"
+          },
+          {
+            "source_path": "<compatible-vasp-job>/CONTCAR",
+            "target_path": "CONTCAR"
+          },
+          {
+            "source_path": "<compatible-vasp-job>/KPOINTS",
+            "target_path": "KPOINTS"
+          },
+          {
+            "source_path": "<compatible-vasp-job>/OUTCAR",
+            "target_path": "OUTCAR"
+          },
+          {
+            "source_path": "<compatible-vasp-job>/vasprun.xml",
+            "target_path": "vasprun.xml"
+          }
+        ]
+      },
+      "scientific_validation_status": "mechanically_valid",
+      "software_id": "lobster",
+      "software_status": "normal_termination",
+      "status": "passed",
+      "test_level": "scientific_smoke",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    },
+    {
+      "reason": "MATLAB executable and valid license are unavailable.",
+      "software_id": "matlab",
+      "status": "skipped",
+      "test_level": "not_run_placeholder",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    },
+    {
+      "archived_files": [
+        {
+          "path": "request.json",
+          "sha256": "5de7824a11bec99530d8b0c3dc828f62dfd8a4cb42ac567479a53f0f25838cc0",
+          "size_bytes": 1255
+        },
+        {
+          "path": "status.json",
+          "sha256": "ab83b91a1969444a065117e9c8680cbc597f70b6b8ff646c97684bb1b7deeaf7",
+          "size_bytes": 1858
+        },
+        {
+          "path": "collection.json",
+          "sha256": "a4dc6edb43d764e5f5a85c551f09efaf0d305f267389cfc1fa7dc52be8eef460",
+          "size_bytes": 1489
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "492cac73c275c02778bce7cae45e43f50708dfeafd617065991b25497ff74c13",
+          "size_bytes": 1006
+        },
+        {
+          "path": "stderr.log",
+          "sha256": "9b5bab18bcd8647da1526e52ba7444c51df8200f0768e42ecd93f3a7e445a215",
+          "size_bytes": 33
+        }
+      ],
+      "artifact_status": "not_declared",
+      "convergence_status": "not_checked",
+      "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/mesmer",
+      "job_id": "job_638b987c64664bd382f7dca155999c36",
+      "process_status": "completed",
+      "reason": "The configured executable completed the interface probe through the native job runner.",
+      "request": {
+        "arguments": [
+          "--help"
+        ],
+        "calculation_intent": null,
+        "executable": "mesmer",
+        "label": "manual-interface-smoke-mesmer",
+        "parent_job_id": null,
+        "resource_limits": {
+          "cpu_cores": 1,
+          "gpu_count": 0,
+          "memory_mb": 1024
+        },
+        "software_id": "mesmer",
+        "staged_inputs": [],
+        "stdin_target": null
+      },
+      "request_status": "accepted",
+      "scientific_validation_status": "not_checked",
+      "software_id": "mesmer",
+      "software_status": "not_checked",
+      "status": "passed",
+      "stderr_tail": "The option -- was not recognized\n",
+      "stdout_tail": "Usage:\nIn Windows command line:\n     mesmer infilename [options]\nIn UNIX/Linux console:\n     ./mesmer.out infilename [options]\nIf there is no infilename, stdin is used.\nAll the chemistry and much of the program control is in the input file.\n\nOptions:\n -o<outfilename>\n     If -o has no outfilename, stdout is used.\n -n  Allows the input file to be overwritten when there is no -o option,\n       otherwise the output file is \"mesmer_out.xml\"\n     Any file about to be overwritten is saved with suffix _prev to its name. \n -N  Use infilename for test and log, default is mesmer.test and mesmer.log.\n -p  Parse the input file only - no calculation.\n -q  Do a QA test. (Compares mesmer.test with a definitive version.)\n -w# Display only warning messages that are at least as severe as:\n       0 No messages\n       1 Errors\n       2 Warnings\n       3 Information\n -?  Display this help text\n -V  Output Mesmer version.\n -t  Output a table of available plugins.\n -T  As -t but with descriptions, if available.\n\n\n",
+      "test_level": "interface_smoke",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    },
+    {
+      "archived_files": [
+        {
+          "path": "request.json",
+          "sha256": "dbb5c646006f3bea8d5f44ad72230a840c2b703de4d82104604d3bfe186c6137",
+          "size_bytes": 1211
+        },
+        {
+          "path": "status.json",
+          "sha256": "13b81d67688666923cf7181baa3ac7afcb27562fa6d330b8f3133be81317f1fb",
+          "size_bytes": 1821
+        },
+        {
+          "path": "collection.json",
+          "sha256": "726b7b688d2cad7d30c1585d756d0f9ef99645c3fa0dedc9749f16a882dc0947",
+          "size_bytes": 1486
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "3f99fdf4adf4820e973aeb4004352f3e599541a0196d755d0494e8d6b330a43d",
+          "size_bytes": 23
+        },
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        }
+      ],
+      "artifact_status": "not_declared",
+      "convergence_status": "not_checked",
+      "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/mess",
+      "job_id": "job_8830c3d559f041ea918fd5df2e87fb1a",
+      "process_status": "completed",
+      "reason": "The configured executable completed the interface probe through the native job runner.",
+      "request": {
+        "arguments": [],
+        "calculation_intent": null,
+        "executable": "mess",
+        "label": "manual-interface-smoke-mess",
+        "parent_job_id": null,
+        "resource_limits": {
+          "cpu_cores": 1,
+          "gpu_count": 0,
+          "memory_mb": 1024
+        },
+        "software_id": "mess",
+        "staged_inputs": [],
+        "stdin_target": null
+      },
+      "request_status": "accepted",
+      "scientific_validation_status": "not_checked",
+      "software_id": "mess",
+      "software_status": "not_checked",
+      "status": "passed",
+      "stderr_tail": "",
+      "stdout_tail": "usage: mess input_file\n",
+      "test_level": "interface_smoke",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    },
+    {
+      "archived_files": [
+        {
+          "path": "request.json",
+          "sha256": "6f84cb4c2cc6d1e3aecf38c3e935a6295a3c51855fbdbdf9d48c906f2b938ac5",
+          "size_bytes": 1565
+        },
+        {
+          "path": "status.json",
+          "sha256": "9f672d9b837d9c844c4b735b9ff1bb400376d6d413d2ad7e3aa5ceed22e5e715",
+          "size_bytes": 1996
+        },
+        {
+          "path": "collection.json",
+          "sha256": "b8a62fa21d3e8788ebfa03c1a42b3b54f8f9c2306807640fe5280747de8c28e3",
+          "size_bytes": 1512
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "a0ba8fc46892059d02f605188e3efac4ec2044c331db1a97512a2596861906f6",
+          "size_bytes": 1479
+        },
+        {
+          "path": "stderr.log",
+          "sha256": "f75eaddc5ca8baffc2c22e7578f2e46abeeac61a66e835ad702151f27ececc75",
+          "size_bytes": 698
+        }
+      ],
+      "artifact_status": "not_validated",
+      "convergence_status": "not_reached",
+      "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/multiwfn",
+      "job_id": "job_914a97f342cb42ee9be27181a95456b7",
+      "process_status": "failed",
+      "reason": "The executable started and emitted its banner, usage, or expected missing-input diagnostic, but did not complete successfully.",
+      "request": {
+        "arguments": [
+          "-h"
+        ],
+        "calculation_intent": null,
+        "executable": "Multiwfn_noGUI",
+        "label": "manual-interface-smoke-multiwfn",
+        "parent_job_id": null,
+        "resource_limits": {
+          "cpu_cores": 1,
+          "gpu_count": 0,
+          "memory_mb": 1024
+        },
+        "software_id": "multiwfn",
+        "staged_inputs": [
+          {
+            "source_path": "code/multiwfn_interface_smoke.stdin",
+            "target_path": "interface_smoke.stdin"
+          }
+        ],
+        "stdin_target": "interface_smoke.stdin"
+      },
+      "request_status": "accepted",
+      "scientific_validation_status": "not_reached",
+      "software_id": "multiwfn",
+      "software_status": "not_reached",
+      "status": "started_input_required",
+      "stderr_tail": "forrtl: severe (24): end-of-file during read, unit -4, file /proc/940602/fd/0\nImage              PC                Routine            Line        Source             \nMultiwfn_noGUI     000000000209B54B  Unknown               Unknown  Unknown\nMultiwfn_noGUI     00000000020CA0D2  Unknown               Unknown  Unknown\nMultiwfn_noGUI     000000000086BCC8  Unknown               Unknown  Unknown\nMultiwfn_noGUI     000000000042B822  Unknown               Unknown  Unknown\nlibc.so.6          00007F2243BFBD90  Unknown               Unknown  Unknown\nlibc.so.6          00007F2243BFBE40  __libc_start_main     Unknown  Unknown\nMultiwfn_noGUI     000000000042B729  Unknown               Unknown  Unknown\n",
+      "stdout_tail": " Error: Unable to find the input file you specified in argument\n \n WARNING: \"settings.ini\" was found neither in current folder nor in the path defined by \"Multiwfnpath\" environment variable. Now using default settings instead, and all your modifications (if any) on settings.ini will not take effect!\n \n\u001b[95m Multiwfn -- A Multifunctional Wavefunction Analyzer\n\u001b[0m\u001b[32m Version 2026.7.15 (release date is the same as version name)\n\u001b[0m Developer: Tian Lu (Beijing Kein Research Center for Natural Sciences)\n Multiwfn official website: http://sobereva.com/multiwfn\n Multiwfn English forum: http://sobereva.com/wfnbbs\n Multiwfn Chinese forum: http://bbs.keinsci.com/wfn\n ( Number of parallel threads:   4  Current date: 2026-07-28  Time: 20:17:28 )\n \n Both following papers ***MUST BE CITED IN MAIN TEXT*** if Multiwfn is used:\n\u001b[36m\n  Tian Lu, Feiwu Chen, J. Comput. Chem., 33, 580 (2012) DOI: 10.1002/jcc.22885\n  Tian Lu, J. Chem. Phys., 161, 082503 (2024) DOI: 10.1063/5.0216272\n\u001b[0m\n See \"How to cite Multiwfn.pdf\" in Multiwfn binary package for more information\n \n Now input file path, for example, E:\\The_Cafe_Terrace_and_Its_Goddesses\\Akane_Hououji.mwfn\n (.mwfn/wfn/wfx/fch/molden/pdb/xyz/mol2/cif/cub... see Section 2.5 of manual)\n Hint: Pressing ENTER button directly can select a file in a GUI window. To reload the past file, inputting \"o\". Input such as ?miku.fch can open the miku.fch in the same folder as the past file\n You did not select a file, input path again!\n",
+      "test_level": "interface_smoke",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    },
+    {
+      "archived_files": [
+        {
+          "path": "request.json",
+          "sha256": "32c8a9621e3ea4049bcd77487f8ef0c0c8828bfc8feb20b49b66dbc5d11f6e15",
+          "size_bytes": 1251
+        },
+        {
+          "path": "status.json",
+          "sha256": "43285fb1bb3dc3f01e3c4aa649f7acc565e0b3f12b5a85248264c9dc0380d0a8",
+          "size_bytes": 1935
+        },
+        {
+          "path": "collection.json",
+          "sha256": "1f2df20a4544f114dade5a08a2fa038bbdecc64f20be2a6896436b65475e955c",
+          "size_bytes": 1511
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "4ffe3f32281dde1a0df2517ad7a6307ed0995cf47f30f33104525c344f09a5a3",
+          "size_bytes": 1540
+        },
+        {
+          "path": "stderr.log",
+          "sha256": "d0f472146d6ad23df8a2a125342a684f686cec513b214feb826cd29f808a203c",
+          "size_bytes": 64
+        }
+      ],
+      "artifact_status": "not_validated",
+      "convergence_status": "not_reached",
+      "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/namd",
+      "job_id": "job_e040681d050c49e59beb609497945ca7",
+      "process_status": "failed",
+      "reason": "The executable started and emitted its banner, usage, or expected missing-input diagnostic, but did not complete successfully.",
+      "request": {
+        "arguments": [
+          "--version"
+        ],
+        "calculation_intent": null,
+        "executable": "namd3",
+        "label": "manual-interface-smoke-namd",
+        "parent_job_id": null,
+        "resource_limits": {
+          "cpu_cores": 1,
+          "gpu_count": 0,
+          "memory_mb": 1024
+        },
+        "software_id": "namd",
+        "staged_inputs": [],
+        "stdin_target": null
+      },
+      "request_status": "accepted",
+      "scientific_validation_status": "not_reached",
+      "software_id": "namd",
+      "software_status": "not_reached",
+      "status": "started_input_required",
+      "stderr_tail": "FATAL ERROR: missing argument for command line option --version\n",
+      "stdout_tail": "Charm++> No provisioning arguments specified. Running with a single PE.\n         Use +auto-provision to fully subscribe resources or +p1 to silence this message.\nCharm++: standalone mode (not using charmrun)\nCharm++> Running in Multicore mode: 1 threads (PEs)\nCharm++> Using recursive bisection (scheme 3) for topology aware partitions\nConverse/Charm++ Commit ID: \nCharmLB> Load balancer assumes all CPUs are same.\nCharm++> Running on 1 hosts (2 sockets x 32 cores x 1 PUs = 64-way SMP)\nCharm++> cpu topology info is gathered in 0.000 seconds.\nCharmLB> Load balancing instrumentation for communication is off.\nInfo: NAMD 3.0.2 for Linux-x86_64-multicore\nInfo: \nInfo: Please visit http://www.ks.uiuc.edu/Research/namd/\nInfo: for updates, documentation, and support information.\nInfo: \nInfo: Please cite Phillips et al., J. Chem. Phys. 153:044130 (2020) doi:10.1063/5.0014475\nInfo: in all publications reporting results obtained with NAMD.\nInfo: \nInfo: Based on Charm++/Converse 80000 for multicore-linux-x86_64-gcc\nInfo: Built Wed Aug 27 16:19:18 CDT 2025 by dhardy on athine.ks.uiuc.edu\nInfo: 1 NAMD  3.0.2  Linux-x86_64-multicore  1    lfy-54-cpu--c9ead987dbc8-u3f46qxwe6  root\nInfo: Running on 1 processors, 1 nodes, 1 physical nodes.\nInfo: CPU topology information available.\nInfo: Charm++/Converse parallel runtime startup completed at 0.00162152 s\nCkLoopLib is used in SMP with simple dynamic scheduling (converse-level notification)\nFATAL ERROR: missing argument for command line option --version\n[Partition 0][Node 0] End of program\n",
+      "test_level": "interface_smoke",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    },
+    {
+      "archived_files": [
+        {
+          "path": "request.json",
+          "sha256": "12b63c97dd68044a720cbae9adb0bf4317dc7cf44d1975a71e530081ccf2bbf4",
+          "size_bytes": 1550
+        },
+        {
+          "path": "status.json",
+          "sha256": "8cdd5453d2d0d7776e4b0451bb5bdad5cff427d9fc28dfe33e7dfa89c32b897d",
+          "size_bytes": 1938
+        },
+        {
+          "path": "collection.json",
+          "sha256": "6766aa375a84f79f0241307b56e05fe50da5d419fbd48c04f64b3b2162fe29b4",
+          "size_bytes": 1485
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+          "size_bytes": 3
+        },
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        }
+      ],
+      "artifact_status": "not_declared",
+      "convergence_status": "not_checked",
+      "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/nequip",
+      "job_id": "job_32001556aefe4a728604d4d5458fc980",
+      "process_status": "completed",
+      "reason": "The configured executable completed the interface probe through the native job runner.",
+      "request": {
+        "arguments": [
+          "-cn",
+          "interface_smoke",
+          "--cfg",
+          "job"
+        ],
+        "calculation_intent": null,
+        "executable": "nequip-train",
+        "label": "manual-interface-smoke-nequip",
+        "parent_job_id": null,
+        "resource_limits": {
+          "cpu_cores": 1,
+          "gpu_count": 0,
+          "memory_mb": 1024
+        },
+        "software_id": "nequip",
+        "staged_inputs": [
+          {
+            "source_path": "code/nequip_interface_smoke.yaml",
+            "target_path": "interface_smoke.yaml"
+          }
+        ],
+        "stdin_target": null
+      },
+      "request_status": "accepted",
+      "scientific_validation_status": "not_checked",
+      "software_id": "nequip",
+      "software_status": "not_checked",
+      "status": "passed",
+      "stderr_tail": "",
+      "stdout_tail": "{}\n",
+      "test_level": "interface_smoke",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    },
+    {
+      "archived_files": [
+        {
+          "path": "request.json",
+          "sha256": "006219cf57705ae16f65944491e81b801461c485929546078bbd880bf50f419d",
+          "size_bytes": 1260
+        },
+        {
+          "path": "status.json",
+          "sha256": "d1bd72f8ca94d465f199444334a0bd8621ef7e608cce1de453274cf61747fc76",
+          "size_bytes": 1859
+        },
+        {
+          "path": "collection.json",
+          "sha256": "5b9e6bc38243f300b7f3842e55800660923abb382be87ca205d3da281b80f473",
+          "size_bytes": 1488
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "98b5121e407184383431520d8d2c597d1cf761963a3d98d18bcf8720b7c15807",
+          "size_bytes": 1617
+        },
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        }
+      ],
+      "artifact_status": "not_declared",
+      "convergence_status": "not_checked",
+      "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/newton_x",
+      "job_id": "job_b7660f069326437e8129e6a0833c0d3f",
+      "process_status": "completed",
+      "reason": "The configured executable completed the interface probe through the native job runner.",
+      "request": {
+        "arguments": [
+          "1"
+        ],
+        "calculation_intent": null,
+        "executable": "nx_test",
+        "label": "manual-interface-smoke-newton_x",
+        "parent_job_id": null,
+        "resource_limits": {
+          "cpu_cores": 1,
+          "gpu_count": 0,
+          "memory_mb": 1024
+        },
+        "software_id": "newton_x",
+        "staged_inputs": [],
+        "stdin_target": null
+      },
+      "request_status": "accepted",
+      "scientific_validation_status": "not_checked",
+      "software_id": "newton_x",
+      "software_status": "not_checked",
+      "status": "passed",
+      "stderr_tail": "",
+      "stdout_tail": "Unrecognized option: 1\n\nUsage:\n  nx_test [-p prog_list [-t test_list]][-m path_to_executable] [-d dir] [--make_env]\n\nOptions:\n  -h, --help      Print this help.\n  -p, --prog      Comma-separated list of interfaces for which\n                   to run the tests.  If left empty, all interfaces\n                   present in $NXHOME/examples/ will be tested.\n  -t, --tests     List of tests to run for each interface. The\n                   tests must be comma-separated, and the tests \n                   for different programs are sperated by '|'.\n                   For instance, to run the test 1 for columbus\n                   interface and 1 and 2 for turbomole interface,\n                   the following line commands must be used: \n                   -p turbomole,columbus -t \"01|01,02\".\n                   This option can be used ONLY WHEN a list \n                   of programs is specified.\n  -m, --mdexe     Full path to the program used for running \n                   trajectories.\n                   Default: $NXHOME/bin/md\n  -d, --dir       Directory where the tests will be run.\n                   Default: \"./tests/\"\n  --make_env      Indicate if the this program is run via \n                   \"make check\".\n\n--------------- Examples ---------------\n\n  1) Run all tests:\n\n       nx_test\n\n  2) Run all tests for interface COLUMBUS only:\n\n       nx_test -p columbus\n\n  3) Run tests 01, 02 and 03 for interface COLUMBUS:\n\n       nx_test -p columbus -t \"1,2,3\"\n\n  4) Run tests 01, 02 and 03 for interface COLUMBUS, and\n     01 and 04 for TURBOMOLE:\n\n       nx_test -p columbus,turbomole -t \"1,2,3|1,4\"\n\n",
+      "test_level": "interface_smoke",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    },
+    {
+      "archived_files": [
+        {
+          "path": "request.json",
+          "sha256": "407dc95c323f7eda8eef0e285e4415f9a8e64fc9a64ca4ccb8c80e68deb9fa47",
+          "size_bytes": 1224
+        },
+        {
+          "path": "status.json",
+          "sha256": "d10eed47faf24be4d8ed0bc47be9694dfc3f2c0ef390d9e3d89935515c920a6e",
+          "size_bytes": 1911
+        },
+        {
+          "path": "collection.json",
+          "sha256": "bcb489868128b38efe489adafd7d4cb0380648dbb25c661eca5a098ce5208e92",
+          "size_bytes": 1512
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "82d2763c2d1e91d3f2f7580c2b8756a8fad17ee44780037a4ad571e1ffe6a431",
+          "size_bytes": 1017
+        },
+        {
+          "path": "stderr.log",
+          "sha256": "76b4693e807263fab375d60257641f4e207bdddc4a0c867df3e7b9015b917ae5",
+          "size_bytes": 501
+        }
+      ],
+      "artifact_status": "not_validated",
+      "convergence_status": "not_reached",
+      "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/nwchem",
+      "job_id": "job_12e84cbc48734041a14c3a785b7bbe75",
+      "process_status": "failed",
+      "reason": "The executable started and emitted its banner, usage, or expected missing-input diagnostic, but did not complete successfully.",
+      "request": {
+        "arguments": [
+          "--version"
+        ],
+        "calculation_intent": null,
+        "executable": "nwchem",
+        "label": "manual-interface-smoke-nwchem",
+        "parent_job_id": null,
+        "resource_limits": {
+          "cpu_cores": 1,
+          "gpu_count": 0,
+          "memory_mb": 1024
+        },
+        "software_id": "nwchem",
+        "staged_inputs": [],
+        "stdin_target": null
+      },
+      "request_status": "accepted",
+      "scientific_validation_status": "not_reached",
+      "software_id": "nwchem",
+      "software_status": "not_reached",
+      "status": "started_input_required",
+      "stderr_tail": "0:nwchem: failed to open the input file:Received an Error in Communication\n--------------------------------------------------------------------------\nMPI_ABORT was invoked on rank 0 in communicator MPI COMM 3 DUP FROM 0\n  Proc: [[24834,0],0]\n  Errorcode: -1\n\nNOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.\nYou may or may not see output from other processes, depending on\nexactly when Open MPI kills them.\n--------------------------------------------------------------------------\n",
+      "stdout_tail": " argument  1 = --version\n  Unable to open nwchem.nw --- appending .nw\n ------------------------------------------------------------------------\n nwchem: failed to open the input file                   0\n ------------------------------------------------------------------------\n ------------------------------------------------------------------------\n  current input line : \n     0: \n ------------------------------------------------------------------------\n ------------------------------------------------------------------------\n There is an error in the input file\n ------------------------------------------------------------------------\n For more information see the NWChem manual at https://nwchemgit.github.io\n\n\n For further details see manual section:                                                                                                                                                                                                                                                                \n",
+      "test_level": "interface_smoke",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    },
+    {
+      "archived_files": [
+        {
+          "path": "request.json",
+          "sha256": "6759c130c157e445c4f54484d967f3863c484df1d6a9f686ec840170c6564587",
+          "size_bytes": 1277
+        },
+        {
+          "path": "status.json",
+          "sha256": "c96e3267edda71d96c871734f6fc0a2673ce48bc266e8ba927e22f54c97fbfce",
+          "size_bytes": 1878
+        },
+        {
+          "path": "collection.json",
+          "sha256": "00c97c5cf5bbeacdf571559e2da772863b8ba3bbe4c79ff5b8aed5f3e0a94e38",
+          "size_bytes": 1486
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "6b80c3088b30f3a9b17d048fd409c216992a3bd43a961ab6026b14305136da57",
+          "size_bytes": 44
+        },
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        }
+      ],
+      "artifact_status": "not_declared",
+      "convergence_status": "not_checked",
+      "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/openbabel",
+      "job_id": "job_c2e51e0c61cd4f1fb6d1ecc33c482ca7",
+      "process_status": "completed",
+      "reason": "The configured executable completed the interface probe through the native job runner.",
+      "request": {
+        "arguments": [
+          "-V"
+        ],
+        "calculation_intent": null,
+        "executable": "obabel",
+        "label": "manual-interface-smoke-openbabel",
+        "parent_job_id": null,
+        "resource_limits": {
+          "cpu_cores": 1,
+          "gpu_count": 0,
+          "memory_mb": 1024
+        },
+        "software_id": "openbabel",
+        "staged_inputs": [],
+        "stdin_target": null
+      },
+      "request_status": "accepted",
+      "scientific_validation_status": "not_checked",
+      "software_id": "openbabel",
+      "software_status": "not_checked",
+      "status": "passed",
+      "stderr_tail": "",
+      "stdout_tail": "Open Babel 3.1.0 -- Nov 30 2023 -- 20:43:22\n",
+      "test_level": "interface_smoke",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    },
+    {
+      "archived_files": [
+        {
+          "path": "request.json",
+          "sha256": "eebe4354da06c354c4c2a3271b612c4277a9a5a478a737591d19c5ed84f54626",
+          "size_bytes": 1312
+        },
+        {
+          "path": "status.json",
+          "sha256": "e052bd18fb2bd06c9b78ad8e5eb11d8853716185c1b4086f62cf3ec3eef4510a",
+          "size_bytes": 1920
+        },
+        {
+          "path": "collection.json",
+          "sha256": "7f1384476966c0a8b082922d68a6f80c62bb748354db74557846c8703ce0b708",
+          "size_bytes": 1488
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "fd584f2ffc1f6b5c3db340b0f4ce2381baead6bc81e3e80937e8a23c925389f9",
+          "size_bytes": 5132
+        },
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        }
+      ],
+      "artifact_status": "not_declared",
+      "convergence_status": "not_checked",
+      "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/openff_am1bcc",
+      "job_id": "job_486325938cf44c998c2f4c08d2986b8b",
+      "process_status": "completed",
+      "reason": "The configured executable completed the interface probe through the native job runner.",
+      "request": {
+        "arguments": [
+          "-h"
+        ],
+        "calculation_intent": null,
+        "executable": "antechamber",
+        "label": "manual-interface-smoke-openff_am1bcc",
+        "parent_job_id": null,
+        "resource_limits": {
+          "cpu_cores": 1,
+          "gpu_count": 0,
+          "memory_mb": 1024
+        },
+        "software_id": "openff_am1bcc",
+        "staged_inputs": [],
+        "stdin_target": null
+      },
+      "request_status": "accepted",
+      "scientific_validation_status": "not_checked",
+      "software_id": "openff_am1bcc",
+      "software_status": "not_checked",
+      "status": "passed",
+      "stderr_tail": "",
+      "stdout_tail": "ck Id, for ccif\n\u001b[31m                   -an   \u001b[0m adjust atom names: yes(y) or no(n)\n                          the default is 'y' for 'mol2' and 'ac' and 'n' for the other formats \n\u001b[31m                   -j    \u001b[0m atom type and bond type prediction index, default is 4 \n\u001b[34m                          0    \u001b[0m: no assignment\n\u001b[34m                          1    \u001b[0m: atom type \n\u001b[34m                          2    \u001b[0m: full  bond types \n\u001b[34m                          3    \u001b[0m: part  bond types \n\u001b[34m                          4    \u001b[0m: atom and full bond type \n\u001b[34m                          5    \u001b[0m: atom and part bond type \n\u001b[31m                   -s    \u001b[0m status information: 0(brief), 1(default) or 2(verbose)\n\u001b[31m                   -eq   \u001b[0m equalizing atomic charge, default is 1 for '-c resp', '-c bcc', '-c abcg2' and 0 for the other charge methods \n\u001b[34m                          0    \u001b[0m: no use\n\u001b[34m                          1    \u001b[0m: by atomic paths \n\u001b[34m                          2    \u001b[0m: by atomic paths and structural information, i.e. E/Z configurations \n\u001b[31m                   -pf   \u001b[0m remove intermediate files: yes(y) or no(n)[default]\n\u001b[31m                   -pl   \u001b[0m maximum path length to determin equivalence of atomic charges for resp, bcc and abcg2,\n\u001b[31m                         \u001b[0m the smaller the value, the faster the algorithm, default is -1 (use full length),\n\u001b[31m                         \u001b[0m set this parameter to 10 to 30 if your molecule is big (# atoms >= 100)\n\u001b[31m                   -seq  \u001b[0m atomic sequence order changable: yes(y)[default] or no(n)\n\u001b[31m                   -dr   \u001b[0m acdoctor mode: yes(y)[default] or no(n)\n^[[31m                   -f    ^[[0m The reweighting factor used to scale RESP charges obtained using QUICK, default is 17.00\n\u001b[31m                   -i -o -fi and -fo must appear; others are optional\u001b[0m\n\u001b[32m                   Use 'antechamber -L' to list the supported file formats and charge methods\u001b[0m\n",
+      "test_level": "interface_smoke",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    },
+    {
+      "archived_files": [
+        {
+          "path": "request.json",
+          "sha256": "f3e3ac6784921e422d3c8f1815581272f0043474ee16dadea1453b67ed1db51b",
+          "size_bytes": 1271
+        },
+        {
+          "path": "status.json",
+          "sha256": "a71d7263cbf31f37275316c4c01f0f6d13925ddec006f1535b927aab3537336c",
+          "size_bytes": 1873
+        },
+        {
+          "path": "collection.json",
+          "sha256": "37e354fad3ba7d1f037d210d46a61dc1206966f2e23dc238be5f27e6485b6623",
+          "size_bytes": 1486
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "ed9e18bd1e4879e42472d66a678a6abb80eb56c4fafa9495d4963b83dad0cdf0",
+          "size_bytes": 93
+        },
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        }
+      ],
+      "artifact_status": "not_declared",
+      "convergence_status": "not_checked",
+      "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/openmolcas",
+      "job_id": "job_f589e92a66fb42d9b91f641cf5db7b60",
+      "process_status": "completed",
+      "reason": "The configured executable completed the interface probe through the native job runner.",
+      "request": {
+        "arguments": [
+          "--version"
+        ],
+        "calculation_intent": null,
+        "executable": "pymolcas",
+        "label": "manual-interface-smoke-openmolcas",
+        "parent_job_id": null,
+        "resource_limits": {
+          "cpu_cores": 1,
+          "gpu_count": 0,
+          "memory_mb": 1024
+        },
+        "software_id": "openmolcas",
+        "staged_inputs": [],
+        "stdin_target": null
+      },
+      "request_status": "accepted",
+      "scientific_validation_status": "not_checked",
+      "software_id": "openmolcas",
+      "software_status": "not_checked",
+      "status": "passed",
+      "stderr_tail": "",
+      "stdout_tail": "python driver version = py2.29\n(after the original perl EMIL interpreter of Valera Veryazov)\n",
+      "test_level": "interface_smoke",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    },
+    {
+      "artifact_status": "valid",
+      "convergence_status": "converged",
+      "evidence_path": "chemistry_toolbox/evidence/native_smoke/20260728_reliability_fix_v3/orca_single_point",
+      "job_id": "job_575bdbee7cb04165b7290c683350e137",
+      "process_status": "completed",
+      "reason": "A self-contained scientific smoke completed with normal software termination, task-specific convergence, and valid artifacts.",
+      "request": {
+        "arguments": [
+          "input.inp"
+        ],
+        "executable": "orca",
+        "resource_limits": {
+          "cpu_cores": 1,
+          "gpu_count": 0,
+          "memory_mb": 1024
+        },
+        "software_id": "orca",
+        "staged_inputs": [
+          {
+            "source_path": "chemistry_toolbox/examples/native/orca/single_point/input.inp",
+            "target_path": "input.inp"
+          }
+        ]
+      },
+      "scientific_validation_status": "mechanically_valid",
+      "software_id": "orca",
+      "software_status": "normal_termination",
+      "status": "passed",
+      "test_level": "scientific_smoke",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    },
+    {
+      "archived_files": [
+        {
+          "path": "request.json",
+          "sha256": "1d9f5d59634d08189397bbcb2b78a656a69dd31f03cc7e3d71c38cfe7e314b8f",
+          "size_bytes": 1468
+        },
+        {
+          "path": "status.json",
+          "sha256": "229eafa2dad374f1261fa421139752df516065e33e34e9ae3c69b561a749911b",
+          "size_bytes": 1905
+        },
+        {
+          "path": "collection.json",
+          "sha256": "0e7db1072917048ab216b500c328835c32ded4b3052eced273bd9e4aff9a4913",
+          "size_bytes": 1509
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "37ff14cbc6f01181215a4e434768214d435ad6706251cd14ae12ecbc6023d173",
+          "size_bytes": 537
+        },
+        {
+          "path": "stderr.log",
+          "sha256": "501b9e761b958aea6faad3e60901316ebbc51611c833781cef721a6605627b6b",
+          "size_bytes": 9
+        }
+      ],
+      "artifact_status": "not_validated",
+      "convergence_status": "not_reached",
+      "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/packmol",
+      "job_id": "job_a65b251d3c964476a3171ca7f73382e0",
+      "process_status": "failed",
+      "reason": "The executable started and emitted its banner, usage, or expected missing-input diagnostic, but did not complete successfully.",
+      "request": {
+        "arguments": [
+          "--help"
+        ],
+        "calculation_intent": null,
+        "executable": "packmol",
+        "label": "manual-interface-smoke-packmol",
+        "parent_job_id": null,
+        "resource_limits": {
+          "cpu_cores": 1,
+          "gpu_count": 0,
+          "memory_mb": 1024
+        },
+        "software_id": "packmol",
+        "staged_inputs": [
+          {
+            "source_path": "code/packmol_interface_smoke.stdin",
+            "target_path": "interface_smoke.stdin"
+          }
+        ],
+        "stdin_target": "interface_smoke.stdin"
+      },
+      "request_status": "accepted",
+      "scientific_validation_status": "not_reached",
+      "software_id": "packmol",
+      "software_status": "not_reached",
+      "status": "started_input_required",
+      "stderr_tail": "STOP 174\n",
+      "stdout_tail": "\n################################################################################\n\n PACKMOL - Packing optimization for the automated generation of\n starting configurations for molecular dynamics simulations.\n \n                                                             Version 21.2.1 \n\n################################################################################\n\n ERROR: packmol command-line error\nCommand-line execution examples (you may use any): \n\npackmol < input.inp\n\npackmol -i input.inp\n\npackmol -i input.inp -o output.pdb\n\n",
+      "test_level": "interface_smoke",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    },
+    {
+      "archived_files": [
+        {
+          "path": "request.json",
+          "sha256": "91067a0d55a63f802b6ffa48bdb0bbe815fa824d8f2f929c5cccc603c0c3d862",
+          "size_bytes": 1248
+        },
+        {
+          "path": "status.json",
+          "sha256": "904b3a4e567b21e7904cb1e910f5bbd0014d3653bde46bd8f93332f129a5303a",
+          "size_bytes": 1858
+        },
+        {
+          "path": "collection.json",
+          "sha256": "e2ced23419f20d11108cde1543bafbb83986404e339871b8f3cef3e76905093c",
+          "size_bytes": 1485
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        },
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        }
+      ],
+      "artifact_status": "not_declared",
+      "convergence_status": "not_checked",
+      "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/pdb_tools",
+      "job_id": "job_7ff2f5ea0b8641cfa1607ec6dc8156ac",
+      "process_status": "completed",
+      "reason": "The configured executable completed the interface probe through the native job runner.",
+      "request": {
+        "arguments": [
+          "-h"
+        ],
+        "calculation_intent": null,
+        "executable": "pdb_selchain",
+        "label": "manual-interface-smoke-pdb_tools",
+        "parent_job_id": null,
+        "resource_limits": {
+          "cpu_cores": 1,
+          "gpu_count": 0,
+          "memory_mb": 1024
+        },
+        "software_id": "pdb_tools",
+        "staged_inputs": [],
+        "stdin_target": null
+      },
+      "request_status": "accepted",
+      "scientific_validation_status": "not_checked",
+      "software_id": "pdb_tools",
+      "software_status": "not_checked",
+      "status": "passed",
+      "stderr_tail": "",
+      "stdout_tail": "",
+      "test_level": "interface_smoke",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    },
+    {
+      "archived_files": [
+        {
+          "path": "request.json",
+          "sha256": "05d0de83864bd47eeadde095a3b38ec746cf6ad96466ddfdf7e5abe0c6a892f9",
+          "size_bytes": 1257
+        },
+        {
+          "path": "status.json",
+          "sha256": "af393a7479b647cd70ae59cc3fb0278c3d465bf1195c58b26a04c4852774eab6",
+          "size_bytes": 1865
+        },
+        {
+          "path": "collection.json",
+          "sha256": "ba04902d820c065cbe78076d67633609df60ff02ce01e4ece495aa1d100050fa",
+          "size_bytes": 1489
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "5c2521e833f46b3b52e848be711a6e44f9c8aa4dad70e6b8694a45cd8cb2e2c6",
+          "size_bytes": 14076
+        },
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        }
+      ],
+      "artifact_status": "not_declared",
+      "convergence_status": "not_checked",
+      "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/phono3py",
+      "job_id": "job_4716a5c861e4471cacf5354db9248af5",
+      "process_status": "completed",
+      "reason": "The configured executable completed the interface probe through the native job runner.",
+      "request": {
+        "arguments": [
+          "-h"
+        ],
+        "calculation_intent": null,
+        "executable": "phono3py",
+        "label": "manual-interface-smoke-phono3py",
+        "parent_job_id": null,
+        "resource_limits": {
+          "cpu_cores": 1,
+          "gpu_count": 0,
+          "memory_mb": 1024
+        },
+        "software_id": "phono3py",
+        "staged_inputs": [],
+        "stdin_target": null
+      },
+      "request_status": "accepted",
+      "scientific_validation_status": "not_checked",
+      "software_id": "phono3py",
+      "software_status": "not_checked",
+      "status": "passed",
+      "stderr_tail": "",
+      "stdout_tail": "-symfc               Use symfc for generating force constants\n  --symfc-memshow       Show symfc memory usage with respect to cutoff\n                        distance\n  --symfc-projector     Symmetrize force constants by symfc projector\n  --symfc-memsize SYMFC_MEMORY_SIZE\n                        Memory size to estimate cutoff pair distance (GB)\n  --spf                 Calculate spectral function\n  --stp, --show-num-triplets\n                        Show reduced number of triplets to be calculated at\n                        specified grid points\n  --sym-fc3q            Symmetrize fc3 in reciprocal space by index exchange\n  --thm, --tetrahedron-method\n                        Use tetrahedron method.\n  --tmax TMAX           Maximum calculated temperature\n  --tmin TMIN           Minimum calculated temperature\n  --tt TRANSPORT_TYPE, --transport-type TRANSPORT_TYPE\n                        Transport type of thermal conductivity calculation\n  --ts TEMPERATURES [TEMPERATURES ...], --temperature TEMPERATURES [TEMPERATURES ...]\n                        Temperatures for damping functions\n  --tstep TSTEP         Calculated temperature step\n  --uplo LAPACK_ZHEEV_UPLO\n                        Lapack zheev UPLO for phonon solver (default: L)\n  --v2                  Disable taking average in fc3-r2q transformation\n                        around three atoms\n  --wgp, --write-grid-points\n                        Write grid address of irreducible grid points for\n                        specified mesh numbers to ir_grid_address.yaml\n  --write-collision     Write collision matrix and Gammas to files\n  --write-gamma         Write imag-part of self energy to files\n  --write-gamma-detail, --write_detailed_gamma\n                        Write out detailed imag-part of self energy\n  --write-phonon        Write all phonons on grid points to files\n  --write-pp            Write phonon-phonon interaction strength\n  --write-lbte-solution\n                        Write direct solution of LBTE to hdf5 files\n",
+      "test_level": "interface_smoke",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    },
+    {
+      "archived_files": [
+        {
+          "path": "request.json",
+          "sha256": "03586707c1cd7c1662358032733cf9daad74bdf2d99a14fbc47417cbe859a546",
+          "size_bytes": 1252
+        },
+        {
+          "path": "status.json",
+          "sha256": "f482a20932048f92a984c6da197726357eaee1830958c04722b35827fd26d3d9",
+          "size_bytes": 1860
+        },
+        {
+          "path": "collection.json",
+          "sha256": "ba6d39e8c9e24d5a4ae4a0a9dad267226bbb073ecca683b9da14b0d699097ede",
+          "size_bytes": 1489
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "49b32f42ee3d1a45d38eb4e158b622474b7c33f13033f101345a8e8c043d5e46",
+          "size_bytes": 13254
+        },
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        }
+      ],
+      "artifact_status": "not_declared",
+      "convergence_status": "not_checked",
+      "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/phonopy",
+      "job_id": "job_f01b46a35cfb438484f919e164a77e6d",
+      "process_status": "completed",
+      "reason": "The configured executable completed the interface probe through the native job runner.",
+      "request": {
+        "arguments": [
+          "-h"
+        ],
+        "calculation_intent": null,
+        "executable": "phonopy",
+        "label": "manual-interface-smoke-phonopy",
+        "parent_job_id": null,
+        "resource_limits": {
+          "cpu_cores": 1,
+          "gpu_count": 0,
+          "memory_mb": 1024
+        },
+        "software_id": "phonopy",
+        "staged_inputs": [],
+        "stdin_target": null
+      },
+      "request_status": "accepted",
+      "scientific_validation_status": "not_checked",
+      "software_id": "phonopy",
+      "software_status": "not_checked",
+      "status": "passed",
+      "stderr_tail": "",
+      "stdout_tail": "l Crystal Approximation); pass --split-\n                        site-mixture to instead keep them as separate species-\n                        resolved atoms. Note that this is per-atom and\n                        distinct from the VASP INCAR VCA tag, which lists one\n                        weight per element row in POSCAR.\n  --sp, --save-params   Save parameters that can run phonopy in\n                        phonopy_params.yaml.\n  --split-site-mixture  [Experimental] With --site-mixture, keep overlapping\n                        atoms as separate species-resolved atoms instead of\n                        merging them into mixed-species sites.\n  --sscha SSCHA_ITERATIONS\n                        Number of iterations in SSCHA calculation\n  -t, --thermal-property\n                        Output thermal properties\n  --td, --thermal-displacements\n                        Output thermal displacements\n  --tdm, --thermal-displacement-matrix\n                        Output thermal displacement matrices\n  --tdm-cif TEMPERATURE, --thermal-displacement-matrix-cif TEMPERATURE\n                        Write cif with aniso_U for which temperature is\n                        specified\n  --temperature TEMPERATURE\n                        (Deprecated) A temperature used to generate random\n                        displacements.\n  --tmax TMAX           Maximum calculated temperature\n  --tmin TMIN           Minimum calculated temperature\n  --tolerance SYMMETRY_TOLERANCE\n                        Symmetry tolerance to search\n  --tstep TSTEP         Calculated temperature step\n  -v, --verbose         Detailed information is shown.\n  --writedm             Write dynamical matrices. This has to be used with\n                        QPOINTS setting (or --qpoints)\n  --writefc             Write FORCE_CONSTANTS\n  --writefc-format WRITEFC_FORMAT\n                        Force constants output file-format\n  --xyz-projection      Project PDOS x, y, z directions in Cartesian\n                        coordinates\n",
+      "test_level": "interface_smoke",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    },
+    {
+      "archived_files": [
+        {
+          "path": "request.json",
+          "sha256": "e219a2f9e35d73ba597e5df909edc684fbb4bf4bc8ba7baf573d259c93463f34",
+          "size_bytes": 1242
+        },
+        {
+          "path": "status.json",
+          "sha256": "d270a3bd73e4496627794ed665ebaf1f80ea6016703672dd12428f51ec578db9",
+          "size_bytes": 1855
+        },
+        {
+          "path": "collection.json",
+          "sha256": "b9ffaf6402bf1832d237dd9dd133060809d11684518ae9a413162c076abb85db",
+          "size_bytes": 1485
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "2064f18e70f1201ceadb8f52c46938efc6c90651e983fb5d617898881b40daa8",
+          "size_bytes": 4
+        },
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        }
+      ],
+      "artifact_status": "not_declared",
+      "convergence_status": "not_checked",
+      "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/plumed",
+      "job_id": "job_1f41bd18d9c94e43b5b4079c09eb05ec",
+      "process_status": "completed",
+      "reason": "The configured executable completed the interface probe through the native job runner.",
+      "request": {
+        "arguments": [
+          "info",
+          "--version"
+        ],
+        "calculation_intent": null,
+        "executable": "plumed",
+        "label": "manual-interface-smoke-plumed",
+        "parent_job_id": null,
+        "resource_limits": {
+          "cpu_cores": 1,
+          "gpu_count": 0,
+          "memory_mb": 1024
+        },
+        "software_id": "plumed",
+        "staged_inputs": [],
+        "stdin_target": null
+      },
+      "request_status": "accepted",
+      "scientific_validation_status": "not_checked",
+      "software_id": "plumed",
+      "software_status": "not_checked",
+      "status": "passed",
+      "stderr_tail": "",
+      "stdout_tail": "2.9\n",
+      "test_level": "interface_smoke",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    },
+    {
+      "archived_files": [
+        {
+          "path": "request.json",
+          "sha256": "902dc46edd6ef30920f8e15f7264ef2d45f9eb2fe2569fae096142692c258e39",
+          "size_bytes": 1232
+        },
+        {
+          "path": "status.json",
+          "sha256": "1ded510bbd2a217887acdf313c4982134b129c03c7fb3b5d0d99e3732479b695",
+          "size_bytes": 1842
+        },
+        {
+          "path": "collection.json",
+          "sha256": "d5c1cc0c8c85f7b92011dabe878d1a24bb3f7ee24ccc02008c2c39cce5e0d53c",
+          "size_bytes": 1485
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "582f149887973349c8799a31ea4e7d78b7bb10810cd657410ffe9209b0027e4b",
+          "size_bytes": 5
+        },
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        }
+      ],
+      "artifact_status": "not_declared",
+      "convergence_status": "not_checked",
+      "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/psi4",
+      "job_id": "job_39982517e45b44af9412662bd2b3f731",
+      "process_status": "completed",
+      "reason": "The configured executable completed the interface probe through the native job runner.",
+      "request": {
+        "arguments": [
+          "--version"
+        ],
+        "calculation_intent": null,
+        "executable": "psi4",
+        "label": "manual-interface-smoke-psi4",
+        "parent_job_id": null,
+        "resource_limits": {
+          "cpu_cores": 1,
+          "gpu_count": 0,
+          "memory_mb": 1024
+        },
+        "software_id": "psi4",
+        "staged_inputs": [],
+        "stdin_target": null
+      },
+      "request_status": "accepted",
+      "scientific_validation_status": "not_checked",
+      "software_id": "psi4",
+      "software_status": "not_checked",
+      "status": "passed",
+      "stderr_tail": "",
+      "stdout_tail": "1.11\n",
+      "test_level": "interface_smoke",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    },
+    {
+      "archived_files": [
+        {
+          "path": "request.json",
+          "sha256": "6296f796766a2008d42213cb328a25eced1f7f96be39c3342ba4741f8093a1a8",
+          "size_bytes": 1947
+        },
+        {
+          "path": "status.json",
+          "sha256": "ac6aa1d473aeee11962701719bd958c3d34877c76ac666da1fd2019a99c9ee42",
+          "size_bytes": 2102
+        },
+        {
+          "path": "collection.json",
+          "sha256": "18a2b9f371ce0432cd83a02cd6800bb38dd79f4b522599cc3b6a57c37ee9d220",
+          "size_bytes": 7367
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "889c84cfc737c88928095d00bc32668b650d8039db359e0e73174f27af3b8998",
+          "size_bytes": 3400
+        },
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        }
+      ],
+      "artifact_status": "not_declared",
+      "convergence_status": "not_checked",
+      "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/pysisyphus",
+      "job_id": "job_5fb3220872f649528b7c21e2a0694a34",
+      "process_status": "completed",
+      "reason": "The configured executable completed the interface probe through the native job runner.",
+      "request": {
+        "arguments": [
+          "interface_smoke.yaml"
+        ],
+        "calculation_intent": null,
+        "executable": "pysis",
+        "label": "manual-interface-smoke-pysisyphus",
+        "parent_job_id": null,
+        "resource_limits": {
+          "cpu_cores": 1,
+          "gpu_count": 0,
+          "memory_mb": 1024
+        },
+        "software_id": "pysisyphus",
+        "staged_inputs": [
+          {
+            "source_path": "code/pysisyphus_interface_smoke.yaml",
+            "target_path": "interface_smoke.yaml"
+          },
+          {
+            "source_path": "code/pysisyphus_interface_smoke.xyz",
+            "target_path": "interface_smoke.xyz"
+          }
+        ],
+        "stdin_target": null
+      },
+      "request_status": "accepted",
+      "scientific_validation_status": "not_checked",
+      "software_id": "pysisyphus",
+      "software_status": "not_checked",
+      "status": "passed",
+      "stderr_tail": "",
+      "stdout_tail": "0/outputs/execution_jobs/job_5fb3220872f649528b7c21e2a0694a34\n\nIf pysisyphus benefitted your research please cite:\n\n\thttps://doi.org/10.1002/qua.26390\n\nGood luck!\n\n{'calc': {'charge': 0, 'gfn': 2, 'mult': 1, 'pal': 1, 'type': 'xtb'},\n 'geom': {'coord_kwargs': {}, 'fn': 'interface_smoke.xyz', 'type': 'cart'},\n 'opt': {'T': 298.15,\n         'do_hess': False,\n         'dump': True,\n         'max_cycles': 5,\n         'overachieve_factor': 5,\n         'p': 101325,\n         'type': 'rfo'}}\n\nRead 1 geometry.\n                            ########################\n                            # RUNNING OPTIMIZATION #\n                            ########################\n\n     Input geometry: Geometry(H\u2082, 2 atoms)\n  Coordinate system: cart\n  Coordinate number: 6\n         Calculator: XTB calculator\n             Charge: 0\n       Multiplicity: 1\n          Optimizer: rfo\n\n\nIf not specified otherwise, all quantities are given in au.\n\nConvergence thresholds, (overachieved when):\n\tmax(|force|) <= 0.002500, (0.000500) E_h a_0\u207b\u00b9\n\t  rms(force) <= 0.001700, (0.000340) E_h a_0\u207b\u00b9\n\t max(|step|) <= 0.010000 a_0\n\t   rms(step) <= 0.006700 a_0\n\t'Superscript *' indicates convergence\n\nSpent 0.0 s preparing the first cycle.\n               cycle     \u0394(energy)  max(|force|)    rms(force)   max(|step|)     rms(step)  s/cycle\n        --------------------------------------------------------------------------------------------\n                   0           nan*     0.014843      0.008569      0.014836      0.008566    0.032 \n                   1     -0.000304*     0.005791      0.003343      0.009492*     0.005480*   0.019 \n                   2     -0.000059*     0.000484*     0.000279*     0.000866*     0.000500*   0.017 \n        Converged!\n\nFinal summary:\n        \tmax(forces,cartesian): 0.000484 hartree/bohr\n        \trms(forces,cartesian): 0.000279 hartree/bohr\n        \tenergy: -0.98268574 hartree\n        Wrote final, hopefully optimized, geometry to 'final_geometry.xyz'\n\npysisyphus run took 0:00:00 h.\n",
+      "test_level": "interface_smoke",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    },
+    {
+      "archived_files": [
+        {
+          "path": "request.json",
+          "sha256": "0f4196745b445716faf279d4ea9378df573568dc2bb350a8a276f93d02a6b623",
+          "size_bytes": 1270
+        },
+        {
+          "path": "status.json",
+          "sha256": "3367b776ebea81e241e0ffc4c310e93f999df8370988cf2d16821cb7c5d4eca1",
+          "size_bytes": 1876
+        },
+        {
+          "path": "collection.json",
+          "sha256": "a5530bd817baba5215e3a08368bb685ab3ca1408abfa1c9a5a295b70769629ed",
+          "size_bytes": 1485
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "7f897019268dc93e942ade9ee8d9015bbc17f630e1a3de24bfee4ddc2dd53cc2",
+          "size_bytes": 7
+        },
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        }
+      ],
+      "artifact_status": "not_declared",
+      "convergence_status": "not_checked",
+      "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/qcengine",
+      "job_id": "job_27e0db451ec1401187cc1af61372e0ea",
+      "process_status": "completed",
+      "reason": "The configured executable completed the interface probe through the native job runner.",
+      "request": {
+        "arguments": [
+          "--version"
+        ],
+        "calculation_intent": null,
+        "executable": "qcengine",
+        "label": "manual-interface-smoke-qcengine",
+        "parent_job_id": null,
+        "resource_limits": {
+          "cpu_cores": 1,
+          "gpu_count": 0,
+          "memory_mb": 1024
+        },
+        "software_id": "qcengine",
+        "staged_inputs": [],
+        "stdin_target": null
+      },
+      "request_status": "accepted",
+      "scientific_validation_status": "not_checked",
+      "software_id": "qcengine",
+      "software_status": "not_checked",
+      "status": "passed",
+      "stderr_tail": "",
+      "stdout_tail": "0.50.0\n",
+      "test_level": "interface_smoke",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    },
+    {
+      "archived_files": [
+        {
+          "path": "request.json",
+          "sha256": "f9b9f20c0cf97b04e18f76d7f3c247dd2d862b05939396415cc9b484b89bab8a",
+          "size_bytes": 1233
+        },
+        {
+          "path": "status.json",
+          "sha256": "c5ecc122057fe7c406075de48007cd59310be120aaf2dc15ecd9d308c7cdd741",
+          "size_bytes": 1920
+        },
+        {
+          "path": "collection.json",
+          "sha256": "094bbf91f09f2cf1e019ac6d92efed80a0cb35fc2f20c69bd9d995c544de297e",
+          "size_bytes": 2052
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "9be29b12abe68a7eecc4a45f49d91f31a63b1d569b61fae86ac4efc2d7e4d488",
+          "size_bytes": 1200
+        },
+        {
+          "path": "stderr.log",
+          "sha256": "19939a8a6a7e51e20fbd9d6d0ba9286b52508eacaa59e970bebf4f3c51cedbec",
+          "size_bytes": 418
+        }
+      ],
+      "artifact_status": "not_validated",
+      "convergence_status": "not_reached",
+      "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/quantum_espresso",
+      "job_id": "job_aa385b10280344f4998beb117f4416a5",
+      "process_status": "failed",
+      "reason": "The executable started and emitted its banner, usage, or expected missing-input diagnostic, but did not complete successfully.",
+      "request": {
+        "arguments": [
+          "-version"
+        ],
+        "calculation_intent": null,
+        "executable": "pw.x",
+        "label": "manual-interface-smoke-quantum_espresso",
+        "parent_job_id": null,
+        "resource_limits": {
+          "cpu_cores": 1,
+          "gpu_count": 0,
+          "memory_mb": 1024
+        },
+        "software_id": "quantum_espresso",
+        "staged_inputs": [],
+        "stdin_target": null
+      },
+      "request_status": "accepted",
+      "scientific_validation_status": "not_reached",
+      "software_id": "quantum_espresso",
+      "software_status": "not_reached",
+      "status": "started_input_required",
+      "stderr_tail": "--------------------------------------------------------------------------\nMPI_ABORT was invoked on rank 0 in communicator MPI_COMM_WORLD\n  Proc: [[51448,0],0]\n  Errorcode: 1\n\nNOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.\nYou may or may not see output from other processes, depending on\nexactly when Open MPI kills them.\n--------------------------------------------------------------------------\n",
+      "stdout_tail": "\n     Program PWSCF v.7.5 starts on 28Jul2026 at 20:17:45 \n\n     This program is part of the open-source Quantum ESPRESSO suite\n     for quantum simulation of materials; please cite\n         \"P. Giannozzi et al., J. Phys.:Condens. Matter 21 395502 (2009);\n         \"P. Giannozzi et al., J. Phys.:Condens. Matter 29 465901 (2017);\n         \"P. Giannozzi et al., J. Chem. Phys. 152 154105 (2020);\n          URL http://www.quantum-espresso.org\", \n     in publications or presentations arising from this work. More details at\n     http://www.quantum-espresso.org/quote\n\n     Parallel version (MPI & OpenMP), running on       1 processor cores\n     Number of MPI processes:                 1\n     Threads/MPI process:                     1\n\n     MPI processes distributed on     1 nodes\n     160624 MiB available memory on the printing compute node when the environment starts\n\n     Waiting for input...\n     Reading input from standard input\n\n %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n     Error in routine  read_namelists (2):\n      could not find namelist &control\n %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n\n     stopping ...\n",
+      "test_level": "interface_smoke",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    },
+    {
+      "archived_files": [
+        {
+          "path": "request.json",
+          "sha256": "4a4fb639c21062b6eb1a8bb3f8d08d712507b2ae3d21e67998041adea939f3d5",
+          "size_bytes": 1209
+        },
+        {
+          "path": "status.json",
+          "sha256": "c0031989ae2e3877f34f5b9250d11c18ba74eae25f0564b77c7bb8d4a3a1cff7",
+          "size_bytes": 1903
+        },
+        {
+          "path": "collection.json",
+          "sha256": "9836f1efbac3dbca003b50580e80b5dd92fa66f446aac379f017bb543902afff",
+          "size_bytes": 1517
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        },
+        {
+          "path": "stderr.log",
+          "sha256": "590cedd2009e6ae9b7308d834941ce8d995ee23b5223510ca71966ec0481aad0",
+          "size_bytes": 55
+        }
+      ],
+      "artifact_status": "not_validated",
+      "convergence_status": "not_reached",
+      "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/rmg",
+      "job_id": "job_652000d59fb842629512c15d7b45a649",
+      "process_status": "cancelled",
+      "reason": "The command did not reach a terminal state before the interface-smoke deadline and was cancelled.",
+      "request": {
+        "arguments": [
+          "--help"
+        ],
+        "calculation_intent": null,
+        "executable": "rmg.py",
+        "label": "manual-interface-smoke-rmg",
+        "parent_job_id": null,
+        "resource_limits": {
+          "cpu_cores": 1,
+          "gpu_count": 0,
+          "memory_mb": 1024
+        },
+        "software_id": "rmg",
+        "staged_inputs": [],
+        "stdin_target": null
+      },
+      "request_status": "accepted",
+      "scientific_validation_status": "not_reached",
+      "software_id": "rmg",
+      "software_status": "not_reached",
+      "status": "failed",
+      "stderr_tail": "INFO:matplotlib.font_manager:generated new fontManager\n",
+      "stdout_tail": "",
+      "test_level": "interface_smoke",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    },
+    {
+      "archived_files": [
+        {
+          "path": "request.json",
+          "sha256": "11984640d7d2e44fc0c4d6cc49f625f2cbda0ec37122d90b8de9e3a42ae73de6",
+          "size_bytes": 1232
+        },
+        {
+          "path": "status.json",
+          "sha256": "edfbe8a88f8358c5eaed2ec74fab83ec06d9a3dbf88aba15586ef75b672b13b7",
+          "size_bytes": 1835
+        },
+        {
+          "path": "collection.json",
+          "sha256": "1118f65c5108cb316b32d66fab01818082ef124b46d6173e980a2458797b2d84",
+          "size_bytes": 1488
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        },
+        {
+          "path": "stderr.log",
+          "sha256": "3d6348b4e279a95cabb5d4ee378ab6a6432230806621b200900304d743e01f2e",
+          "size_bytes": 2758
+        }
+      ],
+      "artifact_status": "not_declared",
+      "convergence_status": "not_checked",
+      "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/sharc",
+      "job_id": "job_4cc2575654d1417e915c4a8a462a091e",
+      "process_status": "completed",
+      "reason": "The configured executable completed the interface probe through the native job runner.",
+      "request": {
+        "arguments": [
+          "--version"
+        ],
+        "calculation_intent": null,
+        "executable": "sharc.x",
+        "label": "manual-interface-smoke-sharc",
+        "parent_job_id": null,
+        "resource_limits": {
+          "cpu_cores": 1,
+          "gpu_count": 0,
+          "memory_mb": 1024
+        },
+        "software_id": "sharc",
+        "staged_inputs": [],
+        "stdin_target": null
+      },
+      "request_status": "accepted",
+      "scientific_validation_status": "not_checked",
+      "software_id": "sharc",
+      "software_status": "not_checked",
+      "status": "passed",
+      "stderr_tail": "\"SHARC: Surface Hopping Including Arbitrary Couplings --\n  Program Package for Non-Adiabatic Dynamics\" (2014),\n  sharc-md.org\n\nPlease report bugs and feature suggestions to:\nsharc@univie.ac.at\nphilipp.marquetand@univie.ac.at\n\nCopyright (c) 2023, University of Vienna\n\nPermission is hereby granted, free of charge, to any person obtaining a copy \nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights \nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell    \ncopies of the Software, and to permit persons to whom the Software is        \nfurnished to do so, subject to the following conditions:                     \n                                                                             \nThe above copyright notice and this permission notice shall be included in   \nall copies or substantial portions of the Software.                          \n                                                                             \nThe Software is provided \"AS IS\", without warranty of any kind, express or   \nimplied, including but not limited to the warranties of merchantability,     \nfitness for a particular purpose and noninfringement. In no event shall the  \nauthors or copyright holders be liable for any claim, damages or other       \nliability, whether in an action of contract, tort or otherwise, arising from,\nout of or in connection with the software or the use or other dealings in    \nthe Software.                                                                \n\n\nBUILD INFORMATION:\nBuild date: Sat Jul 18 20:34:30 UTC 2026\nBuild host: lfy-hpc-20cpu--d766991d0052-4texgpggcy\nBuild directory: /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/sharc/source/source\nCompiler: /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/deepmd/bin/x86_64-conda-linux-gnu-gfortran\n",
+      "stdout_tail": "",
+      "test_level": "interface_smoke",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    },
+    {
+      "archived_files": [
+        {
+          "path": "request.json",
+          "sha256": "d09073c3f5307fe9a3eed131fca9da9b9788f4ced937c89a046bcbc323f8a8c1",
+          "size_bytes": 1234
+        },
+        {
+          "path": "status.json",
+          "sha256": "5175fe6be777523a23dcc53bbc91e946d41d36311ed560b41c79c1ca9f24841f",
+          "size_bytes": 1915
+        },
+        {
+          "path": "collection.json",
+          "sha256": "c9154dbfa9e7a485deae2729e949804ad575ebf990e520ba7bdad3c11efdb829",
+          "size_bytes": 1509
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        },
+        {
+          "path": "stderr.log",
+          "sha256": "b1110a1e5b46f5d769f223d3bd23a2ce46848cdf25a7e9724f74a65553f23ebf",
+          "size_bytes": 410
+        }
+      ],
+      "artifact_status": "not_validated",
+      "convergence_status": "not_reached",
+      "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/shengbte",
+      "job_id": "job_fa806262252f4779b5985b1606dd11f8",
+      "process_status": "failed",
+      "reason": "The executable started and emitted its banner, usage, or expected missing-input diagnostic, but did not complete successfully.",
+      "request": {
+        "arguments": [
+          "--help"
+        ],
+        "calculation_intent": null,
+        "executable": "ShengBTE",
+        "label": "manual-interface-smoke-shengbte",
+        "parent_job_id": null,
+        "resource_limits": {
+          "cpu_cores": 1,
+          "gpu_count": 0,
+          "memory_mb": 1024
+        },
+        "software_id": "shengbte",
+        "staged_inputs": [],
+        "stdin_target": null
+      },
+      "request_status": "accepted",
+      "scientific_validation_status": "not_reached",
+      "software_id": "shengbte",
+      "software_status": "not_reached",
+      "status": "started_input_required",
+      "stderr_tail": "At line 114 of file config.f90 (unit = 1)\nFortran runtime error: Cannot open file 'CONTROL': No such file or directory\n\nError termination. Backtrace:\n#0  0x7f38c330dd2b in already_open\n\tat ../../../libgfortran/io/open.c:742\n#1  0x5630998684e4 in ???\n#2  0x56309988f116 in ???\n#3  0x56309986451e in ???\n#4  0x7f38c2bbad8f in ???\n#5  0x7f38c2bbae3f in ???\n#6  0x563099864554 in ???\n#7  0xffffffffffffffff in ???\n",
+      "stdout_tail": "",
+      "test_level": "interface_smoke",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    },
+    {
+      "archived_files": [
+        {
+          "path": "request.json",
+          "sha256": "15b2caa7e3dbb9da87c51740ef37d6b1d46c5b9a81c7b9200659eea1f83d744f",
+          "size_bytes": 1475
+        },
+        {
+          "path": "status.json",
+          "sha256": "337366372c8a85b26f50c70d1434eab2c7593ec7c27c94b2de3ff6b4f740c8d3",
+          "size_bytes": 1836
+        },
+        {
+          "path": "collection.json",
+          "sha256": "a5d6ee4c099d53106b439813963b7cfb8acdf61365a8ee24931a38606ea736cc",
+          "size_bytes": 1487
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "22fa258ae4fed0ecc6e629cba91f2179de4c67ab95dab67b859eeb8e0609b0bd",
+          "size_bytes": 676
+        },
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        }
+      ],
+      "artifact_status": "not_declared",
+      "convergence_status": "not_checked",
+      "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/siesta",
+      "job_id": "job_f681286321024237b3bb80d49defba8a",
+      "process_status": "completed",
+      "reason": "The configured executable completed the interface probe through the native job runner.",
+      "request": {
+        "arguments": [
+          "--version"
+        ],
+        "calculation_intent": null,
+        "executable": "siesta",
+        "label": "manual-interface-smoke-siesta",
+        "parent_job_id": null,
+        "resource_limits": {
+          "cpu_cores": 1,
+          "gpu_count": 0,
+          "memory_mb": 1024
+        },
+        "software_id": "siesta",
+        "staged_inputs": [
+          {
+            "source_path": "code/siesta_interface_smoke.stdin",
+            "target_path": "interface_smoke.stdin"
+          }
+        ],
+        "stdin_target": "interface_smoke.stdin"
+      },
+      "request_status": "accepted",
+      "scientific_validation_status": "not_checked",
+      "software_id": "siesta",
+      "software_status": "not_checked",
+      "status": "passed",
+      "stderr_tail": "",
+      "stdout_tail": "Executable      : /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/periodic/bin/siesta\nVersion         : 5.4.2\nArchitecture    : x86_64\nCompiler version: GNU-14.3.0\nCompiler flags  : -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -fno-merge-constants -isystem <prefix>/include -I<prefix>/_build_env/include -fdebug-prefix-map=<prefix>/work=/usr/local/src/conda/siesta-5.4.2 -fdebug-prefix-map=<prefix>=/usr/local/src/conda-prefix -I<prefix>/lib -fallow-argument-mismatch -O3\nParallelisations: none\nNetCDF support\nNetCDF-4 support\nLua support\nDFT-D3 support\n",
+      "test_level": "interface_smoke",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    },
+    {
+      "archived_files": [
+        {
+          "path": "request.json",
+          "sha256": "7d46e39382ce09b3f1ef66a39a7599685019d80515379fdf3eba8f14994831bb",
+          "size_bytes": 1263
+        },
+        {
+          "path": "status.json",
+          "sha256": "1fc4ae5518808f119364b515a62546b0b3c281f733385dae86ae0680f29df96b",
+          "size_bytes": 1869
+        },
+        {
+          "path": "collection.json",
+          "sha256": "01b51faab066702eb1acda4ffe8789a56e29ac10b7290928d33f09d79ea53429",
+          "size_bytes": 1488
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "c72d5d038ec1a6d225b5ad6fb44eb4d7d653576d9bc23699cc4e7b4375e92d23",
+          "size_bytes": 1768
+        },
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        }
+      ],
+      "artifact_status": "not_declared",
+      "convergence_status": "not_checked",
+      "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/theodore",
+      "job_id": "job_8340ca316a3f472e878b121def30bf6e",
+      "process_status": "completed",
+      "reason": "The configured executable completed the interface probe through the native job runner.",
+      "request": {
+        "arguments": [
+          "--version"
+        ],
+        "calculation_intent": null,
+        "executable": "theodore",
+        "label": "manual-interface-smoke-theodore",
+        "parent_job_id": null,
+        "resource_limits": {
+          "cpu_cores": 1,
+          "gpu_count": 0,
+          "memory_mb": 1024
+        },
+        "software_id": "theodore",
+        "staged_inputs": [],
+        "stdin_target": null
+      },
+      "request_status": "accepted",
+      "scientific_validation_status": "not_checked",
+      "software_id": "theodore",
+      "software_status": "not_checked",
+      "status": "passed",
+      "stderr_tail": "",
+      "stdout_tail": " *** Warning: python-openbabel not found! ***\n Using emulation program with limited capabilities ...\n *** Warning: python-openbabel not found! ***\n Using emulation program with limited capabilities ...\n *** Orbkit installation not found. ***\n Install orbkit for extended plotting capabilities.\n\n================================================================================\n|                                 TheoDORE 2.4                                 |\n|         Theoretical Density, Orbital Relaxation and Exciton analysis         |\n|                                                                              |\n|                            Author: Felix Plasser                             |\n|             Contributions by: L. Stojanovic, G. Hermann, S. Mai,             |\n|                          M.F.S.J. Menger, P. Kimber                          |\n--------------------------------------------------------------------------------\n|                       References for the modules used                        |\n|        (see also http://theodore-qc.sourceforge.net/literature.html)         |\n|                                                                              |\n|   Program citation:                                                          |\n|     F. Plasser, J. Chem. Phys. (2020), 152, 084108.                          |\n================================================================================\n\n\n\n  optional arguments:\n  ---------------------------------------------------\n    -h/--help            | show this help message and exit                   \n\n\n\nusage: /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/theodore/bin/theodore [-h]  \n\n\nError: Cannot understand option --version\n",
+      "test_level": "interface_smoke",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    },
+    {
+      "artifact_status": "valid",
+      "convergence_status": "converged",
+      "evidence_path": "chemistry_toolbox/evidence/native_smoke/20260728_reliability_fix_v3/vasp_ground_state",
+      "job_id": "job_7ce46a8d25a84e248fc27224849b97e9",
+      "process_status": "completed",
+      "reason": "A self-contained scientific smoke completed with normal software termination, task-specific convergence, and valid artifacts.",
+      "request": {
+        "arguments": [],
+        "executable": "vasp_std",
+        "resource_limits": {
+          "cpu_cores": 1,
+          "gpu_count": 0,
+          "memory_mb": 2048
+        },
+        "software_id": "vasp",
+        "staged_inputs": [
+          {
+            "source_path": "chemistry_toolbox/examples/native/vasp/ground_state/INCAR",
+            "target_path": "INCAR"
+          },
+          {
+            "source_path": "chemistry_toolbox/examples/native/vasp/ground_state/POSCAR",
+            "target_path": "POSCAR"
+          },
+          {
+            "source_path": "chemistry_toolbox/examples/native/vasp/ground_state/KPOINTS",
+            "target_path": "KPOINTS"
+          },
+          {
+            "source_path": "<licensed-si-potcar-workspace-path>",
+            "target_path": "POTCAR"
+          }
+        ]
+      },
+      "scientific_validation_status": "mechanically_valid",
+      "software_id": "vasp",
+      "software_status": "normal_termination",
+      "status": "passed",
+      "test_level": "scientific_smoke",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    },
+    {
+      "archived_files": [
+        {
+          "path": "request.json",
+          "sha256": "f087e941673e079b521b236002571d013de8a17914ae406566eb479f6f0ed7da",
+          "size_bytes": 1225
+        },
+        {
+          "path": "status.json",
+          "sha256": "9cc97efd631af43b0727e772ec310e37000554a3eb386c157e5cdd9c98f02fa0",
+          "size_bytes": 1834
+        },
+        {
+          "path": "collection.json",
+          "sha256": "2688e8279ca49fd751e37a0bf19d26e0ff297a25f765266013d1a43c933d41db",
+          "size_bytes": 1487
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        },
+        {
+          "path": "stderr.log",
+          "sha256": "76b7f97efd5a5207ee9297191db2bd8a74bb3e98af66ee98355a4492b3a9d47d",
+          "size_bytes": 244
+        }
+      ],
+      "artifact_status": "not_declared",
+      "convergence_status": "not_checked",
+      "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/vesta",
+      "job_id": "job_7d4176a6c3a1469685efdd01dfec0d9e",
+      "process_status": "completed",
+      "reason": "The executable was reached, but startup reported a runtime, import, or configuration failure.",
+      "request": {
+        "arguments": [
+          "-h"
+        ],
+        "calculation_intent": null,
+        "executable": "VESTA",
+        "label": "manual-interface-smoke-vesta",
+        "parent_job_id": null,
+        "resource_limits": {
+          "cpu_cores": 1,
+          "gpu_count": 0,
+          "memory_mb": 1024
+        },
+        "software_id": "vesta",
+        "staged_inputs": [],
+        "stdin_target": null
+      },
+      "request_status": "accepted",
+      "scientific_validation_status": "not_checked",
+      "software_id": "vesta",
+      "software_status": "not_checked",
+      "status": "failed",
+      "stderr_tail": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/vesta/3.90.5a/VESTA-gui: error while loading shared libraries: libxkbcommon.so.0: cannot open shared object file: No such file or directory\n",
+      "stdout_tail": "",
+      "test_level": "interface_smoke",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    },
+    {
+      "archived_files": [
+        {
+          "path": "request.json",
+          "sha256": "d30faae18c65e55dadfa7db3bb7332ba35be2d4b28ccda4d73d97db9fec842a1",
+          "size_bytes": 1355
+        },
+        {
+          "path": "status.json",
+          "sha256": "69e523976bb7d6597f8f4a4d828c899a8b1620e69e46f6695f5ca603948373d9",
+          "size_bytes": 1961
+        },
+        {
+          "path": "collection.json",
+          "sha256": "efeedd578c8180d313e99c2a6e8241d5fa069be5d2976144e02a71c250ccc55f",
+          "size_bytes": 1486
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "d81a74069d67775aa590e3f77944765bc9eb20064fe08d774f4862f429a2679b",
+          "size_bytes": 26
+        },
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        }
+      ],
+      "artifact_status": "not_declared",
+      "convergence_status": "not_checked",
+      "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/vina",
+      "job_id": "job_f92e462588554513b58910728e44bea0",
+      "process_status": "completed",
+      "reason": "The configured executable completed the interface probe through the native job runner.",
+      "request": {
+        "arguments": [
+          "--version"
+        ],
+        "calculation_intent": null,
+        "executable": "vina",
+        "label": "manual-interface-smoke-vina",
+        "parent_job_id": null,
+        "resource_limits": {
+          "cpu_cores": 1,
+          "gpu_count": 0,
+          "memory_mb": 1024
+        },
+        "software_id": "vina",
+        "staged_inputs": [],
+        "stdin_target": null
+      },
+      "request_status": "accepted",
+      "scientific_validation_status": "not_checked",
+      "software_id": "vina",
+      "software_status": "not_checked",
+      "status": "passed",
+      "stderr_tail": "",
+      "stdout_tail": "AutoDock Vina f458505-mod\n",
+      "test_level": "interface_smoke",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    },
+    {
+      "archived_files": [
+        {
+          "path": "request.json",
+          "sha256": "109138fe9d2155c0a58b85b17594b7c4dab993ec8815d24d5c5ff96caef0efcb",
+          "size_bytes": 1282
+        },
+        {
+          "path": "status.json",
+          "sha256": "e0338c7a220a2764fba424c48f82a26b3f2cd737c4d497eaff6a4c499cdfa730",
+          "size_bytes": 1892
+        },
+        {
+          "path": "collection.json",
+          "sha256": "0e452e4fdb128a40de05bdbd5c4238b298111661dbfc16f62f718b7e8a6d94b2",
+          "size_bytes": 1489
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "1b725458ef9688f6f0a1467a6f2dd0015155e01200ba179764d0f9b62456bc5e",
+          "size_bytes": 941
+        },
+        {
+          "path": "stderr.log",
+          "sha256": "34e6d89acc9b1a8fecb33c2f79a4c2d8133d6fcd510142a468f4fc2936b420cf",
+          "size_bytes": 334
+        }
+      ],
+      "artifact_status": "not_declared",
+      "convergence_status": "not_checked",
+      "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/vmd",
+      "job_id": "job_38ae144d295e423991525bff08ee1d55",
+      "process_status": "completed",
+      "reason": "The configured executable completed the interface probe through the native job runner.",
+      "request": {
+        "arguments": [
+          "-dispdev",
+          "text",
+          "-eofexit"
+        ],
+        "calculation_intent": null,
+        "executable": "vmd",
+        "label": "manual-interface-smoke-vmd",
+        "parent_job_id": null,
+        "resource_limits": {
+          "cpu_cores": 1,
+          "gpu_count": 0,
+          "memory_mb": 1024
+        },
+        "software_id": "vmd",
+        "staged_inputs": [],
+        "stdin_target": null
+      },
+      "request_status": "accepted",
+      "scientific_validation_status": "not_checked",
+      "software_id": "vmd",
+      "software_status": "not_checked",
+      "status": "passed",
+      "stderr_tail": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/vmd/lib/vmd/vmd_LINUXAMD64: /lib/x86_64-linux-gnu/libGL.so.1: no version information available (required by /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/vmd/lib/vmd/vmd_LINUXAMD64)\n",
+      "stdout_tail": "Info) VMD for LINUXAMD64, version 1.9.3 (November 30, 2016)\nInfo) http://www.ks.uiuc.edu/Research/vmd/                         \nInfo) Email questions and bug reports to vmd@ks.uiuc.edu           \nInfo) Please include this reference in published work using VMD:   \nInfo)    Humphrey, W., Dalke, A. and Schulten, K., `VMD - Visual   \nInfo)    Molecular Dynamics', J. Molec. Graphics 1996, 14.1, 33-38.\nInfo) -------------------------------------------------------------\nInfo) Multithreading available, 64 CPUs detected.\nInfo)   CPU features: SSE2 AVX AVX2 FMA KNL:AVX-512F+CD+ER+PF \nInfo) Free system memory: 403GB (80%)\nInfo) No CUDA accelerator devices available.\nInfo) Dynamically loaded 2 plugins in directory:\nInfo) /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/vmd/lib/vmd/plugins/LINUXAMD64/molfile\nInfo) VMD for LINUXAMD64, version 1.9.3 (November 30, 2016)\nInfo) Exiting normally.\n",
+      "test_level": "interface_smoke",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    },
+    {
+      "archived_files": [
+        {
+          "path": "request.json",
+          "sha256": "9d744f1c4c2ca1b82212fa16be346116bdddf04e8faa951da1df7847b3439ca9",
+          "size_bytes": 1243
+        },
+        {
+          "path": "status.json",
+          "sha256": "ee3f7fd4cde57dfd979adfeabb4bcec8a585e789473a5238c6ba93cf230c59cb",
+          "size_bytes": 1850
+        },
+        {
+          "path": "collection.json",
+          "sha256": "75d69cf971404ded7b387d26debf7d4f71a86bcaa24232ad930e843cf924740a",
+          "size_bytes": 1486
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "ba7c07d6a1b61958f737d8027852718e821e439c8427ff26fd3ea9c839d82fea",
+          "size_bytes": 17
+        },
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        }
+      ],
+      "artifact_status": "not_declared",
+      "convergence_status": "not_checked",
+      "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/wannier90",
+      "job_id": "job_c0771b0fba014b92ae2b97735a14402b",
+      "process_status": "completed",
+      "reason": "The configured executable completed the interface probe through the native job runner.",
+      "request": {
+        "arguments": [
+          "--version"
+        ],
+        "calculation_intent": null,
+        "executable": "wannier90.x",
+        "label": "manual-interface-smoke-wannier90",
+        "parent_job_id": null,
+        "resource_limits": {
+          "cpu_cores": 1,
+          "gpu_count": 0,
+          "memory_mb": 1024
+        },
+        "software_id": "wannier90",
+        "staged_inputs": [],
+        "stdin_target": null
+      },
+      "request_status": "accepted",
+      "scientific_validation_status": "not_checked",
+      "software_id": "wannier90",
+      "software_status": "not_checked",
+      "status": "passed",
+      "stderr_tail": "",
+      "stdout_tail": "Wannier90: 3.1.0\n",
+      "test_level": "interface_smoke",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    },
+    {
+      "archived_files": [
+        {
+          "path": "request.json",
+          "sha256": "ee9a0a662cc634b66866de53a0627bc88d2cf77c6910380a79645e256a2345f4",
+          "size_bytes": 1274
+        },
+        {
+          "path": "status.json",
+          "sha256": "faab85c359902f4a0fb6e3e3b1ae53b3db180cf12d2ed5d4e44c71e65998d227",
+          "size_bytes": 1880
+        },
+        {
+          "path": "collection.json",
+          "sha256": "37741b6be2def198640974acf6fe6dc3b4c1a57aba65373dface31c9faa84745",
+          "size_bytes": 1488
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "46ca8c561ce538adb6eb74fb4033ab191847a5b29e93b6d29a721425faf029e9",
+          "size_bytes": 658
+        },
+        {
+          "path": "stderr.log",
+          "sha256": "db41edc1c74dad5a3527d5c6e4a48bfce3c2cabc0f0ad20acb5e420ad2a68ea9",
+          "size_bytes": 26
+        }
+      ],
+      "artifact_status": "not_declared",
+      "convergence_status": "not_checked",
+      "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/xtb",
+      "job_id": "job_44de82641ad54486a446f1290f24ee99",
+      "process_status": "completed",
+      "reason": "The configured executable completed the interface probe through the native job runner.",
+      "request": {
+        "arguments": [
+          "--version"
+        ],
+        "calculation_intent": null,
+        "executable": "xtb",
+        "label": "manual-interface-smoke-xtb",
+        "parent_job_id": null,
+        "resource_limits": {
+          "cpu_cores": 1,
+          "gpu_count": 0,
+          "memory_mb": 1024
+        },
+        "software_id": "xtb",
+        "staged_inputs": [],
+        "stdin_target": null
+      },
+      "request_status": "accepted",
+      "scientific_validation_status": "not_checked",
+      "software_id": "xtb",
+      "software_status": "not_checked",
+      "status": "passed",
+      "stderr_tail": "normal termination of xtb\n",
+      "stdout_tail": "      -----------------------------------------------------------      \n     |                   =====================                   |     \n     |                           x T B                           |     \n     |                   =====================                   |     \n     |                         S. Grimme                         |     \n     |          Mulliken Center for Theoretical Chemistry        |     \n     |                    University of Bonn                     |     \n      -----------------------------------------------------------      \n\n   * xtb version 6.7.1 (edcfbbe) compiled by 'conda@5dfe00f5fb80' on 2026-06-10\n\n",
+      "test_level": "interface_smoke",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    },
+    {
+      "archived_files": [
+        {
+          "path": "request.json",
+          "sha256": "94f3db2bb0b80574d28cd3d489964af34f0f576795a8c156c695f84301344124",
+          "size_bytes": 1223
+        },
+        {
+          "path": "status.json",
+          "sha256": "4f8cf89d559a065ae1f0193df9ac42ed834759b6d7e4ad9c0d009a35eb8a6dee",
+          "size_bytes": 1831
+        },
+        {
+          "path": "collection.json",
+          "sha256": "ea22beb9c04d5e430367d6a066e44deeb764921c50ab55c6a1a71fac1ceb7b58",
+          "size_bytes": 1486
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        },
+        {
+          "path": "stderr.log",
+          "sha256": "de316bd60d64ec58382ae527f5b432b46ba5414d90f5e7af5d8889fced362781",
+          "size_bytes": 87
+        }
+      ],
+      "artifact_status": "not_declared",
+      "convergence_status": "not_checked",
+      "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/yambo",
+      "job_id": "job_3e62ab34146444258dce439052397f00",
+      "process_status": "completed",
+      "reason": "The configured executable completed the interface probe through the native job runner.",
+      "request": {
+        "arguments": [
+          "--version"
+        ],
+        "calculation_intent": null,
+        "executable": "p2y",
+        "label": "manual-interface-smoke-yambo",
+        "parent_job_id": null,
+        "resource_limits": {
+          "cpu_cores": 1,
+          "gpu_count": 0,
+          "memory_mb": 1024
+        },
+        "software_id": "yambo",
+        "staged_inputs": [],
+        "stdin_target": null
+      },
+      "request_status": "accepted",
+      "scientific_validation_status": "not_checked",
+      "software_id": "yambo",
+      "software_status": "not_checked",
+      "status": "passed",
+      "stderr_tail": "\nThis is p2y - MPI+OpenMP+SLK+HDF5_MPI_IO - Ver. 5.3.0 Revision 23927 Hash 1730222ea \n\n",
+      "stdout_tail": "",
+      "test_level": "interface_smoke",
+      "tested_at": "2026-07-28T20:16:58.943969+00:00"
+    }
+  ]
+}

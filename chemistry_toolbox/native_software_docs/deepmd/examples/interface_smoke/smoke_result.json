@@ -1,0 +1,61 @@
+{
+  "archived_files": [
+    {
+      "path": "request.json",
+      "sha256": "3230b1783f4babaf335ed8d7223a89cd56dfff2dc63effa1437d29b8d301fee2",
+      "size_bytes": 1281
+    },
+    {
+      "path": "status.json",
+      "sha256": "9108eda9cd6ab528d273d710a5720c45131fc86a532820233005288c591ba0ca",
+      "size_bytes": 1889
+    },
+    {
+      "path": "collection.json",
+      "sha256": "c395bc3763f07c40172f06f5d0f46d7477ad24330a54c599b612f96fa82909f9",
+      "size_bytes": 1486
+    },
+    {
+      "path": "stdout.log",
+      "sha256": "6b7025e361599c050278c9cbbb8e6fb61f4930d8e949cb98b227a86cd1daf292",
+      "size_bytes": 20
+    },
+    {
+      "path": "stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    }
+  ],
+  "artifact_status": "not_declared",
+  "convergence_status": "not_checked",
+  "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/deepmd",
+  "job_id": "job_abaf9b3abbed4fec9787a93c4d2a92bd",
+  "process_status": "completed",
+  "reason": "The configured executable completed the interface probe through the native job runner.",
+  "request": {
+    "arguments": [
+      "--version"
+    ],
+    "calculation_intent": null,
+    "executable": "dp",
+    "label": "manual-interface-smoke-deepmd",
+    "parent_job_id": null,
+    "resource_limits": {
+      "cpu_cores": 1,
+      "gpu_count": 0,
+      "memory_mb": 1024
+    },
+    "software_id": "deepmd",
+    "staged_inputs": [],
+    "stdin_target": null
+  },
+  "request_status": "accepted",
+  "scientific_validation_status": "not_checked",
+  "software_id": "deepmd",
+  "software_status": "not_checked",
+  "status": "passed",
+  "stderr_tail": "",
+  "stdout_tail": "DeePMD-kit v3.2.0b0\n",
+  "test_level": "interface_smoke",
+  "tested_at": "2026-07-28T20:16:58.943969+00:00"
+}

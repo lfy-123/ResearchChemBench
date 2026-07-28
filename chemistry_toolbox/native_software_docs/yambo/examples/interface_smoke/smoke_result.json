@@ -1,0 +1,61 @@
+{
+  "archived_files": [
+    {
+      "path": "request.json",
+      "sha256": "94f3db2bb0b80574d28cd3d489964af34f0f576795a8c156c695f84301344124",
+      "size_bytes": 1223
+    },
+    {
+      "path": "status.json",
+      "sha256": "4f8cf89d559a065ae1f0193df9ac42ed834759b6d7e4ad9c0d009a35eb8a6dee",
+      "size_bytes": 1831
+    },
+    {
+      "path": "collection.json",
+      "sha256": "ea22beb9c04d5e430367d6a066e44deeb764921c50ab55c6a1a71fac1ceb7b58",
+      "size_bytes": 1486
+    },
+    {
+      "path": "stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "stderr.log",
+      "sha256": "de316bd60d64ec58382ae527f5b432b46ba5414d90f5e7af5d8889fced362781",
+      "size_bytes": 87
+    }
+  ],
+  "artifact_status": "not_declared",
+  "convergence_status": "not_checked",
+  "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/yambo",
+  "job_id": "job_3e62ab34146444258dce439052397f00",
+  "process_status": "completed",
+  "reason": "The configured executable completed the interface probe through the native job runner.",
+  "request": {
+    "arguments": [
+      "--version"
+    ],
+    "calculation_intent": null,
+    "executable": "p2y",
+    "label": "manual-interface-smoke-yambo",
+    "parent_job_id": null,
+    "resource_limits": {
+      "cpu_cores": 1,
+      "gpu_count": 0,
+      "memory_mb": 1024
+    },
+    "software_id": "yambo",
+    "staged_inputs": [],
+    "stdin_target": null
+  },
+  "request_status": "accepted",
+  "scientific_validation_status": "not_checked",
+  "software_id": "yambo",
+  "software_status": "not_checked",
+  "status": "passed",
+  "stderr_tail": "\nThis is p2y - MPI+OpenMP+SLK+HDF5_MPI_IO - Ver. 5.3.0 Revision 23927 Hash 1730222ea \n\n",
+  "stdout_tail": "",
+  "test_level": "interface_smoke",
+  "tested_at": "2026-07-28T20:16:58.943969+00:00"
+}

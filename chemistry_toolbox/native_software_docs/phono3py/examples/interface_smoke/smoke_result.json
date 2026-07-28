@@ -1,0 +1,61 @@
+{
+  "archived_files": [
+    {
+      "path": "request.json",
+      "sha256": "05d0de83864bd47eeadde095a3b38ec746cf6ad96466ddfdf7e5abe0c6a892f9",
+      "size_bytes": 1257
+    },
+    {
+      "path": "status.json",
+      "sha256": "af393a7479b647cd70ae59cc3fb0278c3d465bf1195c58b26a04c4852774eab6",
+      "size_bytes": 1865
+    },
+    {
+      "path": "collection.json",
+      "sha256": "ba04902d820c065cbe78076d67633609df60ff02ce01e4ece495aa1d100050fa",
+      "size_bytes": 1489
+    },
+    {
+      "path": "stdout.log",
+      "sha256": "5c2521e833f46b3b52e848be711a6e44f9c8aa4dad70e6b8694a45cd8cb2e2c6",
+      "size_bytes": 14076
+    },
+    {
+      "path": "stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    }
+  ],
+  "artifact_status": "not_declared",
+  "convergence_status": "not_checked",
+  "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/phono3py",
+  "job_id": "job_4716a5c861e4471cacf5354db9248af5",
+  "process_status": "completed",
+  "reason": "The configured executable completed the interface probe through the native job runner.",
+  "request": {
+    "arguments": [
+      "-h"
+    ],
+    "calculation_intent": null,
+    "executable": "phono3py",
+    "label": "manual-interface-smoke-phono3py",
+    "parent_job_id": null,
+    "resource_limits": {
+      "cpu_cores": 1,
+      "gpu_count": 0,
+      "memory_mb": 1024
+    },
+    "software_id": "phono3py",
+    "staged_inputs": [],
+    "stdin_target": null
+  },
+  "request_status": "accepted",
+  "scientific_validation_status": "not_checked",
+  "software_id": "phono3py",
+  "software_status": "not_checked",
+  "status": "passed",
+  "stderr_tail": "",
+  "stdout_tail": "-symfc               Use symfc for generating force constants\n  --symfc-memshow       Show symfc memory usage with respect to cutoff\n                        distance\n  --symfc-projector     Symmetrize force constants by symfc projector\n  --symfc-memsize SYMFC_MEMORY_SIZE\n                        Memory size to estimate cutoff pair distance (GB)\n  --spf                 Calculate spectral function\n  --stp, --show-num-triplets\n                        Show reduced number of triplets to be calculated at\n                        specified grid points\n  --sym-fc3q            Symmetrize fc3 in reciprocal space by index exchange\n  --thm, --tetrahedron-method\n                        Use tetrahedron method.\n  --tmax TMAX           Maximum calculated temperature\n  --tmin TMIN           Minimum calculated temperature\n  --tt TRANSPORT_TYPE, --transport-type TRANSPORT_TYPE\n                        Transport type of thermal conductivity calculation\n  --ts TEMPERATURES [TEMPERATURES ...], --temperature TEMPERATURES [TEMPERATURES ...]\n                        Temperatures for damping functions\n  --tstep TSTEP         Calculated temperature step\n  --uplo LAPACK_ZHEEV_UPLO\n                        Lapack zheev UPLO for phonon solver (default: L)\n  --v2                  Disable taking average in fc3-r2q transformation\n                        around three atoms\n  --wgp, --write-grid-points\n                        Write grid address of irreducible grid points for\n                        specified mesh numbers to ir_grid_address.yaml\n  --write-collision     Write collision matrix and Gammas to files\n  --write-gamma         Write imag-part of self energy to files\n  --write-gamma-detail, --write_detailed_gamma\n                        Write out detailed imag-part of self energy\n  --write-phonon        Write all phonons on grid points to files\n  --write-pp            Write phonon-phonon interaction strength\n  --write-lbte-solution\n                        Write direct solution of LBTE to hdf5 files\n",
+  "test_level": "interface_smoke",
+  "tested_at": "2026-07-28T20:16:58.943969+00:00"
+}

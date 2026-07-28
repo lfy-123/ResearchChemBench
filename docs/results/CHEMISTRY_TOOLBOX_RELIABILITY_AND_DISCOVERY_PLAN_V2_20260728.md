@@ -7,16 +7,18 @@
 本方案中的实现和复核修复已经完成，现有三层架构保持不变。主要结果如下：
 
 - 工具箱第一方运行时文本、配置、脚本、测试和活动操作文档统一为英文，并由自动检查阻止中文重新进入；第三方环境锁文件和项目级中文结果报告不属于运行时接口。
-- 56 个原生软件全部具有结构化英文 `INDEX.md`。其中 5 个高频软件保留人工维护的多主题手册，其余 51 个软件由 Catalog、软件指南和安装状态确定性生成；当前共有 79 份第一方 Markdown，front matter、生成一致性和按需读取 token 估算均有测试。
+- 56 个原生软件均有结构化英文目录。除 EasySpin 和 MATLAB 两个无可执行许可宿主的占位条目外，54 个可调用条目均具有 `INDEX.md`、`QUICKSTART.md`、`COMMON_TASKS.md`、`TROUBLESHOOTING.md` 和独立 `examples/interface_smoke/`；当前共有 234 份第一方 Markdown 和 168 个示例/结果文件。
+- 56 个软件条目已逐项建立 smoke 记录：40 项通过、11 项到达程序但需要科学输入、3 项真实失败、2 项许可占位跳过。5 个高频软件使用已有科学 smoke；其余通过公开原生作业接口验证 executable、staging、stdin、资源、取消和日志归档。Arkane/RMG 的 CLI 启动超过 180 秒，VESTA 缺少图形共享库，均保留为明确失败而非伪成功。
 - ORCA、Gaussian、CREST、VASP、LOBSTER 的真实 smoke 已通过当前代码重新执行并归档请求、状态、日志、关键输出和 SHA-256；验证结果为 5/5 `mechanically_valid`。
 - 单作业内存限制改为监控整个进程组 RSS，并强制执行 `min(job_memory, evaluation_memory)`；删除会错误累计多线程 CPU 时间的 `RLIMIT_CPU`，walltime 继续由 Supervisor 管理。
 - 原生作业新增显式或自动推断的 `calculation_intent`。ORCA、Gaussian 和 VASP 按单点、优化、频率、过渡态或离子弛豫分别判断收敛，SCF/电子收敛不再被误当作几何或离子收敛。
 - Action 发现使用分类浏览、英文 aliases、BM25、拼写修正和本地量化 `all-MiniLM-L6-v2` 补召回。25 条固定查询的 lexical/hybrid Hit@1、Recall@5、MRR、nDCG@5 均为 1.00；75 次 hybrid 测量的常驻 p95 为 57.03 ms。
+- 只读 discovery 工具保留结果和调用轨迹，但关闭无意义的全 workspace 产物快照；大型 workspace 中自然语言 Action 查询由超过 30 秒恢复为冷启动 0.269 秒、常驻 0.057 至 0.061 秒。
 - Action 搜索返回 `predicted_categories`、`matched_fields`、精确命中、扩展词和 `ranking_reason`；ActionSpec 同时提供 keywords、capability tags、scientific entities 以及输入输出语义类型。
 - 通用编程接口执行真实 runtime import，并检查包版本、所需符号和 staged Python 语法；`JobContext` 新增 `write_json()`、`register_output()`、NaN/Inf 拒绝、标准目录环境变量和运行时产物登记，同时提供 8 类可编译程序模板。
 - 三层状态明确区分请求、进程、软件、收敛、产物和机械科学校验。真实 LOBSTER 退出码 0 但正文报错的轨迹会被判为 mechanically invalid；第三层外部 executable 静态审计与 `JobContext` 均明确不是 OS 权限边界。
 - 从当前保留的工作区中建立了 81 个可审计独立失败样本，包含 47 个原生软件和 34 个通用程序失败。当前预检可提前拒绝 69 个，剩余 12 个属于运行期路径、数据解析或程序逻辑问题；重复状态轮询不计为独立失败。
-- 最终英文检查、Python 编译检查、文档/证据哈希验证和完整测试套件全部通过；最终结果为 322 passed，耗时 534.69 秒。
+- 前一轮英文检查、Python 编译检查、文档/证据哈希验证和完整测试套件全部通过，结果为 322 passed、耗时 534.69 秒；详细手册和全目录 smoke 新增后的完整验证结果记录在任务 16。
 
 本方案结合已有代码和轨迹核查结果，重点解决三个问题：原生软件调用成功率、Action 及其他目录的检索准确性、第三层通用编程接口的失败率。现有三层架构保持不变。
 
@@ -891,3 +893,40 @@ external_execution: native_job_runner_only
 - 最终针对性测试：55 passed，耗时 9.84 秒。
 - 最终完整命令：`chemistry_toolbox/.venv/bin/python -m pytest -q chemistry_toolbox/tests`。
 - 最终完整结果：322 passed，耗时 534.69 秒。
+
+### 任务 15：补齐 56 个软件的详细使用手册
+
+状态：已完成。
+
+- 新增 `native_software_manual_profiles.yaml`，与 56 个 `native_software_guides.yaml` 条目严格一一对应，集中记录安装版本、运行状态、官方文档、适用任务、输入、输出、正常结束标志、收敛边界、资源映射和高频错误修复。
+- 重写 `generate_native_software_manuals.py`。除 EasySpin 和 MATLAB 两个许可占位条目外，54 个软件均确定性生成或更新 `INDEX.md`、`QUICKSTART.md`、`COMMON_TASKS.md`、`TROUBLESHOOTING.md` 和 `examples/interface_smoke/`。
+- 每份快速手册包含完整调用流程、隔离 working directory 与 staging 规则、stdin/arguments/fixed-files 合同、原生命令、`submit_native_job` JSON、CPU/总内存/软件内部并行映射、产物收集和六轴状态解释。
+- 每份常见任务文档包含任务类型、最低输入责任、输出族、进程/软件/电子/几何/频率/TS/动力学/产物状态判定，以及软件版本边界；故障文档包含典型错误表、路径、资源、假阳性防护和提交前检查清单。
+- 修正 NequIP 0.19 的实际 Hydra 调用合同：stage `config.yaml` 后使用 `nequip-train -cn config`，不再把 YAML 错误描述为普通位置参数。
+- 保留 ORCA、Gaussian、CREST、VASP 和 LOBSTER 的专用专题页，同时将其标准导航、快速调用和故障页升级到同一详细度。Gaussian 的 `Required sections` 精确章节和 LOBSTER 的 `Projection quality` 检索入口继续通过回归测试。
+- 文档测试不再只检查单页存在，而是检查 56 个 profile/Catalog 集合一致、54 个详细目录结构、正文最低信息量、当前请求 schema、生成器无漂移和 smoke 证据哈希。
+
+### 任务 16：逐项原生软件 smoke 与详细手册最终验证
+
+状态：已完成。
+
+- 新增 `run_native_interface_smokes.py`，通过 `submit_native_job` 逐条提交，按单项监督截止时间取消无响应作业，并归档 request、status、collection、stdout、stderr 和 SHA-256。
+- 最终覆盖 56/56：40 项 `passed`、11 项 `started_input_required`、3 项 `failed`、2 项 `skipped`。其中 ORCA、Gaussian、CREST、VASP、LOBSTER 引用已验证的科学 smoke；Pysisyphus 新增 H2/xTB 最小优化，真实完成三步并收敛。
+- 11 项 `started_input_required` 表示 executable 和原生接口均已到达，但帮助参数不受支持或软件必须接收拓扑、波函数、赝势、数据库、力常数等任务输入；此状态不等同于科学成功。
+- Arkane 与 RMG 的 CLI 在直接运行 180 秒后仍无帮助输出，原生 smoke 中按截止时间取消；VESTA wrapper 退出码为 0，但 `VESTA-gui` 缺少 `libxkbcommon.so.0`，因此明确标记失败。
+- EasySpin 和 MATLAB 因合法 MATLAB host/license 不存在而保持占位，不生成虚假的详细可运行示例，也不执行测试。
+- `run_native_interface_smokes.py --verify` 已验证 56 条记录和全部归档 hash；文档、lint、状态轴针对性测试为 26 passed，英文检查通过。
+- 最终完整命令为 `chemistry_toolbox/.venv/bin/python -m pytest -q chemistry_toolbox/tests`；结果为 327 passed，耗时 496.73 秒。
+
+### 任务 17：修复真实 MCP Action 检索的 workspace 扫描延迟
+
+状态：已完成。
+
+- 重建 56 个软件文档和 114 个 Action 的 MiniLM 缓存后，软件文档 hybrid 检索正常，但真实 MCP `search_actions` 在项目根目录持续高 CPU 并超过 30 秒。
+- 单独测量 `semantic_scores` 和核心 `researchchem_toolbox.discovery.search_actions` 分别只需约 0.33 秒和 0.38 秒；堆栈证明延迟来自 `execute_traced` 在只读检索前后递归执行 `workspace_snapshot()`。
+- `execute_traced` 新增显式 `capture_artifacts` 参数，默认继续为会生成产物的科学工具捕获变更；`list/search/browse/inspect` 等只读 discovery 调用设置为 `False`，仍写入 canonical result 和 `_tool_trace.jsonl`，但不扫描或复制 workspace 文件。
+- 软件目录/文档、校验、异步作业提交、轮询、收集和取消等 open tools 同样不再执行无意义的同步产物快照；`write_workspace_text` 和 `declare_scientific_artifact` 继续捕获真实 workspace 变更。
+- 新增回归测试，强制只读 discovery 和软件文档搜索在 `workspace_snapshot` 被禁用时仍成功并记录空 artifacts。tracing/discovery/open-tools 针对性结果为 44 passed。
+- 真实 hybrid 查询耗时为：冷启动 0.2694 秒；后续两次 0.0605 和 0.0571 秒。代表性结果分别首位召回 `rank_conformers_from_results`、`generate_conformer_ensemble` 和 `validate_thermochemistry_inputs`。
+- 软件文档 MCP hybrid 查询冷启动为 0.3427 秒并首位返回 `Projection quality`。
+- 最终完整命令为 `chemistry_toolbox/.venv/bin/python -m pytest -q chemistry_toolbox/tests`；公共追踪层修复后的结果为 329 passed，耗时 399.70 秒。

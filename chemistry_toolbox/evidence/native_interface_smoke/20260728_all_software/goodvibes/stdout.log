@@ -1,0 +1,174 @@
+usage: goodvibes [-h] [--temp TEMP] [--ti TI] [-c CONC] [--media solvent]
+                 [--freespace SOLVENT] [-q] [--qh] [--qs QS] [-f FREQ_CUTOFF]
+                 [--fh H_FREQ_CUTOFF] [--fs S_FREQ_CUTOFF]
+                 [--bav {global,conf}] [-v SCALE_FACTOR]
+                 [--zpe-vscal ZPE_SCALE_FACTOR] [--vmm MM_SCALE_FACTOR]
+                 [--invert [INVERT]] [--imag] [--symm] [--pg] [--sort [KEY]]
+                 [--boltz [KEY]] [--dedup] [--e_cutoff KCAL]
+                 [--ro_cutoff FRAC] [--rmsd_cutoff ANGS]
+                 [--label NAME=PATTERN] [--selectivity FILE.yaml]
+                 [--ee patterns] [--pes file] [--graph file] [--nogconf]
+                 [--lowest-only] [--custom_ext exts] [--exclude PATTERN]
+                 [--spc suffix] [--import PATH] [--cache-read FILE]
+                 [--output name] [--dp DP] [--json PATH] [--csv PATH]
+                 [--parquet PATH] [--xyz] [--strip-plot PATH]
+                 [--pes-plot PATH] [--export PATH] [--cache-save FILE] [--cpu]
+                 [--check] [--jobs N]
+
+Compute quasi-harmonic thermochemical corrections from quantum chemistry
+output files.
+
+options:
+  -h, --help            show this help message and exit
+
+Temperature & state:
+  --temp TEMP           Temperature in Kelvin (default: 298.15)
+  --ti TI               Temperature interval as START,END,STEP in Kelvin (e.g.
+                        '300,1000,100')
+  -c CONC, --conc CONC  Concentration in mol/L for solution-phase entropy; gas
+                        phase (1 atm) if not set
+  --media solvent       Apply standard-state concentration correction for the
+                        given solvent (e.g. H2O corrects to 55.34 M)
+  --freespace SOLVENT   Apply free-space correction for the given solvent
+                        (e.g. H2O, toluene, DMF, AcOH, chloroform)
+
+Quasi-harmonic corrections:
+  -q                    Apply both quasi-harmonic entropy (Grimme mRRHO) and
+                        enthalpy (Head-Gordon) corrections
+  --qh                  Apply Head-Gordon quasi-harmonic enthalpy correction
+  --qs QS               Quasi-harmonic entropy method: 'grimme' for mRRHO
+                        free-rotor interpolation, 'truhlar' for frequency
+                        raising (default: grimme)
+  -f FREQ_CUTOFF, --tau FREQ_CUTOFF
+                        Frequency cut-off for both entropy and enthalpy in
+                        cm-1 (default: 100)
+  --fh H_FREQ_CUTOFF    Frequency cut-off for enthalpy only in cm-1; overrides
+                        -f for H (default: 100)
+  --fs S_FREQ_CUTOFF    Frequency cut-off for entropy only in cm-1; overrides
+                        -f for S (default: 100)
+  --bav {global,conf}   Moment of inertia for free-rotor entropy: 'global'
+                        uses Bav = 10e-44 kg m^2 for all molecules, 'conf'
+                        computes from rotational constants per file (default:
+                        global)
+
+Frequency handling:
+  -v SCALE_FACTOR, --vscal SCALE_FACTOR
+                        Vibrational frequency scaling factor for the
+                        partition-function frequencies (H_vib, S_vib); auto-
+                        detected from level of theory via Truhlar's harm_fac
+                        if not set, falls back to 1.0
+  --zpe-vscal ZPE_SCALE_FACTOR
+                        Separate scaling factor for the zero-point energy
+                        (ZPE); auto-detected from level of theory via
+                        Truhlar's zpe_fac if not set. If --vscal is set but
+                        --zpe-vscal is not, ZPE inherits --vscal (back-
+                        compat).
+  --vmm MM_SCALE_FACTOR
+                        Frequency scaling factor for the MM region in ONIOM
+                        calculations
+  --invert [INVERT]     Invert small imaginary frequencies (> -50 cm-1) to
+                        positive values; optionally provide a custom threshold
+                        in cm-1
+  --imag                Print imaginary frequencies for each structure
+
+Symmetry:
+  --symm                Apply external symmetry correction to entropy using
+                        point-group detection (pymsym)
+  --pg                  Display point group from output file (no entropy
+                        correction applied)
+
+Sorting & deduplication:
+  --sort [KEY]          Sort output by energy ('energy' for SCF, 'gibbs' for
+                        quasi-harmonic G; default when flag used: gibbs)
+  --boltz [KEY]         Print Boltzmann-weighted populations ('energy' for
+                        SCF, 'gibbs' for quasi-harmonic G; default when flag
+                        used: gibbs)
+  --dedup               Remove duplicate structures based on energy,
+                        rotational constants, and stoichiometry
+  --e_cutoff KCAL       Energy cutoff for duplicate detection in kcal/mol
+                        (default: 0.05)
+  --ro_cutoff FRAC      Rotational constant cutoff for duplicate detection as
+                        a fraction (default: 0.01 = 1%)
+  --rmsd_cutoff ANGS    RMSD cutoff for duplicate detection in Angstrom
+                        (default: off; 0.125 matches CREST)
+
+Selectivity & PES:
+  --label NAME=PATTERN  Repeatable: assign files matching fnmatch PATTERN to
+                        species NAME for selectivity analysis. Two or more
+                        species supported (N=2: excess + ΔΔG; N>2: populations
+                        only). Example: --label R='*P_R_*' --label S='*P_S_*'.
+  --selectivity FILE.yaml
+                        YAML spec for selectivity analysis. Top-level key
+                        'labels' maps species -> fnmatch pattern, or 'files'
+                        maps species -> explicit list of files. Use instead of
+                        --label for many species or shareable specs.
+  --ee patterns         DEPRECATED — use --label/--selectivity. Compute
+                        2-species selectivity from a colon-delimited glob pair
+                        (e.g. '*_R*:*_S*'). Will be removed in v5.0.
+  --pes file            YAML file defining a reaction pathway for tabulating
+                        relative energies
+  --graph file          Graph a reaction profile from free energies; provide
+                        the PES YAML file
+  --nogconf             Disable the Gconf correction for multi-conformer
+                        ensembles (enabled by default)
+  --lowest-only         PES tables: use only each species' lowest qh-G
+                        conformer (overrides --nogconf and the default Gconf
+                        correction)
+
+Input:
+  --custom_ext exts     Additional file extensions to accept, comma-separated
+                        (e.g. '.qfi,.gaussian'); also settable via
+                        GOODVIBES_CUSTOM_EXT env var
+  --exclude PATTERN     Glob pattern to exclude files from the analysis (e.g.
+                        '*_TZ.out')
+  --spc suffix          Single-point correction suffix: reads energy from
+                        FILE_SPC.ext (e.g. --spc TZ reads from FILE_TZ.log)
+  --import PATH         Read pre-parsed data from a v1.0 JSON file (or a
+                        legacy --cache-save envelope) instead of re-parsing
+                        the input QC outputs. Useful for fast re-analysis at a
+                        different temperature/concentration without re-reading
+                        large outputs.
+  --cache-read FILE     (deprecated, use --import instead) Read pre-parsed
+                        data from a JSON file.
+
+Output & reports:
+  --output name         Base name for the output file, written as
+                        GoodVibes_OUTPUT.dat (default: output)
+  --dp DP               Number of decimal places for energy values in output
+                        (default: 6)
+  --json PATH           Write structured results to PATH as JSON (every parsed
+                        and computed field per file plus the run options).
+                        Schema is preview/v0.1.
+  --csv PATH            Write per-file thermochemistry to PATH as CSV (one row
+                        per structure; columns mirror ThermoResult). Requires
+                        pandas; install with `pip install goodvibes[full]`.
+  --parquet PATH        Write per-file thermochemistry to PATH as Parquet
+                        (same columns as --csv). Requires pandas + a Parquet
+                        engine (pyarrow); install with `pip install
+                        goodvibes[full]`.
+  --xyz                 Write optimized Cartesian coordinates to a .xyz file
+  --strip-plot PATH     Save a per-species ΔG strip plot to PATH (PNG/PDF/SVG
+                        by extension). Requires --label or --selectivity to
+                        define buckets; matplotlib via `pip install
+                        goodvibes[plot]`.
+  --pes-plot PATH       Save a clean reaction-profile diagram to PATH
+                        (PNG/PDF/SVG by extension). Requires --pes; uses
+                        goodvibes.plot.plot_pes (simpler than the legacy
+                        --graph FILE.yaml, no styling YAML needed). matplotlib
+                        via `pip install goodvibes[plot]`.
+  --export PATH         Write the unified v1.0 JSON payload to PATH (per-file
+                        QCData + thermo + run options + selectivity / pes
+                        blocks). Identical to --json. The same file can be re-
+                        loaded via --import to skip parsing on a follow-up
+                        run.
+  --cache-save FILE     (deprecated, use --export instead) Save parsed data to
+                        a JSON file.
+  --cpu                 Print total CPU time from output files
+  --check               Verify all files use the same program, level of
+                        theory, and solvation model; also flag potential
+                        duplicates
+
+Performance:
+  --jobs N              Parse and compute thermochemistry in parallel across N
+                        worker processes (default 1, sequential). 0 = use all
+                        available CPU cores.

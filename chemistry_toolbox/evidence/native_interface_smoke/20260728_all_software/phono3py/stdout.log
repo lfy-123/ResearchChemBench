@@ -1,0 +1,248 @@
+usage: phono3py [-h] [--pa PRIMITIVE_AXES [PRIMITIVE_AXES ...]]
+                [--magmom MAGMOMS [MAGMOMS ...]] [--mass MASSES [MASSES ...]]
+                [--nosym] [--tolerance SYMMETRY_TOLERANCE]
+                [--hdf5-compression HDF5_COMPRESSION] [--sp] [-d]
+                [--rd RANDOM_DISPLACEMENTS] [--random-seed RANDOM_SEED]
+                [--loglevel LOG_LEVEL] [-q] [-v] [--config FILE] [--alm]
+                [--ave-pp] [--band BAND_PATHS [BAND_PATHS ...]]
+                [--band-points BAND_POINTS]
+                [--bi BAND_INDICES [BAND_INDICES ...]]
+                [--boundary-mfp BOUNDARY_MFP] [--br] [--full-fc] [--cph]
+                [--const-ave-pp CONST_AVE_PP]
+                [--cutoff-fc3 CUTOFF_FC3_DISTANCE]
+                [--cutoff-freq CUTOFF_FREQUENCY]
+                [--factor FREQUENCY_CONVERSION_FACTOR]
+                [--fc-calc FC_CALCULATOR]
+                [--fc-calc-opt FC_CALCULATOR_OPTIONS]
+                [--freq-scale FREQUENCY_SCALE_FACTOR] [--freq-pitch FPITCH]
+                [--full-pp] [--ga GRID_ADDRESSES [GRID_ADDRESSES ...]]
+                [--gm GRID_MATRIX [GRID_MATRIX ...]]
+                [--gp GRID_POINTS [GRID_POINTS ...]] [--grg] [--gruneisen]
+                [--gv-delta-q GV_DELTA_Q] [--ion-clamped] [--ise] [--isotope]
+                [--jdos] [--lbte] [--mesh MESH_NUMBERS [MESH_NUMBERS ...]]
+                [--mlp-params MLP_PARAMS]
+                [--mv MASS_VARIANCES [MASS_VARIANCES ...]]
+                [--nac-method NAC_METHOD] [--no-fc-symmetry] [--no-read-fc2]
+                [--no-read-fc3] [--noks] [--nomeshsym] [--nonac] [--nu]
+                [--num-freq-points NUM_FREQUENCY_POINTS]
+                [--num-points-in-batch NUM_POINTS_IN_BATCH]
+                [-o OUTPUT_YAML_FILENAME] [--pinv-cutoff PINV_CUTOFF]
+                [--pinv-solver PINV_SOLVER] [--pinv-method PINV_METHOD]
+                [--pp-unit-conversion PP_UNIT_CONVERSION] [--pypolymlp]
+                [--qpoints QPOINTS [QPOINTS ...]]
+                [--q-direction NAC_Q_DIRECTION [NAC_Q_DIRECTION ...]]
+                [--read-collision READ_COLLISION] [--read-elph READ_ELPH]
+                [--read-gamma] [--read-phonon] [--read-pp]
+                [--reducible-colmat] [--relax-atomic-positions] [--rse]
+                [--rust] [--legacy-backend]
+                [--scattering-event-class SCATTERING_EVENT_CLASS]
+                [--sigma SIGMA [SIGMA ...]]
+                [--sigma-cutoff SIGMA_CUTOFF_WIDTH] [--symfc]
+                [--symfc-memshow] [--symfc-projector]
+                [--symfc-memsize SYMFC_MEMORY_SIZE] [--spf] [--stp]
+                [--sym-fc3q] [--thm] [--tmax TMAX] [--tmin TMIN]
+                [--tt TRANSPORT_TYPE] [--ts TEMPERATURES [TEMPERATURES ...]]
+                [--tstep TSTEP] [--uplo LAPACK_ZHEEV_UPLO] [--v2] [--wgp]
+                [--write-collision] [--write-gamma] [--write-gamma-detail]
+                [--write-phonon] [--write-pp] [--write-lbte-solution]
+                [filename ...]
+
+phono3py: phonon and thermal-conductivity calculation from a phono3py.yaml-
+like file.
+
+positional arguments:
+  filename              phono3py.yaml like file
+
+options:
+  -h, --help            show this help message and exit
+  --pa PRIMITIVE_AXES [PRIMITIVE_AXES ...], --primitive-axis PRIMITIVE_AXES [PRIMITIVE_AXES ...], --primitive-axes PRIMITIVE_AXES [PRIMITIVE_AXES ...]
+                        Same as PRIMITIVE_AXES tags
+  --magmom MAGMOMS [MAGMOMS ...]
+                        Same as MAGMOM tag
+  --mass MASSES [MASSES ...]
+                        Same as MASS tag
+  --nosym               Symmetry is not imposed.
+  --tolerance SYMMETRY_TOLERANCE
+                        Symmetry tolerance to search
+  --hdf5-compression HDF5_COMPRESSION
+                        hdf5 compression filter (default: gzip)
+  --sp, --save-params   Save parameters that can run phono3py in
+                        phono3py_params.yaml.
+  -d, --disp            As first stage, get least displacements
+  --rd RANDOM_DISPLACEMENTS, --random-displacements RANDOM_DISPLACEMENTS
+                        Number of supercells with random displacements or
+                        "auto"
+  --random-seed RANDOM_SEED
+                        Random seed by a 32 bit unsigned integer
+  --loglevel LOG_LEVEL  Log level
+  -q, --quiet           Print out smallest information
+  -v, --verbose         Detailed run-time information is displayed
+  --config FILE         Phono3py configuration file
+  --alm                 Use ALM for generating 2nd and 3rd force constants in
+                        one fitting
+  --ave-pp              Use averaged ph-ph interaction
+  --band BAND_PATHS [BAND_PATHS ...]
+                        Band structure paths calculated for Gruneisen
+                        parameter
+  --band-points BAND_POINTS
+                        Number of points calculated on a band segment in the
+                        band structure Gruneisen parameter calculation
+  --bi BAND_INDICES [BAND_INDICES ...], --band-indices BAND_INDICES [BAND_INDICES ...]
+                        Band indices where life time is calculated
+  --boundary-mfp BOUNDARY_MFP, --bmfp BOUNDARY_MFP
+                        Boundary mean free path in micrometer for thermal
+                        conductivity calculation
+  --br, --bterta        Calculate thermal conductivity in BTE-RTA
+  --full-fc             Calculate full supercell force constants matrix
+  --cph, --collective-phonon
+                        Solve collective phonons
+  --const-ave-pp CONST_AVE_PP
+                        Set constant averaged ph-ph interaction (Pqj)
+  --cutoff-fc3 CUTOFF_FC3_DISTANCE, --cutoff-fc3-distance CUTOFF_FC3_DISTANCE
+                        Cutoff distance of third-order force constants.
+                        Elements where any pair of atoms has larger distance
+                        than cut-off distance are set zero.
+  --cutoff-freq CUTOFF_FREQUENCY, --cutoff-frequency CUTOFF_FREQUENCY
+                        Phonon modes below this frequency are ignored.
+  --factor FREQUENCY_CONVERSION_FACTOR
+                        Frequency unit conversion factor
+  --fc-calc FC_CALCULATOR, --fc-calculator FC_CALCULATOR
+                        Force constants calculator
+  --fc-calc-opt FC_CALCULATOR_OPTIONS, --fc-calculator-options FC_CALCULATOR_OPTIONS
+                        Options for force constants calculator as comma
+                        separated string with the style of key = values
+  --freq-scale FREQUENCY_SCALE_FACTOR
+                        Factor multiplied as fc2 * factor^2 and fc3 *
+                        factor^2. Phonon frequency is changed but the
+                        contribution from NAC is not changed.
+  --freq-pitch FPITCH   Pitch in frequency for spectrum
+  --full-pp             Calculate full ph-ph interaction for RTA
+                        conductivity.This may be activated when full elements
+                        of ph-ph interaction strength are needed, i.e., to
+                        calculate average ph-ph interaction strength.
+  --ga GRID_ADDRESSES [GRID_ADDRESSES ...], --grid-addresses GRID_ADDRESSES [GRID_ADDRESSES ...]
+                        Fixed grid addresses where anharmonic properties are
+                        calculated
+  --gm GRID_MATRIX [GRID_MATRIX ...], --grid-matrix GRID_MATRIX [GRID_MATRIX ...]
+                        Grid generating matrix for generalized regular grid
+  --gp GRID_POINTS [GRID_POINTS ...], --grid-points GRID_POINTS [GRID_POINTS ...]
+                        Fixed grid points where anharmonic properties are
+                        calculated
+  --grg, --generalized-regular-grid
+                        Use generalized regular grid.
+  --gruneisen           Calculate phonon Gruneisen parameter
+  --gv-delta-q GV_DELTA_Q
+                        Delta-q distance for finite-difference group velocity.
+                        Unset (default) uses the analytical derivative; set
+                        1e-5 to reproduce phono3py v4.0.x behavior with NAC
+  --ion-clamped         Atoms are clamped under applied strain in Gruneisen
+                        parameter calculation
+  --ise                 Calculate imaginary part of self energy
+  --isotope             Isotope scattering lifetime
+  --jdos                Calculate joint density of states
+  --lbte                Calculate thermal conductivity LBTE with Chaput's
+                        method
+  --mesh MESH_NUMBERS [MESH_NUMBERS ...]
+                        Mesh numbers
+  --mlp-params MLP_PARAMS
+                        Parameters for machine learning potentials as comma
+                        separated string with the style of key = values
+  --mv MASS_VARIANCES [MASS_VARIANCES ...], --mass-variances MASS_VARIANCES [MASS_VARIANCES ...]
+                        Mass variance parameters for isotope scattering
+  --nac-method NAC_METHOD
+                        Non-analytical term correction method: Gonze (default)
+                        or Wang
+  --no-fc-symmetry, --no-sym-fc
+                        Do not symmetrize force constants
+  --no-read-fc2         Read second order force constants
+  --no-read-fc3         Read third order force constants
+  --noks, --no-kappa-stars
+                        Deactivate summation of partial kappa at q-stars
+  --nomeshsym           No symmetrization of triplets is made.
+  --nonac               Non-analytical term correction
+  --nu                  Split Gamma into Normal and Umklapp processes
+  --num-freq-points NUM_FREQUENCY_POINTS
+                        Number of sampling points for spectrum
+  --num-points-in-batch NUM_POINTS_IN_BATCH
+                        Number of frequency points in a batch for the
+                        frequency sampling modes of imag-self-energy
+                        calculation
+  -o OUTPUT_YAML_FILENAME
+                        Output yaml filename instead of default filename of
+                        phono3py.yaml
+  --pinv-cutoff PINV_CUTOFF
+                        Cutoff frequency (THz) for pseudo inversion of
+                        collision matrix
+  --pinv-solver PINV_SOLVER
+                        Switch of LBTE pinv solver
+  --pinv-method PINV_METHOD
+                        Switch of LBTE pinv method
+  --pp-unit-conversion PP_UNIT_CONVERSION
+                        Conversion factor for ph-ph interaction
+  --pypolymlp           Use pypolymlp and symfc for generating force constants
+  --qpoints QPOINTS [QPOINTS ...]
+                        Calculate at specified q-points
+  --q-direction NAC_Q_DIRECTION [NAC_Q_DIRECTION ...]
+                        q-vector direction at q->0 for non-analytical term
+                        correction
+  --read-collision READ_COLLISION
+                        Read collision matrix and Gammas from files
+  --read-elph READ_ELPH
+                        An index (e.g., 1, 2, ...) to read Gammas of el-ph
+                        interaction from file
+  --read-gamma          Read Gammas from files
+  --read-phonon         Read phonons from files
+  --read-pp             Read phonon-phonon interaction strength
+  --reducible-colmat    Solve reducible collision matrix
+  --relax-atomic-positions
+                        Relax atomic positions using polynomial MLPs
+  --rse                 Calculate real part of self energy
+  --rust                Deprecated no-op: the Rust backend (phonors) is the
+                        default in phono3py v4. Pass --legacy-backend to opt
+                        back into the C extension.
+  --legacy-backend      Use the legacy C-extension backend instead of the
+                        default Rust backend
+  --scattering-event-class SCATTERING_EVENT_CLASS
+                        Scattering event class 1 or 2 to draw imaginary part
+                        of self energy
+  --sigma SIGMA [SIGMA ...]
+                        A sigma value or multiple sigma values (separated by
+                        space) for smearing function
+  --sigma-cutoff SIGMA_CUTOFF_WIDTH
+                        Cutoff width of smearing function (ratio to sigma
+                        value)
+  --symfc               Use symfc for generating force constants
+  --symfc-memshow       Show symfc memory usage with respect to cutoff
+                        distance
+  --symfc-projector     Symmetrize force constants by symfc projector
+  --symfc-memsize SYMFC_MEMORY_SIZE
+                        Memory size to estimate cutoff pair distance (GB)
+  --spf                 Calculate spectral function
+  --stp, --show-num-triplets
+                        Show reduced number of triplets to be calculated at
+                        specified grid points
+  --sym-fc3q            Symmetrize fc3 in reciprocal space by index exchange
+  --thm, --tetrahedron-method
+                        Use tetrahedron method.
+  --tmax TMAX           Maximum calculated temperature
+  --tmin TMIN           Minimum calculated temperature
+  --tt TRANSPORT_TYPE, --transport-type TRANSPORT_TYPE
+                        Transport type of thermal conductivity calculation
+  --ts TEMPERATURES [TEMPERATURES ...], --temperature TEMPERATURES [TEMPERATURES ...]
+                        Temperatures for damping functions
+  --tstep TSTEP         Calculated temperature step
+  --uplo LAPACK_ZHEEV_UPLO
+                        Lapack zheev UPLO for phonon solver (default: L)
+  --v2                  Disable taking average in fc3-r2q transformation
+                        around three atoms
+  --wgp, --write-grid-points
+                        Write grid address of irreducible grid points for
+                        specified mesh numbers to ir_grid_address.yaml
+  --write-collision     Write collision matrix and Gammas to files
+  --write-gamma         Write imag-part of self energy to files
+  --write-gamma-detail, --write_detailed_gamma
+                        Write out detailed imag-part of self energy
+  --write-phonon        Write all phonons on grid points to files
+  --write-pp            Write phonon-phonon interaction strength
+  --write-lbte-solution
+                        Write direct solution of LBTE to hdf5 files

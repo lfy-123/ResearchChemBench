@@ -1,0 +1,61 @@
+{
+  "archived_files": [
+    {
+      "path": "request.json",
+      "sha256": "f3e3ac6784921e422d3c8f1815581272f0043474ee16dadea1453b67ed1db51b",
+      "size_bytes": 1271
+    },
+    {
+      "path": "status.json",
+      "sha256": "a71d7263cbf31f37275316c4c01f0f6d13925ddec006f1535b927aab3537336c",
+      "size_bytes": 1873
+    },
+    {
+      "path": "collection.json",
+      "sha256": "37e354fad3ba7d1f037d210d46a61dc1206966f2e23dc238be5f27e6485b6623",
+      "size_bytes": 1486
+    },
+    {
+      "path": "stdout.log",
+      "sha256": "ed9e18bd1e4879e42472d66a678a6abb80eb56c4fafa9495d4963b83dad0cdf0",
+      "size_bytes": 93
+    },
+    {
+      "path": "stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    }
+  ],
+  "artifact_status": "not_declared",
+  "convergence_status": "not_checked",
+  "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/openmolcas",
+  "job_id": "job_f589e92a66fb42d9b91f641cf5db7b60",
+  "process_status": "completed",
+  "reason": "The configured executable completed the interface probe through the native job runner.",
+  "request": {
+    "arguments": [
+      "--version"
+    ],
+    "calculation_intent": null,
+    "executable": "pymolcas",
+    "label": "manual-interface-smoke-openmolcas",
+    "parent_job_id": null,
+    "resource_limits": {
+      "cpu_cores": 1,
+      "gpu_count": 0,
+      "memory_mb": 1024
+    },
+    "software_id": "openmolcas",
+    "staged_inputs": [],
+    "stdin_target": null
+  },
+  "request_status": "accepted",
+  "scientific_validation_status": "not_checked",
+  "software_id": "openmolcas",
+  "software_status": "not_checked",
+  "status": "passed",
+  "stderr_tail": "",
+  "stdout_tail": "python driver version = py2.29\n(after the original perl EMIL interpreter of Valera Veryazov)\n",
+  "test_level": "interface_smoke",
+  "tested_at": "2026-07-28T20:16:58.943969+00:00"
+}

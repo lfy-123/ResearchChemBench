@@ -1,0 +1,28 @@
+Usage:
+In Windows command line:
+     mesmer infilename [options]
+In UNIX/Linux console:
+     ./mesmer.out infilename [options]
+If there is no infilename, stdin is used.
+All the chemistry and much of the program control is in the input file.
+
+Options:
+ -o<outfilename>
+     If -o has no outfilename, stdout is used.
+ -n  Allows the input file to be overwritten when there is no -o option,
+       otherwise the output file is "mesmer_out.xml"
+     Any file about to be overwritten is saved with suffix _prev to its name. 
+ -N  Use infilename for test and log, default is mesmer.test and mesmer.log.
+ -p  Parse the input file only - no calculation.
+ -q  Do a QA test. (Compares mesmer.test with a definitive version.)
+ -w# Display only warning messages that are at least as severe as:
+       0 No messages
+       1 Errors
+       2 Warnings
+       3 Information
+ -?  Display this help text
+ -V  Output Mesmer version.
+ -t  Output a table of available plugins.
+ -T  As -t but with descriptions, if available.
+
+

@@ -1,65 +1,49 @@
 ---
 software_id: kinbot
-versions: ["2.2.2", "2.5.0", "0.4.35"]
-topics: [index, quickstart, native-execution, resources, convergence, troubleshooting]
-aliases: ["kinbot"]
-inputs: ["input.json and referenced structures/templates", "input.json and referenced KinBot/PES files"]
-outputs: ["stdout.log", "stderr.log", "software-declared output files"]
-last_smoke_tested: null
-generated_from: chemistry_toolbox/config/native_software_guides.yaml
+versions: ["installed KinBot runtime"]
+topics: ["index", "navigation", "capabilities"]
+aliases: ["KinBot", "kinbot"]
+inputs: ["input.json", "starting structure", "templates", "selected QM backend configuration"]
+outputs: ["KinBot database", "structures", "quantum-chemistry inputs and logs", "PES files"]
+last_smoke_tested: "2026-07-28"
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
 ---
-# Kinbot Native Execution
+# KinBot Native Software Guide
 
-## Purpose and supported version
-Run KinBot species/reaction or PES searches from an Agent-authored JSON input.
+## Installed software
+- Installed version: `installed KinBot runtime`.
+- Operational status: `workflow_with_qm`.
+- Configured runtime: `kinbot`.
+- Primary use: automated reaction and potential-energy-surface exploration from a configured species.
 
-Configured runtime: `kinbot`. Detected versions: `2.2.2`, `2.5.0`, `0.4.35`
+## When to use this interface
+Run KinBot species/reaction or PES searches from an Agent-authored JSON input. The native layer is appropriate when the Agent must author the software input or select version-specific options that are not represented by a preset Action.
 
-## Working directory and staging
-The execution layer creates an isolated job directory and runs the exact argv vector there without a shell. Stage every referenced input with the exact filename used by the command or input deck. Relative paths resolve from the job directory, not from the task workspace root. Use `stdin_target` only when the command input mode below requires stdin.
+## Documentation map
+- `QUICKSTART.md`: complete staging, command, resource, submission, and collection flow.
+- `COMMON_TASKS.md`: supported calculation families, input responsibilities, outputs, and validation states.
+- `TROUBLESHOOTING.md`: high-frequency failure signatures, causes, fixes, and a pre-submission checklist.
+- `examples/interface_smoke/`: the exact native command, toolbox request, and latest interface-smoke result.
+- Additional topic files in this directory contain software-specific scientific mechanics where available.
 
-## Commands
+## Supported command entries
+| Executable | Input mode | Native invocation | Required staged inputs |
+|---|---|---|---|
+| `kinbot` | `arguments` | `kinbot input.json` | `input.json and referenced structures/templates` |
+| `pes` | `arguments` | `pes input.json` | `input.json and referenced KinBot/PES files` |
 
-### `kinbot`
-Synopsis: `kinbot input.json`
+## Supported task families
+- reaction search.
+- conformer search.
+- transition-state validation.
+- PES assembly.
 
-Input mode: `arguments`.
+## Required knowledge before submission
+The toolbox does not select a scientific method, force field, pseudopotential, basis, database, training set, convergence threshold, or workflow ordering. The Agent must obtain those choices from the task, a paper, or an authoritative source and then author a complete input.
 
-Required staged files: `input.json and referenced structures/templates`
+## Official references
+- https://zadorlab.github.io/KinBot/
+- https://github.com/zadorlab/KinBot
 
-Output behavior: Writes KinBot logs, geometries, reaction candidates, and database files.
-
-Example argv: `kinbot input.json`.
-
-### `pes`
-Synopsis: `pes input.json`
-
-Input mode: `arguments`.
-
-Required staged files: `input.json and referenced KinBot/PES files`
-
-Output behavior: Writes PES search and postprocessing outputs in the job directory.
-
-Example argv: `pes input.json`.
-
-## Resource mapping
-Set `resource_limits.cpu_cores`, `memory_mb`, `gpu_count`, and `walltime_seconds` explicitly. Keep software thread, MPI, memory, and GPU settings within those requested limits. The Supervisor enforces the per-job memory limit, CPU affinity, evaluator-wide concurrent reservations, walltime, cancellation, and process-group cleanup.
-
-## Normal termination and scientific convergence
-Exit code zero only establishes process completion. Inspect stdout, stderr, and the software's primary output for fatal errors and its documented normal-termination marker. Scientific convergence is task-specific: verify the requested optimization, electronic, ionic, frequency, dynamics, fitting, or projection criteria and confirm that every required result file is present and parseable. If the toolbox has no software-specific parser for this task, the status remains `not_checked` rather than inferring convergence from the exit code.
-
-## Common immediate failures
-- A referenced file was not staged with the exact target name.
-- The command was authored for a different software version.
-- An input deck contains an invalid keyword, section delimiter, or path.
-- Internal thread, MPI, memory, or GPU settings exceed the declared resource limits.
-- The process exits successfully but the main output reports a scientific or parsing failure.
-
-## Preflight checklist
-- Confirm the installed version and executable returned by `inspect_software`.
-- Read this manual and any referenced official version documentation.
-- Stage every input and nested dependency using the exact job-local filename.
-- Declare a calculation intent when the task has a convergence contract.
-- Match software parallelism and memory settings to `resource_limits`.
-- Run `validate_native_job` before submission.
-- After execution, inspect all status axes and the required output artifacts.
+## Test interpretation
+An interface smoke proves that the configured executable can be resolved and started through `submit_native_job`. A scientific smoke additionally requires a valid input, normal software termination, task-specific convergence, and parseable expected artifacts. The two levels are recorded separately and must not be conflated.

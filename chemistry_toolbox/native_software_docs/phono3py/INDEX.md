@@ -1,54 +1,48 @@
 ---
 software_id: phono3py
-versions: []
-topics: [index, quickstart, native-execution, resources, convergence, troubleshooting]
-aliases: ["phono3py"]
-inputs: ["mode-specific structure", "displacement", "force", "and configuration files"]
-outputs: ["stdout.log", "stderr.log", "software-declared output files"]
-last_smoke_tested: null
-generated_from: chemistry_toolbox/config/native_software_guides.yaml
+versions: ["installed phonons runtime"]
+topics: ["index", "navigation", "capabilities"]
+aliases: ["phono3py", "phono3py"]
+inputs: ["unit cell", "displacement configuration", "force data", "optional Born charges"]
+outputs: ["supercell displacement structures", "phono3py_disp.yaml", "fc2.hdf5", "fc3.hdf5", "kappa files"]
+last_smoke_tested: "2026-07-28"
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
 ---
-# Phono3Py Native Execution
+# phono3py Native Software Guide
 
-## Purpose and supported version
-Invoke an explicit Phono3py command for third-order force constants and lattice thermal transport.
+## Installed software
+- Installed version: `installed phonons runtime`.
+- Operational status: `runnable_with_force_data`.
+- Configured runtime: `phonons`.
+- Primary use: generate third-order displacements or compute lattice thermal conductivity from force data.
 
-Configured runtime: `phonons`. Detected versions: not recorded; inspect the executable before relying on version-specific syntax.
+## When to use this interface
+Invoke an explicit Phono3py command for third-order force constants and lattice thermal transport. The native layer is appropriate when the Agent must author the software input or select version-specific options that are not represented by a preset Action.
 
-## Working directory and staging
-The execution layer creates an isolated job directory and runs the exact argv vector there without a shell. Stage every referenced input with the exact filename used by the command or input deck. Relative paths resolve from the job directory, not from the task workspace root. Use `stdin_target` only when the command input mode below requires stdin.
+## Documentation map
+- `QUICKSTART.md`: complete staging, command, resource, submission, and collection flow.
+- `COMMON_TASKS.md`: supported calculation families, input responsibilities, outputs, and validation states.
+- `TROUBLESHOOTING.md`: high-frequency failure signatures, causes, fixes, and a pre-submission checklist.
+- `examples/interface_smoke/`: the exact native command, toolbox request, and latest interface-smoke result.
+- Additional topic files in this directory contain software-specific scientific mechanics where available.
 
-## Commands
+## Supported command entries
+| Executable | Input mode | Native invocation | Required staged inputs |
+|---|---|---|---|
+| `phono3py` | `arguments` | `phono3py --dim 2 2 2 -d --pa auto POSCAR` | `mode-specific structure`, `displacement`, `force`, `and configuration files` |
 
-### `phono3py`
-Synopsis: `phono3py [mode/options] [configuration files]`
+## Supported task families
+- third-order displacement generation.
+- force-set creation.
+- phonon lifetimes.
+- thermal conductivity.
 
-Input mode: `arguments`.
+## Required knowledge before submission
+The toolbox does not select a scientific method, force field, pseudopotential, basis, database, training set, convergence threshold, or workflow ordering. The Agent must obtain those choices from the task, a paper, or an authoritative source and then author a complete input.
 
-Required staged files: `mode-specific structure`, `displacement`, `force`, `and configuration files`
+## Official references
+- https://phonopy.github.io/phono3py/
+- https://github.com/phonopy/phono3py
 
-Output behavior: Writes fc2/fc3, collision, conductivity, and other selected files.
-
-Example argv: `phono3py --dim 2 2 2 -d --pa auto POSCAR`.
-
-## Resource mapping
-Set `resource_limits.cpu_cores`, `memory_mb`, `gpu_count`, and `walltime_seconds` explicitly. Keep software thread, MPI, memory, and GPU settings within those requested limits. The Supervisor enforces the per-job memory limit, CPU affinity, evaluator-wide concurrent reservations, walltime, cancellation, and process-group cleanup.
-
-## Normal termination and scientific convergence
-Exit code zero only establishes process completion. Inspect stdout, stderr, and the software's primary output for fatal errors and its documented normal-termination marker. Scientific convergence is task-specific: verify the requested optimization, electronic, ionic, frequency, dynamics, fitting, or projection criteria and confirm that every required result file is present and parseable. If the toolbox has no software-specific parser for this task, the status remains `not_checked` rather than inferring convergence from the exit code.
-
-## Common immediate failures
-- A referenced file was not staged with the exact target name.
-- The command was authored for a different software version.
-- An input deck contains an invalid keyword, section delimiter, or path.
-- Internal thread, MPI, memory, or GPU settings exceed the declared resource limits.
-- The process exits successfully but the main output reports a scientific or parsing failure.
-
-## Preflight checklist
-- Confirm the installed version and executable returned by `inspect_software`.
-- Read this manual and any referenced official version documentation.
-- Stage every input and nested dependency using the exact job-local filename.
-- Declare a calculation intent when the task has a convergence contract.
-- Match software parallelism and memory settings to `resource_limits`.
-- Run `validate_native_job` before submission.
-- After execution, inspect all status axes and the required output artifacts.
+## Test interpretation
+An interface smoke proves that the configured executable can be resolved and started through `submit_native_job`. A scientific smoke additionally requires a valid input, normal software termination, task-specific convergence, and parseable expected artifacts. The two levels are recorded separately and must not be conflated.

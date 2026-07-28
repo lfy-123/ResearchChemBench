@@ -1,20 +1,51 @@
 ---
 software_id: orca
 versions: ["6.1.1"]
-topics: [index]
-aliases: [ORCA navigation, ORCA tasks]
-inputs: ["ORCA input deck", "referenced geometry or basis files"]
-outputs: ["stdout.log", "ORCA property and restart files"]
-last_smoke_tested: null
+topics: ["index", "navigation", "capabilities"]
+aliases: ["ORCA", "orca"]
+inputs: ["input.inp", "optional external XYZ", "basis", "point charges", "or restart files"]
+outputs: ["stdout.log", ".gbw", ".xyz", ".hess", ".densities", "property files"]
+last_smoke_tested: "2026-07-28"
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
 ---
-# ORCA Native Guide
+# ORCA Native Software Guide
 
-## Topics
-- `quickstart`: input structure, blocks, staging, and resources.
-- `single-point`: molecular single-point calculations.
-- `optimization-frequency`: geometry optimization and vibrational frequency jobs.
-- `excited-states`: TDDFT state calculations.
-- `troubleshooting`: parser, path, SCF, resource, and termination failures.
+## Installed software
+- Installed version: `6.1.1`.
+- Operational status: `runnable`.
+- Configured runtime: `quantum`.
+- Primary use: molecular electronic-structure calculation from an ORCA input deck.
 
-## Executable
-Use `orca` exactly as returned by `inspect_software`; pass one staged `.inp` target as the argument.
+## When to use this interface
+Execute a complete ORCA 6.1 input deck. The native layer is appropriate when the Agent must author the software input or select version-specific options that are not represented by a preset Action.
+
+## Documentation map
+- `QUICKSTART.md`: complete staging, command, resource, submission, and collection flow.
+- `COMMON_TASKS.md`: supported calculation families, input responsibilities, outputs, and validation states.
+- `TROUBLESHOOTING.md`: high-frequency failure signatures, causes, fixes, and a pre-submission checklist.
+- `examples/interface_smoke/`: the exact native command, toolbox request, and latest interface-smoke result.
+- Additional topic files in this directory contain software-specific scientific mechanics where available.
+
+## Supported command entries
+| Executable | Input mode | Native invocation | Required staged inputs |
+|---|---|---|---|
+| `orca` | `arguments` | `orca input.inp` | `input.inp`, `any geometry/basis files referenced by input.inp` |
+
+## Supported task families
+- single point.
+- optimization.
+- frequency.
+- transition state.
+- IRC.
+- excited states.
+- correlated density.
+
+## Required knowledge before submission
+The toolbox does not select a scientific method, force field, pseudopotential, basis, database, training set, convergence threshold, or workflow ordering. The Agent must obtain those choices from the task, a paper, or an authoritative source and then author a complete input.
+
+## Official references
+- https://www.faccts.de/docs/orca/6.1/manual/
+- https://www.faccts.de/docs/orca/6.1/tutorials/
+
+## Test interpretation
+An interface smoke proves that the configured executable can be resolved and started through `submit_native_job`. A scientific smoke additionally requires a valid input, normal software termination, task-specific convergence, and parseable expected artifacts. The two levels are recorded separately and must not be conflated.

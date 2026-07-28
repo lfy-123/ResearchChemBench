@@ -1,0 +1,61 @@
+{
+  "archived_files": [
+    {
+      "path": "request.json",
+      "sha256": "96d432aef0284ae974285fd9a14bf9abc81ecf260711d8bc62b42074ffecdc4b",
+      "size_bytes": 1220
+    },
+    {
+      "path": "status.json",
+      "sha256": "073ac48cbfabc433b991912126eafbae30bdc178b82c594847d44448338c079a",
+      "size_bytes": 1899
+    },
+    {
+      "path": "collection.json",
+      "sha256": "7d12fbd4243be68df3d3230e912336fa749ecc7da0e0979c4245c23a19ac81f7",
+      "size_bytes": 1510
+    },
+    {
+      "path": "stdout.log",
+      "sha256": "9284c40b89284c21483106f03ca02a83d372590baf9eac4171ca978f0d21ca3b",
+      "size_bytes": 867
+    },
+    {
+      "path": "stderr.log",
+      "sha256": "8fc1f66adcb202cfd5d36b4838b16157c0da2ae38e06ee37d904a64a44d0253e",
+      "size_bytes": 12
+    }
+  ],
+  "artifact_status": "not_validated",
+  "convergence_status": "not_reached",
+  "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/dftbplus",
+  "job_id": "job_c0566ebaea4644b985b859154fda714e",
+  "process_status": "failed",
+  "reason": "The executable started and emitted its banner, usage, or expected missing-input diagnostic, but did not complete successfully.",
+  "request": {
+    "arguments": [
+      "--version"
+    ],
+    "calculation_intent": null,
+    "executable": "dftb+",
+    "label": "manual-interface-smoke-dftbplus",
+    "parent_job_id": null,
+    "resource_limits": {
+      "cpu_cores": 1,
+      "gpu_count": 0,
+      "memory_mb": 1024
+    },
+    "software_id": "dftbplus",
+    "staged_inputs": [],
+    "stdin_target": null
+  },
+  "request_status": "accepted",
+  "scientific_validation_status": "not_reached",
+  "software_id": "dftbplus",
+  "software_status": "not_reached",
+  "status": "started_input_required",
+  "stderr_tail": "ERROR STOP \n",
+  "stdout_tail": "|===============================================================================\n|\n|  DFTB+ development version (commit: a23bfb2)\n|\n|  Copyright (C) 2006 - 2025  DFTB+ developers group\n|\n|===============================================================================\n|\n|  When publishing results obtained with DFTB+, please cite the following\n|  reference:\n|\n|    Recent Developments in DFTB+, a Software Package for Efficient Atomistic\n|    Quantum Mechanical Simulations, J. Phys. Chem. A 129, 5373\u22125390 (2025).\n|    [https://doi.org/10.1021/acs.jpca.5c01146]\n|\n|  You should also cite additional publications crediting the parametrization\n|  data you use. Please consult the documentation of the SK-files for the\n|  references.\n|\n|===============================================================================\n\nERROR!\n-> No input file 'dftb_in.hsd' not found.\n",
+  "test_level": "interface_smoke",
+  "tested_at": "2026-07-28T20:16:58.943969+00:00"
+}

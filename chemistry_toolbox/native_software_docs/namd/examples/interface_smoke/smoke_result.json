@@ -1,0 +1,61 @@
+{
+  "archived_files": [
+    {
+      "path": "request.json",
+      "sha256": "32c8a9621e3ea4049bcd77487f8ef0c0c8828bfc8feb20b49b66dbc5d11f6e15",
+      "size_bytes": 1251
+    },
+    {
+      "path": "status.json",
+      "sha256": "43285fb1bb3dc3f01e3c4aa649f7acc565e0b3f12b5a85248264c9dc0380d0a8",
+      "size_bytes": 1935
+    },
+    {
+      "path": "collection.json",
+      "sha256": "1f2df20a4544f114dade5a08a2fa038bbdecc64f20be2a6896436b65475e955c",
+      "size_bytes": 1511
+    },
+    {
+      "path": "stdout.log",
+      "sha256": "4ffe3f32281dde1a0df2517ad7a6307ed0995cf47f30f33104525c344f09a5a3",
+      "size_bytes": 1540
+    },
+    {
+      "path": "stderr.log",
+      "sha256": "d0f472146d6ad23df8a2a125342a684f686cec513b214feb826cd29f808a203c",
+      "size_bytes": 64
+    }
+  ],
+  "artifact_status": "not_validated",
+  "convergence_status": "not_reached",
+  "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/namd",
+  "job_id": "job_e040681d050c49e59beb609497945ca7",
+  "process_status": "failed",
+  "reason": "The executable started and emitted its banner, usage, or expected missing-input diagnostic, but did not complete successfully.",
+  "request": {
+    "arguments": [
+      "--version"
+    ],
+    "calculation_intent": null,
+    "executable": "namd3",
+    "label": "manual-interface-smoke-namd",
+    "parent_job_id": null,
+    "resource_limits": {
+      "cpu_cores": 1,
+      "gpu_count": 0,
+      "memory_mb": 1024
+    },
+    "software_id": "namd",
+    "staged_inputs": [],
+    "stdin_target": null
+  },
+  "request_status": "accepted",
+  "scientific_validation_status": "not_reached",
+  "software_id": "namd",
+  "software_status": "not_reached",
+  "status": "started_input_required",
+  "stderr_tail": "FATAL ERROR: missing argument for command line option --version\n",
+  "stdout_tail": "Charm++> No provisioning arguments specified. Running with a single PE.\n         Use +auto-provision to fully subscribe resources or +p1 to silence this message.\nCharm++: standalone mode (not using charmrun)\nCharm++> Running in Multicore mode: 1 threads (PEs)\nCharm++> Using recursive bisection (scheme 3) for topology aware partitions\nConverse/Charm++ Commit ID: \nCharmLB> Load balancer assumes all CPUs are same.\nCharm++> Running on 1 hosts (2 sockets x 32 cores x 1 PUs = 64-way SMP)\nCharm++> cpu topology info is gathered in 0.000 seconds.\nCharmLB> Load balancing instrumentation for communication is off.\nInfo: NAMD 3.0.2 for Linux-x86_64-multicore\nInfo: \nInfo: Please visit http://www.ks.uiuc.edu/Research/namd/\nInfo: for updates, documentation, and support information.\nInfo: \nInfo: Please cite Phillips et al., J. Chem. Phys. 153:044130 (2020) doi:10.1063/5.0014475\nInfo: in all publications reporting results obtained with NAMD.\nInfo: \nInfo: Based on Charm++/Converse 80000 for multicore-linux-x86_64-gcc\nInfo: Built Wed Aug 27 16:19:18 CDT 2025 by dhardy on athine.ks.uiuc.edu\nInfo: 1 NAMD  3.0.2  Linux-x86_64-multicore  1    lfy-54-cpu--c9ead987dbc8-u3f46qxwe6  root\nInfo: Running on 1 processors, 1 nodes, 1 physical nodes.\nInfo: CPU topology information available.\nInfo: Charm++/Converse parallel runtime startup completed at 0.00162152 s\nCkLoopLib is used in SMP with simple dynamic scheduling (converse-level notification)\nFATAL ERROR: missing argument for command line option --version\n[Partition 0][Node 0] End of program\n",
+  "test_level": "interface_smoke",
+  "tested_at": "2026-07-28T20:16:58.943969+00:00"
+}

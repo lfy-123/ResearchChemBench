@@ -1,0 +1,73 @@
+Couldn't find configuration file. Expected it at '/tmp/researchchem-all-native-smoke-final3-20260728-923240/outputs/execution_jobs/job_5fb3220872f649528b7c21e2a0694a34/.home/.pysisyphusrc'.
+                           d8b                            888
+                           Y8P                            888
+                                                          888
+88888b.  888  888 .d8888b  888 .d8888b  888  888 88888b.  88888b.  888  888 .d8888b
+888 "88b 888  888 88K      888 88K      888  888 888 "88b 888 "88b 888  888 88K
+888  888 888  888 "Y8888b. 888 "Y8888b. 888  888 888  888 888  888 888  888 "Y8888b.
+888 d88P Y88b 888      X88 888      X88 Y88b 888 888 d88P 888  888 Y88b 888      X88
+88888P"   "Y88888  88888P' 888  88888P'  "Y88888 88888P"  888  888  "Y88888  88888P'
+888           888                            888 888
+888      Y8b d88P                       Y8b d88P 888
+888       "Y88P"                         "Y88P"  888                            
+
+Version 1.0.0 (Python 3.10.20, NumPy 2.2.6, SciPy 1.15.2)
+Executed at Tue Jul 28 20:17:42 2026 on 'lfy-54-cpu--c9ead987dbc8-u3f46qxwe6'
+Platform: Linux-5.15.0-119-generic-x86_64-with-glibc2.35
+Interpreter: /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/reaction/bin/python
+Current working directory: /tmp/researchchem-all-native-smoke-final3-20260728-923240/outputs/execution_jobs/job_5fb3220872f649528b7c21e2a0694a34
+
+If pysisyphus benefitted your research please cite:
+
+	https://doi.org/10.1002/qua.26390
+
+Good luck!
+
+{'calc': {'charge': 0, 'gfn': 2, 'mult': 1, 'pal': 1, 'type': 'xtb'},
+ 'geom': {'coord_kwargs': {}, 'fn': 'interface_smoke.xyz', 'type': 'cart'},
+ 'opt': {'T': 298.15,
+         'do_hess': False,
+         'dump': True,
+         'max_cycles': 5,
+         'overachieve_factor': 5,
+         'p': 101325,
+         'type': 'rfo'}}
+
+Read 1 geometry.
+                            ########################
+                            # RUNNING OPTIMIZATION #
+                            ########################
+
+     Input geometry: Geometry(H₂, 2 atoms)
+  Coordinate system: cart
+  Coordinate number: 6
+         Calculator: XTB calculator
+             Charge: 0
+       Multiplicity: 1
+          Optimizer: rfo
+
+
+If not specified otherwise, all quantities are given in au.
+
+Convergence thresholds, (overachieved when):
+	max(|force|) <= 0.002500, (0.000500) E_h a_0⁻¹
+	  rms(force) <= 0.001700, (0.000340) E_h a_0⁻¹
+	 max(|step|) <= 0.010000 a_0
+	   rms(step) <= 0.006700 a_0
+	'Superscript *' indicates convergence
+
+Spent 0.0 s preparing the first cycle.
+               cycle     Δ(energy)  max(|force|)    rms(force)   max(|step|)     rms(step)  s/cycle
+        --------------------------------------------------------------------------------------------
+                   0           nan*     0.014843      0.008569      0.014836      0.008566    0.032 
+                   1     -0.000304*     0.005791      0.003343      0.009492*     0.005480*   0.019 
+                   2     -0.000059*     0.000484*     0.000279*     0.000866*     0.000500*   0.017 
+        Converged!
+
+Final summary:
+        	max(forces,cartesian): 0.000484 hartree/bohr
+        	rms(forces,cartesian): 0.000279 hartree/bohr
+        	energy: -0.98268574 hartree
+        Wrote final, hopefully optimized, geometry to 'final_geometry.xyz'
+
+pysisyphus run took 0:00:00 h.

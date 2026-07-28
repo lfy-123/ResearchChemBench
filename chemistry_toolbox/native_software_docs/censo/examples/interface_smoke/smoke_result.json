@@ -1,0 +1,61 @@
+{
+  "archived_files": [
+    {
+      "path": "request.json",
+      "sha256": "5fd577986bac3be0cf4e016d98937e0f69e413f023eee1d88286bc48e8b5777c",
+      "size_bytes": 1257
+    },
+    {
+      "path": "status.json",
+      "sha256": "1b5f696376cc51819f7a9692e3f1b32e8f84aa6649f1c4401426a28e15adbae9",
+      "size_bytes": 1863
+    },
+    {
+      "path": "collection.json",
+      "sha256": "27331f36feb16d0a827ff6fe5051410d580be54045ee1a33c233b71baef2bc57",
+      "size_bytes": 1758
+    },
+    {
+      "path": "stdout.log",
+      "sha256": "34cc7f975300e8298c17f2e820b94cc21b10586fca0cfba94228e9ebd304d710",
+      "size_bytes": 1439
+    },
+    {
+      "path": "stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    }
+  ],
+  "artifact_status": "not_declared",
+  "convergence_status": "not_checked",
+  "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/censo",
+  "job_id": "job_a399ffab320144c2815da6edbc96f3fa",
+  "process_status": "completed",
+  "reason": "The configured executable completed the interface probe through the native job runner.",
+  "request": {
+    "arguments": [
+      "--version"
+    ],
+    "calculation_intent": null,
+    "executable": "censo",
+    "label": "manual-interface-smoke-censo",
+    "parent_job_id": null,
+    "resource_limits": {
+      "cpu_cores": 1,
+      "gpu_count": 0,
+      "memory_mb": 1024
+    },
+    "software_id": "censo",
+    "staged_inputs": [],
+    "stdin_target": null
+  },
+  "request_status": "accepted",
+  "scientific_validation_status": "not_checked",
+  "software_id": "censo",
+  "software_status": "not_checked",
+  "status": "passed",
+  "stderr_tail": "",
+  "stdout_tail": "\n         ______________________________________________________________\n        |                                                              |\n        |                                                              |\n        |                   CENSO - Commandline ENSO                   |\n        |                           v 2.1.2                            |\n        |    energetic sorting of CREST Conformer Rotamer Ensembles    |\n        |                    University of Bonn, MCTC                  |\n        |                           Oct 2024                           |\n        |                 based on ENSO version 2.0.1                  |\n        |             L. M. Seidler, F. Bohle and S. Grimme            |\n        |                                                              |\n        |______________________________________________________________|\n\n        Please cite:\n        (TBA)\n        S. Grimme, F. Bohle, A. Hansen, P. Pracht, S. Spicher, and M. Stahn\n        J. Phys. Chem. A 2021, 125, 19, 4039-4054.\n        DOI: https://doi.org/10.1021/acs.jpca.1c00971\n\n        This program is distributed in the hope that it will be useful,\n        but WITHOUT ANY WARRANTY; without even the implied warranty of\n        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\nCALL: /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/reaction/bin/censo --version\n2.1.2\n",
+  "test_level": "interface_smoke",
+  "tested_at": "2026-07-28T20:16:58.943969+00:00"
+}

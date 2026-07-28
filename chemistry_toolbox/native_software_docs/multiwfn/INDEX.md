@@ -1,57 +1,50 @@
 ---
 software_id: multiwfn
-versions: []
-topics: [index, quickstart, native-execution, resources, convergence, troubleshooting]
-aliases: ["multiwfn"]
+versions: ["2026.7.15"]
+topics: ["index", "navigation", "capabilities"]
+aliases: ["Multiwfn", "multiwfn"]
 inputs: ["wavefunction file", "commands.txt"]
-outputs: ["stdout.log", "stderr.log", "software-declared output files"]
-last_smoke_tested: null
-generated_from: chemistry_toolbox/config/native_software_guides.yaml
+outputs: ["stdout.log", "exported grids", "tables", "images or structure files"]
+last_smoke_tested: "2026-07-28"
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
 ---
-# Multiwfn Native Execution
+# Multiwfn Native Software Guide
 
-## Purpose and supported version
-Run Multiwfn analyses using an explicit wavefunction file and menu-command stream.
+## Installed software
+- Installed version: `2026.7.15`.
+- Operational status: `runnable_with_wavefunction`.
+- Configured runtime: `multiwfn`.
+- Primary use: scripted wavefunction and real-space analysis through the no-GUI executable.
 
-Configured runtime: `multiwfn`. Detected versions: not recorded; inspect the executable before relying on version-specific syntax.
+## When to use this interface
+Run Multiwfn analyses using an explicit wavefunction file and menu-command stream. The native layer is appropriate when the Agent must author the software input or select version-specific options that are not represented by a preset Action.
 
-## Working directory and staging
-The execution layer creates an isolated job directory and runs the exact argv vector there without a shell. Stage every referenced input with the exact filename used by the command or input deck. Relative paths resolve from the job directory, not from the task workspace root. Use `stdin_target` only when the command input mode below requires stdin.
+## Documentation map
+- `QUICKSTART.md`: complete staging, command, resource, submission, and collection flow.
+- `COMMON_TASKS.md`: supported calculation families, input responsibilities, outputs, and validation states.
+- `TROUBLESHOOTING.md`: high-frequency failure signatures, causes, fixes, and a pre-submission checklist.
+- `examples/interface_smoke/`: the exact native command, toolbox request, and latest interface-smoke result.
+- Additional topic files in this directory contain software-specific scientific mechanics where available.
 
-## Commands
+## Supported command entries
+| Executable | Input mode | Native invocation | Required staged inputs |
+|---|---|---|---|
+| `Multiwfn_noGUI` | `arguments_and_stdin_file` | `Multiwfn_noGUI wavefunction.fchk` | `wavefunction file`, `commands.txt` |
 
-### `Multiwfn_noGUI`
-Synopsis: `Multiwfn_noGUI wavefunction_file < commands.txt`
+## Supported task families
+- density grids.
+- surface properties.
+- orbital analysis.
+- population analysis.
+- topology.
+- spectra.
 
-Input mode: `arguments_and_stdin_file`.
+## Required knowledge before submission
+The toolbox does not select a scientific method, force field, pseudopotential, basis, database, training set, convergence threshold, or workflow ordering. The Agent must obtain those choices from the task, a paper, or an authoritative source and then author a complete input.
 
-Required staged files: `wavefunction file`, `commands.txt`
+## Official references
+- http://sobereva.com/multiwfn/
+- http://sobereva.com/multiwfn/res/Manual_3.8.pdf
 
-Output behavior: Writes interactive-menu output to stdout and selected analysis files to the job directory.
-
-Example argv: `Multiwfn_noGUI wavefunction.fchk`.
-
-Command-specific cautions:
-- Set stdin_file to commands.txt; the Agent must author every menu selection and numerical parameter.
-
-## Resource mapping
-Set `resource_limits.cpu_cores`, `memory_mb`, `gpu_count`, and `walltime_seconds` explicitly. Keep software thread, MPI, memory, and GPU settings within those requested limits. The Supervisor enforces the per-job memory limit, CPU affinity, evaluator-wide concurrent reservations, walltime, cancellation, and process-group cleanup.
-
-## Normal termination and scientific convergence
-Exit code zero only establishes process completion. Inspect stdout, stderr, and the software's primary output for fatal errors and its documented normal-termination marker. Scientific convergence is task-specific: verify the requested optimization, electronic, ionic, frequency, dynamics, fitting, or projection criteria and confirm that every required result file is present and parseable. If the toolbox has no software-specific parser for this task, the status remains `not_checked` rather than inferring convergence from the exit code.
-
-## Common immediate failures
-- A referenced file was not staged with the exact target name.
-- The command was authored for a different software version.
-- An input deck contains an invalid keyword, section delimiter, or path.
-- Internal thread, MPI, memory, or GPU settings exceed the declared resource limits.
-- The process exits successfully but the main output reports a scientific or parsing failure.
-
-## Preflight checklist
-- Confirm the installed version and executable returned by `inspect_software`.
-- Read this manual and any referenced official version documentation.
-- Stage every input and nested dependency using the exact job-local filename.
-- Declare a calculation intent when the task has a convergence contract.
-- Match software parallelism and memory settings to `resource_limits`.
-- Run `validate_native_job` before submission.
-- After execution, inspect all status axes and the required output artifacts.
+## Test interpretation
+An interface smoke proves that the configured executable can be resolved and started through `submit_native_job`. A scientific smoke additionally requires a valid input, normal software termination, task-specific convergence, and parseable expected artifacts. The two levels are recorded separately and must not be conflated.

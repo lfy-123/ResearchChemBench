@@ -1,0 +1,61 @@
+{
+  "archived_files": [
+    {
+      "path": "request.json",
+      "sha256": "93ecfae83cf5ff0af82f261802149cf0c1361aa431ccb346c0947011bded5258",
+      "size_bytes": 1255
+    },
+    {
+      "path": "status.json",
+      "sha256": "1533edb13b336c9a450afef3850abded6b081a98893ba2a33850e72a217f3095",
+      "size_bytes": 1937
+    },
+    {
+      "path": "collection.json",
+      "sha256": "07a157139674fbc91b3f56cf5e007719407dbbc33300bcd4a4fe403b2a653ac7",
+      "size_bytes": 1512
+    },
+    {
+      "path": "stdout.log",
+      "sha256": "bc547ef97d771b0aa6b379e364dbc6d24ceeee646ca3275eddf138c967384973",
+      "size_bytes": 968
+    },
+    {
+      "path": "stderr.log",
+      "sha256": "33269e471c736729cd3b9cd85f399ed7178650fc238d59877d7187aafa943a55",
+      "size_bytes": 2230
+    }
+  ],
+  "artifact_status": "not_validated",
+  "convergence_status": "not_reached",
+  "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/gamess",
+  "job_id": "job_9e78fce67eca46bea8739fff41f1ce1f",
+  "process_status": "failed",
+  "reason": "The executable started and emitted its banner, usage, or expected missing-input diagnostic, but did not complete successfully.",
+  "request": {
+    "arguments": [
+      "-v"
+    ],
+    "calculation_intent": null,
+    "executable": "rungms",
+    "label": "manual-interface-smoke-gamess",
+    "parent_job_id": null,
+    "resource_limits": {
+      "cpu_cores": 1,
+      "gpu_count": 0,
+      "memory_mb": 1024
+    },
+    "software_id": "gamess",
+    "staged_inputs": [],
+    "stdin_target": null
+  },
+  "request_status": "accepted",
+  "scientific_validation_status": "not_reached",
+  "software_id": "gamess",
+  "software_status": "not_reached",
+  "status": "started_input_required",
+  "stderr_tail": "0077/lifangyuan/benchmark/ResearchChemBench/.software_cache/gamess/2024-r2-p1/source\nsetenv GMS_BUILD_DIR /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/gamess/2024-r2-p1/build\nsetenv GMS_TARGET linux64\nsetenv GMS_HPC_SYSTEM_TARGET generic\nsetenv GMS_ARCH `uname -p`\nuname -p\nsetenv GMS_FORTRAN gfortran\nsetenv GMS_GFORTRAN_VERNO 14.3\nsetenv GMS_MATHLIB openblas\nsetenv GMS_MATHLIB_PATH /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/gamess/lib\nsetenv GMS_MATHLIB_INCLUDE_PATH\nsetenv GMS_MKL_VERNO\nsetenv GMS_THREADED_BLAS false\nsetenv GMS_LAPACK_LINK_LINE\nsetenv GMS_DDI_COMM sockets\nsetenv GMS_LIBCCHEM false\nsetenv GMS_LIBCCHEM_GPU_SUPPORT\nsetenv GMS_LIBCCHEM_LIBS -ldl -lrt\nsetenv GMS_HDF5_PATH\nsetenv GMS_CUDA_BOARD\nsetenv GMS_CUDA_PATH\nsetenv GMS_EIGEN_PATH\nsetenv GMS_BOOST_PATH\nsetenv GMS_GA_PATH\nsetenv GMS_HPCCHEM false\nsetenv GMS_HPCCHEM_USE_DATA_SERVERS\nsetenv GMS_HPCCHEM_CUDA\nsetenv GMS_HPCCHEM_MAGMA\nsetenv GMS_HPCCHEM_PATH\nsetenv GMS_HPC_ROCM_PATH\nsetenv GMS_HPC_MAGMA_PATH\nsetenv GMS_HPC_CUDA_PATH\nsetenv GMS_PHI none\nsetenv GMS_SHMTYPE sysv\nsetenv GMS_OPENMP false\nsetenv GMS_OPENMP_OFFLOAD false\nsetenv GMS_USE_HIPFORT false\nsetenv USE_CUBLAS false\nsetenv USE_HIPBLAS false\nsetenv GMS_LIBXC false\nsetenv GMS_MDI false\nsetenv GMS_MSUAUTO false\nsetenv GMS_VM2 false\nsetenv TINKER false\nsetenv VB2000 false\nsetenv XMVB false\nsetenv NEO false\nsetenv NBO false\nsetenv RISM false\nsetenv GMS_FPE_FLAGS \nunset echo\nbasename: invalid option -- 'v'\nTry 'basename --help' for more information.\nreadlink: missing operand\nTry 'readlink --help' for more information.\ndirname: missing operand\nTry 'dirname --help' for more information.\nInput file .inp does not exist.\nThis job expected the input file to be in directory /tmp/researchchem-all-native-smoke-final3-20260728-923240/outputs/execution_jobs/job_9e78fce67eca46bea8739fff41f1ce1f\nPlease fix your file name problem, and resubmit.\n",
+  "stdout_tail": "No scheduler so we must be running locally on lfy-54-cpu--c9ead987dbc8-u3f46qxwe6\nInput file supplied : -v\n----- GAMESS execution script 'rungms' -----\nThis job is running on host lfy-54-cpu--c9ead987dbc8-u3f46qxwe6\nunder operating system Linux at Tue Jul 28 20:17:19 UTC 2026 with sockets communication mode\nAvailable scratch disk space (Kbyte units) at beginning of the job is\nFilesystem       1K-blocks       Used  Available Use% Mounted on\ngpfs_hdd       10737418240 8224686080 2512732160  77% /inspire/hdd/global_user/lifangyuan-253108110077\nGAMESS temporary binary files will be written to /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/gamess/2024-r2-p1/scratch\nGAMESS supplementary output files will be written to /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/gamess/2024-r2-p1/restart\nCopying input file .inp to your run's scratch directory...\n",
+  "test_level": "interface_smoke",
+  "tested_at": "2026-07-28T20:16:58.943969+00:00"
+}

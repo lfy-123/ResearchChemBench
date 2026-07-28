@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "job_id": "job_44de82641ad54486a446f1290f24ee99",
+  "job_type": "native_software",
+  "status": "success",
+  "supervisor_pid": 960840,
+  "command": [
+    "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/quantum/bin/xtb",
+    "--version"
+  ],
+  "job_directory": "outputs/execution_jobs/job_44de82641ad54486a446f1290f24ee99",
+  "stdout_path": "outputs/execution_jobs/job_44de82641ad54486a446f1290f24ee99/stdout.log",
+  "stderr_path": "outputs/execution_jobs/job_44de82641ad54486a446f1290f24ee99/stderr.log",
+  "resource_limits": {
+    "cpu_cores": 1,
+    "memory_mb": 1024,
+    "gpu_count": 0,
+    "walltime_seconds": 7200
+  },
+  "submitted_at": "2026-07-28T20:18:05.158310+00:00",
+  "started_at": "2026-07-28T20:18:05.192279+00:00",
+  "metadata": {
+    "software_id": "xtb",
+    "executable": "xtb",
+    "label": "manual-interface-smoke-xtb",
+    "parent_job_id": null,
+    "calculation_intent": "unknown",
+    "input_deck_validation": null,
+    "invocation_synopsis": "xtb structure.xyz --gfn <level> [--sp|--opt|--hess|--md] [explicit options]",
+    "execution_timeout_policy": {
+      "execution_class": "compute",
+      "timeout_seconds": 7200,
+      "source": "evaluation_policy",
+      "agent_controllable": false
+    },
+    "evaluation_resource_budget": {
+      "cpu_cores": 48,
+      "memory_mb": 204800,
+      "gpu_count": 0,
+      "source": "evaluation_policy",
+      "agent_controllable": false,
+      "scope": "per_task"
+    }
+  },
+  "finished_at": "2026-07-28T20:18:05.396685+00:00",
+  "duration_seconds": 0.204401,
+  "return_code": 0,
+  "background_process_cleanup": "none_detected",
+  "resource_usage": {
+    "user_cpu_seconds": 0.002993,
+    "system_cpu_seconds": 0.005937,
+    "max_rss_kb": 12820,
+    "peak_process_group_rss_kb": 712,
+    "memory_limit_mb": 1024
+  },
+  "error": null
+}

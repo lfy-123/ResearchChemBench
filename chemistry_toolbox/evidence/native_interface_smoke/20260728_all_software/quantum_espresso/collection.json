@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "job_id": "job_aa385b10280344f4998beb117f4416a5",
+  "job_status": "failed",
+  "collected_at": "2026-07-28T20:17:45.446152+00:00",
+  "include_inputs": false,
+  "truncated": false,
+  "outputs": [
+    {
+      "path": "outputs/execution_jobs/job_aa385b10280344f4998beb117f4416a5/CRASH",
+      "job_relative_path": "CRASH",
+      "size_bytes": 269,
+      "sha256": "83d1b1cc20531d87a4be956dafefbf0010c2a4a62ca7e6a2baa3242d11b1fc54",
+      "kind": "output"
+    },
+    {
+      "path": "outputs/execution_jobs/job_aa385b10280344f4998beb117f4416a5/input_tmp.in",
+      "job_relative_path": "input_tmp.in",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "output"
+    },
+    {
+      "path": "outputs/execution_jobs/job_aa385b10280344f4998beb117f4416a5/stderr.log",
+      "job_relative_path": "stderr.log",
+      "size_bytes": 418,
+      "sha256": "19939a8a6a7e51e20fbd9d6d0ba9286b52508eacaa59e970bebf4f3c51cedbec",
+      "kind": "log"
+    },
+    {
+      "path": "outputs/execution_jobs/job_aa385b10280344f4998beb117f4416a5/stdout.log",
+      "job_relative_path": "stdout.log",
+      "size_bytes": 1200,
+      "sha256": "9be29b12abe68a7eecc4a45f49d91f31a63b1d569b61fae86ac4efc2d7e4d488",
+      "kind": "log"
+    }
+  ],
+  "request_status": "accepted",
+  "process_status": "failed",
+  "software_status": "not_reached",
+  "convergence_status": "not_reached",
+  "artifact_status": "not_validated",
+  "scientific_validation_status": "not_reached",
+  "execution_status_details": {
+    "software": {
+      "status": "not_reached",
+      "evidence": [
+        "failed"
+      ]
+    },
+    "convergence": {
+      "status": "not_reached",
+      "evidence": []
+    },
+    "artifacts": {
+      "status": "not_validated",
+      "evidence": []
+    },
+    "scientific_validation_boundary": "Mechanical validation does not judge whether the Agent's final scientific interpretation or paper conclusion is correct; that remains the Judger's role."
+  },
+  "declared_artifacts": []
+}

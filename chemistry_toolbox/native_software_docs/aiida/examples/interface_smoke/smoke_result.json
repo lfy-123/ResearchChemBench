@@ -1,0 +1,61 @@
+{
+  "archived_files": [
+    {
+      "path": "request.json",
+      "sha256": "e4c9c0902c2f7b2b2348f561eaf3d784e7209b2a4dc3bfcfadeb030ed4688931",
+      "size_bytes": 1280
+    },
+    {
+      "path": "status.json",
+      "sha256": "acc0d126d7945589ffd013a116e1c8e8537bab3fd077ba410c894e9efcc6d9f3",
+      "size_bytes": 1885
+    },
+    {
+      "path": "collection.json",
+      "sha256": "5f7f98a661f7c25655dc874eb5cb4ef96df4d5af846abab06f294bee402abb05",
+      "size_bytes": 1488
+    },
+    {
+      "path": "stdout.log",
+      "sha256": "68ed04c42c4d798327e30ab9ac2e4611764397c5a8f28c286f04022caf6121bf",
+      "size_bytes": 20
+    },
+    {
+      "path": "stderr.log",
+      "sha256": "e396b3fef0e009aa0ae01f0841d5aa5c1165d1fa00a01c4adae552978b7fefb2",
+      "size_bytes": 431
+    }
+  ],
+  "artifact_status": "not_declared",
+  "convergence_status": "not_checked",
+  "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/aiida",
+  "job_id": "job_02bb11586c4246d98fa79ea46ec39602",
+  "process_status": "completed",
+  "reason": "The configured executable completed the interface probe through the native job runner.",
+  "request": {
+    "arguments": [
+      "--version"
+    ],
+    "calculation_intent": null,
+    "executable": "verdi",
+    "label": "manual-interface-smoke-aiida",
+    "parent_job_id": null,
+    "resource_limits": {
+      "cpu_cores": 1,
+      "gpu_count": 0,
+      "memory_mb": 1024
+    },
+    "software_id": "aiida",
+    "staged_inputs": [],
+    "stdin_target": null
+  },
+  "request_status": "accepted",
+  "scientific_validation_status": "not_checked",
+  "software_id": "aiida",
+  "software_status": "not_checked",
+  "status": "passed",
+  "stderr_tail": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/workflows/lib/python3.11/site-packages/aiida/manage/configuration/settings.py:110: UserWarning: Creating AiiDA configuration folder `/tmp/researchchem-all-native-smoke-final3-20260728-923240/outputs/execution_jobs/job_02bb11586c4246d98fa79ea46ec39602/.home/.aiida`.\n  warnings.warn(f'Creating AiiDA configuration folder `{path}`.')\n",
+  "stdout_tail": "AiiDA version 2.8.0\n",
+  "test_level": "interface_smoke",
+  "tested_at": "2026-07-28T20:16:58.943969+00:00"
+}

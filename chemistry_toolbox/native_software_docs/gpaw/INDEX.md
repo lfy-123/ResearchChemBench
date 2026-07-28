@@ -1,57 +1,49 @@
 ---
 software_id: gpaw
-versions: ["25.7.0"]
-topics: [index, quickstart, native-execution, resources, convergence, troubleshooting]
-aliases: ["gpaw"]
-inputs: ["program.py"]
-outputs: ["stdout.log", "stderr.log", "software-declared output files"]
-last_smoke_tested: null
-generated_from: chemistry_toolbox/config/native_software_guides.yaml
+versions: ["installed GPAW runtime"]
+topics: ["index", "navigation", "capabilities"]
+aliases: ["GPAW", "gpaw"]
+inputs: ["program.py", "optional structure and restart files", "GPAW datasets"]
+outputs: ["program output", ".gpw restart", "trajectories", "property data"]
+last_smoke_tested: "2026-07-28"
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
 ---
-# Gpaw Native Execution
+# GPAW Native Software Guide
 
-## Purpose and supported version
-Run an Agent-authored GPAW Python program using the GPAW command wrapper.
+## Installed software
+- Installed version: `installed GPAW runtime`.
+- Operational status: `python_driver_interface`.
+- Configured runtime: `gpaw`.
+- Primary use: execute a GPAW Python calculation in the configured GPAW runtime.
 
-Configured runtime: `gpaw`. Detected versions: `25.7.0`
+## When to use this interface
+Run an Agent-authored GPAW Python program using the GPAW command wrapper. The native layer is appropriate when the Agent must author the software input or select version-specific options that are not represented by a preset Action.
 
-## Working directory and staging
-The execution layer creates an isolated job directory and runs the exact argv vector there without a shell. Stage every referenced input with the exact filename used by the command or input deck. Relative paths resolve from the job directory, not from the task workspace root. Use `stdin_target` only when the command input mode below requires stdin.
+## Documentation map
+- `QUICKSTART.md`: complete staging, command, resource, submission, and collection flow.
+- `COMMON_TASKS.md`: supported calculation families, input responsibilities, outputs, and validation states.
+- `TROUBLESHOOTING.md`: high-frequency failure signatures, causes, fixes, and a pre-submission checklist.
+- `examples/interface_smoke/`: the exact native command, toolbox request, and latest interface-smoke result.
+- Additional topic files in this directory contain software-specific scientific mechanics where available.
 
-## Commands
+## Supported command entries
+| Executable | Input mode | Native invocation | Required staged inputs |
+|---|---|---|---|
+| `gpaw` | `arguments` | `gpaw python program.py` | `program.py` |
 
-### `gpaw`
-Synopsis: `gpaw python program.py [program arguments]`
+## Supported task families
+- molecular energy.
+- periodic ground state.
+- optimization.
+- band structure.
+- response properties.
 
-Input mode: `arguments`.
+## Required knowledge before submission
+The toolbox does not select a scientific method, force field, pseudopotential, basis, database, training set, convergence threshold, or workflow ordering. The Agent must obtain those choices from the task, a paper, or an authoritative source and then author a complete input.
 
-Required staged files: `program.py`
+## Official references
+- https://gpaw.readthedocs.io/
+- https://gpaw.readthedocs.io/tutorialsexercises/index.html
 
-Output behavior: Determined by the Agent-authored GPAW program; stdout and stderr are always captured.
-
-Example argv: `gpaw python program.py`.
-
-Command-specific cautions:
-- The script must specify calculator mode, basis/grid, exchange-correlation model, k-points, occupations, convergence, and outputs.
-
-## Resource mapping
-Set `resource_limits.cpu_cores`, `memory_mb`, `gpu_count`, and `walltime_seconds` explicitly. Keep software thread, MPI, memory, and GPU settings within those requested limits. The Supervisor enforces the per-job memory limit, CPU affinity, evaluator-wide concurrent reservations, walltime, cancellation, and process-group cleanup.
-
-## Normal termination and scientific convergence
-Exit code zero only establishes process completion. Inspect stdout, stderr, and the software's primary output for fatal errors and its documented normal-termination marker. Scientific convergence is task-specific: verify the requested optimization, electronic, ionic, frequency, dynamics, fitting, or projection criteria and confirm that every required result file is present and parseable. If the toolbox has no software-specific parser for this task, the status remains `not_checked` rather than inferring convergence from the exit code.
-
-## Common immediate failures
-- A referenced file was not staged with the exact target name.
-- The command was authored for a different software version.
-- An input deck contains an invalid keyword, section delimiter, or path.
-- Internal thread, MPI, memory, or GPU settings exceed the declared resource limits.
-- The process exits successfully but the main output reports a scientific or parsing failure.
-
-## Preflight checklist
-- Confirm the installed version and executable returned by `inspect_software`.
-- Read this manual and any referenced official version documentation.
-- Stage every input and nested dependency using the exact job-local filename.
-- Declare a calculation intent when the task has a convergence contract.
-- Match software parallelism and memory settings to `resource_limits`.
-- Run `validate_native_job` before submission.
-- After execution, inspect all status axes and the required output artifacts.
+## Test interpretation
+An interface smoke proves that the configured executable can be resolved and started through `submit_native_job`. A scientific smoke additionally requires a valid input, normal software termination, task-specific convergence, and parseable expected artifacts. The two levels are recorded separately and must not be conflated.

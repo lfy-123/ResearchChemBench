@@ -1,0 +1,61 @@
+{
+  "archived_files": [
+    {
+      "path": "request.json",
+      "sha256": "ee9a0a662cc634b66866de53a0627bc88d2cf77c6910380a79645e256a2345f4",
+      "size_bytes": 1274
+    },
+    {
+      "path": "status.json",
+      "sha256": "faab85c359902f4a0fb6e3e3b1ae53b3db180cf12d2ed5d4e44c71e65998d227",
+      "size_bytes": 1880
+    },
+    {
+      "path": "collection.json",
+      "sha256": "37741b6be2def198640974acf6fe6dc3b4c1a57aba65373dface31c9faa84745",
+      "size_bytes": 1488
+    },
+    {
+      "path": "stdout.log",
+      "sha256": "46ca8c561ce538adb6eb74fb4033ab191847a5b29e93b6d29a721425faf029e9",
+      "size_bytes": 658
+    },
+    {
+      "path": "stderr.log",
+      "sha256": "db41edc1c74dad5a3527d5c6e4a48bfce3c2cabc0f0ad20acb5e420ad2a68ea9",
+      "size_bytes": 26
+    }
+  ],
+  "artifact_status": "not_declared",
+  "convergence_status": "not_checked",
+  "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/xtb",
+  "job_id": "job_44de82641ad54486a446f1290f24ee99",
+  "process_status": "completed",
+  "reason": "The configured executable completed the interface probe through the native job runner.",
+  "request": {
+    "arguments": [
+      "--version"
+    ],
+    "calculation_intent": null,
+    "executable": "xtb",
+    "label": "manual-interface-smoke-xtb",
+    "parent_job_id": null,
+    "resource_limits": {
+      "cpu_cores": 1,
+      "gpu_count": 0,
+      "memory_mb": 1024
+    },
+    "software_id": "xtb",
+    "staged_inputs": [],
+    "stdin_target": null
+  },
+  "request_status": "accepted",
+  "scientific_validation_status": "not_checked",
+  "software_id": "xtb",
+  "software_status": "not_checked",
+  "status": "passed",
+  "stderr_tail": "normal termination of xtb\n",
+  "stdout_tail": "      -----------------------------------------------------------      \n     |                   =====================                   |     \n     |                           x T B                           |     \n     |                   =====================                   |     \n     |                         S. Grimme                         |     \n     |          Mulliken Center for Theoretical Chemistry        |     \n     |                    University of Bonn                     |     \n      -----------------------------------------------------------      \n\n   * xtb version 6.7.1 (edcfbbe) compiled by 'conda@5dfe00f5fb80' on 2026-06-10\n\n",
+  "test_level": "interface_smoke",
+  "tested_at": "2026-07-28T20:16:58.943969+00:00"
+}

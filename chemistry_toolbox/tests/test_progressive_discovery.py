@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import json
 
-from chemistry_toolbox.mcp.discovery_models import ProgressiveActionRequest
-from chemistry_toolbox.mcp.discovery_tools import execute_action
+from chemistry_toolbox.mcp.discovery_models import ActionSearchRequest, ProgressiveActionRequest
+from chemistry_toolbox.mcp.discovery_tools import execute_action, search_actions as traced_search_actions
 from chemistry_toolbox.mcp.result_transport import compact_action_result
 from researchchem_toolbox.catalog import action_specs, catalog_snapshot
 from researchchem_toolbox.discovery import (
@@ -198,6 +198,26 @@ def test_progressive_dispatch_traces_the_real_action_id(tmp_path, monkeypatch):
     assert event["tool"] == "normalize_qcschema_molecule"
     assert event["arguments"]["entrypoint"] == "progressive_execute_action"
     assert event["status"] == "invalid_request"
+
+
+def test_read_only_discovery_traces_without_scanning_workspace(tmp_path, monkeypatch):
+    monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
+
+    def unexpected_snapshot():
+        raise AssertionError("read-only discovery must not scan workspace artifacts")
+
+    monkeypatch.setattr("chemistry_toolbox.mcp.tracing.workspace_snapshot", unexpected_snapshot)
+    result = traced_search_actions(
+        ActionSearchRequest(
+            query="rank conformers by free energy",
+            retrieval_mode="lexical",
+            limit=5,
+        )
+    )
+    assert result["status"] == "success"
+    event = json.loads((tmp_path / "_tool_trace.jsonl").read_text().splitlines()[0])
+    assert event["tool"] == "search_actions"
+    assert event["artifacts"] == []
 
 
 def test_composite_and_typed_handoff_contracts_are_explicit():

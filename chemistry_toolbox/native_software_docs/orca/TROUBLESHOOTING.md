@@ -1,19 +1,47 @@
 ---
 software_id: orca
 versions: ["6.1.1"]
-topics: [troubleshooting, errors]
-aliases: [ORCA failed, ORCA parser error, SCF not converged]
-inputs: ["ORCA input deck", "referenced geometry or basis files"]
-outputs: ["stdout.log", "ORCA property and restart files"]
-last_smoke_tested: null
+topics: ["troubleshooting", "errors", "preflight"]
+aliases: ["ORCA", "orca"]
+inputs: ["input.inp", "optional external XYZ", "basis", "point charges", "or restart files"]
+outputs: ["stdout.log", ".gbw", ".xyz", ".hess", ".densities", "property files"]
+last_smoke_tested: "2026-07-28"
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
 ---
 # ORCA Troubleshooting
 
-## Immediate parser failure
-Check the first keyword line, coordinate delimiters, `%` block closure, and exact staged filenames. These failures normally occur within seconds and should be fixed before requesting more resources.
+## Diagnose in this order
+1. Confirm that `inspect_software` resolves the expected executable and version.
+2. Read the first fatal message in `stderr.log` or the primary software output; later messages are often consequences.
+3. Verify staged target names, input-relative paths, file encodings, line endings, and required blank sections.
+4. Verify task syntax against the installed version, then check method and data compatibility.
+5. Compare internal MPI, thread, memory, scratch, and GPU settings with the declared job resources.
+6. Only after syntax and staging pass, investigate numerical convergence or increase resources.
 
-## Memory or parallel failure
-Ensure `%pal nprocs` does not exceed the scheduler CPU count and `%maxcore * nprocs` leaves memory headroom. More cores can increase memory use and does not repair invalid input.
+## Known failures and repairs
+| Symptom | Likely cause | Corrective action |
+|---|---|---|
+| unrecognized or unexpected keyword | input syntax is malformed or version-specific | reduce to a tested 6.1.1 input and add blocks incrementally |
+| Cannot open input or XYZ file | a referenced file was not staged under the exact name | stage every dependency in the job directory |
+| SCF NOT CONVERGED or optimization failed | electronic or geometric convergence failed | inspect the relevant convergence history and do not treat normal process exit as scientific success |
 
-## Incomplete result
-Absence of `ORCA TERMINATED NORMALLY` means software failure or interruption. A normal marker without SCF or geometry convergence is software success but not scientific convergence.
+## Path and staging failures
+A source file existing in the benchmark workspace does not make it visible to the native process. Every dependency must be declared in `staged_inputs`. The content of an input deck must reference the staged `target_path`, not its original workspace path. Fixed-name programs are case-sensitive. Never assume the process starts in the task workspace.
+
+## Resource failures
+%pal nprocs must not exceed cpu_cores; %maxcore is MiB per process, so nprocs times maxcore must remain below total memory with headroom.
+If the Supervisor reports `memory_limit_exceeded`, reduce software parallelism or request a justified larger total allocation. If it reports timeout, inspect whether the software was progressing and whether the requested task can finish within the remaining evaluation lifetime. Resource increases do not repair malformed input.
+
+## False-success prevention
+Do not accept a zero exit code when the main output contains `ERROR`, `FATAL`, an abort marker, non-convergence, or missing-result diagnostics. Likewise, do not promote an electronic convergence marker to geometry, frequency, transition-state, dynamics, or projection success. Preserve the independent status axes in the final report.
+
+## Pre-submission checklist
+- Installed executable and version inspected.
+- Official syntax checked for the intended calculation family.
+- Input is complete and uses English/ASCII-safe filenames where possible.
+- Every referenced file is staged to the exact target name.
+- stdin and argument modes match the Catalog contract.
+- Charge, multiplicity, periodicity, units, atom ordering, and upstream provenance are consistent.
+- CPU, total memory, per-rank/per-core memory, GPU, scratch, and walltime agree.
+- `validate_native_job` returns no errors.
+- Required outputs and task-specific success criteria are declared before execution.

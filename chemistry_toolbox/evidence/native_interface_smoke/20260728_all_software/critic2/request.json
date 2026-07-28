@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "job_id": "job_f8679c457e6546b8aaa1d09c1666f81a",
+  "job_type": "native_software",
+  "runtime": "critic2",
+  "command": [
+    "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/critic2/install-conda/bin/critic2",
+    "--version"
+  ],
+  "stdin_target": null,
+  "staged_inputs": [],
+  "resource_limits": {
+    "cpu_cores": 1,
+    "memory_mb": 1024,
+    "gpu_count": 0,
+    "walltime_seconds": 7200
+  },
+  "metadata": {
+    "software_id": "critic2",
+    "executable": "critic2",
+    "label": "manual-interface-smoke-critic2",
+    "parent_job_id": null,
+    "calculation_intent": "unknown",
+    "input_deck_validation": null,
+    "invocation_synopsis": "critic2 input.cri",
+    "execution_timeout_policy": {
+      "execution_class": "compute",
+      "timeout_seconds": 7200,
+      "source": "evaluation_policy",
+      "agent_controllable": false
+    },
+    "evaluation_resource_budget": {
+      "cpu_cores": 48,
+      "memory_mb": 204800,
+      "gpu_count": 0,
+      "source": "evaluation_policy",
+      "agent_controllable": false,
+      "scope": "per_task"
+    }
+  },
+  "submitted_at": "2026-07-28T20:17:17.874049+00:00",
+  "automatic_fallback": false,
+  "shell": false
+}

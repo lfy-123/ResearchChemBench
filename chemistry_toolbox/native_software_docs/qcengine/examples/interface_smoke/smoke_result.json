@@ -1,0 +1,61 @@
+{
+  "archived_files": [
+    {
+      "path": "request.json",
+      "sha256": "0f4196745b445716faf279d4ea9378df573568dc2bb350a8a276f93d02a6b623",
+      "size_bytes": 1270
+    },
+    {
+      "path": "status.json",
+      "sha256": "3367b776ebea81e241e0ffc4c310e93f999df8370988cf2d16821cb7c5d4eca1",
+      "size_bytes": 1876
+    },
+    {
+      "path": "collection.json",
+      "sha256": "a5530bd817baba5215e3a08368bb685ab3ca1408abfa1c9a5a295b70769629ed",
+      "size_bytes": 1485
+    },
+    {
+      "path": "stdout.log",
+      "sha256": "7f897019268dc93e942ade9ee8d9015bbc17f630e1a3de24bfee4ddc2dd53cc2",
+      "size_bytes": 7
+    },
+    {
+      "path": "stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    }
+  ],
+  "artifact_status": "not_declared",
+  "convergence_status": "not_checked",
+  "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/qcengine",
+  "job_id": "job_27e0db451ec1401187cc1af61372e0ea",
+  "process_status": "completed",
+  "reason": "The configured executable completed the interface probe through the native job runner.",
+  "request": {
+    "arguments": [
+      "--version"
+    ],
+    "calculation_intent": null,
+    "executable": "qcengine",
+    "label": "manual-interface-smoke-qcengine",
+    "parent_job_id": null,
+    "resource_limits": {
+      "cpu_cores": 1,
+      "gpu_count": 0,
+      "memory_mb": 1024
+    },
+    "software_id": "qcengine",
+    "staged_inputs": [],
+    "stdin_target": null
+  },
+  "request_status": "accepted",
+  "scientific_validation_status": "not_checked",
+  "software_id": "qcengine",
+  "software_status": "not_checked",
+  "status": "passed",
+  "stderr_tail": "",
+  "stdout_tail": "0.50.0\n",
+  "test_level": "interface_smoke",
+  "tested_at": "2026-07-28T20:16:58.943969+00:00"
+}

@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "job_id": "job_40d4adc13ade41298c20d6a78c8ea434",
+  "job_status": "failed",
+  "collected_at": "2026-07-28T20:17:25.571829+00:00",
+  "include_inputs": false,
+  "truncated": false,
+  "outputs": [
+    {
+      "path": "outputs/execution_jobs/job_40d4adc13ade41298c20d6a78c8ea434/kinbot.log",
+      "job_relative_path": "kinbot.log",
+      "size_bytes": 1684,
+      "sha256": "d4c77fb7c8991ba376a3a66a21c9b0e2927c570f587edd3f88f8c942f5d61ae5",
+      "kind": "output"
+    },
+    {
+      "path": "outputs/execution_jobs/job_40d4adc13ade41298c20d6a78c8ea434/stderr.log",
+      "job_relative_path": "stderr.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "log"
+    },
+    {
+      "path": "outputs/execution_jobs/job_40d4adc13ade41298c20d6a78c8ea434/stdout.log",
+      "job_relative_path": "stdout.log",
+      "size_bytes": 200,
+      "sha256": "be8509958a599914580f81a9ab4b4951ff06951d4fee454298187464386209ca",
+      "kind": "log"
+    }
+  ],
+  "request_status": "accepted",
+  "process_status": "failed",
+  "software_status": "not_reached",
+  "convergence_status": "not_reached",
+  "artifact_status": "not_validated",
+  "scientific_validation_status": "not_reached",
+  "execution_status_details": {
+    "software": {
+      "status": "not_reached",
+      "evidence": [
+        "failed"
+      ]
+    },
+    "convergence": {
+      "status": "not_reached",
+      "evidence": []
+    },
+    "artifacts": {
+      "status": "not_validated",
+      "evidence": []
+    },
+    "scientific_validation_boundary": "Mechanical validation does not judge whether the Agent's final scientific interpretation or paper conclusion is correct; that remains the Judger's role."
+  },
+  "declared_artifacts": []
+}

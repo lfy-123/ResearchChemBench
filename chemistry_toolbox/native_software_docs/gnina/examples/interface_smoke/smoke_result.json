@@ -1,0 +1,61 @@
+{
+  "archived_files": [
+    {
+      "path": "request.json",
+      "sha256": "a7bf2d26eccabef5cf2e8e75b9a2a71265c6d56b50ecd4c63bdcb10e1efa0634",
+      "size_bytes": 1360
+    },
+    {
+      "path": "status.json",
+      "sha256": "639b539e111edc6f07cf2e27f100703f06fe260be7840eeb7b1b86d294c2e9c7",
+      "size_bytes": 1970
+    },
+    {
+      "path": "collection.json",
+      "sha256": "e6b7c597f54c20b640df08eb50d5398b09b9a1b94922a22afed001dc5a8e1edc",
+      "size_bytes": 1486
+    },
+    {
+      "path": "stdout.log",
+      "sha256": "27c18876fe44e934cbdc2f67072e1cec74da677c734be794be4525fb59046519",
+      "size_bytes": 49
+    },
+    {
+      "path": "stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    }
+  ],
+  "artifact_status": "not_declared",
+  "convergence_status": "not_checked",
+  "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/gnina",
+  "job_id": "job_d391c6d15df849c49e55199f821dd910",
+  "process_status": "completed",
+  "reason": "The configured executable completed the interface probe through the native job runner.",
+  "request": {
+    "arguments": [
+      "--version"
+    ],
+    "calculation_intent": null,
+    "executable": "gnina",
+    "label": "manual-interface-smoke-gnina",
+    "parent_job_id": null,
+    "resource_limits": {
+      "cpu_cores": 1,
+      "gpu_count": 0,
+      "memory_mb": 1024
+    },
+    "software_id": "gnina",
+    "staged_inputs": [],
+    "stdin_target": null
+  },
+  "request_status": "accepted",
+  "scientific_validation_status": "not_checked",
+  "software_id": "gnina",
+  "software_status": "not_checked",
+  "status": "passed",
+  "stderr_tail": "",
+  "stdout_tail": "gnina v1.3.3 master:6fe1ce2   Built Jun 30 2026.\n",
+  "test_level": "interface_smoke",
+  "tested_at": "2026-07-28T20:16:58.943969+00:00"
+}

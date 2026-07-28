@@ -1,0 +1,61 @@
+{
+  "archived_files": [
+    {
+      "path": "request.json",
+      "sha256": "99f46fbac9b74df8aabd91965c920acb59f864f174cf6b28e1f18edaef843aa3",
+      "size_bytes": 1314
+    },
+    {
+      "path": "status.json",
+      "sha256": "be2a129707a520c02222e480a2dd9c9f03ef31474fe59d0c7fea9b47fb640363",
+      "size_bytes": 1996
+    },
+    {
+      "path": "collection.json",
+      "sha256": "8d730d35883276e28bed3c3c47b990875fc53aebfa3591ae3439bb3ddbde3b9b",
+      "size_bytes": 1778
+    },
+    {
+      "path": "stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "stderr.log",
+      "sha256": "e2b9a4e17c1d29ce6c5b48c10b036a65265a0ef8b043cce7e9747e836e9fc546",
+      "size_bytes": 34
+    }
+  ],
+  "artifact_status": "not_validated",
+  "convergence_status": "not_reached",
+  "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/amber_pmemd",
+  "job_id": "job_a4946ef29afa4daeb831d75c7db212df",
+  "process_status": "failed",
+  "reason": "The executable started and emitted its banner, usage, or expected missing-input diagnostic, but did not complete successfully.",
+  "request": {
+    "arguments": [
+      "-h"
+    ],
+    "calculation_intent": null,
+    "executable": "pmemd",
+    "label": "manual-interface-smoke-amber_pmemd",
+    "parent_job_id": null,
+    "resource_limits": {
+      "cpu_cores": 1,
+      "gpu_count": 0,
+      "memory_mb": 1024
+    },
+    "software_id": "amber_pmemd",
+    "staged_inputs": [],
+    "stdin_target": null
+  },
+  "request_status": "accepted",
+  "scientific_validation_status": "not_reached",
+  "software_id": "amber_pmemd",
+  "software_status": "not_reached",
+  "status": "started_input_required",
+  "stderr_tail": "STOP PMEMD Terminated Abnormally!\n",
+  "stdout_tail": "",
+  "test_level": "interface_smoke",
+  "tested_at": "2026-07-28T20:16:58.943969+00:00"
+}

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import importlib.util
+import json
 from pathlib import Path
 
 import yaml
@@ -16,9 +17,13 @@ from chemistry_toolbox.mcp.software_catalog import (
     search_software_documentation,
     software_document_chunks,
 )
+from chemistry_toolbox.mcp.open_tools import (
+    search_software_documentation as traced_search_software_documentation,
+)
 
 
 HIGH_FREQUENCY_SOFTWARE = {"orca", "gaussian", "crest", "vasp", "lobster"}
+PLACEHOLDER_SOFTWARE = {"easyspin", "matlab"}
 TOOLBOX_ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -38,11 +43,82 @@ def test_every_native_software_has_structured_first_party_documentation() -> Non
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     generated = module.generated_manuals()
-    assert len(generated) == 51
+    assert len(generated) >= 350
     for path, expected in generated.items():
         assert path.read_text(encoding="utf-8") == expected
-    for software_id in module.HAND_WRITTEN_SOFTWARE:
-        assert (module.DOCS_ROOT / software_id / "INDEX.md").is_file()
+    guides, profiles = module.load_sources()
+    assert len(guides) == len(profiles) == 56
+    assert set(guides) == set(profiles)
+    assert {
+        software_id
+        for software_id, profile in profiles.items()
+        if profile["operational_status"] == "placeholder"
+    } == PLACEHOLDER_SOFTWARE
+    for software_id in set(guides) - PLACEHOLDER_SOFTWARE:
+        root = module.DOCS_ROOT / software_id
+        for filename in module.STANDARD_FILES:
+            assert (root / filename).is_file(), (software_id, filename)
+        example = root / "examples" / "interface_smoke"
+        assert (example / "native_command.sh").is_file()
+        assert (example / "submit_request.json").is_file()
+        assert (example / "smoke_result.json").is_file()
+
+
+def test_detailed_manuals_are_substantive_and_examples_match_current_contract() -> None:
+    for root in sorted((TOOLBOX_ROOT / "native_software_docs").iterdir()):
+        if not root.is_dir() or root.name.startswith("_") or root.name in PLACEHOLDER_SOFTWARE:
+            continue
+        combined = "\n".join(
+            path.read_text(encoding="utf-8") for path in sorted(root.glob("*.md"))
+        )
+        assert len(combined.splitlines()) >= 180, root
+        for required in (
+            "Installed version",
+            "Working directory",
+            "Resource",
+            "convergence",
+            "Pre-submission checklist",
+        ):
+            assert required.casefold() in combined.casefold(), (root, required)
+        request = json.loads(
+            (root / "examples" / "interface_smoke" / "submit_request.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        assert request["software_id"] == root.name
+        assert "walltime_seconds" not in request["resource_limits"]
+
+
+def test_native_interface_smoke_manifest_covers_catalog_and_hashes_verify() -> None:
+    script = TOOLBOX_ROOT / "scripts" / "run_native_interface_smokes.py"
+    spec = importlib.util.spec_from_file_location("run_native_interface_smokes", script)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    result = module.verify(module.DEFAULT_EVIDENCE)
+    assert result["valid"], result["errors"]
+    assert sum(result["counts"].values()) == 56
+    assert result["counts"]["skipped"] == 2
+
+
+def test_read_only_software_search_traces_without_workspace_scan(tmp_path, monkeypatch) -> None:
+    monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
+
+    def unexpected_snapshot():
+        raise AssertionError("read-only software search must not scan workspace artifacts")
+
+    monkeypatch.setattr("chemistry_toolbox.mcp.tracing.workspace_snapshot", unexpected_snapshot)
+    result = traced_search_software_documentation(
+        DocumentationSearchRequest(
+            software_id="gaussian",
+            query="route blank line title",
+            retrieval_mode="lexical",
+        )
+    )
+    assert result["status"] == "success"
+    event = yaml.safe_load((tmp_path / "_tool_trace.jsonl").read_text().splitlines()[0])
+    assert event["tool"] == "search_software_documentation"
+    assert event["artifacts"] == []
 
 
 def test_all_first_party_manuals_use_complete_front_matter() -> None:

@@ -119,7 +119,7 @@ def _invoke_discovery(
                 "automatic_fallback": False,
             }
 
-    return execute_traced(name, arguments, run)
+    return execute_traced(name, arguments, run, capture_artifacts=False)
 
 
 def list_action_domains(request: ActionDomainListRequest) -> dict[str, Any]:

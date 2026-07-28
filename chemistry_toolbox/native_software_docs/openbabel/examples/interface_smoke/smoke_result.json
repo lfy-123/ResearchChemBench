@@ -1,0 +1,61 @@
+{
+  "archived_files": [
+    {
+      "path": "request.json",
+      "sha256": "6759c130c157e445c4f54484d967f3863c484df1d6a9f686ec840170c6564587",
+      "size_bytes": 1277
+    },
+    {
+      "path": "status.json",
+      "sha256": "c96e3267edda71d96c871734f6fc0a2673ce48bc266e8ba927e22f54c97fbfce",
+      "size_bytes": 1878
+    },
+    {
+      "path": "collection.json",
+      "sha256": "00c97c5cf5bbeacdf571559e2da772863b8ba3bbe4c79ff5b8aed5f3e0a94e38",
+      "size_bytes": 1486
+    },
+    {
+      "path": "stdout.log",
+      "sha256": "6b80c3088b30f3a9b17d048fd409c216992a3bd43a961ab6026b14305136da57",
+      "size_bytes": 44
+    },
+    {
+      "path": "stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    }
+  ],
+  "artifact_status": "not_declared",
+  "convergence_status": "not_checked",
+  "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/openbabel",
+  "job_id": "job_c2e51e0c61cd4f1fb6d1ecc33c482ca7",
+  "process_status": "completed",
+  "reason": "The configured executable completed the interface probe through the native job runner.",
+  "request": {
+    "arguments": [
+      "-V"
+    ],
+    "calculation_intent": null,
+    "executable": "obabel",
+    "label": "manual-interface-smoke-openbabel",
+    "parent_job_id": null,
+    "resource_limits": {
+      "cpu_cores": 1,
+      "gpu_count": 0,
+      "memory_mb": 1024
+    },
+    "software_id": "openbabel",
+    "staged_inputs": [],
+    "stdin_target": null
+  },
+  "request_status": "accepted",
+  "scientific_validation_status": "not_checked",
+  "software_id": "openbabel",
+  "software_status": "not_checked",
+  "status": "passed",
+  "stderr_tail": "",
+  "stdout_tail": "Open Babel 3.1.0 -- Nov 30 2023 -- 20:43:22\n",
+  "test_level": "interface_smoke",
+  "tested_at": "2026-07-28T20:16:58.943969+00:00"
+}

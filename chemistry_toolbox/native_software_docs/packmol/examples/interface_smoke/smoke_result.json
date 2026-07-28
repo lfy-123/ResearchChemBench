@@ -1,0 +1,66 @@
+{
+  "archived_files": [
+    {
+      "path": "request.json",
+      "sha256": "1d9f5d59634d08189397bbcb2b78a656a69dd31f03cc7e3d71c38cfe7e314b8f",
+      "size_bytes": 1468
+    },
+    {
+      "path": "status.json",
+      "sha256": "229eafa2dad374f1261fa421139752df516065e33e34e9ae3c69b561a749911b",
+      "size_bytes": 1905
+    },
+    {
+      "path": "collection.json",
+      "sha256": "0e7db1072917048ab216b500c328835c32ded4b3052eced273bd9e4aff9a4913",
+      "size_bytes": 1509
+    },
+    {
+      "path": "stdout.log",
+      "sha256": "37ff14cbc6f01181215a4e434768214d435ad6706251cd14ae12ecbc6023d173",
+      "size_bytes": 537
+    },
+    {
+      "path": "stderr.log",
+      "sha256": "501b9e761b958aea6faad3e60901316ebbc51611c833781cef721a6605627b6b",
+      "size_bytes": 9
+    }
+  ],
+  "artifact_status": "not_validated",
+  "convergence_status": "not_reached",
+  "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/packmol",
+  "job_id": "job_a65b251d3c964476a3171ca7f73382e0",
+  "process_status": "failed",
+  "reason": "The executable started and emitted its banner, usage, or expected missing-input diagnostic, but did not complete successfully.",
+  "request": {
+    "arguments": [
+      "--help"
+    ],
+    "calculation_intent": null,
+    "executable": "packmol",
+    "label": "manual-interface-smoke-packmol",
+    "parent_job_id": null,
+    "resource_limits": {
+      "cpu_cores": 1,
+      "gpu_count": 0,
+      "memory_mb": 1024
+    },
+    "software_id": "packmol",
+    "staged_inputs": [
+      {
+        "source_path": "code/packmol_interface_smoke.stdin",
+        "target_path": "interface_smoke.stdin"
+      }
+    ],
+    "stdin_target": "interface_smoke.stdin"
+  },
+  "request_status": "accepted",
+  "scientific_validation_status": "not_reached",
+  "software_id": "packmol",
+  "software_status": "not_reached",
+  "status": "started_input_required",
+  "stderr_tail": "STOP 174\n",
+  "stdout_tail": "\n################################################################################\n\n PACKMOL - Packing optimization for the automated generation of\n starting configurations for molecular dynamics simulations.\n \n                                                             Version 21.2.1 \n\n################################################################################\n\n ERROR: packmol command-line error\nCommand-line execution examples (you may use any): \n\npackmol < input.inp\n\npackmol -i input.inp\n\npackmol -i input.inp -o output.pdb\n\n",
+  "test_level": "interface_smoke",
+  "tested_at": "2026-07-28T20:16:58.943969+00:00"
+}

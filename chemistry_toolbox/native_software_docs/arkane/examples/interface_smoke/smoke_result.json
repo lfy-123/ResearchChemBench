@@ -1,0 +1,61 @@
+{
+  "archived_files": [
+    {
+      "path": "request.json",
+      "sha256": "279e9b0a3d66f51af73d68466a533ac70adb0efa8ce6c5243509fe20ec45a2a1",
+      "size_bytes": 1238
+    },
+    {
+      "path": "status.json",
+      "sha256": "2b811b21de58d6e683a810a09682c47174cad5d69f5ad34cfe68e8a940b3380f",
+      "size_bytes": 1932
+    },
+    {
+      "path": "collection.json",
+      "sha256": "c074fb6fcc57365ad924f5181ecc634a1cf226434d1933244f460e694c15353f",
+      "size_bytes": 1517
+    },
+    {
+      "path": "stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "stderr.log",
+      "sha256": "590cedd2009e6ae9b7308d834941ce8d995ee23b5223510ca71966ec0481aad0",
+      "size_bytes": 55
+    }
+  ],
+  "artifact_status": "not_validated",
+  "convergence_status": "not_reached",
+  "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/arkane",
+  "job_id": "job_e7badf9952324fa784bbdcd162c6a073",
+  "process_status": "cancelled",
+  "reason": "The command did not reach a terminal state before the interface-smoke deadline and was cancelled.",
+  "request": {
+    "arguments": [
+      "--help"
+    ],
+    "calculation_intent": null,
+    "executable": "Arkane.py",
+    "label": "manual-interface-smoke-arkane",
+    "parent_job_id": null,
+    "resource_limits": {
+      "cpu_cores": 1,
+      "gpu_count": 0,
+      "memory_mb": 1024
+    },
+    "software_id": "arkane",
+    "staged_inputs": [],
+    "stdin_target": null
+  },
+  "request_status": "accepted",
+  "scientific_validation_status": "not_reached",
+  "software_id": "arkane",
+  "software_status": "not_reached",
+  "status": "failed",
+  "stderr_tail": "INFO:matplotlib.font_manager:generated new fontManager\n",
+  "stdout_tail": "",
+  "test_level": "interface_smoke",
+  "tested_at": "2026-07-28T20:16:58.943969+00:00"
+}

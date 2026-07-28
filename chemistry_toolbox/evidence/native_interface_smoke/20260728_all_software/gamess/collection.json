@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "job_id": "job_9e78fce67eca46bea8739fff41f1ce1f",
+  "job_status": "failed",
+  "collected_at": "2026-07-28T20:17:19.500640+00:00",
+  "include_inputs": false,
+  "truncated": false,
+  "outputs": [
+    {
+      "path": "outputs/execution_jobs/job_9e78fce67eca46bea8739fff41f1ce1f/stderr.log",
+      "job_relative_path": "stderr.log",
+      "size_bytes": 2230,
+      "sha256": "33269e471c736729cd3b9cd85f399ed7178650fc238d59877d7187aafa943a55",
+      "kind": "log"
+    },
+    {
+      "path": "outputs/execution_jobs/job_9e78fce67eca46bea8739fff41f1ce1f/stdout.log",
+      "job_relative_path": "stdout.log",
+      "size_bytes": 968,
+      "sha256": "bc547ef97d771b0aa6b379e364dbc6d24ceeee646ca3275eddf138c967384973",
+      "kind": "log"
+    }
+  ],
+  "request_status": "accepted",
+  "process_status": "failed",
+  "software_status": "not_reached",
+  "convergence_status": "not_reached",
+  "artifact_status": "not_validated",
+  "scientific_validation_status": "not_reached",
+  "execution_status_details": {
+    "software": {
+      "status": "not_reached",
+      "evidence": [
+        "failed"
+      ]
+    },
+    "convergence": {
+      "status": "not_reached",
+      "evidence": []
+    },
+    "artifacts": {
+      "status": "not_validated",
+      "evidence": []
+    },
+    "scientific_validation_boundary": "Mechanical validation does not judge whether the Agent's final scientific interpretation or paper conclusion is correct; that remains the Judger's role."
+  },
+  "declared_artifacts": []
+}

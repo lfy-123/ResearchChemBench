@@ -63,6 +63,10 @@ OPEN_EXECUTION_TOOL_NAMES = (
     "cancel_execution_job",
     "declare_scientific_artifact",
 )
+ARTIFACT_CAPTURING_TOOLS = {
+    "write_workspace_text",
+    "declare_scientific_artifact",
+}
 
 
 TOOL_DESCRIPTIONS = {
@@ -178,7 +182,12 @@ def _invoke(
                 "automatic_fallback": False,
             }
 
-    return execute_traced(name, arguments, run)
+    return execute_traced(
+        name,
+        arguments,
+        run,
+        capture_artifacts=name in ARTIFACT_CAPTURING_TOOLS,
+    )
 
 
 def list_software(request: SoftwareListRequest) -> dict[str, Any]:

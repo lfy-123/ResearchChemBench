@@ -1,0 +1,947 @@
+schema_version: 1
+
+software:
+  abinit:
+    display_name: ABINIT
+    installed_version: 10.0.3
+    operational_status: runnable
+    official_docs: [https://docs.abinit.org/guide/abinit/, https://docs.abinit.org/tutorial/]
+    primary_task: periodic ground-state total-energy calculation
+    task_types: [ground-state SCF, geometry optimization, band structure, density of states, DFPT]
+    inputs: [run.abi, one pseudopotential per element]
+    outputs: [run.abo, run.o_WFK, run.o_DEN, stdout.log, stderr.log]
+    normal_markers: [Calculation completed, delivered 0]
+    convergence_notes: Confirm the SCF residual or energy tolerance for every dataset; process completion alone is insufficient.
+    resource_notes: MPI ranks and OpenMP threads must fit cpu_cores; memory is mostly distributed by k points, bands, and FFT grids.
+    known_errors:
+      - ["parser error or unknown variable", "input variable spelling or version mismatch", "check the 10.0 input-variable reference and keep lines below 132 characters"]
+      - ["cannot open pseudopotential", "pseudos or pp_dirpath does not match staged names", "stage every pseudopotential and use job-local paths"]
+      - ["SCF cycle reaches nstep", "electronic convergence is not achieved", "review ecut, k mesh, occupations, diemac, tolerances, and nstep"]
+
+  aiida:
+    display_name: AiiDA
+    installed_version: 2.8.0
+    operational_status: interface_only
+    official_docs: [https://aiida.readthedocs.io/projects/aiida-core/en/stable/reference/command_line.html, https://aiida.readthedocs.io/projects/aiida-core/en/stable/howto/run_codes.html]
+    primary_task: provenance-tracked workflow orchestration through a configured AiiDA profile
+    task_types: [profile inspection, code registration, process submission, process monitoring, archive export]
+    inputs: [configured AiiDA profile, database, broker or core profile, workflow script]
+    outputs: [AiiDA database nodes, process records, repository objects, optional archive.aiida]
+    normal_markers: [Finished, Excepted count 0]
+    convergence_notes: AiiDA process completion describes workflow state; each wrapped scientific code still requires its own convergence checks.
+    resource_notes: Resources belong to the selected AiiDA Code and scheduler options, not to the local verdi client process.
+    known_errors:
+      - ["No profile loaded", "the isolated job has no configured AiiDA profile", "stage or select a valid profile; do not create production profiles inside an evaluation task"]
+      - ["daemon is not running", "broker-backed workflows require the AiiDA daemon", "use direct run for a bounded smoke or configure the daemon outside the job"]
+      - ["code or computer not found", "database identifiers are profile-local", "inspect verdi code list and verdi computer list in the selected profile"]
+
+  amber_pmemd:
+    display_name: Amber PMEMD
+    installed_version: "26"
+    operational_status: runnable_partial_mpi
+    official_docs: [https://ambermd.org/Manuals.php, https://ambermd.org/tutorials/]
+    primary_task: classical molecular dynamics or minimization from prepared Amber topology and restart files
+    task_types: [energy minimization, heating, NVT dynamics, NPT dynamics, restart continuation]
+    inputs: [mdin, topology.prmtop, input.rst7]
+    outputs: [mdout, output.rst7, trajectory.nc, mdinfo]
+    normal_markers: [Final Performance Info, 5.  TIMINGS]
+    convergence_notes: Minimization requires the requested gradient or cycle criterion; MD requires the intended number of steps and stable thermodynamic diagnostics.
+    resource_notes: Serial pmemd uses one core; pmemd.MPI needs an available launcher. The catalogued generic mpirun command is currently unresolved, so MPI examples are not claimed as tested.
+    known_errors:
+      - ["Could not open topology or coordinate file", "staged filename differs from -p or -c", "stage exact job-local names and keep all argv paths relative"]
+      - ["periodic box or atom count mismatch", "prmtop and rst7 were produced for different systems", "regenerate or pair matching topology and restart files"]
+      - ["PMEMD terminated abnormally", "inspect the first preceding ERROR line", "correct input physics or staging before increasing resources"]
+
+  arkane:
+    display_name: Arkane
+    installed_version: RMG environment
+    operational_status: runnable_with_quantum_outputs
+    official_docs: [https://reactionmechanismgenerator.github.io/RMG-Py/users/arkane/index.html, https://reactionmechanismgenerator.github.io/RMG-Py/reference/arkane/index.html]
+    primary_task: statistical mechanics and pressure-dependent kinetics from validated quantum-chemistry results
+    task_types: [thermochemistry, transition-state theory, rotor treatment, pressure dependence, sensitivity analysis]
+    inputs: [input.py, species files, transition-state files, quantum-chemistry logs]
+    outputs: [output.py, chem.inp, supporting_information.csv, plots]
+    normal_markers: [Arkane execution terminated, execution terminated]
+    convergence_notes: Arkane success does not validate the upstream electronic structure; verify frequencies, imaginary modes, symmetry, rotor scans, and energy levels first.
+    resource_notes: Arkane is usually single-process Python; most cost comes from parsing and master-equation calculations, while quantum calculations must be separate native jobs.
+    known_errors:
+      - ["could not load species or log file", "a Python input path was not staged", "stage the complete dependency tree with matching relative names"]
+      - ["invalid frequency or no imaginary frequency", "upstream stationary point is unsuitable", "recompute and validate the geometry and Hessian"]
+      - ["energy units or level-of-theory mismatch", "input objects mix incompatible sources", "declare consistent units and model chemistry explicitly"]
+
+  automekin:
+    display_name: AutoMeKin
+    installed_version: AutoMeKin2021 revision 1142
+    operational_status: workflow_with_components
+    official_docs: [https://rxnkin.usc.es/index.php/automekin/, https://github.com/emartineznunez/AutoMeKin]
+    primary_task: automated reaction discovery using configured electronic-structure components
+    task_types: [trajectory sampling, transition-state search, reaction-network construction, MOPAC component jobs]
+    inputs: [AutoMeKin control file, starting structure, method-specific resources]
+    outputs: [reaction network, transition-state structures, product structures, component logs]
+    normal_markers: [normal termination, ended normally]
+    convergence_notes: The workflow must finish and every retained stationary point must have the expected frequency character and connectivity.
+    resource_notes: amk.sh orchestrates many child calculations; CPU, memory, walltime, and child executable availability must be budgeted for the complete process group.
+    known_errors:
+      - ["component executable not found", "MOPAC or another configured backend is absent from PATH", "use the configured runtime and inspect all component paths before submission"]
+      - ["trajectory or TS stage stops immediately", "control keywords or starting geometry are invalid", "validate the smallest workflow stage before a full search"]
+      - ["background children survive", "workflow spawned processes after the parent exited", "inspect Supervisor cleanup and treat the workflow as failed until children are collected"]
+
+  censo:
+    display_name: CENSO
+    installed_version: 2.1.2
+    operational_status: runnable_with_external_qm
+    official_docs: [https://xtb-docs.readthedocs.io/en/latest/CENSO_docs/censo.html, https://github.com/grimme-lab/CENSO]
+    primary_task: multilevel energetic refinement of a CREST conformer ensemble
+    task_types: [prescreening, DFT ranking, thermostatistics, conformer sorting]
+    inputs: [conformers.xyz, .censorc or explicit configuration, selected QM executable]
+    outputs: [anmr_enso, crest_conformers.xyz, censo logs, ranked ensemble]
+    normal_markers: [CENSO all done, finished]
+    convergence_notes: Confirm every requested part completed and that failed conformers were not silently removed from the scientific population.
+    resource_notes: CENSO dispatches external QM calculations; internal parallel settings and external-program threads must fit the job allocation.
+    known_errors:
+      - ["QM executable not found", "the selected ORCA or TURBOMOLE path is unavailable", "use a configured backend and verify it before the ensemble run"]
+      - ["no conformers read", "XYZ ensemble formatting or atom counts are inconsistent", "validate every XYZ block and energy comment"]
+      - ["all structures failed", "method, charge, spin, solvent, or resources are unsuitable", "run one conformer directly and repair that failure first"]
+
+  charmm:
+    display_name: CHARMM
+    installed_version: c50b2
+    operational_status: runnable
+    official_docs: [https://academiccharmm.org/documentation, https://www.charmm-gui.org/charmmdoc/]
+    primary_task: classical molecular mechanics and dynamics from CHARMM topology, parameters, and coordinates
+    task_types: [energy evaluation, minimization, molecular dynamics, normal modes, analysis]
+    inputs: [input.inp, topology files, parameter files, coordinates]
+    outputs: [output.out, restart files, trajectories, analysis tables]
+    normal_markers: [NORMAL TERMINATION BY NORMAL STOP, NORMAL STOP]
+    convergence_notes: For minimization inspect gradient and step convergence; for dynamics verify completed steps and stable energies, temperature, and pressure.
+    resource_notes: Thread or MPI settings are build-specific. Keep CHARMM process count and any domain decomposition within cpu_cores and total memory.
+    known_errors:
+      - ["CHARMM terminates due to BOMLEV", "a preceding warning or error exceeded the configured tolerance", "repair the first substantive input or topology error instead of lowering BOMLEV"]
+      - ["residue or atom type not found", "topology and coordinate naming are inconsistent", "use matching RTF/PRM files and inspect generated segments"]
+      - ["cannot open read unit", "a file referenced inside input.inp was not staged", "stage it under the exact unit filename or job-local path"]
+
+  cp2k:
+    display_name: CP2K
+    installed_version: 2026.1
+    operational_status: runnable
+    official_docs: [https://manual.cp2k.org/trunk/, https://www.cp2k.org/howto]
+    primary_task: atomistic energy, optimization, or dynamics with Quickstep or force-field methods
+    task_types: [single point, geometry optimization, cell optimization, molecular dynamics, vibrational analysis]
+    inputs: [input.inp, coordinates, basis sets and potentials when referenced]
+    outputs: [output.out, restart files, trajectory files, force files, cube files]
+    normal_markers: [PROGRAM ENDED AT, CP2K| Total number of message passing processes]
+    convergence_notes: SCF convergence, optimizer convergence, and MD completion are independent; require the marker appropriate to RUN_TYPE.
+    resource_notes: Match MPI ranks, OpenMP threads, and CP2K memory-heavy grids to cpu_cores and memory_mb; avoid multiplying both rank and thread counts beyond the allocation.
+    known_errors:
+      - ["unknown subsection or keyword", "input was authored for another CP2K version or section", "check the 2026.1 input reference and section nesting"]
+      - ["basis set or potential not found", "referenced data file was not staged or DATA_DIR is wrong", "stage exact files or use an installed data directory"]
+      - ["SCF run NOT converged", "electronic settings are inadequate", "review guess, smearing, mixing, cutoff, EPS_SCF, and MAX_SCF"]
+
+  crest:
+    display_name: CREST
+    installed_version: 3.0.2
+    operational_status: runnable
+    official_docs: [https://crest-lab.github.io/crest-docs/, https://github.com/crest-lab/crest]
+    primary_task: xTB-driven conformer, protomer, deprotomer, or tautomer enumeration
+    task_types: [conformer search, protonation, deprotonation, tautomerization, ensemble screening]
+    inputs: [input.xyz]
+    outputs: [crest_conformers.xyz, crest.energies, protonated.xyz, deprotonated.xyz, tautomers.xyz]
+    normal_markers: [CREST terminated normally]
+    convergence_notes: Require the mode-specific final ensemble file in addition to normal termination.
+    resource_notes: Set --T no higher than cpu_cores; xTB child processes share the job memory and walltime.
+    known_errors:
+      - ["binary xtb status not found", "CREST runtime PATH does not expose xTB", "use the configured reaction runtime and verify xTB resolution"]
+      - ["conflicting protonation modes", "more than one mutually exclusive mode was selected", "choose exactly one of conformer, protonate, deprotonate, or tautomerize"]
+      - ["no conformers generated", "geometry, charge, spin, solvent, or sampling setup failed", "run an xTB single point first and inspect CREST warnings"]
+
+  critic2:
+    display_name: Critic2
+    installed_version: installed build
+    operational_status: runnable_with_field_data
+    official_docs: [https://aoterodelaroza.github.io/critic2/manual/, https://github.com/aoterodelaroza/critic2]
+    primary_task: topological analysis of an electron-density field
+    task_types: [critical-point search, basin integration, noncovalent interaction analysis, crystal-field analysis]
+    inputs: [input.cri, structure file, density or wavefunction field]
+    outputs: [stdout.log, critical-point tables, basin integrations, optional grids]
+    normal_markers: [CRITIC2 ended successfully, critic2]
+    convergence_notes: A completed parser run is insufficient; require the requested critical points, basins, or integration results and inspect integration accuracy.
+    resource_notes: Most analyses are CPU and memory light relative to the upstream density calculation; large grids can still require substantial memory.
+    known_errors:
+      - ["unknown command", "input.cri syntax differs from the installed version", "check the installed manual and isolate the failing command"]
+      - ["field file cannot be read", "format, units, or staged path is wrong", "convert to a supported format and stage the exact filename"]
+      - ["no attractors or basins found", "field resolution or search setup is inadequate", "verify the density grid and search tolerances"]
+
+  deepmd:
+    display_name: DeePMD-kit
+    installed_version: 3.2.0b0
+    operational_status: interface_only_without_dataset
+    official_docs: [https://docs.deepmodeling.com/projects/deepmd/en/master/, https://github.com/deepmodeling/deepmd-kit]
+    primary_task: train, freeze, test, or compress a deep potential model
+    task_types: [training, model freezing, model testing, model compression, dataset conversion]
+    inputs: [training JSON or YAML, DeepMD dataset, optional checkpoint or frozen model]
+    outputs: [training logs, checkpoints, frozen model, test metrics]
+    normal_markers: [DEEPMD INFO, finished training]
+    convergence_notes: Training completion is not model validity; inspect validation loss, energy/force errors, data coverage, and held-out test metrics.
+    resource_notes: Training is usually GPU-oriented; gpu_count, batch size, worker count, and model memory must match the allocation. CLI inspection can run on CPU.
+    known_errors:
+      - ["dataset set.* not found", "training-system paths were not staged", "stage the complete DeepMD data hierarchy and keep relative paths"]
+      - ["CUDA or device error", "runtime and requested GPU resources disagree", "select a compatible runtime or run a CPU-only interface test"]
+      - ["shape or atom-type mismatch", "dataset systems use inconsistent type maps", "normalize type_map and dataset metadata before training"]
+
+  dftbplus:
+    display_name: DFTB+
+    installed_version: development build a23bfb2
+    operational_status: runnable_with_slater_koster
+    official_docs: [https://dftbplus.org/documentation, https://dftbplus-recipes.readthedocs.io/en/latest/]
+    primary_task: DFTB energy, optimization, or dynamics using an explicit Slater-Koster parameter set
+    task_types: [single point, geometry optimization, molecular dynamics, band structure, SCC properties]
+    inputs: [dftb_in.hsd, geometry, Slater-Koster files]
+    outputs: [detailed.out, results.tag, geo_end.gen, charges.bin]
+    normal_markers: [DFTB+ finished normally]
+    convergence_notes: Require SCC convergence for SCC calculations and optimizer or MD completion for the requested driver.
+    resource_notes: DFTB+ is commonly OpenMP-parallel; thread count must not exceed cpu_cores. Stage all directed element-pair SK files required by the type set.
+    known_errors:
+      - ["could not find Slater-Koster file", "Prefix or pair filename does not match staged resources", "stage the complete parameter set and use exact job-local Prefix"]
+      - ["SCC is NOT converged", "charge mixing or electronic settings are inadequate", "review mixer, temperature, max iterations, charge, and geometry"]
+      - ["invalid HSD path", "section nesting or version syntax is wrong", "validate dftb_in.hsd against the installed parser"]
+
+  easyspin:
+    display_name: EasySpin
+    installed_version: unavailable MATLAB host
+    operational_status: placeholder
+    official_docs: [https://easyspin.org/easyspin/documentation/]
+    primary_task: EPR simulation and fitting inside MATLAB
+    task_types: [spectrum simulation, spin-Hamiltonian analysis, fitting]
+    inputs: [analysis.m, EasySpin installation, MATLAB runtime, experimental data]
+    outputs: [MATLAB console output, spectra, fitted parameters]
+    normal_markers: [MATLAB exit code 0]
+    convergence_notes: No local MATLAB executable is available, so no operational example or smoke is claimed.
+    resource_notes: Placeholder only.
+    known_errors: []
+
+  gamess:
+    display_name: GAMESS
+    installed_version: 2024 R2 P1
+    operational_status: runnable
+    official_docs: [https://www.msg.chem.iastate.edu/gamess/documentation.html, https://www.msg.chem.iastate.edu/gamess/GAMESS_Manual/]
+    primary_task: molecular electronic-structure calculation from a GAMESS input deck
+    task_types: [single point, geometry optimization, Hessian, excited states, correlated energy]
+    inputs: [job_name.inp]
+    outputs: [job_name.log, punch file, restart and property files]
+    normal_markers: [EXECUTION OF GAMESS TERMINATED NORMALLY]
+    convergence_notes: Require SCF convergence and the requested RUNTYP-specific optimization, Hessian, or excited-state completion.
+    resource_notes: rungms coordinates scratch, process count, and version string; the requested CPU count must agree with the launcher arguments and available shared memory.
+    known_errors:
+      - ["ERROR READING INPUT GROUP", "a $GROUP is malformed or lacks $END", "repair group delimiters and version-specific keywords"]
+      - ["SCF HAS NOT CONVERGED", "electronic iterations failed", "review guess, damping, DIIS, basis, charge, multiplicity, and MAXIT"]
+      - ["ddikick or scratch error", "launcher or scratch configuration is invalid", "use the configured rungms wrapper and writable job-local scratch"]
+
+  gaussian:
+    display_name: Gaussian
+    installed_version: 16 C.01
+    operational_status: runnable
+    official_docs: [https://gaussian.com/g16main/, https://gaussian.com/techsupport/]
+    primary_task: molecular electronic-structure calculation from a Gaussian input stream
+    task_types: [single point, geometry optimization, frequency, transition state, IRC, Link1 workflow]
+    inputs: [input.gjf or input.com]
+    outputs: [stdout.log, checkpoint file, optional formatted checkpoint]
+    normal_markers: [Normal termination of Gaussian 16]
+    convergence_notes: SCF Done, Optimization completed, frequency output, NImag, and IRC termination are separate task-specific checks.
+    resource_notes: "%NProcShared must not exceed cpu_cores; %Mem is total job memory and must remain below resource_limits.memory_mb."
+    known_errors:
+      - ["End of file in ZSymb", "required blank-line-separated input sections are incomplete", "restore route/title/charge-coordinate blank lines and a final newline"]
+      - ["Unrecognized or invalid route keyword", "route syntax is misspelled or version-incompatible", "reduce to a tested route then add keywords incrementally"]
+      - ["Convergence failure", "SCF or geometry optimizer did not converge", "inspect the specific link error and change scientifically justified convergence settings"]
+
+  geometric:
+    display_name: geomeTRIC
+    installed_version: installed Python package
+    operational_status: runnable_with_engine
+    official_docs: [https://geometric.readthedocs.io/en/latest/, https://github.com/leeping/geomeTRIC]
+    primary_task: geometry optimization using an explicitly selected energy and gradient engine
+    task_types: [minimum optimization, constrained optimization, transition-state optimization, scan]
+    inputs: [input geometry, engine-specific input or configuration]
+    outputs: [optimized geometry, optimization trajectory, log, constraints summary]
+    normal_markers: [Converged!, Geometry optimization converged]
+    convergence_notes: Require the geomeTRIC convergence criteria and verify the stationary-point character with a separate Hessian when scientifically needed.
+    resource_notes: geomeTRIC itself is light; the engine determines CPU and memory. External executables should be invoked through auditable native jobs rather than hidden subprocesses.
+    known_errors:
+      - ["engine not found or not configured", "the requested calculator is unavailable", "select a configured engine and validate one energy/gradient call first"]
+      - ["input coordinate size mismatch", "geometry and engine input describe different atoms", "align atom order, charge, spin, and coordinate units"]
+      - ["maximum iterations reached", "optimizer did not meet convergence", "inspect forces and geometry; do not relabel as converged"]
+
+  gnina:
+    display_name: GNINA
+    installed_version: 1.3.3
+    operational_status: runnable_cpu_or_gpu
+    official_docs: [https://github.com/gnina/gnina, https://gnina.github.io/gnina/]
+    primary_task: molecular docking or CNN rescoring in a defined receptor box
+    task_types: [docking, score-only evaluation, local optimization, CNN rescoring]
+    inputs: [receptor file, ligand file, box center and dimensions, optional model]
+    outputs: [poses.sdf, docking log, affinity and CNN scores]
+    normal_markers: [Writing output, mode | affinity]
+    convergence_notes: Process success only shows the search completed; inspect pose count, box coverage, ligand chemistry, and score interpretation.
+    resource_notes: Set GPU use only when gpu_count is available; CPU exhaustiveness and thread settings must fit cpu_cores and walltime.
+    known_errors:
+      - ["cannot open receptor or ligand", "staged path or format is wrong", "stage exact supported files and validate them before docking"]
+      - ["search space volume warning", "box is too large or unsuitable", "define a scientifically justified center and bounded box"]
+      - ["CUDA device error", "GPU runtime is unavailable", "run CPU mode or request a compatible GPU allocation"]
+
+  goodvibes:
+    display_name: GoodVibes
+    installed_version: 4.3.0
+    operational_status: runnable_with_qm_outputs
+    official_docs: [https://goodvibespy.readthedocs.io/en/latest/, https://github.com/patonlab/GoodVibes]
+    primary_task: quasi-harmonic thermochemistry from completed quantum-chemistry frequency outputs
+    task_types: [single-temperature thermochemistry, temperature scans, concentration corrections, selectivity, reaction profiles]
+    inputs: [Gaussian, ORCA, NWChem, Q-Chem, xTB, or ASE frequency output]
+    outputs: [console table, JSON or CSV result, optional PES and plots]
+    normal_markers: [GoodVibes, Structure]
+    convergence_notes: Verify that every input has a completed frequency calculation, correct stationary-point imaginary modes, consistent temperature, concentration, solvent convention, and energy level.
+    resource_notes: Parsing is usually single-core and low-memory; input count and plotting dominate runtime rather than CPU parallelism.
+    known_errors:
+      - ["no frequencies or thermochemistry found", "the upstream output is incomplete or unsupported", "stage the complete final log and verify frequency termination"]
+      - ["inconsistent level of theory", "files mix methods or scaling factors", "separate groups or explicitly justify the correction protocol"]
+      - ["None value or parse failure", "log formatting or missing energy terms broke extraction", "inspect the exact file and do not silently drop it"]
+
+  gpaw:
+    display_name: GPAW
+    installed_version: installed GPAW runtime
+    operational_status: python_driver_interface
+    official_docs: [https://gpaw.readthedocs.io/, https://gpaw.readthedocs.io/tutorialsexercises/index.html]
+    primary_task: execute a GPAW Python calculation in the configured GPAW runtime
+    task_types: [molecular energy, periodic ground state, optimization, band structure, response properties]
+    inputs: [program.py, optional structure and restart files, GPAW datasets]
+    outputs: [program output, .gpw restart, trajectories, property data]
+    normal_markers: [GPAW CLEANUP, completed]
+    convergence_notes: Check electronic convergence, force or optimizer convergence, and requested output artifacts in the Python program.
+    resource_notes: gpaw python may use MPI and threaded libraries; the program and launcher must fit cpu_cores, memory_mb, and available PAW datasets.
+    known_errors:
+      - ["PAW dataset not found", "GPAW_SETUP_PATH lacks the requested element setup", "use registered datasets or stage/configure a complete setup path"]
+      - ["MPI world or domain decomposition error", "parallel layout is incompatible with the system", "start with one rank and scale within the allocation"]
+      - ["SCF convergence failed", "mixer, occupations, grid, k points, or initial state are unsuitable", "inspect convergence history before changing settings"]
+
+  gromacs:
+    display_name: GROMACS
+    installed_version: installed 2026-era build
+    operational_status: runnable
+    official_docs: [https://manual.gromacs.org/current/user-guide/index.html, https://manual.gromacs.org/current/onlinehelp/gmx-mdrun.html]
+    primary_task: preprocess and run classical molecular dynamics with an explicit topology and MDP protocol
+    task_types: [energy minimization, NVT, NPT, production MD, trajectory analysis]
+    inputs: [mdp, topology.top, coordinates.gro, optional index and checkpoint]
+    outputs: [run.tpr, run.log, trajectory.xtc, energy.edr, final.gro, checkpoint.cpt]
+    normal_markers: [Finished mdrun, Writing final coordinates]
+    convergence_notes: grompp success only validates preprocessing. For minimization inspect Fmax; for MD require completed steps and stable diagnostics.
+    resource_notes: Match -ntmpi times -ntomp to cpu_cores; PME and GPU offload settings must agree with gpu_count and the build.
+    known_errors:
+      - ["number of coordinates does not match topology", "GRO and TOP describe different systems", "regenerate or pair matching coordinates and topology"]
+      - ["No such moleculetype", "included topology hierarchy is incomplete", "stage every include file with correct relative paths"]
+      - ["domain decomposition failed", "the system is too small or rank count too high", "reduce MPI ranks and use OpenMP threads"]
+
+  kinbot:
+    display_name: KinBot
+    installed_version: installed KinBot runtime
+    operational_status: workflow_with_qm
+    official_docs: [https://zadorlab.github.io/KinBot/, https://github.com/zadorlab/KinBot]
+    primary_task: automated reaction and potential-energy-surface exploration from a configured species
+    task_types: [reaction search, conformer search, transition-state validation, PES assembly]
+    inputs: [input.json, starting structure, templates, selected QM backend configuration]
+    outputs: [KinBot database, structures, quantum-chemistry inputs and logs, PES files]
+    normal_markers: [KinBot finished, PES generation finished]
+    convergence_notes: Require completed backend jobs, validated transition states, expected imaginary modes, and correct reactant-product connectivity.
+    resource_notes: KinBot orchestrates many external calculations; bound concurrent children and use native provenance for each expensive backend job.
+    known_errors:
+      - ["calculator executable not found", "configured Gaussian, ORCA, or other backend is unavailable", "validate the backend separately and correct KinBot paths"]
+      - ["invalid JSON key", "input schema differs from the installed KinBot version", "start from the installed example schema and add options incrementally"]
+      - ["reaction or TS validation failed", "geometry or frequency evidence is unsuitable", "inspect the individual backend log rather than accepting the workflow label"]
+
+  lammps:
+    display_name: LAMMPS
+    installed_version: installed build
+    operational_status: runnable
+    official_docs: [https://docs.lammps.org/Manual.html, https://docs.lammps.org/Commands_all.html]
+    primary_task: classical atomistic simulation from a LAMMPS input script
+    task_types: [energy minimization, molecular dynamics, Monte Carlo-assisted workflows, materials deformation, trajectory generation]
+    inputs: [input.lammps, optional data file, potential files, included scripts]
+    outputs: [log.lammps, dump files, restart files, user-defined tables]
+    normal_markers: [Total wall time, Loop time of]
+    convergence_notes: Minimization requires the requested force and energy tolerances; dynamics requires the intended run length and physically stable thermo output.
+    resource_notes: MPI ranks and OpenMP or accelerator packages must fit cpu_cores and gpu_count. Potential files and neighbor lists can dominate memory.
+    known_errors:
+      - ["Unknown command", "script syntax or package-specific command is unavailable", "check the installed LAMMPS command reference and enabled packages"]
+      - ["Cannot open file", "data, potential, or include file was not staged", "stage all dependencies using exact job-local paths"]
+      - ["Lost atoms", "time step, boundary, geometry, or force field is unstable", "repair the physical setup; do not only increase communication cutoffs"]
+
+  lobster:
+    display_name: LOBSTER
+    installed_version: 5.1.0
+    operational_status: runnable_with_vasp_upstream
+    official_docs: [https://www.cohp.de/, https://lobsterpy.readthedocs.io/en/latest/]
+    primary_task: chemical-bonding projection from a compatible completed VASP calculation
+    task_types: [COHP, COOP, COBI, projected DOS, charge analysis]
+    inputs: [lobsterin, POSCAR, POTCAR, WAVECAR, CONTCAR, KPOINTS, OUTCAR, vasprun.xml]
+    outputs: [lobsterout, COHPCAR.lobster, ICOHPLIST.lobster, DOSCAR.lobster, CHARGE.lobster]
+    normal_markers: [finished in]
+    convergence_notes: Reject any ERROR line even with exit code zero; inspect charge spilling and verify every requested projection artifact.
+    resource_notes: LOBSTER is CPU and memory intensive for large basis and k meshes; thread settings and upstream WAVECAR size must fit the allocation.
+    known_errors:
+      - ["ERROR: required VASP files are missing", "upstream fixed-name files were not staged", "stage the complete compatible VASP output set"]
+      - ["basis function or POTCAR mismatch", "lobsterin basis does not match PAW datasets or element order", "inspect basis recommendations and POTCAR order"]
+      - ["high charge spilling", "projection basis or upstream wavefunctions are inadequate", "review basis, bands, k mesh, symmetry, and projection scope"]
+
+  matlab:
+    display_name: MATLAB
+    installed_version: unavailable
+    operational_status: placeholder
+    official_docs: [https://www.mathworks.com/help/matlab/]
+    primary_task: execute MATLAB analysis scripts
+    task_types: [numerical analysis, fitting, signal processing, plotting]
+    inputs: [analysis.m, referenced data and toolboxes]
+    outputs: [console output, MAT files, tables, plots]
+    normal_markers: [MATLAB exit code 0]
+    convergence_notes: No local MATLAB executable is available, so no operational example or smoke is claimed.
+    resource_notes: Placeholder only.
+    known_errors: []
+
+  mesmer:
+    display_name: MESMER
+    installed_version: 7.1
+    operational_status: runnable
+    official_docs: [https://github.com/MESMER-kinetics/MESMER-code, https://www.chem.leeds.ac.uk/mesmer.html]
+    primary_task: master-equation kinetics from an explicit molecular and reaction XML model
+    task_types: [pressure-dependent rates, phenomenological kinetics, fitting, sensitivity analysis]
+    inputs: [input.xml]
+    outputs: [output.xml, console log, rate tables, optional grain and diagnostic files]
+    normal_markers: [MESMER calculation complete, Calculation complete]
+    convergence_notes: Require successful model parsing and the requested rate or fit results; inspect grain, energy-transfer, and fitting diagnostics.
+    resource_notes: Most jobs are CPU-bound and modest-memory; large networks, fine grains, and fitting loops increase both memory and walltime.
+    known_errors:
+      - ["XML parsing error", "input is not valid MESMER XML", "validate tags, namespaces, units, and references"]
+      - ["species or reaction reference not found", "identifiers are inconsistent", "use unique IDs and resolve every reference"]
+      - ["matrix or convergence failure", "grain, energy range, or solver settings are unsuitable", "simplify the model and validate units before tuning the solver"]
+
+  mess:
+    display_name: MESS
+    installed_version: 2020.1.24
+    operational_status: runnable
+    official_docs: [https://tcg.cse.anl.gov/papr/codes/mess.html, https://github.com/Auto-Mech/MESS]
+    primary_task: master-equation rate calculation from a complete MESS input model
+    task_types: [temperature-dependent rates, pressure dependence, well reduction, microcanonical kinetics]
+    inputs: [input.inp, optional external molecular or energy-transfer data]
+    outputs: [rate.out, auxiliary diagnostic and eigenvalue files]
+    normal_markers: [MESS execution completed, Normal termination]
+    convergence_notes: Verify the requested temperature-pressure grid, rate tables, and numerical diagnostics; input parsing success is insufficient.
+    resource_notes: CPU and memory grow with well count, energy grains, angular-momentum treatment, and temperature-pressure grid size.
+    known_errors:
+      - ["input file is not found", "the first positional path was not staged", "stage input.inp and call it by exact job-local name"]
+      - ["unknown keyword or section", "MESS block syntax is malformed", "compare the block with the installed manual and examples"]
+      - ["diagonalization or convergence error", "energy grid or model is numerically unsuitable", "validate units and reduce to a smaller network before refinement"]
+
+  multiwfn:
+    display_name: Multiwfn
+    installed_version: 2026.7.15
+    operational_status: runnable_with_wavefunction
+    official_docs: [http://sobereva.com/multiwfn/, http://sobereva.com/multiwfn/res/Manual_3.8.pdf]
+    primary_task: scripted wavefunction and real-space analysis through the no-GUI executable
+    task_types: [density grids, surface properties, orbital analysis, population analysis, topology, spectra]
+    inputs: [wavefunction file, commands.txt]
+    outputs: [stdout.log, exported grids, tables, images or structure files]
+    normal_markers: [Multiwfn finished, Thank you for using Multiwfn]
+    convergence_notes: Multiwfn is post-processing; require the requested exported artifact and validate upstream wavefunction level and completeness.
+    resource_notes: Grid resolution controls memory and runtime. The menu stream must be supplied through stdin_target while the wavefunction path is the positional argument.
+    known_errors:
+      - ["file format cannot be recognized", "wavefunction file is incomplete or unsupported", "export a supported formatted checkpoint, molden, wfn, wfx, or cube file"]
+      - ["program waits for input", "commands.txt ended before all menu prompts", "record the complete deterministic menu sequence and final exit command"]
+      - ["grid allocation failure", "requested grid or surface is too large", "lower resolution or request justified memory"]
+
+  namd:
+    display_name: NAMD
+    installed_version: 3.0.2
+    operational_status: runnable
+    official_docs: [https://www.ks.uiuc.edu/Research/namd/3.0/ug/, https://www.ks.uiuc.edu/Training/Tutorials/namd/]
+    primary_task: classical molecular dynamics from a NAMD configuration and prepared molecular system
+    task_types: [minimization, heating, equilibration, production MD, free-energy protocols]
+    inputs: [input.conf, PSF, coordinates, parameter files, optional restart files]
+    outputs: [stdout.log, trajectory.dcd, restart coordinates and velocities, extended-system file]
+    normal_markers: [End of program, WallClock:]
+    convergence_notes: Minimization and dynamics require their requested step counts and stable energy diagnostics; startup success is not a completed simulation.
+    resource_notes: +pN must not exceed cpu_cores; NAMD 3 device selection must agree with gpu_count. Large systems require explicit memory headroom.
+    known_errors:
+      - ["FATAL ERROR: cannot open", "a configuration dependency was not staged", "stage PSF, coordinates, parameters, and restarts under exact paths"]
+      - ["Periodic cell basis is too small", "cell and coordinates are inconsistent", "construct a box that contains the system with intended padding"]
+      - ["constraint or atom count mismatch", "PSF and coordinate files describe different atoms", "regenerate matching inputs"]
+
+  nequip:
+    display_name: NequIP
+    installed_version: installed NequIP runtime
+    operational_status: interface_only_without_dataset
+    official_docs: [https://nequip.readthedocs.io/en/latest/, https://github.com/mir-group/nequip]
+    primary_task: train or deploy an equivariant interatomic potential from a curated dataset
+    task_types: [training, validation, model packaging, inference, LAMMPS deployment]
+    inputs: [config.yaml, training and validation dataset, optional checkpoint]
+    outputs: [training log, checkpoints, metrics, packaged model]
+    normal_markers: [Training complete, best_model.pth]
+    convergence_notes: Training completion does not establish scientific validity; require held-out energy and force errors, learning curves, and domain coverage.
+    resource_notes: Training normally needs a GPU and substantial memory; batch size, dtype, neighbor count, workers, and model depth determine resource use.
+    known_errors:
+      - ["dataset or key not found", "configuration paths or field mappings are wrong", "stage the dataset and validate keys with a small read test"]
+      - ["CUDA out of memory", "batch or model exceeds gpu_count and memory", "reduce batch/model size or request justified GPU resources"]
+      - ["equivariance or dtype mismatch", "model and data precision or irreps are inconsistent", "use one supported precision and validate the config schema"]
+
+  newton_x:
+    display_name: Newton-X
+    installed_version: 26a
+    operational_status: workflow_with_electronic_structure
+    official_docs: [https://newtonx.org/documentation/, https://github.com/light-and-molecules/newtonx]
+    primary_task: nonadiabatic dynamics or initial-condition generation with a configured electronic-structure interface
+    task_types: [initial-condition generation, surface hopping, spectrum simulation, trajectory analysis, installation tests]
+    inputs: [control files, initial conditions, geometry, electronic-structure interface files]
+    outputs: [TRAJ directories, dynamics logs, populations, geometries, test reports]
+    normal_markers: [Newton-X finished, test passed]
+    convergence_notes: Require completed trajectories and successful electronic-structure steps; analyze energy conservation, state populations, and failed-trajectory counts.
+    resource_notes: nx_moldyn orchestrates repeated electronic-structure calls. Budget the child software and use bounded trajectory concurrency.
+    known_errors:
+      - ["electronic-structure interface failed", "backend input, path, or output parser failed", "validate one backend step before starting dynamics"]
+      - ["control.dyn missing", "fixed workflow files were not staged", "stage the complete Newton-X run directory"]
+      - ["trajectory stopped", "energy, overlap, or state-tracking step failed", "inspect the first failed time step and do not average incomplete trajectories silently"]
+
+  nwchem:
+    display_name: NWChem
+    installed_version: installed NWChem runtime
+    operational_status: runnable
+    official_docs: [https://nwchemgit.github.io/, https://nwchemgit.github.io/Getting-Started.html]
+    primary_task: molecular or periodic electronic-structure calculation from an NWChem input deck
+    task_types: [single point, optimization, frequency, excited states, molecular dynamics]
+    inputs: [input.nw, optional basis, geometry, restart, or data files]
+    outputs: [stdout.log, database file, movecs, geometry and property files]
+    normal_markers: [Total times  cpu, CITATION]
+    convergence_notes: Require SCF or correlated-method convergence plus task-specific optimization, frequency, or dynamics completion.
+    resource_notes: MPI ranks, memory stack/heap/global settings, and threaded math libraries must remain within the allocation.
+    known_errors:
+      - ["There is an error in the input file", "block syntax or keyword is malformed", "reduce to a minimal task block and check installed syntax"]
+      - ["bas_tag_lib: no such basis", "basis name or element assignment is invalid", "choose an installed basis or define it explicitly"]
+      - ["SCF failed to converge", "electronic setup is inadequate", "review guess, convergence, damping, level shift, basis, charge, and multiplicity"]
+
+  openbabel:
+    display_name: Open Babel
+    installed_version: 3.1.0
+    operational_status: runnable
+    official_docs: [https://openbabel.org/docs/Command-line_tools/babel.html, https://openbabel.org/docs/]
+    primary_task: molecular file conversion and deterministic cheminformatics manipulation
+    task_types: [format conversion, hydrogen addition, 2D to 3D conversion, filtering, descriptor calculation]
+    inputs: [molecular input file]
+    outputs: [converted molecular file, console summary]
+    normal_markers: [molecule converted]
+    convergence_notes: Validate molecule count, atom count, bond orders, charge, stereochemistry, and coordinates in the output; conversion exit code alone is insufficient.
+    resource_notes: Most conversions are single-core and low-memory; large libraries should be streamed or split rather than loaded into one job.
+    known_errors:
+      - ["cannot read input format", "-i format or file extension is wrong", "specify the exact input format and validate the source file"]
+      - ["0 molecules converted", "filters or parser rejected every record", "inspect stderr and test one record"]
+      - ["stereochemistry or bond order changed", "conversion lacked required chemical metadata", "select a richer format and validate the output scientifically"]
+
+  openff_am1bcc:
+    display_name: AmberTools antechamber and sqm
+    installed_version: AmberTools runtime
+    operational_status: runnable
+    official_docs: [https://ambermd.org/AmberTools.php, https://ambermd.org/Manuals.php]
+    primary_task: assign AM1-BCC charges and prepare a small-molecule Amber-compatible representation
+    task_types: [AM1-BCC charging, GAFF atom typing, SQM semiempirical calculation, MOL2 conversion]
+    inputs: [input.mol2 or another supported molecule, explicit charge and multiplicity]
+    outputs: [charged.mol2, ANTECHAMBER files, sqm.in, sqm.out]
+    normal_markers: [Calculation Completed, Total number of electrons]
+    convergence_notes: Verify SQM convergence, total charge, atom count, atom types, and chemically sensible charge distribution.
+    resource_notes: SQM is normally single-core and modest-memory. Process only validated small molecules and set -nc explicitly.
+    known_errors:
+      - ["Need both input and output files", "antechamber argv omitted formats or paths", "provide -i/-fi and -o/-fo explicitly"]
+      - ["The net charge of the molecule may be wrong", "-nc conflicts with the molecule", "determine and declare the correct formal charge"]
+      - ["SQM did not converge", "semiempirical SCF or geometry failed", "inspect sqm.out and repair structure, charge, spin, or convergence settings"]
+
+  openmolcas:
+    display_name: OpenMolcas
+    installed_version: 25.10
+    operational_status: runnable
+    official_docs: [https://molcas.gitlab.io/OpenMolcas/sphinx/, https://gitlab.com/Molcas/OpenMolcas]
+    primary_task: multiconfigurational molecular electronic-structure calculation
+    task_types: [SCF, RASSCF or CASSCF, CASPT2, geometry optimization, frequency, spectroscopy]
+    inputs: [input.inp]
+    outputs: [stdout.log, HDF5 and orbital files, geometry and property files]
+    normal_markers: [Happy landing!, Timing: Wall]
+    convergence_notes: Require convergence of each requested module; a later module can fail after an earlier SCF succeeds.
+    resource_notes: MOLCAS_NPROCS and MOLCAS_MEM must fit cpu_cores and memory_mb; active-space and integral storage can dominate resources.
+    known_errors:
+      - ["Input parsing error in module", "module block or keyword syntax is invalid", "validate one module at a time against 25.10 documentation"]
+      - ["RASSCF did not converge", "active space, roots, orbitals, or iterations are unsuitable", "inspect orbital choice and convergence history"]
+      - ["file or runfile not found", "module dependency or staged path is missing", "keep the full workflow in one job and stage external inputs"]
+
+  orca:
+    display_name: ORCA
+    installed_version: 6.1.1
+    operational_status: runnable
+    official_docs: [https://www.faccts.de/docs/orca/6.1/manual/, https://www.faccts.de/docs/orca/6.1/tutorials/]
+    primary_task: molecular electronic-structure calculation from an ORCA input deck
+    task_types: [single point, optimization, frequency, transition state, IRC, excited states, correlated density]
+    inputs: [input.inp, optional external XYZ, basis, point charges, or restart files]
+    outputs: [stdout.log, .gbw, .xyz, .hess, .densities, property files]
+    normal_markers: [ORCA TERMINATED NORMALLY]
+    convergence_notes: SCF CONVERGED, geometry convergence, frequency completion, imaginary-mode count, and IRC completion are separate checks.
+    resource_notes: "%pal nprocs must not exceed cpu_cores; %maxcore is MiB per process, so nprocs times maxcore must remain below total memory with headroom."
+    known_errors:
+      - ["unrecognized or unexpected keyword", "input syntax is malformed or version-specific", "reduce to a tested 6.1.1 input and add blocks incrementally"]
+      - ["Cannot open input or XYZ file", "a referenced file was not staged under the exact name", "stage every dependency in the job directory"]
+      - ["SCF NOT CONVERGED or optimization failed", "electronic or geometric convergence failed", "inspect the relevant convergence history and do not treat normal process exit as scientific success"]
+
+  packmol:
+    display_name: Packmol
+    installed_version: installed build
+    operational_status: runnable
+    official_docs: [https://m3g.github.io/packmol/, https://github.com/m3g/packmol]
+    primary_task: generate a packed starting configuration from explicit molecular templates and geometric constraints
+    task_types: [solvent boxes, mixtures, interfaces, spherical droplets, fixed-solute packing]
+    inputs: [packmol.inp, one coordinate template per structure block]
+    outputs: [packed.xyz or another requested output, stdout.log]
+    normal_markers: [Success!, Final objective function value]
+    convergence_notes: Require Success and validate molecule counts, box dimensions, minimum distances, and absence of severe overlaps.
+    resource_notes: Packmol is usually CPU-light but memory and iterations grow with molecule count and tight tolerances. stdin_target must name packmol.inp.
+    known_errors:
+      - ["Could not open file", "a structure template or output path is missing", "stage every template under the exact structure filename"]
+      - ["Maximum number of iterations reached", "constraints are too dense or contradictory", "enlarge the region, loosen tolerance, or build the system in stages"]
+      - ["packed count is wrong", "structure number blocks or output parsing are incorrect", "verify each block and recount the final coordinates"]
+
+  pdb_tools:
+    display_name: pdb-tools
+    installed_version: installed Python package
+    operational_status: runnable
+    official_docs: [https://www.bonvinlab.org/pdb-tools/, https://github.com/haddocking/pdb-tools]
+    primary_task: deterministic line-oriented cleanup and selection of PDB records
+    task_types: [chain selection, residue renumbering, record tidying, atom and residue filtering]
+    inputs: [input.pdb]
+    outputs: [stdout PDB stream or redirected PDB file]
+    normal_markers: [exit code 0]
+    convergence_notes: Validate record count, selected chains, residue numbering, MODEL boundaries, and structural meaning after every transformation.
+    resource_notes: Tools are single-core and streaming. The toolbox captures stdout.log; use a program job when a transformed PDB must be declared under a custom output filename.
+    known_errors:
+      - ["must provide an identifier", "the command-specific selector argument is missing", "read the exact subcommand help and provide flags before input.pdb"]
+      - ["empty output", "selection matched no records", "inspect chain and residue identifiers in the original PDB"]
+      - ["malformed PDB lines", "input records do not follow fixed-column PDB conventions", "normalize or repair the PDB before applying filters"]
+
+  phono3py:
+    display_name: phono3py
+    installed_version: installed phonons runtime
+    operational_status: runnable_with_force_data
+    official_docs: [https://phonopy.github.io/phono3py/, https://github.com/phonopy/phono3py]
+    primary_task: generate third-order displacements or compute lattice thermal conductivity from force data
+    task_types: [third-order displacement generation, force-set creation, phonon lifetimes, thermal conductivity]
+    inputs: [unit cell, displacement configuration, force data, optional Born charges]
+    outputs: [supercell displacement structures, phono3py_disp.yaml, fc2.hdf5, fc3.hdf5, kappa files]
+    normal_markers: [Summary of phono3py, Thermal conductivity]
+    convergence_notes: Displacement generation is preparation only; conductivity requires complete force sets and convergence with supercell, mesh, cutoff, and solver settings.
+    resource_notes: Conductivity calculations can be memory-heavy with mesh and band count; use explicit cpu_cores and memory estimates. Force calculations are separate native jobs.
+    known_errors:
+      - ["force sets are incomplete", "not every displaced supercell has matching forces", "map and validate all force files before fc3 construction"]
+      - ["symmetry or atom count mismatch", "unit cell, displacement YAML, and forces differ", "use one immutable structure lineage"]
+      - ["memory allocation failure", "mesh or interaction space is too large", "reduce only with a documented convergence study or request more memory"]
+
+  phonopy:
+    display_name: Phonopy
+    installed_version: installed phonons runtime
+    operational_status: runnable
+    official_docs: [https://phonopy.github.io/phonopy/, https://github.com/phonopy/phonopy]
+    primary_task: generate harmonic displacements or analyze phonons from completed force calculations
+    task_types: [displacement generation, force-constant construction, band structure, DOS, thermal properties]
+    inputs: [unit cell, displacement YAML, force data, optional Born charges]
+    outputs: [supercells, phonopy_disp.yaml, FORCE_SETS, force_constants.hdf5, band and DOS YAML]
+    normal_markers: [Phonopy, Number of atoms in unit cell]
+    convergence_notes: Displacement generation is not a phonon result; require complete forces and inspect imaginary frequencies, acoustic sum rules, and mesh or supercell convergence.
+    resource_notes: Generation is light; diagonalization cost grows with supercell and q mesh. Upstream forces belong to separate electronic-structure jobs.
+    known_errors:
+      - ["could not parse force file", "calculator output is incomplete or wrong format", "use the matching phonopy interface and completed force outputs"]
+      - ["inconsistent number of atoms", "structure and force sets have different atom order or size", "preserve exact supercell lineage"]
+      - ["unexpected imaginary modes", "structure, force accuracy, supercell, or physics may be unstable", "verify convergence and physical interpretation rather than deleting modes"]
+
+  plumed:
+    display_name: PLUMED
+    installed_version: installed MD runtime
+    operational_status: runnable_with_trajectory
+    official_docs: [https://www.plumed.org/doc-v2.10/user-doc/html/index.html, https://www.plumed.org/doc-v2.10/user-doc/html/driver.html]
+    primary_task: evaluate collective variables or biasing logic on a trajectory with plumed driver
+    task_types: [trajectory post-processing, collective variables, metadynamics input validation, restraint analysis]
+    inputs: [plumed.dat, trajectory, optional topology or masses]
+    outputs: [COLVAR, HILLS, grids, stdout.log]
+    normal_markers: [PLUMED: Finished, PLUMED: Timestep]
+    convergence_notes: Driver completion confirms evaluation only; enhanced-sampling convergence requires separate statistical analysis and is not inferred from exit code.
+    resource_notes: Driver is usually CPU-light; grid and trajectory size affect memory. In-engine PLUMED inherits the MD engine resource model.
+    known_errors:
+      - ["cannot find action or keyword", "plumed.dat syntax or module availability is wrong", "use the installed version reference and check plumed info"]
+      - ["trajectory format error", "driver flags do not match the staged trajectory", "select the correct --mf_* option and topology"]
+      - ["atom index out of range", "PLUMED atom numbering differs from the trajectory", "validate topology and one-based indices"]
+
+  psi4:
+    display_name: Psi4
+    installed_version: 1.11
+    operational_status: runnable
+    official_docs: [https://psicode.org/psi4manual/master/, https://psicode.org/psi4manual/master/psithoninput.html]
+    primary_task: molecular electronic-structure calculation from a Psi4 input file
+    task_types: [single point, optimization, frequency, SAPT, excited states, properties]
+    inputs: [input.dat]
+    outputs: [output.dat, optional molecule, wavefunction, cube, and scratch files]
+    normal_markers: [Psi4 exiting successfully]
+    convergence_notes: Require SCF and method convergence plus optimization or frequency completion appropriate to the requested driver.
+    resource_notes: -n must not exceed cpu_cores; memory in the Psi4 input is total process memory and must stay below memory_mb.
+    known_errors:
+      - ["PsiException or ValidationError", "input syntax, molecule, method, or option is invalid", "inspect the first exception and reduce to a minimal input"]
+      - ["SCF failed to converge", "electronic convergence settings are inadequate", "review reference, guess, damping, basis, charge, and multiplicity"]
+      - ["insufficient memory", "integral algorithm or requested memory exceeds the job", "use an appropriate algorithm or request justified memory"]
+
+  pysisyphus:
+    display_name: pysisyphus
+    installed_version: 1.0.0
+    operational_status: runnable_with_calculator
+    official_docs: [https://pysisyphus.readthedocs.io/en/stable/overview.html, https://pysisyphus.readthedocs.io/en/stable/quickstart.html]
+    primary_task: geometry, transition-state, IRC, or chain-of-states optimization from a YAML configuration
+    task_types: [minimum optimization, transition state, IRC, NEB, growing string]
+    inputs: [config.yaml, referenced geometry and calculator files]
+    outputs: [optimization log, trajectory, final geometry, Hessian or path files]
+    normal_markers: [Converged!, All done]
+    convergence_notes: Require optimizer or path convergence and verify stationary-point imaginary modes and endpoint connectivity where applicable.
+    resource_notes: The selected calculator dominates CPU and memory. Direct external executable calculators should remain auditable through the native execution policy.
+    known_errors:
+      - ["could not construct calculator", "YAML calculator block is invalid or backend missing", "validate one energy and gradient call first"]
+      - ["geometry file not found", "referenced relative path was not staged", "stage it under the exact job-local path"]
+      - ["optimizer did not converge", "forces, Hessian update, coordinates, or structure are unsuitable", "inspect the final trajectory and do not relabel the result"]
+
+  qcengine:
+    display_name: QCEngine
+    installed_version: 0.50.0
+    operational_status: runnable_with_program
+    official_docs: [https://molssi.github.io/QCEngine/, https://molssi.github.io/QCEngine/cli.html]
+    primary_task: execute a QCSchema AtomicInput or procedure with an installed backend program
+    task_types: [single computation, gradient, Hessian, optimization procedure, program discovery]
+    inputs: [QCSchema JSON, selected program name]
+    outputs: [QCSchema result JSON, structured error record, provenance]
+    normal_markers: [success true]
+    convergence_notes: Require result.success and inspect backend-specific convergence and returned properties; QCEngine transport success alone is insufficient.
+    resource_notes: QCEngine overhead is small; ncores and memory are passed to the selected program and must fit the job allocation.
+    known_errors:
+      - ["Program not found", "requested QCEngine harness is unavailable", "inspect qcengine info and select a configured program"]
+      - ["InputError", "QCSchema molecule, model, or keywords are invalid", "validate the JSON schema and units"]
+      - ["FailedOperation", "the backend calculation failed", "inspect the structured error and backend stdout before retrying"]
+
+  quantum_espresso:
+    display_name: Quantum ESPRESSO pw.x
+    installed_version: 7.5
+    operational_status: runnable_with_pseudopotentials
+    official_docs: [https://www.quantum-espresso.org/Doc/INPUT_PW.html, https://www.quantum-espresso.org/documentation/]
+    primary_task: periodic plane-wave SCF, relaxation, or molecular dynamics calculation
+    task_types: [scf, nscf, bands, relax, vc-relax, molecular dynamics]
+    inputs: [input.in, one pseudopotential per species]
+    outputs: [stdout.log, prefix.save database, charge density, wavefunctions, relaxed structure]
+    normal_markers: [JOB DONE.]
+    convergence_notes: Require estimated scf accuracy or convergence achieved and the calculation-specific ionic, cell, band, or MD completion marker.
+    resource_notes: MPI pools, band groups, task groups, OpenMP threads, FFT grids, bands, and cutoffs determine CPU and memory. Keep all parallel factors within cpu_cores.
+    known_errors:
+      - ["pseudopotential file not found", "pseudo_dir or staged filename is wrong", "stage every UPF and use a job-local pseudo_dir"]
+      - ["convergence NOT achieved", "electronic iterations failed", "review mixing, occupations, k mesh, cutoff, starting state, and electron_maxstep"]
+      - ["Error in routine read_namelists", "namelist syntax or version keyword is invalid", "check commas, slashes, quotes, and the 7.5 INPUT_PW reference"]
+
+  rmg:
+    display_name: RMG-Py
+    installed_version: installed RMG runtime
+    operational_status: workflow_with_database
+    official_docs: [https://reactionmechanismgenerator.github.io/RMG-Py/users/rmg/index.html, https://reactionmechanismgenerator.github.io/RMG-Py/]
+    primary_task: automatic reaction-mechanism generation using an installed RMG database
+    task_types: [gas-phase mechanism generation, liquid-phase mechanism generation, sensitivity, model enlargement]
+    inputs: [input.py, RMG database, optional seed mechanisms and libraries]
+    outputs: [chemkin files, species dictionary, RMG log, HTML report, restart data]
+    normal_markers: [MODEL GENERATION COMPLETED, RMG execution terminated]
+    convergence_notes: Require configured termination criteria and inspect model size, edge species, sensitivity, and reactor behavior; process exit does not validate the mechanism.
+    resource_notes: RMG is memory-intensive for large species and reaction sets; database access and model enlargement dominate walltime. Start with bounded termination criteria.
+    known_errors:
+      - ["DatabaseError or database not found", "RMG_DATABASE path is unavailable", "use the configured database and verify libraries before submission"]
+      - ["input.py error", "reactor, species, or options are invalid Python/RMG syntax", "run the input validator and simplify to one reactor"]
+      - ["memory growth or excessive edge", "model tolerances admit too many species", "review scientific tolerances and bound the pilot model"]
+
+  sharc:
+    display_name: SHARC
+    installed_version: installed source build
+    operational_status: workflow_with_electronic_structure
+    official_docs: ["https://sharc-md.org/?page_id=50", https://github.com/sharc-md/sharc]
+    primary_task: surface-hopping nonadiabatic dynamics with a configured electronic-structure interface
+    task_types: [initial conditions, SHARC dynamics, wavefunction overlap, trajectory analysis]
+    inputs: [SHARC input, initial conditions, interface resources, overlap input and orbital files]
+    outputs: [trajectory directories, output.dat, populations, geometries, overlap data]
+    normal_markers: [SHARC dynamics finished, normal termination]
+    convergence_notes: Require completed electronic steps and trajectories, then inspect failed trajectories, energy conservation, state populations, and hopping diagnostics.
+    resource_notes: Dynamics repeatedly calls an electronic-structure backend; total CPU, memory, scratch, and walltime must cover child calculations and overlap jobs.
+    known_errors:
+      - ["interface executable or template missing", "selected backend integration is incomplete", "validate one electronic-structure and overlap step first"]
+      - ["wfoverlap failed", "orbital files, dimensions, or state definitions mismatch", "stage matching wavefunctions and inspect overlap input"]
+      - ["trajectory aborted", "electronic calculation, energy, or state tracking failed", "inspect the first failed step and retain failed-trajectory provenance"]
+
+  shengbte:
+    display_name: ShengBTE
+    installed_version: installed source build
+    operational_status: runnable_with_force_constants
+    official_docs: [https://www.shengbte.org/, https://github.com/ShengBTE/ShengBTE]
+    primary_task: solve the phonon Boltzmann transport equation from second- and third-order force constants
+    task_types: [iterative thermal conductivity, relaxation-time approximation, isotope scattering, convergence studies]
+    inputs: [CONTROL, FORCE_CONSTANTS_2ND, FORCE_CONSTANTS_3RD]
+    outputs: [BTE.kappa_tensor, BTE.omega, BTE.v, BTE.* diagnostic files]
+    normal_markers: [ShengBTE finished, Iterative solution converged]
+    convergence_notes: Require solver completion and thermal-conductivity convergence with q mesh, neighbor cutoff, force constants, and iteration settings.
+    resource_notes: Memory and CPU grow strongly with q mesh, bands, and third-order interactions. Use a convergence series rather than one oversized first run.
+    known_errors:
+      - ["Cannot open file CONTROL", "fixed-name inputs were not staged", "stage all three required fixed files in the job root"]
+      - ["IFC dimension or atom mismatch", "force constants and CONTROL structure differ", "preserve exact structure and atom-order lineage"]
+      - ["iteration does not converge", "mesh, tolerances, or force constants are unsuitable", "validate RTA first and inspect force-constant quality"]
+
+  siesta:
+    display_name: SIESTA
+    installed_version: 5.4.2
+    operational_status: runnable_with_pseudopotentials
+    official_docs: [https://docs.siesta-project.org/projects/siesta/en/latest/, https://siesta-project.org/siesta/]
+    primary_task: localized-basis DFT calculation from an FDF input stream
+    task_types: [single point, geometry optimization, molecular dynamics, bands, DOS, transport preparation]
+    inputs: [input.fdf, pseudopotential files, optional included structure and basis files]
+    outputs: [stdout.log, .XV, .DM, .WFSX, .bands, .DOS and trajectory files]
+    normal_markers: [Job completed, siesta: Final energy]
+    convergence_notes: Require SCF convergence and the requested geometry, MD, band, or property completion marker.
+    resource_notes: MPI ranks, mesh cutoff, basis size, k mesh, orbitals, and solver determine CPU and memory. Pseudopotential labels must match ChemicalSpeciesLabel.
+    known_errors:
+      - ["Cannot find pseudopotential", "species label and staged .psf/.psml filename differ", "stage exact files and match labels"]
+      - ["SCF cycle not converged", "mixing, occupations, mesh, basis, or geometry is unsuitable", "inspect the SCF history and review settings"]
+      - ["FDF parsing error", "block delimiters, include path, or keyword syntax is invalid", "reduce to one self-contained FDF and validate includes"]
+
+  theodore:
+    display_name: TheoDORE
+    installed_version: installed TheoDORE runtime
+    operational_status: runnable_with_excited_state_data
+    official_docs: [https://theodore-qc.sourceforge.io/docs/, https://github.com/felixplasser/theodore-qc]
+    primary_task: analyze transition densities, charge transfer, and excited-state character from supported electronic-structure results
+    task_types: [transition-density analysis, charge-transfer numbers, natural transition orbitals, spectrum analysis]
+    inputs: [dens_ana.in or subcommand input, excited-state output, orbital and density files]
+    outputs: [summary tables, charge-transfer matrices, NTO files, spectra and plots]
+    normal_markers: [TheoDORE analysis finished, Analysis finished]
+    convergence_notes: Require all requested states and descriptors; verify state ordering, orbital basis, parser support, and upstream excited-state convergence.
+    resource_notes: Most analyses are CPU-light; large state spaces and dense matrices increase memory. Upstream excited-state jobs are separate.
+    known_errors:
+      - ["file type not recognized", "upstream format or parser selection is wrong", "use a supported program format and stage complete files"]
+      - ["state or orbital dimension mismatch", "files come from inconsistent calculations", "preserve one calculation lineage and state ordering"]
+      - ["missing density matrix", "upstream job did not export required data", "rerun or convert the excited-state calculation with appropriate outputs"]
+
+  vasp:
+    display_name: VASP
+    installed_version: 6.3.2
+    operational_status: runnable_licensed
+    official_docs: [https://www.vasp.at/wiki/index.php/The_VASP_Manual, https://www.vasp.at/wiki/index.php/Category:Calculation]
+    primary_task: periodic plane-wave electronic-structure calculation from fixed-name VASP inputs
+    task_types: [single point, relaxation, cell relaxation, static DOS, bands, molecular dynamics, frequency]
+    inputs: [INCAR, POSCAR, POTCAR, KPOINTS]
+    outputs: [OUTCAR, vasprun.xml, OSZICAR, CONTCAR, WAVECAR, CHGCAR]
+    normal_markers: [General timing and accounting informations for this job]
+    convergence_notes: Electronic EDIFF, ionic EDIFFG or required-accuracy, frequency completion, and MD step completion are distinct.
+    resource_notes: NCORE, KPAR, MPI ranks, OpenMP threads, bands, ENCUT, k points, FFT grids, and WAVECAR determine resources. POTCAR is licensed and never archived.
+    known_errors:
+      - ["internal error or POSCAR/POTCAR mismatch", "element order or dataset count differs", "validate species order and one POTCAR dataset per POSCAR species"]
+      - ["electronic minimization did not converge", "ALGO, mixing, occupations, k mesh, cutoff, or geometry is unsuitable", "inspect OSZICAR and OUTCAR before changing settings"]
+      - ["process finished but ionic convergence absent", "electronic convergence was mistaken for relaxation convergence", "require the task-specific ionic marker and CONTCAR"]
+
+  vesta:
+    display_name: VESTA
+    installed_version: 3.90.5a
+    operational_status: installed_gui_runtime_incomplete
+    official_docs: [https://jp-minerals.org/vesta/en/, https://jp-minerals.org/vesta/en/doc.html]
+    primary_task: interactive visualization and conversion of crystal, volumetric, and project files
+    task_types: [structure visualization, density visualization, project export, format conversion]
+    inputs: [CIF, POSCAR, cube, density, or VESTA project file]
+    outputs: [interactive session, images, converted structures, VESTA project]
+    normal_markers: [GUI opened, export completed]
+    convergence_notes: VESTA is not a scientific solver; validate that the intended structure or field was loaded and exported correctly.
+    resource_notes: The installed launcher currently lacks a required GUI shared library in the headless environment. No scientific or export smoke is claimed.
+    known_errors:
+      - ["libxkbcommon.so.0 cannot be opened", "GUI runtime dependency is absent", "install the missing GUI library or use a supported headless conversion tool"]
+      - ["cannot open display", "no X server is available", "run in a graphical environment or use a non-GUI alternative"]
+
+  vina:
+    display_name: AutoDock Vina
+    installed_version: f458505-mod
+    operational_status: runnable
+    official_docs: [https://autodock-vina.readthedocs.io/en/latest/, https://github.com/ccsb-scripps/AutoDock-Vina]
+    primary_task: dock a prepared PDBQT ligand into a prepared receptor box
+    task_types: [docking, score-only, local optimization, batch docking]
+    inputs: [receptor.pdbqt, ligand.pdbqt, box center and size]
+    outputs: [poses.pdbqt, docking log, affinity table]
+    normal_markers: [Writing output, mode | affinity]
+    convergence_notes: Validate pose count, search-box coverage, protonation, atom types, torsions, and score interpretation; exit code alone is insufficient.
+    resource_notes: CPU count is controlled by --cpu and must not exceed cpu_cores; exhaustiveness and box volume determine walltime.
+    known_errors:
+      - ["could not open receptor or ligand", "PDBQT file was not staged or is malformed", "prepare and validate both PDBQT files"]
+      - ["search space volume too large", "box is excessively broad", "define a justified binding-site box"]
+      - ["no poses written", "input chemistry, box, or search settings failed", "inspect the log and test score-only mode"]
+
+  vmd:
+    display_name: VMD
+    installed_version: 1.9.3
+    operational_status: runnable_headless
+    official_docs: [https://www.ks.uiuc.edu/Research/vmd/current/ug/, https://www.ks.uiuc.edu/Research/vmd/script_library/]
+    primary_task: headless Tcl-based structure or trajectory analysis
+    task_types: [structure inspection, trajectory analysis, atom selections, measurements, scripted export]
+    inputs: [analysis.tcl, referenced structures and trajectories]
+    outputs: [stdout.log, user-defined tables, structures, images when rendering is configured]
+    normal_markers: [Exiting normally.]
+    convergence_notes: VMD is analysis software; require the script's declared result files and validate selections, frame count, units, and periodic handling.
+    resource_notes: Use -dispdev text for headless jobs. Large trajectories can require substantial memory; stream frames where possible.
+    known_errors:
+      - ["cannot open display", "graphical mode was attempted in a headless job", "add -dispdev text and use a Tcl script"]
+      - ["Unable to load file", "trajectory format plugin or staged path is wrong", "inspect supported plugins and stage matching topology"]
+      - ["atomselect returned 0 atoms", "selection syntax or topology labels do not match", "validate selections and report selected atom counts"]
+
+  wannier90:
+    display_name: Wannier90
+    installed_version: 3.1.0
+    operational_status: runnable_with_upstream_matrices
+    official_docs: [https://wannier.org/ford/, https://github.com/wannier-developers/wannier90]
+    primary_task: preprocess or construct maximally localized Wannier functions from an upstream electronic-structure calculation
+    task_types: [preprocessing, Wannierization, interpolation, bands, Berry and transport properties]
+    inputs: [seedname.win, and for full runs seedname.amn, seedname.mmn, seedname.eig]
+    outputs: [seedname.nnkp, seedname.wout, seedname.chk, interpolated data]
+    normal_markers: [All done: wannier90 exiting, Exiting...]
+    convergence_notes: Preprocessing only validates the .win file; full Wannierization requires spread convergence and physically appropriate disentanglement and projections.
+    resource_notes: Preprocessing is light; full runs scale with bands, k points, and Wannier functions. Upstream matrix generation is a separate calculation.
+    known_errors:
+      - ["cannot open seedname.win", "seed prefix or staged filename is wrong", "stage seedname.win and use the same positional seed"]
+      - ["amn/mmn/eig file missing", "full run lacks upstream matrices", "generate compatible files from the same DFT calculation"]
+      - ["disentanglement or spread not converged", "windows or projections are unsuitable", "inspect convergence and revise scientifically justified projections"]
+
+  xtb:
+    display_name: xTB
+    installed_version: 6.7.1
+    operational_status: runnable
+    official_docs: [https://xtb-docs.readthedocs.io/en/latest/, https://github.com/grimme-lab/xtb]
+    primary_task: semiempirical molecular energy, optimization, frequency, or dynamics calculation
+    task_types: [single point, geometry optimization, frequency, molecular dynamics, solvation, properties]
+    inputs: [structure.xyz, optional xcontrol file]
+    outputs: [stdout.log, xtbopt.xyz, hessian, charges, wbo, trajectory files]
+    normal_markers: [normal termination of xtb]
+    convergence_notes: Require SCC convergence and task-specific geometry, Hessian, or dynamics completion. Verify charge, UHF count, and solvent model.
+    resource_notes: Set OMP_NUM_THREADS or --parallel consistent with cpu_cores; most small-molecule jobs are modest-memory.
+    known_errors:
+      - ["SCC did not converge", "electronic state, geometry, charge, spin, or model is unsuitable", "validate charge and UHF, then inspect SCC settings"]
+      - ["coordinate file could not be read", "XYZ formatting or path is wrong", "stage one valid XYZ with matching atom count"]
+      - ["geometry optimization failed", "structure or optimizer did not converge", "inspect xtbopt.log and do not use an unconverged geometry"]
+
+  yambo:
+    display_name: Yambo
+    installed_version: 5.3.0
+    operational_status: runnable_with_upstream_database
+    official_docs: [https://wiki.yambo-code.eu/wiki/index.php/Main_Page, https://github.com/yambo-code/yambo]
+    primary_task: many-body perturbation or response calculation from a converted ground-state database
+    task_types: [database conversion, GW, Bethe-Salpeter equation, optical spectra, real-time propagation]
+    inputs: [compatible upstream save database, SAVE directory, input.in, optional restart databases]
+    outputs: [SAVE database, report, output data files, restart databases]
+    normal_markers: [Game Over & Game summary, Timing Overview]
+    convergence_notes: p2y success only creates a database. GW, BSE, and spectra require task completion and convergence with bands, cutoffs, k points, and frequency grids.
+    resource_notes: MPI and OpenMP layout, bands, plane waves, dielectric cutoffs, and k points dominate memory. Keep job-local SAVE and restart directories consistent.
+    known_errors:
+      - ["SAVE database not found", "p2y was not run on a compatible upstream database", "stage the complete upstream save directory and convert it first"]
+      - ["database version or fragment mismatch", "files come from incompatible runs or versions", "rebuild SAVE from one immutable upstream calculation"]
+      - ["memory allocation or parallel layout failure", "bands, cutoffs, or MPI decomposition exceed resources", "run a bounded convergence pilot and adjust layout"]
