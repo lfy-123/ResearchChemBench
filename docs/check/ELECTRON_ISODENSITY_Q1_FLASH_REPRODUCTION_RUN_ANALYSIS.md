@@ -69,7 +69,7 @@ Agent 与 judge 均为 `deepseek-v4-flash`，配置来自 `config.local.env`，�
 
 最终运行目录：
 
-`workspaces/electron_isodensity_reproduction/agent_deepseek-v4-flash__judge_deepseek-v4-flash/cli_runs/batch_20260724_063529_624364/Electron_Isodensity_Reproduction_01_Method_Selection_opencode_20260724_063529_82fd84`
+`workspaces/previous_results/electron_isodensity_reproduction/agent_deepseek-v4-flash__judge_deepseek-v4-flash/cli_runs/batch_20260724_063529_624364`
 
 ## 5. 最终运行轨迹审计
 

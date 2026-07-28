@@ -45,7 +45,7 @@ The four molecules completed sequentially in approximately 93.15, 171.79, 251.18
 
 The real ORCA outputs, GBW/MP2 natural-orbital files, WFN exports, Multiwfn outputs, and Action result JSON files are under:
 
-`workspaces/electron_isodensity_reproduction/q4_oracle_20260725/`
+`workspaces/previous_results/electron_isodensity_reproduction/q4_oracle_20260725/`
 
 The directory contains about 92 MB of generated calculation evidence and is intentionally outside the agent-visible task input data.
 

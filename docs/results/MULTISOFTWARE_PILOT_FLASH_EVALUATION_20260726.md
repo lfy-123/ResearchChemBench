@@ -78,7 +78,7 @@ Judger 平均分为 **92.5**，独立审计平均分为 **87.0**。主要差异�
 
 运行目录：
 
-`workspaces/multisoftware_pilot/agent_deepseek-v4-flash__judge_deepseek-v4-flash/cli_runs/batch_20260726_090315_682c08/GEOM_Hierarchical_Conformer_Reranking_Reproduction_opencode_20260726_090315_8d11a2`
+`workspaces/first_version_results/runs/GEOM_Hierarchical_Conformer_Reranking_Reproduction_opencode_20260726_090315_8d11a2`
 
 实际流程：
 
@@ -107,7 +107,7 @@ Judger 平均分为 **92.5**，独立审计平均分为 **87.0**。主要差异�
 
 运行目录：
 
-`workspaces/multisoftware_pilot/agent_deepseek-v4-flash__judge_deepseek-v4-flash/cli_runs/batch_20260726_101013_f288f5/Electron_Flexible_Ensemble_Surface_Reproduction_opencode_20260726_101013_2c9b71`
+`workspaces/first_version_results/runs/Electron_Flexible_Ensemble_Surface_Reproduction_opencode_20260726_101013_2c9b71`
 
 实际流程：
 
@@ -146,7 +146,7 @@ Judger 平均分为 **92.5**，独立审计平均分为 **87.0**。主要差异�
 
 运行目录：
 
-`workspaces/multisoftware_pilot/agent_deepseek-v4-flash__judge_deepseek-v4-flash/cli_runs/batch_20260726_103452_e4131f/GEOM_Hierarchical_Conformer_Reranking_opencode_20260726_103452_37b4ec`
+`workspaces/first_version_results/runs/GEOM_Hierarchical_Conformer_Reranking_opencode_20260726_103452_37b4ec`
 
 Flash 自主选择的流程：
 
@@ -177,7 +177,7 @@ Flash 自主选择的流程：
 
 运行目录：
 
-`workspaces/multisoftware_pilot/agent_deepseek-v4-flash__judge_deepseek-v4-flash/cli_runs/batch_20260726_105217_d362e0/Electron_Flexible_Ensemble_Surface_opencode_20260726_105217_64d3fa`
+`workspaces/first_version_results/runs/Electron_Flexible_Ensemble_Surface_opencode_20260726_105217_64d3fa`
 
 Flash 自主选择的流程：
 
@@ -259,4 +259,3 @@ Agent token 为逐模型步骤统计；`cache` 是缓存读取量，不等同于
 3. 两个自主科研任务没有受到关键工具缺失限制，结果主要反映 Flash 的科研方案质量。
 4. 当前最需要继续改进的不是新增任务专用 Action，而是评分器对“自由能严谨性、采样收敛、方法验证和资源效率”的识别与扣分。
 5. ORCA/CREST/Multiwfn 的关键客观故障均已修复并通过正式任务验证。
-

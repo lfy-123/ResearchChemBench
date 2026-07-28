@@ -2,6 +2,8 @@
 
 截至日期：2026-07-28
 
+对应代码版本为 Git tag `第一版代码`（commit `367f3f8`）。本报告统计的 14 个正式运行统一归档在 `workspaces/first_version_results/runs`，其余更早的试跑、smoke、恢复计算和中间结果统一归档在 `workspaces/previous_results`。
+
 本汇总整理 `docs/results` 中已有的 7 份实验报告。重复覆盖同一运行时，以最新的 `dual_axis_100` 人工轨迹审查为最终评分口径；早期试运行和旧评分只用于展示评分演进。所有正式运行的 Agent 与 Judge 均为 `deepseek-v4-flash`。
 
 ## 一、总体结论

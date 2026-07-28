@@ -30,8 +30,8 @@
 
 | 设置 | 评估智能体 | 裁判模型 | 输出根目录 |
 |---|---|---|---|
-| Flash | `bailian/deepseek-v4-flash` | `bailian/deepseek-v4-pro` | `workspaces/heterobiaryl_open_discovery/agent_deepseek-v4-flash__judge_deepseek-v4-pro` |
-| Pro | `bailian/deepseek-v4-pro` | `bailian/deepseek-v4-pro` | `workspaces/heterobiaryl_open_discovery/agent_deepseek-v4-pro__judge_deepseek-v4-pro` |
+| Flash | `bailian/deepseek-v4-flash` | `bailian/deepseek-v4-pro` | `workspaces/previous_results/heterobiaryl_open_discovery/agent_deepseek-v4-flash__judge_deepseek-v4-pro` |
+| Pro | `bailian/deepseek-v4-pro` | `bailian/deepseek-v4-pro` | `workspaces/previous_results/heterobiaryl_open_discovery/agent_deepseek-v4-pro__judge_deepseek-v4-pro` |
 
 Q1–Q5 串行运行，单任务上限 14,400 秒、280 turns；Q6 单独运行，上限 21,600 秒、400 turns。串行设置用于避免量化化学后端争用并提高两个模型设置之间的可比性，这些上限不是要求模型必须消耗完。
 

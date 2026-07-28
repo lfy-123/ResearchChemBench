@@ -141,8 +141,8 @@ chemistry toolbox 通过 pymatgen 解析论文 SI 的 NHC1/NHC4 周期结构，�
 
 本轮最终数值摘要位于：
 
-- `workspaces/paper_reproduction_recovery_20260727/final_validation/pv_reproduction_summary.json`
-- `workspaces/paper_reproduction_recovery_20260727/final_validation/bao_reproduction_summary.json`
-- `workspaces/paper_reproduction_recovery_20260727/final_validation/nhc_reproduction_summary.json`
+- `workspaces/previous_results/paper_reproduction_recovery_20260727/final_validation/pv_reproduction_summary.json`
+- `workspaces/previous_results/paper_reproduction_recovery_20260727/final_validation/bao_reproduction_summary.json`
+- `workspaces/previous_results/paper_reproduction_recovery_20260727/final_validation/nhc_reproduction_summary.json`
 
-完整工具返回和原始计算目录保留在 `workspaces/paper_reproduction_recovery_20260727` 与 `workspaces/manual_reproduction_validation_20260727/bao`。
+完整工具返回和原始计算目录保留在 `workspaces/previous_results/paper_reproduction_recovery_20260727` 与 `workspaces/previous_results/manual_reproduction_validation_20260727/bao`。

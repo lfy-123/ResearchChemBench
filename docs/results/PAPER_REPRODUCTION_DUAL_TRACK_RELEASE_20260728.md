@@ -46,4 +46,4 @@ The task tests enforce the following release contract:
 - manifests hash every visible input and record author archive provenance;
 - all selected task builders and task-contract tests pass.
 
-Validation artifacts are retained under `workspaces/paper_reproduction_recovery_20260727/final_validation`.
+Validation artifacts are retained under `workspaces/previous_results/paper_reproduction_recovery_20260727/final_validation`.

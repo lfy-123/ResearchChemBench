@@ -3,7 +3,7 @@
 ## 运行身份与结论
 
 - 任务：`Electron_Isodensity_Reproduction_01_Method_Selection`
-- 运行目录：`workspaces/electron_isodensity_reproduction/agent_deepseek-v4-flash__judge_deepseek-v4-flash/cli_runs/batch_20260724_153840_3278ea/Electron_Isodensity_Reproduction_01_Method_Selection_opencode_20260724_153840_00cb4c`
+- 运行目录：`workspaces/previous_results/electron_isodensity_reproduction/agent_deepseek-v4-flash__judge_deepseek-v4-flash/cli_runs/batch_20260724_153840_3278ea`
 - Agent 与评估模型：`deepseek-v4-flash`
 - 状态：正常完成，退出码 `0`。
 - Agent 实际运行时长：`8463.96 s`（2 小时 21 分 4 秒）；从提交到评分完成约 2 小时 22 分。
