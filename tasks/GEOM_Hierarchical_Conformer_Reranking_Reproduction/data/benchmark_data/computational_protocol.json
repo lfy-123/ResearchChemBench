@@ -37,6 +37,11 @@
   "thermochemistry": {
     "backend": "GoodVibes",
     "temperature_kelvin": 298.15,
+    "population_basis": "quasi_harmonic_gibbs",
+    "compatible_entropy_models": [
+      "grimme",
+      "truhlar"
+    ],
     "population_normalization_required": true
   },
   "result_values_included": false

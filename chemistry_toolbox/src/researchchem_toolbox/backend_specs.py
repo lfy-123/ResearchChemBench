@@ -1148,6 +1148,11 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
                 "requires free_rotor_inertia_model; Head-Gordon enthalpy requires "
                 "enthalpy_frequency_cutoff_cm1"
             ),
+            "population_basis_conditionals": (
+                "population_basis=quasi_harmonic_gibbs requires entropy_model=grimme or "
+                "truhlar; provide entropy_frequency_cutoff_cm1, and for grimme also provide "
+                "free_rotor_inertia_model"
+            ),
             "standard_state_conditionals": (
                 "custom_concentration requires action_settings.concentration_mol_l"
             ),

@@ -197,6 +197,22 @@ def test_timeout_is_fixed_policy_not_agent_controllable():
     }
 
 
+def test_goodvibes_population_dependency_is_exposed_to_agents():
+    snapshot = catalog_snapshot(include_health=False)
+    inspected = inspect_action(
+        "analyze_thermochemical_ensemble",
+        backend_id="goodvibes",
+        snapshot=snapshot,
+    )
+    rules = inspected["selected_request_contract"]["conditional_requirements"]
+    population_rule = next(
+        item for item in rules if item["name"] == "population_basis_conditionals"
+    )
+    assert "quasi_harmonic_gibbs" in population_rule["rule"]
+    assert "entropy_model=grimme or truhlar" in population_rule["rule"]
+    assert "entropy_frequency_cutoff_cm1" in population_rule["rule"]
+
+
 def test_orca_density_grid_default_is_300_cubed_and_agent_overridable():
     snapshot = catalog_snapshot(include_health=False)
     contract = inspect_action(
