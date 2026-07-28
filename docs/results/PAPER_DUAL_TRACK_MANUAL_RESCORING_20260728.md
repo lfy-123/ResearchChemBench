@@ -35,7 +35,15 @@ final score = process score * scientific-conclusion score / 100
 
 The two process rubrics use mode-specific wording but share seven categories: planning, method selection or fidelity, managed execution, validation, failure recovery, resource efficiency, and provenance.
 
-`Heterobiaryl_PV_02_CC_Selectivity`, `Heterobiaryl_PV_Reproduction_02_CC_Selectivity`, `Heterobiaryl_PV_05_Rate_Determining_Step`, and `Heterobiaryl_PV_Reproduction_05_Rate_Determining_Step` use `rubric_100`. Their criterion scores are summed and then reduced by any applicable evidence, managed-computation, or reference-conclusion cap.
+`Heterobiaryl_PV_02_CC_Selectivity`, `Heterobiaryl_PV_Reproduction_02_CC_Selectivity`, `Heterobiaryl_PV_05_Rate_Determining_Step`, and `Heterobiaryl_PV_Reproduction_05_Rate_Determining_Step` currently use `rubric_100`. Their criterion scores are summed and then reduced by any applicable evidence, managed-computation, or reference-conclusion cap.
+
+This is a task-configuration inconsistency, not the intended dual-track scoring design. The common scoring engine implements `dual_axis_100` for both autonomous and reproduction tasks and deterministically computes:
+
+```text
+final score = scientific_conclusion_score * research_process_score / 100
+```
+
+The Heterobiaryl builder leaves the autonomous tasks on a legacy process-only rubric and explicitly rewrites the reproduction tasks to `rubric_100`. It does not create a shared `scientific_conclusion_rubric` or `dual_axis_scoring_policy` for these pairs. The current manual scores below therefore describe the rules actually used in this run, but the Q2/Q5 autonomous-versus-reproduction totals are not a valid like-for-like dual-axis comparison.
 
 ## Detailed Manual Scores
 
@@ -214,7 +222,7 @@ The reported downstream profile is 0.0, 13.90, -18.56, -10.77, and -32.26 kcal/m
 
 The effect occurs for `Heterobiaryl_PV_02_CC_Selectivity` versus `Heterobiaryl_PV_Reproduction_02_CC_Selectivity`, and for `Heterobiaryl_PV_05_Rate_Determining_Step` versus `Heterobiaryl_PV_Reproduction_05_Rate_Determining_Step`.
 
-The autonomous tasks use a process-oriented 100-point rubric:
+Under the currently generated Heterobiaryl task files, the autonomous tasks use a legacy process-oriented 100-point rubric:
 
 - scientific problem framing: 15 points;
 - autonomous method and route design: 25 points;
@@ -222,11 +230,11 @@ The autonomous tasks use a process-oriented 100-point rubric:
 - validation and falsification: 20 points;
 - defensible scientific conclusion: 15 points.
 
-Their public ground truth explicitly sets an empty `reference_conclusion_gate_policy`. The evaluator instruction states that agreement with the hidden paper conclusion is not itself required. An autonomous run can therefore receive process credit even when its conclusion differs from the paper, provided the conclusion is independently generated and defensible from valid new evidence.
+Their generated ground truth has `evaluation_mode: rubric_100`, no `scientific_conclusion_rubric`, no `dual_axis_scoring_policy`, and an empty `reference_conclusion_gate_policy`. The builder also injects an evaluator instruction saying that agreement with the hidden paper conclusion is not required. This bypasses the common dual-axis outcome mechanism and allows the autonomous score to be determined entirely by the five process-oriented criteria.
 
 The paired reproduction tasks instead allocate 55 points to `paper_conclusion_agreement`. If the paper conclusion is not matched, that criterion receives zero and the reference-conclusion policy can cap the total score at 45 or 60. Additional managed-computation caps can reduce the score to 20 or 40.
 
-In this batch the autonomous Q2 and Q5 conclusions were not scientifically defensible, so the manual review reduced their conclusion and validation scores. They nevertheless retain planning, method-selection, and attempted-execution points that the reproduction rubric assigns primarily to a 55-point conclusion gate. The resulting autonomous-over-reproduction ordering is therefore caused by non-equivalent rubrics, not by better reproduction performance.
+In this batch the autonomous Q2 and Q5 conclusions were not scientifically defensible, so the manual review reduced their conclusion and validation criteria. They nevertheless retain planning, method-selection, and attempted-execution points that the reproduction rubric assigns primarily to a 55-point conclusion gate. The resulting autonomous-over-reproduction ordering is caused by a builder/configuration defect that generated non-equivalent rubrics, not by better autonomous scientific performance.
 
 ## Judge Issues Found
 
@@ -237,4 +245,13 @@ In this batch the autonomous Q2 and Q5 conclusions were not scientifically defen
 
 ## Recommendation
 
-For direct dual-track comparison, both tracks should share the same scientific-conclusion rubric and evidence gates. Mode-specific process rubrics can remain different. Applying the same multiplicative dual-axis rule to both tracks would prevent an incorrect autonomous conclusion from outranking an equally incorrect reproduction solely because only the reproduction rubric contains a 55-point paper-agreement criterion.
+The Heterobiaryl Q2/Q5 builders should be migrated to the same structure already used by the P(V) protonation and BaO pairs:
+
+- set `evaluation_mode` to `dual_axis_100` for both tracks;
+- define one shared 100-point `scientific_conclusion_rubric` per pair;
+- retain mode-specific 100-point process rubrics;
+- set `dual_axis_scoring_policy.formula` to `scientific_conclusion_score * research_process_score / 100`;
+- remove the reproduction-only 55-point conclusion criterion from the process rubric;
+- use the scientific-conclusion axis, rather than a mode-specific hard gate, to make conclusion quality determine the score ceiling.
+
+This would make both autonomous and reproduction tasks conclusion-limited while preserving their different research-process expectations.
