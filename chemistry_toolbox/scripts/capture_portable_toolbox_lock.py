@@ -140,8 +140,10 @@ def collect_environments() -> list[dict[str, Any]]:
         )
 
     discovered = [ROOT / ".toolbox_env"]
-    if (ROOT / ".tool_envs").is_dir():
-        discovered.extend(sorted((ROOT / ".tool_envs").iterdir()))
+    for directory_name in (".tool_envs", ".tool_envs_merged"):
+        directory = ROOT / directory_name
+        if directory.is_dir():
+            discovered.extend(sorted(directory.iterdir()))
     for prefix in discovered:
         if not prefix.is_dir():
             continue
@@ -166,7 +168,9 @@ def collect_environments() -> list[dict[str, Any]]:
         prefix = declared_path(value["prefix"]).resolve()
         if value["prefix"] == ".toolbox_env":
             base = "core"
-        elif not str(value["prefix"]).startswith(".tool_envs/") and value["names"]:
+        elif not str(value["prefix"]).startswith(
+            (".tool_envs/", ".tool_envs_merged/")
+        ) and value["names"]:
             base = sorted(value["names"])[0]
         else:
             base = prefix.name
@@ -476,7 +480,7 @@ def collect_assets(*, hash_critical_assets: bool) -> tuple[list[dict[str, Any]],
                     reason=reason + ".cache_paths",
                     required=False,
                 )
-            for field in ("path_entries", "library_path_entries"):
+            for field in ("prepend_path_entries", "path_entries", "library_path_entries"):
                 for value in specification.get(field) or []:
                     merge_asset(
                         assets,

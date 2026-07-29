@@ -52,11 +52,9 @@ def main() -> int:
     manual_results = {str(command): shutil.which(str(command)) for command in health.get("manual_commands", [])}
     external_results = {}
     for value in health.get("external_commands", []):
-        from pathlib import Path
+        from researchchem_toolbox.environment_layout import resolve_configured_path
 
-        path = Path(str(value)).expanduser()
-        if not path.is_absolute():
-            path = Path(__file__).resolve().parents[2] / path
+        path = resolve_configured_path(str(value))
         external_results[str(value)] = str(path.resolve()) if path.is_file() else None
 
     dependency_environment = os.environ.copy()

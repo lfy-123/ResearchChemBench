@@ -20,7 +20,28 @@ support_environments:
     health_checks:
       modules: [numpy, pydantic, yaml]
       commands: [abinit]
+      allowed_dependency_issue_patterns:
+        - '^quantities 0\.12\.3 is not supported on this platform$'
+        - '^gprof2dot 2017\.9\.19 is not supported on this platform$'
+        - '^periodictable 1\.5\.2 is not supported on this platform$'
     backends: [abinit]
+
+  lammps:
+    conda_name: researchchem-lammps
+    description: LAMMPS MPICH runtime isolated from the AmberTools/OpenFF environment.
+    environment: .tool_envs/md
+    conda_packages: [python=3.11, lammps=2024.08.29, mpich=4, pydantic, pyyaml, python-dotenv]
+    pip_packages: []
+    health_checks:
+      modules: [lammps]
+      commands: [lmp]
+      allowed_dependency_issue_patterns:
+        - '^quantities 0\.12\.3 is not supported on this platform$'
+        - '^gprof2dot 2017\.9\.19 is not supported on this platform$'
+        - '^periodictable 1\.5\.2 is not supported on this platform$'
+    command_variables:
+      CHEMGRAPH_LAMMPS_COMMAND: lmp
+    backends: [lammps]
 
   gaussian:
     conda_name: researchchem-gaussian
@@ -142,6 +163,10 @@ support_environments:
     pip_packages: [sella==2.5.0]
     health_checks:
       modules: [sella, ase, numpy, pydantic, yaml]
+      allowed_dependency_issue_patterns:
+        - '^quantities 0\.12\.3 is not supported on this platform$'
+        - '^gprof2dot 2017\.9\.19 is not supported on this platform$'
+        - '^periodictable 1\.5\.2 is not supported on this platform$'
     backends: [sella]
 
   namd:
@@ -483,17 +508,19 @@ profiles:
     pip_packages:
       - pysisyphus==1.0.0
       - pyscf==2.13.1
-      - git+https://github.com/SUNCAT-Center/catmap.git
     health_checks:
-      modules: [cantera, catmap, pysisyphus, pyscf, scipy]
+      modules: [cantera, pysisyphus, pyscf, scipy]
       commands: [crest, pysis, xtb, orca, mpirun]
+      allowed_dependency_issue_patterns:
+        - '^quantities 0\.12\.3 is not supported on this platform$'
+        - '^gprof2dot 2017\.9\.19 is not supported on this platform$'
+        - '^periodictable 1\.5\.2 is not supported on this platform$'
       external_commands:
         - .software_cache/orca/6.1.1/orca
         - .software_cache/openmpi/4.1.8-fortran/bin/mpirun
     command_variables:
       CHEMGRAPH_CREST_COMMAND: crest
       CHEMGRAPH_PYSIS_COMMAND: pysis
-      CHEMGRAPH_CATMAP_COMMAND: catmap
     path_entries:
       - .software_cache/orca/6.1.1
       - .software_cache/openmpi/4.1.8-fortran/bin
@@ -507,7 +534,23 @@ profiles:
       - pysisyphus
       - cantera
       - scipy
-      - catmap
+
+  catmap:
+    conda_name: researchchem-catmap-yambo-openmpi4
+    server_name: researchchem_catmap
+    description: CatMAP 0.3.1 compatibility runtime isolated on its required ASE 3.17 API.
+    environment: .tool_envs/reaction
+    conda_packages: [python=3.11, ase=3.17, pydantic, pyyaml, python-dotenv]
+    pip_packages:
+      - git+https://github.com/SUNCAT-Center/catmap.git@ed04f9146a787b0e63b6febd96d8fe3b314c251b
+    health_checks:
+      modules: [catmap, ase]
+      commands: [catmap]
+      allowed_dependency_issue_patterns:
+        - '^ase 3\.17\.0 is not supported on this platform$'
+    command_variables:
+      CHEMGRAPH_CATMAP_COMMAND: catmap
+    backends: [catmap]
 
   qe:
     conda_name: researchchem-qe
@@ -576,22 +619,24 @@ profiles:
     server_name: researchchem_md
     description: Molecular dynamics preparation, execution, enhanced sampling, and analysis.
     environment: .tool_envs/md
-    conda_packages: [openmm, pdbfixer, gromacs, lammps, plumed, netcdf4, packmol, parmed]
+    conda_packages: [openmm, pdbfixer, gromacs, plumed, netcdf4, packmol, parmed]
     pip_packages: [MDAnalysis]
     health_checks:
-      modules: [MDAnalysis, lammps, openmm, pdbfixer]
-      commands: [gmx, lmp, packmol, plumed]
+      modules: [MDAnalysis, openmm, pdbfixer]
+      commands: [gmx, packmol, plumed]
     command_variables:
       CHEMGRAPH_GROMACS_COMMAND: gmx
-      CHEMGRAPH_LAMMPS_COMMAND: lmp
       CHEMGRAPH_PLUMED_COMMAND: plumed
+    prepend_path_entries:
+      # AmberTools 26 intentionally conflicts with the standalone Packmol
+      # Conda package. Packmol is shared from the consolidated general prefix.
+      - .tool_envs_merged/general-modern-openmpi5/bin
     backends:
       - pdbfixer
       - openmm_builder
       - packmol
       - openmm
       - gromacs
-      - lammps
       - mdanalysis
       - plumed
 
@@ -696,8 +741,10 @@ profiles:
     pip_packages: []
     health_checks:
       modules: [vina]
-      commands: [vina, gnina]
+      commands: [vina]
+      external_commands: [.software_cache/gnina/1.3.3/gnina]
     command_variables:
       CHEMGRAPH_VINA_COMMAND: vina
-      CHEMGRAPH_GNINA_COMMAND: gnina
+      CHEMGRAPH_GNINA_COMMAND: .software_cache/gnina/1.3.3/gnina
+    path_entries: [.software_cache/gnina/1.3.3]
     backends: [vina, gnina]

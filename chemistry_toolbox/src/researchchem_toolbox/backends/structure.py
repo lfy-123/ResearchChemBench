@@ -566,7 +566,13 @@ def _generate_3d_rdkit(request: dict[str, Any]) -> dict[str, Any]:
     seed = int(settings["random_seed"])
     parameters = AllChem.ETKDGv3()
     parameters.randomSeed = seed
-    parameters.maxAttempts = int(settings.get("max_attempts", 1000))
+    maximum_attempts = int(settings.get("max_attempts", 1000))
+    # RDKit 2026 renamed this embedding control from maxAttempts to
+    # maxIterations. Support both APIs without hiding the Agent parameter.
+    if hasattr(parameters, "maxAttempts"):
+        parameters.maxAttempts = maximum_attempts
+    else:
+        parameters.maxIterations = maximum_attempts
     status = AllChem.EmbedMolecule(molecule, parameters)
     if status != 0:
         raise RuntimeError(f"RDKit embedding failed with code {status}")

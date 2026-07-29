@@ -15,6 +15,7 @@ from typing import Any, Iterable
 import yaml
 
 from .models import BackendSpec
+from .environment_layout import resolve_configured_path, resolve_runtime_path
 from .paths import CONFIG_ROOT, PROJECT_ROOT, SOURCE_ROOT
 from .resource_budget import evaluation_resource_budget
 
@@ -59,15 +60,13 @@ def runtime_spec(name: str) -> dict[str, Any]:
 
 def runtime_path(name: str) -> Path:
     specification = runtime_spec(name)
-    path = Path(str(specification["environment"])).expanduser()
-    return path.resolve() if path.is_absolute() else (PROJECT_ROOT / path).resolve()
+    return resolve_runtime_path(name, str(specification["environment"]))
 
 
 def runtime_python(name: str) -> Path:
     configured = str(runtime_spec(name).get("python") or "").strip()
     if configured:
-        path = Path(configured).expanduser()
-        return path.resolve() if path.is_absolute() else (PROJECT_ROOT / path).resolve()
+        return resolve_configured_path(configured)
     return runtime_path(name) / "bin" / "python"
 
 
@@ -91,10 +90,7 @@ def runtime_names() -> tuple[str, ...]:
 def _runtime_entries(specification: dict[str, Any], key: str) -> list[str]:
     entries = []
     for value in specification.get(key) or []:
-        path = Path(str(value)).expanduser()
-        if not path.is_absolute():
-            path = PROJECT_ROOT / path
-        entries.append(str(path.resolve()))
+        entries.append(str(resolve_configured_path(str(value))))
     return entries
 
 
@@ -104,10 +100,7 @@ def _runtime_environment_value(value: Any) -> str:
     text = str(value)
     if text.startswith(".") or "/" in text:
         preserve_trailing_slash = text.endswith("/")
-        path = Path(text).expanduser()
-        if not path.is_absolute():
-            path = PROJECT_ROOT / path
-        resolved = str(path.resolve())
+        resolved = str(resolve_configured_path(text))
         return resolved + "/" if preserve_trailing_slash else resolved
     return text
 
@@ -115,7 +108,11 @@ def _runtime_environment_value(value: Any) -> str:
 def runtime_environment(name: str) -> dict[str, str]:
     specification = runtime_spec(name)
     environment = runtime_path(name)
-    path_entries = [str(environment / "bin"), *_runtime_entries(specification, "path_entries")]
+    path_entries = [
+        *_runtime_entries(specification, "prepend_path_entries"),
+        str(environment / "bin"),
+        *_runtime_entries(specification, "path_entries"),
+    ]
     library_entries = [
         str(environment / "lib"),
         *_runtime_entries(specification, "library_path_entries"),
@@ -151,7 +148,7 @@ def runtime_environment(name: str) -> dict[str, str]:
         if configured.is_absolute():
             candidate = configured
         elif configured.parent != Path("."):
-            candidate = PROJECT_ROOT / configured
+            candidate = resolve_configured_path(configured)
         else:
             candidate = environment / "bin" / configured
         if candidate.exists():

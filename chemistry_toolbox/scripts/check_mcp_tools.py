@@ -42,7 +42,10 @@ async def run(*, smoke: bool = False) -> None:
         from fastmcp import Client
         from chemistry_toolbox.mcp.server import create_server
 
-        async with Client(create_server()) as client:
+        # This script validates the historical one-tool-per-Action surface.
+        # Benchmark workspaces use progressive discovery by default and are
+        # covered separately by the MCP profile tests.
+        async with Client(create_server(discovery_mode="full")) as client:
             tools = await client.list_tools()
             tool_names = {tool.name for tool in tools}
             expected_tools = set(action_specs()) | set(OPEN_EXECUTION_TOOL_NAMES)
@@ -159,7 +162,6 @@ async def run(*, smoke: bool = False) -> None:
                         "runtime": "core",
                         "script_path": "code/mcp_smoke.py",
                         "resource_limits": {
-                            "walltime_seconds": 30,
                             "memory_mb": 512,
                             "cpu_cores": 1,
                             "gpu_count": 0,

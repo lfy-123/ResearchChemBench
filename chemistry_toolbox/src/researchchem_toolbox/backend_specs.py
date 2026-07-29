@@ -1476,7 +1476,7 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         validation_levels={"solve_master_equation": "real_smoke"},
     ),
     _backend(
-        "catmap", "CatMAP", "reaction", ("solve_microkinetic_model",),
+        "catmap", "CatMAP", "catmap", ("solve_microkinetic_model",),
         "CatMAP 0.3.x microkinetic solver through an allow-listed typed model adapter that generates a controlled setup file and returns structured descriptor maps.",
         modules=("catmap",),
         pip=("git+https://github.com/SUNCAT-Center/catmap.git",),
@@ -1519,7 +1519,7 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         ),
     ),
     _backend(
-        "lammps", "LAMMPS", "md", ("minimize_system_energy", "propagate_dynamics"),
+        "lammps", "LAMMPS", "lammps", ("minimize_system_energy", "propagate_dynamics"),
         "LAMMPS execution from typed ParameterizedSystem artifacts and explicit segment settings.",
         modules=("lammps",), executables=("lmp",), environment=("CHEMGRAPH_LAMMPS_COMMAND",), conda=("lammps",),
         required_settings={

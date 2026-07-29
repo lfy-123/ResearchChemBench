@@ -31,6 +31,9 @@ def test_environment_prefixes_stay_in_managed_roots(tmp_path: Path):
     assert bootstrap.safe_target_prefix(tmp_path, ".tool_envs/quantum") == (
         tmp_path / ".tool_envs/quantum"
     ).resolve()
+    assert bootstrap.safe_target_prefix(
+        tmp_path, ".tool_envs_merged/general-modern-openmpi5"
+    ) == (tmp_path / ".tool_envs_merged/general-modern-openmpi5").resolve()
     with pytest.raises(bootstrap.BootstrapError):
         bootstrap.safe_target_prefix(tmp_path, "../outside")
     with pytest.raises(bootstrap.BootstrapError):
@@ -88,6 +91,7 @@ def test_capture_deduplicates_shared_conda_prefixes():
     prefixes = [item["prefix"] for item in records]
     assert len(prefixes) == len(set(prefixes))
     assert ".toolbox_env" in prefixes
+    assert ".tool_envs_merged/general-modern-openmpi5" in prefixes
     deepmd = next(item for item in records if item["prefix"] == ".tool_envs/deepmd")
     assert len(deepmd["declared_by"]) > 1
 

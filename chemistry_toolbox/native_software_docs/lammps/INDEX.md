@@ -13,7 +13,7 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 ## Installed software
 - Installed version: `installed build`.
 - Operational status: `runnable`.
-- Configured runtime: `md`.
+- Configured runtime: `lammps`.
 - Primary use: classical atomistic simulation from a LAMMPS input script.
 
 ## When to use this interface

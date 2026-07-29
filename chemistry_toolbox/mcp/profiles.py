@@ -15,6 +15,10 @@ from researchchem_toolbox.catalog import (
     backend_specs,
     resolve_tool_discovery_mode,
 )
+from researchchem_toolbox.environment_layout import (
+    resolve_configured_path,
+    resolve_runtime_path,
+)
 from researchchem_toolbox.paths import CONFIG_ROOT, PROJECT_ROOT, SOURCE_ROOT
 
 
@@ -114,16 +118,14 @@ def selected_profile_names(value: str | None = None) -> list[str]:
 
 
 def profile_environment_path(profile: dict[str, Any]) -> Path:
-    path = Path(str(profile["environment"])).expanduser()
-    return path.resolve() if path.is_absolute() else (PROJECT_ROOT / path).resolve()
+    return resolve_runtime_path(str(profile["name"]), str(profile["environment"]))
 
 
 def profile_python(name: str) -> Path:
     profile = get_profile(name)
     configured = str(profile.get("python") or "").strip()
     if configured:
-        path = Path(configured).expanduser()
-        return path.resolve() if path.is_absolute() else (PROJECT_ROOT / path).resolve()
+        return resolve_configured_path(configured)
     return profile_environment_path(profile) / "bin" / "python"
 
 
@@ -138,10 +140,7 @@ def project_model_cache_path() -> Path:
 def _profile_entries(profile: dict[str, Any], key: str) -> list[str]:
     entries = []
     for value in profile.get(key) or []:
-        path = Path(str(value)).expanduser()
-        if not path.is_absolute():
-            path = PROJECT_ROOT / path
-        entries.append(str(path.resolve()))
+        entries.append(str(resolve_configured_path(str(value))))
     return entries
 
 
@@ -150,10 +149,7 @@ def _profile_environment_value(value: Any) -> str:
 
     text = str(value)
     if text.startswith(".") or "/" in text:
-        path = Path(text).expanduser()
-        if not path.is_absolute():
-            path = PROJECT_ROOT / path
-        return str(path.resolve())
+        return str(resolve_configured_path(text))
     return text
 
 
@@ -161,7 +157,11 @@ def profile_runtime_environment(name: str) -> dict[str, str]:
     profile = get_profile(name)
     environment = profile_environment_path(profile)
     bin_dir = environment / "bin"
-    path_entries = [str(bin_dir), *_profile_entries(profile, "path_entries")]
+    path_entries = [
+        *_profile_entries(profile, "prepend_path_entries"),
+        str(bin_dir),
+        *_profile_entries(profile, "path_entries"),
+    ]
     library_entries = [
         str(environment / "lib"),
         *_profile_entries(profile, "library_path_entries"),
@@ -194,7 +194,7 @@ def profile_runtime_environment(name: str) -> dict[str, str]:
         if configured.is_absolute():
             candidate = configured
         elif configured.parent != Path("."):
-            candidate = PROJECT_ROOT / configured
+            candidate = resolve_configured_path(configured)
         else:
             candidate = bin_dir / configured
         if candidate.exists():

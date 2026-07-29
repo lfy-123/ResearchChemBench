@@ -161,7 +161,11 @@ def safe_target_prefix(target_root: Path, declared_prefix: str) -> Path:
         target.relative_to(target_root.resolve())
     except ValueError as exc:
         raise BootstrapError(f"Environment prefix escapes target root: {prefix}") from exc
-    if prefix.parts[:1] not in {(".toolbox_env",), (".tool_envs",)}:
+    if prefix.parts[:1] not in {
+        (".toolbox_env",),
+        (".tool_envs",),
+        (".tool_envs_merged",),
+    }:
         raise BootstrapError(f"Refusing unmanaged environment prefix: {prefix}")
     return target
 

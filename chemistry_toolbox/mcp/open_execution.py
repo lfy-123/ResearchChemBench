@@ -604,6 +604,16 @@ def _validate_crest_invocation(request: NativeJobRequest) -> dict[str, Any]:
 
 
 def _validate_goodvibes_invocation(request: NativeJobRequest) -> dict[str, Any]:
+    if any(
+        argument.casefold() in {"-h", "--help", "-v", "--version"}
+        for argument in request.arguments
+    ):
+        return {
+            "lint_profile": "goodvibes_native_v1",
+            "input_targets": [],
+            "calculation_intent": "startup_probe",
+            "checks": ["help_or_version_probe"],
+        }
     sources = _staged_sources(request)
     positional_targets = [argument for argument in request.arguments if argument in sources]
     if not positional_targets:

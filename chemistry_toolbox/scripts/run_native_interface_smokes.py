@@ -247,7 +247,13 @@ def imported_scientific_records(tested_at: str) -> list[dict[str, Any]]:
     return records
 
 
-def execute(workspace: Path, evidence_dir: Path, deadline_seconds: float) -> dict[str, Any]:
+def execute(
+    workspace: Path,
+    evidence_dir: Path,
+    deadline_seconds: float,
+    *,
+    write_latest: bool = True,
+) -> dict[str, Any]:
     for name in ("code", "outputs", "report", "tool_logs"):
         (workspace / name).mkdir(parents=True, exist_ok=True)
     os.environ["RESEARCHCHEM_MCP_WORKSPACE"] = str(workspace.resolve())
@@ -354,7 +360,11 @@ def execute(workspace: Path, evidence_dir: Path, deadline_seconds: float) -> dic
             archived_files=archived,
             stdout_tail=stdout[-2000:],
             stderr_tail=stderr[-2000:],
-            evidence_path=str(archive_dir.relative_to(PROJECT_ROOT)),
+            evidence_path=(
+                str(archive_dir.relative_to(PROJECT_ROOT))
+                if archive_dir.is_relative_to(PROJECT_ROOT)
+                else str(archive_dir)
+            ),
         )
         records.append(record)
     records.sort(key=lambda item: item["software_id"])
@@ -372,8 +382,9 @@ def execute(workspace: Path, evidence_dir: Path, deadline_seconds: float) -> dic
     evidence_dir.mkdir(parents=True, exist_ok=True)
     text = json.dumps(manifest, indent=2, sort_keys=True) + "\n"
     (evidence_dir / "manifest.json").write_text(text, encoding="utf-8")
-    LATEST.parent.mkdir(parents=True, exist_ok=True)
-    LATEST.write_text(text, encoding="utf-8")
+    if write_latest:
+        LATEST.parent.mkdir(parents=True, exist_ok=True)
+        LATEST.write_text(text, encoding="utf-8")
     return manifest
 
 
@@ -397,6 +408,11 @@ def main() -> int:
     parser.add_argument("--evidence-dir", type=Path, default=DEFAULT_EVIDENCE)
     parser.add_argument("--deadline-seconds", type=float, default=45.0)
     parser.add_argument("--verify", action="store_true")
+    parser.add_argument(
+        "--no-write-latest",
+        action="store_true",
+        help="Do not replace the tracked latest native-interface evidence pointer.",
+    )
     args = parser.parse_args()
     evidence_dir = args.evidence_dir.resolve()
     if args.verify:
@@ -405,10 +421,20 @@ def main() -> int:
         return 0 if result["valid"] else 1
     if args.workspace:
         workspace = args.workspace.resolve()
-        manifest = execute(workspace, evidence_dir, args.deadline_seconds)
+        manifest = execute(
+            workspace,
+            evidence_dir,
+            args.deadline_seconds,
+            write_latest=not args.no_write_latest,
+        )
     else:
         with tempfile.TemporaryDirectory(prefix="researchchem-all-native-smoke-") as temporary:
-            manifest = execute(Path(temporary), evidence_dir, args.deadline_seconds)
+            manifest = execute(
+                Path(temporary),
+                evidence_dir,
+                args.deadline_seconds,
+                write_latest=not args.no_write_latest,
+            )
     print(json.dumps(manifest["counts"], sort_keys=True))
     return 0
 

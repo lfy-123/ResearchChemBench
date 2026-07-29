@@ -24,6 +24,16 @@ import yaml
 
 TOOLBOX_ROOT = Path(__file__).resolve().parents[1]
 ROOT = TOOLBOX_ROOT.parent
+SOURCE_ROOT = TOOLBOX_ROOT / "src"
+for source_path in (SOURCE_ROOT, ROOT):
+    if str(source_path) not in sys.path:
+        sys.path.insert(0, str(source_path))
+
+from researchchem_toolbox.environment_layout import (  # noqa: E402
+    resolve_configured_path,
+    resolve_runtime_path,
+)
+
 INVENTORY = TOOLBOX_ROOT / "config" / "requested_software.yaml"
 AUX_CONFIG = TOOLBOX_ROOT / "config" / "auxiliary_environments.yaml"
 MCP_CONFIG = TOOLBOX_ROOT / "config" / "mcp_profiles.yaml"
@@ -41,15 +51,14 @@ def read_yaml(path: Path) -> dict[str, Any]:
 def root_path(value: str | Path | None) -> Path | None:
     if value is None or str(value).strip() == "":
         return None
-    path = Path(str(value)).expanduser()
-    return path.resolve() if path.is_absolute() else (ROOT / path).resolve()
+    return resolve_configured_path(str(value))
 
 
 def runtime_path(specification: dict[str, Any]) -> Path:
-    path = root_path(specification.get("environment"))
-    if path is None:
+    environment = specification.get("environment")
+    if environment is None:
         raise ValueError("Runtime specification has no environment")
-    return path
+    return resolve_runtime_path(str(specification["name"]), str(environment))
 
 
 def resolve_runtime_value(value: str, runtime: Path) -> str:
@@ -57,7 +66,7 @@ def resolve_runtime_value(value: str, runtime: Path) -> str:
     if path.is_absolute():
         return str(path)
     if path.parent != Path("."):
-        return str((ROOT / path).resolve())
+        return str(resolve_configured_path(path))
     return str((runtime / "bin" / path).resolve())
 
 
@@ -492,12 +501,20 @@ def write_markdown(payload: dict[str, Any]) -> None:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--timeout-seconds", type=int, default=30)
+    parser.add_argument(
+        "--no-write",
+        action="store_true",
+        help="Print the audit summary without updating tracked status reports.",
+    )
     args = parser.parse_args()
     payload = audit(max(5, args.timeout_seconds))
-    JSON_OUTPUT.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    write_markdown(payload)
-    print(MARKDOWN_OUTPUT)
-    print(json.dumps(payload["summary"], ensure_ascii=False))
+    if args.no_write:
+        print(json.dumps(payload, ensure_ascii=False, indent=2))
+    else:
+        JSON_OUTPUT.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        write_markdown(payload)
+        print(MARKDOWN_OUTPUT)
+        print(json.dumps(payload["summary"], ensure_ascii=False))
     return 0
 
 

@@ -1,0 +1,40 @@
+name: researchchem-general-modern-openmpi5
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pip
+  - mpi=*=openmpi
+  - openmpi=5
+  - numpy=2
+  - ase=3.29
+  - rdkit
+  - pdb-tools
+  - packmol=21.2.1
+  - openbabel=3.1.1
+  - xtb=6.6.1
+  - gpaw=25.7.0
+  - nwchem=7.3.1
+  - psi4=1.11
+  - qcelemental=0.50.4
+  - qcengine=0.50.0
+  - cclib=1.8.1
+  - qe=7.5
+  - dftbplus=25.1
+  - siesta=5.4.2
+  - phonopy=4.4
+  - phono3py=4.4
+  - pymatgen
+  - spglib
+  - mdtraj=1.11.1
+  - geometric=1.1.1
+  - mp-api
+  - pubchempy=1.0.5
+  - vina=1.2.7
+  - vmd=1.9.3
+  - pytorch=2.10.0=*cpu*
+  - autode=1.4.5
+  - pydantic
+  - pyyaml
+  - python-dotenv
+  - tcsh

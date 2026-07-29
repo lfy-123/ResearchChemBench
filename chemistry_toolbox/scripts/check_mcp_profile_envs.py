@@ -31,7 +31,9 @@ MARKER = "PROFILE_PROBE_JSON="
 
 
 def run_profile(name: str, profile: dict[str, Any], args, secrets: dict[str, str]) -> dict[str, Any]:
-    python = (ROOT / profile["environment"] / "bin" / "python").resolve()
+    from chemistry_toolbox.mcp.profiles import profile_python
+
+    python = profile_python(name)
     if not python.is_file():
         return {"profile": name, "required_ok": False, "error": f"Missing Python: {python}"}
     command = [str(python), str(TOOLBOX_ROOT / "scripts" / "probe_mcp_profile.py"), "--profile", name]

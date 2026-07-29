@@ -207,7 +207,6 @@ def smoke_results() -> list[dict[str, Any]]:
                     "inputs": {"structure": {"smiles": "CCO"}},
                     "method_spec": {"charge_model": "am1bcc"},
                     "action_settings": {},
-                    "resource_limits": {"walltime_seconds": 300},
                 },
             ),
             (
@@ -219,7 +218,6 @@ def smoke_results() -> list[dict[str, Any]]:
                         "force_field": "openff_unconstrained-2.3.0.offxml"
                     },
                     "action_settings": {},
-                    "resource_limits": {"walltime_seconds": 300},
                 },
             ),
             (
@@ -242,7 +240,6 @@ def smoke_results() -> list[dict[str, Any]]:
                         "molecule_counts": {"solvent": 3},
                         "tolerance_angstrom": 2.0,
                     },
-                    "resource_limits": {"walltime_seconds": 120},
                 },
             ),
         ]
