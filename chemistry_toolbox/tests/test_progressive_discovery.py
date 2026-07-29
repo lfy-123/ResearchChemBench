@@ -56,6 +56,39 @@ def test_progressive_detail_levels_bound_discovery_payloads() -> None:
     )
     assert selected["selected_request_contract"] is not None
     assert selected["provider_contracts"][0]["backend_id"] == "orca"
+    assert "health" not in selected["provider_contracts"][0]
+    assert selected["selected_request_contract"]["template_kind"] == (
+        "minimal_executable_request"
+    )
+
+
+def test_compact_contract_prevents_common_conformer_input_errors() -> None:
+    cluster = inspect_action(
+        "cluster_conformers", backend_id="rdkit", detail_level="contract"
+    )["selected_request_contract"]
+    ensemble = cluster["required_contract"]["inputs"][0]
+    assert ensemble["name"] == "ensemble"
+    assert ".sdf, .mol, or multi-frame .xyz" in " ".join(
+        ensemble["accepted_forms"]
+    )
+    assert "path to a JSON summary" in " ".join(ensemble["rejected_forms"])
+
+    crest = inspect_action(
+        "generate_conformer_ensemble",
+        backend_id="crest",
+        detail_level="contract",
+    )["selected_request_contract"]
+    assert crest["execute_action_request_template"]["inputs"]["molecule"].startswith(
+        "<AtomicStructure"
+    )
+    assert crest["important_optional_inputs"][0]["name"] == "initial_structure"
+    assert any("overrides inputs.molecule" in note for note in crest["usage_notes"])
+
+    full = inspect_action(
+        "cluster_conformers", backend_id="rdkit", detail_level="full"
+    )["selected_request_contract"]
+    assert "sections" in full
+    assert "backend_fixed_parameters" in full
 
 
 def test_batch_safe_actions_keep_independent_child_trace_and_status(

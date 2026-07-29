@@ -250,6 +250,8 @@ def _field_type(field_name: str, *, section: str) -> dict[str, Any]:
     structure_fields = {
         "structure",
         "initial_guess",
+        "initial_structure",
+        "molecule",
         "reactant",
         "product",
         "ground_state",
@@ -412,6 +414,20 @@ def _field_type(field_name: str, *, section: str) -> dict[str, Any]:
                 "exact artifact-id string",
                 "workspace-relative .xyz, .pdb, .sdf, .mol, or ASE-readable structure path",
             ],
+        }
+    if section == "inputs" and field_name == "ensemble":
+        return {
+            "type": "ConformerEnsemble | ArtifactRef | workspace-relative conformer file",
+            "accepted_forms": [
+                "typed ConformerEnsemble ArtifactRef, compact artifact_id object, or exact artifact-id string",
+                "structured mapping containing a non-empty ensemble or conformers list",
+                "workspace-relative .sdf, .mol, or multi-frame .xyz file",
+            ],
+            "rejected_forms": [
+                "path to a JSON summary; pass the structured JSON value or typed artifact instead",
+                "single AtomicStructure when the Action requires multiple conformers",
+            ],
+            "cardinality": "multiple conformers with identical atom count and atom ordering",
         }
     if field_name in artifact_file_fields or field_name.endswith("_file"):
         return {
@@ -859,6 +875,127 @@ def _action_request_contract(
             "Match ArtifactRef.semantic_type to each input field; differently typed required inputs normally require different artifact ids.",
             "The displayed resource limits are active defaults; override any of them when the selected calculation needs different resources.",
         ],
+    }
+
+
+def _compact_action_request_contract(
+    specification: ActionSpec,
+    backend: BackendSpec,
+) -> dict[str, Any]:
+    """Return the bounded contract needed to execute one selected provider."""
+
+    complete = _action_request_contract(specification, backend)
+    sections = complete["sections"]
+
+    def required(section: str) -> list[dict[str, Any]]:
+        return [
+            {
+                key: value
+                for key, value in item.items()
+                if key
+                in {
+                    "name",
+                    "required",
+                    "type",
+                    "allowed_values",
+                    "accepted_forms",
+                    "rejected_forms",
+                    "cardinality",
+                    "canonical_inline_example",
+                    "description",
+                }
+            }
+            for item in sections[section].get("required", [])
+        ]
+
+    optional_inputs = sections["inputs"].get("optional", [])
+    important_optional_inputs = [
+        {
+            key: value
+            for key, value in item.items()
+            if key
+            in {
+                "name",
+                "type",
+                "accepted_forms",
+                "rejected_forms",
+                "cardinality",
+                "description",
+            }
+        }
+        for item in optional_inputs
+        if item.get("name") in {"initial_structure"}
+    ]
+    enumerated_options: list[dict[str, Any]] = []
+    for section_name in ("method_spec", "action_settings"):
+        section_value = sections[section_name]
+        candidates = [
+            *section_value.get("required", []),
+            *section_value.get("optional_documented", []),
+        ]
+        for item in candidates:
+            if item.get("allowed_values"):
+                enumerated_options.append(
+                    {
+                        "path": f"{section_name}.{item['name']}",
+                        "required": bool(item.get("required")),
+                        "allowed_values": item["allowed_values"],
+                    }
+                )
+
+    usage_notes: list[str] = []
+    if specification.id == "cluster_conformers" and backend.id == "rdkit":
+        usage_notes.append(
+            "Pass a typed conformer ensemble, a structured ensemble mapping, or a readable "
+            "SDF/MOL/multi-frame XYZ file. A path to a JSON summary is not a conformer file."
+        )
+    if specification.id == "generate_conformer_ensemble" and backend.id == "crest":
+        usage_notes.extend(
+            [
+                "CREST requires one complete starting geometry with coordinates; do not pass an ensemble or trajectory artifact.",
+                "When inputs.initial_structure is supplied it overrides inputs.molecule. Select exactly one frame before submission.",
+            ]
+        )
+    handoff_note = _ACTION_INPUT_HANDOFF_NOTES.get(specification.id)
+    if handoff_note:
+        usage_notes.append(handoff_note)
+
+    return {
+        "template_kind": "minimal_executable_request",
+        "execute_action_request_template": complete[
+            "execute_action_request_template"
+        ],
+        "required_contract": {
+            "inputs": required("inputs"),
+            "method_spec": required("method_spec"),
+            "action_settings": required("action_settings"),
+            "component_backends": list(
+                backend.required_component_roles.get(specification.id, ())
+            ),
+        },
+        "optional_field_names": {
+            "inputs": [item["name"] for item in optional_inputs],
+            "method_spec": [
+                item["name"]
+                for item in sections["method_spec"].get("optional_documented", [])
+            ],
+            "action_settings": [
+                item["name"]
+                for item in sections["action_settings"].get(
+                    "optional_documented", []
+                )
+            ],
+        },
+        "important_optional_inputs": important_optional_inputs,
+        "enumerated_options": enumerated_options,
+        "conditional_requirements": complete["conditional_requirements"],
+        "component_request_contracts": complete["component_request_contracts"],
+        "output_contract": complete["output_contract"],
+        "usage_notes": usage_notes,
+        "retry_policy": (
+            "On invalid_request, correct the reported fields and retry this same Action/Backend "
+            "once. Do not switch providers before applying the diagnostic."
+        ),
     }
 
 
@@ -1315,17 +1452,21 @@ def inspect_action(
         ]
     elif backend_id is not None and detail_level == "contract":
         provider_contracts = [
-            _provider_contract(backends[backend_id], action_id, current, detailed=True)
+            _provider_summary(backends[backend_id], action_id, current)
         ]
     else:
         provider_contracts = [
             _provider_summary(backends[item], action_id, current) for item in selected
         ]
-    selected_request_contract = (
-        _action_request_contract(specification, backends[backend_id])
-        if backend_id is not None and detail_level in {"contract", "full"}
-        else None
-    )
+    selected_request_contract = None
+    if backend_id is not None and detail_level == "contract":
+        selected_request_contract = _compact_action_request_contract(
+            specification, backends[backend_id]
+        )
+    elif backend_id is not None and detail_level == "full":
+        selected_request_contract = _action_request_contract(
+            specification, backends[backend_id]
+        )
     result = {
         "status": "success",
         "catalog_hash": current.get("catalog_hash"),
@@ -1350,13 +1491,17 @@ def inspect_action(
         "provider_contracts": provider_contracts,
         "selected_request_contract": selected_request_contract,
         "detail_note": (
-            "Exact details for the requested provider are included."
+            "The selected provider's compact execution requirements are included."
+            if backend_id is not None and detail_level == "contract"
+            else "Exact details for the requested provider are included."
             if backend_id is not None or len(selected) == 1
             else "Provider summaries are included. Call inspect_action again with backend_id for "
             "that provider's full parameter, health, runtime, and resource reference."
         ),
         "request_contract_note": (
-            "A complete fill-in request contract is included for the explicitly selected provider."
+            "A minimal executable request contract is included for the explicitly selected provider."
+            if selected_request_contract is not None and detail_level == "contract"
+            else "A complete audit request contract is included for the explicitly selected provider."
             if selected_request_contract is not None
             else "Select one provider and call inspect_action again with backend_id to obtain the "
             "fill-in execute_action request contract."

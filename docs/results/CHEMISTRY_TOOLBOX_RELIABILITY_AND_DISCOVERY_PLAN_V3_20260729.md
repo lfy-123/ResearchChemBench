@@ -8,6 +8,8 @@
 
 本次完成了 56 个软件的显式示例合同和手册语义审计、软件可用性与 smoke 分层、canonical trace 直接交付 Judger、Action discovery 减负与解释字段、embedding 缓存常驻及自动刷新、JobContext 合规诊断、资源阻塞诊断、通用 batch-safe Action、Hessian/EOS/拟合产物校验，以及 Heterobiaryl/PV 复现输入的文件级角色清单。`results.json` 现在直接暴露完整 process metrics，包括 Discovery 字节数、语义检索状态、JobContext 合规数和非受管解释器调用数。最终完整测试为 `422 passed in 455.09s`。
 
+第三版真实轨迹复核后，又对 Action 调用流程做了通用减负：保留 hybrid 检索、分类浏览和完整审计能力，默认 `inspect_action(detail_level=contract)` 改为返回紧凑可执行模板；输入预检和后端适配错误会返回同一 Action/Backend 的修正模板及一次重试规则。该补充修改不改变检索排序、后端实现或科学路线，也不包含评估任务专属分支。补充修改后的化学工具箱完整测试为 `366 passed in 519.56s`。
+
 真实复现 canary `Electron_Isodensity_Reproduction_04_Blind_Prediction` 使用官网 DeepSeek API 和 `deepseek-v4-flash` 完成，21 次 Chemistry MCP 调用全部成功，12 次受管科学 Action 全部成功，结论分 100、过程分 95、最终分 95。canonical trace 的路径、SHA-256、字节数、行数和非法行数已进入 `results.json` 并提供给 Judger。
 
 首次自主 canary 暴露出 Action catalog 变化后 MCP 进程只报告 `stale_embedding_cache`、不会自动重建的问题。该任务已停止，随后在通用语义索引层加入文件锁、原子替换和自动重建；真实英文查询现均返回 `semantic_status=available`，包括 transition-state 自然表达查询。后续 canary 又暴露了 shell 解释器绕行和 JobContext helper 未采用问题，均通过通用提示、预检与审计解决，没有加入任务专属分支。最终自主 canary 的结果记录在本文“真实验收”部分。
@@ -313,3 +315,51 @@ canary 达标后再决定是否重跑第二版任务集。离线固定查询、�
 ## 六、完成定义
 
 第三版完成不能只以测试通过或文件存在判断。必须同时满足：软件手册语义 lint 全通过、inspect 软件状态与 smoke 证据一致、canonical trace 自动进入评分材料、Heterobiaryl/PV manifest validator 通过、discovery 真实回放达到减负目标、JobContext 合规率可统计、资源重试信息完整、batch 子作业可独立审计、剩余科学产物校验生效，以及一个真实 canary 端到端通过。
+
+## 七、补充修改记录：简化 Action 调用流程
+
+### 问题确认
+
+第三版仍然要求智能体按照 `search_actions -> inspect_action -> execute_action` 调用 Action，但默认 selected-provider contract 同时包含完整参数元数据、后端固定参数、健康状态、资源预算和执行策略。真实轨迹中，智能体在主流程 Action 上通常会先 inspect，但在失败后的 xTB、ASE、RDKit 等备选 Action 上会直接调用，随后因缺少必填字段或输入类型不匹配而失败。典型问题包括：
+
+- xTB 几何优化缺少 `action_settings.optimization_level`；
+- ASE 几何优化缺少 `fmax_ev_per_angstrom` 和 `optimizer`；
+- RDKit 聚类缺少 `random_seed` 或把 JSON 摘要路径当作构象文件；
+- CREST 收到多构象集合，而不是一个带坐标的起始结构；
+- 失败响应只有缺字段或异常文本，没有可直接修改的同后端请求模板。
+
+这些问题属于通用 Action 合同和失败恢复问题，不属于 hybrid 检索错误。此次修改没有回退 BM25、aliases、分类检索、MiniLM semantic recall、排序解释或 embedding 缓存。
+
+### 已完成修改
+
+1. `inspect_action` 的 `contract` 档改为紧凑执行合同，只保留最小请求模板、必填输入、必填方法和设置、枚举值、关键可选输入、条件约束、输出类型和一次重试规则。provider 信息使用 compact summary；健康、运行时、完整资源和固定参数仍可通过 `detail_level=full` 获取。
+2. `execute_action` 工具说明明确要求从精确 Action/Backend 的 compact template 开始填写。收到 `repair_guidance` 后，应先修正同一请求并重试一次，再考虑切换后端；工具箱仍不自动选择科学参数、自动重试或自动 fallback。
+3. 通用输入类型合同补充 `molecule`、`initial_structure` 和 `ensemble`。构象集合明确接受 typed `ConformerEnsemble` ArtifactRef、结构化 ensemble/conformers mapping、SDF/MOL 或多帧 XYZ；明确拒绝 JSON 摘要路径和单结构替代多构象集合。
+4. CREST 合同明确要求一个完整、有坐标的起始结构，拒绝 ensemble/trajectory；同时声明 `inputs.initial_structure` 存在时覆盖 `inputs.molecule`，提交前必须显式选择一帧。
+5. Action 预检对缺失 inputs、backend-specific inputs、component roles、method fields、action settings 和非法枚举值返回：`missing_fields`、`allowed_values`、`inspect_action_request`、`corrected_request_template`、`repair_guidance` 和 `retryable=true`。修复模板保持原 Action 和 Backend，不替智能体选择科学值。
+6. Worker 对 adapter `ValueError` 返回结构化 `backend_input_error`，要求修改请求后再重试；对 CREST、xTB、ASE 等已知输入敏感的运行失败补充输入要求。未知运行时异常不会被无条件标记为可重试。
+
+### 返回体与兼容性
+
+代表性 selected-provider 响应的 compact/full JSON 比例如下：
+
+| Action / Backend | compact 字节 | full 字节 | compact/full |
+|---|---:|---:|---:|
+| `optimize_geometry` / `xtb` | 4,494 | 13,251 | 33.9% |
+| `cluster_conformers` / `rdkit` | 4,514 | 11,308 | 39.9% |
+| `generate_conformer_ensemble` / `crest` | 4,341 | 16,580 | 26.2% |
+
+`detail_level=full` 的原有 `sections`、`backend_fixed_parameters`、资源上限、参数 impact 和审计信息保持不变，现有完整目录验证和审计调用继续兼容。默认 MCP `ActionInspectRequest` 仍使用 `contract`，因此正常执行路径自动获得更小、更直接的合同。
+
+### 验证结果
+
+- 新增 compact contract 测试，覆盖 contract/full 分层、RDKit 构象格式、JSON 摘要拒绝、CREST 单结构和 `initial_structure` 覆盖规则。
+- 新增 Action 修复提示测试，覆盖 xTB 缺少必填设置和非法枚举值时的修正模板、allowed values、同 Backend 保持和 retryable 语义。
+- 更新 Worker 错误分类测试，验证 changed-request 重试要求和精确 `inspect_action` 请求。
+- 相关定向回归：`50 passed in 45.61s`。
+- 化学工具箱完整回归：`366 passed in 519.56s`。
+- `check_english_only.py` 和 `git diff --check` 均通过。
+
+### 通用性检查
+
+本次运行时代码只根据 `ActionSpec`、`BackendSpec`、action id、backend id 和公共输入语义生成合同与诊断。没有读取 benchmark task id、论文名称、真实答案或工作空间任务目录；没有新增论文专用 Action、专属后端分支或固定科研路线。RDKit、CREST、xTB 和 ASE 的提示是软件/Action 公共输入合同，适用于所有使用这些能力的任务。

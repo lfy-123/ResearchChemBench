@@ -65,9 +65,9 @@ TOOL_DESCRIPTIONS = {
         "it never downloads a model or changes the catalog."
     ),
     "inspect_action": (
-        "Inspect one exact Action before calling it. Returns its input contract, provider-selection "
-        "policy, provider health and required fields; pass backend_id for that provider's complete "
-        "method/resource/runtime contract."
+        "Inspect one exact Action before calling it. Pass backend_id and use the default contract "
+        "level to receive a compact executable request template with every required field. Use "
+        "full only for catalog, resource, runtime, or health audit."
     ),
     "inspect_backend": (
         "Inspect one exact Backend, its installed health and resources, and every Action capability. "
@@ -82,9 +82,11 @@ TOOL_DESCRIPTIONS = {
         "selection contract."
     ),
     "execute_action": (
-        "Execute one exact predefined Scientific/Data Action selected by action_id. Supply all "
-        "provider, component, source, scientific, and resource choices required by inspect_action. "
-        "The dispatcher validates the request and performs no defaults, retry, or fallback. Dense "
+        "Execute one exact predefined Scientific/Data Action selected by action_id. Start from the "
+        "compact template returned by inspect_action for this exact backend and replace every "
+        "placeholder. If validation returns repair_guidance, correct that same request and retry "
+        "once before considering another backend. The dispatcher performs no scientific defaults, "
+        "automatic retry, or fallback. Dense "
         "results are returned as concise scalars plus a typed primary ArtifactRef; the immutable "
         "artifact contains the complete coordinates, matrices, modes, or trajectories."
     ),

@@ -48,9 +48,85 @@ def _invalid(
     ).model_dump(mode="json")
 
 
+def _corrected_request_template(
+    action_id: str,
+    backend_id: str,
+    request: ActionRequest,
+    *,
+    missing_fields: tuple[str, ...] = (),
+    replacement: tuple[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Build a directly reusable request while leaving scientific choices explicit."""
+
+    template = {"action_id": action_id, **request.model_dump(mode="json")}
+    selection_policy = action_specs()[action_id].selection_policy
+    if selection_policy in {"agent_backend_required", "agent_components_required"}:
+        template["backend_id"] = backend_id
+    elif selection_policy == "agent_source_required":
+        template["source_id"] = backend_id
+
+    def set_path(path: str, value: Any) -> None:
+        current = template
+        parts = path.split(".")
+        for part in parts[:-1]:
+            child = current.get(part)
+            if not isinstance(child, dict):
+                child = {}
+                current[part] = child
+            current = child
+        current[parts[-1]] = value
+
+    for path in missing_fields:
+        set_path(path, f"<required {path}; use inspect_action contract>")
+    if replacement is not None:
+        set_path(*replacement)
+    return template
+
+
+def _repairable_invalid(
+    action_id: str,
+    backend_id: str,
+    request: ActionRequest,
+    message: str,
+    *,
+    missing_fields: tuple[str, ...] = (),
+    code: str = "invalid_request",
+    replacement: tuple[str, Any] | None = None,
+    extra_details: Mapping[str, Any] | None = None,
+) -> dict[str, Any]:
+    return _invalid(
+        action_id,
+        backend_id,
+        message,
+        code=code,
+        retryable=True,
+        error_details={
+            "missing_fields": list(missing_fields),
+            "repair_guidance": (
+                "Correct the reported fields in this same Action/Backend request, then retry "
+                "once. Do not switch providers or resubmit the unchanged request."
+            ),
+            "inspect_action_request": {
+                "action_id": action_id,
+                "backend_id": backend_id,
+                "detail_level": "contract",
+            },
+            "corrected_request_template": _corrected_request_template(
+                action_id,
+                backend_id,
+                request,
+                missing_fields=missing_fields,
+                replacement=replacement,
+            ),
+            **dict(extra_details or {}),
+        },
+    )
+
+
 def _invalid_explicit_choice(
     action_id: str,
     backend_id: str,
+    request: ActionRequest,
     *,
     field_group: str,
     supplied: dict[str, Any],
@@ -62,11 +138,22 @@ def _invalid_explicit_choice(
         received = supplied[field_name]
         normalized = str(received).strip().casefold()
         if normalized not in {str(choice).casefold() for choice in choices}:
-            return _invalid(
+            return _repairable_invalid(
                 action_id,
                 backend_id,
+                request,
                 f"Invalid {field_group}.{field_name}={received!r} for {backend_id}/{action_id}; "
                 f"choose exactly one of {list(choices)}",
+                code="invalid_explicit_choice",
+                replacement=(
+                    f"{field_group}.{field_name}",
+                    f"<choose exactly one: {' | '.join(str(item) for item in choices)}>",
+                ),
+                extra_details={
+                    "invalid_field": f"{field_group}.{field_name}",
+                    "received_value": received,
+                    "allowed_values": list(choices),
+                },
             )
     return None
 
@@ -545,10 +632,12 @@ def execute_action(action_id: str, request_value: ActionRequest | dict[str, Any]
         )
     missing_inputs = [name for name in specification.required_inputs if name not in request.inputs]
     if missing_inputs:
-        return _invalid(
+        return _repairable_invalid(
             action_id,
             backend_id,
+            request,
             f"Missing required inputs: {missing_inputs}",
+            missing_fields=tuple(f"inputs.{name}" for name in missing_inputs),
         )
     backend = backends[backend_id]
     missing_backend_inputs = [
@@ -557,10 +646,14 @@ def execute_action(action_id: str, request_value: ActionRequest | dict[str, Any]
         if name not in request.inputs
     ]
     if missing_backend_inputs:
-        return _invalid(
+        return _repairable_invalid(
             action_id,
             backend_id,
+            request,
             f"Missing backend-specific required inputs: {missing_backend_inputs}",
+            missing_fields=tuple(
+                f"inputs.{name}" for name in missing_backend_inputs
+            ),
         )
     required_component_roles = backend.required_component_roles.get(action_id, ())
     component_options = backend.component_backend_options.get(action_id, {})
@@ -577,10 +670,14 @@ def execute_action(action_id: str, request_value: ActionRequest | dict[str, Any]
         role for role in required_component_roles if role not in request.component_backends
     ]
     if missing_component_roles:
-        return _invalid(
+        return _repairable_invalid(
             action_id,
             backend_id,
+            request,
             f"Missing explicitly required component_backends roles: {missing_component_roles}",
+            missing_fields=tuple(
+                f"component_backends.{role}" for role in missing_component_roles
+            ),
         )
     component_specs = []
     for role, component_backend_id in request.component_backends.items():
@@ -629,21 +726,28 @@ def execute_action(action_id: str, request_value: ActionRequest | dict[str, Any]
             parts.append(f"method_spec fields {missing_methods}")
         if missing_settings:
             parts.append(f"action_settings fields {missing_settings}")
-        return _invalid(
+        return _repairable_invalid(
             action_id,
             backend_id,
+            request,
             "Missing explicitly required scientific settings: " + "; ".join(parts),
+            missing_fields=tuple(
+                [f"method_spec.{name}" for name in missing_methods]
+                + [f"action_settings.{name}" for name in missing_settings]
+            ),
         )
 
     invalid_choice = _invalid_explicit_choice(
         action_id,
         backend_id,
+        request,
         field_group="method_spec",
         supplied=request.method_spec,
         allowed=backend.allowed_method_values.get(action_id, {}),
     ) or _invalid_explicit_choice(
         action_id,
         backend_id,
+        request,
         field_group="action_settings",
         supplied=request.action_settings,
         allowed=backend.allowed_setting_values.get(action_id, {}),

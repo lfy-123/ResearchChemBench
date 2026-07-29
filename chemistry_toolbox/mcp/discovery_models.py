@@ -83,8 +83,8 @@ class ActionInspectRequest(BaseModel):
     detail_level: Literal["summary", "contract", "full"] = Field(
         default="contract",
         description=(
-            "summary compares providers, contract returns the selected executable request "
-            "contract, and full adds all catalog metadata."
+            "summary compares providers, contract returns a compact executable request "
+            "contract, and full adds complete catalog and audit metadata."
         ),
     )
 
