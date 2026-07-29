@@ -13,16 +13,16 @@
       "version": "1.3.0",
       "xc_functional": "PBE",
       "relativistic_treatment": "mixed collection; inspect per-element UPF metadata",
-      "path": "download/qe_pseudos/efficiency",
-      "manifest": "download/qe_pseudos/SSSP_1.3.0_PBE_efficiency.json",
+      "path": ".software_cache/resources/qe_pseudos/efficiency",
+      "manifest": ".software_cache/resources/qe_pseudos/SSSP_1.3.0_PBE_efficiency.json",
       "manifest_filename_field": "filename",
       "manifest_checksum_field": "md5",
       "expected_file_count": 103,
       "archive": {
-        "path": "download/qe_pseudos/SSSP_1.3.0_PBE_efficiency.tar.gz",
+        "path": ".software_cache/resources/qe_pseudos/SSSP_1.3.0_PBE_efficiency.tar.gz",
         "checksum_algorithm": "md5",
         "checksum": "a58f1b3373f330179fd0832c48bb9a52",
-        "extract_to": "download/qe_pseudos/efficiency"
+        "extract_to": ".software_cache/resources/qe_pseudos/efficiency"
       },
       "source_url": "https://archive.materialscloud.org/records/rcyfm-68h65/files/SSSP_1.3.0_PBE_efficiency.tar.gz?download=1",
       "license_and_citation": "Follow the SSSP collection metadata and citations; individual UPF files may carry their own provenance/license metadata.",
@@ -39,16 +39,16 @@
       "version": "1.3.0",
       "xc_functional": "PBE",
       "relativistic_treatment": "mixed collection; inspect per-element UPF metadata",
-      "path": "download/qe_pseudos/precision",
-      "manifest": "download/qe_pseudos/SSSP_1.3.0_PBE_precision.json",
+      "path": ".software_cache/resources/qe_pseudos/precision",
+      "manifest": ".software_cache/resources/qe_pseudos/SSSP_1.3.0_PBE_precision.json",
       "manifest_filename_field": "filename",
       "manifest_checksum_field": "md5",
       "expected_file_count": 103,
       "archive": {
-        "path": "download/qe_pseudos/SSSP_1.3.0_PBE_precision.tar.gz",
+        "path": ".software_cache/resources/qe_pseudos/SSSP_1.3.0_PBE_precision.tar.gz",
         "checksum_algorithm": "md5",
         "checksum": "fde94756886f32ada7bf597547557eb5",
-        "extract_to": "download/qe_pseudos/precision"
+        "extract_to": ".software_cache/resources/qe_pseudos/precision"
       },
       "source_url": "https://archive.materialscloud.org/records/rcyfm-68h65/files/SSSP_1.3.0_PBE_precision.tar.gz?download=1",
       "license_and_citation": "Follow the SSSP collection metadata and citations; individual UPF files may carry their own provenance/license metadata.",
@@ -65,14 +65,14 @@
       "version": "nc-sr-05 standard",
       "xc_functional": "PBE",
       "relativistic_treatment": "scalar relativistic norm conserving",
-      "path": "download/nc-sr-05_pbe_standard_psml",
+      "path": ".software_cache/resources/siesta_pseudos/nc-sr-05_pbe_standard_psml",
       "element_pattern": "{element}.psml",
       "expected_file_count": 72,
       "archive": {
-        "path": "download/nc-sr-05_pbe_standard_psml.tgz",
+        "path": ".software_cache/resources/siesta_pseudos/nc-sr-05_pbe_standard_psml.tgz",
         "checksum_algorithm": "sha256",
         "checksum": "ce6a16ba495224a893b62935a4902fea02365f90d233830a08808531ef1aa752",
-        "extract_to": "download"
+        "extract_to": ".software_cache/resources/siesta_pseudos"
       },
       "source_url": "https://www.pseudo-dojo.org/",
       "license_and_citation": "Follow PseudoDojo and PSML metadata/citation requirements embedded in the files.",
@@ -88,14 +88,14 @@
       "version": "standard",
       "xc_functional": "PBE",
       "relativistic_treatment": "scalar relativistic norm conserving",
-      "path": "download/abinit_pseudos/pseudo_dojo_psp8/pbe_s_sr",
+      "path": ".software_cache/resources/abinit_pseudos/pseudo_dojo_psp8/pbe_s_sr",
       "element_pattern": "{element}.psp8",
       "expected_file_count": 70,
       "archive": {
-        "path": "download/abinit_pseudos/nc-sr_pbe_standard_psp8.tgz",
+        "path": ".software_cache/resources/abinit_pseudos/nc-sr_pbe_standard_psp8.tgz",
         "checksum_algorithm": "sha256",
         "checksum": "1163ea89cdc7f5c55a4fdad9c6a31d8da26927a6f0373e566ac7bb0d91e52f14",
-        "extract_to": "download/abinit_pseudos/pseudo_dojo_psp8"
+        "extract_to": ".software_cache/resources/abinit_pseudos/pseudo_dojo_psp8"
       },
       "source_url": "https://www.pseudo-dojo.org/pseudos/nc-sr_pbe_standard_psp8.tgz",
       "license_and_citation": "Follow PseudoDojo metadata and citation requirements embedded in the PSP8 files.",
@@ -109,14 +109,14 @@
       "compatible_backends": ["dftbplus"],
       "format": "Slater-Koster SKF",
       "version": "3.1.0",
-      "path": "download/dftb_params/3ob-3.1.0/skfiles",
+      "path": ".software_cache/resources/dftb_params/3ob-3.1.0/skfiles",
       "file_glob": "*.skf",
       "expected_file_count": 225,
       "archive": {
-        "path": "download/dftb_params/3ob-v3.1.0.tar.gz",
+        "path": ".software_cache/resources/dftb_params/3ob-v3.1.0.tar.gz",
         "checksum_algorithm": "sha256",
         "checksum": "9dacb26ffa4f9d6e54b2ac627ed171001b47638474b6c7194b34666f2b0101a0",
-        "extract_to": "download/dftb_params"
+        "extract_to": ".software_cache/resources/dftb_params"
       },
       "source_url": "https://github.com/dftbparams/3ob/releases/tag/v3.1.0",
       "license_and_citation": "CC BY-SA 4.0 with mandatory scientific attribution; see the bundled 3ob README and LICENSE.",
@@ -130,14 +130,14 @@
       "compatible_backends": ["dftbplus"],
       "format": "Slater-Koster SKF",
       "version": "0.3.0",
-      "path": "download/dftb_params/matsci-0.3.0/skfiles",
+      "path": ".software_cache/resources/dftb_params/matsci-0.3.0/skfiles",
       "file_glob": "*.skf",
       "expected_file_count": 87,
       "archive": {
-        "path": "download/dftb_params/matsci-v0.3.0.tar.gz",
+        "path": ".software_cache/resources/dftb_params/matsci-v0.3.0.tar.gz",
         "checksum_algorithm": "sha256",
         "checksum": "adcaadeafcc3ec6a6d6e37623d30455c81e84e00e99be554f0eec14e5d1fec98",
-        "extract_to": "download/dftb_params"
+        "extract_to": ".software_cache/resources/dftb_params"
       },
       "source_url": "https://github.com/dftbparams/matsci/releases/tag/v0.3.0",
       "license_and_citation": "CC BY-SA 4.0 with mandatory scientific attribution; see the bundled matsci README and LICENSE.",
@@ -152,8 +152,8 @@
       "format": "Linux x86_64 executable",
       "version": "1.3.3",
       "path": ".software_cache/gnina/1.3.3/gnina.cuda12.8.static",
-      "import_sources": ["download/software/gnina/gnina.cuda12.8.static"],
-      "install_target": ".tool_envs/docking/bin/gnina",
+      "import_sources": [".software_cache/gnina/1.3.3/gnina.cuda12.8.static"],
+      "install_target": ".tool_envs_merged/molecular-simulation-openff/bin/gnina",
       "checksum_algorithm": "sha256",
       "checksum": "3340c1f49cd3c7c84d8699182a1c6af13c7fa2a22448d1204640446106f72172",
       "source_url": "https://github.com/gnina/gnina/releases/tag/v1.3.3",
@@ -169,7 +169,7 @@
       "format": "Linux x86-64 AVX2 executable bundle",
       "version": "6.1.1",
       "path": ".software_cache/orca/6.1.1/orca",
-      "install_target": ".tool_envs/quantum/bin/orca",
+      "install_target": ".tool_envs_merged/general-modern-openmpi5/bin/orca",
       "checksum_algorithm": "sha256",
       "checksum": "d65fe8fe3136e0008de9e5784ab8d853b0ef51a02635d7d6fb0f6a1c95d648d1",
       "version_probe": {
@@ -178,7 +178,7 @@
         "output_regex": "Program Version\\s+6\\.1\\.1"
       },
       "distribution_archive": {
-        "path": "download/orca_6_1_1_linux_x86-64_shared_openmpi418_avx2.run",
+        "path": ".software_cache/orca/download/orca_6_1_1_linux_x86-64_shared_openmpi418_avx2.run",
         "checksum_algorithm": "sha256",
         "checksum": "bda447869a5afca37489176e6d5a53678ddfdb74573249670bc58ac1273ed977"
       },
@@ -195,7 +195,7 @@
       "format": "Linux x86-64 shared MPI runtime",
       "version": "4.1.8",
       "path": ".software_cache/openmpi/4.1.8-fortran/bin/mpirun",
-      "install_target": ".tool_envs/quantum/bin/mpirun",
+      "install_target": ".tool_envs_merged/general-modern-openmpi5/orca-openmpi-4.1.8/bin/mpirun",
       "checksum_algorithm": "sha256",
       "checksum": "f5e6ea2e7efa72d816c2bfad7a348b6f0011ac66c96413f82b85ed8a91b2a1c8",
       "version_probe": {

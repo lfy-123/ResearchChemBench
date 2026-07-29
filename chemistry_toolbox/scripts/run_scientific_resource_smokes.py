@@ -66,7 +66,7 @@ WATER_STRUCTURE = {
 
 
 def request_cases() -> list[tuple[str, str, dict[str, Any]]]:
-    common_limits = {"walltime_seconds": 300, "cpu_cores": 1}
+    common_limits = {"cpu_cores": 1}
     gamma = {"grid": [1, 1, 1], "shift": [0, 0, 0]}
     return [
         (
@@ -374,7 +374,7 @@ def gnina_case() -> tuple[str, str, dict[str, Any]]:
                 "cpu": 1,
                 "seed": 20260718,
             },
-            "resource_limits": {"walltime_seconds": 180, "cpu_cores": 1},
+            "resource_limits": {"cpu_cores": 1},
         },
     )
 
@@ -390,7 +390,7 @@ def orca_cases() -> list[tuple[str, str, dict[str, Any]]]:
                 "inputs": {"structure": WATER_STRUCTURE},
                 "method_spec": method,
                 "action_settings": {},
-                "resource_limits": {"walltime_seconds": 300, "cpu_cores": 2},
+                "resource_limits": {"cpu_cores": 2},
             },
         ),
         (
@@ -401,7 +401,7 @@ def orca_cases() -> list[tuple[str, str, dict[str, Any]]]:
                 "inputs": {"structure": WATER_STRUCTURE},
                 "method_spec": method,
                 "action_settings": {},
-                "resource_limits": {"walltime_seconds": 300, "cpu_cores": 1},
+                "resource_limits": {"cpu_cores": 1},
             },
         ),
         (
@@ -415,7 +415,7 @@ def orca_cases() -> list[tuple[str, str, dict[str, Any]]]:
                     "optimization_convergence": "Tight",
                     "max_steps": 50,
                 },
-                "resource_limits": {"walltime_seconds": 300, "cpu_cores": 1},
+                "resource_limits": {"cpu_cores": 1},
             },
         ),
         (
@@ -426,14 +426,14 @@ def orca_cases() -> list[tuple[str, str, dict[str, Any]]]:
                 "inputs": {"structure": WATER_STRUCTURE},
                 "method_spec": method,
                 "action_settings": {},
-                "resource_limits": {"walltime_seconds": 300, "cpu_cores": 1},
+                "resource_limits": {"cpu_cores": 1},
             },
         ),
     ]
 
 
 def model_and_vasp_cases() -> list[tuple[str, str, dict[str, Any]]]:
-    model_limits = {"walltime_seconds": 300, "cpu_cores": 1}
+    model_limits = {"cpu_cores": 1}
     mapping = {
         "device": "cpu",
         "chemical_species_mapping": "identity",
@@ -527,7 +527,7 @@ def model_and_vasp_cases() -> list[tuple[str, str, dict[str, Any]]]:
                     "scf_convergence_ev": 1e-5,
                     "max_scf_cycles": 80,
                 },
-                "resource_limits": {"walltime_seconds": 300, "cpu_cores": 1},
+                "resource_limits": {"cpu_cores": 1},
             },
         ),
         (
@@ -555,7 +555,7 @@ def model_and_vasp_cases() -> list[tuple[str, str, dict[str, Any]]]:
                     "scf_convergence_ev": 1e-5,
                     "max_scf_cycles": 80,
                 },
-                "resource_limits": {"walltime_seconds": 300, "cpu_cores": 1},
+                "resource_limits": {"cpu_cores": 1},
             },
         ),
     ]

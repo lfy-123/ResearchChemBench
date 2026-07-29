@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-20T03:19:17.364678+00:00",
+  "generated_at": "2026-07-29T17:32:33.469871+00:00",
   "schema_version": 1,
   "summary": {
     "case_count": 24,
@@ -14,7 +14,7 @@
       "backend": "quantum_espresso",
       "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 12.462894,
+      "elapsed_seconds": 8.546201,
       "result": {
         "energy": -10.99662568,
         "unit": "rydberg"
@@ -50,7 +50,7 @@
       "backend": "quantum_espresso",
       "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 6.687758,
+      "elapsed_seconds": 7.321417,
       "result": {
         "energy": -10.99662568,
         "unit": "rydberg"
@@ -86,7 +86,7 @@
       "backend": "siesta",
       "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 5.586867,
+      "elapsed_seconds": 3.615284,
       "result": {
         "energy": -108.6682,
         "unit": "eV"
@@ -115,7 +115,7 @@
       "backend": "abinit",
       "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 8.451525,
+      "elapsed_seconds": 3.745274,
       "result": {
         "energy": -4.0197060046,
         "unit": "hartree"
@@ -144,7 +144,7 @@
       "backend": "dftbplus",
       "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 1.605275,
+      "elapsed_seconds": 2.100652,
       "result": {
         "energy": -1.0828157173,
         "unit": "hartree"
@@ -172,7 +172,7 @@
       "backend": "dftbplus",
       "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 1.170188,
+      "elapsed_seconds": 1.803397,
       "result": {
         "energy": -1.3984936602,
         "unit": "hartree"
@@ -200,7 +200,7 @@
       "backend": "quantum_espresso",
       "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 7.223032,
+      "elapsed_seconds": 7.809825,
       "result": {
         "forces": [
           [
@@ -242,7 +242,7 @@
       "backend": "quantum_espresso",
       "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 8.757873,
+      "elapsed_seconds": 9.416443,
       "result": {
         "stress": [
           [
@@ -294,13 +294,13 @@
       "backend": "siesta",
       "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 1.361677,
+      "elapsed_seconds": 3.308902,
       "result": {
         "forces": [
           [
-            1.76176059e-15,
-            5.15147716e-15,
-            1.6474134e-13
+            2.23007669e-17,
+            3.18343448e-15,
+            1.73237933e-13
           ]
         ],
         "unit": "eV/angstrom",
@@ -331,7 +331,7 @@
       "backend": "dftbplus",
       "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 1.149928,
+      "elapsed_seconds": 1.758202,
       "result": {
         "forces": [
           [
@@ -367,7 +367,7 @@
       "backend": "abinit",
       "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 1.944437,
+      "elapsed_seconds": 2.591782,
       "result": {
         "forces": [
           [
@@ -404,7 +404,7 @@
       "backend": "abinit",
       "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 1.914235,
+      "elapsed_seconds": 2.583354,
       "result": {
         "stress": [
           [
@@ -451,7 +451,7 @@
       "backend": "dftbplus",
       "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 1.114024,
+      "elapsed_seconds": 1.789274,
       "result": {
         "structure": {
           "atoms": [
@@ -516,9 +516,9 @@
       "backend": "gnina",
       "backend_version": null,
       "status": "success",
-      "elapsed_seconds": 10.547848,
+      "elapsed_seconds": 7.860135,
       "result": {
-        "poses_path": "outputs/dock_ligand/gnina/d3a2c10e21ea/poses.pdbqt",
+        "poses_path": "outputs/dock_ligand/gnina/bb55a9c13699/poses.pdbqt",
         "scores": [
           {
             "pose_index": 1,
@@ -551,7 +551,7 @@
       "backend": "orca",
       "backend_version": "6.1.1",
       "status": "success",
-      "elapsed_seconds": 8.228626,
+      "elapsed_seconds": 10.453704,
       "result": {
         "energy": -74.963709431238,
         "unit": "hartree"
@@ -567,10 +567,10 @@
       "backend": "orca",
       "backend_version": "6.1.1",
       "status": "success",
-      "elapsed_seconds": 3.494533,
+      "elapsed_seconds": 2.316952,
       "result": {
         "unit": "hartree/bohr^2",
-        "raw_hessian_path": "outputs/calculate_hessian/orca/673471a859e0/job.hess",
+        "raw_hessian_path": "outputs/calculate_hessian/orca/4c445acf5649/job.hess",
         "matrix_shape": [
           9,
           9
@@ -588,7 +588,7 @@
       "backend": "orca",
       "backend_version": "6.1.1",
       "status": "success",
-      "elapsed_seconds": 2.343418,
+      "elapsed_seconds": 2.807539,
       "result": {
         "structure": {
           "atoms": [
@@ -624,7 +624,7 @@
             false,
             false
           ],
-          "source_path": "outputs/optimize_geometry/orca/8d83ec75ebd3/job.xyz"
+          "source_path": "outputs/optimize_geometry/orca/6e61bda0ab15/job.xyz"
         },
         "converged": true,
         "energy": -74.965901192191,
@@ -642,7 +642,7 @@
       "backend": "orca",
       "backend_version": "6.1.1",
       "status": "success",
-      "elapsed_seconds": 1.392449,
+      "elapsed_seconds": 2.079765,
       "result": {
         "dipole": [
           0.0,
@@ -663,18 +663,18 @@
       "backend": "nequip",
       "backend_version": "0.19.0",
       "status": "success",
-      "elapsed_seconds": 108.603854,
+      "elapsed_seconds": 32.639647,
       "result": {
         "forces": [
           [
-            1.0056992386266153,
-            1.0056992386266153,
-            1.0056992386266153
+            1.005697688827937,
+            1.005697688827937,
+            1.005697688827937
           ],
           [
-            -1.0056992386266153,
-            -1.0056992386266153,
-            -1.0056992386266153
+            -1.005697688827937,
+            -1.005697688827937,
+            -1.005697688827937
           ]
         ],
         "unit": "eV/angstrom"
@@ -702,9 +702,9 @@
       "backend": "allegro",
       "backend_version": "0.19.0",
       "status": "success",
-      "elapsed_seconds": 5.829997,
+      "elapsed_seconds": 5.657156,
       "result": {
-        "energy": -5.4477353208501835,
+        "energy": -5.447735532745928,
         "unit": "eV"
       },
       "error": null,
@@ -730,7 +730,7 @@
       "backend": "deepmd",
       "backend_version": "3.2.0b0",
       "status": "success",
-      "elapsed_seconds": 79.395914,
+      "elapsed_seconds": 17.696194,
       "result": {
         "stress": [
           [
@@ -799,7 +799,7 @@
       "backend": "deepmd",
       "backend_version": "3.2.0b0",
       "status": "success",
-      "elapsed_seconds": 12.583282,
+      "elapsed_seconds": 12.003086,
       "result": {
         "energy": -2079.739232241105,
         "unit": "eV"
@@ -828,7 +828,7 @@
       "backend": "vasp",
       "backend_version": "6.3.2",
       "status": "success",
-      "elapsed_seconds": 6.992748,
+      "elapsed_seconds": 4.262026,
       "result": {
         "energy": -0.27428657,
         "unit": "eV"
@@ -856,7 +856,7 @@
       "backend": "vasp",
       "backend_version": "6.3.2",
       "status": "success",
-      "elapsed_seconds": 3.463693,
+      "elapsed_seconds": 4.057201,
       "result": {
         "energy": 0.25831787,
         "unit": "eV"

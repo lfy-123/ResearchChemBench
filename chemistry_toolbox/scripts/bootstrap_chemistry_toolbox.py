@@ -28,7 +28,7 @@ from typing import Any, Iterable
 TOOLBOX_ROOT = Path(__file__).resolve().parents[1]
 ROOT = TOOLBOX_ROOT.parent
 DEFAULT_LOCK_ROOT = TOOLBOX_ROOT / "environment" / "locks"
-DEFAULT_ASSET_ROOTS = (".software_cache", ".model_cache", "download")
+DEFAULT_ASSET_ROOTS = (".software_cache", ".model_cache")
 
 
 class BootstrapError(RuntimeError):

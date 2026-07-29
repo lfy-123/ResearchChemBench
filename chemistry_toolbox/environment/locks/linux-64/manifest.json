@@ -26,8 +26,7 @@
     "automatic_credential_copy": false,
     "asset_roots": [
       ".software_cache",
-      ".model_cache",
-      "download"
+      ".model_cache"
     ],
     "required_cpu_flags": [
       "avx2",
@@ -36,13 +35,13 @@
   },
   "configuration_files": {
     "chemistry_toolbox/config/mcp_profiles.yaml": {
-      "sha256": "8744f23d1b2547b891f68068c88e931888a7f755e336cb5961fa0957d4f59d69"
+      "sha256": "75e0b1b5ad8d2135be900b01ce91e4b520010680e2cd88f7d1dc92d34fec812c"
     },
     "chemistry_toolbox/config/auxiliary_environments.yaml": {
       "sha256": "a4f67c0ba57fe2d3ba162a88ccb24d950e90cc7970d80044c16e9ffceeb0af27"
     },
     "chemistry_toolbox/config/toolbox_resources.json": {
-      "sha256": "a70667530cd9c90182640a91599cd5845326ac7623576c3bf06138fae9bd6e53"
+      "sha256": "52abb0e5419ab38f457cd79101b52b9d171f21aa4ef70fd5293ec6487f7417b4"
     },
     "chemistry_toolbox/config/requested_software.yaml": {
       "sha256": "a19bb3f48146a2a5ebadd544bfb6634f6e6acd55d6d67404e435ddd82165c48d"
@@ -3090,7 +3089,7 @@
       "kind": "directory"
     },
     {
-      "path": "download/abinit_pseudos/nc-sr_pbe_standard_psp8.tgz",
+      "path": ".software_cache/resources/abinit_pseudos/nc-sr_pbe_standard_psp8.tgz",
       "reasons": [
         "toolbox_resources.abinit_pseudo_dojo_nc_sr_pbe_standard_psp8.archive"
       ],
@@ -3104,7 +3103,7 @@
       }
     },
     {
-      "path": "download/abinit_pseudos/pseudo_dojo_psp8/pbe_s_sr",
+      "path": ".software_cache/resources/abinit_pseudos/pseudo_dojo_psp8/pbe_s_sr",
       "reasons": [
         "toolbox_resources.abinit_pseudo_dojo_nc_sr_pbe_standard_psp8"
       ],
@@ -3113,7 +3112,7 @@
       "kind": "directory"
     },
     {
-      "path": "download/dftb_params/3ob-3.1.0/skfiles",
+      "path": ".software_cache/resources/dftb_params/3ob-3.1.0/skfiles",
       "reasons": [
         "toolbox_resources.dftb_3ob_3_1"
       ],
@@ -3122,7 +3121,7 @@
       "kind": "directory"
     },
     {
-      "path": "download/dftb_params/3ob-v3.1.0.tar.gz",
+      "path": ".software_cache/resources/dftb_params/3ob-v3.1.0.tar.gz",
       "reasons": [
         "toolbox_resources.dftb_3ob_3_1.archive"
       ],
@@ -3136,7 +3135,7 @@
       }
     },
     {
-      "path": "download/dftb_params/matsci-0.3.0/skfiles",
+      "path": ".software_cache/resources/dftb_params/matsci-0.3.0/skfiles",
       "reasons": [
         "toolbox_resources.dftb_matsci_0_3"
       ],
@@ -3145,7 +3144,7 @@
       "kind": "directory"
     },
     {
-      "path": "download/dftb_params/matsci-v0.3.0.tar.gz",
+      "path": ".software_cache/resources/dftb_params/matsci-v0.3.0.tar.gz",
       "reasons": [
         "toolbox_resources.dftb_matsci_0_3.archive"
       ],
@@ -3159,7 +3158,7 @@
       }
     },
     {
-      "path": "download/nc-sr-05_pbe_standard_psml",
+      "path": ".software_cache/resources/siesta_pseudos/nc-sr-05_pbe_standard_psml",
       "reasons": [
         "toolbox_resources.siesta_pseudo_dojo_nc_sr_05_pbe_standard_psml"
       ],
@@ -3168,7 +3167,7 @@
       "kind": "directory"
     },
     {
-      "path": "download/nc-sr-05_pbe_standard_psml.tgz",
+      "path": ".software_cache/resources/siesta_pseudos/nc-sr-05_pbe_standard_psml.tgz",
       "reasons": [
         "toolbox_resources.siesta_pseudo_dojo_nc_sr_05_pbe_standard_psml.archive"
       ],
@@ -3182,7 +3181,7 @@
       }
     },
     {
-      "path": "download/orca_6_1_1_linux_x86-64_shared_openmpi418_avx2.run",
+      "path": ".software_cache/orca/download/orca_6_1_1_linux_x86-64_shared_openmpi418_avx2.run",
       "reasons": [
         "toolbox_resources.orca_6_1_1_linux_x86_64_shared_openmpi418_avx2.distribution_archive"
       ],
@@ -3196,7 +3195,7 @@
       }
     },
     {
-      "path": "download/qe_pseudos/SSSP_1.3.0_PBE_efficiency.tar.gz",
+      "path": ".software_cache/resources/qe_pseudos/SSSP_1.3.0_PBE_efficiency.tar.gz",
       "reasons": [
         "toolbox_resources.qe_sssp_1_3_pbe_efficiency.archive"
       ],
@@ -3210,7 +3209,7 @@
       }
     },
     {
-      "path": "download/qe_pseudos/SSSP_1.3.0_PBE_precision.tar.gz",
+      "path": ".software_cache/resources/qe_pseudos/SSSP_1.3.0_PBE_precision.tar.gz",
       "reasons": [
         "toolbox_resources.qe_sssp_1_3_pbe_precision.archive"
       ],
@@ -3224,7 +3223,7 @@
       }
     },
     {
-      "path": "download/qe_pseudos/efficiency",
+      "path": ".software_cache/resources/qe_pseudos/efficiency",
       "reasons": [
         "toolbox_resources.qe_sssp_1_3_pbe_efficiency"
       ],
@@ -3233,7 +3232,7 @@
       "kind": "directory"
     },
     {
-      "path": "download/qe_pseudos/precision",
+      "path": ".software_cache/resources/qe_pseudos/precision",
       "reasons": [
         "toolbox_resources.qe_sssp_1_3_pbe_precision"
       ],
@@ -3242,7 +3241,7 @@
       "kind": "directory"
     },
     {
-      "path": "download/software/gnina/gnina.cuda12.8.static",
+      "path": ".software_cache/gnina/1.3.3/gnina.cuda12.8.static",
       "reasons": [
         "toolbox_resources.gnina_1_3_3_cuda12_8_linux_x86_64.import_sources"
       ],

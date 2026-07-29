@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-26T08:35:44.045035+00:00",
+  "generated_at": "2026-07-29T17:33:19.003242+00:00",
   "schema_version": 1,
   "selection_policy": "agent_explicit_no_default",
   "configuration_mode": "verify_only",
@@ -14,9 +14,9 @@
     {
       "id": "qe_sssp_1_3_pbe_efficiency",
       "kind": "element_file_collection",
-      "path": "download/qe_pseudos/efficiency",
+      "path": ".software_cache/resources/qe_pseudos/efficiency",
       "archive": {
-        "path": "download/qe_pseudos/SSSP_1.3.0_PBE_efficiency.tar.gz",
+        "path": ".software_cache/resources/qe_pseudos/SSSP_1.3.0_PBE_efficiency.tar.gz",
         "exists": true,
         "algorithm": "md5",
         "expected_checksum": "a58f1b3373f330179fd0832c48bb9a52",
@@ -28,7 +28,7 @@
       "expected_file_count": 103,
       "file_count_ok": true,
       "missing_files": [],
-      "manifest": "download/qe_pseudos/SSSP_1.3.0_PBE_efficiency.json",
+      "manifest": ".software_cache/resources/qe_pseudos/SSSP_1.3.0_PBE_efficiency.json",
       "manifest_exists": true,
       "deep_element_checksums": {
         "checked": 103,
@@ -151,9 +151,9 @@
     {
       "id": "qe_sssp_1_3_pbe_precision",
       "kind": "element_file_collection",
-      "path": "download/qe_pseudos/precision",
+      "path": ".software_cache/resources/qe_pseudos/precision",
       "archive": {
-        "path": "download/qe_pseudos/SSSP_1.3.0_PBE_precision.tar.gz",
+        "path": ".software_cache/resources/qe_pseudos/SSSP_1.3.0_PBE_precision.tar.gz",
         "exists": true,
         "algorithm": "md5",
         "expected_checksum": "fde94756886f32ada7bf597547557eb5",
@@ -165,7 +165,7 @@
       "expected_file_count": 103,
       "file_count_ok": true,
       "missing_files": [],
-      "manifest": "download/qe_pseudos/SSSP_1.3.0_PBE_precision.json",
+      "manifest": ".software_cache/resources/qe_pseudos/SSSP_1.3.0_PBE_precision.json",
       "manifest_exists": true,
       "deep_element_checksums": {
         "checked": 103,
@@ -288,9 +288,9 @@
     {
       "id": "siesta_pseudo_dojo_nc_sr_05_pbe_standard_psml",
       "kind": "element_file_collection",
-      "path": "download/nc-sr-05_pbe_standard_psml",
+      "path": ".software_cache/resources/siesta_pseudos/nc-sr-05_pbe_standard_psml",
       "archive": {
-        "path": "download/nc-sr-05_pbe_standard_psml.tgz",
+        "path": ".software_cache/resources/siesta_pseudos/nc-sr-05_pbe_standard_psml.tgz",
         "exists": true,
         "algorithm": "sha256",
         "expected_checksum": "ce6a16ba495224a893b62935a4902fea02365f90d233830a08808531ef1aa752",
@@ -386,9 +386,9 @@
     {
       "id": "abinit_pseudo_dojo_nc_sr_pbe_standard_psp8",
       "kind": "element_file_collection",
-      "path": "download/abinit_pseudos/pseudo_dojo_psp8/pbe_s_sr",
+      "path": ".software_cache/resources/abinit_pseudos/pseudo_dojo_psp8/pbe_s_sr",
       "archive": {
-        "path": "download/abinit_pseudos/nc-sr_pbe_standard_psp8.tgz",
+        "path": ".software_cache/resources/abinit_pseudos/nc-sr_pbe_standard_psp8.tgz",
         "exists": true,
         "algorithm": "sha256",
         "expected_checksum": "1163ea89cdc7f5c55a4fdad9c6a31d8da26927a6f0373e566ac7bb0d91e52f14",
@@ -482,9 +482,9 @@
     {
       "id": "dftb_3ob_3_1",
       "kind": "slater_koster_parameter_set",
-      "path": "download/dftb_params/3ob-3.1.0/skfiles",
+      "path": ".software_cache/resources/dftb_params/3ob-3.1.0/skfiles",
       "archive": {
-        "path": "download/dftb_params/3ob-v3.1.0.tar.gz",
+        "path": ".software_cache/resources/dftb_params/3ob-v3.1.0.tar.gz",
         "exists": true,
         "algorithm": "sha256",
         "expected_checksum": "9dacb26ffa4f9d6e54b2ac627ed171001b47638474b6c7194b34666f2b0101a0",
@@ -523,9 +523,9 @@
     {
       "id": "dftb_matsci_0_3",
       "kind": "slater_koster_parameter_set",
-      "path": "download/dftb_params/matsci-0.3.0/skfiles",
+      "path": ".software_cache/resources/dftb_params/matsci-0.3.0/skfiles",
       "archive": {
-        "path": "download/dftb_params/matsci-v0.3.0.tar.gz",
+        "path": ".software_cache/resources/dftb_params/matsci-v0.3.0.tar.gz",
         "exists": true,
         "algorithm": "sha256",
         "expected_checksum": "adcaadeafcc3ec6a6d6e37623d30455c81e84e00e99be554f0eec14e5d1fec98",
@@ -561,7 +561,7 @@
       "id": "gnina_1_3_3_cuda12_8_linux_x86_64",
       "kind": "backend_executable",
       "source": ".software_cache/gnina/1.3.3/gnina.cuda12.8.static",
-      "install_target": ".tool_envs/docking/bin/gnina",
+      "install_target": ".tool_envs_merged/molecular-simulation-openff/bin/gnina",
       "source_exists": true,
       "checksum": {
         "algorithm": "sha256",
@@ -587,11 +587,11 @@
       "id": "orca_6_1_1_linux_x86_64_shared_openmpi418_avx2",
       "kind": "backend_executable",
       "source": ".software_cache/orca/6.1.1/orca",
-      "install_target": ".tool_envs/quantum/bin/orca",
+      "install_target": ".tool_envs_merged/general-modern-openmpi5/bin/orca",
       "source_exists": true,
       "supporting_files": {
         "distribution_archive": {
-          "path": "download/orca_6_1_1_linux_x86-64_shared_openmpi418_avx2.run",
+          "path": ".software_cache/orca/download/orca_6_1_1_linux_x86-64_shared_openmpi418_avx2.run",
           "exists": true,
           "algorithm": "sha256",
           "expected_checksum": "bda447869a5afca37489176e6d5a53678ddfdb74573249670bc58ac1273ed977",
@@ -623,7 +623,7 @@
       "id": "openmpi_4_1_8_orca_runtime",
       "kind": "backend_executable",
       "source": ".software_cache/openmpi/4.1.8-fortran/bin/orterun",
-      "install_target": ".tool_envs/quantum/bin/mpirun",
+      "install_target": ".tool_envs_merged/general-modern-openmpi5/orca-openmpi-4.1.8/bin/mpirun",
       "source_exists": true,
       "supporting_files": {
         "source_archive": {

@@ -701,7 +701,7 @@ def main() -> int:
             "pip_no_dependencies": True,
             "automatic_licensed_downloads": False,
             "automatic_credential_copy": False,
-            "asset_roots": [".software_cache", ".model_cache", "download"],
+            "asset_roots": [".software_cache", ".model_cache"],
             "required_cpu_flags": required_cpu_flags,
         },
         "configuration_files": {

@@ -230,7 +230,7 @@ ResearchChemBench 不是一个把固定化学工作流包装成单个工具的�
 | .tool_envs/ | 各科学后端隔离环境 |
 | .software_cache/ | 外部程序、授权程序和本地软件资产 |
 | .model_cache/ | MLIP 等模型权重 |
-| download/ | 下载包、伪势、参数集等可迁移资产 |
+| .software_cache/resources/ | 伪势、参数集及其原始归档等可迁移科学资产 |
 
 ### 4.2 evaluation 目录
 
