@@ -64,3 +64,52 @@ def test_semantic_runtime_reuses_encoder_and_vector_matrix(
     assert first == second
     assert created == 1
     assert semantic_embeddings._resident_embedding_cache.cache_info().hits >= 1
+
+
+def test_semantic_runtime_rebuilds_stale_cache_atomically(
+    tmp_path: Path, monkeypatch
+) -> None:
+    current_documents = {
+        "action_a": "alpha energy",
+        "action_b": "beta structure",
+    }
+    stale_documents = {"action_a": "old alpha energy"}
+    model = tmp_path / "model"
+    model.mkdir()
+    (model / "model.onnx").write_bytes(b"model")
+    (model / "tokenizer.json").write_text("{}", encoding="utf-8")
+    cache = tmp_path / "actions.npz"
+    np.savez_compressed(
+        cache,
+        ids=np.asarray(["action_a"]),
+        vectors=np.asarray([[1.0, 0.0]], dtype=np.float32),
+        digest=np.asarray(semantic_embeddings.document_digest(stale_documents)),
+        model_id=np.asarray(semantic_embeddings.MODEL_ID),
+    )
+
+    class FakeEncoder:
+        def __init__(self, _directory: Path):
+            pass
+
+        def encode(self, texts):
+            if len(texts) == 1:
+                return np.asarray([[1.0, 0.0]], dtype=np.float32)
+            return np.asarray(
+                [[1.0, 0.0], [0.0, 1.0]], dtype=np.float32
+            )
+
+    monkeypatch.setenv(semantic_embeddings.MODEL_DIRECTORY_ENV, str(model))
+    monkeypatch.setenv(semantic_embeddings.EMBEDDING_CACHE_ENV, str(cache))
+    monkeypatch.setattr(semantic_embeddings, "MiniLMEncoder", FakeEncoder)
+    semantic_embeddings.clear_semantic_runtime_cache()
+
+    scores, status = semantic_embeddings.semantic_scores("alpha", current_documents)
+
+    assert status == "available"
+    assert scores == {"action_a": 1.0, "action_b": 0.0}
+    with np.load(cache, allow_pickle=False) as rebuilt:
+        assert rebuilt["digest"].item() == semantic_embeddings.document_digest(
+            current_documents
+        )
+        assert rebuilt["ids"].tolist() == ["action_a", "action_b"]
+    assert not list(tmp_path.glob(".actions.npz.*.npz"))

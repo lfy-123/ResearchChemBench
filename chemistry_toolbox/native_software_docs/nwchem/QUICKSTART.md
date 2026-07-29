@@ -6,7 +6,7 @@ aliases: ["NWChem", "nwchem"]
 inputs: ["input.nw", "optional basis", "geometry", "restart", "or data files"]
 outputs: ["stdout.log", "database file", "movecs", "geometry and property files"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # NWChem Quickstart
 
@@ -25,6 +25,8 @@ The runner creates an isolated job directory and executes the resolved binary th
 ## Input mode
 The primary executable is `nwchem` and its input mode is `arguments`.
 Required inputs: `input.nw`.
+Expected outputs: stdout/stderr or task-dependent outputs only.
+Example classification: `scientific_template`.
 Output behavior: Writes the main output to stdout and task-specific files in the job directory.
 
 ## Native command template

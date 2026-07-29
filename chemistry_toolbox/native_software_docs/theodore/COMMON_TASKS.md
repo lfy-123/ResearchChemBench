@@ -6,7 +6,7 @@ aliases: ["TheoDORE", "theodore"]
 inputs: ["dens_ana.in or subcommand input", "excited-state output", "orbital and density files"]
 outputs: ["summary tables", "charge-transfer matrices", "NTO files", "spectra and plots"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # TheoDORE Common Tasks
 
@@ -59,5 +59,7 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 ## Command: `theodore`
 - Synopsis: `theodore <subcommand> [subcommand options]`.
 - Input mode: `arguments`.
-- Required files: `subcommand-specific excited-state`, `orbital`, `or density files`.
+- Declared example inputs: `orbital`, `dens_ana.in`.
+- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes state-character tables, charge-transfer metrics, plots, and requested analysis files.

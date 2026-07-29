@@ -6,7 +6,7 @@ aliases: ["AutoDock Vina", "vina"]
 inputs: ["receptor.pdbqt", "ligand.pdbqt", "box center and size"]
 outputs: ["poses.pdbqt", "docking log", "affinity table"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # AutoDock Vina Quickstart
 
@@ -25,6 +25,8 @@ The runner creates an isolated job directory and executes the resolved binary th
 ## Input mode
 The primary executable is `vina` and its input mode is `arguments`.
 Required inputs: `receptor.pdbqt`, `ligand.pdbqt`.
+Expected outputs: `poses.pdbqt`.
+Example classification: `scientific_template`.
 Output behavior: Writes poses to --out and scores/logs to stdout or --log.
 
 ## Native command template
@@ -68,10 +70,6 @@ Run that command only inside a directory containing the exact referenced files. 
     {
       "source_path": "workspace_inputs/ligand.pdbqt",
       "target_path": "ligand.pdbqt"
-    },
-    {
-      "source_path": "workspace_inputs/poses.pdbqt",
-      "target_path": "poses.pdbqt"
     }
   ],
   "resource_limits": {

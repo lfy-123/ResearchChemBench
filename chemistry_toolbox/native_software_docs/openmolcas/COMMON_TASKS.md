@@ -1,12 +1,12 @@
 ---
 software_id: openmolcas
-versions: ["25.1"]
+versions: ["25.10"]
 topics: ["common-tasks", "inputs", "outputs", "convergence"]
 aliases: ["OpenMolcas", "openmolcas"]
 inputs: ["input.inp"]
 outputs: ["stdout.log", "HDF5 and orbital files", "geometry and property files"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # OpenMolcas Common Tasks
 
@@ -44,13 +44,13 @@ Only collect outputs produced by the same job or by explicitly linked parent job
 
 ## Software-specific end markers
 - `Happy landing!`
-- `{'Timing': 'Wall'}`
+- `Timing: Wall`
 
 ## Scientific convergence notes
 Require convergence of each requested module; a later module can fail after an earlier SCF succeeds.
 
 ## Version-specific caution
-These mechanics target the installed `25.1` environment. Verify keywords and file formats against the official references before reusing an input written for another release.
+These mechanics target the installed `25.10` environment. Verify keywords and file formats against the official references before reusing an input written for another release.
 
 ## Minimal-example policy
 The tested file under `examples/interface_smoke/` verifies the configured command route. It does not choose a paper-specific method. For scientific work, start from the smallest official example for the intended calculation family, replace all structures and methods explicitly, run the toolbox validator, and retain the complete inputs and outputs as provenance.
@@ -58,5 +58,7 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 ## Command: `pymolcas`
 - Synopsis: `pymolcas input.inp [driver options]`.
 - Input mode: `arguments`.
-- Required files: `input.inp`.
+- Declared example inputs: `input.inp`.
+- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes a log and module-specific files in the job directory.

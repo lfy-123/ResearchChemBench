@@ -6,7 +6,7 @@ aliases: ["LOBSTER", "lobster"]
 inputs: ["lobsterin", "POSCAR", "POTCAR", "WAVECAR", "CONTCAR", "KPOINTS", "OUTCAR", "vasprun.xml"]
 outputs: ["lobsterout", "COHPCAR.lobster", "ICOHPLIST.lobster", "DOSCAR.lobster", "CHARGE.lobster"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # LOBSTER Quickstart
 
@@ -25,6 +25,8 @@ The runner creates an isolated job directory and executes the resolved binary th
 ## Input mode
 The primary executable is `lobster-5.1.0` and its input mode is `fixed_files`.
 Required inputs: `lobsterin`, `POSCAR`, `POTCAR`, `WAVECAR`, `CONTCAR`, `KPOINTS`, `OUTCAR`, `vasprun.xml`.
+Expected outputs: stdout/stderr or task-dependent outputs only.
+Example classification: `scientific_template`.
 Output behavior: Reads fixed filenames and writes lobsterout plus analysis files in the job directory.
 
 ## Native command template

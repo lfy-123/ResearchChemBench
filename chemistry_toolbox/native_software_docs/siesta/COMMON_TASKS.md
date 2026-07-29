@@ -6,7 +6,7 @@ aliases: ["SIESTA", "siesta"]
 inputs: ["input.fdf", "pseudopotential files", "optional included structure and basis files"]
 outputs: ["stdout.log", ".XV", ".DM", ".WFSX", ".bands", ".DOS and trajectory files"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # SIESTA Common Tasks
 
@@ -49,7 +49,7 @@ Only collect outputs produced by the same job or by explicitly linked parent job
 
 ## Software-specific end markers
 - `Job completed`
-- `{'siesta': 'Final energy'}`
+- `siesta: Final energy`
 
 ## Scientific convergence notes
 Require SCF convergence and the requested geometry, MD, band, or property completion marker.
@@ -63,5 +63,7 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 ## Command: `siesta`
 - Synopsis: `siesta < input.fdf`.
 - Input mode: `stdin_file`.
-- Required files: `input.fdf`, `pseudopotentials and structure files referenced by it`.
+- Declared example inputs: `input.fdf`.
+- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes primary output to stdout and SIESTA result/restart files in the job directory.

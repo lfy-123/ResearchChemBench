@@ -6,7 +6,7 @@ aliases: ["GPAW", "gpaw"]
 inputs: ["program.py", "optional structure and restart files", "GPAW datasets"]
 outputs: ["program output", ".gpw restart", "trajectories", "property data"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # GPAW Common Tasks
 
@@ -60,6 +60,8 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 ## Command: `gpaw`
 - Synopsis: `gpaw python program.py [program arguments]`.
 - Input mode: `arguments`.
-- Required files: `program.py`.
+- Declared example inputs: `program.py`.
+- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Determined by the Agent-authored GPAW program; stdout and stderr are always captured.
 - Caution: The script must specify calculator mode, basis/grid, exchange-correlation model, k-points, occupations, convergence, and outputs.

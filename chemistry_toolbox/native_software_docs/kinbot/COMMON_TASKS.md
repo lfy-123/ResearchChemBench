@@ -6,7 +6,7 @@ aliases: ["KinBot", "kinbot"]
 inputs: ["input.json", "starting structure", "templates", "selected QM backend configuration"]
 outputs: ["KinBot database", "structures", "quantum-chemistry inputs and logs", "PES files"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # KinBot Common Tasks
 
@@ -60,11 +60,15 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 ## Command: `kinbot`
 - Synopsis: `kinbot input.json`.
 - Input mode: `arguments`.
-- Required files: `input.json and referenced structures/templates`.
+- Declared example inputs: `input.json`.
+- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes KinBot logs, geometries, reaction candidates, and database files.
 
 ## Command: `pes`
 - Synopsis: `pes input.json`.
 - Input mode: `arguments`.
-- Required files: `input.json and referenced KinBot/PES files`.
+- Declared example inputs: `input.json`.
+- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes PES search and postprocessing outputs in the job directory.

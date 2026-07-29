@@ -6,7 +6,7 @@ aliases: ["PLUMED", "plumed"]
 inputs: ["plumed.dat", "trajectory", "optional topology or masses"]
 outputs: ["COLVAR", "HILLS", "grids", "stdout.log"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # PLUMED Common Tasks
 
@@ -44,8 +44,8 @@ Only collect outputs produced by the same job or by explicitly linked parent job
 | Artifact validity | Required files exist, are non-empty, and can be parsed | Files with expected names only |
 
 ## Software-specific end markers
-- `{'PLUMED': 'Finished'}`
-- `{'PLUMED': 'Timestep'}`
+- `PLUMED: Finished`
+- `PLUMED: Timestep`
 
 ## Scientific convergence notes
 Driver completion confirms evaluation only; enhanced-sampling convergence requires separate statistical analysis and is not inferred from exit code.
@@ -59,6 +59,8 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 ## Command: `plumed`
 - Synopsis: `plumed <subcommand> [options]`.
 - Input mode: `arguments`.
-- Required files: `subcommand-specific PLUMED input and trajectory files`.
+- Declared example inputs: `plumed.dat`, `trajectory.xtc`.
+- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Subcommand-specific outputs are written in the job directory.
 - Caution: The first argument must be explicit, commonly driver, sum_hills, or info.

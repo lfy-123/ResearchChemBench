@@ -6,7 +6,7 @@ aliases: ["PLUMED", "plumed"]
 inputs: ["plumed.dat", "trajectory", "optional topology or masses"]
 outputs: ["COLVAR", "HILLS", "grids", "stdout.log"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # PLUMED Quickstart
 
@@ -24,7 +24,9 @@ The runner creates an isolated job directory and executes the resolved binary th
 
 ## Input mode
 The primary executable is `plumed` and its input mode is `arguments`.
-Required inputs: `subcommand-specific PLUMED input and trajectory files`.
+Required inputs: `plumed.dat`, `trajectory.xtc`.
+Expected outputs: stdout/stderr or task-dependent outputs only.
+Example classification: `scientific_template`.
 Output behavior: Subcommand-specific outputs are written in the job directory.
 
 ## Native command template

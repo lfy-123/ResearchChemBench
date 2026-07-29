@@ -6,7 +6,7 @@ aliases: ["ABINIT", "abinit"]
 inputs: ["run.abi", "one pseudopotential per element"]
 outputs: ["run.abo", "run.o_WFK", "run.o_DEN", "stdout.log", "stderr.log"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # ABINIT Troubleshooting
 

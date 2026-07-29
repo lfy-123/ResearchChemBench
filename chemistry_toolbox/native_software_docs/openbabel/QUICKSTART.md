@@ -6,7 +6,7 @@ aliases: ["Open Babel", "openbabel"]
 inputs: ["molecular input file"]
 outputs: ["converted molecular file", "console summary"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Open Babel Quickstart
 
@@ -24,7 +24,9 @@ The runner creates an isolated job directory and executes the resolved binary th
 
 ## Input mode
 The primary executable is `obabel` and its input mode is `arguments`.
-Required inputs: `molecular input file`.
+Required inputs: `input.xyz`.
+Expected outputs: `output.sdf`.
+Example classification: `scientific_template`.
 Output behavior: Writes the path supplied after -O; diagnostics are written to stderr.
 
 ## Native command template
@@ -49,10 +51,6 @@ Run that command only inside a directory containing the exact referenced files. 
     {
       "source_path": "workspace_inputs/input.xyz",
       "target_path": "input.xyz"
-    },
-    {
-      "source_path": "workspace_inputs/output.sdf",
-      "target_path": "output.sdf"
     }
   ],
   "resource_limits": {

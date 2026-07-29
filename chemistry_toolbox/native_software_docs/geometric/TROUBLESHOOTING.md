@@ -6,7 +6,7 @@ aliases: ["geomeTRIC", "geometric"]
 inputs: ["input geometry", "engine-specific input or configuration"]
 outputs: ["optimized geometry", "optimization trajectory", "log", "constraints summary"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # geomeTRIC Troubleshooting
 

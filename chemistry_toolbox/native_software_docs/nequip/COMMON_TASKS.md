@@ -6,7 +6,7 @@ aliases: ["NequIP", "nequip"]
 inputs: ["config.yaml", "training and validation dataset", "optional checkpoint"]
 outputs: ["training log", "checkpoints", "metrics", "packaged model"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # NequIP Common Tasks
 
@@ -60,6 +60,8 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 ## Command: `nequip-train`
 - Synopsis: `nequip-train -cn <config_basename_without_yaml> [Hydra overrides]`.
 - Input mode: `arguments`.
-- Required files: `config.yaml`, `referenced training/validation datasets`.
+- Declared example inputs: `config.yaml`.
+- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes training logs and checkpoints under paths selected in config.yaml.
 - Caution: The installed NequIP 0.19 entry point uses Hydra with the job directory as its config search path; stage config.yaml and pass -cn config rather than a positional YAML path.

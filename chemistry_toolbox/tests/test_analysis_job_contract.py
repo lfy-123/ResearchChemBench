@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import time
 from pathlib import Path
 
@@ -20,6 +21,7 @@ from chemistry_toolbox.mcp.open_execution import (
     get_execution_resources,
     submit_analysis_program,
     validate_analysis_program,
+    _validate_scientific_output,
 )
 from researchchem_toolbox.models import ResourceLimits
 
@@ -163,11 +165,57 @@ def test_preflight_does_not_treat_logged_path_text_as_file_access(workspace: Pat
     assert result["status"] == "success"
 
 
+def test_preflight_reports_job_context_bypass_without_claiming_enforcement(
+    workspace: Path,
+) -> None:
+    (workspace / "code/bypass.py").write_text(
+        "from researchchem_job import JobContext\n"
+        "ctx = JobContext.load()\n"
+        "workspace = ctx.root.parents[2]\n"
+        "print(workspace)\n",
+        encoding="utf-8",
+    )
+    result = validate_analysis_program(
+        AnalysisJobRequest(runtime="core", script_path="code/bypass.py")
+    )
+    assert result["status"] == "success"
+    compliance = result["job_context_compliance"]
+    assert compliance["status"] == "bypassed"
+    assert compliance["bypass_findings"]
+    assert "not blocked" in compliance["enforcement_boundary"]
+
+
 def test_execution_resource_status_is_available_before_submission(workspace: Path) -> None:
     result = get_execution_resources(ExecutionResourceRequest())
     assert result["status"] == "success"
     assert result["budget"]["cpu_cores"] >= 1
     assert result["available"]["cpu_cores"] <= result["budget"]["cpu_cores"]
+    assert result["active_jobs"] == []
+
+
+def test_execution_resource_status_lists_blocking_active_jobs(workspace: Path) -> None:
+    job = workspace / "outputs/execution_jobs/job_blocking"
+    job.mkdir(parents=True)
+    (job / "status.json").write_text(
+        json.dumps(
+            {
+                "job_id": "job_blocking",
+                "job_type": "programmable_analysis",
+                "status": "running",
+                "resource_limits": {
+                    "cpu_cores": 2,
+                    "memory_mb": 1024,
+                    "gpu_count": 0,
+                },
+                "metadata": {"label": "blocking-analysis"},
+            }
+        ),
+        encoding="utf-8",
+    )
+    result = get_execution_resources(ExecutionResourceRequest())
+    assert result["active_job_count"] == 1
+    assert result["active_jobs"][0]["job_id"] == "job_blocking"
+    assert result["currently_reserved"]["cpu_cores"] == 2
 
 
 def test_declared_job_context_and_artifact_manifest(workspace: Path) -> None:
@@ -225,9 +273,11 @@ def test_declared_job_context_and_artifact_manifest(workspace: Path) -> None:
     assert preflight["status"] == "success"
     assert preflight["analysis_contract"]["layout"]["inputs"] == "inputs/"
     assert "researchchem_job" in preflight["module_status"]
+    assert preflight["job_context_compliance"]["status"] == "compliant"
 
     submitted = submit_analysis_program(request)
     assert submitted["status"] == "success"
+    assert submitted["job_context_compliance"]["status"] == "compliant"
     finished = _wait(submitted["job_id"])
     assert finished["job"]["status"] == "success"
     collected = collect_execution_job(JobCollectRequest(job_id=submitted["job_id"]))
@@ -274,3 +324,47 @@ def test_process_success_does_not_hide_invalid_declared_json(workspace: Path) ->
     artifact = collected["declared_artifacts"][0]
     assert artifact["validation_status"] == "invalid"
     assert "non-standard JSON constant" in artifact["validation_errors"][0]
+
+
+def test_scientific_output_validation_covers_hessian_and_eos(tmp_path: Path) -> None:
+    hessian = tmp_path / "hessian.json"
+    hessian.write_text(
+        json.dumps({"matrix": [[1.0, 0.0], [0.0, 2.0]], "unit": "hartree/bohr^2"}),
+        encoding="utf-8",
+    )
+    hessian_check = _validate_scientific_output(
+        hessian,
+        {"semantic_type": "Hessian", "media_type": "application/json"},
+    )
+    assert hessian_check["status"] == "valid"
+    assert "dense_square_dimension=2" in hessian_check["checks"]
+
+    eos = tmp_path / "eos.json"
+    eos.write_text(
+        json.dumps(
+            {
+                "points": [
+                    {"volume_ang3": volume, "energy_ev": energy}
+                    for volume, energy in ((10, -1.0), (11, -1.2), (12, -1.1), (13, -0.8))
+                ],
+                "fit": {"status": "converged", "rmse": 0.002},
+            }
+        ),
+        encoding="utf-8",
+    )
+    eos_check = _validate_scientific_output(
+        eos,
+        {"semantic_type": "EquationOfStateResult", "media_type": "application/json"},
+    )
+    assert eos_check["status"] == "valid"
+    assert "fit_status=converged" in eos_check["checks"]
+
+    invalid = json.loads(eos.read_text(encoding="utf-8"))
+    del invalid["fit"]["rmse"]
+    eos.write_text(json.dumps(invalid), encoding="utf-8")
+    failed = _validate_scientific_output(
+        eos,
+        {"semantic_type": "EquationOfStateResult", "media_type": "application/json"},
+    )
+    assert failed["status"] == "invalid"
+    assert "finite residual" in failed["errors"][0]

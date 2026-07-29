@@ -6,7 +6,7 @@ aliases: ["CP2K", "cp2k"]
 inputs: ["input.inp", "coordinates", "basis sets and potentials when referenced"]
 outputs: ["output.out", "restart files", "trajectory files", "force files", "cube files"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # CP2K Quickstart
 
@@ -24,7 +24,9 @@ The runner creates an isolated job directory and executes the resolved binary th
 
 ## Input mode
 The primary executable is `cp2k` and its input mode is `arguments`.
-Required inputs: `input.inp`, `all basis/potential/coordinate files referenced by it`.
+Required inputs: `input.inp`.
+Expected outputs: `output.out`.
+Example classification: `scientific_template`.
 Output behavior: Writes output.out and restart/trajectory/property files selected in the input.
 
 ## Native command template
@@ -48,10 +50,6 @@ Run that command only inside a directory containing the exact referenced files. 
     {
       "source_path": "workspace_inputs/input.inp",
       "target_path": "input.inp"
-    },
-    {
-      "source_path": "workspace_inputs/output.out",
-      "target_path": "output.out"
     }
   ],
   "resource_limits": {

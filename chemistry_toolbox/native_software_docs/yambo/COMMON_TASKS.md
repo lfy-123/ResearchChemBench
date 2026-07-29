@@ -6,7 +6,7 @@ aliases: ["Yambo", "yambo"]
 inputs: ["compatible upstream save database", "SAVE directory", "input.in", "optional restart databases"]
 outputs: ["SAVE database", "report", "output data files", "restart databases"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Yambo Common Tasks
 
@@ -61,11 +61,15 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 ## Command: `p2y`
 - Synopsis: `p2y [conversion options]`.
 - Input mode: `arguments`.
-- Required files: `compatible upstream electronic-structure save database`.
+- Declared example inputs: none declared.
+- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Creates the Yambo SAVE database and conversion log.
 
 ## Command: `yambo`
 - Synopsis: `yambo -F input.in -J job_name [explicit options]`.
 - Input mode: `arguments`.
-- Required files: `input.in`, `SAVE database`, `and required restart databases`.
+- Declared example inputs: `input.in`.
+- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes report, database, quasiparticle, response, or excitonic files selected by input.in.

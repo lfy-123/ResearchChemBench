@@ -6,7 +6,7 @@ aliases: ["LAMMPS", "lammps"]
 inputs: ["input.lammps", "optional data file", "potential files", "included scripts"]
 outputs: ["log.lammps", "dump files", "restart files", "user-defined tables"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # LAMMPS Quickstart
 
@@ -24,7 +24,9 @@ The runner creates an isolated job directory and executes the resolved binary th
 
 ## Input mode
 The primary executable is `lmp` and its input mode is `arguments`.
-Required inputs: `input.lammps`, `all data/potential files referenced by it`.
+Required inputs: `input.lammps`.
+Expected outputs: stdout/stderr or task-dependent outputs only.
+Example classification: `scientific_template`.
 Output behavior: Writes log.lammps plus dumps/restarts selected in the input script.
 
 ## Native command template

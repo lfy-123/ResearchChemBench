@@ -38,6 +38,19 @@ class ResourceLimits(BaseModel):
     cpu_cores: int = Field(default=1, ge=1)
     gpu_count: int = Field(default=0, ge=0)
 
+    @field_validator("memory_mb", "cpu_cores", "gpu_count", mode="before")
+    @classmethod
+    def replace_null_with_default(cls, value: Any, info) -> Any:
+        """Treat model-emitted nulls as omitted optional resource fields."""
+
+        if value is not None:
+            return value
+        return {
+            "memory_mb": 4096,
+            "cpu_cores": 1,
+            "gpu_count": 0,
+        }[info.field_name]
+
 
 class ActionRequest(BaseModel):
     """Uniform request supplied to every public Scientific/Data Action."""
@@ -85,6 +98,11 @@ class ActionRequest(BaseModel):
         ),
     )
     resource_limits: ResourceLimits = Field(default_factory=ResourceLimits)
+
+    @field_validator("resource_limits", mode="before")
+    @classmethod
+    def replace_null_resource_limits(cls, value: Any) -> Any:
+        return {} if value is None else value
 
     @field_validator("backend_id")
     @classmethod
@@ -197,6 +215,7 @@ class ActionSpec:
     task_verbs: tuple[str, ...] = ()
     input_semantic_types: tuple[str, ...] = ()
     output_semantic_types: tuple[str, ...] = ()
+    batch_safe: bool = False
 
     def __post_init__(self) -> None:
         id_terms = tuple(self.id.split("_"))

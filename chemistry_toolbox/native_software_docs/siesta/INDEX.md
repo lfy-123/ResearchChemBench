@@ -6,7 +6,7 @@ aliases: ["SIESTA", "siesta"]
 inputs: ["input.fdf", "pseudopotential files", "optional included structure and basis files"]
 outputs: ["stdout.log", ".XV", ".DM", ".WFSX", ".bands", ".DOS and trajectory files"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # SIESTA Native Software Guide
 
@@ -29,7 +29,7 @@ Execute a complete SIESTA input deck. The native layer is appropriate when the A
 ## Supported command entries
 | Executable | Input mode | Native invocation | Required staged inputs |
 |---|---|---|---|
-| `siesta` | `stdin_file` | `siesta` | `input.fdf`, `pseudopotentials and structure files referenced by it` |
+| `siesta` | `stdin_file` | `siesta` | `input.fdf` |
 
 ## Supported task families
 - single point.

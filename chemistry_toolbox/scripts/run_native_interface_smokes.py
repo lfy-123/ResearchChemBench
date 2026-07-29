@@ -333,6 +333,12 @@ def execute(workspace: Path, evidence_dir: Path, deadline_seconds: float) -> dic
         stdout = (job_dir / "stdout.log").read_text(encoding="utf-8", errors="replace") if (job_dir / "stdout.log").is_file() else ""
         stderr = (job_dir / "stderr.log").read_text(encoding="utf-8", errors="replace") if (job_dir / "stderr.log").is_file() else ""
         outcome, reason = classify_probe(collected, stdout + "\n" + stderr, cancelled)
+        if software_id == "pysisyphus" and outcome == "passed" and "converged!" in stdout.casefold():
+            record["test_level"] = "scientific_smoke"
+            reason = (
+                "A self-contained H2 optimization completed with task-specific convergence "
+                "through the native job runner."
+            )
         archive_dir = evidence_dir / software_id
         archived = archive_job(workspace, submitted["job_id"], archive_dir)
         record.update(

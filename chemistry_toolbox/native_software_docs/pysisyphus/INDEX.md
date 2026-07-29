@@ -6,7 +6,7 @@ aliases: ["pysisyphus", "pysisyphus"]
 inputs: ["config.yaml", "referenced geometry and calculator files"]
 outputs: ["optimization log", "trajectory", "final geometry", "Hessian or path files"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # pysisyphus Native Software Guide
 
@@ -29,7 +29,7 @@ Execute a complete pysisyphus workflow configuration authored by the Agent. The 
 ## Supported command entries
 | Executable | Input mode | Native invocation | Required staged inputs |
 |---|---|---|---|
-| `pysis` | `arguments` | `pysis config.yaml` | `config.yaml`, `every structure or auxiliary file referenced inside config.yaml` |
+| `pysis` | `arguments` | `pysis config.yaml` | `config.yaml` |
 
 ## Supported task families
 - minimum optimization.

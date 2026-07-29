@@ -6,7 +6,7 @@ aliases: ["QCEngine", "qcengine"]
 inputs: ["QCSchema JSON", "selected program name"]
 outputs: ["QCSchema result JSON", "structured error record", "provenance"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # QCEngine Native Software Guide
 
@@ -29,7 +29,7 @@ Invoke the QCEngine command-line interface on an Agent-authored QCSchema input a
 ## Supported command entries
 | Executable | Input mode | Native invocation | Required staged inputs |
 |---|---|---|---|
-| `qcengine` | `arguments` | `qcengine run <program> input.json` | `QCSchema AtomicInput or procedure input JSON` |
+| `qcengine` | `arguments` | `qcengine run <program> input.json` | `input.json` |
 
 ## Supported task families
 - single computation.

@@ -6,7 +6,7 @@ aliases: ["AmberTools antechamber and sqm", "openff am1bcc"]
 inputs: ["input.mol2 or another supported molecule", "explicit charge and multiplicity"]
 outputs: ["charged.mol2", "ANTECHAMBER files", "sqm.in", "sqm.out"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # AmberTools antechamber and sqm Troubleshooting
 

@@ -233,6 +233,15 @@ def compact_action_result(result: dict[str, Any]) -> dict[str, Any]:
             "two differently typed input fields."
         ),
     }
+    if primary and primary.get("semantic_type") == "ElectronDensityResult":
+        value["artifact_handoff"]["next_action_example"] = {
+            "action_id": "export_electron_density_grid",
+            "inputs": {"electron_density": primary.get("artifact_id")},
+            "warning": (
+                "Use this ElectronDensityResult artifact_id, not result.files.gbw or another "
+                "backend file path."
+            ),
+        }
     value["transport"] = {
         "mode": "compact_agent_view",
         "scientific_values_changed": False,

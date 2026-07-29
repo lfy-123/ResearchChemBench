@@ -6,7 +6,7 @@ aliases: ["phono3py", "phono3py"]
 inputs: ["unit cell", "displacement configuration", "force data", "optional Born charges"]
 outputs: ["supercell displacement structures", "phono3py_disp.yaml", "fc2.hdf5", "fc3.hdf5", "kappa files"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # phono3py Common Tasks
 
@@ -61,5 +61,7 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 ## Command: `phono3py`
 - Synopsis: `phono3py [mode/options] [configuration files]`.
 - Input mode: `arguments`.
-- Required files: `mode-specific structure`, `displacement`, `force`, `and configuration files`.
+- Declared example inputs: `displacement`, `force`.
+- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes fc2/fc3, collision, conductivity, and other selected files.

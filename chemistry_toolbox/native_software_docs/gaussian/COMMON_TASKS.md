@@ -6,7 +6,7 @@ aliases: ["Gaussian", "gaussian"]
 inputs: ["input.gjf or input.com"]
 outputs: ["stdout.log", "checkpoint file", "optional formatted checkpoint"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Gaussian Common Tasks
 
@@ -57,12 +57,16 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 ## Command: `g16`
 - Synopsis: `g16 < input.com`.
 - Input mode: `stdin_file`.
-- Required files: `input.com`.
+- Declared example inputs: `input.com`.
+- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes Gaussian output to stdout and checkpoint/scratch files named in the route input.
 - Caution: Set stdin_file to input.com and declare method, basis, charge, multiplicity, resources, and task in that file.
 
 ## Command: `formchk`
 - Synopsis: `formchk input.chk output.fchk`.
 - Input mode: `arguments`.
-- Required files: `input.chk`.
+- Declared example inputs: `input.chk`, `output.fchk`.
+- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes the formatted checkpoint path supplied as the second argument.

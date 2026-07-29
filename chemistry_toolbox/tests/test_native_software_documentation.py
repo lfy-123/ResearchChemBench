@@ -19,7 +19,9 @@ from chemistry_toolbox.mcp.software_catalog import (
 )
 from chemistry_toolbox.mcp.open_tools import (
     search_software_documentation as traced_search_software_documentation,
+    validate_native_job as traced_validate_native_job,
 )
+from chemistry_toolbox.mcp.execution_models import NativeJobRequest
 
 
 HIGH_FREQUENCY_SOFTWARE = {"orca", "gaussian", "crest", "vasp", "lobster"}
@@ -46,9 +48,9 @@ def test_every_native_software_has_structured_first_party_documentation() -> Non
     assert len(generated) >= 350
     for path, expected in generated.items():
         assert path.read_text(encoding="utf-8") == expected
-    guides, profiles = module.load_sources()
-    assert len(guides) == len(profiles) == 56
-    assert set(guides) == set(profiles)
+    guides, profiles, contracts = module.load_sources()
+    assert len(guides) == len(profiles) == len(contracts) == 56
+    assert set(guides) == set(profiles) == set(contracts)
     assert {
         software_id
         for software_id, profile in profiles.items()
@@ -62,6 +64,36 @@ def test_every_native_software_has_structured_first_party_documentation() -> Non
         assert (example / "native_command.sh").is_file()
         assert (example / "submit_request.json").is_file()
         assert (example / "smoke_result.json").is_file()
+
+
+def test_manual_example_contracts_have_valid_file_roles_and_resources() -> None:
+    script = TOOLBOX_ROOT / "scripts" / "generate_native_software_manuals.py"
+    spec = importlib.util.spec_from_file_location("generate_native_manuals", script)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    guides, profiles, contracts = module.load_sources()
+
+    assert profiles["openmolcas"]["installed_version"] == "25.10"
+    for software_id, guide in guides.items():
+        for executable, command in guide["commands"].items():
+            contract = contracts[software_id]["commands"][executable]
+            assert not set(contract["inputs"]) & set(contract["outputs"])
+            assert module._parallel_width(contract["arguments"]) <= contract[
+                "resource_limits"
+            ]["cpu_cores"]
+            if command.get("enabled", True) is not True:
+                for filename in module.STANDARD_FILES:
+                    path = module.DOCS_ROOT / software_id / filename
+                    if path.is_file():
+                        assert f"Command: `{executable}`" not in path.read_text(
+                            encoding="utf-8"
+                        )
+
+    psi4_contract = contracts["psi4"]["commands"]["psi4"]
+    assert "output.dat" in psi4_contract["outputs"]
+    assert "output.dat" not in psi4_contract["inputs"]
+    assert psi4_contract["resource_limits"]["cpu_cores"] == 4
 
 
 def test_detailed_manuals_are_substantive_and_examples_match_current_contract() -> None:
@@ -144,6 +176,58 @@ def test_inspection_returns_compact_document_topic_index() -> None:
     paths = {item["path"] for item in result["documentation_index"]}
     assert "chemistry_toolbox/native_software_docs/orca/INDEX.md" in paths
     assert "staging" in result["shared_documentation_topics"]
+
+
+def test_inspection_exposes_smoke_axes_and_known_runtime_blockers() -> None:
+    orca = inspect_software(SoftwareInspectRequest(software_id="orca"))
+    assert orca["executable_resolved"] is True
+    assert orca["interface_smoke_status"] == "passed"
+    assert orca["scientific_smoke_status"] == "passed"
+    assert orca["native_available_for_submission"] is True
+
+    pysisyphus = inspect_software(SoftwareInspectRequest(software_id="pysisyphus"))
+    assert pysisyphus["scientific_smoke_status"] == "passed"
+    assert pysisyphus["smoke_evidence"]["recorded_test_level"] == "interface_smoke"
+
+    for software_id in ("vesta", "arkane", "rmg"):
+        failed = inspect_software(SoftwareInspectRequest(software_id=software_id))
+        assert failed["interface_smoke_status"] == "failed"
+        assert failed["native_available_for_submission"] is False
+        assert failed["known_runtime_blockers"]
+        assert failed["recommended_documentation_routes"][0]["request"]["topic"] == (
+            "troubleshooting"
+        )
+
+
+def test_native_lint_failure_routes_to_exact_documentation_section(
+    tmp_path, monkeypatch
+) -> None:
+    monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
+    result = traced_validate_native_job(
+        NativeJobRequest(
+            software_id="gaussian",
+            executable="g16",
+            arguments=[],
+            staged_inputs=[],
+        )
+    )
+    assert result["status"] == "invalid_request"
+    route = result["documentation_recovery"][0]
+    assert route["tool"] == "read_software_documentation"
+    assert route["request"]["software_id"] == "gaussian"
+    assert route["request"]["topic"] == "troubleshooting"
+
+
+def test_inspection_uses_validated_example_contracts() -> None:
+    psi4 = inspect_software(SoftwareInspectRequest(software_id="psi4"))
+    request = next(
+        item["native_job_request_template"]
+        for item in psi4["native_invocation_guides"]
+        if item["executable"] == "psi4"
+    )
+    assert request["resource_limits"]["cpu_cores"] == 4
+    assert request["declared_outputs"] == ["output.dat"]
+    assert {item["target_path"] for item in request["staged_inputs"]} == {"input.dat"}
 
 
 def test_exact_topic_and_section_read_is_bounded() -> None:

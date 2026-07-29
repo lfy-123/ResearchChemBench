@@ -6,7 +6,7 @@ aliases: ["VESTA", "vesta"]
 inputs: ["CIF", "POSCAR", "cube", "density", "or VESTA project file"]
 outputs: ["interactive session", "images", "converted structures", "VESTA project"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # VESTA Native Software Guide
 
@@ -29,7 +29,7 @@ Open or convert crystal/volumetric structure data with the installed VESTA GUI r
 ## Supported command entries
 | Executable | Input mode | Native invocation | Required staged inputs |
 |---|---|---|---|
-| `VESTA` | `arguments` | `VESTA structure.cif` | `supported crystal`, `density`, `or project file` |
+| `VESTA` | `arguments` | `VESTA structure.cif` | `density`, `structure.cif` |
 
 ## Supported task families
 - structure visualization.

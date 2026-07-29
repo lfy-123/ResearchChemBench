@@ -6,7 +6,7 @@ aliases: ["AutoMeKin", "automekin"]
 inputs: ["AutoMeKin control file", "starting structure", "method-specific resources"]
 outputs: ["reaction network", "transition-state structures", "product structures", "component logs"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # AutoMeKin Quickstart
 
@@ -24,7 +24,9 @@ The runner creates an isolated job directory and executes the resolved binary th
 
 ## Input mode
 The primary executable is `amk.sh` and its input mode is `arguments`.
-Required inputs: `AutoMeKin control/structure inputs and referenced resources`.
+Required inputs: `input.dat`.
+Expected outputs: stdout/stderr or task-dependent outputs only.
+Example classification: `scientific_template`.
 Output behavior: Writes reaction-discovery intermediates, trajectories, candidates, and logs in the job directory.
 
 ## Native command template

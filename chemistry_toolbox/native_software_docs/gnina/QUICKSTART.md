@@ -6,7 +6,7 @@ aliases: ["GNINA", "gnina"]
 inputs: ["receptor file", "ligand file", "box center and dimensions", "optional model"]
 outputs: ["poses.sdf", "docking log", "affinity and CNN scores"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # GNINA Quickstart
 
@@ -24,7 +24,9 @@ The runner creates an isolated job directory and executes the resolved binary th
 
 ## Input mode
 The primary executable is `gnina` and its input mode is `arguments`.
-Required inputs: `receptor file`, `ligand file`.
+Required inputs: `ligand.sdf`.
+Expected outputs: `receptor.pdbqt`, `poses.sdf`.
+Example classification: `scientific_template`.
 Output behavior: Writes poses to -o and scores/logs to stdout.
 
 ## Native command template
@@ -60,16 +62,8 @@ Run that command only inside a directory containing the exact referenced files. 
   ],
   "staged_inputs": [
     {
-      "source_path": "workspace_inputs/receptor.pdbqt",
-      "target_path": "receptor.pdbqt"
-    },
-    {
       "source_path": "workspace_inputs/ligand.sdf",
       "target_path": "ligand.sdf"
-    },
-    {
-      "source_path": "workspace_inputs/poses.sdf",
-      "target_path": "poses.sdf"
     }
   ],
   "resource_limits": {

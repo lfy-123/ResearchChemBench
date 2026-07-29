@@ -6,7 +6,7 @@ aliases: ["PLUMED", "plumed"]
 inputs: ["plumed.dat", "trajectory", "optional topology or masses"]
 outputs: ["COLVAR", "HILLS", "grids", "stdout.log"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # PLUMED Native Software Guide
 
@@ -29,7 +29,7 @@ Run an explicit PLUMED subcommand for enhanced sampling support or trajectory an
 ## Supported command entries
 | Executable | Input mode | Native invocation | Required staged inputs |
 |---|---|---|---|
-| `plumed` | `arguments` | `plumed driver --plumed plumed.dat --mf_xtc trajectory.xtc` | `subcommand-specific PLUMED input and trajectory files` |
+| `plumed` | `arguments` | `plumed driver --plumed plumed.dat --mf_xtc trajectory.xtc` | `plumed.dat`, `trajectory.xtc` |
 
 ## Supported task families
 - trajectory post-processing.

@@ -20,6 +20,9 @@ def test_runtime_inventory_is_compact_until_one_runtime_is_inspected():
     )
     assert "submit_analysis_program" in compact["execution_note"]
     assert "get_execution_resources" in compact["execution_note"]
+    assert compact["managed_program_contract"]["job_context_required_for_compliance"]
+    assert "JobContext.load" in compact["managed_program_contract"]["minimal_python_template"]
+    assert list(compact).index("managed_program_contract") < list(compact).index("runtimes")
     template = compact["submit_analysis_program_request_template"]
     assert template["inputs"][0]["name"] == "<logical_input_name>"
     assert template["outputs"][0]["path"].startswith("outputs/")

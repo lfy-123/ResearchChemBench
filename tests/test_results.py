@@ -68,6 +68,7 @@ def test_run_results_exist_before_and_after_scoring(tmp_path: Path, monkeypatch)
     }
     assert result["tokens"]["combined"]["total"] == 345
     assert result["tools"]["calls"] == meta["tool_call_count"]
+    assert result["artifacts"]["canonical_tool_trace"] is None
 
 
 def test_results_can_be_regenerated_from_existing_artifacts(tmp_path: Path):
@@ -79,3 +80,42 @@ def test_results_can_be_regenerated_from_existing_artifacts(tmp_path: Path):
 
     assert result["task"]["id"] == "ChemGraph_001"
     assert (runner.workspace / "results.json").is_file()
+
+
+def test_results_record_canonical_trace_integrity(tmp_path: Path):
+    workspace = tmp_path / "run"
+    workspace.mkdir()
+    (workspace / "_meta.json").write_text(
+        json.dumps({"task_id": "ChemGraph_001", "status": "completed"}),
+        encoding="utf-8",
+    )
+    (workspace / "_tool_trace.jsonl").write_text(
+        json.dumps({"tool": "search_actions", "status": "success"}) + "\n",
+        encoding="utf-8",
+    )
+
+    result = write_workspace_results(workspace)
+
+    trace = result["artifacts"]["canonical_tool_trace"]
+    assert trace["path"] == "_tool_trace.jsonl"
+    assert trace["event_count"] == 1
+    assert trace["invalid_line_count"] == 0
+    assert len(trace["sha256"]) == 64
+
+
+def test_results_expose_process_metrics(tmp_path: Path):
+    workspace = tmp_path / "run"
+    workspace.mkdir()
+    (workspace / "_meta.json").write_text("{}", encoding="utf-8")
+    expected = {
+        "job_context_compliant_job_count": 2,
+        "semantic_search_available_count": 3,
+        "discovery_result_bytes": 4096,
+    }
+    (workspace / "_score.json").write_text(
+        json.dumps({"process_metrics": expected}), encoding="utf-8"
+    )
+
+    result = write_workspace_results(workspace)
+
+    assert result["process_metrics"] == expected

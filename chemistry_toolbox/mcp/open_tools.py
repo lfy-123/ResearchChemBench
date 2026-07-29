@@ -41,6 +41,7 @@ from .software_catalog import (
     list_software as _list_software,
     read_software_documentation as _read_software_documentation,
     search_software_documentation as _search_software_documentation,
+    software_documentation_recovery,
 )
 from .tracing import execute_traced
 
@@ -159,7 +160,7 @@ def _invoke(
         try:
             return function(request)
         except (FileNotFoundError, FileExistsError, KeyError, UnicodeError, ValueError) as exc:
-            return {
+            result = {
                 "status": "invalid_request",
                 "error": {
                     "code": "invalid_open_execution_request",
@@ -168,6 +169,13 @@ def _invoke(
                 },
                 "automatic_fallback": False,
             }
+            if name in {"validate_native_job", "submit_native_job"} and isinstance(
+                request, NativeJobRequest
+            ):
+                result["documentation_recovery"] = software_documentation_recovery(
+                    request.software_id, failed=True
+                )
+            return result
         except OSError as exc:
             return {
                 "status": "failed",

@@ -6,7 +6,7 @@ aliases: ["xTB", "xtb"]
 inputs: ["structure.xyz", "optional xcontrol file"]
 outputs: ["stdout.log", "xtbopt.xyz", "hessian", "charges", "wbo", "trajectory files"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # xTB Common Tasks
 
@@ -61,6 +61,8 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 ## Command: `xtb`
 - Synopsis: `xtb structure.xyz --gfn <level> [--sp|--opt|--hess|--md] [explicit options]`.
 - Input mode: `arguments`.
-- Required files: `structure.xyz`.
+- Declared example inputs: `structure.xyz`.
+- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes primary text to stdout and mode-specific files in the job directory.
 - Caution: Choose the xTB level, charge, unpaired electrons, solvent, and requested calculation mode explicitly.

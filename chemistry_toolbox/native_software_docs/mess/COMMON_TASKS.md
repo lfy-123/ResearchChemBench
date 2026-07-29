@@ -6,7 +6,7 @@ aliases: ["MESS", "mess"]
 inputs: ["input.inp", "optional external molecular or energy-transfer data"]
 outputs: ["rate.out", "auxiliary diagnostic and eigenvalue files"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # MESS Common Tasks
 
@@ -56,5 +56,7 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 ## Command: `mess`
 - Synopsis: `mess input.inp`.
 - Input mode: `arguments`.
-- Required files: `input.inp`, `any referenced energy-transfer or molecular data`.
+- Declared example inputs: `input.inp`.
+- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes rate-model results and diagnostics in the job directory.

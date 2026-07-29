@@ -6,7 +6,7 @@ aliases: ["VASP", "vasp"]
 inputs: ["INCAR", "POSCAR", "POTCAR", "KPOINTS"]
 outputs: ["OUTCAR", "vasprun.xml", "OSZICAR", "CONTCAR", "WAVECAR", "CHGCAR"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # VASP Common Tasks
 
@@ -64,6 +64,8 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 ## Command: `vasp_std`
 - Synopsis: `vasp_std`.
 - Input mode: `fixed_files`.
-- Required files: `INCAR`, `POSCAR`, `POTCAR`, `KPOINTS`.
+- Declared example inputs: `INCAR`, `POSCAR`, `POTCAR`, `KPOINTS`.
+- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Reads standard fixed filenames and writes OUTCAR, OSZICAR, vasprun.xml, CONTCAR, WAVECAR, CHGCAR, and requested outputs.
 - Caution: POTCAR assembly and every INCAR/KPOINTS setting must be explicit and license-compliant.

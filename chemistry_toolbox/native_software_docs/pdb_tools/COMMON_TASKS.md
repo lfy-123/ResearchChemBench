@@ -6,7 +6,7 @@ aliases: ["pdb-tools", "pdb tools"]
 inputs: ["input.pdb"]
 outputs: ["stdout PDB stream or redirected PDB file"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # pdb-tools Common Tasks
 
@@ -53,17 +53,23 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 ## Command: `pdb_selchain`
 - Synopsis: `pdb_selchain -<chain_ids> input.pdb`.
 - Input mode: `arguments`.
-- Required files: `input.pdb`.
+- Declared example inputs: `input.pdb`.
+- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes transformed PDB text to stdout; capture stdout.log as the result.
 
 ## Command: `pdb_reres`
 - Synopsis: `pdb_reres -<first_residue_number> input.pdb`.
 - Input mode: `arguments`.
-- Required files: `input.pdb`.
+- Declared example inputs: `input.pdb`.
+- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes transformed PDB text to stdout.
 
 ## Command: `pdb_tidy`
 - Synopsis: `pdb_tidy input.pdb`.
 - Input mode: `arguments`.
-- Required files: `input.pdb`.
+- Declared example inputs: `input.pdb`.
+- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes normalized PDB text to stdout.

@@ -6,7 +6,7 @@ aliases: ["NequIP", "nequip"]
 inputs: ["config.yaml", "training and validation dataset", "optional checkpoint"]
 outputs: ["training log", "checkpoints", "metrics", "packaged model"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # NequIP Native Software Guide
 
@@ -29,7 +29,7 @@ Train a NequIP model from a complete Agent-authored configuration. The native la
 ## Supported command entries
 | Executable | Input mode | Native invocation | Required staged inputs |
 |---|---|---|---|
-| `nequip-train` | `arguments` | `nequip-train -cn config` | `config.yaml`, `referenced training/validation datasets` |
+| `nequip-train` | `arguments` | `nequip-train -cn config` | `config.yaml` |
 
 ## Supported task families
 - training.

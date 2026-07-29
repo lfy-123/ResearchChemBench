@@ -6,7 +6,7 @@ aliases: ["SHARC", "sharc"]
 inputs: ["SHARC input", "initial conditions", "interface resources", "overlap input and orbital files"]
 outputs: ["trajectory directories", "output.dat", "populations", "geometries", "overlap data"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # SHARC Native Software Guide
 
@@ -29,8 +29,8 @@ Execute SHARC surface-hopping dynamics or wavefunction-overlap analysis from com
 ## Supported command entries
 | Executable | Input mode | Native invocation | Required staged inputs |
 |---|---|---|---|
-| `sharc.x` | `arguments` | `sharc.x input` | `SHARC input`, `initial conditions`, `and selected electronic-structure interface files` |
-| `wfoverlap.x` | `stdin_file` | `wfoverlap.x` | `overlap.inp and referenced wavefunction/orbital files` |
+| `sharc.x` | `arguments` | `sharc.x input` | None |
+| `wfoverlap.x` | `stdin_file` | `wfoverlap.x` | None |
 
 ## Supported task families
 - initial conditions.

@@ -6,7 +6,7 @@ aliases: ["ShengBTE", "shengbte"]
 inputs: ["CONTROL", "FORCE_CONSTANTS_2ND", "FORCE_CONSTANTS_3RD"]
 outputs: ["BTE.kappa_tensor", "BTE.omega", "BTE.v", "BTE.* diagnostic files"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # ShengBTE Quickstart
 
@@ -25,6 +25,8 @@ The runner creates an isolated job directory and executes the resolved binary th
 ## Input mode
 The primary executable is `ShengBTE` and its input mode is `fixed_files`.
 Required inputs: `CONTROL`, `FORCE_CONSTANTS_2ND`, `FORCE_CONSTANTS_3RD`.
+Expected outputs: stdout/stderr or task-dependent outputs only.
+Example classification: `scientific_template`.
 Output behavior: Reads fixed filenames and writes thermal-conductivity and convergence files in the job directory.
 
 ## Native command template

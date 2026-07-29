@@ -6,7 +6,7 @@ aliases: ["AmberTools antechamber and sqm", "openff am1bcc"]
 inputs: ["input.mol2 or another supported molecule", "explicit charge and multiplicity"]
 outputs: ["charged.mol2", "ANTECHAMBER files", "sqm.in", "sqm.out"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # AmberTools antechamber and sqm Native Software Guide
 
@@ -29,7 +29,7 @@ Run AmberTools charge-generation components used by explicit OpenFF/AM1-BCC prep
 ## Supported command entries
 | Executable | Input mode | Native invocation | Required staged inputs |
 |---|---|---|---|
-| `antechamber` | `arguments` | `antechamber -i input.mol2 -fi mol2 -o charged.mol2 -fo mol2 -c bcc -nc 0` | `molecular input file` |
+| `antechamber` | `arguments` | `antechamber -i input.mol2 -fi mol2 -o charged.mol2 -fo mol2 -c bcc -nc 0` | `input.mol2` |
 | `sqm` | `arguments` | `sqm -O -i sqm.in -o sqm.out` | `sqm.in` |
 
 ## Supported task families

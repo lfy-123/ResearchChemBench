@@ -6,7 +6,7 @@ aliases: ["GoodVibes", "goodvibes"]
 inputs: ["Gaussian", "ORCA", "NWChem", "Q-Chem", "xTB", "or ASE frequency output"]
 outputs: ["console table", "JSON or CSV result", "optional PES and plots"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # GoodVibes Native Software Guide
 
@@ -29,7 +29,7 @@ Apply GoodVibes 4.3.0 thermochemistry, ensemble, selectivity, consistency, and r
 ## Supported command entries
 | Executable | Input mode | Native invocation | Required staged inputs |
 |---|---|---|---|
-| `goodvibes` | `arguments` | `goodvibes output.log --temp 298.15 --conc 1.0 --qs grimme --qh --fs 100 --fh 100 -v 0.99 --zpe-vscal 0.98 --json result.json` | `one or more Gaussian 09/16`, `ORCA 5/6`, `NWChem`, `Q-Chem 6`, `xTB`, `or ASE-extxyz output files` |
+| `goodvibes` | `arguments` | `goodvibes output.log --temp 298.15 --conc 1.0 --qs grimme --qh --fs 100 --fh 100 -v 0.99 --zpe-vscal 0.98 --json result.json` | `NWChem`, `xTB`, `output.log`, `result.json` |
 
 ## Supported task families
 - single-temperature thermochemistry.

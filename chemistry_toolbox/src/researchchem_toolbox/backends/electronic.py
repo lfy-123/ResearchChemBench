@@ -1450,8 +1450,16 @@ def _multiwfn_isodensity_surface(request: dict[str, Any]) -> dict[str, Any]:
         )
 
     raw_cutoffs = settings["cutoffs_au"]
+    normalized_cutoff_string = isinstance(raw_cutoffs, str)
+    if normalized_cutoff_string:
+        raw_cutoffs = [
+            item for item in re.split(r"[,\s]+", raw_cutoffs.strip()) if item
+        ]
     if not isinstance(raw_cutoffs, (list, tuple)) or not raw_cutoffs:
-        raise ValueError("cutoffs_au must be a non-empty list")
+        raise ValueError(
+            "cutoffs_au must be a non-empty JSON array of numbers; a comma-separated "
+            "numeric string is accepted only as a compatibility input"
+        )
     if len(raw_cutoffs) > 100:
         raise ValueError("cutoffs_au accepts at most 100 explicit values per Action")
     cutoffs: list[float] = []
@@ -1588,6 +1596,14 @@ def _multiwfn_isodensity_surface(request: dict[str, Any]) -> dict[str, Any]:
             )
             + (
                 [
+                    "action_settings.cutoffs_au was normalized from a numeric string; "
+                    "send a JSON array of numbers in new requests"
+                ]
+                if normalized_cutoff_string
+                else []
+            )
+            + (
+                [
                     "action_settings.grid_spacing_angstrom is deprecated and its numeric "
                     "value was interpreted in bohr for compatibility; use grid_spacing_bohr"
                 ]
@@ -1604,6 +1620,11 @@ def _multiwfn_isodensity_surface(request: dict[str, Any]) -> dict[str, Any]:
             "grid_spacing_bohr": spacing_bohr,
             "grid_spacing_angstrom": spacing_bohr * BOHR_TO_ANGSTROM,
             "grid_spacing_input_field": spacing_input_field,
+            "cutoffs_input_form": (
+                "normalized_numeric_string"
+                if normalized_cutoff_string
+                else "json_number_array"
+            ),
             "parallel_threads": cores,
             "source_density_file": relative_workspace_path(source),
             "required_citations": [

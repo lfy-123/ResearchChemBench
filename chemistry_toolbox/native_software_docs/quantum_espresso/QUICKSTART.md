@@ -6,7 +6,7 @@ aliases: ["Quantum ESPRESSO pw.x", "quantum espresso"]
 inputs: ["input.in", "one pseudopotential per species"]
 outputs: ["stdout.log", "prefix.save database", "charge density", "wavefunctions", "relaxed structure"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Quantum ESPRESSO pw.x Quickstart
 
@@ -24,7 +24,9 @@ The runner creates an isolated job directory and executes the resolved binary th
 
 ## Input mode
 The primary executable is `pw.x` and its input mode is `arguments`.
-Required inputs: `input.in`, `pseudopotentials referenced by input.in`.
+Required inputs: `input.in`.
+Expected outputs: stdout/stderr or task-dependent outputs only.
+Example classification: `scientific_template`.
 Output behavior: Writes the main output to stdout and save/restart data under outdir.
 
 ## Native command template

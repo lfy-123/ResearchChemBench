@@ -6,7 +6,7 @@ aliases: ["Open Babel", "openbabel"]
 inputs: ["molecular input file"]
 outputs: ["converted molecular file", "console summary"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Open Babel Native Software Guide
 
@@ -29,7 +29,7 @@ Convert, filter, and manipulate molecular file formats with Open Babel. The nati
 ## Supported command entries
 | Executable | Input mode | Native invocation | Required staged inputs |
 |---|---|---|---|
-| `obabel` | `arguments` | `obabel -ixyz input.xyz -osdf -O output.sdf` | `molecular input file` |
+| `obabel` | `arguments` | `obabel -ixyz input.xyz -osdf -O output.sdf` | `input.xyz` |
 
 ## Supported task families
 - format conversion.

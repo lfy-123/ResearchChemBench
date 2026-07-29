@@ -6,7 +6,7 @@ aliases: ["AutoDock Vina", "vina"]
 inputs: ["receptor.pdbqt", "ligand.pdbqt", "box center and size"]
 outputs: ["poses.pdbqt", "docking log", "affinity table"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # AutoDock Vina Troubleshooting
 

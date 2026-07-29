@@ -6,7 +6,7 @@ aliases: ["NWChem", "nwchem"]
 inputs: ["input.nw", "optional basis", "geometry", "restart", "or data files"]
 outputs: ["stdout.log", "database file", "movecs", "geometry and property files"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # NWChem Common Tasks
 
@@ -62,5 +62,7 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 ## Command: `nwchem`
 - Synopsis: `nwchem input.nw`.
 - Input mode: `arguments`.
-- Required files: `input.nw`.
+- Declared example inputs: `input.nw`.
+- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes the main output to stdout and task-specific files in the job directory.

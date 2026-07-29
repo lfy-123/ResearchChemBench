@@ -6,7 +6,7 @@ aliases: ["AiiDA", "aiida"]
 inputs: ["configured AiiDA profile", "database", "broker or core profile", "workflow script"]
 outputs: ["AiiDA database nodes", "process records", "repository objects", "optional archive.aiida"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # AiiDA Common Tasks
 
@@ -61,6 +61,8 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 ## Command: `verdi`
 - Synopsis: `verdi <status|profile|code|computer|process|...> [subcommand options]`.
 - Input mode: `arguments`.
-- Required files: `subcommand-specific files`.
+- Declared example inputs: none declared.
+- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Reads or updates the configured AiiDA profile and writes diagnostics/results to stdout.
 - Caution: The first argument must be an explicit verdi subcommand. AiiDA workflow definitions themselves belong in the programmable layer.

@@ -6,7 +6,7 @@ aliases: ["NequIP", "nequip"]
 inputs: ["config.yaml", "training and validation dataset", "optional checkpoint"]
 outputs: ["training log", "checkpoints", "metrics", "packaged model"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # NequIP Quickstart
 
@@ -24,7 +24,9 @@ The runner creates an isolated job directory and executes the resolved binary th
 
 ## Input mode
 The primary executable is `nequip-train` and its input mode is `arguments`.
-Required inputs: `config.yaml`, `referenced training/validation datasets`.
+Required inputs: `config.yaml`.
+Expected outputs: stdout/stderr or task-dependent outputs only.
+Example classification: `scientific_template`.
 Output behavior: Writes training logs and checkpoints under paths selected in config.yaml.
 
 ## Native command template

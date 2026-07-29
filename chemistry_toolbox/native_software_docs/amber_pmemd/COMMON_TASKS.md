@@ -6,7 +6,7 @@ aliases: ["Amber PMEMD", "amber pmemd"]
 inputs: ["mdin", "topology.prmtop", "input.rst7"]
 outputs: ["mdout", "output.rst7", "trajectory.nc", "mdinfo"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Amber PMEMD Common Tasks
 
@@ -60,18 +60,16 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 ## Command: `pmemd`
 - Synopsis: `pmemd -O -i mdin -o mdout -p topology.prmtop -c input.rst7 -r output.rst7 -x trajectory.nc`.
 - Input mode: `arguments`.
-- Required files: `mdin`, `topology.prmtop`, `input.rst7`.
+- Declared example inputs: `mdin`, `topology.prmtop`, `input.rst7`.
+- Declared example outputs: `mdout`, `output.rst7`, `trajectory.nc`.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes paths explicitly supplied by -o, -r, -x, and related options.
 
 ## Command: `pmemd.MPI`
 - Synopsis: `pmemd.MPI -O -i mdin -o mdout -p topology.prmtop -c input.rst7 -r output.rst7 -x trajectory.nc`.
 - Input mode: `arguments`.
-- Required files: `mdin`, `topology.prmtop`, `input.rst7`.
+- Declared example inputs: `mdin`, `topology.prmtop`, `input.rst7`.
+- Declared example outputs: `mdout`, `output.rst7`, `trajectory.nc`.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes paths explicitly supplied by PMEMD output options.
 - Caution: MPI rank allocation belongs to the deployment scheduler. The generic mpirun launcher is intentionally not exposed as a native command.
-
-## Command: `mpirun`
-- Synopsis: `mpirun <program> [arguments]`.
-- Input mode: `arguments`.
-- Required files: none declared.
-- Output behavior: Not publicly executable because it is a general process launcher.

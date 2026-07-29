@@ -6,7 +6,7 @@ aliases: ["DFTB+", "dftbplus"]
 inputs: ["dftb_in.hsd", "geometry", "Slater-Koster files"]
 outputs: ["detailed.out", "results.tag", "geo_end.gen", "charges.bin"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # DFTB+ Quickstart
 
@@ -24,7 +24,9 @@ The runner creates an isolated job directory and executes the resolved binary th
 
 ## Input mode
 The primary executable is `dftb+` and its input mode is `fixed_files`.
-Required inputs: `dftb_in.hsd`, `referenced Slater-Koster and geometry files`.
+Required inputs: `dftb_in.hsd`.
+Expected outputs: stdout/stderr or task-dependent outputs only.
+Example classification: `scientific_template`.
 Output behavior: Reads dftb_in.hsd and writes detailed.out, results.tag, and requested files.
 
 ## Native command template

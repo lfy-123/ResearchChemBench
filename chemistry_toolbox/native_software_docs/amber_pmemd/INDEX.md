@@ -6,7 +6,7 @@ aliases: ["Amber PMEMD", "amber pmemd"]
 inputs: ["mdin", "topology.prmtop", "input.rst7"]
 outputs: ["mdout", "output.rst7", "trajectory.nc", "mdinfo"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Amber PMEMD Native Software Guide
 
@@ -31,7 +31,6 @@ Execute Amber PMEMD serial or MPI molecular dynamics from explicit control/topol
 |---|---|---|---|
 | `pmemd` | `arguments` | `pmemd -O -i mdin -o mdout -p topology.prmtop -c input.rst7 -r output.rst7 -x trajectory.nc` | `mdin`, `topology.prmtop`, `input.rst7` |
 | `pmemd.MPI` | `arguments` | `pmemd.MPI -O -i mdin -o mdout -p topology.prmtop -c input.rst7 -r output.rst7 -x trajectory.nc` | `mdin`, `topology.prmtop`, `input.rst7` |
-| `mpirun` | `arguments` | `mpirun` | None |
 
 ## Supported task families
 - energy minimization.

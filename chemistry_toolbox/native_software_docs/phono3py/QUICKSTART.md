@@ -6,7 +6,7 @@ aliases: ["phono3py", "phono3py"]
 inputs: ["unit cell", "displacement configuration", "force data", "optional Born charges"]
 outputs: ["supercell displacement structures", "phono3py_disp.yaml", "fc2.hdf5", "fc3.hdf5", "kappa files"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # phono3py Quickstart
 
@@ -24,7 +24,9 @@ The runner creates an isolated job directory and executes the resolved binary th
 
 ## Input mode
 The primary executable is `phono3py` and its input mode is `arguments`.
-Required inputs: `mode-specific structure`, `displacement`, `force`, `and configuration files`.
+Required inputs: `displacement`, `force`.
+Expected outputs: stdout/stderr or task-dependent outputs only.
+Example classification: `scientific_template`.
 Output behavior: Writes fc2/fc3, collision, conductivity, and other selected files.
 
 ## Native command template

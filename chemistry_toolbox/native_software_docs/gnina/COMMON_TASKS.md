@@ -6,7 +6,7 @@ aliases: ["GNINA", "gnina"]
 inputs: ["receptor file", "ligand file", "box center and dimensions", "optional model"]
 outputs: ["poses.sdf", "docking log", "affinity and CNN scores"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # GNINA Common Tasks
 
@@ -59,5 +59,7 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 ## Command: `gnina`
 - Synopsis: `gnina -r receptor.pdbqt -l ligand.sdf --center_x X --center_y Y --center_z Z --size_x X --size_y Y --size_z Z -o poses.sdf [options]`.
 - Input mode: `arguments`.
-- Required files: `receptor file`, `ligand file`.
+- Declared example inputs: `ligand.sdf`.
+- Declared example outputs: `receptor.pdbqt`, `poses.sdf`.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes poses to -o and scores/logs to stdout.

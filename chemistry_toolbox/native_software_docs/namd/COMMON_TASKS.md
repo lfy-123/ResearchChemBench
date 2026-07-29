@@ -6,7 +6,7 @@ aliases: ["NAMD", "namd"]
 inputs: ["input.conf", "PSF", "coordinates", "parameter files", "optional restart files"]
 outputs: ["stdout.log", "trajectory.dcd", "restart coordinates and velocities", "extended-system file"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # NAMD Common Tasks
 
@@ -48,7 +48,7 @@ Only collect outputs produced by the same job or by explicitly linked parent job
 
 ## Software-specific end markers
 - `End of program`
-- `{'WallClock': None}`
+- `WallClock:`
 
 ## Scientific convergence notes
 Minimization and dynamics require their requested step counts and stable energy diagnostics; startup success is not a completed simulation.
@@ -62,5 +62,7 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 ## Command: `namd3`
 - Synopsis: `namd3 +p<threads> input.conf`.
 - Input mode: `arguments`.
-- Required files: `input.conf`, `topology`, `coordinates`, `parameters`, `and restart files referenced by it`.
+- Declared example inputs: `input.conf`, `topology`, `coordinates`, `parameters`.
+- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Example resources: `{'cpu_cores': 4, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes simulation log to stdout and trajectory/restart files selected in input.conf.

@@ -6,7 +6,7 @@ aliases: ["Newton-X", "newton x"]
 inputs: ["control files", "initial conditions", "geometry", "electronic-structure interface files"]
 outputs: ["TRAJ directories", "dynamics logs", "populations", "geometries", "test reports"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Newton-X Troubleshooting
 

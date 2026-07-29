@@ -29,6 +29,7 @@ from researchchem_toolbox.runtime import (
 )
 from researchchem_toolbox.resource_budget import (
     ResourceBudgetExceeded,
+    active_resource_jobs,
     active_resource_usage,
     normalize_resource_limits,
     reserve_resources,
@@ -52,7 +53,7 @@ from .execution_models import (
     WorkspaceTextReadRequest,
     WorkspaceTextWriteRequest,
 )
-from .software_catalog import native_command_guide
+from .software_catalog import native_command_guide, software_documentation_recovery
 from .workspace import (
     relative_workspace_path,
     resolve_workspace_output_path,
@@ -144,12 +145,25 @@ def _compute_resource_limits(request_limits) -> dict[str, Any]:
 
 
 def _resource_budget_error(exc: ResourceBudgetExceeded) -> dict[str, Any]:
+    error = exc.as_error()
+    availability = _resource_availability()
+    error["blocking_resources"] = [
+        name
+        for name in ("cpu_cores", "memory_mb", "gpu_count")
+        if int(error["requested"].get(name, 0)) > int(error["available"].get(name, 0))
+    ]
+    error["retry_condition"] = (
+        "Retry after one of the listed active jobs reaches a terminal state, or submit a request "
+        "that fits the reported available resources."
+        if exc.aggregate
+        else "Lower the request so every resource fits the fixed per-task budget."
+    )
     return {
         "status": "invalid_request",
         "valid": False,
-        "error": exc.as_error(),
+        "error": error,
         "evaluation_resource_budget": resource_budget_record(),
-        "resource_availability": _resource_availability(),
+        "resource_availability": availability,
     }
 
 
@@ -756,6 +770,9 @@ def validate_native_job(request: NativeJobRequest) -> dict[str, Any]:
                 ),
             },
             "invocation_guide": guide,
+            "documentation_recovery": software_documentation_recovery(
+                guide["software_id"], failed=True
+            ),
         }
     _validate_argument_paths(request.arguments)
     targets = {item.target_path for item in request.staged_inputs}
@@ -806,6 +823,9 @@ def validate_native_job(request: NativeJobRequest) -> dict[str, Any]:
         "evaluation_resource_budget": resource_budget_record(),
         "resource_availability": _resource_availability(),
         "invocation_guide": guide,
+        "documentation_recovery": software_documentation_recovery(
+            guide["software_id"]
+        ),
         "validation_boundary": (
             "Validation confirms the allowlisted executable, argv/path safety, staging map, "
             "stdin contract, mechanical resources, and any declared version-specific input-deck "
@@ -1081,6 +1101,113 @@ def _analysis_imports(tree: ast.AST) -> list[str]:
         elif isinstance(node, ast.ImportFrom) and node.module:
             names.add(node.module)
     return sorted(names)
+
+
+def _attribute_chain(node: ast.AST) -> list[str]:
+    values: list[str] = []
+    current = node
+    while isinstance(current, ast.Attribute):
+        values.append(current.attr)
+        current = current.value
+    if isinstance(current, ast.Name):
+        values.append(current.id)
+    return list(reversed(values))
+
+
+def _job_context_compliance(
+    tree: ast.AST, request: AnalysisJobRequest
+) -> dict[str, Any]:
+    imported = False
+    context_names: set[str] = set()
+    helper_calls: dict[str, set[str]] = {
+        "input": set(),
+        "output": set(),
+        "write_json": set(),
+        "register_output": set(),
+    }
+    bypass_findings: list[dict[str, Any]] = []
+    for node in ast.walk(tree):
+        if isinstance(node, ast.ImportFrom) and node.module == "researchchem_job":
+            imported = imported or any(alias.name == "JobContext" for alias in node.names)
+        if isinstance(node, ast.Assign) and isinstance(node.value, ast.Call):
+            chain = _attribute_chain(node.value.func)
+            if chain[-2:] == ["JobContext", "load"]:
+                context_names.update(
+                    target.id for target in node.targets if isinstance(target, ast.Name)
+                )
+        chain = _attribute_chain(node)
+        if (
+            len(chain) >= 3
+            and chain[0] in context_names
+            and chain[1] == "root"
+            and chain[2] in {"parent", "parents"}
+        ):
+            bypass_findings.append(
+                {
+                    "line": getattr(node, "lineno", None),
+                    "expression": ".".join(chain),
+                    "reason": "walks from the isolated job root toward the benchmark workspace",
+                }
+            )
+        if not isinstance(node, ast.Call) or not isinstance(node.func, ast.Attribute):
+            continue
+        call_chain = _attribute_chain(node.func)
+        if len(call_chain) != 2 or call_chain[0] not in context_names:
+            continue
+        helper = call_chain[1]
+        if helper not in helper_calls or not node.args:
+            continue
+        first = node.args[0]
+        if isinstance(first, ast.Constant) and isinstance(first.value, str):
+            helper_calls[helper].add(first.value)
+
+    declared_inputs = {item.name for item in request.inputs}
+    declared_outputs = {item.name for item in request.outputs}
+    used_outputs = (
+        helper_calls["output"]
+        | helper_calls["write_json"]
+        | helper_calls["register_output"]
+    )
+    missing_input_helpers = sorted(declared_inputs - helper_calls["input"])
+    missing_output_helpers = sorted(declared_outputs - used_outputs)
+    if not imported:
+        status = "not_adopted"
+    elif bypass_findings:
+        status = "bypassed"
+    elif not missing_input_helpers and not missing_output_helpers:
+        status = "compliant"
+    else:
+        status = "partial"
+    warnings = []
+    if status == "not_adopted":
+        warnings.append(
+            "Use JobContext.input/output helpers for declared paths to reduce isolated-job path errors."
+        )
+    if missing_input_helpers:
+        warnings.append(
+            f"Declared inputs not statically observed through JobContext.input: {missing_input_helpers}."
+        )
+    if missing_output_helpers:
+        warnings.append(
+            f"Declared outputs not statically observed through JobContext helpers: {missing_output_helpers}."
+        )
+    if bypass_findings:
+        warnings.append(
+            "JobContext was imported but code walks above ctx.root; this bypasses the declared path contract."
+        )
+    return {
+        "status": status,
+        "job_context_imported": imported,
+        "context_variables": sorted(context_names),
+        "helper_calls": {key: sorted(value) for key, value in helper_calls.items()},
+        "missing_input_helpers": missing_input_helpers,
+        "missing_output_helpers": missing_output_helpers,
+        "bypass_findings": bypass_findings,
+        "warnings": warnings,
+        "enforcement_boundary": (
+            "Static reliability audit only; ordinary Python file and library access is not blocked."
+        ),
+    }
 
 
 def _external_execution_findings(tree: ast.AST) -> list[dict[str, Any]]:
@@ -1539,6 +1666,7 @@ def validate_analysis_program(request: AnalysisJobRequest) -> dict[str, Any]:
             ],
         )
     _validate_argument_paths(request.arguments)
+    job_context_compliance = _job_context_compliance(tree, request)
     try:
         resources = _compute_resource_limits(request.resource_limits)
     except ResourceBudgetExceeded as exc:
@@ -1560,6 +1688,7 @@ def validate_analysis_program(request: AnalysisJobRequest) -> dict[str, Any]:
             "JobContext validates declared names and paths but cannot prevent direct open(), "
             "absolute paths, subprocesses, or other library access."
         ),
+        "job_context_compliance": job_context_compliance,
     }
     return {
         "status": "success",
@@ -1575,6 +1704,7 @@ def validate_analysis_program(request: AnalysisJobRequest) -> dict[str, Any]:
         "module_status": module_status,
         "module_details": module_details,
         "external_execution_findings": external_findings,
+        "job_context_compliance": job_context_compliance,
         "script_sha256": _sha256(script),
         "analysis_contract": contract,
         "resource_limits": resources,
@@ -1601,7 +1731,7 @@ def submit_analysis_program(request: AnalysisJobRequest) -> dict[str, Any]:
             for item in request.inputs
         ],
     ]
-    return _start_job(
+    submitted = _start_job(
         job_type="programmable_analysis",
         runtime=request.runtime,
         command=[str(python), request.script_target, *request.arguments],
@@ -1627,6 +1757,7 @@ def submit_analysis_program(request: AnalysisJobRequest) -> dict[str, Any]:
                 "external_execution_findings": validation[
                     "external_execution_findings"
                 ],
+                "job_context_compliance": validation["job_context_compliance"],
             },
             "security_boundary": (
                 "Subprocess/resource/workspace convention only; deploy MCP inside an OS container "
@@ -1634,6 +1765,8 @@ def submit_analysis_program(request: AnalysisJobRequest) -> dict[str, Any]:
             ),
         },
     )
+    submitted["job_context_compliance"] = validation["job_context_compliance"]
+    return submitted
 
 
 def _read_status(job_id: str) -> tuple[Path, dict[str, Any]]:
@@ -1925,9 +2058,11 @@ def _resource_availability() -> dict[str, Any]:
     budget = resource_budget_record()
     try:
         reserved = active_resource_usage()
+        active_jobs = active_resource_jobs()
         tracking = "workspace_reservations"
     except RuntimeError:
         reserved = {"cpu_cores": 0, "memory_mb": 0, "gpu_count": 0}
+        active_jobs = []
         tracking = "unavailable_without_workspace"
     available = {
         name: max(0, int(budget[name]) - int(reserved[name]))
@@ -1937,6 +2072,8 @@ def _resource_availability() -> dict[str, Any]:
         "budget": budget,
         "currently_reserved": reserved,
         "available": available,
+        "active_jobs": active_jobs,
+        "active_job_count": len(active_jobs),
         "reservation_tracking": tracking,
     }
 
@@ -2067,6 +2204,125 @@ def _validate_declared_output(path: Path, declaration: dict[str, Any]) -> list[s
     return errors
 
 
+def _first_present(mapping: dict[str, Any], names: tuple[str, ...]) -> Any:
+    for name in names:
+        if name in mapping:
+            return mapping[name]
+    return None
+
+
+def _validate_scientific_output(
+    path: Path, declaration: dict[str, Any]
+) -> dict[str, Any]:
+    semantic = str(declaration.get("semantic_type") or "").casefold()
+    checks: list[str] = []
+    errors: list[str] = []
+    if not any(token in semantic for token in ("hessian", "equationofstate", "equation_of_state", "eos")):
+        return {"status": "not_applicable", "checks": [], "errors": []}
+    try:
+        if path.suffix.casefold() == ".json" or declaration.get("media_type") == "application/json":
+            value = json.loads(path.read_text(encoding="utf-8"))
+            _reject_nonfinite(value)
+        else:
+            value = None
+
+        if "hessian" in semantic:
+            if not isinstance(value, dict) or not isinstance(value.get("matrix"), list):
+                raise ValueError("Hessian output requires a JSON object with a dense matrix")
+            matrix = value["matrix"]
+            dimension = len(matrix)
+            if dimension == 0 or any(not isinstance(row, list) or len(row) != dimension for row in matrix):
+                raise ValueError("Hessian matrix must be non-empty, square, and fully populated")
+            maximum_asymmetry = 0.0
+            for row in range(dimension):
+                for column in range(dimension):
+                    entry = float(matrix[row][column])
+                    if not math.isfinite(entry):
+                        raise ValueError(f"Hessian contains non-finite value at [{row}][{column}]")
+                    maximum_asymmetry = max(
+                        maximum_asymmetry,
+                        abs(entry - float(matrix[column][row])),
+                    )
+            if maximum_asymmetry > 1e-6:
+                raise ValueError(
+                    f"Hessian is not symmetric within 1e-6; maximum asymmetry={maximum_asymmetry:.6g}"
+                )
+            checks.extend(
+                [
+                    f"dense_square_dimension={dimension}",
+                    f"finite_value_count={dimension * dimension}",
+                    f"maximum_asymmetry={maximum_asymmetry:.6g}",
+                ]
+            )
+
+        if any(token in semantic for token in ("equationofstate", "equation_of_state", "eos")):
+            points: list[dict[str, Any]] = []
+            fit: dict[str, Any] | None = None
+            if isinstance(value, dict):
+                candidate = value.get("points") or value.get("data") or value.get("samples")
+                if isinstance(candidate, list):
+                    points = [item for item in candidate if isinstance(item, dict)]
+                fit_value = value.get("fit")
+                fit = fit_value if isinstance(fit_value, dict) else value
+            elif value is None:
+                delimiter = "\t" if path.suffix.casefold() == ".tsv" else ","
+                with path.open("r", encoding="utf-8", newline="") as handle:
+                    points = list(csv.DictReader(handle, delimiter=delimiter))
+            volumes = []
+            energies = []
+            for index, point in enumerate(points):
+                volume = _first_present(
+                    point, ("volume", "volume_ang3", "volume_a3", "volume_per_formula_unit")
+                )
+                energy = _first_present(
+                    point, ("energy", "energy_ev", "total_energy", "energy_per_formula_unit")
+                )
+                if volume is None or energy is None:
+                    raise ValueError(
+                        f"EOS point {index} lacks a recognized volume or energy field"
+                    )
+                volume_value = float(volume)
+                energy_value = float(energy)
+                if not math.isfinite(volume_value) or not math.isfinite(energy_value):
+                    raise ValueError(f"EOS point {index} contains a non-finite value")
+                volumes.append(volume_value)
+                energies.append(energy_value)
+            if len(points) < 4 or len(set(volumes)) < 4:
+                raise ValueError("EOS validation requires at least four unique volume-energy points")
+            checks.extend(
+                [
+                    f"volume_energy_point_count={len(points)}",
+                    f"unique_volume_count={len(set(volumes))}",
+                ]
+            )
+            if "result" in semantic:
+                fit_status = str(
+                    _first_present(fit or {}, ("status", "fit_status", "convergence_status"))
+                    or ""
+                ).casefold()
+                if fit_status not in {"success", "converged", "valid"}:
+                    raise ValueError("EOS result requires an explicit successful fit status")
+                residual = _first_present(
+                    fit or {}, ("rmse", "residual_rms", "max_abs_residual", "residual")
+                )
+                if residual is None or not math.isfinite(float(residual)):
+                    raise ValueError("EOS result requires one finite residual metric")
+                checks.extend(
+                    [f"fit_status={fit_status}", f"fit_residual={float(residual):.6g}"]
+                )
+    except Exception as exc:
+        errors.append(str(exc))
+    return {
+        "status": "valid" if not errors else "invalid",
+        "checks": checks,
+        "errors": errors,
+        "boundary": (
+            "This validates mechanical completeness and finite fit evidence only; scientific "
+            "model choice and conclusions remain the Judger's responsibility."
+        ),
+    }
+
+
 def _analysis_artifact_manifest(
     directory: Path,
     status: dict[str, Any],
@@ -2089,6 +2345,7 @@ def _analysis_artifact_manifest(
         path = directory.joinpath(*PurePosixPath(relative).parts)
         required = bool(declaration.get("required", True))
         validation_errors: list[str] = []
+        scientific_validation = {"status": "not_checked", "checks": [], "errors": []}
         if path.is_symlink() or not path.is_file():
             validation_status = "missing_required" if required else "missing_optional"
             if required:
@@ -2097,6 +2354,8 @@ def _analysis_artifact_manifest(
             if path.stat().st_size == 0:
                 validation_errors.append("file is empty")
             validation_errors.extend(_validate_declared_output(path, declaration))
+            scientific_validation = _validate_scientific_output(path, declaration)
+            validation_errors.extend(scientific_validation["errors"])
             validation_status = "valid" if not validation_errors else "invalid"
             if required and validation_errors:
                 required_failures += 1
@@ -2115,6 +2374,9 @@ def _analysis_artifact_manifest(
                 "validation_status": validation_status,
                 "validation_errors": validation_errors,
                 "runtime_registration": registrations.get(declaration["name"]),
+                "scientific_validation": (
+                    scientific_validation
+                ),
             }
         )
     if not declarations:

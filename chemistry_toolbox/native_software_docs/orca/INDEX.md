@@ -6,7 +6,7 @@ aliases: ["ORCA", "orca"]
 inputs: ["input.inp", "optional external XYZ", "basis", "point charges", "or restart files"]
 outputs: ["stdout.log", ".gbw", ".xyz", ".hess", ".densities", "property files"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # ORCA Native Software Guide
 
@@ -29,7 +29,7 @@ Execute a complete ORCA 6.1 input deck. The native layer is appropriate when the
 ## Supported command entries
 | Executable | Input mode | Native invocation | Required staged inputs |
 |---|---|---|---|
-| `orca` | `arguments` | `orca input.inp` | `input.inp`, `any geometry/basis files referenced by input.inp` |
+| `orca` | `arguments` | `orca input.inp` | `input.inp` |
 
 ## Supported task families
 - single point.

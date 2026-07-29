@@ -6,7 +6,7 @@ aliases: ["GROMACS", "gromacs"]
 inputs: ["mdp", "topology.top", "coordinates.gro", "optional index and checkpoint"]
 outputs: ["run.tpr", "run.log", "trajectory.xtc", "energy.edr", "final.gro", "checkpoint.cpt"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # GROMACS Native Software Guide
 
@@ -29,7 +29,7 @@ Invoke one explicit GROMACS subcommand against staged topology, coordinate, traj
 ## Supported command entries
 | Executable | Input mode | Native invocation | Required staged inputs |
 |---|---|---|---|
-| `gmx` | `arguments` | `gmx mdrun -deffnm production -nt 4` | `subcommand-specific input files` |
+| `gmx` | `arguments` | `gmx mdrun -deffnm production -nt 4` | None |
 
 ## Supported task families
 - energy minimization.

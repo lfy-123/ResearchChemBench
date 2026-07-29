@@ -6,7 +6,7 @@ aliases: ["CHARMM", "charmm"]
 inputs: ["input.inp", "topology files", "parameter files", "coordinates"]
 outputs: ["output.out", "restart files", "trajectories", "analysis tables"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # CHARMM Native Software Guide
 
@@ -29,7 +29,7 @@ Execute a complete CHARMM input script. The native layer is appropriate when the
 ## Supported command entries
 | Executable | Input mode | Native invocation | Required staged inputs |
 |---|---|---|---|
-| `charmm` | `arguments` | `charmm -i input.inp -o output.out` | `input.inp`, `referenced topology/parameter/coordinate files` |
+| `charmm` | `arguments` | `charmm -i input.inp -o output.out` | `input.inp` |
 
 ## Supported task families
 - energy evaluation.

@@ -6,7 +6,7 @@ aliases: ["MESMER", "mesmer"]
 inputs: ["input.xml"]
 outputs: ["output.xml", "console log", "rate tables", "optional grain and diagnostic files"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # MESMER Quickstart
 
@@ -25,6 +25,8 @@ The runner creates an isolated job directory and executes the resolved binary th
 ## Input mode
 The primary executable is `mesmer` and its input mode is `arguments`.
 Required inputs: `input.xml`.
+Expected outputs: `output.xml`.
+Example classification: `scientific_template`.
 Output behavior: Writes audit/result XML and text diagnostics.
 
 ## Native command template
@@ -47,10 +49,6 @@ Run that command only inside a directory containing the exact referenced files. 
     {
       "source_path": "workspace_inputs/input.xml",
       "target_path": "input.xml"
-    },
-    {
-      "source_path": "workspace_inputs/output.xml",
-      "target_path": "output.xml"
     }
   ],
   "resource_limits": {

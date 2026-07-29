@@ -6,7 +6,7 @@ aliases: ["Critic2", "critic2"]
 inputs: ["input.cri", "structure file", "density or wavefunction field"]
 outputs: ["stdout.log", "critical-point tables", "basin integrations", "optional grids"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Critic2 Native Software Guide
 
@@ -29,7 +29,7 @@ Run Critic2 topology and field analysis from an Agent-authored native input. The
 ## Supported command entries
 | Executable | Input mode | Native invocation | Required staged inputs |
 |---|---|---|---|
-| `critic2` | `arguments` | `critic2 input.cri` | `input.cri`, `field/structure files referenced by input.cri` |
+| `critic2` | `arguments` | `critic2 input.cri` | `input.cri` |
 
 ## Supported task families
 - critical-point search.

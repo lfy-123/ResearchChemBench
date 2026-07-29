@@ -6,7 +6,7 @@ aliases: ["SIESTA", "siesta"]
 inputs: ["input.fdf", "pseudopotential files", "optional included structure and basis files"]
 outputs: ["stdout.log", ".XV", ".DM", ".WFSX", ".bands", ".DOS and trajectory files"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # SIESTA Quickstart
 
@@ -24,7 +24,9 @@ The runner creates an isolated job directory and executes the resolved binary th
 
 ## Input mode
 The primary executable is `siesta` and its input mode is `stdin_file`.
-Required inputs: `input.fdf`, `pseudopotentials and structure files referenced by it`.
+Required inputs: `input.fdf`.
+Expected outputs: stdout/stderr or task-dependent outputs only.
+Example classification: `scientific_template`.
 Output behavior: Writes primary output to stdout and SIESTA result/restart files in the job directory.
 
 ## Native command template

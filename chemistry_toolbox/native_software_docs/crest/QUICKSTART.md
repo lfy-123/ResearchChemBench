@@ -6,7 +6,7 @@ aliases: ["CREST", "crest"]
 inputs: ["input.xyz"]
 outputs: ["crest_conformers.xyz", "crest.energies", "protonated.xyz", "deprotonated.xyz", "tautomers.xyz"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # CREST Quickstart
 
@@ -25,6 +25,8 @@ The runner creates an isolated job directory and executes the resolved binary th
 ## Input mode
 The primary executable is `crest` and its input mode is `arguments`.
 Required inputs: `input.xyz`.
+Expected outputs: stdout/stderr or task-dependent outputs only.
+Example classification: `scientific_template`.
 Output behavior: Writes CREST result files such as crest_conformers.xyz in the job directory.
 
 ## Native command template
@@ -51,7 +53,7 @@ Run that command only inside a directory containing the exact referenced files. 
     }
   ],
   "resource_limits": {
-    "cpu_cores": 1,
+    "cpu_cores": 4,
     "memory_mb": 2048,
     "gpu_count": 0
   }

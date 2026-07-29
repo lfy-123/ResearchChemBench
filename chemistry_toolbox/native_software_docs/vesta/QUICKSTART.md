@@ -6,7 +6,7 @@ aliases: ["VESTA", "vesta"]
 inputs: ["CIF", "POSCAR", "cube", "density", "or VESTA project file"]
 outputs: ["interactive session", "images", "converted structures", "VESTA project"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # VESTA Quickstart
 
@@ -24,7 +24,9 @@ The runner creates an isolated job directory and executes the resolved binary th
 
 ## Input mode
 The primary executable is `VESTA` and its input mode is `arguments`.
-Required inputs: `supported crystal`, `density`, `or project file`.
+Required inputs: `density`, `structure.cif`.
+Expected outputs: stdout/stderr or task-dependent outputs only.
+Example classification: `scientific_template`.
 Output behavior: Starts VESTA and writes only outputs explicitly requested through its supported interface.
 
 ## Native command template

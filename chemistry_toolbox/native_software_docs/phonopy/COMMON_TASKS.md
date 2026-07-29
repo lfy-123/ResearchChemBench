@@ -6,7 +6,7 @@ aliases: ["Phonopy", "phonopy"]
 inputs: ["unit cell", "displacement YAML", "force data", "optional Born charges"]
 outputs: ["supercells", "phonopy_disp.yaml", "FORCE_SETS", "force_constants.hdf5", "band and DOS YAML"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Phonopy Common Tasks
 
@@ -62,6 +62,8 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 ## Command: `phonopy`
 - Synopsis: `phonopy [mode/options] [configuration files]`.
 - Input mode: `arguments`.
-- Required files: `mode-specific structure`, `force`, `or configuration files`.
+- Declared example inputs: `force`.
+- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes displacement, force-constant, band, DOS, thermal, or other selected outputs.
 - Caution: Calculator interface, supercell matrix, displacement settings, force data, mesh/path, and non-analytical corrections must be explicit.

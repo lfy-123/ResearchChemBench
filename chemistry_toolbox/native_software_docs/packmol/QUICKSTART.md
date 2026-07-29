@@ -6,7 +6,7 @@ aliases: ["Packmol", "packmol"]
 inputs: ["packmol.inp", "one coordinate template per structure block"]
 outputs: ["packed.xyz or another requested output", "stdout.log"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Packmol Quickstart
 
@@ -24,7 +24,9 @@ The runner creates an isolated job directory and executes the resolved binary th
 
 ## Input mode
 The primary executable is `packmol` and its input mode is `stdin_file`.
-Required inputs: `packmol.inp`, `all structure files referenced by packmol.inp`.
+Required inputs: `packmol.inp`.
+Expected outputs: stdout/stderr or task-dependent outputs only.
+Example classification: `scientific_template`.
 Output behavior: Writes the output filename declared inside packmol.inp and progress to stdout.
 
 ## Native command template

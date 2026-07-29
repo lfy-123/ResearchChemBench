@@ -6,7 +6,7 @@ aliases: ["NAMD", "namd"]
 inputs: ["input.conf", "PSF", "coordinates", "parameter files", "optional restart files"]
 outputs: ["stdout.log", "trajectory.dcd", "restart coordinates and velocities", "extended-system file"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # NAMD Quickstart
 
@@ -24,7 +24,9 @@ The runner creates an isolated job directory and executes the resolved binary th
 
 ## Input mode
 The primary executable is `namd3` and its input mode is `arguments`.
-Required inputs: `input.conf`, `topology`, `coordinates`, `parameters`, `and restart files referenced by it`.
+Required inputs: `input.conf`, `topology`, `coordinates`, `parameters`.
+Expected outputs: stdout/stderr or task-dependent outputs only.
+Example classification: `scientific_template`.
 Output behavior: Writes simulation log to stdout and trajectory/restart files selected in input.conf.
 
 ## Native command template
@@ -61,7 +63,7 @@ Run that command only inside a directory containing the exact referenced files. 
     }
   ],
   "resource_limits": {
-    "cpu_cores": 1,
+    "cpu_cores": 4,
     "memory_mb": 2048,
     "gpu_count": 0
   }

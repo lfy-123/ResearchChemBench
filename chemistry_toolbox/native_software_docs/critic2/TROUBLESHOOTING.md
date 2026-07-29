@@ -6,7 +6,7 @@ aliases: ["Critic2", "critic2"]
 inputs: ["input.cri", "structure file", "density or wavefunction field"]
 outputs: ["stdout.log", "critical-point tables", "basin integrations", "optional grids"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Critic2 Troubleshooting
 

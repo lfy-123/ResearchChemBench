@@ -6,7 +6,7 @@ aliases: ["pysisyphus", "pysisyphus"]
 inputs: ["config.yaml", "referenced geometry and calculator files"]
 outputs: ["optimization log", "trajectory", "final geometry", "Hessian or path files"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # pysisyphus Quickstart
 
@@ -24,7 +24,9 @@ The runner creates an isolated job directory and executes the resolved binary th
 
 ## Input mode
 The primary executable is `pysis` and its input mode is `arguments`.
-Required inputs: `config.yaml`, `every structure or auxiliary file referenced inside config.yaml`.
+Required inputs: `config.yaml`.
+Expected outputs: stdout/stderr or task-dependent outputs only.
+Example classification: `scientific_template`.
 Output behavior: Writes optimization, pathway, or dynamics outputs selected by config.yaml.
 
 ## Native command template

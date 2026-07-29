@@ -6,7 +6,7 @@ aliases: ["CREST", "crest"]
 inputs: ["input.xyz"]
 outputs: ["crest_conformers.xyz", "crest.energies", "protonated.xyz", "deprotonated.xyz", "tautomers.xyz"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # CREST Common Tasks
 
@@ -58,6 +58,8 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 ## Command: `crest`
 - Synopsis: `crest input.xyz --gfn2 --T <threads> [sampling options]`.
 - Input mode: `arguments`.
-- Required files: `input.xyz`.
+- Declared example inputs: `input.xyz`.
+- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Example resources: `{'cpu_cores': 4, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes CREST result files such as crest_conformers.xyz in the job directory.
 - Caution: Charge, spin, solvent, energy method, and sampling controls must be supplied explicitly when scientifically required.

@@ -1,12 +1,12 @@
 ---
 software_id: openmolcas
-versions: ["25.1"]
+versions: ["25.10"]
 topics: ["quickstart", "staging", "submission", "resources"]
 aliases: ["OpenMolcas", "openmolcas"]
 inputs: ["input.inp"]
 outputs: ["stdout.log", "HDF5 and orbital files", "geometry and property files"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # OpenMolcas Quickstart
 
@@ -25,6 +25,8 @@ The runner creates an isolated job directory and executes the resolved binary th
 ## Input mode
 The primary executable is `pymolcas` and its input mode is `arguments`.
 Required inputs: `input.inp`.
+Expected outputs: stdout/stderr or task-dependent outputs only.
+Example classification: `scientific_template`.
 Output behavior: Writes a log and module-specific files in the job directory.
 
 ## Native command template

@@ -6,7 +6,7 @@ aliases: ["GROMACS", "gromacs"]
 inputs: ["mdp", "topology.top", "coordinates.gro", "optional index and checkpoint"]
 outputs: ["run.tpr", "run.log", "trajectory.xtc", "energy.edr", "final.gro", "checkpoint.cpt"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # GROMACS Quickstart
 
@@ -24,7 +24,9 @@ The runner creates an isolated job directory and executes the resolved binary th
 
 ## Input mode
 The primary executable is `gmx` and its input mode is `arguments`.
-Required inputs: `subcommand-specific input files`.
+Required inputs: no fixed file is declared for this command.
+Expected outputs: stdout/stderr or task-dependent outputs only.
+Example classification: `interface_template`.
 Output behavior: Determined by the selected GROMACS subcommand; stdout and stderr are captured.
 
 ## Native command template
@@ -47,7 +49,7 @@ Run that command only inside a directory containing the exact referenced files. 
   ],
   "staged_inputs": [],
   "resource_limits": {
-    "cpu_cores": 1,
+    "cpu_cores": 4,
     "memory_mb": 2048,
     "gpu_count": 0
   }

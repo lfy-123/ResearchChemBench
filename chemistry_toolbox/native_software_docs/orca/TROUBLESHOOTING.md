@@ -6,7 +6,7 @@ aliases: ["ORCA", "orca"]
 inputs: ["input.inp", "optional external XYZ", "basis", "point charges", "or restart files"]
 outputs: ["stdout.log", ".gbw", ".xyz", ".hess", ".densities", "property files"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # ORCA Troubleshooting
 

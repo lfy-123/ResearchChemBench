@@ -6,7 +6,7 @@ aliases: ["Quantum ESPRESSO pw.x", "quantum espresso"]
 inputs: ["input.in", "one pseudopotential per species"]
 outputs: ["stdout.log", "prefix.save database", "charge density", "wavefunctions", "relaxed structure"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Quantum ESPRESSO pw.x Common Tasks
 
@@ -60,6 +60,8 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 ## Command: `pw.x`
 - Synopsis: `pw.x -in input.in`.
 - Input mode: `arguments`.
-- Required files: `input.in`, `pseudopotentials referenced by input.in`.
+- Declared example inputs: `input.in`.
+- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes the main output to stdout and save/restart data under outdir.
 - Caution: Calculation type, structure, pseudopotentials, cutoffs, k-points, occupations, convergence, and outdir must be explicit.

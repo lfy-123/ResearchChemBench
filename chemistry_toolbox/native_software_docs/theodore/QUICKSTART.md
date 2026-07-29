@@ -6,7 +6,7 @@ aliases: ["TheoDORE", "theodore"]
 inputs: ["dens_ana.in or subcommand input", "excited-state output", "orbital and density files"]
 outputs: ["summary tables", "charge-transfer matrices", "NTO files", "spectra and plots"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # TheoDORE Quickstart
 
@@ -24,7 +24,9 @@ The runner creates an isolated job directory and executes the resolved binary th
 
 ## Input mode
 The primary executable is `theodore` and its input mode is `arguments`.
-Required inputs: `subcommand-specific excited-state`, `orbital`, `or density files`.
+Required inputs: `orbital`, `dens_ana.in`.
+Expected outputs: stdout/stderr or task-dependent outputs only.
+Example classification: `scientific_template`.
 Output behavior: Writes state-character tables, charge-transfer metrics, plots, and requested analysis files.
 
 ## Native command template

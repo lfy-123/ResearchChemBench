@@ -6,7 +6,7 @@ aliases: ["NAMD", "namd"]
 inputs: ["input.conf", "PSF", "coordinates", "parameter files", "optional restart files"]
 outputs: ["stdout.log", "trajectory.dcd", "restart coordinates and velocities", "extended-system file"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # NAMD Troubleshooting
 

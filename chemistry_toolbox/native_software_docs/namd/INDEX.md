@@ -6,7 +6,7 @@ aliases: ["NAMD", "namd"]
 inputs: ["input.conf", "PSF", "coordinates", "parameter files", "optional restart files"]
 outputs: ["stdout.log", "trajectory.dcd", "restart coordinates and velocities", "extended-system file"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # NAMD Native Software Guide
 
@@ -29,7 +29,7 @@ Execute a complete NAMD configuration. The native layer is appropriate when the 
 ## Supported command entries
 | Executable | Input mode | Native invocation | Required staged inputs |
 |---|---|---|---|
-| `namd3` | `arguments` | `namd3 +p4 input.conf` | `input.conf`, `topology`, `coordinates`, `parameters`, `and restart files referenced by it` |
+| `namd3` | `arguments` | `namd3 +p4 input.conf` | `input.conf`, `topology`, `coordinates`, `parameters` |
 
 ## Supported task families
 - minimization.

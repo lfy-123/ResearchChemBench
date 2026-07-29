@@ -6,7 +6,7 @@ aliases: ["Packmol", "packmol"]
 inputs: ["packmol.inp", "one coordinate template per structure block"]
 outputs: ["packed.xyz or another requested output", "stdout.log"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Packmol Native Software Guide
 
@@ -29,7 +29,7 @@ Pack molecules into an Agent-defined simulation cell from a native Packmol input
 ## Supported command entries
 | Executable | Input mode | Native invocation | Required staged inputs |
 |---|---|---|---|
-| `packmol` | `stdin_file` | `packmol` | `packmol.inp`, `all structure files referenced by packmol.inp` |
+| `packmol` | `stdin_file` | `packmol` | `packmol.inp` |
 
 ## Supported task families
 - solvent boxes.

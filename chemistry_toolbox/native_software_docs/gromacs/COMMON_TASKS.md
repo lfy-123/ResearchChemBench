@@ -6,7 +6,7 @@ aliases: ["GROMACS", "gromacs"]
 inputs: ["mdp", "topology.top", "coordinates.gro", "optional index and checkpoint"]
 outputs: ["run.tpr", "run.log", "trajectory.xtc", "energy.edr", "final.gro", "checkpoint.cpt"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # GROMACS Common Tasks
 
@@ -63,7 +63,9 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 ## Command: `gmx`
 - Synopsis: `gmx <subcommand> [subcommand options]`.
 - Input mode: `arguments`.
-- Required files: `subcommand-specific input files`.
+- Declared example inputs: none declared.
+- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Example resources: `{'cpu_cores': 4, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Determined by the selected GROMACS subcommand; stdout and stderr are captured.
 - Caution: The first argument must be explicit, for example grompp, mdrun, energy, rms, rdf, or trjconv.
 - Caution: Interactive group selections should be supplied through an explicit stdin_file.

@@ -6,7 +6,7 @@ aliases: ["Yambo", "yambo"]
 inputs: ["compatible upstream save database", "SAVE directory", "input.in", "optional restart databases"]
 outputs: ["SAVE database", "report", "output data files", "restart databases"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Yambo Quickstart
 
@@ -24,7 +24,9 @@ The runner creates an isolated job directory and executes the resolved binary th
 
 ## Input mode
 The primary executable is `p2y` and its input mode is `arguments`.
-Required inputs: `compatible upstream electronic-structure save database`.
+Required inputs: no fixed file is declared for this command.
+Expected outputs: stdout/stderr or task-dependent outputs only.
+Example classification: `interface_template`.
 Output behavior: Creates the Yambo SAVE database and conversion log.
 
 ## Native command template

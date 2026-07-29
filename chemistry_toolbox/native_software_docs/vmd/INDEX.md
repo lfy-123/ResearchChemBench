@@ -6,7 +6,7 @@ aliases: ["VMD", "vmd"]
 inputs: ["analysis.tcl", "referenced structures and trajectories"]
 outputs: ["stdout.log", "user-defined tables", "structures", "images when rendering is configured"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # VMD Native Software Guide
 
@@ -29,7 +29,7 @@ Run an Agent-authored VMD/Tcl trajectory, structure, selection, measurement, or 
 ## Supported command entries
 | Executable | Input mode | Native invocation | Required staged inputs |
 |---|---|---|---|
-| `vmd` | `arguments` | `vmd -dispdev text -e analysis.tcl` | `analysis.tcl and referenced structures/trajectories` |
+| `vmd` | `arguments` | `vmd -dispdev text -e analysis.tcl` | `analysis.tcl` |
 
 ## Supported task families
 - structure inspection.

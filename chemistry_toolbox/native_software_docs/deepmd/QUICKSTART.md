@@ -6,7 +6,7 @@ aliases: ["DeePMD-kit", "deepmd"]
 inputs: ["training JSON or YAML", "DeepMD dataset", "optional checkpoint or frozen model"]
 outputs: ["training logs", "checkpoints", "frozen model", "test metrics"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # DeePMD-kit Quickstart
 
@@ -24,7 +24,9 @@ The runner creates an isolated job directory and executes the resolved binary th
 
 ## Input mode
 The primary executable is `dp` and its input mode is `arguments`.
-Required inputs: `subcommand-specific Agent-authored input and data files`.
+Required inputs: `model.pb`.
+Expected outputs: stdout/stderr or task-dependent outputs only.
+Example classification: `scientific_template`.
 Output behavior: Subcommand-specific outputs are written in the job directory; stdout and stderr are captured.
 
 ## Native command template

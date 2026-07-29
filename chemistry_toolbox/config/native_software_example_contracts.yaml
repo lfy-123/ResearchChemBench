@@ -1,0 +1,1206 @@
+schema_version: 1
+policy:
+  source_of_truth: explicit_native_manual_example_contracts
+  argument_file_role_inference: false
+software:
+  openbabel:
+    commands:
+      obabel:
+        enabled: true
+        example_kind: scientific_template
+        arguments:
+        - -ixyz
+        - input.xyz
+        - -osdf
+        - -O
+        - output.sdf
+        inputs:
+        - input.xyz
+        outputs:
+        - output.sdf
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+  crest:
+    commands:
+      crest:
+        enabled: true
+        example_kind: scientific_template
+        arguments:
+        - input.xyz
+        - --gfn2
+        - --T
+        - '4'
+        inputs:
+        - input.xyz
+        outputs: []
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 4
+          memory_mb: 2048
+          gpu_count: 0
+  pdb_tools:
+    commands:
+      pdb_selchain:
+        enabled: true
+        example_kind: scientific_template
+        arguments:
+        - -A
+        - input.pdb
+        inputs:
+        - input.pdb
+        outputs: []
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+      pdb_reres:
+        enabled: true
+        example_kind: scientific_template
+        arguments:
+        - '-1'
+        - input.pdb
+        inputs:
+        - input.pdb
+        outputs: []
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+      pdb_tidy:
+        enabled: true
+        example_kind: scientific_template
+        arguments:
+        - input.pdb
+        inputs:
+        - input.pdb
+        outputs: []
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+  openff_am1bcc:
+    commands:
+      antechamber:
+        enabled: true
+        example_kind: scientific_template
+        arguments:
+        - -i
+        - input.mol2
+        - -fi
+        - mol2
+        - -o
+        - charged.mol2
+        - -fo
+        - mol2
+        - -c
+        - bcc
+        - -nc
+        - '0'
+        inputs:
+        - input.mol2
+        outputs:
+        - charged.mol2
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+      sqm:
+        enabled: true
+        example_kind: scientific_template
+        arguments:
+        - -O
+        - -i
+        - sqm.in
+        - -o
+        - sqm.out
+        inputs:
+        - sqm.in
+        outputs:
+        - sqm.out
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+  packmol:
+    commands:
+      packmol:
+        enabled: true
+        example_kind: scientific_template
+        arguments: []
+        inputs:
+        - packmol.inp
+        outputs: []
+        stdin_target: packmol.inp
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+  xtb:
+    commands:
+      xtb:
+        enabled: true
+        example_kind: scientific_template
+        arguments:
+        - structure.xyz
+        - --gfn
+        - '2'
+        - --sp
+        - --chrg
+        - '0'
+        - --uhf
+        - '0'
+        inputs:
+        - structure.xyz
+        outputs: []
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+  gpaw:
+    commands:
+      gpaw:
+        enabled: true
+        example_kind: scientific_template
+        arguments:
+        - python
+        - program.py
+        inputs:
+        - program.py
+        outputs: []
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+  lobster:
+    commands:
+      lobster-5.1.0:
+        enabled: true
+        example_kind: scientific_template
+        arguments: []
+        inputs:
+        - lobsterin
+        - POSCAR
+        - POTCAR
+        - WAVECAR
+        - CONTCAR
+        - KPOINTS
+        - OUTCAR
+        - vasprun.xml
+        outputs: []
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+  nwchem:
+    commands:
+      nwchem:
+        enabled: true
+        example_kind: scientific_template
+        arguments:
+        - input.nw
+        inputs:
+        - input.nw
+        outputs: []
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+  openmolcas:
+    commands:
+      pymolcas:
+        enabled: true
+        example_kind: scientific_template
+        arguments:
+        - input.inp
+        inputs:
+        - input.inp
+        outputs: []
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+  multiwfn:
+    commands:
+      Multiwfn_noGUI:
+        enabled: true
+        example_kind: scientific_template
+        arguments:
+        - wavefunction.fchk
+        inputs:
+        - commands.txt
+        - wavefunction.fchk
+        outputs: []
+        stdin_target: wavefunction.fchk
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+  critic2:
+    commands:
+      critic2:
+        enabled: true
+        example_kind: scientific_template
+        arguments:
+        - input.cri
+        inputs:
+        - input.cri
+        outputs: []
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+  psi4:
+    commands:
+      psi4:
+        enabled: true
+        example_kind: scientific_template
+        arguments:
+        - input.dat
+        - output.dat
+        - -n
+        - '4'
+        inputs:
+        - input.dat
+        outputs:
+        - output.dat
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 4
+          memory_mb: 2048
+          gpu_count: 0
+  deepmd:
+    commands:
+      dp:
+        enabled: true
+        example_kind: scientific_template
+        arguments:
+        - test
+        - -m
+        - model.pb
+        - -s
+        - test_data
+        inputs:
+        - model.pb
+        outputs: []
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+  nequip:
+    commands:
+      nequip-train:
+        enabled: true
+        example_kind: scientific_template
+        arguments:
+        - -cn
+        - config
+        inputs:
+        - config.yaml
+        outputs: []
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+  orca:
+    commands:
+      orca:
+        enabled: true
+        example_kind: scientific_template
+        arguments:
+        - input.inp
+        inputs:
+        - input.inp
+        outputs: []
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+  gaussian:
+    commands:
+      g16:
+        enabled: true
+        example_kind: scientific_template
+        arguments: []
+        inputs:
+        - input.com
+        outputs: []
+        stdin_target: input.com
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+      formchk:
+        enabled: true
+        example_kind: scientific_template
+        arguments:
+        - input.chk
+        - output.fchk
+        inputs:
+        - input.chk
+        - output.fchk
+        outputs: []
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+  gamess:
+    commands:
+      rungms:
+        enabled: true
+        example_kind: scientific_template
+        arguments:
+        - water
+        - '00'
+        - '4'
+        inputs:
+        - job_name.inp
+        outputs: []
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 4
+          memory_mb: 2048
+          gpu_count: 0
+  goodvibes:
+    commands:
+      goodvibes:
+        enabled: true
+        example_kind: scientific_template
+        arguments:
+        - output.log
+        - --temp
+        - '298.15'
+        - --conc
+        - '1.0'
+        - --qs
+        - grimme
+        - --qh
+        - --fs
+        - '100'
+        - --fh
+        - '100'
+        - -v
+        - '0.99'
+        - --zpe-vscal
+        - '0.98'
+        - --json
+        - result.json
+        inputs:
+        - NWChem
+        - xTB
+        - output.log
+        - result.json
+        outputs: []
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+  pysisyphus:
+    commands:
+      pysis:
+        enabled: true
+        example_kind: scientific_template
+        arguments:
+        - config.yaml
+        inputs:
+        - config.yaml
+        outputs: []
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+  rmg:
+    commands:
+      rmg.py:
+        enabled: true
+        example_kind: scientific_template
+        arguments:
+        - input.py
+        inputs:
+        - input.py
+        outputs: []
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+  mess:
+    commands:
+      mess:
+        enabled: true
+        example_kind: scientific_template
+        arguments:
+        - input.inp
+        inputs:
+        - input.inp
+        outputs: []
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+  mesmer:
+    commands:
+      mesmer:
+        enabled: true
+        example_kind: scientific_template
+        arguments:
+        - input.xml
+        - -o
+        - output.xml
+        inputs:
+        - input.xml
+        outputs:
+        - output.xml
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+  gromacs:
+    commands:
+      gmx:
+        enabled: true
+        example_kind: interface_template
+        arguments:
+        - mdrun
+        - -deffnm
+        - production
+        - -nt
+        - '4'
+        inputs: []
+        outputs: []
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 4
+          memory_mb: 2048
+          gpu_count: 0
+  lammps:
+    commands:
+      lmp:
+        enabled: true
+        example_kind: scientific_template
+        arguments:
+        - -in
+        - input.lammps
+        inputs:
+        - input.lammps
+        outputs: []
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+  namd:
+    commands:
+      namd3:
+        enabled: true
+        example_kind: scientific_template
+        arguments:
+        - +p4
+        - input.conf
+        inputs:
+        - input.conf
+        - topology
+        - coordinates
+        - parameters
+        outputs: []
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 4
+          memory_mb: 2048
+          gpu_count: 0
+  amber_pmemd:
+    commands:
+      pmemd:
+        enabled: true
+        example_kind: scientific_template
+        arguments:
+        - -O
+        - -i
+        - mdin
+        - -o
+        - mdout
+        - -p
+        - topology.prmtop
+        - -c
+        - input.rst7
+        - -r
+        - output.rst7
+        - -x
+        - trajectory.nc
+        inputs:
+        - mdin
+        - topology.prmtop
+        - input.rst7
+        outputs:
+        - mdout
+        - output.rst7
+        - trajectory.nc
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+      pmemd.MPI:
+        enabled: true
+        example_kind: scientific_template
+        arguments:
+        - -O
+        - -i
+        - mdin
+        - -o
+        - mdout
+        - -p
+        - topology.prmtop
+        - -c
+        - input.rst7
+        - -r
+        - output.rst7
+        - -x
+        - trajectory.nc
+        inputs:
+        - mdin
+        - topology.prmtop
+        - input.rst7
+        outputs:
+        - mdout
+        - output.rst7
+        - trajectory.nc
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+      mpirun:
+        enabled: false
+        example_kind: disabled
+        arguments: []
+        inputs: []
+        outputs: []
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+  charmm:
+    commands:
+      charmm:
+        enabled: true
+        example_kind: scientific_template
+        arguments:
+        - -i
+        - input.inp
+        - -o
+        - output.out
+        inputs:
+        - input.inp
+        outputs:
+        - output.out
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+  plumed:
+    commands:
+      plumed:
+        enabled: true
+        example_kind: scientific_template
+        arguments:
+        - driver
+        - --plumed
+        - plumed.dat
+        - --mf_xtc
+        - trajectory.xtc
+        inputs:
+        - plumed.dat
+        - trajectory.xtc
+        outputs: []
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+  quantum_espresso:
+    commands:
+      pw.x:
+        enabled: true
+        example_kind: scientific_template
+        arguments:
+        - -in
+        - input.in
+        inputs:
+        - input.in
+        outputs: []
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+  cp2k:
+    commands:
+      cp2k:
+        enabled: true
+        example_kind: scientific_template
+        arguments:
+        - -i
+        - input.inp
+        - -o
+        - output.out
+        inputs:
+        - input.inp
+        outputs:
+        - output.out
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+  siesta:
+    commands:
+      siesta:
+        enabled: true
+        example_kind: scientific_template
+        arguments: []
+        inputs:
+        - input.fdf
+        outputs: []
+        stdin_target: input.fdf
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+  dftbplus:
+    commands:
+      dftb+:
+        enabled: true
+        example_kind: scientific_template
+        arguments: []
+        inputs:
+        - dftb_in.hsd
+        outputs: []
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+  abinit:
+    commands:
+      abinit:
+        enabled: true
+        example_kind: scientific_template
+        arguments:
+        - input.abi
+        inputs:
+        - input.abi
+        outputs: []
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+  vasp:
+    commands:
+      vasp_std:
+        enabled: true
+        example_kind: scientific_template
+        arguments: []
+        inputs:
+        - INCAR
+        - POSCAR
+        - POTCAR
+        - KPOINTS
+        outputs: []
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+  phonopy:
+    commands:
+      phonopy:
+        enabled: true
+        example_kind: scientific_template
+        arguments:
+        - --dim
+        - 2 2 2
+        - -d
+        - --vasp
+        - POSCAR
+        inputs:
+        - force
+        outputs: []
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+  phono3py:
+    commands:
+      phono3py:
+        enabled: true
+        example_kind: scientific_template
+        arguments:
+        - --dim
+        - 2 2 2
+        - -d
+        - --pa
+        - auto
+        - POSCAR
+        inputs:
+        - displacement
+        - force
+        outputs: []
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+  shengbte:
+    commands:
+      ShengBTE:
+        enabled: true
+        example_kind: scientific_template
+        arguments: []
+        inputs:
+        - CONTROL
+        - FORCE_CONSTANTS_2ND
+        - FORCE_CONSTANTS_3RD
+        outputs: []
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+  vina:
+    commands:
+      vina:
+        enabled: true
+        example_kind: scientific_template
+        arguments:
+        - --receptor
+        - receptor.pdbqt
+        - --ligand
+        - ligand.pdbqt
+        - --center_x
+        - '0'
+        - --center_y
+        - '0'
+        - --center_z
+        - '0'
+        - --size_x
+        - '20'
+        - --size_y
+        - '20'
+        - --size_z
+        - '20'
+        - --out
+        - poses.pdbqt
+        - --exhaustiveness
+        - '8'
+        inputs:
+        - receptor.pdbqt
+        - ligand.pdbqt
+        outputs:
+        - poses.pdbqt
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+  gnina:
+    commands:
+      gnina:
+        enabled: true
+        example_kind: scientific_template
+        arguments:
+        - -r
+        - receptor.pdbqt
+        - -l
+        - ligand.sdf
+        - --center_x
+        - '0'
+        - --center_y
+        - '0'
+        - --center_z
+        - '0'
+        - --size_x
+        - '20'
+        - --size_y
+        - '20'
+        - --size_z
+        - '20'
+        - -o
+        - poses.sdf
+        inputs:
+        - ligand.sdf
+        outputs:
+        - receptor.pdbqt
+        - poses.sdf
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+  qcengine:
+    commands:
+      qcengine:
+        enabled: true
+        example_kind: scientific_template
+        arguments:
+        - run
+        - <program>
+        - input.json
+        inputs:
+        - input.json
+        outputs: []
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+  aiida:
+    commands:
+      verdi:
+        enabled: true
+        example_kind: interface_template
+        arguments:
+        - status
+        inputs: []
+        outputs: []
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+  censo:
+    commands:
+      censo:
+        enabled: true
+        example_kind: scientific_template
+        arguments:
+        - -i
+        - conformers.xyz
+        inputs:
+        - conformers.xyz
+        outputs: []
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+  geometric:
+    commands:
+      geometric-optimize:
+        enabled: true
+        example_kind: scientific_template
+        arguments:
+        - input.xyz
+        - --engine
+        - <engine>
+        inputs:
+        - input.xyz
+        outputs: []
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+  wannier90:
+    commands:
+      wannier90.x:
+        enabled: true
+        example_kind: interface_template
+        arguments:
+        - -pp
+        - seedname
+        inputs: []
+        outputs: []
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+  arkane:
+    commands:
+      Arkane.py:
+        enabled: true
+        example_kind: scientific_template
+        arguments:
+        - input.py
+        inputs:
+        - input.py
+        outputs: []
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+  automekin:
+    commands:
+      amk.sh:
+        enabled: true
+        example_kind: scientific_template
+        arguments:
+        - input.dat
+        inputs:
+        - input.dat
+        outputs: []
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+      mopac:
+        enabled: true
+        example_kind: scientific_template
+        arguments:
+        - input.mop
+        inputs:
+        - input.mop
+        outputs: []
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+      bbfs.exe:
+        enabled: true
+        example_kind: interface_template
+        arguments: []
+        inputs: []
+        outputs: []
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+  kinbot:
+    commands:
+      kinbot:
+        enabled: true
+        example_kind: scientific_template
+        arguments:
+        - input.json
+        inputs:
+        - input.json
+        outputs: []
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+      pes:
+        enabled: true
+        example_kind: scientific_template
+        arguments:
+        - input.json
+        inputs:
+        - input.json
+        outputs: []
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+  sharc:
+    commands:
+      sharc.x:
+        enabled: true
+        example_kind: interface_template
+        arguments:
+        - input
+        inputs: []
+        outputs: []
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+      wfoverlap.x:
+        enabled: true
+        example_kind: interface_template
+        arguments: []
+        inputs: []
+        outputs: []
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+  newton_x:
+    commands:
+      nx_geninp:
+        enabled: true
+        example_kind: interface_template
+        arguments: []
+        inputs: []
+        outputs: []
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+      nx_moldyn:
+        enabled: true
+        example_kind: interface_template
+        arguments: []
+        inputs: []
+        outputs: []
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+      nx_test:
+        enabled: true
+        example_kind: interface_template
+        arguments:
+        - '1'
+        inputs: []
+        outputs: []
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+  theodore:
+    commands:
+      theodore:
+        enabled: true
+        example_kind: scientific_template
+        arguments:
+        - analyze_tden
+        - -f
+        - dens_ana.in
+        inputs:
+        - orbital
+        - dens_ana.in
+        outputs: []
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+  matlab:
+    commands:
+      matlab:
+        enabled: true
+        example_kind: interface_template
+        arguments:
+        - -nodisplay
+        - -nosplash
+        - -nodesktop
+        - -r
+        - run('analysis.m'); exit
+        inputs: []
+        outputs:
+        - run('analysis.m'); exit
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+  easyspin:
+    commands:
+      matlab:
+        enabled: true
+        example_kind: scientific_template
+        arguments:
+        - -nodisplay
+        - -nosplash
+        - -nodesktop
+        - -r
+        - run('analysis.m'); exit
+        inputs:
+        - analysis.m
+        outputs:
+        - run('analysis.m'); exit
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+  yambo:
+    commands:
+      p2y:
+        enabled: true
+        example_kind: interface_template
+        arguments: []
+        inputs: []
+        outputs: []
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+      yambo:
+        enabled: true
+        example_kind: scientific_template
+        arguments:
+        - -F
+        - input.in
+        - -J
+        - job
+        inputs:
+        - input.in
+        outputs: []
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+  vmd:
+    commands:
+      vmd:
+        enabled: true
+        example_kind: scientific_template
+        arguments:
+        - -dispdev
+        - text
+        - -e
+        - analysis.tcl
+        inputs:
+        - analysis.tcl
+        outputs: []
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
+  vesta:
+    commands:
+      VESTA:
+        enabled: true
+        example_kind: scientific_template
+        arguments:
+        - structure.cif
+        inputs:
+        - density
+        - structure.cif
+        outputs: []
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0

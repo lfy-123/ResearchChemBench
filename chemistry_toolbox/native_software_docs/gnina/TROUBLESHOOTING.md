@@ -6,7 +6,7 @@ aliases: ["GNINA", "gnina"]
 inputs: ["receptor file", "ligand file", "box center and dimensions", "optional model"]
 outputs: ["poses.sdf", "docking log", "affinity and CNN scores"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # GNINA Troubleshooting
 

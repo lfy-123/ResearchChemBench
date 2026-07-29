@@ -14,6 +14,7 @@ ACTION_SPECS = (
             ("quantum_espresso", "cp2k", "siesta", "dftbplus", "abinit", "vasp", "gpaw", "nequip", "allegro", "deepmd"),
             ("structure",),
             input_description="periodic AtomicStructure with cell and PBC",
+            batch_safe=True,
         ),
     _action(
             "calculate_periodic_forces",

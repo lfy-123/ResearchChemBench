@@ -6,7 +6,7 @@ aliases: ["CP2K", "cp2k"]
 inputs: ["input.inp", "coordinates", "basis sets and potentials when referenced"]
 outputs: ["output.out", "restart files", "trajectory files", "force files", "cube files"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # CP2K Common Tasks
 
@@ -61,6 +61,8 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 ## Command: `cp2k`
 - Synopsis: `cp2k -i input.inp -o output.out`.
 - Input mode: `arguments`.
-- Required files: `input.inp`, `all basis/potential/coordinate files referenced by it`.
+- Declared example inputs: `input.inp`.
+- Declared example outputs: `output.out`.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes output.out and restart/trajectory/property files selected in the input.
 - Caution: RUN_TYPE, FORCE_EVAL method, basis/potential data, charge, spin, cell, k-points, cutoffs, SCF, motion, and print sections are Agent choices.

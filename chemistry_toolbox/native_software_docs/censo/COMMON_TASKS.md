@@ -6,7 +6,7 @@ aliases: ["CENSO", "censo"]
 inputs: ["conformers.xyz", ".censorc or explicit configuration", "selected QM executable"]
 outputs: ["anmr_enso", "crest_conformers.xyz", "censo logs", "ranked ensemble"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # CENSO Common Tasks
 
@@ -59,6 +59,8 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 ## Command: `censo`
 - Synopsis: `censo -i conformers.xyz [explicit CENSO options]`.
 - Input mode: `arguments`.
-- Required files: `conformers.xyz`, `optional censo configuration/files`.
+- Declared example inputs: `conformers.xyz`.
+- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes ensemble refinement logs, energies, populations, and refined structures in the job directory.
 - Caution: Solvent, temperature, electronic-structure levels, thresholds, and parallel resources remain Agent choices.

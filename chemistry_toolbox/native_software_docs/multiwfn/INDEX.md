@@ -6,7 +6,7 @@ aliases: ["Multiwfn", "multiwfn"]
 inputs: ["wavefunction file", "commands.txt"]
 outputs: ["stdout.log", "exported grids", "tables", "images or structure files"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Multiwfn Native Software Guide
 
@@ -29,7 +29,7 @@ Run Multiwfn analyses using an explicit wavefunction file and menu-command strea
 ## Supported command entries
 | Executable | Input mode | Native invocation | Required staged inputs |
 |---|---|---|---|
-| `Multiwfn_noGUI` | `arguments_and_stdin_file` | `Multiwfn_noGUI wavefunction.fchk` | `wavefunction file`, `commands.txt` |
+| `Multiwfn_noGUI` | `arguments_and_stdin_file` | `Multiwfn_noGUI wavefunction.fchk` | `commands.txt`, `wavefunction.fchk` |
 
 ## Supported task families
 - density grids.

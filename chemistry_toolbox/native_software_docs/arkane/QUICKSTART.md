@@ -6,7 +6,7 @@ aliases: ["Arkane", "arkane"]
 inputs: ["input.py", "species files", "transition-state files", "quantum-chemistry logs"]
 outputs: ["output.py", "chem.inp", "supporting_information.csv", "plots"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Arkane Quickstart
 
@@ -24,7 +24,9 @@ The runner creates an isolated job directory and executes the resolved binary th
 
 ## Input mode
 The primary executable is `Arkane.py` and its input mode is `arguments`.
-Required inputs: `input.py and all referenced quantum-chemistry/statmech files`.
+Required inputs: `input.py`.
+Expected outputs: stdout/stderr or task-dependent outputs only.
+Example classification: `scientific_template`.
 Output behavior: Writes Arkane logs, species/reaction data, plots, and library outputs in the selected output directory.
 
 ## Native command template

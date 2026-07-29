@@ -6,7 +6,7 @@ aliases: ["RMG-Py", "rmg"]
 inputs: ["input.py", "RMG database", "optional seed mechanisms and libraries"]
 outputs: ["chemkin files", "species dictionary", "RMG log", "HTML report", "restart data"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # RMG-Py Common Tasks
 
@@ -60,5 +60,7 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 ## Command: `rmg.py`
 - Synopsis: `rmg.py input.py`.
 - Input mode: `arguments`.
-- Required files: `input.py`, `any referenced seed/library files`.
+- Declared example inputs: `input.py`.
+- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes the generated mechanism, species dictionaries, logs, and diagnostics in the configured output directory.

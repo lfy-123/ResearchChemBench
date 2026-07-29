@@ -296,6 +296,7 @@ def test_heterobiaryl_dual_track_tasks_use_complete_100_point_rubrics():
             "computational_protocol.json",
             "reaction_definitions.json",
             "workflow_requirements.json",
+            "author_output_file_roles.json",
         }
 
         def shared_hashes(root: Path) -> dict[str, str]:

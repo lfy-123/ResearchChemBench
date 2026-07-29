@@ -9,6 +9,7 @@ from pathlib import Path
 from typing import Any
 
 from .token_usage import workspace_token_usage
+from .trace import canonical_tool_trace_metadata, load_tool_trace, process_metrics
 
 
 RESULTS_SCHEMA_VERSION = 1
@@ -66,6 +67,12 @@ def build_workspace_results(workspace: str | Path) -> dict[str, Any]:
     root = Path(workspace).expanduser().resolve()
     meta = _load_json(root / "_meta.json")
     score = _load_json(root / "_score.json")
+    events = load_tool_trace(root)
+    process = (
+        process_metrics(events, workspace=root)
+        if events
+        else dict(score.get("process_metrics") or {})
+    )
     agent_usage = _agent_usage(root)
     agent_tokens = dict(agent_usage.get("tokens") or {})
     judge_usage = dict(score.get("judge_usage") or {})
@@ -118,6 +125,7 @@ def build_workspace_results(workspace: str | Path) -> dict[str, Any]:
             meta.get("resource_budget_rejection_count") or 0
         ),
     }
+    canonical_trace = canonical_tool_trace_metadata(root)
     return {
         "schema_version": RESULTS_SCHEMA_VERSION,
         "result_type": "researchchembench_run",
@@ -154,6 +162,7 @@ def build_workspace_results(workspace: str | Path) -> dict[str, Any]:
         },
         "score": score_summary,
         "tools": tools,
+        "process_metrics": process,
         "tokens": {
             "agent": agent_usage,
             "judge": judge_tokens,
@@ -176,6 +185,7 @@ def build_workspace_results(workspace: str | Path) -> dict[str, Any]:
             ),
             "model_io": "_model_io.jsonl" if (root / "_model_io.jsonl").is_file() else None,
             "tool_trace": "_tool_trace.jsonl" if (root / "_tool_trace.jsonl").is_file() else None,
+            "canonical_tool_trace": canonical_trace,
             "report": "report/report.md" if (root / "report/report.md").is_file() else None,
         },
     }

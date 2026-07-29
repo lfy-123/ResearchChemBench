@@ -6,7 +6,7 @@ aliases: ["Packmol", "packmol"]
 inputs: ["packmol.inp", "one coordinate template per structure block"]
 outputs: ["packed.xyz or another requested output", "stdout.log"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Packmol Common Tasks
 
@@ -57,6 +57,8 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 ## Command: `packmol`
 - Synopsis: `packmol < packmol.inp`.
 - Input mode: `stdin_file`.
-- Required files: `packmol.inp`, `all structure files referenced by packmol.inp`.
+- Declared example inputs: `packmol.inp`.
+- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes the output filename declared inside packmol.inp and progress to stdout.
 - Caution: Set stdin_file to the staged target packmol.inp; filenames inside it must match staged targets.

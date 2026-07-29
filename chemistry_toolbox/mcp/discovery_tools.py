@@ -15,10 +15,12 @@ from researchchem_toolbox.discovery import (
     search_actions as _search_actions,
     search_resources as _search_resources,
 )
+from researchchem_toolbox.catalog import action_specs
 from researchchem_toolbox.service import execute_action as _execute_action
 
 from .discovery_models import (
     ActionCategoryBrowseRequest,
+    ActionBatchRequest,
     ActionDomainListRequest,
     ActionInspectRequest,
     ActionSearchRequest,
@@ -43,6 +45,7 @@ PROGRESSIVE_DISCOVERY_TOOL_NAMES = (
     "search_resources",
     "inspect_resource",
     "execute_action",
+    "submit_action_batch",
 )
 
 
@@ -84,6 +87,11 @@ TOOL_DESCRIPTIONS = {
         "The dispatcher validates the request and performs no defaults, retry, or fallback. Dense "
         "results are returned as concise scalars plus a typed primary ArtifactRef; the immutable "
         "artifact contains the complete coordinates, matrices, modes, or trajectories."
+    ),
+    "submit_action_batch": (
+        "Execute up to 32 independent requests that share one Action and backend. Only Actions "
+        "whose catalog contract declares batch_safe=true are accepted. Every child is traced and "
+        "returned independently; no child may depend on another child in the same batch."
     ),
 }
 
@@ -192,6 +200,92 @@ def execute_action(request: ProgressiveActionRequest) -> dict[str, Any]:
         arguments,
         lambda: compact_action_result(_execute_action(action_id, value)),
     )
+
+
+def submit_action_batch(request: ActionBatchRequest) -> dict[str, Any]:
+    specification = action_specs().get(request.action_id)
+    if specification is None:
+        return {
+            "status": "invalid_request",
+            "error": {"code": "unknown_action", "message": request.action_id},
+        }
+    if not specification.batch_safe:
+        return {
+            "status": "invalid_request",
+            "error": {
+                "code": "action_not_batch_safe",
+                "message": f"Action {request.action_id!r} does not declare batch_safe=true.",
+            },
+        }
+    if request.backend_id not in specification.backend_ids:
+        return {
+            "status": "invalid_request",
+            "error": {
+                "code": "backend_not_supported",
+                "message": (
+                    f"Backend {request.backend_id!r} does not provide {request.action_id!r}."
+                ),
+            },
+        }
+    if len({item.item_id for item in request.items}) != len(request.items):
+        return {
+            "status": "invalid_request",
+            "error": {
+                "code": "duplicate_batch_item_id",
+                "message": "Every batch item_id must be unique.",
+            },
+        }
+
+    results = []
+    for index, item in enumerate(request.items):
+        action_request = {
+            "backend_id": request.backend_id,
+            "component_backends": request.component_backends,
+            "source_id": None,
+            "inputs": item.inputs,
+            "method_spec": request.method_spec,
+            "action_settings": request.action_settings,
+            "resource_limits": item.resource_limits.model_dump(mode="json"),
+        }
+        traced = execute_traced(
+            request.action_id,
+            {
+                "entrypoint": "submit_action_batch",
+                "batch_item_id": item.item_id,
+                "batch_index": index,
+                "request": action_request,
+            },
+            lambda action_request=action_request: compact_action_result(
+                _execute_action(request.action_id, action_request)
+            ),
+        )
+        results.append(
+            {
+                "item_id": item.item_id,
+                "batch_index": index,
+                "resource_limits": action_request["resource_limits"],
+                "result": traced,
+            }
+        )
+    successful = sum(
+        item["result"].get("status") in {"success", "partial_success"}
+        for item in results
+    )
+    return {
+        "status": (
+            "success"
+            if successful == len(results)
+            else "partial_success" if successful else "failed"
+        ),
+        "action_id": request.action_id,
+        "backend_id": request.backend_id,
+        "batch_safe": True,
+        "item_count": len(results),
+        "successful_item_count": successful,
+        "failed_item_count": len(results) - successful,
+        "items": results,
+        "automatic_fallback": False,
+    }
 
 
 def register_progressive_discovery_tools(mcp) -> list[str]:

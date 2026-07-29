@@ -6,7 +6,7 @@ aliases: ["CHARMM", "charmm"]
 inputs: ["input.inp", "topology files", "parameter files", "coordinates"]
 outputs: ["output.out", "restart files", "trajectories", "analysis tables"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # CHARMM Common Tasks
 
@@ -61,5 +61,7 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 ## Command: `charmm`
 - Synopsis: `charmm -i input.inp -o output.out`.
 - Input mode: `arguments`.
-- Required files: `input.inp`, `referenced topology/parameter/coordinate files`.
+- Declared example inputs: `input.inp`.
+- Declared example outputs: `output.out`.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes the named output and files requested by CHARMM commands.

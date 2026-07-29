@@ -6,7 +6,7 @@ aliases: ["ShengBTE", "shengbte"]
 inputs: ["CONTROL", "FORCE_CONSTANTS_2ND", "FORCE_CONSTANTS_3RD"]
 outputs: ["BTE.kappa_tensor", "BTE.omega", "BTE.v", "BTE.* diagnostic files"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # ShengBTE Common Tasks
 
@@ -59,5 +59,7 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 ## Command: `ShengBTE`
 - Synopsis: `ShengBTE`.
 - Input mode: `fixed_files`.
-- Required files: `CONTROL`, `FORCE_CONSTANTS_2ND`, `FORCE_CONSTANTS_3RD`.
+- Declared example inputs: `CONTROL`, `FORCE_CONSTANTS_2ND`, `FORCE_CONSTANTS_3RD`.
+- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Reads fixed filenames and writes thermal-conductivity and convergence files in the job directory.

@@ -6,7 +6,7 @@ aliases: ["VMD", "vmd"]
 inputs: ["analysis.tcl", "referenced structures and trajectories"]
 outputs: ["stdout.log", "user-defined tables", "structures", "images when rendering is configured"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # VMD Common Tasks
 
@@ -58,5 +58,7 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 ## Command: `vmd`
 - Synopsis: `vmd -dispdev text -e analysis.tcl [structure/trajectory options]`.
 - Input mode: `arguments`.
-- Required files: `analysis.tcl and referenced structures/trajectories`.
+- Declared example inputs: `analysis.tcl`.
+- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes Tcl-selected measurements and files plus console output.

@@ -6,7 +6,7 @@ aliases: ["Arkane", "arkane"]
 inputs: ["input.py", "species files", "transition-state files", "quantum-chemistry logs"]
 outputs: ["output.py", "chem.inp", "supporting_information.csv", "plots"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Arkane Common Tasks
 
@@ -61,5 +61,7 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 ## Command: `Arkane.py`
 - Synopsis: `Arkane.py input.py [CLI options]`.
 - Input mode: `arguments`.
-- Required files: `input.py and all referenced quantum-chemistry/statmech files`.
+- Declared example inputs: `input.py`.
+- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes Arkane logs, species/reaction data, plots, and library outputs in the selected output directory.

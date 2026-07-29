@@ -6,7 +6,7 @@ aliases: ["CENSO", "censo"]
 inputs: ["conformers.xyz", ".censorc or explicit configuration", "selected QM executable"]
 outputs: ["anmr_enso", "crest_conformers.xyz", "censo logs", "ranked ensemble"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # CENSO Troubleshooting
 

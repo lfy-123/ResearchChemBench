@@ -6,7 +6,7 @@ aliases: ["Wannier90", "wannier90"]
 inputs: ["seedname.win", "and for full runs seedname.amn", "seedname.mmn", "seedname.eig"]
 outputs: ["seedname.nnkp", "seedname.wout", "seedname.chk", "interpolated data"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Wannier90 Quickstart
 
@@ -24,7 +24,9 @@ The runner creates an isolated job directory and executes the resolved binary th
 
 ## Input mode
 The primary executable is `wannier90.x` and its input mode is `arguments`.
-Required inputs: `seedname.win and mode-specific .amn/.mmn/.eig/.chk files`.
+Required inputs: no fixed file is declared for this command.
+Expected outputs: stdout/stderr or task-dependent outputs only.
+Example classification: `interface_template`.
 Output behavior: Writes seedname.wout and selected Wannier functions, matrices, bands, or transport files.
 
 ## Native command template

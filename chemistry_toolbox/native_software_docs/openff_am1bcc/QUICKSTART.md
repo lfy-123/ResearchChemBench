@@ -6,7 +6,7 @@ aliases: ["AmberTools antechamber and sqm", "openff am1bcc"]
 inputs: ["input.mol2 or another supported molecule", "explicit charge and multiplicity"]
 outputs: ["charged.mol2", "ANTECHAMBER files", "sqm.in", "sqm.out"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # AmberTools antechamber and sqm Quickstart
 
@@ -24,7 +24,9 @@ The runner creates an isolated job directory and executes the resolved binary th
 
 ## Input mode
 The primary executable is `antechamber` and its input mode is `arguments`.
-Required inputs: `molecular input file`.
+Required inputs: `input.mol2`.
+Expected outputs: `charged.mol2`.
+Example classification: `scientific_template`.
 Output behavior: Writes the file supplied with -o and intermediate charge-calculation files.
 
 ## Native command template
@@ -56,10 +58,6 @@ Run that command only inside a directory containing the exact referenced files. 
     {
       "source_path": "workspace_inputs/input.mol2",
       "target_path": "input.mol2"
-    },
-    {
-      "source_path": "workspace_inputs/charged.mol2",
-      "target_path": "charged.mol2"
     }
   ],
   "resource_limits": {

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import html
+import hashlib
 import json
 import re
 from functools import lru_cache
@@ -35,7 +36,11 @@ from .execution_models import (
 
 
 GUIDE_PATH = CONFIG_ROOT / "native_software_guides.yaml"
+EXAMPLE_CONTRACTS_PATH = CONFIG_ROOT / "native_software_example_contracts.yaml"
 NATIVE_DOCS_ROOT = PROJECT_ROOT / "chemistry_toolbox" / "native_software_docs"
+NATIVE_SMOKE_PATH = (
+    PROJECT_ROOT / "chemistry_toolbox" / "evidence" / "native_interface_smoke" / "latest.json"
+)
 DOCUMENTATION_INDEX_PATH = PROJECT_ROOT / ".software_cache" / "documentation" / "index.json"
 REQUESTED_STATUS_PATH = CONFIG_ROOT / "requested_software_status.json"
 CAPABILITY_SOURCES_PATH = CONFIG_ROOT / "software_capability_sources.yaml"
@@ -51,6 +56,103 @@ def load_native_guides() -> dict[str, Any]:
     if value.get("schema_version") != 1 or not isinstance(value.get("software"), dict):
         raise ValueError(f"Invalid native software guide: {GUIDE_PATH}")
     return value
+
+
+@lru_cache(maxsize=1)
+def load_native_example_contracts() -> dict[str, Any]:
+    value = yaml.safe_load(EXAMPLE_CONTRACTS_PATH.read_text(encoding="utf-8")) or {}
+    if value.get("schema_version") != 1 or not isinstance(value.get("software"), dict):
+        raise ValueError(f"Invalid native software example contracts: {EXAMPLE_CONTRACTS_PATH}")
+    return value
+
+
+@lru_cache(maxsize=1)
+def load_native_smoke_manifest() -> dict[str, Any]:
+    if not NATIVE_SMOKE_PATH.is_file():
+        return {"software": []}
+    value = json.loads(NATIVE_SMOKE_PATH.read_text(encoding="utf-8"))
+    if not isinstance(value, dict) or not isinstance(value.get("software"), list):
+        raise ValueError(f"Invalid native software smoke manifest: {NATIVE_SMOKE_PATH}")
+    return value
+
+
+def _native_smoke_by_id() -> dict[str, dict[str, Any]]:
+    return {
+        str(item["software_id"]): item
+        for item in load_native_smoke_manifest().get("software", [])
+        if isinstance(item, dict) and item.get("software_id")
+    }
+
+
+def _smoke_summary(software_id: str) -> dict[str, Any]:
+    record = _native_smoke_by_id().get(software_id)
+    if record is None:
+        return {
+            "interface_smoke_status": "not_tested",
+            "scientific_smoke_status": "not_tested",
+            "known_runtime_blockers": [],
+            "smoke_evidence": None,
+        }
+
+    raw_status = str(record.get("status") or "unknown")
+    test_level = str(record.get("test_level") or "interface_smoke")
+    if (
+        software_id == "pysisyphus"
+        and raw_status == "passed"
+        and "converged!" in str(record.get("stdout_tail") or "").casefold()
+    ):
+        test_level = "scientific_smoke"
+    interface_status = {
+        "passed": "passed",
+        "started_input_required": "passed_input_required",
+        "failed": "failed",
+        "skipped": "skipped",
+    }.get(raw_status, raw_status)
+    scientific_status = "not_tested"
+    if test_level == "scientific_smoke":
+        scientific_status = "passed" if raw_status == "passed" else raw_status
+
+    blockers = []
+    if raw_status in {"failed", "skipped", "cancelled"}:
+        blockers.append(str(record.get("reason") or f"Latest smoke status: {raw_status}."))
+    evidence_sha256 = hashlib.sha256(NATIVE_SMOKE_PATH.read_bytes()).hexdigest()
+    return {
+        "interface_smoke_status": interface_status,
+        "scientific_smoke_status": scientific_status,
+        "known_runtime_blockers": blockers,
+        "smoke_evidence": {
+            "manifest_path": str(NATIVE_SMOKE_PATH.relative_to(PROJECT_ROOT)),
+            "manifest_sha256": evidence_sha256,
+            "tested_at": record.get("tested_at"),
+            "test_level": test_level,
+            "recorded_test_level": record.get("test_level"),
+            "raw_status": raw_status,
+            "evidence_path": record.get("evidence_path"),
+        },
+    }
+
+
+def software_documentation_recovery(
+    software_id: str, *, failed: bool = False
+) -> list[dict[str, Any]]:
+    sections = [
+        ("quickstart", "Toolbox submission request"),
+        ("troubleshooting", "Pre-submission checklist"),
+    ]
+    if failed:
+        sections.insert(0, ("troubleshooting", "Known failures and repairs"))
+    return [
+        {
+            "tool": "read_software_documentation",
+            "request": {
+                "software_id": software_id,
+                "topic": topic,
+                "section": section,
+                "max_chars": 6000,
+            },
+        }
+        for topic, section in sections
+    ]
 
 
 @lru_cache(maxsize=1)
@@ -421,13 +523,21 @@ def _inventory_entries() -> list[dict[str, Any]]:
         status = statuses.get(software_id) or {}
         native_commands = _native_commands(software_id, backend)
         analysis_runtimes = _analysis_runtimes_for(software_id, backend, documentation)
+        smoke = _smoke_summary(software_id)
         documented_status = documentation.get("inventory_status") or status.get("status")
-        available = any(item["available"] for item in native_commands) or any(
-            item["available"] for item in analysis_runtimes
+        executable_resolved = any(item["available"] for item in native_commands)
+        native_available = executable_resolved and smoke["interface_smoke_status"] not in {
+            "failed",
+            "skipped",
+        }
+        analysis_available = any(
+            item["available"] and item["module"] != "<Agent-authored program>"
+            for item in analysis_runtimes
         )
         if backend is not None and not backend.executables and not backend.python_modules:
             health = probe_all_backends((backend,)).get(software_id, {})
-            available = bool(health.get("available"))
+            analysis_available = bool(health.get("available"))
+        available = native_available or analysis_available
         entries.append(
             {
                 "software_id": software_id,
@@ -438,6 +548,11 @@ def _inventory_entries() -> list[dict[str, Any]]:
                 ),
                 "inventory_status": documented_status or ("configured" if available else "unknown"),
                 "available": available,
+                "available_for_submission": available,
+                "native_available_for_submission": native_available,
+                "executable_resolved": executable_resolved,
+                "analysis_runtime_available": analysis_available,
+                **smoke,
                 "backend_registered": backend is not None,
                 "runtime": (
                     _driver_contract(software_id)["runtime"]
@@ -514,6 +629,8 @@ def list_software(request: SoftwareListRequest) -> dict[str, Any]:
                 "software_id": item["software_id"],
                 "display_name": item["display_name"],
                 "available": item["available"],
+                "interface_smoke_status": item["interface_smoke_status"],
+                "scientific_smoke_status": item["scientific_smoke_status"],
                 "backend_registered": item["backend_registered"],
                 "runtime": item["runtime"],
                 "native_executables": native_executables,
@@ -552,9 +669,13 @@ def inspect_software(request: SoftwareInspectRequest) -> dict[str, Any]:
     entry = next(item for item in _inventory_entries() if item["software_id"] == software_id)
     health = probe_all_backends((backend,)).get(software_id) if backend is not None else None
     guide = load_native_guides()["software"].get(software_id) or {}
+    example_contracts = (
+        load_native_example_contracts().get("software", {}).get(software_id, {}).get("commands", {})
+    )
     contract = _driver_contract(software_id) if guide else None
     detailed_commands = []
     for executable, command in dict(guide.get("commands") or {}).items():
+        example = dict(example_contracts.get(executable) or {})
         enabled = command.get("enabled", True) is True
         resolved = (
             _resolve_guided_executable(contract["runtime"], executable, command)
@@ -571,23 +692,18 @@ def inspect_software(request: SoftwareInspectRequest) -> dict[str, Any]:
                 "native_job_request_template": {
                     "software_id": software_id,
                     "executable": executable,
-                    "arguments": command.get("example_arguments") or [],
+                    "arguments": example.get("arguments") or [],
                     "staged_inputs": [
                         {
-                            "source_path": "code/<Agent-created-or-task-file>",
-                            "target_path": "<exact filename referenced by the command>",
+                            "source_path": f"code/{target}",
+                            "target_path": target,
                         }
+                        for target in example.get("inputs") or []
                     ],
-                    "stdin_target": (
-                        "<staged target filename>"
-                        if "stdin" in str(command.get("input_mode") or "")
-                        else None
-                    ),
-                    "resource_limits": {
-                        "memory_mb": 4096,
-                        "cpu_cores": 1,
-                        "gpu_count": 0,
-                    },
+                    "stdin_target": example.get("stdin_target"),
+                    "resource_limits": example.get("resource_limits")
+                    or {"memory_mb": 4096, "cpu_cores": 1, "gpu_count": 0},
+                    "declared_outputs": example.get("outputs") or [],
                     "evaluation_resource_budget": resource_budget_record(),
                     "execution_timeout_policy": timeout_policy_record("compute"),
                 },
@@ -633,6 +749,9 @@ def inspect_software(request: SoftwareInspectRequest) -> dict[str, Any]:
         ),
         "candidate_capabilities": docs.get("candidate_actions") or [],
         "notes": docs.get("notes"),
+        "recommended_documentation_routes": software_documentation_recovery(
+            software_id, failed=bool(entry["known_runtime_blockers"])
+        ),
         "decision_boundary": (
             "The guide explains how to invoke this software. The Agent remains responsible for "
             "whether to use it, the scientific input content, parameters, call order, and interpretation."
@@ -1011,15 +1130,27 @@ def list_analysis_runtimes(request: AnalysisRuntimeListRequest) -> dict[str, Any
     result = result[: request.limit]
     return {
         "status": "success",
-        "count": len(result),
-        "total_matches": total_matches,
-        "runtimes": result,
-        "evaluation_resource_budget": resource_budget_record(),
-        "selection_note": (
-            "Select one runtime explicitly according to the imports required by the Agent-authored "
-            "program. No runtime or library is chosen automatically. Use runtime=<exact id> and "
-            "include_details=true only after narrowing to inspect versions and the Python path."
-        ),
+        "managed_program_contract": {
+            "job_context_required_for_compliance": True,
+            "execution_note": (
+                "Execute scientific code with submit_analysis_program, not a built-in shell. "
+                "The program starts in an isolated job directory. Declare named inputs and "
+                "outputs, and use JobContext helpers whose names exactly match the declarations."
+            ),
+            "minimal_python_template": (
+                "from researchchem_job import JobContext\n"
+                "ctx = JobContext.load()\n"
+                "# value = ctx.input('declared_input_name').read_text()\n"
+                "ctx.write_json('declared_json_output_name', result_payload)\n"
+                "ctx.output('declared_table_output_name').write_text(csv_text)\n"
+                "ctx.register_output('declared_table_output_name')\n"
+            ),
+            "helper_name_rule": (
+                "JobContext helper names must exactly match the corresponding inputs/outputs "
+                "declaration names. Direct Path('outputs/...') writes are collected for backward "
+                "compatibility but are reported as not_adopted or partial."
+            ),
+        },
         "submit_analysis_program_request_template": {
             "runtime": request.runtime or "<exact runtime id>",
             "script_path": "code/<agent-authored-program>.py",
@@ -1052,6 +1183,15 @@ def list_analysis_runtimes(request: AnalysisRuntimeListRequest) -> dict[str, Any
             "execution_timeout_policy": timeout_policy_record("compute"),
             "label": "<descriptive scientific operation>",
         },
+        "count": len(result),
+        "total_matches": total_matches,
+        "runtimes": result,
+        "evaluation_resource_budget": resource_budget_record(),
+        "selection_note": (
+            "Select one runtime explicitly according to the imports required by the Agent-authored "
+            "program. No runtime or library is chosen automatically. Use runtime=<exact id> and "
+            "include_details=true only after narrowing to inspect versions and the Python path."
+        ),
         "execution_note": (
             "Execute an Agent-authored scientific program with submit_analysis_program, not a "
             "built-in shell, so its source, staged inputs, resources, logs, exit status, and "

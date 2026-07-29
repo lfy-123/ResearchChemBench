@@ -6,7 +6,7 @@ aliases: ["Newton-X", "newton x"]
 inputs: ["control files", "initial conditions", "geometry", "electronic-structure interface files"]
 outputs: ["TRAJ directories", "dynamics logs", "populations", "geometries", "test reports"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Newton-X Common Tasks
 
@@ -62,17 +62,23 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 ## Command: `nx_geninp`
 - Synopsis: `nx_geninp [explicit generator options]`.
 - Input mode: `arguments_or_stdin`.
-- Required files: `generator answers/options and system/electronic-structure inputs`.
+- Declared example inputs: none declared.
+- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes Newton-X control and initial-condition files.
 
 ## Command: `nx_moldyn`
 - Synopsis: `nx_moldyn`.
 - Input mode: `fixed_files`.
-- Required files: `Newton-X control.dyn and all referenced initial/electronic-structure files`.
+- Declared example inputs: none declared.
+- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes trajectory, state, energy, hopping, and restart outputs in the job directory.
 
 ## Command: `nx_test`
 - Synopsis: `nx_test <test_id> [options]`.
 - Input mode: `arguments`.
-- Required files: `test-specific files`.
+- Declared example inputs: none declared.
+- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes Newton-X test diagnostics to stdout and test directories.

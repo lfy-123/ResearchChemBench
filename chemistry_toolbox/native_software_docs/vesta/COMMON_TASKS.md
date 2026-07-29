@@ -6,7 +6,7 @@ aliases: ["VESTA", "vesta"]
 inputs: ["CIF", "POSCAR", "cube", "density", "or VESTA project file"]
 outputs: ["interactive session", "images", "converted structures", "VESTA project"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # VESTA Common Tasks
 
@@ -61,6 +61,8 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 ## Command: `VESTA`
 - Synopsis: `VESTA structure_file`.
 - Input mode: `arguments`.
-- Required files: `supported crystal`, `density`, `or project file`.
+- Declared example inputs: `density`, `structure.cif`.
+- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Starts VESTA and writes only outputs explicitly requested through its supported interface.
 - Caution: VESTA is GUI-oriented; headless execution requires the deployment's Xvfb/display wrapper and many interactive operations are unsuitable for unattended benchmark runs.

@@ -6,7 +6,7 @@ aliases: ["GNINA", "gnina"]
 inputs: ["receptor file", "ligand file", "box center and dimensions", "optional model"]
 outputs: ["poses.sdf", "docking log", "affinity and CNN scores"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # GNINA Native Software Guide
 
@@ -29,7 +29,7 @@ Run GNINA docking/rescoring with explicitly selected receptor, ligand, box, CNN 
 ## Supported command entries
 | Executable | Input mode | Native invocation | Required staged inputs |
 |---|---|---|---|
-| `gnina` | `arguments` | `gnina -r receptor.pdbqt -l ligand.sdf --center_x 0 --center_y 0 --center_z 0 --size_x 20 --size_y 20 --size_z 20 -o poses.sdf` | `receptor file`, `ligand file` |
+| `gnina` | `arguments` | `gnina -r receptor.pdbqt -l ligand.sdf --center_x 0 --center_y 0 --center_z 0 --size_x 20 --size_y 20 --size_z 20 -o poses.sdf` | `ligand.sdf` |
 
 ## Supported task families
 - docking.

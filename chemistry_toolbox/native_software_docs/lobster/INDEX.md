@@ -6,7 +6,7 @@ aliases: ["LOBSTER", "lobster"]
 inputs: ["lobsterin", "POSCAR", "POTCAR", "WAVECAR", "CONTCAR", "KPOINTS", "OUTCAR", "vasprun.xml"]
 outputs: ["lobsterout", "COHPCAR.lobster", "ICOHPLIST.lobster", "DOSCAR.lobster", "CHARGE.lobster"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # LOBSTER Native Software Guide
 

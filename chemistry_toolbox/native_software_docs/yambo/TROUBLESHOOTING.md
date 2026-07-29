@@ -6,7 +6,7 @@ aliases: ["Yambo", "yambo"]
 inputs: ["compatible upstream save database", "SAVE directory", "input.in", "optional restart databases"]
 outputs: ["SAVE database", "report", "output data files", "restart databases"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Yambo Troubleshooting
 

@@ -18,6 +18,7 @@ def action(
     data_action: bool = False,
     requires_network: bool = False,
     selection_policy: str | None = None,
+    batch_safe: bool = False,
 ) -> ActionSpec:
     return ActionSpec(
         id=action_id,
@@ -34,4 +35,5 @@ def action(
             selection_policy
             or ("fixed_source" if data_action else "agent_backend_required")
         ),
+        batch_safe=batch_safe,
     )

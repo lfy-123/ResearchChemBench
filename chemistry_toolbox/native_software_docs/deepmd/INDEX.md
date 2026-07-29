@@ -6,7 +6,7 @@ aliases: ["DeePMD-kit", "deepmd"]
 inputs: ["training JSON or YAML", "DeepMD dataset", "optional checkpoint or frozen model"]
 outputs: ["training logs", "checkpoints", "frozen model", "test metrics"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # DeePMD-kit Native Software Guide
 
@@ -29,7 +29,7 @@ Invoke a specific DeePMD-kit command selected by the Agent. The native layer is 
 ## Supported command entries
 | Executable | Input mode | Native invocation | Required staged inputs |
 |---|---|---|---|
-| `dp` | `arguments` | `dp test -m model.pb -s test_data` | `subcommand-specific Agent-authored input and data files` |
+| `dp` | `arguments` | `dp test -m model.pb -s test_data` | `model.pb` |
 
 ## Supported task families
 - training.

@@ -6,7 +6,7 @@ aliases: ["DeePMD-kit", "deepmd"]
 inputs: ["training JSON or YAML", "DeepMD dataset", "optional checkpoint or frozen model"]
 outputs: ["training logs", "checkpoints", "frozen model", "test metrics"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # DeePMD-kit Common Tasks
 
@@ -60,6 +60,8 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 ## Command: `dp`
 - Synopsis: `dp <train|freeze|test|compress|show|convert-backend> [subcommand options]`.
 - Input mode: `arguments`.
-- Required files: `subcommand-specific Agent-authored input and data files`.
+- Declared example inputs: `model.pb`.
+- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Subcommand-specific outputs are written in the job directory; stdout and stderr are captured.
 - Caution: The first argument must be an explicit DeePMD subcommand; datasets and model checkpoints must be staged deliberately.

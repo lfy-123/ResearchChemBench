@@ -6,7 +6,7 @@ aliases: ["AmberTools antechamber and sqm", "openff am1bcc"]
 inputs: ["input.mol2 or another supported molecule", "explicit charge and multiplicity"]
 outputs: ["charged.mol2", "ANTECHAMBER files", "sqm.in", "sqm.out"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # AmberTools antechamber and sqm Common Tasks
 
@@ -58,12 +58,16 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 ## Command: `antechamber`
 - Synopsis: `antechamber -i input -fi <format> -o output -fo <format> -c bcc -nc <charge> [options]`.
 - Input mode: `arguments`.
-- Required files: `molecular input file`.
+- Declared example inputs: `input.mol2`.
+- Declared example outputs: `charged.mol2`.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes the file supplied with -o and intermediate charge-calculation files.
 - Caution: Net charge and input/output formats are scientific inputs and must be explicit.
 
 ## Command: `sqm`
 - Synopsis: `sqm -O -i sqm.in -o sqm.out`.
 - Input mode: `arguments`.
-- Required files: `sqm.in`.
+- Declared example inputs: `sqm.in`.
+- Declared example outputs: `sqm.out`.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes the file supplied with -o.

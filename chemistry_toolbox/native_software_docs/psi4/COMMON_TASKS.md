@@ -6,7 +6,7 @@ aliases: ["Psi4", "psi4"]
 inputs: ["input.dat"]
 outputs: ["output.dat", "optional molecule", "wavefunction", "cube", "and scratch files"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Psi4 Common Tasks
 
@@ -59,6 +59,8 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 ## Command: `psi4`
 - Synopsis: `psi4 input.dat output.dat [options]`.
 - Input mode: `arguments`.
-- Required files: `input.dat`.
+- Declared example inputs: `input.dat`.
+- Declared example outputs: `output.dat`.
+- Example resources: `{'cpu_cores': 4, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes the named output file and optional scratch/result files.
 - Caution: The input must explicitly define molecular state, method, basis, task, and relevant convergence settings.

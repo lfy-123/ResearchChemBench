@@ -6,7 +6,7 @@ aliases: ["Phonopy", "phonopy"]
 inputs: ["unit cell", "displacement YAML", "force data", "optional Born charges"]
 outputs: ["supercells", "phonopy_disp.yaml", "FORCE_SETS", "force_constants.hdf5", "band and DOS YAML"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Phonopy Native Software Guide
 
@@ -29,7 +29,7 @@ Invoke an explicit Phonopy command for displacement generation, force-constant c
 ## Supported command entries
 | Executable | Input mode | Native invocation | Required staged inputs |
 |---|---|---|---|
-| `phonopy` | `arguments` | `phonopy --dim 2 2 2 -d --vasp POSCAR` | `mode-specific structure`, `force`, `or configuration files` |
+| `phonopy` | `arguments` | `phonopy --dim 2 2 2 -d --vasp POSCAR` | `force` |
 
 ## Supported task families
 - displacement generation.

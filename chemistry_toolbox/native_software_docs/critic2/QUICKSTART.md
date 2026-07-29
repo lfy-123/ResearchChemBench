@@ -6,7 +6,7 @@ aliases: ["Critic2", "critic2"]
 inputs: ["input.cri", "structure file", "density or wavefunction field"]
 outputs: ["stdout.log", "critical-point tables", "basin integrations", "optional grids"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Critic2 Quickstart
 
@@ -24,7 +24,9 @@ The runner creates an isolated job directory and executes the resolved binary th
 
 ## Input mode
 The primary executable is `critic2` and its input mode is `arguments`.
-Required inputs: `input.cri`, `field/structure files referenced by input.cri`.
+Required inputs: `input.cri`.
+Expected outputs: stdout/stderr or task-dependent outputs only.
+Example classification: `scientific_template`.
 Output behavior: Writes analysis text to stdout and requested files to the job directory.
 
 ## Native command template

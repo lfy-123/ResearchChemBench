@@ -143,6 +143,62 @@ def test_preflight_and_terminal_job_failures_have_separate_metrics() -> None:
     assert metrics["backend_execution_failure_count"] == 1
 
 
+def test_process_metrics_report_job_context_adoption_and_bypass() -> None:
+    events = [
+        _job_event(
+            1,
+            "submit_analysis_program",
+            {
+                "status": "success",
+                "job_id": "job_compliant",
+                "job_status": "queued",
+                "job_context_compliance": {
+                    "status": "compliant",
+                    "job_context_imported": True,
+                },
+            },
+            "job_compliant",
+        ),
+        _job_event(
+            2,
+            "submit_analysis_program",
+            {
+                "status": "success",
+                "job_id": "job_bypassed",
+                "job_status": "queued",
+                "job_context_compliance": {
+                    "status": "bypassed",
+                    "job_context_imported": True,
+                },
+            },
+            "job_bypassed",
+        ),
+        _job_event(
+            3,
+            "submit_analysis_program",
+            {
+                "status": "success",
+                "job_id": "job_plain",
+                "job_status": "queued",
+                "job_context_compliance": {
+                    "status": "not_adopted",
+                    "job_context_imported": False,
+                },
+            },
+            "job_plain",
+        ),
+    ]
+
+    metrics = process_metrics(events)
+
+    assert metrics["analysis_program_submission_count"] == 3
+    assert metrics["job_context_audited_job_count"] == 3
+    assert metrics["job_context_import_count"] == 2
+    assert metrics["job_context_compliant_job_count"] == 1
+    assert metrics["job_context_bypass_count"] == 1
+    assert metrics["job_context_not_adopted_count"] == 1
+
+
 def _job_event(sequence: int, tool: str, result: dict, job_id: str) -> dict:
     return {
         "sequence": sequence,

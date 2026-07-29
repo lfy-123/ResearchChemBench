@@ -6,7 +6,7 @@ aliases: ["Yambo", "yambo"]
 inputs: ["compatible upstream save database", "SAVE directory", "input.in", "optional restart databases"]
 outputs: ["SAVE database", "report", "output data files", "restart databases"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Yambo Native Software Guide
 
@@ -29,8 +29,8 @@ Convert compatible upstream databases and run Agent-authored Yambo MBPT/GW/BSE c
 ## Supported command entries
 | Executable | Input mode | Native invocation | Required staged inputs |
 |---|---|---|---|
-| `p2y` | `arguments` | `p2y` | `compatible upstream electronic-structure save database` |
-| `yambo` | `arguments` | `yambo -F input.in -J job` | `input.in`, `SAVE database`, `and required restart databases` |
+| `p2y` | `arguments` | `p2y` | None |
+| `yambo` | `arguments` | `yambo -F input.in -J job` | `input.in` |
 
 ## Supported task families
 - database conversion.

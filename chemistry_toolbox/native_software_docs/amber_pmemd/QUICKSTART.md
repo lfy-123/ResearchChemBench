@@ -6,7 +6,7 @@ aliases: ["Amber PMEMD", "amber pmemd"]
 inputs: ["mdin", "topology.prmtop", "input.rst7"]
 outputs: ["mdout", "output.rst7", "trajectory.nc", "mdinfo"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Amber PMEMD Quickstart
 
@@ -25,6 +25,8 @@ The runner creates an isolated job directory and executes the resolved binary th
 ## Input mode
 The primary executable is `pmemd` and its input mode is `arguments`.
 Required inputs: `mdin`, `topology.prmtop`, `input.rst7`.
+Expected outputs: `mdout`, `output.rst7`, `trajectory.nc`.
+Example classification: `scientific_template`.
 Output behavior: Writes paths explicitly supplied by -o, -r, -x, and related options.
 
 ## Native command template
@@ -65,14 +67,6 @@ Run that command only inside a directory containing the exact referenced files. 
     {
       "source_path": "workspace_inputs/input.rst7",
       "target_path": "input.rst7"
-    },
-    {
-      "source_path": "workspace_inputs/output.rst7",
-      "target_path": "output.rst7"
-    },
-    {
-      "source_path": "workspace_inputs/trajectory.nc",
-      "target_path": "trajectory.nc"
     }
   ],
   "resource_limits": {

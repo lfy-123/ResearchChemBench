@@ -203,6 +203,41 @@ def _provider_contract(
     return value
 
 
+def _provider_summary(
+    backend: BackendSpec, action_id: str, snapshot: dict[str, Any]
+) -> dict[str, Any]:
+    return {
+        "backend_id": backend.id,
+        "display_name": backend.display_name,
+        "health_status": _health_status(snapshot, backend.id),
+        "required_input_fields": list(backend.required_input_fields.get(action_id, ())),
+        "required_method_fields": list(backend.required_method_fields.get(action_id, ())),
+        "required_setting_fields": list(backend.required_setting_fields.get(action_id, ())),
+        "required_component_roles": list(
+            backend.required_component_roles.get(action_id, ())
+        ),
+        "supported_system_types": list(
+            backend.supported_system_types.get(action_id, ())
+        ),
+        "validation_level": backend.validation_levels.get(action_id),
+    }
+
+
+def _action_summary(specification: ActionSpec) -> dict[str, Any]:
+    return {
+        "id": specification.id,
+        "category": specification.category,
+        "description": specification.description,
+        "primary_output": specification.primary_output,
+        "backend_ids": list(specification.backend_ids),
+        "required_inputs": list(specification.required_inputs),
+        "optional_inputs": list(specification.optional_inputs),
+        "selection_policy": specification.selection_policy,
+        "data_action": specification.data_action,
+        "batch_safe": specification.batch_safe,
+    }
+
+
 def _field_type(field_name: str, *, section: str) -> dict[str, Any]:
     """Return a compact machine-readable shape hint for progressive discovery.
 
@@ -248,6 +283,7 @@ def _field_type(field_name: str, *, section: str) -> dict[str, Any]:
         "band_path",
         "bin_edges",
         "critical_point_types",
+        "cutoffs_au",
         "fractions",
         "integrated_bond_list",
         "models",
@@ -401,6 +437,44 @@ def _field_type(field_name: str, *, section: str) -> dict[str, Any]:
                 "exact Hessian artifact-id string",
             ],
         }
+    if field_name == "electron_density":
+        return {
+            "type": "ElectronDensityResult ArtifactRef",
+            "accepted_forms": [
+                "primary immutable ArtifactRef with semantic_type='ElectronDensityResult' returned by calculate_correlated_electron_density",
+                "compact {'artifact_id': 'art_...'} for that primary ElectronDensityResult artifact",
+                "exact ElectronDensityResult artifact-id string",
+            ],
+            "rejected_forms": [
+                "job.gbw or another path from result.files",
+                "ElectronDensityWavefunction, BackendFile, or diagnostic artifact ids",
+            ],
+            "handoff_example": {
+                "electron_density": "<copy output_artifacts item whose semantic_type is ElectronDensityResult, or its artifact_id>"
+            },
+        }
+    if field_name == "density_file":
+        return {
+            "type": "ElectronDensityWavefunction | ElectronDensityGrid ArtifactRef | workspace-relative density file",
+            "accepted_forms": [
+                "output_artifacts item from export_electron_density_grid whose semantic_type is ElectronDensityWavefunction or ElectronDensityGrid",
+                "compact {'artifact_id': 'art_...'} or exact artifact-id string for that typed artifact",
+                "workspace-relative WFN, WFX, FCHK, MWFN, Molden, or cube path",
+            ],
+        }
+    if field_name == "cutoffs_au":
+        return {
+            "type": "array",
+            "items": {"type": "number"},
+            "minimum_items": 1,
+            "maximum_items": 100,
+            "value_range": {"exclusive_minimum": 0.0, "exclusive_maximum": 0.1},
+            "example": [0.001, 0.0015, 0.002],
+            "compatibility_input": (
+                "A comma-separated numeric string is normalized for compatibility, but new "
+                "requests should always send a JSON array of numbers."
+            ),
+        }
     if field_name == "vibrations":
         return {"type": "FrequencyResult | ArtifactRef"}
     if field_name in mapping_fields:
@@ -435,6 +509,10 @@ def _placeholder(field_name: str, *, section: str, choices: tuple[str, ...] = ()
         return f"<choose exactly one: {' | '.join(str(choice) for choice in choices)}>"
     if field_name == "hessian":
         return "<dense Hessian result mapping or primary Hessian artifact_id>"
+    if field_name == "electron_density":
+        return "<primary ElectronDensityResult artifact_id from calculate_correlated_electron_density>"
+    if field_name == "density_file":
+        return "<ElectronDensityWavefunction or ElectronDensityGrid artifact_id from export_electron_density_grid>"
     shape = _field_type(field_name, section=section)["type"]
     if shape == "boolean":
         return "<boolean>"
@@ -846,6 +924,7 @@ def browse_action_category(
     category: str,
     action_kind: ActionKind = "all",
     available_only: bool = False,
+    detail_level: Literal["summary", "full"] = "full",
     snapshot: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Return the complete compact choice set inside one exact Action category."""
@@ -854,6 +933,7 @@ def browse_action_category(
         category=category,
         action_kind=action_kind,
         available_only=available_only,
+        detail_level=detail_level,
         limit=100,
         snapshot=snapshot,
     )
@@ -927,6 +1007,7 @@ def search_actions(
     backend_id: str | None = None,
     action_kind: ActionKind = "all",
     retrieval_mode: Literal["lexical", "hybrid"] = "hybrid",
+    detail_level: Literal["summary", "full"] = "full",
     available_only: bool = False,
     limit: int = 20,
     offset: int = 0,
@@ -1083,34 +1164,15 @@ def search_actions(
             }
             for backend in specification.backend_ids
         ]
-        results.append(
-            {
+        summary = {
                 "action_id": specification.id,
                 "category": specification.category,
-                "aliases": list(
-                    dict.fromkeys(
-                        (*aliases_for_action(specification.id), *specification.aliases)
-                    )
-                ),
-                "keywords": list(specification.keywords),
-                "capability_tags": list(specification.capability_tags),
-                "scientific_entities": list(specification.scientific_entities),
-                "task_verbs": list(specification.task_verbs),
-                "input_semantic_types": list(
-                    specification.input_semantic_types or specification.required_inputs
-                ),
-                "output_semantic_types": list(
-                    specification.output_semantic_types or (specification.primary_output,)
-                ),
                 "description": specification.description,
                 "primary_output": specification.primary_output,
                 "data_action": specification.data_action,
-                "execution_timeout_policy": timeout_policy_record(
-                    specification.execution_class
-                ),
-                "evaluation_resource_budget": resource_budget_record(),
+                "batch_safe": specification.batch_safe,
                 "selection_policy": specification.selection_policy,
-                "providers": providers,
+                "provider_ids": [item["backend_id"] for item in providers],
                 "relevance": per_action_scores.get(specification.id),
                 **per_action_explanations.get(
                     specification.id,
@@ -1122,7 +1184,72 @@ def search_actions(
                     },
                 ),
             }
+        if detail_level == "full":
+            summary.update(
+                {
+                    "aliases": list(
+                        dict.fromkeys(
+                            (*aliases_for_action(specification.id), *specification.aliases)
+                        )
+                    ),
+                    "keywords": list(specification.keywords),
+                    "capability_tags": list(specification.capability_tags),
+                    "scientific_entities": list(specification.scientific_entities),
+                    "task_verbs": list(specification.task_verbs),
+                    "input_semantic_types": list(
+                        specification.input_semantic_types
+                        or specification.required_inputs
+                    ),
+                    "output_semantic_types": list(
+                        specification.output_semantic_types
+                        or (specification.primary_output,)
+                    ),
+                    "execution_timeout_policy": timeout_policy_record(
+                        specification.execution_class
+                    ),
+                    "evaluation_resource_budget": resource_budget_record(),
+                    "providers": providers,
+                }
+            )
+        results.append(summary)
+    category_filter_advisory = None
+    if normalized_query and category is not None:
+        unrestricted = search_actions(
+            query=query,
+            category=None,
+            backend_id=backend_id,
+            action_kind=action_kind,
+            retrieval_mode=retrieval_mode,
+            detail_level="summary",
+            available_only=available_only,
+            limit=3,
+            offset=0,
+            snapshot=current,
         )
+        unrestricted_actions = unrestricted.get("actions", [])
+        unrestricted_top = unrestricted_actions[0] if unrestricted_actions else None
+        filtered_top = results[0] if results else None
+        if (
+            isinstance(unrestricted_top, dict)
+            and unrestricted_top.get("category") != category
+            and unrestricted_top.get("exact_matches")
+            and not (isinstance(filtered_top, dict) and filtered_top.get("exact_matches"))
+        ):
+            category_filter_advisory = {
+                "code": "exact_match_outside_requested_category",
+                "requested_category": category,
+                "suggested_category": unrestricted_top.get("category"),
+                "suggested_action_id": unrestricted_top.get("action_id"),
+                "message": (
+                    "The query has a stronger exact action or alias match outside the "
+                    "requested category. Inspect the suggested action or retry without "
+                    "a category filter."
+                ),
+            }
+        predicted_categories = unrestricted.get(
+            "predicted_categories", predicted_categories
+        )
+
     next_offset = offset + len(page)
     return {
         "status": "success",
@@ -1135,7 +1262,9 @@ def search_actions(
             "available_only": available_only,
         },
         "ordering": ordering,
+        "detail_level": detail_level,
         "predicted_categories": predicted_categories,
+        "category_filter_advisory": category_filter_advisory,
         "retrieval": {
             "mode": retrieval_mode,
             "lexical_ranker": "bm25",
@@ -1157,6 +1286,7 @@ def inspect_action(
     action_id: str,
     *,
     backend_id: str | None = None,
+    detail_level: Literal["summary", "contract", "full"] = "full",
     snapshot: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     current = _snapshot(snapshot)
@@ -1173,28 +1303,38 @@ def inspect_action(
     selected = (
         [backend_id] if backend_id is not None else list(specification.backend_ids)
     )
-    provider_contracts = [
-        _provider_contract(
-            backends[item],
-            action_id,
-            current,
-            detailed=backend_id is not None or len(selected) == 1,
-        )
-        for item in selected
-    ]
+    if detail_level == "full":
+        provider_contracts = [
+            _provider_contract(
+                backends[item],
+                action_id,
+                current,
+                detailed=backend_id is not None or len(selected) == 1,
+            )
+            for item in selected
+        ]
+    elif backend_id is not None and detail_level == "contract":
+        provider_contracts = [
+            _provider_contract(backends[backend_id], action_id, current, detailed=True)
+        ]
+    else:
+        provider_contracts = [
+            _provider_summary(backends[item], action_id, current) for item in selected
+        ]
     selected_request_contract = (
         _action_request_contract(specification, backends[backend_id])
-        if backend_id is not None
+        if backend_id is not None and detail_level in {"contract", "full"}
         else None
     )
-    return {
+    result = {
         "status": "success",
         "catalog_hash": current.get("catalog_hash"),
-        "action": specification.as_dict(),
-        "execution_timeout_policy": timeout_policy_record(
-            specification.execution_class
+        "detail_level": detail_level,
+        "action": (
+            specification.as_dict()
+            if detail_level == "full"
+            else _action_summary(specification)
         ),
-        "evaluation_resource_budget": resource_budget_record(),
         "selection_instruction": _selection_instruction(specification),
         "execute_with": "execute_action",
         "action_request_fields": [
@@ -1223,6 +1363,12 @@ def inspect_action(
         ),
         "automatic_fallback": False,
     }
+    if detail_level in {"contract", "full"}:
+        result["execution_timeout_policy"] = timeout_policy_record(
+            specification.execution_class
+        )
+        result["evaluation_resource_budget"] = resource_budget_record()
+    return result
 
 
 def inspect_backend(

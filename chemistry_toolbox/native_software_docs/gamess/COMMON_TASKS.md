@@ -6,7 +6,7 @@ aliases: ["GAMESS", "gamess"]
 inputs: ["job_name.inp"]
 outputs: ["job_name.log", "punch file", "restart and property files"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # GAMESS Common Tasks
 
@@ -56,6 +56,8 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 ## Command: `rungms`
 - Synopsis: `rungms job_name [version] [ncores]`.
 - Input mode: `arguments`.
-- Required files: `job_name.inp`.
+- Declared example inputs: `job_name.inp`.
+- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Example resources: `{'cpu_cores': 4, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes main GAMESS text to stdout and scratch/restart files to configured locations.
 - Caution: The first argument is the staged input basename without .inp; version and core count must match the installed launcher contract.

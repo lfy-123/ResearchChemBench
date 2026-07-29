@@ -13,6 +13,7 @@ from .config import JUDGE_API_BASE, JUDGE_API_KEY, JUDGE_MODEL_NAME
 from .live_progress import append_progress_event
 from .results import write_workspace_results
 from .trace import (
+    canonical_tool_trace_metadata,
     load_native_agent_trace,
     load_tool_trace,
     normalized_tool_calls,
@@ -710,7 +711,11 @@ def score_workspace(
 
     truth = load_ground_truth(task_id)
     report = report_path.read_text(encoding="utf-8", errors="replace")
-    events = load_tool_trace(workspace)
+    try:
+        events = load_tool_trace(workspace, strict=True)
+    except ValueError as exc:
+        return {"error": str(exc), "task_id": task_id}
+    canonical_trace = canonical_tool_trace_metadata(workspace)
     native_events = load_native_agent_trace(workspace)
     actual_calls = normalized_tool_calls(events)
     evaluation_mode = truth.get("evaluation_mode", "binary")
@@ -721,6 +726,7 @@ def score_workspace(
     metrics = process_metrics(events, workspace=workspace)
     metrics.update(
         {
+            "canonical_tool_trace": canonical_trace,
             "native_execution_event_count": len(native_events),
             "successful_native_events": sum(
                 event.get("status") == "success" for event in native_events

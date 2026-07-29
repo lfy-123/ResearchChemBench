@@ -6,7 +6,7 @@ aliases: ["phono3py", "phono3py"]
 inputs: ["unit cell", "displacement configuration", "force data", "optional Born charges"]
 outputs: ["supercell displacement structures", "phono3py_disp.yaml", "fc2.hdf5", "fc3.hdf5", "kappa files"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # phono3py Native Software Guide
 
@@ -29,7 +29,7 @@ Invoke an explicit Phono3py command for third-order force constants and lattice 
 ## Supported command entries
 | Executable | Input mode | Native invocation | Required staged inputs |
 |---|---|---|---|
-| `phono3py` | `arguments` | `phono3py --dim 2 2 2 -d --pa auto POSCAR` | `mode-specific structure`, `displacement`, `force`, `and configuration files` |
+| `phono3py` | `arguments` | `phono3py --dim 2 2 2 -d --pa auto POSCAR` | `displacement`, `force` |
 
 ## Supported task families
 - third-order displacement generation.

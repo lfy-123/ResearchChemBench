@@ -6,7 +6,7 @@ aliases: ["Quantum ESPRESSO pw.x", "quantum espresso"]
 inputs: ["input.in", "one pseudopotential per species"]
 outputs: ["stdout.log", "prefix.save database", "charge density", "wavefunctions", "relaxed structure"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Quantum ESPRESSO pw.x Native Software Guide
 
@@ -29,7 +29,7 @@ Execute an Agent-authored Quantum ESPRESSO pw.x input deck. The native layer is 
 ## Supported command entries
 | Executable | Input mode | Native invocation | Required staged inputs |
 |---|---|---|---|
-| `pw.x` | `arguments` | `pw.x -in input.in` | `input.in`, `pseudopotentials referenced by input.in` |
+| `pw.x` | `arguments` | `pw.x -in input.in` | `input.in` |
 
 ## Supported task families
 - scf.

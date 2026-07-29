@@ -6,7 +6,7 @@ aliases: ["AutoMeKin", "automekin"]
 inputs: ["AutoMeKin control file", "starting structure", "method-specific resources"]
 outputs: ["reaction network", "transition-state structures", "product structures", "component logs"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # AutoMeKin Troubleshooting
 

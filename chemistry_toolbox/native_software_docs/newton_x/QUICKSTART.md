@@ -6,7 +6,7 @@ aliases: ["Newton-X", "newton x"]
 inputs: ["control files", "initial conditions", "geometry", "electronic-structure interface files"]
 outputs: ["TRAJ directories", "dynamics logs", "populations", "geometries", "test reports"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Newton-X Quickstart
 
@@ -24,7 +24,9 @@ The runner creates an isolated job directory and executes the resolved binary th
 
 ## Input mode
 The primary executable is `nx_geninp` and its input mode is `arguments_or_stdin`.
-Required inputs: `generator answers/options and system/electronic-structure inputs`.
+Required inputs: no fixed file is declared for this command.
+Expected outputs: stdout/stderr or task-dependent outputs only.
+Example classification: `interface_template`.
 Output behavior: Writes Newton-X control and initial-condition files.
 
 ## Native command template

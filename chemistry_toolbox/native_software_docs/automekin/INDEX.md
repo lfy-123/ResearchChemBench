@@ -6,7 +6,7 @@ aliases: ["AutoMeKin", "automekin"]
 inputs: ["AutoMeKin control file", "starting structure", "method-specific resources"]
 outputs: ["reaction network", "transition-state structures", "product structures", "component logs"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # AutoMeKin Native Software Guide
 
@@ -29,9 +29,9 @@ Invoke individual AutoMeKin and bundled MOPAC entry points from explicit native 
 ## Supported command entries
 | Executable | Input mode | Native invocation | Required staged inputs |
 |---|---|---|---|
-| `amk.sh` | `arguments` | `amk.sh input.dat` | `AutoMeKin control/structure inputs and referenced resources` |
+| `amk.sh` | `arguments` | `amk.sh input.dat` | `input.dat` |
 | `mopac` | `arguments` | `mopac input.mop` | `input.mop` |
-| `bbfs.exe` | `arguments` | `bbfs.exe` | `AutoMeKin component-specific inputs` |
+| `bbfs.exe` | `arguments` | `bbfs.exe` | None |
 
 ## Supported task families
 - trajectory sampling.

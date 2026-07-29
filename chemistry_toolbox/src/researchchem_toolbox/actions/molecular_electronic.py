@@ -14,6 +14,7 @@ ACTION_SPECS = (
             ("xtb", "pyscf", "psi4", "tblite", "gpaw", "nwchem", "openmolcas", "mace", "chgnet", "deepmd", "orca", "gaussian", "gamess", "ase_emt"),
             ("structure",),
             input_description="non-periodic AtomicStructure",
+            batch_safe=True,
         ),
     _action(
             "calculate_forces",
@@ -35,6 +36,7 @@ ACTION_SPECS = (
             ),
             ("structure",),
             input_description="AtomicStructure",
+            batch_safe=True,
         ),
     _action(
             "optimize_geometry",
@@ -45,6 +47,7 @@ ACTION_SPECS = (
             ("structure",),
             ("constraints",),
             input_description="AtomicStructure plus explicit convergence and optional constraints",
+            batch_safe=True,
         ),
     _action(
             "calculate_dipole_moment",

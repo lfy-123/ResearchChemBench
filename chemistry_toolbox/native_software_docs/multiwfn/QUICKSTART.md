@@ -6,7 +6,7 @@ aliases: ["Multiwfn", "multiwfn"]
 inputs: ["wavefunction file", "commands.txt"]
 outputs: ["stdout.log", "exported grids", "tables", "images or structure files"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Multiwfn Quickstart
 
@@ -24,7 +24,9 @@ The runner creates an isolated job directory and executes the resolved binary th
 
 ## Input mode
 The primary executable is `Multiwfn_noGUI` and its input mode is `arguments_and_stdin_file`.
-Required inputs: `wavefunction file`, `commands.txt`.
+Required inputs: `commands.txt`, `wavefunction.fchk`.
+Expected outputs: stdout/stderr or task-dependent outputs only.
+Example classification: `scientific_template`.
 Output behavior: Writes interactive-menu output to stdout and selected analysis files to the job directory.
 
 ## Native command template

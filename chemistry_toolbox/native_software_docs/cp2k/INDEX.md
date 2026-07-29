@@ -6,7 +6,7 @@ aliases: ["CP2K", "cp2k"]
 inputs: ["input.inp", "coordinates", "basis sets and potentials when referenced"]
 outputs: ["output.out", "restart files", "trajectory files", "force files", "cube files"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # CP2K Native Software Guide
 
@@ -29,7 +29,7 @@ Execute a complete CP2K input deck for molecular, periodic, dynamics, spectrosco
 ## Supported command entries
 | Executable | Input mode | Native invocation | Required staged inputs |
 |---|---|---|---|
-| `cp2k` | `arguments` | `cp2k -i input.inp -o output.out` | `input.inp`, `all basis/potential/coordinate files referenced by it` |
+| `cp2k` | `arguments` | `cp2k -i input.inp -o output.out` | `input.inp` |
 
 ## Supported task families
 - single point.

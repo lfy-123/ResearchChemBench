@@ -6,7 +6,7 @@ aliases: ["SHARC", "sharc"]
 inputs: ["SHARC input", "initial conditions", "interface resources", "overlap input and orbital files"]
 outputs: ["trajectory directories", "output.dat", "populations", "geometries", "overlap data"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # SHARC Common Tasks
 
@@ -61,12 +61,16 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 ## Command: `sharc.x`
 - Synopsis: `sharc.x input`.
 - Input mode: `arguments`.
-- Required files: `SHARC input`, `initial conditions`, `and selected electronic-structure interface files`.
+- Declared example inputs: none declared.
+- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes trajectory, hopping, energy, state, and restart files in the job directory.
 
 ## Command: `wfoverlap.x`
 - Synopsis: `wfoverlap.x < overlap.inp`.
 - Input mode: `stdin_file`.
-- Required files: `overlap.inp and referenced wavefunction/orbital files`.
+- Declared example inputs: none declared.
+- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes overlap diagnostics and matrices to stdout or requested files.
 - Caution: The configured wfoverlap.x entry resolves to the installed ASCII executable.

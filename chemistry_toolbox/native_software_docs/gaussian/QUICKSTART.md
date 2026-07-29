@@ -6,7 +6,7 @@ aliases: ["Gaussian", "gaussian"]
 inputs: ["input.gjf or input.com"]
 outputs: ["stdout.log", "checkpoint file", "optional formatted checkpoint"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Gaussian Quickstart
 
@@ -25,6 +25,8 @@ The runner creates an isolated job directory and executes the resolved binary th
 ## Input mode
 The primary executable is `g16` and its input mode is `stdin_file`.
 Required inputs: `input.com`.
+Expected outputs: stdout/stderr or task-dependent outputs only.
+Example classification: `scientific_template`.
 Output behavior: Writes Gaussian output to stdout and checkpoint/scratch files named in the route input.
 
 ## Native command template

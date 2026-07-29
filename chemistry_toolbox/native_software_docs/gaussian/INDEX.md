@@ -6,7 +6,7 @@ aliases: ["Gaussian", "gaussian"]
 inputs: ["input.gjf or input.com"]
 outputs: ["stdout.log", "checkpoint file", "optional formatted checkpoint"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Gaussian Native Software Guide
 
@@ -30,7 +30,7 @@ Execute Gaussian 16 input and convert checkpoint files with formchk. The native 
 | Executable | Input mode | Native invocation | Required staged inputs |
 |---|---|---|---|
 | `g16` | `stdin_file` | `g16` | `input.com` |
-| `formchk` | `arguments` | `formchk input.chk output.fchk` | `input.chk` |
+| `formchk` | `arguments` | `formchk input.chk output.fchk` | `input.chk`, `output.fchk` |
 
 ## Supported task families
 - single point.

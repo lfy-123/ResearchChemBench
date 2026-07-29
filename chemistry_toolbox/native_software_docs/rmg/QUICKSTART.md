@@ -6,7 +6,7 @@ aliases: ["RMG-Py", "rmg"]
 inputs: ["input.py", "RMG database", "optional seed mechanisms and libraries"]
 outputs: ["chemkin files", "species dictionary", "RMG log", "HTML report", "restart data"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # RMG-Py Quickstart
 
@@ -24,7 +24,9 @@ The runner creates an isolated job directory and executes the resolved binary th
 
 ## Input mode
 The primary executable is `rmg.py` and its input mode is `arguments`.
-Required inputs: `input.py`, `any referenced seed/library files`.
+Required inputs: `input.py`.
+Expected outputs: stdout/stderr or task-dependent outputs only.
+Example classification: `scientific_template`.
 Output behavior: Writes the generated mechanism, species dictionaries, logs, and diagnostics in the configured output directory.
 
 ## Native command template

@@ -6,7 +6,7 @@ aliases: ["Critic2", "critic2"]
 inputs: ["input.cri", "structure file", "density or wavefunction field"]
 outputs: ["stdout.log", "critical-point tables", "basin integrations", "optional grids"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Critic2 Common Tasks
 
@@ -59,5 +59,7 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 ## Command: `critic2`
 - Synopsis: `critic2 input.cri`.
 - Input mode: `arguments`.
-- Required files: `input.cri`, `field/structure files referenced by input.cri`.
+- Declared example inputs: `input.cri`.
+- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes analysis text to stdout and requested files to the job directory.

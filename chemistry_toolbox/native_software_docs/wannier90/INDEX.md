@@ -6,7 +6,7 @@ aliases: ["Wannier90", "wannier90"]
 inputs: ["seedname.win", "and for full runs seedname.amn", "seedname.mmn", "seedname.eig"]
 outputs: ["seedname.nnkp", "seedname.wout", "seedname.chk", "interpolated data"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Wannier90 Native Software Guide
 
@@ -29,7 +29,7 @@ Preprocess and execute Wannier90 from an Agent-authored seedname.win and upstrea
 ## Supported command entries
 | Executable | Input mode | Native invocation | Required staged inputs |
 |---|---|---|---|
-| `wannier90.x` | `arguments` | `wannier90.x -pp seedname` | `seedname.win and mode-specific .amn/.mmn/.eig/.chk files` |
+| `wannier90.x` | `arguments` | `wannier90.x -pp seedname` | None |
 
 ## Supported task families
 - preprocessing.

@@ -6,7 +6,7 @@ aliases: ["QCEngine", "qcengine"]
 inputs: ["QCSchema JSON", "selected program name"]
 outputs: ["QCSchema result JSON", "structured error record", "provenance"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # QCEngine Common Tasks
 
@@ -57,6 +57,8 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 ## Command: `qcengine`
 - Synopsis: `qcengine run <program> input.json [CLI options]`.
 - Input mode: `arguments`.
-- Required files: `QCSchema AtomicInput or procedure input JSON`.
+- Declared example inputs: `input.json`.
+- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes the QCEngine result record to stdout or the explicitly selected CLI output.
 - Caution: The program name, model chemistry, driver, molecule, keywords, protocols, and resources must be present explicitly in the command/input.

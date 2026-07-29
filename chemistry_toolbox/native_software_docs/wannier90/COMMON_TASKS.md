@@ -6,7 +6,7 @@ aliases: ["Wannier90", "wannier90"]
 inputs: ["seedname.win", "and for full runs seedname.amn", "seedname.mmn", "seedname.eig"]
 outputs: ["seedname.nnkp", "seedname.wout", "seedname.chk", "interpolated data"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Wannier90 Common Tasks
 
@@ -46,7 +46,7 @@ Only collect outputs produced by the same job or by explicitly linked parent job
 | Artifact validity | Required files exist, are non-empty, and can be parsed | Files with expected names only |
 
 ## Software-specific end markers
-- `{'All done': 'wannier90 exiting'}`
+- `All done: wannier90 exiting`
 - `Exiting...`
 
 ## Scientific convergence notes
@@ -61,6 +61,8 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 ## Command: `wannier90.x`
 - Synopsis: `wannier90.x [-pp] seedname`.
 - Input mode: `arguments`.
-- Required files: `seedname.win and mode-specific .amn/.mmn/.eig/.chk files`.
+- Declared example inputs: none declared.
+- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes seedname.wout and selected Wannier functions, matrices, bands, or transport files.
 - Caution: Run preprocessing and main execution as separate explicit jobs when both are required.

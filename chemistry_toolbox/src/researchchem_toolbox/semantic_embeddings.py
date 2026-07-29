@@ -5,6 +5,8 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import tempfile
+from contextlib import contextmanager
 from functools import lru_cache
 from pathlib import Path
 from typing import Mapping, Sequence
@@ -89,18 +91,38 @@ def write_embedding_cache(documents: Mapping[str, str], path: Path | None = None
     import numpy as np
 
     destination = path or embedding_cache_path()
-    encoder = MiniLMEncoder(model_directory())
+    directory = model_directory().resolve()
+    model_path = directory / "model.onnx"
+    tokenizer_path = directory / "tokenizer.json"
+    encoder = _resident_encoder(
+        str(directory),
+        model_path.stat().st_mtime_ns,
+        tokenizer_path.stat().st_mtime_ns,
+    )
     ids = sorted(documents)
     vectors = encoder.encode([documents[item] for item in ids])
     destination.parent.mkdir(parents=True, exist_ok=True)
-    np.savez_compressed(
-        destination,
-        ids=np.asarray(ids),
-        vectors=vectors,
-        digest=np.asarray(document_digest(documents)),
-        model_id=np.asarray(MODEL_ID),
-    )
-    clear_semantic_runtime_cache()
+    temporary_path: Path | None = None
+    try:
+        with tempfile.NamedTemporaryFile(
+            dir=destination.parent,
+            prefix=f".{destination.name}.",
+            suffix=".npz",
+            delete=False,
+        ) as temporary:
+            temporary_path = Path(temporary.name)
+        np.savez_compressed(
+            temporary_path,
+            ids=np.asarray(ids),
+            vectors=vectors,
+            digest=np.asarray(document_digest(documents)),
+            model_id=np.asarray(MODEL_ID),
+        )
+        temporary_path.replace(destination)
+    finally:
+        if temporary_path is not None:
+            temporary_path.unlink(missing_ok=True)
+    _resident_embedding_cache.cache_clear()
     return destination
 
 
@@ -138,6 +160,40 @@ def clear_semantic_runtime_cache() -> None:
     _resident_embedding_cache.cache_clear()
 
 
+@contextmanager
+def _embedding_cache_lock(path: Path):
+    """Serialize index refreshes while keeping readers on an atomic cache file."""
+
+    import fcntl
+
+    lock_path = path.with_suffix(path.suffix + ".lock")
+    lock_path.parent.mkdir(parents=True, exist_ok=True)
+    with lock_path.open("a+b") as handle:
+        fcntl.flock(handle.fileno(), fcntl.LOCK_EX)
+        try:
+            yield
+        finally:
+            fcntl.flock(handle.fileno(), fcntl.LOCK_UN)
+
+
+def _cache_digest(path: Path) -> str | None:
+    if not path.is_file():
+        return None
+    stat = path.stat()
+    digest, _ids, _vectors = _resident_embedding_cache(
+        str(path.resolve()), stat.st_mtime_ns, stat.st_size
+    )
+    return digest
+
+
+def _refresh_embedding_cache(documents: Mapping[str, str], path: Path) -> None:
+    expected_digest = document_digest(documents)
+    with _embedding_cache_lock(path):
+        if _cache_digest(path) == expected_digest:
+            return
+        write_embedding_cache(documents, path)
+
+
 def semantic_scores(
     query: str,
     documents: Mapping[str, str],
@@ -151,14 +207,15 @@ def semantic_scores(
     except ImportError:
         return {}, "unavailable_numpy"
     path = cache_path or embedding_cache_path()
-    if not path.is_file():
-        return {}, "unavailable_embedding_cache"
     try:
+        expected_digest = document_digest(documents)
+        if _cache_digest(path) != expected_digest:
+            _refresh_embedding_cache(documents, path)
         stat = path.stat()
         cached_digest, ids, vectors = _resident_embedding_cache(
             str(path.resolve()), stat.st_mtime_ns, stat.st_size
         )
-        if cached_digest != document_digest(documents):
+        if cached_digest != expected_digest:
             return {}, "stale_embedding_cache"
         directory = model_directory().resolve()
         model_path = directory / "model.onnx"

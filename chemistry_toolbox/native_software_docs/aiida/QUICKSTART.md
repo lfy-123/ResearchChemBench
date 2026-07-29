@@ -6,7 +6,7 @@ aliases: ["AiiDA", "aiida"]
 inputs: ["configured AiiDA profile", "database", "broker or core profile", "workflow script"]
 outputs: ["AiiDA database nodes", "process records", "repository objects", "optional archive.aiida"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # AiiDA Quickstart
 
@@ -24,7 +24,9 @@ The runner creates an isolated job directory and executes the resolved binary th
 
 ## Input mode
 The primary executable is `verdi` and its input mode is `arguments`.
-Required inputs: `subcommand-specific files`.
+Required inputs: no fixed file is declared for this command.
+Expected outputs: stdout/stderr or task-dependent outputs only.
+Example classification: `interface_template`.
 Output behavior: Reads or updates the configured AiiDA profile and writes diagnostics/results to stdout.
 
 ## Native command template

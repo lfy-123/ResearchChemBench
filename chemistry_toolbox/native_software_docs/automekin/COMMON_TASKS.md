@@ -6,7 +6,7 @@ aliases: ["AutoMeKin", "automekin"]
 inputs: ["AutoMeKin control file", "starting structure", "method-specific resources"]
 outputs: ["reaction network", "transition-state structures", "product structures", "component logs"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # AutoMeKin Common Tasks
 
@@ -59,19 +59,25 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 ## Command: `amk.sh`
 - Synopsis: `amk.sh <Agent-prepared AutoMeKin input> [explicit options]`.
 - Input mode: `arguments`.
-- Required files: `AutoMeKin control/structure inputs and referenced resources`.
+- Declared example inputs: `input.dat`.
+- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes reaction-discovery intermediates, trajectories, candidates, and logs in the job directory.
 - Caution: This invokes the native program only; it does not prewire Gaussian, Qcore, or another electronic-structure engine.
 
 ## Command: `mopac`
 - Synopsis: `mopac input.mop`.
 - Input mode: `arguments`.
-- Required files: `input.mop`.
+- Declared example inputs: `input.mop`.
+- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes input.out, input.arc, and method-specific MOPAC files.
 
 ## Command: `bbfs.exe`
 - Synopsis: `bbfs.exe [AutoMeKin component arguments]`.
 - Input mode: `arguments`.
-- Required files: `AutoMeKin component-specific inputs`.
+- Declared example inputs: none declared.
+- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes component-specific search data to the job directory/stdout.
 - Caution: Use only when the cached AutoMeKin documentation identifies bbfs.exe as the required native component for the Agent's planned step.

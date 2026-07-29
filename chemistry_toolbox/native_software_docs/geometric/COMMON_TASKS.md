@@ -6,7 +6,7 @@ aliases: ["geomeTRIC", "geometric"]
 inputs: ["input geometry", "engine-specific input or configuration"]
 outputs: ["optimized geometry", "optimization trajectory", "log", "constraints summary"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # geomeTRIC Common Tasks
 
@@ -58,6 +58,8 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 ## Command: `geometric-optimize`
 - Synopsis: `geometric-optimize [optimizer options] input.xyz --engine <engine>`.
 - Input mode: `arguments`.
-- Required files: `input geometry and engine-specific files`.
+- Declared example inputs: `input.xyz`.
+- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes optimization logs, trajectory, and optimized coordinates in the job directory.
 - Caution: Engine, constraints, coordinate system, convergence thresholds, and engine method are not selected by the runner.

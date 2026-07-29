@@ -4,11 +4,137 @@
 
 ## 修改总结
 
-第三版方案以第二版 10 个完整任务的真实运行轨迹为依据，保留现有三层架构和已经有效的改动，不重复实现已经完成的能力。最高优先级从“继续扩充文档”调整为“修正软件手册、示例请求和运行状态的语义正确性”。
+第三版修改已经按本方案完成。工具箱仍保持“预设 Action、原生软件接口、通用编程接口”三层通用架构，没有新增按评测任务名称、论文名称或特定数据集分支的 MCP 运行时逻辑，也没有新增论文专用 Action、专用批处理接口或自动科研路线。
 
-本次基线为：495 次 Chemistry MCP 调用中，453 次成功、41 次 `invalid_request`、1 次后端直接失败；discovery 返回 2,137,800 bytes，其中 68 次 `inspect_action` 返回 1,339,413 bytes；11 次 Action 搜索在第二版运行时均未真正使用 embedding。当前语义环境已修复，但尚未经过新的完整 Agent 任务端到端验证。
+本次完成了 56 个软件的显式示例合同和手册语义审计、软件可用性与 smoke 分层、canonical trace 直接交付 Judger、Action discovery 减负与解释字段、embedding 缓存常驻及自动刷新、JobContext 合规诊断、资源阻塞诊断、通用 batch-safe Action、Hessian/EOS/拟合产物校验，以及 Heterobiaryl/PV 复现输入的文件级角色清单。`results.json` 现在直接暴露完整 process metrics，包括 Discovery 字节数、语义检索状态、JobContext 合规数和非受管解释器调用数。最终完整测试为 `422 passed in 455.09s`。
 
-第二版共有 23 个通用程序作业提交，终态为 19 成功、3 失败、1 取消。5 个 Agent 程序导入过 `JobContext`，但通过 `ctx.root.parents[2]` 或 `Path.cwd().parents[2]` 绕回任务 workspace，没有合规使用 `ctx.input()`、`write_json()` 或 `register_output()`，因此合规采用率仍为 0。
+真实复现 canary `Electron_Isodensity_Reproduction_04_Blind_Prediction` 使用官网 DeepSeek API 和 `deepseek-v4-flash` 完成，21 次 Chemistry MCP 调用全部成功，12 次受管科学 Action 全部成功，结论分 100、过程分 95、最终分 95。canonical trace 的路径、SHA-256、字节数、行数和非法行数已进入 `results.json` 并提供给 Judger。
+
+首次自主 canary 暴露出 Action catalog 变化后 MCP 进程只报告 `stale_embedding_cache`、不会自动重建的问题。该任务已停止，随后在通用语义索引层加入文件锁、原子替换和自动重建；真实英文查询现均返回 `semantic_status=available`，包括 transition-state 自然表达查询。后续 canary 又暴露了 shell 解释器绕行和 JobContext helper 未采用问题，均通过通用提示、预检与审计解决，没有加入任务专属分支。最终自主 canary 的结果记录在本文“真实验收”部分。
+
+## 实施状态与通用性边界
+
+| 范围 | 状态 | 通用性说明 |
+|---|---|---|
+| MCP Action 检索与执行 | 已完成 | 仅依据 ActionSpec、BackendSpec、输入合同和资源状态运行，不读取 task id 或论文信息 |
+| 原生软件文档、lint 与 smoke | 已完成 | 依据软件 id、命令合同和环境证据工作，不包含特定论文路线 |
+| 通用程序合同与 JobContext | 已完成 | 对所有 Python 程序统一执行 AST、路径、输入输出和产物合同检查 |
+| canonical trace 与 Judger | 已完成 | 由评估运行器统一生成和交付，与具体科学任务无关 |
+| Heterobiaryl/PV 文件角色 manifest | 已完成 | 属于 benchmark 输入数据修复，不进入工具箱运行时；只在复现任务中提供，以免向自主任务泄露论文实现路径 |
+| 既有 Heterobiaryl smoke evidence | 未改动 | `heterobiaryl_reaction_action_smoke_status.json` 是既有离线覆盖审计证据，不参与 MCP 路由或自动推荐 |
+| 模型/API 路由 | 已核对 | 使用 `https://api.deepseek.com/v1` 和原始模型名，不添加 `bailian/` 前缀 |
+
+运行时代码差异检查未发现新增的 `Heterobiaryl`、`Electron_Isodensity`、`PV_CC_CO` 或具体复现任务分支。评估框架中的 `task_id` 仅用于加载任务、结果和评分材料，不影响工具候选、参数、后端选择或失败恢复。
+
+## 实施记录
+
+### 1. 软件手册与示例合同
+
+- 新增 `native_software_example_contracts.yaml`，覆盖 56 个软件和 69 个显式命令合同。
+- 每个合同明确声明 `enabled`、`example_kind`、`arguments`、`inputs`、`outputs`、`stdin` 和资源申请，不再根据扩展名猜测 staged input。
+- 生成器校验输入输出不重叠、内部并行不超过申请 CPU、stdin 模式合法、disabled 命令不进入可运行示例。
+- 修正 OpenMolcas `25.10` 字符串版本、包含冒号的正常结束 marker、Amber launcher、CREST/Psi4/GAMESS/GROMACS/NAMD 资源映射等问题。
+- 54 个可运行或可验证条目生成完整的 `INDEX.md`、`QUICKSTART.md`、`COMMON_TASKS.md` 和 `TROUBLESHOOTING.md`；MATLAB 和 EasySpin 因安装/许可不可用，仅保留明确的限制说明，不伪造可运行示例。
+
+### 2. 软件可用性与 smoke 证据
+
+- `list_software` 和 `inspect_software` 分离 executable resolution、接口可提交性、interface smoke 和 scientific smoke。
+- 返回 `known_runtime_blockers`、smoke evidence、精确文档 topic 和示例路径。
+- VESTA、Arkane、RMG 等已知失败不再仅因 executable 可解析而显示为无条件可用。
+- Pysisyphus 的 H2/xTB 最小优化统一记录为 scientific smoke。
+
+### 3. Canonical trace 交付
+
+- `evaluation/trace.py` 对根目录 `_tool_trace.jsonl` 计算 SHA-256、字节数、有效行数、事件数和非法行数。
+- `results.json` 新增权威 `canonical_tool_trace` 对象。
+- Judger 严格读取该不可变文件；缺失、截断或非法 JSONL 不再静默按空轨迹评分。
+- Agent 自建的 `report/tool_trace.jsonl` 只作为普通产物，不能覆盖运行器轨迹。
+
+### 4. Discovery 与 embedding
+
+- `search_actions` 和 category browse 默认返回 compact summary；`inspect_action` 支持 `summary`、`contract`、`full` 三档。
+- 返回 `predicted_categories`、`matched_fields`、`ranking_reason`、BM25/semantic 分数和 selected-provider 合同。
+- 当智能体指定的 category 隐藏了其他 category 中的精确 Action/alias 匹配时，返回 `category_filter_advisory`、建议 category 和建议 Action；category 仍保持严格过滤语义，不静默混入跨类结果。
+- 使用英文 `sentence-transformers/all-MiniLM-L6-v2`，固定模型 revision 和本地 SHA-256，不引入外部向量数据库或中文索引。
+- ONNX Session 和向量矩阵常驻进程内存；真实搜索响应约 6–12 KiB，selected-provider contract 约 18–28 KiB。
+- canary 发现 stale cache 后，增加跨进程文件锁、临时文件原子替换和 catalog digest 自动重建。索引缺失或 catalog 改变时，首个 hybrid 查询直接重建并返回 `available`，后续查询复用常驻状态。
+
+### 5. JobContext 与通用程序合同
+
+- AST 预检把程序分为 `compliant`、`partial`、`bypassed` 和 `not_adopted`。
+- 检测 `ctx.root.parents[...]`、`Path.cwd().parents[...]` 和硬编码 workspace 路径，并返回 `job_context_contract_bypass` warning 及 helper 修复建议。
+- 该检查是可靠性诊断，不宣称阻止普通 Python 使用 `open()`、绝对路径或其他库读取文件。
+- 评估结果增加提交数、审计数、import 数、合规数、partial 数、bypass 数和未采用数。
+- 任务指令和 runtime discovery 均给出相同的最小 JobContext 模板；普通文件写入或不需要程序计算的任务不会被强制制造程序作业。
+- `JobContext.input()`、`output()`、`write_json()` 和 `register_output()` 仍是推荐入口，产物收集阶段继续执行 schema、NaN/Inf、表格、图像和 manifest 校验。
+
+### 6. 资源、批处理与科学产物
+
+- 资源拒绝返回 active job、占用资源、阻塞者和 `retry_when` 条件；保护性拒绝与后端执行失败分开统计。
+- 新增通用 `submit_action_batch`，最多 32 个子请求；仅 `ActionSpec.batch_safe=true` 的无依赖 Action 可使用，每个子作业保留独立状态、资源、产物和 provenance。
+- 首批 batch-safe Action 为 `calculate_energy`、`calculate_hessian`、`optimize_geometry` 和 `calculate_periodic_energy`，接口不包含论文或任务名称。
+- Hessian JSON 校验方阵、有限值、对称性和 coverage；EOS 校验有限且唯一的体积-能量点；拟合结果记录状态、样本数、参数、残差和失败原因。
+- 明确保持机械有效、软件收敛、产物可解析和科学结论正确为不同层级，最终科学结论仍由 Judger 评价。
+
+### 7. 真实 canary 驱动的通用修复
+
+- `resource_limits: null` 统一映射为既有默认资源，避免可选对象被误判为非法请求。
+- 电子密度 Action 合同明确要求 `ElectronDensityResult` ArtifactRef，并给出下一步 artifact-id 示例，不允许把 `.gbw` 路径误当密度结果。
+- `cutoffs_au` discovery 合同修正为数值数组，声明范围和示例；Multiwfn 后端同时兼容清晰的逗号/空白分隔历史输入，并在 warning/provenance 中记录规范化。
+- CREST、ORCA、Multiwfn 等修复均依据通用输入类型和软件合同实现，没有对 canary 任务设置条件分支。
+
+## 真实验收
+
+### 已完成的论文复现 canary
+
+| 指标 | 结果 |
+|---|---:|
+| 任务 | `Electron_Isodensity_Reproduction_04_Blind_Prediction` |
+| 模型 / Judge | `deepseek-v4-flash` / `deepseek-v4-flash` |
+| API | `https://api.deepseek.com/v1` |
+| 运行时长 | 447.148 s |
+| Chemistry MCP 调用 | 21 成功 / 0 失败 |
+| 受管科学 Action | 12 成功 / 0 失败 |
+| 工具运行时间 | 290.432606 s |
+| 结论分 / 过程分 / 最终分 | 100 / 95 / 95 |
+| Agent token | 1,702,071（含 cache read 1,578,624） |
+| Judge token | 89,405 |
+| canonical trace | 21 行，87,412 bytes，0 非法行 |
+| trace SHA-256 | `317c476630e2043470c3ebc5c1c64ca5c081d27a6218b4f514382a243fe5957a` |
+
+该 canary 完整执行了 ORCA correlated density、ArtifactRef 传递、波函数导出和 Multiwfn isodensity surface。唯一扣分是四个独立分子顺序运行，未充分利用并发；没有输入失败或后端失败。
+
+### 已完成的自主科研 canary
+
+| 指标 | 结果 |
+|---|---:|
+| 任务 | `Electron_Isodensity_04_Blind_Prediction` |
+| 模型 / Judge | `deepseek-v4-flash` / `deepseek-v4-flash` |
+| API | `https://api.deepseek.com/v1` |
+| 运行目录 | `workspaces/v3_program_canary_compliant/runs/cli_runs/batch_20260729_132126_4b700f` |
+| 运行时长 | 433.63 s |
+| Chemistry MCP 调用 | 43 成功 / 0 失败 |
+| 受管科学 Action | 26 成功 / 0 失败 |
+| 非法 Chemistry 请求 / 后端失败 | 0 / 0 |
+| hybrid 搜索 | 4 次，4 次 `semantic_status=available` |
+| Discovery 返回量 | 135,176 bytes |
+| `inspect_action` 返回量 | 114,830 bytes |
+| 编程接口 | 本任务未提交程序作业；未通过 shell 启动解释器 |
+| 结论分 / 过程分 / 最终分 | 100 / 89 / 89 |
+| Agent token | 3,732,654（含 cache read 3,570,944） |
+| Judge token | 75,840 |
+| canonical trace | 43 行，190,379 bytes，0 非法行 |
+| trace SHA-256 | `e4f368ed781a36b8b3db5e64a203173e46d7842574ef59372bd106d2f065eb7d` |
+
+该任务独立完成 RDKit 结构生成、GFN2-xTB 优化、CREST 构象检查、ORCA 密度计算、WFN 导出和 Multiwfn 等密度面分析。科研过程扣分来自只验证一套电子密度协议和独立计算顺序执行，不是工具失败。原生 Agent 轨迹中有一次把 MCP 工具写成无前缀 `list_analysis_runtimes` 的无效调用，下一步立即使用实际暴露的工具名成功恢复；该事件不属于 Chemistry MCP 后端失败。
+
+四次 hybrid 搜索中，前三次 Top-1 与意图一致。第四次将 `geometry optimization` 错误限定在 `structure_and_system`，因严格 category 过滤隐藏了 `molecular_electronic` 中的精确 alias。为解决这类通用分类误用，检索响应现会返回跨分类精确匹配 advisory；直接回归查询建议 `optimize_geometry` 和 `molecular_electronic`，同时保留 category 的严格过滤合同。
+
+### 回归测试
+
+- 最终完整测试：`422 passed in 455.09s`。
+- embedding 自动刷新与 progressive discovery 专项测试：`18 passed in 7.50s`。
+- catalog 变化后的真实英文查询：`electron isodensity surface`、`find a stationary structure with one negative curvature`、`conformer free energy ranking` 均返回 `semantic_status=available`，Top-1 分别为 `calculate_electron_isodensity_surface`、`locate_transition_state`、`rank_conformers_from_results`。
 
 ## 一、评价采纳结论
 
@@ -23,7 +149,7 @@
 | 文档检索应嵌入失败恢复 | 采纳但依赖手册修正 | 先保证手册和示例正确，再由 inspect/lint 返回精确章节和已测试示例 |
 | interface/scientific smoke 需要统一 | 采纳，最高优先级 | 将 executable resolution、interface smoke、scientific smoke 和可提交性分开暴露 |
 | 科学产物验证需要继续增加 | 部分采纳 | 不重复 MDCI cube 电子数积分和 GoodVibes 基本元数据，只补 Hessian coverage、EOS 和拟合结果校验 |
-| Heterobiaryl/PV manifest 必须补齐 | 采纳，重跑前置条件 | 为自主和复现任务同步提供无结果数值的逐文件角色与配对 manifest |
+| Heterobiaryl/PV manifest 必须补齐 | 采纳，重跑前置条件 | 复现任务提供无结果数值的逐文件角色与配对 manifest；自主任务不暴露论文路径角色 |
 | 必须用真实任务验收 | 采纳 | 先运行一个低成本 canary，达标后再决定是否批量重跑 |
 
 ## 二、P0 必须修正项
@@ -89,7 +215,7 @@ canonical `_tool_trace.jsonl` 在 10 个完整任务中均存在且可读取，�
 
 现有 `author_output_manifest.json` 主要停留在 zip 的 state/path/size/hash，无法告诉 Agent 哪个 Gaussian frequency 文件对应哪个 DLPNO 或 QZ 文件，也无法可靠映射原始 `Py/Ph/OMe/ax` 名称与评估路径角色。
 
-为自主任务和对应复现任务提供完全相同的英文 manifest，每条记录包含：
+为复现任务提供英文文件角色 manifest，每条记录包含：
 
 - archive state 和原始相对路径；
 - normalized structure id、stationary-point role、path family 和 conformer id；
@@ -97,7 +223,7 @@ canonical `_tool_trace.jsonl` 在 10 个完整任务中均存在且可读取，�
 - frequency、DLPNO、QZ 文件的显式配对和 SHA-256；
 - 是否满足该路径所需的 minimum/TS/intermediate/product 角色。
 
-manifest 不包含能量、势垒、排序、选择性或论文结论。新增 validator 检查每个评估路径所需角色和文件配对是否完整。该项是 Heterobiaryl/PV 重跑的前置条件。
+manifest 不包含能量、势垒、排序、选择性或论文结论。自主任务继续使用与复现任务相同的公开分子和原始输出输入边界，但不获得论文 stationary-point/path-family 配对标签，避免把论文实现方法和路径直接泄露给自主科研 Agent。新增 validator 检查复现任务每个评估路径所需角色和文件配对是否完整。该项是 Heterobiaryl/PV 重跑的前置条件。
 
 ## 三、P1 可靠性与成本改进
 

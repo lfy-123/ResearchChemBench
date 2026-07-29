@@ -6,7 +6,7 @@ aliases: ["DFTB+", "dftbplus"]
 inputs: ["dftb_in.hsd", "geometry", "Slater-Koster files"]
 outputs: ["detailed.out", "results.tag", "geo_end.gen", "charges.bin"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # DFTB+ Troubleshooting
 

@@ -6,7 +6,7 @@ aliases: ["AiiDA", "aiida"]
 inputs: ["configured AiiDA profile", "database", "broker or core profile", "workflow script"]
 outputs: ["AiiDA database nodes", "process records", "repository objects", "optional archive.aiida"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # AiiDA Troubleshooting
 

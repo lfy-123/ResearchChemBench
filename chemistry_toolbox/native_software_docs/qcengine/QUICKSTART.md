@@ -6,7 +6,7 @@ aliases: ["QCEngine", "qcengine"]
 inputs: ["QCSchema JSON", "selected program name"]
 outputs: ["QCSchema result JSON", "structured error record", "provenance"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # QCEngine Quickstart
 
@@ -24,7 +24,9 @@ The runner creates an isolated job directory and executes the resolved binary th
 
 ## Input mode
 The primary executable is `qcengine` and its input mode is `arguments`.
-Required inputs: `QCSchema AtomicInput or procedure input JSON`.
+Required inputs: `input.json`.
+Expected outputs: stdout/stderr or task-dependent outputs only.
+Example classification: `scientific_template`.
 Output behavior: Writes the QCEngine result record to stdout or the explicitly selected CLI output.
 
 ## Native command template

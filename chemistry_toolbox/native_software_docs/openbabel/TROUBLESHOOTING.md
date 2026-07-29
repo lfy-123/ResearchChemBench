@@ -6,7 +6,7 @@ aliases: ["Open Babel", "openbabel"]
 inputs: ["molecular input file"]
 outputs: ["converted molecular file", "console summary"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Open Babel Troubleshooting
 

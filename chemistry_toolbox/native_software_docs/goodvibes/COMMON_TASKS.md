@@ -6,7 +6,7 @@ aliases: ["GoodVibes", "goodvibes"]
 inputs: ["Gaussian", "ORCA", "NWChem", "Q-Chem", "xTB", "or ASE frequency output"]
 outputs: ["console table", "JSON or CSV result", "optional PES and plots"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # GoodVibes Common Tasks
 
@@ -62,7 +62,9 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 ## Command: `goodvibes`
 - Synopsis: `goodvibes OUTPUT... --temp K [state/scaling/qh options] [analysis option] --json result.json`.
 - Input mode: `arguments`.
-- Required files: `one or more Gaussian 09/16`, `ORCA 5/6`, `NWChem`, `Q-Chem 6`, `xTB`, `or ASE-extxyz output files`.
+- Declared example inputs: `NWChem`, `xTB`, `output.log`, `result.json`.
+- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes a GoodVibes_NAME.dat report and, when requested, structured JSON/CSV/Parquet plus plots or XYZ files in the isolated job directory.
 - Caution: Temperature, concentration/standard state, frequency scaling, quasi-harmonic treatment, and solvation corrections are scientific choices.
 - Caution: Use -v/--vscal for vibrational scaling. --fs is the quasi-harmonic entropy cutoff in cm-1; it is not a scale factor.

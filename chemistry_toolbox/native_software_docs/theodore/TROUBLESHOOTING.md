@@ -6,7 +6,7 @@ aliases: ["TheoDORE", "theodore"]
 inputs: ["dens_ana.in or subcommand input", "excited-state output", "orbital and density files"]
 outputs: ["summary tables", "charge-transfer matrices", "NTO files", "spectra and plots"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # TheoDORE Troubleshooting
 

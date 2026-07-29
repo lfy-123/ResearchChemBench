@@ -6,7 +6,7 @@ aliases: ["MESMER", "mesmer"]
 inputs: ["input.xml"]
 outputs: ["output.xml", "console log", "rate tables", "optional grain and diagnostic files"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # MESMER Native Software Guide
 

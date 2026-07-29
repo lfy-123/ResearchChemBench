@@ -296,7 +296,10 @@ def _validate_artifact_input_semantics(
                 action_id,
                 backend_id,
                 "inputs.electron_density requires the primary ElectronDensityResult artifact "
-                "returned by calculate_correlated_electron_density",
+                "returned by calculate_correlated_electron_density. Pass the output_artifacts "
+                "item whose semantic_type is 'ElectronDensityResult', "
+                "{'artifact_id': 'art_...'}, or that exact artifact-id string; do not pass "
+                "result.files.gbw or another backend file path.",
                 code="artifact_semantic_mismatch",
             )
         return None

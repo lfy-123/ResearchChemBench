@@ -6,7 +6,7 @@ aliases: ["Psi4", "psi4"]
 inputs: ["input.dat"]
 outputs: ["output.dat", "optional molecule", "wavefunction", "cube", "and scratch files"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Psi4 Quickstart
 
@@ -25,6 +25,8 @@ The runner creates an isolated job directory and executes the resolved binary th
 ## Input mode
 The primary executable is `psi4` and its input mode is `arguments`.
 Required inputs: `input.dat`.
+Expected outputs: `output.dat`.
+Example classification: `scientific_template`.
 Output behavior: Writes the named output file and optional scratch/result files.
 
 ## Native command template
@@ -48,14 +50,10 @@ Run that command only inside a directory containing the exact referenced files. 
     {
       "source_path": "workspace_inputs/input.dat",
       "target_path": "input.dat"
-    },
-    {
-      "source_path": "workspace_inputs/output.dat",
-      "target_path": "output.dat"
     }
   ],
   "resource_limits": {
-    "cpu_cores": 1,
+    "cpu_cores": 4,
     "memory_mb": 2048,
     "gpu_count": 0
   }

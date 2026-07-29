@@ -6,7 +6,7 @@ aliases: ["RMG-Py", "rmg"]
 inputs: ["input.py", "RMG database", "optional seed mechanisms and libraries"]
 outputs: ["chemkin files", "species dictionary", "RMG log", "HTML report", "restart data"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # RMG-Py Native Software Guide
 
@@ -29,7 +29,7 @@ Generate reaction mechanisms from a complete Agent-authored RMG-Py input file. T
 ## Supported command entries
 | Executable | Input mode | Native invocation | Required staged inputs |
 |---|---|---|---|
-| `rmg.py` | `arguments` | `rmg.py input.py` | `input.py`, `any referenced seed/library files` |
+| `rmg.py` | `arguments` | `rmg.py input.py` | `input.py` |
 
 ## Supported task families
 - gas-phase mechanism generation.

@@ -6,7 +6,7 @@ aliases: ["ABINIT", "abinit"]
 inputs: ["run.abi", "one pseudopotential per element"]
 outputs: ["run.abo", "run.o_WFK", "run.o_DEN", "stdout.log", "stderr.log"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # ABINIT Quickstart
 
@@ -24,7 +24,9 @@ The runner creates an isolated job directory and executes the resolved binary th
 
 ## Input mode
 The primary executable is `abinit` and its input mode is `arguments`.
-Required inputs: `input.abi`, `pseudopotentials and files referenced by it`.
+Required inputs: `input.abi`.
+Expected outputs: stdout/stderr or task-dependent outputs only.
+Example classification: `scientific_template`.
 Output behavior: Writes primary text to stdout and ABINIT files selected by input variables.
 
 ## Native command template

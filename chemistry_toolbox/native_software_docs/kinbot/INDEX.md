@@ -6,7 +6,7 @@ aliases: ["KinBot", "kinbot"]
 inputs: ["input.json", "starting structure", "templates", "selected QM backend configuration"]
 outputs: ["KinBot database", "structures", "quantum-chemistry inputs and logs", "PES files"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # KinBot Native Software Guide
 
@@ -29,8 +29,8 @@ Run KinBot species/reaction or PES searches from an Agent-authored JSON input. T
 ## Supported command entries
 | Executable | Input mode | Native invocation | Required staged inputs |
 |---|---|---|---|
-| `kinbot` | `arguments` | `kinbot input.json` | `input.json and referenced structures/templates` |
-| `pes` | `arguments` | `pes input.json` | `input.json and referenced KinBot/PES files` |
+| `kinbot` | `arguments` | `kinbot input.json` | `input.json` |
+| `pes` | `arguments` | `pes input.json` | `input.json` |
 
 ## Supported task families
 - reaction search.

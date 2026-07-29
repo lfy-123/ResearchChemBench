@@ -6,7 +6,7 @@ aliases: ["Arkane", "arkane"]
 inputs: ["input.py", "species files", "transition-state files", "quantum-chemistry logs"]
 outputs: ["output.py", "chem.inp", "supporting_information.csv", "plots"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Arkane Native Software Guide
 
@@ -29,7 +29,7 @@ Run Arkane thermochemistry, kinetics, pressure-dependence, or statmech jobs from
 ## Supported command entries
 | Executable | Input mode | Native invocation | Required staged inputs |
 |---|---|---|---|
-| `Arkane.py` | `arguments` | `Arkane.py input.py` | `input.py and all referenced quantum-chemistry/statmech files` |
+| `Arkane.py` | `arguments` | `Arkane.py input.py` | `input.py` |
 
 ## Supported task families
 - thermochemistry.

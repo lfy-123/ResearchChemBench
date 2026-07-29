@@ -6,7 +6,7 @@ aliases: ["VMD", "vmd"]
 inputs: ["analysis.tcl", "referenced structures and trajectories"]
 outputs: ["stdout.log", "user-defined tables", "structures", "images when rendering is configured"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # VMD Quickstart
 
@@ -24,7 +24,9 @@ The runner creates an isolated job directory and executes the resolved binary th
 
 ## Input mode
 The primary executable is `vmd` and its input mode is `arguments`.
-Required inputs: `analysis.tcl and referenced structures/trajectories`.
+Required inputs: `analysis.tcl`.
+Expected outputs: stdout/stderr or task-dependent outputs only.
+Example classification: `scientific_template`.
 Output behavior: Writes Tcl-selected measurements and files plus console output.
 
 ## Native command template

@@ -6,7 +6,7 @@ aliases: ["AutoDock Vina", "vina"]
 inputs: ["receptor.pdbqt", "ligand.pdbqt", "box center and size"]
 outputs: ["poses.pdbqt", "docking log", "affinity table"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # AutoDock Vina Common Tasks
 
@@ -58,5 +58,7 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 ## Command: `vina`
 - Synopsis: `vina --receptor receptor.pdbqt --ligand ligand.pdbqt --center_x X --center_y Y --center_z Z --size_x X --size_y Y --size_z Z --out poses.pdbqt [options]`.
 - Input mode: `arguments`.
-- Required files: `receptor.pdbqt`, `ligand.pdbqt`.
+- Declared example inputs: `receptor.pdbqt`, `ligand.pdbqt`.
+- Declared example outputs: `poses.pdbqt`.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes poses to --out and scores/logs to stdout or --log.

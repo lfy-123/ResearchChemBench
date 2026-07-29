@@ -6,7 +6,7 @@ aliases: ["DFTB+", "dftbplus"]
 inputs: ["dftb_in.hsd", "geometry", "Slater-Koster files"]
 outputs: ["detailed.out", "results.tag", "geo_end.gen", "charges.bin"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # DFTB+ Native Software Guide
 
@@ -29,7 +29,7 @@ Execute a complete DFTB+ calculation from native fixed-name input. The native la
 ## Supported command entries
 | Executable | Input mode | Native invocation | Required staged inputs |
 |---|---|---|---|
-| `dftb+` | `fixed_files` | `dftb+` | `dftb_in.hsd`, `referenced Slater-Koster and geometry files` |
+| `dftb+` | `fixed_files` | `dftb+` | `dftb_in.hsd` |
 
 ## Supported task families
 - single point.

@@ -6,7 +6,7 @@ aliases: ["Newton-X", "newton x"]
 inputs: ["control files", "initial conditions", "geometry", "electronic-structure interface files"]
 outputs: ["TRAJ directories", "dynamics logs", "populations", "geometries", "test reports"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Newton-X Native Software Guide
 
@@ -29,9 +29,9 @@ Generate and run Newton-X nonadiabatic dynamics from Agent-authored control file
 ## Supported command entries
 | Executable | Input mode | Native invocation | Required staged inputs |
 |---|---|---|---|
-| `nx_geninp` | `arguments_or_stdin` | `nx_geninp` | `generator answers/options and system/electronic-structure inputs` |
-| `nx_moldyn` | `fixed_files` | `nx_moldyn` | `Newton-X control.dyn and all referenced initial/electronic-structure files` |
-| `nx_test` | `arguments` | `nx_test 1` | `test-specific files` |
+| `nx_geninp` | `arguments_or_stdin` | `nx_geninp` | None |
+| `nx_moldyn` | `fixed_files` | `nx_moldyn` | None |
+| `nx_test` | `arguments` | `nx_test 1` | None |
 
 ## Supported task families
 - initial-condition generation.

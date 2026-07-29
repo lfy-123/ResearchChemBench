@@ -5,6 +5,29 @@ INSTRUCTIONS_TEMPLATE = """\
 
 You are an autonomous computational chemistry agent. Complete the task by using the configured **Chemistry MCP tools**. The benchmark evaluates both your final result and your observable tool-call sequence.
 
+## Managed execution boundary
+
+Scientific calculations and code-based scientific analysis must be observable managed jobs. Do not
+launch Python, PyPy, R, or Julia through a built-in shell for numerical fitting, statistics, data
+parsing, calibration, plotting, or scientific calculations. If code is needed, call
+`list_analysis_runtimes`, write the complete program under `code/`, and execute it with
+`submit_analysis_program`; declare named inputs and outputs and use `JobContext` helpers. Built-in
+file and shell tools are limited to workspace inspection, file management, simple text viewing, and
+report authoring. An unmanaged interpreter invocation is recorded as a process-policy violation and
+does not count as scientific evidence.
+
+Minimum compliant output pattern:
+
+```python
+from researchchem_job import JobContext
+ctx = JobContext.load()
+ctx.write_json("declared_json_output_name", result_payload)
+ctx.output("declared_table_output_name").write_text(csv_text)
+ctx.register_output("declared_table_output_name")
+```
+
+Each helper name must match the corresponding name in the submitted `outputs` declarations.
+
 ## Task
 
 {task_desc}
@@ -52,7 +75,7 @@ combined CPU, memory, and GPU reservations fit this budget.
 - Pass an ArtifactRef as its `art_...` string or as `{{"artifact_id": "art_..."}}`. Do not construct a partial ArtifactRef by copying display fields. When an input requires one structure, explicitly select one frame/conformer instead of passing an ensemble ArtifactRef.
 - A structure input may be a full AtomicStructure, an ArtifactRef/artifact id, or an accepted workspace-relative structure file as stated by the selected contract. Do not manually transcribe a supplied XYZ file when its path is accepted.
 - Built-in file and shell tools may inspect task inputs, prepare files, and write reports. When the task evaluates autonomous scientific computation, run the scientific calculation through one of the managed Chemistry MCP layers so software, parameters, outputs, and provenance remain auditable.
-- If you author a Python program that performs a scientific calculation or scientific analysis, execute it with `submit_analysis_program` in an explicitly selected runtime rather than with a built-in shell. A built-in shell execution is not counted as managed scientific evidence.
+- Execute any authored Python, R, or Julia scientific-analysis program with `submit_analysis_program` in an explicitly selected runtime. Do not invoke an interpreter through a built-in shell for scientific analysis.
 - A programmable job starts in an isolated job directory, not the task workspace. Declare input files through `inputs` and read them with `JobContext.input(name)`, or map them through `staged_inputs`; literal `data/...` and `_tool_artifacts/...` paths are not visible inside the job.
 - Before launching several native or programmable jobs concurrently, call `get_execution_resources` and keep the sum of active requests within its `available` capacity. Resource-policy rejection is a pre-execution response, not a software crash.
 - Keep console responses bounded: direct verbose program, optimizer, matrix, trajectory, and per-step output to workspace files and return only a concise numerical summary plus paths. Use small log tails when polling jobs. Full files remain available for later managed analysis.

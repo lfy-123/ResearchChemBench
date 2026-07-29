@@ -6,7 +6,7 @@ aliases: ["MESMER", "mesmer"]
 inputs: ["input.xml"]
 outputs: ["output.xml", "console log", "rate tables", "optional grain and diagnostic files"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # MESMER Common Tasks
 
@@ -57,5 +57,7 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 ## Command: `mesmer`
 - Synopsis: `mesmer input.xml -o output.xml [options]`.
 - Input mode: `arguments`.
-- Required files: `input.xml`.
+- Declared example inputs: `input.xml`.
+- Declared example outputs: `output.xml`.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes audit/result XML and text diagnostics.

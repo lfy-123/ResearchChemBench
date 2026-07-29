@@ -2,8 +2,17 @@ from __future__ import annotations
 
 import json
 
-from chemistry_toolbox.mcp.discovery_models import ActionSearchRequest, ProgressiveActionRequest
-from chemistry_toolbox.mcp.discovery_tools import execute_action, search_actions as traced_search_actions
+from chemistry_toolbox.mcp.discovery_models import (
+    ActionBatchItem,
+    ActionBatchRequest,
+    ActionSearchRequest,
+    ProgressiveActionRequest,
+)
+from chemistry_toolbox.mcp.discovery_tools import (
+    execute_action,
+    search_actions as traced_search_actions,
+    submit_action_batch,
+)
 from chemistry_toolbox.mcp.result_transport import compact_action_result
 from researchchem_toolbox.catalog import action_specs, catalog_snapshot
 from researchchem_toolbox.discovery import (
@@ -15,6 +24,88 @@ from researchchem_toolbox.discovery import (
     search_actions,
     search_resources,
 )
+
+
+def test_progressive_detail_levels_bound_discovery_payloads() -> None:
+    summary = search_actions(
+        query="geometry optimization",
+        limit=10,
+        detail_level="summary",
+    )
+    full = search_actions(
+        query="geometry optimization",
+        limit=10,
+        detail_level="full",
+    )
+    assert len(json.dumps(summary)) < len(json.dumps(full)) * 0.6
+    assert "provider_ids" in summary["actions"][0]
+    assert "providers" not in summary["actions"][0]
+
+    contract = inspect_action(
+        "calculate_energy",
+        detail_level="contract",
+    )
+    complete = inspect_action("calculate_energy", detail_level="full")
+    assert len(json.dumps(contract)) < len(json.dumps(complete)) * 0.4
+    assert contract["selected_request_contract"] is None
+
+    selected = inspect_action(
+        "calculate_energy",
+        backend_id="orca",
+        detail_level="contract",
+    )
+    assert selected["selected_request_contract"] is not None
+    assert selected["provider_contracts"][0]["backend_id"] == "orca"
+
+
+def test_batch_safe_actions_keep_independent_child_trace_and_status(
+    tmp_path, monkeypatch
+) -> None:
+    monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
+    (tmp_path / "outputs").mkdir()
+    monkeypatch.setattr(
+        "chemistry_toolbox.mcp.discovery_tools._execute_action",
+        lambda action_id, request: {
+            "status": "success",
+            "action": action_id,
+            "result": {"label": request["inputs"]["label"]},
+            "output_artifacts": [],
+        },
+    )
+    result = submit_action_batch(
+        ActionBatchRequest(
+            action_id="calculate_energy",
+            backend_id="ase_emt",
+            items=[
+                ActionBatchItem(item_id="point_1", inputs={"label": "one"}),
+                ActionBatchItem(item_id="point_2", inputs={"label": "two"}),
+            ],
+        )
+    )
+    assert result["status"] == "success"
+    assert [item["item_id"] for item in result["items"]] == ["point_1", "point_2"]
+    assert [item["result"]["result"]["label"] for item in result["items"]] == [
+        "one",
+        "two",
+    ]
+    trace = [json.loads(line) for line in (tmp_path / "_tool_trace.jsonl").read_text().splitlines()]
+    assert len(trace) == 2
+    assert {item["arguments"]["batch_item_id"] for item in trace} == {
+        "point_1",
+        "point_2",
+    }
+
+
+def test_batch_submission_rejects_actions_without_batch_safe_contract() -> None:
+    result = submit_action_batch(
+        ActionBatchRequest(
+            action_id="calculate_dipole_moment",
+            backend_id="xtb",
+            items=[ActionBatchItem(item_id="one", inputs={})],
+        )
+    )
+    assert result["status"] == "invalid_request"
+    assert result["error"]["code"] == "action_not_batch_safe"
 
 
 def _snapshot() -> dict:
@@ -91,6 +182,21 @@ def test_action_search_uses_aliases_and_bm25_ranking():
         snapshot=snapshot,
     )
     assert transition_state["actions"][0]["action_id"] == "locate_transition_state"
+
+
+def test_action_search_warns_when_category_filter_hides_exact_alias_match():
+    snapshot = _snapshot()
+    result = search_actions(
+        query="geometry optimization",
+        category="structure_and_system",
+        retrieval_mode="hybrid",
+        snapshot=snapshot,
+    )
+
+    advisory = result["category_filter_advisory"]
+    assert advisory["code"] == "exact_match_outside_requested_category"
+    assert advisory["suggested_action_id"] == "optimize_geometry"
+    assert advisory["suggested_category"] == "molecular_electronic"
 
 
 def test_action_search_and_inspection_return_exact_provider_contracts():
@@ -201,6 +307,31 @@ def test_progressive_dispatch_traces_the_real_action_id(tmp_path, monkeypatch):
     assert event["status"] == "invalid_request"
 
 
+def test_progressive_requests_treat_null_optional_resources_as_omitted():
+    request = ProgressiveActionRequest.model_validate(
+        {
+            "action_id": "calculate_correlated_electron_density",
+            "resource_limits": {
+                "cpu_cores": 8,
+                "memory_mb": None,
+                "gpu_count": None,
+            },
+        }
+    )
+    assert request.resource_limits.model_dump() == {
+        "memory_mb": 4096,
+        "cpu_cores": 8,
+        "gpu_count": 0,
+    }
+    assert ProgressiveActionRequest.model_validate(
+        {"action_id": "calculate_energy", "resource_limits": None}
+    ).resource_limits.model_dump() == {
+        "memory_mb": 4096,
+        "cpu_cores": 1,
+        "gpu_count": 0,
+    }
+
+
 def test_read_only_discovery_traces_without_scanning_workspace(tmp_path, monkeypatch):
     monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
 
@@ -302,6 +433,18 @@ def test_composite_and_typed_handoff_contracts_are_explicit():
     assert "derive_vibrational_modes" in thermochemistry_note
     assert "Hessian, not a FrequencyResult" in thermochemistry_note
 
+    density_export = inspect_action(
+        "export_electron_density_grid",
+        backend_id="orca",
+        snapshot=snapshot,
+    )["selected_request_contract"]
+    density_input = density_export["sections"]["inputs"]["required"][0]
+    assert density_input["type"] == "ElectronDensityResult ArtifactRef"
+    assert "job.gbw" in " ".join(density_input["rejected_forms"])
+    assert "ElectronDensityResult artifact_id" in density_export[
+        "execute_action_request_template"
+    ]["inputs"]["electron_density"]
+
 
 def test_progressive_result_transport_keeps_scalars_and_compacts_dense_values():
     primary = {
@@ -344,3 +487,30 @@ def test_progressive_result_transport_keeps_scalars_and_compacts_dense_values():
     assert compact["output_artifacts"] == [primary]
     assert compact["transport"]["supplementary_artifact_count"] == 1
     assert len(json.dumps(compact)) < 10_000
+
+
+def test_density_result_transport_exposes_exact_next_action_handoff():
+    primary = {
+        "artifact_id": "art_11111111111111111111111111111111",
+        "semantic_type": "ElectronDensityResult",
+        "media_type": "application/json",
+        "sha256": "a" * 64,
+        "path": "_tool_artifacts/objects/density.json",
+        "producer_action": "calculate_correlated_electron_density",
+        "producer_backend": "orca",
+        "parent_artifact_ids": [],
+    }
+    compact = compact_action_result(
+        {
+            "status": "success",
+            "action": "calculate_correlated_electron_density",
+            "result": {"files": {"gbw": "outputs/job.gbw"}},
+            "input_artifacts": [],
+            "output_artifacts": [primary],
+            "warnings": [],
+            "error": None,
+        }
+    )
+    handoff = compact["artifact_handoff"]["next_action_example"]
+    assert handoff["inputs"]["electron_density"] == primary["artifact_id"]
+    assert "not result.files.gbw" in handoff["warning"]

@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import json
+import hashlib
+import re
 from pathlib import Path
 from typing import Any
 
@@ -28,22 +30,67 @@ EXECUTION_JOB_OBSERVATION_TOOLS = {
 }
 SUCCESSFUL_JOB_STATES = {"success"}
 FAILED_JOB_STATES = {"failed", "timeout", "cancelled"}
+INTERPRETER_SHELL_PATTERN = re.compile(
+    r"(?:^|[;&|()\n]\s*)(python(?:3(?:\.\d+)?)?|pypy3?|rscript|julia)\b",
+    re.IGNORECASE,
+)
 
 
-def load_tool_trace(workspace: Path) -> list[dict[str, Any]]:
+def canonical_tool_trace_metadata(workspace: Path) -> dict[str, Any] | None:
     path = workspace / "_tool_trace.jsonl"
-    if not path.exists():
-        return []
-    events: list[dict[str, Any]] = []
-    for line in path.read_text(encoding="utf-8", errors="replace").splitlines():
+    if not path.is_file():
+        return None
+    payload = path.read_bytes()
+    lines = payload.decode("utf-8", errors="replace").splitlines()
+    event_count = 0
+    invalid_line_count = 0
+    for line in lines:
         if not line.strip():
             continue
         try:
             value = json.loads(line)
         except json.JSONDecodeError:
+            invalid_line_count += 1
+            continue
+        if isinstance(value, dict):
+            event_count += 1
+        else:
+            invalid_line_count += 1
+    return {
+        "path": "_tool_trace.jsonl",
+        "sha256": hashlib.sha256(payload).hexdigest(),
+        "size_bytes": len(payload),
+        "line_count": len(lines),
+        "event_count": event_count,
+        "invalid_line_count": invalid_line_count,
+        "authoritative": True,
+    }
+
+
+def load_tool_trace(workspace: Path, *, strict: bool = False) -> list[dict[str, Any]]:
+    path = workspace / "_tool_trace.jsonl"
+    if not path.exists():
+        return []
+    events: list[dict[str, Any]] = []
+    for line_number, line in enumerate(
+        path.read_text(encoding="utf-8", errors="replace").splitlines(), start=1
+    ):
+        if not line.strip():
+            continue
+        try:
+            value = json.loads(line)
+        except json.JSONDecodeError as exc:
+            if strict:
+                raise ValueError(
+                    f"Malformed canonical tool trace at {path}:{line_number}: {exc}"
+                ) from exc
             continue
         if isinstance(value, dict):
             events.append(value)
+        elif strict:
+            raise ValueError(
+                f"Canonical tool trace at {path}:{line_number} is not a JSON object"
+            )
     return events
 
 
@@ -235,6 +282,107 @@ def _execution_job_states(
     return states
 
 
+def _job_context_metrics(
+    events: list[dict[str, Any]], *, workspace: str | Path | None = None
+) -> dict[str, int]:
+    submissions = [
+        _event_result(event, workspace=workspace)
+        for event in events
+        if event.get("tool") == "submit_analysis_program"
+    ]
+    compliance = [
+        result.get("job_context_compliance")
+        for result in submissions
+        if isinstance(result.get("job_context_compliance"), dict)
+    ]
+    statuses = [str(item.get("status") or "unknown") for item in compliance]
+    return {
+        "analysis_program_submission_count": len(submissions),
+        "job_context_audited_job_count": len(compliance),
+        "job_context_import_count": sum(
+            bool(item.get("job_context_imported")) for item in compliance
+        ),
+        "job_context_compliant_job_count": statuses.count("compliant"),
+        "job_context_partial_job_count": statuses.count("partial"),
+        "job_context_bypass_count": statuses.count("bypassed"),
+        "job_context_not_adopted_count": statuses.count("not_adopted"),
+    }
+
+
+def _unmanaged_interpreter_shell_metrics(workspace: str | Path | None) -> dict[str, int]:
+    if workspace is None:
+        return {
+            "unmanaged_interpreter_shell_call_count": 0,
+            "unmanaged_python_shell_call_count": 0,
+            "unmanaged_other_interpreter_shell_call_count": 0,
+        }
+    interpreter_calls = 0
+    python_calls = 0
+    for event in load_native_agent_trace(Path(workspace)):
+        if str(event.get("tool") or "").casefold() not in {"bash", "shell"}:
+            continue
+        arguments = event.get("arguments") if isinstance(event.get("arguments"), dict) else {}
+        command = arguments.get("command") or arguments.get("cmd")
+        if not isinstance(command, str):
+            continue
+        match = INTERPRETER_SHELL_PATTERN.search(command.strip())
+        if match is None:
+            continue
+        interpreter_calls += 1
+        if match.group(1).casefold().startswith(("python", "pypy")):
+            python_calls += 1
+    return {
+        "unmanaged_interpreter_shell_call_count": interpreter_calls,
+        "unmanaged_python_shell_call_count": python_calls,
+        "unmanaged_other_interpreter_shell_call_count": interpreter_calls - python_calls,
+    }
+
+
+def _discovery_metrics(
+    events: list[dict[str, Any]], *, workspace: str | Path | None = None
+) -> dict[str, int]:
+    discovery_events = [
+        event for event in events if event.get("tool") in CATALOG_DISCOVERY_TOOLS
+    ]
+    semantic_statuses: list[str] = []
+    hybrid_searches = 0
+    category_filter_advisories = 0
+    result_bytes = 0
+    inspect_result_bytes = 0
+    for event in discovery_events:
+        result = _event_result(event, workspace=workspace)
+        retrieval = result.get("retrieval")
+        if isinstance(retrieval, dict):
+            if str(retrieval.get("mode") or "").casefold() == "hybrid":
+                hybrid_searches += 1
+            status = str(retrieval.get("semantic_status") or "").casefold()
+            if status:
+                semantic_statuses.append(status)
+        if isinstance(result.get("category_filter_advisory"), dict):
+            category_filter_advisories += 1
+        encoded_size = len(
+            json.dumps(result, ensure_ascii=False, separators=(",", ":")).encode(
+                "utf-8"
+            )
+        )
+        result_bytes += encoded_size
+        if event.get("tool") == "inspect_action":
+            inspect_result_bytes += encoded_size
+    return {
+        "discovery_result_bytes": result_bytes,
+        "inspect_action_result_bytes": inspect_result_bytes,
+        "search_actions_call_count": sum(
+            event.get("tool") == "search_actions" for event in discovery_events
+        ),
+        "hybrid_search_call_count": hybrid_searches,
+        "category_filter_advisory_count": category_filter_advisories,
+        "semantic_search_available_count": semantic_statuses.count("available"),
+        "semantic_search_degraded_count": sum(
+            status != "available" for status in semantic_statuses
+        ),
+    }
+
+
 def process_metrics(
     events: list[dict[str, Any]], *, workspace: str | Path | None = None
 ) -> dict[str, Any]:
@@ -260,6 +408,9 @@ def process_metrics(
     managed_successes = 0
     managed_failures = 0
     managed_incomplete = 0
+    job_context_metrics = _job_context_metrics(events, workspace=workspace)
+    unmanaged_interpreter_metrics = _unmanaged_interpreter_shell_metrics(workspace)
+    discovery_metrics = _discovery_metrics(events, workspace=workspace)
     for event in managed_scientific_events:
         if event.get("tool") not in MANAGED_OPEN_EXECUTION_TOOLS:
             if event.get("status") in SUCCESSFUL_TOOL_STATUSES:
@@ -370,4 +521,7 @@ def process_metrics(
             for event, code in zip(events, error_codes)
         )
         + sum(state in FAILED_JOB_STATES for state in job_states.values()),
+        **job_context_metrics,
+        **unmanaged_interpreter_metrics,
+        **discovery_metrics,
     }

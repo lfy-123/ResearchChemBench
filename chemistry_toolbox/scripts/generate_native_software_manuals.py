@@ -25,6 +25,7 @@ from researchchem_toolbox.catalog import backend_specs
 
 GUIDES_PATH = TOOLBOX_ROOT / "config" / "native_software_guides.yaml"
 PROFILES_PATH = TOOLBOX_ROOT / "config" / "native_software_manual_profiles.yaml"
+EXAMPLE_CONTRACTS_PATH = TOOLBOX_ROOT / "config" / "native_software_example_contracts.yaml"
 SMOKE_RESULTS_PATH = TOOLBOX_ROOT / "evidence" / "native_interface_smoke" / "latest.json"
 DOCS_ROOT = TOOLBOX_ROOT / "native_software_docs"
 HAND_WRITTEN_SOFTWARE = {"orca", "gaussian", "crest", "vasp", "lobster"}
@@ -71,7 +72,7 @@ def _front_matter(
             f"inputs: {_json(inputs if inputs is not None else profile.get('inputs', []))}",
             f"outputs: {_json(outputs if outputs is not None else profile.get('outputs', []))}",
             f"last_smoke_tested: {tested}",
-            "generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml",
+            "generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml",
             "---",
         ]
     )
@@ -84,14 +85,114 @@ def smoke_results() -> dict[str, dict[str, Any]]:
     return {str(item["software_id"]): item for item in payload.get("software", [])}
 
 
-def load_sources() -> tuple[dict[str, Any], dict[str, Any]]:
+def load_sources() -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
     guides = yaml.safe_load(GUIDES_PATH.read_text(encoding="utf-8"))["software"]
     profiles = yaml.safe_load(PROFILES_PATH.read_text(encoding="utf-8"))["software"]
-    if set(guides) != set(profiles):
+    contracts = yaml.safe_load(EXAMPLE_CONTRACTS_PATH.read_text(encoding="utf-8"))["software"]
+    if set(guides) != set(profiles) or set(guides) != set(contracts):
         missing = sorted(set(guides) - set(profiles))
         extra = sorted(set(profiles) - set(guides))
-        raise ValueError(f"Manual profile mismatch; missing={missing}, extra={extra}")
-    return guides, profiles
+        contract_missing = sorted(set(guides) - set(contracts))
+        contract_extra = sorted(set(contracts) - set(guides))
+        raise ValueError(
+            "Manual source mismatch; "
+            f"profiles_missing={missing}, profiles_extra={extra}, "
+            f"contracts_missing={contract_missing}, contracts_extra={contract_extra}"
+        )
+    validate_sources(guides, profiles, contracts)
+    return guides, profiles, contracts
+
+
+def _parallel_width(arguments: list[str]) -> int:
+    width = 1
+    index = 0
+    while index < len(arguments):
+        item = arguments[index]
+        if item.startswith("+p") and item[2:].isdigit():
+            width = max(width, int(item[2:]))
+        elif item in {"--T", "-n", "-nt", "--threads", "--jobs", "-np"}:
+            if index + 1 < len(arguments) and arguments[index + 1].isdigit():
+                width = max(width, int(arguments[index + 1]))
+                index += 1
+        index += 1
+    return width
+
+
+def validate_sources(
+    guides: dict[str, Any], profiles: dict[str, Any], contracts: dict[str, Any]
+) -> None:
+    errors: list[str] = []
+    for software_id, guide in guides.items():
+        profile = profiles[software_id]
+        if not isinstance(profile.get("installed_version"), str):
+            errors.append(f"{software_id}: installed_version must be a quoted string")
+        for marker in profile.get("normal_markers") or []:
+            if not isinstance(marker, str):
+                errors.append(f"{software_id}: normal_markers must contain strings only")
+        guide_commands = guide.get("commands") or {}
+        contract_commands = (contracts[software_id] or {}).get("commands") or {}
+        if set(guide_commands) != set(contract_commands):
+            errors.append(
+                f"{software_id}: command contract mismatch; "
+                f"missing={sorted(set(guide_commands) - set(contract_commands))}, "
+                f"extra={sorted(set(contract_commands) - set(guide_commands))}"
+            )
+            continue
+        for executable, command in guide_commands.items():
+            contract = contract_commands[executable]
+            arguments = contract.get("arguments")
+            inputs = contract.get("inputs")
+            outputs = contract.get("outputs")
+            resources = contract.get("resource_limits")
+            if not isinstance(arguments, list) or not all(
+                isinstance(item, str) for item in arguments
+            ):
+                errors.append(f"{software_id}/{executable}: arguments must be strings")
+                continue
+            if not isinstance(inputs, list) or not all(
+                isinstance(item, str) and item for item in inputs
+            ):
+                errors.append(f"{software_id}/{executable}: inputs must be non-empty strings")
+                continue
+            if not isinstance(outputs, list) or not all(
+                isinstance(item, str) and item for item in outputs
+            ):
+                errors.append(f"{software_id}/{executable}: outputs must be non-empty strings")
+                continue
+            overlap = sorted(set(inputs) & set(outputs))
+            if overlap:
+                errors.append(
+                    f"{software_id}/{executable}: inputs and outputs overlap: {overlap}"
+                )
+            if not isinstance(resources, dict) or not all(
+                isinstance(resources.get(name), int)
+                for name in ("cpu_cores", "memory_mb", "gpu_count")
+            ):
+                errors.append(f"{software_id}/{executable}: invalid resource_limits")
+                continue
+            parallel_width = _parallel_width(arguments)
+            if parallel_width > int(resources["cpu_cores"]):
+                errors.append(
+                    f"{software_id}/{executable}: command requests {parallel_width} workers "
+                    f"but resource contract declares {resources['cpu_cores']} CPU cores"
+                )
+            enabled = command.get("enabled", True) is True
+            if contract.get("enabled", True) is not enabled:
+                errors.append(f"{software_id}/{executable}: enabled state differs from guide")
+            if contract.get("example_kind") not in {
+                "scientific_template",
+                "interface_template",
+                "disabled",
+                "placeholder",
+            }:
+                errors.append(f"{software_id}/{executable}: invalid example_kind")
+            stdin_target = contract.get("stdin_target")
+            if stdin_target is not None and stdin_target not in inputs:
+                errors.append(
+                    f"{software_id}/{executable}: stdin_target must be a declared input"
+                )
+    if errors:
+        raise ValueError("Invalid native software manual sources:\n" + "\n".join(errors))
 
 
 def _runtime(software_id: str, guide: dict[str, Any]) -> str:
@@ -100,63 +201,58 @@ def _runtime(software_id: str, guide: dict[str, Any]) -> str:
     return str(guide.get("runtime") or (specification.runtime if specification else "configured-runtime"))
 
 
-def _command_table(guide: dict[str, Any]) -> list[str]:
+def _command_table(guide: dict[str, Any], contracts: dict[str, Any]) -> list[str]:
     lines = [
         "| Executable | Input mode | Native invocation | Required staged inputs |",
         "|---|---|---|---|",
     ]
     for executable, command in (guide.get("commands") or {}).items():
-        argv = " ".join([executable, *(str(item) for item in command.get("example_arguments") or [])])
-        required = ", ".join(f"`{item}`" for item in command.get("required_files") or []) or "None"
+        contract = contracts["commands"][executable]
+        if contract.get("enabled", True) is not True:
+            continue
+        argv = " ".join([executable, *contract["arguments"]])
+        required = ", ".join(f"`{item}`" for item in contract["inputs"]) or "None"
         lines.append(
             f"| `{executable}` | `{command.get('input_mode', 'arguments')}` | `{argv}` | {required} |"
         )
     return lines
 
 
-def _first_command(guide: dict[str, Any]) -> tuple[str, dict[str, Any]]:
-    return next(iter((guide.get("commands") or {}).items()))
+def _first_command(
+    guide: dict[str, Any], contracts: dict[str, Any]
+) -> tuple[str, dict[str, Any], dict[str, Any]]:
+    for executable, command in (guide.get("commands") or {}).items():
+        contract = contracts["commands"][executable]
+        if command.get("enabled", True) is True and contract.get("enabled", True) is True:
+            return executable, command, contract
+    raise ValueError("No enabled native command is available for this software entry")
 
 
-def _specific_targets(command: dict[str, Any]) -> list[str]:
-    arguments = [str(item) for item in command.get("example_arguments") or []]
-    candidates: list[str] = []
-    for item in command.get("required_files") or []:
-        text = str(item)
-        if " " not in text and not any(char in text for char in "<>[]"):
-            candidates.append(text)
-    for item in arguments:
-        if item.startswith("-") or item.replace(".", "", 1).isdigit() or item.startswith("<"):
-            continue
-        if "." in Path(item).name and item not in candidates:
-            candidates.append(item)
-    return candidates
-
-
-def _request_template(software_id: str, guide: dict[str, Any]) -> dict[str, Any]:
-    executable, command = _first_command(guide)
-    targets = _specific_targets(command)
+def _request_template(
+    software_id: str, guide: dict[str, Any], contracts: dict[str, Any]
+) -> dict[str, Any]:
+    executable, _command, contract = _first_command(guide, contracts)
     request: dict[str, Any] = {
         "software_id": software_id,
         "executable": executable,
-        "arguments": [str(item) for item in command.get("example_arguments") or []],
+        "arguments": list(contract["arguments"]),
         "staged_inputs": [
             {"source_path": f"workspace_inputs/{target}", "target_path": target}
-            for target in targets
+            for target in contract["inputs"]
         ],
-        "resource_limits": {
-            "cpu_cores": 1,
-            "memory_mb": 2048,
-            "gpu_count": 0,
-        },
+        "resource_limits": dict(contract["resource_limits"]),
     }
-    mode = command.get("input_mode")
-    if mode in {"stdin_file", "arguments_and_stdin_file"}:
-        request["stdin_target"] = targets[-1] if targets else "input.in"
+    if contract.get("stdin_target"):
+        request["stdin_target"] = contract["stdin_target"]
     return request
 
 
-def render_index(software_id: str, guide: dict[str, Any], profile: dict[str, Any]) -> str:
+def render_index(
+    software_id: str,
+    guide: dict[str, Any],
+    profile: dict[str, Any],
+    contracts: dict[str, Any],
+) -> str:
     name = profile["display_name"]
     status = profile["operational_status"]
     lines = [
@@ -180,7 +276,7 @@ def render_index(software_id: str, guide: dict[str, Any], profile: dict[str, Any
         "- Additional topic files in this directory contain software-specific scientific mechanics where available.",
         "",
         "## Supported command entries",
-        *_command_table(guide),
+        *_command_table(guide, contracts),
         "",
         "## Supported task families",
         *[f"- {item}." for item in profile.get("task_types", [])],
@@ -206,12 +302,18 @@ def render_index(software_id: str, guide: dict[str, Any], profile: dict[str, Any
     return "\n".join(lines)
 
 
-def render_quickstart(software_id: str, guide: dict[str, Any], profile: dict[str, Any]) -> str:
+def render_quickstart(
+    software_id: str,
+    guide: dict[str, Any],
+    profile: dict[str, Any],
+    contracts: dict[str, Any],
+) -> str:
     name = profile["display_name"]
-    executable, command = _first_command(guide)
-    native = " ".join([executable, *(str(item) for item in command.get("example_arguments") or [])])
-    request = _request_template(software_id, guide)
-    required = command.get("required_files") or []
+    executable, command, contract = _first_command(guide, contracts)
+    native = " ".join([executable, *contract["arguments"]])
+    request = _request_template(software_id, guide, contracts)
+    required = contract["inputs"]
+    expected_outputs = contract["outputs"]
     lines = [
         _front_matter(software_id, profile, topics=["quickstart", "staging", "submission", "resources"]),
         f"# {name} Quickstart",
@@ -231,6 +333,8 @@ def render_quickstart(software_id: str, guide: dict[str, Any], profile: dict[str
         "## Input mode",
         f"The primary executable is `{executable}` and its input mode is `{command.get('input_mode', 'arguments')}`.",
         "Required inputs: " + (", ".join(f"`{item}`" for item in required) if required else "no fixed file is declared for this command") + ".",
+        "Expected outputs: " + (", ".join(f"`{item}`" for item in expected_outputs) if expected_outputs else "stdout/stderr or task-dependent outputs only") + ".",
+        f"Example classification: `{contract['example_kind']}`.",
         f"Output behavior: {command.get('output_behavior', 'Inspect captured logs and files created in the job directory.')}",
         "",
         "## Native command template",
@@ -275,7 +379,12 @@ def render_quickstart(software_id: str, guide: dict[str, Any], profile: dict[str
     return "\n".join(lines)
 
 
-def render_common_tasks(software_id: str, guide: dict[str, Any], profile: dict[str, Any]) -> str:
+def render_common_tasks(
+    software_id: str,
+    guide: dict[str, Any],
+    profile: dict[str, Any],
+    contracts: dict[str, Any],
+) -> str:
     lines = [
         _front_matter(software_id, profile, topics=["common-tasks", "inputs", "outputs", "convergence"]),
         f"# {profile['display_name']} Common Tasks",
@@ -319,12 +428,17 @@ def render_common_tasks(software_id: str, guide: dict[str, Any], profile: dict[s
         "",
     ]
     for executable, command in (guide.get("commands") or {}).items():
+        contract = contracts["commands"][executable]
+        if contract.get("enabled", True) is not True:
+            continue
         lines.extend(
             [
                 f"## Command: `{executable}`",
                 f"- Synopsis: `{command.get('synopsis', executable)}`.",
                 f"- Input mode: `{command.get('input_mode', 'arguments')}`.",
-                "- Required files: " + (", ".join(f"`{item}`" for item in command.get("required_files") or []) or "none declared") + ".",
+                "- Declared example inputs: " + (", ".join(f"`{item}`" for item in contract["inputs"]) or "none declared") + ".",
+                "- Declared example outputs: " + (", ".join(f"`{item}`" for item in contract["outputs"]) or "stdout/stderr or task-dependent outputs") + ".",
+                f"- Example resources: `{contract['resource_limits']}`.",
                 f"- Output behavior: {command.get('output_behavior', 'Inspect stdout, stderr, and generated files.')}",
                 *[f"- Caution: {note}" for note in command.get("notes") or []],
                 "",
@@ -389,10 +503,15 @@ def render_troubleshooting(software_id: str, profile: dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
-def render_example_files(software_id: str, guide: dict[str, Any], profile: dict[str, Any]) -> dict[Path, str]:
+def render_example_files(
+    software_id: str,
+    guide: dict[str, Any],
+    profile: dict[str, Any],
+    contracts: dict[str, Any],
+) -> dict[Path, str]:
     root = DOCS_ROOT / software_id / "examples" / "interface_smoke"
     result = smoke_results().get(software_id, {})
-    executable, command = _first_command(guide)
+    executable, _command, _contract = _first_command(guide, contracts)
     smoke_request = json.loads(json.dumps(result.get("request") or {
         "software_id": software_id,
         "executable": executable,
@@ -433,23 +552,26 @@ def render_example_files(software_id: str, guide: dict[str, Any], profile: dict[
 
 
 def generated_manuals() -> dict[Path, str]:
-    guides, profiles = load_sources()
+    guides, profiles, contracts = load_sources()
     result: dict[Path, str] = {}
     for software_id in sorted(guides):
         guide = guides[software_id]
         profile = profiles[software_id]
+        example_contracts = contracts[software_id]
         if profile["operational_status"] == "placeholder":
             continue
         renderers = {
-            "INDEX.md": render_index(software_id, guide, profile),
-            "QUICKSTART.md": render_quickstart(software_id, guide, profile),
-            "COMMON_TASKS.md": render_common_tasks(software_id, guide, profile),
+            "INDEX.md": render_index(software_id, guide, profile, example_contracts),
+            "QUICKSTART.md": render_quickstart(software_id, guide, profile, example_contracts),
+            "COMMON_TASKS.md": render_common_tasks(software_id, guide, profile, example_contracts),
             "TROUBLESHOOTING.md": render_troubleshooting(software_id, profile),
         }
         for filename, content in renderers.items():
             path = DOCS_ROOT / software_id / filename
             result[path] = content
-        result.update(render_example_files(software_id, guide, profile))
+        result.update(
+            render_example_files(software_id, guide, profile, example_contracts)
+        )
     return result
 
 

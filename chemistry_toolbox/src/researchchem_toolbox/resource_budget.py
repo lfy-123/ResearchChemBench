@@ -223,6 +223,63 @@ def active_resource_usage() -> dict[str, int]:
     return total
 
 
+def active_resource_jobs() -> list[dict[str, Any]]:
+    """Return the active jobs and transient reservations consuming the task budget."""
+
+    root = _workspace_root()
+    records: list[dict[str, Any]] = []
+    jobs = root / "outputs" / "execution_jobs"
+    if jobs.is_dir():
+        for path in sorted(jobs.glob("job_*/status.json")):
+            try:
+                status = json.loads(path.read_text(encoding="utf-8"))
+            except (OSError, json.JSONDecodeError, TypeError):
+                continue
+            state = str(status.get("status", "")).casefold()
+            if state not in ACTIVE_JOB_STATES:
+                continue
+            records.append(
+                {
+                    "record_type": "execution_job",
+                    "job_id": status.get("job_id") or path.parent.name,
+                    "job_type": status.get("job_type"),
+                    "status": state,
+                    "label": (status.get("metadata") or {}).get("label"),
+                    "resource_limits": normalize_resource_limits(
+                        status.get("resource_limits") or {}
+                    ),
+                    "submitted_at": status.get("submitted_at"),
+                    "supervisor_pid": status.get("supervisor_pid"),
+                    "release_condition": "job reaches success, failed, timeout, or cancelled",
+                }
+            )
+    reservations = _budget_directory() / "reservations"
+    if reservations.is_dir():
+        for path in sorted(reservations.glob("*.json")):
+            try:
+                reservation = json.loads(path.read_text(encoding="utf-8"))
+                pid = int(reservation.get("pid") or 0)
+            except (OSError, json.JSONDecodeError, TypeError, ValueError):
+                continue
+            if pid <= 0 or not _process_exists(pid):
+                path.unlink(missing_ok=True)
+                continue
+            records.append(
+                {
+                    "record_type": "submission_reservation",
+                    "reservation_id": path.stem,
+                    "pid": pid,
+                    "job_type": reservation.get("kind"),
+                    "label": reservation.get("label"),
+                    "resource_limits": normalize_resource_limits(
+                        reservation.get("resource_limits") or {}
+                    ),
+                    "release_condition": "the in-progress submission creates its job record or fails",
+                }
+            )
+    return records
+
+
 @contextmanager
 def _budget_lock() -> Iterator[None]:
     lock_path = _budget_directory() / "quota.lock"
@@ -299,6 +356,7 @@ __all__ = [
     "ResourceBudgetExceeded",
     "ResourceReservation",
     "active_resource_usage",
+    "active_resource_jobs",
     "evaluation_resource_budget",
     "normalize_resource_limits",
     "reserve_resources",

@@ -6,7 +6,7 @@ aliases: ["RMG-Py", "rmg"]
 inputs: ["input.py", "RMG database", "optional seed mechanisms and libraries"]
 outputs: ["chemkin files", "species dictionary", "RMG log", "HTML report", "restart data"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # RMG-Py Troubleshooting
 

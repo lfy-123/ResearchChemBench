@@ -6,7 +6,7 @@ aliases: ["CENSO", "censo"]
 inputs: ["conformers.xyz", ".censorc or explicit configuration", "selected QM executable"]
 outputs: ["anmr_enso", "crest_conformers.xyz", "censo logs", "ranked ensemble"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # CENSO Quickstart
 
@@ -24,7 +24,9 @@ The runner creates an isolated job directory and executes the resolved binary th
 
 ## Input mode
 The primary executable is `censo` and its input mode is `arguments`.
-Required inputs: `conformers.xyz`, `optional censo configuration/files`.
+Required inputs: `conformers.xyz`.
+Expected outputs: stdout/stderr or task-dependent outputs only.
+Example classification: `scientific_template`.
 Output behavior: Writes ensemble refinement logs, energies, populations, and refined structures in the job directory.
 
 ## Native command template

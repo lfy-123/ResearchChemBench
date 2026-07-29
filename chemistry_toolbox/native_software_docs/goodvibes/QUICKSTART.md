@@ -6,7 +6,7 @@ aliases: ["GoodVibes", "goodvibes"]
 inputs: ["Gaussian", "ORCA", "NWChem", "Q-Chem", "xTB", "or ASE frequency output"]
 outputs: ["console table", "JSON or CSV result", "optional PES and plots"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # GoodVibes Quickstart
 
@@ -24,7 +24,9 @@ The runner creates an isolated job directory and executes the resolved binary th
 
 ## Input mode
 The primary executable is `goodvibes` and its input mode is `arguments`.
-Required inputs: `one or more Gaussian 09/16`, `ORCA 5/6`, `NWChem`, `Q-Chem 6`, `xTB`, `or ASE-extxyz output files`.
+Required inputs: `NWChem`, `xTB`, `output.log`, `result.json`.
+Expected outputs: stdout/stderr or task-dependent outputs only.
+Example classification: `scientific_template`.
 Output behavior: Writes a GoodVibes_NAME.dat report and, when requested, structured JSON/CSV/Parquet plus plots or XYZ files in the isolated job directory.
 
 ## Native command template

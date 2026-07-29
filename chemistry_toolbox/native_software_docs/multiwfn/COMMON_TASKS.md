@@ -6,7 +6,7 @@ aliases: ["Multiwfn", "multiwfn"]
 inputs: ["wavefunction file", "commands.txt"]
 outputs: ["stdout.log", "exported grids", "tables", "images or structure files"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Multiwfn Common Tasks
 
@@ -60,6 +60,8 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 ## Command: `Multiwfn_noGUI`
 - Synopsis: `Multiwfn_noGUI wavefunction_file < commands.txt`.
 - Input mode: `arguments_and_stdin_file`.
-- Required files: `wavefunction file`, `commands.txt`.
+- Declared example inputs: `commands.txt`, `wavefunction.fchk`.
+- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes interactive-menu output to stdout and selected analysis files to the job directory.
 - Caution: Set stdin_file to commands.txt; the Agent must author every menu selection and numerical parameter.

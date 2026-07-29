@@ -6,7 +6,7 @@ aliases: ["GPAW", "gpaw"]
 inputs: ["program.py", "optional structure and restart files", "GPAW datasets"]
 outputs: ["program output", ".gpw restart", "trajectories", "property data"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # GPAW Quickstart
 
@@ -25,6 +25,8 @@ The runner creates an isolated job directory and executes the resolved binary th
 ## Input mode
 The primary executable is `gpaw` and its input mode is `arguments`.
 Required inputs: `program.py`.
+Expected outputs: stdout/stderr or task-dependent outputs only.
+Example classification: `scientific_template`.
 Output behavior: Determined by the Agent-authored GPAW program; stdout and stderr are always captured.
 
 ## Native command template

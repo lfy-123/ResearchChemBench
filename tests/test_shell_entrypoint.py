@@ -134,8 +134,8 @@ def test_open_discovery_submission_script_has_model_specific_output_roots(tmp_pa
     )
 
     assert result.returncode == 0, result.stdout + result.stderr
-    assert "Agent model:     bailian/deepseek-v4-pro" in result.stdout
-    assert "Judge model:     bailian/deepseek-v4-pro" in result.stdout
+    assert "Agent model:     deepseek-v4-pro" in result.stdout
+    assert "Judge model:     deepseek-v4-pro" in result.stdout
     assert "agent_deepseek-v4-pro__judge_deepseek-v4-pro" in result.stdout
     assert "Heterobiaryl_PV_06_End_to_End" in result.stdout
     assert "Progress console: False" in result.stdout

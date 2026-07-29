@@ -47,6 +47,11 @@ def test_multiwfn_surface_contract_uses_bohr_and_documents_legacy_alias():
         for item in contract["sections"]["action_settings"]["optional_documented"]
     }
     assert set(required) == {"cutoffs_au", "grid_spacing_bohr"}
+    assert required["cutoffs_au"]["type"] == "array"
+    assert required["cutoffs_au"]["items"] == {"type": "number"}
+    assert contract["execute_action_request_template"]["action_settings"][
+        "cutoffs_au"
+    ] == ["<value>"]
     assert required["grid_spacing_bohr"]["minimum"] == 0.02
     assert required["grid_spacing_bohr"]["maximum"] == 1.0
     assert "bohr" in required["grid_spacing_bohr"]["description"].casefold()
@@ -124,6 +129,48 @@ def test_multiwfn_surface_backend_reports_physical_units_and_legacy_warning(
     assert legacy["result"]["grid_spacing_bohr"] == 0.1
     assert legacy["result"]["grid_spacing_input_field"] == "grid_spacing_angstrom"
     assert any("deprecated" in warning for warning in legacy["warnings"])
+
+
+def test_multiwfn_surface_normalizes_comma_separated_cutoffs_for_compatibility(
+    tmp_path, monkeypatch
+):
+    monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
+    (tmp_path / "density.wfn").write_text("wavefunction", encoding="utf-8")
+
+    def fake_run_external(**kwargs):
+        return {
+            "available": True,
+            "returncode": 0,
+            "stdout": (
+                "Loaded density.wfn successfully!\n"
+                "Isosurface area: 100.0 Bohr^2 ( 28.0 Angstrom^2)\n"
+                "Volume enclosed by the isosurface: 100.0 Bohr^3 "
+                "( 14.0 Angstrom^3)\n"
+            ),
+            "stderr": "",
+            "command": ["Multiwfn_noGUI", "density.wfn"],
+        }
+
+    monkeypatch.setattr(electronic, "run_external", fake_run_external)
+    result = electronic._multiwfn_isodensity_surface(
+        {
+            "inputs": {"density_file": "density.wfn"},
+            "method_spec": {},
+            "action_settings": {
+                "cutoffs_au": "0.001, 0.0015 0.002",
+                "grid_spacing_bohr": 0.1,
+            },
+            "resource_limits": {"cpu_cores": 1},
+        }
+    )
+
+    assert [item["cutoff_au"] for item in result["result"]["surfaces"]] == [
+        0.001,
+        0.0015,
+        0.002,
+    ]
+    assert result["provenance"]["cutoffs_input_form"] == "normalized_numeric_string"
+    assert "normalized from a numeric string" in " ".join(result["warnings"])
 
 
 def test_multiwfn_surface_dispatch_accepts_only_one_spacing_field(

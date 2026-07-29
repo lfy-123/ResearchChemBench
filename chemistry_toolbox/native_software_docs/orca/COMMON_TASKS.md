@@ -6,7 +6,7 @@ aliases: ["ORCA", "orca"]
 inputs: ["input.inp", "optional external XYZ", "basis", "point charges", "or restart files"]
 outputs: ["stdout.log", ".gbw", ".xyz", ".hess", ".densities", "property files"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # ORCA Common Tasks
 
@@ -65,7 +65,9 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 ## Command: `orca`
 - Synopsis: `orca input.inp`.
 - Input mode: `arguments`.
-- Required files: `input.inp`, `any geometry/basis files referenced by input.inp`.
+- Declared example inputs: `input.inp`.
+- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes the primary output to stdout and ORCA property/restart files in the job directory.
 - Caution: Method, basis, charge, multiplicity, calculation keywords, parallelism, memory, and convergence must be explicit in input.inp.
 - Caution: ORCA should be launched by its resolved absolute path; the execution layer does this without changing the input.

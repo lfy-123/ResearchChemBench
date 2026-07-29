@@ -6,7 +6,7 @@ aliases: ["pysisyphus", "pysisyphus"]
 inputs: ["config.yaml", "referenced geometry and calculator files"]
 outputs: ["optimization log", "trajectory", "final geometry", "Hessian or path files"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # pysisyphus Common Tasks
 
@@ -59,7 +59,9 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 ## Command: `pysis`
 - Synopsis: `pysis config.yaml`.
 - Input mode: `arguments`.
-- Required files: `config.yaml`, `every structure or auxiliary file referenced inside config.yaml`.
+- Declared example inputs: `config.yaml`.
+- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes optimization, pathway, or dynamics outputs selected by config.yaml.
 - Caution: The templates document input mechanics, not recommended chemistry. Replace charge, multiplicity, calculator, method, cores, image count, optimizer, thresholds, and cycle limits deliberately for the system at hand.
 - Caution: For a two-endpoint path, stage reactant.xyz and product.xyz and reference those exact target names from geom.fn. Do not invent endpoints or cos.images keys.

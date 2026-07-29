@@ -6,7 +6,7 @@ aliases: ["Open Babel", "openbabel"]
 inputs: ["molecular input file"]
 outputs: ["converted molecular file", "console summary"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Open Babel Common Tasks
 
@@ -55,6 +55,8 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 ## Command: `obabel`
 - Synopsis: `obabel -i<input_format> input -o<output_format> -O output [options]`.
 - Input mode: `arguments`.
-- Required files: `molecular input file`.
+- Declared example inputs: `input.xyz`.
+- Declared example outputs: `output.sdf`.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes the path supplied after -O; diagnostics are written to stderr.
 - Caution: Select input and output formats explicitly; do not rely on filename inference in benchmark calls.

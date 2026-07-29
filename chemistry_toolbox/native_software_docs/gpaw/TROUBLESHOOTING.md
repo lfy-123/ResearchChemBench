@@ -6,7 +6,7 @@ aliases: ["GPAW", "gpaw"]
 inputs: ["program.py", "optional structure and restart files", "GPAW datasets"]
 outputs: ["program output", ".gpw restart", "trajectories", "property data"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # GPAW Troubleshooting
 

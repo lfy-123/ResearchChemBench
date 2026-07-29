@@ -6,7 +6,7 @@ aliases: ["DFTB+", "dftbplus"]
 inputs: ["dftb_in.hsd", "geometry", "Slater-Koster files"]
 outputs: ["detailed.out", "results.tag", "geo_end.gen", "charges.bin"]
 last_smoke_tested: "2026-07-28"
-generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml
+generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # DFTB+ Common Tasks
 
@@ -59,5 +59,7 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 ## Command: `dftb+`
 - Synopsis: `dftb+`.
 - Input mode: `fixed_files`.
-- Required files: `dftb_in.hsd`, `referenced Slater-Koster and geometry files`.
+- Declared example inputs: `dftb_in.hsd`.
+- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Reads dftb_in.hsd and writes detailed.out, results.tag, and requested files.

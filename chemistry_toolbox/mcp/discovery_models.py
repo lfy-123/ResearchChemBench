@@ -7,7 +7,7 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
-from researchchem_toolbox.models import ActionRequest
+from researchchem_toolbox.models import ActionRequest, ResourceLimits
 
 
 _CATALOG_ID = re.compile(r"^[a-z][a-z0-9_]*$")
@@ -43,6 +43,10 @@ class ActionSearchRequest(BaseModel):
     backend_id: str | None = None
     action_kind: Literal["all", "scientific", "data"] = "all"
     retrieval_mode: Literal["lexical", "hybrid"] = "hybrid"
+    detail_level: Literal["summary", "full"] = Field(
+        default="summary",
+        description="Use summary for discovery; request full only for catalog audit.",
+    )
     available_only: bool = False
     limit: int = Field(default=20, ge=1, le=100)
     offset: int = Field(default=0, ge=0, le=100_000)
@@ -61,6 +65,7 @@ class ActionCategoryBrowseRequest(BaseModel):
     category: str
     action_kind: Literal["all", "scientific", "data"] = "all"
     available_only: bool = False
+    detail_level: Literal["summary", "full"] = "summary"
 
     @field_validator("category")
     @classmethod
@@ -75,6 +80,13 @@ class ActionInspectRequest(BaseModel):
 
     action_id: str
     backend_id: str | None = None
+    detail_level: Literal["summary", "contract", "full"] = Field(
+        default="contract",
+        description=(
+            "summary compares providers, contract returns the selected executable request "
+            "contract, and full adds all catalog metadata."
+        ),
+    )
 
     @field_validator("action_id", "backend_id")
     @classmethod
@@ -139,8 +151,43 @@ class ProgressiveActionRequest(ActionRequest):
         return _catalog_id(value, field_name="action_id")
 
 
+class ActionBatchItem(BaseModel):
+    """One independent input set inside a batch-safe Action submission."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    item_id: str = Field(min_length=1, max_length=100)
+    inputs: dict = Field(default_factory=dict)
+    resource_limits: ResourceLimits = Field(default_factory=ResourceLimits)
+
+    @field_validator("resource_limits", mode="before")
+    @classmethod
+    def replace_null_resource_limits(cls, value):
+        return {} if value is None else value
+
+
+class ActionBatchRequest(BaseModel):
+    """Execute independent requests sharing one batch-safe Action and provider."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    action_id: str
+    backend_id: str
+    component_backends: dict[str, str] = Field(default_factory=dict)
+    method_spec: dict = Field(default_factory=dict)
+    action_settings: dict = Field(default_factory=dict)
+    items: list[ActionBatchItem] = Field(min_length=1, max_length=32)
+
+    @field_validator("action_id", "backend_id")
+    @classmethod
+    def validate_ids(cls, value: str, info) -> str:
+        return _catalog_id(value, field_name=info.field_name)
+
+
 __all__ = [
     "ActionCategoryBrowseRequest",
+    "ActionBatchItem",
+    "ActionBatchRequest",
     "ActionDomainListRequest",
     "ActionInspectRequest",
     "ActionSearchRequest",
