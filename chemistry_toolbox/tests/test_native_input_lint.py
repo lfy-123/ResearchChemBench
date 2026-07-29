@@ -8,7 +8,10 @@ from pathlib import Path
 import pytest
 
 from chemistry_toolbox.mcp.execution_models import NativeJobRequest, StagedInput
-from chemistry_toolbox.mcp.open_execution import validate_native_job
+from chemistry_toolbox.mcp.open_execution import (
+    _validate_goodvibes_invocation,
+    validate_native_job,
+)
 from researchchem_toolbox.models import ResourceLimits
 
 
@@ -150,6 +153,49 @@ def test_vasp_and_lobster_fixed_file_examples_pass_lint(workspace: Path) -> None
     )
     assert result["input_deck_validation"]["wavecar_size_bytes"] > 0
     assert result["calculation_intent"] == "projection"
+
+
+def test_vasp_geometry_optimization_aliases_ionic_relaxation(workspace: Path) -> None:
+    vasp_inputs = [
+        _write(
+            workspace,
+            "INCAR",
+            "ENCUT = 300\nIBRION = 2\nNSW = 20\nEDIFF = 1E-5\nEDIFFG = -0.02\n",
+        ),
+        _copy_text(workspace, EXAMPLES / "vasp/ground_state/POSCAR", "POSCAR"),
+        _copy_text(workspace, EXAMPLES / "vasp/ground_state/KPOINTS", "KPOINTS"),
+        _write(workspace, "POTCAR", "TITEL = PAW_PBE Si test\nVRHFIN =Si:\n"),
+    ]
+    result = validate_native_job(
+        NativeJobRequest(
+            software_id="vasp",
+            executable="vasp_std",
+            staged_inputs=vasp_inputs,
+            calculation_intent="geometry_optimization",
+            resource_limits=ResourceLimits(memory_mb=1024, cpu_cores=1),
+        )
+    )
+    assert result["status"] == "success"
+    assert result["calculation_intent"] == "ionic_relaxation"
+
+
+def test_goodvibes_native_lint_rejects_glob_sensitive_staged_names(
+    workspace: Path,
+) -> None:
+    staged = _write(workspace, "frequency.log", "fixture\n")
+    request = NativeJobRequest(
+        software_id="goodvibes",
+        executable="goodvibes",
+        arguments=["[Int-I]/frequency.log"],
+        staged_inputs=[
+            StagedInput(
+                source_path=staged.source_path,
+                target_path="[Int-I]/frequency.log",
+            )
+        ],
+    )
+    with pytest.raises(ValueError, match="goodvibes_unsafe_staged_target"):
+        _validate_goodvibes_invocation(request)
 
 
 @pytest.mark.parametrize(

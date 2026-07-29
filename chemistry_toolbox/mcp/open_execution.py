@@ -43,6 +43,7 @@ from researchchem_toolbox.timeout_policy import (
 from .execution_models import (
     AnalysisJobRequest,
     ArtifactDeclarationRequest,
+    ExecutionResourceRequest,
     JobCancelRequest,
     JobCollectRequest,
     JobStatusRequest,
@@ -148,6 +149,7 @@ def _resource_budget_error(exc: ResourceBudgetExceeded) -> dict[str, Any]:
         "valid": False,
         "error": exc.as_error(),
         "evaluation_resource_budget": resource_budget_record(),
+        "resource_availability": _resource_availability(),
     }
 
 
@@ -587,6 +589,35 @@ def _validate_crest_invocation(request: NativeJobRequest) -> dict[str, Any]:
     }
 
 
+def _validate_goodvibes_invocation(request: NativeJobRequest) -> dict[str, Any]:
+    sources = _staged_sources(request)
+    positional_targets = [argument for argument in request.arguments if argument in sources]
+    if not positional_targets:
+        raise ValueError(
+            "goodvibes_input_argument: GoodVibes requires at least one explicitly staged "
+            "quantum-output positional argument"
+        )
+    unsafe = [
+        target
+        for target in positional_targets
+        if PurePosixPath(target).parent != PurePosixPath(".")
+        or not re.fullmatch(r"[A-Za-z0-9_.+,-]+", target)
+    ]
+    if unsafe:
+        raise ValueError(
+            "goodvibes_unsafe_staged_target: GoodVibes performs its own filename pattern "
+            f"handling and cannot reliably consume staged targets {unsafe}. Stage each input "
+            "under a flat basename containing only letters, digits, dot, underscore, plus, "
+            "comma, or hyphen, then pass that exact target in arguments."
+        )
+    return {
+        "lint_profile": "goodvibes_native_v1",
+        "input_targets": positional_targets,
+        "calculation_intent": "other",
+        "checks": ["staged_positional_inputs", "safe_flat_basenames"],
+    }
+
+
 def _require_fixed_targets(
     request: NativeJobRequest, software_id: str, required: set[str]
 ) -> dict[str, Path]:
@@ -692,7 +723,21 @@ def _validate_native_input_deck(
         return _validate_vasp_inputs(request)
     if key == ("lobster", "lobster-5.1.0"):
         return _validate_lobster_inputs(request)
+    if key == ("goodvibes", "goodvibes"):
+        return _validate_goodvibes_invocation(request)
     return None
+
+
+def _intent_is_compatible(
+    software_id: str, declared: str, inferred: str
+) -> bool:
+    if declared in {"other", inferred}:
+        return True
+    aliases = {
+        ("vasp", "geometry_optimization", "ionic_relaxation"),
+        ("vasp", "ionic_relaxation", "geometry_optimization"),
+    }
+    return (software_id, declared, inferred) in aliases
 
 
 def validate_native_job(request: NativeJobRequest) -> dict[str, Any]:
@@ -730,14 +775,17 @@ def validate_native_job(request: NativeJobRequest) -> dict[str, Any]:
     if (
         request.calculation_intent
         and inferred_intent
-        and request.calculation_intent != "other"
-        and request.calculation_intent != inferred_intent
+        and not _intent_is_compatible(
+            request.software_id, request.calculation_intent, inferred_intent
+        )
     ):
         raise ValueError(
             "calculation_intent_mismatch: declared calculation_intent "
-            f"{request.calculation_intent!r} conflicts with inferred intent {inferred_intent!r}"
+            f"{request.calculation_intent!r} conflicts with inferred intent {inferred_intent!r}. "
+            f"Use calculation_intent={inferred_intent!r}, omit calculation_intent to accept "
+            "the validated inference, or correct the input deck if the inference is wrong."
         )
-    calculation_intent = request.calculation_intent or inferred_intent or "unknown"
+    calculation_intent = inferred_intent or request.calculation_intent or "unknown"
     try:
         resources = _compute_resource_limits(request.resource_limits)
     except ResourceBudgetExceeded as exc:
@@ -756,6 +804,7 @@ def validate_native_job(request: NativeJobRequest) -> dict[str, Any]:
         "resource_limits": resources,
         "execution_timeout_policy": timeout_policy_record("compute"),
         "evaluation_resource_budget": resource_budget_record(),
+        "resource_availability": _resource_availability(),
         "invocation_guide": guide,
         "validation_boundary": (
             "Validation confirms the allowlisted executable, argv/path safety, staging map, "
@@ -1209,6 +1258,48 @@ print('__RESEARCHCHEM_MODULE_PROBE__' + json.dumps(results, sort_keys=True))
     return result, details
 
 
+def _isolated_workspace_path_findings(tree: ast.AST) -> list[dict[str, Any]]:
+    """Find literal workspace-relative inputs that are absent from an isolated job."""
+
+    roots = {"data", "_tool_artifacts"}
+    findings: list[dict[str, Any]] = []
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.Call):
+            continue
+        if isinstance(node.func, ast.Name):
+            function_name = node.func.id
+        elif isinstance(node.func, ast.Attribute):
+            function_name = node.func.attr
+        else:
+            function_name = ""
+        if not (
+            function_name in {"Path", "open"}
+            or function_name.startswith("read_")
+            or function_name.startswith("load")
+            or function_name in {"from_file", "read_text", "read_bytes"}
+        ):
+            continue
+        candidates = [*node.args, *(keyword.value for keyword in node.keywords)]
+        for candidate in candidates:
+            if not isinstance(candidate, ast.Constant) or not isinstance(candidate.value, str):
+                continue
+            normalized = candidate.value.strip().replace("\\", "/")
+            if not normalized:
+                continue
+            path = PurePosixPath(normalized)
+            if path.is_absolute() or not path.parts or path.parts[0] not in roots:
+                continue
+            findings.append(
+                {
+                    "line": getattr(candidate, "lineno", getattr(node, "lineno", None)),
+                    "path": normalized,
+                    "workspace_root": path.parts[0],
+                    "function": function_name,
+                }
+            )
+    return sorted(findings, key=lambda item: (item["line"] or 0, item["path"]))
+
+
 def validate_analysis_program(request: AnalysisJobRequest) -> dict[str, Any]:
     if request.runtime not in set(runtime_names()):
         raise KeyError(f"Unknown analysis runtime {request.runtime!r}")
@@ -1283,6 +1374,24 @@ def validate_analysis_program(request: AnalysisJobRequest) -> dict[str, Any]:
                 "Remove direct subprocess/os process launches from the analysis program.",
                 "Submit the external executable with validate_native_job and submit_native_job.",
                 "Set parent_job_id on the native request to link the orchestration provenance.",
+            ],
+        )
+    isolated_path_findings = _isolated_workspace_path_findings(tree)
+    if isolated_path_findings:
+        return _analysis_failure(
+            stage="input",
+            code="unstaged_workspace_relative_path",
+            message=(
+                "The program contains workspace-relative input paths that will not exist in "
+                "the isolated analysis job directory"
+            ),
+            file=request.script_path,
+            line=isolated_path_findings[0]["line"],
+            evidence=json.dumps(isolated_path_findings, sort_keys=True),
+            candidate_fixes=[
+                "Declare each required file in inputs and read it with JobContext.input(name).",
+                "Alternatively map each file through staged_inputs and use its target_path inside the job.",
+                "Do not assume the program starts in the benchmark workspace root.",
             ],
         )
     local_modules: set[str] = {"researchchem_job"}
@@ -1471,6 +1580,7 @@ def validate_analysis_program(request: AnalysisJobRequest) -> dict[str, Any]:
         "resource_limits": resources,
         "execution_timeout_policy": timeout_policy_record("compute"),
         "evaluation_resource_budget": resource_budget_record(),
+        "resource_availability": _resource_availability(),
     }
 
 
@@ -1813,12 +1923,26 @@ def _execution_status_axes(
 
 def _resource_availability() -> dict[str, Any]:
     budget = resource_budget_record()
-    reserved = active_resource_usage()
+    try:
+        reserved = active_resource_usage()
+        tracking = "workspace_reservations"
+    except RuntimeError:
+        reserved = {"cpu_cores": 0, "memory_mb": 0, "gpu_count": 0}
+        tracking = "unavailable_without_workspace"
     available = {
         name: max(0, int(budget[name]) - int(reserved[name]))
         for name in ("cpu_cores", "memory_mb", "gpu_count")
     }
-    return {"budget": budget, "currently_reserved": reserved, "available": available}
+    return {
+        "budget": budget,
+        "currently_reserved": reserved,
+        "available": available,
+        "reservation_tracking": tracking,
+    }
+
+
+def get_execution_resources(_request: ExecutionResourceRequest) -> dict[str, Any]:
+    return {"status": "success", **_resource_availability()}
 
 
 def get_execution_job(request: JobStatusRequest) -> dict[str, Any]:
@@ -2130,6 +2254,7 @@ __all__ = [
     "get_execution_job",
     "read_workspace_text",
     "submit_analysis_program",
+    "get_execution_resources",
     "submit_native_job",
     "validate_analysis_program",
     "validate_native_job",

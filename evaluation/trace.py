@@ -251,6 +251,12 @@ def process_metrics(
         or event.get("tool") in MANAGED_OPEN_EXECUTION_TOOLS
     ]
     job_states = _execution_job_states(events, workspace=workspace)
+    event_results = [_event_result(event, workspace=workspace) for event in events]
+    error_codes = [
+        str((result.get("error") or {}).get("code") or "")
+        for result in event_results
+    ]
+    result_statuses = [str(result.get("status") or "").casefold() for result in event_results]
     managed_successes = 0
     managed_failures = 0
     managed_incomplete = 0
@@ -307,11 +313,61 @@ def process_metrics(
             event.get("tool") for event in managed_scientific_events
         ],
         "resource_budget_rejection_count": sum(
-            (_event_result(event, workspace=workspace).get("error") or {}).get("code")
-            in {
+            code in {
                 "resource_budget_exceeded",
                 "aggregate_resource_budget_exceeded",
             }
-            for event in events
+            for code in error_codes
         ),
+        "invalid_request_count": sum(
+            event.get("status") == "invalid_request" or status == "invalid_request"
+            for event, status in zip(events, result_statuses)
+        ),
+        "request_rejection_count": sum(
+            status in {"invalid_request", "unsupported", "unavailable"}
+            or event.get("status") in {"invalid_request", "unsupported", "unavailable"}
+            for event, status in zip(events, result_statuses)
+        ),
+        "preflight_rejection_count": sum(
+            code.startswith(("python_", "runtime_", "staged_python_"))
+            or code in {
+                "external_execution_not_audited",
+                "unstaged_workspace_relative_path",
+            }
+            or "calculation_intent_mismatch" in str(
+                (result.get("error") or {}).get("message") or ""
+            )
+            for code, result in zip(error_codes, event_results)
+        ),
+        "policy_rejection_count": sum(
+            code in {
+                "external_execution_not_audited",
+                "resource_budget_exceeded",
+                "aggregate_resource_budget_exceeded",
+            }
+            for code in error_codes
+        ),
+        "successful_execution_job_count": sum(
+            state == "success" for state in job_states.values()
+        ),
+        "failed_execution_job_count": sum(
+            state == "failed" for state in job_states.values()
+        ),
+        "timeout_execution_job_count": sum(
+            state == "timeout" for state in job_states.values()
+        ),
+        "cancelled_execution_job_count": sum(
+            state == "cancelled" for state in job_states.values()
+        ),
+        "backend_execution_failure_count": sum(
+            event.get("status") == "failed"
+            and code
+            not in {
+                "external_execution_not_audited",
+                "resource_budget_exceeded",
+                "aggregate_resource_budget_exceeded",
+            }
+            for event, code in zip(events, error_codes)
+        )
+        + sum(state in FAILED_JOB_STATES for state in job_states.values()),
     }

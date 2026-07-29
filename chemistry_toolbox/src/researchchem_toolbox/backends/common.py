@@ -156,7 +156,11 @@ def _parse_xyz(path: Path) -> dict[str, Any]:
             }
         )
     if len(atoms) != count:
-        raise ValueError(f"XYZ atom count mismatch: {path}")
+        raise ValueError(
+            f"XYZ atom count mismatch: {path} declares {count} atoms but only "
+            f"{len(atoms)} coordinate rows were parsed. Supply one complete XYZ frame; "
+            "split multi-frame trajectories and select the intended conformer explicitly."
+        )
     comment = lines[1] if len(lines) > 1 else ""
     charge_match = re.search(r"(?:^|\s)charge=(-?\d+)(?:\s|$)", comment)
     multiplicity_match = re.search(
@@ -226,7 +230,14 @@ def _parse_sdf(path: Path) -> dict[str, Any]:
 
 
 def _parse_vasp_structure(path: Path) -> dict[str, Any]:
-    from pymatgen.io.vasp.inputs import Poscar
+    try:
+        from pymatgen.io.vasp.inputs import Poscar
+    except (ImportError, ModuleNotFoundError):
+        from ase.io import read
+
+        return structure_from_atoms(read(str(path), format="vasp")) | {
+            "source_path": relative_workspace_path(path)
+        }
 
     structure = Poscar.from_file(path, check_for_potcar=False).structure
     return {
@@ -248,6 +259,20 @@ def _parse_vasp_structure(path: Path) -> dict[str, Any]:
 
 
 def structure_dict(value: Any) -> dict[str, Any]:
+    reference = None
+    if isinstance(value, str) and value.startswith("art_"):
+        reference = ArtifactStore().find(value)
+    elif isinstance(value, dict) and isinstance(value.get("artifact_id"), str):
+        reference = ArtifactStore().find(str(value["artifact_id"]))
+    if reference is not None and any(
+        token in reference.semantic_type.casefold()
+        for token in ("ensemble", "trajectory")
+    ):
+        raise ValueError(
+            f"A single structure is required, but ArtifactRef {reference.artifact_id} has "
+            f"semantic_type={reference.semantic_type!r}. Select one conformer/frame and pass "
+            "its AtomicStructure ArtifactRef or export one complete structure file."
+        )
     item = unwrap_artifact(value)
     if isinstance(item, dict) and "result" in item and isinstance(item["result"], dict):
         item = item["result"]
@@ -284,7 +309,11 @@ def structure_dict(value: Any) -> dict[str, Any]:
             except Exception as exc:
                 raise ValueError(f"Could not parse structure file {candidate}: {exc}") from exc
         return {"smiles": item}
-    raise ValueError("Unsupported structure representation")
+    raise ValueError(
+        "Unsupported structure representation. Pass an AtomicStructure mapping, SMILES, a "
+        "supported structure file path, or an ArtifactRef whose semantic type is a single "
+        "structure; ensemble and trajectory artifacts require explicit frame selection."
+    )
 
 
 def atoms_and_coordinates(structure: dict[str, Any]) -> tuple[list[str], list[list[float]]]:

@@ -102,6 +102,45 @@ def test_resource_budget_rejections_are_counted(tmp_path: Path, monkeypatch):
     )
     metrics = process_metrics(load_tool_trace(tmp_path), workspace=tmp_path)
     assert metrics["resource_budget_rejection_count"] == 1
+    assert metrics["invalid_request_count"] == 1
+    assert metrics["request_rejection_count"] == 1
+    assert metrics["policy_rejection_count"] == 1
+
+
+def test_preflight_and_terminal_job_failures_have_separate_metrics() -> None:
+    job_id = "job_failed"
+    events = [
+        {
+            "sequence": 1,
+            "tool": "submit_analysis_program",
+            "status": "invalid_request",
+            "arguments": {},
+            "result_preview": json.dumps(
+                {
+                    "status": "invalid_request",
+                    "error": {"code": "unstaged_workspace_relative_path"},
+                }
+            ),
+        },
+        _job_event(
+            2,
+            "submit_native_job",
+            {"status": "success", "job_id": job_id, "job_status": "queued"},
+            job_id,
+        ),
+        _job_event(
+            3,
+            "get_execution_job",
+            {"status": "success", "job": {"job_id": job_id, "status": "failed"}},
+            job_id,
+        ),
+    ]
+    metrics = process_metrics(events)
+    assert metrics["preflight_rejection_count"] == 1
+    assert metrics["invalid_request_count"] == 1
+    assert metrics["request_rejection_count"] == 1
+    assert metrics["failed_execution_job_count"] == 1
+    assert metrics["backend_execution_failure_count"] == 1
 
 
 def _job_event(sequence: int, tool: str, result: dict, job_id: str) -> dict:

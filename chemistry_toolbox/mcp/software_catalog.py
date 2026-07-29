@@ -1023,12 +1023,24 @@ def list_analysis_runtimes(request: AnalysisRuntimeListRequest) -> dict[str, Any
         "submit_analysis_program_request_template": {
             "runtime": request.runtime or "<exact runtime id>",
             "script_path": "code/<agent-authored-program>.py",
-            "script_target": "agent_program.py",
+            "script_target": "code/agent_program.py",
             "arguments": [],
-            "staged_inputs": [
+            "staged_inputs": [],
+            "inputs": [
                 {
+                    "name": "<logical_input_name>",
                     "source_path": "data/<required-input>",
                     "target_path": "inputs/<required-input>",
+                    "semantic_type": "<input semantic type>",
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "<logical_output_name>",
+                    "path": "outputs/<result-file>",
+                    "semantic_type": "<output semantic type>",
+                    "media_type": "application/json",
+                    "required": True,
                 }
             ],
             "resource_limits": {
@@ -1043,7 +1055,9 @@ def list_analysis_runtimes(request: AnalysisRuntimeListRequest) -> dict[str, Any
         "execution_note": (
             "Execute an Agent-authored scientific program with submit_analysis_program, not a "
             "built-in shell, so its source, staged inputs, resources, logs, exit status, and "
-            "outputs remain part of the benchmark trace."
+            "outputs remain part of the benchmark trace. The program starts in an isolated job "
+            "directory: declare inputs/outputs and use JobContext instead of task-workspace-relative "
+            "paths. Call get_execution_resources before submitting concurrent jobs."
         ),
     }
 
@@ -1064,7 +1078,8 @@ def open_execution_prompt(*, include_command_index: bool = True) -> str:
         "installed executable, input mode, required filenames, synopsis, cached manuals, and request "
         "template. Then use `write_workspace_text`, `validate_native_job`, and `submit_native_job`. "
         "The runner uses no shell, supplies no scientific defaults, selects no software, and performs "
-        "no fallback. Poll with `get_execution_job`, inspect logs, and collect files with "
+        "no fallback. Call `get_execution_resources` before concurrent submission. Poll with "
+        "`get_execution_job`, inspect logs, and collect files with "
         "`collect_execution_job`.",
         "",
     ]
@@ -1089,7 +1104,9 @@ def open_execution_prompt(*, include_command_index: bool = True) -> str:
             "### Layer 3: programmable scientific analysis",
             "For an operation that is best expressed by code, call `list_analysis_runtimes`, write a "
             "complete Python file under code/, and submit it with `submit_analysis_program` in one "
-            "explicit runtime. The program and every staged input remain auditable; stdout, stderr, "
+            "explicit runtime. Declare inputs and outputs, read inputs with `JobContext.input`, and "
+            "do not use task-workspace-relative paths inside the isolated job. The program and every "
+            "staged input remain auditable; stdout, stderr, "
             "exit status, resources, and output hashes use the same job record as native software. "
             "Use `declare_scientific_artifact` to attach semantic type and parent lineage to important "
             "outputs. The programmable layer is resource-confined but is not a replacement for an "

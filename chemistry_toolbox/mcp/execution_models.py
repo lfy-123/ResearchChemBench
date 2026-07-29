@@ -407,6 +407,12 @@ class AnalysisRuntimeListRequest(BaseModel):
         return normalized
 
 
+class ExecutionResourceRequest(BaseModel):
+    """Read the task resource budget and currently available capacity."""
+
+    model_config = ConfigDict(extra="forbid")
+
+
 class JobStatusRequest(BaseModel):
     """Read persistent state and bounded log tails for one submitted job."""
 
@@ -463,6 +469,7 @@ __all__ = [
     "AnalysisJobRequest",
     "AnalysisOutputDeclaration",
     "AnalysisRuntimeListRequest",
+    "ExecutionResourceRequest",
     "ArtifactDeclarationRequest",
     "DocumentationReadRequest",
     "DocumentationSearchRequest",

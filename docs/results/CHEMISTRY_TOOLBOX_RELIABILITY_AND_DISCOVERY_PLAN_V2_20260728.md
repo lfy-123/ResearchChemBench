@@ -20,6 +20,7 @@
 - 从当前保留的工作区中建立了 81 个可审计独立失败样本，包含 47 个原生软件和 34 个通用程序失败。当前预检可提前拒绝 69 个，剩余 12 个属于运行期路径、数据解析或程序逻辑问题；重复状态轮询不计为独立失败。
 - 前一轮英文检查、Python 编译检查、文档/证据哈希验证和完整测试套件全部通过，结果为 322 passed、耗时 534.69 秒；详细手册和全目录 smoke 新增后的完整验证结果记录在任务 16。
 - Flash 代表任务经过数据库稳定性、GoodVibes 参数契约和构象 lineage 契约修正后完成验证：科学结论分 100、科研过程分 86、最终分 86，无 critical failure 或 evidence gate failure；其余 13 个任务已提交到第二版结果工作区。
+- 第二版已完成轨迹的 42 次直接失败已逐条复核并完成针对性修复：VASP 结构读取不再硬依赖 pymatgen，VASP 几何优化/离子弛豫意图统一规范化，GoodVibes staged 文件名、ArtifactRef 单结构语义、ORCA density export 组合和程序隔离路径均提供执行前诊断；新增独立资源状态查询和分层失败统计。相关记录见任务 21。
 
 本方案结合已有代码和轨迹核查结果，重点解决三个问题：原生软件调用成功率、Action 及其他目录的检索准确性、第三层通用编程接口的失败率。现有三层架构保持不变。
 
@@ -959,3 +960,34 @@ external_execution: native_job_runner_only
 - 代表任务 `GEOM_Hierarchical_Conformer_Reranking_Reproduction` 的最终验证目录为 `workspaces/second_version_results/representative_final/runs/cli_runs/batch_20260728_230500_0e7ed2/`。
 - 其余 13 个任务使用 `deepseek-v4-flash` 作为 Agent 和 Judger，提交目录为 `workspaces/second_version_results/remaining_13/`，tmux session 为 `rcb_second_v_remaining_20260728`。
 - 提交参数为每任务 48 CPU、204800 MiB 内存、0 GPU、单任务并发、Agent 超时 14400 秒。按照要求，13 个任务提交后不继续监督。
+
+### 任务 21：根据第二版运行轨迹修复剩余高频失败
+
+状态：已完成。
+
+#### 轨迹复核结果
+
+- 在 10 个已完成且可评分的第二版任务中，共记录 495 次 Chemistry MCP 调用，其中 42 次直接返回非成功状态，表面失败率为 8.48%。第一版相同任务为 22/471，即 4.67%。该表面指标混合了请求拒绝、资源保护和实际执行失败，不能直接代表后端可靠性。
+- 第二版原生作业真实终态为 40 成功、1 失败，执行失败率 2.44%；第一版为 8 成功、8 失败，执行失败率 50.00%。第二版程序作业为 19 成功、3 失败、1 取消，非成功率 17.39%；第一版为 18 成功、11 失败，非成功率 37.93%。实际执行可靠性已经改善。
+- 42 次直接失败中，21 次是请求/契约不匹配，10 次是保护性预检拒绝，11 次是运行时或后端缺陷。具体包括：10 次 VASP 结构解析缺少 pymatgen、10 次 `calculation_intent` 字面冲突、8 次并发资源不足、4 次部分 ArtifactRef、4 次不支持的 ORCA density export 组合、2 次 CREST 单结构输入问题、2 次 GoodVibes 参数或 staging 问题，以及 Python 语法和第三层外部进程政策各 1 次。
+- 程序作业的实际失败包括 `data/...` 和 `_tool_artifacts/...` 在隔离 cwd 中不可见、脚本业务逻辑 `KeyError`，以及一个长时间聚类作业被取消。前两类属于可在提交前发现的执行契约问题；业务逻辑错误仍需程序自身测试和运行时日志处理。
+
+#### 已完成修改
+
+- VASP 文件解析先使用 pymatgen；当运行环境没有 pymatgen 时，确定性回退到 ASE VASP reader，并保持相同 AtomicStructure 输出。新增模拟缺失 pymatgen 的回归测试。
+- 原生任务意图比较增加软件级兼容映射。VASP 的 `geometry_optimization` 与输入推断的 `ionic_relaxation` 被视为同一机械任务，返回规范化的 `ionic_relaxation`；真正矛盾的意图继续拒绝，并返回可直接采用的修复方式。
+- GoodVibes 原生预检要求至少一个显式 staged 量化输出，并拒绝包含目录、方括号和其他 glob 敏感字符的 target；错误提示要求使用安全的扁平 basename，避免 GoodVibes 内部文件模式处理把已 staged 文件误判为不存在。
+- ArtifactRef 诊断现在明确支持 `art_...` 字符串、只含 `artifact_id` 的紧凑对象或完整不可变引用，并列出部分引用的缺失字段。单结构输入收到 ConformerEnsemble/Trajectory ArtifactRef 时不再只返回笼统的 unsupported representation，而是要求显式选择构象或帧。
+- XYZ 解析错误新增声明原子数、实际解析行数和多帧拆分建议。CREST 仍不会替 Agent 自动选择构象或修复科学结构。
+- ORCA electron-density export 的不兼容组合返回精确字段和值：SCF/relaxed-MP2 只支持 WFN/WFX，MDCI 才支持 cube；不进行静默 density substitution。
+- 通用程序预检扫描 Python AST 中的字面 `data/...` 和 `_tool_artifacts/...` 路径，在创建隔离作业前返回 `unstaged_workspace_relative_path`，并要求使用声明式 `inputs` + `JobContext.input()` 或显式 `staged_inputs`。
+- `list_analysis_runtimes` 的请求模板改为优先展示命名 inputs、声明式 outputs、标准 `code/agent_program.py` 和 JobContext；评估指令同步说明隔离 cwd、ArtifactRef 紧凑形式和单结构语义。
+- 新增只读 `get_execution_resources` MCP 工具，返回总预算、当前 reservation、可用 CPU/内存/GPU 和 tracking 状态。原生/程序校验与资源拒绝结果也携带同一 availability，减少盲目重复提交。
+- 评估过程指标保留原 `failed_tool_calls`，同时新增 `request_rejection_count`、`invalid_request_count`、`preflight_rejection_count`、`policy_rejection_count`、`resource_budget_rejection_count`、成功/失败/超时/取消作业数和 `backend_execution_failure_count`。后续报告可以分别比较接口契约质量与真实执行可靠性。
+
+#### 验证结果
+
+- 针对 VASP fallback、原生 lint、程序合同、资源、Artifact/CREST 语义、ORCA density、MCP 注册和分层统计的多轮回归均通过；最终相关测试组为 49 passed，扩展 MCP/提示测试修复后为 25 passed。
+- `git diff --check`、Python `compileall` 和 `check_english_only.py` 全部通过。
+- 化学工具箱完整测试命令 `PYTHONPATH=.:chemistry_toolbox/src .toolbox_env/bin/pytest -q chemistry_toolbox/tests` 全部通过：338 passed，耗时 395.62 秒。
+- 项目完整测试结果为 395 passed、1 failed，耗时 586.87 秒。唯一失败是既有 `submit_heterobiaryl_open_discovery.sh` 输出无 `bailian/` 前缀，而既有 `test_shell_entrypoint.py` 仍要求该前缀；`git blame` 确认该不一致来自本轮修改前的基线，且与化学工具箱可靠性改动无关，因此未擅自修改实际模型路由。

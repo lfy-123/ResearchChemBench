@@ -19,6 +19,11 @@ def test_runtime_inventory_is_compact_until_one_runtime_is_inspected():
         for item in compact["runtimes"]
     )
     assert "submit_analysis_program" in compact["execution_note"]
+    assert "get_execution_resources" in compact["execution_note"]
+    template = compact["submit_analysis_program_request_template"]
+    assert template["inputs"][0]["name"] == "<logical_input_name>"
+    assert template["outputs"][0]["path"].startswith("outputs/")
+    assert template["staged_inputs"] == []
 
     runtime = compact["runtimes"][0]["runtime"]
     detailed = list_analysis_runtimes(

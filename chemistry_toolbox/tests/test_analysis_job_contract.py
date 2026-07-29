@@ -9,6 +9,7 @@ from chemistry_toolbox.mcp.execution_models import (
     AnalysisInputDeclaration,
     AnalysisJobRequest,
     AnalysisOutputDeclaration,
+    ExecutionResourceRequest,
     JobCollectRequest,
     JobStatusRequest,
     StagedInput,
@@ -16,6 +17,7 @@ from chemistry_toolbox.mcp.execution_models import (
 from chemistry_toolbox.mcp.open_execution import (
     collect_execution_job,
     get_execution_job,
+    get_execution_resources,
     submit_analysis_program,
     validate_analysis_program,
 )
@@ -130,6 +132,42 @@ def test_preflight_routes_external_executables_to_native_jobs(
     assert result["status"] == "invalid_request"
     assert result["error"]["code"] == "external_execution_not_audited"
     assert "submit_native_job" in " ".join(result["error"]["candidate_fixes"])
+
+
+@pytest.mark.parametrize(
+    "source",
+    [
+        "from pathlib import Path\nprint(Path('data/benchmark_data/input.csv').read_text())\n",
+        "import pandas as pd\nprint(pd.read_csv('_tool_artifacts/objects/result.csv'))\n",
+    ],
+)
+def test_preflight_rejects_unstaged_workspace_relative_inputs(
+    workspace: Path, source: str
+) -> None:
+    (workspace / "code/unstaged.py").write_text(source, encoding="utf-8")
+    result = validate_analysis_program(
+        AnalysisJobRequest(runtime="core", script_path="code/unstaged.py")
+    )
+    assert result["status"] == "invalid_request"
+    assert result["error"]["code"] == "unstaged_workspace_relative_path"
+    assert "JobContext.input" in " ".join(result["error"]["candidate_fixes"])
+
+
+def test_preflight_does_not_treat_logged_path_text_as_file_access(workspace: Path) -> None:
+    (workspace / "code/log_path.py").write_text(
+        "print('data/benchmark_data/input.csv')\n", encoding="utf-8"
+    )
+    result = validate_analysis_program(
+        AnalysisJobRequest(runtime="core", script_path="code/log_path.py")
+    )
+    assert result["status"] == "success"
+
+
+def test_execution_resource_status_is_available_before_submission(workspace: Path) -> None:
+    result = get_execution_resources(ExecutionResourceRequest())
+    assert result["status"] == "success"
+    assert result["budget"]["cpu_cores"] >= 1
+    assert result["available"]["cpu_cores"] <= result["budget"]["cpu_cores"]
 
 
 def test_declared_job_context_and_artifact_manifest(workspace: Path) -> None:

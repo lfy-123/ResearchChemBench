@@ -184,9 +184,13 @@ def canonicalize_artifact_refs(
             required = {"artifact_id", "semantic_type", "media_type", "sha256", "path"}
             if required <= set(value):
                 return ArtifactRef.model_validate(value).model_dump(mode="json")
+            missing = sorted(required - set(value))
+            extra = sorted(set(value) - {"artifact_id"})
             raise ValueError(
-                "ArtifactRef dictionaries must contain either only artifact_id or the complete "
-                "immutable ArtifactRef fields"
+                "ArtifactRef dictionaries must be either the artifact id string, "
+                "{'artifact_id': 'art_...'}, or a complete immutable ArtifactRef. "
+                f"This partial reference has extra fields {extra} and is missing {missing}; "
+                "pass only artifact_id to let the toolbox load the canonical reference."
             )
         return {
             key: canonicalize_artifact_refs(item, store=artifact_store)

@@ -3049,8 +3049,11 @@ def _orca_export_electron_density(request: dict[str, Any]) -> dict[str, Any]:
         )
     if requested_source != "mdci" and output_format == "cube":
         raise ValueError(
-            "The validated typed ORCA adapter exports SCF/relaxed-MP2 densities as WFN/WFX; "
-            "request one of those formats for provenance-safe Multiwfn analysis"
+            f"ORCA density export combination density_source={requested_source!r}, "
+            "output_format='cube' is unsupported by the validated adapter. SCF and "
+            "relaxed_mp2 densities support output_format='wfn' or 'wfx'; only "
+            "density_source='mdci' supports output_format='cube'. Change "
+            "action_settings.output_format without changing the calculated density."
         )
 
     directory = output_directory("export_electron_density_grid", "orca")

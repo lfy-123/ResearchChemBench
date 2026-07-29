@@ -12,6 +12,7 @@ from .execution_models import (
     ArtifactDeclarationRequest,
     DocumentationReadRequest,
     DocumentationSearchRequest,
+    ExecutionResourceRequest,
     JobCancelRequest,
     JobCollectRequest,
     JobStatusRequest,
@@ -26,6 +27,7 @@ from .open_execution import (
     collect_execution_job as _collect_execution_job,
     declare_scientific_artifact as _declare_scientific_artifact,
     get_execution_job as _get_execution_job,
+    get_execution_resources as _get_execution_resources,
     read_workspace_text as _read_workspace_text,
     submit_analysis_program as _submit_analysis_program,
     submit_native_job as _submit_native_job,
@@ -58,6 +60,7 @@ OPEN_EXECUTION_TOOL_NAMES = (
     "list_analysis_runtimes",
     "validate_analysis_program",
     "submit_analysis_program",
+    "get_execution_resources",
     "get_execution_job",
     "collect_execution_job",
     "cancel_execution_job",
@@ -121,6 +124,10 @@ TOOL_DESCRIPTIONS = {
         "Preflight an Agent-authored Python analysis without executing it. Checks UTF-8 syntax, "
         "imports in the selected runtime, declared inputs and outputs, paths, and resources, then "
         "returns the exact job layout and structured repair diagnostics."
+    ),
+    "get_execution_resources": (
+        "Read the evaluator-controlled task resource budget, resources reserved by active jobs, "
+        "and capacity currently available before choosing resources or submission concurrency."
     ),
     "get_execution_job": (
         "Poll one native/program job by exact job_id and return persistent state plus bounded stdout "
@@ -236,6 +243,10 @@ def validate_analysis_program(request: AnalysisJobRequest) -> dict[str, Any]:
 
 def submit_analysis_program(request: AnalysisJobRequest) -> dict[str, Any]:
     return _invoke("submit_analysis_program", request, _submit_analysis_program)
+
+
+def get_execution_resources(request: ExecutionResourceRequest) -> dict[str, Any]:
+    return _invoke("get_execution_resources", request, _get_execution_resources)
 
 
 def get_execution_job(request: JobStatusRequest) -> dict[str, Any]:
