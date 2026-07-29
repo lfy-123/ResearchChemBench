@@ -899,7 +899,7 @@ external_execution: native_job_runner_only
 
 ### 任务 15：补齐 56 个软件的详细使用手册
 
-状态：已完成。
+状态：结构覆盖已完成；语义正确性审计和示例请求验证尚未完成，后续修正纳入 V3。
 
 - 新增 `native_software_manual_profiles.yaml`，与 56 个 `native_software_guides.yaml` 条目严格一一对应，集中记录安装版本、运行状态、官方文档、适用任务、输入、输出、正常结束标志、收敛边界、资源映射和高频错误修复。
 - 重写 `generate_native_software_manuals.py`。除 EasySpin 和 MATLAB 两个许可占位条目外，54 个软件均确定性生成或更新 `INDEX.md`、`QUICKSTART.md`、`COMMON_TASKS.md`、`TROUBLESHOOTING.md` 和 `examples/interface_smoke/`。
@@ -908,6 +908,7 @@ external_execution: native_job_runner_only
 - 修正 NequIP 0.19 的实际 Hydra 调用合同：stage `config.yaml` 后使用 `nequip-train -cn config`，不再把 YAML 错误描述为普通位置参数。
 - 保留 ORCA、Gaussian、CREST、VASP 和 LOBSTER 的专用专题页，同时将其标准导航、快速调用和故障页升级到同一详细度。Gaussian 的 `Required sections` 精确章节和 LOBSTER 的 `Projection quality` 检索入口继续通过回归测试。
 - 文档测试不再只检查单页存在，而是检查 56 个 profile/Catalog 集合一致、54 个详细目录结构、正文最低信息量、当前请求 schema、生成器无漂移和 smoke 证据哈希。
+- 后续真实复核发现生成器仍会根据文件扩展名猜测 staged input，并存在输出文件误 staged、示例 CPU 与内部并行不一致、YAML marker 类型错误、版本字符串损失精度、disabled launcher 仍进入手册以及 smoke 状态未暴露到 `inspect_software` 等问题。因此本任务只能认定为结构覆盖完成，不能认定 56 个手册已经达到语义正确和可独立可靠调用。
 
 ### 任务 16：逐项原生软件 smoke 与详细手册最终验证
 
@@ -1072,6 +1073,8 @@ Agent token 中 cache read 占主要部分，因此不能把总 token 直接解�
 应为自主任务和对应复现任务提供完全相同的英文、机器可读文件级 manifest。每条记录只包含：archive state、原始相对路径、规范化 id、stationary-point role、path family、conformer id、charge、multiplicity、calculation type、配对 frequency/DLPNO/QZ 文件和 hash；不得包含能量、势垒、排序或论文结论。这样补齐的是输入语义，不是泄露实现方法或真实答案。
 
 #### 下一轮改进方案
+
+本节为第二版轨迹后的初步建议。经软件手册、smoke 状态和现有实现再次交叉复核后，优先级、已完成边界和验收标准已修订到 `CHEMISTRY_TOOLBOX_RELIABILITY_AND_DISCOVERY_PLAN_V3_20260729.md`；后续实施以 V3 为准。
 
 1. **压缩 discovery 默认返回体。** `search_actions`、`browse_action_category` 和 `list_analysis_runtimes` 默认只返回 id、短描述、类别、匹配原因和可用 provider id；资源预算、完整 schema、全部 provider 状态只在 `inspect_action` 或显式 `include_details=true` 时返回。第二版 discovery 调用累计输出约 2.0 MiB，其中 `inspect_action` 68 次、约 1.28 MiB，存在明确减负空间。
 2. **让 JobContext 成为默认程序入口。** `list_analysis_runtimes` 直接返回可执行最小模板；声明 inputs/outputs 的程序若未使用标准路径 helper，预检返回明确 warning。继续允许普通 Python，但不宣称 SDK 能阻止 `open()` 或绝对路径访问。
