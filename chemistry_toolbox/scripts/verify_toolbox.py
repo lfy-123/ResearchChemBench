@@ -41,6 +41,8 @@ from researchchem_toolbox.backends import (
     structure,
 )
 from researchchem_toolbox.catalog import action_specs, backend_specs, catalog_snapshot, validate_catalog
+from researchchem_toolbox.discovery import _action_search_documents, _action_search_fields
+from researchchem_toolbox.semantic_embeddings import semantic_scores
 from researchchem_toolbox.service import execute_action
 
 
@@ -66,6 +68,28 @@ def structural_checks() -> list[dict[str, Any]]:
     except Exception as exc:
         checks.append(
             {"name": "native_invocation_guides", "status": "fail", "error": str(exc)}
+        )
+    try:
+        documents = _action_search_documents(
+            _action_search_fields(list(action_specs().values()), backend_specs())
+        )
+        scores, semantic_status = semantic_scores("single point electronic energy", documents)
+        if semantic_status != "available" or not scores:
+            raise RuntimeError(
+                f"MiniLM semantic retrieval is not ready: {semantic_status}; "
+                "run chemistry_toolbox/scripts/cache_minilm_model.py"
+            )
+        checks.append(
+            {
+                "name": "semantic_retrieval",
+                "status": "pass",
+                "semantic_status": semantic_status,
+                "indexed_documents": len(scores),
+            }
+        )
+    except Exception as exc:
+        checks.append(
+            {"name": "semantic_retrieval", "status": "fail", "error": str(exc)}
         )
     handled = set().union(
         interchange.ACTIONS,

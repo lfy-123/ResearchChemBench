@@ -4,7 +4,7 @@
 
 ## 修改总结
 
-本方案中的实现和复核修复已经完成，现有三层架构保持不变。主要结果如下：
+本方案中的核心实现和复核修复已经完成，现有三层架构保持不变。第二版真实评估轨迹同时暴露了运行环境、发现接口负载、程序接口采用率、审计产物交付和部分任务数据契约仍需继续修正。主要结果如下：
 
 - 工具箱第一方运行时文本、配置、脚本、测试和活动操作文档统一为英文，并由自动检查阻止中文重新进入；第三方环境锁文件和项目级中文结果报告不属于运行时接口。
 - 56 个原生软件均有结构化英文目录。除 EasySpin 和 MATLAB 两个无可执行许可宿主的占位条目外，54 个可调用条目均具有 `INDEX.md`、`QUICKSTART.md`、`COMMON_TASKS.md`、`TROUBLESHOOTING.md` 和独立 `examples/interface_smoke/`；当前共有 234 份第一方 Markdown 和 168 个示例/结果文件。
@@ -12,7 +12,7 @@
 - ORCA、Gaussian、CREST、VASP、LOBSTER 的真实 smoke 已通过当前代码重新执行并归档请求、状态、日志、关键输出和 SHA-256；验证结果为 5/5 `mechanically_valid`。
 - 单作业内存限制改为监控整个进程组 RSS，并强制执行 `min(job_memory, evaluation_memory)`；删除会错误累计多线程 CPU 时间的 `RLIMIT_CPU`，walltime 继续由 Supervisor 管理。
 - 原生作业新增显式或自动推断的 `calculation_intent`。ORCA、Gaussian 和 VASP 按单点、优化、频率、过渡态或离子弛豫分别判断收敛，SCF/电子收敛不再被误当作几何或离子收敛。
-- Action 发现使用分类浏览、英文 aliases、BM25、拼写修正和本地量化 `all-MiniLM-L6-v2` 补召回。25 条固定查询的 lexical/hybrid Hit@1、Recall@5、MRR、nDCG@5 均为 1.00；75 次 hybrid 测量的常驻 p95 为 57.03 ms。
+- Action 发现使用分类浏览、英文 aliases、BM25、拼写修正和本地量化 `all-MiniLM-L6-v2` 补召回。离线固定查询达到预期质量，但第二版真实评估使用的 `.toolbox_env` 当时缺少 `onnxruntime` 和 `tokenizers`，11 次 Action 搜索均降级为词法检索，其中 5 次为运行时不可用、6 次为向量缓存过期。现已把依赖、模型缓存构建和语义可用性检查纳入默认环境合同；修复后真实运行环境返回 `semantic_status=available`。
 - 只读 discovery 工具保留结果和调用轨迹，但关闭无意义的全 workspace 产物快照；大型 workspace 中自然语言 Action 查询由超过 30 秒恢复为冷启动 0.269 秒、常驻 0.057 至 0.061 秒。
 - Action 搜索返回 `predicted_categories`、`matched_fields`、精确命中、扩展词和 `ranking_reason`；ActionSpec 同时提供 keywords、capability tags、scientific entities 以及输入输出语义类型。
 - 通用编程接口执行真实 runtime import，并检查包版本、所需符号和 staged Python 语法；`JobContext` 新增 `write_json()`、`register_output()`、NaN/Inf 拒绝、标准目录环境变量和运行时产物登记，同时提供 8 类可编译程序模板。
@@ -21,6 +21,7 @@
 - 前一轮英文检查、Python 编译检查、文档/证据哈希验证和完整测试套件全部通过，结果为 322 passed、耗时 534.69 秒；详细手册和全目录 smoke 新增后的完整验证结果记录在任务 16。
 - Flash 代表任务经过数据库稳定性、GoodVibes 参数契约和构象 lineage 契约修正后完成验证：科学结论分 100、科研过程分 86、最终分 86，无 critical failure 或 evidence gate failure；其余 13 个任务已提交到第二版结果工作区。
 - 第二版已完成轨迹的 42 次直接失败已逐条复核并完成针对性修复：VASP 结构读取不再硬依赖 pymatgen，VASP 几何优化/离子弛豫意图统一规范化，GoodVibes staged 文件名、ArtifactRef 单结构语义、ORCA density export 组合和程序隔离路径均提供执行前诊断；新增独立资源状态查询和分层失败统计。相关记录见任务 21。
+- 第二版计划的 14 个任务中，10 个完成并评分，1 个在按要求暂停批次时终止，1 个仅初始化后遗留为 `running` 元数据，2 个尚未创建工作区。真实轨迹复核、当前修复和后续改进方案见任务 22。
 
 本方案结合已有代码和轨迹核查结果，重点解决三个问题：原生软件调用成功率、Action 及其他目录的检索准确性、第三层通用编程接口的失败率。现有三层架构保持不变。
 
@@ -991,3 +992,104 @@ external_execution: native_job_runner_only
 - `git diff --check`、Python `compileall` 和 `check_english_only.py` 全部通过。
 - 化学工具箱完整测试命令 `PYTHONPATH=.:chemistry_toolbox/src .toolbox_env/bin/pytest -q chemistry_toolbox/tests` 全部通过：338 passed，耗时 395.62 秒。
 - 项目完整测试结果为 395 passed、1 failed，耗时 586.87 秒。唯一失败是既有 `submit_heterobiaryl_open_discovery.sh` 输出无 `bailian/` 前缀，而既有 `test_shell_entrypoint.py` 仍要求该前缀；`git blame` 确认该不一致来自本轮修改前的基线，且与化学工具箱可靠性改动无关，因此未擅自修改实际模型路由。
+
+### 任务 22：第二版真实轨迹复核、语义环境修复与后续改进方案
+
+状态：已完成复核和当前检索修复；其余内容为下一轮明确修改项。
+
+#### 评估运行完整性
+
+第二版原计划包含 14 个任务。当前只有 10 个任务形成完整 Agent 结果、Judger 结果和 `dual_axis_100` 评分。后 4 个任务是在用户要求暂停批次时被中断或尚未启动，不能据此判定工具箱无法完成对应科研任务。
+
+| 任务名称 | 运行状态 | 最终分 | 科研过程分 | 科学结论分 | Agent token | Judger token | 模型 |
+|---|---:|---:|---:|---:|---:|---:|---|
+| `GEOM_Hierarchical_Conformer_Reranking_Reproduction` | 完成 | 86.00 | 86 | 100 | 6,760,757 | 86,384 | `deepseek-v4-flash` |
+| `GEOM_Hierarchical_Conformer_Reranking` | 完成 | 66.22 | 86 | 77 | 4,382,963 | 120,261 | `deepseek-v4-flash` |
+| `Electron_Flexible_Ensemble_Surface_Reproduction` | 完成 | 71.10 | 79 | 90 | 9,794,767 | 135,750 | `deepseek-v4-flash` |
+| `Electron_Flexible_Ensemble_Surface` | 完成 | 67.20 | 84 | 80 | 5,021,828 | 112,481 | `deepseek-v4-flash` |
+| `Electron_Isodensity_Reproduction_04_Blind_Prediction` | 完成 | 97.00 | 97 | 100 | 1,714,869 | 95,068 | `deepseek-v4-flash` |
+| `Electron_Isodensity_04_Blind_Prediction` | 完成 | 74.70 | 83 | 90 | 4,417,214 | 88,617 | `deepseek-v4-flash` |
+| `BaO_Phase_Crossover_And_5d_Bonding_Reproduction` | 完成 | 71.00 | 71 | 100 | 8,328,547 | 130,539 | `deepseek-v4-flash` |
+| `BaO_Phase_Crossover_And_5d_Bonding` | 完成 | 86.00 | 86 | 100 | 7,322,970 | 146,357 | `deepseek-v4-flash` |
+| `PV_Protonation_Barrier_Trend_Reproduction` | 完成 | 41.80 | 76 | 55 | 8,847,081 | 146,923 | `deepseek-v4-flash` |
+| `PV_Protonation_Barrier_Trend` | 完成 | 45.00 | 75 | 60 | 8,783,042 | 143,906 | `deepseek-v4-flash` |
+| `Heterobiaryl_PV_02_CC_Selectivity` | 批次暂停时终止 | - | - | - | - | - | `deepseek-v4-flash` |
+| `Heterobiaryl_PV_Reproduction_02_CC_Selectivity` | 仅初始化，元数据遗留为 running | - | - | - | - | - | `deepseek-v4-flash` |
+| `Heterobiaryl_PV_05_Rate_Determining_Step` | 未启动 | - | - | - | - | - | `deepseek-v4-flash` |
+| `Heterobiaryl_PV_Reproduction_05_Rate_Determining_Step` | 未启动 | - | - | - | - | - | `deepseek-v4-flash` |
+
+Agent token 中 cache read 占主要部分，因此不能把总 token 直接解释为新增推理量。但 discovery 返回体过大和重复 inspect 确实会增加上下文累积，需要单独优化。
+
+#### 真实轨迹中的改进与未达目标
+
+| 检查项 | 第二版真实结果 | 判断 |
+|---|---|---|
+| 原生作业执行可靠性 | 40 成功、1 失败，真实执行失败率 2.44%；第一版为 50.00% | 明显改善 |
+| 通用程序执行可靠性 | 19 成功、3 失败、1 取消，非成功率 17.39%；第一版为 37.93% | 改善但仍偏高 |
+| Chemistry MCP 表面失败率 | 42/495，8.48%；其中包含输入拒绝、资源保护和后端失败 | 不能单独作为后端失败率 |
+| Action 搜索相关性 | 11 次搜索的人工复核 Top-1 均相关，10 次 Top-1 后续被执行 | 词法 aliases/BM25 有效 |
+| Action 语义检索 | 5 次 `unavailable:RuntimeError`，6 次 `stale_embedding_cache`，0 次 available | 未达到目标，已修复环境合同 |
+| 软件文档使用 | 完整任务中只出现 5 次精确读取，未出现软件文档 hybrid 搜索 | 文档存在，但未成为默认工作流 |
+| JobContext 采用 | 23 个程序作业中 0 个使用 `JobContext`，0 个使用标准目录环境变量 | SDK 可用但没有实际采用 |
+| 审计产物 | canonical `_tool_trace.jsonl` 存在，但部分任务的 `report/tool_trace.jsonl` 为空、极小或由 Agent 手工构造 | 交付链未闭环 |
+| 科学成功状态 | 原生结果能够区分进程、软件、收敛、产物和机械有效性 | 基本达到目标 |
+| 资源可见性 | VASP 并行提交出现 8 次资源保护拒绝；轨迹发生时尚无资源查询工具 | 保护有效，调度体验不足；查询工具已补充 |
+| 56 软件 smoke | 40 通过、11 仅到达程序并需要科学输入、3 失败、2 跳过 | 接口覆盖完整，但不能称 56 个科学最小任务全部通过 |
+
+第二版 11 次 Action 搜索的 Top-1 相关性来自词法检索，而不是 embedding。固定测试集的高分不能替代真实环境验证；后续验收必须同时检查 MCP 实际 Python、模型文件、向量缓存和真实自然语言查询。
+
+#### 已完成的当前修复
+
+- 确认评估 MCP 实际使用根目录 `.toolbox_env/bin/python`，而不是 `chemistry_toolbox/.venv`。将 `onnxruntime>=1.17` 和 `tokenizers>=0.15` 加入项目 chemistry extra、`toolbox-pip.txt`、constraints 和 portable core lock；当前实际版本为 `onnxruntime 1.23.2`、`tokenizers 0.22.2`。
+- `setup_toolbox_env.sh` 在安装和 MCP 配置后自动执行 `cache_minilm_model.py`，避免代码或 Catalog 更新后继续使用 stale cache。
+- `verify_toolbox.py` 新增真实语义检索检查。只有模型可加载、114 个 Action 文档可编码且返回 `semantic_status=available` 才通过环境验证。
+- 使用实际 `.toolbox_env` 重建 114 个 Action 和 56 个软件文档缓存。修复后自然语言查询在真实环境中返回 `semantic_status=available`。
+- 真实轨迹暴露 `MMFF94 force field optimization preoptimization` 会把 force evaluation 排在 geometry optimization 之前。为 `optimize_geometry` 增加 `force field geometry optimization` 和 `MMFF94 preoptimization` aliases，并增加回归查询；修复后 `optimize_geometry` 排名第一。
+
+#### 逐任务问题判断
+
+| 任务 | 主要问题 | 问题归属 | 建议 |
+|---|---|---|---|
+| `GEOM_Hierarchical_Conformer_Reranking_Reproduction` | 初次 CREST 输入失败、ORCA 独立任务串行、报告 trace 过小 | 输入契约、并行接口、审计交付 | 保留现有诊断；增加窄范围批量 Action；由运行器导出 canonical trace |
+| `GEOM_Hierarchical_Conformer_Reranking` | 只做电子能量重排，缺少足够频率/自由能证据 | Agent 科学路线选择 | 在报告前增加证据完整性提示，不把论文方法泄露给自主任务 |
+| `Electron_Flexible_Ensemble_Surface_Reproduction` | 计算 Hessian 后仍使用电子能量人口；一个聚类程序被取消；报告 trace 为空 | 科学证据门控、程序生命周期、审计交付 | 自由能结论前检查人口 basis；自动导出 trace；改善程序进度与取消诊断 |
+| `Electron_Flexible_Ensemble_Surface` | 多次路径/Artifact 输入失败；最终仍为电子能量权重 | 程序合同、Agent 路线 | 路径预检已修；增加 managed template 和自由能证据提示 |
+| `Electron_Isodensity_Reproduction_04_Blind_Prediction` | 主要流程正确，仅缺少显式波函数电子数/密度积分校验 | 产物科学验证 | 为 WFN/WFX/cube 增加可选 electron-count 和 density-integral validation metadata |
+| `Electron_Isodensity_04_Blind_Prediction` | 留一法插值逻辑和单构象代表性不足；部分 hash 报告不完整 | 程序业务逻辑、报告 | 提供 CV/有限值检查模板和完整 ArtifactRef 报告 helper，不尝试自动决定科学模型 |
+| `BaO_Phase_Crossover_And_5d_Bonding_Reproduction` | EOS 分析部分通过非托管 shell 完成，缺 stress 列，Vinet 拟合失败 | 程序接口采用、产物合同 | 强化 managed analysis 默认模板和表格 schema；明确必需列与拟合失败输出 |
+| `BaO_Phase_Crossover_And_5d_Bonding` | VASP 解析、意图和资源重复拒绝；敏感性分析有限 | 已修代码契约、Agent 科学路线 | 当前 VASP fallback/意图/资源查询已修；保留科学敏感性为评分项 |
+| `PV_Protonation_Barrier_Trend_Reproduction` | GoodVibes staging/参数失败后自行解析；误判 Int-III/DLPNO 缺失，反应自由能不完整 | 已修工具契约、任务数据映射 | 提供不含数值答案的文件级角色和配对 manifest |
+| `PV_Protonation_Barrier_Trend` | 结果由非托管脚本汇总，缺完整反应热力学和可信 provenance | 程序接口采用、任务数据映射 | 与复现任务共享同一文件级输入 manifest；强制计算结果进入 managed artifact manifest |
+| `Heterobiaryl_PV_02_CC_Selectivity` | 暂停前使用 shell 解析原始 Unicode 目录，误判没有 Py-Py TS/产物 | 任务数据语义歧义 | 不能据此判定不可复现；先补路径角色映射后重跑 |
+| 其余 3 个 Heterobiaryl 任务 | 未形成可审计完整轨迹 | 未执行 | 修正共享输入 manifest 后再验证，当前不下成功或失败结论 |
+
+#### Heterobiaryl/PV 数据契约结论
+
+论文作者压缩包中实际存在 `Int-I`、`TS-I`、`Int-II`、`TS-II`、`Int-III` 的 Gaussian frequency、ORCA DLPNO 和部分 QZ 文件；此前恢复目录也已由 GoodVibes 成功生成 P0/P1/P2 公共参考和 P2 完整反应剖面。因此第二版的“缺少 Int-III/DLPNO”不是原始数据真实缺失。
+
+当前公开 `author_output_manifest.json` 只记录三个 zip 的 state、path、size、SHA-256 和 DOI。原始文件名中的 `Py`、`Ph`、`OMe`、`ax` 描述构型内配体身份和轴向角色，并不直接等于评估任务中的 `Py-Py`、`Ph-Py` 路径名称；文件名还包含中点、上标、电荷和嵌套目录。此前成功恢复依赖规范化命名和 frequency/DLPNO 配对，但这层映射没有提供给第二版 Agent。
+
+应为自主任务和对应复现任务提供完全相同的英文、机器可读文件级 manifest。每条记录只包含：archive state、原始相对路径、规范化 id、stationary-point role、path family、conformer id、charge、multiplicity、calculation type、配对 frequency/DLPNO/QZ 文件和 hash；不得包含能量、势垒、排序或论文结论。这样补齐的是输入语义，不是泄露实现方法或真实答案。
+
+#### 下一轮改进方案
+
+1. **压缩 discovery 默认返回体。** `search_actions`、`browse_action_category` 和 `list_analysis_runtimes` 默认只返回 id、短描述、类别、匹配原因和可用 provider id；资源预算、完整 schema、全部 provider 状态只在 `inspect_action` 或显式 `include_details=true` 时返回。第二版 discovery 调用累计输出约 2.0 MiB，其中 `inspect_action` 68 次、约 1.28 MiB，存在明确减负空间。
+2. **让 JobContext 成为默认程序入口。** `list_analysis_runtimes` 直接返回可执行最小模板；声明 inputs/outputs 的程序若未使用标准路径 helper，预检返回明确 warning。继续允许普通 Python，但不宣称 SDK 能阻止 `open()` 或绝对路径访问。
+3. **由运行器负责审计轨迹交付。** 任务结束时将不可变 canonical `_tool_trace.jsonl` 复制或引用为 Judger 的标准 provenance 输入，并自动生成 hash；不再要求 Agent 手工创建 `report/tool_trace.jsonl`。Agent 报告只能引用 canonical trace，不能覆盖它。
+4. **增加窄范围异步批量 Action。** 对同一 Action、同一 backend、相互独立的结构列表提供 batch submit/collect，复用现有校验、资源 Supervisor 和逐子作业 provenance。先覆盖 ORCA optimization/Hessian 和 VASP single-point，不建设新的通用调度系统。
+5. **把资源状态放入可执行修复信息。** 资源拒绝应返回 available/reserved、active jobs 和建议重试条件；Agent 在并行提交前使用 `get_execution_resources`。资源保护拒绝继续与真实后端失败分开计数。
+6. **把文档检索嵌入失败修复路径。** `inspect_software` 按 calculation intent 返回一个推荐 topic 和一个已测试 example path；原生 lint 失败直接链接对应 troubleshooting section。无需强制每次调用都读取长手册。
+7. **区分接口 smoke 与科学 smoke。** 56 个软件清单继续保留 `passed`、`started_input_required`、`failed`、`skipped`，只把完成最小科学任务且产物可验证的条目标为 scientific smoke passed。优先补 benchmark 实际使用和高失败率软件，不伪造许可或数据受限软件的成功证据。
+8. **增加轻量科学产物验证。** 对 wavefunction/density export 增加可选电子数和密度积分检查；对自由能 ensemble 结果记录 population basis、温度、标准态和输入 Hessian coverage；对 EOS/拟合输出验证必需列、有限值、拟合状态和残差摘要。最终结论正确性仍由 Judger 判断。
+9. **修正 Heterobiaryl/PV 公共输入。** 为相关自主与复现任务同步加入无数值答案的文件级角色 manifest，并修正已移动的 validated artifact 路径。重跑前先用 manifest validator 确认每条评估路径都有 frequency、DLPNO 和必要 stationary-point role。
+10. **采用真实轨迹验收。** 下一次评估同时报告搜索 `semantic_status`、Top-1/Top-5 人工相关性、discovery 返回字节数、请求拒绝率、真实后端失败率、JobContext 采用率、canonical trace 完整率和科学产物有效率。离线 25 条检索集继续作为回归门槛，但不再单独代表真实效果。
+
+#### 当前修复验证结果
+
+- 实际 `.toolbox_env` 可导入 `onnxruntime 1.23.2` 和 `tokenizers 0.22.2`。
+- `verify_toolbox.py --no-write` 的 `semantic_retrieval` 检查通过，状态为 `available`，索引文档数为 114。
+- MMFF94 自然语言查询的 hybrid 结果首位为 `optimize_geometry`；语义运行状态为 `available`。
+- 检索与缓存针对性测试：12 passed，耗时 1.32 秒。
+- 化学工具箱完整测试：340 passed，耗时 605.43 秒。
+- portable core lock `--verify-only`：1 个环境通过，0 个失败，0 个错误。
+- `check_english_only.py` 和 `git diff --check` 均通过。

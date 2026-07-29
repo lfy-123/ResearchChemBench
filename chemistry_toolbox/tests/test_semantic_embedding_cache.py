@@ -7,6 +7,25 @@ import numpy as np
 from researchchem_toolbox import semantic_embeddings
 
 
+def test_default_toolbox_environment_provisions_semantic_retrieval() -> None:
+    repository_root = Path(__file__).resolve().parents[2]
+    pip_requirements = (
+        repository_root / "chemistry_toolbox/environment/toolbox-pip.txt"
+    ).read_text(encoding="utf-8")
+    constraints = (
+        repository_root / "chemistry_toolbox/environment/toolbox-constraints.txt"
+    ).read_text(encoding="utf-8")
+    setup_script = (
+        repository_root / "chemistry_toolbox/scripts/setup_toolbox_env.sh"
+    ).read_text(encoding="utf-8")
+
+    assert "onnxruntime>=1.17" in pip_requirements
+    assert "tokenizers>=0.15" in pip_requirements
+    assert "onnxruntime==1.23.2" in constraints
+    assert "tokenizers==0.22.2" in constraints
+    assert "cache_minilm_model.py" in setup_script
+
+
 def test_semantic_runtime_reuses_encoder_and_vector_matrix(
     tmp_path: Path, monkeypatch
 ) -> None:

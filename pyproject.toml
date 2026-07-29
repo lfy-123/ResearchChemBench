@@ -26,10 +26,12 @@ chemistry = [
     "ase>=3.22",
     "mace-torch",
     "numpy==1.26.4",
+    "onnxruntime>=1.17",
     "pubchempy==1.0.5",
     "pymatgen",
     "rdkit",
     "tblite==0.4.0; python_version < '3.13' or platform_system != 'Darwin'",
+    "tokenizers>=0.15",
 ]
 
 [project.scripts]

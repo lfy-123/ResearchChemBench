@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-07-21T18:12:43.679969+00:00",
-  "repository_commit": "5ca4f13679dd8788b1d7b9975cdf67017f3d91f3",
+  "generated_at": "2026-07-29T05:52:40.912394+00:00",
+  "repository_commit": "5c06ceaf33733ba52a50012a8263841cee1523b2",
   "lock_platform": "linux-64",
   "source_host": {
     "system": "Linux",
@@ -36,22 +36,22 @@
   },
   "configuration_files": {
     "chemistry_toolbox/config/mcp_profiles.yaml": {
-      "sha256": "dd20a0dec808cee53f1f4601099781a0385f73c858ca0f78e4f1a99685271f85"
+      "sha256": "8744f23d1b2547b891f68068c88e931888a7f755e336cb5961fa0957d4f59d69"
     },
     "chemistry_toolbox/config/auxiliary_environments.yaml": {
       "sha256": "a4f67c0ba57fe2d3ba162a88ccb24d950e90cc7970d80044c16e9ffceeb0af27"
     },
     "chemistry_toolbox/config/toolbox_resources.json": {
-      "sha256": "8bb89d4467e6d72717c957d1b058b1352cdb8c9d10deb0229d089e6ec436aea8"
+      "sha256": "a70667530cd9c90182640a91599cd5845326ac7623576c3bf06138fae9bd6e53"
     },
     "chemistry_toolbox/config/requested_software.yaml": {
-      "sha256": "5468f16631c48d8c43f26f451cc766158661c70ad2b3794173994f0e63cfe1c2"
+      "sha256": "a19bb3f48146a2a5ebadd544bfb6634f6e6acd55d6d67404e435ddd82165c48d"
     },
     "chemistry_toolbox/config/native_software_guides.yaml": {
-      "sha256": "d68fb8267f618350d004b8858338f0afdfe71a95f64ddfb15c98407fdad2899e"
+      "sha256": "6d8a198cf2b2367471618b322e0ae6e58038e8337b59beea17b7fe1826d364c4"
     },
     "chemistry_toolbox/mcp/tool_config.json": {
-      "sha256": "f2cf5fa92bc4be13092692395b3c32759588599cf0270efe2f436017d37cc877"
+      "sha256": "e0dfbe33bf8cdd56218977a01e83861f0d078ffa71c93466153126bd87c14a89"
     }
   },
   "summary": {
@@ -1820,6 +1820,7 @@
       ],
       "backends": [
         "ase_emt",
+        "internal_reaction_analysis",
         "internal_spectroscopy",
         "internal_statistics",
         "internal_thermochemistry",
@@ -1839,14 +1840,14 @@
       "captured": true,
       "python_version": "3.10.20",
       "conda_package_count": 277,
-      "pip_package_count": 222,
+      "pip_package_count": 229,
       "project_editable": true,
       "conda_explicit_lock": "core/conda-explicit.txt",
       "pip_requirements_lock": "core/pip-requirements.txt",
       "pip_metadata_lock": "core/pip-lock.json",
       "conda_lock_sha256": "918ce942b9825c4a5746764778f9a4202bcd201046a5e37296e1ffbbedd4ae67",
-      "pip_requirements_sha256": "94d3eff7b951454737132ab673060f3eebb0f37e197538196a47cdbeb59c332c",
-      "pip_metadata_sha256": "da8e682e8889b6ed3ec3aaac249d53852563cfad23ca3114dfb37110b77e1da5",
+      "pip_requirements_sha256": "a5ef9b150c86e29efe63c5fa2688e85d2d61d907f278b3d833de079430b8a6c5",
+      "pip_metadata_sha256": "dd3649f98457b145d0ac054e7180f51795d8f6b9f1df0154fe87f9ec09789594",
       "pip_check": {
         "returncode": 0,
         "ok": true,
@@ -2664,7 +2665,7 @@
       "kind": "directory"
     },
     {
-      "path": ".software_cache/openmpi/4.1.8",
+      "path": ".software_cache/openmpi/4.1.8-fortran",
       "reasons": [
         "requested_software.ORCA.cache_paths"
       ],
@@ -2673,7 +2674,7 @@
       "kind": "directory"
     },
     {
-      "path": ".software_cache/openmpi/4.1.8/bin",
+      "path": ".software_cache/openmpi/4.1.8-fortran/bin",
       "reasons": [
         "mcp_profiles.profiles.quantum.path_entries",
         "mcp_profiles.profiles.reaction.path_entries"
@@ -2683,7 +2684,7 @@
       "kind": "directory"
     },
     {
-      "path": ".software_cache/openmpi/4.1.8/bin/orterun",
+      "path": ".software_cache/openmpi/4.1.8-fortran/bin/orterun",
       "reasons": [
         "mcp_profiles.profiles.quantum.external_commands",
         "mcp_profiles.profiles.reaction.external_commands",
@@ -2692,15 +2693,14 @@
       "required": true,
       "exists": true,
       "kind": "file",
-      "size_bytes": 17064,
-      "captured_sha256": "c73d880535ee03984fae2aa98223157196ca15e6792c15d8ff30548e1a383f8e",
+      "size_bytes": 17848,
       "expected_checksum": {
         "algorithm": "sha256",
-        "value": "c73d880535ee03984fae2aa98223157196ca15e6792c15d8ff30548e1a383f8e"
+        "value": "f5e6ea2e7efa72d816c2bfad7a348b6f0011ac66c96413f82b85ed8a91b2a1c8"
       }
     },
     {
-      "path": ".software_cache/openmpi/4.1.8/lib",
+      "path": ".software_cache/openmpi/4.1.8-fortran/lib",
       "reasons": [
         "mcp_profiles.profiles.quantum.library_path_entries",
         "mcp_profiles.profiles.reaction.library_path_entries"
@@ -3325,7 +3325,7 @@
       "notes": "The supplied schroedinger-1.0.11-7 Arch package was identified from .PKGINFO as an ANSI C implementation of the Dirac video codec, not the commercial Schrödinger chemistry suite. It is retained only under .software_cache/schrodinger/rejected with SHA-256 41906fcce0eeb74edcaf50ee46635c2f336703692d956782dba7dd1f419187b7 and is not installed or exposed. A genuine Schrödinger Suite installer and site license are still required if this backend is wanted."
     },
     {
-      "name": "NIST CCCBDB 接口",
+      "name": "NIST CCCBDB Interface",
       "status_policy": "interface",
       "license": "NIST_SRD_terms",
       "public_adapter": "not_implemented",

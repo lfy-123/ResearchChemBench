@@ -64,6 +64,7 @@ def test_action_search_uses_aliases_and_bm25_ranking():
         "electron density surface": "calculate_electron_isodensity_surface",
         "transition state search": "locate_transition_state",
         "phonon DOS": "calculate_phonon_density_of_states",
+        "MMFF94 force field optimization preoptimization": "optimize_geometry",
     }
     for query, expected_first in cases.items():
         result = search_actions(

@@ -83,6 +83,7 @@ PYTHON_BIN="$ENV_DIR/bin/python"
   --editable "$ROOT_DIR[test]"
 
 "$PYTHON_BIN" "$ROOT_DIR/chemistry_toolbox/scripts/configure_mcp_conda_envs.py"
+"$PYTHON_BIN" "$ROOT_DIR/chemistry_toolbox/scripts/cache_minilm_model.py"
 
 if [[ "$SKIP_VERIFY" -eq 1 ]]; then
   echo "Installation completed without verification: $ENV_DIR"
