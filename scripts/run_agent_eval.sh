@@ -12,6 +12,12 @@ if [[ -f "$LOCAL_CONFIG_FILE" ]]; then
   set +a
 fi
 
+PROXY_SETUP_URL="${RESEARCHCHEMBENCH_PROXY_SETUP_URL:-${RCB_DISTRIBUTED_REMOTE_INIT_SCRIPT_URL:-}}"
+if [[ -n "$PROXY_SETUP_URL" ]]; then
+  # shellcheck disable=SC1090
+  source <(curl -fsSL "$PROXY_SETUP_URL")
+fi
+
 ENV_ROOT="${RESEARCHCHEMBENCH_ENV_ROOT:-$ROOT_DIR/.envs}"
 FRAMEWORK_ENV="${RESEARCHCHEMBENCH_FRAMEWORK_ENV:-$ENV_ROOT/researchchembench}"
 if [[ ! -x "$FRAMEWORK_ENV/bin/python" ]]; then

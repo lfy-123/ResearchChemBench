@@ -443,7 +443,11 @@ PY
     echo "Agent: $agent model=$model"
     echo "Judge: enabled=$score_enabled model=$judge_model"
     echo "Limits: agent=${timeout_seconds}s mcp=${mcp_tool_timeout_seconds}s compute_action=${compute_action_timeout_seconds}s fast_action=${fast_action_timeout_seconds}s max_turns=$max_turns concurrency=$max_concurrent_runs repeats=$repeats"
-    echo "Per-task resources: cpu=${available_cpu_cores} memory=${available_memory_mb}MiB gpu=${available_gpu_count}"
+    if [[ "$execution_mode" == "distributed" ]]; then
+      echo "Compute resources: loaded from $RCB_DISTRIBUTED_WORKER_INVENTORY"
+    else
+      echo "Per-task resources: cpu=${available_cpu_cores} memory=${available_memory_mb}MiB gpu=${available_gpu_count}"
+    fi
     echo "Execution mode: $execution_mode"
     if [[ "$foreground" == true ]]; then
       "${eval_command[@]}" 2>&1 | tee "$launcher_log"

@@ -287,10 +287,15 @@ def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False
             f"agent={agent_timeout_seconds}s"
         )
         _log(
-            "Per-task resource budget: "
-            f"cpu={available_cpu_cores} "
-            f"memory={available_memory_mb}MiB "
-            f"gpu={available_gpu_count}"
+            (
+                "Distributed compute resources are loaded from the worker inventory; "
+                "available_cpu_cores/available_memory_mb apply only to local mode."
+                if execution_mode == "distributed"
+                else "Per-task resource budget: "
+                f"cpu={available_cpu_cores} "
+                f"memory={available_memory_mb}MiB "
+                f"gpu={available_gpu_count}"
+            )
         )
         for spec in specs:
             _log(f"run={spec.task_id} agent={spec.agent_key} repeat={spec.repeat}")
