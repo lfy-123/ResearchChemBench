@@ -1,15 +1,17 @@
 import json
+import subprocess
 from pathlib import Path
 
 import pytest
 
 from researchchem_toolbox.distributed_pool import (
-    DistributedResourceUnavailable,
+    DistributedResourceLimitExceeded,
     load_worker_inventory,
     pool_snapshot,
     reserve_distributed_resources,
     select_compute_cpu_ids,
 )
+from researchchem_toolbox import runtime
 
 
 def _write_inventory(path: Path) -> None:
@@ -95,13 +97,13 @@ def test_memory_is_independent_from_cpu_ratio(distributed_environment):
 
 
 def test_request_larger_than_one_worker_is_rejected(distributed_environment):
-    with pytest.raises(DistributedResourceUnavailable) as error:
+    with pytest.raises(DistributedResourceLimitExceeded) as error:
         reserve_distributed_resources(
             {"cpu_cores": 65, "memory_mb": 1000},
             kind="test",
             label="too-large",
         )
-    assert error.value.as_error()["retryable"] is True
+    assert error.value.as_error()["retryable"] is False
 
 
 def test_compute_cpu_selection_reserves_complete_physical_cores():
@@ -131,3 +133,53 @@ def test_compute_cpu_selection_reserves_complete_physical_cores():
     assert len(selected_cores) == 32
     assert len({core for socket, core in selected_cores if socket == 0}) == 16
     assert len({core for socket, core in selected_cores if socket == 1}) == 16
+
+
+def test_remote_action_uses_ssh_and_releases_reservation(
+    distributed_environment, tmp_path: Path, monkeypatch
+):
+    runtime_python = tmp_path / "runtime-python"
+    runtime_python.touch()
+    monkeypatch.setattr(runtime, "runtime_python", lambda _name: runtime_python)
+    monkeypatch.setattr(
+        runtime,
+        "runtime_environment",
+        lambda _name: {"PATH": "/usr/bin", "RESEARCHCHEM_BACKEND_RUNTIME": "test"},
+    )
+    calls = []
+
+    def fake_run(argv, **kwargs):
+        calls.append((argv, kwargs))
+        return subprocess.CompletedProcess(
+            argv,
+            0,
+            stdout=json.dumps({"status": "success", "result": {"ok": True}}),
+            stderr="",
+        )
+
+    monkeypatch.setattr(runtime.subprocess, "run", fake_run)
+    result = runtime.invoke_worker(
+        runtime="test",
+        payload={
+            "action_id": "test_action",
+            "backend_id": "test_backend",
+            "request": {
+                "resource_limits": {
+                    "cpu_cores": 8,
+                    "memory_mb": 12000,
+                    "gpu_count": 0,
+                }
+            },
+        },
+        timeout_seconds=60,
+    )
+
+    assert result["status"] == "success"
+    assert result["provenance"]["execution_mode"] == "distributed"
+    assert result["provenance"]["compute_worker_id"] == "compute-2"
+    assert len(result["provenance"]["resource_allocation"]["cpu_ids"]) == 8
+    assert calls[0][0][0] == "ssh"
+    envelope = json.loads(calls[0][1]["input"])
+    assert envelope["payload"]["action_id"] == "test_action"
+    assert envelope["environment"]["OMP_NUM_THREADS"] == "8"
+    assert not list((tmp_path / "state" / "reservations").glob("*.json"))

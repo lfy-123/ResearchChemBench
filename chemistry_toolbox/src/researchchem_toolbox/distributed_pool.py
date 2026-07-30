@@ -342,6 +342,31 @@ class DistributedResourceUnavailable(RuntimeError):
         }
 
 
+class DistributedResourceLimitExceeded(ValueError):
+    def __init__(self, requested: Mapping[str, int], snapshot: dict[str, Any]):
+        self.requested = dict(requested)
+        self.snapshot = snapshot
+        super().__init__(
+            "Distributed resource request cannot fit on one compute worker: "
+            f"requested={self.requested}"
+        )
+
+    def as_error(self) -> dict[str, Any]:
+        return {
+            "code": "distributed_resource_limit_exceeded",
+            "message": str(self),
+            "requested": self.requested,
+            "maximum_cpu_cores_per_job": self.snapshot[
+                "maximum_cpu_cores_per_job"
+            ],
+            "maximum_memory_mb_per_job": self.snapshot[
+                "maximum_memory_mb_per_job"
+            ],
+            "single_job_cross_node_execution": False,
+            "retryable": False,
+        }
+
+
 @dataclass
 class DistributedReservation:
     path: Path
@@ -527,6 +552,25 @@ def pool_snapshot(*, include_internal: bool = False) -> dict[str, Any]:
     }
 
 
+def validate_distributed_resource_limits(
+    resources: Mapping[str, Any],
+) -> dict[str, int]:
+    """Validate that one request fits at least one worker without crossing nodes."""
+
+    requested = _normalized_request(resources)
+    workers = load_worker_inventory()
+    if not any(
+        requested["cpu_cores"] <= worker.available_cpu_cores
+        and requested["memory_mb"] <= worker.available_memory_mb
+        and requested["gpu_count"] <= worker.gpu_count
+        for worker in workers
+    ):
+        raise DistributedResourceLimitExceeded(
+            requested, pool_snapshot(include_internal=False)
+        )
+    return requested
+
+
 def reserve_distributed_resources(
     resources: Mapping[str, Any],
     *,
@@ -536,7 +580,7 @@ def reserve_distributed_resources(
     job_id: str = "",
     job_status_path: str = "",
 ) -> DistributedReservation:
-    requested = _normalized_request(resources)
+    requested = validate_distributed_resource_limits(resources)
     lock_path = state_root() / "pool.lock"
     with lock_path.open("a+", encoding="utf-8") as handle:
         fcntl.flock(handle.fileno(), fcntl.LOCK_EX)
@@ -620,6 +664,7 @@ def reserve_distributed_resources(
 
 __all__ = [
     "DistributedReservation",
+    "DistributedResourceLimitExceeded",
     "DistributedResourceUnavailable",
     "EXECUTION_MODE_ENV",
     "INVENTORY_PATH_ENV",
@@ -631,4 +676,5 @@ __all__ = [
     "reserve_distributed_resources",
     "select_compute_cpu_ids",
     "state_root",
+    "validate_distributed_resource_limits",
 ]
