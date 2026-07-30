@@ -21,15 +21,14 @@ Usage:
   bash install.sh [--with-chemistry-deps] [installer options]
 
 Examples:
-  bash install.sh --agent all --chemgraph-root /path/to/ChemGraph --scope user
-  bash install.sh --with-chemistry-deps --agent codex --chemgraph-root /path/to/ChemGraph
+  bash install.sh --agent all --scope user
+  bash install.sh --with-chemistry-deps --agent codex
   bash install.sh --agent opencode --scope project --project-dir /path/to/project
-  bash install.sh --agent all --chemgraph-root /path/to/ChemGraph --dry-run
+  bash install.sh --agent all --dry-run
 
 Important installer options passed through:
   --agent all|codex|claude|opencode   Repeatable; default all installed Agents.
   --name NAME                         MCP server name; default researchchem-tools.
-  --chemgraph-root PATH               ChemGraph checkout containing src/chemgraph.
   --workspace PATH                    Optional fixed workspace; default Agent process cwd.
   --python PATH                       Python used to start the installed MCP server.
   --scope local|project|user          Claude/OpenCode scope; default user.

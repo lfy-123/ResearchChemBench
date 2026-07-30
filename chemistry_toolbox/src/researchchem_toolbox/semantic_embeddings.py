@@ -19,11 +19,11 @@ EMBEDDING_CACHE_ENV = "RESEARCHCHEM_ACTION_EMBEDDING_CACHE"
 
 
 def _default_model_directory() -> Path:
-    return Path(__file__).resolve().parents[2] / ".model_cache" / "all-MiniLM-L6-v2"
+    return Path(__file__).resolve().parents[3] / ".model_cache" / "all-MiniLM-L6-v2"
 
 
 def _default_embedding_cache() -> Path:
-    return Path(__file__).resolve().parents[2] / ".model_cache" / "action_embeddings.npz"
+    return Path(__file__).resolve().parents[3] / ".model_cache" / "action_embeddings.npz"
 
 
 def model_directory() -> Path:

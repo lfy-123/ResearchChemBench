@@ -119,8 +119,9 @@ prepare these project-relative directories separately:
 ```
 
 Licensed programs such as ORCA, Gaussian, VASP, AMBER, CHARMM, and LOBSTER
-must be supplied legally by the operator. API keys and machine-local overrides
-belong in the ignored `config.local.env`, never in the repository.
+must be supplied legally by the operator. The tracked `config.local.env` is a
+placeholder-only template; replace its values locally and never commit real
+credentials.
 
 After the assets and six environments are present, create the configured
 executable links and verify registered checksums:
@@ -130,11 +131,9 @@ executable links and verify registered checksums:
   chemistry_toolbox/scripts/configure_toolbox_resources.py --quick
 ```
 
-Create the local configuration file and fill only the values needed on the
-current server:
+Fill only the values needed on the current server:
 
 ```bash
-cp config.local.env.example config.local.env
 chmod 600 config.local.env
 ```
 
@@ -154,7 +153,8 @@ GENERAL_PYTHON="${RCB_MERGED_ENV_ROOT:-$PWD/.tool_envs_merged}/general-modern-op
 Run the local no-API benchmark smoke after environment verification:
 
 ```bash
-bash scripts/run_agent_eval.sh --agent mock --task ChemGraph_001 --no-score
+bash scripts/run_agent_eval.sh --agent mock \
+  --task Electron_Isodensity_Reproduction_01_Method_Selection --no-score
 ```
 
 The environment definitions, compatibility boundaries, and lock-maintenance
@@ -164,7 +164,7 @@ commands are documented in
 ## Architecture
 
 ```text
-ChemGraph task instruction
+ResearchChemBench task instruction
         │
         ▼
 isolated run workspace
@@ -186,21 +186,21 @@ one complete Chemistry MCP server
 report/report.md + tool artifacts + JSONL traces
         │
         ▼
-ChemGraph-style binary LLM judge
+dual-axis scientific LLM judge
 ```
 
 The benchmark does **not** expose `run_ase`, `run_xtb`, `run_cp2k`, or other software/workflow runners. Agent CLIs own the reasoning loop; software packages are internal backends of scientifically named atomic actions.
 
 ## Run the benchmark
 
-ResearchChemBench does not install or write into the sibling ChemGraph
-checkout. Its source is loaded from `CHEMGRAPH_ROOT/src` at runtime; the
-default checkout location is `../ChemGraph` relative to this repository.
+ResearchChemBench is self-contained at the source-code level. The evaluation
+runner and Chemistry MCP server import only modules shipped in this repository;
+no sibling ChemGraph checkout or `CHEMGRAPH_ROOT` setting is required.
 
 Use `scripts/submit_evaluation.sh` for normal evaluations. It validates the
 task list, writes an immutable submission configuration, launches the run in a
 background `tmux` session, and provides status, stop, and summary commands.
-Model and judge credentials are read from the ignored `config.local.env`.
+Model and judge credentials are read from the local `config.local.env`.
 
 Set the consolidated environment layout before submitting:
 
@@ -257,7 +257,7 @@ bash scripts/submit_evaluation.sh submit \
   --timeout-seconds 14400 \
   --max-turns 200 \
   --workspaces-dir workspaces/fixed_budget_run \
-  ChemGraph_001
+  Electron_Isodensity_Reproduction_01_Method_Selection
 ```
 
 Add `--no-score` to skip the Judge, `--foreground` for local debugging, or

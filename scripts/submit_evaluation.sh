@@ -52,7 +52,7 @@ Status/follow/summary options:
   --interval N                  Follow refresh interval. Default: 10 seconds.
 
 Examples:
-  bash scripts/submit_evaluation.sh submit ChemGraph_001
+  bash scripts/submit_evaluation.sh submit Electron_Isodensity_Reproduction_01_Method_Selection
 
   bash scripts/submit_evaluation.sh submit \
     --model deepseek-v4-flash \

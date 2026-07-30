@@ -3,6 +3,38 @@ from pathlib import Path
 
 from evaluation.run_task import TaskRunner
 from evaluation.score import RUBRIC_JUDGE_SYSTEM_PROMPT, score_workspace
+from evaluation.utils import load_ground_truth
+
+
+def _full_credit_dual_axis_verdict(task_id: str, rationale: str) -> dict:
+    truth = load_ground_truth(task_id)
+    return {
+        "scientific_conclusions": [
+            {
+                "id": item["id"],
+                "score": item["max_score"],
+                "max_score": item["max_score"],
+                "evidence_status": "supported",
+                "rationale": rationale,
+            }
+            for item in truth["scientific_conclusion_rubric"]
+        ],
+        "scientific_conclusion_score": 100,
+        "process_criteria": [
+            {
+                "id": item["id"],
+                "score": item["max_score"],
+                "max_score": item["max_score"],
+                "rationale": rationale,
+            }
+            for item in truth["scoring_rubric"]
+        ],
+        "research_process_score": 100,
+        "submission_validity": "valid",
+        "critical_failures": [],
+        "objective_issue_flags": [],
+        "rationale": rationale,
+    }
 
 
 def test_rubric_judge_prompt_distinguishes_agent_request_errors():
@@ -24,35 +56,35 @@ def test_rubric_judge_prompt_distinguishes_agent_request_errors():
 
 
 def test_score_workspace_with_injected_judge(tmp_path: Path):
-    runner = TaskRunner("ChemGraph_001", agent_key="mock", workspace_root=tmp_path)
+    task_id = "Electron_Isodensity_Reproduction_01_Method_Selection"
+    runner = TaskRunner(task_id, agent_key="mock", workspace_root=tmp_path)
     meta = runner.run()
     assert meta["status"] == "completed"
 
     result = score_workspace(
         runner.workspace,
-        judge_call=lambda prompt: {
-            "score": 1,
-            "rationale": "Injected test judge",
-        },
+        judge_call=lambda prompt: _full_credit_dual_axis_verdict(
+            task_id, "Injected test judge"
+        ),
     )
-    assert result["score"] == 1
-    assert result["task_id"] == "ChemGraph_001"
+    assert result["score"] == 100
+    assert result["task_id"] == task_id
     assert (runner.workspace / "_score.json").is_file()
     history = (runner.workspace / "_score_history.jsonl").read_text().splitlines()
     assert len(history) == 1
     assert json.loads(history[0])["history_source"] == "judge_call"
 
-    second = score_workspace(
-        runner.workspace,
-        judge_call=lambda prompt: {
-            "score": 0,
-            "rationale": "Second injected test judge",
-        },
-    )
+    zero_verdict = _full_credit_dual_axis_verdict(task_id, "Second injected test judge")
+    for key in ("scientific_conclusions", "process_criteria"):
+        for item in zero_verdict[key]:
+            item["score"] = 0
+    zero_verdict["scientific_conclusion_score"] = 0
+    zero_verdict["research_process_score"] = 0
+    second = score_workspace(runner.workspace, judge_call=lambda prompt: zero_verdict)
     assert second["score"] == 0
     history = (runner.workspace / "_score_history.jsonl").read_text().splitlines()
     assert len(history) == 2
-    assert [json.loads(line)["score"] for line in history] == [1, 0]
+    assert [json.loads(line)["score"] for line in history] == [100, 0]
     progress = (runner.workspace / "_live_progress.log").read_text(encoding="utf-8")
     assert progress.count("[JUDGE_INPUT]") == 2
     assert progress.count("[JUDGE_OUTPUT]") == 2
@@ -60,7 +92,7 @@ def test_score_workspace_with_injected_judge(tmp_path: Path):
 
 
 def test_judge_failure_is_not_counted_as_zero_score(tmp_path: Path):
-    runner = TaskRunner("ChemGraph_001", agent_key="mock", workspace_root=tmp_path)
+    runner = TaskRunner("Electron_Isodensity_Reproduction_01_Method_Selection", agent_key="mock", workspace_root=tmp_path)
     runner.run()
 
     def unavailable(_prompt: str):
@@ -75,7 +107,7 @@ def test_judge_failure_is_not_counted_as_zero_score(tmp_path: Path):
 def test_rubric_score_is_derived_from_clamped_criterion_scores(
     tmp_path: Path, monkeypatch
 ):
-    runner = TaskRunner("ChemGraph_001", agent_key="mock", workspace_root=tmp_path)
+    runner = TaskRunner("Electron_Isodensity_Reproduction_01_Method_Selection", agent_key="mock", workspace_root=tmp_path)
     runner.run()
     rubric_truth = {
         "expected_tool_calls": [],
@@ -149,7 +181,7 @@ def test_rubric_score_is_derived_from_clamped_criterion_scores(
 def test_managed_computation_policy_caps_narrative_only_rubric_score(
     tmp_path: Path, monkeypatch
 ):
-    runner = TaskRunner("ChemGraph_001", agent_key="mock", workspace_root=tmp_path)
+    runner = TaskRunner("Electron_Isodensity_Reproduction_01_Method_Selection", agent_key="mock", workspace_root=tmp_path)
     runner.run()
     rubric_truth = {
         "expected_tool_calls": [],
@@ -194,7 +226,7 @@ def test_managed_computation_policy_caps_narrative_only_rubric_score(
 def test_evidence_gate_policy_caps_scientifically_unvalidated_high_score(
     tmp_path: Path, monkeypatch
 ):
-    runner = TaskRunner("ChemGraph_001", agent_key="mock", workspace_root=tmp_path)
+    runner = TaskRunner("Electron_Isodensity_Reproduction_01_Method_Selection", agent_key="mock", workspace_root=tmp_path)
     runner.run()
     rubric_truth = {
         "expected_tool_calls": [],
@@ -251,7 +283,7 @@ def test_evidence_gate_policy_caps_scientifically_unvalidated_high_score(
 def test_paper_reproduction_mismatch_cannot_receive_self_awarded_full_score(
     tmp_path: Path, monkeypatch
 ):
-    runner = TaskRunner("ChemGraph_001", agent_key="mock", workspace_root=tmp_path)
+    runner = TaskRunner("Electron_Isodensity_Reproduction_01_Method_Selection", agent_key="mock", workspace_root=tmp_path)
     runner.run()
     (runner.workspace / "report" / "method_comparison.json").write_text(
         json.dumps({"production_method": {"recovered": False}}),
@@ -325,7 +357,7 @@ def test_paper_reproduction_mismatch_cannot_receive_self_awarded_full_score(
 def test_autonomous_discovery_is_not_capped_for_a_reference_disagreement(
     tmp_path: Path, monkeypatch
 ):
-    runner = TaskRunner("ChemGraph_001", agent_key="mock", workspace_root=tmp_path)
+    runner = TaskRunner("Electron_Isodensity_Reproduction_01_Method_Selection", agent_key="mock", workspace_root=tmp_path)
     runner.run()
     rubric = [
         {"id": "autonomous_method_and_route_design", "max_score": 50},
@@ -369,7 +401,7 @@ def test_autonomous_discovery_is_not_capped_for_a_reference_disagreement(
 def test_strict_autonomous_discovery_caps_a_hidden_scientific_outcome_mismatch(
     tmp_path: Path, monkeypatch
 ):
-    runner = TaskRunner("ChemGraph_001", agent_key="mock", workspace_root=tmp_path)
+    runner = TaskRunner("Electron_Isodensity_Reproduction_01_Method_Selection", agent_key="mock", workspace_root=tmp_path)
     runner.run()
     rubric = [
         {"id": "hidden_scientific_conclusion_recovery", "max_score": 50},
@@ -436,7 +468,7 @@ def test_strict_autonomous_discovery_caps_a_hidden_scientific_outcome_mismatch(
 def test_dual_axis_score_multiplies_conclusion_and_process_scores(
     tmp_path: Path, monkeypatch
 ):
-    runner = TaskRunner("ChemGraph_001", agent_key="mock", workspace_root=tmp_path)
+    runner = TaskRunner("Electron_Isodensity_Reproduction_01_Method_Selection", agent_key="mock", workspace_root=tmp_path)
     runner.run()
     process_rubric = [
         {"id": "route_design", "max_score": 40},
@@ -513,7 +545,7 @@ def test_dual_axis_score_multiplies_conclusion_and_process_scores(
 def test_dual_axis_invalid_submission_forces_zero_without_task_specific_cap(
     tmp_path: Path, monkeypatch
 ):
-    runner = TaskRunner("ChemGraph_001", agent_key="mock", workspace_root=tmp_path)
+    runner = TaskRunner("Electron_Isodensity_Reproduction_01_Method_Selection", agent_key="mock", workspace_root=tmp_path)
     runner.run()
     truth = {
         "expected_tool_calls": [],
@@ -562,7 +594,7 @@ def test_dual_axis_invalid_submission_forces_zero_without_task_specific_cap(
 def test_dual_axis_requires_itemized_scores_instead_of_trusting_axis_totals(
     tmp_path: Path, monkeypatch
 ):
-    runner = TaskRunner("ChemGraph_001", agent_key="mock", workspace_root=tmp_path)
+    runner = TaskRunner("Electron_Isodensity_Reproduction_01_Method_Selection", agent_key="mock", workspace_root=tmp_path)
     runner.run()
     truth = {
         "expected_tool_calls": [],

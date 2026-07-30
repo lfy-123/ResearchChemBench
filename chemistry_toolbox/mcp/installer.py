@@ -12,9 +12,6 @@ import sys
 from pathlib import Path
 from typing import Iterable
 
-from .settings import chemgraph_root
-
-
 SUPPORTED_AGENTS = ("codex", "claude", "opencode")
 
 
@@ -22,11 +19,8 @@ def _server_command(python_executable: str) -> list[str]:
     return [python_executable, "-m", "researchchem_mcp_tools.server"]
 
 
-def _server_environment(chemgraph: Path, workspace: Path | None) -> dict[str, str]:
-    environment = {
-        "CHEMGRAPH_ROOT": str(chemgraph.resolve()),
-        "PYTHONUNBUFFERED": "1",
-    }
+def _server_environment(workspace: Path | None) -> dict[str, str]:
+    environment = {"PYTHONUNBUFFERED": "1"}
     if workspace is not None:
         environment["RESEARCHCHEM_MCP_WORKSPACE"] = str(workspace.resolve())
     return environment
@@ -176,7 +170,6 @@ def main(argv: list[str] | None = None) -> int:
         help="Agent to configure; repeatable. Default: all installed Agents.",
     )
     parser.add_argument("--name", default="researchchem-tools")
-    parser.add_argument("--chemgraph-root", type=Path)
     parser.add_argument("--workspace", type=Path)
     parser.add_argument("--python", default=sys.executable)
     parser.add_argument(
@@ -193,22 +186,15 @@ def main(argv: list[str] | None = None) -> int:
     selected = args.agent or ["all"]
     expanded = list(SUPPORTED_AGENTS) if "all" in selected else list(dict.fromkeys(selected))
     explicit = "all" not in selected
-    try:
-        root = args.chemgraph_root.resolve() if args.chemgraph_root else chemgraph_root()
-    except RuntimeError as exc:
-        parser.error(str(exc))
-    if not (root / "src" / "chemgraph").is_dir():
-        parser.error(f"ChemGraph checkout does not contain src/chemgraph: {root}")
     workspace = args.workspace.resolve() if args.workspace else None
     if workspace is not None and not workspace.is_dir():
         parser.error(f"Workspace directory does not exist: {workspace}")
 
     command = _server_command(args.python)
-    environment = _server_environment(root, workspace)
+    environment = _server_environment(workspace)
     action = "Uninstalling" if args.uninstall else "Installing"
     print(f"{action} portable ResearchChem MCP tools")
     print(f"  Server name:    {args.name}")
-    print(f"  ChemGraph root: {root}")
     print(f"  Server command: {shlex.join(command)}")
     print(f"  Agents:         {', '.join(expanded)}")
     if args.dry_run:

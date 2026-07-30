@@ -25,7 +25,7 @@ python chemistry_toolbox/scripts/check_mcp_tools.py
 ## Before submitting a change
 
 - Run `pytest -q`.
-- Run `bash scripts/run_agent_eval.sh --agent mock --task ChemGraph_001 --no-score`.
+- Run `bash scripts/run_agent_eval.sh --agent mock --task Electron_Isodensity_Reproduction_01_Method_Selection --no-score`.
 - Confirm a task workspace contains no `ground_truth.json`.
 - Add or update the detailed change and environment documentation when behavior changes.
 - Do not commit credentials, run workspaces, model weights, or private evaluation configs.

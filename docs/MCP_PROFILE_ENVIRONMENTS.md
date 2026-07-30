@@ -177,7 +177,7 @@ config.local.env
 该文件已加入 `.gitignore`，`scripts/run_agent_eval.sh` 会自动加载。发布项目时只保留：
 
 ```text
-config.local.env.example
+config.local.env
 ```
 
 示例变量：
@@ -202,14 +202,14 @@ CHEMGRAPH_GNINA_COMMAND=
 # 外部数据库查询
 bash scripts/run_agent_eval.sh \
   --agent opencode \
-  --task ChemGraph_003 \
+  --task Electron_Isodensity_Reproduction_04_Blind_Prediction \
   --mcp-profiles core,services \
   --no-score
 
 # 分子量化计算
 bash scripts/run_agent_eval.sh \
   --agent codex \
-  --task ChemGraph_010 \
+  --task GEOM_Hierarchical_Conformer_Reranking_Reproduction \
   --mcp-profiles core,quantum,psi4 \
   --timeout-seconds 3600 \
   --no-score
@@ -217,7 +217,7 @@ bash scripts/run_agent_eval.sh \
 # 周期计算和声子任务
 bash scripts/run_agent_eval.sh \
   --agent claude \
-  --task ChemGraph_020 \
+  --task BaO_Phase_Crossover_And_5d_Bonding_Reproduction \
   --mcp-profiles core,qe,cp2k,periodic,phonons \
   --timeout-seconds 7200 \
   --no-score

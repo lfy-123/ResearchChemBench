@@ -70,7 +70,7 @@ def main() -> int:
 
     logging.basicConfig(stream=sys.stderr, level=logging.INFO)
     root = workspace_root()
-    os.environ.setdefault("CHEMGRAPH_LOG_DIR", str(root / "tool_logs"))
+    os.environ.setdefault("RESEARCHCHEM_TOOL_LOG_DIR", str(root / "tool_logs"))
     os.chdir(root)
     server = create_server(discovery_mode=args.discovery_mode)
     if args.transport == "streamable_http":

@@ -53,8 +53,8 @@ def test_submit_evaluation_multi_task_dry_run(tmp_path: Path):
             "24576",
             "--available-gpu-count",
             "1",
-            "ChemGraph_001",
-            "ChemGraph_002",
+            "Electron_Isodensity_Reproduction_01_Method_Selection",
+            "Electron_Isodensity_01_Method_Selection",
         ],
         cwd=root,
         capture_output=True,
@@ -65,7 +65,7 @@ def test_submit_evaluation_multi_task_dry_run(tmp_path: Path):
     assert result.returncode == 0, result.stdout + result.stderr
     assert "Planned runs: 2" in result.stdout
     config = json.loads((run_root / "evaluation_config.yaml").read_text())
-    assert config["tasks"] == ["ChemGraph_001", "ChemGraph_002"]
+    assert config["tasks"] == ["Electron_Isodensity_Reproduction_01_Method_Selection", "Electron_Isodensity_01_Method_Selection"]
     assert config["timeout_seconds"] == 600
     assert config["max_turns"] == 20
     assert config["compute_action_timeout_seconds"] == 500
@@ -75,7 +75,7 @@ def test_submit_evaluation_multi_task_dry_run(tmp_path: Path):
     assert config["available_memory_mb"] == 24576
     assert config["available_gpu_count"] == 1
     submission = json.loads((run_root / "submission.json").read_text())
-    assert submission["tasks"] == ["ChemGraph_001", "ChemGraph_002"]
+    assert submission["tasks"] == ["Electron_Isodensity_Reproduction_01_Method_Selection", "Electron_Isodensity_01_Method_Selection"]
     assert submission["agent_model"] == "deepseek-v4-flash"
     assert submission["compute_action_timeout_seconds"] == 500
     assert submission["fast_action_timeout_seconds"] == 30
@@ -105,7 +105,7 @@ def test_submit_evaluation_allows_operator_compute_timeout_above_default(tmp_pat
             "9000",
             "--mcp-tool-timeout-seconds",
             "9100",
-            "ChemGraph_001",
+            "Electron_Isodensity_Reproduction_01_Method_Selection",
         ],
         cwd=root,
         text=True,

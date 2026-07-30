@@ -13,7 +13,7 @@ Important parameters:
 | Parameter | Meaning | Example |
 |---|---|---|
 | `--agent`, `-a` | Agent preset | `--agent opencode` |
-| `--task`, `-t` | One ChemGraph task ID | `--task ChemGraph_015` |
+| `--task`, `-t` | One ResearchChemBench task ID | `--task Electron_Isodensity_Reproduction_01_Method_Selection` |
 | `--config`, `-c` | YAML batch configuration; replaces `--agent/--task` | `--config eval_configs/quick_codex.yaml` |
 | `--no-score` | Preserve results without calling the judge | `--no-score` |
 | `--dry-run` | Print planned runs without Agent execution | `--dry-run` |
@@ -21,8 +21,6 @@ Important parameters:
 | `--max-turns` | Maximum Agent turns where supported | `--max-turns 80` |
 | `--workspaces-dir` | Change the output root | `--workspaces-dir /tmp/rchem-runs` |
 | `--tasks-dir` | Use another task directory | `--tasks-dir /path/to/tasks` |
-| `--chemgraph-root` | Use another ChemGraph checkout | `--chemgraph-root /path/to/ChemGraph` |
-| `--chemgraph-python` | Python used to start Chemistry MCP | `--chemgraph-python .toolbox_env/bin/python` |
 | `--mcp-tools` | Compatibility option; the current benchmark accepts only `all` | `--mcp-tools all` |
 | `--mcp-profiles` | Dependency-isolated MCP server profiles | `--mcp-profiles core,services,quantum` |
 | `--opencode-model` | OpenCode provider/model | `--opencode-model deepseek/deepseek-v4-flash` |
@@ -42,8 +40,8 @@ Run any single task by changing `--agent` and `--task`:
 ```bash
 bash scripts/run_agent_eval.sh \
   --agent opencode \
-  --task ChemGraph_010 \
-  --mcp-tools chemgraph-core \
+  --task Electron_Isodensity_Reproduction_04_Blind_Prediction \
+  --mcp-tools all \
   --timeout-seconds 1800 \
   --max-turns 80 \
   --no-score
@@ -52,7 +50,8 @@ bash scripts/run_agent_eval.sh \
 The older positional form remains supported:
 
 ```bash
-bash scripts/run_agent_eval.sh opencode ChemGraph_010 --no-score
+bash scripts/run_agent_eval.sh opencode \
+  Electron_Isodensity_Reproduction_04_Blind_Prediction --no-score
 ```
 
 For batch mode, values inside the YAML file such as `timeout_seconds` and `max_turns` take precedence over shell defaults.
@@ -67,15 +66,17 @@ runtime compatibility classes. It does not filter the public Action catalog or
 perform backend selection:
 
 ```bash
-bash scripts/run_agent_eval.sh --agent opencode --task ChemGraph_003 \
+bash scripts/run_agent_eval.sh --agent opencode \
+  --task Electron_Isodensity_Reproduction_04_Blind_Prediction \
   --mcp-profiles core,services --no-score
 
-bash scripts/run_agent_eval.sh --agent codex --task ChemGraph_010 \
+bash scripts/run_agent_eval.sh --agent codex \
+  --task GEOM_Hierarchical_Conformer_Reranking_Reproduction \
   --mcp-profiles core,quantum,psi4 --timeout-seconds 3600 --no-score
 ```
 
-The script automatically loads root-level `config.local.env`, which is ignored by version
-control. Use `config.local.env.example` as the publishable template.
+The script automatically loads root-level `config.local.env`. The repository
+copy is a placeholder-only template; never commit real credentials.
 
 ## 1.1 Persistent multi-task submission
 
@@ -111,7 +112,8 @@ jobs are cleaned up and final metadata is written.
 The Mock Agent does not call an API or chemistry package. It validates workspace creation, subprocess execution, JSONL capture, report completion, and batch reporting.
 
 ```bash
-bash scripts/run_agent_eval.sh --agent mock --task ChemGraph_001 --no-score
+bash scripts/run_agent_eval.sh --agent mock \
+  --task Electron_Isodensity_Reproduction_01_Method_Selection --no-score
 ```
 
 Batch smoke test:
@@ -136,9 +138,9 @@ Dry-run validates tasks and Agent keys without creating run workspaces or invoki
 Without scoring:
 
 ```bash
-bash scripts/run_agent_eval.sh --agent codex --task ChemGraph_001 --no-score
-bash scripts/run_agent_eval.sh --agent claude --task ChemGraph_003 --no-score
-bash scripts/run_agent_eval.sh --agent opencode --task ChemGraph_001 --no-score
+bash scripts/run_agent_eval.sh --agent codex --task Electron_Isodensity_Reproduction_01_Method_Selection --no-score
+bash scripts/run_agent_eval.sh --agent claude --task Electron_Isodensity_Reproduction_04_Blind_Prediction --no-score
+bash scripts/run_agent_eval.sh --agent opencode --task GEOM_Hierarchical_Conformer_Reranking_Reproduction --no-score
 ```
 
 With scoring:
@@ -148,13 +150,13 @@ export JUDGE_API_KEY=...
 export JUDGE_API_BASE=...
 export JUDGE_MODEL_NAME=...
 
-bash scripts/run_agent_eval.sh --agent codex --task ChemGraph_001
+bash scripts/run_agent_eval.sh --agent codex --task Electron_Isodensity_Reproduction_01_Method_Selection
 ```
 
 Equivalent Python invocation:
 
 ```bash
-python -m evaluation.cli_eval --agent codex --task ChemGraph_001 --no-score
+python -m evaluation.cli_eval --agent codex --task Electron_Isodensity_Reproduction_01_Method_Selection --no-score
 ```
 
 ## 5. Batch evaluation
@@ -169,7 +171,7 @@ python -m evaluation.cli_eval eval_configs/full.yaml
 bash scripts/run_agent_eval.sh --config eval_configs/quick_codex.yaml
 ```
 
-The `full.yaml` configuration runs all 40 tasks and can be computationally expensive.
+The `full.yaml` configuration runs all currently distributed tasks and can be computationally expensive.
 
 Example YAML:
 
@@ -179,8 +181,8 @@ agents:
   - codex
   - claude
 tasks:
-  - ChemGraph_001
-  - ChemGraph_005
+  - Electron_Isodensity_Reproduction_01_Method_Selection
+  - GEOM_Hierarchical_Conformer_Reranking_Reproduction
 repeats: 2
 max_concurrent_runs: 1
 timeout_seconds: 7200
@@ -235,7 +237,7 @@ Key files:
 | `_tool_artifacts/` | Snapshot of files changed by each tool call |
 | `_meta.json` | Run status, command, duration, model, and process metrics |
 | `report/report.md` | Required final Agent answer |
-| `_score.json` | ChemGraph-style judge result |
+| `_score.json` | Dual-axis scientific judge result |
 | `_score_history.jsonl` | Append-only history of judge calls, scores, model, timestamp, and token usage |
 | `results.json` | Stable summary of status, models, scores, criterion scores, tools, failures, Agent/Judge tokens, and artifact paths |
 
@@ -267,27 +269,28 @@ A successful process that fails to write the report is marked `failed`.
 
 ## 9. Scoring semantics
 
-The initial judge returns `0` or `1` and evaluates both:
+The judge evaluates two independent 0–100 axes:
 
-- final report correctness;
-- observable Chemistry MCP tool sequence.
+- scientific conclusion correctness;
+- research process quality and observable evidence.
 
-The prompt preserves ChemGraph's important rules:
+The final score is computed deterministically as:
 
-- numerical tolerance of approximately 5%;
-- key calculator, model/method, driver, temperature, molecule, SMILES, unit, and stoichiometry must be correct;
-- optional/default arguments and harmless extra calls are acceptable;
-- the logical dependency chain must be preserved.
+```text
+final_score = scientific_conclusion_score * research_process_score / 100
+```
 
 ## 10. Choosing tasks for early testing
 
-Start with:
+Start with the local Mock Agent smoke test:
 
 ```text
-ChemGraph_001–004: SMILES lookup
+bash scripts/run_agent_eval.sh --agent mock \
+  --task Electron_Isodensity_Reproduction_01_Method_Selection --no-score
 ```
 
-Then try a low-cost installed calculator task. Leave reaction thermochemistry and MACE tasks until the environment has been validated, because they involve multiple geometry/thermochemistry calculations.
+Then try a representative low-cost scientific task. Leave expensive quantum,
+periodic, and reaction workflows until their runtimes and resources have been validated.
 
 ## 11. Current fairness limitation
 

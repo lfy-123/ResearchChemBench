@@ -4,11 +4,44 @@ from pathlib import Path
 from evaluation.results import write_workspace_results
 from evaluation.run_task import TaskRunner
 from evaluation.score import score_workspace
+from evaluation.utils import load_ground_truth
+
+
+def _full_credit_dual_axis_verdict(task_id: str) -> dict:
+    truth = load_ground_truth(task_id)
+    return {
+        "scientific_conclusions": [
+            {
+                "id": item["id"],
+                "score": item["max_score"],
+                "max_score": item["max_score"],
+                "evidence_status": "supported",
+                "rationale": "correct",
+            }
+            for item in truth["scientific_conclusion_rubric"]
+        ],
+        "scientific_conclusion_score": 100,
+        "process_criteria": [
+            {
+                "id": item["id"],
+                "score": item["max_score"],
+                "max_score": item["max_score"],
+                "rationale": "correct",
+            }
+            for item in truth["scoring_rubric"]
+        ],
+        "research_process_score": 100,
+        "submission_validity": "valid",
+        "critical_failures": [],
+        "objective_issue_flags": [],
+        "rationale": "correct",
+    }
 
 
 def test_run_results_exist_before_and_after_scoring(tmp_path: Path, monkeypatch):
+    task_id = "Electron_Isodensity_Reproduction_01_Method_Selection"
     runner = TaskRunner(
-        "ChemGraph_001",
+        task_id,
         agent_key="mock",
         workspace_root=tmp_path,
         available_cpu_cores=6,
@@ -50,14 +83,14 @@ def test_run_results_exist_before_and_after_scoring(tmp_path: Path, monkeypatch)
     )
     scored = score_workspace(
         runner.workspace,
-        judge_call=lambda _prompt: {"score": 1, "rationale": "correct"},
+        judge_call=lambda _prompt: _full_credit_dual_axis_verdict(task_id),
     )
-    assert scored["score"] == 1
+    assert scored["score"] == 100
 
     result = json.loads((runner.workspace / "results.json").read_text())
     assert result["score"]["available"] is True
-    assert result["score"]["total"] == 1
-    assert result["score"]["maximum"] == 1
+    assert result["score"]["total"] == 100
+    assert result["score"]["maximum"] == 100
     assert result["tokens"]["agent"]["tokens"] == {
         "input": 100,
         "cache_read": 200,
@@ -72,13 +105,13 @@ def test_run_results_exist_before_and_after_scoring(tmp_path: Path, monkeypatch)
 
 
 def test_results_can_be_regenerated_from_existing_artifacts(tmp_path: Path):
-    runner = TaskRunner("ChemGraph_001", agent_key="mock", workspace_root=tmp_path)
+    runner = TaskRunner("Electron_Isodensity_Reproduction_01_Method_Selection", agent_key="mock", workspace_root=tmp_path)
     runner.run()
     (runner.workspace / "results.json").unlink()
 
     result = write_workspace_results(runner.workspace)
 
-    assert result["task"]["id"] == "ChemGraph_001"
+    assert result["task"]["id"] == "Electron_Isodensity_Reproduction_01_Method_Selection"
     assert (runner.workspace / "results.json").is_file()
 
 
@@ -86,7 +119,7 @@ def test_results_record_canonical_trace_integrity(tmp_path: Path):
     workspace = tmp_path / "run"
     workspace.mkdir()
     (workspace / "_meta.json").write_text(
-        json.dumps({"task_id": "ChemGraph_001", "status": "completed"}),
+        json.dumps({"task_id": "Electron_Isodensity_Reproduction_01_Method_Selection", "status": "completed"}),
         encoding="utf-8",
     )
     (workspace / "_tool_trace.jsonl").write_text(

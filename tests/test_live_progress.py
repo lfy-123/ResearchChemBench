@@ -104,7 +104,7 @@ def test_progress_can_be_explicitly_mirrored_to_console(tmp_path: Path):
         max_chars=100,
         stream=console,
     )
-    reporter.emit("RUN_START", task="ChemGraph_001")
+    reporter.emit("RUN_START", task="Electron_Isodensity_Reproduction_01_Method_Selection")
     reporter.close()
 
     assert TIMESTAMPED_LINE.match(console.getvalue().strip())
@@ -115,7 +115,7 @@ def test_progress_can_be_explicitly_mirrored_to_console(tmp_path: Path):
 
 def test_task_runner_writes_progress_without_terminal_spam(tmp_path: Path, capsys):
     runner = TaskRunner(
-        "ChemGraph_001",
+        "Electron_Isodensity_Reproduction_01_Method_Selection",
         agent_key="mock",
         workspace_root=tmp_path,
         live_progress=True,

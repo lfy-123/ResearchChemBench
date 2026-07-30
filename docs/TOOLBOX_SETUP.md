@@ -4,7 +4,7 @@
 
 ResearchChemBench 使用两层环境：
 
-- `.toolbox_env`：核心 RDKit/ASE/ChemGraph 兼容工具和 benchmark 控制程序；
+- `.toolbox_env`：核心 RDKit/ASE 工具和 benchmark 控制程序；
 - `.tool_envs/<profile>`：量化、周期、MD、服务、反应、MLIP、对接等隔离环境。
 
 这样可以避免 NumPy、MPI、BLAS、CUDA/PyTorch 和 C++ 运行库冲突。详细分类和原理见
@@ -57,12 +57,9 @@ conda deactivate
 
 ## 凭据
 
-```bash
-cp config.local.env.example config.local.env
-```
-
-把 API key 和本地软件命令写入根目录 `config.local.env`。该文件不会被版本控制，
-`run_agent_eval.sh` 自动加载它。不要把真实值写入示例文件或文档。
+把 API key 和本地软件命令写入根目录 `config.local.env`，并执行
+`chmod 600 config.local.env`。`run_agent_eval.sh` 会自动加载它。仓库中的版本只含
+占位符，不要提交真实值。
 
 ## 验证
 

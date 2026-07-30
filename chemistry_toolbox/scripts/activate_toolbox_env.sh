@@ -17,7 +17,5 @@ fi
 
 export PATH="$ENV_DIR/bin:$PATH"
 export LD_LIBRARY_PATH="$ENV_DIR/lib:${LD_LIBRARY_PATH:-}"
-export CHEMGRAPH_ROOT="${CHEMGRAPH_ROOT:-$ROOT_DIR/../ChemGraph}"
-export CHEMGRAPH_PYTHON="$ENV_DIR/bin/python"
 
 echo "ResearchChemBench toolbox environment activated: $ENV_DIR"

@@ -4,7 +4,6 @@ set -euo pipefail
 SCRIPT_PATH="$(readlink -f "${BASH_SOURCE[0]}")"
 ROOT_DIR="$(cd "$(dirname "$SCRIPT_PATH")/../.." && pwd)"
 ENV_DIR="$ROOT_DIR/.toolbox_env"
-CHEMGRAPH_ROOT_VALUE="$ROOT_DIR/../ChemGraph"
 MANAGER=""
 SKIP_VERIFY=0
 
@@ -17,7 +16,6 @@ Usage:
 
 Options:
   --env-dir PATH          Environment prefix (default: .toolbox_env).
-  --chemgraph-root PATH   ChemGraph checkout (default: ../ChemGraph).
   --manager PATH          Explicit mamba/conda executable.
   --skip-verify           Install only; do not run validation/tests.
   -h, --help              Show this help.
@@ -33,10 +31,6 @@ while [[ $# -gt 0 ]]; do
   case "$1" in
     --env-dir)
       ENV_DIR="$(realpath -m "$2")"
-      shift 2
-      ;;
-    --chemgraph-root)
-      CHEMGRAPH_ROOT_VALUE="$(realpath -m "$2")"
       shift 2
       ;;
     --manager)
@@ -92,8 +86,6 @@ fi
 
 export PATH="$ENV_DIR/bin:$PATH"
 export LD_LIBRARY_PATH="$ENV_DIR/lib:${LD_LIBRARY_PATH:-}"
-export CHEMGRAPH_ROOT="$CHEMGRAPH_ROOT_VALUE"
-
 cd "$ROOT_DIR"
 "$PYTHON_BIN" -m chemistry_toolbox.mcp.tool_manager validate
 "$PYTHON_BIN" -m pytest -q \

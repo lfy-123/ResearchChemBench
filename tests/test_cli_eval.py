@@ -23,7 +23,7 @@ def test_completed_batch_writes_aggregate_results(tmp_path, monkeypatch):
                 "agents:",
                 "  - mock",
                 "tasks:",
-                "  - ChemGraph_001",
+                "  - Electron_Isodensity_Reproduction_01_Method_Selection",
                 "repeats: 1",
                 "max_concurrent_runs: 1",
                 "timeout_seconds: 30",
@@ -44,4 +44,4 @@ def test_completed_batch_writes_aggregate_results(tmp_path, monkeypatch):
     assert result["result_type"] == "researchchembench_batch"
     assert result["summary"]["runs"] == 1
     assert result["summary"]["completed"] == 1
-    assert result["runs"][0]["task"]["id"] == "ChemGraph_001"
+    assert result["runs"][0]["task"]["id"] == "Electron_Isodensity_Reproduction_01_Method_Selection"

@@ -23,7 +23,7 @@ def test_local_config_opencode_route_reaches_generated_workspace(tmp_path):
             "--agent",
             "mock",
             "--task",
-            "ChemGraph_001",
+            "Electron_Isodensity_Reproduction_01_Method_Selection",
             "--no-score",
             "--workspaces-dir",
             str(workspaces),

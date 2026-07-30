@@ -23,7 +23,6 @@ from zipfile import ZipFile
 
 from .config import (
     AGENT_PRESETS,
-    CHEMGRAPH_SRC,
     DEFAULT_AVAILABLE_CPU_CORES,
     DEFAULT_AVAILABLE_GPU_COUNT,
     DEFAULT_AVAILABLE_MEMORY_MB,
@@ -306,7 +305,7 @@ class TaskRunner:
                         shutil.copyfileobj(source_handle, target_handle)
 
     def _runtime_pythonpath(self) -> str:
-        values = [str(PROJECT_ROOT), str(CHEMGRAPH_SRC)]
+        values = [str(PROJECT_ROOT)]
         existing = os.environ.get("PYTHONPATH", "")
         if existing:
             values.append(existing)
@@ -318,7 +317,9 @@ class TaskRunner:
             "RESEARCHCHEMBENCH_RUN_ID": self.run_id,
             TOOL_DISCOVERY_MODE_ENV: self.tool_discovery_mode,
             "PYTHONPATH": self._runtime_pythonpath(),
-            "CHEMGRAPH_LOG_DIR": str((self.workspace / "tool_logs").resolve()),
+            "RESEARCHCHEM_TOOL_LOG_DIR": str(
+                (self.workspace / "tool_logs").resolve()
+            ),
             "RESEARCHCHEMBENCH_COMPUTE_ACTION_TIMEOUT_SECONDS": str(
                 self.compute_action_timeout_seconds
             ),

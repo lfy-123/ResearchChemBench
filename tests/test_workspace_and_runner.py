@@ -14,7 +14,7 @@ from evaluation.run_task import TaskRunner
 
 
 def _archive_runner(tmp_path: Path, members: dict[str, str]) -> TaskRunner:
-    runner = TaskRunner("ChemGraph_001", agent_key="mock", workspace_root=tmp_path)
+    runner = TaskRunner("Electron_Isodensity_Reproduction_01_Method_Selection", agent_key="mock", workspace_root=tmp_path)
     runner.workspace.mkdir(parents=True)
     data = runner.workspace / "data"
     data.mkdir()
@@ -34,7 +34,7 @@ def _archive_runner(tmp_path: Path, members: dict[str, str]) -> TaskRunner:
 
 
 def test_workspace_does_not_copy_hidden_ground_truth(tmp_path: Path):
-    runner = TaskRunner("ChemGraph_001", agent_key="mock", workspace_root=tmp_path)
+    runner = TaskRunner("Electron_Isodensity_Reproduction_01_Method_Selection", agent_key="mock", workspace_root=tmp_path)
     runner.setup_workspace()
     assert runner.instructions_path.is_file()
     assert not (runner.workspace / "target_study").exists()
@@ -42,11 +42,15 @@ def test_workspace_does_not_copy_hidden_ground_truth(tmp_path: Path):
     assert (runner.workspace / ".mcp.json").is_file()
     mcp_config = json.loads((runner.workspace / ".mcp.json").read_text())
     assert "chemistry_toolbox.mcp.server" in mcp_config["mcpServers"]["researchchem_toolbox"]["args"]
+    environment = runner._mcp_environment()
+    assert "CHEMGRAPH_ROOT" not in environment
+    assert "CHEMGRAPH_PYTHON" not in environment
+    assert all("ChemGraph" not in value for value in runner._runtime_pythonpath().split(os.pathsep))
 
 
 def test_resource_budget_is_visible_and_recorded_end_to_end(tmp_path: Path):
     runner = TaskRunner(
-        "ChemGraph_001",
+        "Electron_Isodensity_Reproduction_01_Method_Selection",
         agent_key="mock",
         workspace_root=tmp_path,
         available_cpu_cores=12,
@@ -86,7 +90,7 @@ def test_task_archive_rejects_path_traversal(tmp_path: Path):
 
 
 def test_mock_agent_end_to_end(tmp_path: Path):
-    runner = TaskRunner("ChemGraph_001", agent_key="mock", workspace_root=tmp_path)
+    runner = TaskRunner("Electron_Isodensity_Reproduction_01_Method_Selection", agent_key="mock", workspace_root=tmp_path)
     meta = runner.run()
     assert meta["status"] == "completed"
     assert meta["exit_code"] == 0
@@ -101,14 +105,14 @@ def test_mock_agent_end_to_end(tmp_path: Path):
 
 
 def test_codex_and_claude_commands_include_mcp(tmp_path: Path):
-    codex = TaskRunner("ChemGraph_001", agent_key="codex", workspace_root=tmp_path)
+    codex = TaskRunner("Electron_Isodensity_Reproduction_01_Method_Selection", agent_key="codex", workspace_root=tmp_path)
     codex.setup_workspace()
     codex_argv = codex.command_preview()
     assert codex_argv[:2] == ["codex", "exec"]
     assert any("mcp_servers.researchchem_toolbox.command" in item for item in codex_argv)
     assert "--json" in codex_argv
 
-    claude = TaskRunner("ChemGraph_001", agent_key="claude", workspace_root=tmp_path)
+    claude = TaskRunner("Electron_Isodensity_Reproduction_01_Method_Selection", agent_key="claude", workspace_root=tmp_path)
     claude.setup_workspace()
     claude_argv = claude.command_preview()
     assert claude_argv[:2] == ["claude", "-p"]
@@ -117,7 +121,7 @@ def test_codex_and_claude_commands_include_mcp(tmp_path: Path):
     assert any("mcp__researchchem_toolbox__*" in item for item in claude_argv)
     assert not any(item == "mcp__*" for item in claude_argv)
 
-    opencode = TaskRunner("ChemGraph_001", agent_key="opencode", workspace_root=tmp_path)
+    opencode = TaskRunner("Electron_Isodensity_Reproduction_01_Method_Selection", agent_key="opencode", workspace_root=tmp_path)
     opencode.setup_workspace()
     opencode_argv = opencode.command_preview()
     assert opencode_argv[:2] == ["opencode", "run"]
@@ -139,7 +143,7 @@ def test_codex_and_claude_commands_include_mcp(tmp_path: Path):
 def test_agent_environment_does_not_receive_judge_key(tmp_path: Path, monkeypatch):
     monkeypatch.setenv("JUDGE_API_KEY", "private-judge-key")
     monkeypatch.setenv("OPENAI_API_KEY", "agent-auth-key")
-    runner = TaskRunner("ChemGraph_001", agent_key="mock", workspace_root=tmp_path)
+    runner = TaskRunner("Electron_Isodensity_Reproduction_01_Method_Selection", agent_key="mock", workspace_root=tmp_path)
     runner.setup_workspace()
     env = runner._agent_environment()
     assert "JUDGE_API_KEY" not in env
@@ -154,8 +158,8 @@ def test_concurrent_opencode_runs_use_isolated_databases(
     monkeypatch.setenv(
         "RESEARCHCHEMBENCH_OPENCODE_RUNTIME_ROOT", str(runtime_root)
     )
-    first = TaskRunner("ChemGraph_005", agent_key="opencode", workspace_root=tmp_path)
-    second = TaskRunner("ChemGraph_024", agent_key="opencode", workspace_root=tmp_path)
+    first = TaskRunner("GEOM_Hierarchical_Conformer_Reranking_Reproduction", agent_key="opencode", workspace_root=tmp_path)
+    second = TaskRunner("PV_Protonation_Barrier_Trend_Reproduction", agent_key="opencode", workspace_root=tmp_path)
     first.setup_workspace()
     second.setup_workspace()
 
@@ -179,7 +183,7 @@ def test_opencode_database_is_archived_from_local_runtime(
     monkeypatch.setenv(
         "RESEARCHCHEMBENCH_OPENCODE_RUNTIME_ROOT", str(runtime_root)
     )
-    runner = TaskRunner("ChemGraph_005", agent_key="opencode", workspace_root=tmp_path)
+    runner = TaskRunner("GEOM_Hierarchical_Conformer_Reranking_Reproduction", agent_key="opencode", workspace_root=tmp_path)
     runner.setup_workspace()
     environment = runner._agent_environment()
     runtime_database = Path(environment["OPENCODE_DB"])
@@ -201,7 +205,7 @@ def test_opencode_database_is_archived_from_local_runtime(
 
 def test_opencode_command_qualifies_bare_deepseek_model(tmp_path: Path, monkeypatch):
     monkeypatch.setattr("evaluation.run_task.OPENCODE_MODEL", "deepseek-v4-flash")
-    runner = TaskRunner("ChemGraph_005", agent_key="opencode", workspace_root=tmp_path)
+    runner = TaskRunner("GEOM_Hierarchical_Conformer_Reranking_Reproduction", agent_key="opencode", workspace_root=tmp_path)
     runner.setup_workspace()
 
     command = runner.build_agent_argv()
@@ -212,7 +216,7 @@ def test_opencode_command_qualifies_bare_deepseek_model(tmp_path: Path, monkeypa
 
 @pytest.mark.skipif(os.name != "posix", reason="POSIX process-group behavior")
 def test_runner_terminates_the_dedicated_process_group(tmp_path: Path, monkeypatch):
-    runner = TaskRunner("ChemGraph_001", agent_key="mock", workspace_root=tmp_path)
+    runner = TaskRunner("Electron_Isodensity_Reproduction_01_Method_Selection", agent_key="mock", workspace_root=tmp_path)
 
     class ProcessStub:
         pid = 12345
@@ -242,7 +246,7 @@ def test_runner_terminates_the_dedicated_process_group(tmp_path: Path, monkeypat
 
 @pytest.mark.skipif(os.name != "posix", reason="POSIX process-group behavior")
 def test_runner_cancels_detached_execution_jobs(tmp_path: Path, monkeypatch):
-    runner = TaskRunner("ChemGraph_001", agent_key="mock", workspace_root=tmp_path)
+    runner = TaskRunner("Electron_Isodensity_Reproduction_01_Method_Selection", agent_key="mock", workspace_root=tmp_path)
     job_root = runner.workspace / "outputs" / "execution_jobs"
     running = job_root / "job_running" / "status.json"
     terminal = job_root / "job_finished" / "status.json"
@@ -303,7 +307,7 @@ def test_runner_cancels_detached_execution_jobs(tmp_path: Path, monkeypatch):
 
 def test_runner_timeout_records_background_job_cleanup(tmp_path: Path, monkeypatch):
     runner = TaskRunner(
-        "ChemGraph_001",
+        "Electron_Isodensity_Reproduction_01_Method_Selection",
         agent_key="mock",
         workspace_root=tmp_path,
         timeout_seconds=0.01,

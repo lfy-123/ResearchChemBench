@@ -8,12 +8,10 @@ from evaluation.run_task import TaskRunner
 from evaluation.utils import list_tasks, load_ground_truth, load_task_info
 
 
-def test_all_chemgraph_tasks_were_imported():
+def test_legacy_chemgraph_tasks_are_not_distributed():
     tasks = list_tasks()
-    chemgraph_tasks = [task for task in tasks if task.startswith("ChemGraph_")]
-    assert len(chemgraph_tasks) == 40
-    assert chemgraph_tasks[0] == "ChemGraph_001"
-    assert chemgraph_tasks[-1] == "ChemGraph_040"
+    assert tasks
+    assert not [task for task in tasks if task.startswith("ChemGraph_")]
 
 
 def test_heterobiaryl_dual_track_tasks_use_complete_100_point_rubrics():
@@ -594,10 +592,10 @@ def test_dual_track_evaluation_profiles_separate_discovery_from_reproduction():
             assert rubric["problem_framing_and_route_design"] == 20
 
 
-def test_all_non_chemgraph_tasks_use_dual_axis_scoring():
-    paper_tasks = [task for task in list_tasks() if not task.startswith("ChemGraph_")]
-    assert len(paper_tasks) == 34
-    for task_id in paper_tasks:
+def test_all_tasks_use_dual_axis_scoring():
+    tasks = list_tasks()
+    assert len(tasks) == 34
+    for task_id in tasks:
         truth = load_ground_truth(task_id)
         assert truth["evaluation_mode"] == "dual_axis_100", task_id
         assert sum(item["max_score"] for item in truth["scoring_rubric"]) == 100
@@ -635,8 +633,10 @@ def test_q6_instruction_rendering_exposes_evidence_contract_without_fixed_workfl
 
 
 def test_task_and_ground_truth_are_separate():
-    info = load_task_info("ChemGraph_001")
-    truth = load_ground_truth("ChemGraph_001")
-    assert info["category"] == "smiles_lookup"
-    assert truth["expected_tool_calls"][0]["molecule_name_to_smiles"]["name"] == "sulfur dioxide"
-    assert (TASKS_DIR / "ChemGraph_001" / "target_study" / "ground_truth.json").is_file()
+    task_id = "Electron_Isodensity_Reproduction_01_Method_Selection"
+    info = load_task_info(task_id)
+    truth = load_ground_truth(task_id)
+    assert info["category"] == "molecular_surface_quantum_chemistry"
+    assert "expected_result" not in info
+    assert "expected_result" in truth
+    assert (TASKS_DIR / task_id / "target_study" / "ground_truth.json").is_file()

@@ -6,27 +6,24 @@
 
 ## 1. Repository layout
 
-ResearchChemBench expects the following sibling checkout layout by default:
+ResearchChemBench is a self-contained source checkout:
 
 ```text
-benchmark/
-├── ChemGraph/
-├── ResearchClawBench/
-└── ResearchChemBench/
+ResearchChemBench/
+├── evaluation/
+├── chemistry_toolbox/
+├── tasks/
+└── scripts/
 ```
 
-No source files in the two reference repositories are modified. ResearchChemBench imports ChemGraph code from `../ChemGraph/src` and runs its own benchmark-specific MCP wrappers.
-
-Override the default ChemGraph location with:
-
-```bash
-export CHEMGRAPH_ROOT=/absolute/path/to/ChemGraph
-```
+The evaluation runner and Chemistry MCP server load only code shipped in this
+repository. No sibling ChemGraph checkout or ChemGraph-specific Python path is
+required.
 
 ## 2. Recommended Python environment
 
 Use `.toolbox_env` for the benchmark runner/core tools, then create the isolated MCP
-profile environments. ChemGraph source is loaded directly from `CHEMGRAPH_ROOT/src`.
+profile environments.
 
 ```bash
 cd /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench
@@ -44,14 +41,15 @@ pip install -e '.[test]'
 pytest -q
 ```
 
-Real Chemistry MCP startup requires access to `CHEMGRAPH_ROOT/src` and the relevant chemistry dependencies in `CHEMGRAPH_PYTHON`.
+Real Chemistry MCP startup requires the relevant chemistry dependencies and any
+operator-supplied licensed executables, model caches, or scientific resources.
 
 ## 3. Environment file
 
-Copy the root-level local configuration template:
+Edit the placeholder-only root configuration and restrict its permissions:
 
 ```bash
-cp config.local.env.example config.local.env
+chmod 600 config.local.env
 ```
 
 Important fields:
@@ -68,20 +66,15 @@ RESEARCHCHEMBENCH_AGENT_TIMEOUT_SECONDS="7200"
 RESEARCHCHEMBENCH_MAX_TURNS="200"
 ```
 
-`config.local.env` is ignored by version control and automatically loaded by the shell runner
-and MCP profile loader. Never put real keys in `config.local.env.example`.
+`config.local.env` is automatically loaded by the shell runner and MCP profile
+loader. The repository copy contains placeholders only; never commit real keys.
 
 ## 4. Calculator requirements
 
-The imported task set uses two important calculator families:
-
-| Runtime requirement | Count | Task IDs |
-|---|---:|---|
-| PubChem lookup only | 4 | `ChemGraph_001`–`ChemGraph_004` |
-| MACE-MP (`medium-mpa-0`) | 16 | `005`, `006`, `009`, `012`, `015`, `017`, `019`, `021`, `022`, `025`, `029`, `031`, `033`, `035`, `037`, `039` |
-| TBLite / GFN2-xTB | 20 | `007`, `008`, `010`, `011`, `013`, `014`, `016`, `018`, `020`, `023`, `024`, `026`, `027`, `028`, `030`, `032`, `034`, `036`, `038`, `040` |
-
-The abbreviated numeric IDs in the last two rows all use the `ChemGraph_` prefix.
+The paper-derived task set may use lookup services, quantum chemistry,
+periodic-structure codes, conformer tools, thermochemistry, and ML potentials.
+Each task declares its scientific inputs and required deliverables; backend
+availability is reported by the Chemistry MCP catalog.
 
 ### TBLite / GFN2-xTB
 
@@ -100,7 +93,8 @@ python -c 'import tblite; print(tblite.__version__)'
 
 ### MACE-MP
 
-ChemGraph declares `mace-torch`. The first calculation using a model such as `medium-mpa-0` may download model weights and can consume substantial memory and runtime.
+The toolbox supports `mace-torch`. The first calculation using a model such as
+`medium-mpa-0` may download model weights and can consume substantial memory and runtime.
 
 ResearchChemBench stores downloaded weights under the ignored project directory
 `.model_cache/mace/`, rather than under `chemistry_toolbox/mcp/` or an Agent CLI's
@@ -113,7 +107,8 @@ Verify the Python package:
 python -c 'import mace; print(mace.__file__)'
 ```
 
-For an initial Agent integration test, prefer a SMILES lookup task before running MACE calculations.
+For an initial Agent integration test, use the Mock Agent task shown in the root
+README before running expensive chemistry calculations.
 
 ## 5. Network requirements
 

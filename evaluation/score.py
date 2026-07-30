@@ -1,4 +1,4 @@
-"""LLM judges for ChemGraph-style answers and rubric-based scientific tasks."""
+"""LLM judges for rubric-based ResearchChemBench scientific tasks."""
 
 from __future__ import annotations
 

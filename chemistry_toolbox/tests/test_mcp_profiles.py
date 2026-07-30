@@ -177,7 +177,7 @@ def test_manual_runtime_paths_are_exact_and_project_relative_values_are_resolved
 
 def test_task_workspace_gets_one_server_progressive_prompt_and_complete_catalog(tmp_path, monkeypatch):
     monkeypatch.setenv("RESEARCHCHEMBENCH_MCP_PROFILES", "core,services")
-    runner = TaskRunner("ChemGraph_001", agent_key="opencode", workspace_root=tmp_path)
+    runner = TaskRunner("Electron_Isodensity_Reproduction_01_Method_Selection", agent_key="opencode", workspace_root=tmp_path)
     runner.setup_workspace()
     claude = json.loads((runner.workspace / ".mcp.json").read_text())
     opencode = json.loads((runner.workspace / "opencode.json").read_text())
@@ -195,7 +195,7 @@ def test_task_workspace_gets_one_server_progressive_prompt_and_complete_catalog(
 
 def test_task_workspace_can_preserve_full_compatibility_prompt(tmp_path):
     runner = TaskRunner(
-        "ChemGraph_001",
+        "Electron_Isodensity_Reproduction_01_Method_Selection",
         agent_key="mock",
         workspace_root=tmp_path,
         tool_discovery_mode="full",

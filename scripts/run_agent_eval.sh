@@ -45,8 +45,9 @@ Backward-compatible positional mode:
 Main options:
   -a, --agent NAME              Agent preset: mock, codex, claude, opencode.
                                 Default: mock.
-  -t, --task TASK_ID           Task to run, for example ChemGraph_001.
-                                Default: ChemGraph_001.
+  -t, --task TASK_ID           Task to run, for example
+                               Electron_Isodensity_Reproduction_01_Method_Selection.
+                                Default: Electron_Isodensity_Reproduction_01_Method_Selection.
   -c, --config FILE            Run all Agent/task combinations from a YAML file.
                                 Cannot be combined with --agent or --task.
       --no-score               Do not call the LLM judge after the Agent finishes.
@@ -59,8 +60,6 @@ Runtime options:
                                 In batch mode, a YAML max_turns value wins.
       --workspaces-dir PATH    Override the output workspace root.
       --tasks-dir PATH         Override the task directory.
-      --chemgraph-root PATH    Override the ChemGraph checkout.
-      --chemgraph-python PATH  Python executable used by the Chemistry MCP server.
       --mcp-tools VALUE       Compatibility option; only `all` is accepted. Every
                                task can discover the complete Action catalog.
       --tool-discovery-mode MODE
@@ -96,25 +95,30 @@ The default scoring model comes from JUDGE_MODEL_NAME and may be overridden with
 
 Local credentials and environment variables can be placed in:
   config.local.env
-This file is automatically loaded and is excluded from version control.
+This file is automatically loaded. The tracked copy contains placeholders only;
+never commit real credentials.
 
 Detailed progress is appended to <run-workspace>/_live_progress.log. The default
 is file-only; use --progress-console only when an interactive mirror is desired.
 
 Examples:
   # Local no-API harness smoke test
-  bash scripts/run_agent_eval.sh --agent mock --task ChemGraph_001 --no-score
+  bash scripts/run_agent_eval.sh --agent mock \
+    --task Electron_Isodensity_Reproduction_01_Method_Selection --no-score
 
   # Real OpenCode/DeepSeek lookup task
   export OPENAI_API_KEY=...
-  bash scripts/run_agent_eval.sh --agent opencode --task ChemGraph_003 --no-score
+  bash scripts/run_agent_eval.sh --agent opencode \
+    --task Electron_Isodensity_Reproduction_04_Blind_Prediction --no-score
 
   # Validate selected backend runtimes; the Agent still sees the full toolbox
-  bash scripts/run_agent_eval.sh --agent opencode --task ChemGraph_003 \
+  bash scripts/run_agent_eval.sh --agent opencode \
+    --task Electron_Isodensity_Reproduction_04_Blind_Prediction \
     --mcp-profiles core,services --no-score
 
   # Codex task with a 30-minute timeout
-  bash scripts/run_agent_eval.sh --agent codex --task ChemGraph_005 \
+  bash scripts/run_agent_eval.sh --agent codex \
+    --task GEOM_Hierarchical_Conformer_Reranking_Reproduction \
     --timeout-seconds 1800 --no-score
 
   # Preview a batch without running it
@@ -160,8 +164,6 @@ TIMEOUT_SECONDS=""
 MAX_TURNS=""
 WORKSPACES_DIR=""
 TASKS_DIR=""
-CHEMGRAPH_ROOT_VALUE=""
-CHEMGRAPH_PYTHON_VALUE=""
 # Preserve values loaded from config.local.env. Command-line flags below may
 # still override them, but an omitted flag must not silently discard the local
 # provider/model configuration and fall back to evaluation.config defaults.
@@ -221,16 +223,6 @@ while [[ $# -gt 0 ]]; do
     --tasks-dir)
       require_value "$1" "${2:-}"
       TASKS_DIR="$2"
-      shift 2
-      ;;
-    --chemgraph-root)
-      require_value "$1" "${2:-}"
-      CHEMGRAPH_ROOT_VALUE="$2"
-      shift 2
-      ;;
-    --chemgraph-python)
-      require_value "$1" "${2:-}"
-      CHEMGRAPH_PYTHON_VALUE="$2"
       shift 2
       ;;
     --opencode-model)
@@ -327,16 +319,13 @@ fi
 
 if [[ -z "$CONFIG" ]]; then
   AGENT="${AGENT:-${POSITIONAL[0]:-mock}}"
-  TASK="${TASK:-${POSITIONAL[1]:-ChemGraph_001}}"
+  TASK="${TASK:-${POSITIONAL[1]:-Electron_Isodensity_Reproduction_01_Method_Selection}}"
 fi
 
 if [[ -z "$CONFIG" && "$AGENT" == "opencode" ]] && ! command -v opencode >/dev/null 2>&1; then
   echo "Error: OpenCode executable not found. Checked PATH and $OPENCODE_BIN_DIR/opencode." >&2
   exit 2
 fi
-
-export CHEMGRAPH_ROOT="${CHEMGRAPH_ROOT_VALUE:-${CHEMGRAPH_ROOT:-$ROOT_DIR/../ChemGraph}}"
-export CHEMGRAPH_PYTHON="${CHEMGRAPH_PYTHON_VALUE:-${CHEMGRAPH_PYTHON:-$(command -v python)}}"
 
 if [[ -n "$TIMEOUT_SECONDS" ]]; then
   export RESEARCHCHEMBENCH_AGENT_TIMEOUT_SECONDS="$TIMEOUT_SECONDS"
@@ -441,8 +430,7 @@ fi
 if [[ -n "$CONFIG" ]]; then
   log_info "ResearchChemBench batch evaluation"
   log_info "Config=$CONFIG"
-  log_info "ChemGraph root=$CHEMGRAPH_ROOT"
-  log_info "MCP Python=$CHEMGRAPH_PYTHON"
+  log_info "MCP Python=$(command -v python)"
   log_info "MCP tools=$MCP_TOOLS_VALUE"
   log_info "Tool discovery=$TOOL_DISCOVERY_MODE_VALUE"
   log_info "Backend runtimes=${MCP_PROFILES_VALUE:-all catalog entries; one public server}"
@@ -455,8 +443,7 @@ fi
 log_info "ResearchChemBench single-task evaluation"
 log_info "Agent=$AGENT"
 log_info "Task=$TASK"
-log_info "ChemGraph root=$CHEMGRAPH_ROOT"
-log_info "MCP Python=$CHEMGRAPH_PYTHON"
+log_info "MCP Python=$(command -v python)"
 log_info "MCP tools=$MCP_TOOLS_VALUE"
 log_info "Tool discovery=$TOOL_DISCOVERY_MODE_VALUE"
 log_info "Backend runtimes=${MCP_PROFILES_VALUE:-all catalog entries; one public server}"

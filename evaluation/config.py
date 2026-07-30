@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import json
 import os
-import sys
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -20,12 +19,6 @@ WORKSPACES_DIR = Path(
     os.environ.get("RESEARCHCHEMBENCH_WORKSPACES_DIR", PROJECT_ROOT / "workspaces")
 ).resolve()
 WORKSPACES_DIR.mkdir(parents=True, exist_ok=True)
-
-CHEMGRAPH_ROOT = Path(
-    os.environ.get("CHEMGRAPH_ROOT", PROJECT_ROOT.parent / "ChemGraph")
-).resolve()
-CHEMGRAPH_SRC = CHEMGRAPH_ROOT / "src"
-CHEMGRAPH_PYTHON = os.environ.get("CHEMGRAPH_PYTHON", sys.executable)
 
 JUDGE_MODEL_NAME = os.environ.get("JUDGE_MODEL_NAME", "")
 JUDGE_API_BASE = os.environ.get("JUDGE_API_BASE", "")

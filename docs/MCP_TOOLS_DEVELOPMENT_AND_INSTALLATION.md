@@ -19,9 +19,9 @@ chemistry_toolbox/mcp/
 5. 仓库采用显式 allow-list；新文件不会因为被放进 `tools/` 就立即暴露给 Agent。
 6. `tool_manager.py` 统一处理创建、启用、停用、归档、恢复、校验和目录生成。
 7. 工具调用使用统一的 workspace 边界、结果记录、trace 和过程文件快照。
-8. ChemGraph 和其他大型软件依赖在真正注册相应工具时才加载，工具发现层本身不依赖 ChemGraph。
+8. 大型软件依赖在真正注册相应工具时才加载，工具发现层本身保持轻量。
 
-这里的 MCP 层只负责把化学软件能力安全、可观测地暴露给外部 Agent。Agent 的规划和循环由 Codex、Claude、OpenCode 等 CLI 自己完成；ResearchChemBench 不在 MCP server 内重建 ChemGraph 的 LangGraph workflow。
+这里的 MCP 层只负责把化学软件能力安全、可观测地暴露给外部 Agent。Agent 的规划和循环由 Codex、Claude、OpenCode 等 CLI 自己完成。
 
 ## 2. 目录结构与职责
 
@@ -34,7 +34,6 @@ chemistry_toolbox/mcp/
 ├── tool_manager.py           # 工具生命周期管理 CLI
 ├── TOOL_CATALOG.md           # 根据 TOOL_SPEC 自动生成的目录
 ├── server.py                 # FastMCP server 组装和 transport
-├── settings.py               # ChemGraph checkout 定位
 ├── workspace.py              # 输入/输出路径安全边界
 ├── tracing.py                # 结果、trace 和 artifact 快照
 ├── adapters/                 # 进程、HTTP 和软件注册表公共适配层
@@ -363,22 +362,18 @@ pytest -q
 - `ToolSpec`；
 - workspace/tracing 等轻量公共模块。
 
-ChemGraph、RDKit、ASE、MACE、TBLite、NumExpr 或外部软件客户端等可选/重量级依赖应放在工具实际执行的 core 函数内导入；`TOOL_SPEC` 元数据导入阶段不加载这些后端。当前工具均采用这一模式。
+RDKit、ASE、MACE、TBLite、NumExpr 或外部软件客户端等可选/重量级依赖应放在工具实际执行的 core 函数内导入；`TOOL_SPEC` 元数据导入阶段不加载这些后端。当前工具均采用这一模式。
 
 这样做的目的包括：
 
 1. registry 可以在没有完整化学环境时读取和检查工具元数据；
-2. 不使用 ChemGraph 的独立工具不会被全局 ChemGraph import 阻塞；
+2. 独立工具不会被无关的重量级依赖导入阻塞；
 3. 缺少某个后端时，问题可以明确归因到相应的已启用工具；
 4. 后续拆分不同软件依赖组更容易。
 
 注意：已启用工具的 `register(mcp)` 会在 MCP server 创建时执行，因此该工具真正需要的依赖仍必须在 server 启动前安装。懒加载不是忽略依赖，而是把依赖边界放到正确工具上。
 
-ChemGraph 工具通过 `ensure_chemgraph_on_path()` 定位 checkout。推荐显式设置：
-
-```bash
-export CHEMGRAPH_ROOT=/absolute/path/to/ChemGraph
-```
+ResearchChemBench 工具直接从本仓库安装或源码运行，不需要外部源码 checkout。
 
 ## 10. Workspace、安全和过程记录
 
@@ -520,4 +515,4 @@ python -m evaluation.mcp_tools.server
 python -m researchchem_mcp_tools.server
 ```
 
-`installer.py` 和 `install.sh` 保留 Codex、Claude Code 和 OpenCode 配置辅助能力。迁移时仍需携带或安装工具声明的后端依赖；ChemGraph 工具还需要一份 ChemGraph checkout 和正确的 `CHEMGRAPH_ROOT`。Agent API key 不应写入 `tool_config.json` 或工具源码。
+`installer.py` 和 `install.sh` 保留 Codex、Claude Code 和 OpenCode 配置辅助能力。迁移时仍需携带或安装工具声明的后端依赖，但不需要外部 ChemGraph checkout。Agent API key 不应写入 `tool_config.json` 或工具源码。
