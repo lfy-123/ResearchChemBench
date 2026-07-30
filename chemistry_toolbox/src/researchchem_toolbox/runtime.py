@@ -418,9 +418,13 @@ def invoke_worker(
         environment["RESEARCHCHEM_WORKER_CPU_IDS"] = allocated_cpu_list
         environment["OMPI_MCA_hwloc_base_cpu_list"] = allocated_cpu_list
         environment["PRTE_MCA_hwloc_default_cpu_list"] = allocated_cpu_list
-        environment["RESEARCHCHEM_WORKER_RLIMIT_AS_BYTES"] = str(
-            int(requested_resources.get("memory_mb") or 4096) * 1024 * 1024
-        )
+        # Distributed memory_mb is a scheduler reservation, while the worker's
+        # cgroup is the hard safety boundary.  RLIMIT_AS cannot equal a
+        # scientific program's requested working memory: Gaussian, MPI and
+        # numerical runtimes need additional virtual address space and can fail
+        # before doing any science even when resident memory is well below the
+        # reservation.  Keep the local-mode limit unchanged below.
+        environment.pop("RESEARCHCHEM_WORKER_RLIMIT_AS_BYTES", None)
         requested_gpus = int(requested_resources.get("gpu_count") or 0)
         if requested_gpus == 0:
             environment["CUDA_VISIBLE_DEVICES"] = ""

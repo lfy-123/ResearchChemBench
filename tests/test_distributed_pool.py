@@ -275,4 +275,5 @@ def test_remote_action_uses_ssh_and_releases_reservation(
     assert envelope["payload"]["action_id"] == "test_action"
     assert envelope["environment"]["OMP_NUM_THREADS"] == "8"
     assert envelope["environment"]["RESEARCHCHEMBENCH_WORKSPACE"] == str(tmp_path)
+    assert "RESEARCHCHEM_WORKER_RLIMIT_AS_BYTES" not in envelope["environment"]
     assert not list((tmp_path / "state" / "reservations").glob("*.json"))
