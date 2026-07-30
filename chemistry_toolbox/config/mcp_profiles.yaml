@@ -206,7 +206,9 @@ support_environments:
       CHEMGRAPH_AMBER_MPI_COMMAND: .software_cache/amber/26/install/bin/pmemd.MPI
       CHEMGRAPH_AMBER_MPIRUN_COMMAND: .envs/general-modern-openmpi5/bin/mpirun
     path_entries: [.software_cache/amber/26/install/bin]
-    library_path_entries: [.envs/general-modern-openmpi5/lib]
+    library_path_entries:
+      - .software_cache/amber/26/install/lib
+      - .envs/general-modern-openmpi5/lib
     cache_paths: [.software_cache/amber/26]
     environment_variables:
       CHEMGRAPH_AMBER_MPI_EXECUTABLE: .software_cache/amber/26/install/bin/pmemd.MPI
