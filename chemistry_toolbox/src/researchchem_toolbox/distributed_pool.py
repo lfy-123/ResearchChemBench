@@ -411,6 +411,16 @@ class DistributedReservation:
         self._stop_event = None
         self._heartbeat_thread = None
 
+    def attach_job(self, *, job_id: str, job_status_path: str) -> None:
+        """Attach a persistent job record before heartbeat ownership is transferred."""
+
+        value = json.loads(self.path.read_text(encoding="utf-8"))
+        value["job_id"] = job_id
+        value["job_status_path"] = job_status_path
+        value["heartbeat_at"] = _now()
+        value["heartbeat_unix"] = time.time()
+        _atomic_json(self.path, value)
+
     def release(self) -> None:
         self.stop_heartbeat()
         self.path.unlink(missing_ok=True)

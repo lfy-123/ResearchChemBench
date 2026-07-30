@@ -122,6 +122,28 @@ def supervise(spec_path: Path) -> int:
     started_monotonic = time.monotonic()
     child: subprocess.Popen[bytes] | None = None
     cancellation_signal: int | None = None
+    cancellation_path = job_directory / "cancel_requested"
+    reservation_path_raw = str(
+        specification.get("distributed_reservation_path") or ""
+    )
+    reservation_path = Path(reservation_path_raw) if reservation_path_raw else None
+    last_reservation_heartbeat = 0.0
+
+    def heartbeat_reservation(*, force: bool = False) -> None:
+        nonlocal last_reservation_heartbeat
+        if reservation_path is None:
+            return
+        now = time.monotonic()
+        if not force and now - last_reservation_heartbeat < 5.0:
+            return
+        try:
+            value = json.loads(reservation_path.read_text(encoding="utf-8"))
+            value["heartbeat_at"] = _now()
+            value["heartbeat_unix"] = time.time()
+            _atomic_json(reservation_path, value)
+            last_reservation_heartbeat = now
+        except (FileNotFoundError, OSError, json.JSONDecodeError):
+            pass
 
     def status(state: str, **extra: Any) -> None:
         value = {
@@ -139,6 +161,8 @@ def supervise(spec_path: Path) -> int:
             "submitted_at": specification["submitted_at"],
             "started_at": started_at,
             "metadata": specification.get("metadata") or {},
+            "execution_mode": specification.get("execution_mode", "local"),
+            "compute_worker_id": specification.get("compute_worker_id"),
             **extra,
         }
         _atomic_json(status_path, value)
@@ -157,6 +181,16 @@ def supervise(spec_path: Path) -> int:
 
     stdin_handle = None
     try:
+        heartbeat_reservation(force=True)
+        if cancellation_path.is_file():
+            status(
+                "cancelled",
+                finished_at=_now(),
+                duration_seconds=0.0,
+                return_code=None,
+                error={"code": "cancelled", "message": "Job cancellation was requested"},
+            )
+            return 2
         if specification.get("stdin_path"):
             stdin_handle = Path(specification["stdin_path"]).open("rb")
         with stdout_path.open("ab", buffering=0) as stdout_handle, stderr_path.open(
@@ -191,6 +225,13 @@ def supervise(spec_path: Path) -> int:
             memory_exceeded = False
             peak_process_group_rss_kb = 0
             while child.poll() is None:
+                heartbeat_reservation()
+                if cancellation_path.is_file() and cancellation_signal is None:
+                    cancellation_signal = signal.SIGTERM
+                    try:
+                        os.killpg(child.pid, signal.SIGTERM)
+                    except ProcessLookupError:
+                        pass
                 if cancellation_signal is not None:
                     break
                 if time.monotonic() - started_monotonic > walltime:
@@ -296,6 +337,8 @@ def supervise(spec_path: Path) -> int:
     finally:
         if stdin_handle is not None:
             stdin_handle.close()
+        if reservation_path is not None:
+            reservation_path.unlink(missing_ok=True)
 
 
 def main() -> int:

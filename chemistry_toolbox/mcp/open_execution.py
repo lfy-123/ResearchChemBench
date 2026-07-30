@@ -22,6 +22,7 @@ import yaml
 from packaging.specifiers import SpecifierSet
 
 from researchchem_toolbox.artifacts import ArtifactStore
+from researchchem_toolbox.paths import PROJECT_ROOT
 from researchchem_toolbox.runtime import (
     runtime_environment,
     runtime_names,
@@ -35,6 +36,12 @@ from researchchem_toolbox.resource_budget import (
     reserve_resources,
     resource_budget_record,
     validate_resource_limits,
+)
+from researchchem_toolbox.distributed_pool import (
+    DistributedResourceLimitExceeded,
+    distributed_enabled,
+    pool_snapshot,
+    validate_distributed_resource_limits,
 )
 from researchchem_toolbox.timeout_policy import (
     timeout_policy_record,
@@ -66,6 +73,7 @@ from .workspace import (
 JOB_ROOT = Path("outputs") / "execution_jobs"
 TERMINAL_JOB_STATES = {"success", "failed", "timeout", "cancelled"}
 SUPERVISOR_PATH = Path(__file__).with_name("job_supervisor.py")
+DISTRIBUTED_DISPATCHER_MODULE = "chemistry_toolbox.mcp.distributed_job_dispatcher"
 JOB_CONTEXT_PATH = Path(__file__).with_name("researchchem_job.py")
 SAFE_INHERITED_ENVIRONMENT = (
     "LANG",
@@ -80,6 +88,14 @@ SAFE_INHERITED_ENVIRONMENT = (
     "SLURM_GPUS",
     "LM_LICENSE_FILE",
     "MLM_LICENSE_FILE",
+    "HTTP_PROXY",
+    "HTTPS_PROXY",
+    "ALL_PROXY",
+    "NO_PROXY",
+    "http_proxy",
+    "https_proxy",
+    "all_proxy",
+    "no_proxy",
 )
 MAX_INSPECTION_JSON_BYTES = 50 * 1024 * 1024
 
@@ -141,7 +157,10 @@ def _validate_argument_paths(arguments: list[str]) -> None:
 
 def _compute_resource_limits(request_limits) -> dict[str, Any]:
     resources = normalize_resource_limits(request_limits)
-    validate_resource_limits(resources)
+    if distributed_enabled():
+        validate_distributed_resource_limits(resources)
+    else:
+        validate_resource_limits(resources)
     resources["walltime_seconds"] = timeout_seconds_for("compute")
     return resources
 
@@ -819,6 +838,13 @@ def validate_native_job(request: NativeJobRequest) -> dict[str, Any]:
         resources = _compute_resource_limits(request.resource_limits)
     except ResourceBudgetExceeded as exc:
         return _resource_budget_error(exc)
+    except DistributedResourceLimitExceeded as exc:
+        return {
+            "status": "invalid_request",
+            "valid": False,
+            "error": exc.as_error(),
+            "resource_availability": _resource_availability(),
+        }
     return {
         "status": "success",
         "valid": True,
@@ -953,6 +979,22 @@ def _start_job(
     resource_limits: dict[str, Any],
     metadata: dict[str, Any],
 ) -> dict[str, Any]:
+    if distributed_enabled():
+        return _start_reserved_job(
+            job_type=job_type,
+            runtime=runtime,
+            command=command,
+            stdin_target=stdin_target,
+            staged_inputs=staged_inputs,
+            resource_limits=resource_limits,
+            resource_allocation={},
+            metadata={
+                **metadata,
+                "execution_mode": "distributed",
+                "resource_pool_at_submission": pool_snapshot(),
+            },
+            deferred_distributed=True,
+        )
     try:
         reservation = reserve_resources(
             resource_limits,
@@ -990,6 +1032,7 @@ def _start_reserved_job(
     resource_limits: dict[str, Any],
     resource_allocation: dict[str, Any],
     metadata: dict[str, Any],
+    deferred_distributed: bool = False,
 ) -> dict[str, Any]:
     job_id = f"job_{uuid.uuid4().hex}"
     job_directory = _job_directory(job_id, must_exist=False)
@@ -1046,11 +1089,27 @@ def _start_reserved_job(
         "resource_allocation": resource_allocation,
         "submitted_at": submitted_at,
         "metadata": metadata,
+        "execution_mode": "distributed" if deferred_distributed else "local",
     }
     _atomic_json(status_path, status)
+    execution_budget = (
+        {
+            "cpu_cores": pool_snapshot()["maximum_cpu_cores_per_job"],
+            "memory_mb": pool_snapshot()["maximum_memory_mb_per_job"],
+            "gpu_count": max(
+                (worker["capacity"]["gpu_count"] for worker in pool_snapshot()["workers"]),
+                default=0,
+            ),
+            "source": "distributed_compute_pool",
+            "agent_controllable": False,
+            "scope": "per_job",
+        }
+        if deferred_distributed
+        else resource_budget_record()
+    )
     supervisor_spec = {
         **request_record,
-        "evaluation_resource_budget": resource_budget_record(),
+        "evaluation_resource_budget": execution_budget,
         "job_directory": str(job_directory),
         "relative_job_directory": relative_directory,
         "status_path": str(status_path),
@@ -1062,6 +1121,61 @@ def _start_reserved_job(
     }
     spec_path = job_directory / "supervisor_spec.json"
     _atomic_json(spec_path, supervisor_spec)
+    if deferred_distributed:
+        try:
+            with (job_directory / "dispatcher.stdout.log").open("ab") as stdout_handle, (
+                job_directory / "dispatcher.stderr.log"
+            ).open("ab") as stderr_handle:
+                dispatcher = subprocess.Popen(
+                    [sys.executable, "-m", DISTRIBUTED_DISPATCHER_MODULE, str(spec_path)],
+                    cwd=PROJECT_ROOT,
+                    stdin=subprocess.DEVNULL,
+                    stdout=stdout_handle,
+                    stderr=stderr_handle,
+                    env=os.environ.copy(),
+                    shell=False,
+                    start_new_session=True,
+                    close_fds=True,
+                )
+        except Exception as exc:
+            status.update(
+                {
+                    "status": "failed",
+                    "finished_at": _now(),
+                    "error": {
+                        "code": "distributed_dispatcher_start_failed",
+                        "message": str(exc),
+                    },
+                }
+            )
+            _atomic_json(status_path, status)
+            return {"status": "failed", **status}
+        status["dispatcher_pid"] = dispatcher.pid
+        _atomic_json(status_path, status)
+        return {
+            "status": "success",
+            "job_id": job_id,
+            "job_status": "queued",
+            "job_type": job_type,
+            "runtime": runtime,
+            "job_directory": relative_directory,
+            "status_path": relative_workspace_path(status_path),
+            "stdout_path": relative_workspace_path(stdout_path),
+            "stderr_path": relative_workspace_path(stderr_path),
+            "command": command,
+            "staged_inputs": staged_records,
+            "resource_limits": resource_limits,
+            "resource_allocation": {},
+            "dispatcher_pid": dispatcher.pid,
+            "supervisor_pid": None,
+            "execution_mode": "distributed",
+            "automatic_fallback": False,
+            "resource_snapshot": pool_snapshot(),
+            "next_step": (
+                "Call get_execution_job with this exact job_id; the toolbox will keep "
+                "the legal request queued until one compute worker has enough resources."
+            ),
+        }
     environment = _job_environment(
         runtime,
         job_id,
@@ -2032,6 +2146,13 @@ def validate_analysis_program(request: AnalysisJobRequest) -> dict[str, Any]:
         resources = _compute_resource_limits(request.resource_limits)
     except ResourceBudgetExceeded as exc:
         return _resource_budget_error(exc)
+    except DistributedResourceLimitExceeded as exc:
+        return {
+            "status": "invalid_request",
+            "valid": False,
+            "error": exc.as_error(),
+            "resource_availability": _resource_availability(),
+        }
     contract = {
         "schema_version": 1,
         "layout": {
@@ -2541,6 +2662,15 @@ def _execution_status_axes(
 
 
 def _resource_availability() -> dict[str, Any]:
+    if distributed_enabled():
+        snapshot = pool_snapshot()
+        return {
+            "execution_mode": "distributed",
+            "scheduling": "toolbox_managed",
+            "single_job_cross_node_execution": False,
+            "reference_memory_mb_per_cpu_core": 2000,
+            **snapshot,
+        }
     budget = resource_budget_record()
     try:
         reserved = active_resource_usage()
@@ -2588,7 +2718,7 @@ def get_execution_job(request: JobStatusRequest) -> dict[str, Any]:
 
 
 def cancel_execution_job(request: JobCancelRequest) -> dict[str, Any]:
-    _directory, status = _read_status(request.job_id)
+    directory, status = _read_status(request.job_id)
     if status.get("status") in TERMINAL_JOB_STATES:
         return {
             "status": "success",
@@ -2596,6 +2726,32 @@ def cancel_execution_job(request: JobCancelRequest) -> dict[str, Any]:
             "job_status": status.get("status"),
             "cancellation_sent": False,
             "message": "Job was already terminal; no signal was sent.",
+        }
+    if status.get("execution_mode") == "distributed" or (
+        status.get("metadata") or {}
+    ).get("execution_mode") == "distributed":
+        cancellation_path = directory / "cancel_requested"
+        cancellation_path.write_text(
+            json.dumps(
+                {
+                    "job_id": request.job_id,
+                    "requested_at": _now(),
+                    "requesting_pid": os.getpid(),
+                },
+                ensure_ascii=False,
+                indent=2,
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        return {
+            "status": "success",
+            "job_id": request.job_id,
+            "job_status": status.get("status"),
+            "cancellation_sent": True,
+            "message": (
+                "Persistent cancellation marker written; poll get_execution_job until terminal."
+            ),
         }
     supervisor_pid = status.get("supervisor_pid")
     if not isinstance(supervisor_pid, int):
