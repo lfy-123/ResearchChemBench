@@ -14,6 +14,7 @@ from chemistry_toolbox.mcp.profiles import (
 )
 from chemistry_toolbox.mcp.discovery_tools import PROGRESSIVE_DISCOVERY_TOOL_NAMES
 from chemistry_toolbox.mcp.open_tools import OPEN_EXECUTION_TOOL_NAMES
+from chemistry_toolbox.mcp.async_action_tools import ASYNC_ACTION_TOOL_NAMES
 from evaluation.run_task import TaskRunner
 from researchchem_toolbox.catalog import action_specs, backend_specs
 from researchchem_toolbox.runtime import runtime_environment
@@ -45,8 +46,10 @@ def test_public_server_is_one_progressive_complete_catalog_server():
     assert spec["name"] == "researchchem_toolbox"
     assert spec["profile"] is None
     assert spec["discovery_mode"] == "progressive"
-    assert set(spec["tools"]) == set(PROGRESSIVE_DISCOVERY_TOOL_NAMES) | set(
-        OPEN_EXECUTION_TOOL_NAMES
+    assert set(spec["tools"]) == (
+        set(PROGRESSIVE_DISCOVERY_TOOL_NAMES)
+        | set(OPEN_EXECUTION_TOOL_NAMES)
+        | set(ASYNC_ACTION_TOOL_NAMES)
     )
     assert "--profile" not in spec["command"]
     assert spec["command"][-2:] == ["--discovery-mode", "progressive"]
