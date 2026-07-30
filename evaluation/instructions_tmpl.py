@@ -101,6 +101,10 @@ Use distinct, descriptive output filenames, especially for multi-molecule reacti
 
 {required_deliverables}
 
+Every listed path is exact. A file requested under `report/` is not satisfied by placing the same
+filename under `outputs/`; before the final response, verify that every required path exists and is
+non-empty unless it is explicitly marked `allow_empty`.
+
 The files above are evidence products, not a prescribed calculation sequence. Choose the
 scientific route yourself, revise it when results justify doing so, and make every submitted
 claim traceable to the corresponding artifact.
