@@ -655,11 +655,46 @@ def _validate_goodvibes_invocation(request: NativeJobRequest) -> dict[str, Any]:
             "under a flat basename containing only letters, digits, dot, underscore, plus, "
             "comma, or hyphen, then pass that exact target in arguments."
         )
+    lowered = [argument.casefold() for argument in request.arguments]
+    spc_suffix = None
+    if "--spc" in lowered:
+        index = lowered.index("--spc")
+        if index + 1 >= len(request.arguments):
+            raise ValueError("goodvibes_spc_suffix_missing: --spc requires a suffix")
+        spc_suffix = request.arguments[index + 1]
+        if spc_suffix.startswith("_"):
+            raise ValueError(
+                "goodvibes_spc_suffix_leading_underscore: pass the suffix without the "
+                "separator underscore; GoodVibes inserts '_' between the frequency basename "
+                "and suffix (use --spc DLPNO for name_DLPNO.out)"
+            )
+        if spc_suffix.casefold() != "link":
+            staged_targets = set(sources)
+            missing_pairs = []
+            for target in positional_targets:
+                stem = PurePosixPath(target).stem
+                candidates = {
+                    f"{stem}_{spc_suffix}.log",
+                    f"{stem}_{spc_suffix}.out",
+                }
+                if not candidates & staged_targets:
+                    missing_pairs.append(
+                        {"frequency": target, "expected_one_of": sorted(candidates)}
+                    )
+            if missing_pairs:
+                raise ValueError(
+                    "goodvibes_spc_pair_missing: stage a matching single-point file for "
+                    f"every frequency input; missing={missing_pairs}"
+                )
     return {
         "lint_profile": "goodvibes_native_v1",
         "input_targets": positional_targets,
         "calculation_intent": "other",
-        "checks": ["staged_positional_inputs", "safe_flat_basenames"],
+        "checks": [
+            "staged_positional_inputs",
+            "safe_flat_basenames",
+            "spc_suffix_pairing" if spc_suffix else "no_spc_suffix",
+        ],
     }
 
 
