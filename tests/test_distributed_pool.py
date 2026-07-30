@@ -6,12 +6,15 @@ import pytest
 
 from researchchem_toolbox.distributed_pool import (
     DistributedResourceLimitExceeded,
+    DistributedResourceUnavailable,
     load_worker_inventory,
     pool_snapshot,
+    register_distributed_request,
     reserve_distributed_resources,
     select_compute_cpu_ids,
 )
 from researchchem_toolbox import runtime
+from researchchem_toolbox.catalog import progressive_toolbox_overview
 
 
 def _write_inventory(path: Path) -> None:
@@ -50,6 +53,16 @@ def test_inventory_requires_explicit_schedulable_resources(distributed_environme
     assert all(worker.logical_cpus == 80 for worker in workers)
     assert all(worker.available_cpu_cores == 64 for worker in workers)
     assert all(worker.available_memory_mb == 128000 for worker in workers)
+
+
+def test_distributed_catalog_describes_pool_instead_of_local_aggregate_budget(
+    distributed_environment,
+):
+    overview = progressive_toolbox_overview()
+    assert "Toolbox-managed distributed compute pool" in overview
+    assert "total_cpu_cores=128" in overview
+    assert "maximum_cpu_cores_per_job=64" in overview
+    assert "sum of concurrently active managed jobs cannot exceed" not in overview
 
 
 def test_reservations_choose_worker_with_most_remaining_capacity(
@@ -104,6 +117,84 @@ def test_request_larger_than_one_worker_is_rejected(distributed_environment):
             label="too-large",
         )
     assert error.value.as_error()["retryable"] is False
+
+
+def test_global_queue_prevents_small_job_from_overtaking_launchable_large_job(
+    distributed_environment,
+):
+    large = register_distributed_request(
+        {"cpu_cores": 48, "memory_mb": 48000},
+        kind="analysis",
+        label="large",
+    )
+    small = register_distributed_request(
+        {"cpu_cores": 8, "memory_mb": 8000},
+        kind="analysis",
+        label="small",
+    )
+    try:
+        with pytest.raises(DistributedResourceUnavailable) as error:
+            reserve_distributed_resources(
+                small.resource_limits,
+                kind="analysis",
+                label="small",
+                queue_request_id=small.request_id,
+            )
+        assert error.value.reason == "waiting_for_higher_priority_request"
+        reservation = reserve_distributed_resources(
+            large.resource_limits,
+            kind="analysis",
+            label="large",
+            queue_request_id=large.request_id,
+        )
+        reservation.release()
+    finally:
+        large.release()
+        small.release()
+
+
+def test_blocked_large_job_drains_one_worker_but_allows_other_workers(
+    distributed_environment,
+):
+    first = reserve_distributed_resources(
+        {"cpu_cores": 40, "memory_mb": 40000}, kind="test", label="active-1"
+    )
+    second = reserve_distributed_resources(
+        {"cpu_cores": 40, "memory_mb": 40000}, kind="test", label="active-2"
+    )
+    large = register_distributed_request(
+        {"cpu_cores": 64, "memory_mb": 64000},
+        kind="native",
+        label="waiting-large",
+    )
+    small = register_distributed_request(
+        {"cpu_cores": 8, "memory_mb": 8000},
+        kind="native",
+        label="small",
+    )
+    try:
+        snapshot = pool_snapshot()
+        draining = [
+            item["worker_id"]
+            for item in snapshot["workers"]
+            if item["scheduling_state"] == "draining"
+        ]
+        assert len(draining) == 1
+        reservation = reserve_distributed_resources(
+            small.resource_limits,
+            kind="native",
+            label="small",
+            queue_request_id=small.request_id,
+        )
+        try:
+            assert reservation.worker.worker_id not in draining
+        finally:
+            reservation.release()
+    finally:
+        first.release()
+        second.release()
+        large.release()
+        small.release()
 
 
 def test_compute_cpu_selection_reserves_complete_physical_cores():

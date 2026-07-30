@@ -17,6 +17,7 @@ from researchchem_toolbox.distributed_pool import (
     DistributedResourceLimitExceeded,
     DistributedResourceUnavailable,
     pool_snapshot,
+    register_distributed_request,
     reserve_distributed_resources,
 )
 from researchchem_toolbox.paths import PROJECT_ROOT
@@ -51,45 +52,66 @@ def dispatch(spec_path: Path) -> int:
     specification = json.loads(spec_path.read_text(encoding="utf-8"))
     status_path = Path(specification["status_path"])
     resources = dict(specification["resource_limits"])
-    while True:
-        if _cancelled(specification):
-            _update_status(
-                status_path,
-                status="cancelled",
-                finished_at=_now(),
-                error={"code": "cancelled", "message": "Job cancelled while queued"},
-            )
-            return 2
-        try:
-            reservation = reserve_distributed_resources(
-                resources,
-                kind=str(specification["job_type"]),
-                label=str(
-                    (specification.get("metadata") or {}).get("label")
-                    or specification["command"][0]
-                ),
-                workspace=str(Path(specification["job_directory"]).parent),
-                job_id=str(specification["job_id"]),
-                job_status_path=str(status_path),
-            )
-            break
-        except DistributedResourceUnavailable:
-            _update_status(
-                status_path,
-                status="queued",
-                queue_reason="waiting_for_distributed_resources",
-                resource_snapshot=pool_snapshot(),
-                updated_at=_now(),
-            )
-            time.sleep(1.0)
-        except DistributedResourceLimitExceeded as exc:
-            _update_status(
-                status_path,
-                status="failed",
-                finished_at=_now(),
-                error=exc.as_error(),
-            )
-            return 1
+    label = str(
+        (specification.get("metadata") or {}).get("label")
+        or specification["command"][0]
+    )
+    try:
+        queue_request = register_distributed_request(
+            resources,
+            kind=str(specification["job_type"]),
+            label=label,
+            workspace=str(Path(specification["job_directory"]).parent),
+            job_id=str(specification["job_id"]),
+            job_status_path=str(status_path),
+        )
+    except DistributedResourceLimitExceeded as exc:
+        _update_status(
+            status_path,
+            status="failed",
+            finished_at=_now(),
+            error=exc.as_error(),
+        )
+        return 1
+    _update_status(
+        status_path,
+        distributed_queue_request_id=queue_request.request_id,
+        queue_reason="waiting_for_distributed_resources",
+        resource_snapshot=pool_snapshot(),
+        updated_at=_now(),
+    )
+    try:
+        while True:
+            if _cancelled(specification):
+                _update_status(
+                    status_path,
+                    status="cancelled",
+                    finished_at=_now(),
+                    error={"code": "cancelled", "message": "Job cancelled while queued"},
+                )
+                return 2
+            try:
+                reservation = reserve_distributed_resources(
+                    resources,
+                    kind=str(specification["job_type"]),
+                    label=label,
+                    workspace=str(Path(specification["job_directory"]).parent),
+                    job_id=str(specification["job_id"]),
+                    job_status_path=str(status_path),
+                    queue_request_id=queue_request.request_id,
+                )
+                break
+            except DistributedResourceUnavailable as exc:
+                _update_status(
+                    status_path,
+                    status="queued",
+                    queue_reason=exc.reason,
+                    resource_snapshot=exc.snapshot,
+                    updated_at=_now(),
+                )
+                time.sleep(1.0)
+    finally:
+        queue_request.release()
     allocation = dict(reservation.resource_allocation)
     worker = reservation.worker
     specification["resource_allocation"] = allocation

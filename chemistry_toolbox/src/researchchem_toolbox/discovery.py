@@ -21,6 +21,7 @@ from .parameter_specs import (
     inferred_parameter_metadata,
 )
 from .resource_budget import resource_budget_record
+from .distributed_pool import distributed_enabled
 from .search_index import BM25Index, normalize_scores, tokenize, weighted_text
 from .semantic_embeddings import MODEL_ID, semantic_scores
 from .timeout_policy import timeout_policy_record
@@ -664,12 +665,19 @@ def _action_request_contract(
     for field_name in ("cpu_cores", "memory_mb", "gpu_count"):
         fixed_parameters[f"evaluation_resource_budget.{field_name}"] = {
             "description": (
-                f"Per-task evaluator budget for {field_name}: "
+                f"Distributed single-job maximum for {field_name}: "
+                f"{budget_record[field_name]}."
+                if distributed_enabled()
+                else f"Per-task evaluator budget for {field_name}: "
                 f"{budget_record[field_name]}."
             ),
             "reason": (
-                "The benchmark operator fixes the resource envelope. The Agent may request "
-                "resources within it but cannot enlarge it."
+                "The benchmark operator fixes each worker's exposed capacity. The Agent may "
+                "request resources within the per-job maximum while independent jobs share "
+                "the aggregate distributed pool."
+                if distributed_enabled()
+                else "The benchmark operator fixes the resource envelope. The Agent may "
+                "request resources within it but cannot enlarge it."
             ),
         }
 
@@ -688,7 +696,10 @@ def _action_request_contract(
             else budget_maximum
         )
         resource_parameter_specs[field_name]["evaluation_budget_reason"] = (
-            "Single requests and the sum of concurrently active managed jobs cannot exceed "
+            "A single request cannot exceed the maximum capacity of one compute worker; "
+            "concurrent requests use the distributed pool's aggregate available resources."
+            if distributed_enabled()
+            else "Single requests and the sum of concurrently active managed jobs cannot exceed "
             "the evaluator-controlled per-task resource budget."
         )
     resource_maximum_fields = {"cpu_cores": "maximum_cpu_cores"}

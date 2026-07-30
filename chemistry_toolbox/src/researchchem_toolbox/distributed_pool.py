@@ -324,12 +324,19 @@ def _lease_timeout_seconds() -> float:
 
 
 class DistributedResourceUnavailable(RuntimeError):
-    def __init__(self, requested: Mapping[str, int], snapshot: dict[str, Any]):
+    def __init__(
+        self,
+        requested: Mapping[str, int],
+        snapshot: dict[str, Any],
+        *,
+        reason: str = "capacity_unavailable",
+    ):
         self.requested = dict(requested)
         self.snapshot = snapshot
+        self.reason = reason
         super().__init__(
             "No distributed worker currently has enough resources for "
-            f"requested={self.requested}"
+            f"requested={self.requested}; reason={reason}"
         )
 
     def as_error(self) -> dict[str, Any]:
@@ -338,6 +345,7 @@ class DistributedResourceUnavailable(RuntimeError):
             "message": str(self),
             "requested": self.requested,
             "resource_snapshot": self.snapshot,
+            "queue_reason": self.reason,
             "retryable": True,
         }
 
@@ -426,10 +434,156 @@ class DistributedReservation:
         self.path.unlink(missing_ok=True)
 
 
+@dataclass
+class DistributedQueueRequest:
+    path: Path
+    request_id: str
+    resource_limits: dict[str, int]
+    _stop_event: threading.Event | None = None
+    _heartbeat_thread: threading.Thread | None = None
+
+    def heartbeat(self) -> None:
+        try:
+            value = json.loads(self.path.read_text(encoding="utf-8"))
+        except (FileNotFoundError, json.JSONDecodeError, OSError):
+            return
+        value["heartbeat_at"] = _now()
+        value["heartbeat_unix"] = time.time()
+        _atomic_json(self.path, value)
+
+    def start_heartbeat(self, *, interval_seconds: float = 30.0) -> None:
+        if self._heartbeat_thread is not None:
+            return
+        self._stop_event = threading.Event()
+
+        def run() -> None:
+            assert self._stop_event is not None
+            while not self._stop_event.wait(interval_seconds):
+                self.heartbeat()
+
+        self._heartbeat_thread = threading.Thread(
+            target=run,
+            name=f"distributed-queue-{self.request_id[:8]}",
+            daemon=True,
+        )
+        self._heartbeat_thread.start()
+
+    def stop_heartbeat(self) -> None:
+        if self._stop_event is not None:
+            self._stop_event.set()
+        if self._heartbeat_thread is not None:
+            self._heartbeat_thread.join(timeout=2)
+        self._stop_event = None
+        self._heartbeat_thread = None
+
+    def release(self) -> None:
+        self.stop_heartbeat()
+        self.path.unlink(missing_ok=True)
+
+
 def _reservation_directory() -> Path:
     path = state_root() / "reservations"
     path.mkdir(parents=True, exist_ok=True)
     return path
+
+
+def _queue_directory() -> Path:
+    path = state_root() / "queue"
+    path.mkdir(parents=True, exist_ok=True)
+    return path
+
+
+def _owner_process_alive(value: Mapping[str, Any]) -> bool:
+    if str(value.get("owner_host") or "") != socket.gethostname():
+        return True
+    try:
+        os.kill(int(value.get("owner_pid") or 0), 0)
+    except (OSError, TypeError, ValueError):
+        return False
+    return True
+
+
+def _read_queue_requests(*, clean_stale: bool = True) -> list[dict[str, Any]]:
+    values: list[dict[str, Any]] = []
+    deadline = time.time() - _lease_timeout_seconds()
+    for path in sorted(_queue_directory().glob("request_*.json")):
+        try:
+            value = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError, TypeError):
+            continue
+        terminal = False
+        status_path_raw = str(value.get("job_status_path") or "")
+        if status_path_raw:
+            try:
+                status = json.loads(Path(status_path_raw).read_text(encoding="utf-8"))
+                terminal = str(status.get("status") or "") in {
+                    "success",
+                    "failed",
+                    "timeout",
+                    "cancelled",
+                }
+            except (OSError, json.JSONDecodeError):
+                pass
+        stale = float(value.get("heartbeat_unix") or 0) < deadline
+        if clean_stale and (terminal or (stale and not _owner_process_alive(value))):
+            path.unlink(missing_ok=True)
+            continue
+        value["_path"] = str(path)
+        values.append(value)
+    return values
+
+
+def _queue_sort_key(value: Mapping[str, Any]) -> tuple[int, int, float, str]:
+    resources = _normalized_request(value.get("resource_limits") or {})
+    return (
+        -resources["cpu_cores"],
+        -resources["memory_mb"],
+        float(value.get("submitted_unix") or 0),
+        str(value.get("request_id") or ""),
+    )
+
+
+def register_distributed_request(
+    resources: Mapping[str, Any],
+    *,
+    kind: str,
+    label: str,
+    workspace: str = "",
+    job_id: str = "",
+    job_status_path: str = "",
+) -> DistributedQueueRequest:
+    """Register a persistent, globally ordered native/analysis job request."""
+
+    requested = validate_distributed_resource_limits(resources)
+    request_id = uuid.uuid4().hex
+    path = _queue_directory() / f"request_{request_id}.json"
+    now = time.time()
+    _atomic_json(
+        path,
+        {
+            "schema_version": 1,
+            "request_id": request_id,
+            "kind": kind,
+            "label": label,
+            "workspace": workspace,
+            "job_id": job_id,
+            "job_status_path": job_status_path,
+            "owner_host": socket.gethostname(),
+            "owner_pid": os.getpid(),
+            "resource_limits": requested,
+            "submitted_at": _now(),
+            "submitted_unix": now,
+            "heartbeat_at": _now(),
+            "heartbeat_unix": now,
+        },
+    )
+    request = DistributedQueueRequest(
+        path=path,
+        request_id=request_id,
+        resource_limits=requested,
+    )
+    request.start_heartbeat()
+    return request
 
 
 def _read_active_reservations(*, clean_stale: bool = True) -> list[dict[str, Any]]:
@@ -497,9 +651,95 @@ def _worker_usage(
     return usage, used_cpu_ids
 
 
+def _worker_free_resources(
+    worker: WorkerNode, reservations: list[dict[str, Any]]
+) -> tuple[dict[str, int], list[int], int]:
+    usage, used_cpu_ids = _worker_usage(worker, reservations)
+    free_cpu_ids = [
+        cpu_id for cpu_id in worker.cpu_ids if cpu_id not in used_cpu_ids
+    ]
+    return (
+        {
+            "cpu_cores": len(free_cpu_ids),
+            "memory_mb": max(0, worker.available_memory_mb - usage["memory_mb"]),
+            "gpu_count": max(0, worker.gpu_count - usage["gpu_count"]),
+        },
+        free_cpu_ids,
+        sum(item.get("worker_id") == worker.worker_id for item in reservations),
+    )
+
+
+def _fits(resources: Mapping[str, int], available: Mapping[str, int]) -> bool:
+    return all(
+        int(resources[name]) <= int(available[name])
+        for name in ("cpu_cores", "memory_mb", "gpu_count")
+    )
+
+
+def _draining_worker_for_request(
+    request: Mapping[str, Any],
+    workers: tuple[WorkerNode, ...],
+    reservations: list[dict[str, Any]],
+) -> str | None:
+    resources = _normalized_request(request.get("resource_limits") or {})
+    candidates: list[tuple[int, int, int, str]] = []
+    for worker in workers:
+        capacity = {
+            "cpu_cores": worker.available_cpu_cores,
+            "memory_mb": worker.available_memory_mb,
+            "gpu_count": worker.gpu_count,
+        }
+        if not _fits(resources, capacity):
+            continue
+        available, _free_cpu_ids, active_count = _worker_free_resources(
+            worker, reservations
+        )
+        if _fits(resources, available):
+            return None
+        candidates.append(
+            (
+                active_count,
+                -available["cpu_cores"],
+                -available["memory_mb"],
+                worker.worker_id,
+            )
+        )
+    return min(candidates)[-1] if candidates else None
+
+
+def _queue_draining_assignments(
+    requests: list[dict[str, Any]],
+    workers: tuple[WorkerNode, ...],
+    reservations: list[dict[str, Any]],
+) -> dict[str, str]:
+    assignments: dict[str, str] = {}
+    claimed_workers: set[str] = set()
+    for request in sorted(requests, key=_queue_sort_key):
+        resources = _normalized_request(request.get("resource_limits") or {})
+        if any(
+            worker.worker_id not in claimed_workers
+            and _fits(
+                resources,
+                _worker_free_resources(worker, reservations)[0],
+            )
+            for worker in workers
+        ):
+            continue
+        worker_id = _draining_worker_for_request(request, workers, reservations)
+        if worker_id and worker_id not in claimed_workers:
+            assignments[str(request.get("request_id") or "")] = worker_id
+            claimed_workers.add(worker_id)
+    return assignments
+
+
 def pool_snapshot(*, include_internal: bool = False) -> dict[str, Any]:
     workers = load_worker_inventory()
     reservations = _read_active_reservations()
+    queue_requests = _read_queue_requests()
+    draining_assignments = _queue_draining_assignments(
+        queue_requests, workers, reservations
+    )
+    draining_workers = set(draining_assignments.values())
     records: list[dict[str, Any]] = []
     totals = {
         "total_cpu_cores": 0,
@@ -527,6 +767,9 @@ def pool_snapshot(*, include_internal: bool = False) -> dict[str, Any]:
             "available": available,
             "active_reservation_count": sum(
                 item.get("worker_id") == worker.worker_id for item in reservations
+            ),
+            "scheduling_state": (
+                "draining" if worker.worker_id in draining_workers else "available"
             ),
         }
         if include_internal:
@@ -559,6 +802,8 @@ def pool_snapshot(*, include_internal: bool = False) -> dict[str, Any]:
             (worker.available_memory_mb for worker in workers), default=0
         ),
         "active_reservation_count": len(reservations),
+        "queued_request_count": len(queue_requests),
+        "draining_worker_count": len(draining_workers),
         "physical_cpu_cores_backing_pool": sum(
             round(
                 worker.available_cpu_cores
@@ -597,6 +842,7 @@ def reserve_distributed_resources(
     workspace: str = "",
     job_id: str = "",
     job_status_path: str = "",
+    queue_request_id: str = "",
 ) -> DistributedReservation:
     requested = validate_distributed_resource_limits(resources)
     lock_path = state_root() / "pool.lock"
@@ -605,24 +851,61 @@ def reserve_distributed_resources(
         try:
             workers = load_worker_inventory()
             reservations = _read_active_reservations()
+            queue_requests = sorted(_read_queue_requests(), key=_queue_sort_key)
+            blocked_workers: set[str] = set()
+            if queue_request_id:
+                current_index = next(
+                    (
+                        index
+                        for index, item in enumerate(queue_requests)
+                        if item.get("request_id") == queue_request_id
+                    ),
+                    None,
+                )
+                if current_index is None:
+                    raise DistributedResourceUnavailable(
+                        requested,
+                        pool_snapshot(include_internal=False),
+                        reason="queue_request_missing",
+                    )
+                for earlier in queue_requests[:current_index]:
+                    earlier_resources = _normalized_request(
+                        earlier.get("resource_limits") or {}
+                    )
+                    if any(
+                        _fits(
+                            earlier_resources,
+                            _worker_free_resources(worker, reservations)[0],
+                        )
+                        for worker in workers
+                    ):
+                        raise DistributedResourceUnavailable(
+                            requested,
+                            pool_snapshot(include_internal=False),
+                            reason="waiting_for_higher_priority_request",
+                        )
+                    draining_worker = _draining_worker_for_request(
+                        earlier, workers, reservations
+                    )
+                    if draining_worker:
+                        blocked_workers.add(draining_worker)
             candidates: list[tuple[int, int, str, WorkerNode, list[int]]] = []
             for worker in workers:
-                usage, used_cpu_ids = _worker_usage(worker, reservations)
-                free_cpu_ids = [
-                    cpu_id for cpu_id in worker.cpu_ids if cpu_id not in used_cpu_ids
-                ]
-                free_memory = worker.available_memory_mb - usage["memory_mb"]
-                free_gpus = worker.gpu_count - usage["gpu_count"]
+                if worker.worker_id in blocked_workers:
+                    continue
+                available, free_cpu_ids, _active_count = _worker_free_resources(
+                    worker, reservations
+                )
                 if (
                     len(free_cpu_ids) < requested["cpu_cores"]
-                    or free_memory < requested["memory_mb"]
-                    or free_gpus < requested["gpu_count"]
+                    or available["memory_mb"] < requested["memory_mb"]
+                    or available["gpu_count"] < requested["gpu_count"]
                 ):
                     continue
                 candidates.append(
                     (
                         len(free_cpu_ids),
-                        free_memory,
+                        available["memory_mb"],
                         worker.worker_id,
                         worker,
                         free_cpu_ids,
@@ -630,7 +913,13 @@ def reserve_distributed_resources(
                 )
             if not candidates:
                 raise DistributedResourceUnavailable(
-                    requested, pool_snapshot(include_internal=False)
+                    requested,
+                    pool_snapshot(include_internal=False),
+                    reason=(
+                        "waiting_for_draining_worker"
+                        if blocked_workers
+                        else "capacity_unavailable"
+                    ),
                 )
             # The Agent submits large jobs first.  For each request choose the
             # worker with the most remaining capacity to avoid blocking later
@@ -682,6 +971,7 @@ def reserve_distributed_resources(
 
 __all__ = [
     "DistributedReservation",
+    "DistributedQueueRequest",
     "DistributedResourceLimitExceeded",
     "DistributedResourceUnavailable",
     "EXECUTION_MODE_ENV",
@@ -691,6 +981,7 @@ __all__ = [
     "execution_mode",
     "load_worker_inventory",
     "pool_snapshot",
+    "register_distributed_request",
     "reserve_distributed_resources",
     "select_compute_cpu_ids",
     "state_root",
