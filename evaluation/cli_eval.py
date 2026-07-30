@@ -25,6 +25,7 @@ from .config import (
     DEFAULT_AGENT_TIMEOUT_SECONDS,
     DEFAULT_COMPUTE_ACTION_TIMEOUT_SECONDS,
     DEFAULT_FAST_ACTION_TIMEOUT_SECONDS,
+    DEFAULT_EXECUTION_MODE,
     DEFAULT_LIVE_PROGRESS,
     DEFAULT_MCP_TOOL_TIMEOUT_MS,
     DEFAULT_MAX_TURNS,
@@ -258,6 +259,9 @@ def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False
         config.get("available_gpu_count", DEFAULT_AVAILABLE_GPU_COUNT),
         name="available_gpu_count",
     )
+    execution_mode = str(config.get("execution_mode", DEFAULT_EXECUTION_MODE)).strip().casefold()
+    if execution_mode not in {"local", "distributed"}:
+        raise EvalConfigError("execution_mode must be local or distributed")
     if fast_action_timeout_seconds > compute_action_timeout_seconds:
         raise EvalConfigError(
             "fast_action_timeout_seconds cannot exceed compute_action_timeout_seconds"
@@ -271,6 +275,7 @@ def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False
         _log(f"Planned runs: {len(specs)}")
         _log(f"Max concurrent runs: {workers}")
         _log(f"Tool discovery mode: {discovery_mode}")
+        _log(f"Execution mode: {execution_mode}")
         _log(f"Live progress: {live_progress}")
         _log(f"Progress console: {progress_console}")
         _log(f"Progress max chars: {progress_max_chars}")
@@ -324,6 +329,7 @@ def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False
             live_progress=live_progress,
             progress_console=progress_console,
             progress_max_chars=progress_max_chars,
+            execution_mode=execution_mode,
         )
         active.append(runner)
         try:

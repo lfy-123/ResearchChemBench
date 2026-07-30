@@ -4,6 +4,14 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 
+LOCAL_CONFIG_FILE="${RESEARCHCHEMBENCH_LOCAL_CONFIG:-$ROOT_DIR/config.local.env}"
+if [[ -f "$LOCAL_CONFIG_FILE" ]]; then
+  set -a
+  # shellcheck disable=SC1090
+  source "$LOCAL_CONFIG_FILE"
+  set +a
+fi
+
 ENV_ROOT="${RESEARCHCHEMBENCH_ENV_ROOT:-$ROOT_DIR/.envs}"
 FRAMEWORK_ENV="${RESEARCHCHEMBENCH_FRAMEWORK_ENV:-$ENV_ROOT/researchchembench}"
 PYTHON="$FRAMEWORK_ENV/bin/python"
@@ -46,6 +54,7 @@ Submit options:
   --workspaces-dir PATH         Submission root. Default: workspaces/submissions/<UTC>.
   --session NAME                tmux session name. Default: derived from UTC time.
   --tool-discovery-mode MODE    progressive or full. Default: progressive.
+  --execution-mode MODE         local or distributed. Default: local.
   --progress-max-chars N        Per-field live-log truncation. Default: 600.
   --progress-console            Mirror detailed progress into launcher.log.
   --no-score                    Do not call the Judge.
@@ -115,6 +124,7 @@ print_status() {
   batch_dir="$(latest_batch_dir "$run_root")"
   "$PYTHON" - "$run_root" "$batch_dir" <<'PY'
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -208,6 +218,7 @@ case "$command" in
     run_root=""
     session_name=""
     discovery_mode="progressive"
+    execution_mode="local"
     progress_max_chars=600
     progress_console=false
     score_enabled=true
@@ -259,6 +270,8 @@ case "$command" in
           require_value "$1" "${2:-}"; session_name="$2"; shift 2 ;;
         --tool-discovery-mode)
           require_value "$1" "${2:-}"; discovery_mode="$2"; shift 2 ;;
+        --execution-mode)
+          require_value "$1" "${2:-}"; execution_mode="$2"; shift 2 ;;
         --progress-max-chars)
           require_value "$1" "${2:-}"; require_positive_integer "$1" "$2"
           progress_max_chars="$2"; shift 2 ;;
@@ -279,6 +292,14 @@ case "$command" in
     fi
     if [[ "$discovery_mode" != "progressive" && "$discovery_mode" != "full" ]]; then
       echo "Error: --tool-discovery-mode must be progressive or full." >&2
+      exit 2
+    fi
+    if [[ "$execution_mode" != "local" && "$execution_mode" != "distributed" ]]; then
+      echo "Error: --execution-mode must be local or distributed." >&2
+      exit 2
+    fi
+    if [[ "$execution_mode" == "distributed" && -z "${RCB_DISTRIBUTED_WORKER_INVENTORY:-}" ]]; then
+      echo "Error: distributed mode requires RCB_DISTRIBUTED_WORKER_INVENTORY in config.local.env." >&2
       exit 2
     fi
     if (( fast_action_timeout_seconds > compute_action_timeout_seconds )); then
@@ -318,8 +339,10 @@ case "$command" in
       "$progress_console" "$score_enabled" "$compute_action_timeout_seconds" \
       "$fast_action_timeout_seconds" "$mcp_tool_timeout_seconds" \
       "$available_cpu_cores" "$available_memory_mb" "$available_gpu_count" \
+      "$execution_mode" \
       "${tasks[@]}" <<'PY'
 import json
+import os
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -330,7 +353,7 @@ from pathlib import Path
     discovery_mode, progress_max_chars, progress_console, score_enabled,
     compute_action_timeout_seconds, fast_action_timeout_seconds,
     mcp_tool_timeout_seconds, available_cpu_cores, available_memory_mb,
-    available_gpu_count, *tasks
+    available_gpu_count, execution_mode, *tasks
 ) = sys.argv[1:]
 def flag(value):
     return value.casefold() == "true"
@@ -349,12 +372,36 @@ config = {
     "available_gpu_count": int(available_gpu_count),
     "max_turns": int(max_turns),
     "tool_discovery_mode": discovery_mode,
+    "execution_mode": execution_mode,
     "live_progress": True,
     "progress_console": flag(progress_console),
     "progress_max_chars": int(progress_max_chars),
     "judge": {"enabled": flag(score_enabled)},
 }
 Path(config_path).write_text(json.dumps(config, indent=2) + "\n", encoding="utf-8")
+if execution_mode == "distributed":
+    os.environ["RESEARCHCHEMBENCH_EXECUTION_MODE"] = "distributed"
+    from researchchem_toolbox.distributed_pool import pool_snapshot
+    pool = pool_snapshot()
+    resource_budget = {
+        "cpu_cores": pool["maximum_cpu_cores_per_job"],
+        "memory_mb": pool["maximum_memory_mb_per_job"],
+        "gpu_count": max(
+            (worker["capacity"]["gpu_count"] for worker in pool["workers"]),
+            default=0,
+        ),
+        "total_cpu_cores": pool["total_cpu_cores"],
+        "total_memory_mb": pool["total_memory_mb"],
+        "worker_count": pool["worker_count"],
+        "scope": "per_job_on_one_compute_worker",
+    }
+else:
+    resource_budget = {
+        "cpu_cores": int(available_cpu_cores),
+        "memory_mb": int(available_memory_mb),
+        "gpu_count": int(available_gpu_count),
+        "scope": "per_task",
+    }
 submission = {
     "schema_version": 1,
     "submitted_at": datetime.now(timezone.utc).isoformat(),
@@ -370,12 +417,8 @@ submission = {
     "compute_action_timeout_seconds": int(compute_action_timeout_seconds),
     "fast_action_timeout_seconds": int(fast_action_timeout_seconds),
     "mcp_tool_timeout_seconds": int(mcp_tool_timeout_seconds),
-    "resource_budget": {
-        "cpu_cores": int(available_cpu_cores),
-        "memory_mb": int(available_memory_mb),
-        "gpu_count": int(available_gpu_count),
-        "scope": "per_task",
-    },
+    "resource_budget": resource_budget,
+    "execution_mode": execution_mode,
     "max_turns": int(max_turns),
     "tool_discovery_mode": discovery_mode,
     "score_enabled": flag(score_enabled),
@@ -391,6 +434,7 @@ PY
       --workspaces-dir "$run_root/runs"
       --opencode-model "$model"
       --judge-model "$judge_model"
+      --execution-mode "$execution_mode"
     )
     if [[ "$score_enabled" == false ]]; then eval_command+=(--no-score); fi
     if [[ "$dry_run" == true ]]; then eval_command+=(--dry-run); fi
@@ -400,6 +444,7 @@ PY
     echo "Judge: enabled=$score_enabled model=$judge_model"
     echo "Limits: agent=${timeout_seconds}s mcp=${mcp_tool_timeout_seconds}s compute_action=${compute_action_timeout_seconds}s fast_action=${fast_action_timeout_seconds}s max_turns=$max_turns concurrency=$max_concurrent_runs repeats=$repeats"
     echo "Per-task resources: cpu=${available_cpu_cores} memory=${available_memory_mb}MiB gpu=${available_gpu_count}"
+    echo "Execution mode: $execution_mode"
     if [[ "$foreground" == true ]]; then
       "${eval_command[@]}" 2>&1 | tee "$launcher_log"
       exit "${PIPESTATUS[0]}"

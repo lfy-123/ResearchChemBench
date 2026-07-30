@@ -57,6 +57,9 @@ DEFAULT_PROGRESS_CONSOLE = os.environ.get(
 DEFAULT_PROGRESS_MAX_CHARS = max(
     80, int(os.environ.get("RESEARCHCHEMBENCH_PROGRESS_MAX_CHARS", "600"))
 )
+DEFAULT_EXECUTION_MODE = os.environ.get(
+    "RESEARCHCHEMBENCH_EXECUTION_MODE", "local"
+).strip().casefold()
 OPENCODE_MODEL = os.environ.get(
     "RESEARCHCHEMBENCH_OPENCODE_MODEL", "deepseek/deepseek-v4-flash"
 )

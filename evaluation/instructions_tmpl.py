@@ -53,16 +53,7 @@ Each helper name must match the corresponding name in the submitted `outputs` de
 
 ## Evaluation resource budget
 
-This run has an evaluator-controlled per-task resource envelope:
-
-- CPU: {available_cpu_cores} logical cores
-- Memory: {available_memory_mb} MiB
-- GPU: {available_gpu_count}
-
-You may choose the resources for each managed calculation within this envelope. The sum of all
-concurrently queued or running managed jobs must also remain within it. Requests above the budget
-are rejected rather than silently reduced. Parallelize independent calculations only when their
-combined CPU, memory, and GPU reservations fit this budget.
+{execution_resource_guidance}
 
 ## Chemistry toolbox access
 

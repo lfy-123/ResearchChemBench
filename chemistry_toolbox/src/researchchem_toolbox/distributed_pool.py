@@ -559,6 +559,14 @@ def pool_snapshot(*, include_internal: bool = False) -> dict[str, Any]:
             (worker.available_memory_mb for worker in workers), default=0
         ),
         "active_reservation_count": len(reservations),
+        "physical_cpu_cores_backing_pool": sum(
+            round(
+                worker.available_cpu_cores
+                * worker.physical_cores
+                / worker.logical_cpus
+            )
+            for worker in workers
+        ),
     }
 
 

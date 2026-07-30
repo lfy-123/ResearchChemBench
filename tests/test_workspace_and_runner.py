@@ -74,6 +74,55 @@ def test_resource_budget_is_visible_and_recorded_end_to_end(tmp_path: Path):
     assert meta["resource_budget"] == runner.resource_budget_record()
 
 
+def test_distributed_resource_contract_is_visible_to_agent(tmp_path: Path, monkeypatch):
+    inventory = tmp_path / "inventory.json"
+    inventory.write_text(
+        json.dumps(
+            {
+                "workers": [
+                    {
+                        "worker_id": f"compute-{index}",
+                        "name": f"worker-{index}",
+                        "execution_ssh_target": f"user@10.0.0.{index}",
+                        "logical_cpus": 80,
+                        "physical_cores": 40,
+                        "memory_mb": 200000,
+                        "available_cpu_cores": 64,
+                        "available_memory_mb": 128000,
+                        "gpu_count": 0,
+                        "compute_cpu_ids": list(
+                            range(index * 100, index * 100 + 64)
+                        ),
+                    }
+                    for index in range(1, 5)
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+    monkeypatch.setenv("RCB_DISTRIBUTED_WORKER_INVENTORY", str(inventory))
+    monkeypatch.setenv("RCB_DISTRIBUTED_STATE_ROOT", str(tmp_path / "pool"))
+    runner = TaskRunner(
+        "Electron_Isodensity_Reproduction_01_Method_Selection",
+        agent_key="mock",
+        workspace_root=tmp_path,
+        execution_mode="distributed",
+    )
+    runner.setup_workspace()
+    instructions = runner.instructions_path.read_text(encoding="utf-8")
+    assert "Total schedulable CPU: 256 logical CPUs" in instructions
+    assert "Maximum per job: 64 logical CPUs and 128000 MiB" in instructions
+    assert "coordinator node" in instructions
+    assert "submit_action_batch_async" in instructions
+    environment = runner._mcp_environment()
+    assert environment["RESEARCHCHEMBENCH_EXECUTION_MODE"] == "distributed"
+    assert environment["RCB_DISTRIBUTED_WORKER_INVENTORY"] == str(inventory)
+    assert not any(name.startswith("RCB_DISTRIBUTED_WORKER_1_") for name in environment)
+    budget = runner.resource_budget_record()
+    assert budget["total_cpu_cores"] == 256
+    assert budget["physical_cpu_cores_backing_pool"] == 128
+
+
 def test_task_archive_is_hash_checked_and_safely_extracted(tmp_path: Path):
     runner = _archive_runner(tmp_path, {"nested/evidence.txt": "scientific evidence"})
     runner._extract_task_archives()

@@ -69,6 +69,8 @@ Runtime options:
       --tool-discovery-mode MODE
                               `progressive` (default) loads Action schemas on demand;
                                `full` preserves one MCP tool per Action for regression.
+      --execution-mode MODE   `local` (default) preserves single-node execution;
+                               `distributed` uses the configured worker inventory.
       --mcp-profiles CSV      Select runtimes for installation/probe validation only:
                                core, services, quantum, psi4, reaction, qe, cp2k,
                                periodic, phonons, md, mlip, docking. This never
@@ -177,6 +179,7 @@ JUDGE_MODEL_VALUE="${JUDGE_MODEL_NAME:-}"
 MCP_TOOLS_VALUE="${RESEARCHCHEMBENCH_MCP_TOOLS:-all}"
 MCP_PROFILES_VALUE="${RESEARCHCHEMBENCH_MCP_PROFILES:-}"
 TOOL_DISCOVERY_MODE_VALUE="${RESEARCHCHEM_TOOL_DISCOVERY_MODE:-progressive}"
+EXECUTION_MODE_VALUE="${RESEARCHCHEMBENCH_EXECUTION_MODE:-local}"
 LIVE_PROGRESS_VALUE="${RESEARCHCHEMBENCH_LIVE_PROGRESS:-1}"
 PROGRESS_CONSOLE_VALUE="${RESEARCHCHEMBENCH_PROGRESS_CONSOLE:-0}"
 PROGRESS_MAX_CHARS_VALUE="${RESEARCHCHEMBENCH_PROGRESS_MAX_CHARS:-600}"
@@ -257,6 +260,11 @@ while [[ $# -gt 0 ]]; do
     --tool-discovery-mode)
       require_value "$1" "${2:-}"
       TOOL_DISCOVERY_MODE_VALUE="$2"
+      shift 2
+      ;;
+    --execution-mode)
+      require_value "$1" "${2:-}"
+      EXECUTION_MODE_VALUE="$2"
       shift 2
       ;;
     --live-progress)
@@ -395,6 +403,15 @@ if [[ "$TOOL_DISCOVERY_MODE_VALUE" != "progressive" && "$TOOL_DISCOVERY_MODE_VAL
   exit 2
 fi
 export RESEARCHCHEM_TOOL_DISCOVERY_MODE="$TOOL_DISCOVERY_MODE_VALUE"
+if [[ "$EXECUTION_MODE_VALUE" != "local" && "$EXECUTION_MODE_VALUE" != "distributed" ]]; then
+  echo "Error: --execution-mode must be 'local' or 'distributed'." >&2
+  exit 2
+fi
+if [[ "$EXECUTION_MODE_VALUE" == "distributed" && -z "${RCB_DISTRIBUTED_WORKER_INVENTORY:-}" ]]; then
+  echo "Error: distributed mode requires RCB_DISTRIBUTED_WORKER_INVENTORY." >&2
+  exit 2
+fi
+export RESEARCHCHEMBENCH_EXECUTION_MODE="$EXECUTION_MODE_VALUE"
 if [[ -n "$MCP_PROFILES_VALUE" ]]; then
   export RESEARCHCHEMBENCH_MCP_PROFILES="$MCP_PROFILES_VALUE"
   python - <<'PY'
@@ -437,6 +454,7 @@ if [[ -n "$CONFIG" ]]; then
   log_info "MCP Python=$(command -v python)"
   log_info "MCP tools=$MCP_TOOLS_VALUE"
   log_info "Tool discovery=$TOOL_DISCOVERY_MODE_VALUE"
+  log_info "Execution mode=$EXECUTION_MODE_VALUE"
   log_info "Backend runtimes=${MCP_PROFILES_VALUE:-all catalog entries; one public server}"
   log_info "Workspaces root=${RESEARCHCHEMBENCH_WORKSPACES_DIR:-$ROOT_DIR/workspaces}"
   log_info "Judge model:     ${JUDGE_MODEL_NAME:-<not configured>}"
@@ -450,6 +468,7 @@ log_info "Task=$TASK"
 log_info "MCP Python=$(command -v python)"
 log_info "MCP tools=$MCP_TOOLS_VALUE"
 log_info "Tool discovery=$TOOL_DISCOVERY_MODE_VALUE"
+log_info "Execution mode=$EXECUTION_MODE_VALUE"
 log_info "Backend runtimes=${MCP_PROFILES_VALUE:-all catalog entries; one public server}"
 log_info "Timeout seconds=${RESEARCHCHEMBENCH_AGENT_TIMEOUT_SECONDS:-7200}"
 log_info "Max turns=${RESEARCHCHEMBENCH_MAX_TURNS:-200}"
