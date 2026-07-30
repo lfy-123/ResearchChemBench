@@ -129,6 +129,9 @@ fcad15f fix: stop queued evaluations after interrupt
 28838e6 docs: record distributed end-to-end fixes
 88b5cac fix: use distributed pool capacity for sync batches
 b83d730 fix: terminate remote process groups on cancellation
+77ce79f docs: record distributed throughput and cancellation validation
+b48a4be docs: sync GoodVibes suffix guidance
+f873d59 fix: make long async batches cancellation safe
 ```
 
 ## 4. 已完成验证
@@ -141,10 +144,13 @@ b83d730 fix: terminate remote process groups on cancellation
 - native xTB job 在远端使用 4 CPU 成功完成，并得到相同 H2 总能量；
 - 每次验证结束后 reservation 均归零。
 
-最新相关定向测试通过 59 项。完整测试曾得到 `459 passed, 9 failed`；其中与本功能
-有关的失败均已修复。剩余失败来自仓库当前环境状态，包括历史 replay/smoke archive
-hash、缺失 LOBSTER 缓存文件，以及现有 `toolbox_resource_status.json` 中 ORCA OpenMPI
-资源状态为 `fail`，不属于本次分布调度改动。
+最新相关定向测试通过 59 项；长异步等待、父进程退出和 reservation 回收修复又通过
+15 项，CLI/MCP/runner 相关回归通过 25 项。按当前协调节点真实资源覆盖为 16 CPU、
+32000 MiB 后，完整测试得到 `469 passed, 8 failed`。其中一个本功能引起的 GoodVibes
+生成文档未同步问题已经修复并单独验证；两个失败只是该次资源覆盖与测试固定断言的
+默认 48 CPU 合同不一致，去掉覆盖后均通过。其余失败来自仓库当前环境状态，包括历史
+replay/smoke archive hash、缺失 LOBSTER 缓存文件，以及现有
+`toolbox_resource_status.json` 中 ORCA OpenMPI 资源状态为 `fail`，不属于本次分布调度改动。
 
 ## 5. 使用方式
 
@@ -234,14 +240,38 @@ Gaussian HF/STO-3G 烟雾测试在 `compute-3` 使用 4 CPU、8192 MiB 请求成
    烟雾测试中，reservation 立即释放，6 秒后 worker 上对应 launcher、Gaussian 和
    link 进程全部消失。
 
-当前正式复杂任务记录为：
+第三次复杂任务运行记录为：
 
 ```text
 workspaces/distributed-complex-e2e-rerun3/
-tmux: rcb_distributed_complex_e2e_rerun3
 ```
 
 首个任务已经同时在四台 worker 上运行 9 个 Gaussian 几何优化，每个请求 16 CPU、
 32000 MiB，总计 144 CPU、288000 MiB；四台 worker 分别放置 2、2、2、3 个作业。
-所有 reservation 均正常心跳，计算不再出现路径、内存或取消泄漏问题。最终状态、科学
-产物和评分将在三个任务全部结束后补充。
+所有 reservation 均正常心跳，checkpoint 持续更新。但长作业暴露出事件等待接口的
+效率问题：`wait_execution_events` 最多只允许等待 60 秒，并在没有新事件时重复返回
+全部 9 个 item。约 24 分钟内 Agent 已进行 46 次轮询、累计约 265 万计费 token；继续
+运行可能在科学计算完成前耗尽 300 轮或上下文，因此按测试规则主动停止该次运行。
+
+停止过程进一步验证并修复了两个生命周期边界：
+
+1. 事件等待上限扩展为 600 秒；无事件超时只返回每种状态的数量，不再重复全部 item，
+   Agent 指令和提交结果都明确要求长计算使用 600 秒等待。
+2. 异步 Action batch supervisor 现在设置 Linux parent-death signal，MCP/evaluator
+   退出后不会成为孤儿进程。没有持久化 job 状态且创建者 PID 已死亡的 Action
+   reservation 会立即回收；native/analysis job 仍由远端状态文件和心跳保护。
+
+停止后精确检查四台 worker，属于该 workspace 的 launcher、Gaussian 和 link 进程
+均为 0；孤儿 supervisor 清理后资源池恢复为 256 CPU、512000 MiB、0 reservation。
+真实 parent-death 回归测试验证 supervisor 会在拥有它的 MCP 父进程退出后自动结束。
+
+修复后的正式复杂任务记录为：
+
+```text
+workspaces/distributed-complex-e2e-rerun4/
+tmux: rcb_distributed_complex_e2e_rerun4
+hourly monitor: rcb_monitor_distributed_complex_rerun4
+```
+
+三个任务仍按顺序运行，每小时监控一次。最终状态、科学产物和评分将在三个任务全部
+结束后补充。
