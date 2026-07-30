@@ -120,8 +120,22 @@ class JobContext:
                 cls._reject_nonfinite(item, path=f"{path}.{key}")
 
     @property
+    def inputs_dir(self) -> Path:
+        return self.root / "inputs"
+
+    @property
     def outputs_dir(self) -> Path:
         return self.root / "outputs"
+
+    def input_dir(self) -> Path:
+        """Compatibility helper returning the isolated inputs directory."""
+
+        return self.inputs_dir
+
+    def output_dir(self) -> Path:
+        """Compatibility helper returning the isolated outputs directory."""
+
+        return self.outputs_dir
 
     @property
     def report_dir(self) -> Path:

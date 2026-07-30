@@ -370,6 +370,8 @@ def test_declared_job_context_and_artifact_manifest(workspace: Path) -> None:
         "assert os.environ['RESEARCHCHEM_JOB_INPUTS'] == str(ctx.root / 'inputs')\n"
         "assert os.environ['RESEARCHCHEM_JOB_OUTPUTS'] == str(ctx.root / 'outputs')\n"
         "assert os.environ['RESEARCHCHEM_JOB_REPORT'] == str(ctx.root / 'report')\n"
+        "assert ctx.input_dir() == ctx.inputs_dir == ctx.root / 'inputs'\n"
+        "assert ctx.output_dir() == ctx.outputs_dir == ctx.root / 'outputs'\n"
         "assert os.environ['PYTHONNOUSERSITE'] == '1'\n"
         "assert 'site-packages' not in os.environ.get('PYTHONPATH', '')\n"
         "value = int(ctx.input('value').read_text())\n"
