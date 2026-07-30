@@ -126,6 +126,9 @@ a9925c3 fix: preserve workspace paths on compute workers
 430c5d0 fix: expose analysis job directory aliases
 fcad15f fix: stop queued evaluations after interrupt
 935418d fix: treat distributed memory as a scheduler reservation
+28838e6 docs: record distributed end-to-end fixes
+88b5cac fix: use distributed pool capacity for sync batches
+b83d730 fix: terminate remote process groups on cancellation
 ```
 
 ## 4. 已完成验证
@@ -138,7 +141,7 @@ fcad15f fix: stop queued evaluations after interrupt
 - native xTB job 在远端使用 4 CPU 成功完成，并得到相同 H2 总能量；
 - 每次验证结束后 reservation 均归零。
 
-分布功能定向测试当前通过 40 项。完整测试曾得到 `459 passed, 9 failed`；其中与本功能
+最新相关定向测试通过 59 项。完整测试曾得到 `459 passed, 9 failed`；其中与本功能
 有关的失败均已修复。剩余失败来自仓库当前环境状态，包括历史 replay/smoke archive
 hash、缺失 LOBSTER 缓存文件，以及现有 `toolbox_resource_status.json` 中 ORCA OpenMPI
 资源状态为 `fail`，不属于本次分布调度改动。
@@ -219,13 +222,26 @@ required path，不能用 `outputs/` 中的同名文件替代 `report/` 路径�
 `RLIMIT_AS=8192MB` 重叠，运行库开销使 9 个优化都在约 1 秒内报
 `galloc: could not allocate memory`。取消分布模式的该虚拟地址空间硬限制后，真实
 Gaussian HF/STO-3G 烟雾测试在 `compute-3` 使用 4 CPU、8192 MiB 请求成功得到
-`-1.11675930751 hartree`。当前正式复杂任务记录为：
+`-1.11675930751 hartree`。
+
+后续吞吐和取消验证又发现并修复两项问题：
+
+1. 同步 `submit_action_batch` 在分布模式仍按主节点的 48 CPU 本地预算限制并发；现在
+   它根据实时 worker slot 做放置、等待和重排队，本地模式的原有预算路径不变。
+2. 取消评估时，本地 SSH/MCP 结束后远端 Gaussian 进程组可能继续运行。远端启动器
+   现在设置 Linux parent-death signal，并把 SIGINT/SIGTERM 逐层传播到 worker 和
+   科学软件进程组；`run_external` 在中断异常下也会 TERM/KILL 整个进程组。真实取消
+   烟雾测试中，reservation 立即释放，6 秒后 worker 上对应 launcher、Gaussian 和
+   link 进程全部消失。
+
+当前正式复杂任务记录为：
 
 ```text
-workspaces/distributed-complex-e2e-rerun2/
-tmux: rcb_distributed_complex_e2e_rerun2
+workspaces/distributed-complex-e2e-rerun3/
+tmux: rcb_distributed_complex_e2e_rerun3
 ```
 
-首个任务已经同时在四台 worker 上运行 Gaussian 几何优化，观察到 7 个并发 reservation、
-52 CPU 被占用，计算持续运行且生成 checkpoint，不再出现路径或内存秒退。最终状态、
-科学产物和评分将在三个任务全部结束后补充。
+首个任务已经同时在四台 worker 上运行 9 个 Gaussian 几何优化，每个请求 16 CPU、
+32000 MiB，总计 144 CPU、288000 MiB；四台 worker 分别放置 2、2、2、3 个作业。
+所有 reservation 均正常心跳，计算不再出现路径、内存或取消泄漏问题。最终状态、科学
+产物和评分将在三个任务全部结束后补充。
