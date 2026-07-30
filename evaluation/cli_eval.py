@@ -7,6 +7,7 @@ import json
 import signal
 import statistics
 import sys
+import threading
 import uuid
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
@@ -310,8 +311,10 @@ def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False
     batch_dir = WORKSPACES_DIR / "cli_runs" / batch_id
     batch_dir.mkdir(parents=True, exist_ok=False)
     active: list[TaskRunner] = []
+    stop_requested = threading.Event()
 
     def stop_active(_signum=None, _frame=None):
+        stop_requested.set()
         for runner in list(active):
             runner.request_stop()
 
@@ -401,8 +404,23 @@ def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False
     rows: list[dict[str, Any]] = []
     try:
         with ThreadPoolExecutor(max_workers=workers) as executor:
-            futures = [executor.submit(run_one, spec) for spec in specs]
-            for future in as_completed(futures):
+            futures: dict[Any, RunSpec] = {}
+            next_spec_index = 0
+
+            def submit_next() -> bool:
+                nonlocal next_spec_index
+                if stop_requested.is_set() or next_spec_index >= len(specs):
+                    return False
+                spec = specs[next_spec_index]
+                next_spec_index += 1
+                futures[executor.submit(run_one, spec)] = spec
+                return True
+
+            for _ in range(min(workers, len(specs))):
+                submit_next()
+            while futures:
+                future = next(as_completed(tuple(futures)))
+                futures.pop(future)
                 row = future.result()
                 rows.append(row)
                 _log(
@@ -417,6 +435,31 @@ def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False
                         else "progress_log=disabled"
                     )
                 )
+                submit_next()
+            if stop_requested.is_set():
+                for spec in specs[next_spec_index:]:
+                    rows.append(
+                        {
+                            "task_id": spec.task_id,
+                            "agent_key": spec.agent_key,
+                            "repeat": spec.repeat,
+                            "run_id": None,
+                            "status": "cancelled",
+                            "score": None,
+                            "score_max": None,
+                            "normalized_score": None,
+                            "criteria": [],
+                            "objective_issue_flags": [],
+                            "judge_consistency_warnings": [],
+                            "score_error": "batch stop requested before run started",
+                            "duration_seconds": 0.0,
+                            "workspace": None,
+                        }
+                    )
+                    _log(
+                        f"skipped={spec.task_id} agent={spec.agent_key} repeat={spec.repeat} "
+                        "reason=batch_stop_requested"
+                    )
     finally:
         signal.signal(signal.SIGINT, previous_sigint)
 
