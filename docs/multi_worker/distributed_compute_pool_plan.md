@@ -1,6 +1,6 @@
 # ResearchChemBench 单任务多 Worker 计算资源池方案
 
-状态：方案确认阶段，尚未修改执行代码
+状态：核心实现完成，正在进行端到端评估验证
 更新时间：2026-07-31
 
 ## 1. 目标与边界
@@ -312,7 +312,7 @@ Agent 分析结果并按需提交下一批
 
 worker 数量由配置决定，不在代码中写死。为避免每次 rlaunch 后手工修改大量环境
 变量，正式实现增加 `scripts/update_worker_inventory.py`。用户维护一个不提交 Git 的
-本地 YAML，例如 `config/workers.local.yaml`：
+本地 YAML，例如 `.workers.local.yaml`：
 
 ```yaml
 workers:
@@ -332,9 +332,10 @@ workers:
 更新命令设计为：
 
 ```bash
-python scripts/update_worker_inventory.py \
-  --input config/workers.local.yaml \
-  --output config/worker_inventory.local.json
+.envs/researchchembench/bin/python scripts/update_worker_inventory.py \
+  --input .workers.local.yaml \
+  --output .worker_inventory.local.json \
+  --known-hosts .worker_known_hosts.local
 ```
 
 脚本并行完成：
@@ -350,7 +351,7 @@ python scripts/update_worker_inventory.py \
 `config.local.env` 只需保留 inventory 路径和全局策略：
 
 ```bash
-RCB_DISTRIBUTED_WORKER_INVENTORY="config/worker_inventory.local.json"
+RCB_DISTRIBUTED_WORKER_INVENTORY=".worker_inventory.local.json"
 RCB_DISTRIBUTED_SCHEDULING_POLICY="largest_cpu_first"
 RCB_DISTRIBUTED_REMOTE_INIT_SCRIPT_URL="http://deploy.i.h.pjlab.org.cn/infra/scripts/setup_proxy.sh"
 ```
