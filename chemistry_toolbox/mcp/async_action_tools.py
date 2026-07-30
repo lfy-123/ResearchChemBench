@@ -47,9 +47,11 @@ TOOL_DESCRIPTIONS = {
         "legal requests until capacity is available. Do not use this for dependent calculations."
     ),
     "wait_execution_events": (
-        "Wait up to 60 seconds for new events from one or more asynchronous Action batches. Pass "
-        "the returned per-batch next_sequence values on the next call. Completion/failure events "
-        "include the latest anonymous worker CPU and memory availability so new work can be planned."
+        "Wait up to 600 seconds for new events from one or more asynchronous Action batches. Use "
+        "long waits for compute-heavy jobs and pass the returned per-batch next_sequence values on "
+        "the next call. A timeout with no new events returns compact status counts instead of "
+        "repeating every item. Completion/failure events include the latest anonymous worker CPU "
+        "and memory availability so new work can be planned."
     ),
 }
 
@@ -147,6 +149,7 @@ def _submit_action_batch_async(request: ActionBatchRequest) -> dict[str, Any]:
         "max_concurrency": request.max_concurrency,
         "submitted_at": submitted_at,
         "execution_mode": "distributed" if distributed_enabled() else "local",
+        "supervisor_parent_pid": os.getpid(),
     }
     status_record = {
         "schema_version": 1,
@@ -209,7 +212,8 @@ def _submit_action_batch_async(request: ActionBatchRequest) -> dict[str, Any]:
         "resource_snapshot": pool_snapshot() if distributed_enabled() else resource_budget_record(),
         "next_step": (
             "Call wait_execution_events with this batch_id and after_sequences set to "
-            "the last returned next_sequence."
+            "the last returned next_sequence. For long scientific calculations, use "
+            "timeout_seconds=600 instead of frequent short polling."
         ),
     }
 
@@ -229,31 +233,42 @@ def _read_events(request: ExecutionEventWaitRequest) -> dict[str, Any]:
                 if int(event.get("sequence") or 0) > after
             ]
             any_new = any_new or bool(events)
-            batches.append(
-                {
-                    "batch_id": batch_id,
-                    "status": status.get("status"),
-                    "terminal": status.get("status")
-                    in {"success", "partial_success", "failed", "cancelled"},
-                    "events": events,
-                    "next_sequence": int(status.get("last_sequence") or 0),
-                    "items": [
-                        {
-                            key: item.get(key)
-                            for key in (
-                                "item_id",
-                                "batch_index",
-                                "status",
-                                "resource_limits",
-                                "started_at",
-                                "finished_at",
-                            )
-                            if key in item
-                        }
-                        for item in status.get("items") or []
-                    ],
-                }
-            )
+            terminal = status.get("status") in {
+                "success",
+                "partial_success",
+                "failed",
+                "cancelled",
+            }
+            status_items = status.get("items") or []
+            status_counts: dict[str, int] = {}
+            for item in status_items:
+                item_status = str(item.get("status") or "unknown")
+                status_counts[item_status] = status_counts.get(item_status, 0) + 1
+            batch = {
+                "batch_id": batch_id,
+                "status": status.get("status"),
+                "terminal": terminal,
+                "events": events,
+                "next_sequence": int(status.get("last_sequence") or 0),
+                "item_status_counts": status_counts,
+            }
+            if events or terminal:
+                batch["items"] = [
+                    {
+                        key: item.get(key)
+                        for key in (
+                            "item_id",
+                            "batch_index",
+                            "status",
+                            "resource_limits",
+                            "started_at",
+                            "finished_at",
+                        )
+                        if key in item
+                    }
+                    for item in status_items
+                ]
+            batches.append(batch)
         if any_new or time.monotonic() >= deadline:
             return {
                 "status": "success",

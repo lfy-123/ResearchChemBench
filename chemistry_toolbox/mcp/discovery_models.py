@@ -201,7 +201,7 @@ class ExecutionEventWaitRequest(BaseModel):
 
     batch_ids: list[str] = Field(min_length=1, max_length=64)
     after_sequences: dict[str, int] = Field(default_factory=dict)
-    timeout_seconds: float = Field(default=0.0, ge=0.0, le=60.0)
+    timeout_seconds: float = Field(default=0.0, ge=0.0, le=600.0)
 
     @field_validator("batch_ids")
     @classmethod

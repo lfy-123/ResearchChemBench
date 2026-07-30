@@ -1,8 +1,14 @@
 from __future__ import annotations
 
 import json
+import os
+import subprocess
+import sys
 import time
 from pathlib import Path
+
+import pytest
+from pydantic import ValidationError
 
 from chemistry_toolbox.mcp import action_batch_supervisor
 from chemistry_toolbox.mcp.async_action_tools import (
@@ -137,9 +143,108 @@ def test_submit_and_wait_async_batch_persist_status(tmp_path, monkeypatch):
         )
     )
     assert submitted["status"] == "success"
+    request_record = json.loads(
+        (
+            tmp_path
+            / "outputs"
+            / "action_batches"
+            / submitted["batch_id"]
+            / "request.json"
+        ).read_text(encoding="utf-8")
+    )
+    assert request_record["supervisor_parent_pid"] == os.getpid()
     waited = wait_execution_events(
         ExecutionEventWaitRequest(batch_ids=[submitted["batch_id"]])
     )
     assert waited["status"] == "success"
     assert waited["batches"][0]["status"] == "queued"
     assert waited["batches"][0]["next_sequence"] == 0
+    assert waited["batches"][0]["item_status_counts"] == {"queued": 1}
+    assert "items" not in waited["batches"][0]
+
+
+def test_event_wait_supports_long_compute_waits() -> None:
+    request = ExecutionEventWaitRequest(
+        batch_ids=["batch_" + "a" * 32], timeout_seconds=600
+    )
+    assert request.timeout_seconds == 600
+
+    with pytest.raises(ValidationError):
+        ExecutionEventWaitRequest(
+            batch_ids=["batch_" + "a" * 32], timeout_seconds=601
+        )
+
+
+@pytest.mark.skipif(not sys.platform.startswith("linux"), reason="Linux prctl test")
+def test_detached_batch_supervisor_exits_with_owning_mcp_process(
+    tmp_path: Path,
+) -> None:
+    request_path = tmp_path / "request.json"
+    status_path = tmp_path / "status.json"
+    status_path.write_text(
+        json.dumps(
+            {
+                "batch_id": "batch_" + "b" * 32,
+                "status": "queued",
+                "last_sequence": 0,
+                "events": [],
+                "items": [
+                    {
+                        "item_id": "pending",
+                        "batch_index": 0,
+                        "status": "queued",
+                        "resource_limits": {
+                            "cpu_cores": 999,
+                            "memory_mb": 1,
+                            "gpu_count": 0,
+                        },
+                    }
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+    parent_program = "\n".join(
+        [
+            "import json, os, pathlib, subprocess, sys, time",
+            "request_path = pathlib.Path(sys.argv[1])",
+            "request = {",
+            "  'batch_id': 'batch_' + 'b' * 32,",
+            "  'action_id': 'calculate_energy',",
+            "  'backend_id': 'ase_emt',",
+            "  'component_backends': {}, 'method_spec': {}, 'action_settings': {},",
+            "  'max_concurrency': 1, 'supervisor_parent_pid': os.getpid(),",
+            "  'items': [{'item_id': 'pending', 'batch_index': 0, 'inputs': {},",
+            "             'resource_limits': {'cpu_cores': 999, 'memory_mb': 1, 'gpu_count': 0},",
+            "             'normalized_resources': {'cpu_cores': 999, 'memory_mb': 1, 'gpu_count': 0}}]",
+            "}",
+            "request_path.write_text(json.dumps(request), encoding='utf-8')",
+            "child = subprocess.Popen([sys.executable, '-m', 'chemistry_toolbox.mcp.action_batch_supervisor', str(request_path)], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, start_new_session=True)",
+            "print(child.pid, flush=True)",
+            "time.sleep(0.5)",
+        ]
+    )
+    environment = os.environ.copy()
+    environment.pop("RESEARCHCHEMBENCH_EXECUTION_MODE", None)
+    environment.pop("RCB_DISTRIBUTED_WORKER_INVENTORY", None)
+    parent = subprocess.run(
+        [sys.executable, "-c", parent_program, str(request_path)],
+        cwd=Path(__file__).parents[2],
+        env=environment,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        timeout=10,
+        check=True,
+    )
+    supervisor_pid = int(parent.stdout.strip())
+    deadline = time.monotonic() + 5
+    while time.monotonic() < deadline:
+        try:
+            os.kill(supervisor_pid, 0)
+        except ProcessLookupError:
+            break
+        time.sleep(0.05)
+    else:
+        os.kill(supervisor_pid, 9)
+        pytest.fail("detached batch supervisor survived its owning MCP process")

@@ -109,6 +109,26 @@ def test_memory_is_independent_from_cpu_ratio(distributed_environment):
         reservation.release()
 
 
+def test_orphaned_action_reservation_is_reclaimed_without_lease_delay(
+    distributed_environment,
+):
+    reservation = reserve_distributed_resources(
+        {"cpu_cores": 16, "memory_mb": 32000},
+        kind="predefined_action",
+        label="orphaned-action",
+    )
+    reservation.stop_heartbeat()
+    value = json.loads(reservation.path.read_text(encoding="utf-8"))
+    value["owner_pid"] = 2**31 - 1
+    reservation.path.write_text(json.dumps(value), encoding="utf-8")
+
+    snapshot = pool_snapshot()
+
+    assert snapshot["active_reservation_count"] == 0
+    assert snapshot["available_cpu_cores"] == 128
+    assert not reservation.path.exists()
+
+
 def test_request_larger_than_one_worker_is_rejected(distributed_environment):
     with pytest.raises(DistributedResourceLimitExceeded) as error:
         reserve_distributed_resources(

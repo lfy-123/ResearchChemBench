@@ -2,8 +2,10 @@
 
 from __future__ import annotations
 
+import ctypes
 import json
 import os
+import signal
 import sys
 import time
 import uuid
@@ -46,6 +48,18 @@ def _atomic_json(path: Path, value: dict[str, Any]) -> None:
         json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )
     os.replace(temporary, path)
+
+
+def _request_parent_death_signal(expected_parent_pid: int) -> bool:
+    """Terminate this detached supervisor when its owning MCP process exits."""
+
+    if not sys.platform.startswith("linux"):
+        return True
+    libc = ctypes.CDLL(None, use_errno=True)
+    if libc.prctl(1, signal.SIGTERM, 0, 0, 0) != 0:  # PR_SET_PDEATHSIG
+        errno = ctypes.get_errno()
+        raise OSError(errno, os.strerror(errno))
+    return os.getppid() == expected_parent_pid
 
 
 def _capacity_slots() -> list[dict[str, int]]:
@@ -260,7 +274,21 @@ def main() -> int:
     if len(sys.argv) != 2:
         print("usage: action_batch_supervisor.py REQUEST.json", file=sys.stderr)
         return 64
-    return run_batch(Path(sys.argv[1]).resolve())
+    request_path = Path(sys.argv[1]).resolve()
+    request = json.loads(request_path.read_text(encoding="utf-8"))
+    expected_parent_pid = int(request.get("supervisor_parent_pid") or 0)
+    if expected_parent_pid <= 0:
+        print("missing supervisor_parent_pid", file=sys.stderr)
+        return 64
+    try:
+        parent_is_alive = _request_parent_death_signal(expected_parent_pid)
+    except OSError as exc:
+        print(f"failed to configure parent-death signal: {exc}", file=sys.stderr)
+        return 70
+    if not parent_is_alive:
+        print("owning MCP process exited before supervisor startup", file=sys.stderr)
+        return 143
+    return run_batch(request_path)
 
 
 if __name__ == "__main__":

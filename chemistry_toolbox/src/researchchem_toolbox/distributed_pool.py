@@ -609,7 +609,10 @@ def _read_active_reservations(*, clean_stale: bool = True) -> list[dict[str, Any
             except (OSError, json.JSONDecodeError):
                 pass
         stale = float(value.get("heartbeat_unix") or 0) < deadline
-        if clean_stale and (terminal or (stale and not status_path_raw)):
+        owner_gone = not status_path_raw and not _owner_process_alive(value)
+        if clean_stale and (
+            terminal or owner_gone or (stale and not status_path_raw)
+        ):
             path.unlink(missing_ok=True)
             continue
         value["_path"] = str(path)
