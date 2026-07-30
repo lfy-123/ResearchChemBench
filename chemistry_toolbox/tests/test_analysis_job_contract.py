@@ -240,6 +240,47 @@ def test_preflight_rejects_undeclared_job_context_names(workspace: Path) -> None
     assert "invented_name" in result["error"]["evidence"]
 
 
+@pytest.mark.parametrize(
+    ("source", "evidence"),
+    [
+        (
+            "from researchchem_job import JobContext\n"
+            "ctx = JobContext.load()\n"
+            "value = ctx.input('value').path.read_text()\n",
+            "JobContext.input(...).path",
+        ),
+        (
+            "value = 'missing'\n"
+            "print(f\"{value:.4f if isinstance(value, float) else value}\")\n",
+            "conditional_inside_format_specifier",
+        ),
+    ],
+)
+def test_preflight_rejects_deterministic_python_runtime_errors(
+    workspace: Path, source: str, evidence: str
+) -> None:
+    (workspace / "code/value.txt").write_text("7\n", encoding="utf-8")
+    (workspace / "code/runtime_error.py").write_text(source, encoding="utf-8")
+    request = AnalysisJobRequest(
+        runtime="core",
+        script_path="code/runtime_error.py",
+        inputs=(
+            [
+                AnalysisInputDeclaration(
+                    name="value",
+                    source_path="code/value.txt",
+                )
+            ]
+            if "JobContext" in source
+            else []
+        ),
+    )
+    result = validate_analysis_program(request)
+    assert result["status"] == "invalid_request"
+    assert result["error"]["code"] == "analysis_program_runtime_error"
+    assert evidence in result["error"]["evidence"]
+
+
 def test_execution_resource_status_is_available_before_submission(workspace: Path) -> None:
     result = get_execution_resources(ExecutionResourceRequest())
     assert result["status"] == "success"

@@ -1383,6 +1383,50 @@ def _job_context_compliance(
     }
 
 
+def _analysis_reliability_findings(tree: ast.AST) -> list[dict[str, Any]]:
+    """Reject Python constructs that compile but deterministically fail at runtime."""
+
+    findings: list[dict[str, Any]] = []
+    for node in ast.walk(tree):
+        if (
+            isinstance(node, ast.Attribute)
+            and node.attr == "path"
+            and isinstance(node.value, ast.Call)
+            and _attribute_chain(node.value.func)[-1:] == ["input"]
+        ):
+            findings.append(
+                {
+                    "line": getattr(node, "lineno", None),
+                    "kind": "job_context_input_path_attribute",
+                    "evidence": "JobContext.input(...).path",
+                    "message": (
+                        "JobContext.input(name) already returns pathlib.Path; the Path object "
+                        "has no .path attribute"
+                    ),
+                }
+            )
+        if not isinstance(node, ast.FormattedValue) or node.format_spec is None:
+            continue
+        literal_format = "".join(
+            str(part.value)
+            for part in ast.walk(node.format_spec)
+            if isinstance(part, ast.Constant) and isinstance(part.value, str)
+        )
+        if " if " in literal_format and " else " in literal_format:
+            findings.append(
+                {
+                    "line": getattr(node, "lineno", None),
+                    "kind": "conditional_inside_format_specifier",
+                    "evidence": literal_format,
+                    "message": (
+                        "A conditional expression written after ':' is parsed as a literal "
+                        "format specifier and raises ValueError"
+                    ),
+                }
+            )
+    return sorted(findings, key=lambda item: (item["line"] or 0, item["kind"]))
+
+
 def _runtime_path_injection_findings(tree: ast.AST) -> list[dict[str, Any]]:
     """Find attempts to splice another Python environment into the selected runtime."""
 
@@ -1963,6 +2007,21 @@ def validate_analysis_program(request: AnalysisJobRequest) -> dict[str, Any]:
                 "Declare each required file in inputs and read it with JobContext.input(name).",
                 "Alternatively map each file through staged_inputs and use its target_path inside the job.",
                 "Do not assume the program starts in the benchmark workspace root.",
+            ],
+        )
+    reliability_findings = _analysis_reliability_findings(tree)
+    if reliability_findings:
+        return _analysis_failure(
+            stage="preflight",
+            code="analysis_program_runtime_error",
+            message=reliability_findings[0]["message"],
+            file=request.script_path,
+            line=reliability_findings[0]["line"],
+            evidence=json.dumps(reliability_findings, sort_keys=True),
+            candidate_fixes=[
+                "Use input_path = ctx.input(name) directly; it is already a pathlib.Path.",
+                "Evaluate conditional values before an f-string, then apply a plain format such as :.4f.",
+                "Run validate_analysis_program again before submitting the corrected program.",
             ],
         )
     local_modules: set[str] = {"researchchem_job"}
