@@ -5,6 +5,13 @@ from __future__ import annotations
 import os
 import resource
 import runpy
+import signal
+
+
+def _interrupt_worker(_signum, _frame) -> None:
+    """Turn evaluator cancellation into unwindable Python control flow."""
+
+    raise KeyboardInterrupt
 
 
 def _apply_resource_limits() -> None:
@@ -41,6 +48,8 @@ def _apply_resource_limits() -> None:
 
 def main() -> int:
     _apply_resource_limits()
+    signal.signal(signal.SIGTERM, _interrupt_worker)
+    signal.signal(signal.SIGINT, _interrupt_worker)
     runpy.run_module("researchchem_toolbox.worker", run_name="__main__")
     return 0
 
