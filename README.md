@@ -149,6 +149,53 @@ and verify registered checksums:
   chemistry_toolbox/scripts/configure_toolbox_resources.py --quick
 ```
 
+#### Cache and host portability checklist
+
+Copying `.software_cache/` and `.model_cache/` can avoid large downloads, but
+the copied directories are not a complete installation and must not be treated
+as proof that every backend is runnable. Use the following checklist after
+moving a checkout to another server:
+
+1. Apply the site network proxy before any Conda, pip, curl, Agent, or Judge
+   request. At PJLab the tested setup command is:
+
+   ```bash
+   source <(curl -sSL \
+     http://deploy.i.h.pjlab.org.cn/infra/scripts/setup_proxy.sh)
+   ```
+
+2. Build or restore all seven `.envs/` prefixes. The two cache directories do
+   not contain the framework environment or the six consolidated chemistry
+   environments.
+3. Run `configure_toolbox_resources.py --quick` after copying caches. It
+   resolves project-relative resources, checks registered hashes, and reports
+   executables or shared libraries that are still missing.
+4. Verify native programs under the same runtime profile used by the toolbox.
+   A copied executable may retain an RPATH or prefix from its original host.
+   MPI installations in particular may require their configured `PATH`,
+   `LD_LIBRARY_PATH`, and `OPAL_PREFIX`; a bare `mpirun --version` is not a
+   sufficient portability check.
+5. Recheck GPU backends against the target host's driver and CUDA/cuDNN
+   libraries. A cached binary such as GNINA can be present while remaining
+   unusable because a required `libcudnn.so` version is absent.
+6. Keep `config.local.env` local and permission-restricted. Copy the placeholder
+   names, not credentials, into documentation or commits.
+
+Agent CLIs are also host-level dependencies rather than model-cache assets.
+For example, an OpenCode evaluation requires an actual `opencode` executable;
+`.model_cache/opencode/` may contain helper assets without containing the CLI.
+Install and verify it separately when it is selected as the Agent:
+
+```bash
+curl -fsSL https://opencode.ai/install | bash
+export PATH="$HOME/.opencode/bin:$PATH"
+opencode --version
+opencode run --help
+```
+
+The tested ResearchChemBench invocation requires the OpenCode `run` command to
+support `--pure`, `--dir`, `--model`, `--format`, and `--auto`.
+
 ### 4. Verify the reconstruction
 
 The build scripts execute package checks. Five environments should report no
@@ -233,6 +280,64 @@ Use `scripts/submit_evaluation.sh` for normal evaluations. It validates the
 task list, writes an immutable submission configuration, launches the run in a
 background `tmux` session, and provides status, stop, and summary commands.
 Model and judge credentials are read from the local `config.local.env`.
+
+Before submission, inspect the CPU affinity and available memory of the current
+server instead of relying on the repository defaults:
+
+```bash
+nproc
+taskset -pc $$
+free -m
+```
+
+Pass the usable values explicitly with `--available-cpu-cores`,
+`--available-memory-mb`, and `--available-gpu-count`. These values define the
+per-task evaluator budget; they do not force every backend to consume the whole
+budget. Keep `--max-concurrent-runs 1` for a single validation task, or choose a
+higher value only after ensuring the sum of concurrent reservations fits the
+host.
+
+Load the local configuration into the environment without printing secrets:
+
+```bash
+set -a
+source config.local.env
+set +a
+```
+
+When a long-lived tmux server already exists, update its global environment
+before submitting so background Agent and Judge processes inherit the proxy and
+Agent CLI path:
+
+```bash
+for name in \
+  http_proxy https_proxy no_proxy \
+  HTTP_PROXY HTTPS_PROXY NO_PROXY PATH
+do
+  value="${!name-}"
+  if [ -n "$value" ]; then
+    tmux set-environment -g "$name" "$value"
+  fi
+done
+```
+
+Always run a dry submission first. It checks task names, resource flags,
+credentials, generated Agent configuration, and workspace layout without
+calling the Agent or Judge:
+
+```bash
+bash scripts/submit_evaluation.sh submit \
+  --dry-run \
+  --agent opencode \
+  --model "$OPENCODE_MODEL_VALUE" \
+  --judge-model "$JUDGE_MODEL_NAME" \
+  --available-cpu-cores "$(nproc)" \
+  --available-memory-mb 30000 \
+  --available-gpu-count 0 \
+  --max-concurrent-runs 1 \
+  --workspaces-dir workspaces/preflight \
+  Electron_Isodensity_Reproduction_04_Blind_Prediction
+```
 
 Preview a submission without calling an Agent or Judge:
 
