@@ -15,6 +15,7 @@ from ..orca_contract import normalize_orca_method_basis
 from ..parameter_specs import ORCA_DENSITY_DEFAULT_MAXCORE_MB
 from .common import (
     ase_atoms,
+    atoms_and_coordinates,
     atom_spec,
     command_artifacts,
     module_version,
@@ -2541,8 +2542,7 @@ def _render_orca(
     resource_limits: dict[str, Any] | None = None,
 ) -> str:
     structure = structure_dict(structure_value)
-    symbols = [atom["element"] for atom in structure["atoms"]]
-    coordinates = [atom["position_angstrom"] for atom in structure["atoms"]]
+    symbols, coordinates = atoms_and_coordinates(structure)
     keyword = {
         "calculate_energy": "SP",
         "calculate_forces": "EnGrad",
@@ -2747,8 +2747,7 @@ def _render_orca_density(
     resource_limits: dict[str, Any] | None = None,
 ) -> str:
     structure = structure_dict(structure_value)
-    symbols = [atom["element"] for atom in structure["atoms"]]
-    coordinates = [atom["position_angstrom"] for atom in structure["atoms"]]
+    symbols, coordinates = atoms_and_coordinates(structure)
     method_name, dispersion = _orca_method_and_dispersion_tokens(method)
     method_name, basis = normalize_orca_method_basis(
         method_name, method.get("basis")

@@ -443,6 +443,7 @@ def invoke_worker(
             "no_proxy",
             "LM_LICENSE_FILE",
             "MLM_LICENSE_FILE",
+            "RESEARCHCHEMBENCH_WORKSPACE",
         }
         remote_environment = {
             key: value

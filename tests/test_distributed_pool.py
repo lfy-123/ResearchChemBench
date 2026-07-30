@@ -229,6 +229,7 @@ def test_compute_cpu_selection_reserves_complete_physical_cores():
 def test_remote_action_uses_ssh_and_releases_reservation(
     distributed_environment, tmp_path: Path, monkeypatch
 ):
+    monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
     runtime_python = tmp_path / "runtime-python"
     runtime_python.touch()
     monkeypatch.setattr(runtime, "runtime_python", lambda _name: runtime_python)
@@ -273,4 +274,5 @@ def test_remote_action_uses_ssh_and_releases_reservation(
     envelope = json.loads(calls[0][1]["input"])
     assert envelope["payload"]["action_id"] == "test_action"
     assert envelope["environment"]["OMP_NUM_THREADS"] == "8"
+    assert envelope["environment"]["RESEARCHCHEMBENCH_WORKSPACE"] == str(tmp_path)
     assert not list((tmp_path / "state" / "reservations").glob("*.json"))
