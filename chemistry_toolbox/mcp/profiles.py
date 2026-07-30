@@ -226,11 +226,14 @@ def public_server_spec(discovery_mode: str | None = None) -> dict[str, Any]:
     mode = resolve_tool_discovery_mode(discovery_mode)
     from .discovery_tools import PROGRESSIVE_DISCOVERY_TOOL_NAMES
     from .open_tools import OPEN_EXECUTION_TOOL_NAMES
+    from .async_action_tools import ASYNC_ACTION_TOOL_NAMES
 
     tools = (
-        sorted(action_specs()) + list(OPEN_EXECUTION_TOOL_NAMES)
+        sorted(action_specs()) + list(OPEN_EXECUTION_TOOL_NAMES) + list(ASYNC_ACTION_TOOL_NAMES)
         if mode == "full"
-        else list(PROGRESSIVE_DISCOVERY_TOOL_NAMES) + list(OPEN_EXECUTION_TOOL_NAMES)
+        else list(PROGRESSIVE_DISCOVERY_TOOL_NAMES)
+        + list(OPEN_EXECUTION_TOOL_NAMES)
+        + list(ASYNC_ACTION_TOOL_NAMES)
     )
     environment = profile_runtime_environment(runtime)
     environment[TOOL_DISCOVERY_MODE_ENV] = mode
