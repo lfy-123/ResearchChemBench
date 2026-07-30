@@ -64,7 +64,10 @@ config.local.env
 - 通过 SSH stdin 传递结构化启动 envelope，避免 shell 参数拼接；
 - 远端使用与协调节点相同的共享项目路径和环境；
 - 计算进程绑定 reservation 分配的精确 CPU ID；
-- 设置申请内存对应的进程资源限制和线程环境变量；
+- `memory_mb` 用于调度预留和软件自身内存参数；worker cgroup 是硬安全边界，不对
+  分布式 Action 设置等于申请值的 `RLIMIT_AS`，避免 Gaussian、MPI 和数值库因额外
+  虚拟地址空间需求在实际内存尚未超限时提前失败；
+- 设置与申请 CPU 数一致的线程环境变量；
 - 只传递允许的 runtime、缓存、许可证、workspace 和代理变量；
 - 不向 worker 传递 OpenAI/Judge API 密钥；
 - provenance 记录执行模式、匿名 worker ID、CPU ID、reservation 和资源请求；
@@ -117,6 +120,12 @@ dbb3189 test: include asynchronous execution tools
 a1b99c3 feat: prioritize distributed native job queue
 25ab859 fix: reject deterministic analysis script errors
 440df25 fix: validate GoodVibes single-point suffixes
+2c15f27 fix: require exact evaluation deliverable paths
+8399b1b docs: summarize distributed compute pool implementation
+a9925c3 fix: preserve workspace paths on compute workers
+430c5d0 fix: expose analysis job directory aliases
+fcad15f fix: stop queued evaluations after interrupt
+935418d fix: treat distributed memory as a scheduler reservation
 ```
 
 ## 4. 已完成验证
@@ -194,3 +203,29 @@ benchmark 的精确 deliverable contract。后续 Agent 指令已明确要求终
 required path，不能用 `outputs/` 中的同名文件替代 `report/` 路径。
 
 三个复杂任务的最终运行记录在提交后继续补充。
+
+复杂任务首次启动时又发现并修复了三项端到端问题：
+
+1. 远端 Action envelope 遗漏 `RESEARCHCHEMBENCH_WORKSPACE`，导致 worker 无法解析
+   workspace-relative XYZ 路径，并把路径字符串误当成 SMILES；修复后真实远端 xTB
+   路径测试在 `compute-4` 得到 `-72.152552492371 hartree`。
+2. 分析程序使用了直观但此前未提供的 `ctx.input_dir()` / `ctx.output_dir()`；现在
+   `JobContext` 同时提供这些兼容方法和 `inputs_dir` / `outputs_dir` 属性。
+3. `cli_eval` 原先一次性把全部任务 future 提交到线程池，中断当前任务后队列中的后续
+   任务仍会启动；现在只维持最多 `max_concurrent_runs` 个已提交 future，收到 SIGINT
+   后不再启动新任务，并在 batch report 中记录尚未启动项为 `cancelled`。
+
+第二次复杂任务启动验证了内存语义修复：此前 Gaussian 的 `%Mem=8192MB` 与
+`RLIMIT_AS=8192MB` 重叠，运行库开销使 9 个优化都在约 1 秒内报
+`galloc: could not allocate memory`。取消分布模式的该虚拟地址空间硬限制后，真实
+Gaussian HF/STO-3G 烟雾测试在 `compute-3` 使用 4 CPU、8192 MiB 请求成功得到
+`-1.11675930751 hartree`。当前正式复杂任务记录为：
+
+```text
+workspaces/distributed-complex-e2e-rerun2/
+tmux: rcb_distributed_complex_e2e_rerun2
+```
+
+首个任务已经同时在四台 worker 上运行 Gaussian 几何优化，观察到 7 个并发 reservation、
+52 CPU 被占用，计算持续运行且生成 checkpoint，不再出现路径或内存秒退。最终状态、
+科学产物和评分将在三个任务全部结束后补充。
