@@ -11,6 +11,7 @@ from pydantic import ValidationError
 from .artifacts import ArtifactStore, canonicalize_artifact_refs, collect_artifact_refs
 from .catalog import action_specs, active_catalog_hash, backend_specs
 from .models import ActionRequest, ActionResult
+from .orca_contract import normalize_orca_method_basis
 from .resource_budget import (
     ResourceBudgetExceeded,
     normalize_resource_limits,
@@ -195,6 +196,47 @@ def _required_setting_is_present(
         and field_name == "grid_spacing_bohr"
         and "grid_spacing_angstrom" in settings
     )
+
+
+def _validate_orca_method_basis_contract(
+    action_id: str,
+    backend_id: str,
+    request: ActionRequest,
+) -> dict[str, Any] | None:
+    if backend_id != "orca" or "method" not in request.method_spec:
+        return None
+    method = request.method_spec["method"]
+    basis = request.method_spec.get("basis")
+    try:
+        normalize_orca_method_basis(method, basis)
+    except ValueError as exc:
+        composite = str(method).strip().casefold().endswith("-3c")
+        replacement = (
+            "method_spec.basis",
+            "method_default" if composite else "<concrete ORCA orbital basis>",
+        )
+        missing_fields = (
+            ("method_spec.basis",)
+            if basis is None and not composite
+            else ()
+        )
+        return _repairable_invalid(
+            action_id,
+            backend_id,
+            request,
+            str(exc),
+            code="invalid_orca_method_basis",
+            missing_fields=missing_fields,
+            replacement=replacement,
+            extra_details={
+                "invalid_field": "method_spec.basis",
+                "basis_policy": (
+                    "Built-in 3c composite methods omit the orbital-basis token. "
+                    "All other ORCA methods require a concrete basis keyword."
+                ),
+            },
+        )
+    return None
 
 
 def _validate_composite_calculator_contract(
@@ -708,6 +750,12 @@ def execute_action(action_id: str, request_value: ActionRequest | dict[str, Any]
     if invalid_aliases is not None:
         return invalid_aliases
 
+    invalid_orca_basis = _validate_orca_method_basis_contract(
+        action_id, backend_id, request
+    )
+    if invalid_orca_basis is not None:
+        return invalid_orca_basis
+
     missing_methods = [
         name
         for name in backend.required_method_fields.get(action_id, ())
@@ -888,6 +936,7 @@ def execute_action(action_id: str, request_value: ActionRequest | dict[str, Any]
             runtime=backend.runtime,
             payload=worker_payload,
             timeout_seconds=execution_timeout,
+            resource_allocation=reservation.resource_allocation,
         )
     finally:
         reservation.release()
@@ -970,6 +1019,7 @@ def execute_action(action_id: str, request_value: ActionRequest | dict[str, Any]
         "requested_resource_limits": normalize_resource_limits(
             request.resource_limits
         ),
+        "resource_allocation": reservation.resource_allocation,
         **dict(worker.get("provenance") or {}),
     }
     return ActionResult(

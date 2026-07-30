@@ -163,6 +163,7 @@ def profile_runtime_environment(name: str) -> dict[str, str]:
         *_profile_entries(profile, "path_entries"),
     ]
     library_entries = [
+        *_profile_entries(profile, "prepend_library_path_entries"),
         str(environment / "lib"),
         *_profile_entries(profile, "library_path_entries"),
     ]

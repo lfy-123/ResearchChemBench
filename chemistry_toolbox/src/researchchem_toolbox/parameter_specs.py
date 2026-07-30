@@ -649,6 +649,11 @@ _ORCA_STANDARD_ACTIONS = (
     "calculate_bond_orders", "calculate_excited_states",
 )
 for _field_path, _description, _impact in (
+    (
+        "method_spec.basis",
+        "Explicit ORCA orbital basis for ordinary methods; omit it or use method_default/auto for built-in 3c composite methods.",
+        "Changing the orbital basis changes basis-set completeness and cost. Built-in 3c methods define their own basis and reject a concrete override.",
+    ),
     ("method_spec.dispersion", "Optional ORCA dispersion-correction keyword.", "Adding or changing dispersion alters energies and gradients and can change optimized structures."),
     ("method_spec.solvation_model", "Optional ORCA implicit-solvation model.", "Enabling solvation changes the Hamiltonian/environment and resulting energies, densities, and structures."),
     ("method_spec.solvent", "Solvent name used when an ORCA solvation model is selected.", "Changing solvent changes dielectric/solvation parameters and computed properties."),
@@ -658,6 +663,12 @@ for _field_path, _description, _impact in (
     _register_parameter("orca", _ORCA_STANDARD_ACTIONS, _field_path, description=_description, default=None, impact=_impact)
 _ORCA_DENSITY_ACTION = "calculate_correlated_electron_density"
 for _field_path, _description, _impact, _extra in (
+    (
+        "method_spec.basis",
+        "Explicit ORCA orbital basis for ordinary methods; omit it or use method_default/auto for built-in 3c composite methods.",
+        "Changing the orbital basis changes density accuracy and cost. Built-in 3c methods define their own basis and reject a concrete override.",
+        {},
+    ),
     ("method_spec.auxiliary_basis", "Optional ORCA auxiliary/C basis for MP2 or double-hybrid density calculations.", "Changing it changes density-fitting accuracy and cost.", {}),
     ("method_spec.dispersion", "Optional ORCA dispersion-correction keyword.", "Dispersion typically changes energy and gradients; exact density influence depends on the selected ORCA method implementation.", {}),
     ("method_spec.frozen_core", "Whether correlated density calculations use the frozen-core approximation.", "Disabling frozen core correlates more electrons and increases cost; it can change correlated density.", {"type": "boolean"}),

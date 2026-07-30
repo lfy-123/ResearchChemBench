@@ -26,6 +26,24 @@ def _orca_request(*, method=None, settings=None):
     }
 
 
+def test_orca_pal2_uses_matching_openmpi_without_ucx_noise(tmp_path, monkeypatch):
+    monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
+    request = _orca_request()
+    request["resource_limits"] = {"cpu_cores": 2, "memory_mb": 2048}
+
+    result = execute_action("calculate_energy", request)
+
+    assert result["status"] == "success"
+    output = next(tmp_path.glob("outputs/calculate_energy/orca/*/job.out"))
+    stderr = next(tmp_path.glob("outputs/calculate_energy/orca/*/job.err"))
+    assert "ORCA TERMINATED NORMALLY" in output.read_text(
+        encoding="utf-8", errors="replace"
+    )
+    diagnostic = stderr.read_text(encoding="utf-8", errors="replace")
+    assert "osc_ucx_component" not in diagnostic
+    assert "cxiWaitEventWait" not in diagnostic
+
+
 @pytest.mark.parametrize(
     ("action_id", "method", "settings", "result_key"),
     [

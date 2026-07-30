@@ -896,7 +896,13 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         },
         method_schema={
             "method": "ORCA method/functional keyword",
-            "basis": "ORCA basis-set keyword",
+            "basis": "ORCA orbital basis keyword or method_default/auto for a built-in 3c composite method",
+            "basis_conditional": (
+                "Non-composite ORCA methods require a concrete method_spec.basis. "
+                "HF-3c, B97-3c, r2SCAN-3c, PBEh-3c, B3LYP-3c, and wB97X-3c "
+                "include their orbital basis and require basis to be omitted or set to "
+                "method_default/auto; the sentinel is never emitted as an ORCA keyword."
+            ),
             "dispersion": "optional ORCA dispersion keyword",
             "solvation_model": "optional cpcm or smd implicit-solvation model",
             "solvent": "required solvent name when solvation_model is supplied",
@@ -908,15 +914,15 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
             "pmodel": "optional explicit boolean enabling ORCA PModel for the density calculation",
         },
         required_methods={
-            action: ("method", "basis") for action in (
+            action: ("method",) for action in (
                 "calculate_energy", "calculate_forces", "calculate_hessian", "optimize_geometry",
                 "calculate_dipole_moment", "calculate_orbitals", "calculate_bond_orders",
             )
         } | {
-            "calculate_atomic_charges": ("method", "basis", "population_analysis"),
-            "calculate_excited_states": ("method", "basis", "excited_state_method"),
+            "calculate_atomic_charges": ("method", "population_analysis"),
+            "calculate_excited_states": ("method", "excited_state_method"),
             "calculate_correlated_electron_density": (
-                "method", "basis", "density_type",
+                "method", "density_type",
             ),
         },
         required_settings={

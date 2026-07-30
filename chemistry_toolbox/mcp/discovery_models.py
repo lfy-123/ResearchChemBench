@@ -177,6 +177,15 @@ class ActionBatchRequest(BaseModel):
     method_spec: dict = Field(default_factory=dict)
     action_settings: dict = Field(default_factory=dict)
     items: list[ActionBatchItem] = Field(min_length=1, max_length=32)
+    max_concurrency: int | None = Field(
+        default=None,
+        ge=1,
+        le=32,
+        description=(
+            "Optional upper bound. Omit to derive safe parallelism from the active "
+            "CPU, memory, and GPU budget."
+        ),
+    )
 
     @field_validator("action_id", "backend_id")
     @classmethod

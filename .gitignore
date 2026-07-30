@@ -155,6 +155,7 @@ eval_configs/*.local.yaml
 .env
 .envrc
 config.local.env
+config.local*.env
 .toolbox_env/
 .tool_envs/
 .tool_envs_merged/
@@ -239,6 +240,14 @@ _agent_output.jsonl
 _tool_trace.jsonl
 _tool_results/
 _tool_artifacts/
+/outputs/
+
+# Local task-construction inputs and audit outputs
+/tasks/*.zip
+/tasks/ResearchChemBench_Paper_Datasets/
+/tasks/__MACOSX/
+/docs/check/heterobiaryl_task_feasibility_audit/
+/docs/check/heterobiaryl_toolbox_repair/outputs/
 .codex
 CLAUDE.md
 AGENTS.md

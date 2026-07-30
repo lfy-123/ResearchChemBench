@@ -321,14 +321,17 @@ profiles:
     command_variables:
       CHEMGRAPH_XTB_COMMAND: xtb
       CHEMGRAPH_ORCA_COMMAND: .software_cache/orca/6.1.1/orca
-    path_entries:
+    prepend_path_entries:
       - .software_cache/orca/6.1.1
       - .software_cache/openmpi/4.1.8-fortran/bin
-    library_path_entries:
+    prepend_library_path_entries:
       - .software_cache/openmpi/4.1.8-fortran/lib
     environment_variables:
+      OPAL_PREFIX: .software_cache/openmpi/4.1.8-fortran
       OMPI_ALLOW_RUN_AS_ROOT: "1"
       OMPI_ALLOW_RUN_AS_ROOT_CONFIRM: "1"
+      OMPI_MCA_pml: ob1
+      OMPI_MCA_btl: self,vader,tcp
     backends:
       - openbabel
       - xtb
@@ -521,14 +524,17 @@ profiles:
     command_variables:
       CHEMGRAPH_CREST_COMMAND: crest
       CHEMGRAPH_PYSIS_COMMAND: pysis
-    path_entries:
+    prepend_path_entries:
       - .software_cache/orca/6.1.1
       - .software_cache/openmpi/4.1.8-fortran/bin
-    library_path_entries:
+    prepend_library_path_entries:
       - .software_cache/openmpi/4.1.8-fortran/lib
     environment_variables:
+      OPAL_PREFIX: .software_cache/openmpi/4.1.8-fortran
       OMPI_ALLOW_RUN_AS_ROOT: "1"
       OMPI_ALLOW_RUN_AS_ROOT_CONFIRM: "1"
+      OMPI_MCA_pml: ob1
+      OMPI_MCA_btl: self,vader,tcp
     backends:
       - crest
       - pysisyphus

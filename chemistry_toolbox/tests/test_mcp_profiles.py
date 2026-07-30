@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+import shutil
 from pathlib import Path
 
 from chemistry_toolbox.mcp.profiles import (
@@ -15,6 +16,7 @@ from chemistry_toolbox.mcp.discovery_tools import PROGRESSIVE_DISCOVERY_TOOL_NAM
 from chemistry_toolbox.mcp.open_tools import OPEN_EXECUTION_TOOL_NAMES
 from evaluation.run_task import TaskRunner
 from researchchem_toolbox.catalog import action_specs, backend_specs
+from researchchem_toolbox.runtime import runtime_environment
 
 
 def test_runtimes_cover_each_backend_once():
@@ -63,12 +65,62 @@ def test_model_profiles_use_ignored_project_model_cache(monkeypatch):
 
 def test_orca_runtime_injects_exact_binary_and_mpi_paths():
     environment = profile_runtime_environment("quantum")
+    worker_environment = runtime_environment("quantum")
+    path_entries = environment["PATH"].split(os.pathsep)
+    library_entries = environment["LD_LIBRARY_PATH"].split(os.pathsep)
+    expected_mpi_bin = next(
+        entry for entry in path_entries
+        if entry.endswith(".software_cache/openmpi/4.1.8-fortran/bin")
+    )
+    expected_mpi_lib = next(
+        entry for entry in library_entries
+        if entry.endswith(".software_cache/openmpi/4.1.8-fortran/lib")
+    )
     assert environment["CHEMGRAPH_ORCA_COMMAND"].endswith(
         ".software_cache/orca/6.1.1/orca"
     )
     assert ".software_cache/orca/6.1.1" in environment["PATH"]
     assert ".software_cache/openmpi/4.1.8-fortran/bin" in environment["PATH"]
     assert ".software_cache/openmpi/4.1.8-fortran/lib" in environment["LD_LIBRARY_PATH"]
+    assert path_entries.index(expected_mpi_bin) < next(
+        index
+        for index, entry in enumerate(path_entries)
+        if entry.endswith(".tool_envs_merged/general-modern-openmpi5/bin")
+    )
+    assert library_entries.index(expected_mpi_lib) < next(
+        index
+        for index, entry in enumerate(library_entries)
+        if entry.endswith(".tool_envs_merged/general-modern-openmpi5/lib")
+    )
+    assert Path(shutil.which("mpirun", path=environment["PATH"]) or "") == (
+        Path(expected_mpi_bin) / "mpirun"
+    )
+    assert environment["OPAL_PREFIX"].endswith(
+        ".software_cache/openmpi/4.1.8-fortran"
+    )
+    assert "OMPI_MCA_osc" not in environment
+    assert environment["OMPI_MCA_pml"] == "ob1"
+    assert environment["OMPI_MCA_btl"] == "self,vader,tcp"
+    for key in (
+        "PATH",
+        "LD_LIBRARY_PATH",
+        "OPAL_PREFIX",
+        "OMPI_MCA_pml",
+        "OMPI_MCA_btl",
+    ):
+        assert worker_environment[key] == environment[key]
+
+
+def test_openmpi5_general_backends_do_not_inherit_orca_openmpi4():
+    environment = profile_runtime_environment("nwchem")
+    path_entries = environment["PATH"].split(os.pathsep)
+    assert path_entries[0].endswith(
+        ".tool_envs_merged/general-modern-openmpi5/bin"
+    )
+    assert not any(
+        entry.endswith(".software_cache/openmpi/4.1.8-fortran/bin")
+        for entry in path_entries
+    )
 
 
 def test_orca_openmpi_runtime_has_required_fortran_capabilities():

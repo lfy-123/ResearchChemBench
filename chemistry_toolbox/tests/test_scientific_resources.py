@@ -353,6 +353,52 @@ def test_orca_input_maps_agent_cpu_limit_to_pal_without_selecting_a_method():
     assert "%pal\n  nprocs 2\nend" in text
 
 
+@pytest.mark.parametrize("basis", [None, "auto", "method_default", "builtin"])
+def test_orca_r2scan_3c_omits_internal_basis_sentinel(basis):
+    method = {"method": "r2SCAN-3c"}
+    if basis is not None:
+        method["basis"] = basis
+    text = electronic._render_orca(
+        "optimize_geometry",
+        {
+            "atoms": [
+                {"element": "H", "position_angstrom": [0, 0, 0]},
+                {"element": "H", "position_angstrom": [0, 0, 0.74]},
+            ]
+        },
+        method,
+        {"optimization_convergence": "Normal", "max_steps": 20},
+        {"cpu_cores": 1},
+    )
+    assert text.startswith("! r2SCAN-3c Opt\n")
+    assert " AUTO " not in text.upper()
+
+
+def test_orca_composite_and_conventional_basis_contracts_are_strict():
+    structure = {
+        "atoms": [
+            {"element": "H", "position_angstrom": [0, 0, 0]},
+            {"element": "H", "position_angstrom": [0, 0, 0.74]},
+        ]
+    }
+    with pytest.raises(ValueError, match="includes its own orbital basis"):
+        electronic._render_orca(
+            "calculate_energy",
+            structure,
+            {"method": "r2SCAN-3c", "basis": "def2-SVP"},
+            {},
+            {"cpu_cores": 1},
+        )
+    with pytest.raises(ValueError, match="requires a concrete"):
+        electronic._render_orca(
+            "calculate_energy",
+            structure,
+            {"method": "HF", "basis": "auto"},
+            {},
+            {"cpu_cores": 1},
+        )
+
+
 def test_orca_input_exposes_typed_smd_solvent():
     text = electronic._render_orca(
         "calculate_energy",

@@ -1,10 +1,12 @@
 from __future__ import annotations
 
+import subprocess
+import sys
 from pathlib import Path
 
 import pytest
 
-from researchchem_toolbox import service
+from researchchem_toolbox import runtime, service
 from researchchem_toolbox.resource_budget import (
     ResourceBudgetExceeded,
     reserve_resources,
@@ -122,8 +124,63 @@ def test_supervisor_enforces_job_memory_without_process_cpu_limit(
     _preexec(
         {"memory_mb": 512, "cpu_cores": 8, "walltime_seconds": 30},
         {"memory_mb": 4096},
+        {},
     )()
 
     assert _memory_limit_mb(
         {"memory_mb": 512}, {"memory_mb": 4096}
     ) == 512
+
+
+def test_concurrent_reservations_receive_disjoint_cpu_and_gpu_ids(
+    budget_workspace: Path,
+) -> None:
+    first = reserve_resources(
+        {"cpu_cores": 3, "memory_mb": 1024, "gpu_count": 1},
+        kind="test",
+        label="first allocation",
+    )
+    second = reserve_resources(
+        {"cpu_cores": 2, "memory_mb": 1024, "gpu_count": 0},
+        kind="test",
+        label="second allocation",
+    )
+    try:
+        first_cpu = set(first.resource_allocation["cpu_ids"])
+        second_cpu = set(second.resource_allocation["cpu_ids"])
+        assert len(first_cpu) == 3
+        assert len(second_cpu) == 2
+        assert first_cpu.isdisjoint(second_cpu)
+        assert first.resource_allocation["gpu_ids"] == ["0"]
+        assert second.resource_allocation["gpu_ids"] == []
+    finally:
+        second.release()
+        first.release()
+
+
+def test_action_worker_passes_cpu_allocation_to_openmpi(
+    budget_workspace: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    captured: dict = {}
+
+    def completed(command, **kwargs):
+        captured["command"] = command
+        captured["environment"] = kwargs["env"]
+        return subprocess.CompletedProcess(
+            command, 0, stdout='{"status": "success"}\n', stderr=""
+        )
+
+    monkeypatch.setattr(runtime, "runtime_python", lambda _runtime: Path(sys.executable))
+    monkeypatch.setattr(runtime, "runtime_environment", lambda _runtime: {})
+    monkeypatch.setattr(runtime.subprocess, "run", completed)
+    result = runtime.invoke_worker(
+        runtime="core",
+        payload={"request": {"resource_limits": {"cpu_cores": 4}}},
+        timeout_seconds=30,
+        resource_allocation={"cpu_ids": [4, 5, 6, 7], "gpu_ids": []},
+    )
+    assert result["status"] == "success"
+    assert captured["command"][-1] == "researchchem_toolbox.worker_launcher"
+    assert captured["environment"]["RESEARCHCHEM_WORKER_CPU_IDS"] == "4,5,6,7"
+    assert captured["environment"]["OMPI_MCA_hwloc_base_cpu_list"] == "4,5,6,7"
+    assert captured["environment"]["PRTE_MCA_hwloc_default_cpu_list"] == "4,5,6,7"

@@ -20,6 +20,7 @@ from chemistry_toolbox.mcp.execution_models import (
     WorkspaceTextWriteRequest,
 )
 from chemistry_toolbox.mcp.open_execution import (
+    _job_environment,
     collect_execution_job,
     declare_scientific_artifact,
     get_execution_job,
@@ -334,6 +335,21 @@ def test_native_layer_prevents_nested_openblas_parallelism(
     finished = _wait(submitted["job_id"])
     assert finished["job"]["status"] == "success"
     assert "4 1 1" in finished["stdout_tail"]
+
+
+def test_job_environment_restricts_openmpi_to_allocated_cpus(
+    chemistry_workspace: Path,
+) -> None:
+    environment = _job_environment(
+        "core",
+        "job_test",
+        chemistry_workspace / "outputs" / "execution_jobs" / "job_test",
+        {"cpu_cores": 4, "memory_mb": 4096, "gpu_count": 0},
+        {"cpu_ids": [8, 9, 10, 11], "gpu_ids": []},
+        job_type="native_software",
+    )
+    assert environment["OMPI_MCA_hwloc_base_cpu_list"] == "8,9,10,11"
+    assert environment["PRTE_MCA_hwloc_default_cpu_list"] == "8,9,10,11"
 
 
 def test_programmable_layer_enforces_walltime(

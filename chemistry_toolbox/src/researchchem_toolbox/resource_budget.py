@@ -248,6 +248,9 @@ def active_resource_jobs() -> list[dict[str, Any]]:
                     "resource_limits": normalize_resource_limits(
                         status.get("resource_limits") or {}
                     ),
+                    "resource_allocation": dict(
+                        status.get("resource_allocation") or {}
+                    ),
                     "submitted_at": status.get("submitted_at"),
                     "supervisor_pid": status.get("supervisor_pid"),
                     "release_condition": "job reaches success, failed, timeout, or cancelled",
@@ -274,6 +277,9 @@ def active_resource_jobs() -> list[dict[str, Any]]:
                     "resource_limits": normalize_resource_limits(
                         reservation.get("resource_limits") or {}
                     ),
+                    "resource_allocation": dict(
+                        reservation.get("resource_allocation") or {}
+                    ),
                     "release_condition": "the in-progress submission creates its job record or fails",
                 }
             )
@@ -295,9 +301,59 @@ def _budget_lock() -> Iterator[None]:
 class ResourceReservation:
     path: Path
     resource_limits: dict[str, int]
+    resource_allocation: dict[str, Any]
 
     def release(self) -> None:
         self.path.unlink(missing_ok=True)
+
+
+def _cpu_pool(budget: ResourceBudget) -> list[int]:
+    if hasattr(os, "sched_getaffinity"):
+        allowed = sorted(int(item) for item in os.sched_getaffinity(0))
+    else:
+        allowed = list(range(os.cpu_count() or budget.cpu_cores))
+    if len(allowed) < budget.cpu_cores:
+        raise RuntimeError(
+            "The evaluator CPU budget exceeds the process CPU affinity: "
+            f"budget={budget.cpu_cores}, affinity={allowed}"
+        )
+    return allowed[: budget.cpu_cores]
+
+
+def _gpu_pool(budget: ResourceBudget) -> list[str]:
+    configured = os.environ.get("CUDA_VISIBLE_DEVICES", "").strip()
+    if configured:
+        values = [item.strip() for item in configured.split(",") if item.strip()]
+    else:
+        values = [str(index) for index in range(budget.gpu_count)]
+    if len(values) < budget.gpu_count:
+        raise RuntimeError(
+            "The evaluator GPU budget exceeds CUDA_VISIBLE_DEVICES: "
+            f"budget={budget.gpu_count}, devices={values}"
+        )
+    return values[: budget.gpu_count]
+
+
+def _active_allocations() -> tuple[set[int], set[str]]:
+    used_cpu_ids: set[int] = set()
+    used_gpu_ids: set[str] = set()
+    for record in active_resource_jobs():
+        allocation = record.get("resource_allocation") or {}
+        cpu_ids = [int(item) for item in allocation.get("cpu_ids") or []]
+        gpu_ids = [str(item) for item in allocation.get("gpu_ids") or []]
+        if not cpu_ids:
+            requested = normalize_resource_limits(record.get("resource_limits") or {})
+            cpu_ids = _cpu_pool(evaluation_resource_budget())[
+                : requested["cpu_cores"]
+            ]
+        if not gpu_ids:
+            requested = normalize_resource_limits(record.get("resource_limits") or {})
+            gpu_ids = _gpu_pool(evaluation_resource_budget())[
+                : requested["gpu_count"]
+            ]
+        used_cpu_ids.update(cpu_ids)
+        used_gpu_ids.update(gpu_ids)
+    return used_cpu_ids, used_gpu_ids
 
 
 def reserve_resources(
@@ -321,6 +377,26 @@ def reserve_resources(
                 reserved=reserved,
                 aggregate=True,
             )
+        used_cpu_ids, used_gpu_ids = _active_allocations()
+        available_cpu_ids = [
+            item for item in _cpu_pool(budget) if item not in used_cpu_ids
+        ]
+        available_gpu_ids = [
+            item for item in _gpu_pool(budget) if item not in used_gpu_ids
+        ]
+        if len(available_cpu_ids) < requested["cpu_cores"] or len(
+            available_gpu_ids
+        ) < requested["gpu_count"]:
+            raise ResourceBudgetExceeded(
+                requested=requested,
+                budget=budget,
+                reserved=reserved,
+                aggregate=True,
+            )
+        allocation = {
+            "cpu_ids": available_cpu_ids[: requested["cpu_cores"]],
+            "gpu_ids": available_gpu_ids[: requested["gpu_count"]],
+        }
         directory = _budget_directory() / "reservations"
         directory.mkdir(parents=True, exist_ok=True)
         path = directory / f"reservation_{uuid.uuid4().hex}.json"
@@ -332,6 +408,7 @@ def reserve_resources(
                     "kind": kind,
                     "label": label,
                     "resource_limits": requested,
+                    "resource_allocation": allocation,
                 },
                 indent=2,
                 ensure_ascii=False,
@@ -339,7 +416,11 @@ def reserve_resources(
             + "\n",
             encoding="utf-8",
         )
-    return ResourceReservation(path=path, resource_limits=requested)
+    return ResourceReservation(
+        path=path,
+        resource_limits=requested,
+        resource_allocation=allocation,
+    )
 
 
 __all__ = [

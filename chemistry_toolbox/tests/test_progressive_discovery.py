@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import json
+import threading
+import time
 
 from chemistry_toolbox.mcp.discovery_models import (
     ActionBatchItem,
@@ -127,6 +129,110 @@ def test_batch_safe_actions_keep_independent_child_trace_and_status(
         "point_1",
         "point_2",
     }
+    assert result["execution_mode"] == "resource_aware_parallel"
+    assert result["effective_max_concurrency"] == 2
+
+
+def test_action_batch_runs_children_concurrently_and_queues_excess(
+    tmp_path, monkeypatch
+) -> None:
+    monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
+    monkeypatch.setenv("RESEARCHCHEMBENCH_AVAILABLE_CPU_CORES", "2")
+    monkeypatch.setenv("RESEARCHCHEMBENCH_AVAILABLE_MEMORY_MB", "8192")
+    monkeypatch.setenv("RESEARCHCHEMBENCH_AVAILABLE_GPU_COUNT", "0")
+    active = 0
+    observed_peak = 0
+    lock = threading.Lock()
+
+    def delayed(action_id, request):
+        nonlocal active, observed_peak
+        with lock:
+            active += 1
+            observed_peak = max(observed_peak, active)
+        try:
+            time.sleep(0.12)
+            return {
+                "status": "success",
+                "action": action_id,
+                "result": {"label": request["inputs"]["label"]},
+                "output_artifacts": [],
+            }
+        finally:
+            with lock:
+                active -= 1
+
+    monkeypatch.setattr(
+        "chemistry_toolbox.mcp.discovery_tools._execute_action", delayed
+    )
+    started = time.monotonic()
+    result = submit_action_batch(
+        ActionBatchRequest(
+            action_id="calculate_energy",
+            backend_id="ase_emt",
+            items=[
+                ActionBatchItem(
+                    item_id=f"point_{index}",
+                    inputs={"label": str(index)},
+                    resource_limits={"cpu_cores": 1, "memory_mb": 4096},
+                )
+                for index in range(4)
+            ],
+        )
+    )
+    elapsed = time.monotonic() - started
+    assert result["status"] == "success"
+    assert result["effective_max_concurrency"] == 2
+    assert result["peak_concurrency"] == 2
+    assert observed_peak == 2
+    assert elapsed < 0.4
+    assert [item["item_id"] for item in result["items"]] == [
+        "point_0",
+        "point_1",
+        "point_2",
+        "point_3",
+    ]
+
+
+def test_action_batch_isolates_unexpected_child_transport_failure(
+    tmp_path, monkeypatch
+) -> None:
+    monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
+
+    def one_failure(_action_id, request):
+        if request["inputs"]["label"] == "bad":
+            raise RuntimeError("transport broke")
+        return {"status": "success", "result": {"label": "good"}}
+
+    monkeypatch.setattr(
+        "chemistry_toolbox.mcp.discovery_tools._execute_action", one_failure
+    )
+    result = submit_action_batch(
+        ActionBatchRequest(
+            action_id="calculate_energy",
+            backend_id="ase_emt",
+            items=[
+                ActionBatchItem(item_id="good", inputs={"label": "good"}),
+                ActionBatchItem(item_id="bad", inputs={"label": "bad"}),
+            ],
+        )
+    )
+    assert result["status"] == "partial_success"
+    assert result["successful_item_count"] == 1
+    assert result["items"][1]["result"]["error"]["code"] == (
+        "batch_child_transport_error"
+    )
+
+
+def test_batch_safe_inspection_recommends_parallel_batch() -> None:
+    inspected = inspect_action(
+        "optimize_geometry", backend_id="orca", detail_level="contract"
+    )
+    parallel = inspected["parallel_execution"]
+    assert parallel["recommended_tool"] == "submit_action_batch"
+    assert "synchronous" in parallel["warning"]
+    template = parallel["request_template"]
+    assert template["action_id"] == "optimize_geometry"
+    assert template["backend_id"] == "orca"
 
 
 def test_batch_submission_rejects_actions_without_batch_safe_contract() -> None:

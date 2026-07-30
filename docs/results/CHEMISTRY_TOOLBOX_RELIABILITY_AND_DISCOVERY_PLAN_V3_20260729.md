@@ -10,6 +10,8 @@
 
 第三版真实轨迹复核后，又对 Action 调用流程做了通用减负：保留 hybrid 检索、分类浏览和完整审计能力，默认 `inspect_action(detail_level=contract)` 改为返回紧凑可执行模板；输入预检和后端适配错误会返回同一 Action/Backend 的修正模板及一次重试规则。该补充修改不改变检索排序、后端实现或科学路线，也不包含评估任务专属分支。补充修改后的化学工具箱完整测试为 `366 passed in 519.56s`。
 
+第四版真实轨迹进一步暴露了两个执行问题：重复调用同步 `execute_action` 会把独立计算串行化；`r2SCAN-3c + basis=auto` 会被错误渲染为 ORCA 的 `AUTO` 关键词。现已增加通用、资源感知的并行 `submit_action_batch`，修正 ORCA 复合方法的条件基组合同，并为并发子作业分配互不重叠的 CPU/GPU。Action worker 和原生/程序作业还会把 CPU 分配显式传给 OpenMPI 4 与 PRRTE/OpenMPI 5，防止 MPI ranks 绕过父进程 affinity 后重新重叠绑定。六个真实 ORCA 子作业、每个 8 CPU 的验证达到峰值并发 6，全部成功，总墙钟时间 12.30 秒。
+
 真实复现 canary `Electron_Isodensity_Reproduction_04_Blind_Prediction` 使用官网 DeepSeek API 和 `deepseek-v4-flash` 完成，21 次 Chemistry MCP 调用全部成功，12 次受管科学 Action 全部成功，结论分 100、过程分 95、最终分 95。canonical trace 的路径、SHA-256、字节数、行数和非法行数已进入 `results.json` 并提供给 Judger。
 
 首次自主 canary 暴露出 Action catalog 变化后 MCP 进程只报告 `stale_embedding_cache`、不会自动重建的问题。该任务已停止，随后在通用语义索引层加入文件锁、原子替换和自动重建；真实英文查询现均返回 `semantic_status=available`，包括 transition-state 自然表达查询。后续 canary 又暴露了 shell 解释器绕行和 JobContext helper 未采用问题，均通过通用提示、预检与审计解决，没有加入任务专属分支。最终自主 canary 的结果记录在本文“真实验收”部分。
@@ -363,3 +365,57 @@ canary 达标后再决定是否重跑第二版任务集。离线固定查询、�
 ### 通用性检查
 
 本次运行时代码只根据 `ActionSpec`、`BackendSpec`、action id、backend id 和公共输入语义生成合同与诊断。没有读取 benchmark task id、论文名称、真实答案或工作空间任务目录；没有新增论文专用 Action、专属后端分支或固定科研路线。RDKit、CREST、xTB 和 ASE 的提示是软件/Action 公共输入合同，适用于所有使用这些能力的任务。
+
+## 八、第四版轨迹后补充修复：Action 并行与 ORCA 复合方法
+
+### 问题确认
+
+第四版 `GEOM_Hierarchical_Conformer_Reranking_Reproduction` 轨迹中，智能体虽然声明并行运行多个构象，但连续调用了同步 `execute_action`。每次调用必须等待 ORCA 返回后才能提交下一次，因此六个互不依赖的优化实际串行运行。原有 `submit_action_batch` 也只是顺序循环调用 `_execute_action`，没有提供真实并行能力。
+
+同一轨迹还确认 ORCA 适配器把：
+
+```text
+method = r2SCAN-3c
+basis = auto
+```
+
+错误渲染为：
+
+```text
+! r2SCAN-3c auto Opt
+```
+
+`r2SCAN-3c`、`HF-3c` 等 ORCA 内建 3c 复合方法自带轨道基组，`auto` 只能是工具箱层表示“使用方法内建基组”的哨兵，不能成为 ORCA 输入关键词。
+
+### 已完成修改
+
+1. 新增统一 ORCA 方法/基组合同。内建 3c 方法允许省略 `basis`，或使用 `auto`、`method_default`、`builtin`；渲染时统一省略基组 token。普通 ORCA 方法仍必须提供具体基组。给 3c 方法显式指定其他轨道基组、或给普通方法使用 `auto`，都会在启动后端前返回结构化 `invalid_orca_method_basis`。
+2. ORCA 标准 Action 和相关电子密度 Action 共用同一规范化函数，避免不同渲染路径再次产生不一致。`inspect_action` 返回条件基组规则，并把 `basis` 标记为有条件的可选方法字段。
+3. `submit_action_batch` 改为通用资源感知并发执行器。它只接受 `ActionSpec.batch_safe=true` 的 Action，依据任务剩余 CPU、内存、GPU 和可选 `max_concurrency` 决定并发度；超过当前容量的子请求在批次内部排队。外层 MCP 调用等待整个批次完成，但子 Action 真实并发执行。
+4. 每个子 Action 保留独立请求、状态、开始时间、耗时、canonical trace、产物和 provenance。单个子作业异常被隔离为 `batch_child_transport_error`，不会抹掉其他成功结果，返回顺序保持与请求顺序一致。
+5. 资源预约从只统计数量改为分配具体 `cpu_ids` 和 `gpu_ids`。并发预约在文件锁内完成，子作业获得互不重叠的资源集合；具体分配写入状态和 provenance。
+6. Action worker 不再使用线程环境下不安全的 `preexec_fn`。新增轻量 worker launcher，在加载科学后端前设置 affinity 和内存上限，再进入原 worker。
+7. 实测发现 ORCA 内部 OpenMPI 会重新绑定 ranks，仅设置父 worker affinity 不足以隔离并发 MPI 作业。因此 Action、原生软件和程序作业都会设置 OpenMPI 4 的 `OMPI_MCA_hwloc_base_cpu_list` 与 PRRTE/OpenMPI 5 的 `PRTE_MCA_hwloc_default_cpu_list`，把 MPI runtime 限制在该作业实际分配的 CPU 集合内。
+8. `inspect_action` 对 batch-safe Action 返回 `parallel_execution`，明确建议两个及以上独立请求使用 `submit_action_batch`；Action catalog 也说明重复同步 `execute_action` 不会产生并行。
+
+### 验证结果
+
+| 验证 | 结果 |
+|---|---|
+| ORCA 复合方法渲染与非法组合预检 | `r2SCAN-3c` 的省略/`auto`/`method_default`/`builtin` 均不输出基组 token；普通方法缺少具体基组和 3c 方法指定外部基组均被预检拒绝 |
+| 批量排队回归 | 2 CPU 预算下提交 4 个单核子 Action，峰值并发为 2，分两批完成，结果顺序稳定 |
+| 子作业故障隔离 | 一个子作业抛出异常时，其他子作业继续完成，批次返回 `partial_success` |
+| 两路真实 ORCA 优化 | 两个 `r2SCAN-3c` 优化峰值并发 2；子作业分别约 64.27 秒和 65.27 秒，批次墙钟 65.27 秒；CPU 分配为 `[0,1]` 与 `[2,3]` |
+| 六路真实 ORCA 单点 | 6 个子作业各申请 8 CPU，峰值并发 6，全部成功，墙钟 12.30 秒；六组 CPU 覆盖 0–47 且互不重叠 |
+| 真实 ORCA 输入 | 两路优化均为 `! r2SCAN-3c Opt`；六路单点均为 `! r2SCAN-3c SP`；未出现 `AUTO` |
+| 定向回归 | `74 passed in 48.73s` |
+| 最终完整回归 | `385 passed in 572.70s` |
+
+第一次六路 ORCA 验证仅设置父进程 affinity，现场观察到六组 OpenMPI ranks 都重新落到 CPU 0–7，导致计算持续数分钟。该 smoke 被主动停止，没有作为成功证据。加入 MPI CPU-list 约束后，同规模六路验证在 12.30 秒完成。这个过程说明具体 CPU 分配和 MPI runtime 约束缺一不可。
+
+### 通用性与边界
+
+- 并行接口只读取 Action 的 `batch_safe` 元数据、公共请求合同和资源预算，不包含构象重排、论文名称或 task id 分支。
+- ORCA 规则只表达软件自身的通用模型化学合同，不选择方法、溶剂、收敛阈值或科研路线。
+- 批次中的子请求必须相互独立；存在前后依赖的工作流仍需按依赖顺序执行。
+- 外层 `submit_action_batch` 当前是同步聚合接口，而不是返回 job handle 的异步队列；其目标是让独立预设 Action 在一次工具调用内并发使用资源，同时保持现有 Action 结果和审计合同。

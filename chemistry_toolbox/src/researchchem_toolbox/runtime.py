@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import json
 import os
-import resource
 import shutil
 import subprocess
 import sys
@@ -114,6 +113,7 @@ def runtime_environment(name: str) -> dict[str, str]:
         *_runtime_entries(specification, "path_entries"),
     ]
     library_entries = [
+        *_runtime_entries(specification, "prepend_library_path_entries"),
         str(environment / "lib"),
         *_runtime_entries(specification, "library_path_entries"),
     ]
@@ -313,6 +313,7 @@ def invoke_worker(
     runtime: str,
     payload: dict[str, Any],
     timeout_seconds: int,
+    resource_allocation: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Execute exactly one requested backend in its declared runtime."""
 
@@ -341,6 +342,9 @@ def invoke_worker(
             "VECLIB_MAXIMUM_THREADS",
         ):
             environment[variable] = threads
+    allocation = dict(resource_allocation or {})
+    allocated_cpu_ids = [int(item) for item in allocation.get("cpu_ids") or []]
+    allocated_gpu_ids = [str(item) for item in allocation.get("gpu_ids") or []]
     requested_gpus = int(requested_resources.get("gpu_count") or 0)
     if requested_gpus == 0:
         environment["CUDA_VISIBLE_DEVICES"] = ""
@@ -352,32 +356,34 @@ def invoke_worker(
                 for item in environment.get(variable, "").split(",")
                 if item.strip()
             ]
-            selected = visible[:requested_gpus] if visible else list(
-                map(str, range(requested_gpus))
+            selected = allocated_gpu_ids or (
+                visible[:requested_gpus]
+                if visible
+                else list(map(str, range(requested_gpus)))
             )
             environment[variable] = ",".join(selected)
 
-    def configure_worker_limits() -> None:
-        # Backend memory parameters describe calculation memory, not the full
-        # Python worker's virtual address space.  Scientific libraries often
-        # reserve large mappings without consuming equivalent RSS, so applying
-        # request.memory_mb as RLIMIT_AS causes false out-of-memory failures.
-        # The evaluator's task-wide memory envelope remains a genuine hard cap.
-        limit = evaluation_resource_budget().memory_mb * 1024 * 1024
-        _soft, inherited_hard = resource.getrlimit(resource.RLIMIT_AS)
-        if inherited_hard != resource.RLIM_INFINITY:
-            limit = min(limit, inherited_hard)
-        resource.setrlimit(resource.RLIMIT_AS, (limit, limit))
-        if requested_cores is not None and hasattr(os, "sched_getaffinity"):
-            allowed = sorted(os.sched_getaffinity(0))
-            if allowed:
-                os.sched_setaffinity(
-                    0,
-                    set(allowed[: max(1, int(requested_cores))]),
-                )
+    # preexec_fn is not safe when submit_action_batch starts workers from
+    # multiple threads.  The lightweight launcher applies these limits inside
+    # the new interpreter before importing any scientific backend modules.
+    if allocated_cpu_ids:
+        allocated_cpu_list = ",".join(str(item) for item in allocated_cpu_ids)
+        environment["RESEARCHCHEM_WORKER_CPU_IDS"] = allocated_cpu_list
+        # MPI-backed Actions may launch a runtime that deliberately rebinds
+        # ranks instead of inheriting the worker's Linux affinity. Restrict
+        # both Open MPI 4 and PRRTE/Open MPI 5 to this evaluator allocation.
+        environment["OMPI_MCA_hwloc_base_cpu_list"] = allocated_cpu_list
+        environment["PRTE_MCA_hwloc_default_cpu_list"] = allocated_cpu_list
+    elif requested_cores is not None:
+        environment["RESEARCHCHEM_WORKER_CPU_COUNT"] = str(
+            max(1, int(requested_cores))
+        )
+    environment["RESEARCHCHEM_WORKER_RLIMIT_AS_BYTES"] = str(
+        evaluation_resource_budget().memory_mb * 1024 * 1024
+    )
     try:
         completed = subprocess.run(
-            [str(python), "-m", "researchchem_toolbox.worker"],
+            [str(python), "-m", "researchchem_toolbox.worker_launcher"],
             input=json.dumps(payload, ensure_ascii=False),
             text=True,
             stdout=subprocess.PIPE,
@@ -386,7 +392,6 @@ def invoke_worker(
             check=False,
             cwd=PROJECT_ROOT,
             env=environment,
-            preexec_fn=configure_worker_limits,
         )
     except subprocess.TimeoutExpired as exc:
         return {

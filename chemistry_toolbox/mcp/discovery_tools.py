@@ -2,6 +2,10 @@
 
 from __future__ import annotations
 
+import threading
+import time
+from concurrent.futures import ThreadPoolExecutor
+from datetime import datetime, timezone
 from typing import Any, Callable, TypeVar
 
 from pydantic import BaseModel
@@ -16,6 +20,12 @@ from researchchem_toolbox.discovery import (
     search_resources as _search_resources,
 )
 from researchchem_toolbox.catalog import action_specs
+from researchchem_toolbox.resource_budget import (
+    active_resource_jobs,
+    active_resource_usage,
+    evaluation_resource_budget,
+    normalize_resource_limits,
+)
 from researchchem_toolbox.service import execute_action as _execute_action
 
 from .discovery_models import (
@@ -91,9 +101,10 @@ TOOL_DESCRIPTIONS = {
         "artifact contains the complete coordinates, matrices, modes, or trajectories."
     ),
     "submit_action_batch": (
-        "Execute up to 32 independent requests that share one Action and backend. Only Actions "
-        "whose catalog contract declares batch_safe=true are accepted. Every child is traced and "
-        "returned independently; no child may depend on another child in the same batch."
+        "Run up to 32 independent requests concurrently when they share one Action and backend. "
+        "Use this instead of repeated execute_action calls for two or more independent structures. "
+        "Only batch_safe Actions are accepted; concurrency is derived from active CPU, memory, and "
+        "GPU capacity, excess items queue automatically, and every child keeps an independent trace."
     ),
 }
 
@@ -238,8 +249,59 @@ def submit_action_batch(request: ActionBatchRequest) -> dict[str, Any]:
             },
         }
 
-    results = []
-    for index, item in enumerate(request.items):
+    item_resources = [
+        normalize_resource_limits(item.resource_limits) for item in request.items
+    ]
+    budget = evaluation_resource_budget()
+    reserved = active_resource_usage()
+    available = {
+        name: max(0, int(getattr(budget, name)) - int(reserved[name]))
+        for name in ("cpu_cores", "memory_mb", "gpu_count")
+    }
+    maximum_item = {
+        name: max(resources[name] for resources in item_resources)
+        for name in ("cpu_cores", "memory_mb", "gpu_count")
+    }
+    capacity_limits = [
+        available["cpu_cores"] // maximum_item["cpu_cores"],
+        available["memory_mb"] // maximum_item["memory_mb"],
+    ]
+    if maximum_item["gpu_count"] > 0:
+        capacity_limits.append(
+            available["gpu_count"] // maximum_item["gpu_count"]
+        )
+    parallelism = min(len(request.items), *capacity_limits)
+    if request.max_concurrency is not None:
+        parallelism = min(parallelism, request.max_concurrency)
+    capacity = {
+        "budget": budget.as_dict(),
+        "reserved_at_submission": reserved,
+        "available_at_submission": available,
+        "maximum_item_resources": maximum_item,
+        "active_jobs": active_resource_jobs(),
+    }
+    if parallelism < 1:
+        return {
+            "status": "invalid_request",
+            "error": {
+                "code": "batch_resource_capacity_unavailable",
+                "message": (
+                    "No batch item currently fits the remaining evaluator resource budget."
+                ),
+                "retryable": True,
+                "retry_when": "An active job releases enough CPU, memory, and GPU capacity.",
+                "resource_capacity": capacity,
+            },
+        }
+
+    results: list[dict[str, Any] | None] = [None] * len(request.items)
+    concurrency_lock = threading.Lock()
+    active_children = 0
+    peak_concurrency = 0
+    batch_started = time.monotonic()
+
+    def execute_item(index: int, item) -> dict[str, Any]:
+        nonlocal active_children, peak_concurrency
         action_request = {
             "backend_id": request.backend_id,
             "component_backends": request.component_backends,
@@ -249,29 +311,63 @@ def submit_action_batch(request: ActionBatchRequest) -> dict[str, Any]:
             "action_settings": request.action_settings,
             "resource_limits": item.resource_limits.model_dump(mode="json"),
         }
-        traced = execute_traced(
-            request.action_id,
-            {
-                "entrypoint": "submit_action_batch",
-                "batch_item_id": item.item_id,
-                "batch_index": index,
-                "request": action_request,
-            },
-            lambda action_request=action_request: compact_action_result(
-                _execute_action(request.action_id, action_request)
-            ),
-        )
-        results.append(
-            {
-                "item_id": item.item_id,
-                "batch_index": index,
-                "resource_limits": action_request["resource_limits"],
-                "result": traced,
-            }
-        )
+        started_at = datetime.now(timezone.utc).isoformat()
+        started = time.monotonic()
+        with concurrency_lock:
+            active_children += 1
+            peak_concurrency = max(peak_concurrency, active_children)
+        try:
+            try:
+                traced = execute_traced(
+                    request.action_id,
+                    {
+                        "entrypoint": "submit_action_batch",
+                        "batch_item_id": item.item_id,
+                        "batch_index": index,
+                        "request": action_request,
+                    },
+                    lambda: compact_action_result(
+                        _execute_action(request.action_id, action_request)
+                    ),
+                    capture_artifacts=False,
+                )
+            except Exception as exc:
+                traced = {
+                    "status": "failed",
+                    "error": {
+                        "code": "batch_child_transport_error",
+                        "message": f"{type(exc).__name__}: {exc}",
+                        "retryable": False,
+                    },
+                    "retryable": False,
+                }
+        finally:
+            with concurrency_lock:
+                active_children -= 1
+        return {
+            "item_id": item.item_id,
+            "batch_index": index,
+            "resource_limits": action_request["resource_limits"],
+            "started_at": started_at,
+            "duration_seconds": round(time.monotonic() - started, 6),
+            "result": traced,
+        }
+
+    with ThreadPoolExecutor(
+        max_workers=parallelism,
+        thread_name_prefix="researchchem-action-batch",
+    ) as executor:
+        futures = {
+            executor.submit(execute_item, index, item): index
+            for index, item in enumerate(request.items)
+        }
+        for future, index in futures.items():
+            results[index] = future.result()
+
+    completed_results = [item for item in results if item is not None]
     successful = sum(
         item["result"].get("status") in {"success", "partial_success"}
-        for item in results
+        for item in completed_results
     )
     return {
         "status": (
@@ -282,10 +378,16 @@ def submit_action_batch(request: ActionBatchRequest) -> dict[str, Any]:
         "action_id": request.action_id,
         "backend_id": request.backend_id,
         "batch_safe": True,
-        "item_count": len(results),
+        "execution_mode": "resource_aware_parallel",
+        "configured_max_concurrency": request.max_concurrency,
+        "effective_max_concurrency": parallelism,
+        "peak_concurrency": peak_concurrency,
+        "wall_duration_seconds": round(time.monotonic() - batch_started, 6),
+        "resource_capacity": capacity,
+        "item_count": len(completed_results),
         "successful_item_count": successful,
-        "failed_item_count": len(results) - successful,
-        "items": results,
+        "failed_item_count": len(completed_results) - successful,
+        "items": completed_results,
         "automatic_fallback": False,
     }
 

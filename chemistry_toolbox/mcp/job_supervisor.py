@@ -32,7 +32,11 @@ def _atomic_json(path: Path, value: dict[str, Any]) -> None:
     os.replace(temporary, path)
 
 
-def _preexec(resources: dict[str, Any], evaluation_budget: dict[str, Any]):
+def _preexec(
+    resources: dict[str, Any],
+    evaluation_budget: dict[str, Any],
+    resource_allocation: dict[str, Any],
+):
     def configure() -> None:
         # The supervisor enforces walltime for the complete process group.
         # RLIMIT_CPU counts aggregate thread CPU time for one process and can
@@ -40,8 +44,20 @@ def _preexec(resources: dict[str, Any], evaluation_budget: dict[str, Any]):
         # RLIMIT_AS is also unsuitable here because scientific executables may
         # reserve a large virtual address space while using little resident
         # memory. The parent supervisor monitors process-group RSS instead.
+        allocated_cpu_ids = [
+            int(item) for item in resource_allocation.get("cpu_ids") or []
+        ]
         cpu_cores = resources.get("cpu_cores")
-        if cpu_cores is not None and hasattr(os, "sched_getaffinity"):
+        if allocated_cpu_ids and hasattr(os, "sched_setaffinity"):
+            allowed = set(os.sched_getaffinity(0))
+            selected = set(allocated_cpu_ids)
+            if not selected <= allowed:
+                raise RuntimeError(
+                    "Allocated CPU ids are outside the job affinity: "
+                    f"allocated={sorted(selected)}, allowed={sorted(allowed)}"
+                )
+            os.sched_setaffinity(0, selected)
+        elif cpu_cores is not None and hasattr(os, "sched_getaffinity"):
             allowed = sorted(os.sched_getaffinity(0))
             if allowed:
                 os.sched_setaffinity(0, set(allowed[: max(1, int(cpu_cores))]))
@@ -98,6 +114,7 @@ def supervise(spec_path: Path) -> int:
     stderr_path = Path(specification["stderr_path"]).resolve()
     command = [str(item) for item in specification["command"]]
     resources = dict(specification.get("resource_limits") or {})
+    resource_allocation = dict(specification.get("resource_allocation") or {})
     evaluation_budget = dict(specification.get("evaluation_resource_budget") or {})
     walltime = max(1, int(resources.get("walltime_seconds") or 7200))
     memory_limit_mb = _memory_limit_mb(resources, evaluation_budget)
@@ -118,6 +135,7 @@ def supervise(spec_path: Path) -> int:
             "stdout_path": specification["relative_stdout_path"],
             "stderr_path": specification["relative_stderr_path"],
             "resource_limits": resources,
+            "resource_allocation": resource_allocation,
             "submitted_at": specification["submitted_at"],
             "started_at": started_at,
             "metadata": specification.get("metadata") or {},
@@ -155,7 +173,9 @@ def supervise(spec_path: Path) -> int:
                     shell=False,
                     start_new_session=True,
                     close_fds=True,
-                    preexec_fn=_preexec(resources, evaluation_budget),
+                    preexec_fn=_preexec(
+                        resources, evaluation_budget, resource_allocation
+                    ),
                 )
             except Exception as exc:
                 status(

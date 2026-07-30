@@ -1508,6 +1508,44 @@ def inspect_action(
         ),
         "automatic_fallback": False,
     }
+    if specification.batch_safe:
+        parallel_execution: dict[str, Any] = {
+            "eligible": True,
+            "recommended_tool": "submit_action_batch",
+            "use_when": (
+                "Two or more independent inputs use this same Action and Backend."
+            ),
+            "warning": (
+                "Repeated execute_action calls are synchronous and therefore serial. "
+                "submit_action_batch runs independent children concurrently within the "
+                "active CPU, memory, and GPU budget."
+            ),
+            "maximum_items": 32,
+            "concurrency": "resource_aware_auto",
+        }
+        if backend_id is not None and selected_request_contract is not None:
+            execute_template = selected_request_contract[
+                "execute_action_request_template"
+            ]
+            parallel_execution["request_template"] = {
+                "action_id": specification.id,
+                "backend_id": backend_id,
+                "component_backends": execute_template.get(
+                    "component_backends", {}
+                ),
+                "method_spec": execute_template.get("method_spec", {}),
+                "action_settings": execute_template.get("action_settings", {}),
+                "items": [
+                    {
+                        "item_id": "<unique item id>",
+                        "inputs": execute_template.get("inputs", {}),
+                        "resource_limits": execute_template.get(
+                            "resource_limits", {}
+                        ),
+                    }
+                ],
+            }
+        result["parallel_execution"] = parallel_execution
     if detail_level in {"contract", "full"}:
         result["execution_timeout_policy"] = timeout_policy_record(
             specification.execution_class

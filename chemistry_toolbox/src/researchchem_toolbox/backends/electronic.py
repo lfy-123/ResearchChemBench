@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import Any
 
 from ..artifacts import resolve_workspace_path
+from ..orca_contract import normalize_orca_method_basis
 from ..parameter_specs import ORCA_DENSITY_DEFAULT_MAXCORE_MB
 from .common import (
     ase_atoms,
@@ -2554,7 +2555,12 @@ def _render_orca(
         "calculate_excited_states": "SP",
     }[action_id]
     method_name, dispersion = _orca_method_and_dispersion_tokens(method)
-    header = f"! {method_name} {method['basis']} {keyword}"
+    method_name, basis = normalize_orca_method_basis(
+        method_name, method.get("basis")
+    )
+    header = "! " + " ".join(
+        token for token in (method_name, basis, keyword) if token is not None
+    )
     if dispersion:
         header += f" {dispersion}"
     solvation_lines: list[str] = []
@@ -2744,7 +2750,11 @@ def _render_orca_density(
     symbols = [atom["element"] for atom in structure["atoms"]]
     coordinates = [atom["position_angstrom"] for atom in structure["atoms"]]
     method_name, dispersion = _orca_method_and_dispersion_tokens(method)
-    basis = _orca_density_token(method["basis"], field_name="basis")
+    method_name, basis = normalize_orca_method_basis(
+        method_name, method.get("basis")
+    )
+    if basis is not None:
+        basis = _orca_density_token(basis, field_name="basis")
     density_type = str(method["density_type"]).strip().casefold()
     normalized_method = method_name.casefold().replace("-", "")
     if density_type == "unrelaxed_ccsd" and normalized_method != "ccsd":
@@ -2781,7 +2791,7 @@ def _render_orca_density(
     if not isinstance(stability, bool):
         raise ValueError("stability_analysis must be a boolean")
 
-    header = [method_name, basis]
+    header = [method_name, *([basis] if basis is not None else [])]
     if method.get("auxiliary_basis"):
         header.append(
             _orca_density_token(method["auxiliary_basis"], field_name="auxiliary_basis")
@@ -2862,6 +2872,9 @@ def _orca_density_artifacts(directory: Path) -> list[dict[str, str]]:
 
 def _orca_correlated_electron_density(request: dict[str, Any]) -> dict[str, Any]:
     inputs, method, settings = request_parts(request)
+    normalized_method, normalized_basis = normalize_orca_method_basis(
+        method["method"], method.get("basis")
+    )
     allocation = _orca_density_resource_allocation(
         dict(request.get("resource_limits") or {})
     )
@@ -2956,8 +2969,8 @@ def _orca_correlated_electron_density(request: dict[str, Any]) -> dict[str, Any]
         sum(ase_atoms(inputs["structure"]).get_atomic_numbers()) - charge
     )
     result = {
-        "method": str(method["method"]),
-        "basis": str(method["basis"]),
+        "method": normalized_method,
+        "basis": normalized_basis or "method_default",
         "density_type": density_type,
         "energy_hartree": float(energy_matches[-1]) if energy_matches else None,
         "charge": charge,

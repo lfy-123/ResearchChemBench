@@ -320,6 +320,12 @@ def mcp_action_description(specification: ActionSpec) -> str:
     input_contract = specification.input_description or "structured inputs described by the action"
     timeout_policy = timeout_policy_record(specification.execution_class)
     budget = resource_budget_record()
+    batch_note = (
+        "For two or more independent inputs using this same Action and Backend, use "
+        "submit_action_batch; repeated execute_action calls are synchronous and serial. "
+        if specification.batch_safe
+        else ""
+    )
     return (
         f"{specification.description} Primary output: {specification.primary_output}. "
         f"Input contract: {input_contract}. "
@@ -337,6 +343,7 @@ def mcp_action_description(specification: ActionSpec) -> str:
         f"Per-task evaluator resource budget: cpu_cores={budget['cpu_cores']}, "
         f"memory_mb={budget['memory_mb']}, gpu_count={budget['gpu_count']}; individual and "
         "concurrent requests above it are rejected without automatic reduction. "
+        f"{batch_note}"
         f"Provider selection policy: {policy}. The system validates and executes the exact "
         "declared provider choices; it never falls back to another backend or source."
     )
@@ -514,6 +521,10 @@ def progressive_toolbox_overview(
         "invented provider choices. The dispatcher validates exactly what you provide and never "
         "substitutes another choice. `execute_action` is synchronous: obey any provider-specific "
         "maximum walltime returned by `inspect_action`.",
+        "For two or more independent inputs that use the same batch_safe Action and Backend, use "
+        "`submit_action_batch` instead of repeated `execute_action` calls. The batch tool runs "
+        "children concurrently, derives safe concurrency from the active CPU, memory, and GPU "
+        "budget, queues excess items, and preserves independent results and provenance.",
         "",
         "For capabilities outside the predefined Action layer, the software-native and programmable "
         "layers remain peers. Discover exact installed programs with `list_software`, retrieve one "

@@ -849,6 +849,7 @@ def _job_environment(
     job_id: str,
     job_directory: Path,
     resources: dict[str, Any],
+    resource_allocation: dict[str, Any],
     *,
     job_type: str,
 ) -> dict[str, str]:
@@ -858,6 +859,13 @@ def _job_environment(
         if os.environ.get(name)
     }
     environment = {**inherited, **runtime_environment(runtime)}
+    allocated_cpu_ids = [
+        int(item) for item in resource_allocation.get("cpu_ids") or []
+    ]
+    if allocated_cpu_ids:
+        allocated_cpu_list = ",".join(str(item) for item in allocated_cpu_ids)
+        environment["OMPI_MCA_hwloc_base_cpu_list"] = allocated_cpu_list
+        environment["PRTE_MCA_hwloc_default_cpu_list"] = allocated_cpu_list
     cpu_cores = resources.get("cpu_cores")
     if cpu_cores is not None:
         threads = str(max(1, int(cpu_cores)))
@@ -877,6 +885,9 @@ def _job_environment(
             environment["OPENBLAS_NUM_THREADS"] = "1"
             environment["NUMEXPR_NUM_THREADS"] = "1"
     gpu_count = int(resources.get("gpu_count") or 0)
+    allocated_gpu_ids = [
+        str(item) for item in resource_allocation.get("gpu_ids") or []
+    ]
     if gpu_count == 0:
         environment["CUDA_VISIBLE_DEVICES"] = ""
         environment["ROCR_VISIBLE_DEVICES"] = ""
@@ -887,7 +898,9 @@ def _job_environment(
                 for item in environment.get(variable, "").split(",")
                 if item.strip()
             ]
-            selected = visible[:gpu_count] if visible else list(map(str, range(gpu_count)))
+            selected = allocated_gpu_ids or (
+                visible[:gpu_count] if visible else list(map(str, range(gpu_count)))
+            )
             environment[variable] = ",".join(selected)
     temporary = job_directory / ".tmp"
     home = job_directory / ".home"
@@ -941,6 +954,7 @@ def _start_job(
             staged_inputs=staged_inputs,
             resource_limits=reservation.resource_limits
             | {"walltime_seconds": resource_limits["walltime_seconds"]},
+            resource_allocation=reservation.resource_allocation,
             metadata={
                 **metadata,
                 "evaluation_resource_budget": resource_budget_record(),
@@ -958,6 +972,7 @@ def _start_reserved_job(
     stdin_target: str | None,
     staged_inputs: list[Any],
     resource_limits: dict[str, Any],
+    resource_allocation: dict[str, Any],
     metadata: dict[str, Any],
 ) -> dict[str, Any]:
     job_id = f"job_{uuid.uuid4().hex}"
@@ -991,6 +1006,7 @@ def _start_reserved_job(
         "stdin_target": stdin_target,
         "staged_inputs": staged_records,
         "resource_limits": resource_limits,
+        "resource_allocation": resource_allocation,
         "metadata": metadata,
         "submitted_at": submitted_at,
         "automatic_fallback": False,
@@ -1011,6 +1027,7 @@ def _start_reserved_job(
         "stdout_path": relative_workspace_path(stdout_path),
         "stderr_path": relative_workspace_path(stderr_path),
         "resource_limits": resource_limits,
+        "resource_allocation": resource_allocation,
         "submitted_at": submitted_at,
         "metadata": metadata,
     }
@@ -1034,6 +1051,7 @@ def _start_reserved_job(
         job_id,
         job_directory,
         resource_limits,
+        resource_allocation,
         job_type=job_type,
     )
     try:
@@ -1071,6 +1089,7 @@ def _start_reserved_job(
         "command": command,
         "staged_inputs": staged_records,
         "resource_limits": resource_limits,
+        "resource_allocation": resource_allocation,
         "supervisor_pid": supervisor.pid,
         "automatic_fallback": False,
         "evaluation_resource_budget": resource_budget_record(),
