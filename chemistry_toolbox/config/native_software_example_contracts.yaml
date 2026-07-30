@@ -403,11 +403,9 @@ software:
         - --json
         - result.json
         inputs:
-        - NWChem
-        - xTB
         - output.log
+        outputs:
         - result.json
-        outputs: []
         stdin_target: null
         resource_limits:
           cpu_cores: 1

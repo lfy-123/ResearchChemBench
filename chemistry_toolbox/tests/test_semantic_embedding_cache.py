@@ -32,8 +32,8 @@ def test_default_toolbox_environment_provisions_semantic_retrieval() -> None:
         repository_root / "chemistry_toolbox/scripts/setup_toolbox_env.sh"
     ).read_text(encoding="utf-8")
 
-    assert "onnxruntime>=1.17" in pip_requirements
-    assert "tokenizers>=0.15" in pip_requirements
+    assert "onnxruntime==1.23.2" in pip_requirements
+    assert "tokenizers==0.22.2" in pip_requirements
     assert "onnxruntime==1.23.2" in constraints
     assert "tokenizers==0.22.2" in constraints
     assert "cache_minilm_model.py" in setup_script

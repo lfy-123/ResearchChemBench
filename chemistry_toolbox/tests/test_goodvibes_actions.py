@@ -132,6 +132,118 @@ def test_goodvibes_derive_returns_structured_json_result(tmp_path, monkeypatch):
     assert selected["enthalpy_field"] == "qh_enthalpy"
     assert selected["entropy_field"] == "qh_entropy"
     assert calls[0]["arguments"][calls[0]["arguments"].index("--jobs") + 1] == "2"
+    assert calls[0]["arguments"][0] == str(output / "frequency.log")
+    assert result["result"]["staged_inputs"][0]["source_path"] == "water.log"
+
+
+def test_goodvibes_derive_stages_glob_sensitive_path_and_explicit_spc(
+    tmp_path, monkeypatch
+):
+    monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
+    frequency = tmp_path / "[Int-I]_frequency.log"
+    single_point = tmp_path / "separate" / "[Int-I]_dlpno.out"
+    single_point.parent.mkdir()
+    frequency.write_text("frequency", encoding="utf-8")
+    single_point.write_text("single point", encoding="utf-8")
+    output = tmp_path / "output"
+    output.mkdir()
+    lookup = {"frequency": frequency, "single_point": single_point}
+    calls = []
+
+    monkeypatch.setattr(goodvibes, "output_directory", lambda *_args: output)
+    monkeypatch.setattr(goodvibes, "resolve_input_file", lambda value: lookup[value])
+    monkeypatch.setattr(goodvibes, "module_version", lambda _name: "4.3.0")
+
+    def fake_run_external(**kwargs):
+        calls.append(kwargs)
+        assert kwargs["arguments"][0] == str(output / "frequency.log")
+        assert (output / "frequency_DLPNO.out").read_text(encoding="utf-8") == "single point"
+        json_name = kwargs["arguments"][kwargs["arguments"].index("--json") + 1]
+        payload = _payload(output / "frequency.log")
+        payload["results"][0]["qcdata"].update(
+            {"sp_energy": -10.5, "sp_suffix": "DLPNO"}
+        )
+        (kwargs["directory"] / json_name).write_text(
+            json.dumps(payload), encoding="utf-8"
+        )
+        return {
+            "available": True,
+            "returncode": 0,
+            "stdout": "completed",
+            "stderr": "",
+            "command": ["goodvibes", *kwargs["arguments"]],
+        }
+
+    monkeypatch.setattr(goodvibes, "run_external", fake_run_external)
+    result = goodvibes.execute(
+        "derive_thermochemistry",
+        {
+            "inputs": {
+                "output_file": "frequency",
+                "single_point_output_file": "single_point",
+            },
+            "method_spec": {"single_point_correction_suffix": "DLPNO"},
+            "action_settings": _settings(),
+            "resource_limits": {"cpu_cores": 1},
+        },
+    )
+
+    assert result["status"] == "success"
+    assert "--spc" in calls[0]["arguments"]
+    roles = {item["role"] for item in result["result"]["staged_inputs"]}
+    assert roles == {"frequency_output", "single_point_output"}
+    manifest = json.loads((output / "staged_input_manifest.json").read_text())
+    assert len(manifest) == 2
+
+
+def test_goodvibes_run_once_escapes_glob_metacharacters(tmp_path, monkeypatch):
+    source = tmp_path / "[complex].log"
+    source.write_text("test", encoding="utf-8")
+
+    def fake_run_external(**kwargs):
+        assert kwargs["arguments"][0] != str(source)
+        assert "[[]complex]" in kwargs["arguments"][0]
+        json_name = kwargs["arguments"][kwargs["arguments"].index("--json") + 1]
+        (kwargs["directory"] / json_name).write_text(
+            json.dumps(_payload(source)), encoding="utf-8"
+        )
+        return {
+            "available": True,
+            "returncode": 0,
+            "stdout": "completed",
+            "stderr": "",
+            "command": ["goodvibes", *kwargs["arguments"]],
+        }
+
+    monkeypatch.setattr(goodvibes, "run_external", fake_run_external)
+    payload, _completed = goodvibes._run_once(
+        directory=tmp_path,
+        output_files=[source],
+        arguments=[],
+        output_stem="escaped",
+        timeout_seconds=30,
+    )
+    assert payload is not None
+
+
+def test_goodvibes_rejects_unsafe_spc_suffix_before_staging(tmp_path, monkeypatch):
+    monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
+    source = tmp_path / "frequency.log"
+    source.write_text("test", encoding="utf-8")
+    output = tmp_path / "output"
+    output.mkdir()
+    monkeypatch.setattr(goodvibes, "output_directory", lambda *_args: output)
+    monkeypatch.setattr(goodvibes, "resolve_input_file", lambda _value: source)
+    with pytest.raises(ValueError, match="must contain only"):
+        goodvibes.execute(
+            "derive_thermochemistry",
+            {
+                "inputs": {"output_file": "frequency.log"},
+                "method_spec": {"single_point_correction_suffix": "../../escape"},
+                "action_settings": _settings(),
+            },
+        )
+    assert not (tmp_path / "escape.out").exists()
 
 
 def test_goodvibes_label_groups_require_exact_disjoint_members(tmp_path, monkeypatch):

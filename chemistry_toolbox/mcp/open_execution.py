@@ -42,6 +42,7 @@ from researchchem_toolbox.timeout_policy import (
 )
 
 from .execution_models import (
+    AnalysisInputInspectionRequest,
     AnalysisJobRequest,
     ArtifactDeclarationRequest,
     ExecutionResourceRequest,
@@ -80,6 +81,7 @@ SAFE_INHERITED_ENVIRONMENT = (
     "LM_LICENSE_FILE",
     "MLM_LICENSE_FILE",
 )
+MAX_INSPECTION_JSON_BYTES = 50 * 1024 * 1024
 
 
 def _now() -> str:
@@ -920,10 +922,24 @@ def _job_environment(
         }
     )
     if job_type == "programmable_analysis":
-        existing_pythonpath = environment.get("PYTHONPATH", "")
-        environment["PYTHONPATH"] = str(job_directory) + (
-            os.pathsep + existing_pythonpath if existing_pythonpath else ""
+        framework_paths = []
+        for raw_path in environment.get("PYTHONPATH", "").split(os.pathsep):
+            if not raw_path:
+                continue
+            normalized = raw_path.replace("\\", "/").casefold()
+            if (
+                "site-packages" in normalized
+                or "/.tool_env" in normalized
+                or "/.venv" in normalized
+            ):
+                continue
+            if raw_path not in framework_paths:
+                framework_paths.append(raw_path)
+        environment["PYTHONPATH"] = os.pathsep.join(
+            [str(job_directory), *framework_paths]
         )
+        environment["PYTHONNOUSERSITE"] = "1"
+        environment["PYTHONDONTWRITEBYTECODE"] = "1"
     return environment
 
 
@@ -1199,10 +1215,14 @@ def _job_context_compliance(
     )
     missing_input_helpers = sorted(declared_inputs - helper_calls["input"])
     missing_output_helpers = sorted(declared_outputs - used_outputs)
+    unknown_input_helpers = sorted(helper_calls["input"] - declared_inputs)
+    unknown_output_helpers = sorted(used_outputs - declared_outputs)
     if not imported:
         status = "not_adopted"
     elif bypass_findings:
         status = "bypassed"
+    elif unknown_input_helpers or unknown_output_helpers:
+        status = "invalid"
     elif not missing_input_helpers and not missing_output_helpers:
         status = "compliant"
     else:
@@ -1220,6 +1240,14 @@ def _job_context_compliance(
         warnings.append(
             f"Declared outputs not statically observed through JobContext helpers: {missing_output_helpers}."
         )
+    if unknown_input_helpers:
+        warnings.append(
+            f"JobContext.input names absent from the request contract: {unknown_input_helpers}."
+        )
+    if unknown_output_helpers:
+        warnings.append(
+            f"JobContext output names absent from the request contract: {unknown_output_helpers}."
+        )
     if bypass_findings:
         warnings.append(
             "JobContext was imported but code walks above ctx.root; this bypasses the declared path contract."
@@ -1231,12 +1259,66 @@ def _job_context_compliance(
         "helper_calls": {key: sorted(value) for key, value in helper_calls.items()},
         "missing_input_helpers": missing_input_helpers,
         "missing_output_helpers": missing_output_helpers,
+        "unknown_input_helpers": unknown_input_helpers,
+        "unknown_output_helpers": unknown_output_helpers,
         "bypass_findings": bypass_findings,
         "warnings": warnings,
         "enforcement_boundary": (
             "Static reliability audit only; ordinary Python file and library access is not blocked."
         ),
     }
+
+
+def _runtime_path_injection_findings(tree: ast.AST) -> list[dict[str, Any]]:
+    """Find attempts to splice another Python environment into the selected runtime."""
+
+    findings: list[dict[str, Any]] = []
+    for node in ast.walk(tree):
+        kind = None
+        evidence = None
+        if isinstance(node, ast.Call):
+            chain = _attribute_chain(node.func)
+            if chain in (
+                ["sys", "path", "insert"],
+                ["sys", "path", "append"],
+                ["sys", "path", "extend"],
+            ):
+                kind = "sys_path_mutation"
+                evidence = ".".join(chain)
+            elif chain == ["site", "addsitedir"]:
+                kind = "site_directory_injection"
+                evidence = ".".join(chain)
+            elif chain == ["os", "putenv"] and node.args:
+                first = node.args[0]
+                if isinstance(first, ast.Constant) and str(first.value).upper() == "PYTHONPATH":
+                    kind = "pythonpath_environment_mutation"
+                    evidence = "os.putenv('PYTHONPATH', ...)"
+        elif isinstance(node, (ast.Assign, ast.AugAssign)):
+            targets = node.targets if isinstance(node, ast.Assign) else [node.target]
+            for target in targets:
+                chain = _attribute_chain(target)
+                if chain == ["sys", "path"]:
+                    kind = "sys_path_assignment"
+                    evidence = "sys.path"
+                    break
+                if (
+                    isinstance(target, ast.Subscript)
+                    and _attribute_chain(target.value) == ["os", "environ"]
+                    and isinstance(target.slice, ast.Constant)
+                    and str(target.slice.value).upper() == "PYTHONPATH"
+                ):
+                    kind = "pythonpath_environment_mutation"
+                    evidence = "os.environ['PYTHONPATH']"
+                    break
+        if kind:
+            findings.append(
+                {
+                    "line": getattr(node, "lineno", None),
+                    "kind": kind,
+                    "evidence": evidence,
+                }
+            )
+    return sorted(findings, key=lambda item: (item["line"] or 0, item["kind"]))
 
 
 def _external_execution_findings(tree: ast.AST) -> list[dict[str, Any]]:
@@ -1456,6 +1538,207 @@ def _isolated_workspace_path_findings(tree: ast.AST) -> list[dict[str, Any]]:
     return sorted(findings, key=lambda item: (item["line"] or 0, item["path"]))
 
 
+def _value_type(value: Any) -> str:
+    if value is None:
+        return "null"
+    if isinstance(value, bool):
+        return "boolean"
+    if isinstance(value, int):
+        return "integer"
+    if isinstance(value, float):
+        return "number"
+    if isinstance(value, str):
+        return "string"
+    if isinstance(value, list):
+        return "array"
+    if isinstance(value, dict):
+        return "object"
+    return type(value).__name__
+
+
+def _json_shape(
+    value: Any,
+    *,
+    depth: int,
+    max_depth: int,
+    max_fields: int,
+    include_scalar_samples: bool,
+) -> dict[str, Any]:
+    value_type = _value_type(value)
+    result: dict[str, Any] = {"type": value_type}
+    if value_type == "object":
+        keys = list(value)
+        result["field_count"] = len(keys)
+        result["fields"] = keys[:max_fields]
+        result["truncated_fields"] = len(keys) > max_fields
+        if depth < max_depth:
+            result["field_shapes"] = {
+                str(key): _json_shape(
+                    value[key],
+                    depth=depth + 1,
+                    max_depth=max_depth,
+                    max_fields=max_fields,
+                    include_scalar_samples=include_scalar_samples,
+                )
+                for key in keys[:max_fields]
+            }
+    elif value_type == "array":
+        result["length"] = len(value)
+        result["item_types"] = sorted({_value_type(item) for item in value})
+        result["null_count"] = sum(item is None for item in value)
+        sampled_items = value[: min(len(value), 50)]
+        if sampled_items and all(isinstance(item, dict) for item in sampled_items):
+            sampled_fields = list(
+                dict.fromkeys(
+                    str(key) for item in sampled_items for key in item.keys()
+                )
+            )[:max_fields]
+            result["object_field_profiles"] = {
+                field: {
+                    "presence_count": sum(field in item for item in sampled_items),
+                    "null_count": sum(item.get(field) is None for item in sampled_items),
+                    "types": sorted(
+                        {
+                            _value_type(item[field])
+                            for item in sampled_items
+                            if field in item
+                        }
+                    ),
+                }
+                for field in sampled_fields
+            }
+            result["profiled_item_count"] = len(sampled_items)
+        if value and depth < max_depth:
+            result["first_item_shape"] = _json_shape(
+                value[0],
+                depth=depth + 1,
+                max_depth=max_depth,
+                max_fields=max_fields,
+                include_scalar_samples=include_scalar_samples,
+            )
+    elif include_scalar_samples and value is not None:
+        result["sample"] = value if not isinstance(value, str) else value[:200]
+    return result
+
+
+def _infer_text_column(values: list[str]) -> dict[str, Any]:
+    nonempty = [value.strip() for value in values if value.strip()]
+    if not nonempty:
+        inferred = "empty"
+    else:
+        try:
+            parsed = [float(value) for value in nonempty]
+        except ValueError:
+            lowered = {value.casefold() for value in nonempty}
+            inferred = "boolean" if lowered <= {"true", "false"} else "string"
+        else:
+            inferred = (
+                "integer"
+                if all(number.is_integer() for number in parsed)
+                else "number"
+            )
+    return {
+        "inferred_type": inferred,
+        "observed_rows": len(values),
+        "nonempty_count": len(nonempty),
+        "empty_count": len(values) - len(nonempty),
+    }
+
+
+def _inspect_input_path(
+    path: Path,
+    *,
+    max_depth: int,
+    max_fields: int,
+    max_rows: int,
+    include_scalar_samples: bool,
+) -> dict[str, Any]:
+    base = {
+        "path": relative_workspace_path(path),
+        "size_bytes": path.stat().st_size,
+        "sha256": _sha256(path),
+        "suffix": path.suffix.casefold(),
+    }
+    suffix = path.suffix.casefold()
+    if suffix == ".json":
+        if path.stat().st_size > MAX_INSPECTION_JSON_BYTES:
+            return {
+                **base,
+                "format": "json",
+                "valid": None,
+                "inspection_status": "skipped_size_limit",
+                "maximum_parse_bytes": MAX_INSPECTION_JSON_BYTES,
+            }
+        try:
+            value = json.loads(path.read_text(encoding="utf-8"))
+        except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+            return {**base, "format": "json", "valid": False, "error": str(exc)}
+        return {
+            **base,
+            "format": "json",
+            "valid": True,
+            "shape": _json_shape(
+                value,
+                depth=0,
+                max_depth=max_depth,
+                max_fields=max_fields,
+                include_scalar_samples=include_scalar_samples,
+            ),
+        }
+    if suffix in {".csv", ".tsv"}:
+        delimiter = "\t" if suffix == ".tsv" else ","
+        try:
+            with path.open("r", encoding="utf-8", newline="") as handle:
+                reader = csv.DictReader(handle, delimiter=delimiter)
+                fieldnames = list(reader.fieldnames or [])
+                rows = [row for _, row in zip(range(max_rows), reader)]
+        except (UnicodeDecodeError, csv.Error) as exc:
+            return {**base, "format": "table", "valid": False, "error": str(exc)}
+        return {
+            **base,
+            "format": "table",
+            "valid": bool(fieldnames),
+            "columns": fieldnames[:max_fields],
+            "truncated_columns": len(fieldnames) > max_fields,
+            "observed_rows": len(rows),
+            "row_limit": max_rows,
+            "column_profiles": {
+                name: _infer_text_column([str(row.get(name) or "") for row in rows])
+                for name in fieldnames[:max_fields]
+            },
+        }
+    return {**base, "format": "opaque", "valid": True}
+
+
+def inspect_analysis_inputs(request: AnalysisInputInspectionRequest) -> dict[str, Any]:
+    summaries = []
+    for item in request.inputs:
+        path = resolve_workspace_path(item.source_path, must_exist=True)
+        if path.is_symlink() or not path.is_file():
+            raise ValueError(f"Analysis input must be a regular file: {item.source_path}")
+        summaries.append(
+            {
+                "name": item.name,
+                "semantic_type": item.semantic_type,
+                **_inspect_input_path(
+                    path,
+                    max_depth=request.max_depth,
+                    max_fields=request.max_fields,
+                    max_rows=request.max_rows,
+                    include_scalar_samples=request.include_scalar_samples,
+                ),
+            }
+        )
+    return {
+        "status": "success",
+        "inputs": summaries,
+        "inspection_boundary": (
+            "This is bounded structural inspection, not validation of scientific meaning. "
+            "Programs must still handle missing, null, and heterogeneous values explicitly."
+        ),
+    }
+
+
 def validate_analysis_program(request: AnalysisJobRequest) -> dict[str, Any]:
     if request.runtime not in set(runtime_names()):
         raise KeyError(f"Unknown analysis runtime {request.runtime!r}")
@@ -1530,6 +1813,24 @@ def validate_analysis_program(request: AnalysisJobRequest) -> dict[str, Any]:
                 "Remove direct subprocess/os process launches from the analysis program.",
                 "Submit the external executable with validate_native_job and submit_native_job.",
                 "Set parent_job_id on the native request to link the orchestration provenance.",
+            ],
+        )
+    runtime_path_findings = _runtime_path_injection_findings(tree)
+    if runtime_path_findings:
+        return _analysis_failure(
+            stage="preflight",
+            code="cross_runtime_path_injection",
+            message=(
+                "The program mutates Python import paths and may mix binary packages from a "
+                "different runtime"
+            ),
+            file=request.script_path,
+            line=runtime_path_findings[0]["line"],
+            evidence=json.dumps(runtime_path_findings, sort_keys=True),
+            candidate_fixes=[
+                "Remove sys.path, site.addsitedir, and PYTHONPATH mutations.",
+                "Select one runtime that already provides every required module.",
+                "Declare required_modules, versions, and symbols so preflight verifies that runtime.",
             ],
         )
     isolated_path_findings = _isolated_workspace_path_findings(tree)
@@ -1696,6 +1997,37 @@ def validate_analysis_program(request: AnalysisJobRequest) -> dict[str, Any]:
         )
     _validate_argument_paths(request.arguments)
     job_context_compliance = _job_context_compliance(tree, request)
+    if (
+        job_context_compliance["unknown_input_helpers"]
+        or job_context_compliance["unknown_output_helpers"]
+    ):
+        return _analysis_failure(
+            stage="input",
+            code="job_context_declaration_mismatch",
+            message=(
+                "The program uses JobContext names that are absent from the declared input/output "
+                "contract"
+            ),
+            file=request.script_path,
+            evidence=json.dumps(job_context_compliance, sort_keys=True),
+            candidate_fixes=[
+                "Make every JobContext.input(name) match one inputs[].name exactly.",
+                "Make every JobContext output helper name match one outputs[].name exactly.",
+                "Prefer copying names from the request contract instead of inventing aliases.",
+            ],
+        )
+    input_inspection = (
+        inspect_analysis_inputs(
+            AnalysisInputInspectionRequest(
+                inputs=request.inputs,
+                max_depth=2,
+                max_fields=20,
+                max_rows=100,
+            )
+        )
+        if request.inputs
+        else {"status": "success", "inputs": []}
+    )
     try:
         resources = _compute_resource_limits(request.resource_limits)
     except ResourceBudgetExceeded as exc:
@@ -1732,7 +2064,9 @@ def validate_analysis_program(request: AnalysisJobRequest) -> dict[str, Any]:
         "required_symbols": request.required_symbols,
         "module_status": module_status,
         "module_details": module_details,
+        "input_inspection": input_inspection,
         "external_execution_findings": external_findings,
+        "runtime_path_injection_findings": runtime_path_findings,
         "job_context_compliance": job_context_compliance,
         "script_sha256": _sha256(script),
         "analysis_contract": contract,
@@ -1783,6 +2117,7 @@ def submit_analysis_program(request: AnalysisJobRequest) -> dict[str, Any]:
                 "required_symbols": validation["required_symbols"],
                 "module_status": validation["module_status"],
                 "module_details": validation["module_details"],
+                "input_inspection": validation["input_inspection"],
                 "external_execution_findings": validation[
                     "external_execution_findings"
                 ],
@@ -1823,6 +2158,128 @@ def _bounded_text(path: Path, maximum_bytes: int = 8 * 1024 * 1024) -> str:
     with path.open("rb") as handle:
         data = handle.read(maximum_bytes)
     return data.decode("utf-8", errors="replace")
+
+
+def _program_failure_diagnostic(
+    directory: Path, status: dict[str, Any]
+) -> dict[str, Any] | None:
+    if (
+        status.get("job_type") != "programmable_analysis"
+        or status.get("status") != "failed"
+    ):
+        return None
+    diagnostic_path = directory / "failure_diagnostic.json"
+    if diagnostic_path.is_file():
+        try:
+            return json.loads(diagnostic_path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            pass
+    stderr = _bounded_text(directory / "stderr.log", maximum_bytes=2 * 1024 * 1024)
+    exception_type = None
+    message = None
+    exception_match = None
+    for line in reversed(stderr.splitlines()):
+        candidate = re.match(
+            r"^(?P<type>[A-Za-z_][A-Za-z0-9_.]*(?:Error|Exception)):\s*(?P<message>.*)$",
+            line.strip(),
+        )
+        if candidate:
+            exception_match = candidate
+            break
+    if exception_match:
+        exception_type = exception_match.group("type")
+        message = exception_match.group("message")
+    frames = re.findall(r'File "([^"]+)", line (\d+)(?:, in ([^\n]+))?', stderr)
+    source_file = None
+    source_line = None
+    function = None
+    for raw_file, raw_line, raw_function in reversed(frames):
+        candidate = Path(raw_file)
+        if not candidate.is_absolute():
+            candidate = directory / candidate
+        try:
+            candidate.resolve().relative_to(directory.resolve())
+        except ValueError:
+            continue
+        if candidate.is_file() and candidate.suffix == ".py":
+            source_file = candidate
+            source_line = int(raw_line)
+            function = raw_function.strip() or None
+            break
+    source_context = None
+    if source_file is not None and source_line is not None:
+        lines = source_file.read_text(encoding="utf-8", errors="replace").splitlines()
+        start = max(0, source_line - 3)
+        stop = min(len(lines), source_line + 2)
+        source_context = [
+            {"line": index + 1, "text": lines[index]}
+            for index in range(start, stop)
+        ]
+
+    lowered = (message or stderr[-1000:]).casefold()
+    classification = "nonzero_exit"
+    candidate_fixes = [
+        "Read the structured input summary and the failing source line before revising the program.",
+        "Validate intermediate values and declared output schemas before resubmission.",
+    ]
+    details: dict[str, Any] = {}
+    if exception_type == "KeyError":
+        classification = "missing_mapping_key"
+        missing_key = (message or "").strip().strip("'\"")
+        details["missing_key"] = missing_key or None
+        candidate_fixes = [
+            "Inspect the actual JSON/object keys with inspect_analysis_inputs.",
+            "Use the existing field name or handle the field as optional with an explicit fallback.",
+        ]
+    elif "unknown input name" in lowered or "unknown output name" in lowered:
+        classification = "job_context_name_mismatch"
+        candidate_fixes = [
+            "Make the JobContext helper name exactly match the submitted contract name.",
+            "Run validate_analysis_program again before resubmission.",
+        ]
+    elif exception_type == "NameError":
+        classification = "undefined_name"
+        candidate_fixes = [
+            "Define the reported variable on every control-flow path before it is used.",
+            "Run a focused unit calculation on one input record before processing the full dataset.",
+        ]
+    elif "nonetype" in lowered or (
+        "none" in lowered and exception_type == "TypeError"
+    ):
+        classification = "unexpected_null_value"
+        candidate_fixes = [
+            "Check for null/None before arithmetic or numeric formatting.",
+            "Decide explicitly whether a missing value should be skipped, rejected, or replaced.",
+        ]
+    elif "unpack" in lowered or "values to unpack" in lowered:
+        classification = "unpack_shape_mismatch"
+        candidate_fixes = [
+            "Inspect the sequence or mapping shape before unpacking it.",
+            "Use indexed or named access when the input record length is not guaranteed.",
+        ]
+    diagnostic = {
+        "schema_version": 1,
+        "job_id": status.get("job_id"),
+        "classification": classification,
+        "exception_type": exception_type,
+        "message": message,
+        "source_file": (
+            str(source_file.resolve().relative_to(directory.resolve()))
+            if source_file is not None
+            else None
+        ),
+        "source_line": source_line,
+        "function": function,
+        "source_context": source_context,
+        "details": details,
+        "candidate_fixes": candidate_fixes,
+        "diagnostic_boundary": (
+            "This classifies the Python failure mechanically; it does not determine the correct "
+            "scientific interpretation or choose replacement data."
+        ),
+    }
+    _atomic_json(diagnostic_path, diagnostic)
+    return diagnostic
 
 
 def _process_axis(job_status: str) -> str:
@@ -2116,11 +2573,13 @@ def get_execution_job(request: JobStatusRequest) -> dict[str, Any]:
     stdout_path = directory / "stdout.log"
     stderr_path = directory / "stderr.log"
     axes = _execution_status_axes(directory, status)
+    failure_diagnostic = _program_failure_diagnostic(directory, status)
     return {
         "status": "success",
         "job": status,
         "stdout_tail": _tail(stdout_path, request.tail_chars),
         "stderr_tail": _tail(stderr_path, request.tail_chars),
+        "failure_diagnostic": failure_diagnostic,
         "terminal": status.get("status") in TERMINAL_JOB_STATES,
         **{key: value for key, value in axes.items() if key != "details"},
         "execution_status_details": axes["details"],
@@ -2546,6 +3005,7 @@ __all__ = [
     "read_workspace_text",
     "submit_analysis_program",
     "get_execution_resources",
+    "inspect_analysis_inputs",
     "submit_native_job",
     "validate_analysis_program",
     "validate_native_job",

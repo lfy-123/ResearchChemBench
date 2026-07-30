@@ -29,7 +29,7 @@ Apply GoodVibes 4.3.0 thermochemistry, ensemble, selectivity, consistency, and r
 ## Supported command entries
 | Executable | Input mode | Native invocation | Required staged inputs |
 |---|---|---|---|
-| `goodvibes` | `arguments` | `goodvibes output.log --temp 298.15 --conc 1.0 --qs grimme --qh --fs 100 --fh 100 -v 0.99 --zpe-vscal 0.98 --json result.json` | `NWChem`, `xTB`, `output.log`, `result.json` |
+| `goodvibes` | `arguments` | `goodvibes output.log --temp 298.15 --conc 1.0 --qs grimme --qh --fs 100 --fh 100 -v 0.99 --zpe-vscal 0.98 --json result.json` | `output.log` |
 
 ## Supported task families
 - single-temperature thermochemistry.

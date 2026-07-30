@@ -50,11 +50,8 @@
 ### 4.1 运行时布局
 
 - 新增 `config/merged_environments.yaml`，集中记录六个物理前缀和全部逻辑 runtime 映射。
-- 新增 `environment_layout.py`，支持：
-  - `RESEARCHCHEM_ENV_LAYOUT=auto`：默认；六环境存在时自动使用，否则回退旧环境；
-  - `RESEARCHCHEM_ENV_LAYOUT=merged`：强制使用合并布局；
-  - `RESEARCHCHEM_ENV_LAYOUT=legacy`：强制使用旧布局；
-  - `RCB_MERGED_ENV_ROOT=/path/to/envs`：迁移时整体重定位六个前缀。
+- 新增 `environment_layout.py`，将逻辑 runtime 直接映射到项目 `.envs/` 下的六个工具环境，不保留旧布局选择或回退逻辑。
+- 标准安装无需设置环境变量；仅当七个环境整体迁移到其他目录时，使用 `RESEARCHCHEMBENCH_ENV_ROOT=/path/to/envs` 重定位环境根目录。
 - MCP profile、后端 runtime 和跨环境命令路径均通过统一解析器定位，不改变 Action ID、backend ID 或智能体调用协议。
 - 增加 `prepend_path_entries`，用于明确控制共享命令优先级，而不是依赖宿主 PATH 的偶然顺序。
 
@@ -91,7 +88,7 @@
 
 | 验证层级 | 结果 | 说明 |
 |---|---|---|
-| 完整 pytest | `428 passed in 532.62s` | 在 `RESEARCHCHEM_ENV_LAYOUT=merged` 下运行全部项目和工具箱测试 |
+| 完整 pytest | `428 passed in 532.62s` | 运行全部项目和工具箱测试 |
 | runtime/profile 审计 | 38/38 ready | 全部正式 profile 和 support runtime 可解析、环境存在、健康检查通过 |
 | Action/backend profile 测试 | 66/66 available | 114 个 Action 所涉及的 profile 后端均可用 |
 | MCP 三层烟雾测试 | PASS | 注册 114 Actions、16 open-execution tools；Action、软件手册、Agent 程序、后台作业、Artifact 和 trace 链路通过 |
@@ -119,17 +116,14 @@ bash chemistry_toolbox/scripts/build_merged_environments.sh all
 # 在同平台按精确锁重放
 bash chemistry_toolbox/scripts/build_merged_environments.sh --from-lock all
 
-# 强制使用新布局
-export RESEARCHCHEM_ENV_LAYOUT=merged
-
-# 可选：把六个前缀放到其他磁盘
-export RCB_MERGED_ENV_ROOT=/path/to/researchchem-envs
+# 可选：把七个前缀整体放到其他磁盘
+export RESEARCHCHEMBENCH_ENV_ROOT=/path/to/researchchem-envs
 
 # 刷新精确锁
 bash chemistry_toolbox/scripts/capture_merged_environment_locks.sh
 
 # 验证
-.tool_envs_merged/general-modern-openmpi5/bin/python -m pytest -q
+.envs/researchchembench/bin/python -m pytest -q
 .tool_envs_merged/general-modern-openmpi5/bin/python \
   chemistry_toolbox/scripts/check_mcp_tools.py --smoke
 .tool_envs_merged/general-modern-openmpi5/bin/python \

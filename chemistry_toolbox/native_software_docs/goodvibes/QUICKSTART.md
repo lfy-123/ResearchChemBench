@@ -24,8 +24,8 @@ The runner creates an isolated job directory and executes the resolved binary th
 
 ## Input mode
 The primary executable is `goodvibes` and its input mode is `arguments`.
-Required inputs: `NWChem`, `xTB`, `output.log`, `result.json`.
-Expected outputs: stdout/stderr or task-dependent outputs only.
+Required inputs: `output.log`.
+Expected outputs: `result.json`.
 Example classification: `scientific_template`.
 Output behavior: Writes a GoodVibes_NAME.dat report and, when requested, structured JSON/CSV/Parquet plus plots or XYZ files in the isolated job directory.
 
@@ -62,20 +62,8 @@ Run that command only inside a directory containing the exact referenced files. 
   ],
   "staged_inputs": [
     {
-      "source_path": "workspace_inputs/NWChem",
-      "target_path": "NWChem"
-    },
-    {
-      "source_path": "workspace_inputs/xTB",
-      "target_path": "xTB"
-    },
-    {
       "source_path": "workspace_inputs/output.log",
       "target_path": "output.log"
-    },
-    {
-      "source_path": "workspace_inputs/result.json",
-      "target_path": "result.json"
     }
   ],
   "resource_limits": {

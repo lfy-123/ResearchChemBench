@@ -491,7 +491,7 @@ def write_markdown(payload: dict[str, Any]) -> None:
         "## Replay Command",
         "",
         "```bash",
-        ".toolbox_env/bin/python chemistry_toolbox/scripts/audit_requested_software.py",
+        ".envs/researchchembench/bin/python chemistry_toolbox/scripts/audit_requested_software.py",
         "```",
         "",
     ])

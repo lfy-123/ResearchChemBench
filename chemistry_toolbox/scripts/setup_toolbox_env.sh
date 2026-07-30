@@ -3,26 +3,28 @@ set -euo pipefail
 
 SCRIPT_PATH="$(readlink -f "${BASH_SOURCE[0]}")"
 ROOT_DIR="$(cd "$(dirname "$SCRIPT_PATH")/../.." && pwd)"
-ENV_DIR="$ROOT_DIR/.toolbox_env"
+ENV_ROOT="${RESEARCHCHEMBENCH_ENV_ROOT:-$ROOT_DIR/.envs}"
+ENV_DIR="$ENV_ROOT/researchchembench"
 MANAGER=""
 SKIP_VERIFY=0
+FROM_LOCK=0
 
 usage() {
   cat <<'EOF'
-Create the project-local ResearchChemBench chemistry toolbox environment.
+Create the project-local ResearchChemBench framework environment.
 
 Usage:
   bash chemistry_toolbox/scripts/setup_toolbox_env.sh [options]
 
 Options:
-  --env-dir PATH          Environment prefix (default: .toolbox_env).
+  --env-dir PATH          Environment prefix (default: .envs/researchchembench).
   --manager PATH          Explicit mamba/conda executable.
+  --from-lock             Replay the tested linux-64 Conda artifact lock.
   --skip-verify           Install only; do not run validation/tests.
   -h, --help              Show this help.
 
-The script installs open-source conda-forge backends, then the Python
-dependencies in chemistry_toolbox/environment/toolbox-pip.txt under tested
-numerical pins.
+The script installs the ResearchChemBench framework, evaluation runtime, and
+open-source chemistry dependencies under tested numerical pins.
 Licensed/account-gated programs and API keys are never downloaded or written.
 EOF
 }
@@ -36,6 +38,10 @@ while [[ $# -gt 0 ]]; do
     --manager)
       MANAGER="$2"
       shift 2
+      ;;
+    --from-lock)
+      FROM_LOCK=1
+      shift
       ;;
     --skip-verify)
       SKIP_VERIFY=1
@@ -65,18 +71,30 @@ if [[ -z "$MANAGER" ]]; then
 fi
 
 if [[ ! -x "$ENV_DIR/bin/python" ]]; then
-  "$MANAGER" create -y -p "$ENV_DIR" -c conda-forge \
-    --file "$ROOT_DIR/chemistry_toolbox/environment/toolbox-conda.txt"
+  if [[ "$FROM_LOCK" -eq 1 ]]; then
+    LOCK_FILE="$ROOT_DIR/chemistry_toolbox/environment/framework/locks/linux-64/researchchembench.explicit.txt"
+    [[ -s "$LOCK_FILE" ]] || { echo "Missing framework lock: $LOCK_FILE" >&2; exit 2; }
+    "$MANAGER" create -y -p "$ENV_DIR" --file "$LOCK_FILE"
+  else
+    "$MANAGER" create -y -p "$ENV_DIR" -c conda-forge \
+      --file "$ROOT_DIR/chemistry_toolbox/environment/toolbox-conda.txt"
+  fi
 fi
 
 PYTHON_BIN="$ENV_DIR/bin/python"
-"$PYTHON_BIN" -m pip install --upgrade pip setuptools wheel
-"$PYTHON_BIN" -m pip install \
+PIP_CONFIG_FILE=/dev/null \
+PIP_INDEX_URL="${RCB_PIP_INDEX_URL:-https://pypi.org/simple}" \
+PIP_TRUSTED_HOST="${RCB_PIP_TRUSTED_HOST:-pypi.org}" \
+  "$PYTHON_BIN" -m pip install --upgrade pip setuptools wheel
+PIP_CONFIG_FILE=/dev/null \
+PIP_INDEX_URL="${RCB_PIP_INDEX_URL:-https://pypi.org/simple}" \
+PIP_TRUSTED_HOST="${RCB_PIP_TRUSTED_HOST:-pypi.org}" \
+  "$PYTHON_BIN" -m pip install \
   --constraint "$ROOT_DIR/chemistry_toolbox/environment/toolbox-constraints.txt" \
   --requirement "$ROOT_DIR/chemistry_toolbox/environment/toolbox-pip.txt" \
   --editable "$ROOT_DIR[test]"
+"$PYTHON_BIN" -m pip check
 
-"$PYTHON_BIN" "$ROOT_DIR/chemistry_toolbox/scripts/configure_mcp_conda_envs.py"
 "$PYTHON_BIN" "$ROOT_DIR/chemistry_toolbox/scripts/cache_minilm_model.py"
 
 if [[ "$SKIP_VERIFY" -eq 1 ]]; then
@@ -97,4 +115,4 @@ cd "$ROOT_DIR"
 "$PYTHON_BIN" chemistry_toolbox/scripts/check_mcp_tools.py --smoke
 "$PYTHON_BIN" chemistry_toolbox/scripts/verify_toolbox.py
 
-echo "Toolbox environment installed and verified: $ENV_DIR"
+echo "ResearchChemBench framework environment installed and verified: $ENV_DIR"

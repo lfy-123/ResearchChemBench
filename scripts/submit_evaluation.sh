@@ -4,10 +4,16 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 
-PYTHON="$ROOT_DIR/.toolbox_env/bin/python"
+ENV_ROOT="${RESEARCHCHEMBENCH_ENV_ROOT:-$ROOT_DIR/.envs}"
+FRAMEWORK_ENV="${RESEARCHCHEMBENCH_FRAMEWORK_ENV:-$ENV_ROOT/researchchembench}"
+PYTHON="$FRAMEWORK_ENV/bin/python"
 if [[ ! -x "$PYTHON" ]]; then
-  PYTHON="$(command -v python)"
+  echo "ResearchChemBench framework environment is missing: $FRAMEWORK_ENV" >&2
+  echo "Build it with: bash chemistry_toolbox/scripts/setup_toolbox_env.sh" >&2
+  exit 2
 fi
+
+export RESEARCHCHEMBENCH_ENV_ROOT="$ENV_ROOT"
 
 usage() {
   cat <<'EOF'

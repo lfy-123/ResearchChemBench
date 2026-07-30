@@ -4,73 +4,96 @@ ResearchChemBench evaluates whether external autonomous agents such as Codex CLI
 
 ## Build the environments
 
-The current runtime layout uses one project environment plus six consolidated
-chemistry environments. The former one-profile-per-prefix layout under
-`.tool_envs/` is retained only as a temporary compatibility fallback and is not
-the recommended installation target.
+ResearchChemBench uses one project environment and six consolidated chemistry
+environments. All seven environments are managed with Conda or Mamba, with
+selected Python-only packages installed by pip.
 
-| Environment | Default prefix | Main responsibility |
+A fresh installation keeps every environment under the repository-level
+`.envs/` directory:
+
+```text
+ResearchChemBench/
+├── .envs/
+│   ├── researchchembench
+│   ├── general-modern-openmpi5
+│   ├── molecular-simulation-openff
+│   ├── kinetics-legacy
+│   ├── equivariant-ml
+│   ├── periodic-mpich
+│   └── yambo-openmpi4
+```
+
+| Environment | Prefix under `.envs/` | Main responsibility |
 |---|---|---|
-| Project environment | `.toolbox_env` | Evaluation CLI, bootstrap utilities, project tests, and local administration |
-| General | `.tool_envs_merged/general-modern-openmpi5` | MCP server, cheminformatics, quantum chemistry, materials analysis, MACE/CHGNet, and most native software entry points |
-| Molecular simulation | `.tool_envs_merged/molecular-simulation-openff` | OpenFF/AmberTools, OpenMM, GROMACS, HOOMD, free-energy analysis, and docking |
-| Reaction and kinetics | `.tool_envs_merged/kinetics-legacy` | RMG/Arkane, reaction exploration, KinBot/Sella, ABINIT, and LAMMPS |
-| Equivariant ML | `.tool_envs_merged/equivariant-ml` | DeePMD, NequIP, Allegro, CPU PyTorch, and e3nn |
-| Periodic MPICH | `.tool_envs_merged/periodic-mpich` | CP2K 2026.1 with its isolated MPICH 5/libxc 7 stack |
-| CatMAP and Yambo | `.tool_envs_merged/yambo-openmpi4` | CatMAP/ASE 3.17 and Yambo/OpenMPI 4 compatibility runtime |
+| ResearchChemBench framework | `researchchembench` | Evaluation CLI, Agent orchestration, project administration, tests, and bootstrap utilities |
+| General | `general-modern-openmpi5` | MCP server, cheminformatics, quantum chemistry, materials analysis, and most native entry points |
+| Molecular simulation | `molecular-simulation-openff` | OpenFF, AmberTools, OpenMM, GROMACS, HOOMD, free-energy analysis, and docking |
+| Reaction and kinetics | `kinetics-legacy` | RMG, Arkane, KinBot, Sella, ABINIT, and LAMMPS |
+| Equivariant ML | `equivariant-ml` | DeePMD, NequIP, Allegro, CPU PyTorch, and e3nn |
+| Periodic MPICH | `periodic-mpich` | CP2K 2026.1 with the isolated MPICH 5 and libxc 7 stack |
+| CatMAP and Yambo | `yambo-openmpi4` | CatMAP, ASE 3.17, Yambo, and OpenMPI 4 compatibility runtime |
 
 ### 1. Prerequisites
 
 Use a Linux x86-64 host with Conda or Mamba available. Mamba is recommended.
-The exact locks reproduce the tested `linux-64` package builds; use the
-maintained specifications instead when deploying to another platform.
+The committed explicit locks reproduce the tested `linux-64` Conda artifacts
+for the framework and all six chemistry environments. On another operating
+system or CPU architecture, solve from the maintained specifications instead.
 
-Optional GUI/native smoke tests also use the Debian/Ubuntu packages listed in
-`chemistry_toolbox/environment/merged/system-requirements.txt`:
+Optional GUI and native smoke tests also use the Debian/Ubuntu packages listed
+in `chemistry_toolbox/environment/merged/system-requirements.txt`:
 
 ```bash
 sudo apt-get update
 sudo apt-get install -y xauth xvfb libxkbcommon0 libgtk-3-0
 ```
 
-These host packages may be omitted when the corresponding GUI capabilities are
-not needed.
+### 2. Rebuild all seven environments
 
-### 2. Build the project environment
-
-Run from the repository root. `--skip-verify` defers the complete toolbox
-verification until the six backend environments are present.
+For a Linux x86-64 host, run the following commands from a fresh repository
+checkout. This is the tested reconstruction path for the current layout:
 
 ```bash
-cd /path/to/ResearchChemBench
-bash chemistry_toolbox/scripts/setup_toolbox_env.sh --skip-verify
-```
+git clone git@github.com:lfy-123/ResearchChemBench.git
+cd ResearchChemBench
 
-This creates `.toolbox_env`, installs the editable ResearchChemBench package,
-and caches the offline semantic-retrieval model used by progressive discovery.
-
-### 3. Build the six consolidated chemistry environments
-
-For another compatible Linux x86-64 server, replay the committed Conda
-artifacts. This is the preferred migration and reproducibility path:
-
-```bash
 export RCB_PIP_INDEX_URL=https://pypi.org/simple
 export RCB_PIP_TRUSTED_HOST=pypi.org
 
-bash chemistry_toolbox/scripts/build_merged_environments.sh --from-lock all
+mkdir -p "$PWD/.envs"
+
+bash chemistry_toolbox/scripts/setup_toolbox_env.sh \
+  --env-dir "$PWD/.envs/researchchembench" \
+  --from-lock --skip-verify
+
+bash chemistry_toolbox/scripts/build_merged_environments.sh \
+  --from-lock all
 ```
 
-The `--from-lock` option exactly replays the tested Conda artifacts. Pip-only
-packages are then installed from the pinned/VCS requirements committed beside
-each environment definition.
+`setup_toolbox_env.sh --from-lock` replays the framework Conda lock, installs
+the pinned direct pip dependencies and editable project package, checks package
+consistency, and caches the English MiniLM retrieval model under `.model_cache`.
+`build_merged_environments.sh --from-lock all` replays the six chemistry Conda
+locks, installs each runtime's pinned pip requirements, and applies the two
+documented compatibility-warning allowlists. No `.venv`, `.toolbox_env`,
+`.tool_envs`, `.tool_envs_merged`, or `.conda_envs` directory is required.
 
-To solve the environments from the maintained specifications instead of the
-Linux locks:
+For a different platform, omit `--from-lock` so Conda resolves the maintained
+specifications. This creates a compatible installation, not an exact replay of
+the tested Linux artifacts:
 
 ```bash
+bash chemistry_toolbox/scripts/setup_toolbox_env.sh \
+  --env-dir "$PWD/.envs/researchchembench" --skip-verify
 bash chemistry_toolbox/scripts/build_merged_environments.sh all
 ```
+
+The standard `.envs/` layout needs no environment-variable configuration. All
+build, evaluation, and submission code uses the consolidated repository
+`.envs/` directory. Set `RESEARCHCHEMBENCH_ENV_ROOT=/another/path` only when
+deliberately relocating all seven environments. Set
+`RESEARCHCHEMBENCH_FRAMEWORK_ENV` only when the framework environment must be
+placed outside that common root.
 
 Build only selected environments by passing their specification names:
 
@@ -79,7 +102,7 @@ bash chemistry_toolbox/scripts/build_merged_environments.sh \
   general-modern-openmpi5 periodic-mpich
 ```
 
-Use `--recreate` only when existing managed prefixes should be removed and
+Use `--recreate` only when an existing managed prefix should be removed and
 rebuilt:
 
 ```bash
@@ -87,61 +110,71 @@ bash chemistry_toolbox/scripts/build_merged_environments.sh \
   --recreate --from-lock all
 ```
 
-### 4. Relocate or select the consolidated layout
+The committed `*.pip-freeze.txt` files are audit inventories, not installation
+inputs. Use the two build scripts above; they select the locks, maintained
+requirements, target names, and compatibility policy consistently.
 
-The toolbox automatically selects the consolidated layout when all required
-prefixes exist. Set the layout explicitly during deployment and validation:
+### 3. Restore local configuration and external assets
 
-```bash
-export RESEARCHCHEM_ENV_LAYOUT=merged
-```
-
-The six environments may live on a separate data volume. Set the same root
-while building and running:
-
-```bash
-export RCB_MERGED_ENV_ROOT=/data/researchchem-envs
-bash chemistry_toolbox/scripts/build_merged_environments.sh --from-lock all
-```
-
-For a temporary controlled fallback, set
-`RESEARCHCHEM_ENV_LAYOUT=legacy`. Do not use the legacy layout for a new
-installation.
-
-### 5. Configure models, scientific data, and native software
-
-Conda environments do not contain the large external assets. Restore or
-prepare these project-relative directories separately:
-
-```text
-.model_cache/       # MACE, NequIP, Allegro, and DeePMD models
-.software_cache/    # pseudopotentials, parameter sets, native/licensed software
-```
-
-Licensed programs such as ORCA, Gaussian, VASP, AMBER, CHARMM, and LOBSTER
-must be supplied legally by the operator. The tracked `config.local.env` is a
-placeholder-only template; replace its values locally and never commit real
-credentials.
-
-After the assets and six environments are present, create the configured
-executable links and verify registered checksums:
-
-```bash
-.toolbox_env/bin/python \
-  chemistry_toolbox/scripts/configure_toolbox_resources.py --quick
-```
-
-Fill only the values needed on the current server:
+Edit the tracked placeholder-only `config.local.env` and provide the Agent and
+Judge credentials needed on the target host. Never commit real credentials:
 
 ```bash
 chmod 600 config.local.env
+${EDITOR:-vi} config.local.env
 ```
 
-### 6. Verify the installation
+The public repository does not include large model weights, pseudopotentials,
+third-party native distributions, licensed executables, or credentials. Place
+operator-supplied resources in these project-relative directories when the
+corresponding backend is required:
+
+```text
+.model_cache/
+.software_cache/
+```
+
+Licensed software must be obtained and used under its applicable license. The
+environment build does not download or activate commercial programs. When
+migrating an existing installation, copy `.model_cache/` and `.software_cache/`
+to the repository root before resource configuration. The MiniLM retrieval
+model is recreated automatically; chemistry model weights and licensed software
+must be restored separately.
+
+After optional resources are present, create the configured executable links
+and verify registered checksums:
 
 ```bash
-export RESEARCHCHEM_ENV_LAYOUT=merged
-GENERAL_PYTHON="${RCB_MERGED_ENV_ROOT:-$PWD/.tool_envs_merged}/general-modern-openmpi5/bin/python"
+.envs/researchchembench/bin/python \
+  chemistry_toolbox/scripts/configure_toolbox_resources.py --quick
+```
+
+### 4. Verify the reconstruction
+
+The build scripts execute package checks. Five environments should report no
+broken requirements when checked directly:
+
+```bash
+for name in \
+  researchchembench \
+  general-modern-openmpi5 \
+  molecular-simulation-openff \
+  equivariant-ml \
+  periodic-mpich
+do
+  "$PWD/.envs/$name/bin/python" -m pip check
+done
+```
+
+`kinetics-legacy` retains three legacy package platform-metadata warnings
+(`quantities`, `gprof2dot`, and `periodictable`), and `yambo-openmpi4` retains
+the required ASE 3.17 platform-metadata warning. The six-environment build
+script rejects every other `pip check` error.
+
+Run the toolbox validation suite:
+
+```bash
+GENERAL_PYTHON="$PWD/.envs/general-modern-openmpi5/bin/python"
 
 "$GENERAL_PYTHON" -m chemistry_toolbox.mcp.tool_manager validate
 "$GENERAL_PYTHON" chemistry_toolbox/scripts/check_mcp_tools.py --smoke
@@ -150,16 +183,15 @@ GENERAL_PYTHON="${RCB_MERGED_ENV_ROOT:-$PWD/.tool_envs_merged}/general-modern-op
   --check-models --no-write
 ```
 
-Run the local no-API benchmark smoke after environment verification:
+Finally, run a local benchmark smoke that does not call an external Agent API:
 
 ```bash
 bash scripts/run_agent_eval.sh --agent mock \
   --task Electron_Isodensity_Reproduction_01_Method_Selection --no-score
 ```
 
-The environment definitions, compatibility boundaries, and lock-maintenance
-commands are documented in
-[`chemistry_toolbox/environment/merged/README.md`](chemistry_toolbox/environment/merged/README.md).
+An installation is considered ready only after package checks, toolbox smoke
+tests, and representative calculations for the enabled native backends pass.
 
 ## Architecture
 
@@ -201,12 +233,6 @@ Use `scripts/submit_evaluation.sh` for normal evaluations. It validates the
 task list, writes an immutable submission configuration, launches the run in a
 background `tmux` session, and provides status, stop, and summary commands.
 Model and judge credentials are read from the local `config.local.env`.
-
-Set the consolidated environment layout before submitting:
-
-```bash
-export RESEARCHCHEM_ENV_LAYOUT=merged
-```
 
 Preview a submission without calling an Agent or Judge:
 
@@ -302,7 +328,7 @@ submissions.
 Launch the Web UI:
 
 ```bash
-.toolbox_env/bin/python -m evaluation
+.envs/researchchembench/bin/python -m evaluation
 ```
 
 Open <http://localhost:5000>.
@@ -348,13 +374,10 @@ surface.
 - [当前 Actions、Backends 与软件能力目录](docs/verification/CHEMISTRY_TOOLBOX_CURRENT_CAPABILITY_CATALOG_20260722.md)
 - [Action–Backend 233个组合完整测试与软件接入审计](chemistry_toolbox/docs/ACTION_BACKEND_COMPLETE_AUDIT_20260721.md)
 - [11个失败组合修复与PubChem连通性报告](chemistry_toolbox/docs/ACTION_BACKEND_REPAIR_REPORT_20260721.md)
-- [MCP 后端运行环境](docs/MCP_PROFILE_ENVIRONMENTS.md)
-- [MCP 多环境当前检查状态](chemistry_toolbox/docs/MCP_PROFILE_STATUS.md)
 - [工具箱实现说明](docs/TOOLBOX_IMPLEMENTATION.md)
 - [逐工具测试结果与未配置软件手动配置](docs/TOOL_TEST_AND_MANUAL_CONFIGURATION.md)
 - [工具箱实际状态报告](chemistry_toolbox/docs/TOOLBOX_STATUS.md)
 - [MCP 工具编写、增删、打包与 Agent 一键安装](docs/MCP_TOOLS_DEVELOPMENT_AND_INSTALLATION.md)
-- [化学工具箱自动配置与可迁移部署](chemistry_toolbox/docs/CHEMISTRY_TOOLBOX_PORTABLE_BOOTSTRAP.md)
 - [Running agents and evaluations](docs/RUNNING_EVALUATIONS.md)
 - [Persistent evaluation submission commands](scripts/submit_evaluation.md)
 - [Detailed ResearchClawBench → ResearchChemBench code changes](docs/RESEARCHCLAWBENCH_CODE_CHANGES.md)

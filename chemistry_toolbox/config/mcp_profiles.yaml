@@ -9,12 +9,14 @@ public_server:
   server_name: researchchem_toolbox
   description: Unified MCP server exposing the complete versioned Scientific/Data Action catalog to every benchmark task.
 
+# Every runtime below points directly to one of the six physical .envs prefixes.
+
 # Executable-only backend runtimes. No runtime owns or filters public tools.
 support_environments:
   abinit:
     conda_name: researchchem-abinit
     description: Isolated ABINIT executable used only when the Agent selects backend_id=abinit.
-    environment: .tool_envs/abinit
+    environment: .envs/kinetics-legacy
     conda_packages: [abinit, typing_extensions, numpy, pydantic, pyyaml, python-dotenv]
     pip_packages: []
     health_checks:
@@ -29,7 +31,7 @@ support_environments:
   lammps:
     conda_name: researchchem-lammps
     description: LAMMPS MPICH runtime isolated from the AmberTools/OpenFF environment.
-    environment: .tool_envs/md
+    environment: .envs/kinetics-legacy
     conda_packages: [python=3.11, lammps=2024.08.29, mpich=4, pydantic, pyyaml, python-dotenv]
     pip_packages: []
     health_checks:
@@ -46,7 +48,7 @@ support_environments:
   gaussian:
     conda_name: researchchem-gaussian
     description: Licensed Gaussian 16 C.01 executable and formatted-checkpoint runtime.
-    environment: .tool_envs/gaussian
+    environment: .envs/general-modern-openmpi5
     conda_packages: [python=3.11, cclib]
     pip_packages: []
     health_checks:
@@ -71,7 +73,7 @@ support_environments:
   gamess:
     conda_name: researchchem-gamess
     description: Registered GAMESS 15 Jul 2024 R2 Patch 1 sockets-DDI source build.
-    environment: .tool_envs/gamess
+    environment: .envs/general-modern-openmpi5
     conda_packages: [gcc_linux-64, gfortran_linux-64, openblas, tcsh, jinja2]
     pip_packages: []
     health_checks:
@@ -84,7 +86,7 @@ support_environments:
     path_entries:
       - .software_cache/gamess/2024-r2-p1/source
       - .software_cache/gamess/2024-r2-p1/build
-    library_path_entries: [.tool_envs/gamess/lib]
+    library_path_entries: [.envs/general-modern-openmpi5/lib]
     cache_paths: [.software_cache/gamess/2024-r2-p1]
     environment_variables:
       GMS_PATH: .software_cache/gamess/2024-r2-p1/source
@@ -98,7 +100,7 @@ support_environments:
   rmg:
     conda_name: researchchem-rmg
     description: RMG-Py 4.0.0 typed kinetics and tunneling runtime.
-    environment: .tool_envs/rmg
+    environment: .envs/kinetics-legacy
     conda_packages: [rmg=4.0.0, pydantic, pyyaml, python-dotenv]
     pip_packages: []
     health_checks:
@@ -118,7 +120,7 @@ support_environments:
   mess:
     conda_name: researchchem-mess
     description: MESS 2020.1.24 master-equation runtime for an Agent-supplied native reaction model.
-    environment: .tool_envs/mess
+    environment: .envs/general-modern-openmpi5
     conda_packages: [python=3.11, pydantic, pyyaml, python-dotenv]
     pip_packages: []
     health_checks:
@@ -128,7 +130,7 @@ support_environments:
     command_variables:
       CHEMGRAPH_MESS_COMMAND: .software_cache/mess/2020.1.24/build/mess
     path_entries: [.software_cache/mess/2020.1.24/build]
-    library_path_entries: [.tool_envs/deepmd/lib]
+    library_path_entries: [.envs/general-modern-openmpi5/lib]
     cache_paths: [.software_cache/mess/2020.1.24]
     environment_variables:
       OMP_NUM_THREADS: "1"
@@ -140,7 +142,7 @@ support_environments:
   mesmer:
     conda_name: researchchem-mesmer
     description: MESMER 7.1 master-equation runtime for an Agent-supplied XML reaction model.
-    environment: .tool_envs/mesmer
+    environment: .envs/general-modern-openmpi5
     conda_packages: [python=3.11, pydantic, pyyaml, python-dotenv]
     pip_packages: []
     health_checks:
@@ -158,7 +160,7 @@ support_environments:
   sella:
     conda_name: researchchem-sella
     description: Sella 2.5.0 composite minimum/transition-state optimizer using an Agent-selected calculator backend.
-    environment: .tool_envs/sella
+    environment: .envs/kinetics-legacy
     conda_packages: [python=3.11, ase, pydantic, pyyaml, python-dotenv]
     pip_packages: [sella==2.5.0]
     health_checks:
@@ -172,7 +174,7 @@ support_environments:
   namd:
     conda_name: researchchem-namd
     description: NAMD 3.0.2 multicore AVX-512 runtime; the CUDA bundle is cached but not selected automatically.
-    environment: .tool_envs/namd
+    environment: .envs/general-modern-openmpi5
     conda_packages: [python]
     pip_packages: []
     health_checks:
@@ -191,7 +193,7 @@ support_environments:
   amber:
     conda_name: researchchem-amber
     description: Amber 26 licensed PMEMD CPU serial and OpenMPI executables.
-    environment: .tool_envs/amber
+    environment: .envs/general-modern-openmpi5
     conda_packages: [gcc_linux-64, gfortran_linux-64, cmake, openmpi, netcdf-fortran, fftw, bison]
     pip_packages: []
     health_checks:
@@ -202,9 +204,9 @@ support_environments:
     command_variables:
       CHEMGRAPH_AMBER_COMMAND: .software_cache/amber/26/install/bin/pmemd
       CHEMGRAPH_AMBER_MPI_COMMAND: .software_cache/amber/26/install/bin/pmemd.MPI
-      CHEMGRAPH_AMBER_MPIRUN_COMMAND: .tool_envs/amber/bin/mpirun
+      CHEMGRAPH_AMBER_MPIRUN_COMMAND: .envs/general-modern-openmpi5/bin/mpirun
     path_entries: [.software_cache/amber/26/install/bin]
-    library_path_entries: [.tool_envs/amber/lib]
+    library_path_entries: [.envs/general-modern-openmpi5/lib]
     cache_paths: [.software_cache/amber/26]
     environment_variables:
       CHEMGRAPH_AMBER_MPI_EXECUTABLE: .software_cache/amber/26/install/bin/pmemd.MPI
@@ -217,7 +219,7 @@ support_environments:
   charmm:
     conda_name: researchchem-charmm
     description: Academic CHARMM c50b2 serial/OpenMP GNU source build.
-    environment: .tool_envs/charmm
+    environment: .envs/general-modern-openmpi5
     conda_packages: [python]
     pip_packages: []
     health_checks:
@@ -236,7 +238,7 @@ profiles:
     conda_name: researchchem-core
     server_name: researchchem_core
     description: Core runtime for cheminformatics and deterministic analysis backends.
-    environment: .toolbox_env
+    environment: .envs/general-modern-openmpi5
     use_project_model_cache: true
     runtime_preload_libraries: [libstdc++.so.6, libgcc_s.so.1]
     health_checks:
@@ -263,7 +265,7 @@ profiles:
     conda_name: researchchem-services
     server_name: researchchem_services
     description: Remote scientific data services and authenticated materials lookup.
-    environment: .tool_envs/services
+    environment: .envs/general-modern-openmpi5
     conda_packages: [mp-api]
     pip_packages: [pubchempy==1.0.5]
     health_checks:
@@ -279,7 +281,7 @@ profiles:
     conda_name: researchchem-workflows
     server_name: researchchem_workflows
     description: Crystal structure, symmetry, and lightweight trajectory-analysis libraries.
-    environment: .tool_envs/workflows
+    environment: .envs/general-modern-openmpi5
     conda_packages: [qcelemental=0.50.4, qcengine=0.50.0, cclib=1.8.1, pymatgen, spglib, mdtraj]
     pip_packages: []
     health_checks:
@@ -290,7 +292,7 @@ profiles:
     conda_name: researchchem-free-energy
     server_name: researchchem_free_energy
     description: Explicit statistical free-energy estimation and alchemical analysis runtime.
-    environment: .tool_envs/free_energy
+    environment: .envs/molecular-simulation-openff
     conda_packages: [pymbar=4.2.0, alchemlyb=2.5.0, mdtraj, pydantic, pyyaml, python-dotenv]
     pip_packages: []
     health_checks:
@@ -301,7 +303,7 @@ profiles:
     conda_name: researchchem-quantum
     server_name: researchchem_quantum
     description: Molecular quantum chemistry and ASE calculation tools, including typed ORCA 6.1.1 correlated-density generation and density export; Psi4 remains isolated.
-    environment: .tool_envs/quantum
+    environment: .envs/general-modern-openmpi5
     runtime_preload_libraries: [libstdc++.so.6, libgcc_s.so.1]
     conda_packages: [ase, xtb, openbabel]
     pip_packages: [pyscf, tblite==0.4.0, mace-torch==0.3.16]
@@ -343,7 +345,7 @@ profiles:
     conda_name: researchchem-gpaw
     server_name: researchchem_gpaw
     description: GPAW 25.7.0 molecular and periodic PAW-DFT runtime with locally managed setup datasets.
-    environment: .tool_envs/gpaw
+    environment: .envs/general-modern-openmpi5
     conda_packages: [gpaw=25.7.0, ase, pydantic, pyyaml, python-dotenv]
     pip_packages: []
     health_checks:
@@ -358,7 +360,7 @@ profiles:
     conda_name: researchchem-source-runtime-critic2
     server_name: researchchem_critic2
     description: Critic2 1.2.1081 typed QTAIM critical-point analysis runtime.
-    environment: .tool_envs/deepmd
+    environment: .envs/general-modern-openmpi5
     conda_packages: [gfortran_linux-64, spglib]
     pip_packages: []
     health_checks:
@@ -373,7 +375,7 @@ profiles:
   lobster:
     conda_name: researchchem-lobster
     description: Licensed LOBSTER 5.1.0 periodic bonding and projected-DOS postprocessing runtime.
-    environment: .tool_envs/lobster
+    environment: .envs/general-modern-openmpi5
     conda_packages: [pymatgen, pydantic, pyyaml, python-dotenv]
     pip_packages: []
     health_checks:
@@ -392,7 +394,7 @@ profiles:
   shengbte:
     conda_name: researchchem-shengbte
     description: ShengBTE source revision b0d2090 for Agent-supplied phonon-BTE models.
-    environment: .tool_envs/deepmd
+    environment: .envs/general-modern-openmpi5
     conda_packages: [openmpi, spglib, lapack, blas, gfortran_linux-64, pydantic, pyyaml, python-dotenv]
     pip_packages: []
     health_checks:
@@ -402,7 +404,7 @@ profiles:
     command_variables:
       CHEMGRAPH_SHENGBTE_COMMAND: .software_cache/shengbte/source/ShengBTE
     path_entries: [.software_cache/shengbte/source]
-    library_path_entries: [.tool_envs/deepmd/lib]
+    library_path_entries: [.envs/general-modern-openmpi5/lib]
     cache_paths: [.software_cache/shengbte/source]
     smoke_commands:
       - [bash, -c, 'grep -q "normal exit" .software_cache/shengbte/source/Test-RTA/BTE.smoke.out']
@@ -411,7 +413,7 @@ profiles:
   openmolcas:
     conda_name: researchchem-openmolcas
     description: OpenMolcas v25.10 molecular SCF runtime with typed HF/DFT property adapters.
-    environment: .tool_envs/deepmd
+    environment: .envs/general-modern-openmpi5
     conda_packages: [gfortran_linux-64, pyparsing, pydantic, pyyaml, python-dotenv]
     pip_packages: []
     health_checks:
@@ -425,7 +427,7 @@ profiles:
       - .software_cache/openmolcas/25.10/bin
     library_path_entries:
       - .software_cache/openmolcas/25.10/lib
-      - .tool_envs/deepmd/lib
+      - .envs/general-modern-openmpi5/lib
     cache_paths:
       - .software_cache/openmolcas/source
       - .software_cache/openmolcas/25.10
@@ -439,7 +441,7 @@ profiles:
   multiwfn:
     conda_name: researchchem-multiwfn
     description: Multiwfn 2026.7.15 noGUI typed wavefunction, density-grid, and electron-isodensity-surface analysis runtime.
-    environment: .tool_envs/multiwfn
+    environment: .envs/general-modern-openmpi5
     conda_packages: [python=3.11, pydantic, pyyaml, python-dotenv]
     pip_packages: []
     health_checks:
@@ -462,7 +464,7 @@ profiles:
     conda_name: researchchem-nwchem
     server_name: researchchem_nwchem
     description: NWChem 7.3.x single-geometry QCSchema runtime with local official basis libraries.
-    environment: .tool_envs/nwchem
+    environment: .envs/general-modern-openmpi5
     conda_packages: [nwchem=7.3.1, qcengine=0.50.0, qcelemental=0.50.4, cclib, pydantic, pyyaml, python-dotenv]
     pip_packages: [autode=1.4.5, geometric==1.1.1]
     health_checks:
@@ -477,7 +479,7 @@ profiles:
     conda_name: researchchem-psi4
     server_name: researchchem_psi4
     description: Isolated Psi4 Python runtime.
-    environment: .tool_envs/psi4
+    environment: .envs/general-modern-openmpi5
     conda_packages: [psi4]
     pip_packages: []
     health_checks:
@@ -489,7 +491,7 @@ profiles:
     conda_name: researchchem-goodvibes
     server_name: researchchem_goodvibes
     description: Isolated GoodVibes 4.3.0 thermochemistry, ensemble, selectivity, validation, and reaction-profile runtime.
-    environment: .tool_envs/goodvibes
+    environment: .envs/general-modern-openmpi5
     conda_packages: [python=3.11, pydantic, pyyaml, python-dotenv]
     pip_packages: ['goodvibes[full]==4.3.0']
     health_checks:
@@ -506,7 +508,7 @@ profiles:
     conda_name: researchchem-reaction
     server_name: researchchem_reaction
     description: Conformer refinement, reaction paths, and kinetics.
-    environment: .tool_envs/reaction
+    environment: .envs/kinetics-legacy
     conda_packages: [xtb, crest, cantera]
     pip_packages:
       - pysisyphus==1.0.0
@@ -545,7 +547,7 @@ profiles:
     conda_name: researchchem-catmap-yambo-openmpi4
     server_name: researchchem_catmap
     description: CatMAP 0.3.1 compatibility runtime isolated on its required ASE 3.17 API.
-    environment: .tool_envs/reaction
+    environment: .envs/yambo-openmpi4
     conda_packages: [python=3.11, ase=3.17, pydantic, pyyaml, python-dotenv]
     pip_packages:
       - git+https://github.com/SUNCAT-Center/catmap.git@ed04f9146a787b0e63b6febd96d8fe3b314c251b
@@ -562,7 +564,7 @@ profiles:
     conda_name: researchchem-qe
     server_name: researchchem_qe
     description: Isolated Quantum ESPRESSO runtime.
-    environment: .tool_envs/qe
+    environment: .envs/general-modern-openmpi5
     conda_packages: [qe]
     pip_packages: []
     health_checks:
@@ -575,7 +577,7 @@ profiles:
     conda_name: researchchem-cp2k
     server_name: researchchem_cp2k
     description: Isolated CP2K runtime.
-    environment: .tool_envs/cp2k
+    environment: .envs/periodic-mpich
     conda_packages: [cp2k]
     pip_packages: []
     health_checks:
@@ -588,28 +590,28 @@ profiles:
     conda_name: researchchem-periodic
     server_name: researchchem_periodic
     description: DFTB+ and SIESTA backend runtime; ABINIT remains separately isolated.
-    environment: .tool_envs/periodic
+    environment: .envs/general-modern-openmpi5
     conda_packages: [dftbplus, siesta]
     pip_packages: []
     health_checks:
       commands: [dftb+, siesta]
       external_commands:
-        - .tool_envs/qe/bin/pw.x
-        - .tool_envs/cp2k/bin/cp2k
-        - .tool_envs/abinit/bin/abinit
+        - .envs/general-modern-openmpi5/bin/pw.x
+        - .envs/periodic-mpich/bin/cp2k
+        - .envs/kinetics-legacy/bin/abinit
     command_variables:
-      CHEMGRAPH_QE_COMMAND: .tool_envs/qe/bin/pw.x
-      CHEMGRAPH_CP2K_COMMAND: .tool_envs/cp2k/bin/cp2k
+      CHEMGRAPH_QE_COMMAND: .envs/general-modern-openmpi5/bin/pw.x
+      CHEMGRAPH_CP2K_COMMAND: .envs/periodic-mpich/bin/cp2k
       CHEMGRAPH_DFTBPLUS_COMMAND: dftb+
       CHEMGRAPH_SIESTA_COMMAND: siesta
-      CHEMGRAPH_ABINIT_COMMAND: .tool_envs/abinit/bin/abinit
+      CHEMGRAPH_ABINIT_COMMAND: .envs/kinetics-legacy/bin/abinit
     backends: [dftbplus, siesta]
 
   phonons:
     conda_name: researchchem-phonons
     server_name: researchchem_phonons
     description: Isolated Phonopy and Phono3py runtime.
-    environment: .tool_envs/phonons
+    environment: .envs/general-modern-openmpi5
     conda_packages: [phonopy, phono3py]
     pip_packages: []
     health_checks:
@@ -624,7 +626,7 @@ profiles:
     conda_name: researchchem-md
     server_name: researchchem_md
     description: Molecular dynamics preparation, execution, enhanced sampling, and analysis.
-    environment: .tool_envs/md
+    environment: .envs/molecular-simulation-openff
     conda_packages: [openmm, pdbfixer, gromacs, plumed, netcdf4, packmol, parmed]
     pip_packages: [MDAnalysis]
     health_checks:
@@ -636,7 +638,7 @@ profiles:
     prepend_path_entries:
       # AmberTools 26 intentionally conflicts with the standalone Packmol
       # Conda package. Packmol is shared from the consolidated general prefix.
-      - .tool_envs_merged/general-modern-openmpi5/bin
+      - .envs/general-modern-openmpi5/bin
     backends:
       - pdbfixer
       - openmm_builder
@@ -650,7 +652,7 @@ profiles:
     conda_name: researchchem-openff
     server_name: researchchem_openff
     description: Isolated modern OpenFF Toolkit, Interchange, and AmberTools runtime.
-    environment: .tool_envs/openff
+    environment: .envs/molecular-simulation-openff
     python_version: "3.12"
     conda_packages:
       - openff-toolkit
@@ -672,7 +674,7 @@ profiles:
     conda_name: researchchem-mlip
     server_name: researchchem_mlip
     description: Machine-learning interatomic potentials and model-isolated runtimes.
-    environment: .tool_envs/mlip
+    environment: .envs/general-modern-openmpi5
     runtime_preload_libraries: [libstdc++.so.6, libgcc_s.so.1]
     conda_packages: [ase]
     # MACE and CHGNet remain isolated here. NequIP/Allegro and DeePMD use their
@@ -693,7 +695,7 @@ profiles:
     conda_name: researchchem-nequip
     server_name: researchchem_nequip
     description: NequIP 0.19.0 and Allegro 0.8.3 inference runtime with explicitly registered local checkpoints.
-    environment: .tool_envs/nequip
+    environment: .envs/equivariant-ml
     runtime_preload_libraries: [libstdc++.so.6, libgcc_s.so.1]
     conda_packages: [nequip=0.19.0, ase, pydantic, pyyaml, python-dotenv]
     pip_packages: [nequip-allegro==0.8.3]
@@ -707,7 +709,7 @@ profiles:
     conda_name: researchchem-deepmd-models
     server_name: researchchem_deepmd
     description: DeePMD-kit 3.2.0b0 CPU inference runtime for the downloaded DPA multitask and OMol checkpoints.
-    environment: .tool_envs/deepmd_models
+    environment: .envs/equivariant-ml
     runtime_preload_libraries: [libstdc++.so.6, libgcc_s.so.1]
     conda_packages: [python=3.11]
     pip_packages: [deepmd-kit==3.2.0b0, ase==3.29.0, mpich==5.0.1.post1, e3nn==0.6.0, pydantic, pyyaml, python-dotenv]
@@ -721,7 +723,7 @@ profiles:
     conda_name: researchchem-vasp
     server_name: researchchem_vasp
     description: Locally compiled VASP 6.3.2 standard executable with OpenMPI and an explicit-POTCAR atomic adapter.
-    environment: .tool_envs/vasp
+    environment: .envs/general-modern-openmpi5
     conda_packages: [python=3.11, ase, pydantic, pyyaml, python-dotenv, gcc_linux-64, gxx_linux-64, gfortran_linux-64, openmpi, openblas, lapack, scalapack, fftw]
     pip_packages: []
     health_checks:
@@ -732,7 +734,7 @@ profiles:
       CHEMGRAPH_VASP_COMMAND: .software_cache/vasp/6.3.2/bin/vasp_std
       CHEMGRAPH_VASP_MPI_COMMAND: mpirun
     path_entries: [.software_cache/vasp/6.3.2/bin]
-    library_path_entries: [.tool_envs/vasp/lib]
+    library_path_entries: [.envs/general-modern-openmpi5/lib]
     environment_variables:
       OMPI_ALLOW_RUN_AS_ROOT: "1"
       OMPI_ALLOW_RUN_AS_ROOT_CONFIRM: "1"
@@ -742,7 +744,7 @@ profiles:
     conda_name: researchchem-docking
     server_name: researchchem_docking
     description: Protein-ligand docking binaries and model-specific docking tools.
-    environment: .tool_envs/docking
+    environment: .envs/molecular-simulation-openff
     conda_packages: [vina]
     pip_packages: []
     health_checks:

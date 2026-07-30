@@ -32,11 +32,11 @@ The generated complete catalog is [TOOL_CATALOG.md](TOOL_CATALOG.md).
 ## Commands
 
 ```bash
-.toolbox_env/bin/python -m chemistry_toolbox.mcp.tool_manager validate
-.toolbox_env/bin/python -m chemistry_toolbox.mcp.tool_manager catalog
-.toolbox_env/bin/python -m chemistry_toolbox.mcp.tool_manager missing
-.toolbox_env/bin/python chemistry_toolbox/scripts/check_mcp_tools.py --smoke
-.toolbox_env/bin/python chemistry_toolbox/scripts/verify_toolbox.py --smoke
+.envs/researchchembench/bin/python -m chemistry_toolbox.mcp.tool_manager validate
+.envs/researchchembench/bin/python -m chemistry_toolbox.mcp.tool_manager catalog
+.envs/researchchembench/bin/python -m chemistry_toolbox.mcp.tool_manager missing
+.envs/researchchembench/bin/python chemistry_toolbox/scripts/check_mcp_tools.py --smoke
+.envs/researchchembench/bin/python chemistry_toolbox/scripts/verify_toolbox.py --smoke
 ```
 
 To add a recurring stable capability, define or revise an `ActionSpec`, define a

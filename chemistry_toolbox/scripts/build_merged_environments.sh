@@ -5,7 +5,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TOOLBOX_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 PROJECT_ROOT="$(cd "${TOOLBOX_ROOT}/.." && pwd)"
 SPEC_ROOT="${TOOLBOX_ROOT}/environment/merged"
-TARGET_ROOT="${RCB_MERGED_ENV_ROOT:-${PROJECT_ROOT}/.tool_envs_merged}"
+TARGET_ROOT="${RESEARCHCHEMBENCH_ENV_ROOT:-${PROJECT_ROOT}/.envs}"
 MANAGER="${RCB_CONDA_MANAGER:-$(command -v mamba || command -v conda)}"
 
 ALL_ENVIRONMENTS=(
@@ -19,7 +19,7 @@ ALL_ENVIRONMENTS=(
 
 usage() {
   echo "Usage: $0 [--recreate] [--from-lock] [all|ENV ...]"
-  echo "Target root: RCB_MERGED_ENV_ROOT (default: ${PROJECT_ROOT}/.tool_envs_merged)"
+  echo "Target root: RESEARCHCHEMBENCH_ENV_ROOT (default: ${PROJECT_ROOT}/.envs)"
   echo "Conda manager: RCB_CONDA_MANAGER (default: mamba, then conda)"
   echo "Available environments: ${ALL_ENVIRONMENTS[*]}"
 }
@@ -75,8 +75,8 @@ for name in "${selected[@]}"; do
   fi
   if [[ -s "${spec_dir}/requirements.txt" ]]; then
     PIP_CONFIG_FILE=/dev/null \
-    PIP_INDEX_URL="${RCB_PIP_INDEX_URL:-http://nexus.sii.shaipower.online/repository/pypi/simple}" \
-    PIP_TRUSTED_HOST="${RCB_PIP_TRUSTED_HOST:-nexus.sii.shaipower.online}" \
+    PIP_INDEX_URL="${RCB_PIP_INDEX_URL:-https://pypi.org/simple}" \
+    PIP_TRUSTED_HOST="${RCB_PIP_TRUSTED_HOST:-pypi.org}" \
       "${prefix}/bin/python" -m pip install -r "${spec_dir}/requirements.txt"
   fi
   check_output="$(mktemp)"

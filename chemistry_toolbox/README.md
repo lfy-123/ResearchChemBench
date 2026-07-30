@@ -36,8 +36,8 @@ Large runtime assets remain outside the source tree:
 
 - `../.software_cache`: installed scientific programs and local documentation
 - `../.model_cache`: model weights
-- `../.tool_envs`: isolated backend runtimes
-- `../.toolbox_env`: development and audit environment
+- `../.envs/researchchembench`: framework, development, and audit environment
+- `../.envs/*`: six consolidated backend runtime environments
 
 The completed migration and verification record is available in
 [`docs/CHEMISTRY_TOOLBOX_LAYOUT_REFACTOR_20260721.md`](docs/CHEMISTRY_TOOLBOX_LAYOUT_REFACTOR_20260721.md).

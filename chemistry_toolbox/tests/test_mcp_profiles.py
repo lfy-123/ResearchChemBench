@@ -85,12 +85,12 @@ def test_orca_runtime_injects_exact_binary_and_mpi_paths():
     assert path_entries.index(expected_mpi_bin) < next(
         index
         for index, entry in enumerate(path_entries)
-        if entry.endswith(".tool_envs_merged/general-modern-openmpi5/bin")
+        if entry.endswith(".envs/general-modern-openmpi5/bin")
     )
     assert library_entries.index(expected_mpi_lib) < next(
         index
         for index, entry in enumerate(library_entries)
-        if entry.endswith(".tool_envs_merged/general-modern-openmpi5/lib")
+        if entry.endswith(".envs/general-modern-openmpi5/lib")
     )
     assert Path(shutil.which("mpirun", path=environment["PATH"]) or "") == (
         Path(expected_mpi_bin) / "mpirun"
@@ -115,7 +115,7 @@ def test_openmpi5_general_backends_do_not_inherit_orca_openmpi4():
     environment = profile_runtime_environment("nwchem")
     path_entries = environment["PATH"].split(os.pathsep)
     assert path_entries[0].endswith(
-        ".tool_envs_merged/general-modern-openmpi5/bin"
+        ".envs/general-modern-openmpi5/bin"
     )
     assert not any(
         entry.endswith(".software_cache/openmpi/4.1.8-fortran/bin")

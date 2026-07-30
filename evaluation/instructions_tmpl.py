@@ -16,6 +16,11 @@ file and shell tools are limited to workspace inspection, file management, simpl
 report authoring. An unmanaged interpreter invocation is recorded as a process-policy violation and
 does not count as scientific evidence.
 
+Use exactly one selected analysis runtime. Never splice another environment's `site-packages` into
+it through `sys.path`, `site.addsitedir`, or `PYTHONPATH`; compiled packages from different Python
+versions or runtimes are ABI-incompatible. Declare required modules, versions, and symbols so
+`validate_analysis_program` can verify them in the selected runtime.
+
 Minimum compliant output pattern:
 
 ```python
@@ -77,6 +82,7 @@ combined CPU, memory, and GPU reservations fit this budget.
 - Built-in file and shell tools may inspect task inputs, prepare files, and write reports. When the task evaluates autonomous scientific computation, run the scientific calculation through one of the managed Chemistry MCP layers so software, parameters, outputs, and provenance remain auditable.
 - Execute any authored Python, R, or Julia scientific-analysis program with `submit_analysis_program` in an explicitly selected runtime. Do not invoke an interpreter through a built-in shell for scientific analysis.
 - A programmable job starts in an isolated job directory, not the task workspace. Declare input files through `inputs` and read them with `JobContext.input(name)`, or map them through `staged_inputs`; literal `data/...` and `_tool_artifacts/...` paths are not visible inside the job.
+- Before writing analysis logic against unfamiliar JSON/CSV inputs, call `inspect_analysis_inputs` and use its actual keys, container types, lengths, null counts, and column profiles. Do not infer a schema from filenames or expected paper terminology.
 - Before launching several native or programmable jobs concurrently, call `get_execution_resources` and keep the sum of active requests within its `available` capacity. Resource-policy rejection is a pre-execution response, not a software crash.
 - Keep console responses bounded: direct verbose program, optimizer, matrix, trajectory, and per-step output to workspace files and return only a concise numerical summary plus paths. Use small log tails when polling jobs. Full files remain available for later managed analysis.
 - Never invent a value that should have come from a tool.

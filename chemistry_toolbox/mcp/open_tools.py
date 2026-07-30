@@ -7,6 +7,7 @@ from typing import Any, Callable, TypeVar
 from pydantic import BaseModel
 
 from .execution_models import (
+    AnalysisInputInspectionRequest,
     AnalysisJobRequest,
     AnalysisRuntimeListRequest,
     ArtifactDeclarationRequest,
@@ -28,6 +29,7 @@ from .open_execution import (
     declare_scientific_artifact as _declare_scientific_artifact,
     get_execution_job as _get_execution_job,
     get_execution_resources as _get_execution_resources,
+    inspect_analysis_inputs as _inspect_analysis_inputs,
     read_workspace_text as _read_workspace_text,
     submit_analysis_program as _submit_analysis_program,
     submit_native_job as _submit_native_job,
@@ -59,6 +61,7 @@ OPEN_EXECUTION_TOOL_NAMES = (
     "validate_native_job",
     "submit_native_job",
     "list_analysis_runtimes",
+    "inspect_analysis_inputs",
     "validate_analysis_program",
     "submit_analysis_program",
     "get_execution_resources",
@@ -115,6 +118,11 @@ TOOL_DESCRIPTIONS = {
         "Search the configured Python runtimes available for an Agent-authored scientific program. "
         "The default response is a compact inventory; filter by query/runtime and request details "
         "only for the selected environment. No runtime is selected automatically."
+    ),
+    "inspect_analysis_inputs": (
+        "Inspect bounded structural metadata for declared analysis inputs before writing or "
+        "submitting a program. JSON keys/types/list lengths/nulls and CSV/TSV columns/types are "
+        "reported without selecting a scientific method or interpreting the result."
     ),
     "submit_analysis_program": (
         "Submit an Agent-authored .py file asynchronously in one explicitly selected chemistry "
@@ -243,6 +251,10 @@ def submit_native_job(request: NativeJobRequest) -> dict[str, Any]:
 
 def list_analysis_runtimes(request: AnalysisRuntimeListRequest) -> dict[str, Any]:
     return _invoke("list_analysis_runtimes", request, _list_analysis_runtimes)
+
+
+def inspect_analysis_inputs(request: AnalysisInputInspectionRequest) -> dict[str, Any]:
+    return _invoke("inspect_analysis_inputs", request, _inspect_analysis_inputs)
 
 
 def validate_analysis_program(request: AnalysisJobRequest) -> dict[str, Any]:

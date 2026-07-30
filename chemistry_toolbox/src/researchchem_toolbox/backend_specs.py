@@ -1122,12 +1122,17 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         pip=("goodvibes[full]==4.3.0",),
         install_notes=(
             "Pinned GoodVibes 4.3.0 with full JSON/CSV/Parquet/plot dependencies; official "
-            "v4.3.0 source and examples are cached under .software_cache/goodvibes/4.3.0/source."
+            "v4.3.0 source and examples are cached under .software_cache/goodvibes/4.3.0/source. "
+            "The supported Python surface includes goodvibes.api.compute_thermo/compute_batch; "
+            "goodvibes.gaussian and goodvibes.orca are not public modules. Prefer the preset "
+            "Action or CLI unless a documented public API is explicitly required."
         ),
         method_schema={
             "single_point_correction_suffix": (
-                "optional explicit GoodVibes --spc suffix; matching FILE_SUFFIX output files "
-                "must already exist beside each frequency output"
+                "optional explicit GoodVibes --spc suffix; derive_thermochemistry accepts the "
+                "matching high-level calculation as inputs.single_point_output_file and stages "
+                "a safe frequency/SPC filename pair. A legacy matching file beside the frequency "
+                "output remains accepted when the explicit input is omitted"
             ),
             "custom_file_extensions": (
                 "optional list of additional accepted extensions such as .qfi or .gaussian"

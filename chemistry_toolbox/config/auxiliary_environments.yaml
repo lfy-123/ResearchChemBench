@@ -2,10 +2,12 @@
 # Installed modules and reviewed commands can be selected explicitly through
 # the programmable/native MCP layers; no workflow or scientific parameter is
 # inferred from an auxiliary environment.
+# Every runtime points directly to one of the six physical .envs prefixes, or to
+# an explicit external-software directory under .software_cache.
 auxiliary_environments:
   workflows:
     conda_name: researchchem-workflows
-    environment: .tool_envs/workflows
+    environment: .envs/general-modern-openmpi5
     description: QCSchema/QCElemental/QCEngine, AiiDA, atomate2, jobflow and workflow data libraries.
     conda_packages: [aiida-core=2.8.0, atomate2=0.1.5, jobflow=0.3.1, qcelemental, qcengine, cclib, pymatgen, spglib, mdtraj]
     pip_packages: []
@@ -20,7 +22,7 @@ auxiliary_environments:
 
   nwchem:
     conda_name: researchchem-nwchem
-    environment: .tool_envs/nwchem
+    environment: .envs/general-modern-openmpi5
     description: NWChem 7.3.1 executable plus QCEngine/QCSchema bridge and parser libraries.
     conda_packages: [nwchem=7.3.1, qcengine, qcelemental, cclib, geometric, ase]
     pip_packages: [autode=1.4.5]
@@ -33,7 +35,7 @@ auxiliary_environments:
 
   gpaw:
     conda_name: researchchem-gpaw
-    environment: .tool_envs/gpaw
+    environment: .envs/general-modern-openmpi5
     description: GPAW 25.7.0 CPU runtime with PAW setup data.
     conda_packages: [gpaw=25.7.0, ase]
     pip_packages: []
@@ -48,7 +50,7 @@ auxiliary_environments:
 
   free_energy:
     conda_name: researchchem-free-energy
-    environment: .tool_envs/free_energy
+    environment: .envs/molecular-simulation-openff
     description: HOOMD-blue, PyMBAR and alchemlyb analysis runtime.
     conda_packages: [hoomd=7.1.0, pymbar=4.2.0, alchemlyb=2.5.0, mdtraj]
     pip_packages: []
@@ -58,7 +60,7 @@ auxiliary_environments:
 
   rmg:
     conda_name: researchchem-rmg
-    environment: .tool_envs/rmg
+    environment: .envs/kinetics-legacy
     description: RMG-Py 4.0.0 and Arkane package runtime.
     conda_packages: [rmg=4.0.0]
     pip_packages: []
@@ -71,7 +73,7 @@ auxiliary_environments:
 
   kinbot:
     conda_name: researchchem-kinbot
-    environment: .tool_envs/kinbot
+    environment: .envs/kinetics-legacy
     description: KinBot 2.2.2 with Sella/JAX and geometry dependencies.
     conda_packages: [numpy=1.26, scipy, ase, networkx, matplotlib, rmsd, openbabel, jax=0.4.35, jaxlib=0.4.35]
     pip_packages: [kinbot=2.2.2, sella=2.5.0]
@@ -81,40 +83,40 @@ auxiliary_environments:
 
   critic2:
     conda_name: researchchem-source-runtime-critic2
-    environment: .tool_envs/deepmd
+    environment: .envs/general-modern-openmpi5
     description: Critic2 1.2.1081 source build using the shared conda compiler/runtime libraries.
     conda_packages: [gfortran_linux-64, spglib]
     pip_packages: []
     modules: []
     commands: [critic2]
     path_entries: [.software_cache/critic2/install-conda/bin]
-    library_path_entries: [.tool_envs/deepmd/lib]
+    library_path_entries: [.envs/general-modern-openmpi5/lib]
     cache_paths: [.software_cache/critic2/source, .software_cache/critic2/install-conda]
     notes: Official source was compiled with internal LAPACK and OpenMP; interactive startup/end smoke passed.
 
   shengbte:
     conda_name: researchchem-source-runtime-shengbte
-    environment: .tool_envs/deepmd
+    environment: .envs/general-modern-openmpi5
     description: ShengBTE source build using OpenMPI, spglib, LAPACK and OpenMP.
     conda_packages: [openmpi, spglib, lapack, blas, gfortran_linux-64]
     pip_packages: []
     modules: []
     commands: [ShengBTE]
     path_entries: [.software_cache/shengbte/source]
-    library_path_entries: [.tool_envs/deepmd/lib]
+    library_path_entries: [.envs/general-modern-openmpi5/lib]
     cache_paths: [.software_cache/shengbte/source]
     notes: Official Bitbucket master was compiled; the supplied Test-RTA completed normally and produced conductivity/heat-capacity outputs.
 
   openmolcas:
     conda_name: researchchem-source-runtime-openmolcas
-    environment: .tool_envs/deepmd
+    environment: .envs/general-modern-openmpi5
     description: OpenMolcas v25.10 serial/OpenMP source build with the pymolcas driver.
     conda_packages: [gfortran_linux-64, pyparsing]
     pip_packages: []
     modules: []
     commands: [pymolcas]
     path_entries: [.software_cache/openmolcas/25.10, .software_cache/openmolcas/25.10/bin]
-    library_path_entries: [.software_cache/openmolcas/25.10/lib, .tool_envs/deepmd/lib]
+    library_path_entries: [.software_cache/openmolcas/25.10/lib, .envs/general-modern-openmpi5/lib]
     cache_paths: [.software_cache/openmolcas/source, .software_cache/openmolcas/25.10]
     environment_variables:
       MOLCAS: .software_cache/openmolcas/25.10
@@ -122,20 +124,20 @@ auxiliary_environments:
 
   sharc:
     conda_name: researchchem-source-runtime-sharc
-    environment: .tool_envs/deepmd
+    environment: .envs/general-modern-openmpi5
     description: SHARC4 core source build plus the ASCII wfoverlap executable.
     conda_packages: [gfortran_linux-64, lapack, blas, fftw]
     pip_packages: []
     modules: []
     commands: [sharc.x, wfoverlap.x]
     path_entries: [.software_cache/sharc/source/bin]
-    library_path_entries: [.tool_envs/deepmd/lib]
+    library_path_entries: [.envs/general-modern-openmpi5/lib]
     cache_paths: [.software_cache/sharc/source]
     notes: Core SHARC4 and wfoverlap_ascii were compiled; PySHARC/NetCDF and external electronic-structure interfaces remain optional and input-dependent.
 
   multiwfn:
     conda_name: researchchem-binary-runtime-multiwfn
-    environment: .tool_envs/multiwfn
+    environment: .envs/general-modern-openmpi5
     description: Official Multiwfn 2026.7.15 Linux noGUI wavefunction-analysis runtime.
     conda_packages: []
     pip_packages: []
@@ -151,14 +153,14 @@ auxiliary_environments:
 
   mess:
     conda_name: researchchem-source-runtime-mess
-    environment: .tool_envs/mess
+    environment: .envs/general-modern-openmpi5
     description: MESS 2020.1.24 master-equation solver built with SLATEC, OpenBLAS/LAPACK and OpenMP.
     conda_packages: []
     pip_packages: []
     modules: []
     commands: [mess]
     path_entries: [.software_cache/mess/2020.1.24/build]
-    library_path_entries: [.tool_envs/deepmd/lib]
+    library_path_entries: [.envs/general-modern-openmpi5/lib]
     cache_paths: [.software_cache/mess/2020.1.24]
     environment_variables:
       OMP_NUM_THREADS: '1'
@@ -169,7 +171,7 @@ auxiliary_environments:
 
   mesmer:
     conda_name: researchchem-source-runtime-mesmer
-    environment: .tool_envs/mesmer
+    environment: .envs/general-modern-openmpi5
     description: MESMER 7.1 command-line master-equation and energy-transfer solver.
     conda_packages: []
     pip_packages: []
@@ -183,14 +185,14 @@ auxiliary_environments:
 
   automekin:
     conda_name: researchchem-automekin
-    environment: .tool_envs/automekin
+    environment: .envs/general-modern-openmpi5
     description: AutoMeKin source build with its bundled MOPAC engine and isolated Python/compiler dependencies.
     conda_packages: [python=3.11, numpy, scipy, ase, networkx, matplotlib, parallel, gawk, gxx_linux-64, gfortran_linux-64, make, autoconf, automake, sqlite, bc]
     pip_packages: []
     modules: [numpy, scipy, ase, networkx]
     commands: [amk.sh, mopac, bbfs.exe]
     path_entries: [.software_cache/automekin/install/bin, .software_cache/automekin/install/bin/HLscripts, .software_cache/automekin/install/bin/MOPAC_DEV]
-    library_path_entries: [.software_cache/automekin/install/lib, .software_cache/automekin/install/bin/MOPAC_DEV, .tool_envs/automekin/lib]
+    library_path_entries: [.software_cache/automekin/install/lib, .software_cache/automekin/install/bin/MOPAC_DEV, .envs/general-modern-openmpi5/lib]
     cache_paths: [.software_cache/automekin/source, .software_cache/automekin/install]
     environment_variables:
       AMK: .software_cache/automekin/install
@@ -224,7 +226,7 @@ auxiliary_environments:
 
   vesta:
     conda_name: researchchem-binary-runtime-vesta
-    environment: .tool_envs/vesta
+    environment: .envs/general-modern-openmpi5
     description: VESTA 3.90.5a GTK3 x86_64 GUI runtime with locally extracted system libraries.
     conda_packages: []
     pip_packages: []
@@ -239,7 +241,7 @@ auxiliary_environments:
 
   yambo:
     conda_name: researchchem-yambo
-    environment: .tool_envs/yambo
+    environment: .envs/yambo-openmpi4
     description: Yambo 5.3.0 single-process executable and p2y interface.
     conda_packages: [yambo=5.3.0]
     pip_packages: []
@@ -249,7 +251,7 @@ auxiliary_environments:
 
   vmd:
     conda_name: researchchem-vmd
-    environment: .tool_envs/vmd
+    environment: .envs/general-modern-openmpi5
     description: VMD 1.9.3 text-mode molecular visualization/trajectory parser.
     conda_packages: [vmd=1.9.3]
     pip_packages: []
@@ -261,7 +263,7 @@ auxiliary_environments:
 
   lobster:
     conda_name: researchchem-lobster
-    environment: .tool_envs/lobster
+    environment: .envs/general-modern-openmpi5
     description: Licensed LOBSTER 5.1.0 periodic bonding-analysis executable with pymatgen support.
     conda_packages: [pymatgen]
     pip_packages: []
@@ -275,7 +277,7 @@ auxiliary_environments:
 
   newtonx:
     conda_name: researchchem-newtonx
-    environment: .tool_envs/newtonx
+    environment: .envs/general-modern-openmpi5
     description: Newton-X New Series 3.5.3 nonadiabatic dynamics and input-generation runtime.
     conda_packages: [python]
     pip_packages: []
@@ -292,7 +294,7 @@ auxiliary_environments:
 
   theodore:
     conda_name: researchchem-theodore
-    environment: .tool_envs/theodore
+    environment: .envs/general-modern-openmpi5
     description: TheoDORE 2.5.0 excited-state analysis runtime with cclib.
     conda_packages: [numpy, scipy, matplotlib, cclib]
     pip_packages: [theodore=2.5.0]

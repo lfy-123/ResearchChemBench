@@ -2,9 +2,12 @@
 
 from __future__ import annotations
 
+import glob
+import hashlib
 import json
 import math
 import re
+import shutil
 from pathlib import Path
 from typing import Any
 
@@ -419,7 +422,7 @@ def _run_once(
         executable="goodvibes",
         environment_variable="CHEMGRAPH_GOODVIBES_COMMAND",
         arguments=[
-            *(str(path) for path in output_files),
+            *(glob.escape(str(path)) for path in output_files),
             *arguments,
             "--output",
             output_stem,
@@ -452,6 +455,84 @@ def _run_once(
     if not isinstance(payload, dict) or not isinstance(payload.get("results"), list):
         raise RuntimeError("GoodVibes structured JSON is missing its results list")
     return payload, completed
+
+
+def _sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def _copy_or_link(source: Path, target: Path) -> None:
+    try:
+        target.hardlink_to(source)
+    except OSError:
+        shutil.copy2(source, target)
+
+
+def _matching_single_point_file(output_file: Path, suffix: str) -> Path | None:
+    candidates = [
+        output_file.with_name(f"{output_file.stem}_{suffix}{extension}")
+        for extension in dict.fromkeys((output_file.suffix, ".log", ".out"))
+    ]
+    return next((path.resolve() for path in candidates if path.is_file()), None)
+
+
+def _stage_derive_inputs(
+    *,
+    directory: Path,
+    output_file: Path,
+    single_point_output_file: Path | None,
+    single_point_suffix: str | None,
+) -> tuple[list[Path], list[dict[str, Any]]]:
+    frequency_extension = output_file.suffix.casefold()
+    if frequency_extension not in {".log", ".out"}:
+        frequency_extension = ".log"
+    staged_frequency = directory / f"frequency{frequency_extension}"
+    _copy_or_link(output_file, staged_frequency)
+    records = [
+        {
+            "role": "frequency_output",
+            "source_path": relative_workspace_path(output_file),
+            "staged_path": staged_frequency.name,
+            "size_bytes": staged_frequency.stat().st_size,
+            "sha256": _sha256(staged_frequency),
+        }
+    ]
+    if single_point_suffix is not None:
+        if single_point_output_file is None:
+            single_point_output_file = _matching_single_point_file(
+                output_file, single_point_suffix
+            )
+        if single_point_output_file is None:
+            raise ValueError(
+                "method_spec.single_point_correction_suffix requires "
+                "inputs.single_point_output_file, or a matching '<frequency_stem>_"
+                f"{single_point_suffix}.log/.out' file beside inputs.output_file"
+            )
+        single_point_extension = single_point_output_file.suffix.casefold()
+        if single_point_extension not in {".log", ".out"}:
+            single_point_extension = ".out"
+        staged_single_point = directory / (
+            f"frequency_{single_point_suffix}{single_point_extension}"
+        )
+        _copy_or_link(single_point_output_file, staged_single_point)
+        records.append(
+            {
+                "role": "single_point_output",
+                "source_path": relative_workspace_path(single_point_output_file),
+                "staged_path": staged_single_point.name,
+                "size_bytes": staged_single_point.stat().st_size,
+                "sha256": _sha256(staged_single_point),
+                "single_point_suffix": single_point_suffix,
+            }
+        )
+    (directory / "staged_input_manifest.json").write_text(
+        json.dumps(records, indent=2) + "\n", encoding="utf-8"
+    )
+    return [staged_frequency], records
 
 
 def _artifact_files(directory: Path) -> list[dict[str, str]]:
@@ -637,7 +718,35 @@ def execute(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
         output_file = resolve_input_file(inputs["output_file"]).resolve()
         if not output_file.is_file():
             raise ValueError("inputs.output_file must resolve to a regular file")
-        output_files = [output_file]
+        single_point_output_file = None
+        if inputs.get("single_point_output_file") is not None:
+            single_point_output_file = resolve_input_file(
+                inputs["single_point_output_file"]
+            ).resolve()
+            if not single_point_output_file.is_file():
+                raise ValueError(
+                    "inputs.single_point_output_file must resolve to a regular file"
+                )
+        suffix_value = method.get("single_point_correction_suffix")
+        suffix = str(suffix_value).strip() if suffix_value is not None else None
+        if suffix is not None and (
+            not suffix or not _SAFE_SUFFIX.fullmatch(suffix)
+        ):
+            raise ValueError(
+                "method_spec.single_point_correction_suffix must contain only letters, "
+                "digits, dot, underscore, or hyphen"
+            )
+        if single_point_output_file is not None and suffix is None:
+            raise ValueError(
+                "inputs.single_point_output_file requires "
+                "method_spec.single_point_correction_suffix"
+            )
+        output_files, staged_input_records = _stage_derive_inputs(
+            directory=directory,
+            output_file=output_file,
+            single_point_output_file=single_point_output_file,
+            single_point_suffix=suffix,
+        )
         temperature = _positive_float(
             settings["temperature_kelvin"], field="action_settings.temperature_kelvin"
         )
@@ -664,6 +773,7 @@ def execute(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
         base = _base_result(payload, settings, temperature)
         result = {key: value for key, value in base.items() if key != "structures"}
         result["thermochemistry"] = base["structures"][0]
+        result["staged_inputs"] = staged_input_records
 
     elif action_id == "scan_thermochemistry_temperature":
         output_files = _resolve_output_files(inputs["output_files"])

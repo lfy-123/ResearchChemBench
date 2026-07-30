@@ -1,6 +1,6 @@
 # Contributing to ResearchChemBench
 
-ResearchChemBench is an initial research benchmark for testing external Agent CLIs against traced ChemGraph chemistry tools. Contributions should preserve three invariants:
+ResearchChemBench is a research benchmark for testing external Agent CLIs against traced chemistry tools. Contributions should preserve three invariants:
 
 1. Do not modify the sibling `ChemGraph` or `ResearchClawBench` repositories from ResearchChemBench code or tests.
 2. Never expose `tasks/*/target_study/ground_truth.json` to the Agent workspace.
@@ -9,17 +9,14 @@ ResearchChemBench is an initial research benchmark for testing external Agent CL
 ## Development setup
 
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -e '.[test]'
-pytest -q
+bash chemistry_toolbox/scripts/setup_toolbox_env.sh --skip-verify
+.envs/researchchembench/bin/python -m pytest -q
 ```
 
 Chemistry integration work additionally requires:
 
 ```bash
-pip install -e '.[chemistry]'
-python chemistry_toolbox/scripts/check_mcp_tools.py
+.envs/researchchembench/bin/python chemistry_toolbox/scripts/check_mcp_tools.py
 ```
 
 ## Before submitting a change

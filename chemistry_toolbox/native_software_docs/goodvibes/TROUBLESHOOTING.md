@@ -24,6 +24,9 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 | no frequencies or thermochemistry found | the upstream output is incomplete or unsupported | stage the complete final log and verify frequency termination |
 | inconsistent level of theory | files mix methods or scaling factors | separate groups or explicitly justify the correction protocol |
 | None value or parse failure | log formatting or missing energy terms broke extraction | inspect the exact file and do not silently drop it |
+| Specify at least one output file although a path was supplied | shell-style glob characters such as brackets changed GoodVibes filename matching | use ASCII-safe staged target names; the preset Action stages safe names automatically |
+| ModuleNotFoundError for goodvibes.gaussian or goodvibes.orca | those modules are not public GoodVibes 4.3.0 APIs | use the CLI, preset Action, or documented goodvibes.api functions instead of guessing parser modules |
+| NumPy binary or API mismatch after importing GoodVibes | site-packages from another Python runtime were inserted manually | select the configured GoodVibes runtime and never splice sys.path or PYTHONPATH across environments |
 
 ## Path and staging failures
 A source file existing in the benchmark workspace does not make it visible to the native process. Every dependency must be declared in `staged_inputs`. The content of an input deck must reference the staged `target_path`, not its original workspace path. Fixed-name programs are case-sensitive. Never assume the process starts in the task workspace.

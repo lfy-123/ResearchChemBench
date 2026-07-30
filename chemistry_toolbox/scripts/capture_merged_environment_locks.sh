@@ -4,7 +4,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TOOLBOX_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 PROJECT_ROOT="$(cd "${TOOLBOX_ROOT}/.." && pwd)"
-TARGET_ROOT="${RCB_MERGED_ENV_ROOT:-${PROJECT_ROOT}/.tool_envs_merged}"
+TARGET_ROOT="${RESEARCHCHEMBENCH_ENV_ROOT:-${PROJECT_ROOT}/.envs}"
 LOCK_ROOT="${TOOLBOX_ROOT}/environment/merged/locks/linux-64"
 MANAGER="${RCB_CONDA_MANAGER:-$(command -v mamba || command -v conda)}"
 

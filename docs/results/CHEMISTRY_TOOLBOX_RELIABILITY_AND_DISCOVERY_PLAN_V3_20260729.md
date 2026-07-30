@@ -12,6 +12,8 @@
 
 第四版真实轨迹进一步暴露了两个执行问题：重复调用同步 `execute_action` 会把独立计算串行化；`r2SCAN-3c + basis=auto` 会被错误渲染为 ORCA 的 `AUTO` 关键词。现已增加通用、资源感知的并行 `submit_action_batch`，修正 ORCA 复合方法的条件基组合同，并为并发子作业分配互不重叠的 CPU/GPU。Action worker 和原生/程序作业还会把 CPU 分配显式传给 OpenMPI 4 与 PRRTE/OpenMPI 5，防止 MPI ranks 绕过父进程 affinity 后重新重叠绑定。六个真实 ORCA 子作业、每个 8 CPU 的验证达到峰值并发 6，全部成功，总墙钟时间 12.30 秒。
 
+第四版七个复现任务的轨迹还暴露了通用程序层和 GoodVibes 适配器问题。现已修复包含 glob 元字符的量化输出路径、频率与高精度单点文件的显式配对、跨 Python 环境 `site-packages` 注入、JobContext 未声明名称、程序输入结构盲猜和失败诊断不足。真实 P(V) Gaussian/ORCA 作者输出已经通过修复后的 `derive_thermochemistry` 完成 353.15 K、1 M、DLPNO 单点校正解析。实际 MCP 环境的最终完整回归为 `463 passed in 534.76s`。
+
 真实复现 canary `Electron_Isodensity_Reproduction_04_Blind_Prediction` 使用官网 DeepSeek API 和 `deepseek-v4-flash` 完成，21 次 Chemistry MCP 调用全部成功，12 次受管科学 Action 全部成功，结论分 100、过程分 95、最终分 95。canonical trace 的路径、SHA-256、字节数、行数和非法行数已进入 `results.json` 并提供给 Judger。
 
 首次自主 canary 暴露出 Action catalog 变化后 MCP 进程只报告 `stale_embedding_cache`、不会自动重建的问题。该任务已停止，随后在通用语义索引层加入文件锁、原子替换和自动重建；真实英文查询现均返回 `semantic_status=available`，包括 transition-state 自然表达查询。后续 canary 又暴露了 shell 解释器绕行和 JobContext helper 未采用问题，均通过通用提示、预检与审计解决，没有加入任务专属分支。最终自主 canary 的结果记录在本文“真实验收”部分。
@@ -22,7 +24,7 @@
 |---|---|---|
 | MCP Action 检索与执行 | 已完成 | 仅依据 ActionSpec、BackendSpec、输入合同和资源状态运行，不读取 task id 或论文信息 |
 | 原生软件文档、lint 与 smoke | 已完成 | 依据软件 id、命令合同和环境证据工作，不包含特定论文路线 |
-| 通用程序合同与 JobContext | 已完成 | 对所有 Python 程序统一执行 AST、路径、输入输出和产物合同检查 |
+| 通用程序合同与 JobContext | 已完成并补强 | 对所有 Python 程序统一执行 AST、路径、运行时隔离、输入结构、声明名称和产物合同检查 |
 | canonical trace 与 Judger | 已完成 | 由评估运行器统一生成和交付，与具体科学任务无关 |
 | Heterobiaryl/PV 文件角色 manifest | 已完成 | 属于 benchmark 输入数据修复，不进入工具箱运行时；只在复现任务中提供，以免向自主任务泄露论文实现路径 |
 | 既有 Heterobiaryl smoke evidence | 未改动 | `heterobiaryl_reaction_action_smoke_status.json` 是既有离线覆盖审计证据，不参与 MCP 路由或自动推荐 |
@@ -419,3 +421,46 @@ basis = auto
 - ORCA 规则只表达软件自身的通用模型化学合同，不选择方法、溶剂、收敛阈值或科研路线。
 - 批次中的子请求必须相互独立；存在前后依赖的工作流仍需按依赖顺序执行。
 - 外层 `submit_action_batch` 当前是同步聚合接口，而不是返回 job handle 的异步队列；其目标是让独立预设 Action 在一次工具调用内并发使用资源，同时保持现有 Action 结果和审计合同。
+
+## 九、第四版轨迹后补充修复：通用程序可靠性与 GoodVibes
+
+### 问题确认
+
+第四版完整轨迹中共有 20 个通用程序作业，其中 10 个成功、10 个失败。失败并非主要来自运行时不可用，而是程序对实际数据结构和执行合同作出错误假设：8 个作业分别出现缺少 JSON 键、`None` 数值、未定义变量、解包数量不匹配或返回类型不符；2 个作业使用了未在请求中声明的 JobContext 输入或输出名称。
+
+`PV_Protonation_Barrier_Trend_Reproduction` 同时确认了三类 GoodVibes 问题：
+
+1. `derive_thermochemistry` 收到存在的 Gaussian 输出后，GoodVibes 仍报告没有输入文件。根因是原始路径包含 `[Int-I]`，GoodVibes 内部把命令行文件参数按 glob 展开，方括号改变了匹配语义。
+2. 智能体尝试导入不存在的 `goodvibes.gaussian` 和 `goodvibes.orca`。本地 GoodVibes 4.3.0 的公开模块和 API 中没有这两个模块。
+3. 智能体把 Python 3.11 环境的 `site-packages` 手动插入 Python 3.10，导致 NumPy ABI 不兼容。这是绕过已选 runtime 的程序行为，不是合并环境损坏。
+
+### 已完成修改
+
+1. GoodVibes 后端对所有文件参数执行 glob 安全转义。单文件 `derive_thermochemistry` 会把频率输出暂存为确定性的 `frequency.log/.out`，记录原始路径、大小和 SHA-256，不再直接把含特殊字符的原始路径交给 GoodVibes。
+2. `derive_thermochemistry` 新增可选 `inputs.single_point_output_file`。当方法指定 `single_point_correction_suffix` 时，适配器把频率文件与高精度单点文件暂存为 `frequency` 和 `frequency_SUFFIX` 配对；两者可来自不同原始目录。仍兼容频率文件旁已有历史配对文件的方式。
+3. 单点后缀在任何文件暂存前先执行安全字符校验，防止后缀形成路径穿越或非法目标名。每次调用生成 `staged_input_manifest.json`，保留输入角色和哈希证据。
+4. 修正 GoodVibes 手册生成源：原生示例的 staged input 只包含 `output.log`，`result.json` 明确为输出；不再错误暂存 `NWChem`、`xTB` 或待生成结果文件。路径 glob、虚构 Python 模块和跨 ABI 三类错误进入可检索 troubleshooting 配置。
+5. 通用程序作业的 `PYTHONPATH` 只保留作业目录和工具箱框架路径，过滤继承的 `.tool_envs`、`.venv` 和 `site-packages`；同时设置 `PYTHONNOUSERSITE=1`，避免用户 site-packages 污染已选 runtime。
+6. AST 预检拒绝 `sys.path.insert/append/extend`、`site.addsitedir`、直接赋值 `sys.path` 以及修改 `PYTHONPATH`。错误返回 `cross_runtime_path_injection`，要求选择一个能够完整提供依赖的已配置 runtime。
+7. JobContext 合规检查增加反向名称校验。程序调用 `ctx.input()`、`output()`、`write_json()` 或 `register_output()` 时，名称若不在请求合同中，`validate_analysis_program` 在执行前返回 `job_context_declaration_mismatch`，不再等作业启动后失败。
+8. 新增 `inspect_analysis_inputs`。该工具对 JSON 返回受限的键、嵌套类型、数组长度、对象字段出现次数、空值次数和类型分布；对 CSV/TSV 返回列、观察行数、空值和推断类型；其他文件只返回路径、大小、后缀和哈希。`validate_analysis_program` 也附带同类受限摘要。
+9. 失败的通用程序作业生成 `failure_diagnostic.json`，并由 `get_execution_job` 直接返回。当前机械分类覆盖缺少 mapping key、JobContext 名称不匹配、未定义变量、意外空值、解包形状不匹配和一般非零退出，并附失败源码行、上下文和通用修复建议。
+10. Agent 通用指令明确要求：不得通过内置 shell 启动解释器完成科学分析，不得跨 runtime 拼接 site-packages；对陌生 JSON/CSV 应先调用 `inspect_analysis_inputs`，再编写分析程序。
+
+### 真实验证
+
+| 验证 | 结果 |
+|---|---|
+| 原第四版 `[Int-I]` Gaussian 文件 | 修复后的 `derive_thermochemistry` 成功；GoodVibes 4.3.0 解析完成，输入暂存为 `frequency.log` |
+| 原第四版 Gaussian + ORCA DLPNO 配对 | 两个不同目录的真实作者输出成功暂存为 `frequency.log` 与 `frequency_DLPNO.out`；解析得到 `sp_energy=-1413.318547790093 Hartree`、`sp_suffix=DLPNO` |
+| GoodVibes、程序合同和 MCP 定向回归 | `58 passed in 18.51s` |
+| 文档生成一致性 | 54 个详细软件条目、384 个生成文件通过生成源一致性检查 |
+| 实际 MCP 环境完整回归 | `.toolbox_env`：`463 passed in 534.76s` |
+| 格式与语法 | `git diff --check`、Python compileall 通过 |
+
+### 通用性与执行边界
+
+- 所有运行时代码只依据文件路径、Action/Backend 合同、Python AST、已声明输入输出和运行时环境工作，没有读取任务 id、论文名称、真实答案或特定势垒数值。
+- `single_point_output_file` 表达的是 GoodVibes 通用频率/高精度单点配对，不限定 P(V)、某篇论文或特定命名体系。
+- JobContext 和程序预检能够阻止通过受管程序接口提交的显式跨环境注入，但普通 Python SDK 不是权限沙箱，不能阻止评估适配器之外的内置 shell 自行启动解释器。该边界继续由 Agent 指令、canonical trace 审计和 Judger 过程评分共同约束。
+- 输入结构检查只报告机械 schema，不替智能体选择缺失字段的科学含义、默认值或计算路线；最终科学结论仍由 Judger 评价。

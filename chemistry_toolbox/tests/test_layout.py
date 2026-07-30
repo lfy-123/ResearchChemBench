@@ -26,10 +26,15 @@ def test_legacy_implementation_paths_are_removed():
 
 
 def test_runtime_assets_remain_outside_source_tree():
-    for relative in (".software_cache", ".model_cache", ".tool_envs", ".toolbox_env"):
+    for relative in (".software_cache", ".model_cache", ".envs"):
         path = PROJECT_ROOT / relative
         assert path.is_dir()
         assert TOOLBOX_ROOT not in path.parents
+
+
+def test_removed_environment_layouts_do_not_exist():
+    for relative in (".venv", ".toolbox_env", ".tool_envs", ".tool_envs_merged", ".conda_envs"):
+        assert not (PROJECT_ROOT / relative).exists()
 
 
 def test_old_document_compatibility_links_are_removed():

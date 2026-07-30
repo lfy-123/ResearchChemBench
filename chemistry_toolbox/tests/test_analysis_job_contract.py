@@ -8,6 +8,7 @@ import pytest
 
 from chemistry_toolbox.mcp.execution_models import (
     AnalysisInputDeclaration,
+    AnalysisInputInspectionRequest,
     AnalysisJobRequest,
     AnalysisOutputDeclaration,
     ExecutionResourceRequest,
@@ -19,6 +20,7 @@ from chemistry_toolbox.mcp.open_execution import (
     collect_execution_job,
     get_execution_job,
     get_execution_resources,
+    inspect_analysis_inputs,
     submit_analysis_program,
     validate_analysis_program,
     _validate_scientific_output,
@@ -185,12 +187,111 @@ def test_preflight_reports_job_context_bypass_without_claiming_enforcement(
     assert "not blocked" in compliance["enforcement_boundary"]
 
 
+@pytest.mark.parametrize(
+    "source",
+    [
+        "import sys\nsys.path.insert(0, '/other/python3.11/site-packages')\n",
+        "import site\nsite.addsitedir('/other/environment')\n",
+        "import os\nos.environ['PYTHONPATH'] = '/other/environment'\n",
+    ],
+)
+def test_preflight_rejects_cross_runtime_path_injection(
+    workspace: Path, source: str
+) -> None:
+    (workspace / "code/runtime_mix.py").write_text(source, encoding="utf-8")
+    result = validate_analysis_program(
+        AnalysisJobRequest(runtime="core", script_path="code/runtime_mix.py")
+    )
+    assert result["status"] == "invalid_request"
+    assert result["error"]["code"] == "cross_runtime_path_injection"
+
+
+def test_preflight_rejects_undeclared_job_context_names(workspace: Path) -> None:
+    (workspace / "code/value.json").write_text("{}\n", encoding="utf-8")
+    (workspace / "code/name_mismatch.py").write_text(
+        "from researchchem_job import JobContext\n"
+        "ctx = JobContext.load()\n"
+        "ctx.input('invented_name').read_text()\n"
+        "ctx.write_json('invented_output', {})\n",
+        encoding="utf-8",
+    )
+    result = validate_analysis_program(
+        AnalysisJobRequest(
+            runtime="core",
+            script_path="code/name_mismatch.py",
+            inputs=[
+                AnalysisInputDeclaration(
+                    name="declared_input",
+                    source_path="code/value.json",
+                )
+            ],
+            outputs=[
+                AnalysisOutputDeclaration(
+                    name="declared_output",
+                    path="outputs/result.json",
+                    semantic_type="AnalysisResult",
+                    media_type="application/json",
+                )
+            ],
+        )
+    )
+    assert result["status"] == "invalid_request"
+    assert result["error"]["code"] == "job_context_declaration_mismatch"
+    assert "invented_name" in result["error"]["evidence"]
+
+
 def test_execution_resource_status_is_available_before_submission(workspace: Path) -> None:
     result = get_execution_resources(ExecutionResourceRequest())
     assert result["status"] == "success"
     assert result["budget"]["cpu_cores"] >= 1
     assert result["available"]["cpu_cores"] <= result["budget"]["cpu_cores"]
     assert result["active_jobs"] == []
+
+
+def test_analysis_input_inspection_reports_json_and_table_shapes(workspace: Path) -> None:
+    (workspace / "code/data.json").write_text(
+        json.dumps(
+            {
+                "records": [
+                    {"id": "a", "energy": -1.0, "weight": None},
+                    {"id": "b", "energy": -0.5, "weight": 0.4},
+                ],
+                "metadata": {"temperature": 298.15},
+            }
+        ),
+        encoding="utf-8",
+    )
+    (workspace / "code/data.csv").write_text(
+        "name,energy,valid\na,-1.0,true\nb,,false\n", encoding="utf-8"
+    )
+    declarations = [
+        AnalysisInputDeclaration(name="json_data", source_path="code/data.json"),
+        AnalysisInputDeclaration(name="table_data", source_path="code/data.csv"),
+    ]
+    result = inspect_analysis_inputs(
+        AnalysisInputInspectionRequest(inputs=declarations)
+    )
+    assert result["status"] == "success"
+    json_summary, table_summary = result["inputs"]
+    assert json_summary["shape"]["fields"] == ["records", "metadata"]
+    assert json_summary["shape"]["field_shapes"]["records"]["length"] == 2
+    weight_profile = json_summary["shape"]["field_shapes"]["records"][
+        "object_field_profiles"
+    ]["weight"]
+    assert weight_profile["presence_count"] == 2
+    assert weight_profile["null_count"] == 1
+    assert table_summary["columns"] == ["name", "energy", "valid"]
+    assert table_summary["column_profiles"]["energy"]["empty_count"] == 1
+
+    (workspace / "code/inspect.py").write_text("print('ok')\n", encoding="utf-8")
+    validation = validate_analysis_program(
+        AnalysisJobRequest(
+            runtime="core",
+            script_path="code/inspect.py",
+            inputs=declarations,
+        )
+    )
+    assert validation["input_inspection"]["inputs"][0]["format"] == "json"
 
 
 def test_execution_resource_status_lists_blocking_active_jobs(workspace: Path) -> None:
@@ -228,6 +329,8 @@ def test_declared_job_context_and_artifact_manifest(workspace: Path) -> None:
         "assert os.environ['RESEARCHCHEM_JOB_INPUTS'] == str(ctx.root / 'inputs')\n"
         "assert os.environ['RESEARCHCHEM_JOB_OUTPUTS'] == str(ctx.root / 'outputs')\n"
         "assert os.environ['RESEARCHCHEM_JOB_REPORT'] == str(ctx.root / 'report')\n"
+        "assert os.environ['PYTHONNOUSERSITE'] == '1'\n"
+        "assert 'site-packages' not in os.environ.get('PYTHONPATH', '')\n"
         "value = int(ctx.input('value').read_text())\n"
         "ctx.write_json('result', {'value': value, 'square': value * value})\n"
         "ctx.output('table').write_text('value,square\\n7,49\\n')\n"
@@ -324,6 +427,29 @@ def test_process_success_does_not_hide_invalid_declared_json(workspace: Path) ->
     artifact = collected["declared_artifacts"][0]
     assert artifact["validation_status"] == "invalid"
     assert "non-standard JSON constant" in artifact["validation_errors"][0]
+
+
+def test_failed_program_returns_structured_failure_diagnostic(workspace: Path) -> None:
+    (workspace / "code/failing.py").write_text(
+        "record = {'energy': -1.0}\nprint(record['qh_gibbs'])\n",
+        encoding="utf-8",
+    )
+    submitted = submit_analysis_program(
+        AnalysisJobRequest(runtime="core", script_path="code/failing.py")
+    )
+    finished = _wait(submitted["job_id"])
+    assert finished["job"]["status"] == "failed"
+    diagnostic = finished["failure_diagnostic"]
+    assert diagnostic["classification"] == "missing_mapping_key"
+    assert diagnostic["details"]["missing_key"] == "qh_gibbs"
+    assert diagnostic["source_line"] == 2
+    diagnostic_path = (
+        workspace
+        / "outputs/execution_jobs"
+        / submitted["job_id"]
+        / "failure_diagnostic.json"
+    )
+    assert diagnostic_path.is_file()
 
 
 def test_scientific_output_validation_covers_hessian_and_eos(tmp_path: Path) -> None:

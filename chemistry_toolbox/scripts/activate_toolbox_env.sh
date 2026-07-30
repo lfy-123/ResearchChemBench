@@ -7,7 +7,8 @@ fi
 
 SCRIPT_PATH="$(readlink -f "${BASH_SOURCE[0]}")"
 ROOT_DIR="$(cd "$(dirname "$SCRIPT_PATH")/../.." && pwd)"
-ENV_DIR="${RESEARCHCHEMBENCH_TOOLBOX_ENV:-$ROOT_DIR/.toolbox_env}"
+ENV_ROOT="${RESEARCHCHEMBENCH_ENV_ROOT:-$ROOT_DIR/.envs}"
+ENV_DIR="${RESEARCHCHEMBENCH_FRAMEWORK_ENV:-$ENV_ROOT/researchchembench}"
 
 if [[ ! -x "$ENV_DIR/bin/python" ]]; then
   echo "Toolbox environment not found at $ENV_DIR" >&2
@@ -18,4 +19,4 @@ fi
 export PATH="$ENV_DIR/bin:$PATH"
 export LD_LIBRARY_PATH="$ENV_DIR/lib:${LD_LIBRARY_PATH:-}"
 
-echo "ResearchChemBench toolbox environment activated: $ENV_DIR"
+echo "ResearchChemBench framework environment activated: $ENV_DIR"

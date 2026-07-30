@@ -180,6 +180,18 @@ class AnalysisOutputDeclaration(BaseModel):
         return normalized
 
 
+class AnalysisInputInspectionRequest(BaseModel):
+    """Inspect bounded structural metadata for declared programmable-job inputs."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    inputs: list[AnalysisInputDeclaration] = Field(min_length=1, max_length=100)
+    max_depth: int = Field(default=3, ge=1, le=6)
+    max_fields: int = Field(default=40, ge=1, le=200)
+    max_rows: int = Field(default=200, ge=1, le=2000)
+    include_scalar_samples: bool = False
+
+
 def _catalog_name(value: str, *, field_name: str) -> str:
     normalized = value.strip().lower().replace("-", "_")
     if not _SOFTWARE_ID.fullmatch(normalized):
@@ -466,6 +478,7 @@ class ArtifactDeclarationRequest(BaseModel):
 
 __all__ = [
     "AnalysisInputDeclaration",
+    "AnalysisInputInspectionRequest",
     "AnalysisJobRequest",
     "AnalysisOutputDeclaration",
     "AnalysisRuntimeListRequest",

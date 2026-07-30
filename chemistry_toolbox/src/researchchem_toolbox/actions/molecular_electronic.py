@@ -219,11 +219,18 @@ ACTION_SPECS = (
             "ThermochemistryResult",
             ("internal_thermochemistry", "goodvibes"),
             (),
-            ("energy", "frequencies", "structure", "output_file"),
+            (
+                "energy",
+                "frequencies",
+                "structure",
+                "output_file",
+                "single_point_output_file",
+            ),
             input_description=(
                 "Backend-specific contract: internal_thermochemistry requires EnergyResult plus "
                 "FrequencyResult (with its matching structure embedded, or structure supplied "
-                "separately); goodvibes requires one compatible quantum output_file Artifact"
+                "separately); goodvibes requires one compatible quantum output_file Artifact "
+                "and accepts an explicit single_point_output_file when --spc correction is used"
             ),
         ),
     _action(

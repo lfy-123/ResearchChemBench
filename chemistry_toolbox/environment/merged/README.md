@@ -33,19 +33,12 @@ bash chemistry_toolbox/scripts/build_merged_environments.sh --from-lock all
 bash chemistry_toolbox/scripts/capture_merged_environment_locks.sh
 ```
 
-The toolbox selects the consolidated layout automatically when the prefixes
-exist.  Operators can make the selection explicit or relocate all six
+The toolbox always uses the consolidated layout. Operators may relocate all six
 prefixes without changing profile configuration:
 
 ```bash
-export RESEARCHCHEM_ENV_LAYOUT=merged
-export RCB_MERGED_ENV_ROOT=/path/to/researchchem-envs  # optional
+export RESEARCHCHEMBENCH_ENV_ROOT=/path/to/researchchem-envs
 ```
-
-Set `RESEARCHCHEM_ENV_LAYOUT=legacy` for a controlled fallback while the old
-prefixes are retained.  Do not remove the legacy environments until the full
-verification suite and representative real calculations pass on the target
-host.
 
 ## Compatibility boundaries
 

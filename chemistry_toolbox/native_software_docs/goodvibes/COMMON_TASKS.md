@@ -62,8 +62,8 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 ## Command: `goodvibes`
 - Synopsis: `goodvibes OUTPUT... --temp K [state/scaling/qh options] [analysis option] --json result.json`.
 - Input mode: `arguments`.
-- Declared example inputs: `NWChem`, `xTB`, `output.log`, `result.json`.
-- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Declared example inputs: `output.log`.
+- Declared example outputs: `result.json`.
 - Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes a GoodVibes_NAME.dat report and, when requested, structured JSON/CSV/Parquet plus plots or XYZ files in the isolated job directory.
 - Caution: Temperature, concentration/standard state, frequency scaling, quasi-harmonic treatment, and solvation corrections are scientific choices.
@@ -74,3 +74,4 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 - Caution: Use --pes profile.yaml for a reaction profile. The YAML defines pathways, species file membership, zero references, and output units; --nogconf and --lowest-only select the conformer treatment.
 - Caution: Use --ti START,END,STEP for the native integer-grid temperature report. The predefined temperature-scan Action instead accepts an explicit temperature list and returns structured results at every point.
 - Caution: --json/--export writes schema 1.0 in GoodVibes 4.3.0, but upstream describes the schema as preview before v5; consumers should retain schema_version and goodvibes_version.
+- Caution: result.json is an output and must not be listed in staged_inputs. For --spc SUFFIX, stage matching safe names such as frequency.log and frequency_SUFFIX.out; the derive_thermochemistry Action performs this pairing when single_point_output_file is supplied.

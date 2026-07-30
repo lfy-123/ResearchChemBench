@@ -1,8 +1,7 @@
 # Environment and Chemistry Tool Configuration
 
-> Current deployment uses dependency-isolated MCP profiles. See
-> [MCP_PROFILE_ENVIRONMENTS.md](MCP_PROFILE_ENVIRONMENTS.md) for the authoritative
-> architecture and [MCP_PROFILE_STATUS.md](../chemistry_toolbox/docs/MCP_PROFILE_STATUS.md) for live status.
+> The root [README](../README.md) and [TOOLBOX_SETUP.md](TOOLBOX_SETUP.md)
+> define the authoritative seven-environment reconstruction procedure.
 
 ## 1. Repository layout
 
@@ -20,25 +19,26 @@ The evaluation runner and Chemistry MCP server load only code shipped in this
 repository. No sibling ChemGraph checkout or ChemGraph-specific Python path is
 required.
 
-## 2. Recommended Python environment
+## 2. Environment layout
 
-Use `.toolbox_env` for the benchmark runner/core tools, then create the isolated MCP
-profile environments.
+Use the framework environment plus the six chemistry environments under the
+repository `.envs/` directory. No alternate environment layout is supported.
 
 ```bash
-cd /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench
-
-bash chemistry_toolbox/scripts/setup_toolbox_env.sh
-.toolbox_env/bin/python chemistry_toolbox/scripts/setup_mcp_profile_envs.py --continue-on-error
+cd /path/to/ResearchChemBench
+bash chemistry_toolbox/scripts/setup_toolbox_env.sh --from-lock --skip-verify
+bash chemistry_toolbox/scripts/build_merged_environments.sh --from-lock all
 ```
 
-The conda-forge package list, pip package list, and ABI-sensitive pins are kept under `environment/`. See `TOOLBOX_SETUP.md` for all setup options and the actual installed/unavailable backend split.
+The framework is `.envs/researchchembench`; all chemistry runtimes map directly
+to one of the other six prefixes. Exact Linux locks, maintained specifications,
+and pip requirements are kept under `chemistry_toolbox/environment/`. See the
+root README and `TOOLBOX_SETUP.md` for reconstruction and external-asset steps.
 
-If only the runner and Mock Agent tests are needed:
+Run tests with the framework interpreter:
 
 ```bash
-pip install -e '.[test]'
-pytest -q
+.envs/researchchembench/bin/python -m pytest -q
 ```
 
 Real Chemistry MCP startup requires the relevant chemistry dependencies and any
@@ -231,20 +231,22 @@ and records hashes in `_tool_trace.jsonl`.
 
 ## 9. MCP validation
 
-After installation, verify every profile with its own interpreter:
+After installation, verify the runtime catalog and configured resources:
 
 ```bash
-.toolbox_env/bin/python chemistry_toolbox/scripts/check_mcp_profile_envs.py --live-materials-project
+.envs/general-modern-openmpi5/bin/python \
+  chemistry_toolbox/scripts/check_mcp_profile_envs.py --check-models --no-write
 ```
 
-The command checks that all 41 enabled tool names are assigned exactly once and that every
-profile can import its required modules and find its required commands. `tool_manager validate`
-additionally checks each tool file and `TOOL_SPEC` registration contract.
+The command checks every physical runtime's modules, commands, and optional
+models. `tool_manager validate` additionally checks Action, BackendSpec, and MCP
+registration contracts.
 
 Run a local no-network functional smoke test:
 
 ```bash
-python chemistry_toolbox/scripts/check_mcp_tools.py --smoke
+.envs/general-modern-openmpi5/bin/python \
+  chemistry_toolbox/scripts/check_mcp_tools.py --smoke
 ```
 
 This executes calculator → water SMILES/XYZ → ASE/EMT energy → JSON extraction and verifies the canonical trace, full results, and artifact snapshots. Run `python chemistry_toolbox/scripts/verify_toolbox.py` for the broader real-backend/API status report.

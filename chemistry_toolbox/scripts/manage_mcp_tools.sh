@@ -5,12 +5,13 @@ SCRIPT_PATH="$(readlink -f "${BASH_SOURCE[0]}")"
 ROOT_DIR="$(cd "$(dirname "$SCRIPT_PATH")/../.." && pwd)"
 cd "$ROOT_DIR"
 
-if [[ -x "$ROOT_DIR/.toolbox_env/bin/python" ]]; then
-  export PATH="$ROOT_DIR/.toolbox_env/bin:$PATH"
-  export LD_LIBRARY_PATH="$ROOT_DIR/.toolbox_env/lib:${LD_LIBRARY_PATH:-}"
-elif [[ -f "$ROOT_DIR/.venv/bin/activate" ]]; then
-  # shellcheck disable=SC1091
-  source "$ROOT_DIR/.venv/bin/activate"
+ENV_ROOT="${RESEARCHCHEMBENCH_ENV_ROOT:-$ROOT_DIR/.envs}"
+FRAMEWORK_ENV="${RESEARCHCHEMBENCH_FRAMEWORK_ENV:-$ENV_ROOT/researchchembench}"
+if [[ ! -x "$FRAMEWORK_ENV/bin/python" ]]; then
+  echo "ResearchChemBench framework environment is missing: $FRAMEWORK_ENV" >&2
+  exit 2
 fi
+export PATH="$FRAMEWORK_ENV/bin:$PATH"
+export LD_LIBRARY_PATH="$FRAMEWORK_ENV/lib:${LD_LIBRARY_PATH:-}"
 
-exec python -m chemistry_toolbox.mcp.tool_manager "$@"
+exec "$FRAMEWORK_ENV/bin/python" -m chemistry_toolbox.mcp.tool_manager "$@"

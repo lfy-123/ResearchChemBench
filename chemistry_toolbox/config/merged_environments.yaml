@@ -1,12 +1,12 @@
 schema_version: 1
-root: .tool_envs_merged
+root: .envs
 
 # Physical Conda prefixes used by the consolidated runtime layout.  Logical
 # backend runtime ids remain unchanged; mcp_profiles.yaml maps those ids to one
 # of these six prefixes so Action and backend selection semantics do not change.
 environments:
   general:
-    path: .tool_envs_merged/general-modern-openmpi5
+    path: .envs/general-modern-openmpi5
     seed: fresh
     python_version: "3.11"
     description: >-
@@ -14,36 +14,36 @@ environments:
       MACE/CHGNet, Psi4, GPAW, NWChem, and OpenMPI-5 runtime.
 
   molecular_simulation:
-    path: .tool_envs_merged/molecular-simulation-openff
-    seed: .tool_envs/openff
+    path: .envs/molecular-simulation-openff
+    seed: fresh
     python_version: "3.12"
     description: >-
       OpenFF/AmberTools, OpenMM, GROMACS, HOOMD, free-energy analysis,
       and docking runtime using the OpenFF-compatible NumPy 1.x stack.
 
   reaction_kinetics:
-    path: .tool_envs_merged/kinetics-legacy
-    seed: .tool_envs/rmg
+    path: .envs/kinetics-legacy
+    seed: fresh
     python_version: "3.11"
     description: >-
       Modern reaction exploration plus RMG/Arkane and KinBot/Sella using
       NumPy 1.26 and ASE 3.22, together with the MPICH-4 ABINIT/LAMMPS stack.
 
   equivariant_ml:
-    path: .tool_envs_merged/equivariant-ml
-    seed: .tool_envs/deepmd_models
+    path: .envs/equivariant-ml
+    seed: fresh
     python_version: "3.11"
     description: DeePMD, NequIP, and Allegro runtime using CPU Torch 2.10 and e3nn 0.6.
 
   periodic_mpich:
-    path: .tool_envs_merged/periodic-mpich
-    seed: .tool_envs/cp2k
+    path: .envs/periodic-mpich
+    seed: fresh
     python_version: "3.10"
     description: MPICH-5 periodic electronic-structure runtime for CP2K.
 
   catmap_yambo:
-    path: .tool_envs_merged/yambo-openmpi4
-    seed: .tool_envs/yambo
+    path: .envs/yambo-openmpi4
+    seed: fresh
     python_version: "3.11"
     description: >-
       CatMAP compatibility runtime pinned to ASE 3.17 together with Yambo 5.3,

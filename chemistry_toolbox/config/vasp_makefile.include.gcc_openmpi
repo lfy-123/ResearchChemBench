@@ -38,7 +38,7 @@ OBJECTS_LIB = linpack_double.o
 CXX_PARS    = x86_64-conda-linux-gnu-g++
 LLIBS       = -lstdc++
 
-VASP_ENV   ?= $(abspath ../../../.tool_envs/vasp)
+VASP_ENV   ?= $(abspath ../../../.envs/general-modern-openmpi5)
 
 BLASPACK    = -L$(VASP_ENV)/lib -llapack -lblas
 SCALAPACK   = -L$(VASP_ENV)/lib -lscalapack
