@@ -213,6 +213,19 @@ def test_goodvibes_population_dependency_is_exposed_to_agents():
     assert "entropy_frequency_cutoff_cm1" in population_rule["rule"]
 
 
+def test_pysisyphus_scan_steps_are_documented_as_intervals():
+    snapshot = catalog_snapshot(include_health=False)
+    contract = inspect_action(
+        "scan_reaction_coordinates", backend_id="pysisyphus", snapshot=snapshot
+    )["selected_request_contract"]
+    fields = _contract_fields(contract, "action_settings")
+    steps = fields["steps"]
+    assert steps["type"] == "integer"
+    assert steps["minimum"] == 1
+    assert "interval" in steps["description"].casefold()
+    assert "steps + 1" in steps["description"]
+
+
 def test_orca_density_grid_default_is_300_cubed_and_agent_overridable():
     snapshot = catalog_snapshot(include_health=False)
     contract = inspect_action(

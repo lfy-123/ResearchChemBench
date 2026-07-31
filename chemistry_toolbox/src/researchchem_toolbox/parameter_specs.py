@@ -1030,6 +1030,21 @@ for _field_path, _description, _impact in (
     ("method_spec.solvent", "Solvent name required when solvation_model is selected.", "Changing solvent changes implicit-solvation parameters and barriers."),
 ):
     _register_parameter("pysisyphus", _PYSISYPHUS_ACTIONS, _field_path, description=_description, default=None, impact=_impact)
+_register_parameter(
+    "pysisyphus",
+    "scan_reaction_coordinates",
+    "action_settings.steps",
+    description=(
+        "Number of equal scan intervals between start_value and end_value. "
+        "Pysisyphus evaluates both endpoints, so the requested point count is steps + 1."
+    ),
+    type="integer",
+    minimum=1,
+    impact=(
+        "More intervals increase coordinate resolution and create one additional optimized "
+        "point per interval; runtime and output generally scale with steps + 1."
+    ),
+)
 for _field_path, _description, _impact in (
     ("inputs.mechanism", "Optional Cantera mechanism file/name for equilibrium calculation.", "Changing the mechanism changes available species, thermochemistry, and reactions."),
     ("action_settings.mechanism", "Legacy alternative location for the Cantera mechanism.", "Changing the mechanism changes available species, thermochemistry, and reactions."),
