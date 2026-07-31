@@ -207,17 +207,31 @@ class TaskRunner:
                 "GPU reservations fit this budget."
             )
         snapshot = pool_snapshot()
+        cpu_label = (
+            "physical cores"
+            if snapshot.get("cpu_core_semantics") == "physical"
+            else "logical CPUs"
+        )
+        topology_note = (
+            "- SMT sibling threads are excluded from scientific scheduling\n"
+            if snapshot.get("cpu_core_semantics") == "physical"
+            else (
+                f"- Physical cores backing the pool: "
+                f"{snapshot['physical_cpu_cores_backing_pool']}\n"
+            )
+        )
         return (
             "This run uses a toolbox-managed distributed CPU compute pool. The coordinator node "
             "runs the Agent, model calls, MCP services, and scheduler only; it is not available "
             "for scientific calculations.\n\n"
             f"- Compute workers: {snapshot['worker_count']} anonymous nodes\n"
-            f"- Total schedulable CPU: {snapshot['total_cpu_cores']} logical CPUs, backed by "
-            f"{snapshot['physical_cpu_cores_backing_pool']} physical cores\n"
+            f"- Total schedulable CPU: {snapshot['total_cpu_cores']} {cpu_label}\n"
+            f"{topology_note}"
             f"- Total schedulable memory: {snapshot['total_memory_mb']} MiB\n"
-            f"- Maximum per job: {snapshot['maximum_cpu_cores_per_job']} logical CPUs and "
+            f"- Maximum per job: {snapshot['maximum_cpu_cores_per_job']} {cpu_label} and "
             f"{snapshot['maximum_memory_mb_per_job']} MiB\n"
-            "- Reference memory ratio: 2000 MiB per logical CPU; this is planning guidance, "
+            f"- Reference memory ratio: 2000 MiB per {cpu_label[:-1] if cpu_label.endswith('s') else cpu_label}; "
+            "this is planning guidance, "
             "not a hard CPU-to-memory ratio\n"
             "- One job never crosses nodes; CPU and memory are requested and reserved independently\n\n"
             "You choose which scientifically independent calculations to submit together and the "

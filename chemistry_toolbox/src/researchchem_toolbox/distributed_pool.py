@@ -97,11 +97,7 @@ def _expand_cpu_list(value: str | list[int] | tuple[int, ...]) -> tuple[int, ...
     return tuple(result)
 
 
-def select_compute_cpu_ids(
-    topology: list[dict[str, Any]], count: int
-) -> list[int]:
-    """Choose a NUMA-balanced complete-core compute set, primary threads first."""
-
+def _physical_core_records(topology: list[dict[str, Any]]) -> list[dict[str, Any]]:
     cores: dict[tuple[int, int], dict[str, Any]] = {}
     for item in topology:
         key = (int(item["socket"]), int(item["core"]))
@@ -117,68 +113,75 @@ def select_compute_cpu_ids(
         record["cpus"].update(
             int(cpu) for cpu in item.get("siblings") or [item["cpu"]]
         )
-    ordered_cores = sorted(
+    return sorted(
         cores.values(),
         key=lambda item: (item["numa_node"], item["socket"], item["core"]),
     )
+
+
+def threads_per_physical_core(topology: list[dict[str, Any]]) -> int:
+    """Return the maximum visible SMT width in the worker CPU affinity."""
+
+    cores = _physical_core_records(topology)
+    if not cores:
+        raise ValueError("CPU topology is empty")
+    return max(len(item["cpus"]) for item in cores)
+
+
+def effective_compute_cpu_cores(
+    topology: list[dict[str, Any]], configured_cpu_cores: int
+) -> int:
+    """Convert a configured logical-CPU budget into physical compute cores."""
+
+    configured = _positive_integer(
+        configured_cpu_cores, field="configured_cpu_cores"
+    )
+    cores = _physical_core_records(topology)
+    if not cores:
+        raise ValueError("CPU topology is empty")
+    threads = threads_per_physical_core(topology)
+    effective = max(1, configured // threads)
+    if effective > len(cores):
+        raise ValueError(
+            f"configured CPU budget requires {effective} physical cores but only "
+            f"{len(cores)} are visible"
+        )
+    return effective
+
+
+def select_compute_cpu_ids(
+    topology: list[dict[str, Any]], count: int
+) -> list[int]:
+    """Choose one logical CPU from each of ``count`` NUMA-balanced physical cores."""
+
+    ordered_cores = _physical_core_records(topology)
     if not ordered_cores:
         raise ValueError("CPU topology is empty")
-    threads_per_core = min(len(item["cpus"]) for item in ordered_cores)
-    if threads_per_core > 1 and count % threads_per_core == 0:
-        required_cores = count // threads_per_core
-        by_node: dict[int, list[dict[str, Any]]] = {}
-        for item in ordered_cores:
-            by_node.setdefault(int(item["numa_node"]), []).append(item)
-        selected: list[dict[str, Any]] = []
-        node_ids = sorted(by_node)
-        while len(selected) < required_cores:
-            progressed = False
-            for node_id in node_ids:
-                if by_node[node_id] and len(selected) < required_cores:
-                    selected.append(by_node[node_id].pop(0))
-                    progressed = True
-            if not progressed:
-                break
-        if len(selected) != required_cores:
-            raise ValueError("not enough complete physical cores for compute CPU set")
-        per_core = [sorted(item["cpus"]) for item in selected]
-        return [
-            cpus[thread_index]
-            for thread_index in range(threads_per_core)
-            for cpus in per_core
-        ]
-    all_cpu_ids = [
-        cpu
-        for thread_index in range(max(len(item["cpus"]) for item in ordered_cores))
-        for item in ordered_cores
-        for cpu in [sorted(item["cpus"])[thread_index]]
-        if thread_index < len(item["cpus"])
-    ]
-    if len(all_cpu_ids) < count:
-        raise ValueError("not enough CPU ids for requested compute set")
-    return all_cpu_ids[:count]
+    requested = _positive_integer(count, field="count")
+    if requested > len(ordered_cores):
+        raise ValueError("not enough physical cores for requested compute set")
+    by_node: dict[int, list[dict[str, Any]]] = {}
+    for item in ordered_cores:
+        by_node.setdefault(int(item["numa_node"]), []).append(item)
+    selected: list[dict[str, Any]] = []
+    node_ids = sorted(by_node)
+    while len(selected) < requested:
+        progressed = False
+        for node_id in node_ids:
+            if by_node[node_id] and len(selected) < requested:
+                selected.append(by_node[node_id].pop(0))
+                progressed = True
+        if not progressed:
+            break
+    return [min(item["cpus"]) for item in selected]
 
 
 def select_compute_core_groups(
     topology: list[dict[str, Any]], count: int
 ) -> list[list[int]]:
-    """Return selected logical CPUs grouped by their physical core."""
+    """Return singleton scheduling groups for distinct physical cores."""
 
-    selected = select_compute_cpu_ids(topology, count)
-    positions = {cpu_id: index for index, cpu_id in enumerate(selected)}
-    cores: dict[tuple[int, int], set[int]] = {}
-    for item in topology:
-        key = (int(item["socket"]), int(item["core"]))
-        cores.setdefault(key, set()).update(
-            int(cpu) for cpu in item.get("siblings") or [item["cpu"]]
-        )
-    groups = [
-        sorted((cpu for cpu in cpus if cpu in positions), key=positions.__getitem__)
-        for cpus in cores.values()
-    ]
-    groups = [group for group in groups if group]
-    groups.sort(key=lambda group: min(positions[cpu] for cpu in group))
-    return groups
+    return [[cpu_id] for cpu_id in select_compute_cpu_ids(topology, count)]
 
 
 @dataclass(frozen=True)
@@ -196,6 +199,10 @@ class WorkerNode:
     gpu_count: int
     cpu_ids: tuple[int, ...]
     core_groups: tuple[tuple[int, ...], ...]
+    configured_cpu_cores: int = 0
+    threads_per_core: int = 1
+    cpu_core_semantics: str = "logical"
+    smt_enabled: bool = False
     transport: str = "ssh"
     known_hosts_file: str = ""
     sandbox_id: str = ""
@@ -218,9 +225,25 @@ class WorkerNode:
             transport = "sandbox"
         if transport not in {"ssh", "sandbox"}:
             raise ValueError(f"{worker_id}.transport must be ssh or sandbox")
+        cpu_core_semantics = str(
+            value.get("cpu_core_semantics") or "logical"
+        ).strip().casefold()
+        if cpu_core_semantics not in {"logical", "physical"}:
+            raise ValueError(
+                f"{worker_id}.cpu_core_semantics must be logical or physical"
+            )
         transport_config = dict(value.get("transport_config") or {})
         logical_cpus = _positive_integer(
             value.get("logical_cpus"), field=f"{worker_id}.logical_cpus"
+        )
+        physical_cores = _positive_integer(
+            value.get("physical_cores") or logical_cpus,
+            field=f"{worker_id}.physical_cores",
+        )
+        threads_per_core = _positive_integer(
+            value.get("threads_per_core")
+            or max(1, round(logical_cpus / physical_cores)),
+            field=f"{worker_id}.threads_per_core",
         )
         available_cpu_cores = _positive_integer(
             value.get("available_cpu_cores"),
@@ -241,6 +264,14 @@ class WorkerNode:
         )
         if available_cpu_cores > logical_cpus:
             raise ValueError(f"{worker_id} exposes more CPU than it owns")
+        configured_cpu_cores = _positive_integer(
+            value.get("configured_cpu_cores") or available_cpu_cores,
+            field=f"{worker_id}.configured_cpu_cores",
+        )
+        if configured_cpu_cores > logical_cpus:
+            raise ValueError(f"{worker_id} configures more CPU than it owns")
+        if cpu_core_semantics == "physical" and available_cpu_cores > physical_cores:
+            raise ValueError(f"{worker_id} exposes more physical cores than it owns")
         if available_memory_mb > memory_mb:
             raise ValueError(f"{worker_id} exposes more memory than it owns")
         if len(cpu_ids) < available_cpu_cores:
@@ -276,10 +307,7 @@ class WorkerNode:
             execution_ssh_target=str(value.get("execution_ssh_target") or ""),
             direct_ip=str(value.get("direct_ip") or ""),
             logical_cpus=logical_cpus,
-            physical_cores=_positive_integer(
-                value.get("physical_cores") or logical_cpus,
-                field=f"{worker_id}.physical_cores",
-            ),
+            physical_cores=physical_cores,
             memory_mb=memory_mb,
             available_cpu_cores=available_cpu_cores,
             available_memory_mb=available_memory_mb,
@@ -288,6 +316,10 @@ class WorkerNode:
             ),
             cpu_ids=cpu_ids,
             core_groups=core_groups,
+            configured_cpu_cores=configured_cpu_cores,
+            threads_per_core=threads_per_core,
+            cpu_core_semantics=cpu_core_semantics,
+            smt_enabled=bool(value.get("smt_enabled", threads_per_core > 1)),
             transport=transport,
             known_hosts_file=str(value.get("known_hosts_file") or ""),
             sandbox_id=str(
@@ -345,6 +377,7 @@ class WorkerNode:
             "available_cpu_cores": self.available_cpu_cores,
             "available_memory_mb": self.available_memory_mb,
             "gpu_count": self.gpu_count,
+            "cpu_core_semantics": self.cpu_core_semantics,
         }
 
 
@@ -976,9 +1009,16 @@ def pool_snapshot(*, include_internal: bool = False) -> dict[str, Any]:
         totals["available_memory_mb"] += available["memory_mb"]
         totals["gpu_count"] += worker.gpu_count
         totals["available_gpu_count"] += available["gpu_count"]
+    semantics = {worker.cpu_core_semantics for worker in workers}
+    cpu_core_semantics = semantics.pop() if len(semantics) == 1 else "mixed"
     return {
         "execution_mode": "distributed",
         "scheduling": "largest_cpu_first",
+        "cpu_core_semantics": cpu_core_semantics,
+        "smt_used_for_scientific_jobs": any(
+            worker.cpu_core_semantics == "logical" and worker.smt_enabled
+            for worker in workers
+        ),
         "worker_count": len(workers),
         "workers": records,
         **totals,
@@ -992,7 +1032,9 @@ def pool_snapshot(*, include_internal: bool = False) -> dict[str, Any]:
         "queued_request_count": len(queue_requests),
         "draining_worker_count": len(draining_workers),
         "physical_cpu_cores_backing_pool": sum(
-            round(
+            worker.available_cpu_cores
+            if worker.cpu_core_semantics == "physical"
+            else round(
                 worker.available_cpu_cores
                 * worker.physical_cores
                 / worker.logical_cpus
@@ -1204,11 +1246,13 @@ __all__ = [
     "execution_mode",
     "job_scheduling_snapshot",
     "load_worker_inventory",
+    "effective_compute_cpu_cores",
     "pool_snapshot",
     "register_distributed_request",
     "reserve_distributed_resources",
     "select_compute_core_groups",
     "select_compute_cpu_ids",
+    "threads_per_physical_core",
     "state_root",
     "validate_distributed_resource_limits",
 ]

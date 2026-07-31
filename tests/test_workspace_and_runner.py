@@ -99,11 +99,15 @@ def test_distributed_resource_contract_is_visible_to_agent(tmp_path: Path, monke
                         "logical_cpus": 80,
                         "physical_cores": 40,
                         "memory_mb": 200000,
-                        "available_cpu_cores": 64,
+                        "configured_cpu_cores": 64,
+                        "available_cpu_cores": 32,
                         "available_memory_mb": 128000,
                         "gpu_count": 0,
+                        "threads_per_core": 2,
+                        "smt_enabled": True,
+                        "cpu_core_semantics": "physical",
                         "compute_cpu_ids": list(
-                            range(index * 100, index * 100 + 64)
+                            range(index * 100, index * 100 + 32)
                         ),
                     }
                     for index in range(1, 5)
@@ -122,8 +126,9 @@ def test_distributed_resource_contract_is_visible_to_agent(tmp_path: Path, monke
     )
     runner.setup_workspace()
     instructions = runner.instructions_path.read_text(encoding="utf-8")
-    assert "Total schedulable CPU: 256 logical CPUs" in instructions
-    assert "Maximum per job: 64 logical CPUs and 128000 MiB" in instructions
+    assert "Total schedulable CPU: 128 physical cores" in instructions
+    assert "SMT sibling threads are excluded" in instructions
+    assert "Maximum per job: 32 physical cores and 128000 MiB" in instructions
     assert "coordinator node" in instructions
     assert "submit_action_batch_async" in instructions
     assert "effective pool utilization as an execution objective" in instructions
@@ -134,8 +139,9 @@ def test_distributed_resource_contract_is_visible_to_agent(tmp_path: Path, monke
     assert environment["RCB_DISTRIBUTED_WORKER_INVENTORY"] == str(inventory)
     assert not any(name.startswith("RCB_DISTRIBUTED_WORKER_1_") for name in environment)
     budget = runner.resource_budget_record()
-    assert budget["total_cpu_cores"] == 256
+    assert budget["total_cpu_cores"] == 128
     assert budget["physical_cpu_cores_backing_pool"] == 128
+    assert budget["cpu_core_semantics"] == "physical"
 
 
 def test_task_archive_is_hash_checked_and_safely_extracted(tmp_path: Path):

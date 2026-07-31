@@ -1,5 +1,10 @@
 # 工具箱内部作业监督第二版实现总结
 
+> 2026-08-01 后续修正：ORCA 4/8 核真实复测发现，第二版最初的完整 SMT sibling
+> 分配会让多个 MPI rank 共享物理核。当前 inventory 更新逻辑已改为自动检测 SMT，
+> 配置 64 logical CPU 时向 Agent 暴露 32 physical cores，并只选择每个物理核的一条
+> 线程。软件分类和未来扩展建议见 `software_cpu_topology_guidance.md`。
+
 ## 1. 完成范围
 
 本次按照 `toolbox_internal_job_supervision_plan.md` 第二版逐项完成以下修改：

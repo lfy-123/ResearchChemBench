@@ -20,8 +20,10 @@ from typing import Any
 import yaml
 
 from researchchem_toolbox.distributed_pool import (
+    effective_compute_cpu_cores,
     select_compute_core_groups,
     select_compute_cpu_ids,
+    threads_per_physical_core,
 )
 
 
@@ -165,23 +167,24 @@ def _probe_worker(
     if not ips:
         raise RuntimeError(f"worker {index} reported no direct IP")
     direct_ip = str(ips[0])
-    available_cpu = int(entry["available_cpu_cores"])
+    configured_cpu = int(entry["available_cpu_cores"])
     available_memory = int(entry["available_memory_mb"])
     logical_cpus = int(probe["logical_cpus"])
     memory_mb = int(probe["memory_mb"])
-    if available_cpu > logical_cpus:
+    if configured_cpu > logical_cpus:
         raise ValueError(
-            f"worker {index} exposes {available_cpu} CPU but owns {logical_cpus}"
+            f"worker {index} configures {configured_cpu} CPU but owns {logical_cpus}"
         )
     if available_memory > memory_mb:
         raise ValueError(
             f"worker {index} exposes {available_memory} MiB but owns {memory_mb} MiB"
         )
-    compute_cpu_ids = select_compute_cpu_ids(
-        list(probe["cpu_topology"]), available_cpu
-    )
+    topology = list(probe["cpu_topology"])
+    threads_per_core = threads_per_physical_core(topology)
+    available_cpu = effective_compute_cpu_cores(topology, configured_cpu)
+    compute_cpu_ids = select_compute_cpu_ids(topology, available_cpu)
     compute_core_groups = select_compute_core_groups(
-        list(probe["cpu_topology"]), available_cpu
+        topology, available_cpu
     )
     physical_cores = len(
         {
@@ -252,11 +255,16 @@ def _probe_worker(
             "logical_cpus": logical_cpus,
             "physical_cores": physical_cores,
             "memory_mb": memory_mb,
+            "configured_cpu_cores": configured_cpu,
             "available_cpu_cores": available_cpu,
             "available_memory_mb": available_memory,
-            "reserved_cpu_cores": logical_cpus - available_cpu,
+            "reserved_cpu_cores": logical_cpus - configured_cpu,
+            "unscheduled_smt_threads": configured_cpu - available_cpu,
             "reserved_memory_mb": memory_mb - available_memory,
             "gpu_count": int(entry.get("gpu_count") or 0),
+            "threads_per_core": threads_per_core,
+            "smt_enabled": threads_per_core > 1,
+            "cpu_core_semantics": "physical",
             "compute_cpu_ids": compute_cpu_ids,
             "compute_core_groups": compute_core_groups,
             "all_cpu_ids": sorted(
@@ -322,8 +330,10 @@ def main(argv: list[str] | None = None) -> int:
             known_hosts_by_index[index] = known_host
             print(
                 f"[{index}/{len(entries)}] {worker['worker_id']} {worker['name']} "
-                f"actual={worker['logical_cpus']}cpu/{worker['memory_mb']}MiB "
-                f"available={worker['available_cpu_cores']}cpu/"
+                f"actual={worker['logical_cpus']}threads/"
+                f"{worker['physical_cores']}cores/{worker['memory_mb']}MiB "
+                f"configured={worker['configured_cpu_cores']}threads "
+                f"available={worker['available_cpu_cores']}physical-cores/"
                 f"{worker['available_memory_mb']}MiB",
                 flush=True,
             )

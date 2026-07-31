@@ -10,6 +10,7 @@ import pytest
 from researchchem_toolbox.distributed_pool import (
     DistributedResourceLimitExceeded,
     DistributedResourceUnavailable,
+    effective_compute_cpu_cores,
     load_worker_inventory,
     job_scheduling_snapshot,
     pool_snapshot,
@@ -17,6 +18,7 @@ from researchchem_toolbox.distributed_pool import (
     reserve_distributed_resources,
     select_compute_core_groups,
     select_compute_cpu_ids,
+    threads_per_physical_core,
 )
 from researchchem_toolbox.remote_scratch import (
     cleanup_remote_scratch,
@@ -269,7 +271,7 @@ def test_blocked_large_job_drains_one_worker_but_allows_other_workers(
         small.release()
 
 
-def test_compute_cpu_selection_reserves_complete_physical_cores():
+def test_compute_cpu_selection_uses_one_thread_per_physical_core():
     topology = []
     for node in (0, 1):
         for core in range(20):
@@ -285,9 +287,11 @@ def test_compute_cpu_selection_reserves_complete_physical_cores():
                         "siblings": [primary, sibling],
                     }
                 )
-    selected = select_compute_cpu_ids(topology, 64)
-    assert len(selected) == 64
-    assert len(set(selected)) == 64
+    assert threads_per_physical_core(topology) == 2
+    assert effective_compute_cpu_cores(topology, 64) == 32
+    selected = select_compute_cpu_ids(topology, 32)
+    assert len(selected) == 32
+    assert len(set(selected)) == 32
     selected_cores = {
         (item["socket"], item["core"])
         for item in topology
@@ -296,10 +300,26 @@ def test_compute_cpu_selection_reserves_complete_physical_cores():
     assert len(selected_cores) == 32
     assert len({core for socket, core in selected_cores if socket == 0}) == 16
     assert len({core for socket, core in selected_cores if socket == 1}) == 16
-    groups = select_compute_core_groups(topology, 64)
+    groups = select_compute_core_groups(topology, 32)
     assert len(groups) == 32
-    assert all(len(group) == 2 for group in groups)
+    assert all(len(group) == 1 for group in groups)
     assert {cpu for group in groups for cpu in group} == set(selected)
+
+
+def test_compute_cpu_capacity_is_unchanged_without_smt():
+    topology = [
+        {
+            "cpu": cpu,
+            "core": cpu,
+            "socket": 0,
+            "numa_node": 0,
+            "siblings": [cpu],
+        }
+        for cpu in range(64)
+    ]
+    assert threads_per_physical_core(topology) == 1
+    assert effective_compute_cpu_cores(topology, 64) == 64
+    assert select_compute_cpu_ids(topology, 4) == [0, 1, 2, 3]
 
 
 def test_smt_siblings_are_exclusive_across_reservations(

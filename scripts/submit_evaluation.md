@@ -156,6 +156,11 @@ workers:
     enabled: true
 ```
 
+`available_cpu_cores` 保持用户按平台 logical CPU 配额填写的值。inventory 更新脚本会
+自动检查 SMT：例如 worker 可见 80 logical threads / 40 physical cores 且配置 64，
+生成的调度容量为 32 physical cores；未开启 SMT 时仍为 64。Agent 和科学作业看到的
+`cpu_cores` 始终是换算后的物理核数。
+
 其中 `enabled` 是可选字段：
 
 - 省略 `enabled` 与写入 `enabled: true` 完全相同，表示该worker参与调度；
@@ -268,13 +273,17 @@ RCB_DISTRIBUTED_WORKER_INVENTORY=.worker_inventory.two.json \
 | `logical_cpus` | worker进程所在cpuset中可见的逻辑CPU数量 |
 | `physical_cores` | 上述逻辑CPU对应的物理核心数量 |
 | `memory_mb` | 在worker cgroup中实际探测到的内存容量，单位MiB |
-| `available_cpu_cores` | 暴露给调度器、允许计算作业申请的逻辑CPU总数 |
+| `configured_cpu_cores` | 源YAML中的 logical CPU 配置值，保持用户参数不变 |
+| `available_cpu_cores` | 自动排除SMT sibling后，暴露给调度器和Agent的物理核数 |
 | `available_memory_mb` | 暴露给调度器、允许计算作业申请的内存总量 |
-| `reserved_cpu_cores` | `logical_cpus - available_cpu_cores`，静态留给系统和控制进程的CPU余量 |
+| `reserved_cpu_cores` | `logical_cpus - configured_cpu_cores`，源配置保留的logical CPU余量 |
+| `unscheduled_smt_threads` | 因物理核调度策略而不进入科学计算池的SMT线程数 |
 | `reserved_memory_mb` | `memory_mb - available_memory_mb`，静态保留的内存余量 |
+| `threads_per_core`、`smt_enabled` | 自动探测的每物理核线程数和SMT状态 |
+| `cpu_core_semantics` | 当前生成值为 `physical`，表示作业申请单位是物理核 |
 | `gpu_count` | 暴露给调度器的GPU数量 |
-| `compute_cpu_ids` | 调度器可以分配给计算作业的Linux逻辑CPU编号列表 |
-| `compute_core_groups` | 按物理核心分组的可调度逻辑CPU；同组SMT sibling不会分给不同作业 |
+| `compute_cpu_ids` | 每个可调度物理核选取一个Linux logical CPU ID |
+| `compute_core_groups` | 与物理核一一对应的单元素调度组 |
 | `all_cpu_ids` | worker当前cpuset中全部可见的Linux逻辑CPU编号 |
 | `known_hosts_file` | 直连worker时使用的固定SSH主机密钥文件 |
 | `ssh_host_key_fingerprint` | 已验证的SSH主机公钥指纹 |

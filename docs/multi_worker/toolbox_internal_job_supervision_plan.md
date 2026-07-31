@@ -1,5 +1,11 @@
 # 工具箱内部作业监督与稳定窗口修改方案
 
+> 2026-08-01 CPU 拓扑更新：真实 ORCA MPI 复测证明，把同一物理核的 SMT sibling
+> 同时作为独立 `cpu_cores` 分配会导致 slot 启动失败或严重性能下降。当前实现已改为
+> 自动检测 SMT，并把配置的 logical CPU budget 换算为 physical compute cores；每个
+> 物理核只向科学作业暴露一个 logical CPU ID。本更新取代 4.4 中“保留全部 logical
+> CPU 容量”的旧设计，监督与稳定聚合部分不变。
+
 状态：第二版方案已确认，正在实现
 
 方案日期：2026-07-31
