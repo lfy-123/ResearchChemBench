@@ -1,0 +1,58 @@
+# OpenSandbox source configuration template.
+# API credentials belong in config.local.env, not in this YAML file.
+schema_version: 1
+transport: sandbox
+
+api:
+  base_url: "REPLACE_WITH_SANDBOX_API_BASE_URL"
+  project: "REPLACE_WITH_SANDBOX_PROJECT"
+  api_key_env: "RCB_SANDBOX_API_KEY"
+
+project:
+  root: "REPLACE_WITH_RESEARCHCHEMBENCH_PROJECT_ROOT"
+  shared_mount_root: "REPLACE_WITH_SHARED_STORAGE_MOUNT_PATH"
+  shared_mount_read_only: true
+  remote_job_root: "/tmp/researchchembench/jobs"
+
+environment:
+  environment_id: "REPLACE_WITH_SANDBOX_ENVIRONMENT_ID"
+  create_if_missing: false
+  name: "REPLACE_WITH_SANDBOX_ENVIRONMENT_NAME"
+  description: "ResearchChemBench distributed OpenSandbox workers"
+  image: "REPLACE_WITH_SANDBOX_IMAGE_URI"
+  entrypoint:
+    - sleep
+    - inf
+  resources:
+    cpu: "64"
+    memory: "140Gi"
+  ports:
+    command: 44772
+    rpc: 44773
+  default_lifecycle_minutes: 1440
+  instance_capacity: 1
+  prewarm_size: 0
+  ratio: 1
+  volumes:
+    - name: "shared-storage"
+      mount_path: "REPLACE_WITH_SHARED_STORAGE_MOUNT_PATH"
+      read_only: true
+      host_path: "REPLACE_WITH_SHARED_STORAGE_URI"
+
+scheduling:
+  policy: "largest_cpu_first"
+  sandbox_state_root: "workspaces/.distributed_sandbox_pool"
+  renew_before_seconds: 18000
+  health_check_interval_seconds: 30
+  artifact_transport: "rpc_stream"
+
+workers:
+  - worker_id: "sandbox-1"
+    name: "REPLACE_WITH_SANDBOX_WORKER_NAME"
+    sandbox_id: "REPLACE_WITH_SANDBOX_ID"
+    create_if_missing: false
+    available_cpu_cores: 64
+    available_memory_mb: 128000
+    gpu_count: 0
+    lifecycle_minutes: 1440
+    enabled: true

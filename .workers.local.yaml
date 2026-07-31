@@ -1,0 +1,7 @@
+# Copy this example and replace the SSH target and per-worker resource limits.
+# Add or remove list entries to control the number of SSH workers.
+workers:
+  - ssh: "ssh -CAXY REPLACE_WITH_WORKER_SSH_TARGET"
+    available_cpu_cores: 64
+    available_memory_mb: 128000
+    enabled: true
