@@ -305,11 +305,21 @@ def test_batch_safe_inspection_recommends_parallel_batch() -> None:
         "optimize_geometry", backend_id="orca", detail_level="contract"
     )
     parallel = inspected["parallel_execution"]
-    assert parallel["recommended_tool"] == "submit_action_batch"
+    assert parallel["recommended_tool"] == "submit_action_batch_async"
     assert "synchronous" in parallel["warning"]
     template = parallel["request_template"]
     assert template["action_id"] == "optimize_geometry"
     assert template["backend_id"] == "orca"
+
+
+def test_conformer_generation_supports_async_parallel_batches() -> None:
+    inspected = inspect_action(
+        "generate_conformer_ensemble", backend_id="crest", detail_level="contract"
+    )
+    assert inspected["action"]["batch_safe"] is True
+    assert inspected["parallel_execution"]["recommended_tool"] == (
+        "submit_action_batch_async"
+    )
 
 
 def test_batch_submission_rejects_actions_without_batch_safe_contract() -> None:

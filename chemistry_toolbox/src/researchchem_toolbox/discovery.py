@@ -1522,14 +1522,14 @@ def inspect_action(
     if specification.batch_safe:
         parallel_execution: dict[str, Any] = {
             "eligible": True,
-            "recommended_tool": "submit_action_batch",
+            "recommended_tool": "submit_action_batch_async",
             "use_when": (
                 "Two or more independent inputs use this same Action and Backend."
             ),
             "warning": (
                 "Repeated execute_action calls are synchronous and therefore serial. "
-                "submit_action_batch runs independent children concurrently within the "
-                "active CPU, memory, and GPU budget."
+                "submit_action_batch_async queues independent children for resource-aware "
+                "parallel execution; supervise them with wait_execution_events."
             ),
             "maximum_items": 32,
             "concurrency": "resource_aware_auto",

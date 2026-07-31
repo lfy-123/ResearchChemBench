@@ -33,6 +33,7 @@ ACTION_SPECS = (
             ("molecule",),
             ("initial_structure",),
             input_description="molecule plus optional initial_structure Artifact for CREST",
+            batch_safe=True,
         ),
     _action(
             "cluster_conformers",

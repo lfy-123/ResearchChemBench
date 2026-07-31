@@ -226,3 +226,24 @@ workspaces/toolbox_supervision_integration_v2/
 两项任务完成后，需要继续对照方案分析真实轨迹中的 Action 批次完整性、wait 调用次数、
 内部 poll、SMT allocation、worker 利用率、重复计算、输入修复和科学工具客观失败。该结果将在
 独立轨迹分析报告中记录，不把尚未产生的端到端结论提前写入本实现总结。
+
+## 10. CREST 独立构象并行修复
+
+端到端轨迹显示，Agent 虽识别出三个 CREST 起始构象互相独立，但
+`generate_conformer_ensemble` 当时声明为 `batch_safe=false`，只能连续调用同步
+`execute_action`，导致每次仅使用一个 8 核 reservation，其余 worker 空闲。
+
+本次保持现有调度器不变，仅做以下最小修正：
+
+- 将 `generate_conformer_ensemble` 声明为 batch-safe；RDKit ETKDG 与 CREST 的每个
+  item 原本已使用独立 UUID 输出目录，且资源池 reservation 按 item 隔离；
+- `inspect_action` 对所有 batch-safe Action 统一推荐
+  `submit_action_batch_async`，并明确后续由 `wait_execution_events` 内部监督；
+- 增加 CREST 三 item 异步提交验收测试和构象生成 discovery contract 测试。
+
+修正后，Agent 可一次提交完整的独立 CREST item 列表。调度器继续按 CPU、内存从大到小
+排列，并根据实时资源将 item 放入同一或不同 worker；排队 item 会在资源释放后自动补位。
+原有单次 `execute_action` 路径保持不变。
+
+相关回归结果：async Action 6 项、progressive discovery 22 项、cheminformatics/CREST
+6 项全部通过。

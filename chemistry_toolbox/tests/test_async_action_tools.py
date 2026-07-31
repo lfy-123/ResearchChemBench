@@ -175,6 +175,40 @@ def test_submit_and_wait_async_batch_persist_status(tmp_path, monkeypatch):
     assert "items" not in waited["batches"][0]
 
 
+def test_submit_crest_conformer_batch_is_accepted(tmp_path, monkeypatch):
+    monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
+    monkeypatch.setenv("RESEARCHCHEMBENCH_AVAILABLE_CPU_CORES", "32")
+    monkeypatch.setenv("RESEARCHCHEMBENCH_AVAILABLE_MEMORY_MB", "64000")
+    monkeypatch.setenv("RESEARCHCHEMBENCH_AVAILABLE_GPU_COUNT", "0")
+    (tmp_path / "outputs").mkdir()
+
+    class Supervisor:
+        pid = 12345
+
+    monkeypatch.setattr(
+        "chemistry_toolbox.mcp.async_action_tools.subprocess.Popen",
+        lambda *args, **kwargs: Supervisor(),
+    )
+    submitted = submit_action_batch_async(
+        ActionBatchRequest(
+            action_id="generate_conformer_ensemble",
+            backend_id="crest",
+            method_spec={"method": "GFN2-xTB"},
+            items=[
+                ActionBatchItem(
+                    item_id=f"conformer_{index}",
+                    inputs={"molecule": f"outputs/start_{index}.xyz"},
+                    resource_limits={"cpu_cores": 8, "memory_mb": 8000},
+                )
+                for index in range(3)
+            ],
+        )
+    )
+    assert submitted["status"] == "success"
+    assert submitted["item_count"] == 3
+    assert submitted["scheduling"] == "largest_cpu_then_memory_first"
+
+
 def test_event_wait_settles_and_returns_terminal_artifact_handoff(
     tmp_path, monkeypatch
 ):
