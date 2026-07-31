@@ -102,6 +102,7 @@ analysis preflight 新增两类确定性诊断：
 - `237606d`：请求模型、评测配置和分布式只读调度快照。
 - `86084fa`：内部等待状态机、自动收集、MCP 工具和 JobContext 诊断。
 - `75bfdeb`：Agent 指令、提交入口、工具目录、trace 指标和使用文档。
+- `3a273a2`：跨模式验证、软件手册同步和本实现总结。
 
 实现复用了现有 status、queue、reservation、resource snapshot 和 collection 接口，没有增加
 常驻 watch 服务、消息队列或第二套调度器。核心状态字段集中定义，资源稳定和状态变化共用一套
@@ -116,7 +117,7 @@ analysis preflight 新增两类确定性诊断：
 - SSH 与 Sandbox 持久状态使用相同等待语义；
 - distributed queue/reservation 只读快照和原调度回归；
 - MCP 工具注册、runner 环境、提交脚本、trace 指标和 JobContext preflight；
-- 相关回归 60 项通过；
+- 最终相关回归 88 项通过；
 - 完整测试运行结果为 503 项通过、7 项失败，其中 2 项是测试时临时 CPU 预算为 16 而用例固定
   断言默认 48，恢复默认后单独复跑通过。
 
