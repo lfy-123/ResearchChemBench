@@ -238,6 +238,36 @@ def test_preflight_rejects_undeclared_job_context_names(workspace: Path) -> None
     assert result["status"] == "invalid_request"
     assert result["error"]["code"] == "job_context_declaration_mismatch"
     assert "invented_name" in result["error"]["evidence"]
+    assert "declared_input" in result["error"]["evidence"]
+    assert "declared_output" in result["error"]["evidence"]
+
+
+def test_preflight_reports_case_sensitive_job_context_repair(workspace: Path) -> None:
+    (workspace / "code/value.json").write_text("{}\n", encoding="utf-8")
+    (workspace / "code/name_case.py").write_text(
+        "from researchchem_job import JobContext\n"
+        "ctx = JobContext.load()\n"
+        "ctx.input('InputData').read_text()\n",
+        encoding="utf-8",
+    )
+    result = validate_analysis_program(
+        AnalysisJobRequest(
+            runtime="core",
+            script_path="code/name_case.py",
+            inputs=[
+                AnalysisInputDeclaration(
+                    name="inputdata",
+                    source_path="code/value.json",
+                )
+            ],
+        )
+    )
+
+    assert result["status"] == "invalid_request"
+    assert result["error"]["code"] == "job_context_declaration_mismatch"
+    assert "names are case-sensitive" in result["error"]["candidate_fixes"][0]
+    assert "InputData" in result["error"]["candidate_fixes"][0]
+    assert "inputdata" in result["error"]["candidate_fixes"][0]
 
 
 @pytest.mark.parametrize(
@@ -253,6 +283,12 @@ def test_preflight_rejects_undeclared_job_context_names(workspace: Path) -> None
             "value = 'missing'\n"
             "print(f\"{value:.4f if isinstance(value, float) else value}\")\n",
             "conditional_inside_format_specifier",
+        ),
+        (
+            "from researchchem_job import JobContext\n"
+            "ctx = JobContext.load()\n"
+            "ctx.output('result').register()\n",
+            "JobContext.output(...).register()",
         ),
     ],
 )

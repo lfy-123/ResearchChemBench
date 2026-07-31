@@ -13,6 +13,7 @@ import shutil
 import signal
 import subprocess
 import sys
+import time
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path, PurePosixPath
@@ -40,6 +41,7 @@ from researchchem_toolbox.resource_budget import (
 from researchchem_toolbox.distributed_pool import (
     DistributedResourceLimitExceeded,
     distributed_enabled,
+    job_scheduling_snapshot,
     pool_snapshot,
     validate_distributed_resource_limits,
 )
@@ -56,6 +58,7 @@ from .execution_models import (
     JobCancelRequest,
     JobCollectRequest,
     JobStatusRequest,
+    JobWaitRequest,
     NativeJobRequest,
     StagedInput,
     WorkspaceTextReadRequest,
@@ -99,6 +102,29 @@ SAFE_INHERITED_ENVIRONMENT = (
     "RCB_DISTRIBUTED_REMOTE_SCRATCH_ROOT",
 )
 MAX_INSPECTION_JSON_BYTES = 50 * 1024 * 1024
+JOB_EVENT_SETTLE_SECONDS_ENV = "RESEARCHCHEMBENCH_JOB_EVENT_SETTLE_SECONDS"
+JOB_EVENT_MAX_BATCH_SECONDS_ENV = "RESEARCHCHEMBENCH_JOB_EVENT_MAX_BATCH_SECONDS"
+JOB_WAIT_HEARTBEAT_SECONDS_ENV = "RESEARCHCHEMBENCH_JOB_WAIT_HEARTBEAT_SECONDS"
+JOB_INTERNAL_POLL_INTERVAL_SECONDS_ENV = (
+    "RESEARCHCHEMBENCH_JOB_INTERNAL_POLL_INTERVAL_SECONDS"
+)
+JOB_FAILURE_TAIL_CHARS_ENV = "RESEARCHCHEMBENCH_JOB_FAILURE_TAIL_CHARS"
+JOB_SUPERVISION_DEFAULTS = {
+    "settle_seconds": 60,
+    "max_batch_seconds": 300,
+    "heartbeat_seconds": 3600,
+    "poll_interval_seconds": 2,
+    "failure_tail_chars": 2000,
+}
+JOB_SUPERVISION_STATE_FIELDS = (
+    "status",
+    "worker_id",
+    "reservation_id",
+    "reservation_active",
+    "queue_request_id",
+    "queue_position",
+    "queue_reason",
+)
 
 
 def _now() -> str:
@@ -1208,8 +1234,9 @@ def _start_reserved_job(
             "automatic_fallback": False,
             "resource_snapshot": pool_snapshot(),
             "next_step": (
-                "Call get_execution_job with this exact job_id; the toolbox will keep "
-                "the legal request queued until one compute worker has enough resources."
+                "Combine this job_id with other independent native/analysis job IDs and call "
+                "wait_execution_jobs once; the toolbox keeps legal requests queued and reports "
+                "a stable aggregate update."
             ),
         }
     environment = _job_environment(
@@ -1259,7 +1286,10 @@ def _start_reserved_job(
         "supervisor_pid": supervisor.pid,
         "automatic_fallback": False,
         "evaluation_resource_budget": resource_budget_record(),
-        "next_step": "Call get_execution_job with this exact job_id to inspect state and logs.",
+        "next_step": (
+            "Combine this job_id with other independent native/analysis job IDs and call "
+            "wait_execution_jobs for one stable aggregate update."
+        ),
     }
 
 
@@ -1367,6 +1397,21 @@ def _job_context_compliance(
     missing_output_helpers = sorted(declared_outputs - used_outputs)
     unknown_input_helpers = sorted(helper_calls["input"] - declared_inputs)
     unknown_output_helpers = sorted(used_outputs - declared_outputs)
+    case_mismatches = []
+    for group, used, declared in (
+        ("input", helper_calls["input"], declared_inputs),
+        ("output", used_outputs, declared_outputs),
+    ):
+        declared_by_case = {name.casefold(): name for name in declared}
+        case_mismatches.extend(
+            {
+                "group": group,
+                "used_name": name,
+                "declared_name": declared_by_case[name.casefold()],
+            }
+            for name in used - declared
+            if name.casefold() in declared_by_case
+        )
     if not imported:
         status = "not_adopted"
     elif bypass_findings:
@@ -1402,6 +1447,21 @@ def _job_context_compliance(
         warnings.append(
             "JobContext was imported but code walks above ctx.root; this bypasses the declared path contract."
         )
+    candidate_fixes = [
+        (
+            f"Replace JobContext.{item['group']}({item['used_name']!r}) with "
+            f"JobContext.{item['group']}({item['declared_name']!r}); names are case-sensitive."
+        )
+        for item in case_mismatches
+    ]
+    if unknown_input_helpers:
+        candidate_fixes.append(
+            f"Use one of the declared input names exactly: {sorted(declared_inputs)}."
+        )
+    if unknown_output_helpers:
+        candidate_fixes.append(
+            f"Use one of the declared output names exactly: {sorted(declared_outputs)}."
+        )
     return {
         "status": status,
         "job_context_imported": imported,
@@ -1411,6 +1471,10 @@ def _job_context_compliance(
         "missing_output_helpers": missing_output_helpers,
         "unknown_input_helpers": unknown_input_helpers,
         "unknown_output_helpers": unknown_output_helpers,
+        "declared_input_names": sorted(declared_inputs),
+        "declared_output_names": sorted(declared_outputs),
+        "case_mismatches": case_mismatches,
+        "candidate_fixes": list(dict.fromkeys(candidate_fixes)),
         "bypass_findings": bypass_findings,
         "warnings": warnings,
         "enforcement_boundary": (
@@ -1424,6 +1488,27 @@ def _analysis_reliability_findings(tree: ast.AST) -> list[dict[str, Any]]:
 
     findings: list[dict[str, Any]] = []
     for node in ast.walk(tree):
+        if (
+            isinstance(node, ast.Call)
+            and isinstance(node.func, ast.Attribute)
+            and node.func.attr == "register"
+            and isinstance(node.func.value, ast.Call)
+            and _attribute_chain(node.func.value.func)[-1:] == ["output"]
+        ):
+            findings.append(
+                {
+                    "line": getattr(node, "lineno", None),
+                    "kind": "job_context_path_register_call",
+                    "evidence": "JobContext.output(...).register()",
+                    "message": (
+                        "JobContext.output(name) returns pathlib.Path, which has no register() method"
+                    ),
+                    "candidate_fixes": [
+                        "Write the file to ctx.output(name), then call ctx.register_output(name).",
+                        "For JSON, call ctx.write_json(name, payload), which registers the output automatically.",
+                    ],
+                }
+            )
         if (
             isinstance(node, ast.Attribute)
             and node.attr == "path"
@@ -1439,6 +1524,9 @@ def _analysis_reliability_findings(tree: ast.AST) -> list[dict[str, Any]]:
                         "JobContext.input(name) already returns pathlib.Path; the Path object "
                         "has no .path attribute"
                     ),
+                    "candidate_fixes": [
+                        "Use input_path = ctx.input(name) directly; it is already a pathlib.Path."
+                    ],
                 }
             )
         if not isinstance(node, ast.FormattedValue) or node.format_spec is None:
@@ -1458,6 +1546,9 @@ def _analysis_reliability_findings(tree: ast.AST) -> list[dict[str, Any]]:
                         "A conditional expression written after ':' is parsed as a literal "
                         "format specifier and raises ValueError"
                     ),
+                    "candidate_fixes": [
+                        "Evaluate the conditional value first, then apply a plain format such as :.4f."
+                    ],
                 }
             )
     return sorted(findings, key=lambda item: (item["line"] or 0, item["kind"]))
@@ -2055,8 +2146,7 @@ def validate_analysis_program(request: AnalysisJobRequest) -> dict[str, Any]:
             line=reliability_findings[0]["line"],
             evidence=json.dumps(reliability_findings, sort_keys=True),
             candidate_fixes=[
-                "Use input_path = ctx.input(name) directly; it is already a pathlib.Path.",
-                "Evaluate conditional values before an f-string, then apply a plain format such as :.4f.",
+                *reliability_findings[0].get("candidate_fixes", []),
                 "Run validate_analysis_program again before submitting the corrected program.",
             ],
         )
@@ -2219,11 +2309,7 @@ def validate_analysis_program(request: AnalysisJobRequest) -> dict[str, Any]:
             ),
             file=request.script_path,
             evidence=json.dumps(job_context_compliance, sort_keys=True),
-            candidate_fixes=[
-                "Make every JobContext.input(name) match one inputs[].name exactly.",
-                "Make every JobContext output helper name match one outputs[].name exactly.",
-                "Prefer copying names from the request contract instead of inventing aliases.",
-            ],
+            candidate_fixes=job_context_compliance["candidate_fixes"],
         )
     input_inspection = (
         inspect_analysis_inputs(
@@ -2793,6 +2879,442 @@ def get_execution_resources(_request: ExecutionResourceRequest) -> dict[str, Any
     return {"status": "success", **_resource_availability()}
 
 
+def _job_supervision_policy() -> dict[str, int]:
+    names = {
+        "settle_seconds": JOB_EVENT_SETTLE_SECONDS_ENV,
+        "max_batch_seconds": JOB_EVENT_MAX_BATCH_SECONDS_ENV,
+        "heartbeat_seconds": JOB_WAIT_HEARTBEAT_SECONDS_ENV,
+        "poll_interval_seconds": JOB_INTERNAL_POLL_INTERVAL_SECONDS_ENV,
+        "failure_tail_chars": JOB_FAILURE_TAIL_CHARS_ENV,
+    }
+    policy: dict[str, int] = {}
+    for key, environment_name in names.items():
+        raw = os.environ.get(environment_name, str(JOB_SUPERVISION_DEFAULTS[key]))
+        try:
+            value = int(raw)
+        except ValueError as exc:
+            raise ValueError(f"{environment_name} must be an integer") from exc
+        if value < 1:
+            raise ValueError(f"{environment_name} must be positive")
+        policy[key] = value
+    if policy["max_batch_seconds"] < policy["settle_seconds"]:
+        raise ValueError(
+            f"{JOB_EVENT_MAX_BATCH_SECONDS_ENV} must be >= "
+            f"{JOB_EVENT_SETTLE_SECONDS_ENV}"
+        )
+    if policy["heartbeat_seconds"] < policy["max_batch_seconds"]:
+        raise ValueError(
+            f"{JOB_WAIT_HEARTBEAT_SECONDS_ENV} must be >= "
+            f"{JOB_EVENT_MAX_BATCH_SECONDS_ENV}"
+        )
+    return policy
+
+
+def _parse_timestamp(value: Any) -> float | None:
+    if not value:
+        return None
+    try:
+        return datetime.fromisoformat(str(value).replace("Z", "+00:00")).timestamp()
+    except ValueError:
+        return None
+
+
+def _supervision_resource_snapshot() -> dict[str, Any]:
+    if distributed_enabled():
+        return job_scheduling_snapshot()
+    availability = _resource_availability()
+    active = [
+        {
+            "job_id": str(item.get("job_id") or ""),
+            "reservation_id": str(item.get("reservation_id") or ""),
+            "worker_id": "local",
+        }
+        for item in availability.get("active_jobs") or []
+        if item.get("job_id")
+    ]
+    return {
+        "resource_snapshot": availability,
+        "queued_jobs": [],
+        "active_reservations": active,
+    }
+
+
+def _resource_signature(value: dict[str, Any]) -> str:
+    snapshot = value["resource_snapshot"]
+    if snapshot.get("execution_mode") == "distributed":
+        resource_value = {
+            "available_cpu_cores": snapshot.get("available_cpu_cores"),
+            "available_memory_mb": snapshot.get("available_memory_mb"),
+            "available_gpu_count": snapshot.get("available_gpu_count"),
+            "active_reservation_count": snapshot.get("active_reservation_count"),
+            "queued_request_count": snapshot.get("queued_request_count"),
+            "workers": [
+                {
+                    "worker_id": worker.get("worker_id"),
+                    "available": worker.get("available"),
+                    "active_reservation_count": worker.get(
+                        "active_reservation_count"
+                    ),
+                    "scheduling_state": worker.get("scheduling_state"),
+                }
+                for worker in snapshot.get("workers") or []
+            ],
+        }
+    else:
+        resource_value = {
+            "available": snapshot.get("available"),
+            "currently_reserved": snapshot.get("currently_reserved"),
+            "active_job_ids": sorted(
+                str(item.get("job_id") or item.get("reservation_id") or "")
+                for item in snapshot.get("active_jobs") or []
+            ),
+        }
+    return json.dumps(resource_value, sort_keys=True, separators=(",", ":"))
+
+
+def _job_supervision_snapshot(job_ids: list[str]) -> dict[str, Any]:
+    scheduling = _supervision_resource_snapshot()
+    queued_by_job = {
+        item["job_id"]: item for item in scheduling.get("queued_jobs") or []
+    }
+    reservations_by_job = {
+        item["job_id"]: item
+        for item in scheduling.get("active_reservations") or []
+    }
+    jobs: dict[str, dict[str, Any]] = {}
+    for job_id in job_ids:
+        directory, status = _read_status(job_id)
+        queue = queued_by_job.get(job_id) or {}
+        reservation = reservations_by_job.get(job_id) or {}
+        jobs[job_id] = {
+            "directory": directory,
+            "status_record": status,
+            "status": str(status.get("status") or "unknown"),
+            "worker_id": str(
+                status.get("compute_worker_id")
+                or reservation.get("worker_id")
+                or ("local" if not distributed_enabled() else "")
+            ),
+            "reservation_id": str(
+                reservation.get("reservation_id")
+                or status.get("distributed_reservation_id")
+                or ""
+            ),
+            "reservation_active": bool(reservation),
+            "queue_request_id": str(
+                queue.get("request_id")
+                or status.get("distributed_queue_request_id")
+                or ""
+            ),
+            "queue_position": queue.get("queue_position"),
+            "queue_reason": str(status.get("queue_reason") or ""),
+        }
+    return {
+        "jobs": jobs,
+        "scheduling": scheduling,
+        "resource_signature": _resource_signature(scheduling),
+    }
+
+
+def _compact_running_job(job: dict[str, Any], *, now_unix: float) -> dict[str, Any]:
+    status = job["status_record"]
+    resources = status.get("resource_limits") or {}
+    started = _parse_timestamp(status.get("started_at") or status.get("submitted_at"))
+    return {
+        "job_id": status.get("job_id"),
+        "label": (status.get("metadata") or {}).get("label"),
+        "status": job["status"],
+        "worker_id": job["worker_id"] or None,
+        "cpu_cores": resources.get("cpu_cores"),
+        "memory_mb": resources.get("memory_mb"),
+        "elapsed_seconds": max(0, round(now_unix - started)) if started else None,
+    }
+
+
+def _compact_queued_job(job: dict[str, Any]) -> dict[str, Any]:
+    status = job["status_record"]
+    resources = status.get("resource_limits") or {}
+    return {
+        "job_id": status.get("job_id"),
+        "label": (status.get("metadata") or {}).get("label"),
+        "status": job["status"],
+        "queue_position": job["queue_position"],
+        "cpu_cores": resources.get("cpu_cores"),
+        "memory_mb": resources.get("memory_mb"),
+        "queue_reason": job["queue_reason"] or None,
+    }
+
+
+def _collect_terminal_job(
+    job: dict[str, Any],
+    *,
+    previous_status: str | None,
+    failure_tail_chars: int,
+) -> dict[str, Any]:
+    status = job["status_record"]
+    job_id = str(status["job_id"])
+    collected = collect_execution_job(
+        JobCollectRequest(
+            job_id=job_id,
+            tail_chars=0,
+            include_inputs=False,
+            max_files=1000,
+        )
+    )
+    value = {
+        "job_id": job_id,
+        "label": (status.get("metadata") or {}).get("label"),
+        "status": job["status"],
+        "previous_status": previous_status,
+        "worker_id": job["worker_id"] or None,
+        "resource_limits": status.get("resource_limits") or {},
+        "scientific_validation_status": collected.get(
+            "scientific_validation_status"
+        ),
+        "failure_diagnostic": _program_failure_diagnostic(job["directory"], status),
+        "collection_manifest": collected.get("collection_manifest"),
+        "artifact_manifest": collected.get("artifact_manifest"),
+        "output_count": len(collected.get("outputs") or []),
+        "collection_truncated": bool(collected.get("truncated")),
+    }
+    if job["status"] in {"failed", "timeout"}:
+        value["stdout_tail"] = _tail(
+            job["directory"] / "stdout.log", failure_tail_chars
+        )
+        value["stderr_tail"] = _tail(
+            job["directory"] / "stderr.log", failure_tail_chars
+        )
+        value["error"] = status.get("error")
+    return value
+
+
+def _wait_execution_jobs(
+    request: JobWaitRequest,
+    *,
+    policy: dict[str, int] | None = None,
+    monotonic_fn=time.monotonic,
+    sleep_fn=time.sleep,
+    unix_time_fn=time.time,
+) -> dict[str, Any]:
+    settings = dict(policy or _job_supervision_policy())
+    started = monotonic_fn()
+    aggregation_started: float | None = None
+    last_material_change: float | None = None
+    first_terminal_at: float | None = None
+    previous: dict[str, dict[str, Any]] = {}
+    terminal_previous: dict[str, str | None] = {}
+    terminal_ids: set[str] = set()
+    transitions: list[dict[str, Any]] = []
+    previous_resource_signature: str | None = None
+    stable_resource_snapshots = 0
+    internal_checks = 0
+    latest: dict[str, Any] | None = None
+    return_reason = "heartbeat"
+    resource_warning: str | None = None
+
+    while True:
+        now = monotonic_fn()
+        try:
+            latest = _job_supervision_snapshot(request.job_ids)
+        except (OSError, RuntimeError, json.JSONDecodeError) as exc:
+            reason = (
+                "resource_pool_unavailable" if distributed_enabled() else "monitor_error"
+            )
+            return {
+                "status": "failed",
+                "return_reason": reason,
+                "error": {
+                    "code": reason,
+                    "message": str(exc),
+                    "exception_type": type(exc).__name__,
+                },
+                "remaining_job_ids": list(request.job_ids),
+                "held_jobs": [],
+                "internal_check_count": internal_checks,
+                "aggregation_duration_seconds": 0,
+                "recommended_action": "inspect_execution_resources_and_retry_wait",
+            }
+        internal_checks += 1
+        jobs = latest["jobs"]
+        resource_signature = latest["resource_signature"]
+        resource_changed = (
+            previous_resource_signature is not None
+            and resource_signature != previous_resource_signature
+        )
+        if resource_signature == previous_resource_signature:
+            stable_resource_snapshots += 1
+        else:
+            stable_resource_snapshots = 1
+        previous_resource_signature = resource_signature
+
+        material_change = resource_changed
+        for job_id in request.job_ids:
+            job = jobs[job_id]
+            prior = previous.get(job_id)
+            state = job["status"]
+            if prior is None:
+                if state in TERMINAL_JOB_STATES:
+                    terminal_ids.add(job_id)
+                    terminal_previous[job_id] = None
+                    material_change = True
+                    transitions.append(
+                        {
+                            "job_id": job_id,
+                            "from": "unobserved",
+                            "to": state,
+                            "worker_id": job["worker_id"] or None,
+                            "trigger": "terminal_state_observed",
+                        }
+                    )
+            else:
+                prior_state = prior["status"]
+                changed_fields = [
+                    key
+                    for key in JOB_SUPERVISION_STATE_FIELDS
+                    if prior.get(key) != job.get(key)
+                ]
+                if changed_fields:
+                    material_change = True
+                    transitions.append(
+                        {
+                            "job_id": job_id,
+                            "from": prior_state,
+                            "to": state,
+                            "worker_id": job["worker_id"] or None,
+                            "changed_fields": changed_fields,
+                            "trigger": (
+                                "resources_released"
+                                if prior.get("reservation_active")
+                                and not job.get("reservation_active")
+                                else "scheduler_state_changed"
+                            ),
+                        }
+                    )
+                if (
+                    prior_state not in TERMINAL_JOB_STATES
+                    and state in TERMINAL_JOB_STATES
+                ):
+                    terminal_ids.add(job_id)
+                    terminal_previous[job_id] = prior_state
+            previous[job_id] = {
+                key: job[key] for key in JOB_SUPERVISION_STATE_FIELDS
+            }
+
+        if terminal_ids and aggregation_started is None:
+            aggregation_started = now
+            first_terminal_at = now
+            last_material_change = now
+        elif aggregation_started is not None and material_change:
+            last_material_change = now
+
+        all_terminal = all(
+            job["status"] in TERMINAL_JOB_STATES for job in jobs.values()
+        )
+        terminal_reservation_active = any(
+            jobs[job_id]["reservation_active"] for job_id in terminal_ids
+        )
+        resource_stable = (
+            stable_resource_snapshots >= 2 and not terminal_reservation_active
+        )
+        if aggregation_started is not None:
+            aggregation_elapsed = now - aggregation_started
+            settled_elapsed = now - (last_material_change or aggregation_started)
+            release_confirmation_elapsed = now - (first_terminal_at or now)
+            if all_terminal and resource_stable:
+                return_reason = "all_terminal"
+                break
+            if aggregation_elapsed >= settings["max_batch_seconds"]:
+                return_reason = "aggregation_time_cap"
+                break
+            if settled_elapsed >= settings["settle_seconds"]:
+                if resource_stable or release_confirmation_elapsed >= 10:
+                    return_reason = "settled_state_update"
+                    if not resource_stable:
+                        resource_warning = (
+                            "terminal status is visible but reservation release is still "
+                            "converging"
+                        )
+                    break
+        elif now - started >= settings["heartbeat_seconds"]:
+            return_reason = "heartbeat"
+            break
+        sleep_fn(settings["poll_interval_seconds"])
+
+    assert latest is not None
+    now_unix = unix_time_fn()
+    jobs = latest["jobs"]
+    newly_terminal = [
+        _collect_terminal_job(
+            jobs[job_id],
+            previous_status=terminal_previous.get(job_id),
+            failure_tail_chars=settings["failure_tail_chars"],
+        )
+        for job_id in request.job_ids
+        if job_id in terminal_ids
+    ]
+    running = [
+        _compact_running_job(job, now_unix=now_unix)
+        for job in jobs.values()
+        if job["status"] not in TERMINAL_JOB_STATES | {"queued"}
+    ]
+    queued = [
+        _compact_queued_job(job)
+        for job in jobs.values()
+        if job["status"] == "queued"
+    ]
+    remaining = [
+        job_id
+        for job_id in request.job_ids
+        if jobs[job_id]["status"] not in TERMINAL_JOB_STATES
+    ]
+    finished = monotonic_fn()
+    aggregation_duration = (
+        finished - aggregation_started if aggregation_started is not None else 0
+    )
+    settled_for = (
+        finished - last_material_change if last_material_change is not None else 0
+    )
+    result = {
+        "status": "success",
+        "return_reason": return_reason,
+        "settled_for_seconds": round(max(0, settled_for), 3),
+        "aggregation_duration_seconds": round(max(0, aggregation_duration), 3),
+        "resource_snapshot_stable": stable_resource_snapshots >= 2
+        and not any(job["reservation_active"] for job in jobs.values() if job["status"] in TERMINAL_JOB_STATES),
+        "newly_terminal_jobs": newly_terminal,
+        "running_jobs": running,
+        "queued_jobs": queued,
+        "held_jobs": [],
+        "remaining_job_ids": remaining,
+        "state_transitions": transitions,
+        "summary": {
+            "monitored": len(request.job_ids),
+            "newly_terminal": len(newly_terminal),
+            "running": len(running),
+            "queued": len(queued),
+            "remaining": len(remaining),
+        },
+        "resource_snapshot": latest["scheduling"]["resource_snapshot"],
+        "internal_check_count": internal_checks,
+        "recommended_action": (
+            "process_terminal_results_then_wait_remaining"
+            if newly_terminal and remaining
+            else "process_terminal_results"
+            if newly_terminal
+            else "wait_again_with_remaining_job_ids"
+        ),
+    }
+    if resource_warning:
+        result["resource_snapshot_warning"] = resource_warning
+    return result
+
+
+def wait_execution_jobs(request: JobWaitRequest) -> dict[str, Any]:
+    """Wait internally and return one stable aggregate job-state update."""
+
+    return _wait_execution_jobs(request)
+
+
 def get_execution_job(request: JobStatusRequest) -> dict[str, Any]:
     directory, status = _read_status(request.job_id)
     stdout_path = directory / "stdout.log"
@@ -3147,7 +3669,10 @@ def collect_execution_job(request: JobCollectRequest) -> dict[str, Any]:
             "outputs": [],
             **{key: value for key, value in axes.items() if key != "details"},
             "execution_status_details": axes["details"],
-            "message": "Job is not terminal; poll get_execution_job before collecting outputs.",
+            "message": (
+                "Job is not terminal; use wait_execution_jobs for normal supervision before "
+                "collecting outputs."
+            ),
         }
     request_record = json.loads((directory / "request.json").read_text(encoding="utf-8"))
     staged_targets = {
@@ -3253,6 +3778,7 @@ __all__ = [
     "collect_execution_job",
     "declare_scientific_artifact",
     "get_execution_job",
+    "wait_execution_jobs",
     "read_workspace_text",
     "submit_analysis_program",
     "get_execution_resources",

@@ -11,6 +11,7 @@ from researchchem_toolbox.distributed_pool import (
     DistributedResourceLimitExceeded,
     DistributedResourceUnavailable,
     load_worker_inventory,
+    job_scheduling_snapshot,
     pool_snapshot,
     register_distributed_request,
     reserve_distributed_resources,
@@ -70,6 +71,45 @@ def test_distributed_catalog_describes_pool_instead_of_local_aggregate_budget(
     assert "total_cpu_cores=128" in overview
     assert "maximum_cpu_cores_per_job=64" in overview
     assert "sum of concurrently active managed jobs cannot exceed" not in overview
+
+
+def test_job_scheduling_snapshot_exposes_queue_and_reservations(
+    distributed_environment,
+) -> None:
+    queued = register_distributed_request(
+        {"cpu_cores": 32, "memory_mb": 32000},
+        kind="analysis",
+        label="queued",
+        job_id="job_" + "a" * 32,
+    )
+    reservation = reserve_distributed_resources(
+        {"cpu_cores": 16, "memory_mb": 16000},
+        kind="native",
+        label="running",
+        job_id="job_" + "b" * 32,
+    )
+    try:
+        snapshot = job_scheduling_snapshot()
+        assert snapshot["queued_jobs"] == [
+            {
+                "job_id": "job_" + "a" * 32,
+                "request_id": queued.request_id,
+                "queue_position": 1,
+                "resource_limits": {
+                    "cpu_cores": 32,
+                    "memory_mb": 32000,
+                    "gpu_count": 0,
+                },
+            }
+        ]
+        assert snapshot["active_reservations"][0]["job_id"] == "job_" + "b" * 32
+        assert snapshot["active_reservations"][0]["worker_id"] in {
+            "compute-1",
+            "compute-2",
+        }
+    finally:
+        reservation.release()
+        queued.release()
 
 
 def test_reservations_choose_worker_with_most_remaining_capacity(

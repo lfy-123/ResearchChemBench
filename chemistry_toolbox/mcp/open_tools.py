@@ -17,6 +17,7 @@ from .execution_models import (
     JobCancelRequest,
     JobCollectRequest,
     JobStatusRequest,
+    JobWaitRequest,
     NativeJobRequest,
     SoftwareInspectRequest,
     SoftwareListRequest,
@@ -35,6 +36,7 @@ from .open_execution import (
     submit_native_job as _submit_native_job,
     validate_native_job as _validate_native_job,
     validate_analysis_program as _validate_analysis_program,
+    wait_execution_jobs as _wait_execution_jobs,
     write_workspace_text as _write_workspace_text,
 )
 from .software_catalog import (
@@ -66,6 +68,7 @@ OPEN_EXECUTION_TOOL_NAMES = (
     "submit_analysis_program",
     "get_execution_resources",
     "get_execution_job",
+    "wait_execution_jobs",
     "collect_execution_job",
     "cancel_execution_job",
     "declare_scientific_artifact",
@@ -139,8 +142,13 @@ TOOL_DESCRIPTIONS = {
         "and capacity currently available before choosing resources or submission concurrency."
     ),
     "get_execution_job": (
-        "Poll one native/program job by exact job_id and return persistent state plus bounded stdout "
-        "and stderr tails."
+        "Inspect one native/program job by exact job_id for failure diagnosis or suspected stalls, "
+        "returning persistent state plus bounded stdout and stderr tails."
+    ),
+    "wait_execution_jobs": (
+        "Wait internally for stable state changes across 1-128 native/program jobs. Running jobs "
+        "continue, distributed queues keep filling, terminal jobs are collected automatically, "
+        "and one compact aggregate reports terminal, running, queued, and remaining jobs."
     ),
     "collect_execution_job": (
         "After a job is terminal, enumerate output files and logs with paths, byte sizes, and SHA-256 "
@@ -271,6 +279,10 @@ def get_execution_resources(request: ExecutionResourceRequest) -> dict[str, Any]
 
 def get_execution_job(request: JobStatusRequest) -> dict[str, Any]:
     return _invoke("get_execution_job", request, _get_execution_job)
+
+
+def wait_execution_jobs(request: JobWaitRequest) -> dict[str, Any]:
+    return _invoke("wait_execution_jobs", request, _wait_execution_jobs)
 
 
 def collect_execution_job(request: JobCollectRequest) -> dict[str, Any]:
