@@ -41,6 +41,12 @@ class JobContext:
         path.relative_to(self.root)
         return path
 
+    def _declaration(self, group: str, name: str) -> dict[str, Any]:
+        records = {item["name"]: item for item in self.contract.get(group, [])}
+        if name not in records:
+            raise KeyError(f"Undeclared {group[:-1]} name: {name!r}")
+        return records[name]
+
     def input(self, name: str) -> Path:
         path = self._declared_path("inputs", name)
         if not path.is_file():
@@ -48,8 +54,23 @@ class JobContext:
         return path
 
     def output(self, name: str) -> Path:
+        if self._declaration("outputs", name).get("kind", "file") != "file":
+            raise ValueError(
+                f"Declared output {name!r} is a directory; use output_directory(name)"
+            )
         path = self._declared_path("outputs", name)
         path.parent.mkdir(parents=True, exist_ok=True)
+        return path
+
+    def output_directory(self, name: str) -> Path:
+        """Create and return one declared directory output."""
+
+        if self._declaration("outputs", name).get("kind", "file") != "directory":
+            raise ValueError(
+                f"Declared output {name!r} is a file; use output(name)"
+            )
+        path = self._declared_path("outputs", name)
+        path.mkdir(parents=True, exist_ok=True)
         return path
 
     def write_json(self, name: str, payload: Any) -> Path:
@@ -77,18 +98,33 @@ class JobContext:
             raise ValueError(
                 f"Registered path for {name!r} must match the declared output path {declared}"
             )
-        if candidate.is_symlink() or not candidate.is_file():
-            raise FileNotFoundError(f"Declared output does not exist: {candidate}")
-        declaration = {
-            item["name"]: item for item in self.contract.get("outputs", [])
-        }[name]
+        declaration = self._declaration("outputs", name)
+        kind = declaration.get("kind", "file")
+        if candidate.is_symlink() or not (
+            candidate.is_dir() if kind == "directory" else candidate.is_file()
+        ):
+            raise FileNotFoundError(
+                f"Declared {kind} output does not exist: {candidate}"
+            )
         digest = hashlib.sha256()
-        with candidate.open("rb") as handle:
-            for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-                digest.update(chunk)
+        files = [candidate] if kind == "file" else sorted(candidate.rglob("*"))
+        size_bytes = 0
+        file_count = 0
+        for path in files:
+            if path.is_symlink() or not path.is_file():
+                continue
+            relative = path.name if kind == "file" else str(path.relative_to(candidate))
+            digest.update(relative.encode("utf-8"))
+            with path.open("rb") as handle:
+                for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+                    digest.update(chunk)
+            size_bytes += path.stat().st_size
+            file_count += 1
         record = {
             "path": str(candidate.relative_to(self.root)),
-            "size_bytes": candidate.stat().st_size,
+            "kind": kind,
+            "size_bytes": size_bytes,
+            "file_count": file_count,
             "sha256": digest.hexdigest(),
             "semantic_type": declaration.get("semantic_type"),
             "media_type": declaration.get("media_type"),

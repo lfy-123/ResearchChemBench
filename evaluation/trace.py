@@ -29,6 +29,7 @@ EXECUTION_JOB_OBSERVATION_TOOLS = {
     "wait_execution_jobs",
     "collect_execution_job",
 }
+ACTION_BATCH_SUPERVISION_TOOLS = {"wait_execution_events"}
 SUCCESSFUL_JOB_STATES = {"success"}
 FAILED_JOB_STATES = {"failed", "timeout", "cancelled"}
 INTERPRETER_SHELL_PATTERN = re.compile(
@@ -425,6 +426,12 @@ def process_metrics(
         for event, result in zip(events, event_results)
         if event.get("tool") == "wait_execution_jobs"
     ]
+    action_wait_results = [
+        result
+        for event, result in zip(events, event_results)
+        if event.get("tool") in ACTION_BATCH_SUPERVISION_TOOLS
+    ]
+    supervision_results = wait_results + action_wait_results
     for event in managed_scientific_events:
         if event.get("tool") not in MANAGED_OPEN_EXECUTION_TOOLS:
             if event.get("status") in SUCCESSFUL_TOOL_STATUSES:
@@ -490,6 +497,28 @@ def process_metrics(
         ),
         "execution_job_wait_terminal_count": sum(
             len(result.get("newly_terminal_jobs") or []) for result in wait_results
+        ),
+        "action_batch_wait_call_count": len(action_wait_results),
+        "action_batch_wait_seconds": round(
+            sum(float(result.get("wait_duration_seconds") or 0) for result in action_wait_results),
+            6,
+        ),
+        "action_batch_wait_internal_check_count": sum(
+            int(result.get("internal_check_count") or 0)
+            for result in action_wait_results
+        ),
+        "action_batch_wait_transition_count": sum(
+            len(result.get("state_transitions") or [])
+            for result in action_wait_results
+        ),
+        "action_batch_wait_terminal_count": sum(
+            len(result.get("newly_terminal_items") or [])
+            for result in action_wait_results
+        ),
+        "managed_supervision_call_count": len(supervision_results),
+        "managed_supervision_internal_check_count": sum(
+            int(result.get("internal_check_count") or 0)
+            for result in supervision_results
         ),
         "managed_scientific_attempt_count": len(managed_scientific_events),
         "successful_managed_scientific_calls": managed_successes,

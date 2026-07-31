@@ -201,7 +201,15 @@ class ExecutionEventWaitRequest(BaseModel):
 
     batch_ids: list[str] = Field(min_length=1, max_length=64)
     after_sequences: dict[str, int] = Field(default_factory=dict)
-    timeout_seconds: float = Field(default=0.0, ge=0.0, le=600.0)
+    timeout_seconds: float = Field(
+        default=0.0,
+        ge=0.0,
+        le=600.0,
+        description=(
+            "Deprecated compatibility field. Evaluator-controlled settle, maximum batch, "
+            "heartbeat, and polling settings determine when the wait returns."
+        ),
+    )
 
     @field_validator("batch_ids")
     @classmethod

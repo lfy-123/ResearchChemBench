@@ -12,6 +12,7 @@ from pydantic import ValidationError
 
 from chemistry_toolbox.mcp import action_batch_supervisor
 from chemistry_toolbox.mcp.async_action_tools import (
+    _read_events,
     submit_action_batch_async,
     wait_execution_events,
 )
@@ -153,14 +154,95 @@ def test_submit_and_wait_async_batch_persist_status(tmp_path, monkeypatch):
         ).read_text(encoding="utf-8")
     )
     assert request_record["supervisor_parent_pid"] == os.getpid()
-    waited = wait_execution_events(
-        ExecutionEventWaitRequest(batch_ids=[submitted["batch_id"]])
+    clock = [0.0]
+    waited = _read_events(
+        ExecutionEventWaitRequest(batch_ids=[submitted["batch_id"]]),
+        policy={
+            "settle_seconds": 2,
+            "max_batch_seconds": 4,
+            "heartbeat_seconds": 5,
+            "poll_interval_seconds": 1,
+            "failure_tail_chars": 100,
+        },
+        monotonic_fn=lambda: clock[0],
+        sleep_fn=lambda seconds: clock.__setitem__(0, clock[0] + seconds),
     )
     assert waited["status"] == "success"
+    assert waited["return_reason"] == "heartbeat"
     assert waited["batches"][0]["status"] == "queued"
     assert waited["batches"][0]["next_sequence"] == 0
     assert waited["batches"][0]["item_status_counts"] == {"queued": 1}
     assert "items" not in waited["batches"][0]
+
+
+def test_event_wait_settles_and_returns_terminal_artifact_handoff(
+    tmp_path, monkeypatch
+):
+    monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
+    monkeypatch.setenv("RESEARCHCHEMBENCH_AVAILABLE_CPU_CORES", "4")
+    monkeypatch.setenv("RESEARCHCHEMBENCH_AVAILABLE_MEMORY_MB", "16000")
+    monkeypatch.setenv("RESEARCHCHEMBENCH_AVAILABLE_GPU_COUNT", "0")
+    batch_id = "batch_" + "c" * 32
+    directory = tmp_path / "outputs" / "action_batches" / batch_id
+    directory.mkdir(parents=True)
+    status_path = directory / "status.json"
+    result = {
+        "status": "success",
+        "result": {"energy_hartree": -1.0},
+        "output_artifacts": [{"artifact_id": "artifact_1"}],
+        "artifact_handoff": {"primary_output": {"artifact_id": "artifact_1"}},
+        "provenance": {"compute_worker_id": "compute-1"},
+    }
+    status_path.write_text(
+        json.dumps(
+            {
+                "batch_id": batch_id,
+                "status": "running",
+                "last_sequence": 1,
+                "events": [
+                    {"sequence": 1, "type": "item_finished", "item_id": "done"}
+                ],
+                "items": [
+                    {
+                        "item_id": "done",
+                        "batch_index": 0,
+                        "status": "success",
+                        "resource_limits": {"cpu_cores": 2, "memory_mb": 4000},
+                        "result": result,
+                    },
+                    {
+                        "item_id": "active",
+                        "batch_index": 1,
+                        "status": "running",
+                        "resource_limits": {"cpu_cores": 2, "memory_mb": 4000},
+                    },
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+    clock = [0.0]
+    waited = _read_events(
+        ExecutionEventWaitRequest(batch_ids=[batch_id], timeout_seconds=0.1),
+        policy={
+            "settle_seconds": 3,
+            "max_batch_seconds": 10,
+            "heartbeat_seconds": 20,
+            "poll_interval_seconds": 1,
+            "failure_tail_chars": 100,
+        },
+        monotonic_fn=lambda: clock[0],
+        sleep_fn=lambda seconds: clock.__setitem__(0, clock[0] + seconds),
+    )
+    assert waited["return_reason"] == "settled_state_update"
+    assert waited["wait_duration_seconds"] == 3
+    assert waited["newly_terminal_items"][0]["result"]["output_artifacts"] == [
+        {"artifact_id": "artifact_1"}
+    ]
+    assert waited["newly_terminal_items"][0]["worker_id"] == "compute-1"
+    assert waited["running_items"][0]["item_id"] == "active"
+    assert waited["remaining_batch_ids"] == [batch_id]
+    assert waited["deprecated_request_timeout_seconds_ignored"] == 0.1
 
 
 def test_event_wait_supports_long_compute_waits() -> None:

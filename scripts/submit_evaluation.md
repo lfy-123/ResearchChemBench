@@ -42,6 +42,8 @@ timeout 是评测环境统一规定的资源预算，不再由智能体设置。
 
 原生软件作业和Agent编写的analysis program使用 `wait_execution_jobs` 批量监督。工具箱在一次MCP调用内部检查作业状态；Agent不需要使用shell `sleep`、循环、`grep`、重复的 `get_execution_job` 或重复的 `get_execution_resources` 进行轮询。
 
+异步Action batch使用`wait_execution_events`执行相同的稳定监督。首个item进入成功、失败、超时或取消等终态后，工具箱默认继续等待60秒调度状态稳定；期间运行任务继续运行，资源释放后排队item自动补位。返回值一次给出新终态结果和artifact、仍在运行/排队的item、剩余batch ID、cursor及worker资源快照。请求中的旧`timeout_seconds`仅作兼容解析，不能缩短评估器控制的稳定窗口。
+
 默认策略如下：
 
 | 参数 | 默认值 | 配置方式 | 含义 |
@@ -272,6 +274,7 @@ RCB_DISTRIBUTED_WORKER_INVENTORY=.worker_inventory.two.json \
 | `reserved_memory_mb` | `memory_mb - available_memory_mb`，静态保留的内存余量 |
 | `gpu_count` | 暴露给调度器的GPU数量 |
 | `compute_cpu_ids` | 调度器可以分配给计算作业的Linux逻辑CPU编号列表 |
+| `compute_core_groups` | 按物理核心分组的可调度逻辑CPU；同组SMT sibling不会分给不同作业 |
 | `all_cpu_ids` | worker当前cpuset中全部可见的Linux逻辑CPU编号 |
 | `known_hosts_file` | 直连worker时使用的固定SSH主机密钥文件 |
 | `ssh_host_key_fingerprint` | 已验证的SSH主机公钥指纹 |
@@ -279,6 +282,8 @@ RCB_DISTRIBUTED_WORKER_INVENTORY=.worker_inventory.two.json \
 | `connectivity_status` | inventory生成时的连通性结果，不是持续更新的实时心跳 |
 
 `compute_cpu_ids` 不是“CPU数量”，而是一组Linux CPU编号。生成脚本根据worker的CPU亲和性、物理核心、SMT线程和NUMA拓扑，从 `all_cpu_ids` 中选择完整物理核心并尽量在NUMA节点间均衡。例如worker可见80个逻辑CPU、只暴露64个时，该列表包含选中的64个逻辑CPU，其他16个逻辑CPU作为静态余量保留。
+
+`compute_core_groups`保存上述CPU对应的物理核心关系，例如`[6, 70]`表示两个逻辑CPU属于同一物理核心。调度器允许一个作业使用整组，但不会把两个sibling拆给两个不同作业；奇数CPU请求只向作业暴露所需数量，同时临时阻塞同组剩余sibling，作业结束后一起释放。旧inventory没有该字段时仍可读取，但会退化为逻辑CPU粒度，因此更新代码后应重新运行inventory生成脚本。
 
 这些编号不必从0开始，也不必连续；rlaunch/cgroup分配出的cpuset本来就可能是不连续的。每个作业获得其中一部分编号，远端启动器通过CPU affinity以及OpenMP、MKL、OpenBLAS和MPI相关环境变量将进程限制到这部分CPU，避免不同作业重叠使用同一逻辑核。
 

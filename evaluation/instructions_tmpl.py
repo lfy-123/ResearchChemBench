@@ -32,6 +32,8 @@ ctx.register_output("declared_table_output_name")
 ```
 
 Each helper name must match the corresponding name in the submitted `outputs` declarations.
+For a declared directory output, set `kind="directory"`, create it with
+`ctx.output_directory(name)`, write its files, then call `ctx.register_output(name)`.
 
 ## Task
 
@@ -62,6 +64,7 @@ Each helper name must match the corresponding name in the submitted `outputs` de
 ## Execution protocol
 
 - There is no human available. Do not ask questions or wait for confirmation.
+- Before submitting calculations, form a concise dependency-ordered plan that separates screening, refinement, validation, and final analysis. Identify which calculations are independent, which results unlock later stages, and which pilot outputs will be reused. Revise the plan only when scientific results justify it.
 - Make reasonable assumptions when necessary and state them in the report.
 - The same complete task-independent catalog is available to every task through the access mode described above. Progressive discovery changes only when schemas enter context; it does not hide or recommend candidates. Select tools, ordering, branches, repeated calls, software backends, methods, and stopping conditions yourself.
 - In progressive mode, search and inspect unfamiliar Actions, Backends, resources, or software before executing them. After selecting an Action and Backend, use the fill-in request contract returned by `inspect_action`; replace every placeholder and apply its conditional rules. Discovery results are catalog facts, not an imposed scientific workflow.
@@ -77,9 +80,11 @@ Each helper name must match the corresponding name in the submitted `outputs` de
 - Before writing analysis logic against unfamiliar JSON/CSV inputs, call `inspect_analysis_inputs` and use its actual keys, container types, lengths, null counts, and column profiles. Do not infer a schema from filenames or expected paper terminology.
 - Before launching several native or programmable jobs concurrently, call `get_execution_resources` and keep the sum of active requests within its `available` capacity. Resource-policy rejection is a pre-execution response, not a software crash.
 - Treat effective compute utilization as an execution objective. When scientifically independent work is ready, split it into concurrent jobs and make their combined CPU requests approach the currently available capacity. For software that scales with CPU, request the highest core count likely to reduce wall time within the per-job limit. A programmable analysis job requesting multiple cores must actually use multiprocessing or a parallel numerical library; do not reserve extra cores for serial or I/O-bound code.
+- For one independent Action stage, construct the complete unique item list before submission and use one `submit_action_batch_async` call. Do not split the same stage into overlapping batches to manufacture concurrency: the toolbox queues excess items globally. Reuse pilot results and exclude their inputs from the final batch. Check item IDs and inputs for duplicates before submitting.
+- Supervise Action batches with `wait_execution_events`. It waits internally through the evaluator-controlled stable window while running items continue and queued items automatically fill released resources. Process `newly_terminal_items`, then wait again only for `remaining_batch_ids` using the returned `next_sequences`. Do not shorten the wait with `timeout_seconds` or read Action batch `status.json` files.
 - Submit currently known independent native and programmable jobs before waiting. Supervise them with one `wait_execution_jobs` call containing all job IDs. The toolbox waits internally, keeps running jobs alive, lets distributed queues fill automatically, collects terminal outputs, and returns terminal/running/queued groups plus `remaining_job_ids`.
 - After a partial return, process terminal results and call `wait_execution_jobs` again with `remaining_job_ids` plus any newly submitted independent job IDs. On a heartbeat with no terminal event, wait again. Use `get_execution_job` only for a reported failure that needs deeper diagnosis or a suspected stalled job, and use `collect_execution_job` only when the compact automatic collection is insufficient.
-- Do not poll managed jobs with shell `sleep`, loops, `grep`, repeated `get_execution_job`, or repeated `get_execution_resources`. Use the resource snapshot returned by `wait_execution_jobs` when replanning after completion or failure.
+- Do not poll managed jobs with shell `sleep`, loops, `grep`, direct status-file reads, repeated `get_execution_job`, or repeated `get_execution_resources`. Use the resource snapshot returned by either stable wait tool when replanning after completion or failure.
 - Keep console responses bounded: direct verbose program, optimizer, matrix, trajectory, and per-step output to workspace files and return only a concise numerical summary plus paths. Full files remain available for later managed analysis.
 - Never invent a value that should have come from a tool.
 - If a tool/backend fails, inspect that exact error and independently decide whether to correct arguments, change parameters, choose another backend, call another action, or stop. The system never falls back automatically.

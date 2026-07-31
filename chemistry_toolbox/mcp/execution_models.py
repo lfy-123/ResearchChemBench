@@ -162,6 +162,7 @@ class AnalysisOutputDeclaration(BaseModel):
     path: str = Field(min_length=1, max_length=1000)
     semantic_type: str = Field(min_length=1, max_length=200)
     media_type: str = Field(default="application/octet-stream", min_length=1, max_length=200)
+    kind: Literal["file", "directory"] = "file"
     required: bool = True
     json_schema: dict | None = None
     parent_artifact_ids: list[str] = Field(default_factory=list, max_length=1000)

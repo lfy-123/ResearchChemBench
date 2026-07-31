@@ -118,6 +118,16 @@ def test_preflight_imports_modules_and_checks_versions_and_symbols(workspace: Pa
     assert missing_symbol["status"] == "invalid_request"
     assert missing_symbol["error"]["code"] == "runtime_symbols_missing"
 
+    (workspace / "code/auto_symbol.py").write_text(
+        "import json\njson.symbol_that_does_not_exist()\n", encoding="utf-8"
+    )
+    auto_missing = validate_analysis_program(
+        AnalysisJobRequest(runtime="core", script_path="code/auto_symbol.py")
+    )
+    assert auto_missing["status"] == "invalid_request"
+    assert auto_missing["error"]["code"] == "runtime_symbols_missing"
+    assert "symbol_that_does_not_exist" in auto_missing["error"]["message"]
+
 
 @pytest.mark.parametrize(
     "source",
@@ -278,6 +288,12 @@ def test_preflight_reports_case_sensitive_job_context_repair(workspace: Path) ->
             "ctx = JobContext.load()\n"
             "value = ctx.input('value').path.read_text()\n",
             "JobContext.input(...).path",
+        ),
+        (
+            "from researchchem_job import JobContext\n"
+            "ctx = JobContext.load()\n"
+            "ctx.output('result').path.write_text('bad')\n",
+            "JobContext.output(...).path",
         ),
         (
             "value = 'missing'\n"
@@ -478,6 +494,70 @@ def test_declared_job_context_and_artifact_manifest(workspace: Path) -> None:
     )
     assert all(item["runtime_registration"] for item in collected["declared_artifacts"])
     assert collected["artifact_manifest"].endswith("artifact_manifest.json")
+
+
+def test_declared_directory_output_is_created_registered_and_collected(
+    workspace: Path,
+) -> None:
+    (workspace / "code/directory_output.py").write_text(
+        "from researchchem_job import JobContext\n"
+        "ctx = JobContext.load()\n"
+        "bundle = ctx.output_directory('bundle')\n"
+        "(bundle / 'summary.txt').write_text('complete\\n')\n"
+        "(bundle / 'values.json').write_text('{\"value\": 1}\\n')\n"
+        "ctx.register_output('bundle')\n",
+        encoding="utf-8",
+    )
+    request = AnalysisJobRequest(
+        runtime="core",
+        script_path="code/directory_output.py",
+        outputs=[
+            AnalysisOutputDeclaration(
+                name="bundle",
+                path="outputs/bundle",
+                semantic_type="AnalysisDirectory",
+                media_type="application/x-directory",
+                kind="directory",
+            )
+        ],
+        resource_limits=ResourceLimits(memory_mb=512, cpu_cores=1),
+    )
+    assert validate_analysis_program(request)["status"] == "success"
+    submitted = submit_analysis_program(request)
+    assert submitted["status"] == "success"
+    assert _wait(submitted["job_id"])["job"]["status"] == "success"
+    collected = collect_execution_job(JobCollectRequest(job_id=submitted["job_id"]))
+    artifact = collected["declared_artifacts"][0]
+    assert artifact["validation_status"] == "valid"
+    assert artifact["kind"] == "directory"
+    assert artifact["file_count"] == 2
+    assert artifact["runtime_registration"]["file_count"] == 2
+
+
+def test_directory_output_requires_explicit_directory_helper(workspace: Path) -> None:
+    (workspace / "code/directory_mismatch.py").write_text(
+        "from researchchem_job import JobContext\n"
+        "ctx = JobContext.load()\n"
+        "ctx.output('bundle').mkdir()\n",
+        encoding="utf-8",
+    )
+    result = validate_analysis_program(
+        AnalysisJobRequest(
+            runtime="core",
+            script_path="code/directory_mismatch.py",
+            outputs=[
+                AnalysisOutputDeclaration(
+                    name="bundle",
+                    path="outputs/bundle",
+                    semantic_type="AnalysisDirectory",
+                    kind="directory",
+                )
+            ],
+        )
+    )
+    assert result["status"] == "invalid_request"
+    assert result["error"]["code"] == "job_context_declaration_mismatch"
+    assert "output_directory" in " ".join(result["error"]["candidate_fixes"])
 
 
 def test_process_success_does_not_hide_invalid_declared_json(workspace: Path) -> None:

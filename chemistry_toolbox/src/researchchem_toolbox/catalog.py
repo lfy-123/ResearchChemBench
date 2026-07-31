@@ -529,10 +529,11 @@ def progressive_toolbox_overview(
         "invented provider choices. The dispatcher validates exactly what you provide and never "
         "substitutes another choice. `execute_action` is synchronous: obey any provider-specific "
         "maximum walltime returned by `inspect_action`.",
-        "For two or more independent inputs that use the same batch_safe Action and Backend, use "
-        "`submit_action_batch` instead of repeated `execute_action` calls. The batch tool runs "
-        "children concurrently, derives safe concurrency from the active CPU, memory, and GPU "
-        "budget, queues excess items, and preserves independent results and provenance.",
+        "For two or more independent inputs that use the same batch_safe Action and Backend, build "
+        "one complete unique stage list and call `submit_action_batch_async` once. The toolbox "
+        "queues excess items, preserves independent results and provenance, and returns stable "
+        "terminal/running/queued updates through `wait_execution_events`. Reuse pilot results; do "
+        "not split a stage into overlapping batches or poll internal status files.",
         "",
         "For capabilities outside the predefined Action layer, the software-native and programmable "
         "layers remain peers. Discover exact installed programs with `list_software`, retrieve one "

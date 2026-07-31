@@ -318,6 +318,35 @@ def test_wait_execution_jobs_updates_states_and_supervision_metrics() -> None:
     assert metrics["incomplete_managed_scientific_calls"] == 1
 
 
+def test_wait_execution_events_counts_as_internal_supervision() -> None:
+    metrics = process_metrics(
+        [
+            {
+                "sequence": 1,
+                "tool": "wait_execution_events",
+                "status": "success",
+                "arguments": {"request": {"batch_ids": ["batch_" + "a" * 32]}},
+                "result_preview": json.dumps(
+                    {
+                        "status": "success",
+                        "wait_duration_seconds": 64,
+                        "internal_check_count": 33,
+                        "state_transitions": [{"type": "item_finished"}],
+                        "newly_terminal_items": [{"item_id": "item-1"}],
+                    }
+                ),
+            }
+        ]
+    )
+
+    assert metrics["action_batch_wait_call_count"] == 1
+    assert metrics["action_batch_wait_seconds"] == 64
+    assert metrics["action_batch_wait_internal_check_count"] == 33
+    assert metrics["action_batch_wait_transition_count"] == 1
+    assert metrics["action_batch_wait_terminal_count"] == 1
+    assert metrics["managed_supervision_call_count"] == 1
+
+
 def test_managed_job_metrics_read_complete_saved_result_when_preview_is_truncated(
     tmp_path: Path,
 ):

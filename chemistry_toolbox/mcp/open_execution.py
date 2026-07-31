@@ -65,6 +65,7 @@ from .execution_models import (
     WorkspaceTextWriteRequest,
 )
 from .software_catalog import native_command_guide, software_documentation_recovery
+from .supervision_policy import supervision_policy
 from .workspace import (
     relative_workspace_path,
     resolve_workspace_output_path,
@@ -102,20 +103,6 @@ SAFE_INHERITED_ENVIRONMENT = (
     "RCB_DISTRIBUTED_REMOTE_SCRATCH_ROOT",
 )
 MAX_INSPECTION_JSON_BYTES = 50 * 1024 * 1024
-JOB_EVENT_SETTLE_SECONDS_ENV = "RESEARCHCHEMBENCH_JOB_EVENT_SETTLE_SECONDS"
-JOB_EVENT_MAX_BATCH_SECONDS_ENV = "RESEARCHCHEMBENCH_JOB_EVENT_MAX_BATCH_SECONDS"
-JOB_WAIT_HEARTBEAT_SECONDS_ENV = "RESEARCHCHEMBENCH_JOB_WAIT_HEARTBEAT_SECONDS"
-JOB_INTERNAL_POLL_INTERVAL_SECONDS_ENV = (
-    "RESEARCHCHEMBENCH_JOB_INTERNAL_POLL_INTERVAL_SECONDS"
-)
-JOB_FAILURE_TAIL_CHARS_ENV = "RESEARCHCHEMBENCH_JOB_FAILURE_TAIL_CHARS"
-JOB_SUPERVISION_DEFAULTS = {
-    "settle_seconds": 60,
-    "max_batch_seconds": 300,
-    "heartbeat_seconds": 3600,
-    "poll_interval_seconds": 2,
-    "failure_tail_chars": 2000,
-}
 JOB_SUPERVISION_STATE_FIELDS = (
     "status",
     "worker_id",
@@ -137,6 +124,27 @@ def _sha256(path: Path) -> str:
         for chunk in iter(lambda: handle.read(1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
+
+
+def _directory_digest(path: Path) -> tuple[str, int, int, list[str]]:
+    digest = hashlib.sha256()
+    size_bytes = 0
+    file_count = 0
+    errors: list[str] = []
+    for item in sorted(path.rglob("*")):
+        if item.is_symlink():
+            errors.append(f"symlink is not allowed: {item.relative_to(path)}")
+            continue
+        if not item.is_file():
+            continue
+        relative = str(item.relative_to(path))
+        digest.update(relative.encode("utf-8"))
+        with item.open("rb") as handle:
+            for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+                digest.update(chunk)
+        size_bytes += item.stat().st_size
+        file_count += 1
+    return digest.hexdigest(), size_bytes, file_count, errors
 
 
 def _atomic_json(path: Path, value: dict[str, Any]) -> None:
@@ -1328,6 +1336,36 @@ def _analysis_imports(tree: ast.AST) -> list[str]:
     return sorted(names)
 
 
+def _analysis_required_symbols(tree: ast.AST) -> dict[str, list[str]]:
+    """Extract statically resolvable attributes rooted at imported modules."""
+
+    aliases: dict[str, tuple[str, list[str]]] = {}
+    symbols: dict[str, set[str]] = {}
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Import):
+            for alias in node.names:
+                parts = alias.name.split(".")
+                bound = alias.asname or parts[0]
+                module = alias.name if alias.asname else parts[0]
+                aliases[bound] = (module, [] if alias.asname else parts[1:])
+        elif isinstance(node, ast.ImportFrom) and node.module:
+            for alias in node.names:
+                if alias.name == "*":
+                    continue
+                bound = alias.asname or alias.name
+                aliases[bound] = (node.module, [alias.name])
+                symbols.setdefault(node.module, set()).add(alias.name)
+    for node in ast.walk(tree):
+        chain = _attribute_chain(node)
+        if len(chain) < 2 or chain[0] not in aliases:
+            continue
+        module, prefix = aliases[chain[0]]
+        symbol = ".".join([*prefix, *chain[1:]])
+        if symbol:
+            symbols.setdefault(module, set()).add(symbol)
+    return {name: sorted(values) for name, values in sorted(symbols.items())}
+
+
 def _attribute_chain(node: ast.AST) -> list[str]:
     values: list[str] = []
     current = node
@@ -1347,6 +1385,7 @@ def _job_context_compliance(
     helper_calls: dict[str, set[str]] = {
         "input": set(),
         "output": set(),
+        "output_directory": set(),
         "write_json": set(),
         "register_output": set(),
     }
@@ -1390,6 +1429,7 @@ def _job_context_compliance(
     declared_outputs = {item.name for item in request.outputs}
     used_outputs = (
         helper_calls["output"]
+        | helper_calls["output_directory"]
         | helper_calls["write_json"]
         | helper_calls["register_output"]
     )
@@ -1397,6 +1437,14 @@ def _job_context_compliance(
     missing_output_helpers = sorted(declared_outputs - used_outputs)
     unknown_input_helpers = sorted(helper_calls["input"] - declared_inputs)
     unknown_output_helpers = sorted(used_outputs - declared_outputs)
+    directory_outputs = {
+        item.name for item in request.outputs if item.kind == "directory"
+    }
+    file_outputs = declared_outputs - directory_outputs
+    directory_helper_mismatches = sorted(
+        (directory_outputs - helper_calls["output_directory"])
+        | (helper_calls["output_directory"] & file_outputs)
+    )
     case_mismatches = []
     for group, used, declared in (
         ("input", helper_calls["input"], declared_inputs),
@@ -1416,7 +1464,11 @@ def _job_context_compliance(
         status = "not_adopted"
     elif bypass_findings:
         status = "bypassed"
-    elif unknown_input_helpers or unknown_output_helpers:
+    elif (
+        unknown_input_helpers
+        or unknown_output_helpers
+        or directory_helper_mismatches
+    ):
         status = "invalid"
     elif not missing_input_helpers and not missing_output_helpers:
         status = "compliant"
@@ -1443,6 +1495,11 @@ def _job_context_compliance(
         warnings.append(
             f"JobContext output names absent from the request contract: {unknown_output_helpers}."
         )
+    if directory_helper_mismatches:
+        warnings.append(
+            "Directory outputs must use JobContext.output_directory(name), while file outputs "
+            "must use output(name) or write_json(name, payload)."
+        )
     if bypass_findings:
         warnings.append(
             "JobContext was imported but code walks above ctx.root; this bypasses the declared path contract."
@@ -1462,6 +1519,11 @@ def _job_context_compliance(
         candidate_fixes.append(
             f"Use one of the declared output names exactly: {sorted(declared_outputs)}."
         )
+    if directory_helper_mismatches:
+        candidate_fixes.append(
+            "Declare kind='directory' and call ctx.output_directory(name) before writing files, "
+            "then call ctx.register_output(name)."
+        )
     return {
         "status": status,
         "job_context_imported": imported,
@@ -1471,6 +1533,7 @@ def _job_context_compliance(
         "missing_output_helpers": missing_output_helpers,
         "unknown_input_helpers": unknown_input_helpers,
         "unknown_output_helpers": unknown_output_helpers,
+        "directory_helper_mismatches": directory_helper_mismatches,
         "declared_input_names": sorted(declared_inputs),
         "declared_output_names": sorted(declared_outputs),
         "case_mismatches": case_mismatches,
@@ -1493,7 +1556,8 @@ def _analysis_reliability_findings(tree: ast.AST) -> list[dict[str, Any]]:
             and isinstance(node.func, ast.Attribute)
             and node.func.attr == "register"
             and isinstance(node.func.value, ast.Call)
-            and _attribute_chain(node.func.value.func)[-1:] == ["output"]
+            and _attribute_chain(node.func.value.func)[-1:]
+            in (["output"], ["output_directory"])
         ):
             findings.append(
                 {
@@ -1513,19 +1577,21 @@ def _analysis_reliability_findings(tree: ast.AST) -> list[dict[str, Any]]:
             isinstance(node, ast.Attribute)
             and node.attr == "path"
             and isinstance(node.value, ast.Call)
-            and _attribute_chain(node.value.func)[-1:] == ["input"]
+            and _attribute_chain(node.value.func)[-1:]
+            in (["input"], ["output"], ["output_directory"])
         ):
+            helper = _attribute_chain(node.value.func)[-1]
             findings.append(
                 {
                     "line": getattr(node, "lineno", None),
-                    "kind": "job_context_input_path_attribute",
-                    "evidence": "JobContext.input(...).path",
+                    "kind": "job_context_path_attribute",
+                    "evidence": f"JobContext.{helper}(...).path",
                     "message": (
-                        "JobContext.input(name) already returns pathlib.Path; the Path object "
+                        "JobContext path helpers already return pathlib.Path; the Path object "
                         "has no .path attribute"
                     ),
                     "candidate_fixes": [
-                        "Use input_path = ctx.input(name) directly; it is already a pathlib.Path."
+                        "Use the value returned by ctx.input/output/output_directory directly."
                     ],
                 }
             )
@@ -2082,6 +2148,14 @@ def validate_analysis_program(request: AnalysisJobRequest) -> dict[str, Any]:
     for item in request.staged_inputs:
         resolve_workspace_path(item.source_path, must_exist=True)
     imports = _analysis_imports(tree)
+    detected_symbols = _analysis_required_symbols(tree)
+    required_symbols = {
+        module: sorted(
+            set(detected_symbols.get(module, []))
+            | set(request.required_symbols.get(module, []))
+        )
+        for module in set(detected_symbols) | set(request.required_symbols)
+    }
     external_findings = _external_execution_findings(tree)
     if external_findings:
         return _analysis_failure(
@@ -2195,7 +2269,7 @@ def validate_analysis_program(request: AnalysisJobRequest) -> dict[str, Any]:
                 )
         missing_symbols = [
             symbol
-            for symbol in request.required_symbols.get(local_name, [])
+            for symbol in required_symbols.get(local_name, [])
             if "." in symbol or symbol not in declared_names
         ]
         local_modules.add(local_name)
@@ -2211,14 +2285,14 @@ def validate_analysis_program(request: AnalysisJobRequest) -> dict[str, Any]:
         set(imports)
         | set(request.required_modules)
         | set(request.required_module_versions)
-        | set(request.required_symbols)
+        | set(required_symbols)
     )
     try:
         module_status, module_details = _probe_runtime_modules(
             request.runtime,
             modules,
             local_modules=local_modules,
-            required_symbols=request.required_symbols,
+            required_symbols=required_symbols,
         )
     except (OSError, RuntimeError, subprocess.SubprocessError) as exc:
         return _analysis_failure(
@@ -2299,6 +2373,7 @@ def validate_analysis_program(request: AnalysisJobRequest) -> dict[str, Any]:
     if (
         job_context_compliance["unknown_input_helpers"]
         or job_context_compliance["unknown_output_helpers"]
+        or job_context_compliance["directory_helper_mismatches"]
     ):
         return _analysis_failure(
             stage="input",
@@ -2364,6 +2439,8 @@ def validate_analysis_program(request: AnalysisJobRequest) -> dict[str, Any]:
         "required_modules": request.required_modules,
         "required_module_versions": request.required_module_versions,
         "required_symbols": request.required_symbols,
+        "auto_detected_symbols": detected_symbols,
+        "probed_symbols": required_symbols,
         "module_status": module_status,
         "module_details": module_details,
         "input_inspection": input_inspection,
@@ -2417,6 +2494,8 @@ def submit_analysis_program(request: AnalysisJobRequest) -> dict[str, Any]:
                 "required_modules": validation["required_modules"],
                 "required_module_versions": validation["required_module_versions"],
                 "required_symbols": validation["required_symbols"],
+                "auto_detected_symbols": validation["auto_detected_symbols"],
+                "probed_symbols": validation["probed_symbols"],
                 "module_status": validation["module_status"],
                 "module_details": validation["module_details"],
                 "input_inspection": validation["input_inspection"],
@@ -2879,37 +2958,6 @@ def get_execution_resources(_request: ExecutionResourceRequest) -> dict[str, Any
     return {"status": "success", **_resource_availability()}
 
 
-def _job_supervision_policy() -> dict[str, int]:
-    names = {
-        "settle_seconds": JOB_EVENT_SETTLE_SECONDS_ENV,
-        "max_batch_seconds": JOB_EVENT_MAX_BATCH_SECONDS_ENV,
-        "heartbeat_seconds": JOB_WAIT_HEARTBEAT_SECONDS_ENV,
-        "poll_interval_seconds": JOB_INTERNAL_POLL_INTERVAL_SECONDS_ENV,
-        "failure_tail_chars": JOB_FAILURE_TAIL_CHARS_ENV,
-    }
-    policy: dict[str, int] = {}
-    for key, environment_name in names.items():
-        raw = os.environ.get(environment_name, str(JOB_SUPERVISION_DEFAULTS[key]))
-        try:
-            value = int(raw)
-        except ValueError as exc:
-            raise ValueError(f"{environment_name} must be an integer") from exc
-        if value < 1:
-            raise ValueError(f"{environment_name} must be positive")
-        policy[key] = value
-    if policy["max_batch_seconds"] < policy["settle_seconds"]:
-        raise ValueError(
-            f"{JOB_EVENT_MAX_BATCH_SECONDS_ENV} must be >= "
-            f"{JOB_EVENT_SETTLE_SECONDS_ENV}"
-        )
-    if policy["heartbeat_seconds"] < policy["max_batch_seconds"]:
-        raise ValueError(
-            f"{JOB_WAIT_HEARTBEAT_SECONDS_ENV} must be >= "
-            f"{JOB_EVENT_MAX_BATCH_SECONDS_ENV}"
-        )
-    return policy
-
-
 def _parse_timestamp(value: Any) -> float | None:
     if not value:
         return None
@@ -3076,6 +3124,22 @@ def _collect_terminal_job(
         "artifact_manifest": collected.get("artifact_manifest"),
         "output_count": len(collected.get("outputs") or []),
         "collection_truncated": bool(collected.get("truncated")),
+        "declared_outputs": [
+            {
+                key: artifact.get(key)
+                for key in (
+                    "name",
+                    "workspace_path",
+                    "semantic_type",
+                    "media_type",
+                    "kind",
+                    "size_bytes",
+                    "sha256",
+                    "validation_status",
+                )
+            }
+            for artifact in collected.get("declared_artifacts") or []
+        ],
     }
     if job["status"] in {"failed", "timeout"}:
         value["stdout_tail"] = _tail(
@@ -3096,7 +3160,7 @@ def _wait_execution_jobs(
     sleep_fn=time.sleep,
     unix_time_fn=time.time,
 ) -> dict[str, Any]:
-    settings = dict(policy or _job_supervision_policy())
+    settings = dict(policy or supervision_policy())
     started = monotonic_fn()
     aggregation_started: float | None = None
     last_material_change: float | None = None
@@ -3623,14 +3687,29 @@ def _analysis_artifact_manifest(
         relative = str(declaration["path"])
         path = directory.joinpath(*PurePosixPath(relative).parts)
         required = bool(declaration.get("required", True))
+        kind = str(declaration.get("kind") or "file")
         validation_errors: list[str] = []
         scientific_validation = {"status": "not_checked", "checks": [], "errors": []}
-        if path.is_symlink() or not path.is_file():
+        exists = path.is_dir() if kind == "directory" else path.is_file()
+        size_bytes: int | None = None
+        digest: str | None = None
+        file_count: int | None = None
+        if path.is_symlink() or not exists:
             validation_status = "missing_required" if required else "missing_optional"
             if required:
                 required_failures += 1
+        elif kind == "directory":
+            digest, size_bytes, file_count, directory_errors = _directory_digest(path)
+            validation_errors.extend(directory_errors)
+            if file_count == 0:
+                validation_errors.append("directory is empty")
+            validation_status = "valid" if not validation_errors else "invalid"
+            if required and validation_errors:
+                required_failures += 1
         else:
-            if path.stat().st_size == 0:
+            size_bytes = path.stat().st_size
+            digest = _sha256(path)
+            if size_bytes == 0:
                 validation_errors.append("file is empty")
             validation_errors.extend(_validate_declared_output(path, declaration))
             scientific_validation = _validate_scientific_output(path, declaration)
@@ -3645,8 +3724,10 @@ def _analysis_artifact_manifest(
                 "workspace_path": relative_workspace_path(path),
                 "semantic_type": declaration["semantic_type"],
                 "media_type": declaration["media_type"],
-                "size_bytes": path.stat().st_size if path.is_file() else None,
-                "sha256": _sha256(path) if path.is_file() else None,
+                "kind": kind,
+                "size_bytes": size_bytes,
+                "file_count": file_count,
+                "sha256": digest,
                 "producer": f"programmable_analysis:{status['job_id']}",
                 "parent_artifacts": list(declaration.get("parent_artifact_ids") or []),
                 "required": required,
