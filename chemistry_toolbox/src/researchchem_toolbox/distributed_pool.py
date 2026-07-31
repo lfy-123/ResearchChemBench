@@ -159,6 +159,28 @@ def select_compute_cpu_ids(
     return all_cpu_ids[:count]
 
 
+def select_compute_core_groups(
+    topology: list[dict[str, Any]], count: int
+) -> list[list[int]]:
+    """Return selected logical CPUs grouped by their physical core."""
+
+    selected = select_compute_cpu_ids(topology, count)
+    positions = {cpu_id: index for index, cpu_id in enumerate(selected)}
+    cores: dict[tuple[int, int], set[int]] = {}
+    for item in topology:
+        key = (int(item["socket"]), int(item["core"]))
+        cores.setdefault(key, set()).update(
+            int(cpu) for cpu in item.get("siblings") or [item["cpu"]]
+        )
+    groups = [
+        sorted((cpu for cpu in cpus if cpu in positions), key=positions.__getitem__)
+        for cpus in cores.values()
+    ]
+    groups = [group for group in groups if group]
+    groups.sort(key=lambda group: min(positions[cpu] for cpu in group))
+    return groups
+
+
 @dataclass(frozen=True)
 class WorkerNode:
     worker_id: str
@@ -173,6 +195,7 @@ class WorkerNode:
     available_memory_mb: int
     gpu_count: int
     cpu_ids: tuple[int, ...]
+    core_groups: tuple[tuple[int, ...], ...]
     transport: str = "ssh"
     known_hosts_file: str = ""
     sandbox_id: str = ""
@@ -225,6 +248,27 @@ class WorkerNode:
                 f"{worker_id} compute CPU list has {len(cpu_ids)} entries but "
                 f"exposes {available_cpu_cores}"
             )
+        cpu_ids = cpu_ids[:available_cpu_cores]
+        raw_groups = value.get("compute_core_groups")
+        if raw_groups is None:
+            core_groups = tuple((cpu_id,) for cpu_id in cpu_ids)
+        else:
+            if not isinstance(raw_groups, list) or not raw_groups:
+                raise ValueError(f"{worker_id}.compute_core_groups must be a list")
+            core_groups = tuple(
+                tuple(int(cpu_id) for cpu_id in group)
+                for group in raw_groups
+                if isinstance(group, list) and group
+            )
+            grouped = [cpu_id for group in core_groups for cpu_id in group]
+            if len(grouped) != len(set(grouped)):
+                raise ValueError(
+                    f"{worker_id}.compute_core_groups contains duplicate CPU ids"
+                )
+            if set(grouped) != set(cpu_ids):
+                raise ValueError(
+                    f"{worker_id}.compute_core_groups must cover compute_cpu_ids exactly"
+                )
         return cls(
             worker_id=worker_id,
             name=name,
@@ -242,7 +286,8 @@ class WorkerNode:
             gpu_count=_nonnegative_integer(
                 value.get("gpu_count", 0), field=f"{worker_id}.gpu_count"
             ),
-            cpu_ids=cpu_ids[:available_cpu_cores],
+            cpu_ids=cpu_ids,
+            core_groups=core_groups,
             transport=transport,
             known_hosts_file=str(value.get("known_hosts_file") or ""),
             sandbox_id=str(
@@ -745,14 +790,15 @@ def _worker_usage(
         if reservation.get("worker_id") != worker.worker_id:
             continue
         limits = _normalized_request(reservation.get("resource_limits") or {})
-        for key in usage:
+        for key in ("memory_mb", "gpu_count"):
             usage[key] += limits[key]
+        allocation = reservation.get("resource_allocation") or {}
         used_cpu_ids.update(
             int(item)
-            for item in (reservation.get("resource_allocation") or {}).get(
-                "cpu_ids", []
-            )
+            for item in allocation.get("reserved_cpu_ids")
+            or allocation.get("cpu_ids", [])
         )
+    usage["cpu_cores"] = len(used_cpu_ids)
     return usage, used_cpu_ids
 
 
@@ -760,9 +806,10 @@ def _worker_free_resources(
     worker: WorkerNode, reservations: list[dict[str, Any]]
 ) -> tuple[dict[str, int], list[int], int]:
     usage, used_cpu_ids = _worker_usage(worker, reservations)
-    free_cpu_ids = [
-        cpu_id for cpu_id in worker.cpu_ids if cpu_id not in used_cpu_ids
+    free_core_groups = [
+        group for group in worker.core_groups if used_cpu_ids.isdisjoint(group)
     ]
+    free_cpu_ids = [cpu_id for group in free_core_groups for cpu_id in group]
     return (
         {
             "cpu_cores": len(free_cpu_ids),
@@ -772,6 +819,41 @@ def _worker_free_resources(
         free_cpu_ids,
         sum(item.get("worker_id") == worker.worker_id for item in reservations),
     )
+
+
+def _allocate_cpu_groups(
+    worker: WorkerNode,
+    reservations: list[dict[str, Any]],
+    requested_cpu_cores: int,
+) -> dict[str, Any]:
+    """Allocate CPU ids while keeping physical-core siblings exclusive to one job."""
+
+    _usage, used_cpu_ids = _worker_usage(worker, reservations)
+    free_groups = [
+        group for group in worker.core_groups if used_cpu_ids.isdisjoint(group)
+    ]
+    selected: list[int] = []
+    reserved: list[int] = []
+    blocked: list[int] = []
+    physical_groups: list[list[int]] = []
+    for group in free_groups:
+        if len(selected) >= requested_cpu_cores:
+            break
+        remaining = requested_cpu_cores - len(selected)
+        taken = list(group[:remaining])
+        selected.extend(taken)
+        reserved.extend(group)
+        blocked.extend(group[len(taken) :])
+        physical_groups.append(list(group))
+    if len(selected) != requested_cpu_cores:
+        raise ValueError("insufficient free CPU core groups")
+    return {
+        "worker_id": worker.worker_id,
+        "cpu_ids": selected,
+        "reserved_cpu_ids": reserved,
+        "physical_core_groups": physical_groups,
+        "blocked_sibling_cpu_ids": blocked,
+    }
 
 
 def _fits(resources: Mapping[str, int], available: Mapping[str, int]) -> bool:
@@ -856,11 +938,9 @@ def pool_snapshot(*, include_internal: bool = False) -> dict[str, Any]:
     }
     for worker in workers:
         usage, _used_cpu_ids = _worker_usage(worker, reservations)
-        available = {
-            "cpu_cores": max(0, worker.available_cpu_cores - usage["cpu_cores"]),
-            "memory_mb": max(0, worker.available_memory_mb - usage["memory_mb"]),
-            "gpu_count": max(0, worker.gpu_count - usage["gpu_count"]),
-        }
+        available, _free_cpu_ids, _active_count = _worker_free_resources(
+            worker, reservations
+        )
         record = {
             "worker_id": worker.worker_id,
             "capacity": {
@@ -1069,11 +1149,10 @@ def reserve_distributed_resources(
             _free_cpu, _free_memory, _worker_id, worker, free_cpu_ids = max(
                 candidates, key=lambda item: (item[0], item[1], item[2])
             )
-            allocation = {
-                "worker_id": worker.worker_id,
-                "cpu_ids": free_cpu_ids[: requested["cpu_cores"]],
-                "gpu_ids": list(range(requested["gpu_count"])),
-            }
+            allocation = _allocate_cpu_groups(
+                worker, reservations, requested["cpu_cores"]
+            )
+            allocation["gpu_ids"] = list(range(requested["gpu_count"]))
             reservation_id = uuid.uuid4().hex
             path = _reservation_directory() / f"reservation_{reservation_id}.json"
             now = time.time()
@@ -1128,6 +1207,7 @@ __all__ = [
     "pool_snapshot",
     "register_distributed_request",
     "reserve_distributed_resources",
+    "select_compute_core_groups",
     "select_compute_cpu_ids",
     "state_root",
     "validate_distributed_resource_limits",

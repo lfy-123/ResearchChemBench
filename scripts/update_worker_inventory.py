@@ -19,7 +19,10 @@ from typing import Any
 
 import yaml
 
-from researchchem_toolbox.distributed_pool import select_compute_cpu_ids
+from researchchem_toolbox.distributed_pool import (
+    select_compute_core_groups,
+    select_compute_cpu_ids,
+)
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -177,6 +180,9 @@ def _probe_worker(
     compute_cpu_ids = select_compute_cpu_ids(
         list(probe["cpu_topology"]), available_cpu
     )
+    compute_core_groups = select_compute_core_groups(
+        list(probe["cpu_topology"]), available_cpu
+    )
     physical_cores = len(
         {
             (int(item["socket"]), int(item["core"]))
@@ -252,6 +258,7 @@ def _probe_worker(
             "reserved_memory_mb": memory_mb - available_memory,
             "gpu_count": int(entry.get("gpu_count") or 0),
             "compute_cpu_ids": compute_cpu_ids,
+            "compute_core_groups": compute_core_groups,
             "all_cpu_ids": sorted(
                 int(item["cpu"]) for item in probe["cpu_topology"]
             ),

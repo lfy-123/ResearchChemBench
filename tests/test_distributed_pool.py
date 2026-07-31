@@ -15,6 +15,7 @@ from researchchem_toolbox.distributed_pool import (
     pool_snapshot,
     register_distributed_request,
     reserve_distributed_resources,
+    select_compute_core_groups,
     select_compute_cpu_ids,
 )
 from researchchem_toolbox.remote_scratch import (
@@ -40,6 +41,10 @@ def _write_inventory(path: Path) -> None:
                 "available_memory_mb": 128000,
                 "gpu_count": 0,
                 "compute_cpu_ids": list(range(index * 100, index * 100 + 64)),
+                "compute_core_groups": [
+                    [index * 100 + core, index * 100 + 32 + core]
+                    for core in range(32)
+                ],
             }
         )
     path.write_text(json.dumps({"schema_version": 1, "workers": workers}))
@@ -291,6 +296,37 @@ def test_compute_cpu_selection_reserves_complete_physical_cores():
     assert len(selected_cores) == 32
     assert len({core for socket, core in selected_cores if socket == 0}) == 16
     assert len({core for socket, core in selected_cores if socket == 1}) == 16
+    groups = select_compute_core_groups(topology, 64)
+    assert len(groups) == 32
+    assert all(len(group) == 2 for group in groups)
+    assert {cpu for group in groups for cpu in group} == set(selected)
+
+
+def test_smt_siblings_are_exclusive_across_reservations(
+    distributed_environment,
+):
+    blocker = reserve_distributed_resources(
+        {"cpu_cores": 64, "memory_mb": 1000}, kind="test", label="blocker"
+    )
+    first = reserve_distributed_resources(
+        {"cpu_cores": 1, "memory_mb": 1000}, kind="test", label="odd"
+    )
+    second = reserve_distributed_resources(
+        {"cpu_cores": 1, "memory_mb": 1000}, kind="test", label="next"
+    )
+    try:
+        assert first.worker.worker_id == second.worker.worker_id
+        first_group = set(first.resource_allocation["physical_core_groups"][0])
+        assert len(first.resource_allocation["cpu_ids"]) == 1
+        assert len(first.resource_allocation["blocked_sibling_cpu_ids"]) == 1
+        assert first_group.isdisjoint(second.resource_allocation["cpu_ids"])
+        assert first_group.isdisjoint(
+            second.resource_allocation["blocked_sibling_cpu_ids"]
+        )
+    finally:
+        first.release()
+        second.release()
+        blocker.release()
 
 
 def test_distributed_scratch_is_unique_and_gaussian_is_job_local(tmp_path):

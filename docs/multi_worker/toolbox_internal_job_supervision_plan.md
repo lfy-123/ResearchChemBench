@@ -1,10 +1,15 @@
 # 工具箱内部作业监督与稳定窗口修改方案
 
-状态：待用户确认，尚未修改功能代码
+状态：第二版方案已确认，正在实现
 
 方案日期：2026-07-31
 
-基线版本：第六版本（多机 CPU 初版代码）
+实现基线：`4fef94a`（多机 CPU 初版及有效计算资源优先指令）
+
+> 第二版实施说明：第一版已经完成 native/analysis 的 `wait_execution_jobs`，但没有覆盖
+> Action batch 的 `wait_execution_events`。本次实施把相同的稳定聚合边界扩展到 Action，
+> 同时修复 SMT sibling 被不同作业并发占用的问题，并补齐完整批次编排和 analysis 静态
+> 预检。若下文旧描述与本说明冲突，以第二版新增条款为准。
 
 ## 1. 背景
 
@@ -28,7 +33,7 @@
 
 ## 2. 目标
 
-1. 工具箱内部监督所有已经提交的 native/analysis 异步作业。
+1. 工具箱内部监督所有已经提交的 native、analysis 和 Action batch 异步作业。
 2. 正在运行的计算在工具返回期间继续运行，不暂停、不迁移、不取消。
 3. 作业终态触发通知聚合；资源变化本身不单独唤醒 Agent。
 4. 终态作业立即释放资源，排队作业立即自动补位，不等待 Agent。
@@ -37,6 +42,9 @@
 7. 自动收集终态作业的机械结果和失败诊断，减少单独工具调用。
 8. 保留当前 `local` 模式和 `distributed` 模式的执行语义。
 9. 不替 Agent 修改科学参数、选择软件、自动重试或解释科学结论。
+10. 保持 Agent 对每个作业 CPU/内存请求和并行任务数量的自主决定，不增加 ORCA 等
+    软件专用并发上限。
+11. 调度器按物理核心组隔离 SMT sibling，避免两个作业共享同一物理核心。
 
 ## 3. 非目标
 
@@ -46,7 +54,7 @@
 - Redis、Kafka、外部消息队列或独立回调服务；
 - 自动修改结构、方法、基组、电荷、多重度或收敛参数；
 - 单次失败后自动重新提交；
-- 改变现有 worker inventory、SSH 连接、CPU 绑定和放置算法；
+- 改变 SSH 连接方式或引入软件专用放置规则；
 - 把协调节点资源加入科学计算池；
 - 评估级 pause/resume。作业监督状态可以为以后实现 resume 提供基础，但不在本次范围。
 
@@ -103,6 +111,25 @@
 
 工具返回 Agent 时，仍在运行的任务继续运行。下一次等待应把返回的
 `remaining_job_ids` 和 Agent 新提交的作业 ID 合并后传入。
+
+Action batch 同样遵守该语义。`wait_execution_events` 返回时，未完成 item 不被取消，
+远端进程继续运行，队列继续自动补位；返回值必须明确列出 `running_items`、
+`queued_items`、`remaining_batch_ids` 和每个 batch 的 `next_sequence`。
+
+### 4.4 SMT 物理核心隔离
+
+worker inventory 除 `compute_cpu_ids` 外增加 `compute_core_groups`。每组包含同一物理核心
+可暴露的 SMT logical CPU，例如 `[6, 70]`。调度器必须把核心组视为跨作业不可拆分的
+隔离单元：
+
+- 偶数请求优先分配完整核心组；
+- 奇数请求允许只向作业暴露所需 logical CPU，但同组未暴露 sibling 仍被 reservation
+  阻塞，直到作业释放；
+- allocation 同时记录 `cpu_ids`、`physical_core_groups` 和
+  `blocked_sibling_cpu_ids`，便于审计；
+- 保留 worker 声明的全部 logical CPU 容量和 Agent 的任意请求，不增加软件特例；
+- 旧 inventory 没有核心组时继续按 flat CPU ID 兼容运行，但 inventory 更新脚本必须生成
+  新字段。
 
 ## 5. 稳定窗口算法
 
@@ -182,6 +209,21 @@ job_failure_tail_chars: 2000
 ```
 
 不得把不稳定快照伪装成最终可用资源。
+
+### 5.5 Action batch 稳定聚合
+
+`wait_execution_events` 使用与 `wait_execution_jobs` 相同的 evaluator-controlled 参数：
+
+- item 的 success/failed/timeout/cancelled 触发聚合；
+- 新终态、`queued -> running`、worker 分配和 reservation 释放重置稳定窗口；
+- 资源变化本身不触发返回；
+- 所有 item 终态且连续两次资源快照一致时可提前返回；
+- 达到最大聚合时间、heartbeat、监督异常或资源池不可用时返回；
+- 请求中的旧 `timeout_seconds` 只保留兼容解析，不允许缩短 evaluator 的 settle 窗口。
+
+Action 返回不再重复整批历史，而是给出本次新终态 item、当前 running/queued item、紧凑
+状态转换、结果摘要和 output artifact ID。Agent 不需要读取内部 `status.json` 才能取得
+结果或产物。
 
 ## 6. 排队任务自动补位
 
@@ -373,6 +415,9 @@ wait_execution_jobs
 
 Agent 只有在确实需要完整输出清单时才单独调用 `collect_execution_job`。
 
+Action batch 的新终态 item 也必须直接返回紧凑 result、失败诊断和
+`output_artifacts`。正在运行和排队 item 只返回调度所需字段，不重复历史结果。
+
 ## 9. Agent 使用规则修改
 
 初始指令和工具描述增加以下强制规则：
@@ -386,6 +431,11 @@ Agent 只有在确实需要完整输出清单时才单独调用 `collect_executi
 7. 不直接读取 `_toolbox_catalog.json`；只使用渐进式发现工具。
 8. 先处理 `newly_terminal_jobs`，提交由结果解锁的新任务，再将新 ID 和
    `remaining_job_ids` 合并等待。
+9. 计算前先给出依赖有序的简洁计划，区分筛选、精修、验证和汇总阶段；工具箱不替
+   Agent 作科学分层决策。
+10. 对同一阶段，先一次性生成完整且唯一的 item 列表，再提交一个 Action batch；容量
+    不足由全局调度队列处理，不能靠拆成多个重叠 batch 提高并发。
+11. pilot 结果必须复用，最终批次排除已完成输入；提交前检查 item ID 和输入指纹重复。
 
 ## 10. 减少重复校验和输入修复
 
@@ -396,11 +446,17 @@ Agent 只有在确实需要完整输出清单时才单独调用 `collect_executi
 - 提交前内部校验失败时不启动计算，返回结构化错误；
 - `validate_*` 只用于主动 dry-run 或复杂错误排查。
 
-增加两项静态校验：
+增加以下静态校验：
 
 1. 检测无效的 `ctx.output(name).register()` 调用，返回正确的
    `write_text` + `ctx.register_output(name)` 示例；
 2. 在 JobContext 声明不匹配时，同时返回声明名称、代码使用名称和大小写差异。
+3. 检测 `ctx.input(...).path` 和 `ctx.output(...).path` 等无效属性访问，返回合法
+   `Path` 用法或 JobContext helper 示例。
+4. 从 AST 自动提取可静态解析的导入模块属性链，连同显式 `required_symbols` 在目标
+   环境中探测，提交前拦截不存在的 API。
+5. 为目录输出提供明确 helper/校验，确保注册目录前目录已经创建，避免运行到末尾才
+   因输出目录不存在而失败。
 
 工具箱不自动修改 Agent 代码，只返回精确、紧凑的修复建议。
 
@@ -413,6 +469,10 @@ Agent 只有在确实需要完整输出清单时才单独调用 `collect_executi
   - 复用 `_read_status`、`_execution_status_axes`、`_resource_availability` 和 collection
     逻辑；
   - 不创建新的作业 supervisor。
+- `chemistry_toolbox/mcp/async_action_tools.py`
+  - 把 `wait_execution_events` 改为 evaluator-controlled 的稳定聚合；
+  - 返回新终态、running、queued、cursor、资源快照和 artifact handoff；
+  - 不改变 Action 提交、远端进程或自动补位语义。
 - `chemistry_toolbox/mcp/open_tools.py`
   - 注册 `wait_execution_jobs`；
   - 增加紧凑工具描述。
@@ -448,6 +508,7 @@ Agent 只有在确实需要完整输出清单时才单独调用 `collect_executi
 
 - `evaluation/trace.py`
   - 把 `wait_execution_jobs` 计为监督工具；
+  - 把 `wait_execution_events` 计为监督工具，并记录稳定等待指标；
   - 一次内部等待只记录一个 MCP 调用；
   - 记录等待时长、内部检查次数、聚合状态变化数量，但不为每次内部检查写独立工具事件。
 
@@ -456,7 +517,8 @@ Agent 只有在确实需要完整输出清单时才单独调用 `collect_executi
 ### 12.1 分布模式
 
 读取共享 reservation、queue 和 job status，能够返回匿名 worker 状态和全池资源快照。
-不改变当前调度算法。
+保留 largest-CPU-first、fill-first 和 draining 语义，仅把 CPU 可用性从 flat logical ID
+升级为 SMT core-group 隔离。
 
 ### 12.2 本地模式
 
@@ -483,6 +545,11 @@ Agent 只有在确实需要完整输出清单时才单独调用 `collect_executi
 10. 工具返回不影响运行 supervisor PID 和远端进程；
 11. local/distributed 资源快照均正确；
 12. 取消作业后排队补位和状态汇总正确。
+13. Action 首个终态后不会立即返回，连续稳定窗口结束后一次返回多个状态变化；
+14. Action 返回包含新终态 artifact、running/queued item 和下一次 cursor；
+15. 两个并发 reservation 不会占用同一物理核心的不同 SMT sibling；
+16. 奇数 CPU 请求会阻塞同组未使用 sibling，释放后恢复；
+17. 自动探测不存在的模块属性、无效 JobContext `.path` 和未创建目录输出。
 
 测试中使用可注入时钟或较短参数，不能真实等待 60 秒或一小时。
 
@@ -525,22 +592,21 @@ Agent 只有在确实需要完整输出清单时才单独调用 `collect_executi
 - 总模型步骤预计从 258 降至 170 以下；
 - 总缓存 token 预计降低 40% 以上；
 - worker 利用率不因 60 秒通知稳定窗口降低。
+- Action 监督不再要求直接读取内部 batch `status.json`；
+- 同一物理核心的 SMT sibling 不会同时分配给不同作业；
+- 同阶段完整 item 列表一次提交，轨迹中不再出现由 batch 拆分导致的重复输入。
 
 ## 15. 实施顺序
 
-用户确认后按以下顺序修改，每个阶段独立提交 Git 版本：
+第二版按以下顺序修改，并在关键阶段用 Git 保存：
 
-1. 增加请求模型和 `wait_execution_jobs` 核心等待逻辑；
-2. 增加稳定窗口、资源稳定确认和自动 collection；
-3. 暴露评估配置和提交脚本参数；
-4. 更新 Agent 指令、工具目录和 next-step 文本；
-5. 增加 JobContext 静态修复诊断；
-6. 完成单元和回归测试；
-7. 在 local 模式执行短作业验证；
-8. 在 distributed 模式执行多作业补位与聚合验证；
-9. 使用一个较简单 benchmark 任务测试 Agent 轨迹；
-10. 对比修改前后的工具调用、模型步骤和 token 指标；
-11. 编写实现总结并提交最终版本。
+1. 固化第二版方案和验收基线；
+2. 实现 inventory/core-group 与通用 CPU 分配；
+3. 实现 Action 60 秒稳定聚合和紧凑结果交接；
+4. 更新 Agent 计划优先、完整 batch 和监督规则；
+5. 增加 JobContext/API/目录输出静态预检；
+6. 更新轨迹指标，完成单元、回归和受控集成测试；
+7. 编写实现总结并提交最终版本。
 
 ## 16. 第六版本基线说明
 
@@ -555,5 +621,5 @@ Agent 只有在确实需要完整输出清单时才单独调用 `collect_executi
 - 提交脚本分布模式参数与文档；
 - 默认 Agent 最大步骤 600。
 
-本文件描述的 native/analysis 作业内部稳定等待尚未包含在第六版本中。只有用户确认本
-方案后才开始修改功能代码。
+第一版 native/analysis 稳定等待已在后续提交中实现。本次第二版实现重点是补齐 Action
+路径、SMT 物理核心隔离、完整批次编排约束与 analysis 静态预检。
