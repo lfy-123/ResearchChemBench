@@ -71,7 +71,15 @@ config.local.env
 - 只传递允许的 runtime、缓存、许可证、workspace 和代理变量；
 - 不向 worker 传递 OpenAI/Judge API 密钥；
 - provenance 记录执行模式、匿名 worker ID、CPU ID、reservation 和资源请求；
-- native/analysis supervisor 在 worker 上维护心跳、walltime、进程组取消和最终资源释放。
+- distributed Action、native job 和 analysis program 均使用 worker 本地的每作业独立
+  临时目录；默认根目录是 `/tmp/researchchembench`，可用
+  `RCB_DISTRIBUTED_REMOTE_SCRATCH_ROOT` 覆盖；
+- Gaussian 的 `GAUSS_SCRDIR` 指向该 reservation/job 独占目录，不再使用共享 GPFS
+  软件缓存中的 scratch，避免不同 worker 上相同进程号生成同名 `Gau-PID` 文件；
+- native/analysis supervisor 在 worker 上维护心跳、walltime、进程组取消、临时目录清理
+  和最终资源释放；provenance/status 记录 `scratch_isolation=worker_local_ephemeral`；
+- 本地 SSH 客户端绑定到 action/job supervisor 的生命周期；其父进程退出时连接自动
+  结束，并触发远端 parent-death、进程组终止、scratch 清理和 reservation 回收。
 
 ### 2.4 Agent 接口
 
@@ -132,6 +140,7 @@ b83d730 fix: terminate remote process groups on cancellation
 77ce79f docs: record distributed throughput and cancellation validation
 b48a4be docs: sync GoodVibes suffix guidance
 f873d59 fix: make long async batches cancellation safe
+58d2862 fix: isolate distributed scratch and bind ssh lifetime
 ```
 
 ## 4. 已完成验证
@@ -265,7 +274,7 @@ workspaces/distributed-complex-e2e-rerun3/
 均为 0；孤儿 supervisor 清理后资源池恢复为 256 CPU、512000 MiB、0 reservation。
 真实 parent-death 回归测试验证 supervisor 会在拥有它的 MCP 父进程退出后自动结束。
 
-修复后的正式复杂任务记录为：
+第四次复杂任务运行记录为：
 
 ```text
 workspaces/distributed-complex-e2e-rerun4/
@@ -273,5 +282,34 @@ tmux: rcb_distributed_complex_e2e_rerun4
 hourly monitor: rcb_monitor_distributed_complex_rerun4
 ```
 
-三个任务仍按顺序运行，每小时监控一次。最终状态、科学产物和评分将在三个任务全部
-结束后补充。
+首个任务持续运行约 3 小时，Agent 的 600 秒真实长等待和无事件紧凑响应均按预期工作；
+运行期间同时维护 3 个 batch、共 9 个 Gaussian 优化（36 CPU、72000 MiB），四台
+worker 的 reservation、心跳和 checkpoint 均稳定。检查科学软件进程时发现所有节点
+仍把 `GAUSS_SCRDIR` 指向共享 `.software_cache/gaussian/g16/scratch`。Gaussian 以进程号
+生成 `Gau-PID` 文件，不同 worker 可能恰好使用相同 PID，因此存在跨节点 scratch 文件
+冲突和结果污染风险，按测试规则停止该轮评估。
+
+停止评估时，batch supervisor 和 reservation 已归零，但本地 SSH 子进程被 PID 1 接管，
+使远端 Gaussian 仍继续运行。精确清理 rerun3/rerun4 的孤儿连接后，四台 worker 上对应
+workspace 的 launcher、worker、Gaussian 和 link 进程均归零。随后完成两项修复：
+
+1. 每个远端 reservation/job 创建 worker 本地、唯一、自动清理的 scratch，并设置
+   `TMPDIR`/`TMP`/`TEMP`；Gaussian 使用其下独立的 `gaussian/` 目录。
+2. SSH 通过 Linux `PR_SET_PDEATHSIG` 辅助启动器绑定到预期父进程；即使 evaluator/MCP
+   被直接终止，也会关闭 SSH，并由远端 parent-death 机制终止完整科学软件进程组。
+
+真实 Gaussian optimize 取消烟雾测试确认 scratch 位于
+`/tmp/researchchembench/rcb-<reservation>-*/gaussian`。直接终止协调端 supervisor 后约
+6 秒，本地 SSH、远端 launcher/worker/Gaussian 进程和该 scratch 全部归零，资源池恢复
+为 256 CPU、512000 MiB、0 reservation。
+
+应用上述修复后的正式复杂任务记录为：
+
+```text
+workspaces/distributed-complex-e2e-rerun5/
+tmux: rcb_distributed_complex_e2e_rerun5
+hourly monitor: rcb_monitor_distributed_complex_rerun5
+```
+
+三个任务继续按顺序运行并每小时监控。最终状态、科学产物和评分将在三个任务全部结束后
+补充。
