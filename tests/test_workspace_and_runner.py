@@ -126,6 +126,9 @@ def test_distributed_resource_contract_is_visible_to_agent(tmp_path: Path, monke
     assert "Maximum per job: 64 logical CPUs and 128000 MiB" in instructions
     assert "coordinator node" in instructions
     assert "submit_action_batch_async" in instructions
+    assert "effective pool utilization as an execution objective" in instructions
+    assert "combined CPU requests to approach current available capacity" in instructions
+    assert "must actually implement multiprocessing" in instructions
     environment = runner._mcp_environment()
     assert environment["RESEARCHCHEMBENCH_EXECUTION_MODE"] == "distributed"
     assert environment["RCB_DISTRIBUTED_WORKER_INVENTORY"] == str(inventory)
