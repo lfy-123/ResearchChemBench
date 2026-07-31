@@ -386,7 +386,7 @@ bash scripts/submit_evaluation.sh submit \
   --compute-action-timeout-seconds 10800 \
   --mcp-tool-timeout-seconds 14000 \
   --timeout-seconds 14400 \
-  --max-turns 200 \
+  --max-turns 600 \
   --workspaces-dir workspaces/fixed_budget_run \
   Electron_Isodensity_Reproduction_01_Method_Selection
 ```

@@ -7,6 +7,7 @@ import json
 import signal
 import statistics
 import sys
+import threading
 import uuid
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
@@ -25,6 +26,7 @@ from .config import (
     DEFAULT_AGENT_TIMEOUT_SECONDS,
     DEFAULT_COMPUTE_ACTION_TIMEOUT_SECONDS,
     DEFAULT_FAST_ACTION_TIMEOUT_SECONDS,
+    DEFAULT_EXECUTION_MODE,
     DEFAULT_LIVE_PROGRESS,
     DEFAULT_MCP_TOOL_TIMEOUT_MS,
     DEFAULT_MAX_TURNS,
@@ -258,6 +260,9 @@ def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False
         config.get("available_gpu_count", DEFAULT_AVAILABLE_GPU_COUNT),
         name="available_gpu_count",
     )
+    execution_mode = str(config.get("execution_mode", DEFAULT_EXECUTION_MODE)).strip().casefold()
+    if execution_mode not in {"local", "distributed"}:
+        raise EvalConfigError("execution_mode must be local or distributed")
     if fast_action_timeout_seconds > compute_action_timeout_seconds:
         raise EvalConfigError(
             "fast_action_timeout_seconds cannot exceed compute_action_timeout_seconds"
@@ -271,6 +276,7 @@ def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False
         _log(f"Planned runs: {len(specs)}")
         _log(f"Max concurrent runs: {workers}")
         _log(f"Tool discovery mode: {discovery_mode}")
+        _log(f"Execution mode: {execution_mode}")
         _log(f"Live progress: {live_progress}")
         _log(f"Progress console: {progress_console}")
         _log(f"Progress max chars: {progress_max_chars}")
@@ -282,10 +288,15 @@ def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False
             f"agent={agent_timeout_seconds}s"
         )
         _log(
-            "Per-task resource budget: "
-            f"cpu={available_cpu_cores} "
-            f"memory={available_memory_mb}MiB "
-            f"gpu={available_gpu_count}"
+            (
+                "Distributed compute resources are loaded from the worker inventory; "
+                "available_cpu_cores/available_memory_mb apply only to local mode."
+                if execution_mode == "distributed"
+                else "Per-task resource budget: "
+                f"cpu={available_cpu_cores} "
+                f"memory={available_memory_mb}MiB "
+                f"gpu={available_gpu_count}"
+            )
         )
         for spec in specs:
             _log(f"run={spec.task_id} agent={spec.agent_key} repeat={spec.repeat}")
@@ -300,8 +311,10 @@ def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False
     batch_dir = WORKSPACES_DIR / "cli_runs" / batch_id
     batch_dir.mkdir(parents=True, exist_ok=False)
     active: list[TaskRunner] = []
+    stop_requested = threading.Event()
 
     def stop_active(_signum=None, _frame=None):
+        stop_requested.set()
         for runner in list(active):
             runner.request_stop()
 
@@ -324,6 +337,7 @@ def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False
             live_progress=live_progress,
             progress_console=progress_console,
             progress_max_chars=progress_max_chars,
+            execution_mode=execution_mode,
         )
         active.append(runner)
         try:
@@ -390,8 +404,23 @@ def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False
     rows: list[dict[str, Any]] = []
     try:
         with ThreadPoolExecutor(max_workers=workers) as executor:
-            futures = [executor.submit(run_one, spec) for spec in specs]
-            for future in as_completed(futures):
+            futures: dict[Any, RunSpec] = {}
+            next_spec_index = 0
+
+            def submit_next() -> bool:
+                nonlocal next_spec_index
+                if stop_requested.is_set() or next_spec_index >= len(specs):
+                    return False
+                spec = specs[next_spec_index]
+                next_spec_index += 1
+                futures[executor.submit(run_one, spec)] = spec
+                return True
+
+            for _ in range(min(workers, len(specs))):
+                submit_next()
+            while futures:
+                future = next(as_completed(tuple(futures)))
+                futures.pop(future)
                 row = future.result()
                 rows.append(row)
                 _log(
@@ -406,6 +435,31 @@ def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False
                         else "progress_log=disabled"
                     )
                 )
+                submit_next()
+            if stop_requested.is_set():
+                for spec in specs[next_spec_index:]:
+                    rows.append(
+                        {
+                            "task_id": spec.task_id,
+                            "agent_key": spec.agent_key,
+                            "repeat": spec.repeat,
+                            "run_id": None,
+                            "status": "cancelled",
+                            "score": None,
+                            "score_max": None,
+                            "normalized_score": None,
+                            "criteria": [],
+                            "objective_issue_flags": [],
+                            "judge_consistency_warnings": [],
+                            "score_error": "batch stop requested before run started",
+                            "duration_seconds": 0.0,
+                            "workspace": None,
+                        }
+                    )
+                    _log(
+                        f"skipped={spec.task_id} agent={spec.agent_key} repeat={spec.repeat} "
+                        "reason=batch_stop_requested"
+                    )
     finally:
         signal.signal(signal.SIGINT, previous_sigint)
 

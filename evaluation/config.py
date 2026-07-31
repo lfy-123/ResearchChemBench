@@ -47,7 +47,7 @@ DEFAULT_AVAILABLE_MEMORY_MB = int(
 DEFAULT_AVAILABLE_GPU_COUNT = int(
     os.environ.get("RESEARCHCHEMBENCH_AVAILABLE_GPU_COUNT", "0")
 )
-DEFAULT_MAX_TURNS = int(os.environ.get("RESEARCHCHEMBENCH_MAX_TURNS", "200"))
+DEFAULT_MAX_TURNS = int(os.environ.get("RESEARCHCHEMBENCH_MAX_TURNS", "600"))
 DEFAULT_LIVE_PROGRESS = os.environ.get(
     "RESEARCHCHEMBENCH_LIVE_PROGRESS", "1"
 ).strip().casefold() not in {"0", "false", "no", "off"}
@@ -57,6 +57,9 @@ DEFAULT_PROGRESS_CONSOLE = os.environ.get(
 DEFAULT_PROGRESS_MAX_CHARS = max(
     80, int(os.environ.get("RESEARCHCHEMBENCH_PROGRESS_MAX_CHARS", "600"))
 )
+DEFAULT_EXECUTION_MODE = os.environ.get(
+    "RESEARCHCHEMBENCH_EXECUTION_MODE", "local"
+).strip().casefold()
 OPENCODE_MODEL = os.environ.get(
     "RESEARCHCHEMBENCH_OPENCODE_MODEL", "deepseek/deepseek-v4-flash"
 )

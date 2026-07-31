@@ -21,6 +21,11 @@ from .resource_budget import (
 )
 from .resources import collect_resource_references
 from .runtime import invoke_worker, probe_all_backends
+from .distributed_pool import (
+    DistributedResourceLimitExceeded,
+    distributed_enabled,
+    validate_distributed_resource_limits,
+)
 from .timeout_policy import timeout_policy_record, timeout_seconds_for
 
 
@@ -389,8 +394,11 @@ def _validate_backend_resource_constraints(
                 code="invalid_timeout_policy",
             )
     try:
-        validate_resource_limits(resources)
-    except ResourceBudgetExceeded as exc:
+        if distributed_enabled():
+            validate_distributed_resource_limits(resources)
+        else:
+            validate_resource_limits(resources)
+    except (ResourceBudgetExceeded, DistributedResourceLimitExceeded) as exc:
         error = exc.as_error()
         return _invalid(
             action_id,
@@ -915,31 +923,39 @@ def execute_action(action_id: str, request_value: ActionRequest | dict[str, Any]
         "backend_id": backend_id,
         "request": execution_request,
     }
-    try:
-        reservation = reserve_resources(
-            execution_request["resource_limits"],
-            kind="predefined_action",
-            label=f"{action_id}/{backend_id}",
-        )
-    except ResourceBudgetExceeded as exc:
-        error = exc.as_error()
-        return _invalid(
-            action_id,
-            backend_id,
-            error["message"],
-            code=error["code"],
-            error_details={key: value for key, value in error.items() if key not in {"code", "message", "retryable"}},
-            retryable=bool(error.get("retryable")),
-        )
-    try:
+    reservation = None
+    if distributed_enabled():
         worker = invoke_worker(
             runtime=backend.runtime,
             payload=worker_payload,
             timeout_seconds=execution_timeout,
-            resource_allocation=reservation.resource_allocation,
         )
-    finally:
-        reservation.release()
+    else:
+        try:
+            reservation = reserve_resources(
+                execution_request["resource_limits"],
+                kind="predefined_action",
+                label=f"{action_id}/{backend_id}",
+            )
+        except ResourceBudgetExceeded as exc:
+            error = exc.as_error()
+            return _invalid(
+                action_id,
+                backend_id,
+                error["message"],
+                code=error["code"],
+                error_details={key: value for key, value in error.items() if key not in {"code", "message", "retryable"}},
+                retryable=bool(error.get("retryable")),
+            )
+        try:
+            worker = invoke_worker(
+                runtime=backend.runtime,
+                payload=worker_payload,
+                timeout_seconds=execution_timeout,
+                resource_allocation=reservation.resource_allocation,
+            )
+        finally:
+            reservation.release()
     status = worker.get("status", "failed")
     if status not in {
         "success", "partial_success", "invalid_request", "unsupported", "unavailable",
@@ -1019,7 +1035,11 @@ def execute_action(action_id: str, request_value: ActionRequest | dict[str, Any]
         "requested_resource_limits": normalize_resource_limits(
             request.resource_limits
         ),
-        "resource_allocation": reservation.resource_allocation,
+        "resource_allocation": (
+            reservation.resource_allocation
+            if reservation is not None
+            else dict(worker.get("provenance") or {}).get("resource_allocation", {})
+        ),
         **dict(worker.get("provenance") or {}),
     }
     return ActionResult(

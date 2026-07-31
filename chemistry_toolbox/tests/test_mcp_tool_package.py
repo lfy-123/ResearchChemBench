@@ -12,6 +12,7 @@ from chemistry_toolbox.mcp.registry import (
 )
 from chemistry_toolbox.mcp.open_tools import OPEN_EXECUTION_TOOL_NAMES
 from chemistry_toolbox.mcp.discovery_tools import PROGRESSIVE_DISCOVERY_TOOL_NAMES
+from chemistry_toolbox.mcp.async_action_tools import ASYNC_ACTION_TOOL_NAMES
 from chemistry_toolbox.mcp.server import create_server
 from researchchem_toolbox.catalog import action_specs, validate_catalog
 
@@ -31,7 +32,11 @@ def test_progressive_server_registers_compact_surface_and_catalog_resources():
             return await client.list_tools(), await client.list_resources()
 
     tools, resources = asyncio.run(collect())
-    expected_tools = set(PROGRESSIVE_DISCOVERY_TOOL_NAMES) | set(OPEN_EXECUTION_TOOL_NAMES)
+    expected_tools = (
+        set(PROGRESSIVE_DISCOVERY_TOOL_NAMES)
+        | set(OPEN_EXECUTION_TOOL_NAMES)
+        | set(ASYNC_ACTION_TOOL_NAMES)
+    )
     assert {tool.name for tool in tools} == expected_tools
     assert len(tools) == len(expected_tools)
     assert {str(resource.uri) for resource in resources} == {
@@ -57,7 +62,11 @@ def test_full_compatibility_server_registers_every_action():
             return await client.list_tools()
 
     tools = asyncio.run(collect())
-    expected = set(action_specs()) | set(OPEN_EXECUTION_TOOL_NAMES)
+    expected = (
+        set(action_specs())
+        | set(OPEN_EXECUTION_TOOL_NAMES)
+        | set(ASYNC_ACTION_TOOL_NAMES)
+    )
     assert {tool.name for tool in tools} == expected
 
 

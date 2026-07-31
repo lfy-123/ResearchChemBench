@@ -15,6 +15,7 @@ from .resources import resource_snapshot, resources_for_backends
 from .specs import ACTION_SPECS, BACKEND_SPECS
 from .parameter_specs import RESOURCE_LIMIT_PARAMETER_SPECS, common_fixed_parameter_specs
 from .resource_budget import resource_budget_record
+from .distributed_pool import distributed_enabled, pool_snapshot
 from .timeout_policy import timeout_policy_record
 
 
@@ -33,6 +34,29 @@ CATEGORY_LABELS = {
 
 TOOL_DISCOVERY_MODE_ENV = "RESEARCHCHEM_TOOL_DISCOVERY_MODE"
 ToolDiscoveryMode = Literal["progressive", "full"]
+
+
+def _agent_resource_contract(budget: dict[str, Any]) -> str:
+    if distributed_enabled():
+        pool = pool_snapshot()
+        return (
+            "Toolbox-managed distributed compute pool: "
+            f"total_cpu_cores={pool['total_cpu_cores']}, "
+            f"total_memory_mb={pool['total_memory_mb']}, "
+            f"maximum_cpu_cores_per_job={pool['maximum_cpu_cores_per_job']}, "
+            f"maximum_memory_mb_per_job={pool['maximum_memory_mb_per_job']}, "
+            f"gpu_count={pool['gpu_count']}. Single requests must fit one worker; "
+            "concurrent requests are limited by the pool's current aggregate availability "
+            "and are queued rather than automatically reduced."
+        )
+    return (
+        "Evaluator-controlled per-task resource budget: "
+        f"cpu_cores={budget['cpu_cores']}, "
+        f"memory_mb={budget['memory_mb']}, "
+        f"gpu_count={budget['gpu_count']}. The Agent may choose requests within this "
+        "envelope; single requests and concurrent reservations above it are rejected "
+        "without automatic reduction."
+    )
 
 
 def resolve_tool_discovery_mode(value: str | None = None) -> ToolDiscoveryMode:
@@ -340,9 +364,7 @@ def mcp_action_description(specification: ActionSpec) -> str:
         + ". "
         f"Execution class: {specification.execution_class}; timeout is evaluator-controlled "
         f"at {timeout_policy['timeout_seconds']} seconds and cannot be supplied by the Agent. "
-        f"Per-task evaluator resource budget: cpu_cores={budget['cpu_cores']}, "
-        f"memory_mb={budget['memory_mb']}, gpu_count={budget['gpu_count']}; individual and "
-        "concurrent requests above it are rejected without automatic reduction. "
+        f"{_agent_resource_contract(budget)} "
         f"{batch_note}"
         f"Provider selection policy: {policy}. The system validates and executes the exact "
         "declared provider choices; it never falls back to another backend or source."
@@ -381,14 +403,7 @@ def agent_toolbox_overview(
         "and method choice. There is no "
         "hidden workflow, task-specific tool retrieval, automatic backend selection, or fallback.",
         "",
-        (
-            "Evaluator-controlled per-task resource budget: "
-            f"cpu_cores={budget['cpu_cores']}, "
-            f"memory_mb={budget['memory_mb']}, "
-            f"gpu_count={budget['gpu_count']}. The Agent may choose requests "
-            "within this envelope; single requests and concurrent reservations above it are "
-            "rejected without automatic reduction."
-        ),
+        _agent_resource_contract(budget),
         "",
         "Every predefined Action accepts one ActionRequest object with: backend_id, component_backends, "
         "source_id, inputs, method_spec, action_settings, and optional resource_limits. Read each "
@@ -495,14 +510,7 @@ def progressive_toolbox_overview(
         "No task-specific retrieval, recommendation, ranking, automatic backend selection, retry, "
         "or fallback is performed.",
         "",
-        (
-            "Evaluator-controlled per-task resource budget: "
-            f"cpu_cores={budget['cpu_cores']}, "
-            f"memory_mb={budget['memory_mb']}, "
-            f"gpu_count={budget['gpu_count']}. "
-            "Single requests and the sum of concurrently active managed jobs cannot exceed it; "
-            "the framework rejects excess requests rather than reducing them."
-        ),
+        _agent_resource_contract(budget),
         "",
         "If you do not know the exact Action id, call `list_action_domains` once to receive every "
         "action_id grouped under the compact domain index; use `search_actions` when you need to "

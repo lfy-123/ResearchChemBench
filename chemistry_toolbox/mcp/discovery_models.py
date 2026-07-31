@@ -11,6 +11,7 @@ from researchchem_toolbox.models import ActionRequest, ResourceLimits
 
 
 _CATALOG_ID = re.compile(r"^[a-z][a-z0-9_]*$")
+_BATCH_ID = re.compile(r"^batch_[0-9a-f]{32}$")
 
 
 def _catalog_id(value: str, *, field_name: str) -> str:
@@ -193,11 +194,41 @@ class ActionBatchRequest(BaseModel):
         return _catalog_id(value, field_name=info.field_name)
 
 
+class ExecutionEventWaitRequest(BaseModel):
+    """Wait for persistent asynchronous Action-batch events."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    batch_ids: list[str] = Field(min_length=1, max_length=64)
+    after_sequences: dict[str, int] = Field(default_factory=dict)
+    timeout_seconds: float = Field(default=0.0, ge=0.0, le=600.0)
+
+    @field_validator("batch_ids")
+    @classmethod
+    def validate_batch_ids(cls, values: list[str]) -> list[str]:
+        if len(values) != len(set(values)):
+            raise ValueError("batch_ids must be unique")
+        if any(not _BATCH_ID.fullmatch(value) for value in values):
+            raise ValueError("batch_ids must use batch_<32 lowercase hex> format")
+        return values
+
+    @field_validator("after_sequences")
+    @classmethod
+    def validate_after_sequences(cls, values: dict[str, int]) -> dict[str, int]:
+        for batch_id, sequence in values.items():
+            if not _BATCH_ID.fullmatch(batch_id):
+                raise ValueError("after_sequences keys must be valid batch ids")
+            if sequence < 0:
+                raise ValueError("after_sequences values must be non-negative")
+        return values
+
+
 __all__ = [
     "ActionCategoryBrowseRequest",
     "ActionBatchItem",
     "ActionBatchRequest",
     "ActionDomainListRequest",
+    "ExecutionEventWaitRequest",
     "ActionInspectRequest",
     "ActionSearchRequest",
     "BackendInspectRequest",

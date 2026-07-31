@@ -53,16 +53,7 @@ Each helper name must match the corresponding name in the submitted `outputs` de
 
 ## Evaluation resource budget
 
-This run has an evaluator-controlled per-task resource envelope:
-
-- CPU: {available_cpu_cores} logical cores
-- Memory: {available_memory_mb} MiB
-- GPU: {available_gpu_count}
-
-You may choose the resources for each managed calculation within this envelope. The sum of all
-concurrently queued or running managed jobs must also remain within it. Requests above the budget
-are rejected rather than silently reduced. Parallelize independent calculations only when their
-combined CPU, memory, and GPU reservations fit this budget.
+{execution_resource_guidance}
 
 ## Chemistry toolbox access
 
@@ -81,7 +72,8 @@ combined CPU, memory, and GPU reservations fit this budget.
 - A structure input may be a full AtomicStructure, an ArtifactRef/artifact id, or an accepted workspace-relative structure file as stated by the selected contract. Do not manually transcribe a supplied XYZ file when its path is accepted.
 - Built-in file and shell tools may inspect task inputs, prepare files, and write reports. When the task evaluates autonomous scientific computation, run the scientific calculation through one of the managed Chemistry MCP layers so software, parameters, outputs, and provenance remain auditable.
 - Execute any authored Python, R, or Julia scientific-analysis program with `submit_analysis_program` in an explicitly selected runtime. Do not invoke an interpreter through a built-in shell for scientific analysis.
-- A programmable job starts in an isolated job directory, not the task workspace. Declare input files through `inputs` and read them with `JobContext.input(name)`, or map them through `staged_inputs`; literal `data/...` and `_tool_artifacts/...` paths are not visible inside the job.
+- A programmable job starts in an isolated job directory, not the task workspace. Declare input files through `inputs` and read them with `JobContext.input(name)`, which returns a `pathlib.Path` directly (never use `.path` on it), or map them through `staged_inputs`; literal `data/...` and `_tool_artifacts/...` paths are not visible inside the job.
+- Analysis input declarations accept regular files, not source directories. When an input dataset contains many related files, declare and stage its supplied archive as one named input, then extract that archive inside the managed analysis job instead of assuming the original workspace directory is visible.
 - Before writing analysis logic against unfamiliar JSON/CSV inputs, call `inspect_analysis_inputs` and use its actual keys, container types, lengths, null counts, and column profiles. Do not infer a schema from filenames or expected paper terminology.
 - Before launching several native or programmable jobs concurrently, call `get_execution_resources` and keep the sum of active requests within its `available` capacity. Resource-policy rejection is a pre-execution response, not a software crash.
 - Keep console responses bounded: direct verbose program, optimizer, matrix, trajectory, and per-step output to workspace files and return only a concise numerical summary plus paths. Use small log tails when polling jobs. Full files remain available for later managed analysis.
@@ -108,6 +100,10 @@ Use distinct, descriptive output filenames, especially for multi-molecule reacti
 ## Required deliverables
 
 {required_deliverables}
+
+Every listed path is exact. A file requested under `report/` is not satisfied by placing the same
+filename under `outputs/`; before the final response, verify that every required path exists and is
+non-empty unless it is explicitly marked `allow_empty`.
 
 The files above are evidence products, not a prescribed calculation sequence. Choose the
 scientific route yourself, revise it when results justify doing so, and make every submitted

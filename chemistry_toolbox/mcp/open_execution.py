@@ -22,6 +22,7 @@ import yaml
 from packaging.specifiers import SpecifierSet
 
 from researchchem_toolbox.artifacts import ArtifactStore
+from researchchem_toolbox.paths import PROJECT_ROOT
 from researchchem_toolbox.runtime import (
     runtime_environment,
     runtime_names,
@@ -35,6 +36,12 @@ from researchchem_toolbox.resource_budget import (
     reserve_resources,
     resource_budget_record,
     validate_resource_limits,
+)
+from researchchem_toolbox.distributed_pool import (
+    DistributedResourceLimitExceeded,
+    distributed_enabled,
+    pool_snapshot,
+    validate_distributed_resource_limits,
 )
 from researchchem_toolbox.timeout_policy import (
     timeout_policy_record,
@@ -66,6 +73,7 @@ from .workspace import (
 JOB_ROOT = Path("outputs") / "execution_jobs"
 TERMINAL_JOB_STATES = {"success", "failed", "timeout", "cancelled"}
 SUPERVISOR_PATH = Path(__file__).with_name("job_supervisor.py")
+DISTRIBUTED_DISPATCHER_MODULE = "chemistry_toolbox.mcp.distributed_job_dispatcher"
 JOB_CONTEXT_PATH = Path(__file__).with_name("researchchem_job.py")
 SAFE_INHERITED_ENVIRONMENT = (
     "LANG",
@@ -80,6 +88,15 @@ SAFE_INHERITED_ENVIRONMENT = (
     "SLURM_GPUS",
     "LM_LICENSE_FILE",
     "MLM_LICENSE_FILE",
+    "HTTP_PROXY",
+    "HTTPS_PROXY",
+    "ALL_PROXY",
+    "NO_PROXY",
+    "http_proxy",
+    "https_proxy",
+    "all_proxy",
+    "no_proxy",
+    "RCB_DISTRIBUTED_REMOTE_SCRATCH_ROOT",
 )
 MAX_INSPECTION_JSON_BYTES = 50 * 1024 * 1024
 
@@ -141,7 +158,10 @@ def _validate_argument_paths(arguments: list[str]) -> None:
 
 def _compute_resource_limits(request_limits) -> dict[str, Any]:
     resources = normalize_resource_limits(request_limits)
-    validate_resource_limits(resources)
+    if distributed_enabled():
+        validate_distributed_resource_limits(resources)
+    else:
+        validate_resource_limits(resources)
     resources["walltime_seconds"] = timeout_seconds_for("compute")
     return resources
 
@@ -636,11 +656,46 @@ def _validate_goodvibes_invocation(request: NativeJobRequest) -> dict[str, Any]:
             "under a flat basename containing only letters, digits, dot, underscore, plus, "
             "comma, or hyphen, then pass that exact target in arguments."
         )
+    lowered = [argument.casefold() for argument in request.arguments]
+    spc_suffix = None
+    if "--spc" in lowered:
+        index = lowered.index("--spc")
+        if index + 1 >= len(request.arguments):
+            raise ValueError("goodvibes_spc_suffix_missing: --spc requires a suffix")
+        spc_suffix = request.arguments[index + 1]
+        if spc_suffix.startswith("_"):
+            raise ValueError(
+                "goodvibes_spc_suffix_leading_underscore: pass the suffix without the "
+                "separator underscore; GoodVibes inserts '_' between the frequency basename "
+                "and suffix (use --spc DLPNO for name_DLPNO.out)"
+            )
+        if spc_suffix.casefold() != "link":
+            staged_targets = set(sources)
+            missing_pairs = []
+            for target in positional_targets:
+                stem = PurePosixPath(target).stem
+                candidates = {
+                    f"{stem}_{spc_suffix}.log",
+                    f"{stem}_{spc_suffix}.out",
+                }
+                if not candidates & staged_targets:
+                    missing_pairs.append(
+                        {"frequency": target, "expected_one_of": sorted(candidates)}
+                    )
+            if missing_pairs:
+                raise ValueError(
+                    "goodvibes_spc_pair_missing: stage a matching single-point file for "
+                    f"every frequency input; missing={missing_pairs}"
+                )
     return {
         "lint_profile": "goodvibes_native_v1",
         "input_targets": positional_targets,
         "calculation_intent": "other",
-        "checks": ["staged_positional_inputs", "safe_flat_basenames"],
+        "checks": [
+            "staged_positional_inputs",
+            "safe_flat_basenames",
+            "spc_suffix_pairing" if spc_suffix else "no_spc_suffix",
+        ],
     }
 
 
@@ -819,6 +874,13 @@ def validate_native_job(request: NativeJobRequest) -> dict[str, Any]:
         resources = _compute_resource_limits(request.resource_limits)
     except ResourceBudgetExceeded as exc:
         return _resource_budget_error(exc)
+    except DistributedResourceLimitExceeded as exc:
+        return {
+            "status": "invalid_request",
+            "valid": False,
+            "error": exc.as_error(),
+            "resource_availability": _resource_availability(),
+        }
     return {
         "status": "success",
         "valid": True,
@@ -953,6 +1015,22 @@ def _start_job(
     resource_limits: dict[str, Any],
     metadata: dict[str, Any],
 ) -> dict[str, Any]:
+    if distributed_enabled():
+        return _start_reserved_job(
+            job_type=job_type,
+            runtime=runtime,
+            command=command,
+            stdin_target=stdin_target,
+            staged_inputs=staged_inputs,
+            resource_limits=resource_limits,
+            resource_allocation={},
+            metadata={
+                **metadata,
+                "execution_mode": "distributed",
+                "resource_pool_at_submission": pool_snapshot(),
+            },
+            deferred_distributed=True,
+        )
     try:
         reservation = reserve_resources(
             resource_limits,
@@ -990,6 +1068,7 @@ def _start_reserved_job(
     resource_limits: dict[str, Any],
     resource_allocation: dict[str, Any],
     metadata: dict[str, Any],
+    deferred_distributed: bool = False,
 ) -> dict[str, Any]:
     job_id = f"job_{uuid.uuid4().hex}"
     job_directory = _job_directory(job_id, must_exist=False)
@@ -1046,11 +1125,27 @@ def _start_reserved_job(
         "resource_allocation": resource_allocation,
         "submitted_at": submitted_at,
         "metadata": metadata,
+        "execution_mode": "distributed" if deferred_distributed else "local",
     }
     _atomic_json(status_path, status)
+    execution_budget = (
+        {
+            "cpu_cores": pool_snapshot()["maximum_cpu_cores_per_job"],
+            "memory_mb": pool_snapshot()["maximum_memory_mb_per_job"],
+            "gpu_count": max(
+                (worker["capacity"]["gpu_count"] for worker in pool_snapshot()["workers"]),
+                default=0,
+            ),
+            "source": "distributed_compute_pool",
+            "agent_controllable": False,
+            "scope": "per_job",
+        }
+        if deferred_distributed
+        else resource_budget_record()
+    )
     supervisor_spec = {
         **request_record,
-        "evaluation_resource_budget": resource_budget_record(),
+        "evaluation_resource_budget": execution_budget,
         "job_directory": str(job_directory),
         "relative_job_directory": relative_directory,
         "status_path": str(status_path),
@@ -1062,6 +1157,61 @@ def _start_reserved_job(
     }
     spec_path = job_directory / "supervisor_spec.json"
     _atomic_json(spec_path, supervisor_spec)
+    if deferred_distributed:
+        try:
+            with (job_directory / "dispatcher.stdout.log").open("ab") as stdout_handle, (
+                job_directory / "dispatcher.stderr.log"
+            ).open("ab") as stderr_handle:
+                dispatcher = subprocess.Popen(
+                    [sys.executable, "-m", DISTRIBUTED_DISPATCHER_MODULE, str(spec_path)],
+                    cwd=PROJECT_ROOT,
+                    stdin=subprocess.DEVNULL,
+                    stdout=stdout_handle,
+                    stderr=stderr_handle,
+                    env=os.environ.copy(),
+                    shell=False,
+                    start_new_session=True,
+                    close_fds=True,
+                )
+        except Exception as exc:
+            status.update(
+                {
+                    "status": "failed",
+                    "finished_at": _now(),
+                    "error": {
+                        "code": "distributed_dispatcher_start_failed",
+                        "message": str(exc),
+                    },
+                }
+            )
+            _atomic_json(status_path, status)
+            return {"status": "failed", **status}
+        status["dispatcher_pid"] = dispatcher.pid
+        _atomic_json(status_path, status)
+        return {
+            "status": "success",
+            "job_id": job_id,
+            "job_status": "queued",
+            "job_type": job_type,
+            "runtime": runtime,
+            "job_directory": relative_directory,
+            "status_path": relative_workspace_path(status_path),
+            "stdout_path": relative_workspace_path(stdout_path),
+            "stderr_path": relative_workspace_path(stderr_path),
+            "command": command,
+            "staged_inputs": staged_records,
+            "resource_limits": resource_limits,
+            "resource_allocation": {},
+            "dispatcher_pid": dispatcher.pid,
+            "supervisor_pid": None,
+            "execution_mode": "distributed",
+            "automatic_fallback": False,
+            "resource_snapshot": pool_snapshot(),
+            "next_step": (
+                "Call get_execution_job with this exact job_id; the toolbox will keep "
+                "the legal request queued until one compute worker has enough resources."
+            ),
+        }
     environment = _job_environment(
         runtime,
         job_id,
@@ -1267,6 +1417,50 @@ def _job_context_compliance(
             "Static reliability audit only; ordinary Python file and library access is not blocked."
         ),
     }
+
+
+def _analysis_reliability_findings(tree: ast.AST) -> list[dict[str, Any]]:
+    """Reject Python constructs that compile but deterministically fail at runtime."""
+
+    findings: list[dict[str, Any]] = []
+    for node in ast.walk(tree):
+        if (
+            isinstance(node, ast.Attribute)
+            and node.attr == "path"
+            and isinstance(node.value, ast.Call)
+            and _attribute_chain(node.value.func)[-1:] == ["input"]
+        ):
+            findings.append(
+                {
+                    "line": getattr(node, "lineno", None),
+                    "kind": "job_context_input_path_attribute",
+                    "evidence": "JobContext.input(...).path",
+                    "message": (
+                        "JobContext.input(name) already returns pathlib.Path; the Path object "
+                        "has no .path attribute"
+                    ),
+                }
+            )
+        if not isinstance(node, ast.FormattedValue) or node.format_spec is None:
+            continue
+        literal_format = "".join(
+            str(part.value)
+            for part in ast.walk(node.format_spec)
+            if isinstance(part, ast.Constant) and isinstance(part.value, str)
+        )
+        if " if " in literal_format and " else " in literal_format:
+            findings.append(
+                {
+                    "line": getattr(node, "lineno", None),
+                    "kind": "conditional_inside_format_specifier",
+                    "evidence": literal_format,
+                    "message": (
+                        "A conditional expression written after ':' is parsed as a literal "
+                        "format specifier and raises ValueError"
+                    ),
+                }
+            )
+    return sorted(findings, key=lambda item: (item["line"] or 0, item["kind"]))
 
 
 def _runtime_path_injection_findings(tree: ast.AST) -> list[dict[str, Any]]:
@@ -1851,6 +2045,21 @@ def validate_analysis_program(request: AnalysisJobRequest) -> dict[str, Any]:
                 "Do not assume the program starts in the benchmark workspace root.",
             ],
         )
+    reliability_findings = _analysis_reliability_findings(tree)
+    if reliability_findings:
+        return _analysis_failure(
+            stage="preflight",
+            code="analysis_program_runtime_error",
+            message=reliability_findings[0]["message"],
+            file=request.script_path,
+            line=reliability_findings[0]["line"],
+            evidence=json.dumps(reliability_findings, sort_keys=True),
+            candidate_fixes=[
+                "Use input_path = ctx.input(name) directly; it is already a pathlib.Path.",
+                "Evaluate conditional values before an f-string, then apply a plain format such as :.4f.",
+                "Run validate_analysis_program again before submitting the corrected program.",
+            ],
+        )
     local_modules: set[str] = {"researchchem_job"}
     local_module_details: dict[str, dict[str, Any]] = {
         "researchchem_job": {
@@ -2032,6 +2241,13 @@ def validate_analysis_program(request: AnalysisJobRequest) -> dict[str, Any]:
         resources = _compute_resource_limits(request.resource_limits)
     except ResourceBudgetExceeded as exc:
         return _resource_budget_error(exc)
+    except DistributedResourceLimitExceeded as exc:
+        return {
+            "status": "invalid_request",
+            "valid": False,
+            "error": exc.as_error(),
+            "resource_availability": _resource_availability(),
+        }
     contract = {
         "schema_version": 1,
         "layout": {
@@ -2541,6 +2757,15 @@ def _execution_status_axes(
 
 
 def _resource_availability() -> dict[str, Any]:
+    if distributed_enabled():
+        snapshot = pool_snapshot()
+        return {
+            "execution_mode": "distributed",
+            "scheduling": "toolbox_managed",
+            "single_job_cross_node_execution": False,
+            "reference_memory_mb_per_cpu_core": 2000,
+            **snapshot,
+        }
     budget = resource_budget_record()
     try:
         reserved = active_resource_usage()
@@ -2588,7 +2813,7 @@ def get_execution_job(request: JobStatusRequest) -> dict[str, Any]:
 
 
 def cancel_execution_job(request: JobCancelRequest) -> dict[str, Any]:
-    _directory, status = _read_status(request.job_id)
+    directory, status = _read_status(request.job_id)
     if status.get("status") in TERMINAL_JOB_STATES:
         return {
             "status": "success",
@@ -2596,6 +2821,32 @@ def cancel_execution_job(request: JobCancelRequest) -> dict[str, Any]:
             "job_status": status.get("status"),
             "cancellation_sent": False,
             "message": "Job was already terminal; no signal was sent.",
+        }
+    if status.get("execution_mode") == "distributed" or (
+        status.get("metadata") or {}
+    ).get("execution_mode") == "distributed":
+        cancellation_path = directory / "cancel_requested"
+        cancellation_path.write_text(
+            json.dumps(
+                {
+                    "job_id": request.job_id,
+                    "requested_at": _now(),
+                    "requesting_pid": os.getpid(),
+                },
+                ensure_ascii=False,
+                indent=2,
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        return {
+            "status": "success",
+            "job_id": request.job_id,
+            "job_status": status.get("status"),
+            "cancellation_sent": True,
+            "message": (
+                "Persistent cancellation marker written; poll get_execution_job until terminal."
+            ),
         }
     supervisor_pid = status.get("supervisor_pid")
     if not isinstance(supervisor_pid, int):

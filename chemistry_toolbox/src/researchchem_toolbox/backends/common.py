@@ -473,9 +473,8 @@ def run_external(
         # ORCA/orca_plot child consuming resources and writing late artifacts.
         start_new_session=os.name == "posix",
     )
-    try:
-        stdout, stderr = process.communicate(stdin_text, timeout=timeout_seconds)
-    except subprocess.TimeoutExpired:
+
+    def terminate_process_group() -> tuple[str, str]:
         if os.name == "posix":
             try:
                 os.killpg(process.pid, signal.SIGTERM)
@@ -484,7 +483,7 @@ def run_external(
         else:
             process.terminate()
         try:
-            stdout, stderr = process.communicate(timeout=5)
+            return process.communicate(timeout=5)
         except subprocess.TimeoutExpired:
             if os.name == "posix":
                 try:
@@ -493,7 +492,12 @@ def run_external(
                     pass
             else:
                 process.kill()
-            stdout, stderr = process.communicate()
+            return process.communicate()
+
+    try:
+        stdout, stderr = process.communicate(stdin_text, timeout=timeout_seconds)
+    except subprocess.TimeoutExpired:
+        stdout, stderr = terminate_process_group()
         return {
             "available": True,
             "returncode": 124,
@@ -502,6 +506,11 @@ def run_external(
             "command": [Path(command[0]).name, *command[1:], *arguments],
             "timeout": True,
         }
+    except BaseException:
+        # SIGINT/SIGTERM propagated by a cancelled evaluation must not leave a
+        # detached Gaussian/ORCA/MPI process group running on the worker.
+        terminate_process_group()
+        raise
     return {
         "available": True,
         "returncode": process.returncode,

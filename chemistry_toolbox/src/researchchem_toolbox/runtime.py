@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 import os
 import shutil
+import shlex
 import subprocess
 import sys
 from functools import lru_cache
@@ -17,6 +18,12 @@ from .models import BackendSpec
 from .environment_layout import resolve_configured_path, resolve_runtime_path
 from .paths import CONFIG_ROOT, PROJECT_ROOT, SOURCE_ROOT
 from .resource_budget import evaluation_resource_budget
+from .sandbox_client import OpenSandboxClient, SandboxTransportError
+from .distributed_pool import (
+    DistributedResourceUnavailable,
+    distributed_enabled,
+    reserve_distributed_resources,
+)
 
 
 PROFILE_CONFIG_PATH = CONFIG_ROOT / "mcp_profiles.yaml"
@@ -327,7 +334,8 @@ def invoke_worker(
             },
             "retryable": False,
         }
-    environment = {**os.environ, **runtime_environment(runtime)}
+    runtime_values = runtime_environment(runtime)
+    environment = {**os.environ, **runtime_values}
     requested_resources = (
         (payload.get("request") or {}).get("resource_limits") or {}
     )
@@ -378,6 +386,215 @@ def invoke_worker(
         environment["RESEARCHCHEM_WORKER_CPU_COUNT"] = str(
             max(1, int(requested_cores))
         )
+    if distributed_enabled():
+        try:
+            reservation = reserve_distributed_resources(
+                requested_resources,
+                kind="predefined_action",
+                label=(
+                    f"{payload.get('action_id', 'action')}/"
+                    f"{payload.get('backend_id', runtime)}"
+                ),
+            )
+        except DistributedResourceUnavailable as exc:
+            return {
+                "status": "unavailable",
+                "error": exc.as_error(),
+                "retryable": True,
+                "provenance": {"execution_mode": "distributed"},
+            }
+        allocation = dict(reservation.resource_allocation)
+        allocated_cpu_ids = [int(item) for item in allocation.get("cpu_ids") or []]
+        allocated_gpu_ids = [str(item) for item in allocation.get("gpu_ids") or []]
+        threads = str(max(1, int(requested_resources.get("cpu_cores") or 1)))
+        for variable in (
+            "OMP_NUM_THREADS",
+            "MKL_NUM_THREADS",
+            "OPENBLAS_NUM_THREADS",
+            "NUMEXPR_NUM_THREADS",
+            "VECLIB_MAXIMUM_THREADS",
+        ):
+            environment[variable] = threads
+        allocated_cpu_list = ",".join(str(item) for item in allocated_cpu_ids)
+        environment["RESEARCHCHEM_WORKER_CPU_IDS"] = allocated_cpu_list
+        environment["OMPI_MCA_hwloc_base_cpu_list"] = allocated_cpu_list
+        environment["PRTE_MCA_hwloc_default_cpu_list"] = allocated_cpu_list
+        # Distributed memory_mb is a scheduler reservation, while the worker's
+        # cgroup is the hard safety boundary.  RLIMIT_AS cannot equal a
+        # scientific program's requested working memory: Gaussian, MPI and
+        # numerical runtimes need additional virtual address space and can fail
+        # before doing any science even when resident memory is well below the
+        # reservation.  Keep the local-mode limit unchanged below.
+        environment.pop("RESEARCHCHEM_WORKER_RLIMIT_AS_BYTES", None)
+        requested_gpus = int(requested_resources.get("gpu_count") or 0)
+        if requested_gpus == 0:
+            environment["CUDA_VISIBLE_DEVICES"] = ""
+            environment["ROCR_VISIBLE_DEVICES"] = ""
+        elif allocated_gpu_ids:
+            environment["CUDA_VISIBLE_DEVICES"] = ",".join(allocated_gpu_ids)
+            environment["ROCR_VISIBLE_DEVICES"] = ",".join(allocated_gpu_ids)
+        safe_names = {
+            "LANG",
+            "LC_ALL",
+            "LC_CTYPE",
+            "TZ",
+            "HTTP_PROXY",
+            "HTTPS_PROXY",
+            "ALL_PROXY",
+            "NO_PROXY",
+            "http_proxy",
+            "https_proxy",
+            "all_proxy",
+            "no_proxy",
+            "LM_LICENSE_FILE",
+            "MLM_LICENSE_FILE",
+            "RESEARCHCHEMBENCH_WORKSPACE",
+            "RCB_DISTRIBUTED_REMOTE_SCRATCH_ROOT",
+        }
+        remote_environment = {
+            key: value
+            for key, value in environment.items()
+            if key in safe_names
+            or key in runtime_values
+            or key.startswith("RESEARCHCHEM_")
+            or key.startswith("OMP_")
+            or key.startswith("MKL_")
+            or key.startswith("OPENBLAS_")
+            or key.startswith("NUMEXPR_")
+            or key.startswith("VECLIB_")
+            or key.startswith("OMPI_")
+            or key.startswith("PRTE_")
+            or key in {"CUDA_VISIBLE_DEVICES", "ROCR_VISIBLE_DEVICES"}
+        }
+        envelope = {
+            "schema_version": 1,
+            "project_root": str(PROJECT_ROOT),
+            "runtime_python": str(python),
+            "distributed_reservation_id": reservation.reservation_id,
+            "environment": remote_environment,
+            "payload": payload,
+        }
+        if reservation.worker.transport == "sandbox":
+            try:
+                client = OpenSandboxClient.from_worker(reservation.worker)
+                result = client.run_action(
+                    envelope, timeout_seconds=timeout_seconds
+                )
+            except SandboxTransportError as exc:
+                result = {
+                    "status": "failed",
+                    "error": {
+                        "code": "sandbox_worker_request_failed",
+                        "message": str(exc),
+                        "response": exc.response[-2000:],
+                    },
+                    "retryable": exc.retryable,
+                }
+            finally:
+                reservation.release()
+            provenance = dict(result.get("provenance") or {})
+            provenance.update(
+                {
+                    "execution_mode": "distributed",
+                    "distributed_transport": "sandbox",
+                    "compute_worker_id": reservation.worker.worker_id,
+                    "sandbox_id": reservation.worker.sandbox_id,
+                    "distributed_reservation_id": reservation.reservation_id,
+                    "resource_allocation": allocation,
+                    "single_job_cross_node_execution": False,
+                }
+            )
+            result["provenance"] = provenance
+            return result
+        framework_python = PROJECT_ROOT / ".envs" / "researchchembench" / "bin" / "python"
+        remote_command = (
+            f"cd {shlex.quote(str(PROJECT_ROOT))} && exec "
+            f"{shlex.quote(str(framework_python))} -m "
+            "researchchem_toolbox.remote_worker_launcher"
+        )
+        known_hosts = reservation.worker.known_hosts_file
+        ssh_options = shlex.split(
+            os.environ.get("RCB_DISTRIBUTED_DIRECT_SSH_OPTIONS", "-C")
+        )
+        ssh_argv = [
+            sys.executable,
+            "-m",
+            "researchchem_toolbox.parent_bound_exec",
+            str(os.getpid()),
+            "ssh",
+            *ssh_options,
+            "-o",
+            "BatchMode=yes",
+            "-o",
+            "ConnectTimeout=15",
+            "-o",
+            "StrictHostKeyChecking=yes",
+        ]
+        if known_hosts:
+            ssh_argv.extend(["-o", f"UserKnownHostsFile={known_hosts}"])
+        ssh_argv.extend([reservation.worker.execution_ssh_target, remote_command])
+        try:
+            completed = subprocess.run(
+                ssh_argv,
+                input=json.dumps(envelope, ensure_ascii=False),
+                text=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                timeout=timeout_seconds + 30,
+                check=False,
+                cwd=PROJECT_ROOT,
+            )
+        except subprocess.TimeoutExpired as exc:
+            result = {
+                "status": "timeout",
+                "error": {
+                    "code": "remote_worker_timeout",
+                    "message": f"Remote backend runtime exceeded {timeout_seconds} seconds",
+                    "stderr": (exc.stderr or "")[-2000:]
+                    if isinstance(exc.stderr, str)
+                    else "",
+                },
+                "retryable": True,
+            }
+        except OSError as exc:
+            result = {
+                "status": "failed",
+                "error": {"code": "remote_worker_start_failed", "message": str(exc)},
+                "retryable": True,
+            }
+        else:
+            try:
+                result = json.loads(completed.stdout.strip().splitlines()[-1])
+            except (json.JSONDecodeError, IndexError):
+                result = {
+                    "status": "failed",
+                    "error": {
+                        "code": "invalid_remote_worker_response",
+                        "message": "Remote backend worker did not return a JSON object",
+                        "stdout": completed.stdout[-2000:],
+                        "stderr": completed.stderr[-2000:],
+                        "returncode": completed.returncode,
+                    },
+                    "retryable": True,
+                }
+            if completed.stderr.strip():
+                result.setdefault("worker_stderr", completed.stderr[-4000:])
+            result.setdefault("worker_returncode", completed.returncode)
+        finally:
+            reservation.release()
+        provenance = dict(result.get("provenance") or {})
+        provenance.update(
+            {
+                "execution_mode": "distributed",
+                "compute_worker_id": reservation.worker.worker_id,
+                "distributed_reservation_id": reservation.reservation_id,
+                "resource_allocation": allocation,
+                "single_job_cross_node_execution": False,
+            }
+        )
+        result["provenance"] = provenance
+        return result
+
     environment["RESEARCHCHEM_WORKER_RLIMIT_AS_BYTES"] = str(
         evaluation_resource_budget().memory_mb * 1024 * 1024
     )

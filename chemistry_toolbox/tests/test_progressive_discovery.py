@@ -193,6 +193,83 @@ def test_action_batch_runs_children_concurrently_and_queues_excess(
     ]
 
 
+def test_distributed_action_batch_uses_pool_instead_of_local_budget(
+    tmp_path, monkeypatch
+) -> None:
+    monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
+    monkeypatch.setenv("RESEARCHCHEMBENCH_EXECUTION_MODE", "distributed")
+    monkeypatch.setenv("RESEARCHCHEMBENCH_AVAILABLE_CPU_CORES", "2")
+    monkeypatch.setenv("RESEARCHCHEMBENCH_AVAILABLE_MEMORY_MB", "8192")
+    snapshot = {
+        "workers": [
+            {
+                "worker_id": f"compute-{index}",
+                "capacity": {
+                    "cpu_cores": 2,
+                    "memory_mb": 8192,
+                    "gpu_count": 0,
+                },
+                "available": {
+                    "cpu_cores": 2,
+                    "memory_mb": 8192,
+                    "gpu_count": 0,
+                },
+            }
+            for index in range(1, 5)
+        ],
+        "available_cpu_cores": 8,
+        "available_memory_mb": 32768,
+        "available_gpu_count": 0,
+    }
+    monkeypatch.setattr(
+        "chemistry_toolbox.mcp.discovery_tools.pool_snapshot", lambda: snapshot
+    )
+    active = 0
+    observed_peak = 0
+    lock = threading.Lock()
+
+    def delayed(action_id, request):
+        nonlocal active, observed_peak
+        with lock:
+            active += 1
+            observed_peak = max(observed_peak, active)
+        try:
+            time.sleep(0.1)
+            return {
+                "status": "success",
+                "action": action_id,
+                "result": {"label": request["inputs"]["label"]},
+                "output_artifacts": [],
+            }
+        finally:
+            with lock:
+                active -= 1
+
+    monkeypatch.setattr(
+        "chemistry_toolbox.mcp.discovery_tools._execute_action", delayed
+    )
+    result = submit_action_batch(
+        ActionBatchRequest(
+            action_id="calculate_energy",
+            backend_id="ase_emt",
+            items=[
+                ActionBatchItem(
+                    item_id=f"point_{index}",
+                    inputs={"label": str(index)},
+                    resource_limits={"cpu_cores": 1, "memory_mb": 4096},
+                )
+                for index in range(8)
+            ],
+        )
+    )
+
+    assert result["status"] == "success"
+    assert result["resource_capacity"]["scope"] == "distributed_compute_pool"
+    assert result["effective_max_concurrency"] == 8
+    assert result["peak_concurrency"] == 8
+    assert observed_peak == 8
+
+
 def test_action_batch_isolates_unexpected_child_transport_failure(
     tmp_path, monkeypatch
 ) -> None:

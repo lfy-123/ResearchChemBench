@@ -240,6 +240,47 @@ def test_preflight_rejects_undeclared_job_context_names(workspace: Path) -> None
     assert "invented_name" in result["error"]["evidence"]
 
 
+@pytest.mark.parametrize(
+    ("source", "evidence"),
+    [
+        (
+            "from researchchem_job import JobContext\n"
+            "ctx = JobContext.load()\n"
+            "value = ctx.input('value').path.read_text()\n",
+            "JobContext.input(...).path",
+        ),
+        (
+            "value = 'missing'\n"
+            "print(f\"{value:.4f if isinstance(value, float) else value}\")\n",
+            "conditional_inside_format_specifier",
+        ),
+    ],
+)
+def test_preflight_rejects_deterministic_python_runtime_errors(
+    workspace: Path, source: str, evidence: str
+) -> None:
+    (workspace / "code/value.txt").write_text("7\n", encoding="utf-8")
+    (workspace / "code/runtime_error.py").write_text(source, encoding="utf-8")
+    request = AnalysisJobRequest(
+        runtime="core",
+        script_path="code/runtime_error.py",
+        inputs=(
+            [
+                AnalysisInputDeclaration(
+                    name="value",
+                    source_path="code/value.txt",
+                )
+            ]
+            if "JobContext" in source
+            else []
+        ),
+    )
+    result = validate_analysis_program(request)
+    assert result["status"] == "invalid_request"
+    assert result["error"]["code"] == "analysis_program_runtime_error"
+    assert evidence in result["error"]["evidence"]
+
+
 def test_execution_resource_status_is_available_before_submission(workspace: Path) -> None:
     result = get_execution_resources(ExecutionResourceRequest())
     assert result["status"] == "success"
@@ -329,6 +370,8 @@ def test_declared_job_context_and_artifact_manifest(workspace: Path) -> None:
         "assert os.environ['RESEARCHCHEM_JOB_INPUTS'] == str(ctx.root / 'inputs')\n"
         "assert os.environ['RESEARCHCHEM_JOB_OUTPUTS'] == str(ctx.root / 'outputs')\n"
         "assert os.environ['RESEARCHCHEM_JOB_REPORT'] == str(ctx.root / 'report')\n"
+        "assert ctx.input_dir() == ctx.inputs_dir == ctx.root / 'inputs'\n"
+        "assert ctx.output_dir() == ctx.outputs_dir == ctx.root / 'outputs'\n"
         "assert os.environ['PYTHONNOUSERSITE'] == '1'\n"
         "assert 'site-packages' not in os.environ.get('PYTHONPATH', '')\n"
         "value = int(ctx.input('value').read_text())\n"

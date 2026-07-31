@@ -29,6 +29,7 @@ from .config import (
     DEFAULT_AGENT_TIMEOUT_SECONDS,
     DEFAULT_COMPUTE_ACTION_TIMEOUT_SECONDS,
     DEFAULT_FAST_ACTION_TIMEOUT_SECONDS,
+    DEFAULT_EXECUTION_MODE,
     DEFAULT_LIVE_PROGRESS,
     DEFAULT_MCP_TOOL_TIMEOUT_MS,
     DEFAULT_MAX_TURNS,
@@ -55,6 +56,7 @@ from researchchem_toolbox.catalog import (
     resolve_tool_discovery_mode,
     toolbox_overview,
 )
+from researchchem_toolbox.distributed_pool import pool_snapshot
 
 
 TERMINAL_EXECUTION_JOB_STATES = {"success", "failed", "timeout", "cancelled"}
@@ -81,6 +83,7 @@ class TaskRunner:
         live_progress: bool = DEFAULT_LIVE_PROGRESS,
         progress_console: bool = DEFAULT_PROGRESS_CONSOLE,
         progress_max_chars: int = DEFAULT_PROGRESS_MAX_CHARS,
+        execution_mode: str = DEFAULT_EXECUTION_MODE,
     ):
         if agent_key not in AGENT_PRESETS:
             raise ValueError(f"Unknown agent preset: {agent_key}")
@@ -97,6 +100,9 @@ class TaskRunner:
         self.available_cpu_cores = int(available_cpu_cores)
         self.available_memory_mb = int(available_memory_mb)
         self.available_gpu_count = int(available_gpu_count)
+        self.execution_mode = str(execution_mode).strip().casefold()
+        if self.execution_mode not in {"local", "distributed"}:
+            raise ValueError("execution_mode must be local or distributed")
         if self.available_cpu_cores < 1:
             raise ValueError("available_cpu_cores must be positive")
         if self.available_memory_mb < 128:
@@ -123,6 +129,23 @@ class TaskRunner:
         self._opencode_runtime_database: Path | None = None
 
     def resource_budget_record(self) -> dict[str, Any]:
+        if self.execution_mode == "distributed":
+            snapshot = pool_snapshot()
+            return {
+                "cpu_cores": snapshot["maximum_cpu_cores_per_job"],
+                "memory_mb": snapshot["maximum_memory_mb_per_job"],
+                "gpu_count": max(
+                    (
+                        worker["capacity"]["gpu_count"]
+                        for worker in snapshot["workers"]
+                    ),
+                    default=0,
+                ),
+                "source": "distributed_compute_pool",
+                "agent_controllable": False,
+                "scope": "per_job_on_one_compute_worker",
+                **snapshot,
+            }
         return {
             "cpu_cores": self.available_cpu_cores,
             "memory_mb": self.available_memory_mb,
@@ -131,6 +154,46 @@ class TaskRunner:
             "agent_controllable": False,
             "scope": "per_task",
         }
+
+    def _execution_resource_guidance(self) -> str:
+        if self.execution_mode == "local":
+            return (
+                "This run has an evaluator-controlled per-task resource envelope:\n\n"
+                f"- CPU: {self.available_cpu_cores} logical cores\n"
+                f"- Memory: {self.available_memory_mb} MiB\n"
+                f"- GPU: {self.available_gpu_count}\n\n"
+                "You may choose the resources for each managed calculation within this envelope. "
+                "The sum of all concurrently queued or running managed jobs must also remain "
+                "within it. Requests above the budget are rejected rather than silently reduced. "
+                "Parallelize independent calculations only when their combined CPU, memory, and "
+                "GPU reservations fit this budget."
+            )
+        snapshot = pool_snapshot()
+        return (
+            "This run uses a toolbox-managed distributed CPU compute pool. The coordinator node "
+            "runs the Agent, model calls, MCP services, and scheduler only; it is not available "
+            "for scientific calculations.\n\n"
+            f"- Compute workers: {snapshot['worker_count']} anonymous nodes\n"
+            f"- Total schedulable CPU: {snapshot['total_cpu_cores']} logical CPUs, backed by "
+            f"{snapshot['physical_cpu_cores_backing_pool']} physical cores\n"
+            f"- Total schedulable memory: {snapshot['total_memory_mb']} MiB\n"
+            f"- Maximum per job: {snapshot['maximum_cpu_cores_per_job']} logical CPUs and "
+            f"{snapshot['maximum_memory_mb_per_job']} MiB\n"
+            "- Reference memory ratio: 2000 MiB per logical CPU; this is planning guidance, "
+            "not a hard CPU-to-memory ratio\n"
+            "- One job never crosses nodes; CPU and memory are requested and reserved independently\n\n"
+            "You choose which scientifically independent calculations to submit together and the "
+            "CPU/memory request for each, but never choose a worker. Use "
+            "`submit_action_batch_async` for independent predefined Actions and "
+            "`wait_execution_events` for completion/failure feedback; for long calculations, "
+            "wait up to 600 seconds per call rather than repeatedly polling every minute. Native "
+            "and analysis jobs are also queued and placed automatically. Waiting requests are "
+            "ordered by CPU, then "
+            "memory, from largest to smallest. Submit currently known independent work together "
+            "so large jobs are visible before small jobs fragment capacity. Keep dependent stages "
+            "sequential, use only as many cores as the selected software can efficiently exploit, "
+            "and call `get_execution_resources` whenever replanning after completions or failures."
+        )
 
     def _build_instructions(self) -> str:
         data_parts = []
@@ -180,9 +243,7 @@ class TaskRunner:
                 "The objective is fixed, while scientific planning and execution remain autonomous.",
             ),
             scientific_requirements=requirements_text,
-            available_cpu_cores=self.available_cpu_cores,
-            available_memory_mb=self.available_memory_mb,
-            available_gpu_count=self.available_gpu_count,
+            execution_resource_guidance=self._execution_resource_guidance(),
             required_deliverables=required_deliverables,
             toolbox_overview=toolbox_overview(
                 discovery_mode=self.tool_discovery_mode,
@@ -335,7 +396,22 @@ class TaskRunner:
             "RESEARCHCHEMBENCH_AVAILABLE_GPU_COUNT": str(
                 self.available_gpu_count
             ),
+            "RESEARCHCHEMBENCH_EXECUTION_MODE": self.execution_mode,
         }
+        if self.execution_mode == "distributed":
+            for name in (
+                "RCB_DISTRIBUTED_TRANSPORT",
+                "RCB_DISTRIBUTED_INVENTORY",
+                "RCB_DISTRIBUTED_WORKER_INVENTORY",
+                "RCB_DISTRIBUTED_SANDBOX_INVENTORY",
+                "RCB_DISTRIBUTED_STATE_ROOT",
+                "RCB_DISTRIBUTED_DIRECT_SSH_OPTIONS",
+                "RCB_DISTRIBUTED_KNOWN_HOSTS_FILE",
+                "RCB_DISTRIBUTED_LEASE_TIMEOUT_SECONDS",
+                "RCB_SANDBOX_API_KEY",
+            ):
+                if os.environ.get(name):
+                    values[name] = os.environ[name]
         if extra:
             values.update(extra)
         return values
@@ -797,6 +873,7 @@ class TaskRunner:
             "active_jobs": 0,
             "already_terminal_jobs": 0,
             "termination_signals_sent": 0,
+            "cancellation_markers_written": 0,
             "forced_jobs": 0,
             "cancelled_jobs": 0,
             "errors": [],
@@ -827,7 +904,35 @@ class TaskRunner:
             pending[status_path] = status
             supervisor_pid = status.get("supervisor_pid")
             sent = False
-            if isinstance(supervisor_pid, int) and supervisor_pid > 0:
+            distributed = status.get("execution_mode") == "distributed" or (
+                status.get("metadata") or {}
+            ).get("execution_mode") == "distributed"
+            if distributed:
+                try:
+                    (status_path.parent / "cancel_requested").write_text(
+                        json.dumps(
+                            {
+                                "job_id": job_id,
+                                "requested_at": datetime.now(timezone.utc).isoformat(),
+                                "reason": reason,
+                            },
+                            indent=2,
+                            ensure_ascii=False,
+                        )
+                        + "\n",
+                        encoding="utf-8",
+                    )
+                    sent = True
+                    summary["cancellation_markers_written"] += 1
+                except OSError as exc:
+                    summary["errors"].append(
+                        {
+                            "job_id": job_id,
+                            "stage": "distributed_cancel_marker",
+                            "error": f"{type(exc).__name__}: {exc}",
+                        }
+                    )
+            elif isinstance(supervisor_pid, int) and supervisor_pid > 0:
                 try:
                     os.kill(supervisor_pid, signal.SIGTERM)
                     sent = True
@@ -848,6 +953,7 @@ class TaskRunner:
                     "initial_status": state,
                     "supervisor_pid": supervisor_pid,
                     "termination_signal_sent": sent,
+                    "distributed_cancellation": distributed,
                 }
             )
 
@@ -876,6 +982,21 @@ class TaskRunner:
                 summary["cancelled_jobs"] += int(status.get("status") == "cancelled")
                 continue
             job_id = str(status.get("job_id") or status_path.parent.name)
+            distributed = status.get("execution_mode") == "distributed" or (
+                status.get("metadata") or {}
+            ).get("execution_mode") == "distributed"
+            if distributed:
+                summary["errors"].append(
+                    {
+                        "job_id": job_id,
+                        "stage": "distributed_cancellation_grace_expired",
+                        "error": (
+                            "Remote job did not publish a terminal state within the cleanup "
+                            "grace period; its persistent cancellation marker remains active."
+                        ),
+                    }
+                )
+                continue
             child_pid = status.get("child_pid")
             supervisor_pid = status.get("supervisor_pid")
             forced = False
@@ -1008,6 +1129,7 @@ class TaskRunner:
             available_cpu_cores=self.available_cpu_cores,
             available_memory_mb=self.available_memory_mb,
             available_gpu_count=self.available_gpu_count,
+            execution_mode=self.execution_mode,
             max_turns=self.max_turns,
         )
         reporter.emit(

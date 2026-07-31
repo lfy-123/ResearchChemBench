@@ -198,6 +198,44 @@ def test_goodvibes_native_lint_rejects_glob_sensitive_staged_names(
         _validate_goodvibes_invocation(request)
 
 
+def test_goodvibes_native_lint_validates_spc_suffix_pairing(workspace: Path) -> None:
+    frequency = _write(workspace, "species.log", "frequency fixture\n")
+    single_point = _write(workspace, "species_DLPNO.out", "single point fixture\n")
+    staged = [frequency, single_point]
+
+    with pytest.raises(
+        ValueError, match="goodvibes_spc_suffix_leading_underscore"
+    ):
+        _validate_goodvibes_invocation(
+            NativeJobRequest(
+                software_id="goodvibes",
+                executable="goodvibes",
+                arguments=["species.log", "--spc", "_DLPNO"],
+                staged_inputs=staged,
+            )
+        )
+
+    valid = _validate_goodvibes_invocation(
+        NativeJobRequest(
+            software_id="goodvibes",
+            executable="goodvibes",
+            arguments=["species.log", "--spc", "DLPNO"],
+            staged_inputs=staged,
+        )
+    )
+    assert "spc_suffix_pairing" in valid["checks"]
+
+    with pytest.raises(ValueError, match="goodvibes_spc_pair_missing"):
+        _validate_goodvibes_invocation(
+            NativeJobRequest(
+                software_id="goodvibes",
+                executable="goodvibes",
+                arguments=["species.log", "--spc", "OTHER"],
+                staged_inputs=staged,
+            )
+        )
+
+
 @pytest.mark.parametrize(
     ("software_id", "executable", "arguments", "stdin_target", "files", "message"),
     [
