@@ -6,8 +6,13 @@ from pathlib import Path
 import pytest
 from pydantic import ValidationError
 
-from chemistry_toolbox.mcp.execution_models import JobWaitRequest
-from chemistry_toolbox.mcp.open_execution import _wait_execution_jobs
+from chemistry_toolbox.mcp.execution_models import AnalysisJobRequest, JobWaitRequest
+from chemistry_toolbox.mcp.open_execution import (
+    _wait_execution_jobs,
+    submit_analysis_program,
+    wait_execution_jobs,
+)
+from researchchem_toolbox.models import ResourceLimits
 
 
 class FakeClock:
@@ -164,6 +169,33 @@ def test_state_changes_are_capped_by_aggregation_limit(workspace: Path) -> None:
     assert result["aggregation_duration_seconds"] == 3
 
 
+def test_queued_to_running_transition_resets_settle_window(workspace: Path) -> None:
+    success = _write_job(workspace, "4", "success")
+    queued = _write_job(workspace, "5", "queued")
+    status_path = workspace / "outputs/execution_jobs" / queued / "status.json"
+
+    def start_job(value: float) -> None:
+        if value != 1:
+            return
+        status = json.loads(status_path.read_text())
+        status["status"] = "running"
+        status_path.write_text(json.dumps(status), encoding="utf-8")
+
+    result = _wait(
+        JobWaitRequest(job_ids=[success, queued]), FakeClock(start_job)
+    )
+
+    assert result["return_reason"] == "settled_state_update"
+    assert result["aggregation_duration_seconds"] == 3
+    assert result["running_jobs"][0]["job_id"] == queued
+    assert any(
+        item["job_id"] == queued
+        and item["from"] == "queued"
+        and item["to"] == "running"
+        for item in result["state_transitions"]
+    )
+
+
 def test_no_terminal_event_returns_heartbeat(workspace: Path) -> None:
     running = _write_job(workspace, "2", "running")
 
@@ -186,3 +218,83 @@ def test_wait_request_rejects_duplicate_and_invalid_ids() -> None:
         JobWaitRequest(job_ids=[job_id, job_id])
     with pytest.raises(ValidationError):
         JobWaitRequest(job_ids=["outside-workspace"])
+
+
+def test_public_wait_supervises_a_real_local_analysis_job(
+    workspace: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    script = workspace / "code" / "short_job.py"
+    script.write_text("print('finished')\n", encoding="utf-8")
+    monkeypatch.setenv("RESEARCHCHEMBENCH_JOB_EVENT_SETTLE_SECONDS", "1")
+    monkeypatch.setenv("RESEARCHCHEMBENCH_JOB_EVENT_MAX_BATCH_SECONDS", "2")
+    monkeypatch.setenv("RESEARCHCHEMBENCH_JOB_WAIT_HEARTBEAT_SECONDS", "5")
+    monkeypatch.setenv("RESEARCHCHEMBENCH_JOB_INTERNAL_POLL_INTERVAL_SECONDS", "1")
+    submitted = submit_analysis_program(
+        AnalysisJobRequest(
+            runtime="core",
+            script_path="code/short_job.py",
+            resource_limits=ResourceLimits(cpu_cores=1, memory_mb=256),
+        )
+    )
+
+    result = wait_execution_jobs(JobWaitRequest(job_ids=[submitted["job_id"]]))
+
+    assert result["return_reason"] == "all_terminal"
+    assert result["newly_terminal_jobs"][0]["status"] == "success"
+    assert result["remaining_job_ids"] == []
+
+
+@pytest.mark.parametrize("transport", ["ssh", "sandbox"])
+def test_distributed_transport_statuses_share_wait_semantics(
+    workspace: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+    transport: str,
+) -> None:
+    inventory = tmp_path / f"{transport}.json"
+    worker = {
+        "worker_id": f"{transport}-1",
+        "name": f"{transport}-1",
+        "transport": transport,
+        "logical_cpus": 4,
+        "physical_cores": 2,
+        "memory_mb": 8192,
+        "available_cpu_cores": 2,
+        "available_memory_mb": 4096,
+        "gpu_count": 0,
+        "compute_cpu_ids": [0, 1],
+    }
+    if transport == "ssh":
+        worker["execution_ssh_target"] = "user@127.0.0.1"
+    else:
+        worker.update(
+            {
+                "sandbox_id": "sandbox-test",
+                "sandbox_api_base": "https://sandbox.invalid/brainbox",
+                "sandbox_project": "test",
+                "sandbox_project_root": str(workspace.parent),
+            }
+        )
+    inventory.write_text(json.dumps({"workers": [worker]}), encoding="utf-8")
+    monkeypatch.setenv("RESEARCHCHEMBENCH_EXECUTION_MODE", "distributed")
+    monkeypatch.setenv("RCB_DISTRIBUTED_TRANSPORT", transport)
+    monkeypatch.setenv("RCB_DISTRIBUTED_INVENTORY", str(inventory))
+    monkeypatch.setenv("RCB_DISTRIBUTED_STATE_ROOT", str(tmp_path / "state"))
+    job_id = _write_job(workspace, "3", "success")
+    status_path = workspace / "outputs" / "execution_jobs" / job_id / "status.json"
+    status = json.loads(status_path.read_text())
+    status.update(
+        {
+            "execution_mode": "distributed",
+            "distributed_transport": transport,
+            "compute_worker_id": f"{transport}-1",
+        }
+    )
+    if transport == "sandbox":
+        status["sandbox_artifacts_synchronized"] = True
+    status_path.write_text(json.dumps(status), encoding="utf-8")
+
+    result = _wait(JobWaitRequest(job_ids=[job_id]), FakeClock())
+
+    assert result["return_reason"] == "all_terminal"
+    assert result["newly_terminal_jobs"][0]["worker_id"] == f"{transport}-1"

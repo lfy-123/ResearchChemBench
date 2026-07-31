@@ -473,7 +473,11 @@ def process_metrics(
         "execution_job_wait_call_count": len(wait_results),
         "execution_job_wait_seconds": round(
             sum(
-                float(result.get("aggregation_duration_seconds") or 0)
+                float(
+                    result.get("wait_duration_seconds")
+                    or result.get("aggregation_duration_seconds")
+                    or 0
+                )
                 for result in wait_results
             ),
             6,

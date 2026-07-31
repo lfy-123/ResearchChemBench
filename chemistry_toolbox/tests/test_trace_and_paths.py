@@ -298,6 +298,7 @@ def test_wait_execution_jobs_updates_states_and_supervision_metrics() -> None:
                     ],
                     "queued_jobs": [],
                     "aggregation_duration_seconds": 61.5,
+                    "wait_duration_seconds": 72.0,
                     "internal_check_count": 32,
                     "state_transitions": [{"job_id": success_id}],
                 }
@@ -309,7 +310,7 @@ def test_wait_execution_jobs_updates_states_and_supervision_metrics() -> None:
 
     assert metrics["successful_execution_job_count"] == 1
     assert metrics["execution_job_wait_call_count"] == 1
-    assert metrics["execution_job_wait_seconds"] == 61.5
+    assert metrics["execution_job_wait_seconds"] == 72.0
     assert metrics["execution_job_wait_internal_check_count"] == 32
     assert metrics["execution_job_wait_transition_count"] == 1
     assert metrics["execution_job_wait_terminal_count"] == 1

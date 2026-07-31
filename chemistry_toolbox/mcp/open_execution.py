@@ -3116,7 +3116,7 @@ def _wait_execution_jobs(
         now = monotonic_fn()
         try:
             latest = _job_supervision_snapshot(request.job_ids)
-        except (OSError, RuntimeError, json.JSONDecodeError) as exc:
+        except (OSError, RuntimeError, ValueError, json.JSONDecodeError) as exc:
             reason = (
                 "resource_pool_unavailable" if distributed_enabled() else "monitor_error"
             )
@@ -3131,6 +3131,7 @@ def _wait_execution_jobs(
                 "remaining_job_ids": list(request.job_ids),
                 "held_jobs": [],
                 "internal_check_count": internal_checks,
+                "wait_duration_seconds": round(max(0, now - started), 3),
                 "aggregation_duration_seconds": 0,
                 "recommended_action": "inspect_execution_resources_and_retry_wait",
             }
@@ -3223,8 +3224,16 @@ def _wait_execution_jobs(
             if all_terminal and resource_stable:
                 return_reason = "all_terminal"
                 break
-            if aggregation_elapsed >= settings["max_batch_seconds"]:
+            if (
+                aggregation_elapsed >= settings["max_batch_seconds"]
+                and (resource_stable or release_confirmation_elapsed >= 10)
+            ):
                 return_reason = "aggregation_time_cap"
+                if not resource_stable:
+                    resource_warning = (
+                        "terminal status is visible but reservation release is still "
+                        "converging"
+                    )
                 break
             if settled_elapsed >= settings["settle_seconds"]:
                 if resource_stable or release_confirmation_elapsed >= 10:
@@ -3279,8 +3288,13 @@ def _wait_execution_jobs(
         "return_reason": return_reason,
         "settled_for_seconds": round(max(0, settled_for), 3),
         "aggregation_duration_seconds": round(max(0, aggregation_duration), 3),
+        "wait_duration_seconds": round(max(0, finished - started), 3),
         "resource_snapshot_stable": stable_resource_snapshots >= 2
-        and not any(job["reservation_active"] for job in jobs.values() if job["status"] in TERMINAL_JOB_STATES),
+        and not any(
+            job["reservation_active"]
+            for job in jobs.values()
+            if job["status"] in TERMINAL_JOB_STATES
+        ),
         "newly_terminal_jobs": newly_terminal,
         "running_jobs": running,
         "queued_jobs": queued,
@@ -3367,7 +3381,8 @@ def cancel_execution_job(request: JobCancelRequest) -> dict[str, Any]:
             "job_status": status.get("status"),
             "cancellation_sent": True,
             "message": (
-                "Persistent cancellation marker written; poll get_execution_job until terminal."
+                "Persistent cancellation marker written; include this job_id in "
+                "wait_execution_jobs until it is terminal."
             ),
         }
     supervisor_pid = status.get("supervisor_pid")
@@ -3407,7 +3422,10 @@ def cancel_execution_job(request: JobCancelRequest) -> dict[str, Any]:
         "job_id": request.job_id,
         "job_status": status.get("status"),
         "cancellation_sent": True,
-        "message": "Cancellation signal sent; poll get_execution_job until terminal.",
+        "message": (
+            "Cancellation signal sent; include this job_id in wait_execution_jobs until it is "
+            "terminal."
+        ),
     }
 
 

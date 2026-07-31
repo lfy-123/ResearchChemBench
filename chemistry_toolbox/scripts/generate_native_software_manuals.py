@@ -324,7 +324,7 @@ def render_quickstart(
         "3. Put every source file under the evaluation workspace and map it to the exact job-local target expected by the input deck.",
         "4. Set explicit CPU, total memory, GPU, and walltime limits. Keep all software-internal parallel settings within those limits.",
         "5. Call `validate_native_job`; repair every error before submitting.",
-        "6. Call `submit_native_job`, poll `get_execution_job`, and finally call `collect_execution_job`.",
+        "6. Call `submit_native_job`, then supervise all independent job IDs with `wait_execution_jobs`; use focused inspection or full collection only when needed.",
         "7. Check process, software, convergence, artifact, and scientific-validation axes independently.",
         "",
         "## Working directory contract",

@@ -71,4 +71,4 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 - Output behavior: Writes the primary output to stdout and ORCA property/restart files in the job directory.
 - Caution: Method, basis, charge, multiplicity, calculation keywords, parallelism, memory, and convergence must be explicit in input.inp.
 - Caution: ORCA should be launched by its resolved absolute path; the execution layer does this without changing the input.
-- Caution: Use this asynchronous native-job contract when the Agent must author an ORCA input deck directly; it uses the same evaluator-controlled compute timeout as managed compute Actions and requires explicit get_execution_job or collect_execution_job polling.
+- Caution: Use this asynchronous native-job contract when the Agent must author an ORCA input deck directly; it uses the same evaluator-controlled compute timeout as managed compute Actions and requires stable bulk supervision with wait_execution_jobs.
