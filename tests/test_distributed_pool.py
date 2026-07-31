@@ -1,5 +1,8 @@
 import json
+import os
 import subprocess
+import sys
+import time
 from pathlib import Path
 
 import pytest
@@ -12,6 +15,10 @@ from researchchem_toolbox.distributed_pool import (
     register_distributed_request,
     reserve_distributed_resources,
     select_compute_cpu_ids,
+)
+from researchchem_toolbox.remote_scratch import (
+    cleanup_remote_scratch,
+    prepare_remote_scratch,
 )
 from researchchem_toolbox import runtime
 from researchchem_toolbox.catalog import progressive_toolbox_overview
@@ -246,6 +253,63 @@ def test_compute_cpu_selection_reserves_complete_physical_cores():
     assert len({core for socket, core in selected_cores if socket == 1}) == 16
 
 
+def test_distributed_scratch_is_unique_and_gaussian_is_job_local(tmp_path):
+    root = tmp_path / "worker-scratch"
+    first_environment = {
+        "GAUSS_SCRDIR": "/shared/cache/gaussian/scratch",
+        "RCB_DISTRIBUTED_REMOTE_SCRATCH_ROOT": str(root),
+    }
+    second_environment = dict(first_environment)
+    first = prepare_remote_scratch(first_environment, job_token="reservation-1")
+    second = prepare_remote_scratch(second_environment, job_token="reservation-2")
+    try:
+        assert first != second
+        assert Path(first_environment["GAUSS_SCRDIR"]).parent == first
+        assert Path(second_environment["GAUSS_SCRDIR"]).parent == second
+        assert first_environment["TMPDIR"] == str(first)
+        assert second_environment["TMPDIR"] == str(second)
+        assert first_environment[
+            "RESEARCHCHEM_DISTRIBUTED_SCRATCH_ISOLATION"
+        ] == "worker_local_ephemeral"
+    finally:
+        cleanup_remote_scratch(first)
+        cleanup_remote_scratch(second)
+    assert not first.exists()
+    assert not second.exists()
+
+
+@pytest.mark.skipif(not sys.platform.startswith("linux"), reason="Linux prctl test")
+def test_parent_bound_exec_does_not_outlive_its_expected_parent(tmp_path):
+    parent_program = "\n".join(
+        [
+            "import os, subprocess, sys, time",
+            "child = subprocess.Popen([sys.executable, '-m', 'researchchem_toolbox.parent_bound_exec', str(os.getpid()), sys.executable, '-c', 'import time; time.sleep(30)'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, start_new_session=True)",
+            "print(child.pid, flush=True)",
+            "time.sleep(0.5)",
+        ]
+    )
+    parent = subprocess.run(
+        [sys.executable, "-c", parent_program],
+        cwd=Path(__file__).parent.parent,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        timeout=10,
+        check=True,
+    )
+    child_pid = int(parent.stdout.strip())
+    deadline = time.monotonic() + 5
+    while time.monotonic() < deadline:
+        try:
+            os.kill(child_pid, 0)
+        except ProcessLookupError:
+            break
+        time.sleep(0.05)
+    else:
+        os.kill(child_pid, 9)
+        pytest.fail("parent-bound command survived its expected parent")
+
+
 def test_remote_action_uses_ssh_and_releases_reservation(
     distributed_environment, tmp_path: Path, monkeypatch
 ):
@@ -290,10 +354,17 @@ def test_remote_action_uses_ssh_and_releases_reservation(
     assert result["provenance"]["execution_mode"] == "distributed"
     assert result["provenance"]["compute_worker_id"] == "compute-2"
     assert len(result["provenance"]["resource_allocation"]["cpu_ids"]) == 8
-    assert calls[0][0][0] == "ssh"
+    assert calls[0][0][:4] == [
+        sys.executable,
+        "-m",
+        "researchchem_toolbox.parent_bound_exec",
+        str(os.getpid()),
+    ]
+    assert calls[0][0][4] == "ssh"
     envelope = json.loads(calls[0][1]["input"])
     assert envelope["payload"]["action_id"] == "test_action"
     assert envelope["environment"]["OMP_NUM_THREADS"] == "8"
     assert envelope["environment"]["RESEARCHCHEMBENCH_WORKSPACE"] == str(tmp_path)
+    assert envelope["distributed_reservation_id"]
     assert "RESEARCHCHEM_WORKER_RLIMIT_AS_BYTES" not in envelope["environment"]
     assert not list((tmp_path / "state" / "reservations").glob("*.json"))

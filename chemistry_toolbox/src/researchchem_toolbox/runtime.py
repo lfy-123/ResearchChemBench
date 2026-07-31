@@ -448,6 +448,7 @@ def invoke_worker(
             "LM_LICENSE_FILE",
             "MLM_LICENSE_FILE",
             "RESEARCHCHEMBENCH_WORKSPACE",
+            "RCB_DISTRIBUTED_REMOTE_SCRATCH_ROOT",
         }
         remote_environment = {
             key: value
@@ -475,6 +476,10 @@ def invoke_worker(
             os.environ.get("RCB_DISTRIBUTED_DIRECT_SSH_OPTIONS", "-C")
         )
         ssh_argv = [
+            sys.executable,
+            "-m",
+            "researchchem_toolbox.parent_bound_exec",
+            str(os.getpid()),
             "ssh",
             *ssh_options,
             "-o",
@@ -491,6 +496,7 @@ def invoke_worker(
             "schema_version": 1,
             "project_root": str(PROJECT_ROOT),
             "runtime_python": str(python),
+            "distributed_reservation_id": reservation.reservation_id,
             "environment": remote_environment,
             "payload": payload,
         }

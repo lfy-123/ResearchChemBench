@@ -96,6 +96,7 @@ SAFE_INHERITED_ENVIRONMENT = (
     "https_proxy",
     "all_proxy",
     "no_proxy",
+    "RCB_DISTRIBUTED_REMOTE_SCRATCH_ROOT",
 )
 MAX_INSPECTION_JSON_BYTES = 50 * 1024 * 1024
 

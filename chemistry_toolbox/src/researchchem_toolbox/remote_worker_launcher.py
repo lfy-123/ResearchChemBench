@@ -18,6 +18,8 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from .remote_scratch import cleanup_remote_scratch, prepare_remote_scratch
+
 
 def _failure(code: str, message: str, **details: Any) -> dict[str, Any]:
     return {
@@ -66,6 +68,7 @@ def _terminate_child(process: subprocess.Popen, *, grace_seconds: float = 5.0) -
 
 def main() -> int:
     process: subprocess.Popen | None = None
+    scratch_directory: Path | None = None
     termination_signal = 0
 
     def handle_termination(signum, _frame) -> None:
@@ -85,6 +88,7 @@ def main() -> int:
         envelope = json.load(sys.stdin)
         runtime_python = Path(str(envelope["runtime_python"])).resolve()
         project_root = Path(str(envelope["project_root"])).resolve()
+        reservation_id = str(envelope["distributed_reservation_id"])
         payload = dict(envelope["payload"])
         environment = {
             str(key): str(value)
@@ -103,6 +107,13 @@ def main() -> int:
             )
         )
         return 69
+    try:
+        scratch_directory = prepare_remote_scratch(
+            environment, job_token=reservation_id
+        )
+    except (OSError, ValueError) as exc:
+        print(json.dumps(_failure("remote_scratch_setup_failed", str(exc))))
+        return 73
     try:
         process = subprocess.Popen(
             [str(runtime_python), "-m", "researchchem_toolbox.worker_launcher"],
@@ -124,6 +135,7 @@ def main() -> int:
     finally:
         if process is not None and process.poll() is None:
             _terminate_child(process)
+        cleanup_remote_scratch(scratch_directory)
     if termination_signal:
         return 128 + termination_signal
     try:
@@ -139,6 +151,12 @@ def main() -> int:
     if stderr.strip():
         result.setdefault("worker_stderr", stderr[-4000:])
     result.setdefault("worker_returncode", returncode)
+    provenance = dict(result.get("provenance") or {})
+    provenance["scratch_isolation"] = environment.get(
+        "RESEARCHCHEM_DISTRIBUTED_SCRATCH_ISOLATION",
+        "worker_local_ephemeral",
+    )
+    result["provenance"] = provenance
     print(json.dumps(result, ensure_ascii=False))
     return 0
 

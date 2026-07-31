@@ -18,6 +18,11 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from researchchem_toolbox.remote_scratch import (
+    cleanup_remote_scratch,
+    prepare_remote_scratch,
+)
+
 
 def _now() -> str:
     return datetime.now(timezone.utc).isoformat()
@@ -127,6 +132,7 @@ def supervise(spec_path: Path) -> int:
         specification.get("distributed_reservation_path") or ""
     )
     reservation_path = Path(reservation_path_raw) if reservation_path_raw else None
+    scratch_directory: Path | None = None
     last_reservation_heartbeat = 0.0
 
     def heartbeat_reservation(*, force: bool = False) -> None:
@@ -163,6 +169,9 @@ def supervise(spec_path: Path) -> int:
             "metadata": specification.get("metadata") or {},
             "execution_mode": specification.get("execution_mode", "local"),
             "compute_worker_id": specification.get("compute_worker_id"),
+            "scratch_isolation": os.environ.get(
+                "RESEARCHCHEM_DISTRIBUTED_SCRATCH_ISOLATION"
+            ),
             **extra,
         }
         _atomic_json(status_path, value)
@@ -181,6 +190,20 @@ def supervise(spec_path: Path) -> int:
 
     stdin_handle = None
     try:
+        if specification.get("execution_mode") == "distributed":
+            try:
+                scratch_directory = prepare_remote_scratch(
+                    os.environ, job_token=str(specification["job_id"])
+                )
+            except (OSError, ValueError) as exc:
+                status(
+                    "failed",
+                    finished_at=_now(),
+                    duration_seconds=0.0,
+                    return_code=None,
+                    error={"code": "remote_scratch_setup_failed", "message": str(exc)},
+                )
+                return 6
         heartbeat_reservation(force=True)
         if cancellation_path.is_file():
             status(
@@ -339,6 +362,7 @@ def supervise(spec_path: Path) -> int:
             stdin_handle.close()
         if reservation_path is not None:
             reservation_path.unlink(missing_ok=True)
+        cleanup_remote_scratch(scratch_directory)
 
 
 def main() -> int:
