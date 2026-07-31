@@ -56,6 +56,11 @@ def test_resource_budget_is_visible_and_recorded_end_to_end(tmp_path: Path):
         available_cpu_cores=12,
         available_memory_mb=24576,
         available_gpu_count=1,
+        job_event_settle_seconds=45,
+        job_event_max_batch_seconds=180,
+        job_wait_heartbeat_seconds=900,
+        job_internal_poll_interval_seconds=3,
+        job_failure_tail_chars=1500,
     )
     runner.setup_workspace()
 
@@ -69,9 +74,16 @@ def test_resource_budget_is_visible_and_recorded_end_to_end(tmp_path: Path):
     assert environment["RESEARCHCHEMBENCH_AVAILABLE_CPU_CORES"] == "12"
     assert environment["RESEARCHCHEMBENCH_AVAILABLE_MEMORY_MB"] == "24576"
     assert environment["RESEARCHCHEMBENCH_AVAILABLE_GPU_COUNT"] == "1"
+    assert environment["RESEARCHCHEMBENCH_JOB_EVENT_SETTLE_SECONDS"] == "45"
+    assert environment["RESEARCHCHEMBENCH_JOB_EVENT_MAX_BATCH_SECONDS"] == "180"
+    assert environment["RESEARCHCHEMBENCH_JOB_WAIT_HEARTBEAT_SECONDS"] == "900"
+    assert environment["RESEARCHCHEMBENCH_JOB_INTERNAL_POLL_INTERVAL_SECONDS"] == "3"
+    assert environment["RESEARCHCHEMBENCH_JOB_FAILURE_TAIL_CHARS"] == "1500"
     runner._write_meta("prepared")
     meta = json.loads(runner.meta_path.read_text())
     assert meta["resource_budget"] == runner.resource_budget_record()
+    assert meta["job_supervision_policy"]["event_settle_seconds"] == 45
+    assert meta["job_supervision_policy"]["agent_controllable"] is False
 
 
 def test_distributed_resource_contract_is_visible_to_agent(tmp_path: Path, monkeypatch):

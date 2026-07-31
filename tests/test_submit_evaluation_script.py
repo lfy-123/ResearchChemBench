@@ -22,6 +22,7 @@ def test_submit_evaluation_help():
     assert "--compute-action-timeout-seconds" in result.stdout
     assert "--fast-action-timeout-seconds" in result.stdout
     assert "--mcp-tool-timeout-seconds" in result.stdout
+    assert "--job-event-settle-seconds" in result.stdout
     assert "--available-cpu-cores" in result.stdout
     assert "--available-memory-mb" in result.stdout
     assert "--available-gpu-count" in result.stdout
@@ -49,6 +50,8 @@ def test_submit_evaluation_multi_task_dry_run(tmp_path: Path):
             "30",
             "--mcp-tool-timeout-seconds",
             "600",
+            "--job-event-settle-seconds",
+            "45",
             "--available-cpu-cores",
             "12",
             "--available-memory-mb",
@@ -73,6 +76,9 @@ def test_submit_evaluation_multi_task_dry_run(tmp_path: Path):
     assert config["compute_action_timeout_seconds"] == 500
     assert config["fast_action_timeout_seconds"] == 30
     assert config["mcp_tool_timeout_seconds"] == 600
+    assert config["job_event_settle_seconds"] == 45
+    assert config["job_event_max_batch_seconds"] == 300
+    assert config["job_wait_heartbeat_seconds"] == 599
     assert config["available_cpu_cores"] == 12
     assert config["available_memory_mb"] == 24576
     assert config["available_gpu_count"] == 1
@@ -83,6 +89,14 @@ def test_submit_evaluation_multi_task_dry_run(tmp_path: Path):
     assert submission["compute_action_timeout_seconds"] == 500
     assert submission["fast_action_timeout_seconds"] == 30
     assert submission["mcp_tool_timeout_seconds"] == 600
+    assert submission["job_supervision_policy"] == {
+        "event_settle_seconds": 45,
+        "event_max_batch_seconds": 300,
+        "wait_heartbeat_seconds": 599,
+        "internal_poll_interval_seconds": 2,
+        "failure_tail_chars": 2000,
+        "agent_controllable": False,
+    }
     assert submission["execution_mode"] == "local"
     assert submission["resource_budget"] == {
         "cpu_cores": 12,

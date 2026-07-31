@@ -34,9 +34,37 @@ timeout 是评测环境统一规定的资源预算，不再由智能体设置。
 `submit_evaluation.sh` 会检查：
 
 - 快速Action timeout不能超过计算Action timeout；
-- MCP timeout必须大于计算Action timeout。
+- MCP timeout必须大于计算Action timeout和作业等待心跳时间。
 
 10800秒只是计算类默认值，不是硬上限。人工可以通过脚本增大或减小它；相应地必须把MCP和Agent总timeout设置得更长。
+
+### native/analysis作业的稳定等待
+
+原生软件作业和Agent编写的analysis program使用 `wait_execution_jobs` 批量监督。工具箱在一次MCP调用内部检查作业状态；Agent不需要使用shell `sleep`、循环、`grep`、重复的 `get_execution_job` 或重复的 `get_execution_resources` 进行轮询。
+
+默认策略如下：
+
+| 参数 | 默认值 | 配置方式 | 含义 |
+|---|---:|---|---|
+| 稳定窗口 | 60秒 | `--job-event-settle-seconds N` | 首个终态出现后，连续无重要状态变化多久才聚合返回 |
+| 单批聚合上限 | 300秒 | `RESEARCHCHEMBENCH_JOB_EVENT_MAX_BATCH_SECONDS` | 状态持续变化时最迟多久返回一次 |
+| 无事件心跳 | 3600秒 | `RESEARCHCHEMBENCH_JOB_WAIT_HEARTBEAT_SECONDS` | 没有终态事件时多久返回一次心跳 |
+| 内部检查间隔 | 2秒 | `RESEARCHCHEMBENCH_JOB_INTERNAL_POLL_INTERVAL_SECONDS` | 工具箱内部读取持久状态的频率 |
+| 失败日志尾部 | 2000字符 | `RESEARCHCHEMBENCH_JOB_FAILURE_TAIL_CHARS` | 失败/超时作业随聚合结果返回的日志上限 |
+
+除稳定窗口外，其余参数是高级评测策略，通常只在 `config.local.env` 中设置。它们不会进入Agent可填写的工具请求，因此被评估智能体不能缩短稳定窗口或提高轮询频率。
+若人工把 MCP timeout 设得短于默认心跳且没有显式设置心跳，提交器会把有效心跳自动收窄为 `MCP timeout - 1秒`；显式设置的心跳必须仍小于 MCP timeout。
+
+终态、排队转运行、worker分配和reservation释放会重置稳定窗口；stdout/stderr增长、SCF迭代和优化步增长不会重置。作业一旦终态，调度器立即释放资源并让合法排队作业自动补位，60秒只用于合并通知，不会让worker空等。返回部分结果时，其他运行作业继续运行，返回中会同时列出 `running_jobs`、`queued_jobs` 和下一次等待使用的 `remaining_job_ids`。
+
+示例：
+
+```bash
+bash scripts/submit_evaluation.sh submit \
+  --job-event-settle-seconds 90 \
+  --mcp-tool-timeout-seconds 14000 \
+  Task_A
+```
 
 ## 2. CPU、内存和GPU资源预算
 

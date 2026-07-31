@@ -539,8 +539,10 @@ def progressive_toolbox_overview(
         "reviewed invocation guide with `inspect_software`, and search its cached manuals with "
         "`search_software_documentation`. You may instead author a complete Python analysis program "
         "and explicitly select a listed runtime. For a calculation longer than a synchronous Action "
-        "permits, author the complete native input, call `submit_native_job`, and explicitly poll or "
-        "collect that job; submission does not change the selected software or parameters. You "
+        "permits, author the complete native input, call `submit_native_job`, and supervise one or "
+        "more native/analysis jobs with `wait_execution_jobs`; inspect one failed job or request "
+        "its full collection only when needed. Submission does not change the selected software "
+        "or parameters. You "
         "decide whether and how to interleave all three layers.",
         "",
         "Available Action domains:",

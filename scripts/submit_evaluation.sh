@@ -45,6 +45,7 @@ Submit options:
   --fast-action-timeout-seconds N
                                 Fixed timeout for fast/data Actions. Default: 240.
   --mcp-tool-timeout-seconds N  MCP client deadline per tool call. Default: 14000.
+  --job-event-settle-seconds N  Stable notification window after job events. Default: 60.
   --available-cpu-cores N       CPU cores available to each task. Default: 48.
   --available-memory-mb N       Memory available to each task, in MiB. Default: 204800.
   --available-gpu-count N       GPUs available to each task. Default: 0.
@@ -211,6 +212,11 @@ case "$command" in
     compute_action_timeout_seconds=10800
     fast_action_timeout_seconds=240
     mcp_tool_timeout_seconds=14000
+    job_event_settle_seconds="${RESEARCHCHEMBENCH_JOB_EVENT_SETTLE_SECONDS:-60}"
+    job_event_max_batch_seconds="${RESEARCHCHEMBENCH_JOB_EVENT_MAX_BATCH_SECONDS:-300}"
+    job_wait_heartbeat_seconds="${RESEARCHCHEMBENCH_JOB_WAIT_HEARTBEAT_SECONDS:-}"
+    job_internal_poll_interval_seconds="${RESEARCHCHEMBENCH_JOB_INTERNAL_POLL_INTERVAL_SECONDS:-2}"
+    job_failure_tail_chars="${RESEARCHCHEMBENCH_JOB_FAILURE_TAIL_CHARS:-2000}"
     available_cpu_cores=48
     available_memory_mb=204800
     available_gpu_count=0
@@ -250,6 +256,9 @@ case "$command" in
         --mcp-tool-timeout-seconds)
           require_value "$1" "${2:-}"; require_positive_integer "$1" "$2"
           mcp_tool_timeout_seconds="$2"; shift 2 ;;
+        --job-event-settle-seconds)
+          require_value "$1" "${2:-}"; require_positive_integer "$1" "$2"
+          job_event_settle_seconds="$2"; shift 2 ;;
         --available-cpu-cores)
           require_value "$1" "${2:-}"; require_positive_integer "$1" "$2"
           available_cpu_cores="$2"; shift 2 ;;
@@ -336,6 +345,32 @@ case "$command" in
       echo "Error: --mcp-tool-timeout-seconds must exceed --compute-action-timeout-seconds." >&2
       exit 2
     fi
+    if [[ -z "$job_wait_heartbeat_seconds" ]]; then
+      job_wait_heartbeat_seconds=3600
+      if (( job_wait_heartbeat_seconds >= mcp_tool_timeout_seconds )); then
+        job_wait_heartbeat_seconds=$((mcp_tool_timeout_seconds - 1))
+      fi
+    fi
+    for supervision_value in \
+      "$job_event_settle_seconds" \
+      "$job_event_max_batch_seconds" \
+      "$job_wait_heartbeat_seconds" \
+      "$job_internal_poll_interval_seconds" \
+      "$job_failure_tail_chars"; do
+      require_positive_integer "job supervision setting" "$supervision_value"
+    done
+    if (( job_event_max_batch_seconds < job_event_settle_seconds )); then
+      echo "Error: job event max batch seconds must be >= settle seconds." >&2
+      exit 2
+    fi
+    if (( job_wait_heartbeat_seconds < job_event_max_batch_seconds )); then
+      echo "Error: job wait heartbeat seconds must be >= max batch seconds." >&2
+      exit 2
+    fi
+    if (( mcp_tool_timeout_seconds <= job_wait_heartbeat_seconds )); then
+      echo "Error: --mcp-tool-timeout-seconds must exceed the job wait heartbeat." >&2
+      exit 2
+    fi
     if (( available_memory_mb < 128 )); then
       echo "Error: --available-memory-mb must be at least 128 MiB." >&2
       exit 2
@@ -365,6 +400,9 @@ case "$command" in
       "$progress_console" "$score_enabled" "$compute_action_timeout_seconds" \
       "$fast_action_timeout_seconds" "$mcp_tool_timeout_seconds" \
       "$available_cpu_cores" "$available_memory_mb" "$available_gpu_count" \
+      "$job_event_settle_seconds" "$job_event_max_batch_seconds" \
+      "$job_wait_heartbeat_seconds" "$job_internal_poll_interval_seconds" \
+      "$job_failure_tail_chars" \
       "$execution_mode" "$distributed_transport" \
       "${tasks[@]}" <<'PY'
 import json
@@ -379,7 +417,9 @@ from pathlib import Path
     discovery_mode, progress_max_chars, progress_console, score_enabled,
     compute_action_timeout_seconds, fast_action_timeout_seconds,
     mcp_tool_timeout_seconds, available_cpu_cores, available_memory_mb,
-    available_gpu_count, execution_mode, distributed_transport, *tasks
+    available_gpu_count, job_event_settle_seconds, job_event_max_batch_seconds,
+    job_wait_heartbeat_seconds, job_internal_poll_interval_seconds,
+    job_failure_tail_chars, execution_mode, distributed_transport, *tasks
 ) = sys.argv[1:]
 def flag(value):
     return value.casefold() == "true"
@@ -396,6 +436,11 @@ config = {
     "available_cpu_cores": int(available_cpu_cores),
     "available_memory_mb": int(available_memory_mb),
     "available_gpu_count": int(available_gpu_count),
+    "job_event_settle_seconds": int(job_event_settle_seconds),
+    "job_event_max_batch_seconds": int(job_event_max_batch_seconds),
+    "job_wait_heartbeat_seconds": int(job_wait_heartbeat_seconds),
+    "job_internal_poll_interval_seconds": int(job_internal_poll_interval_seconds),
+    "job_failure_tail_chars": int(job_failure_tail_chars),
     "max_turns": int(max_turns),
     "tool_discovery_mode": discovery_mode,
     "execution_mode": execution_mode,
@@ -444,6 +489,14 @@ submission = {
     "compute_action_timeout_seconds": int(compute_action_timeout_seconds),
     "fast_action_timeout_seconds": int(fast_action_timeout_seconds),
     "mcp_tool_timeout_seconds": int(mcp_tool_timeout_seconds),
+    "job_supervision_policy": {
+        "event_settle_seconds": int(job_event_settle_seconds),
+        "event_max_batch_seconds": int(job_event_max_batch_seconds),
+        "wait_heartbeat_seconds": int(job_wait_heartbeat_seconds),
+        "internal_poll_interval_seconds": int(job_internal_poll_interval_seconds),
+        "failure_tail_chars": int(job_failure_tail_chars),
+        "agent_controllable": False,
+    },
     "resource_budget": resource_budget,
     "execution_mode": execution_mode,
     "distributed_transport": distributed_transport if execution_mode == "distributed" else None,
@@ -474,6 +527,7 @@ PY
     echo "Agent: $agent model=$model"
     echo "Judge: enabled=$score_enabled model=$judge_model"
     echo "Limits: agent=${timeout_seconds}s mcp=${mcp_tool_timeout_seconds}s compute_action=${compute_action_timeout_seconds}s fast_action=${fast_action_timeout_seconds}s max_turns=$max_turns concurrency=$max_concurrent_runs repeats=$repeats"
+    echo "Job supervision: settle=${job_event_settle_seconds}s max_batch=${job_event_max_batch_seconds}s heartbeat=${job_wait_heartbeat_seconds}s poll=${job_internal_poll_interval_seconds}s failure_tail=${job_failure_tail_chars}chars"
     if [[ "$execution_mode" == "distributed" ]]; then
       echo "Compute resources: transport=$distributed_transport inventory=$RCB_DISTRIBUTED_INVENTORY"
     else

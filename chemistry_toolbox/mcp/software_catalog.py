@@ -1218,9 +1218,10 @@ def open_execution_prompt(*, include_command_index: bool = True) -> str:
         "installed executable, input mode, required filenames, synopsis, cached manuals, and request "
         "template. Then use `write_workspace_text`, `validate_native_job`, and `submit_native_job`. "
         "The runner uses no shell, supplies no scientific defaults, selects no software, and performs "
-        "no fallback. Call `get_execution_resources` before concurrent submission. Poll with "
-        "`get_execution_job`, inspect logs, and collect files with "
-        "`collect_execution_job`.",
+        "no fallback. Call `get_execution_resources` before concurrent submission, submit known "
+        "independent work together, and supervise all returned IDs with `wait_execution_jobs`. "
+        "Use `get_execution_job` for focused failure diagnosis and `collect_execution_job` only "
+        "when the automatic compact collection is insufficient.",
         "",
     ]
     if include_command_index:

@@ -275,8 +275,13 @@ def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False
         ),
         name="job_event_max_batch_seconds",
     )
+    default_job_wait_heartbeat_seconds = min(
+        DEFAULT_JOB_WAIT_HEARTBEAT_SECONDS, mcp_tool_timeout_seconds - 1
+    )
     job_wait_heartbeat_seconds = _positive_integer(
-        config.get("job_wait_heartbeat_seconds", DEFAULT_JOB_WAIT_HEARTBEAT_SECONDS),
+        config.get(
+            "job_wait_heartbeat_seconds", default_job_wait_heartbeat_seconds
+        ),
         name="job_wait_heartbeat_seconds",
     )
     job_internal_poll_interval_seconds = _positive_integer(

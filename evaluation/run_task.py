@@ -85,7 +85,7 @@ class TaskRunner:
         available_gpu_count: int = DEFAULT_AVAILABLE_GPU_COUNT,
         job_event_settle_seconds: int = DEFAULT_JOB_EVENT_SETTLE_SECONDS,
         job_event_max_batch_seconds: int = DEFAULT_JOB_EVENT_MAX_BATCH_SECONDS,
-        job_wait_heartbeat_seconds: int = DEFAULT_JOB_WAIT_HEARTBEAT_SECONDS,
+        job_wait_heartbeat_seconds: int | None = None,
         job_internal_poll_interval_seconds: int = DEFAULT_JOB_INTERNAL_POLL_INTERVAL_SECONDS,
         job_failure_tail_chars: int = DEFAULT_JOB_FAILURE_TAIL_CHARS,
         max_turns: int = DEFAULT_MAX_TURNS,
@@ -112,7 +112,14 @@ class TaskRunner:
         self.available_gpu_count = int(available_gpu_count)
         self.job_event_settle_seconds = int(job_event_settle_seconds)
         self.job_event_max_batch_seconds = int(job_event_max_batch_seconds)
-        self.job_wait_heartbeat_seconds = int(job_wait_heartbeat_seconds)
+        self.job_wait_heartbeat_seconds = int(
+            job_wait_heartbeat_seconds
+            if job_wait_heartbeat_seconds is not None
+            else min(
+                DEFAULT_JOB_WAIT_HEARTBEAT_SECONDS,
+                max(1, (self.mcp_tool_timeout_ms // 1000) - 1),
+            )
+        )
         self.job_internal_poll_interval_seconds = int(job_internal_poll_interval_seconds)
         self.job_failure_tail_chars = int(job_failure_tail_chars)
         self.execution_mode = str(execution_mode).strip().casefold()
@@ -217,13 +224,16 @@ class TaskRunner:
             "CPU/memory request for each, but never choose a worker. Use "
             "`submit_action_batch_async` for independent predefined Actions and "
             "`wait_execution_events` for completion/failure feedback; for long calculations, "
-            "wait up to 600 seconds per call rather than repeatedly polling every minute. Native "
-            "and analysis jobs are also queued and placed automatically. Waiting requests are "
+            "wait up to 600 seconds per call rather than repeatedly polling every minute. Submit "
+            "independent native and analysis jobs together, then pass all their IDs to "
+            "`wait_execution_jobs`; the toolbox performs internal supervision, automatic terminal "
+            "collection, and stable batched notification while queues continue to fill. Waiting requests are "
             "ordered by CPU, then "
             "memory, from largest to smallest. Submit currently known independent work together "
             "so large jobs are visible before small jobs fragment capacity. Keep dependent stages "
             "sequential, use only as many cores as the selected software can efficiently exploit, "
-            "and call `get_execution_resources` whenever replanning after completions or failures."
+            "and use the resource snapshot returned by `wait_execution_jobs` when replanning after "
+            "completions or failures."
         )
 
     def _build_instructions(self) -> str:

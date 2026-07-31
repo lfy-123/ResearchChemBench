@@ -26,6 +26,7 @@ MANAGED_OPEN_EXECUTION_TOOLS = {
 }
 EXECUTION_JOB_OBSERVATION_TOOLS = {
     "get_execution_job",
+    "wait_execution_jobs",
     "collect_execution_job",
 }
 SUCCESSFUL_JOB_STATES = {"success"}
@@ -266,6 +267,14 @@ def _execution_job_states(
         if tool not in MANAGED_OPEN_EXECUTION_TOOLS | EXECUTION_JOB_OBSERVATION_TOOLS:
             continue
         result = _event_result(event, workspace=workspace)
+        if tool == "wait_execution_jobs":
+            for group in ("newly_terminal_jobs", "running_jobs", "queued_jobs"):
+                for item in result.get(group) or []:
+                    job_id = item.get("job_id")
+                    state = item.get("status")
+                    if isinstance(job_id, str) and isinstance(state, str):
+                        states[job_id] = state.casefold()
+            continue
         job = result.get("job") if isinstance(result.get("job"), dict) else {}
         arguments = (
             event.get("arguments") if isinstance(event.get("arguments"), dict) else {}
@@ -411,6 +420,11 @@ def process_metrics(
     job_context_metrics = _job_context_metrics(events, workspace=workspace)
     unmanaged_interpreter_metrics = _unmanaged_interpreter_shell_metrics(workspace)
     discovery_metrics = _discovery_metrics(events, workspace=workspace)
+    wait_results = [
+        result
+        for event, result in zip(events, event_results)
+        if event.get("tool") == "wait_execution_jobs"
+    ]
     for event in managed_scientific_events:
         if event.get("tool") not in MANAGED_OPEN_EXECUTION_TOOLS:
             if event.get("status") in SUCCESSFUL_TOOL_STATUSES:
@@ -455,6 +469,23 @@ def process_metrics(
             event.get("tool") not in CATALOG_DISCOVERY_TOOLS
             and event.get("tool") not in action_ids
             for event in events
+        ),
+        "execution_job_wait_call_count": len(wait_results),
+        "execution_job_wait_seconds": round(
+            sum(
+                float(result.get("aggregation_duration_seconds") or 0)
+                for result in wait_results
+            ),
+            6,
+        ),
+        "execution_job_wait_internal_check_count": sum(
+            int(result.get("internal_check_count") or 0) for result in wait_results
+        ),
+        "execution_job_wait_transition_count": sum(
+            len(result.get("state_transitions") or []) for result in wait_results
+        ),
+        "execution_job_wait_terminal_count": sum(
+            len(result.get("newly_terminal_jobs") or []) for result in wait_results
         ),
         "managed_scientific_attempt_count": len(managed_scientific_events),
         "successful_managed_scientific_calls": managed_successes,

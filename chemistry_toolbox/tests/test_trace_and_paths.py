@@ -266,6 +266,57 @@ def test_unobserved_queued_managed_job_is_not_counted_as_success():
     assert metrics["incomplete_managed_scientific_calls"] == 1
 
 
+def test_wait_execution_jobs_updates_states_and_supervision_metrics() -> None:
+    success_id = "job_wait_success"
+    running_id = "job_wait_running"
+    events = [
+        _job_event(
+            1,
+            "submit_native_job",
+            {"status": "success", "job_id": success_id, "job_status": "queued"},
+            success_id,
+        ),
+        _job_event(
+            2,
+            "submit_analysis_program",
+            {"status": "success", "job_id": running_id, "job_status": "queued"},
+            running_id,
+        ),
+        {
+            "sequence": 3,
+            "tool": "wait_execution_jobs",
+            "status": "success",
+            "arguments": {"request": {"job_ids": [success_id, running_id]}},
+            "result_preview": json.dumps(
+                {
+                    "status": "success",
+                    "newly_terminal_jobs": [
+                        {"job_id": success_id, "status": "success"}
+                    ],
+                    "running_jobs": [
+                        {"job_id": running_id, "status": "running"}
+                    ],
+                    "queued_jobs": [],
+                    "aggregation_duration_seconds": 61.5,
+                    "internal_check_count": 32,
+                    "state_transitions": [{"job_id": success_id}],
+                }
+            ),
+        },
+    ]
+
+    metrics = process_metrics(events)
+
+    assert metrics["successful_execution_job_count"] == 1
+    assert metrics["execution_job_wait_call_count"] == 1
+    assert metrics["execution_job_wait_seconds"] == 61.5
+    assert metrics["execution_job_wait_internal_check_count"] == 32
+    assert metrics["execution_job_wait_transition_count"] == 1
+    assert metrics["execution_job_wait_terminal_count"] == 1
+    assert metrics["successful_managed_scientific_calls"] == 1
+    assert metrics["incomplete_managed_scientific_calls"] == 1
+
+
 def test_managed_job_metrics_read_complete_saved_result_when_preview_is_truncated(
     tmp_path: Path,
 ):
