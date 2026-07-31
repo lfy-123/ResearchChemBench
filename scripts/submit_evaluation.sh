@@ -48,7 +48,7 @@ Submit options:
   --available-cpu-cores N       CPU cores available to each task. Default: 48.
   --available-memory-mb N       Memory available to each task, in MiB. Default: 204800.
   --available-gpu-count N       GPUs available to each task. Default: 0.
-  --max-turns N                 Maximum Agent turns. Default: 200.
+  --max-turns N                 Maximum Agent turns. Default: 600.
   --max-concurrent-runs N       Concurrent task runs. Default: 1.
   --repeats N                   Repetitions per task. Default: 1.
   --workspaces-dir PATH         Submission root. Default: workspaces/submissions/<UTC>.
@@ -73,7 +73,7 @@ Examples:
     --model deepseek-v4-flash \
     --judge-model deepseek-v4-flash \
     --timeout-seconds 10800 \
-    --max-turns 200 \
+    --max-turns 600 \
     --follow \
     Task_A Task_B Task_C
 
@@ -212,7 +212,7 @@ case "$command" in
     available_cpu_cores=48
     available_memory_mb=204800
     available_gpu_count=0
-    max_turns=200
+    max_turns=600
     max_concurrent_runs=1
     repeats=1
     run_root=""

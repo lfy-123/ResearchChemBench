@@ -47,7 +47,7 @@ DEFAULT_AVAILABLE_MEMORY_MB = int(
 DEFAULT_AVAILABLE_GPU_COUNT = int(
     os.environ.get("RESEARCHCHEMBENCH_AVAILABLE_GPU_COUNT", "0")
 )
-DEFAULT_MAX_TURNS = int(os.environ.get("RESEARCHCHEMBENCH_MAX_TURNS", "200"))
+DEFAULT_MAX_TURNS = int(os.environ.get("RESEARCHCHEMBENCH_MAX_TURNS", "600"))
 DEFAULT_LIVE_PROGRESS = os.environ.get(
     "RESEARCHCHEMBENCH_LIVE_PROGRESS", "1"
 ).strip().casefold() not in {"0", "false", "no", "off"}
