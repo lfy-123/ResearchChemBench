@@ -400,11 +400,15 @@ class TaskRunner:
         }
         if self.execution_mode == "distributed":
             for name in (
+                "RCB_DISTRIBUTED_TRANSPORT",
+                "RCB_DISTRIBUTED_INVENTORY",
                 "RCB_DISTRIBUTED_WORKER_INVENTORY",
+                "RCB_DISTRIBUTED_SANDBOX_INVENTORY",
                 "RCB_DISTRIBUTED_STATE_ROOT",
                 "RCB_DISTRIBUTED_DIRECT_SSH_OPTIONS",
                 "RCB_DISTRIBUTED_KNOWN_HOSTS_FILE",
                 "RCB_DISTRIBUTED_LEASE_TIMEOUT_SECONDS",
+                "RCB_SANDBOX_API_KEY",
             ):
                 if os.environ.get(name):
                     values[name] = os.environ[name]

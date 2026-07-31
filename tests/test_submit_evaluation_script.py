@@ -180,3 +180,67 @@ def test_submit_evaluation_distributed_mode_records_pool(tmp_path: Path):
     assert submission["resource_budget"]["scope"] == (
         "per_job_on_one_compute_worker"
     )
+
+
+def test_submit_evaluation_sandbox_mode_selects_sandbox_inventory(tmp_path: Path):
+    root = Path(__file__).resolve().parents[1]
+    inventory = tmp_path / "sandbox_inventory.json"
+    inventory.write_text(
+        json.dumps(
+            {
+                "schema_version": 1,
+                "transport": "sandbox",
+                "workers": [
+                    {
+                        "worker_id": "sandbox-1",
+                        "name": "sandbox-1",
+                        "logical_cpus": 4,
+                        "physical_cores": 2,
+                        "memory_mb": 8192,
+                        "available_cpu_cores": 2,
+                        "available_memory_mb": 4096,
+                        "gpu_count": 0,
+                        "compute_cpu_ids": [0, 1],
+                        "sandbox_id": "sbx-test",
+                        "sandbox_api_base": "https://sandbox.invalid/brainbox",
+                        "sandbox_project": "test-project",
+                        "sandbox_project_root": str(root),
+                    }
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+    run_root = tmp_path / "sandbox-distributed"
+    environment = {
+        **dict(os.environ),
+        "RESEARCHCHEMBENCH_LOCAL_CONFIG": str(tmp_path / "missing.env"),
+        "RCB_DISTRIBUTED_SANDBOX_INVENTORY": str(inventory),
+        "RCB_DISTRIBUTED_STATE_ROOT": str(tmp_path / "pool"),
+    }
+    result = subprocess.run(
+        [
+            "bash",
+            "scripts/submit_evaluation.sh",
+            "submit",
+            "--dry-run",
+            "--execution-mode",
+            "distributed",
+            "--distributed-transport",
+            "sandbox",
+            "--workspaces-dir",
+            str(run_root),
+            "Electron_Isodensity_Reproduction_01_Method_Selection",
+        ],
+        cwd=root,
+        env=environment,
+        capture_output=True,
+        text=True,
+        timeout=30,
+        check=False,
+    )
+    assert result.returncode == 0, result.stdout + result.stderr
+    submission = json.loads((run_root / "submission.json").read_text())
+    assert submission["execution_mode"] == "distributed"
+    assert submission["distributed_transport"] == "sandbox"
+    assert submission["resource_budget"]["cpu_cores"] == 2

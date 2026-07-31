@@ -143,6 +143,58 @@ workers:
 
 该命令会并行连接所有源配置中的worker，探测CPU拓扑、cgroup内存、直连地址和SSH主机密钥，并生成 `.worker_inventory.local.json`。
 
+#### 使用 OpenSandbox worker 池
+
+Sandbox 与 SSH worker 使用同一套调度、reservation、排队、超时和核心执行逻辑。SSH 仍是默认传输；只有显式选择 `sandbox` 时才进入 OpenSandbox HTTP/RPC 传输层。
+
+本地源配置为 `.sandboxes.local.yaml`，生成 inventory：
+
+也可以自动创建指定规模的 Sandbox 池并生成这两个文件：
+
+```bash
+bash scripts/create_sandbox_pool.sh \
+  --count 4 \
+  --cpu 20 \
+  --memory 48Gi \
+  --available-memory-mb 45000 \
+  --lifecycle-minutes 1440 \
+  --replace
+```
+
+该脚本创建成功后会把 Environment ID 和每个 Sandbox ID 自动写回 `.sandboxes.local.yaml`，并生成 `.sandbox_inventory.local.json`。`--replace` 会备份现有本地配置，但不会停止旧的远端实例。使用 `--help` 查看镜像、端口、挂载、名称和调度资源等完整参数。
+
+手工刷新已有配置对应的 inventory：
+
+```bash
+.envs/researchchembench/bin/python scripts/update_sandbox_inventory.py \
+  --input .sandboxes.local.yaml \
+  --output .sandbox_inventory.local.json
+```
+
+源 YAML 中每个条目只需要维护 Sandbox ID 和希望暴露给调度器的资源。若环境和实例使用 `create_if_missing: true` 且 ID 为 `null`，脚本也可以自动创建并把生成的 ID 写回 YAML。API Key 从 `config.local.env` 的 `RCB_SANDBOX_API_KEY` 读取，不写入 inventory。
+
+提交 Sandbox 分布式任务：
+
+```bash
+bash scripts/submit_evaluation.sh submit \
+  --execution-mode distributed \
+  --distributed-transport sandbox \
+  --distributed-inventory .sandbox_inventory.local.json \
+  Task_A
+```
+
+切回原有 SSH worker：
+
+```bash
+bash scripts/submit_evaluation.sh submit \
+  --execution-mode distributed \
+  --distributed-transport ssh \
+  --distributed-inventory .worker_inventory.local.json \
+  Task_A
+```
+
+Sandbox 的共享 GPFS 挂载为只读。框架会自动把 Action 引用的 workspace 文件上传到实例本地目录；native/analysis 作业会整体 stage 到 `/tmp`，完成后再把状态、日志和产物同步回主节点。因此不要把 Sandbox proxy URL 填入 `execution_ssh_target`。
+
 #### 控制本次运行使用多少台worker
 
 `submit_evaluation.sh` 当前没有 `--worker-count N` 参数。实际使用的worker集合由inventory中 `enabled` 为真的条目决定。推荐为不同规模的运行准备不同的源YAML和inventory，例如：
@@ -244,6 +296,18 @@ bash scripts/submit_evaluation.sh submit \
   Task_A
 ```
 
+使用 Sandbox 池时：
+
+```bash
+bash scripts/submit_evaluation.sh submit \
+  --execution-mode distributed \
+  --distributed-transport sandbox \
+  --distributed-inventory .sandbox_inventory.local.json \
+  --workspaces-dir workspaces/sandbox-example \
+  --session rcb_sandbox_example \
+  Task_A
+```
+
 ### 提交单个任务
 
 ```bash
@@ -339,6 +403,8 @@ bash scripts/submit_evaluation.sh submit \
 | `--session NAME` | 自动生成 | `tmux`会话名 |
 | `--tool-discovery-mode progressive\|full` | `progressive` | 工具目录发现方式 |
 | `--execution-mode local\|distributed` | `local` | 选择原有单节点执行或分布式worker池执行 |
+| `--distributed-transport ssh\|sandbox` | `ssh` | 分布式模式使用原有SSH worker或OpenSandbox实例 |
+| `--distributed-inventory PATH` | 按传输类型从本地配置读取 | 显式指定本次运行使用的worker inventory |
 | `--progress-max-chars N` | `600` | 实时日志每个字段的显示上限 |
 | `--progress-console` | 关闭 | 把详细进度同时写入启动器终端日志 |
 | `--no-score` | 关闭 | 跳过Judge评分 |

@@ -25,6 +25,8 @@ from .paths import PROJECT_ROOT
 
 EXECUTION_MODE_ENV = "RESEARCHCHEMBENCH_EXECUTION_MODE"
 INVENTORY_PATH_ENV = "RCB_DISTRIBUTED_WORKER_INVENTORY"
+GENERIC_INVENTORY_PATH_ENV = "RCB_DISTRIBUTED_INVENTORY"
+TRANSPORT_ENV = "RCB_DISTRIBUTED_TRANSPORT"
 STATE_ROOT_ENV = "RCB_DISTRIBUTED_STATE_ROOT"
 LEASE_TIMEOUT_SECONDS_ENV = "RCB_DISTRIBUTED_LEASE_TIMEOUT_SECONDS"
 
@@ -171,13 +173,29 @@ class WorkerNode:
     available_memory_mb: int
     gpu_count: int
     cpu_ids: tuple[int, ...]
+    transport: str = "ssh"
     known_hosts_file: str = ""
+    sandbox_id: str = ""
+    sandbox_environment_id: str = ""
+    sandbox_api_base: str = ""
+    sandbox_project: str = ""
+    sandbox_api_key_env: str = "RCB_SANDBOX_API_KEY"
+    sandbox_command_port: int = 44772
+    sandbox_rpc_port: int = 44773
+    sandbox_project_root: str = ""
+    sandbox_remote_job_root: str = "/tmp/researchchembench/jobs"
     enabled: bool = True
 
     @classmethod
     def from_mapping(cls, value: Mapping[str, Any], *, index: int) -> "WorkerNode":
         worker_id = str(value.get("worker_id") or value.get("id") or f"compute-{index}")
         name = str(value.get("name") or value.get("hostname") or worker_id)
+        transport = str(value.get("transport") or "ssh").strip().casefold()
+        if transport == "opensandbox":
+            transport = "sandbox"
+        if transport not in {"ssh", "sandbox"}:
+            raise ValueError(f"{worker_id}.transport must be ssh or sandbox")
+        transport_config = dict(value.get("transport_config") or {})
         logical_cpus = _positive_integer(
             value.get("logical_cpus"), field=f"{worker_id}.logical_cpus"
         )
@@ -225,13 +243,60 @@ class WorkerNode:
                 value.get("gpu_count", 0), field=f"{worker_id}.gpu_count"
             ),
             cpu_ids=cpu_ids[:available_cpu_cores],
+            transport=transport,
             known_hosts_file=str(value.get("known_hosts_file") or ""),
+            sandbox_id=str(
+                value.get("sandbox_id") or transport_config.get("sandbox_id") or ""
+            ),
+            sandbox_environment_id=str(
+                value.get("environment_id")
+                or transport_config.get("environment_id")
+                or ""
+            ),
+            sandbox_api_base=str(
+                value.get("sandbox_api_base")
+                or transport_config.get("base_url")
+                or ""
+            ),
+            sandbox_project=str(
+                value.get("sandbox_project")
+                or transport_config.get("project")
+                or ""
+            ),
+            sandbox_api_key_env=str(
+                value.get("sandbox_api_key_env")
+                or transport_config.get("api_key_env")
+                or "RCB_SANDBOX_API_KEY"
+            ),
+            sandbox_command_port=_positive_integer(
+                value.get("sandbox_command_port")
+                or transport_config.get("command_port")
+                or 44772,
+                field=f"{worker_id}.sandbox_command_port",
+            ),
+            sandbox_rpc_port=_positive_integer(
+                value.get("sandbox_rpc_port")
+                or transport_config.get("rpc_port")
+                or 44773,
+                field=f"{worker_id}.sandbox_rpc_port",
+            ),
+            sandbox_project_root=str(
+                value.get("sandbox_project_root")
+                or transport_config.get("project_root")
+                or ""
+            ),
+            sandbox_remote_job_root=str(
+                value.get("sandbox_remote_job_root")
+                or transport_config.get("remote_job_root")
+                or "/tmp/researchchembench/jobs"
+            ),
             enabled=bool(value.get("enabled", True)),
         )
 
     def public_record(self) -> dict[str, Any]:
         return {
             "worker_id": self.worker_id,
+            "transport": self.transport,
             "available_cpu_cores": self.available_cpu_cores,
             "available_memory_mb": self.available_memory_mb,
             "gpu_count": self.gpu_count,
@@ -239,7 +304,10 @@ class WorkerNode:
 
 
 def _resolve_inventory_path() -> Path | None:
-    raw = os.environ.get(INVENTORY_PATH_ENV, "").strip()
+    raw = (
+        os.environ.get(GENERIC_INVENTORY_PATH_ENV, "").strip()
+        or os.environ.get(INVENTORY_PATH_ENV, "").strip()
+    )
     if not raw:
         return None
     path = Path(raw).expanduser()
@@ -257,6 +325,7 @@ def _inventory_from_environment() -> list[dict[str, Any]]:
             {
                 "worker_id": os.environ.get(prefix + "ID", f"compute-{index}"),
                 "name": os.environ.get(prefix + "NAME", f"compute-{index}"),
+                "transport": "ssh",
                 "gateway_ssh_target": os.environ.get(prefix + "GATEWAY_SSH_TARGET", ""),
                 "execution_ssh_target": os.environ.get(prefix + "EXECUTION_SSH_TARGET", ""),
                 "direct_ip": os.environ.get(prefix + "DIRECT_IP", ""),
@@ -294,6 +363,12 @@ def load_worker_inventory() -> tuple[WorkerNode, ...]:
         raw_workers = payload.get("workers") if isinstance(payload, dict) else None
         if not isinstance(raw_workers, list):
             raise ValueError("distributed worker inventory must contain a workers list")
+        inventory_transport = str(payload.get("transport") or "").strip()
+        if inventory_transport:
+            raw_workers = [
+                ({**item, "transport": inventory_transport} if "transport" not in item else item)
+                for item in raw_workers
+            ]
     else:
         raw_workers = _inventory_from_environment()
     workers = tuple(
@@ -306,8 +381,35 @@ def load_worker_inventory() -> tuple[WorkerNode, ...]:
     identifiers = [worker.worker_id for worker in workers]
     if len(identifiers) != len(set(identifiers)):
         raise ValueError("distributed worker ids must be unique")
-    if any(not worker.execution_ssh_target for worker in workers):
-        raise ValueError("every distributed worker requires execution_ssh_target")
+    for worker in workers:
+        if worker.transport == "ssh" and not worker.execution_ssh_target:
+            raise ValueError("every SSH distributed worker requires execution_ssh_target")
+        if worker.transport == "sandbox" and (
+            not worker.sandbox_id
+            or not worker.sandbox_api_base
+            or not worker.sandbox_project
+            or not worker.sandbox_project_root
+        ):
+            raise ValueError(
+                f"sandbox worker {worker.worker_id} requires sandbox_id, API base, "
+                "project, and sandbox_project_root"
+            )
+    configured_transport = os.environ.get(TRANSPORT_ENV, "").strip().casefold()
+    if configured_transport == "opensandbox":
+        configured_transport = "sandbox"
+    if configured_transport:
+        if configured_transport not in {"ssh", "sandbox"}:
+            raise ValueError(f"{TRANSPORT_ENV} must be ssh or sandbox")
+        mismatched = [
+            worker.worker_id
+            for worker in workers
+            if worker.transport != configured_transport
+        ]
+        if mismatched:
+            raise ValueError(
+                f"inventory workers do not match {TRANSPORT_ENV}={configured_transport}: "
+                f"{mismatched}"
+            )
     return workers
 
 
@@ -779,7 +881,9 @@ def pool_snapshot(*, include_internal: bool = False) -> dict[str, Any]:
             record.update(
                 {
                     "name": worker.name,
+                    "transport": worker.transport,
                     "execution_ssh_target": worker.execution_ssh_target,
+                    "sandbox_id": worker.sandbox_id if worker.transport == "sandbox" else "",
                     "logical_cpus": worker.logical_cpus,
                     "physical_cores": worker.physical_cores,
                     "actual_memory_mb": worker.memory_mb,
@@ -978,7 +1082,9 @@ __all__ = [
     "DistributedResourceLimitExceeded",
     "DistributedResourceUnavailable",
     "EXECUTION_MODE_ENV",
+    "GENERIC_INVENTORY_PATH_ENV",
     "INVENTORY_PATH_ENV",
+    "TRANSPORT_ENV",
     "WorkerNode",
     "distributed_enabled",
     "execution_mode",

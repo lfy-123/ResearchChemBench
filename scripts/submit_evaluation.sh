@@ -55,6 +55,8 @@ Submit options:
   --session NAME                tmux session name. Default: derived from UTC time.
   --tool-discovery-mode MODE    progressive or full. Default: progressive.
   --execution-mode MODE         local or distributed. Default: local.
+  --distributed-transport TYPE  ssh or sandbox. Default: ssh.
+  --distributed-inventory PATH  Inventory for the selected distributed transport.
   --progress-max-chars N        Per-field live-log truncation. Default: 600.
   --progress-console            Mirror detailed progress into launcher.log.
   --no-score                    Do not call the Judge.
@@ -219,6 +221,8 @@ case "$command" in
     session_name=""
     discovery_mode="progressive"
     execution_mode="local"
+    distributed_transport="${RCB_DISTRIBUTED_TRANSPORT:-ssh}"
+    distributed_inventory=""
     progress_max_chars=600
     progress_console=false
     score_enabled=true
@@ -272,6 +276,10 @@ case "$command" in
           require_value "$1" "${2:-}"; discovery_mode="$2"; shift 2 ;;
         --execution-mode)
           require_value "$1" "${2:-}"; execution_mode="$2"; shift 2 ;;
+        --distributed-transport)
+          require_value "$1" "${2:-}"; distributed_transport="$2"; shift 2 ;;
+        --distributed-inventory)
+          require_value "$1" "${2:-}"; distributed_inventory="$2"; shift 2 ;;
         --progress-max-chars)
           require_value "$1" "${2:-}"; require_positive_integer "$1" "$2"
           progress_max_chars="$2"; shift 2 ;;
@@ -298,9 +306,27 @@ case "$command" in
       echo "Error: --execution-mode must be local or distributed." >&2
       exit 2
     fi
-    if [[ "$execution_mode" == "distributed" && -z "${RCB_DISTRIBUTED_WORKER_INVENTORY:-}" ]]; then
-      echo "Error: distributed mode requires RCB_DISTRIBUTED_WORKER_INVENTORY in config.local.env." >&2
+    if [[ "$distributed_transport" == "opensandbox" ]]; then
+      distributed_transport="sandbox"
+    fi
+    if [[ "$distributed_transport" != "ssh" && "$distributed_transport" != "sandbox" ]]; then
+      echo "Error: --distributed-transport must be ssh or sandbox." >&2
       exit 2
+    fi
+    if [[ "$execution_mode" == "distributed" ]]; then
+      if [[ -z "$distributed_inventory" ]]; then
+        if [[ "$distributed_transport" == "sandbox" ]]; then
+          distributed_inventory="${RCB_DISTRIBUTED_SANDBOX_INVENTORY:-}"
+        else
+          distributed_inventory="${RCB_DISTRIBUTED_WORKER_INVENTORY:-}"
+        fi
+      fi
+      if [[ -z "$distributed_inventory" ]]; then
+        echo "Error: distributed mode requires an inventory for transport=$distributed_transport." >&2
+        exit 2
+      fi
+      export RCB_DISTRIBUTED_TRANSPORT="$distributed_transport"
+      export RCB_DISTRIBUTED_INVENTORY="$distributed_inventory"
     fi
     if (( fast_action_timeout_seconds > compute_action_timeout_seconds )); then
       echo "Error: --fast-action-timeout-seconds cannot exceed --compute-action-timeout-seconds." >&2
@@ -339,7 +365,7 @@ case "$command" in
       "$progress_console" "$score_enabled" "$compute_action_timeout_seconds" \
       "$fast_action_timeout_seconds" "$mcp_tool_timeout_seconds" \
       "$available_cpu_cores" "$available_memory_mb" "$available_gpu_count" \
-      "$execution_mode" \
+      "$execution_mode" "$distributed_transport" \
       "${tasks[@]}" <<'PY'
 import json
 import os
@@ -353,7 +379,7 @@ from pathlib import Path
     discovery_mode, progress_max_chars, progress_console, score_enabled,
     compute_action_timeout_seconds, fast_action_timeout_seconds,
     mcp_tool_timeout_seconds, available_cpu_cores, available_memory_mb,
-    available_gpu_count, execution_mode, *tasks
+    available_gpu_count, execution_mode, distributed_transport, *tasks
 ) = sys.argv[1:]
 def flag(value):
     return value.casefold() == "true"
@@ -373,6 +399,7 @@ config = {
     "max_turns": int(max_turns),
     "tool_discovery_mode": discovery_mode,
     "execution_mode": execution_mode,
+    "distributed_transport": distributed_transport if execution_mode == "distributed" else None,
     "live_progress": True,
     "progress_console": flag(progress_console),
     "progress_max_chars": int(progress_max_chars),
@@ -419,6 +446,7 @@ submission = {
     "mcp_tool_timeout_seconds": int(mcp_tool_timeout_seconds),
     "resource_budget": resource_budget,
     "execution_mode": execution_mode,
+    "distributed_transport": distributed_transport if execution_mode == "distributed" else None,
     "max_turns": int(max_turns),
     "tool_discovery_mode": discovery_mode,
     "score_enabled": flag(score_enabled),
@@ -436,6 +464,9 @@ PY
       --judge-model "$judge_model"
       --execution-mode "$execution_mode"
     )
+    if [[ "$execution_mode" == "distributed" ]]; then
+      eval_command+=(--distributed-transport "$distributed_transport")
+    fi
     if [[ "$score_enabled" == false ]]; then eval_command+=(--no-score); fi
     if [[ "$dry_run" == true ]]; then eval_command+=(--dry-run); fi
     echo "Submission root: $run_root"
@@ -444,7 +475,7 @@ PY
     echo "Judge: enabled=$score_enabled model=$judge_model"
     echo "Limits: agent=${timeout_seconds}s mcp=${mcp_tool_timeout_seconds}s compute_action=${compute_action_timeout_seconds}s fast_action=${fast_action_timeout_seconds}s max_turns=$max_turns concurrency=$max_concurrent_runs repeats=$repeats"
     if [[ "$execution_mode" == "distributed" ]]; then
-      echo "Compute resources: loaded from $RCB_DISTRIBUTED_WORKER_INVENTORY"
+      echo "Compute resources: transport=$distributed_transport inventory=$RCB_DISTRIBUTED_INVENTORY"
     else
       echo "Per-task resources: cpu=${available_cpu_cores} memory=${available_memory_mb}MiB gpu=${available_gpu_count}"
     fi

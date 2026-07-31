@@ -18,6 +18,7 @@ from .models import BackendSpec
 from .environment_layout import resolve_configured_path, resolve_runtime_path
 from .paths import CONFIG_ROOT, PROJECT_ROOT, SOURCE_ROOT
 from .resource_budget import evaluation_resource_budget
+from .sandbox_client import OpenSandboxClient, SandboxTransportError
 from .distributed_pool import (
     DistributedResourceUnavailable,
     distributed_enabled,
@@ -465,6 +466,46 @@ def invoke_worker(
             or key.startswith("PRTE_")
             or key in {"CUDA_VISIBLE_DEVICES", "ROCR_VISIBLE_DEVICES"}
         }
+        envelope = {
+            "schema_version": 1,
+            "project_root": str(PROJECT_ROOT),
+            "runtime_python": str(python),
+            "distributed_reservation_id": reservation.reservation_id,
+            "environment": remote_environment,
+            "payload": payload,
+        }
+        if reservation.worker.transport == "sandbox":
+            try:
+                client = OpenSandboxClient.from_worker(reservation.worker)
+                result = client.run_action(
+                    envelope, timeout_seconds=timeout_seconds
+                )
+            except SandboxTransportError as exc:
+                result = {
+                    "status": "failed",
+                    "error": {
+                        "code": "sandbox_worker_request_failed",
+                        "message": str(exc),
+                        "response": exc.response[-2000:],
+                    },
+                    "retryable": exc.retryable,
+                }
+            finally:
+                reservation.release()
+            provenance = dict(result.get("provenance") or {})
+            provenance.update(
+                {
+                    "execution_mode": "distributed",
+                    "distributed_transport": "sandbox",
+                    "compute_worker_id": reservation.worker.worker_id,
+                    "sandbox_id": reservation.worker.sandbox_id,
+                    "distributed_reservation_id": reservation.reservation_id,
+                    "resource_allocation": allocation,
+                    "single_job_cross_node_execution": False,
+                }
+            )
+            result["provenance"] = provenance
+            return result
         framework_python = PROJECT_ROOT / ".envs" / "researchchembench" / "bin" / "python"
         remote_command = (
             f"cd {shlex.quote(str(PROJECT_ROOT))} && exec "
@@ -492,14 +533,6 @@ def invoke_worker(
         if known_hosts:
             ssh_argv.extend(["-o", f"UserKnownHostsFile={known_hosts}"])
         ssh_argv.extend([reservation.worker.execution_ssh_target, remote_command])
-        envelope = {
-            "schema_version": 1,
-            "project_root": str(PROJECT_ROOT),
-            "runtime_python": str(python),
-            "distributed_reservation_id": reservation.reservation_id,
-            "environment": remote_environment,
-            "payload": payload,
-        }
         try:
             completed = subprocess.run(
                 ssh_argv,

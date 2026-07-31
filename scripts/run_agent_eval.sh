@@ -77,6 +77,8 @@ Runtime options:
                                `full` preserves one MCP tool per Action for regression.
       --execution-mode MODE   `local` (default) preserves single-node execution;
                                `distributed` uses the configured worker inventory.
+      --distributed-transport TYPE
+                              `ssh` (default) or `sandbox` for distributed mode.
       --mcp-profiles CSV      Select runtimes for installation/probe validation only:
                                core, services, quantum, psi4, reaction, qe, cp2k,
                                periodic, phonons, md, mlip, docking. This never
@@ -186,6 +188,7 @@ MCP_TOOLS_VALUE="${RESEARCHCHEMBENCH_MCP_TOOLS:-all}"
 MCP_PROFILES_VALUE="${RESEARCHCHEMBENCH_MCP_PROFILES:-}"
 TOOL_DISCOVERY_MODE_VALUE="${RESEARCHCHEM_TOOL_DISCOVERY_MODE:-progressive}"
 EXECUTION_MODE_VALUE="${RESEARCHCHEMBENCH_EXECUTION_MODE:-local}"
+DISTRIBUTED_TRANSPORT_VALUE="${RCB_DISTRIBUTED_TRANSPORT:-ssh}"
 LIVE_PROGRESS_VALUE="${RESEARCHCHEMBENCH_LIVE_PROGRESS:-1}"
 PROGRESS_CONSOLE_VALUE="${RESEARCHCHEMBENCH_PROGRESS_CONSOLE:-0}"
 PROGRESS_MAX_CHARS_VALUE="${RESEARCHCHEMBENCH_PROGRESS_MAX_CHARS:-600}"
@@ -271,6 +274,11 @@ while [[ $# -gt 0 ]]; do
     --execution-mode)
       require_value "$1" "${2:-}"
       EXECUTION_MODE_VALUE="$2"
+      shift 2
+      ;;
+    --distributed-transport)
+      require_value "$1" "${2:-}"
+      DISTRIBUTED_TRANSPORT_VALUE="$2"
       shift 2
       ;;
     --live-progress)
@@ -413,9 +421,26 @@ if [[ "$EXECUTION_MODE_VALUE" != "local" && "$EXECUTION_MODE_VALUE" != "distribu
   echo "Error: --execution-mode must be 'local' or 'distributed'." >&2
   exit 2
 fi
-if [[ "$EXECUTION_MODE_VALUE" == "distributed" && -z "${RCB_DISTRIBUTED_WORKER_INVENTORY:-}" ]]; then
-  echo "Error: distributed mode requires RCB_DISTRIBUTED_WORKER_INVENTORY." >&2
+if [[ "$DISTRIBUTED_TRANSPORT_VALUE" == "opensandbox" ]]; then
+  DISTRIBUTED_TRANSPORT_VALUE="sandbox"
+fi
+if [[ "$DISTRIBUTED_TRANSPORT_VALUE" != "ssh" && "$DISTRIBUTED_TRANSPORT_VALUE" != "sandbox" ]]; then
+  echo "Error: --distributed-transport must be 'ssh' or 'sandbox'." >&2
   exit 2
+fi
+if [[ "$EXECUTION_MODE_VALUE" == "distributed" ]]; then
+  if [[ -z "${RCB_DISTRIBUTED_INVENTORY:-}" ]]; then
+    if [[ "$DISTRIBUTED_TRANSPORT_VALUE" == "sandbox" ]]; then
+      export RCB_DISTRIBUTED_INVENTORY="${RCB_DISTRIBUTED_SANDBOX_INVENTORY:-}"
+    else
+      export RCB_DISTRIBUTED_INVENTORY="${RCB_DISTRIBUTED_WORKER_INVENTORY:-}"
+    fi
+  fi
+  if [[ -z "${RCB_DISTRIBUTED_INVENTORY:-}" ]]; then
+    echo "Error: distributed mode requires an inventory for transport=$DISTRIBUTED_TRANSPORT_VALUE." >&2
+    exit 2
+  fi
+  export RCB_DISTRIBUTED_TRANSPORT="$DISTRIBUTED_TRANSPORT_VALUE"
 fi
 export RESEARCHCHEMBENCH_EXECUTION_MODE="$EXECUTION_MODE_VALUE"
 if [[ -n "$MCP_PROFILES_VALUE" ]]; then
@@ -460,7 +485,7 @@ if [[ -n "$CONFIG" ]]; then
   log_info "MCP Python=$(command -v python)"
   log_info "MCP tools=$MCP_TOOLS_VALUE"
   log_info "Tool discovery=$TOOL_DISCOVERY_MODE_VALUE"
-  log_info "Execution mode=$EXECUTION_MODE_VALUE"
+  log_info "Execution mode=$EXECUTION_MODE_VALUE distributed_transport=$DISTRIBUTED_TRANSPORT_VALUE"
   log_info "Backend runtimes=${MCP_PROFILES_VALUE:-all catalog entries; one public server}"
   log_info "Workspaces root=${RESEARCHCHEMBENCH_WORKSPACES_DIR:-$ROOT_DIR/workspaces}"
   log_info "Judge model:     ${JUDGE_MODEL_NAME:-<not configured>}"
@@ -474,7 +499,7 @@ log_info "Task=$TASK"
 log_info "MCP Python=$(command -v python)"
 log_info "MCP tools=$MCP_TOOLS_VALUE"
 log_info "Tool discovery=$TOOL_DISCOVERY_MODE_VALUE"
-log_info "Execution mode=$EXECUTION_MODE_VALUE"
+log_info "Execution mode=$EXECUTION_MODE_VALUE distributed_transport=$DISTRIBUTED_TRANSPORT_VALUE"
 log_info "Backend runtimes=${MCP_PROFILES_VALUE:-all catalog entries; one public server}"
 log_info "Timeout seconds=${RESEARCHCHEMBENCH_AGENT_TIMEOUT_SECONDS:-7200}"
 log_info "Max turns=${RESEARCHCHEMBENCH_MAX_TURNS:-200}"
