@@ -141,6 +141,8 @@ b83d730 fix: terminate remote process groups on cancellation
 b48a4be docs: sync GoodVibes suffix guidance
 f873d59 fix: make long async batches cancellation safe
 58d2862 fix: isolate distributed scratch and bind ssh lifetime
+88410ca docs: record distributed scratch isolation
+a7a59fd docs: clarify pysisyphus scan intervals
 ```
 
 ## 4. 已完成验证
@@ -308,8 +310,28 @@ workspace 的 launcher、worker、Gaussian 和 link 进程均归零。随后完�
 ```text
 workspaces/distributed-complex-e2e-rerun5/
 tmux: rcb_distributed_complex_e2e_rerun5
-hourly monitor: rcb_monitor_distributed_complex_rerun5
+10-minute monitor: rcb_monitor_distributed_complex_rerun5
 ```
 
-三个任务继续按顺序运行并每小时监控。最终状态、科学产物和评分将在三个任务全部结束后
-补充。
+首个任务已经提供以下真实满负载证据：
+
+- 9 个初始 Gaussian opt+freq 作业分别请求 16 CPU、32000 MiB，持续在四台 worker
+  上运行；另有多个 Gaussian TS 搜索和 Pysisyphus 路径扫描按 Agent 决策动态加入；
+- 一个同步 Pysisyphus relaxed scan 使用 4 CPU、8192 MiB 完成 18 个区间、19 个端点，
+  最后端点达到 100 cycle 后以 `partial_success` 返回；SSH、reservation 和 worker-local
+  scratch 随即全部释放，Agent 保留部分结果并继续规划；
+- 上述运行暴露出参数合同只把 `steps` 泛化描述为“控制步数”，但后端实际把它解释为
+  区间数、请求 `steps + 1` 个端点；Agent 可见合同和回归测试现已明确该语义；
+- Agent 随后并行运行 8 个独立 Pysisyphus 扫描；已完成作业的 scratch 数量逐台减少，
+  任一时刻四台 worker 上 `/tmp/researchchembench/rcb-*` 的目录数都与活跃 reservation
+  完全一致；
+- 当 16 个 16-CPU 作业占满全部 256 CPU、512000 MiB 时，新的 16-CPU TS 作业保持
+  queued，没有超额分配；此前 `compute-4` 只剩 12 CPU 时被标记为 draining，待其
+  4-CPU 扫描结束凑出 16 CPU 后，队首 TS 自动提升到该节点运行，下一项继续排队；
+- 一个 Gaussian TS 候选因输入几何中两原子距离过近，明确报
+  `Small interatomic distances` / `Problem with the distance matrix` 后快速失败；资源和
+  scratch 正常释放，Agent 将其作为科学输入失败处理并提交替代路线，不属于远端执行
+  或调度故障。
+
+三个任务继续按顺序运行并每 10 分钟监控。最终状态、科学产物和评分将在三个任务全部
+结束后补充。
