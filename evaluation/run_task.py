@@ -31,6 +31,11 @@ from .config import (
     DEFAULT_FAST_ACTION_TIMEOUT_SECONDS,
     DEFAULT_EXECUTION_MODE,
     DEFAULT_LIVE_PROGRESS,
+    DEFAULT_JOB_EVENT_MAX_BATCH_SECONDS,
+    DEFAULT_JOB_EVENT_SETTLE_SECONDS,
+    DEFAULT_JOB_FAILURE_TAIL_CHARS,
+    DEFAULT_JOB_INTERNAL_POLL_INTERVAL_SECONDS,
+    DEFAULT_JOB_WAIT_HEARTBEAT_SECONDS,
     DEFAULT_MCP_TOOL_TIMEOUT_MS,
     DEFAULT_MAX_TURNS,
     DEFAULT_PROGRESS_CONSOLE,
@@ -78,6 +83,11 @@ class TaskRunner:
         available_cpu_cores: int = DEFAULT_AVAILABLE_CPU_CORES,
         available_memory_mb: int = DEFAULT_AVAILABLE_MEMORY_MB,
         available_gpu_count: int = DEFAULT_AVAILABLE_GPU_COUNT,
+        job_event_settle_seconds: int = DEFAULT_JOB_EVENT_SETTLE_SECONDS,
+        job_event_max_batch_seconds: int = DEFAULT_JOB_EVENT_MAX_BATCH_SECONDS,
+        job_wait_heartbeat_seconds: int = DEFAULT_JOB_WAIT_HEARTBEAT_SECONDS,
+        job_internal_poll_interval_seconds: int = DEFAULT_JOB_INTERNAL_POLL_INTERVAL_SECONDS,
+        job_failure_tail_chars: int = DEFAULT_JOB_FAILURE_TAIL_CHARS,
         max_turns: int = DEFAULT_MAX_TURNS,
         tool_discovery_mode: str | None = None,
         live_progress: bool = DEFAULT_LIVE_PROGRESS,
@@ -100,6 +110,11 @@ class TaskRunner:
         self.available_cpu_cores = int(available_cpu_cores)
         self.available_memory_mb = int(available_memory_mb)
         self.available_gpu_count = int(available_gpu_count)
+        self.job_event_settle_seconds = int(job_event_settle_seconds)
+        self.job_event_max_batch_seconds = int(job_event_max_batch_seconds)
+        self.job_wait_heartbeat_seconds = int(job_wait_heartbeat_seconds)
+        self.job_internal_poll_interval_seconds = int(job_internal_poll_interval_seconds)
+        self.job_failure_tail_chars = int(job_failure_tail_chars)
         self.execution_mode = str(execution_mode).strip().casefold()
         if self.execution_mode not in {"local", "distributed"}:
             raise ValueError("execution_mode must be local or distributed")
@@ -109,6 +124,22 @@ class TaskRunner:
             raise ValueError("available_memory_mb must be >= 128")
         if self.available_gpu_count < 0:
             raise ValueError("available_gpu_count must be non-negative")
+        if min(
+            self.job_event_settle_seconds,
+            self.job_event_max_batch_seconds,
+            self.job_wait_heartbeat_seconds,
+            self.job_internal_poll_interval_seconds,
+            self.job_failure_tail_chars,
+        ) < 1:
+            raise ValueError("job supervision settings must be positive")
+        if self.job_event_max_batch_seconds < self.job_event_settle_seconds:
+            raise ValueError(
+                "job_event_max_batch_seconds must be >= job_event_settle_seconds"
+            )
+        if self.job_wait_heartbeat_seconds < self.job_event_max_batch_seconds:
+            raise ValueError(
+                "job_wait_heartbeat_seconds must be >= job_event_max_batch_seconds"
+            )
         self.max_turns = max_turns
         self.tool_discovery_mode = resolve_tool_discovery_mode(tool_discovery_mode)
         self.live_progress = bool(live_progress)
@@ -397,6 +428,21 @@ class TaskRunner:
                 self.available_gpu_count
             ),
             "RESEARCHCHEMBENCH_EXECUTION_MODE": self.execution_mode,
+            "RESEARCHCHEMBENCH_JOB_EVENT_SETTLE_SECONDS": str(
+                self.job_event_settle_seconds
+            ),
+            "RESEARCHCHEMBENCH_JOB_EVENT_MAX_BATCH_SECONDS": str(
+                self.job_event_max_batch_seconds
+            ),
+            "RESEARCHCHEMBENCH_JOB_WAIT_HEARTBEAT_SECONDS": str(
+                self.job_wait_heartbeat_seconds
+            ),
+            "RESEARCHCHEMBENCH_JOB_INTERNAL_POLL_INTERVAL_SECONDS": str(
+                self.job_internal_poll_interval_seconds
+            ),
+            "RESEARCHCHEMBENCH_JOB_FAILURE_TAIL_CHARS": str(
+                self.job_failure_tail_chars
+            ),
         }
         if self.execution_mode == "distributed":
             for name in (
@@ -790,6 +836,14 @@ class TaskRunner:
                 "action_timeout_agent_controllable": False,
             },
             "resource_budget": self.resource_budget_record(),
+            "job_supervision_policy": {
+                "event_settle_seconds": self.job_event_settle_seconds,
+                "event_max_batch_seconds": self.job_event_max_batch_seconds,
+                "wait_heartbeat_seconds": self.job_wait_heartbeat_seconds,
+                "internal_poll_interval_seconds": self.job_internal_poll_interval_seconds,
+                "failure_tail_chars": self.job_failure_tail_chars,
+                "agent_controllable": False,
+            },
             "live_progress_path": "_live_progress.log",
         }
         if extra:

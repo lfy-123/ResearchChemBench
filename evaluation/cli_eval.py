@@ -27,6 +27,11 @@ from .config import (
     DEFAULT_COMPUTE_ACTION_TIMEOUT_SECONDS,
     DEFAULT_FAST_ACTION_TIMEOUT_SECONDS,
     DEFAULT_EXECUTION_MODE,
+    DEFAULT_JOB_EVENT_MAX_BATCH_SECONDS,
+    DEFAULT_JOB_EVENT_SETTLE_SECONDS,
+    DEFAULT_JOB_FAILURE_TAIL_CHARS,
+    DEFAULT_JOB_INTERNAL_POLL_INTERVAL_SECONDS,
+    DEFAULT_JOB_WAIT_HEARTBEAT_SECONDS,
     DEFAULT_LIVE_PROGRESS,
     DEFAULT_MCP_TOOL_TIMEOUT_MS,
     DEFAULT_MAX_TURNS,
@@ -260,6 +265,31 @@ def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False
         config.get("available_gpu_count", DEFAULT_AVAILABLE_GPU_COUNT),
         name="available_gpu_count",
     )
+    job_event_settle_seconds = _positive_integer(
+        config.get("job_event_settle_seconds", DEFAULT_JOB_EVENT_SETTLE_SECONDS),
+        name="job_event_settle_seconds",
+    )
+    job_event_max_batch_seconds = _positive_integer(
+        config.get(
+            "job_event_max_batch_seconds", DEFAULT_JOB_EVENT_MAX_BATCH_SECONDS
+        ),
+        name="job_event_max_batch_seconds",
+    )
+    job_wait_heartbeat_seconds = _positive_integer(
+        config.get("job_wait_heartbeat_seconds", DEFAULT_JOB_WAIT_HEARTBEAT_SECONDS),
+        name="job_wait_heartbeat_seconds",
+    )
+    job_internal_poll_interval_seconds = _positive_integer(
+        config.get(
+            "job_internal_poll_interval_seconds",
+            DEFAULT_JOB_INTERNAL_POLL_INTERVAL_SECONDS,
+        ),
+        name="job_internal_poll_interval_seconds",
+    )
+    job_failure_tail_chars = _positive_integer(
+        config.get("job_failure_tail_chars", DEFAULT_JOB_FAILURE_TAIL_CHARS),
+        name="job_failure_tail_chars",
+    )
     execution_mode = str(config.get("execution_mode", DEFAULT_EXECUTION_MODE)).strip().casefold()
     if execution_mode not in {"local", "distributed"}:
         raise EvalConfigError("execution_mode must be local or distributed")
@@ -270,6 +300,18 @@ def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False
     if mcp_tool_timeout_seconds <= compute_action_timeout_seconds:
         raise EvalConfigError(
             "mcp_tool_timeout_seconds must exceed compute_action_timeout_seconds"
+        )
+    if job_event_max_batch_seconds < job_event_settle_seconds:
+        raise EvalConfigError(
+            "job_event_max_batch_seconds must be >= job_event_settle_seconds"
+        )
+    if job_wait_heartbeat_seconds < job_event_max_batch_seconds:
+        raise EvalConfigError(
+            "job_wait_heartbeat_seconds must be >= job_event_max_batch_seconds"
+        )
+    if mcp_tool_timeout_seconds <= job_wait_heartbeat_seconds:
+        raise EvalConfigError(
+            "mcp_tool_timeout_seconds must exceed job_wait_heartbeat_seconds"
         )
     if dry_run:
         _log(f"Config: {config_path}")
@@ -286,6 +328,14 @@ def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False
             f"compute_action={compute_action_timeout_seconds}s "
             f"mcp_tool={mcp_tool_timeout_seconds}s "
             f"agent={agent_timeout_seconds}s"
+        )
+        _log(
+            "Job supervision: "
+            f"settle={job_event_settle_seconds}s "
+            f"batch_cap={job_event_max_batch_seconds}s "
+            f"heartbeat={job_wait_heartbeat_seconds}s "
+            f"poll={job_internal_poll_interval_seconds}s "
+            f"failure_tail={job_failure_tail_chars}chars"
         )
         _log(
             (
@@ -332,6 +382,11 @@ def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False
             available_cpu_cores=available_cpu_cores,
             available_memory_mb=available_memory_mb,
             available_gpu_count=available_gpu_count,
+            job_event_settle_seconds=job_event_settle_seconds,
+            job_event_max_batch_seconds=job_event_max_batch_seconds,
+            job_wait_heartbeat_seconds=job_wait_heartbeat_seconds,
+            job_internal_poll_interval_seconds=job_internal_poll_interval_seconds,
+            job_failure_tail_chars=job_failure_tail_chars,
             max_turns=int(config.get("max_turns", DEFAULT_MAX_TURNS)),
             tool_discovery_mode=discovery_mode,
             live_progress=live_progress,

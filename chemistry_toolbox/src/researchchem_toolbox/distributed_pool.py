@@ -922,6 +922,41 @@ def pool_snapshot(*, include_internal: bool = False) -> dict[str, Any]:
     }
 
 
+def job_scheduling_snapshot() -> dict[str, Any]:
+    """Return a read-only queue/reservation view for job supervision."""
+
+    snapshot = pool_snapshot(include_internal=False)
+    queued = sorted(_read_queue_requests(), key=_queue_sort_key)
+    reservations = _read_active_reservations()
+    return {
+        "resource_snapshot": snapshot,
+        "queued_jobs": [
+            {
+                "job_id": str(item.get("job_id") or ""),
+                "request_id": str(item.get("request_id") or ""),
+                "queue_position": position,
+                "resource_limits": _normalized_request(
+                    item.get("resource_limits") or {}
+                ),
+            }
+            for position, item in enumerate(queued, start=1)
+            if item.get("job_id")
+        ],
+        "active_reservations": [
+            {
+                "job_id": str(item.get("job_id") or ""),
+                "reservation_id": str(item.get("reservation_id") or ""),
+                "worker_id": str(item.get("worker_id") or ""),
+                "resource_limits": _normalized_request(
+                    item.get("resource_limits") or {}
+                ),
+            }
+            for item in reservations
+            if item.get("job_id")
+        ],
+    }
+
+
 def validate_distributed_resource_limits(
     resources: Mapping[str, Any],
 ) -> dict[str, int]:
@@ -1088,6 +1123,7 @@ __all__ = [
     "WorkerNode",
     "distributed_enabled",
     "execution_mode",
+    "job_scheduling_snapshot",
     "load_worker_inventory",
     "pool_snapshot",
     "register_distributed_request",

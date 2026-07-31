@@ -441,6 +441,24 @@ class JobStatusRequest(BaseModel):
         return value
 
 
+class JobWaitRequest(BaseModel):
+    """Wait for stable state changes across native or programmable jobs."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    job_ids: list[str] = Field(min_length=1, max_length=128)
+
+    @field_validator("job_ids")
+    @classmethod
+    def validate_job_ids(cls, values: list[str]) -> list[str]:
+        if len(values) != len(set(values)):
+            raise ValueError("job_ids must be unique")
+        for value in values:
+            if not _JOB_ID.fullmatch(value):
+                raise ValueError(f"invalid job_id: {value}")
+        return values
+
+
 class JobCollectRequest(JobStatusRequest):
     """Collect a completed job manifest and output hashes without interpreting science."""
 
