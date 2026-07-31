@@ -40,7 +40,9 @@ timeout 是评测环境统一规定的资源预算，不再由智能体设置。
 
 ## 2. CPU、内存和GPU资源预算
 
-资源总量由评测者在提交任务时设置，并作为每个任务的固定环境条件告诉智能体：
+### 2.1 单节点模式
+
+单节点模式由评测者在提交任务时设置资源总量，并作为每个任务的固定环境条件告诉智能体：
 
 | 参数 | 默认值 | 含义 |
 |---|---:|---|
@@ -94,6 +96,114 @@ bash scripts/submit_evaluation.sh submit \
 - `evaluation_config.yaml`、`submission.json`；
 - 每个任务的 `_meta.json`、`_toolbox_catalog.json` 和 `results.json`。
 
+### 2.2 分布式worker模式
+
+分布式模式下，主节点只运行Agent、MCP服务和调度逻辑，化学计算作业由worker池执行。每个作业只能使用一台worker，不会跨节点并行；同一评估任务可以同时向多台worker提交多个独立计算作业。
+
+此模式的资源上限来自 `RCB_DISTRIBUTED_WORKER_INVENTORY` 指向的worker inventory，而不是 `--available-cpu-cores`、`--available-memory-mb` 和 `--available-gpu-count`。智能体会看到整个资源池的总容量，以及单个作业在一台worker上最多能申请的资源。
+
+在 `config.local.env` 中至少设置：
+
+```bash
+RCB_DISTRIBUTED_WORKER_INVENTORY=".worker_inventory.local.json"
+```
+
+如果远端worker启动计算前需要初始化代理，还可以设置：
+
+```bash
+RCB_DISTRIBUTED_REMOTE_INIT_SCRIPT_URL="http://deploy.i.h.pjlab.org.cn/infra/scripts/setup_proxy.sh"
+```
+
+#### 更新worker inventory
+
+`.workers.local.yaml` 是人工维护的源配置，例如：
+
+```yaml
+workers:
+  - ssh: "ssh -CAXY <worker-ssh-target>"
+    available_cpu_cores: 64
+    available_memory_mb: 128000
+    enabled: true
+```
+
+其中 `enabled` 是可选字段：
+
+- 省略 `enabled` 与写入 `enabled: true` 完全相同，表示该worker参与调度；
+- `enabled: false` 表示生成的inventory保留这台worker的信息，但调度器不加载它；
+- inventory更新脚本当前仍会探测 `enabled: false` 的条目。如果worker已经离线，应先从源YAML中删除或注释该条目，否则探测会失败。
+
+生成或刷新运行清单：
+
+```bash
+.envs/researchchembench/bin/python scripts/update_worker_inventory.py \
+  --input .workers.local.yaml \
+  --output .worker_inventory.local.json \
+  --known-hosts .worker_known_hosts.local
+```
+
+该命令会并行连接所有源配置中的worker，探测CPU拓扑、cgroup内存、直连地址和SSH主机密钥，并生成 `.worker_inventory.local.json`。
+
+#### 控制本次运行使用多少台worker
+
+`submit_evaluation.sh` 当前没有 `--worker-count N` 参数。实际使用的worker集合由inventory中 `enabled` 为真的条目决定。推荐为不同规模的运行准备不同的源YAML和inventory，例如：
+
+```bash
+.envs/researchchembench/bin/python scripts/update_worker_inventory.py \
+  --input .workers.two.yaml \
+  --output .worker_inventory.two.json \
+  --known-hosts .worker_known_hosts.two
+
+RCB_DISTRIBUTED_WORKER_INVENTORY=.worker_inventory.two.json \
+  bash scripts/submit_evaluation.sh submit \
+    --execution-mode distributed \
+    Task_A
+```
+
+不要在仍有分布式作业运行时原地修改该运行正在使用的inventory。需要改变worker数量时，应生成新的inventory文件，并让下一次提交指向新文件。
+
+#### `.worker_inventory.local.json` 字段说明
+
+顶层字段：
+
+| 字段 | 含义 |
+|---|---|
+| `schema_version` | inventory数据结构版本 |
+| `generated_at` | inventory生成时间，UTC |
+| `project_path` | 生成时确认worker可以访问的共享项目路径 |
+| `scheduling_policy` | 记录的调度策略；当前为 `largest_cpu_first`，优先处理CPU请求较大的作业 |
+| `workers` | worker记录列表 |
+
+每个worker的主要字段：
+
+| 字段 | 含义 |
+|---|---|
+| `worker_id` | 调度器使用的唯一逻辑ID，例如 `compute-1` |
+| `name`、`hostname`、`fqdn` | 远端探测到的主机名和完整域名 |
+| `gateway_ssh_target` | 用户提供的rlaunch网关SSH目标，主要用于发现和探测worker |
+| `gateway_ssh_options` | 网关连接参数，例如 `-CAXY` |
+| `execution_ssh_target` | 实际计算作业使用的worker直连SSH目标 |
+| `direct_ip` | worker的内部直连IP |
+| `logical_cpus` | worker进程所在cpuset中可见的逻辑CPU数量 |
+| `physical_cores` | 上述逻辑CPU对应的物理核心数量 |
+| `memory_mb` | 在worker cgroup中实际探测到的内存容量，单位MiB |
+| `available_cpu_cores` | 暴露给调度器、允许计算作业申请的逻辑CPU总数 |
+| `available_memory_mb` | 暴露给调度器、允许计算作业申请的内存总量 |
+| `reserved_cpu_cores` | `logical_cpus - available_cpu_cores`，静态留给系统和控制进程的CPU余量 |
+| `reserved_memory_mb` | `memory_mb - available_memory_mb`，静态保留的内存余量 |
+| `gpu_count` | 暴露给调度器的GPU数量 |
+| `compute_cpu_ids` | 调度器可以分配给计算作业的Linux逻辑CPU编号列表 |
+| `all_cpu_ids` | worker当前cpuset中全部可见的Linux逻辑CPU编号 |
+| `known_hosts_file` | 直连worker时使用的固定SSH主机密钥文件 |
+| `ssh_host_key_fingerprint` | 已验证的SSH主机公钥指纹 |
+| `enabled` | 是否将该worker加载进调度池；缺省为 `true` |
+| `connectivity_status` | inventory生成时的连通性结果，不是持续更新的实时心跳 |
+
+`compute_cpu_ids` 不是“CPU数量”，而是一组Linux CPU编号。生成脚本根据worker的CPU亲和性、物理核心、SMT线程和NUMA拓扑，从 `all_cpu_ids` 中选择完整物理核心并尽量在NUMA节点间均衡。例如worker可见80个逻辑CPU、只暴露64个时，该列表包含选中的64个逻辑CPU，其他16个逻辑CPU作为静态余量保留。
+
+这些编号不必从0开始，也不必连续；rlaunch/cgroup分配出的cpuset本来就可能是不连续的。每个作业获得其中一部分编号，远端启动器通过CPU affinity以及OpenMP、MKL、OpenBLAS和MPI相关环境变量将进程限制到这部分CPU，避免不同作业重叠使用同一逻辑核。
+
+注意，inventory中的 `reserved_cpu_cores` 是生成inventory时确定的静态安全余量；运行状态快照中worker的 `reserved.cpu_cores` 则是当前活跃作业动态占用的资源，两者不是同一个概念。
+
 ### timeout仍不可由智能体控制
 
 公开Action请求中不再包含：
@@ -116,6 +226,24 @@ bash scripts/submit_evaluation.sh submit [OPTIONS] TASK [TASK ...]
 
 `TASK` 是 `tasks/` 下的目录名，目录中必须存在 `task_info.json`。
 
+不传 `--execution-mode` 时默认使用原有单节点模式；也可以显式写出：
+
+```bash
+bash scripts/submit_evaluation.sh submit \
+  --execution-mode local \
+  Task_A
+```
+
+使用worker池时：
+
+```bash
+bash scripts/submit_evaluation.sh submit \
+  --execution-mode distributed \
+  --workspaces-dir workspaces/distributed-example \
+  --session rcb_distributed_example \
+  Task_A
+```
+
 ### 提交单个任务
 
 ```bash
@@ -130,7 +258,7 @@ bash scripts/submit_evaluation.sh submit \
   Task_A Task_B Task_C
 ```
 
-默认 `--max-concurrent-runs 1`，即逐个运行。多核化学任务建议先保持串行，避免多个任务争用CPU和内存。
+默认 `--max-concurrent-runs 1`，即逐个运行完整评估任务。分布式模式下，即使该值为1，一个评估任务内的Agent仍可同时提交多个独立化学计算作业，由worker池调度；该参数控制的是完整Agent任务的并发数，不是worker计算作业数。
 
 ### 显式设置全部 timeout
 
@@ -210,6 +338,7 @@ bash scripts/submit_evaluation.sh submit \
 | `--workspaces-dir PATH` | `workspaces/submissions/<UTC>` | 本次提交根目录 |
 | `--session NAME` | 自动生成 | `tmux`会话名 |
 | `--tool-discovery-mode progressive\|full` | `progressive` | 工具目录发现方式 |
+| `--execution-mode local\|distributed` | `local` | 选择原有单节点执行或分布式worker池执行 |
 | `--progress-max-chars N` | `600` | 实时日志每个字段的显示上限 |
 | `--progress-console` | 关闭 | 把详细进度同时写入启动器终端日志 |
 | `--no-score` | 关闭 | 跳过Judge评分 |
@@ -289,7 +418,7 @@ workspaces/submissions/<UTC>/
                 └── _live_progress.log
 ```
 
-`submission.json`、批次配置、任务 `_meta.json` 和 `results.json` 会记录本次使用的四层timeout策略和资源预算。
+`submission.json`、批次配置、任务 `_meta.json` 和 `results.json` 会记录本次使用的四层timeout策略、执行模式和资源预算。分布式计算作业的结果还会记录实际分配的 `worker_id`、CPU编号和其他资源信息。
 
 ## 7. 常见问题
 
@@ -321,6 +450,37 @@ jq '.timeout_policy // .run.timeout_policy' /path/to/task_workspace/{_meta.json,
 
 ```bash
 jq '.resource_budget // .run.resource_budget' /path/to/task_workspace/{_meta.json,results.json}
+```
+
+执行模式可使用：
+
+```bash
+jq '.execution_mode // .run.execution_mode' /path/to/task_workspace/{_meta.json,results.json}
+```
+
+### 为什么 `.workers.local.yaml` 中没有 `enabled: true`？
+
+因为它是可选开关，缺省值就是 `true`。当前四个worker即使未显式写出该字段，也都会被生成到inventory并参与调度。只有需要临时排除一台仍然可连通的worker时，才需要显式写 `enabled: false` 并重新生成inventory。
+
+### 为什么 `compute_cpu_ids` 看起来不连续？
+
+它记录的是worker cgroup实际允许使用的Linux逻辑CPU编号，而不是从0开始重新编号后的序号。cgroup cpuset、NUMA拓扑和SMT线程布局都可能令编号不连续，这是正常现象；不要手工把它改成 `0..N-1`。
+
+### 分布式模式下如何查看当前资源池？
+
+智能体可以通过工具箱资源状态接口取得worker容量、当前活跃reservation、排队请求和剩余资源。评测者也可以在项目环境中读取同一个快照：
+
+```bash
+set -a
+source config.local.env
+set +a
+RESEARCHCHEMBENCH_EXECUTION_MODE=distributed \
+  .envs/researchchembench/bin/python - <<'PY'
+from pprint import pprint
+from researchchem_toolbox.distributed_pool import pool_snapshot
+
+pprint(pool_snapshot(include_internal=True))
+PY
 ```
 
 ### 查看脚本帮助
