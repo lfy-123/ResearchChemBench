@@ -1,0 +1,53 @@
+{
+  "pdf_directory": "../PDF论文打包",
+  "run_directory": "runs/current",
+  "stop_after": "model_ensemble",
+  "prompt_examples": "assets/prompt_examples.json",
+  "verify_asset_urls": true,
+  "mineru": {
+    "enabled": true,
+    "command": "mineru",
+    "backend": "pipeline",
+    "timeout_seconds": 3600,
+    "environment": {
+      "MINERU_MODEL_SOURCE": "local",
+      "MINERU_TOOLS_CONFIG_JSON": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.model_cache/mineru/mineru.json"
+    }
+  },
+  "llm": {
+    "enabled": true,
+    "max_workers": 3,
+    "extraction": {
+      "url": "https://api.deepseek.com/v1",
+      "api_key_env": "EXTRACTION_LLM_API_KEY",
+      "model_name": "deepseek-v4-flash"
+    },
+    "classification": {
+      "url": "https://api.deepseek.com/v1",
+      "api_key_env": "TASK_CLASSIFICATION_LLM_API_KEY",
+      "model_name": "deepseek-v4-flash"
+    },
+    "generation": {
+      "url": "https://api.deepseek.com/v1",
+      "api_key_env": "TASK_GENERATION_LLM_API_KEY",
+      "model_name": "deepseek-v4-flash"
+    },
+    "review": {
+      "url": "https://api.deepseek.com/v1",
+      "api_key_env": "REVIEW_LLM_API_KEY",
+      "model_name": "deepseek-v4-flash",
+      "roles": [
+        "scientific_grounding",
+        "tool_data_feasibility",
+        "evaluation_design",
+        "leakage_difficulty"
+      ]
+    }
+  },
+  "toolbox": {
+    "file": "assets/toolbox.json",
+    "enabled_software": ["*"],
+    "enabled_actions": ["*"],
+    "priority_software": []
+  }
+}

@@ -1,0 +1,465 @@
+{
+  "paper_id": "benchmark_fixture_agentic_mechanism",
+  "central_problem": "Determine why the reaction of an alpha-iodoboronate with diphenylphosphine proceeds only under 450 nm blue light and in the presence of cesium carbonate, and identify the activation complex and carbon-iodine bond-cleavage mechanism.",
+  "inputs": [
+    {
+      "input_id": "reaction",
+      "description": "Ph-CH2-CH2-CHI-BPin reacts with HPPh2 using 2 equivalents of Cs2CO3 in EtOAc/CPME under 450 nm blue light."
+    },
+    {
+      "input_id": "observations",
+      "description": "The product Ph-CH2-CH2-CH2-BPin and IPPh2 is obtained in 83% yield; no product forms without Cs2CO3 or in the dark; 5 equivalents of TEMPO suppress product formation."
+    }
+  ],
+  "expected_outputs": [
+    {
+      "output_id": "mechanism",
+      "description": "An evidence-linked activation and bond-cleavage mechanism with competing hypotheses and calibrated confidence."
+    },
+    {
+      "output_id": "quantitative_evidence",
+      "description": "Computed energetic and photophysical evidence that discriminates plausible activation and bond-cleavage pathways."
+    },
+    {
+      "output_id": "workflow",
+      "description": "A reproducible tool trace including failed hypotheses and the reason for each workflow revision."
+    }
+  ],
+  "methods": [
+    "B3LYP-D3(BJ)/def2-SVP geometry optimization and frequency calculation",
+    "SMD implicit solvation for ethyl acetate",
+    "TD-DFT vertical excitation calculation",
+    "Transition-state search and energetic comparison"
+  ],
+  "tools": [
+    "Gaussian 16",
+    "RDKit",
+    "Open Babel",
+    "ASE",
+    "cclib",
+    "Multiwfn"
+  ],
+  "available_tools": [
+    "Gaussian 16 job generation and execution",
+    "SMILES to 3D structure generation",
+    "SDF, XYZ, and Gaussian format conversion",
+    "Conformer generation",
+    "Transition-state search workflow",
+    "Excited-state and wavefunction analysis",
+    "Energy-profile plotting"
+  ],
+  "public_method_protocol": {
+    "software": "Gaussian 16",
+    "ground_state_level": "B3LYP-D3(BJ)/def2-SVP with SMD(ethyl acetate)",
+    "excited_state_method": "TD-DFT at the same level",
+    "required_checks": [
+      "Use a basis set that covers iodine; do not use 6-31G(d) for iodine.",
+      "Verify stationary points with frequency calculations.",
+      "Report excitation energy, wavelength, oscillator strength, and state character.",
+      "Compare isolated substrate, phosphorus-associated species, and cesium-phosphide-substrate complexes."
+    ],
+    "route": [
+      "Build and optimize reactants and plausible encounter complexes.",
+      "Evaluate a closed-shell carbon-iodine cleavage pathway.",
+      "Compute accessible singlet excitations for the isolated substrate and candidate complexes.",
+      "Compare calculated absorptions with the 450 nm irradiation condition.",
+      "Integrate computed evidence with dark, no-base, and TEMPO controls."
+    ]
+  },
+  "workflow": [
+    {
+      "step_id": "w1",
+      "action": "Translate reaction conditions and controls into mechanistic constraints."
+    },
+    {
+      "step_id": "w2",
+      "action": "Enumerate thermal, direct substrate excitation, phosphorus-associated excitation, and cooperative cesium-complex hypotheses."
+    },
+    {
+      "step_id": "w3",
+      "action": "Optimize candidate species and compare association and reaction free energies."
+    },
+    {
+      "step_id": "w4",
+      "action": "Run TD-DFT calculations and compare wavelengths and oscillator strengths with 450 nm light."
+    },
+    {
+      "step_id": "w5",
+      "action": "Reject inconsistent hypotheses, update the mechanism, and produce an evidence graph."
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_id": "h_thermal",
+      "statement": "A closed-shell thermal pathway cleaves the carbon-iodine bond without photoactivation."
+    },
+    {
+      "hypothesis_id": "h_direct",
+      "statement": "The isolated alpha-iodoboronate directly absorbs 450 nm light and undergoes homolysis."
+    },
+    {
+      "hypothesis_id": "h_phosphorus",
+      "statement": "A phosphorus-associated complex is the photoactive species without a required cesium interaction."
+    },
+    {
+      "hypothesis_id": "h_cooperative",
+      "statement": "A Cs+/phosphide/substrate cooperative complex absorbs blue light and initiates radical carbon-iodine cleavage."
+    }
+  ],
+  "evidence": [
+    {
+      "evidence_id": "ev_public_yield",
+      "statement": "The reaction gives the deiodoborylated product in 83% yield under 450 nm irradiation with Cs2CO3.",
+      "visibility": "public"
+    },
+    {
+      "evidence_id": "ev_public_no_base",
+      "statement": "No product is detected when Cs2CO3 is omitted.",
+      "visibility": "public"
+    },
+    {
+      "evidence_id": "ev_public_dark",
+      "statement": "No product is detected in the dark.",
+      "visibility": "public"
+    },
+    {
+      "evidence_id": "ev_public_tempo",
+      "statement": "Five equivalents of TEMPO suppress product formation.",
+      "visibility": "public"
+    },
+    {
+      "evidence_id": "ev_thermal_barrier",
+      "statement": "The lowest located closed-shell pathway has an activation free energy of approximately 46.0 kcal/mol.",
+      "visibility": "private",
+      "relation": "refutes",
+      "target_hypothesis": "h_thermal"
+    },
+    {
+      "evidence_id": "ev_substrate_excitation",
+      "statement": "The isolated substrate has a lowest singlet excitation near 102.8 kcal/mol and is not directly accessible with 450 nm light.",
+      "visibility": "private",
+      "relation": "refutes",
+      "target_hypothesis": "h_direct"
+    },
+    {
+      "evidence_id": "ev_phosphorus_excitation",
+      "statement": "A phosphorus-associated complex without the required cesium interaction has an excitation near 75.8 kcal/mol and remains inconsistent with 450 nm activation.",
+      "visibility": "private",
+      "relation": "refutes",
+      "target_hypothesis": "h_phosphorus"
+    },
+    {
+      "evidence_id": "ev_complex_association",
+      "statement": "Formation of the CsPPh2-related substrate complex is favorable by approximately 3.0 kcal/mol.",
+      "visibility": "private",
+      "relation": "supports",
+      "target_hypothesis": "h_cooperative"
+    },
+    {
+      "evidence_id": "ev_complex_s1",
+      "statement": "The cooperative complex S1 state is predicted near 649 nm with oscillator strength 0.0044 and is weakly allowed.",
+      "visibility": "private",
+      "relation": "supports",
+      "target_hypothesis": "h_cooperative"
+    },
+    {
+      "evidence_id": "ev_complex_s2",
+      "statement": "The cooperative complex S2 state is predicted near 447 nm, approximately 64.0 kcal/mol, with oscillator strength 0.0567, matching the 450 nm irradiation condition.",
+      "visibility": "private",
+      "relation": "supports",
+      "target_hypothesis": "h_cooperative"
+    }
+  ],
+  "controls": [
+    "No Cs2CO3: no product.",
+    "Dark condition: no product.",
+    "TEMPO at 5 equivalents: no product."
+  ],
+  "negative_evidence": [
+    "A 46.0 kcal/mol closed-shell barrier rules out a practical thermal route.",
+    "The isolated substrate excitation is too energetic for 450 nm light.",
+    "A phosphorus-associated species without cesium still fails the wavelength constraint."
+  ],
+  "reference_results": [
+    "The best-supported model is a photoactive Cs+/phosphide/substrate cooperative complex.",
+    "An allowed excited state near 447 nm is consistent with irradiation and precedes radical carbon-iodine cleavage."
+  ],
+  "runtime": {
+    "estimated_walltime_hours": 3,
+    "compute_class": "cpu_quantum_chemistry",
+    "cache_policy": "hidden_reference_only",
+    "live_compute_budget": "low-cost optimizations and selected validation jobs",
+    "precomputed_jobs": "Hidden reference outputs are used for scoring only and are not replayed to the solver."
+  },
+  "constraints": [
+    "Do not search for or cite the source paper during evaluation.",
+    "A valid final mechanism must account for the light, base, and TEMPO controls.",
+    "All expensive cached calculations require a complete executable job specification before a result is returned."
+  ],
+  "mode_overrides": {
+    "autonomous_research": {
+      "central_problem": "Design and execute an open computational investigation that explains why this transformation requires blue light and cesium carbonate, determines how the carbon-iodine bond is activated, and proposes decisive follow-up calculations."
+    },
+    "paper_reproduction": {
+      "central_problem": "Reproduce the supplied computational route for the blue-light-driven deiodoborylation case and determine whether the regenerated energetic and excited-state results support the reported mechanistic interpretation."
+    },
+    "mechanism_discovery": {
+      "central_problem": "Starting only from the reaction facts and controls, construct competing activation and bond-cleavage hypotheses, choose calculations that distinguish them, and return an evidence-linked mechanism."
+    }
+  },
+  "benchmark_package": {
+    "benchmark_family": "ResearchChemBench mechanism tasks",
+    "category": "end_to_end_scientific_investigation",
+    "input_name": "Blue-light alpha-iodoboronate reaction inputs",
+    "task_ids": {
+      "autonomous_research": "RCB_Blue_Light_CI_Autonomous_Research",
+      "paper_reproduction": "RCB_Blue_Light_CI_Guided_Reproduction",
+      "mechanism_discovery": "RCB_Blue_Light_CI_Mechanism_Discovery"
+    },
+    "task_instructions": {
+      "autonomous_research": "Treat this as an independent computational research project. Using only the supplied molecular identities, reaction conditions, and control experiments, determine why the transformation requires blue light and cesium carbonate and how the carbon-iodine bond is activated. Formulate competing explanations before numerical work, design a staged resource-aware investigation, execute discriminative ground-state and excited-state calculations, revise the plan when evidence rejects a branch, and produce an artifact-linked conclusion. Do not assume that any listed component is necessarily active or merely a spectator. Do not search for or identify the source publication. Values or mechanistic claims without artifacts generated during this run do not count as evidence.",
+      "paper_reproduction": "Reproduce the supplied computational route for the blue-light alpha-iodoboronate carbon-iodine cleavage case. Use the disclosed electronic-structure protocol to compare a closed-shell pathway, isolated-substrate excitation, phosphorus-associated excitation, and cesium-containing candidate assemblies. Regenerate the energetic and photophysical evidence, validate stationary points and excited-state assignments, compare the results with the irradiation and control experiments, and report whether the recomputed evidence supports one mechanism. The paper's numerical outputs and preferred conclusion are hidden; do not search for the source publication or present literature values as new calculations.",
+      "mechanism_discovery": "Starting only from the supplied reaction facts, molecular identities, and control experiments, discover the activation mechanism for the blue-light carbon-iodine cleavage. Before computation, construct at least four chemically distinct hypotheses spanning plausible closed-shell, radical, ionic or electron-transfer, and photochemical explanations without assuming which is correct. Choose calculations that discriminate the hypotheses, use negative results to revise the hypothesis set, reconsider the roles of the supplied components when initial models fail, and return a supports/refutes evidence graph plus a calibrated final mechanism. Do not search for or identify the source publication. A plausible narrative without newly generated computational artifacts does not count as a solution."
+    },
+    "scientific_requirements": {
+      "autonomous_research": [
+        "Write an initial and revised research plan with competing hypotheses, a dependency-aware calculation tree, resource tiers, validation gates, and stopping criteria before committing to expensive calculations.",
+        "Represent all supplied molecular identities with explicit charge and multiplicity, and use an iodine-compatible basis or effective-core-potential treatment for every iodine-containing electronic-structure calculation.",
+        "Quantitatively test at least one closed-shell thermal route and multiple distinct photoactivation models selected from the agent's own hypotheses; revise the candidate species when simpler models conflict with the experimental constraints.",
+        "For transition-state claims provide frequency and connectivity evidence; for excited-state claims report energy, wavelength, oscillator strength, and an orbital or state-character analysis.",
+        "Compare computed accessibility against the 450 nm photon energy and integrate the dark, no-base, and TEMPO controls without treating those controls as a substitute for computation.",
+        "Retain failed and inconclusive branches and continue until each core hypothesis is supported, rejected, or explicitly unresolved with a documented attempted calculation."
+      ],
+      "paper_reproduction": [
+        "Translate the supplied method protocol into an executable dependency graph and record any scientifically controlled software or version substitutions.",
+        "Use B3LYP-D3(BJ)/def2-SVP with the disclosed implicit-solvent convention, explicit charge and multiplicity, and an iodine-compatible basis for all relevant species.",
+        "Regenerate a closed-shell pathway barrier with stationary-point validation and regenerate vertical excitations for the isolated substrate, phosphorus-associated candidate, and cesium-containing candidate assemblies.",
+        "For every reported excitation include energy, wavelength, oscillator strength, state character, and the calculation artifact; compare it quantitatively with 450 nm irradiation.",
+        "Keep hidden reference targets separate from recomputed values and explain deviations using convergence, conformer, solvation, or model uncertainty.",
+        "Integrate the regenerated calculations with all control experiments and state whether the supplied route yields a coherent mechanism."
+      ],
+      "mechanism_discovery": [
+        "Before numerical work, submit at least four chemically distinct competing hypotheses with predictions, falsification criteria, a staged test plan, and stopping rules.",
+        "Use explicit molecular identity, charge, and multiplicity throughout and reject any iodine-containing calculation that uses a basis set without iodine coverage.",
+        "Test a closed-shell thermal mechanism and multiple independently motivated activation models rather than stopping after the first plausible radical explanation.",
+        "For transition-state claims provide frequency and connectivity evidence; for photophysical claims report excitation energy, wavelength, oscillator strength, and state character.",
+        "Use calculation-backed negative evidence to update or replace hypotheses, and preserve failed or inconclusive attempts in the final evidence graph.",
+        "The final mechanism must account jointly for the wavelength, base dependence, dark control, and TEMPO inhibition and must link every main claim to a new managed-computation artifact."
+      ]
+    },
+    "public_inputs": {
+      "reaction": {
+        "reaction_id": "blue_light_alpha_iodoboronate_deiodination",
+        "reactants": [
+          {"molecule_id": "alpha_iodoboronate_1", "amount": "1 equivalent"},
+          {"molecule_id": "diphenylphosphine", "amount": "reported reagent"},
+          {"molecule_id": "cesium_carbonate", "amount": "2 equivalents"}
+        ],
+        "products": [
+          {"molecule_id": "alkylboronate_2"},
+          {"molecule_id": "iododiphenylphosphine"}
+        ],
+        "conditions": {
+          "solvent": "EtOAc/CPME mixture",
+          "irradiation_nm": 450,
+          "temperature": "ambient unless otherwise justified",
+          "reported_yield_percent": 83
+        },
+        "transformation": "Ph-CH2-CH2-CH(I)-BPin + HPPh2 -> Ph-CH2-CH2-CH2-BPin + IPPh2"
+      },
+      "molecular_systems": [
+        {"molecule_id": "alpha_iodoboronate_1", "role": "substrate", "smiles": "B1(OC(C)(C)C(C)(C)O1)C(I)CCc2ccccc2", "charge": 0, "multiplicity": 1, "identity_note": "Ph-CH2-CH2-CH(I)-BPin"},
+        {"molecule_id": "diphenylphosphine", "role": "reagent", "smiles": "[PH](c1ccccc1)c2ccccc2", "charge": 0, "multiplicity": 1, "identity_note": "HPPh2"},
+        {"molecule_id": "cesium_carbonate", "role": "base", "smiles": "[Cs+].[Cs+].[O-]C([O-])=O", "charge": 0, "multiplicity": 1, "identity_note": "Cs2CO3"},
+        {"molecule_id": "alkylboronate_2", "role": "product", "smiles": "B1(OC(C)(C)C(C)(C)O1)CCCc2ccccc2", "charge": 0, "multiplicity": 1, "identity_note": "Ph-CH2-CH2-CH2-BPin"},
+        {"molecule_id": "iododiphenylphosphine", "role": "product", "smiles": "IP(c1ccccc1)c2ccccc2", "charge": 0, "multiplicity": 1, "identity_note": "IPPh2"},
+        {"molecule_id": "ethyl_acetate", "role": "solvent_component", "smiles": "CCOC(C)=O", "charge": 0, "multiplicity": 1},
+        {"molecule_id": "cyclopentyl_methyl_ether", "role": "solvent_component", "smiles": "COC1CCCC1", "charge": 0, "multiplicity": 1}
+      ],
+      "observations": {
+        "measurement_ids": ["OBS_YIELD", "CTRL_NO_BASE", "CTRL_DARK", "CTRL_TEMPO"],
+        "observations": [
+          {"measurement_id": "OBS_YIELD", "condition": "standard reaction", "result": "alkylboronate product obtained", "yield_percent": 83},
+          {"measurement_id": "CTRL_NO_BASE", "condition": "without Cs2CO3", "result": "product not detected"},
+          {"measurement_id": "CTRL_DARK", "condition": "dark", "result": "product not detected"},
+          {"measurement_id": "CTRL_TEMPO", "condition": "5 equivalents TEMPO", "result": "product not detected"}
+        ]
+      },
+      "files": {
+        "molecules.smi": "B1(OC(C)(C)C(C)(C)O1)C(I)CCc2ccccc2 alpha_iodoboronate_1\n[PH](c1ccccc1)c2ccccc2 diphenylphosphine\n[Cs+].[Cs+].[O-]C([O-])=O cesium_carbonate\nB1(OC(C)(C)C(C)(C)O1)CCCc2ccccc2 alkylboronate_2\nIP(c1ccccc1)c2ccccc2 iododiphenylphosphine\n"
+      }
+    },
+    "method_protocol": {
+      "software_family": "Gaussian-compatible quantum chemistry workflow",
+      "ground_state_level": "B3LYP-D3(BJ)/def2-SVP",
+      "solvation": "SMD ethyl acetate approximation for the EtOAc/CPME medium",
+      "excited_state_level": "TD-DFT at the same functional, basis, and solvation convention",
+      "workflow": [
+        "Generate and optimize chemically plausible conformers for reactants and candidate assemblies.",
+        "Locate and validate a representative closed-shell carbon-iodine cleavage transition structure and compute its free-energy barrier.",
+        "Compute vertical singlet excitations for the isolated substrate and a phosphorus-associated candidate.",
+        "Construct cesium-containing phosphine-derived substrate assemblies, evaluate association thermodynamics, and compute their low-lying singlet excitations.",
+        "Compare excitation wavelengths and oscillator strengths with 450 nm irradiation and integrate all control experiments."
+      ],
+      "validation": [
+        "Use an iodine-compatible basis; 6-31G(d) is invalid for iodine.",
+        "Confirm minima and transition structures with frequency calculations and connectivity evidence.",
+        "Report excitation energy, wavelength, oscillator strength, and state character.",
+        "Use compatible energy, solvation, temperature, and standard-state references in every comparison."
+      ]
+    },
+    "manifest_metadata": {
+      "molecule_ids": ["alpha_iodoboronate_1", "diphenylphosphine", "cesium_carbonate", "alkylboronate_2", "iododiphenylphosphine", "ethyl_acetate", "cyclopentyl_methyl_ether"],
+      "measurement_ids": ["OBS_YIELD", "CTRL_NO_BASE", "CTRL_DARK", "CTRL_TEMPO"],
+      "starting_structure_policy": "No author-optimized geometry is exposed. Solvers must generate starting conformers from the supplied identities."
+    },
+    "leakage_markers": {
+      "autonomous_research": ["46.0", "102.8", "75.8", "649 nm", "447 nm", "64.0 kcal", "0.0044", "0.0567", "cesium-phosphide-substrate", "photoactive cooperative complex"],
+      "mechanism_discovery": ["46.0", "102.8", "75.8", "649 nm", "447 nm", "64.0 kcal", "0.0044", "0.0567", "cesium-phosphide-substrate", "photoactive cooperative complex"],
+      "paper_reproduction": ["46.0", "102.8", "75.8", "649 nm", "447 nm", "64.0 kcal", "0.0044", "0.0567"]
+    },
+    "ground_truth": {
+      "expected_result": {
+        "preferred_activation_model": "A cesium-associated phosphide/substrate assembly is the photoactive precursor.",
+        "initiation_mechanism": "Blue-light excitation of the multicomponent complex enables homolytic carbon-iodine cleavage and radical formation.",
+        "excluded_models": {
+          "closed_shell_thermal": {"activation_free_energy_kcal_mol": 46.0, "conclusion": "inaccessible at ambient conditions"},
+          "isolated_substrate_photoexcitation": {"lowest_singlet_kcal_mol": 102.8, "conclusion": "not accessible with 450 nm light"},
+          "phosphorus_associated_without_cesium": {"lowest_singlet_kcal_mol": 75.8, "conclusion": "still too energetic for 450 nm light"}
+        },
+        "preferred_complex": {
+          "association_free_energy_kcal_mol": -3.0,
+          "s1": {"wavelength_nm": 649, "oscillator_strength": 0.0044, "interpretation": "weak transition"},
+          "s2": {"wavelength_nm": 447, "energy_kcal_mol": 64.0, "oscillator_strength": 0.0567, "interpretation": "matches 450 nm irradiation"}
+        },
+        "experimental_consistency": ["requires base", "requires light", "suppressed by TEMPO", "consistent with a radical pathway"]
+      },
+      "expected_structured_output": {
+        "preferred_hypothesis_id": "string",
+        "preferred_activation_model": "string",
+        "initiation_mechanism": "string",
+        "hypothesis_status": [
+          {"hypothesis_id": "string", "status": "supported|refuted|unresolved", "evidence_ids": ["string"]}
+        ],
+        "thermal_barrier_kcal_mol": "number or null",
+        "excited_states": [
+          {"species_id": "string", "state": "string", "energy_kcal_mol": "number", "wavelength_nm": "number", "oscillator_strength": "number", "artifact_path": "string"}
+        ],
+        "association_free_energy_kcal_mol": "number or null",
+        "control_consistency": {"no_base": "string", "dark": "string", "tempo": "string"},
+        "confidence": "low|medium|high",
+        "unresolved_branches": ["string"]
+      },
+      "scientific_conclusion_rubric": [
+        {
+          "id": "quantitative_elimination_of_initial_models",
+          "max_score": 30,
+          "statement": "New calculations reject a practical closed-shell thermal path, direct isolated-substrate excitation, and a phosphorus-associated model lacking the required cesium interaction.",
+          "acceptance_rule": "Require a validated thermal barrier and comparable excited-state calculations for the isolated substrate and phosphorus-associated candidate. Full credit requires the correct accessibility conclusions and values compatible with approximately 46.0, 102.8, and 75.8 kcal/mol within stated computational uncertainty.",
+          "required_evidence": ["validated closed-shell transition-state or rigorous barrier bound", "isolated-substrate excitation artifact", "phosphorus-associated excitation artifact", "common accessibility comparison"]
+        },
+        {
+          "id": "photoactive_multicomponent_precursor",
+          "max_score": 30,
+          "statement": "A cesium-associated phosphide/substrate assembly is identified as a thermodynamically plausible photoactive precursor.",
+          "acceptance_rule": "Require an explicitly constructed multicomponent structure, validated charge and multiplicity, an association free energy compatible with approximately -3.0 kcal/mol, and a comparison against simpler alternatives.",
+          "required_evidence": ["multicomponent structure artifact", "association thermodynamics", "identity and charge validation", "alternative-complex comparison"]
+        },
+        {
+          "id": "state_resolved_blue_light_match",
+          "max_score": 25,
+          "statement": "The preferred complex has a weak low-energy S1 transition near 649 nm and a more allowed S2 transition near 447 nm whose energy is compatible with 450 nm irradiation.",
+          "acceptance_rule": "Require newly computed wavelengths or energies, oscillator strengths, and state-character evidence. Full credit requires the S1/S2 distinction and values compatible with f approximately 0.0044 and 0.0567 and S2 approximately 64.0 kcal/mol.",
+          "required_evidence": ["state-resolved TD-DFT artifact", "oscillator strengths", "orbital or transition-density analysis", "450 nm photon comparison"]
+        },
+        {
+          "id": "integrated_radical_initiation_mechanism",
+          "max_score": 15,
+          "statement": "The final model links excitation of the cesium-associated complex to homolytic carbon-iodine cleavage and radical formation while accounting for the base, dark, and TEMPO controls.",
+          "acceptance_rule": "Require a claim-by-claim evidence graph that separates computed results, experimental observations, and inference and that records unresolved downstream propagation details rather than overclaiming them.",
+          "required_evidence": ["supports/refutes evidence graph", "carbon-iodine cleavage analysis", "all control experiments", "uncertainty and unresolved steps"]
+        }
+      ],
+      "evidence_gates": [
+        {"id": "competing_hypothesis_coverage", "score_cap_if_failed": 75, "requirement": "At least four distinct activation hypotheses are stated and tested or calculation-backed reasons are given for exclusion."},
+        {"id": "iodine_basis_validity", "score_cap_if_failed": 50, "requirement": "Every iodine-containing quantum calculation uses a basis or ECP that covers iodine, with charge and multiplicity recorded."},
+        {"id": "thermal_path_validation", "score_cap_if_failed": 65, "requirement": "The closed-shell route receives a validated transition-state investigation or a reproducible controlled barrier bound."},
+        {"id": "photophysical_comparison", "score_cap_if_failed": 60, "requirement": "Isolated, phosphorus-associated, and cesium-containing candidates receive comparable state-resolved excitation calculations."},
+        {"id": "oscillator_and_state_character", "score_cap_if_failed": 65, "requirement": "The wavelength conclusion includes oscillator strengths and orbital, transition-density, or scientifically equivalent state-character evidence."},
+        {"id": "multicomponent_identity_and_association", "score_cap_if_failed": 60, "requirement": "The preferred multicomponent species is chemically identified and its association thermodynamics are computed under a compatible convention."},
+        {"id": "negative_evidence_updates_plan", "score_cap_if_failed": 75, "requirement": "Failed or inaccessible hypotheses lead to an explicit plan revision rather than being silently omitted."},
+        {"id": "control_experiment_integration", "score_cap_if_failed": 70, "requirement": "The final model accounts for no-base, dark, and TEMPO observations without using them as a replacement for calculation."},
+        {"id": "structured_evidence_products", "score_cap_if_failed": 90, "requirement": "All required machine-readable plans, inventories, hypothesis/evidence products, failure log, final answer, and report are present and consistent."}
+      ],
+      "critical_failures": [
+        "A hidden paper value is presented as a new calculation without a supporting artifact generated during the run.",
+        "The main conclusion is reached without any managed Chemistry MCP scientific execution attempt.",
+        "An iodine-containing calculation uses a basis set that has no iodine coverage.",
+        "An unverified transition-state guess is reported as a proven connected transition state.",
+        "An excited-state wavelength is interpreted without oscillator strength and state-character evidence.",
+        "Charges, multiplicities, units, solvation conventions, or reference states are mixed so the central comparison is invalid.",
+        "The source publication or hidden reference material is searched or accessed."
+      ],
+      "managed_computation_policy": {
+        "required": true,
+        "minimum_successful_scientific_calls": 4,
+        "score_cap_without_managed_attempt": 20,
+        "score_cap_without_successful_managed_call": 40,
+        "score_cap_below_minimum_successes": 70,
+        "runtime_design": "Use staged low-cost screening and selectively refine only discriminative candidates. Hidden reference outputs are used for scoring only; they are not replayed as solver results."
+      },
+      "reference_evidence": {
+        "source_sections": ["manuscript Case Study 2", "Supplementary Sections B.1.2, B.2.2, and C.6"],
+        "reference_case": "curated structured Gaussian outputs",
+        "public_input_numbers": [2, 5, 83, 450]
+      },
+      "current_toolbox_feasibility_baseline": {
+        "status": "curated_reference_available",
+        "required_capabilities": ["molecular construction", "conformer generation", "DFT optimization", "frequency analysis", "transition-state validation", "TD-DFT", "wavefunction/state analysis"],
+        "estimated_walltime_hours": 3,
+        "cache_policy": "hidden_reference_only"
+      },
+      "current_toolbox_reproduction_baseline": {
+        "status": "protocol_and_hidden_reference_available",
+        "reference_raw_output": "fixture/structured_outputs.json",
+        "publication_values_hidden_from_solver": true
+      }
+    }
+  },
+  "leakage_markers": {
+    "autonomous_research": [
+      "46.0", "102.8", "75.8", "649 nm", "447 nm", "0.0044", "0.0567",
+      "csp", "cesium-phosphide-substrate", "cooperative complex", "cooperative-complex"
+    ],
+    "mechanism_discovery": [
+      "46.0", "102.8", "75.8", "649 nm", "447 nm", "0.0044", "0.0567",
+      "csp", "cesium-phosphide-substrate", "cooperative complex", "cooperative-complex"
+    ],
+    "paper_reproduction": [
+      "46.0", "102.8", "75.8", "649 nm", "447 nm", "0.0044", "0.0567"
+    ]
+  },
+  "novelty_boundary": "The task asks the agent to discover and justify the activation mechanism from reaction facts and tool-generated evidence; the paper route and quantitative conclusion are hidden in autonomous and mechanism modes.",
+  "hard_errors": [
+    "Uses a basis set that does not cover iodine.",
+    "Accepts a transition state without frequency or connectivity validation.",
+    "Uses an excited-state wavelength without checking oscillator strength or state character.",
+    "Ignores the dark, no-base, or TEMPO control.",
+    "Reports the source-paper conclusion without a valid tool trace."
+  ],
+  "selected_task_type": "autonomous_research",
+  "selection_reason": "The study is best represented as autonomous research because the public reaction inputs and controls are sufficient to launch a bounded investigation, while the central scientific contribution is discovery and revision of a mechanistic explanation rather than execution of a disclosed protocol.",
+  "rejected_task_types": [
+    "paper_reproduction",
+    "conclusion_guided_reconstruction",
+    "mechanistic_rule_discovery"
+  ],
+  "curation": {
+    "status": "expert_draft",
+    "reviewers": ["codex-primary"],
+    "notes": [
+      "The original source prompt contained radical and hydrogen-donor hints; those hints are removed from autonomous and mechanism-discovery public views.",
+      "Quantitative values are retained only in the private gold record."
+    ]
+  }
+}
