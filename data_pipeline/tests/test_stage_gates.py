@@ -1,10 +1,13 @@
 from __future__ import annotations
 
+import io
 import json
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
+from src.ingestion.grobid_quantities import GrobidQuantitiesClient
 from src.ingestion.softcite import SoftciteClient, SoftciteError
 from src.screening.computation_completeness import assess_computation_completeness
 from src.screening.resource_limits import assess_resource_limits
@@ -34,6 +37,18 @@ class FakeQuantitiesClient:
 
 
 class StageGateTests(unittest.TestCase):
+    def test_grobid_quantities_uses_multipart_text_field(self) -> None:
+        response = io.BytesIO(b'{"measurements": []}')
+        with mock.patch("urllib.request.urlopen", return_value=response) as urlopen:
+            result = GrobidQuantitiesClient(retries=0).process_text("used 8 GPUs")
+
+        request = urlopen.call_args.args[0]
+        content_type = request.headers["Content-type"]
+        self.assertTrue(content_type.startswith("multipart/form-data; boundary="))
+        self.assertIn(b'name="text"', request.data)
+        self.assertIn(b"used 8 GPUs", request.data)
+        self.assertEqual(result, {"measurements": []})
+
     def test_softcite_fatal_model_log_stops_the_stage(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             log = Path(directory) / "softcite.log"

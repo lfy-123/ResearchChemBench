@@ -6,6 +6,7 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
+import uuid
 from dataclasses import dataclass
 from typing import Any
 
@@ -23,11 +24,12 @@ class GrobidQuantitiesClient:
     retries: int = 2
 
     def process_text(self, text: str) -> dict[str, Any]:
-        body = urllib.parse.urlencode({"text": text}).encode("utf-8")
+        boundary = f"----ResearchChemBench{uuid.uuid4().hex}"
+        body = _multipart_text(boundary, "text", text)
         return self._request_json(
             f"{self.base_url.rstrip('/')}/service/processQuantityText",
             data=body,
-            headers={"Content-Type": "application/x-www-form-urlencoded"},
+            headers={"Content-Type": f"multipart/form-data; boundary={boundary}"},
         )
 
     def version(self) -> dict[str, Any]:
@@ -87,3 +89,12 @@ def grobid_quantities_service(config: dict[str, Any]):
             return bool(self._manager.__exit__(exc_type, exc, traceback))
 
     return _Context()
+
+
+def _multipart_text(boundary: str, field_name: str, value: str) -> bytes:
+    return (
+        f"--{boundary}\r\n"
+        f'Content-Disposition: form-data; name="{field_name}"\r\n\r\n'
+        f"{value}\r\n"
+        f"--{boundary}--\r\n"
+    ).encode("utf-8")
