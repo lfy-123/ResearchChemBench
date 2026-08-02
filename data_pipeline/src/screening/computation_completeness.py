@@ -195,7 +195,17 @@ def _validate_model_result(value: dict[str, Any]) -> dict[str, Any]:
     for field in fields:
         if not isinstance(value.get(field), bool):
             raise ValueError(f"{field} must be boolean")
-    if decision == "complete" and not all(value[field] for field in fields):
+    all_requirements_met = all(value[field] for field in fields)
+    consistency_warnings = []
+    if decision == "complete" and not all_requirements_met:
+        consistency_warnings.append(
+            "decision_complete_conflicts_with_false_requirement_flags"
+        )
+        decision = "uncertain"
+    elif decision == "incomplete" and all_requirements_met:
+        consistency_warnings.append(
+            "decision_incomplete_conflicts_with_all_requirement_flags_true"
+        )
         decision = "uncertain"
     evidence = value.get("evidence")
     if not isinstance(evidence, list) or not all(isinstance(item, str) for item in evidence):
@@ -203,7 +213,13 @@ def _validate_model_result(value: dict[str, Any]) -> dict[str, Any]:
     reason = value.get("reason")
     if not isinstance(reason, str) or not reason.strip():
         raise ValueError("reason must be a non-empty string")
-    return {**value, "decision": decision, "evidence": evidence, "reason": reason.strip()}
+    return {
+        **value,
+        "decision": decision,
+        "evidence": evidence,
+        "reason": reason.strip(),
+        "consistency_warnings": consistency_warnings,
+    }
 
 
 def _with_result(

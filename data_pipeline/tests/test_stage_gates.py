@@ -260,6 +260,38 @@ class StageGateTests(unittest.TestCase):
             self.assertEqual(skipped[0]["computation_completeness"]["status"], "skipped")
             self.assertTrue(skipped[0]["pipeline_routing"]["continue"])
 
+    def test_stage04_contradictory_response_becomes_uncertain(self) -> None:
+        contradictory = {
+            "decision": "incomplete",
+            "has_computational_object": True,
+            "has_method_setup": True,
+            "has_software_execution": True,
+            "has_computational_results": True,
+            "has_interpretation_or_conclusion": True,
+            "evidence": ["All five required elements are present."],
+            "reason": "The process is complete.",
+        }
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            document = _screened_document(root, "Calculations produced interpreted results.")
+
+            def caller(**_kwargs):
+                return contradictory, {"raw_content": json.dumps(contradictory)}
+
+            rows = assess_computation_completeness(
+                [document],
+                {"enabled": True, "base_url": "http://test", "model": "test", "api_key": "x"},
+                output_dir=root / "out",
+                model_caller=caller,
+            )
+            result = rows[0]["computation_completeness"]
+            self.assertEqual(result["decision"], "uncertain")
+            self.assertFalse(result["passed"])
+            self.assertEqual(
+                result["model_result"]["consistency_warnings"],
+                ["decision_incomplete_conflicts_with_all_requirement_flags_true"],
+            )
+
     def test_stage04_api_failure_skips_without_fallback(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
