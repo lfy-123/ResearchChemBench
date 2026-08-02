@@ -66,6 +66,7 @@ def call_json_chat(
                 "duration_seconds": round(time.monotonic() - started, 3),
                 "attempts": attempt + 1,
                 "thinking": thinking or "provider_default",
+                "raw_content": content,
             }
         except urllib.error.HTTPError as exc:
             body = exc.read().decode("utf-8", errors="replace")[:2000]

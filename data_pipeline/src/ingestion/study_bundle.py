@@ -22,8 +22,6 @@ def build_study_bundles(
     for document in documents:
         if document.get("duplicate_of"):
             continue
-        if (document.get("pre_extraction_quality") or {}).get("decision") == "reject":
-            continue
         groups[_study_key(document)].append(document)
 
     bundles: list[dict[str, Any]] = []
@@ -112,14 +110,13 @@ def _document_role(document: dict[str, Any]) -> str:
     )
 
 
-def _primary_rank(document: dict[str, Any]) -> tuple[int, int, float, int]:
+def _primary_rank(document: dict[str, Any]) -> tuple[int, int, int]:
     role_score = 1 if _document_role(document) == "main_paper" else 0
     title = str(document.get("title") or "")
     title_score = (
         0 if any(value in title.casefold() for value in GENERIC_SUPPLEMENTARY_TITLES) else 1
     )
-    relevance = float((document.get("corpus_classification") or {}).get("relevance_score", 0))
-    return role_score, title_score, relevance, len(title)
+    return role_score, title_score, len(title)
 
 
 def _append_file(

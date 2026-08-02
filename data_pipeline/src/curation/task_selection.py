@@ -255,7 +255,9 @@ def _selection_packet(record: dict[str, Any]) -> dict[str, Any]:
         "information_richness": record.get("information_richness", {}),
         "source_classification": record.get("source_classification", {}),
         "toolbox_coverage": record.get("toolbox_coverage", {})
-        or (record.get("pre_extraction_quality") or {}).get("toolbox_coverage", {}),
+        or record.get("software_coverage", {}),
+        "computation_completeness": record.get("computation_completeness", {}),
+        "resource_limits": record.get("resource_limits", {}),
         "asset_availability": record.get("asset_availability", {}),
         "runtime": record.get("runtime", {}),
         "source_excerpt": source_excerpt[:40_000],

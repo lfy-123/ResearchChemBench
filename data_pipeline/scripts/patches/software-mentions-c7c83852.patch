@@ -1,0 +1,26 @@
+diff --git a/build.gradle b/build.gradle
+index ccad7e9a..57af4744 100644
+--- a/build.gradle
++++ b/build.gradle
+@@ -157,8 +157,6 @@ dependencies {
+     implementation group: 'com.sun.xml.bind', name: 'jaxb-impl', version: '2.3.0'
+ 
+     implementation group: 'javax.activation', name: 'activation', version: '1.1.1'
+-    implementation group: 'asm', name: 'asm', version: '3.3.1'
+-
+     implementation 'black.ninia:jep:4.3.1'
+     // for sentence segmentation only
+     implementation 'org.apache.opennlp:opennlp-tools:1.9.4'
+diff --git a/resources/config/config.yml b/resources/config/config.yml
+index 1ae6fbf6..6f81ea48 100644
+--- a/resources/config/config.yml
++++ b/resources/config/config.yml
+@@ -21,6 +21,6 @@ useBinaryContextClassifiers: true
+ 
+ models:
+   - name: "software"
+-    engine: "wapiti"
+-    #engine: "delft"
++    #engine: "wapiti"
++    engine: "delft"
+     wapiti:

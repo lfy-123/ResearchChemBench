@@ -11,14 +11,9 @@ from src.delivery.build import build_dataset
 from src.delivery.reference_run import execute_reference_run
 from src.delivery.smoke import run_mock_task
 from src.delivery.validate import validate_dataset
-from src.discovery.corpus_classify import (
-    classification_summary,
-    classify_corpus_documents,
-)
 from src.discovery.query import expand_seeds
 from src.discovery.screen import screen_papers
 from src.discovery.search import search_offline, search_openalex
-from src.discovery.seed_audit import audit_seed_coverage
 from src.ingestion.corpus import inventory_corpus
 from src.ingestion.dedupe import deduplicate
 from src.ingestion.deep_parse import build_mineru_queue, run_mineru_queue
@@ -124,25 +119,6 @@ def main(argv: list[str] | None = None) -> int:
     extract_corpus_parser.add_argument("--timeout-seconds", type=int, default=900)
     extract_corpus_parser.add_argument("--max-chars", type=int, default=2_000_000)
     extract_corpus_parser.add_argument("--include-supplementary", action="store_true")
-
-    classify_parser = subparsers.add_parser(
-        "corpus-classify", help="Classify computational chemistry relevance and task potential"
-    )
-    classify_parser.add_argument("--input", required=True)
-    classify_parser.add_argument("--output", required=True)
-    classify_parser.add_argument("--summary")
-    classify_parser.add_argument("--relevance-pass", type=float, default=45.0)
-    classify_parser.add_argument("--relevance-review", type=float, default=22.0)
-    classify_parser.add_argument("--constructability-threshold", type=float, default=55.0)
-
-    seed_parser = subparsers.add_parser(
-        "seed-audit", help="Map corpus papers to seed capability anchors"
-    )
-    seed_parser.add_argument("--input", required=True)
-    seed_parser.add_argument("--seeds", required=True)
-    seed_parser.add_argument("--output", required=True)
-    seed_parser.add_argument("--summary", required=True)
-    seed_parser.add_argument("--match-threshold", type=float, default=0.12)
 
     mineru_parser = subparsers.add_parser(
         "mineru-queue", help="Build or execute the shortlisted MinerU queue"
@@ -252,25 +228,6 @@ def main(argv: list[str] | None = None) -> int:
             "needs_ocr": sum(1 for row in rows if (row.get("text_quality") or {}).get("needs_ocr")),
             "output": args.output,
         }
-    elif args.command == "corpus-classify":
-        rows = classify_corpus_documents(
-            read_jsonl(args.input),
-            relevance_pass=args.relevance_pass,
-            relevance_review=args.relevance_review,
-            constructability_threshold=args.constructability_threshold,
-        )
-        write_jsonl(args.output, rows)
-        summary = classification_summary(rows)
-        if args.summary:
-            write_json(args.summary, summary)
-        result = {**summary, "output": args.output}
-    elif args.command == "seed-audit":
-        rows, summary = audit_seed_coverage(
-            read_jsonl(args.input), read_json(args.seeds), args.match_threshold
-        )
-        write_jsonl(args.output, rows)
-        write_json(args.summary, summary)
-        result = summary
     elif args.command == "mineru-queue":
         queue = build_mineru_queue(read_jsonl(args.input), args.include_optional, args.limit)
         write_jsonl(args.queue_output, queue)

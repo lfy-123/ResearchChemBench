@@ -18,6 +18,36 @@
     "consolidate_citations": 0,
     "reuse_existing": true
   },
+  "softcite": {
+    "base_url": "http://127.0.0.1:8060",
+    "working_directory": "third_party/software-mentions",
+    "java_home": "/inspire/hdd/global_user/lifangyuan-253108110077/Anaconda3",
+    "auto_start": true,
+    "startup_timeout_seconds": 900,
+    "timeout_seconds": 600,
+    "retries": 2
+  },
+  "computation_completeness": {
+    "enabled": true,
+    "max_source_chars": 30000,
+    "max_paragraphs": 24,
+    "max_tokens": 1800
+  },
+  "resource_limits": {
+    "cpu_cores": 500,
+    "gpus": 8,
+    "memory_gb": 1000,
+    "runtime_hours": 12
+  },
+  "grobid_quantities": {
+    "base_url": "http://127.0.0.1:8062",
+    "working_directory": "third_party/grobid-quantities",
+    "java_home": "/inspire/hdd/global_user/lifangyuan-253108110077/Anaconda3",
+    "auto_start": true,
+    "startup_timeout_seconds": 600,
+    "timeout_seconds": 120,
+    "retries": 2
+  },
   "mineru": {
     "enabled": true,
     "command": "mineru",

@@ -17,8 +17,6 @@ from src.curation.package_generation import (
 from src.curation.quality_gates import (
     apply_ensemble_results,
     gate_scientific_records,
-    pre_screen_documents,
-    pre_screen_summary,
     quality_funnel_summary,
 )
 from src.curation.task_selection import select_task_types, selection_summary
@@ -26,20 +24,23 @@ from src.curation.toolbox import load_toolbox_profile
 from src.delivery.build import build_dataset
 from src.delivery.reference_run import attach_reference_runs, reference_run_summary
 from src.delivery.validate import validate_dataset
-from src.discovery.corpus_classify import (
-    classification_summary,
-    classify_corpus_documents,
-)
 from src.discovery.query import expand_seeds
 from src.discovery.screen import screen_papers
 from src.discovery.search import retrieval_summary, search_offline, search_openalex
-from src.discovery.seed_audit import audit_seed_coverage
 from src.ingestion.corpus import inventory_corpus, markdown_metadata
 from src.ingestion.dedupe import deduplicate
 from src.ingestion.deep_parse import build_mineru_queue, deep_text_map, run_mineru_queue
 from src.ingestion.deep_quality import assess_deep_parse_quality, deep_quality_summary
 from src.ingestion.grobid import extract_documents_with_grobid, grobid_service
+from src.ingestion.grobid_quantities import grobid_quantities_service
+from src.ingestion.softcite import softcite_service
 from src.ingestion.study_bundle import build_study_bundles, member_bundle_map
+from src.screening.computation_completeness import (
+    assess_computation_completeness,
+    computation_completeness_summary,
+)
+from src.screening.resource_limits import assess_resource_limits, resource_limits_summary
+from src.screening.software_coverage import assess_software_coverage, software_coverage_summary
 
 
 def run_pipeline(config_path: str | Path) -> dict[str, Any]:
@@ -281,50 +282,122 @@ def run_corpus_pipeline(
             ),
         }
 
-    classify_config = config.get("corpus_classify", {})
-    stage = _stage_dir(workspace, "stage_03_initial_classification")
-    classified = classify_corpus_documents(
-        extracted_records,
-        relevance_pass=classify_config.get("relevance_pass", 45.0),
-        relevance_review=classify_config.get("relevance_review", 22.0),
-        constructability_threshold=classify_config.get("constructability_threshold", 55.0),
-    )
-    write_jsonl(stage / "classified_documents.jsonl", classified)
-    initial_classification_summary = classification_summary(classified)
-    write_jsonl(
-        stage / "selected_pdf_paths.jsonl",
-        _selected_pdf_rows(classified, _classification_selected),
-    )
-    _write_stage_summary(stage, initial_classification_summary)
-
     toolbox_profile = _load_toolbox_profile(config, base)
-    quality_config = config.get("quality_funnel", {})
-    stage = _stage_dir(workspace, "stage_04_low_cost_screen")
-    classified = pre_screen_documents(classified, toolbox_profile, quality_config)
-    write_jsonl(stage / "screened_documents.jsonl", classified)
-    write_jsonl(
-        stage / "selected_pdf_paths.jsonl",
-        _selected_pdf_rows(classified, _pre_extraction_selected),
-    )
-    _write_stage_summary(stage, pre_screen_summary(classified))
-
-    stage = _stage_dir(workspace, "stage_05_seed_audit")
-    seed_path = config.get("seeds")
-    seeds = read_json(_resolve(base, seed_path)) if seed_path else []
-    if seeds:
-        classified, seed_summary = audit_seed_coverage(
-            classified,
-            seeds,
-            match_threshold=config.get("seed_guidance", {}).get("match_threshold", 0.12),
+    software_config = config.get("software_coverage", {})
+    stage = _stage_dir(workspace, "stage_03_software_coverage")
+    with softcite_service(software_config) as client:
+        software_records = assess_software_coverage(
+            extracted_records,
+            client,
+            toolbox_profile or {},
+            aliases_file=_resolve(base, software_config["aliases_file"]),
+            role_rules_file=_resolve(base, software_config["role_rules_file"]),
+            capability_map_file=_resolve(base, software_config["capability_map_file"]),
+            raw_output_dir=stage / "softcite_raw",
         )
-    else:
-        seed_summary = _seedless_coverage_summary(classified)
-    write_jsonl(stage / "seed_audited_documents.jsonl", classified)
+    write_jsonl(stage / "software_coverage_documents.jsonl", software_records)
+    write_jsonl(
+        stage / "direct_covered_pdf_paths.jsonl",
+        _pdf_path_rows(
+            [
+                item
+                for item in software_records
+                if (item.get("software_coverage") or {}).get("decision") == "direct_covered"
+            ]
+        ),
+    )
+    write_jsonl(
+        stage / "capability_equivalent_pdf_paths.jsonl",
+        _pdf_path_rows(
+            [
+                item
+                for item in software_records
+                if (item.get("software_coverage") or {}).get("decision")
+                == "capability_equivalent"
+            ]
+        ),
+    )
+    software_summary = software_coverage_summary(software_records)
+    _write_stage_summary(stage, software_summary)
+    if config.get("stop_after") == "software_coverage":
+        return _screening_stop_summary(
+            config_path,
+            corpus_root,
+            workspace,
+            inventory,
+            software_summary=software_summary,
+        )
+
+    stage = _stage_dir(workspace, "stage_04_computation_completeness")
+    completeness_inputs = [
+        item
+        for item in software_records
+        if (item.get("software_coverage") or {}).get("decision") == "direct_covered"
+    ]
+    completeness_records = assess_computation_completeness(
+        completeness_inputs,
+        config.get("computation_completeness", {}),
+        output_dir=stage,
+    )
+    write_jsonl(stage / "computation_completeness_documents.jsonl", completeness_records)
     write_jsonl(
         stage / "selected_pdf_paths.jsonl",
-        _selected_pdf_rows(classified, _pre_extraction_selected),
+        _pdf_path_rows(
+            [
+                item
+                for item in completeness_records
+                if (item.get("computation_completeness") or {}).get("passed")
+            ]
+        )
     )
-    _write_stage_summary(stage, seed_summary)
+    completeness_summary = computation_completeness_summary(completeness_records)
+    _write_stage_summary(stage, completeness_summary)
+    if config.get("stop_after") == "computation_completeness":
+        return _screening_stop_summary(
+            config_path,
+            corpus_root,
+            workspace,
+            inventory,
+            software_summary=software_summary,
+            completeness_summary=completeness_summary,
+        )
+
+    stage = _stage_dir(workspace, "stage_05_resource_limits")
+    resource_inputs = [
+        item
+        for item in completeness_records
+        if (item.get("computation_completeness") or {}).get("passed")
+    ]
+    quantities_config = config.get("grobid_quantities", {})
+    with grobid_quantities_service(quantities_config) as client:
+        classified = assess_resource_limits(
+            resource_inputs,
+            client,
+            config.get("resource_limits", {}),
+            output_dir=stage,
+        )
+    write_jsonl(stage / "resource_screened_documents.jsonl", classified)
+    write_jsonl(
+        stage / "selected_pdf_paths.jsonl",
+        _pdf_path_rows(
+            [item for item in classified if (item.get("resource_limits") or {}).get("passed")]
+        ),
+    )
+    resource_summary = resource_limits_summary(classified)
+    _write_stage_summary(stage, resource_summary)
+    if config.get("stop_after") == "resource_limits":
+        return _screening_stop_summary(
+            config_path,
+            corpus_root,
+            workspace,
+            inventory,
+            software_summary=software_summary,
+            completeness_summary=completeness_summary,
+            resource_summary=resource_summary,
+        )
+    classified = [
+        item for item in classified if (item.get("resource_limits") or {}).get("passed")
+    ]
 
     mineru_config = config.get("mineru", {})
     stage = _stage_dir(workspace, "stage_06_mineru_queue")
@@ -361,22 +434,22 @@ def run_corpus_pipeline(
     write_jsonl(stage / "mineru_results_raw.jsonl", mineru_results)
     _write_stage_summary(stage, _field_summary(mineru_results, "status", "documents"))
     stage = _stage_dir(workspace, "stage_08_deep_parse_quality")
-    quality_config = config.get("deep_parse_quality", {})
+    deep_quality_config = config.get("deep_parse_quality", {})
     mineru_results = assess_deep_parse_quality(
         classified,
         mineru_results,
-        min_title_recall=quality_config.get("min_title_recall", 0.7),
-        min_grobid_vocab_recall=quality_config.get("min_grobid_vocab_recall", 0.65),
-        min_key_term_coverage=quality_config.get("min_key_term_coverage", 0.5),
-        min_length_ratio=quality_config.get("min_length_ratio", 0.25),
-        max_length_ratio=quality_config.get("max_length_ratio", 2.5),
+        min_title_recall=deep_quality_config.get("min_title_recall", 0.7),
+        min_grobid_vocab_recall=deep_quality_config.get("min_grobid_vocab_recall", 0.65),
+        min_key_term_coverage=deep_quality_config.get("min_key_term_coverage", 0.5),
+        min_length_ratio=deep_quality_config.get("min_length_ratio", 0.25),
+        max_length_ratio=deep_quality_config.get("max_length_ratio", 2.5),
     )
     write_jsonl(stage / "mineru_results_with_quality.jsonl", mineru_results)
     _write_stage_summary(stage, deep_quality_summary(mineru_results))
 
     deep_paths = deep_text_map(mineru_results)
     deep_result_map = {item["paper_id"]: item for item in mineru_results}
-    stage = _stage_dir(workspace, "stage_09_refined_classification")
+    stage = _stage_dir(workspace, "stage_09_post_mineru_merge")
     refined_inputs = []
     for document in classified:
         refined = dict(document)
@@ -392,41 +465,22 @@ def run_corpus_pipeline(
             if deep_metadata.get("section_headings"):
                 refined["section_headings"] = deep_metadata["section_headings"]
         refined_inputs.append(refined)
-    classified = classify_corpus_documents(
-        refined_inputs,
-        relevance_pass=classify_config.get("relevance_pass", 45.0),
-        relevance_review=classify_config.get("relevance_review", 22.0),
-        constructability_threshold=classify_config.get("constructability_threshold", 55.0),
-    )
-    if seeds:
-        classified, seed_summary = audit_seed_coverage(
-            classified,
-            seeds,
-            match_threshold=config.get("seed_guidance", {}).get("match_threshold", 0.12),
-        )
-    else:
-        seed_summary = _seedless_coverage_summary(classified)
-    write_jsonl(stage / "refined_classified_documents.jsonl", classified)
-    refined_summary = classification_summary(classified)
-    write_json(stage / "classification_summary.json", refined_summary)
-    write_json(stage / "seed_coverage_summary.json", seed_summary)
-    write_jsonl(
-        stage / "selected_pdf_paths.jsonl",
-        _selected_pdf_rows(classified, _classification_selected),
-    )
+    classified = refined_inputs
+    write_jsonl(stage / "merged_documents.jsonl", classified)
+    write_jsonl(stage / "selected_pdf_paths.jsonl", _pdf_path_rows(classified))
     _write_stage_summary(
         stage,
-        {"classification": refined_summary, "seed_coverage": seed_summary},
+        {
+            "documents": len(classified),
+            "mineru_text_attached": sum(1 for item in classified if item.get("deep_text_path")),
+            "grobid_text_fallback": sum(1 for item in classified if not item.get("deep_text_path")),
+        },
     )
 
-    stage = _stage_dir(workspace, "stage_10_pre_extraction_screen")
-    classified = pre_screen_documents(classified, toolbox_profile, quality_config)
-    write_jsonl(stage / "screened_documents.jsonl", classified)
-    write_jsonl(
-        stage / "selected_pdf_paths.jsonl",
-        _selected_pdf_rows(classified, _pre_extraction_selected),
-    )
-    _write_stage_summary(stage, pre_screen_summary(classified))
+    stage = _stage_dir(workspace, "stage_10_extraction_ready")
+    write_jsonl(stage / "extraction_ready_documents.jsonl", classified)
+    write_jsonl(stage / "selected_pdf_paths.jsonl", _pdf_path_rows(classified))
+    _write_stage_summary(stage, {"documents": len(classified), "status": "ready"})
 
     stage = _stage_dir(workspace, "stage_11_study_bundles")
     explicit_assets = _load_assets(base, config["assets"]) if config.get("assets") else []
@@ -436,19 +490,12 @@ def run_corpus_pipeline(
     write_json(stage / "study_bundles.json", study_bundles)
     assets = []
     extractable = []
-    accepted_relevance = set(
-        config.get("extract", {}).get("relevance_decisions", ["pass", "review"])
-    )
     for document in classified:
         bundle = bundle_map.get(document["paper_id"], {})
         if bundle and bundle.get("primary_paper_id") != document["paper_id"]:
             continue
-        classification = document.get("corpus_classification") or {}
-        pre_decision = (document.get("pre_extraction_quality") or {}).get("decision")
-        if (
-            document.get("duplicate_of")
-            or classification.get("relevance_decision") not in accepted_relevance
-            or pre_decision == "reject"
+        if document.get("duplicate_of") or not (document.get("resource_limits") or {}).get(
+            "passed", False
         ):
             continue
         document = {**document, "study_bundle": bundle}
@@ -508,6 +555,7 @@ def run_corpus_pipeline(
     if semantic_config.get("enabled"):
         records = review_records(records, semantic_config)
     write_jsonl(stage / "semantic_review_records.jsonl", records)
+    quality_config = config.get("quality_funnel", {})
     asset_config = {**quality_config, **config.get("asset_discovery", {})}
     records = _attach_asset_availability(records, asset_config)
     write_jsonl(stage / "asset_discovery_records.jsonl", records)
@@ -582,11 +630,13 @@ def run_corpus_pipeline(
             "workspace": str(workspace),
             "pdf_files": len(inventory),
             "canonical_pdfs": sum(1 for item in inventory if not item.get("duplicate_of")),
-            "relevance_pass": sum(
+            "software_direct_covered": software_summary["direct_covered"],
+            "computation_stage_passed": sum(
                 1
-                for item in classified
-                if (item.get("corpus_classification") or {}).get("relevance_decision") == "pass"
+                for item in completeness_records
+                if (item.get("computation_completeness") or {}).get("passed")
             ),
+            "resource_stage_passed": len(classified),
             "mineru_queue": len(queue),
             "mineru_success": sum(
                 1 for item in mineru_results if item.get("status") in {"success", "reused"}
@@ -636,11 +686,13 @@ def run_corpus_pipeline(
         "output": str(output_dir),
         "pdf_files": len(inventory),
         "canonical_pdfs": sum(1 for item in inventory if not item.get("duplicate_of")),
-        "relevance_pass": sum(
+        "software_direct_covered": software_summary["direct_covered"],
+        "computation_stage_passed": sum(
             1
-            for item in classified
-            if (item.get("corpus_classification") or {}).get("relevance_decision") == "pass"
+            for item in completeness_records
+            if (item.get("computation_completeness") or {}).get("passed")
         ),
+        "resource_stage_passed": len(classified),
         "mineru_queue": len(queue),
         "mineru_success": sum(
             1 for item in mineru_results if item.get("status") in {"success", "reused"}
@@ -670,7 +722,9 @@ def run_corpus_pipeline(
         "toolbox_catalog_hash": (toolbox_profile or {}).get("catalog_hash"),
         "tasks_built": manifest["task_count"],
         "tasks_skipped": len(manifest["skipped"]),
-        "seed_coverage": seed_summary,
+        "stage_03_software_coverage": software_summary,
+        "stage_04_computation_completeness": completeness_summary,
+        "stage_05_resource_limits": resource_summary,
         "validation": _validation_summary(validation),
     }
 
@@ -915,14 +969,23 @@ def _write_corpus_stage_index(workspace: Path) -> None:
             "stage_02_grobid_extract",
             "GROBID TEI extraction for metadata, structure, and full text",
         ),
-        ("stage_03_initial_classification", "initial relevance and task constructability"),
-        ("stage_04_low_cost_screen", "low-cost quality and toolbox screening"),
-        ("stage_05_seed_audit", "seed coverage audit"),
+        (
+            "stage_03_software_coverage",
+            "Softcite evidence and complete core-software toolbox coverage gate",
+        ),
+        (
+            "stage_04_computation_completeness",
+            "single-model gate for a complete independently constructable computation",
+        ),
+        (
+            "stage_05_resource_limits",
+            "explicit CPU, GPU, memory, and runtime hard-limit gate",
+        ),
         ("stage_06_mineru_queue", "PDFs selected for deep parsing"),
         ("stage_07_mineru_parse", "raw MinerU execution outputs"),
         ("stage_08_deep_parse_quality", "MinerU output quality assessment"),
-        ("stage_09_refined_classification", "classification using deep-parsed text"),
-        ("stage_10_pre_extraction_screen", "final screening before record extraction"),
+        ("stage_09_post_mineru_merge", "merge validated MinerU text without re-screening"),
+        ("stage_10_extraction_ready", "non-filtering extraction-ready document snapshot"),
         ("stage_11_study_bundles", "paper/SI grouping and generated asset manifests"),
         ("stage_12_scientific_record_extraction", "record extraction and asset discovery"),
         ("stage_13_task_selection", "single benchmark task-type selection"),
@@ -978,34 +1041,6 @@ def _pdf_path_rows(
     return output
 
 
-def _selected_pdf_rows(records: list[dict[str, Any]], predicate: Any) -> list[dict[str, Any]]:
-    selected = [item for item in records if predicate(item)]
-    output = _pdf_path_rows(selected)
-    by_paper = {item.get("paper_id"): item for item in selected}
-    for row in output:
-        item = by_paper.get(row.get("paper_id"), {})
-        classification = item.get("corpus_classification") or {}
-        row["relevance_decision"] = classification.get("relevance_decision")
-        row["deep_parse_decision"] = classification.get("deep_parse_decision")
-        row["pre_extraction_decision"] = (item.get("pre_extraction_quality") or {}).get("decision")
-    return output
-
-
-def _classification_selected(item: dict[str, Any]) -> bool:
-    classification = item.get("corpus_classification") or {}
-    return not item.get("duplicate_of") and classification.get("relevance_decision") in {
-        "pass",
-        "review",
-    }
-
-
-def _pre_extraction_selected(item: dict[str, Any]) -> bool:
-    return (
-        _classification_selected(item)
-        and (item.get("pre_extraction_quality") or {}).get("decision") != "reject"
-    )
-
-
 def _record_pdf_path_rows(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
     selected = [record for record in records if record.get("selected_task_type")]
     rows = _pdf_path_rows(selected)
@@ -1017,20 +1052,32 @@ def _record_pdf_path_rows(records: list[dict[str, Any]]) -> list[dict[str, Any]]
     return rows
 
 
-def _seedless_coverage_summary(documents: list[dict[str, Any]]) -> dict[str, Any]:
-    """Treat every relevant corpus paper as a new capability when no seed is supplied."""
-
+def _screening_stop_summary(
+    config_path: Path,
+    corpus_root: Path,
+    workspace: Path,
+    inventory: list[dict[str, Any]],
+    *,
+    software_summary: dict[str, Any],
+    completeness_summary: dict[str, Any] | None = None,
+    resource_summary: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    if resource_summary is not None:
+        stopped_after = "resource_limits"
+    elif completeness_summary is not None:
+        stopped_after = "computation_completeness"
+    else:
+        stopped_after = "software_coverage"
     return {
-        "seed_count": 0,
-        "covered_documents": 0,
-        "new_capability_documents": sum(
-            1
-            for item in documents
-            if (item.get("corpus_classification") or {}).get("relevance_decision") == "pass"
-        ),
-        "documents_per_seed": {},
-        "uncovered_domains": {},
-        "uncovered_software": {},
+        "source_mode": "corpus",
+        "stopped_after": stopped_after,
+        "config": str(config_path),
+        "corpus_root": str(corpus_root),
+        "workspace": str(workspace),
+        "pdf_files": len(inventory),
+        "stage_03_software_coverage": software_summary,
+        "stage_04_computation_completeness": completeness_summary,
+        "stage_05_resource_limits": resource_summary,
     }
 
 

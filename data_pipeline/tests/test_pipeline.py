@@ -26,7 +26,6 @@ from src.curation.package_validation import package_readiness
 from src.curation.quality_gates import (
     apply_ensemble_results,
     gate_scientific_records,
-    pre_screen_documents,
 )
 from src.curation.quality_score import score_record
 from src.curation.task_candidates import generate_task_candidates
@@ -37,16 +36,14 @@ from src.delivery.build import build_dataset
 from src.delivery.reference_run import attach_reference_runs, execute_reference_run
 from src.delivery.smoke import run_mock_task
 from src.delivery.validate import validate_dataset
-from src.discovery.corpus_classify import classify_corpus_documents
 from src.discovery.query import expand_seeds
-from src.discovery.seed_audit import audit_seed_coverage
 from src.ingestion.corpus import inventory_corpus
 from src.ingestion.dedupe import deduplicate
 from src.ingestion.deep_parse import build_mineru_queue
 from src.ingestion.deep_quality import assess_deep_parse_quality
 from src.ingestion.grobid import extract_documents_with_grobid, parse_grobid_tei
 from src.ingestion.study_bundle import build_study_bundles
-from src.orchestration.pipeline import _curation_queue_item, _seedless_coverage_summary
+from src.orchestration.pipeline import _curation_queue_item
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -87,6 +84,17 @@ class PipelineTests(unittest.TestCase):
             config["toolbox"]["profile"],
             str((ROOT / "assets/toolbox.json").resolve()),
         )
+        self.assertTrue(config["software_coverage"]["working_directory"].endswith(
+            "third_party/software-mentions"
+        ))
+        self.assertEqual(
+            config["computation_completeness"]["base_url"],
+            "https://classify.example/v1",
+        )
+        self.assertEqual(config["resource_limits"]["cpu_cores"], 500)
+        self.assertTrue(config["grobid_quantities"]["working_directory"].endswith(
+            "third_party/grobid-quantities"
+        ))
 
     def test_curation_queue_contains_unresolved_selected_task_gates(self) -> None:
         record = deepcopy(self.record)
@@ -203,34 +211,6 @@ class PipelineTests(unittest.TestCase):
         )
         self.assertEqual(data_gate["decision"], "review")
         self.assertEqual(data_gate["evidence"]["materialized_input_count"], 0)
-
-    def test_primary_computational_paper_without_cheap_task_match_goes_to_review(self) -> None:
-        document = {
-            "paper_id": "doc_primary",
-            "title": "Computational study",
-            "text_quality": {"score": 90},
-            "corpus_classification": {
-                "relevance_decision": "pass",
-                "relevance_score": 90,
-                "computational_role": "primary",
-                "eligible_task_types": [],
-                "constructability_scores": {},
-                "software": ["ORCA"],
-                "methods": ["DFT"],
-            },
-        }
-        profile = load_toolbox_profile(
-            ROOT / "assets/toolbox.json",
-            {"enabled_software": ["*"], "enabled_actions": ["*"], "priority_software": ["*"]},
-        )
-        screened = pre_screen_documents([document], profile)[0]
-        gate = next(
-            item
-            for item in screened["pre_extraction_quality"]["gates"]
-            if item["gate_id"] == "P2_task_extractability"
-        )
-        self.assertEqual(gate["decision"], "review")
-        self.assertNotEqual(screened["pre_extraction_quality"]["decision"], "reject")
 
     def test_pdf_only_asset_signal_is_pending_acquisition_not_unavailable(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
@@ -535,77 +515,15 @@ class PipelineTests(unittest.TestCase):
             self.assertEqual(result["summary"]["decision"], "incomplete_no_valid_scores")
             self.assertEqual(result["summary"]["completed_runs"], 1)
 
-    def test_corpus_classifier_separates_primary_computation_from_negative(self) -> None:
-        with tempfile.TemporaryDirectory() as directory:
-            root = Path(directory)
-            computational_text = root / "computational.txt"
-            computational_text.write_text(
-                """Reaction mechanism by density functional theory. Abstract We performed DFT calculations with Gaussian 16 to identify transition states and activation barriers. Introduction. Computational Methods. Geometry optimization and frequency calculations used the B3LYP functional and def2-SVP basis set with a solvation model. Intrinsic reaction coordinate calculations validated each transition state. Gaussian DFT Gaussian DFT. Free energy barriers distinguish two reaction pathways. Supporting Information and code availability are provided in a repository.""",
-                encoding="utf-8",
-            )
-            experimental_text = root / "experimental.txt"
-            experimental_text.write_text(
-                """A practical copper-catalyzed synthesis. Abstract We report substrate scope, isolated yields, NMR characterization, and catalyst loading experiments. Materials and Methods. Reagents were combined under nitrogen, purified by chromatography, and characterized by NMR and mass spectrometry.""",
-                encoding="utf-8",
-            )
-            rows = classify_corpus_documents(
-                [
-                    {
-                        "document_id": "doc_comp",
-                        "paper_id": "doc_comp",
-                        "title": "Reaction mechanism by density functional theory",
-                        "abstract": "We performed DFT calculations with Gaussian 16 to identify transition states and activation barriers.",
-                        "section_headings": ["Computational Methods", "Results"],
-                        "text_path": str(computational_text),
-                        "text_quality": {"needs_ocr": False},
-                    },
-                    {
-                        "document_id": "doc_exp",
-                        "paper_id": "doc_exp",
-                        "title": "A practical copper-catalyzed synthesis",
-                        "abstract": "An experimental synthetic chemistry study.",
-                        "section_headings": ["Materials and Methods", "Results"],
-                        "text_path": str(experimental_text),
-                        "text_quality": {"needs_ocr": False},
-                    },
-                ]
-            )
-            self.assertEqual(rows[0]["corpus_classification"]["relevance_decision"], "pass")
-            self.assertIn(
-                "paper_reproduction", rows[0]["corpus_classification"]["eligible_task_types"]
-            )
-            self.assertEqual(
-                set(rows[0]["corpus_classification"]["task_suitability_scores"]),
-                {
-                    "paper_reproduction",
-                    "conclusion_guided_reconstruction",
-                    "autonomous_research",
-                    "mechanistic_rule_discovery",
-                },
-            )
-            self.assertEqual(rows[1]["corpus_classification"]["relevance_decision"], "reject")
-
-    def test_mineru_queue_and_seed_audit_are_advisory(self) -> None:
+    def test_mineru_queue_only_contains_stage05_passes(self) -> None:
         document = {
             "document_id": "doc_new",
             "paper_id": "doc_new",
             "source_path": "/tmp/new.pdf",
             "title": "Solid-state band structure dataset",
-            "abstract": "A VASP dataset for materials property prediction.",
-            "corpus_classification": {
-                "relevance_decision": "pass",
-                "deep_parse_decision": "required",
-                "constructability_scores": {"paper_reproduction": 70},
-                "eligible_modes": ["paper_reproduction"],
-                "domains": ["materials_solid_state"],
-                "methods": ["DFT"],
-                "software": ["VASP"],
-            },
+            "resource_limits": {"passed": True, "decision": "within_limit"},
         }
-        audited, summary = audit_seed_coverage([document], self.seeds, match_threshold=0.5)
-        self.assertEqual(audited[0]["seed_guidance"]["coverage_role"], "new_capability_candidate")
-        self.assertEqual(summary["new_capability_documents"], 1)
-        self.assertEqual(len(build_mineru_queue(audited)), 1)
+        self.assertEqual(len(build_mineru_queue([document])), 1)
 
     def test_study_bundle_groups_main_text_and_supplement_before_extraction(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
@@ -638,27 +556,14 @@ class PipelineTests(unittest.TestCase):
             self.assertEqual(set(bundles[0]["member_paper_ids"]), {"main", "si"})
             self.assertEqual(len(bundles[0]["supplementary_paths"]), 1)
 
-    def test_mineru_queue_skips_low_cost_rejections(self) -> None:
+    def test_mineru_queue_skips_stage05_rejections(self) -> None:
         rejected = {
             "document_id": "doc",
             "paper_id": "doc",
             "source_path": "/tmp/doc.pdf",
-            "pre_extraction_quality": {"decision": "reject"},
-            "corpus_classification": {
-                "deep_parse_decision": "required",
-                "constructability_scores": {"paper_reproduction": 100},
-            },
+            "resource_limits": {"passed": False, "decision": "exceeds_limit"},
         }
         self.assertEqual(build_mineru_queue([rejected]), [])
-
-    def test_seedless_summary_is_recomputed_after_ocr_reclassification(self) -> None:
-        documents = [
-            {"paper_id": "recovered", "corpus_classification": {"relevance_decision": "pass"}},
-            {"paper_id": "negative", "corpus_classification": {"relevance_decision": "reject"}},
-        ]
-        summary = _seedless_coverage_summary(documents)
-        self.assertEqual(summary["seed_count"], 0)
-        self.assertEqual(summary["new_capability_documents"], 1)
 
     def test_grobid_tei_parser_extracts_structured_metadata(self) -> None:
         tei = """<?xml version="1.0" encoding="UTF-8"?>
@@ -771,23 +676,6 @@ class PipelineTests(unittest.TestCase):
         self.assertEqual(rows[0]["document_role"], "main_paper")
         self.assertEqual(rows[2]["document_role"], "supplementary")
 
-    def test_rejected_paper_is_out_of_scope_for_seed_coverage(self) -> None:
-        document = {
-            "document_id": "doc_exp",
-            "paper_id": "doc_exp",
-            "title": "Experimental reaction mechanism study",
-            "abstract": "A synthesis paper with transition-state terminology.",
-            "corpus_classification": {
-                "relevance_decision": "reject",
-                "domains": ["reaction_mechanism"],
-                "methods": ["transition_state"],
-                "software": [],
-            },
-        }
-        audited, summary = audit_seed_coverage([document], self.seeds)
-        self.assertEqual(audited[0]["seed_guidance"]["coverage_role"], "out_of_scope")
-        self.assertEqual(summary["covered_documents"], 0)
-
     def test_cached_text_prevents_duplicate_pdf_parsing(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -826,9 +714,10 @@ class PipelineTests(unittest.TestCase):
                         "title": "A VASP density functional theory dataset",
                         "page_count": 2,
                         "text_path": str(cheap),
-                        "corpus_classification": {
-                            "software": ["VASP"],
-                            "methods": ["DFT"],
+                        "software_coverage": {
+                            "core_software": [
+                                {"raw_name": "VASP", "normalized_name": "vasp"}
+                            ]
                         },
                     }
                 ],

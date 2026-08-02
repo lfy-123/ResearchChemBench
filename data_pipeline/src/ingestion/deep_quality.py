@@ -70,8 +70,11 @@ def _assess_one(
     title_recall = _recall(title_tokens, markdown_tokens)
     grobid_vocab_recall = _recall(grobid_tokens, markdown_tokens)
     length_ratio = len(markdown) / max(1, len(grobid_text))
-    classification = document.get("corpus_classification") or {}
-    key_terms = classification.get("software", []) + classification.get("methods", [])
+    key_terms = [
+        item.get("raw_name") or item.get("normalized_name")
+        for item in (document.get("software_coverage") or {}).get("core_software", [])
+        if item.get("raw_name") or item.get("normalized_name")
+    ]
     normalized_markdown = _normalize_phrase(markdown)
     matched_terms = [term for term in key_terms if _normalize_phrase(term) in normalized_markdown]
     key_term_coverage = len(matched_terms) / max(1, len(key_terms)) if key_terms else 1.0

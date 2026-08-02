@@ -1,4 +1,5 @@
 import os
+import sysconfig
 from pathlib import Path
 from typing import Any
 
@@ -30,6 +31,11 @@ def normalize_config(raw: dict[str, Any], base: Path) -> dict[str, Any]:
     roles = (llm.get("review") or {}).get("roles") or list(DEFAULT_REVIEW_ROLES)
 
     grobid = raw.get("grobid") or {}
+    softcite = raw.get("softcite") or {}
+    quantities = raw.get("grobid_quantities") or {}
+    completeness = raw.get("computation_completeness") or {}
+    resource_limits = raw.get("resource_limits") or {}
+    java_home = softcite.get("java_home") or grobid.get("java_home")
     mineru = raw.get("mineru") or {}
     toolbox = raw.get("toolbox") or {}
     mineru_environment = {"MINERU_MODEL_SOURCE": "local"}
@@ -79,6 +85,88 @@ def normalize_config(raw: dict[str, Any], base: Path) -> dict[str, Any]:
             "consolidate_citations": int(grobid.get("consolidate_citations", 0)),
             "max_chars": int(grobid.get("max_chars", 2_000_000)),
             "reuse_existing": bool(grobid.get("reuse_existing", True)),
+        },
+        "software_coverage": {
+            "base_url": softcite.get("base_url", "http://127.0.0.1:8060"),
+            "working_directory": str(
+                _resolve(base, softcite.get("working_directory", "third_party/software-mentions"))
+            ),
+            "start_command": softcite.get(
+                "start_command", ["./gradlew", "--no-daemon", "run"]
+            ),
+            "java_home": java_home,
+            "auto_start": bool(softcite.get("auto_start", True)),
+            "startup_timeout_seconds": int(softcite.get("startup_timeout_seconds", 900)),
+            "timeout_seconds": int(softcite.get("timeout_seconds", 600)),
+            "retries": int(softcite.get("retries", 2)),
+            "service_log": str(
+                run_dir / "outputs" / "stage_03_software_coverage" / "softcite_service.log"
+            ),
+            "environment": {
+                "CONDA_PREFIX": softcite.get("conda_prefix", "/usr/local"),
+                "PYTHONPATH": os.pathsep.join(
+                    [
+                        str(_resolve(base, "third_party/delft")),
+                        str(sysconfig.get_paths()["purelib"]),
+                    ]
+                ),
+                "LD_LIBRARY_PATH": os.pathsep.join(
+                    [
+                        str(Path(java_home) / "lib" / "server") if java_home else "",
+                        os.environ.get("LD_LIBRARY_PATH", ""),
+                    ]
+                ).strip(os.pathsep),
+                **{
+                    str(key): str(value)
+                    for key, value in (softcite.get("environment") or {}).items()
+                },
+            },
+            "aliases_file": str(_resolve(base, "assets/software_aliases.json")),
+            "role_rules_file": str(_resolve(base, "assets/software_role_rules.json")),
+            "capability_map_file": str(
+                _resolve(base, "assets/software_capability_map.json")
+            ),
+        },
+        "computation_completeness": {
+            "enabled": bool(completeness.get("enabled", llm_enabled)),
+            **classification_llm,
+            **{
+                key: value
+                for key, value in completeness.items()
+                if key not in {"enabled", "url", "model_name"}
+            },
+            "base_url": completeness.get("url", classification_llm["base_url"]),
+            "model": completeness.get("model_name", classification_llm["model"]),
+            "max_source_chars": int(completeness.get("max_source_chars", 30_000)),
+            "max_paragraphs": int(completeness.get("max_paragraphs", 24)),
+            "max_tokens": int(completeness.get("max_tokens", 1800)),
+        },
+        "resource_limits": {
+            "cpu_cores": float(resource_limits.get("cpu_cores", 500)),
+            "gpus": float(resource_limits.get("gpus", 8)),
+            "memory_gb": float(resource_limits.get("memory_gb", 1000)),
+            "runtime_hours": float(resource_limits.get("runtime_hours", 12)),
+        },
+        "grobid_quantities": {
+            "base_url": quantities.get("base_url", "http://127.0.0.1:8062"),
+            "working_directory": str(
+                _resolve(base, quantities.get("working_directory", "third_party/grobid-quantities"))
+            ),
+            "start_command": quantities.get(
+                "start_command", ["./gradlew", "--no-daemon", "run"]
+            ),
+            "java_home": quantities.get("java_home") or grobid.get("java_home"),
+            "auto_start": bool(quantities.get("auto_start", True)),
+            "startup_timeout_seconds": int(quantities.get("startup_timeout_seconds", 600)),
+            "timeout_seconds": int(quantities.get("timeout_seconds", 120)),
+            "retries": int(quantities.get("retries", 2)),
+            "service_log": str(
+                run_dir / "outputs" / "stage_05_resource_limits" / "grobid_quantities.log"
+            ),
+            "environment": {
+                str(key): str(value)
+                for key, value in (quantities.get("environment") or {}).items()
+            },
         },
         "mineru": {
             "execute": bool(mineru.get("enabled", True)),

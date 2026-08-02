@@ -18,16 +18,13 @@ def build_mineru_queue(
     include_optional: bool = False,
     limit: int | None = None,
 ) -> list[dict[str, Any]]:
-    allowed = {"required", "optional"} if include_optional else {"required"}
     queue: list[dict[str, Any]] = []
     for document in documents:
-        if (document.get("pre_extraction_quality") or {}).get("decision") == "reject":
+        if document.get("duplicate_of"):
             continue
-        classification = document.get("corpus_classification") or {}
-        decision = classification.get("deep_parse_decision")
-        if decision not in allowed or document.get("duplicate_of"):
+        if not (document.get("resource_limits") or {}).get("passed", False):
             continue
-        scores = classification.get("constructability_scores") or {}
+        decision = "required"
         queue.append(
             {
                 "document_id": document["document_id"],
@@ -36,14 +33,11 @@ def build_mineru_queue(
                 "title": document.get("title"),
                 "expected_pages": document.get("page_count"),
                 "deep_parse_decision": decision,
-                "priority_score": max(scores.values(), default=0.0),
-                "reason": _queue_reason(document),
+                "priority_score": 1.0,
+                "reason": ["passed stages 03-05 and requires deep parsing for task construction"],
             }
         )
-    queue.sort(
-        key=lambda item: (item["deep_parse_decision"] == "required", item["priority_score"]),
-        reverse=True,
-    )
+    queue.sort(key=lambda item: (item.get("title") or "", item["paper_id"]))
     return queue[:limit] if limit is not None else queue
 
 
@@ -203,19 +197,6 @@ def deep_text_map(results: list[dict[str, Any]]) -> dict[str, str]:
         and item.get("markdown_path")
         and (item.get("deep_parse_quality") or {}).get("passed", True)
     }
-
-
-def _queue_reason(document: dict[str, Any]) -> list[str]:
-    reasons: list[str] = []
-    classification = document.get("corpus_classification") or {}
-    if (document.get("text_quality") or {}).get("needs_ocr"):
-        reasons.append("low cheap-extraction text quality")
-    modes = classification.get("eligible_modes", [])
-    if modes:
-        reasons.append(f"benchmark-constructable modes: {', '.join(modes)}")
-    if classification.get("computational_role") == "primary":
-        reasons.append("computation is a primary scientific method")
-    return reasons or ["manual review candidate"]
 
 
 def _find_largest(root: Path, pattern: str) -> Path | None:

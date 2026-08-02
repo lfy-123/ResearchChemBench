@@ -5,14 +5,12 @@ from collections import Counter
 from typing import Any
 
 from src.core.models import selected_task_type, task_types_for_record
-from src.curation.availability import assess_asset_availability, preliminary_availability
+from src.curation.availability import assess_asset_availability
 from src.curation.package_validation import package_readiness
 from src.curation.task_candidates import generate_task_candidates
 from src.curation.toolbox import assess_toolbox_coverage
 
 DEFAULTS = {
-    "pre_tool_direct_review": 0.5,
-    "pre_tool_capability_review": 0.7,
     "reproduction_direct_pass": 0.8,
     "research_direct_pass": 0.5,
     "capability_pass": 0.8,
@@ -20,40 +18,6 @@ DEFAULTS = {
     "question_pass_score": 85.0,
     "question_reject_score": 55.0,
 }
-
-
-def pre_screen_documents(
-    documents: list[dict[str, Any]],
-    toolbox_profile: dict[str, Any] | None,
-    config: dict[str, Any] | None = None,
-) -> list[dict[str, Any]]:
-    cfg = {**DEFAULTS, **(config or {})}
-    output = []
-    for document in documents:
-        classification = document.get("corpus_classification") or {}
-        coverage = assess_toolbox_coverage(
-            {
-                "source_classification": classification,
-                "tools": classification.get("software", []),
-                "methods": classification.get("methods", []),
-            },
-            toolbox_profile,
-        )
-        gates = [
-            _gate_source(document),
-            _gate_computational_scope(classification),
-            _gate_task_extractability(classification),
-            _gate_pre_toolbox(coverage, cfg),
-            _gate_pre_availability(preliminary_availability(document)),
-        ]
-        record = dict(document)
-        record["pre_extraction_quality"] = {
-            "decision": _aggregate_decision(gates),
-            "gates": gates,
-            "toolbox_coverage": coverage,
-        }
-        output.append(record)
-    return output
 
 
 def gate_scientific_records(
@@ -187,135 +151,6 @@ def quality_funnel_summary(records: list[dict[str, Any]]) -> dict[str, Any]:
         "gate_outcomes": dict(gate_outcomes),
         "uncovered_or_unavailable_software": dict(toolbox_failures),
     }
-
-
-def pre_screen_summary(documents: list[dict[str, Any]]) -> dict[str, Any]:
-    decisions = Counter(
-        (item.get("pre_extraction_quality") or {}).get("decision", "unknown") for item in documents
-    )
-    gates = Counter()
-    for item in documents:
-        for gate in (item.get("pre_extraction_quality") or {}).get("gates", []):
-            gates[f"{gate.get('gate_id')}:{gate.get('decision')}"] += 1
-    return {"documents": len(documents), "decisions": dict(decisions), "gate_outcomes": dict(gates)}
-
-
-def _gate_source(document: dict[str, Any]) -> dict[str, Any]:
-    if document.get("duplicate_of"):
-        return _gate(
-            "P0_source_integrity",
-            "source integrity and deduplication",
-            "reject",
-            0,
-            ["duplicate source"],
-        )
-    quality = document.get("text_quality") or {}
-    score = quality.get("score", 0.0)
-    if document.get("deep_text_path") or score >= 50:
-        return _gate("P0_source_integrity", "source integrity and deduplication", "pass", score, [])
-    return _gate(
-        "P0_source_integrity",
-        "source integrity and deduplication",
-        "review",
-        score,
-        ["text extraction remains weak"],
-    )
-
-
-def _gate_computational_scope(classification: dict[str, Any]) -> dict[str, Any]:
-    relevance = classification.get("relevance_decision")
-    role = classification.get("computational_role")
-    if relevance == "reject" or role in {"none", "incidental"}:
-        return _gate(
-            "P1_computational_scope",
-            "computational chemistry centrality",
-            "reject",
-            classification.get("relevance_score", 0),
-            [f"role={role}"],
-        )
-    if relevance == "pass" and role == "primary":
-        return _gate(
-            "P1_computational_scope",
-            "computational chemistry centrality",
-            "pass",
-            classification.get("relevance_score", 0),
-            [],
-        )
-    return _gate(
-        "P1_computational_scope",
-        "computational chemistry centrality",
-        "review",
-        classification.get("relevance_score", 0),
-        [f"role={role}"],
-    )
-
-
-def _gate_task_extractability(classification: dict[str, Any]) -> dict[str, Any]:
-    modes = classification.get("eligible_task_types", classification.get("eligible_modes", []))
-    score = max((classification.get("constructability_scores") or {}).values(), default=0.0)
-    role = classification.get("computational_role")
-    if modes:
-        decision = "pass"
-        reasons = []
-    elif role in {"primary", "secondary"}:
-        decision = "review"
-        reasons = [
-            "low-cost text did not identify a task type; deep parsing or LLM classification is required"
-        ]
-    else:
-        decision = "reject"
-        reasons = [
-            "no constructable task type and computation is not a substantive part of the study"
-        ]
-    return _gate("P2_task_extractability", "task-type extractability", decision, score, reasons)
-
-
-def _gate_pre_toolbox(coverage: dict[str, Any], cfg: dict[str, Any]) -> dict[str, Any]:
-    if coverage.get("status") == "not_configured":
-        return _gate(
-            "P3_toolbox_precheck",
-            "toolbox feasibility precheck",
-            "review",
-            0,
-            ["toolbox report not configured"],
-        )
-    direct = coverage.get("direct_coverage", 0.0)
-    capability = coverage.get("capability_coverage", 0.0)
-    blocked = coverage.get("unavailable", [])
-    priority_match = bool(coverage.get("priority_matches")) and coverage.get(
-        "preserve_priority_matches", True
-    )
-    if priority_match:
-        decision = "pass" if direct > 0 or capability > 0 else "review"
-    elif (
-        blocked
-        and direct < cfg["pre_tool_direct_review"]
-        and capability < cfg["pre_tool_capability_review"]
-    ):
-        decision = "review"
-    elif direct >= cfg["pre_tool_direct_review"] or capability >= cfg["pre_tool_capability_review"]:
-        decision = "pass"
-    else:
-        decision = "review"
-    return _gate(
-        "P3_toolbox_precheck",
-        "toolbox feasibility precheck",
-        decision,
-        100 * max(direct, capability),
-        blocked + coverage.get("unknown", []),
-        coverage,
-    )
-
-
-def _gate_pre_availability(availability: dict[str, Any]) -> dict[str, Any]:
-    return _gate(
-        "P4_asset_precheck",
-        "data/code/SI availability precheck",
-        availability["decision"],
-        availability["score"],
-        [availability["reason"]],
-        availability,
-    )
 
 
 def _gate_record_schema(record: dict[str, Any]) -> dict[str, Any]:
