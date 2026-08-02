@@ -31,12 +31,12 @@
 - [x] 实现 Stage 05 资源召回、双解析器、归一化和上限判定。
 - [x] 删除语料主流程中的旧 Stage 03-05。
 - [x] 更新 Stage 06 MinerU 队列输入。
-- [ ] 更新配置、脚本、日志、阶段索引和 README。
+- [x] 更新配置、脚本、日志、阶段索引和 README。
 - [x] 完成单元测试。
-- [ ] 完成服务集成测试。
-- [ ] 对 Stage 02 的 17 篇正式论文完成监督运行和人工复核。
-- [ ] 修复真实运行中发现的问题并完成回归。
-- [ ] 编写最终测试结果分析报告。
+- [x] 完成服务集成测试。
+- [x] 对 Stage 02 的 17 篇正式论文完成监督运行和人工复核。
+- [x] 修复真实运行中发现的问题并完成回归。
+- [x] 编写最终测试结果分析报告。
 
 ## 4. 实施日志
 
@@ -81,3 +81,84 @@
 - `python -m ruff check data_pipeline/src data_pipeline/tests`：通过。
 - `python -m unittest discover -s data_pipeline/tests -q`：49 项通过。
 - 下一步执行自动启动/停止服务的集成测试和 17 篇正式论文监督运行。
+
+### 2026-08-02：环境引导脚本实测和模型完整性修复
+
+- 主环境中的 Python 固定使用 `/usr/bin/python`（Python 3.10.12）。引导脚本在修改
+  `PATH` 前解析解释器绝对路径，避免 OpenJDK 所在 Anaconda 目录将 `python` 错误
+  切换到 Python 3.13。
+- 安装 Python 包时显式使用 PyPI，保留主环境中的 Transformers 4.57.3、Torch
+  2.6.0+cu124 和 NumPy 1.26.4，不根据 DeLFT 的旧依赖声明降级。
+- JEP 不能在普通 Python 进程中直接 `import jep`；改为通过
+  `importlib.metadata` 定位 `libjep.so`。
+- Softcite 的 `context_creation_bert` 和 `context_shared_bert` 曾出现内部 HDF5
+  损坏。引导脚本现在递归遍历每个 HDF5 对象及属性，失败时强制重新下载并再次
+  校验，不能仅凭文件大小或根节点可打开判定模型有效。
+- Hugging Face 下载默认使用 `HF_ENDPOINT=https://hf-mirror.com`，并配置较长的
+  下载超时；用户外部设置的 `HF_ENDPOINT` 仍优先。
+- 完整执行 `scripts/bootstrap_stage_gates.sh` 后，两个 Gradle 项目构建成功，五个
+  Softcite 模型均通过递归 HDF5 校验。
+
+### 2026-08-02：真实语料监督运行与修复
+
+监督测试输入固定为 Stage 02 清单中的 17 篇唯一正式论文：
+
+```text
+runs/pdf_bundle_grobid_20260802/outputs/stage_02_grobid_extract/documents.jsonl
+runs/pdf_bundle_main_papers/main_paper_corpus_manifest.json
+```
+
+运行过程如下：
+
+1. `stage03_05_redesign_20260802_v1`：Softcite 处理到第 9 篇时发现
+   `context_creation_bert` 内部损坏。主动停止运行，修复模型下载和深度校验。
+2. `stage03_05_redesign_20260802_v2`：Stage 03、04 完成，Stage 05 首次请求返回
+   HTTP 415。根据 GROBID Quantities 源码确认接口只接收
+   `multipart/form-data`，修复客户端并增加真实请求格式测试。
+3. `stage03_05_redesign_20260802_v3`：全流程首次成功，漏斗为 `17 -> 6 -> 5 -> 5`。
+   人工审计发现 `scripts`、`code`、`library`、`optPBE-vdW`、GAFF、Hyperopt、
+   pywindow、mpmath 等被错误当作核心求解软件，且 `CP2K 8.2`、完整写法的
+   Quantum ESPRESSO 未正确归一化。
+4. `stage03_05_redesign_20260802_v4`：修复软件角色、别名、版本后缀和多证据恢复。
+   漏斗变为 `17 -> 12 -> 10 -> 10`。人工审计确认 TURBOMOLE、Yambo、SHARC
+   仍作为未覆盖核心软件拒绝。发现 GEOM 的 Stage 04 响应中 `decision=incomplete`
+   与五个布尔项全为真、理由明确称 complete 相冲突。
+5. `stage03_05_redesign_20260802_v5`：加入 Stage 04 一致性校验后最终成功。
+   自相矛盾响应归一化为 `uncertain` 并淘汰，不伪装成确定的 incomplete，也不按
+   API 失败跳过放行。最终漏斗为 `17 -> 12 -> 10 -> 10`。
+
+真实运行中补充的防护包括：
+
+- Softcite 服务日志出现 DeLFT 模型初始化失败时立即抛错停止。
+- Softcite 和 GROBID Quantities 健康检查失败时清理本次启动的进程组。
+- Softcite 已知软件补召回不再被一个 `used=false` 的早期提及永久阻断；最多检查
+  五条正文证据，并用明确执行语句补充上下文分类器。
+- `Gaussian basis`、`Gaussian kernels` 等方法术语不再恢复为 Gaussian 软件。
+- Stage 05 只在计算语义和实际使用语义同时存在时绑定资源；实验反应持续时间、
+  物理轨迹时长、超算平台容量和歧义数值不触发拒绝。
+
+### 2026-08-02：最终验证和版本
+
+关键 Git 版本：
+
+- `e18790f feat(data-pipeline): replace corpus stages 03-05`
+- `3a82bff fix(data-pipeline): harden stage gate reproduction`
+- `20a16bd fix(data-pipeline): send quantities text as multipart`
+- `631d03e fix(data-pipeline): refine core software coverage evidence`
+- `57e581f fix(data-pipeline): reject inconsistent stage04 verdicts`
+
+最终运行输出：
+
+```text
+runs/stage03_05_redesign_20260802_v5/outputs
+```
+
+最终统计：
+
+- Stage 03：17 篇；`direct_covered=12`，`unsupported=5`，能力等价备选 0。
+- Stage 04：12 篇；`complete=10`，`uncertain=1`，`incomplete=1`。
+- Stage 05：10 篇；全部为 `no_explicit_resource`，没有明确超限记录。
+- Softcite 和 GROBID Quantities 均由脚本自动启动并在阶段结束后自动停止。
+- Ruff 通过；完整单元测试在最终代码上为 53 项通过。
+
+详细逐篇分析见 `docs/STAGE_03_05_TEST_RESULTS_20260802.md`。
