@@ -24,6 +24,11 @@ ACTUAL_USE = re.compile(
     r"employed|performed|executed|completed|took|required|allocated|utilized)\b",
     re.I,
 )
+COMPUTATION_CUE = re.compile(
+    r"\b(?:computational|calculation|calculations|simulation|simulations|job|jobs|cpu|gpu|"
+    r"cores?|processors?|nodes?|memory|ram|wall[- ]?time|runtime|elapsed|allocated)\b",
+    re.I,
+)
 CPU_PATTERN = re.compile(
     r"(?P<value>\d+(?:\.\d+)?)\s*(?:physical\s+)?(?:cpu\s*)?(?:cores?|processors?|cpus?)\b",
     re.I,
@@ -46,7 +51,7 @@ TIME_PATTERN = re.compile(
 )
 TIME_CONTEXT = re.compile(
     r"\b(?:wall[- ]?time|runtime|elapsed|completed\s+in|took|ran\s+for|run\s+for|"
-    r"cpu\s+time|gpu\s+time|required|within|for)\b",
+    r"cpu\s+time|gpu\s+time|required|performed|within|for)\b",
     re.I,
 )
 PHYSICAL_DURATION = re.compile(
@@ -190,7 +195,7 @@ def _quantity_mentions(context: dict[str, Any], raw: dict[str, Any]) -> list[dic
 def _resource_binding(text: str) -> str:
     if PLATFORM_ONLY.search(text) and not ACTUAL_USE.search(text):
         return "platform_only"
-    if ACTUAL_USE.search(text):
+    if COMPUTATION_CUE.search(text) and ACTUAL_USE.search(text):
         return "actual_computation"
     return "ambiguous"
 

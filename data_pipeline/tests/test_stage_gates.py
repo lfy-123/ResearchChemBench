@@ -5,6 +5,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from src.ingestion.softcite import SoftciteClient, SoftciteError
 from src.screening.computation_completeness import assess_computation_completeness
 from src.screening.resource_limits import assess_resource_limits
 from src.screening.software_coverage import assess_software_coverage
@@ -33,6 +34,16 @@ class FakeQuantitiesClient:
 
 
 class StageGateTests(unittest.TestCase):
+    def test_softcite_fatal_model_log_stops_the_stage(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            log = Path(directory) / "softcite.log"
+            log.write_text(
+                "ERROR DeLFT classifier model initialization failed\n", encoding="utf-8"
+            )
+            client = SoftciteClient(service_log=str(log))
+            with self.assertRaises(SoftciteError):
+                client._raise_on_fatal_service_log()
+
     def test_stage03_routes_direct_equivalent_and_unsupported(self) -> None:
         gaussian = _mention("Gaussian 16")
         qchem = _mention("Q-Chem")
@@ -211,6 +222,7 @@ class StageGateTests(unittest.TestCase):
             ("The cluster supports 2048 CPU cores.", "ambiguous"),
             ("A 100 ns trajectory was generated with a 2 fs timestep.", "no_explicit_resource"),
             ("The simulation ran for 13 hours.", "exceeds_limit"),
+            ("The reaction was performed for 24 hours at room temperature.", "ambiguous"),
         ]
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import sys
 import time
 import urllib.error
 import urllib.parse
@@ -75,7 +76,11 @@ def grobid_quantities_service(config: dict[str, Any]):
                 self._manager.__enter__()
             except ManagedServiceError as exc:
                 raise GrobidQuantitiesError(str(exc)) from exc
-            client.version()
+            try:
+                client.version()
+            except Exception:
+                self._manager.__exit__(*sys.exc_info())
+                raise
             return client
 
         def __exit__(self, exc_type, exc, traceback) -> bool:
