@@ -168,34 +168,54 @@ def _recover_known_software(
     role_rules: dict[str, Any],
     client: SoftciteClient,
 ) -> list[dict[str, Any]]:
-    existing_names = {item["normalized_name"] for item in existing}
-    candidates: dict[str, tuple[str, dict[str, Any]]] = {}
+    existing_names = {item["normalized_name"] for item in existing if item["used"]}
+    candidates: dict[str, list[tuple[str, dict[str, Any]]]] = {}
     alias_patterns = sorted(aliases, key=len, reverse=True)
     for paragraph in read_tei_paragraphs(tei_path):
         for sentence in sentence_windows(paragraph):
             for alias_key in alias_patterns:
                 normalized = aliases[alias_key]
-                if normalized in existing_names or normalized in candidates:
+                if normalized in existing_names:
                     continue
                 if _contains_alias(sentence["text"], alias_key):
-                    candidates[normalized] = (alias_key, sentence)
+                    if _is_nonsoftware_alias_context(normalized, sentence["text"]):
+                        continue
+                    values = candidates.setdefault(normalized, [])
+                    if not any(item[1]["text"] == sentence["text"] for item in values):
+                        values.append((alias_key, sentence))
     output = []
-    for normalized, (alias_key, sentence) in candidates.items():
-        result = client.characterize_context(sentence["text"])
-        used_payload = ((result.get("classification") or {}).get("used") or {})
+    for normalized, contexts in candidates.items():
+        classified = []
+        for alias_key, sentence in contexts[:5]:
+            result = client.characterize_context(sentence["text"])
+            used_payload = ((result.get("classification") or {}).get("used") or {})
+            classified.append((alias_key, sentence, result, used_payload))
+        alias_key, sentence, result, used_payload = max(
+            classified,
+            key=lambda item: (
+                bool(item[3].get("value")) or _strong_software_use(item[1]["text"]),
+                float(item[3].get("score") or 0),
+            ),
+        )
+        used = bool(used_payload.get("value")) or _strong_software_use(sentence["text"])
         output.append(
             {
                 "raw_name": alias_key,
                 "normalized_name": normalized,
                 "version": "",
                 "role": _software_role(normalized, alias_key, role_rules),
-                "used": bool(used_payload.get("value")),
+                "used": used,
                 "used_score": used_payload.get("score"),
                 "evidence": sentence["text"],
                 "section": sentence.get("section"),
                 "paragraph_index": sentence.get("paragraph_index"),
                 "source": "toolbox_lexicon_softcite_context",
                 "softcite_context": result,
+                "additional_evidence": [
+                    item[1]["text"]
+                    for item in classified
+                    if item[1]["text"] != sentence["text"]
+                ],
             }
         )
     return output
@@ -223,7 +243,15 @@ def _alias_index(value: dict[str, Any]) -> dict[str, str]:
 
 
 def _normalize_software(value: str, aliases: dict[str, str]) -> str:
+    key = _alias_key(value)
+    if key in aliases:
+        return aliases[key]
     key = _alias_key(re.sub(r"\b(?:version|ver\.?|v)\s*\d+(?:\.\d+)*\b", "", value, flags=re.I))
+    if key in aliases:
+        return aliases[key]
+    versionless = re.sub(r"\s+\d+(?:\s+\d+)*$", "", key)
+    if versionless in aliases:
+        return aliases[versionless]
     return aliases.get(key, key.replace(" ", "_"))
 
 
@@ -281,6 +309,31 @@ def _capability_equivalence(
 def _contains_alias(text: str, alias_key: str) -> bool:
     pattern = r"(?<![A-Za-z0-9])" + re.escape(alias_key).replace(r"\ ", r"[\s_-]+") + r"(?![A-Za-z0-9])"
     return re.search(pattern, _alias_key(text), re.I) is not None
+
+
+def _strong_software_use(text: str) -> bool:
+    return bool(
+        re.search(
+            r"\b(?:calculations?|simulations?|dynamics|workflows?|sampling|energies|structures?)\b"
+            r".{0,100}\b(?:using|with|in|via|implemented|performed|carried out|run|used)\b"
+            r"|\b(?:using|with|via|implemented in|performed with|carried out with|run with|used in)\b"
+            r".{0,100}\b(?:calculations?|simulations?|dynamics|engine|package|program|software|plugin)\b",
+            text,
+            re.I,
+        )
+    )
+
+
+def _is_nonsoftware_alias_context(normalized: str, text: str) -> bool:
+    if normalized != "gaussian":
+        return False
+    return bool(
+        re.search(
+            r"\bGaussian\s+(?:basis|function|functions|kernel|kernels|distribution|noise|"
+            r"process|broadening|beam|fit|orbital|orbitals)\b",
+            text,
+        )
+    )
 
 
 def _alias_key(value: str) -> str:

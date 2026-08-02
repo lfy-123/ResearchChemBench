@@ -167,6 +167,55 @@ class StageGateTests(unittest.TestCase):
             self.assertEqual(result["core_software"], [])
             self.assertEqual(result["auxiliary_software"][0]["normalized_name"], "python")
 
+    def test_stage03_recovers_later_use_and_ignores_gaussian_basis(self) -> None:
+        unused_lammps = _mention("LAMMPS", used=False)
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            tei = root / "paper.tei.xml"
+            tei.write_text(
+                _tei(
+                    "A Gaussian basis set was selected. "
+                    "The production simulations were run with LAMMPS and the PLUMED plugin."
+                ),
+                encoding="utf-8",
+            )
+            (root / "aliases.json").write_text(
+                json.dumps(
+                    {
+                        "gaussian": ["Gaussian"],
+                        "lammps": ["LAMMPS"],
+                        "plumed": ["PLUMED"],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            (root / "roles.json").write_text(
+                '{"ignore": [], "auxiliary": []}', encoding="utf-8"
+            )
+            (root / "capabilities.json").write_text("{}", encoding="utf-8")
+            rows = assess_software_coverage(
+                [
+                    {
+                        "document_id": "doc_test",
+                        "paper_id": "doc_test",
+                        "source_path": str(root / "paper.pdf"),
+                        "grobid_tei_path": str(tei),
+                    }
+                ],
+                FakeSoftciteClient([unused_lammps]),
+                {"backends": ["lammps", "plumed"], "actions": [], "unavailable": []},
+                aliases_file=root / "aliases.json",
+                role_rules_file=root / "roles.json",
+                capability_map_file=root / "capabilities.json",
+                raw_output_dir=root / "raw",
+            )
+            result = rows[0]["software_coverage"]
+            self.assertEqual(result["decision"], "direct_covered")
+            self.assertEqual(
+                {item["normalized_name"] for item in result["core_software"]},
+                {"lammps", "plumed"},
+            )
+
     def test_stage04_complete_reject_and_skip_semantics(self) -> None:
         complete = {
             "decision": "complete",
