@@ -34,14 +34,11 @@ from src.discovery.query import expand_seeds
 from src.discovery.screen import screen_papers
 from src.discovery.search import retrieval_summary, search_offline, search_openalex
 from src.discovery.seed_audit import audit_seed_coverage
-from src.ingestion.corpus import (
-    cheap_extract_documents,
-    inventory_corpus,
-    markdown_metadata,
-)
+from src.ingestion.corpus import inventory_corpus, markdown_metadata
 from src.ingestion.dedupe import deduplicate
 from src.ingestion.deep_parse import build_mineru_queue, deep_text_map, run_mineru_queue
 from src.ingestion.deep_quality import assess_deep_parse_quality, deep_quality_summary
+from src.ingestion.grobid import extract_documents_with_grobid, grobid_service
 from src.ingestion.study_bundle import build_study_bundles, member_bundle_map
 
 
@@ -193,36 +190,101 @@ def run_corpus_pipeline(
 
     stage = _stage_dir(workspace, "stage_01_inventory")
     inventory = inventory_corpus(corpus_root)
+    exclude_supplementary = bool(source.get("exclude_supplementary", True))
+    supplementary_inventory = [
+        item for item in inventory if item.get("document_role") == "supplementary"
+    ]
+    eligible_inventory = [
+        item
+        for item in inventory
+        if not exclude_supplementary or item.get("document_role") != "supplementary"
+    ]
+    canonical_inventory = [item for item in eligible_inventory if not item.get("duplicate_of")]
+    duplicate_inventory = [item for item in inventory if item.get("duplicate_of")]
     write_jsonl(stage / "corpus_inventory.jsonl", inventory)
     write_jsonl(stage / "pdf_paths.jsonl", _pdf_path_rows(inventory, "inventory_status"))
+    write_jsonl(
+        stage / "canonical_pdf_paths.jsonl",
+        _pdf_path_rows(canonical_inventory, "inventory_status"),
+    )
+    write_jsonl(
+        stage / "duplicate_pdf_paths.jsonl",
+        _pdf_path_rows(duplicate_inventory, "inventory_status"),
+    )
+    write_jsonl(
+        stage / "supplementary_pdf_paths.jsonl",
+        _pdf_path_rows(supplementary_inventory, "document_role"),
+    )
+    write_jsonl(
+        stage / "main_paper_pdf_paths.jsonl",
+        _pdf_path_rows(
+            [item for item in inventory if item.get("document_role") == "main_paper"],
+            "document_role",
+        ),
+    )
     _write_stage_summary(
         stage,
         {
             "pdf_files": len(inventory),
             "canonical_pdfs": sum(1 for item in inventory if not item.get("duplicate_of")),
             "duplicate_pdfs": sum(1 for item in inventory if item.get("duplicate_of")),
+            "supplementary_pdfs": len(supplementary_inventory),
+            "supplementary_excluded": (
+                len(supplementary_inventory) if exclude_supplementary else 0
+            ),
+            "downstream_main_papers": len(canonical_inventory),
         },
     )
 
-    cheap_config = config.get("cheap_extract", {})
-    stage = _stage_dir(workspace, "stage_02_cheap_extract")
-    text_dir = _resolve(base, cheap_config.get("text_dir", str(stage / "text")))
-    cheap_records = cheap_extract_documents(
-        inventory,
-        text_dir,
-        max_chars=cheap_config.get("max_chars", 2_000_000),
-        reuse_existing=cheap_config.get("reuse_existing", True),
-    )
-    write_jsonl(stage / "documents.jsonl", cheap_records)
+    grobid_config = config.get("grobid_extract", {})
+    stage = _stage_dir(workspace, "stage_02_grobid_extract")
+    with grobid_service(grobid_config) as client:
+        extracted_records = extract_documents_with_grobid(
+            canonical_inventory,
+            client,
+            _resolve(base, grobid_config.get("tei_dir", str(stage / "tei"))),
+            _resolve(base, grobid_config.get("text_dir", str(stage / "text"))),
+            max_chars=grobid_config.get("max_chars", 2_000_000),
+            reuse_existing=grobid_config.get("reuse_existing", True),
+            exclude_supplementary=exclude_supplementary,
+        )
+    write_jsonl(stage / "documents.jsonl", extracted_records)
     _write_stage_summary(
         stage,
-        _field_summary(cheap_records, "cheap_extract_status", "documents"),
+        {
+            **_field_summary(extracted_records, "grobid_extract_status", "documents"),
+            "input_pdf_files": len(inventory),
+            "duplicates_excluded": len(duplicate_inventory),
+            "supplementary_excluded": (
+                len(supplementary_inventory) if exclude_supplementary else 0
+            ),
+        },
     )
+
+    if config.get("stop_after") == "grobid_extract":
+        return {
+            "source_mode": "corpus",
+            "stopped_after": "grobid_extract",
+            "config": str(config_path),
+            "corpus_root": str(corpus_root),
+            "workspace": str(workspace),
+            "pdf_files": len(inventory),
+            "supplementary_excluded": (
+                len(supplementary_inventory) if exclude_supplementary else 0
+            ),
+            "canonical_main_papers": len(canonical_inventory),
+            "grobid_documents": len(extracted_records),
+            "grobid_success": sum(
+                1
+                for item in extracted_records
+                if item.get("grobid_extract_status") in {"success", "reused"}
+            ),
+        }
 
     classify_config = config.get("corpus_classify", {})
     stage = _stage_dir(workspace, "stage_03_initial_classification")
     classified = classify_corpus_documents(
-        cheap_records,
+        extracted_records,
         relevance_pass=classify_config.get("relevance_pass", 45.0),
         relevance_review=classify_config.get("relevance_review", 22.0),
         constructability_threshold=classify_config.get("constructability_threshold", 55.0),
@@ -304,7 +366,7 @@ def run_corpus_pipeline(
         classified,
         mineru_results,
         min_title_recall=quality_config.get("min_title_recall", 0.7),
-        min_cheap_vocab_recall=quality_config.get("min_cheap_vocab_recall", 0.65),
+        min_grobid_vocab_recall=quality_config.get("min_grobid_vocab_recall", 0.65),
         min_key_term_coverage=quality_config.get("min_key_term_coverage", 0.5),
         min_length_ratio=quality_config.get("min_length_ratio", 0.25),
         max_length_ratio=quality_config.get("max_length_ratio", 2.5),
@@ -399,25 +461,17 @@ def run_corpus_pipeline(
             "text": [
                 deep_paths.get(member_id)
                 or next(
-                    (
-                        item.get("cheap_text_path")
-                        for item in classified
-                        if item["paper_id"] == member_id
-                    ),
+                    (item.get("text_path") for item in classified if item["paper_id"] == member_id),
                     None,
                 )
                 for member_id in bundle.get("member_paper_ids", [document["paper_id"]])
                 if deep_paths.get(member_id)
                 or next(
-                    (
-                        item.get("cheap_text_path")
-                        for item in classified
-                        if item["paper_id"] == member_id
-                    ),
+                    (item.get("text_path") for item in classified if item["paper_id"] == member_id),
                     None,
                 )
             ],
-            "parser": "mineru" if document["paper_id"] in deep_paths else "pdftotext",
+            "parser": "mineru" if document["paper_id"] in deep_paths else "grobid",
             "deep_parse": {
                 key: value
                 for key, value in deep_result_map.get(document["paper_id"], {}).items()
@@ -853,8 +907,14 @@ def _write_stage_summary(stage: Path, summary: dict[str, Any]) -> None:
 
 def _write_corpus_stage_index(workspace: Path) -> None:
     stages = [
-        ("stage_01_inventory", "PDF inventory, metadata, hashes, and duplicate detection"),
-        ("stage_02_cheap_extract", "pdftotext extraction and text-quality assessment"),
+        (
+            "stage_01_inventory",
+            "PDF inventory, main/supplementary roles, hashes, and duplicate detection",
+        ),
+        (
+            "stage_02_grobid_extract",
+            "GROBID TEI extraction for metadata, structure, and full text",
+        ),
         ("stage_03_initial_classification", "initial relevance and task constructability"),
         ("stage_04_low_cost_screen", "low-cost quality and toolbox screening"),
         ("stage_05_seed_audit", "seed coverage audit"),

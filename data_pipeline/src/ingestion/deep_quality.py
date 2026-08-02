@@ -12,7 +12,7 @@ def assess_deep_parse_quality(
     results: list[dict[str, Any]],
     *,
     min_title_recall: float = 0.7,
-    min_cheap_vocab_recall: float = 0.65,
+    min_grobid_vocab_recall: float = 0.65,
     min_key_term_coverage: float = 0.5,
     min_length_ratio: float = 0.25,
     max_length_ratio: float = 2.5,
@@ -26,7 +26,7 @@ def assess_deep_parse_quality(
             document,
             result,
             min_title_recall=min_title_recall,
-            min_cheap_vocab_recall=min_cheap_vocab_recall,
+            min_grobid_vocab_recall=min_grobid_vocab_recall,
             min_key_term_coverage=min_key_term_coverage,
             min_length_ratio=min_length_ratio,
             max_length_ratio=max_length_ratio,
@@ -45,7 +45,7 @@ def deep_quality_summary(results: list[dict[str, Any]]) -> dict[str, Any]:
         "failed": sum(
             1 for item in results if not (item.get("deep_parse_quality") or {}).get("passed")
         ),
-        "fallback_to_cheap_text": [
+        "fallback_to_grobid_text": [
             item["paper_id"]
             for item in results
             if not (item.get("deep_parse_quality") or {}).get("passed")
@@ -59,17 +59,17 @@ def _assess_one(
     **thresholds: float,
 ) -> dict[str, Any]:
     markdown_path = result.get("markdown_path")
-    cheap_path = document.get("cheap_text_path")
+    grobid_path = document.get("text_path")
     markdown = _read_text(markdown_path)
-    cheap = _read_text(cheap_path)
+    grobid_text = _read_text(grobid_path)
     markdown_tokens = _tokens(markdown)
-    cheap_tokens = _tokens(cheap)
+    grobid_tokens = _tokens(grobid_text)
     title_tokens = _tokens(document.get("title", ""))
-    has_cheap_text = len(cheap) >= 1000
+    has_grobid_text = len(grobid_text) >= 1000
 
     title_recall = _recall(title_tokens, markdown_tokens)
-    cheap_vocab_recall = _recall(cheap_tokens, markdown_tokens)
-    length_ratio = len(markdown) / max(1, len(cheap))
+    grobid_vocab_recall = _recall(grobid_tokens, markdown_tokens)
+    length_ratio = len(markdown) / max(1, len(grobid_text))
     classification = document.get("corpus_classification") or {}
     key_terms = classification.get("software", []) + classification.get("methods", [])
     normalized_markdown = _normalize_phrase(markdown)
@@ -83,12 +83,12 @@ def _assess_one(
         "output_valid": bool(result.get("valid")),
         "page_count": expected_pages is None or parsed_pages == expected_pages,
         "title_recall": title_recall >= thresholds["min_title_recall"],
-        "cheap_vocab_recall": (
-            not has_cheap_text or cheap_vocab_recall >= thresholds["min_cheap_vocab_recall"]
+        "grobid_vocab_recall": (
+            not has_grobid_text or grobid_vocab_recall >= thresholds["min_grobid_vocab_recall"]
         ),
         "key_term_coverage": key_term_coverage >= thresholds["min_key_term_coverage"],
         "length_ratio": (
-            not has_cheap_text
+            not has_grobid_text
             or (thresholds["min_length_ratio"] <= length_ratio <= thresholds["max_length_ratio"])
         ),
     }
@@ -100,17 +100,17 @@ def _assess_one(
             "expected_pages": expected_pages,
             "parsed_pages": parsed_pages,
             "markdown_characters": len(markdown),
-            "cheap_text_characters": len(cheap),
-            "cheap_text_available": has_cheap_text,
+            "grobid_text_characters": len(grobid_text),
+            "grobid_text_available": has_grobid_text,
             "length_ratio": round(length_ratio, 3),
             "title_recall": round(title_recall, 3),
-            "cheap_vocab_recall": round(cheap_vocab_recall, 3),
+            "grobid_vocab_recall": round(grobid_vocab_recall, 3),
             "key_term_coverage": round(key_term_coverage, 3),
             "matched_key_terms": matched_terms,
             "expected_key_terms": key_terms,
         },
         "checks": checks,
-        "fallback": "none" if not failed_checks else "cheap_text",
+        "fallback": "none" if not failed_checks else "grobid_text",
     }
 
 

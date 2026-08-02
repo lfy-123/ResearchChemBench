@@ -19,9 +19,10 @@ from src.discovery.query import expand_seeds
 from src.discovery.screen import screen_papers
 from src.discovery.search import search_offline, search_openalex
 from src.discovery.seed_audit import audit_seed_coverage
-from src.ingestion.corpus import cheap_extract_documents, inventory_corpus
+from src.ingestion.corpus import inventory_corpus
 from src.ingestion.dedupe import deduplicate
 from src.ingestion.deep_parse import build_mineru_queue, run_mineru_queue
+from src.ingestion.grobid import GrobidClient, extract_documents_with_grobid
 from src.orchestration.pipeline import run_pipeline
 
 
@@ -112,11 +113,17 @@ def main(argv: list[str] | None = None) -> int:
     inventory_parser.add_argument("--root", required=True)
     inventory_parser.add_argument("--output", required=True)
 
-    cheap_parser = subparsers.add_parser("corpus-extract", help="Run low-cost pdftotext extraction")
-    cheap_parser.add_argument("--inventory", required=True)
-    cheap_parser.add_argument("--text-dir", required=True)
-    cheap_parser.add_argument("--output", required=True)
-    cheap_parser.add_argument("--max-chars", type=int, default=2_000_000)
+    extract_corpus_parser = subparsers.add_parser(
+        "corpus-extract", help="Extract structured PDF metadata and text with GROBID"
+    )
+    extract_corpus_parser.add_argument("--inventory", required=True)
+    extract_corpus_parser.add_argument("--tei-dir", required=True)
+    extract_corpus_parser.add_argument("--text-dir", required=True)
+    extract_corpus_parser.add_argument("--output", required=True)
+    extract_corpus_parser.add_argument("--grobid-url", default="http://127.0.0.1:8070")
+    extract_corpus_parser.add_argument("--timeout-seconds", type=int, default=900)
+    extract_corpus_parser.add_argument("--max-chars", type=int, default=2_000_000)
+    extract_corpus_parser.add_argument("--include-supplementary", action="store_true")
 
     classify_parser = subparsers.add_parser(
         "corpus-classify", help="Classify computational chemistry relevance and task potential"
@@ -228,14 +235,19 @@ def main(argv: list[str] | None = None) -> int:
             "output": args.output,
         }
     elif args.command == "corpus-extract":
-        rows = cheap_extract_documents(
-            read_jsonl(args.inventory), args.text_dir, max_chars=args.max_chars
+        rows = extract_documents_with_grobid(
+            read_jsonl(args.inventory),
+            GrobidClient(base_url=args.grobid_url, timeout_seconds=args.timeout_seconds),
+            args.tei_dir,
+            args.text_dir,
+            max_chars=args.max_chars,
+            exclude_supplementary=not args.include_supplementary,
         )
         write_jsonl(args.output, rows)
         result = {
             "documents": len(rows),
             "successful": sum(
-                1 for row in rows if row.get("cheap_extract_status") in {"success", "reused"}
+                1 for row in rows if row.get("grobid_extract_status") in {"success", "reused"}
             ),
             "needs_ocr": sum(1 for row in rows if (row.get("text_quality") or {}).get("needs_ocr")),
             "output": args.output,

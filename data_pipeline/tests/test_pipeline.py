@@ -40,10 +40,11 @@ from src.delivery.validate import validate_dataset
 from src.discovery.corpus_classify import classify_corpus_documents
 from src.discovery.query import expand_seeds
 from src.discovery.seed_audit import audit_seed_coverage
-from src.ingestion.corpus import infer_title
+from src.ingestion.corpus import inventory_corpus
 from src.ingestion.dedupe import deduplicate
 from src.ingestion.deep_parse import build_mineru_queue
 from src.ingestion.deep_quality import assess_deep_parse_quality
+from src.ingestion.grobid import extract_documents_with_grobid, parse_grobid_tei
 from src.ingestion.study_bundle import build_study_bundles
 from src.orchestration.pipeline import _curation_queue_item, _seedless_coverage_summary
 
@@ -555,7 +556,7 @@ class PipelineTests(unittest.TestCase):
                         "title": "Reaction mechanism by density functional theory",
                         "abstract": "We performed DFT calculations with Gaussian 16 to identify transition states and activation barriers.",
                         "section_headings": ["Computational Methods", "Results"],
-                        "cheap_text_path": str(computational_text),
+                        "text_path": str(computational_text),
                         "text_quality": {"needs_ocr": False},
                     },
                     {
@@ -564,7 +565,7 @@ class PipelineTests(unittest.TestCase):
                         "title": "A practical copper-catalyzed synthesis",
                         "abstract": "An experimental synthetic chemistry study.",
                         "section_headings": ["Materials and Methods", "Results"],
-                        "cheap_text_path": str(experimental_text),
+                        "text_path": str(experimental_text),
                         "text_quality": {"needs_ocr": False},
                     },
                 ]
@@ -659,14 +660,116 @@ class PipelineTests(unittest.TestCase):
         self.assertEqual(summary["seed_count"], 0)
         self.assertEqual(summary["new_capability_documents"], 1)
 
-    def test_raw_first_page_repairs_multicolumn_title(self) -> None:
-        raw = """A polymer dataset for accelerated
-property prediction and design
-Tran Doan Huan1
-, Arun Mannodi-Kanakkithodi1
-"""
-        title = infer_title("", "untitled", "fallback.pdf", raw)
-        self.assertEqual(title, "A polymer dataset for accelerated property prediction and design")
+    def test_grobid_tei_parser_extracts_structured_metadata(self) -> None:
+        tei = """<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:lang="en">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt><title level="a" type="main">A Structured Chemistry Paper</title></titleStmt>
+      <publicationStmt><publisher>Example Publisher</publisher></publicationStmt>
+      <sourceDesc>
+        <biblStruct>
+          <analytic>
+            <author role="corresp"><persName><forename>Jane</forename><surname>Doe ∇</surname></persName><idno type="ORCID">0000-0001</idno><affiliation><orgName>Example University</orgName></affiliation></author>
+            <author><persName><surname>Wt</surname></persName></author>
+            <idno type="DOI">10.1000/example</idno>
+          </analytic>
+          <monogr><title level="j">Journal of Structured Chemistry</title><imprint><date type="published" when="2024-05-02"/><biblScope unit="volume">12</biblScope><biblScope unit="issue">3</biblScope><biblScope unit="page" from="101" to="110"/></imprint></monogr>
+        </biblStruct>
+      </sourceDesc>
+    </fileDesc>
+    <profileDesc><abstract><p>This paper reports a structured computational chemistry result.</p></abstract><textClass><keywords><term>density functional theory</term></keywords></textClass></profileDesc>
+  </teiHeader>
+  <text><body><div><head>Introduction</head><p>Body text.</p><figure><head>Figure 1. Workflow</head></figure></div><div><head>Methods</head><p>Method text.</p></div><div><head>By studying these</head><p>systems we obtain a complete sentence.</p></div></body></text>
+</TEI>"""
+        parsed = parse_grobid_tei(tei)
+        self.assertEqual(parsed["title"], "A Structured Chemistry Paper")
+        self.assertEqual(
+            parsed["abstract"], "This paper reports a structured computational chemistry result."
+        )
+        self.assertEqual(parsed["authors"], ["Jane Doe"])
+        self.assertEqual(parsed["doi"], "10.1000/example")
+        self.assertEqual(parsed["publication_date"], "2024-05-02")
+        self.assertEqual(parsed["year"], 2024)
+        self.assertEqual(parsed["venue"], "Journal of Structured Chemistry")
+        self.assertEqual(parsed["volume"], "12")
+        self.assertEqual(parsed["issue"], "3")
+        self.assertEqual(parsed["article_pages"], "101-110")
+        self.assertEqual(parsed["section_headings"], ["Introduction", "Methods"])
+
+    def test_grobid_tei_parser_drops_citation_heavy_intro_from_abstract(self) -> None:
+        first = "A" * 650
+        tei = f"""<TEI xmlns="http://www.tei-c.org/ns/1.0"><teiHeader><fileDesc><titleStmt><title type="main">Paper</title></titleStmt><sourceDesc><biblStruct/></sourceDesc></fileDesc><profileDesc><abstract><p>{first}</p><p>Prior work established this result <ref type="bibr">1</ref>.</p></abstract></profileDesc></teiHeader><text><body/></text></TEI>"""
+        parsed = parse_grobid_tei(tei)
+        self.assertEqual(parsed["abstract"], first)
+
+    def test_grobid_extraction_excludes_duplicate_inventory_rows(self) -> None:
+        tei = """<TEI xmlns="http://www.tei-c.org/ns/1.0"><teiHeader><fileDesc><titleStmt><title type="main">Canonical Paper</title></titleStmt><sourceDesc><biblStruct/></sourceDesc></fileDesc><profileDesc><abstract><p>A sufficiently descriptive abstract for the canonical document.</p></abstract></profileDesc></teiHeader><text><body><div><head>Methods</head><p>Computational text.</p></div></body></text></TEI>"""
+
+        class FakeClient:
+            def __init__(self) -> None:
+                self.calls = 0
+
+            def process_fulltext_document(self, _path: str) -> str:
+                self.calls += 1
+                return tei
+
+        inventory = [
+            {
+                "document_id": "doc_same",
+                "paper_id": "doc_same",
+                "source_path": "/tmp/canonical.pdf",
+                "file_name": "canonical.pdf",
+                "page_count": 1,
+                "duplicate_of": None,
+            },
+            {
+                "document_id": "doc_same",
+                "paper_id": "doc_same",
+                "source_path": "/tmp/duplicate.pdf",
+                "file_name": "duplicate.pdf",
+                "page_count": 1,
+                "duplicate_of": "doc_same",
+            },
+            {
+                "document_id": "doc_supplement",
+                "paper_id": "doc_supplement",
+                "source_path": "/tmp/supplementary/SI.pdf",
+                "file_name": "SI.pdf",
+                "page_count": 1,
+                "duplicate_of": None,
+                "document_role": "supplementary",
+            },
+        ]
+        client = FakeClient()
+        with tempfile.TemporaryDirectory() as directory:
+            rows = extract_documents_with_grobid(
+                inventory,
+                client,
+                Path(directory) / "tei",
+                Path(directory) / "text",
+            )
+        self.assertEqual(len(rows), 1)
+        self.assertEqual(client.calls, 1)
+        self.assertEqual(rows[0]["title"], "Canonical Paper")
+        self.assertIsNone(rows[0].get("duplicate_of"))
+
+    def test_inventory_records_duplicate_owner_path_for_stage_one_audit(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "a.pdf").write_bytes(b"same-pdf-content")
+            (root / "b.pdf").write_bytes(b"same-pdf-content")
+            supplementary = root / "supplementary"
+            supplementary.mkdir()
+            (supplementary / "SI.pdf").write_bytes(b"supplementary-content")
+            rows = inventory_corpus(root)
+        self.assertEqual(len(rows), 3)
+        self.assertEqual(rows[0]["inventory_status"], "canonical")
+        self.assertEqual(rows[1]["inventory_status"], "duplicate")
+        self.assertEqual(rows[1]["duplicate_of"], rows[0]["document_id"])
+        self.assertEqual(rows[1]["duplicate_of_source_path"], rows[0]["source_path"])
+        self.assertEqual(rows[0]["document_role"], "main_paper")
+        self.assertEqual(rows[2]["document_role"], "supplementary")
 
     def test_rejected_paper_is_out_of_scope_for_seed_coverage(self) -> None:
         document = {
@@ -722,7 +825,7 @@ Tran Doan Huan1
                         "paper_id": "p1",
                         "title": "A VASP density functional theory dataset",
                         "page_count": 2,
-                        "cheap_text_path": str(cheap),
+                        "text_path": str(cheap),
                         "corpus_classification": {
                             "software": ["VASP"],
                             "methods": ["DFT"],

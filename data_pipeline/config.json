@@ -1,9 +1,23 @@
 {
-  "pdf_directory": "../PDF论文打包",
+  "pdf_directory": "runs/pdf_bundle_main_papers/PDF论文打包",
+  "exclude_supplementary": true,
   "run_directory": "runs/current",
   "stop_after": "model_ensemble",
   "prompt_examples": "assets/prompt_examples.json",
   "verify_asset_urls": true,
+  "grobid": {
+    "base_url": "http://127.0.0.1:8070",
+    "working_directory": "third_party/grobid",
+    "start_command": ["./gradlew", "--no-daemon", "run"],
+    "java_home": "/inspire/hdd/global_user/lifangyuan-253108110077/Anaconda3",
+    "auto_start": true,
+    "startup_timeout_seconds": 600,
+    "timeout_seconds": 900,
+    "retries": 2,
+    "consolidate_header": 0,
+    "consolidate_citations": 0,
+    "reuse_existing": true
+  },
   "mineru": {
     "enabled": true,
     "command": "mineru",

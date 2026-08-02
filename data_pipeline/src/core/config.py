@@ -29,6 +29,7 @@ def normalize_config(raw: dict[str, Any], base: Path) -> dict[str, Any]:
     review_llm = _llm_stage(llm, "review", "REVIEW_LLM", "deepseek-v4-flash")
     roles = (llm.get("review") or {}).get("roles") or list(DEFAULT_REVIEW_ROLES)
 
+    grobid = raw.get("grobid") or {}
     mineru = raw.get("mineru") or {}
     toolbox = raw.get("toolbox") or {}
     mineru_environment = {"MINERU_MODEL_SOURCE": "local"}
@@ -49,14 +50,35 @@ def normalize_config(raw: dict[str, Any], base: Path) -> dict[str, Any]:
     ]
 
     return {
-        "source": {"mode": "corpus", "root": str(pdf_directory)},
+        "source": {
+            "mode": "corpus",
+            "root": str(pdf_directory),
+            "exclude_supplementary": bool(raw.get("exclude_supplementary", True)),
+        },
         "workspace": str(run_dir / "outputs"),
         "log_file": str(run_dir / "outputs" / "pipeline.log"),
         "output": str(run_dir / "outputs" / "stage_18_dataset_build" / "dataset"),
         "stop_after": raw.get("stop_after", "model_ensemble"),
-        "cheap_extract": {
-            "text_dir": str(run_dir / "outputs" / "stage_02_cheap_extract" / "text"),
-            "reuse_existing": True,
+        "grobid_extract": {
+            "base_url": grobid.get("base_url", "http://127.0.0.1:8070"),
+            "tei_dir": str(run_dir / "outputs" / "stage_02_grobid_extract" / "tei"),
+            "text_dir": str(run_dir / "outputs" / "stage_02_grobid_extract" / "text"),
+            "service_log": str(
+                run_dir / "outputs" / "stage_02_grobid_extract" / "grobid_service.log"
+            ),
+            "working_directory": str(
+                _resolve(base, grobid.get("working_directory", "third_party/grobid"))
+            ),
+            "start_command": grobid.get("start_command", ["./gradlew", "--no-daemon", "run"]),
+            "java_home": grobid.get("java_home"),
+            "auto_start": bool(grobid.get("auto_start", True)),
+            "startup_timeout_seconds": int(grobid.get("startup_timeout_seconds", 300)),
+            "timeout_seconds": int(grobid.get("timeout_seconds", 900)),
+            "retries": int(grobid.get("retries", 2)),
+            "consolidate_header": int(grobid.get("consolidate_header", 0)),
+            "consolidate_citations": int(grobid.get("consolidate_citations", 0)),
+            "max_chars": int(grobid.get("max_chars", 2_000_000)),
+            "reuse_existing": bool(grobid.get("reuse_existing", True)),
         },
         "mineru": {
             "execute": bool(mineru.get("enabled", True)),

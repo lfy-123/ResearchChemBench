@@ -196,7 +196,7 @@ def _record_text(record: dict[str, Any]) -> str:
 
 def _document_text(document: dict[str, Any]) -> str:
     chunks = [document.get("title", ""), document.get("abstract", "")]
-    raw = document.get("deep_text_path") or document.get("cheap_text_path")
+    raw = document.get("deep_text_path") or document.get("text_path")
     if raw and Path(raw).exists():
         chunks.append(Path(raw).read_text(encoding="utf-8", errors="replace")[:2_000_000])
     return "\n".join(chunks)

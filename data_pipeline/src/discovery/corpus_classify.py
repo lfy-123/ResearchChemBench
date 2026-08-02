@@ -235,7 +235,7 @@ def classification_summary(documents: list[dict[str, Any]]) -> dict[str, Any]:
 
 
 def _load_text(document: dict[str, Any]) -> str:
-    path = document.get("deep_text_path") or document.get("cheap_text_path")
+    path = document.get("deep_text_path") or document.get("text_path")
     if not path or not Path(path).exists():
         return ""
     return Path(path).read_text(encoding="utf-8", errors="replace")

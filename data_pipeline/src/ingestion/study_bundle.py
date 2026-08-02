@@ -6,24 +6,9 @@ from pathlib import Path
 from typing import Any
 
 from src.core.io import sha256_file, stable_id
-
-SUPPLEMENTARY_HINTS = (
-    "supplementary",
-    "supporting_information",
-    "supporting-information",
-    "_si_",
-    "-si-",
-    "_si.",
-    "s001",
-    "moesm",
-    "esm",
-    "appendix",
-)
-GENERIC_TITLES = (
-    "microsoft word",
-    "supplementary information",
-    "supporting information",
-    "si.docx",
+from src.ingestion.document_role import (
+    GENERIC_SUPPLEMENTARY_TITLES,
+    classify_document_role,
 )
 
 
@@ -121,19 +106,18 @@ def _structured_path_key(raw: Any) -> str | None:
 
 
 def _document_role(document: dict[str, Any]) -> str:
-    raw = str(document.get("source_path") or "").casefold().replace(" ", "_")
-    title = str(document.get("title") or "").casefold()
-    if any(hint in raw for hint in SUPPLEMENTARY_HINTS) or any(
-        value in title for value in GENERIC_TITLES
-    ):
-        return "supplementary"
-    return "main_paper"
+    return str(
+        document.get("document_role")
+        or classify_document_role(document.get("source_path") or "", document.get("title"))
+    )
 
 
 def _primary_rank(document: dict[str, Any]) -> tuple[int, int, float, int]:
     role_score = 1 if _document_role(document) == "main_paper" else 0
     title = str(document.get("title") or "")
-    title_score = 0 if any(value in title.casefold() for value in GENERIC_TITLES) else 1
+    title_score = (
+        0 if any(value in title.casefold() for value in GENERIC_SUPPLEMENTARY_TITLES) else 1
+    )
     relevance = float((document.get("corpus_classification") or {}).get("relevance_score", 0))
     return role_score, title_score, relevance, len(title)
 
