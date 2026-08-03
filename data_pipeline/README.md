@@ -1,693 +1,335 @@
 # ResearchChemBench Data Pipeline
 
-This subproject converts a local PDF corpus into reviewed ResearchChemBench task
-candidates. It removes duplicate and supplementary PDFs before extraction, uses GROBID
-for structured metadata and full text, gates papers by core-software coverage and
-model-normalized explicit resource limits, then applies MinerU and the downstream
-task-construction stages only to papers that pass both gates.
+该目录包含 ResearchChemBench 的七阶段数据管线。主流程从 PDF 语料开始，完成去重、结构化解析、软件和资源门控、有边界的研究资产收集、候选任务构建以及独立审计。
 
-## Repository Layout
+当前设计不包含人工发布阶段，也不实现 Builder 与 Judge 的自动循环修订。Stage 07 输出 `pass`、`revise` 或 `reject` 后，流水线结束。
+
+## 阶段概览
+
+| 阶段 | 目录 | 目标 | 核心实现 |
+|---|---|---|---|
+| Stage 01 | `stage_01_inventory/` | 建立可靠 PDF 入口 | 文件哈希、DOI、标题去重；区分正文、补充材料和其他文件 |
+| Stage 02 | `stage_02_grobid_extract/` | 提取论文结构 | GROBID 输出标题、摘要、作者、DOI、章节、正文、参考文献和 TEI XML |
+| Stage 03 | `stage_03_software_coverage/` | 软件与工具箱覆盖门控 | Softcite 提取实际使用的软件；仅 `direct_covered` 论文进入后续阶段 |
+| Stage 04 | `stage_04_resource_limits/` | 明确资源上限审查 | 关键词召回、GROBID Quantities、模型结构化解释和 Python 阈值比较 |
+| Stage 05 | `stage_05_asset_collection/` | 有边界的资产发现、下载、溯源、展开和解析 | 最多三轮；Crossref、DataCite、OpenAlex、GitHub、Zenodo、OSF、Materials Cloud；安全解压；MinerU 和结构化解析 |
+| Stage 06 | `stage_06_builder/` | 构建候选智能体评估任务 | 隔离 Builder Agent；支持 Codex、Claude、OpenCode；确定性校验和任务包生成 |
+| Stage 07 | `stage_07_judge/` | 独立审计候选任务 | 独立 Judge Agent；检查论文忠实性、数据充分性、工具箱支持、答案泄漏、评分和资源可行性 |
+
+Stage 01-04 是筛选门控。Stage 05 不判断论文是否一定能构造任务，而是尽可能收集并记录有来源的研究资产。Stage 06 可以返回 `candidate_ready` 或 `abstain`；只有合法候选才会进入 Stage 07。
+
+详细设计见：
+
+- `docs/STAGE_05_07_ASSET_AGENT_PIPELINE_DESIGN.md`
+- `docs/STAGE_05_07_CODE_MODIFICATION_PLAN.md`
+- `docs/STAGE_05_07_IMPLEMENTATION_LOG_20260803.md`
+
+## 目录结构
 
 ```text
 data_pipeline/
-  DESIGN_PRINCIPLES.md        benchmark principles and relationship to ARCHE
-  .python-version             Python 3.12 selection for uv
-  config.json                 the only pipeline configuration file
-  uv.lock                     locked cross-platform Python dependencies
-  assets/
-    prompt_examples.json      editable complete examples for four task types
-    toolbox.json              available chemistry software and actions
-    software_aliases.json     Stage 03 normalized software aliases
-    software_role_rules.json  Stage 03 core/auxiliary/ignored software rules
-    software_capability_map.json Stage 03 capability-equivalent backup rules
-  papers/                     optional local design-reference PDFs, ignored by Git
-  src/
-    core/                     configuration, data models, paths, and JSON helpers
-    ingestion/                PDF inventory, parsing, deduplication, StudyBundle
-    discovery/                relevance screening, search, and seed guidance
-    curation/                 extraction, task selection, package generation, review
-    delivery/                 task build, validation, reference runs, agent pilots
-    orchestration/            end-to-end pipeline coordination
-    cli.py                    command-line interface
-  scripts/
-    bootstrap_grobid.sh       clone and build pinned GROBID 0.9.0
-    bootstrap_mineru.sh       install the environment and MinerU
-    bootstrap_stage_gates.sh  install and build pinned Softcite/Quantities/DeLFT
-    build_main_paper_corpus.py build a symlink corpus of unique main papers
-    run_stage02.sh            run inventory and GROBID only; auto-start/stop service
-    run_stage03_04.sh         rerun screening gates from saved Stage 02 documents
-    run_pipeline.sh           run config.json
-  tests/                      automated tests and test-only fixtures
-  runs/                       generated outputs, ignored by Git
+├── assets/                 # 工具箱、软件别名、角色规则和能力映射
+├── docs/                   # 设计、实施和测试报告
+├── scripts/                # 环境准备和一键运行脚本
+├── src/
+│   ├── agents/             # CLI Agent 运行、隔离环境和会话保存
+│   ├── assets/             # Stage 05 线索、下载、解压、解析和清单
+│   ├── core/               # 配置、日志、IO 和运行时工具
+│   ├── ingestion/          # PDF、GROBID、Softcite、Quantities、MinerU
+│   ├── orchestration/      # 七阶段编排
+│   ├── screening/          # Stage 03-04 门控
+│   └── tasks/              # Builder、Judge、Schema、校验和公共输入探针
+├── tests/
+├── third_party/            # 所有采用的第三方运行时源码
+├── config.json             # 默认配置
+└── config_pdf_bundle.json  # PDF 集合运行配置
 ```
 
-There are no separate example, schema, resource, documentation, or configuration
-directories. Runtime contracts are enforced directly by the Python validation code.
+## 主环境安装
 
-The benchmark rationale, four task contracts, evidence requirements, cost-increasing
-screening funnel, and relationship to ARCHE are documented in
-[`DESIGN_PRINCIPLES.md`](DESIGN_PRINCIPLES.md).
-
-## Configuration
-
-Edit only [`config.json`](config.json):
-
-```json
-{
-  "pdf_directory": "runs/pdf_bundle_main_papers/PDF论文打包",
-  "exclude_supplementary": true,
-  "run_directory": "runs/current",
-  "stop_after": "model_ensemble",
-  "prompt_examples": "assets/prompt_examples.json",
-  "verify_asset_urls": true,
-  "grobid": {
-    "base_url": "http://127.0.0.1:8070",
-    "working_directory": "third_party/grobid",
-    "start_command": ["./gradlew", "--no-daemon", "run"],
-    "java_home": "/path/to/jdk-21",
-    "auto_start": true,
-    "consolidate_header": 0,
-    "consolidate_citations": 0
-  },
-  "mineru": {
-    "enabled": true,
-    "command": ".venv/bin/mineru",
-    "backend": "pipeline",
-    "timeout_seconds": 3600
-  },
-  "llm": {
-    "enabled": true,
-    "max_workers": 3,
-    "extraction": {
-      "url": "https://api.deepseek.com/v1",
-      "api_key_env": "EXTRACTION_LLM_API_KEY",
-      "model_name": "deepseek-v4-flash"
-    },
-    "classification": {
-      "url": "https://api.deepseek.com/v1",
-      "api_key_env": "TASK_CLASSIFICATION_LLM_API_KEY",
-      "model_name": "deepseek-v4-flash"
-    },
-    "generation": {
-      "url": "https://api.deepseek.com/v1",
-      "api_key_env": "TASK_GENERATION_LLM_API_KEY",
-      "model_name": "deepseek-v4-pro"
-    },
-    "review": {
-      "url": "https://api.deepseek.com/v1",
-      "api_key_env": "REVIEW_LLM_API_KEY",
-      "model_name": "deepseek-v4-flash",
-      "roles": [
-        "scientific_grounding",
-        "tool_data_feasibility",
-        "evaluation_design",
-        "leakage_difficulty"
-      ]
-    }
-  },
-  "toolbox": {
-    "file": "assets/toolbox.json",
-    "enabled_software": ["*"],
-    "enabled_actions": ["*"],
-    "priority_software": []
-  }
-}
-```
-
-Important fields:
-
-- `pdf_directory`: directory containing the source PDF corpus.
-- `exclude_supplementary`: exclude SI, ESM, appendices, and peer-review attachments
-  before GROBID and every later stage. Keep this `true` for benchmark tests.
-- `run_directory`: all intermediate and final outputs for the current run.
-- `grobid`: local GROBID REST service used by Stage 02. Consolidation is disabled so
-  extraction stays deterministic and does not depend on Crossref.
-- `stop_after`: use `model_ensemble` to stop after candidate review; set to `null`
-  only when reference runs and expert approvals are ready for formal task building.
-- `extraction`: source-grounded ScientificRecord extraction LLM.
-- `classification`: single best task-type classification LLM.
-- `generation`: public task, hidden reference, evidence gate, and rubric generation LLM.
-- `review`: role-separated candidate-review LLM.
-- `enabled_software`: use `['*']` for the full toolbox or list selected software.
-- Every LLM stage has its own `url`, `api_key_env`, and `model_name`; endpoints and
-  providers do not need to be the same.
-
-API keys are read from the environment and must not be placed in `config.json`.
-
-## Editable Assets
-
-`assets/prompt_examples.json` contains one complete case string for each task type:
-
-- `paper_reproduction`
-- `conclusion_guided_reconstruction`
-- `autonomous_research`
-- `mechanistic_rule_discovery`
-
-Each value is an ordinary string rather than a nested object, so the complete case can
-be edited continuously. The examples teach disclosure boundaries and output structure.
-They must not contain answers copied into generated tasks.
-
-`assets/toolbox.json` is the stable inventory of available software, aliases,
-capabilities, and actions. `config.json` controls which entries are enabled for a run.
-
-## Pipeline Flow
-
-1. Inventory, hash, and label every PDF as `main_paper` or `supplementary`.
-2. Retain duplicate and supplementary paths in Stage 01 audit files, but send only
-   unique main papers to GROBID when `exclude_supplementary` is enabled.
-3. Store GROBID TEI XML, structured metadata, and expanded text for each main paper.
-4. Use Softcite on GROBID TEI and require direct toolbox coverage for every core software.
-5. Recall possible resource evidence with keywords and GROBID Quantities, use one
-   OpenAI-compatible model to normalize it, then compare validated values in Python.
-6. Send only Stage 04 passes to MinerU.
-7. Merge validated MinerU text without repeating the Stage 03-04 screening logic.
-8. Group related files and discovered assets into a StudyBundle.
-9. Extract a source-grounded ScientificRecord.
-10. Discover external data, code, SI, DOI, and repository signals.
-11. Use the fast model to select exactly one best-supported task type.
-12. Use the generation model to construct the task instruction, public inputs,
-   hidden reference findings, evidence gates, and scoring rubric.
-13. Run deterministic scientific, toolbox, data, leakage, and package checks.
-14. Run role-separated LLM review and generate the human curation queue.
-15. After assets, reference runs, and expert approval exist, materialize and validate
-    the formal ResearchChemBench task.
-
-## Can `.venv` Be Moved To A Server?
-
-No. Do not copy the existing `.venv` to the server as an executable environment.
-Python virtual environments contain absolute interpreter paths, generated entry-point
-scripts, platform-specific native libraries, Python ABI assumptions, and OS/CPU-specific
-wheels. The current local environment is macOS ARM64, so it cannot run on a typical
-Linux x86_64 or Linux ARM64 server. Even a second macOS host can break when the project
-is placed at a different absolute path.
-
-Move the source code, `uv.lock`, configuration, assets, papers, and source PDF corpus.
-Recreate `.venv` on the destination server. The following directories are generated or
-machine-specific and should normally not be transferred:
-
-```text
-.venv/
-runs/
-third_party/MinerU/
-third_party/grobid/
-__pycache__/
-```
-
-`runs/` may be copied separately when historical outputs are needed, but it is not part
-of environment construction. `third_party/MinerU/` is cloned again at the pinned commit
-by the bootstrap script.
-
-## Reproducible Environment
-
-The reproducibility contract is:
-
-- Python 3.12;
-- base and development dependencies locked by `uv.lock`;
-- GROBID pinned to `0.9.0` and built with OpenJDK 21;
-- Softcite pinned to commit `c7c83852a3cad8f2d9d07ce3de6fbe852e23c19a`;
-- GROBID Quantities pinned to commit `d0d55592f4d0ddbe6a549e06613349adaa2d1cd7`;
-- DeLFT pinned to commit `d8505592c38058b9b0abbde14d4ddedff3ad7d0f`;
-- MinerU pinned in `scripts/bootstrap_mineru.sh` to commit
-  `79d6d8d79fb8f3ddba5cc34c07a16f0ec36f56c7`;
-- configuration and prompt/toolbox assets versioned with the source;
-- API keys supplied only through environment variables or the local run script.
-
-## 当前服务器复现步骤
-
-当前服务器已经完成一次性环境准备：Python 库安装在 benchmark 主环境中，
-OpenJDK 21 位于
-`/inspire/hdd/global_user/lifangyuan-253108110077/Anaconda3`，GROBID 0.9.0
-源码位于 `third_party/grobid`。MinerU 模型缓存位于 benchmark 根目录的
-`.model_cache`。
-
-原始测试目录包含 38 份 PDF，其中有 14 份补充材料或其他附件、7 份重复的
-正文 PDF。下面的命令会建立一个不复制 PDF 的符号链接语料，只保留 17 篇
-唯一正式论文：
+数据管线复用 benchmark 的主 Python 环境，不要求创建新的虚拟环境。发生依赖版本冲突时，以主环境已有版本为准；当前主环境要求 `transformers==4.57.3`。
 
 ```bash
 cd /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/data_pipeline
 
-./scripts/build_main_paper_corpus.py \
-  --source runs/pdf_bundle_input/PDF论文打包 \
-  --output runs/pdf_bundle_main_papers/PDF论文打包
+python -m pip install --break-system-packages \
+  httpx json-repair jsonschema openpyxl pydantic python-docx \
+  python-dotenv PyYAML rdkit pytest ruff vulture
+
+# 仅把本项目注册到主环境，不重新解析或替换依赖版本。
+python -m pip install --break-system-packages --no-deps -e .
 ```
 
-筛选审计保存在
-`runs/pdf_bundle_main_papers/main_paper_corpus_manifest.json`。当前清单记录为：原始
-38 份、排除 14 份附件、排除 7 份重复正文、最终保留 17 篇唯一正文。
+验证：
 
-`config.json` 和本机使用的 `config_pdf_bundle.json` 已指向该目录，并设置：
+```bash
+python - <<'PY'
+import transformers
+print(transformers.__version__)
+PY
+
+python -m src --help
+python -m pytest -q
+```
+
+系统依赖至少包括：
+
+- Git
+- OpenJDK 21 或更新版本
+- Poppler，提供 `pdftotext`
+- 常用归档工具和足够的磁盘空间
+
+## 第三方源码准备
+
+所有第三方 GitHub 运行时源码必须位于 `data_pipeline/third_party/`。脚本会固定版本或提交并拒绝覆盖存在本地修改的 checkout。
+
+```bash
+export HF_ENDPOINT=https://hf-mirror.com
+export HF_HUB_DOWNLOAD_TIMEOUT=600
+
+bash scripts/bootstrap_grobid.sh
+bash scripts/bootstrap_stage_gates.sh
+bash scripts/bootstrap_mineru.sh
+```
+
+对应目录和用途见 `third_party/README.md`。
+
+### GROBID
+
+`scripts/bootstrap_grobid.sh` 下载并构建固定版本 GROBID。Stage 02 会根据配置自动启动服务，处理完成后自动停止。
+
+### Softcite 与 GROBID Quantities
+
+`scripts/bootstrap_stage_gates.sh` 准备：
+
+- `third_party/software-mentions/`
+- `third_party/delft/`
+- `third_party/grobid-quantities/`
+
+脚本同时下载 Softcite 模型，并使用当前主环境的 `transformers==4.57.3`。Stage 03 或 Stage 04 服务启动失败时，流水线直接报错停止，不把基础设施故障解释为论文淘汰。
+
+### MinerU 与模型缓存
+
+MinerU 源码位于 `third_party/MinerU/`。模型缓存配置应指向 benchmark 统一缓存：
+
+```text
+/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.model_cache
+```
+
+默认配置通过 `MINERU_TOOLS_CONFIG_JSON` 使用：
+
+```text
+/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.model_cache/mineru/mineru.json
+```
+
+Stage 05 每发现一个新 PDF 就立即调用 MinerU；MinerU 不可用或失败时，主论文可回退到 Stage 02 的 GROBID 文本，其他 PDF 会记录解析失败，不会丢弃原始文件。
+
+## Agent CLI 准备
+
+Stage 06 和 Stage 07 可分别选择以下 CLI：
+
+- `opencode`
+- `codex`
+- `claude`
+
+CLI 必须预先安装并完成认证。两阶段可以使用不同 CLI 和模型。
+
+### OpenCode 与兼容 API
+
+默认测试配置使用 OpenCode 和 `deepseek-v4-flash`：
+
+```bash
+export JUDGE_API_BASE='https://your-openai-compatible-endpoint/v1'
+export JUDGE_API_KEY='...'
+
+export BUILDER_AGENT_CLI=opencode
+export BUILDER_AGENT_MODEL=deepseek/deepseek-v4-flash
+export BUILDER_AGENT_BASE_URL="$JUDGE_API_BASE"
+
+export JUDGE_AGENT_CLI=opencode
+export JUDGE_AGENT_MODEL=deepseek/deepseek-v4-flash
+export JUDGE_AGENT_BASE_URL="$JUDGE_API_BASE"
+```
+
+配置文件中的 `api_key_env` 默认是 `JUDGE_API_KEY`。OpenCode 的临时配置只写环境变量引用，不把密钥写入日志或会话文件。
+
+### Codex 或 Claude
+
+```bash
+export BUILDER_AGENT_CLI=codex
+export BUILDER_AGENT_MODEL='<codex-model>'
+
+export JUDGE_AGENT_CLI=claude
+export JUDGE_AGENT_MODEL='<claude-model>'
+```
+
+Codex 和 Claude 使用各自 CLI 的本地认证。运行器只在执行期间复制必要认证到该次隔离 HOME，不共享 Agent 会话，并在进程结束或异常退出后删除隔离目录中的凭据。
+
+## 配置
+
+主要配置位于 `config.json`：
 
 ```json
 {
   "pdf_directory": "runs/pdf_bundle_main_papers/PDF论文打包",
-  "exclude_supplementary": true
-}
-```
-
-只复现第一阶段和第二阶段时执行：
-
-```bash
-./scripts/run_stage02.sh \
-  config_pdf_bundle.json \
-  runs/pdf_bundle_20260802/outputs/stage_02_run_summary.json
-```
-
-`run_stage02.sh` 不需要 LLM API Key。它会自动完成以下操作：
-
-1. 扫描、哈希和再次检查正文/附件类型。
-2. 排除重复 PDF 和 `supplementary` PDF。
-3. 如果 8070 端口没有 GROBID，自动启动本地 GROBID。
-4. 等待 `/api/isalive` 返回成功后处理 PDF。
-5. 保存 TEI、正文和结构化 `documents.jsonl`。
-6. 第二阶段结束后停止它自己启动的 GROBID 服务。
-
-如果 8070 端口上原本已经有外部 GROBID 服务，流水线会复用它，并且不会停止
-这个外部进程。如果流水线自己启动服务，即使抽取抛出普通异常，也会在
-`finally` 中停止进程组；`kill -9` 或机器断电不在此保证范围内。
-
-运行完整数据管线时执行：
-
-```bash
-./scripts/run_pipeline.sh \
-  config_pdf_bundle.json \
-  runs/pdf_bundle_20260802/outputs/run_summary.json
-```
-
-完整管线还需要五组 LLM API Key，其中资源解释可与任务分类共用同一个模型和
-服务。脚本会从环境变量或
-`../config.local.env` 读取。第二阶段仍然使用相同的自动启动、自动停止逻辑。
-
-关键输出位置：
-
-```text
-runs/<run_name>/outputs/pipeline.log
-runs/<run_name>/outputs/stage_01_inventory/corpus_inventory.jsonl
-runs/<run_name>/outputs/stage_01_inventory/main_paper_pdf_paths.jsonl
-runs/<run_name>/outputs/stage_01_inventory/supplementary_pdf_paths.jsonl
-runs/<run_name>/outputs/stage_02_grobid_extract/grobid_service.log
-runs/<run_name>/outputs/stage_02_grobid_extract/tei/*.tei.xml
-runs/<run_name>/outputs/stage_02_grobid_extract/text/*.txt
-runs/<run_name>/outputs/stage_02_grobid_extract/documents.jsonl
-runs/<run_name>/outputs/stage_03_software_coverage/
-runs/<run_name>/outputs/stage_04_resource_limits/
-```
-
-## 当前 Stage 03-04 复现
-
-Stage 03 使用 Softcite 抽取作者实际使用的核心软件，仅将所有核心软件均存在于
-`assets/toolbox.json` 的 `direct_covered` 论文送入 Stage 04。未识别到软件的论文
-标记为 `software_not_identified`，不进入后续阶段。`capability_equivalent` 只作为
-备选记录。
-
-Stage 04 使用关键词和 GROBID Quantities 召回资源候选句，通过 OpenAI 兼容模型
-结构化 CPU 核数、GPU 数量、内存和 wall time，再由 Python 校验证据与数值并和
-配置上限比较。CPU/core-hours、平台名称和物理模拟时长只记录，不与硬上限进行
-错误量纲比较。模型未配置、API 失败或连续返回非法结构时，流水线报错停止。
-
-配置示例：
-
-```json
-{
-  "resource_interpretation": {
-    "enabled": true,
-    "url": "http://127.0.0.1:8000/v1",
-    "api_key_env": "RESOURCE_LLM_API_KEY",
-    "model_name": "local-model",
-    "max_tokens": 3000,
-    "validation_retries": 1
-  },
+  "run_directory": "runs/current",
+  "stop_after": "judge",
   "resource_limits": {
     "cpu_cores": 500,
     "gpus": 8,
     "memory_gb": 1000,
     "runtime_hours": 12
+  },
+  "stage05": {
+    "enable_network": true,
+    "max_rounds": 3,
+    "max_archive_depth": 3,
+    "max_archive_children_per_archive": 300,
+    "max_assets_per_paper": 500,
+    "network_workers": 4
+  },
+  "stage06": {
+    "agent": {
+      "cli": "opencode",
+      "model": "deepseek/deepseek-v4-flash"
+    }
+  },
+  "stage07": {
+    "agent": {
+      "cli": "opencode",
+      "model": "deepseek/deepseek-v4-flash"
+    }
   }
 }
 ```
 
-测试时可用 flash 模型代替本地模型：
+可用的 `stop_after` 值：
+
+- `grobid_extract`
+- `software_coverage`
+- `resource_limits`
+- `asset_collection`
+- `builder`
+- `judge`
+
+Stage 05 的生产默认单文件上限为 10 GiB、单压缩包展开上限为 50 GiB。测试时应使用更小上限，避免为验证流程下载超大记录。
+
+## 运行
+
+脚本默认读取 benchmark 根目录的 `config.local.env`，映射 Stage 04 和 Agent 所需 API 环境变量，并实时写入日志。
 
 ```bash
-export RESOURCE_LLM_URL=https://api.deepseek.com/v1
-export RESOURCE_LLM_API_KEY=...
-export RESOURCE_LLM_MODEL_NAME=deepseek-v4-flash
-./scripts/run_stage03_04.sh \
-  config.json \
-  runs/pdf_bundle_grobid_20260802/outputs/stage_02_grobid_extract/documents.jsonl \
-  runs/pdf_bundle_main_papers/main_paper_corpus_manifest.json \
-  runs/stage03_04_redesign/outputs
+bash scripts/run_pipeline.sh config.json runs/current/outputs/run_summary.json
 ```
 
-主要输出：
+日志：
 
 ```text
-stage_03_04.log
-stage_03_software_coverage/software_coverage_documents.jsonl
-stage_03_software_coverage/direct_covered_pdf_paths.jsonl
-stage_04_resource_limits/recalled_contexts.jsonl
-stage_04_resource_limits/model_inputs/*.txt
-stage_04_resource_limits/model_responses/*.json
-stage_04_resource_limits/structured_resource_documents.jsonl
-stage_04_resource_limits/resource_screened_documents.jsonl
-stage_04_resource_limits/selected_pdf_paths.jsonl
-stage_04_resource_limits/summary.json
+runs/current/outputs/pipeline.log
 ```
 
-Softcite 和 GROBID Quantities 会按配置自动启动，并只停止本次脚本自己启动的服务。
-所有 PDF 清单只保存原始路径，不复制 PDF。
-
-## 历史设计记录
-
-旧 Stage 03-05 的方案和测试结果仅保留用于审计，当前流水线不再执行其中的
-“计算化学完整性”阶段。历史记录见
-[`docs/STAGE_03_05_TEST_RESULTS_20260802.md`](docs/STAGE_03_05_TEST_RESULTS_20260802.md)
-和
-[`docs/modifiy/STAGE_03_05_REDESIGN_PLAN.md`](docs/modifiy/STAGE_03_05_REDESIGN_PLAN.md)。
-
-## 在新服务器复现第二阶段
-
-第二阶段只依赖 Python 管线、Poppler、OpenJDK 21 和 GROBID。它不依赖
-Transformers、MinerU、CUDA 或 LLM API。只有继续运行第七阶段 MinerU 及后续
-阶段时，才需要准备这些组件。
-
-### 1. 系统依赖
-
-Ubuntu/Debian：
+只从已有 Stage 04 结果运行 Stage 05-07：
 
 ```bash
-sudo apt-get update
-sudo apt-get install -y git curl build-essential poppler-utils
+python -m src run-late-stages \
+  --input runs/example/outputs/stage_04_resource_limits/resource_screened_documents.jsonl \
+  --config config.json \
+  --workspace runs/example_late/outputs \
+  --output runs/example_late/outputs/run_summary.json
 ```
 
-需要保证本机 8070 端口可用，并预留至少数 GB 空间给 GROBID 源码、Gradle
-依赖和模型。首次构建需要访问 GitHub 和 Gradle/Maven 仓库。
+## Stage 05 输出
 
-### 2. Python 主环境
-
-进入希望复用的 benchmark 主环境，然后安装当前项目。若允许 pip 根据项目的
-最低依赖自动补齐：
-
-```bash
-cd /path/to/ResearchChemBench/data_pipeline
-python -m pip install -e .
-```
-
-若必须完全保留主环境中已有库版本，可以先安装项目本身而不解析依赖，再只补
-缺失库：
-
-```bash
-python -m pip install -e . --no-deps
-python -m pip install json-repair pydantic python-dotenv PyYAML rdkit
-```
-
-本项目对这些库使用最低版本约束，不要求为数据管线建立单独环境。应以主环境
-现有版本为准，只要通过后面的测试即可。
-
-### 3. OpenJDK 21
-
-GROBID 0.9.0 需要 Java 21。使用现有 Conda/Anaconda 主环境时：
-
-```bash
-mamba install -n base -y 'openjdk>=21,<22'
-export GROBID_JAVA_HOME="$(conda info --base)"
-"$GROBID_JAVA_HOME/bin/java" -version
-```
-
-也可以使用系统 JDK，但必须把 `config.json` 中的 `grobid.java_home` 改成真实
-JDK 根目录，而不是 `bin/java` 文件路径。
-
-### 4. 下载并构建固定版本 GROBID
-
-```bash
-cd /path/to/ResearchChemBench/data_pipeline
-chmod +x scripts/bootstrap_grobid.sh scripts/run_stage02.sh
-GROBID_JAVA_HOME="$(conda info --base)" ./scripts/bootstrap_grobid.sh
-```
-
-该脚本会从 `https://github.com/grobidOrg/grobid.git` 浅克隆 0.9.0 到
-`third_party/grobid`，切换到固定标签并构建 `grobid-service`。该目录是生成的
-第三方源码，不提交到 ResearchChemBench Git 仓库。
-
-验证固定版本：
-
-```bash
-git -C third_party/grobid describe --tags --exact-match
-# 预期输出：0.9.0
-```
-
-### 5. 准备不含附件的 PDF 语料
-
-```bash
-./scripts/build_main_paper_corpus.py \
-  --source /path/to/original_pdf_corpus \
-  --output /path/to/main_paper_corpus
-```
-
-脚本使用内容哈希去重，并通过路径、文件名和 PDF 标题识别 SI、ESM、MOESM、
-appendix、peer-review 等附件。输出使用符号链接，不复制 PDF。随后在配置中设置：
-
-```json
-{
-  "pdf_directory": "/path/to/main_paper_corpus",
-  "exclude_supplementary": true
-}
-```
-
-即使输入目录中后来又混入附件，`exclude_supplementary=true` 仍会在第一阶段
-审计后阻止附件进入 GROBID 和后续阶段。
-
-### 6. 运行与验收
-
-```bash
-./scripts/run_stage02.sh config.json runs/current/outputs/stage_02_run_summary.json
-```
-
-验收命令：
-
-```bash
-python -m unittest discover -s tests -v
-ruff check src scripts tests
-
-wc -l runs/current/outputs/stage_02_grobid_extract/documents.jsonl
-find runs/current/outputs/stage_02_grobid_extract/tei -name '*.tei.xml' | wc -l
-find runs/current/outputs/stage_02_grobid_extract/text -name '*.txt' | wc -l
-```
-
-三个文档数量应一致。检查 Stage 01 的 `stage_summary.json`，其中
-`supplementary_excluded` 应等于识别出的附件数，`downstream_main_papers` 应等于
-实际交给 GROBID 的唯一正文数。
-
-### Ubuntu Or Debian Server
-
-Install operating-system packages:
-
-```bash
-sudo apt-get update
-sudo apt-get install -y \
-  git curl build-essential poppler-utils ghostscript \
-  libgl1 libglib2.0-0
-```
-
-Install `uv` and Python 3.12:
-
-```bash
-curl -LsSf https://astral.sh/uv/install.sh | sh
-source "$HOME/.local/bin/env"
-uv python install 3.12
-```
-
-Create the environment and install the pinned MinerU checkout:
-
-```bash
-cd /path/to/ResearchChemBench/data_pipeline
-chmod +x scripts/bootstrap_mineru.sh scripts/run_pipeline.sh
-./scripts/bootstrap_mineru.sh
-```
-
-The script creates `.venv`, installs the project from `uv.lock`, clones MinerU at the
-pinned commit, installs MinerU in the same environment, downloads the pipeline models,
-and checks both command-line entry points. Model download requires network access and
-substantial disk space. On an offline compute node, run this step on a networked machine
-with the same server OS and architecture, then transfer the completed model cache using
-the cache location reported by MinerU.
-
-For an NVIDIA server, install a driver and a PyTorch/CUDA combination supported by that
-server before relying on GPU parsing. CUDA packages are deliberately not locked here
-because they depend on the driver and accelerator image. CPU parsing remains available
-but is substantially slower. Keep the MinerU `backend` in `config.json` consistent with
-the server installation.
-
-### GROBID
-
-Install OpenJDK 21 into the existing environment, then build the pinned source checkout:
-
-```bash
-mamba install -n base -y 'openjdk>=21,<22'
-cd ResearchChemBench/data_pipeline
-./scripts/bootstrap_grobid.sh
-```
-
-Stage 02 calls `/api/processFulltextDocument`. The pipeline reuses an already-running
-service at `grobid.base_url`; otherwise it starts `./gradlew --no-daemon run`, waits for
-`/api/isalive`, processes the canonical PDFs, and stops the service after extraction.
-
-### macOS
-
-```bash
-brew install uv git poppler ghostscript
-uv python install 3.12
-cd ResearchChemBench/data_pipeline
-chmod +x scripts/bootstrap_mineru.sh scripts/run_pipeline.sh
-./scripts/bootstrap_mineru.sh
-```
-
-### Minimal Installation Without MinerU
-
-This is useful for tests, configuration inspection, and native-text-only development:
-
-```bash
-uv sync --frozen --extra dev --python 3.12
-.venv/bin/python -m src --help
-.venv/bin/python -m pytest -q
-```
-
-Set `mineru.enabled` to `false` only when the selected corpus does not require deep PDF
-parsing. A formal corpus run should keep the configured fallback available.
-
-### Transfer Example
-
-From the local machine, transfer the reproducible project files while excluding local
-environments and generated outputs:
-
-```bash
-rsync -av --progress \
-  --exclude '.venv/' \
-  --exclude 'runs/' \
-  --exclude 'third_party/MinerU/' \
-  /local/path/ResearchChemBench/data_pipeline/ \
-  user@server:/remote/path/ResearchChemBench/data_pipeline/
-```
-
-Transfer the large source PDF corpus separately, then update `pdf_directory` and
-`run_directory` in `config.json` to paths visible on the server. Relative paths are
-resolved from the data-pipeline root and are preferred when the repository layout is
-the same across machines.
-
-### Verify A New Server Environment
-
-```bash
-cd /remote/path/ResearchChemBench/data_pipeline
-.venv/bin/python --version
-.venv/bin/mineru --version
-.venv/bin/python -m src --help
-.venv/bin/ruff format --check src tests
-.venv/bin/ruff check src tests
-.venv/bin/vulture src --min-confidence 80
-.venv/bin/python -m pytest -q
-```
-
-Record the environment when producing a formal dataset release:
-
-```bash
-uname -a > environment.txt
-.venv/bin/python --version >> environment.txt
-.venv/bin/mineru --version >> environment.txt
-uv pip freeze --python .venv/bin/python >> environment.txt
-```
-
-Do not add `environment.txt` when it contains local filesystem paths or credentials.
-
-## Running
-
-Edit the parameter block at the top of `scripts/run_pipeline.sh`, or provide the same
-variables through the shell environment. The four independent groups are:
+核心文件：
 
 ```text
-EXTRACTION_LLM_URL / EXTRACTION_LLM_API_KEY / EXTRACTION_LLM_MODEL_NAME
-TASK_CLASSIFICATION_LLM_URL / TASK_CLASSIFICATION_LLM_API_KEY / TASK_CLASSIFICATION_LLM_MODEL_NAME
-TASK_GENERATION_LLM_URL / TASK_GENERATION_LLM_API_KEY / TASK_GENERATION_LLM_MODEL_NAME
-REVIEW_LLM_URL / REVIEW_LLM_API_KEY / REVIEW_LLM_MODEL_NAME
+stage_05_asset_collection/
+├── objects/sha256/             # 原始文件内容寻址存储
+├── parsed/<asset_id>/          # JSON、Markdown/TXT、MinerU 或安全解压结果
+├── rounds/                     # 每轮线索快照
+├── papers/<paper_id>/          # 论文级资产索引
+├── asset_manifest.jsonl        # 核心资产清单
+├── clue_manifest.jsonl         # 全部线索及状态
+├── unresolved_clues.jsonl      # 失败、受限、预算截断和未解决线索
+├── asset_events.jsonl          # 下载、解析、去重和预算事件
+└── stage_summary.json
 ```
 
-Then run:
+每个资产记录保留来源、关系、轮次、父资产、版本、SHA-256、大小、原始路径、解析器、结构化输出和可读输出。压缩包采用路径穿越、符号链接、文件数量和展开体积检查。
+
+网络下载遵循内容哈希去重和预算上限。每轮先收集直接资产，再按 `source_data`、`input`、`supplement`、`code` 的优先级登记，并在多个压缩包之间公平分配递归展开预算，避免单个代码仓库占满全部名额。
+
+## Stage 06-07 Agent 隔离与会话保存
+
+Builder 和 Judge 每次运行都创建独立目录：
+
+```text
+agent_runs/<run_id>/
+├── workspace/
+│   ├── input/                  # 只读输入快照
+│   ├── work/                   # 临时工作区
+│   └── output/                 # Agent 输出区
+├── home/                       # 隔离 HOME、XDG 和 CLI 状态
+├── attempts/attempt_XX/        # 每次尝试的 stdout/stderr
+├── prompt.md
+├── response_schema.json
+├── native_events.jsonl
+├── conversation.jsonl
+├── final_response.json
+├── stdout.log
+├── stderr.log
+└── run_metadata.json
+```
+
+关键约束：
+
+- Builder 与 Judge 的工作区、HOME、session ID 和聊天记录完全分离。
+- Judge 只能读取候选任务快照、论文/资产证据和公共输入探针，不能读取 Builder 聊天记录。
+- `conversation.jsonl` 保存用户提示和最终结构化回复；`native_events.jsonl` 保存 CLI 原生事件。
+- 日志执行前进行密钥脱敏。
+- Agent 输入中的主机绝对路径被删除；压缩包成员使用 `logical_path` 保留必要的文件上下文。
+- OpenCode 默认只允许 `read`、`glob`、`grep` 和 `list`，禁止编辑、shell、外部目录和网络工具。
+
+Stage 06 的候选包包括：
+
+```text
+candidate/
+├── candidate_task.json
+├── task.md
+├── scientific_record.json
+├── evidence_map.json
+├── public_inputs/
+├── hidden_reference/reference.json
+└── scoring/rubric.json
+```
+
+Stage 07 输出：
+
+```text
+stage_07_judge/<task_id>/
+├── public_probe/report.json
+├── audit_report.json
+├── audit_report.md
+├── judge_record.json
+└── agent_runs/<judge_run_id>/
+```
+
+## 测试与质量检查
 
 ```bash
-./scripts/run_pipeline.sh
+python -m pytest -q
+ruff check src tests
+ruff format --check src tests
+vulture src --min-confidence 80
+git diff --check
 ```
 
-The script also accepts an optional config path and summary-output path:
+真实 Agent 测试会消耗模型 token。应先使用单论文、较小 Stage 05 预算验证流程，再扩大到完整数据集。
 
-```bash
-./scripts/run_pipeline.sh config_pdf_bundle.json \
-  runs/pdf_bundle_20260802/outputs/run_summary.json
-```
+## 当前限制
 
-Equivalent direct command:
-
-```bash
-.venv/bin/python -m src run \
-  --output runs/current/outputs/run_summary.json
-```
-
-Useful checks:
-
-```bash
-.venv/bin/python -m src --help
-.venv/bin/chem-pipeline --help
-.venv/bin/ruff format --check src tests
-.venv/bin/ruff check src tests
-.venv/bin/vulture src --min-confidence 80
-.venv/bin/python -m pytest -q
-```
-
-## Outputs
-
-All corpus-pipeline outputs are stored below `runs/current/outputs`. Each processing
-step has its own `stage_*` subdirectory, and `stage_index.json` describes the complete
-layout. Screening stages include `selected_pdf_paths.jsonl`; these files point to the
-original PDFs and do not copy them. The main candidate products are:
-
-- `pipeline.log`: live stage starts/completions, per-document progress bars, failures,
-  and a 15-second heartbeat while each MinerU document is running.
-- `stage_01_inventory/corpus_inventory.jsonl`: all PDF paths, hashes, and duplicate
-  mappings. `main_paper_pdf_paths.jsonl`, `supplementary_pdf_paths.jsonl`,
-  `canonical_pdf_paths.jsonl`, and `duplicate_pdf_paths.jsonl` split the audit.
-- `stage_02_grobid_extract/tei/`: one original GROBID TEI XML file per canonical PDF.
-- `stage_02_grobid_extract/text/`: body text expanded from TEI for downstream matching.
-- `stage_02_grobid_extract/documents.jsonl`: structured title, abstract, authors, DOI,
-  publication metadata, keywords, section headings, paths, and extraction quality.
-- `stage_03_software_coverage/software_coverage_documents.jsonl`: Softcite evidence,
-  normalized core software, direct support, capability-equivalent candidates, rejects,
-  and raw Softcite response paths.
-- `stage_04_resource_limits/`: recalled contexts, compact model inputs, raw model
-  responses, validated resource records, configured limits, and the final decision.
-- `stage_12_task_selection/selected_records.jsonl`: selected task type and reason.
-- `stage_13_package_generation/candidate_packages/`: generated benchmark candidates.
-- `stage_14_quality_gates/quality_gated_records.jsonl`: deterministic gate results.
-- `stage_15_model_ensemble/model_reviewed_records.jsonl`: role-separated reviews.
-- `stage_16_curation_queue/curation_queue.jsonl`: candidates for human inspection.
-- `stage_17_dataset_build/`: formal build inputs, manifest, dataset, and validation.
-- `run_summary.json`: compact run statistics.
-
-Candidate packages are not automatically formal benchmark tasks. Formal release also
-requires materialized inputs, a successful reference run, stable tolerances, expert
-approval, and parent-benchmark validation.
-
-## Tests And Generated Files
-
-`tests/test_pipeline.py` contains regression tests for filtering, toolbox matching,
-task selection, prompt examples, package construction, leakage checks, reference runs,
-and parent ResearchChemBench compatibility. `tests/fixtures/` contains two small
-curated records used only by these tests. Neither directory is read by a normal
-pipeline run, but both are retained to detect regressions.
-
-The remaining non-source directories are intentional:
-
-- `.venv/`: local Python and MinerU environment; regenerable and never portable.
-- `third_party/MinerU/`: pinned MinerU checkout used for PDF parsing.
-- `runs/`: ignored historical and generated outputs; not imported by the code.
-- `papers/`: optional local ARCHE paper and supplementary material; ignored by Git.
-
-Python caches, Ruff/Pytest caches, package metadata, old configs, old examples, old
-schemas, and duplicate documentation directories are removed from the maintained tree.
+- Stage 05 使用维护中的公开 HTTP API 直接适配，没有把所有推荐 wrapper 仓库都引入运行时。
+- 出版社认证、受限附件和失效链接只记录状态，当前没有自动登录或 Wayback 下载实现。
+- MinerU 对非 PDF 二进制科学文件只保留原始文件和元数据；不会伪造文本内容。
+- Builder/Judge 读取预算目前由提示词和输入大小共同约束，CLI 本身没有统一的硬性 tool-call 上限。
+- Builder 与 Judge 的自动循环修订暂不实现，`revise` 仅作为 Stage 07 结果保存。
