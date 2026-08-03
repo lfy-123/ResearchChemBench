@@ -62,6 +62,12 @@ Stage 04 只处理 Stage 03 的 `direct_covered` 论文。代码从 GROBID TEI �
 - 未配置 API 或调用失败：记录 `skipped`/`skipped_error` 并放行，不使用规则回退；
 - 结构化字段互相冲突：记录一致性警告，归一化为 `uncertain` 并淘汰。
 
+本次测试并未部署本地小模型。运行脚本从 `../config.local.env` 读取
+`JUDGE_API_BASE`、`JUDGE_API_KEY` 和 `JUDGE_MODEL_NAME`，实际调用的是
+`https://api.deepseek.com/v1` 上的 `deepseek-v4-flash`。因此本报告的 Stage 04
+结果只能证明 OpenAI 兼容接口和门控代码能够工作，不能证明本地模型已经部署或
+本地模型会产生相同判断。
+
 ### 2.3 Stage 05：明确资源上限门控
 
 Stage 05 只处理 Stage 04 通过或按配置跳过的论文。默认上限为：
@@ -177,10 +183,10 @@ GROBID Quantities 都由脚本自动启动，阶段结束后自动停止。最�
 | Heterobiaryl synthesis by contractive C-C coupling via P(V) intermediates | 未识别 | 无 | 不支持 | 按方案，未识别核心软件默认拒绝 |
 | Density Functional Theory Investigation of Simple N-Heterocyclic Carbenes Adsorbed on the Pd/Cu(111) Single-Atom Alloy Surface | TURBOMOLE, VASP, LOBSTER | 忽略 optPBE-vdW | 不支持 | TURBOMOLE 是实际核心软件且工具箱未覆盖 |
 | Organocatalyst-Controlled Stereoselective Head-to-Tail Macrocyclizations | ORCA | 无 | 直接覆盖 | 软件门控通过，完整性由 Stage 04 再判断 |
-| Revealing the Photochemical Pathways of Nitrate in Water through First-Principles Simulations | CP2K, ORCA, Gaussian | MEPSA 辅助 | 直接覆盖 | CP2K 8.2 已正确归一化；Gaussian basis 误召回被排除 |
-| Absolute Binding Free Energies with OneOPES | AMBER/pmemd | 无 | 直接覆盖 | AMBER 后端直接覆盖 |
+| Revealing the Photochemical Pathways of Nitrate in Water through First-Principles Simulations | CP2K, ORCA, Gaussian | MEPSA 辅助 | 直接覆盖 | CP2K 8.2 正确归一化；Gaussian 来自 `Gaussian envelopes`，人工复核为误报 |
+| Absolute Binding Free Energies with OneOPES | AMBER/pmemd | 无 | 直接覆盖 | 当前证据只是 Amber ff14SB/ff19SB 力场，映射到 pmemd 属于误报；TEI 的数据可用性段另有 GROMACS/PLUMED 输入文件证据，但当前 Stage 03 未恢复 |
 | Towards high-throughput many-body perturbation theory: efficient algorithms and automated workflows | Quantum ESPRESSO, Yambo | AiiDA 辅助；YamboRestart 忽略 | 不支持 | Yambo 执行 GW-BSE，是未覆盖核心软件 |
-| Using Metadynamics to Reveal Extractant Conformational Free Energy Landscapes | AMBER/pmemd, Gaussian, LAMMPS, PLUMED | 无 | 直接覆盖 | 全部核心软件直接覆盖 |
+| Using Metadynamics to Reveal Extractant Conformational Free Energy Landscapes | AMBER/pmemd, Gaussian, LAMMPS, PLUMED | 无 | 直接覆盖 | Gaussian、LAMMPS、PLUMED 有执行证据；AMBER/pmemd 仅来自 GAFF2 力场文字，属于额外误报但不改变通过结果 |
 | All You Need Is Water: Converging Ligand Binding Simulations with Hydration Collective Variables | GROMACS, PLUMED | 无 | 直接覆盖 | 从明确的生产模拟语句恢复实际使用证据 |
 | Modeling Diffusion in Metal-Organic Frameworks using On-the-fly Probability Enhanced Sampling-based Machine Learning Potentials | VASP, DeePMD, LAMMPS, PLUMED | pywindow 辅助 | 直接覆盖 | 修复后不再被 pywindow 误伤 |
 | Nitric oxide can enhance secondary aerosol precursor formation from aromatic carbonyls | Gaussian | 无 | 直接覆盖 | Gaussian 16 有明确计算执行证据 |
@@ -190,7 +196,12 @@ GROBID Quantities 都由脚本自动启动，阶段结束后自动停止。最�
 | First Principles Micro-kinetic Model of Catalytic Non-oxidative Dehydrogenation of Ethane over Close-packed Metallic Facets | Quantum ESPRESSO, CatMAP | mpmath 辅助；library/module 忽略 | 直接覆盖 | DFT 和微观动力学核心软件均覆盖 |
 
 Stage 03 的五篇拒绝中，三篇有明确未覆盖核心软件，另外两篇未识别到核心软件。
-这与设计文档的保守门控规则一致。
+拒绝侧与设计文档的保守门控规则一致，但通过侧仍存在至少三处人工确认的提取问题：
+`Gaussian envelopes -> Gaussian`、`Amber force field -> amber_pmemd` 两次。第一处和
+其中一处 AMBER 误报不改变其他已覆盖核心软件支撑的路由；`Absolute Binding Free
+Energies with OneOPES` 当前则依赖错误的 AMBER 映射通过，虽然 TEI 中确有
+GROMACS/PLUMED 输入文件被使用的证据。该论文的软件清单和直接覆盖结论需要修复
+Stage 03 后重跑，不能把当前软件抽取视为完全准确。
 
 ## 7. Stage 04 逐篇结果
 
@@ -316,5 +327,7 @@ python -m unittest discover -s tests -v
 3. 本批次没有明确超限资源样本。Stage 05 的真实拒绝精度需要在包含 CPU/GPU/
    walltime 记录的更大论文集上继续验证。
 
-在当前 17 篇正式论文测试集上，最终 10 篇满足直接软件覆盖、完整计算过程和未明确
-超过本地资源上限三个条件，可以进入后续数据抽取和任务构建阶段。
+在当前 17 篇正式论文测试集上，流水线最终将 10 篇标记为满足三个门控条件。但因
+Stage 03 仍存在上述软件误报，尤其是 `Absolute Binding Free Energies with
+OneOPES` 的 AMBER/pmemd 错误映射，这一数字是当前代码输出，不应解释为已经人工
+确认的 10 篇完全可靠结果。

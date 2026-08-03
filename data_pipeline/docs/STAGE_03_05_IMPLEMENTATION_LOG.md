@@ -5,7 +5,7 @@
 按照 `docs/modifiy/STAGE_03_05_REDESIGN_PLAN.md` 完整替换语料管线原有的第三、四、五阶段：
 
 - Stage 03：Softcite 核心软件覆盖门控。
-- Stage 04：单一本地通用模型 API 的完整计算过程门控。
+- Stage 04：单一 OpenAI 兼容通用模型 API 的完整计算过程门控；代码不负责部署模型。
 - Stage 05：GROBID Quantities 与关键词解析器结合的明确资源上限门控。
 
 旧的综合分类、低成本混合筛选和 Seed 审计不再出现在语料主流程中。
@@ -133,7 +133,8 @@ runs/pdf_bundle_main_papers/main_paper_corpus_manifest.json
 - Softcite 和 GROBID Quantities 健康检查失败时清理本次启动的进程组。
 - Softcite 已知软件补召回不再被一个 `used=false` 的早期提及永久阻断；最多检查
   五条正文证据，并用明确执行语句补充上下文分类器。
-- `Gaussian basis`、`Gaussian kernels` 等方法术语不再恢复为 Gaussian 软件。
+- `Gaussian basis`、`Gaussian kernels` 等常见方法术语增加了排除规则；真实运行仍
+  发现 `Gaussian envelopes` 被误召回，说明歧义规则尚未覆盖所有表达。
 - Stage 05 只在计算语义和实际使用语义同时存在时绑定资源；实验反应持续时间、
   物理轨迹时长、超算平台容量和歧义数值不触发拒绝。
 
@@ -160,5 +161,10 @@ runs/stage03_05_redesign_20260802_v5/outputs
 - Stage 05：10 篇；全部为 `no_explicit_resource`，没有明确超限记录。
 - Softcite 和 GROBID Quantities 均由脚本自动启动并在阶段结束后自动停止。
 - Ruff 通过；完整单元测试在最终代码上为 53 项通过。
+
+Stage 04 本次测试没有部署本地小模型。`run_stage03_05.sh` 从
+`../config.local.env` 读取 `JUDGE_API_*`，映射到分类模型环境变量，实际调用
+`https://api.deepseek.com/v1` 的 `deepseek-v4-flash`。因此这次结果验证了 API
+接口、证据构建和路由逻辑，不等价于验证本地模型部署。
 
 详细逐篇分析见 `docs/STAGE_03_05_TEST_RESULTS_20260802.md`。

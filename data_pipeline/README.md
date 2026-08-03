@@ -375,6 +375,10 @@ Stage 04 使用 `llm.classification` 的 OpenAI 兼容 URL、模型名和
 `skipped` 或 `skipped_error` 并放行；不会使用规则模型回退。Softcite 或 GROBID
 Quantities 无法启动、健康检查失败或请求失败时，流水线抛错并停止。
 
+脚本只提供 API 调用接口，不负责部署本地模型。2026-08-02 的验证运行通过
+`config.local.env` 中的 `JUDGE_API_*` 实际调用了 DeepSeek
+`deepseek-v4-flash`，并不是本地小模型测试。
+
 ### 4. 从已保存的 Stage 02 复跑
 
 以下命令只处理 manifest 中的 17 篇唯一正式论文，不重新运行 Stage 01/02：
