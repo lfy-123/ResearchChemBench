@@ -102,7 +102,7 @@ def review_with_ensemble(
         }
         output.append(updated)
         log_progress(
-            "stage_16_model_ensemble",
+            "stage_15_model_ensemble",
             index,
             total,
             record.get("paper_id", str(index)),

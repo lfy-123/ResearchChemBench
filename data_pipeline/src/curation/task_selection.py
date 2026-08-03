@@ -69,7 +69,7 @@ def select_task_types(
                     }
                     output.append(updated)
                     log_progress(
-                        "stage_13_task_selection",
+                        "stage_12_task_selection",
                         index,
                         total,
                         record.get("paper_id", str(index)),
@@ -98,7 +98,7 @@ def select_task_types(
         updated["schema_validation"] = {"passed": not errors, "errors": errors}
         output.append(updated)
         log_progress(
-            "stage_13_task_selection",
+            "stage_12_task_selection",
             index,
             total,
             record.get("paper_id", str(index)),
@@ -256,7 +256,6 @@ def _selection_packet(record: dict[str, Any]) -> dict[str, Any]:
         "source_classification": record.get("source_classification", {}),
         "toolbox_coverage": record.get("toolbox_coverage", {})
         or record.get("software_coverage", {}),
-        "computation_completeness": record.get("computation_completeness", {}),
         "resource_limits": record.get("resource_limits", {}),
         "asset_availability": record.get("asset_availability", {}),
         "runtime": record.get("runtime", {}),

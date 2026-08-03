@@ -1,273 +1,537 @@
 from __future__ import annotations
 
+import json
+import os
 import re
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 
-from src.core.io import write_json
+from src.core.io import write_json, write_jsonl
 from src.core.logging import log_progress
+from src.curation.llm_client import call_json_chat
 from src.ingestion.grobid_quantities import GrobidQuantitiesClient
 from src.ingestion.tei import read_tei_paragraphs, sentence_windows
 
+PROMPT_VERSION = "stage04-resource-interpretation-v1"
+RESOURCE_TYPES = {"cpu_cores", "gpus", "memory_gb", "runtime_hours"}
+AGGREGATE_TYPES = {"cpu_hours", "core_hours", "gpu_hours", "node_hours"}
+RELATIONS = {"exact", "approximately", "greater_than", "less_than", "range"}
+SCOPES = {"single_job", "aggregate_study", "unknown"}
+CONFIDENCE = {"high", "medium", "low"}
 RESOURCE_TERMS = re.compile(
-    r"\b(?:cpu|gpu|core|cores|processor|processors|node|nodes|memory|ram|wall[- ]?time|"
-    r"runtime|elapsed|hours?|hrs?|days?|minutes?|mins?|a100|h100|v100)\b",
+    r"\b(?:cpu|gpu|cores?|processors?|nodes?|memory|ram|wall[- ]?time|runtime|elapsed|"
+    r"core[- ]?hours?|cpu[- ]?hours?|gpu[- ]?hours?|clusters?|supercomputers?|"
+    r"computing (?:center|centre|facility)|a100|h100|v100|seconds?|minutes?|hours?|days?)\b",
     re.I,
 )
-PLATFORM_ONLY = re.compile(
-    r"\b(?:cluster|supercomputer|facility|platform)\b.{0,50}\b(?:provides|supports|offers|has|"
-    r"capacity|equipped)\b",
+CPU_HINT = re.compile(
+    r"(?P<value>\d[\d,]*(?:\.\d+)?)\s*(?:-|\s)\s*(?:cpu\s*)?cores?\b(?!\s*[- ]?hours?)",
     re.I,
 )
-ACTUAL_USE = re.compile(
-    r"\b(?:we|our|calculation|calculations|simulation|simulations|job|jobs|run|runs|ran|used|using|"
-    r"employed|performed|executed|completed|took|required|allocated|utilized)\b",
+CPU_COUNT_HINT = re.compile(
+    r"\b(?:core count|number of cores|cores? used)\D{0,20}(?P<value>\d[\d,]*(?:\.\d+)?)\b",
     re.I,
 )
-COMPUTATION_CUE = re.compile(
-    r"\b(?:computational|calculation|calculations|simulation|simulations|job|jobs|cpu|gpu|"
-    r"cores?|processors?|nodes?|memory|ram|wall[- ]?time|runtime|elapsed|allocated)\b",
+GPU_HINT = re.compile(
+    r"(?P<value>\d[\d,]*(?:\.\d+)?)\s*(?:x\s*)?(?:(?:nvidia\s+)?(?:a100|h100|v100)\s*)?gpus?\b",
     re.I,
 )
-CPU_PATTERN = re.compile(
-    r"(?P<value>\d+(?:\.\d+)?)\s*(?:physical\s+)?(?:cpu\s*)?(?:cores?|processors?|cpus?)\b",
-    re.I,
-)
-GPU_PATTERN = re.compile(
-    r"(?P<value>\d+(?:\.\d+)?)\s*(?:x\s*)?(?:(?:nvidia\s+)?(?:a100|h100|v100)\s*)?gpus?\b|"
-    r"\bgpus?\s*(?:x|:)\s*(?P<value_after>\d+(?:\.\d+)?)",
-    re.I,
-)
-MEMORY_PATTERN = re.compile(
-    r"(?P<value>\d+(?:\.\d+)?)\s*(?P<unit>mb|mib|gb|gib|tb|tib)\b"
-    r"(?=.{0,35}\b(?:memory|ram)\b)|"
-    r"\b(?:memory|ram)\b.{0,20}(?P<value_after>\d+(?:\.\d+)?)\s*"
+MEMORY_HINT = re.compile(
+    r"(?P<value>\d[\d,]*(?:\.\d+)?)\s*(?P<unit>mb|mib|gb|gib|tb|tib)\s*(?:of\s+)?(?:memory|ram)\b|"
+    r"(?:memory|ram)\D{0,20}(?P<value_after>\d[\d,]*(?:\.\d+)?)\s*"
     r"(?P<unit_after>mb|mib|gb|gib|tb|tib)\b",
     re.I,
 )
-TIME_PATTERN = re.compile(
-    r"(?P<value>\d+(?:\.\d+)?)\s*(?P<unit>seconds?|secs?|minutes?|mins?|hours?|hrs?|days?)\b",
+TIME_HINT = re.compile(
+    r"(?P<value>\d[\d,]*(?:\.\d+)?)\s*(?:wall\s+)?"
+    r"(?P<unit>seconds?|minutes?|hours?|days?)\b",
     re.I,
 )
-TIME_CONTEXT = re.compile(
-    r"\b(?:wall[- ]?time|runtime|elapsed|completed\s+in|took|ran\s+for|run\s+for|"
-    r"cpu\s+time|gpu\s+time|required|performed|within|for)\b",
-    re.I,
-)
-PHYSICAL_DURATION = re.compile(
-    r"\b(?:trajectory|timestep|time\s+step|simulation\s+time|production\s+run)\b",
-    re.I,
-)
+NUMBER = re.compile(r"\d[\d,]*(?:\.\d+)?")
+
+ModelCaller = Callable[..., tuple[dict[str, Any], dict[str, Any]]]
 
 
 def assess_resource_limits(
     documents: list[dict[str, Any]],
     client: GrobidQuantitiesClient,
     limits: dict[str, Any],
+    interpretation_config: dict[str, Any],
     *,
     output_dir: str | Path,
+    model_caller: ModelCaller = call_json_chat,
 ) -> list[dict[str, Any]]:
     root = Path(output_dir).expanduser().resolve()
     raw_dir = root / "grobid_quantities_raw"
-    raw_dir.mkdir(parents=True, exist_ok=True)
+    input_dir = root / "model_inputs"
+    response_dir = root / "model_responses"
+    for directory in (raw_dir, input_dir, response_dir):
+        directory.mkdir(parents=True, exist_ok=True)
+    api_key = _require_model_config(interpretation_config)
     service_version = client.version()
-    output: list[dict[str, Any]] = []
+    output = []
+    recalled_rows = []
 
     for index, document in enumerate(documents, start=1):
-        completeness = document.get("computation_completeness") or {}
-        if completeness and not completeness.get("passed", False):
-            output.append(document)
-            continue
         contexts = _recall_contexts(document["grobid_tei_path"])
-        raw_results = []
-        mentions = []
-        for context in contexts:
-            raw = client.process_text(context["text"])
-            raw_results.append({"context": context, "response": raw})
-            mentions.extend(_keyword_mentions(context))
-            mentions.extend(_quantity_mentions(context, raw))
+        recalled_rows.append(
+            {
+                "document_id": document["document_id"],
+                "title": document.get("title"),
+                "contexts": contexts,
+            }
+        )
+        raw_results = [
+            {
+                "context": context,
+                "keyword_hints": _keyword_hints(context["text"]),
+                "response": client.process_text(context["text"]),
+            }
+            for context in contexts
+        ]
         raw_path = raw_dir / f"{document['document_id']}.json"
         write_json(raw_path, raw_results)
-        merged = _merge_mentions(mentions)
-        explicit = [item for item in merged if item["binding"] == "actual_computation"]
-        exceeded = [item for item in explicit if _exceeds(item, limits)]
-        ambiguous = [item for item in merged if item["binding"] != "actual_computation"]
+        input_path = input_dir / f"{document['document_id']}.txt"
+        packet = _build_packet(document, raw_results, limits)
+        input_path.write_text(packet, encoding="utf-8")
+
+        if contexts:
+            try:
+                structured, audit = _call_and_validate(
+                    model_caller, packet, contexts, interpretation_config, api_key
+                )
+            except Exception as exc:
+                write_json(
+                    response_dir / f"{document['document_id']}.error.json",
+                    {"error_type": type(exc).__name__, "message": str(exc)},
+                )
+                raise
+            response_path = response_dir / f"{document['document_id']}.json"
+            write_json(response_path, {"response": structured, "audit": audit})
+            model_audit = {key: item for key, item in audit.items() if key != "raw_content"}
+        else:
+            structured = _empty_result()
+            response_path = None
+            model_audit = None
+
+        comparable = [
+            item
+            for item in structured["resource_records"]
+            if item["actual_computation"] and item["scope"] == "single_job"
+        ]
+        exceeded = [item for item in comparable if _exceeds(item, limits)]
         if exceeded:
             decision, status, passed = "exceeds_limit", "reject", False
-        elif explicit:
+        elif comparable:
             decision, status, passed = "within_limit", "pass", True
-        elif ambiguous:
+        elif contexts:
             decision, status, passed = "ambiguous", "pass", True
         else:
             decision, status, passed = "no_explicit_resource", "pass", True
+
         routing = dict(document.get("pipeline_routing") or {})
         routing.update(
             {
-                "stage_05": decision,
+                "stage_04": decision,
                 "continue": passed,
-                "stopped_at": None if passed else "stage_05_resource_limits",
+                "stopped_at": None if passed else "stage_04_resource_limits",
                 "stop_reason": None if passed else "explicit_resource_exceeds_limit",
             }
         )
-        record = {
-            **document,
-            "resource_limits": {
-                "status": status,
-                "decision": decision,
-                "passed": passed,
-                "configured_limits": limits,
-                "resource_mentions": merged,
-                "exceeded_resources": exceeded,
-                "recalled_context_count": len(contexts),
-                "service_version": service_version,
-                "grobid_quantities_raw_path": str(raw_path),
-            },
-            "pipeline_routing": routing,
-        }
-        output.append(record)
+        output.append(
+            {
+                **document,
+                "resource_limits": {
+                    "status": status,
+                    "decision": decision,
+                    "passed": passed,
+                    "configured_limits": limits,
+                    "resource_records": structured["resource_records"],
+                    "aggregate_resources": structured["aggregate_resources"],
+                    "platform_mentions": structured["platform_mentions"],
+                    "physical_simulation_durations": structured["physical_simulation_durations"],
+                    "unresolved_mentions": structured["unresolved_mentions"],
+                    "exceeded_resources": exceeded,
+                    "recalled_context_count": len(contexts),
+                    "prompt_version": PROMPT_VERSION,
+                    "model_input_path": str(input_path),
+                    "model_response_path": str(response_path) if response_path else None,
+                    "model_audit": model_audit,
+                    "service_version": service_version,
+                    "grobid_quantities_raw_path": str(raw_path),
+                },
+                "pipeline_routing": routing,
+            }
+        )
         log_progress(
-            "stage_05_resource_limits",
+            "stage_04_resource_limits",
             index,
             len(documents),
             document.get("title") or document["paper_id"],
             status=decision,
         )
+    write_jsonl(root / "recalled_contexts.jsonl", recalled_rows)
+    write_jsonl(
+        root / "structured_resource_documents.jsonl",
+        [
+            {
+                "document_id": item["document_id"],
+                "title": item.get("title"),
+                **{
+                    key: value
+                    for key, value in item["resource_limits"].items()
+                    if key
+                    in {
+                        "resource_records",
+                        "aggregate_resources",
+                        "platform_mentions",
+                        "physical_simulation_durations",
+                        "unresolved_mentions",
+                    }
+                },
+            }
+            for item in output
+        ],
+    )
     return output
 
 
 def resource_limits_summary(records: list[dict[str, Any]]) -> dict[str, Any]:
-    relevant = [item for item in records if item.get("resource_limits")]
     decisions: dict[str, int] = {}
-    for item in relevant:
-        decision = item["resource_limits"]["decision"]
+    prompt_tokens = completion_tokens = 0
+    for item in records:
+        result = item.get("resource_limits") or {}
+        if not result:
+            continue
+        decision = result["decision"]
         decisions[decision] = decisions.get(decision, 0) + 1
-    return {"documents": len(relevant), "decisions": decisions}
+        usage = (result.get("model_audit") or {}).get("usage") or {}
+        prompt_tokens += int(usage.get("prompt_tokens") or 0)
+        completion_tokens += int(usage.get("completion_tokens") or 0)
+    return {
+        "documents": sum(decisions.values()),
+        "decisions": decisions,
+        "model_usage": {
+            "prompt_tokens": prompt_tokens,
+            "completion_tokens": completion_tokens,
+            "total_tokens": prompt_tokens + completion_tokens,
+        },
+    }
 
 
 def _recall_contexts(tei_path: str | Path) -> list[dict[str, Any]]:
+    return [
+        sentence
+        for paragraph in read_tei_paragraphs(tei_path)
+        for sentence in sentence_windows(paragraph)
+        if RESOURCE_TERMS.search(sentence["text"])
+    ]
+
+
+def _keyword_hints(text: str) -> list[dict[str, Any]]:
     output = []
-    for paragraph in read_tei_paragraphs(tei_path):
-        for sentence in sentence_windows(paragraph):
-            if RESOURCE_TERMS.search(sentence["text"]):
-                output.append(sentence)
+    for resource, pattern in (("cpu_cores", CPU_HINT), ("gpus", GPU_HINT)):
+        for match in pattern.finditer(text):
+            output.append({"resource_type": resource, "raw": match.group(0)})
+    for match in CPU_COUNT_HINT.finditer(text):
+        output.append({"resource_type": "cpu_cores", "raw": match.group(0)})
+    for match in MEMORY_HINT.finditer(text):
+        output.append({"resource_type": "memory", "raw": match.group(0)})
+    for match in TIME_HINT.finditer(text):
+        output.append({"resource_type": "time", "raw": match.group(0)})
     return output
 
 
-def _keyword_mentions(context: dict[str, Any]) -> list[dict[str, Any]]:
-    text = context["text"]
-    output = []
-    binding = _resource_binding(text)
-    for match in CPU_PATTERN.finditer(text):
-        output.append(_mention("cpu_cores", float(match.group("value")), "cores", match, context, binding, "keyword"))
-    for match in GPU_PATTERN.finditer(text):
-        value = match.group("value") or match.group("value_after")
-        output.append(_mention("gpus", float(value), "gpu", match, context, binding, "keyword"))
-    for match in MEMORY_PATTERN.finditer(text):
-        value = match.group("value") or match.group("value_after")
-        unit = match.group("unit") or match.group("unit_after")
-        output.append(_mention("memory_gb", _memory_gb(float(value), unit), "GB", match, context, binding, "keyword"))
-    for match in TIME_PATTERN.finditer(text):
-        window = text[max(0, match.start() - 55) : min(len(text), match.end() + 55)]
-        if TIME_CONTEXT.search(window) and not PHYSICAL_DURATION.search(window):
-            output.append(_mention("runtime_hours", _hours(float(match.group("value")), match.group("unit")), "hours", match, context, binding, "keyword"))
-    return output
+def _build_packet(
+    document: dict[str, Any],
+    raw_results: list[dict[str, Any]],
+    limits: dict[str, Any],
+) -> str:
+    payload = {
+        "prompt_version": PROMPT_VERSION,
+        "title": document.get("title", ""),
+        "limits": limits,
+        "candidate_contexts": [
+            {
+                "context": {
+                    key: item["context"].get(key)
+                    for key in ("text", "section", "paragraph_index", "sentence_index")
+                },
+                "keyword_hints": item["keyword_hints"],
+                "grobid_measurements": [
+                    _compact_measurement(measurement)
+                    for measurement in item["response"].get("measurements") or []
+                ],
+            }
+            for item in raw_results
+        ],
+    }
+    return json.dumps(payload, ensure_ascii=False, indent=2)
 
 
-def _quantity_mentions(context: dict[str, Any], raw: dict[str, Any]) -> list[dict[str, Any]]:
-    text = context["text"]
-    binding = _resource_binding(text)
-    output = []
-    for measurement in raw.get("measurements") or []:
-        quantity = measurement.get("quantity") or {}
-        unit = quantity.get("rawUnit") or quantity.get("parsedUnit") or {}
-        unit_type = str(unit.get("type") or quantity.get("type") or "").casefold()
-        raw_unit = str(unit.get("name") or "").casefold()
-        value = ((quantity.get("parsedValue") or {}).get("numeric"))
-        if value is None:
-            continue
-        if unit_type == "time" and TIME_CONTEXT.search(text) and not PHYSICAL_DURATION.search(text):
-            normalized = quantity.get("normalizedQuantity")
-            hours = float(normalized) / 3600 if normalized is not None else _hours(float(value), raw_unit)
-            output.append(_simple_mention("runtime_hours", hours, "hours", context, binding, "grobid_quantities", measurement))
-    return output
-
-
-def _resource_binding(text: str) -> str:
-    if PLATFORM_ONLY.search(text) and not ACTUAL_USE.search(text):
-        return "platform_only"
-    if COMPUTATION_CUE.search(text) and ACTUAL_USE.search(text):
-        return "actual_computation"
-    return "ambiguous"
-
-
-def _mention(
-    resource: str,
-    value: float,
-    unit: str,
-    match: re.Match[str],
-    context: dict[str, Any],
-    binding: str,
-    source: str,
-) -> dict[str, Any]:
-    return _simple_mention(resource, value, unit, context, binding, source, {"raw": match.group(0)})
-
-
-def _simple_mention(
-    resource: str,
-    value: float,
-    unit: str,
-    context: dict[str, Any],
-    binding: str,
-    source: str,
-    raw: dict[str, Any],
-) -> dict[str, Any]:
+def _compact_measurement(measurement: dict[str, Any]) -> dict[str, Any]:
+    quantity = measurement.get("quantity") or {}
+    raw_unit = quantity.get("rawUnit") or {}
     return {
-        "resource": resource,
-        "value": value,
-        "unit": unit,
-        "binding": binding,
-        "source": source,
-        "evidence": context["text"],
-        "section": context.get("section"),
-        "paragraph_index": context.get("paragraph_index"),
-        "raw_extraction": raw,
+        "measurement_raw": measurement.get("measurementRaw"),
+        "raw_value": quantity.get("rawValue"),
+        "numeric_value": (quantity.get("parsedValue") or {}).get("numeric"),
+        "raw_unit": raw_unit.get("name"),
+        "unit_type": raw_unit.get("type") or quantity.get("type"),
+        "normalized_quantity": quantity.get("normalizedQuantity"),
+        "quantified": (measurement.get("quantified") or {}).get("rawName"),
     }
 
 
-def _merge_mentions(mentions: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    output: dict[tuple[str, float, str], dict[str, Any]] = {}
-    for item in mentions:
-        key = (item["resource"], round(float(item["value"]), 6), item["evidence"])
-        current = output.get(key)
-        if current is None:
-            output[key] = item
-        elif current["source"] != item["source"]:
-            current["source"] = "keyword+grobid_quantities"
-    return list(output.values())
+def _require_model_config(config: dict[str, Any]) -> str:
+    if not config.get("enabled", True):
+        raise RuntimeError("Resource interpretation model is disabled")
+    api_key = config.get("api_key")
+    if not api_key and config.get("api_key_env"):
+        api_key = os.environ.get(str(config["api_key_env"]))
+    api_key = api_key or os.environ.get("RCB_LLM_API_KEY")
+    missing = [key for key in ("base_url", "model") if not config.get(key)]
+    if not api_key:
+        missing.append("api_key")
+    if missing:
+        raise RuntimeError(f"Resource interpretation model is not configured: {', '.join(missing)}")
+    return str(api_key)
 
 
-def _exceeds(mention: dict[str, Any], limits: dict[str, Any]) -> bool:
-    mapping = {
-        "cpu_cores": "cpu_cores",
-        "gpus": "gpus",
-        "memory_gb": "memory_gb",
-        "runtime_hours": "runtime_hours",
-    }
-    limit = limits.get(mapping[mention["resource"]])
-    return limit is not None and float(mention["value"]) > float(limit)
+def _call_and_validate(
+    model_caller: ModelCaller,
+    packet: str,
+    contexts: list[dict[str, Any]],
+    config: dict[str, Any],
+    api_key: str,
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    validation_retries = int(config.get("validation_retries", 1))
+    last_error: Exception | None = None
+    for attempt in range(validation_retries + 1):
+        content = packet
+        if last_error:
+            content += (
+                f"\n\nPrevious response was invalid: {last_error}. Return corrected JSON only."
+            )
+        value, audit = model_caller(
+            model=str(config["model"]),
+            base_url=str(config["base_url"]),
+            api_key=api_key,
+            system_prompt=_system_prompt(),
+            user_content=content,
+            timeout_seconds=float(config.get("timeout_seconds", 180)),
+            max_tokens=int(config.get("max_tokens", 3000)),
+            retries=int(config.get("retries", 1)),
+            thinking=config.get("thinking"),
+        )
+        if audit.get("finish_reason") == "length":
+            last_error = ValueError("model output reached max_tokens")
+            continue
+        try:
+            structured = _validate_model_result(value, contexts)
+            return structured, {**audit, "validation_attempts": attempt + 1}
+        except ValueError as exc:
+            last_error = exc
+    raise ValueError(f"Resource model returned invalid structured data: {last_error}")
 
 
-def _memory_gb(value: float, unit: str) -> float:
-    factors = {"mb": 0.001, "mib": 1 / 1024, "gb": 1, "gib": 1.073741824, "tb": 1000, "tib": 1099.511628}
-    return value * factors[unit.casefold()]
+def _validate_model_result(value: dict[str, Any], contexts: list[dict[str, Any]]) -> dict[str, Any]:
+    evidence_texts = {re.sub(r"\s+", " ", item["text"]).strip() for item in contexts}
+    output = _empty_result()
+    for field in output:
+        items = value.get(field, [])
+        if not isinstance(items, list):
+            raise ValueError(f"{field} must be a list")
+        output[field] = items
+    for item in output["resource_records"]:
+        _validate_resource_record(item, evidence_texts, RESOURCE_TYPES)
+    for item in output["aggregate_resources"]:
+        _validate_resource_record(item, evidence_texts, AGGREGATE_TYPES)
+    output["platform_mentions"] = [
+        _normalize_platform(item, evidence_texts) for item in output["platform_mentions"]
+    ]
+    output["unresolved_mentions"] = [
+        _normalize_unresolved(item, evidence_texts) for item in output["unresolved_mentions"]
+    ]
+    output["physical_simulation_durations"] = [
+        _normalize_physical_duration(item, evidence_texts)
+        for item in output["physical_simulation_durations"]
+    ]
+    return output
+
+
+def _validate_resource_record(item: Any, evidence_texts: set[str], allowed_types: set[str]) -> None:
+    if not isinstance(item, dict):
+        raise ValueError("resource records must be objects")
+    if item.get("resource_type") not in allowed_types:
+        raise ValueError("invalid resource_type")
+    if not isinstance(item.get("value"), (int, float)) or item["value"] < 0:
+        raise ValueError("resource value must be non-negative")
+    if item.get("relation") not in RELATIONS or item.get("scope") not in SCOPES:
+        raise ValueError("invalid relation or scope")
+    if not isinstance(item.get("actual_computation"), bool):
+        raise ValueError("actual_computation must be boolean")
+    if item.get("confidence") not in CONFIDENCE:
+        raise ValueError("invalid confidence")
+    if not _valid_evidence(item.get("evidence"), evidence_texts):
+        raise ValueError("resource evidence must exactly match a candidate context")
+    if not _value_supported_by_evidence(item):
+        raise ValueError(f"resource value is not supported by its evidence: {item}")
+    if item.get("upper_value") is not None and not isinstance(item["upper_value"], (int, float)):
+        raise ValueError("upper_value must be numeric")
+
+
+def _valid_evidence(evidence: Any, texts: set[str]) -> bool:
+    return isinstance(evidence, str) and re.sub(r"\s+", " ", evidence).strip() in texts
+
+
+def _normalize_platform(item: Any, texts: set[str]) -> dict[str, str]:
+    if not isinstance(item, dict):
+        raise ValueError("platform mentions must be objects")
+    evidence = item.get("evidence") or item.get("context")
+    name = item.get("name") or item.get("platform")
+    if not isinstance(name, str) or not _valid_evidence(evidence, texts):
+        raise ValueError("platform mentions require name and exact evidence")
+    return {"name": name, "evidence": evidence}
+
+
+def _normalize_unresolved(item: Any, texts: set[str]) -> dict[str, str]:
+    if not isinstance(item, dict):
+        raise ValueError("unresolved mentions must be objects")
+    evidence = item.get("evidence") or item.get("text")
+    reason = item.get("reason")
+    if not isinstance(reason, str) or not _valid_evidence(evidence, texts):
+        raise ValueError("unresolved mentions require reason and exact evidence")
+    return {"evidence": evidence, "reason": reason}
+
+
+def _normalize_physical_duration(item: Any, texts: set[str]) -> dict[str, Any]:
+    if not isinstance(item, dict) or not _valid_evidence(item.get("evidence"), texts):
+        raise ValueError("physical durations require exact evidence")
+    if not isinstance(item.get("value"), (int, float)) or not isinstance(item.get("unit"), str):
+        raise ValueError("physical durations require numeric value and unit")
+    return {"value": item["value"], "unit": item["unit"], "evidence": item["evidence"]}
+
+
+def _value_supported_by_evidence(item: dict[str, Any]) -> bool:
+    evidence = item["evidence"]
+    target = float(item["value"])
+    resource_type = item["resource_type"]
+    if resource_type == "cpu_cores":
+        candidates = [_number(match.group("value")) for match in CPU_HINT.finditer(evidence)]
+        candidates.extend(
+            _number(match.group("value")) for match in CPU_COUNT_HINT.finditer(evidence)
+        )
+    elif resource_type == "gpus":
+        candidates = [_number(match.group("value")) for match in GPU_HINT.finditer(evidence)]
+    elif resource_type == "memory_gb":
+        candidates = []
+        for match in MEMORY_HINT.finditer(evidence):
+            value = _number(match.group("value") or match.group("value_after"))
+            unit = (match.group("unit") or match.group("unit_after")).casefold()
+            candidates.append(value * _memory_factor(unit))
+    elif resource_type == "runtime_hours":
+        candidates = _runtime_candidates(evidence)
+    else:
+        candidates = _aggregate_candidates(evidence)
+    return any(abs(candidate - target) <= max(1e-6, abs(target) * 1e-6) for candidate in candidates)
+
+
+def _runtime_candidates(evidence: str) -> list[float]:
+    candidates = []
+    matches = list(TIME_HINT.finditer(evidence))
+    for match in matches:
+        candidates.append(_hours(_number(match.group("value")), match.group("unit")))
+    for left, right in zip(matches, matches[1:], strict=False):
+        between = evidence[left.end() : right.start()]
+        if re.fullmatch(r"\s*(?:,?\s*and\s+|,\s*)", between, re.I):
+            candidates.append(
+                _hours(_number(left.group("value")), left.group("unit"))
+                + _hours(_number(right.group("value")), right.group("unit"))
+            )
+    return candidates
+
+
+def _aggregate_candidates(evidence: str) -> list[float]:
+    output = []
+    for match in NUMBER.finditer(evidence):
+        multiplier_text = evidence[match.end() : match.end() + 12].casefold()
+        multiplier = 1_000_000_000 if "billion" in multiplier_text else 1
+        if "million" in multiplier_text:
+            multiplier = 1_000_000
+        elif "thousand" in multiplier_text:
+            multiplier = 1_000
+        output.append(_number(match.group(0)) * multiplier)
+    return output
+
+
+def _number(value: str) -> float:
+    return float(value.replace(",", ""))
+
+
+def _memory_factor(unit: str) -> float:
+    return {
+        "mb": 0.001,
+        "mib": 1 / 1024,
+        "gb": 1,
+        "gib": 1.073741824,
+        "tb": 1000,
+        "tib": 1099.511628,
+    }[unit]
 
 
 def _hours(value: float, unit: str) -> float:
     normalized = unit.casefold()
-    if normalized.startswith("sec") or normalized == "s":
+    if normalized.startswith("second"):
         return value / 3600
-    if normalized.startswith("min"):
+    if normalized.startswith("minute"):
         return value / 60
-    if normalized.startswith("day") or normalized == "d":
+    if normalized.startswith("day"):
         return value * 24
     return value
+
+
+def _exceeds(item: dict[str, Any], limits: dict[str, Any]) -> bool:
+    limit = limits.get(item["resource_type"])
+    if limit is None or item["relation"] == "less_than":
+        return False
+    value = float(item["value"])
+    if item["relation"] == "greater_than":
+        return value >= float(limit)
+    if item["relation"] == "range":
+        return value > float(limit)
+    return value > float(limit)
+
+
+def _empty_result() -> dict[str, list[Any]]:
+    return {
+        "resource_records": [],
+        "aggregate_resources": [],
+        "platform_mentions": [],
+        "physical_simulation_durations": [],
+        "unresolved_mentions": [],
+    }
+
+
+def _system_prompt() -> str:
+    return """You extract explicitly reported computing resources from chemistry papers.
+Return one JSON object with exactly these list fields: resource_records, aggregate_resources,
+platform_mentions, physical_simulation_durations, unresolved_mentions.
+
+Each resource record must contain resource_type (cpu_cores, gpus, memory_gb, runtime_hours),
+value normalized to cores, GPU count, GB, or hours, relation (exact, approximately,
+greater_than, less_than, range), scope (single_job, aggregate_study, unknown),
+actual_computation (boolean), confidence (high, medium, low), and evidence copied exactly from
+one candidate context. A range may include upper_value.
+
+Never infer unreported resources. Do not treat CPU model numbers such as Xeon Gold 6230 as
+core counts. Put CPU-hours, core-hours, GPU-hours, and node-hours in aggregate_resources using
+resource_type cpu_hours, core_hours, gpu_hours, or node_hours. Put molecular-dynamics physical durations such as ns, ps,
+or fs in physical_simulation_durations, not runtime_hours. Platform names alone do not imply
+resource quantities. Combine durations such as 1 day and 4 hours into 28 runtime_hours.
+Only report resources used by this paper's actual computations; keep background or facility
+capacity statements unresolved or mark actual_computation false.
+
+Platform records must use {"name": string, "evidence": exact candidate context}.
+Physical-duration records must use {"value": number, "unit": string, "evidence": exact context}.
+Unresolved records must use {"evidence": exact candidate context, "reason": string}."""

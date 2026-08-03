@@ -2,9 +2,9 @@
 
 This subproject converts a local PDF corpus into reviewed ResearchChemBench task
 candidates. It removes duplicate and supplementary PDFs before extraction, uses GROBID
-for structured metadata and full text, gates papers by core-software coverage,
-computational completeness, and explicit resource limits, then applies MinerU and the
-downstream task-construction stages only to papers that pass all three gates.
+for structured metadata and full text, gates papers by core-software coverage and
+model-normalized explicit resource limits, then applies MinerU and the downstream
+task-construction stages only to papers that pass both gates.
 
 ## Repository Layout
 
@@ -35,7 +35,7 @@ data_pipeline/
     bootstrap_stage_gates.sh  install and build pinned Softcite/Quantities/DeLFT
     build_main_paper_corpus.py build a symlink corpus of unique main papers
     run_stage02.sh            run inventory and GROBID only; auto-start/stop service
-    run_stage03_05.sh         rerun redesigned gates from saved Stage 02 documents
+    run_stage03_04.sh         rerun screening gates from saved Stage 02 documents
     run_pipeline.sh           run config.json
   tests/                      automated tests and test-only fixtures
   runs/                       generated outputs, ignored by Git
@@ -157,21 +157,19 @@ capabilities, and actions. `config.json` controls which entries are enabled for 
    unique main papers to GROBID when `exclude_supplementary` is enabled.
 3. Store GROBID TEI XML, structured metadata, and expanded text for each main paper.
 4. Use Softcite on GROBID TEI and require direct toolbox coverage for every core software.
-5. Use one general-model API to require a complete computational process; skip and pass
-   only when the model is unconfigured or the API call fails.
-6. Use GROBID Quantities plus strict keyword parsing to reject only explicit resources
-   above the configured CPU, GPU, memory, or runtime limits.
-7. Send only Stage 05 passes to MinerU.
-8. Merge validated MinerU text without repeating the removed Stage 03-05 logic.
-9. Group related files and discovered assets into a StudyBundle.
-10. Extract a source-grounded ScientificRecord.
-11. Discover external data, code, SI, DOI, and repository signals.
-12. Use the fast model to select exactly one best-supported task type.
-13. Use the generation model to construct the task instruction, public inputs,
-    hidden reference findings, evidence gates, and scoring rubric.
-14. Run deterministic scientific, toolbox, data, leakage, and package checks.
-15. Run role-separated LLM review and generate the human curation queue.
-16. After assets, reference runs, and expert approval exist, materialize and validate
+5. Recall possible resource evidence with keywords and GROBID Quantities, use one
+   OpenAI-compatible model to normalize it, then compare validated values in Python.
+6. Send only Stage 04 passes to MinerU.
+7. Merge validated MinerU text without repeating the Stage 03-04 screening logic.
+8. Group related files and discovered assets into a StudyBundle.
+9. Extract a source-grounded ScientificRecord.
+10. Discover external data, code, SI, DOI, and repository signals.
+11. Use the fast model to select exactly one best-supported task type.
+12. Use the generation model to construct the task instruction, public inputs,
+   hidden reference findings, evidence gates, and scoring rubric.
+13. Run deterministic scientific, toolbox, data, leakage, and package checks.
+14. Run role-separated LLM review and generate the human curation queue.
+15. After assets, reference runs, and expert approval exist, materialize and validate
     the formal ResearchChemBench task.
 
 ## Can `.venv` Be Moved To A Server?
@@ -276,7 +274,8 @@ cd /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/Researc
   runs/pdf_bundle_20260802/outputs/run_summary.json
 ```
 
-完整管线还需要四组 LLM API Key。脚本会从环境变量或
+完整管线还需要五组 LLM API Key，其中资源解释可与任务分类共用同一个模型和
+服务。脚本会从环境变量或
 `../config.local.env` 读取。第二阶段仍然使用相同的自动启动、自动停止逻辑。
 
 关键输出位置：
@@ -291,162 +290,80 @@ runs/<run_name>/outputs/stage_02_grobid_extract/tei/*.tei.xml
 runs/<run_name>/outputs/stage_02_grobid_extract/text/*.txt
 runs/<run_name>/outputs/stage_02_grobid_extract/documents.jsonl
 runs/<run_name>/outputs/stage_03_software_coverage/
-runs/<run_name>/outputs/stage_04_computation_completeness/
-runs/<run_name>/outputs/stage_05_resource_limits/
+runs/<run_name>/outputs/stage_04_resource_limits/
 ```
 
-## 复现重新设计的 Stage 03-05
+## 当前 Stage 03-04 复现
 
-### 1. 依赖和目录约束
+Stage 03 使用 Softcite 抽取作者实际使用的核心软件，仅将所有核心软件均存在于
+`assets/toolbox.json` 的 `direct_covered` 论文送入 Stage 04。未识别到软件的论文
+标记为 `software_not_identified`，不进入后续阶段。`capability_equivalent` 只作为
+备选记录。
 
-所有从 GitHub 获取的第三方源码必须位于 `data_pipeline/third_party`：
+Stage 04 使用关键词和 GROBID Quantities 召回资源候选句，通过 OpenAI 兼容模型
+结构化 CPU 核数、GPU 数量、内存和 wall time，再由 Python 校验证据与数值并和
+配置上限比较。CPU/core-hours、平台名称和物理模拟时长只记录，不与硬上限进行
+错误量纲比较。模型未配置、API 失败或连续返回非法结构时，流水线报错停止。
 
-```text
-third_party/software-mentions   Softcite
-third_party/grobid-quantities   GROBID Quantities
-third_party/delft               DeLFT
-third_party/grobid-home         指向 third_party/grobid/grobid-home 的符号链接
-```
-
-这些 checkout 和模型文件不提交到 ResearchChemBench Git 仓库。可复现信息由
-`scripts/bootstrap_stage_gates.sh`、`scripts/patches/` 和上面列出的固定 commit
-共同提供。当前实现直接安装到已激活的 benchmark 主环境，不创建新环境。主环境
-版本优先，脚本明确保持 `transformers==4.57.3`，并以 `--no-deps` 安装 DeLFT，
-避免其旧依赖声明降级 Transformers、Torch、NumPy 或 Pandas。
-
-需要 OpenJDK 21、可编译 JEP 的 C/C++ 工具链，以及约 3 GB Softcite 模型空间。
-当前验证组合为 Python 3.10、TensorFlow 2.17.1、`tf_keras` 2.17.0、
-`tfa-nightly==0.23.0.dev20240415222534`、JEP 4.3.1 和 Transformers 4.57.3。
-
-### 2. 一键准备服务
-
-```bash
-cd /path/to/ResearchChemBench/data_pipeline
-export GROBID_JAVA_HOME=/path/to/jdk-21
-export HF_ENDPOINT=https://hf-mirror.com
-./scripts/bootstrap_stage_gates.sh
-```
-
-脚本会执行以下操作：
-
-1. 将 Softcite、GROBID Quantities 和 DeLFT 克隆到 `third_party` 并切换到固定 commit。
-2. 应用已追踪补丁：Softcite 使用 DeLFT BERT 软件实体模型并移除冲突的旧 ASM；
-   GROBID Quantities 改用 8062/8063 端口，避免与 Softcite 8060/8061 冲突。
-3. 将所需 Python 库安装到当前主环境，不创建 venv 或 Conda 环境。
-4. 使用 Hugging Face 镜像下载 Softcite BERT 权重。
-5. 使用 `h5py` 遍历每个 HDF5 对象，拒绝大小正常但内部损坏的权重文件。
-6. 建立 `libjep.so` 链接，复制 Wapiti 模型并构建两个 Gradle 项目。
-
-### 3. 配置
-
-`config.json` 中与三个阶段直接相关的配置为：
+配置示例：
 
 ```json
 {
-  "softcite": {
-    "base_url": "http://127.0.0.1:8060",
-    "working_directory": "third_party/software-mentions",
-    "java_home": "/path/to/jdk-21",
-    "auto_start": true
-  },
-  "computation_completeness": {
+  "resource_interpretation": {
     "enabled": true,
-    "max_source_chars": 30000,
-    "max_paragraphs": 24,
-    "max_tokens": 1800
+    "url": "http://127.0.0.1:8000/v1",
+    "api_key_env": "RESOURCE_LLM_API_KEY",
+    "model_name": "local-model",
+    "max_tokens": 3000,
+    "validation_retries": 1
   },
   "resource_limits": {
     "cpu_cores": 500,
     "gpus": 8,
     "memory_gb": 1000,
     "runtime_hours": 12
-  },
-  "grobid_quantities": {
-    "base_url": "http://127.0.0.1:8062",
-    "working_directory": "third_party/grobid-quantities",
-    "java_home": "/path/to/jdk-21",
-    "auto_start": true
   }
 }
 ```
 
-Stage 04 使用 `llm.classification` 的 OpenAI 兼容 URL、模型名和
-`TASK_CLASSIFICATION_LLM_API_KEY`。未配置模型或 API 调用失败时，该论文记录为
-`skipped` 或 `skipped_error` 并放行；不会使用规则模型回退。Softcite 或 GROBID
-Quantities 无法启动、健康检查失败或请求失败时，流水线抛错并停止。
-
-脚本只提供 API 调用接口，不负责部署本地模型。2026-08-02 的验证运行通过
-`config.local.env` 中的 `JUDGE_API_*` 实际调用了 DeepSeek
-`deepseek-v4-flash`，并不是本地小模型测试。
-
-### 4. 从已保存的 Stage 02 复跑
-
-以下命令只处理 manifest 中的 17 篇唯一正式论文，不重新运行 Stage 01/02：
+测试时可用 flash 模型代替本地模型：
 
 ```bash
-./scripts/run_stage03_05.sh \
+export RESOURCE_LLM_URL=https://api.deepseek.com/v1
+export RESOURCE_LLM_API_KEY=...
+export RESOURCE_LLM_MODEL_NAME=deepseek-v4-flash
+./scripts/run_stage03_04.sh \
   config.json \
   runs/pdf_bundle_grobid_20260802/outputs/stage_02_grobid_extract/documents.jsonl \
   runs/pdf_bundle_main_papers/main_paper_corpus_manifest.json \
-  runs/stage03_05_redesign/outputs
+  runs/stage03_04_redesign/outputs
 ```
 
-脚本会读取 `../config.local.env`，将 `JUDGE_API_*` 映射到 Stage 04 使用的
-`TASK_CLASSIFICATION_LLM_*`。如果 8060 或 8062 上已有健康的外部服务则复用；
-否则自动启动对应 Gradle 服务，等待健康检查，阶段结束或抛出异常时停止自己启动
-的进程组。无需提前手工部署，也不会停止运行前已经存在的外部服务。
-
-实时日志和阶段输出：
+主要输出：
 
 ```text
-runs/stage03_05_redesign/outputs/stage_03_05.log
-runs/stage03_05_redesign/outputs/stage_03_software_coverage/softcite_service.log
-runs/stage03_05_redesign/outputs/stage_03_software_coverage/softcite_raw/*.json
-runs/stage03_05_redesign/outputs/stage_04_computation_completeness/model_inputs/*.txt
-runs/stage03_05_redesign/outputs/stage_04_computation_completeness/model_responses/*.json
-runs/stage03_05_redesign/outputs/stage_05_resource_limits/grobid_quantities.log
-runs/stage03_05_redesign/outputs/stage_05_resource_limits/grobid_quantities_raw/*.json
-runs/stage03_05_redesign/outputs/summary.json
+stage_03_04.log
+stage_03_software_coverage/software_coverage_documents.jsonl
+stage_03_software_coverage/direct_covered_pdf_paths.jsonl
+stage_04_resource_limits/recalled_contexts.jsonl
+stage_04_resource_limits/model_inputs/*.txt
+stage_04_resource_limits/model_responses/*.json
+stage_04_resource_limits/structured_resource_documents.jsonl
+stage_04_resource_limits/resource_screened_documents.jsonl
+stage_04_resource_limits/selected_pdf_paths.jsonl
+stage_04_resource_limits/summary.json
 ```
 
-每个筛选阶段的 PDF 清单只保存原始 PDF 路径，不复制 PDF。Stage 03 的
-`capability_equivalent` 论文只保存为备选，不进入 Stage 04；Stage 04 只处理
-`direct_covered`；Stage 05 只处理 Stage 04 的 `complete` 或 `skipped` 记录。
+Softcite 和 GROBID Quantities 会按配置自动启动，并只停止本次脚本自己启动的服务。
+所有 PDF 清单只保存原始路径，不复制 PDF。
 
-### 5. 验收
+## 历史设计记录
 
-```bash
-python -m ruff check src scripts tests
-python -m unittest discover -s tests -v
-python -m pip show transformers tensorflow tf_keras jep
-curl -fsS http://127.0.0.1:8060/service/isalive || true
-curl -fsS http://127.0.0.1:8062/service/isalive || true
-```
-
-脚本正常退出后，如果服务由流水线自动启动，最后两个 `curl` 应连接失败；这表示
-服务已自动停止。若服务在运行前由外部启动，则应继续返回 `true`。
-
-### 6. 当前服务器最终验证结果
-
-2026-08-02 使用 17 篇唯一正式论文完成了监督运行。最终采用的输出为：
-
-```text
-runs/stage03_05_redesign_20260802_v5/outputs
-```
-
-漏斗结果为：
-
-- Stage 03：12 篇 `direct_covered`，5 篇 `unsupported`；
-- Stage 04：10 篇 `complete`，1 篇 `uncertain`，1 篇 `incomplete`；
-- Stage 05：10 篇 `no_explicit_resource`，没有明确超限论文；
-- 最终 10 篇进入后续 MinerU 和任务构建阶段；
-- Ruff 通过，53 个单元测试通过；
-- Softcite 和 GROBID Quantities 均由脚本自动启动并在完成后停止。
-
-逐篇软件证据、模型判定、资源召回和监督修复过程见
-[`docs/STAGE_03_05_TEST_RESULTS_20260802.md`](docs/STAGE_03_05_TEST_RESULTS_20260802.md)。
-代码修改时间线见
-[`docs/STAGE_03_05_IMPLEMENTATION_LOG.md`](docs/STAGE_03_05_IMPLEMENTATION_LOG.md)。
+旧 Stage 03-05 的方案和测试结果仅保留用于审计，当前流水线不再执行其中的
+“计算化学完整性”阶段。历史记录见
+[`docs/STAGE_03_05_TEST_RESULTS_20260802.md`](docs/STAGE_03_05_TEST_RESULTS_20260802.md)
+和
+[`docs/modifiy/STAGE_03_05_REDESIGN_PLAN.md`](docs/modifiy/STAGE_03_05_REDESIGN_PLAN.md)。
 
 ## 在新服务器复现第二阶段
 
@@ -743,17 +660,14 @@ original PDFs and do not copy them. The main candidate products are:
 - `stage_03_software_coverage/software_coverage_documents.jsonl`: Softcite evidence,
   normalized core software, direct support, capability-equivalent candidates, rejects,
   and raw Softcite response paths.
-- `stage_04_computation_completeness/`: compact model inputs, raw/structured model
-  responses, complete/incomplete/uncertain/skipped decisions, and selected PDF paths.
-- `stage_05_resource_limits/resource_screened_documents.jsonl`: recalled resource
-  evidence, GROBID Quantities raw responses, normalized values, configured limits, and
-  the final resource decision.
-- `stage_13_task_selection/selected_records.jsonl`: selected task type and reason.
-- `stage_14_package_generation/candidate_packages/`: generated benchmark candidates.
-- `stage_15_quality_gates/quality_gated_records.jsonl`: deterministic gate results.
-- `stage_16_model_ensemble/model_reviewed_records.jsonl`: role-separated reviews.
-- `stage_17_curation_queue/curation_queue.jsonl`: candidates for human inspection.
-- `stage_18_dataset_build/`: formal build inputs, manifest, dataset, and validation.
+- `stage_04_resource_limits/`: recalled contexts, compact model inputs, raw model
+  responses, validated resource records, configured limits, and the final decision.
+- `stage_12_task_selection/selected_records.jsonl`: selected task type and reason.
+- `stage_13_package_generation/candidate_packages/`: generated benchmark candidates.
+- `stage_14_quality_gates/quality_gated_records.jsonl`: deterministic gate results.
+- `stage_15_model_ensemble/model_reviewed_records.jsonl`: role-separated reviews.
+- `stage_16_curation_queue/curation_queue.jsonl`: candidates for human inspection.
+- `stage_17_dataset_build/`: formal build inputs, manifest, dataset, and validation.
 - `run_summary.json`: compact run statistics.
 
 Candidate packages are not automatically formal benchmark tasks. Formal release also

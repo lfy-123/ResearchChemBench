@@ -33,7 +33,7 @@ def normalize_config(raw: dict[str, Any], base: Path) -> dict[str, Any]:
     grobid = raw.get("grobid") or {}
     softcite = raw.get("softcite") or {}
     quantities = raw.get("grobid_quantities") or {}
-    completeness = raw.get("computation_completeness") or {}
+    resource_interpretation = raw.get("resource_interpretation") or {}
     resource_limits = raw.get("resource_limits") or {}
     java_home = softcite.get("java_home") or grobid.get("java_home")
     mineru = raw.get("mineru") or {}
@@ -63,7 +63,7 @@ def normalize_config(raw: dict[str, Any], base: Path) -> dict[str, Any]:
         },
         "workspace": str(run_dir / "outputs"),
         "log_file": str(run_dir / "outputs" / "pipeline.log"),
-        "output": str(run_dir / "outputs" / "stage_18_dataset_build" / "dataset"),
+        "output": str(run_dir / "outputs" / "stage_17_dataset_build" / "dataset"),
         "stop_after": raw.get("stop_after", "model_ensemble"),
         "grobid_extract": {
             "base_url": grobid.get("base_url", "http://127.0.0.1:8070"),
@@ -91,9 +91,7 @@ def normalize_config(raw: dict[str, Any], base: Path) -> dict[str, Any]:
             "working_directory": str(
                 _resolve(base, softcite.get("working_directory", "third_party/software-mentions"))
             ),
-            "start_command": softcite.get(
-                "start_command", ["./gradlew", "--no-daemon", "run"]
-            ),
+            "start_command": softcite.get("start_command", ["./gradlew", "--no-daemon", "run"]),
             "java_home": java_home,
             "auto_start": bool(softcite.get("auto_start", True)),
             "startup_timeout_seconds": int(softcite.get("startup_timeout_seconds", 900)),
@@ -123,23 +121,23 @@ def normalize_config(raw: dict[str, Any], base: Path) -> dict[str, Any]:
             },
             "aliases_file": str(_resolve(base, "assets/software_aliases.json")),
             "role_rules_file": str(_resolve(base, "assets/software_role_rules.json")),
-            "capability_map_file": str(
-                _resolve(base, "assets/software_capability_map.json")
-            ),
+            "capability_map_file": str(_resolve(base, "assets/software_capability_map.json")),
         },
-        "computation_completeness": {
-            "enabled": bool(completeness.get("enabled", llm_enabled)),
+        "resource_interpretation": {
+            "enabled": bool(resource_interpretation.get("enabled", llm_enabled)),
             **classification_llm,
             **{
                 key: value
-                for key, value in completeness.items()
+                for key, value in resource_interpretation.items()
                 if key not in {"enabled", "url", "model_name"}
             },
-            "base_url": completeness.get("url", classification_llm["base_url"]),
-            "model": completeness.get("model_name", classification_llm["model"]),
-            "max_source_chars": int(completeness.get("max_source_chars", 30_000)),
-            "max_paragraphs": int(completeness.get("max_paragraphs", 24)),
-            "max_tokens": int(completeness.get("max_tokens", 1800)),
+            "base_url": os.environ.get("RESOURCE_LLM_URL")
+            or resource_interpretation.get("url", classification_llm["base_url"]),
+            "model": os.environ.get("RESOURCE_LLM_MODEL_NAME")
+            or resource_interpretation.get("model_name", classification_llm["model"]),
+            "api_key_env": resource_interpretation.get("api_key_env", "RESOURCE_LLM_API_KEY"),
+            "max_tokens": int(resource_interpretation.get("max_tokens", 3000)),
+            "validation_retries": int(resource_interpretation.get("validation_retries", 1)),
         },
         "resource_limits": {
             "cpu_cores": float(resource_limits.get("cpu_cores", 500)),
@@ -152,25 +150,22 @@ def normalize_config(raw: dict[str, Any], base: Path) -> dict[str, Any]:
             "working_directory": str(
                 _resolve(base, quantities.get("working_directory", "third_party/grobid-quantities"))
             ),
-            "start_command": quantities.get(
-                "start_command", ["./gradlew", "--no-daemon", "run"]
-            ),
+            "start_command": quantities.get("start_command", ["./gradlew", "--no-daemon", "run"]),
             "java_home": quantities.get("java_home") or grobid.get("java_home"),
             "auto_start": bool(quantities.get("auto_start", True)),
             "startup_timeout_seconds": int(quantities.get("startup_timeout_seconds", 600)),
             "timeout_seconds": int(quantities.get("timeout_seconds", 120)),
             "retries": int(quantities.get("retries", 2)),
             "service_log": str(
-                run_dir / "outputs" / "stage_05_resource_limits" / "grobid_quantities.log"
+                run_dir / "outputs" / "stage_04_resource_limits" / "grobid_quantities.log"
             ),
             "environment": {
-                str(key): str(value)
-                for key, value in (quantities.get("environment") or {}).items()
+                str(key): str(value) for key, value in (quantities.get("environment") or {}).items()
             },
         },
         "mineru": {
             "execute": bool(mineru.get("enabled", True)),
-            "output_dir": str(run_dir / "outputs" / "stage_07_mineru_parse" / "mineru"),
+            "output_dir": str(run_dir / "outputs" / "stage_06_mineru_parse" / "mineru"),
             "command": mineru.get("command", ".venv/bin/mineru"),
             "method": "auto",
             "backend": mineru.get("backend", "pipeline"),
@@ -187,7 +182,7 @@ def normalize_config(raw: dict[str, Any], base: Path) -> dict[str, Any]:
             "max_tokens": 4000,
             "max_workers": workers,
             "cache_dir": str(
-                run_dir / "outputs" / "stage_12_scientific_record_extraction" / "llm_cache"
+                run_dir / "outputs" / "stage_11_scientific_record_extraction" / "llm_cache"
             ),
         },
         "task_selection": {
@@ -195,7 +190,7 @@ def normalize_config(raw: dict[str, Any], base: Path) -> dict[str, Any]:
             **classification_llm,
             "allow_deterministic_fallback": not llm_enabled,
             "max_tokens": 3000,
-            "cache_dir": str(run_dir / "outputs" / "stage_13_task_selection" / "llm_cache"),
+            "cache_dir": str(run_dir / "outputs" / "stage_12_task_selection" / "llm_cache"),
         },
         "package_generation": {
             "enabled": llm_enabled,
@@ -205,7 +200,7 @@ def normalize_config(raw: dict[str, Any], base: Path) -> dict[str, Any]:
             "max_tokens": 8000,
             "max_workers": max(1, min(workers, 2)),
             "repair_attempts": 1,
-            "cache_dir": str(run_dir / "outputs" / "stage_14_package_generation" / "llm_cache"),
+            "cache_dir": str(run_dir / "outputs" / "stage_13_package_generation" / "llm_cache"),
         },
         "toolbox": {
             "profile": str(_resolve(base, toolbox.get("file", "assets/toolbox.json"))),

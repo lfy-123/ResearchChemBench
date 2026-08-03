@@ -1,5 +1,9 @@
 # 数据管线第三、四、五阶段重新设计方案
 
+> 历史设计：原 Stage 04 已删除，原 Stage 05 已重构并重编号为当前 Stage 04。
+> 当前实现与测试见 `docs/STAGE_03_04_IMPLEMENTATION_LOG_20260803.md` 和
+> `docs/STAGE_03_04_TEST_RESULTS_20260803.md`。
+
 ## 1. 文档目的
 
 本文档定义 ResearchChemBench 数据管线第三、四、五阶段的新目标、判定规则、输入输出契约、外部服务依赖、配置方式、错误处理和代码迁移方案。

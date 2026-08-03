@@ -76,9 +76,7 @@ class SoftciteClient:
                     return value
             except urllib.error.HTTPError as exc:
                 detail = exc.read().decode("utf-8", errors="replace")[:2000]
-                last_error = SoftciteError(
-                    f"Softcite HTTP {exc.code}: {detail or exc.reason}"
-                )
+                last_error = SoftciteError(f"Softcite HTTP {exc.code}: {detail or exc.reason}")
                 if exc.code != 503 or attempt >= self.retries:
                     raise last_error from exc
             except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as exc:
@@ -104,8 +102,7 @@ class SoftciteClient:
         matched = next((pattern for pattern in fatal_patterns if pattern in content), None)
         if matched:
             raise SoftciteError(
-                f"Softcite reported a fatal model initialization error ({matched}); "
-                f"inspect {path}"
+                f"Softcite reported a fatal model initialization error ({matched}); inspect {path}"
             )
 
 

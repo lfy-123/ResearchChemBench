@@ -35,10 +35,6 @@ from src.ingestion.grobid import extract_documents_with_grobid, grobid_service
 from src.ingestion.grobid_quantities import grobid_quantities_service
 from src.ingestion.softcite import softcite_service
 from src.ingestion.study_bundle import build_study_bundles, member_bundle_map
-from src.screening.computation_completeness import (
-    assess_computation_completeness,
-    computation_completeness_summary,
-)
 from src.screening.resource_limits import assess_resource_limits, resource_limits_summary
 from src.screening.software_coverage import assess_software_coverage, software_coverage_summary
 
@@ -312,8 +308,7 @@ def run_corpus_pipeline(
             [
                 item
                 for item in software_records
-                if (item.get("software_coverage") or {}).get("decision")
-                == "capability_equivalent"
+                if (item.get("software_coverage") or {}).get("decision") == "capability_equivalent"
             ]
         ),
     )
@@ -328,45 +323,11 @@ def run_corpus_pipeline(
             software_summary=software_summary,
         )
 
-    stage = _stage_dir(workspace, "stage_04_computation_completeness")
-    completeness_inputs = [
+    stage = _stage_dir(workspace, "stage_04_resource_limits")
+    resource_inputs = [
         item
         for item in software_records
         if (item.get("software_coverage") or {}).get("decision") == "direct_covered"
-    ]
-    completeness_records = assess_computation_completeness(
-        completeness_inputs,
-        config.get("computation_completeness", {}),
-        output_dir=stage,
-    )
-    write_jsonl(stage / "computation_completeness_documents.jsonl", completeness_records)
-    write_jsonl(
-        stage / "selected_pdf_paths.jsonl",
-        _pdf_path_rows(
-            [
-                item
-                for item in completeness_records
-                if (item.get("computation_completeness") or {}).get("passed")
-            ]
-        )
-    )
-    completeness_summary = computation_completeness_summary(completeness_records)
-    _write_stage_summary(stage, completeness_summary)
-    if config.get("stop_after") == "computation_completeness":
-        return _screening_stop_summary(
-            config_path,
-            corpus_root,
-            workspace,
-            inventory,
-            software_summary=software_summary,
-            completeness_summary=completeness_summary,
-        )
-
-    stage = _stage_dir(workspace, "stage_05_resource_limits")
-    resource_inputs = [
-        item
-        for item in completeness_records
-        if (item.get("computation_completeness") or {}).get("passed")
     ]
     quantities_config = config.get("grobid_quantities", {})
     with grobid_quantities_service(quantities_config) as client:
@@ -374,6 +335,7 @@ def run_corpus_pipeline(
             resource_inputs,
             client,
             config.get("resource_limits", {}),
+            config.get("resource_interpretation", {}),
             output_dir=stage,
         )
     write_jsonl(stage / "resource_screened_documents.jsonl", classified)
@@ -392,15 +354,12 @@ def run_corpus_pipeline(
             workspace,
             inventory,
             software_summary=software_summary,
-            completeness_summary=completeness_summary,
             resource_summary=resource_summary,
         )
-    classified = [
-        item for item in classified if (item.get("resource_limits") or {}).get("passed")
-    ]
+    classified = [item for item in classified if (item.get("resource_limits") or {}).get("passed")]
 
     mineru_config = config.get("mineru", {})
-    stage = _stage_dir(workspace, "stage_06_mineru_queue")
+    stage = _stage_dir(workspace, "stage_05_mineru_queue")
     queue = build_mineru_queue(
         classified,
         include_optional=mineru_config.get("include_optional", False),
@@ -417,7 +376,7 @@ def run_corpus_pipeline(
         _resolve(
             base,
             mineru_config.get(
-                "output_dir", str(_stage_dir(workspace, "stage_07_mineru_parse") / "mineru")
+                "output_dir", str(_stage_dir(workspace, "stage_06_mineru_parse") / "mineru")
             ),
         ),
         execute=mineru_config.get("execute", False),
@@ -430,10 +389,10 @@ def run_corpus_pipeline(
         reuse_existing=mineru_config.get("reuse_existing", True),
         min_markdown_chars=mineru_config.get("min_markdown_chars", 1000),
     )
-    stage = _stage_dir(workspace, "stage_07_mineru_parse")
+    stage = _stage_dir(workspace, "stage_06_mineru_parse")
     write_jsonl(stage / "mineru_results_raw.jsonl", mineru_results)
     _write_stage_summary(stage, _field_summary(mineru_results, "status", "documents"))
-    stage = _stage_dir(workspace, "stage_08_deep_parse_quality")
+    stage = _stage_dir(workspace, "stage_07_deep_parse_quality")
     deep_quality_config = config.get("deep_parse_quality", {})
     mineru_results = assess_deep_parse_quality(
         classified,
@@ -449,7 +408,7 @@ def run_corpus_pipeline(
 
     deep_paths = deep_text_map(mineru_results)
     deep_result_map = {item["paper_id"]: item for item in mineru_results}
-    stage = _stage_dir(workspace, "stage_09_post_mineru_merge")
+    stage = _stage_dir(workspace, "stage_08_post_mineru_merge")
     refined_inputs = []
     for document in classified:
         refined = dict(document)
@@ -477,12 +436,12 @@ def run_corpus_pipeline(
         },
     )
 
-    stage = _stage_dir(workspace, "stage_10_extraction_ready")
+    stage = _stage_dir(workspace, "stage_09_extraction_ready")
     write_jsonl(stage / "extraction_ready_documents.jsonl", classified)
     write_jsonl(stage / "selected_pdf_paths.jsonl", _pdf_path_rows(classified))
     _write_stage_summary(stage, {"documents": len(classified), "status": "ready"})
 
-    stage = _stage_dir(workspace, "stage_11_study_bundles")
+    stage = _stage_dir(workspace, "stage_10_study_bundles")
     explicit_assets = _load_assets(base, config["assets"]) if config.get("assets") else []
     explicit_map = {item["paper_id"]: item for item in explicit_assets}
     study_bundles = build_study_bundles(classified, explicit_assets)
@@ -548,7 +507,7 @@ def run_corpus_pipeline(
         },
     )
 
-    stage = _stage_dir(workspace, "stage_12_scientific_record_extraction")
+    stage = _stage_dir(workspace, "stage_11_scientific_record_extraction")
     records = extract_records(extractable, assets, include_review=True)
     write_jsonl(stage / "deterministic_records.jsonl", records)
     semantic_config = config.get("semantic_review", {})
@@ -571,12 +530,12 @@ def run_corpus_pipeline(
             "semantic_review_enabled": bool(semantic_config.get("enabled")),
         },
     )
-    stage = _stage_dir(workspace, "stage_13_task_selection")
+    stage = _stage_dir(workspace, "stage_12_task_selection")
     records = select_task_types(records, config.get("task_selection"))
     write_jsonl(stage / "selected_records.jsonl", records)
     write_jsonl(stage / "selected_pdf_paths.jsonl", _record_pdf_path_rows(records))
     _write_stage_summary(stage, selection_summary(records))
-    stage = _stage_dir(workspace, "stage_14_package_generation")
+    stage = _stage_dir(workspace, "stage_13_package_generation")
     records = generate_complete_packages(records, config.get("package_generation"))
     package_summary = package_generation_summary(records)
     write_json(stage / "package_generation_summary.json", package_summary)
@@ -590,21 +549,21 @@ def run_corpus_pipeline(
         stage,
         {"package_generation": package_summary, "reference_runs": reference_summary},
     )
-    stage = _stage_dir(workspace, "stage_15_quality_gates")
+    stage = _stage_dir(workspace, "stage_14_quality_gates")
     records = gate_scientific_records(records, toolbox_profile, quality_config)
     write_jsonl(stage / "quality_gated_records.jsonl", records)
     _write_stage_summary(stage, quality_funnel_summary(records))
 
-    stage = _stage_dir(workspace, "stage_16_model_ensemble")
+    stage = _stage_dir(workspace, "stage_15_model_ensemble")
     records = review_with_ensemble(records, _load_model_ensemble_config(config, base))
     records = apply_ensemble_results(records)
     write_jsonl(stage / "model_reviewed_records.jsonl", records)
     _write_stage_summary(stage, ensemble_summary(records))
     _write_candidate_exports(
         records,
-        _stage_dir(workspace, "stage_14_package_generation") / "candidate_packages",
+        _stage_dir(workspace, "stage_13_package_generation") / "candidate_packages",
     )
-    stage = _stage_dir(workspace, "stage_17_curation_queue")
+    stage = _stage_dir(workspace, "stage_16_curation_queue")
     curation_queue = [_curation_queue_item(record) for record in records]
     curation_queue = [item for item in curation_queue if item["selected_task_type"]]
     curation_queue.sort(key=lambda item: (item["priority_rank"], item["paper_id"]))
@@ -631,11 +590,6 @@ def run_corpus_pipeline(
             "pdf_files": len(inventory),
             "canonical_pdfs": sum(1 for item in inventory if not item.get("duplicate_of")),
             "software_direct_covered": software_summary["direct_covered"],
-            "computation_stage_passed": sum(
-                1
-                for item in completeness_records
-                if (item.get("computation_completeness") or {}).get("passed")
-            ),
             "resource_stage_passed": len(classified),
             "mineru_queue": len(queue),
             "mineru_success": sum(
@@ -652,7 +606,7 @@ def run_corpus_pipeline(
         }
 
     build_config = config.get("build", {})
-    stage = _stage_dir(workspace, "stage_18_dataset_build")
+    stage = _stage_dir(workspace, "stage_17_dataset_build")
     build_records = _records_for_build(records, build_config, corpus_mode=True)
     output_dir = _resolve(base, config.get("output", "dataset"))
     write_jsonl(stage / "build_input_records.jsonl", build_records)
@@ -687,11 +641,6 @@ def run_corpus_pipeline(
         "pdf_files": len(inventory),
         "canonical_pdfs": sum(1 for item in inventory if not item.get("duplicate_of")),
         "software_direct_covered": software_summary["direct_covered"],
-        "computation_stage_passed": sum(
-            1
-            for item in completeness_records
-            if (item.get("computation_completeness") or {}).get("passed")
-        ),
         "resource_stage_passed": len(classified),
         "mineru_queue": len(queue),
         "mineru_success": sum(
@@ -723,8 +672,7 @@ def run_corpus_pipeline(
         "tasks_built": manifest["task_count"],
         "tasks_skipped": len(manifest["skipped"]),
         "stage_03_software_coverage": software_summary,
-        "stage_04_computation_completeness": completeness_summary,
-        "stage_05_resource_limits": resource_summary,
+        "stage_04_resource_limits": resource_summary,
         "validation": _validation_summary(validation),
     }
 
@@ -974,26 +922,22 @@ def _write_corpus_stage_index(workspace: Path) -> None:
             "Softcite evidence and complete core-software toolbox coverage gate",
         ),
         (
-            "stage_04_computation_completeness",
-            "single-model gate for a complete independently constructable computation",
+            "stage_04_resource_limits",
+            "model-normalized explicit CPU, GPU, memory, and runtime hard-limit gate",
         ),
-        (
-            "stage_05_resource_limits",
-            "explicit CPU, GPU, memory, and runtime hard-limit gate",
-        ),
-        ("stage_06_mineru_queue", "PDFs selected for deep parsing"),
-        ("stage_07_mineru_parse", "raw MinerU execution outputs"),
-        ("stage_08_deep_parse_quality", "MinerU output quality assessment"),
-        ("stage_09_post_mineru_merge", "merge validated MinerU text without re-screening"),
-        ("stage_10_extraction_ready", "non-filtering extraction-ready document snapshot"),
-        ("stage_11_study_bundles", "paper/SI grouping and generated asset manifests"),
-        ("stage_12_scientific_record_extraction", "record extraction and asset discovery"),
-        ("stage_13_task_selection", "single benchmark task-type selection"),
-        ("stage_14_package_generation", "candidate packages and reference-run attachment"),
-        ("stage_15_quality_gates", "deterministic quality-gate decisions"),
-        ("stage_16_model_ensemble", "role-separated model review"),
-        ("stage_17_curation_queue", "human-curation queue"),
-        ("stage_18_dataset_build", "formal dataset build and validation"),
+        ("stage_05_mineru_queue", "PDFs selected for deep parsing"),
+        ("stage_06_mineru_parse", "raw MinerU execution outputs"),
+        ("stage_07_deep_parse_quality", "MinerU output quality assessment"),
+        ("stage_08_post_mineru_merge", "merge validated MinerU text without re-screening"),
+        ("stage_09_extraction_ready", "non-filtering extraction-ready document snapshot"),
+        ("stage_10_study_bundles", "paper/SI grouping and generated asset manifests"),
+        ("stage_11_scientific_record_extraction", "record extraction and asset discovery"),
+        ("stage_12_task_selection", "single benchmark task-type selection"),
+        ("stage_13_package_generation", "candidate packages and reference-run attachment"),
+        ("stage_14_quality_gates", "deterministic quality-gate decisions"),
+        ("stage_15_model_ensemble", "role-separated model review"),
+        ("stage_16_curation_queue", "human-curation queue"),
+        ("stage_17_dataset_build", "formal dataset build and validation"),
     ]
     write_json(
         workspace / "stage_index.json",
@@ -1059,13 +1003,10 @@ def _screening_stop_summary(
     inventory: list[dict[str, Any]],
     *,
     software_summary: dict[str, Any],
-    completeness_summary: dict[str, Any] | None = None,
     resource_summary: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     if resource_summary is not None:
         stopped_after = "resource_limits"
-    elif completeness_summary is not None:
-        stopped_after = "computation_completeness"
     else:
         stopped_after = "software_coverage"
     return {
@@ -1076,8 +1017,7 @@ def _screening_stop_summary(
         "workspace": str(workspace),
         "pdf_files": len(inventory),
         "stage_03_software_coverage": software_summary,
-        "stage_04_computation_completeness": completeness_summary,
-        "stage_05_resource_limits": resource_summary,
+        "stage_04_resource_limits": resource_summary,
     }
 
 

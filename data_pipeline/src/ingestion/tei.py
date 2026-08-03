@@ -27,9 +27,7 @@ def parse_tei_paragraphs(tei_xml: str) -> list[dict[str, Any]]:
                     "paragraph_index": len(output),
                     "section": section,
                     "text": text,
-                    "xml_id": paragraph.attrib.get(
-                        "{http://www.w3.org/XML/1998/namespace}id"
-                    ),
+                    "xml_id": paragraph.attrib.get("{http://www.w3.org/XML/1998/namespace}id"),
                 }
             )
     if output:
@@ -42,9 +40,7 @@ def parse_tei_paragraphs(tei_xml: str) -> list[dict[str, Any]]:
                     "paragraph_index": len(output),
                     "section": "",
                     "text": text,
-                    "xml_id": paragraph.attrib.get(
-                        "{http://www.w3.org/XML/1998/namespace}id"
-                    ),
+                    "xml_id": paragraph.attrib.get("{http://www.w3.org/XML/1998/namespace}id"),
                 }
             )
     return output

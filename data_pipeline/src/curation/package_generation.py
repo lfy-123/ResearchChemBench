@@ -29,7 +29,7 @@ def generate_complete_packages(
             generated = _generate_record(record, config, enabled)
             output.append(generated)
             log_progress(
-                "stage_14_package_generation",
+                "stage_13_package_generation",
                 index,
                 len(records),
                 record.get("paper_id", str(index)),
@@ -44,7 +44,7 @@ def generate_complete_packages(
         ):
             output.append(generated)
             log_progress(
-                "stage_14_package_generation",
+                "stage_13_package_generation",
                 index,
                 len(records),
                 generated.get("paper_id", str(index)),

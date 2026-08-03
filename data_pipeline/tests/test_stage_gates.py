@@ -9,7 +9,6 @@ from unittest import mock
 
 from src.ingestion.grobid_quantities import GrobidQuantitiesClient
 from src.ingestion.softcite import SoftciteClient, SoftciteError
-from src.screening.computation_completeness import assess_computation_completeness
 from src.screening.resource_limits import assess_resource_limits
 from src.screening.software_coverage import assess_software_coverage
 
@@ -52,9 +51,7 @@ class StageGateTests(unittest.TestCase):
     def test_softcite_fatal_model_log_stops_the_stage(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             log = Path(directory) / "softcite.log"
-            log.write_text(
-                "ERROR DeLFT classifier model initialization failed\n", encoding="utf-8"
-            )
+            log.write_text("ERROR DeLFT classifier model initialization failed\n", encoding="utf-8")
             client = SoftciteClient(service_log=str(log))
             with self.assertRaises(SoftciteError):
                 client._raise_on_fatal_service_log()
@@ -66,7 +63,7 @@ class StageGateTests(unittest.TestCase):
             ([gaussian], "direct_covered"),
             ([gaussian, qchem], "capability_equivalent"),
             ([gaussian, _mention("UnknownChem")], "unsupported"),
-            ([], "unsupported"),
+            ([], "software_not_identified"),
         ]
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -99,6 +96,7 @@ class StageGateTests(unittest.TestCase):
             )
             toolbox = {
                 "backends": ["gaussian"],
+                "available_identifiers": ["gaussian"],
                 "scientific_smoke": ["gaussian"],
                 "actions": ["calculate_energy"],
                 "unavailable": [],
@@ -112,9 +110,10 @@ class StageGateTests(unittest.TestCase):
             }
             for mentions, expected in cases:
                 with self.subTest(expected=expected):
-                    names = " and ".join(
-                        item["software-name"]["rawForm"] for item in mentions
-                    ) or "an undocumented program"
+                    names = (
+                        " and ".join(item["software-name"]["rawForm"] for item in mentions)
+                        or "an undocumented program"
+                    )
                     tei.write_text(
                         _tei(f"All calculations were performed with {names}."),
                         encoding="utf-8",
@@ -163,7 +162,7 @@ class StageGateTests(unittest.TestCase):
                 raw_output_dir=root / "raw",
             )
             result = records[0]["software_coverage"]
-            self.assertEqual(result["decision"], "unsupported")
+            self.assertEqual(result["decision"], "software_not_identified")
             self.assertEqual(result["core_software"], [])
             self.assertEqual(result["auxiliary_software"][0]["normalized_name"], "python")
 
@@ -175,6 +174,8 @@ class StageGateTests(unittest.TestCase):
             tei.write_text(
                 _tei(
                     "A Gaussian basis set was selected. "
+                    "A Gaussian bias potential was deposited. "
+                    "A new Gaussian was deposited every 25 fs. "
                     "The production simulations were run with LAMMPS and the PLUMED plugin."
                 ),
                 encoding="utf-8",
@@ -189,9 +190,7 @@ class StageGateTests(unittest.TestCase):
                 ),
                 encoding="utf-8",
             )
-            (root / "roles.json").write_text(
-                '{"ignore": [], "auxiliary": []}', encoding="utf-8"
-            )
+            (root / "roles.json").write_text('{"ignore": [], "auxiliary": []}', encoding="utf-8")
             (root / "capabilities.json").write_text("{}", encoding="utf-8")
             rows = assess_software_coverage(
                 [
@@ -216,128 +215,210 @@ class StageGateTests(unittest.TestCase):
                 {"lammps", "plumed"},
             )
 
-    def test_stage04_complete_reject_and_skip_semantics(self) -> None:
-        complete = {
-            "decision": "complete",
-            "has_computational_object": True,
-            "has_method_setup": True,
-            "has_software_execution": True,
-            "has_computational_results": True,
-            "has_interpretation_or_conclusion": True,
-            "evidence": ["The optimized structures were analyzed."],
-            "reason": "A complete calculation and result chain is present.",
-        }
-        incomplete = {**complete, "decision": "incomplete", "has_computational_results": False}
+    def test_stage03_accepts_interface_runtime_and_ignores_force_field_names(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
-            document = _screened_document(root, "The calculations produced optimized structures.")
-
-            def caller(**_kwargs):
-                return complete, {"raw_content": json.dumps(complete), "model_returned": "test"}
-
-            passed = assess_computation_completeness(
-                [document],
-                {"enabled": True, "base_url": "http://test", "model": "test", "api_key": "x"},
-                output_dir=root / "complete",
-                model_caller=caller,
+            tei = root / "paper.tei.xml"
+            tei.write_text(
+                _tei(
+                    "GW calculations were performed with Yambo. "
+                    "The AMBER force field and GAFF2 parameters were used."
+                ),
+                encoding="utf-8",
             )
-            self.assertTrue(passed[0]["computation_completeness"]["passed"])
-
-            def reject_caller(**_kwargs):
-                return incomplete, {"raw_content": json.dumps(incomplete)}
-
-            rejected = assess_computation_completeness(
-                [document],
-                {"enabled": True, "base_url": "http://test", "model": "test", "api_key": "x"},
-                output_dir=root / "incomplete",
-                model_caller=reject_caller,
+            (root / "aliases.json").write_text(
+                json.dumps({"yambo": ["Yambo"], "amber_pmemd": ["AMBER", "GAFF2"]}),
+                encoding="utf-8",
             )
-            self.assertEqual(rejected[0]["pipeline_routing"]["stage_05"], "not_run")
-
-            skipped = assess_computation_completeness(
-                [document], {"enabled": False}, output_dir=root / "skipped"
+            (root / "roles.json").write_text('{"ignore": [], "auxiliary": []}', encoding="utf-8")
+            (root / "capabilities.json").write_text("{}", encoding="utf-8")
+            rows = assess_software_coverage(
+                [
+                    {
+                        "document_id": "doc_test",
+                        "paper_id": "doc_test",
+                        "source_path": str(root / "paper.pdf"),
+                        "grobid_tei_path": str(tei),
+                    }
+                ],
+                FakeSoftciteClient(
+                    [
+                        _mention(
+                            "AMBER",
+                            context="The AMBER force field and GAFF2 parameters were used.",
+                        )
+                    ]
+                ),
+                {
+                    "available_identifiers": ["yambo"],
+                    "interface_smoke": ["yambo"],
+                    "backends": [],
+                    "actions": [],
+                    "unavailable": [],
+                },
+                aliases_file=root / "aliases.json",
+                role_rules_file=root / "roles.json",
+                capability_map_file=root / "capabilities.json",
+                raw_output_dir=root / "raw",
             )
-            self.assertEqual(skipped[0]["computation_completeness"]["status"], "skipped")
-            self.assertTrue(skipped[0]["pipeline_routing"]["continue"])
+            result = rows[0]["software_coverage"]
+            self.assertEqual(result["decision"], "direct_covered")
+            self.assertEqual(
+                [item["normalized_name"] for item in result["core_software"]], ["yambo"]
+            )
+            self.assertEqual(
+                result["core_software"][0]["direct_support"]["validation_level"],
+                "interface",
+            )
 
-    def test_stage04_contradictory_response_becomes_uncertain(self) -> None:
-        contradictory = {
-            "decision": "incomplete",
-            "has_computational_object": True,
-            "has_method_setup": True,
-            "has_software_execution": True,
-            "has_computational_results": True,
-            "has_interpretation_or_conclusion": True,
-            "evidence": ["All five required elements are present."],
-            "reason": "The process is complete.",
+    def test_stage04_normalizes_resources_before_comparing_limits(self) -> None:
+        cases = [
+            (
+                "The average CENSO job took 1 day and 4 hours of wall time using 54 cores.",
+                [
+                    _resource(
+                        "runtime_hours",
+                        28,
+                        "The average CENSO job took 1 day and 4 hours of wall time using 54 cores.",
+                    ),
+                    _resource(
+                        "cpu_cores",
+                        54,
+                        "The average CENSO job took 1 day and 4 hours of wall time using 54 cores.",
+                    ),
+                ],
+                "exceeds_limit",
+            ),
+            (
+                "The run used a 40-core (230 GB RAM) Intel Xeon Gold 6230 CPU for 6 hours.",
+                [
+                    _resource(
+                        "cpu_cores",
+                        40,
+                        "The run used a 40-core (230 GB RAM) Intel Xeon Gold 6230 CPU for 6 hours.",
+                    ),
+                    _resource(
+                        "memory_gb",
+                        230,
+                        "The run used a 40-core (230 GB RAM) Intel Xeon Gold 6230 CPU for 6 hours.",
+                    ),
+                    _resource(
+                        "runtime_hours",
+                        6,
+                        "The run used a 40-core (230 GB RAM) Intel Xeon Gold 6230 CPU for 6 hours.",
+                    ),
+                ],
+                "within_limit",
+            ),
+        ]
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            for index, (text, records, expected) in enumerate(cases):
+                with self.subTest(text=text):
+                    document = _screened_document(root / str(index), text)
+
+                    def caller(*, result=records, **_kwargs):
+                        return _model_result(result), {"usage": {"prompt_tokens": 10}}
+
+                    rows = assess_resource_limits(
+                        [document],
+                        FakeQuantitiesClient(),
+                        _limits(),
+                        _model_config(),
+                        output_dir=root / f"out_{index}",
+                        model_caller=caller,
+                    )
+                    self.assertEqual(rows[0]["resource_limits"]["decision"], expected)
+
+    def test_stage04_keeps_aggregate_compute_out_of_core_limit(self) -> None:
+        text = "A total of 13 million core hours were used in this study."
+        aggregate = {
+            **_resource("core_hours", 13_000_000, text, scope="aggregate_study"),
         }
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
-            document = _screened_document(root, "Calculations produced interpreted results.")
 
             def caller(**_kwargs):
-                return contradictory, {"raw_content": json.dumps(contradictory)}
+                return _model_result([], aggregate=[aggregate]), {}
 
-            rows = assess_computation_completeness(
-                [document],
-                {"enabled": True, "base_url": "http://test", "model": "test", "api_key": "x"},
+            rows = assess_resource_limits(
+                [_screened_document(root, text)],
+                FakeQuantitiesClient(),
+                _limits(),
+                _model_config(),
                 output_dir=root / "out",
                 model_caller=caller,
             )
-            result = rows[0]["computation_completeness"]
-            self.assertEqual(result["decision"], "uncertain")
-            self.assertFalse(result["passed"])
+            self.assertEqual(rows[0]["resource_limits"]["decision"], "ambiguous")
             self.assertEqual(
-                result["model_result"]["consistency_warnings"],
-                ["decision_incomplete_conflicts_with_all_requirement_flags_true"],
+                rows[0]["resource_limits"]["aggregate_resources"][0]["value"],
+                13_000_000,
             )
 
-    def test_stage04_api_failure_skips_without_fallback(self) -> None:
+    def test_stage04_retries_invalid_evidence_and_stops_on_api_failure(self) -> None:
+        text = "The simulation ran for 13 hours."
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
-            document = _screened_document(root, "Calculations were performed with Gaussian.")
+            calls = 0
+
+            def retrying_caller(**_kwargs):
+                nonlocal calls
+                calls += 1
+                evidence = "Invented evidence." if calls == 1 else text
+                return _model_result([_resource("runtime_hours", 13, evidence)]), {}
+
+            rows = assess_resource_limits(
+                [_screened_document(root, text)],
+                FakeQuantitiesClient(),
+                _limits(),
+                _model_config(),
+                output_dir=root / "retry",
+                model_caller=retrying_caller,
+            )
+            self.assertEqual(calls, 2)
+            self.assertEqual(rows[0]["resource_limits"]["decision"], "exceeds_limit")
 
             def failing_caller(**_kwargs):
                 raise TimeoutError("fixture timeout")
 
-            rows = assess_computation_completeness(
-                [document],
-                {"enabled": True, "base_url": "http://test", "model": "test", "api_key": "x"},
-                output_dir=root / "out",
-                model_caller=failing_caller,
-            )
-            result = rows[0]["computation_completeness"]
-            self.assertEqual(result["status"], "skipped_error")
-            self.assertEqual(result["decision"], "skipped")
-            self.assertTrue(result["passed"])
+            with self.assertRaises(TimeoutError):
+                assess_resource_limits(
+                    [_screened_document(root / "failure", text)],
+                    FakeQuantitiesClient(),
+                    _limits(),
+                    _model_config(),
+                    output_dir=root / "failure_out",
+                    model_caller=failing_caller,
+                )
 
-    def test_stage05_rejects_only_explicit_over_limit_resources(self) -> None:
-        cases = [
-            ("The calculations used 501 CPU cores.", "exceeds_limit"),
-            ("The calculations used 8 GPUs and 900 GB memory.", "within_limit"),
-            ("The cluster supports 2048 CPU cores.", "ambiguous"),
-            ("A 100 ns trajectory was generated with a 2 fs timestep.", "no_explicit_resource"),
-            ("The simulation ran for 13 hours.", "exceeds_limit"),
-            ("The reaction was performed for 24 hours at room temperature.", "ambiguous"),
-        ]
+    def test_stage04_rejects_cpu_model_number_as_core_count(self) -> None:
+        text = "The run used a 40-core Intel Xeon Gold 6230 CPU for 6 hours."
+        calls = 0
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
-            for index, (text, expected) in enumerate(cases):
-                with self.subTest(text=text):
-                    document = _screened_document(root / str(index), text)
-                    rows = assess_resource_limits(
-                        [document],
-                        FakeQuantitiesClient(),
-                        {"cpu_cores": 500, "gpus": 8, "memory_gb": 1000, "runtime_hours": 12},
-                        output_dir=root / f"out_{index}",
-                    )
-                    self.assertEqual(rows[0]["resource_limits"]["decision"], expected)
+
+            def caller(**_kwargs):
+                nonlocal calls
+                calls += 1
+                cores = 6230 if calls == 1 else 40
+                return _model_result([_resource("cpu_cores", cores, text)]), {}
+
+            rows = assess_resource_limits(
+                [_screened_document(root, text)],
+                FakeQuantitiesClient(),
+                _limits(),
+                _model_config(),
+                output_dir=root / "out",
+                model_caller=caller,
+            )
+            self.assertEqual(calls, 2)
+            self.assertEqual(rows[0]["resource_limits"]["decision"], "within_limit")
 
 
-def _mention(name: str, *, used: bool = True) -> dict:
+def _mention(name: str, *, used: bool = True, context: str | None = None) -> dict:
     return {
         "software-name": {"rawForm": name, "normalizedForm": name},
-        "context": f"All calculations were performed with {name}.",
+        "context": context or f"All calculations were performed with {name}.",
         "mentionContextAttributes": {"used": {"value": used, "score": 0.99}},
         "documentContextAttributes": {"used": {"value": used, "score": 0.99}},
     }
@@ -366,8 +447,45 @@ def _screened_document(root: Path, text: str) -> dict:
             "decision": "direct_covered",
             "core_software": [{"normalized_name": "gaussian", "evidence": text}],
         },
-        "computation_completeness": {"passed": True, "decision": "complete"},
-        "pipeline_routing": {"stage_03": "direct_covered", "stage_04": "complete"},
+        "pipeline_routing": {"stage_03": "direct_covered", "stage_04": "pending"},
+    }
+
+
+def _limits() -> dict:
+    return {"cpu_cores": 500, "gpus": 8, "memory_gb": 1000, "runtime_hours": 12}
+
+
+def _model_config() -> dict:
+    return {
+        "enabled": True,
+        "base_url": "http://test",
+        "model": "test",
+        "api_key": "x",
+        "validation_retries": 1,
+    }
+
+
+def _resource(
+    resource_type: str, value: float, evidence: str, *, scope: str = "single_job"
+) -> dict:
+    return {
+        "resource_type": resource_type,
+        "value": value,
+        "relation": "exact",
+        "scope": scope,
+        "actual_computation": True,
+        "confidence": "high",
+        "evidence": evidence,
+    }
+
+
+def _model_result(records: list[dict], *, aggregate: list[dict] | None = None) -> dict:
+    return {
+        "resource_records": records,
+        "aggregate_resources": aggregate or [],
+        "platform_mentions": [],
+        "physical_simulation_durations": [],
+        "unresolved_mentions": [],
     }
 
 

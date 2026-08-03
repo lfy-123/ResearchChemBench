@@ -27,11 +27,13 @@
     "timeout_seconds": 600,
     "retries": 2
   },
-  "computation_completeness": {
+  "resource_interpretation": {
     "enabled": true,
-    "max_source_chars": 30000,
-    "max_paragraphs": 24,
-    "max_tokens": 1800
+    "url": "https://api.deepseek.com/v1",
+    "api_key_env": "RESOURCE_LLM_API_KEY",
+    "model_name": "deepseek-v4-flash",
+    "max_tokens": 3000,
+    "validation_retries": 1
   },
   "resource_limits": {
     "cpu_cores": 500,

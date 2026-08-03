@@ -48,9 +48,7 @@ def assess_software_coverage(
         ignored = [item for item in mentions if item["role"] == "ignore" or not item["used"]]
 
         for mention in core:
-            mention["direct_support"] = _direct_support(
-                mention["normalized_name"], toolbox_profile
-            )
+            mention["direct_support"] = _direct_support(mention["normalized_name"], toolbox_profile)
             mention["capability_equivalence"] = _capability_equivalence(
                 mention, capability_rules, toolbox_profile
             )
@@ -58,19 +56,21 @@ def assess_software_coverage(
         unsupported = [
             item
             for item in core
-            if not item["direct_support"]["supported"]
-            and not item["capability_equivalence"]
+            if not item["direct_support"]["supported"] and not item["capability_equivalence"]
         ]
         equivalent = [
             item
             for item in core
-            if not item["direct_support"]["supported"]
-            and item["capability_equivalence"]
+            if not item["direct_support"]["supported"] and item["capability_equivalence"]
         ]
-        if not core or unsupported:
+        if not core:
+            decision = "software_not_identified"
+            status = "reject"
+            stop_reason = "no_core_software"
+        elif unsupported:
             decision = "unsupported"
             status = "reject"
-            stop_reason = "no_core_software" if not core else "unsupported_core_software"
+            stop_reason = "unsupported_core_software"
         elif equivalent:
             decision = "capability_equivalent"
             status = "candidate"
@@ -88,9 +88,7 @@ def assess_software_coverage(
                 "core_software": core,
                 "auxiliary_software": auxiliary,
                 "ignored_mentions": ignored,
-                "unsupported_core_software": [
-                    item["normalized_name"] for item in unsupported
-                ],
+                "unsupported_core_software": [item["normalized_name"] for item in unsupported],
                 "equivalent_core_software": [item["normalized_name"] for item in equivalent],
                 "service_version": service_version,
                 "softcite_raw_path": str(raw_dir / f"{document['document_id']}.json"),
@@ -98,9 +96,10 @@ def assess_software_coverage(
             "pipeline_routing": {
                 "stage_03": decision,
                 "stage_04": "pending" if decision == "direct_covered" else "not_run",
-                "stage_05": "pending" if decision == "direct_covered" else "not_run",
                 "continue": decision == "direct_covered",
-                "stopped_at": None if decision == "direct_covered" else "stage_03_software_coverage",
+                "stopped_at": None
+                if decision == "direct_covered"
+                else "stage_03_software_coverage",
                 "stop_reason": stop_reason,
             },
         }
@@ -126,6 +125,7 @@ def software_coverage_summary(records: list[dict[str, Any]]) -> dict[str, Any]:
         "direct_covered": decisions.get("direct_covered", 0),
         "capability_equivalent_candidates": decisions.get("capability_equivalent", 0),
         "unsupported": decisions.get("unsupported", 0),
+        "software_not_identified": decisions.get("software_not_identified", 0),
     }
 
 
@@ -141,10 +141,13 @@ def _softcite_mentions(
         if not raw_name:
             continue
         normalized = _normalize_software(raw_name, aliases)
-        document_used = ((raw.get("documentContextAttributes") or {}).get("used") or {})
-        mention_used = ((raw.get("mentionContextAttributes") or {}).get("used") or {})
+        document_used = (raw.get("documentContextAttributes") or {}).get("used") or {}
+        mention_used = (raw.get("mentionContextAttributes") or {}).get("used") or {}
         used_payload = document_used if "value" in document_used else mention_used
         used = bool(used_payload.get("value")) if "value" in used_payload else False
+        evidence = str(raw.get("context") or "").strip()
+        if _is_nonsoftware_alias_context(normalized, evidence):
+            used = False
         output.append(
             {
                 "raw_name": raw_name,
@@ -153,7 +156,7 @@ def _softcite_mentions(
                 "role": _software_role(normalized, raw_name, role_rules),
                 "used": used,
                 "used_score": used_payload.get("score"),
-                "evidence": str(raw.get("context") or "").strip(),
+                "evidence": evidence,
                 "source": "softcite_ner",
                 "softcite_mention": raw,
             }
@@ -188,7 +191,7 @@ def _recover_known_software(
         classified = []
         for alias_key, sentence in contexts[:5]:
             result = client.characterize_context(sentence["text"])
-            used_payload = ((result.get("classification") or {}).get("used") or {})
+            used_payload = (result.get("classification") or {}).get("used") or {}
             classified.append((alias_key, sentence, result, used_payload))
         alias_key, sentence, result, used_payload = max(
             classified,
@@ -212,9 +215,7 @@ def _recover_known_software(
                 "source": "toolbox_lexicon_softcite_context",
                 "softcite_context": result,
                 "additional_evidence": [
-                    item[1]["text"]
-                    for item in classified
-                    if item[1]["text"] != sentence["text"]
+                    item[1]["text"] for item in classified if item[1]["text"] != sentence["text"]
                 ],
             }
         )
@@ -269,7 +270,9 @@ def _software_role(normalized: str, raw_name: str, rules: dict[str, Any]) -> str
 def _direct_support(name: str, toolbox: dict[str, Any]) -> dict[str, Any]:
     unavailable = {str(item).casefold() for item in toolbox.get("unavailable", [])}
     backends = {str(item).casefold() for item in toolbox.get("backends", [])}
-    supported = name.casefold() in backends and name.casefold() not in unavailable
+    identifiers = {str(item).casefold() for item in toolbox.get("available_identifiers", [])}
+    normalized = name.casefold()
+    supported = normalized in (identifiers | backends) and normalized not in unavailable
     if name in toolbox.get("scientific_smoke", []):
         level = "functional"
     elif name in toolbox.get("interface_smoke", []):
@@ -277,8 +280,19 @@ def _direct_support(name: str, toolbox: dict[str, Any]) -> dict[str, Any]:
     elif name in toolbox.get("needs_complete_input", []):
         level = "needs_complete_input"
     else:
-        level = "catalogued" if supported else "unavailable"
-    return {"supported": supported, "backend": name if supported else None, "validation_level": level}
+        level = "catalogued" if supported else "not_catalogued"
+    if normalized in backends:
+        support_kind = "backend"
+    elif supported:
+        support_kind = "runtime"
+    else:
+        support_kind = None
+    return {
+        "supported": supported,
+        "identifier": name if supported else None,
+        "support_kind": support_kind,
+        "validation_level": level,
+    }
 
 
 def _capability_equivalence(
@@ -307,7 +321,9 @@ def _capability_equivalence(
 
 
 def _contains_alias(text: str, alias_key: str) -> bool:
-    pattern = r"(?<![A-Za-z0-9])" + re.escape(alias_key).replace(r"\ ", r"[\s_-]+") + r"(?![A-Za-z0-9])"
+    pattern = (
+        r"(?<![A-Za-z0-9])" + re.escape(alias_key).replace(r"\ ", r"[\s_-]+") + r"(?![A-Za-z0-9])"
+    )
     return re.search(pattern, _alias_key(text), re.I) is not None
 
 
@@ -325,15 +341,25 @@ def _strong_software_use(text: str) -> bool:
 
 
 def _is_nonsoftware_alias_context(normalized: str, text: str) -> bool:
-    if normalized != "gaussian":
-        return False
-    return bool(
-        re.search(
-            r"\bGaussian\s+(?:basis|function|functions|kernel|kernels|distribution|noise|"
-            r"process|broadening|beam|fit|orbital|orbitals)\b",
+    if normalized == "gaussian":
+        software_context = re.search(
+            r"\bGaussian\s*(?:0?9|16)\b|"
+            r"\bGaussian\b.{0,30}\b(?:software|package|program|code|revision)\b|"
+            r"\b(?:calculations?|optimizations?|frequenc(?:y|ies))\b.{0,100}"
+            r"\b(?:using|with|in|via)\s+Gaussian\b",
             text,
+            re.I,
         )
-    )
+        return not bool(software_context)
+    if normalized == "amber_pmemd":
+        return bool(
+            re.search(
+                r"\b(?:AMBER|GAFF2?)\b.{0,40}\b(?:force\s*field|parameters?|charges?)\b",
+                text,
+                re.I,
+            )
+        )
+    return False
 
 
 def _alias_key(value: str) -> str:

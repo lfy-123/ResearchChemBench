@@ -144,10 +144,9 @@ def heuristic_extract(paper: dict[str, Any], text: str) -> dict[str, Any]:
         for item in coverage.get("core_software", [])
         if item.get("raw_name") or item.get("normalized_name")
     ]
-    classified_methods = (
-        covered_software
-        or classification.get("software", []) + classification.get("methods", [])
-    )
+    classified_methods = covered_software or classification.get(
+        "software", []
+    ) + classification.get("methods", [])
     methods = list(dict.fromkeys(classified_methods))
     if not methods:
         methods = [
@@ -202,7 +201,6 @@ def heuristic_extract(paper: dict[str, Any], text: str) -> dict[str, Any]:
         "preliminary_task_suitability": classification.get("task_suitability_scores", {}),
         "source_classification": classification,
         "software_coverage": coverage,
-        "computation_completeness": paper.get("computation_completeness", {}),
         "resource_limits": paper.get("resource_limits", {}),
         "study_bundle": paper.get("study_bundle", {}),
         "curation": {"status": "machine_draft", "reviewers": [], "notes": []},

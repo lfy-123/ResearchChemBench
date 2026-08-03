@@ -84,17 +84,18 @@ class PipelineTests(unittest.TestCase):
             config["toolbox"]["profile"],
             str((ROOT / "assets/toolbox.json").resolve()),
         )
-        self.assertTrue(config["software_coverage"]["working_directory"].endswith(
-            "third_party/software-mentions"
-        ))
-        self.assertEqual(
-            config["computation_completeness"]["base_url"],
-            "https://classify.example/v1",
+        self.assertTrue(
+            config["software_coverage"]["working_directory"].endswith(
+                "third_party/software-mentions"
+            )
         )
+        self.assertEqual(config["resource_interpretation"]["model"], "deepseek-v4-flash")
         self.assertEqual(config["resource_limits"]["cpu_cores"], 500)
-        self.assertTrue(config["grobid_quantities"]["working_directory"].endswith(
-            "third_party/grobid-quantities"
-        ))
+        self.assertTrue(
+            config["grobid_quantities"]["working_directory"].endswith(
+                "third_party/grobid-quantities"
+            )
+        )
 
     def test_curation_queue_contains_unresolved_selected_task_gates(self) -> None:
         record = deepcopy(self.record)
@@ -515,7 +516,7 @@ class PipelineTests(unittest.TestCase):
             self.assertEqual(result["summary"]["decision"], "incomplete_no_valid_scores")
             self.assertEqual(result["summary"]["completed_runs"], 1)
 
-    def test_mineru_queue_only_contains_stage05_passes(self) -> None:
+    def test_mineru_queue_only_contains_stage04_passes(self) -> None:
         document = {
             "document_id": "doc_new",
             "paper_id": "doc_new",
@@ -556,7 +557,7 @@ class PipelineTests(unittest.TestCase):
             self.assertEqual(set(bundles[0]["member_paper_ids"]), {"main", "si"})
             self.assertEqual(len(bundles[0]["supplementary_paths"]), 1)
 
-    def test_mineru_queue_skips_stage05_rejections(self) -> None:
+    def test_mineru_queue_skips_stage04_rejections(self) -> None:
         rejected = {
             "document_id": "doc",
             "paper_id": "doc",
@@ -715,9 +716,7 @@ class PipelineTests(unittest.TestCase):
                         "page_count": 2,
                         "text_path": str(cheap),
                         "software_coverage": {
-                            "core_software": [
-                                {"raw_name": "VASP", "normalized_name": "vasp"}
-                            ]
+                            "core_software": [{"raw_name": "VASP", "normalized_name": "vasp"}]
                         },
                     }
                 ],

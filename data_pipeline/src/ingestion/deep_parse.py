@@ -89,7 +89,7 @@ def run_mineru_queue(
                 result["finished_at"] = _now()
                 results.append(result)
                 log_progress(
-                    "stage_07_mineru_parse",
+                    "stage_06_mineru_parse",
                     index,
                     total,
                     Path(item["source_path"]).name,
@@ -152,7 +152,7 @@ def run_mineru_queue(
         result["finished_at"] = _now()
         results.append(result)
         log_progress(
-            "stage_07_mineru_parse",
+            "stage_06_mineru_parse",
             index,
             total,
             Path(item["source_path"]).name,
@@ -171,7 +171,7 @@ def _log_mineru_heartbeat(
     file_name = Path(item["source_path"]).name
     pages = item.get("expected_pages") or "unknown"
     log_progress(
-        "stage_07_mineru_parse",
+        "stage_06_mineru_parse",
         index - 1,
         total,
         f"running {index}/{total}: {file_name}, pages={pages}",
@@ -180,7 +180,7 @@ def _log_mineru_heartbeat(
     while not stop.wait(15):
         elapsed = round(time.monotonic() - started, 1)
         pipeline_logger().info(
-            "HEARTBEAT | stage_07_mineru_parse | document=%d/%d | file=%s | pages=%s | elapsed_seconds=%.1f",
+            "HEARTBEAT | stage_06_mineru_parse | document=%d/%d | file=%s | pages=%s | elapsed_seconds=%.1f",
             index,
             total,
             file_name,

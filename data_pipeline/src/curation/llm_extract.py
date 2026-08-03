@@ -135,7 +135,7 @@ def review_records(records: list[dict[str, Any]], config: dict[str, Any]) -> lis
                 else "complete"
             )
             log_progress(
-                "stage_12_scientific_record_extraction",
+                "stage_11_scientific_record_extraction",
                 completed_count,
                 len(records),
                 records[index].get("paper_id", str(index)),
