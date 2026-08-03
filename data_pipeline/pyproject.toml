@@ -9,8 +9,12 @@ description = "A provenance-first pipeline for constructing computational chemis
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
+  "httpx>=0.27",
   "json-repair>=0.50",
+  "jsonschema>=4.23",
+  "openpyxl>=3.1",
   "pydantic>=2.7",
+  "python-docx>=1.1",
   "python-dotenv>=1.0",
   "PyYAML>=6.0",
   "rdkit>=2024.3.1",

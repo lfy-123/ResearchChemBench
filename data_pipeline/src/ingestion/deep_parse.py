@@ -15,7 +15,6 @@ from src.core.logging import log_progress, pipeline_logger
 
 def build_mineru_queue(
     documents: list[dict[str, Any]],
-    include_optional: bool = False,
     limit: int | None = None,
 ) -> list[dict[str, Any]]:
     queue: list[dict[str, Any]] = []
@@ -34,7 +33,7 @@ def build_mineru_queue(
                 "expected_pages": document.get("page_count"),
                 "deep_parse_decision": decision,
                 "priority_score": 1.0,
-                "reason": ["passed stages 03-05 and requires deep parsing for task construction"],
+                "reason": ["passed stages 03-04 and requires deep parsing for task construction"],
             }
         )
     queue.sort(key=lambda item: (item.get("title") or "", item["paper_id"]))
@@ -53,6 +52,7 @@ def run_mineru_queue(
     extra_args: list[str] | None = None,
     reuse_existing: bool = True,
     min_markdown_chars: int = 1000,
+    stage_name: str = "mineru_queue",
 ) -> list[dict[str, Any]]:
     output_dir = Path(output_dir).expanduser().resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -89,7 +89,7 @@ def run_mineru_queue(
                 result["finished_at"] = _now()
                 results.append(result)
                 log_progress(
-                    "stage_06_mineru_parse",
+                    stage_name,
                     index,
                     total,
                     Path(item["source_path"]).name,
@@ -102,7 +102,7 @@ def run_mineru_queue(
             heartbeat_stop = threading.Event()
             heartbeat = threading.Thread(
                 target=_log_mineru_heartbeat,
-                args=(heartbeat_stop, index, total, item, started),
+                args=(heartbeat_stop, index, total, item, started, stage_name),
                 daemon=True,
             )
             heartbeat.start()
@@ -152,7 +152,7 @@ def run_mineru_queue(
         result["finished_at"] = _now()
         results.append(result)
         log_progress(
-            "stage_06_mineru_parse",
+            stage_name,
             index,
             total,
             Path(item["source_path"]).name,
@@ -167,11 +167,12 @@ def _log_mineru_heartbeat(
     total: int,
     item: dict[str, Any],
     started: float,
+    stage_name: str = "mineru_queue",
 ) -> None:
     file_name = Path(item["source_path"]).name
     pages = item.get("expected_pages") or "unknown"
     log_progress(
-        "stage_06_mineru_parse",
+        stage_name,
         index - 1,
         total,
         f"running {index}/{total}: {file_name}, pages={pages}",
@@ -180,7 +181,8 @@ def _log_mineru_heartbeat(
     while not stop.wait(15):
         elapsed = round(time.monotonic() - started, 1)
         pipeline_logger().info(
-            "HEARTBEAT | stage_06_mineru_parse | document=%d/%d | file=%s | pages=%s | elapsed_seconds=%.1f",
+            "HEARTBEAT | %s | document=%d/%d | file=%s | pages=%s | elapsed_seconds=%.1f",
+            stage_name,
             index,
             total,
             file_name,

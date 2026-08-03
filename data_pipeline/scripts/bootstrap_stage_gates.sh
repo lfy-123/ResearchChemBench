@@ -146,7 +146,7 @@ ln -sfn "$jep_library" "$GROBID_HOME/lib/lin-64/jep/libjep.so"
 (cd "$SOFTCITE" && ./gradlew classes)
 (cd "$QUANTITIES" && ./gradlew classes)
 
-echo "Stage 03-05 services are ready."
+echo "Stage 03-04 services are ready."
 echo "Softcite: $SOFTCITE_COMMIT"
 echo "GROBID Quantities: $QUANTITIES_COMMIT"
 echo "DeLFT: $DELFT_COMMIT"
