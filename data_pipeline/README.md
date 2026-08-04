@@ -21,15 +21,13 @@ Stage 01-04 是筛选门控。Stage 05 不判断论文是否一定能构造任�
 详细设计见：
 
 - `docs/STAGE_05_07_ASSET_AGENT_PIPELINE_DESIGN.md`
-- `docs/STAGE_05_07_CODE_MODIFICATION_PLAN.md`
-- `docs/STAGE_05_07_IMPLEMENTATION_LOG_20260803.md`
 
 ## 目录结构
 
 ```text
 data_pipeline/
 ├── assets/                 # 工具箱、软件别名、角色规则和能力映射
-├── docs/                   # 设计、实施和测试报告
+├── docs/                   # 当前设计文档
 ├── scripts/                # 环境准备和一键运行脚本
 ├── src/
 │   ├── agents/             # CLI Agent 运行、隔离环境和会话保存
@@ -44,11 +42,14 @@ data_pipeline/
 │       ├── stage05_asset_collection/
 │       ├── stage06_builder/
 │       └── stage07_judge/
-├── tests/
+├── tests/                  # 核心逻辑回归测试
 ├── third_party/            # 所有采用的第三方运行时源码
 ├── config.json             # 默认配置
-└── config_pdf_bundle.json  # PDF 集合运行配置
+└── pyproject.toml           # Python 项目与工具配置
 ```
+
+`papers/` 用于放置待处理 PDF，`runs/` 用于保存运行结果。两者都是本地数据目录，
+默认不提交到 Git。管线会自动创建 `runs/` 下所需的输出目录。
 
 ## 主环境安装
 
@@ -251,7 +252,7 @@ Codex 和 Claude 使用各自 CLI 的本地认证。运行器只在执行期间�
 ```json
 {
   "model_cache_directory": "../.model_cache/data_pipeline",
-  "pdf_directory": "runs/pdf_bundle_main_papers/PDF论文打包",
+  "pdf_directory": "papers",
   "run_directory": "runs/current",
   "stop_after": "judge",
   "stage04": {
@@ -357,6 +358,7 @@ Stage 05 的生产默认单文件上限为 10 GiB、单压缩包展开上限为 
 ## 运行
 
 脚本默认读取 benchmark 根目录的 `config.local.env`，映射 Stage 04 和 Agent 所需 API 环境变量，并实时写入日志。
+首先将待处理的 PDF 放入 `papers/`，或在本地配置副本中修改 `pdf_directory`。
 
 ```bash
 bash scripts/run_pipeline.sh config.json runs/current/outputs/run_summary.json
@@ -465,6 +467,9 @@ git diff --check
 ```
 
 真实 Agent 测试会消耗模型 token。应先使用单论文、较小 Stage 05 预算验证流程，再扩大到完整数据集。
+
+测试语料、历史运行产物和本地服务日志均不属于源码仓库。提交前可直接删除
+`papers/` 和 `runs/`；下次运行会重新生成必要的输出。
 
 ## 当前限制
 
