@@ -1,0 +1,15 @@
+schema_version: 3
+catalog_kind: dynamic_backend_catalog
+source_module: minichem_toolbox.specs
+source_symbol: BACKEND_SPECS
+health_source: minichem_toolbox.runtime.probe_all_backends
+public_action_source: minichem_toolbox.specs.ACTION_SPECS
+exposure_policy: progressive_discovery
+catalog_visibility_policy: focused_task_independent
+full_catalog_compatibility_mode: true
+backend_selection_policy: agent_required
+automatic_fallback: false
+notes:
+  - This manifest deliberately contains no task-specific tool list or backend ranking.
+  - Progressive discovery changes schema delivery only; every MiniChem profile entry remains discoverable.
+  - The profile is intentionally limited to molecular mechanism, conformer, transition-state, thermochemistry, and analysis tasks.

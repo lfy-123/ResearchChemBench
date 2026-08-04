@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "portable_root": ".mini_software_cache",
+  "components": {
+    "gaussian_16_c01": {
+      "license": "commercial; redistribution is not permitted by MiniChem",
+      "size_bytes": 14105219393,
+      "files": [
+        {
+          "path": "gaussian/g16/install/g16/g16",
+          "size_bytes": 127313512,
+          "sha256": "384f3baca38297d3f11ed2168bb9be836778fa4c5f5d07cb38751e3ed1a66db5"
+        },
+        {
+          "path": "gaussian/g16/install/g16/formchk",
+          "size_bytes": 127922688,
+          "sha256": "78dc9981fd170cc99d8052aa26471244e04fd2c8aea7d73aaf641c193e7b6bd5"
+        }
+      ]
+    },
+    "multiwfn_2026_7_15": {
+      "license": "upstream Multiwfn terms and citation requirements apply",
+      "size_bytes": 166859208,
+      "files": [
+        {
+          "path": "multiwfn/2026.7.15/Multiwfn_2026.7.15_bin_Linux_noGUI/Multiwfn_noGUI",
+          "size_bytes": 41264837,
+          "sha256": "d7d2539dae7b8d2faf03ca473d856cf1936a7b8ca4fdcfbb3e1cfa5f45184030"
+        }
+      ]
+    },
+    "minichem_runtime": {
+      "size_bytes": 2286987202,
+      "python": "3.11",
+      "package_versions": {
+        "ase": "3.22.1",
+        "cclib": "1.8.1",
+        "fastmcp": "3.4.5",
+        "goodvibes": "4.3.0",
+        "jax": "0.4.35",
+        "mcp": "1.29.0",
+        "numpy": "1.26.4",
+        "onnxruntime": "1.28.0",
+        "pysisyphus": "1.0.0",
+        "qcelemental": "0.50.4",
+        "rdkit": "2025.3.6",
+        "scipy": "1.17.1",
+        "sella": "2.5.0",
+        "tokenizers": "0.23.1"
+      }
+    },
+    "minichem_runtime_pack": {
+      "path": "runtime_packs/minichem.tar.gz",
+      "size_bytes": 709699592,
+      "sha256": "7993677d6d555c9fcc9456aefafd74ccba1982d8ff9ca1d87511775bcafda179"
+    }
+  }
+}

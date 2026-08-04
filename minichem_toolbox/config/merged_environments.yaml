@@ -1,0 +1,10 @@
+schema_version: 1
+root: .mini_software_cache/runtimes
+environments:
+  minichem:
+    path: .mini_software_cache/runtimes/minichem
+    seed: reduced_reproducible_environment
+    python_version: "3.11"
+    description: Single portable runtime used by all MiniChem logical backends.
+runtime_mapping:
+  minichem: [core, workflows, quantum, reaction, sella, gaussian, goodvibes, multiwfn]
