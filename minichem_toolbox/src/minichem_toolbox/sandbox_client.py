@@ -309,7 +309,7 @@ class OpenSandboxClient:
                 retryable=False,
             )
         framework_python = str(
-            Path(self.project_root) / ".envs" / "researchchembench" / "bin" / "python"
+            Path(self.project_root) / ".envs" / "minichem" / "bin" / "python"
         )
         log_path = f"/tmp/researchchembench-rpc-{self.rpc_port}.log"
         command = (

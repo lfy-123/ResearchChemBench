@@ -2,14 +2,20 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-CACHE="$ROOT/.mini_software_cache"
-RUNTIME="$CACHE/runtimes/minichem"
-PACK="$CACHE/runtime_packs/minichem.tar.gz"
-SPEC="$CACHE/environment.yml"
-PIP_SPEC="$CACHE/requirements-runtime.txt"
+SOFTWARE_CACHE="$ROOT/.mini_software_cache"
+ENV_ROOT="$ROOT/.envs"
+RUNTIME="$ENV_ROOT/minichem"
+PACK="$ENV_ROOT/runtime_packs/minichem.tar.gz"
+SPEC="$ENV_ROOT/environment.yml"
+PIP_SPEC="$ENV_ROOT/requirements-runtime.txt"
 PYPI_INDEX="${MINICHEM_PYPI_INDEX_URL:-https://pypi.org/simple}"
+PIP_ARGS=(--index-url "$PYPI_INDEX")
 
-mkdir -p "$CACHE/runtimes" "$ROOT/.mini_model_cache"
+if [[ "${MINICHEM_PIP_OFFLINE:-0}" == "1" ]]; then
+  PIP_ARGS=(--no-index)
+fi
+
+mkdir -p "$ENV_ROOT" "$ROOT/.mini_model_cache"
 
 if [[ ! -x "$RUNTIME/bin/python" ]]; then
   if [[ -f "$PACK" ]]; then
@@ -30,12 +36,16 @@ if [[ -x "$RUNTIME/bin/conda-unpack" ]]; then
 fi
 
 "$RUNTIME/bin/python" -m pip install \
-  --index-url "$PYPI_INDEX" \
+  "${PIP_ARGS[@]}" \
   -r "$PIP_SPEC"
-"$RUNTIME/bin/python" -m pip install --no-deps -e "$ROOT"
+"$RUNTIME/bin/python" -m pip install \
+  "${PIP_ARGS[@]}" \
+  --no-build-isolation \
+  --no-deps \
+  -e "$ROOT"
 
-mkdir -p "$CACHE/gaussian/g16/scratch"
-chmod 700 "$CACHE/gaussian/g16/scratch" 2>/dev/null || true
+mkdir -p "$SOFTWARE_CACHE/gaussian/g16/scratch"
+chmod 700 "$SOFTWARE_CACHE/gaussian/g16/scratch" 2>/dev/null || true
 
 MINICHEM_HOME="$ROOT" "$RUNTIME/bin/python" "$ROOT/scripts/verify_minichem.py"
 echo "MiniChem runtime is ready: $RUNTIME"

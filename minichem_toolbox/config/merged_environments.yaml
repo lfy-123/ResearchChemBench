@@ -1,8 +1,8 @@
 schema_version: 1
-root: .mini_software_cache/runtimes
+root: .envs
 environments:
   minichem:
-    path: .mini_software_cache/runtimes/minichem
+    path: .envs/minichem
     seed: reduced_reproducible_environment
     python_version: "3.11"
     description: Single portable runtime used by all MiniChem logical backends.

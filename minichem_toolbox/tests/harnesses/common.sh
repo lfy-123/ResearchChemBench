@@ -3,7 +3,7 @@ set -euo pipefail
 
 HARNESS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TOOLBOX_ROOT="$(cd "$HARNESS_DIR/../.." && pwd)"
-RUNTIME_PYTHON="$TOOLBOX_ROOT/.mini_software_cache/runtimes/minichem/bin/python"
+RUNTIME_PYTHON="$TOOLBOX_ROOT/.envs/minichem/bin/python"
 
 load_local_config() {
   local candidate

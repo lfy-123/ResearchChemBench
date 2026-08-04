@@ -13,7 +13,7 @@ profiles:
   core:
     conda_name: minichem
     description: RDKit, ASE, NumPy, SciPy, Sella, and deterministic analysis.
-    environment: .mini_software_cache/runtimes/minichem
+    environment: .envs/minichem
     use_project_model_cache: true
     health_checks:
       modules: [ase, numpy, rdkit, scipy, sella, yaml]
@@ -22,7 +22,7 @@ profiles:
   workflows:
     conda_name: minichem-workflows
     description: QCElemental and cclib structured chemistry records and output parsing.
-    environment: .mini_software_cache/runtimes/minichem
+    environment: .envs/minichem
     health_checks:
       modules: [qcelemental, cclib]
     backends: [qcelemental, cclib]
@@ -30,7 +30,7 @@ profiles:
   quantum:
     conda_name: minichem-quantum
     description: xTB and Open Babel molecular preparation and low-cost quantum chemistry.
-    environment: .mini_software_cache/runtimes/minichem
+    environment: .envs/minichem
     health_checks:
       modules: [ase, openbabel]
       commands: [xtb, obabel]
@@ -41,7 +41,7 @@ profiles:
   reaction:
     conda_name: minichem-reaction
     description: CREST conformer search and pysisyphus reaction-path workflows using xTB.
-    environment: .mini_software_cache/runtimes/minichem
+    environment: .envs/minichem
     health_checks:
       modules: [pysisyphus]
       commands: [crest, pysis, xtb]
@@ -53,7 +53,7 @@ profiles:
   sella:
     conda_name: minichem-sella
     description: Sella geometry and transition-state optimization with xTB calculators.
-    environment: .mini_software_cache/runtimes/minichem
+    environment: .envs/minichem
     health_checks:
       modules: [ase, numpy, sella]
     backends: [sella]
@@ -61,7 +61,7 @@ profiles:
   gaussian:
     conda_name: minichem-gaussian
     description: Licensed Gaussian 16 C.01 and formatted-checkpoint conversion.
-    environment: .mini_software_cache/runtimes/minichem
+    environment: .envs/minichem
     health_checks:
       modules: [cclib]
       commands: [g16, formchk]
@@ -81,7 +81,7 @@ profiles:
   goodvibes:
     conda_name: minichem-goodvibes
     description: GoodVibes thermochemistry, ensemble, selectivity, and reaction-profile analysis.
-    environment: .mini_software_cache/runtimes/minichem
+    environment: .envs/minichem
     health_checks:
       modules: [goodvibes, numpy, pandas, yaml]
       commands: [goodvibes]
@@ -92,7 +92,7 @@ profiles:
   multiwfn:
     conda_name: minichem-multiwfn
     description: Multiwfn noGUI wavefunction and electron-density analysis.
-    environment: .mini_software_cache/runtimes/minichem
+    environment: .envs/minichem
     health_checks:
       commands: [Multiwfn_noGUI]
       external_commands:

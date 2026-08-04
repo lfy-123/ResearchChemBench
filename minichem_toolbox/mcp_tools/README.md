@@ -14,9 +14,9 @@ The dispatcher does not silently choose a scientific method or switch software a
 The generated focused catalog is [TOOL_CATALOG.md](TOOL_CATALOG.md). From the toolbox root:
 
 ```bash
-.mini_software_cache/runtimes/minichem/bin/python -m minichem_mcp_tools.tool_manager validate
-.mini_software_cache/runtimes/minichem/bin/python -m minichem_mcp_tools.tool_manager catalog
-.mini_software_cache/runtimes/minichem/bin/python -m minichem_mcp_tools.tool_manager missing
+.envs/minichem/bin/python -m minichem_mcp_tools.tool_manager validate
+.envs/minichem/bin/python -m minichem_mcp_tools.tool_manager catalog
+.envs/minichem/bin/python -m minichem_mcp_tools.tool_manager missing
 bash scripts/start_mcp.sh --transport stdio --discovery-mode progressive
 ```
 

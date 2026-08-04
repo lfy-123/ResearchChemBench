@@ -2,8 +2,8 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-RUNTIME="$ROOT/.mini_software_cache/runtimes/minichem"
-OUTPUT="$ROOT/.mini_software_cache/runtime_packs/minichem.tar.gz"
+RUNTIME="$ROOT/.envs/minichem"
+OUTPUT="$ROOT/.envs/runtime_packs/minichem.tar.gz"
 
 if [[ ! -x "$RUNTIME/bin/python" ]]; then
   echo "MiniChem runtime is missing; run scripts/bootstrap.sh first" >&2

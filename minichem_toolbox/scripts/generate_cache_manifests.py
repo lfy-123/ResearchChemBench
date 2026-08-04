@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate portable metadata for MiniChem's ignored cache payloads."""
+"""Generate portable metadata for MiniChem software, environment, and model payloads."""
 
 from __future__ import annotations
 
@@ -13,6 +13,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SOFTWARE_CACHE = ROOT / ".mini_software_cache"
+ENV_ROOT = ROOT / ".envs"
 MODEL_CACHE = ROOT / ".mini_model_cache"
 
 
@@ -80,7 +81,7 @@ def main() -> None:
         / "2026.7.15"
         / "Multiwfn_2026.7.15_bin_Linux_noGUI"
     )
-    runtime = SOFTWARE_CACHE / "runtimes" / "minichem"
+    runtime = ENV_ROOT / "minichem"
     software_files = [gaussian / "g16", gaussian / "formchk", multiwfn / "Multiwfn_noGUI"]
     missing = [path for path in software_files if not path.is_file()]
     if missing:
@@ -96,21 +97,33 @@ def main() -> None:
             "size_bytes": directory_size(SOFTWARE_CACHE / "multiwfn"),
             "files": [file_record(software_files[2], SOFTWARE_CACHE)],
         },
-        "minichem_runtime": {
-            "size_bytes": directory_size(runtime),
-            "python": "3.11",
-            "package_versions": package_versions(),
-        },
     }
-    runtime_pack = SOFTWARE_CACHE / "runtime_packs" / "minichem.tar.gz"
-    if runtime_pack.is_file():
-        components["minichem_runtime_pack"] = file_record(runtime_pack, SOFTWARE_CACHE)
     write(
         SOFTWARE_CACHE / "manifest.json",
         {
             "schema_version": 1,
             "portable_root": ".mini_software_cache",
             "components": components,
+        },
+    )
+
+    environment_components: dict[str, object] = {
+        "minichem_runtime": {
+            "path": "minichem",
+            "size_bytes": directory_size(runtime),
+            "python": "3.11",
+            "package_versions": package_versions(),
+        }
+    }
+    runtime_pack = ENV_ROOT / "runtime_packs" / "minichem.tar.gz"
+    if runtime_pack.is_file():
+        environment_components["runtime_pack"] = file_record(runtime_pack, ENV_ROOT)
+    write(
+        ENV_ROOT / "manifest.json",
+        {
+            "schema_version": 1,
+            "portable_root": ".envs",
+            "components": environment_components,
         },
     )
 

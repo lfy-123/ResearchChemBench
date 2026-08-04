@@ -3,7 +3,7 @@ set -euo pipefail
 
 SCRIPT_PATH="$(readlink -f "${BASH_SOURCE[0]}")"
 ROOT_DIR="$(cd "$(dirname "$SCRIPT_PATH")/.." && pwd)"
-PYTHON_BIN="${MINICHEM_INSTALL_PYTHON:-$ROOT_DIR/.mini_software_cache/runtimes/minichem/bin/python}"
+PYTHON_BIN="${MINICHEM_INSTALL_PYTHON:-$ROOT_DIR/.envs/minichem/bin/python}"
 INSTALLER_ARGS=()
 
 while [[ $# -gt 0 ]]; do
@@ -13,12 +13,12 @@ while [[ $# -gt 0 ]]; do
 Install the portable MiniChem MCP package and configure Agent CLIs.
 
 Usage:
-  bash mcp/install.sh [installer options]
+  bash mcp_tools/install.sh [installer options]
 
 Examples:
-  bash mcp/install.sh --agent all --scope user
-  bash mcp/install.sh --agent opencode --scope project --project-dir /path/to/project
-  bash mcp/install.sh --agent all --dry-run
+  bash mcp_tools/install.sh --agent all --scope user
+  bash mcp_tools/install.sh --agent opencode --scope project --project-dir /path/to/project
+  bash mcp_tools/install.sh --agent all --dry-run
 
 Important installer options passed through:
   --agent all|codex|claude|opencode   Repeatable; default all installed Agents.

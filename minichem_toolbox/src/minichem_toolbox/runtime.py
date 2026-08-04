@@ -506,7 +506,7 @@ def invoke_worker(
             )
             result["provenance"] = provenance
             return result
-        framework_python = PROJECT_ROOT / ".envs" / "researchchembench" / "bin" / "python"
+        framework_python = PROJECT_ROOT / ".envs" / "minichem" / "bin" / "python"
         remote_command = (
             f"cd {shlex.quote(str(PROJECT_ROOT))} && exec "
             f"{shlex.quote(str(framework_python))} -m "
