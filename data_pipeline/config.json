@@ -1,0 +1,122 @@
+{
+  "model_cache_directory": ".model_cache",
+  "pdf_directory": "papers",
+  "exclude_supplementary": true,
+  "run_directory": "runs/current",
+  "stop_after": "judge",
+  "grobid": {
+    "base_url": "http://127.0.0.1:8070",
+    "working_directory": "third_party/grobid",
+    "auto_start": true,
+    "startup_timeout_seconds": 600,
+    "timeout_seconds": 900,
+    "retries": 2,
+    "consolidate_header": 0,
+    "consolidate_citations": 0,
+    "reuse_existing": true,
+    "fallback": {
+      "enabled": true,
+      "pdftotext_enabled": true,
+      "pdftotext_timeout_seconds": 300
+    }
+  },
+  "softcite": {
+    "base_url": "http://127.0.0.1:8060",
+    "working_directory": "third_party/software-mentions",
+    "auto_start": true,
+    "startup_timeout_seconds": 900,
+    "timeout_seconds": 600,
+    "retries": 2
+  },
+  "stage04": {
+    "enabled": true
+  },
+  "resource_interpretation": {
+    "enabled": true,
+    "url": "https://api.deepseek.com/v1",
+    "api_key_env": "RESOURCE_LLM_API_KEY",
+    "model_name": "deepseek-v4-flash",
+    "max_tokens": 3000,
+    "validation_retries": 1
+  },
+  "resource_limits": {
+    "cpu_cores": 500,
+    "gpus": 8,
+    "memory_gb": 1000,
+    "runtime_hours": 12
+  },
+  "grobid_quantities": {
+    "base_url": "http://127.0.0.1:8062",
+    "working_directory": "third_party/grobid-quantities",
+    "auto_start": true,
+    "startup_timeout_seconds": 600,
+    "timeout_seconds": 120,
+    "retries": 2
+  },
+  "mineru": {
+    "enabled": true,
+    "command": "mineru",
+    "backend": "pipeline",
+    "timeout_seconds": 3600,
+    "environment": {
+      "MINERU_MODEL_SOURCE": "local"
+    }
+  },
+  "stage05": {
+    "enabled": true,
+    "download_scope": "all",
+    "enable_network": true,
+    "max_rounds": 3,
+    "max_archive_depth": 3,
+    "max_archive_children_per_archive": 300,
+    "max_assets_per_paper": 500,
+    "max_single_file_bytes": 10737418240,
+    "max_archive_expanded_bytes": 53687091200,
+    "network_workers": 4,
+    "default_per_host_workers": 2,
+    "per_host_workers": {
+      "api.crossref.org": 1,
+      "api.datacite.org": 2,
+      "api.openalex.org": 2,
+      "api.github.com": 2,
+      "api.osf.io": 1,
+      "zenodo.org": 2
+    },
+    "request_retries": 3,
+    "retry_backoff_seconds": 1,
+    "retry_max_seconds": 60,
+    "include_local_siblings": true,
+    "query_metadata": true,
+    "discover_publisher_supplements": true
+  },
+  "stage06": {
+    "enabled": true,
+    "agent": {
+      "cli": "opencode",
+      "command": "opencode",
+      "model": "deepseek/deepseek-v4-flash",
+      "api_key_env": "JUDGE_API_KEY",
+      "timeout_seconds": 1800,
+      "preserve_conversation": true,
+      "isolate_workspace": true
+    }
+  },
+  "stage07": {
+    "enabled": true,
+    "agent": {
+      "cli": "opencode",
+      "command": "opencode",
+      "model": "deepseek/deepseek-v4-flash",
+      "api_key_env": "JUDGE_API_KEY",
+      "timeout_seconds": 1800,
+      "preserve_conversation": true,
+      "isolate_workspace": true
+    }
+  },
+  "toolbox": {
+    "file": "assets/toolbox.json",
+    "enabled_software": ["*"],
+    "enabled_actions": ["*"],
+    "priority_software": []
+  }
+}

@@ -1,0 +1,90 @@
+schema_version: 2
+model_cache_root: .mini_model_cache
+
+profiles:
+  core:
+    description: RDKit, ASE, NumPy, SciPy, Sella, and deterministic analysis.
+    environment: .envs/minichem
+    use_project_model_cache: true
+    health_checks:
+      modules: [ase, numpy, rdkit, scipy, sella, yaml]
+    backends: [rdkit, rdkit_etkdg, rdkit_gasteiger, internal_statistics, internal_reaction_analysis, internal_vibrations, internal_spectroscopy, internal_thermochemistry]
+
+  workflows:
+    description: QCElemental and cclib structured chemistry records and output parsing.
+    environment: .envs/minichem
+    health_checks:
+      modules: [qcelemental, cclib]
+    backends: [qcelemental, cclib]
+
+  quantum:
+    description: xTB and Open Babel molecular preparation and low-cost quantum chemistry.
+    environment: .envs/minichem
+    health_checks:
+      modules: [ase, openbabel]
+      commands: [xtb, obabel]
+    command_variables:
+      CHEMGRAPH_XTB_COMMAND: xtb
+    backends: [openbabel, xtb]
+
+  reaction:
+    description: CREST conformer search and pysisyphus reaction-path workflows using xTB.
+    environment: .envs/minichem
+    health_checks:
+      modules: [pysisyphus]
+      commands: [crest, pysis, xtb]
+    command_variables:
+      CHEMGRAPH_CREST_COMMAND: crest
+      CHEMGRAPH_PYSIS_COMMAND: pysis
+    backends: [crest, pysisyphus]
+
+  sella:
+    description: Sella geometry and transition-state optimization with xTB calculators.
+    environment: .envs/minichem
+    health_checks:
+      modules: [ase, numpy, sella]
+    backends: [sella]
+
+  gaussian:
+    description: Licensed Gaussian 16 C.01 and formatted-checkpoint conversion.
+    environment: .envs/minichem
+    health_checks:
+      modules: [cclib]
+      commands: [g16, formchk]
+      external_commands:
+        - .mini_software_cache/gaussian/g16/install/g16/g16
+        - .mini_software_cache/gaussian/g16/install/g16/formchk
+    command_variables:
+      CHEMGRAPH_GAUSSIAN_COMMAND: .mini_software_cache/gaussian/g16/install/g16/g16
+      CHEMGRAPH_GAUSSIAN_FORMCHK_COMMAND: .mini_software_cache/gaussian/g16/install/g16/formchk
+    path_entries: [.mini_software_cache/gaussian/g16/install/g16]
+    environment_variables:
+      g16root: .mini_software_cache/gaussian/g16/install
+      GAUSS_EXEDIR: .mini_software_cache/gaussian/g16/install/g16
+      GAUSS_SCRDIR: .mini_software_cache/gaussian/g16/scratch
+    backends: [gaussian]
+
+  goodvibes:
+    description: GoodVibes thermochemistry, ensemble, selectivity, and reaction-profile analysis.
+    environment: .envs/minichem
+    health_checks:
+      modules: [goodvibes, numpy, pandas, yaml]
+      commands: [goodvibes]
+    command_variables:
+      CHEMGRAPH_GOODVIBES_COMMAND: goodvibes
+    backends: [goodvibes]
+
+  multiwfn:
+    description: Multiwfn noGUI wavefunction and electron-density analysis.
+    environment: .envs/minichem
+    health_checks:
+      commands: [Multiwfn_noGUI]
+      external_commands:
+        - .mini_software_cache/multiwfn/2026.7.15/Multiwfn_2026.7.15_bin_Linux_noGUI/Multiwfn_noGUI
+    command_variables:
+      CHEMGRAPH_MULTIWFN_COMMAND: .mini_software_cache/multiwfn/2026.7.15/Multiwfn_2026.7.15_bin_Linux_noGUI/Multiwfn_noGUI
+    path_entries:
+      - .mini_software_cache/multiwfn/2026.7.15/Multiwfn_2026.7.15_bin_Linux_noGUI
+    environment_variables:
+      OMP_STACKSIZE: 2G
+    backends: [multiwfn]
