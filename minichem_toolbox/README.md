@@ -21,7 +21,7 @@ minichem_toolbox/
 │   └── minichem_mcp_tools/         # MCP 工具、作业管理和软件检索
 ├── tests/
 │   ├── harnesses/                  # Codex、Claude、OpenCode 隔离测试入口
-│   └── test_*.py                   # 自动化测试
+│   └── react/                      # 直接 API ReAct 测试入口
 ├── .envs/minichem/                 # 本机 Conda 环境，Git 忽略
 ├── .mini_software_cache/           # 原生软件缓存，软件文件 Git 忽略
 └── .mini_model_cache/              # 本地模型缓存，模型文件 Git 忽略
@@ -106,10 +106,9 @@ bash scripts/start_mcp.sh --transport stdio --discovery-mode progressive
 
 脚本始终使用 `.envs/minichem/bin/python`，并从相对路径 `src/` 加载两个 Python 包。
 
-验证服务和测试：
+验证环境、缓存和工具配置：
 
 ```bash
-.envs/minichem/bin/python -m pytest tests -q
 .envs/minichem/bin/python scripts/verify_minichem.py
 .envs/minichem/bin/python -m minichem_mcp_tools.tool_manager validate
 ```
@@ -151,6 +150,49 @@ bash tests/harnesses/run_opencode.sh
 ```
 
 Harness 会生成独立 `opencode.json` 和 MCP 启动器。
+
+### 直接 API ReAct 示例
+
+Claude、Codex 和 OpenCode 不是工具箱的运行依赖。`tests/react/react_agent.py` 展示了一个最小的
+ReAct Agent：模型通过 OpenAI 兼容 API 决定下一步，Python 程序直接调用 MiniChem 的
+`search_actions`、`inspect_action` 和 `execute_action` 函数，不启动 MCP，也不经过任何 CLI
+harness。
+
+```bash
+set -a
+source ../config.local.env  # 或自行导出下面三个变量
+set +a
+
+export MINICHEM_AGENT_API_KEY="${OPENAI_API_KEY}"
+export MINICHEM_AGENT_BASE_URL="https://api.deepseek.com/v1"
+export MINICHEM_AGENT_MODEL="deepseek-v4-flash"
+
+bash tests/react/run_react.sh
+```
+
+`run_react.sh` 会检查 `.envs/minichem`、自动加载工具箱根目录或上一级目录中的
+`config.local.env`，并将附加参数原样传递给 `react_agent.py`。
+
+可用参数：
+
+```text
+--task TEXT             覆盖默认的水分子 xTB 单点能示例
+--workspace PATH        指定隔离工作区
+--base-url URL          OpenAI 兼容 API 根地址
+--model NAME            API 接受的模型名称
+--max-steps N           最大 ReAct 步数，默认 8
+--timeout-seconds N     单次模型请求超时，默认 600 秒
+```
+
+运行记录默认保存在 `tests/results/react_<timestamp>_<pid>/`：
+
+- `_sessions/react.jsonl`：每轮模型决策、API token 用量和工具 observation；
+- `_tool_results/`、`_tool_artifacts/`：MiniChem 的工具调用记录；
+- `outputs/`：化学计算产物；
+- `report/final.md`：Agent 最终回答。
+
+该示例只覆盖第一层预定义 Action，目的是清楚展示直接 API 接入方式。ARCHE 等自定义 workflow
+可以复用同样的 Python 调用层，并按需继续接入原生软件作业和 Python 分析程序接口。
 
 ## 工作区隔离与记录
 

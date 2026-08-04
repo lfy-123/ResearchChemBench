@@ -49,6 +49,7 @@ scripts/                             环境创建、MCP 启动和验证
 src/minichem_toolbox/                Action、Backend、调度和产物核心
 src/minichem_mcp_tools/              MCP 表面、软件检索和作业接口
 tests/harnesses/                     三种 CLI 的隔离测试入口
+tests/react/                         直接 API ReAct 测试入口
 ```
 
 ## 4. 预定义 Action
