@@ -1,0 +1,27 @@
+name: researchchem-data-pipeline
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - pip>=24
+  - setuptools>=68
+  - openjdk=21
+  - poppler
+  - git
+  - git-lfs
+  - curl
+  - unzip
+  - pip:
+      - -e .[dev]
+      - numpy==1.26.4
+      - transformers==4.57.3
+      - tensorflow==2.17.1
+      - tf-keras==2.17.0
+      - tfa-nightly==0.23.0.dev20240415222534
+      - h5py==3.11.0
+      - scikit-learn==1.6.1
+      - unidecode==1.3.2
+      - pydot==1.4.0
+      - lmdb==2.1.1
+      - truecase
+      - blingfire2

@@ -383,7 +383,7 @@ data_pipeline/third_party/<project_name>/
 - 固定 commit SHA 或 release tag。
 - 在 `third_party/THIRD_PARTY_LOCK.json` 记录仓库、commit、许可证、获取时间和用途。
 - 不自动跟随默认分支更新。
-- Python 包可从固定源码或兼容发布版本安装到 benchmark 主环境，但版本冲突时以主环境为准。
+- Python 包从固定源码或兼容发布版本安装到 `environment.yml` 定义的唯一数据管线 Conda 环境。
 - 服务型项目使用独立端口和受控启动/停止脚本。
 
 ## 5. Stage 06：Builder Agent 构建候选任务

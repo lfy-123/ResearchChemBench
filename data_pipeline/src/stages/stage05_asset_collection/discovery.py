@@ -238,9 +238,7 @@ def _osf_targets(
     headers = _bearer_header("OSF_TOKEN")
     with httpx.Client(timeout=timeout, follow_redirects=True, headers=headers) as client:
         while next_url and len(targets) < 200:
-            response = request_with_retry(
-                client, "GET", next_url, policy=request_policy
-            )
+            response = request_with_retry(client, "GET", next_url, policy=request_policy)
             response.raise_for_status()
             payload = response.json()
             for provider in payload.get("data", []):
@@ -290,9 +288,9 @@ def _osf_file_targets(
                         "relation_type": "related_identifier",
                         "discovered_by": "osf_api",
                         "identifier": clue.get("value"),
-                            "version": attributes.get("date_modified"),
-                            "file_name": attributes.get("name"),
-                            "headers": _bearer_header("OSF_TOKEN"),
+                        "version": attributes.get("date_modified"),
+                        "file_name": attributes.get("name"),
+                        "headers": _bearer_header("OSF_TOKEN"),
                     }
                 )
         next_url = (payload.get("links") or {}).get("next")
@@ -375,9 +373,7 @@ def _datacite_targets(
         attributes = (response.json().get("data") or {}).get("attributes") or {}
     landing = str(attributes.get("url") or "")
     if MATERIALS_CLOUD_DOI.search(normalized) or MATERIALS_CLOUD_RECORD.search(landing):
-        return _materials_cloud_targets(
-            clue, landing or normalized, timeout, request_policy
-        )
+        return _materials_cloud_targets(clue, landing or normalized, timeout, request_policy)
     targets: list[dict[str, Any]] = []
     for url in attributes.get("contentUrl") or []:
         if isinstance(url, str) and url.startswith(("http://", "https://")):
@@ -400,9 +396,9 @@ def _datacite_targets(
         nested["canonical_value"] = landing
         nested["value"] = landing
         nested["kind"] = "repository_url"
-        return resolve_clue_targets(
-            nested, timeout_seconds=timeout, request_policy=request_policy
-        )[0]
+        return resolve_clue_targets(nested, timeout_seconds=timeout, request_policy=request_policy)[
+            0
+        ]
     return []
 
 
@@ -584,9 +580,7 @@ class _PublisherLinkParser(HTMLParser):
             self.current_text = []
 
 
-def _publisher_attachment_clues(
-    html: str, *, base_url: str, paper_id: str
-) -> list[dict[str, Any]]:
+def _publisher_attachment_clues(html: str, *, base_url: str, paper_id: str) -> list[dict[str, Any]]:
     parser = _PublisherLinkParser()
     parser.feed(html)
     output: list[dict[str, Any]] = []

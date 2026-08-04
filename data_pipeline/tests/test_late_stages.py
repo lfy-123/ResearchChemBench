@@ -62,7 +62,7 @@ class LateStageTests(unittest.TestCase):
         self.assertEqual(config["stage06"]["agent"]["cli"], "claude")
         self.assertEqual(config["stage07"]["agent"]["cli"], "codex")
         self.assertTrue(config["stage06"]["agent"]["isolate_workspace"])
-        model_cache = root.parent / ".model_cache" / "data_pipeline"
+        model_cache = root / ".model_cache"
         self.assertEqual(config["mineru"]["working_directory"], str(model_cache.resolve()))
         self.assertEqual(
             config["mineru"]["environment"]["MINERU_TOOLS_CONFIG_JSON"],
@@ -432,9 +432,7 @@ class LateStageTests(unittest.TestCase):
     def test_download_filename_accepts_spaced_content_disposition(self) -> None:
         class Response:
             headers = {
-                "content-disposition": (
-                    "attachment; filename = PMC123456_SupplementaryFiles.zip"
-                )
+                "content-disposition": ("attachment; filename = PMC123456_SupplementaryFiles.zip")
             }
 
         self.assertEqual(
@@ -456,9 +454,7 @@ class LateStageTests(unittest.TestCase):
                     "src.stages.stage05_asset_collection.parsers._pdftotext",
                     return_value="extracted text",
                 ) as pdftotext,
-                patch(
-                    "src.stages.stage05_asset_collection.parsers.run_mineru_queue"
-                ) as mineru,
+                patch("src.stages.stage05_asset_collection.parsers.run_mineru_queue") as mineru,
             ):
                 text, metadata = _parse_pdf(
                     {
@@ -486,7 +482,10 @@ class LateStageTests(unittest.TestCase):
         asset = {"asset_id": "asset1", "paper_id": "paper"}
         with (
             tempfile.TemporaryDirectory() as directory,
-            patch("src.stages.stage05_asset_collection.stage.resolve_clue_targets", return_value=(targets, [])),
+            patch(
+                "src.stages.stage05_asset_collection.stage.resolve_clue_targets",
+                return_value=(targets, []),
+            ),
             patch(
                 "src.stages.stage05_asset_collection.stage.download_url",
                 side_effect=[DownloadError("too large"), asset],

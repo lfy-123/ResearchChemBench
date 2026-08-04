@@ -9,16 +9,14 @@ from pathlib import Path
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Prepare the shared data-pipeline model cache")
+    parser = argparse.ArgumentParser(description="Prepare the local data-pipeline model cache")
     parser.add_argument("--root", default=Path(__file__).resolve().parents[1])
     parser.add_argument("--cache")
     args = parser.parse_args()
 
     root = Path(args.root).expanduser().resolve()
     cache = (
-        Path(args.cache).expanduser().resolve()
-        if args.cache
-        else (root.parent / ".model_cache" / "data_pipeline").resolve()
+        Path(args.cache).expanduser().resolve() if args.cache else (root / ".model_cache").resolve()
     )
     source_home = root / "third_party" / "grobid" / "grobid-home"
     if not source_home.is_dir():
@@ -74,15 +72,22 @@ def main() -> int:
     manifest = {
         "cache_root": ".",
         "grobid_home": "grobid-home",
-        "mineru_config": (
-            mineru_config.relative_to(cache).as_posix() if mineru_config else None
-        ),
+        "mineru_config": (mineru_config.relative_to(cache).as_posix() if mineru_config else None),
         "sources": {
             "grobid": "https://github.com/grobidOrg/grobid tag 0.9.0",
-            "softcite": "https://github.com/softcite/software-mentions",
+            "softcite": (
+                "https://github.com/softcite/software-mentions "
+                "commit c7c83852a3cad8f2d9d07ce3de6fbe852e23c19a"
+            ),
             "softcite_models": "https://huggingface.co/sciencialab/software-mentions-models",
-            "grobid_quantities": "https://github.com/lfoppiano/grobid-quantities",
-            "mineru": "https://github.com/opendatalab/MinerU",
+            "grobid_quantities": (
+                "https://github.com/lfoppiano/grobid-quantities "
+                "commit d0d55592f4d0ddbe6a549e06613349adaa2d1cd7"
+            ),
+            "mineru": (
+                "https://github.com/opendatalab/MinerU "
+                "commit 79d6d8d79fb8f3ddba5cc34c07a16f0ec36f56c7"
+            ),
             "mineru_pipeline_huggingface": (
                 "https://huggingface.co/opendatalab/PDF-Extract-Kit-1.0"
             ),

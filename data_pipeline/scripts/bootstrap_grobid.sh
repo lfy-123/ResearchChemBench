@@ -14,6 +14,8 @@ if [[ -n "${GROBID_JAVA_HOME:-}" ]]; then
   JAVA_HOME="$GROBID_JAVA_HOME"
 elif [[ -n "${JAVA_HOME:-}" ]]; then
   JAVA_HOME="$JAVA_HOME"
+elif [[ -n "${CONDA_PREFIX:-}" && -x "$CONDA_PREFIX/bin/java" ]]; then
+  JAVA_HOME="$CONDA_PREFIX"
 elif command -v conda >/dev/null; then
   JAVA_HOME="$(conda info --base)"
 else

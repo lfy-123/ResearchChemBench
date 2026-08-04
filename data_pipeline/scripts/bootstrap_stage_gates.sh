@@ -7,7 +7,7 @@ SOFTCITE="$THIRD_PARTY/software-mentions"
 QUANTITIES="$THIRD_PARTY/grobid-quantities"
 DELFT="$THIRD_PARTY/delft"
 SOURCE_GROBID_HOME="$THIRD_PARTY/grobid-home"
-MODEL_CACHE_ROOT="${MODEL_CACHE_ROOT:-$ROOT/../.model_cache/data_pipeline}"
+MODEL_CACHE_ROOT="${MODEL_CACHE_ROOT:-$ROOT/.model_cache}"
 GROBID_HOME="$MODEL_CACHE_ROOT/grobid-home"
 PYTHON="$(command -v "${PIPELINE_PYTHON:-python}")"
 SOFTCITE_COMMIT="c7c83852a3cad8f2d9d07ce3de6fbe852e23c19a"
@@ -18,6 +18,8 @@ if [[ -n "${GROBID_JAVA_HOME:-}" ]]; then
   JAVA_HOME="$GROBID_JAVA_HOME"
 elif [[ -n "${JAVA_HOME:-}" ]]; then
   JAVA_HOME="$JAVA_HOME"
+elif [[ -n "${CONDA_PREFIX:-}" && -x "$CONDA_PREFIX/bin/java" ]]; then
+  JAVA_HOME="$CONDA_PREFIX"
 elif command -v conda >/dev/null; then
   JAVA_HOME="$(conda info --base)"
 else
@@ -65,7 +67,7 @@ apply_patch_once "$QUANTITIES" "$ROOT/scripts/patches/grobid-quantities-d0d5559.
 ln -sfn grobid/grobid-home "$SOURCE_GROBID_HOME"
 
 PIP_EXTRA_INDEX_URL= PIP_CONFIG_FILE=/dev/null \
-  "$PYTHON" -m pip install --break-system-packages \
+  "$PYTHON" -m pip install \
   --index-url https://pypi.org/simple \
   "transformers==4.57.3" \
   "tensorflow==2.17.1" \

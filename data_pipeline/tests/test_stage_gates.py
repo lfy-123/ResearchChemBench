@@ -445,9 +445,7 @@ class StageGateTests(unittest.TestCase):
                 model_caller=caller,
             )
 
-            self.assertEqual(
-                rows[0]["resource_limits"]["decision"], "no_explicit_resource"
-            )
+            self.assertEqual(rows[0]["resource_limits"]["decision"], "no_explicit_resource")
 
     def test_stage04_retries_invalid_evidence_and_stops_on_api_failure(self) -> None:
         text = "The simulation ran for 13 hours."

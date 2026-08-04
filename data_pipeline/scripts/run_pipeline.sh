@@ -5,7 +5,7 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 PIPELINE_PYTHON="${PIPELINE_PYTHON:-python}"
 PIPELINE_CONFIG="${PIPELINE_CONFIG:-${1:-$ROOT/config.json}}"
 PIPELINE_SUMMARY="${PIPELINE_SUMMARY:-${2:-$ROOT/runs/current/outputs/run_summary.json}}"
-PIPELINE_ENV_FILE="${PIPELINE_ENV_FILE:-$ROOT/../config.local.env}"
+PIPELINE_ENV_FILE="${PIPELINE_ENV_FILE:-$ROOT/config.local.env}"
 
 if [[ -f "$PIPELINE_ENV_FILE" ]]; then
   set -a

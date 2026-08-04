@@ -222,9 +222,7 @@ def extract_documents_with_grobid(
                     "text_quality": quality,
                     "text_characters": len(text),
                     "metadata_source": (
-                        f"{fallback_used['parser']}_fallback_tei"
-                        if fallback_used
-                        else "grobid_tei"
+                        f"{fallback_used['parser']}_fallback_tei" if fallback_used else "grobid_tei"
                     ),
                     "retrieval_sources": [
                         "local_corpus",

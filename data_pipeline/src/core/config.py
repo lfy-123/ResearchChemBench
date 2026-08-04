@@ -22,9 +22,7 @@ def normalize_config(raw: dict[str, Any], base: Path) -> dict[str, Any]:
     toolbox = raw.get("toolbox") or {}
     stage04 = raw.get("stage04") or {}
     stage05 = raw.get("stage05") or {}
-    model_cache = _resolve(
-        base, raw.get("model_cache_directory", "../.model_cache/data_pipeline")
-    )
+    model_cache = _resolve(base, raw.get("model_cache_directory", ".model_cache"))
     model_cache_config = model_cache / "config"
     runtime_grobid_config = model_cache / "grobid-home" / "config" / "grobid.yaml"
     java_home = softcite.get("java_home") or grobid.get("java_home")
@@ -91,9 +89,7 @@ def normalize_config(raw: dict[str, Any], base: Path) -> dict[str, Any]:
             "reuse_existing": bool(grobid.get("reuse_existing", True)),
             "fallback": {
                 "enabled": bool((grobid.get("fallback") or {}).get("enabled", True)),
-                "output_dir": str(
-                    run_dir / "outputs" / "stage_02_grobid_extract" / "fallback"
-                ),
+                "output_dir": str(run_dir / "outputs" / "stage_02_grobid_extract" / "fallback"),
                 "pdftotext_enabled": bool(
                     (grobid.get("fallback") or {}).get("pdftotext_enabled", True)
                 ),
@@ -128,11 +124,7 @@ def normalize_config(raw: dict[str, Any], base: Path) -> dict[str, Any]:
                 "CONDA_PREFIX": softcite.get("conda_prefix", "/usr/local"),
                 "PYTHONPATH": os.pathsep.join(
                     [
-                        str(
-                            _resolve(
-                                base, softcite.get("delft_directory", "third_party/delft")
-                            )
-                        ),
+                        str(_resolve(base, softcite.get("delft_directory", "third_party/delft"))),
                         str(sysconfig.get_paths()["purelib"]),
                     ]
                 ),
@@ -151,16 +143,12 @@ def normalize_config(raw: dict[str, Any], base: Path) -> dict[str, Any]:
                 _resolve(base, softcite.get("aliases_file", "assets/software_aliases.json"))
             ),
             "role_rules_file": str(
-                _resolve(
-                    base, softcite.get("role_rules_file", "assets/software_role_rules.json")
-                )
+                _resolve(base, softcite.get("role_rules_file", "assets/software_role_rules.json"))
             ),
             "capability_map_file": str(
                 _resolve(
                     base,
-                    softcite.get(
-                        "capability_map_file", "assets/software_capability_map.json"
-                    ),
+                    softcite.get("capability_map_file", "assets/software_capability_map.json"),
                 )
             ),
         },
