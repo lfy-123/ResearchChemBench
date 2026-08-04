@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-import html
-import hashlib
 import json
 import re
 from functools import lru_cache
@@ -14,7 +12,7 @@ import yaml
 
 from minichem_toolbox.catalog import backend_specs
 from minichem_toolbox.mini_profile import MINI_NATIVE_SOFTWARE_IDS, MINI_RUNTIME_IDS
-from minichem_toolbox.paths import CONFIG_ROOT, PROJECT_ROOT, SOFTWARE_CACHE_ROOT
+from minichem_toolbox.paths import CONFIG_ROOT, PROJECT_ROOT
 from minichem_toolbox.runtime import (
     probe_all_backends,
     resolve_executable,
@@ -38,16 +36,8 @@ from .execution_models import (
 
 GUIDE_PATH = CONFIG_ROOT / "native_software_guides.yaml"
 EXAMPLE_CONTRACTS_PATH = CONFIG_ROOT / "native_software_example_contracts.yaml"
-NATIVE_DOCS_ROOT = PROJECT_ROOT / "native_software_docs"
-NATIVE_SMOKE_PATH = (
-    PROJECT_ROOT / "evidence" / "native_interface_smoke" / "latest.json"
-)
-DOCUMENTATION_INDEX_PATH = SOFTWARE_CACHE_ROOT / "documentation" / "index.json"
-REQUESTED_STATUS_PATH = CONFIG_ROOT / "requested_software_status.json"
+NATIVE_DOCS_ROOT = PROJECT_ROOT / "docs" / "software"
 CAPABILITY_SOURCES_PATH = CONFIG_ROOT / "software_capability_sources.yaml"
-REQUESTED_SOFTWARE_PATH = CONFIG_ROOT / "requested_software.yaml"
-_HTML_TAG = re.compile(r"<[^>]+>")
-_SPACE = re.compile(r"\s+")
 _HEADING = re.compile(r"^(#{1,6})\s+(.+?)\s*$")
 
 
@@ -67,69 +57,12 @@ def load_native_example_contracts() -> dict[str, Any]:
     return value
 
 
-@lru_cache(maxsize=1)
-def load_native_smoke_manifest() -> dict[str, Any]:
-    if not NATIVE_SMOKE_PATH.is_file():
-        return {"software": []}
-    value = json.loads(NATIVE_SMOKE_PATH.read_text(encoding="utf-8"))
-    if not isinstance(value, dict) or not isinstance(value.get("software"), list):
-        raise ValueError(f"Invalid native software smoke manifest: {NATIVE_SMOKE_PATH}")
-    return value
-
-
-def _native_smoke_by_id() -> dict[str, dict[str, Any]]:
+def _smoke_summary(_software_id: str) -> dict[str, Any]:
     return {
-        str(item["software_id"]): item
-        for item in load_native_smoke_manifest().get("software", [])
-        if isinstance(item, dict) and item.get("software_id")
-    }
-
-
-def _smoke_summary(software_id: str) -> dict[str, Any]:
-    record = _native_smoke_by_id().get(software_id)
-    if record is None:
-        return {
-            "interface_smoke_status": "not_tested",
-            "scientific_smoke_status": "not_tested",
-            "known_runtime_blockers": [],
-            "smoke_evidence": None,
-        }
-
-    raw_status = str(record.get("status") or "unknown")
-    test_level = str(record.get("test_level") or "interface_smoke")
-    if (
-        software_id == "pysisyphus"
-        and raw_status == "passed"
-        and "converged!" in str(record.get("stdout_tail") or "").casefold()
-    ):
-        test_level = "scientific_smoke"
-    interface_status = {
-        "passed": "passed",
-        "started_input_required": "passed_input_required",
-        "failed": "failed",
-        "skipped": "skipped",
-    }.get(raw_status, raw_status)
-    scientific_status = "not_tested"
-    if test_level == "scientific_smoke":
-        scientific_status = "passed" if raw_status == "passed" else raw_status
-
-    blockers = []
-    if raw_status in {"failed", "skipped", "cancelled"}:
-        blockers.append(str(record.get("reason") or f"Latest smoke status: {raw_status}."))
-    evidence_sha256 = hashlib.sha256(NATIVE_SMOKE_PATH.read_bytes()).hexdigest()
-    return {
-        "interface_smoke_status": interface_status,
-        "scientific_smoke_status": scientific_status,
-        "known_runtime_blockers": blockers,
-        "smoke_evidence": {
-            "manifest_path": str(NATIVE_SMOKE_PATH.relative_to(PROJECT_ROOT)),
-            "manifest_sha256": evidence_sha256,
-            "tested_at": record.get("tested_at"),
-            "test_level": test_level,
-            "recorded_test_level": record.get("test_level"),
-            "raw_status": raw_status,
-            "evidence_path": record.get("evidence_path"),
-        },
+        "interface_smoke_status": "not_tested",
+        "scientific_smoke_status": "not_tested",
+        "known_runtime_blockers": [],
+        "smoke_evidence": None,
     }
 
 
@@ -157,34 +90,6 @@ def software_documentation_recovery(
 
 
 @lru_cache(maxsize=1)
-def load_documentation_index() -> dict[str, Any]:
-    if not DOCUMENTATION_INDEX_PATH.is_file():
-        return {"software": []}
-    value = json.loads(DOCUMENTATION_INDEX_PATH.read_text(encoding="utf-8"))
-    if not isinstance(value, dict) or not isinstance(value.get("software"), list):
-        raise ValueError(f"Invalid documentation index: {DOCUMENTATION_INDEX_PATH}")
-    return value
-
-
-@lru_cache(maxsize=1)
-def load_requested_status() -> dict[str, Any]:
-    if not REQUESTED_STATUS_PATH.is_file():
-        return {"runtime_probes": {}, "software": []}
-    value = json.loads(REQUESTED_STATUS_PATH.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"Invalid requested software status: {REQUESTED_STATUS_PATH}")
-    return value
-
-
-@lru_cache(maxsize=1)
-def load_requested_software() -> dict[str, Any]:
-    value = yaml.safe_load(REQUESTED_SOFTWARE_PATH.read_text(encoding="utf-8")) or {}
-    if not isinstance(value.get("requested_software"), list):
-        raise ValueError(f"Invalid requested software inventory: {REQUESTED_SOFTWARE_PATH}")
-    return value
-
-
-@lru_cache(maxsize=1)
 def _source_aliases() -> dict[str, str]:
     aliases: dict[str, str] = {}
     if not CAPABILITY_SOURCES_PATH.is_file():
@@ -201,14 +106,6 @@ def _normalize_id(value: str) -> str:
     return re.sub(r"[^a-z0-9]+", "_", value.strip().lower()).strip("_")
 
 
-def _documentation_by_id() -> dict[str, dict[str, Any]]:
-    return {
-        str(item["software_id"]): item
-        for item in load_documentation_index().get("software", [])
-        if isinstance(item, dict) and item.get("software_id")
-    }
-
-
 def _native_aliases() -> dict[str, str]:
     aliases: dict[str, str] = {}
     for software_id, item in load_native_guides()["software"].items():
@@ -222,74 +119,17 @@ def _native_aliases() -> dict[str, str]:
     return aliases
 
 
-def _documentation_for_software(software_id: str) -> dict[str, Any]:
-    documents = _documentation_by_id()
-    guide = load_native_guides()["software"].get(software_id) or {}
-    ids = [software_id, *(guide.get("documentation_ids") or [])]
-    selected = [documents[item] for item in dict.fromkeys(ids) if item in documents]
-    if not selected:
-        return {}
-    merged = dict(selected[0])
-    for key in (
-        "detected_versions",
-        "current_validated_actions",
-        "candidate_actions",
-        "official_sources",
-        "local_documents",
-        "downloads",
-        "download_errors",
-    ):
-        values: list[Any] = []
-        seen: set[str] = set()
-        for item in selected:
-            for value in item.get(key) or []:
-                marker = json.dumps(value, ensure_ascii=False, sort_keys=True)
-                if marker not in seen:
-                    seen.add(marker)
-                    values.append(value)
-        merged[key] = values
-    notes = [str(item["notes"]) for item in selected if item.get("notes")]
-    if notes:
-        merged["notes"] = " | ".join(dict.fromkeys(notes))
-    return merged
-
-
-def _status_software_by_id() -> dict[str, dict[str, Any]]:
-    values = load_requested_status().get("software") or []
-    return {
-        _normalize_id(str(item.get("name") or item.get("software_id"))): item
-        for item in values
-        if isinstance(item, dict) and (item.get("name") or item.get("software_id"))
-    }
-
-
-def _requested_software_by_id() -> dict[str, dict[str, Any]]:
-    return {
-        _normalize_id(str(item["name"])): item
-        for item in load_requested_software().get("requested_software", [])
-        if isinstance(item, dict) and item.get("name")
-    }
-
-
 def _driver_contract(software_id: str) -> dict[str, Any]:
-    guide = load_native_guides()["software"].get(software_id) or {}
     backend = backend_specs().get(software_id)
-    requested = _requested_software_by_id().get(software_id)
-    runtime = guide.get("runtime") or (
-        backend.runtime if backend is not None else (requested or {}).get("environment")
-    )
-    if not runtime:
-        raise ValueError(f"Native guide {software_id!r} has no declared runtime")
-    backend_commands = set(backend.executables if backend is not None else ())
-    requested_commands = set((requested or {}).get("commands") or [])
+    if backend is None:
+        raise ValueError(f"Native software {software_id!r} has no BackendSpec")
+    backend_commands = set(backend.executables)
     return {
         "software_id": software_id,
         "backend": backend,
-        "requested": requested,
-        "runtime": str(runtime),
-        "allowed_commands": backend_commands | requested_commands,
+        "runtime": backend.runtime,
+        "allowed_commands": backend_commands,
         "backend_commands": backend_commands,
-        "requested_commands": requested_commands,
     }
 
 
@@ -332,7 +172,7 @@ def resolve_software_id(value: str) -> str:
 
 
 def validate_native_guides() -> None:
-    """Ensure every native command is tied to BackendSpec or requested-software config."""
+    """Ensure every native command is tied to the focused BackendSpec catalog."""
 
     specifications = backend_specs()
     covered_backend_commands: dict[str, set[str]] = {}
@@ -348,28 +188,14 @@ def validate_native_guides() -> None:
         if unknown:
             raise ValueError(
                 f"Native guide {software_id!r} declares commands absent from BackendSpec and "
-                f"requested_software.yaml: {sorted(unknown)}"
+                f"the focused backend catalog: {sorted(unknown)}"
             )
         backend = contract["backend"]
-        requested = contract["requested"] or {}
         for command in commands:
-            if (
-                command in contract["backend_commands"]
-                and backend is not None
-                and contract["runtime"] != backend.runtime
-            ):
+            if contract["runtime"] != backend.runtime:
                 raise ValueError(
                     f"Native guide {software_id}/{command} must use BackendSpec runtime "
                     f"{backend.runtime!r}, not {contract['runtime']!r}"
-                )
-            if (
-                command not in contract["backend_commands"]
-                and command in contract["requested_commands"]
-                and contract["runtime"] != str(requested.get("environment"))
-            ):
-                raise ValueError(
-                    f"Native guide {software_id}/{command} must use requested-software runtime "
-                    f"{requested.get('environment')!r}, not {contract['runtime']!r}"
                 )
         covered_backend_commands.setdefault(software_id, set()).update(
             set(commands) & contract["backend_commands"]
@@ -409,15 +235,9 @@ def native_command_guide(software_id: str, executable: str) -> dict[str, Any]:
             f"Native command {resolved_id}/{executable} is intentionally not exposed: "
             f"{guide.get('output_behavior', 'disabled by execution policy')}"
         )
-    documentation = _documentation_for_software(resolved_id)
-    requested = contract["requested"] or {}
     return {
         "software_id": resolved_id,
-        "display_name": (
-            backend.display_name
-            if backend is not None
-            else documentation.get("display_name") or requested.get("name") or resolved_id
-        ),
+        "display_name": backend.display_name,
         "runtime": contract["runtime"],
         "executable": executable,
         "resolved_path": _resolve_guided_executable(
@@ -427,37 +247,11 @@ def native_command_guide(software_id: str, executable: str) -> dict[str, Any]:
     }
 
 
-def _module_runtime_index() -> dict[str, list[dict[str, Any]]]:
-    result: dict[str, list[dict[str, Any]]] = {}
-    probes = load_requested_status().get("runtime_probes") or {}
-    for runtime, probe in probes.items():
-        for module, status in dict(probe.get("modules") or {}).items():
-            result.setdefault(_normalize_id(module), []).append(
-                {
-                    "runtime": runtime,
-                    "module": module,
-                    "available": bool(status.get("available")),
-                    "version": status.get("version"),
-                }
-            )
-    return result
-
-
 def _analysis_runtimes_for(
     software_id: str,
     backend: Any | None,
-    documentation: dict[str, Any] | None,
 ) -> list[dict[str, Any]]:
     candidates: dict[tuple[str, str], dict[str, Any]] = {}
-    module_index = _module_runtime_index()
-    names = {software_id}
-    if backend is not None:
-        names.update(_normalize_id(module) for module in backend.python_modules)
-    if documentation:
-        names.add(_normalize_id(str(documentation.get("display_name") or "")))
-    for name in names:
-        for record in module_index.get(name, []):
-            candidates[(record["runtime"], record["module"])] = record
     if backend is not None and runtime_python(backend.runtime).is_file():
         for module in backend.python_modules:
             candidates.setdefault(
@@ -512,20 +306,14 @@ def _native_commands(software_id: str, backend: Any | None) -> list[dict[str, An
 
 
 def _inventory_entries() -> list[dict[str, Any]]:
-    docs = _documentation_by_id()
     specs = backend_specs()
-    statuses = _status_software_by_id()
-    aliased_documentation_ids = set(_native_aliases())
     ids = sorted(set(specs) | set(MINI_NATIVE_SOFTWARE_IDS))
     entries: list[dict[str, Any]] = []
     for software_id in ids:
         backend = specs.get(software_id)
-        documentation = _documentation_for_software(software_id)
-        status = statuses.get(software_id) or {}
         native_commands = _native_commands(software_id, backend)
-        analysis_runtimes = _analysis_runtimes_for(software_id, backend, documentation)
+        analysis_runtimes = _analysis_runtimes_for(software_id, backend)
         smoke = _smoke_summary(software_id)
-        documented_status = documentation.get("inventory_status") or status.get("status")
         executable_resolved = any(item["available"] for item in native_commands)
         native_available = executable_resolved and smoke["interface_smoke_status"] not in {
             "failed",
@@ -542,12 +330,8 @@ def _inventory_entries() -> list[dict[str, Any]]:
         entries.append(
             {
                 "software_id": software_id,
-                "display_name": (
-                    backend.display_name
-                    if backend is not None
-                    else documentation.get("display_name", software_id)
-                ),
-                "inventory_status": documented_status or ("configured" if available else "unknown"),
+                "display_name": backend.display_name if backend is not None else software_id,
+                "inventory_status": "configured" if available else "unavailable",
                 "available": available,
                 "available_for_submission": available,
                 "native_available_for_submission": native_available,
@@ -560,20 +344,10 @@ def _inventory_entries() -> list[dict[str, Any]]:
                     if software_id in load_native_guides()["software"]
                     else (backend.runtime if backend is not None else None)
                 ),
-                "license_class": (
-                    backend.license_class
-                    if backend is not None
-                    else (_requested_software_by_id().get(software_id) or {}).get("license")
-                    or status.get("license")
-                ),
-                "detected_versions": documentation.get("detected_versions") or [],
-                "actions": sorted(
-                    set(backend.capabilities if backend is not None else ())
-                    | set(documentation.get("current_validated_actions") or [])
-                ),
+                "license_class": backend.license_class if backend is not None else None,
+                "actions": sorted(backend.capabilities if backend is not None else ()),
                 "native_commands": native_commands,
                 "analysis_runtimes": analysis_runtimes,
-                "documentation_cached": bool(documentation.get("downloads")),
                 "aliases": sorted(
                     alias
                     for alias, target in _native_aliases().items()
@@ -638,7 +412,6 @@ def list_software(request: SoftwareListRequest) -> dict[str, Any]:
                 "analysis_runtime_ids": analysis_runtime_ids,
                 "action_count": len(item["actions"]),
                 **({"matching_action_ids": item["actions"]} if expose_capabilities else {}),
-                "documentation_cached": item["documentation_cached"],
             }
         )
     next_offset = request.offset + len(selected)
@@ -665,7 +438,6 @@ def list_software(request: SoftwareListRequest) -> dict[str, Any]:
 def inspect_software(request: SoftwareInspectRequest) -> dict[str, Any]:
     validate_native_guides()
     software_id = resolve_software_id(request.software_id)
-    docs = _documentation_for_software(software_id)
     backend = backend_specs().get(software_id)
     entry = next(item for item in _inventory_entries() if item["software_id"] == software_id)
     health = probe_all_backends((backend,)).get(software_id) if backend is not None else None
@@ -734,11 +506,6 @@ def inspect_software(request: SoftwareInspectRequest) -> dict[str, Any]:
         "backend_health": health,
         "python_modules": list(backend.python_modules) if backend is not None else [],
         "native_invocation_guides": detailed_commands,
-        "official_sources": docs.get("official_sources") or [],
-        "cached_documents": [
-            item.get("path") for item in docs.get("downloads") or [] if item.get("path")
-        ],
-        "local_documents": docs.get("local_documents") or [],
         "documentation_index": list(document_index.values()),
         "shared_documentation_topics": sorted(
             {
@@ -748,8 +515,6 @@ def inspect_software(request: SoftwareInspectRequest) -> dict[str, Any]:
                 for topic in chunk["topics"]
             }
         ),
-        "candidate_capabilities": docs.get("candidate_actions") or [],
-        "notes": docs.get("notes"),
         "recommended_documentation_routes": software_documentation_recovery(
             software_id, failed=bool(entry["known_runtime_blockers"])
         ),
@@ -758,41 +523,6 @@ def inspect_software(request: SoftwareInspectRequest) -> dict[str, Any]:
             "whether to use it, the scientific input content, parameters, call order, and interpretation."
         ),
     }
-
-
-def _document_paths(software_id: str) -> list[Path]:
-    docs = _documentation_for_software(software_id)
-    paths: list[Path] = []
-    for item in docs.get("downloads") or []:
-        if item.get("path"):
-            paths.append(PROJECT_ROOT / str(item["path"]))
-    for item in docs.get("local_documents") or []:
-        value = item.get("path") if isinstance(item, dict) else item
-        if value:
-            paths.append(PROJECT_ROOT / str(value))
-    unique: list[Path] = []
-    seen: set[Path] = set()
-    for path in paths:
-        resolved = path.expanduser().resolve(strict=False)
-        try:
-            resolved.relative_to(PROJECT_ROOT.resolve())
-        except ValueError:
-            continue
-        if resolved not in seen:
-            seen.add(resolved)
-            unique.append(resolved)
-    return unique
-
-
-def _searchable_text(path: Path) -> str | None:
-    if not path.is_file() or path.stat().st_size > 25 * 1024 * 1024:
-        return None
-    if path.suffix.lower() in {".pdf", ".gz", ".zip", ".tar", ".bz2", ".xz"}:
-        return None
-    text = path.read_text(encoding="utf-8", errors="ignore")
-    if path.suffix.lower() in {".html", ".htm"}:
-        text = html.unescape(_HTML_TAG.sub(" ", text))
-    return _SPACE.sub(" ", text)
 
 
 def _normalize_topic(value: str) -> str:
@@ -866,31 +596,7 @@ def software_document_chunks(
     software_id: str, *, include_cached: bool = True
 ) -> list[dict[str, Any]]:
     resolved_id = resolve_software_id(software_id)
-    chunks = [dict(item) for item in _first_party_chunks(resolved_id)]
-    if not include_cached:
-        return chunks
-    for path in _document_paths(resolved_id):
-        text = _searchable_text(path)
-        if text is None:
-            continue
-        relative = str(path.relative_to(PROJECT_ROOT))
-        for index, start in enumerate(range(0, len(text), 1800)):
-            excerpt = text[start : start + 2000]
-            chunks.append(
-                {
-                    "chunk_id": f"{relative}#cached-{index}",
-                    "software_id": resolved_id,
-                    "path": relative,
-                    "heading": "Cached documentation",
-                    "section": "cached-documentation",
-                    "topics": [],
-                    "aliases": [],
-                    "text": excerpt,
-                    "shared": False,
-                    "source_type": "cached_external_document",
-                }
-            )
-    return chunks
+    return [dict(item) for item in _first_party_chunks(resolved_id)]
 
 
 def _topic_matches(chunk: dict[str, Any], value: str) -> bool:
@@ -1036,12 +742,6 @@ def search_software_documentation(request: DocumentationSearchRequest) -> dict[s
                 "estimated_context_tokens": (len(excerpt) + 3) // 4,
             }
         )
-    skipped = [
-        str(path.relative_to(PROJECT_ROOT))
-        for path in _document_paths(software_id)
-        if _searchable_text(path) is None
-    ]
-    docs = _documentation_for_software(software_id)
     character_count = sum(item["character_count"] for item in results)
     return {
         "status": "success",
@@ -1051,8 +751,6 @@ def search_software_documentation(request: DocumentationSearchRequest) -> dict[s
         "section": request.section,
         "match_count": len(results),
         "matches": results,
-        "unsearchable_cached_files": skipped,
-        "official_sources": docs.get("official_sources") or [],
         "retrieval": {
             "mode": request.retrieval_mode,
             "exact_route_first": True,
@@ -1064,25 +762,23 @@ def search_software_documentation(request: DocumentationSearchRequest) -> dict[s
             "estimated_context_tokens": (character_count + 3) // 4,
             "token_estimate_policy": "UTF-8 character count divided by four; exact Agent-model tokens are recorded by the evaluation runner",
         },
-        "note": "First-party Markdown is indexed by heading. Cached text/HTML is a fallback; unparsed PDFs and archives are listed separately.",
+        "note": "Local Markdown under docs/software is indexed by heading.",
     }
 
 
 def list_analysis_runtimes(request: AnalysisRuntimeListRequest) -> dict[str, Any]:
-    probes = load_requested_status().get("runtime_probes") or {}
     result = []
     for name in runtime_names():
         if name not in MINI_RUNTIME_IDS:
             continue
         specification = runtime_spec(name)
         python = runtime_python(name)
-        probe = probes.get(name) or {}
         available = python.is_file()
         if request.available_only and not available:
             continue
         if request.runtime is not None and name != request.runtime:
             continue
-        modules = probe.get("modules") or {
+        modules = {
             module: {"available": None, "version": None}
             for module in (
                 (specification.get("health_checks") or {}).get("modules")

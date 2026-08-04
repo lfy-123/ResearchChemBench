@@ -5,7 +5,6 @@ from pathlib import Path
 from minichem_toolbox.environment_layout import environment_path
 from minichem_toolbox.paths import MODEL_CACHE_ROOT, PROJECT_ROOT, SOFTWARE_CACHE_ROOT, TOOLBOX_ROOT
 from minichem_toolbox.runtime import runtime_names, runtime_path
-from minichem_mcp_tools.profiles import public_server_spec
 
 
 def test_default_roots_are_internal() -> None:
@@ -35,29 +34,26 @@ def test_active_configuration_uses_relative_cache_paths() -> None:
     root = Path(__file__).resolve().parents[1]
     for relative in (
         "config/mcp_profiles.yaml",
-        "config/merged_environments.yaml",
-        ".envs/environment.yml",
-        "mcp_tools/tool_config.json",
+        "environment.yml",
+        "requirements.txt",
+        "src/minichem_mcp_tools/tool_config.json",
     ):
         text = (root / relative).read_text(encoding="utf-8")
         assert "/inspire/" not in text
         assert str(root) not in text
 
 
-def test_public_server_uses_installed_transport_package() -> None:
-    command = public_server_spec()["command"]
-    assert command[1:3] == ["-m", "minichem_mcp_tools.server"]
+def test_launcher_uses_installed_transport_package() -> None:
+    launcher = (TOOLBOX_ROOT / "scripts" / "start_mcp.sh").read_text(encoding="utf-8")
+    assert "-m minichem_mcp_tools.server" in launcher
 
 
 def test_subprocess_module_references_use_installed_transport_package() -> None:
     root = Path(__file__).resolve().parents[1]
     for relative in (
-        "mcp_tools/async_action_tools.py",
-        "mcp_tools/distributed_job_dispatcher.py",
-        "mcp_tools/open_execution.py",
-        "mcp_tools/profiles.py",
-        "mcp_tools/remote_job_launcher.py",
-        "src/minichem_toolbox/sandbox_worker_rpc.py",
+        "src/minichem_mcp_tools/open_execution.py",
+        "src/minichem_toolbox/runtime.py",
+        "src/minichem_toolbox/worker_launcher.py",
     ):
         text = (root / relative).read_text(encoding="utf-8")
         assert '"minichem_toolbox.mcp.' not in text

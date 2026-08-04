@@ -126,27 +126,6 @@ def evaluation_resource_budget() -> ResourceBudget:
 
 
 def resource_budget_record() -> dict[str, Any]:
-    # Discovery and provenance must describe the active execution pool.  Keep
-    # the local evaluator budget unchanged, but report the largest schedulable
-    # single-worker request when distributed execution is selected.
-    from .distributed_pool import distributed_enabled, pool_snapshot
-
-    if distributed_enabled():
-        snapshot = pool_snapshot()
-        return {
-            "cpu_cores": int(snapshot["maximum_cpu_cores_per_job"]),
-            "memory_mb": int(snapshot["maximum_memory_mb_per_job"]),
-            "gpu_count": max(
-                (
-                    int(worker["capacity"]["gpu_count"])
-                    for worker in snapshot["workers"]
-                ),
-                default=0,
-            ),
-            "source": "distributed_compute_pool",
-            "agent_controllable": False,
-            "scope": "per_job",
-        }
     return evaluation_resource_budget().as_dict()
 
 

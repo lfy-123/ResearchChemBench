@@ -21,7 +21,6 @@ from minichem_toolbox.service import execute_action
 from .tracing import execute_traced
 from .discovery_tools import register_progressive_discovery_tools
 from .open_tools import register_open_execution_tools
-from .async_action_tools import register_async_action_tools
 from .software_catalog import open_execution_prompt, software_resource_snapshot
 
 
@@ -157,7 +156,6 @@ def register_all_tools(mcp) -> list[str]:
         )(function)
         registered.append(specification.id)
     registered.extend(register_open_execution_tools(mcp))
-    registered.extend(register_async_action_tools(mcp))
     return registered
 
 
@@ -167,7 +165,6 @@ def register_progressive_tools(mcp) -> list[str]:
     discover_tools(strict=True)
     registered = register_progressive_discovery_tools(mcp)
     registered.extend(register_open_execution_tools(mcp))
-    registered.extend(register_async_action_tools(mcp))
     return registered
 
 

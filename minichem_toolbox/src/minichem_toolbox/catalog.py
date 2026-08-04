@@ -15,7 +15,6 @@ from .resources import resources_for_backends
 from .specs import ACTION_SPECS, BACKEND_SPECS
 from .parameter_specs import RESOURCE_LIMIT_PARAMETER_SPECS, common_fixed_parameter_specs
 from .resource_budget import resource_budget_record
-from .distributed_pool import distributed_enabled, pool_snapshot
 from .timeout_policy import timeout_policy_record
 
 
@@ -37,24 +36,12 @@ ToolDiscoveryMode = Literal["progressive", "full"]
 
 
 def _agent_resource_contract(budget: dict[str, Any]) -> str:
-    if distributed_enabled():
-        pool = pool_snapshot()
-        return (
-            "Toolbox-managed distributed compute pool: "
-            f"total_cpu_cores={pool['total_cpu_cores']}, "
-            f"total_memory_mb={pool['total_memory_mb']}, "
-            f"maximum_cpu_cores_per_job={pool['maximum_cpu_cores_per_job']}, "
-            f"maximum_memory_mb_per_job={pool['maximum_memory_mb_per_job']}, "
-            f"gpu_count={pool['gpu_count']}. Single requests must fit one worker; "
-            "concurrent requests are limited by the pool's current aggregate availability "
-            "and are queued rather than automatically reduced."
-        )
     return (
         "Evaluator-controlled per-task resource budget: "
         f"cpu_cores={budget['cpu_cores']}, "
         f"memory_mb={budget['memory_mb']}, "
         f"gpu_count={budget['gpu_count']}. The Agent may choose requests within this "
-        "envelope; single requests and concurrent reservations above it are rejected "
+        "envelope; requests and concurrent reservations above it are rejected "
         "without automatic reduction."
     )
 

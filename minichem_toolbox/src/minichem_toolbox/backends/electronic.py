@@ -43,21 +43,15 @@ from .composite import (
     invoke_calculator_component,
 )
 from .goodvibes import execute as execute_goodvibes
-from .mlip import build_calculator as build_mlip_calculator
-from .mlip import prepare_atoms as prepare_mlip_atoms
-from .quantum_legacy import gamess as _gamess
 from .quantum_legacy import gaussian as _gaussian
 
 
 ACTIONS = {
     "calculate_energy", "calculate_forces", "calculate_hessian", "optimize_geometry",
-    "calculate_dipole_moment", "calculate_atomic_charges", "calculate_orbitals",
+    "calculate_dipole_moment", "calculate_atomic_charges",
     "derive_vibrational_modes", "derive_ir_spectrum", "derive_thermochemistry",
-    "calculate_bond_orders", "calculate_excited_states", "derive_uv_vis_spectrum",
-    "analyze_electron_density_topology", "calculate_atomic_basin_properties",
-    "calculate_bader_charges", "scan_thermochemistry_temperature",
+    "calculate_bond_orders", "scan_thermochemistry_temperature",
     "analyze_thermochemical_ensemble", "validate_thermochemistry_inputs",
-    "calculate_correlated_electron_density", "export_electron_density_grid",
     "calculate_electron_isodensity_surface",
 }
 
@@ -3797,42 +3791,18 @@ def _internal_thermochemistry(request: dict[str, Any]) -> dict[str, Any]:
 def execute(action_id: str, backend_id: str, request: dict[str, Any]) -> dict[str, Any]:
     if backend_id == "sella" and action_id == "optimize_geometry":
         return execute_sella(action_id, request)
-    if backend_id == "geometric" and action_id == "optimize_geometry":
-        return _geometric_optimize(request)
-    if backend_id == "gpaw":
-        from .gpaw_adapter import execute as execute_gpaw
-
-        return execute_gpaw(action_id, request)
-    if backend_id in {"ase_emt", "tblite", "mace", "chgnet", "deepmd"}:
-        return _ase_property(action_id, backend_id, request)
     if backend_id == "xtb":
         return _xtb(action_id, request)
-    if backend_id == "pyscf":
-        return _pyscf(action_id, request)
-    if backend_id == "nwchem":
-        return _nwchem(action_id, request)
-    if backend_id == "openmolcas":
-        return _openmolcas(action_id, request)
     if backend_id == "multiwfn":
         if action_id == "calculate_electron_isodensity_surface":
             return _multiwfn_isodensity_surface(request)
         return _multiwfn_wavefunction_analysis(action_id, request)
-    if backend_id == "critic2":
-        return _critic2(action_id, request)
-    if backend_id == "psi4":
-        return _psi4(action_id, request)
-    if backend_id == "orca":
-        return _orca(action_id, request)
     if backend_id == "gaussian":
         return _gaussian(action_id, request)
-    if backend_id == "gamess":
-        return _gamess(action_id, request)
     if backend_id == "internal_vibrations" and action_id == "derive_vibrational_modes":
         return _vibrations(request)
     if backend_id == "internal_spectroscopy" and action_id == "derive_ir_spectrum":
         return _ir_spectrum(request)
-    if backend_id == "internal_spectroscopy" and action_id == "derive_uv_vis_spectrum":
-        return _uv_vis_spectrum(request)
     if backend_id == "internal_thermochemistry" and action_id == "derive_thermochemistry":
         return _internal_thermochemistry(request)
     if backend_id == "goodvibes":

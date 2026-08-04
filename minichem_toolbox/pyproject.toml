@@ -33,24 +33,11 @@ semantic-search = ["numpy>=1.24", "onnxruntime>=1.17", "tokenizers>=0.15"]
 
 [project.scripts]
 minichem-mcp-server = "minichem_mcp_tools.server:main"
-minichem-mcp-install = "minichem_mcp_tools.installer:main"
 minichem-tool = "minichem_mcp_tools.tool_manager:main"
 
-[tool.setuptools]
-packages = [
-    "minichem_mcp_tools",
-    "minichem_mcp_tools.adapters",
-    "minichem_toolbox",
-    "minichem_toolbox.actions",
-    "minichem_toolbox.backends",
-]
-
-[tool.setuptools.package-dir]
-minichem_mcp_tools = "mcp_tools"
-"minichem_mcp_tools.adapters" = "mcp_tools/adapters"
-"minichem_toolbox" = "src/minichem_toolbox"
-"minichem_toolbox.actions" = "src/minichem_toolbox/actions"
-"minichem_toolbox.backends" = "src/minichem_toolbox/backends"
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["minichem_toolbox*", "minichem_mcp_tools*"]
 
 [tool.setuptools.package-data]
-minichem_mcp_tools = ["tool_config.json", "TOOL_CATALOG.md", "README.md"]
+minichem_mcp_tools = ["tool_config.json"]

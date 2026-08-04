@@ -181,3 +181,40 @@ Status: completed on 2026-08-04 UTC.
   was modified.
 - Saved the relocation and documentation work in the local Git commit
   `refactor: isolate MiniChem conda environment`; no remote push was performed.
+
+## Step 9 - Project Structure Cleanup
+
+Status: completed on 2026-08-04 UTC.
+
+- Moved the reproducible Conda declaration and pip requirements from `.envs/` to the toolbox root as
+  `environment.yml` and `requirements.txt`. `.envs/` now contains only the ignored physical prefix
+  `.envs/minichem`.
+- Removed the 677 MiB runtime pack and all pack-generation code. Migration now rebuilds the environment
+  from root specifications; existing prefixes may be reused on the same machine.
+- Moved MCP source code into `src/minichem_mcp_tools/` and native software documentation into
+  `docs/software/`, so both Python packages use a conventional `src/` layout.
+- Deleted copied distributed execution, remote worker, sandbox RPC, proxy, installer, async batch,
+  runtime-pack, empty configuration, generated catalog, compatibility shim, and unused test files.
+- Replaced the comprehensive resource registry with an empty focused registry and restricted local
+  electronic dispatch to the 37 retained Actions and 18 retained Backends.
+- Removed nonexistent requested-software, smoke-manifest, and cached-documentation compatibility paths
+  from software discovery. Software inventory now derives from the focused BackendSpec catalog,
+  relative runtime configuration, and `docs/software/`.
+- Kept local resource reservations and asynchronous job supervision, but removed distributed-state
+  fields. Each Gaussian job now receives its own `.tmp/gaussian` scratch directory.
+- Deleted generated and ignored payloads that are not required at runtime: historical harness workspaces,
+  Python bytecode, editable metadata, embedding indexes, Gaussian smoke outputs and upstream test corpus,
+  Multiwfn download archives and examples.
+- Rewrote `README.md` and `TOOLBOX.md` to match the cleaned tree and removed every runtime-pack or old
+  directory reference.
+- Regenerated software/model manifests after cleanup. The retained payload is approximately 12 GiB of
+  native software, 3.8 GiB for the Conda prefix, and 23 MiB for the semantic model.
+- Verification after cleanup:
+  - focused pytest suite: 13 passed;
+  - catalog: 37 Actions and 18 available Backends;
+  - MCP validation: 9 progressive tools, 17 open-execution tools, and 7 native guides;
+  - offline reuse bootstrap: passed;
+  - xTB GFN2 water energy: `-5.065772968305 hartree`;
+  - Gaussian B3LYP/6-31G(d) water single point: return code 0 with per-job scratch;
+  - MCP startup from `/tmp`: passed.
+- No unrelated benchmark files were changed and no remote push was performed.

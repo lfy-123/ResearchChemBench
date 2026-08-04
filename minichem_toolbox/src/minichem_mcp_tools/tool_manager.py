@@ -24,8 +24,6 @@ from .discovery_tools import PROGRESSIVE_DISCOVERY_TOOL_NAMES
 from .software_catalog import load_native_guides, validate_native_guides
 
 
-PACKAGE_ROOT = Path(__file__).resolve().parent
-DEFAULT_CATALOG_PATH = PACKAGE_ROOT / "TOOL_CATALOG.md"
 load_dotenv(PROJECT_ROOT / "config.local.env", override=False)
 
 
@@ -114,7 +112,7 @@ def installation_report() -> dict[str, Any]:
     }
 
 
-def write_catalog(path: Path = DEFAULT_CATALOG_PATH, *, include_health: bool = True) -> Path:
+def write_catalog(path: Path, *, include_health: bool = True) -> Path:
     path.write_text(markdown_catalog(include_health=include_health), encoding="utf-8")
     return path
 
@@ -125,7 +123,7 @@ def main() -> int:
     subparsers.add_parser("list")
     subparsers.add_parser("validate")
     catalog_parser = subparsers.add_parser("catalog")
-    catalog_parser.add_argument("--output", type=Path, default=DEFAULT_CATALOG_PATH)
+    catalog_parser.add_argument("--output", type=Path, required=True)
     catalog_parser.add_argument("--no-health", action="store_true")
     missing_parser = subparsers.add_parser("missing")
     missing_parser.add_argument("--json", action="store_true")

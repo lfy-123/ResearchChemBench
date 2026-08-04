@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
-"""Generate portable metadata for MiniChem software, environment, and model payloads."""
+"""Generate portable metadata for MiniChem software and model payloads."""
 
 from __future__ import annotations
 
 import hashlib
-import importlib
-import importlib.metadata
 import json
 import subprocess
 from pathlib import Path
@@ -13,7 +11,6 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SOFTWARE_CACHE = ROOT / ".mini_software_cache"
-ENV_ROOT = ROOT / ".envs"
 MODEL_CACHE = ROOT / ".mini_model_cache"
 
 
@@ -40,35 +37,6 @@ def directory_size(path: Path) -> int:
     return int(completed.stdout.split()[0])
 
 
-def package_versions() -> dict[str, str]:
-    names = (
-        "ase",
-        "cclib",
-        "fastmcp",
-        "goodvibes",
-        "jax",
-        "mcp",
-        "numpy",
-        "onnxruntime",
-        "pysisyphus",
-        "qcelemental",
-        "rdkit",
-        "scipy",
-        "sella",
-        "tokenizers",
-    )
-    result: dict[str, str] = {}
-    for name in names:
-        try:
-            version = importlib.metadata.version(name)
-            if version == "0.0.0":
-                version = str(getattr(importlib.import_module(name), "__version__", version))
-            result[name] = version
-        except importlib.metadata.PackageNotFoundError:
-            result[name] = "not-installed"
-    return result
-
-
 def write(path: Path, value: object) -> None:
     path.write_text(json.dumps(value, indent=2) + "\n", encoding="utf-8")
 
@@ -81,7 +49,6 @@ def main() -> None:
         / "2026.7.15"
         / "Multiwfn_2026.7.15_bin_Linux_noGUI"
     )
-    runtime = ENV_ROOT / "minichem"
     software_files = [gaussian / "g16", gaussian / "formchk", multiwfn / "Multiwfn_noGUI"]
     missing = [path for path in software_files if not path.is_file()]
     if missing:
@@ -107,30 +74,12 @@ def main() -> None:
         },
     )
 
-    environment_components: dict[str, object] = {
-        "minichem_runtime": {
-            "path": "minichem",
-            "size_bytes": directory_size(runtime),
-            "python": "3.11",
-            "package_versions": package_versions(),
-        }
-    }
-    runtime_pack = ENV_ROOT / "runtime_packs" / "minichem.tar.gz"
-    if runtime_pack.is_file():
-        environment_components["runtime_pack"] = file_record(runtime_pack, ENV_ROOT)
-    write(
-        ENV_ROOT / "manifest.json",
-        {
-            "schema_version": 1,
-            "portable_root": ".envs",
-            "components": environment_components,
-        },
-    )
-
     model_files = sorted(
         path
         for path in MODEL_CACHE.rglob("*")
-        if path.is_file() and path.name not in {"manifest.json", "*.lock"} and not path.name.endswith(".lock")
+        if path.is_file()
+        and path.name not in {"README.md", "manifest.json"}
+        and not path.name.endswith(".lock")
     )
     write(
         MODEL_CACHE / "manifest.json",

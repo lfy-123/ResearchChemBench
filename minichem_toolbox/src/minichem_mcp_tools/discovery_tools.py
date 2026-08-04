@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import threading
 import time
-from concurrent.futures import FIRST_COMPLETED, Future, ThreadPoolExecutor, wait
+from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timezone
 from typing import Any, Callable, TypeVar
 
@@ -20,7 +20,6 @@ from minichem_toolbox.discovery import (
     search_resources as _search_resources,
 )
 from minichem_toolbox.catalog import action_specs
-from minichem_toolbox.distributed_pool import distributed_enabled, pool_snapshot
 from minichem_toolbox.resource_budget import (
     active_resource_jobs,
     active_resource_usage,
@@ -216,42 +215,6 @@ def execute_action(request: ProgressiveActionRequest) -> dict[str, Any]:
     )
 
 
-def _select_distributed_batch_launches(
-    pending: list[tuple[int, Any, dict[str, int]]], *, limit: int
-) -> list[tuple[int, Any, dict[str, int]]]:
-    """Place the next synchronous batch children against live worker slots."""
-
-    slots = [dict(worker["available"]) for worker in pool_snapshot()["workers"]]
-    selected: list[tuple[int, Any, dict[str, int]]] = []
-    ordered = sorted(
-        pending,
-        key=lambda value: (
-            -value[2]["cpu_cores"],
-            -value[2]["memory_mb"],
-            value[0],
-        ),
-    )
-    for item in ordered:
-        if len(selected) >= limit:
-            break
-        resources = item[2]
-        candidates = [
-            (slot["cpu_cores"], slot["memory_mb"], index)
-            for index, slot in enumerate(slots)
-            if resources["cpu_cores"] <= slot["cpu_cores"]
-            and resources["memory_mb"] <= slot["memory_mb"]
-            and resources["gpu_count"] <= slot["gpu_count"]
-        ]
-        if not candidates:
-            continue
-        _cpu, _memory, slot_index = max(candidates)
-        slot = slots[slot_index]
-        for name in ("cpu_cores", "memory_mb", "gpu_count"):
-            slot[name] -= resources[name]
-        selected.append(item)
-    return selected
-
-
 def submit_action_batch(request: ActionBatchRequest) -> dict[str, Any]:
     specification = action_specs().get(request.action_id)
     if specification is None:
@@ -293,72 +256,27 @@ def submit_action_batch(request: ActionBatchRequest) -> dict[str, Any]:
         name: max(resources[name] for resources in item_resources)
         for name in ("cpu_cores", "memory_mb", "gpu_count")
     }
-    if distributed_enabled():
-        snapshot = pool_snapshot()
-        worker_capacities = [
-            dict(worker.get("capacity") or worker["available"])
-            for worker in snapshot["workers"]
-        ]
-        oversized = [
-            resources
-            for resources in item_resources
-            if not any(
-                all(
-                    resources[name] <= capacity[name]
-                    for name in ("cpu_cores", "memory_mb", "gpu_count")
-                )
-                for capacity in worker_capacities
-            )
-        ]
-        if oversized:
-            return {
-                "status": "invalid_request",
-                "error": {
-                    "code": "distributed_resource_limit_exceeded",
-                    "message": (
-                        "At least one batch item cannot fit on one compute worker."
-                    ),
-                    "requested": oversized[0],
-                    "single_job_cross_node_execution": False,
-                    "retryable": False,
-                },
-            }
-        available = {
-            "cpu_cores": int(snapshot["available_cpu_cores"]),
-            "memory_mb": int(snapshot["available_memory_mb"]),
-            "gpu_count": int(snapshot["available_gpu_count"]),
-        }
-        parallelism = len(request.items)
-        capacity = {
-            "pool": snapshot,
-            "available_at_submission": available,
-            "maximum_item_resources": maximum_item,
-            "scope": "distributed_compute_pool",
-        }
-    else:
-        budget = evaluation_resource_budget()
-        reserved = active_resource_usage()
-        available = {
-            name: max(0, int(getattr(budget, name)) - int(reserved[name]))
-            for name in ("cpu_cores", "memory_mb", "gpu_count")
-        }
-        capacity_limits = [
-            available["cpu_cores"] // maximum_item["cpu_cores"],
-            available["memory_mb"] // maximum_item["memory_mb"],
-        ]
-        if maximum_item["gpu_count"] > 0:
-            capacity_limits.append(
-                available["gpu_count"] // maximum_item["gpu_count"]
-            )
-        parallelism = min(len(request.items), *capacity_limits)
-        capacity = {
-            "budget": budget.as_dict(),
-            "reserved_at_submission": reserved,
-            "available_at_submission": available,
-            "maximum_item_resources": maximum_item,
-            "active_jobs": active_resource_jobs(),
-            "scope": "local_evaluation_budget",
-        }
+    budget = evaluation_resource_budget()
+    reserved = active_resource_usage()
+    available = {
+        name: max(0, int(getattr(budget, name)) - int(reserved[name]))
+        for name in ("cpu_cores", "memory_mb", "gpu_count")
+    }
+    capacity_limits = [
+        available["cpu_cores"] // maximum_item["cpu_cores"],
+        available["memory_mb"] // maximum_item["memory_mb"],
+    ]
+    if maximum_item["gpu_count"] > 0:
+        capacity_limits.append(available["gpu_count"] // maximum_item["gpu_count"])
+    parallelism = min(len(request.items), *capacity_limits)
+    capacity = {
+        "budget": budget.as_dict(),
+        "reserved_at_submission": reserved,
+        "available_at_submission": available,
+        "maximum_item_resources": maximum_item,
+        "active_jobs": active_resource_jobs(),
+        "scope": "local_evaluation_budget",
+    }
     if request.max_concurrency is not None:
         parallelism = min(parallelism, request.max_concurrency)
     if parallelism < 1:
@@ -438,46 +356,12 @@ def submit_action_batch(request: ActionBatchRequest) -> dict[str, Any]:
         max_workers=parallelism,
         thread_name_prefix="researchchem-action-batch",
     ) as executor:
-        if distributed_enabled():
-            pending = [
-                (index, item, item_resources[index])
-                for index, item in enumerate(request.items)
-            ]
-            active: dict[Future, tuple[int, Any, dict[str, int]]] = {}
-            while pending or active:
-                launchable = _select_distributed_batch_launches(
-                    pending, limit=parallelism - len(active)
-                )
-                for entry in launchable:
-                    pending.remove(entry)
-                    index, item, _resources = entry
-                    active[executor.submit(execute_item, index, item)] = entry
-                if not active:
-                    time.sleep(0.5)
-                    continue
-                completed, _unfinished = wait(
-                    tuple(active), timeout=0.5, return_when=FIRST_COMPLETED
-                )
-                for future in completed:
-                    entry = active.pop(future)
-                    index = entry[0]
-                    record = future.result()
-                    child = record.get("result") or {}
-                    error_code = str((child.get("error") or {}).get("code") or "")
-                    if (
-                        child.get("status") == "unavailable"
-                        and error_code == "distributed_resource_capacity_unavailable"
-                    ):
-                        pending.append(entry)
-                        continue
-                    results[index] = record
-        else:
-            futures = {
-                executor.submit(execute_item, index, item): index
-                for index, item in enumerate(request.items)
-            }
-            for future, index in futures.items():
-                results[index] = future.result()
+        futures = {
+            executor.submit(execute_item, index, item): index
+            for index, item in enumerate(request.items)
+        }
+        for future, index in futures.items():
+            results[index] = future.result()
 
     completed_results = [item for item in results if item is not None]
     successful = sum(
