@@ -8,9 +8,9 @@ from typing import Any, Callable
 
 from src.core.io import write_json, write_jsonl
 from src.core.logging import log_progress
-from src.curation.llm_client import call_json_chat
-from src.ingestion.grobid_quantities import GrobidQuantitiesClient
-from src.ingestion.tei import read_tei_paragraphs, sentence_windows
+from src.integrations.grobid_quantities import GrobidQuantitiesClient
+from src.integrations.llm_client import call_json_chat
+from src.integrations.tei import read_tei_paragraphs, sentence_windows
 
 PROMPT_VERSION = "stage04-resource-interpretation-v1"
 RESOURCE_TYPES = {"cpu_cores", "gpus", "memory_gb", "runtime_hours"}
@@ -120,11 +120,21 @@ def assess_resource_limits(
             if item["actual_computation"] and item["scope"] == "single_job"
         ]
         exceeded = [item for item in comparable if _exceeds(item, limits)]
+        has_structured_signal = any(
+            structured[key]
+            for key in (
+                "resource_records",
+                "aggregate_resources",
+                "platform_mentions",
+                "physical_simulation_durations",
+                "unresolved_mentions",
+            )
+        )
         if exceeded:
             decision, status, passed = "exceeds_limit", "reject", False
         elif comparable:
             decision, status, passed = "within_limit", "pass", True
-        elif contexts:
+        elif has_structured_signal:
             decision, status, passed = "ambiguous", "pass", True
         else:
             decision, status, passed = "no_explicit_resource", "pass", True
@@ -217,6 +227,46 @@ def resource_limits_summary(records: list[dict[str, Any]]) -> dict[str, Any]:
             "total_tokens": prompt_tokens + completion_tokens,
         },
     }
+
+
+def bypass_resource_limits(
+    documents: list[dict[str, Any]], limits: dict[str, Any]
+) -> list[dict[str, Any]]:
+    output = []
+    for index, document in enumerate(documents, start=1):
+        routing = dict(document.get("pipeline_routing") or {})
+        routing.update(
+            {"stage_04": "skipped", "continue": True, "stopped_at": None, "stop_reason": None}
+        )
+        output.append(
+            {
+                **document,
+                "resource_limits": {
+                    "status": "skipped",
+                    "decision": "skipped",
+                    "passed": True,
+                    "skipped": True,
+                    "configured_limits": limits,
+                    "resource_records": [],
+                    "aggregate_resources": [],
+                    "platform_mentions": [],
+                    "physical_simulation_durations": [],
+                    "unresolved_mentions": [],
+                    "exceeded_resources": [],
+                    "recalled_context_count": 0,
+                    "model_audit": None,
+                },
+                "pipeline_routing": routing,
+            }
+        )
+        log_progress(
+            "stage_04_resource_limits",
+            index,
+            len(documents),
+            document.get("title") or document["paper_id"],
+            status="skipped",
+        )
+    return output
 
 
 def _recall_contexts(tei_path: str | Path) -> list[dict[str, Any]]:

@@ -9,9 +9,9 @@ from src.agents import run_agent
 from src.agents.workspace import create_agent_run
 from src.core.io import stable_id, write_json, write_jsonl
 from src.core.logging import log_progress, value_counts
-from src.tasks.context import materialize_agent_context
-from src.tasks.schemas import BUILDER_SCHEMA
-from src.tasks.validation import validate_builder_candidate
+from src.stages.stage06_builder.context import materialize_agent_context
+from src.stages.stage06_builder.validation import validate_builder_candidate
+from src.stages.task_schemas import BUILDER_SCHEMA
 
 
 def run_builder_stage(

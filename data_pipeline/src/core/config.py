@@ -20,12 +20,37 @@ def normalize_config(raw: dict[str, Any], base: Path) -> dict[str, Any]:
     resource_limits = raw.get("resource_limits") or {}
     mineru = raw.get("mineru") or {}
     toolbox = raw.get("toolbox") or {}
+    stage04 = raw.get("stage04") or {}
     stage05 = raw.get("stage05") or {}
+    model_cache = _resolve(
+        base, raw.get("model_cache_directory", "../.model_cache/data_pipeline")
+    )
+    model_cache_config = model_cache / "config"
+    runtime_grobid_config = model_cache / "grobid-home" / "config" / "grobid.yaml"
     java_home = softcite.get("java_home") or grobid.get("java_home")
-    mineru_environment = {"MINERU_MODEL_SOURCE": "local"}
+    mineru_environment = {
+        "MINERU_MODEL_SOURCE": "local",
+        "MINERU_TOOLS_CONFIG_JSON": str(model_cache / "mineru" / "mineru.json"),
+    }
     mineru_environment.update(
         {str(key): str(value) for key, value in (mineru.get("environment") or {}).items()}
     )
+    normalized_mineru = {
+        "execute": bool(mineru.get("enabled", True)),
+        "command": mineru.get("command", "mineru"),
+        "method": "auto",
+        "backend": mineru.get("backend", "pipeline"),
+        "timeout_seconds": int(mineru.get("timeout_seconds", 3600)),
+        "working_directory": str(
+            _resolve(base, mineru["working_directory"])
+            if mineru.get("working_directory")
+            else model_cache
+        ),
+        "environment": mineru_environment,
+        "extra_args": ["--formula", "true", "--table", "true"],
+        "reuse_existing": bool(mineru.get("reuse_existing", True)),
+        "min_markdown_chars": int(mineru.get("min_markdown_chars", 100)),
+    }
     return {
         "source": {
             "mode": "corpus",
@@ -45,7 +70,15 @@ def normalize_config(raw: dict[str, Any], base: Path) -> dict[str, Any]:
             "working_directory": str(
                 _resolve(base, grobid.get("working_directory", "third_party/grobid"))
             ),
-            "start_command": grobid.get("start_command", ["./gradlew", "--no-daemon", "run"]),
+            "start_command": grobid.get(
+                "start_command",
+                [
+                    "./gradlew",
+                    "--no-daemon",
+                    "run",
+                    f"--args=server {runtime_grobid_config}",
+                ],
+            ),
             "java_home": grobid.get("java_home"),
             "auto_start": bool(grobid.get("auto_start", True)),
             "startup_timeout_seconds": int(grobid.get("startup_timeout_seconds", 300)),
@@ -55,13 +88,33 @@ def normalize_config(raw: dict[str, Any], base: Path) -> dict[str, Any]:
             "consolidate_citations": int(grobid.get("consolidate_citations", 0)),
             "max_chars": int(grobid.get("max_chars", 2_000_000)),
             "reuse_existing": bool(grobid.get("reuse_existing", True)),
+            "fallback": {
+                "enabled": bool((grobid.get("fallback") or {}).get("enabled", True)),
+                "output_dir": str(
+                    run_dir / "outputs" / "stage_02_grobid_extract" / "fallback"
+                ),
+                "pdftotext_enabled": bool(
+                    (grobid.get("fallback") or {}).get("pdftotext_enabled", True)
+                ),
+                "pdftotext_timeout_seconds": int(
+                    (grobid.get("fallback") or {}).get("pdftotext_timeout_seconds", 300)
+                ),
+            },
         },
         "software_coverage": {
             "base_url": softcite.get("base_url", "http://127.0.0.1:8060"),
             "working_directory": str(
                 _resolve(base, softcite.get("working_directory", "third_party/software-mentions"))
             ),
-            "start_command": softcite.get("start_command", ["./gradlew", "--no-daemon", "run"]),
+            "start_command": softcite.get(
+                "start_command",
+                [
+                    "./gradlew",
+                    "--no-daemon",
+                    "run",
+                    f"--args=server {model_cache_config / 'software-mentions.yml'}",
+                ],
+            ),
             "java_home": java_home,
             "auto_start": bool(softcite.get("auto_start", True)),
             "startup_timeout_seconds": int(softcite.get("startup_timeout_seconds", 900)),
@@ -74,7 +127,11 @@ def normalize_config(raw: dict[str, Any], base: Path) -> dict[str, Any]:
                 "CONDA_PREFIX": softcite.get("conda_prefix", "/usr/local"),
                 "PYTHONPATH": os.pathsep.join(
                     [
-                        str(_resolve(base, "third_party/delft")),
+                        str(
+                            _resolve(
+                                base, softcite.get("delft_directory", "third_party/delft")
+                            )
+                        ),
                         str(sysconfig.get_paths()["purelib"]),
                     ]
                 ),
@@ -89,9 +146,22 @@ def normalize_config(raw: dict[str, Any], base: Path) -> dict[str, Any]:
                     for key, value in (softcite.get("environment") or {}).items()
                 },
             },
-            "aliases_file": str(_resolve(base, "assets/software_aliases.json")),
-            "role_rules_file": str(_resolve(base, "assets/software_role_rules.json")),
-            "capability_map_file": str(_resolve(base, "assets/software_capability_map.json")),
+            "aliases_file": str(
+                _resolve(base, softcite.get("aliases_file", "assets/software_aliases.json"))
+            ),
+            "role_rules_file": str(
+                _resolve(
+                    base, softcite.get("role_rules_file", "assets/software_role_rules.json")
+                )
+            ),
+            "capability_map_file": str(
+                _resolve(
+                    base,
+                    softcite.get(
+                        "capability_map_file", "assets/software_capability_map.json"
+                    ),
+                )
+            ),
         },
         "resource_interpretation": {
             "enabled": bool(resource_interpretation.get("enabled", True)),
@@ -112,12 +182,21 @@ def normalize_config(raw: dict[str, Any], base: Path) -> dict[str, Any]:
             "memory_gb": float(resource_limits.get("memory_gb", 1000)),
             "runtime_hours": float(resource_limits.get("runtime_hours", 12)),
         },
+        "stage04": {"enabled": bool(stage04.get("enabled", True))},
         "grobid_quantities": {
             "base_url": quantities.get("base_url", "http://127.0.0.1:8062"),
             "working_directory": str(
                 _resolve(base, quantities.get("working_directory", "third_party/grobid-quantities"))
             ),
-            "start_command": quantities.get("start_command", ["./gradlew", "--no-daemon", "run"]),
+            "start_command": quantities.get(
+                "start_command",
+                [
+                    "./gradlew",
+                    "--no-daemon",
+                    "run",
+                    f"--args=server {model_cache_config / 'grobid-quantities.yml'}",
+                ],
+            ),
             "java_home": quantities.get("java_home") or grobid.get("java_home"),
             "auto_start": bool(quantities.get("auto_start", True)),
             "startup_timeout_seconds": int(quantities.get("startup_timeout_seconds", 600)),
@@ -130,17 +209,7 @@ def normalize_config(raw: dict[str, Any], base: Path) -> dict[str, Any]:
                 str(key): str(value) for key, value in (quantities.get("environment") or {}).items()
             },
         },
-        "mineru": {
-            "execute": bool(mineru.get("enabled", True)),
-            "command": mineru.get("command", "mineru"),
-            "method": "auto",
-            "backend": mineru.get("backend", "pipeline"),
-            "timeout_seconds": int(mineru.get("timeout_seconds", 3600)),
-            "environment": mineru_environment,
-            "extra_args": ["--formula", "true", "--table", "true"],
-            "reuse_existing": bool(mineru.get("reuse_existing", True)),
-            "min_markdown_chars": int(mineru.get("min_markdown_chars", 100)),
-        },
+        "mineru": normalized_mineru,
         "toolbox": {
             "profile": str(_resolve(base, toolbox.get("file", "assets/toolbox.json"))),
             "enabled_software": toolbox.get("enabled_software", ["*"]),
@@ -149,6 +218,8 @@ def normalize_config(raw: dict[str, Any], base: Path) -> dict[str, Any]:
             "preserve_priority_matches": True,
         },
         "stage05": {
+            "enabled": bool(stage05.get("enabled", True)),
+            "download_scope": _download_scope(stage05.get("download_scope", "all")),
             "enable_network": bool(stage05.get("enable_network", True)),
             "max_rounds": int(stage05.get("max_rounds", 3)),
             "max_archive_depth": int(stage05.get("max_archive_depth", 3)),
@@ -165,10 +236,31 @@ def normalize_config(raw: dict[str, Any], base: Path) -> dict[str, Any]:
             "max_text_chars": int(stage05.get("max_text_chars", 2_000_000)),
             "max_targets_per_clue": int(stage05.get("max_targets_per_clue", 200)),
             "network_workers": int(stage05.get("network_workers", 4)),
+            "default_per_host_workers": int(stage05.get("default_per_host_workers", 2)),
+            "per_host_workers": {
+                str(host).casefold(): int(limit)
+                for host, limit in (
+                    stage05.get("per_host_workers")
+                    or {
+                        "api.crossref.org": 1,
+                        "api.datacite.org": 2,
+                        "api.openalex.org": 2,
+                        "api.github.com": 2,
+                        "api.osf.io": 1,
+                        "zenodo.org": 2,
+                    }
+                ).items()
+            },
+            "request_retries": int(stage05.get("request_retries", 3)),
+            "retry_backoff_seconds": float(stage05.get("retry_backoff_seconds", 1.0)),
+            "retry_max_seconds": float(stage05.get("retry_max_seconds", 60.0)),
             "metadata_timeout_seconds": int(stage05.get("metadata_timeout_seconds", 30)),
             "download_timeout_seconds": int(stage05.get("download_timeout_seconds", 120)),
             "include_local_siblings": bool(stage05.get("include_local_siblings", True)),
             "query_metadata": bool(stage05.get("query_metadata", True)),
+            "discover_publisher_supplements": bool(
+                stage05.get("discover_publisher_supplements", True)
+            ),
             "paper_limit": stage05.get("paper_limit"),
         },
         "stage06": _agent_stage(raw.get("stage06") or {}, "BUILDER_AGENT"),
@@ -206,6 +298,13 @@ def _agent_stage(stage: dict[str, Any], prefix: str) -> dict[str, Any]:
             },
         },
     }
+
+
+def _download_scope(value: Any) -> str:
+    scope = str(value).casefold()
+    if scope not in {"all", "supplementary_only"}:
+        raise ValueError("stage05.download_scope must be 'all' or 'supplementary_only'")
+    return scope
 
 
 def _resolve(base: Path, value: str | Path) -> Path:

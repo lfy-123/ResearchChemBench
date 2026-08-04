@@ -6,8 +6,8 @@ from typing import Any
 
 from src.core.io import read_json, write_json
 from src.core.logging import log_progress
-from src.ingestion.softcite import SoftciteClient
-from src.ingestion.tei import read_tei_paragraphs, sentence_windows
+from src.integrations.softcite import SoftciteClient
+from src.integrations.tei import read_tei_paragraphs, sentence_windows
 
 
 def assess_software_coverage(

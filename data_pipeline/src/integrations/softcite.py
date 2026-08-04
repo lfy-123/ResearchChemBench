@@ -11,7 +11,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from src.ingestion.managed_service import ManagedServiceError, managed_service
+from src.integrations.managed_service import ManagedServiceError, managed_service
 
 
 class SoftciteError(RuntimeError):

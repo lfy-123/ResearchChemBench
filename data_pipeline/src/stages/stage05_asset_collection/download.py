@@ -12,6 +12,7 @@ from urllib.parse import unquote, urljoin, urlsplit, urlunsplit
 import httpx
 
 from src.core.io import sha256_file, stable_id
+from src.integrations.http import request_with_retry
 
 
 class DownloadError(RuntimeError):
@@ -99,6 +100,7 @@ def download_url(
     timeout_seconds: float = 60,
     max_bytes: int = 10 * 1024**3,
     headers: dict[str, str] | None = None,
+    request_policy: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     current = url
     history: list[str] = []
@@ -110,7 +112,13 @@ def download_url(
         response: httpx.Response | None = None
         for _ in range(6):
             validate_public_url(current)
-            response = client.send(client.build_request("GET", current), stream=True)
+            response = request_with_retry(
+                client,
+                "GET",
+                current,
+                policy=request_policy,
+                stream=True,
+            )
             history.append(redact_url(current))
             if response.status_code in {301, 302, 303, 307, 308}:
                 location = response.headers.get("location")

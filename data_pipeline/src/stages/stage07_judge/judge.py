@@ -8,9 +8,9 @@ from src.agents import run_agent
 from src.agents.workspace import create_agent_run
 from src.core.io import write_json, write_jsonl
 from src.core.logging import log_progress, value_counts
-from src.tasks.context import materialize_agent_context
-from src.tasks.probe import public_input_probe
-from src.tasks.schemas import JUDGE_SCHEMA
+from src.stages.stage06_builder.context import materialize_agent_context
+from src.stages.stage07_judge.probe import public_input_probe
+from src.stages.task_schemas import JUDGE_SCHEMA
 
 
 def run_judge_stage(

@@ -10,20 +10,36 @@ from unittest.mock import patch
 
 from src.agents.runner import run_agent
 from src.agents.workspace import create_agent_run, isolated_environment
-from src.assets.archive import ArchiveError, safe_extract
-from src.assets.clues import extract_clues, normalize_url, seed_document_clues
-from src.assets.download import DownloadError, register_local_file, validate_public_url
-from src.assets.parsers import parse_asset
-from src.assets.stage import (
+from src.core.config import normalize_config
+from src.core.io import read_jsonl
+from src.orchestration.pipeline import run_late_stages_records
+from src.stages.stage04_resource_limits.resource_limits import bypass_resource_limits
+from src.stages.stage05_asset_collection.archive import ArchiveError, safe_extract
+from src.stages.stage05_asset_collection.clues import (
+    extract_clues,
+    normalize_url,
+    seed_document_clues,
+)
+from src.stages.stage05_asset_collection.discovery import (
+    _publisher_attachment_clues,
+    metadata_clues,
+)
+from src.stages.stage05_asset_collection.download import (
+    DownloadError,
+    register_local_file,
+    validate_public_url,
+)
+from src.stages.stage05_asset_collection.parsers import parse_asset
+from src.stages.stage05_asset_collection.stage import (
     _acquire_clue,
     _filter_discovered_clues,
+    _is_supplementary_clue,
     _prioritize_archive_children,
     run_asset_collection,
 )
-from src.core.config import normalize_config
-from src.tasks.context import _asset_logical_path
-from src.tasks.probe import public_input_probe
-from src.tasks.validation import validate_builder_candidate
+from src.stages.stage06_builder.context import _asset_logical_path
+from src.stages.stage06_builder.validation import validate_builder_candidate
+from src.stages.stage07_judge.probe import public_input_probe
 
 
 class LateStageTests(unittest.TestCase):
@@ -38,9 +54,18 @@ class LateStageTests(unittest.TestCase):
             }
             config = normalize_config(compact, root)
         self.assertEqual(config["stage05"]["max_rounds"], 3)
+        self.assertTrue(config["stage04"]["enabled"])
+        self.assertTrue(config["stage05"]["enabled"])
+        self.assertEqual(config["stage05"]["download_scope"], "all")
         self.assertEqual(config["stage06"]["agent"]["cli"], "claude")
         self.assertEqual(config["stage07"]["agent"]["cli"], "codex")
         self.assertTrue(config["stage06"]["agent"]["isolate_workspace"])
+        model_cache = root.parent / ".model_cache" / "data_pipeline"
+        self.assertEqual(config["mineru"]["working_directory"], str(model_cache.resolve()))
+        self.assertEqual(
+            config["mineru"]["environment"]["MINERU_TOOLS_CONFIG_JSON"],
+            str((model_cache / "mineru" / "mineru.json").resolve()),
+        )
 
     def test_agent_cli_environment_override_also_updates_default_command(self) -> None:
         with (
@@ -57,6 +82,26 @@ class LateStageTests(unittest.TestCase):
 
         self.assertEqual(config["stage06"]["agent"]["cli"], "codex")
         self.assertEqual(config["stage06"]["agent"]["command"], "codex")
+
+    def test_invalid_stage05_download_scope_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            with self.assertRaisesRegex(ValueError, "download_scope"):
+                normalize_config(
+                    {"pdf_directory": "papers", "stage05": {"download_scope": "unknown"}},
+                    Path(directory),
+                )
+
+    def test_stage04_skip_preserves_downstream_contract(self) -> None:
+        rows = bypass_resource_limits(
+            [{"paper_id": "paper", "pipeline_routing": {"stage_03": "direct_covered"}}],
+            {"cpu_cores": 500},
+        )
+        result = rows[0]["resource_limits"]
+        self.assertTrue(result["passed"])
+        self.assertTrue(result["skipped"])
+        self.assertEqual(result["decision"], "skipped")
+        self.assertEqual(result["resource_records"], [])
+        self.assertTrue(rows[0]["pipeline_routing"]["continue"])
 
     def test_clues_keep_repository_and_availability_links(self) -> None:
         text = (
@@ -151,6 +196,179 @@ class LateStageTests(unittest.TestCase):
             self.assertIn("grobid_fallback", {item.get("parser") for item in result["assets"]})
             self.assertIn("archive", {item.get("parser") for item in result["assets"]})
 
+    def test_stage05_supplementary_scope_excludes_other_local_assets(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            paper_dir = root / "study" / "paper"
+            paper_dir.mkdir(parents=True)
+            pdf = paper_dir / "paper.pdf"
+            pdf.write_bytes(b"not a real pdf")
+            text = root / "paper.txt"
+            text.write_text("Calculations used ORCA.", encoding="utf-8")
+            with zipfile.ZipFile(root / "study" / "supporting_information.zip", "w") as handle:
+                handle.writestr("SI_input.xyz", "1\nH\nH 0 0 0\n")
+            with zipfile.ZipFile(root / "study" / "source_data.zip", "w") as handle:
+                handle.writestr("results.csv", "x,y\n1,2\n")
+            result = run_asset_collection(
+                [
+                    {
+                        "paper_id": "paper",
+                        "document_id": "paper",
+                        "source_path": str(pdf),
+                        "text_path": str(text),
+                        "title": "Test",
+                        "doi": None,
+                        "duplicate_of": None,
+                        "resource_limits": {"passed": True},
+                    }
+                ],
+                root / "stage05",
+                {
+                    "download_scope": "supplementary_only",
+                    "max_rounds": 0,
+                    "enable_network": False,
+                    "include_local_siblings": True,
+                    "query_metadata": False,
+                },
+                {"execute": False},
+            )
+            names = {item.get("file_name") for item in result["assets"]}
+            self.assertIn("paper.pdf", names)
+            self.assertIn("supporting_information.zip", names)
+            self.assertNotIn("source_data.zip", names)
+            self.assertNotIn("results.csv", names)
+            self.assertEqual(result["summary"]["download_scope"], "supplementary_only")
+
+    def test_publisher_page_only_recalls_explicit_supplements(self) -> None:
+        clues = _publisher_attachment_clues(
+            """
+            <a href="/article.pdf">Download article</a>
+            <a href="https://cdn.example.org/si.pdf">Supplementary Information</a>
+            <a href="https://github.com/example/code">Code repository</a>
+            """,
+            base_url="https://publisher.example.org/article",
+            paper_id="paper",
+        )
+        self.assertEqual(
+            [item["canonical_value"] for item in clues],
+            ["https://cdn.example.org/si.pdf"],
+        )
+        self.assertEqual(clues[0]["relation_type"], "publisher_attachment")
+
+    def test_supplementary_scope_rejects_article_url_near_si_text(self) -> None:
+        self.assertFalse(
+            _is_supplementary_clue(
+                {
+                    "kind": "url",
+                    "canonical_value": "https://doi.org/10.1234/example",
+                    "evidence": "Supplementary information is available with this article.",
+                }
+            )
+        )
+
+    def test_stage05_ignores_self_doi_recalled_from_parsed_text(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            pdf = root / "paper.pdf"
+            pdf.write_bytes(b"not a real pdf")
+            text = root / "paper.txt"
+            text.write_text(
+                "Supplementary information is available at https://doi.org/10.1234/example.",
+                encoding="utf-8",
+            )
+            result = run_asset_collection(
+                [
+                    {
+                        "paper_id": "paper",
+                        "document_id": "paper",
+                        "source_path": str(pdf),
+                        "text_path": str(text),
+                        "title": "Test",
+                        "doi": "10.1234/example",
+                        "duplicate_of": None,
+                        "resource_limits": {"passed": True},
+                    }
+                ],
+                root / "stage05",
+                {
+                    "download_scope": "supplementary_only",
+                    "max_rounds": 0,
+                    "enable_network": False,
+                    "include_local_siblings": False,
+                    "query_metadata": False,
+                },
+                {"execute": False},
+            )
+
+            self.assertEqual([item["kind"] for item in result["clues"]], ["paper_doi"])
+
+    def test_supplementary_metadata_scope_skips_broad_discovery_apis(self) -> None:
+        calls: list[str] = []
+
+        class Response:
+            def raise_for_status(self) -> None:
+                return None
+
+            def json(self) -> dict[str, object]:
+                return {}
+
+        def request(_client: object, _method: str, url: str, **_kwargs: object) -> Response:
+            calls.append(url)
+            return Response()
+
+        with patch(
+            "src.stages.stage05_asset_collection.discovery.request_with_retry",
+            side_effect=request,
+        ):
+            metadata_clues(
+                {"paper_id": "paper", "doi": "10.1234/example"},
+                download_scope="supplementary_only",
+            )
+
+        self.assertEqual(len(calls), 2)
+        self.assertTrue(any("crossref" in value for value in calls))
+        self.assertTrue(any("datacite" in value for value in calls))
+        self.assertFalse(any("openalex" in value for value in calls))
+
+    def test_stage05_skip_produces_builder_compatible_asset_result(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            pdf = root / "paper.pdf"
+            pdf.write_bytes(b"not a real pdf")
+            text = root / "paper.txt"
+            text.write_text("Calculations used Gaussian.", encoding="utf-8")
+            records = [
+                {
+                    "paper_id": "paper",
+                    "document_id": "paper",
+                    "source_path": str(pdf),
+                    "text_path": str(text),
+                    "title": "Test",
+                    "duplicate_of": None,
+                    "resource_limits": {"passed": True},
+                }
+            ]
+            config = {
+                "stop_after": "asset_collection",
+                "stage05": {"enabled": False, "download_scope": "all"},
+                "mineru": {"execute": True},
+            }
+            with patch("src.orchestration.pipeline._load_toolbox", return_value={}):
+                summary = run_late_stages_records(
+                    records,
+                    config=config,
+                    base=root,
+                    workspace=root / "outputs",
+                    run_metadata={"source_mode": "test"},
+                )
+            assets = read_jsonl(root / "outputs/stage_05_asset_collection/asset_manifest.jsonl")
+            self.assertTrue(summary["stage_05"]["skipped"])
+            self.assertEqual(summary["stage_05"]["skip_adapter"], "primary_pdf_with_stage02_text")
+            self.assertEqual(summary["stage_05"]["clues"], 0)
+            self.assertEqual(len(assets), 1)
+            self.assertEqual(assets[0]["role"], "main_paper")
+            self.assertEqual(assets[0]["parser"], "grobid_fallback")
+
     def test_html_parser_only_recalls_asset_links(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -191,9 +409,9 @@ class LateStageTests(unittest.TestCase):
         asset = {"asset_id": "asset1", "paper_id": "paper"}
         with (
             tempfile.TemporaryDirectory() as directory,
-            patch("src.assets.stage.resolve_clue_targets", return_value=(targets, [])),
+            patch("src.stages.stage05_asset_collection.stage.resolve_clue_targets", return_value=(targets, [])),
             patch(
-                "src.assets.stage.download_url",
+                "src.stages.stage05_asset_collection.stage.download_url",
                 side_effect=[DownloadError("too large"), asset],
             ),
         ):
@@ -405,7 +623,7 @@ class LateStageTests(unittest.TestCase):
         with self.assertRaises(DownloadError):
             validate_public_url("http://127.0.0.1/file")
 
-    @patch("src.assets.download.socket.getaddrinfo")
+    @patch("src.stages.stage05_asset_collection.download.socket.getaddrinfo")
     def test_https_github_hosts_work_with_proxy_dns(self, getaddrinfo) -> None:
         getaddrinfo.return_value = [(2, 1, 6, "", ("100.64.0.2", 443))]
 

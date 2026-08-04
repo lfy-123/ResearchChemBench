@@ -8,11 +8,11 @@ from typing import Any
 from src.core.config import normalize_config
 from src.core.io import read_json, read_jsonl, write_json, write_jsonl
 from src.core.logging import configure_pipeline_logging, pipeline_logger
-from src.curation.toolbox import load_toolbox_profile
-from src.ingestion.grobid_quantities import grobid_quantities_service
-from src.ingestion.softcite import softcite_service
-from src.screening.resource_limits import assess_resource_limits, resource_limits_summary
-from src.screening.software_coverage import assess_software_coverage, software_coverage_summary
+from src.stages.stage03_software_coverage.toolbox import load_toolbox_profile
+from src.integrations.grobid_quantities import grobid_quantities_service
+from src.integrations.softcite import softcite_service
+from src.stages.stage04_resource_limits.resource_limits import assess_resource_limits, resource_limits_summary
+from src.stages.stage03_software_coverage.software_coverage import assess_software_coverage, software_coverage_summary
 
 
 def main() -> int:

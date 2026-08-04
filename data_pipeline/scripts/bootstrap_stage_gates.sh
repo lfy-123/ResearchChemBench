@@ -6,7 +6,9 @@ THIRD_PARTY="$ROOT/third_party"
 SOFTCITE="$THIRD_PARTY/software-mentions"
 QUANTITIES="$THIRD_PARTY/grobid-quantities"
 DELFT="$THIRD_PARTY/delft"
-GROBID_HOME="$THIRD_PARTY/grobid-home"
+SOURCE_GROBID_HOME="$THIRD_PARTY/grobid-home"
+MODEL_CACHE_ROOT="${MODEL_CACHE_ROOT:-$ROOT/../.model_cache/data_pipeline}"
+GROBID_HOME="$MODEL_CACHE_ROOT/grobid-home"
 PYTHON="$(command -v "${PIPELINE_PYTHON:-python}")"
 SOFTCITE_COMMIT="c7c83852a3cad8f2d9d07ce3de6fbe852e23c19a"
 QUANTITIES_COMMIT="d0d55592f4d0ddbe6a549e06613349adaa2d1cd7"
@@ -60,7 +62,7 @@ clone_at_commit https://github.com/kermitt2/delft.git "$DELFT" "$DELFT_COMMIT"
 apply_patch_once "$SOFTCITE" "$ROOT/scripts/patches/software-mentions-c7c83852.patch"
 apply_patch_once "$QUANTITIES" "$ROOT/scripts/patches/grobid-quantities-d0d5559.patch"
 
-ln -sfn grobid/grobid-home "$GROBID_HOME"
+ln -sfn grobid/grobid-home "$SOURCE_GROBID_HOME"
 
 PIP_EXTRA_INDEX_URL= PIP_CONFIG_FILE=/dev/null \
   "$PYTHON" -m pip install --break-system-packages \
@@ -77,8 +79,7 @@ PIP_EXTRA_INDEX_URL= PIP_CONFIG_FILE=/dev/null \
   truecase blingfire2 "jep==4.3.1"
 "$PYTHON" -m pip install --no-deps -e "$DELFT"
 
-(cd "$SOFTCITE" && ./gradlew copyModels)
-(cd "$QUANTITIES" && ./gradlew copyModels)
+"$PYTHON" "$ROOT/scripts/prepare_model_cache.py" --cache "$MODEL_CACHE_ROOT"
 
 "$PYTHON" - "$GROBID_HOME/models" <<'PY'
 import sys
@@ -145,6 +146,7 @@ ln -sfn "$jep_library" "$GROBID_HOME/lib/lin-64/jep/libjep.so"
 
 (cd "$SOFTCITE" && ./gradlew classes)
 (cd "$QUANTITIES" && ./gradlew classes)
+"$PYTHON" "$ROOT/scripts/prepare_model_cache.py"
 
 echo "Stage 03-04 services are ready."
 echo "Softcite: $SOFTCITE_COMMIT"

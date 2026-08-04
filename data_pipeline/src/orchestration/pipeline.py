@@ -3,18 +3,26 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
-from src.assets import run_asset_collection
 from src.core.config import normalize_config
 from src.core.io import read_json, read_jsonl, write_json, write_jsonl
 from src.core.logging import configure_pipeline_logging, pipeline_logger
-from src.curation.toolbox import load_toolbox_profile
-from src.ingestion.corpus import inventory_corpus
-from src.ingestion.grobid import extract_documents_with_grobid, grobid_service
-from src.ingestion.grobid_quantities import grobid_quantities_service
-from src.ingestion.softcite import softcite_service
-from src.screening.resource_limits import assess_resource_limits, resource_limits_summary
-from src.screening.software_coverage import assess_software_coverage, software_coverage_summary
-from src.tasks import run_builder_stage, run_judge_stage
+from src.integrations.grobid_quantities import grobid_quantities_service
+from src.integrations.softcite import softcite_service
+from src.stages.stage01_inventory import inventory_corpus
+from src.stages.stage02_parsing import extract_documents_with_grobid, grobid_service
+from src.stages.stage03_software_coverage import (
+    assess_software_coverage,
+    software_coverage_summary,
+)
+from src.stages.stage03_software_coverage.toolbox import load_toolbox_profile
+from src.stages.stage04_resource_limits import (
+    assess_resource_limits,
+    bypass_resource_limits,
+    resource_limits_summary,
+)
+from src.stages.stage05_asset_collection import run_asset_collection
+from src.stages.stage06_builder import run_builder_stage
+from src.stages.stage07_judge import run_judge_stage
 
 
 def run_pipeline(config_path: str | Path) -> dict[str, Any]:
@@ -80,16 +88,20 @@ def run_corpus_pipeline(config_path: Path, config: dict[str, Any], base: Path) -
 
     grobid_config = config.get("grobid_extract", {})
     stage = _stage_dir(workspace, "stage_02_grobid_extract")
+    extraction_kwargs = {
+        "tei_dir": _resolve(base, grobid_config.get("tei_dir", str(stage / "tei"))),
+        "text_dir": _resolve(base, grobid_config.get("text_dir", str(stage / "text"))),
+        "max_chars": grobid_config.get("max_chars", 2_000_000),
+        "reuse_existing": grobid_config.get("reuse_existing", True),
+        "exclude_supplementary": exclude_supplementary,
+        "fallback_config": grobid_config.get("fallback", {}),
+    }
     with grobid_service(grobid_config) as client:
         extracted_records = extract_documents_with_grobid(
-            canonical_inventory,
-            client,
-            _resolve(base, grobid_config.get("tei_dir", str(stage / "tei"))),
-            _resolve(base, grobid_config.get("text_dir", str(stage / "text"))),
-            max_chars=grobid_config.get("max_chars", 2_000_000),
-            reuse_existing=grobid_config.get("reuse_existing", True),
-            exclude_supplementary=exclude_supplementary,
+            canonical_inventory, client, **extraction_kwargs
         )
+    request_attempts = sum(bool(item.get("grobid_request_attempted")) for item in extracted_records)
+    request_failures = sum(bool(item.get("grobid_request_failed")) for item in extracted_records)
     write_jsonl(stage / "documents.jsonl", extracted_records)
     _write_stage_summary(
         stage,
@@ -98,6 +110,11 @@ def run_corpus_pipeline(config_path: Path, config: dict[str, Any], base: Path) -
             "input_pdf_files": len(inventory),
             "duplicates_excluded": len(duplicate_inventory),
             "supplementary_excluded": len(supplementary_inventory) if exclude_supplementary else 0,
+            "grobid_request_attempts": request_attempts,
+            "grobid_request_failures": request_failures,
+            "grobid_request_failure_ratio": (
+                round(request_failures / request_attempts, 6) if request_attempts else 0.0
+            ),
         },
     )
     if config.get("stop_after") == "grobid_extract":
@@ -157,14 +174,17 @@ def run_corpus_pipeline(config_path: Path, config: dict[str, Any], base: Path) -
         for item in software_records
         if (item.get("software_coverage") or {}).get("decision") == "direct_covered"
     ]
-    with grobid_quantities_service(config.get("grobid_quantities", {})) as client:
-        classified = assess_resource_limits(
-            resource_inputs,
-            client,
-            config.get("resource_limits", {}),
-            config.get("resource_interpretation", {}),
-            output_dir=stage,
-        )
+    if config.get("stage04", {}).get("enabled", True):
+        with grobid_quantities_service(config.get("grobid_quantities", {})) as client:
+            classified = assess_resource_limits(
+                resource_inputs,
+                client,
+                config.get("resource_limits", {}),
+                config.get("resource_interpretation", {}),
+                output_dir=stage,
+            )
+    else:
+        classified = bypass_resource_limits(resource_inputs, config.get("resource_limits", {}))
     write_jsonl(stage / "resource_screened_documents.jsonl", classified)
     write_jsonl(
         stage / "selected_pdf_paths.jsonl",
@@ -173,6 +193,7 @@ def run_corpus_pipeline(config_path: Path, config: dict[str, Any], base: Path) -
         ),
     )
     resource_summary = resource_limits_summary(classified)
+    resource_summary["skipped"] = not config.get("stage04", {}).get("enabled", True)
     _write_stage_summary(stage, resource_summary)
     if config.get("stop_after") == "resource_limits":
         return _summary(
@@ -242,9 +263,28 @@ def run_late_stages_records(
 ) -> dict[str, Any]:
     toolbox = _load_toolbox(config, base)
     stage05 = _stage_dir(workspace, "stage_05_asset_collection")
-    asset_result = run_asset_collection(
-        records, stage05, config.get("stage05", {}), config.get("mineru", {})
-    )
+    stage05_config = config.get("stage05", {})
+    if stage05_config.get("enabled", True):
+        asset_result = run_asset_collection(
+            records, stage05, stage05_config, config.get("mineru", {})
+        )
+    else:
+        asset_result = run_asset_collection(
+            records,
+            stage05,
+            {
+                **stage05_config,
+                "enable_network": False,
+                "max_rounds": 0,
+                "max_clues_per_paper": 0,
+                "include_local_siblings": False,
+                "query_metadata": False,
+            },
+            {**config.get("mineru", {}), "execute": False},
+        )
+        asset_result["summary"].update(
+            {"skipped": True, "skip_adapter": "primary_pdf_with_stage02_text"}
+        )
     _write_stage_summary(stage05, asset_result["summary"])
     if config.get("stop_after") == "asset_collection":
         return {

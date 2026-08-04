@@ -4,12 +4,20 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from typing import Any
 
-from src.assets.clues import deduplicate_clues, normalize_doi, seed_document_clues
-from src.assets.discovery import metadata_clues, resolve_clue_targets
-from src.assets.download import download_url, register_local_file
-from src.assets.parsers import parse_asset
 from src.core.io import write_json, write_jsonl
 from src.core.logging import log_progress, pipeline_logger, value_counts
+from src.stages.stage05_asset_collection.clues import (
+    deduplicate_clues,
+    normalize_doi,
+    seed_document_clues,
+)
+from src.stages.stage05_asset_collection.discovery import (
+    metadata_clues,
+    publisher_supplement_clues,
+    resolve_clue_targets,
+)
+from src.stages.stage05_asset_collection.download import download_url, register_local_file
+from src.stages.stage05_asset_collection.parsers import parse_asset
 
 
 def run_asset_collection(
@@ -69,6 +77,7 @@ def run_asset_collection(
     )
     write_jsonl(root / "paper_asset_index.jsonl", paper_indexes)
     summary = {
+        "download_scope": config.get("download_scope", "all"),
         "papers": len(paper_indexes),
         "paper_statuses": value_counts(item.get("status") for item in paper_indexes),
         "assets": len(all_assets),
@@ -98,6 +107,7 @@ def _collect_paper(
     max_assets = int(config.get("max_assets_per_paper", 500))
     max_clues = int(config.get("max_clues_per_paper", 500))
     max_archive_children = int(config.get("max_archive_children_per_archive", 300))
+    download_scope = str(config.get("download_scope", "all"))
     assets: list[dict[str, Any]] = []
     clues: list[dict[str, Any]] = []
     events: list[dict[str, Any]] = []
@@ -115,8 +125,14 @@ def _collect_paper(
     def add_clues(values: list[dict[str, Any]]) -> int:
         added = 0
         for clue in deduplicate_clues(values):
+            if download_scope == "supplementary_only" and not _is_supplementary_clue(clue):
+                event("CLUE_SKIPPED", clue_id=clue["clue_id"], reason="download_scope")
+                continue
             canonical = str(clue.get("canonical_value") or "")
             clue_doi = normalize_doi(canonical)
+            if clue_doi == paper_doi and clue.get("kind") != "paper_doi":
+                event("CLUE_SKIPPED", clue_id=clue["clue_id"], reason="self_doi")
+                continue
             key = (
                 ("related_doi", clue_doi)
                 if clue_doi and clue_doi != paper_doi
@@ -221,7 +237,11 @@ def _collect_paper(
         return added
 
     event("PAPER_START", title=document.get("title"))
-    local_paths = _local_assets(document, bool(config.get("include_local_siblings", True)))
+    local_paths = _local_assets(
+        document,
+        bool(config.get("include_local_siblings", True)),
+        download_scope=download_scope,
+    )
     for local_index, (path, role) in enumerate(local_paths):
         asset = register_local_file(
             path,
@@ -240,13 +260,25 @@ def _collect_paper(
         add_asset(asset, 0)
     drain_archive_queue()
     add_clues(seed_document_clues(document, max_clues=max_clues))
-    if config.get("query_metadata", True):
+    network_enabled = bool(config.get("enable_network", True))
+    if network_enabled and config.get("query_metadata", True):
         metadata_values, audits = metadata_clues(
-            document, timeout_seconds=float(config.get("metadata_timeout_seconds", 30))
+            document,
+            timeout_seconds=float(config.get("metadata_timeout_seconds", 30)),
+            request_policy=config,
+            download_scope=download_scope,
         )
         add_clues(metadata_values)
         for audit in audits:
             event("METADATA_QUERY", **audit)
+    if network_enabled and config.get("discover_publisher_supplements", True):
+        publisher_values, audit = publisher_supplement_clues(
+            document,
+            timeout_seconds=float(config.get("metadata_timeout_seconds", 30)),
+            request_policy=config,
+        )
+        add_clues(publisher_values)
+        event("METADATA_QUERY", **audit)
 
     for round_number in range(1, max_rounds + 1):
         if len(assets) >= max_assets:
@@ -379,11 +411,18 @@ def _acquire_clue(
     if clue.get("kind") == "paper_doi":
         return []
     targets, _ = resolve_clue_targets(
-        clue, timeout_seconds=float(config.get("metadata_timeout_seconds", 30))
+        clue,
+        timeout_seconds=float(config.get("metadata_timeout_seconds", 30)),
+        request_policy=config,
     )
+    supplementary_only = config.get("download_scope") == "supplementary_only"
+    if supplementary_only and not _is_supplementary_clue(clue):
+        return []
     output: list[dict[str, Any]] = []
     target_errors: list[dict[str, str]] = []
     for target in targets[: int(config.get("max_targets_per_clue", 200))]:
+        if supplementary_only:
+            target = {**target, "role": "supplement"}
         try:
             asset = download_url(
                 target["url"],
@@ -396,6 +435,7 @@ def _acquire_clue(
                 timeout_seconds=float(config.get("download_timeout_seconds", 120)),
                 max_bytes=int(config.get("max_single_file_bytes", 10 * 1024**3)),
                 headers=target.get("headers"),
+                request_policy=config,
             )
             for key in ("identifier", "version", "file_name"):
                 if target.get(key):
@@ -417,7 +457,9 @@ def _acquire_clue(
     return output
 
 
-def _local_assets(document: dict[str, Any], include_siblings: bool) -> list[tuple[Path, str]]:
+def _local_assets(
+    document: dict[str, Any], include_siblings: bool, *, download_scope: str = "all"
+) -> list[tuple[Path, str]]:
     source = Path(str(document["source_path"])).expanduser().resolve()
     output = [(source, "main_paper")]
     if not include_siblings:
@@ -449,16 +491,23 @@ def _local_assets(document: dict[str, Any], include_siblings: bool) -> list[tupl
     for item in sorted(study_root.rglob("*")):
         if item == source or not item.is_file() or item.suffix.casefold() not in allowed:
             continue
-        output.append((item, _local_role(item)))
+        role = _local_role(item)
+        if download_scope == "supplementary_only" and role != "supplement":
+            continue
+        output.append((item, role))
         if len(output) >= 100:
             break
     return output
 
 
 def _local_role(path: Path) -> str:
-    text = str(path).casefold()
+    text = path.name.casefold()
+    if path.stem.casefold() in {"si", "esi"} or any(
+        term in text for term in ("supp", "supporting", "si_", "si-")
+    ):
+        return "supplement"
     if path.suffix.casefold() == ".pdf":
-        return "supplement" if "supp" in text or "si_" in text else "other"
+        return "other"
     if any(term in text for term in ("code", "script", "github")):
         return "code"
     if any(term in text for term in ("input", "structure", "cif", "xyz", "pdb")):
@@ -467,7 +516,52 @@ def _local_role(path: Path) -> str:
 
 
 def _archive_child_role(path: Path, parent_role: str) -> str:
-    return "code" if parent_role == "code" else _local_role(path)
+    return parent_role if parent_role in {"code", "supplement"} else _local_role(path)
+
+
+def _is_supplementary_clue(clue: dict[str, Any]) -> bool:
+    if clue.get("kind") == "paper_doi":
+        return True
+    if str(clue.get("relation_type") or "").casefold() in {
+        "publisher_attachment",
+        "is-supplemented-by",
+        "issupplementedby",
+        "is-supplement-to",
+        "issupplementto",
+    }:
+        return True
+    evidence = str(clue.get("evidence") or "").casefold()
+    evidence_matches = any(
+        term in evidence
+        for term in (
+            "supplementary",
+            "supplemental",
+            "supporting information",
+            "supporting material",
+            "is-supplemented-by",
+            "issupplementedby",
+            "issupplementto",
+            "is supplement to",
+        )
+    )
+    if not evidence_matches:
+        return False
+    if clue.get("kind") in {"url", "repository_url"}:
+        value = str(clue.get("canonical_value") or clue.get("value") or "").casefold()
+        return any(
+            marker in value
+            for marker in (
+                "supp",
+                "supporting",
+                "moesm",
+                "_esm",
+                "-esm",
+                "_si_",
+                "-si-",
+                "/si/",
+            )
+        )
+    return True
 
 
 def _acquisition_priority(asset: dict[str, Any]) -> tuple[int, str, str]:

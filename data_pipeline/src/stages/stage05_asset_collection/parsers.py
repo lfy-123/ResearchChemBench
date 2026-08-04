@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import csv
 import json
+import os
 import re
 from html.parser import HTMLParser
 from pathlib import Path
@@ -10,10 +11,10 @@ from urllib.parse import urljoin
 
 import yaml
 
-from src.assets.archive import is_archive, safe_extract
-from src.assets.clues import extract_clues
 from src.core.io import write_json
-from src.ingestion.deep_parse import run_mineru_queue
+from src.integrations.mineru import run_mineru_queue
+from src.stages.stage05_asset_collection.archive import is_archive, safe_extract
+from src.stages.stage05_asset_collection.clues import extract_clues
 
 TEXT_SUFFIXES = {
     ".txt",
@@ -56,6 +57,7 @@ def parse_asset(
     output.mkdir(parents=True, exist_ok=True)
     file_name = str(asset.get("file_name") or source.name)
     suffix = _suffix(file_name)
+    parser_source = _named_source(source, output, file_name)
     children: list[Path] = []
     extracted_clues: list[dict[str, Any]] = []
     text = ""
@@ -68,12 +70,14 @@ def parse_asset(
     }
     try:
         if suffix == ".pdf":
-            text, pdf_data = _parse_pdf(asset, output, mineru_config)
+            text, pdf_data = _parse_pdf(
+                {**asset, "original_path": str(parser_source)}, output, mineru_config
+            )
             structured.update(pdf_data)
             updated["parser"] = pdf_data.get("parser")
-        elif is_archive(source, file_name):
+        elif is_archive(parser_source, file_name):
             children = safe_extract(
-                source,
+                parser_source,
                 output / "extracted",
                 max_files=max_archive_files,
                 max_total_bytes=max_archive_bytes,
@@ -82,25 +86,25 @@ def parse_asset(
             text = "\n".join(str(item.relative_to(output / "extracted")) for item in children)
             updated["parser"] = "archive"
         elif suffix in {".json", ".yaml", ".yml"}:
-            raw = source.read_text(encoding="utf-8", errors="replace")[:max_text_chars]
+            raw = parser_source.read_text(encoding="utf-8", errors="replace")[:max_text_chars]
             payload = json.loads(raw) if suffix == ".json" else yaml.safe_load(raw)
             structured.update({"parser": "structured_text", "value": payload})
             text = json.dumps(payload, ensure_ascii=False, indent=2)
             updated["parser"] = "structured_text"
         elif suffix in {".csv", ".tsv"}:
-            text, table = _parse_table(source, suffix, max_text_chars)
+            text, table = _parse_table(parser_source, suffix, max_text_chars)
             structured.update(table)
             updated["parser"] = "table"
         elif suffix == ".docx":
-            text = _parse_docx(source, max_text_chars)
+            text = _parse_docx(parser_source, max_text_chars)
             structured.update({"parser": "docx", "characters": len(text)})
             updated["parser"] = "docx"
         elif suffix == ".xlsx":
-            text, workbook = _parse_xlsx(source, max_text_chars)
+            text, workbook = _parse_xlsx(parser_source, max_text_chars)
             structured.update(workbook)
             updated["parser"] = "xlsx"
         elif suffix in TEXT_SUFFIXES or str(asset.get("media_type", "")).startswith("text/"):
-            raw = source.read_text(encoding="utf-8", errors="replace")[:max_text_chars]
+            raw = parser_source.read_text(encoding="utf-8", errors="replace")[:max_text_chars]
             is_html = suffix in {".html", ".htm"} or asset.get("media_type") == "text/html"
             if is_html:
                 text, extracted_clues = _parse_html(
@@ -144,6 +148,18 @@ def parse_asset(
     return updated, children, clues
 
 
+def _named_source(source: Path, output: Path, file_name: str) -> Path:
+    safe_name = Path(file_name).name or source.name
+    target = output / safe_name
+    if target.exists() or target.is_symlink():
+        return target
+    try:
+        os.symlink(source, target)
+    except OSError:
+        return source
+    return target
+
+
 def _parse_pdf(
     asset: dict[str, Any], output: Path, mineru_config: dict[str, Any]
 ) -> tuple[str, dict[str, Any]]:
@@ -164,6 +180,7 @@ def _parse_pdf(
         method=str(mineru_config.get("method", "auto")),
         backend=mineru_config.get("backend"),
         timeout_seconds=int(mineru_config.get("timeout_seconds", 3600)),
+        working_directory=mineru_config.get("working_directory"),
         environment=mineru_config.get("environment"),
         extra_args=mineru_config.get("extra_args"),
         reuse_existing=bool(mineru_config.get("reuse_existing", True)),

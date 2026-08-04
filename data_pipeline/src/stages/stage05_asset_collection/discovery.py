@@ -2,13 +2,15 @@ from __future__ import annotations
 
 import os
 import re
+from html.parser import HTMLParser
 from typing import Any
-from urllib.parse import quote, urlsplit
+from urllib.parse import quote, urljoin, urlsplit
 
 import httpx
 
-from src.assets.clues import normalize_doi, normalize_url
 from src.core.io import stable_id
+from src.integrations.http import request_with_retry
+from src.stages.stage05_asset_collection.clues import normalize_doi, normalize_url
 
 GITHUB_REPO = re.compile(r"^https?://github\.com/([^/]+)/([^/#?]+)", re.I)
 ZENODO_RECORD = re.compile(r"zenodo\.org/(?:records?|record)/(\d+)", re.I)
@@ -19,18 +21,27 @@ MATERIALS_CLOUD_RECORD = re.compile(r"archive\.materialscloud\.org/records/([^/?
 
 
 def metadata_clues(
-    document: dict[str, Any], *, timeout_seconds: float = 30
+    document: dict[str, Any],
+    *,
+    timeout_seconds: float = 30,
+    request_policy: dict[str, Any] | None = None,
+    download_scope: str = "all",
 ) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     doi = normalize_doi(document.get("doi"))
     if not doi:
         return [], []
     paper_id = str(document["paper_id"])
-    endpoints = {
+    endpoints: dict[str, str] = {
         "crossref": f"https://api.crossref.org/works/{quote(doi, safe='')}",
         "datacite": f"https://api.datacite.org/dois/{quote(doi, safe='')}",
-        "openalex": f"https://api.openalex.org/works/https://doi.org/{doi}",
-        "datacite_related": "https://api.datacite.org/dois",
     }
+    if download_scope != "supplementary_only":
+        endpoints.update(
+            {
+                "openalex": f"https://api.openalex.org/works/https://doi.org/{doi}",
+                "datacite_related": "https://api.datacite.org/dois",
+            }
+        )
     clues: list[dict[str, Any]] = []
     audits: list[dict[str, Any]] = []
     with httpx.Client(timeout=timeout_seconds, follow_redirects=True) as client:
@@ -43,47 +54,97 @@ def metadata_clues(
                         "query": f'relatedIdentifiers.relatedIdentifier:"{doi}"',
                         "page[size]": 100,
                     }
-                response = client.get(
+                params = {**(params or {}), **_identity_params(source)} or None
+                response = request_with_retry(
+                    client,
+                    "GET",
                     url,
+                    policy=request_policy,
                     params=params,
-                    headers={"User-Agent": "ResearchChemBench/1.0"},
+                    headers={"User-Agent": _user_agent()},
                 )
+                if response.status_code == 404:
+                    audit["status"] = "not_found"
+                    audits.append(audit)
+                    continue
                 response.raise_for_status()
                 payload = response.json()
                 audit["status"] = "success"
                 clues.extend(_metadata_payload_clues(source, payload, paper_id, doi))
             except Exception as exc:
-                audit["error"] = f"{type(exc).__name__}: {exc}"
+                audit["error"] = _safe_error(exc)
             audits.append(audit)
     return clues, audits
 
 
+def publisher_supplement_clues(
+    document: dict[str, Any],
+    *,
+    timeout_seconds: float = 30,
+    request_policy: dict[str, Any] | None = None,
+) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    doi = normalize_doi(document.get("doi"))
+    audit = {
+        "source": "publisher_landing_page",
+        "url": f"https://doi.org/{doi}" if doi else None,
+        "status": "skipped" if not doi else "failed",
+        "error": None,
+    }
+    if not doi:
+        return [], audit
+    try:
+        with httpx.Client(timeout=timeout_seconds, follow_redirects=True) as client:
+            response = request_with_retry(
+                client,
+                "GET",
+                f"https://doi.org/{doi}",
+                policy=request_policy,
+                headers={"User-Agent": _user_agent()},
+            )
+            response.raise_for_status()
+        audit["status"] = "success"
+        audit["resolved_url"] = str(response.url)
+        return _publisher_attachment_clues(
+            response.text,
+            base_url=str(response.url),
+            paper_id=str(document["paper_id"]),
+        ), audit
+    except Exception as exc:
+        audit["error"] = _safe_error(exc)
+        return [], audit
+
+
 def resolve_clue_targets(
-    clue: dict[str, Any], *, timeout_seconds: float = 30
+    clue: dict[str, Any],
+    *,
+    timeout_seconds: float = 30,
+    request_policy: dict[str, Any] | None = None,
 ) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     value = str(clue.get("canonical_value") or clue.get("value") or "")
     if not value:
         return [], []
     github = GITHUB_REPO.match(value)
     if github:
-        return _github_targets(clue, github.group(1), github.group(2), timeout_seconds), []
+        return _github_targets(
+            clue, github.group(1), github.group(2), timeout_seconds, request_policy
+        ), []
     zenodo_id = _zenodo_id(value)
     if zenodo_id:
-        return _zenodo_targets(clue, zenodo_id, timeout_seconds), []
+        return _zenodo_targets(clue, zenodo_id, timeout_seconds, request_policy), []
     osf = OSF_NODE.search(value)
     if osf:
-        return _osf_targets(clue, osf.group(1), timeout_seconds), []
+        return _osf_targets(clue, osf.group(1), timeout_seconds, request_policy), []
     if MATERIALS_CLOUD_DOI.search(value) or MATERIALS_CLOUD_RECORD.search(value):
-        return _materials_cloud_targets(clue, value, timeout_seconds), []
+        return _materials_cloud_targets(clue, value, timeout_seconds, request_policy), []
     if clue.get("kind") == "related_doi":
-        return _datacite_targets(clue, value, timeout_seconds), []
+        return _datacite_targets(clue, value, timeout_seconds, request_policy), []
     if clue.get("kind") in {"url", "repository_url"}:
         return [
             {
                 "url": value,
                 "role": _role_from_url(value),
-                "relation_type": "explicit_url",
-                "discovered_by": "document_link",
+                "relation_type": clue.get("relation_type") or "explicit_url",
+                "discovered_by": clue.get("discovered_by") or "document_link",
                 "identifier": None,
                 "version": None,
             }
@@ -92,7 +153,11 @@ def resolve_clue_targets(
 
 
 def _github_targets(
-    clue: dict[str, Any], owner: str, repository: str, timeout: float
+    clue: dict[str, Any],
+    owner: str,
+    repository: str,
+    timeout: float,
+    request_policy: dict[str, Any] | None,
 ) -> list[dict[str, Any]]:
     repository = repository.removesuffix(".git")
     api = f"https://api.github.com/repos/{owner}/{repository}"
@@ -101,7 +166,7 @@ def _github_targets(
     if token:
         headers["Authorization"] = f"Bearer {token}"
     with httpx.Client(timeout=timeout, follow_redirects=True, headers=headers) as client:
-        response = client.get(api)
+        response = request_with_retry(client, "GET", api, policy=request_policy)
         response.raise_for_status()
         metadata = response.json()
     branch = metadata.get("default_branch") or "HEAD"
@@ -119,9 +184,20 @@ def _github_targets(
     ]
 
 
-def _zenodo_targets(clue: dict[str, Any], record_id: str, timeout: float) -> list[dict[str, Any]]:
-    with httpx.Client(timeout=timeout, follow_redirects=True) as client:
-        response = client.get(f"https://zenodo.org/api/records/{record_id}")
+def _zenodo_targets(
+    clue: dict[str, Any],
+    record_id: str,
+    timeout: float,
+    request_policy: dict[str, Any] | None,
+) -> list[dict[str, Any]]:
+    headers = _bearer_header("ZENODO_ACCESS_TOKEN", "ZENODO_TOKEN")
+    with httpx.Client(timeout=timeout, follow_redirects=True, headers=headers) as client:
+        response = request_with_retry(
+            client,
+            "GET",
+            f"https://zenodo.org/api/records/{record_id}",
+            policy=request_policy,
+        )
         response.raise_for_status()
         record = response.json()
     targets = []
@@ -138,17 +214,26 @@ def _zenodo_targets(clue: dict[str, Any], record_id: str, timeout: float) -> lis
                 "identifier": record.get("doi") or clue.get("value"),
                 "version": str(record.get("revision") or record.get("updated") or ""),
                 "file_name": item.get("key"),
+                "headers": headers,
             }
         )
     return targets
 
 
-def _osf_targets(clue: dict[str, Any], node_id: str, timeout: float) -> list[dict[str, Any]]:
+def _osf_targets(
+    clue: dict[str, Any],
+    node_id: str,
+    timeout: float,
+    request_policy: dict[str, Any] | None,
+) -> list[dict[str, Any]]:
     targets: list[dict[str, Any]] = []
     next_url: str | None = f"https://api.osf.io/v2/nodes/{node_id}/files/"
-    with httpx.Client(timeout=timeout, follow_redirects=True) as client:
+    headers = _bearer_header("OSF_TOKEN")
+    with httpx.Client(timeout=timeout, follow_redirects=True, headers=headers) as client:
         while next_url and len(targets) < 200:
-            response = client.get(next_url)
+            response = request_with_retry(
+                client, "GET", next_url, policy=request_policy
+            )
             response.raise_for_status()
             payload = response.json()
             for provider in payload.get("data", []):
@@ -161,19 +246,30 @@ def _osf_targets(clue: dict[str, Any], node_id: str, timeout: float) -> list[dic
                 )
                 if files_url:
                     targets.extend(
-                        _osf_file_targets(client, files_url, clue, limit=200 - len(targets))
+                        _osf_file_targets(
+                            client,
+                            files_url,
+                            clue,
+                            limit=200 - len(targets),
+                            request_policy=request_policy,
+                        )
                     )
             next_url = (payload.get("links") or {}).get("next")
     return targets
 
 
 def _osf_file_targets(
-    client: httpx.Client, url: str, clue: dict[str, Any], *, limit: int
+    client: httpx.Client,
+    url: str,
+    clue: dict[str, Any],
+    *,
+    limit: int,
+    request_policy: dict[str, Any] | None,
 ) -> list[dict[str, Any]]:
     output: list[dict[str, Any]] = []
     next_url: str | None = url
     while next_url and len(output) < limit:
-        response = client.get(next_url)
+        response = request_with_retry(client, "GET", next_url, policy=request_policy)
         response.raise_for_status()
         payload = response.json()
         for item in payload.get("data", []):
@@ -187,8 +283,9 @@ def _osf_file_targets(
                         "relation_type": "related_identifier",
                         "discovered_by": "osf_api",
                         "identifier": clue.get("value"),
-                        "version": attributes.get("date_modified"),
-                        "file_name": attributes.get("name"),
+                            "version": attributes.get("date_modified"),
+                            "file_name": attributes.get("name"),
+                            "headers": _bearer_header("OSF_TOKEN"),
                     }
                 )
         next_url = (payload.get("links") or {}).get("next")
@@ -196,20 +293,34 @@ def _osf_file_targets(
 
 
 def _materials_cloud_targets(
-    clue: dict[str, Any], value: str, timeout: float
+    clue: dict[str, Any],
+    value: str,
+    timeout: float,
+    request_policy: dict[str, Any] | None,
 ) -> list[dict[str, Any]]:
     landing = value
     doi = normalize_doi(value)
     if doi:
         landing = f"https://archive.materialscloud.org/doi/{doi}"
     with httpx.Client(timeout=timeout, follow_redirects=True) as client:
-        response = client.get(landing, headers={"User-Agent": "ResearchChemBench/1.0"})
+        response = request_with_retry(
+            client,
+            "GET",
+            landing,
+            policy=request_policy,
+            headers={"User-Agent": _user_agent()},
+        )
         response.raise_for_status()
         match = MATERIALS_CLOUD_RECORD.search(str(response.url))
         if not match:
             raise RuntimeError(f"Materials Cloud record ID not found for {value}")
         record_id = match.group(1)
-        record_response = client.get(f"https://archive.materialscloud.org/api/records/{record_id}")
+        record_response = request_with_retry(
+            client,
+            "GET",
+            f"https://archive.materialscloud.org/api/records/{record_id}",
+            policy=request_policy,
+        )
         record_response.raise_for_status()
         record = record_response.json()
     version = str((record.get("metadata") or {}).get("version") or record.get("updated") or "")
@@ -233,19 +344,33 @@ def _materials_cloud_targets(
     return targets
 
 
-def _datacite_targets(clue: dict[str, Any], doi: str, timeout: float) -> list[dict[str, Any]]:
+def _datacite_targets(
+    clue: dict[str, Any],
+    doi: str,
+    timeout: float,
+    request_policy: dict[str, Any] | None,
+) -> list[dict[str, Any]]:
     normalized = normalize_doi(doi)
     if not normalized:
         return []
     with httpx.Client(timeout=timeout, follow_redirects=True) as client:
-        response = client.get(f"https://api.datacite.org/dois/{quote(normalized, safe='')}")
+        response = request_with_retry(
+            client,
+            "GET",
+            f"https://api.datacite.org/dois/{quote(normalized, safe='')}",
+            policy=request_policy,
+            params=_identity_params("datacite") or None,
+            headers={"User-Agent": _user_agent()},
+        )
         if response.status_code == 404:
             return []
         response.raise_for_status()
         attributes = (response.json().get("data") or {}).get("attributes") or {}
     landing = str(attributes.get("url") or "")
     if MATERIALS_CLOUD_DOI.search(normalized) or MATERIALS_CLOUD_RECORD.search(landing):
-        return _materials_cloud_targets(clue, landing or normalized, timeout)
+        return _materials_cloud_targets(
+            clue, landing or normalized, timeout, request_policy
+        )
     targets: list[dict[str, Any]] = []
     for url in attributes.get("contentUrl") or []:
         if isinstance(url, str) and url.startswith(("http://", "https://")):
@@ -268,7 +393,9 @@ def _datacite_targets(clue: dict[str, Any], doi: str, timeout: float) -> list[di
         nested["canonical_value"] = landing
         nested["value"] = landing
         nested["kind"] = "repository_url"
-        return resolve_clue_targets(nested, timeout_seconds=timeout)[0]
+        return resolve_clue_targets(
+            nested, timeout_seconds=timeout, request_policy=request_policy
+        )[0]
     return []
 
 
@@ -313,6 +440,7 @@ def _metadata_payload_clues(
                             f"Crossref relation {relation_type}",
                         )
                     )
+                    output[-1]["relation_type"] = relation_type
         return output
     if source == "datacite_related":
         output = []
@@ -355,7 +483,15 @@ def _datacite_attribute_clues(
         relation = str(item.get("relationType") or "")
         related = normalize_doi(item.get("relatedIdentifier"))
         resource_type = str(item.get("resourceTypeGeneral") or "").casefold()
-        if not related or related == paper_doi or resource_type not in {"dataset", "software"}:
+        supplementary_relation = relation.casefold() in {
+            "issupplementedby",
+            "issupplementto",
+        }
+        if (
+            not related
+            or related == paper_doi
+            or (resource_type not in {"dataset", "software"} and not supplementary_relation)
+        ):
             continue
         clue = _derived_clue(
             paper_id,
@@ -365,6 +501,7 @@ def _datacite_attribute_clues(
             f"DataCite relation {relation}",
         )
         clue["resource_type"] = resource_type
+        clue["relation_type"] = relation
         output.append(clue)
     return output
 
@@ -387,3 +524,96 @@ def _derived_clue(
         "discovered_by": source,
         "error": None,
     }
+
+
+class _PublisherLinkParser(HTMLParser):
+    def __init__(self) -> None:
+        super().__init__()
+        self.current_href: str | None = None
+        self.current_text: list[str] = []
+        self.links: list[tuple[str, str]] = []
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        if tag.casefold() != "a":
+            return
+        self.current_href = dict(attrs).get("href")
+        self.current_text = []
+
+    def handle_data(self, data: str) -> None:
+        if self.current_href is not None:
+            self.current_text.append(data)
+
+    def handle_endtag(self, tag: str) -> None:
+        if tag.casefold() == "a" and self.current_href is not None:
+            self.links.append((self.current_href, " ".join(self.current_text)))
+            self.current_href = None
+            self.current_text = []
+
+
+def _publisher_attachment_clues(
+    html: str, *, base_url: str, paper_id: str
+) -> list[dict[str, Any]]:
+    parser = _PublisherLinkParser()
+    parser.feed(html)
+    output: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    for href, label in parser.links:
+        url = normalize_url(urljoin(base_url, href))
+        evidence = " ".join(f"{label} {href}".split())
+        if not url or url in seen or not _looks_like_supplement(evidence):
+            continue
+        if urlsplit(url).fragment and url.split("#", 1)[0] == base_url.split("#", 1)[0]:
+            continue
+        seen.add(url)
+        clue = _derived_clue(
+            paper_id,
+            "url",
+            url,
+            "publisher_landing_page",
+            f"Publisher supplementary link: {evidence}",
+        )
+        clue["relation_type"] = "publisher_attachment"
+        output.append(clue)
+    return output
+
+
+def _looks_like_supplement(value: str) -> bool:
+    text = value.casefold()
+    return any(
+        term in text
+        for term in (
+            "supplementary information",
+            "supporting information",
+            "supplementary data",
+            "supplementary software",
+            "supplementary file",
+            "supplementary material",
+            "supplemental material",
+            "electronic supplementary material",
+        )
+    )
+
+
+def _identity_params(source: str) -> dict[str, str]:
+    output: dict[str, str] = {}
+    email = os.environ.get("SCHOLARLY_API_MAILTO") or os.environ.get("OPENALEX_MAILTO")
+    if email and source in {"crossref", "datacite", "datacite_related", "openalex"}:
+        output["mailto"] = email
+    if source == "openalex" and os.environ.get("OPENALEX_API_KEY"):
+        output["api_key"] = os.environ["OPENALEX_API_KEY"]
+    return output
+
+
+def _user_agent() -> str:
+    email = os.environ.get("SCHOLARLY_API_MAILTO") or os.environ.get("OPENALEX_MAILTO")
+    return f"ResearchChemBench/1.0 (mailto:{email})" if email else "ResearchChemBench/1.0"
+
+
+def _bearer_header(*environment_names: str) -> dict[str, str]:
+    token = next((os.environ.get(name) for name in environment_names if os.environ.get(name)), None)
+    return {"Authorization": f"Bearer {token}"} if token else {}
+
+
+def _safe_error(exc: Exception) -> str:
+    message = re.sub(r"(https?://[^\s?]+)\?[^\s'\"]+", r"\1?<redacted>", str(exc))
+    return f"{type(exc).__name__}: {message}"

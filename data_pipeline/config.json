@@ -1,4 +1,5 @@
 {
+  "model_cache_directory": "../.model_cache/data_pipeline",
   "pdf_directory": "runs/pdf_bundle_main_papers/PDF论文打包",
   "exclude_supplementary": true,
   "run_directory": "runs/current",
@@ -6,24 +7,29 @@
   "grobid": {
     "base_url": "http://127.0.0.1:8070",
     "working_directory": "third_party/grobid",
-    "start_command": ["./gradlew", "--no-daemon", "run"],
-    "java_home": "/inspire/hdd/global_user/lifangyuan-253108110077/Anaconda3",
     "auto_start": true,
     "startup_timeout_seconds": 600,
     "timeout_seconds": 900,
     "retries": 2,
     "consolidate_header": 0,
     "consolidate_citations": 0,
-    "reuse_existing": true
+    "reuse_existing": true,
+    "fallback": {
+      "enabled": true,
+      "pdftotext_enabled": true,
+      "pdftotext_timeout_seconds": 300
+    }
   },
   "softcite": {
     "base_url": "http://127.0.0.1:8060",
     "working_directory": "third_party/software-mentions",
-    "java_home": "/inspire/hdd/global_user/lifangyuan-253108110077/Anaconda3",
     "auto_start": true,
     "startup_timeout_seconds": 900,
     "timeout_seconds": 600,
     "retries": 2
+  },
+  "stage04": {
+    "enabled": true
   },
   "resource_interpretation": {
     "enabled": true,
@@ -42,7 +48,6 @@
   "grobid_quantities": {
     "base_url": "http://127.0.0.1:8062",
     "working_directory": "third_party/grobid-quantities",
-    "java_home": "/inspire/hdd/global_user/lifangyuan-253108110077/Anaconda3",
     "auto_start": true,
     "startup_timeout_seconds": 600,
     "timeout_seconds": 120,
@@ -54,11 +59,12 @@
     "backend": "pipeline",
     "timeout_seconds": 3600,
     "environment": {
-      "MINERU_MODEL_SOURCE": "local",
-      "MINERU_TOOLS_CONFIG_JSON": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.model_cache/mineru/mineru.json"
+      "MINERU_MODEL_SOURCE": "local"
     }
   },
   "stage05": {
+    "enabled": true,
+    "download_scope": "all",
     "enable_network": true,
     "max_rounds": 3,
     "max_archive_depth": 3,
@@ -67,8 +73,21 @@
     "max_single_file_bytes": 10737418240,
     "max_archive_expanded_bytes": 53687091200,
     "network_workers": 4,
+    "default_per_host_workers": 2,
+    "per_host_workers": {
+      "api.crossref.org": 1,
+      "api.datacite.org": 2,
+      "api.openalex.org": 2,
+      "api.github.com": 2,
+      "api.osf.io": 1,
+      "zenodo.org": 2
+    },
+    "request_retries": 3,
+    "retry_backoff_seconds": 1,
+    "retry_max_seconds": 60,
     "include_local_siblings": true,
-    "query_metadata": true
+    "query_metadata": true,
+    "discover_publisher_supplements": true
   },
   "stage06": {
     "enabled": true,

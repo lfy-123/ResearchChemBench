@@ -7,7 +7,7 @@ from typing import Any
 
 from src.core.io import sha256_file, stable_id
 from src.core.logging import log_progress
-from src.ingestion.document_role import classify_document_role
+from src.stages.stage01_inventory.document_role import classify_document_role
 
 
 def inventory_corpus(root: str | Path) -> list[dict[str, Any]]:

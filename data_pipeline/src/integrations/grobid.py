@@ -16,6 +16,7 @@ from pathlib import Path
 from typing import Any, Iterator
 
 from src.core.logging import log_progress
+from src.integrations.pdf_fallback import fallback_pdf_to_tei
 
 TEI_NAMESPACE = "http://www.tei-c.org/ns/1.0"
 NS = {"tei": TEI_NAMESPACE}
@@ -158,6 +159,7 @@ def extract_documents_with_grobid(
     max_chars: int = 2_000_000,
     reuse_existing: bool = True,
     exclude_supplementary: bool = True,
+    fallback_config: dict[str, Any] | None = None,
 ) -> list[dict[str, Any]]:
     canonical = [
         item
@@ -175,14 +177,33 @@ def extract_documents_with_grobid(
         record = dict(item)
         tei_path = tei_dir / f"{item['document_id']}.tei.xml"
         text_path = text_dir / f"{item['document_id']}.txt"
+        request_attempted = False
+        request_failed = False
+        request_error: str | None = None
         try:
+            fallback_used: dict[str, Any] | None = None
             if tei_path.exists() and reuse_existing:
                 tei_xml = tei_path.read_text(encoding="utf-8", errors="replace")
                 status = "reused"
             else:
-                tei_xml = client.process_fulltext_document(item["source_path"])
+                try:
+                    request_attempted = True
+                    tei_xml = client.process_fulltext_document(item["source_path"])
+                    status = "success"
+                except Exception as grobid_error:
+                    request_failed = True
+                    request_error = f"{type(grobid_error).__name__}: {grobid_error}"
+                    if not (fallback_config or {}).get("enabled", True):
+                        raise
+                    fallback_used = fallback_pdf_to_tei(
+                        item,
+                        (fallback_config or {}).get("output_dir", text_dir.parent / "fallback"),
+                        fallback_config or {},
+                    )
+                    fallback_used["grobid_error"] = request_error
+                    tei_xml = fallback_used["tei_xml"]
+                    status = f"fallback_{fallback_used['parser']}"
                 tei_path.write_text(tei_xml, encoding="utf-8")
-                status = "success"
             parsed = parse_grobid_tei(tei_xml)
             text = parsed.pop("text")[:max_chars]
             text_path.write_text(text, encoding="utf-8")
@@ -195,10 +216,29 @@ def extract_documents_with_grobid(
                     "grobid_text_path": str(text_path),
                     "grobid_tei_path": str(tei_path),
                     "grobid_extract_status": status,
+                    "grobid_request_attempted": request_attempted,
+                    "grobid_request_failed": request_failed,
+                    "grobid_request_error": request_error,
                     "text_quality": quality,
                     "text_characters": len(text),
-                    "metadata_source": "grobid_tei",
-                    "retrieval_sources": ["local_corpus", "grobid"],
+                    "metadata_source": (
+                        f"{fallback_used['parser']}_fallback_tei"
+                        if fallback_used
+                        else "grobid_tei"
+                    ),
+                    "retrieval_sources": [
+                        "local_corpus",
+                        fallback_used["parser"] if fallback_used else "grobid",
+                    ],
+                    "grobid_fallback": (
+                        {
+                            key: value
+                            for key, value in fallback_used.items()
+                            if key not in {"text", "tei_xml"}
+                        }
+                        if fallback_used
+                        else None
+                    ),
                 }
             )
         except Exception as exc:
@@ -214,6 +254,9 @@ def extract_documents_with_grobid(
                     "grobid_tei_path": str(tei_path) if tei_path.exists() else None,
                     "grobid_extract_status": "failed",
                     "grobid_extract_error": str(exc),
+                    "grobid_request_attempted": request_attempted,
+                    "grobid_request_failed": request_failed,
+                    "grobid_request_error": request_error,
                     "text_quality": {"score": 0.0, "needs_ocr": True},
                     "text_characters": 0,
                     "metadata_source": "grobid_tei",

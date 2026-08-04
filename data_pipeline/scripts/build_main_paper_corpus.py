@@ -12,7 +12,7 @@ sys.path.insert(0, str(ROOT))
 
 
 def main() -> None:
-    from src.ingestion.corpus import inventory_corpus
+    from src.stages.stage01_inventory.corpus import inventory_corpus
 
     parser = argparse.ArgumentParser(
         description="Build a symlink-only corpus of unique main-paper PDFs."

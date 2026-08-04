@@ -7,10 +7,10 @@ import unittest
 from pathlib import Path
 from unittest import mock
 
-from src.ingestion.grobid_quantities import GrobidQuantitiesClient
-from src.ingestion.softcite import SoftciteClient, SoftciteError
-from src.screening.resource_limits import assess_resource_limits
-from src.screening.software_coverage import assess_software_coverage
+from src.integrations.grobid_quantities import GrobidQuantitiesClient
+from src.integrations.softcite import SoftciteClient, SoftciteError
+from src.stages.stage03_software_coverage.software_coverage import assess_software_coverage
+from src.stages.stage04_resource_limits.resource_limits import assess_resource_limits
 
 
 class FakeSoftciteClient:
@@ -353,6 +353,27 @@ class StageGateTests(unittest.TestCase):
             self.assertEqual(
                 rows[0]["resource_limits"]["aggregate_resources"][0]["value"],
                 13_000_000,
+            )
+
+    def test_stage04_empty_model_result_is_no_explicit_resource(self) -> None:
+        text = "The method has a much lower computational cost."
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+
+            def caller(**_kwargs):
+                return _model_result([]), {}
+
+            rows = assess_resource_limits(
+                [_screened_document(root, text)],
+                FakeQuantitiesClient(),
+                _limits(),
+                _model_config(),
+                output_dir=root / "out",
+                model_caller=caller,
+            )
+
+            self.assertEqual(
+                rows[0]["resource_limits"]["decision"], "no_explicit_resource"
             )
 
     def test_stage04_retries_invalid_evidence_and_stops_on_api_failure(self) -> None:

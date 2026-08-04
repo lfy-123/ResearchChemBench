@@ -48,6 +48,7 @@ def run_mineru_queue(
     method: str = "auto",
     backend: str | None = None,
     timeout_seconds: int = 3600,
+    working_directory: str | Path | None = None,
     environment: dict[str, str] | None = None,
     extra_args: list[str] | None = None,
     reuse_existing: bool = True,
@@ -56,6 +57,9 @@ def run_mineru_queue(
 ) -> list[dict[str, Any]]:
     output_dir = Path(output_dir).expanduser().resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
+    process_directory = (
+        Path(working_directory).expanduser().resolve() if working_directory else None
+    )
     executable = _resolve_executable(command)
     results: list[dict[str, Any]] = []
 
@@ -114,6 +118,7 @@ def run_mineru_queue(
                     timeout=timeout_seconds,
                     check=False,
                     env=process_env,
+                    cwd=process_directory,
                 )
                 result["return_code"] = completed.returncode
                 result["stdout_tail"] = completed.stdout[-4000:]

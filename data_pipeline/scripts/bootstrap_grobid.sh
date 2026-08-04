@@ -44,6 +44,7 @@ git -C "$GROBID_REPO" fetch --depth 1 origin "refs/tags/$GROBID_VERSION:refs/tag
 git -C "$GROBID_REPO" checkout --detach "$GROBID_VERSION"
 
 (cd "$GROBID_REPO" && ./gradlew :grobid-service:classes)
+"${PIPELINE_PYTHON:-python}" "$ROOT/scripts/prepare_model_cache.py"
 
 echo
 echo "GROBID $GROBID_VERSION is built with $(java -version 2>&1 | head -1)."

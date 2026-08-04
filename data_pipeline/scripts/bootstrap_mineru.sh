@@ -32,10 +32,17 @@ git -C "$MINERU_REPO" fetch origin "$MINERU_COMMIT"
 git -C "$MINERU_REPO" checkout "$MINERU_COMMIT"
 
 PYTHON="$(command -v "${PIPELINE_PYTHON:-python}")"
+MODEL_CACHE_ROOT="${MODEL_CACHE_ROOT:-$ROOT/../.model_cache/data_pipeline}"
+export HF_HOME="${HF_HOME:-$MODEL_CACHE_ROOT/huggingface}"
+export HUGGINGFACE_HUB_CACHE="${HUGGINGFACE_HUB_CACHE:-$HF_HOME/hub}"
+export MODELSCOPE_CACHE="${MODELSCOPE_CACHE:-$MODEL_CACHE_ROOT/modelscope}"
+export MINERU_TOOLS_CONFIG_JSON="${MINERU_TOOLS_CONFIG_JSON:-$MODEL_CACHE_ROOT/mineru/mineru.json}"
+mkdir -p "$(dirname "$MINERU_TOOLS_CONFIG_JSON")" "$HF_HOME" "$MODELSCOPE_CACHE"
 "$PYTHON" -m pip install --break-system-packages -e "$ROOT[dev]"
 "$PYTHON" -m pip install --break-system-packages -e "$MINERU_REPO[all]"
 
-"$PYTHON" -m mineru.cli.models_download --source auto --model_type pipeline
+(cd "$MODEL_CACHE_ROOT" && "$PYTHON" -m mineru.cli.models_download --source auto --model_type pipeline)
+"$PYTHON" "$ROOT/scripts/prepare_model_cache.py" --cache "$MODEL_CACHE_ROOT"
 MINERU="$("$PYTHON" -c 'import shutil; print(shutil.which("mineru") or "")')"
 if [[ -z "$MINERU" ]]; then
   echo "MinerU entry point was not installed for $PYTHON." >&2

@@ -4,10 +4,10 @@ import argparse
 import json
 
 from src.core.io import read_jsonl, write_json, write_jsonl
-from src.ingestion.corpus import inventory_corpus
-from src.ingestion.deep_parse import build_mineru_queue, run_mineru_queue
-from src.ingestion.grobid import GrobidClient, extract_documents_with_grobid
+from src.integrations.grobid import GrobidClient, extract_documents_with_grobid
+from src.integrations.mineru import build_mineru_queue, run_mineru_queue
 from src.orchestration.pipeline import run_late_stages, run_pipeline
+from src.stages.stage01_inventory.corpus import inventory_corpus
 
 
 def main(argv: list[str] | None = None) -> int:

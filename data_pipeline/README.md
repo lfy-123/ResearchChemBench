@@ -33,12 +33,17 @@ data_pipeline/
 ├── scripts/                # 环境准备和一键运行脚本
 ├── src/
 │   ├── agents/             # CLI Agent 运行、隔离环境和会话保存
-│   ├── assets/             # Stage 05 线索、下载、解压、解析和清单
 │   ├── core/               # 配置、日志、IO 和运行时工具
-│   ├── ingestion/          # PDF、GROBID、Softcite、Quantities、MinerU
+│   ├── integrations/       # GROBID、Softcite、Quantities、MinerU、模型和 HTTP 适配
 │   ├── orchestration/      # 七阶段编排
-│   ├── screening/          # Stage 03-04 门控
-│   └── tasks/              # Builder、Judge、Schema、校验和公共输入探针
+│   └── stages/
+│       ├── stage01_inventory/
+│       ├── stage02_parsing/
+│       ├── stage03_software_coverage/
+│       ├── stage04_resource_limits/
+│       ├── stage05_asset_collection/
+│       ├── stage06_builder/
+│       └── stage07_judge/
 ├── tests/
 ├── third_party/            # 所有采用的第三方运行时源码
 ├── config.json             # 默认配置
@@ -50,7 +55,8 @@ data_pipeline/
 数据管线复用 benchmark 的主 Python 环境，不要求创建新的虚拟环境。发生依赖版本冲突时，以主环境已有版本为准；当前主环境要求 `transformers==4.57.3`。
 
 ```bash
-cd /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/data_pipeline
+# 从 ResearchChemBench 仓库根目录进入数据管线目录。
+cd data_pipeline
 
 python -m pip install --break-system-packages \
   httpx json-repair jsonschema openpyxl pydantic python-docx \
@@ -79,6 +85,10 @@ python -m pytest -q
 - Poppler，提供 `pdftotext`
 - 常用归档工具和足够的磁盘空间
 
+Java 不需要在 `config.json` 中写机器绝对路径。若 `java` 不在 `PATH`，设置
+`GROBID_JAVA_HOME` 或 `JAVA_HOME`；一键脚本在两者均未设置时也会尝试使用当前
+Conda 根目录中的 Java。
+
 ## 第三方源码准备
 
 所有第三方 GitHub 运行时源码必须位于 `data_pipeline/third_party/`。脚本会固定版本或提交并拒绝覆盖存在本地修改的 checkout。
@@ -98,6 +108,17 @@ bash scripts/bootstrap_mineru.sh
 
 `scripts/bootstrap_grobid.sh` 下载并构建固定版本 GROBID。Stage 02 会根据配置自动启动服务，处理完成后自动停止。
 
+Stage 02 默认使用 GROBID。GROBID 服务整体无法启动时，流水线直接报错停止，避免把基础设施故障误当成论文解析问题。
+
+仅当某一篇 PDF 的 GROBID 请求失败时，才使用低成本的 Poppler
+`pdftotext -layout`，再将文本包装为最小 TEI XML，使 Stage 03 Softcite 可以继续处理。
+
+回退结果位于 `stage_02_grobid_extract/fallback/`，状态记录为
+`fallback_pdftotext`；`pdftotext` 也失败时记录 `failed`。每篇记录包含
+`grobid_request_attempted`、`grobid_request_failed` 和 `grobid_request_error`，阶段摘要额外保存
+`grobid_request_attempts`、`grobid_request_failures` 和
+`grobid_request_failure_ratio`，用于事后检查 GROBID 的稳定性。
+
 ### Softcite 与 GROBID Quantities
 
 `scripts/bootstrap_stage_gates.sh` 准备：
@@ -108,21 +129,76 @@ bash scripts/bootstrap_mineru.sh
 
 脚本同时下载 Softcite 模型，并使用当前主环境的 `transformers==4.57.3`。Stage 03 或 Stage 04 服务启动失败时，流水线直接报错停止，不把基础设施故障解释为论文淘汰。
 
-### MinerU 与模型缓存
+### 统一模型缓存
 
-MinerU 源码位于 `third_party/MinerU/`。模型缓存配置应指向 benchmark 统一缓存：
+数据管线实际使用的本地模型统一放在一个可整体迁移的子目录中：
 
 ```text
-/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.model_cache
+../.model_cache/data_pipeline
+```
+
+模型来源和运行位置如下：
+
+| 组件 | 模型来源 | 运行时位置 |
+|---|---|---|
+| GROBID | `grobidOrg/grobid` 0.9.0 随源码发布的 Wapiti/DeLFT 模型 | `../.model_cache/data_pipeline/grobid-home/models/` |
+| Softcite | `softcite/software-mentions` 自带模型；BERT 权重来自 `sciencialab/software-mentions-models` | `../.model_cache/data_pipeline/grobid-home/models/` |
+| GROBID Quantities | `lfoppiano/grobid-quantities` 自带 quantities/units/values 模型 | `../.model_cache/data_pipeline/grobid-home/models/` |
+| MinerU | `opendatalab/MinerU` 模型下载器，从 Hugging Face 或 ModelScope 下载 | `../.model_cache/data_pipeline/mineru/`，配置见 `mineru/mineru.json` |
+
+对应下载地址：
+
+- GROBID：`https://github.com/grobidOrg/grobid`
+- Softcite：`https://github.com/softcite/software-mentions`
+- Softcite BERT 模型：`https://huggingface.co/sciencialab/software-mentions-models`
+- GROBID Quantities：`https://github.com/lfoppiano/grobid-quantities`
+- MinerU 源码：`https://github.com/opendatalab/MinerU`
+- MinerU Pipeline 模型（Hugging Face）：`https://huggingface.co/opendatalab/PDF-Extract-Kit-1.0`
+- MinerU Pipeline 模型（ModelScope）：`https://modelscope.cn/models/OpenDataLab/PDF-Extract-Kit-1.0`
+
+`scripts/prepare_model_cache.py` 会把固定第三方版本中的运行模型同步到统一缓存，并生成三个 Java 服务使用的配置文件：
+
+```text
+../.model_cache/data_pipeline/grobid-home/config/grobid.yaml
+../.model_cache/data_pipeline/config/software-mentions.yml
+../.model_cache/data_pipeline/config/grobid-quantities.yml
+../.model_cache/data_pipeline/mineru/mineru.json
+../.model_cache/data_pipeline/model_manifest.json
+```
+
+上述缓存内的 YAML/JSON 使用相对路径。Java 服务相对其各自的
+`third_party/<repository>/` 工作目录解析路径，MinerU 相对
+`../.model_cache/data_pipeline/` 解析路径。因此迁移时应保持 `.model_cache/` 与
+`data_pipeline/` 位于同一个仓库根目录，并整体移动 `.model_cache`，无需修改缓存内部配置。
+
+可单独重新准备缓存：
+
+```bash
+python scripts/prepare_model_cache.py
+```
+
+Stage 04 的 `deepseek-v4-flash` 以及 Stage 06/07 配置的 Agent 模型通过远程 API 调用，不下载到本地，因此不属于本地模型缓存。
+
+### MinerU
+
+MinerU 源码位于 `third_party/MinerU/`。模型及其配置位于：
+
+```text
+../.model_cache/data_pipeline/mineru
 ```
 
 默认配置通过 `MINERU_TOOLS_CONFIG_JSON` 使用：
 
 ```text
-/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.model_cache/mineru/mineru.json
+../.model_cache/data_pipeline/mineru/mineru.json
 ```
 
-Stage 05 每发现一个新 PDF 就立即调用 MinerU；MinerU 不可用或失败时，主论文可回退到 Stage 02 的 GROBID 文本，其他 PDF 会记录解析失败，不会丢弃原始文件。
+`bootstrap_mineru.sh` 会设置 `HF_HOME`、`HUGGINGFACE_HUB_CACHE`、
+`MODELSCOPE_CACHE` 和 `MINERU_TOOLS_CONFIG_JSON`，保证新下载内容仍位于
+`../.model_cache/data_pipeline/`。`mineru.json` 中的模型目录写作相对路径，例如
+`mineru/PDF-Extract-Kit-1___0`；管线启动 MinerU 时会把工作目录固定到缓存根目录。
+
+Stage 05 每发现一个新 PDF 就立即调用 MinerU；MinerU 不可用或失败时，主论文可回退到 Stage 02 文本，其他 PDF 会记录解析失败，不会丢弃原始文件。
 
 ## Agent CLI 准备
 
@@ -171,9 +247,13 @@ Codex 和 Claude 使用各自 CLI 的本地认证。运行器只在执行期间�
 
 ```json
 {
+  "model_cache_directory": "../.model_cache/data_pipeline",
   "pdf_directory": "runs/pdf_bundle_main_papers/PDF论文打包",
   "run_directory": "runs/current",
   "stop_after": "judge",
+  "stage04": {
+    "enabled": true
+  },
   "resource_limits": {
     "cpu_cores": 500,
     "gpus": 8,
@@ -181,12 +261,19 @@ Codex 和 Claude 使用各自 CLI 的本地认证。运行器只在执行期间�
     "runtime_hours": 12
   },
   "stage05": {
+    "enabled": true,
+    "download_scope": "all",
     "enable_network": true,
     "max_rounds": 3,
     "max_archive_depth": 3,
     "max_archive_children_per_archive": 300,
     "max_assets_per_paper": 500,
-    "network_workers": 4
+    "network_workers": 4,
+    "default_per_host_workers": 2,
+    "request_retries": 3,
+    "retry_backoff_seconds": 1,
+    "retry_max_seconds": 60,
+    "discover_publisher_supplements": true
   },
   "stage06": {
     "agent": {
@@ -202,6 +289,50 @@ Codex 和 Claude 使用各自 CLI 的本地认证。运行器只在执行期间�
   }
 }
 ```
+
+Stage 04 和 Stage 05 均可通过 `enabled=false` 跳过：
+
+- Stage 04 跳过时写入标准的 `resource_limits` 对象，其中
+  `decision="skipped"`、`passed=true`，不启动 GROBID Quantities 或资源解释模型。
+- Stage 05 跳过时不联网、不扫描同目录附件、不运行 MinerU，但仍登记主论文，并复用
+  Stage 02 文本生成最小资产清单，保证 Stage 06 接口不变。
+
+`stage05.download_scope` 支持：
+
+- `all`：下载满足资产线索规则的补充材料、数据、代码和仓库资产。
+- `supplementary_only`：只保留明确来自 Supporting Information、Supplementary
+  Material、出版社附件页或 `is-supplemented-by` 关系的附件；主论文始终保留为管线输入。
+
+`supplementary_only` 不调用 OpenAlex，也不主动扩展普通 GitHub、Zenodo、OSF 或 Materials
+Cloud 线索。其网络发现只使用 Crossref、DataCite 和 DOI 出版社落地页；只有出版社明确把
+补充材料托管在某个仓库时，才继续调用该仓库接口取得对应附件。
+
+Stage 05 当前实际使用的网络接口如下，不依赖额外的第三方 wrapper：
+
+| 接口 | 用途 |
+|---|---|
+| Crossref REST API | DOI 元数据和明确关联关系 |
+| DataCite REST API | 数据 DOI、内容地址和关联标识符 |
+| OpenAlex REST API | `all` 模式下补充论文元数据关系 |
+| GitHub REST API | 解析正文明确给出的仓库并下载默认分支归档 |
+| Zenodo Records API | 枚举并下载记录文件 |
+| OSF API v2 | 枚举并下载节点文件 |
+| Materials Cloud Archive API | 枚举并下载 Materials Cloud 记录文件 |
+| DOI/出版社 HTTPS 页面 | 提取明确标注的 Supplementary/Supporting Information 链接 |
+
+大批量运行建议在 `config.local.env` 中配置：
+
+```bash
+SCHOLARLY_API_MAILTO='contact@example.org'
+OPENALEX_API_KEY='...'
+GITHUB_TOKEN='...'
+OSF_TOKEN='...'
+ZENODO_ACCESS_TOKEN='...'
+```
+
+请求器会按主机限制并发，对 `429` 和临时 `5xx` 响应执行有限重试，并遵守
+`Retry-After` 或 `X-RateLimit-Reset`。失败仍会写入事件和未解决线索清单，不会被伪装成
+“未发现资产”。
 
 可用的 `stop_after` 值：
 
@@ -328,7 +459,6 @@ git diff --check
 
 ## 当前限制
 
-- Stage 05 使用维护中的公开 HTTP API 直接适配，没有把所有推荐 wrapper 仓库都引入运行时。
 - 出版社认证、受限附件和失效链接只记录状态，当前没有自动登录或 Wayback 下载实现。
 - MinerU 对非 PDF 二进制科学文件只保留原始文件和元数据；不会伪造文本内容。
 - Builder/Judge 读取预算目前由提示词和输入大小共同约束，CLI 本身没有统一的硬性 tool-call 上限。
