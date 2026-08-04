@@ -5,6 +5,7 @@ import os
 import shutil
 import socket
 import tempfile
+from email.message import Message
 from pathlib import Path
 from typing import Any
 from urllib.parse import unquote, urljoin, urlsplit, urlunsplit
@@ -221,8 +222,10 @@ def redact_url(url: str) -> str:
 
 def _response_filename(response: httpx.Response, url: str) -> str:
     disposition = response.headers.get("content-disposition", "")
-    if "filename=" in disposition:
-        value = disposition.split("filename=", 1)[1].strip().strip('"')
+    if disposition:
+        message = Message()
+        message["content-disposition"] = disposition
+        value = message.get_filename()
         if value:
             return Path(unquote(value)).name
     name = Path(unquote(urlsplit(url).path)).name

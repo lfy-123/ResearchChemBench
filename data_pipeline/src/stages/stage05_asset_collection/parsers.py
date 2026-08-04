@@ -4,6 +4,7 @@ import csv
 import json
 import os
 import re
+import subprocess
 from html.parser import HTMLParser
 from pathlib import Path
 from typing import Any
@@ -163,6 +164,20 @@ def _named_source(source: Path, output: Path, file_name: str) -> Path:
 def _parse_pdf(
     asset: dict[str, Any], output: Path, mineru_config: dict[str, Any]
 ) -> tuple[str, dict[str, Any]]:
+    page_count = _pdf_page_count(Path(str(asset["original_path"])))
+    max_pages = int(mineru_config.get("max_pages", 100))
+    if page_count is not None and page_count > max_pages:
+        text = _pdftotext(
+            Path(str(asset["original_path"])),
+            output / "pdftotext.txt",
+            timeout_seconds=int(mineru_config.get("pdftotext_timeout_seconds", 600)),
+        )
+        return text, {
+            "parser": "pdftotext_large_pdf",
+            "page_count": page_count,
+            "mineru_skipped": True,
+            "mineru_skip_reason": f"page_count {page_count} exceeds max_pages {max_pages}",
+        }
     result = run_mineru_queue(
         [
             {
@@ -200,6 +215,40 @@ def _parse_pdf(
             "mineru": result,
         }
     raise RuntimeError(result.get("error") or f"MinerU status: {result.get('status')}")
+
+
+def _pdf_page_count(path: Path) -> int | None:
+    try:
+        completed = subprocess.run(
+            ["pdfinfo", str(path)],
+            capture_output=True,
+            text=True,
+            timeout=60,
+            check=False,
+        )
+    except (FileNotFoundError, subprocess.TimeoutExpired):
+        return None
+    if completed.returncode != 0:
+        return None
+    match = re.search(r"^Pages:\s*(\d+)\s*$", completed.stdout, re.MULTILINE)
+    return int(match.group(1)) if match else None
+
+
+def _pdftotext(path: Path, output: Path, *, timeout_seconds: int) -> str:
+    completed = subprocess.run(
+        ["pdftotext", "-layout", str(path), str(output)],
+        capture_output=True,
+        text=True,
+        timeout=timeout_seconds,
+        check=False,
+    )
+    if completed.returncode != 0 or not output.is_file():
+        error = completed.stderr[-1000:] or f"pdftotext exited {completed.returncode}"
+        raise RuntimeError(error)
+    text = output.read_text(encoding="utf-8", errors="replace")
+    if not text.strip():
+        raise RuntimeError("pdftotext produced empty output")
+    return text
 
 
 def _parse_table(path: Path, suffix: str, max_chars: int) -> tuple[str, dict[str, Any]]:

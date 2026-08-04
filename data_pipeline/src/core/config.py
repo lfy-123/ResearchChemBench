@@ -41,6 +41,7 @@ def normalize_config(raw: dict[str, Any], base: Path) -> dict[str, Any]:
         "method": "auto",
         "backend": mineru.get("backend", "pipeline"),
         "timeout_seconds": int(mineru.get("timeout_seconds", 3600)),
+        "max_pages": int(mineru.get("max_pages", 100)),
         "working_directory": str(
             _resolve(base, mineru["working_directory"])
             if mineru.get("working_directory")

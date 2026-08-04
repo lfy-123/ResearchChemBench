@@ -34,6 +34,7 @@ def metadata_clues(
     endpoints: dict[str, str] = {
         "crossref": f"https://api.crossref.org/works/{quote(doi, safe='')}",
         "datacite": f"https://api.datacite.org/dois/{quote(doi, safe='')}",
+        "europe_pmc": "https://www.ebi.ac.uk/europepmc/webservices/rest/search",
     }
     if download_scope != "supplementary_only":
         endpoints.update(
@@ -54,6 +55,8 @@ def metadata_clues(
                         "query": f'relatedIdentifiers.relatedIdentifier:"{doi}"',
                         "page[size]": 100,
                     }
+                elif source == "europe_pmc":
+                    params = {"query": f"DOI:{doi}", "format": "json", "pageSize": 5}
                 params = {**(params or {}), **_identity_params(source)} or None
                 response = request_with_retry(
                     client,
@@ -142,7 +145,11 @@ def resolve_clue_targets(
         return [
             {
                 "url": value,
-                "role": _role_from_url(value),
+                "role": (
+                    "supplement"
+                    if clue.get("resource_type") == "supplement"
+                    else _role_from_url(value)
+                ),
                 "relation_type": clue.get("relation_type") or "explicit_url",
                 "discovered_by": clue.get("discovered_by") or "document_link",
                 "identifier": None,
@@ -472,6 +479,33 @@ def _metadata_payload_clues(
     if source == "datacite":
         attributes = (payload.get("data") or {}).get("attributes") or {}
         return _datacite_attribute_clues(attributes, paper_id, source, paper_doi)
+    if source == "europe_pmc":
+        output = []
+        for item in (payload.get("resultList") or {}).get("result") or []:
+            related_doi = normalize_doi(item.get("doi"))
+            pmcid = str(item.get("pmcid") or "").strip()
+            if related_doi != paper_doi or not pmcid or item.get("hasSuppl") != "Y":
+                continue
+            url = (
+                "https://www.ebi.ac.uk/europepmc/webservices/rest/"
+                f"{quote(pmcid, safe='')}/supplementaryFiles?includeInlineImage=false"
+            )
+            clue = _derived_clue(
+                paper_id,
+                "url",
+                url,
+                source,
+                f"Europe PMC supplementary archive for {pmcid}",
+            )
+            clue.update(
+                {
+                    "relation_type": "publisher_attachment",
+                    "resource_type": "supplement",
+                    "identifier": pmcid,
+                }
+            )
+            output.append(clue)
+        return output
     return []
 
 

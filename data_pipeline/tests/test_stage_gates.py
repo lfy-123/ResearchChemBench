@@ -10,7 +10,10 @@ from unittest import mock
 from src.integrations.grobid_quantities import GrobidQuantitiesClient
 from src.integrations.softcite import SoftciteClient, SoftciteError
 from src.stages.stage03_software_coverage.software_coverage import assess_software_coverage
-from src.stages.stage04_resource_limits.resource_limits import assess_resource_limits
+from src.stages.stage04_resource_limits.resource_limits import (
+    _recall_contexts,
+    assess_resource_limits,
+)
 
 
 class FakeSoftciteClient:
@@ -36,6 +39,22 @@ class FakeQuantitiesClient:
 
 
 class StageGateTests(unittest.TestCase):
+    def test_stage04_does_not_treat_ordinal_steps_as_runtime(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            tei = Path(directory) / "paper.tei.xml"
+            tei.write_text(
+                _tei(
+                    "The second step forms a tetracyclic core intermediate. "
+                    "The calculation then ran for 14 hours on 32 CPU cores."
+                ),
+                encoding="utf-8",
+            )
+
+            contexts = _recall_contexts(tei)
+
+        self.assertEqual(len(contexts), 1)
+        self.assertIn("14 hours", contexts[0]["text"])
+
     def test_grobid_quantities_uses_multipart_text_field(self) -> None:
         response = io.BytesIO(b'{"measurements": []}')
         with mock.patch("urllib.request.urlopen", return_value=response) as urlopen:
@@ -269,6 +288,60 @@ class StageGateTests(unittest.TestCase):
             self.assertEqual(
                 result["core_software"][0]["direct_support"]["validation_level"],
                 "interface",
+            )
+
+    def test_stage03_recovers_compact_gaussian_and_ignores_auxiliary_tools(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            tei = root / "paper.tei.xml"
+            tei.write_text(
+                _tei(
+                    "Computations were performed using the Gaussian09 suite. "
+                    "Graphical representations were generated with CYLView. "
+                    "The crystal structure was solved with ShelXT using Olex2."
+                ),
+                encoding="utf-8",
+            )
+            capabilities = root / "capabilities.json"
+            capabilities.write_text("{}", encoding="utf-8")
+            assets = Path(__file__).resolve().parents[1] / "assets"
+            rows = assess_software_coverage(
+                [
+                    {
+                        "document_id": "doc_test",
+                        "paper_id": "doc_test",
+                        "source_path": str(root / "paper.pdf"),
+                        "grobid_tei_path": str(tei),
+                    }
+                ],
+                FakeSoftciteClient(
+                    [
+                        _mention("CYLView"),
+                        _mention("ShelXT"),
+                        _mention("Olex2"),
+                    ]
+                ),
+                {
+                    "backends": ["gaussian"],
+                    "available_identifiers": ["gaussian"],
+                    "scientific_smoke": ["gaussian"],
+                    "actions": [],
+                    "unavailable": [],
+                },
+                aliases_file=assets / "software_aliases.json",
+                role_rules_file=assets / "software_role_rules.json",
+                capability_map_file=capabilities,
+                raw_output_dir=root / "raw",
+            )
+            result = rows[0]["software_coverage"]
+            self.assertEqual(result["decision"], "direct_covered")
+            self.assertEqual(
+                [item["normalized_name"] for item in result["core_software"]],
+                ["gaussian"],
+            )
+            self.assertEqual(
+                {item["normalized_name"] for item in result["auxiliary_software"]},
+                {"cylview", "shelxt", "olex2"},
             )
 
     def test_stage04_normalizes_resources_before_comparing_limits(self) -> None:

@@ -21,15 +21,17 @@ from src.stages.stage05_asset_collection.clues import (
     seed_document_clues,
 )
 from src.stages.stage05_asset_collection.discovery import (
+    _metadata_payload_clues,
     _publisher_attachment_clues,
     metadata_clues,
 )
 from src.stages.stage05_asset_collection.download import (
     DownloadError,
+    _response_filename,
     register_local_file,
     validate_public_url,
 )
-from src.stages.stage05_asset_collection.parsers import parse_asset
+from src.stages.stage05_asset_collection.parsers import _parse_pdf, parse_asset
 from src.stages.stage05_asset_collection.stage import (
     _acquire_clue,
     _filter_discovered_clues,
@@ -325,9 +327,10 @@ class LateStageTests(unittest.TestCase):
                 download_scope="supplementary_only",
             )
 
-        self.assertEqual(len(calls), 2)
+        self.assertEqual(len(calls), 3)
         self.assertTrue(any("crossref" in value for value in calls))
         self.assertTrue(any("datacite" in value for value in calls))
+        self.assertTrue(any("europepmc" in value for value in calls))
         self.assertFalse(any("openalex" in value for value in calls))
 
     def test_stage05_skip_produces_builder_compatible_asset_result(self) -> None:
@@ -399,6 +402,80 @@ class LateStageTests(unittest.TestCase):
                 [item["canonical_value"] for item in clues],
                 ["https://example.org/files/supplement.zip"],
             )
+
+    def test_europe_pmc_metadata_exposes_supplementary_archive(self) -> None:
+        clues = _metadata_payload_clues(
+            "europe_pmc",
+            {
+                "resultList": {
+                    "result": [
+                        {
+                            "doi": "10.1021/example",
+                            "pmcid": "PMC123456",
+                            "hasSuppl": "Y",
+                        }
+                    ]
+                }
+            },
+            "paper",
+            "10.1021/example",
+        )
+
+        self.assertEqual(len(clues), 1)
+        self.assertEqual(clues[0]["resource_type"], "supplement")
+        self.assertEqual(clues[0]["relation_type"], "publisher_attachment")
+        self.assertEqual(
+            clues[0]["canonical_value"],
+            "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC123456/supplementaryFiles?includeInlineImage=false",
+        )
+
+    def test_download_filename_accepts_spaced_content_disposition(self) -> None:
+        class Response:
+            headers = {
+                "content-disposition": (
+                    "attachment; filename = PMC123456_SupplementaryFiles.zip"
+                )
+            }
+
+        self.assertEqual(
+            _response_filename(Response(), "https://example.org/supplementaryFiles"),
+            "PMC123456_SupplementaryFiles.zip",
+        )
+
+    def test_long_pdf_uses_bounded_pdftotext_fallback(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            pdf = root / "large.pdf"
+            pdf.write_bytes(b"placeholder")
+            with (
+                patch(
+                    "src.stages.stage05_asset_collection.parsers._pdf_page_count",
+                    return_value=654,
+                ),
+                patch(
+                    "src.stages.stage05_asset_collection.parsers._pdftotext",
+                    return_value="extracted text",
+                ) as pdftotext,
+                patch(
+                    "src.stages.stage05_asset_collection.parsers.run_mineru_queue"
+                ) as mineru,
+            ):
+                text, metadata = _parse_pdf(
+                    {
+                        "asset_id": "asset",
+                        "paper_id": "paper",
+                        "original_path": str(pdf),
+                        "file_name": pdf.name,
+                    },
+                    root,
+                    {"max_pages": 40},
+                )
+
+        self.assertEqual(text, "extracted text")
+        self.assertEqual(metadata["parser"], "pdftotext_large_pdf")
+        self.assertTrue(metadata["mineru_skipped"])
+        pdftotext.assert_called_once()
+        mineru.assert_not_called()
 
     def test_clue_acquisition_continues_after_one_target_fails(self) -> None:
         clue = {"paper_id": "paper", "kind": "related_doi", "canonical_value": "10.1/x"}

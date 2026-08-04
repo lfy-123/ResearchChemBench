@@ -198,7 +198,10 @@ MinerU 源码位于 `third_party/MinerU/`。模型及其配置位于：
 `../.model_cache/data_pipeline/`。`mineru.json` 中的模型目录写作相对路径，例如
 `mineru/PDF-Extract-Kit-1___0`；管线启动 MinerU 时会把工作目录固定到缓存根目录。
 
-Stage 05 每发现一个新 PDF 就立即调用 MinerU；MinerU 不可用或失败时，主论文可回退到 Stage 02 文本，其他 PDF 会记录解析失败，不会丢弃原始文件。
+Stage 05 每发现一个新 PDF 就立即解析。页数不超过 `mineru.max_pages` 时调用 MinerU；
+超长 PDF 使用 `pdftotext -layout` 提取可读文本，并在资产的 `document.json` 中记录页数、
+阈值和 `mineru_skip_reason`。MinerU 不可用或失败时，主论文可回退到 Stage 02 文本；
+无论使用哪种解析器，原始 PDF 都会保留。
 
 ## Agent CLI 准备
 
@@ -260,6 +263,10 @@ Codex 和 Claude 使用各自 CLI 的本地认证。运行器只在执行期间�
     "memory_gb": 1000,
     "runtime_hours": 12
   },
+  "mineru": {
+    "enabled": true,
+    "max_pages": 100
+  },
   "stage05": {
     "enabled": true,
     "download_scope": "all",
@@ -305,7 +312,8 @@ Stage 04 和 Stage 05 均可通过 `enabled=false` 跳过：
 
 `supplementary_only` 不调用 OpenAlex，也不主动扩展普通 GitHub、Zenodo、OSF 或 Materials
 Cloud 线索。其网络发现只使用 Crossref、DataCite 和 DOI 出版社落地页；只有出版社明确把
-补充材料托管在某个仓库时，才继续调用该仓库接口取得对应附件。
+补充材料托管在某个仓库时，才继续调用该仓库接口取得对应附件。Europe PMC 查询仍会
+启用，因为它直接提供与 DOI 对应的官方补充材料压缩包。
 
 Stage 05 当前实际使用的网络接口如下，不依赖额外的第三方 wrapper：
 
@@ -313,6 +321,7 @@ Stage 05 当前实际使用的网络接口如下，不依赖额外的第三方 w
 |---|---|
 | Crossref REST API | DOI 元数据和明确关联关系 |
 | DataCite REST API | 数据 DOI、内容地址和关联标识符 |
+| Europe PMC REST API | 按 DOI 查询 PMCID，并下载排除正文内嵌图片的官方 supplementary ZIP |
 | OpenAlex REST API | `all` 模式下补充论文元数据关系 |
 | GitHub REST API | 解析正文明确给出的仓库并下载默认分支归档 |
 | Zenodo Records API | 枚举并下载记录文件 |

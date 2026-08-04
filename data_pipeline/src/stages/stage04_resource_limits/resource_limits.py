@@ -19,9 +19,9 @@ RELATIONS = {"exact", "approximately", "greater_than", "less_than", "range"}
 SCOPES = {"single_job", "aggregate_study", "unknown"}
 CONFIDENCE = {"high", "medium", "low"}
 RESOURCE_TERMS = re.compile(
-    r"\b(?:cpu|gpu|cores?|processors?|nodes?|memory|ram|wall[- ]?time|runtime|elapsed|"
+    r"\b(?:cpu|gpu|processors?|nodes?|memory|ram|wall[- ]?time|runtime|elapsed|"
     r"core[- ]?hours?|cpu[- ]?hours?|gpu[- ]?hours?|clusters?|supercomputers?|"
-    r"computing (?:center|centre|facility)|a100|h100|v100|seconds?|minutes?|hours?|days?)\b",
+    r"computing (?:center|centre|facility)|a100|h100|v100)\b",
     re.I,
 )
 CPU_HINT = re.compile(
@@ -274,7 +274,12 @@ def _recall_contexts(tei_path: str | Path) -> list[dict[str, Any]]:
         sentence
         for paragraph in read_tei_paragraphs(tei_path)
         for sentence in sentence_windows(paragraph)
-        if RESOURCE_TERMS.search(sentence["text"])
+        if (
+            RESOURCE_TERMS.search(sentence["text"])
+            or CPU_HINT.search(sentence["text"])
+            or CPU_COUNT_HINT.search(sentence["text"])
+            or TIME_HINT.search(sentence["text"])
+        )
     ]
 
 
