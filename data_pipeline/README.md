@@ -639,6 +639,66 @@ JDK、服务临时目录、日志和 MinerU 中间产物位于
 记录的旧实例和旧 Environment，再按新规格创建。当前管线按论文顺序处理，因此一个更大的
 沙箱用于增加单次运行的内存和 CPU 上限；多个沙箱不会自动改变现有筛选逻辑或并行拆分论文。
 
+## 一万篇论文的 Stage 01-04 分批筛选
+
+`scripts/run_stage_01_04_batches.py` 通过 `scripts/xinghe_dataset/` 中的可复用下载器读取
+Xinghe/S3 只读数据集，默认连续下载 10 批、每批 1,000 个 PDF。每批调用可复用的
+`scripts/workflows/run_stage_01_04_screening.sh`，仅把通过 Stage 04 的 PDF 复制到长期保留
+目录。成功批次的下载副本、TEI、文本和服务原始输出随后删除；下载游标、来源清单、筛选
+报告和远端源数据不会被删除。
+
+先查看将要处理的清单，不创建文件或沙箱：
+
+```bash
+bash scripts/run_stage_01_04_batches.sh --plan-only
+```
+
+执行完整的 10 批任务：
+
+```bash
+bash scripts/run_stage_01_04_batches.sh
+```
+
+默认使用 `en-paper-hzzj`、10,000 篇、1,000 篇一批、128 CPU、256 GiB 内存，并将
+Stage 01-04 并发分别设置为 32、32、16、8。所有值都可通过同名命令行参数覆盖，例如：
+
+```bash
+bash scripts/run_stage_01_04_batches.sh \
+  --dataset kps-2026-06-18 \
+  --limit 10000 \
+  --batch-size 1000 \
+  --sandbox-cpu 128 \
+  --sandbox-memory 256Gi \
+  --stage02-workers 32 \
+  --stage03-workers 16 \
+  --stage04-workers 8
+```
+
+若首选规格在集群中无法调度，脚本会依次尝试 96 CPU / 192 GiB、64 CPU / 128 GiB 和
+32 CPU / 96 GiB，并把最终规格与失败记录写入 `batch_state.json`。回退只改变沙箱资源，
+不会改变筛选条件、批次游标或阶段并发设置。
+
+默认输出根目录为：
+
+```text
+runs/stage04_batches_10000/
+├── batch_state.json             # 可恢复状态
+├── download_state/              # 持久化 Xinghe 下载游标、清单和锁
+├── source_manifest.jsonl        # 已处理远端对象汇总
+├── retained_manifest.jsonl      # 所有通过 Stage 04 的 PDF 汇总
+├── retained_pdfs/               # 仅保留通过四轮筛选的 PDF
+├── reports/batch_*/             # 每批摘要、紧凑筛选清单和日志
+└── workspaces/batch_*/          # 运行中的临时批次；成功后自动删除
+```
+
+沙箱在脚本开始时创建一次，十批之间复用，并在完成、异常或 Ctrl-C 后停止。任务中断后使用
+完全相同的参数重新执行即可跳过已完成批次，并复用当前批次已下载的 PDF 和已有阶段输出。
+`--max-batches 1` 可让一次调度只完成一个待处理批次；`--keep-batch-workspaces` 可保留完整
+阶段输出用于调试。脚本只允许删除 `workspaces/batch_*` 直属目录，并在每批开始前检查共享盘
+剩余空间。下载凭证默认读取
+`/mnt/shared-storage-user/liyuqiang/benchmark/pipline_demo/pdfs/xinghe.txt`，也可用
+`--credentials` 覆盖。
+
 ## 运行
 
 脚本默认读取 `data_pipeline/config.local.env`，映射 Stage 04 和 Agent 所需 API 环境变量，并实时写入日志。

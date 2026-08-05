@@ -6,6 +6,7 @@ import re
 from pathlib import Path
 from typing import Any, Callable
 
+from src.core.concurrency import ordered_parallel_map
 from src.core.io import write_json, write_jsonl
 from src.core.logging import log_progress
 from src.integrations.grobid_quantities import GrobidQuantitiesClient
@@ -60,6 +61,7 @@ def assess_resource_limits(
     *,
     output_dir: str | Path,
     model_caller: ModelCaller = call_json_chat,
+    workers: int = 1,
 ) -> list[dict[str, Any]]:
     root = Path(output_dir).expanduser().resolve()
     raw_dir = root / "grobid_quantities_raw"
@@ -69,18 +71,14 @@ def assess_resource_limits(
         directory.mkdir(parents=True, exist_ok=True)
     api_key = _require_model_config(interpretation_config)
     service_version = client.version()
-    output = []
-    recalled_rows = []
 
-    for index, document in enumerate(documents, start=1):
+    def assess(document: dict[str, Any]) -> tuple[dict[str, Any], dict[str, Any]]:
         contexts = _recall_contexts(document["grobid_tei_path"])
-        recalled_rows.append(
-            {
-                "document_id": document["document_id"],
-                "title": document.get("title"),
-                "contexts": contexts,
-            }
-        )
+        recalled_row = {
+            "document_id": document["document_id"],
+            "title": document.get("title"),
+            "contexts": contexts,
+        }
         raw_results = [
             {
                 "context": context,
@@ -148,38 +146,45 @@ def assess_resource_limits(
                 "stop_reason": None if passed else "explicit_resource_exceeds_limit",
             }
         )
-        output.append(
-            {
-                **document,
-                "resource_limits": {
-                    "status": status,
-                    "decision": decision,
-                    "passed": passed,
-                    "configured_limits": limits,
-                    "resource_records": structured["resource_records"],
-                    "aggregate_resources": structured["aggregate_resources"],
-                    "platform_mentions": structured["platform_mentions"],
-                    "physical_simulation_durations": structured["physical_simulation_durations"],
-                    "unresolved_mentions": structured["unresolved_mentions"],
-                    "exceeded_resources": exceeded,
-                    "recalled_context_count": len(contexts),
-                    "prompt_version": PROMPT_VERSION,
-                    "model_input_path": str(input_path),
-                    "model_response_path": str(response_path) if response_path else None,
-                    "model_audit": model_audit,
-                    "service_version": service_version,
-                    "grobid_quantities_raw_path": str(raw_path),
-                },
-                "pipeline_routing": routing,
-            }
-        )
-        log_progress(
+        record = {
+            **document,
+            "resource_limits": {
+                "status": status,
+                "decision": decision,
+                "passed": passed,
+                "configured_limits": limits,
+                "resource_records": structured["resource_records"],
+                "aggregate_resources": structured["aggregate_resources"],
+                "platform_mentions": structured["platform_mentions"],
+                "physical_simulation_durations": structured["physical_simulation_durations"],
+                "unresolved_mentions": structured["unresolved_mentions"],
+                "exceeded_resources": exceeded,
+                "recalled_context_count": len(contexts),
+                "prompt_version": PROMPT_VERSION,
+                "model_input_path": str(input_path),
+                "model_response_path": str(response_path) if response_path else None,
+                "model_audit": model_audit,
+                "service_version": service_version,
+                "grobid_quantities_raw_path": str(raw_path),
+            },
+            "pipeline_routing": routing,
+        }
+        return record, recalled_row
+
+    assessed = ordered_parallel_map(
+        assess,
+        documents,
+        max_workers=workers,
+        on_complete=lambda completed, total, _index, document, result: log_progress(
             "stage_04_resource_limits",
-            index,
-            len(documents),
+            completed,
+            total,
             document.get("title") or document["paper_id"],
-            status=decision,
-        )
+            status=(result[0].get("resource_limits") or {}).get("decision"),
+        ),
+    )
+    output = [record for record, _recalled in assessed]
+    recalled_rows = [recalled for _record, recalled in assessed]
     write_jsonl(root / "recalled_contexts.jsonl", recalled_rows)
     write_jsonl(
         root / "structured_resource_documents.jsonl",

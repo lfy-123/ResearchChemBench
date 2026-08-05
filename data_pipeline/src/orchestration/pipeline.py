@@ -57,7 +57,9 @@ def run_corpus_pipeline(config_path: Path, config: dict[str, Any], base: Path) -
     _write_stage_index(workspace)
 
     stage = _stage_dir(workspace, "stage_01_inventory")
-    inventory = inventory_corpus(corpus_root)
+    inventory = inventory_corpus(
+        corpus_root, workers=int((config.get("stage01") or {}).get("workers", 1))
+    )
     exclude_supplementary = bool(source.get("exclude_supplementary", True))
     supplementary_inventory = [
         item for item in inventory if item.get("document_role") == "supplementary"
@@ -109,6 +111,7 @@ def run_corpus_pipeline(config_path: Path, config: dict[str, Any], base: Path) -
         "reuse_existing": grobid_config.get("reuse_existing", True),
         "exclude_supplementary": exclude_supplementary,
         "fallback_config": grobid_config.get("fallback", {}),
+        "workers": int(grobid_config.get("workers", 1)),
     }
     with grobid_service(grobid_config) as client:
         extracted_records = extract_documents_with_grobid(
@@ -148,6 +151,7 @@ def run_corpus_pipeline(config_path: Path, config: dict[str, Any], base: Path) -
             role_rules_file=_resolve(base, software_config["role_rules_file"]),
             capability_map_file=_resolve(base, software_config["capability_map_file"]),
             raw_output_dir=stage / "softcite_raw",
+            workers=int(software_config.get("workers", 1)),
         )
     write_jsonl(stage / "software_coverage_documents.jsonl", software_records)
     write_jsonl(
@@ -196,6 +200,7 @@ def run_corpus_pipeline(config_path: Path, config: dict[str, Any], base: Path) -
                 config.get("resource_limits", {}),
                 config.get("resource_interpretation", {}),
                 output_dir=stage,
+                workers=int((config.get("stage04") or {}).get("workers", 1)),
             )
     else:
         classified = bypass_resource_limits(resource_inputs, config.get("resource_limits", {}))

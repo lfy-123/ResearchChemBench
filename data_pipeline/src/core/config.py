@@ -22,6 +22,7 @@ def normalize_config(raw: dict[str, Any], base: Path) -> dict[str, Any]:
     mineru = raw.get("mineru") or {}
     toolbox = raw.get("toolbox") or {}
     stage04 = raw.get("stage04") or {}
+    stage01 = raw.get("stage01") or {}
     stage05 = raw.get("stage05") or {}
     model_cache = _resolve(base, raw.get("model_cache_directory", ".model_cache"))
     model_cache_config = model_cache / "config"
@@ -63,6 +64,7 @@ def normalize_config(raw: dict[str, Any], base: Path) -> dict[str, Any]:
         "workspace": str(run_dir / "outputs"),
         "log_file": str(run_dir / "outputs" / "pipeline.log"),
         "stop_after": raw.get("stop_after", "judge"),
+        "stage01": {"workers": max(1, int(stage01.get("workers", 1)))},
         "grobid_extract": {
             "base_url": grobid.get("base_url", "http://127.0.0.1:8070"),
             "tei_dir": str(run_dir / "outputs" / "stage_02_grobid_extract" / "tei"),
@@ -91,6 +93,7 @@ def normalize_config(raw: dict[str, Any], base: Path) -> dict[str, Any]:
             "consolidate_citations": int(grobid.get("consolidate_citations", 0)),
             "max_chars": int(grobid.get("max_chars", 2_000_000)),
             "reuse_existing": bool(grobid.get("reuse_existing", True)),
+            "workers": max(1, int(grobid.get("workers", 1))),
             "fallback": {
                 "enabled": bool((grobid.get("fallback") or {}).get("enabled", True)),
                 "output_dir": str(run_dir / "outputs" / "stage_02_grobid_extract" / "fallback"),
@@ -121,6 +124,7 @@ def normalize_config(raw: dict[str, Any], base: Path) -> dict[str, Any]:
             "startup_timeout_seconds": int(softcite.get("startup_timeout_seconds", 900)),
             "timeout_seconds": int(softcite.get("timeout_seconds", 600)),
             "retries": int(softcite.get("retries", 2)),
+            "workers": max(1, int(softcite.get("workers", 1))),
             "service_log": str(
                 run_dir / "outputs" / "stage_03_software_coverage" / "softcite_service.log"
             ),
@@ -177,7 +181,10 @@ def normalize_config(raw: dict[str, Any], base: Path) -> dict[str, Any]:
             "memory_gb": float(resource_limits.get("memory_gb", 1000)),
             "runtime_hours": float(resource_limits.get("runtime_hours", 12)),
         },
-        "stage04": {"enabled": bool(stage04.get("enabled", True))},
+        "stage04": {
+            "enabled": bool(stage04.get("enabled", True)),
+            "workers": max(1, int(stage04.get("workers", 1))),
+        },
         "grobid_quantities": {
             "base_url": quantities.get("base_url", "http://127.0.0.1:8062"),
             "working_directory": str(

@@ -5,28 +5,40 @@ import subprocess
 from pathlib import Path
 from typing import Any
 
+from src.core.concurrency import ordered_parallel_map
 from src.core.io import sha256_file, stable_id
 from src.core.logging import log_progress
 from src.stages.stage01_inventory.document_role import classify_document_role
 
 
-def inventory_corpus(root: str | Path) -> list[dict[str, Any]]:
+def inventory_corpus(root: str | Path, *, workers: int = 1) -> list[dict[str, Any]]:
     root = Path(root).expanduser().resolve()
     if not root.is_dir():
         raise ValueError(f"Corpus directory does not exist: {root}")
 
+    paths = sorted(root.rglob("*.pdf"))
+
+    def inspect(path: Path) -> tuple[str, dict[str, Any]]:
+        return sha256_file(path), pdf_info(path)
+
+    inspected = ordered_parallel_map(
+        inspect,
+        paths,
+        max_workers=workers,
+        on_complete=lambda completed, total, _index, path, _result: log_progress(
+            "stage_01_inventory", completed, total, path.name
+        ),
+    )
+
     records: list[dict[str, Any]] = []
     hash_owner: dict[str, tuple[str, str]] = {}
-    paths = sorted(root.rglob("*.pdf"))
-    for index, path in enumerate(paths, start=1):
-        digest = sha256_file(path)
+    for path, (digest, info) in zip(paths, inspected, strict=True):
         document_id = stable_id("doc", digest)
         owner = hash_owner.get(digest)
         duplicate_of = owner[0] if owner else None
         duplicate_of_source_path = owner[1] if owner else None
         if owner is None:
             hash_owner[digest] = (document_id, str(path.resolve()))
-        info = pdf_info(path)
         document_role = classify_document_role(path, info.get("Title"))
         records.append(
             {
@@ -45,7 +57,6 @@ def inventory_corpus(root: str | Path) -> list[dict[str, Any]]:
                 "inventory_status": "duplicate" if duplicate_of else "canonical",
             }
         )
-        log_progress("stage_01_inventory", index, len(paths), path.name)
     return records
 
 

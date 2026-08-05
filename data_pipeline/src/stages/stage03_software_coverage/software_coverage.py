@@ -4,6 +4,7 @@ import re
 from pathlib import Path
 from typing import Any
 
+from src.core.concurrency import ordered_parallel_map
 from src.core.io import read_json, write_json
 from src.core.logging import log_progress
 from src.integrations.softcite import SoftciteClient
@@ -19,6 +20,7 @@ def assess_software_coverage(
     role_rules_file: str | Path,
     capability_map_file: str | Path,
     raw_output_dir: str | Path,
+    workers: int = 1,
 ) -> list[dict[str, Any]]:
     aliases = _alias_index(read_json(aliases_file))
     role_rules = read_json(role_rules_file)
@@ -26,9 +28,8 @@ def assess_software_coverage(
     raw_dir = Path(raw_output_dir).expanduser().resolve()
     raw_dir.mkdir(parents=True, exist_ok=True)
     service_version = client.version()
-    output: list[dict[str, Any]] = []
 
-    for index, document in enumerate(documents, start=1):
+    def assess(document: dict[str, Any]) -> dict[str, Any]:
         tei_path = document.get("grobid_tei_path")
         if not tei_path:
             raise ValueError(f"Missing GROBID TEI for {document.get('paper_id')}")
@@ -103,15 +104,20 @@ def assess_software_coverage(
                 "stop_reason": stop_reason,
             },
         }
-        output.append(record)
-        log_progress(
+        return record
+
+    return ordered_parallel_map(
+        assess,
+        documents,
+        max_workers=workers,
+        on_complete=lambda completed, total, _index, document, record: log_progress(
             "stage_03_software_coverage",
-            index,
-            len(documents),
+            completed,
+            total,
             document.get("title") or document["paper_id"],
-            status=decision,
-        )
-    return output
+            status=(record.get("software_coverage") or {}).get("decision"),
+        ),
+    )
 
 
 def software_coverage_summary(records: list[dict[str, Any]]) -> dict[str, Any]:

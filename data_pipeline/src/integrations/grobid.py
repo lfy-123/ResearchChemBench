@@ -15,6 +15,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Callable, Iterator
 
+from src.core.concurrency import ordered_parallel_map
 from src.core.logging import log_progress
 from src.integrations.pdf_fallback import fallback_pdf_to_tei
 
@@ -173,6 +174,7 @@ def extract_documents_with_grobid(
     reuse_existing: bool = True,
     exclude_supplementary: bool = True,
     fallback_config: dict[str, Any] | None = None,
+    workers: int = 1,
 ) -> list[dict[str, Any]]:
     canonical = [
         item
@@ -184,9 +186,8 @@ def extract_documents_with_grobid(
     text_dir = Path(text_dir).expanduser().resolve()
     tei_dir.mkdir(parents=True, exist_ok=True)
     text_dir.mkdir(parents=True, exist_ok=True)
-    output: list[dict[str, Any]] = []
 
-    for index, item in enumerate(canonical, start=1):
+    def extract(item: dict[str, Any]) -> dict[str, Any]:
         record = dict(item)
         tei_path = tei_dir / f"{item['document_id']}.tei.xml"
         text_path = text_dir / f"{item['document_id']}.txt"
@@ -279,15 +280,20 @@ def extract_documents_with_grobid(
                     "retrieval_sources": ["local_corpus", "grobid"],
                 }
             )
-        output.append(record)
-        log_progress(
+        return record
+
+    return ordered_parallel_map(
+        extract,
+        canonical,
+        max_workers=workers,
+        on_complete=lambda completed, total, _index, item, record: log_progress(
             "stage_02_grobid_extract",
-            index,
-            len(canonical),
+            completed,
+            total,
             item.get("file_name", item["document_id"]),
             status=record.get("grobid_extract_status"),
-        )
-    return output
+        ),
+    )
 
 
 def parse_grobid_tei(tei_xml: str) -> dict[str, Any]:
