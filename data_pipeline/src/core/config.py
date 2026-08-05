@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import sys
 import sysconfig
 from pathlib import Path
 from typing import Any
@@ -29,6 +30,9 @@ def normalize_config(raw: dict[str, Any], base: Path) -> dict[str, Any]:
     mineru_environment = {
         "MINERU_MODEL_SOURCE": "local",
         "MINERU_TOOLS_CONFIG_JSON": str(model_cache / "mineru" / "mineru.json"),
+        "LD_LIBRARY_PATH": os.pathsep.join(
+            [str(Path(sys.prefix) / "lib"), os.environ.get("LD_LIBRARY_PATH", "")]
+        ).strip(os.pathsep),
     }
     mineru_environment.update(
         {str(key): str(value) for key, value in (mineru.get("environment") or {}).items()}
@@ -121,7 +125,9 @@ def normalize_config(raw: dict[str, Any], base: Path) -> dict[str, Any]:
                 run_dir / "outputs" / "stage_03_software_coverage" / "softcite_service.log"
             ),
             "environment": {
-                "CONDA_PREFIX": softcite.get("conda_prefix", "/usr/local"),
+                "CONDA_PREFIX": str(
+                    softcite.get("conda_prefix") or os.environ.get("CONDA_PREFIX") or sys.prefix
+                ),
                 "PYTHONPATH": os.pathsep.join(
                     [
                         str(_resolve(base, softcite.get("delft_directory", "third_party/delft"))),
