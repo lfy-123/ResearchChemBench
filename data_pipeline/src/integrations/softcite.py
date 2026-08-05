@@ -122,7 +122,11 @@ def softcite_service(config: dict[str, Any]):
     class _Context:
         def __enter__(self) -> SoftciteClient:
             try:
-                self._manager = managed_service(config, service_name="Softcite")
+                self._manager = managed_service(
+                    config,
+                    service_name="Softcite",
+                    sandbox_service="softcite",
+                )
                 self._manager.__enter__()
             except ManagedServiceError as exc:
                 raise SoftciteError(str(exc)) from exc

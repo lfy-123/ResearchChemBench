@@ -74,7 +74,11 @@ def grobid_quantities_service(config: dict[str, Any]):
     class _Context:
         def __enter__(self) -> GrobidQuantitiesClient:
             try:
-                self._manager = managed_service(config, service_name="GROBID Quantities")
+                self._manager = managed_service(
+                    config,
+                    service_name="GROBID Quantities",
+                    sandbox_service="quantities",
+                )
                 self._manager.__enter__()
             except ManagedServiceError as exc:
                 raise GrobidQuantitiesError(str(exc)) from exc

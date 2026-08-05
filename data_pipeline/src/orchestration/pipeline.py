@@ -25,13 +25,27 @@ from src.stages.stage06_builder import run_builder_stage
 from src.stages.stage07_judge import run_judge_stage
 
 
-def run_pipeline(config_path: str | Path) -> dict[str, Any]:
+def run_pipeline(
+    config_path: str | Path,
+    *,
+    execution_backend: str = "local",
+    sandbox_options=None,
+) -> dict[str, Any]:
     path = Path(config_path).expanduser().resolve()
     raw = read_json(path)
     config = normalize_config(raw, path.parent)
     configure_pipeline_logging(config.get("log_file", Path(config["workspace"]) / "pipeline.log"))
     if (config.get("source") or {}).get("mode") != "corpus":
         raise ValueError("the redesigned pipeline supports corpus mode only")
+    if execution_backend == "sandbox":
+        from src.sandbox.manager import SandboxRunOptions
+        from src.sandbox.runtime import SandboxPipelineRuntime
+
+        options = sandbox_options or SandboxRunOptions()
+        with SandboxPipelineRuntime(options) as runtime:
+            return run_corpus_pipeline(path, runtime.apply(config), path.parent)
+    if execution_backend != "local":
+        raise ValueError("execution_backend must be local or sandbox")
     return run_corpus_pipeline(path, config, path.parent)
 
 

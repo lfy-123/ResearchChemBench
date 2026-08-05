@@ -98,6 +98,13 @@ def grobid_service(config: dict[str, Any]) -> Iterator[GrobidClient]:
         consolidate_header=int(config.get("consolidate_header", 0)),
         consolidate_citations=int(config.get("consolidate_citations", 0)),
     )
+    sandbox_runtime = config.get("_sandbox_runtime")
+    if sandbox_runtime is not None:
+        with sandbox_runtime.service("grobid", config):
+            if not grobid_is_alive(base_url):
+                raise GrobidError(f"GROBID sandbox service is not reachable at {base_url}")
+            yield client
+        return
     if grobid_is_alive(base_url):
         yield client
         return

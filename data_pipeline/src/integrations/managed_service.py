@@ -33,8 +33,20 @@ def managed_service(
     *,
     service_name: str,
     health_path: str = "/service/isalive",
+    sandbox_service: str | None = None,
 ) -> Iterator[None]:
     base_url = str(config["base_url"])
+    sandbox_runtime = config.get("_sandbox_runtime")
+    if sandbox_runtime is not None:
+        if not sandbox_service:
+            raise ManagedServiceError(f"{service_name} is missing its sandbox service name")
+        with sandbox_runtime.service(sandbox_service, config):
+            if not service_is_alive(base_url, health_path):
+                raise ManagedServiceError(
+                    f"{service_name} sandbox service is not reachable at {base_url}"
+                )
+            yield
+        return
     if service_is_alive(base_url, health_path):
         yield
         return

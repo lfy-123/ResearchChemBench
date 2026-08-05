@@ -60,7 +60,10 @@ def run_mineru_queue(
     process_directory = (
         Path(working_directory).expanduser().resolve() if working_directory else None
     )
-    executable = _resolve_executable(command)
+    sandbox_runtime = (environment or {}).get("_sandbox_runtime")
+    process_environment = dict(environment or {})
+    process_environment.pop("_sandbox_runtime", None)
+    executable = None if sandbox_runtime is not None else _resolve_executable(command)
     results: list[dict[str, Any]] = []
 
     total = len(queue)
@@ -78,7 +81,7 @@ def run_mineru_queue(
         }
         if not execute:
             result["status"] = "queued"
-        elif not executable:
+        elif sandbox_runtime is None and not executable:
             result["status"] = "unavailable"
             result["error"] = f"MinerU command not found: {command}"
         else:
@@ -102,7 +105,7 @@ def run_mineru_queue(
                 continue
             started = time.monotonic()
             process_env = os.environ.copy()
-            process_env.update({key: str(value) for key, value in (environment or {}).items()})
+            process_env.update({key: str(value) for key, value in process_environment.items()})
             heartbeat_stop = threading.Event()
             heartbeat = threading.Thread(
                 target=_log_mineru_heartbeat,
@@ -111,28 +114,47 @@ def run_mineru_queue(
             )
             heartbeat.start()
             try:
-                completed = subprocess.run(
-                    cli,
-                    capture_output=True,
-                    text=True,
-                    timeout=timeout_seconds,
-                    check=False,
-                    env=process_env,
-                    cwd=process_directory,
-                )
-                result["return_code"] = completed.returncode
-                result["stdout_tail"] = completed.stdout[-4000:]
-                result["stderr_tail"] = completed.stderr[-4000:]
-                (target / "mineru.stdout.log").write_text(completed.stdout, encoding="utf-8")
-                (target / "mineru.stderr.log").write_text(completed.stderr, encoding="utf-8")
+                if sandbox_runtime is not None:
+                    remote = sandbox_runtime.run_mineru(
+                        item,
+                        target,
+                        command=command,
+                        method=method,
+                        backend=backend,
+                        timeout_seconds=timeout_seconds,
+                        environment=process_environment,
+                        extra_args=extra_args,
+                    )
+                    result.update(remote)
+                    return_code = remote.get("return_code")
+                    stdout_text = str(remote.get("stdout_tail") or "")
+                    stderr_text = str(remote.get("stderr_tail") or "")
+                else:
+                    completed = subprocess.run(
+                        cli,
+                        capture_output=True,
+                        text=True,
+                        timeout=timeout_seconds,
+                        check=False,
+                        env=process_env,
+                        cwd=process_directory,
+                    )
+                    return_code = completed.returncode
+                    stdout_text = completed.stdout
+                    stderr_text = completed.stderr
+                result["return_code"] = return_code
+                result["stdout_tail"] = stdout_text[-4000:]
+                result["stderr_tail"] = stderr_text[-4000:]
+                (target / "mineru.stdout.log").write_text(stdout_text, encoding="utf-8")
+                (target / "mineru.stderr.log").write_text(stderr_text, encoding="utf-8")
                 inspected = _inspect_output(
                     target, min_markdown_chars, expected_pages=item.get("expected_pages")
                 )
                 result.update(inspected)
                 result["status"] = (
-                    "success" if completed.returncode == 0 and inspected["valid"] else "failed"
+                    "success" if return_code == 0 and inspected["valid"] else "failed"
                 )
-                if completed.returncode == 0 and not inspected["valid"]:
+                if return_code == 0 and not inspected["valid"]:
                     result["error"] = (
                         "MinerU exited successfully but required output validation failed"
                     )

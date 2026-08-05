@@ -2,12 +2,52 @@ from __future__ import annotations
 
 import argparse
 import json
+from pathlib import Path
 
 from src.core.io import read_jsonl, write_json, write_jsonl
 from src.integrations.grobid import GrobidClient, extract_documents_with_grobid
 from src.integrations.mineru import build_mineru_queue, run_mineru_queue
 from src.orchestration.pipeline import run_late_stages, run_pipeline
 from src.stages.stage01_inventory.corpus import inventory_corpus
+
+
+def _add_sandbox_options(parser: argparse.ArgumentParser, *, include_cleanup: bool = True) -> None:
+    parser.add_argument("--sandbox-cpu", type=int, default=32)
+    parser.add_argument("--sandbox-memory", default="96Gi")
+    parser.add_argument("--sandbox-lifecycle-minutes", type=int, default=1440)
+    parser.add_argument("--sandbox-source", type=Path)
+    parser.add_argument("--sandbox-inventory", type=Path)
+    parser.add_argument("--sandbox-base-url", default="https://h.pjlab.org.cn/brainbox")
+    parser.add_argument("--sandbox-project", default="ailab-ai4chem")
+    parser.add_argument(
+        "--sandbox-image",
+        default=("registry.h.pjlab.org.cn/ailab-ai4chem-ai4chem_cpu/base:python312-20260627215752"),
+    )
+    parser.add_argument("--sandbox-api-key-env", default="RCB_SANDBOX_API_KEY")
+    if include_cleanup:
+        parser.add_argument(
+            "--sandbox-cleanup",
+            choices=("keep", "stop", "delete"),
+            default="stop",
+            help="What to do with the sandbox instance after the pipeline exits",
+        )
+
+
+def _sandbox_options(args):
+    from src.sandbox.manager import DEFAULT_INVENTORY, DEFAULT_SOURCE, SandboxRunOptions
+
+    return SandboxRunOptions(
+        cpu=args.sandbox_cpu,
+        memory=args.sandbox_memory,
+        lifecycle_minutes=args.sandbox_lifecycle_minutes,
+        cleanup=getattr(args, "sandbox_cleanup", "keep"),
+        source=args.sandbox_source or DEFAULT_SOURCE,
+        inventory=args.sandbox_inventory or DEFAULT_INVENTORY,
+        base_url=args.sandbox_base_url,
+        project=args.sandbox_project,
+        image=args.sandbox_image,
+        api_key_env=args.sandbox_api_key_env,
+    )
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -17,6 +57,26 @@ def main(argv: list[str] | None = None) -> int:
     run_parser = subparsers.add_parser("run", help="Run the configured seven-stage pipeline")
     run_parser.add_argument("--config", default="config.json")
     run_parser.add_argument("--output")
+    run_parser.add_argument("--execution-backend", choices=("local", "sandbox"), default="local")
+    run_parser.add_argument(
+        "--sandbox",
+        action="store_const",
+        const="sandbox",
+        dest="execution_backend",
+        help="Shortcut for --execution-backend sandbox",
+    )
+    _add_sandbox_options(run_parser)
+
+    sandbox_parser = subparsers.add_parser(
+        "sandbox", help="Create, inspect, stop, or delete the managed pipeline sandbox"
+    )
+    sandbox_parser.add_argument("action", choices=("create", "status", "stop", "delete"))
+    sandbox_parser.add_argument(
+        "--delete-environment",
+        action="store_true",
+        help="Also delete the managed Environment when action=delete",
+    )
+    _add_sandbox_options(sandbox_parser, include_cleanup=False)
 
     late_parser = subparsers.add_parser(
         "run-late-stages", help="Run Stage 05-07 from an existing Stage 04 JSONL"
@@ -60,9 +120,31 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
 
     if args.command == "run":
-        result = run_pipeline(args.config)
+        result = run_pipeline(
+            args.config,
+            execution_backend=args.execution_backend,
+            sandbox_options=(
+                _sandbox_options(args) if args.execution_backend == "sandbox" else None
+            ),
+        )
         if args.output:
             write_json(args.output, result)
+    elif args.command == "sandbox":
+        from dataclasses import asdict
+
+        from src.sandbox.manager import SandboxManager
+
+        manager = SandboxManager(_sandbox_options(args))
+        if args.action == "create":
+            result = {"status": "running", "worker": asdict(manager.ensure())}
+        elif args.action == "status":
+            result = manager.status()
+        elif args.action == "stop":
+            result = manager.stop()
+        elif args.action == "delete":
+            result = manager.delete(delete_environment=args.delete_environment)
+        else:
+            raise AssertionError(args.action)
     elif args.command == "run-late-stages":
         result = run_late_stages(args.input, args.config, args.workspace)
         if args.output:
