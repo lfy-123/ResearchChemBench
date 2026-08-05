@@ -1,1 +1,5 @@
-# CP2K is supplied by Conda; no pip-only runtime package is required.
+# The committed explicit Conda lock predates these Python-side runtime helpers,
+# so keep them here as well to make --from-lock replays complete.
+pydantic==2.13.4
+PyYAML==6.0.3
+python-dotenv==1.2.2

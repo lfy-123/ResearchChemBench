@@ -8,6 +8,10 @@ SPEC_ROOT="${TOOLBOX_ROOT}/environment/merged"
 TARGET_ROOT="${RESEARCHCHEMBENCH_ENV_ROOT:-${PROJECT_ROOT}/.envs}"
 MANAGER="${RCB_CONDA_MANAGER:-$(command -v mamba || command -v conda)}"
 
+# pip resolves local editable requirements against the current directory, so
+# make builds independent of where this script was invoked from.
+cd "${PROJECT_ROOT}"
+
 ALL_ENVIRONMENTS=(
   general-modern-openmpi5
   molecular-simulation-openff

@@ -107,7 +107,7 @@ PROBES: dict[str, tuple[str, list[str]]] = {
     "automekin": ("amk.sh", ["--version"]),
     "censo": ("censo", ["--version"]),
     "charmm": ("charmm", ["-h"]),
-    "cp2k": ("cp2k", ["-version"]),
+    "cp2k": ("cp2k", ["--help"]),
     "critic2": ("critic2", ["--version"]),
     "deepmd": ("dp", ["--version"]),
     "dftbplus": ("dftb+", ["--version"]),
