@@ -10,7 +10,6 @@ scripts/
 │   ├── run_pipeline.sh              # 完整数据管线
 │   └── run_stage_01_04_screening.sh # 固定的 Stage 01-04 筛选流程
 ├── bootstrap/                       # 环境、服务和模型缓存准备
-├── corpus/                          # 本地论文语料辅助工具
 ├── xinghe_dataset/                  # Xinghe 数据集只读访问与可恢复下载
 └── patches/                         # 固定第三方版本所需补丁
 ```
