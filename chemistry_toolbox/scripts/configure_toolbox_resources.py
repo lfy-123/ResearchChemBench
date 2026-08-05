@@ -64,6 +64,26 @@ def file_checksum(path: Path, algorithm: str) -> str:
     return digest.hexdigest()
 
 
+def probe_environment(specification: dict[str, Any]) -> dict[str, str]:
+    """Build the same relocatable PATH environment used by runtime profiles."""
+
+    environment = os.environ.copy()
+    for key, config_key in (
+        ("PATH", "prepend_path_entries"),
+        ("LD_LIBRARY_PATH", "prepend_library_path_entries"),
+    ):
+        entries = [
+            str(declared_path(str(item)))
+            for item in specification.get(config_key, [])
+        ]
+        existing = environment.get(key)
+        if existing:
+            entries.append(existing)
+        if entries:
+            environment[key] = os.pathsep.join(entries)
+    return environment
+
+
 def verify_supporting_file(
     specification: dict[str, Any], key: str
 ) -> tuple[dict[str, Any] | None, list[str]]:
@@ -164,6 +184,7 @@ def install_executable(specification: dict[str, Any], *, verify_only: bool) -> d
     result["target_exists"] = target.is_file()
     result["target_is_symlink"] = target.is_symlink()
     if target.is_file() and not errors:
+        environment = probe_environment(specification)
         probe_specification = dict(specification.get("version_probe") or {})
         arguments = [
             str(value)
@@ -181,6 +202,7 @@ def install_executable(specification: dict[str, Any], *, verify_only: bool) -> d
                 stderr=subprocess.STDOUT,
                 timeout=60,
                 check=False,
+                env=environment,
             )
             output = completed.stdout.strip().splitlines()
             output_pattern = str(probe_specification.get("output_regex") or "")
@@ -219,6 +241,7 @@ def install_executable(specification: dict[str, Any], *, verify_only: bool) -> d
                     stderr=subprocess.STDOUT,
                     timeout=60,
                     check=False,
+                    env=environment,
                 )
                 capability_match = (
                     re.search(capability_pattern, capability_completed.stdout)

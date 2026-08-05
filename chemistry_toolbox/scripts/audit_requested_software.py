@@ -72,9 +72,15 @@ def resolve_runtime_value(value: str, runtime: Path) -> str:
 
 def runtime_environment(specification: dict[str, Any]) -> dict[str, str]:
     runtime = runtime_path(specification)
-    path_entries = [runtime / "bin"]
+    path_entries = [
+        *(root_path(item) for item in specification.get("prepend_path_entries", [])),
+        runtime / "bin",
+    ]
     path_entries.extend(root_path(item) for item in specification.get("path_entries", []))
-    library_entries = [runtime / "lib"]
+    library_entries = [
+        *(root_path(item) for item in specification.get("prepend_library_path_entries", [])),
+        runtime / "lib",
+    ]
     library_entries.extend(root_path(item) for item in specification.get("library_path_entries", []))
     path_entries = [item for item in path_entries if item is not None]
     library_entries = [item for item in library_entries if item is not None]
@@ -486,7 +492,7 @@ def write_markdown(payload: dict[str, Any]) -> None:
         "- `configured` only means local dependencies and entry points are ready. It does not mean every program has a public Action or that the system selected a model, functional, basis, pseudopotential, or workflow order for the Agent.",
         "- `partial` entries require the host application or runtime repairs described in their notes. Bounded timeouts and functional probes must not be replaced by unbounded waits or file-existence checks.",
         "- `manual_required` entries require a user-provided license, registered download, source package, or compiler toolchain before runtime integration can continue.",
-        "- NIST CCCBDB remains `manual_api_review` and is not exposed. NIST WebBook is integrated through its official parameterized CGI as a restricted single-species Data Action; it is not described as a general REST/JSON API, bulk scraper, or mirror.",
+        "- NIST CCCBDB is intentionally excluded: it has no documented stable API and is not required for paper/SI self-contained benchmark tasks. NIST WebBook remains integrated through its official parameterized CGI as a restricted single-species Data Action; it is not described as a general REST/JSON API, bulk scraper, or mirror.",
         "",
         "## Replay Command",
         "",

@@ -3,7 +3,7 @@ software_id: aiida
 versions: ["2.8.0"]
 topics: ["index", "navigation", "capabilities"]
 aliases: ["AiiDA", "aiida"]
-inputs: ["configured AiiDA profile", "database", "broker or core profile", "workflow script"]
+inputs: ["configured AiiDA profile", "database", "workflow script", "optional broker for daemon submission"]
 outputs: ["AiiDA database nodes", "process records", "repository objects", "optional archive.aiida"]
 last_smoke_tested: "2026-07-28"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
@@ -12,7 +12,7 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 
 ## Installed software
 - Installed version: `2.8.0`.
-- Operational status: `interface_only`.
+- Operational status: `runnable_local_without_daemon`.
 - Configured runtime: `workflows`.
 - Primary use: provenance-tracked workflow orchestration through a configured AiiDA profile.
 

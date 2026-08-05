@@ -1100,45 +1100,6 @@ software:
           cpu_cores: 1
           memory_mb: 2048
           gpu_count: 0
-  matlab:
-    commands:
-      matlab:
-        enabled: true
-        example_kind: interface_template
-        arguments:
-        - -nodisplay
-        - -nosplash
-        - -nodesktop
-        - -r
-        - run('analysis.m'); exit
-        inputs: []
-        outputs:
-        - run('analysis.m'); exit
-        stdin_target: null
-        resource_limits:
-          cpu_cores: 1
-          memory_mb: 2048
-          gpu_count: 0
-  easyspin:
-    commands:
-      matlab:
-        enabled: true
-        example_kind: scientific_template
-        arguments:
-        - -nodisplay
-        - -nosplash
-        - -nodesktop
-        - -r
-        - run('analysis.m'); exit
-        inputs:
-        - analysis.m
-        outputs:
-        - run('analysis.m'); exit
-        stdin_target: null
-        resource_limits:
-          cpu_cores: 1
-          memory_mb: 2048
-          gpu_count: 0
   yambo:
     commands:
       p2y:

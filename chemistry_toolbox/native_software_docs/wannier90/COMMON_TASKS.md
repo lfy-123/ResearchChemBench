@@ -1,6 +1,6 @@
 ---
 software_id: wannier90
-versions: ["3.1.0"]
+versions: ["3.1.0 local source build"]
 topics: ["common-tasks", "inputs", "outputs", "convergence"]
 aliases: ["Wannier90", "wannier90"]
 inputs: ["seedname.win", "and for full runs seedname.amn", "seedname.mmn", "seedname.eig"]
@@ -53,7 +53,7 @@ Only collect outputs produced by the same job or by explicitly linked parent job
 Preprocessing only validates the .win file; full Wannierization requires spread convergence and physically appropriate disentanglement and projections.
 
 ## Version-specific caution
-These mechanics target the installed `3.1.0` environment. Verify keywords and file formats against the official references before reusing an input written for another release.
+These mechanics target the installed `3.1.0 local source build` environment. Verify keywords and file formats against the official references before reusing an input written for another release.
 
 ## Minimal-example policy
 The tested file under `examples/interface_smoke/` verifies the configured command route. It does not choose a paper-specific method. For scientific work, start from the smallest official example for the intended calculation family, replace all structures and methods explicitly, run the toolbox validator, and retain the complete inputs and outputs as provenance.

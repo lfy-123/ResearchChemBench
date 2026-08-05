@@ -102,7 +102,7 @@ support_environments:
     description: RMG-Py 4.0.0 typed kinetics and tunneling runtime.
     environment: .envs/kinetics-legacy
     conda_packages: [rmg=4.0.0, pydantic, pyyaml, python-dotenv]
-    pip_packages: []
+    pip_packages: [CoolProp==8.0.0, numdifftools==0.9.42]
     health_checks:
       modules: [rmgpy, pydantic, yaml]
       commands: [rmg.py]
@@ -565,14 +565,21 @@ profiles:
   qe:
     conda_name: researchchem-qe
     server_name: researchchem_qe
-    description: Isolated Quantum ESPRESSO runtime.
+    description: Quantum ESPRESSO runtime with a locally rebuilt Wannier90 3.1.0 executable.
     environment: .envs/general-modern-openmpi5
     conda_packages: [qe]
     pip_packages: []
     health_checks:
-      commands: [pw.x]
+      commands: [pw.x, pw2wannier90.x, wannier90.x]
+      external_commands:
+        - .software_cache/wannier90/3.1.0-source/wannier90.x
     command_variables:
       CHEMGRAPH_QE_COMMAND: pw.x
+    prepend_path_entries: [.software_cache/wannier90/3.1.0-source]
+    prepend_library_path_entries: [.envs/equivariant-ml/lib]
+    cache_paths: [.software_cache/wannier90/3.1.0-source]
+    smoke_commands:
+      - [bash, -c, 'grep -q "All done: wannier90 exiting" .software_cache/wannier90/smoke/qe_si_sourcebuild/si.wout']
     backends: [quantum_espresso]
 
   cp2k:

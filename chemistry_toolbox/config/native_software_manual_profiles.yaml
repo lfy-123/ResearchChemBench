@@ -21,15 +21,15 @@ software:
   aiida:
     display_name: AiiDA
     installed_version: 2.8.0
-    operational_status: interface_only
+    operational_status: runnable_local_without_daemon
     official_docs: [https://aiida.readthedocs.io/projects/aiida-core/en/stable/reference/command_line.html, https://aiida.readthedocs.io/projects/aiida-core/en/stable/howto/run_codes.html]
     primary_task: provenance-tracked workflow orchestration through a configured AiiDA profile
     task_types: [profile inspection, code registration, process submission, process monitoring, archive export]
-    inputs: [configured AiiDA profile, database, broker or core profile, workflow script]
+    inputs: [configured AiiDA profile, database, workflow script, optional broker for daemon submission]
     outputs: [AiiDA database nodes, process records, repository objects, optional archive.aiida]
     normal_markers: [Finished, Excepted count 0]
     convergence_notes: AiiDA process completion describes workflow state; each wrapped scientific code still requires its own convergence checks.
-    resource_notes: Resources belong to the selected AiiDA Code and scheduler options, not to the local verdi client process.
+    resource_notes: Synchronous run() works with the local SQLite profile. RabbitMQ and the daemon are only needed for asynchronous submit/play/pause/kill and are deliberately outside the bounded local runtime.
     known_errors:
       - ["No profile loaded", "the isolated job has no configured AiiDA profile", "stage or select a valid profile; do not create production profiles inside an evaluation task"]
       - ["daemon is not running", "broker-backed workflows require the AiiDA daemon", "use direct run for a bounded smoke or configure the daemon outside the job"]
@@ -38,7 +38,7 @@ software:
   amber_pmemd:
     display_name: Amber PMEMD
     installed_version: "26"
-    operational_status: runnable_partial_mpi
+    operational_status: runnable_serial_and_mpi
     official_docs: [https://ambermd.org/Manuals.php, https://ambermd.org/tutorials/]
     primary_task: classical molecular dynamics or minimization from prepared Amber topology and restart files
     task_types: [energy minimization, heating, NVT dynamics, NPT dynamics, restart continuation]
@@ -46,7 +46,7 @@ software:
     outputs: [mdout, output.rst7, trajectory.nc, mdinfo]
     normal_markers: [Final Performance Info, 5.  TIMINGS]
     convergence_notes: Minimization requires the requested gradient or cycle criterion; MD requires the intended number of steps and stable thermodynamic diagnostics.
-    resource_notes: Serial pmemd uses one core; pmemd.MPI needs an available launcher. The catalogued generic mpirun command is currently unresolved, so MPI examples are not claimed as tested.
+    resource_notes: Serial pmemd uses one core; the configured PMEMD OpenMPI launcher is used for pmemd.MPI. Both public serial and MPI paths passed real tests; CUDA PMEMD is not built.
     known_errors:
       - ["Could not open topology or coordinate file", "staged filename differs from -p or -c", "stage exact job-local names and keep all argv paths relative"]
       - ["periodic box or atom count mismatch", "prmtop and rst7 were produced for different systems", "regenerate or pair matching topology and restart files"]
@@ -99,7 +99,7 @@ software:
     convergence_notes: Confirm every requested part completed and that failed conformers were not silently removed from the scientific population.
     resource_notes: CENSO dispatches external QM calculations; internal parallel settings and external-program threads must fit the job allocation.
     known_errors:
-      - ["QM executable not found", "the selected ORCA or TURBOMOLE path is unavailable", "use a configured backend and verify it before the ensemble run"]
+      - ["QM executable not found", "the selected ORCA path is unavailable", "use the configured ORCA backend and verify it before the ensemble run"]
       - ["no conformers read", "XYZ ensemble formatting or atom counts are inconsistent", "validate every XYZ block and energy comment"]
       - ["all structures failed", "method, charge, spin, solvent, or resources are unsuitable", "run one conformer directly and repair that failure first"]
 
@@ -174,11 +174,11 @@ software:
   deepmd:
     display_name: DeePMD-kit
     installed_version: 3.2.0b0
-    operational_status: interface_only_without_dataset
+    operational_status: runnable_pretrained_inference
     official_docs: [https://docs.deepmodeling.com/projects/deepmd/en/master/, https://github.com/deepmodeling/deepmd-kit]
     primary_task: train, freeze, test, or compress a deep potential model
     task_types: [training, model freezing, model testing, model compression, dataset conversion]
-    inputs: [training JSON or YAML, DeepMD dataset, optional checkpoint or frozen model]
+    inputs: [training JSON or YAML and dataset for training, or an explicitly selected registered checkpoint for inference]
     outputs: [training logs, checkpoints, frozen model, test metrics]
     normal_markers: [DEEPMD INFO, finished training]
     convergence_notes: Training completion is not model validity; inspect validation loss, energy/force errors, data coverage, and held-out test metrics.
@@ -204,20 +204,6 @@ software:
       - ["could not find Slater-Koster file", "Prefix or pair filename does not match staged resources", "stage the complete parameter set and use exact job-local Prefix"]
       - ["SCC is NOT converged", "charge mixing or electronic settings are inadequate", "review mixer, temperature, max iterations, charge, and geometry"]
       - ["invalid HSD path", "section nesting or version syntax is wrong", "validate dftb_in.hsd against the installed parser"]
-
-  easyspin:
-    display_name: EasySpin
-    installed_version: unavailable MATLAB host
-    operational_status: placeholder
-    official_docs: [https://easyspin.org/easyspin/documentation/]
-    primary_task: EPR simulation and fitting inside MATLAB
-    task_types: [spectrum simulation, spin-Hamiltonian analysis, fitting]
-    inputs: [analysis.m, EasySpin installation, MATLAB runtime, experimental data]
-    outputs: [MATLAB console output, spectra, fitted parameters]
-    normal_markers: [MATLAB exit code 0]
-    convergence_notes: No local MATLAB executable is available, so no operational example or smoke is claimed.
-    resource_notes: Placeholder only.
-    known_errors: []
 
   gamess:
     display_name: GAMESS
@@ -378,11 +364,11 @@ software:
   lobster:
     display_name: LOBSTER
     installed_version: 5.1.0
-    operational_status: runnable_with_vasp_upstream
+    operational_status: runnable_with_periodic_upstream
     official_docs: [https://www.cohp.de/, https://lobsterpy.readthedocs.io/en/latest/]
-    primary_task: chemical-bonding projection from a compatible completed VASP calculation
+    primary_task: chemical-bonding projection from compatible completed VASP, Quantum ESPRESSO, or ABINIT results
     task_types: [COHP, COOP, COBI, projected DOS, charge analysis]
-    inputs: [lobsterin, POSCAR, POTCAR, WAVECAR, CONTCAR, KPOINTS, OUTCAR, vasprun.xml]
+    inputs: [lobsterin, structure and basis metadata, compatible VASP, Quantum ESPRESSO, or ABINIT wavefunction outputs]
     outputs: [lobsterout, COHPCAR.lobster, ICOHPLIST.lobster, DOSCAR.lobster, CHARGE.lobster]
     normal_markers: [finished in]
     convergence_notes: Reject any ERROR line even with exit code zero; inspect charge spilling and verify every requested projection artifact.
@@ -391,20 +377,6 @@ software:
       - ["ERROR: required VASP files are missing", "upstream fixed-name files were not staged", "stage the complete compatible VASP output set"]
       - ["basis function or POTCAR mismatch", "lobsterin basis does not match PAW datasets or element order", "inspect basis recommendations and POTCAR order"]
       - ["high charge spilling", "projection basis or upstream wavefunctions are inadequate", "review basis, bands, k mesh, symmetry, and projection scope"]
-
-  matlab:
-    display_name: MATLAB
-    installed_version: unavailable
-    operational_status: placeholder
-    official_docs: [https://www.mathworks.com/help/matlab/]
-    primary_task: execute MATLAB analysis scripts
-    task_types: [numerical analysis, fitting, signal processing, plotting]
-    inputs: [analysis.m, referenced data and toolboxes]
-    outputs: [console output, MAT files, tables, plots]
-    normal_markers: [MATLAB exit code 0]
-    convergence_notes: No local MATLAB executable is available, so no operational example or smoke is claimed.
-    resource_notes: Placeholder only.
-    known_errors: []
 
   mesmer:
     display_name: MESMER
@@ -477,11 +449,11 @@ software:
   nequip:
     display_name: NequIP
     installed_version: installed NequIP runtime
-    operational_status: interface_only_without_dataset
+    operational_status: runnable_registered_models
     official_docs: [https://nequip.readthedocs.io/en/latest/, https://github.com/mir-group/nequip]
     primary_task: train or deploy an equivariant interatomic potential from a curated dataset
     task_types: [training, validation, model packaging, inference, LAMMPS deployment]
-    inputs: [config.yaml, training and validation dataset, optional checkpoint]
+    inputs: [config.yaml and datasets for training, or an explicitly selected registered checkpoint for inference]
     outputs: [training log, checkpoints, metrics, packaged model]
     normal_markers: [Training complete, best_model.pth]
     convergence_notes: Training completion does not establish scientific validity; require held-out energy and force errors, learning curves, and domain coverage.
@@ -851,17 +823,17 @@ software:
   vesta:
     display_name: VESTA
     installed_version: 3.90.5a
-    operational_status: installed_gui_runtime_incomplete
+    operational_status: runnable_headless_gui
     official_docs: [https://jp-minerals.org/vesta/en/, https://jp-minerals.org/vesta/en/doc.html]
     primary_task: interactive visualization and conversion of crystal, volumetric, and project files
     task_types: [structure visualization, density visualization, project export, format conversion]
     inputs: [CIF, POSCAR, cube, density, or VESTA project file]
     outputs: [interactive session, images, converted structures, VESTA project]
-    normal_markers: [GUI opened, export completed]
+    normal_markers: [headless GUI remained healthy for bounded smoke, export completed]
     convergence_notes: VESTA is not a scientific solver; validate that the intended structure or field was loaded and exported correctly.
-    resource_notes: The installed launcher currently lacks a required GUI shared library in the headless environment. No scientific or export smoke is claimed.
+    resource_notes: All required shared libraries resolve. Xvfb supports bounded headless launch; an interactive session still needs a display/OpenGL stack. VESTA is a visualization tool, not a numerical solver.
     known_errors:
-      - ["libxkbcommon.so.0 cannot be opened", "GUI runtime dependency is absent", "install the missing GUI library or use a supported headless conversion tool"]
+      - ["shared library cannot be opened", "the migrated host lacks the locally bundled GUI runtime libraries", "copy .software_cache/vesta/deps and preserve the configured library path"]
       - ["cannot open display", "no X server is available", "run in a graphical environment or use a non-GUI alternative"]
 
   vina:
@@ -900,7 +872,7 @@ software:
 
   wannier90:
     display_name: Wannier90
-    installed_version: 3.1.0
+    installed_version: 3.1.0 local source build
     operational_status: runnable_with_upstream_matrices
     official_docs: [https://wannier.org/ford/, https://github.com/wannier-developers/wannier90]
     primary_task: preprocess or construct maximally localized Wannier functions from an upstream electronic-structure calculation
@@ -909,7 +881,7 @@ software:
     outputs: [seedname.nnkp, seedname.wout, seedname.chk, interpolated data]
     normal_markers: ["All done: wannier90 exiting", "Exiting..."]
     convergence_notes: Preprocessing only validates the .win file; full Wannierization requires spread convergence and physically appropriate disentanglement and projections.
-    resource_notes: Preprocessing is light; full runs scale with bands, k points, and Wannier functions. Upstream matrix generation is a separate calculation.
+    resource_notes: The configured executable is the validated local source build, not the conda binary that segfaulted in a real workflow. Preprocessing is light; full runs scale with bands, k points, and Wannier functions.
     known_errors:
       - ["cannot open seedname.win", "seed prefix or staged filename is wrong", "stage seedname.win and use the same positional seed"]
       - ["amn/mmn/eig file missing", "full run lacks upstream matrices", "generate compatible files from the same DFT calculation"]

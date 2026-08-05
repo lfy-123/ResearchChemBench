@@ -3,7 +3,7 @@ software_id: lobster
 versions: ["5.1.0"]
 topics: ["common-tasks", "inputs", "outputs", "convergence"]
 aliases: ["LOBSTER", "lobster"]
-inputs: ["lobsterin", "POSCAR", "POTCAR", "WAVECAR", "CONTCAR", "KPOINTS", "OUTCAR", "vasprun.xml"]
+inputs: ["lobsterin", "structure and basis metadata", "compatible VASP", "Quantum ESPRESSO", "or ABINIT wavefunction outputs"]
 outputs: ["lobsterout", "COHPCAR.lobster", "ICOHPLIST.lobster", "DOSCAR.lobster", "CHARGE.lobster"]
 last_smoke_tested: "2026-07-28"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
@@ -19,13 +19,10 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 
 ## Minimum input responsibilities
 - `lobsterin`
-- `POSCAR`
-- `POTCAR`
-- `WAVECAR`
-- `CONTCAR`
-- `KPOINTS`
-- `OUTCAR`
-- `vasprun.xml`
+- `structure and basis metadata`
+- `compatible VASP`
+- `Quantum ESPRESSO`
+- `or ABINIT wavefunction outputs`
 
 A minimum runnable input must still specify every scientifically material quantity: molecular or periodic structure, charge and spin where applicable, model or Hamiltonian, numerical controls, boundary conditions, task type, and requested outputs. Workflow programs additionally require their database, model, or upstream-calculation references.
 

@@ -21,7 +21,7 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 ## Known failures and repairs
 | Symptom | Likely cause | Corrective action |
 |---|---|---|
-| QM executable not found | the selected ORCA or TURBOMOLE path is unavailable | use a configured backend and verify it before the ensemble run |
+| QM executable not found | the selected ORCA path is unavailable | use the configured ORCA backend and verify it before the ensemble run |
 | no conformers read | XYZ ensemble formatting or atom counts are inconsistent | validate every XYZ block and energy comment |
 | all structures failed | method, charge, spin, solvent, or resources are unsuitable | run one conformer directly and repair that failure first |
 

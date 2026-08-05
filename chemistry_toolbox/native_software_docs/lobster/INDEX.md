@@ -3,7 +3,7 @@ software_id: lobster
 versions: ["5.1.0"]
 topics: ["index", "navigation", "capabilities"]
 aliases: ["LOBSTER", "lobster"]
-inputs: ["lobsterin", "POSCAR", "POTCAR", "WAVECAR", "CONTCAR", "KPOINTS", "OUTCAR", "vasprun.xml"]
+inputs: ["lobsterin", "structure and basis metadata", "compatible VASP", "Quantum ESPRESSO", "or ABINIT wavefunction outputs"]
 outputs: ["lobsterout", "COHPCAR.lobster", "ICOHPLIST.lobster", "DOSCAR.lobster", "CHARGE.lobster"]
 last_smoke_tested: "2026-07-28"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
@@ -12,9 +12,9 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 
 ## Installed software
 - Installed version: `5.1.0`.
-- Operational status: `runnable_with_vasp_upstream`.
+- Operational status: `runnable_with_periodic_upstream`.
 - Configured runtime: `lobster`.
-- Primary use: chemical-bonding projection from a compatible completed VASP calculation.
+- Primary use: chemical-bonding projection from compatible completed VASP, Quantum ESPRESSO, or ABINIT results.
 
 ## When to use this interface
 Analyze bonding from compatible electronic-structure outputs using a native LOBSTER input. The native layer is appropriate when the Agent must author the software input or select version-specific options that are not represented by a preset Action.

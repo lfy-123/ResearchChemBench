@@ -603,7 +603,7 @@ software:
           - The first argument must be an explicit verdi subcommand. AiiDA workflow definitions themselves belong in the programmable layer.
 
   censo:
-    runtime: reaction
+    runtime: censo
     purpose: Run CENSO ensemble refinement from an Agent-selected conformer ensemble and explicit settings.
     commands:
       censo:
@@ -749,32 +749,6 @@ software:
         required_files: [subcommand-specific excited-state, orbital, or density files]
         output_behavior: Writes state-character tables, charge-transfer metrics, plots, and requested analysis files.
         example_arguments: ["analyze_tden", "-f", "dens_ana.in"]
-
-  matlab:
-    runtime: matlab
-    purpose: Execute an Agent-authored MATLAB R2018a script when a legitimate local MATLAB installation and license are available.
-    commands:
-      matlab:
-        synopsis: "matlab -nodisplay -nosplash -nodesktop -r \"run('analysis.m'); exit\""
-        input_mode: arguments
-        required_files: [analysis.m and referenced data/toolboxes]
-        output_behavior: Writes script-selected files and MATLAB console output to stdout/stderr.
-        example_arguments: ["-nodisplay", "-nosplash", "-nodesktop", "-r", "run('analysis.m'); exit"]
-        notes:
-          - MATLAB is currently license-gated; this entry remains visible and reports unavailable until a legitimate installation is configured.
-
-  easyspin:
-    runtime: easyspin
-    purpose: Execute an Agent-authored MATLAB script using the staged EasySpin 6.0.12 toolbox when MATLAB is licensed and available.
-    commands:
-      matlab:
-        synopsis: "matlab -nodisplay -nosplash -nodesktop -r \"addpath('<EasySpin path>'); run('analysis.m'); exit\""
-        input_mode: arguments
-        required_files: [analysis.m, EasySpin inputs, and experimental data]
-        output_behavior: Writes simulated spectra, fitted parameters, figures/data, and console output selected by the script.
-        example_arguments: ["-nodisplay", "-nosplash", "-nodesktop", "-r", "run('analysis.m'); exit"]
-        notes:
-          - The EasySpin toolbox is staged, but execution remains unavailable until licensed MATLAB is configured.
 
   yambo:
     runtime: yambo

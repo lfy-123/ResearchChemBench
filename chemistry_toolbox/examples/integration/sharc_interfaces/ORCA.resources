@@ -1,0 +1,11 @@
+orcadir $ORCA
+scratchdir $TMPDIR/SHARC_ORCA
+savedir ./SAVEDIR
+ncpu 1
+schedule_scaling 0.9
+delay 0.0
+memory 1000
+wfoverlap $SHARC/wfoverlap.x
+wfthres 0.99
+numfrozcore 0
+numocc 0

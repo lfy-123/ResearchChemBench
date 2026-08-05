@@ -1,6 +1,6 @@
 ---
 software_id: wannier90
-versions: ["3.1.0"]
+versions: ["3.1.0 local source build"]
 topics: ["quickstart", "staging", "submission", "resources"]
 aliases: ["Wannier90", "wannier90"]
 inputs: ["seedname.win", "and for full runs seedname.amn", "seedname.mmn", "seedname.eig"]
@@ -61,7 +61,7 @@ The paths under `workspace_inputs/` are illustrative workspace-relative sources.
 - For `fixed_files`, stage every required filename exactly and normally leave `arguments` empty.
 
 ## Resource mapping
-Preprocessing is light; full runs scale with bands, k points, and Wannier functions. Upstream matrix generation is a separate calculation.
+The configured executable is the validated local source build, not the conda binary that segfaulted in a real workflow. Preprocessing is light; full runs scale with bands, k points, and Wannier functions.
 `resource_limits.memory_mb` is total memory for the entire process group, not memory per MPI rank. `cpu_cores` is the allocation ceiling. Software thread or rank controls must not exceed it. Walltime is enforced by the Supervisor; a timeout is distinct from software non-convergence.
 
 ## Collection checklist

@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-07-30T18:21:27.990129+00:00",
+  "generated_at": "2026-08-05T17:34:32.804450+00:00",
   "schema_version": 1,
   "selection_policy": "agent_explicit_no_default",
-  "configuration_mode": "install_and_verify",
+  "configuration_mode": "verify_only",
   "deep_checks": false,
   "summary": {
     "resource_count": 27,
-    "passed": 25,
-    "failed": 2,
-    "all_ok": false
+    "passed": 27,
+    "failed": 0,
+    "all_ok": true
   },
   "resources": [
     {
@@ -563,15 +563,13 @@
         "arguments": [
           "--version"
         ],
-        "returncode": 127,
-        "first_line": "/mnt/shared-storage-user/liyuqiang/benchmark/ResearchChemBench/.envs/molecular-simulation-openff/bin/gnina: error while loading shared libraries: libcudnn.so.9: cannot open shared object file: No such file or directory",
+        "returncode": 0,
+        "first_line": "gnina v1.3.3 master:6fe1ce2   Built Jun 30 2026.",
         "output_regex": null,
         "matched_text": null
       },
-      "errors": [
-        "Executable version probe failed"
-      ],
-      "status": "fail"
+      "errors": [],
+      "status": "pass"
     },
     {
       "id": "orca_6_1_1_linux_x86_64_shared_openmpi418_avx2",
@@ -637,10 +635,10 @@
         "arguments": [
           "--version"
         ],
-        "returncode": 127,
-        "first_line": "/mnt/shared-storage-user/liyuqiang/benchmark/ResearchChemBench/.envs/general-modern-openmpi5/orca-openmpi-4.1.8/bin/mpirun: error while loading shared libraries: libopen-rte.so.40: cannot open shared object file: No such file or directory",
+        "returncode": 0,
+        "first_line": "mpirun (Open MPI) 4.1.8",
         "output_regex": "mpirun \\(Open MPI\\) 4\\.1\\.8",
-        "matched_text": null
+        "matched_text": "mpirun (Open MPI) 4.1.8"
       },
       "capability_probes": [
         {
@@ -648,25 +646,20 @@
           "arguments": [],
           "output_regex": "Fort mpif\\.h: yes \\(all\\)",
           "description": "ORCA large-system modules require OpenMPI Fortran numeric datatypes.",
-          "returncode": 127,
-          "matched_text": null
+          "returncode": 0,
+          "matched_text": "Fort mpif.h: yes (all)"
         },
         {
           "path": ".software_cache/openmpi/4.1.8-fortran/bin/ompi_info",
           "arguments": [],
           "output_regex": "Fort use mpi: yes",
           "description": "Validate that the OpenMPI Fortran module bindings are enabled.",
-          "returncode": 127,
-          "matched_text": null
+          "returncode": 0,
+          "matched_text": "Fort use mpi: yes"
         }
       ],
-      "errors": [
-        "Executable version probe failed",
-        "Executable version output did not match expected pattern",
-        "Executable capability probe failed: /mnt/shared-storage-user/liyuqiang/benchmark/ResearchChemBench/.software_cache/openmpi/4.1.8-fortran/bin/ompi_info",
-        "Executable capability probe failed: /mnt/shared-storage-user/liyuqiang/benchmark/ResearchChemBench/.software_cache/openmpi/4.1.8-fortran/bin/ompi_info"
-      ],
-      "status": "fail"
+      "errors": [],
+      "status": "pass"
     },
     {
       "id": "nequip_oam_s_0_1",

@@ -3,7 +3,7 @@ software_id: aiida
 versions: ["2.8.0"]
 topics: ["quickstart", "staging", "submission", "resources"]
 aliases: ["AiiDA", "aiida"]
-inputs: ["configured AiiDA profile", "database", "broker or core profile", "workflow script"]
+inputs: ["configured AiiDA profile", "database", "workflow script", "optional broker for daemon submission"]
 outputs: ["AiiDA database nodes", "process records", "repository objects", "optional archive.aiida"]
 last_smoke_tested: "2026-07-28"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
@@ -60,7 +60,7 @@ The paths under `workspace_inputs/` are illustrative workspace-relative sources.
 - For `fixed_files`, stage every required filename exactly and normally leave `arguments` empty.
 
 ## Resource mapping
-Resources belong to the selected AiiDA Code and scheduler options, not to the local verdi client process.
+Synchronous run() works with the local SQLite profile. RabbitMQ and the daemon are only needed for asynchronous submit/play/pause/kill and are deliberately outside the bounded local runtime.
 `resource_limits.memory_mb` is total memory for the entire process group, not memory per MPI rank. `cpu_cores` is the allocation ceiling. Software thread or rank controls must not exceed it. Walltime is enforced by the Supervisor; a timeout is distinct from software non-convergence.
 
 ## Collection checklist

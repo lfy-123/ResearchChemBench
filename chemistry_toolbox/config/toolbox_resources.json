@@ -198,6 +198,9 @@
       "install_target": ".envs/general-modern-openmpi5/orca-openmpi-4.1.8/bin/mpirun",
       "checksum_algorithm": "sha256",
       "checksum": "f5e6ea2e7efa72d816c2bfad7a348b6f0011ac66c96413f82b85ed8a91b2a1c8",
+      "prepend_library_path_entries": [
+        ".software_cache/openmpi/4.1.8-fortran/lib"
+      ],
       "version_probe": {
         "arguments": ["--version"],
         "accepted_returncodes": [0],

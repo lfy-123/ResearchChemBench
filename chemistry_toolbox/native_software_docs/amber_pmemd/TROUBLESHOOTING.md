@@ -29,7 +29,7 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 A source file existing in the benchmark workspace does not make it visible to the native process. Every dependency must be declared in `staged_inputs`. The content of an input deck must reference the staged `target_path`, not its original workspace path. Fixed-name programs are case-sensitive. Never assume the process starts in the task workspace.
 
 ## Resource failures
-Serial pmemd uses one core; pmemd.MPI needs an available launcher. The catalogued generic mpirun command is currently unresolved, so MPI examples are not claimed as tested.
+Serial pmemd uses one core; the configured PMEMD OpenMPI launcher is used for pmemd.MPI. Both public serial and MPI paths passed real tests; CUDA PMEMD is not built.
 If the Supervisor reports `memory_limit_exceeded`, reduce software parallelism or request a justified larger total allocation. If it reports timeout, inspect whether the software was progressing and whether the requested task can finish within the remaining evaluation lifetime. Resource increases do not repair malformed input.
 
 ## False-success prevention

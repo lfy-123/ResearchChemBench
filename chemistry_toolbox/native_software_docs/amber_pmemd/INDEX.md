@@ -12,7 +12,7 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 
 ## Installed software
 - Installed version: `26`.
-- Operational status: `runnable_partial_mpi`.
+- Operational status: `runnable_serial_and_mpi`.
 - Configured runtime: `amber`.
 - Primary use: classical molecular dynamics or minimization from prepared Amber topology and restart files.
 

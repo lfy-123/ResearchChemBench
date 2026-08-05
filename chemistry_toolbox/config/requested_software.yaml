@@ -107,7 +107,7 @@ requested_software:
     license: MIT
     public_adapter: runtime_only
     role: Provenance-aware workflow engine and data store.
-    notes: Profile researchchembench is initialized with SQLite under .software_cache/aiida; it remains infrastructure because exposing a fixed AiiDA workflow would hide the Agent's tool ordering and backend choices.
+    notes: Profile researchchembench is initialized with SQLite under .software_cache/aiida and supports synchronous local run() with provenance. RabbitMQ is only required for daemon-backed submit/play/pause/kill and is intentionally not added to this bounded local benchmark runtime.
     official_url: https://aiida.readthedocs.io/
 
   - name: atomate2
@@ -140,13 +140,14 @@ requested_software:
     category: Conformers and Molecular Quantum Chemistry
     kind: executable
     status_policy: probe
-    environment: reaction
+    environment: censo
     modules: []
     commands: [censo]
+    cache_paths: [.software_cache/censo/home/.censo2rc, .software_cache/censo/smoke_prescreen3]
     license: GPL-3.0
     public_adapter: runtime_only
     role: Conformer ensemble sorting and thermochemical analysis executable.
-    notes: CENSO is available in the reaction runtime; complete runs still require explicit CREST/ORCA/TURBOMOLE choices and inputs.
+    notes: CENSO 2.1.2 uses an isolated configuration with ORCA 6.1.1, matching OpenMPI 4.1.8 and xTB; all electronic-structure stages select ORCA rather than the removed TURBOMOLE backend. A real two-conformer PBE-D4 prescreen completed. Production runs still require explicit ensemble, charge, spin, solvent and resource choices.
     official_url: https://pypi.org/project/censo/
 
   - name: ORCA
@@ -204,39 +205,6 @@ requested_software:
     role: Molecular quantum chemistry executable.
     notes: Gaussian 16 Revision C.01 is staged in an isolated runtime. Public energy, Hessian, optimization and dipole calls passed; Hessians are reconstructed from formchk output and no arbitrary route deck is exposed.
     official_url: https://gaussian.com/
-
-  - name: Q-Chem
-    category: Conformers and Molecular Quantum Chemistry
-    kind: licensed_binary
-    status_policy: manual
-    license: commercial
-    public_adapter: not_implemented
-    mcp_exposure: disabled_by_operator_no_license
-    role: Molecular quantum chemistry executable.
-    notes: Explicitly disabled by the operator because it is not needed and no license is available. It is absent from BackendSpecs and the MCP catalog; do not install or expose it unless the operator later reverses this decision and supplies a valid license.
-    official_url: https://www.q-chem.com/
-
-  - name: Molpro
-    category: Conformers and Molecular Quantum Chemistry
-    kind: licensed_binary
-    status_policy: manual
-    license: commercial
-    public_adapter: not_implemented
-    mcp_exposure: disabled_by_operator_no_license
-    role: High-level ab initio quantum chemistry executable.
-    notes: Explicitly disabled by the operator because it is not needed and no license is available. It is absent from BackendSpecs and the MCP catalog; re-enable only after a deliberate operator decision and valid license/site installation.
-    official_url: https://www.molpro.net/
-
-  - name: TURBOMOLE
-    category: Conformers and Molecular Quantum Chemistry
-    kind: licensed_binary
-    status_policy: manual
-    license: commercial
-    public_adapter: not_implemented
-    mcp_exposure: disabled_by_operator_no_license
-    role: Molecular quantum chemistry executable.
-    notes: Explicitly disabled by the operator because it is not needed and no license is available. It is absent from BackendSpecs and the MCP catalog; CENSO must not select it implicitly.
-    official_url: https://www.turbomole.org/
 
   - name: autodE
     category: Conformers and Molecular Quantum Chemistry
@@ -333,38 +301,6 @@ requested_software:
     notes: Operator-provided VASP 6.3.2 is compiled with the isolated GCC/OpenMPI/ScaLAPACK/FFTW runtime. The supplied potpaw54 archive is cached with SHA-256 e987c9d8a0789bdeac2ff7d49fa26944145b9c363b81016ba25aac0d0e0c006f and indexed as five explicit families containing 735 exact variants. The Agent must choose every family/variant; no default POTCAR is selected, and the data must be treated as licensed and non-redistributable.
     official_url: https://vasp.at/wiki/Installing_VASP.6.X.X
 
-  - name: CASTEP
-    category: Periodic Materials, Phonons, and Transport
-    kind: licensed_binary
-    status_policy: manual
-    license: academic_registration
-    public_adapter: not_implemented
-    role: Plane-wave periodic DFT and materials simulation executable.
-    notes: Requires STFC academic/commercial license and a site build.
-    official_url: https://licences.stfc.ac.uk/product/castep/print
-
-  - name: CRYSTAL
-    category: Periodic Materials, Phonons, and Transport
-    kind: licensed_binary
-    status_policy: manual
-    license: commercial_registration
-    public_adapter: not_implemented
-    mcp_exposure: disabled_by_operator_no_license
-    role: Periodic local-orbital quantum chemistry executable.
-    notes: Explicitly disabled by the operator because it is not needed and no license is available. It is absent from BackendSpecs and the MCP catalog.
-    official_url: https://www.crystal.unito.it/how_to_get_a_copy.html
-
-  - name: WIEN2k
-    category: Periodic Materials, Phonons, and Transport
-    kind: licensed_binary
-    status_policy: manual
-    license: commercial_registration
-    public_adapter: not_implemented
-    mcp_exposure: disabled_by_operator_no_license
-    role: Full-potential all-electron periodic code.
-    notes: Explicitly disabled by the operator because it is not needed and no license is available. It is absent from BackendSpecs and the MCP catalog.
-    official_url: https://www.wien2k.at/
-
   - name: ShengBTE
     category: Periodic Materials, Phonons, and Transport
     kind: source_build
@@ -386,10 +322,11 @@ requested_software:
     environment: qe
     modules: []
     commands: [wannier90.x]
+    cache_paths: [.software_cache/wannier90/3.1.0-source, .software_cache/wannier90/smoke/qe_si_sourcebuild]
     license: GPL-2.0
     public_adapter: runtime_only
     role: Maximally localized Wannier-function generation.
-    notes: Existing Quantum ESPRESSO runtime already provides wannier90.x.
+    notes: Quantum ESPRESSO 7.5 provides pw2wannier90.x. The conda Wannier90 3.1.0 binary reproducibly segfaulted after the initial state, so official v3.1.0 was rebuilt locally; the replacement completed a real four-band silicon workflow with final spread 4.037017340 Angstrom^2 and All done. Production runs still require task-selected projections, windows and convergence.
     official_url: https://wannier.org/
 
   - name: Yambo
@@ -399,10 +336,11 @@ requested_software:
     environment: yambo
     modules: []
     commands: [yambo, p2y]
+    cache_paths: [.software_cache/yambo/smoke/qe_si_8band, .software_cache/resources/qe_pseudos/yambo/Si.pbe-rrkj.UPF]
     license: GPL-3.0
     public_adapter: runtime_only
     role: GW/BSE and excited-state properties for periodic systems.
-    notes: Yambo 5.3.0 binary is installed; no upstream wavefunction database or fixed input is generated.
+    notes: Yambo 5.3.0 and p2y converted and initialized a real eight-band QE 7.5 silicon database using an official norm-conserving pseudopotential. GW/BSE calculations remain task-specific and require explicit bands, cutoffs, k meshes and convergence studies.
     official_url: https://www.yambo-code.eu/
 
   - name: LOBSTER
@@ -525,7 +463,7 @@ requested_software:
     license: MIT
     public_adapter: runtime_only
     role: Thermochemistry and kinetics from quantum-chemistry results.
-    notes: Shipped with RMG-Py, Arkane.py and the official database are present. Top-level import remains pathologically slow and a bundled H thermochemistry example exceeded a 300-second bound, so this stays partial until the runtime is repaired or a bounded real calculation passes.
+    notes: Shipped with RMG-Py and the official database. CoolProp 8.0.0 and numdifftools 0.9.42 repair the previous import timeout; the bundled H thermochemistry example now completes through Arkane and produces thermo, plot, and supporting-information outputs.
     official_url: https://reactionmechanismgenerator.github.io/RMG-Py/users/arkane/
 
   - name: MESS
@@ -602,13 +540,13 @@ requested_software:
     kind: source_build
     status_policy: probe
     environment: sharc
-    modules: []
-    commands: [sharc.x, wfoverlap.x]
-    cache_paths: [.software_cache/sharc/source]
+    modules: [numba, netCDF4, threadpoolctl]
+    commands: [sharc.x, wfoverlap.x, SHARC_ORCA.py, SHARC_MOLCAS.py]
+    cache_paths: [.software_cache/sharc/source, .software_cache/sharc/smoke/orca_h2]
     license: GPL-3.0
     public_adapter: runtime_only
     role: Nonadiabatic excited-state dynamics.
-    notes: SHARC4 core binaries and wfoverlap_ascii were compiled; PySHARC/NetCDF and full trajectories still require explicit electronic-structure interfaces and task inputs.
+    notes: SHARC4 core binaries, ASCII wfoverlap, NetCDF/Numba dependencies, and ORCA 6/OpenMolcas 25.10 interfaces are configured. A real H2 ORCA energy/gradient interface job completed. PySHARC is optional; full trajectories still require explicit states, templates, initial conditions and dynamics controls.
     official_url: https://sharc-md.org/
 
   - name: Newton-X
@@ -622,7 +560,7 @@ requested_software:
     license: registration
     public_adapter: runtime_only
     role: Nonadiabatic molecular dynamics and excited-state sampling.
-    notes: Newton-X New Series 3.5.3 is installed and the bundled analytical avoided-crossing test passed. It remains runtime-only until a typed nonadiabatic Action can expose states, couplings, hopping controls and an explicit electronic-structure interface without becoming a monolithic workflow runner.
+    notes: Newton-X New Series 3.5.3 completed both its analytical test and a real 1.5 fs ORCA 6.1.1 TDDFT nonadiabatic trajectory after configuring matching OpenMPI 4.1.8 and packaged CIOVERLAP. It remains runtime-only until a typed Action exposes states, couplings, hopping controls and an explicit interface without becoming monolithic.
     official_url: https://newtonx.org/download/
 
   - name: TheoDORE
@@ -637,35 +575,6 @@ requested_software:
     role: Excited-state density, transition, and exciton analysis.
     notes: TheoDORE 2.5.0 imports and CLI starts; optional Orbkit/OpenBabel extensions are not installed.
     official_url: https://theodore-qc.sourceforge.io/
-
-  - name: EasySpin
-    category: Excited States, Spectroscopy, and Visualization
-    kind: licensed_toolbox
-    status_policy: probe
-    environment: easyspin
-    modules: []
-    commands: [matlab]
-    cache_paths: [.software_cache/easyspin/6.0.12/easyspin]
-    license: MATLAB_toolbox
-    public_adapter: runtime_only
-    role: EPR/ESR spin-dynamics and spectral simulation.
-    notes: EasySpin 6.0.12 toolbox files are staged and structurally validated. Official MATLAB R2018a installation media are now cached, but no licensed MATLAB executable exists yet; executable EasySpin validation remains blocked on a legitimate File Installation Key/license file or license server.
-    official_url: https://easyspin.org/
-
-  - name: MATLAB
-    category: Excited States, Spectroscopy, and Visualization
-    kind: licensed_binary
-    status_policy: manual
-    environment: matlab
-    modules: []
-    commands: [matlab]
-    cache_paths: [.software_cache/matlab/R2018a/installation_media/R2018a_glnxa64_dvd1.iso, .software_cache/matlab/R2018a/installation_media/R2018a_glnxa64_dvd2.iso]
-    license: commercial
-    public_adapter: not_implemented
-    mcp_exposure: not_exposed_host_runtime
-    role: Numerical computing host for EasySpin and other scripts.
-    notes: Both official MATLAB R2018a Linux ISO images are staged in .software_cache (DVD1 SHA-256 780717eeeaf11855a119ffe5e3e8be3443df4b1b79a2dcb04feb4c3ea7eb693e; DVD2 485467b9662b7d2f6bbf92b84b18b95fed93a9d6fc6ead4c806b1b67e9296997). The separately downloaded crack archive was deliberately not copied, opened or used. Installation and EasySpin execution require a legitimate MathWorks File Installation Key plus license file/server information.
-    official_url: https://www.mathworks.com/products/matlab.html
 
   - name: VMD
     category: Excited States, Spectroscopy, and Visualization
@@ -693,29 +602,6 @@ requested_software:
     role: Crystal-structure and volumetric-data visualization.
     notes: Official VESTA 3.90.5a GTK3 x86_64 package is installed with locally extracted Ubuntu runtime libraries; an Xvfb headless launch remained healthy until the bounded smoke timeout. Interactive GUI use still requires DISPLAY/OpenGL, and redistribution is prohibited by the VESTA license.
     official_url: https://jp-minerals.org/vesta/jp/download.html
-
-  - name: OpenEye
-    category: Docking, Structure Processing, and Machine-Learned Potentials
-    kind: licensed_software_suite
-    status_policy: manual
-    license: commercial
-    public_adapter: not_implemented
-    mcp_exposure: disabled_by_operator_no_license
-    role: Commercial cheminformatics and docking toolkit.
-    notes: Explicitly disabled by the operator because it is not needed and no license is available. It is absent from BackendSpecs and the MCP catalog; a conda package alone would not authorize use without a valid OpenEye license.
-    official_url: https://www.eyesopen.com/
-
-  - name: Schrödinger
-    category: Docking, Structure Processing, and Machine-Learned Potentials
-    kind: licensed_software_suite
-    status_policy: manual
-    cache_paths: [.software_cache/schrodinger/rejected/dirac-video-codec/schroedinger-1.0.11-7-x86_64.pkg.tar.zst]
-    license: commercial
-    public_adapter: not_implemented
-    mcp_exposure: not_exposed_missing_licensed_suite
-    role: Commercial molecular modeling and docking suite.
-    notes: The supplied schroedinger-1.0.11-7 Arch package was identified from .PKGINFO as an ANSI C implementation of the Dirac video codec, not the commercial Schrödinger chemistry suite. It is retained only under .software_cache/schrodinger/rejected with SHA-256 41906fcce0eeb74edcaf50ee46635c2f336703692d956782dba7dd1f419187b7 and is not installed or exposed. A genuine Schrödinger Suite installer and site license are still required if this backend is wanted.
-    official_url: https://www.schrodinger.com/
 
   - name: pdb-tools
     category: Docking, Structure Processing, and Machine-Learned Potentials
@@ -759,20 +645,6 @@ requested_software:
     role: Deep neural-network interatomic potentials and MD integration.
     notes: A dedicated DeePMD-kit 3.2.0b0 CPU inference runtime loads all five downloaded DPA/OMol checkpoints; the original 3.1.3/LAMMPS runtime is preserved separately. Molecular and periodic atomic adapters require an exact checkpoint, explicit branch (or single_task), charge, spin and device.
     official_url: https://docs.deepmodeling.com/projects/deepmd/
-
-  - name: NIST CCCBDB Interface
-    category: Data Interfaces
-    kind: data_interface
-    status_policy: interface
-    environment: ""
-    modules: []
-    commands: []
-    license: NIST_SRD_terms
-    public_adapter: not_implemented
-    mcp_exposure: disabled_no_documented_api
-    role: Access to the NIST Computational Chemistry Comparison and Benchmark Database.
-    notes: CCCBDB has no public documented REST/JSON API and is suitable only for limited interactive single-molecule webpage use. It remains outside BackendSpecs and is not exposed through MCP; no brittle page scraping or bulk crawler is added.
-    official_url: https://cccbdb.nist.gov/introx.asp
 
   - name: NIST Chemistry WebBook Interface
     category: Data Interfaces

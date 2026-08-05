@@ -15,10 +15,10 @@ def _yaml(path: str):
     return yaml.safe_load((ROOT / path).read_text(encoding="utf-8"))
 
 
-def test_requested_software_inventory_covers_all_59_unique_items():
+def test_requested_software_inventory_covers_all_48_unique_items():
     items = _yaml("config/requested_software.yaml")["requested_software"]
     names = [item["name"] for item in items]
-    assert len(names) == len(set(names)) == 59
+    assert len(names) == len(set(names)) == 48
     assert {item["category"] for item in items} == {
         "Data and Workflow Infrastructure",
         "Conformers and Molecular Quantum Chemistry",
@@ -80,7 +80,7 @@ def test_generated_requested_software_status_has_no_unaccounted_missing_item():
     payload = json.loads(
         (ROOT / "config/requested_software_status.json").read_text(encoding="utf-8")
     )
-    assert payload["summary"]["total"] == 59
+    assert payload["summary"]["total"] == 48
     assert payload["summary"]["counts"].get("not_found", 0) == 0
     assert {item["status"] for item in payload["software"]} <= {
         "configured",
@@ -91,15 +91,10 @@ def test_generated_requested_software_status_has_no_unaccounted_missing_item():
     }
 
 
-def test_nist_interfaces_keep_cccbdb_disabled_and_bound_webbook_to_official_cgi():
+def test_nist_interface_is_bound_to_official_webbook_cgi():
     items = _yaml("config/requested_software.yaml")["requested_software"]
     nist = {item["name"]: item for item in items if item["name"].startswith("NIST ")}
-    assert set(nist) == {"NIST CCCBDB Interface", "NIST Chemistry WebBook Interface"}
-    cccbdb = nist["NIST CCCBDB Interface"]
-    assert cccbdb["status_policy"] == "interface"
-    assert cccbdb["public_adapter"] == "not_implemented"
-    assert cccbdb["mcp_exposure"] == "disabled_no_documented_api"
-    assert "scrap" in cccbdb["notes"].lower()
+    assert set(nist) == {"NIST Chemistry WebBook Interface"}
     webbook = nist["NIST Chemistry WebBook Interface"]
     assert webbook["status_policy"] == "probe"
     assert webbook["environment"] == "services"
@@ -108,15 +103,17 @@ def test_nist_interfaces_keep_cccbdb_disabled_and_bound_webbook_to_official_cgi(
     assert "bulk" in webbook["notes"].lower()
 
 
-def test_operator_disabled_unlicensed_suites_are_absent_from_mcp_backends():
-    items = {
-        item["name"]: item
+def test_removed_unlicensed_suites_are_absent_from_inventory_and_backends():
+    names = {
+        item["name"]
         for item in _yaml("config/requested_software.yaml")["requested_software"]
     }
-    disabled = {"Q-Chem", "Molpro", "TURBOMOLE", "CRYSTAL", "WIEN2k", "OpenEye"}
-    for name in disabled:
-        assert items[name]["mcp_exposure"] == "disabled_by_operator_no_license"
-        assert items[name]["public_adapter"] == "not_implemented"
+    removed = {
+        "Q-Chem", "Molpro", "TURBOMOLE", "CASTEP", "CRYSTAL", "WIEN2k",
+        "EasySpin", "MATLAB", "OpenEye", "Schrödinger",
+    }
+    assert removed.isdisjoint(names)
     assert {
-        "qchem", "molpro", "turbomole", "crystal", "wien2k", "openeye"
+        "qchem", "molpro", "turbomole", "castep", "crystal", "wien2k",
+        "easyspin", "matlab", "openeye", "schrodinger",
     }.isdisjoint(backend_specs())

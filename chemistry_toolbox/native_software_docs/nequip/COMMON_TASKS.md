@@ -3,7 +3,7 @@ software_id: nequip
 versions: ["installed NequIP runtime"]
 topics: ["common-tasks", "inputs", "outputs", "convergence"]
 aliases: ["NequIP", "nequip"]
-inputs: ["config.yaml", "training and validation dataset", "optional checkpoint"]
+inputs: ["config.yaml and datasets for training", "or an explicitly selected registered checkpoint for inference"]
 outputs: ["training log", "checkpoints", "metrics", "packaged model"]
 last_smoke_tested: "2026-07-28"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
@@ -18,9 +18,8 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 - **Lammps Deployment**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 
 ## Minimum input responsibilities
-- `config.yaml`
-- `training and validation dataset`
-- `optional checkpoint`
+- `config.yaml and datasets for training`
+- `or an explicitly selected registered checkpoint for inference`
 
 A minimum runnable input must still specify every scientifically material quantity: molecular or periodic structure, charge and spin where applicable, model or Hamiltonian, numerical controls, boundary conditions, task type, and requested outputs. Workflow programs additionally require their database, model, or upstream-calculation references.
 

@@ -1,6 +1,6 @@
 ---
 software_id: wannier90
-versions: ["3.1.0"]
+versions: ["3.1.0 local source build"]
 topics: ["troubleshooting", "errors", "preflight"]
 aliases: ["Wannier90", "wannier90"]
 inputs: ["seedname.win", "and for full runs seedname.amn", "seedname.mmn", "seedname.eig"]
@@ -29,7 +29,7 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 A source file existing in the benchmark workspace does not make it visible to the native process. Every dependency must be declared in `staged_inputs`. The content of an input deck must reference the staged `target_path`, not its original workspace path. Fixed-name programs are case-sensitive. Never assume the process starts in the task workspace.
 
 ## Resource failures
-Preprocessing is light; full runs scale with bands, k points, and Wannier functions. Upstream matrix generation is a separate calculation.
+The configured executable is the validated local source build, not the conda binary that segfaulted in a real workflow. Preprocessing is light; full runs scale with bands, k points, and Wannier functions.
 If the Supervisor reports `memory_limit_exceeded`, reduce software parallelism or request a justified larger total allocation. If it reports timeout, inspect whether the software was progressing and whether the requested task can finish within the remaining evaluation lifetime. Resource increases do not repair malformed input.
 
 ## False-success prevention

@@ -41,10 +41,7 @@ from researchchem_toolbox.models import ResourceLimits
 SCIENTIFIC_EVIDENCE = TOOLBOX_ROOT / "evidence" / "native_smoke" / "20260728_reliability_fix_v3"
 DEFAULT_EVIDENCE = TOOLBOX_ROOT / "evidence" / "native_interface_smoke" / "20260728_all_software"
 LATEST = TOOLBOX_ROOT / "evidence" / "native_interface_smoke" / "latest.json"
-PLACEHOLDERS = {
-    "easyspin": "MATLAB host and valid license are unavailable.",
-    "matlab": "MATLAB executable and valid license are unavailable.",
-}
+PLACEHOLDERS: dict[str, str] = {}
 SCIENTIFIC_CASES = {
     "orca": "orca_single_point",
     "gaussian": "gaussian_optimization_frequency",
@@ -375,7 +372,7 @@ def execute(
         "schema_version": 1,
         "generated_at": tested_at,
         "runner": "chemistry_toolbox/scripts/run_native_interface_smokes.py",
-        "scope": "56 Catalog software entries; scientific smoke where self-contained evidence exists, interface smoke otherwise",
+        "scope": f"{len(records)} Catalog software entries; scientific smoke where self-contained evidence exists, interface smoke otherwise",
         "counts": counts,
         "software": records,
     }
@@ -392,8 +389,12 @@ def verify(evidence_dir: Path) -> dict[str, Any]:
     manifest = json.loads((evidence_dir / "manifest.json").read_text(encoding="utf-8"))
     errors = []
     ids = [item["software_id"] for item in manifest.get("software", [])]
-    if len(ids) != 56 or len(set(ids)) != 56:
-        errors.append(f"expected 56 unique software records, found {len(ids)} records and {len(set(ids))} unique IDs")
+    if len(ids) != len(set(ids)):
+        errors.append(
+            f"expected unique software records, found {len(ids)} records and {len(set(ids))} unique IDs"
+        )
+    if sum(manifest.get("counts", {}).values()) != len(ids):
+        errors.append("status counts do not match the software record count")
     for item in manifest.get("software", []):
         for archived in item.get("archived_files", []):
             path = evidence_dir / item["software_id"] / archived["path"]

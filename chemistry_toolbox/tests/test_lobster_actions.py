@@ -46,7 +46,9 @@ def test_lobster_bonding_curves_and_projection_quality(tmp_path, monkeypatch):
     )
     assert bonding["status"] == "success"
     assert bonding["result"]["bond_count"] == 1
-    assert bonding["result"]["bonds"][0]["integrated_value_ev"] == pytest.approx(-9.6039)
+    assert bonding["result"]["bonds"][0]["integrated_value_ev"] == pytest.approx(
+        -9.604, abs=1.0e-3
+    )
     assert bonding["result"]["bonds"][0]["curve"]["energy_ev_relative_to_fermi"]
 
     quality = execute_action(

@@ -1,6 +1,6 @@
 ---
 software_id: wannier90
-versions: ["3.1.0"]
+versions: ["3.1.0 local source build"]
 topics: ["index", "navigation", "capabilities"]
 aliases: ["Wannier90", "wannier90"]
 inputs: ["seedname.win", "and for full runs seedname.amn", "seedname.mmn", "seedname.eig"]
@@ -11,7 +11,7 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 # Wannier90 Native Software Guide
 
 ## Installed software
-- Installed version: `3.1.0`.
+- Installed version: `3.1.0 local source build`.
 - Operational status: `runnable_with_upstream_matrices`.
 - Configured runtime: `qe`.
 - Primary use: preprocess or construct maximally localized Wannier functions from an upstream electronic-structure calculation.

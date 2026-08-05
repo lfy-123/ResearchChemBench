@@ -19,7 +19,7 @@ Status: completed on 2026-08-04 UTC.
 - Active branch: `codex/consolidate-toolbox-envs-20260729`.
 - Existing unrelated untracked files were found and will not be modified:
   - `ResearchChemBench_data_pipeline_server.zip`
-  - `docs/results/CHEMISTRY_TOOLBOX_AVAILABLE_TOOLS_20260801.md`
+  - `docs/tools/CHEMISTRY_TOOLBOX_AND_BENCHMARK_OVERVIEW.md`
 - Existing `chemistry_toolbox/` source size: approximately 102 MB.
 
 ### CLI availability

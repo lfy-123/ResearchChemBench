@@ -327,7 +327,7 @@
 | `atomate2` | atomate2 | — | Python/API |
 | `autode` | autodE | — | Python/API |
 | `automekin` | AutoMeKin | `automekin` | `amk.sh`, `mopac`, `bbfs.exe` |
-| `censo` | CENSO | `reaction` | `censo` |
+| `censo` | CENSO | `censo` | `censo` |
 | `jobflow` | jobflow | — | Python/API |
 | `kinbot` | KinBot | `kinbot` | `kinbot`, `pes` |
 | `newton_x` | Newton-X | `newtonx` | `nx_geninp`, `nx_moldyn`, `nx_test` |
@@ -340,27 +340,6 @@
 | `yambo` | Yambo | `yambo` | `p2y`, `yambo` |
 
 覆盖的软件包括工作流编排（AiiDA、atomate2、jobflow、QCEngine）、自动反应探索（AutoMeKin、KinBot、autodE、Arkane、CENSO）、非绝热/激发态分析（Newton-X、SHARC、TheoDORE）、周期后处理与可视化（Wannier90、Yambo、VESTA、VMD）。
-
-### 3.4 已登记但当前不可用的软件
-
-下列条目用于清楚表达能力边界，不应在当前服务器上作为可执行能力宣传：
-
-| Software ID | 软件 | 说明 |
-|---|---|---|
-| `castep` | CASTEP | 未安装、缺少许可证/运行时，或仅保留为目录占位 |
-| `crystal` | CRYSTAL | 未安装、缺少许可证/运行时，或仅保留为目录占位 |
-| `easyspin` | EasySpin | 未安装、缺少许可证/运行时，或仅保留为目录占位 |
-| `hoomd_blue` | HOOMD-blue | 未安装、缺少许可证/运行时，或仅保留为目录占位 |
-| `matlab` | MATLAB | 未安装、缺少许可证/运行时，或仅保留为目录占位 |
-| `molpro` | Molpro | 未安装、缺少许可证/运行时，或仅保留为目录占位 |
-| `nist_cccbdb` | NIST CCCBDB 接口 | 未安装、缺少许可证/运行时，或仅保留为目录占位 |
-| `nist_chemistry_webbook` | NIST Chemistry WebBook 接口 | 未安装、缺少许可证/运行时，或仅保留为目录占位 |
-| `openeye` | OpenEye | 未安装、缺少许可证/运行时，或仅保留为目录占位 |
-| `q_chem` | Q-Chem | 未安装、缺少许可证/运行时，或仅保留为目录占位 |
-| `qcschema` | QCSchema | 未安装、缺少许可证/运行时，或仅保留为目录占位 |
-| `schr_dinger` | Schrödinger | 未安装、缺少许可证/运行时，或仅保留为目录占位 |
-| `turbomole` | TURBOMOLE | 未安装、缺少许可证/运行时，或仅保留为目录占位 |
-| `wien2k` | WIEN2k | 未安装、缺少许可证/运行时，或仅保留为目录占位 |
 
 ## 4. 原生执行与可编程分析
 

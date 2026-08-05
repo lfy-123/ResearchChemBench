@@ -25,7 +25,7 @@ from chemistry_toolbox.mcp.execution_models import NativeJobRequest
 
 
 HIGH_FREQUENCY_SOFTWARE = {"orca", "gaussian", "crest", "vasp", "lobster"}
-PLACEHOLDER_SOFTWARE = {"easyspin", "matlab"}
+PLACEHOLDER_SOFTWARE: set[str] = set()
 TOOLBOX_ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -49,7 +49,7 @@ def test_every_native_software_has_structured_first_party_documentation() -> Non
     for path, expected in generated.items():
         assert path.read_text(encoding="utf-8") == expected
     guides, profiles, contracts = module.load_sources()
-    assert len(guides) == len(profiles) == len(contracts) == 56
+    assert len(guides) == len(profiles) == len(contracts) == 54
     assert set(guides) == set(profiles) == set(contracts)
     assert {
         software_id

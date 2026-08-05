@@ -19,7 +19,10 @@ dependencies:
   - jax=0.4.35
   - jaxlib=0.4.35
   - rmsd=1.5.1
-  - https://conda.anaconda.org/conda-forge/noarch/censo-2.1.1-pyhd8ed1ab_0.conda
   - pydantic
   - pyyaml
   - python-dotenv
+  - pip:
+      - censo==2.1.2
+      - CoolProp==8.0.0
+      - numdifftools==0.9.42

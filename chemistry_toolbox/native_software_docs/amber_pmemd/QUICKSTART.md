@@ -85,7 +85,7 @@ The paths under `workspace_inputs/` are illustrative workspace-relative sources.
 - For `fixed_files`, stage every required filename exactly and normally leave `arguments` empty.
 
 ## Resource mapping
-Serial pmemd uses one core; pmemd.MPI needs an available launcher. The catalogued generic mpirun command is currently unresolved, so MPI examples are not claimed as tested.
+Serial pmemd uses one core; the configured PMEMD OpenMPI launcher is used for pmemd.MPI. Both public serial and MPI paths passed real tests; CUDA PMEMD is not built.
 `resource_limits.memory_mb` is total memory for the entire process group, not memory per MPI rank. `cpu_cores` is the allocation ceiling. Software thread or rank controls must not exceed it. Walltime is enforced by the Supervisor; a timeout is distinct from software non-convergence.
 
 ## Collection checklist

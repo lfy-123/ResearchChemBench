@@ -3,7 +3,7 @@ software_id: aiida
 versions: ["2.8.0"]
 topics: ["troubleshooting", "errors", "preflight"]
 aliases: ["AiiDA", "aiida"]
-inputs: ["configured AiiDA profile", "database", "broker or core profile", "workflow script"]
+inputs: ["configured AiiDA profile", "database", "workflow script", "optional broker for daemon submission"]
 outputs: ["AiiDA database nodes", "process records", "repository objects", "optional archive.aiida"]
 last_smoke_tested: "2026-07-28"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
@@ -29,7 +29,7 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 A source file existing in the benchmark workspace does not make it visible to the native process. Every dependency must be declared in `staged_inputs`. The content of an input deck must reference the staged `target_path`, not its original workspace path. Fixed-name programs are case-sensitive. Never assume the process starts in the task workspace.
 
 ## Resource failures
-Resources belong to the selected AiiDA Code and scheduler options, not to the local verdi client process.
+Synchronous run() works with the local SQLite profile. RabbitMQ and the daemon are only needed for asynchronous submit/play/pause/kill and are deliberately outside the bounded local runtime.
 If the Supervisor reports `memory_limit_exceeded`, reduce software parallelism or request a justified larger total allocation. If it reports timeout, inspect whether the software was progressing and whether the requested task can finish within the remaining evaluation lifetime. Resource increases do not repair malformed input.
 
 ## False-success prevention

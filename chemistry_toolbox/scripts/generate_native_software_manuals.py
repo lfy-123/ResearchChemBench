@@ -594,7 +594,11 @@ def main() -> int:
         print("Generated native manuals or examples are missing or stale:")
         print("\n".join(stale))
         return 1
-    detailed = len(load_sources()[0]) - 2
+    profiles = load_sources()[1]
+    detailed = sum(
+        profile["operational_status"] != "placeholder"
+        for profile in profiles.values()
+    )
     print(f"Detailed native manual coverage: {detailed}; generated files: {len(generated)}")
     return 0
 

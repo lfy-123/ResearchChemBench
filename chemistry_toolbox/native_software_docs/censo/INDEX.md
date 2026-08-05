@@ -13,7 +13,7 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 ## Installed software
 - Installed version: `2.1.2`.
 - Operational status: `runnable_with_external_qm`.
-- Configured runtime: `reaction`.
+- Configured runtime: `censo`.
 - Primary use: multilevel energetic refinement of a CREST conformer ensemble.
 
 ## When to use this interface

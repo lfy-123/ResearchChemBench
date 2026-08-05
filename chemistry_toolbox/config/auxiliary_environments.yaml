@@ -58,18 +58,40 @@ auxiliary_environments:
     commands: []
     notes: CPU HOOMD zero-step and PyMBAR three-state smokes passed; alchemlyb import passed.
 
+  censo:
+    conda_name: researchchem-censo-orca
+    environment: .envs/kinetics-legacy
+    description: CENSO 2.1.2 conformer-ensemble runtime configured explicitly for ORCA 6.1.1 and xTB.
+    conda_packages: [xtb]
+    pip_packages: [censo==2.1.2]
+    modules: []
+    commands: [censo, xtb, orca]
+    prepend_path_entries: [.software_cache/orca/6.1.1, .software_cache/openmpi/4.1.8-fortran/bin]
+    prepend_library_path_entries: [.software_cache/openmpi/4.1.8-fortran/lib, .software_cache/orca/6.1.1]
+    cache_paths: [.software_cache/censo/home/.censo2rc, .software_cache/censo/smoke_prescreen3, .software_cache/orca/6.1.1, .software_cache/openmpi/4.1.8-fortran]
+    environment_variables:
+      HOME: .software_cache/censo/home
+      OPAL_PREFIX: .software_cache/openmpi/4.1.8-fortran
+      OMPI_ALLOW_RUN_AS_ROOT: "1"
+      OMPI_ALLOW_RUN_AS_ROOT_CONFIRM: "1"
+      OMPI_MCA_pml: ob1
+      OMPI_MCA_btl: self,vader,tcp
+    smoke_commands:
+      - [bash, -c, 'grep -q "All jobs executed successfully" .software_cache/censo/smoke_prescreen3/censo.log']
+    notes: The isolated .censo2rc selects ORCA for every electronic-structure stage and stores absolute local ORCA/xTB paths. Matching OpenMPI 4.1.8 is prepended for ORCA child jobs. A real two-conformer ORCA prescreen completed; regenerate the absolute paths after moving the repository.
+
   rmg:
     conda_name: researchchem-rmg
     environment: .envs/kinetics-legacy
     description: RMG-Py 4.0.0 and Arkane package runtime.
     conda_packages: [rmg=4.0.0]
-    pip_packages: []
+    pip_packages: [CoolProp==8.0.0, numdifftools==0.9.42]
     modules: [rmgpy]
     commands: [rmg.py, Arkane.py]
     cache_paths: [.software_cache/rmg/database/4.0.0/input, .software_cache/rmg/source/4.0.0]
     environment_variables:
       HOME: .software_cache/rmg/home
-    notes: RMG-Py 4.0.0 source and database 4.0.0 are cached. The database root is configured through .software_cache/rmg/home/.rmg/rmgrc; Arkane remains separately audited because its import is exceptionally slow in this build.
+    notes: RMG-Py 4.0.0 source and database 4.0.0 are cached. CoolProp 8.0.0 avoids the RMG/CoolProp import-order hang, and numdifftools 0.9.42 is compatible with NumPy 1.26. The database root is configured through .software_cache/rmg/home/.rmg/rmgrc.
 
   kinbot:
     conda_name: researchchem-kinbot
@@ -127,13 +149,27 @@ auxiliary_environments:
     environment: .envs/general-modern-openmpi5
     description: SHARC4 core source build plus the ASCII wfoverlap executable.
     conda_packages: [gfortran_linux-64, lapack, blas, fftw]
-    pip_packages: []
-    modules: []
-    commands: [sharc.x, wfoverlap.x]
-    path_entries: [.software_cache/sharc/source/bin]
+    pip_packages: [numba==0.66.0, netCDF4==1.7.4, threadpoolctl==3.6.0]
+    modules: [numba, netCDF4, threadpoolctl]
+    commands: [sharc.x, wfoverlap.x, SHARC_ORCA.py, SHARC_MOLCAS.py]
+    prepend_path_entries: [.software_cache/sharc/source/bin, .software_cache/orca/6.1.1, .software_cache/openmpi/4.1.8-fortran/bin]
+    prepend_library_path_entries: [.software_cache/openmpi/4.1.8-fortran/lib, .software_cache/orca/6.1.1]
     library_path_entries: [.envs/general-modern-openmpi5/lib]
-    cache_paths: [.software_cache/sharc/source]
-    notes: Core SHARC4 and wfoverlap_ascii were compiled; PySHARC/NetCDF and external electronic-structure interfaces remain optional and input-dependent.
+    cache_paths: [.software_cache/sharc/source, .software_cache/sharc/smoke/orca_h2, .software_cache/orca/6.1.1, .software_cache/openmpi/4.1.8-fortran, .software_cache/openmolcas/25.10]
+    environment_variables:
+      SHARC: .software_cache/sharc/source/bin
+      ORCA: .software_cache/orca/6.1.1
+      MOLCAS: .software_cache/openmolcas/25.10
+      TMPDIR: .software_cache/sharc/scratch
+      PYTHONPATH: .software_cache/sharc/source/lib
+      OPAL_PREFIX: .software_cache/openmpi/4.1.8-fortran
+      OMPI_ALLOW_RUN_AS_ROOT: "1"
+      OMPI_ALLOW_RUN_AS_ROOT_CONFIRM: "1"
+      OMPI_MCA_pml: ob1
+      OMPI_MCA_btl: self,vader,tcp
+    smoke_commands:
+      - [bash, -c, 'grep -q "All jobs finished successful" .software_cache/sharc/smoke/orca_h2/QM.log && test -s .software_cache/sharc/smoke/orca_h2/QM.out']
+    notes: Core SHARC4, ASCII wfoverlap and Python interface dependencies are installed. A real H2 SHARC-ORCA 6.1.1 energy/gradient interface job completed; OpenMolcas 25.10 is also configured. PySHARC remains optional because normal file-based trajectories do not require it.
 
   multiwfn:
     conda_name: researchchem-binary-runtime-multiwfn
@@ -200,30 +236,6 @@ auxiliary_environments:
       - [bash, -c, 'cd .software_cache/automekin/smoke && mopac water.mop >/dev/null && grep -q "JOB ENDED NORMALLY" water.out']
     notes: A real water PM7 single-point calculation ended normally. Gaussian is now configured as an independent atomic backend, but AutoMeKin-to-Gaussian/Qcore coupling is intentionally not prewired because the Agent must select and compose engines explicitly.
 
-  matlab:
-    conda_name: researchchem-matlab-r2018a-licensed
-    environment: .software_cache/matlab/R2018a/install
-    description: Licensed MATLAB R2018a host runtime; official offline media are staged but installation remains license-gated.
-    conda_packages: []
-    pip_packages: []
-    modules: []
-    commands: [matlab]
-    path_entries: [.software_cache/matlab/R2018a/install/bin]
-    cache_paths: [.software_cache/matlab/R2018a/installation_media/R2018a_glnxa64_dvd1.iso, .software_cache/matlab/R2018a/installation_media/R2018a_glnxa64_dvd2.iso]
-    notes: The crack archive present in the manual download folder is excluded. Supply a legitimate MathWorks File Installation Key and license file/server before installing into the declared install directory.
-
-  easyspin:
-    conda_name: researchchem-easyspin-staged
-    environment: .software_cache/easyspin/6.0.12
-    description: EasySpin 6.0.12 MATLAB toolbox staged from the operator-provided archive.
-    conda_packages: []
-    pip_packages: []
-    modules: []
-    commands: [matlab]
-    path_entries: [.software_cache/matlab/R2018a/install/bin, .software_cache/easyspin/6.0.12/easyspin]
-    cache_paths: [.software_cache/easyspin/6.0.12/easyspin]
-    notes: Toolbox files including easyspin.m, pepper.m and chili.m are present. MATLAB R2018a media are staged, but no licensed matlab command exists yet, so executable validation and public atomic spectral adapters remain pending.
-
   vesta:
     conda_name: researchchem-binary-runtime-vesta
     environment: .envs/general-modern-openmpi5
@@ -247,7 +259,13 @@ auxiliary_environments:
     pip_packages: []
     modules: []
     commands: [yambo, p2y]
-    notes: Versioned binary is installed; a real GW/BSE calculation still needs an Agent-selected input database and upstream wavefunction files.
+    cache_paths: [.software_cache/yambo/smoke/qe_si_8band, .software_cache/resources/qe_pseudos/yambo/Si.pbe-rrkj.UPF]
+    environment_variables:
+      OMPI_MCA_pml: ob1
+      OMPI_MCA_btl: self,vader,tcp
+    smoke_commands:
+      - [bash, -c, 'grep -q "P2Y completed" .software_cache/yambo/smoke/qe_si_8band/tmp/si.save/l_p2y && grep -q "Game Over" .software_cache/yambo/smoke/qe_si_8band/tmp/si.save/l_setup']
+    notes: A real QE 7.5 silicon NSCF database using the official norm-conserving Si.pbe-rrkj.UPF was converted by p2y and initialized by Yambo. GW/BSE calculations still need Agent-selected bands, cutoffs, k meshes and convergence tests.
 
   vmd:
     conda_name: researchchem-vmd
@@ -283,14 +301,23 @@ auxiliary_environments:
     pip_packages: []
     modules: []
     commands: [nx_moldyn, nx_geninp, nx_test]
-    path_entries: [.software_cache/newton-x/26a/package/NX-NS/bin]
+    prepend_path_entries: [.software_cache/newton-x/26a/package/NX-NS/bin, .software_cache/orca/6.1.1, .software_cache/openmpi/4.1.8-fortran/bin]
+    prepend_library_path_entries: [.software_cache/openmpi/4.1.8-fortran/lib, .software_cache/orca/6.1.1]
     library_path_entries: [.software_cache/newton-x/26a/package/NX-NS/lib/x86_64-linux-gnu]
-    cache_paths: [.software_cache/newton-x/26a]
+    cache_paths: [.software_cache/newton-x/26a, .software_cache/newton-x/26a/package/CIOVERLAP/bin, .software_cache/orca/6.1.1, .software_cache/openmpi/4.1.8-fortran]
     environment_variables:
       NXHOME: .software_cache/newton-x/26a/package/NX-NS
+      NX: .software_cache/newton-x/26a/package
+      CIOVERLAP: .software_cache/newton-x/26a/package/CIOVERLAP/bin
+      ORCA: .software_cache/orca/6.1.1
+      OPAL_PREFIX: .software_cache/openmpi/4.1.8-fortran
+      OMPI_ALLOW_RUN_AS_ROOT: "1"
+      OMPI_ALLOW_RUN_AS_ROOT_CONFIRM: "1"
+      OMPI_MCA_pml: ob1
+      OMPI_MCA_btl: self,vader,tcp
     smoke_commands:
-      - [bash, -c, 'grep -q "SUMMARY: 1 / 1 tests passed" .software_cache/newton-x/26a/smoke/nx_test_1.log && grep -q "Normal termination of testsuite" .software_cache/newton-x/26a/smoke/nx_test_1.log']
-    notes: The bundled 1D analytical avoided-crossing test passed. It remains runtime-only because a nonadiabatic trajectory requires a new typed action contract spanning states, couplings, hopping controls and an explicitly selected electronic-structure interface; no monolithic nx_moldyn runner was exposed.
+      - [bash, -c, 'grep -q "Normal termination of Newton-X" .software_cache/newton-x/26a/smoke/orca_test_cio/orca/01-MD-TDDFT-NAD-CIO/md.log']
+    notes: The bundled 1D analytical test passed. A real 1.5 fs ORCA 6.1.1 TDDFT nonadiabatic trajectory also passed after configuring matching OpenMPI 4.1.8 and CIOVERLAP. It remains runtime-only because a trajectory requires explicit states, couplings, hopping controls and interface inputs.
 
   theodore:
     conda_name: researchchem-theodore

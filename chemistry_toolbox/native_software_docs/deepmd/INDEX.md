@@ -3,7 +3,7 @@ software_id: deepmd
 versions: ["3.2.0b0"]
 topics: ["index", "navigation", "capabilities"]
 aliases: ["DeePMD-kit", "deepmd"]
-inputs: ["training JSON or YAML", "DeepMD dataset", "optional checkpoint or frozen model"]
+inputs: ["training JSON or YAML and dataset for training", "or an explicitly selected registered checkpoint for inference"]
 outputs: ["training logs", "checkpoints", "frozen model", "test metrics"]
 last_smoke_tested: "2026-07-28"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
@@ -12,7 +12,7 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 
 ## Installed software
 - Installed version: `3.2.0b0`.
-- Operational status: `interface_only_without_dataset`.
+- Operational status: `runnable_pretrained_inference`.
 - Configured runtime: `deepmd`.
 - Primary use: train, freeze, test, or compress a deep potential model.
 

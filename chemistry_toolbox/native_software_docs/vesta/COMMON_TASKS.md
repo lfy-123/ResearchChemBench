@@ -46,7 +46,7 @@ Only collect outputs produced by the same job or by explicitly linked parent job
 | Artifact validity | Required files exist, are non-empty, and can be parsed | Files with expected names only |
 
 ## Software-specific end markers
-- `GUI opened`
+- `headless GUI remained healthy for bounded smoke`
 - `export completed`
 
 ## Scientific convergence notes

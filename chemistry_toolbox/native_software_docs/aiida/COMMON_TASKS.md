@@ -3,7 +3,7 @@ software_id: aiida
 versions: ["2.8.0"]
 topics: ["common-tasks", "inputs", "outputs", "convergence"]
 aliases: ["AiiDA", "aiida"]
-inputs: ["configured AiiDA profile", "database", "broker or core profile", "workflow script"]
+inputs: ["configured AiiDA profile", "database", "workflow script", "optional broker for daemon submission"]
 outputs: ["AiiDA database nodes", "process records", "repository objects", "optional archive.aiida"]
 last_smoke_tested: "2026-07-28"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
@@ -20,8 +20,8 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 ## Minimum input responsibilities
 - `configured AiiDA profile`
 - `database`
-- `broker or core profile`
 - `workflow script`
+- `optional broker for daemon submission`
 
 A minimum runnable input must still specify every scientifically material quantity: molecular or periodic structure, charge and spin where applicable, model or Hamiltonian, numerical controls, boundary conditions, task type, and requested outputs. Workflow programs additionally require their database, model, or upstream-calculation references.
 

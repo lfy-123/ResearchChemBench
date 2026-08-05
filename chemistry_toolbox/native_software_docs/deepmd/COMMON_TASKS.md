@@ -3,7 +3,7 @@ software_id: deepmd
 versions: ["3.2.0b0"]
 topics: ["common-tasks", "inputs", "outputs", "convergence"]
 aliases: ["DeePMD-kit", "deepmd"]
-inputs: ["training JSON or YAML", "DeepMD dataset", "optional checkpoint or frozen model"]
+inputs: ["training JSON or YAML and dataset for training", "or an explicitly selected registered checkpoint for inference"]
 outputs: ["training logs", "checkpoints", "frozen model", "test metrics"]
 last_smoke_tested: "2026-07-28"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
@@ -18,9 +18,8 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 - **Dataset Conversion**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 
 ## Minimum input responsibilities
-- `training JSON or YAML`
-- `DeepMD dataset`
-- `optional checkpoint or frozen model`
+- `training JSON or YAML and dataset for training`
+- `or an explicitly selected registered checkpoint for inference`
 
 A minimum runnable input must still specify every scientifically material quantity: molecular or periodic structure, charge and spin where applicable, model or Hamiltonian, numerical controls, boundary conditions, task type, and requested outputs. Workflow programs additionally require their database, model, or upstream-calculation references.
 
