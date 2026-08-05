@@ -1,0 +1,13 @@
+// Kotlin's FastJarFS memory-maps dependency JARs, but some shared filesystems
+// (including the benchmark volume used in production) reject that mmap with
+// ENODEV. Apply the supported compiler switch without modifying third-party
+// checkouts, so their pinned Git revisions remain clean.
+gradle.projectsEvaluated {
+    allprojects {
+        tasks.matching { task ->
+            task.class.name.contains("KotlinCompile")
+        }.configureEach { task ->
+            task.compilerOptions.freeCompilerArgs.add("-Xuse-fast-jar-file-system=false")
+        }
+    }
+}

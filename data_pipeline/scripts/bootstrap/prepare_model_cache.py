@@ -10,7 +10,7 @@ from pathlib import Path
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Prepare the local data-pipeline model cache")
-    parser.add_argument("--root", default=Path(__file__).resolve().parents[1])
+    parser.add_argument("--root", default=Path(__file__).resolve().parents[2])
     parser.add_argument("--cache")
     args = parser.parse_args()
 
@@ -193,6 +193,11 @@ def _write_config(
         else:
             output.append(line)
     target.parent.mkdir(parents=True, exist_ok=True)
+    # _sync_tree may have populated this file with a hard link to the pinned
+    # third-party checkout.  Break that link before writing the runtime-only
+    # paths, otherwise preparing the cache dirties the source checkout and
+    # makes the bootstrap scripts non-idempotent.
+    target.unlink(missing_ok=True)
     target.write_text("\n".join(output) + "\n", encoding="utf-8")
 
 

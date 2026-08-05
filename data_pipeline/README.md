@@ -119,22 +119,22 @@ Java 不需要在 `config.json` 中写机器绝对路径。若 `java` 不在 `PA
 export HF_ENDPOINT=https://hf-mirror.com
 export HF_HUB_DOWNLOAD_TIMEOUT=600
 
-bash scripts/bootstrap_all.sh
+bash scripts/bootstrap/bootstrap_all.sh
 ```
 
 分步下载方式：
 
 ```bash
-bash scripts/bootstrap_grobid.sh
-bash scripts/bootstrap_stage_gates.sh
-bash scripts/bootstrap_mineru.sh
+bash scripts/bootstrap/bootstrap_grobid.sh
+bash scripts/bootstrap/bootstrap_stage_gates.sh
+bash scripts/bootstrap/bootstrap_mineru.sh
 ```
 
 脚本会拒绝覆盖有本地修改的 checkout。手工 clone 和补丁方式见 [third_party/README.md](third_party/README.md)。
 
 ### GROBID
 
-`scripts/bootstrap_grobid.sh` 下载并构建固定版本 GROBID。Stage 02 会根据配置自动启动服务，处理完成后自动停止。
+`scripts/bootstrap/bootstrap_grobid.sh` 下载并构建固定版本 GROBID。Stage 02 会根据配置自动启动服务，处理完成后自动停止。
 
 Stage 02 默认使用 GROBID。GROBID 服务整体无法启动时，流水线直接报错停止，避免把基础设施故障误当成论文解析问题。
 
@@ -149,7 +149,7 @@ Stage 02 默认使用 GROBID。GROBID 服务整体无法启动时，流水线直
 
 ### Softcite 与 GROBID Quantities
 
-`scripts/bootstrap_stage_gates.sh` 准备：
+`scripts/bootstrap/bootstrap_stage_gates.sh` 准备：
 
 - `third_party/software-mentions/`
 - `third_party/delft/`
@@ -190,7 +190,7 @@ bootstrap 会把该 Java 进程的 `user.home` 放到本机临时目录；可用
 - MinerU Pipeline 模型（Hugging Face）：`https://huggingface.co/opendatalab/PDF-Extract-Kit-1.0`
 - MinerU Pipeline 模型（ModelScope）：`https://modelscope.cn/models/OpenDataLab/PDF-Extract-Kit-1.0`
 
-`scripts/prepare_model_cache.py` 会把固定第三方版本中的运行模型同步到统一缓存，并生成三个 Java 服务使用的配置文件：
+`scripts/bootstrap/prepare_model_cache.py` 会把固定第三方版本中的运行模型同步到统一缓存，并生成三个 Java 服务使用的配置文件：
 
 ```text
 .model_cache/grobid-home/config/grobid.yaml
@@ -206,7 +206,7 @@ bootstrap 会把该 Java 进程的 `user.home` 放到本机临时目录；可用
 可单独重新准备缓存：
 
 ```bash
-python scripts/prepare_model_cache.py
+python scripts/bootstrap/prepare_model_cache.py
 ```
 
 Stage 04 的 `deepseek-v4-flash` 以及 Stage 06/07 配置的 Agent 模型通过远程 API 调用，不下载到本地，因此不属于本地模型缓存。
@@ -307,7 +307,7 @@ Codex 和 Claude 使用各自 CLI 的本地认证。运行器只在执行期间�
 cp config.local.env.example config.local.env
 ```
 
-`scripts/run_pipeline.sh` 默认读取该文件。`config.local.env` 已被 Git 忽略，不要提交真实密钥。
+`scripts/workflows/run_pipeline.sh` 默认读取该文件。`config.local.env` 已被 Git 忽略，不要提交真实密钥。
 
 | 环境变量 | 用途 |
 |---|---|
@@ -383,7 +383,7 @@ cp config.local.env.example config.local.env
 
 ```bash
 cp config.json config.local.json
-bash scripts/run_pipeline.sh config.local.json
+bash scripts/workflows/run_pipeline.sh config.local.json
 ```
 
 ### 全局参数
@@ -705,10 +705,10 @@ runs/stage04_batches_10000/
 首先将待处理的 PDF 放入 `papers/`，或在本地配置副本中修改 `pdf_directory`。
 
 ```bash
-bash scripts/run_pipeline.sh
+bash scripts/workflows/run_pipeline.sh
 
 # 或显式指定配置和摘要输出。
-bash scripts/run_pipeline.sh config.json runs/current/outputs/run_summary.json
+bash scripts/workflows/run_pipeline.sh config.json runs/current/outputs/run_summary.json
 ```
 
 日志：

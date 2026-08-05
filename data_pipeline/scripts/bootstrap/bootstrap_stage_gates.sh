@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 THIRD_PARTY="$ROOT/third_party"
 SOFTCITE="$THIRD_PARTY/software-mentions"
 QUANTITIES="$THIRD_PARTY/grobid-quantities"
@@ -9,10 +9,14 @@ DELFT="$THIRD_PARTY/delft"
 SOURCE_GROBID_HOME="$THIRD_PARTY/grobid-home"
 MODEL_CACHE_ROOT="${MODEL_CACHE_ROOT:-$ROOT/.model_cache}"
 GROBID_HOME="$MODEL_CACHE_ROOT/grobid-home"
+QUANTITIES_JAVA_USER_HOME="${RESEARCHCHEMBENCH_GRADLE_JAVA_USER_HOME:-${TMPDIR:-/tmp}/researchchem-gradle-user-home}"
 PYTHON="$(command -v "${PIPELINE_PYTHON:-python}")"
 SOFTCITE_COMMIT="c7c83852a3cad8f2d9d07ce3de6fbe852e23c19a"
 QUANTITIES_COMMIT="d0d55592f4d0ddbe6a549e06613349adaa2d1cd7"
 DELFT_COMMIT="d8505592c38058b9b0abbde14d4ddedff3ad7d0f"
+
+# shellcheck disable=SC1091
+source "$ROOT/scripts/bootstrap/gradle_proxy_env.sh"
 
 if [[ -n "${GROBID_JAVA_HOME:-}" ]]; then
   JAVA_HOME="$GROBID_JAVA_HOME"
@@ -40,6 +44,7 @@ if [[ -z "$java_version" || "$java_version" -lt 21 ]]; then
 fi
 
 mkdir -p "$THIRD_PARTY"
+mkdir -p "$QUANTITIES_JAVA_USER_HOME"
 clone_at_commit() {
   local url="$1" path="$2" commit="$3"
   if [[ ! -d "$path/.git" ]]; then
@@ -75,13 +80,15 @@ PIP_EXTRA_INDEX_URL= PIP_CONFIG_FILE=/dev/null \
   "tfa-nightly==0.23.0.dev20240415222534" \
   "h5py==3.11.0" \
   "scikit-learn==1.6.1" \
+  "pandas==2.2.3" \
+  "accelerate>=0.20.3,<2" \
   "unidecode==1.3.2" \
   "pydot==1.4.0" \
   "lmdb==2.1.1" \
   truecase blingfire2 "jep==4.3.1"
 "$PYTHON" -m pip install --no-deps -e "$DELFT"
 
-"$PYTHON" "$ROOT/scripts/prepare_model_cache.py" --cache "$MODEL_CACHE_ROOT"
+"$PYTHON" "$ROOT/scripts/bootstrap/prepare_model_cache.py" --cache "$MODEL_CACHE_ROOT"
 
 "$PYTHON" - "$GROBID_HOME/models" <<'PY'
 import sys
@@ -146,9 +153,16 @@ PY
 mkdir -p "$GROBID_HOME/lib/lin-64/jep"
 ln -sfn "$jep_library" "$GROBID_HOME/lib/lin-64/jep/libjep.so"
 
-(cd "$SOFTCITE" && ./gradlew classes)
-(cd "$QUANTITIES" && ./gradlew classes)
-"$PYTHON" "$ROOT/scripts/prepare_model_cache.py"
+(cd "$SOFTCITE" && ./gradlew \
+  --no-daemon \
+  --init-script "$ROOT/scripts/bootstrap/gradle_shared_fs.init.gradle" \
+  distZip)
+(cd "$QUANTITIES" && \
+  JAVA_TOOL_OPTIONS="${JAVA_TOOL_OPTIONS:-} -Duser.home=$QUANTITIES_JAVA_USER_HOME" ./gradlew \
+  --no-daemon \
+  --init-script "$ROOT/scripts/bootstrap/gradle_shared_fs.init.gradle" \
+  distZip)
+"$PYTHON" "$ROOT/scripts/bootstrap/prepare_model_cache.py"
 
 echo "Stage 03-04 services are ready."
 echo "Softcite: $SOFTCITE_COMMIT"

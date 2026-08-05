@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 MINERU_REPO="$ROOT/third_party/MinerU"
 MINERU_COMMIT="79d6d8d79fb8f3ddba5cc34c07a16f0ec36f56c7"
 
@@ -39,11 +39,17 @@ export MODELSCOPE_CACHE="${MODELSCOPE_CACHE:-$MODEL_CACHE_ROOT/modelscope}"
 export MINERU_TOOLS_CONFIG_JSON="${MINERU_TOOLS_CONFIG_JSON:-$MODEL_CACHE_ROOT/mineru/mineru.json}"
 mkdir -p "$(dirname "$MINERU_TOOLS_CONFIG_JSON")" "$HF_HOME" "$MODELSCOPE_CACHE"
 "$PYTHON" -m pip install -e "$ROOT[dev]"
-"$PYTHON" -m pip install -e "$MINERU_REPO[all]"
+"$PYTHON" -m pip install \
+  --index-url https://download.pytorch.org/whl/cpu \
+  "torch==2.6.0" \
+  "torchvision==0.21.0"
+"$PYTHON" -m pip install \
+  --constraint "$ROOT/mineru-constraints.txt" \
+  -e "$MINERU_REPO[pipeline]"
 "$PYTHON" -m pip install "transformers==4.57.3"
 
 (cd "$MODEL_CACHE_ROOT" && "$PYTHON" -m mineru.cli.models_download --source auto --model_type pipeline)
-"$PYTHON" "$ROOT/scripts/prepare_model_cache.py" --cache "$MODEL_CACHE_ROOT"
+"$PYTHON" "$ROOT/scripts/bootstrap/prepare_model_cache.py" --cache "$MODEL_CACHE_ROOT"
 MINERU="$("$PYTHON" -c 'import shutil; print(shutil.which("mineru") or "")')"
 if [[ -z "$MINERU" ]]; then
   echo "MinerU entry point was not installed for $PYTHON." >&2
@@ -55,4 +61,4 @@ fi
 echo
 echo "ResearchChemBench and MinerU are ready."
 echo "Python: $PYTHON"
-echo "Run: $ROOT/scripts/run_pipeline.sh"
+echo "Run: $ROOT/scripts/workflows/run_pipeline.sh"

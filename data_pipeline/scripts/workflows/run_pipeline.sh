@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 PIPELINE_PYTHON="${PIPELINE_PYTHON:-python}"
 PIPELINE_CONFIG="${PIPELINE_CONFIG:-${1:-$ROOT/config.json}}"
 PIPELINE_SUMMARY="${PIPELINE_SUMMARY:-${2:-$ROOT/runs/current/outputs/run_summary.json}}"

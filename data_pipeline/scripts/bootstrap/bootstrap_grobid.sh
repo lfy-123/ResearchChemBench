@@ -1,9 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 GROBID_REPO="$ROOT/third_party/grobid"
 GROBID_VERSION="0.9.0"
+
+# shellcheck disable=SC1091
+source "$ROOT/scripts/bootstrap/gradle_proxy_env.sh"
 
 command -v git >/dev/null || {
   echo "git is required." >&2
@@ -45,8 +48,11 @@ fi
 git -C "$GROBID_REPO" fetch --depth 1 origin "refs/tags/$GROBID_VERSION:refs/tags/$GROBID_VERSION"
 git -C "$GROBID_REPO" checkout --detach "$GROBID_VERSION"
 
-(cd "$GROBID_REPO" && ./gradlew :grobid-service:classes)
-"${PIPELINE_PYTHON:-python}" "$ROOT/scripts/prepare_model_cache.py"
+(cd "$GROBID_REPO" && ./gradlew \
+  --no-daemon \
+  --init-script "$ROOT/scripts/bootstrap/gradle_shared_fs.init.gradle" \
+  :grobid-service:distZip)
+"${PIPELINE_PYTHON:-python}" "$ROOT/scripts/bootstrap/prepare_model_cache.py"
 
 echo
 echo "GROBID $GROBID_VERSION is built with $(java -version 2>&1 | head -1)."
