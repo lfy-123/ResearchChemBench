@@ -24,6 +24,7 @@ def normalize_config(raw: dict[str, Any], base: Path) -> dict[str, Any]:
     stage04 = raw.get("stage04") or {}
     stage01 = raw.get("stage01") or {}
     stage05 = raw.get("stage05") or {}
+    microbatch = raw.get("microbatch") or {}
     model_cache = _resolve(base, raw.get("model_cache_directory", ".model_cache"))
     model_cache_config = model_cache / "config"
     runtime_grobid_config = model_cache / "grobid-home" / "config" / "grobid.yaml"
@@ -64,6 +65,17 @@ def normalize_config(raw: dict[str, Any], base: Path) -> dict[str, Any]:
         "workspace": str(run_dir / "outputs"),
         "log_file": str(run_dir / "outputs" / "pipeline.log"),
         "stop_after": raw.get("stop_after", "judge"),
+        "microbatch": {
+            "enabled": bool(microbatch.get("enabled", False)),
+            "size": max(1, int(microbatch.get("size", 10))),
+            "concurrency": max(1, int(microbatch.get("concurrency", 5))),
+            "resume": bool(microbatch.get("resume", True)),
+            "stage_limits": {
+                str(stage): max(1, int(limit))
+                for stage, limit in (microbatch.get("stage_limits") or {}).items()
+            },
+            "softcite_instances": microbatch.get("softcite_instances", "auto"),
+        },
         "stage01": {"workers": max(1, int(stage01.get("workers", 1)))},
         "grobid_extract": {
             "base_url": grobid.get("base_url", "http://127.0.0.1:8070"),

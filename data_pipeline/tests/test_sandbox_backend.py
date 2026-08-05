@@ -68,6 +68,7 @@ def test_manager_creates_source_and_inventory(tmp_path, monkeypatch):
     assert source["worker"]["sandbox_id"] == "sbx-test"
     inventory = json.loads(options.inventory.read_text(encoding="utf-8"))
     assert inventory["workers"][0]["service_ports"]["grobid"] == 8070
+    assert inventory["workers"][0]["service_ports"]["softcite_1"] == 8160
     assert options.source.stat().st_mode & 0o777 == 0o600
     assert options.inventory.stat().st_mode & 0o777 == 0o600
 
@@ -121,6 +122,23 @@ def test_worker_health_endpoint(tmp_path):
         server.shutdown()
         server.server_close()
         thread.join(timeout=5)
+
+
+def test_worker_rewrites_numbered_softcite_instance_ports(tmp_path):
+    server = PipelineSandboxServer(("127.0.0.1", 0), tmp_path / "runtime")
+    try:
+        config = {"server": {"applicationConnectors": [{}], "adminConnectors": [{}]}}
+        server._rewrite_service_config(
+            "softcite",
+            config,
+            tmp_path / "softcite-002",
+            application_port=8162,
+            admin_port=8163,
+        )
+        assert config["server"]["applicationConnectors"][0]["port"] == 8162
+        assert config["server"]["adminConnectors"][0]["port"] == 8163
+    finally:
+        server.server_close()
 
 
 def test_mineru_archive_rejects_path_escape(tmp_path):

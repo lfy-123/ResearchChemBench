@@ -4,6 +4,21 @@
   "exclude_supplementary": true,
   "run_directory": "runs/current",
   "stop_after": "judge",
+  "microbatch": {
+    "enabled": false,
+    "size": 10,
+    "concurrency": 5,
+    "resume": true,
+    "stage_limits": {
+      "2": 5,
+      "3": 5,
+      "4": 5,
+      "5": 3,
+      "6": 2,
+      "7": 2
+    },
+    "softcite_instances": "auto"
+  },
   "grobid": {
     "base_url": "http://127.0.0.1:8070",
     "working_directory": "third_party/grobid",

@@ -51,6 +51,22 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--stage02-workers", type=int, default=32)
     parser.add_argument("--stage03-workers", type=int, default=16)
     parser.add_argument("--stage04-workers", type=int, default=8)
+    parser.add_argument(
+        "--microbatch",
+        action=argparse.BooleanOptionalAction,
+        default=False,
+        help="run Stage 02-04 as concurrent sequential microbatches",
+    )
+    parser.add_argument("--microbatch-size", type=int, default=10)
+    parser.add_argument("--microbatch-concurrency", type=int, default=5)
+    parser.add_argument("--microbatch-softcite-instances", type=int)
+    parser.add_argument(
+        "--microbatch-stage-limit",
+        action="append",
+        default=[],
+        metavar="STAGE=COUNT",
+        help="maximum concurrent microbatches in one stage, for example 4=2",
+    )
     parser.add_argument("--min-free-gib", type=float, default=10.0)
     parser.add_argument("--keep-batch-workspaces", action="store_true")
     parser.add_argument("--max-batches", type=int)
@@ -67,8 +83,13 @@ def main(argv: list[str] | None = None) -> int:
         ("Stage 02 workers", args.stage02_workers),
         ("Stage 03 workers", args.stage03_workers),
         ("Stage 04 workers", args.stage04_workers),
+        ("microbatch size", args.microbatch_size),
+        ("microbatch concurrency", args.microbatch_concurrency),
     ):
         _validate_positive(label, value)
+    if args.microbatch_softcite_instances is not None:
+        _validate_positive("Softcite instances", args.microbatch_softcite_instances)
+    _parse_microbatch_stage_limits(args.microbatch_stage_limit)
     if args.max_batches is not None:
         _validate_positive("max batches", args.max_batches)
     if args.min_free_gib < 0:
@@ -178,6 +199,7 @@ def _load_or_initialize_state(
             "stage02": args.stage02_workers,
             "stage03": args.stage03_workers,
             "stage04": args.stage04_workers,
+            "microbatch": args.microbatch_concurrency if args.microbatch else 0,
         },
         "requested_sandbox": {"cpu": args.sandbox_cpu, "memory": args.sandbox_memory},
     }
@@ -366,6 +388,14 @@ def _batch_config(
     config["run_directory"] = str(run_root)
     config["exclude_supplementary"] = True
     config["stop_after"] = "resource_limits"
+    config["microbatch"] = {
+        "enabled": bool(args.microbatch),
+        "size": args.microbatch_size,
+        "concurrency": args.microbatch_concurrency,
+        "resume": True,
+        "stage_limits": _parse_microbatch_stage_limits(args.microbatch_stage_limit),
+        "softcite_instances": args.microbatch_softcite_instances or "auto",
+    }
     config.setdefault("stage01", {})["workers"] = args.stage01_workers
 
     grobid = config.setdefault("grobid", {})
@@ -528,6 +558,20 @@ def _rows_by_source(path: Path) -> dict[str, dict[str, Any]]:
     return {str(Path(str(row["source_path"])).resolve()): row for row in _read_jsonl(path)}
 
 
+def _parse_microbatch_stage_limits(values: list[str]) -> dict[str, int]:
+    limits: dict[str, int] = {}
+    for value in values:
+        stage_text, separator, count_text = str(value).partition("=")
+        if not separator or not stage_text.isdigit() or not count_text.isdigit():
+            raise ValueError(f"invalid microbatch stage limit {value!r}; expected STAGE=COUNT")
+        stage = int(stage_text)
+        count = int(count_text)
+        if stage < 2 or stage > 7 or count < 1:
+            raise ValueError("microbatch stage limits require Stage 2-7 and a positive count")
+        limits[str(stage)] = count
+    return limits
+
+
 def _refresh_aggregate_manifests(work_root: Path) -> None:
     retained: list[dict[str, Any]] = []
     sources: list[dict[str, Any]] = []
@@ -663,6 +707,13 @@ def _plan(args: argparse.Namespace, work_root: Path) -> dict[str, Any]:
             "stage02": args.stage02_workers,
             "stage03": args.stage03_workers,
             "stage04": args.stage04_workers,
+        },
+        "microbatch": {
+            "enabled": args.microbatch,
+            "size": args.microbatch_size,
+            "concurrency": args.microbatch_concurrency,
+            "stage_limits": _parse_microbatch_stage_limits(args.microbatch_stage_limit),
+            "softcite_instances": args.microbatch_softcite_instances or "auto",
         },
         "work_root": str(work_root),
     }

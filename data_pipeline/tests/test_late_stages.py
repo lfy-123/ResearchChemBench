@@ -51,11 +51,28 @@ class LateStageTests(unittest.TestCase):
             compact = {
                 "pdf_directory": "papers",
                 "run_directory": "runs/test",
+                "microbatch": {
+                    "enabled": True,
+                    "size": 8,
+                    "concurrency": 4,
+                    "stage_limits": {"6": 2},
+                },
                 "stage06": {"agent": {"cli": "claude", "model": "sonnet"}},
                 "stage07": {"agent": {"cli": "codex", "model": "gpt-test"}},
             }
             config = normalize_config(compact, root)
         self.assertEqual(config["stage05"]["max_rounds"], 3)
+        self.assertEqual(
+            config["microbatch"],
+            {
+                "enabled": True,
+                "size": 8,
+                "concurrency": 4,
+                "resume": True,
+                "stage_limits": {"6": 2},
+                "softcite_instances": "auto",
+            },
+        )
         self.assertTrue(config["stage04"]["enabled"])
         self.assertTrue(config["stage05"]["enabled"])
         self.assertEqual(config["stage05"]["download_scope"], "all")

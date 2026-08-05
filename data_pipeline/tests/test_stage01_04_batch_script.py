@@ -23,6 +23,11 @@ def _args() -> argparse.Namespace:
         stage02_workers=3,
         stage03_workers=2,
         stage04_workers=1,
+        microbatch=True,
+        microbatch_size=10,
+        microbatch_concurrency=5,
+        microbatch_softcite_instances=None,
+        microbatch_stage_limit=["4=2"],
     )
 
 
@@ -67,6 +72,14 @@ def test_batch_config_stops_after_resource_limits_and_sets_concurrency(tmp_path)
     assert config["grobid"]["workers"] == 3
     assert config["softcite"]["workers"] == 2
     assert config["stage04"]["workers"] == 1
+    assert config["microbatch"] == {
+        "enabled": True,
+        "size": 10,
+        "concurrency": 5,
+        "resume": True,
+        "stage_limits": {"4": 2},
+        "softcite_instances": "auto",
+    }
     assert Path(config["softcite"]["aliases_file"]).is_absolute()
 
 

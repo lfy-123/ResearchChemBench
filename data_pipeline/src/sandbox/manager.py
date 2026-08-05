@@ -30,7 +30,30 @@ SERVICE_PORTS = {
     "softcite": 8060,
     "quantities": 8062,
 }
-WORKER_PROTOCOL_VERSION = 4
+SOFTCITE_POOL_PORT_BASE = 8160
+MAX_SOFTCITE_INSTANCES = 16
+EXPOSED_SERVICE_PORTS = {
+    **SERVICE_PORTS,
+    **{
+        f"softcite_{instance}": SOFTCITE_POOL_PORT_BASE + (instance - 1) * 2
+        for instance in range(1, MAX_SOFTCITE_INSTANCES)
+    },
+}
+WORKER_PROTOCOL_VERSION = 5
+
+
+def service_instance_ports(name: str, instance: int = 0) -> tuple[int, int]:
+    if instance < 0:
+        raise ValueError("service instance must be non-negative")
+    if name == "softcite" and instance >= MAX_SOFTCITE_INSTANCES:
+        raise ValueError(f"softcite supports at most {MAX_SOFTCITE_INSTANCES} instances")
+    if instance == 0:
+        application = int(SERVICE_PORTS[name])
+    elif name == "softcite":
+        application = SOFTCITE_POOL_PORT_BASE + (instance - 1) * 2
+    else:
+        raise ValueError(f"multiple instances are only supported for softcite, not {name}")
+    return application, application + 1
 
 
 @dataclass(frozen=True)
@@ -268,6 +291,7 @@ class SandboxManager:
             str(resources.get("cpu") or "") == str(self.options.cpu)
             and str(resources.get("memory") or "") == self.options.memory
             and str(environment.get("image") or "") == self.options.image
+            and dict(environment.get("ports") or {}) == EXPOSED_SERVICE_PORTS
             and str((source.get("api") or {}).get("project") or "") == self.options.project
             and str((source.get("api") or {}).get("base_url") or "").rstrip("/")
             == self.options.base_url.rstrip("/")
@@ -276,7 +300,7 @@ class SandboxManager:
     def _environment_payload(self) -> dict[str, Any]:
         ports = [
             {"containerPort": port, "purpose": f"data-pipeline-{name}"}
-            for name, port in SERVICE_PORTS.items()
+            for name, port in EXPOSED_SERVICE_PORTS.items()
         ]
         return {
             "name": f"researchchem-data-pipeline-{self.options.cpu}cpu",
@@ -319,7 +343,7 @@ class SandboxManager:
                 "name": f"researchchem-data-pipeline-{self.options.cpu}cpu",
                 "image": self.options.image,
                 "resources": {"cpu": str(self.options.cpu), "memory": self.options.memory},
-                "ports": dict(SERVICE_PORTS),
+                "ports": dict(EXPOSED_SERVICE_PORTS),
                 "default_lifecycle_minutes": self.options.lifecycle_minutes,
             },
             "worker": {
@@ -356,7 +380,7 @@ class SandboxManager:
                 {
                     **asdict(worker),
                     "worker_id": "data-pipeline-sandbox-1",
-                    "service_ports": dict(SERVICE_PORTS),
+                    "service_ports": dict(EXPOSED_SERVICE_PORTS),
                     "remote_runtime_root": DEFAULT_RUNTIME_ROOT,
                     "enabled": True,
                 }
@@ -473,7 +497,10 @@ __all__ = [
     "DATA_PIPELINE_ROOT",
     "DEFAULT_INVENTORY",
     "DEFAULT_SOURCE",
+    "EXPOSED_SERVICE_PORTS",
+    "MAX_SOFTCITE_INSTANCES",
     "SERVICE_PORTS",
+    "service_instance_ports",
     "WORKER_PROTOCOL_VERSION",
     "SandboxManager",
     "SandboxRunOptions",

@@ -91,6 +91,19 @@ def main(argv: list[str] | None = None) -> int:
         dest="execution_backend",
         help="Shortcut for --execution-backend sandbox",
     )
+    run_parser.add_argument(
+        "--microbatch",
+        action=argparse.BooleanOptionalAction,
+        default=None,
+        help="Enable or disable the Stage 02 through stop_after microbatch scheduler",
+    )
+    run_parser.add_argument("--microbatch-size", type=int)
+    run_parser.add_argument("--microbatch-concurrency", type=int)
+    run_parser.add_argument(
+        "--microbatch-softcite-instances",
+        type=int,
+        help="Softcite instances in sandbox mode; defaults to the Stage 03 batch limit",
+    )
     _add_sandbox_options(run_parser)
 
     sandbox_parser = subparsers.add_parser(
@@ -152,6 +165,16 @@ def main(argv: list[str] | None = None) -> int:
             sandbox_options=(
                 _sandbox_options(args) if args.execution_backend == "sandbox" else None
             ),
+            microbatch_overrides={
+                key: value
+                for key, value in {
+                    "enabled": args.microbatch,
+                    "size": args.microbatch_size,
+                    "concurrency": args.microbatch_concurrency,
+                    "softcite_instances": args.microbatch_softcite_instances,
+                }.items()
+                if value is not None
+            },
         )
         if args.output:
             write_json(args.output, result)

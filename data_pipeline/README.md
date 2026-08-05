@@ -336,6 +336,14 @@ cp config.local.env.example config.local.env
   "pdf_directory": "papers",
   "run_directory": "runs/current",
   "stop_after": "judge",
+  "microbatch": {
+    "enabled": false,
+    "size": 10,
+    "concurrency": 5,
+    "resume": true,
+    "stage_limits": {"2": 5, "3": 5, "4": 5, "5": 3, "6": 2, "7": 2},
+    "softcite_instances": "auto"
+  },
   "stage04": {
     "enabled": true
   },
@@ -395,6 +403,32 @@ bash scripts/workflows/run_pipeline.sh config.local.json
 | `exclude_supplementary` | `true` | 只将去重正文传给 Stage 02 |
 | `run_directory` | `runs/current` | 运行目录 |
 | `stop_after` | `judge` | 最后运行的阶段 |
+
+### Stage 02-07 微批次流水线
+
+`microbatch.enabled=true` 时，Stage 01 仍对全部 PDF 统一去重；去重后的正文按
+`microbatch.size` 分组。每个微批次内部严格按 Stage 02 到 `stop_after` 串行推进，最多同时
+运行 `microbatch.concurrency` 个微批次。一个微批次完成或被筛空后，调度器立即补入下一批。
+
+| 参数 | 默认值 | 说明 |
+|---|---:|---|
+| `microbatch.enabled` | `false` | 开启 Stage 02 到 `stop_after` 的微批次调度 |
+| `microbatch.size` | `10` | 每个微批次的论文数 |
+| `microbatch.concurrency` | `5` | 全局最大在途微批次数 |
+| `microbatch.stage_limits` | 见配置 | 各阶段允许同时进入的微批次数 |
+| `microbatch.softcite_instances` | `auto` | 沙箱 Softcite 实例数；`auto` 等于 Stage 03 限制 |
+| `microbatch.resume` | `true` | 从各微批次最后完成的阶段继续 |
+
+微批次模式下 Stage 02、03、04 的阶段内部 `workers` 固定为 1；Stage 05、06、07 原有的逐论文
+循环也保持串行。并发只发生在不同微批次之间。每个阶段完成后会原子写入
+`outputs/microbatches/batch_NNNNNN/state.json`，最终结果仍合并到标准的 Stage 02-07 目录。
+
+命令行可以覆盖三个常用参数：
+
+```bash
+python -m src run --config config.local.json --sandbox \
+  --microbatch --microbatch-size 10 --microbatch-concurrency 5
+```
 
 ### Stage 02: GROBID
 
@@ -581,8 +615,9 @@ Stage 05 的生产默认单文件上限为 10 GiB、单压缩包展开上限为 
 ## OpenSandbox 大资源运行
 
 开发机 CPU 或内存不足时，可以保留本地 Stage 编排和筛选逻辑，仅把 GROBID、Softcite、
-GROBID Quantities 和 MinerU 放到一个 OpenSandbox 实例中运行。三个 Java 服务按阶段顺序
-启动和关闭，MinerU 通过 worker RPC 执行并将完整产物归档回传。
+GROBID Quantities 和 MinerU 放到一个 OpenSandbox 实例中运行。所需 Java 服务在任务开始时
+一次性启动并保持常驻，全部微批次结束后才停止；MinerU 通过 worker RPC 执行并将完整产物
+归档回传。多个 Softcite 实例使用独立端口和运行目录。
 
 先在 `config.local.env` 中设置管理 API Key：
 
@@ -606,6 +641,9 @@ python -m src run \
 - `stop`：默认值；运行结束后停止实例，保留 Environment 供下一次重新创建实例。
 - `delete`：运行结束后删除实例，保留 Environment。
 - `keep`：保留运行实例，适合连续调试；生命周期最长 1440 分钟。
+
+`keep` 还会保留已启动的 Java 服务。`run_stage_01_04_batches.py` 因而可以在多个 1000 篇轮次
+之间复用同一沙箱和服务，最后由外层任务统一停止沙箱，避免每轮重新加载模型。
 
 也可以单独管理沙箱：
 

@@ -31,4 +31,8 @@ bash scripts/workflows/run_stage_01_04_screening.sh --config CONFIG
 
 # 一万篇分批任务
 bash scripts/run_stage_01_04_batches.sh
+
+# 每轮1000篇，内部每10篇一个微批次，最多5批并行，自动创建5个Softcite实例
+bash scripts/run_stage_01_04_batches.sh \
+  --microbatch --microbatch-size 10 --microbatch-concurrency 5
 ```

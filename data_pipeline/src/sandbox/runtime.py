@@ -5,13 +5,20 @@ import fcntl
 import shutil
 import tarfile
 import tempfile
+import threading
 import time
 import uuid
 from pathlib import Path
 from typing import Any, Iterator
 
 from src.sandbox.control import SandboxError
-from src.sandbox.manager import SERVICE_PORTS, SandboxManager, SandboxRunOptions, SandboxWorker
+from src.sandbox.manager import (
+    SERVICE_PORTS,
+    SandboxManager,
+    SandboxRunOptions,
+    SandboxWorker,
+    service_instance_ports,
+)
 from src.sandbox.proxy import LocalSandboxProxy
 
 
@@ -23,7 +30,11 @@ class SandboxPipelineRuntime:
         self.manager = SandboxManager(self.options)
         self.worker: SandboxWorker | None = None
         self.client = None
-        self.proxies: dict[str, LocalSandboxProxy] = {}
+        self.proxies: dict[tuple[str, int], LocalSandboxProxy] = {}
+        self._service_references: dict[tuple[str, int], int] = {}
+        self._started_services: set[tuple[str, int]] = set()
+        self._service_configs: dict[tuple[str, int], dict[str, Any]] = {}
+        self._service_lock = threading.RLock()
         self._lock_handle = None
 
     def __enter__(self) -> SandboxPipelineRuntime:
@@ -40,20 +51,20 @@ class SandboxPipelineRuntime:
             self.worker = self.manager.ensure()
             self.client = self.worker.client()
             for name in ("grobid", "softcite", "quantities"):
-                self.proxies[name] = LocalSandboxProxy(
-                    self.client,
-                    remote_port=SERVICE_PORTS[name],
-                    request_timeout=1800 if name in {"grobid", "softcite"} else 300,
-                ).start()
+                self._proxy(name, 0)
         except Exception:
             self._release_lock()
             raise
         return self
 
     def __exit__(self, exc_type, exc, traceback) -> bool:
-        for name in list(self.proxies):
+        for name, instance in list(self._started_services):
             try:
-                self.stop_service(name)
+                config = self._service_configs.get((name, instance))
+                if config is not None:
+                    self._mirror_service_log(name, config, instance=instance)
+                if self.options.cleanup != "keep":
+                    self.stop_service(name, instance=instance)
             except Exception:
                 pass
         for proxy in self.proxies.values():
@@ -72,55 +83,91 @@ class SandboxPipelineRuntime:
             "quantities": config.get("grobid_quantities", {}),
         }
         for name, service_config in service_configs.items():
-            service_config["base_url"] = self.proxies[name].base_url
-            service_config["_sandbox_runtime"] = self
+            service_config.update(self.service_config(name, service_config, instance=0))
         mineru = config.setdefault("mineru", {})
         mineru.setdefault("environment", {})["_sandbox_runtime"] = self
         config["execution_backend"] = "sandbox"
         return config
 
+    def service_config(
+        self, name: str, config: dict[str, Any], *, instance: int = 0
+    ) -> dict[str, Any]:
+        prepared = dict(config)
+        prepared["environment"] = dict(config.get("environment") or {})
+        prepared["base_url"] = self._proxy(name, instance).base_url
+        prepared["_sandbox_runtime"] = self
+        prepared["_sandbox_instance"] = instance
+        if instance and prepared.get("service_log"):
+            path = Path(str(prepared["service_log"]))
+            prepared["service_log"] = str(
+                path.with_name(f"{path.stem}.instance-{instance:03d}{path.suffix}")
+            )
+        return prepared
+
     @contextlib.contextmanager
     def service(self, name: str, config: dict[str, Any]) -> Iterator[None]:
-        self.start_service(name, config)
+        instance = int(config.get("_sandbox_instance", 0))
+        key = (name, instance)
+        with self._service_lock:
+            references = self._service_references.get(key, 0)
+            if references == 0 and key not in self._started_services:
+                self.start_service(name, config, instance=instance)
+            self._service_references[key] = references + 1
         try:
             yield
         finally:
-            self._mirror_service_log(name, config)
-            self.stop_service(name)
+            with self._service_lock:
+                remaining = self._service_references.get(key, 1) - 1
+                if remaining > 0:
+                    self._service_references[key] = remaining
+                else:
+                    self._service_references.pop(key, None)
+                    self._mirror_service_log(name, config, instance=instance)
 
-    def start_service(self, name: str, config: dict[str, Any]) -> dict[str, Any]:
+    def start_service(
+        self, name: str, config: dict[str, Any], *, instance: int = 0
+    ) -> dict[str, Any]:
         client = self._client()
         response = client.proxy_json(
             "POST",
             port=SERVICE_PORTS["rpc"],
-            suffix=f"v1/services/{name}/start",
+            suffix=self._service_suffix(name, instance, "start"),
             payload={"environment": dict(config.get("environment") or {})},
             timeout=float(config.get("startup_timeout_seconds") or 1200) + 120,
         )
         if not response.get("healthy"):
-            raise SandboxError(f"sandbox service {name} did not become healthy: {response}")
+            raise SandboxError(
+                f"sandbox service {name} instance {instance} did not become healthy: {response}"
+            )
+        with self._service_lock:
+            self._started_services.add((name, instance))
+            self._service_configs[(name, instance)] = config
         return response
 
-    def stop_service(self, name: str) -> None:
+    def stop_service(self, name: str, *, instance: int = 0) -> None:
         if self.client is None:
             return
         try:
             self.client.proxy_json(
                 "POST",
                 port=SERVICE_PORTS["rpc"],
-                suffix=f"v1/services/{name}/stop",
+                suffix=self._service_suffix(name, instance, "stop"),
                 payload={},
                 timeout=60,
             )
         except SandboxError:
             pass
+        finally:
+            with self._service_lock:
+                self._started_services.discard((name, instance))
+                self._service_configs.pop((name, instance), None)
 
-    def service_healthy(self, name: str) -> bool:
+    def service_healthy(self, name: str, *, instance: int = 0) -> bool:
         try:
             response = self._client().proxy_json(
                 "GET",
                 port=SERVICE_PORTS["rpc"],
-                suffix=f"v1/services/{name}/status",
+                suffix=self._service_suffix(name, instance, "status"),
                 timeout=10,
             )
             return bool(response.get("healthy"))
@@ -222,7 +269,7 @@ class SandboxPipelineRuntime:
         os_replace_directory(downloaded, target)
         shutil.rmtree(staging, ignore_errors=True)
 
-    def _mirror_service_log(self, name: str, config: dict[str, Any]) -> None:
+    def _mirror_service_log(self, name: str, config: dict[str, Any], *, instance: int = 0) -> None:
         log_path = config.get("service_log")
         if not log_path or self.client is None:
             return
@@ -230,7 +277,7 @@ class SandboxPipelineRuntime:
             response = self.client.proxy_json(
                 "GET",
                 port=SERVICE_PORTS["rpc"],
-                suffix=f"v1/services/{name}/logs",
+                suffix=self._service_suffix(name, instance, "logs"),
                 timeout=30,
             )
             destination = Path(str(log_path)).expanduser().resolve()
@@ -238,6 +285,26 @@ class SandboxPipelineRuntime:
             destination.write_text(str(response.get("log") or ""), encoding="utf-8")
         except SandboxError:
             return
+
+    def _proxy(self, name: str, instance: int) -> LocalSandboxProxy:
+        key = (name, instance)
+        proxy = self.proxies.get(key)
+        if proxy is not None:
+            return proxy
+        remote_port, _admin_port = service_instance_ports(name, instance)
+        proxy = LocalSandboxProxy(
+            self._client(),
+            remote_port=remote_port,
+            request_timeout=1800 if name in {"grobid", "softcite"} else 300,
+        ).start()
+        self.proxies[key] = proxy
+        return proxy
+
+    @staticmethod
+    def _service_suffix(name: str, instance: int, operation: str) -> str:
+        if instance == 0:
+            return f"v1/services/{name}/{operation}"
+        return f"v1/services/{name}/instances/{instance}/{operation}"
 
     def _client(self):
         if self.client is None:

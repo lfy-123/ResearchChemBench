@@ -30,10 +30,12 @@ def run_pipeline(
     *,
     execution_backend: str = "local",
     sandbox_options=None,
+    microbatch_overrides: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     path = Path(config_path).expanduser().resolve()
     raw = read_json(path)
     config = normalize_config(raw, path.parent)
+    config.setdefault("microbatch", {}).update(microbatch_overrides or {})
     configure_pipeline_logging(config.get("log_file", Path(config["workspace"]) / "pipeline.log"))
     if (config.get("source") or {}).get("mode") != "corpus":
         raise ValueError("the redesigned pipeline supports corpus mode only")
@@ -101,6 +103,22 @@ def run_corpus_pipeline(config_path: Path, config: dict[str, Any], base: Path) -
             "downstream_main_papers": len(canonical_inventory),
         },
     )
+
+    if (config.get("microbatch") or {}).get("enabled"):
+        from src.orchestration.microbatch import run_microbatch_stages
+
+        return run_microbatch_stages(
+            config_path=config_path,
+            config=config,
+            base=base,
+            workspace=workspace,
+            corpus_root=corpus_root,
+            inventory=inventory,
+            canonical_inventory=canonical_inventory,
+            duplicate_inventory=duplicate_inventory,
+            supplementary_inventory=supplementary_inventory,
+            exclude_supplementary=exclude_supplementary,
+        )
 
     grobid_config = config.get("grobid_extract", {})
     stage = _stage_dir(workspace, "stage_02_grobid_extract")

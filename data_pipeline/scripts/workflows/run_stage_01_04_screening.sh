@@ -12,6 +12,10 @@ sandbox_cpu="128"
 sandbox_memory="256Gi"
 sandbox_lifecycle_minutes="1440"
 sandbox_cleanup="stop"
+microbatch=""
+microbatch_size=""
+microbatch_concurrency=""
+microbatch_softcite_instances=""
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -43,6 +47,26 @@ while [[ $# -gt 0 ]]; do
       sandbox_cleanup="$2"
       shift 2
       ;;
+    --microbatch)
+      microbatch="--microbatch"
+      shift
+      ;;
+    --no-microbatch)
+      microbatch="--no-microbatch"
+      shift
+      ;;
+    --microbatch-size)
+      microbatch_size="$2"
+      shift 2
+      ;;
+    --microbatch-concurrency)
+      microbatch_concurrency="$2"
+      shift 2
+      ;;
+    --microbatch-softcite-instances)
+      microbatch_softcite_instances="$2"
+      shift 2
+      ;;
     -h|--help)
       cat <<'EOF'
 Usage: run_stage_01_04_screening.sh --config CONFIG [options]
@@ -57,6 +81,10 @@ Options:
   --sandbox-memory SIZE
   --sandbox-lifecycle-minutes N
   --sandbox-cleanup keep|stop|delete
+  --microbatch | --no-microbatch
+  --microbatch-size N
+  --microbatch-concurrency N
+  --microbatch-softcite-instances N
 EOF
       exit 0
       ;;
@@ -97,6 +125,18 @@ command=(
 )
 if [[ -n "$output" ]]; then
   command+=(--output "$output")
+fi
+if [[ -n "$microbatch" ]]; then
+  command+=("$microbatch")
+fi
+if [[ -n "$microbatch_size" ]]; then
+  command+=(--microbatch-size "$microbatch_size")
+fi
+if [[ -n "$microbatch_concurrency" ]]; then
+  command+=(--microbatch-concurrency "$microbatch_concurrency")
+fi
+if [[ -n "$microbatch_softcite_instances" ]]; then
+  command+=(--microbatch-softcite-instances "$microbatch_softcite_instances")
 fi
 if [[ "$backend" == "sandbox" ]]; then
   command+=(

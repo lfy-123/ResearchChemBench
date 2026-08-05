@@ -22,7 +22,7 @@ from urllib.parse import unquote, urlsplit
 
 import yaml
 
-from src.sandbox.manager import WORKER_PROTOCOL_VERSION
+from src.sandbox.manager import WORKER_PROTOCOL_VERSION, service_instance_ports
 
 DATA_PIPELINE_ROOT = Path(__file__).resolve().parents[2]
 SAFE_IDENTIFIER = frozenset("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_.-")
@@ -113,38 +113,51 @@ class PipelineSandboxServer(ThreadingHTTPServer):
     def __init__(self, address: tuple[str, int], runtime_root: Path) -> None:
         self.runtime_root = runtime_root.resolve()
         self.runtime_root.mkdir(parents=True, exist_ok=True)
-        self.services: dict[str, subprocess.Popen[Any]] = {}
-        self.service_logs: dict[str, Path] = {}
+        self.services: dict[tuple[str, int], subprocess.Popen[Any]] = {}
+        self.service_logs: dict[tuple[str, int], Path] = {}
         self.service_lock = threading.RLock()
         super().__init__(address, PipelineSandboxHandler)
 
-    def service_status(self, name: str) -> dict[str, Any]:
+    def service_status(self, name: str, instance: int = 0) -> dict[str, Any]:
         definition = SERVICE_DEFINITIONS[name]
+        application_port, _admin_port = service_instance_ports(name, instance)
+        key = (name, instance)
         with self.service_lock:
-            process = self.services.get(name)
-        alive = _http_alive(int(definition["port"]), str(definition["health"]))
+            process = self.services.get(key)
+        alive = _http_alive(application_port, str(definition["health"]))
         return {
             "status": "success",
             "service": name,
+            "instance": instance,
+            "port": application_port,
             "running": process is not None and process.poll() is None,
             "healthy": alive,
             "pid": process.pid if process is not None and process.poll() is None else None,
             "return_code": process.poll() if process is not None else None,
-            "log_path": str(self.service_logs.get(name) or ""),
+            "log_path": str(self.service_logs.get(key) or ""),
         }
 
-    def start_service(self, name: str, environment: dict[str, str]) -> dict[str, Any]:
+    def start_service(
+        self, name: str, environment: dict[str, str], instance: int = 0
+    ) -> dict[str, Any]:
         if name not in SERVICE_DEFINITIONS:
             raise ValueError(f"unknown service: {name}")
-        status = self.service_status(name)
+        application_port, admin_port = service_instance_ports(name, instance)
+        key = (name, instance)
+        status = self.service_status(name, instance)
         if status["healthy"]:
             return status
         definition = SERVICE_DEFINITIONS[name]
         with self.service_lock:
-            previous = self.services.get(name)
+            previous = self.services.get(key)
             if previous is not None and previous.poll() is None:
-                return self.service_status(name)
-            runtime = self._prepare_service(name)
+                return self.service_status(name, instance)
+            runtime = self._prepare_service(
+                name,
+                instance,
+                application_port=application_port,
+                admin_port=admin_port,
+            )
             log_path = runtime / "service.log"
             log_handle = log_path.open("ab", buffering=0)
             env = self._service_environment(name, runtime, environment)
@@ -161,26 +174,27 @@ class PipelineSandboxServer(ThreadingHTTPServer):
                 start_new_session=True,
             )
             log_handle.close()
-            self.services[name] = process
-            self.service_logs[name] = log_path
+            self.services[key] = process
+            self.service_logs[key] = log_path
         timeout = 1200 if name == "softcite" else 600
         deadline = time.monotonic() + timeout
         while time.monotonic() < deadline:
-            if _http_alive(int(definition["port"]), str(definition["health"])):
-                return self.service_status(name)
+            if _http_alive(application_port, str(definition["health"])):
+                return self.service_status(name, instance)
             if process.poll() is not None:
                 raise RuntimeError(
                     f"{name} exited with code {process.returncode}: {_tail(log_path, 8000)}"
                 )
             time.sleep(2)
-        self.stop_service(name)
-        raise TimeoutError(f"{name} did not become healthy within {timeout}s")
+        self.stop_service(name, instance)
+        raise TimeoutError(f"{name} instance {instance} did not become healthy within {timeout}s")
 
-    def stop_service(self, name: str) -> dict[str, Any]:
+    def stop_service(self, name: str, instance: int = 0) -> dict[str, Any]:
         if name not in SERVICE_DEFINITIONS:
             raise ValueError(f"unknown service: {name}")
+        key = (name, instance)
         with self.service_lock:
-            process = self.services.get(name)
+            process = self.services.get(key)
         if process is not None and process.poll() is None:
             os.killpg(process.pid, signal.SIGTERM)
             try:
@@ -189,10 +203,23 @@ class PipelineSandboxServer(ThreadingHTTPServer):
                 os.killpg(process.pid, signal.SIGKILL)
                 process.wait(timeout=10)
         with self.service_lock:
-            self.services.pop(name, None)
-        return {"status": "success", "service": name, "running": False, "healthy": False}
+            self.services.pop(key, None)
+        return {
+            "status": "success",
+            "service": name,
+            "instance": instance,
+            "running": False,
+            "healthy": False,
+        }
 
-    def _prepare_service(self, name: str) -> Path:
+    def _prepare_service(
+        self,
+        name: str,
+        instance: int,
+        *,
+        application_port: int,
+        admin_port: int,
+    ) -> Path:
         definition = SERVICE_DEFINITIONS[name]
         distribution = Path(definition["distribution"])
         config_source = Path(definition["config"])
@@ -200,7 +227,8 @@ class PipelineSandboxServer(ThreadingHTTPServer):
             raise FileNotFoundError(f"service distribution is missing: {distribution}")
         if not config_source.is_file():
             raise FileNotFoundError(f"service config is missing: {config_source}")
-        runtime = self.runtime_root / "services" / name
+        runtime_name = name if instance == 0 else f"{name}-{instance:03d}"
+        runtime = self.runtime_root / "services" / runtime_name
         executable = runtime / str(definition["directory"]) / "bin" / str(definition["executable"])
         if not executable.is_file():
             shutil.rmtree(runtime, ignore_errors=True)
@@ -215,7 +243,13 @@ class PipelineSandboxServer(ThreadingHTTPServer):
         if resources_source is not None and not resources_target.exists():
             resources_target.symlink_to(resources_source, target_is_directory=True)
         config = yaml.safe_load(config_source.read_text(encoding="utf-8")) or {}
-        self._rewrite_service_config(name, config, runtime)
+        self._rewrite_service_config(
+            name,
+            config,
+            runtime,
+            application_port=application_port,
+            admin_port=admin_port,
+        )
         (runtime / "tmp").mkdir(parents=True, exist_ok=True)
         (runtime / "logs").mkdir(parents=True, exist_ok=True)
         (runtime / "service-config.yml").write_text(
@@ -237,7 +271,15 @@ class PipelineSandboxServer(ThreadingHTTPServer):
         self._ensure_local_jdk()
         return runtime
 
-    def _rewrite_service_config(self, name: str, config: dict[str, Any], runtime: Path) -> None:
+    def _rewrite_service_config(
+        self,
+        name: str,
+        config: dict[str, Any],
+        runtime: Path,
+        *,
+        application_port: int | None = None,
+        admin_port: int | None = None,
+    ) -> None:
         grobid_home = str((DATA_PIPELINE_ROOT / ".model_cache/grobid-home").resolve())
         if name == "grobid":
             grobid = config.setdefault("grobid", {})
@@ -260,6 +302,14 @@ class PipelineSandboxServer(ThreadingHTTPServer):
                 (DATA_PIPELINE_ROOT / ".model_cache/grobid-quantities/clearnlp-models").resolve()
             )
             _rewrite_file_appenders(config.get("logging"), runtime / "logs")
+        if application_port is not None:
+            server = config.setdefault("server", {})
+            application = server.get("applicationConnectors") or [{"type": "http"}]
+            application[0]["port"] = application_port
+            server["applicationConnectors"] = application
+            admin = server.get("adminConnectors") or [{"type": "http"}]
+            admin[0]["port"] = admin_port if admin_port is not None else application_port + 1
+            server["adminConnectors"] = admin
 
     def _ensure_local_jdk(self) -> Path:
         source = DATA_PIPELINE_ROOT / ".envs/researchchem-data-pipeline/lib/jvm"
@@ -305,7 +355,7 @@ class PipelineSandboxServer(ThreadingHTTPServer):
                         environment.get("LD_LIBRARY_PATH", ""),
                     ]
                 ).strip(os.pathsep),
-                "TMPDIR": str(self.runtime_root / "tmp"),
+                "TMPDIR": str(runtime / "tmp"),
             }
         )
         options_name = {
@@ -441,6 +491,17 @@ class PipelineSandboxHandler(BaseHTTPRequestHandler):
     def _segments(self) -> list[str]:
         return [unquote(item) for item in urlsplit(self.path).path.split("/") if item]
 
+    @staticmethod
+    def _service_target(segments: list[str]) -> tuple[str, int, str] | None:
+        if len(segments) == 4 and segments[:2] == ["v1", "services"]:
+            return segments[2], 0, segments[3]
+        if len(segments) == 6 and segments[:2] == ["v1", "services"] and segments[3] == "instances":
+            instance = int(segments[4])
+            if instance < 0:
+                raise ValueError("service instance must be non-negative")
+            return segments[2], instance, segments[5]
+        return None
+
     def _body_json(self) -> dict[str, Any]:
         length = int(self.headers.get("Content-Length") or 0)
         value = json.loads(self.rfile.read(length).decode("utf-8")) if length else {}
@@ -474,21 +535,23 @@ class PipelineSandboxHandler(BaseHTTPRequestHandler):
                     },
                 )
                 return
-            if len(segments) == 4 and segments[:2] == ["v1", "services"]:
-                name, operation = segments[2], segments[3]
+            service_target = self._service_target(segments)
+            if service_target is not None:
+                name, instance, operation = service_target
                 if name not in SERVICE_DEFINITIONS:
                     self._error(HTTPStatus.NOT_FOUND, "unknown_service", name)
                     return
                 if operation == "status":
-                    self._json(HTTPStatus.OK, self.server.service_status(name))
+                    self._json(HTTPStatus.OK, self.server.service_status(name, instance))
                     return
                 if operation == "logs":
-                    log_path = self.server.service_logs.get(name)
+                    log_path = self.server.service_logs.get((name, instance))
                     self._json(
                         HTTPStatus.OK,
                         {
                             "status": "success",
                             "service": name,
+                            "instance": instance,
                             "log": _tail(log_path) if log_path else "",
                         },
                     )
@@ -534,8 +597,12 @@ class PipelineSandboxHandler(BaseHTTPRequestHandler):
     def do_POST(self) -> None:  # noqa: N802
         try:
             segments = self._segments()
-            if len(segments) == 4 and segments[:2] == ["v1", "services"]:
-                name, operation = segments[2], segments[3]
+            service_target = self._service_target(segments)
+            if service_target is not None:
+                name, instance, operation = service_target
+                if name not in SERVICE_DEFINITIONS:
+                    self._error(HTTPStatus.NOT_FOUND, "unknown_service", name)
+                    return
                 value = self._body_json()
                 if operation == "start":
                     self._json(
@@ -546,11 +613,12 @@ class PipelineSandboxHandler(BaseHTTPRequestHandler):
                                 str(key): str(item)
                                 for key, item in (value.get("environment") or {}).items()
                             },
+                            instance,
                         ),
                     )
                     return
                 if operation == "stop":
-                    self._json(HTTPStatus.OK, self.server.stop_service(name))
+                    self._json(HTTPStatus.OK, self.server.stop_service(name, instance))
                     return
             if len(segments) == 5 and segments[:3] == ["v1", "mineru", "jobs"]:
                 job_id, operation = segments[3], segments[4]
@@ -610,8 +678,8 @@ def main(argv: list[str] | None = None) -> int:
     except KeyboardInterrupt:
         pass
     finally:
-        for name in list(server.services):
-            server.stop_service(name)
+        for name, instance in list(server.services):
+            server.stop_service(name, instance)
         server.server_close()
     return 0
 
