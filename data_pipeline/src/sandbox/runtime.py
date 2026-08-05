@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import contextlib
+import fcntl
 import shutil
 import tarfile
 import tempfile
@@ -23,16 +24,30 @@ class SandboxPipelineRuntime:
         self.worker: SandboxWorker | None = None
         self.client = None
         self.proxies: dict[str, LocalSandboxProxy] = {}
+        self._lock_handle = None
 
     def __enter__(self) -> SandboxPipelineRuntime:
-        self.worker = self.manager.ensure()
-        self.client = self.worker.client()
-        for name in ("grobid", "softcite", "quantities"):
-            self.proxies[name] = LocalSandboxProxy(
-                self.client,
-                remote_port=SERVICE_PORTS[name],
-                request_timeout=1800 if name in {"grobid", "softcite"} else 300,
-            ).start()
+        lock_path = self.manager.source_path.parent / ".sandbox_state" / "active.lock"
+        lock_path.parent.mkdir(parents=True, exist_ok=True)
+        self._lock_handle = lock_path.open("a+", encoding="utf-8")
+        try:
+            fcntl.flock(self._lock_handle.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError as exc:
+            self._lock_handle.close()
+            self._lock_handle = None
+            raise RuntimeError("another data pipeline run is already using the sandbox") from exc
+        try:
+            self.worker = self.manager.ensure()
+            self.client = self.worker.client()
+            for name in ("grobid", "softcite", "quantities"):
+                self.proxies[name] = LocalSandboxProxy(
+                    self.client,
+                    remote_port=SERVICE_PORTS[name],
+                    request_timeout=1800 if name in {"grobid", "softcite"} else 300,
+                ).start()
+        except Exception:
+            self._release_lock()
+            raise
         return self
 
     def __exit__(self, exc_type, exc, traceback) -> bool:
@@ -44,7 +59,10 @@ class SandboxPipelineRuntime:
         for proxy in self.proxies.values():
             proxy.close()
         self.proxies.clear()
-        self.manager.cleanup()
+        try:
+            self.manager.cleanup()
+        finally:
+            self._release_lock()
         return False
 
     def apply(self, config: dict[str, Any]) -> dict[str, Any]:
@@ -225,6 +243,13 @@ class SandboxPipelineRuntime:
         if self.client is None:
             raise RuntimeError("sandbox runtime is not active")
         return self.client
+
+    def _release_lock(self) -> None:
+        if self._lock_handle is None:
+            return
+        fcntl.flock(self._lock_handle.fileno(), fcntl.LOCK_UN)
+        self._lock_handle.close()
+        self._lock_handle = None
 
 
 def os_replace_directory(source: Path, destination: Path) -> None:

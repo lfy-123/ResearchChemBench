@@ -2,13 +2,38 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
+import sys
 from pathlib import Path
+
+from dotenv import load_dotenv
 
 from src.core.io import read_jsonl, write_json, write_jsonl
 from src.integrations.grobid import GrobidClient, extract_documents_with_grobid
 from src.integrations.mineru import build_mineru_queue, run_mineru_queue
 from src.orchestration.pipeline import run_late_stages, run_pipeline
 from src.stages.stage01_inventory.corpus import inventory_corpus
+
+DATA_PIPELINE_ROOT = Path(__file__).resolve().parents[1]
+
+
+def _load_local_environment() -> None:
+    for path in (
+        DATA_PIPELINE_ROOT / "config.local.env",
+        DATA_PIPELINE_ROOT.parent / "config.local.env",
+    ):
+        if path.is_file():
+            load_dotenv(path, override=False)
+    if not os.environ.get("RESOURCE_LLM_URL") and os.environ.get("JUDGE_API_BASE"):
+        os.environ["RESOURCE_LLM_URL"] = os.environ["JUDGE_API_BASE"]
+    if not os.environ.get("RESOURCE_LLM_API_KEY") and os.environ.get("JUDGE_API_KEY"):
+        os.environ["RESOURCE_LLM_API_KEY"] = os.environ["JUDGE_API_KEY"]
+    if not os.environ.get("RESOURCE_LLM_MODEL_NAME") and os.environ.get("JUDGE_MODEL_NAME"):
+        os.environ["RESOURCE_LLM_MODEL_NAME"] = os.environ["JUDGE_MODEL_NAME"]
+    environment_bin = str(Path(sys.prefix) / "bin")
+    path_entries = os.environ.get("PATH", "").split(os.pathsep)
+    if environment_bin not in path_entries:
+        os.environ["PATH"] = os.pathsep.join([environment_bin, *path_entries])
 
 
 def _add_sandbox_options(parser: argparse.ArgumentParser, *, include_cleanup: bool = True) -> None:
@@ -51,6 +76,7 @@ def _sandbox_options(args):
 
 
 def main(argv: list[str] | None = None) -> int:
+    _load_local_environment()
     parser = argparse.ArgumentParser(prog="chem-pipeline")
     subparsers = parser.add_subparsers(dest="command", required=True)
 

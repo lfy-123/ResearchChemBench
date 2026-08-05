@@ -265,16 +265,57 @@ class OpenSandboxClient:
         }
 
     def download(self, *, port: int, suffix: str, destination: Path, timeout: float = 3600) -> None:
-        status, _headers, payload = self.proxy_bytes(
-            "GET", port=port, suffix=suffix, timeout=timeout
+        self._download(
+            port=port,
+            suffix=suffix,
+            destination=destination,
+            timeout=timeout,
+            refresh_token=False,
         )
-        if status < 200 or status >= 300:
-            raise SandboxError(
-                f"Sandbox download returned HTTP {status}",
-                status=status,
-                response=payload[-4000:].decode("utf-8", errors="replace"),
-            )
-        destination.write_bytes(payload)
+
+    def _download(
+        self,
+        *,
+        port: int,
+        suffix: str,
+        destination: Path,
+        timeout: float,
+        refresh_token: bool,
+    ) -> None:
+        token = self.access_token(refresh=refresh_token)
+        path = self._path(
+            f"/v1/sandboxes/{quote(self.sandbox_id)}/proxy/{int(port)}/{suffix.lstrip('/')}"
+        )
+        connection = self._connection(timeout)
+        try:
+            connection.request("GET", path, headers={"X-Sandbox-Access-Token": token})
+            response = connection.getresponse()
+            if response.status in {401, 403} and not refresh_token:
+                response.read()
+                self._download(
+                    port=port,
+                    suffix=suffix,
+                    destination=destination,
+                    timeout=timeout,
+                    refresh_token=True,
+                )
+                return
+            if response.status < 200 or response.status >= 300:
+                payload = response.read()
+                raise SandboxError(
+                    f"Sandbox download returned HTTP {response.status}",
+                    status=response.status,
+                    response=payload[-4000:].decode("utf-8", errors="replace"),
+                )
+            with destination.open("wb") as handle:
+                while chunk := response.read(1024 * 1024):
+                    handle.write(chunk)
+        except (OSError, http.client.HTTPException) as exc:
+            if isinstance(exc, SandboxError):
+                raise
+            raise SandboxError(f"Sandbox download failed: {exc}") from exc
+        finally:
+            connection.close()
 
     def _require_sandbox(self) -> None:
         if not self.sandbox_id:

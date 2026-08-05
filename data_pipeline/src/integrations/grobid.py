@@ -13,7 +13,7 @@ import uuid
 import xml.etree.ElementTree as ET
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Iterator
+from typing import Any, Callable, Iterator
 
 from src.core.logging import log_progress
 from src.integrations.pdf_fallback import fallback_pdf_to_tei
@@ -33,6 +33,7 @@ class GrobidClient:
     retries: int = 2
     consolidate_header: int = 0
     consolidate_citations: int = 0
+    infrastructure_healthy: Callable[[], bool] | None = None
 
     def process_fulltext_document(self, pdf_path: str | Path) -> str:
         pdf_path = Path(pdf_path).expanduser().resolve()
@@ -91,14 +92,19 @@ def grobid_is_alive(base_url: str, timeout_seconds: int = 5) -> bool:
 @contextlib.contextmanager
 def grobid_service(config: dict[str, Any]) -> Iterator[GrobidClient]:
     base_url = str(config.get("base_url", "http://127.0.0.1:8070"))
+    sandbox_runtime = config.get("_sandbox_runtime")
     client = GrobidClient(
         base_url=base_url,
         timeout_seconds=int(config.get("timeout_seconds", 900)),
         retries=int(config.get("retries", 2)),
         consolidate_header=int(config.get("consolidate_header", 0)),
         consolidate_citations=int(config.get("consolidate_citations", 0)),
+        infrastructure_healthy=(
+            (lambda: bool(sandbox_runtime.service_healthy("grobid")))
+            if sandbox_runtime is not None
+            else None
+        ),
     )
-    sandbox_runtime = config.get("_sandbox_runtime")
     if sandbox_runtime is not None:
         with sandbox_runtime.service("grobid", config):
             if not grobid_is_alive(base_url):
@@ -198,6 +204,11 @@ def extract_documents_with_grobid(
                     tei_xml = client.process_fulltext_document(item["source_path"])
                     status = "success"
                 except Exception as grobid_error:
+                    infrastructure_healthy = getattr(client, "infrastructure_healthy", None)
+                    if infrastructure_healthy is not None and not infrastructure_healthy():
+                        raise GrobidError(
+                            "GROBID sandbox infrastructure became unavailable"
+                        ) from grobid_error
                     request_failed = True
                     request_error = f"{type(grobid_error).__name__}: {grobid_error}"
                     if not (fallback_config or {}).get("enabled", True):

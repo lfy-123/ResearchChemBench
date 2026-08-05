@@ -22,6 +22,8 @@ from urllib.parse import unquote, urlsplit
 
 import yaml
 
+from src.sandbox.manager import WORKER_PROTOCOL_VERSION
+
 DATA_PIPELINE_ROOT = Path(__file__).resolve().parents[2]
 SAFE_IDENTIFIER = frozenset("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_.-")
 SERVICE_DEFINITIONS = {
@@ -145,7 +147,7 @@ class PipelineSandboxServer(ThreadingHTTPServer):
             runtime = self._prepare_service(name)
             log_path = runtime / "service.log"
             log_handle = log_path.open("ab", buffering=0)
-            env = self._service_environment(environment)
+            env = self._service_environment(name, runtime, environment)
             executable = (
                 runtime / str(definition["directory"]) / "bin" / str(definition["executable"])
             )
@@ -205,12 +207,32 @@ class PipelineSandboxServer(ThreadingHTTPServer):
             runtime.mkdir(parents=True, exist_ok=True)
             _safe_zip_extract(distribution, runtime)
         executable.chmod(executable.stat().st_mode | 0o100)
+        resources_source = {
+            "softcite": DATA_PIPELINE_ROOT / "third_party/software-mentions/resources",
+            "quantities": DATA_PIPELINE_ROOT / "third_party/grobid-quantities/resources",
+        }.get(name)
+        resources_target = runtime / "resources"
+        if resources_source is not None and not resources_target.exists():
+            resources_target.symlink_to(resources_source, target_is_directory=True)
         config = yaml.safe_load(config_source.read_text(encoding="utf-8")) or {}
         self._rewrite_service_config(name, config, runtime)
         (runtime / "tmp").mkdir(parents=True, exist_ok=True)
         (runtime / "logs").mkdir(parents=True, exist_ok=True)
         (runtime / "service-config.yml").write_text(
             yaml.safe_dump(config, sort_keys=False, allow_unicode=True), encoding="utf-8"
+        )
+        grobid_runtime = (
+            yaml.safe_load(
+                (DATA_PIPELINE_ROOT / ".model_cache/grobid-home/config/grobid.yaml").read_text(
+                    encoding="utf-8"
+                )
+            )
+            or {}
+        )
+        self._rewrite_service_config("grobid", grobid_runtime, runtime)
+        (runtime / "grobid-runtime.yml").write_text(
+            yaml.safe_dump(grobid_runtime, sort_keys=False, allow_unicode=True),
+            encoding="utf-8",
         )
         self._ensure_local_jdk()
         return runtime
@@ -255,7 +277,9 @@ class PipelineSandboxServer(ThreadingHTTPServer):
         os.replace(temporary, destination)
         return destination
 
-    def _service_environment(self, extra: dict[str, str]) -> dict[str, str]:
+    def _service_environment(
+        self, name: str, runtime: Path, extra: dict[str, str]
+    ) -> dict[str, str]:
         prefix = DATA_PIPELINE_ROOT / ".envs/researchchem-data-pipeline"
         jdk = self.runtime_root / "jdk"
         environment = os.environ.copy()
@@ -277,12 +301,21 @@ class PipelineSandboxServer(ThreadingHTTPServer):
                     [
                         str(jdk / "lib/server"),
                         str(prefix / "lib"),
+                        str(prefix / "lib/python3.11/site-packages/jep"),
                         environment.get("LD_LIBRARY_PATH", ""),
                     ]
                 ).strip(os.pathsep),
                 "TMPDIR": str(self.runtime_root / "tmp"),
             }
         )
+        options_name = {
+            "grobid": "GROBID_SERVICE_OPTS",
+            "softcite": "SOFTWARE_MENTIONS_OPTS",
+            "quantities": "GROBID_QUANTITIES_OPTS",
+        }[name]
+        existing_options = environment.get(options_name, "").strip()
+        grobid_options = f"-Dorg.grobid.config={runtime / 'grobid-runtime.yml'}"
+        environment[options_name] = f"{existing_options} {grobid_options}".strip()
         Path(environment["TMPDIR"]).mkdir(parents=True, exist_ok=True)
         return environment
 
@@ -436,6 +469,7 @@ class PipelineSandboxHandler(BaseHTTPRequestHandler):
                         "status": "success",
                         "service": "researchchem-data-pipeline-sandbox-worker",
                         "pid": os.getpid(),
+                        "protocol_version": WORKER_PROTOCOL_VERSION,
                         "runtime_root": str(self.server.runtime_root),
                     },
                 )
@@ -551,9 +585,8 @@ def _rewrite_file_appenders(logging: Any, log_root: Path) -> None:
             continue
         appender["currentLogFilename"] = str(log_root / f"application-{index}.log")
         if appender.get("archivedLogFilenamePattern"):
-            appender["archivedLogFilenamePattern"] = str(
-                log_root / f"application-{index}-%d.log.gz"
-            )
+            original = Path(str(appender["archivedLogFilenamePattern"])).name
+            appender["archivedLogFilenamePattern"] = str(log_root / original)
 
 
 def _http_alive(port: int, path: str) -> bool:

@@ -28,6 +28,7 @@ Stage 01-04 是筛选门控。Stage 05 不判断论文是否一定能构造任�
 
 ```text
 data_pipeline/
+├── .envs/                  # 本地 Conda 环境，不提交 Git
 ├── .model_cache/           # 本地模型和服务配置，不提交 Git
 ├── assets/                 # 工具箱、软件别名、角色规则和能力映射
 ├── docs/                   # 当前设计文档
@@ -60,20 +61,25 @@ data_pipeline/
 
 ## Conda 环境
 
-数据管线只使用一个 Conda 环境。`environment.yml` 安装 Python 3.12、OpenJDK 21、Poppler、Git、项目依赖和 Softcite 需要的固定版本。MinerU、DeLFT 和 JEP 由 bootstrap 脚本安装到同一环境，不创建第二个环境。
+数据管线只使用一个 Conda 环境。`environment.yml` 安装 Python 3.11、OpenJDK 21、Poppler、Git、项目依赖和 Softcite 需要的固定版本。Python 3.11 是固定版 `tfa-nightly` 提供 Linux wheel 的最新版本。MinerU、DeLFT 和 JEP 由 bootstrap 脚本安装到同一环境，不创建第二个环境。MinerU 只安装管线所需的 `pipeline` extra，并使用 `mineru-constraints.txt` 固定 NumPy 1.26、OpenCV 4.11 和 CPU 版 PyTorch 2.6；不会安装与本流程无关的 vLLM、Gradio 或 CUDA 运行时。
 
 ```bash
 cd data_pipeline
-conda env create -f environment.yml
-conda activate researchchem-data-pipeline
+conda env create -p .envs/researchchem-data-pipeline -f environment.yml
+conda activate "$PWD/.envs/researchchem-data-pipeline"
 ```
 
 更新已有环境：
 
 ```bash
-conda env update -f environment.yml --prune
-conda activate researchchem-data-pipeline
+conda env update -p .envs/researchchem-data-pipeline -f environment.yml --prune
+conda activate "$PWD/.envs/researchchem-data-pipeline"
 ```
+
+后续 bootstrap、测试和管线命令都在该环境激活后执行；Softcite 会继承当前环境的
+`CONDA_PREFIX`，不依赖 `/usr/local` 或用户主目录中的 Conda 环境。MinerU 子进程会
+优先加载当前 Python 环境的 `lib/`，避免共享宿主机较旧的 `libstdc++` 覆盖 Conda
+运行库。
 
 验证：
 
@@ -150,6 +156,12 @@ Stage 02 默认使用 GROBID。GROBID 服务整体无法启动时，流水线直
 - `third_party/grobid-quantities/`
 
 脚本同时下载 Softcite 模型，并使用 `transformers==4.57.3`。Stage 03 或 Stage 04 服务启动失败时，流水线直接报错停止，不把基础设施故障解释为论文淘汰。
+
+旧版 GROBID Quantities 使用的 JGit 会在部分共享文件系统上卡住时间戳探测。
+bootstrap 会把该 Java 进程的 `user.home` 放到本机临时目录；可用
+`RESEARCHCHEMBENCH_GRADLE_JAVA_USER_HOME` 覆盖。管线运行时可在本机
+`config.local.json` 的 `grobid_quantities.environment.JAVA_TOOL_OPTIONS` 中设置同一
+`-Duser.home=<local-path>`，无需修改第三方 checkout 或 `run_pipeline.sh`。
 
 ### 统一模型缓存
 
@@ -565,6 +577,67 @@ ZENODO_ACCESS_TOKEN='...'
 - `judge`
 
 Stage 05 的生产默认单文件上限为 10 GiB、单压缩包展开上限为 50 GiB。测试时应使用更小上限，避免为验证流程下载超大记录。
+
+## OpenSandbox 大资源运行
+
+开发机 CPU 或内存不足时，可以保留本地 Stage 编排和筛选逻辑，仅把 GROBID、Softcite、
+GROBID Quantities 和 MinerU 放到一个 OpenSandbox 实例中运行。三个 Java 服务按阶段顺序
+启动和关闭，MinerU 通过 worker RPC 执行并将完整产物归档回传。
+
+先在 `config.local.env` 中设置管理 API Key：
+
+```bash
+RCB_SANDBOX_API_KEY=<本地密钥>
+```
+
+一条命令自动创建或复用 32 CPU、96 GiB 沙箱，运行管线，并在结束后停止实例：
+
+```bash
+python -m src run \
+  --config config.local.json \
+  --sandbox \
+  --sandbox-cpu 32 \
+  --sandbox-memory 96Gi \
+  --sandbox-cleanup stop
+```
+
+`--sandbox-cleanup` 支持：
+
+- `stop`：默认值；运行结束后停止实例，保留 Environment 供下一次重新创建实例。
+- `delete`：运行结束后删除实例，保留 Environment。
+- `keep`：保留运行实例，适合连续调试；生命周期最长 1440 分钟。
+
+也可以单独管理沙箱：
+
+```bash
+# 创建或确保实例正在运行
+python -m src sandbox create --sandbox-cpu 32 --sandbox-memory 96Gi
+
+# 查看状态；输出中的 SAT 会被自动隐藏
+python -m src sandbox status --sandbox-cpu 32 --sandbox-memory 96Gi
+
+# 停止实例
+python -m src sandbox stop --sandbox-cpu 32 --sandbox-memory 96Gi
+
+# 删除实例；加 --delete-environment 可同时删除 Environment
+python -m src sandbox delete --sandbox-cpu 32 --sandbox-memory 96Gi
+```
+
+本地管理文件为：
+
+```text
+.sandboxes.local.yaml
+.sandbox_inventory.local.json
+.sandbox_state/
+```
+
+这些文件均被 Git 忽略。API Key 和 SAT 不写入管理文件；共享数据目录在沙箱内保持只读，
+JDK、服务临时目录、日志和 MinerU 中间产物位于
+`/tmp/researchchem-data-pipeline/`。MinerU 完成后通过流式归档回传，路径穿越和符号链接会被拒绝。
+
+当请求的 CPU、内存或镜像与当前受管 Environment 不一致时，管理器会删除本地文件中明确
+记录的旧实例和旧 Environment，再按新规格创建。当前管线按论文顺序处理，因此一个更大的
+沙箱用于增加单次运行的内存和 CPU 上限；多个沙箱不会自动改变现有筛选逻辑或并行拆分论文。
 
 ## 运行
 

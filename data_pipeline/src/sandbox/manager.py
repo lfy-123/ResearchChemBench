@@ -30,6 +30,7 @@ SERVICE_PORTS = {
     "softcite": 8060,
     "quantities": 8062,
 }
+WORKER_PROTOCOL_VERSION = 4
 
 
 @dataclass(frozen=True)
@@ -182,15 +183,17 @@ class SandboxManager:
         }
         if environment_id:
             try:
-                result["environment"] = self.control.management_json(
-                    "GET", f"/v1/sandbox-environments/{environment_id}"
+                result["environment"] = _redact_credentials(
+                    self.control.management_json(
+                        "GET", f"/v1/sandbox-environments/{environment_id}"
+                    )
                 )
             except SandboxError as exc:
                 result["environment_error"] = str(exc)
         if sandbox_id:
             try:
-                result["sandbox"] = self.control.management_json(
-                    "GET", f"/v1/sandboxes/{sandbox_id}"
+                result["sandbox"] = _redact_credentials(
+                    self.control.management_json("GET", f"/v1/sandboxes/{sandbox_id}")
                 )
             except SandboxError as exc:
                 result["sandbox_error"] = str(exc)
@@ -407,18 +410,24 @@ class SandboxManager:
 
     def _ensure_worker_rpc(self, worker: SandboxWorker) -> None:
         client = worker.client()
+        old_pid: int | None = None
         try:
             health = client.proxy_json("GET", port=worker.rpc_port, suffix="health", timeout=5)
-            if health.get("status") == "success":
+            if (
+                health.get("status") == "success"
+                and int(health.get("protocol_version") or 0) == WORKER_PROTOCOL_VERSION
+            ):
                 return
+            old_pid = int(health.get("pid") or 0) or None
         except SandboxError:
             pass
         python = DATA_PIPELINE_ROOT / ".envs" / "researchchem-data-pipeline" / "bin" / "python"
         if not python.is_file():
             raise SandboxError(f"data pipeline Python is missing: {python}", retryable=False)
         log_path = f"{DEFAULT_RUNTIME_ROOT}/worker.log"
+        stop_old = f"kill {old_pid} 2>/dev/null || true; sleep 1; " if old_pid else ""
         command = (
-            f"mkdir -p {shlex.quote(DEFAULT_RUNTIME_ROOT)} && "
+            stop_old + f"mkdir -p {shlex.quote(DEFAULT_RUNTIME_ROOT)} && "
             f"cd {shlex.quote(str(DATA_PIPELINE_ROOT))} && "
             "PYTHONDONTWRITEBYTECODE=1 nohup "
             f"{shlex.quote(str(python))} -m src.sandbox.worker "
@@ -445,11 +454,27 @@ class SandboxManager:
         raise SandboxError(f"sandbox worker RPC did not become healthy: {last_error}")
 
 
+def _redact_credentials(value: Any) -> Any:
+    if isinstance(value, dict):
+        return {
+            key: (
+                "***"
+                if key.casefold() in {"accesstoken", "api_key", "apikey"}
+                else _redact_credentials(item)
+            )
+            for key, item in value.items()
+        }
+    if isinstance(value, list):
+        return [_redact_credentials(item) for item in value]
+    return value
+
+
 __all__ = [
     "DATA_PIPELINE_ROOT",
     "DEFAULT_INVENTORY",
     "DEFAULT_SOURCE",
     "SERVICE_PORTS",
+    "WORKER_PROTOCOL_VERSION",
     "SandboxManager",
     "SandboxRunOptions",
     "SandboxWorker",
