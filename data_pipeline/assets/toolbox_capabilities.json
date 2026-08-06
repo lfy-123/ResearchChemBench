@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "profile_id": "researchchembench-toolbox-20260801",
+  "catalog_hash": "90315e071d0bbb32c9f7a168261d3015030c529bcd6a55956b33e321a337ac84",
+  "source_profile": "assets/toolbox.json",
+  "unknown_field_policy": "unknown",
+  "method_families": {
+    "electronic_structure": {
+      "backends": ["gaussian", "orca", "psi4", "pyscf", "nwchem", "cp2k", "xtb"],
+      "required_actions": ["calculate_energy", "optimize_geometry"],
+      "limitations": null
+    },
+    "periodic_materials": {
+      "backends": ["vasp", "quantum_espresso", "abinit", "cp2k", "siesta"],
+      "required_actions": ["calculate_energy", "calculate_forces"],
+      "limitations": null
+    },
+    "molecular_dynamics": {
+      "backends": ["gromacs", "openmm", "lammps", "amber_pmemd", "namd", "charmm"],
+      "required_actions": ["propagate_dynamics"],
+      "limitations": null
+    },
+    "reaction_kinetics": {
+      "backends": ["gaussian", "orca", "pysisyphus", "cantera", "mess", "mesmer"],
+      "required_actions": ["locate_transition_state"],
+      "limitations": null
+    },
+    "free_energy": {
+      "backends": ["gromacs", "openmm", "plumed", "pymbar", "alchemlyb"],
+      "required_actions": ["analyze_free_energy_convergence"],
+      "limitations": null
+    },
+    "docking_conformer": {
+      "backends": ["autodock_vina", "gnina", "crest", "censo"],
+      "required_actions": ["dock_ligand"],
+      "limitations": null
+    },
+    "multiscale": {
+      "backends": ["cp2k", "charmm", "openmm"],
+      "required_actions": [],
+      "limitations": null
+    },
+    "machine_learning_chemistry": {
+      "backends": ["mace", "chgnet", "allegro", "deepmd"],
+      "required_actions": ["calculate_energy", "calculate_forces"],
+      "limitations": null
+    }
+  }
+}

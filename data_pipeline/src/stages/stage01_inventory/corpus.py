@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import re
 import subprocess
 from pathlib import Path
@@ -39,25 +40,100 @@ def inventory_corpus(root: str | Path, *, workers: int = 1) -> list[dict[str, An
         duplicate_of_source_path = owner[1] if owner else None
         if owner is None:
             hash_owner[digest] = (document_id, str(path.resolve()))
-        document_role = classify_document_role(path, info.get("Title"))
+        bundle_root, paper_metadata = _paper_bundle(path, root)
+        manifest_document = _manifest_document(path, bundle_root, paper_metadata)
+        document_role = str(
+            manifest_document.get("document_role")
+            or classify_document_role(path, info.get("Title"))
+        )
+        paper_id = str(paper_metadata.get("paper_id") or document_id)
         records.append(
             {
                 "document_id": document_id,
-                "paper_id": document_id,
+                "paper_id": paper_id,
                 "source_path": str(path.resolve()),
                 "relative_path": str(path.relative_to(root)),
+                "paper_relative_path": (
+                    str(path.relative_to(bundle_root)) if bundle_root is not None else path.name
+                ),
+                "paper_bundle_path": str(bundle_root) if bundle_root is not None else None,
                 "file_name": path.name,
                 "sha256": digest,
                 "size_bytes": path.stat().st_size,
                 "page_count": info.get("Pages"),
                 "pdf_metadata": info,
                 "document_role": document_role,
+                "doi": paper_metadata.get("doi"),
+                "source_dataset": paper_metadata.get("dataset"),
+                "source_record": paper_metadata.get("source_record") or {},
+                "source_remote_uri": manifest_document.get("remote_uri"),
+                "journal_name": paper_metadata.get("journal_name"),
+                "issn": paper_metadata.get("issn"),
+                "article_url": paper_metadata.get("article_url"),
                 "duplicate_of": duplicate_of,
                 "duplicate_of_source_path": duplicate_of_source_path,
                 "inventory_status": "duplicate" if duplicate_of else "canonical",
             }
         )
     return records
+
+
+def group_inventory_by_paper(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    grouped: dict[str, dict[str, Any]] = {}
+    for record in records:
+        paper_id = str(record["paper_id"])
+        paper = grouped.setdefault(
+            paper_id,
+            {
+                "paper_id": paper_id,
+                "doi": record.get("doi"),
+                "title": None,
+                "journal_name": record.get("journal_name"),
+                "issn": record.get("issn"),
+                "article_url": record.get("article_url"),
+                "source_dataset": record.get("source_dataset"),
+                "paper_bundle_path": record.get("paper_bundle_path"),
+                "main_documents": [],
+                "supplementary_documents": [],
+            },
+        )
+        key = (
+            "supplementary_documents"
+            if record.get("document_role") == "supplementary"
+            else "main_documents"
+        )
+        paper[key].append(record["document_id"])
+    return list(grouped.values())
+
+
+def _paper_bundle(path: Path, corpus_root: Path) -> tuple[Path | None, dict[str, Any]]:
+    for parent in (path.parent, *path.parents):
+        if parent == corpus_root.parent:
+            break
+        manifest = parent / "paper.json"
+        if manifest.is_file():
+            try:
+                value = json.loads(manifest.read_text(encoding="utf-8"))
+            except (OSError, json.JSONDecodeError, TypeError):
+                return parent, {}
+            return parent, value if isinstance(value, dict) else {}
+        if parent == corpus_root:
+            break
+    return None, {}
+
+
+def _manifest_document(
+    path: Path, bundle_root: Path | None, paper_metadata: dict[str, Any]
+) -> dict[str, Any]:
+    if bundle_root is None:
+        return {}
+    relative = str(path.relative_to(bundle_root))
+    documents = [paper_metadata.get("main_document") or {}]
+    documents.extend(paper_metadata.get("supplementary_documents") or [])
+    for document in documents:
+        if str(document.get("relative_path") or "") == relative:
+            return document
+    return {}
 
 
 def pdf_info(path: str | Path) -> dict[str, Any]:

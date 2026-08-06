@@ -21,6 +21,7 @@ def assess_software_coverage(
     capability_map_file: str | Path,
     raw_output_dir: str | Path,
     workers: int = 1,
+    isolate_errors: bool = False,
 ) -> list[dict[str, Any]]:
     aliases = _alias_index(read_json(aliases_file))
     role_rules = read_json(role_rules_file)
@@ -33,8 +34,12 @@ def assess_software_coverage(
         tei_path = document.get("grobid_tei_path")
         if not tei_path:
             raise ValueError(f"Missing GROBID TEI for {document.get('paper_id')}")
-        raw = client.annotate_tei(tei_path)
-        write_json(raw_dir / f"{document['document_id']}.json", raw)
+        raw_path = raw_dir / f"{document['document_id']}.json"
+        if raw_path.is_file():
+            raw = read_json(raw_path)
+        else:
+            raw = client.annotate_tei(tei_path)
+            write_json(raw_path, raw)
         direct_mentions = _softcite_mentions(raw.get("mentions") or [], aliases, role_rules)
         recovered_mentions = _recover_known_software(
             tei_path,
@@ -92,7 +97,7 @@ def assess_software_coverage(
                 "unsupported_core_software": [item["normalized_name"] for item in unsupported],
                 "equivalent_core_software": [item["normalized_name"] for item in equivalent],
                 "service_version": service_version,
-                "softcite_raw_path": str(raw_dir / f"{document['document_id']}.json"),
+                "softcite_raw_path": str(raw_path),
             },
             "pipeline_routing": {
                 "stage_03": decision,
@@ -106,8 +111,33 @@ def assess_software_coverage(
         }
         return record
 
+    def safe_assess(document: dict[str, Any]) -> dict[str, Any]:
+        try:
+            return assess(document)
+        except Exception as exc:
+            if not isolate_errors:
+                raise
+            return {
+                **document,
+                "software_coverage": {
+                    "status": "error",
+                    "decision": "stage_error",
+                    "core_software": [],
+                    "auxiliary_software": [],
+                    "ignored_mentions": [],
+                    "service_version": service_version,
+                    "error": f"{type(exc).__name__}: {exc}",
+                },
+                "pipeline_routing": {
+                    "stage_03": "stage_error",
+                    "continue": True,
+                    "stopped_at": None,
+                    "stop_reason": None,
+                },
+            }
+
     return ordered_parallel_map(
-        assess,
+        safe_assess,
         documents,
         max_workers=workers,
         on_complete=lambda completed, total, _index, document, record: log_progress(

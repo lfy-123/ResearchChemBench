@@ -24,6 +24,11 @@ def normalize_config(raw: dict[str, Any], base: Path) -> dict[str, Any]:
     stage04 = raw.get("stage04") or {}
     stage01 = raw.get("stage01") or {}
     stage05 = raw.get("stage05") or {}
+    stage00_remote = raw.get("stage00_remote_corpus") or {}
+    stage03_relevance = raw.get("stage03_computation_relevance") or {}
+    stage04_supplementary = raw.get("stage04_supplementary_acquisition") or {}
+    stage05_preliminary = raw.get("stage05_preliminary_coverage") or {}
+    stage06_supplementary = raw.get("stage06_supplementary_extraction") or {}
     microbatch = raw.get("microbatch") or {}
     model_cache = _resolve(base, raw.get("model_cache_directory", ".model_cache"))
     model_cache_config = model_cache / "config"
@@ -60,11 +65,41 @@ def normalize_config(raw: dict[str, Any], base: Path) -> dict[str, Any]:
         "source": {
             "mode": "corpus",
             "root": str(pdf_directory),
-            "exclude_supplementary": bool(raw.get("exclude_supplementary", True)),
+            "exclude_supplementary": False,
         },
         "workspace": str(run_dir / "outputs"),
         "log_file": str(run_dir / "outputs" / "pipeline.log"),
-        "stop_after": raw.get("stop_after", "judge"),
+        "stop_after": raw.get("stop_after", "stage08"),
+        "resume_completed_stages": bool(raw.get("resume_completed_stages", False)),
+        "stage00_remote_corpus": {
+            "enabled": bool(stage00_remote.get("enabled", False)),
+            "dataset": stage00_remote.get("dataset", "en-paper-hzzj"),
+            "count": max(1, int(stage00_remote.get("count", 1000))),
+            "output_directory": str(
+                _resolve(
+                    base,
+                    stage00_remote.get(
+                        "output_directory", run_dir / "stage_00_remote_corpus"
+                    ),
+                )
+            ),
+            "credentials": str(
+                _resolve(
+                    base,
+                    stage00_remote.get(
+                        "credentials",
+                        "/mnt/shared-storage-user/liyuqiang/benchmark/pipline_demo/pdfs/xinghe.txt",
+                    ),
+                )
+            ),
+            "outside": bool(stage00_remote.get("outside", False)),
+            "resume": bool(stage00_remote.get("resume", True)),
+            "selection": stage00_remote.get("selection", "remote_order"),
+            "seed": int(stage00_remote.get("seed", 0)),
+            "copy_existing_supplementary": bool(
+                stage00_remote.get("copy_existing_supplementary", True)
+            ),
+        },
         "microbatch": {
             "enabled": bool(microbatch.get("enabled", False)),
             "size": max(1, int(microbatch.get("size", 10))),
@@ -138,7 +173,7 @@ def normalize_config(raw: dict[str, Any], base: Path) -> dict[str, Any]:
             "retries": int(softcite.get("retries", 2)),
             "workers": max(1, int(softcite.get("workers", 1))),
             "service_log": str(
-                run_dir / "outputs" / "stage_03_software_coverage" / "softcite_service.log"
+                run_dir / "outputs" / "stage_05_preliminary_coverage" / "softcite_service.log"
             ),
             "environment": {
                 "CONDA_PREFIX": str(
@@ -196,6 +231,69 @@ def normalize_config(raw: dict[str, Any], base: Path) -> dict[str, Any]:
         "stage04": {
             "enabled": bool(stage04.get("enabled", True)),
             "workers": max(1, int(stage04.get("workers", 1))),
+        },
+        "stage03_computation_relevance": {
+            "method_ontology": str(
+                _resolve(
+                    base,
+                    stage03_relevance.get(
+                        "method_ontology", "assets/computational_method_ontology.yaml"
+                    ),
+                )
+            ),
+            "evidence_rules": str(
+                _resolve(
+                    base,
+                    stage03_relevance.get(
+                        "evidence_rules", "assets/computation_evidence_rules.yaml"
+                    ),
+                )
+            ),
+            "negative_contexts": str(
+                _resolve(
+                    base,
+                    stage03_relevance.get(
+                        "negative_contexts", "assets/computation_negative_contexts.yaml"
+                    ),
+                )
+            ),
+            "continue_decisions": stage03_relevance.get(
+                "continue_decisions", ["strong_candidate", "weak_candidate", "rule_error"]
+            ),
+            "use_llm": False,
+            "workers": max(1, int(stage03_relevance.get("workers", 1))),
+        },
+        "stage04_supplementary_acquisition": {
+            "enabled": bool(stage04_supplementary.get("enabled", True)),
+            "enable_network": bool(stage04_supplementary.get("enable_network", True)),
+            "publisher_adapters": stage04_supplementary.get(
+                "publisher_adapters", ["acs", "rsc", "elsevier", "wiley", "nature", "mdpi"]
+            ),
+            "allowed_extensions": stage04_supplementary.get(
+                "allowed_extensions", ["pdf"]
+            ),
+            "max_attachments_per_paper": int(
+                stage04_supplementary.get("max_attachments_per_paper", 20)
+            ),
+            "max_file_bytes": int(
+                stage04_supplementary.get("max_file_bytes", 100 * 1024**2)
+            ),
+            "max_total_bytes_per_paper": int(
+                stage04_supplementary.get("max_total_bytes_per_paper", 250 * 1024**2)
+            ),
+            "download_timeout_seconds": int(
+                stage04_supplementary.get("download_timeout_seconds", 120)
+            ),
+            "read_timeout_seconds": int(
+                stage04_supplementary.get("read_timeout_seconds", 20)
+            ),
+            "connect_timeout_seconds": int(
+                stage04_supplementary.get("connect_timeout_seconds", 15)
+            ),
+            "paper_timeout_seconds": int(
+                stage04_supplementary.get("paper_timeout_seconds", 180)
+            ),
+            "workers": max(1, int(stage04_supplementary.get("workers", 4))),
         },
         "grobid_quantities": {
             "base_url": quantities.get("base_url", "http://127.0.0.1:8062"),
@@ -277,8 +375,39 @@ def normalize_config(raw: dict[str, Any], base: Path) -> dict[str, Any]:
             ),
             "paper_limit": stage05.get("paper_limit"),
         },
+        "stage05_preliminary_coverage": {
+            "capability_catalog": str(
+                _resolve(
+                    base,
+                    stage05_preliminary.get(
+                        "capability_catalog", "assets/toolbox_capabilities.json"
+                    ),
+                )
+            ),
+            "continue_without_software_name": True,
+            "unknown_capability_policy": "continue_low_priority",
+            "softcite_instances": max(
+                1, int(stage05_preliminary.get("softcite_instances", 1))
+            ),
+        },
+        "stage06_supplementary_extraction": {
+            "pdftotext_command": stage06_supplementary.get(
+                "pdftotext_command", "pdftotext"
+            ),
+            "pdftotext_timeout_seconds": int(
+                stage06_supplementary.get("pdftotext_timeout_seconds", 300)
+            ),
+            "minimum_text_quality": float(
+                stage06_supplementary.get("minimum_text_quality", 60)
+            ),
+            "workers": max(1, int(stage06_supplementary.get("workers", 1))),
+        },
         "stage06": _agent_stage(raw.get("stage06") or {}, "BUILDER_AGENT"),
         "stage07": _agent_stage(raw.get("stage07") or {}, "JUDGE_AGENT"),
+        "stage07_builder": _agent_stage(
+            raw.get("stage07_builder") or {}, "BUILDER_AGENT"
+        ),
+        "stage08_judge": _agent_stage(raw.get("stage08_judge") or {}, "JUDGE_AGENT"),
     }
 
 

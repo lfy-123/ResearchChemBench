@@ -1,0 +1,39 @@
+schema_version: 1
+families:
+  electronic_structure:
+    terms:
+      - density functional theory
+      - dft
+      - td-dft
+      - tddft
+      - hartree-fock
+      - mp2
+      - ccsd
+      - ccsd(t)
+      - casscf
+      - quantum chemical calculation
+      - quantum chemical calculations
+      - electronic structure calculation
+      - electronic structure calculations
+    results: [orbital, homo, lumo, electron density, excitation energy, vibrational frequency]
+  periodic_materials:
+    terms: [periodic dft, first-principles, ab initio calculation, ab initio calculations, plane-wave, pseudopotential]
+    results: [band structure, density of states, dos, adsorption energy, phonon]
+  molecular_dynamics:
+    terms: [molecular dynamics, ab initio molecular dynamics, aimd, umbrella sampling]
+    results: [trajectory, radial distribution function, rdf, mean squared displacement, pmf]
+  reaction_kinetics:
+    terms: [transition state, intrinsic reaction coordinate, irc, nudged elastic band, neb, microkinetic, master equation]
+    results: [activation barrier, reaction barrier, reaction path, rate constant]
+  free_energy:
+    terms: [free energy perturbation, thermodynamic integration, wham, metadynamics]
+    results: [free energy profile, free energy difference, equilibrium constant]
+  docking_conformer:
+    terms: [molecular docking, conformer search, conformational search]
+    results: [docking pose, docking score, conformer distribution]
+  multiscale:
+    terms: [qm/mm, qmmm, quantum mechanics/molecular mechanics, coarse-grained simulation]
+    results: [embedding energy, environmental effect]
+  machine_learning_chemistry:
+    terms: [machine learning potential, neural network potential, molecular property prediction]
+    results: [potential energy surface, predicted molecular property]

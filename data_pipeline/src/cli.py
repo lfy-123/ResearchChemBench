@@ -12,6 +12,7 @@ from src.core.io import read_jsonl, write_json, write_jsonl
 from src.integrations.grobid import GrobidClient, extract_documents_with_grobid
 from src.integrations.mineru import build_mineru_queue, run_mineru_queue
 from src.orchestration.pipeline import run_late_stages, run_pipeline
+from src.stages.stage00_remote_corpus import prepare_remote_corpus
 from src.stages.stage01_inventory.corpus import inventory_corpus
 
 DATA_PIPELINE_ROOT = Path(__file__).resolve().parents[1]
@@ -80,7 +81,7 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="chem-pipeline")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
-    run_parser = subparsers.add_parser("run", help="Run the configured seven-stage pipeline")
+    run_parser = subparsers.add_parser("run", help="Run the configured Stage 00-08 pipeline")
     run_parser.add_argument("--config", default="config.json")
     run_parser.add_argument("--output")
     run_parser.add_argument("--execution-backend", choices=("local", "sandbox"), default="local")
@@ -105,6 +106,25 @@ def main(argv: list[str] | None = None) -> int:
         help="Softcite instances in sandbox mode; defaults to the Stage 03 batch limit",
     )
     _add_sandbox_options(run_parser)
+
+    prepare_parser = subparsers.add_parser(
+        "prepare-remote-corpus",
+        help="Run Stage 00 and group each remote main paper with its supplementary files",
+    )
+    prepare_parser.add_argument("--dataset", default="en-paper-hzzj")
+    prepare_parser.add_argument("--count", type=int, required=True)
+    prepare_parser.add_argument("--output", required=True)
+    prepare_parser.add_argument(
+        "--credentials",
+        default="/mnt/shared-storage-user/liyuqiang/benchmark/pipline_demo/pdfs/xinghe.txt",
+    )
+    prepare_parser.add_argument("--outside", action="store_true")
+    prepare_parser.add_argument(
+        "--selection", choices=("remote_order", "seeded_sample"), default="remote_order"
+    )
+    prepare_parser.add_argument("--seed", type=int, default=0)
+    prepare_parser.add_argument("--no-resume", action="store_true")
+    prepare_parser.add_argument("--without-supplementary", action="store_true")
 
     sandbox_parser = subparsers.add_parser(
         "sandbox", help="Create, inspect, stop, or delete the managed pipeline sandbox"
@@ -178,6 +198,19 @@ def main(argv: list[str] | None = None) -> int:
         )
         if args.output:
             write_json(args.output, result)
+    elif args.command == "prepare-remote-corpus":
+        result = prepare_remote_corpus(
+            args.output,
+            dataset=args.dataset,
+            count=args.count,
+            credentials=args.credentials,
+            outside=args.outside,
+            resume=not args.no_resume,
+            copy_supplementary=not args.without_supplementary,
+            selection=args.selection,
+            seed=args.seed,
+        )
+        result = {"summary": result["summary"], "corpus_root": result["corpus_root"]}
     elif args.command == "sandbox":
         from dataclasses import asdict
 

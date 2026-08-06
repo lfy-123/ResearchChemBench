@@ -9,6 +9,7 @@ description = "A provenance-first pipeline for constructing computational chemis
 readme = "README.md"
 requires-python = ">=3.11,<3.13"
 dependencies = [
+  "boto3>=1.34",
   "httpx>=0.27",
   "json-repair>=0.50",
   "jsonschema>=4.23",

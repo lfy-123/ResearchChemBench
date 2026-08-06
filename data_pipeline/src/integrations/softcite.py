@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import queue
 import sys
 import time
 import urllib.error
@@ -104,6 +105,33 @@ class SoftciteClient:
             raise SoftciteError(
                 f"Softcite reported a fatal model initialization error ({matched}); inspect {path}"
             )
+
+
+class SoftciteClientPool:
+    """Thread-safe request distribution across independent Softcite instances."""
+
+    def __init__(self, clients: list[SoftciteClient]):
+        if not clients:
+            raise ValueError("Softcite client pool cannot be empty")
+        self._clients: queue.Queue[SoftciteClient] = queue.Queue()
+        for client in clients:
+            self._clients.put(client)
+
+    def _call(self, method: str, *args):
+        client = self._clients.get()
+        try:
+            return getattr(client, method)(*args)
+        finally:
+            self._clients.put(client)
+
+    def annotate_tei(self, tei_path: str | Path) -> dict[str, Any]:
+        return self._call("annotate_tei", tei_path)
+
+    def characterize_context(self, text: str) -> dict[str, Any]:
+        return self._call("characterize_context", text)
+
+    def version(self) -> dict[str, Any]:
+        return self._call("version")
 
 
 def softcite_service(config: dict[str, Any]):

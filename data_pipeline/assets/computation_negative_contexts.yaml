@@ -1,0 +1,7 @@
+schema_version: 1
+excluded_sections: [references, bibliography, acknowledgements, acknowledgments]
+patterns:
+  - '\b(?:reported|described|studied|calculated|computed)\s+(?:previously|elsewhere)\b'
+  - '\bprevious\s+(?:computational|theoretical|simulation)\s+(?:study|studies|work)\b'
+  - '\bunlike\s+(?:previous\s+)?(?:computational|theoretical)\s+(?:study|studies|work)\b'
+  - '\baccording to\s+.{0,80}\b(?:calculation|simulation|dft)\b'

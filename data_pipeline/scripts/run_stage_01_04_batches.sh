@@ -9,4 +9,6 @@ if [[ ! -x "$PIPELINE_PYTHON" ]]; then
   exit 1
 fi
 
+# Compatibility entry point. The historical name is retained, but the workflow now
+# prepares grouped main-paper/SI bundles in Stage 00 and stops after the new Stage 06.
 exec "$PIPELINE_PYTHON" "$SCRIPT_DIR/run_stage_01_04_batches.py" "$@"

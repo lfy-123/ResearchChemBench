@@ -224,6 +224,7 @@ def extract_documents_with_grobid(
                     status = f"fallback_{fallback_used['parser']}"
                 tei_path.write_text(tei_xml, encoding="utf-8")
             parsed = parse_grobid_tei(tei_xml)
+            parsed["doi"] = parsed.get("doi") or record.get("doi")
             text = parsed.pop("text")[:max_chars]
             text_path.write_text(text, encoding="utf-8")
             quality = text_quality(text, item.get("page_count"))

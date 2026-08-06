@@ -1,28 +1,35 @@
 # ResearchChemBench Data Pipeline
 
-该目录包含 ResearchChemBench 的七阶段数据管线。主流程从 PDF 语料开始，完成去重、结构化解析、软件和资源门控、有边界的研究资产收集、候选任务构建以及独立审计。
+该目录包含 ResearchChemBench 的 Stage 00-08 数据管线。主流程可从授权远端按指定数量
+复制论文，将正文和补充材料组成论文包，完成联合解析、纯规则计算相关性粗筛、缺失 SI
+补齐、工具箱能力预筛、SI 证据抽取、候选任务构建和独立审计。
 
 `data_pipeline/` 可以脱离 benchmark 的其他模块单独复制和运行。Conda 环境、第三方源码、模型缓存、API 配置和运行产物均收敛在该目录内，不依赖 benchmark 根目录中的绝对路径。
 
-当前设计不包含人工发布阶段，也不实现 Builder 与 Judge 的自动循环修订。Stage 07 输出 `pass`、`revise` 或 `reject` 后，流水线结束。
+当前设计不包含人工发布阶段，也不实现 Builder 与 Judge 的自动循环修订。Stage 08 输出
+`pass`、`revise` 或 `reject` 后，流水线结束。重构设计和实施状态分别见
+`docs/COMPUTATIONAL_CHEMISTRY_TOOLBOX_SCREENING_REDESIGN.md` 与
+`docs/COMPUTATIONAL_CHEMISTRY_PIPELINE_IMPLEMENTATION_LOG.md`。
 
 ## 阶段概览
 
 | 阶段 | 目录 | 目标 | 核心实现 |
 |---|---|---|---|
-| Stage 01 | `stage_01_inventory/` | 建立可靠 PDF 入口 | 文件哈希、DOI、标题去重；区分正文、补充材料和其他文件 |
-| Stage 02 | `stage_02_grobid_extract/` | 提取论文结构 | GROBID 输出标题、摘要、作者、DOI、章节、正文、参考文献和 TEI XML |
-| Stage 03 | `stage_03_software_coverage/` | 软件与工具箱覆盖门控 | Softcite 提取实际使用的软件；仅 `direct_covered` 论文进入后续阶段 |
-| Stage 04 | `stage_04_resource_limits/` | 明确资源上限审查 | 关键词召回、GROBID Quantities、模型结构化解释和 Python 阈值比较 |
-| Stage 05 | `stage_05_asset_collection/` | 有边界的资产发现、下载、溯源、展开和解析 | 最多三轮；Crossref、DataCite、OpenAlex、GitHub、Zenodo、OSF、Materials Cloud；安全解压；MinerU 和结构化解析 |
-| Stage 06 | `stage_06_builder/` | 构建候选智能体评估任务 | 隔离 Builder Agent；支持 Codex、Claude、OpenCode；确定性校验和任务包生成 |
-| Stage 07 | `stage_07_judge/` | 独立审计候选任务 | 独立 Judge Agent；检查论文忠实性、数据充分性、工具箱支持、答案泄漏、评分和资源可行性 |
+| Stage 00 | `stage_00_remote_corpus/` | 复制并整理指定数量论文 | 远端正文选择、同源 SI、论文目录、游标和恢复 |
+| Stage 01 | `stage_01_inventory/` | 建立论文级 PDF 入口 | SHA256 去重；正文/SI 共用 `paper_id` |
+| Stage 02 | `stage_02_grobid_extract/` | 联合解析正文和已有 SI | GROBID、pdftotext 回退、质量报告和论文文本 bundle |
+| Stage 03 | `stage_03_computation_relevance/` | 低成本计算相关性粗筛 | 版本化规则、章节权重、负面语境；不调用 LLM |
+| Stage 04 | `stage_04_supplementary_acquisition/` | 只补齐缺失的正式 SI | 远端 `support_path` 优先；六类出版商官网适配器 |
+| Stage 05 | `stage_05_preliminary_coverage/` | 软件和工具箱能力预筛 | Softcite、别名/角色规则、冻结能力目录；软件名缺失不硬淘汰 |
+| Stage 06 | `stage_06_supplementary_extraction/` | 抽取新下载 SI 证据 | pdftotext、GROBID、MinerU；复用 Stage 02 已有 SI |
+| Stage 07 | `stage_07_builder/` | 判断可用性并构建任务 | 能力复核、结构化 abstain、科学意义和可评分性约束 |
+| Stage 08 | `stage_08_judge/` | 独立终审候选任务 | 论文忠实性、工具箱、泄漏、ground truth、评分和资源审计 |
 
-Stage 01-04 是筛选门控。Stage 05 不判断论文是否一定能构造任务，而是尽可能收集并记录有来源的研究资产。Stage 06 可以返回 `candidate_ready` 或 `abstain`；只有合法候选才会进入 Stage 07。
+Stage 03 和 Stage 05 是高召回预筛；通过 Stage 06 仍不代表任务可构建。Stage 07 可以
+返回 `candidate_ready` 或结构化 `abstain`，只有合法候选进入 Stage 08。
 
-详细设计见：
-
-- `docs/STAGE_05_07_ASSET_AGENT_PIPELINE_DESIGN.md`
+旧 Stage 03-07 目录暂时保留用于历史结果复现，新主编排不再调用旧资源 LLM 门控和广泛
+资产下载逻辑。
 
 ## 目录结构
 

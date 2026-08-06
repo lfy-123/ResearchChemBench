@@ -1,0 +1,40 @@
+schema_version: 1
+max_contributions_per_rule_section: 2
+weights:
+  method_evidence: 3
+  action_evidence: 2
+  result_evidence: 2
+  performed_here_evidence: 3
+  si_computation_pointer: 2
+actions:
+  - geometry optimization
+  - geometry optimizations
+  - optimized geometry
+  - single-point energy
+  - frequency calculation
+  - frequency calculations
+  - transition state search
+  - molecular dynamics simulation
+  - molecular dynamics simulations
+  - reaction path
+  - conformer search
+  - docking calculation
+performed_here_patterns:
+  - '\bwe\s+(?:have\s+)?(?:calculated|computed|performed|optimized|simulated|modeled|modelled)\b'
+  - '\b(?:calculations?|simulations?|optimizations?)\s+(?:were|was)\s+(?:performed|carried out|conducted|run)\b'
+  - '\b(?:structures?|geometr(?:y|ies))\s+(?:were|was)\s+optimized\b'
+  - '\bwe\s+used\s+.{0,80}\s+to\s+(?:calculate|compute|optimize|simulate|model)\b'
+si_pointer_patterns:
+  - '\bcomputational details?\b.{0,120}\b(?:supporting|supplementary) information\b'
+  - '\b(?:supporting|supplementary) information\b.{0,120}\b(?:calculation|computational|simulation|theoretical)\b'
+section_weights:
+  title: 1.5
+  abstract: 1.5
+  method: 1.5
+  result: 1.25
+  conclusion: 1.1
+  introduction: 0.6
+  unknown: 1.0
+thresholds:
+  strong: 7.0
+  weak: 3.0
