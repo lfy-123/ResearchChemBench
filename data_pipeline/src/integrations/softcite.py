@@ -26,6 +26,7 @@ class SoftciteClient:
     retries: int = 2
     service_log: str | None = None
     service_log_offset: int = 0
+    max_context_chars: int = 600
 
     def annotate_tei(self, tei_path: str | Path) -> dict[str, Any]:
         path = Path(tei_path).expanduser().resolve()
@@ -41,6 +42,7 @@ class SoftciteClient:
         return result
 
     def characterize_context(self, text: str) -> dict[str, Any]:
+        text = text[: self.max_context_chars]
         query = urllib.parse.urlencode({"text": text})
         result = self._request_json(
             f"{self.base_url.rstrip('/')}/service/characterizeSoftwareContext?{query}",

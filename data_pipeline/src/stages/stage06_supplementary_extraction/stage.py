@@ -10,6 +10,7 @@ from src.core.io import sha256_file, stable_id
 from src.core.logging import log_progress
 from src.integrations.grobid import GrobidClient, parse_grobid_tei, text_quality
 from src.integrations.mineru import run_mineru_queue
+from src.stages.supplementary_retention import supplementary_retention
 
 TextExtractor = Callable[[Path, Path, dict[str, Any]], str]
 
@@ -129,6 +130,11 @@ def supplementary_asset_result(records: list[dict[str, Any]]) -> dict[str, Any]:
 
 def _extract_paper(paper, text_root, config, *, grobid_client, fast_extractor):
     paper_id = str(paper["paper_id"])
+    retention = supplementary_retention(paper)
+    if not retention["keep"] or not (paper.get("pipeline_routing") or {}).get(
+        "continue", True
+    ):
+        return _skipped_record(paper, retention)
     documents: list[dict[str, Any]] = []
     errors: list[dict[str, Any]] = []
     evidence: list[dict[str, Any]] = []
@@ -155,6 +161,22 @@ def _extract_paper(paper, text_root, config, *, grobid_client, fast_extractor):
         document_id = stable_id("si", paper_id, attachment.get("sha256") or str(source), length=16)
         destination = text_root / paper_id / f"{document_id}.txt"
         destination.parent.mkdir(parents=True, exist_ok=True)
+        if source.suffix.casefold() != ".pdf":
+            documents.append(
+                {
+                    "paper_id": paper_id,
+                    "document_id": document_id,
+                    "document_role": "supplementary",
+                    "source_path": str(source),
+                    "text_path": None,
+                    "parser": "not_extracted",
+                    "text_quality": None,
+                    "text_characters": 0,
+                    "extraction_status": "non_pdf_asset_preserved",
+                    "newly_downloaded": True,
+                }
+            )
+            continue
         parser = "pdftotext"
         try:
             text = fast_extractor(source, destination, config)
@@ -211,13 +233,14 @@ def _extract_paper(paper, text_root, config, *, grobid_client, fast_extractor):
     elif documents:
         status = "reused_stage02"
     else:
-        status = "no_supplementary"
+        status = "confirmed_no_supplementary"
     by_type = {
         kind: [item for item in evidence if item["evidence_type"] == kind]
         for kind in EVIDENCE_PATTERNS
     }
     return {
         **paper,
+        "supplementary_retention": retention,
         "supplementary_extraction": {
             "status": status,
             "documents": documents,
@@ -232,6 +255,29 @@ def _extract_paper(paper, text_root, config, *, grobid_client, fast_extractor):
             **(paper.get("pipeline_routing") or {}),
             "stage_06": status,
             "continue": True,
+        },
+    }
+
+
+def _skipped_record(paper, retention):
+    return {
+        **paper,
+        "supplementary_retention": retention,
+        "supplementary_extraction": {
+            "status": "supplementary_unavailable",
+            "documents": [],
+            "errors": [],
+            "evidence": [],
+            "software_evidence": [],
+            "parameter_evidence": [],
+            "input_evidence": [],
+            "result_evidence": [],
+        },
+        "pipeline_routing": {
+            **(paper.get("pipeline_routing") or {}),
+            "stage_06": "supplementary_unavailable",
+            "continue": False,
+            "stop_reason": retention["reason"],
         },
     }
 

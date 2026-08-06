@@ -1,8 +1,12 @@
 from __future__ import annotations
 
+import re
 from urllib.parse import unquote, urlparse
 
-from src.integrations.publishers.base import PublisherSupplementaryAdapter
+from src.integrations.publishers.base import (
+    PublisherAttachment,
+    PublisherSupplementaryAdapter,
+)
 
 
 class ACSSupplementaryAdapter(PublisherSupplementaryAdapter):
@@ -44,6 +48,70 @@ class ElsevierSupplementaryAdapter(PublisherSupplementaryAdapter):
         "els-cdn.com",
     )
     doi_prefixes = ("10.1016/",)
+    can_confirm_absence_from_page = False
+    attachment_extensions = (
+        "pdf",
+        "docx",
+        "zip",
+        "xlsx",
+        "csv",
+        "txt",
+        "pptx",
+        "mp4",
+        "mov",
+        "avi",
+    )
+
+    def discover(self, client, *, doi, article_url):
+        attachments, metadata = super().discover(
+            client, doi=doi, article_url=article_url
+        )
+        if attachments:
+            return attachments, metadata
+        pii = _elsevier_pii(str(metadata.get("landing_url") or ""))
+        if not pii:
+            return attachments, metadata
+        attachments, probes = self._discover_cdn_attachments(client, pii)
+        return attachments, {
+            **metadata,
+            "status": "publisher_attachments_found" if attachments else "not_found",
+            "absence_confirmed": bool(not attachments),
+            "pii": pii,
+            "cdn_probes": probes,
+        }
+
+    def _discover_cdn_attachments(self, client, pii):
+        output: list[PublisherAttachment] = []
+        probes = 0
+        for index in range(1, 11):
+            found_at_index = False
+            for extension in self.attachment_extensions:
+                probes += 1
+                url = (
+                    "https://ars.els-cdn.com/content/image/"
+                    f"1-s2.0-{pii}-mmc{index}.{extension}"
+                )
+                response = client.head(url, headers={"Range": "bytes=0-0"})
+                if response.status_code == 404:
+                    continue
+                if response.status_code in {401, 403, 429}:
+                    response.raise_for_status()
+                if response.status_code not in {200, 206}:
+                    continue
+                found_at_index = True
+                output.append(
+                    PublisherAttachment(
+                        url=url,
+                        file_name=f"{pii}-mmc{index}.{extension}",
+                        publisher=self.publisher,
+                        discovered_from=str(response.url),
+                        label=f"Elsevier supplementary attachment mmc{index}",
+                    )
+                )
+                break
+            if not found_at_index:
+                break
+        return output, probes
 
 
 class WileySupplementaryAdapter(PublisherSupplementaryAdapter):
@@ -88,6 +156,11 @@ PUBLISHER_ADAPTERS = (
     NatureSupplementaryAdapter(),
     MDPISupplementaryAdapter(),
 )
+
+
+def _elsevier_pii(url: str) -> str | None:
+    match = re.search(r"/pii/([A-Z0-9]+)", url, re.I)
+    return match.group(1) if match else None
 
 
 def publisher_adapter(

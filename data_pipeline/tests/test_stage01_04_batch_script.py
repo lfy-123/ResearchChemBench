@@ -25,6 +25,18 @@ def _args(**overrides):
         "stage04_workers": 16,
         "stage05_workers": 16,
         "stage06_workers": 16,
+        "microbatch": True,
+        "microbatch_size": 10,
+        "microbatch_concurrency": 5,
+        "stage03_llm": False,
+        "stage03_llm_managed_rlaunch": True,
+        "stage03_llm_concurrency": 16,
+        "stage03_llm_base_url": "https://api.deepseek.com/v1",
+        "stage03_llm_model": "deepseek-v4-flash",
+        "stage03_llm_api_key_env": "JUDGE_API_KEY",
+        "stage03_llm_cpu": 16,
+        "stage03_llm_memory_mib": 196000,
+        "stage03_llm_image": "test-image",
         "backend": "sandbox",
         "sandbox_cpu": 128,
         "sandbox_memory": "256Gi",
@@ -59,10 +71,53 @@ def test_batch_config_prepares_grouped_remote_corpus_and_stops_after_stage06(tmp
         "copy_existing_supplementary": True,
     }
     assert config["stage03_computation_relevance"]["use_llm"] is False
+    assert config["microbatch"]["enabled"] is True
+    assert config["microbatch"]["size"] == 10
+    assert config["microbatch"]["concurrency"] == 5
     assert config["resume_completed_stages"] is True
-    assert config["stage05_preliminary_coverage"]["softcite_instances"] == 8
+    assert config["stage05_preliminary_coverage"]["softcite_instances"] == 5
     assert config["grobid"]["workers"] == 32
     assert config["softcite"]["workers"] == 16
+
+
+def test_batch_config_can_enable_managed_stage03_llm(tmp_path):
+    template = tmp_path / "config.json"
+    template.write_text(
+        json.dumps({"pdf_directory": "papers", "grobid": {}, "softcite": {}, "toolbox": {}}),
+        encoding="utf-8",
+    )
+    credentials = tmp_path / "xinghe.txt"
+    credentials.write_text("credentials", encoding="utf-8")
+    config = batch_script._build_config(
+        _args(stage03_llm=True), template, tmp_path / "work", credentials
+    )
+    stage = config["stage03_computation_relevance"]
+    assert stage["use_llm"] is True
+    assert stage["llm"]["managed_rlaunch"] is True
+    assert stage["llm"]["concurrency"] == 16
+    assert stage["llm"]["positive_tag"] == "h200"
+
+
+def test_batch_config_can_use_external_flash_stage03_llm(tmp_path):
+    template = tmp_path / "config.json"
+    template.write_text(
+        json.dumps({"pdf_directory": "papers", "grobid": {}, "softcite": {}, "toolbox": {}}),
+        encoding="utf-8",
+    )
+    credentials = tmp_path / "xinghe.txt"
+    credentials.write_text("credentials", encoding="utf-8")
+    config = batch_script._build_config(
+        _args(stage03_llm=True, stage03_llm_managed_rlaunch=False),
+        template,
+        tmp_path / "work",
+        credentials,
+    )
+    llm = config["stage03_computation_relevance"]["llm"]
+    assert llm["managed_rlaunch"] is False
+    assert llm["thinking"] == "disabled"
+    assert llm["base_url"] == "https://api.deepseek.com/v1"
+    assert llm["api_key_env"] == "JUDGE_API_KEY"
+    assert llm["model"] == "deepseek-v4-flash"
 
 
 def test_batch_command_uses_one_large_sandbox_until_pipeline_exit(tmp_path):

@@ -9,6 +9,8 @@ from src.core.config import normalize_config
 from src.core.io import read_json, read_jsonl, write_json, write_jsonl
 from src.core.logging import configure_pipeline_logging, pipeline_logger
 from src.integrations.softcite import SoftciteClientPool, softcite_service
+from src.integrations.stage03_llm_runtime import stage03_llm_runtime
+from src.orchestration.screening_microbatch import run_screening_microbatches
 from src.stages.stage00_remote_corpus import prepare_remote_corpus
 from src.stages.stage01_inventory import group_inventory_by_paper, inventory_corpus
 from src.stages.stage02_parsing import (
@@ -55,16 +57,17 @@ def run_pipeline(
     configure_pipeline_logging(config.get("log_file", Path(config["workspace"]) / "pipeline.log"))
     if (config.get("source") or {}).get("mode") != "corpus":
         raise ValueError("the redesigned pipeline supports corpus mode only")
-    if execution_backend == "sandbox":
-        from src.sandbox.manager import SandboxRunOptions
-        from src.sandbox.runtime import SandboxPipelineRuntime
+    with stage03_llm_runtime(config) as runtime_config:
+        if execution_backend == "sandbox":
+            from src.sandbox.manager import SandboxRunOptions
+            from src.sandbox.runtime import SandboxPipelineRuntime
 
-        options = sandbox_options or SandboxRunOptions()
-        with SandboxPipelineRuntime(options) as runtime:
-            return run_corpus_pipeline(path, runtime.apply(config), path.parent)
-    if execution_backend != "local":
-        raise ValueError("execution_backend must be local or sandbox")
-    return run_corpus_pipeline(path, config, path.parent)
+            options = sandbox_options or SandboxRunOptions()
+            with SandboxPipelineRuntime(options) as runtime:
+                return run_corpus_pipeline(path, runtime.apply(runtime_config), path.parent)
+        if execution_backend != "local":
+            raise ValueError("execution_backend must be local or sandbox")
+        return run_corpus_pipeline(path, runtime_config, path.parent)
 
 
 def run_corpus_pipeline(config_path: Path, config: dict[str, Any], base: Path) -> dict[str, Any]:
@@ -145,6 +148,18 @@ def run_corpus_pipeline(config_path: Path, config: dict[str, Any], base: Path) -
     if _stop_after(config, 1):
         return _new_summary(config_path, corpus_root, workspace, 1, stage01={"papers": len(paper_inventory)})
 
+    if (config.get("microbatch") or {}).get("enabled"):
+        return _run_redesigned_microbatch(
+            config_path=config_path,
+            config=config,
+            base=base,
+            workspace=workspace,
+            corpus_root=corpus_root,
+            canonical_inventory=canonical_inventory,
+            paper_inventory=paper_inventory,
+            stage00_summary=stage00_result["summary"] if stage00_result else None,
+        )
+
     grobid_config = config.get("grobid_extract", {})
     stage = _stage_dir(workspace, "stage_02_grobid_extract")
     extraction_kwargs = {
@@ -198,6 +213,14 @@ def run_corpus_pipeline(config_path: Path, config: dict[str, Any], base: Path) -
                 evidence_rules=_resolve(base, stage03_config["evidence_rules"]),
                 negative_contexts=_resolve(base, stage03_config["negative_contexts"]),
                 workers=int(stage03_config.get("workers", 1)),
+                llm_config={
+                    **(stage03_config.get("llm") or {}),
+                    "enabled": bool(stage03_config.get("use_llm"))
+                    and bool((stage03_config.get("llm") or {}).get("enabled")),
+                },
+                llm_cache_dir=(stage03_config.get("llm") or {}).get(
+                    "cache_directory", stage / "llm_cache"
+                ),
             )
             stage03_summary = computation_relevance_summary(relevance_records)
             write_jsonl(stage / "decisions.jsonl", relevance_records)
@@ -558,6 +581,79 @@ def _new_summary(
         "stopped_after": f"stage{stopped_after_stage:02d}",
         **{key: value for key, value in stage_summaries.items() if value is not None},
     }
+
+
+def _run_redesigned_microbatch(
+    *,
+    config_path: Path,
+    config: dict[str, Any],
+    base: Path,
+    workspace: Path,
+    corpus_root: Path,
+    canonical_inventory: list[dict[str, Any]],
+    paper_inventory: list[dict[str, Any]],
+    stage00_summary: dict[str, Any] | None,
+) -> dict[str, Any]:
+    stop_value = str(config.get("stop_after", "stage06")).casefold()
+    if stop_value not in STOP_AFTER_STAGE:
+        raise ValueError(f"unsupported stop_after value: {stop_value}")
+    end_stage = STOP_AFTER_STAGE[stop_value]
+    if end_stage > 6:
+        raise ValueError(
+            "redesigned microbatch mode currently supports stop_after through stage06"
+        )
+    grobid_config = config.get("grobid_extract") or {}
+    with contextlib.ExitStack() as services:
+        grobid_client = services.enter_context(grobid_service(grobid_config))
+        softcite_client = None
+        toolbox_profile = None
+        if end_stage >= 5:
+            toolbox_profile = _load_toolbox(config, base)
+            software_config = config.get("software_coverage") or {}
+            requested_instances = int(
+                (config.get("stage05_preliminary_coverage") or {}).get(
+                    "softcite_instances", 1
+                )
+            )
+            softcite_configs = _softcite_service_configs(
+                software_config, requested_instances
+            )
+            softcite_clients = [
+                services.enter_context(softcite_service(item)) for item in softcite_configs
+            ]
+            softcite_client = (
+                softcite_clients[0]
+                if len(softcite_clients) == 1
+                else SoftciteClientPool(softcite_clients)
+            )
+        result = run_screening_microbatches(
+            config=config,
+            base=base,
+            workspace=workspace,
+            canonical_inventory=canonical_inventory,
+            end_stage=end_stage,
+            grobid_client=grobid_client,
+            softcite_client=softcite_client,
+            toolbox_profile=toolbox_profile,
+            store_factory=lambda candidates: _stage04_store(config, base, candidates),
+        )
+    summary = _new_summary(
+        config_path,
+        corpus_root,
+        workspace,
+        end_stage,
+        stage00=stage00_summary,
+        stage01={"papers": len(paper_inventory)},
+        stage02=result.get("stage02"),
+        stage03=result.get("stage03"),
+        stage04=result.get("stage04"),
+        stage05=result.get("stage05"),
+        stage06=result.get("stage06"),
+    )
+    summary["execution_mode"] = "microbatch"
+    summary["microbatch"] = result["microbatch"]
+    write_json(workspace / "run_summary.json", summary)
+    return summary
 
 
 def _stage04_store(

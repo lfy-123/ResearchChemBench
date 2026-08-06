@@ -16,6 +16,20 @@ from src.core.io import sha256_file
 from src.core.logging import log_progress
 from src.integrations.publishers import publisher_adapter
 
+DEFAULT_DOCUMENT_EXTENSIONS = ["pdf", "docx", "zip", "xlsx", "csv", "txt", "cif"]
+CONTENT_TYPE_EXTENSIONS = {
+    "application/pdf": "pdf",
+    "application/zip": "zip",
+    "application/x-zip-compressed": "zip",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document": "docx",
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": "xlsx",
+    "application/vnd.ms-excel": "xlsx",
+    "application/excel": "xlsx",
+    "text/csv": "csv",
+    "text/plain": "txt",
+    "chemical/x-cif": "cif",
+}
+
 
 class ObjectStore(Protocol):
     def copy_to(self, uri: str, destination: str | Path) -> dict[str, Any]: ...
@@ -203,7 +217,10 @@ def _copy_support_paths(
 def _download_official_attachments(
     discovered, adapter, target_dir, config, client, *, deadline
 ):
-    allowed = {str(item).casefold().lstrip(".") for item in config.get("allowed_extensions", ["pdf"])}
+    allowed = {
+        str(item).casefold().lstrip(".")
+        for item in config.get("allowed_extensions", DEFAULT_DOCUMENT_EXTENSIONS)
+    }
     limit = int(config.get("max_attachments_per_paper", 20))
     max_file = int(config.get("max_file_bytes", 100 * 1024**2))
     max_total = int(config.get("max_total_bytes_per_paper", 250 * 1024**2))
@@ -248,7 +265,7 @@ def _download_official_attachments(
             with client.stream("GET", item.url, timeout=request_timeout) as response:
                 response.raise_for_status()
                 content_type = response.headers.get("content-type", "").split(";", 1)[0].casefold()
-                inferred = extension or ("pdf" if content_type == "application/pdf" else "")
+                inferred = extension or CONTENT_TYPE_EXTENSIONS.get(content_type, "")
                 if inferred not in allowed:
                     rejected_status = "unsupported_format"
                 declared_size = _content_length(response.headers.get("content-length"))
@@ -325,11 +342,24 @@ def _attachment_record(path: Path, url: str, source: str, stat: dict[str, Any]) 
 
 
 def _result(paper, discovery_status, download_status, attachments, attempts):
+    if download_status in {
+        "skipped_existing_supplementary",
+        "downloaded",
+        "partial",
+    }:
+        presence_status = "available"
+    elif any(item.get("absence_confirmed") for item in attempts):
+        presence_status = "absent_confirmed"
+    elif discovery_status == "publisher_attachments_found":
+        presence_status = "present_unavailable"
+    else:
+        presence_status = "unknown"
     return {
         **paper,
         "supplementary_acquisition": {
             "discovery_status": discovery_status,
             "download_status": download_status,
+            "presence_status": presence_status,
             "attachments": attachments,
             "attempts": attempts,
         },

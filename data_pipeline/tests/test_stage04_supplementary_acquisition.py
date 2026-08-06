@@ -218,3 +218,104 @@ def test_publisher_adapters_build_direct_official_landing_urls():
         adapter = publisher_adapter(doi=doi, article_url=None, enabled=[publisher])
         assert adapter is not None
         assert adapter.article_url(doi=doi, article_url=None) == expected
+
+
+def test_elsevier_adapter_discovers_official_cdn_attachments(tmp_path):
+    doi = "10.1016/j.checat.2023.100826"
+    doi_url = f"https://doi.org/{doi}"
+    landing = "https://linkinghub.elsevier.com/retrieve/pii/S2667109323004062"
+    si = (
+        "https://ars.els-cdn.com/content/image/"
+        "1-s2.0-S2667109323004062-mmc1.pdf"
+    )
+
+    def handler(request):
+        url = str(request.url)
+        if url == doi_url:
+            return httpx.Response(302, headers={"location": landing}, request=request)
+        if url == landing:
+            return httpx.Response(200, text=f"Article DOI: {doi}", request=request)
+        if request.method == "HEAD" and url == si:
+            return httpx.Response(
+                206,
+                headers={
+                    "content-type": "application/pdf",
+                    "content-range": "bytes 0-0/17",
+                },
+                request=request,
+            )
+        if request.method == "HEAD" and "-mmc2." in url:
+            return httpx.Response(404, request=request)
+        if url == si:
+            return httpx.Response(
+                200,
+                content=b"%PDF-1.7 support",
+                headers={"content-type": "application/pdf"},
+                request=request,
+            )
+        raise AssertionError(f"unexpected request: {request.method} {url}")
+
+    with httpx.Client(
+        transport=httpx.MockTransport(handler), follow_redirects=True
+    ) as client:
+        record = acquire_supplementary_materials(
+            [{"paper_id": "p1", "doi": doi}],
+            tmp_path,
+            {"publisher_adapters": ["elsevier"]},
+            client=client,
+        )[0]
+    acquisition = record["supplementary_acquisition"]
+    assert acquisition["download_status"] == "downloaded"
+    assert acquisition["presence_status"] == "available"
+    assert [item["source_url"] for item in acquisition["attachments"]] == [si]
+
+
+def test_successful_official_page_can_confirm_no_supplementary(tmp_path):
+    doi = "10.1039/D4SC00001A"
+    article = "https://pubs.rsc.org/en/content/articlelanding/2024/sc/d4sc00001a"
+
+    def handler(request):
+        assert str(request.url) == article
+        return httpx.Response(200, text=f"Article DOI: {doi}", request=request)
+
+    with httpx.Client(transport=httpx.MockTransport(handler)) as client:
+        record = acquire_supplementary_materials(
+            [{"paper_id": "p1", "doi": doi}],
+            tmp_path,
+            {"publisher_adapters": ["rsc"]},
+            client=client,
+        )[0]
+    acquisition = record["supplementary_acquisition"]
+    assert acquisition["download_status"] == "not_attempted"
+    assert acquisition["presence_status"] == "absent_confirmed"
+
+
+def test_stage04_accepts_official_zip_without_url_extension(tmp_path):
+    article = "https://pubs.acs.org/doi/10.1021/example"
+    si = "https://acs.figshare.com/ndownloader/files/12345"
+
+    def handler(request):
+        if str(request.url) == article:
+            return httpx.Response(
+                200,
+                text=f'<a href="{si}">Supporting Information ZIP</a>',
+                request=request,
+            )
+        if str(request.url) == si:
+            return httpx.Response(
+                200,
+                content=b"PK\x03\x04archive",
+                headers={"content-type": "application/zip"},
+                request=request,
+            )
+        raise AssertionError(str(request.url))
+
+    with httpx.Client(transport=httpx.MockTransport(handler)) as client:
+        record = acquire_supplementary_materials(
+            [{"paper_id": "p1", "doi": "10.1021/example"}],
+            tmp_path,
+            {"publisher_adapters": ["acs"]},
+            client=client,
+        )[0]
+    attachment = record["supplementary_acquisition"]["attachments"][0]
+    assert attachment["path"].endswith(".zip")

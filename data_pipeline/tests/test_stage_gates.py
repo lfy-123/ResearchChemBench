@@ -4,12 +4,16 @@ import io
 import json
 import tempfile
 import unittest
+import urllib.parse
 from pathlib import Path
 from unittest import mock
 
 from src.integrations.grobid_quantities import GrobidQuantitiesClient
 from src.integrations.softcite import SoftciteClient, SoftciteError
-from src.stages.stage03_software_coverage.software_coverage import assess_software_coverage
+from src.stages.stage03_software_coverage.software_coverage import (
+    _context_around_alias,
+    assess_software_coverage,
+)
 from src.stages.stage04_resource_limits.resource_limits import (
     _recall_contexts,
     assess_resource_limits,
@@ -74,6 +78,26 @@ class StageGateTests(unittest.TestCase):
             client = SoftciteClient(service_log=str(log))
             with self.assertRaises(SoftciteError):
                 client._raise_on_fatal_service_log()
+
+    def test_softcite_context_request_is_bounded(self) -> None:
+        response = io.BytesIO(b'{"classification": {"used": {"value": true}}}')
+        response.status = 200
+        with mock.patch("urllib.request.urlopen", return_value=response) as urlopen:
+            result = SoftciteClient(retries=0).characterize_context("VASP " + "x" * 20_000)
+
+        request = urlopen.call_args.args[0]
+        query = request.full_url.split("?", 1)[1]
+        text = urllib.parse.parse_qs(query)["text"][0]
+        self.assertLessEqual(len(text), 600)
+        self.assertTrue(text.startswith("VASP "))
+        self.assertTrue(result["classification"]["used"]["value"])
+
+    def test_softcite_context_window_retains_alias(self) -> None:
+        text = "a" * 10_000 + " VASP calculations were performed " + "b" * 10_000
+        context = _context_around_alias(text, "VASP")
+
+        self.assertLessEqual(len(context), 600)
+        self.assertIn("VASP calculations were performed", context)
 
     def test_stage03_routes_direct_equivalent_and_unsupported(self) -> None:
         gaussian = _mention("Gaussian 16")

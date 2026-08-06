@@ -26,6 +26,7 @@ def normalize_config(raw: dict[str, Any], base: Path) -> dict[str, Any]:
     stage05 = raw.get("stage05") or {}
     stage00_remote = raw.get("stage00_remote_corpus") or {}
     stage03_relevance = raw.get("stage03_computation_relevance") or {}
+    stage03_llm = stage03_relevance.get("llm") or {}
     stage04_supplementary = raw.get("stage04_supplementary_acquisition") or {}
     stage05_preliminary = raw.get("stage05_preliminary_coverage") or {}
     stage06_supplementary = raw.get("stage06_supplementary_extraction") or {}
@@ -260,8 +261,63 @@ def normalize_config(raw: dict[str, Any], base: Path) -> dict[str, Any]:
             "continue_decisions": stage03_relevance.get(
                 "continue_decisions", ["strong_candidate", "weak_candidate", "rule_error"]
             ),
-            "use_llm": False,
+            "use_llm": bool(stage03_relevance.get("use_llm", False)),
             "workers": max(1, int(stage03_relevance.get("workers", 1))),
+            "llm": {
+                "enabled": bool(stage03_relevance.get("use_llm", False)),
+                "managed_rlaunch": bool(stage03_llm.get("managed_rlaunch", False)),
+                "required": bool(stage03_llm.get("required", False)),
+                "base_url": os.environ.get("STAGE03_LLM_BASE_URL")
+                or stage03_llm.get("base_url", "http://127.0.0.1:18083/v1"),
+                "api_key_env": stage03_llm.get("api_key_env", "STAGE03_LLM_API_KEY"),
+                "model": os.environ.get("STAGE03_LLM_MODEL")
+                or stage03_llm.get("model", "qwen3-30b-a3b-instruct-2507"),
+                "concurrency": max(1, int(stage03_llm.get("concurrency", 16))),
+                "timeout_seconds": int(stage03_llm.get("timeout_seconds", 300)),
+                "health_timeout_seconds": int(stage03_llm.get("health_timeout_seconds", 15)),
+                "retries": max(0, int(stage03_llm.get("retries", 2))),
+                "max_tokens": max(64, int(stage03_llm.get("max_tokens", 1024))),
+                "thinking": str(stage03_llm.get("thinking") or "") or None,
+                "max_prompt_chars": max(
+                    4_000, int(stage03_llm.get("max_prompt_chars", 24_000))
+                ),
+                "cache_directory": str(
+                    _resolve(
+                        base,
+                        stage03_llm.get(
+                            "cache_directory",
+                            run_dir / "outputs" / "stage_03_computation_relevance" / "llm_cache",
+                        ),
+                    )
+                ),
+                "manager_script": str(
+                    _resolve(
+                        base,
+                        stage03_llm.get(
+                            "manager_script", "scripts/stage03_llm/manage_rlaunch_worker.sh"
+                        ),
+                    )
+                ),
+                "state_file": str(
+                    _resolve(
+                        base,
+                        stage03_llm.get(
+                            "state_file", ".stage03_llm_worker.local.json"
+                        ),
+                    )
+                ),
+                "cpu": max(1, int(stage03_llm.get("cpu", 16))),
+                "memory_mib": max(1, int(stage03_llm.get("memory_mib", 196000))),
+                "charged_group": stage03_llm.get("charged_group", "ai4chem_gpu"),
+                "positive_tag": stage03_llm.get("positive_tag", "h200"),
+                "image": stage03_llm.get(
+                    "image",
+                    "registry.h.pjlab.org.cn/ailab-ai4chem-ai4chem_gpu/"
+                    "chemllm-workspace:test1-20260425150803",
+                ),
+                "skip_bootstrap": bool(stage03_llm.get("skip_bootstrap", True)),
+                "skip_download": bool(stage03_llm.get("skip_download", True)),
+            },
         },
         "stage04_supplementary_acquisition": {
             "enabled": bool(stage04_supplementary.get("enabled", True)),
@@ -270,7 +326,7 @@ def normalize_config(raw: dict[str, Any], base: Path) -> dict[str, Any]:
                 "publisher_adapters", ["acs", "rsc", "elsevier", "wiley", "nature", "mdpi"]
             ),
             "allowed_extensions": stage04_supplementary.get(
-                "allowed_extensions", ["pdf"]
+                "allowed_extensions", ["pdf", "docx", "zip", "xlsx", "csv", "txt", "cif"]
             ),
             "max_attachments_per_paper": int(
                 stage04_supplementary.get("max_attachments_per_paper", 20)

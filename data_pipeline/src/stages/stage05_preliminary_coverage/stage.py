@@ -8,6 +8,7 @@ from src.core.io import read_json
 from src.core.logging import log_progress
 from src.integrations.softcite import SoftciteClient
 from src.stages.stage03_software_coverage import assess_software_coverage
+from src.stages.supplementary_retention import supplementary_retention
 
 
 def assess_preliminary_coverage(
@@ -29,6 +30,7 @@ def assess_preliminary_coverage(
         str(paper["paper_id"])
         for paper in papers
         if (paper.get("pipeline_routing") or {}).get("continue", True)
+        and supplementary_retention(paper)["keep"]
     }
     inputs = [
         document
@@ -114,6 +116,34 @@ def preliminary_coverage_summary(records: list[dict[str, Any]]) -> dict[str, Any
 
 
 def _aggregate_paper(paper, documents, toolbox, catalog, errors):
+    retention = supplementary_retention(paper)
+    if not retention["keep"]:
+        return {
+            **paper,
+            "supplementary_retention": retention,
+            "preliminary_coverage": {
+                "decision": "supplementary_unavailable",
+                "core_software": [],
+                "auxiliary_software": [],
+                "ignored_mentions": [],
+                "unsupported_core_software": [],
+                "covered_method_families": [],
+                "document_decisions": [],
+                "errors": [],
+                "toolbox_profile_id": toolbox.get("profile_id"),
+                "toolbox_catalog_hash": toolbox.get("catalog_hash"),
+                "capability_schema_version": catalog.get("schema_version"),
+                "unknown_capability_policy": catalog.get(
+                    "unknown_field_policy", "unknown"
+                ),
+            },
+            "pipeline_routing": {
+                **(paper.get("pipeline_routing") or {}),
+                "stage_05": "supplementary_unavailable",
+                "continue": False,
+                "stop_reason": retention["reason"],
+            },
+        }
     core: dict[str, dict[str, Any]] = {}
     auxiliary: dict[str, dict[str, Any]] = {}
     ignored: list[dict[str, Any]] = []
@@ -179,6 +209,7 @@ def _aggregate_paper(paper, documents, toolbox, catalog, errors):
         reason = "no_core_computation_or_software_evidence"
     return {
         **paper,
+        "supplementary_retention": retention,
         "preliminary_coverage": {
             "decision": decision,
             "core_software": list(core.values()),

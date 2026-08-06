@@ -9,6 +9,7 @@ import yaml
 
 from src.core.concurrency import ordered_parallel_map
 from src.core.logging import log_progress
+from src.stages.stage03_computation_relevance.llm_review import apply_llm_review
 
 
 def assess_computation_relevance(
@@ -18,6 +19,8 @@ def assess_computation_relevance(
     evidence_rules: str | Path,
     negative_contexts: str | Path,
     workers: int = 1,
+    llm_config: dict[str, Any] | None = None,
+    llm_cache_dir: str | Path | None = None,
 ) -> list[dict[str, Any]]:
     ontology_path = Path(method_ontology)
     rules_path = Path(evidence_rules)
@@ -47,7 +50,7 @@ def assess_computation_relevance(
                 },
             }
 
-    return ordered_parallel_map(
+    records = ordered_parallel_map(
         assess,
         paper_bundles,
         max_workers=workers,
@@ -59,19 +62,33 @@ def assess_computation_relevance(
             status=record["computation_relevance"]["decision"],
         ),
     )
+    if llm_config and llm_config.get("enabled"):
+        if llm_cache_dir is None:
+            raise ValueError("llm_cache_dir is required when Stage 03 LLM review is enabled")
+        return apply_llm_review(records, config=llm_config, cache_dir=llm_cache_dir)
+    return records
 
 
 def computation_relevance_summary(records: list[dict[str, Any]]) -> dict[str, Any]:
     decisions: dict[str, int] = {}
+    llm_statuses: dict[str, int] = {}
+    llm_overrides = 0
     for record in records:
-        decision = (record.get("computation_relevance") or {}).get("decision", "unknown")
+        relevance = record.get("computation_relevance") or {}
+        decision = relevance.get("decision", "unknown")
         decisions[decision] = decisions.get(decision, 0) + 1
+        llm_status = (record.get("llm_computation_review") or {}).get("status", "not_used")
+        llm_statuses[llm_status] = llm_statuses.get(llm_status, 0) + 1
+        if relevance.get("used_llm") and relevance.get("rule_decision") != decision:
+            llm_overrides += 1
     return {
         "papers": len(records),
         "decisions": decisions,
         "candidates": decisions.get("strong_candidate", 0)
         + decisions.get("weak_candidate", 0),
         "errors_retained_for_review": decisions.get("rule_error", 0),
+        "llm_statuses": llm_statuses,
+        "llm_overrides": llm_overrides,
     }
 
 
@@ -131,6 +148,9 @@ def _assess_paper(
         decision = "weak_candidate"
     else:
         decision = "not_computational"
+    article_role = _article_role(bundle)
+    if article_role in {"correction", "retraction", "editorial"}:
+        decision = "not_computational"
     return {
         **bundle,
         "computation_relevance": {
@@ -146,6 +166,7 @@ def _assess_paper(
             "excluded_evidence": excluded,
             "rule_hash": rule_hash,
             "used_llm": False,
+            "article_role": article_role,
         },
         "pipeline_routing": {
             "stage_03": decision,
@@ -153,6 +174,19 @@ def _assess_paper(
             "stop_reason": None if decision != "not_computational" else "no_computation_evidence",
         },
     }
+
+
+def _article_role(bundle: dict[str, Any]) -> str:
+    title = str(bundle.get("title") or "").casefold()
+    if re.search(r"\b(correction|erratum|corrigendum)\b", title):
+        return "correction"
+    if re.search(r"\b(retraction|retracted)\b", title):
+        return "retraction"
+    if re.search(r"\b(editorial|masthead|news and views)\b", title):
+        return "editorial"
+    if re.search(r"\b(review|perspective|tutorial|roadmap|outlook)\b", title):
+        return "review"
+    return "original_research_or_unknown"
 
 
 def _section_evidence(

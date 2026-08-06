@@ -1,8 +1,8 @@
 # ResearchChemBench 计算化学论文筛选流程重构方案
 
-> 状态：第五版设计已确认，正在按阶段实施和 shadow run。
+> 状态：第六版设计已确认，正在按阶段实施和 shadow run。
 >
-> 更新日期：2026-08-06。
+> 更新日期：2026-08-07。
 >
 > 适用范围：主要修改 `data_pipeline/`；仅为版本化能力目录导出对
 > `chemistry_toolbox/` 做最小只读接口调整。
@@ -12,8 +12,8 @@
 本版采纳以下设计要求：
 
 1. Stage 00 从远端选择指定数量论文，将正文和已有补充材料整理到同一论文目录。
-2. Stage 03 不调用 LLM，只用版本化规则做低成本、高召回的计算相关性粗筛；Stage 00
-   已提供的 SI 文本与正文共同参与 Stage 02/03。
+2. Stage 03 先用版本化规则做低成本、高召回的计算相关性粗筛；可选模型只复核规则边界
+   样本，并可通过参数完全关闭。Stage 00 已提供的 SI 文本与正文共同参与 Stage 02/03。
 3. Stage 04 只补齐当前数据源缺失的论文正式补充材料，不解析内容，不下载论文中
    引用的数据集、代码仓库、外部结构或任意链接。
 4. Stage 04 不只适配 Wiley。优先复用远端 KPS 元数据中的 `support_path`；缺失时按
@@ -33,7 +33,7 @@ Stage 01  正文 PDF 清点、身份和去重
     |
 Stage 02  正文及已有 SI 解析和质量门控
     |
-Stage 03  纯规则计算化学相关性粗筛
+Stage 03  规则优先、可选模型复核的计算化学相关性筛选
     |
 Stage 04  缺失补充材料获取（已有 SI 则逐论文跳过）
     |
@@ -110,7 +110,7 @@ KPS 中 431,475 篇已有非空 `support_path`，对应 496,624 个附件；当�
 | Stage 00 | 如何从远端取指定数量论文并将正文/SI 组成可恢复的论文包？ | 网络 I/O |
 | Stage 01 | 正文身份、来源和重复关系是否可靠？ | 低 |
 | Stage 02 | 正文和本地已有 SI 是否被可靠解析？ | 中 |
-| Stage 03 | 正文+已有 SI 的规则证据是否表明本文实际进行了计算化学？ | 低 |
+| Stage 03 | 正文+已有 SI 是否表明本文实际进行了计算化学？ | 低至中 |
 | Stage 04 | 对仍缺 SI 的论文，正式 SI 文件能否获得？ | 网络 I/O |
 | Stage 05 | 已解析正文/SI 中的软件/方法是否可能被工具箱覆盖？ | 低至中 |
 | Stage 06 | 新下载 SI 中有哪些软件、参数、输入和结果证据？ | 中至高 |
@@ -273,7 +273,7 @@ Stage 02 必须解析 Stage 01 中所有 canonical 正文和本地已有 SI。�
 `document_role=main_paper|supplementary`，并生成按 `paper_id` 聚合的
 `paper_text_bundle.jsonl`。一个 SI 解析失败不应使正文结果失效。
 
-## 7. Stage 03：纯规则计算相关性粗筛
+## 7. Stage 03：规则优先的混合计算相关性筛选
 
 ### 7.1 目标
 
@@ -282,7 +282,7 @@ Stage 03 只判断：正文和 Stage 02 已解析 SI 是否存在足够规则证
 
 本阶段：
 
-- 不调用 LLM；
+- 默认先执行规则；可选模型只复核边界样本，并可通过配置完全关闭；
 - 不判断最终工具箱覆盖；
 - 不要求明确软件名称；
 - 不生成完整 task skeleton；
@@ -357,8 +357,10 @@ rule_error:
   文本或规则处理失败
 ```
 
-`strong_candidate` 和 `weak_candidate` 均进入 Stage 04；弱候选可以设置较低下载优先级。
-只有规则明确判定为背景或完全无证据时才淘汰。这样在没有 LLM 的前提下保持高召回。
+模型关闭时，`strong_candidate` 和 `weak_candidate` 均进入 Stage 04；弱候选可以设置较低
+下载优先级。模型开启时，只路由 weak、Review/Perspective、method-bearing reject 和规则
+异常；模型响应必须引用输入证据并回映原文。API、schema 或证据校验失败时回退规则结果。
+规则明确的 strong 和非研究文章不做无谓调用。
 
 同一术语在长文或综述中可能重复数十次。原始命中分数保存为 `raw_score`，用于判定的
 `score` 对同一 document、evidence type、rule ID 和章节类型限制贡献次数。明确方法在
@@ -445,21 +447,21 @@ MDPISupplementaryAdapter
 
 ### 8.4 文件范围和预算
 
-KPS 的现有 `support_path` 全部是 PDF，第一版可将 PDF 作为默认允许类型。为兼容官网
-附件，其他格式必须显式配置，不能默认全开。
+KPS 的现有 `support_path` 主要是 PDF，但出版社正式 SI 还包括 DOCX、ZIP、XLSX、CSV、
+TXT 和 CIF。默认只开启这些文档/归档格式，不默认下载视频。
 
 建议默认：
 
 ```text
-allowed_extensions: [pdf]
+allowed_extensions: [pdf, docx, zip, xlsx, csv, txt, cif]
 max_attachments_per_paper: 20
 max_file_bytes: 100 MiB
 max_total_bytes_per_paper: 250 MiB
 download_timeout_seconds: 120
 ```
 
-若后续确认需要出版商正式 SI 中的 ZIP/CIF/DOCX，再逐类开启并增加安全测试。视频默认
-只保存元数据，不下载。
+视频默认只保存发现元数据，不下载。Stage 06 对 PDF 做文本抽取，其他正式 SI 文件作为
+原始资产保留，不交给 `pdftotext`。
 
 ### 8.5 状态
 
@@ -671,7 +673,7 @@ Stage 02-08 均以 `paper_id` 为最小失败域。单篇 HTTP、解析、Softci
 | --- | --- |
 | Stage 00 | 数据集版本 + 选择策略/seed + source record + 远端 ETag |
 | Stage 02 | PDF hash + parser/version + quality config |
-| Stage 03 | 正文 hash + ontology/rules hash |
+| Stage 03 | 正文/SI hash + ontology/rules hash + 可选模型/prompt/响应 hash |
 | Stage 04 | DOI + source metadata + adapter version + attachment metadata |
 | Stage 05 | 正文 hash + software rules + capability catalog hash |
 | Stage 06 | SI file hashes + parser config/version |
@@ -686,7 +688,7 @@ Stage 02-08 均以 `paper_id` 为最小失败域。单篇 HTTP、解析、Softci
 阶段之间反复开关沙箱。
 
 Stage 04 网络并发独立限速；Stage 02/03/05/06 使用各自 worker 上限；Stage 07/08
-Agent 并发较低。Stage 03 不再占用 LLM 并发和 API 预算。
+Agent 并发较低。Stage 03 模型只处理规则边界样本，并具有独立并发上限和缓存。
 
 ## 14. 审计产物
 
@@ -727,7 +729,7 @@ Agent 并发较低。Stage 03 不再占用 LLM 并发和 API 预算。
     "official_publisher_attachments_only": true,
     "publisher_adapters": ["acs", "rsc", "elsevier", "wiley", "nature", "mdpi"],
     "follow_article_links": false,
-    "allowed_extensions": ["pdf"],
+    "allowed_extensions": ["pdf", "docx", "zip", "xlsx", "csv", "txt", "cif"],
     "max_attachments_per_paper": 20,
     "max_file_bytes": 104857600,
     "max_total_bytes_per_paper": 262144000
@@ -783,8 +785,8 @@ Agent 并发较低。Stage 03 不再占用 LLM 并发和 API 预算。
 
 1. 将旧软件硬门控替换为正文+已有 SI 的规则型 computation relevance。
 2. 实现方法本体、章节权重、负面语境和证据定位。
-3. 不接入 LLM client。
-4. 用人工样本校准阈值，先验证 recall，再调 precision。
+3. 接入可选 OpenAI-compatible 边界复核器，严格校验证据引用并支持规则回退。
+4. 用人工样本校准规则阈值与模型路由，先验证 recall，再调 precision。
 
 ### Phase 4：重建 Stage 04
 
@@ -863,7 +865,7 @@ data_pipeline/src/orchestration/
 
 - Stage 00 指定 `count=N` 时输出 N 个完整正文论文包，正文和 SI 位于同一论文目录。
 - Stage 02/03 会处理 Stage 00 已复制的 SI，Stage 04 对这些论文不发起下载。
-- Stage 03 全程不发起 LLM/API 调用。
+- Stage 03 关闭模型时不发起 API；开启时仅复核边界样本，失败可逐篇回退规则结果。
 - 规则命中保留可定位证据，参考文献中的 DFT/软件名不会直接通过。
 - `software_not_identified` 不会在 Stage 05 被直接淘汰。
 - Stage 04 优先复用远端 `support_path`，且绝不跟随数据集/仓库链接。
@@ -876,7 +878,8 @@ data_pipeline/src/orchestration/
 
 1. Stage 00 将指定数量论文的正文和远端已有 SI 复制到同一论文目录。
 2. Stage 02/03 使用正文和 Stage 00 已带入的 SI；Stage 04 对已有 SI 论文跳过。
-3. Stage 03 的 `strong_candidate` 和 `weak_candidate` 都进入 Stage 04，以 recall 优先。
+3. Stage 03 规则模式的 `strong_candidate` 和 `weak_candidate` 都进入 Stage 04；混合模式
+   只让模型复核边界样本，以 recall 优先。
 4. Stage 04 默认只下载 PDF SI；ZIP/CIF/DOCX 后续按实际需要逐类开放。
 5. Stage 05 是预筛，不宣称最终 `toolbox_covered`。
 6. 没有软件名但方法证据成立的论文仍进入 Stage 06，避免新下载 SI 中的软件名漏筛。

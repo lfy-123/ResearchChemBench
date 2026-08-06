@@ -130,3 +130,47 @@
 - 全部 `data_pipeline/tests`：97 passed，6 subtests passed。
 - Ruff、Python compileall、批处理 Python 编译和 shell 语法检查通过。
 - 真实 Stage 00 取 20 篇：20 篇正文、21 个 SI、0 partial、0 copy failure。
+
+### 2026-08-06：补充材料二元保留规则
+
+- Stage 04 新增 `presence_status`，成功加载且能验证 DOI 的官方页面在无附件时记录
+  `absent_confirmed`；403、超时、页面身份不匹配保持 `unknown`。
+- Elsevier 适配器从 LinkingHub 提取 PII，并以有界 HEAD 请求发现官方
+  `ars.els-cdn.com` 的 `mmc` 附件，修复 landing HTML 无静态链接导致的漏检。
+- Stage 05 在调用 Softcite 前执行 SI 门控：仅确认无 SI 或至少一个正式附件已落盘的论文
+  继续，其余记录 `supplementary_unavailable` 并停止。
+- Stage 06 重复执行同一门控；确认无 SI 记录为 `confirmed_no_supplementary`，不启动附件
+  解析。非 PDF 的 DOCX/ZIP/XLSX/CSV/TXT/CIF 作为原始资产保留，不交给 pdftotext。
+- Stage 04 默认正式文档格式扩展为 PDF、DOCX、ZIP、XLSX、CSV、TXT、CIF；视频仍不
+  默认下载。
+- 相关定向测试 23 passed；完整 `data_pipeline/tests` 为 105 passed、6 subtests passed；
+  Ruff 和 `git diff --check` 通过。
+- Stage 03 下一步采用规则高召回、小模型只审边界样本的混合方案，详细设计见
+  `STAGE03_HYBRID_COMPUTATION_RELEVANCE_PLAN.md`。
+
+### 2026-08-07：Stage 03 混合复核和微批次编排
+
+- Stage 03 增加可选 OpenAI-compatible 模型复核器，只路由 weak、Review/Perspective、
+  method-bearing reject 和规则异常；规则明确样本不调用模型。
+- prompt 只包含标题、规则结果、开头片段和命中证据上下文；响应必须引用提供的证据，
+  无法回映的引用按 uncertain 处理并回退规则结果。
+- 模型健康检查、单篇 API/JSON/schema 错误均隔离；原始响应按请求 hash 缓存，可回放。
+- 正式本地模型确定为 `Qwen3-30B-A3B-Instruct-2507`，新增 H200 rlaunch、vLLM、
+  FastAPI gateway 的一键启停脚本。因 GPU 资源紧张，本轮暂不部署，改用
+  `deepseek-v4-flash` 验证同一接口契约。
+- Stage 02-06 已接回论文级微批次流水线：同篇正文/SI 不拆组，每批默认 10 篇；每批
+  内按 02 -> 03 -> 04 -> 05 -> 06 串行，不同批次最多 5 路并发，并受各阶段 semaphore
+  和服务池限制。
+- GROBID、Softcite 池和沙箱在整次任务开始时启动，所有微批次共享，任务结束后统一停止。
+- 新增和更新定向测试后，完整测试为 113 passed、6 subtests passed；Ruff、shell 语法和
+  `git diff --check -- data_pipeline` 通过。
+- 100 篇 Stage 00-06 shadow run 使用 `deepseek-v4-flash` 完成，总墙钟 532.424 秒：
+  Stage 00/01 为 100 篇正文、84 个 SI、0 重复；Stage 02 为 181 次 GROBID 成功、3 次
+  pdftotext 回退；Stage 03 候选 58；Stage 04 后 SI 可用 55；Stage 05/06 继续 49 篇。
+- 首轮发现 Flash 512-token 截断和 Softcite 超长 GET 431，均已修复并补测试。Flash 改为
+  1024 tokens、关闭 thinking、严格检查 finish reason/必填字段并更新缓存键；Softcite
+  改为软件别名附近 600 字符窗口。
+- 修复后对同一批 47 个 Stage 03 边界样本定向重放：47/47 正常结束、0 截断、0 缺字段；
+  最终 strong 56、weak 2、reject 42，候选集合与完整运行完全相同。
+- 最终完整测试为 116 passed、6 subtests passed。详细报告见
+  `FLASH_STAGE00_06_100_PAPER_REPORT_20260807.md`。

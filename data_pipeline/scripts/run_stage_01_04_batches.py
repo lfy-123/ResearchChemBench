@@ -38,6 +38,35 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--stage04-workers", type=int, default=16)
     parser.add_argument("--stage05-workers", type=int, default=16)
     parser.add_argument("--stage06-workers", type=int, default=16)
+    parser.add_argument(
+        "--microbatch",
+        action=argparse.BooleanOptionalAction,
+        default=True,
+        help="Run Stage 02-06 as ordered concurrent paper microbatches",
+    )
+    parser.add_argument("--microbatch-size", type=int, default=10)
+    parser.add_argument("--microbatch-concurrency", type=int, default=5)
+    parser.add_argument(
+        "--stage03-llm",
+        action=argparse.BooleanOptionalAction,
+        default=False,
+        help="Use the managed Qwen Stage 03 reviewer for ambiguous rule decisions",
+    )
+    parser.add_argument(
+        "--stage03-llm-managed-rlaunch",
+        action=argparse.BooleanOptionalAction,
+        default=True,
+    )
+    parser.add_argument("--stage03-llm-concurrency", type=int, default=16)
+    parser.add_argument("--stage03-llm-base-url", default="https://api.deepseek.com/v1")
+    parser.add_argument("--stage03-llm-model", default="deepseek-v4-flash")
+    parser.add_argument("--stage03-llm-api-key-env", default="JUDGE_API_KEY")
+    parser.add_argument("--stage03-llm-cpu", type=int, default=16)
+    parser.add_argument("--stage03-llm-memory-mib", type=int, default=196000)
+    parser.add_argument("--stage03-llm-image", default=(
+        "registry.h.pjlab.org.cn/ailab-ai4chem-ai4chem_gpu/"
+        "chemllm-workspace:test1-20260425150803"
+    ))
     parser.add_argument("--disable-publisher-network", action="store_true")
     parser.add_argument("--disable-mineru", action="store_true")
     parser.add_argument("--plan-only", action="store_true")
@@ -55,6 +84,11 @@ def main(argv: list[str] | None = None) -> int:
         "stage04_workers",
         "stage05_workers",
         "stage06_workers",
+        "microbatch_size",
+        "microbatch_concurrency",
+        "stage03_llm_concurrency",
+        "stage03_llm_cpu",
+        "stage03_llm_memory_mib",
     ):
         if int(getattr(args, name)) < 1:
             raise ValueError(f"{name} must be positive")
@@ -83,6 +117,21 @@ def main(argv: list[str] | None = None) -> int:
         "work_root": str(work_root),
         "backend": args.backend,
         "sandbox": {"cpu": args.sandbox_cpu, "memory": args.sandbox_memory},
+        "microbatch": {
+            "enabled": args.microbatch,
+            "size": args.microbatch_size,
+            "concurrency": args.microbatch_concurrency,
+        },
+        "stage03_llm": {
+            "enabled": args.stage03_llm,
+            "managed_rlaunch": args.stage03_llm_managed_rlaunch,
+            "model": (
+                "Qwen3-30B-A3B-Instruct-2507"
+                if args.stage03_llm_managed_rlaunch
+                else args.stage03_llm_model
+            ),
+            "concurrency": args.stage03_llm_concurrency,
+        },
         "command": command,
     }
     if args.plan_only:
@@ -118,6 +167,16 @@ def _build_config(
             "exclude_supplementary": False,
             "stop_after": "stage06",
             "resume_completed_stages": True,
+            "microbatch": {
+                "enabled": bool(args.microbatch),
+                "size": args.microbatch_size,
+                "concurrency": args.microbatch_concurrency,
+                "resume": True,
+                "stage_limits": {
+                    str(stage): args.microbatch_concurrency for stage in range(2, 7)
+                },
+                "softcite_instances": args.microbatch_concurrency,
+            },
             "stage00_remote_corpus": {
                 "enabled": True,
                 "dataset": args.dataset,
@@ -131,11 +190,41 @@ def _build_config(
                 "copy_existing_supplementary": True,
             },
             "stage03_computation_relevance": {
-                "use_llm": False,
+                "use_llm": bool(args.stage03_llm),
                 "method_ontology": str(PIPELINE_ROOT / "assets/computational_method_ontology.yaml"),
                 "evidence_rules": str(PIPELINE_ROOT / "assets/computation_evidence_rules.yaml"),
                 "negative_contexts": str(PIPELINE_ROOT / "assets/computation_negative_contexts.yaml"),
                 "workers": args.stage03_workers,
+                "llm": {
+                    "managed_rlaunch": bool(args.stage03_llm_managed_rlaunch),
+                    "required": False,
+                    "base_url": args.stage03_llm_base_url,
+                    "api_key_env": args.stage03_llm_api_key_env,
+                    "model": (
+                        "qwen3-30b-a3b-instruct-2507"
+                        if args.stage03_llm_managed_rlaunch
+                        else args.stage03_llm_model
+                    ),
+                    "concurrency": args.stage03_llm_concurrency,
+                    "max_prompt_chars": 24000,
+                    "max_tokens": 1024,
+                    "thinking": (
+                        None if args.stage03_llm_managed_rlaunch else "disabled"
+                    ),
+                    "manager_script": str(
+                        PIPELINE_ROOT / "scripts/stage03_llm/manage_rlaunch_worker.sh"
+                    ),
+                    "state_file": str(work_root / ".stage03_llm_worker.local.json"),
+                    "cache_directory": str(
+                        work_root / "run/outputs/stage_03_computation_relevance/llm_cache"
+                    ),
+                    "cpu": args.stage03_llm_cpu,
+                    "memory_mib": args.stage03_llm_memory_mib,
+                    "positive_tag": "h200",
+                    "image": args.stage03_llm_image,
+                    "skip_bootstrap": True,
+                    "skip_download": True,
+                },
             },
             "stage04_supplementary_acquisition": {
                 "enabled": True,
@@ -150,7 +239,9 @@ def _build_config(
             "stage05_preliminary_coverage": {
                 "capability_catalog": str(PIPELINE_ROOT / "assets/toolbox_capabilities.json"),
                 "continue_without_software_name": True,
-                "softcite_instances": min(8, args.stage05_workers),
+                "softcite_instances": min(
+                    args.microbatch_concurrency, args.stage05_workers
+                ),
             },
             "stage06_supplementary_extraction": {
                 "pdftotext_command": "pdftotext",

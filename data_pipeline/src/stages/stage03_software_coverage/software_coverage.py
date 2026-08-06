@@ -226,7 +226,9 @@ def _recover_known_software(
     for normalized, contexts in candidates.items():
         classified = []
         for alias_key, sentence in contexts[:5]:
-            result = client.characterize_context(sentence["text"])
+            result = client.characterize_context(
+                _context_around_alias(sentence["text"], alias_key)
+            )
             used_payload = (result.get("classification") or {}).get("used") or {}
             classified.append((alias_key, sentence, result, used_payload))
         alias_key, sentence, result, used_payload = max(
@@ -256,6 +258,19 @@ def _recover_known_software(
             }
         )
     return output
+
+
+def _context_around_alias(text: str, alias: str, max_chars: int = 600) -> str:
+    """Bound Softcite's GET query while retaining the software mention."""
+    if len(text) <= max_chars:
+        return text
+    position = text.casefold().find(alias.casefold())
+    if position < 0:
+        return text[:max_chars]
+    start = max(0, position - max_chars // 2)
+    end = min(len(text), start + max_chars)
+    start = max(0, end - max_chars)
+    return text[start:end]
 
 
 def _merge_mentions(mentions: list[dict[str, Any]]) -> list[dict[str, Any]]:

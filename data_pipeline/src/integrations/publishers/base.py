@@ -3,7 +3,7 @@ from __future__ import annotations
 import re
 from dataclasses import asdict, dataclass
 from html.parser import HTMLParser
-from urllib.parse import unquote, urldefrag, urljoin, urlparse
+from urllib.parse import parse_qs, unquote, urldefrag, urljoin, urlparse
 
 import httpx
 
@@ -24,6 +24,7 @@ class PublisherSupplementaryAdapter:
     publisher = "unknown"
     domains: tuple[str, ...] = ()
     doi_prefixes: tuple[str, ...] = ()
+    can_confirm_absence_from_page = True
     supplementary_pattern = re.compile(
         r"supp(?:lement|orting|info)|supporting.?information|electronic.?supplement|esm|mmc",
         re.I,
@@ -79,11 +80,17 @@ class PublisherSupplementaryAdapter:
                     label=" ".join(label.split())[:500],
                 ),
             )
+        doi_present = bool(
+            doi and str(doi).casefold() in unquote(response.text).casefold()
+        )
         return list(output.values()), {
             "publisher": self.publisher,
             "status": "publisher_attachments_found" if output else "not_found",
             "landing_url": final_url,
             "http_status": response.status_code,
+            "absence_confirmed": bool(
+                not output and doi_present and self.can_confirm_absence_from_page
+            ),
         }
 
     def official_attachment_url(self, url: str) -> bool:
@@ -132,6 +139,8 @@ class _LinkParser(HTMLParser):
 
 
 def _attachment_name(url: str, index: int) -> str:
-    name = unquote(urlparse(url).path.rsplit("/", 1)[-1]).strip()
+    parsed = urlparse(url)
+    query_name = (parse_qs(parsed.query).get("file") or [""])[0]
+    name = unquote(query_name or parsed.path.rsplit("/", 1)[-1]).strip()
     name = re.sub(r"[^A-Za-z0-9._()-]+", "_", name).strip("._")
-    return (name or f"supplementary-{index}.pdf")[:220]
+    return (name or f"supplementary-{index}")[:220]

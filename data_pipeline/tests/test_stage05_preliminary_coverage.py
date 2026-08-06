@@ -16,6 +16,7 @@ CATALOG = {
 def _paper(families=None):
     return {
         "paper_id": "p1",
+        "supplementary_acquisition": {"presence_status": "absent_confirmed"},
         "computation_relevance": {
             "decision": "strong_candidate",
             "method_families": families or [],
@@ -69,4 +70,37 @@ def test_stage05_isolates_extraction_errors():
         [_paper()], {}, TOOLBOX, CATALOG, errors={"p1": [{"error": "boom"}]}
     )[0]
     assert result["preliminary_coverage"]["decision"] == "stage_error"
+    assert result["pipeline_routing"]["continue"] is True
+
+
+def test_stage05_rejects_unknown_supplementary_status_before_coverage():
+    paper = _paper(["electronic_structure"])
+    paper["supplementary_acquisition"] = {
+        "presence_status": "unknown",
+        "download_status": "access_blocked",
+        "attachments": [],
+    }
+    result = aggregate_preliminary_coverage(
+        [paper], {"p1": []}, TOOLBOX, CATALOG
+    )[0]
+    assert result["preliminary_coverage"]["decision"] == "supplementary_unavailable"
+    assert result["pipeline_routing"]["continue"] is False
+    assert result["pipeline_routing"]["stop_reason"] == (
+        "supplementary_not_confirmed_absent_or_downloaded"
+    )
+
+
+def test_stage05_keeps_downloaded_supplementary(tmp_path):
+    si = tmp_path / "si.pdf"
+    si.write_bytes(b"%PDF-1.7")
+    paper = _paper(["electronic_structure"])
+    paper["supplementary_acquisition"] = {
+        "presence_status": "available",
+        "download_status": "downloaded",
+        "attachments": [{"path": str(si)}],
+    }
+    result = aggregate_preliminary_coverage(
+        [paper], {"p1": []}, TOOLBOX, CATALOG
+    )[0]
+    assert result["preliminary_coverage"]["decision"] == "method_only_candidate"
     assert result["pipeline_routing"]["continue"] is True
