@@ -5,13 +5,15 @@ from pathlib import Path
 
 import pytest
 
-from researchchem_toolbox.service import execute_action
+from chemistry_toolbox.src.service import execute_action
+from chemistry_toolbox.src.environment_layout import software_root
 
 
-SOURCE = Path(
-    ".software_cache/multiwfn/2026.7.15/"
-    "Multiwfn_2026.7.15_bin_Linux_noGUI/examples/H2.fch"
-).resolve()
+SOURCE = (
+    software_root()
+    / "installations/multiwfn/2026.7.15"
+    / "Multiwfn_2026.7.15_bin_Linux_noGUI/examples/H2.fch"
+)
 
 
 def _wavefunction(tmp_path: Path) -> Path:

@@ -7,7 +7,7 @@ from pathlib import Path
 
 import pytest
 
-from researchchem_toolbox.distributed_pool import (
+from chemistry_toolbox.src.distributed_pool import (
     DistributedResourceLimitExceeded,
     DistributedResourceUnavailable,
     effective_compute_cpu_cores,
@@ -20,12 +20,12 @@ from researchchem_toolbox.distributed_pool import (
     select_compute_cpu_ids,
     threads_per_physical_core,
 )
-from researchchem_toolbox.remote_scratch import (
+from chemistry_toolbox.src.remote_scratch import (
     cleanup_remote_scratch,
     prepare_remote_scratch,
 )
-from researchchem_toolbox import runtime
-from researchchem_toolbox.catalog import progressive_toolbox_overview
+from chemistry_toolbox.src import runtime
+from chemistry_toolbox.src.catalog import progressive_toolbox_overview
 
 
 def _write_inventory(path: Path) -> None:
@@ -379,7 +379,7 @@ def test_parent_bound_exec_does_not_outlive_its_expected_parent(tmp_path):
     parent_program = "\n".join(
         [
             "import os, subprocess, sys, time",
-            "child = subprocess.Popen([sys.executable, '-m', 'researchchem_toolbox.parent_bound_exec', str(os.getpid()), sys.executable, '-c', 'import time; time.sleep(30)'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, start_new_session=True)",
+            "child = subprocess.Popen([sys.executable, '-m', 'chemistry_toolbox.src.parent_bound_exec', str(os.getpid()), sys.executable, '-c', 'import time; time.sleep(30)'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, start_new_session=True)",
             "print(child.pid, flush=True)",
             "time.sleep(0.5)",
         ]
@@ -453,7 +453,7 @@ def test_remote_action_uses_ssh_and_releases_reservation(
     assert calls[0][0][:4] == [
         sys.executable,
         "-m",
-        "researchchem_toolbox.parent_bound_exec",
+        "chemistry_toolbox.src.parent_bound_exec",
         str(os.getpid()),
     ]
     assert calls[0][0][4] == "ssh"

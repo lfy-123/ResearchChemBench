@@ -67,9 +67,9 @@
 
 同时新增：
 
-- `scripts/build_merged_environments.sh`：从依赖定义或精确锁创建/更新环境；
-- `scripts/capture_merged_environment_locks.sh`：环境变更后重新生成锁和哈希；
-- `environment/merged/system-requirements.txt`：VESTA 等 GUI/原生程序的宿主动态库要求；
+- `scripts/build_environments.sh`：从依赖定义或精确锁创建/更新环境；
+- `scripts/capture_environment_locks.sh`：环境变更后重新生成锁和哈希；
+- `environment/system-requirements.txt`：VESTA 等 GUI/原生程序的宿主动态库要求；
 - portable lock/bootstrap 对 `.tool_envs_merged`、`prepend_path_entries` 和可重定位前缀的支持。
 
 ### 4.3 合并过程中修复的问题
@@ -111,16 +111,16 @@
 
 ```bash
 # 从可维护规格构建六个环境
-bash chemistry_toolbox/scripts/build_merged_environments.sh all
+bash chemistry_toolbox/scripts/build_environments.sh all
 
 # 在同平台按精确锁重放
-bash chemistry_toolbox/scripts/build_merged_environments.sh --from-lock all
+bash chemistry_toolbox/scripts/build_environments.sh --from-lock all
 
 # 可选：把七个前缀整体放到其他磁盘
 export RESEARCHCHEMBENCH_ENV_ROOT=/path/to/researchchem-envs
 
 # 刷新精确锁
-bash chemistry_toolbox/scripts/capture_merged_environment_locks.sh
+bash chemistry_toolbox/scripts/capture_environment_locks.sh
 
 # 验证
 .envs/researchchembench/bin/python -m pytest -q

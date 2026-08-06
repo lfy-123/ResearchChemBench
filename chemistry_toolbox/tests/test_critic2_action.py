@@ -4,15 +4,16 @@ import shutil
 
 import pytest
 
-from researchchem_toolbox.catalog import action_specs, backend_specs, validate_catalog
-from researchchem_toolbox.paths import PROJECT_ROOT as ROOT
-from researchchem_toolbox.service import execute_action
+from chemistry_toolbox.src.catalog import action_specs, backend_specs, validate_catalog
+from chemistry_toolbox.src.paths import PROJECT_ROOT as ROOT
+from chemistry_toolbox.src.service import execute_action
 
 
 def test_critic2_electron_density_topology_real_cube(tmp_path, monkeypatch):
     source = (
         ROOT
         / ".software_cache"
+        / "installations"
         / "gaussian"
         / "g16"
         / "install"
@@ -85,6 +86,7 @@ def test_critic2_grid_basin_integrations(
     source = (
         ROOT
         / ".software_cache"
+        / "installations"
         / "gaussian"
         / "g16"
         / "install"

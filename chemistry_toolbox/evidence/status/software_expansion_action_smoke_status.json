@@ -1,0 +1,48 @@
+{
+  "generated_at": "2026-08-06T05:11:00+00:00",
+  "schema_version": 1,
+  "summary": {
+    "case_count": 4,
+    "passed": 4,
+    "failed": 0,
+    "all_ok": true
+  },
+  "cases": [
+    {
+      "case_id": "calculate_quasiparticle_corrections__yambo",
+      "action": "calculate_quasiparticle_corrections",
+      "backend": "yambo",
+      "status": "success",
+      "elapsed_seconds": null,
+      "evidence": ".software_cache/validation/yambo/smoke/qe_si_gw_bse/o-gw.qp",
+      "result_summary": "2 quasiparticle states parsed; band 5 QP energy 4.664891 eV"
+    },
+    {
+      "case_id": "calculate_bse_optical_spectrum__yambo",
+      "action": "calculate_bse_optical_spectrum",
+      "backend": "yambo",
+      "status": "success",
+      "elapsed_seconds": null,
+      "evidence": ".software_cache/validation/yambo/smoke/qe_si_gw_bse/o-bse.eps_q1_diago_bse",
+      "result_summary": "50 BSE spectrum points parsed; first epsilon_2 0.268508"
+    },
+    {
+      "case_id": "propagate_nonadiabatic_trajectory__sharc",
+      "action": "propagate_nonadiabatic_trajectory",
+      "backend": "sharc",
+      "status": "success",
+      "elapsed_seconds": null,
+      "evidence": ".software_cache/validation/sharc/smoke/lvc_ensemble",
+      "result_summary": "three independent trajectories reached 30.0 fs; typed Action parsed 61 records"
+    },
+    {
+      "case_id": "explore_reaction_network__kinbot",
+      "action": "explore_reaction_network",
+      "backend": "kinbot",
+      "status": "success",
+      "elapsed_seconds": 167.0,
+      "evidence": ".software_cache/validation/kinbot/smoke/action_nonempty_pes_validated3/action_response.json",
+      "result_summary": "validated local NWChem PES route entered reaction search and returned two SUCCESS homolytic-scission reaction records"
+    }
+  ]
+}

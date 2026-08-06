@@ -15,8 +15,8 @@ for path in (TOOLBOX_ROOT / "src", TOOLBOX_ROOT.parent):
     if str(path) not in sys.path:
         sys.path.insert(0, str(path))
 
-from researchchem_toolbox.catalog import catalog_snapshot
-from researchchem_toolbox.discovery import search_actions
+from chemistry_toolbox.src.catalog import catalog_snapshot
+from chemistry_toolbox.src.discovery import search_actions
 
 
 DEFAULT_QUERIES = TOOLBOX_ROOT / "config" / "action_search_evaluation.json"

@@ -18,7 +18,7 @@ import os
 from pathlib import Path
 from typing import Any
 
-from researchchem_toolbox.service import execute_action
+from chemistry_toolbox.src.service import execute_action
 
 
 SYSTEMS: dict[str, dict[str, Any]] = {

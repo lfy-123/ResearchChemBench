@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from researchchem_toolbox.search_index import BM25Index, tokenize
+from chemistry_toolbox.src.search_index import BM25Index, tokenize
 
 
 def test_tokenizer_normalizes_common_morphology() -> None:

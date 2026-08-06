@@ -22,11 +22,11 @@ for path in (SOURCE_ROOT, ROOT):
 
 from dotenv import load_dotenv
 
-from researchchem_toolbox.service import execute_action
-from researchchem_toolbox.paths import portable_report_value
+from chemistry_toolbox.src.service import execute_action
+from chemistry_toolbox.src.paths import portable_report_value
 
 
-STATUS_PATH = TOOLBOX_ROOT / "config" / "action_gap_smoke_status.json"
+STATUS_PATH = TOOLBOX_ROOT / "evidence" / "status" / "action_gap_smoke_status.json"
 
 WATER = {
     "atoms": [

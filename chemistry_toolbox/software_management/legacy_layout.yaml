@@ -1,0 +1,92 @@
+schema_version: 1
+
+ignored_roots:
+  - documentation_alias_fix_seed_20260720
+  - documentation_pre_version_fix_20260720
+  - easyspin
+  - schrodinger
+
+# Broken, non-runtime symlinks inherited from the old cache. Amber PMEMD does
+# not use the two obsolete environment launchers; the remaining entries are
+# dangling package-documentation aliases.
+ignored_paths:
+  - amber/26/install/bin/amber.python
+  - amber/26/install/bin/amber.conda
+  - bagel/1.2.2/runtime/usr/share/doc/libgfortran5
+  - bagel/1.2.2/runtime/usr/share/doc/libquadmath0
+  - bagel/1.2.2/runtime/usr/share/doc/libxc9/README
+  - gmx_mmpbsa/1.6.5/env
+  - newton-x/26a/package/doc/NewtonX_CS
+  - sisso/3.5/toolchain/oneapi/compiler/latest/linux/man
+  - sisso/3.5/toolchain/oneapi/compiler/latest/linux/documentation
+  - sisso/3.5/toolchain/oneapi/compiler/2021.2.0/linux/man
+  - sisso/3.5/toolchain/oneapi/compiler/2021.2.0/linux/documentation
+  - vesta/deps/root/usr/share/doc/libwebpdemux2/changelog.Debian.gz
+  - vesta/deps/root/usr/share/doc/libwebpmux3/changelog.Debian.gz
+  - vesta/deps/root/usr/share/doc/libdw1/changelog.Debian.gz
+  - vesta/deps/root/usr/share/doc/libharfbuzz-icu0/changelog.Debian.gz
+  - vesta/deps/root/usr/share/doc/libopengl0/changelog.Debian.gz
+
+root_destinations:
+  documentation: documentation
+  openmpi: shared/mpi/openmpi
+  resources: shared/scientific-data
+  pubchem: state/pubchem
+  aiida: state/aiida
+
+role_markers:
+  package: [download, downloads, packages]
+  source: [source, sources]
+  build: [build, build-conda, failed-generation, failed-root-build-empty-dirs]
+  validation: [smoke, scratch, work, tmp, _probe_work]
+  state: [home, .aiida]
+
+runtime_source_overrides:
+  - gamess/2024-r2-p1/source
+  - kinbot/source-2.2.2
+  - mess/2020.1.24/build
+  - rmg/database
+  - rmg/source
+  - sharc/source
+  - shengbte/source
+  - tdep/25.03/source
+  - wannier90/3.1.0-source
+
+shared_overrides:
+  gpaw/setups: shared/scientific-data/gpaw-setups
+  vasp/potcars/potpaw54: shared/scientific-data/vasp-potcars/potpaw54
+  vasp/potcars/source_metadata: sources/vasp/potcars/source_metadata
+
+state_overrides:
+  censo/home: state/censo/home
+  rmg/home: state/rmg/home
+  rmg/matplotlib: state/rmg/matplotlib
+  rmg/matplotlib-v8: state/rmg/matplotlib-v8
+
+validation_overrides:
+  yambo: validation/yambo
+
+portable_shebang_paths:
+  - gamess/2024-r2-p1/source/lked
+  - gamess/2024-r2-p1/source/ddi/compddi
+  - gamess/2024-r2-p1/source/comp
+  - gamess/2024-r2-p1/source/rungms
+  - gamess/2024-r2-p1/source/install.info
+  - gamess/2024-r2-p1/source/compall
+
+# Conda-generated launchers below these roots contain the build host's cache
+# path. Migration rewrites those launchers to resolve their payload relative
+# to the launcher itself.
+portable_wrapper_roots:
+  - airss/0.9.3/bin
+
+# Preserve runtime contracts when source material is separated from the
+# runnable installation in the managed layout.
+compatibility_links:
+  installations/pyfrag/2019/source: sources/pyfrag/2019/source
+
+# Exact portable content for state files that otherwise retain the original
+# host's absolute cache path.
+portable_config_files:
+  state/rmg/home/.rmg/rmgrc: |
+    database.directory: $RESEARCHCHEMBENCH_SOFTWARE_ROOT/installations/rmg/database/4.0.0/input

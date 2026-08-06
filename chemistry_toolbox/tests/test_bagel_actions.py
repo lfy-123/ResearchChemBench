@@ -4,12 +4,12 @@ from pathlib import Path
 
 import pytest
 
-from researchchem_toolbox.backends import electronic
-from researchchem_toolbox.service import execute_action
+from chemistry_toolbox.src.backends import electronic
+from chemistry_toolbox.src.service import execute_action
 
 
 ROOT = Path(__file__).resolve().parents[2]
-CACHE = ROOT / ".software_cache" / "bagel" / "1.2.2"
+CACHE = ROOT / ".software_cache" / "installations" / "bagel" / "1.2.2"
 BASIS = CACHE / "runtime" / "usr" / "share" / "bagel"
 BOHR_TO_ANGSTROM = 0.529177210903
 

@@ -5,7 +5,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import re
 import shlex
 import sys
 from pathlib import Path
@@ -20,7 +19,7 @@ for path in (TOOLBOX_ROOT / "src", PROJECT_ROOT):
     if str(path) not in sys.path:
         sys.path.insert(0, str(path))
 
-from researchchem_toolbox.catalog import backend_specs
+from chemistry_toolbox.src.catalog import backend_specs
 
 
 GUIDES_PATH = TOOLBOX_ROOT / "config" / "native_software_guides.yaml"

@@ -16,8 +16,10 @@ from chemistry_toolbox.mcp.discovery_tools import PROGRESSIVE_DISCOVERY_TOOL_NAM
 from chemistry_toolbox.mcp.open_tools import OPEN_EXECUTION_TOOL_NAMES
 from chemistry_toolbox.mcp.async_action_tools import ASYNC_ACTION_TOOL_NAMES
 from evaluation.run_task import TaskRunner
-from researchchem_toolbox.catalog import action_specs, backend_specs
-from researchchem_toolbox.runtime import runtime_environment
+from chemistry_toolbox.src.catalog import action_specs, backend_specs
+from chemistry_toolbox.src.environment_layout import software_root
+from chemistry_toolbox.src.environment_layout import SOFTWARE_ROOT_ENV
+from chemistry_toolbox.src.runtime import runtime_environment
 
 
 def test_runtimes_cover_each_backend_once():
@@ -68,20 +70,14 @@ def test_orca_runtime_injects_exact_binary_and_mpi_paths():
     worker_environment = runtime_environment("quantum")
     path_entries = environment["PATH"].split(os.pathsep)
     library_entries = environment["LD_LIBRARY_PATH"].split(os.pathsep)
-    expected_mpi_bin = next(
-        entry for entry in path_entries
-        if entry.endswith(".software_cache/openmpi/4.1.8-fortran/bin")
+    expected_mpi_bin = str(software_root() / "shared/mpi/openmpi/4.1.8-fortran/bin")
+    expected_mpi_lib = str(software_root() / "shared/mpi/openmpi/4.1.8-fortran/lib")
+    assert expected_mpi_bin in path_entries
+    assert expected_mpi_lib in library_entries
+    assert environment["CHEMGRAPH_ORCA_COMMAND"] == str(
+        software_root() / "installations/orca/6.1.1/orca"
     )
-    expected_mpi_lib = next(
-        entry for entry in library_entries
-        if entry.endswith(".software_cache/openmpi/4.1.8-fortran/lib")
-    )
-    assert environment["CHEMGRAPH_ORCA_COMMAND"].endswith(
-        ".software_cache/orca/6.1.1/orca"
-    )
-    assert ".software_cache/orca/6.1.1" in environment["PATH"]
-    assert ".software_cache/openmpi/4.1.8-fortran/bin" in environment["PATH"]
-    assert ".software_cache/openmpi/4.1.8-fortran/lib" in environment["LD_LIBRARY_PATH"]
+    assert str(software_root() / "installations/orca/6.1.1") in path_entries
     assert path_entries.index(expected_mpi_bin) < next(
         index
         for index, entry in enumerate(path_entries)
@@ -95,8 +91,8 @@ def test_orca_runtime_injects_exact_binary_and_mpi_paths():
     assert Path(shutil.which("mpirun", path=environment["PATH"]) or "") == (
         Path(expected_mpi_bin) / "mpirun"
     )
-    assert environment["OPAL_PREFIX"].endswith(
-        ".software_cache/openmpi/4.1.8-fortran"
+    assert environment["OPAL_PREFIX"] == str(
+        software_root() / "shared/mpi/openmpi/4.1.8-fortran"
     )
     assert "OMPI_MCA_osc" not in environment
     assert environment["OMPI_MCA_pml"] == "ob1"
@@ -118,14 +114,26 @@ def test_openmpi5_general_backends_do_not_inherit_orca_openmpi4():
         ".envs/general-modern-openmpi5/bin"
     )
     assert not any(
-        entry.endswith(".software_cache/openmpi/4.1.8-fortran/bin")
+        entry == str(software_root() / "shared/mpi/openmpi/4.1.8-fortran/bin")
         for entry in path_entries
     )
 
 
+def test_nwchem_basis_library_preserves_required_directory_separator():
+    environment = profile_runtime_environment("nwchem")
+    assert environment["NWCHEM_BASIS_LIBRARY"].endswith("/")
+    assert Path(environment["NWCHEM_BASIS_LIBRARY"]).is_dir()
+
+
+def test_runtime_profiles_publish_resolved_software_root():
+    expected = str(software_root())
+    assert profile_runtime_environment("rmg")[SOFTWARE_ROOT_ENV] == expected
+    assert runtime_environment("rmg")[SOFTWARE_ROOT_ENV] == expected
+
+
 def test_orca_openmpi_runtime_has_required_fortran_capabilities():
     status = json.loads(
-        (Path(__file__).parents[1] / "config" / "toolbox_resource_status.json").read_text(
+        (Path(__file__).parents[1] / "evidence" / "status" / "toolbox_resource_status.json").read_text(
             encoding="utf-8"
         )
     )
@@ -144,34 +152,32 @@ def test_orca_openmpi_runtime_has_required_fortran_capabilities():
 
 def test_vasp_runtime_injects_exact_binary_path_without_selecting_potcars():
     environment = profile_runtime_environment("vasp")
-    assert environment["CHEMGRAPH_VASP_COMMAND"].endswith(
-        ".software_cache/vasp/6.3.2/bin/vasp_std"
+    assert environment["CHEMGRAPH_VASP_COMMAND"] == str(
+        software_root() / "installations/vasp/6.3.2/bin/vasp_std"
     )
-    assert ".software_cache/vasp/6.3.2/bin" in environment["PATH"]
+    assert str(software_root() / "installations/vasp/6.3.2/bin") in environment["PATH"].split(os.pathsep)
     assert "POTCAR" not in environment
 
 
 def test_manual_runtime_paths_are_exact_and_project_relative_values_are_resolved():
     gaussian = profile_runtime_environment("gaussian")
-    assert gaussian["CHEMGRAPH_GAUSSIAN_COMMAND"].endswith(
-        ".software_cache/gaussian/g16/install/g16/g16"
+    assert gaussian["CHEMGRAPH_GAUSSIAN_COMMAND"] == str(
+        software_root() / "installations/gaussian/g16/install/g16/g16"
     )
     assert Path(gaussian["GAUSS_SCRDIR"]).is_absolute()
-    assert gaussian["GAUSS_SCRDIR"].endswith(
-        ".software_cache/gaussian/g16/scratch"
+    assert gaussian["GAUSS_SCRDIR"] == str(software_root() / "validation/gaussian/g16/scratch")
+    assert profile_runtime_environment("gamess")["CHEMGRAPH_GAMESS_COMMAND"] == str(
+        software_root() / "installations/gamess/2024-r2-p1/source/rungms"
     )
-    assert profile_runtime_environment("gamess")["CHEMGRAPH_GAMESS_COMMAND"].endswith(
-        ".software_cache/gamess/2024-r2-p1/source/rungms"
-    )
-    assert profile_runtime_environment("namd")["CHEMGRAPH_NAMD_COMMAND"].endswith(
-        ".software_cache/namd/3.0.2/multicore-avx512/namd3"
+    assert profile_runtime_environment("namd")["CHEMGRAPH_NAMD_COMMAND"] == str(
+        software_root() / "installations/namd/3.0.2/multicore-avx512/namd3"
     )
     amber = profile_runtime_environment("amber")
-    assert amber["CHEMGRAPH_AMBER_MPI_EXECUTABLE"].endswith(
-        ".software_cache/amber/26/install/bin/pmemd.MPI"
+    assert amber["CHEMGRAPH_AMBER_MPI_EXECUTABLE"] == str(
+        software_root() / "installations/amber/26/install/bin/pmemd.MPI"
     )
-    assert profile_runtime_environment("charmm")["CHEMGRAPH_CHARMM_COMMAND"].endswith(
-        ".software_cache/charmm/50b2/install/bin/charmm"
+    assert profile_runtime_environment("charmm")["CHEMGRAPH_CHARMM_COMMAND"] == str(
+        software_root() / "installations/charmm/50b2/install/bin/charmm"
     )
 
 

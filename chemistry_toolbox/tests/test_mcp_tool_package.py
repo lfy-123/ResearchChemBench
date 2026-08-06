@@ -14,7 +14,7 @@ from chemistry_toolbox.mcp.open_tools import OPEN_EXECUTION_TOOL_NAMES
 from chemistry_toolbox.mcp.discovery_tools import PROGRESSIVE_DISCOVERY_TOOL_NAMES
 from chemistry_toolbox.mcp.async_action_tools import ASYNC_ACTION_TOOL_NAMES
 from chemistry_toolbox.mcp.server import create_server
-from researchchem_toolbox.catalog import action_specs, validate_catalog
+from chemistry_toolbox.src.catalog import action_specs, validate_catalog
 
 
 def test_registry_is_full_and_task_independent():
@@ -72,5 +72,5 @@ def test_full_compatibility_server_registers_every_action():
 
 def test_legacy_public_tool_files_are_gone():
     directory = Path("chemistry_toolbox/mcp/tools")
-    assert sorted(path.name for path in directory.glob("*.py")) == ["__init__.py"]
+    assert not directory.exists()
     assert not any(path.name.startswith("run_") for path in directory.glob("*.py"))

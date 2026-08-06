@@ -90,7 +90,7 @@ CALYPSO、USPEX、CFOUR 和 FHI-aims 需要注册或签署许可，本轮不自�
 
 - 固定版本：PyPI `gmx_MMPBSA 1.6.5`，GPL-3.0；wheel SHA-256 为 `9a21be091d8dade8862cd957c51e97c0d72fedd7927bb63105234e13ba257cfc`。
 - 缓存位置：`.software_cache/gmx_mmpbsa/1.6.5`，约 5.6 GB，包含固定 wheel、隔离 runtime 和官方 smoke 示例，不进入 Git。
-- 隔离原因：该版本要求 Python 3.11 和 AmberTools `<24`，不能装入现有 Python 3.12 / AmberTools 26 的 `molecular-simulation-openff` 环境。当前使用 `environment/merged/gmx-mmpbsa` 和 `.envs/gmx-mmpbsa`，固定 Python 3.11、AmberTools 23.6、GROMACS 2025.4、mpi4py 4.0.1、NumPy 1.26.4、pandas 1.5.3、Matplotlib 3.7.3、Seaborn 0.11.2、SciPy 1.14.1 和 ParmEd 4.3.1。
+- 隔离原因：该版本要求 Python 3.11 和 AmberTools `<24`，不能装入现有 Python 3.12 / AmberTools 26 的 `molecular-simulation-openff` 环境。当前使用 `environment/gmx-mmpbsa` 和 `.envs/gmx-mmpbsa`，固定 Python 3.11、AmberTools 23.6、GROMACS 2025.4、mpi4py 4.0.1、NumPy 1.26.4、pandas 1.5.3、Matplotlib 3.7.3、Seaborn 0.11.2、SciPy 1.14.1 和 ParmEd 4.3.1。
 - benchmark worker 修补：首次统一调度失败是隔离环境缺少 `pydantic/PyYAML/python-dotenv`，已安装并写入可迁移 YAML；容器 root 下 OpenMPI 还需显式设置 `OMPI_ALLOW_RUN_AS_ROOT=1` 和 `OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1`，`AMBERHOME` 固定指向隔离前缀。
 - 新增 Action：`calculate_end_state_binding_free_energy`、`calculate_end_state_energy_decomposition` 和 `summarize_end_state_free_energy_results`。完整 input deck、TPR/NDX/XTC/TOP、include 文件、受体/配体 group、模型、帧范围、熵和分解设置均由 Agent 显式提供；Action 不替用户选择科学路线。
 - 解析修补：1.6.5 的 `FINAL_DECOMP_MMPBSA.csv` 是逐帧表而非预聚合统计表。适配器按体系、TDC/SDC/BDC 和残基跨帧聚合均值、样本标准差和标准误，并只返回用户指定上限的绝对贡献排序记录，同时保存完整 CSV。
@@ -279,12 +279,12 @@ PyFrag 和 BAGEL 继续按许可与构建条件处理；Progdyn 当前因缺少�
 
 1. 按仓库 YAML 重建 `.envs/general-modern-openmpi5`、`.envs/kinetics-legacy` 和 `.envs/yambo-openmpi4`。
 2. 将对应 `.software_cache/yambo`、`.software_cache/sharc`、`.software_cache/kinbot` 及 NWChem basis 缓存迁移到相同项目相对位置。
-3. 对原始 SHARC 固定源码应用上述补丁并重新构建；KinBot 由 `build_merged_environments.sh` 自动固定提交、应用补丁并安装。
+3. 对原始 SHARC 固定源码应用上述补丁并重新构建；KinBot 由 `build_environments.sh` 自动固定提交、应用补丁并安装。
 4. 运行 runtime 清单、补丁反向检查、四个软件扩展 Action smoke 和文档测试；不要只复制已经修改过的 site-packages。
 
 ### 覆盖结果
 
-- 新增复杂路径记录：`chemistry_toolbox/config/software_expansion_action_smoke_status.json`，4/4 成功。
+- 新增复杂路径记录：`chemistry_toolbox/evidence/status/software_expansion_action_smoke_status.json`，4/4 成功。
 - 合并覆盖：150 个 Action、92 个 Backend、286 个 Action/Backend 组合；286/286 有成功运行证据，未观测组合为 0。
 - 文档检索测试包含 gplearn Action-only 手册；Yambo/SHARC 真实 Action 测试和 KinBot 输入拒绝测试进入默认回归，KinBot 完整 PES 作为显式慢测试保留。
 - 本轮最终聚焦回归为 `63 passed, 1 skipped`；跳过项仅为默认关闭的 KinBot 完整 PES 重算，测试会直接校验已保存的 2 条成功反应证据，设置 `RESEARCHCHEMBENCH_RUN_EXPENSIVE_KINBOT_PES=1` 可重新执行。
@@ -319,7 +319,7 @@ PyFrag 和 BAGEL 继续按许可与构建条件处理；Progdyn 当前因缺少�
 - 新增 `install_patched_kinbot.sh`。构建 reaction-kinetics 时固定 KinBot 2.2.2 commit `2b530ad24a4dd6a52743a783752821d5d2560519`，验证并幂等应用补丁，再安装到目标前缀；本机重复安装验证通过。
 - BackendSpec 与第二层原生命令解耦：原生指南可公开辅助命令，BackendSpec 只声明 Action 所需可执行文件。
 - `config.local.env` 从 Git 索引取消跟踪并在本机保留；新增无密钥的 `config.local.env.example`。持久化状态生成器会移除项目绝对路径。
-- 删除已停用的 `chemistry_toolbox/environment/locks`（121 个旧 `.tool_envs` 锁）、孤立的 `mcp_profile_status.json` 和重复旧工具矩阵。当前构建只使用 `environment/merged/locks`。
+- 删除已停用的 `chemistry_toolbox/environment/locks`（121 个旧 `.tool_envs` 锁）、孤立的 `mcp_profile_status.json` 和重复旧工具矩阵。当前构建只使用 `environment/locks`。
 
 ### 可迁移性最终检查
 

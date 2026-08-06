@@ -9,17 +9,19 @@ from typing import Any
 import yaml
 from dotenv import load_dotenv
 
-from researchchem_toolbox.catalog import (
+from chemistry_toolbox.src.catalog import (
     TOOL_DISCOVERY_MODE_ENV,
     action_specs,
     backend_specs,
     resolve_tool_discovery_mode,
 )
-from researchchem_toolbox.environment_layout import (
+from chemistry_toolbox.src.environment_layout import (
+    SOFTWARE_ROOT_ENV,
     resolve_configured_path,
     resolve_runtime_path,
+    software_root,
 )
-from researchchem_toolbox.paths import CONFIG_ROOT, PROJECT_ROOT, SOURCE_ROOT
+from chemistry_toolbox.src.paths import CONFIG_ROOT, PROJECT_ROOT
 
 
 load_dotenv(PROJECT_ROOT / "config.local.env", override=False)
@@ -145,7 +147,9 @@ def _profile_environment_value(value: Any) -> str:
 
     text = str(value)
     if text.startswith(".") or "/" in text:
-        return str(resolve_configured_path(text))
+        preserve_trailing_slash = text.endswith("/")
+        resolved = str(resolve_configured_path(text))
+        return resolved + "/" if preserve_trailing_slash else resolved
     return text
 
 
@@ -165,12 +169,13 @@ def profile_runtime_environment(name: str) -> dict[str, str]:
     ]
     values = {
         PROFILE_ENV: name,
+        SOFTWARE_ROOT_ENV: str(software_root()),
         "PATH": os.pathsep.join([*path_entries, os.environ.get("PATH", "")]),
         "LD_LIBRARY_PATH": os.pathsep.join(
             [*library_entries, os.environ.get("LD_LIBRARY_PATH", "")]
         ),
         "PYTHONPATH": os.pathsep.join(
-            [str(SOURCE_ROOT), str(PROJECT_ROOT), os.environ.get("PYTHONPATH", "")]
+            [str(PROJECT_ROOT), os.environ.get("PYTHONPATH", "")]
         ),
     }
     values.update(

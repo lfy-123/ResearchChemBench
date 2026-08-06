@@ -16,7 +16,7 @@ software:
     purpose: Run one explicitly specified BAGEL multireference electronic-structure calculation from a complete JSON input.
     commands:
       BAGEL:
-        configured_path: .software_cache/bagel/1.2.2/bin/BAGEL
+        configured_path: .software_cache/installations/bagel/1.2.2/bin/BAGEL
         synopsis: "BAGEL input.json"
         input_mode: arguments
         required_files: [input.json]
@@ -32,7 +32,7 @@ software:
     purpose: Run one explicitly selected VASPKIT structure or VASP-output processing task from Agent-staged files.
     commands:
       vaspkit:
-        configured_path: .software_cache/vaspkit/1.5.1/vaspkit.1.5.1/bin/vaspkit
+        configured_path: .software_cache/installations/vaspkit/1.5.1/vaspkit.1.5.1/bin/vaspkit
         synopsis: "vaspkit -task TASK -file POSCAR [explicit options]"
         input_mode: arguments
         required_files: [task-specific VASP input or output files]
@@ -48,7 +48,7 @@ software:
     purpose: Calculate an activation-strain profile from an explicit reaction path and explicit ORCA/fragment settings.
     commands:
       pyfrag-orca:
-        configured_path: .software_cache/pyfrag/2019/bin/pyfrag-orca
+        configured_path: .software_cache/installations/pyfrag/2019/bin/pyfrag-orca
         synopsis: "pyfrag-orca pyfrag.inp scratch"
         input_mode: arguments
         required_files: [pyfrag.inp, reaction_path.amv]
@@ -65,7 +65,7 @@ software:
     purpose: Discover sparse symbolic regression descriptors from Agent-authored SISSO inputs or evaluate an existing model with the matching official predictor.
     commands:
       SISSO:
-        configured_path: .software_cache/sisso/3.5/bin/SISSO_run
+        configured_path: .software_cache/installations/sisso/3.5/bin/SISSO_run
         synopsis: "SISSO > log"
         input_mode: fixed_files
         required_files: [SISSO.in, train.dat]
@@ -869,7 +869,7 @@ software:
           - The typed trajectory Action copies a complete trajectory directory and verifies that output.lis reaches the requested final time.
           - Production ensembles require independent random seeds and explicit failed-trajectory accounting.
       wfoverlap.x:
-        configured_path: .software_cache/sharc/source/bin/wfoverlap_ascii.x
+        configured_path: .software_cache/installations/sharc/source/bin/wfoverlap_ascii.x
         synopsis: "wfoverlap.x < overlap.inp"
         input_mode: stdin_file
         required_files: [overlap.inp and referenced wavefunction/orbital files]

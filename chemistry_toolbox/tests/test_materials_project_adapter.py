@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import httpx
 
-from researchchem_toolbox.backends import data as module
+from chemistry_toolbox.src.backends import data as module
 
 
 class FakeResponse:

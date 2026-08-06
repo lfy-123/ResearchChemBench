@@ -16,15 +16,15 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from researchchem_toolbox.distributed_pool import (
+from chemistry_toolbox.src.distributed_pool import (
     DistributedResourceLimitExceeded,
     DistributedResourceUnavailable,
     pool_snapshot,
     register_distributed_request,
     reserve_distributed_resources,
 )
-from researchchem_toolbox.paths import PROJECT_ROOT
-from researchchem_toolbox.sandbox_client import (
+from chemistry_toolbox.src.paths import PROJECT_ROOT
+from chemistry_toolbox.src.sandbox_client import (
     OpenSandboxClient,
     SandboxTransportError,
 )

@@ -12,15 +12,15 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from researchchem_toolbox.catalog import action_specs
-from researchchem_toolbox.distributed_pool import (
+from chemistry_toolbox.src.catalog import action_specs
+from chemistry_toolbox.src.distributed_pool import (
     DistributedResourceLimitExceeded,
     distributed_enabled,
     pool_snapshot,
     validate_distributed_resource_limits,
 )
-from researchchem_toolbox.paths import PROJECT_ROOT
-from researchchem_toolbox.resource_budget import (
+from chemistry_toolbox.src.paths import PROJECT_ROOT
+from chemistry_toolbox.src.resource_budget import (
     ResourceBudgetExceeded,
     normalize_resource_limits,
     resource_budget_record,

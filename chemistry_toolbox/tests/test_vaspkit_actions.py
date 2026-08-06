@@ -7,13 +7,14 @@ from pathlib import Path
 import pytest
 from ase.io import read
 
-from researchchem_toolbox.backends import periodic, structure
-from researchchem_toolbox.backends.common import structure_from_atoms
-from researchchem_toolbox.service import execute_action
+from chemistry_toolbox.src.backends import periodic, structure
+from chemistry_toolbox.src.backends.common import structure_from_atoms
+from chemistry_toolbox.src.service import execute_action
 
 
 ROOT = Path(__file__).resolve().parents[2]
-CACHE = ROOT / ".software_cache" / "vaspkit" / "1.5.1"
+CACHE = ROOT / ".software_cache" / "installations" / "vaspkit" / "1.5.1"
+STATE = ROOT / ".software_cache" / "state" / "vaspkit" / "1.5.1"
 
 
 def _execute(action_id: str, backend_id: str, request: dict) -> dict:
@@ -33,7 +34,7 @@ pytestmark = pytest.mark.skipif(
 
 def _configure(monkeypatch) -> None:
     monkeypatch.setenv("CHEMGRAPH_VASPKIT_COMMAND", str(PACKAGE / "bin" / "vaspkit"))
-    monkeypatch.setenv("CHEMGRAPH_VASPKIT_CONFIG", str(CACHE / "home" / ".vaspkit"))
+    monkeypatch.setenv("CHEMGRAPH_VASPKIT_CONFIG", str(STATE / "home" / ".vaspkit"))
 
 
 def _stage(tmp_path: Path) -> dict[str, Path]:

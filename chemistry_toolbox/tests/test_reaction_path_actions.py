@@ -4,8 +4,8 @@ import math
 
 import pytest
 
-from researchchem_toolbox.backends import reaction, structure
-from researchchem_toolbox.catalog import action_specs, validate_catalog
+from chemistry_toolbox.src.backends import reaction, structure
+from chemistry_toolbox.src.catalog import action_specs, validate_catalog
 
 
 H2_REACTANT = {

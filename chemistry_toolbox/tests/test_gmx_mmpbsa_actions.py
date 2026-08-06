@@ -4,14 +4,22 @@ import os
 import shutil
 from pathlib import Path
 
-from researchchem_toolbox.backends import dynamics
-from researchchem_toolbox.service import execute_action
+from chemistry_toolbox.src.backends import dynamics
+from chemistry_toolbox.src.service import execute_action
 
 
 ROOT = Path(__file__).resolve().parents[2]
-CACHE = ROOT / ".software_cache" / "gmx_mmpbsa" / "1.6.5"
-RUNTIME = CACHE / "env"
-EXAMPLES = CACHE / "smoke" / "gmx_MMPBSA_test" / "examples"
+RUNTIME = ROOT / ".envs" / "gmx-mmpbsa"
+EXAMPLES = (
+    ROOT
+    / ".software_cache"
+    / "validation"
+    / "gmx_mmpbsa"
+    / "1.6.5"
+    / "smoke"
+    / "gmx_MMPBSA_test"
+    / "examples"
+)
 
 
 def _execute(action_id: str, backend_id: str, request: dict) -> dict:

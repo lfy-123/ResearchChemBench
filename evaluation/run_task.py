@@ -55,13 +55,13 @@ from .model_io import export_model_io_trace
 from .results import write_workspace_results
 from .trace import load_tool_trace, process_metrics
 from .utils import load_task_info
-from researchchem_toolbox.catalog import (
+from chemistry_toolbox.src.catalog import (
     TOOL_DISCOVERY_MODE_ENV,
     catalog_snapshot,
     resolve_tool_discovery_mode,
     toolbox_overview,
 )
-from researchchem_toolbox.distributed_pool import pool_snapshot
+from chemistry_toolbox.src.distributed_pool import pool_snapshot
 
 
 TERMINAL_EXECUTION_JOB_STATES = {"success", "failed", "timeout", "cancelled"}

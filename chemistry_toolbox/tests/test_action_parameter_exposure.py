@@ -3,10 +3,10 @@ from __future__ import annotations
 import ast
 from pathlib import Path
 
-from researchchem_toolbox.backend_specs import BACKEND_SPECS
-from researchchem_toolbox.catalog import catalog_snapshot, validate_catalog
-from researchchem_toolbox.discovery import inspect_action, search_actions
-from researchchem_toolbox.specs import ACTION_SPECS
+from chemistry_toolbox.src.backend_specs import BACKEND_SPECS
+from chemistry_toolbox.src.catalog import catalog_snapshot, validate_catalog
+from chemistry_toolbox.src.discovery import inspect_action, search_actions
+from chemistry_toolbox.src.actions import ACTION_SPECS
 
 
 def _contract_fields(contract: dict, section: str) -> dict[str, dict]:
@@ -117,7 +117,7 @@ def test_backend_mapping_defaults_are_not_hidden_from_the_catalog():
                 if section in public:
                     public[section].add(field_name)
 
-    source_root = Path(__file__).parents[1] / "src" / "researchchem_toolbox" / "backends"
+    source_root = Path(__file__).parents[1] / "src" / "backends"
     missing: list[tuple[str, int, str, str]] = []
     mapping_sections = {
         "inputs": "inputs",

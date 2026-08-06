@@ -23,7 +23,7 @@ SOURCE_ROOT = TOOLBOX_ROOT / "src"
 for path in (SOURCE_ROOT, ROOT):
     if str(path) not in sys.path:
         sys.path.insert(0, str(path))
-from researchchem_toolbox.paths import portable_report_value  # noqa: E402
+from chemistry_toolbox.src.paths import portable_report_value  # noqa: E402
 CONFIG_PATH = TOOLBOX_ROOT / "config" / "mcp_profiles.yaml"
 LOCAL_CONFIG_PATH = ROOT / "config.local.env"
 JSON_REPORT = TOOLBOX_ROOT / "docs" / "MCP_PROFILE_STATUS.json"
@@ -115,7 +115,7 @@ def main() -> int:
         raise SystemExit(f"Unknown profiles: {unknown}")
     secrets = {key: str(value) for key, value in dotenv_values(LOCAL_CONFIG_PATH).items() if value is not None} if LOCAL_CONFIG_PATH.exists() else {}
     results = {name: run_profile(name, runtimes[name], args, secrets) for name in selected}
-    from researchchem_toolbox.catalog import action_specs
+    from chemistry_toolbox.src.catalog import action_specs
 
     payload = portable_report_value({
         "generated_at": datetime.now(timezone.utc).isoformat(),

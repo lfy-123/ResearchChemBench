@@ -26,7 +26,7 @@ export RCB_PIP_TRUSTED_HOST=pypi.org
 
 bash chemistry_toolbox/scripts/setup_toolbox_env.sh \
   --from-lock --skip-verify
-bash chemistry_toolbox/scripts/build_merged_environments.sh \
+bash chemistry_toolbox/scripts/build_environments.sh \
   --from-lock all
 ```
 

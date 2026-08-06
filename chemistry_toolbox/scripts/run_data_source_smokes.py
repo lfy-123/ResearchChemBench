@@ -21,11 +21,11 @@ for path in (SOURCE_ROOT, ROOT):
     if str(path) not in sys.path:
         sys.path.insert(0, str(path))
 
-from researchchem_toolbox.service import execute_action
-from researchchem_toolbox.paths import portable_report_value
+from chemistry_toolbox.src.service import execute_action
+from chemistry_toolbox.src.paths import portable_report_value
 
 
-STATUS_PATH = TOOLBOX_ROOT / "config" / "data_source_smoke_status.json"
+STATUS_PATH = TOOLBOX_ROOT / "evidence" / "status" / "data_source_smoke_status.json"
 
 
 def main() -> int:

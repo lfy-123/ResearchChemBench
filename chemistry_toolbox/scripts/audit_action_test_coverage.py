@@ -25,30 +25,30 @@ for path in (SOURCE_ROOT, ROOT):
     if str(path) not in sys.path:
         sys.path.insert(0, str(path))
 
-from researchchem_toolbox.catalog import action_specs, backend_specs
-from researchchem_toolbox.service import execute_action
+from chemistry_toolbox.src.catalog import action_specs, backend_specs
+from chemistry_toolbox.src.service import execute_action
 
 
-DEFAULT_OUTPUT = TOOLBOX_ROOT / "config" / "action_test_coverage.json"
+DEFAULT_OUTPUT = TOOLBOX_ROOT / "evidence" / "status" / "action_test_coverage.json"
 EXTERNAL_REPORTS = (
     (
-        TOOLBOX_ROOT / "config" / "electron_density_action_smoke_status.json",
+        TOOLBOX_ROOT / "evidence" / "status" / "electron_density_action_smoke_status.json",
         "electron_density_action_smoke",
     ),
     (
-        TOOLBOX_ROOT / "config" / "heterobiaryl_reaction_action_smoke_status.json",
+        TOOLBOX_ROOT / "evidence" / "status" / "heterobiaryl_reaction_action_smoke_status.json",
         "heterobiaryl_reaction_action_smoke",
     ),
-    (TOOLBOX_ROOT / "config" / "goodvibes_action_smoke_status.json", "goodvibes_action_smoke"),
-    (TOOLBOX_ROOT / "config" / "action_backend_matrix_smoke_status.json", "action_backend_matrix_smoke"),
-    (TOOLBOX_ROOT / "config" / "action_gap_smoke_status.json", "action_gap_smoke"),
+    (TOOLBOX_ROOT / "evidence" / "status" / "goodvibes_action_smoke_status.json", "goodvibes_action_smoke"),
+    (TOOLBOX_ROOT / "evidence" / "status" / "action_backend_matrix_smoke_status.json", "action_backend_matrix_smoke"),
+    (TOOLBOX_ROOT / "evidence" / "status" / "action_gap_smoke_status.json", "action_gap_smoke"),
     (
-        TOOLBOX_ROOT / "config" / "software_expansion_action_smoke_status.json",
+        TOOLBOX_ROOT / "evidence" / "status" / "software_expansion_action_smoke_status.json",
         "software_expansion_action_smoke",
     ),
-    (TOOLBOX_ROOT / "config" / "backend_gap_smoke_status.json", "backend_gap_smoke"),
-    (TOOLBOX_ROOT / "config" / "scientific_resource_smoke_status.json", "scientific_resource_smoke"),
-    (TOOLBOX_ROOT / "config" / "data_source_smoke_status.json", "data_source_smoke"),
+    (TOOLBOX_ROOT / "evidence" / "status" / "backend_gap_smoke_status.json", "backend_gap_smoke"),
+    (TOOLBOX_ROOT / "evidence" / "status" / "scientific_resource_smoke_status.json", "scientific_resource_smoke"),
+    (TOOLBOX_ROOT / "evidence" / "status" / "data_source_smoke_status.json", "data_source_smoke"),
     (TOOLBOX_ROOT / "docs" / "TOOLBOX_STATUS.json", "toolbox_smoke"),
 )
 

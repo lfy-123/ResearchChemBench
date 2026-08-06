@@ -442,7 +442,9 @@ pytest -q
 ```bash
 python chemistry_toolbox/scripts/check_mcp_tools.py --smoke
 python chemistry_toolbox/scripts/verify_toolbox.py
-bash chemistry_toolbox/mcp/test_tools/run_tests.sh --live-network --status-report
+bash chemistry_toolbox/scripts/run_toolbox_tests.sh
+python chemistry_toolbox/scripts/run_data_source_smokes.py
+python chemistry_toolbox/scripts/verify_toolbox.py --smoke
 ```
 
 建议每个新增工具至少覆盖：

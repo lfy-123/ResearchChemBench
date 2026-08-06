@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pytest
 
-from researchchem_toolbox.backends import licensed_md, quantum_legacy
+from chemistry_toolbox.src.backends import licensed_md, quantum_legacy
 
 
 WATER = {

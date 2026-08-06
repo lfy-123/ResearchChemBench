@@ -3,7 +3,7 @@ from __future__ import annotations
 import httpx
 import pytest
 
-from researchchem_toolbox.backends import data
+from chemistry_toolbox.src.backends import data
 
 
 class _FakeResponse:

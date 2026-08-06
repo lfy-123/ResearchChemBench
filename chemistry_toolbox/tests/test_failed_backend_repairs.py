@@ -7,7 +7,7 @@ import httpx
 import numpy as np
 import pytest
 
-from researchchem_toolbox.backends import data, dynamics, electronic, periodic
+from chemistry_toolbox.src.backends import data, dynamics, electronic, periodic
 
 
 class _PsiVector:

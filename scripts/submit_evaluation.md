@@ -585,7 +585,7 @@ set +a
 RESEARCHCHEMBENCH_EXECUTION_MODE=distributed \
   .envs/researchchembench/bin/python - <<'PY'
 from pprint import pprint
-from researchchem_toolbox.distributed_pool import pool_snapshot
+from chemistry_toolbox.src.distributed_pool import pool_snapshot
 
 pprint(pool_snapshot(include_internal=True))
 PY

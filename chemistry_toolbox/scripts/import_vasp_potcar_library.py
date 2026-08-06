@@ -12,13 +12,24 @@ import argparse
 import hashlib
 import json
 import re
+import sys
 from pathlib import Path
 from typing import Any
 
 
 TOOLBOX_ROOT = Path(__file__).resolve().parents[1]
 ROOT = TOOLBOX_ROOT.parent
-DEFAULT_LIBRARY_ROOT = ROOT / ".software_cache" / "vasp" / "potcars" / "potpaw54"
+SOURCE_ROOT = TOOLBOX_ROOT / "src"
+for path in (SOURCE_ROOT, ROOT):
+    if str(path) not in sys.path:
+        sys.path.insert(0, str(path))
+
+from chemistry_toolbox.src.environment_layout import resolve_configured_path
+
+
+DEFAULT_LIBRARY_ROOT = resolve_configured_path(
+    ".software_cache/shared/scientific-data/vasp-potcars/potpaw54"
+)
 DEFAULT_OUTPUT_DIRECTORY = TOOLBOX_ROOT / "config" / "vasp_potcar_manifests"
 ELEMENT_PREFIX = re.compile(r"^([A-Z][a-z]?)")
 

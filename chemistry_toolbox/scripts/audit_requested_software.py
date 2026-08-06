@@ -29,16 +29,18 @@ for source_path in (SOURCE_ROOT, ROOT):
     if str(source_path) not in sys.path:
         sys.path.insert(0, str(source_path))
 
-from researchchem_toolbox.environment_layout import (  # noqa: E402
+from chemistry_toolbox.src.environment_layout import (  # noqa: E402
+    SOFTWARE_ROOT_ENV,
     resolve_configured_path,
     resolve_runtime_path,
+    software_root,
 )
-from researchchem_toolbox.paths import portable_report_value  # noqa: E402
+from chemistry_toolbox.src.paths import portable_report_value  # noqa: E402
 
 INVENTORY = TOOLBOX_ROOT / "config" / "requested_software.yaml"
 AUX_CONFIG = TOOLBOX_ROOT / "config" / "auxiliary_environments.yaml"
 MCP_CONFIG = TOOLBOX_ROOT / "config" / "mcp_profiles.yaml"
-JSON_OUTPUT = TOOLBOX_ROOT / "config" / "requested_software_status.json"
+JSON_OUTPUT = TOOLBOX_ROOT / "evidence" / "status" / "requested_software_status.json"
 MARKDOWN_OUTPUT = TOOLBOX_ROOT / "docs" / "CHEMISTRY_TOOLBOX_REQUESTED_SOFTWARE_STATUS.md"
 
 
@@ -86,6 +88,7 @@ def runtime_environment(specification: dict[str, Any]) -> dict[str, str]:
     path_entries = [item for item in path_entries if item is not None]
     library_entries = [item for item in library_entries if item is not None]
     environment = {
+        SOFTWARE_ROOT_ENV: str(software_root()),
         "PATH": os.pathsep.join([*(str(item) for item in path_entries), os.environ.get("PATH", "")]),
         "LD_LIBRARY_PATH": os.pathsep.join(
             [*(str(item) for item in library_entries), os.environ.get("LD_LIBRARY_PATH", "")]

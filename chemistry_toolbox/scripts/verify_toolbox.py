@@ -29,7 +29,7 @@ from chemistry_toolbox.mcp.software_catalog import (
 )
 from chemistry_toolbox.mcp.execution_models import AnalysisRuntimeListRequest
 from chemistry_toolbox.mcp.tool_manager import installation_report
-from researchchem_toolbox.backends import (
+from chemistry_toolbox.src.backends import (
     cheminformatics,
     data,
     docking,
@@ -40,11 +40,11 @@ from researchchem_toolbox.backends import (
     reaction,
     structure,
 )
-from researchchem_toolbox.catalog import action_specs, backend_specs, catalog_snapshot, validate_catalog
-from researchchem_toolbox.discovery import _action_search_documents, _action_search_fields
-from researchchem_toolbox.semantic_embeddings import semantic_scores
-from researchchem_toolbox.service import execute_action
-from researchchem_toolbox.paths import portable_report_value
+from chemistry_toolbox.src.catalog import action_specs, backend_specs, catalog_snapshot, validate_catalog
+from chemistry_toolbox.src.discovery import _action_search_documents, _action_search_fields
+from chemistry_toolbox.src.semantic_embeddings import semantic_scores
+from chemistry_toolbox.src.service import execute_action
+from chemistry_toolbox.src.paths import portable_report_value
 
 
 JSON_PATH = TOOLBOX_ROOT / "docs" / "TOOLBOX_STATUS.json"

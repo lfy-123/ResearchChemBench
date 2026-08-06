@@ -2,11 +2,11 @@ from __future__ import annotations
 
 import pytest
 
-from researchchem_toolbox import service
-from researchchem_toolbox.backends import electronic
-from researchchem_toolbox.catalog import action_specs, backend_specs, validate_catalog
-from researchchem_toolbox.discovery import inspect_action
-from researchchem_toolbox.service import execute_action
+from chemistry_toolbox.src import service
+from chemistry_toolbox.src.backends import electronic
+from chemistry_toolbox.src.catalog import action_specs, backend_specs, validate_catalog
+from chemistry_toolbox.src.discovery import inspect_action
+from chemistry_toolbox.src.service import execute_action
 
 
 WATER = {

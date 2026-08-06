@@ -1,10 +1,10 @@
 # Chemistry Toolbox Adjustment Log
 
-更新时间：2026-08-05
+更新时间：2026-08-06
 
 ## 结论
 
-- 请求软件清单现有 48 项：47 项 `configured`，1 项 `specification`（QCSchema，不是独立软件），没有 `partial`、`manual review` 或 `not found`。
+- 请求软件清单现有 58 项：57 项 `configured`，1 项 `specification`（QCSchema，不是独立软件），没有 `partial`、`manual review` 或 `not found`。
 - 本轮指定排查的软件均已达到可命令调用状态；AiiDA daemon 是唯一有意未启用的可选组件，不影响本地同步工作流。
 - NIST CCCBDB 不纳入工具箱，不开发网页爬取接口。它不是论文复现任务的必要执行软件，且无稳定公开 API；现有 NIST WebBook 已承担受控的单分子参考数据查询。
 - 本文件对应“化学工具箱清理简化版”Git 快照；准确提交号以仓库历史为准。
@@ -12,7 +12,7 @@
 ## 版本范围
 
 - Git 快照包含软件清单清理、runtime/profile 配置、环境 YAML、lock/freeze、审计脚本、原生软件手册、smoke 输入和回归测试。
-- `.software_cache`、`.envs` 和 `.tool_envs` 不进入 Git；软件二进制、许可证文件、伪势、实算输出及本机环境必须按“迁移清单”另行处理。
+- `.software_cache` 和 `.model_cache` 只向 Git 提交 README、布局配置、校验元数据和目录占位；软件/模型二进制、许可证文件、伪势、实算输出及 `.envs` 本机环境仍不进入 Git。
 - `reaction-kinetics/environment.yml` 固定 `censo==2.1.2`、`CoolProp==8.0.0` 和 `numdifftools==0.9.42`；`general-modern-openmpi5/environment.yml` 固定 SHARC 所需的 `numba==0.66.0`、`llvmlite==0.48.0`、`netCDF4==1.7.4`、`cftime==1.6.5` 和 `threadpoolctl==3.6.0`。
 
 ## 已完成调整
@@ -98,3 +98,14 @@
 - toolbox verify：catalog、runtime profiles、native guides、semantic retrieval、handler coverage、legacy-tool removal 全部 pass。
 - 相关 pytest：39 passed（包含环境 YAML/requirements 依赖一致性回归）；native manual 生成一致性检查通过；`git diff --check` 通过。
 - 全测试目录可收集 423 项；没有把会进入长等待的全量执行计入上述通过数字。
+
+## 2026-08-06 目录整理与可迁移发布
+
+- 核心 Python 包从 `chemistry_toolbox/src/researchchem_toolbox/` 扁平化到 `chemistry_toolbox/src/`，正式导入统一为 `chemistry_toolbox.src`；MCP 对外服务名 `researchchem_toolbox` 保持不变。
+- 根 `pyproject.toml` 成为唯一打包配置，并提供 benchmark、MCP server、MCP installer、tool manager 和 software manager 入口；删除重复子项目打包文件和无调用方的 MCP adapter/registry/models/tools 兼容层。
+- 环境定义改成 `chemistry_toolbox/environment/<environment>/` 自包含 `environment.yml`、`requirements.txt` 和 Linux 锁；框架环境位于 `environment/researchchembench/`，runtime 映射位于 `environment/environments.yaml`。
+- 生成状态从 `config/` 移到 `evidence/status/`，旧 native smoke 基线移到 `evidence/archive/`；`config/` 只保留人工维护的运行配置。
+- Git 缓存骨架包含两份缓存 README、`.software_cache/.layout.json`、模型来源/校验文本和固定目录 `.gitkeep`，大文件仍由忽略规则排除。
+- pmx 源码快照从错误的 `installations/` 移到 `sources/pmx/develop-0dd5f0a`；可执行 pmx 继续由 `.envs/molecular-simulation-openff` 提供。software manager 状态为 37/37 installed。
+- 验证：工具箱全量执行 494 passed、1 skipped，并定位修复 1 个旧目录深度导致的模型缓存路径失败；修复后的路径/语义/MACE 相关回归 46 passed。根 benchmark 97 passed，pmx/清单/缓存管理/profile 回归 48 passed，错误级 Ruff、Shell 语法、Git whitespace、14 个环境锁哈希、wheel 仓库外导入和命令入口均通过。
+- 当前缓存重建和迁移应以根 README、`.software_cache/README.md`、`.model_cache/README.md` 及本节新路径为准；本文件前部保留的旧 `.software_cache/<software>` 路径仅记录历史修补过程。

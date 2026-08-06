@@ -32,8 +32,8 @@ from chemistry_toolbox.mcp.open_execution import (
     get_execution_job,
     submit_native_job,
 )
-from researchchem_toolbox.models import ResourceLimits
-from researchchem_toolbox.paths import portable_report_text, portable_report_value
+from chemistry_toolbox.src.models import ResourceLimits
+from chemistry_toolbox.src.paths import portable_report_text, portable_report_value
 
 
 EXAMPLES = TOOLBOX_ROOT / "examples" / "native"

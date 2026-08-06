@@ -351,7 +351,7 @@ COMMAND="$PROBE_COMMAND" "$RCB_FRAMEWORK_PYTHON" -c \
 ### 7.2 调用项目环境
 
 ```bash
-PROJECT_COMMAND="cd $RCB_PROJECT_ROOT && PYTHONDONTWRITEBYTECODE=1 .envs/researchchembench/bin/python -c 'import researchchem_toolbox; print(researchchem_toolbox.__file__)'"
+PROJECT_COMMAND="cd $RCB_PROJECT_ROOT && PYTHONDONTWRITEBYTECODE=1 .envs/researchchembench/bin/python -c 'import chemistry_toolbox.src; print(chemistry_toolbox.src.__file__)'"
 
 COMMAND="$PROJECT_COMMAND" "$RCB_FRAMEWORK_PYTHON" -c \
   'import json,os; print(json.dumps({"command":os.environ["COMMAND"]}))' \
@@ -401,7 +401,7 @@ sandbox-rpc-ok
 项目现在已经提供正式 worker RPC：
 
 ```text
-researchchem_toolbox.sandbox_worker_rpc
+chemistry_toolbox.src.sandbox_worker_rpc
 ```
 
 inventory 更新脚本和运行时会通过 `44772` 自动启动它，并通过 `44773` 完成健康检查、Action 输入/产物传输、持久作业提交、状态轮询、取消和最终目录回传。通常不需要手工启动。

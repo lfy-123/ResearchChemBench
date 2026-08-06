@@ -21,7 +21,7 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 ## Known failures and repairs
 | Symptom | Likely cause | Corrective action |
 |---|---|---|
-| shared library cannot be opened | the migrated host lacks the locally bundled GUI runtime libraries | copy .software_cache/vesta/deps and preserve the configured library path |
+| shared library cannot be opened | the migrated host lacks the locally bundled GUI runtime libraries | copy .software_cache/installations/vesta/deps and preserve the configured library path |
 | cannot open display | no X server is available | run in a graphical environment or use a non-GUI alternative |
 
 ## Path and staging failures

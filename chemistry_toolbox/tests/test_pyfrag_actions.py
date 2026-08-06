@@ -5,15 +5,17 @@ from pathlib import Path
 
 import pytest
 
-from researchchem_toolbox.backends import reaction
-from researchchem_toolbox.service import execute_action
+from chemistry_toolbox.src.backends import reaction
+from chemistry_toolbox.src.service import execute_action
 
 
 ROOT = Path(__file__).resolve().parents[2]
-CACHE = ROOT / ".software_cache" / "pyfrag" / "2019"
-ORCA = ROOT / ".software_cache" / "orca" / "6.1.1"
-OPENMPI = ROOT / ".software_cache" / "openmpi" / "4.1.8-fortran"
-EXAMPLE_PATH = CACHE / "source" / "host" / "standalone" / "orca" / "example" / "irc.amv"
+CACHE = ROOT / ".software_cache" / "installations" / "pyfrag" / "2019"
+SOURCE = ROOT / ".software_cache" / "sources" / "pyfrag" / "2019" / "source"
+VALIDATION = ROOT / ".software_cache" / "validation" / "pyfrag" / "2019" / "smoke"
+ORCA = ROOT / ".software_cache" / "installations" / "orca" / "6.1.1"
+OPENMPI = ROOT / ".software_cache" / "shared" / "mpi" / "openmpi" / "4.1.8-fortran"
+EXAMPLE_PATH = SOURCE / "host" / "standalone" / "orca" / "example" / "irc.amv"
 
 
 def _execute(action_id: str, backend_id: str, request: dict) -> dict:
@@ -91,7 +93,7 @@ def test_pyfrag_summary_and_validation_parse_existing_native_table(tmp_path, mon
     monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
     profile = tmp_path / "fragment_energies.txt"
     profile.write_bytes(
-        (CACHE / "smoke" / "orca-final" / "fragment_energies.txt").read_bytes()
+        (VALIDATION / "orca-final" / "fragment_energies.txt").read_bytes()
     )
 
     summary = _execute(

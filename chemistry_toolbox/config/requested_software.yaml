@@ -103,11 +103,11 @@ requested_software:
     environment: workflows
     modules: [aiida]
     commands: [verdi]
-    cache_paths: [.software_cache/aiida]
+    cache_paths: [.software_cache/state/aiida]
     license: MIT
     public_adapter: runtime_only
     role: Provenance-aware workflow engine and data store.
-    notes: Profile researchchembench is initialized with SQLite under .software_cache/aiida and supports synchronous local run() with provenance. RabbitMQ is only required for daemon-backed submit/play/pause/kill and is intentionally not added to this bounded local benchmark runtime.
+    notes: Profile researchchembench is initialized with SQLite under .software_cache/state/aiida and supports synchronous local run() with provenance. RabbitMQ is only required for daemon-backed submit/play/pause/kill and is intentionally not added to this bounded local benchmark runtime.
     official_url: https://aiida.readthedocs.io/
 
   - name: atomate2
@@ -143,7 +143,7 @@ requested_software:
     environment: censo
     modules: []
     commands: [censo]
-    cache_paths: [.software_cache/censo/home/.censo2rc, .software_cache/censo/smoke_prescreen3]
+    cache_paths: [.software_cache/state/censo/home/.censo2rc, .software_cache/validation/censo/smoke_prescreen3]
     license: GPL-3.0
     public_adapter: runtime_only
     role: Conformer ensemble sorting and thermochemical analysis executable.
@@ -157,7 +157,7 @@ requested_software:
     environment: quantum
     modules: []
     commands: [orca]
-    cache_paths: [.software_cache/orca/6.1.1, .software_cache/openmpi/4.1.8-fortran, .software_cache/orca/download/orca_6_1_1_linux_x86-64_shared_openmpi418_nodmrg.tar.xz]
+    cache_paths: [.software_cache/installations/orca/6.1.1, .software_cache/shared/mpi/openmpi/4.1.8-fortran, .software_cache/packages/orca/download/orca_6_1_1_linux_x86-64_shared_openmpi418_nodmrg.tar.xz]
     license: free_academic_registration
     public_adapter: existing
     role: Molecular quantum chemistry executable.
@@ -171,7 +171,7 @@ requested_software:
     environment: nwchem
     modules: [qcelemental, qcengine, cclib]
     commands: [nwchem, qcengine]
-    cache_paths: [.software_cache/nwchem/source/src/basis/libraries]
+    cache_paths: [.software_cache/sources/nwchem/source/src/basis/libraries]
     license: ECL-2.0
     public_adapter: existing
     role: Open-source molecular quantum chemistry executable.
@@ -185,7 +185,7 @@ requested_software:
     environment: gamess
     modules: []
     commands: [rungms]
-    cache_paths: [.software_cache/gamess/2024-r2-p1]
+    cache_paths: [.software_cache/installations/gamess/2024-r2-p1]
     license: registration
     public_adapter: existing
     role: Molecular quantum chemistry executable.
@@ -199,7 +199,7 @@ requested_software:
     environment: gaussian
     modules: [cclib]
     commands: [g16, formchk]
-    cache_paths: [.software_cache/gaussian/g16]
+    cache_paths: [.software_cache/installations/gaussian/g16]
     license: commercial
     public_adapter: existing
     role: Molecular quantum chemistry executable.
@@ -252,7 +252,7 @@ requested_software:
     environment: multiwfn
     modules: []
     commands: [Multiwfn_noGUI]
-    cache_paths: [.software_cache/multiwfn/2026.7.15]
+    cache_paths: [.software_cache/installations/multiwfn/2026.7.15]
     license: custom_open_source_citation_required
     public_adapter: existing
     role: Wavefunction analysis and visualization executable.
@@ -266,7 +266,7 @@ requested_software:
     environment: critic2
     modules: []
     commands: [critic2]
-    cache_paths: [.software_cache/critic2/install-conda]
+    cache_paths: [.software_cache/installations/critic2/install-conda]
     license: GPL-3.0
     public_adapter: existing
     role: Topological analysis of crystal electron densities and wavefunctions.
@@ -280,7 +280,7 @@ requested_software:
     environment: gpaw
     modules: [gpaw]
     commands: [gpaw]
-    cache_paths: [.software_cache/gpaw/setups]
+    cache_paths: [.software_cache/shared/scientific-data/gpaw-setups]
     license: GPL-3.0
     public_adapter: existing
     role: ASE-integrated plane-wave/real-space DFT.
@@ -294,7 +294,7 @@ requested_software:
     environment: airss
     modules: []
     commands: [buildcell, cabal, airss_version]
-    cache_paths: [.software_cache/airss/0.9.3]
+    cache_paths: [.software_cache/installations/airss/0.9.3]
     license: GPL-2.0-only
     public_adapter: existing
     role: Random crystal-structure generation and explicit crystal-format conversion.
@@ -308,7 +308,7 @@ requested_software:
     environment: acpype
     modules: [acpype, openbabel]
     commands: [acpype, obabel, antechamber]
-    cache_paths: [.software_cache/acpype/2023.10.27]
+    cache_paths: [.software_cache/installations/acpype/2023.10.27]
     license: GPL-3.0-or-later
     public_adapter: existing
     role: Explicit GAFF-family small-molecule topology generation and AMBER-to-GROMACS topology conversion.
@@ -322,7 +322,7 @@ requested_software:
     environment: pmx
     modules: [pmx, rdkit]
     commands: [pmx]
-    cache_paths: [.software_cache/pmx/develop-0dd5f0a, .software_cache/pmx/packages]
+    cache_paths: [.software_cache/sources/pmx/develop-0dd5f0a, .software_cache/packages/pmx/packages]
     license: LGPL-3.0-only
     public_adapter: existing
     role: Explicit biomolecular hybrid-residue mutation, alchemical B-state topology generation, and ligand atom mapping.
@@ -336,7 +336,7 @@ requested_software:
     environment: gmx_mmpbsa
     modules: [GMXMMPBSA, parmed, mpi4py]
     commands: [gmx_MMPBSA, gmx, cpptraj, sander]
-    cache_paths: [.software_cache/gmx_mmpbsa/1.6.5]
+    cache_paths: [.software_cache/packages/gmx_mmpbsa/1.6.5, .software_cache/validation/gmx_mmpbsa/1.6.5]
     license: GPL-3.0
     public_adapter: existing
     role: Explicit MM/GBSA or MM/PBSA end-state binding-energy calculation, residue decomposition, and bounded result parsing.
@@ -350,7 +350,7 @@ requested_software:
     environment: sisso
     modules: []
     commands: [SISSO_run, SISSO_predict, bc]
-    cache_paths: [.software_cache/sisso/3.5]
+    cache_paths: [.software_cache/installations/sisso/3.5]
     license: Apache-2.0
     public_adapter: existing
     role: Explicit sparse symbolic-regression descriptor discovery, held-out evaluation, and bounded model parsing.
@@ -364,7 +364,7 @@ requested_software:
     environment: gplearn
     modules: [gplearn, sklearn, numpy, joblib]
     commands: []
-    cache_paths: [.software_cache/gplearn/0.4.3]
+    cache_paths: [.software_cache/installations/gplearn/0.4.3]
     license: BSD-3-Clause
     public_adapter: existing
     role: Genetic-programming symbolic-regression baseline, explicit held-out evaluation, and cross-seed equation stability analysis.
@@ -378,7 +378,7 @@ requested_software:
     environment: vaspkit
     modules: []
     commands: [vaspkit]
-    cache_paths: [.software_cache/vaspkit/1.5.1]
+    cache_paths: [.software_cache/installations/vaspkit/1.5.1]
     license: academic-scientific-educational-noncommercial-no-redistribution
     public_adapter: existing
     role: Explicit VASP K-point mesh generation, crystal-symmetry analysis, and band-gap extraction from matching existing VASP outputs.
@@ -392,7 +392,7 @@ requested_software:
     environment: pyfrag
     modules: []
     commands: [pyfrag-orca, orca]
-    cache_paths: [.software_cache/pyfrag/2019, .software_cache/orca/6.1.1]
+    cache_paths: [.software_cache/installations/pyfrag/2019, .software_cache/installations/orca/6.1.1]
     license: LGPL-3.0
     public_adapter: existing
     role: ORCA activation-strain analysis along explicit molecular reaction paths, plus bounded profile summarization and validation.
@@ -406,7 +406,7 @@ requested_software:
     environment: bagel
     modules: []
     commands: [BAGEL, bagel-mpirun]
-    cache_paths: [.software_cache/bagel/1.2.2]
+    cache_paths: [.software_cache/installations/bagel/1.2.2]
     license: GPL-3.0-or-later
     public_adapter: existing
     role: Explicit SA-CASSCF and XMS-CASPT2 state energies, analytical nuclear gradients, and nonadiabatic coupling vectors.
@@ -420,7 +420,7 @@ requested_software:
     environment: tdep
     modules: []
     commands: [extract_forceconstants, canonical_configuration, phonon_dispersion_relations]
-    cache_paths: [.software_cache/tdep/25.03/source]
+    cache_paths: [.software_cache/installations/tdep/25.03/source]
     license: MIT
     public_adapter: existing
     role: Temperature-dependent effective force constants, thermal configurations, and phonon properties.
@@ -434,7 +434,7 @@ requested_software:
     environment: vasp
     modules: []
     commands: [vasp_std]
-    cache_paths: [.software_cache/vasp/6.3.2/bin/vasp_std, .software_cache/vasp/6.3.2/testsuite/POTCARS/POTCAR.Si, .software_cache/vasp/download/vasp.6.3.2.zip, .software_cache/vasp/potcars/download/potpaw54.zip, .software_cache/vasp/potcars/potpaw54]
+    cache_paths: [.software_cache/installations/vasp/6.3.2/bin/vasp_std, .software_cache/installations/vasp/6.3.2/testsuite/POTCARS/POTCAR.Si, .software_cache/packages/vasp/download/vasp.6.3.2.zip, .software_cache/packages/vasp/potcars/download/potpaw54.zip, .software_cache/shared/scientific-data/vasp-potcars/potpaw54]
     license: commercial_registration
     public_adapter: existing
     role: Plane-wave periodic DFT executable.
@@ -448,7 +448,7 @@ requested_software:
     environment: shengbte
     modules: []
     commands: [ShengBTE]
-    cache_paths: [.software_cache/shengbte/source]
+    cache_paths: [.software_cache/installations/shengbte/source]
     license: GPL-3.0
     public_adapter: existing
     role: Phonon Boltzmann transport solver.
@@ -462,7 +462,7 @@ requested_software:
     environment: qe
     modules: []
     commands: [wannier90.x]
-    cache_paths: [.software_cache/wannier90/3.1.0-source, .software_cache/wannier90/smoke/qe_si_sourcebuild]
+    cache_paths: [.software_cache/installations/wannier90/3.1.0-source, .software_cache/validation/wannier90/smoke/qe_si_sourcebuild]
     license: GPL-2.0
     public_adapter: runtime_only
     role: Maximally localized Wannier-function generation.
@@ -476,7 +476,7 @@ requested_software:
     environment: yambo
     modules: []
     commands: [yambo, p2y]
-    cache_paths: [.software_cache/yambo/smoke/qe_si_8band, .software_cache/yambo/smoke/qe_si_gw_bse, .software_cache/resources/qe_pseudos/yambo/Si.pbe-rrkj.UPF]
+    cache_paths: [.software_cache/validation/yambo/smoke/qe_si_8band, .software_cache/validation/yambo/smoke/qe_si_gw_bse, .software_cache/shared/scientific-data/qe_pseudos/yambo/Si.pbe-rrkj.UPF]
     license: GPL-3.0
     public_adapter: existing
     role: GW/BSE and excited-state properties for periodic systems.
@@ -490,7 +490,7 @@ requested_software:
     environment: lobster
     modules: [pymatgen]
     commands: [lobster-5.1.0]
-    cache_paths: [.software_cache/lobster/5.1.0]
+    cache_paths: [.software_cache/installations/lobster/5.1.0]
     license: commercial_registration
     public_adapter: existing
     role: Chemical-bonding analysis of periodic electronic-structure results.
@@ -504,7 +504,7 @@ requested_software:
     environment: namd
     modules: []
     commands: [namd3]
-    cache_paths: [.software_cache/namd/3.0.2]
+    cache_paths: [.software_cache/installations/namd/3.0.2]
     license: free_academic_registration
     public_adapter: existing
     role: Parallel molecular-dynamics engine.
@@ -518,7 +518,7 @@ requested_software:
     environment: amber
     modules: []
     commands: [pmemd, pmemd.MPI]
-    cache_paths: [.software_cache/amber/26]
+    cache_paths: [.software_cache/installations/amber/26]
     license: academic_registration
     public_adapter: existing
     role: Molecular mechanics and molecular-dynamics suite.
@@ -532,7 +532,7 @@ requested_software:
     environment: charmm
     modules: []
     commands: [charmm]
-    cache_paths: [.software_cache/charmm/50b2]
+    cache_paths: [.software_cache/installations/charmm/50b2]
     license: academic_registration
     public_adapter: existing
     role: Molecular simulation and force-field suite.
@@ -585,7 +585,7 @@ requested_software:
     environment: rmg
     modules: [rmgpy]
     commands: [rmg.py]
-    cache_paths: [.software_cache/rmg/database/4.0.0/input, .software_cache/rmg/source/4.0.0]
+    cache_paths: [.software_cache/installations/rmg/database/4.0.0/input, .software_cache/installations/rmg/source/4.0.0]
     license: MIT
     public_adapter: existing
     role: Reaction mechanism generation and thermochemistry.
@@ -599,7 +599,7 @@ requested_software:
     environment: rmg
     modules: [arkane]
     commands: [Arkane.py]
-    cache_paths: [.software_cache/rmg/database/4.0.0/input]
+    cache_paths: [.software_cache/installations/rmg/database/4.0.0/input]
     license: MIT
     public_adapter: runtime_only
     role: Thermochemistry and kinetics from quantum-chemistry results.
@@ -613,7 +613,7 @@ requested_software:
     environment: mess
     modules: []
     commands: [mess]
-    cache_paths: [.software_cache/mess/2020.1.24]
+    cache_paths: [.software_cache/installations/mess/2020.1.24]
     license: LGPL-2.0-or-later
     public_adapter: existing
     role: Master-equation solver for unimolecular/reaction kinetics.
@@ -627,7 +627,7 @@ requested_software:
     environment: mesmer
     modules: []
     commands: [mesmer]
-    cache_paths: [.software_cache/mesmer/7.1]
+    cache_paths: [.software_cache/installations/mesmer/7.1]
     license: GPL-2.0
     public_adapter: existing
     role: Master-equation and energy-transfer kinetics solver.
@@ -641,7 +641,7 @@ requested_software:
     environment: automekin
     modules: [numpy, scipy, ase, networkx]
     commands: [amk.sh, mopac, bbfs.exe]
-    cache_paths: [.software_cache/automekin/source, .software_cache/automekin/install]
+    cache_paths: [.software_cache/sources/automekin/source, .software_cache/installations/automekin/install]
     license: MIT
     public_adapter: runtime_only
     role: Automated reaction-mechanism exploration.
@@ -655,7 +655,7 @@ requested_software:
     environment: kinbot
     modules: [kinbot, sella, jax, openbabel]
     commands: [kinbot, pes]
-    cache_paths: [.software_cache/kinbot/source-2.2.2, .software_cache/kinbot/smoke/action_nonempty_pes_validated3]
+    cache_paths: [.software_cache/installations/kinbot/source-2.2.2, .software_cache/validation/kinbot/smoke/action_nonempty_pes_validated3]
     license: MIT
     public_adapter: existing
     role: Automated reaction-pathway and PES exploration.
@@ -669,7 +669,7 @@ requested_software:
     environment: openmolcas
     modules: []
     commands: [pymolcas]
-    cache_paths: [.software_cache/openmolcas/25.10]
+    cache_paths: [.software_cache/installations/openmolcas/25.10]
     license: LGPL-2.1
     public_adapter: existing
     role: Multireference quantum chemistry and spectroscopy.
@@ -683,7 +683,7 @@ requested_software:
     environment: sharc
     modules: [numba, netCDF4, threadpoolctl, pyscf]
     commands: [sharc.x, wfoverlap.x, SHARC_ORCA.py, SHARC_MOLCAS.py]
-    cache_paths: [.software_cache/sharc/source, .software_cache/sharc/smoke/orca_h2, .software_cache/sharc/smoke/lvc_ensemble]
+    cache_paths: [.software_cache/installations/sharc/source, .software_cache/validation/sharc/smoke/orca_h2, .software_cache/validation/sharc/smoke/lvc_ensemble]
     license: GPL-3.0
     public_adapter: existing
     role: Nonadiabatic excited-state dynamics.
@@ -697,7 +697,7 @@ requested_software:
     environment: newtonx
     modules: []
     commands: [nx_moldyn, nx_geninp, nx_test]
-    cache_paths: [.software_cache/newton-x/26a]
+    cache_paths: [.software_cache/installations/newton-x/26a]
     license: registration
     public_adapter: runtime_only
     role: Nonadiabatic molecular dynamics and excited-state sampling.
@@ -737,7 +737,7 @@ requested_software:
     environment: vesta
     modules: []
     commands: [VESTA]
-    cache_paths: [.software_cache/vesta/3.90.5a, .software_cache/vesta/deps]
+    cache_paths: [.software_cache/installations/vesta/3.90.5a, .software_cache/installations/vesta/deps]
     license: free_noncommercial
     public_adapter: runtime_only
     role: Crystal-structure and volumetric-data visualization.

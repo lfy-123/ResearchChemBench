@@ -927,7 +927,7 @@ external_execution: native_job_runner_only
 状态：已完成。
 
 - 重建 56 个软件文档和 114 个 Action 的 MiniLM 缓存后，软件文档 hybrid 检索正常，但真实 MCP `search_actions` 在项目根目录持续高 CPU 并超过 30 秒。
-- 单独测量 `semantic_scores` 和核心 `researchchem_toolbox.discovery.search_actions` 分别只需约 0.33 秒和 0.38 秒；堆栈证明延迟来自 `execute_traced` 在只读检索前后递归执行 `workspace_snapshot()`。
+- 单独测量 `semantic_scores` 和核心 `chemistry_toolbox.src.discovery.search_actions` 分别只需约 0.33 秒和 0.38 秒；堆栈证明延迟来自 `execute_traced` 在只读检索前后递归执行 `workspace_snapshot()`。
 - `execute_traced` 新增显式 `capture_artifacts` 参数，默认继续为会生成产物的科学工具捕获变更；`list/search/browse/inspect` 等只读 discovery 调用设置为 `False`，仍写入 canonical result 和 `_tool_trace.jsonl`，但不扫描或复制 workspace 文件。
 - 软件目录/文档、校验、异步作业提交、轮询、收集和取消等 open tools 同样不再执行无意义的同步产物快照；`write_workspace_text` 和 `declare_scientific_artifact` 继续捕获真实 workspace 变更。
 - 新增回归测试，强制只读 discovery 和软件文档搜索在 `workspace_snapshot` 被禁用时仍成功并记录空 artifacts。tracing/discovery/open-tools 针对性结果为 44 passed。

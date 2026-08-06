@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from researchchem_toolbox.backends import structure
-from researchchem_toolbox.service import execute_action
+from chemistry_toolbox.src.backends import structure
+from chemistry_toolbox.src.service import execute_action
 
 
 def test_rdkit_descriptor_fingerprint_similarity_and_substructure_actions(tmp_path, monkeypatch):

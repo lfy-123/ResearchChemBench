@@ -9,14 +9,14 @@ from typing import Any
 
 from dotenv import load_dotenv
 
-from researchchem_toolbox.catalog import (
+from chemistry_toolbox.src.catalog import (
     action_specs,
     backend_specs,
     catalog_snapshot,
     markdown_catalog,
     validate_catalog,
 )
-from researchchem_toolbox.paths import PROJECT_ROOT
+from chemistry_toolbox.src.paths import PROJECT_ROOT
 
 from .registry import configuration_errors
 from .open_tools import OPEN_EXECUTION_TOOL_NAMES

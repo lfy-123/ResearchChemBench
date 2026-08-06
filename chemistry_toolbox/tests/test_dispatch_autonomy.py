@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from researchchem_toolbox import service
-from researchchem_toolbox.models import ActionSpec, BackendSpec
+from chemistry_toolbox.src import service
+from chemistry_toolbox.src.models import ActionSpec, BackendSpec
 
 
 def _available(backend):

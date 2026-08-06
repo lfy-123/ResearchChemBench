@@ -36,8 +36,8 @@ from chemistry_toolbox.mcp.software_catalog import (
     load_native_guides,
     validate_native_guides,
 )
-from researchchem_toolbox.catalog import backend_specs
-from researchchem_toolbox.models import ResourceLimits
+from chemistry_toolbox.src.catalog import backend_specs
+from chemistry_toolbox.src.models import ResourceLimits
 
 
 def _wait(job_id: str, timeout: float = 10.0) -> dict:

@@ -5,15 +5,15 @@ from pathlib import Path
 
 import pytest
 
-from researchchem_toolbox.service import execute_action
+from chemistry_toolbox.src.service import execute_action
 
 
-MESS_SOURCE = Path(".software_cache/mess/smoke/hco/hco.inp").resolve()
+MESS_SOURCE = Path(".software_cache/validation/mess/smoke/hco/hco.inp").resolve()
 MESMER_SOURCE = Path(
-    ".software_cache/mesmer/smoke/examples/H2Ominimal/H2Ominimal.xml"
+    ".software_cache/validation/mesmer/smoke/examples/H2Ominimal/H2Ominimal.xml"
 ).resolve()
-MESMER_LIBRARY = Path(".software_cache/mesmer/smoke/librarymols.xml").resolve()
-MESMER_DEFAULTS = Path(".software_cache/mesmer/smoke/defaults.xml").resolve()
+MESMER_LIBRARY = Path(".software_cache/validation/mesmer/smoke/librarymols.xml").resolve()
+MESMER_DEFAULTS = Path(".software_cache/validation/mesmer/smoke/defaults.xml").resolve()
 
 
 def _copy(tmp_path: Path, source: Path) -> Path:

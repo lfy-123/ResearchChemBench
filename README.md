@@ -43,7 +43,7 @@ for the framework and all seven chemistry environments. On another operating
 system or CPU architecture, solve from the maintained specifications instead.
 
 Optional GUI and native smoke tests also use the Debian/Ubuntu packages listed
-in `chemistry_toolbox/environment/merged/system-requirements.txt`:
+in `chemistry_toolbox/environment/system-requirements.txt`:
 
 ```bash
 sudo apt-get update
@@ -68,14 +68,14 @@ bash chemistry_toolbox/scripts/setup_toolbox_env.sh \
   --env-dir "$PWD/.envs/researchchembench" \
   --from-lock --skip-verify
 
-bash chemistry_toolbox/scripts/build_merged_environments.sh \
+bash chemistry_toolbox/scripts/build_environments.sh \
   --from-lock all
 ```
 
 `setup_toolbox_env.sh --from-lock` replays the framework Conda lock, installs
 the pinned direct pip dependencies and editable project package, checks package
 consistency, and caches the English MiniLM retrieval model under `.model_cache`.
-`build_merged_environments.sh --from-lock all` replays the seven chemistry Conda
+`build_environments.sh --from-lock all` replays the seven chemistry Conda
 locks, installs each runtime's pinned pip requirements, applies the pinned
 KinBot portability patch, and enforces the documented compatibility-warning
 allowlists. No `.venv`, `.toolbox_env`,
@@ -88,7 +88,7 @@ the tested Linux artifacts:
 ```bash
 bash chemistry_toolbox/scripts/setup_toolbox_env.sh \
   --env-dir "$PWD/.envs/researchchembench" --skip-verify
-bash chemistry_toolbox/scripts/build_merged_environments.sh all
+bash chemistry_toolbox/scripts/build_environments.sh all
 ```
 
 The standard `.envs/` layout needs no environment-variable configuration. All
@@ -101,7 +101,7 @@ placed outside that common root.
 Build only selected environments by passing their specification names:
 
 ```bash
-bash chemistry_toolbox/scripts/build_merged_environments.sh \
+bash chemistry_toolbox/scripts/build_environments.sh \
   general-modern-openmpi5 periodic-mpich
 ```
 
@@ -109,7 +109,7 @@ Use `--recreate` only when an existing managed prefix should be removed and
 rebuilt:
 
 ```bash
-bash chemistry_toolbox/scripts/build_merged_environments.sh \
+bash chemistry_toolbox/scripts/build_environments.sh \
   --recreate --from-lock all
 ```
 
@@ -137,6 +137,11 @@ corresponding backend is required:
 .model_cache/
 .software_cache/
 ```
+
+Reconstruct an empty cache by following the directory-specific instructions:
+
+- [Software cache installation and configuration](.software_cache/README.md)
+- [Model cache downloads and generated indexes](.model_cache/README.md)
 
 Licensed software must be obtained and used under its applicable license. The
 environment build does not download or activate commercial programs. When

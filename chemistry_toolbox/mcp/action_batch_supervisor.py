@@ -14,13 +14,12 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from researchchem_toolbox.distributed_pool import distributed_enabled, pool_snapshot
-from researchchem_toolbox.resource_budget import (
+from chemistry_toolbox.src.distributed_pool import distributed_enabled, pool_snapshot
+from chemistry_toolbox.src.resource_budget import (
     active_resource_usage,
     evaluation_resource_budget,
-    normalize_resource_limits,
 )
-from researchchem_toolbox.service import execute_action
+from chemistry_toolbox.src.service import execute_action
 
 from .result_transport import compact_action_result
 from .tracing import execute_traced

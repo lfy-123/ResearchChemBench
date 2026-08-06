@@ -4,12 +4,12 @@ import os
 import shutil
 from pathlib import Path
 
-from researchchem_toolbox.backends import cheminformatics
-from researchchem_toolbox.service import execute_action
+from chemistry_toolbox.src.backends import cheminformatics
+from chemistry_toolbox.src.service import execute_action
 
 
 ROOT = Path(__file__).resolve().parents[2]
-CACHE = ROOT / ".software_cache" / "sisso" / "3.5"
+CACHE = ROOT / ".software_cache" / "installations" / "sisso" / "3.5"
 RUNTIME = ROOT / ".envs" / "kinetics-legacy"
 MPI = CACHE / "toolchain" / "oneapi" / "mpi" / "2021.15"
 DATASET = ROOT / "chemistry_toolbox" / "examples" / "integration" / "sisso" / "regression.csv"

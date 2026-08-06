@@ -19,7 +19,7 @@ from typing import Any
 
 import yaml
 
-from researchchem_toolbox.distributed_pool import (
+from chemistry_toolbox.src.distributed_pool import (
     effective_compute_cpu_cores,
     select_compute_core_groups,
     select_compute_cpu_ids,

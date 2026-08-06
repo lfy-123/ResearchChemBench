@@ -12,19 +12,20 @@ from typing import Any
 
 import yaml
 
-from researchchem_toolbox.catalog import backend_specs
-from researchchem_toolbox.paths import CONFIG_ROOT, PROJECT_ROOT
-from researchchem_toolbox.runtime import (
+from chemistry_toolbox.src.catalog import backend_specs
+from chemistry_toolbox.src.paths import CONFIG_ROOT, EVIDENCE_STATUS_ROOT, PROJECT_ROOT
+from chemistry_toolbox.src.runtime import (
     probe_all_backends,
     resolve_executable,
     runtime_names,
     runtime_python,
     runtime_spec,
 )
-from researchchem_toolbox.resource_budget import resource_budget_record
-from researchchem_toolbox.search_index import BM25Index, normalize_scores, weighted_text
-from researchchem_toolbox.semantic_embeddings import MODEL_ID, embedding_cache_path, semantic_scores
-from researchchem_toolbox.timeout_policy import timeout_policy_record
+from chemistry_toolbox.src.resource_budget import resource_budget_record
+from chemistry_toolbox.src.search_index import BM25Index, normalize_scores, weighted_text
+from chemistry_toolbox.src.semantic_embeddings import MODEL_ID, embedding_cache_path, semantic_scores
+from chemistry_toolbox.src.timeout_policy import timeout_policy_record
+from chemistry_toolbox.src.environment_layout import resolve_configured_path
 
 from .execution_models import (
     AnalysisRuntimeListRequest,
@@ -41,14 +42,9 @@ NATIVE_DOCS_ROOT = PROJECT_ROOT / "chemistry_toolbox" / "native_software_docs"
 NATIVE_SMOKE_PATH = (
     PROJECT_ROOT / "chemistry_toolbox" / "evidence" / "native_interface_smoke" / "latest.json"
 )
-SOFTWARE_EXPANSION_SMOKE_PATH = (
-    PROJECT_ROOT
-    / "chemistry_toolbox"
-    / "config"
-    / "software_expansion_action_smoke_status.json"
-)
-DOCUMENTATION_INDEX_PATH = PROJECT_ROOT / ".software_cache" / "documentation" / "index.json"
-REQUESTED_STATUS_PATH = CONFIG_ROOT / "requested_software_status.json"
+SOFTWARE_EXPANSION_SMOKE_PATH = EVIDENCE_STATUS_ROOT / "software_expansion_action_smoke_status.json"
+DOCUMENTATION_INDEX_PATH = resolve_configured_path(".software_cache/documentation/index.json")
+REQUESTED_STATUS_PATH = EVIDENCE_STATUS_ROOT / "requested_software_status.json"
 CAPABILITY_SOURCES_PATH = CONFIG_ROOT / "software_capability_sources.yaml"
 REQUESTED_SOFTWARE_PATH = CONFIG_ROOT / "requested_software.yaml"
 _HTML_TAG = re.compile(r"<[^>]+>")

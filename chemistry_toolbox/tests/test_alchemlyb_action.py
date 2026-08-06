@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from researchchem_toolbox.service import execute_action
+from chemistry_toolbox.src.service import execute_action
 
 
 XVG = """@ title "Synthetic alchemical parser test"

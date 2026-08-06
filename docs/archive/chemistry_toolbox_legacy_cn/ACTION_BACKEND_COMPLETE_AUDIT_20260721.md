@@ -327,7 +327,7 @@
 .toolbox_env/bin/python chemistry_toolbox/scripts/run_action_backend_matrix_smokes.py --resume
 .toolbox_env/bin/python chemistry_toolbox/scripts/run_action_gap_smokes.py --network-only
 .toolbox_env/bin/python chemistry_toolbox/scripts/run_goodvibes_action_smokes.py
-.tool_envs/services/bin/python chemistry_toolbox/scripts/check_pubchem_connectivity.py --output chemistry_toolbox/config/pubchem_connectivity_status.json
+.tool_envs/services/bin/python chemistry_toolbox/scripts/check_pubchem_connectivity.py --output chemistry_toolbox/evidence/status/pubchem_connectivity_status.json
 .toolbox_env/bin/python chemistry_toolbox/scripts/audit_action_test_coverage.py
 .toolbox_env/bin/python chemistry_toolbox/scripts/generate_action_backend_completion_report.py
 .toolbox_env/bin/python -m chemistry_toolbox.mcp.tool_manager validate

@@ -15,7 +15,7 @@ from chemistry_toolbox.mcp.open_execution import (
     get_execution_job,
     submit_native_job,
 )
-from researchchem_toolbox.models import ResourceLimits
+from chemistry_toolbox.src.models import ResourceLimits
 
 
 def test_exit_zero_lobster_error_is_not_software_success(tmp_path: Path) -> None:

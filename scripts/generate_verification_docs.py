@@ -498,7 +498,7 @@ def generate_toolbox_report() -> None:
         list_software,
         load_native_guides,
     )
-    from researchchem_toolbox.catalog import CATEGORY_LABELS, catalog_snapshot
+    from chemistry_toolbox.src.catalog import CATEGORY_LABELS, catalog_snapshot
 
     snapshot = catalog_snapshot(include_health=True, discovery_mode="progressive")
     actions = snapshot["actions"]

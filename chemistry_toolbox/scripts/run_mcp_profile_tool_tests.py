@@ -16,8 +16,8 @@ for path in (SOURCE_ROOT, ROOT):
         sys.path.insert(0, str(path))
 
 from chemistry_toolbox.mcp.profiles import load_profile_config
-from researchchem_toolbox.catalog import action_specs, backend_specs, validate_catalog
-from researchchem_toolbox.runtime import probe_all_backends
+from chemistry_toolbox.src.catalog import action_specs, backend_specs, validate_catalog
+from chemistry_toolbox.src.runtime import probe_all_backends
 
 
 def comma_list(value: str) -> list[str]:

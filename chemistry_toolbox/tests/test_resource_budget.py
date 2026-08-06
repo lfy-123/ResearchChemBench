@@ -6,8 +6,8 @@ from pathlib import Path
 
 import pytest
 
-from researchchem_toolbox import runtime, service
-from researchchem_toolbox.resource_budget import (
+from chemistry_toolbox.src import runtime, service
+from chemistry_toolbox.src.resource_budget import (
     ResourceBudgetExceeded,
     reserve_resources,
     resource_budget_record,
@@ -180,7 +180,7 @@ def test_action_worker_passes_cpu_allocation_to_openmpi(
         resource_allocation={"cpu_ids": [4, 5, 6, 7], "gpu_ids": []},
     )
     assert result["status"] == "success"
-    assert captured["command"][-1] == "researchchem_toolbox.worker_launcher"
+    assert captured["command"][-1] == "chemistry_toolbox.src.worker_launcher"
     assert captured["environment"]["RESEARCHCHEM_WORKER_CPU_IDS"] == "4,5,6,7"
     assert captured["environment"]["OMPI_MCA_hwloc_base_cpu_list"] == "4,5,6,7"
     assert captured["environment"]["PRTE_MCA_hwloc_default_cpu_list"] == "4,5,6,7"

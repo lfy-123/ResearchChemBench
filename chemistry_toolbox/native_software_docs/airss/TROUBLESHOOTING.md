@@ -23,7 +23,7 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 |---|---|---|
 | could not build a structure | the geometric constraints are inconsistent or too restrictive | review target volume, atom counts, symmetry, minimum separations, and MAXTIME |
 | empty conversion output | the input format or file content is incompatible with cabal | select a supported explicit format and validate the source file |
-| libgfortran.so.5 not found | the AIRSS private runtime library path is missing | prepend .software_cache/airss/0.9.3/lib to LD_LIBRARY_PATH |
+| libgfortran.so.5 not found | the AIRSS private runtime library path is missing | prepend .software_cache/installations/airss/0.9.3/lib to LD_LIBRARY_PATH |
 
 ## Path and staging failures
 A source file existing in the benchmark workspace does not make it visible to the native process. Every dependency must be declared in `staged_inputs`. The content of an input deck must reference the staged `target_path`, not its original workspace path. Fixed-name programs are case-sensitive. Never assume the process starts in the task workspace.

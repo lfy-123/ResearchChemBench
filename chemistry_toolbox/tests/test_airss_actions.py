@@ -3,12 +3,12 @@ from __future__ import annotations
 import shutil
 from pathlib import Path
 
-from researchchem_toolbox.backends import periodic
-from researchchem_toolbox.service import execute_action
+from chemistry_toolbox.src.backends import periodic
+from chemistry_toolbox.src.service import execute_action
 
 
 ROOT = Path(__file__).resolve().parents[2]
-AIRSS = ROOT / ".software_cache" / "airss" / "0.9.3"
+AIRSS = ROOT / ".software_cache" / "installations" / "airss" / "0.9.3"
 SEED = ROOT / "chemistry_toolbox" / "examples" / "integration" / "airss" / "al8_seed.cell"
 
 

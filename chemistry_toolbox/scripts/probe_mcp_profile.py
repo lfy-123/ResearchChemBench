@@ -30,8 +30,8 @@ def main() -> int:
     args = parser.parse_args()
 
     from chemistry_toolbox.mcp.profiles import apply_profile, load_profile_config
-    from researchchem_toolbox.catalog import backend_specs
-    from researchchem_toolbox.runtime import probe_all_backends
+    from chemistry_toolbox.src.catalog import backend_specs
+    from chemistry_toolbox.src.runtime import probe_all_backends
 
     profile = apply_profile(args.profile)
     health = dict(profile.get("health_checks") or {})
@@ -52,7 +52,7 @@ def main() -> int:
     manual_results = {str(command): shutil.which(str(command)) for command in health.get("manual_commands", [])}
     external_results = {}
     for value in health.get("external_commands", []):
-        from researchchem_toolbox.environment_layout import resolve_configured_path
+        from chemistry_toolbox.src.environment_layout import resolve_configured_path
 
         path = resolve_configured_path(str(value))
         external_results[str(value)] = str(path.resolve()) if path.is_file() else None
@@ -129,7 +129,7 @@ def main() -> int:
     )
     live_checks = {}
     if args.live_materials_project and "materials_project" in profile["backends"]:
-        from researchchem_toolbox.service import execute_action
+        from chemistry_toolbox.src.service import execute_action
 
         result = execute_action(
             "search_materials",

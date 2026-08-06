@@ -18,7 +18,7 @@ for path in (SOURCE_ROOT, ROOT):
     if str(path) not in sys.path:
         sys.path.insert(0, str(path))
 
-from researchchem_toolbox.catalog import action_specs, validate_catalog
+from chemistry_toolbox.src.catalog import action_specs, validate_catalog
 from chemistry_toolbox.mcp.async_action_tools import ASYNC_ACTION_TOOL_NAMES
 from chemistry_toolbox.mcp.open_tools import OPEN_EXECUTION_TOOL_NAMES
 

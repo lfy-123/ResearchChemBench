@@ -17,7 +17,7 @@ software:
       - [Could not find basis set, the JSON basis name was not resolved to the cached basis directory, use the configured wrapper and an installed explicit basis name]
       - [CBLAS parameter error, the selected active space or very small model is numerically invalid, validate electron count orbital partition basis and state manifold]
       - [Second-order optimization did not converge, the CASSCF reference failed its explicit thresholds, inspect iterations and revise the scientifically justified initial space or convergence plan]
-      - [MPI library or Hydra launcher missing, only part of the cache-local runtime was migrated, copy the complete .software_cache/bagel/1.2.2 directory]
+      - [MPI library or Hydra launcher missing, only part of the cache-local runtime was migrated, copy the complete .software_cache/installations/bagel/1.2.2 directory]
 
   vaspkit:
     display_name: VASPKIT
@@ -158,7 +158,7 @@ software:
     known_errors:
       - ["could not build a structure", "the geometric constraints are inconsistent or too restrictive", "review target volume, atom counts, symmetry, minimum separations, and MAXTIME"]
       - ["empty conversion output", "the input format or file content is incompatible with cabal", "select a supported explicit format and validate the source file"]
-      - ["libgfortran.so.5 not found", "the AIRSS private runtime library path is missing", "prepend .software_cache/airss/0.9.3/lib to LD_LIBRARY_PATH"]
+      - ["libgfortran.so.5 not found", "the AIRSS private runtime library path is missing", "prepend .software_cache/installations/airss/0.9.3/lib to LD_LIBRARY_PATH"]
 
   abinit:
     display_name: ABINIT
@@ -996,7 +996,7 @@ software:
     convergence_notes: VESTA is not a scientific solver; validate that the intended structure or field was loaded and exported correctly.
     resource_notes: All required shared libraries resolve. Xvfb supports bounded headless launch; an interactive session still needs a display/OpenGL stack. VESTA is a visualization tool, not a numerical solver.
     known_errors:
-      - ["shared library cannot be opened", "the migrated host lacks the locally bundled GUI runtime libraries", "copy .software_cache/vesta/deps and preserve the configured library path"]
+      - ["shared library cannot be opened", "the migrated host lacks the locally bundled GUI runtime libraries", "copy .software_cache/installations/vesta/deps and preserve the configured library path"]
       - ["cannot open display", "no X server is available", "run in a graphical environment or use a non-GUI alternative"]
 
   vina:

@@ -43,7 +43,7 @@ config.local.env
 
 ### 2.2 共享资源状态与调度
 
-`researchchem_toolbox.distributed_pool` 在共享存储中维护：
+`chemistry_toolbox.src.distributed_pool` 在共享存储中维护：
 
 - 全局 reservation；
 - native/analysis 等待队列；

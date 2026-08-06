@@ -24,7 +24,7 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 | Could not find basis set | the JSON basis name was not resolved to the cached basis directory | use the configured wrapper and an installed explicit basis name |
 | CBLAS parameter error | the selected active space or very small model is numerically invalid | validate electron count orbital partition basis and state manifold |
 | Second-order optimization did not converge | the CASSCF reference failed its explicit thresholds | inspect iterations and revise the scientifically justified initial space or convergence plan |
-| MPI library or Hydra launcher missing | only part of the cache-local runtime was migrated | copy the complete .software_cache/bagel/1.2.2 directory |
+| MPI library or Hydra launcher missing | only part of the cache-local runtime was migrated | copy the complete .software_cache/installations/bagel/1.2.2 directory |
 
 ## Path and staging failures
 A source file existing in the benchmark workspace does not make it visible to the native process. Every dependency must be declared in `staged_inputs`. The content of an input deck must reference the staged `target_path`, not its original workspace path. Fixed-name programs are case-sensitive. Never assume the process starts in the task workspace.

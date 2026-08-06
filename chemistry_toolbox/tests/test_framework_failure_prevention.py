@@ -5,20 +5,20 @@ from pathlib import Path
 
 import pytest
 
-from researchchem_toolbox import service
-from researchchem_toolbox.artifacts import ArtifactStore
-from researchchem_toolbox.backends import electronic, reaction
-from researchchem_toolbox.backends.common import (
+from chemistry_toolbox.src import service
+from chemistry_toolbox.src.artifacts import ArtifactStore
+from chemistry_toolbox.src.backends import electronic, reaction
+from chemistry_toolbox.src.backends.common import (
     atoms_and_coordinates,
     structure_dict,
     write_xyz,
 )
-from researchchem_toolbox.backends.electronic import _resolve_mace_model
-from researchchem_toolbox.backends.reaction import (
+from chemistry_toolbox.src.backends.electronic import _resolve_mace_model
+from chemistry_toolbox.src.backends.reaction import (
     _pysisyphus_failure_detail,
     _pysisyphus_xtb_gfn,
 )
-from researchchem_toolbox.catalog import action_specs, mcp_action_description
+from chemistry_toolbox.src.catalog import action_specs, mcp_action_description
 
 
 H2 = {

@@ -5,15 +5,15 @@ import subprocess
 import os
 from pathlib import Path
 
-from researchchem_toolbox.backends import structure
-from researchchem_toolbox.service import execute_action
+from chemistry_toolbox.src.backends import structure
+from chemistry_toolbox.src.service import execute_action
 
 
 ROOT = Path(__file__).resolve().parents[2]
 ACPYPE = ROOT / ".envs" / "molecular-simulation-openff" / "bin" / "acpype"
 GROMACS = ROOT / ".envs" / "molecular-simulation-openff" / "bin" / "gmx"
 RUNTIME = ROOT / ".envs" / "molecular-simulation-openff"
-BENZENE = ROOT / ".software_cache" / "acpype" / "2023.10.27" / "source" / "tests" / "benzene.mdl"
+BENZENE = ROOT / ".software_cache" / "sources" / "acpype" / "2023.10.27" / "source" / "tests" / "benzene.mdl"
 
 
 def _execute(action_id: str, backend_id: str, request: dict) -> dict:

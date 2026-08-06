@@ -5,12 +5,12 @@ from pathlib import Path
 
 import pytest
 
-from researchchem_toolbox.backends import periodic
-from researchchem_toolbox.service import execute_action
+from chemistry_toolbox.src.backends import periodic
+from chemistry_toolbox.src.service import execute_action
 
 
 ROOT = Path(__file__).resolve().parents[2]
-TDEP = ROOT / ".software_cache" / "tdep" / "25.03" / "source"
+TDEP = ROOT / ".software_cache" / "installations" / "tdep" / "25.03" / "source"
 FIXTURES = TDEP / "tests" / "infiles"
 RUNTIME = ROOT / ".envs" / "kinetics-legacy"
 

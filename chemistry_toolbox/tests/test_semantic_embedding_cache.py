@@ -4,7 +4,7 @@ from pathlib import Path
 
 import numpy as np
 
-from researchchem_toolbox import semantic_embeddings
+from chemistry_toolbox.src import semantic_embeddings
 
 
 def test_default_semantic_cache_is_repository_scoped(monkeypatch) -> None:
@@ -23,10 +23,10 @@ def test_default_semantic_cache_is_repository_scoped(monkeypatch) -> None:
 def test_default_toolbox_environment_provisions_semantic_retrieval() -> None:
     repository_root = Path(__file__).resolve().parents[2]
     pip_requirements = (
-        repository_root / "chemistry_toolbox/environment/toolbox-pip.txt"
+        repository_root / "chemistry_toolbox/environment/researchchembench/requirements.txt"
     ).read_text(encoding="utf-8")
     constraints = (
-        repository_root / "chemistry_toolbox/environment/toolbox-constraints.txt"
+        repository_root / "chemistry_toolbox/environment/researchchembench/constraints.txt"
     ).read_text(encoding="utf-8")
     setup_script = (
         repository_root / "chemistry_toolbox/scripts/setup_toolbox_env.sh"

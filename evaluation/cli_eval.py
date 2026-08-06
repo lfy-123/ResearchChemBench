@@ -16,7 +16,7 @@ from pathlib import Path
 from typing import Any
 
 import yaml
-from researchchem_toolbox.catalog import resolve_tool_discovery_mode
+from chemistry_toolbox.src.catalog import resolve_tool_discovery_mode
 
 from .config import (
     AGENT_PRESETS,

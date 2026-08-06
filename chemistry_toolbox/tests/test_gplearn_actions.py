@@ -6,8 +6,8 @@ from pathlib import Path
 
 import pytest
 
-from researchchem_toolbox.backends import cheminformatics
-from researchchem_toolbox.service import execute_action
+from chemistry_toolbox.src.backends import cheminformatics
+from chemistry_toolbox.src.service import execute_action
 
 
 ROOT = Path(__file__).resolve().parents[2]

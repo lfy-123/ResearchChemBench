@@ -16,11 +16,11 @@ from chemistry_toolbox.mcp.distributed_job_dispatcher import (
     _extract_job_archive,
     _sandbox_synchronizing_status,
 )
-from researchchem_toolbox import runtime
-from researchchem_toolbox.distributed_pool import load_worker_inventory
-from researchchem_toolbox.resource_budget import resource_budget_record
-from researchchem_toolbox.sandbox_client import OpenSandboxClient, SandboxTransportError
-from researchchem_toolbox.sandbox_worker_rpc import SandboxWorkerServer
+from chemistry_toolbox.src import runtime
+from chemistry_toolbox.src.distributed_pool import load_worker_inventory
+from chemistry_toolbox.src.resource_budget import resource_budget_record
+from chemistry_toolbox.src.sandbox_client import OpenSandboxClient, SandboxTransportError
+from chemistry_toolbox.src.sandbox_worker_rpc import SandboxWorkerServer
 
 
 def _sandbox_inventory(path: Path) -> None:

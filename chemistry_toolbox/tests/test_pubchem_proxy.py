@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import os
 
-from researchchem_toolbox import proxy
-from researchchem_toolbox.backends import data
+from chemistry_toolbox.src import proxy
+from chemistry_toolbox.src.backends import data
 
 
 def _clear_proxy_environment(monkeypatch) -> None:

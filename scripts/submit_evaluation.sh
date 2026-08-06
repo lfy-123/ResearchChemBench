@@ -453,7 +453,7 @@ config = {
 Path(config_path).write_text(json.dumps(config, indent=2) + "\n", encoding="utf-8")
 if execution_mode == "distributed":
     os.environ["RESEARCHCHEMBENCH_EXECUTION_MODE"] = "distributed"
-    from researchchem_toolbox.distributed_pool import pool_snapshot
+    from chemistry_toolbox.src.distributed_pool import pool_snapshot
     pool = pool_snapshot()
     resource_budget = {
         "cpu_cores": pool["maximum_cpu_cores_per_job"],

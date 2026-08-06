@@ -8,8 +8,8 @@ ResearchChemBench 对所有任务只暴露一个完整 MCP server。运行时 pr
 |---|---|
 | `chemistry_toolbox/config/mcp_profiles.yaml` | 50 个拥有 BackendSpec 的正式运行时 |
 | `chemistry_toolbox/config/auxiliary_environments.yaml` | 7 个仅供原生命令或可编程层使用的辅助运行时 |
-| `chemistry_toolbox/config/merged_environments.yaml` | 57 个运行时到 7 个 Conda 前缀的唯一映射 |
-| `chemistry_toolbox/environment/merged/*` | 可重建环境规格与 `linux-64` 精确锁 |
+| `chemistry_toolbox/environment/environments.yaml` | 57 个运行时到 7 个 Conda 前缀的唯一映射 |
+| `chemistry_toolbox/environment/*` | 可重建环境规格与 `linux-64` 精确锁 |
 
 七个化学环境为：
 
@@ -33,7 +33,7 @@ ResearchChemBench 对所有任务只暴露一个完整 MCP server。运行时 pr
 bash chemistry_toolbox/scripts/setup_toolbox_env.sh \
   --env-dir "$PWD/.envs/researchchembench" --from-lock --skip-verify
 
-bash chemistry_toolbox/scripts/build_merged_environments.sh --from-lock all
+bash chemistry_toolbox/scripts/build_environments.sh --from-lock all
 ```
 
 非 `linux-64` 平台去掉 `--from-lock`，从维护的 YAML 重新求解。KinBot 会固定到 2.2.2 的官方提交并自动应用仓库内补丁；`gmx_MMPBSA` 使用独立的 Python 3.11/AmberTools 23.6 环境。

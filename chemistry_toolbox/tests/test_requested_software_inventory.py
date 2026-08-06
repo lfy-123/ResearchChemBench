@@ -5,7 +5,7 @@ from pathlib import Path
 
 import yaml
 
-from researchchem_toolbox.catalog import backend_specs
+from chemistry_toolbox.src.catalog import backend_specs
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -79,7 +79,7 @@ def test_new_source_and_binary_extensions_have_explicit_exposure_status():
 
 def test_generated_requested_software_status_has_no_unaccounted_missing_item():
     payload = json.loads(
-        (ROOT / "config/requested_software_status.json").read_text(encoding="utf-8")
+        (ROOT / "evidence/status/requested_software_status.json").read_text(encoding="utf-8")
     )
     assert payload["summary"]["total"] == 58
     assert payload["summary"]["counts"].get("not_found", 0) == 0

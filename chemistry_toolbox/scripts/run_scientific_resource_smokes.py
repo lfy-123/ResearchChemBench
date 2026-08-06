@@ -20,10 +20,10 @@ for path in (SOURCE_ROOT, ROOT):
     if str(path) not in sys.path:
         sys.path.insert(0, str(path))
 
-from researchchem_toolbox.service import execute_action
+from chemistry_toolbox.src.service import execute_action
 
 
-STATUS_PATH = TOOLBOX_ROOT / "config" / "scientific_resource_smoke_status.json"
+STATUS_PATH = TOOLBOX_ROOT / "evidence" / "status" / "scientific_resource_smoke_status.json"
 
 
 SI_STRUCTURE = {

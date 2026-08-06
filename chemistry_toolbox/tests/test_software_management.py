@@ -1,0 +1,327 @@
+from __future__ import annotations
+
+import io
+import json
+import os
+import tarfile
+import zipfile
+from pathlib import Path
+
+import pytest
+
+from chemistry_toolbox.software_management.manager import SoftwareManager
+from chemistry_toolbox.software_management.manifests import load_catalog
+from chemistry_toolbox.software_management.migrate import migrate_legacy_cache
+from chemistry_toolbox.software_management.legacy_layout import classify_legacy_path
+from chemistry_toolbox.software_management.migrate_v2 import migrate_v2
+from chemistry_toolbox.software_management.paths import LAYOUT_DIRECTORIES
+from chemistry_toolbox.software_management.repository_paths import rewrite_text
+
+
+def write_catalog(path: Path, *, migration: str = "") -> None:
+    path.write_text(
+        f"""schema_version: 1
+software:
+  demo:
+    display_name: Demo
+    version: 1.0
+    acquisition: manual
+    license: MIT
+    accepted_packages: [demo-*.tar.gz]
+    installation:
+      handler: archive
+      target: installations/demo/1.0/linux-x86_64
+      strip_single_directory: true
+      executable_paths: [bin/demo]
+    runtime:
+      entrypoints:
+        demo: bin/demo
+    verification:
+      - command: ["{{entrypoint:demo}}", --version]
+        output_contains: demo 1.0
+{migration}""",
+        encoding="utf-8",
+    )
+
+
+def create_demo_archive(path: Path) -> None:
+    script = b"#!/bin/sh\necho 'demo 1.0'\n"
+    info = tarfile.TarInfo("demo-1.0/bin/demo")
+    info.mode = 0o755
+    info.size = len(script)
+    with tarfile.open(path, "w:gz") as handle:
+        handle.addfile(info, io.BytesIO(script))
+
+
+def create_demo_zip(path: Path) -> None:
+    with zipfile.ZipFile(path, "w") as handle:
+        handle.writestr("demo-1.0/bin/demo", "#!/bin/sh\necho 'demo 1.0'\n")
+
+
+def test_initialize_stage_install_and_verify(tmp_path: Path):
+    catalog = tmp_path / "catalog.yaml"
+    write_catalog(catalog)
+    root = tmp_path / "cache"
+    manager = SoftwareManager(root, catalog_path=catalog)
+
+    manager.initialize()
+    assert all((root / relative).is_dir() for relative in LAYOUT_DIRECTORIES)
+
+    package = tmp_path / "demo-1.0.tar.gz"
+    create_demo_archive(package)
+    staged = manager.stage("demo", package)
+    assert staged["status"] == "staged"
+
+    installed = manager.install("demo")
+    assert installed["status"] == "installed"
+    assert installed["verification"]["status"] == "pass"
+    assert manager.verify("demo")[0]["status"] == "pass"
+    receipt = root / "receipts" / "demo" / "1.0.json"
+    assert json.loads(receipt.read_text(encoding="utf-8"))["software_id"] == "demo"
+
+
+def test_zip_entrypoint_is_made_executable(tmp_path: Path):
+    catalog = tmp_path / "catalog.yaml"
+    write_catalog(catalog)
+    root = tmp_path / "cache"
+    manager = SoftwareManager(root, catalog_path=catalog)
+    manager.initialize()
+    package = tmp_path / "demo-1.0.zip"
+    create_demo_zip(package)
+
+    installed = manager.install("demo", package=package)
+
+    assert installed["verification"]["status"] == "pass"
+    assert manager.verify("demo")[0]["status"] == "pass"
+
+
+def test_copy_handler_creates_relative_alias(tmp_path: Path):
+    catalog = tmp_path / "catalog.yaml"
+    write_catalog(catalog)
+    text = catalog.read_text(encoding="utf-8").replace(
+        "      handler: archive\n      target:",
+        "      handler: copy\n"
+        "      target_name: demo.real\n"
+        "      aliases: {bin/demo: demo.real}\n"
+        "      target:",
+    )
+    catalog.write_text(text, encoding="utf-8")
+    root = tmp_path / "cache"
+    manager = SoftwareManager(root, catalog_path=catalog)
+    manager.initialize()
+    package = tmp_path / "demo-1.0.tar.gz"
+    package.write_text("#!/bin/sh\necho 'demo 1.0'\n", encoding="utf-8")
+
+    installed = manager.install("demo", package=package)
+
+    alias = root / "installations/demo/1.0/linux-x86_64/bin/demo"
+    assert installed["verification"]["status"] == "pass"
+    assert alias.is_symlink()
+    assert not alias.readlink().is_absolute()
+
+
+def test_archive_rejects_path_traversal(tmp_path: Path):
+    catalog = tmp_path / "catalog.yaml"
+    write_catalog(catalog)
+    root = tmp_path / "cache"
+    manager = SoftwareManager(root, catalog_path=catalog)
+    manager.initialize()
+    archive = tmp_path / "demo-bad.tar.gz"
+    info = tarfile.TarInfo("../../escape")
+    info.size = 1
+    with tarfile.open(archive, "w:gz") as handle:
+        handle.addfile(info, io.BytesIO(b"x"))
+    manager.stage("demo", archive)
+    with pytest.raises(ValueError, match="escapes extraction root"):
+        manager.install("demo")
+    assert not (tmp_path / "escape").exists()
+
+
+def test_failed_installation_verification_does_not_publish_destination(tmp_path: Path):
+    catalog = tmp_path / "catalog.yaml"
+    write_catalog(catalog)
+    root = tmp_path / "cache"
+    manager = SoftwareManager(root, catalog_path=catalog)
+    manager.initialize()
+    archive = tmp_path / "demo-invalid.tar.gz"
+    script = b"#!/bin/sh\necho 'wrong version'\n"
+    info = tarfile.TarInfo("demo-invalid/bin/demo")
+    info.mode = 0o755
+    info.size = len(script)
+    with tarfile.open(archive, "w:gz") as handle:
+        handle.addfile(info, io.BytesIO(script))
+    manager.stage("demo", archive)
+
+    with pytest.raises(RuntimeError, match="Installation verification failed"):
+        manager.install("demo")
+
+    assert not (root / "installations/demo/1.0/linux-x86_64").exists()
+
+
+def test_manifest_rejects_absolute_installation_target(tmp_path: Path):
+    catalog = tmp_path / "catalog.yaml"
+    write_catalog(catalog)
+    text = catalog.read_text(encoding="utf-8").replace(
+        "installations/demo/1.0/linux-x86_64", "/tmp/demo"
+    )
+    catalog.write_text(text, encoding="utf-8")
+    with pytest.raises(ValueError, match="cache-relative"):
+        load_catalog(catalog)
+
+
+def test_manifest_rejects_alias_path_traversal(tmp_path: Path):
+    catalog = tmp_path / "catalog.yaml"
+    write_catalog(catalog)
+    text = catalog.read_text(encoding="utf-8").replace(
+        "      handler: archive\n",
+        "      handler: copy\n      aliases: {../escape: payload}\n",
+    )
+    catalog.write_text(text, encoding="utf-8")
+
+    with pytest.raises(ValueError, match="alias path must be a cache-relative path"):
+        load_catalog(catalog)
+
+
+def test_legacy_migration_is_non_destructive_and_rewrites_internal_links(tmp_path: Path):
+    legacy = tmp_path / "legacy"
+    source = legacy / "demo" / "1.0"
+    source.mkdir(parents=True)
+    executable = source / "demo"
+    executable.write_text("demo\n", encoding="utf-8")
+    link = source / "demo-link"
+    link.symlink_to(executable)
+    catalog = tmp_path / "catalog.yaml"
+    write_catalog(
+        catalog,
+        migration="""    migration:
+      - source: demo/1.0
+        destination: installations/demo/1.0/linux-x86_64
+        role: installation
+""",
+    )
+    destination = tmp_path / "v2"
+    manager = SoftwareManager(destination, catalog_path=catalog)
+    manager.initialize()
+    report = migrate_legacy_cache(legacy, destination, manager.catalog.values())
+
+    migrated = destination / "installations" / "demo" / "1.0" / "linux-x86_64"
+    assert executable.read_text(encoding="utf-8") == "demo\n"
+    assert (migrated / "demo").read_text(encoding="utf-8") == "demo\n"
+    assert (migrated / "demo-link").is_symlink()
+    assert not Path(os.readlink(migrated / "demo-link")).is_absolute()
+    assert report["symlinks"]["rewritten"]
+
+
+@pytest.mark.parametrize(
+    ("legacy", "expected"),
+    [
+        ("orca/6.1.1/orca", "installations/orca/6.1.1/orca"),
+        ("orca/download/orca.tar.xz", "packages/orca/download/orca.tar.xz"),
+        ("goodvibes/4.3.0/source-4.3", "sources/goodvibes/4.3.0/source-4.3"),
+        ("censo/smoke_prescreen3/result.out", "validation/censo/smoke_prescreen3/result.out"),
+        ("demo/env/site-packages/pip/_internal/build_env/base.py", "installations/demo/env/site-packages/pip/_internal/build_env/base.py"),
+        ("demo/env/site-packages/pip/_internal/operations/build/base.py", "installations/demo/env/site-packages/pip/_internal/operations/build/base.py"),
+        ("charmm/50b2/install/source", "installations/charmm/50b2/install/source"),
+        ("gamess/2024-r2-p1/source/rungms", "installations/gamess/2024-r2-p1/source/rungms"),
+        ("gpaw/setups/PBE", "shared/scientific-data/gpaw-setups/PBE"),
+        ("documentation/index.json", "documentation/index.json"),
+        ("documentation_alias_fix_seed_20260720/index.json", None),
+        ("gmx_mmpbsa/1.6.5/env/bin/python", None),
+        ("amber/26/install/bin/amber.python", None),
+    ],
+)
+def test_v2_legacy_path_classification(legacy: str, expected: str | None):
+    result = classify_legacy_path(legacy)
+    assert (result.as_posix() if result else None) == expected
+
+
+def test_v2_migration_rewrites_relative_links_across_roles(tmp_path: Path):
+    legacy = tmp_path / "legacy"
+    source = legacy / "demo" / "source"
+    package = legacy / "demo" / "downloads"
+    source.mkdir(parents=True)
+    package.mkdir(parents=True)
+    payload = package / "payload.dat"
+    payload.write_text("payload\n", encoding="utf-8")
+    script = source / "runner"
+    script.write_text(
+        "#!/inspire/hdd/global_user/example/.tool_envs/demo/bin/tcsh -f\necho demo\n",
+        encoding="utf-8",
+    )
+    script.chmod(0o755)
+    (source / "payload-link").symlink_to(Path("../downloads/payload.dat"))
+    ignored = legacy / "easyspin"
+    ignored.mkdir()
+    (ignored / "ignored.dat").write_text("ignored\n", encoding="utf-8")
+    airss_bin = legacy / "airss" / "0.9.3" / "bin"
+    airss_payload = legacy / "airss" / "0.9.3" / "libexec" / "airss"
+    airss_bin.mkdir(parents=True)
+    airss_payload.mkdir(parents=True)
+    (airss_payload / "buildcell").write_text("payload\n", encoding="utf-8")
+    wrapper = airss_bin / "buildcell"
+    wrapper.write_text(
+        "#!/usr/bin/env bash\n"
+        'exec "/inspire/hdd/global_user/example/ResearchChemBench/.software_cache/'
+        'airss/0.9.3/libexec/airss/buildcell" "$@"\n',
+        encoding="utf-8",
+    )
+    wrapper.chmod(0o755)
+    pyfrag_source = legacy / "pyfrag" / "2019" / "source"
+    pyfrag_source.mkdir(parents=True)
+    (pyfrag_source / "pyfrag.py").write_text("pass\n", encoding="utf-8")
+    rmg_state = legacy / "rmg" / "home" / ".rmg"
+    rmg_state.mkdir(parents=True)
+    legacy_cache = ".software_" + "cache"
+    (rmg_state / "rmgrc").write_text(
+        "database.directory: /inspire/hdd/global_user/example/ResearchChemBench/"
+        f"{legacy_cache}/rmg/database/4.0.0/input\n",
+        encoding="utf-8",
+    )
+
+    destination = tmp_path / "v2"
+    report = migrate_v2(legacy, destination)
+    migrated_link = destination / "sources" / "demo" / "source" / "payload-link"
+    assert migrated_link.resolve() == destination / "packages" / "demo" / "downloads" / "payload.dat"
+    assert not (destination / "installations" / "easyspin").exists()
+    assert report["unresolved_symlinks"] == []
+    assert payload.read_text(encoding="utf-8") == "payload\n"
+    migrated_script = destination / "sources" / "demo" / "source" / "runner"
+    assert migrated_script.read_text(encoding="utf-8").startswith(
+        "#!/usr/bin/env -S tcsh -f\n"
+    )
+    assert script.read_text(encoding="utf-8").startswith("#!/inspire/")
+    assert migrated_script.stat().st_ino != script.stat().st_ino
+    migrated_wrapper = destination / "installations/airss/0.9.3/bin/buildcell"
+    assert "${script_dir}/../libexec/airss/buildcell" in migrated_wrapper.read_text(
+        encoding="utf-8"
+    )
+    assert "/inspire/hdd/global_user/" not in migrated_wrapper.read_text(encoding="utf-8")
+    compatibility_link = destination / "installations/pyfrag/2019/source"
+    assert compatibility_link.is_symlink()
+    assert compatibility_link.resolve() == destination / "sources/pyfrag/2019/source"
+    portable_rmgrc = destination / "state/rmg/home/.rmg/rmgrc"
+    assert portable_rmgrc.read_text(encoding="utf-8") == (
+        "database.directory: $RESEARCHCHEMBENCH_SOFTWARE_ROOT/"
+        "installations/rmg/database/4.0.0/input\n"
+    )
+
+
+def test_repository_path_rewrite_is_idempotent_and_preserves_punctuation():
+    legacy_root = ".software_" + "cache"
+    original = (
+        f"binary={legacy_root}/orca/6.1.1/orca\n"
+        "managed=.software_cache/installations/orca/6.1.1/orca\n"
+        f"note={legacy_root}/amber/26.\n"
+    )
+    rewritten, count = rewrite_text(original)
+    assert count == 3
+    assert "binary=.software_cache/installations/orca/6.1.1/orca" in rewritten
+    assert "managed=.software_cache/installations/orca/6.1.1/orca" in rewritten
+    assert "note=.software_cache/installations/amber/26." in rewritten
+    assert rewrite_text(rewritten)[0] == rewritten
+
+
+def test_repository_path_rewrite_preserves_directory_trailing_slash():
+    value = ".software_cache/installations/<software>/<version>/"
+    rewritten, _ = rewrite_text(value)
+    assert rewritten == value

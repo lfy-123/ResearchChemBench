@@ -11,13 +11,13 @@ auxiliary_environments:
     pip_packages: []
     modules: [numpy, scipy, ase, networkx]
     commands: [amk.sh, mopac, bbfs.exe]
-    path_entries: [.software_cache/automekin/install/bin, .software_cache/automekin/install/bin/HLscripts, .software_cache/automekin/install/bin/MOPAC_DEV]
-    library_path_entries: [.software_cache/automekin/install/lib, .software_cache/automekin/install/bin/MOPAC_DEV, .envs/general-modern-openmpi5/lib]
-    cache_paths: [.software_cache/automekin/source, .software_cache/automekin/install]
+    path_entries: [.software_cache/installations/automekin/install/bin, .software_cache/installations/automekin/install/bin/HLscripts, .software_cache/installations/automekin/install/bin/MOPAC_DEV]
+    library_path_entries: [.software_cache/installations/automekin/install/lib, .software_cache/installations/automekin/install/bin/MOPAC_DEV, .envs/general-modern-openmpi5/lib]
+    cache_paths: [.software_cache/sources/automekin/source, .software_cache/installations/automekin/install]
     environment_variables:
-      AMK: .software_cache/automekin/install
+      AMK: .software_cache/installations/automekin/install
     smoke_commands:
-      - [bash, -c, 'cd .software_cache/automekin/smoke && mopac water.mop >/dev/null && grep -q "JOB ENDED NORMALLY" water.out']
+      - [bash, -c, 'cd .software_cache/validation/automekin/smoke && mopac water.mop >/dev/null && grep -q "JOB ENDED NORMALLY" water.out']
     notes: A real water PM7 single-point calculation ended normally. Coupling to other engines remains an explicit Agent decision.
 
   censo:
@@ -28,18 +28,18 @@ auxiliary_environments:
     pip_packages: [censo==2.1.2]
     modules: []
     commands: [censo, xtb, orca]
-    prepend_path_entries: [.software_cache/orca/6.1.1, .software_cache/openmpi/4.1.8-fortran/bin]
-    prepend_library_path_entries: [.software_cache/openmpi/4.1.8-fortran/lib, .software_cache/orca/6.1.1]
-    cache_paths: [.software_cache/censo/home/.censo2rc, .software_cache/censo/smoke_prescreen3, .software_cache/orca/6.1.1, .software_cache/openmpi/4.1.8-fortran]
+    prepend_path_entries: [.software_cache/installations/orca/6.1.1, .software_cache/shared/mpi/openmpi/4.1.8-fortran/bin]
+    prepend_library_path_entries: [.software_cache/shared/mpi/openmpi/4.1.8-fortran/lib, .software_cache/installations/orca/6.1.1]
+    cache_paths: [.software_cache/state/censo/home/.censo2rc, .software_cache/validation/censo/smoke_prescreen3, .software_cache/installations/orca/6.1.1, .software_cache/shared/mpi/openmpi/4.1.8-fortran]
     environment_variables:
-      HOME: .software_cache/censo/home
-      OPAL_PREFIX: .software_cache/openmpi/4.1.8-fortran
+      HOME: .software_cache/state/censo/home
+      OPAL_PREFIX: .software_cache/shared/mpi/openmpi/4.1.8-fortran
       OMPI_ALLOW_RUN_AS_ROOT: "1"
       OMPI_ALLOW_RUN_AS_ROOT_CONFIRM: "1"
       OMPI_MCA_pml: ob1
       OMPI_MCA_btl: self,vader,tcp
     smoke_commands:
-      - [bash, -c, 'grep -q "All jobs executed successfully" .software_cache/censo/smoke_prescreen3/censo.log']
+      - [bash, -c, 'grep -q "All jobs executed successfully" .software_cache/validation/censo/smoke_prescreen3/censo.log']
     notes: The repository-local CENSO configuration selects ORCA for all electronic-structure stages. Recreate that configuration after relocation with the documented setup command.
 
   newtonx:
@@ -50,22 +50,22 @@ auxiliary_environments:
     pip_packages: []
     modules: []
     commands: [nx_moldyn, nx_geninp, nx_test]
-    prepend_path_entries: [.software_cache/newton-x/26a/package/NX-NS/bin, .software_cache/orca/6.1.1, .software_cache/openmpi/4.1.8-fortran/bin]
-    prepend_library_path_entries: [.software_cache/openmpi/4.1.8-fortran/lib, .software_cache/orca/6.1.1]
-    library_path_entries: [.software_cache/newton-x/26a/package/NX-NS/lib/x86_64-linux-gnu]
-    cache_paths: [.software_cache/newton-x/26a, .software_cache/newton-x/26a/package/CIOVERLAP/bin, .software_cache/orca/6.1.1, .software_cache/openmpi/4.1.8-fortran]
+    prepend_path_entries: [.software_cache/installations/newton-x/26a/package/NX-NS/bin, .software_cache/installations/orca/6.1.1, .software_cache/shared/mpi/openmpi/4.1.8-fortran/bin]
+    prepend_library_path_entries: [.software_cache/shared/mpi/openmpi/4.1.8-fortran/lib, .software_cache/installations/orca/6.1.1]
+    library_path_entries: [.software_cache/installations/newton-x/26a/package/NX-NS/lib/x86_64-linux-gnu]
+    cache_paths: [.software_cache/installations/newton-x/26a, .software_cache/installations/newton-x/26a/package/CIOVERLAP/bin, .software_cache/installations/orca/6.1.1, .software_cache/shared/mpi/openmpi/4.1.8-fortran]
     environment_variables:
-      NXHOME: .software_cache/newton-x/26a/package/NX-NS
-      NX: .software_cache/newton-x/26a/package
-      CIOVERLAP: .software_cache/newton-x/26a/package/CIOVERLAP/bin
-      ORCA: .software_cache/orca/6.1.1
-      OPAL_PREFIX: .software_cache/openmpi/4.1.8-fortran
+      NXHOME: .software_cache/installations/newton-x/26a/package/NX-NS
+      NX: .software_cache/installations/newton-x/26a/package
+      CIOVERLAP: .software_cache/installations/newton-x/26a/package/CIOVERLAP/bin
+      ORCA: .software_cache/installations/orca/6.1.1
+      OPAL_PREFIX: .software_cache/shared/mpi/openmpi/4.1.8-fortran
       OMPI_ALLOW_RUN_AS_ROOT: "1"
       OMPI_ALLOW_RUN_AS_ROOT_CONFIRM: "1"
       OMPI_MCA_pml: ob1
       OMPI_MCA_btl: self,vader,tcp
     smoke_commands:
-      - [bash, -c, 'grep -q "Normal termination of Newton-X" .software_cache/newton-x/26a/smoke/orca_test_cio/orca/01-MD-TDDFT-NAD-CIO/md.log']
+      - [bash, -c, 'grep -q "Normal termination of Newton-X" .software_cache/validation/newton-x/26a/smoke/orca_test_cio/orca/01-MD-TDDFT-NAD-CIO/md.log']
     notes: The bundled analytical test and a real 1.5 fs ORCA trajectory passed. Scientific trajectory controls remain explicit native inputs.
 
   pyfrag:
@@ -76,12 +76,12 @@ auxiliary_environments:
     pip_packages: []
     modules: []
     commands: [pyfrag-orca, orca]
-    prepend_path_entries: [.software_cache/pyfrag/2019/bin, .software_cache/orca/6.1.1, .software_cache/openmpi/4.1.8-fortran/bin]
-    prepend_library_path_entries: [.software_cache/openmpi/4.1.8-fortran/lib]
-    cache_paths: [.software_cache/pyfrag/2019, .software_cache/orca/6.1.1, .software_cache/openmpi/4.1.8-fortran]
+    prepend_path_entries: [.software_cache/installations/pyfrag/2019/bin, .software_cache/installations/orca/6.1.1, .software_cache/shared/mpi/openmpi/4.1.8-fortran/bin]
+    prepend_library_path_entries: [.software_cache/shared/mpi/openmpi/4.1.8-fortran/lib]
+    cache_paths: [.software_cache/installations/pyfrag/2019, .software_cache/installations/orca/6.1.1, .software_cache/shared/mpi/openmpi/4.1.8-fortran]
     environment_variables:
-      CHEMGRAPH_PYFRAG_COMMAND: .software_cache/pyfrag/2019/bin/pyfrag-orca
-      OPAL_PREFIX: .software_cache/openmpi/4.1.8-fortran
+      CHEMGRAPH_PYFRAG_COMMAND: .software_cache/installations/pyfrag/2019/bin/pyfrag-orca
+      OPAL_PREFIX: .software_cache/shared/mpi/openmpi/4.1.8-fortran
       OMPI_ALLOW_RUN_AS_ROOT: "1"
       OMPI_ALLOW_RUN_AS_ROOT_CONFIRM: "1"
       OMPI_MCA_pml: ob1
@@ -106,9 +106,9 @@ auxiliary_environments:
     pip_packages: []
     modules: []
     commands: [VESTA]
-    path_entries: [.software_cache/vesta/3.90.5a]
-    library_path_entries: [.software_cache/vesta/3.90.5a, .software_cache/vesta/deps/root/usr/lib/x86_64-linux-gnu]
-    cache_paths: [.software_cache/vesta/3.90.5a, .software_cache/vesta/deps]
+    path_entries: [.software_cache/installations/vesta/3.90.5a]
+    library_path_entries: [.software_cache/installations/vesta/3.90.5a, .software_cache/installations/vesta/deps/root/usr/lib/x86_64-linux-gnu]
+    cache_paths: [.software_cache/installations/vesta/3.90.5a, .software_cache/installations/vesta/deps]
     smoke_commands:
       - [bash, -c, 'timeout 5s xvfb-run -a VESTA >/dev/null 2>&1; code=$?; [ "$code" -eq 0 ] || [ "$code" -eq 124 ]']
     notes: Dynamic libraries resolve and bounded Xvfb startup passes. Interactive rendering still depends on a host display/OpenGL stack.

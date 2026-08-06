@@ -9,7 +9,7 @@
 
 ```text
 chemistry_toolbox/mcp/tools/<tool_name>.py
-chemistry_toolbox/mcp/test_tools/test_<tool_name>.py
+chemistry_toolbox/tests/test_<capability>.py
 ```
 
 ChemGraph 原工具：
@@ -92,7 +92,7 @@ Phonopy 适配器同时兼容旧版 `phonopy -c` 和 Phonopy 4 的
 
 ## 5. 测试设计
 
-`chemistry_toolbox/mcp/test_tools/` 下有 41 个 `test_<tool>.py`，与工具文件一一对应。公共 helper 负责：
+当前测试统一位于 `chemistry_toolbox/tests/`，按能力和执行契约组织。公共 helper 负责：
 
 - 校验文件名、`TOOL_SPEC.name`、元数据和 `register(mcp)`；
 - 对已安装的轻量 Python 后端执行最小功能输入；
@@ -117,14 +117,14 @@ bash chemistry_toolbox/scripts/manage_mcp_tools.sh scaffold new_tool \
 实现 `new_tool_core()` 和 `register(mcp)` 后，增加：
 
 ```text
-chemistry_toolbox/mcp/test_tools/test_new_tool.py
+chemistry_toolbox/tests/test_new_capability.py
 ```
 
 然后执行：
 
 ```bash
 bash chemistry_toolbox/scripts/manage_mcp_tools.sh validate
-pytest -q chemistry_toolbox/mcp/test_tools/test_new_tool.py
+bash chemistry_toolbox/scripts/run_toolbox_tests.sh
 bash chemistry_toolbox/scripts/manage_mcp_tools.sh enable new_tool
 bash chemistry_toolbox/scripts/manage_mcp_tools.sh catalog
 ```

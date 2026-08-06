@@ -7,14 +7,14 @@ from pathlib import Path
 
 import pytest
 
-from researchchem_toolbox.service import execute_action
-from researchchem_toolbox.runtime import runtime_environment
+from chemistry_toolbox.src.service import execute_action
+from chemistry_toolbox.src.runtime import runtime_environment
 
 
 ROOT = Path(__file__).resolve().parents[2]
-YAMBO_FIXTURE = ROOT / ".software_cache" / "yambo" / "smoke" / "qe_si_gw_bse"
-SHARC_FIXTURE = ROOT / ".software_cache" / "sharc" / "source" / "tests" / "INPUT" / "LVC_overlap"
-KINBOT_FIXTURE = ROOT / ".software_cache" / "kinbot" / "smoke" / "action_nonempty_pes_validated3" / "input.json"
+YAMBO_FIXTURE = ROOT / ".software_cache" / "validation" / "yambo" / "smoke" / "qe_si_gw_bse"
+SHARC_FIXTURE = ROOT / ".software_cache" / "installations" / "sharc" / "source" / "tests" / "INPUT" / "LVC_overlap"
+KINBOT_FIXTURE = ROOT / ".software_cache" / "validation" / "kinbot" / "smoke" / "action_nonempty_pes_validated3" / "input.json"
 
 
 def _execute(action_id: str, backend_id: str, request: dict) -> dict:
@@ -61,7 +61,7 @@ def test_yambo_runs_real_gw_and_bse_actions(tmp_path, monkeypatch):
 @pytest.mark.skipif(not SHARC_FIXTURE.is_dir(), reason="SHARC LVC fixture is required")
 def test_sharc_runs_complete_real_lvc_trajectory(tmp_path, monkeypatch):
     monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
-    sharc = ROOT / ".software_cache" / "sharc" / "source"
+    sharc = ROOT / ".software_cache" / "installations" / "sharc" / "source"
     general = ROOT / ".envs" / "general-modern-openmpi5"
     kinetics = ROOT / ".envs" / "kinetics-legacy"
     monkeypatch.setenv("CHEMGRAPH_SHARC_COMMAND", str(sharc / "bin" / "sharc.x"))

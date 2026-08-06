@@ -16,8 +16,8 @@ from chemistry_toolbox.mcp.discovery_tools import (
     submit_action_batch,
 )
 from chemistry_toolbox.mcp.result_transport import compact_action_result
-from researchchem_toolbox.catalog import action_specs, catalog_snapshot
-from researchchem_toolbox.discovery import (
+from chemistry_toolbox.src.catalog import action_specs, catalog_snapshot
+from chemistry_toolbox.src.discovery import (
     browse_action_category,
     inspect_action,
     inspect_backend,

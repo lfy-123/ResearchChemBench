@@ -10,7 +10,7 @@ from chemistry_toolbox.mcp.workspace import (
     resolve_workspace_output_path,
     resolve_workspace_path,
 )
-from researchchem_toolbox.paths import PROJECT_ROOT, portable_report_text
+from chemistry_toolbox.src.paths import PROJECT_ROOT, portable_report_text
 from evaluation.trace import load_tool_trace, normalized_tool_calls, process_metrics
 
 

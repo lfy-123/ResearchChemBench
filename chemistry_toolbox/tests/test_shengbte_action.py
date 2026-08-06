@@ -5,10 +5,10 @@ from pathlib import Path
 
 import pytest
 
-from researchchem_toolbox.service import execute_action
+from chemistry_toolbox.src.service import execute_action
 
 
-SOURCE = Path(".software_cache/shengbte/source/Test-RTA").resolve()
+SOURCE = Path(".software_cache/installations/shengbte/source/Test-RTA").resolve()
 
 
 def _copy(tmp_path: Path, name: str) -> Path:

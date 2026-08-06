@@ -28,11 +28,12 @@ for path in (SOURCE_ROOT, ROOT):
     if str(path) not in sys.path:
         sys.path.insert(0, str(path))
 
-from researchchem_toolbox.specs import BACKEND_SPECS
+from chemistry_toolbox.src.backend_specs import BACKEND_SPECS
+from chemistry_toolbox.src.environment_layout import resolve_configured_path
 
 
 SOURCE_CONFIG = TOOLBOX_ROOT / "config" / "software_capability_sources.yaml"
-REQUESTED_STATUS = TOOLBOX_ROOT / "config" / "requested_software_status.json"
+REQUESTED_STATUS = TOOLBOX_ROOT / "evidence" / "status" / "requested_software_status.json"
 
 
 def _slug(value: str) -> str:
@@ -236,7 +237,9 @@ def main() -> int:
 
     capability, requested = _load()
     requested_by_alias = _requested_lookup(requested)
-    cache_root = ROOT / capability.get("cache_root", ".software_cache/documentation")
+    cache_root = resolve_configured_path(
+        capability.get("cache_root", ".software_cache/documentation")
+    )
     cache_root.mkdir(parents=True, exist_ok=True)
     generated_at = datetime.now(timezone.utc).isoformat()
     index: list[dict[str, Any]] = []

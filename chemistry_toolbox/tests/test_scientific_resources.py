@@ -4,10 +4,10 @@ import json
 
 import pytest
 
-from researchchem_toolbox import resources
-from researchchem_toolbox.backends import docking, electronic, mlip, periodic
-from researchchem_toolbox.backends.common import resolve_input_file, structure_dict
-from researchchem_toolbox.catalog import catalog_snapshot
+from chemistry_toolbox.src import resources
+from chemistry_toolbox.src.backends import docking, electronic, mlip, periodic
+from chemistry_toolbox.src.backends.common import resolve_input_file, structure_dict
+from chemistry_toolbox.src.catalog import catalog_snapshot
 
 
 def _test_registry(tmp_path, monkeypatch):

@@ -4,15 +4,15 @@ import os
 import shutil
 from pathlib import Path
 
-from researchchem_toolbox.backends import structure
-from researchchem_toolbox.service import execute_action
+from chemistry_toolbox.src.backends import structure
+from chemistry_toolbox.src.service import execute_action
 
 
 ROOT = Path(__file__).resolve().parents[2]
 RUNTIME = ROOT / ".envs" / "molecular-simulation-openff"
 PMX = RUNTIME / "bin" / "pmx"
 GMXLIB = RUNTIME / "lib" / "python3.12" / "site-packages" / "pmx" / "data" / "mutff"
-SOURCE = ROOT / ".software_cache" / "pmx" / "develop-0dd5f0a"
+SOURCE = ROOT / ".software_cache" / "sources" / "pmx" / "develop-0dd5f0a"
 ALCHEMY = SOURCE / "tests" / "data" / "alchemy"
 
 

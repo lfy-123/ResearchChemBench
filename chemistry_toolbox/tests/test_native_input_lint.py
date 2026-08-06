@@ -12,7 +12,7 @@ from chemistry_toolbox.mcp.open_execution import (
     _validate_goodvibes_invocation,
     validate_native_job,
 )
-from researchchem_toolbox.models import ResourceLimits
+from chemistry_toolbox.src.models import ResourceLimits
 
 
 TOOLBOX_ROOT = Path(__file__).resolve().parents[1]

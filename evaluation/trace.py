@@ -8,7 +8,7 @@ import re
 from pathlib import Path
 from typing import Any
 
-from researchchem_toolbox.catalog import action_specs
+from chemistry_toolbox.src.catalog import action_specs
 
 
 SUCCESSFUL_TOOL_STATUSES = {"success", "partial_success"}

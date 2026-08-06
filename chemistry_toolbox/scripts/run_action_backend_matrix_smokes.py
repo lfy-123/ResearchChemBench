@@ -30,12 +30,12 @@ for path in (SOURCE_ROOT, ROOT):
 
 from dotenv import load_dotenv
 
-from researchchem_toolbox.catalog import action_specs
-from researchchem_toolbox.service import execute_action
-from researchchem_toolbox.paths import portable_report_value
+from chemistry_toolbox.src.catalog import action_specs
+from chemistry_toolbox.src.service import execute_action
+from chemistry_toolbox.src.paths import portable_report_value
 
 
-STATUS_PATH = TOOLBOX_ROOT / "config" / "action_backend_matrix_smoke_status.json"
+STATUS_PATH = TOOLBOX_ROOT / "evidence" / "status" / "action_backend_matrix_smoke_status.json"
 PASS_STATUSES = {"success", "partial_success"}
 GROUPS = (
     "molecular_electronic",
@@ -446,13 +446,13 @@ def _licensed_md_files(context: Context) -> dict[str, Path]:
         "argon_top": context.file("argon.top", ARGON_TOP),
         "argon_data": context.file("argon.data", ARGON_LAMMPS),
     }
-    namd_source = ROOT / ".software_cache/namd/3.0.2/smoke"
+    namd_source = ROOT / ".software_cache/validation/namd/3.0.2/smoke"
     for name in ("CH_final.psf", "CH_final.pdb", "CH_cgenff.prm"):
         files[name] = context.copied(f"namd:{name}", namd_source / name, name)
-    amber_source = ROOT / ".software_cache/amber/26/smoke/gb7_trx_serial"
+    amber_source = ROOT / ".software_cache/validation/amber/26/smoke/gb7_trx_serial"
     files["amber_prmtop"] = context.copied("amber:prmtop", amber_source / "prmtop", "amber.prmtop")
     files["amber_inpcrd"] = context.copied("amber:inpcrd", amber_source / "trxox.2.4ns.x", "amber.inpcrd")
-    charmm_source = ROOT / ".software_cache/charmm/50b2/source/tool/pycharmm/tests/data"
+    charmm_source = ROOT / ".software_cache/sources/charmm/50b2/source/tool/pycharmm/tests/data"
     for name in ("water_cube.psf", "water_cube.crd", "water_ions.rtf", "water_ions.prm"):
         files[name] = context.copied(f"charmm:{name}", charmm_source / name, name)
     context.cache["licensed_md_files"] = files
