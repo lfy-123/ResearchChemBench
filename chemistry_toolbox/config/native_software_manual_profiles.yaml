@@ -1,6 +1,165 @@
 schema_version: 1
 
 software:
+  bagel:
+    display_name: BAGEL
+    installed_version: "1.2.2-3ubuntu1 (bfceffea)"
+    operational_status: runnable_self_contained_mpich_runtime
+    official_docs: [https://nubakery.org/, https://github.com/qsimulate-open/bagel]
+    primary_task: calculate explicitly specified multireference state energies, analytical nuclear gradients and nonadiabatic coupling vectors
+    task_types: [state-averaged CASSCF, XMS-CASPT2, analytical nuclear gradients, nonadiabatic couplings]
+    inputs: [BAGEL JSON input with geometry basis active space state manifold method and derivative target]
+    outputs: [state energies, convergence diagnostics, nuclear gradients, nonadiabatic coupling vectors]
+    normal_markers: [METHOD CASSCF, METHOD FORCE, METHOD NACME, Second-order optimization converged]
+    convergence_notes: Process completion is insufficient. Require convergence of the selected multireference calculation, verify the active space and state ordering, and preserve explicit target-state and basis choices.
+    resource_notes: The local runtime is an Ubuntu 22.04 MPICH binary plus a cache-local library closure. Keep MPI ranks times BAGEL threads within cpu_cores; no system package or shared Conda dependency is required.
+    known_errors:
+      - [Could not find basis set, the JSON basis name was not resolved to the cached basis directory, use the configured wrapper and an installed explicit basis name]
+      - [CBLAS parameter error, the selected active space or very small model is numerically invalid, validate electron count orbital partition basis and state manifold]
+      - [Second-order optimization did not converge, the CASSCF reference failed its explicit thresholds, inspect iterations and revise the scientifically justified initial space or convergence plan]
+      - [MPI library or Hydra launcher missing, only part of the cache-local runtime was migrated, copy the complete .software_cache/bagel/1.2.2 directory]
+
+  vaspkit:
+    display_name: VASPKIT
+    installed_version: "1.5.1"
+    operational_status: runnable_local_nonredistributable_binary
+    official_docs: [https://vaspkit.com/installation.html, https://vaspkit.com/tutorials.html, https://vaspkit.com/features.html]
+    primary_task: prepare and post-process explicitly supplied VASP structure and electronic-result files
+    task_types: [K-point meshes, crystal symmetry, band gaps, bands, density of states, charge and potential analysis]
+    inputs: [POSCAR or CONTCAR and task-specific INCAR EIGENVAL DOSCAR OUTCAR PROCAR CHGCAR or LOCPOT files]
+    outputs: [task-specific KPOINTS structures tables grids plots and stdout summaries]
+    normal_markers: [VASPKIT Standard Edition 1.5.1, Summary, exit code 0]
+    convergence_notes: Post-processing cannot establish convergence of the underlying VASP calculation. K-point density, cutoff, cell, electronic minimization, smearing, bands and energy references must be checked from the supplied calculation record.
+    resource_notes: The binary is lightweight for the exposed tasks. Large volumetric and wavefunction files can require substantial memory; native jobs must retain explicit limits.
+    known_errors:
+      - [configuration file not found, HOME does not contain the configured .vaspkit file, restore CHEMGRAPH_VASPKIT_CONFIG and use the runtime profile]
+      - [failed to read POTCAR, task 102 continued from KPOINTS generation into optional licensed-potential preparation, use the generated KPOINTS only and do not treat POTCAR generation as supported]
+      - [required VASP file not found, the selected task needs a complete matching VASP result set, stage every task-specific file from the same calculation]
+      - [illegal or unsupported argument, the selected task lacks command-line support or an option is invalid, use the documented native stdin mode only with an explicit reviewed input sequence]
+
+  pyfrag:
+    display_name: PyFrag
+    installed_version: "2019.02 (v1.0.0 af2a122d)"
+    operational_status: runnable_pinned_patched_source
+    official_docs: [https://pyfragdocument.readthedocs.io/en/latest/, https://pyfragdocument.readthedocs.io/en/latest/install.html, https://github.com/TheoChem-VU/PyFrag]
+    primary_task: calculate activation-strain analysis profiles from explicitly supplied molecular reaction paths using ORCA single-point energies
+    task_types: [activation strain model, distortion interaction analysis, reaction path energy decomposition, fragment strain analysis]
+    inputs: [PyFrag input specification, AMV or multi-XYZ reaction path, explicit fragment partitions and reference energies, ORCA method keywords]
+    outputs: [fragment_energies.txt, fragment ORCA outputs, structured activation-strain summary and validation]
+    normal_markers: [PyFrag finished. Have a nice day, ORCA TERMINATED NORMALLY, exit code 0]
+    convergence_notes: PyFrag completion does not validate the underlying path, fragment definition, reference states, electronic-structure method, basis-set convergence, spin state or path sampling. Every ORCA child calculation must terminate normally and the decomposition identity must close within an explicit tolerance.
+    resource_notes: The pinned standalone ORCA driver runs path points serially and launches three ORCA single points per frame. The public Action is bounded to 200 frames and one CPU core per ORCA call.
+    known_errors:
+      - [atom_list is undefined or path filename is split into characters, unpatched Python 3 tokenization is active, apply the tracked v1.0.0 compatibility patch]
+      - [could not convert string final to float, the legacy parser is reading an ORCA 6 Total Energy heading, apply the tracked FINAL SINGLE POINT ENERGY parser patch]
+      - [orca not found, the separately downloaded ORCA executable is absent from PATH, restore the ORCA and matching OpenMPI cache paths]
+      - [incomplete fragment_energies table, one or more complex or isolated-fragment calculations failed, inspect every native output and correct the explicit path method charge spin or fragment settings]
+
+  sisso:
+    display_name: SISSO
+    installed_version: "3.5 (bc18cae)"
+    operational_status: runnable_pinned_source_build
+    official_docs: [https://github.com/rouyang2017/SISSO, https://github.com/rouyang2017/SISSO/blob/master/SISSO_Guide_v3.5.pdf, https://github.com/rouyang2017/SISSO/pull/76]
+    primary_task: discover low-dimensional sparse analytical descriptors by feature construction, sure independence screening and sparsifying operators
+    task_types: [symbolic regression, descriptor discovery, sparse model selection, multitask learning, classification, held-out prediction]
+    inputs: [SISSO.in, train.dat, optional SISSO.out and predict.dat for evaluation]
+    outputs: [SISSO.out, Models, SIS_subspaces, predict_X.out, predict_Y.out]
+    normal_markers: [SISSO done successfully, Have a nice day, Prediction RMSE and MaxAE]
+    convergence_notes: A completed model is not evidence of stability. Converge feature complexity and SIS-subspace size, preserve a leakage-free split, test alternative splits or folds, and report held-out error and equation stability.
+    resource_notes: Feature spaces can grow combinatorially. CPU processes must not exceed the requested budget and memory must be assessed against operator set, complexity, features, samples and SIS size. The wrapper sets only the stack limit.
+    known_errors:
+      - [mpiifort not found or gfortran MPI interface errors, SISSO 3.5 requires its pinned Intel toolchain build, restore the complete toolchain cache and do not rebuild with an unvalidated compiler]
+      - [bc not found, the official SISSO_predict expression evaluator lacks its runtime dependency, install the declared bc 1.07.1 package]
+      - [Cannot read parameter, SISSO.in does not match version 3.5 syntax or the data dimensions, regenerate from the matching template and verify every explicit parameter]
+      - [killed or out of memory, the feature space or saved model count exceeds resources, reduce only scientifically justified search bounds or allocate more memory]
+
+  gmx_mmpbsa:
+    display_name: gmx_MMPBSA
+    installed_version: "1.6.5"
+    operational_status: runnable_isolated_runtime
+    official_docs: [https://valdes-tresanco-ms.github.io/gmx_MMPBSA/dev/installation/, https://valdes-tresanco-ms.github.io/gmx_MMPBSA/dev/input_file/, https://valdes-tresanco-ms.github.io/gmx_MMPBSA/dev/examples/Protein_ligand/ST/]
+    primary_task: calculate MM/GBSA or MM/PBSA end-state binding energies and residue decompositions from GROMACS trajectories
+    task_types: [binding free energy, MM GBSA, MM PBSA, per-frame energy analysis, residue decomposition]
+    inputs: [mmpbsa.in, complex TPR, index NDX, trajectory XTC, topology TOP and ITP includes]
+    outputs: [FINAL_RESULTS_MMPBSA.dat, FINAL_RESULTS_MMPBSA.csv, optional FINAL_DECOMP_MMPBSA.dat and CSV]
+    normal_markers: [Calculation completed, Final Results, exit code 0]
+    convergence_notes: Completion does not establish scientific convergence; frame selection, trajectory equilibration, solvent model, dielectric constants, entropy treatment, topology consistency, and uncertainty must be justified and tested.
+    resource_notes: The fixed runtime uses Python 3.11, AmberTools 23.6, GROMACS 2025.4, and MPI. It must remain isolated from the shared Python 3.12 and AmberTools 26 environment.
+    known_errors:
+      - [MMPBSA_mods import failed, the command is running outside the isolated environment, rebuild .envs/gmx-mmpbsa and activate its PATH]
+      - [AMBERHOME is not defined, AmberTools tools and data cannot be located, set AMBERHOME to the isolated runtime prefix]
+      - [OpenMPI refuses to run as root, container root protection is active, preserve the configured OMPI_ALLOW_RUN_AS_ROOT variables or run as a non-root user]
+      - [inconsistent topology or atom count, TPR trajectory topology and includes do not describe the same system, regenerate a consistent immutable input set]
+
+  pmx:
+    display_name: pmx
+    installed_version: "0+untagged.1.g0dd5f0a"
+    operational_status: runnable_pinned_development_version
+    official_docs: [https://degrootlab.github.io/pmx/, https://github.com/deGrootLab/pmx]
+    primary_task: prepare and analyze explicitly defined GROMACS alchemical transformations
+    task_types: [protein DNA and RNA mutation, B-state hybrid topology generation, ligand atom mapping, nonequilibrium work analysis]
+    inputs: [hydrogen-complete PDB or GRO, GROMACS TOP or ITP, ligand PDB pairs, XVG work files]
+    outputs: [hybrid structures, hybrid topologies, atom-pair maps, mapping scores, free-energy estimates]
+    normal_markers: [b-states filled, Final results, exit code 0]
+    convergence_notes: Successful preparation does not validate sampling or free-energy convergence; mapping quality, state charges, dummy interactions, overlap, hysteresis, and estimator uncertainty require explicit downstream checks.
+    resource_notes: Mutation and topology generation are lightweight. RDKit MCS mapping can grow combinatorially and must use an explicit timeout. GMXLIB must resolve to the pinned pmx mutation-force-field data.
+    known_errors:
+      - [forcefield path not found, GMXLIB does not point to pmx data/mutff, restore the configured runtime environment variable]
+      - [RDKit imports failed, RDKit is absent from the pmx Python runtime, install the declared rdkit dependency in the same environment]
+      - [empty or poor atom mapping, MCS alignment or chemical filters do not support this ligand pair, inspect mapping.log and revise explicit mapping policies]
+      - [upstream behavior changed, an unpinned develop branch was installed, rebuild exact commit 0dd5f0a or validate a deliberate upgrade]
+
+  acpype:
+    display_name: ACPYPE
+    installed_version: "2023.10.27"
+    operational_status: runnable
+    official_docs: [https://acpype.readthedocs.io/, https://github.com/alanwilter/acpype]
+    primary_task: generate GAFF-family molecular topologies and convert AMBER topology-coordinate pairs to GROMACS
+    task_types: [small-molecule parameterization, GAFF and GAFF2 atom typing, AMBER topology generation, AMBER-to-GROMACS conversion]
+    inputs: [PDB MOL2 or MDL molecular structure, or matching prmtop and inpcrd files]
+    outputs: [AMBER prmtop and inpcrd, GROMACS top itp and gro, optional CNS or CHARMM files]
+    normal_markers: [ACPYPE, Total time of execution, exit code 0]
+    convergence_notes: ACPYPE completion validates file generation only; selected charges, protonation, tautomer, atom typing, and force-field compatibility must be checked explicitly before simulation.
+    resource_notes: Topology conversion is lightweight; AM1-BCC invokes SQM and must receive a realistic explicit walltime. Open Babel is required for PDB/SMILES input and its Python module must match the ACPYPE Python environment.
+    known_errors:
+      - [Missing OBABEL, Open Babel executable or Python module is absent, install openbabel in the same runtime and verify both obabel and import openbabel]
+      - [Antechamber failed, input chemistry or charge spin and typing settings are inconsistent, inspect acpype.log and rerun Antechamber on the staged input]
+      - [GROMACS preprocessing fails, generated topology and coordinates are incompatible or unsuitable for the selected simulation settings, validate with gmx grompp before dynamics]
+
+  tdep:
+    display_name: TDEP
+    installed_version: "25.03 (d38f435)"
+    operational_status: runnable
+    official_docs: [https://tdep-developers.github.io/tdep/, https://github.com/tdep-developers/tdep/blob/25.03/INSTALL.md]
+    primary_task: fit and analyze temperature-dependent effective lattice-dynamical models
+    task_types: [effective force-constant fitting, canonical thermal sampling, phonon dispersion, vibrational thermodynamics, thermal transport]
+    inputs: [unit-cell POSCAR, supercell POSCAR, packed simulation HDF5, fitted force constants]
+    outputs: [effective force constants, thermal configurations, phonon dispersion and HDF5 data]
+    normal_markers: [Done in, All done in, exit code 0]
+    convergence_notes: Force-constant models require force-residual and cross-validation checks plus cutoff, trajectory-length, and temperature convergence; phonon completion alone does not validate the fitted model.
+    resource_notes: The configured build uses MPICH/gfortran at -O0. MPI ranks must remain within cpu_cores and runtime libraries come from kinetics-legacy.
+    known_errors:
+      - [segmentation fault during tuple construction, compiler optimization incompatibility, rebuild official 25.03 with OPTIMIZATION_LEVEL=-O0]
+      - [missing infile.sim.hdf5, packed trajectory data were not staged, provide a matching TDEP simulation HDF5 file]
+      - [unstable or imaginary modes, fitted model or reference structure is unstable or unconverged, inspect the trajectory and converge cutoffs sampling and reference structure]
+
+  airss:
+    display_name: AIRSS
+    installed_version: 0.9.3
+    operational_status: runnable
+    official_docs: [https://airss-docs.github.io/getting-started/installation/, https://airss-docs.github.io/technical-reference/buildcell-manual/, https://airss-docs.github.io/technical-reference/airss-utilities/]
+    primary_task: generate random sensible crystal structures from an explicit buildcell seed
+    task_types: [random crystal generation, constrained structure generation, crystal format conversion]
+    inputs: [annotated seed.cell, optional structure file for cabal]
+    outputs: [candidate .cell files, explicitly converted structure files]
+    normal_markers: [Generated by Buildcell, exit code 0]
+    convergence_notes: Structure generation has no electronic or structural convergence criterion; every candidate must be relaxed, deduplicated, and ranked in explicit downstream Actions.
+    resource_notes: buildcell and cabal are lightweight single-process utilities; large candidate pools should use bounded batches and preserve every seed and generated file.
+    known_errors:
+      - ["could not build a structure", "the geometric constraints are inconsistent or too restrictive", "review target volume, atom counts, symmetry, minimum separations, and MAXTIME"]
+      - ["empty conversion output", "the input format or file content is incompatible with cabal", "select a supported explicit format and validate the source file"]
+      - ["libgfortran.so.5 not found", "the AIRSS private runtime library path is missing", "prepend .software_cache/airss/0.9.3/lib to LD_LIBRARY_PATH"]
+
   abinit:
     display_name: ABINIT
     installed_version: 10.0.3
@@ -329,20 +488,23 @@ software:
 
   kinbot:
     display_name: KinBot
-    installed_version: installed KinBot runtime
-    operational_status: workflow_with_qm
+    installed_version: 2.2.2+local-nwchem-patch
+    operational_status: runnable_local_pes_with_nwchem
     official_docs: [https://zadorlab.github.io/KinBot/, https://github.com/zadorlab/KinBot]
     primary_task: automated reaction and potential-energy-surface exploration from a configured species
     task_types: [reaction search, conformer search, transition-state validation, PES assembly]
     inputs: [input.json, starting structure, templates, selected QM backend configuration]
     outputs: [KinBot database, structures, quantum-chemistry inputs and logs, PES files]
-    normal_markers: [KinBot finished, PES generation finished]
-    convergence_notes: Require completed backend jobs, validated transition states, expected imaginary modes, and correct reactant-product connectivity.
+    normal_markers: ["PES search done!", "KinBot done!", "done"]
+    convergence_notes: Require the full PES completion marker, completed local NWChem children, no child initial-optimization errors, an explicit reaction-search marker when requested, normal database records, intended frequency threshold, validated transition states, and correct reactant-product connectivity. A chemids file or the outer PES marker alone is not completion.
     resource_notes: KinBot orchestrates many external calculations; bound concurrent children and use native provenance for each expensive backend job.
     known_errors:
       - ["calculator executable not found", "configured Gaussian, ORCA, or other backend is unavailable", "validate the backend separately and correct KinBot paths"]
       - ["invalid JSON key", "input schema differs from the installed KinBot version", "start from the installed example schema and add options incrementally"]
       - ["reaction or TS validation failed", "geometry or frequency evidence is unsuitable", "inspect the individual backend log rather than accepting the workflow label"]
+      - ["Unable to run calculations when queuing is local", "unpatched KinBot 2.2.2 local mode only reads precomputed output", "apply the tracked local-NWChem patch and verify the installed KinBot version"]
+      - ["NWChem input or Python syntax error", "upstream templates target an older ASE writer or Python 2", "apply the tracked compatibility patch and use the configured NWChem command"]
+      - ["PES search done but child never entered reaction search", "the outer PES driver postprocessed a failed child or NWChem completion stamp was written to the wrong file", "inspect every child kinbot.log and apply the tracked completion-marker patch"]
 
   lammps:
     display_name: LAMMPS
@@ -737,20 +899,21 @@ software:
 
   sharc:
     display_name: SHARC
-    installed_version: installed source build
+    installed_version: SHARC4 source build+gfortran-restart-patch
     operational_status: workflow_with_electronic_structure
     official_docs: ["https://sharc-md.org/?page_id=50", https://github.com/sharc-md/sharc]
     primary_task: surface-hopping nonadiabatic dynamics with a configured electronic-structure interface
     task_types: [initial conditions, SHARC dynamics, wavefunction overlap, trajectory analysis]
     inputs: [SHARC input, initial conditions, interface resources, overlap input and orbital files]
-    outputs: [trajectory directories, output.dat, populations, geometries, overlap data]
-    normal_markers: [SHARC dynamics finished, normal termination]
-    convergence_notes: Require completed electronic steps and trajectories, then inspect failed trajectories, energy conservation, state populations, and hopping diagnostics.
+    outputs: [trajectory directories, output.dat, output.lis, restart files, populations, geometries, overlap data]
+    normal_markers: ["Finishing SHARC dynamics run.", "Total runtime:"]
+    convergence_notes: Require output.lis to reach the requested final time for every accepted trajectory, then inspect failed trajectories, energy conservation, state populations, hops, and independent seeds. The validated LVC ensemble contains three 30 fs trajectories and is an execution smoke, not a converged population study.
     resource_notes: Dynamics repeatedly calls an electronic-structure backend; total CPU, memory, scratch, and walltime must cover child calculations and overlap jobs.
     known_errors:
       - ["interface executable or template missing", "selected backend integration is incomplete", "validate one electronic-structure and overlap step first"]
       - ["wfoverlap failed", "orbital files, dimensions, or state definitions mismatch", "stage matching wavefunctions and inspect overlap input"]
       - ["trajectory aborted", "electronic calculation, energy, or state tracking failed", "inspect the first failed step and retain failed-trajectory provenance"]
+      - ["segmentation fault while writing restart", "gfortran receives an uninitialized or zero-length LP-ZPE implied list", "apply the tracked empty-restart-list patch and rebuild SHARC"]
 
   shengbte:
     display_name: ShengBTE
@@ -907,14 +1070,14 @@ software:
   yambo:
     display_name: Yambo
     installed_version: 5.3.0
-    operational_status: runnable_with_upstream_database
+    operational_status: runnable_gw_bse_with_upstream_database
     official_docs: [https://wiki.yambo-code.eu/wiki/index.php/Main_Page, https://github.com/yambo-code/yambo]
     primary_task: many-body perturbation or response calculation from a converted ground-state database
     task_types: [database conversion, GW, Bethe-Salpeter equation, optical spectra, real-time propagation]
     inputs: [compatible upstream save database, SAVE directory, input.in, optional restart databases]
-    outputs: [SAVE database, report, output data files, restart databases]
+    outputs: [SAVE database, GW quasiparticle table, BSE optical spectrum, report, output data files, restart databases]
     normal_markers: [Game Over & Game summary, Timing Overview]
-    convergence_notes: p2y success only creates a database. GW, BSE, and spectra require task completion and convergence with bands, cutoffs, k points, and frequency grids.
+    convergence_notes: p2y success only creates a database. A real minimal silicon G0W0 and BSE smoke completes and is parsed by typed Actions, but scientific results still require convergence with empty bands, dielectric cutoff, k points, broadening, and frequency grids.
     resource_notes: MPI and OpenMP layout, bands, plane waves, dielectric cutoffs, and k points dominate memory. Keep job-local SAVE and restart directories consistent.
     known_errors:
       - ["SAVE database not found", "p2y was not run on a compatible upstream database", "stage the complete upstream save directory and convert it first"]

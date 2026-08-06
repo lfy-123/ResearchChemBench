@@ -23,6 +23,7 @@ for path in (SOURCE_ROOT, ROOT):
 from dotenv import load_dotenv
 
 from researchchem_toolbox.service import execute_action
+from researchchem_toolbox.paths import portable_report_value
 
 
 STATUS_PATH = TOOLBOX_ROOT / "config" / "action_gap_smoke_status.json"
@@ -177,7 +178,6 @@ def _network_cases() -> list[tuple[str, dict[str, Any]]]:
                 "inputs": {"query": {"identifier": "water", "namespace": "name"}},
                 "method_spec": {},
                 "action_settings": {"require_unique": True, "max_records": 2},
-                "resource_limits": {"walltime_seconds": 90},
             },
         ),
         (
@@ -189,7 +189,6 @@ def _network_cases() -> list[tuple[str, dict[str, Any]]]:
                     "properties": ["cid", "molecular_formula", "molecular_weight"],
                     "max_records": 1,
                 },
-                "resource_limits": {"walltime_seconds": 90},
             },
         ),
         (
@@ -203,7 +202,6 @@ def _network_cases() -> list[tuple[str, dict[str, Any]]]:
                     "max_records": 1,
                     "require_unique": True,
                 },
-                "resource_limits": {"walltime_seconds": 90},
             },
         ),
         (
@@ -211,8 +209,7 @@ def _network_cases() -> list[tuple[str, dict[str, Any]]]:
             {
                 "inputs": {"query": {"identifier": "CCO", "namespace": "smiles"}},
                 "method_spec": {},
-                "action_settings": {"threshold": 99, "max_records": 1, "timeout_seconds": 30},
-                "resource_limits": {"walltime_seconds": 90},
+                "action_settings": {"threshold": 99, "max_records": 1},
             },
         ),
         (
@@ -225,9 +222,7 @@ def _network_cases() -> list[tuple[str, dict[str, Any]]]:
                     "match_stereo": False,
                     "match_charges": False,
                     "match_isotopes": False,
-                    "timeout_seconds": 30,
                 },
-                "resource_limits": {"walltime_seconds": 90},
             },
         ),
         (
@@ -235,8 +230,7 @@ def _network_cases() -> list[tuple[str, dict[str, Any]]]:
             {
                 "inputs": {"query": {"reactants": "CO"}},
                 "method_spec": {},
-                "action_settings": {"max_records": 1, "timeout_seconds": 30},
-                "resource_limits": {"walltime_seconds": 90},
+                "action_settings": {"max_records": 1},
             },
         ),
     ]
@@ -255,6 +249,7 @@ def _write_status(records: list[dict[str, Any]], *, network_included: bool) -> i
         },
         "cases": records,
     }
+    payload = portable_report_value(payload)
     STATUS_PATH.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(STATUS_PATH)
     print(json.dumps(payload["summary"], ensure_ascii=False))

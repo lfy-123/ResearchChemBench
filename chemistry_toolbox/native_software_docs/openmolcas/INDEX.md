@@ -5,7 +5,7 @@ topics: ["index", "navigation", "capabilities"]
 aliases: ["OpenMolcas", "openmolcas"]
 inputs: ["input.inp"]
 outputs: ["stdout.log", "HDF5 and orbital files", "geometry and property files"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # OpenMolcas Native Software Guide
@@ -38,6 +38,12 @@ Execute an Agent-authored OpenMolcas input deck for multireference and spectrosc
 - geometry optimization.
 - frequency.
 - spectroscopy.
+
+## Layer 1 typed Actions
+- `calculate_energy`.
+- `calculate_dipole_moment`.
+- `calculate_atomic_charges`.
+- `calculate_orbitals`.
 
 ## Required knowledge before submission
 The toolbox does not select a scientific method, force field, pseudopotential, basis, database, training set, convergence threshold, or workflow ordering. The Agent must obtain those choices from the task, a paper, or an authoritative source and then author a complete input.

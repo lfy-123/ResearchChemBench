@@ -15,10 +15,20 @@ declare -A PREFIXES=(
   [equivariant-ml]="equivariant-ml"
   [periodic-mpich]="periodic-mpich"
   [catmap-yambo-openmpi4]="yambo-openmpi4"
+  [gmx-mmpbsa]="gmx-mmpbsa"
 )
 
+selected=("$@")
+if ((${#selected[@]} == 0)); then
+  selected=("${!PREFIXES[@]}")
+fi
+
 mkdir -p "${LOCK_ROOT}"
-for name in "${!PREFIXES[@]}"; do
+for name in "${selected[@]}"; do
+  [[ -n "${PREFIXES[${name}]:-}" ]] || {
+    echo "Unknown merged environment: ${name}" >&2
+    exit 2
+  }
   prefix="${TARGET_ROOT}/${PREFIXES[${name}]}"
   [[ -x "${prefix}/bin/python" ]] || { echo "Missing merged environment: ${prefix}" >&2; exit 2; }
   explicit="${LOCK_ROOT}/${name}.explicit.txt"
@@ -28,7 +38,9 @@ for name in "${!PREFIXES[@]}"; do
     "${MANAGER}" list -p "${prefix}" --explicit | grep -E '^https?://'
   } > "${temporary}"
   mv "${temporary}" "${explicit}"
-  "${prefix}/bin/python" -m pip freeze > "${LOCK_ROOT}/${name}.pip-freeze.txt"
+  "${prefix}/bin/python" -m pip freeze \
+    | sed "s#${PROJECT_ROOT}#\${PROJECT_ROOT}#g" \
+    > "${LOCK_ROOT}/${name}.pip-freeze.txt"
 done
 
 PROJECT_ROOT="${PROJECT_ROOT}" LOCK_ROOT="${LOCK_ROOT}" python3 - <<'PY'
@@ -61,4 +73,4 @@ payload = {
 )
 PY
 
-echo "Captured ${#PREFIXES[@]} merged environment locks under ${LOCK_ROOT}."
+echo "Captured ${#selected[@]} merged environment lock(s) under ${LOCK_ROOT}."

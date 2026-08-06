@@ -1,0 +1,35 @@
+usage: rmg.py [-h] [-q | -v | -d] [-o DIR] [-r path/to/seed/] [-p] [-P]
+              [-t DD:HH:MM:SS] [-i MAXITER] [-n MAXPROC] [-k]
+              FILE
+
+Reaction Mechanism Generator (RMG) is an automatic chemical reaction mechanism
+generator that constructs kinetic models composed of elementary chemical
+reaction steps using a general understanding of how molecules react.
+
+positional arguments:
+  FILE                  a file describing the job to execute
+
+options:
+  -h, --help            show this help message and exit
+  -q, --quiet           only print warnings and errors
+  -v, --verbose         print more verbose output
+  -d, --debug           print debug information
+  -o DIR, --output-directory DIR
+                        use DIR as output directory
+  -r path/to/seed/, --restart path/to/seed/
+                        restart RMG from a seed
+  -p, --profile         run under cProfile to gather profiling statistics, and
+                        postprocess them if job completes
+  -P, --postprocess     postprocess profiling statistics from previous
+                        [failed] run; does not run the simulation
+  -t DD:HH:MM:SS, --walltime DD:HH:MM:SS
+                        set the maximum execution time
+  -i MAXITER, --maxiter MAXITER
+                        set the maximum number of RMG iterations
+  -n MAXPROC, --maxproc MAXPROC
+                        max number of processes used during reaction
+                        generation
+  -k, --kineticsdatastore
+                        output a folder, kinetics_database, that contains a
+                        .txt file for each reaction family listing the
+                        source(s) for each entry

@@ -1,34 +1,41 @@
 # Live Action/Backend Catalog Audit
 
-Generated at `2026-07-28T17:31:50.528249+00:00` from the live catalog.
+Generated at `2026-08-06T05:11:58.685543+00:00` from the live catalog.
 
-- Actions: 114
-- Backends: 77
-- Action/Backend pairs: 249
+- Actions: 150
+- Backends: 92
+- Action/Backend pairs: 286
 
 ## Actions
 
 | Action | Category | Backends |
 |---|---|---|
 | `align_molecular_structures` | Structure, conformers, charges, and system construction | `rdkit` |
-| `analyze_crystal_symmetry` | Structure, conformers, charges, and system construction | `spglib`, `pymatgen` |
+| `analyze_activation_strain_profile` | Reaction paths, equilibrium, and kinetics | `pyfrag` |
+| `analyze_crystal_symmetry` | Structure, conformers, charges, and system construction | `spglib`, `pymatgen`, `vaspkit` |
 | `analyze_electron_density_topology` | Molecular electronic structure and derived properties | `critic2` |
 | `analyze_free_energy_convergence` | Molecular dynamics propagation and trajectory analysis | `pymbar` |
+| `analyze_nonadiabatic_trajectory_ensemble` | Molecular dynamics propagation and trajectory analysis | `internal_trajectory_analysis` |
 | `analyze_periodic_bonding` | Periodic electronic structure and lattice dynamics | `lobster` |
+| `analyze_post_transition_state_trajectory_ensemble` | Reaction paths, equilibrium, and kinetics | `internal_reaction_analysis` |
 | `analyze_reaction_coordinate` | Reaction paths, equilibrium, and kinetics | `internal_reaction_analysis` |
 | `analyze_reaction_free_energy_profile` | Reaction paths, equilibrium, and kinetics | `goodvibes` |
 | `analyze_thermochemical_ensemble` | Molecular electronic structure and derived properties | `goodvibes` |
 | `analyze_thermochemical_selectivity` | Reaction paths, equilibrium, and kinetics | `goodvibes` |
 | `assemble_force_constants` | Periodic electronic structure and lattice dynamics | `phonopy`, `phono3py` |
+| `assess_phonon_stability` | Periodic electronic structure and lattice dynamics | `internal_periodic_analysis` |
+| `assess_symbolic_regression_seed_stability` | Molecular descriptors, fingerprints, graph operations, and data-driven descriptor discovery | `gplearn` |
 | `assign_force_field_parameters` | Structure, conformers, charges, and system construction | `openff`, `openmm_builder` |
 | `assign_partial_charges` | Structure, conformers, charges, and system construction | `rdkit_gasteiger`, `openff_am1bcc` |
 | `assign_protonation_states` | Structure, conformers, charges, and system construction | `rdkit`, `pdbfixer` |
 | `assign_secondary_structure` | Molecular dynamics propagation and trajectory analysis | `mdtraj` |
 | `build_supercell` | Structure, conformers, charges, and system construction | `pymatgen` |
+| `calculate_adsorption_energy` | Periodic electronic structure and lattice dynamics | `internal_periodic_analysis` |
 | `calculate_atomic_basin_properties` | Molecular electronic structure and derived properties | `critic2` |
 | `calculate_atomic_charges` | Molecular electronic structure and derived properties | `xtb`, `pyscf`, `psi4`, `nwchem`, `openmolcas`, `multiwfn`, `orca` |
 | `calculate_bader_charges` | Molecular electronic structure and derived properties | `critic2` |
 | `calculate_bond_orders` | Molecular electronic structure and derived properties | `xtb`, `multiwfn`, `orca` |
+| `calculate_bse_optical_spectrum` | Periodic electronic structure and lattice dynamics | `yambo` |
 | `calculate_charge_spilling` | Periodic electronic structure and lattice dynamics | `lobster` |
 | `calculate_chemical_equilibrium` | Reaction paths, equilibrium, and kinetics | `cantera` |
 | `calculate_contacts` | Molecular dynamics propagation and trajectory analysis | `mdtraj` |
@@ -39,6 +46,8 @@ Generated at `2026-07-28T17:31:50.528249+00:00` from the live catalog.
 | `calculate_dynamic_cross_correlation` | Molecular dynamics propagation and trajectory analysis | `mdanalysis` |
 | `calculate_electron_isodensity_surface` | Molecular electronic structure and derived properties | `multiwfn` |
 | `calculate_electronic_band_structure` | Periodic electronic structure and lattice dynamics | `gpaw` |
+| `calculate_end_state_binding_free_energy` | Molecular dynamics propagation and trajectory analysis | `gmx_mmpbsa` |
+| `calculate_end_state_energy_decomposition` | Molecular dynamics propagation and trajectory analysis | `gmx_mmpbsa` |
 | `calculate_energy` | Molecular electronic structure and derived properties | `xtb`, `pyscf`, `psi4`, `tblite`, `gpaw`, `nwchem`, `openmolcas`, `mace`, `chgnet`, `deepmd`, `orca`, `gaussian`, `gamess`, `ase_emt` |
 | `calculate_excited_states` | Molecular electronic structure and derived properties | `pyscf`, `orca` |
 | `calculate_force_field_energy` | Molecular dynamics propagation and trajectory analysis | `openmm`, `hoomd` |
@@ -49,9 +58,12 @@ Generated at `2026-07-28T17:31:50.528249+00:00` from the live catalog.
 | `calculate_hydrogen_bonds` | Molecular dynamics propagation and trajectory analysis | `mdanalysis` |
 | `calculate_lattice_thermal_conductivity` | Periodic electronic structure and lattice dynamics | `phono3py`, `shengbte` |
 | `calculate_mean_squared_displacement` | Molecular dynamics propagation and trajectory analysis | `mdanalysis` |
-| `calculate_molecular_descriptors` | Molecular descriptors, fingerprints, identifiers, and graph operations | `rdkit` |
-| `calculate_molecular_fingerprint` | Molecular descriptors, fingerprints, identifiers, and graph operations | `rdkit` |
-| `calculate_molecular_similarity` | Molecular descriptors, fingerprints, identifiers, and graph operations | `rdkit` |
+| `calculate_molecular_descriptors` | Molecular descriptors, fingerprints, graph operations, and data-driven descriptor discovery | `rdkit` |
+| `calculate_molecular_fingerprint` | Molecular descriptors, fingerprints, graph operations, and data-driven descriptor discovery | `rdkit` |
+| `calculate_molecular_similarity` | Molecular descriptors, fingerprints, graph operations, and data-driven descriptor discovery | `rdkit` |
+| `calculate_multireference_nuclear_gradient` | Molecular electronic structure and derived properties | `bagel` |
+| `calculate_multireference_state_energies` | Molecular electronic structure and derived properties | `bagel` |
+| `calculate_nonadiabatic_coupling_vector` | Molecular electronic structure and derived properties | `bagel` |
 | `calculate_orbitals` | Molecular electronic structure and derived properties | `pyscf`, `psi4`, `openmolcas`, `orca` |
 | `calculate_periodic_energy` | Periodic electronic structure and lattice dynamics | `quantum_espresso`, `cp2k`, `siesta`, `dftbplus`, `abinit`, `vasp`, `gpaw`, `nequip`, `allegro`, `deepmd` |
 | `calculate_periodic_forces` | Periodic electronic structure and lattice dynamics | `quantum_espresso`, `cp2k`, `siesta`, `dftbplus`, `abinit`, `vasp`, `gpaw`, `nequip`, `allegro`, `deepmd` |
@@ -62,41 +74,60 @@ Generated at `2026-07-28T17:31:50.528249+00:00` from the live catalog.
 | `calculate_potential_of_mean_force` | Molecular dynamics propagation and trajectory analysis | `pymbar` |
 | `calculate_principal_components` | Molecular dynamics propagation and trajectory analysis | `mdanalysis` |
 | `calculate_projected_density_of_states` | Periodic electronic structure and lattice dynamics | `gpaw`, `lobster` |
+| `calculate_quasiparticle_corrections` | Periodic electronic structure and lattice dynamics | `yambo` |
 | `calculate_radial_distribution` | Molecular dynamics propagation and trajectory analysis | `mdanalysis` |
 | `calculate_radius_of_gyration` | Molecular dynamics propagation and trajectory analysis | `mdanalysis`, `mdtraj` |
 | `calculate_rate_constants` | Reaction paths, equilibrium, and kinetics | `rmg` |
 | `calculate_solvent_accessible_surface` | Molecular dynamics propagation and trajectory analysis | `mdtraj` |
+| `calculate_temperature_dependent_phonon_dispersion` | Periodic electronic structure and lattice dynamics | `tdep` |
 | `calculate_trajectory_rmsd` | Molecular dynamics propagation and trajectory analysis | `mdanalysis`, `mdtraj` |
 | `calculate_tunneling_correction` | Reaction paths, equilibrium, and kinetics | `rmg` |
 | `cluster_conformers` | Structure, conformers, charges, and system construction | `rdkit` |
 | `cluster_trajectory` | Molecular dynamics propagation and trajectory analysis | `mdtraj` |
+| `construct_pressure_enthalpy_phase_diagram` | Periodic electronic structure and lattice dynamics | `internal_periodic_analysis` |
+| `convert_amber_topology_to_gromacs` | Structure, conformers, charges, and system construction | `acpype` |
+| `convert_crystal_structure_format` | Periodic electronic structure and lattice dynamics | `airss` |
 | `decompose_force_field_energy` | Molecular dynamics propagation and trajectory analysis | `openmm` |
 | `derive_ir_spectrum` | Molecular electronic structure and derived properties | `internal_spectroscopy` |
 | `derive_thermochemistry` | Molecular electronic structure and derived properties | `internal_thermochemistry`, `goodvibes` |
 | `derive_uv_vis_spectrum` | Molecular electronic structure and derived properties | `internal_spectroscopy` |
 | `derive_vibrational_modes` | Molecular electronic structure and derived properties | `internal_vibrations` |
+| `discover_sparse_symbolic_descriptor` | Molecular descriptors, fingerprints, graph operations, and data-driven descriptor discovery | `sisso` |
 | `dock_ligand` | Molecular docking | `vina`, `gnina` |
 | `enumerate_coordination_isomers` | Structure, conformers, charges, and system construction | `internal_reaction_analysis` |
-| `enumerate_stereoisomers` | Molecular descriptors, fingerprints, identifiers, and graph operations | `rdkit` |
+| `enumerate_stereoisomers` | Molecular descriptors, fingerprints, graph operations, and data-driven descriptor discovery | `rdkit` |
 | `enumerate_surface_slabs` | Structure, conformers, charges, and system construction | `pymatgen` |
-| `enumerate_tautomers` | Molecular descriptors, fingerprints, identifiers, and graph operations | `rdkit` |
+| `enumerate_tautomers` | Molecular descriptors, fingerprints, graph operations, and data-driven descriptor discovery | `rdkit` |
 | `estimate_free_energy_difference` | Molecular dynamics propagation and trajectory analysis | `pymbar` |
 | `estimate_thermodynamic_expectations` | Molecular dynamics propagation and trajectory analysis | `pymbar` |
 | `evaluate_collective_variables` | Molecular dynamics propagation and trajectory analysis | `plumed` |
+| `evaluate_sparse_symbolic_descriptor` | Molecular descriptors, fingerprints, graph operations, and data-driven descriptor discovery | `sisso` |
+| `explore_reaction_network` | Reaction paths, equilibrium, and kinetics | `kinbot` |
 | `export_electron_density_grid` | Molecular electronic structure and derived properties | `orca` |
+| `extract_vasp_band_gap` | Periodic electronic structure and lattice dynamics | `vaspkit` |
+| `fit_effective_force_constants` | Periodic electronic structure and lattice dynamics | `tdep` |
+| `fit_symbolic_regression_baseline` | Molecular descriptors, fingerprints, graph operations, and data-driven descriptor discovery | `gplearn` |
 | `generate_3d_structure` | Structure, conformers, charges, and system construction | `rdkit`, `openbabel` |
+| `generate_alchemical_hybrid_topology` | Structure, conformers, charges, and system construction | `pmx` |
 | `generate_conformer_ensemble` | Structure, conformers, charges, and system construction | `rdkit_etkdg`, `crest` |
+| `generate_crystal_structure_candidates` | Periodic electronic structure and lattice dynamics | `airss` |
 | `generate_displaced_supercells` | Periodic electronic structure and lattice dynamics | `phonopy`, `phono3py` |
+| `generate_small_molecule_topology` | Structure, conformers, charges, and system construction | `acpype` |
+| `generate_thermal_displacement_configurations` | Periodic electronic structure and lattice dynamics | `tdep` |
+| `generate_vasp_kpoint_mesh` | Periodic electronic structure and lattice dynamics | `vaspkit` |
 | `integrate_reaction_network` | Reaction paths, equilibrium, and kinetics | `scipy`, `cantera` |
 | `locate_transition_state` | Reaction paths, equilibrium, and kinetics | `pysisyphus`, `sella` |
 | `lookup_nist_webbook_species` | External chemistry data sources | `nist_webbook` |
+| `map_alchemical_ligand_atoms` | Structure, conformers, charges, and system construction | `pmx` |
 | `minimize_system_energy` | Molecular dynamics propagation and trajectory analysis | `openmm`, `gromacs`, `lammps`, `hoomd`, `namd`, `amber_pmemd`, `charmm` |
+| `mutate_biomolecular_residues_for_alchemy` | Structure, conformers, charges, and system construction | `pmx` |
 | `normalize_pdb_records` | Structure, conformers, charges, and system construction | `pdb_tools` |
 | `normalize_qcschema_molecule` | Scientific records, schemas, and output parsing | `qcelemental` |
 | `optimize_geometry` | Molecular electronic structure and derived properties | `xtb`, `tblite`, `gpaw`, `mace`, `chgnet`, `deepmd`, `orca`, `gaussian`, `gamess`, `ase_emt`, `geometric`, `sella` |
 | `parse_alchemical_energy_data` | Molecular dynamics propagation and trajectory analysis | `alchemlyb` |
 | `parse_quantum_chemistry_output` | Scientific records, schemas, and output parsing | `cclib` |
 | `propagate_dynamics` | Molecular dynamics propagation and trajectory analysis | `openmm`, `gromacs`, `lammps`, `hoomd`, `namd`, `amber_pmemd`, `charmm` |
+| `propagate_nonadiabatic_trajectory` | Molecular dynamics propagation and trajectory analysis | `sharc` |
 | `rank_conformers_from_results` | Structure, conformers, charges, and system construction | `internal_statistics` |
 | `relax_periodic_structure` | Periodic electronic structure and lattice dynamics | `quantum_espresso`, `cp2k`, `siesta`, `dftbplus`, `abinit`, `vasp`, `gpaw`, `nequip`, `allegro`, `deepmd` |
 | `renumber_biomolecular_structure` | Structure, conformers, charges, and system construction | `pdb_tools` |
@@ -108,7 +139,7 @@ Generated at `2026-07-28T17:31:50.528249+00:00` from the live catalog.
 | `scan_thermochemistry_temperature` | Molecular electronic structure and derived properties | `goodvibes` |
 | `search_catalysis_records` | External chemistry data sources | `catalysis_hub` |
 | `search_compounds` | External chemistry data sources | `pubchem` |
-| `search_local_substructures` | Molecular descriptors, fingerprints, identifiers, and graph operations | `rdkit` |
+| `search_local_substructures` | Molecular descriptors, fingerprints, graph operations, and data-driven descriptor discovery | `rdkit` |
 | `search_materials` | External chemistry data sources | `materials_project` |
 | `search_protein_structures` | External chemistry data sources | `rcsb_pdb` |
 | `search_reaction_path` | Reaction paths, equilibrium, and kinetics | `pysisyphus` |
@@ -120,7 +151,12 @@ Generated at `2026-07-28T17:31:50.528249+00:00` from the live catalog.
 | `solve_microkinetic_model` | Reaction paths, equilibrium, and kinetics | `catmap` |
 | `standardize_crystal_structure` | Structure, conformers, charges, and system construction | `spglib`, `pymatgen` |
 | `standardize_structure` | Structure, conformers, charges, and system construction | `rdkit` |
+| `summarize_activation_strain_profile` | Reaction paths, equilibrium, and kinetics | `pyfrag` |
+| `summarize_end_state_free_energy_results` | Molecular dynamics propagation and trajectory analysis | `gmx_mmpbsa` |
+| `summarize_sparse_symbolic_descriptor_results` | Molecular descriptors, fingerprints, graph operations, and data-driven descriptor discovery | `sisso` |
+| `summarize_symbolic_regression_results` | Molecular descriptors, fingerprints, graph operations, and data-driven descriptor discovery | `gplearn` |
 | `trace_intrinsic_reaction_coordinate` | Reaction paths, equilibrium, and kinetics | `pysisyphus` |
+| `validate_activation_strain_profile` | Reaction paths, equilibrium, and kinetics | `pyfrag` |
 | `validate_qcschema_record` | Scientific records, schemas, and output parsing | `qcelemental` |
 | `validate_reaction_path` | Reaction paths, equilibrium, and kinetics | `internal_reaction_analysis` |
 | `validate_thermochemistry_inputs` | Molecular electronic structure and derived properties | `goodvibes` |
@@ -130,10 +166,13 @@ Generated at `2026-07-28T17:31:50.528249+00:00` from the live catalog.
 | Backend | Action count |
 |---|---:|
 | `abinit` | 4 |
+| `acpype` | 2 |
+| `airss` | 2 |
 | `alchemlyb` | 1 |
 | `allegro` | 4 |
 | `amber_pmemd` | 2 |
 | `ase_emt` | 4 |
+| `bagel` | 3 |
 | `cantera` | 2 |
 | `catalysis_hub` | 1 |
 | `catmap` | 1 |
@@ -148,16 +187,21 @@ Generated at `2026-07-28T17:31:50.528249+00:00` from the live catalog.
 | `gamess` | 3 |
 | `gaussian` | 4 |
 | `geometric` | 1 |
+| `gmx_mmpbsa` | 3 |
 | `gnina` | 1 |
 | `goodvibes` | 6 |
 | `gpaw` | 10 |
+| `gplearn` | 3 |
 | `gromacs` | 2 |
 | `hoomd` | 4 |
-| `internal_reaction_analysis` | 3 |
+| `internal_periodic_analysis` | 3 |
+| `internal_reaction_analysis` | 4 |
 | `internal_spectroscopy` | 2 |
 | `internal_statistics` | 1 |
 | `internal_thermochemistry` | 1 |
+| `internal_trajectory_analysis` | 1 |
 | `internal_vibrations` | 1 |
+| `kinbot` | 1 |
 | `lammps` | 2 |
 | `lobster` | 3 |
 | `mace` | 4 |
@@ -184,8 +228,10 @@ Generated at `2026-07-28T17:31:50.528249+00:00` from the live catalog.
 | `phono3py` | 7 |
 | `phonopy` | 6 |
 | `plumed` | 1 |
+| `pmx` | 3 |
 | `psi4` | 5 |
 | `pubchem` | 6 |
+| `pyfrag` | 3 |
 | `pymatgen` | 4 |
 | `pymbar` | 4 |
 | `pyscf` | 7 |
@@ -199,13 +245,18 @@ Generated at `2026-07-28T17:31:50.528249+00:00` from the live catalog.
 | `rmg` | 2 |
 | `scipy` | 1 |
 | `sella` | 2 |
+| `sharc` | 1 |
 | `shengbte` | 1 |
 | `siesta` | 3 |
+| `sisso` | 3 |
 | `spglib` | 2 |
 | `tblite` | 5 |
+| `tdep` | 3 |
 | `vasp` | 4 |
+| `vaspkit` | 3 |
 | `vina` | 1 |
 | `xtb` | 7 |
+| `yambo` | 2 |
 
 ## Validation
 

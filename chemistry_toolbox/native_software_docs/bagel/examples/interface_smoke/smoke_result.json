@@ -1,0 +1,61 @@
+{
+  "archived_files": [
+    {
+      "path": "request.json",
+      "sha256": "c73d4b3ef94a854282f4e06e057d675cc901e05c22ac1ae178970f8bad800147",
+      "size_bytes": 1235
+    },
+    {
+      "path": "status.json",
+      "sha256": "7b9036e98ac10d1ced5e01a4a1b0e9f1b90985e2d26a083066c0057c064249ed",
+      "size_bytes": 2004
+    },
+    {
+      "path": "collection.json",
+      "sha256": "d8037116566b280e29fa888a3fed0bb7bb6e919fe31a9308a95d17f7379f32af",
+      "size_bytes": 1510
+    },
+    {
+      "path": "stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "stderr.log",
+      "sha256": "43010c3d16da4c4d55a225839925eace45b22d538e81089a015b64e067c40581",
+      "size_bytes": 999
+    }
+  ],
+  "artifact_status": "not_validated",
+  "convergence_status": "not_reached",
+  "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/bagel",
+  "job_id": "job_f820a171344b4e2faa95e3f24189f6df",
+  "process_status": "failed",
+  "reason": "The executable started and reported that a required scientific input file was not staged.",
+  "request": {
+    "arguments": [
+      "interface_smoke.json"
+    ],
+    "calculation_intent": null,
+    "executable": "BAGEL",
+    "label": "manual-interface-smoke-bagel",
+    "parent_job_id": null,
+    "resource_limits": {
+      "cpu_cores": 1,
+      "gpu_count": 0,
+      "memory_mb": 1024
+    },
+    "software_id": "bagel",
+    "staged_inputs": [],
+    "stdin_target": null
+  },
+  "request_status": "accepted",
+  "scientific_validation_status": "not_reached",
+  "software_id": "bagel",
+  "software_status": "not_reached",
+  "status": "started_input_required",
+  "stderr_tail": "Traceback (most recent call last):\n  File \".software_cache/bagel/1.2.2/bin/bagel_launcher.py\", line 49, in <module>\n    raise SystemExit(main())\n                     ^^^^^^\n  File \".software_cache/bagel/1.2.2/bin/bagel_launcher.py\", line 16, in main\n    payload = json.loads(source.read_text(encoding=\"utf-8\"))\n                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \".envs/general-modern-openmpi5/lib/python3.11/pathlib.py\", line 1058, in read_text\n    with self.open(mode='r', encoding=encoding, errors=errors) as f:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \".envs/general-modern-openmpi5/lib/python3.11/pathlib.py\", line 1044, in open\n    return io.open(self, mode, buffering, encoding, errors, newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: '/tmp/researchchem-all-native-smoke-dyr_y20y/outputs/execution_jobs/job_f820a171344b4e2faa95e3f24189f6df/interface_smoke.json'\n",
+  "stdout_tail": "",
+  "test_level": "interface_smoke",
+  "tested_at": "2026-08-06T10:32:07.312490+00:00"
+}

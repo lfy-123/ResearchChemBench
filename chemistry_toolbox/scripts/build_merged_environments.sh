@@ -19,6 +19,7 @@ ALL_ENVIRONMENTS=(
   equivariant-ml
   periodic-mpich
   catmap-yambo-openmpi4
+  gmx-mmpbsa
 )
 
 usage() {
@@ -82,6 +83,9 @@ for name in "${selected[@]}"; do
     PIP_INDEX_URL="${RCB_PIP_INDEX_URL:-https://pypi.org/simple}" \
     PIP_TRUSTED_HOST="${RCB_PIP_TRUSTED_HOST:-pypi.org}" \
       "${prefix}/bin/python" -m pip install -r "${spec_dir}/requirements.txt"
+  fi
+  if [[ "${name}" == "reaction-kinetics" ]]; then
+    "${SCRIPT_DIR}/install_patched_kinbot.sh" "${prefix}"
   fi
   check_output="$(mktemp)"
   if ! "${prefix}/bin/python" -m pip check >"${check_output}" 2>&1; then

@@ -58,7 +58,7 @@ def chemistry_workspace(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path
     return tmp_path
 
 
-def test_native_guides_exactly_cover_backend_executables():
+def test_native_guides_cover_backend_executables_and_may_expose_extra_commands():
     validate_native_guides()
     guides = load_native_guides()["software"]
     executable_specs = {
@@ -68,7 +68,7 @@ def test_native_guides_exactly_cover_backend_executables():
     }
     assert set(executable_specs) <= set(guides)
     for backend_id, executables in executable_specs.items():
-        assert set(guides[backend_id]["commands"]) == executables
+        assert executables <= set(guides[backend_id]["commands"])
     assert guides["amber_pmemd"]["commands"]["mpirun"]["enabled"] is False
     assert guides["sharc"]["runtime"] == "sharc"
     assert "verdi" in guides["aiida"]["commands"]
@@ -96,7 +96,7 @@ def test_software_inventory_explains_native_and_module_only_access():
     assert aiida["native_invocation_guides"][0]["available"] is True
 
     sharc = inspect_software(SoftwareInspectRequest(software_id="sharc"))
-    assert sharc["backend_registered"] is False
+    assert sharc["backend_registered"] is True
     assert {item["executable"] for item in sharc["native_invocation_guides"]} == {
         "sharc.x",
         "wfoverlap.x",

@@ -5,7 +5,7 @@ topics: ["common-tasks", "inputs", "outputs", "convergence"]
 aliases: ["SIESTA", "siesta"]
 inputs: ["input.fdf", "pseudopotential files", "optional included structure and basis files"]
 outputs: ["stdout.log", ".XV", ".DM", ".WFSX", ".bands", ".DOS and trajectory files"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # SIESTA Common Tasks
@@ -17,6 +17,11 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 - **Bands**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Dos**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Transport Preparation**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
+
+## Preferred typed Action routes
+- `calculate_periodic_energy`: validated structured route through backend `siesta`.
+- `calculate_periodic_forces`: validated structured route through backend `siesta`.
+- `relax_periodic_structure`: validated structured route through backend `siesta`.
 
 ## Minimum input responsibilities
 - `input.fdf`

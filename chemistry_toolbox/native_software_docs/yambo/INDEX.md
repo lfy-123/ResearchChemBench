@@ -4,20 +4,20 @@ versions: ["5.3.0"]
 topics: ["index", "navigation", "capabilities"]
 aliases: ["Yambo", "yambo"]
 inputs: ["compatible upstream save database", "SAVE directory", "input.in", "optional restart databases"]
-outputs: ["SAVE database", "report", "output data files", "restart databases"]
-last_smoke_tested: "2026-07-28"
+outputs: ["SAVE database", "GW quasiparticle table", "BSE optical spectrum", "report", "output data files", "restart databases"]
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Yambo Native Software Guide
 
 ## Installed software
 - Installed version: `5.3.0`.
-- Operational status: `runnable_with_upstream_database`.
+- Operational status: `runnable_gw_bse_with_upstream_database`.
 - Configured runtime: `yambo`.
 - Primary use: many-body perturbation or response calculation from a converted ground-state database.
 
 ## When to use this interface
-Convert compatible upstream databases and run Agent-authored Yambo MBPT/GW/BSE calculations. The native layer is appropriate when the Agent must author the software input or select version-specific options that are not represented by a preset Action.
+Convert compatible upstream databases and run Agent-authored Yambo 5.3.0 MBPT/GW/BSE calculations; typed GW and BSE Actions are available when the complete SAVE/restart database is supplied. The native layer is appropriate when the Agent must author the software input or select version-specific options that are not represented by a preset Action.
 
 ## Documentation map
 - `QUICKSTART.md`: complete staging, command, resource, submission, and collection flow.
@@ -29,7 +29,7 @@ Convert compatible upstream databases and run Agent-authored Yambo MBPT/GW/BSE c
 ## Supported command entries
 | Executable | Input mode | Native invocation | Required staged inputs |
 |---|---|---|---|
-| `p2y` | `arguments` | `p2y` | None |
+| `p2y` | `arguments` | `p2y` | `upstream_save_database` |
 | `yambo` | `arguments` | `yambo -F input.in -J job` | `input.in` |
 
 ## Supported task families
@@ -38,6 +38,10 @@ Convert compatible upstream databases and run Agent-authored Yambo MBPT/GW/BSE c
 - Bethe-Salpeter equation.
 - optical spectra.
 - real-time propagation.
+
+## Layer 1 typed Actions
+- `calculate_quasiparticle_corrections`.
+- `calculate_bse_optical_spectrum`.
 
 ## Required knowledge before submission
 The toolbox does not select a scientific method, force field, pseudopotential, basis, database, training set, convergence threshold, or workflow ordering. The Agent must obtain those choices from the task, a paper, or an authoritative source and then author a complete input.

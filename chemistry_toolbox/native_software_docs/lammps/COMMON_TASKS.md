@@ -5,7 +5,7 @@ topics: ["common-tasks", "inputs", "outputs", "convergence"]
 aliases: ["LAMMPS", "lammps"]
 inputs: ["input.lammps", "optional data file", "potential files", "included scripts"]
 outputs: ["log.lammps", "dump files", "restart files", "user-defined tables"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # LAMMPS Common Tasks
@@ -16,6 +16,10 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 - **Monte Carlo-Assisted Workflows**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Materials Deformation**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Trajectory Generation**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
+
+## Preferred typed Action routes
+- `minimize_system_energy`: validated structured route through backend `lammps`.
+- `propagate_dynamics`: validated structured route through backend `lammps`.
 
 ## Minimum input responsibilities
 - `input.lammps`

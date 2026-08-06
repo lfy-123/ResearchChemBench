@@ -2,17 +2,17 @@
   "archived_files": [
     {
       "path": "request.json",
-      "sha256": "05d0de83864bd47eeadde095a3b38ec746cf6ad96466ddfdf7e5abe0c6a892f9",
-      "size_bytes": 1257
+      "sha256": "508b821bd69381855113ee26062915f38abbfc96738909c9f4a48d47cd237136",
+      "size_bytes": 1262
     },
     {
       "path": "status.json",
-      "sha256": "af393a7479b647cd70ae59cc3fb0278c3d465bf1195c58b26a04c4852774eab6",
-      "size_bytes": 1865
+      "sha256": "57faf3ff8a099fe7cc8a05f7b839e195deeb8673fb5ebe1735ca31c9aa6bf42a",
+      "size_bytes": 1957
     },
     {
       "path": "collection.json",
-      "sha256": "ba04902d820c065cbe78076d67633609df60ff02ce01e4ece495aa1d100050fa",
+      "sha256": "3fbed7247f52aa3334b5e2755d56ea41cdc7e1263e6d8b82555fd7c8f0ae2cb2",
       "size_bytes": 1489
     },
     {
@@ -29,7 +29,7 @@
   "artifact_status": "not_declared",
   "convergence_status": "not_checked",
   "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/phono3py",
-  "job_id": "job_4716a5c861e4471cacf5354db9248af5",
+  "job_id": "job_d87f8c7a2c6242bcaf8899ed7bffaca2",
   "process_status": "completed",
   "reason": "The configured executable completed the interface probe through the native job runner.",
   "request": {
@@ -57,5 +57,5 @@
   "stderr_tail": "",
   "stdout_tail": "-symfc               Use symfc for generating force constants\n  --symfc-memshow       Show symfc memory usage with respect to cutoff\n                        distance\n  --symfc-projector     Symmetrize force constants by symfc projector\n  --symfc-memsize SYMFC_MEMORY_SIZE\n                        Memory size to estimate cutoff pair distance (GB)\n  --spf                 Calculate spectral function\n  --stp, --show-num-triplets\n                        Show reduced number of triplets to be calculated at\n                        specified grid points\n  --sym-fc3q            Symmetrize fc3 in reciprocal space by index exchange\n  --thm, --tetrahedron-method\n                        Use tetrahedron method.\n  --tmax TMAX           Maximum calculated temperature\n  --tmin TMIN           Minimum calculated temperature\n  --tt TRANSPORT_TYPE, --transport-type TRANSPORT_TYPE\n                        Transport type of thermal conductivity calculation\n  --ts TEMPERATURES [TEMPERATURES ...], --temperature TEMPERATURES [TEMPERATURES ...]\n                        Temperatures for damping functions\n  --tstep TSTEP         Calculated temperature step\n  --uplo LAPACK_ZHEEV_UPLO\n                        Lapack zheev UPLO for phonon solver (default: L)\n  --v2                  Disable taking average in fc3-r2q transformation\n                        around three atoms\n  --wgp, --write-grid-points\n                        Write grid address of irreducible grid points for\n                        specified mesh numbers to ir_grid_address.yaml\n  --write-collision     Write collision matrix and Gammas to files\n  --write-gamma         Write imag-part of self energy to files\n  --write-gamma-detail, --write_detailed_gamma\n                        Write out detailed imag-part of self energy\n  --write-phonon        Write all phonons on grid points to files\n  --write-pp            Write phonon-phonon interaction strength\n  --write-lbte-solution\n                        Write direct solution of LBTE to hdf5 files\n",
   "test_level": "interface_smoke",
-  "tested_at": "2026-07-28T20:16:58.943969+00:00"
+  "tested_at": "2026-08-06T10:32:07.312490+00:00"
 }

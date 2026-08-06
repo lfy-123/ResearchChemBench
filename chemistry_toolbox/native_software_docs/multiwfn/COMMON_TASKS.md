@@ -5,7 +5,7 @@ topics: ["common-tasks", "inputs", "outputs", "convergence"]
 aliases: ["Multiwfn", "multiwfn"]
 inputs: ["wavefunction file", "commands.txt"]
 outputs: ["stdout.log", "exported grids", "tables", "images or structure files"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Multiwfn Common Tasks
@@ -17,6 +17,11 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 - **Population Analysis**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Topology**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Spectra**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
+
+## Preferred typed Action routes
+- `calculate_atomic_charges`: validated structured route through backend `multiwfn`.
+- `calculate_bond_orders`: validated structured route through backend `multiwfn`.
+- `calculate_electron_isodensity_surface`: validated structured route through backend `multiwfn`.
 
 ## Minimum input responsibilities
 - `wavefunction file`

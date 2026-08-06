@@ -985,13 +985,29 @@ def _materials_project(request: dict[str, Any]) -> dict[str, Any]:
     endpoint = os.environ.get(
         "MP_API_ENDPOINT", "https://api.materialsproject.org"
     ).rstrip("/")
-    response = httpx.get(
-        endpoint + "/materials/summary/",
-        params=parameters,
-        headers={"X-API-KEY": api_key},
-        timeout=float(settings.get("timeout_seconds", 30)),
+    request_settings = {
+        "max_retries": 1,
+        "retry_backoff_seconds": 3.0,
+        **settings,
+    }
+    if int(request_settings["max_retries"]) not in {0, 1}:
+        raise ValueError("Materials Project max_retries must be 0 or 1")
+
+    def request_value():
+        response = httpx.get(
+            endpoint + "/materials/summary/",
+            params=parameters,
+            headers={"X-API-KEY": api_key},
+            timeout=float(settings.get("timeout_seconds", 25)),
+        )
+        response.raise_for_status()
+        return response
+
+    response, attempts = _remote_call_with_retry(
+        request_value,
+        service="Materials Project",
+        settings=request_settings,
     )
-    response.raise_for_status()
     payload = response.json()
     records = list(payload.get("data") or [])
     return success(
@@ -1002,11 +1018,18 @@ def _materials_project(request: dict[str, Any]) -> dict[str, Any]:
             "api_metadata": payload.get("meta") or {},
         },
         backend_version=module_version("httpx"),
+        provenance={"remote_attempts": attempts, "endpoint": endpoint},
     )
 
 
 def _catalysis_hub(request: dict[str, Any]) -> dict[str, Any]:
     inputs, _method, settings = request_parts(request)
+    api_key = os.environ.get("CATALYSIS_HUB_API_KEY", "").strip()
+    if not api_key:
+        return unavailable(
+            "CATALYSIS_HUB_API_KEY is not configured",
+            install="Obtain a Catalysis-Hub API key and set CATALYSIS_HUB_API_KEY",
+        )
     query = inputs["query"]
     if not isinstance(query, dict):
         raise ValueError("Catalysis-Hub query must be a mapping")
@@ -1035,6 +1058,13 @@ def _catalysis_hub(request: dict[str, Any]) -> dict[str, Any]:
     }
     """ % (", ".join(declarations), ", ".join(arguments))
     endpoint = "https://api.catalysis-hub.org/graphql"
+    request_settings = {
+        "max_retries": 2,
+        "retry_backoff_seconds": 2.0,
+        **settings,
+    }
+    if int(request_settings["max_retries"]) < 0 or int(request_settings["max_retries"]) > 2:
+        raise ValueError("Catalysis-Hub max_retries must be between 0 and 2")
 
     def request_value():
         response = httpx.post(
@@ -1045,9 +1075,10 @@ def _catalysis_hub(request: dict[str, Any]) -> dict[str, Any]:
             },
             headers={
                 "Accept": "application/json",
+                "X-API-Key": api_key,
                 "User-Agent": "ResearchChemBench/1.0 bounded-catalysis-hub-query",
             },
-            timeout=float(settings.get("timeout_seconds", 60)),
+            timeout=float(settings.get("timeout_seconds", 15)),
             follow_redirects=True,
         )
         response.raise_for_status()
@@ -1056,7 +1087,7 @@ def _catalysis_hub(request: dict[str, Any]) -> dict[str, Any]:
     response, attempts = _remote_call_with_retry(
         request_value,
         service="Catalysis-Hub GraphQL",
-        settings=settings,
+        settings=request_settings,
     )
     value = response.json()
     if value.get("errors"):

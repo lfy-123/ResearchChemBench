@@ -2,17 +2,17 @@
   "archived_files": [
     {
       "path": "request.json",
-      "sha256": "d09073c3f5307fe9a3eed131fca9da9b9788f4ced937c89a046bcbc323f8a8c1",
-      "size_bytes": 1234
+      "sha256": "9449db179fd19c09fee882588526bb7f8765e7031e9965e2cdc07b5fcd7be3c8",
+      "size_bytes": 1228
     },
     {
       "path": "status.json",
-      "sha256": "5175fe6be777523a23dcc53bbc91e946d41d36311ed560b41c79c1ca9f24841f",
-      "size_bytes": 1915
+      "sha256": "79d7f7a48cce07a5076ba3141b02985b56435fb98a29ff442ec91c6a1b3412c1",
+      "size_bytes": 1994
     },
     {
       "path": "collection.json",
-      "sha256": "c9154dbfa9e7a485deae2729e949804ad575ebf990e520ba7bdad3c11efdb829",
+      "sha256": "3dc12eb8d87291caf9d73d56edc884a323dd5e20ef6ae2866aa4daeef9057bfc",
       "size_bytes": 1509
     },
     {
@@ -22,16 +22,16 @@
     },
     {
       "path": "stderr.log",
-      "sha256": "b1110a1e5b46f5d769f223d3bd23a2ce46848cdf25a7e9724f74a65553f23ebf",
+      "sha256": "0ab97e34a1bd41ee1788b51567f5296b84a1d900d35adace6c0c584e2514f4a2",
       "size_bytes": 410
     }
   ],
   "artifact_status": "not_validated",
   "convergence_status": "not_reached",
   "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/shengbte",
-  "job_id": "job_fa806262252f4779b5985b1606dd11f8",
+  "job_id": "job_f5e65718eed542ba8f7c047113705569",
   "process_status": "failed",
-  "reason": "The executable started and emitted its banner, usage, or expected missing-input diagnostic, but did not complete successfully.",
+  "reason": "The executable started and reported that a required scientific input file was not staged.",
   "request": {
     "arguments": [
       "--help"
@@ -54,8 +54,8 @@
   "software_id": "shengbte",
   "software_status": "not_reached",
   "status": "started_input_required",
-  "stderr_tail": "At line 114 of file config.f90 (unit = 1)\nFortran runtime error: Cannot open file 'CONTROL': No such file or directory\n\nError termination. Backtrace:\n#0  0x7f38c330dd2b in already_open\n\tat ../../../libgfortran/io/open.c:742\n#1  0x5630998684e4 in ???\n#2  0x56309988f116 in ???\n#3  0x56309986451e in ???\n#4  0x7f38c2bbad8f in ???\n#5  0x7f38c2bbae3f in ???\n#6  0x563099864554 in ???\n#7  0xffffffffffffffff in ???\n",
+  "stderr_tail": "At line 114 of file config.f90 (unit = 1)\nFortran runtime error: Cannot open file 'CONTROL': No such file or directory\n\nError termination. Backtrace:\n#0  0x7efd4d5f458b in already_open\n\tat ../../../libgfortran/io/open.c:742\n#1  0x562c657944e4 in ???\n#2  0x562c657bb116 in ???\n#3  0x562c6579051e in ???\n#4  0x7efd4ce94d8f in ???\n#5  0x7efd4ce94e3f in ???\n#6  0x562c65790554 in ???\n#7  0xffffffffffffffff in ???\n",
   "stdout_tail": "",
   "test_level": "interface_smoke",
-  "tested_at": "2026-07-28T20:16:58.943969+00:00"
+  "tested_at": "2026-08-06T10:32:07.312490+00:00"
 }

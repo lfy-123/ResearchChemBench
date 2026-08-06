@@ -5,7 +5,7 @@ topics: ["index", "navigation", "capabilities"]
 aliases: ["Wannier90", "wannier90"]
 inputs: ["seedname.win", "and for full runs seedname.amn", "seedname.mmn", "seedname.eig"]
 outputs: ["seedname.nnkp", "seedname.wout", "seedname.chk", "interpolated data"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Wannier90 Native Software Guide
@@ -37,6 +37,9 @@ Preprocess and execute Wannier90 from an Agent-authored seedname.win and upstrea
 - interpolation.
 - bands.
 - Berry and transport properties.
+
+## Layer 1 typed Actions
+- No typed Action is registered. Use the reviewed native command layer or the documented programmable runtime.
 
 ## Required knowledge before submission
 The toolbox does not select a scientific method, force field, pseudopotential, basis, database, training set, convergence threshold, or workflow ordering. The Agent must obtain those choices from the task, a paper, or an authoritative source and then author a complete input.

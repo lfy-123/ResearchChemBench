@@ -1,11 +1,11 @@
 ---
 software_id: sharc
-versions: ["installed source build"]
+versions: ["SHARC4 source build+gfortran-restart-patch"]
 topics: ["quickstart", "staging", "submission", "resources"]
 aliases: ["SHARC", "sharc"]
 inputs: ["SHARC input", "initial conditions", "interface resources", "overlap input and orbital files"]
-outputs: ["trajectory directories", "output.dat", "populations", "geometries", "overlap data"]
-last_smoke_tested: "2026-07-28"
+outputs: ["trajectory directories", "output.dat", "output.lis", "restart files", "populations", "geometries", "overlap data"]
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # SHARC Quickstart
@@ -24,8 +24,8 @@ The runner creates an isolated job directory and executes the resolved binary th
 
 ## Input mode
 The primary executable is `sharc.x` and its input mode is `arguments`.
-Required inputs: no fixed file is declared for this command.
-Expected outputs: stdout/stderr or task-dependent outputs only.
+Required inputs: `input`.
+Expected outputs: `output.dat`, `output.lis`, `restart.ctrl`.
 Example classification: `interface_template`.
 Output behavior: Writes trajectory, hopping, energy, state, and restart files in the job directory.
 
@@ -43,7 +43,12 @@ Run that command only inside a directory containing the exact referenced files. 
   "arguments": [
     "input"
   ],
-  "staged_inputs": [],
+  "staged_inputs": [
+    {
+      "source_path": "workspace_inputs/input",
+      "target_path": "input"
+    }
+  ],
   "resource_limits": {
     "cpu_cores": 1,
     "memory_mb": 2048,

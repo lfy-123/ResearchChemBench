@@ -3,7 +3,10 @@
 from __future__ import annotations
 
 import os
+import re
+import socket
 from pathlib import Path
+from typing import Any
 
 
 CORE_PACKAGE_ROOT = Path(__file__).resolve().parent
@@ -35,3 +38,31 @@ def toolbox_path(*parts: str) -> Path:
     """Return a path relative to the canonical chemistry-toolbox root."""
 
     return TOOLBOX_ROOT.joinpath(*parts)
+
+
+def portable_report_value(value: Any) -> Any:
+    """Replace repository-local absolute paths in persisted reports."""
+
+    if isinstance(value, dict):
+        return {key: portable_report_value(item) for key, item in value.items()}
+    if isinstance(value, list):
+        return [portable_report_value(item) for item in value]
+    if isinstance(value, tuple):
+        return tuple(portable_report_value(item) for item in value)
+    if not isinstance(value, str):
+        return value
+    return portable_report_text(value)
+
+
+def portable_report_text(value: str) -> str:
+    """Remove host-specific project, storage, and hostname values from text."""
+
+    root = str(PROJECT_ROOT.resolve())
+    if value == root:
+        return "."
+    text = value.replace(root + os.sep, "")
+    hostname = socket.gethostname().strip()
+    if hostname:
+        text = text.replace(hostname, "<host>")
+    text = re.sub(r"/inspire/hdd/global_user/[^/\s\"']+", "<storage-root>", text)
+    return "\n".join(line.rstrip() for line in text.split("\n"))

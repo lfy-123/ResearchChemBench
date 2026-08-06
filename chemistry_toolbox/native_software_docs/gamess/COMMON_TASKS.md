@@ -5,7 +5,7 @@ topics: ["common-tasks", "inputs", "outputs", "convergence"]
 aliases: ["GAMESS", "gamess"]
 inputs: ["job_name.inp"]
 outputs: ["job_name.log", "punch file", "restart and property files"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # GAMESS Common Tasks
@@ -16,6 +16,11 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 - **Hessian**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Excited States**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Correlated Energy**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
+
+## Preferred typed Action routes
+- `calculate_energy`: validated structured route through backend `gamess`.
+- `optimize_geometry`: validated structured route through backend `gamess`.
+- `calculate_dipole_moment`: validated structured route through backend `gamess`.
 
 ## Minimum input responsibilities
 - `job_name.inp`

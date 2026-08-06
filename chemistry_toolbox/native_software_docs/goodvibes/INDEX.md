@@ -5,7 +5,7 @@ topics: ["index", "navigation", "capabilities"]
 aliases: ["GoodVibes", "goodvibes"]
 inputs: ["Gaussian", "ORCA", "NWChem", "Q-Chem", "xTB", "or ASE frequency output"]
 outputs: ["console table", "JSON or CSV result", "optional PES and plots"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # GoodVibes Native Software Guide
@@ -37,6 +37,14 @@ Apply GoodVibes 4.3.0 thermochemistry, ensemble, selectivity, consistency, and r
 - concentration corrections.
 - selectivity.
 - reaction profiles.
+
+## Layer 1 typed Actions
+- `derive_thermochemistry`.
+- `scan_thermochemistry_temperature`.
+- `analyze_thermochemical_ensemble`.
+- `validate_thermochemistry_inputs`.
+- `analyze_thermochemical_selectivity`.
+- `analyze_reaction_free_energy_profile`.
 
 ## Required knowledge before submission
 The toolbox does not select a scientific method, force field, pseudopotential, basis, database, training set, convergence threshold, or workflow ordering. The Agent must obtain those choices from the task, a paper, or an authoritative source and then author a complete input.

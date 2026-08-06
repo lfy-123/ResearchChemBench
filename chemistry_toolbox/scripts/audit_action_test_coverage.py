@@ -42,6 +42,10 @@ EXTERNAL_REPORTS = (
     (TOOLBOX_ROOT / "config" / "goodvibes_action_smoke_status.json", "goodvibes_action_smoke"),
     (TOOLBOX_ROOT / "config" / "action_backend_matrix_smoke_status.json", "action_backend_matrix_smoke"),
     (TOOLBOX_ROOT / "config" / "action_gap_smoke_status.json", "action_gap_smoke"),
+    (
+        TOOLBOX_ROOT / "config" / "software_expansion_action_smoke_status.json",
+        "software_expansion_action_smoke",
+    ),
     (TOOLBOX_ROOT / "config" / "backend_gap_smoke_status.json", "backend_gap_smoke"),
     (TOOLBOX_ROOT / "config" / "scientific_resource_smoke_status.json", "scientific_resource_smoke"),
     (TOOLBOX_ROOT / "config" / "data_source_smoke_status.json", "data_source_smoke"),
@@ -252,10 +256,9 @@ def main() -> int:
 
     records: list[dict[str, Any]] = []
     pytest_exit_code = None
+    _reuse_previous_observations(records, args.output)
     if args.run_pytest:
         pytest_exit_code = _run_pytest(records, args.pytest_args or ["-q"])
-    else:
-        _reuse_previous_observations(records, args.output)
     _merge_external_reports(records)
     payload = _summary(records, pytest_exit_code)
     args.output.write_text(

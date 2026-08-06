@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-07-21T06:49:32.310998+00:00",
+  "generated_at": "2026-08-06T09:06:12.738402+00:00",
   "schema_version": 1,
   "network_included": true,
   "summary": {
     "case_count": 25,
-    "passed": 20,
-    "failed": 5,
-    "all_ok": false
+    "passed": 25,
+    "failed": 0,
+    "all_ok": true
   },
   "cases": [
     {
@@ -188,60 +188,45 @@
       "case_id": "resolve_chemical_identity",
       "action": "resolve_chemical_identity",
       "backend": "pubchem",
-      "status": "failed",
-      "elapsed_seconds": 4.513014,
-      "error": {
-        "code": "remote_service_unavailable",
-        "message": "PubChem PUG REST remained unavailable after 2 attempt(s): ServerBusyError: PubChem HTTP Error 503 PUGREST.ServerBusy: Too many requests or server too busy"
-      },
+      "status": "success",
+      "elapsed_seconds": 2.749968,
+      "error": null,
       "warnings": []
     },
     {
       "case_id": "retrieve_compound_properties",
       "action": "retrieve_compound_properties",
       "backend": "pubchem",
-      "status": "failed",
-      "elapsed_seconds": 3.4535,
-      "error": {
-        "code": "remote_service_unavailable",
-        "message": "PubChem PUG REST remained unavailable after 2 attempt(s): ServerBusyError: PubChem HTTP Error 503 PUGREST.ServerBusy: Too many requests or server too busy"
-      },
+      "status": "success",
+      "elapsed_seconds": 2.581526,
+      "error": null,
       "warnings": []
     },
     {
       "case_id": "retrieve_compound_structure",
       "action": "retrieve_compound_structure",
       "backend": "pubchem",
-      "status": "failed",
-      "elapsed_seconds": 3.914024,
-      "error": {
-        "code": "remote_service_unavailable",
-        "message": "PubChem PUG REST remained unavailable after 2 attempt(s): ServerBusyError: PubChem HTTP Error 503 PUGREST.ServerBusy: Too many requests or server too busy"
-      },
+      "status": "success",
+      "elapsed_seconds": 2.947617,
+      "error": null,
       "warnings": []
     },
     {
       "case_id": "search_similar_compounds",
       "action": "search_similar_compounds",
       "backend": "pubchem",
-      "status": "failed",
-      "elapsed_seconds": 32.60505,
-      "error": {
-        "code": "remote_service_unavailable",
-        "message": "PubChem PUG REST remained unavailable after 2 attempt(s): HTTPStatusError: Server error '503 PUGREST.ServerBusy' for url 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/fastsimilarity_2d/smiles/CCO/cids/JSON?MaxRecords=1&MaxSeconds=30&Threshold=99'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503"
-      },
+      "status": "success",
+      "elapsed_seconds": 3.663227,
+      "error": null,
       "warnings": []
     },
     {
       "case_id": "search_substructures",
       "action": "search_substructures",
       "backend": "pubchem",
-      "status": "failed",
-      "elapsed_seconds": 32.824973,
-      "error": {
-        "code": "remote_service_unavailable",
-        "message": "PubChem PUG REST remained unavailable after 2 attempt(s): HTTPStatusError: Server error '503 PUGREST.ServerBusy' for url 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/fastsubstructure/smarts/O/cids/JSON?MaxRecords=1&MaxSeconds=30&Stereo=ignore&MatchCharges=false&MatchIsotopes=false'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503"
-      },
+      "status": "success",
+      "elapsed_seconds": 3.385663,
+      "error": null,
       "warnings": []
     },
     {
@@ -249,7 +234,7 @@
       "action": "search_catalysis_records",
       "backend": "catalysis_hub",
       "status": "success",
-      "elapsed_seconds": 3.164042,
+      "elapsed_seconds": 3.272144,
       "error": null,
       "warnings": []
     }

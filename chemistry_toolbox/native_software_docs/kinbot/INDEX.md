@@ -1,23 +1,23 @@
 ---
 software_id: kinbot
-versions: ["installed KinBot runtime"]
+versions: ["2.2.2+local-nwchem-patch"]
 topics: ["index", "navigation", "capabilities"]
 aliases: ["KinBot", "kinbot"]
 inputs: ["input.json", "starting structure", "templates", "selected QM backend configuration"]
 outputs: ["KinBot database", "structures", "quantum-chemistry inputs and logs", "PES files"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # KinBot Native Software Guide
 
 ## Installed software
-- Installed version: `installed KinBot runtime`.
-- Operational status: `workflow_with_qm`.
+- Installed version: `2.2.2+local-nwchem-patch`.
+- Operational status: `runnable_local_pes_with_nwchem`.
 - Configured runtime: `kinbot`.
 - Primary use: automated reaction and potential-energy-surface exploration from a configured species.
 
 ## When to use this interface
-Run KinBot species/reaction or PES searches from an Agent-authored JSON input. The native layer is appropriate when the Agent must author the software input or select version-specific options that are not represented by a preset Action.
+Run KinBot 2.2.2 species/reaction or full PES searches from an Agent-authored JSON input; the configured local route executes NWChem child jobs instead of assuming precomputed outputs. The native layer is appropriate when the Agent must author the software input or select version-specific options that are not represented by a preset Action.
 
 ## Documentation map
 - `QUICKSTART.md`: complete staging, command, resource, submission, and collection flow.
@@ -37,6 +37,9 @@ Run KinBot species/reaction or PES searches from an Agent-authored JSON input. T
 - conformer search.
 - transition-state validation.
 - PES assembly.
+
+## Layer 1 typed Actions
+- `explore_reaction_network`.
 
 ## Required knowledge before submission
 The toolbox does not select a scientific method, force field, pseudopotential, basis, database, training set, convergence threshold, or workflow ordering. The Agent must obtain those choices from the task, a paper, or an authoritative source and then author a complete input.

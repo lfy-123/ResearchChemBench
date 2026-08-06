@@ -5,7 +5,7 @@ topics: ["common-tasks", "inputs", "outputs", "convergence"]
 aliases: ["GROMACS", "gromacs"]
 inputs: ["mdp", "topology.top", "coordinates.gro", "optional index and checkpoint"]
 outputs: ["run.tpr", "run.log", "trajectory.xtc", "energy.edr", "final.gro", "checkpoint.cpt"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # GROMACS Common Tasks
@@ -16,6 +16,10 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 - **Npt**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Production Md**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Trajectory Analysis**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
+
+## Preferred typed Action routes
+- `minimize_system_energy`: validated structured route through backend `gromacs`.
+- `propagate_dynamics`: validated structured route through backend `gromacs`.
 
 ## Minimum input responsibilities
 - `mdp`

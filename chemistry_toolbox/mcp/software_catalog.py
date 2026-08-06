@@ -41,6 +41,12 @@ NATIVE_DOCS_ROOT = PROJECT_ROOT / "chemistry_toolbox" / "native_software_docs"
 NATIVE_SMOKE_PATH = (
     PROJECT_ROOT / "chemistry_toolbox" / "evidence" / "native_interface_smoke" / "latest.json"
 )
+SOFTWARE_EXPANSION_SMOKE_PATH = (
+    PROJECT_ROOT
+    / "chemistry_toolbox"
+    / "config"
+    / "software_expansion_action_smoke_status.json"
+)
 DOCUMENTATION_INDEX_PATH = PROJECT_ROOT / ".software_cache" / "documentation" / "index.json"
 REQUESTED_STATUS_PATH = CONFIG_ROOT / "requested_software_status.json"
 CAPABILITY_SOURCES_PATH = CONFIG_ROOT / "software_capability_sources.yaml"
@@ -84,12 +90,30 @@ def _native_smoke_by_id() -> dict[str, dict[str, Any]]:
     }
 
 
+@lru_cache(maxsize=1)
+def _scientific_action_smoke_by_backend() -> dict[str, list[dict[str, Any]]]:
+    if not SOFTWARE_EXPANSION_SMOKE_PATH.is_file():
+        return {}
+    value = json.loads(SOFTWARE_EXPANSION_SMOKE_PATH.read_text(encoding="utf-8"))
+    result: dict[str, list[dict[str, Any]]] = {}
+    for item in value.get("cases") or []:
+        backend_id = str(item.get("backend") or "")
+        if backend_id:
+            result.setdefault(backend_id, []).append(item)
+    return result
+
+
 def _smoke_summary(software_id: str) -> dict[str, Any]:
     record = _native_smoke_by_id().get(software_id)
+    scientific_cases = _scientific_action_smoke_by_backend().get(software_id, [])
+    scientific_passed = bool(scientific_cases) and all(
+        item.get("status") in {"success", "partial_success"}
+        for item in scientific_cases
+    )
     if record is None:
         return {
             "interface_smoke_status": "not_tested",
-            "scientific_smoke_status": "not_tested",
+            "scientific_smoke_status": "passed" if scientific_passed else "not_tested",
             "known_runtime_blockers": [],
             "smoke_evidence": None,
         }
@@ -108,7 +132,7 @@ def _smoke_summary(software_id: str) -> dict[str, Any]:
         "failed": "failed",
         "skipped": "skipped",
     }.get(raw_status, raw_status)
-    scientific_status = "not_tested"
+    scientific_status = "passed" if scientific_passed else "not_tested"
     if test_level == "scientific_smoke":
         scientific_status = "passed" if raw_status == "passed" else raw_status
 
@@ -116,6 +140,11 @@ def _smoke_summary(software_id: str) -> dict[str, Any]:
     if raw_status in {"failed", "skipped", "cancelled"}:
         blockers.append(str(record.get("reason") or f"Latest smoke status: {raw_status}."))
     evidence_sha256 = hashlib.sha256(NATIVE_SMOKE_PATH.read_bytes()).hexdigest()
+    scientific_report_sha256 = (
+        hashlib.sha256(SOFTWARE_EXPANSION_SMOKE_PATH.read_bytes()).hexdigest()
+        if scientific_cases
+        else None
+    )
     return {
         "interface_smoke_status": interface_status,
         "scientific_smoke_status": scientific_status,
@@ -128,6 +157,15 @@ def _smoke_summary(software_id: str) -> dict[str, Any]:
             "recorded_test_level": record.get("test_level"),
             "raw_status": raw_status,
             "evidence_path": record.get("evidence_path"),
+            "scientific_action_report_path": (
+                str(SOFTWARE_EXPANSION_SMOKE_PATH.relative_to(PROJECT_ROOT))
+                if scientific_cases
+                else None
+            ),
+            "scientific_action_report_sha256": scientific_report_sha256,
+            "scientific_action_cases": [
+                str(item.get("case_id")) for item in scientific_cases
+            ],
         },
     }
 
@@ -629,8 +667,6 @@ def list_software(request: SoftwareListRequest) -> dict[str, Any]:
                 "software_id": item["software_id"],
                 "display_name": item["display_name"],
                 "available": item["available"],
-                "interface_smoke_status": item["interface_smoke_status"],
-                "scientific_smoke_status": item["scientific_smoke_status"],
                 "backend_registered": item["backend_registered"],
                 "runtime": item["runtime"],
                 "native_executables": native_executables,
@@ -653,7 +689,7 @@ def list_software(request: SoftwareListRequest) -> dict[str, Any]:
             "This is a compact inventory filter only. It does not recommend software, rank "
             "backends, or choose a scientific method. Filter with query to expose matching Action "
             "ids, then call inspect_software for exactly one software_id to load versions, module "
-            "details, reviewed command synopses, paths, manuals, and request templates."
+            "details, smoke status, reviewed command synopses, paths, manuals, and request templates."
         ),
         "pagination_note": (
             "Use next_offset with the same filters to continue until it is null."

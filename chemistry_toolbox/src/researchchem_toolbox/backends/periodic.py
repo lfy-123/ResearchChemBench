@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import json
+import math
+import os
 import re
 import shutil
 from pathlib import Path
@@ -25,6 +27,7 @@ from .common import (
     structure_from_atoms,
     success,
     unavailable,
+    unwrap_artifact,
     unsupported,
     write_json,
 )
@@ -33,6 +36,13 @@ from .mlip import prepare_atoms as prepare_mlip_atoms
 
 
 ACTIONS = {
+    "calculate_quasiparticle_corrections", "calculate_bse_optical_spectrum",
+    "generate_crystal_structure_candidates", "convert_crystal_structure_format",
+    "generate_vasp_kpoint_mesh", "extract_vasp_band_gap",
+    "calculate_adsorption_energy", "construct_pressure_enthalpy_phase_diagram",
+    "assess_phonon_stability",
+    "fit_effective_force_constants", "generate_thermal_displacement_configurations",
+    "calculate_temperature_dependent_phonon_dispersion",
     "calculate_periodic_energy", "calculate_periodic_forces", "calculate_periodic_stress",
     "relax_periodic_structure", "generate_displaced_supercells",
     "assemble_force_constants", "calculate_phonon_dispersion",
@@ -45,6 +55,99 @@ ACTIONS = {
 }
 
 
+def _run_yambo(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
+    inputs, _method, settings = request_parts(request)
+    directory = output_directory(action_id, "yambo")
+    save_source = resolve_input_file(inputs["save_directory"])
+    if not save_source.is_dir():
+        raise ValueError("save_directory must be an existing Yambo SAVE directory")
+    shutil.copytree(save_source, directory / "SAVE")
+    input_source = resolve_input_file(inputs["input_file"])
+    input_name = input_source.name
+    shutil.copy2(input_source, directory / input_name)
+    for value in unwrap_artifact(inputs.get("restart_directories", [])):
+        source = resolve_input_file(value)
+        if not source.is_dir():
+            raise ValueError("each restart_directories item must be a directory")
+        shutil.copytree(source, directory / source.name)
+
+    job_name = str(settings["job_name"]).strip()
+    if not re.fullmatch(r"[A-Za-z0-9_.-]+(?:,[A-Za-z0-9_.-]+)*", job_name):
+        raise ValueError("job_name must be a comma-separated list of safe Yambo job names")
+    timeout = int(request.get("resource_limits", {}).get("walltime_seconds", 7200))
+    completed = run_external(
+        executable="yambo",
+        environment_variable="CHEMGRAPH_YAMBO_COMMAND",
+        arguments=["-F", input_name, "-J", job_name],
+        directory=directory,
+        timeout_seconds=timeout,
+        environment_overrides={
+            "OMP_NUM_THREADS": str(int(request.get("resource_limits", {}).get("cpu_cores", 1))),
+            "OPENBLAS_NUM_THREADS": "1",
+            "OMPI_MCA_pml": "ob1",
+            "OMPI_MCA_btl": "self,vader,tcp",
+        },
+    )
+    (directory / "stdout.log").write_text(completed["stdout"], encoding="utf-8")
+    (directory / "stderr.log").write_text(completed["stderr"], encoding="utf-8")
+    if not completed["available"]:
+        return unavailable(completed["stderr"], install="Install Yambo 5.3 or later")
+    if completed["returncode"] != 0:
+        raise RuntimeError(f"Yambo failed: {completed['stderr'][-2000:]}")
+    reports = list(directory.glob("r-*"))
+    normal_exit = any("Game Over" in path.read_text(encoding="utf-8", errors="replace") for path in reports)
+    if bool(settings["require_normal_exit"]) and not normal_exit:
+        raise RuntimeError("Yambo completed without a Game Over marker")
+
+    limit = int(settings["maximum_returned_records"])
+    if not 1 <= limit <= 100000:
+        raise ValueError("maximum_returned_records must be between 1 and 100000")
+    if action_id == "calculate_quasiparticle_corrections":
+        files = sorted(directory.glob("o-*.qp"))
+        if not files:
+            raise RuntimeError("Yambo produced no quasiparticle output (o-*.qp)")
+        records = []
+        for line in files[0].read_text(encoding="utf-8", errors="replace").splitlines():
+            fields = line.split()
+            if len(fields) < 5 or line.lstrip().startswith("#"):
+                continue
+            try:
+                kpoint, band = int(fields[0]), int(fields[1])
+                energy, correction, self_energy = map(float, fields[2:5])
+            except ValueError:
+                continue
+            records.append({
+                "kpoint_index": kpoint,
+                "band_index": band,
+                "reference_energy_ev": energy,
+                "quasiparticle_correction_ev": correction,
+                "quasiparticle_energy_ev": energy + correction,
+                "self_energy_at_reference_ev": self_energy,
+            })
+        result = {"state_count": len(records), "states": records[:limit], "normal_exit": normal_exit}
+    else:
+        files = sorted(directory.glob("o-*.eps*"))
+        if not files:
+            raise RuntimeError("Yambo produced no BSE dielectric spectrum (o-*.eps*)")
+        points = []
+        for line in files[0].read_text(encoding="utf-8", errors="replace").splitlines():
+            fields = line.split()
+            if len(fields) < 3 or line.lstrip().startswith("#"):
+                continue
+            try:
+                values = [float(value) for value in fields]
+            except ValueError:
+                continue
+            points.append({"energy_ev": values[0], "epsilon_2": values[1], "epsilon_1": values[2]})
+        result = {"point_count": len(points), "spectrum": points[:limit], "normal_exit": normal_exit}
+    return success(
+        result,
+        artifact_files=command_artifacts(directory),
+        backend_version="5.3.0",
+        provenance={"command": completed["command"], "native_input_preserved": True},
+    )
+
+
 _ELEMENTS = (
     "X H He Li Be B C N O F Ne Na Mg Al Si P S Cl Ar K Ca Sc Ti V Cr Mn Fe Co Ni Cu Zn "
     "Ga Ge As Se Br Kr Rb Sr Y Zr Nb Mo Tc Ru Rh Pd Ag Cd In Sn Sb Te I Xe Cs Ba La Ce Pr "
@@ -53,6 +156,663 @@ _ELEMENTS = (
 ).split()
 _ATOMIC_NUMBER = {symbol: index for index, symbol in enumerate(_ELEMENTS) if index}
 _BOHR_TO_ANGSTROM = 0.529177210903
+_AIRSS_FORMATS = {"cell", "res", "shx", "cif", "xtl", "xyz"}
+
+
+def _finite_energy(value: Any, field: str) -> float:
+    item = unwrap_artifact(value)
+    if isinstance(item, dict):
+        for key in ("energy", "energy_hartree", "energy_ev", "value"):
+            if key in item:
+                item = item[key]
+                break
+    try:
+        result = float(item)
+    except (TypeError, ValueError) as exc:
+        raise ValueError(f"{field} must contain one numeric energy") from exc
+    if not math.isfinite(result):
+        raise ValueError(f"{field} must be finite")
+    return result
+
+
+def _calculate_adsorption_energy(request: dict[str, Any]) -> dict[str, Any]:
+    inputs, _method, settings = request_parts(request)
+    unit = str(settings["energy_unit"]).strip().lower()
+    factors = {
+        "hartree": 27.211386245988,
+        "ev": 1.0,
+        "kj/mol": 1.0 / 96.4853321233,
+        "kcal/mol": 1.0 / 23.0605478306,
+    }
+    adsorbate_count = float(settings["adsorbate_count"])
+    if not math.isfinite(adsorbate_count) or adsorbate_count <= 0:
+        raise ValueError("adsorbate_count must be finite and positive")
+    adsorbed = _finite_energy(inputs["adsorbed_system_energy"], "adsorbed_system_energy")
+    clean = _finite_energy(inputs["clean_surface_energy"], "clean_surface_energy")
+    references = unwrap_artifact(inputs["reference_species"])
+    if not isinstance(references, list) or not references:
+        raise ValueError("reference_species must be a non-empty list")
+    normalized_references = []
+    reference_total = 0.0
+    for index, record in enumerate(references):
+        if not isinstance(record, dict) or "energy" not in record or "stoichiometric_coefficient" not in record:
+            raise ValueError("each reference_species record requires energy and stoichiometric_coefficient")
+        coefficient = float(record["stoichiometric_coefficient"])
+        energy = _finite_energy(record["energy"], f"reference_species[{index}].energy")
+        if not math.isfinite(coefficient):
+            raise ValueError("reference-species coefficients must be finite")
+        reference_total += coefficient * energy
+        normalized_references.append(
+            {
+                "label": str(record.get("label", index)),
+                "energy": energy,
+                "stoichiometric_coefficient": coefficient,
+                "weighted_energy": coefficient * energy,
+            }
+        )
+    adsorption_input = (adsorbed - clean - reference_total) / adsorbate_count
+    return success(
+        {
+            "adsorption_energy": adsorption_input,
+            "adsorption_energy_ev": adsorption_input * factors[unit],
+            "energy_unit": unit,
+            "sign_convention": "E(adsorbed system) - E(clean surface) - sum(nu_i E(reference_i)), divided by adsorbate_count",
+            "adsorbate_count": adsorbate_count,
+            "components": {
+                "adsorbed_system_energy": adsorbed,
+                "clean_surface_energy": clean,
+                "reference_species": normalized_references,
+            },
+        }
+    )
+
+
+def _construct_pressure_enthalpy_phase_diagram(request: dict[str, Any]) -> dict[str, Any]:
+    inputs, _method, settings = request_parts(request)
+    records = unwrap_artifact(inputs["phase_records"])
+    if not isinstance(records, list) or not records:
+        raise ValueError("phase_records must be a non-empty list")
+    unit = str(settings["enthalpy_unit"]).strip().lower()
+    factors = {
+        "ev_per_formula_unit": 1.0,
+        "hartree_per_formula_unit": 27.211386245988,
+        "kj/mol": 1.0 / 96.4853321233,
+    }
+    tolerance = float(settings["energy_tolerance_ev_per_formula_unit"])
+    maximum_transitions = int(settings["maximum_reported_transitions"])
+    if not math.isfinite(tolerance) or tolerance < 0:
+        raise ValueError("energy_tolerance_ev_per_formula_unit must be finite and nonnegative")
+    if not 1 <= maximum_transitions <= 10000:
+        raise ValueError("maximum_reported_transitions must be between 1 and 10000")
+    by_phase: dict[str, dict[float, float]] = {}
+    for record in records:
+        if not isinstance(record, dict):
+            raise ValueError("each phase record must be a mapping")
+        phase = str(record.get("phase_id", "")).strip()
+        pressure = float(record.get("pressure_gpa"))
+        enthalpy = float(record.get("enthalpy")) * factors[unit]
+        if not phase or not math.isfinite(pressure) or not math.isfinite(enthalpy):
+            raise ValueError("phase_id, pressure_gpa, and enthalpy must be non-empty and finite")
+        if pressure in by_phase.setdefault(phase, {}):
+            raise ValueError(f"duplicate pressure point for phase {phase}")
+        by_phase[phase][pressure] = enthalpy
+    if len(by_phase) < 2:
+        raise ValueError("at least two phases are required")
+    pressure_grid = sorted(next(iter(by_phase.values())))
+    if len(pressure_grid) < 2 or any(sorted(values) != pressure_grid for values in by_phase.values()):
+        raise ValueError("every phase must use the same pressure grid with at least two points")
+    stable_records = []
+    for pressure in pressure_grid:
+        energies = {phase: values[pressure] for phase, values in by_phase.items()}
+        minimum = min(energies.values())
+        stable = sorted(phase for phase, value in energies.items() if value - minimum <= tolerance)
+        stable_records.append(
+            {
+                "pressure_gpa": pressure,
+                "stable_phases": stable,
+                "minimum_enthalpy_ev_per_formula_unit": minimum,
+                "relative_enthalpies_ev_per_formula_unit": {
+                    phase: value - minimum for phase, value in sorted(energies.items())
+                },
+            }
+        )
+    transitions = []
+    primary = [record["stable_phases"][0] for record in stable_records]
+    for index, (left_phase, right_phase) in enumerate(zip(primary, primary[1:])):
+        if left_phase == right_phase:
+            continue
+        p0, p1 = pressure_grid[index : index + 2]
+        d0 = by_phase[left_phase][p0] - by_phase[right_phase][p0]
+        d1 = by_phase[left_phase][p1] - by_phase[right_phase][p1]
+        crossing = p0 - d0 * (p1 - p0) / (d1 - d0) if d1 != d0 else (p0 + p1) / 2
+        transitions.append(
+            {
+                "from_phase": left_phase,
+                "to_phase": right_phase,
+                "bracket_gpa": [p0, p1],
+                "interpolated_transition_pressure_gpa": crossing,
+                "interpolation": "linear_enthalpy_difference",
+            }
+        )
+    return success(
+        {
+            "phase_count": len(by_phase),
+            "pressure_grid_gpa": pressure_grid,
+            "stable_phase_records": stable_records,
+            "transitions": transitions[:maximum_transitions],
+            "transition_count": len(transitions),
+            "transitions_truncated": len(transitions) > maximum_transitions,
+            "energy_tolerance_ev_per_formula_unit": tolerance,
+        }
+    )
+
+
+def _assess_phonon_stability(request: dict[str, Any]) -> dict[str, Any]:
+    inputs, _method, settings = request_parts(request)
+    records = unwrap_artifact(inputs["phonon_records"])
+    if not isinstance(records, list) or not records:
+        raise ValueError("phonon_records must be a non-empty list")
+    unit = str(settings["frequency_unit"]).strip().lower()
+    factors = {"thz": 1.0, "cm-1": 1.0 / 33.3564095198, "mev": 1.0 / 4.135667696}
+    imaginary_tolerance = float(settings["imaginary_tolerance"]) * factors[unit]
+    gamma_q_tolerance = float(settings["gamma_q_tolerance"])
+    acoustic_tolerance = float(settings["acoustic_gamma_tolerance"]) * factors[unit]
+    maximum_modes = int(settings["maximum_returned_imaginary_modes"])
+    if min(imaginary_tolerance, gamma_q_tolerance, acoustic_tolerance) < 0:
+        raise ValueError("phonon tolerances must be nonnegative")
+    if not 1 <= maximum_modes <= 100000:
+        raise ValueError("maximum_returned_imaginary_modes must be between 1 and 100000")
+    imaginary = []
+    all_frequencies = []
+    gamma_frequencies = None
+    for q_index, record in enumerate(records):
+        if not isinstance(record, dict) or not isinstance(record.get("q_point"), (list, tuple)) or len(record["q_point"]) != 3:
+            raise ValueError("each phonon record requires a three-component q_point")
+        q_point = [float(value) for value in record["q_point"]]
+        frequencies = [float(value) * factors[unit] for value in record.get("frequencies", [])]
+        if not frequencies or not all(math.isfinite(value) for value in [*q_point, *frequencies]):
+            raise ValueError("each phonon record requires finite non-empty frequencies")
+        all_frequencies.extend(frequencies)
+        if math.sqrt(sum(value * value for value in q_point)) <= gamma_q_tolerance:
+            gamma_frequencies = frequencies
+        for mode_index, frequency in enumerate(frequencies):
+            if frequency < -imaginary_tolerance:
+                imaginary.append(
+                    {"q_index": q_index, "q_point": q_point, "mode_index": mode_index, "frequency_thz": frequency}
+                )
+    if gamma_frequencies is None:
+        raise ValueError("phonon_records contains no Gamma point within gamma_q_tolerance")
+    acoustic = sorted(gamma_frequencies, key=abs)[:3]
+    acoustic_ok = len(acoustic) == 3 and all(abs(value) <= acoustic_tolerance for value in acoustic)
+    return success(
+        {
+            "dynamically_stable": not imaginary,
+            "imaginary_mode_count": len(imaginary),
+            "imaginary_modes": imaginary[:maximum_modes],
+            "imaginary_modes_truncated": len(imaginary) > maximum_modes,
+            "minimum_frequency_thz": min(all_frequencies),
+            "gamma_acoustic_frequencies_thz": acoustic,
+            "gamma_acoustic_modes_within_tolerance": acoustic_ok,
+            "frequency_count": len(all_frequencies),
+            "tolerances": {
+                "imaginary_frequency_thz": imaginary_tolerance,
+                "gamma_q_norm": gamma_q_tolerance,
+                "acoustic_gamma_thz": acoustic_tolerance,
+            },
+        }
+    )
+
+
+def _vaspkit_home(directory: Path, replacements: dict[str, str] | None = None) -> Path:
+    configured = os.environ.get("CHEMGRAPH_VASPKIT_CONFIG", "").strip()
+    if not configured or not Path(configured).is_file():
+        raise RuntimeError("CHEMGRAPH_VASPKIT_CONFIG must point to the pinned VASPKIT configuration template")
+    home = directory / "home"
+    home.mkdir()
+    text = Path(configured).read_text(encoding="utf-8", errors="strict")
+    for name, value in (replacements or {}).items():
+        pattern = rf"(?m)^({re.escape(name)}\s*=\s*)[^#\n]+"
+        text, count = re.subn(pattern, rf"\g<1>{value} ", text, count=1)
+        if count != 1:
+            raise RuntimeError(f"VASPKIT configuration does not define {name}")
+    (home / ".vaspkit").write_text(text, encoding="utf-8")
+    return home
+
+
+def _run_vaspkit_action(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
+    inputs, _method, settings = request_parts(request)
+    directory = output_directory(action_id, "vaspkit")
+    timeout_seconds = int((request.get("resource_limits") or {}).get("walltime_seconds", 1800))
+
+    if action_id == "generate_vasp_kpoint_mesh":
+        resolution = float(settings["reciprocal_space_resolution_inverse_angstrom"])
+        if not 0 < resolution <= 2:
+            raise ValueError("reciprocal_space_resolution_inverse_angstrom must be in (0, 2]")
+        scheme = str(settings["centering_scheme"]).strip().lower().replace("_", "-")
+        flags = {"gamma": "G", "monkhorst-pack": "M"}
+        if scheme not in flags:
+            raise ValueError("centering_scheme must be gamma or monkhorst-pack")
+        shutil.copy2(resolve_input_file(inputs["structure_file"]), directory / "POSCAR")
+        home = _vaspkit_home(directory)
+        completed = run_external(
+            executable="vaspkit",
+            environment_variable="CHEMGRAPH_VASPKIT_COMMAND",
+            arguments=["-task", "102", "-file", "POSCAR", "-kpr", str(resolution), "-kps", flags[scheme]],
+            directory=directory,
+            timeout_seconds=max(1, timeout_seconds),
+            environment_overrides={"HOME": str(home)},
+        )
+        (directory / "vaspkit.log").write_text(completed["stdout"] + completed["stderr"], encoding="utf-8")
+        if not completed["available"]:
+            return unavailable(completed["stderr"], install="Download VASPKIT 1.5.1 from the official SourceForge release.")
+        output = directory / "KPOINTS"
+        if completed["returncode"] != 0 or not output.is_file() or "Written KPOINTS File" not in completed["stdout"]:
+            raise RuntimeError(f"VASPKIT did not generate KPOINTS: {(completed['stderr'] or completed['stdout'])[-2000:]}")
+        lines = output.read_text(encoding="utf-8", errors="replace").splitlines()
+        if len(lines) < 5:
+            raise RuntimeError("VASPKIT generated an incomplete KPOINTS file")
+        try:
+            grid = [int(value) for value in lines[3].split()[:3]]
+            shift = [float(value) for value in lines[4].split()[:3]]
+        except ValueError as exc:
+            raise RuntimeError("Could not parse VASPKIT KPOINTS grid") from exc
+        return success(
+            {
+                "kpoint_file": relative_workspace_path(output),
+                "grid": grid,
+                "shift": shift,
+                "centering_scheme": scheme,
+                "reciprocal_space_resolution_inverse_angstrom": resolution,
+                "potcar_generated": False,
+            },
+            artifact_files=command_artifacts(directory), backend_version="1.5.1",
+            provenance={"command": completed["command"], "task": 102},
+        )
+
+    staged = {
+        "structure_file": "POSCAR", "incar_file": "INCAR",
+        "eigenvalue_file": "EIGENVAL", "dos_file": "DOSCAR",
+        "outcar_file": "OUTCAR",
+    }
+    for key, name in staged.items():
+        if inputs.get(key) is not None:
+            shutil.copy2(resolve_input_file(inputs[key]), directory / name)
+    zero = ".TRUE." if bool(settings["set_fermi_energy_zero"]) else ".FALSE."
+    home = _vaspkit_home(directory, {"SET_FERMI_ENERGY_ZERO": zero})
+    completed = run_external(
+        executable="vaspkit", environment_variable="CHEMGRAPH_VASPKIT_COMMAND",
+        arguments=["-task", "911", "-file", "POSCAR"], directory=directory,
+        timeout_seconds=max(1, timeout_seconds), environment_overrides={"HOME": str(home)},
+    )
+    (directory / "vaspkit.log").write_text(completed["stdout"] + completed["stderr"], encoding="utf-8")
+    if not completed["available"]:
+        return unavailable(completed["stderr"], install="Download VASPKIT 1.5.1 from the official SourceForge release.")
+    if completed["returncode"] != 0 or "Band Gap (eV)" not in completed["stdout"]:
+        raise RuntimeError(f"VASPKIT band-gap extraction failed: {(completed['stderr'] or completed['stdout'])[-2000:]}")
+    text = completed["stdout"]
+    def match(pattern: str, label: str) -> re.Match[str]:
+        found = re.search(pattern, text)
+        if found is None:
+            raise RuntimeError(f"Could not parse {label} from VASPKIT output")
+        return found
+    character = match(r"Band Character:\s+(\S+)", "band character").group(1)
+    gap = float(match(r"Band Gap \(eV\):\s+([-+0-9.Ee]+)", "band gap").group(1))
+    vbm = float(match(r"Eigenvalue of VBM \(eV\):\s+([-+0-9.Ee]+)", "VBM").group(1))
+    cbm = float(match(r"Eigenvalue of CBM \(eV\):\s+([-+0-9.Ee]+)", "CBM").group(1))
+    fermi = float(match(r"Fermi Energy \(eV\):\s+([-+0-9.Ee]+)", "Fermi energy").group(1))
+    bands = [int(value) for value in match(r"Band Indexes of VBM & CBM:\s+(\d+)\s+(\d+)", "band indices").groups()]
+    kpoints = [int(value) for value in match(r"Kpt Indexes of VBM & CBM:\s+(\d+)\s+(\d+)", "k-point indices").groups()]
+    vbm_kpoint = [float(value) for value in match(r"Location of VBM \(frac\.\):\s+([-+0-9.Ee]+)\s+([-+0-9.Ee]+)\s+([-+0-9.Ee]+)", "VBM k-point").groups()]
+    cbm_kpoint = [float(value) for value in match(r"Location of CBM \(frac\.\):\s+([-+0-9.Ee]+)\s+([-+0-9.Ee]+)\s+([-+0-9.Ee]+)", "CBM k-point").groups()]
+    return success(
+        {
+            "band_character": character.lower(), "band_gap_ev": gap,
+            "vbm_ev": vbm, "cbm_ev": cbm, "fermi_energy_ev": fermi,
+            "vbm_band_index": bands[0], "cbm_band_index": bands[1],
+            "vbm_kpoint_index": kpoints[0], "cbm_kpoint_index": kpoints[1],
+            "vbm_fractional_kpoint": vbm_kpoint, "cbm_fractional_kpoint": cbm_kpoint,
+            "fermi_energy_shifted_to_zero": bool(settings["set_fermi_energy_zero"]),
+        },
+        artifact_files=command_artifacts(directory), backend_version="1.5.1",
+        provenance={"command": completed["command"], "task": 911},
+    )
+
+
+def _parse_airss_cell(text: str) -> dict[str, Any]:
+    import io
+    import warnings
+
+    from ase.io import read
+
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+        atoms = read(io.StringIO(text), format="castep-cell")
+    return structure_from_atoms(atoms)
+
+
+def _run_airss(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
+    inputs, _method, settings = request_parts(request)
+    directory = output_directory(action_id, "airss")
+    timeout_seconds = int(
+        request.get("resource_limits", {}).get("walltime_seconds", 7200)
+    )
+
+    if action_id == "generate_crystal_structure_candidates":
+        seed_path = resolve_input_file(inputs["seed_file"])
+        seed_text = seed_path.read_text(encoding="utf-8", errors="replace")
+        candidate_count = int(settings["candidate_count"])
+        if not 1 <= candidate_count <= 1000:
+            raise ValueError("candidate_count must be between 1 and 1000")
+        (directory / "seed.cell").write_text(seed_text, encoding="utf-8")
+        candidates = []
+        commands = []
+        for index in range(1, candidate_count + 1):
+            completed = run_external(
+                executable="buildcell",
+                environment_variable="CHEMGRAPH_AIRSS_BUILDCELL_COMMAND",
+                arguments=[],
+                directory=directory,
+                stdin_text=seed_text,
+                timeout_seconds=timeout_seconds,
+            )
+            if not completed["available"]:
+                return unavailable(
+                    completed["stderr"],
+                    install="conda install -c conda-forge airss-with-default-names=0.9.3",
+                )
+            if completed["returncode"] != 0:
+                raise RuntimeError(
+                    f"AIRSS buildcell failed for candidate {index}: "
+                    f"{completed['stderr'][-2000:]}"
+                )
+            cell_text = completed["stdout"].replace("\x00", "")
+            candidate_path = directory / f"candidate_{index:04d}.cell"
+            candidate_path.write_text(cell_text, encoding="utf-8")
+            candidates.append(
+                {
+                    "candidate_id": f"airss-{index:04d}",
+                    "structure": _parse_airss_cell(cell_text),
+                    "structure_file": relative_workspace_path(candidate_path),
+                }
+            )
+            commands.append(completed["command"])
+        return success(
+            {
+                "candidate_count": len(candidates),
+                "candidates": candidates,
+                "relaxed": False,
+                "ranked": False,
+            },
+            artifact_files=command_artifacts(directory),
+            backend_version="0.9.3",
+            provenance={
+                "commands": commands,
+                "seed_file": relative_workspace_path(directory / "seed.cell"),
+                "automatic_relaxation": False,
+                "automatic_ranking": False,
+            },
+        )
+
+    input_format = str(settings["input_format"]).strip().lower()
+    output_format = str(settings["output_format"]).strip().lower()
+    if input_format not in _AIRSS_FORMATS or output_format not in _AIRSS_FORMATS:
+        raise ValueError(
+            "input_format and output_format must each be one of "
+            f"{sorted(_AIRSS_FORMATS)}"
+        )
+    source = resolve_input_file(inputs["structure_file"])
+    source_text = source.read_text(encoding="utf-8", errors="replace")
+    staged_input = directory / f"input.{input_format}"
+    staged_input.write_text(source_text, encoding="utf-8")
+    completed = run_external(
+        executable="cabal",
+        environment_variable="CHEMGRAPH_AIRSS_CABAL_COMMAND",
+        arguments=[input_format, output_format],
+        directory=directory,
+        stdin_text=source_text,
+        timeout_seconds=timeout_seconds,
+    )
+    if not completed["available"]:
+        return unavailable(
+            completed["stderr"],
+            install="conda install -c conda-forge airss-with-default-names=0.9.3",
+        )
+    if completed["returncode"] != 0:
+        raise RuntimeError(f"AIRSS cabal failed: {completed['stderr'][-2000:]}")
+    output_text = completed["stdout"].replace("\x00", "")
+    output_path = directory / f"converted.{output_format}"
+    output_path.write_text(output_text, encoding="utf-8")
+    return success(
+        {
+            "structure_file": relative_workspace_path(output_path),
+            "input_format": input_format,
+            "output_format": output_format,
+        },
+        artifact_files=command_artifacts(directory),
+        backend_version="0.9.3",
+        provenance={"command": completed["command"]},
+    )
+
+
+def _stage_tdep_file(value: Any, directory: Path, target_name: str) -> Path:
+    source = resolve_input_file(value)
+    target = directory / target_name
+    shutil.copy2(source, target)
+    return target
+
+
+def _run_tdep(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
+    import numpy as np
+
+    inputs, _method, settings = request_parts(request)
+    directory = output_directory(action_id, "tdep")
+    timeout_seconds = int(
+        request.get("resource_limits", {}).get("walltime_seconds", 7200)
+    )
+    _stage_tdep_file(inputs["unit_cell_file"], directory, "infile.ucposcar")
+
+    if action_id == "fit_effective_force_constants":
+        _stage_tdep_file(inputs["supercell_file"], directory, "infile.ssposcar")
+        _stage_tdep_file(inputs["simulation_file"], directory, "infile.sim.hdf5")
+        arguments = ["-rc2", str(float(settings["second_order_cutoff_angstrom"]))]
+        third_cutoff = settings["third_order_cutoff_angstrom"]
+        fourth_cutoff = settings["fourth_order_cutoff_angstrom"]
+        if third_cutoff is not None:
+            arguments.extend(["-rc3", str(float(third_cutoff))])
+        if fourth_cutoff is not None:
+            arguments.extend(["-rc4", str(float(fourth_cutoff))])
+        if bool(settings["polar"]):
+            if "loto_splitting_file" not in inputs:
+                raise ValueError("polar=true requires inputs.loto_splitting_file")
+            _stage_tdep_file(
+                inputs["loto_splitting_file"], directory, "infile.lotosplitting"
+            )
+            arguments.append("--polar")
+        stride = int(settings["configuration_stride"])
+        if stride < 1:
+            raise ValueError("configuration_stride must be at least 1")
+        arguments.extend(["--stride", str(stride)])
+        if bool(settings["include_first_order"]):
+            arguments.append("--firstorder")
+        temperature = settings["self_consistent_temperature_kelvin"]
+        if temperature is not None:
+            arguments.extend(["--temperature", str(float(temperature))])
+        if not bool(settings["enforce_rotational_invariance"]):
+            arguments.append("--norotational")
+        if not bool(settings["enforce_huang_invariance"]):
+            arguments.append("--nohuang")
+        if not bool(settings["enforce_hermitian_symmetry"]):
+            arguments.append("--nohermitian")
+        executable = "extract_forceconstants"
+        variable = "CHEMGRAPH_TDEP_EXTRACT_FORCECONSTANTS_COMMAND"
+    elif action_id == "generate_thermal_displacement_configurations":
+        _stage_tdep_file(inputs["supercell_file"], directory, "infile.ssposcar")
+        source = str(settings["initialization_source"])
+        arguments = [
+            "--nconf", str(int(settings["configuration_count"])),
+            "--temperature", str(float(settings["temperature_kelvin"])),
+        ]
+        count = int(settings["configuration_count"])
+        if not 1 <= count <= 10000:
+            raise ValueError("configuration_count must be between 1 and 10000")
+        if source == "force_constants":
+            if "second_order_force_constants_file" not in inputs:
+                raise ValueError(
+                    "initialization_source=force_constants requires "
+                    "inputs.second_order_force_constants_file"
+                )
+            _stage_tdep_file(
+                inputs["second_order_force_constants_file"],
+                directory,
+                "infile.forceconstant",
+            )
+        elif source == "debye_temperature":
+            value = settings["debye_temperature_kelvin"]
+            if value is None or float(value) <= 0:
+                raise ValueError("debye_temperature_kelvin must be positive")
+            arguments.extend(["--debye_temperature", str(float(value))])
+        elif source == "maximum_frequency":
+            value = settings["maximum_frequency_thz"]
+            if value is None or float(value) <= 0:
+                raise ValueError("maximum_frequency_thz must be positive")
+            arguments.extend(["--maximum_frequency", str(float(value))])
+        else:
+            raise ValueError(
+                "initialization_source must be force_constants, debye_temperature, "
+                "or maximum_frequency"
+            )
+        if str(settings["statistics"]) == "quantum":
+            arguments.append("--quantum")
+        output_formats = {"vasp": 1, "abinit": 2, "fhi_aims": 4, "siesta": 5}
+        output_format = str(settings["output_format"])
+        arguments.extend(["--output_format", str(output_formats[output_format])])
+        minimum_distance = settings["minimum_distance_ratio"]
+        if minimum_distance is not None:
+            arguments.extend(["--mindist", str(float(minimum_distance))])
+        executable = "canonical_configuration"
+        variable = "CHEMGRAPH_TDEP_CANONICAL_CONFIGURATION_COMMAND"
+    else:
+        _stage_tdep_file(
+            inputs["second_order_force_constants_file"],
+            directory,
+            "infile.forceconstant",
+        )
+        arguments = [
+            "--unit", str(settings["frequency_unit"]),
+            "--nq_on_path", str(int(settings["points_per_segment"])),
+        ]
+        if "q_path_file" in inputs:
+            _stage_tdep_file(
+                inputs["q_path_file"], directory, "infile.qpoints_dispersion"
+            )
+            arguments.append("--readpath")
+        if bool(settings["calculate_gruneisen"]):
+            if "third_order_force_constants_file" not in inputs:
+                raise ValueError(
+                    "calculate_gruneisen=true requires "
+                    "inputs.third_order_force_constants_file"
+                )
+            _stage_tdep_file(
+                inputs["third_order_force_constants_file"],
+                directory,
+                "infile.forceconstant_thirdorder",
+            )
+            arguments.append("--gruneisen")
+        executable = "phonon_dispersion_relations"
+        variable = "CHEMGRAPH_TDEP_PHONON_DISPERSION_COMMAND"
+
+    completed = run_external(
+        executable=executable,
+        environment_variable=variable,
+        arguments=arguments,
+        directory=directory,
+        timeout_seconds=timeout_seconds,
+    )
+    (directory / "stdout.log").write_text(completed["stdout"], encoding="utf-8")
+    (directory / "stderr.log").write_text(completed["stderr"], encoding="utf-8")
+    if not completed["available"]:
+        return unavailable(
+            completed["stderr"],
+            install="Build TDEP 25.03 from https://github.com/tdep-developers/tdep",
+        )
+    if completed["returncode"] != 0:
+        raise RuntimeError(f"TDEP {executable} failed: {completed['stderr'][-2000:]}")
+
+    artifacts = command_artifacts(directory)
+    common = {
+        "artifact_files": artifacts,
+        "backend_version": "25.03-d38f435",
+        "provenance": {"command": completed["command"]},
+    }
+    if action_id == "fit_effective_force_constants":
+        fc2 = directory / "outfile.forceconstant"
+        fc3 = directory / "outfile.forceconstant_thirdorder"
+        fc4 = directory / "outfile.forceconstant_fourthorder"
+        if not fc2.is_file():
+            raise RuntimeError("TDEP completed without outfile.forceconstant")
+        r_squared = None
+        match = re.search(
+            r"second order:\s+([0-9.]+)\s+[0-9.]+", completed["stdout"]
+        )
+        if match:
+            r_squared = float(match.group(1))
+        return success(
+            {
+                "second_order_force_constants_file": relative_workspace_path(fc2),
+                "third_order_force_constants_file": (
+                    relative_workspace_path(fc3) if fc3.is_file() else None
+                ),
+                "fourth_order_force_constants_file": (
+                    relative_workspace_path(fc4) if fc4.is_file() else None
+                ),
+                "cross_validation_r_squared": r_squared,
+                "polar": bool(settings["polar"]),
+            },
+            **common,
+        )
+    if action_id == "generate_thermal_displacement_configurations":
+        files = sorted(directory.glob("contcar_conf*"))
+        if len(files) != int(settings["configuration_count"]):
+            raise RuntimeError(
+                "TDEP produced an unexpected number of thermal configurations"
+            )
+        configurations = []
+        for index, path in enumerate(files, 1):
+            item = {
+                "configuration_id": f"tdep-{index:04d}",
+                "structure_file": relative_workspace_path(path),
+            }
+            if str(settings["output_format"]) == "vasp":
+                from ase.io import read
+
+                item["structure"] = structure_from_atoms(read(str(path), format="vasp"))
+            configurations.append(item)
+        return success(
+            {
+                "configuration_count": len(configurations),
+                "temperature_kelvin": float(settings["temperature_kelvin"]),
+                "statistics": str(settings["statistics"]),
+                "configurations": configurations,
+            },
+            **common,
+        )
+    dispersion_path = directory / "outfile.dispersion_relations"
+    if not dispersion_path.is_file():
+        raise RuntimeError("TDEP completed without outfile.dispersion_relations")
+    values = np.loadtxt(dispersion_path, dtype=float)
+    return success(
+        {
+            "path_coordinate": values[:, 0].tolist(),
+            "frequencies": values[:, 1:].tolist(),
+            "frequency_unit": str(settings["frequency_unit"]),
+            "points_per_segment": int(settings["points_per_segment"]),
+            "dispersion_file": relative_workspace_path(dispersion_path),
+            "hdf5_file": relative_workspace_path(
+                directory / "outfile.dispersion_relations.hdf5"
+            ),
+        },
+        **common,
+    )
 
 
 def _periodic_structure(value: Any) -> tuple[dict[str, Any], list[str], list[list[float]], list[list[float]]]:
@@ -2220,6 +2980,23 @@ def _shengbte_thermal_conductivity(request: dict[str, Any]) -> dict[str, Any]:
 
 
 def execute(action_id: str, backend_id: str, request: dict[str, Any]) -> dict[str, Any]:
+    if backend_id == "yambo" and action_id in {
+        "calculate_quasiparticle_corrections", "calculate_bse_optical_spectrum"
+    }:
+        return _run_yambo(action_id, request)
+    if backend_id == "internal_periodic_analysis":
+        if action_id == "calculate_adsorption_energy":
+            return _calculate_adsorption_energy(request)
+        if action_id == "construct_pressure_enthalpy_phase_diagram":
+            return _construct_pressure_enthalpy_phase_diagram(request)
+        if action_id == "assess_phonon_stability":
+            return _assess_phonon_stability(request)
+    if backend_id == "vaspkit" and action_id in {"generate_vasp_kpoint_mesh", "extract_vasp_band_gap"}:
+        return _run_vaspkit_action(action_id, request)
+    if backend_id == "airss":
+        return _run_airss(action_id, request)
+    if backend_id == "tdep":
+        return _run_tdep(action_id, request)
     if backend_id == "lobster":
         if action_id == "analyze_periodic_bonding":
             return _lobster_bonding(request)

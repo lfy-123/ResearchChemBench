@@ -1,4 +1,4 @@
-# Consolidated six-environment layout
+# Consolidated seven-environment layout
 
 This directory is the portable build source for the consolidated chemistry
 toolbox runtimes.  The legacy 42 prefixes are intentionally not referenced by
@@ -33,7 +33,7 @@ bash chemistry_toolbox/scripts/build_merged_environments.sh --from-lock all
 bash chemistry_toolbox/scripts/capture_merged_environment_locks.sh
 ```
 
-The toolbox always uses the consolidated layout. Operators may relocate all six
+The toolbox always uses the consolidated layout. Operators may relocate all seven
 prefixes without changing profile configuration:
 
 ```bash
@@ -52,3 +52,5 @@ export RESEARCHCHEMBENCH_ENV_ROOT=/path/to/researchchem-envs
   with the molecular-dynamics runtime through its configured PATH.
 - Yambo remains with its OpenMPI-4 stack and therefore does not share the
   OpenMPI-5 general runtime.
+- gmx_MMPBSA 1.6.5 requires Python 3.11 and AmberTools 23.6, so it remains
+  isolated from the Python 3.12/AmberTools 26 molecular-simulation runtime.

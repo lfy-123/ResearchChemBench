@@ -5,7 +5,7 @@ topics: ["common-tasks", "inputs", "outputs", "convergence"]
 aliases: ["MESS", "mess"]
 inputs: ["input.inp", "optional external molecular or energy-transfer data"]
 outputs: ["rate.out", "auxiliary diagnostic and eigenvalue files"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # MESS Common Tasks
@@ -15,6 +15,9 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 - **Pressure Dependence**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Well Reduction**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Microcanonical Kinetics**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
+
+## Preferred typed Action routes
+- `solve_master_equation`: validated structured route through backend `mess`.
 
 ## Minimum input responsibilities
 - `input.inp`

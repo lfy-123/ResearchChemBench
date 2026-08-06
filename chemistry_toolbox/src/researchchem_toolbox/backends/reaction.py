@@ -2,10 +2,13 @@
 
 from __future__ import annotations
 
+import json
 import math
+import os
 import pprint
 import re
 import shutil
+import tempfile
 import xml.etree.ElementTree as ET
 from pathlib import Path
 from typing import Any
@@ -21,6 +24,7 @@ from .common import (
     partial_success,
     relative_workspace_path,
     request_parts,
+    resolve_command,
     resolve_input_file,
     run_external,
     structure_dict,
@@ -34,6 +38,7 @@ from .common import (
 
 
 ACTIONS = {
+    "explore_reaction_network",
     "locate_transition_state", "search_reaction_path", "scan_reaction_coordinates",
     "validate_reaction_path", "analyze_reaction_coordinate",
     "trace_intrinsic_reaction_coordinate",
@@ -41,7 +46,136 @@ ACTIONS = {
     "calculate_rate_constants", "calculate_tunneling_correction",
     "solve_microkinetic_model", "solve_master_equation",
     "analyze_thermochemical_selectivity", "analyze_reaction_free_energy_profile",
+    "analyze_activation_strain_profile", "summarize_activation_strain_profile",
+    "validate_activation_strain_profile", "analyze_post_transition_state_trajectory_ensemble",
 }
+
+
+def _run_kinbot_pes(request: dict[str, Any]) -> dict[str, Any]:
+    inputs, _method, settings = request_parts(request)
+    source = resolve_input_file(inputs["input_file"])
+    payload = json.loads(source.read_text(encoding="utf-8"))
+    if not isinstance(payload, dict):
+        raise ValueError("KinBot input_file must contain one JSON object")
+    if int(payload.get("pes", 0)) != 1:
+        raise ValueError("explore_reaction_network requires an explicit KinBot input with pes=1")
+    directory = output_directory("explore_reaction_network", "kinbot")
+    input_name = source.name
+    effective_payload = dict(payload)
+    effective_payload["imagfreq_threshold"] = float(
+        settings["imaginary_frequency_threshold_cm1"]
+    )
+    (directory / input_name).write_text(
+        json.dumps(effective_payload, indent=2) + "\n", encoding="utf-8"
+    )
+    timeout = int(request.get("resource_limits", {}).get("walltime_seconds", 86400))
+    overrides = {
+        "OMP_NUM_THREADS": str(int(request.get("resource_limits", {}).get("cpu_cores", 1))),
+        "OPENBLAS_NUM_THREADS": "1",
+        "OMPI_MCA_pml": "ob1",
+        "OMPI_MCA_btl": "self,vader,tcp",
+        "KINBOT_SELLA_FMAX": str(float(settings["sella_force_threshold_ev_per_angstrom"])),
+        "KINBOT_SELLA_MAX_STEPS": str(int(settings["sella_max_steps"])),
+        "KINBOT_IMAGINARY_FREQUENCY_THRESHOLD": str(float(settings["imaginary_frequency_threshold_cm1"])),
+    }
+    short_nwchem_root: Path | None = None
+    if str(payload.get("qc", "")).casefold() == "nwchem":
+        nwchem = resolve_command("nwchem", "CHEMGRAPH_NWCHEM_COMMAND")
+        if nwchem is None:
+            return unavailable("KinBot requested NWChem but nwchem was not found")
+        executable = Path(nwchem[0]).expanduser().resolve()
+        environment_root = executable.parent.parent
+        short_nwchem_root = Path(tempfile.mkdtemp(prefix="rcb-kb-nwchem-"))
+        overrides.update({
+            "PATH": str(executable.parent) + ":" + os.environ.get("PATH", ""),
+            "LD_LIBRARY_PATH": str(environment_root / "lib") + ":" + os.environ.get("LD_LIBRARY_PATH", ""),
+            "NWCHEM_BASIS_LIBRARY": str(environment_root / "share" / "nwchem" / "libraries") + "/",
+            "NWCHEM_NWPW_LIBRARY": str(environment_root / "share" / "nwchem" / "libraryps") + "/",
+            "KINBOT_NWCHEM_COMMAND": f"{executable} PREFIX.nwi | tee PREFIX.out > PREFIX.nwo",
+            "KINBOT_NWCHEM_WORK_ROOT": str(short_nwchem_root),
+        })
+    try:
+        completed = run_external(
+            executable="pes",
+            environment_variable="CHEMGRAPH_KINBOT_PES_COMMAND",
+            arguments=[input_name],
+            directory=directory,
+            timeout_seconds=timeout,
+            environment_overrides=overrides,
+        )
+    finally:
+        if short_nwchem_root is not None:
+            shutil.rmtree(short_nwchem_root, ignore_errors=True)
+    (directory / "stdout.log").write_text(completed["stdout"], encoding="utf-8")
+    (directory / "stderr.log").write_text(completed["stderr"], encoding="utf-8")
+    if not completed["available"]:
+        return unavailable(completed["stderr"], install="Install KinBot 2.2.2 and Sella")
+    if completed["returncode"] != 0:
+        raise RuntimeError(f"KinBot PES failed: {completed['stderr'][-3000:]}")
+    log_text = "\n".join(
+        path.read_text(encoding="utf-8", errors="replace")
+        for path in directory.glob("pes*.log")
+    )
+    if bool(settings["require_pes_done"]) and "PES search done!" not in log_text + completed["stdout"]:
+        raise RuntimeError("KinBot exited without the PES search done marker")
+    child_logs = {
+        str(path.relative_to(directory)): path.read_text(
+            encoding="utf-8", errors="replace"
+        )
+        for path in directory.glob("*/kinbot.log")
+    }
+    if not child_logs:
+        raise RuntimeError("KinBot PES produced no child kinbot.log files")
+    failed_children = [
+        name
+        for name, text in child_logs.items()
+        if "Error with initial structure optimization." in text
+    ]
+    if failed_children:
+        raise RuntimeError(
+            "KinBot PES reported failed initial-structure optimization in: "
+            + ", ".join(failed_children)
+        )
+    if int(effective_payload.get("reaction_search", 0)) == 1:
+        missing_search = [
+            name
+            for name, text in child_logs.items()
+            if "Starting reaction search..." not in text
+        ]
+        if missing_search:
+            raise RuntimeError(
+                "KinBot child did not enter reaction search: "
+                + ", ".join(missing_search)
+            )
+    chemids_path = directory / "chemids"
+    chemids = chemids_path.read_text(encoding="utf-8").split() if chemids_path.is_file() else []
+    records = []
+    for path in sorted(directory.glob("*/summary_*.out")):
+        for line in path.read_text(encoding="utf-8", errors="replace").splitlines():
+            stripped = line.strip()
+            if stripped.startswith(("SUCCESS", "HOMOLYTIC_SCISSION", "FAIL", "BARRIERLESS")):
+                records.append({"well": path.parent.name, "summary": stripped})
+    limit = int(settings["maximum_returned_reactions"])
+    if not 1 <= limit <= 100000:
+        raise ValueError("maximum_returned_reactions must be between 1 and 100000")
+    return success(
+        {
+            "title": effective_payload.get("title"),
+            "well_count": len(chemids),
+            "well_ids": chemids,
+            "reaction_record_count": len(records),
+            "reaction_records": records[:limit],
+            "pes_complete": "PES search done!" in log_text + completed["stdout"],
+        },
+        artifact_files=command_artifacts(directory),
+        backend_version="2.2.2-local-nwchem-patch",
+        provenance={
+            "command": completed["command"],
+            "agent_input_preserved_as_service_artifact": True,
+            "effective_imagfreq_threshold_cm1": effective_payload["imagfreq_threshold"],
+            "compatibility_patch": "chemistry_toolbox/patches/kinbot-v2.2.2-local-nwchem.patch",
+        },
+    )
 
 
 def _pysisyphus_xtb_gfn(method_name: str) -> int | str:
@@ -1071,6 +1205,91 @@ def _analyze_reaction_coordinate(request: dict[str, Any]) -> dict[str, Any]:
     )
 
 
+def _wilson_interval(successes: int, total: int, confidence_level: float) -> list[float]:
+    if total <= 0:
+        return [0.0, 1.0]
+    z_values = {0.90: 1.6448536269514722, 0.95: 1.959963984540054, 0.99: 2.5758293035489004}
+    z = z_values.get(round(confidence_level, 2))
+    if z is None or abs(confidence_level - round(confidence_level, 2)) > 1e-12:
+        raise ValueError("confidence_level must be 0.90, 0.95, or 0.99")
+    fraction = successes / total
+    denominator = 1.0 + z * z / total
+    center = (fraction + z * z / (2.0 * total)) / denominator
+    half_width = z * math.sqrt(fraction * (1.0 - fraction) / total + z * z / (4.0 * total * total)) / denominator
+    return [max(0.0, center - half_width), min(1.0, center + half_width)]
+
+
+def _analyze_post_transition_state_ensemble(request: dict[str, Any]) -> dict[str, Any]:
+    inputs, _method, settings = request_parts(request)
+    outcomes = unwrap_artifact(inputs["trajectory_outcomes"])
+    if not isinstance(outcomes, list) or not outcomes:
+        raise ValueError("trajectory_outcomes must be a non-empty list")
+    confidence = float(settings["confidence_level"])
+    failure_policy = str(settings["failure_policy"]).strip().lower()
+    minimum_successful = int(settings["minimum_successful_trajectories"])
+    if minimum_successful < 1:
+        raise ValueError("minimum_successful_trajectories must be positive")
+    seen = set()
+    successful = []
+    failed_ids = []
+    for index, record in enumerate(outcomes):
+        if not isinstance(record, dict):
+            raise ValueError("each trajectory outcome must be a mapping")
+        identifier = str(record.get("trajectory_id", "")).strip()
+        status = str(record.get("status", "")).strip().lower()
+        if not identifier or identifier in seen:
+            raise ValueError("trajectory_id values must be non-empty and unique")
+        seen.add(identifier)
+        if status == "failed":
+            failed_ids.append(identifier)
+            continue
+        if status != "success" or not isinstance(record.get("recrossed"), bool):
+            raise ValueError("successful outcomes require status=success and a boolean recrossed field")
+        product = record.get("product_label")
+        successful.append(
+            {
+                "trajectory_id": identifier,
+                "product_label": str(product).strip() if product is not None and str(product).strip() else "unassigned",
+                "recrossed": record["recrossed"],
+            }
+        )
+    if len(successful) < minimum_successful:
+        raise ValueError("successful trajectory count is below minimum_successful_trajectories")
+    denominator = len(successful) + (len(failed_ids) if failure_policy == "include_as_unassigned" else 0)
+    counts: dict[str, int] = {}
+    for record in successful:
+        label = record["product_label"]
+        counts[label] = counts.get(label, 0) + 1
+    if failure_policy == "include_as_unassigned" and failed_ids:
+        counts["unassigned"] = counts.get("unassigned", 0) + len(failed_ids)
+    branching = [
+        {
+            "product_label": label,
+            "count": count,
+            "fraction": count / denominator,
+            "confidence_interval": _wilson_interval(count, denominator, confidence),
+        }
+        for label, count in sorted(counts.items(), key=lambda item: (-item[1], item[0]))
+    ]
+    recrossed = sum(1 for record in successful if record["recrossed"])
+    return success(
+        {
+            "trajectory_count": len(outcomes),
+            "successful_trajectory_count": len(successful),
+            "failed_trajectory_count": len(failed_ids),
+            "failed_trajectory_ids": failed_ids,
+            "branching_denominator": denominator,
+            "branching": branching,
+            "recrossing_count": recrossed,
+            "recrossing_fraction_of_successful": recrossed / len(successful),
+            "recrossing_confidence_interval": _wilson_interval(recrossed, len(successful), confidence),
+            "confidence_level": confidence,
+            "failure_policy": failure_policy,
+            "classification_source": "explicit_agent_supplied_outcomes",
+        }
+    )
+
+
 def _cantera_equilibrium(request: dict[str, Any]) -> dict[str, Any]:
     import cantera as ct
 
@@ -1980,7 +2199,352 @@ def _mesmer_master_equation(request: dict[str, Any]) -> dict[str, Any]:
     )
 
 
+def _read_pyfrag_reaction_path(
+    path: Path, *, path_format: str, maximum_path_points: int
+) -> list[list[tuple[str, float, float, float]]]:
+    """Read a bounded AMV or multi-XYZ path and enforce invariant atom ordering."""
+
+    text = path.read_text(encoding="utf-8", errors="strict")
+    frames: list[list[tuple[str, float, float, float]]] = []
+    atom_pattern = re.compile(
+        r"^\s*([A-Z][a-z]?)\s+([-+0-9.Ee]+)\s+([-+0-9.Ee]+)\s+([-+0-9.Ee]+)\s*$"
+    )
+
+    def parse_atom(line: str) -> tuple[str, float, float, float]:
+        match = atom_pattern.fullmatch(line)
+        if match is None:
+            raise ValueError(f"Invalid reaction-path coordinate line: {line!r}")
+        record = (match.group(1), *(float(match.group(index)) for index in range(2, 5)))
+        if not all(math.isfinite(value) for value in record[1:]):
+            raise ValueError("Reaction-path coordinates must be finite")
+        return record
+
+    if path_format == "xyz":
+        lines = text.splitlines()
+        cursor = 0
+        while cursor < len(lines):
+            while cursor < len(lines) and not lines[cursor].strip():
+                cursor += 1
+            if cursor >= len(lines):
+                break
+            try:
+                atom_count = int(lines[cursor].strip())
+            except ValueError as exc:
+                raise ValueError("Multi-XYZ frames must begin with an integer atom count") from exc
+            if atom_count < 2 or cursor + atom_count + 1 >= len(lines):
+                raise ValueError("Truncated or invalid multi-XYZ reaction-path frame")
+            frames.append(
+                [parse_atom(line) for line in lines[cursor + 2 : cursor + 2 + atom_count]]
+            )
+            cursor += atom_count + 2
+    elif path_format == "amv":
+        current: list[tuple[str, float, float, float]] = []
+        for line in [*text.splitlines(), ""]:
+            if line.strip():
+                current.append(parse_atom(line))
+            elif current:
+                frames.append(current)
+                current = []
+    else:
+        raise ValueError("path_format must be amv or xyz")
+
+    if not 2 <= len(frames) <= maximum_path_points:
+        raise ValueError(
+            f"Reaction path must contain 2..{maximum_path_points} frames; found {len(frames)}"
+        )
+    reference_elements = [record[0] for record in frames[0]]
+    if len(reference_elements) < 2:
+        raise ValueError("Reaction-path frames must contain at least two atoms")
+    for index, frame in enumerate(frames):
+        if [record[0] for record in frame] != reference_elements:
+            raise ValueError(
+                f"Reaction-path frame {index} changes atom count, elements, or ordering"
+            )
+    return frames
+
+
+def _parse_pyfrag_profile(path: Path, maximum_records: int) -> dict[str, Any]:
+    lines = [line for line in path.read_text(encoding="utf-8", errors="strict").splitlines() if line.strip()]
+    if len(lines) < 3:
+        raise ValueError("PyFrag profile must contain headings, units, and at least one record")
+    headings = lines[0].split()
+    required = {
+        "Filename", "Point", "TotalIntEn", "StrainFrag1", "StrainFrag2",
+        "StrainTotal", "EnergyTotal",
+    }
+    if not required <= set(headings):
+        raise ValueError(f"PyFrag profile is missing columns: {sorted(required - set(headings))}")
+    records: list[dict[str, Any]] = []
+    for line_number, line in enumerate(lines[2:], start=3):
+        values = line.split()
+        if len(values) != len(headings):
+            raise ValueError(f"PyFrag profile line {line_number} has the wrong column count")
+        record: dict[str, Any] = {"filename": values[headings.index("Filename")]}
+        for heading, value in zip(headings, values):
+            if heading == "Filename":
+                continue
+            key = re.sub(r"(?<!^)(?=[A-Z])", "_", heading).lower()
+            if heading == "Point":
+                numeric: int | float = int(value)
+            else:
+                numeric = float(value)
+                if not math.isfinite(numeric):
+                    raise ValueError(f"PyFrag profile line {line_number} contains a non-finite value")
+            record[key] = numeric
+        record["energy_closure_error_kcal_mol"] = abs(
+            float(record["energy_total"])
+            - float(record["total_int_en"])
+            - float(record["strain_total"])
+        )
+        records.append(record)
+    total_records = len(records)
+    returned = records[:maximum_records]
+    closure_errors = [float(record["energy_closure_error_kcal_mol"]) for record in records]
+    energy_totals = [float(record["energy_total"]) for record in records]
+    interaction_energies = [float(record["total_int_en"]) for record in records]
+    strain_energies = [float(record["strain_total"]) for record in records]
+    return {
+        "columns": headings,
+        "records": returned,
+        "total_record_count": total_records,
+        "truncated": len(returned) < total_records,
+        "maximum_energy_closure_error_kcal_mol": max(closure_errors),
+        "energy_total_range_kcal_mol": [min(energy_totals), max(energy_totals)],
+        "interaction_energy_range_kcal_mol": [min(interaction_energies), max(interaction_energies)],
+        "strain_total_range_kcal_mol": [min(strain_energies), max(strain_energies)],
+    }
+
+
+def _pyfrag_summary(request: dict[str, Any]) -> dict[str, Any]:
+    inputs, _method, settings = request_parts(request)
+    maximum_records = int(settings["maximum_records"])
+    if not 1 <= maximum_records <= 10000:
+        raise ValueError("maximum_records must be between 1 and 10000")
+    profile = resolve_input_file(inputs["profile_file"])
+    parsed = _parse_pyfrag_profile(profile, maximum_records)
+    directory = output_directory("summarize_activation_strain_profile", "pyfrag")
+    result = {"source_profile": relative_workspace_path(profile), **parsed}
+    summary = write_json(directory, "activation_strain_summary.json", result)
+    return success(
+        result,
+        artifact_files=[{
+            "path": relative_workspace_path(summary),
+            "semantic_type": "ActivationStrainProfileSummary",
+            "media_type": "application/json",
+        }],
+        backend_version="2019.02-v1.0.0",
+        provenance={"parser": "bounded_internal_pyfrag_table_parser", "calculation_rerun": False},
+    )
+
+
+def _pyfrag_validate(request: dict[str, Any]) -> dict[str, Any]:
+    inputs, _method, settings = request_parts(request)
+    expected_count = int(settings["expected_path_point_count"])
+    tolerance = float(settings["energy_closure_tolerance_kcal_mol"])
+    if expected_count < 1:
+        raise ValueError("expected_path_point_count must be positive")
+    if not math.isfinite(tolerance) or tolerance < 0:
+        raise ValueError("energy_closure_tolerance_kcal_mol must be finite and nonnegative")
+    profile = resolve_input_file(inputs["profile_file"])
+    parsed = _parse_pyfrag_profile(profile, max(expected_count, 1))
+    points = [int(record["point"]) for record in parsed["records"]]
+    checks = {
+        "record_count_matches": parsed["total_record_count"] == expected_count,
+        "point_identifiers_are_sequential_from_zero": points == list(range(len(points))),
+        "energy_decomposition_closes": (
+            parsed["maximum_energy_closure_error_kcal_mol"] <= tolerance
+        ),
+    }
+    result = {
+        "source_profile": relative_workspace_path(profile),
+        "passed": all(checks.values()),
+        "checks": checks,
+        "expected_path_point_count": expected_count,
+        "observed_path_point_count": parsed["total_record_count"],
+        "energy_closure_tolerance_kcal_mol": tolerance,
+        "maximum_energy_closure_error_kcal_mol": parsed[
+            "maximum_energy_closure_error_kcal_mol"
+        ],
+    }
+    directory = output_directory("validate_activation_strain_profile", "pyfrag")
+    report = write_json(directory, "activation_strain_validation.json", result)
+    return success(
+        result,
+        artifact_files=[{
+            "path": relative_workspace_path(report),
+            "semantic_type": "ActivationStrainProfileValidationResult",
+            "media_type": "application/json",
+        }],
+        backend_version="2019.02-v1.0.0",
+        provenance={"validation_is_diagnostic": True, "calculation_rerun": False},
+    )
+
+
+def _pyfrag_analyze(request: dict[str, Any]) -> dict[str, Any]:
+    inputs, method, settings = request_parts(request)
+    maximum_points = int(settings["maximum_path_points"])
+    if not 2 <= maximum_points <= 200:
+        raise ValueError("maximum_path_points must be between 2 and 200")
+    source_path = resolve_input_file(inputs["reaction_path_file"])
+    frames = _read_pyfrag_reaction_path(
+        source_path,
+        path_format=str(settings["path_format"]).lower(),
+        maximum_path_points=maximum_points,
+    )
+    atom_count = len(frames[0])
+
+    fragment_names = [str(settings[f"fragment_{index}_name"]).strip() for index in (1, 2)]
+    if any(re.fullmatch(r"[A-Za-z][A-Za-z0-9_-]{0,31}", name) is None for name in fragment_names):
+        raise ValueError("fragment names must be short alphanumeric identifiers")
+    if fragment_names[0] == fragment_names[1]:
+        raise ValueError("fragment names must be distinct")
+    fragments = [
+        [int(value) for value in settings[f"fragment_{index}_atom_indices"]]
+        for index in (1, 2)
+    ]
+    if any(not fragment for fragment in fragments):
+        raise ValueError("both fragment atom-index lists must be non-empty")
+    flat_indices = [value for fragment in fragments for value in fragment]
+    if len(flat_indices) != len(set(flat_indices)) or set(flat_indices) != set(range(1, atom_count + 1)):
+        raise ValueError(
+            "fragment atom indices must be disjoint, one-based, and cover every reaction-path atom exactly once"
+        )
+    coordinate = [int(value) for value in settings["reaction_coordinate_atom_indices"]]
+    if len(coordinate) != 2 or len(set(coordinate)) != 2 or any(
+        value < 1 or value > atom_count for value in coordinate
+    ):
+        raise ValueError("reaction_coordinate_atom_indices must contain two distinct valid one-based indices")
+    references = [
+        float(settings[f"fragment_{index}_reference_energy_kcal_mol"])
+        for index in (1, 2)
+    ]
+    if not all(math.isfinite(value) for value in references):
+        raise ValueError("fragment reference energies must be finite")
+
+    keywords = method["orca_keywords"]
+    if not isinstance(keywords, list) or not keywords:
+        raise ValueError("method_spec.orca_keywords must be a non-empty list of ORCA simple-keyword tokens")
+    token_pattern = re.compile(r"[A-Za-z0-9][A-Za-z0-9_+().,/-]{0,63}")
+    keywords = [str(value) for value in keywords]
+    if any(token_pattern.fullmatch(value) is None for value in keywords):
+        raise ValueError("ORCA keywords may contain only simple-keyword token characters")
+    if "sp" not in {value.casefold() for value in keywords}:
+        raise ValueError("method_spec.orca_keywords must explicitly include SP")
+    charge = int(method["charge"])
+    multiplicity = int(method["multiplicity"])
+    if multiplicity < 1:
+        raise ValueError("multiplicity must be positive")
+    path_type = str(settings["path_type"]).lower()
+    if path_type not in {"irc", "lt"}:
+        raise ValueError("path_type must be irc or lt")
+
+    directory = output_directory("analyze_activation_strain_profile", "pyfrag")
+    normalized_path = directory / "reaction_path.amv"
+    normalized_path.write_text(
+        "\n\n".join(
+            "\n".join(
+                f"{symbol} {x:.12f} {y:.12f} {z:.12f}"
+                for symbol, x, y, z in frame
+            )
+            for frame in frames
+        ) + "\n",
+        encoding="utf-8",
+    )
+    complex_name = f"{fragment_names[0]}_{fragment_names[1]}"
+    specification_lines = [
+        "INPUT_SPECS", f"type = {path_type.upper()}",
+        f"output file = {normalized_path.name}", f"fa1_name = {complex_name}",
+    ]
+    for fragment_number, (name, indices) in enumerate(zip(fragment_names, fragments), start=1):
+        specification_lines.append(f"frag{fragment_number} = {name}")
+        specification_lines.extend(
+            f"{index}.{frames[0][index - 1][0]}" for index in indices
+        )
+        specification_lines.append(f"end frag{fragment_number}")
+    specification_lines.extend([
+        f"print bond {coordinate[0]} {coordinate[1]} 0.00",
+        f"print strain frag1 {references[0]:.12f}",
+        f"print strain frag2 {references[1]:.12f}",
+        "END INPUT_SPECS", "", f"! {' '.join(keywords)}", "",
+        f"* xyz {charge} {multiplicity}", "END INPUT", "",
+    ])
+    input_file = directory / "pyfrag.inp"
+    input_file.write_text("\n".join(specification_lines), encoding="utf-8")
+    scratch = directory / "scratch"
+    scratch.mkdir()
+    completed = run_external(
+        executable="pyfrag-orca",
+        environment_variable="CHEMGRAPH_PYFRAG_COMMAND",
+        arguments=[input_file.name, scratch.name],
+        directory=directory,
+        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 1800)),
+        environment_overrides={"OMP_NUM_THREADS": "1", "OPENBLAS_NUM_THREADS": "1"},
+    )
+    (directory / "stdout.log").write_text(completed["stdout"], encoding="utf-8")
+    (directory / "stderr.log").write_text(completed["stderr"], encoding="utf-8")
+    if not completed["available"]:
+        return unavailable(
+            completed["stderr"],
+            install="Configure pinned PyFrag v1.0.0 and a separately obtained ORCA executable",
+        )
+    if completed["returncode"] != 0:
+        raise RuntimeError(f"PyFrag failed: {(completed['stderr'] or completed['stdout'])[-2000:]}")
+    profile = directory / "fragment_energies.txt"
+    if not profile.is_file():
+        raise RuntimeError("PyFrag completed without fragment_energies.txt")
+    parsed = _parse_pyfrag_profile(profile, maximum_points)
+    output_files = sorted((directory / "fragmentfiles").glob("*.out"))
+    normal_output_count = sum(
+        "ORCA TERMINATED NORMALLY" in path.read_text(encoding="utf-8", errors="replace")
+        for path in output_files
+    )
+    expected_output_count = len(frames) * 3
+    if parsed["total_record_count"] != len(frames) or normal_output_count != expected_output_count:
+        raise RuntimeError(
+            "PyFrag produced an incomplete profile or one or more ORCA fragment calculations did not terminate normally"
+        )
+    result = {
+        "source_reaction_path": relative_workspace_path(source_path),
+        "normalized_reaction_path": relative_workspace_path(normalized_path),
+        "path_type": path_type,
+        "path_point_count": len(frames),
+        "atom_count": atom_count,
+        "fragment_definitions": [
+            {"name": name, "atom_indices": indices, "reference_energy_kcal_mol": reference}
+            for name, indices, reference in zip(fragment_names, fragments, references)
+        ],
+        "reaction_coordinate_atom_indices": coordinate,
+        "orca_keywords": keywords,
+        "charge": charge,
+        "multiplicity": multiplicity,
+        "normal_orca_calculation_count": normal_output_count,
+        **parsed,
+    }
+    summary = write_json(directory, "activation_strain_profile.json", result)
+    summary_path = relative_workspace_path(summary)
+    artifacts = [item for item in command_artifacts(directory) if item["path"] != summary_path]
+    artifacts.append({
+        "path": summary_path,
+        "semantic_type": "ActivationStrainProfileResult",
+        "media_type": "application/json",
+    })
+    return success(
+        result,
+        artifact_files=artifacts,
+        backend_version="2019.02-v1.0.0",
+        provenance={
+            "command": completed["command"],
+            "source_commit": "af2a122d7676ee1578ac895ac4f076fdecaccdf5",
+            "compatibility_patch": "chemistry_toolbox/patches/pyfrag-v1.0.0-python3-orca6.patch",
+            "electronic_structure_backend": "ORCA",
+            "serial_path_execution": True,
+        },
+    )
+
+
 def execute(action_id: str, backend_id: str, request: dict[str, Any]) -> dict[str, Any]:
+    if backend_id == "kinbot" and action_id == "explore_reaction_network":
+        return _run_kinbot_pes(request)
     if backend_id == "goodvibes":
         return execute_goodvibes(action_id, request)
     if backend_id == "sella" and action_id == "locate_transition_state":
@@ -1992,6 +2556,8 @@ def execute(action_id: str, backend_id: str, request: dict[str, Any]) -> dict[st
             return _validate_reaction_path(request)
         if action_id == "analyze_reaction_coordinate":
             return _analyze_reaction_coordinate(request)
+        if action_id == "analyze_post_transition_state_trajectory_ensemble":
+            return _analyze_post_transition_state_ensemble(request)
     if action_id == "calculate_chemical_equilibrium" and backend_id == "cantera":
         return _cantera_equilibrium(request)
     if action_id == "integrate_reaction_network":
@@ -2007,4 +2573,11 @@ def execute(action_id: str, backend_id: str, request: dict[str, Any]) -> dict[st
             return _mess_master_equation(request)
         if backend_id == "mesmer":
             return _mesmer_master_equation(request)
+    if backend_id == "pyfrag":
+        if action_id == "analyze_activation_strain_profile":
+            return _pyfrag_analyze(request)
+        if action_id == "summarize_activation_strain_profile":
+            return _pyfrag_summary(request)
+        if action_id == "validate_activation_strain_profile":
+            return _pyfrag_validate(request)
     return unsupported(f"Unsupported reaction action/backend combination: {action_id}/{backend_id}")

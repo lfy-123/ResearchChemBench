@@ -2,23 +2,23 @@
   "archived_files": [
     {
       "path": "request.json",
-      "sha256": "279e9b0a3d66f51af73d68466a533ac70adb0efa8ce6c5243509fe20ec45a2a1",
-      "size_bytes": 1238
+      "sha256": "98a7a3a88420849b643b386aa770d4b1b9dea6a8774980764b5429c8461a2271",
+      "size_bytes": 1239
     },
     {
       "path": "status.json",
-      "sha256": "2b811b21de58d6e683a810a09682c47174cad5d69f5ad34cfe68e8a940b3380f",
-      "size_bytes": 1932
+      "sha256": "84d6154d326562aa59aafeebce73918efb618b578d3908d1ecee013c48195d25",
+      "size_bytes": 1939
     },
     {
       "path": "collection.json",
-      "sha256": "c074fb6fcc57365ad924f5181ecc634a1cf226434d1933244f460e694c15353f",
-      "size_bytes": 1517
+      "sha256": "408dc80bcc74e7577e9246a124a02acce89b8402dbba01342dffc4cbdbf2f210",
+      "size_bytes": 1488
     },
     {
       "path": "stdout.log",
-      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "size_bytes": 0
+      "sha256": "fee7077f8b63700af7294de371d621aaa15e337c3de3d1fcc7d12e0ff8de4f2f",
+      "size_bytes": 655
     },
     {
       "path": "stderr.log",
@@ -26,12 +26,12 @@
       "size_bytes": 55
     }
   ],
-  "artifact_status": "not_validated",
-  "convergence_status": "not_reached",
+  "artifact_status": "not_declared",
+  "convergence_status": "not_checked",
   "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/arkane",
-  "job_id": "job_e7badf9952324fa784bbdcd162c6a073",
-  "process_status": "cancelled",
-  "reason": "The command did not reach a terminal state before the interface-smoke deadline and was cancelled.",
+  "job_id": "job_74358a4fd36d4987b4f5710c0806f8c5",
+  "process_status": "completed",
+  "reason": "The configured executable completed the interface probe through the native job runner.",
   "request": {
     "arguments": [
       "--help"
@@ -50,12 +50,12 @@
     "stdin_target": null
   },
   "request_status": "accepted",
-  "scientific_validation_status": "not_reached",
+  "scientific_validation_status": "not_checked",
   "software_id": "arkane",
-  "software_status": "not_reached",
-  "status": "failed",
+  "software_status": "not_checked",
+  "status": "passed",
   "stderr_tail": "INFO:matplotlib.font_manager:generated new fontManager\n",
-  "stdout_tail": "",
+  "stdout_tail": "usage: Arkane.py [-h] [-q | -v | -d] [-o DIR] [-p] FILE\n\nArkane is a Python toolkit for computing chemical reaction rates and other\nproperties used in detailed kinetics models using various methodologies and\ntheories.\n\npositional arguments:\n  FILE                  a file describing the job to execute\n\noptions:\n  -h, --help            show this help message and exit\n  -q, --quiet           only print warnings and errors\n  -v, --verbose         print more verbose output\n  -d, --debug           print debug information\n  -o DIR, --output-directory DIR\n                        use DIR as output directory\n  -p, --no-plot         prevent generating plots\n",
   "test_level": "interface_smoke",
-  "tested_at": "2026-07-28T20:16:58.943969+00:00"
+  "tested_at": "2026-08-06T10:32:07.312490+00:00"
 }

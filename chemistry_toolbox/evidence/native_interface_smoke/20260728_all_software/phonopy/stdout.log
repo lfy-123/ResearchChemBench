@@ -32,7 +32,7 @@ usage: phonopy [-h] [--pa PRIMITIVE_AXES [PRIMITIVE_AXES ...]]
                [--no-fc-symmetry] [--nomeshsym] [--nonac] [--noreadfc]
                [--nowritemesh] [-p]
                [--pd PROJECTION_DIRECTION [PROJECTION_DIRECTION ...]]
-               [--pdos PDOS [PDOS ...]] [--pr] [--pt] [--pypolymlp]
+               [--pdos PDOS [PDOS ...]] [--pr] [--pypolymlp]
                [--qpoints QPOINTS [QPOINTS ...]]
                [--qpoints-format QPOINTS_FORMAT]
                [--q-direction NAC_Q_DIRECTION [NAC_Q_DIRECTION ...]]
@@ -164,8 +164,6 @@ options:
   --pr, --pretend-real  Use imaginary frequency as real for thermal property
                         calculation. For a testing purpose only, when a small
                         amount of imaginary branches obtained.
-  --pt, --projected-thermal-property
-                        Output projected thermal properties
   --pypolymlp           Use pypolymlp for generating force constants
   -q, --quiet           Print out smallest information
   --q-direction NAC_Q_DIRECTION [NAC_Q_DIRECTION ...]

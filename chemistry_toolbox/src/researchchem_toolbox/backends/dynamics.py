@@ -3,7 +3,12 @@
 from __future__ import annotations
 
 import math
-from pathlib import Path
+import csv
+import os
+import re
+import shutil
+import statistics
+from pathlib import Path, PurePosixPath
 from typing import Any
 
 from .common import (
@@ -13,10 +18,12 @@ from .common import (
     partial_success,
     relative_workspace_path,
     request_parts,
+    resolve_command,
     resolve_input_file,
     run_external,
     success,
     unavailable,
+    unwrap_artifact,
     unsupported,
     write_json,
 )
@@ -26,6 +33,7 @@ from .licensed_md import namd as _namd
 
 
 ACTIONS = {
+    "propagate_nonadiabatic_trajectory",
     "minimize_system_energy", "propagate_dynamics", "calculate_trajectory_rmsd",
     "calculate_force_field_energy", "calculate_force_field_forces",
     "decompose_force_field_energy",
@@ -36,10 +44,102 @@ ACTIONS = {
     "calculate_dihedral_distribution", "calculate_hydrogen_bonds",
     "calculate_principal_components", "calculate_dynamic_cross_correlation",
     "assign_secondary_structure",
-    "cluster_trajectory",
+    "cluster_trajectory", "analyze_nonadiabatic_trajectory_ensemble",
     "parse_alchemical_energy_data",
     "estimate_thermodynamic_expectations", "analyze_free_energy_convergence",
+    "calculate_end_state_binding_free_energy", "calculate_end_state_energy_decomposition",
+    "summarize_end_state_free_energy_results",
 }
+
+
+def _run_sharc_trajectory(request: dict[str, Any]) -> dict[str, Any]:
+    inputs, method, settings = request_parts(request)
+    source = resolve_input_file(inputs["trajectory_directory"])
+    if not source.is_dir():
+        raise ValueError("trajectory_directory must be a complete SHARC job directory")
+    directory = output_directory("propagate_nonadiabatic_trajectory", "sharc")
+    for item in source.iterdir():
+        target = directory / item.name
+        shutil.copytree(item, target) if item.is_dir() else shutil.copy2(item, target)
+    input_name = str(settings["input_filename"])
+    if not (directory / input_name).is_file():
+        raise ValueError(f"trajectory directory does not contain {input_name!r}")
+    command = resolve_command("sharc.x", "CHEMGRAPH_SHARC_COMMAND")
+    if command is None:
+        return unavailable("SHARC executable was not found", install="Install and build SHARC")
+    sharc_bin = Path(command[0]).expanduser().resolve().parent
+    scratch = directory / "scratch"
+    scratch.mkdir(exist_ok=True)
+    timeout = int(request.get("resource_limits", {}).get("walltime_seconds", 7200))
+    completed = run_external(
+        executable="sharc.x",
+        environment_variable="CHEMGRAPH_SHARC_COMMAND",
+        arguments=[input_name],
+        directory=directory,
+        timeout_seconds=timeout,
+        environment_overrides={
+            "SHARC": str(sharc_bin),
+            "PYTHONPATH": str(sharc_bin.parent / "lib") + ":" + os.environ.get("PYTHONPATH", ""),
+            "TMPDIR": str(scratch),
+            "OMP_NUM_THREADS": str(int(request.get("resource_limits", {}).get("cpu_cores", 1))),
+        },
+    )
+    (directory / "stdout.log").write_text(completed["stdout"], encoding="utf-8")
+    (directory / "stderr.log").write_text(completed["stderr"], encoding="utf-8")
+    if completed["returncode"] != 0:
+        raise RuntimeError(f"SHARC trajectory failed: {completed['stderr'][-2000:]}")
+    listing = directory / "output.lis"
+    if not listing.is_file():
+        raise RuntimeError("SHARC completed without output.lis")
+    records = []
+    for line in listing.read_text(encoding="utf-8", errors="replace").splitlines():
+        fields = line.split()
+        if len(fields) < 7:
+            continue
+        try:
+            step, time_fs, diagonal_state, mch_state = int(fields[0]), float(fields[1]), int(fields[2]), int(fields[3])
+            kinetic_ev, potential_ev, total_ev = map(float, fields[4:7])
+        except ValueError:
+            continue
+        records.append({
+            "step": step, "time_fs": time_fs,
+            "diagonal_state_index": diagonal_state,
+            "mch_state_index": mch_state,
+            "kinetic_energy_ev": kinetic_ev,
+            "potential_energy_ev": potential_ev,
+            "total_energy_ev": total_ev,
+        })
+    if not records:
+        raise RuntimeError("SHARC output.lis contains no trajectory records")
+    expected = float(settings["expected_final_time_fs"])
+    tolerance = float(settings["final_time_tolerance_fs"])
+    if abs(records[-1]["time_fs"] - expected) > tolerance:
+        raise RuntimeError(
+            f"SHARC stopped at {records[-1]['time_fs']} fs; expected {expected} +/- {tolerance} fs"
+        )
+    limit = int(settings["maximum_returned_steps"])
+    if not 1 <= limit <= 1000000:
+        raise ValueError("maximum_returned_steps must be between 1 and 1000000")
+    state_changes = sum(
+        left["diagonal_state_index"] != right["diagonal_state_index"]
+        for left, right in zip(records, records[1:])
+    )
+    return success(
+        {
+            "interface": str(method["interface"]),
+            "record_count": len(records),
+            "final_time_fs": records[-1]["time_fs"],
+            "diagonal_state_change_count": state_changes,
+            "records": records[:limit],
+        },
+        artifact_files=command_artifacts(directory),
+        backend_version="4.0-scripts/3.x-dynamics",
+        provenance={
+            "command": completed["command"],
+            "native_input_preserved": True,
+            "compatibility_patch": "chemistry_toolbox/patches/sharc-v3-gfortran-empty-restart-list.patch",
+        },
+    )
 
 
 def _system_mapping(value: Any) -> dict[str, Any]:
@@ -1527,7 +1627,363 @@ def _alchemlyb(request: dict[str, Any]) -> dict[str, Any]:
     )
 
 
+def _mmpbsa_summary(results_path: Path) -> dict[str, Any]:
+    text = results_path.read_text(encoding="utf-8", errors="replace")
+    model = None
+    in_delta = False
+    models: dict[str, dict[str, Any]] = {}
+    model_names = {
+        "GENERALIZED BORN": "generalized_born",
+        "POISSON BOLTZMANN": "poisson_boltzmann",
+        "RISM": "3d_rism",
+        "GBNSR6": "gbnsr6",
+    }
+    for raw in text.splitlines():
+        line = raw.strip()
+        heading = line.rstrip(":").upper()
+        if heading in model_names:
+            model = model_names[heading]
+            in_delta = False
+            continue
+        if line.startswith("Delta (Complex - Receptor - Ligand)"):
+            in_delta = True
+            continue
+        if in_delta and (not line or set(line) == {"-"}):
+            continue
+        if in_delta and model:
+            fields = line.replace("Δ", "").split()
+            if len(fields) >= 6 and fields[0] in {"GGAS", "GSOLV", "TOTAL"}:
+                try:
+                    values = [float(value) for value in fields[1:6]]
+                except ValueError:
+                    continue
+                models.setdefault(model, {})[fields[0].lower()] = {
+                    "average_kcal_per_mol": values[0],
+                    "propagated_sd_kcal_per_mol": values[1],
+                    "sample_sd_kcal_per_mol": values[2],
+                    "propagated_sem_kcal_per_mol": values[3],
+                    "sample_sem_kcal_per_mol": values[4],
+                }
+    if not models:
+        raise RuntimeError("Could not parse a Delta binding-energy section from gmx_MMPBSA results")
+    return {"models": models, "energy_unit": "kcal/mol"}
+
+
+def _mmpbsa_decomposition(path: Path, maximum_records: int) -> dict[str, Any]:
+    if maximum_records < 1:
+        raise ValueError("maximum_decomposition_records must be positive")
+    grouped: dict[tuple[str, str, str], dict[str, list[float]]] = {}
+    system = None
+    component = None
+    with path.open("r", encoding="utf-8", errors="replace", newline="") as handle:
+        for row in csv.reader(handle):
+            if not row:
+                continue
+            first = row[0].strip()
+            if first.rstrip(":") in {"Complex", "Receptor", "Ligand", "DELTAS"}:
+                system = first.rstrip(":").lower()
+                continue
+            match = re.match(r"^(Total|Sidechain|Backbone) Decomposition Contribution \((TDC|SDC|BDC)\)$", first)
+            if match:
+                component = match.group(2).lower()
+                continue
+            if system is None or component is None or len(row) < 8:
+                continue
+            try:
+                int(first)
+                residue = row[1].strip()
+                values = [float(value) for value in row[2:8]]
+            except ValueError:
+                continue
+            if not re.match(r"^[RLC]:[^:]+:[^:]+:\d+$", residue):
+                continue
+            series = grouped.setdefault(
+                (system, component, residue),
+                {name: [] for name in ("internal", "vdw", "electrostatic", "polar_solvation", "nonpolar_solvation", "total")},
+            )
+            for name, value in zip(series, values, strict=True):
+                series[name].append(value)
+    records = []
+    for (system, component, residue), series in grouped.items():
+        totals = series["total"]
+        sample_sd = statistics.stdev(totals) if len(totals) > 1 else 0.0
+        records.append(
+            {
+                "system": system,
+                "component": component,
+                "residue": residue,
+                "frame_count": len(totals),
+                "internal_average": statistics.fmean(series["internal"]),
+                "vdw_average": statistics.fmean(series["vdw"]),
+                "electrostatic_average": statistics.fmean(series["electrostatic"]),
+                "polar_solvation_average": statistics.fmean(series["polar_solvation"]),
+                "nonpolar_solvation_average": statistics.fmean(series["nonpolar_solvation"]),
+                "total_average_kcal_per_mol": statistics.fmean(totals),
+                "total_sd_kcal_per_mol": sample_sd,
+                "total_sem_kcal_per_mol": sample_sd / math.sqrt(len(totals)),
+            }
+        )
+    records.sort(key=lambda item: (-abs(item["total_average_kcal_per_mol"]), item["residue"], str(item["system"]), str(item["component"])))
+    return {
+        "record_count": len(records),
+        "returned_record_count": min(len(records), maximum_records),
+        "records_sorted_by_absolute_total": records[:maximum_records],
+        "energy_unit": "kcal/mol",
+        "truncated": len(records) > maximum_records,
+    }
+
+
+def _mmpbsa_stage_file(directory: Path, value: Any, target: str) -> Path:
+    relative = PurePosixPath(str(target))
+    if relative.is_absolute() or not relative.parts or ".." in relative.parts:
+        raise ValueError(f"Invalid supporting-file target path: {target}")
+    destination = directory.joinpath(*relative.parts)
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(resolve_input_file(value), destination)
+    return destination
+
+
+def _mmpbsa_calculate(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
+    inputs, method, settings = request_parts(request)
+    receptor_group = int(method["receptor_group_index"])
+    ligand_group = int(method["ligand_group_index"])
+    if receptor_group < 0 or ligand_group < 0 or receptor_group == ligand_group:
+        raise ValueError("receptor_group_index and ligand_group_index must be distinct non-negative integers")
+    directory = output_directory(action_id, "gmx_mmpbsa")
+    staged = {
+        "input": _mmpbsa_stage_file(directory, inputs["calculation_input"], "mmpbsa.in"),
+        "structure": _mmpbsa_stage_file(directory, inputs["complex_structure"], "complex.tpr"),
+        "index": _mmpbsa_stage_file(directory, inputs["complex_index"], "index.ndx"),
+        "trajectory": _mmpbsa_stage_file(directory, inputs["complex_trajectory"], "trajectory.xtc"),
+        "topology": _mmpbsa_stage_file(directory, inputs["complex_topology"], "topology.top"),
+    }
+    supporting = inputs.get("supporting_files") or []
+    if not isinstance(supporting, list):
+        raise ValueError("supporting_files must be a list of source/target mappings")
+    for index, item in enumerate(supporting):
+        if not isinstance(item, dict) or "source" not in item or "target" not in item:
+            raise ValueError(f"supporting_files[{index}] requires source and target")
+        _mmpbsa_stage_file(directory, item["source"], str(item["target"]))
+    arguments = []
+    if bool(settings["overwrite"]):
+        arguments.append("-O")
+    arguments.extend(
+        [
+            "-i", staged["input"].name, "-cs", staged["structure"].name,
+            "-ci", staged["index"].name, "-cg", str(receptor_group), str(ligand_group),
+            "-ct", staged["trajectory"].name, "-cp", staged["topology"].name,
+            "-o", "FINAL_RESULTS_MMPBSA.dat", "-eo", "FINAL_RESULTS_MMPBSA.csv",
+            "-nogui",
+        ]
+    )
+    if inputs.get("ligand_mol2") is not None:
+        ligand = _mmpbsa_stage_file(directory, inputs["ligand_mol2"], "ligand.mol2")
+        arguments.extend(["-lm", ligand.name])
+    expect_decomposition = action_id == "calculate_end_state_energy_decomposition"
+    if expect_decomposition:
+        arguments.extend(["-do", "FINAL_DECOMP_MMPBSA.dat", "-deo", "FINAL_DECOMP_MMPBSA.csv"])
+    walltime = int((request.get("resource_limits") or {}).get("walltime_seconds", 7200))
+    completed = run_external(
+        executable="gmx_MMPBSA",
+        arguments=arguments,
+        directory=directory,
+        environment_variable="CHEMGRAPH_GMX_MMPBSA_COMMAND",
+        timeout_seconds=max(1, walltime),
+    )
+    (directory / "stdout.log").write_text(completed["stdout"], encoding="utf-8")
+    (directory / "stderr.log").write_text(completed["stderr"], encoding="utf-8")
+    if not completed["available"]:
+        return unavailable(completed["stderr"], install="Restore the isolated gmx_MMPBSA 1.6.5 runtime with AmberTools 23.6.")
+    if completed["returncode"] != 0:
+        detail = completed["stderr"].strip() or completed["stdout"].strip()
+        raise RuntimeError(f"gmx_MMPBSA failed with exit code {completed['returncode']}: {detail[-3000:]}")
+    results = directory / "FINAL_RESULTS_MMPBSA.dat"
+    frame_results = directory / "FINAL_RESULTS_MMPBSA.csv"
+    if not results.is_file() or not frame_results.is_file():
+        raise RuntimeError("gmx_MMPBSA completed without final result files")
+    result = {
+        **_mmpbsa_summary(results),
+        "results_file": relative_workspace_path(results),
+        "frame_energy_file": relative_workspace_path(frame_results),
+        "receptor_group_index": receptor_group,
+        "ligand_group_index": ligand_group,
+    }
+    artifacts = [
+        {"path": relative_workspace_path(results), "semantic_type": "EndStateFreeEnergyResults", "media_type": "text/plain"},
+        {"path": relative_workspace_path(frame_results), "semantic_type": "FrameEnergyTable", "media_type": "text/csv"},
+    ]
+    if expect_decomposition:
+        decomposition = directory / "FINAL_DECOMP_MMPBSA.csv"
+        decomposition_text = directory / "FINAL_DECOMP_MMPBSA.dat"
+        if not decomposition.is_file() or not decomposition_text.is_file():
+            raise RuntimeError("gmx_MMPBSA completed without requested decomposition files")
+        result["decomposition"] = _mmpbsa_decomposition(
+            decomposition, int(settings["maximum_decomposition_records"])
+        )
+        result["decomposition_file"] = relative_workspace_path(decomposition)
+        artifacts.extend(
+            [
+                {"path": relative_workspace_path(decomposition), "semantic_type": "EnergyDecompositionTable", "media_type": "text/csv"},
+                {"path": relative_workspace_path(decomposition_text), "semantic_type": "EnergyDecompositionResults", "media_type": "text/plain"},
+            ]
+        )
+    return success(
+        result,
+        artifact_files=artifacts,
+        backend_version="1.6.5",
+        provenance={"command": completed["command"]},
+    )
+
+
+def _mmpbsa_summarize(request: dict[str, Any]) -> dict[str, Any]:
+    inputs, _method, settings = request_parts(request)
+    results = resolve_input_file(inputs["results_file"])
+    result = {**_mmpbsa_summary(results), "results_file": relative_workspace_path(results)}
+    artifacts = [
+        {"path": relative_workspace_path(results), "semantic_type": "EndStateFreeEnergyResults", "media_type": "text/plain"}
+    ]
+    if inputs.get("decomposition_file") is not None:
+        decomposition = resolve_input_file(inputs["decomposition_file"])
+        result["decomposition"] = _mmpbsa_decomposition(
+            decomposition, int(settings["maximum_decomposition_records"])
+        )
+        result["decomposition_file"] = relative_workspace_path(decomposition)
+        artifacts.append(
+            {"path": relative_workspace_path(decomposition), "semantic_type": "EnergyDecompositionTable", "media_type": "text/csv"}
+        )
+    return success(result, artifact_files=artifacts, backend_version="1.6.5")
+
+
+def _trajectory_wilson_interval(successes: int, total: int, confidence_level: float) -> list[float]:
+    if total <= 0:
+        return [0.0, 1.0]
+    if not 0.5 < confidence_level < 1.0:
+        raise ValueError("confidence_level must be between 0.5 and 1.0")
+    z = statistics.NormalDist().inv_cdf((1.0 + confidence_level) / 2.0)
+    fraction = successes / total
+    denominator = 1.0 + z * z / total
+    center = (fraction + z * z / (2.0 * total)) / denominator
+    half_width = z * math.sqrt(fraction * (1.0 - fraction) / total + z * z / (4.0 * total * total)) / denominator
+    return [max(0.0, center - half_width), min(1.0, center + half_width)]
+
+
+def _analyze_nonadiabatic_trajectory_ensemble(request: dict[str, Any]) -> dict[str, Any]:
+    inputs, _method, settings = request_parts(request)
+    raw_trajectories = unwrap_artifact(inputs["trajectories"])
+    if not isinstance(raw_trajectories, list) or not raw_trajectories:
+        raise ValueError("trajectories must be a non-empty list")
+    state_count = int(settings["state_count"])
+    initial_state = int(settings["initial_state_index"])
+    time_grid = [float(value) for value in settings["time_grid_fs"]]
+    confidence = float(settings["confidence_level"])
+    failure_policy = str(settings["failure_policy"]).strip().lower()
+    if not 2 <= state_count <= 100 or not 0 <= initial_state < state_count:
+        raise ValueError("state_count must be 2..100 and initial_state_index must lie inside it")
+    if not time_grid or not all(math.isfinite(value) for value in time_grid) or any(
+        right <= left for left, right in zip(time_grid, time_grid[1:])
+    ):
+        raise ValueError("time_grid_fs must be finite and strictly increasing")
+    if failure_policy not in {"exclude", "include_until_failure"}:
+        raise ValueError("failure_policy must be exclude or include_until_failure")
+    # Validate confidence even when a requested time has no available trajectories.
+    _trajectory_wilson_interval(0, 1, confidence)
+
+    trajectories = []
+    seen = set()
+    failed_ids = []
+    transition_counts: dict[tuple[int, int], int] = {}
+    first_departure_times = []
+    for record in raw_trajectories:
+        if not isinstance(record, dict):
+            raise ValueError("each trajectory must be a mapping")
+        identifier = str(record.get("trajectory_id", "")).strip()
+        status = str(record.get("status", "")).strip().lower()
+        times = [float(value) for value in record.get("times_fs", [])]
+        states = [int(value) for value in record.get("state_indices", [])]
+        if not identifier or identifier in seen:
+            raise ValueError("trajectory_id values must be non-empty and unique")
+        seen.add(identifier)
+        if status not in {"success", "failed"}:
+            raise ValueError("trajectory status must be success or failed")
+        if not times or len(times) != len(states) or any(
+            right <= left for left, right in zip(times, times[1:])
+        ) or not all(math.isfinite(value) for value in times):
+            raise ValueError("each trajectory requires aligned finite times and states with strictly increasing times")
+        if any(state < 0 or state >= state_count for state in states):
+            raise ValueError("trajectory state index lies outside state_count")
+        if status == "failed":
+            failed_ids.append(identifier)
+        for first, second in zip(states, states[1:]):
+            if first != second:
+                transition_counts[(first, second)] = transition_counts.get((first, second), 0) + 1
+        departure = next((time for time, state in zip(times, states) if state != initial_state), None)
+        if departure is not None:
+            first_departure_times.append(departure)
+        trajectories.append(
+            {"trajectory_id": identifier, "status": status, "times_fs": times, "state_indices": states}
+        )
+
+    population_records = []
+    for grid_time in time_grid:
+        sampled_states = []
+        for trajectory in trajectories:
+            if trajectory["status"] == "failed" and failure_policy == "exclude":
+                continue
+            times = trajectory["times_fs"]
+            if grid_time < times[0] or grid_time > times[-1]:
+                continue
+            sample_index = max(index for index, time in enumerate(times) if time <= grid_time)
+            sampled_states.append(trajectory["state_indices"][sample_index])
+        counts = [sampled_states.count(state) for state in range(state_count)]
+        total = len(sampled_states)
+        population_records.append(
+            {
+                "time_fs": grid_time,
+                "available_trajectory_count": total,
+                "states": [
+                    {
+                        "state_index": state,
+                        "count": count,
+                        "population": count / total if total else None,
+                        "confidence_interval": _trajectory_wilson_interval(count, total, confidence),
+                    }
+                    for state, count in enumerate(counts)
+                ],
+                "initial_state_survival_fraction": counts[initial_state] / total if total else None,
+            }
+        )
+    hop_records = [
+        {"from_state": first, "to_state": second, "count": count}
+        for (first, second), count in sorted(transition_counts.items())
+    ]
+    return success(
+        {
+            "trajectory_count": len(trajectories),
+            "successful_trajectory_count": len(trajectories) - len(failed_ids),
+            "failed_trajectory_count": len(failed_ids),
+            "failed_trajectory_ids": failed_ids,
+            "state_count": state_count,
+            "initial_state_index": initial_state,
+            "population_records": population_records,
+            "hop_transition_counts": hop_records,
+            "total_hop_count": sum(record["count"] for record in hop_records),
+            "first_departure_time_fs": {
+                "count": len(first_departure_times),
+                "mean": statistics.fmean(first_departure_times) if first_departure_times else None,
+                "median": statistics.median(first_departure_times) if first_departure_times else None,
+            },
+            "confidence_level": confidence,
+            "failure_policy": failure_policy,
+            "time_sampling": "last_observation_carried_forward_within_each_trajectory_time_range",
+        }
+    )
+
+
 def execute(action_id: str, backend_id: str, request: dict[str, Any]) -> dict[str, Any]:
+    if backend_id == "sharc" and action_id == "propagate_nonadiabatic_trajectory":
+        return _run_sharc_trajectory(request)
+    if backend_id == "internal_trajectory_analysis" and action_id == "analyze_nonadiabatic_trajectory_ensemble":
+        return _analyze_nonadiabatic_trajectory_ensemble(request)
     if backend_id == "openmm":
         return _openmm(action_id, request)
     if backend_id == "gromacs":
@@ -1555,4 +2011,10 @@ def execute(action_id: str, backend_id: str, request: dict[str, Any]) -> dict[st
         return _pymbar(action_id, request)
     if backend_id == "alchemlyb" and action_id == "parse_alchemical_energy_data":
         return _alchemlyb(request)
+    if backend_id == "gmx_mmpbsa" and action_id in {
+        "calculate_end_state_binding_free_energy", "calculate_end_state_energy_decomposition",
+    }:
+        return _mmpbsa_calculate(action_id, request)
+    if backend_id == "gmx_mmpbsa" and action_id == "summarize_end_state_free_energy_results":
+        return _mmpbsa_summarize(request)
     return unsupported(f"Unsupported dynamics action/backend combination: {action_id}/{backend_id}")

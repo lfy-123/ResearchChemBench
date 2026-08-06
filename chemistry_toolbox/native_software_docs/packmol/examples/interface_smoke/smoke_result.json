@@ -2,34 +2,34 @@
   "archived_files": [
     {
       "path": "request.json",
-      "sha256": "1d9f5d59634d08189397bbcb2b78a656a69dd31f03cc7e3d71c38cfe7e314b8f",
-      "size_bytes": 1468
+      "sha256": "f54d6f8a4cd00342c09a388bf24d0d6b5f79762e1c57d5a5537cb356a3daac1c",
+      "size_bytes": 1482
     },
     {
       "path": "status.json",
-      "sha256": "229eafa2dad374f1261fa421139752df516065e33e34e9ae3c69b561a749911b",
-      "size_bytes": 1905
+      "sha256": "c3a20acb5fc427034b49cdcba89012e821442e758f0b9f07d74149bcb97b38b8",
+      "size_bytes": 2005
     },
     {
       "path": "collection.json",
-      "sha256": "0e7db1072917048ab216b500c328835c32ded4b3052eced273bd9e4aff9a4913",
+      "sha256": "e75de372dc1dd2ced1c7d5c4035a2642bd509e9dead21f596aa2fe6d91389a15",
       "size_bytes": 1509
     },
     {
       "path": "stdout.log",
-      "sha256": "37ff14cbc6f01181215a4e434768214d435ad6706251cd14ae12ecbc6023d173",
-      "size_bytes": 537
+      "sha256": "6c9b62a722d9dec52426de894c01f712c0f9a61c661bbedbfd1ea11273f3b2d3",
+      "size_bytes": 737
     },
     {
       "path": "stderr.log",
-      "sha256": "501b9e761b958aea6faad3e60901316ebbc51611c833781cef721a6605627b6b",
+      "sha256": "9fcf4e537013820113a1558db581cf4221c631919e98b1c0e90e401f7c3f4c9e",
       "size_bytes": 9
     }
   ],
   "artifact_status": "not_validated",
   "convergence_status": "not_reached",
   "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/packmol",
-  "job_id": "job_a65b251d3c964476a3171ca7f73382e0",
+  "job_id": "job_fdd39175814343ad86e65133df5e7151",
   "process_status": "failed",
   "reason": "The executable started and emitted its banner, usage, or expected missing-input diagnostic, but did not complete successfully.",
   "request": {
@@ -59,8 +59,8 @@
   "software_id": "packmol",
   "software_status": "not_reached",
   "status": "started_input_required",
-  "stderr_tail": "STOP 174\n",
-  "stdout_tail": "\n################################################################################\n\n PACKMOL - Packing optimization for the automated generation of\n starting configurations for molecular dynamics simulations.\n \n                                                             Version 21.2.1 \n\n################################################################################\n\n ERROR: packmol command-line error\nCommand-line execution examples (you may use any): \n\npackmol < input.inp\n\npackmol -i input.inp\n\npackmol -i input.inp -o output.pdb\n\n",
+  "stderr_tail": "STOP 171\n",
+  "stdout_tail": "\n################################################################################\n\n PACKMOL - Packing optimization for the automated generation of\n starting configurations for molecular dynamics simulations.\n\n                           Included as part of Packmol Memgen\n                                                              Version 20.14.3\n\n################################################################################\n\n  Packmol must be run with: packmol < inputfile.inp\n\n  Userguide at: http://m3g.iqm.unicamp.br/packmol\n\n  Reading input file... (Control-C aborts)\n\n  WARNING: File type not (correctly?) specified, using PDB\n  Seed for random number generator:      1234567\n  ERROR: Output file not (correctly?) specified.\n",
   "test_level": "interface_smoke",
-  "tested_at": "2026-07-28T20:16:58.943969+00:00"
+  "tested_at": "2026-08-06T10:32:07.312490+00:00"
 }

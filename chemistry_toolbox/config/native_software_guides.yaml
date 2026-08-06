@@ -11,6 +11,161 @@ policy:
     - These guides describe invocation mechanics only. They do not prescribe a scientific workflow, method, basis, force field, convergence setting, or ordering of calls.
 
 software:
+  bagel:
+    runtime: bagel
+    purpose: Run one explicitly specified BAGEL multireference electronic-structure calculation from a complete JSON input.
+    commands:
+      BAGEL:
+        configured_path: .software_cache/bagel/1.2.2/bin/BAGEL
+        synopsis: "BAGEL input.json"
+        input_mode: arguments
+        required_files: [input.json]
+        output_behavior: Writes state energies, analytical gradients, nonadiabatic couplings and convergence diagnostics to stdout according to the supplied JSON method blocks.
+        example_arguments: [input.json]
+        notes:
+          - Geometry, charge, spin, orbital basis, density-fitting basis, closed and active spaces, state count, target states, derivative type and convergence thresholds must be explicit.
+          - The configured wrapper resolves BAGEL basis-set names to immutable files in the cached Ubuntu runtime; it does not choose or replace a basis.
+          - For MPI execution use the configured bagel-mpirun wrapper with an explicit rank count and the cached raw BAGEL executable.
+
+  vaspkit:
+    runtime: vaspkit
+    purpose: Run one explicitly selected VASPKIT structure or VASP-output processing task from Agent-staged files.
+    commands:
+      vaspkit:
+        configured_path: .software_cache/vaspkit/1.5.1/vaspkit.1.5.1/bin/vaspkit
+        synopsis: "vaspkit -task TASK -file POSCAR [explicit options]"
+        input_mode: arguments
+        required_files: [task-specific VASP input or output files]
+        output_behavior: Writes task-specific KPOINTS, structure, table, or plot data and prints a structured summary to stdout.
+        example_arguments: [-task, "601", -file, POSCAR, -symprec, "1e-5"]
+        notes:
+          - Task number, files, tolerances, reciprocal resolution, centering, energy reference, atom/orbital selection and every other scientific option must be explicit.
+          - The local package is nonredistributable; migration requires a fresh official download.
+          - POTCAR files are licensed VASP data and are never included or selected automatically.
+
+  pyfrag:
+    runtime: reaction
+    purpose: Calculate an activation-strain profile from an explicit reaction path and explicit ORCA/fragment settings.
+    commands:
+      pyfrag-orca:
+        configured_path: .software_cache/pyfrag/2019/bin/pyfrag-orca
+        synopsis: "pyfrag-orca pyfrag.inp scratch"
+        input_mode: arguments
+        required_files: [pyfrag.inp, reaction_path.amv]
+        output_behavior: Runs one complex and two isolated-fragment ORCA single points per path frame and writes fragment_energies.txt plus native outputs under fragmentfiles.
+        example_arguments: [pyfrag.inp, scratch]
+        notes:
+          - Fragment membership, reference fragment energies, charge, multiplicity, ORCA simple keywords, path type and printed reaction coordinate are scientific inputs and must be explicit.
+          - The public Action accepts AMV or multi-XYZ and writes a normalized AMV file after enforcing fixed atom order across all frames.
+          - PyFrag path execution is serial; ORCA registration and download are separate from the LGPL-3.0 PyFrag source.
+          - Apply the tracked compatibility patch to exact v1.0.0 commit af2a122d after migration.
+
+  sisso:
+    runtime: sisso
+    purpose: Discover sparse symbolic regression descriptors from Agent-authored SISSO inputs or evaluate an existing model with the matching official predictor.
+    commands:
+      SISSO:
+        configured_path: .software_cache/sisso/3.5/bin/SISSO_run
+        synopsis: "SISSO > log"
+        input_mode: fixed_files
+        required_files: [SISSO.in, train.dat]
+        output_behavior: Writes SISSO.out, Models, SIS_subspaces, CONTINUE state when applicable, and progress to stdout.
+        example_arguments: []
+        notes:
+          - Property type, task count, split size, feature units, operator set, complexity, SIS subspace, sparsifier, metric and model count are scientific inputs and must be explicit.
+          - The configured wrapper only sets an unlimited process stack before executing the unchanged SISSO binary.
+      SISSO_predict:
+        synopsis: "SISSO_predict"
+        input_mode: fixed_files
+        required_files: [SISSO.out, predict.dat, SISSO_predict_para]
+        output_behavior: Writes predict_X.out and predict_Y.out, including held-out descriptor coordinates, predictions, residuals, RMSE and maximum absolute error.
+        example_arguments: []
+        notes:
+          - The official predictor invokes bc; the configured runtime provides bc 1.07.1.
+
+  gmx_mmpbsa:
+    runtime: gmx_mmpbsa
+    purpose: Calculate end-state binding energies or residue decompositions from an explicit gmx_MMPBSA input deck and matching GROMACS files.
+    commands:
+      gmx_MMPBSA:
+        synopsis: "gmx_MMPBSA -O -i mmpbsa.in -cs complex.tpr -ci index.ndx -cg RECEPTOR_GROUP LIGAND_GROUP -ct trajectory.xtc -cp topology.top -o FINAL_RESULTS_MMPBSA.dat -eo FINAL_RESULTS_MMPBSA.csv -nogui"
+        input_mode: arguments
+        required_files: [mmpbsa.in, complex.tpr, index.ndx, trajectory.xtc, topology.top, and every referenced topology include]
+        output_behavior: Writes final summary and per-frame energy tables; explicit -do and -deo options additionally write residue-decomposition results.
+        example_arguments: [-O, -i, mmpbsa.in, -cs, complex.tpr, -ci, index.ndx, -cg, "3", "4", -ct, trajectory.xtc, -cp, topology.top, -o, FINAL_RESULTS_MMPBSA.dat, -eo, FINAL_RESULTS_MMPBSA.csv, -nogui]
+        notes:
+          - The solvent model, frame range, entropy treatment, receptor and ligand groups, decomposition selection, and topology are scientific inputs and must be explicit.
+          - Use only the configured isolated runtime; the shared AmberTools 26 environment is incompatible with this release.
+
+  pmx:
+    purpose: Prepare explicit alchemical mutations and hybrid topologies, map ligand atoms, or analyze supplied nonequilibrium work data.
+    commands:
+      pmx:
+        synopsis: "pmx <mutate|gentop|atomMapping|analyse> [explicit options]"
+        input_mode: arguments
+        required_files: [command-specific PDB GRO TOP ITP or XVG inputs]
+        output_behavior: Writes command-specific hybrid structures, topologies, mapping files, scores, logs, or free-energy estimates.
+        example_arguments: [mutate, -f, protein.pdb, -o, hybrid.pdb, -ff, amber99sb-star-ildn-mut, --script, mutations.txt]
+        notes:
+          - "GMXLIB must point to pmx/data/mutff for mutation and hybrid-topology commands."
+          - "The Python 3 develop branch is unstable upstream; reproduce only with the configured fixed commit."
+          - "Mutation, force field, mapping filters, topology scaling, and estimators are scientific inputs and must be explicit."
+
+  acpype:
+    purpose: Generate GAFF-family molecular topologies or convert an existing AMBER topology/coordinate pair to GROMACS.
+    commands:
+      acpype:
+        synopsis: "acpype -i input -b BASENAME -n CHARGE -m MULTIPLICITY -c CHARGE_METHOD -a ATOM_TYPE -q CHARGE_PROGRAM -o OUTPUT [options]"
+        input_mode: arguments
+        required_files: [molecular input file or matching prmtop/inpcrd pair]
+        output_behavior: Creates BASENAME.acpype for parameterization or BASENAME.amb2gmx for conversion.
+        example_arguments: [-i, input.mol2, -b, molecule, -n, "0", -m, "1", -c, gas, -a, gaff2, -q, sqm, -o, gmx]
+        notes:
+          - Net charge, multiplicity, charge method, atom type, charge program, and output family are scientific inputs and must be explicit.
+          - Use `-p topology.prmtop -x coordinates.inpcrd -b BASENAME` for conversion without regenerating parameters.
+
+  tdep:
+    purpose: Fit temperature-dependent effective force constants, sample canonical configurations, or calculate phonons from explicit TDEP files.
+    commands:
+      extract_forceconstants:
+        synopsis: "extract_forceconstants -rc2 CUTOFF [-rc3 CUTOFF] [options]"
+        input_mode: fixed_files
+        required_files: [infile.ucposcar, infile.ssposcar, infile.sim.hdf5]
+        output_behavior: Writes fitted outfile.forceconstant files and diagnostics in the job directory.
+        example_arguments: [-rc2, "5.0"]
+      canonical_configuration:
+        synopsis: "canonical_configuration --nconf COUNT --temperature TEMPERATURE [model options]"
+        input_mode: fixed_files
+        required_files: [infile.ucposcar, infile.ssposcar, infile.forceconstant or an explicit Debye/frequency option]
+        output_behavior: Writes contcar_confNNNN thermal configurations.
+        example_arguments: [--nconf, "10", --temperature, "300", --quantum]
+      phonon_dispersion_relations:
+        synopsis: "phonon_dispersion_relations --unit UNIT -nq POINTS [--readpath]"
+        input_mode: fixed_files
+        required_files: [infile.ucposcar, infile.forceconstant]
+        output_behavior: Writes text and HDF5 dispersion, group-velocity, activity, and requested DOS outputs.
+        example_arguments: [--unit, thz, -nq, "100"]
+
+  airss:
+    purpose: Generate random crystal candidates from an explicit AIRSS seed or convert a crystal file with cabal.
+    commands:
+      buildcell:
+        synopsis: "buildcell < seed.cell > candidate.cell"
+        input_mode: stdin_file
+        required_files: [seed.cell]
+        output_behavior: Writes one generated CASTEP cell structure to stdout and diagnostics to stderr.
+        example_arguments: []
+        notes:
+          - Composition, cell constraints, target volume, separation constraints, symmetry controls, and molecular units belong in the Agent-authored seed file.
+      cabal:
+        synopsis: "cabal <input_format> <output_format> < input > output"
+        input_mode: stdin_file
+        required_files: [one crystal structure file]
+        output_behavior: Writes the explicitly selected output representation to stdout.
+        example_arguments: [cell, xyz]
+        notes:
+          - Select both format identifiers explicitly; conversion does not relax, validate, or rank a structure.
+
   openbabel:
     purpose: Convert, filter, and manipulate molecular file formats with Open Babel.
     commands:
@@ -681,7 +836,7 @@ software:
 
   kinbot:
     runtime: kinbot
-    purpose: Run KinBot species/reaction or PES searches from an Agent-authored JSON input.
+    purpose: Run KinBot 2.2.2 species/reaction or full PES searches from an Agent-authored JSON input; the configured local route executes NWChem child jobs instead of assuming precomputed outputs.
     commands:
       kinbot:
         synopsis: "kinbot input.json"
@@ -689,16 +844,20 @@ software:
         required_files: [input.json and referenced structures/templates]
         output_behavior: Writes KinBot logs, geometries, reaction candidates, and database files.
         example_arguments: ["input.json"]
+        notes:
+          - The local NWChem route uses the tracked KinBot compatibility patch and KINBOT_NWCHEM_COMMAND; validate one well optimization before a broad reaction search.
       pes:
         synopsis: "pes input.json"
         input_mode: arguments
         required_files: [input.json and referenced KinBot/PES files]
         output_behavior: Writes PES search and postprocessing outputs in the job directory.
         example_arguments: ["input.json"]
+        notes:
+          - A completed search must contain PES search done!, every child must avoid initial-optimization errors, and reaction_search=1 children must contain Starting reaction search...; the outer marker or creation of chemids alone is insufficient.
 
   sharc:
     runtime: sharc
-    purpose: Execute SHARC surface-hopping dynamics or wavefunction-overlap analysis from complete native inputs.
+    purpose: Execute SHARC surface-hopping dynamics or wavefunction-overlap analysis from complete native inputs; the configured build includes the tracked zero-length LP-ZPE restart fix required by gfortran.
     commands:
       sharc.x:
         synopsis: "sharc.x input"
@@ -706,6 +865,9 @@ software:
         required_files: [SHARC input, initial conditions, and selected electronic-structure interface files]
         output_behavior: Writes trajectory, hopping, energy, state, and restart files in the job directory.
         example_arguments: ["input"]
+        notes:
+          - The typed trajectory Action copies a complete trajectory directory and verifies that output.lis reaches the requested final time.
+          - Production ensembles require independent random seeds and explicit failed-trajectory accounting.
       wfoverlap.x:
         configured_path: .software_cache/sharc/source/bin/wfoverlap_ascii.x
         synopsis: "wfoverlap.x < overlap.inp"
@@ -752,7 +914,7 @@ software:
 
   yambo:
     runtime: yambo
-    purpose: Convert compatible upstream databases and run Agent-authored Yambo MBPT/GW/BSE calculations.
+    purpose: Convert compatible upstream databases and run Agent-authored Yambo 5.3.0 MBPT/GW/BSE calculations; typed GW and BSE Actions are available when the complete SAVE/restart database is supplied.
     commands:
       p2y:
         synopsis: "p2y [conversion options]"
@@ -766,6 +928,8 @@ software:
         required_files: [input.in, SAVE database, and required restart databases]
         output_behavior: Writes report, database, quasiparticle, response, or excitonic files selected by input.in.
         example_arguments: ["-F", "input.in", "-J", "job"]
+        notes:
+          - The silicon smoke proves an end-to-end minimal G0W0 and BSE route, not convergence with empty bands, dielectric cutoff, k mesh, or frequency grid.
 
   vmd:
     runtime: vmd

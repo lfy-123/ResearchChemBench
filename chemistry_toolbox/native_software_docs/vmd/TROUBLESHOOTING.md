@@ -5,7 +5,7 @@ topics: ["troubleshooting", "errors", "preflight"]
 aliases: ["VMD", "vmd"]
 inputs: ["analysis.tcl", "referenced structures and trajectories"]
 outputs: ["stdout.log", "user-defined tables", "structures", "images when rendering is configured"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # VMD Troubleshooting

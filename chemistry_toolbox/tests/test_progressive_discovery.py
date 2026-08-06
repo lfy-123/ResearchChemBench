@@ -227,14 +227,17 @@ def test_distributed_action_batch_uses_pool_instead_of_local_budget(
     active = 0
     observed_peak = 0
     lock = threading.Lock()
+    all_workers_started = threading.Event()
 
     def delayed(action_id, request):
         nonlocal active, observed_peak
         with lock:
             active += 1
             observed_peak = max(observed_peak, active)
+            if active == 8:
+                all_workers_started.set()
         try:
-            time.sleep(0.1)
+            all_workers_started.wait(timeout=2.0)
             return {
                 "status": "success",
                 "action": action_id,

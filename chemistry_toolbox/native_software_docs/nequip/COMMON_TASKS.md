@@ -5,7 +5,7 @@ topics: ["common-tasks", "inputs", "outputs", "convergence"]
 aliases: ["NequIP", "nequip"]
 inputs: ["config.yaml and datasets for training", "or an explicitly selected registered checkpoint for inference"]
 outputs: ["training log", "checkpoints", "metrics", "packaged model"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # NequIP Common Tasks
@@ -16,6 +16,12 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 - **Model Packaging**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Inference**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Lammps Deployment**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
+
+## Preferred typed Action routes
+- `calculate_periodic_energy`: validated structured route through backend `nequip`.
+- `calculate_periodic_forces`: validated structured route through backend `nequip`.
+- `calculate_periodic_stress`: validated structured route through backend `nequip`.
+- `relax_periodic_structure`: validated structured route through backend `nequip`.
 
 ## Minimum input responsibilities
 - `config.yaml and datasets for training`

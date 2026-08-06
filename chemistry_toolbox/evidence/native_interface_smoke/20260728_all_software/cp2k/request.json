@@ -1,44 +1,50 @@
 {
-  "schema_version": 1,
-  "job_id": "job_b14faa9eddfd446e805e89dd6ca5bec8",
-  "job_type": "native_software",
-  "runtime": "cp2k",
+  "automatic_fallback": false,
   "command": [
-    "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/cp2k/bin/cp2k.psmp",
-    "-version"
+    ".envs/periodic-mpich/bin/cp2k.psmp",
+    "--help"
   ],
-  "stdin_target": null,
-  "staged_inputs": [],
-  "resource_limits": {
-    "cpu_cores": 1,
-    "memory_mb": 1024,
-    "gpu_count": 0,
-    "walltime_seconds": 7200
-  },
+  "job_id": "job_1dfc4c2162254d4aafd6e80da5ba9dc8",
+  "job_type": "native_software",
   "metadata": {
-    "software_id": "cp2k",
-    "executable": "cp2k",
-    "label": "manual-interface-smoke-cp2k",
-    "parent_job_id": null,
     "calculation_intent": "unknown",
+    "evaluation_resource_budget": {
+      "agent_controllable": false,
+      "cpu_cores": 48,
+      "gpu_count": 0,
+      "memory_mb": 204800,
+      "scope": "per_task",
+      "source": "evaluation_policy"
+    },
+    "executable": "cp2k",
+    "execution_timeout_policy": {
+      "agent_controllable": false,
+      "execution_class": "compute",
+      "source": "evaluation_policy",
+      "timeout_seconds": 7200
+    },
     "input_deck_validation": null,
     "invocation_synopsis": "cp2k -i input.inp -o output.out",
-    "execution_timeout_policy": {
-      "execution_class": "compute",
-      "timeout_seconds": 7200,
-      "source": "evaluation_policy",
-      "agent_controllable": false
-    },
-    "evaluation_resource_budget": {
-      "cpu_cores": 48,
-      "memory_mb": 204800,
-      "gpu_count": 0,
-      "source": "evaluation_policy",
-      "agent_controllable": false,
-      "scope": "per_task"
-    }
+    "label": "manual-interface-smoke-cp2k",
+    "parent_job_id": null,
+    "software_id": "cp2k"
   },
-  "submitted_at": "2026-07-28T20:17:16.663425+00:00",
-  "automatic_fallback": false,
-  "shell": false
+  "resource_allocation": {
+    "cpu_ids": [
+      0
+    ],
+    "gpu_ids": []
+  },
+  "resource_limits": {
+    "cpu_cores": 1,
+    "gpu_count": 0,
+    "memory_mb": 1024,
+    "walltime_seconds": 7200
+  },
+  "runtime": "cp2k",
+  "schema_version": 1,
+  "shell": false,
+  "staged_inputs": [],
+  "stdin_target": null,
+  "submitted_at": "2026-08-06T10:32:16.707697+00:00"
 }

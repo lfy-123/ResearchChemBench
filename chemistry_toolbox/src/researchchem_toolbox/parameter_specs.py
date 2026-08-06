@@ -215,6 +215,34 @@ def _register_fixed(
         )[field_path] = {"description": description, "reason": reason}
 
 
+# BAGEL optional multireference controls shared by its three typed Actions.
+for _bagel_action_id in (
+    "calculate_multireference_state_energies",
+    "calculate_multireference_nuclear_gradient",
+    "calculate_nonadiabatic_coupling_vector",
+):
+    _register_parameter(
+        "bagel", _bagel_action_id, "method_spec.active_orbital_indices",
+        description="Optional explicit one-based BAGEL orbital indices defining the active space.",
+        default=None,
+        type="array[integer] | null",
+        impact=(
+            "Supplying indices changes which orbitals enter CASSCF and can qualitatively change "
+            "state ordering, gradients, and couplings; omission uses BAGEL's contiguous active-space partition."
+        ),
+    )
+    _register_parameter(
+        "bagel", _bagel_action_id, "method_spec.caspt2_options",
+        description="Explicit XMS-CASPT2 imaginary shift, frozen-core policy, and SSSR controls.",
+        default=None,
+        type="object | null",
+        impact=(
+            "These settings change the correlated multistate treatment and intruder-state handling; "
+            "the mapping is required when multireference_method is xms-caspt2 and unused for CASSCF."
+        ),
+    )
+
+
 # RDKit cheminformatics optional controls.
 for _action_id in ("calculate_molecular_fingerprint", "calculate_molecular_similarity"):
     _register_parameter(
@@ -281,6 +309,23 @@ for _field_path, _default, _description, _impact, _extra in (
     ("action_settings.poll_interval_seconds", 2.0, "Delay between PubChem asynchronous-search polls.", "Longer intervals reduce polling traffic but delay result collection.", {"type": "number", "minimum": 0}),
 ):
     _register_parameter("pubchem", _PUBCHEM_ACTIONS, _field_path, description=_description, default=_default, impact=_impact, **_extra)
+for _backend_id, _action_id, _backoff, _maximum_retries in (
+    ("materials_project", "search_materials", 3.0, 1),
+    ("catalysis_hub", "search_catalysis_records", 2.0, 2),
+):
+    _register_parameter(
+        _backend_id, _action_id, "action_settings.max_retries",
+        description="Maximum retry count after a transient timeout, connection failure, rate limit, or server error.",
+        default=1 if _backend_id == "materials_project" else 2,
+        type="integer", minimum=0, maximum=_maximum_retries,
+        impact="More retries improve resilience but increase worst-case latency and duplicate remote requests.",
+    )
+    _register_parameter(
+        _backend_id, _action_id, "action_settings.retry_backoff_seconds",
+        description="Initial delay between transient-failure retry attempts.",
+        default=_backoff, type="number", minimum=0,
+        impact="Longer backoff reduces pressure on a failing service but increases latency.",
+    )
 _register_parameter(
     "pubchem", "search_compounds", "action_settings.namespace",
     description="PubChem identifier namespace used to interpret the query.", default="name",

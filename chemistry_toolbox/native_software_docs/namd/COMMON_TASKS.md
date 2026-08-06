@@ -5,7 +5,7 @@ topics: ["common-tasks", "inputs", "outputs", "convergence"]
 aliases: ["NAMD", "namd"]
 inputs: ["input.conf", "PSF", "coordinates", "parameter files", "optional restart files"]
 outputs: ["stdout.log", "trajectory.dcd", "restart coordinates and velocities", "extended-system file"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # NAMD Common Tasks
@@ -16,6 +16,10 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 - **Equilibration**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Production Md**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Free-Energy Protocols**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
+
+## Preferred typed Action routes
+- `minimize_system_energy`: validated structured route through backend `namd`.
+- `propagate_dynamics`: validated structured route through backend `namd`.
 
 ## Minimum input responsibilities
 - `input.conf`

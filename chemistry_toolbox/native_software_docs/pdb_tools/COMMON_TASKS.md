@@ -5,7 +5,7 @@ topics: ["common-tasks", "inputs", "outputs", "convergence"]
 aliases: ["pdb-tools", "pdb tools"]
 inputs: ["input.pdb"]
 outputs: ["stdout PDB stream or redirected PDB file"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # pdb-tools Common Tasks
@@ -15,6 +15,11 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 - **Residue Renumbering**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Record Tidying**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Atom And Residue Filtering**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
+
+## Preferred typed Action routes
+- `select_structure_subset`: validated structured route through backend `pdb_tools`.
+- `renumber_biomolecular_structure`: validated structured route through backend `pdb_tools`.
+- `normalize_pdb_records`: validated structured route through backend `pdb_tools`.
 
 ## Minimum input responsibilities
 - `input.pdb`

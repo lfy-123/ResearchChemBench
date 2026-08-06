@@ -2,34 +2,34 @@
   "archived_files": [
     {
       "path": "request.json",
-      "sha256": "f9b9f20c0cf97b04e18f76d7f3c247dd2d862b05939396415cc9b484b89bab8a",
-      "size_bytes": 1233
+      "sha256": "032c39125721aab4096b4825b6ef1c02bc3984c8351aeca013ecb858f48576a6",
+      "size_bytes": 1243
     },
     {
       "path": "status.json",
-      "sha256": "c5ecc122057fe7c406075de48007cd59310be120aaf2dc15ecd9d308c7cdd741",
-      "size_bytes": 1920
+      "sha256": "1c622f9dc82799c8d661b1add1670760b9a1ffb623b373334933eebe8893cd94",
+      "size_bytes": 2016
     },
     {
       "path": "collection.json",
-      "sha256": "094bbf91f09f2cf1e019ac6d92efed80a0cb35fc2f20c69bd9d995c544de297e",
+      "sha256": "e8e055564c340e479e821fa6db2b48c454fbd11f4283cda444cff4f83859f159",
       "size_bytes": 2052
     },
     {
       "path": "stdout.log",
-      "sha256": "9be29b12abe68a7eecc4a45f49d91f31a63b1d569b61fae86ac4efc2d7e4d488",
-      "size_bytes": 1200
+      "sha256": "6f7e3952848e35e6cf8aacb0ed005c2a680686dffa33f5caadb0f714eaa0d9b2",
+      "size_bytes": 1197
     },
     {
       "path": "stderr.log",
-      "sha256": "19939a8a6a7e51e20fbd9d6d0ba9286b52508eacaa59e970bebf4f3c51cedbec",
+      "sha256": "405f4fcfdbead3707607168e2e5a13712d661d72e428aa7cd275266a82dc610d",
       "size_bytes": 418
     }
   ],
   "artifact_status": "not_validated",
   "convergence_status": "not_reached",
   "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/quantum_espresso",
-  "job_id": "job_aa385b10280344f4998beb117f4416a5",
+  "job_id": "job_a84cb21a072b4e06abef23110891bb03",
   "process_status": "failed",
   "reason": "The executable started and emitted its banner, usage, or expected missing-input diagnostic, but did not complete successfully.",
   "request": {
@@ -54,8 +54,8 @@
   "software_id": "quantum_espresso",
   "software_status": "not_reached",
   "status": "started_input_required",
-  "stderr_tail": "--------------------------------------------------------------------------\nMPI_ABORT was invoked on rank 0 in communicator MPI_COMM_WORLD\n  Proc: [[51448,0],0]\n  Errorcode: 1\n\nNOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.\nYou may or may not see output from other processes, depending on\nexactly when Open MPI kills them.\n--------------------------------------------------------------------------\n",
-  "stdout_tail": "\n     Program PWSCF v.7.5 starts on 28Jul2026 at 20:17:45 \n\n     This program is part of the open-source Quantum ESPRESSO suite\n     for quantum simulation of materials; please cite\n         \"P. Giannozzi et al., J. Phys.:Condens. Matter 21 395502 (2009);\n         \"P. Giannozzi et al., J. Phys.:Condens. Matter 29 465901 (2017);\n         \"P. Giannozzi et al., J. Chem. Phys. 152 154105 (2020);\n          URL http://www.quantum-espresso.org\", \n     in publications or presentations arising from this work. More details at\n     http://www.quantum-espresso.org/quote\n\n     Parallel version (MPI & OpenMP), running on       1 processor cores\n     Number of MPI processes:                 1\n     Threads/MPI process:                     1\n\n     MPI processes distributed on     1 nodes\n     160624 MiB available memory on the printing compute node when the environment starts\n\n     Waiting for input...\n     Reading input from standard input\n\n %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n     Error in routine  read_namelists (2):\n      could not find namelist &control\n %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n\n     stopping ...\n",
+  "stderr_tail": "--------------------------------------------------------------------------\nMPI_ABORT was invoked on rank 0 in communicator MPI_COMM_WORLD\n  Proc: [[48914,0],0]\n  Errorcode: 1\n\nNOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.\nYou may or may not see output from other processes, depending on\nexactly when Open MPI kills them.\n--------------------------------------------------------------------------\n",
+  "stdout_tail": "\n     Program PWSCF v.7.5 starts on  6Aug2026 at 10:32:47\n\n     This program is part of the open-source Quantum ESPRESSO suite\n     for quantum simulation of materials; please cite\n         \"P. Giannozzi et al., J. Phys.:Condens. Matter 21 395502 (2009);\n         \"P. Giannozzi et al., J. Phys.:Condens. Matter 29 465901 (2017);\n         \"P. Giannozzi et al., J. Chem. Phys. 152 154105 (2020);\n          URL http://www.quantum-espresso.org\",\n     in publications or presentations arising from this work. More details at\n     http://www.quantum-espresso.org/quote\n\n     Parallel version (MPI & OpenMP), running on       1 processor cores\n     Number of MPI processes:                 1\n     Threads/MPI process:                     1\n\n     MPI processes distributed on     1 nodes\n     87181 MiB available memory on the printing compute node when the environment starts\n\n     Waiting for input...\n     Reading input from standard input\n\n %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n     Error in routine  read_namelists (2):\n      could not find namelist &control\n %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n\n     stopping ...\n",
   "test_level": "interface_smoke",
-  "tested_at": "2026-07-28T20:16:58.943969+00:00"
+  "tested_at": "2026-08-06T10:32:07.312490+00:00"
 }

@@ -5,7 +5,7 @@ topics: ["common-tasks", "inputs", "outputs", "convergence"]
 aliases: ["Packmol", "packmol"]
 inputs: ["packmol.inp", "one coordinate template per structure block"]
 outputs: ["packed.xyz or another requested output", "stdout.log"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Packmol Common Tasks
@@ -16,6 +16,9 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 - **Interfaces**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Spherical Droplets**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Fixed-Solute Packing**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
+
+## Preferred typed Action routes
+- `solvate_molecular_system`: validated structured route through backend `packmol`.
 
 ## Minimum input responsibilities
 - `packmol.inp`

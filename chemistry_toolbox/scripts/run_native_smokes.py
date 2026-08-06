@@ -33,6 +33,7 @@ from chemistry_toolbox.mcp.open_execution import (
     submit_native_job,
 )
 from researchchem_toolbox.models import ResourceLimits
+from researchchem_toolbox.paths import portable_report_text, portable_report_value
 
 
 EXAMPLES = TOOLBOX_ROOT / "examples" / "native"
@@ -54,6 +55,15 @@ def sha256(path: Path) -> str:
         for chunk in iter(lambda: handle.read(1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
+
+
+def normalize_archived_text(path: Path) -> None:
+    if path.suffix == ".json":
+        value = portable_report_value(json.loads(path.read_text(encoding="utf-8")))
+        path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    else:
+        text = path.read_text(encoding="utf-8", errors="replace")
+        path.write_text(portable_report_text(text), encoding="utf-8")
 
 
 def wait_for_job(job_id: str, timeout: float = 600.0) -> dict:
@@ -96,6 +106,7 @@ def run_case(
             continue
         destination = archive_dir / path.name
         shutil.copy2(path, destination)
+        normalize_archived_text(destination)
         archived.append(
             {
                 "path": str(destination.relative_to(evidence_dir)),
@@ -222,14 +233,14 @@ def execute(workspace: Path, evidence_dir: Path, vasp_potcar: Path) -> dict:
     )
     cases.append(record)
 
-    manifest = {
+    manifest = portable_report_value({
         "schema_version": 2,
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "runner": "chemistry_toolbox/scripts/run_native_smokes.py",
-        "workspace": str(workspace),
+        "workspace": "<temporary-workspace>",
         "licensed_inputs_archived": False,
         "cases": cases,
-    }
+    })
     (evidence_dir / "manifest.json").write_text(
         json.dumps(manifest, indent=2, sort_keys=True) + "\n",
         encoding="utf-8",
@@ -239,7 +250,7 @@ def execute(workspace: Path, evidence_dir: Path, vasp_potcar: Path) -> dict:
 
 def verify(evidence_dir: Path) -> dict:
     manifest_path = evidence_dir / "manifest.json"
-    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    manifest = portable_report_value(json.loads(manifest_path.read_text(encoding="utf-8")))
     errors = []
     for case in manifest.get("cases", []):
         if case.get("process_status") != "completed":
@@ -253,14 +264,38 @@ def verify(evidence_dir: Path) -> dict:
     return {"valid": not errors, "errors": errors, "case_count": len(manifest.get("cases", []))}
 
 
+def refresh_hashes(evidence_dir: Path) -> dict:
+    manifest_path = evidence_dir / "manifest.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    root = evidence_dir.resolve()
+    for case in manifest.get("cases", []):
+        for item in case.get("archived_files", []):
+            path = (evidence_dir / item["path"]).resolve()
+            if not path.is_relative_to(root) or not path.is_file():
+                raise ValueError(f"Invalid archived evidence path: {item['path']}")
+            normalize_archived_text(path)
+            item["size_bytes"] = path.stat().st_size
+            item["sha256"] = sha256(path)
+    manifest["workspace"] = "<temporary-workspace>"
+    manifest_path.write_text(
+        json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
+    return verify(evidence_dir)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--workspace", type=Path)
     parser.add_argument("--evidence-dir", type=Path, required=True)
     parser.add_argument("--vasp-potcar", type=Path)
     parser.add_argument("--verify", action="store_true")
+    parser.add_argument("--refresh-hashes", action="store_true")
     args = parser.parse_args()
     evidence_dir = args.evidence_dir.resolve()
+    if args.refresh_hashes:
+        result = refresh_hashes(evidence_dir)
+        print(json.dumps(result, sort_keys=True))
+        return 0 if result["valid"] else 1
     if args.verify:
         result = verify(evidence_dir)
         print(json.dumps(result, sort_keys=True))

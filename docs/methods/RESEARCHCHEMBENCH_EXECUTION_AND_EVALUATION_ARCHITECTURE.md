@@ -5,6 +5,8 @@
 > 重点范围：智能体调用方式、化学工具箱构建与执行方式、评估与评分方式  
 > 说明：工作区存在未提交修改，因此本文记录的是阅读时的实际代码状态。若后续继续增删 Action、Backend 或运行环境，文中的数量应以运行时 catalog 为准。
 
+> 环境迁移说明（2026-08-06）：本文保留了 2026-07-21 快照中的历史环境章节。当前唯一有效的环境布局、构建命令和状态文件见 [`docs/MCP_PROFILE_ENVIRONMENTS.md`](../MCP_PROFILE_ENVIRONMENTS.md) 与仓库根目录 `README.md`；`.toolbox_env`、`.tool_envs`、`support_environments` 和 `chemistry_toolbox/environment/locks` 均已停用。
+
 ## 目录
 
 1. [核心结论](#1-核心结论)
@@ -2596,7 +2598,7 @@ Shell 支持 --chemgraph-python 并导出 CHEMGRAPH_PYTHON，但统一 MCP serve
 开发安装：
 
 ~~~bash
-cd /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench
+cd ${PROJECT_ROOT}
 bash chemistry_toolbox/scripts/setup_toolbox_env.sh
 .toolbox_env/bin/python chemistry_toolbox/scripts/setup_mcp_profile_envs.py --continue-on-error
 cp config.local.env.example config.local.env

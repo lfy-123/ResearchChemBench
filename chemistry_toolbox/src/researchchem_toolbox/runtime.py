@@ -48,13 +48,12 @@ def load_auxiliary_runtime_config() -> dict[str, Any]:
 
 def runtime_spec(name: str) -> dict[str, Any]:
     config = load_runtime_config()
-    for group in ("profiles", "support_environments"):
-        values = config.get(group) or {}
-        if name in values:
-            result = dict(values[name])
-            result["name"] = name
-            result["group"] = group
-            return result
+    profiles = config["profiles"]
+    if name in profiles:
+        result = dict(profiles[name])
+        result["name"] = name
+        result["group"] = "profiles"
+        return result
     auxiliary = load_auxiliary_runtime_config().get("auxiliary_environments") or {}
     if name in auxiliary:
         result = dict(auxiliary[name])
@@ -83,11 +82,7 @@ def runtime_names() -> tuple[str, ...]:
     auxiliary = load_auxiliary_runtime_config()
     return tuple(
         sorted(
-            {
-                str(name)
-                for group in ("profiles", "support_environments")
-                for name in (config.get(group) or {})
-            }
+            set(config["profiles"])
             | set(auxiliary.get("auxiliary_environments") or {})
         )
     )

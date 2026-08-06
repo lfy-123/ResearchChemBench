@@ -48,7 +48,7 @@ chemistry_toolbox/mcp/test_tools/
 先激活环境：
 
 ```bash
-cd /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench
+cd ${PROJECT_ROOT}
 source chemistry_toolbox/scripts/activate_toolbox_env.sh
 ```
 

@@ -5,7 +5,7 @@ topics: ["troubleshooting", "errors", "preflight"]
 aliases: ["NequIP", "nequip"]
 inputs: ["config.yaml and datasets for training", "or an explicitly selected registered checkpoint for inference"]
 outputs: ["training log", "checkpoints", "metrics", "packaged model"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # NequIP Troubleshooting

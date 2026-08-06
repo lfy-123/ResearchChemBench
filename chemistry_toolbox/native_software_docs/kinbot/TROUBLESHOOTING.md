@@ -1,11 +1,11 @@
 ---
 software_id: kinbot
-versions: ["installed KinBot runtime"]
+versions: ["2.2.2+local-nwchem-patch"]
 topics: ["troubleshooting", "errors", "preflight"]
 aliases: ["KinBot", "kinbot"]
 inputs: ["input.json", "starting structure", "templates", "selected QM backend configuration"]
 outputs: ["KinBot database", "structures", "quantum-chemistry inputs and logs", "PES files"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # KinBot Troubleshooting
@@ -24,6 +24,9 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 | calculator executable not found | configured Gaussian, ORCA, or other backend is unavailable | validate the backend separately and correct KinBot paths |
 | invalid JSON key | input schema differs from the installed KinBot version | start from the installed example schema and add options incrementally |
 | reaction or TS validation failed | geometry or frequency evidence is unsuitable | inspect the individual backend log rather than accepting the workflow label |
+| Unable to run calculations when queuing is local | unpatched KinBot 2.2.2 local mode only reads precomputed output | apply the tracked local-NWChem patch and verify the installed KinBot version |
+| NWChem input or Python syntax error | upstream templates target an older ASE writer or Python 2 | apply the tracked compatibility patch and use the configured NWChem command |
+| PES search done but child never entered reaction search | the outer PES driver postprocessed a failed child or NWChem completion stamp was written to the wrong file | inspect every child kinbot.log and apply the tracked completion-marker patch |
 
 ## Path and staging failures
 A source file existing in the benchmark workspace does not make it visible to the native process. Every dependency must be declared in `staged_inputs`. The content of an input deck must reference the staged `target_path`, not its original workspace path. Fixed-name programs are case-sensitive. Never assume the process starts in the task workspace.

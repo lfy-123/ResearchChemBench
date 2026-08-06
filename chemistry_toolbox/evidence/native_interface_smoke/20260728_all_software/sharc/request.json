@@ -1,44 +1,50 @@
 {
-  "schema_version": 1,
-  "job_id": "job_4cc2575654d1417e915c4a8a462a091e",
-  "job_type": "native_software",
-  "runtime": "sharc",
+  "automatic_fallback": false,
   "command": [
-    "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/sharc/source/bin/sharc.x",
+    ".software_cache/sharc/source/bin/sharc.x",
     "--version"
   ],
-  "stdin_target": null,
-  "staged_inputs": [],
-  "resource_limits": {
-    "cpu_cores": 1,
-    "memory_mb": 1024,
-    "gpu_count": 0,
-    "walltime_seconds": 7200
-  },
+  "job_id": "job_9ef5312bb8b94c3d93e60e7ed72fc826",
+  "job_type": "native_software",
   "metadata": {
-    "software_id": "sharc",
-    "executable": "sharc.x",
-    "label": "manual-interface-smoke-sharc",
-    "parent_job_id": null,
     "calculation_intent": "unknown",
+    "evaluation_resource_budget": {
+      "agent_controllable": false,
+      "cpu_cores": 48,
+      "gpu_count": 0,
+      "memory_mb": 204800,
+      "scope": "per_task",
+      "source": "evaluation_policy"
+    },
+    "executable": "sharc.x",
+    "execution_timeout_policy": {
+      "agent_controllable": false,
+      "execution_class": "compute",
+      "source": "evaluation_policy",
+      "timeout_seconds": 7200
+    },
     "input_deck_validation": null,
     "invocation_synopsis": "sharc.x input",
-    "execution_timeout_policy": {
-      "execution_class": "compute",
-      "timeout_seconds": 7200,
-      "source": "evaluation_policy",
-      "agent_controllable": false
-    },
-    "evaluation_resource_budget": {
-      "cpu_cores": 48,
-      "memory_mb": 204800,
-      "gpu_count": 0,
-      "source": "evaluation_policy",
-      "agent_controllable": false,
-      "scope": "per_task"
-    }
+    "label": "manual-interface-smoke-sharc",
+    "parent_job_id": null,
+    "software_id": "sharc"
   },
-  "submitted_at": "2026-07-28T20:18:00.665381+00:00",
-  "automatic_fallback": false,
-  "shell": false
+  "resource_allocation": {
+    "cpu_ids": [
+      0
+    ],
+    "gpu_ids": []
+  },
+  "resource_limits": {
+    "cpu_cores": 1,
+    "gpu_count": 0,
+    "memory_mb": 1024,
+    "walltime_seconds": 7200
+  },
+  "runtime": "sharc",
+  "schema_version": 1,
+  "shell": false,
+  "staged_inputs": [],
+  "stdin_target": null,
+  "submitted_at": "2026-08-06T10:32:52.341300+00:00"
 }

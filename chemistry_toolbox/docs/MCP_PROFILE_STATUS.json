@@ -1,21 +1,766 @@
 {
-  "generated_at": "2026-07-21T17:54:30.005631+00:00",
+  "generated_at": "2026-08-06T10:21:11.418908+00:00",
   "summary": {
-    "profile_count": 36,
-    "ready_profiles": 36,
-    "public_action_count": 106
+    "profile_count": 50,
+    "ready_profiles": 50,
+    "public_action_count": 150
   },
   "profiles": {
+    "abinit": {
+      "profile": "abinit",
+      "conda_name": "researchchem-abinit",
+      "python": ".envs/kinetics-legacy/bin/python",
+      "python_version": "3.11.15",
+      "expected_backends": [
+        "abinit"
+      ],
+      "backend_health": {
+        "abinit": {
+          "status": "available",
+          "available": true,
+          "runtime": "abinit",
+          "runtime_python": ".envs/kinetics-legacy/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {
+            "numpy": {
+              "available": true,
+              "version": "1.26.4"
+            },
+            "pydantic": {
+              "available": true,
+              "version": "2.13.4"
+            },
+            "yaml": {
+              "available": true,
+              "version": null
+            }
+          },
+          "executables": {
+            "abinit": ".envs/kinetics-legacy/bin/abinit"
+          },
+          "environment": {
+            "CHEMGRAPH_ABINIT_COMMAND": false
+          },
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [
+            "CHEMGRAPH_ABINIT_COMMAND"
+          ],
+          "conda_packages": [
+            "abinit"
+          ],
+          "pip_packages": [],
+          "required_data_resources": [
+            "Explicit ResourceRefs from abinit_pseudo_dojo_nc_sr_pbe_standard_psp8, one per element; workspace ArtifactRefs remain accepted"
+          ],
+          "license_class": "open_source",
+          "install_notes": ""
+        }
+      },
+      "allowed_unavailable_backends": [],
+      "unexpected_unavailable_backends": [],
+      "modules": {
+        "numpy": {
+          "available": true,
+          "version": "1.26.4"
+        },
+        "pydantic": {
+          "available": true,
+          "version": "2.13.4"
+        },
+        "yaml": {
+          "available": true,
+          "version": "6.0.3"
+        }
+      },
+      "commands": {
+        "abinit": ".envs/kinetics-legacy/bin/abinit"
+      },
+      "external_commands": {},
+      "dependency_check": {
+        "success": true,
+        "returncode": 1,
+        "output": "quantities 0.12.3 is not supported on this platform\ngprof2dot 2017.9.19 is not supported on this platform\nperiodictable 1.5.2 is not supported on this platform",
+        "ignored_issues": [
+          "quantities 0.12.3 is not supported on this platform",
+          "gprof2dot 2017.9.19 is not supported on this platform",
+          "periodictable 1.5.2 is not supported on this platform"
+        ],
+        "unignored_issues": []
+      },
+      "model_checks": {},
+      "manual_commands": {},
+      "live_checks": {},
+      "required_ok": true,
+      "runtime_group": "profiles",
+      "returncode": 0
+    },
+    "lammps": {
+      "profile": "lammps",
+      "conda_name": "researchchem-lammps",
+      "python": ".envs/kinetics-legacy/bin/python",
+      "python_version": "3.11.15",
+      "expected_backends": [
+        "lammps"
+      ],
+      "backend_health": {
+        "lammps": {
+          "status": "available",
+          "available": true,
+          "runtime": "lammps",
+          "runtime_python": ".envs/kinetics-legacy/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {
+            "lammps": {
+              "available": true,
+              "version": "2024.8.29"
+            }
+          },
+          "executables": {
+            "lmp": ".envs/kinetics-legacy/bin/lmp"
+          },
+          "environment": {
+            "CHEMGRAPH_LAMMPS_COMMAND": true
+          },
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [
+            "lammps"
+          ],
+          "pip_packages": [],
+          "required_data_resources": [],
+          "license_class": "open_source",
+          "install_notes": ""
+        }
+      },
+      "allowed_unavailable_backends": [],
+      "unexpected_unavailable_backends": [],
+      "modules": {
+        "lammps": {
+          "available": true,
+          "version": "20240829"
+        }
+      },
+      "commands": {
+        "lmp": ".envs/kinetics-legacy/bin/lmp"
+      },
+      "external_commands": {},
+      "dependency_check": {
+        "success": true,
+        "returncode": 1,
+        "output": "quantities 0.12.3 is not supported on this platform\ngprof2dot 2017.9.19 is not supported on this platform\nperiodictable 1.5.2 is not supported on this platform",
+        "ignored_issues": [
+          "quantities 0.12.3 is not supported on this platform",
+          "gprof2dot 2017.9.19 is not supported on this platform",
+          "periodictable 1.5.2 is not supported on this platform"
+        ],
+        "unignored_issues": []
+      },
+      "model_checks": {},
+      "manual_commands": {},
+      "live_checks": {},
+      "required_ok": true,
+      "runtime_group": "profiles",
+      "returncode": 0
+    },
+    "gaussian": {
+      "profile": "gaussian",
+      "conda_name": "researchchem-gaussian",
+      "python": ".envs/general-modern-openmpi5/bin/python",
+      "python_version": "3.11.15",
+      "expected_backends": [
+        "gaussian"
+      ],
+      "backend_health": {
+        "gaussian": {
+          "status": "available",
+          "available": true,
+          "runtime": "gaussian",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {},
+          "executables": {
+            "g16": ".software_cache/gaussian/g16/install/g16/g16",
+            "formchk": ".software_cache/gaussian/g16/install/g16/formchk"
+          },
+          "environment": {
+            "CHEMGRAPH_GAUSSIAN_COMMAND": true,
+            "CHEMGRAPH_GAUSSIAN_FORMCHK_COMMAND": true
+          },
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [],
+          "pip_packages": [],
+          "required_data_resources": [],
+          "license_class": "commercial_license",
+          "install_notes": "Configured from the operator-provided Gaussian 16 C.01 distribution under .software_cache/gaussian/g16; the adapter accepts no arbitrary route deck."
+        }
+      },
+      "allowed_unavailable_backends": [],
+      "unexpected_unavailable_backends": [],
+      "modules": {
+        "cclib": {
+          "available": true,
+          "version": "1.8.1"
+        }
+      },
+      "commands": {
+        "g16": ".software_cache/gaussian/g16/install/g16/g16",
+        "formchk": ".software_cache/gaussian/g16/install/g16/formchk"
+      },
+      "external_commands": {
+        ".software_cache/gaussian/g16/install/g16/g16": ".software_cache/gaussian/g16/install/g16/g16",
+        ".software_cache/gaussian/g16/install/g16/formchk": ".software_cache/gaussian/g16/install/g16/formchk"
+      },
+      "dependency_check": {
+        "success": true,
+        "returncode": 0,
+        "output": "No broken requirements found.",
+        "ignored_issues": [],
+        "unignored_issues": []
+      },
+      "model_checks": {},
+      "manual_commands": {},
+      "live_checks": {},
+      "required_ok": true,
+      "runtime_group": "profiles",
+      "returncode": 0
+    },
+    "gamess": {
+      "profile": "gamess",
+      "conda_name": "researchchem-gamess",
+      "python": ".envs/general-modern-openmpi5/bin/python",
+      "python_version": "3.11.15",
+      "expected_backends": [
+        "gamess"
+      ],
+      "backend_health": {
+        "gamess": {
+          "status": "available",
+          "available": true,
+          "runtime": "gamess",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {},
+          "executables": {
+            "rungms": ".software_cache/gamess/2024-r2-p1/source/rungms"
+          },
+          "environment": {
+            "CHEMGRAPH_GAMESS_COMMAND": true
+          },
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [],
+          "pip_packages": [],
+          "required_data_resources": [],
+          "license_class": "registration_license",
+          "install_notes": "The registered source distribution is compiled under .software_cache/gamess/2024-r2-p1 with a sockets DDI build and isolated compiler/runtime libraries."
+        }
+      },
+      "allowed_unavailable_backends": [],
+      "unexpected_unavailable_backends": [],
+      "modules": {},
+      "commands": {
+        "rungms": ".software_cache/gamess/2024-r2-p1/source/rungms"
+      },
+      "external_commands": {
+        ".software_cache/gamess/2024-r2-p1/source/rungms": ".software_cache/gamess/2024-r2-p1/source/rungms",
+        ".software_cache/gamess/2024-r2-p1/build/gamess.00.x": ".software_cache/gamess/2024-r2-p1/build/gamess.00.x"
+      },
+      "dependency_check": {
+        "success": true,
+        "returncode": 0,
+        "output": "No broken requirements found.",
+        "ignored_issues": [],
+        "unignored_issues": []
+      },
+      "model_checks": {},
+      "manual_commands": {},
+      "live_checks": {},
+      "required_ok": true,
+      "runtime_group": "profiles",
+      "returncode": 0
+    },
+    "rmg": {
+      "profile": "rmg",
+      "conda_name": "researchchem-rmg",
+      "python": ".envs/kinetics-legacy/bin/python",
+      "python_version": "3.11.15",
+      "expected_backends": [
+        "rmg"
+      ],
+      "backend_health": {
+        "rmg": {
+          "status": "available",
+          "available": true,
+          "runtime": "rmg",
+          "runtime_python": ".envs/kinetics-legacy/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {
+            "rmgpy": {
+              "available": true,
+              "version": null
+            }
+          },
+          "executables": {
+            "rmg.py": ".envs/kinetics-legacy/bin/rmg.py"
+          },
+          "environment": {},
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [
+            "rmg=4.0.0"
+          ],
+          "pip_packages": [],
+          "required_data_resources": [],
+          "license_class": "open_source",
+          "install_notes": ""
+        }
+      },
+      "allowed_unavailable_backends": [],
+      "unexpected_unavailable_backends": [],
+      "modules": {
+        "rmgpy": {
+          "available": true,
+          "version": "4.0.0"
+        },
+        "pydantic": {
+          "available": true,
+          "version": "2.13.4"
+        },
+        "yaml": {
+          "available": true,
+          "version": "6.0.3"
+        }
+      },
+      "commands": {
+        "rmg.py": ".envs/kinetics-legacy/bin/rmg.py"
+      },
+      "external_commands": {},
+      "dependency_check": {
+        "success": true,
+        "returncode": 1,
+        "output": "quantities 0.12.3 is not supported on this platform\ngprof2dot 2017.9.19 is not supported on this platform\nperiodictable 1.5.2 is not supported on this platform",
+        "ignored_issues": [
+          "quantities 0.12.3 is not supported on this platform",
+          "gprof2dot 2017.9.19 is not supported on this platform",
+          "periodictable 1.5.2 is not supported on this platform"
+        ],
+        "unignored_issues": []
+      },
+      "model_checks": {},
+      "manual_commands": {},
+      "live_checks": {},
+      "required_ok": true,
+      "runtime_group": "profiles",
+      "returncode": 0
+    },
+    "mess": {
+      "profile": "mess",
+      "conda_name": "researchchem-mess",
+      "python": ".envs/general-modern-openmpi5/bin/python",
+      "python_version": "3.11.15",
+      "expected_backends": [
+        "mess"
+      ],
+      "backend_health": {
+        "mess": {
+          "status": "available",
+          "available": true,
+          "runtime": "mess",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {},
+          "executables": {
+            "mess": ".software_cache/mess/2020.1.24/build/mess"
+          },
+          "environment": {
+            "CHEMGRAPH_MESS_COMMAND": true
+          },
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [],
+          "pip_packages": [],
+          "required_data_resources": [],
+          "license_class": "open_source",
+          "install_notes": "Locally compiled PAPR MESS 2020.1.24 runtime and official manual/examples."
+        }
+      },
+      "allowed_unavailable_backends": [],
+      "unexpected_unavailable_backends": [],
+      "modules": {
+        "pydantic": {
+          "available": true,
+          "version": "2.13.4"
+        },
+        "yaml": {
+          "available": true,
+          "version": "6.0.3"
+        }
+      },
+      "commands": {
+        "mess": ".software_cache/mess/2020.1.24/build/mess"
+      },
+      "external_commands": {
+        ".software_cache/mess/2020.1.24/build/mess": ".software_cache/mess/2020.1.24/build/mess"
+      },
+      "dependency_check": {
+        "success": true,
+        "returncode": 0,
+        "output": "No broken requirements found.",
+        "ignored_issues": [],
+        "unignored_issues": []
+      },
+      "model_checks": {},
+      "manual_commands": {},
+      "live_checks": {},
+      "required_ok": true,
+      "runtime_group": "profiles",
+      "returncode": 0
+    },
+    "mesmer": {
+      "profile": "mesmer",
+      "conda_name": "researchchem-mesmer",
+      "python": ".envs/general-modern-openmpi5/bin/python",
+      "python_version": "3.11.15",
+      "expected_backends": [
+        "mesmer"
+      ],
+      "backend_health": {
+        "mesmer": {
+          "status": "available",
+          "available": true,
+          "runtime": "mesmer",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {},
+          "executables": {
+            "mesmer": ".software_cache/mesmer/7.1/bin/mesmer"
+          },
+          "environment": {
+            "CHEMGRAPH_MESMER_COMMAND": true
+          },
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [],
+          "pip_packages": [],
+          "required_data_resources": [],
+          "license_class": "open_source",
+          "install_notes": "Locally compiled official MESMER 7.1 SourceForge release and manual/examples."
+        }
+      },
+      "allowed_unavailable_backends": [],
+      "unexpected_unavailable_backends": [],
+      "modules": {
+        "pydantic": {
+          "available": true,
+          "version": "2.13.4"
+        },
+        "yaml": {
+          "available": true,
+          "version": "6.0.3"
+        }
+      },
+      "commands": {
+        "mesmer": ".software_cache/mesmer/7.1/bin/mesmer"
+      },
+      "external_commands": {
+        ".software_cache/mesmer/7.1/bin/mesmer": ".software_cache/mesmer/7.1/bin/mesmer"
+      },
+      "dependency_check": {
+        "success": true,
+        "returncode": 0,
+        "output": "No broken requirements found.",
+        "ignored_issues": [],
+        "unignored_issues": []
+      },
+      "model_checks": {},
+      "manual_commands": {},
+      "live_checks": {},
+      "required_ok": true,
+      "runtime_group": "profiles",
+      "returncode": 0
+    },
+    "sella": {
+      "profile": "sella",
+      "conda_name": "researchchem-sella",
+      "python": ".envs/kinetics-legacy/bin/python",
+      "python_version": "3.11.15",
+      "expected_backends": [
+        "sella"
+      ],
+      "backend_health": {
+        "sella": {
+          "status": "available",
+          "available": true,
+          "runtime": "sella",
+          "runtime_python": ".envs/kinetics-legacy/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {
+            "sella": {
+              "available": true,
+              "version": "2.5.0"
+            },
+            "ase": {
+              "available": true,
+              "version": "3.22.1"
+            },
+            "numpy": {
+              "available": true,
+              "version": "1.26.4"
+            }
+          },
+          "executables": {},
+          "environment": {},
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [],
+          "pip_packages": [
+            "sella==2.5.0"
+          ],
+          "required_data_resources": [],
+          "license_class": "open_source",
+          "install_notes": ""
+        }
+      },
+      "allowed_unavailable_backends": [],
+      "unexpected_unavailable_backends": [],
+      "modules": {
+        "sella": {
+          "available": true,
+          "version": "unknown"
+        },
+        "ase": {
+          "available": true,
+          "version": "3.22.1"
+        },
+        "numpy": {
+          "available": true,
+          "version": "1.26.4"
+        },
+        "pydantic": {
+          "available": true,
+          "version": "2.13.4"
+        },
+        "yaml": {
+          "available": true,
+          "version": "6.0.3"
+        }
+      },
+      "commands": {},
+      "external_commands": {},
+      "dependency_check": {
+        "success": true,
+        "returncode": 1,
+        "output": "quantities 0.12.3 is not supported on this platform\ngprof2dot 2017.9.19 is not supported on this platform\nperiodictable 1.5.2 is not supported on this platform",
+        "ignored_issues": [
+          "quantities 0.12.3 is not supported on this platform",
+          "gprof2dot 2017.9.19 is not supported on this platform",
+          "periodictable 1.5.2 is not supported on this platform"
+        ],
+        "unignored_issues": []
+      },
+      "model_checks": {},
+      "manual_commands": {},
+      "live_checks": {},
+      "required_ok": true,
+      "runtime_group": "profiles",
+      "returncode": 0
+    },
+    "namd": {
+      "profile": "namd",
+      "conda_name": "researchchem-namd",
+      "python": ".envs/general-modern-openmpi5/bin/python",
+      "python_version": "3.11.15",
+      "expected_backends": [
+        "namd"
+      ],
+      "backend_health": {
+        "namd": {
+          "status": "available",
+          "available": true,
+          "runtime": "namd",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {},
+          "executables": {
+            "namd3": ".software_cache/namd/3.0.2/multicore-avx512/namd3"
+          },
+          "environment": {
+            "CHEMGRAPH_NAMD_COMMAND": true
+          },
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [],
+          "pip_packages": [],
+          "required_data_resources": [],
+          "license_class": "academic_registration",
+          "install_notes": "The AVX-512 multicore and CUDA bundles are cached under .software_cache/namd/3.0.2. The public backend selects the validated CPU AVX-512 binary only; CUDA is never chosen implicitly."
+        }
+      },
+      "allowed_unavailable_backends": [],
+      "unexpected_unavailable_backends": [],
+      "modules": {},
+      "commands": {
+        "namd3": ".software_cache/namd/3.0.2/multicore-avx512/namd3"
+      },
+      "external_commands": {
+        ".software_cache/namd/3.0.2/multicore-avx512/namd3": ".software_cache/namd/3.0.2/multicore-avx512/namd3",
+        ".software_cache/namd/3.0.2/multicore-cuda/namd3": ".software_cache/namd/3.0.2/multicore-cuda/namd3"
+      },
+      "dependency_check": {
+        "success": true,
+        "returncode": 0,
+        "output": "No broken requirements found.",
+        "ignored_issues": [],
+        "unignored_issues": []
+      },
+      "model_checks": {},
+      "manual_commands": {},
+      "live_checks": {},
+      "required_ok": true,
+      "runtime_group": "profiles",
+      "returncode": 0
+    },
+    "amber": {
+      "profile": "amber",
+      "conda_name": "researchchem-amber",
+      "python": ".envs/general-modern-openmpi5/bin/python",
+      "python_version": "3.11.15",
+      "expected_backends": [
+        "amber_pmemd"
+      ],
+      "backend_health": {
+        "amber_pmemd": {
+          "status": "available",
+          "available": true,
+          "runtime": "amber",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {},
+          "executables": {
+            "pmemd": ".software_cache/amber/26/install/bin/pmemd",
+            "pmemd.MPI": ".software_cache/amber/26/install/bin/pmemd.MPI",
+            "mpirun": ".envs/general-modern-openmpi5/bin/mpirun"
+          },
+          "environment": {
+            "CHEMGRAPH_AMBER_COMMAND": true,
+            "CHEMGRAPH_AMBER_MPI_COMMAND": true,
+            "CHEMGRAPH_AMBER_MPIRUN_COMMAND": true,
+            "CHEMGRAPH_AMBER_MPI_EXECUTABLE": true
+          },
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [],
+          "pip_packages": [],
+          "required_data_resources": [],
+          "license_class": "academic_registration",
+          "install_notes": "Licensed PMEMD26 CPU serial and MPI binaries are built under .software_cache/amber/26. AmberTools 26 remains independently available in the OpenFF runtime."
+        }
+      },
+      "allowed_unavailable_backends": [],
+      "unexpected_unavailable_backends": [],
+      "modules": {},
+      "commands": {
+        "pmemd": ".software_cache/amber/26/install/bin/pmemd",
+        "pmemd.MPI": ".software_cache/amber/26/install/bin/pmemd.MPI",
+        "mpirun": ".envs/general-modern-openmpi5/bin/mpirun"
+      },
+      "external_commands": {
+        ".software_cache/amber/26/install/bin/pmemd": ".software_cache/amber/26/install/bin/pmemd",
+        ".software_cache/amber/26/install/bin/pmemd.MPI": ".software_cache/amber/26/install/bin/pmemd.MPI"
+      },
+      "dependency_check": {
+        "success": true,
+        "returncode": 0,
+        "output": "No broken requirements found.",
+        "ignored_issues": [],
+        "unignored_issues": []
+      },
+      "model_checks": {},
+      "manual_commands": {},
+      "live_checks": {},
+      "required_ok": true,
+      "runtime_group": "profiles",
+      "returncode": 0
+    },
+    "charmm": {
+      "profile": "charmm",
+      "conda_name": "researchchem-charmm",
+      "python": ".envs/general-modern-openmpi5/bin/python",
+      "python_version": "3.11.15",
+      "expected_backends": [
+        "charmm"
+      ],
+      "backend_health": {
+        "charmm": {
+          "status": "available",
+          "available": true,
+          "runtime": "charmm",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {},
+          "executables": {
+            "charmm": ".software_cache/charmm/50b2/install/bin/charmm"
+          },
+          "environment": {
+            "CHEMGRAPH_CHARMM_COMMAND": true
+          },
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [],
+          "pip_packages": [],
+          "required_data_resources": [],
+          "license_class": "academic_registration",
+          "install_notes": "The operator-provided CHARMM c50b2 source is compiled as a serial/OpenMP GNU build under .software_cache/charmm/50b2; arbitrary CHARMM input scripts are not accepted."
+        }
+      },
+      "allowed_unavailable_backends": [],
+      "unexpected_unavailable_backends": [],
+      "modules": {},
+      "commands": {
+        "charmm": ".software_cache/charmm/50b2/install/bin/charmm"
+      },
+      "external_commands": {
+        ".software_cache/charmm/50b2/install/bin/charmm": ".software_cache/charmm/50b2/install/bin/charmm"
+      },
+      "dependency_check": {
+        "success": true,
+        "returncode": 0,
+        "output": "No broken requirements found.",
+        "ignored_issues": [],
+        "unignored_issues": []
+      },
+      "model_checks": {},
+      "manual_commands": {},
+      "live_checks": {},
+      "required_ok": true,
+      "runtime_group": "profiles",
+      "returncode": 0
+    },
     "core": {
       "profile": "core",
       "conda_name": "researchchem-core",
-      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.toolbox_env/bin/python3.10",
-      "python_version": "3.10.20",
+      "python": ".envs/general-modern-openmpi5/bin/python",
+      "python_version": "3.11.15",
       "expected_backends": [
         "ase_emt",
+        "internal_periodic_analysis",
+        "internal_reaction_analysis",
         "internal_spectroscopy",
         "internal_statistics",
         "internal_thermochemistry",
+        "internal_trajectory_analysis",
         "internal_vibrations",
         "pdb_tools",
         "rdkit",
@@ -27,12 +772,12 @@
           "status": "available",
           "available": true,
           "runtime": "core",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.toolbox_env/bin/python",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
             "rdkit": {
               "available": true,
-              "version": "2025.3.3"
+              "version": "2025.9.5"
             }
           },
           "executables": {},
@@ -52,12 +797,12 @@
           "status": "available",
           "available": true,
           "runtime": "core",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.toolbox_env/bin/python",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
             "rdkit": {
               "available": true,
-              "version": "2025.3.3"
+              "version": "2025.9.5"
             }
           },
           "executables": {},
@@ -77,12 +822,12 @@
           "status": "available",
           "available": true,
           "runtime": "core",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.toolbox_env/bin/python",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
             "rdkit": {
               "available": true,
-              "version": "2025.3.3"
+              "version": "2025.9.5"
             }
           },
           "executables": {},
@@ -102,7 +847,7 @@
           "status": "available",
           "available": true,
           "runtime": "core",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.toolbox_env/bin/python",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
           "runtime_python_exists": true,
           "python_modules": {},
           "executables": {},
@@ -120,7 +865,7 @@
           "status": "available",
           "available": true,
           "runtime": "core",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.toolbox_env/bin/python",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
             "ase.calculators.emt": {
@@ -145,7 +890,7 @@
           "status": "available",
           "available": true,
           "runtime": "core",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.toolbox_env/bin/python",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
             "ase": {
@@ -154,7 +899,7 @@
             },
             "numpy": {
               "available": true,
-              "version": "1.26.4"
+              "version": "2.4.6"
             }
           },
           "executables": {},
@@ -175,12 +920,12 @@
           "status": "available",
           "available": true,
           "runtime": "core",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.toolbox_env/bin/python",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
             "numpy": {
               "available": true,
-              "version": "1.26.4"
+              "version": "2.4.6"
             }
           },
           "executables": {},
@@ -200,7 +945,7 @@
           "status": "available",
           "available": true,
           "runtime": "core",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.toolbox_env/bin/python",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
             "ase": {
@@ -209,7 +954,7 @@
             },
             "numpy": {
               "available": true,
-              "version": "1.26.4"
+              "version": "2.4.6"
             }
           },
           "executables": {},
@@ -226,11 +971,65 @@
           "license_class": "open_source",
           "install_notes": ""
         },
+        "internal_reaction_analysis": {
+          "status": "available",
+          "available": true,
+          "runtime": "core",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {},
+          "executables": {},
+          "environment": {},
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [],
+          "pip_packages": [],
+          "required_data_resources": [],
+          "license_class": "open_source",
+          "install_notes": ""
+        },
+        "internal_periodic_analysis": {
+          "status": "available",
+          "available": true,
+          "runtime": "core",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {},
+          "executables": {},
+          "environment": {},
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [],
+          "pip_packages": [],
+          "required_data_resources": [],
+          "license_class": "open_source",
+          "install_notes": ""
+        },
+        "internal_trajectory_analysis": {
+          "status": "available",
+          "available": true,
+          "runtime": "core",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {},
+          "executables": {},
+          "environment": {},
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [],
+          "pip_packages": [],
+          "required_data_resources": [],
+          "license_class": "open_source",
+          "install_notes": ""
+        },
         "pdb_tools": {
           "status": "available",
           "available": true,
           "runtime": "core",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.toolbox_env/bin/python",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
             "pdbtools": {
@@ -239,9 +1038,9 @@
             }
           },
           "executables": {
-            "pdb_selchain": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.toolbox_env/bin/pdb_selchain",
-            "pdb_reres": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.toolbox_env/bin/pdb_reres",
-            "pdb_tidy": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.toolbox_env/bin/pdb_tidy"
+            "pdb_selchain": ".envs/general-modern-openmpi5/bin/pdb_selchain",
+            "pdb_reres": ".envs/general-modern-openmpi5/bin/pdb_reres",
+            "pdb_tidy": ".envs/general-modern-openmpi5/bin/pdb_tidy"
           },
           "environment": {},
           "missing_python_modules": [],
@@ -265,7 +1064,7 @@
         },
         "numpy": {
           "available": true,
-          "version": "1.26.4"
+          "version": "2.4.6"
         },
         "pdbtools": {
           "available": true,
@@ -273,7 +1072,7 @@
         },
         "rdkit": {
           "available": true,
-          "version": "2023.09.6"
+          "version": "2025.09.5"
         },
         "yaml": {
           "available": true,
@@ -299,8 +1098,8 @@
     "services": {
       "profile": "services",
       "conda_name": "researchchem-services",
-      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/bin/python3.10",
-      "python_version": "3.10.20",
+      "python": ".envs/general-modern-openmpi5/bin/python",
+      "python_version": "3.11.15",
       "expected_backends": [
         "catalysis_hub",
         "materials_project",
@@ -313,7 +1112,7 @@
           "status": "available",
           "available": true,
           "runtime": "services",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/bin/python",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
             "pubchempy": {
@@ -332,13 +1131,13 @@
           ],
           "required_data_resources": [],
           "license_class": "open_source",
-          "install_notes": "Live PUG REST access uses cross-worker rate limiting and bounded retries. Optional mechanical controls are max_retries, retry_backoff_seconds, minimum_request_interval_seconds, timeout_seconds, max_poll_attempts, and poll_interval_seconds. Existing proxy variables take priority; otherwise PubChem loads proxy-only values from the ignored config.local.env file. No alternate data source is selected implicitly."
+          "install_notes": "Live PUG REST access uses cross-worker rate limiting and bounded retries. Optional mechanical controls are max_retries, retry_backoff_seconds, minimum_request_interval_seconds, max_poll_attempts, and poll_interval_seconds. Request timeout is evaluator-controlled. Existing proxy variables take priority; otherwise PubChem loads proxy-only values from the ignored config.local.env file. No alternate data source is selected implicitly."
         },
         "rcsb_pdb": {
           "status": "available",
           "available": true,
           "runtime": "services",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/bin/python",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
             "httpx": {
@@ -363,7 +1162,7 @@
           "status": "available",
           "available": true,
           "runtime": "services",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/bin/python",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
             "httpx": {
@@ -372,7 +1171,7 @@
             },
             "mp_api": {
               "available": true,
-              "version": "0.45.13"
+              "version": "0.46.4"
             }
           },
           "executables": {},
@@ -394,7 +1193,7 @@
           "status": "available",
           "available": true,
           "runtime": "services",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/bin/python",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
             "httpx": {
@@ -403,7 +1202,9 @@
             }
           },
           "executables": {},
-          "environment": {},
+          "environment": {
+            "CATALYSIS_HUB_API_KEY": true
+          },
           "missing_python_modules": [],
           "missing_executables": [],
           "missing_environment": [],
@@ -413,13 +1214,13 @@
           ],
           "required_data_resources": [],
           "license_class": "open_source",
-          "install_notes": "Live GraphQL calls use bounded retry/backoff controls (max_retries, retry_backoff_seconds) and return retryable remote-service errors without hidden fallback."
+          "install_notes": "Live GraphQL calls send CATALYSIS_HUB_API_KEY through X-API-Key and use bounded retry/backoff controls (max_retries, retry_backoff_seconds) and return retryable remote-service errors without hidden fallback."
         },
         "nist_webbook": {
           "status": "available",
           "available": true,
           "runtime": "services",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/bin/python",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
             "httpx": {
@@ -474,7 +1275,7 @@
     "workflows": {
       "profile": "workflows",
       "conda_name": "researchchem-workflows",
-      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/workflows/bin/python3.11",
+      "python": ".envs/general-modern-openmpi5/bin/python",
       "python_version": "3.11.15",
       "expected_backends": [
         "cclib",
@@ -488,7 +1289,7 @@
           "status": "available",
           "available": true,
           "runtime": "workflows",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/workflows/bin/python",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
             "qcelemental": {
@@ -513,12 +1314,12 @@
           "status": "available",
           "available": true,
           "runtime": "workflows",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/workflows/bin/python",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
             "cclib": {
               "available": true,
-              "version": "0.0.0"
+              "version": "1.8.1"
             }
           },
           "executables": {},
@@ -538,7 +1339,7 @@
           "status": "available",
           "available": true,
           "runtime": "workflows",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/workflows/bin/python",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
             "pymatgen": {
@@ -568,7 +1369,7 @@
           "status": "available",
           "available": true,
           "runtime": "workflows",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/workflows/bin/python",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
             "spglib": {
@@ -598,7 +1399,7 @@
           "status": "available",
           "available": true,
           "runtime": "workflows",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/workflows/bin/python",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
             "mdtraj": {
@@ -672,8 +1473,8 @@
     "free_energy": {
       "profile": "free_energy",
       "conda_name": "researchchem-free-energy",
-      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/free_energy/bin/python3.11",
-      "python_version": "3.11.15",
+      "python": ".envs/molecular-simulation-openff/bin/python",
+      "python_version": "3.12.13",
       "expected_backends": [
         "alchemlyb",
         "hoomd",
@@ -684,7 +1485,7 @@
           "status": "available",
           "available": true,
           "runtime": "free_energy",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/free_energy/bin/python",
+          "runtime_python": ".envs/molecular-simulation-openff/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
             "pymbar": {
@@ -693,7 +1494,7 @@
             },
             "numpy": {
               "available": true,
-              "version": "2.4.6"
+              "version": "1.26.4"
             }
           },
           "executables": {},
@@ -714,7 +1515,7 @@
           "status": "available",
           "available": true,
           "runtime": "free_energy",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/free_energy/bin/python",
+          "runtime_python": ".envs/molecular-simulation-openff/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
             "alchemlyb": {
@@ -727,7 +1528,7 @@
             },
             "numpy": {
               "available": true,
-              "version": "2.4.6"
+              "version": "1.26.4"
             }
           },
           "executables": {},
@@ -749,7 +1550,7 @@
           "status": "available",
           "available": true,
           "runtime": "free_energy",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/free_energy/bin/python",
+          "runtime_python": ".envs/molecular-simulation-openff/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
             "hoomd": {
@@ -758,7 +1559,7 @@
             },
             "numpy": {
               "available": true,
-              "version": "2.4.6"
+              "version": "1.26.4"
             }
           },
           "executables": {},
@@ -789,16 +1590,18 @@
         },
         "mdtraj": {
           "available": true,
-          "version": "1.11.1"
+          "version": "1.10.3"
         }
       },
       "commands": {},
       "external_commands": {},
       "dependency_check": {
         "success": true,
-        "returncode": 0,
-        "output": "No broken requirements found.",
-        "ignored_issues": [],
+        "returncode": 1,
+        "output": "acpype 2023.10.27 requires openbabel-wheel, which is not installed.",
+        "ignored_issues": [
+          "acpype 2023.10.27 requires openbabel-wheel, which is not installed."
+        ],
         "unignored_issues": []
       },
       "model_checks": {},
@@ -811,8 +1614,8 @@
     "quantum": {
       "profile": "quantum",
       "conda_name": "researchchem-quantum",
-      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/quantum/bin/python3.10",
-      "python_version": "3.10.20",
+      "python": ".envs/general-modern-openmpi5/bin/python",
+      "python_version": "3.11.15",
       "expected_backends": [
         "openbabel",
         "orca",
@@ -825,7 +1628,7 @@
           "status": "available",
           "available": true,
           "runtime": "quantum",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/quantum/bin/python",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
             "openbabel": {
@@ -834,7 +1637,7 @@
             }
           },
           "executables": {
-            "obabel": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/quantum/bin/obabel"
+            "obabel": ".envs/general-modern-openmpi5/bin/obabel"
           },
           "environment": {},
           "missing_python_modules": [],
@@ -852,11 +1655,11 @@
           "status": "available",
           "available": true,
           "runtime": "quantum",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/quantum/bin/python",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
           "runtime_python_exists": true,
           "python_modules": {},
           "executables": {
-            "xtb": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/quantum/bin/xtb"
+            "xtb": ".envs/general-modern-openmpi5/bin/xtb"
           },
           "environment": {
             "CHEMGRAPH_XTB_COMMAND": true
@@ -876,7 +1679,7 @@
           "status": "available",
           "available": true,
           "runtime": "quantum",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/quantum/bin/python",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
             "pyscf": {
@@ -901,7 +1704,7 @@
           "status": "available",
           "available": true,
           "runtime": "quantum",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/quantum/bin/python",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
             "tblite": {
@@ -930,11 +1733,11 @@
           "status": "available",
           "available": true,
           "runtime": "quantum",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/quantum/bin/python",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
           "runtime_python_exists": true,
           "python_modules": {},
           "executables": {
-            "orca": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/orca/6.1.1/orca"
+            "orca": ".software_cache/orca/6.1.1/orca"
           },
           "environment": {
             "CHEMGRAPH_ORCA_COMMAND": true
@@ -946,7 +1749,7 @@
           "pip_packages": [],
           "required_data_resources": [],
           "license_class": "manual_license",
-          "install_notes": "Configured from the operator-downloaded ORCA 6.1.1 installer under .software_cache/orca/6.1.1 with OpenMPI 4.1.8."
+          "install_notes": "Configured from the operator-downloaded ORCA 6.1.1 installer under .software_cache/orca/6.1.1 with the exact OpenMPI 4.1.8 runtime required by this ORCA build. Parallel Actions retain the Agent-selected PAL process count without automatic fallback or resource substitution."
         }
       },
       "allowed_unavailable_backends": [],
@@ -974,17 +1777,17 @@
         },
         "torch": {
           "available": true,
-          "version": "2.13.0+cu130"
+          "version": "2.10.0"
         }
       },
       "commands": {
-        "xtb": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/quantum/bin/xtb",
-        "orca": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/quantum/bin/orca",
-        "mpirun": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/quantum/bin/mpirun"
+        "xtb": ".envs/general-modern-openmpi5/bin/xtb",
+        "orca": ".software_cache/orca/6.1.1/orca",
+        "mpirun": ".software_cache/openmpi/4.1.8-fortran/bin/mpirun"
       },
       "external_commands": {
-        ".software_cache/orca/6.1.1/orca": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/orca/6.1.1/orca",
-        ".software_cache/openmpi/4.1.8/bin/mpirun": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/openmpi/4.1.8/bin/orterun"
+        ".software_cache/orca/6.1.1/orca": ".software_cache/orca/6.1.1/orca",
+        ".software_cache/openmpi/4.1.8-fortran/bin/mpirun": ".software_cache/openmpi/4.1.8-fortran/bin/orterun"
       },
       "dependency_check": {
         "success": true,
@@ -1003,7 +1806,7 @@
     "gpaw": {
       "profile": "gpaw",
       "conda_name": "researchchem-gpaw",
-      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/gpaw/bin/python3.11",
+      "python": ".envs/general-modern-openmpi5/bin/python",
       "python_version": "3.11.15",
       "expected_backends": [
         "gpaw"
@@ -1013,7 +1816,7 @@
           "status": "available",
           "available": true,
           "runtime": "gpaw",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/gpaw/bin/python",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
             "gpaw": {
@@ -1030,7 +1833,7 @@
             }
           },
           "executables": {
-            "gpaw": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/gpaw/bin/gpaw"
+            "gpaw": ".envs/general-modern-openmpi5/bin/gpaw"
           },
           "environment": {},
           "missing_python_modules": [],
@@ -1066,7 +1869,7 @@
         }
       },
       "commands": {
-        "gpaw": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/gpaw/bin/gpaw"
+        "gpaw": ".envs/general-modern-openmpi5/bin/gpaw"
       },
       "external_commands": {},
       "dependency_check": {
@@ -1086,7 +1889,7 @@
     "critic2": {
       "profile": "critic2",
       "conda_name": "researchchem-source-runtime-critic2",
-      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/deepmd/bin/python3.11",
+      "python": ".envs/general-modern-openmpi5/bin/python",
       "python_version": "3.11.15",
       "expected_backends": [
         "critic2"
@@ -1096,11 +1899,11 @@
           "status": "available",
           "available": true,
           "runtime": "critic2",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/deepmd/bin/python",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
           "runtime_python_exists": true,
           "python_modules": {},
           "executables": {
-            "critic2": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/critic2/install-conda/bin/critic2"
+            "critic2": ".software_cache/critic2/install-conda/bin/critic2"
           },
           "environment": {
             "CHEMGRAPH_CRITIC2_COMMAND": true
@@ -1121,10 +1924,10 @@
       "unexpected_unavailable_backends": [],
       "modules": {},
       "commands": {
-        "critic2": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/critic2/install-conda/bin/critic2"
+        "critic2": ".software_cache/critic2/install-conda/bin/critic2"
       },
       "external_commands": {
-        ".software_cache/critic2/install-conda/bin/critic2": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/critic2/install-conda/bin/critic2"
+        ".software_cache/critic2/install-conda/bin/critic2": ".software_cache/critic2/install-conda/bin/critic2"
       },
       "dependency_check": {
         "success": true,
@@ -1143,7 +1946,7 @@
     "lobster": {
       "profile": "lobster",
       "conda_name": "researchchem-lobster",
-      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/lobster/bin/python3.11",
+      "python": ".envs/general-modern-openmpi5/bin/python",
       "python_version": "3.11.15",
       "expected_backends": [
         "lobster"
@@ -1153,7 +1956,7 @@
           "status": "available",
           "available": true,
           "runtime": "lobster",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/lobster/bin/python",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
             "pymatgen": {
@@ -1166,7 +1969,7 @@
             }
           },
           "executables": {
-            "lobster-5.1.0": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/lobster/5.1.0/package/lobster-5.1.0"
+            "lobster-5.1.0": ".software_cache/lobster/5.1.0/package/lobster-5.1.0"
           },
           "environment": {
             "CHEMGRAPH_LOBSTER_COMMAND": true
@@ -1204,10 +2007,10 @@
         }
       },
       "commands": {
-        "lobster-5.1.0": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/lobster/5.1.0/package/lobster-5.1.0"
+        "lobster-5.1.0": ".software_cache/lobster/5.1.0/package/lobster-5.1.0"
       },
       "external_commands": {
-        ".software_cache/lobster/5.1.0/package/lobster-5.1.0": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/lobster/5.1.0/package/lobster-5.1.0"
+        ".software_cache/lobster/5.1.0/package/lobster-5.1.0": ".software_cache/lobster/5.1.0/package/lobster-5.1.0"
       },
       "dependency_check": {
         "success": true,
@@ -1226,7 +2029,7 @@
     "shengbte": {
       "profile": "shengbte",
       "conda_name": "researchchem-shengbte",
-      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/deepmd/bin/python3.11",
+      "python": ".envs/general-modern-openmpi5/bin/python",
       "python_version": "3.11.15",
       "expected_backends": [
         "shengbte"
@@ -1236,11 +2039,11 @@
           "status": "available",
           "available": true,
           "runtime": "shengbte",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/deepmd/bin/python",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
           "runtime_python_exists": true,
           "python_modules": {},
           "executables": {
-            "ShengBTE": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/shengbte/source/ShengBTE"
+            "ShengBTE": ".software_cache/shengbte/source/ShengBTE"
           },
           "environment": {
             "CHEMGRAPH_SHENGBTE_COMMAND": true
@@ -1268,10 +2071,10 @@
         }
       },
       "commands": {
-        "ShengBTE": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/shengbte/source/ShengBTE"
+        "ShengBTE": ".software_cache/shengbte/source/ShengBTE"
       },
       "external_commands": {
-        ".software_cache/shengbte/source/ShengBTE": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/shengbte/source/ShengBTE"
+        ".software_cache/shengbte/source/ShengBTE": ".software_cache/shengbte/source/ShengBTE"
       },
       "dependency_check": {
         "success": true,
@@ -1290,7 +2093,7 @@
     "openmolcas": {
       "profile": "openmolcas",
       "conda_name": "researchchem-openmolcas",
-      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/deepmd/bin/python3.11",
+      "python": ".envs/general-modern-openmpi5/bin/python",
       "python_version": "3.11.15",
       "expected_backends": [
         "openmolcas"
@@ -1300,11 +2103,11 @@
           "status": "available",
           "available": true,
           "runtime": "openmolcas",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/deepmd/bin/python",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
           "runtime_python_exists": true,
           "python_modules": {},
           "executables": {
-            "pymolcas": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/openmolcas/25.10/pymolcas"
+            "pymolcas": ".software_cache/openmolcas/25.10/pymolcas"
           },
           "environment": {
             "CHEMGRAPH_OPENMOLCAS_COMMAND": true
@@ -1334,10 +2137,10 @@
         }
       },
       "commands": {
-        "pymolcas": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/openmolcas/25.10/pymolcas"
+        "pymolcas": ".software_cache/openmolcas/25.10/pymolcas"
       },
       "external_commands": {
-        ".software_cache/openmolcas/25.10/pymolcas": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/openmolcas/25.10/pymolcas"
+        ".software_cache/openmolcas/25.10/pymolcas": ".software_cache/openmolcas/25.10/pymolcas"
       },
       "dependency_check": {
         "success": true,
@@ -1356,7 +2159,7 @@
     "multiwfn": {
       "profile": "multiwfn",
       "conda_name": "researchchem-multiwfn",
-      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/multiwfn/bin/python3.11",
+      "python": ".envs/general-modern-openmpi5/bin/python",
       "python_version": "3.11.15",
       "expected_backends": [
         "multiwfn"
@@ -1366,11 +2169,11 @@
           "status": "available",
           "available": true,
           "runtime": "multiwfn",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/multiwfn/bin/python",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
           "runtime_python_exists": true,
           "python_modules": {},
           "executables": {
-            "Multiwfn_noGUI": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/multiwfn/2026.7.15/Multiwfn_2026.7.15_bin_Linux_noGUI/Multiwfn_noGUI"
+            "Multiwfn_noGUI": ".software_cache/multiwfn/2026.7.15/Multiwfn_2026.7.15_bin_Linux_noGUI/Multiwfn_noGUI"
           },
           "environment": {
             "CHEMGRAPH_MULTIWFN_COMMAND": true
@@ -1400,10 +2203,10 @@
         }
       },
       "commands": {
-        "Multiwfn_noGUI": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/multiwfn/2026.7.15/Multiwfn_2026.7.15_bin_Linux_noGUI/Multiwfn_noGUI"
+        "Multiwfn_noGUI": ".software_cache/multiwfn/2026.7.15/Multiwfn_2026.7.15_bin_Linux_noGUI/Multiwfn_noGUI"
       },
       "external_commands": {
-        ".software_cache/multiwfn/2026.7.15/Multiwfn_2026.7.15_bin_Linux_noGUI/Multiwfn_noGUI": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/multiwfn/2026.7.15/Multiwfn_2026.7.15_bin_Linux_noGUI/Multiwfn_noGUI"
+        ".software_cache/multiwfn/2026.7.15/Multiwfn_2026.7.15_bin_Linux_noGUI/Multiwfn_noGUI": ".software_cache/multiwfn/2026.7.15/Multiwfn_2026.7.15_bin_Linux_noGUI/Multiwfn_noGUI"
       },
       "dependency_check": {
         "success": true,
@@ -1422,7 +2225,7 @@
     "nwchem": {
       "profile": "nwchem",
       "conda_name": "researchchem-nwchem",
-      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/nwchem/bin/python3.11",
+      "python": ".envs/general-modern-openmpi5/bin/python",
       "python_version": "3.11.15",
       "expected_backends": [
         "geometric",
@@ -1433,7 +2236,7 @@
           "status": "available",
           "available": true,
           "runtime": "nwchem",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/nwchem/bin/python",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
             "qcengine": {
@@ -1450,7 +2253,7 @@
             }
           },
           "executables": {
-            "nwchem": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/nwchem/bin/nwchem"
+            "nwchem": ".envs/general-modern-openmpi5/bin/nwchem"
           },
           "environment": {
             "NWCHEM_BASIS_LIBRARY": true
@@ -1475,7 +2278,7 @@
           "status": "available",
           "available": true,
           "runtime": "nwchem",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/nwchem/bin/python",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
             "geometric": {
@@ -1526,7 +2329,7 @@
         }
       },
       "commands": {
-        "nwchem": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/nwchem/bin/nwchem"
+        "nwchem": ".envs/general-modern-openmpi5/bin/nwchem"
       },
       "external_commands": {},
       "dependency_check": {
@@ -1546,8 +2349,8 @@
     "psi4": {
       "profile": "psi4",
       "conda_name": "researchchem-psi4",
-      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/psi4/bin/python3.10",
-      "python_version": "3.10.20",
+      "python": ".envs/general-modern-openmpi5/bin/python",
+      "python_version": "3.11.15",
       "expected_backends": [
         "psi4"
       ],
@@ -1556,7 +2359,7 @@
           "status": "available",
           "available": true,
           "runtime": "psi4",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/psi4/bin/python",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
             "psi4": {
@@ -1565,7 +2368,7 @@
             }
           },
           "executables": {
-            "psi4": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/psi4/bin/psi4"
+            "psi4": ".envs/general-modern-openmpi5/bin/psi4"
           },
           "environment": {},
           "missing_python_modules": [],
@@ -1589,7 +2392,7 @@
         }
       },
       "commands": {
-        "psi4": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/psi4/bin/psi4"
+        "psi4": ".envs/general-modern-openmpi5/bin/psi4"
       },
       "external_commands": {},
       "dependency_check": {
@@ -1609,7 +2412,7 @@
     "goodvibes": {
       "profile": "goodvibes",
       "conda_name": "researchchem-goodvibes",
-      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/goodvibes/bin/python3.11",
+      "python": ".envs/general-modern-openmpi5/bin/python",
       "python_version": "3.11.15",
       "expected_backends": [
         "goodvibes"
@@ -1619,7 +2422,7 @@
           "status": "available",
           "available": true,
           "runtime": "goodvibes",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/goodvibes/bin/python",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
             "goodvibes": {
@@ -1628,7 +2431,7 @@
             }
           },
           "executables": {
-            "goodvibes": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/goodvibes/bin/goodvibes"
+            "goodvibes": ".envs/general-modern-openmpi5/bin/goodvibes"
           },
           "environment": {},
           "missing_python_modules": [],
@@ -1640,7 +2443,7 @@
           ],
           "required_data_resources": [],
           "license_class": "open_source",
-          "install_notes": "Pinned GoodVibes 4.3.0 with full JSON/CSV/Parquet/plot dependencies; official v4.3.0 source and examples are cached under .software_cache/goodvibes/4.3.0/source."
+          "install_notes": "Pinned GoodVibes 4.3.0 with full JSON/CSV/Parquet/plot dependencies; official v4.3.0 source and examples are cached under .software_cache/goodvibes/4.3.0/source. The supported Python surface includes goodvibes.api.compute_thermo/compute_batch; goodvibes.gaussian and goodvibes.orca are not public modules. Prefer the preset Action or CLI unless a documented public API is explicitly required."
         }
       },
       "allowed_unavailable_backends": [],
@@ -1656,11 +2459,11 @@
         },
         "pandas": {
           "available": true,
-          "version": "3.0.3"
+          "version": "2.3.3"
         },
         "pyarrow": {
           "available": true,
-          "version": "25.0.0"
+          "version": "21.0.0"
         },
         "yaml": {
           "available": true,
@@ -1668,7 +2471,7 @@
         }
       },
       "commands": {
-        "goodvibes": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/goodvibes/bin/goodvibes"
+        "goodvibes": ".envs/general-modern-openmpi5/bin/goodvibes"
       },
       "external_commands": {},
       "dependency_check": {
@@ -1688,12 +2491,12 @@
     "reaction": {
       "profile": "reaction",
       "conda_name": "researchchem-reaction",
-      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/reaction/bin/python3.10",
-      "python_version": "3.10.20",
+      "python": ".envs/kinetics-legacy/bin/python",
+      "python_version": "3.11.15",
       "expected_backends": [
         "cantera",
-        "catmap",
         "crest",
+        "pyfrag",
         "pysisyphus",
         "scipy"
       ],
@@ -1702,11 +2505,11 @@
           "status": "available",
           "available": true,
           "runtime": "reaction",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/reaction/bin/python",
+          "runtime_python": ".envs/kinetics-legacy/bin/python",
           "runtime_python_exists": true,
           "python_modules": {},
           "executables": {
-            "crest": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/reaction/bin/crest"
+            "crest": ".envs/kinetics-legacy/bin/crest"
           },
           "environment": {
             "CHEMGRAPH_CREST_COMMAND": true
@@ -1727,7 +2530,7 @@
           "status": "available",
           "available": true,
           "runtime": "reaction",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/reaction/bin/python",
+          "runtime_python": ".envs/kinetics-legacy/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
             "pysisyphus": {
@@ -1736,7 +2539,7 @@
             }
           },
           "executables": {
-            "pysis": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/reaction/bin/pysis"
+            "pysis": ".envs/kinetics-legacy/bin/pysis"
           },
           "environment": {},
           "missing_python_modules": [],
@@ -1754,12 +2557,12 @@
           "status": "available",
           "available": true,
           "runtime": "reaction",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/reaction/bin/python",
+          "runtime_python": ".envs/kinetics-legacy/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
             "cantera": {
               "available": true,
-              "version": "3.2.0"
+              "version": "3.0.1"
             }
           },
           "executables": {},
@@ -1775,16 +2578,38 @@
           "license_class": "open_source",
           "install_notes": ""
         },
+        "pyfrag": {
+          "status": "available",
+          "available": true,
+          "runtime": "reaction",
+          "runtime_python": ".envs/kinetics-legacy/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {},
+          "executables": {
+            "pyfrag-orca": ".software_cache/pyfrag/2019/bin/pyfrag-orca"
+          },
+          "environment": {
+            "CHEMGRAPH_PYFRAG_COMMAND": true
+          },
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [],
+          "pip_packages": [],
+          "required_data_resources": [],
+          "license_class": "open_source",
+          "install_notes": "Pinned LGPL-3.0 v1.0.0 source with the tracked Python 3 tokenization and ORCA 6 final-energy compatibility patch. ORCA itself requires separate registration/download."
+        },
         "scipy": {
           "status": "available",
           "available": true,
           "runtime": "reaction",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/reaction/bin/python",
+          "runtime_python": ".envs/kinetics-legacy/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
             "scipy": {
               "available": true,
-              "version": "1.15.2"
+              "version": "1.17.1"
             }
           },
           "executables": {},
@@ -1799,12 +2624,73 @@
           "required_data_resources": [],
           "license_class": "open_source",
           "install_notes": ""
+        }
+      },
+      "allowed_unavailable_backends": [],
+      "unexpected_unavailable_backends": [],
+      "modules": {
+        "cantera": {
+          "available": true,
+          "version": "3.0.1"
         },
+        "pysisyphus": {
+          "available": true,
+          "version": "1.0.0"
+        },
+        "pyscf": {
+          "available": true,
+          "version": "2.13.1"
+        },
+        "scipy": {
+          "available": true,
+          "version": "1.17.1"
+        }
+      },
+      "commands": {
+        "crest": ".envs/kinetics-legacy/bin/crest",
+        "pysis": ".envs/kinetics-legacy/bin/pysis",
+        "xtb": ".envs/kinetics-legacy/bin/xtb",
+        "orca": ".software_cache/orca/6.1.1/orca",
+        "mpirun": ".software_cache/openmpi/4.1.8-fortran/bin/mpirun",
+        "pyfrag-orca": ".software_cache/pyfrag/2019/bin/pyfrag-orca"
+      },
+      "external_commands": {
+        ".software_cache/orca/6.1.1/orca": ".software_cache/orca/6.1.1/orca",
+        ".software_cache/openmpi/4.1.8-fortran/bin/mpirun": ".software_cache/openmpi/4.1.8-fortran/bin/orterun",
+        ".software_cache/pyfrag/2019/bin/pyfrag-orca": ".software_cache/pyfrag/2019/bin/pyfrag-orca"
+      },
+      "dependency_check": {
+        "success": true,
+        "returncode": 1,
+        "output": "quantities 0.12.3 is not supported on this platform\ngprof2dot 2017.9.19 is not supported on this platform\nperiodictable 1.5.2 is not supported on this platform",
+        "ignored_issues": [
+          "quantities 0.12.3 is not supported on this platform",
+          "gprof2dot 2017.9.19 is not supported on this platform",
+          "periodictable 1.5.2 is not supported on this platform"
+        ],
+        "unignored_issues": []
+      },
+      "model_checks": {},
+      "manual_commands": {},
+      "live_checks": {},
+      "required_ok": true,
+      "runtime_group": "profiles",
+      "returncode": 0
+    },
+    "catmap": {
+      "profile": "catmap",
+      "conda_name": "researchchem-catmap-yambo-openmpi4",
+      "python": ".envs/yambo-openmpi4/bin/python",
+      "python_version": "3.11.15",
+      "expected_backends": [
+        "catmap"
+      ],
+      "backend_health": {
         "catmap": {
           "status": "available",
           "available": true,
-          "runtime": "reaction",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/reaction/bin/python",
+          "runtime": "catmap",
+          "runtime_python": ".envs/yambo-openmpi4/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
             "catmap": {
@@ -1829,37 +2715,173 @@
       "allowed_unavailable_backends": [],
       "unexpected_unavailable_backends": [],
       "modules": {
-        "cantera": {
-          "available": true,
-          "version": "3.2.0"
-        },
         "catmap": {
           "available": true,
           "version": "0.3.1"
         },
-        "pysisyphus": {
+        "ase": {
           "available": true,
-          "version": "1.0.0"
+          "version": "3.17.0"
+        }
+      },
+      "commands": {
+        "catmap": ".envs/yambo-openmpi4/bin/catmap"
+      },
+      "external_commands": {},
+      "dependency_check": {
+        "success": true,
+        "returncode": 1,
+        "output": "ase 3.17.0 is not supported on this platform",
+        "ignored_issues": [
+          "ase 3.17.0 is not supported on this platform"
+        ],
+        "unignored_issues": []
+      },
+      "model_checks": {},
+      "manual_commands": {},
+      "live_checks": {},
+      "required_ok": true,
+      "runtime_group": "profiles",
+      "returncode": 0
+    },
+    "yambo": {
+      "profile": "yambo",
+      "conda_name": "researchchem-yambo",
+      "python": ".envs/yambo-openmpi4/bin/python",
+      "python_version": "3.11.15",
+      "expected_backends": [
+        "yambo"
+      ],
+      "backend_health": {
+        "yambo": {
+          "status": "available",
+          "available": true,
+          "runtime": "yambo",
+          "runtime_python": ".envs/yambo-openmpi4/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {},
+          "executables": {
+            "yambo": ".envs/yambo-openmpi4/bin/yambo"
+          },
+          "environment": {
+            "CHEMGRAPH_YAMBO_COMMAND": true
+          },
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [
+            "yambo=5.3.0"
+          ],
+          "pip_packages": [],
+          "required_data_resources": [],
+          "license_class": "open_source",
+          "install_notes": ""
+        }
+      },
+      "allowed_unavailable_backends": [],
+      "unexpected_unavailable_backends": [],
+      "modules": {
+        "pydantic": {
+          "available": true,
+          "version": "2.13.4"
+        },
+        "yaml": {
+          "available": true,
+          "version": "6.0.3"
+        }
+      },
+      "commands": {
+        "yambo": ".envs/yambo-openmpi4/bin/yambo",
+        "p2y": ".envs/yambo-openmpi4/bin/p2y"
+      },
+      "external_commands": {},
+      "dependency_check": {
+        "success": true,
+        "returncode": 1,
+        "output": "ase 3.17.0 is not supported on this platform",
+        "ignored_issues": [
+          "ase 3.17.0 is not supported on this platform"
+        ],
+        "unignored_issues": []
+      },
+      "model_checks": {},
+      "manual_commands": {},
+      "live_checks": {},
+      "required_ok": true,
+      "runtime_group": "profiles",
+      "returncode": 0
+    },
+    "sharc": {
+      "profile": "sharc",
+      "conda_name": "researchchem-sharc",
+      "python": ".envs/general-modern-openmpi5/bin/python",
+      "python_version": "3.11.15",
+      "expected_backends": [
+        "sharc"
+      ],
+      "backend_health": {
+        "sharc": {
+          "status": "available",
+          "available": true,
+          "runtime": "sharc",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {},
+          "executables": {
+            "sharc.x": ".software_cache/sharc/source/bin/sharc.x"
+          },
+          "environment": {
+            "CHEMGRAPH_SHARC_COMMAND": true,
+            "SHARC": true,
+            "PYTHONPATH": true
+          },
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [],
+          "pip_packages": [],
+          "required_data_resources": [],
+          "license_class": "open_source",
+          "install_notes": ""
+        }
+      },
+      "allowed_unavailable_backends": [],
+      "unexpected_unavailable_backends": [],
+      "modules": {
+        "numba": {
+          "available": true,
+          "version": "0.66.0"
+        },
+        "netCDF4": {
+          "available": true,
+          "version": "1.7.4"
+        },
+        "threadpoolctl": {
+          "available": true,
+          "version": "3.6.0"
         },
         "pyscf": {
           "available": true,
           "version": "2.13.1"
         },
-        "scipy": {
+        "pydantic": {
           "available": true,
-          "version": "1.15.2"
+          "version": "2.13.4"
+        },
+        "yaml": {
+          "available": true,
+          "version": "6.0.3"
         }
       },
       "commands": {
-        "crest": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/reaction/bin/crest",
-        "pysis": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/reaction/bin/pysis",
-        "xtb": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/reaction/bin/xtb",
-        "orca": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/orca/6.1.1/orca",
-        "mpirun": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/openmpi/4.1.8/bin/mpirun"
+        "sharc.x": ".software_cache/sharc/source/bin/sharc.x",
+        "wfoverlap.x": ".software_cache/sharc/source/bin/wfoverlap.x",
+        "SHARC_ORCA.py": ".software_cache/sharc/source/bin/SHARC_ORCA.py",
+        "SHARC_MOLCAS.py": ".software_cache/sharc/source/bin/SHARC_MOLCAS.py"
       },
       "external_commands": {
-        ".software_cache/orca/6.1.1/orca": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/orca/6.1.1/orca",
-        ".software_cache/openmpi/4.1.8/bin/mpirun": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/openmpi/4.1.8/bin/orterun"
+        ".software_cache/sharc/source/bin/sharc.x": ".software_cache/sharc/source/bin/sharc.x",
+        ".software_cache/sharc/source/bin/wfoverlap.x": ".software_cache/sharc/source/bin/wfoverlap_ascii.x"
       },
       "dependency_check": {
         "success": true,
@@ -1875,11 +2897,109 @@
       "runtime_group": "profiles",
       "returncode": 0
     },
+    "kinbot": {
+      "profile": "kinbot",
+      "conda_name": "researchchem-kinbot",
+      "python": ".envs/kinetics-legacy/bin/python",
+      "python_version": "3.11.15",
+      "expected_backends": [
+        "kinbot"
+      ],
+      "backend_health": {
+        "kinbot": {
+          "status": "available",
+          "available": true,
+          "runtime": "kinbot",
+          "runtime_python": ".envs/kinetics-legacy/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {
+            "kinbot": {
+              "available": true,
+              "version": "2.2.2"
+            },
+            "sella": {
+              "available": true,
+              "version": "2.5.0"
+            }
+          },
+          "executables": {
+            "pes": ".envs/kinetics-legacy/bin/pes"
+          },
+          "environment": {
+            "CHEMGRAPH_KINBOT_PES_COMMAND": true,
+            "CHEMGRAPH_NWCHEM_COMMAND": true
+          },
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [],
+          "pip_packages": [
+            "kinbot=2.2.2",
+            "sella=2.5.0"
+          ],
+          "required_data_resources": [],
+          "license_class": "open_source",
+          "install_notes": "Apply chemistry_toolbox/patches/kinbot-v2.2.2-local-nwchem.patch to official tag 2.2.2 before installation."
+        }
+      },
+      "allowed_unavailable_backends": [],
+      "unexpected_unavailable_backends": [],
+      "modules": {
+        "kinbot": {
+          "available": true,
+          "version": "unknown"
+        },
+        "sella": {
+          "available": true,
+          "version": "unknown"
+        },
+        "jax": {
+          "available": true,
+          "version": "0.4.35"
+        },
+        "openbabel": {
+          "available": true,
+          "version": "3.1.0"
+        },
+        "pydantic": {
+          "available": true,
+          "version": "2.13.4"
+        },
+        "yaml": {
+          "available": true,
+          "version": "6.0.3"
+        }
+      },
+      "commands": {
+        "kinbot": ".envs/kinetics-legacy/bin/kinbot",
+        "pes": ".envs/kinetics-legacy/bin/pes"
+      },
+      "external_commands": {
+        ".envs/general-modern-openmpi5/bin/nwchem": ".envs/general-modern-openmpi5/bin/nwchem"
+      },
+      "dependency_check": {
+        "success": true,
+        "returncode": 1,
+        "output": "quantities 0.12.3 is not supported on this platform\ngprof2dot 2017.9.19 is not supported on this platform\nperiodictable 1.5.2 is not supported on this platform",
+        "ignored_issues": [
+          "quantities 0.12.3 is not supported on this platform",
+          "gprof2dot 2017.9.19 is not supported on this platform",
+          "periodictable 1.5.2 is not supported on this platform"
+        ],
+        "unignored_issues": []
+      },
+      "model_checks": {},
+      "manual_commands": {},
+      "live_checks": {},
+      "required_ok": true,
+      "runtime_group": "profiles",
+      "returncode": 0
+    },
     "qe": {
       "profile": "qe",
       "conda_name": "researchchem-qe",
-      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/qe/bin/python3.10",
-      "python_version": "3.10.20",
+      "python": ".envs/general-modern-openmpi5/bin/python",
+      "python_version": "3.11.15",
       "expected_backends": [
         "quantum_espresso"
       ],
@@ -1888,11 +3008,11 @@
           "status": "available",
           "available": true,
           "runtime": "qe",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/qe/bin/python",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
           "runtime_python_exists": true,
           "python_modules": {},
           "executables": {
-            "pw.x": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/qe/bin/pw.x"
+            "pw.x": ".envs/general-modern-openmpi5/bin/pw.x"
           },
           "environment": {
             "CHEMGRAPH_QE_COMMAND": true
@@ -1915,9 +3035,13 @@
       "unexpected_unavailable_backends": [],
       "modules": {},
       "commands": {
-        "pw.x": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/qe/bin/pw.x"
+        "pw.x": ".envs/general-modern-openmpi5/bin/pw.x",
+        "pw2wannier90.x": ".envs/general-modern-openmpi5/bin/pw2wannier90.x",
+        "wannier90.x": ".software_cache/wannier90/3.1.0-source/wannier90.x"
       },
-      "external_commands": {},
+      "external_commands": {
+        ".software_cache/wannier90/3.1.0-source/wannier90.x": ".software_cache/wannier90/3.1.0-source/wannier90.x"
+      },
       "dependency_check": {
         "success": true,
         "returncode": 0,
@@ -1935,7 +3059,7 @@
     "cp2k": {
       "profile": "cp2k",
       "conda_name": "researchchem-cp2k",
-      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/cp2k/bin/python3.10",
+      "python": ".envs/periodic-mpich/bin/python",
       "python_version": "3.10.20",
       "expected_backends": [
         "cp2k"
@@ -1945,11 +3069,11 @@
           "status": "available",
           "available": true,
           "runtime": "cp2k",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/cp2k/bin/python",
+          "runtime_python": ".envs/periodic-mpich/bin/python",
           "runtime_python_exists": true,
           "python_modules": {},
           "executables": {
-            "cp2k": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/cp2k/bin/cp2k.psmp"
+            "cp2k": ".envs/periodic-mpich/bin/cp2k.psmp"
           },
           "environment": {
             "CHEMGRAPH_CP2K_COMMAND": true
@@ -1970,7 +3094,7 @@
       "unexpected_unavailable_backends": [],
       "modules": {},
       "commands": {
-        "cp2k": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/cp2k/bin/cp2k"
+        "cp2k": ".envs/periodic-mpich/bin/cp2k"
       },
       "external_commands": {},
       "dependency_check": {
@@ -1990,8 +3114,8 @@
     "periodic": {
       "profile": "periodic",
       "conda_name": "researchchem-periodic",
-      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/periodic/bin/python3.10",
-      "python_version": "3.10.20",
+      "python": ".envs/general-modern-openmpi5/bin/python",
+      "python_version": "3.11.15",
       "expected_backends": [
         "dftbplus",
         "siesta"
@@ -2001,11 +3125,11 @@
           "status": "available",
           "available": true,
           "runtime": "periodic",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/periodic/bin/python",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
           "runtime_python_exists": true,
           "python_modules": {},
           "executables": {
-            "dftb+": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/periodic/bin/dftb+"
+            "dftb+": ".envs/general-modern-openmpi5/bin/dftb+"
           },
           "environment": {
             "CHEMGRAPH_DFTBPLUS_COMMAND": true
@@ -2027,11 +3151,11 @@
           "status": "available",
           "available": true,
           "runtime": "periodic",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/periodic/bin/python",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
           "runtime_python_exists": true,
           "python_modules": {},
           "executables": {
-            "siesta": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/periodic/bin/siesta"
+            "siesta": ".envs/general-modern-openmpi5/bin/siesta"
           },
           "environment": {
             "CHEMGRAPH_SIESTA_COMMAND": true
@@ -2054,13 +3178,13 @@
       "unexpected_unavailable_backends": [],
       "modules": {},
       "commands": {
-        "dftb+": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/periodic/bin/dftb+",
-        "siesta": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/periodic/bin/siesta"
+        "dftb+": ".envs/general-modern-openmpi5/bin/dftb+",
+        "siesta": ".envs/general-modern-openmpi5/bin/siesta"
       },
       "external_commands": {
-        ".tool_envs/qe/bin/pw.x": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/qe/bin/pw.x",
-        ".tool_envs/cp2k/bin/cp2k": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/cp2k/bin/cp2k.psmp",
-        ".tool_envs/abinit/bin/abinit": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/abinit/bin/abinit"
+        ".envs/general-modern-openmpi5/bin/pw.x": ".envs/general-modern-openmpi5/bin/pw.x",
+        ".envs/periodic-mpich/bin/cp2k": ".envs/periodic-mpich/bin/cp2k.psmp",
+        ".envs/kinetics-legacy/bin/abinit": ".envs/kinetics-legacy/bin/abinit"
       },
       "dependency_check": {
         "success": true,
@@ -2079,8 +3203,8 @@
     "phonons": {
       "profile": "phonons",
       "conda_name": "researchchem-phonons",
-      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/phonons/bin/python3.10",
-      "python_version": "3.10.20",
+      "python": ".envs/general-modern-openmpi5/bin/python",
+      "python_version": "3.11.15",
       "expected_backends": [
         "phono3py",
         "phonopy"
@@ -2090,16 +3214,16 @@
           "status": "available",
           "available": true,
           "runtime": "phonons",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/phonons/bin/python",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
             "phonopy": {
               "available": true,
-              "version": "4.3.1"
+              "version": "4.4.0"
             }
           },
           "executables": {
-            "phonopy": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/phonons/bin/phonopy"
+            "phonopy": ".envs/general-modern-openmpi5/bin/phonopy"
           },
           "environment": {},
           "missing_python_modules": [],
@@ -2117,16 +3241,16 @@
           "status": "available",
           "available": true,
           "runtime": "phonons",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/phonons/bin/python",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
             "phono3py": {
               "available": true,
-              "version": "4.3.3"
+              "version": "4.4.0"
             }
           },
           "executables": {
-            "phono3py": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/phonons/bin/phono3py"
+            "phono3py": ".envs/general-modern-openmpi5/bin/phono3py"
           },
           "environment": {},
           "missing_python_modules": [],
@@ -2146,18 +3270,732 @@
       "modules": {
         "phono3py": {
           "available": true,
-          "version": "4.3.3"
+          "version": "4.4.0"
         },
         "phonopy": {
           "available": true,
-          "version": "4.3.1"
+          "version": "4.4.0"
         }
       },
       "commands": {
-        "phono3py-init": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/phonons/bin/phono3py-init",
-        "phonopy-init": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/phonons/bin/phonopy-init"
+        "phono3py-init": ".envs/general-modern-openmpi5/bin/phono3py-init",
+        "phonopy-init": ".envs/general-modern-openmpi5/bin/phonopy-init"
       },
       "external_commands": {},
+      "dependency_check": {
+        "success": true,
+        "returncode": 0,
+        "output": "No broken requirements found.",
+        "ignored_issues": [],
+        "unignored_issues": []
+      },
+      "model_checks": {},
+      "manual_commands": {},
+      "live_checks": {},
+      "required_ok": true,
+      "runtime_group": "profiles",
+      "returncode": 0
+    },
+    "airss": {
+      "profile": "airss",
+      "conda_name": "researchchem-airss",
+      "python": ".envs/general-modern-openmpi5/bin/python",
+      "python_version": "3.11.15",
+      "expected_backends": [
+        "airss"
+      ],
+      "backend_health": {
+        "airss": {
+          "status": "available",
+          "available": true,
+          "runtime": "airss",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {},
+          "executables": {
+            "buildcell": ".software_cache/airss/0.9.3/bin/buildcell",
+            "cabal": ".software_cache/airss/0.9.3/bin/cabal"
+          },
+          "environment": {
+            "CHEMGRAPH_AIRSS_BUILDCELL_COMMAND": true,
+            "CHEMGRAPH_AIRSS_CABAL_COMMAND": true
+          },
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [
+            "airss-with-default-names=0.9.3"
+          ],
+          "pip_packages": [],
+          "required_data_resources": [],
+          "license_class": "open_source",
+          "install_notes": ""
+        }
+      },
+      "allowed_unavailable_backends": [],
+      "unexpected_unavailable_backends": [],
+      "modules": {
+        "ase": {
+          "available": true,
+          "version": "3.29.0"
+        },
+        "pydantic": {
+          "available": true,
+          "version": "2.13.4"
+        },
+        "yaml": {
+          "available": true,
+          "version": "6.0.3"
+        }
+      },
+      "commands": {
+        "buildcell": ".software_cache/airss/0.9.3/bin/buildcell",
+        "cabal": ".software_cache/airss/0.9.3/bin/cabal",
+        "airss_version": ".software_cache/airss/0.9.3/bin/airss_version"
+      },
+      "external_commands": {
+        ".software_cache/airss/0.9.3/bin/buildcell": ".software_cache/airss/0.9.3/bin/buildcell",
+        ".software_cache/airss/0.9.3/bin/cabal": ".software_cache/airss/0.9.3/bin/cabal"
+      },
+      "dependency_check": {
+        "success": true,
+        "returncode": 0,
+        "output": "No broken requirements found.",
+        "ignored_issues": [],
+        "unignored_issues": []
+      },
+      "model_checks": {},
+      "manual_commands": {},
+      "live_checks": {},
+      "required_ok": true,
+      "runtime_group": "profiles",
+      "returncode": 0
+    },
+    "tdep": {
+      "profile": "tdep",
+      "conda_name": "researchchem-tdep",
+      "python": ".envs/kinetics-legacy/bin/python",
+      "python_version": "3.11.15",
+      "expected_backends": [
+        "tdep"
+      ],
+      "backend_health": {
+        "tdep": {
+          "status": "available",
+          "available": true,
+          "runtime": "tdep",
+          "runtime_python": ".envs/kinetics-legacy/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {},
+          "executables": {
+            "extract_forceconstants": ".software_cache/tdep/25.03/source/build/extract_forceconstants/extract_forceconstants",
+            "canonical_configuration": ".software_cache/tdep/25.03/source/build/canonical_configuration/canonical_configuration",
+            "phonon_dispersion_relations": ".software_cache/tdep/25.03/source/build/phonon_dispersion_relations/phonon_dispersion_relations"
+          },
+          "environment": {
+            "CHEMGRAPH_TDEP_EXTRACT_FORCECONSTANTS_COMMAND": true,
+            "CHEMGRAPH_TDEP_CANONICAL_CONFIGURATION_COMMAND": true,
+            "CHEMGRAPH_TDEP_PHONON_DISPERSION_COMMAND": true
+          },
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [],
+          "pip_packages": [],
+          "required_data_resources": [],
+          "license_class": "open_source",
+          "install_notes": "Official tag 25.03 compiled with MPICH and gfortran at -O0; the upstream extract_forceconstants test segfaults with this toolchain at -O2."
+        }
+      },
+      "allowed_unavailable_backends": [],
+      "unexpected_unavailable_backends": [],
+      "modules": {
+        "h5py": {
+          "available": true,
+          "version": "3.13.0"
+        },
+        "numpy": {
+          "available": true,
+          "version": "1.26.4"
+        },
+        "pydantic": {
+          "available": true,
+          "version": "2.13.4"
+        },
+        "yaml": {
+          "available": true,
+          "version": "6.0.3"
+        }
+      },
+      "commands": {
+        "extract_forceconstants": ".software_cache/tdep/25.03/source/bin/extract_forceconstants",
+        "canonical_configuration": ".software_cache/tdep/25.03/source/bin/canonical_configuration",
+        "phonon_dispersion_relations": ".software_cache/tdep/25.03/source/bin/phonon_dispersion_relations"
+      },
+      "external_commands": {
+        ".software_cache/tdep/25.03/source/bin/extract_forceconstants": ".software_cache/tdep/25.03/source/build/extract_forceconstants/extract_forceconstants",
+        ".software_cache/tdep/25.03/source/bin/canonical_configuration": ".software_cache/tdep/25.03/source/build/canonical_configuration/canonical_configuration",
+        ".software_cache/tdep/25.03/source/bin/phonon_dispersion_relations": ".software_cache/tdep/25.03/source/build/phonon_dispersion_relations/phonon_dispersion_relations"
+      },
+      "dependency_check": {
+        "success": true,
+        "returncode": 1,
+        "output": "quantities 0.12.3 is not supported on this platform\ngprof2dot 2017.9.19 is not supported on this platform\nperiodictable 1.5.2 is not supported on this platform",
+        "ignored_issues": [
+          "quantities 0.12.3 is not supported on this platform",
+          "gprof2dot 2017.9.19 is not supported on this platform",
+          "periodictable 1.5.2 is not supported on this platform"
+        ],
+        "unignored_issues": []
+      },
+      "model_checks": {},
+      "manual_commands": {},
+      "live_checks": {},
+      "required_ok": true,
+      "runtime_group": "profiles",
+      "returncode": 0
+    },
+    "acpype": {
+      "profile": "acpype",
+      "conda_name": "researchchem-acpype",
+      "python": ".envs/molecular-simulation-openff/bin/python",
+      "python_version": "3.12.13",
+      "expected_backends": [
+        "acpype"
+      ],
+      "backend_health": {
+        "acpype": {
+          "status": "available",
+          "available": true,
+          "runtime": "acpype",
+          "runtime_python": ".envs/molecular-simulation-openff/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {
+            "acpype": {
+              "available": true,
+              "version": "2023.10.27"
+            },
+            "openbabel": {
+              "available": true,
+              "version": null
+            }
+          },
+          "executables": {
+            "acpype": ".envs/molecular-simulation-openff/bin/acpype"
+          },
+          "environment": {
+            "CHEMGRAPH_ACPYPE_COMMAND": true
+          },
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [
+            "openbabel=3.1.1",
+            "ambertools=26.0"
+          ],
+          "pip_packages": [
+            "acpype==2023.10.27"
+          ],
+          "required_data_resources": [],
+          "license_class": "open_source",
+          "install_notes": ""
+        }
+      },
+      "allowed_unavailable_backends": [],
+      "unexpected_unavailable_backends": [],
+      "modules": {
+        "acpype": {
+          "available": true,
+          "version": "2023.10.27"
+        },
+        "openbabel": {
+          "available": true,
+          "version": "3.1.0"
+        }
+      },
+      "commands": {
+        "acpype": ".envs/molecular-simulation-openff/bin/acpype",
+        "obabel": ".envs/molecular-simulation-openff/bin/obabel",
+        "antechamber": ".envs/molecular-simulation-openff/bin/antechamber"
+      },
+      "external_commands": {},
+      "dependency_check": {
+        "success": true,
+        "returncode": 1,
+        "output": "acpype 2023.10.27 requires openbabel-wheel, which is not installed.",
+        "ignored_issues": [
+          "acpype 2023.10.27 requires openbabel-wheel, which is not installed."
+        ],
+        "unignored_issues": []
+      },
+      "model_checks": {},
+      "manual_commands": {},
+      "live_checks": {},
+      "required_ok": true,
+      "runtime_group": "profiles",
+      "returncode": 0
+    },
+    "pmx": {
+      "profile": "pmx",
+      "conda_name": "researchchem-pmx",
+      "python": ".envs/molecular-simulation-openff/bin/python",
+      "python_version": "3.12.13",
+      "expected_backends": [
+        "pmx"
+      ],
+      "backend_health": {
+        "pmx": {
+          "status": "available",
+          "available": true,
+          "runtime": "pmx",
+          "runtime_python": ".envs/molecular-simulation-openff/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {
+            "pmx": {
+              "available": true,
+              "version": "0+untagged.1.g0dd5f0a"
+            },
+            "rdkit": {
+              "available": true,
+              "version": "2026.3.1"
+            }
+          },
+          "executables": {
+            "pmx": ".envs/molecular-simulation-openff/bin/pmx"
+          },
+          "environment": {
+            "CHEMGRAPH_PMX_COMMAND": true,
+            "GMXLIB": true
+          },
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [],
+          "pip_packages": [
+            "pmx @ git+https://github.com/deGrootLab/pmx@0dd5f0a9cdf26109eff98bdfeb4ac4e55353aa76"
+          ],
+          "required_data_resources": [],
+          "license_class": "open_source",
+          "install_notes": "The upstream Python 3 branch is documented as development software; this runtime is pinned to commit 0dd5f0a and must not float to branch HEAD."
+        }
+      },
+      "allowed_unavailable_backends": [],
+      "unexpected_unavailable_backends": [],
+      "modules": {
+        "pmx": {
+          "available": true,
+          "version": "0+untagged.1.g0dd5f0a"
+        },
+        "rdkit": {
+          "available": true,
+          "version": "2026.03.1"
+        }
+      },
+      "commands": {
+        "pmx": ".envs/molecular-simulation-openff/bin/pmx"
+      },
+      "external_commands": {},
+      "dependency_check": {
+        "success": true,
+        "returncode": 1,
+        "output": "acpype 2023.10.27 requires openbabel-wheel, which is not installed.",
+        "ignored_issues": [
+          "acpype 2023.10.27 requires openbabel-wheel, which is not installed."
+        ],
+        "unignored_issues": []
+      },
+      "model_checks": {},
+      "manual_commands": {},
+      "live_checks": {},
+      "required_ok": true,
+      "runtime_group": "profiles",
+      "returncode": 0
+    },
+    "gmx_mmpbsa": {
+      "profile": "gmx_mmpbsa",
+      "conda_name": "researchchem-gmx-mmpbsa",
+      "python": ".software_cache/gmx_mmpbsa/1.6.5/env/bin/python",
+      "python_version": "3.11.15",
+      "expected_backends": [
+        "gmx_mmpbsa"
+      ],
+      "backend_health": {
+        "gmx_mmpbsa": {
+          "status": "available",
+          "available": true,
+          "runtime": "gmx_mmpbsa",
+          "runtime_python": ".software_cache/gmx_mmpbsa/1.6.5/env/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {
+            "GMXMMPBSA": {
+              "available": true,
+              "version": null
+            }
+          },
+          "executables": {
+            "gmx_MMPBSA": ".software_cache/gmx_mmpbsa/1.6.5/env/bin/gmx_MMPBSA"
+          },
+          "environment": {
+            "CHEMGRAPH_GMX_MMPBSA_COMMAND": true,
+            "AMBERHOME": true
+          },
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [
+            "python=3.11",
+            "ambertools=23.6",
+            "gromacs=2025.4",
+            "mpi4py=4.0.1",
+            "numpy=1.26.4",
+            "pandas=1.5.3",
+            "matplotlib=3.7.3",
+            "seaborn=0.11.2",
+            "scipy=1.14.1",
+            "parmed=4.3.1"
+          ],
+          "pip_packages": [
+            "gmx_MMPBSA==1.6.5"
+          ],
+          "required_data_resources": [],
+          "license_class": "open_source",
+          "install_notes": "Isolated in .envs/gmx-mmpbsa because gmx_MMPBSA 1.6.5 requires Python 3.11 and AmberTools 23.6, incompatible with the shared Python 3.12/AmberTools 26 runtime."
+        }
+      },
+      "allowed_unavailable_backends": [],
+      "unexpected_unavailable_backends": [],
+      "modules": {
+        "GMXMMPBSA": {
+          "available": true,
+          "version": "1.6.5"
+        },
+        "parmed": {
+          "available": true,
+          "version": "4.3.1"
+        },
+        "mpi4py": {
+          "available": true,
+          "version": "4.0.1"
+        },
+        "numpy": {
+          "available": true,
+          "version": "1.26.4"
+        },
+        "pandas": {
+          "available": true,
+          "version": "1.5.3"
+        }
+      },
+      "commands": {
+        "gmx_MMPBSA": ".software_cache/gmx_mmpbsa/1.6.5/env/bin/gmx_MMPBSA",
+        "gmx": ".software_cache/gmx_mmpbsa/1.6.5/env/bin/gmx",
+        "cpptraj": ".software_cache/gmx_mmpbsa/1.6.5/env/bin/cpptraj",
+        "sander": ".software_cache/gmx_mmpbsa/1.6.5/env/bin/sander"
+      },
+      "external_commands": {},
+      "dependency_check": {
+        "success": true,
+        "returncode": 0,
+        "output": "No broken requirements found.",
+        "ignored_issues": [],
+        "unignored_issues": []
+      },
+      "model_checks": {},
+      "manual_commands": {},
+      "live_checks": {},
+      "required_ok": true,
+      "runtime_group": "profiles",
+      "returncode": 0
+    },
+    "sisso": {
+      "profile": "sisso",
+      "conda_name": "researchchem-sisso",
+      "python": ".envs/kinetics-legacy/bin/python",
+      "python_version": "3.11.15",
+      "expected_backends": [
+        "sisso"
+      ],
+      "backend_health": {
+        "sisso": {
+          "status": "available",
+          "available": true,
+          "runtime": "sisso",
+          "runtime_python": ".envs/kinetics-legacy/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {},
+          "executables": {
+            "SISSO": ".software_cache/sisso/3.5/bin/SISSO",
+            "SISSO_predict": ".software_cache/sisso/3.5/bin/SISSO_predict"
+          },
+          "environment": {
+            "CHEMGRAPH_SISSO_COMMAND": true,
+            "CHEMGRAPH_SISSO_PREDICT_COMMAND": true
+          },
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [
+            "bc=1.07.1"
+          ],
+          "pip_packages": [],
+          "required_data_resources": [],
+          "license_class": "open_source",
+          "install_notes": "SISSO 3.5 is compiled with the official Intel Fortran Classic 2021.2 and Intel MPI 2021.15 toolchain cached under .software_cache."
+        }
+      },
+      "allowed_unavailable_backends": [],
+      "unexpected_unavailable_backends": [],
+      "modules": {
+        "pydantic": {
+          "available": true,
+          "version": "2.13.4"
+        },
+        "yaml": {
+          "available": true,
+          "version": "6.0.3"
+        }
+      },
+      "commands": {
+        "SISSO_run": ".software_cache/sisso/3.5/bin/SISSO_run",
+        "SISSO_predict": ".software_cache/sisso/3.5/bin/SISSO_predict",
+        "bc": ".envs/kinetics-legacy/bin/bc"
+      },
+      "external_commands": {
+        ".software_cache/sisso/3.5/bin/SISSO": ".software_cache/sisso/3.5/bin/SISSO",
+        ".software_cache/sisso/3.5/bin/SISSO_run": ".software_cache/sisso/3.5/bin/SISSO_run",
+        ".software_cache/sisso/3.5/bin/SISSO_predict": ".software_cache/sisso/3.5/bin/SISSO_predict"
+      },
+      "dependency_check": {
+        "success": true,
+        "returncode": 1,
+        "output": "quantities 0.12.3 is not supported on this platform\ngprof2dot 2017.9.19 is not supported on this platform\nperiodictable 1.5.2 is not supported on this platform",
+        "ignored_issues": [
+          "quantities 0.12.3 is not supported on this platform",
+          "gprof2dot 2017.9.19 is not supported on this platform",
+          "periodictable 1.5.2 is not supported on this platform"
+        ],
+        "unignored_issues": []
+      },
+      "model_checks": {},
+      "manual_commands": {},
+      "live_checks": {},
+      "required_ok": true,
+      "runtime_group": "profiles",
+      "returncode": 0
+    },
+    "gplearn": {
+      "profile": "gplearn",
+      "conda_name": "researchchem-gplearn",
+      "python": ".envs/kinetics-legacy/bin/python",
+      "python_version": "3.11.15",
+      "expected_backends": [
+        "gplearn"
+      ],
+      "backend_health": {
+        "gplearn": {
+          "status": "available",
+          "available": true,
+          "runtime": "gplearn",
+          "runtime_python": ".envs/kinetics-legacy/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {
+            "gplearn": {
+              "available": true,
+              "version": "0.4.3"
+            },
+            "sklearn": {
+              "available": true,
+              "version": null
+            },
+            "numpy": {
+              "available": true,
+              "version": "1.26.4"
+            }
+          },
+          "executables": {},
+          "environment": {},
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [],
+          "pip_packages": [
+            "gplearn==0.4.3"
+          ],
+          "required_data_resources": [],
+          "license_class": "open_source",
+          "install_notes": "BSD-3-Clause gplearn 0.4.3 is installed from its pinned PyPI wheel; upstream tests are cached with the source checkout."
+        }
+      },
+      "allowed_unavailable_backends": [],
+      "unexpected_unavailable_backends": [],
+      "modules": {
+        "gplearn": {
+          "available": true,
+          "version": "0.4.3"
+        },
+        "sklearn": {
+          "available": true,
+          "version": "1.9.0"
+        },
+        "numpy": {
+          "available": true,
+          "version": "1.26.4"
+        },
+        "joblib": {
+          "available": true,
+          "version": "1.5.3"
+        }
+      },
+      "commands": {},
+      "external_commands": {},
+      "dependency_check": {
+        "success": true,
+        "returncode": 1,
+        "output": "quantities 0.12.3 is not supported on this platform\ngprof2dot 2017.9.19 is not supported on this platform\nperiodictable 1.5.2 is not supported on this platform",
+        "ignored_issues": [
+          "quantities 0.12.3 is not supported on this platform",
+          "gprof2dot 2017.9.19 is not supported on this platform",
+          "periodictable 1.5.2 is not supported on this platform"
+        ],
+        "unignored_issues": []
+      },
+      "model_checks": {},
+      "manual_commands": {},
+      "live_checks": {},
+      "required_ok": true,
+      "runtime_group": "profiles",
+      "returncode": 0
+    },
+    "vaspkit": {
+      "profile": "vaspkit",
+      "conda_name": "researchchem-vaspkit",
+      "python": ".envs/general-modern-openmpi5/bin/python",
+      "python_version": "3.11.15",
+      "expected_backends": [
+        "vaspkit"
+      ],
+      "backend_health": {
+        "vaspkit": {
+          "status": "available",
+          "available": true,
+          "runtime": "vaspkit",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {},
+          "executables": {
+            "vaspkit": ".software_cache/vaspkit/1.5.1/vaspkit.1.5.1/bin/vaspkit"
+          },
+          "environment": {
+            "CHEMGRAPH_VASPKIT_COMMAND": true,
+            "CHEMGRAPH_VASPKIT_CONFIG": true
+          },
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [],
+          "pip_packages": [],
+          "required_data_resources": [],
+          "license_class": "noncommercial_no_redistribution",
+          "install_notes": "Download the official 1.5.1 Linux binary separately. Its license prohibits redistribution without written permission."
+        }
+      },
+      "allowed_unavailable_backends": [],
+      "unexpected_unavailable_backends": [],
+      "modules": {
+        "numpy": {
+          "available": true,
+          "version": "2.4.6"
+        },
+        "scipy": {
+          "available": true,
+          "version": "1.17.1"
+        },
+        "matplotlib": {
+          "available": true,
+          "version": "3.10.9"
+        },
+        "ase": {
+          "available": true,
+          "version": "3.29.0"
+        }
+      },
+      "commands": {
+        "vaspkit": ".software_cache/vaspkit/1.5.1/vaspkit.1.5.1/bin/vaspkit"
+      },
+      "external_commands": {
+        ".software_cache/vaspkit/1.5.1/vaspkit.1.5.1/bin/vaspkit": ".software_cache/vaspkit/1.5.1/vaspkit.1.5.1/bin/vaspkit"
+      },
+      "dependency_check": {
+        "success": true,
+        "returncode": 0,
+        "output": "No broken requirements found.",
+        "ignored_issues": [],
+        "unignored_issues": []
+      },
+      "model_checks": {},
+      "manual_commands": {},
+      "live_checks": {},
+      "required_ok": true,
+      "runtime_group": "profiles",
+      "returncode": 0
+    },
+    "bagel": {
+      "profile": "bagel",
+      "conda_name": "researchchem-bagel",
+      "python": ".envs/general-modern-openmpi5/bin/python",
+      "python_version": "3.11.15",
+      "expected_backends": [
+        "bagel"
+      ],
+      "backend_health": {
+        "bagel": {
+          "status": "available",
+          "available": true,
+          "runtime": "bagel",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
+          "runtime_python_exists": true,
+          "python_modules": {},
+          "executables": {
+            "BAGEL": ".software_cache/bagel/1.2.2/bin/BAGEL"
+          },
+          "environment": {
+            "CHEMGRAPH_BAGEL_COMMAND": true,
+            "CHEMGRAPH_BAGEL_MPIRUN_COMMAND": true,
+            "CHEMGRAPH_BAGEL_RAW_COMMAND": true,
+            "CHEMGRAPH_BAGEL_BASIS_DIRECTORY": true
+          },
+          "missing_python_modules": [],
+          "missing_executables": [],
+          "missing_environment": [],
+          "conda_packages": [],
+          "pip_packages": [],
+          "required_data_resources": [],
+          "license_class": "open_source",
+          "install_notes": "GPL-3.0+ v1.2.2 source and Ubuntu 22.04 1.2.2-3ubuntu1 MPICH binary plus its redistribution-compatible runtime libraries are cached locally."
+        }
+      },
+      "allowed_unavailable_backends": [],
+      "unexpected_unavailable_backends": [],
+      "modules": {
+        "pydantic": {
+          "available": true,
+          "version": "2.13.4"
+        },
+        "yaml": {
+          "available": true,
+          "version": "6.0.3"
+        }
+      },
+      "commands": {
+        "BAGEL": ".software_cache/bagel/1.2.2/bin/BAGEL",
+        "bagel-mpirun": ".software_cache/bagel/1.2.2/bin/bagel-mpirun"
+      },
+      "external_commands": {
+        ".software_cache/bagel/1.2.2/bin/BAGEL": ".software_cache/bagel/1.2.2/bin/BAGEL",
+        ".software_cache/bagel/1.2.2/bin/bagel-mpirun": ".software_cache/bagel/1.2.2/bin/bagel-mpirun",
+        ".software_cache/bagel/1.2.2/runtime/usr/bin/BAGEL": ".software_cache/bagel/1.2.2/runtime/usr/bin/BAGEL",
+        ".software_cache/bagel/1.2.2/runtime/usr/bin/mpiexec.hydra": ".software_cache/bagel/1.2.2/runtime/usr/bin/mpiexec.hydra"
+      },
       "dependency_check": {
         "success": true,
         "returncode": 0,
@@ -2175,11 +4013,10 @@
     "md": {
       "profile": "md",
       "conda_name": "researchchem-md",
-      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/md/bin/python3.10",
-      "python_version": "3.10.20",
+      "python": ".envs/molecular-simulation-openff/bin/python",
+      "python_version": "3.12.13",
       "expected_backends": [
         "gromacs",
-        "lammps",
         "mdanalysis",
         "openmm",
         "openmm_builder",
@@ -2192,7 +4029,7 @@
           "status": "available",
           "available": true,
           "runtime": "md",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/md/bin/python",
+          "runtime_python": ".envs/molecular-simulation-openff/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
             "pdbfixer": {
@@ -2222,7 +4059,7 @@
           "status": "available",
           "available": true,
           "runtime": "md",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/md/bin/python",
+          "runtime_python": ".envs/molecular-simulation-openff/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
             "openmm": {
@@ -2247,11 +4084,11 @@
           "status": "available",
           "available": true,
           "runtime": "md",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/md/bin/python",
+          "runtime_python": ".envs/molecular-simulation-openff/bin/python",
           "runtime_python_exists": true,
           "python_modules": {},
           "executables": {
-            "packmol": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/md/bin/packmol"
+            "packmol": ".envs/molecular-simulation-openff/bin/packmol"
           },
           "environment": {},
           "missing_python_modules": [],
@@ -2269,7 +4106,7 @@
           "status": "available",
           "available": true,
           "runtime": "md",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/md/bin/python",
+          "runtime_python": ".envs/molecular-simulation-openff/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
             "openmm": {
@@ -2294,11 +4131,11 @@
           "status": "available",
           "available": true,
           "runtime": "md",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/md/bin/python",
+          "runtime_python": ".envs/molecular-simulation-openff/bin/python",
           "runtime_python_exists": true,
           "python_modules": {},
           "executables": {
-            "gmx": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/md/bin/gmx"
+            "gmx": ".envs/molecular-simulation-openff/bin/gmx"
           },
           "environment": {
             "CHEMGRAPH_GROMACS_COMMAND": true
@@ -2314,45 +4151,16 @@
           "license_class": "open_source",
           "install_notes": "For propagate_dynamics, generate_velocities=true also requires an explicit random_seed. NVT/NPT additionally require explicit temperature_coupling_groups; no coupling group is chosen implicitly."
         },
-        "lammps": {
-          "status": "available",
-          "available": true,
-          "runtime": "md",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/md/bin/python",
-          "runtime_python_exists": true,
-          "python_modules": {
-            "lammps": {
-              "available": true,
-              "version": "2025.7.22"
-            }
-          },
-          "executables": {
-            "lmp": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/md/bin/lmp"
-          },
-          "environment": {
-            "CHEMGRAPH_LAMMPS_COMMAND": true
-          },
-          "missing_python_modules": [],
-          "missing_executables": [],
-          "missing_environment": [],
-          "conda_packages": [
-            "lammps"
-          ],
-          "pip_packages": [],
-          "required_data_resources": [],
-          "license_class": "open_source",
-          "install_notes": ""
-        },
         "mdanalysis": {
           "status": "available",
           "available": true,
           "runtime": "md",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/md/bin/python",
+          "runtime_python": ".envs/molecular-simulation-openff/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
             "MDAnalysis": {
               "available": true,
-              "version": "2.9.0"
+              "version": "2.10.0"
             }
           },
           "executables": {},
@@ -2372,11 +4180,11 @@
           "status": "available",
           "available": true,
           "runtime": "md",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/md/bin/python",
+          "runtime_python": ".envs/molecular-simulation-openff/bin/python",
           "runtime_python_exists": true,
           "python_modules": {},
           "executables": {
-            "plumed": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/md/bin/plumed"
+            "plumed": ".envs/molecular-simulation-openff/bin/plumed"
           },
           "environment": {
             "CHEMGRAPH_PLUMED_COMMAND": true
@@ -2398,11 +4206,7 @@
       "modules": {
         "MDAnalysis": {
           "available": true,
-          "version": "2.9.0"
-        },
-        "lammps": {
-          "available": true,
-          "version": "20250722"
+          "version": "2.10.0"
         },
         "openmm": {
           "available": true,
@@ -2414,17 +4218,18 @@
         }
       },
       "commands": {
-        "gmx": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/md/bin/gmx",
-        "lmp": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/md/bin/lmp",
-        "packmol": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/md/bin/packmol",
-        "plumed": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/md/bin/plumed"
+        "gmx": ".envs/molecular-simulation-openff/bin/gmx",
+        "packmol": ".envs/general-modern-openmpi5/bin/packmol",
+        "plumed": ".envs/general-modern-openmpi5/bin/plumed"
       },
       "external_commands": {},
       "dependency_check": {
         "success": true,
-        "returncode": 0,
-        "output": "No broken requirements found.",
-        "ignored_issues": [],
+        "returncode": 1,
+        "output": "acpype 2023.10.27 requires openbabel-wheel, which is not installed.",
+        "ignored_issues": [
+          "acpype 2023.10.27 requires openbabel-wheel, which is not installed."
+        ],
         "unignored_issues": []
       },
       "model_checks": {},
@@ -2437,7 +4242,7 @@
     "openff": {
       "profile": "openff",
       "conda_name": "researchchem-openff",
-      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/openff/bin/python3.12",
+      "python": ".envs/molecular-simulation-openff/bin/python",
       "python_version": "3.12.13",
       "expected_backends": [
         "openff",
@@ -2448,7 +4253,7 @@
           "status": "available",
           "available": true,
           "runtime": "openff",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/openff/bin/python",
+          "runtime_python": ".envs/molecular-simulation-openff/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
             "openff.toolkit": {
@@ -2457,8 +4262,8 @@
             }
           },
           "executables": {
-            "antechamber": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/openff/bin/antechamber",
-            "sqm": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/openff/bin/sqm"
+            "antechamber": ".envs/molecular-simulation-openff/bin/antechamber",
+            "sqm": ".envs/molecular-simulation-openff/bin/sqm"
           },
           "environment": {},
           "missing_python_modules": [],
@@ -2477,7 +4282,7 @@
           "status": "available",
           "available": true,
           "runtime": "openff",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/openff/bin/python",
+          "runtime_python": ".envs/molecular-simulation-openff/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
             "openff.toolkit": {
@@ -2517,15 +4322,17 @@
         }
       },
       "commands": {
-        "antechamber": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/openff/bin/antechamber",
-        "sqm": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/openff/bin/sqm"
+        "antechamber": ".envs/molecular-simulation-openff/bin/antechamber",
+        "sqm": ".envs/molecular-simulation-openff/bin/sqm"
       },
       "external_commands": {},
       "dependency_check": {
         "success": true,
-        "returncode": 0,
-        "output": "No broken requirements found.",
-        "ignored_issues": [],
+        "returncode": 1,
+        "output": "acpype 2023.10.27 requires openbabel-wheel, which is not installed.",
+        "ignored_issues": [
+          "acpype 2023.10.27 requires openbabel-wheel, which is not installed."
+        ],
         "unignored_issues": []
       },
       "model_checks": {},
@@ -2538,8 +4345,8 @@
     "mlip": {
       "profile": "mlip",
       "conda_name": "researchchem-mlip",
-      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/mlip/bin/python3.10",
-      "python_version": "3.10.20",
+      "python": ".envs/general-modern-openmpi5/bin/python",
+      "python_version": "3.11.15",
       "expected_backends": [
         "chgnet",
         "mace"
@@ -2549,7 +4356,7 @@
           "status": "available",
           "available": true,
           "runtime": "mlip",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/mlip/bin/python",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
             "mace.calculators": {
@@ -2578,7 +4385,7 @@
           "status": "available",
           "available": true,
           "runtime": "mlip",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/mlip/bin/python",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
             "chgnet": {
@@ -2625,7 +4432,7 @@
         },
         "torch": {
           "available": true,
-          "version": "2.13.0+cu130"
+          "version": "2.10.0"
         }
       },
       "commands": {},
@@ -2647,7 +4454,7 @@
     "nequip": {
       "profile": "nequip",
       "conda_name": "researchchem-nequip",
-      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/nequip/bin/python3.11",
+      "python": ".envs/equivariant-ml/bin/python",
       "python_version": "3.11.15",
       "expected_backends": [
         "allegro",
@@ -2658,7 +4465,7 @@
           "status": "available",
           "available": true,
           "runtime": "nequip",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/nequip/bin/python",
+          "runtime_python": ".envs/equivariant-ml/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
             "nequip": {
@@ -2667,7 +4474,7 @@
             },
             "torch": {
               "available": true,
-              "version": "2.10.0"
+              "version": "2.11.0"
             },
             "e3nn": {
               "available": true,
@@ -2679,7 +4486,7 @@
             }
           },
           "executables": {
-            "nequip-train": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/nequip/bin/nequip-train"
+            "nequip-train": ".envs/equivariant-ml/bin/nequip-train"
           },
           "environment": {},
           "missing_python_modules": [],
@@ -2699,7 +4506,7 @@
           "status": "available",
           "available": true,
           "runtime": "nequip",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/nequip/bin/python",
+          "runtime_python": ".envs/equivariant-ml/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
             "allegro": {
@@ -2712,7 +4519,7 @@
             },
             "torch": {
               "available": true,
-              "version": "2.10.0"
+              "version": "2.11.0"
             },
             "e3nn": {
               "available": true,
@@ -2753,7 +4560,7 @@
         },
         "torch": {
           "available": true,
-          "version": "2.10.0"
+          "version": "2.11.0"
         },
         "e3nn": {
           "available": true,
@@ -2765,7 +4572,7 @@
         }
       },
       "commands": {
-        "nequip-train": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/nequip/bin/nequip-train"
+        "nequip-train": ".envs/equivariant-ml/bin/nequip-train"
       },
       "external_commands": {},
       "dependency_check": {
@@ -2785,7 +4592,7 @@
     "deepmd": {
       "profile": "deepmd",
       "conda_name": "researchchem-deepmd-models",
-      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/deepmd_models/bin/python3.11",
+      "python": ".envs/equivariant-ml/bin/python",
       "python_version": "3.11.15",
       "expected_backends": [
         "deepmd"
@@ -2795,7 +4602,7 @@
           "status": "available",
           "available": true,
           "runtime": "deepmd",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/deepmd_models/bin/python",
+          "runtime_python": ".envs/equivariant-ml/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
             "deepmd": {
@@ -2808,7 +4615,7 @@
             }
           },
           "executables": {
-            "dp": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/deepmd_models/bin/dp"
+            "dp": ".envs/equivariant-ml/bin/dp"
           },
           "environment": {},
           "missing_python_modules": [],
@@ -2832,7 +4639,7 @@
       "modules": {
         "deepmd": {
           "available": true,
-          "version": "3.2.0b0"
+          "version": "3.1.3"
         },
         "ase": {
           "available": true,
@@ -2848,7 +4655,7 @@
         }
       },
       "commands": {
-        "dp": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/deepmd_models/bin/dp"
+        "dp": ".envs/equivariant-ml/bin/dp"
       },
       "external_commands": {},
       "dependency_check": {
@@ -2868,7 +4675,7 @@
     "vasp": {
       "profile": "vasp",
       "conda_name": "researchchem-vasp",
-      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/vasp/bin/python3.11",
+      "python": ".envs/general-modern-openmpi5/bin/python",
       "python_version": "3.11.15",
       "expected_backends": [
         "vasp"
@@ -2878,11 +4685,11 @@
           "status": "available",
           "available": true,
           "runtime": "vasp",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/vasp/bin/python",
+          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
           "runtime_python_exists": true,
           "python_modules": {},
           "executables": {
-            "vasp_std": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/vasp/6.3.2/bin/vasp_std"
+            "vasp_std": ".software_cache/vasp/6.3.2/bin/vasp_std"
           },
           "environment": {
             "CHEMGRAPH_VASP_COMMAND": true
@@ -2908,11 +4715,11 @@
         }
       },
       "commands": {
-        "vasp_std": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/vasp/bin/vasp_std",
-        "mpirun": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/vasp/bin/mpirun"
+        "vasp_std": ".software_cache/vasp/6.3.2/bin/vasp_std",
+        "mpirun": ".envs/general-modern-openmpi5/bin/mpirun"
       },
       "external_commands": {
-        ".software_cache/vasp/6.3.2/bin/vasp_std": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/vasp/6.3.2/bin/vasp_std"
+        ".software_cache/vasp/6.3.2/bin/vasp_std": ".software_cache/vasp/6.3.2/bin/vasp_std"
       },
       "dependency_check": {
         "success": true,
@@ -2931,8 +4738,8 @@
     "docking": {
       "profile": "docking",
       "conda_name": "researchchem-docking",
-      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/docking/bin/python3.10",
-      "python_version": "3.10.20",
+      "python": ".envs/molecular-simulation-openff/bin/python",
+      "python_version": "3.12.13",
       "expected_backends": [
         "gnina",
         "vina"
@@ -2942,7 +4749,7 @@
           "status": "available",
           "available": true,
           "runtime": "docking",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/docking/bin/python",
+          "runtime_python": ".envs/molecular-simulation-openff/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
             "vina": {
@@ -2951,7 +4758,7 @@
             }
           },
           "executables": {
-            "vina": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/docking/bin/vina"
+            "vina": ".envs/molecular-simulation-openff/bin/vina"
           },
           "environment": {
             "CHEMGRAPH_VINA_COMMAND": true
@@ -2971,11 +4778,11 @@
           "status": "available",
           "available": true,
           "runtime": "docking",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/docking/bin/python",
+          "runtime_python": ".envs/molecular-simulation-openff/bin/python",
           "runtime_python_exists": true,
           "python_modules": {},
           "executables": {
-            "gnina": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/gnina/1.3.3/gnina.cuda12.8.static"
+            "gnina": ".software_cache/gnina/1.3.3/gnina.cuda12.8.static"
           },
           "environment": {
             "CHEMGRAPH_GNINA_COMMAND": true
@@ -2999,294 +4806,17 @@
         }
       },
       "commands": {
-        "vina": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/docking/bin/vina",
-        "gnina": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/docking/bin/gnina"
-      },
-      "external_commands": {},
-      "dependency_check": {
-        "success": true,
-        "returncode": 0,
-        "output": "No broken requirements found.",
-        "ignored_issues": [],
-        "unignored_issues": []
-      },
-      "model_checks": {},
-      "manual_commands": {},
-      "live_checks": {},
-      "required_ok": true,
-      "runtime_group": "profiles",
-      "returncode": 0
-    },
-    "abinit": {
-      "profile": "abinit",
-      "conda_name": "researchchem-abinit",
-      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/abinit/bin/python3.10",
-      "python_version": "3.10.20",
-      "expected_backends": [
-        "abinit"
-      ],
-      "backend_health": {
-        "abinit": {
-          "status": "available",
-          "available": true,
-          "runtime": "abinit",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/abinit/bin/python",
-          "runtime_python_exists": true,
-          "python_modules": {
-            "numpy": {
-              "available": true,
-              "version": "2.2.6"
-            },
-            "pydantic": {
-              "available": true,
-              "version": "2.13.4"
-            },
-            "yaml": {
-              "available": true,
-              "version": null
-            }
-          },
-          "executables": {
-            "abinit": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/abinit/bin/abinit"
-          },
-          "environment": {
-            "CHEMGRAPH_ABINIT_COMMAND": false
-          },
-          "missing_python_modules": [],
-          "missing_executables": [],
-          "missing_environment": [
-            "CHEMGRAPH_ABINIT_COMMAND"
-          ],
-          "conda_packages": [
-            "abinit"
-          ],
-          "pip_packages": [],
-          "required_data_resources": [
-            "Explicit ResourceRefs from abinit_pseudo_dojo_nc_sr_pbe_standard_psp8, one per element; workspace ArtifactRefs remain accepted"
-          ],
-          "license_class": "open_source",
-          "install_notes": ""
-        }
-      },
-      "allowed_unavailable_backends": [],
-      "unexpected_unavailable_backends": [],
-      "modules": {
-        "numpy": {
-          "available": true,
-          "version": "2.2.6"
-        },
-        "pydantic": {
-          "available": true,
-          "version": "2.13.4"
-        },
-        "yaml": {
-          "available": true,
-          "version": "6.0.3"
-        }
-      },
-      "commands": {
-        "abinit": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/abinit/bin/abinit"
-      },
-      "external_commands": {},
-      "dependency_check": {
-        "success": true,
-        "returncode": 0,
-        "output": "No broken requirements found.",
-        "ignored_issues": [],
-        "unignored_issues": []
-      },
-      "model_checks": {},
-      "manual_commands": {},
-      "live_checks": {},
-      "required_ok": true,
-      "runtime_group": "support_environments",
-      "returncode": 0
-    },
-    "gaussian": {
-      "profile": "gaussian",
-      "conda_name": "researchchem-gaussian",
-      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/gaussian/bin/python3.11",
-      "python_version": "3.11.15",
-      "expected_backends": [
-        "gaussian"
-      ],
-      "backend_health": {
-        "gaussian": {
-          "status": "available",
-          "available": true,
-          "runtime": "gaussian",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/gaussian/bin/python",
-          "runtime_python_exists": true,
-          "python_modules": {},
-          "executables": {
-            "g16": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/gaussian/g16/install/g16/g16",
-            "formchk": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/gaussian/g16/install/g16/formchk"
-          },
-          "environment": {
-            "CHEMGRAPH_GAUSSIAN_COMMAND": true,
-            "CHEMGRAPH_GAUSSIAN_FORMCHK_COMMAND": true
-          },
-          "missing_python_modules": [],
-          "missing_executables": [],
-          "missing_environment": [],
-          "conda_packages": [],
-          "pip_packages": [],
-          "required_data_resources": [],
-          "license_class": "commercial_license",
-          "install_notes": "Configured from the operator-provided Gaussian 16 C.01 distribution under .software_cache/gaussian/g16; the adapter accepts no arbitrary route deck."
-        }
-      },
-      "allowed_unavailable_backends": [],
-      "unexpected_unavailable_backends": [],
-      "modules": {
-        "cclib": {
-          "available": true,
-          "version": "1.8.1"
-        }
-      },
-      "commands": {
-        "g16": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/gaussian/g16/install/g16/g16",
-        "formchk": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/gaussian/g16/install/g16/formchk"
+        "vina": ".envs/molecular-simulation-openff/bin/vina"
       },
       "external_commands": {
-        ".software_cache/gaussian/g16/install/g16/g16": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/gaussian/g16/install/g16/g16",
-        ".software_cache/gaussian/g16/install/g16/formchk": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/gaussian/g16/install/g16/formchk"
+        ".software_cache/gnina/1.3.3/gnina": ".software_cache/gnina/1.3.3/gnina.cuda12.8.static"
       },
-      "dependency_check": {
-        "success": true,
-        "returncode": 0,
-        "output": "No broken requirements found.",
-        "ignored_issues": [],
-        "unignored_issues": []
-      },
-      "model_checks": {},
-      "manual_commands": {},
-      "live_checks": {},
-      "required_ok": true,
-      "runtime_group": "support_environments",
-      "returncode": 0
-    },
-    "gamess": {
-      "profile": "gamess",
-      "conda_name": "researchchem-gamess",
-      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/gamess/bin/python3.11",
-      "python_version": "3.11.15",
-      "expected_backends": [
-        "gamess"
-      ],
-      "backend_health": {
-        "gamess": {
-          "status": "available",
-          "available": true,
-          "runtime": "gamess",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/gamess/bin/python",
-          "runtime_python_exists": true,
-          "python_modules": {},
-          "executables": {
-            "rungms": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/gamess/2024-r2-p1/source/rungms"
-          },
-          "environment": {
-            "CHEMGRAPH_GAMESS_COMMAND": true
-          },
-          "missing_python_modules": [],
-          "missing_executables": [],
-          "missing_environment": [],
-          "conda_packages": [],
-          "pip_packages": [],
-          "required_data_resources": [],
-          "license_class": "registration_license",
-          "install_notes": "The registered source distribution is compiled under .software_cache/gamess/2024-r2-p1 with a sockets DDI build and isolated compiler/runtime libraries."
-        }
-      },
-      "allowed_unavailable_backends": [],
-      "unexpected_unavailable_backends": [],
-      "modules": {},
-      "commands": {
-        "rungms": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/gamess/2024-r2-p1/source/rungms"
-      },
-      "external_commands": {
-        ".software_cache/gamess/2024-r2-p1/source/rungms": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/gamess/2024-r2-p1/source/rungms",
-        ".software_cache/gamess/2024-r2-p1/build/gamess.00.x": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/gamess/2024-r2-p1/build/gamess.00.x"
-      },
-      "dependency_check": {
-        "success": true,
-        "returncode": 0,
-        "output": "No broken requirements found.",
-        "ignored_issues": [],
-        "unignored_issues": []
-      },
-      "model_checks": {},
-      "manual_commands": {},
-      "live_checks": {},
-      "required_ok": true,
-      "runtime_group": "support_environments",
-      "returncode": 0
-    },
-    "rmg": {
-      "profile": "rmg",
-      "conda_name": "researchchem-rmg",
-      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/rmg/bin/python3.11",
-      "python_version": "3.11.15",
-      "expected_backends": [
-        "rmg"
-      ],
-      "backend_health": {
-        "rmg": {
-          "status": "available",
-          "available": true,
-          "runtime": "rmg",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/rmg/bin/python",
-          "runtime_python_exists": true,
-          "python_modules": {
-            "rmgpy": {
-              "available": true,
-              "version": null
-            }
-          },
-          "executables": {
-            "rmg.py": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/rmg/bin/rmg.py"
-          },
-          "environment": {},
-          "missing_python_modules": [],
-          "missing_executables": [],
-          "missing_environment": [],
-          "conda_packages": [
-            "rmg=4.0.0"
-          ],
-          "pip_packages": [],
-          "required_data_resources": [],
-          "license_class": "open_source",
-          "install_notes": ""
-        }
-      },
-      "allowed_unavailable_backends": [],
-      "unexpected_unavailable_backends": [],
-      "modules": {
-        "rmgpy": {
-          "available": true,
-          "version": "4.0.0"
-        },
-        "pydantic": {
-          "available": true,
-          "version": "2.13.4"
-        },
-        "yaml": {
-          "available": true,
-          "version": "6.0.3"
-        }
-      },
-      "commands": {
-        "rmg.py": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/rmg/bin/rmg.py"
-      },
-      "external_commands": {},
       "dependency_check": {
         "success": true,
         "returncode": 1,
-        "output": "quantities 0.12.3 is not supported on this platform\ngprof2dot 2017.9.19 is not supported on this platform\nperiodictable 1.5.2 is not supported on this platform",
+        "output": "acpype 2023.10.27 requires openbabel-wheel, which is not installed.",
         "ignored_issues": [
-          "quantities 0.12.3 is not supported on this platform",
-          "gprof2dot 2017.9.19 is not supported on this platform",
-          "periodictable 1.5.2 is not supported on this platform"
+          "acpype 2023.10.27 requires openbabel-wheel, which is not installed."
         ],
         "unignored_issues": []
       },
@@ -3294,392 +4824,7 @@
       "manual_commands": {},
       "live_checks": {},
       "required_ok": true,
-      "runtime_group": "support_environments",
-      "returncode": 0
-    },
-    "mess": {
-      "profile": "mess",
-      "conda_name": "researchchem-mess",
-      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/mess/bin/python3.11",
-      "python_version": "3.11.15",
-      "expected_backends": [
-        "mess"
-      ],
-      "backend_health": {
-        "mess": {
-          "status": "available",
-          "available": true,
-          "runtime": "mess",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/mess/bin/python",
-          "runtime_python_exists": true,
-          "python_modules": {},
-          "executables": {
-            "mess": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/mess/2020.1.24/build/mess"
-          },
-          "environment": {
-            "CHEMGRAPH_MESS_COMMAND": true
-          },
-          "missing_python_modules": [],
-          "missing_executables": [],
-          "missing_environment": [],
-          "conda_packages": [],
-          "pip_packages": [],
-          "required_data_resources": [],
-          "license_class": "open_source",
-          "install_notes": "Locally compiled PAPR MESS 2020.1.24 runtime and official manual/examples."
-        }
-      },
-      "allowed_unavailable_backends": [],
-      "unexpected_unavailable_backends": [],
-      "modules": {
-        "pydantic": {
-          "available": true,
-          "version": "2.13.4"
-        },
-        "yaml": {
-          "available": true,
-          "version": "6.0.3"
-        }
-      },
-      "commands": {
-        "mess": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/mess/2020.1.24/build/mess"
-      },
-      "external_commands": {
-        ".software_cache/mess/2020.1.24/build/mess": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/mess/2020.1.24/build/mess"
-      },
-      "dependency_check": {
-        "success": true,
-        "returncode": 0,
-        "output": "No broken requirements found.",
-        "ignored_issues": [],
-        "unignored_issues": []
-      },
-      "model_checks": {},
-      "manual_commands": {},
-      "live_checks": {},
-      "required_ok": true,
-      "runtime_group": "support_environments",
-      "returncode": 0
-    },
-    "mesmer": {
-      "profile": "mesmer",
-      "conda_name": "researchchem-mesmer",
-      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/mesmer/bin/python3.11",
-      "python_version": "3.11.15",
-      "expected_backends": [
-        "mesmer"
-      ],
-      "backend_health": {
-        "mesmer": {
-          "status": "available",
-          "available": true,
-          "runtime": "mesmer",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/mesmer/bin/python",
-          "runtime_python_exists": true,
-          "python_modules": {},
-          "executables": {
-            "mesmer": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/mesmer/7.1/bin/mesmer"
-          },
-          "environment": {
-            "CHEMGRAPH_MESMER_COMMAND": true
-          },
-          "missing_python_modules": [],
-          "missing_executables": [],
-          "missing_environment": [],
-          "conda_packages": [],
-          "pip_packages": [],
-          "required_data_resources": [],
-          "license_class": "open_source",
-          "install_notes": "Locally compiled official MESMER 7.1 SourceForge release and manual/examples."
-        }
-      },
-      "allowed_unavailable_backends": [],
-      "unexpected_unavailable_backends": [],
-      "modules": {
-        "pydantic": {
-          "available": true,
-          "version": "2.13.4"
-        },
-        "yaml": {
-          "available": true,
-          "version": "6.0.3"
-        }
-      },
-      "commands": {
-        "mesmer": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/mesmer/7.1/bin/mesmer"
-      },
-      "external_commands": {
-        ".software_cache/mesmer/7.1/bin/mesmer": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/mesmer/7.1/bin/mesmer"
-      },
-      "dependency_check": {
-        "success": true,
-        "returncode": 0,
-        "output": "No broken requirements found.",
-        "ignored_issues": [],
-        "unignored_issues": []
-      },
-      "model_checks": {},
-      "manual_commands": {},
-      "live_checks": {},
-      "required_ok": true,
-      "runtime_group": "support_environments",
-      "returncode": 0
-    },
-    "sella": {
-      "profile": "sella",
-      "conda_name": "researchchem-sella",
-      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/sella/bin/python3.11",
-      "python_version": "3.11.15",
-      "expected_backends": [
-        "sella"
-      ],
-      "backend_health": {
-        "sella": {
-          "status": "available",
-          "available": true,
-          "runtime": "sella",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/sella/bin/python",
-          "runtime_python_exists": true,
-          "python_modules": {
-            "sella": {
-              "available": true,
-              "version": "2.5.0"
-            },
-            "ase": {
-              "available": true,
-              "version": "3.29.0"
-            },
-            "numpy": {
-              "available": true,
-              "version": "2.4.6"
-            }
-          },
-          "executables": {},
-          "environment": {},
-          "missing_python_modules": [],
-          "missing_executables": [],
-          "missing_environment": [],
-          "conda_packages": [],
-          "pip_packages": [
-            "sella==2.5.0"
-          ],
-          "required_data_resources": [],
-          "license_class": "open_source",
-          "install_notes": ""
-        }
-      },
-      "allowed_unavailable_backends": [],
-      "unexpected_unavailable_backends": [],
-      "modules": {
-        "sella": {
-          "available": true,
-          "version": "unknown"
-        },
-        "ase": {
-          "available": true,
-          "version": "3.29.0"
-        },
-        "numpy": {
-          "available": true,
-          "version": "2.4.6"
-        },
-        "pydantic": {
-          "available": true,
-          "version": "2.13.4"
-        },
-        "yaml": {
-          "available": true,
-          "version": "6.0.3"
-        }
-      },
-      "commands": {},
-      "external_commands": {},
-      "dependency_check": {
-        "success": true,
-        "returncode": 0,
-        "output": "No broken requirements found.",
-        "ignored_issues": [],
-        "unignored_issues": []
-      },
-      "model_checks": {},
-      "manual_commands": {},
-      "live_checks": {},
-      "required_ok": true,
-      "runtime_group": "support_environments",
-      "returncode": 0
-    },
-    "namd": {
-      "profile": "namd",
-      "conda_name": "researchchem-namd",
-      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/namd/bin/python3.11",
-      "python_version": "3.11.15",
-      "expected_backends": [
-        "namd"
-      ],
-      "backend_health": {
-        "namd": {
-          "status": "available",
-          "available": true,
-          "runtime": "namd",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/namd/bin/python",
-          "runtime_python_exists": true,
-          "python_modules": {},
-          "executables": {
-            "namd3": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/namd/3.0.2/multicore-avx512/namd3"
-          },
-          "environment": {
-            "CHEMGRAPH_NAMD_COMMAND": true
-          },
-          "missing_python_modules": [],
-          "missing_executables": [],
-          "missing_environment": [],
-          "conda_packages": [],
-          "pip_packages": [],
-          "required_data_resources": [],
-          "license_class": "academic_registration",
-          "install_notes": "The AVX-512 multicore and CUDA bundles are cached under .software_cache/namd/3.0.2. The public backend selects the validated CPU AVX-512 binary only; CUDA is never chosen implicitly."
-        }
-      },
-      "allowed_unavailable_backends": [],
-      "unexpected_unavailable_backends": [],
-      "modules": {},
-      "commands": {
-        "namd3": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/namd/3.0.2/multicore-avx512/namd3"
-      },
-      "external_commands": {
-        ".software_cache/namd/3.0.2/multicore-avx512/namd3": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/namd/3.0.2/multicore-avx512/namd3",
-        ".software_cache/namd/3.0.2/multicore-cuda/namd3": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/namd/3.0.2/multicore-cuda/namd3"
-      },
-      "dependency_check": {
-        "success": true,
-        "returncode": 0,
-        "output": "No broken requirements found.",
-        "ignored_issues": [],
-        "unignored_issues": []
-      },
-      "model_checks": {},
-      "manual_commands": {},
-      "live_checks": {},
-      "required_ok": true,
-      "runtime_group": "support_environments",
-      "returncode": 0
-    },
-    "amber": {
-      "profile": "amber",
-      "conda_name": "researchchem-amber",
-      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/amber/bin/python3.11",
-      "python_version": "3.11.15",
-      "expected_backends": [
-        "amber_pmemd"
-      ],
-      "backend_health": {
-        "amber_pmemd": {
-          "status": "available",
-          "available": true,
-          "runtime": "amber",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/amber/bin/python",
-          "runtime_python_exists": true,
-          "python_modules": {},
-          "executables": {
-            "pmemd": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/amber/26/install/bin/pmemd",
-            "pmemd.MPI": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/amber/26/install/bin/pmemd.MPI",
-            "mpirun": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/amber/bin/mpirun"
-          },
-          "environment": {
-            "CHEMGRAPH_AMBER_COMMAND": true,
-            "CHEMGRAPH_AMBER_MPI_COMMAND": true,
-            "CHEMGRAPH_AMBER_MPIRUN_COMMAND": true,
-            "CHEMGRAPH_AMBER_MPI_EXECUTABLE": true
-          },
-          "missing_python_modules": [],
-          "missing_executables": [],
-          "missing_environment": [],
-          "conda_packages": [],
-          "pip_packages": [],
-          "required_data_resources": [],
-          "license_class": "academic_registration",
-          "install_notes": "Licensed PMEMD26 CPU serial and MPI binaries are built under .software_cache/amber/26. AmberTools 26 remains independently available in the OpenFF runtime."
-        }
-      },
-      "allowed_unavailable_backends": [],
-      "unexpected_unavailable_backends": [],
-      "modules": {},
-      "commands": {
-        "pmemd": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/amber/26/install/bin/pmemd",
-        "pmemd.MPI": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/amber/26/install/bin/pmemd.MPI",
-        "mpirun": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/amber/bin/mpirun"
-      },
-      "external_commands": {
-        ".software_cache/amber/26/install/bin/pmemd": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/amber/26/install/bin/pmemd",
-        ".software_cache/amber/26/install/bin/pmemd.MPI": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/amber/26/install/bin/pmemd.MPI"
-      },
-      "dependency_check": {
-        "success": true,
-        "returncode": 0,
-        "output": "No broken requirements found.",
-        "ignored_issues": [],
-        "unignored_issues": []
-      },
-      "model_checks": {},
-      "manual_commands": {},
-      "live_checks": {},
-      "required_ok": true,
-      "runtime_group": "support_environments",
-      "returncode": 0
-    },
-    "charmm": {
-      "profile": "charmm",
-      "conda_name": "researchchem-charmm",
-      "python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/charmm/bin/python3.11",
-      "python_version": "3.11.15",
-      "expected_backends": [
-        "charmm"
-      ],
-      "backend_health": {
-        "charmm": {
-          "status": "available",
-          "available": true,
-          "runtime": "charmm",
-          "runtime_python": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/charmm/bin/python",
-          "runtime_python_exists": true,
-          "python_modules": {},
-          "executables": {
-            "charmm": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/charmm/50b2/install/bin/charmm"
-          },
-          "environment": {
-            "CHEMGRAPH_CHARMM_COMMAND": true
-          },
-          "missing_python_modules": [],
-          "missing_executables": [],
-          "missing_environment": [],
-          "conda_packages": [],
-          "pip_packages": [],
-          "required_data_resources": [],
-          "license_class": "academic_registration",
-          "install_notes": "The operator-provided CHARMM c50b2 source is compiled as a serial/OpenMP GNU build under .software_cache/charmm/50b2; arbitrary CHARMM input scripts are not accepted."
-        }
-      },
-      "allowed_unavailable_backends": [],
-      "unexpected_unavailable_backends": [],
-      "modules": {},
-      "commands": {
-        "charmm": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/charmm/50b2/install/bin/charmm"
-      },
-      "external_commands": {
-        ".software_cache/charmm/50b2/install/bin/charmm": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/charmm/50b2/install/bin/charmm"
-      },
-      "dependency_check": {
-        "success": true,
-        "returncode": 0,
-        "output": "No broken requirements found.",
-        "ignored_issues": [],
-        "unignored_issues": []
-      },
-      "model_checks": {},
-      "manual_commands": {},
-      "live_checks": {},
-      "required_ok": true,
-      "runtime_group": "support_environments",
+      "runtime_group": "profiles",
       "returncode": 0
     }
   }

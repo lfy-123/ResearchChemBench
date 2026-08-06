@@ -33,6 +33,7 @@ from researchchem_toolbox.environment_layout import (  # noqa: E402
     resolve_configured_path,
     resolve_runtime_path,
 )
+from researchchem_toolbox.paths import portable_report_value  # noqa: E402
 
 INVENTORY = TOOLBOX_ROOT / "config" / "requested_software.yaml"
 AUX_CONFIG = TOOLBOX_ROOT / "config" / "auxiliary_environments.yaml"
@@ -108,12 +109,11 @@ def runtime_environment(specification: dict[str, Any]) -> dict[str, str]:
 def runtime_catalog() -> dict[str, dict[str, Any]]:
     result: dict[str, dict[str, Any]] = {}
     mcp = read_yaml(MCP_CONFIG)
-    for group in ("profiles", "support_environments"):
-        for name, specification in (mcp.get(group) or {}).items():
-            item = dict(specification)
-            item["name"] = name
-            item["group"] = group
-            result[name] = item
+    for name, specification in (mcp.get("profiles") or {}).items():
+        item = dict(specification)
+        item["name"] = name
+        item["group"] = "profiles"
+        result[name] = item
     auxiliary = read_yaml(AUX_CONFIG).get("auxiliary_environments") or {}
     for name, specification in auxiliary.items():
         if name in result:
@@ -194,9 +194,9 @@ def command_path(command: str, environment: dict[str, str]) -> str | None:
     candidate = Path(value).expanduser()
     if candidate.is_absolute() or "/" in value:
         path = candidate if candidate.is_absolute() else ROOT / candidate
-        return str(path.resolve()) if path.is_file() and os.access(path, os.X_OK) else None
+        return str(path.absolute()) if path.is_file() and os.access(path, os.X_OK) else None
     found = shutil.which(value, path=environment.get("PATH"))
-    return str(Path(found).resolve()) if found else None
+    return str(Path(found).absolute()) if found else None
 
 
 def run_smoke(
@@ -244,9 +244,9 @@ def relative(path: str | Path | None) -> str:
         return "—"
     value = Path(str(path))
     try:
-        return value.resolve().relative_to(ROOT).as_posix()
+        return value.absolute().relative_to(ROOT.absolute()).as_posix()
     except ValueError:
-        return str(value.resolve())
+        return str(value.absolute())
 
 
 def audit(timeout: int) -> dict[str, Any]:
@@ -276,8 +276,11 @@ def audit(timeout: int) -> dict[str, Any]:
             "name": name,
             "group": specification.get("group"),
             "conda_name": specification.get("conda_name"),
-            "environment": str(runtime_path(specification)),
-            "python": str(python),
+            "environment": str(specification["environment"]),
+            "python": str(
+                specification.get("python")
+                or Path(str(specification["environment"])) / "bin" / "python"
+            ),
             "python_exists": python.is_file(),
             "python_required": bool(modules),
             "modules": module_results,
@@ -513,7 +516,7 @@ def main() -> int:
         help="Print the audit summary without updating tracked status reports.",
     )
     args = parser.parse_args()
-    payload = audit(max(5, args.timeout_seconds))
+    payload = portable_report_value(audit(max(5, args.timeout_seconds)))
     if args.no_write:
         print(json.dumps(payload, ensure_ascii=False, indent=2))
     else:

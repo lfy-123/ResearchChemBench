@@ -5,7 +5,7 @@ topics: ["index", "navigation", "capabilities"]
 aliases: ["ORCA", "orca"]
 inputs: ["input.inp", "optional external XYZ", "basis", "point charges", "or restart files"]
 outputs: ["stdout.log", ".gbw", ".xyz", ".hess", ".densities", "property files"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # ORCA Native Software Guide
@@ -39,6 +39,19 @@ Execute a complete ORCA 6.1 input deck. The native layer is appropriate when the
 - IRC.
 - excited states.
 - correlated density.
+
+## Layer 1 typed Actions
+- `calculate_energy`.
+- `calculate_forces`.
+- `calculate_hessian`.
+- `optimize_geometry`.
+- `calculate_dipole_moment`.
+- `calculate_atomic_charges`.
+- `calculate_orbitals`.
+- `calculate_bond_orders`.
+- `calculate_excited_states`.
+- `calculate_correlated_electron_density`.
+- `export_electron_density_grid`.
 
 ## Required knowledge before submission
 The toolbox does not select a scientific method, force field, pseudopotential, basis, database, training set, convergence threshold, or workflow ordering. The Agent must obtain those choices from the task, a paper, or an authoritative source and then author a complete input.

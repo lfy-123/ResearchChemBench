@@ -5,7 +5,7 @@ topics: ["index", "navigation", "capabilities"]
 aliases: ["Quantum ESPRESSO pw.x", "quantum espresso"]
 inputs: ["input.in", "one pseudopotential per species"]
 outputs: ["stdout.log", "prefix.save database", "charge density", "wavefunctions", "relaxed structure"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Quantum ESPRESSO pw.x Native Software Guide
@@ -38,6 +38,12 @@ Execute an Agent-authored Quantum ESPRESSO pw.x input deck. The native layer is 
 - relax.
 - vc-relax.
 - molecular dynamics.
+
+## Layer 1 typed Actions
+- `calculate_periodic_energy`.
+- `calculate_periodic_forces`.
+- `calculate_periodic_stress`.
+- `relax_periodic_structure`.
 
 ## Required knowledge before submission
 The toolbox does not select a scientific method, force field, pseudopotential, basis, database, training set, convergence threshold, or workflow ordering. The Agent must obtain those choices from the task, a paper, or an authoritative source and then author a complete input.

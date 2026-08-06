@@ -1,60 +1,61 @@
 {
-  "schema_version": 1,
-  "job_id": "job_9e78fce67eca46bea8739fff41f1ce1f",
-  "job_type": "native_software",
-  "status": "failed",
-  "supervisor_pid": 935365,
   "command": [
-    "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/gamess/2024-r2-p1/source/rungms",
+    ".software_cache/gamess/2024-r2-p1/source/rungms",
     "-v"
   ],
-  "job_directory": "outputs/execution_jobs/job_9e78fce67eca46bea8739fff41f1ce1f",
-  "stdout_path": "outputs/execution_jobs/job_9e78fce67eca46bea8739fff41f1ce1f/stdout.log",
-  "stderr_path": "outputs/execution_jobs/job_9e78fce67eca46bea8739fff41f1ce1f/stderr.log",
-  "resource_limits": {
-    "cpu_cores": 1,
-    "memory_mb": 1024,
-    "gpu_count": 0,
-    "walltime_seconds": 7200
+  "compute_worker_id": null,
+  "duration_seconds": 0.003195,
+  "error": {
+    "code": "process_start_failed",
+    "message": "[Errno 2] No such file or directory: '.software_cache/gamess/2024-r2-p1/source/rungms'"
   },
-  "submitted_at": "2026-07-28T20:17:19.096043+00:00",
-  "started_at": "2026-07-28T20:17:19.130044+00:00",
+  "execution_mode": "local",
+  "finished_at": "2026-08-06T10:32:19.544587+00:00",
+  "job_directory": "outputs/execution_jobs/job_c9addc05fc174be797327a00065b7b28",
+  "job_id": "job_c9addc05fc174be797327a00065b7b28",
+  "job_type": "native_software",
   "metadata": {
-    "software_id": "gamess",
-    "executable": "rungms",
-    "label": "manual-interface-smoke-gamess",
-    "parent_job_id": null,
     "calculation_intent": "unknown",
+    "evaluation_resource_budget": {
+      "agent_controllable": false,
+      "cpu_cores": 48,
+      "gpu_count": 0,
+      "memory_mb": 204800,
+      "scope": "per_task",
+      "source": "evaluation_policy"
+    },
+    "executable": "rungms",
+    "execution_timeout_policy": {
+      "agent_controllable": false,
+      "execution_class": "compute",
+      "source": "evaluation_policy",
+      "timeout_seconds": 7200
+    },
     "input_deck_validation": null,
     "invocation_synopsis": "rungms job_name [version] [ncores]",
-    "execution_timeout_policy": {
-      "execution_class": "compute",
-      "timeout_seconds": 7200,
-      "source": "evaluation_policy",
-      "agent_controllable": false
-    },
-    "evaluation_resource_budget": {
-      "cpu_cores": 48,
-      "memory_mb": 204800,
-      "gpu_count": 0,
-      "source": "evaluation_policy",
-      "agent_controllable": false,
-      "scope": "per_task"
-    }
+    "label": "manual-interface-smoke-gamess",
+    "parent_job_id": null,
+    "software_id": "gamess"
   },
-  "finished_at": "2026-07-28T20:17:19.334394+00:00",
-  "duration_seconds": 0.204346,
-  "return_code": 4,
-  "background_process_cleanup": "none_detected",
-  "resource_usage": {
-    "user_cpu_seconds": 0.027146,
-    "system_cpu_seconds": 0.006842,
-    "max_rss_kb": 12688,
-    "peak_process_group_rss_kb": 2172,
-    "memory_limit_mb": 1024
+  "resource_allocation": {
+    "cpu_ids": [
+      0
+    ],
+    "gpu_ids": []
   },
-  "error": {
-    "code": "nonzero_exit",
-    "message": "Program exited with status 4"
-  }
+  "resource_limits": {
+    "cpu_cores": 1,
+    "gpu_count": 0,
+    "memory_mb": 1024,
+    "walltime_seconds": 7200
+  },
+  "return_code": null,
+  "schema_version": 1,
+  "scratch_isolation": null,
+  "started_at": "2026-08-06T10:32:19.541408+00:00",
+  "status": "failed",
+  "stderr_path": "outputs/execution_jobs/job_c9addc05fc174be797327a00065b7b28/stderr.log",
+  "stdout_path": "outputs/execution_jobs/job_c9addc05fc174be797327a00065b7b28/stdout.log",
+  "submitted_at": "2026-08-06T10:32:19.373894+00:00",
+  "supervisor_pid": 838684
 }

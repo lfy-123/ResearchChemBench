@@ -5,7 +5,7 @@ topics: ["quickstart", "staging", "submission", "resources"]
 aliases: ["Amber PMEMD", "amber pmemd"]
 inputs: ["mdin", "topology.prmtop", "input.rst7"]
 outputs: ["mdout", "output.rst7", "trajectory.nc", "mdinfo"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Amber PMEMD Quickstart

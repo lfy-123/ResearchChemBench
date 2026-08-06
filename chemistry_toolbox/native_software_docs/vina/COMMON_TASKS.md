@@ -5,7 +5,7 @@ topics: ["common-tasks", "inputs", "outputs", "convergence"]
 aliases: ["AutoDock Vina", "vina"]
 inputs: ["receptor.pdbqt", "ligand.pdbqt", "box center and size"]
 outputs: ["poses.pdbqt", "docking log", "affinity table"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # AutoDock Vina Common Tasks
@@ -15,6 +15,9 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 - **Score-Only**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Local Optimization**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Batch Docking**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
+
+## Preferred typed Action routes
+- `dock_ligand`: validated structured route through backend `vina`.
 
 ## Minimum input responsibilities
 - `receptor.pdbqt`

@@ -1,17 +1,17 @@
 {
-  "generated_at": "2026-07-24T05:07:58.201598+00:00",
+  "generated_at": "2026-08-06T10:19:45.991540+00:00",
   "pytest_exit_code": null,
   "summary": {
-    "action_count": 114,
-    "runtime_success_actions": 109,
-    "failure_only_actions": 5,
+    "action_count": 150,
+    "runtime_success_actions": 150,
+    "failure_only_actions": 0,
     "not_observed_actions": 0,
-    "action_backend_pair_count": 249,
-    "successful_action_backend_pairs": 244,
-    "failed_action_backend_pairs": 5,
+    "action_backend_pair_count": 286,
+    "successful_action_backend_pairs": 286,
+    "failed_action_backend_pairs": 0,
     "unobserved_action_backend_pairs": 0,
-    "backend_count": 77,
-    "backends_with_runtime_success_evidence": 77,
+    "backend_count": 92,
+    "backends_with_runtime_success_evidence": 92,
     "backends_without_runtime_success_evidence": 0
   },
   "actions": [
@@ -122,7 +122,8 @@
       ],
       "failed_backends": [],
       "evidence_sources": [
-        "pytest_dynamic"
+        "pytest_dynamic",
+        "toolbox_smoke"
       ],
       "observations": [
         {
@@ -131,6 +132,14 @@
           "status": "success",
           "source": "pytest_dynamic",
           "elapsed_seconds": 2.195297,
+          "detail": null
+        },
+        {
+          "action": "standardize_structure",
+          "backend": "rdkit",
+          "status": "success",
+          "source": "toolbox_smoke",
+          "elapsed_seconds": null,
           "detail": null
         }
       ]
@@ -153,7 +162,8 @@
       "failed_backends": [],
       "evidence_sources": [
         "backend_gap_smoke",
-        "pytest_dynamic"
+        "pytest_dynamic",
+        "toolbox_smoke"
       ],
       "observations": [
         {
@@ -170,6 +180,14 @@
           "status": "success",
           "source": "backend_gap_smoke",
           "elapsed_seconds": 1.818821,
+          "detail": null
+        },
+        {
+          "action": "generate_3d_structure",
+          "backend": "rdkit",
+          "status": "success",
+          "source": "toolbox_smoke",
+          "elapsed_seconds": null,
           "detail": null
         }
       ]
@@ -562,6 +580,170 @@
       ]
     },
     {
+      "action": "generate_small_molecule_topology",
+      "category": "structure_and_system",
+      "description": "Generate GAFF-family AMBER and requested downstream topology files for one already prepared small-molecule structure without choosing charge, spin, atom typing, or charge method.",
+      "primary_output": "ParameterizedSystem",
+      "selection_policy": "agent_backend_required",
+      "catalog_backends": [
+        "acpype"
+      ],
+      "status": "runtime_success",
+      "successful_backends": [
+        "acpype"
+      ],
+      "failed_backends": [],
+      "evidence_sources": [
+        "pytest_dynamic"
+      ],
+      "observations": [
+        {
+          "action": "generate_small_molecule_topology",
+          "backend": "acpype",
+          "status": "success",
+          "source": "pytest_dynamic",
+          "elapsed_seconds": 2.566989,
+          "detail": null
+        },
+        {
+          "action": "generate_small_molecule_topology",
+          "backend": "acpype",
+          "status": "success",
+          "source": "pytest_dynamic",
+          "elapsed_seconds": 2.403077,
+          "detail": null
+        },
+        {
+          "action": "generate_small_molecule_topology",
+          "backend": "acpype",
+          "status": "success",
+          "source": "pytest_dynamic",
+          "elapsed_seconds": 2.381701,
+          "detail": null
+        }
+      ]
+    },
+    {
+      "action": "convert_amber_topology_to_gromacs",
+      "category": "structure_and_system",
+      "description": "Convert an existing matching AMBER prmtop/inpcrd pair to GROMACS topology and coordinates without regenerating charges or force-field parameters.",
+      "primary_output": "ParameterizedSystem",
+      "selection_policy": "agent_backend_required",
+      "catalog_backends": [
+        "acpype"
+      ],
+      "status": "runtime_success",
+      "successful_backends": [
+        "acpype"
+      ],
+      "failed_backends": [],
+      "evidence_sources": [
+        "pytest_dynamic"
+      ],
+      "observations": [
+        {
+          "action": "convert_amber_topology_to_gromacs",
+          "backend": "acpype",
+          "status": "success",
+          "source": "pytest_dynamic",
+          "elapsed_seconds": 2.220276,
+          "detail": null
+        }
+      ]
+    },
+    {
+      "action": "mutate_biomolecular_residues_for_alchemy",
+      "category": "structure_and_system",
+      "description": "Create one explicitly requested protein, DNA, or RNA hybrid-residue structure for a later alchemical calculation without parameterizing or simulating it.",
+      "primary_output": "AtomicStructure",
+      "selection_policy": "agent_backend_required",
+      "catalog_backends": [
+        "pmx"
+      ],
+      "status": "runtime_success",
+      "successful_backends": [
+        "pmx"
+      ],
+      "failed_backends": [],
+      "evidence_sources": [
+        "pytest_dynamic"
+      ],
+      "observations": [
+        {
+          "action": "mutate_biomolecular_residues_for_alchemy",
+          "backend": "pmx",
+          "status": "success",
+          "source": "pytest_dynamic",
+          "elapsed_seconds": 3.109874,
+          "detail": null
+        },
+        {
+          "action": "mutate_biomolecular_residues_for_alchemy",
+          "backend": "pmx",
+          "status": "success",
+          "source": "pytest_dynamic",
+          "elapsed_seconds": 3.116391,
+          "detail": null
+        }
+      ]
+    },
+    {
+      "action": "generate_alchemical_hybrid_topology",
+      "category": "structure_and_system",
+      "description": "Fill B-state parameters for hybrid residues in an existing GROMACS topology under explicit recursion, split, mass, and dihedral policies.",
+      "primary_output": "ParameterizedSystem",
+      "selection_policy": "agent_backend_required",
+      "catalog_backends": [
+        "pmx"
+      ],
+      "status": "runtime_success",
+      "successful_backends": [
+        "pmx"
+      ],
+      "failed_backends": [],
+      "evidence_sources": [
+        "pytest_dynamic"
+      ],
+      "observations": [
+        {
+          "action": "generate_alchemical_hybrid_topology",
+          "backend": "pmx",
+          "status": "success",
+          "source": "pytest_dynamic",
+          "elapsed_seconds": 3.23193,
+          "detail": null
+        }
+      ]
+    },
+    {
+      "action": "map_alchemical_ligand_atoms",
+      "category": "structure_and_system",
+      "description": "Map atoms between two prepared ligand structures using explicit MCS/alignment and chemical-filter policies without building the hybrid topology.",
+      "primary_output": "AlchemicalAtomMapping",
+      "selection_policy": "agent_backend_required",
+      "catalog_backends": [
+        "pmx"
+      ],
+      "status": "runtime_success",
+      "successful_backends": [
+        "pmx"
+      ],
+      "failed_backends": [],
+      "evidence_sources": [
+        "pytest_dynamic"
+      ],
+      "observations": [
+        {
+          "action": "map_alchemical_ligand_atoms",
+          "backend": "pmx",
+          "status": "success",
+          "source": "pytest_dynamic",
+          "elapsed_seconds": 3.819633,
+          "detail": null
+        }
+      ]
+    },
+    {
       "action": "solvate_molecular_system",
       "category": "structure_and_system",
       "description": "Build the explicitly requested solvent/ion environment without minimizing or propagating dynamics.",
@@ -608,12 +790,14 @@
       "selection_policy": "agent_backend_required",
       "catalog_backends": [
         "spglib",
-        "pymatgen"
+        "pymatgen",
+        "vaspkit"
       ],
       "status": "runtime_success",
       "successful_backends": [
         "pymatgen",
-        "spglib"
+        "spglib",
+        "vaspkit"
       ],
       "failed_backends": [],
       "evidence_sources": [
@@ -634,6 +818,14 @@
           "status": "success",
           "source": "pytest_dynamic",
           "elapsed_seconds": 2.955965,
+          "detail": null
+        },
+        {
+          "action": "analyze_crystal_symmetry",
+          "backend": "vaspkit",
+          "status": "success",
+          "source": "pytest_dynamic",
+          "elapsed_seconds": 2.362974,
           "detail": null
         }
       ]
@@ -901,6 +1093,206 @@
       ]
     },
     {
+      "action": "discover_sparse_symbolic_descriptor",
+      "category": "cheminformatics",
+      "description": "Fit one single-task SISSO regression model from an explicit CSV train/validation split without choosing columns, units, operators, complexity, sparsification, or ranking metrics for the agent.",
+      "primary_output": "SparseSymbolicDescriptorResult",
+      "selection_policy": "agent_backend_required",
+      "catalog_backends": [
+        "sisso"
+      ],
+      "status": "runtime_success",
+      "successful_backends": [
+        "sisso"
+      ],
+      "failed_backends": [],
+      "evidence_sources": [
+        "pytest_dynamic"
+      ],
+      "observations": [
+        {
+          "action": "discover_sparse_symbolic_descriptor",
+          "backend": "sisso",
+          "status": "success",
+          "source": "pytest_dynamic",
+          "elapsed_seconds": 2.328406,
+          "detail": null
+        },
+        {
+          "action": "discover_sparse_symbolic_descriptor",
+          "backend": "sisso",
+          "status": "success",
+          "source": "pytest_dynamic",
+          "elapsed_seconds": 2.371918,
+          "detail": null
+        },
+        {
+          "action": "discover_sparse_symbolic_descriptor",
+          "backend": "sisso",
+          "status": "success",
+          "source": "pytest_dynamic",
+          "elapsed_seconds": 2.33228,
+          "detail": null
+        }
+      ]
+    },
+    {
+      "action": "evaluate_sparse_symbolic_descriptor",
+      "category": "cheminformatics",
+      "description": "Evaluate one existing SISSO regression model on an explicitly supplied CSV dataset using the matching official SISSO_predict utility.",
+      "primary_output": "SparseSymbolicDescriptorEvaluation",
+      "selection_policy": "agent_backend_required",
+      "catalog_backends": [
+        "sisso"
+      ],
+      "status": "runtime_success",
+      "successful_backends": [
+        "sisso"
+      ],
+      "failed_backends": [],
+      "evidence_sources": [
+        "pytest_dynamic"
+      ],
+      "observations": [
+        {
+          "action": "evaluate_sparse_symbolic_descriptor",
+          "backend": "sisso",
+          "status": "success",
+          "source": "pytest_dynamic",
+          "elapsed_seconds": 2.133551,
+          "detail": null
+        }
+      ]
+    },
+    {
+      "action": "summarize_sparse_symbolic_descriptor_results",
+      "category": "cheminformatics",
+      "description": "Parse an existing SISSO model and optional SISSO_predict result into bounded structured statistics without fitting or evaluating a model.",
+      "primary_output": "SparseSymbolicDescriptorSummary",
+      "selection_policy": "internal_deterministic",
+      "catalog_backends": [
+        "sisso"
+      ],
+      "status": "runtime_success",
+      "successful_backends": [
+        "sisso"
+      ],
+      "failed_backends": [],
+      "evidence_sources": [
+        "pytest_dynamic"
+      ],
+      "observations": [
+        {
+          "action": "summarize_sparse_symbolic_descriptor_results",
+          "backend": "sisso",
+          "status": "success",
+          "source": "pytest_dynamic",
+          "elapsed_seconds": 2.137005,
+          "detail": null
+        }
+      ]
+    },
+    {
+      "action": "fit_symbolic_regression_baseline",
+      "category": "cheminformatics",
+      "description": "Fit one gplearn symbolic-regression baseline from an explicit CSV train/validation split and fully specified genetic-programming controls.",
+      "primary_output": "SymbolicRegressionResult",
+      "selection_policy": "agent_backend_required",
+      "catalog_backends": [
+        "gplearn"
+      ],
+      "status": "runtime_success",
+      "successful_backends": [
+        "gplearn"
+      ],
+      "failed_backends": [],
+      "evidence_sources": [
+        "pytest_dynamic"
+      ],
+      "observations": [
+        {
+          "action": "fit_symbolic_regression_baseline",
+          "backend": "gplearn",
+          "status": "success",
+          "source": "pytest_dynamic",
+          "elapsed_seconds": 4.99359,
+          "detail": null
+        },
+        {
+          "action": "fit_symbolic_regression_baseline",
+          "backend": "gplearn",
+          "status": "success",
+          "source": "pytest_dynamic",
+          "elapsed_seconds": 4.978057,
+          "detail": null
+        },
+        {
+          "action": "fit_symbolic_regression_baseline",
+          "backend": "gplearn",
+          "status": "success",
+          "source": "pytest_dynamic",
+          "elapsed_seconds": 4.97455,
+          "detail": null
+        }
+      ]
+    },
+    {
+      "action": "assess_symbolic_regression_seed_stability",
+      "category": "cheminformatics",
+      "description": "Repeat one fixed gplearn symbolic-regression specification over explicit random seeds and report equation and held-out-metric stability.",
+      "primary_output": "SymbolicRegressionStabilityResult",
+      "selection_policy": "agent_backend_required",
+      "catalog_backends": [
+        "gplearn"
+      ],
+      "status": "runtime_success",
+      "successful_backends": [
+        "gplearn"
+      ],
+      "failed_backends": [],
+      "evidence_sources": [
+        "pytest_dynamic"
+      ],
+      "observations": [
+        {
+          "action": "assess_symbolic_regression_seed_stability",
+          "backend": "gplearn",
+          "status": "success",
+          "source": "pytest_dynamic",
+          "elapsed_seconds": 5.33977,
+          "detail": null
+        }
+      ]
+    },
+    {
+      "action": "summarize_symbolic_regression_results",
+      "category": "cheminformatics",
+      "description": "Parse a JSON result produced by a gplearn Action into bounded structured statistics without fitting or loading a serialized Python model.",
+      "primary_output": "SymbolicRegressionSummary",
+      "selection_policy": "internal_deterministic",
+      "catalog_backends": [
+        "gplearn"
+      ],
+      "status": "runtime_success",
+      "successful_backends": [
+        "gplearn"
+      ],
+      "failed_backends": [],
+      "evidence_sources": [
+        "pytest_dynamic"
+      ],
+      "observations": [
+        {
+          "action": "summarize_symbolic_regression_results",
+          "backend": "gplearn",
+          "status": "success",
+          "source": "pytest_dynamic",
+          "elapsed_seconds": 2.178326,
+          "detail": null
+        }
+      ]
+    },
+    {
       "action": "calculate_energy",
       "category": "molecular_electronic",
       "description": "Calculate one molecular or non-periodic scalar energy with the exact software and method selected by the agent.",
@@ -948,7 +1340,8 @@
         "action_backend_matrix_smoke",
         "backend_gap_smoke",
         "pytest_dynamic",
-        "scientific_resource_smoke"
+        "scientific_resource_smoke",
+        "toolbox_smoke"
       ],
       "observations": [
         {
@@ -1109,6 +1502,30 @@
           "status": "success",
           "source": "scientific_resource_smoke",
           "elapsed_seconds": 12.583282,
+          "detail": null
+        },
+        {
+          "action": "calculate_energy",
+          "backend": "orca",
+          "status": "success",
+          "source": "scientific_resource_smoke",
+          "elapsed_seconds": 10.453704,
+          "detail": null
+        },
+        {
+          "action": "calculate_energy",
+          "backend": "deepmd",
+          "status": "success",
+          "source": "scientific_resource_smoke",
+          "elapsed_seconds": 12.003086,
+          "detail": null
+        },
+        {
+          "action": "calculate_energy",
+          "backend": "ase_emt",
+          "status": "success",
+          "source": "toolbox_smoke",
+          "elapsed_seconds": null,
           "detail": null
         }
       ]
@@ -1360,6 +1777,14 @@
           "source": "scientific_resource_smoke",
           "elapsed_seconds": 3.494533,
           "detail": null
+        },
+        {
+          "action": "calculate_hessian",
+          "backend": "orca",
+          "status": "success",
+          "source": "scientific_resource_smoke",
+          "elapsed_seconds": 2.316952,
+          "detail": null
         }
       ]
     },
@@ -1508,6 +1933,14 @@
           "source": "scientific_resource_smoke",
           "elapsed_seconds": 2.343418,
           "detail": null
+        },
+        {
+          "action": "optimize_geometry",
+          "backend": "orca",
+          "status": "success",
+          "source": "scientific_resource_smoke",
+          "elapsed_seconds": 2.807539,
+          "detail": null
         }
       ]
     },
@@ -1617,6 +2050,14 @@
           "status": "success",
           "source": "scientific_resource_smoke",
           "elapsed_seconds": 1.392449,
+          "detail": null
+        },
+        {
+          "action": "calculate_dipole_moment",
+          "backend": "orca",
+          "status": "success",
+          "source": "scientific_resource_smoke",
+          "elapsed_seconds": 2.079765,
           "detail": null
         }
       ]
@@ -1988,6 +2429,90 @@
       ]
     },
     {
+      "action": "calculate_multireference_state_energies",
+      "category": "molecular_electronic",
+      "description": "Calculate explicitly state-averaged CASSCF electronic-state energies for one molecule with an explicit active space and state manifold.",
+      "primary_output": "MultireferenceStateEnergyResult",
+      "selection_policy": "agent_backend_required",
+      "catalog_backends": [
+        "bagel"
+      ],
+      "status": "runtime_success",
+      "successful_backends": [
+        "bagel"
+      ],
+      "failed_backends": [],
+      "evidence_sources": [
+        "pytest_dynamic"
+      ],
+      "observations": [
+        {
+          "action": "calculate_multireference_state_energies",
+          "backend": "bagel",
+          "status": "success",
+          "source": "pytest_dynamic",
+          "elapsed_seconds": 2.74533,
+          "detail": null
+        }
+      ]
+    },
+    {
+      "action": "calculate_multireference_nuclear_gradient",
+      "category": "molecular_electronic",
+      "description": "Calculate one analytical SA-CASSCF or XMS-CASPT2 nuclear energy gradient for an explicitly selected electronic state.",
+      "primary_output": "MultireferenceGradientResult",
+      "selection_policy": "agent_backend_required",
+      "catalog_backends": [
+        "bagel"
+      ],
+      "status": "runtime_success",
+      "successful_backends": [
+        "bagel"
+      ],
+      "failed_backends": [],
+      "evidence_sources": [
+        "pytest_dynamic"
+      ],
+      "observations": [
+        {
+          "action": "calculate_multireference_nuclear_gradient",
+          "backend": "bagel",
+          "status": "success",
+          "source": "pytest_dynamic",
+          "elapsed_seconds": 2.768757,
+          "detail": null
+        }
+      ]
+    },
+    {
+      "action": "calculate_nonadiabatic_coupling_vector",
+      "category": "molecular_electronic",
+      "description": "Calculate one explicitly defined SA-CASSCF or XMS-CASPT2 nonadiabatic coupling vector between two selected electronic states.",
+      "primary_output": "NonadiabaticCouplingResult",
+      "selection_policy": "agent_backend_required",
+      "catalog_backends": [
+        "bagel"
+      ],
+      "status": "runtime_success",
+      "successful_backends": [
+        "bagel"
+      ],
+      "failed_backends": [],
+      "evidence_sources": [
+        "pytest_dynamic"
+      ],
+      "observations": [
+        {
+          "action": "calculate_nonadiabatic_coupling_vector",
+          "backend": "bagel",
+          "status": "success",
+          "source": "pytest_dynamic",
+          "elapsed_seconds": 2.879106,
+          "detail": null
+        }
+      ]
+    },
+    {
       "action": "analyze_electron_density_topology",
       "category": "molecular_electronic",
       "description": "Locate and characterize critical points in one supplied molecular or periodic electron-density field without generating that field or integrating atomic basins.",
@@ -2300,6 +2825,42 @@
           "status": "success",
           "source": "goodvibes_action_smoke",
           "elapsed_seconds": 1.721655,
+          "detail": null
+        }
+      ]
+    },
+    {
+      "action": "explore_reaction_network",
+      "category": "reaction_and_kinetics",
+      "description": "Run an explicit KinBot full-PES input and return the discovered wells, reaction summaries, and native network artifacts without choosing reaction families or electronic-structure settings.",
+      "primary_output": "ReactionNetworkExplorationResult",
+      "selection_policy": "agent_backend_required",
+      "catalog_backends": [
+        "kinbot"
+      ],
+      "status": "runtime_success",
+      "successful_backends": [
+        "kinbot"
+      ],
+      "failed_backends": [],
+      "evidence_sources": [
+        "software_expansion_action_smoke"
+      ],
+      "observations": [
+        {
+          "action": "explore_reaction_network",
+          "backend": "kinbot",
+          "status": "success",
+          "source": "software_expansion_action_smoke",
+          "elapsed_seconds": 98.0,
+          "detail": null
+        },
+        {
+          "action": "explore_reaction_network",
+          "backend": "kinbot",
+          "status": "success",
+          "source": "software_expansion_action_smoke",
+          "elapsed_seconds": 167.0,
           "detail": null
         }
       ]
@@ -2748,6 +3309,146 @@
           "status": "success",
           "source": "goodvibes_action_smoke",
           "elapsed_seconds": 1.83429,
+          "detail": null
+        }
+      ]
+    },
+    {
+      "action": "analyze_activation_strain_profile",
+      "category": "reaction_and_kinetics",
+      "description": "Calculate an ORCA activation-strain profile along an explicitly supplied reaction path with explicit fragment partitions, reference energies, electronic-structure keywords, and reaction coordinate.",
+      "primary_output": "ActivationStrainProfileResult",
+      "selection_policy": "agent_backend_required",
+      "catalog_backends": [
+        "pyfrag"
+      ],
+      "status": "runtime_success",
+      "successful_backends": [
+        "pyfrag"
+      ],
+      "failed_backends": [],
+      "evidence_sources": [
+        "pytest_dynamic"
+      ],
+      "observations": [
+        {
+          "action": "analyze_activation_strain_profile",
+          "backend": "pyfrag",
+          "status": "success",
+          "source": "pytest_dynamic",
+          "elapsed_seconds": 4.48664,
+          "detail": null
+        }
+      ]
+    },
+    {
+      "action": "summarize_activation_strain_profile",
+      "category": "reaction_and_kinetics",
+      "description": "Parse a bounded PyFrag activation-strain table and report extrema and decomposition-closure diagnostics without rerunning electronic-structure calculations.",
+      "primary_output": "ActivationStrainProfileSummary",
+      "selection_policy": "agent_backend_required",
+      "catalog_backends": [
+        "pyfrag"
+      ],
+      "status": "runtime_success",
+      "successful_backends": [
+        "pyfrag"
+      ],
+      "failed_backends": [],
+      "evidence_sources": [
+        "pytest_dynamic"
+      ],
+      "observations": [
+        {
+          "action": "summarize_activation_strain_profile",
+          "backend": "pyfrag",
+          "status": "success",
+          "source": "pytest_dynamic",
+          "elapsed_seconds": 2.128355,
+          "detail": null
+        }
+      ]
+    },
+    {
+      "action": "validate_activation_strain_profile",
+      "category": "reaction_and_kinetics",
+      "description": "Validate record count, finite values, sequential point identifiers, and total-energy decomposition closure in an existing PyFrag activation-strain table.",
+      "primary_output": "ActivationStrainProfileValidationResult",
+      "selection_policy": "agent_backend_required",
+      "catalog_backends": [
+        "pyfrag"
+      ],
+      "status": "runtime_success",
+      "successful_backends": [
+        "pyfrag"
+      ],
+      "failed_backends": [],
+      "evidence_sources": [
+        "pytest_dynamic"
+      ],
+      "observations": [
+        {
+          "action": "validate_activation_strain_profile",
+          "backend": "pyfrag",
+          "status": "success",
+          "source": "pytest_dynamic",
+          "elapsed_seconds": 2.100899,
+          "detail": null
+        }
+      ]
+    },
+    {
+      "action": "analyze_post_transition_state_trajectory_ensemble",
+      "category": "reaction_and_kinetics",
+      "description": "Calculate product branching, recrossing, unassigned fraction, and binomial confidence intervals from explicit per-trajectory outcome classifications.",
+      "primary_output": "PostTransitionStateTrajectoryEnsembleResult",
+      "selection_policy": "internal_deterministic",
+      "catalog_backends": [
+        "internal_reaction_analysis"
+      ],
+      "status": "runtime_success",
+      "successful_backends": [
+        "internal_reaction_analysis"
+      ],
+      "failed_backends": [],
+      "evidence_sources": [
+        "pytest_dynamic"
+      ],
+      "observations": [
+        {
+          "action": "analyze_post_transition_state_trajectory_ensemble",
+          "backend": "internal_reaction_analysis",
+          "status": "success",
+          "source": "pytest_dynamic",
+          "elapsed_seconds": 2.151996,
+          "detail": null
+        }
+      ]
+    },
+    {
+      "action": "propagate_nonadiabatic_trajectory",
+      "category": "molecular_dynamics",
+      "description": "Execute one fully specified SHARC trajectory and return bounded time/state/energy records without constructing the electronic-structure protocol.",
+      "primary_output": "NonadiabaticTrajectory",
+      "selection_policy": "agent_backend_required",
+      "catalog_backends": [
+        "sharc"
+      ],
+      "status": "runtime_success",
+      "successful_backends": [
+        "sharc"
+      ],
+      "failed_backends": [],
+      "evidence_sources": [
+        "software_expansion_action_smoke"
+      ],
+      "observations": [
+        {
+          "action": "propagate_nonadiabatic_trajectory",
+          "backend": "sharc",
+          "status": "success",
+          "source": "software_expansion_action_smoke",
+          "elapsed_seconds": null,
           "detail": null
         }
       ]
@@ -3405,6 +4106,34 @@
       ]
     },
     {
+      "action": "analyze_nonadiabatic_trajectory_ensemble",
+      "category": "molecular_dynamics",
+      "description": "Calculate time-dependent electronic-state populations, hop statistics, initial-state survival, and binomial confidence intervals from normalized nonadiabatic trajectories.",
+      "primary_output": "NonadiabaticTrajectoryEnsembleResult",
+      "selection_policy": "internal_deterministic",
+      "catalog_backends": [
+        "internal_trajectory_analysis"
+      ],
+      "status": "runtime_success",
+      "successful_backends": [
+        "internal_trajectory_analysis"
+      ],
+      "failed_backends": [],
+      "evidence_sources": [
+        "pytest_dynamic"
+      ],
+      "observations": [
+        {
+          "action": "analyze_nonadiabatic_trajectory_ensemble",
+          "backend": "internal_trajectory_analysis",
+          "status": "success",
+          "source": "pytest_dynamic",
+          "elapsed_seconds": 2.197494,
+          "detail": null
+        }
+      ]
+    },
+    {
       "action": "evaluate_collective_variables",
       "category": "molecular_dynamics",
       "description": "Evaluate explicitly defined collective variables on an existing trajectory.",
@@ -3573,6 +4302,442 @@
       ]
     },
     {
+      "action": "calculate_end_state_binding_free_energy",
+      "category": "molecular_dynamics",
+      "description": "Run one explicitly authored gmx_MMPBSA end-state binding calculation without selecting the solvent model, frame range, entropy treatment, or system groups.",
+      "primary_output": "EndStateBindingFreeEnergyResult",
+      "selection_policy": "agent_backend_required",
+      "catalog_backends": [
+        "gmx_mmpbsa"
+      ],
+      "status": "runtime_success",
+      "successful_backends": [
+        "gmx_mmpbsa"
+      ],
+      "failed_backends": [],
+      "evidence_sources": [
+        "pytest_dynamic"
+      ],
+      "observations": [
+        {
+          "action": "calculate_end_state_binding_free_energy",
+          "backend": "gmx_mmpbsa",
+          "status": "success",
+          "source": "pytest_dynamic",
+          "elapsed_seconds": 8.598365,
+          "detail": null
+        }
+      ]
+    },
+    {
+      "action": "calculate_end_state_energy_decomposition",
+      "category": "molecular_dynamics",
+      "description": "Run one explicitly authored gmx_MMPBSA residue-decomposition calculation and return bounded structured records plus the full result files.",
+      "primary_output": "EndStateEnergyDecompositionResult",
+      "selection_policy": "agent_backend_required",
+      "catalog_backends": [
+        "gmx_mmpbsa"
+      ],
+      "status": "runtime_success",
+      "successful_backends": [
+        "gmx_mmpbsa"
+      ],
+      "failed_backends": [],
+      "evidence_sources": [
+        "pytest_dynamic"
+      ],
+      "observations": [
+        {
+          "action": "calculate_end_state_energy_decomposition",
+          "backend": "gmx_mmpbsa",
+          "status": "success",
+          "source": "pytest_dynamic",
+          "elapsed_seconds": 20.127165,
+          "detail": null
+        }
+      ]
+    },
+    {
+      "action": "summarize_end_state_free_energy_results",
+      "category": "molecular_dynamics",
+      "description": "Parse existing gmx_MMPBSA result and optional decomposition files into bounded statistics without rerunning energies or choosing favorable residues.",
+      "primary_output": "EndStateFreeEnergySummary",
+      "selection_policy": "internal_deterministic",
+      "catalog_backends": [
+        "gmx_mmpbsa"
+      ],
+      "status": "runtime_success",
+      "successful_backends": [
+        "gmx_mmpbsa"
+      ],
+      "failed_backends": [],
+      "evidence_sources": [
+        "pytest_dynamic"
+      ],
+      "observations": [
+        {
+          "action": "summarize_end_state_free_energy_results",
+          "backend": "gmx_mmpbsa",
+          "status": "success",
+          "source": "pytest_dynamic",
+          "elapsed_seconds": 2.137936,
+          "detail": null
+        }
+      ]
+    },
+    {
+      "action": "calculate_quasiparticle_corrections",
+      "category": "periodic_and_phonons",
+      "description": "Run one explicit Yambo quasiparticle calculation from an existing SAVE database and native input file, then return bounded state corrections.",
+      "primary_output": "QuasiparticleCorrectionResult",
+      "selection_policy": "agent_backend_required",
+      "catalog_backends": [
+        "yambo"
+      ],
+      "status": "runtime_success",
+      "successful_backends": [
+        "yambo"
+      ],
+      "failed_backends": [],
+      "evidence_sources": [
+        "software_expansion_action_smoke"
+      ],
+      "observations": [
+        {
+          "action": "calculate_quasiparticle_corrections",
+          "backend": "yambo",
+          "status": "success",
+          "source": "software_expansion_action_smoke",
+          "elapsed_seconds": null,
+          "detail": null
+        }
+      ]
+    },
+    {
+      "action": "calculate_bse_optical_spectrum",
+      "category": "periodic_and_phonons",
+      "description": "Run one explicit Yambo Bethe-Salpeter calculation from existing databases and return a bounded optical spectrum.",
+      "primary_output": "OpticalSpectrumResult",
+      "selection_policy": "agent_backend_required",
+      "catalog_backends": [
+        "yambo"
+      ],
+      "status": "runtime_success",
+      "successful_backends": [
+        "yambo"
+      ],
+      "failed_backends": [],
+      "evidence_sources": [
+        "software_expansion_action_smoke"
+      ],
+      "observations": [
+        {
+          "action": "calculate_bse_optical_spectrum",
+          "backend": "yambo",
+          "status": "success",
+          "source": "software_expansion_action_smoke",
+          "elapsed_seconds": null,
+          "detail": null
+        }
+      ]
+    },
+    {
+      "action": "generate_crystal_structure_candidates",
+      "category": "periodic_and_phonons",
+      "description": "Generate a bounded set of random crystal candidates from one explicit AIRSS buildcell seed file without relaxing or ranking them.",
+      "primary_output": "CrystalStructureCandidateSet",
+      "selection_policy": "agent_backend_required",
+      "catalog_backends": [
+        "airss"
+      ],
+      "status": "runtime_success",
+      "successful_backends": [
+        "airss"
+      ],
+      "failed_backends": [],
+      "evidence_sources": [
+        "pytest_dynamic"
+      ],
+      "observations": [
+        {
+          "action": "generate_crystal_structure_candidates",
+          "backend": "airss",
+          "status": "success",
+          "source": "pytest_dynamic",
+          "elapsed_seconds": 2.833509,
+          "detail": null
+        },
+        {
+          "action": "generate_crystal_structure_candidates",
+          "backend": "airss",
+          "status": "success",
+          "source": "pytest_dynamic",
+          "elapsed_seconds": 2.553482,
+          "detail": null
+        }
+      ]
+    },
+    {
+      "action": "convert_crystal_structure_format",
+      "category": "periodic_and_phonons",
+      "description": "Convert one existing crystal-structure file between two explicitly selected AIRSS cabal formats.",
+      "primary_output": "CrystalStructureFile",
+      "selection_policy": "agent_backend_required",
+      "catalog_backends": [
+        "airss"
+      ],
+      "status": "runtime_success",
+      "successful_backends": [
+        "airss"
+      ],
+      "failed_backends": [],
+      "evidence_sources": [
+        "pytest_dynamic"
+      ],
+      "observations": [
+        {
+          "action": "convert_crystal_structure_format",
+          "backend": "airss",
+          "status": "success",
+          "source": "pytest_dynamic",
+          "elapsed_seconds": 2.150434,
+          "detail": null
+        }
+      ]
+    },
+    {
+      "action": "generate_vasp_kpoint_mesh",
+      "category": "periodic_and_phonons",
+      "description": "Generate one VASP KPOINTS mesh from an existing POSCAR using an explicit reciprocal-space resolution and centering scheme.",
+      "primary_output": "KPointMesh",
+      "selection_policy": "agent_backend_required",
+      "catalog_backends": [
+        "vaspkit"
+      ],
+      "status": "runtime_success",
+      "successful_backends": [
+        "vaspkit"
+      ],
+      "failed_backends": [],
+      "evidence_sources": [
+        "pytest_dynamic"
+      ],
+      "observations": [
+        {
+          "action": "generate_vasp_kpoint_mesh",
+          "backend": "vaspkit",
+          "status": "success",
+          "source": "pytest_dynamic",
+          "elapsed_seconds": 2.151195,
+          "detail": null
+        }
+      ]
+    },
+    {
+      "action": "extract_vasp_band_gap",
+      "category": "periodic_and_phonons",
+      "description": "Extract band-gap character, edge eigenvalues, band indices and k-point locations from one complete existing VASP electronic-result set.",
+      "primary_output": "ElectronicBandGapResult",
+      "selection_policy": "agent_backend_required",
+      "catalog_backends": [
+        "vaspkit"
+      ],
+      "status": "runtime_success",
+      "successful_backends": [
+        "vaspkit"
+      ],
+      "failed_backends": [],
+      "evidence_sources": [
+        "pytest_dynamic"
+      ],
+      "observations": [
+        {
+          "action": "extract_vasp_band_gap",
+          "backend": "vaspkit",
+          "status": "success",
+          "source": "pytest_dynamic",
+          "elapsed_seconds": 2.150293,
+          "detail": null
+        }
+      ]
+    },
+    {
+      "action": "calculate_adsorption_energy",
+      "category": "periodic_and_phonons",
+      "description": "Combine explicitly supplied adsorbed-system, clean-surface, and reference-species energies into an adsorption energy without selecting reference states or running electronic-structure calculations.",
+      "primary_output": "AdsorptionEnergyResult",
+      "selection_policy": "internal_deterministic",
+      "catalog_backends": [
+        "internal_periodic_analysis"
+      ],
+      "status": "runtime_success",
+      "successful_backends": [
+        "internal_periodic_analysis"
+      ],
+      "failed_backends": [],
+      "evidence_sources": [
+        "pytest_dynamic"
+      ],
+      "observations": [
+        {
+          "action": "calculate_adsorption_energy",
+          "backend": "internal_periodic_analysis",
+          "status": "success",
+          "source": "pytest_dynamic",
+          "elapsed_seconds": 2.09478,
+          "detail": null
+        }
+      ]
+    },
+    {
+      "action": "construct_pressure_enthalpy_phase_diagram",
+      "category": "periodic_and_phonons",
+      "description": "Determine stable phases and linearly interpolated transition pressures from explicit phase enthalpies evaluated on one common pressure grid.",
+      "primary_output": "PressureEnthalpyPhaseDiagramResult",
+      "selection_policy": "internal_deterministic",
+      "catalog_backends": [
+        "internal_periodic_analysis"
+      ],
+      "status": "runtime_success",
+      "successful_backends": [
+        "internal_periodic_analysis"
+      ],
+      "failed_backends": [],
+      "evidence_sources": [
+        "pytest_dynamic"
+      ],
+      "observations": [
+        {
+          "action": "construct_pressure_enthalpy_phase_diagram",
+          "backend": "internal_periodic_analysis",
+          "status": "success",
+          "source": "pytest_dynamic",
+          "elapsed_seconds": 2.125037,
+          "detail": null
+        }
+      ]
+    },
+    {
+      "action": "assess_phonon_stability",
+      "category": "periodic_and_phonons",
+      "description": "Assess dynamical stability and Gamma-point acoustic-mode quality from explicitly supplied q-point phonon frequencies and tolerances.",
+      "primary_output": "PhononStabilityAssessment",
+      "selection_policy": "internal_deterministic",
+      "catalog_backends": [
+        "internal_periodic_analysis"
+      ],
+      "status": "runtime_success",
+      "successful_backends": [
+        "internal_periodic_analysis"
+      ],
+      "failed_backends": [],
+      "evidence_sources": [
+        "pytest_dynamic"
+      ],
+      "observations": [
+        {
+          "action": "assess_phonon_stability",
+          "backend": "internal_periodic_analysis",
+          "status": "success",
+          "source": "pytest_dynamic",
+          "elapsed_seconds": 2.127353,
+          "detail": null
+        },
+        {
+          "action": "assess_phonon_stability",
+          "backend": "internal_periodic_analysis",
+          "status": "success",
+          "source": "pytest_dynamic",
+          "elapsed_seconds": 2.143373,
+          "detail": null
+        }
+      ]
+    },
+    {
+      "action": "fit_effective_force_constants",
+      "category": "periodic_and_phonons",
+      "description": "Fit temperature-dependent effective force constants from an explicit aligned supercell simulation dataset.",
+      "primary_output": "EffectiveForceConstantModel",
+      "selection_policy": "agent_backend_required",
+      "catalog_backends": [
+        "tdep"
+      ],
+      "status": "runtime_success",
+      "successful_backends": [
+        "tdep"
+      ],
+      "failed_backends": [],
+      "evidence_sources": [
+        "pytest_dynamic"
+      ],
+      "observations": [
+        {
+          "action": "fit_effective_force_constants",
+          "backend": "tdep",
+          "status": "success",
+          "source": "pytest_dynamic",
+          "elapsed_seconds": 3.217541,
+          "detail": null
+        }
+      ]
+    },
+    {
+      "action": "generate_thermal_displacement_configurations",
+      "category": "periodic_and_phonons",
+      "description": "Sample a bounded set of thermally displaced supercells from an explicit harmonic model or explicit Debye/frequency initialization.",
+      "primary_output": "ThermalDisplacementConfigurationSet",
+      "selection_policy": "agent_backend_required",
+      "catalog_backends": [
+        "tdep"
+      ],
+      "status": "runtime_success",
+      "successful_backends": [
+        "tdep"
+      ],
+      "failed_backends": [],
+      "evidence_sources": [
+        "pytest_dynamic"
+      ],
+      "observations": [
+        {
+          "action": "generate_thermal_displacement_configurations",
+          "backend": "tdep",
+          "status": "success",
+          "source": "pytest_dynamic",
+          "elapsed_seconds": 2.535969,
+          "detail": null
+        }
+      ]
+    },
+    {
+      "action": "calculate_temperature_dependent_phonon_dispersion",
+      "category": "periodic_and_phonons",
+      "description": "Calculate phonon bands from one explicit TDEP effective second-order force-constant model.",
+      "primary_output": "PhononDispersion",
+      "selection_policy": "agent_backend_required",
+      "catalog_backends": [
+        "tdep"
+      ],
+      "status": "runtime_success",
+      "successful_backends": [
+        "tdep"
+      ],
+      "failed_backends": [],
+      "evidence_sources": [
+        "pytest_dynamic"
+      ],
+      "observations": [
+        {
+          "action": "calculate_temperature_dependent_phonon_dispersion",
+          "backend": "tdep",
+          "status": "success",
+          "source": "pytest_dynamic",
+          "elapsed_seconds": 2.54547,
+          "detail": null
+        }
+      ]
+    },
+    {
       "action": "calculate_periodic_energy",
       "category": "periodic_and_phonons",
       "description": "Calculate one periodic-system energy with the explicitly selected electronic-structure backend.",
@@ -3714,6 +4879,78 @@
           "source": "scientific_resource_smoke",
           "elapsed_seconds": 3.463693,
           "detail": null
+        },
+        {
+          "action": "calculate_periodic_energy",
+          "backend": "quantum_espresso",
+          "status": "success",
+          "source": "scientific_resource_smoke",
+          "elapsed_seconds": 8.546201,
+          "detail": null
+        },
+        {
+          "action": "calculate_periodic_energy",
+          "backend": "quantum_espresso",
+          "status": "success",
+          "source": "scientific_resource_smoke",
+          "elapsed_seconds": 7.321417,
+          "detail": null
+        },
+        {
+          "action": "calculate_periodic_energy",
+          "backend": "siesta",
+          "status": "success",
+          "source": "scientific_resource_smoke",
+          "elapsed_seconds": 3.615284,
+          "detail": null
+        },
+        {
+          "action": "calculate_periodic_energy",
+          "backend": "abinit",
+          "status": "success",
+          "source": "scientific_resource_smoke",
+          "elapsed_seconds": 3.745274,
+          "detail": null
+        },
+        {
+          "action": "calculate_periodic_energy",
+          "backend": "dftbplus",
+          "status": "success",
+          "source": "scientific_resource_smoke",
+          "elapsed_seconds": 2.100652,
+          "detail": null
+        },
+        {
+          "action": "calculate_periodic_energy",
+          "backend": "dftbplus",
+          "status": "success",
+          "source": "scientific_resource_smoke",
+          "elapsed_seconds": 1.803397,
+          "detail": null
+        },
+        {
+          "action": "calculate_periodic_energy",
+          "backend": "allegro",
+          "status": "success",
+          "source": "scientific_resource_smoke",
+          "elapsed_seconds": 5.657156,
+          "detail": null
+        },
+        {
+          "action": "calculate_periodic_energy",
+          "backend": "vasp",
+          "status": "success",
+          "source": "scientific_resource_smoke",
+          "elapsed_seconds": 4.262026,
+          "detail": null
+        },
+        {
+          "action": "calculate_periodic_energy",
+          "backend": "vasp",
+          "status": "success",
+          "source": "scientific_resource_smoke",
+          "elapsed_seconds": 4.057201,
+          "detail": null
         }
       ]
     },
@@ -3834,6 +5071,46 @@
           "source": "scientific_resource_smoke",
           "elapsed_seconds": 108.603854,
           "detail": null
+        },
+        {
+          "action": "calculate_periodic_forces",
+          "backend": "quantum_espresso",
+          "status": "success",
+          "source": "scientific_resource_smoke",
+          "elapsed_seconds": 7.809825,
+          "detail": null
+        },
+        {
+          "action": "calculate_periodic_forces",
+          "backend": "siesta",
+          "status": "success",
+          "source": "scientific_resource_smoke",
+          "elapsed_seconds": 3.308902,
+          "detail": null
+        },
+        {
+          "action": "calculate_periodic_forces",
+          "backend": "dftbplus",
+          "status": "success",
+          "source": "scientific_resource_smoke",
+          "elapsed_seconds": 1.758202,
+          "detail": null
+        },
+        {
+          "action": "calculate_periodic_forces",
+          "backend": "abinit",
+          "status": "success",
+          "source": "scientific_resource_smoke",
+          "elapsed_seconds": 2.591782,
+          "detail": null
+        },
+        {
+          "action": "calculate_periodic_forces",
+          "backend": "nequip",
+          "status": "success",
+          "source": "scientific_resource_smoke",
+          "elapsed_seconds": 32.639647,
+          "detail": null
         }
       ]
     },
@@ -3933,6 +5210,30 @@
           "status": "success",
           "source": "scientific_resource_smoke",
           "elapsed_seconds": 79.395914,
+          "detail": null
+        },
+        {
+          "action": "calculate_periodic_stress",
+          "backend": "quantum_espresso",
+          "status": "success",
+          "source": "scientific_resource_smoke",
+          "elapsed_seconds": 9.416443,
+          "detail": null
+        },
+        {
+          "action": "calculate_periodic_stress",
+          "backend": "abinit",
+          "status": "success",
+          "source": "scientific_resource_smoke",
+          "elapsed_seconds": 2.583354,
+          "detail": null
+        },
+        {
+          "action": "calculate_periodic_stress",
+          "backend": "deepmd",
+          "status": "success",
+          "source": "scientific_resource_smoke",
+          "elapsed_seconds": 17.696194,
           "detail": null
         }
       ]
@@ -4053,6 +5354,14 @@
           "status": "success",
           "source": "scientific_resource_smoke",
           "elapsed_seconds": 1.114024,
+          "detail": null
+        },
+        {
+          "action": "relax_periodic_structure",
+          "backend": "dftbplus",
+          "status": "success",
+          "source": "scientific_resource_smoke",
+          "elapsed_seconds": 1.789274,
           "detail": null
         }
       ]
@@ -4513,6 +5822,14 @@
           "source": "scientific_resource_smoke",
           "elapsed_seconds": 10.547848,
           "detail": null
+        },
+        {
+          "action": "dock_ligand",
+          "backend": "gnina",
+          "status": "success",
+          "source": "scientific_resource_smoke",
+          "elapsed_seconds": 7.860135,
+          "detail": null
         }
       ]
     },
@@ -4552,6 +5869,38 @@
           "source": "data_source_smoke",
           "elapsed_seconds": 2.588815,
           "detail": "ServerBusyError: PubChem HTTP Error 503 PUGREST.ServerBusy: Too many requests or server too busy"
+        },
+        {
+          "action": "search_compounds",
+          "backend": "pubchem",
+          "status": "success",
+          "source": "data_source_smoke",
+          "elapsed_seconds": 3.037438,
+          "detail": null
+        },
+        {
+          "action": "search_compounds",
+          "backend": "pubchem",
+          "status": "success",
+          "source": "data_source_smoke",
+          "elapsed_seconds": 7.690492,
+          "detail": null
+        },
+        {
+          "action": "search_compounds",
+          "backend": "pubchem",
+          "status": "success",
+          "source": "data_source_smoke",
+          "elapsed_seconds": 2.635324,
+          "detail": null
+        },
+        {
+          "action": "search_compounds",
+          "backend": "pubchem",
+          "status": "success",
+          "source": "data_source_smoke",
+          "elapsed_seconds": 3.732045,
+          "detail": null
         }
       ]
     },
@@ -4564,8 +5913,10 @@
       "catalog_backends": [
         "pubchem"
       ],
-      "status": "failure_only",
-      "successful_backends": [],
+      "status": "runtime_success",
+      "successful_backends": [
+        "pubchem"
+      ],
       "failed_backends": [
         "pubchem"
       ],
@@ -4580,6 +5931,22 @@
           "source": "action_gap_smoke",
           "elapsed_seconds": 4.513014,
           "detail": "PubChem PUG REST remained unavailable after 2 attempt(s): ServerBusyError: PubChem HTTP Error 503 PUGREST.ServerBusy: Too many requests or server too busy"
+        },
+        {
+          "action": "resolve_chemical_identity",
+          "backend": "pubchem",
+          "status": "success",
+          "source": "action_gap_smoke",
+          "elapsed_seconds": 7.640727,
+          "detail": null
+        },
+        {
+          "action": "resolve_chemical_identity",
+          "backend": "pubchem",
+          "status": "success",
+          "source": "action_gap_smoke",
+          "elapsed_seconds": 2.749968,
+          "detail": null
         }
       ]
     },
@@ -4592,8 +5959,10 @@
       "catalog_backends": [
         "pubchem"
       ],
-      "status": "failure_only",
-      "successful_backends": [],
+      "status": "runtime_success",
+      "successful_backends": [
+        "pubchem"
+      ],
       "failed_backends": [
         "pubchem"
       ],
@@ -4608,6 +5977,22 @@
           "source": "action_gap_smoke",
           "elapsed_seconds": 3.4535,
           "detail": "PubChem PUG REST remained unavailable after 2 attempt(s): ServerBusyError: PubChem HTTP Error 503 PUGREST.ServerBusy: Too many requests or server too busy"
+        },
+        {
+          "action": "retrieve_compound_properties",
+          "backend": "pubchem",
+          "status": "success",
+          "source": "action_gap_smoke",
+          "elapsed_seconds": 2.833463,
+          "detail": null
+        },
+        {
+          "action": "retrieve_compound_properties",
+          "backend": "pubchem",
+          "status": "success",
+          "source": "action_gap_smoke",
+          "elapsed_seconds": 2.581526,
+          "detail": null
         }
       ]
     },
@@ -4620,8 +6005,10 @@
       "catalog_backends": [
         "pubchem"
       ],
-      "status": "failure_only",
-      "successful_backends": [],
+      "status": "runtime_success",
+      "successful_backends": [
+        "pubchem"
+      ],
       "failed_backends": [
         "pubchem"
       ],
@@ -4636,6 +6023,22 @@
           "source": "action_gap_smoke",
           "elapsed_seconds": 3.914024,
           "detail": "PubChem PUG REST remained unavailable after 2 attempt(s): ServerBusyError: PubChem HTTP Error 503 PUGREST.ServerBusy: Too many requests or server too busy"
+        },
+        {
+          "action": "retrieve_compound_structure",
+          "backend": "pubchem",
+          "status": "success",
+          "source": "action_gap_smoke",
+          "elapsed_seconds": 2.518681,
+          "detail": null
+        },
+        {
+          "action": "retrieve_compound_structure",
+          "backend": "pubchem",
+          "status": "success",
+          "source": "action_gap_smoke",
+          "elapsed_seconds": 2.947617,
+          "detail": null
         }
       ]
     },
@@ -4648,8 +6051,10 @@
       "catalog_backends": [
         "pubchem"
       ],
-      "status": "failure_only",
-      "successful_backends": [],
+      "status": "runtime_success",
+      "successful_backends": [
+        "pubchem"
+      ],
       "failed_backends": [
         "pubchem"
       ],
@@ -4664,6 +6069,22 @@
           "source": "action_gap_smoke",
           "elapsed_seconds": 32.60505,
           "detail": "PubChem PUG REST remained unavailable after 2 attempt(s): HTTPStatusError: Server error '503 PUGREST.ServerBusy' for url 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/fastsimilarity_2d/smiles/CCO/cids/JSON?MaxRecords=1&MaxSeconds=30&Threshold=99'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503"
+        },
+        {
+          "action": "search_similar_compounds",
+          "backend": "pubchem",
+          "status": "success",
+          "source": "action_gap_smoke",
+          "elapsed_seconds": 4.162136,
+          "detail": null
+        },
+        {
+          "action": "search_similar_compounds",
+          "backend": "pubchem",
+          "status": "success",
+          "source": "action_gap_smoke",
+          "elapsed_seconds": 3.663227,
+          "detail": null
         }
       ]
     },
@@ -4676,8 +6097,10 @@
       "catalog_backends": [
         "pubchem"
       ],
-      "status": "failure_only",
-      "successful_backends": [],
+      "status": "runtime_success",
+      "successful_backends": [
+        "pubchem"
+      ],
       "failed_backends": [
         "pubchem"
       ],
@@ -4692,6 +6115,22 @@
           "source": "action_gap_smoke",
           "elapsed_seconds": 32.824973,
           "detail": "PubChem PUG REST remained unavailable after 2 attempt(s): HTTPStatusError: Server error '503 PUGREST.ServerBusy' for url 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/fastsubstructure/smarts/O/cids/JSON?MaxRecords=1&MaxSeconds=30&Stereo=ignore&MatchCharges=false&MatchIsotopes=false'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503"
+        },
+        {
+          "action": "search_substructures",
+          "backend": "pubchem",
+          "status": "success",
+          "source": "action_gap_smoke",
+          "elapsed_seconds": 3.189055,
+          "detail": null
+        },
+        {
+          "action": "search_substructures",
+          "backend": "pubchem",
+          "status": "success",
+          "source": "action_gap_smoke",
+          "elapsed_seconds": 3.385663,
+          "detail": null
         }
       ]
     },
@@ -4720,6 +6159,38 @@
           "source": "data_source_smoke",
           "elapsed_seconds": 3.998424,
           "detail": null
+        },
+        {
+          "action": "search_protein_structures",
+          "backend": "rcsb_pdb",
+          "status": "success",
+          "source": "data_source_smoke",
+          "elapsed_seconds": 2.964497,
+          "detail": null
+        },
+        {
+          "action": "search_protein_structures",
+          "backend": "rcsb_pdb",
+          "status": "success",
+          "source": "data_source_smoke",
+          "elapsed_seconds": 3.171992,
+          "detail": null
+        },
+        {
+          "action": "search_protein_structures",
+          "backend": "rcsb_pdb",
+          "status": "success",
+          "source": "data_source_smoke",
+          "elapsed_seconds": 2.893845,
+          "detail": null
+        },
+        {
+          "action": "search_protein_structures",
+          "backend": "rcsb_pdb",
+          "status": "success",
+          "source": "data_source_smoke",
+          "elapsed_seconds": 2.978588,
+          "detail": null
         }
       ]
     },
@@ -4736,7 +6207,9 @@
       "successful_backends": [
         "materials_project"
       ],
-      "failed_backends": [],
+      "failed_backends": [
+        "materials_project"
+      ],
       "evidence_sources": [
         "data_source_smoke"
       ],
@@ -4747,6 +6220,38 @@
           "status": "success",
           "source": "data_source_smoke",
           "elapsed_seconds": 2.409648,
+          "detail": null
+        },
+        {
+          "action": "search_materials",
+          "backend": "materials_project",
+          "status": "timeout",
+          "source": "data_source_smoke",
+          "elapsed_seconds": 62.03474,
+          "detail": "Backend runtime exceeded 60 seconds"
+        },
+        {
+          "action": "search_materials",
+          "backend": "materials_project",
+          "status": "success",
+          "source": "data_source_smoke",
+          "elapsed_seconds": 3.633933,
+          "detail": null
+        },
+        {
+          "action": "search_materials",
+          "backend": "materials_project",
+          "status": "success",
+          "source": "data_source_smoke",
+          "elapsed_seconds": 2.992467,
+          "detail": null
+        },
+        {
+          "action": "search_materials",
+          "backend": "materials_project",
+          "status": "success",
+          "source": "data_source_smoke",
+          "elapsed_seconds": 2.994863,
           "detail": null
         }
       ]
@@ -4787,6 +6292,54 @@
           "source": "data_source_smoke",
           "elapsed_seconds": 32.363522,
           "detail": "HTTPStatusError: Server error '503 Service Unavailable' for url 'https://api.catalysis-hub.org/graphql'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503"
+        },
+        {
+          "action": "search_catalysis_records",
+          "backend": "catalysis_hub",
+          "status": "failed",
+          "source": "action_gap_smoke",
+          "elapsed_seconds": 2.996771,
+          "detail": "HTTPStatusError: Client error '401 Unauthorized' for url 'https://api.catalysis-hub.org/graphql'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401"
+        },
+        {
+          "action": "search_catalysis_records",
+          "backend": "catalysis_hub",
+          "status": "failed",
+          "source": "data_source_smoke",
+          "elapsed_seconds": 3.380895,
+          "detail": "HTTPStatusError: Client error '401 Unauthorized' for url 'https://api.catalysis-hub.org/graphql'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401"
+        },
+        {
+          "action": "search_catalysis_records",
+          "backend": "catalysis_hub",
+          "status": "success",
+          "source": "data_source_smoke",
+          "elapsed_seconds": 3.74033,
+          "detail": null
+        },
+        {
+          "action": "search_catalysis_records",
+          "backend": "catalysis_hub",
+          "status": "success",
+          "source": "data_source_smoke",
+          "elapsed_seconds": 3.31938,
+          "detail": null
+        },
+        {
+          "action": "search_catalysis_records",
+          "backend": "catalysis_hub",
+          "status": "success",
+          "source": "action_gap_smoke",
+          "elapsed_seconds": 3.272144,
+          "detail": null
+        },
+        {
+          "action": "search_catalysis_records",
+          "backend": "catalysis_hub",
+          "status": "success",
+          "source": "data_source_smoke",
+          "elapsed_seconds": 7.80913,
+          "detail": null
         }
       ]
     },
@@ -4815,6 +6368,38 @@
           "source": "data_source_smoke",
           "elapsed_seconds": 2.304827,
           "detail": null
+        },
+        {
+          "action": "lookup_nist_webbook_species",
+          "backend": "nist_webbook",
+          "status": "success",
+          "source": "data_source_smoke",
+          "elapsed_seconds": 2.862756,
+          "detail": null
+        },
+        {
+          "action": "lookup_nist_webbook_species",
+          "backend": "nist_webbook",
+          "status": "success",
+          "source": "data_source_smoke",
+          "elapsed_seconds": 3.455098,
+          "detail": null
+        },
+        {
+          "action": "lookup_nist_webbook_species",
+          "backend": "nist_webbook",
+          "status": "success",
+          "source": "data_source_smoke",
+          "elapsed_seconds": 3.158027,
+          "detail": null
+        },
+        {
+          "action": "lookup_nist_webbook_species",
+          "backend": "nist_webbook",
+          "status": "success",
+          "source": "data_source_smoke",
+          "elapsed_seconds": 2.973672,
+          "detail": null
         }
       ]
     }
@@ -4825,12 +6410,20 @@
       "rdkit"
     ],
     [
+      "analyze_activation_strain_profile",
+      "pyfrag"
+    ],
+    [
       "analyze_crystal_symmetry",
       "pymatgen"
     ],
     [
       "analyze_crystal_symmetry",
       "spglib"
+    ],
+    [
+      "analyze_crystal_symmetry",
+      "vaspkit"
     ],
     [
       "analyze_electron_density_topology",
@@ -4841,8 +6434,16 @@
       "pymbar"
     ],
     [
+      "analyze_nonadiabatic_trajectory_ensemble",
+      "internal_trajectory_analysis"
+    ],
+    [
       "analyze_periodic_bonding",
       "lobster"
+    ],
+    [
+      "analyze_post_transition_state_trajectory_ensemble",
+      "internal_reaction_analysis"
     ],
     [
       "analyze_reaction_coordinate",
@@ -4867,6 +6468,14 @@
     [
       "assemble_force_constants",
       "phonopy"
+    ],
+    [
+      "assess_phonon_stability",
+      "internal_periodic_analysis"
+    ],
+    [
+      "assess_symbolic_regression_seed_stability",
+      "gplearn"
     ],
     [
       "assign_force_field_parameters",
@@ -4899,6 +6508,10 @@
     [
       "build_supercell",
       "pymatgen"
+    ],
+    [
+      "calculate_adsorption_energy",
+      "internal_periodic_analysis"
     ],
     [
       "calculate_atomic_basin_properties",
@@ -4947,6 +6560,10 @@
     [
       "calculate_bond_orders",
       "xtb"
+    ],
+    [
+      "calculate_bse_optical_spectrum",
+      "yambo"
     ],
     [
       "calculate_charge_spilling",
@@ -5023,6 +6640,14 @@
     [
       "calculate_electronic_band_structure",
       "gpaw"
+    ],
+    [
+      "calculate_end_state_binding_free_energy",
+      "gmx_mmpbsa"
+    ],
+    [
+      "calculate_end_state_energy_decomposition",
+      "gmx_mmpbsa"
     ],
     [
       "calculate_energy",
@@ -5225,6 +6850,18 @@
       "rdkit"
     ],
     [
+      "calculate_multireference_nuclear_gradient",
+      "bagel"
+    ],
+    [
+      "calculate_multireference_state_energies",
+      "bagel"
+    ],
+    [
+      "calculate_nonadiabatic_coupling_vector",
+      "bagel"
+    ],
+    [
       "calculate_orbitals",
       "openmolcas"
     ],
@@ -5393,6 +7030,10 @@
       "lobster"
     ],
     [
+      "calculate_quasiparticle_corrections",
+      "yambo"
+    ],
+    [
       "calculate_radial_distribution",
       "mdanalysis"
     ],
@@ -5413,6 +7054,10 @@
       "mdtraj"
     ],
     [
+      "calculate_temperature_dependent_phonon_dispersion",
+      "tdep"
+    ],
+    [
       "calculate_trajectory_rmsd",
       "mdanalysis"
     ],
@@ -5431,6 +7076,18 @@
     [
       "cluster_trajectory",
       "mdtraj"
+    ],
+    [
+      "construct_pressure_enthalpy_phase_diagram",
+      "internal_periodic_analysis"
+    ],
+    [
+      "convert_amber_topology_to_gromacs",
+      "acpype"
+    ],
+    [
+      "convert_crystal_structure_format",
+      "airss"
     ],
     [
       "decompose_force_field_energy",
@@ -5455,6 +7112,10 @@
     [
       "derive_vibrational_modes",
       "internal_vibrations"
+    ],
+    [
+      "discover_sparse_symbolic_descriptor",
+      "sisso"
     ],
     [
       "dock_ligand",
@@ -5493,8 +7154,28 @@
       "plumed"
     ],
     [
+      "evaluate_sparse_symbolic_descriptor",
+      "sisso"
+    ],
+    [
+      "explore_reaction_network",
+      "kinbot"
+    ],
+    [
       "export_electron_density_grid",
       "orca"
+    ],
+    [
+      "extract_vasp_band_gap",
+      "vaspkit"
+    ],
+    [
+      "fit_effective_force_constants",
+      "tdep"
+    ],
+    [
+      "fit_symbolic_regression_baseline",
+      "gplearn"
     ],
     [
       "generate_3d_structure",
@@ -5505,6 +7186,10 @@
       "rdkit"
     ],
     [
+      "generate_alchemical_hybrid_topology",
+      "pmx"
+    ],
+    [
       "generate_conformer_ensemble",
       "crest"
     ],
@@ -5513,12 +7198,28 @@
       "rdkit_etkdg"
     ],
     [
+      "generate_crystal_structure_candidates",
+      "airss"
+    ],
+    [
       "generate_displaced_supercells",
       "phono3py"
     ],
     [
       "generate_displaced_supercells",
       "phonopy"
+    ],
+    [
+      "generate_small_molecule_topology",
+      "acpype"
+    ],
+    [
+      "generate_thermal_displacement_configurations",
+      "tdep"
+    ],
+    [
+      "generate_vasp_kpoint_mesh",
+      "vaspkit"
     ],
     [
       "integrate_reaction_network",
@@ -5539,6 +7240,10 @@
     [
       "lookup_nist_webbook_species",
       "nist_webbook"
+    ],
+    [
+      "map_alchemical_ligand_atoms",
+      "pmx"
     ],
     [
       "minimize_system_energy",
@@ -5567,6 +7272,10 @@
     [
       "minimize_system_energy",
       "openmm"
+    ],
+    [
+      "mutate_biomolecular_residues_for_alchemy",
+      "pmx"
     ],
     [
       "normalize_pdb_records",
@@ -5661,6 +7370,10 @@
       "openmm"
     ],
     [
+      "propagate_nonadiabatic_trajectory",
+      "sharc"
+    ],
+    [
       "rank_conformers_from_results",
       "internal_statistics"
     ],
@@ -5713,6 +7426,18 @@
       "pdbfixer"
     ],
     [
+      "resolve_chemical_identity",
+      "pubchem"
+    ],
+    [
+      "retrieve_compound_properties",
+      "pubchem"
+    ],
+    [
+      "retrieve_compound_structure",
+      "pubchem"
+    ],
+    [
       "scan_reaction_coordinates",
       "pysisyphus"
     ],
@@ -5743,6 +7468,14 @@
     [
       "search_reaction_path",
       "pysisyphus"
+    ],
+    [
+      "search_similar_compounds",
+      "pubchem"
+    ],
+    [
+      "search_substructures",
+      "pubchem"
     ],
     [
       "select_structure_subset",
@@ -5781,8 +7514,28 @@
       "rdkit"
     ],
     [
+      "summarize_activation_strain_profile",
+      "pyfrag"
+    ],
+    [
+      "summarize_end_state_free_energy_results",
+      "gmx_mmpbsa"
+    ],
+    [
+      "summarize_sparse_symbolic_descriptor_results",
+      "sisso"
+    ],
+    [
+      "summarize_symbolic_regression_results",
+      "gplearn"
+    ],
+    [
       "trace_intrinsic_reaction_coordinate",
       "pysisyphus"
+    ],
+    [
+      "validate_activation_strain_profile",
+      "pyfrag"
     ],
     [
       "validate_qcschema_record",
@@ -5797,28 +7550,7 @@
       "goodvibes"
     ]
   ],
-  "failed_action_backend_pairs": [
-    [
-      "resolve_chemical_identity",
-      "pubchem"
-    ],
-    [
-      "retrieve_compound_properties",
-      "pubchem"
-    ],
-    [
-      "retrieve_compound_structure",
-      "pubchem"
-    ],
-    [
-      "search_similar_compounds",
-      "pubchem"
-    ],
-    [
-      "search_substructures",
-      "pubchem"
-    ]
-  ],
+  "failed_action_backend_pairs": [],
   "unobserved_action_backend_pairs": [],
   "backends_without_runtime_success_evidence": []
 }

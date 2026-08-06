@@ -23,6 +23,7 @@ for path in (SOURCE_ROOT, ROOT):
 from dotenv import load_dotenv
 
 from researchchem_toolbox.service import execute_action
+from researchchem_toolbox.paths import portable_report_value
 
 
 STATUS_PATH = TOOLBOX_ROOT / "config" / "backend_gap_smoke_status.json"
@@ -515,6 +516,7 @@ def main() -> int:
         },
         "cases": records,
     }
+    payload = portable_report_value(payload)
     STATUS_PATH.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(STATUS_PATH)
     print(json.dumps(payload["summary"], ensure_ascii=False))

@@ -3,7 +3,7 @@ root: .envs
 
 # Physical Conda prefixes used by the consolidated runtime layout.  Logical
 # backend runtime ids remain unchanged; mcp_profiles.yaml maps those ids to one
-# of these six prefixes so Action and backend selection semantics do not change.
+# of these seven prefixes so Action and backend selection semantics do not change.
 environments:
   general:
     path: .envs/general-modern-openmpi5
@@ -49,6 +49,14 @@ environments:
       CatMAP compatibility runtime pinned to ASE 3.17 together with Yambo 5.3,
       whose OpenMPI-4 ABI remains isolated from the general runtime.
 
+  gmx_mmpbsa:
+    path: .envs/gmx-mmpbsa
+    seed: fresh
+    python_version: "3.11"
+    description: >-
+      gmx_MMPBSA 1.6.5 runtime pinned to its supported AmberTools 23.6,
+      Python 3.11, NumPy 1.x, and GROMACS dependency line.
+
 runtime_mapping:
   general:
     - core
@@ -82,12 +90,17 @@ runtime_mapping:
     - theodore
     - sharc
     - vesta
+    - airss
+    - bagel
+    - vaspkit
 
   molecular_simulation:
     - free_energy
     - md
     - openff
     - docking
+    - acpype
+    - pmx
 
   reaction_kinetics:
     - abinit
@@ -96,6 +109,11 @@ runtime_mapping:
     - rmg
     - kinbot
     - sella
+    - censo
+    - gplearn
+    - pyfrag
+    - sisso
+    - tdep
 
   equivariant_ml:
     - nequip
@@ -107,3 +125,6 @@ runtime_mapping:
   catmap_yambo:
     - catmap
     - yambo
+
+  gmx_mmpbsa:
+    - gmx_mmpbsa

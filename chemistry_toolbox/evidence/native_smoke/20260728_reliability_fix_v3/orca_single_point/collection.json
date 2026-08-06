@@ -1,88 +1,88 @@
 {
-  "schema_version": 1,
-  "job_id": "job_575bdbee7cb04165b7290c683350e137",
-  "job_status": "success",
-  "collected_at": "2026-07-28T18:42:52.356013+00:00",
-  "include_inputs": false,
-  "truncated": false,
-  "outputs": [
-    {
-      "path": "outputs/execution_jobs/job_575bdbee7cb04165b7290c683350e137/input.bibtex",
-      "job_relative_path": "input.bibtex",
-      "size_bytes": 1806,
-      "sha256": "e758a502365e0706720fa3dc93c94e43ee2c604e3e8f753f7dff93437c13b13b",
-      "kind": "output"
-    },
-    {
-      "path": "outputs/execution_jobs/job_575bdbee7cb04165b7290c683350e137/input.densities",
-      "job_relative_path": "input.densities",
-      "size_bytes": 784,
-      "sha256": "a5afb40cfa69fac01f3c2b0a400e25e98d9748d02d4163f51371afac8c2d8a2c",
-      "kind": "output"
-    },
-    {
-      "path": "outputs/execution_jobs/job_575bdbee7cb04165b7290c683350e137/input.densitiesinfo",
-      "job_relative_path": "input.densitiesinfo",
-      "size_bytes": 1838,
-      "sha256": "a284da1fb5245199d000c4393ebbdd77308f003fc9ded8de0171e2ceade7999e",
-      "kind": "output"
-    },
-    {
-      "path": "outputs/execution_jobs/job_575bdbee7cb04165b7290c683350e137/input.gbw",
-      "job_relative_path": "input.gbw",
-      "size_bytes": 985228,
-      "sha256": "f9d412ba4bf9e582643ae73da82cf883cc61ff98d973d9fd9bc2dbb61e511e33",
-      "kind": "output"
-    },
-    {
-      "path": "outputs/execution_jobs/job_575bdbee7cb04165b7290c683350e137/input.property.txt",
-      "job_relative_path": "input.property.txt",
-      "size_bytes": 9169,
-      "sha256": "18df3f34a41260f653e6397f313d24dc1b993614def1404798ff25f610e8849e",
-      "kind": "output"
-    },
-    {
-      "path": "outputs/execution_jobs/job_575bdbee7cb04165b7290c683350e137/stderr.log",
-      "job_relative_path": "stderr.log",
-      "size_bytes": 0,
-      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "kind": "log"
-    },
-    {
-      "path": "outputs/execution_jobs/job_575bdbee7cb04165b7290c683350e137/stdout.log",
-      "job_relative_path": "stdout.log",
-      "size_bytes": 41275,
-      "sha256": "8d4f5a42d561b2ff007c9ac582a07d1bbfe7b153aee3362f13c43f57350d3210",
-      "kind": "log"
-    }
-  ],
-  "request_status": "accepted",
-  "process_status": "completed",
-  "software_status": "normal_termination",
-  "convergence_status": "converged",
   "artifact_status": "valid",
-  "scientific_validation_status": "mechanically_valid",
+  "collected_at": "2026-07-28T18:42:52.356013+00:00",
+  "convergence_status": "converged",
+  "declared_artifacts": [],
   "execution_status_details": {
-    "software": {
-      "status": "normal_termination",
+    "artifacts": {
       "evidence": [
-        "ORCA TERMINATED NORMALLY"
-      ]
+        "stdout.log"
+      ],
+      "status": "valid"
     },
     "convergence": {
-      "status": "converged",
+      "calculation_intent": "single_point",
       "evidence": [
         "SCF CONVERGED"
       ],
-      "calculation_intent": "single_point"
+      "status": "converged"
     },
-    "artifacts": {
-      "status": "valid",
+    "scientific_validation_boundary": "Mechanical validation does not judge whether the Agent's final scientific interpretation or paper conclusion is correct; that remains the Judger's role.",
+    "software": {
       "evidence": [
-        "stdout.log"
-      ]
-    },
-    "scientific_validation_boundary": "Mechanical validation does not judge whether the Agent's final scientific interpretation or paper conclusion is correct; that remains the Judger's role."
+        "ORCA TERMINATED NORMALLY"
+      ],
+      "status": "normal_termination"
+    }
   },
-  "declared_artifacts": []
+  "include_inputs": false,
+  "job_id": "job_575bdbee7cb04165b7290c683350e137",
+  "job_status": "success",
+  "outputs": [
+    {
+      "job_relative_path": "input.bibtex",
+      "kind": "output",
+      "path": "outputs/execution_jobs/job_575bdbee7cb04165b7290c683350e137/input.bibtex",
+      "sha256": "e758a502365e0706720fa3dc93c94e43ee2c604e3e8f753f7dff93437c13b13b",
+      "size_bytes": 1806
+    },
+    {
+      "job_relative_path": "input.densities",
+      "kind": "output",
+      "path": "outputs/execution_jobs/job_575bdbee7cb04165b7290c683350e137/input.densities",
+      "sha256": "a5afb40cfa69fac01f3c2b0a400e25e98d9748d02d4163f51371afac8c2d8a2c",
+      "size_bytes": 784
+    },
+    {
+      "job_relative_path": "input.densitiesinfo",
+      "kind": "output",
+      "path": "outputs/execution_jobs/job_575bdbee7cb04165b7290c683350e137/input.densitiesinfo",
+      "sha256": "a284da1fb5245199d000c4393ebbdd77308f003fc9ded8de0171e2ceade7999e",
+      "size_bytes": 1838
+    },
+    {
+      "job_relative_path": "input.gbw",
+      "kind": "output",
+      "path": "outputs/execution_jobs/job_575bdbee7cb04165b7290c683350e137/input.gbw",
+      "sha256": "f9d412ba4bf9e582643ae73da82cf883cc61ff98d973d9fd9bc2dbb61e511e33",
+      "size_bytes": 985228
+    },
+    {
+      "job_relative_path": "input.property.txt",
+      "kind": "output",
+      "path": "outputs/execution_jobs/job_575bdbee7cb04165b7290c683350e137/input.property.txt",
+      "sha256": "18df3f34a41260f653e6397f313d24dc1b993614def1404798ff25f610e8849e",
+      "size_bytes": 9169
+    },
+    {
+      "job_relative_path": "stderr.log",
+      "kind": "log",
+      "path": "outputs/execution_jobs/job_575bdbee7cb04165b7290c683350e137/stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "job_relative_path": "stdout.log",
+      "kind": "log",
+      "path": "outputs/execution_jobs/job_575bdbee7cb04165b7290c683350e137/stdout.log",
+      "sha256": "8d4f5a42d561b2ff007c9ac582a07d1bbfe7b153aee3362f13c43f57350d3210",
+      "size_bytes": 41275
+    }
+  ],
+  "process_status": "completed",
+  "request_status": "accepted",
+  "schema_version": 1,
+  "scientific_validation_status": "mechanically_valid",
+  "software_status": "normal_termination",
+  "truncated": false
 }

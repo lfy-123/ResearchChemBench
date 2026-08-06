@@ -1,62 +1,24 @@
-# Dependency runtimes that do not filter or own predefined Action tools.
-# Installed modules and reviewed commands can be selected explicitly through
-# the programmable/native MCP layers; no workflow or scientific parameter is
-# inferred from an auxiliary environment.
-# Every runtime points directly to one of the six physical .envs prefixes, or to
-# an explicit external-software directory under .software_cache.
+schema_version: 2
+
+# Dependency runtimes without a registered BackendSpec. They are available only
+# through the programmable/native MCP layers and never filter public Actions.
 auxiliary_environments:
-  workflows:
-    conda_name: researchchem-workflows
+  automekin:
+    conda_name: researchchem-automekin
     environment: .envs/general-modern-openmpi5
-    description: QCSchema/QCElemental/QCEngine, AiiDA, atomate2, jobflow and workflow data libraries.
-    conda_packages: [aiida-core=2.8.0, atomate2=0.1.5, jobflow=0.3.1, qcelemental, qcengine, cclib, pymatgen, spglib, mdtraj]
+    description: AutoMeKin source build with its bundled MOPAC engine and isolated Python/compiler dependencies.
+    conda_packages: [python=3.11, numpy, scipy, ase, networkx, matplotlib, parallel, gawk, gxx_linux-64, gfortran_linux-64, make, autoconf, automake, sqlite, bc]
     pip_packages: []
-    modules: [aiida, atomate2, jobflow, qcelemental, qcengine, cclib, pymatgen, spglib, mdtraj]
-    commands: [verdi]
-    cache_paths: [.software_cache/aiida]
+    modules: [numpy, scipy, ase, networkx]
+    commands: [amk.sh, mopac, bbfs.exe]
+    path_entries: [.software_cache/automekin/install/bin, .software_cache/automekin/install/bin/HLscripts, .software_cache/automekin/install/bin/MOPAC_DEV]
+    library_path_entries: [.software_cache/automekin/install/lib, .software_cache/automekin/install/bin/MOPAC_DEV, .envs/general-modern-openmpi5/lib]
+    cache_paths: [.software_cache/automekin/source, .software_cache/automekin/install]
     environment_variables:
-      AIIDA_PATH: .software_cache/aiida
+      AMK: .software_cache/automekin/install
     smoke_commands:
-      - [verdi, status]
-    notes: SQLite AiiDA profile researchchembench is initialized; RabbitMQ/daemon is optional and not started.
-
-  nwchem:
-    conda_name: researchchem-nwchem
-    environment: .envs/general-modern-openmpi5
-    description: NWChem 7.3.1 executable plus QCEngine/QCSchema bridge and parser libraries.
-    conda_packages: [nwchem=7.3.1, qcengine, qcelemental, cclib, geometric, ase]
-    pip_packages: [autode=1.4.5]
-    modules: [qcelemental, qcengine, cclib, geometric, autode, ase]
-    commands: [nwchem, qcengine]
-    cache_paths: [.software_cache/nwchem/source/src/basis/libraries]
-    environment_variables:
-      NWCHEM_BASIS_LIBRARY: .software_cache/nwchem/source/src/basis/libraries
-    notes: The official NWChem basis-library tree is kept in .software_cache; QCEngine HF/STO-3G water smoke passed.
-
-  gpaw:
-    conda_name: researchchem-gpaw
-    environment: .envs/general-modern-openmpi5
-    description: GPAW 25.7.0 CPU runtime with PAW setup data.
-    conda_packages: [gpaw=25.7.0, ase]
-    pip_packages: []
-    modules: [gpaw, ase]
-    commands: [gpaw]
-    cache_paths: [.software_cache/gpaw/setups]
-    environment_variables:
-      GPAW_SETUP_PATH: .software_cache/gpaw/setups
-    smoke_commands:
-      - [gpaw, info]
-    notes: H2 PBE/PW200 energy smoke passed; no GPU is assumed.
-
-  free_energy:
-    conda_name: researchchem-free-energy
-    environment: .envs/molecular-simulation-openff
-    description: HOOMD-blue, PyMBAR and alchemlyb analysis runtime.
-    conda_packages: [hoomd=7.1.0, pymbar=4.2.0, alchemlyb=2.5.0, mdtraj]
-    pip_packages: []
-    modules: [hoomd, pymbar, alchemlyb, mdtraj]
-    commands: []
-    notes: CPU HOOMD zero-step and PyMBAR three-state smokes passed; alchemlyb import passed.
+      - [bash, -c, 'cd .software_cache/automekin/smoke && mopac water.mop >/dev/null && grep -q "JOB ENDED NORMALLY" water.out']
+    notes: A real water PM7 single-point calculation ended normally. Coupling to other engines remains an explicit Agent decision.
 
   censo:
     conda_name: researchchem-censo-orca
@@ -78,220 +40,7 @@ auxiliary_environments:
       OMPI_MCA_btl: self,vader,tcp
     smoke_commands:
       - [bash, -c, 'grep -q "All jobs executed successfully" .software_cache/censo/smoke_prescreen3/censo.log']
-    notes: The isolated .censo2rc selects ORCA for every electronic-structure stage and stores absolute local ORCA/xTB paths. Matching OpenMPI 4.1.8 is prepended for ORCA child jobs. A real two-conformer ORCA prescreen completed; regenerate the absolute paths after moving the repository.
-
-  rmg:
-    conda_name: researchchem-rmg
-    environment: .envs/kinetics-legacy
-    description: RMG-Py 4.0.0 and Arkane package runtime.
-    conda_packages: [rmg=4.0.0]
-    pip_packages: [CoolProp==8.0.0, numdifftools==0.9.42]
-    modules: [rmgpy]
-    commands: [rmg.py, Arkane.py]
-    cache_paths: [.software_cache/rmg/database/4.0.0/input, .software_cache/rmg/source/4.0.0]
-    environment_variables:
-      HOME: .software_cache/rmg/home
-    notes: RMG-Py 4.0.0 source and database 4.0.0 are cached. CoolProp 8.0.0 avoids the RMG/CoolProp import-order hang, and numdifftools 0.9.42 is compatible with NumPy 1.26. The database root is configured through .software_cache/rmg/home/.rmg/rmgrc.
-
-  kinbot:
-    conda_name: researchchem-kinbot
-    environment: .envs/kinetics-legacy
-    description: KinBot 2.2.2 with Sella/JAX and geometry dependencies.
-    conda_packages: [numpy=1.26, scipy, ase, networkx, matplotlib, rmsd, openbabel, jax=0.4.35, jaxlib=0.4.35]
-    pip_packages: [kinbot=2.2.2, sella=2.5.0]
-    modules: [kinbot, sella, jax, openbabel]
-    commands: [kinbot, pes]
-    notes: Imports and command entry points pass; a production PES run still needs a concrete input and is not run by health audit.
-
-  critic2:
-    conda_name: researchchem-source-runtime-critic2
-    environment: .envs/general-modern-openmpi5
-    description: Critic2 1.2.1081 source build using the shared conda compiler/runtime libraries.
-    conda_packages: [gfortran_linux-64, spglib]
-    pip_packages: []
-    modules: []
-    commands: [critic2]
-    path_entries: [.software_cache/critic2/install-conda/bin]
-    library_path_entries: [.envs/general-modern-openmpi5/lib]
-    cache_paths: [.software_cache/critic2/source, .software_cache/critic2/install-conda]
-    notes: Official source was compiled with internal LAPACK and OpenMP; interactive startup/end smoke passed.
-
-  shengbte:
-    conda_name: researchchem-source-runtime-shengbte
-    environment: .envs/general-modern-openmpi5
-    description: ShengBTE source build using OpenMPI, spglib, LAPACK and OpenMP.
-    conda_packages: [openmpi, spglib, lapack, blas, gfortran_linux-64]
-    pip_packages: []
-    modules: []
-    commands: [ShengBTE]
-    path_entries: [.software_cache/shengbte/source]
-    library_path_entries: [.envs/general-modern-openmpi5/lib]
-    cache_paths: [.software_cache/shengbte/source]
-    notes: Official Bitbucket master was compiled; the supplied Test-RTA completed normally and produced conductivity/heat-capacity outputs.
-
-  openmolcas:
-    conda_name: researchchem-source-runtime-openmolcas
-    environment: .envs/general-modern-openmpi5
-    description: OpenMolcas v25.10 serial/OpenMP source build with the pymolcas driver.
-    conda_packages: [gfortran_linux-64, pyparsing]
-    pip_packages: []
-    modules: []
-    commands: [pymolcas]
-    path_entries: [.software_cache/openmolcas/25.10, .software_cache/openmolcas/25.10/bin]
-    library_path_entries: [.software_cache/openmolcas/25.10/lib, .envs/general-modern-openmpi5/lib]
-    cache_paths: [.software_cache/openmolcas/source, .software_cache/openmolcas/25.10]
-    environment_variables:
-      MOLCAS: .software_cache/openmolcas/25.10
-    notes: v25.10 was compiled with internal BLAS/LAPACK, built-in Libxc and OpenMP; a real H2 STO-3G SCF returned -1.1167593075 hartree and Happy landing.
-
-  sharc:
-    conda_name: researchchem-source-runtime-sharc
-    environment: .envs/general-modern-openmpi5
-    description: SHARC4 core source build plus the ASCII wfoverlap executable.
-    conda_packages: [gfortran_linux-64, lapack, blas, fftw]
-    pip_packages: [numba==0.66.0, netCDF4==1.7.4, threadpoolctl==3.6.0]
-    modules: [numba, netCDF4, threadpoolctl]
-    commands: [sharc.x, wfoverlap.x, SHARC_ORCA.py, SHARC_MOLCAS.py]
-    prepend_path_entries: [.software_cache/sharc/source/bin, .software_cache/orca/6.1.1, .software_cache/openmpi/4.1.8-fortran/bin]
-    prepend_library_path_entries: [.software_cache/openmpi/4.1.8-fortran/lib, .software_cache/orca/6.1.1]
-    library_path_entries: [.envs/general-modern-openmpi5/lib]
-    cache_paths: [.software_cache/sharc/source, .software_cache/sharc/smoke/orca_h2, .software_cache/orca/6.1.1, .software_cache/openmpi/4.1.8-fortran, .software_cache/openmolcas/25.10]
-    environment_variables:
-      SHARC: .software_cache/sharc/source/bin
-      ORCA: .software_cache/orca/6.1.1
-      MOLCAS: .software_cache/openmolcas/25.10
-      TMPDIR: .software_cache/sharc/scratch
-      PYTHONPATH: .software_cache/sharc/source/lib
-      OPAL_PREFIX: .software_cache/openmpi/4.1.8-fortran
-      OMPI_ALLOW_RUN_AS_ROOT: "1"
-      OMPI_ALLOW_RUN_AS_ROOT_CONFIRM: "1"
-      OMPI_MCA_pml: ob1
-      OMPI_MCA_btl: self,vader,tcp
-    smoke_commands:
-      - [bash, -c, 'grep -q "All jobs finished successful" .software_cache/sharc/smoke/orca_h2/QM.log && test -s .software_cache/sharc/smoke/orca_h2/QM.out']
-    notes: Core SHARC4, ASCII wfoverlap and Python interface dependencies are installed. A real H2 SHARC-ORCA 6.1.1 energy/gradient interface job completed; OpenMolcas 25.10 is also configured. PySHARC remains optional because normal file-based trajectories do not require it.
-
-  multiwfn:
-    conda_name: researchchem-binary-runtime-multiwfn
-    environment: .envs/general-modern-openmpi5
-    description: Official Multiwfn 2026.7.15 Linux noGUI wavefunction-analysis runtime.
-    conda_packages: []
-    pip_packages: []
-    modules: []
-    commands: [Multiwfn_noGUI]
-    path_entries: [.software_cache/multiwfn/2026.7.15/Multiwfn_2026.7.15_bin_Linux_noGUI]
-    cache_paths: [.software_cache/multiwfn/2026.7.15]
-    environment_variables:
-      OMP_STACKSIZE: 2G
-    smoke_commands:
-      - [bash, -c, 'cd .software_cache/multiwfn/2026.7.15/Multiwfn_2026.7.15_bin_Linux_noGUI && printf "q\n" | ./Multiwfn_noGUI examples/H2.fch >/dev/null']
-    notes: The bundled H2.fch example loads and exits normally; GUI-only analysis is unavailable in this noGUI package and required citations remain mandatory.
-
-  mess:
-    conda_name: researchchem-source-runtime-mess
-    environment: .envs/general-modern-openmpi5
-    description: MESS 2020.1.24 master-equation solver built with SLATEC, OpenBLAS/LAPACK and OpenMP.
-    conda_packages: []
-    pip_packages: []
-    modules: []
-    commands: [mess]
-    path_entries: [.software_cache/mess/2020.1.24/build]
-    library_path_entries: [.envs/general-modern-openmpi5/lib]
-    cache_paths: [.software_cache/mess/2020.1.24]
-    environment_variables:
-      OMP_NUM_THREADS: '1'
-      OPENBLAS_NUM_THREADS: '1'
-    smoke_commands:
-      - [bash, -c, 'cd .software_cache/mess/smoke/hco && ../../2020.1.24/build/mess hco.inp >/dev/null']
-    notes: A real bundled HCO calculation completed across seven temperatures and three finite pressures plus the high-pressure limit.
-
-  mesmer:
-    conda_name: researchchem-source-runtime-mesmer
-    environment: .envs/general-modern-openmpi5
-    description: MESMER 7.1 command-line master-equation and energy-transfer solver.
-    conda_packages: []
-    pip_packages: []
-    modules: []
-    commands: [mesmer]
-    path_entries: [.software_cache/mesmer/7.1/bin]
-    cache_paths: [.software_cache/mesmer/7.1]
-    smoke_commands:
-      - [bash, -c, 'cd .software_cache/mesmer/smoke/examples/H2Ominimal && ../../../7.1/bin/mesmer H2Ominimal.xml -oH2Ominimal.audit.xml >/dev/null']
-    notes: Official SourceForge 7.1 source was compiled; the bundled minimal H2O example produces pressure-dependent rate output.
-
-  automekin:
-    conda_name: researchchem-automekin
-    environment: .envs/general-modern-openmpi5
-    description: AutoMeKin source build with its bundled MOPAC engine and isolated Python/compiler dependencies.
-    conda_packages: [python=3.11, numpy, scipy, ase, networkx, matplotlib, parallel, gawk, gxx_linux-64, gfortran_linux-64, make, autoconf, automake, sqlite, bc]
-    pip_packages: []
-    modules: [numpy, scipy, ase, networkx]
-    commands: [amk.sh, mopac, bbfs.exe]
-    path_entries: [.software_cache/automekin/install/bin, .software_cache/automekin/install/bin/HLscripts, .software_cache/automekin/install/bin/MOPAC_DEV]
-    library_path_entries: [.software_cache/automekin/install/lib, .software_cache/automekin/install/bin/MOPAC_DEV, .envs/general-modern-openmpi5/lib]
-    cache_paths: [.software_cache/automekin/source, .software_cache/automekin/install]
-    environment_variables:
-      AMK: .software_cache/automekin/install
-    smoke_commands:
-      - [bash, -c, 'cd .software_cache/automekin/smoke && mopac water.mop >/dev/null && grep -q "JOB ENDED NORMALLY" water.out']
-    notes: A real water PM7 single-point calculation ended normally. Gaussian is now configured as an independent atomic backend, but AutoMeKin-to-Gaussian/Qcore coupling is intentionally not prewired because the Agent must select and compose engines explicitly.
-
-  vesta:
-    conda_name: researchchem-binary-runtime-vesta
-    environment: .envs/general-modern-openmpi5
-    description: VESTA 3.90.5a GTK3 x86_64 GUI runtime with locally extracted system libraries.
-    conda_packages: []
-    pip_packages: []
-    modules: []
-    commands: [VESTA]
-    path_entries: [.software_cache/vesta/3.90.5a]
-    library_path_entries: [.software_cache/vesta/3.90.5a, .software_cache/vesta/deps/root/usr/lib/x86_64-linux-gnu]
-    cache_paths: [.software_cache/vesta/3.90.5a, .software_cache/vesta/deps]
-    smoke_commands:
-      - [bash, -c, 'timeout 5s xvfb-run -a VESTA >/dev/null 2>&1; code=$?; [ "$code" -eq 0 ] || [ "$code" -eq 124 ]']
-    notes: All dynamic libraries resolve and Xvfb headless startup remains healthy for the bounded smoke; interactive use still requires a suitable display/OpenGL stack.
-
-  yambo:
-    conda_name: researchchem-yambo
-    environment: .envs/yambo-openmpi4
-    description: Yambo 5.3.0 single-process executable and p2y interface.
-    conda_packages: [yambo=5.3.0]
-    pip_packages: []
-    modules: []
-    commands: [yambo, p2y]
-    cache_paths: [.software_cache/yambo/smoke/qe_si_8band, .software_cache/resources/qe_pseudos/yambo/Si.pbe-rrkj.UPF]
-    environment_variables:
-      OMPI_MCA_pml: ob1
-      OMPI_MCA_btl: self,vader,tcp
-    smoke_commands:
-      - [bash, -c, 'grep -q "P2Y completed" .software_cache/yambo/smoke/qe_si_8band/tmp/si.save/l_p2y && grep -q "Game Over" .software_cache/yambo/smoke/qe_si_8band/tmp/si.save/l_setup']
-    notes: A real QE 7.5 silicon NSCF database using the official norm-conserving Si.pbe-rrkj.UPF was converted by p2y and initialized by Yambo. GW/BSE calculations still need Agent-selected bands, cutoffs, k meshes and convergence tests.
-
-  vmd:
-    conda_name: researchchem-vmd
-    environment: .envs/general-modern-openmpi5
-    description: VMD 1.9.3 text-mode molecular visualization/trajectory parser.
-    conda_packages: [vmd=1.9.3]
-    pip_packages: []
-    modules: []
-    commands: [vmd]
-    smoke_commands:
-      - [vmd, -dispdev, text, -e, /dev/null]
-    notes: Text-mode startup passes without an X display; GUI rendering remains host/display dependent.
-
-  lobster:
-    conda_name: researchchem-lobster
-    environment: .envs/general-modern-openmpi5
-    description: Licensed LOBSTER 5.1.0 periodic bonding-analysis executable with pymatgen support.
-    conda_packages: [pymatgen]
-    pip_packages: []
-    modules: [pymatgen]
-    commands: [lobster-5.1.0]
-    path_entries: [.software_cache/lobster/5.1.0/package]
-    cache_paths: [.software_cache/lobster/5.1.0]
-    smoke_commands:
-      - [bash, -c, 'grep -q "finished in" .software_cache/lobster/5.1.0/smoke/qe_diamond/lobsterout && grep -q "abs. charge spilling" .software_cache/lobster/5.1.0/smoke/qe_diamond/lobsterout']
-    notes: A real Quantum ESPRESSO-to-LOBSTER diamond calculation completed with 1.12% absolute charge spilling. It remains runtime-only because the current public catalog has no typed periodic bonding-analysis Action; no arbitrary lobsterin runner was added.
+    notes: The repository-local CENSO configuration selects ORCA for all electronic-structure stages. Recreate that configuration after relocation with the documented setup command.
 
   newtonx:
     conda_name: researchchem-newtonx
@@ -317,7 +66,27 @@ auxiliary_environments:
       OMPI_MCA_btl: self,vader,tcp
     smoke_commands:
       - [bash, -c, 'grep -q "Normal termination of Newton-X" .software_cache/newton-x/26a/smoke/orca_test_cio/orca/01-MD-TDDFT-NAD-CIO/md.log']
-    notes: The bundled 1D analytical test passed. A real 1.5 fs ORCA 6.1.1 TDDFT nonadiabatic trajectory also passed after configuring matching OpenMPI 4.1.8 and CIOVERLAP. It remains runtime-only because a trajectory requires explicit states, couplings, hopping controls and interface inputs.
+    notes: The bundled analytical test and a real 1.5 fs ORCA trajectory passed. Scientific trajectory controls remain explicit native inputs.
+
+  pyfrag:
+    conda_name: researchchem-pyfrag-orca
+    environment: .envs/kinetics-legacy
+    description: Pinned PyFrag 2019.02 activation-strain runtime using a separately obtained ORCA 6.1.1 executable.
+    conda_packages: [python=3.11]
+    pip_packages: []
+    modules: []
+    commands: [pyfrag-orca, orca]
+    prepend_path_entries: [.software_cache/pyfrag/2019/bin, .software_cache/orca/6.1.1, .software_cache/openmpi/4.1.8-fortran/bin]
+    prepend_library_path_entries: [.software_cache/openmpi/4.1.8-fortran/lib]
+    cache_paths: [.software_cache/pyfrag/2019, .software_cache/orca/6.1.1, .software_cache/openmpi/4.1.8-fortran]
+    environment_variables:
+      CHEMGRAPH_PYFRAG_COMMAND: .software_cache/pyfrag/2019/bin/pyfrag-orca
+      OPAL_PREFIX: .software_cache/openmpi/4.1.8-fortran
+      OMPI_ALLOW_RUN_AS_ROOT: "1"
+      OMPI_ALLOW_RUN_AS_ROOT_CONFIRM: "1"
+      OMPI_MCA_pml: ob1
+      OMPI_MCA_btl: self,vader,tcp
+    notes: Apply chemistry_toolbox/patches/pyfrag-v1.0.0-python3-orca6.patch to source commit af2a122d. ORCA has separate registration and redistribution terms.
 
   theodore:
     conda_name: researchchem-theodore
@@ -327,4 +96,31 @@ auxiliary_environments:
     pip_packages: [theodore=2.5.0]
     modules: [theodore, cclib]
     commands: [theodore]
-    notes: TheoDORE imports and CLI start; optional OpenBabel/Orbkit extensions are not present and are recorded as non-blocking limitations.
+    notes: TheoDORE imports and CLI start; optional OpenBabel/Orbkit extensions are non-blocking extras.
+
+  vesta:
+    conda_name: researchchem-binary-runtime-vesta
+    environment: .envs/general-modern-openmpi5
+    description: VESTA 3.90.5a GTK3 x86_64 GUI runtime with locally extracted system libraries.
+    conda_packages: []
+    pip_packages: []
+    modules: []
+    commands: [VESTA]
+    path_entries: [.software_cache/vesta/3.90.5a]
+    library_path_entries: [.software_cache/vesta/3.90.5a, .software_cache/vesta/deps/root/usr/lib/x86_64-linux-gnu]
+    cache_paths: [.software_cache/vesta/3.90.5a, .software_cache/vesta/deps]
+    smoke_commands:
+      - [bash, -c, 'timeout 5s xvfb-run -a VESTA >/dev/null 2>&1; code=$?; [ "$code" -eq 0 ] || [ "$code" -eq 124 ]']
+    notes: Dynamic libraries resolve and bounded Xvfb startup passes. Interactive rendering still depends on a host display/OpenGL stack.
+
+  vmd:
+    conda_name: researchchem-vmd
+    environment: .envs/general-modern-openmpi5
+    description: VMD 1.9.3 text-mode molecular visualization and trajectory parser.
+    conda_packages: [vmd=1.9.3]
+    pip_packages: []
+    modules: []
+    commands: [vmd]
+    smoke_commands:
+      - [vmd, -dispdev, text, -e, /dev/null]
+    notes: Text-mode startup passes without an X display; GUI rendering remains host/display dependent.

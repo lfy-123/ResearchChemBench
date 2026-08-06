@@ -1,6 +1,6 @@
 # ResearchChemBench 化学工具箱与十方向建设总览
 
-更新：2026-08-05
+更新：2026-08-06
 
 ## 1. 核心结论
 
@@ -15,16 +15,17 @@
 
 | 项目 | 数量 | 含义 |
 |---|---:|---|
-| Predefined Actions | 114 | 可组合的原子科研步骤 |
-| BackendSpecs | 77 | Action 可调用的计算后端 |
-| 原生软件指南 | 54 | 智能体可直接操作的软件入口 |
+| Predefined Actions | 146 | 可组合的原子科研步骤 |
+| BackendSpecs | 89 | Action 可调用的计算后端 |
+| 原生软件指南 | 63 | 智能体可直接操作的软件入口 |
 | Programmable runtimes | 47 | Python/R 等可编程分析环境 |
 
 除既有核心链路外，本轮还完成了 RMG/Arkane、CENSO/ORCA、SHARC/ORCA、Newton-X/ORCA、QE/Wannier90、QE/Yambo、LOBSTER、Critic2 和 Multiwfn 的真实或有结果证据的 smoke。正式出题前仍应针对具体论文协议验证输入规模、数值收敛和评分容差。
 
 ### 2.2 当前运行边界
 
-- 当前请求清单为 48 项：47 项 `configured`，QCSchema 作为规范记为 `specification`；没有待修复的 `partial` 或 `not found` 项。
+- 当前请求清单为 58 项：57 项 `configured`，QCSchema 作为规范记为 `specification`；没有 `partial` 或 `not_found` 项。
+- 本轮新增 AIRSS、TDEP、ACPYPE、pmx、gmx_MMPBSA、SISSO、gplearn、PyFrag 和 BAGEL；VASPKIT 只允许本机非商业使用且禁止再分发。MultiWell、Progdyn 因无明确软件许可证未加入。
 - MATLAB、EasySpin、Q-Chem、Molpro、TURBOMOLE、CASTEP、CRYSTAL、WIEN2k、OpenEye 和 Schrodinger Suite 已按要求从活动工具箱中移除，不再称为“当前不可用软件”。
 - AiiDA 的同步本地执行可用；RabbitMQ/daemon 未启用，仅 daemon-backed `submit` 等后台工作流受限。
 - VESTA 依赖已补齐并通过 Xvfb 有界启动；它是可视化工具，不是计算求解器，交互模式仍需要显示环境。

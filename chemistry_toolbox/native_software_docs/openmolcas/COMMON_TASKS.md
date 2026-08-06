@@ -5,7 +5,7 @@ topics: ["common-tasks", "inputs", "outputs", "convergence"]
 aliases: ["OpenMolcas", "openmolcas"]
 inputs: ["input.inp"]
 outputs: ["stdout.log", "HDF5 and orbital files", "geometry and property files"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # OpenMolcas Common Tasks
@@ -17,6 +17,12 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 - **Geometry Optimization**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Frequency**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Spectroscopy**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
+
+## Preferred typed Action routes
+- `calculate_energy`: validated structured route through backend `openmolcas`.
+- `calculate_dipole_moment`: validated structured route through backend `openmolcas`.
+- `calculate_atomic_charges`: validated structured route through backend `openmolcas`.
+- `calculate_orbitals`: validated structured route through backend `openmolcas`.
 
 ## Minimum input responsibilities
 - `input.inp`

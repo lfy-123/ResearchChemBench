@@ -6,10 +6,12 @@ import yaml
 
 from researchchem_toolbox.environment_layout import (
     ENV_ROOT_ENV,
+    _runtime_to_group,
     resolve_configured_path,
     resolve_runtime_path,
 )
 from researchchem_toolbox.paths import PROJECT_ROOT
+from researchchem_toolbox.runtime import runtime_names
 
 
 def _pip_dependencies(environment_name: str) -> set[str]:
@@ -40,7 +42,7 @@ def _requirements(environment_name: str) -> set[str]:
     }
 
 
-def test_runtime_ids_map_to_six_physical_prefixes():
+def test_runtime_ids_map_to_seven_physical_prefixes():
     expected = {
         "core": "general-modern-openmpi5",
         "openff": "molecular-simulation-openff",
@@ -48,6 +50,7 @@ def test_runtime_ids_map_to_six_physical_prefixes():
         "deepmd": "equivariant-ml",
         "cp2k": "periodic-mpich",
         "catmap": "yambo-openmpi4",
+        "gmx_mmpbsa": "gmx-mmpbsa",
     }
     for runtime, basename in expected.items():
         path = resolve_runtime_path(runtime, f".envs/{basename}")
@@ -89,6 +92,12 @@ def test_environment_root_can_be_relocated(monkeypatch, tmp_path):
     assert resolve_configured_path(
         ".envs/general-modern-openmpi5/bin/python"
     ) == (expected_root / "general-modern-openmpi5/bin/python")
+    for runtime in runtime_names():
+        assert resolve_runtime_path(runtime, ".envs/ignored").is_relative_to(expected_root)
+
+
+def test_every_runtime_has_one_consolidated_environment_mapping():
+    assert set(runtime_names()) == set(_runtime_to_group())
 
 
 def test_repaired_runtime_dependencies_are_portable_build_inputs():

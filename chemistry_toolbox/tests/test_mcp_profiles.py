@@ -22,10 +22,7 @@ from researchchem_toolbox.runtime import runtime_environment
 
 def test_runtimes_cover_each_backend_once():
     config = load_profile_config()
-    assignments = {
-        **config["profiles"],
-        **config["support_environments"],
-    }
+    assignments = config["profiles"]
     assigned = [backend for value in assignments.values() for backend in value["backends"]]
     assert set(assigned) == set(backend_specs())
     assert len(assigned) == len(set(assigned)) == len(backend_specs())
@@ -35,7 +32,7 @@ def test_runtimes_cover_each_backend_once():
 
 def test_runtimes_have_unique_researchchem_conda_names():
     config = load_profile_config()
-    specifications = [*config["profiles"].values(), *config["support_environments"].values()]
+    specifications = list(config["profiles"].values())
     names = [specification["conda_name"] for specification in specifications]
     assert len(names) == len(set(names)) == len(specifications)
     assert all(name.startswith("researchchem-") for name in names)

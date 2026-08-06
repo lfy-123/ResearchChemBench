@@ -5,7 +5,7 @@ topics: ["common-tasks", "inputs", "outputs", "convergence"]
 aliases: ["phono3py", "phono3py"]
 inputs: ["unit cell", "displacement configuration", "force data", "optional Born charges"]
 outputs: ["supercell displacement structures", "phono3py_disp.yaml", "fc2.hdf5", "fc3.hdf5", "kappa files"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # phono3py Common Tasks
@@ -15,6 +15,15 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 - **Force-Set Creation**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Phonon Lifetimes**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Thermal Conductivity**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
+
+## Preferred typed Action routes
+- `generate_displaced_supercells`: validated structured route through backend `phono3py`.
+- `assemble_force_constants`: validated structured route through backend `phono3py`.
+- `calculate_phonon_dispersion`: validated structured route through backend `phono3py`.
+- `calculate_phonon_density_of_states`: validated structured route through backend `phono3py`.
+- `calculate_harmonic_thermodynamics`: validated structured route through backend `phono3py`.
+- `calculate_phonon_group_velocities`: validated structured route through backend `phono3py`.
+- `calculate_lattice_thermal_conductivity`: validated structured route through backend `phono3py`.
 
 ## Minimum input responsibilities
 - `unit cell`

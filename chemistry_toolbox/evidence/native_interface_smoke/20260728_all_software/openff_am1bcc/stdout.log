@@ -13,7 +13,7 @@
 [34m                          radius[0m: only read in radius
 [34m                          name  [0m: only read in atom name
 [34m                          type  [0m: only read in atom type
-[34m                          bond  [0m: only read in bond type 
+[34m                          bond  [0m: only read in bond type
 [31m                   -m    [0m multiplicity (2S+1), default is 1
 [31m                   -rn   [0m residue name, overrides input file, default is MOL
 [31m                   -rf   [0m residue toplogy file name in prep input file,
@@ -37,31 +37,30 @@
 [34m                          gaff [0m: the default
 [34m                          gaff2[0m: for gaff2 (beta-version)
 [34m                          amber[0m: for PARM94/99/99SB
-[34m                          bcc  [0m: bcc 
-[34m                          abcg2[0m: abcg2 
-[34m                          sybyl[0m: sybyl 
+[34m                          bcc  [0m: bcc
+[34m                          abcg2[0m: abcg2
+[34m                          sybyl[0m: sybyl
 [31m                   -du   [0m fix duplicate atom names: yes(y)[default] or no(n)
 [31m                   -bk   [0m component/block Id, for ccif
 [31m                   -an   [0m adjust atom names: yes(y) or no(n)
-                          the default is 'y' for 'mol2' and 'ac' and 'n' for the other formats 
-[31m                   -j    [0m atom type and bond type prediction index, default is 4 
+                          the default is 'y' for 'mol2' and 'ac' and 'n' for the other formats
+[31m                   -j    [0m atom type and bond type prediction index, default is 4
 [34m                          0    [0m: no assignment
-[34m                          1    [0m: atom type 
-[34m                          2    [0m: full  bond types 
-[34m                          3    [0m: part  bond types 
-[34m                          4    [0m: atom and full bond type 
-[34m                          5    [0m: atom and part bond type 
+[34m                          1    [0m: atom type
+[34m                          2    [0m: full  bond types
+[34m                          3    [0m: part  bond types
+[34m                          4    [0m: atom and full bond type
+[34m                          5    [0m: atom and part bond type
 [31m                   -s    [0m status information: 0(brief), 1(default) or 2(verbose)
-[31m                   -eq   [0m equalizing atomic charge, default is 1 for '-c resp', '-c bcc', '-c abcg2' and 0 for the other charge methods 
+[31m                   -eq   [0m equalizing atomic charge, default is 1 for '-c resp', '-c bcc', '-c abcg2' and 0 for the other charge methods
 [34m                          0    [0m: no use
-[34m                          1    [0m: by atomic paths 
-[34m                          2    [0m: by atomic paths and structural information, i.e. E/Z configurations 
+[34m                          1    [0m: by atomic paths
+[34m                          2    [0m: by atomic paths and structural information, i.e. E/Z configurations
 [31m                   -pf   [0m remove intermediate files: yes(y) or no(n)[default]
 [31m                   -pl   [0m maximum path length to determin equivalence of atomic charges for resp, bcc and abcg2,
 [31m                         [0m the smaller the value, the faster the algorithm, default is -1 (use full length),
 [31m                         [0m set this parameter to 10 to 30 if your molecule is big (# atoms >= 100)
 [31m                   -seq  [0m atomic sequence order changable: yes(y)[default] or no(n)
 [31m                   -dr   [0m acdoctor mode: yes(y)[default] or no(n)
-^[[31m                   -f    ^[[0m The reweighting factor used to scale RESP charges obtained using QUICK, default is 17.00
 [31m                   -i -o -fi and -fo must appear; others are optional[0m
 [32m                   Use 'antechamber -L' to list the supported file formats and charge methods[0m

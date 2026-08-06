@@ -5,7 +5,7 @@ topics: ["quickstart", "staging", "submission", "resources"]
 aliases: ["PLUMED", "plumed"]
 inputs: ["plumed.dat", "trajectory", "optional topology or masses"]
 outputs: ["COLVAR", "HILLS", "grids", "stdout.log"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # PLUMED Quickstart

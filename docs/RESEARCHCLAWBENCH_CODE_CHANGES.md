@@ -17,7 +17,7 @@ ResearchChemBench does **not** run ChemGraph's LangGraph workflow. Codex CLI or 
 The implementation was created in:
 
 ```text
-/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench
+${PROJECT_ROOT}
 ```
 
 The two sibling reference repositories were treated as read-only:
@@ -779,7 +779,7 @@ For a leaderboard-quality release, the next hardening step should be a per-run c
 A reviewer can verify the implementation with the following sequence:
 
 ```bash
-cd /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench
+cd ${PROJECT_ROOT}
 
 # Unit tests
 pytest -q

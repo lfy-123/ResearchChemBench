@@ -1,0 +1,59 @@
+{
+  "archived_files": [
+    {
+      "path": "request.json",
+      "sha256": "f37d0e3fd23d43e35b1b42aaa9e9ae8c80a51e6488887bb7c1a09295a4b6d7a1",
+      "size_bytes": 1204
+    },
+    {
+      "path": "status.json",
+      "sha256": "0d18731af4acec6d5d4f498eb753448894393197b6bf9f6ccfbd304917a32072",
+      "size_bytes": 1973
+    },
+    {
+      "path": "collection.json",
+      "sha256": "ad9e465207366f3624e7942530c7bd19c0e64e7d8e5ca8c7fe9e8885af88466e",
+      "size_bytes": 1509
+    },
+    {
+      "path": "stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "stderr.log",
+      "sha256": "44d201a9d1272633c61a479ae9744f0e5d593f84d80c7fe4ce0999b55555b699",
+      "size_bytes": 880
+    }
+  ],
+  "artifact_status": "not_validated",
+  "convergence_status": "not_reached",
+  "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/sisso",
+  "job_id": "job_786f48717d63414e9f891023a4ebd316",
+  "process_status": "failed",
+  "reason": "The executable started and reported that a required scientific input file was not staged.",
+  "request": {
+    "arguments": [],
+    "calculation_intent": null,
+    "executable": "SISSO",
+    "label": "manual-interface-smoke-sisso",
+    "parent_job_id": null,
+    "resource_limits": {
+      "cpu_cores": 1,
+      "gpu_count": 0,
+      "memory_mb": 1024
+    },
+    "software_id": "sisso",
+    "staged_inputs": [],
+    "stdin_target": null
+  },
+  "request_status": "accepted",
+  "scientific_validation_status": "not_reached",
+  "software_id": "sisso",
+  "software_status": "not_reached",
+  "status": "started_input_required",
+  "stderr_tail": "forrtl: No such file or directory\nforrtl: severe (29): file not found, unit 0, file /tmp/researchchem-all-native-smoke-dyr_y20y/outputs/execution_jobs/job_786f48717d63414e9f891023a4ebd316/SISSO.in\nImage              PC                Routine            Line        Source\nSISSO              00000000004B43DB  Unknown               Unknown  Unknown\nSISSO              00000000004CF98B  Unknown               Unknown  Unknown\nSISSO              00000000004AA32F  Unknown               Unknown  Unknown\nSISSO              00000000004A3D41  Unknown               Unknown  Unknown\nSISSO              0000000000403962  Unknown               Unknown  Unknown\nlibc.so.6          000014A3A88C5D90  Unknown               Unknown  Unknown\nlibc.so.6          000014A3A88C5E40  __libc_start_main     Unknown  Unknown\nSISSO              0000000000403865  Unknown               Unknown  Unknown\n",
+  "stdout_tail": "",
+  "test_level": "interface_smoke",
+  "tested_at": "2026-08-06T10:32:07.312490+00:00"
+}

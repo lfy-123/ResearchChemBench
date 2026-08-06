@@ -5,7 +5,7 @@ topics: ["common-tasks", "inputs", "outputs", "convergence"]
 aliases: ["Critic2", "critic2"]
 inputs: ["input.cri", "structure file", "density or wavefunction field"]
 outputs: ["stdout.log", "critical-point tables", "basin integrations", "optional grids"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Critic2 Common Tasks
@@ -15,6 +15,11 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 - **Basin Integration**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Noncovalent Interaction Analysis**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Crystal-Field Analysis**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
+
+## Preferred typed Action routes
+- `analyze_electron_density_topology`: validated structured route through backend `critic2`.
+- `calculate_atomic_basin_properties`: validated structured route through backend `critic2`.
+- `calculate_bader_charges`: validated structured route through backend `critic2`.
 
 ## Minimum input responsibilities
 - `input.cri`

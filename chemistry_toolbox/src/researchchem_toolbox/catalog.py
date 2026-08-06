@@ -22,7 +22,7 @@ from .timeout_policy import timeout_policy_record
 CATEGORY_LABELS = {
     "scientific_data_interchange": "Scientific records, schemas, and output parsing",
     "structure_and_system": "Structure, conformers, charges, and system construction",
-    "cheminformatics": "Molecular descriptors, fingerprints, identifiers, and graph operations",
+    "cheminformatics": "Molecular descriptors, fingerprints, graph operations, and data-driven descriptor discovery",
     "molecular_electronic": "Molecular electronic structure and derived properties",
     "reaction_and_kinetics": "Reaction paths, equilibrium, and kinetics",
     "molecular_dynamics": "Molecular dynamics propagation and trajectory analysis",

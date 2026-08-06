@@ -1,0 +1,61 @@
+{
+  "archived_files": [
+    {
+      "path": "request.json",
+      "sha256": "247b67c50d2654365fe7d8e70030cba3115687a12d227f9120d88f9d107bc634",
+      "size_bytes": 1333
+    },
+    {
+      "path": "status.json",
+      "sha256": "089a7a4207efbd22f29ac6e2b664972f3722a48f08c8fa93b84ca09ef01ee9c9",
+      "size_bytes": 2027
+    },
+    {
+      "path": "collection.json",
+      "sha256": "70bf99104ffce06f9f7f9ac50849058f49c00288a421355a5d73d5151ead3da1",
+      "size_bytes": 1488
+    },
+    {
+      "path": "stdout.log",
+      "sha256": "b14abe1ef51e2f3d14a16d044c2efaf3ecb32ac61358e5874199a41608a87172",
+      "size_bytes": 3911
+    },
+    {
+      "path": "stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    }
+  ],
+  "artifact_status": "not_declared",
+  "convergence_status": "not_checked",
+  "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/acpype",
+  "job_id": "job_ef4b64bb78e4489ab8ca7d45f29781a6",
+  "process_status": "completed",
+  "reason": "The configured executable completed the interface probe through the native job runner.",
+  "request": {
+    "arguments": [
+      "-h"
+    ],
+    "calculation_intent": null,
+    "executable": "acpype",
+    "label": "manual-interface-smoke-acpype",
+    "parent_job_id": null,
+    "resource_limits": {
+      "cpu_cores": 1,
+      "gpu_count": 0,
+      "memory_mb": 1024
+    },
+    "software_id": "acpype",
+    "staged_inputs": [],
+    "stdin_target": null
+  },
+  "request_status": "accepted",
+  "scientific_validation_status": "not_checked",
+  "software_id": "acpype",
+  "software_status": "not_checked",
+  "status": "passed",
+  "stderr_tail": "",
+  "stdout_tail": "           charge method: gas, bcc (default), user (user's\n                        charges in mol2 file)\n  -n NET_CHARGE, --net_charge NET_CHARGE\n                        net molecular charge (int), it tries to guess it if\n                        not not declared\n  -m MULTIPLICITY, --multiplicity MULTIPLICITY\n                        multiplicity (2S+1), default is 1\n  -a {gaff,amber,gaff2,amber2}, --atom_type {gaff,amber,gaff2,amber2}\n                        atom type, can be gaff, gaff2 (default), amber\n                        (AMBER14SB) or amber2 (AMBER14SB + GAFF2)\n  -q {mopac,sqm,divcon}, --qprog {mopac,sqm,divcon}\n                        am1-bcc flag, sqm (default), divcon, mopac\n  -k KEYWORD, --keyword KEYWORD\n                        mopac or sqm keyword, inside quotes\n  -f, --force           force topologies recalculation anew\n  -d, --debug           for debugging purposes, keep any temporary file\n                        created (not allowed with arg -w)\n  -w, --verboseless     print nothing (not allowed with arg -d)\n  -o {all,gmx,cns,charmm}, --outtop {all,gmx,cns,charmm}\n                        output topologies: all (default), gmx, cns or charmm\n  -z, --gmx4            write RB dihedrals old GMX 4.0\n  -t, --cnstop          write CNS topology with allhdg-like parameters\n                        (experimental)\n  -s MAX_TIME, --max_time MAX_TIME\n                        max time (in sec) tolerance for sqm/mopac, default is\n                        3 hours\n  -y, --ipython         start iPython interpreter\n  -g, --merge           Merge lower and uppercase atomtypes in GMX top file if\n                        identical parameters\n  -u, --direct          for 'amb2gmx' mode, does a direct conversion, for any\n                        solvent (EXPERIMENTAL)\n  -l, --sorted          sort atoms for GMX ordering\n  -j, --chiral          create improper dihedral parameters for chiral atoms\n                        in CNS\n  -v, --version         Show the Acpype version and exit\n",
+  "test_level": "interface_smoke",
+  "tested_at": "2026-08-06T10:32:07.312490+00:00"
+}

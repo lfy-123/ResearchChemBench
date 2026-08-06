@@ -5,7 +5,7 @@ topics: ["index", "navigation", "capabilities"]
 aliases: ["xTB", "xtb"]
 inputs: ["structure.xyz", "optional xcontrol file"]
 outputs: ["stdout.log", "xtbopt.xyz", "hessian", "charges", "wbo", "trajectory files"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # xTB Native Software Guide
@@ -38,6 +38,15 @@ Execute native xTB single points, properties, optimization, frequencies, dynamic
 - molecular dynamics.
 - solvation.
 - properties.
+
+## Layer 1 typed Actions
+- `calculate_energy`.
+- `calculate_forces`.
+- `calculate_hessian`.
+- `optimize_geometry`.
+- `calculate_dipole_moment`.
+- `calculate_atomic_charges`.
+- `calculate_bond_orders`.
 
 ## Required knowledge before submission
 The toolbox does not select a scientific method, force field, pseudopotential, basis, database, training set, convergence threshold, or workflow ordering. The Agent must obtain those choices from the task, a paper, or an authoritative source and then author a complete input.

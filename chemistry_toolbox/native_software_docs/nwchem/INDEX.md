@@ -5,7 +5,7 @@ topics: ["index", "navigation", "capabilities"]
 aliases: ["NWChem", "nwchem"]
 inputs: ["input.nw", "optional basis", "geometry", "restart", "or data files"]
 outputs: ["stdout.log", "database file", "movecs", "geometry and property files"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # NWChem Native Software Guide
@@ -37,6 +37,13 @@ Execute an Agent-authored NWChem input deck for molecular or periodic calculatio
 - frequency.
 - excited states.
 - molecular dynamics.
+
+## Layer 1 typed Actions
+- `calculate_energy`.
+- `calculate_forces`.
+- `calculate_hessian`.
+- `calculate_dipole_moment`.
+- `calculate_atomic_charges`.
 
 ## Required knowledge before submission
 The toolbox does not select a scientific method, force field, pseudopotential, basis, database, training set, convergence threshold, or workflow ordering. The Agent must obtain those choices from the task, a paper, or an authoritative source and then author a complete input.

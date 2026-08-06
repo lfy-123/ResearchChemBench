@@ -49,7 +49,7 @@ def test_every_native_software_has_structured_first_party_documentation() -> Non
     for path, expected in generated.items():
         assert path.read_text(encoding="utf-8") == expected
     guides, profiles, contracts = module.load_sources()
-    assert len(guides) == len(profiles) == len(contracts) == 54
+    assert len(guides) == len(profiles) == len(contracts) == 63
     assert set(guides) == set(profiles) == set(contracts)
     assert {
         software_id
@@ -112,11 +112,10 @@ def test_detailed_manuals_are_substantive_and_examples_match_current_contract() 
             "Pre-submission checklist",
         ):
             assert required.casefold() in combined.casefold(), (root, required)
-        request = json.loads(
-            (root / "examples" / "interface_smoke" / "submit_request.json").read_text(
-                encoding="utf-8"
-            )
-        )
+        example = root / "examples" / "interface_smoke" / "submit_request.json"
+        if not example.is_file():
+            example = root / "examples" / "action_smoke" / "submit_request.json"
+        request = json.loads(example.read_text(encoding="utf-8"))
         assert request["software_id"] == root.name
         assert "walltime_seconds" not in request["resource_limits"]
 
@@ -129,8 +128,16 @@ def test_native_interface_smoke_manifest_covers_catalog_and_hashes_verify() -> N
     spec.loader.exec_module(module)
     result = module.verify(module.DEFAULT_EVIDENCE)
     assert result["valid"], result["errors"]
-    assert sum(result["counts"].values()) == 56
-    assert result["counts"]["skipped"] == 2
+    manifest = json.loads(module.DEFAULT_EVIDENCE.joinpath("manifest.json").read_text())
+    guide_ids = set(
+        yaml.safe_load((TOOLBOX_ROOT / "config" / "native_software_guides.yaml").read_text())[
+            "software"
+        ]
+    )
+    evidence_ids = {item["software_id"] for item in manifest["software"]}
+    assert evidence_ids == guide_ids
+    assert sum(result["counts"].values()) == len(guide_ids) == 63
+    assert result["counts"].get("skipped", 0) == 0
 
 
 def test_read_only_software_search_traces_without_workspace_scan(tmp_path, monkeypatch) -> None:
@@ -185,18 +192,20 @@ def test_inspection_exposes_smoke_axes_and_known_runtime_blockers() -> None:
     assert orca["scientific_smoke_status"] == "passed"
     assert orca["native_available_for_submission"] is True
 
+    for software_id in ("yambo", "sharc", "kinbot"):
+        expanded = inspect_software(SoftwareInspectRequest(software_id=software_id))
+        assert expanded["scientific_smoke_status"] == "passed"
+        assert expanded["smoke_evidence"]["scientific_action_cases"]
+
     pysisyphus = inspect_software(SoftwareInspectRequest(software_id="pysisyphus"))
     assert pysisyphus["scientific_smoke_status"] == "passed"
-    assert pysisyphus["smoke_evidence"]["recorded_test_level"] == "interface_smoke"
+    assert pysisyphus["smoke_evidence"]["recorded_test_level"] == "scientific_smoke"
 
     for software_id in ("vesta", "arkane", "rmg"):
-        failed = inspect_software(SoftwareInspectRequest(software_id=software_id))
-        assert failed["interface_smoke_status"] == "failed"
-        assert failed["native_available_for_submission"] is False
-        assert failed["known_runtime_blockers"]
-        assert failed["recommended_documentation_routes"][0]["request"]["topic"] == (
-            "troubleshooting"
-        )
+        healthy = inspect_software(SoftwareInspectRequest(software_id=software_id))
+        assert healthy["interface_smoke_status"] == "passed"
+        assert healthy["native_available_for_submission"] is True
+        assert healthy["known_runtime_blockers"] == []
 
 
 def test_native_lint_failure_routes_to_exact_documentation_section(

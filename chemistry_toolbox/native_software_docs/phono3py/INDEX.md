@@ -5,7 +5,7 @@ topics: ["index", "navigation", "capabilities"]
 aliases: ["phono3py", "phono3py"]
 inputs: ["unit cell", "displacement configuration", "force data", "optional Born charges"]
 outputs: ["supercell displacement structures", "phono3py_disp.yaml", "fc2.hdf5", "fc3.hdf5", "kappa files"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # phono3py Native Software Guide
@@ -36,6 +36,15 @@ Invoke an explicit Phono3py command for third-order force constants and lattice 
 - force-set creation.
 - phonon lifetimes.
 - thermal conductivity.
+
+## Layer 1 typed Actions
+- `generate_displaced_supercells`.
+- `assemble_force_constants`.
+- `calculate_phonon_dispersion`.
+- `calculate_phonon_density_of_states`.
+- `calculate_harmonic_thermodynamics`.
+- `calculate_phonon_group_velocities`.
+- `calculate_lattice_thermal_conductivity`.
 
 ## Required knowledge before submission
 The toolbox does not select a scientific method, force field, pseudopotential, basis, database, training set, convergence threshold, or workflow ordering. The Agent must obtain those choices from the task, a paper, or an authoritative source and then author a complete input.

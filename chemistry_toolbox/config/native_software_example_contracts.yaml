@@ -3,6 +3,143 @@ policy:
   source_of_truth: explicit_native_manual_example_contracts
   argument_file_role_inference: false
 software:
+  bagel:
+    commands:
+      BAGEL:
+        enabled: true
+        example_kind: scientific_template
+        arguments: [input.json]
+        inputs: [input.json]
+        outputs: []
+        stdin_target: null
+        resource_limits: {cpu_cores: 1, memory_mb: 4096, gpu_count: 0}
+
+  vaspkit:
+    commands:
+      vaspkit:
+        enabled: true
+        example_kind: interface_template
+        arguments: [-task, "601", -file, POSCAR, -symprec, "1e-5"]
+        inputs: [POSCAR]
+        outputs: []
+        stdin_target: null
+        resource_limits: {cpu_cores: 1, memory_mb: 1024, gpu_count: 0}
+
+  pyfrag:
+    commands:
+      pyfrag-orca:
+        enabled: true
+        example_kind: scientific_template
+        arguments: [pyfrag.inp, scratch]
+        inputs: [pyfrag.inp, reaction_path.amv]
+        outputs: [fragment_energies.txt, fragmentfiles/fragment_1_0000.out, fragmentfiles/fragment_2_0000.out, fragmentfiles/complex_0000.out]
+        stdin_target: null
+        resource_limits: {cpu_cores: 1, memory_mb: 4096, gpu_count: 0}
+
+  sisso:
+    commands:
+      SISSO:
+        enabled: true
+        example_kind: scientific_template
+        arguments: []
+        inputs: [SISSO.in, train.dat]
+        outputs: [SISSO.out, Models/data_top1/desc_D001.dat, SIS_subspaces/Uspace.expressions]
+        stdin_target: null
+        resource_limits: {cpu_cores: 1, memory_mb: 4096, gpu_count: 0}
+      SISSO_predict:
+        enabled: true
+        example_kind: scientific_template
+        arguments: []
+        inputs: [SISSO.out, predict.dat, SISSO_predict_para]
+        outputs: [predict_X.out, predict_Y.out]
+        stdin_target: null
+        resource_limits: {cpu_cores: 1, memory_mb: 2048, gpu_count: 0}
+
+  gmx_mmpbsa:
+    commands:
+      gmx_MMPBSA:
+        enabled: true
+        example_kind: scientific_template
+        arguments: [-O, -i, mmpbsa.in, -cs, complex.tpr, -ci, index.ndx, -cg, "3", "4", -ct, trajectory.xtc, -cp, topology.top, -o, FINAL_RESULTS_MMPBSA.dat, -eo, FINAL_RESULTS_MMPBSA.csv, -nogui]
+        inputs: [mmpbsa.in, complex.tpr, index.ndx, trajectory.xtc, topology.top, toppar/forcefield.itp]
+        outputs: [FINAL_RESULTS_MMPBSA.dat, FINAL_RESULTS_MMPBSA.csv]
+        stdin_target: null
+        resource_limits: {cpu_cores: 1, memory_mb: 4096, gpu_count: 0}
+
+  pmx:
+    commands:
+      pmx:
+        enabled: true
+        example_kind: scientific_template
+        arguments: [mutate, -f, protein.pdb, -o, hybrid.pdb, -ff, amber99sb-star-ildn-mut, --script, mutations.txt]
+        inputs: [protein.pdb, mutations.txt]
+        outputs: [hybrid.pdb]
+        stdin_target: null
+        resource_limits: {cpu_cores: 1, memory_mb: 2048, gpu_count: 0}
+
+  acpype:
+    commands:
+      acpype:
+        enabled: true
+        example_kind: scientific_template
+        arguments: [-i, input.mol2, -b, molecule, -n, "0", -m, "1", -c, gas, -a, gaff2, -q, sqm, -o, gmx]
+        inputs: [input.mol2]
+        outputs: [molecule.acpype/molecule_AC.prmtop, molecule.acpype/molecule_AC.inpcrd, molecule.acpype/molecule_GMX.top, molecule.acpype/molecule_GMX.gro]
+        stdin_target: null
+        resource_limits: {cpu_cores: 1, memory_mb: 2048, gpu_count: 0}
+
+  tdep:
+    commands:
+      extract_forceconstants:
+        enabled: true
+        example_kind: scientific_template
+        arguments: [-rc2, "5.0"]
+        inputs: [infile.ucposcar, infile.ssposcar, infile.sim.hdf5]
+        outputs: [outfile.forceconstant]
+        stdin_target: null
+        resource_limits: {cpu_cores: 1, memory_mb: 4096, gpu_count: 0}
+      canonical_configuration:
+        enabled: true
+        example_kind: scientific_template
+        arguments: [--nconf, "10", --temperature, "300", --quantum]
+        inputs: [infile.ucposcar, infile.ssposcar, infile.forceconstant]
+        outputs: []
+        stdin_target: null
+        resource_limits: {cpu_cores: 1, memory_mb: 2048, gpu_count: 0}
+      phonon_dispersion_relations:
+        enabled: true
+        example_kind: scientific_template
+        arguments: [--unit, thz, -nq, "100"]
+        inputs: [infile.ucposcar, infile.forceconstant]
+        outputs: [outfile.dispersion_relations, outfile.dispersion_relations.hdf5]
+        stdin_target: null
+        resource_limits: {cpu_cores: 1, memory_mb: 4096, gpu_count: 0}
+
+  airss:
+    commands:
+      buildcell:
+        enabled: true
+        example_kind: scientific_template
+        arguments: []
+        inputs: [seed.cell]
+        outputs: []
+        stdin_target: seed.cell
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 1024
+          gpu_count: 0
+      cabal:
+        enabled: true
+        example_kind: scientific_template
+        arguments: [cell, xyz]
+        inputs: [input.cell]
+        outputs: []
+        stdin_target: input.cell
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 1024
+          gpu_count: 0
+
   openbabel:
     commands:
       obabel:
@@ -1002,7 +1139,7 @@ software:
         - input.json
         inputs:
         - input.json
-        outputs: []
+        outputs: [kinbot.log, kinbot.db]
         stdin_target: null
         resource_limits:
           cpu_cores: 1
@@ -1015,7 +1152,7 @@ software:
         - input.json
         inputs:
         - input.json
-        outputs: []
+        outputs: [pes.log, chemids]
         stdin_target: null
         resource_limits:
           cpu_cores: 1
@@ -1028,8 +1165,8 @@ software:
         example_kind: interface_template
         arguments:
         - input
-        inputs: []
-        outputs: []
+        inputs: [input]
+        outputs: [output.dat, output.lis, restart.ctrl]
         stdin_target: null
         resource_limits:
           cpu_cores: 1
@@ -1039,9 +1176,9 @@ software:
         enabled: true
         example_kind: interface_template
         arguments: []
-        inputs: []
-        outputs: []
-        stdin_target: null
+        inputs: [overlap.inp]
+        outputs: [overlap.out]
+        stdin_target: overlap.inp
         resource_limits:
           cpu_cores: 1
           memory_mb: 2048
@@ -1106,8 +1243,8 @@ software:
         enabled: true
         example_kind: interface_template
         arguments: []
-        inputs: []
-        outputs: []
+        inputs: [upstream_save_database]
+        outputs: [SAVE]
         stdin_target: null
         resource_limits:
           cpu_cores: 1
@@ -1123,7 +1260,7 @@ software:
         - job
         inputs:
         - input.in
-        outputs: []
+        outputs: [report, output_data, restart_databases]
         stdin_target: null
         resource_limits:
           cpu_cores: 1

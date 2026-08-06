@@ -5,7 +5,7 @@ topics: ["index", "navigation", "capabilities"]
 aliases: ["LOBSTER", "lobster"]
 inputs: ["lobsterin", "structure and basis metadata", "compatible VASP", "Quantum ESPRESSO", "or ABINIT wavefunction outputs"]
 outputs: ["lobsterout", "COHPCAR.lobster", "ICOHPLIST.lobster", "DOSCAR.lobster", "CHARGE.lobster"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # LOBSTER Native Software Guide
@@ -37,6 +37,11 @@ Analyze bonding from compatible electronic-structure outputs using a native LOBS
 - COBI.
 - projected DOS.
 - charge analysis.
+
+## Layer 1 typed Actions
+- `analyze_periodic_bonding`.
+- `calculate_projected_density_of_states`.
+- `calculate_charge_spilling`.
 
 ## Required knowledge before submission
 The toolbox does not select a scientific method, force field, pseudopotential, basis, database, training set, convergence threshold, or workflow ordering. The Agent must obtain those choices from the task, a paper, or an authoritative source and then author a complete input.

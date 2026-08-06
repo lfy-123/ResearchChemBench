@@ -1,0 +1,17 @@
+usage: Arkane.py [-h] [-q | -v | -d] [-o DIR] [-p] FILE
+
+Arkane is a Python toolkit for computing chemical reaction rates and other
+properties used in detailed kinetics models using various methodologies and
+theories.
+
+positional arguments:
+  FILE                  a file describing the job to execute
+
+options:
+  -h, --help            show this help message and exit
+  -q, --quiet           only print warnings and errors
+  -v, --verbose         print more verbose output
+  -d, --debug           print debug information
+  -o DIR, --output-directory DIR
+                        use DIR as output directory
+  -p, --no-plot         prevent generating plots

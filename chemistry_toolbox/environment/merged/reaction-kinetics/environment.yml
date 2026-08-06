@@ -8,6 +8,13 @@ dependencies:
   - numpy=1.26
   - mpi=*=mpich
   - mpich=4
+  - gfortran_linux-64
+  - hdf5
+  - fftw
+  - lapack
+  - blas
+  - h5py
+  - bc=1.07.1
   - abinit=10.0.3
   - lammps=2024.08.29
   - ase=3.22.1
@@ -26,3 +33,4 @@ dependencies:
       - censo==2.1.2
       - CoolProp==8.0.0
       - numdifftools==0.9.42
+      - gplearn==0.4.3

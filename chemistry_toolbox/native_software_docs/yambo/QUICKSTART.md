@@ -4,8 +4,8 @@ versions: ["5.3.0"]
 topics: ["quickstart", "staging", "submission", "resources"]
 aliases: ["Yambo", "yambo"]
 inputs: ["compatible upstream save database", "SAVE directory", "input.in", "optional restart databases"]
-outputs: ["SAVE database", "report", "output data files", "restart databases"]
-last_smoke_tested: "2026-07-28"
+outputs: ["SAVE database", "GW quasiparticle table", "BSE optical spectrum", "report", "output data files", "restart databases"]
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Yambo Quickstart
@@ -24,8 +24,8 @@ The runner creates an isolated job directory and executes the resolved binary th
 
 ## Input mode
 The primary executable is `p2y` and its input mode is `arguments`.
-Required inputs: no fixed file is declared for this command.
-Expected outputs: stdout/stderr or task-dependent outputs only.
+Required inputs: `upstream_save_database`.
+Expected outputs: `SAVE`.
 Example classification: `interface_template`.
 Output behavior: Creates the Yambo SAVE database and conversion log.
 
@@ -41,7 +41,12 @@ Run that command only inside a directory containing the exact referenced files. 
   "software_id": "yambo",
   "executable": "p2y",
   "arguments": [],
-  "staged_inputs": [],
+  "staged_inputs": [
+    {
+      "source_path": "workspace_inputs/upstream_save_database",
+      "target_path": "upstream_save_database"
+    }
+  ],
   "resource_limits": {
     "cpu_cores": 1,
     "memory_mb": 2048,

@@ -38,11 +38,8 @@ def load_profile_config() -> dict[str, Any]:
     path = profile_config_path()
     value = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
     profiles = value.get("profiles")
-    support = value.get("support_environments", {})
     if not isinstance(profiles, dict) or not profiles:
         raise ValueError(f"Invalid backend runtime configuration: {path}")
-    if not isinstance(support, dict):
-        raise ValueError("support_environments must be a mapping")
     public_server = value.get("public_server")
     if not isinstance(public_server, dict) or public_server.get("runtime") not in profiles:
         raise ValueError("public_server.runtime must reference a configured profile")
@@ -50,37 +47,37 @@ def load_profile_config() -> dict[str, Any]:
     expected = backend_specs()
     assigned: dict[str, str] = {}
     conda_names: set[str] = set()
-    for group_name, group in (("profiles", profiles), ("support_environments", support)):
-        for name, profile in group.items():
-            if not isinstance(profile, dict):
-                raise ValueError(f"{group_name}.{name} must be a mapping")
-            backends = profile.get("backends")
-            if not isinstance(backends, list) or not backends or not all(
-                isinstance(item, str) and item for item in backends
-            ):
-                raise ValueError(f"{group_name}.{name}.backends must be a non-empty string list")
-            if len(backends) != len(set(backends)):
-                raise ValueError(f"{group_name}.{name}.backends contains duplicates")
-            for backend_id in backends:
-                if backend_id not in expected:
-                    raise ValueError(f"Unknown backend {backend_id!r} in runtime {name}")
-                if backend_id in assigned:
-                    raise ValueError(
-                        f"Backend {backend_id!r} assigned to both {assigned[backend_id]} and {name}"
-                    )
-                if expected[backend_id].runtime != name:
-                    raise ValueError(
-                        f"BackendSpec {backend_id} declares runtime {expected[backend_id].runtime}, "
-                        f"but config assigns it to {name}"
-                    )
-                assigned[backend_id] = name
-            conda_name = str(profile.get("conda_name") or "").strip()
-            if not conda_name or conda_name in conda_names:
-                raise ValueError(f"Invalid or duplicate conda_name for runtime {name}")
-            conda_names.add(conda_name)
-            libraries = profile.get("runtime_preload_libraries", [])
-            if not isinstance(libraries, list) or not all(isinstance(item, str) for item in libraries):
-                raise ValueError(f"runtime_preload_libraries for {name} must be a string list")
+    for name, profile in profiles.items():
+        group_name = "profiles"
+        if not isinstance(profile, dict):
+            raise ValueError(f"{group_name}.{name} must be a mapping")
+        backends = profile.get("backends")
+        if not isinstance(backends, list) or not backends or not all(
+            isinstance(item, str) and item for item in backends
+        ):
+            raise ValueError(f"{group_name}.{name}.backends must be a non-empty string list")
+        if len(backends) != len(set(backends)):
+            raise ValueError(f"{group_name}.{name}.backends contains duplicates")
+        for backend_id in backends:
+            if backend_id not in expected:
+                raise ValueError(f"Unknown backend {backend_id!r} in runtime {name}")
+            if backend_id in assigned:
+                raise ValueError(
+                    f"Backend {backend_id!r} assigned to both {assigned[backend_id]} and {name}"
+                )
+            if expected[backend_id].runtime != name:
+                raise ValueError(
+                    f"BackendSpec {backend_id} declares runtime {expected[backend_id].runtime}, "
+                    f"but config assigns it to {name}"
+                )
+            assigned[backend_id] = name
+        conda_name = str(profile.get("conda_name") or "").strip()
+        if not conda_name or conda_name in conda_names:
+            raise ValueError(f"Invalid or duplicate conda_name for runtime {name}")
+        conda_names.add(conda_name)
+        libraries = profile.get("runtime_preload_libraries", [])
+        if not isinstance(libraries, list) or not all(isinstance(item, str) for item in libraries):
+            raise ValueError(f"runtime_preload_libraries for {name} must be a string list")
     missing = sorted(set(expected) - set(assigned))
     if missing:
         raise ValueError(f"Backend runtimes do not cover BackendSpec entries: {missing}")
@@ -96,13 +93,12 @@ def profile_names() -> list[str]:
 
 def get_profile(name: str) -> dict[str, Any]:
     config = load_profile_config()
-    for group in ("profiles", "support_environments"):
-        if name in config.get(group, {}):
-            value = dict(config[group][name])
-            value["name"] = name
-            value["group"] = group
-            return value
-    raise KeyError(f"Unknown backend runtime {name!r}")
+    if name not in config["profiles"]:
+        raise KeyError(f"Unknown backend runtime {name!r}")
+    value = dict(config["profiles"][name])
+    value["name"] = name
+    value["group"] = "profiles"
+    return value
 
 
 def selected_profile_names(value: str | None = None) -> list[str]:

@@ -201,6 +201,13 @@ def _runtime(software_id: str, guide: dict[str, Any]) -> str:
     return str(guide.get("runtime") or (specification.runtime if specification else "configured-runtime"))
 
 
+def _typed_actions(software_id: str) -> tuple[str, ...]:
+    specification = backend_specs().get(software_id)
+    if specification is None:
+        return ()
+    return tuple(str(action_id) for action_id in specification.capabilities)
+
+
 def _command_table(guide: dict[str, Any], contracts: dict[str, Any]) -> list[str]:
     lines = [
         "| Executable | Input mode | Native invocation | Required staged inputs |",
@@ -280,6 +287,12 @@ def render_index(
         "",
         "## Supported task families",
         *[f"- {item}." for item in profile.get("task_types", [])],
+        "",
+        "## Layer 1 typed Actions",
+        *(
+            [f"- `{action_id}`." for action_id in _typed_actions(software_id)]
+            or ["- No typed Action is registered. Use the reviewed native command layer or the documented programmable runtime."]
+        ),
         "",
         "## Required knowledge before submission",
         "The toolbox does not select a scientific method, force field, pseudopotential, basis, database, training set, convergence threshold, or workflow ordering. The Agent must obtain those choices from the task, a paper, or an authoritative source and then author a complete input.",
@@ -391,6 +404,12 @@ def render_common_tasks(
         "",
         "## Appropriate calculation families",
         *[f"- **{item.title()}**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation." for item in profile.get("task_types", [])],
+        "",
+        "## Preferred typed Action routes",
+        *(
+            [f"- `{action_id}`: validated structured route through backend `{software_id}`." for action_id in _typed_actions(software_id)]
+            or ["- No typed Action is registered for this software. Use the reviewed native command interface when the task needs this runtime."]
+        ),
         "",
         "## Minimum input responsibilities",
         *[f"- `{item}`" for item in profile.get("inputs", [])],

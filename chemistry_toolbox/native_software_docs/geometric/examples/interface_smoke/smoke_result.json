@@ -2,23 +2,23 @@
   "archived_files": [
     {
       "path": "request.json",
-      "sha256": "bc092f66cac6b0b816762b45cbc52fc388635363f90b929897e4836eb2bde976",
-      "size_bytes": 1302
+      "sha256": "e3a36cd81e2cc1cd2e8d6a2c2f3f31ebd749f84f1dacecf450c81ce2f3876274",
+      "size_bytes": 1308
     },
     {
       "path": "status.json",
-      "sha256": "e4d7c1c91e4911dc330c9f10f9780f740a711347c476f32f21ab4539738abc71",
-      "size_bytes": 1911
+      "sha256": "b71ae08fef1da1761d04b357edb3e5dc711d9a971cb658b985a8e58478fde3ff",
+      "size_bytes": 2004
     },
     {
       "path": "collection.json",
-      "sha256": "4fd5603cc3159d8dac0deb11185d2072c3603828068d88a8493ca430448074d4",
+      "sha256": "f40859f43e955e52a2555d8071a176dad15ecc047c86843052fe61e66ae8b2e7",
       "size_bytes": 1489
     },
     {
       "path": "stdout.log",
-      "sha256": "f0f16e27f254db02041ba60244dd9ab28cecc97185e0979c36cc935b55849a16",
-      "size_bytes": 12052
+      "sha256": "a059367bae4c039e8cd8ffffd440942ef19fa87459e1abc4a6a946c1eaf9a999",
+      "size_bytes": 11098
     },
     {
       "path": "stderr.log",
@@ -29,7 +29,7 @@
   "artifact_status": "not_declared",
   "convergence_status": "not_checked",
   "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/geometric",
-  "job_id": "job_523d5c849ecd45b08c07bc15659bf35d",
+  "job_id": "job_80211e0430f44c9cbc0aa465de84b139",
   "process_status": "completed",
   "reason": "The configured executable completed the interface probe through the native job runner.",
   "request": {
@@ -55,7 +55,7 @@
   "software_status": "not_checked",
   "status": "passed",
   "stderr_tail": "",
-  "stdout_tail": "                     \n  --verbose VERBOSE     Set to positive for more verbose printout.\n                        0 = Default print level.     1 = Basic info about optimization step.\n                        2 = Include microiterations. 3 = Lots of printout from low-level functions.\n                         \n  --qdata QDATA         Provide \"yes\" to write qdata.txt containing coordinates, energies, gradients for each structure.\n                         \n  --logINI LOGINI       .ini file for customizing logging output.\n                         \n  --write_cart_hess WRITE_CART_HESS\n                        Write approximate cartesian Hessian at optimized geometry to specified file.\n                         \n\nsoftware:\n  Options specific for certain software packages\n\n  --molproexe MOLPROEXE\n                        Specify absolute path of Molpro executable.\n                         \n  --molcnv MOLCNV       Provide \"yes\" to use Molpro style convergence criteria instead of the default.\n                         \n  --qcdir QCDIR         Provide an initial Q-Chem scratch folder (e.g. supplied initial guess).\n                         \n  --qccnv QCCNV         Provide \"yes\" to Use Q-Chem style convergence criteria instead of the default.\n                         \n  --bagelexe BAGELEXE   Specify how to run Bagel, e.g. \"mpirun -np 4 BAGEL\".\n                         \n  --ase-class ASE_CLASS\n                        ASE calculator import path, eg. \"ase.calculators.lj.LennardJones\"\n  --ase-kwargs ASE_KWARGS\n                        ASE calculator keyword args, as JSON dictionary, eg. {\"param_filename\":\"path/to/file.xml\"}\n\ndebug:\n  Relevant for development and debugging\n\n  --displace DISPLACE   Provide \"yes\" to write out displacements of the internal coordinates.\n                         \n  --fdcheck FDCHECK     Provide \"yes\" to check internal coordinate gradients using finite difference.\n                         \n\nhelp:\n  Get help\n\n  -h, --help            Show this help message and exit\n",
+  "stdout_tail": "\n  --verbose VERBOSE     Set to positive for more verbose printout.\n                        0 = Default print level.     1 = Basic info about optimization step.\n                        2 = Include microiterations. 3 = Lots of printout from low-level functions.\n\n  --qdata QDATA         Provide \"yes\" to write qdata.txt containing coordinates, energies, gradients for each structure.\n\n  --logINI LOGINI       .ini file for customizing logging output.\n\n  --write_cart_hess WRITE_CART_HESS\n                        Write approximate cartesian Hessian at optimized geometry to specified file.\n\n\nsoftware:\n  Options specific for certain software packages\n\n  --molproexe MOLPROEXE\n                        Specify absolute path of Molpro executable.\n\n  --molcnv MOLCNV       Provide \"yes\" to use Molpro style convergence criteria instead of the default.\n\n  --qcdir QCDIR         Provide an initial Q-Chem scratch folder (e.g. supplied initial guess).\n\n  --qccnv QCCNV         Provide \"yes\" to Use Q-Chem style convergence criteria instead of the default.\n\n  --bagelexe BAGELEXE   Specify how to run Bagel, e.g. \"mpirun -np 4 BAGEL\".\n\n  --ase-class ASE_CLASS\n                        ASE calculator import path, eg. \"ase.calculators.lj.LennardJones\"\n  --ase-kwargs ASE_KWARGS\n                        ASE calculator keyword args, as JSON dictionary, eg. {\"param_filename\":\"path/to/file.xml\"}\n\ndebug:\n  Relevant for development and debugging\n\n  --displace DISPLACE   Provide \"yes\" to write out displacements of the internal coordinates.\n\n  --fdcheck FDCHECK     Provide \"yes\" to check internal coordinate gradients using finite difference.\n\n\nhelp:\n  Get help\n\n  -h, --help            Show this help message and exit\n",
   "test_level": "interface_smoke",
-  "tested_at": "2026-07-28T20:16:58.943969+00:00"
+  "tested_at": "2026-08-06T10:32:07.312490+00:00"
 }

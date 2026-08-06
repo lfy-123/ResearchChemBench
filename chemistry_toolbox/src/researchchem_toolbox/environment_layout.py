@@ -1,7 +1,7 @@
 """Resolve chemistry-toolbox runtime prefixes under the project ``.envs`` root.
 
 The public runtime identifiers (``quantum``, ``md``, ``cp2k`` and so on) stay
-stable while every configured runtime points to one of six physical Conda
+stable while every configured runtime points to one consolidated Conda
 prefixes. There is no alternate environment layout or path fallback.
 """
 

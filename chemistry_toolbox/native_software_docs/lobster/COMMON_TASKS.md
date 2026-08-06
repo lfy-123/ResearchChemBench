@@ -5,7 +5,7 @@ topics: ["common-tasks", "inputs", "outputs", "convergence"]
 aliases: ["LOBSTER", "lobster"]
 inputs: ["lobsterin", "structure and basis metadata", "compatible VASP", "Quantum ESPRESSO", "or ABINIT wavefunction outputs"]
 outputs: ["lobsterout", "COHPCAR.lobster", "ICOHPLIST.lobster", "DOSCAR.lobster", "CHARGE.lobster"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # LOBSTER Common Tasks
@@ -16,6 +16,11 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 - **Cobi**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Projected Dos**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Charge Analysis**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
+
+## Preferred typed Action routes
+- `analyze_periodic_bonding`: validated structured route through backend `lobster`.
+- `calculate_projected_density_of_states`: validated structured route through backend `lobster`.
+- `calculate_charge_spilling`: validated structured route through backend `lobster`.
 
 ## Minimum input responsibilities
 - `lobsterin`

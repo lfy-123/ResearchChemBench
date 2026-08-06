@@ -1,0 +1,60 @@
+diff --git a/source/input.F90 b/source/input.F90
+index 80ef5f5..841d672 100644
+--- a/source/input.F90
++++ b/source/input.F90
+@@ -1082,12 +1082,14 @@ module input
+     endif
+
+     ! number of AH bonds
++    ctrl%lpzpe_nah=0
+     line=get_value_from_key('number_ah',io)
+     if (io==0) then
+       read(line,*) ctrl%lpzpe_nah
+     endif
+
+     ! number of BC bonds
++    ctrl%lpzpe_nbc=0
+     line=get_value_from_key('number_bc',io)
+     if (io==0) then
+       read(line,*) ctrl%lpzpe_nbc
+diff --git a/source/restart.f90 b/source/restart.f90
+index aee88f5..ab6bea8 100644
+--- a/source/restart.f90
++++ b/source/restart.f90
+@@ -148,12 +148,30 @@ module restart
+      write(u,*) ctrl%lpzpe_scheme
+      write(u,*) ctrl%lpzpe_nah
+      write(u,*) ctrl%lpzpe_nbc
+-     write(u,*) (ctrl%lpzpe_ah(ipair,1),ipair=1,ctrl%lpzpe_nah)
+-     write(u,*) (ctrl%lpzpe_ah(ipair,2),ipair=1,ctrl%lpzpe_nah)
+-     write(u,*) (ctrl%lpzpe_bc(ipair,1),ipair=1,ctrl%lpzpe_nbc)
+-     write(u,*) (ctrl%lpzpe_bc(ipair,2),ipair=1,ctrl%lpzpe_nbc)
+-     write(u,*) (ctrl%lpzpe_ke_zpe_ah(ipair),ipair=1,ctrl%lpzpe_nah)
+-     write(u,*) (ctrl%lpzpe_ke_zpe_bc(ipair),ipair=1,ctrl%lpzpe_nbc)
++     if (ctrl%lpzpe_nah > 0) then
++       write(u,*) (ctrl%lpzpe_ah(ipair,1),ipair=1,ctrl%lpzpe_nah)
++       write(u,*) (ctrl%lpzpe_ah(ipair,2),ipair=1,ctrl%lpzpe_nah)
++     else
++       write(u,'(A)') ''
++       write(u,'(A)') ''
++     endif
++     if (ctrl%lpzpe_nbc > 0) then
++       write(u,*) (ctrl%lpzpe_bc(ipair,1),ipair=1,ctrl%lpzpe_nbc)
++       write(u,*) (ctrl%lpzpe_bc(ipair,2),ipair=1,ctrl%lpzpe_nbc)
++     else
++       write(u,'(A)') ''
++       write(u,'(A)') ''
++     endif
++     if (ctrl%lpzpe_nah > 0) then
++       write(u,*) (ctrl%lpzpe_ke_zpe_ah(ipair),ipair=1,ctrl%lpzpe_nah)
++     else
++       write(u,'(A)') ''
++     endif
++     if (ctrl%lpzpe_nbc > 0) then
++       write(u,*) (ctrl%lpzpe_ke_zpe_bc(ipair),ipair=1,ctrl%lpzpe_nbc)
++     else
++       write(u,'(A)') ''
++     endif
+      write(u,*) ctrl%ke_threshold
+      write(u,*) ctrl%t_cycle
+      write(u,*) ctrl%t_check

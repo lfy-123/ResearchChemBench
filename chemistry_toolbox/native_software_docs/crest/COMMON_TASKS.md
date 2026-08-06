@@ -5,7 +5,7 @@ topics: ["common-tasks", "inputs", "outputs", "convergence"]
 aliases: ["CREST", "crest"]
 inputs: ["input.xyz"]
 outputs: ["crest_conformers.xyz", "crest.energies", "protonated.xyz", "deprotonated.xyz", "tautomers.xyz"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # CREST Common Tasks
@@ -16,6 +16,9 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 - **Deprotonation**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Tautomerization**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Ensemble Screening**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
+
+## Preferred typed Action routes
+- `generate_conformer_ensemble`: validated structured route through backend `crest`.
 
 ## Minimum input responsibilities
 - `input.xyz`

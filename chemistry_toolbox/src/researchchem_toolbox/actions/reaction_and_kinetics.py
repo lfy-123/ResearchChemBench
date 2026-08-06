@@ -7,6 +7,15 @@ from .._spec_builders import action as _action
 
 ACTION_SPECS = (
     _action(
+            "explore_reaction_network",
+            "reaction_and_kinetics",
+            "Run an explicit KinBot full-PES input and return the discovered wells, reaction summaries, and native network artifacts without choosing reaction families or electronic-structure settings.",
+            "ReactionNetworkExplorationResult",
+            ("kinbot",),
+            ("input_file",),
+            input_description="complete KinBot JSON input with explicit species, reaction families, PES controls, electronic-structure method, and execution mode",
+        ),
+    _action(
             "locate_transition_state",
             "reaction_and_kinetics",
             "Locate one candidate transition-state structure without automatically running frequencies or IRC.",
@@ -152,5 +161,46 @@ ACTION_SPECS = (
                 "compatible completed quantum outputs plus an Agent-authored GoodVibes PES YAML "
                 "defining pathways, species membership, zero references, and units"
             ),
+        ),
+    _action(
+            "analyze_activation_strain_profile",
+            "reaction_and_kinetics",
+            "Calculate an ORCA activation-strain profile along an explicitly supplied reaction path with explicit fragment partitions, reference energies, electronic-structure keywords, and reaction coordinate.",
+            "ActivationStrainProfileResult",
+            ("pyfrag",),
+            ("reaction_path_file",),
+            input_description=(
+                "AMV or multi-XYZ reaction path; fragment membership, isolated-fragment reference "
+                "energies, charge, multiplicity, ORCA keywords, and printed bond coordinate remain "
+                "explicit Agent choices"
+            ),
+        ),
+    _action(
+            "summarize_activation_strain_profile",
+            "reaction_and_kinetics",
+            "Parse a bounded PyFrag activation-strain table and report extrema and decomposition-closure diagnostics without rerunning electronic-structure calculations.",
+            "ActivationStrainProfileSummary",
+            ("pyfrag",),
+            ("profile_file",),
+            input_description="existing PyFrag fragment_energies.txt output",
+        ),
+    _action(
+            "validate_activation_strain_profile",
+            "reaction_and_kinetics",
+            "Validate record count, finite values, sequential point identifiers, and total-energy decomposition closure in an existing PyFrag activation-strain table.",
+            "ActivationStrainProfileValidationResult",
+            ("pyfrag",),
+            ("profile_file",),
+            input_description="existing PyFrag fragment_energies.txt output plus explicit validation tolerances",
+        ),
+    _action(
+            "analyze_post_transition_state_trajectory_ensemble",
+            "reaction_and_kinetics",
+            "Calculate product branching, recrossing, unassigned fraction, and binomial confidence intervals from explicit per-trajectory outcome classifications.",
+            "PostTransitionStateTrajectoryEnsembleResult",
+            ("internal_reaction_analysis",),
+            ("trajectory_outcomes",),
+            input_description="trajectory identifiers with explicit success/failure, product label, and recrossing classification",
+            selection_policy="internal_deterministic",
         ),
 )

@@ -5,7 +5,7 @@ topics: ["index", "navigation", "capabilities"]
 aliases: ["Phonopy", "phonopy"]
 inputs: ["unit cell", "displacement YAML", "force data", "optional Born charges"]
 outputs: ["supercells", "phonopy_disp.yaml", "FORCE_SETS", "force_constants.hdf5", "band and DOS YAML"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Phonopy Native Software Guide
@@ -37,6 +37,14 @@ Invoke an explicit Phonopy command for displacement generation, force-constant c
 - band structure.
 - DOS.
 - thermal properties.
+
+## Layer 1 typed Actions
+- `generate_displaced_supercells`.
+- `assemble_force_constants`.
+- `calculate_phonon_dispersion`.
+- `calculate_phonon_density_of_states`.
+- `calculate_harmonic_thermodynamics`.
+- `calculate_phonon_group_velocities`.
 
 ## Required knowledge before submission
 The toolbox does not select a scientific method, force field, pseudopotential, basis, database, training set, convergence threshold, or workflow ordering. The Agent must obtain those choices from the task, a paper, or an authoritative source and then author a complete input.

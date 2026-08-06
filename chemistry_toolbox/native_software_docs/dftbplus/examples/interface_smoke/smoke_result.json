@@ -2,17 +2,17 @@
   "archived_files": [
     {
       "path": "request.json",
-      "sha256": "96d432aef0284ae974285fd9a14bf9abc81ecf260711d8bc62b42074ffecdc4b",
-      "size_bytes": 1220
+      "sha256": "09800631b3576058da59193956158837471243c622117fb2e5b8cc0e90730da0",
+      "size_bytes": 1224
     },
     {
       "path": "status.json",
-      "sha256": "073ac48cbfabc433b991912126eafbae30bdc178b82c594847d44448338c079a",
-      "size_bytes": 1899
+      "sha256": "5055b0a4b02c6ae51eafdff7b138d639805a95119f94a1d679bb2b1d77ae68cb",
+      "size_bytes": 1990
     },
     {
       "path": "collection.json",
-      "sha256": "7d12fbd4243be68df3d3230e912336fa749ecc7da0e0979c4245c23a19ac81f7",
+      "sha256": "d6c3fd4af44446af50233cec64f1a3d935f43f964786a1652e85decda9fea0b6",
       "size_bytes": 1510
     },
     {
@@ -22,16 +22,16 @@
     },
     {
       "path": "stderr.log",
-      "sha256": "8fc1f66adcb202cfd5d36b4838b16157c0da2ae38e06ee37d904a64a44d0253e",
-      "size_bytes": 12
+      "sha256": "606b16d7c1ef2025d92f2032da3f68f19d6b0958517d9950ba7e744ec965e2aa",
+      "size_bytes": 11
     }
   ],
   "artifact_status": "not_validated",
   "convergence_status": "not_reached",
   "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/dftbplus",
-  "job_id": "job_c0566ebaea4644b985b859154fda714e",
+  "job_id": "job_d8d2b2342a654afca88401406df3dff7",
   "process_status": "failed",
-  "reason": "The executable started and emitted its banner, usage, or expected missing-input diagnostic, but did not complete successfully.",
+  "reason": "The executable started and reported that a required scientific input file was not staged.",
   "request": {
     "arguments": [
       "--version"
@@ -54,8 +54,8 @@
   "software_id": "dftbplus",
   "software_status": "not_reached",
   "status": "started_input_required",
-  "stderr_tail": "ERROR STOP \n",
+  "stderr_tail": "ERROR STOP\n",
   "stdout_tail": "|===============================================================================\n|\n|  DFTB+ development version (commit: a23bfb2)\n|\n|  Copyright (C) 2006 - 2025  DFTB+ developers group\n|\n|===============================================================================\n|\n|  When publishing results obtained with DFTB+, please cite the following\n|  reference:\n|\n|    Recent Developments in DFTB+, a Software Package for Efficient Atomistic\n|    Quantum Mechanical Simulations, J. Phys. Chem. A 129, 5373\u22125390 (2025).\n|    [https://doi.org/10.1021/acs.jpca.5c01146]\n|\n|  You should also cite additional publications crediting the parametrization\n|  data you use. Please consult the documentation of the SK-files for the\n|  references.\n|\n|===============================================================================\n\nERROR!\n-> No input file 'dftb_in.hsd' not found.\n",
   "test_level": "interface_smoke",
-  "tested_at": "2026-07-28T20:16:58.943969+00:00"
+  "tested_at": "2026-08-06T10:32:07.312490+00:00"
 }

@@ -143,6 +143,42 @@ ACTION_SPECS = (
             input_description="non-periodic AtomicStructure plus explicit ground-state and excited-state methods",
         ),
     _action(
+            "calculate_multireference_state_energies",
+            "molecular_electronic",
+            "Calculate explicitly state-averaged CASSCF electronic-state energies for one molecule with an explicit active space and state manifold.",
+            "MultireferenceStateEnergyResult",
+            ("bagel",),
+            ("structure",),
+            input_description=(
+                "molecular AtomicStructure plus explicit charge, spin, orbital basis, density-fitting "
+                "basis, closed/active orbital counts, state count, convergence controls and MPI layout"
+            ),
+        ),
+    _action(
+            "calculate_multireference_nuclear_gradient",
+            "molecular_electronic",
+            "Calculate one analytical SA-CASSCF or XMS-CASPT2 nuclear energy gradient for an explicitly selected electronic state.",
+            "MultireferenceGradientResult",
+            ("bagel",),
+            ("structure",),
+            input_description=(
+                "molecular AtomicStructure with explicit active space, target state, CASSCF controls "
+                "and, for XMS-CASPT2, explicit shift and frozen-core policy"
+            ),
+        ),
+    _action(
+            "calculate_nonadiabatic_coupling_vector",
+            "molecular_electronic",
+            "Calculate one explicitly defined SA-CASSCF or XMS-CASPT2 nonadiabatic coupling vector between two selected electronic states.",
+            "NonadiabaticCouplingResult",
+            ("bagel",),
+            ("structure",),
+            input_description=(
+                "molecular AtomicStructure with explicit state pair, active space, electronic method, "
+                "full/interstate/ETF/no-weight coupling definition and resource layout"
+            ),
+        ),
+    _action(
             "analyze_electron_density_topology",
             "molecular_electronic",
             "Locate and characterize critical points in one supplied molecular or periodic electron-density field without generating that field or integrating atomic basins.",

@@ -5,7 +5,7 @@ topics: ["common-tasks", "inputs", "outputs", "convergence"]
 aliases: ["MESMER", "mesmer"]
 inputs: ["input.xml"]
 outputs: ["output.xml", "console log", "rate tables", "optional grain and diagnostic files"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # MESMER Common Tasks
@@ -15,6 +15,9 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 - **Phenomenological Kinetics**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Fitting**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Sensitivity Analysis**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
+
+## Preferred typed Action routes
+- `solve_master_equation`: validated structured route through backend `mesmer`.
 
 ## Minimum input responsibilities
 - `input.xml`

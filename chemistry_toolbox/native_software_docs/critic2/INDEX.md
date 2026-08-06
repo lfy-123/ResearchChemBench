@@ -5,7 +5,7 @@ topics: ["index", "navigation", "capabilities"]
 aliases: ["Critic2", "critic2"]
 inputs: ["input.cri", "structure file", "density or wavefunction field"]
 outputs: ["stdout.log", "critical-point tables", "basin integrations", "optional grids"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Critic2 Native Software Guide
@@ -36,6 +36,11 @@ Run Critic2 topology and field analysis from an Agent-authored native input. The
 - basin integration.
 - noncovalent interaction analysis.
 - crystal-field analysis.
+
+## Layer 1 typed Actions
+- `analyze_electron_density_topology`.
+- `calculate_atomic_basin_properties`.
+- `calculate_bader_charges`.
 
 ## Required knowledge before submission
 The toolbox does not select a scientific method, force field, pseudopotential, basis, database, training set, convergence threshold, or workflow ordering. The Agent must obtain those choices from the task, a paper, or an authoritative source and then author a complete input.

@@ -2,23 +2,23 @@
   "archived_files": [
     {
       "path": "request.json",
-      "sha256": "32c8a9621e3ea4049bcd77487f8ef0c0c8828bfc8feb20b49b66dbc5d11f6e15",
-      "size_bytes": 1251
+      "sha256": "69d0063b01c4a3a91d5b743743bb3a11a54713f6f41de7d7f5b941f893ce8bd3",
+      "size_bytes": 1245
     },
     {
       "path": "status.json",
-      "sha256": "43285fb1bb3dc3f01e3c4aa649f7acc565e0b3f12b5a85248264c9dc0380d0a8",
-      "size_bytes": 1935
+      "sha256": "2b7d9b2a8056b899bcba6db56335d45fa47bf1f07f4e81e7152b84143fa9af57",
+      "size_bytes": 2016
     },
     {
       "path": "collection.json",
-      "sha256": "1f2df20a4544f114dade5a08a2fa038bbdecc64f20be2a6896436b65475e955c",
+      "sha256": "52f773f675d56f0c1e73a825671decf934c71e87720d690d32156e2811fa3d29",
       "size_bytes": 1511
     },
     {
       "path": "stdout.log",
-      "sha256": "4ffe3f32281dde1a0df2517ad7a6307ed0995cf47f30f33104525c344f09a5a3",
-      "size_bytes": 1540
+      "sha256": "a6fc8478a4be494b9ad6a5182001070696fb75d9c83d79b02ebe47cc0a164b40",
+      "size_bytes": 1507
     },
     {
       "path": "stderr.log",
@@ -29,7 +29,7 @@
   "artifact_status": "not_validated",
   "convergence_status": "not_reached",
   "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/namd",
-  "job_id": "job_e040681d050c49e59beb609497945ca7",
+  "job_id": "job_bfa8445e35734730bc852c5946bdada0",
   "process_status": "failed",
   "reason": "The executable started and emitted its banner, usage, or expected missing-input diagnostic, but did not complete successfully.",
   "request": {
@@ -55,7 +55,7 @@
   "software_status": "not_reached",
   "status": "started_input_required",
   "stderr_tail": "FATAL ERROR: missing argument for command line option --version\n",
-  "stdout_tail": "Charm++> No provisioning arguments specified. Running with a single PE.\n         Use +auto-provision to fully subscribe resources or +p1 to silence this message.\nCharm++: standalone mode (not using charmrun)\nCharm++> Running in Multicore mode: 1 threads (PEs)\nCharm++> Using recursive bisection (scheme 3) for topology aware partitions\nConverse/Charm++ Commit ID: \nCharmLB> Load balancer assumes all CPUs are same.\nCharm++> Running on 1 hosts (2 sockets x 32 cores x 1 PUs = 64-way SMP)\nCharm++> cpu topology info is gathered in 0.000 seconds.\nCharmLB> Load balancing instrumentation for communication is off.\nInfo: NAMD 3.0.2 for Linux-x86_64-multicore\nInfo: \nInfo: Please visit http://www.ks.uiuc.edu/Research/namd/\nInfo: for updates, documentation, and support information.\nInfo: \nInfo: Please cite Phillips et al., J. Chem. Phys. 153:044130 (2020) doi:10.1063/5.0014475\nInfo: in all publications reporting results obtained with NAMD.\nInfo: \nInfo: Based on Charm++/Converse 80000 for multicore-linux-x86_64-gcc\nInfo: Built Wed Aug 27 16:19:18 CDT 2025 by dhardy on athine.ks.uiuc.edu\nInfo: 1 NAMD  3.0.2  Linux-x86_64-multicore  1    lfy-54-cpu--c9ead987dbc8-u3f46qxwe6  root\nInfo: Running on 1 processors, 1 nodes, 1 physical nodes.\nInfo: CPU topology information available.\nInfo: Charm++/Converse parallel runtime startup completed at 0.00162152 s\nCkLoopLib is used in SMP with simple dynamic scheduling (converse-level notification)\nFATAL ERROR: missing argument for command line option --version\n[Partition 0][Node 0] End of program\n",
+  "stdout_tail": "Charm++> No provisioning arguments specified. Running with a single PE.\n         Use +auto-provision to fully subscribe resources or +p1 to silence this message.\nCharm++: standalone mode (not using charmrun)\nCharm++> Running in Multicore mode: 1 threads (PEs)\nCharm++> Using recursive bisection (scheme 3) for topology aware partitions\nConverse/Charm++ Commit ID:\nCharmLB> Load balancer assumes all CPUs are same.\nCharm++> Running on 1 hosts (2 sockets x 32 cores x 1 PUs = 64-way SMP)\nCharm++> cpu topology info is gathered in 0.000 seconds.\nCharmLB> Load balancing instrumentation for communication is off.\nInfo: NAMD 3.0.2 for Linux-x86_64-multicore\nInfo:\nInfo: Please visit http://www.ks.uiuc.edu/Research/namd/\nInfo: for updates, documentation, and support information.\nInfo:\nInfo: Please cite Phillips et al., J. Chem. Phys. 153:044130 (2020) doi:10.1063/5.0014475\nInfo: in all publications reporting results obtained with NAMD.\nInfo:\nInfo: Based on Charm++/Converse 80000 for multicore-linux-x86_64-gcc\nInfo: Built Wed Aug 27 16:19:18 CDT 2025 by dhardy on athine.ks.uiuc.edu\nInfo: 1 NAMD  3.0.2  Linux-x86_64-multicore  1    <host>  root\nInfo: Running on 1 processors, 1 nodes, 1 physical nodes.\nInfo: CPU topology information available.\nInfo: Charm++/Converse parallel runtime startup completed at 0.00152412 s\nCkLoopLib is used in SMP with simple dynamic scheduling (converse-level notification)\nFATAL ERROR: missing argument for command line option --version\n[Partition 0][Node 0] End of program\n",
   "test_level": "interface_smoke",
-  "tested_at": "2026-07-28T20:16:58.943969+00:00"
+  "tested_at": "2026-08-06T10:32:07.312490+00:00"
 }

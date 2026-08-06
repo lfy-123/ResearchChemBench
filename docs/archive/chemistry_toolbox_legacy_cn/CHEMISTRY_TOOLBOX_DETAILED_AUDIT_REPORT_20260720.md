@@ -354,74 +354,74 @@
 | `qcelemental` | qcelemental=0.50.4 | — | conda:qcelemental=0.50.4 | — | — | `open_source` |
 | `cclib` | cclib=0.0.0 | — | conda:cclib=1.8.1 | — | — | `open_source` |
 | `rdkit` | rdkit=2025.3.3 | — | conda:rdkit | — | — | `open_source` |
-| `openbabel` | openbabel=OK | obabel=/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/quantum/bin/obabel | conda:openbabel | — | — | `open_source` |
+| `openbabel` | openbabel=OK | obabel=${PROJECT_ROOT}/.tool_envs/quantum/bin/obabel | conda:openbabel | — | — | `open_source` |
 | `rdkit_etkdg` | rdkit=2025.3.3 | — | conda:rdkit | — | — | `open_source` |
-| `crest` | — | crest=/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/reaction/bin/crest | conda:crest<br>conda:xtb | CHEMGRAPH_CREST_COMMAND=set | — | `open_source` |
+| `crest` | — | crest=${PROJECT_ROOT}/.tool_envs/reaction/bin/crest | conda:crest<br>conda:xtb | CHEMGRAPH_CREST_COMMAND=set | — | `open_source` |
 | `internal_statistics` | — | — | — | — | — | `open_source` |
 | `pdbfixer` | pdbfixer=1.12.0<br>openmm=8.5.2 | — | conda:pdbfixer<br>conda:openmm | — | — | `open_source` |
-| `pdb_tools` | pdbtools=OK | pdb_selchain=/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.toolbox_env/bin/pdb_selchain<br>pdb_reres=/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.toolbox_env/bin/pdb_reres<br>pdb_tidy=/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.toolbox_env/bin/pdb_tidy | pip:pdb-tools==2.7.0 | — | — | `open_source` |
+| `pdb_tools` | pdbtools=OK | pdb_selchain=${PROJECT_ROOT}/.toolbox_env/bin/pdb_selchain<br>pdb_reres=${PROJECT_ROOT}/.toolbox_env/bin/pdb_reres<br>pdb_tidy=${PROJECT_ROOT}/.toolbox_env/bin/pdb_tidy | pip:pdb-tools==2.7.0 | — | — | `open_source` |
 | `rdkit_gasteiger` | rdkit=2025.3.3 | — | conda:rdkit | — | — | `open_source` |
-| `openff_am1bcc` | openff.toolkit=0.18.1 | antechamber=/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/openff/bin/antechamber<br>sqm=/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/openff/bin/sqm | conda:openff-toolkit<br>conda:ambertools | — | — | `open_source` |
+| `openff_am1bcc` | openff.toolkit=0.18.1 | antechamber=${PROJECT_ROOT}/.tool_envs/openff/bin/antechamber<br>sqm=${PROJECT_ROOT}/.tool_envs/openff/bin/sqm | conda:openff-toolkit<br>conda:ambertools | — | — | `open_source` |
 | `openff` | openff.toolkit=0.18.1<br>openff.interchange=0.5.3 | — | conda:openff-toolkit<br>conda:openff-interchange | — | — | `open_source` |
 | `openmm_builder` | openmm=8.5.2 | — | conda:openmm | — | — | `open_source` |
-| `packmol` | — | packmol=/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/md/bin/packmol | conda:packmol | — | — | `open_source` |
+| `packmol` | — | packmol=${PROJECT_ROOT}/.tool_envs/md/bin/packmol | conda:packmol | — | — | `open_source` |
 | `spglib` | spglib=2.7.0<br>numpy=2.4.6 | — | conda:spglib<br>conda:numpy | — | — | `open_source` |
 | `pymatgen` | pymatgen=2026.5.4<br>numpy=2.4.6 | — | conda:pymatgen<br>conda:numpy | — | — | `open_source` |
-| `xtb` | — | xtb=/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/quantum/bin/xtb | conda:xtb | CHEMGRAPH_XTB_COMMAND=set | — | `open_source` |
+| `xtb` | — | xtb=${PROJECT_ROOT}/.tool_envs/quantum/bin/xtb | conda:xtb | CHEMGRAPH_XTB_COMMAND=set | — | `open_source` |
 | `pyscf` | pyscf=2.13.1 | — | pip:pyscf | — | — | `open_source` |
-| `gpaw` | gpaw=25.7.0<br>ase=3.29.0<br>numpy=2.4.6 | gpaw=/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/gpaw/bin/gpaw | conda:gpaw=25.7.0<br>conda:ase<br>conda:numpy | — | `GPAW PAW setup datasets under .software_cache/gpaw/setups` | `open_source` |
-| `lobster` | pymatgen=2026.5.4<br>numpy=2.4.6 | lobster-5.1.0=/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/lobster/5.1.0/package/lobster-5.1.0 | conda:pymatgen | CHEMGRAPH_LOBSTER_COMMAND=set | — | `academic_license` |
-| `nwchem` | qcengine=0.50.0<br>qcelemental=0.50.4<br>numpy=2.4.6 | nwchem=/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/nwchem/bin/nwchem | conda:nwchem=7.3.1<br>conda:qcengine=0.50.0<br>conda:qcelemental=0.50.4<br>conda:cclib | NWCHEM_BASIS_LIBRARY=set | `NWChem basis libraries under .software_cache/nwchem/source/src/basis/libraries` | `open_source` |
-| `openmolcas` | — | pymolcas=/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/openmolcas/25.10/pymolcas | — | CHEMGRAPH_OPENMOLCAS_COMMAND=set | `OpenMolcas v25.10 basis_library managed under .software_cache/openmolcas/25.10` | `open_source` |
-| `multiwfn` | — | Multiwfn_noGUI=/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/multiwfn/2026.7.15/Multiwfn_2026.7.15_bin_Linux_noGUI/Multiwfn_noGUI | — | CHEMGRAPH_MULTIWFN_COMMAND=set | `Agent-supplied fch/fchk/wfn/wfx/mwfn/Molden/47 wavefunction file; both required Multiwfn citations are returned in provenance` | `custom_open_source_citation_required` |
-| `critic2` | — | critic2=/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/critic2/install-conda/bin/critic2 | — | CHEMGRAPH_CRITIC2_COMMAND=set | `Agent-supplied electron-density grid or compatible wavefunction file; an explicit separate structure file is required when the density file does not contain geometry` | `open_source` |
-| `psi4` | psi4=OK | psi4=/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/psi4/bin/psi4 | conda:psi4 | — | — | `open_source` |
+| `gpaw` | gpaw=25.7.0<br>ase=3.29.0<br>numpy=2.4.6 | gpaw=${PROJECT_ROOT}/.tool_envs/gpaw/bin/gpaw | conda:gpaw=25.7.0<br>conda:ase<br>conda:numpy | — | `GPAW PAW setup datasets under .software_cache/gpaw/setups` | `open_source` |
+| `lobster` | pymatgen=2026.5.4<br>numpy=2.4.6 | lobster-5.1.0=${PROJECT_ROOT}/.software_cache/lobster/5.1.0/package/lobster-5.1.0 | conda:pymatgen | CHEMGRAPH_LOBSTER_COMMAND=set | — | `academic_license` |
+| `nwchem` | qcengine=0.50.0<br>qcelemental=0.50.4<br>numpy=2.4.6 | nwchem=${PROJECT_ROOT}/.tool_envs/nwchem/bin/nwchem | conda:nwchem=7.3.1<br>conda:qcengine=0.50.0<br>conda:qcelemental=0.50.4<br>conda:cclib | NWCHEM_BASIS_LIBRARY=set | `NWChem basis libraries under .software_cache/nwchem/source/src/basis/libraries` | `open_source` |
+| `openmolcas` | — | pymolcas=${PROJECT_ROOT}/.software_cache/openmolcas/25.10/pymolcas | — | CHEMGRAPH_OPENMOLCAS_COMMAND=set | `OpenMolcas v25.10 basis_library managed under .software_cache/openmolcas/25.10` | `open_source` |
+| `multiwfn` | — | Multiwfn_noGUI=${PROJECT_ROOT}/.software_cache/multiwfn/2026.7.15/Multiwfn_2026.7.15_bin_Linux_noGUI/Multiwfn_noGUI | — | CHEMGRAPH_MULTIWFN_COMMAND=set | `Agent-supplied fch/fchk/wfn/wfx/mwfn/Molden/47 wavefunction file; both required Multiwfn citations are returned in provenance` | `custom_open_source_citation_required` |
+| `critic2` | — | critic2=${PROJECT_ROOT}/.software_cache/critic2/install-conda/bin/critic2 | — | CHEMGRAPH_CRITIC2_COMMAND=set | `Agent-supplied electron-density grid or compatible wavefunction file; an explicit separate structure file is required when the density file does not contain geometry` | `open_source` |
+| `psi4` | psi4=OK | psi4=${PROJECT_ROOT}/.tool_envs/psi4/bin/psi4 | conda:psi4 | — | — | `open_source` |
 | `tblite` | tblite=0.4.0<br>ase=3.29.0 | — | pip:tblite==0.4.0 | — | — | `open_source` |
 | `mace` | mace.calculators=OK<br>ase=3.29.0 | — | pip:mace-torch==0.3.16 | — | — | `open_source` |
 | `chgnet` | chgnet=0.4.2<br>ase=3.29.0 | — | pip:chgnet | — | — | `open_source` |
-| `deepmd` | deepmd=OK<br>ase=3.29.0 | dp=/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/deepmd_models/bin/dp | pip:deepmd-kit==3.2.0b0<br>pip:ase<br>pip:e3nn | — | `Explicit resource:// DeePMD model checkpoint; multitask checkpoints require a named model_branch and single-task checkpoints require model_branch=single_task` | `open_source` |
-| `nequip` | nequip=0.19.0<br>torch=2.10.0<br>e3nn=0.6.0<br>ase=3.29.0 | nequip-train=/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/nequip/bin/nequip-train | pip:nequip==0.19.0 | — | `Explicit resource:// NequIP checkpoint or workspace model ArtifactRef` | `open_source` |
+| `deepmd` | deepmd=OK<br>ase=3.29.0 | dp=${PROJECT_ROOT}/.tool_envs/deepmd_models/bin/dp | pip:deepmd-kit==3.2.0b0<br>pip:ase<br>pip:e3nn | — | `Explicit resource:// DeePMD model checkpoint; multitask checkpoints require a named model_branch and single-task checkpoints require model_branch=single_task` | `open_source` |
+| `nequip` | nequip=0.19.0<br>torch=2.10.0<br>e3nn=0.6.0<br>ase=3.29.0 | nequip-train=${PROJECT_ROOT}/.tool_envs/nequip/bin/nequip-train | pip:nequip==0.19.0 | — | `Explicit resource:// NequIP checkpoint or workspace model ArtifactRef` | `open_source` |
 | `allegro` | allegro=OK<br>nequip=0.19.0<br>torch=2.10.0<br>e3nn=0.6.0<br>ase=3.29.0 | — | pip:nequip-allegro==0.8.3<br>pip:nequip==0.19.0 | — | `Explicit resource:// Allegro checkpoint or workspace model ArtifactRef` | `open_source` |
-| `orca` | — | orca=/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/orca/6.1.1/orca | — | CHEMGRAPH_ORCA_COMMAND=set | — | `manual_license` |
-| `gaussian` | — | g16=/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/gaussian/g16/install/g16/g16<br>formchk=/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/gaussian/g16/install/g16/formchk | — | CHEMGRAPH_GAUSSIAN_COMMAND=set<br>CHEMGRAPH_GAUSSIAN_FORMCHK_COMMAND=set | — | `commercial_license` |
-| `gamess` | — | rungms=/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/gamess/2024-r2-p1/source/rungms | — | CHEMGRAPH_GAMESS_COMMAND=set | — | `registration_license` |
+| `orca` | — | orca=${PROJECT_ROOT}/.software_cache/orca/6.1.1/orca | — | CHEMGRAPH_ORCA_COMMAND=set | — | `manual_license` |
+| `gaussian` | — | g16=${PROJECT_ROOT}/.software_cache/gaussian/g16/install/g16/g16<br>formchk=${PROJECT_ROOT}/.software_cache/gaussian/g16/install/g16/formchk | — | CHEMGRAPH_GAUSSIAN_COMMAND=set<br>CHEMGRAPH_GAUSSIAN_FORMCHK_COMMAND=set | — | `commercial_license` |
+| `gamess` | — | rungms=${PROJECT_ROOT}/.software_cache/gamess/2024-r2-p1/source/rungms | — | CHEMGRAPH_GAMESS_COMMAND=set | — | `registration_license` |
 | `ase_emt` | ase.calculators.emt=3.29.0 | — | pip:ase | — | — | `open_source` |
 | `internal_vibrations` | numpy=1.26.4 | — | pip:numpy | — | — | `open_source` |
 | `internal_spectroscopy` | numpy=1.26.4 | — | pip:numpy | — | — | `open_source` |
 | `internal_thermochemistry` | ase=3.29.0<br>numpy=1.26.4 | — | pip:ase<br>pip:numpy | — | — | `open_source` |
-| `goodvibes` | goodvibes=3.2 | goodvibes=/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/reaction/bin/goodvibes | conda:goodvibes | — | — | `open_source` |
+| `goodvibes` | goodvibes=3.2 | goodvibes=${PROJECT_ROOT}/.tool_envs/reaction/bin/goodvibes | conda:goodvibes | — | — | `open_source` |
 | `geometric` | geometric=1.1.1<br>numpy=2.4.6 | — | pip:geometric==1.1.1 | — | — | `open_source` |
 | `sella` | sella=2.5.0<br>ase=3.29.0<br>numpy=2.4.6 | — | pip:sella==2.5.0 | — | — | `open_source` |
-| `pysisyphus` | pysisyphus=1.0.0 | pysis=/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/reaction/bin/pysis | pip:pysisyphus==1.0.0 | — | — | `open_source` |
+| `pysisyphus` | pysisyphus=1.0.0 | pysis=${PROJECT_ROOT}/.tool_envs/reaction/bin/pysis | pip:pysisyphus==1.0.0 | — | — | `open_source` |
 | `cantera` | cantera=3.2.0 | — | conda:cantera | — | — | `open_source` |
 | `scipy` | scipy=1.15.2 | — | pip:scipy | — | — | `open_source` |
-| `rmg` | rmgpy=OK | rmg.py=/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/rmg/bin/rmg.py | conda:rmg=4.0.0 | — | — | `open_source` |
-| `mess` | — | mess=/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/mess/2020.1.24/build/mess | — | CHEMGRAPH_MESS_COMMAND=set | — | `open_source` |
-| `mesmer` | — | mesmer=/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/mesmer/7.1/bin/mesmer | — | CHEMGRAPH_MESMER_COMMAND=set | — | `open_source` |
+| `rmg` | rmgpy=OK | rmg.py=${PROJECT_ROOT}/.tool_envs/rmg/bin/rmg.py | conda:rmg=4.0.0 | — | — | `open_source` |
+| `mess` | — | mess=${PROJECT_ROOT}/.software_cache/mess/2020.1.24/build/mess | — | CHEMGRAPH_MESS_COMMAND=set | — | `open_source` |
+| `mesmer` | — | mesmer=${PROJECT_ROOT}/.software_cache/mesmer/7.1/bin/mesmer | — | CHEMGRAPH_MESMER_COMMAND=set | — | `open_source` |
 | `catmap` | catmap=OK | — | pip:git+https://github.com/SUNCAT-Center/catmap.git | — | — | `open_source` |
 | `openmm` | openmm=8.5.2 | — | conda:openmm | — | — | `open_source` |
-| `gromacs` | — | gmx=/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/md/bin/gmx | conda:gromacs | CHEMGRAPH_GROMACS_COMMAND=set | — | `open_source` |
-| `lammps` | lammps=2025.7.22 | lmp=/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/md/bin/lmp | conda:lammps | CHEMGRAPH_LAMMPS_COMMAND=set | — | `open_source` |
+| `gromacs` | — | gmx=${PROJECT_ROOT}/.tool_envs/md/bin/gmx | conda:gromacs | CHEMGRAPH_GROMACS_COMMAND=set | — | `open_source` |
+| `lammps` | lammps=2025.7.22 | lmp=${PROJECT_ROOT}/.tool_envs/md/bin/lmp | conda:lammps | CHEMGRAPH_LAMMPS_COMMAND=set | — | `open_source` |
 | `hoomd` | hoomd=OK<br>numpy=2.4.6 | — | conda:hoomd=7.1.0<br>conda:numpy | — | — | `open_source` |
-| `namd` | — | namd3=/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/namd/3.0.2/multicore-avx512/namd3 | — | CHEMGRAPH_NAMD_COMMAND=set | — | `academic_registration` |
-| `amber_pmemd` | — | pmemd=/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/amber/26/install/bin/pmemd<br>pmemd.MPI=/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/amber/26/install/bin/pmemd.MPI<br>mpirun=/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/amber/bin/mpirun | — | CHEMGRAPH_AMBER_COMMAND=set<br>CHEMGRAPH_AMBER_MPI_COMMAND=set<br>CHEMGRAPH_AMBER_MPIRUN_COMMAND=set<br>CHEMGRAPH_AMBER_MPI_EXECUTABLE=set | — | `academic_registration` |
-| `charmm` | — | charmm=/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/charmm/50b2/install/bin/charmm | — | CHEMGRAPH_CHARMM_COMMAND=set | — | `academic_registration` |
+| `namd` | — | namd3=${PROJECT_ROOT}/.software_cache/namd/3.0.2/multicore-avx512/namd3 | — | CHEMGRAPH_NAMD_COMMAND=set | — | `academic_registration` |
+| `amber_pmemd` | — | pmemd=${PROJECT_ROOT}/.software_cache/amber/26/install/bin/pmemd<br>pmemd.MPI=${PROJECT_ROOT}/.software_cache/amber/26/install/bin/pmemd.MPI<br>mpirun=${PROJECT_ROOT}/.tool_envs/amber/bin/mpirun | — | CHEMGRAPH_AMBER_COMMAND=set<br>CHEMGRAPH_AMBER_MPI_COMMAND=set<br>CHEMGRAPH_AMBER_MPIRUN_COMMAND=set<br>CHEMGRAPH_AMBER_MPI_EXECUTABLE=set | — | `academic_registration` |
+| `charmm` | — | charmm=${PROJECT_ROOT}/.software_cache/charmm/50b2/install/bin/charmm | — | CHEMGRAPH_CHARMM_COMMAND=set | — | `academic_registration` |
 | `mdanalysis` | MDAnalysis=2.9.0 | — | pip:MDAnalysis | — | — | `open_source` |
 | `mdtraj` | mdtraj=1.11.1<br>numpy=2.4.6 | — | conda:mdtraj<br>conda:numpy | — | — | `open_source` |
-| `plumed` | — | plumed=/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/md/bin/plumed | conda:plumed | CHEMGRAPH_PLUMED_COMMAND=set | — | `open_source` |
+| `plumed` | — | plumed=${PROJECT_ROOT}/.tool_envs/md/bin/plumed | conda:plumed | CHEMGRAPH_PLUMED_COMMAND=set | — | `open_source` |
 | `pymbar` | pymbar=4.2.0<br>numpy=2.4.6 | — | conda:pymbar<br>conda:numpy | — | — | `open_source` |
 | `alchemlyb` | alchemlyb=0.0.0<br>pandas=2.3.3<br>numpy=2.4.6 | — | conda:alchemlyb=2.5.0<br>conda:pandas<br>conda:numpy | — | — | `open_source` |
-| `quantum_espresso` | — | pw.x=/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/qe/bin/pw.x | conda:qe | CHEMGRAPH_QE_COMMAND=set | `Explicit ResourceRefs from qe_sssp_1_3_pbe_efficiency or qe_sssp_1_3_pbe_precision, one per element; workspace ArtifactRefs remain accepted` | `open_source` |
-| `cp2k` | — | cp2k=/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/cp2k/bin/cp2k.psmp | conda:cp2k | CHEMGRAPH_CP2K_COMMAND=set | — | `open_source` |
-| `siesta` | — | siesta=/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/periodic/bin/siesta | conda:siesta | CHEMGRAPH_SIESTA_COMMAND=set | `Explicit ResourceRefs from siesta_pseudo_dojo_nc_sr_05_pbe_standard_psml, one per element; workspace ArtifactRefs remain accepted` | `open_source` |
-| `dftbplus` | — | dftb+=/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/periodic/bin/dftb+ | conda:dftbplus | CHEMGRAPH_DFTBPLUS_COMMAND=set | `Explicit ResourceRef to dftb_3ob_3_1 or dftb_matsci_0_3 with all required directed element-pair SKF files; workspace directory ArtifactRefs remain accepted` | `open_source` |
-| `abinit` | numpy=2.2.6<br>pydantic=2.13.4<br>yaml=OK | abinit=/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/abinit/bin/abinit | conda:abinit | CHEMGRAPH_ABINIT_COMMAND=missing | `Explicit ResourceRefs from abinit_pseudo_dojo_nc_sr_pbe_standard_psp8, one per element; workspace ArtifactRefs remain accepted` | `open_source` |
-| `vasp` | — | vasp_std=/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/vasp/6.3.2/bin/vasp_std | — | CHEMGRAPH_VASP_COMMAND=set | `One explicit POTCAR ResourceRef or workspace ArtifactRef per element; five operator-supplied production families expose exact directory-name variants and no family or variant is selected automatically` | `commercial_license` |
-| `phonopy` | phonopy=4.3.1 | phonopy=/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/phonons/bin/phonopy | conda:phonopy | — | — | `open_source` |
-| `phono3py` | phono3py=4.3.3 | phono3py=/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/phonons/bin/phono3py | conda:phono3py | — | — | `open_source` |
-| `shengbte` | — | ShengBTE=/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/shengbte/source/ShengBTE | — | CHEMGRAPH_SHENGBTE_COMMAND=set | — | `open_source` |
-| `vina` | vina=1.2.7 | vina=/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/docking/bin/vina | conda:vina | CHEMGRAPH_VINA_COMMAND=set | — | `open_source` |
-| `gnina` | — | gnina=/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/gnina/1.3.3/gnina.cuda12.8.static | — | CHEMGRAPH_GNINA_COMMAND=set | — | `open_source` |
+| `quantum_espresso` | — | pw.x=${PROJECT_ROOT}/.tool_envs/qe/bin/pw.x | conda:qe | CHEMGRAPH_QE_COMMAND=set | `Explicit ResourceRefs from qe_sssp_1_3_pbe_efficiency or qe_sssp_1_3_pbe_precision, one per element; workspace ArtifactRefs remain accepted` | `open_source` |
+| `cp2k` | — | cp2k=${PROJECT_ROOT}/.tool_envs/cp2k/bin/cp2k.psmp | conda:cp2k | CHEMGRAPH_CP2K_COMMAND=set | — | `open_source` |
+| `siesta` | — | siesta=${PROJECT_ROOT}/.tool_envs/periodic/bin/siesta | conda:siesta | CHEMGRAPH_SIESTA_COMMAND=set | `Explicit ResourceRefs from siesta_pseudo_dojo_nc_sr_05_pbe_standard_psml, one per element; workspace ArtifactRefs remain accepted` | `open_source` |
+| `dftbplus` | — | dftb+=${PROJECT_ROOT}/.tool_envs/periodic/bin/dftb+ | conda:dftbplus | CHEMGRAPH_DFTBPLUS_COMMAND=set | `Explicit ResourceRef to dftb_3ob_3_1 or dftb_matsci_0_3 with all required directed element-pair SKF files; workspace directory ArtifactRefs remain accepted` | `open_source` |
+| `abinit` | numpy=2.2.6<br>pydantic=2.13.4<br>yaml=OK | abinit=${PROJECT_ROOT}/.tool_envs/abinit/bin/abinit | conda:abinit | CHEMGRAPH_ABINIT_COMMAND=missing | `Explicit ResourceRefs from abinit_pseudo_dojo_nc_sr_pbe_standard_psp8, one per element; workspace ArtifactRefs remain accepted` | `open_source` |
+| `vasp` | — | vasp_std=${PROJECT_ROOT}/.software_cache/vasp/6.3.2/bin/vasp_std | — | CHEMGRAPH_VASP_COMMAND=set | `One explicit POTCAR ResourceRef or workspace ArtifactRef per element; five operator-supplied production families expose exact directory-name variants and no family or variant is selected automatically` | `commercial_license` |
+| `phonopy` | phonopy=4.3.1 | phonopy=${PROJECT_ROOT}/.tool_envs/phonons/bin/phonopy | conda:phonopy | — | — | `open_source` |
+| `phono3py` | phono3py=4.3.3 | phono3py=${PROJECT_ROOT}/.tool_envs/phonons/bin/phono3py | conda:phono3py | — | — | `open_source` |
+| `shengbte` | — | ShengBTE=${PROJECT_ROOT}/.software_cache/shengbte/source/ShengBTE | — | CHEMGRAPH_SHENGBTE_COMMAND=set | — | `open_source` |
+| `vina` | vina=1.2.7 | vina=${PROJECT_ROOT}/.tool_envs/docking/bin/vina | conda:vina | CHEMGRAPH_VINA_COMMAND=set | — | `open_source` |
+| `gnina` | — | gnina=${PROJECT_ROOT}/.software_cache/gnina/1.3.3/gnina.cuda12.8.static | — | CHEMGRAPH_GNINA_COMMAND=set | — | `open_source` |
 | `pubchem` | pubchempy=1.0.5 | — | pip:pubchempy==1.0.5 | — | — | `open_source` |
 | `rcsb_pdb` | httpx=0.28.1 | — | pip:httpx>=0.28 | — | — | `open_source` |
 | `materials_project` | httpx=0.28.1<br>mp_api=0.45.13 | — | conda:mp-api | MP_API_KEY=set | — | `open_source` |

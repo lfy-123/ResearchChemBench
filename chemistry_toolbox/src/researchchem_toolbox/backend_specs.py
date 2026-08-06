@@ -186,10 +186,198 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         },
     ),
     _backend(
+        "sisso", "SISSO", "sisso",
+        (
+            "discover_sparse_symbolic_descriptor",
+            "evaluate_sparse_symbolic_descriptor",
+            "summarize_sparse_symbolic_descriptor_results",
+        ),
+        "SISSO 3.5 sparse symbolic regression with explicit data splits and official out-of-sample prediction.",
+        executables=("SISSO", "SISSO_predict"),
+        environment=("CHEMGRAPH_SISSO_COMMAND", "CHEMGRAPH_SISSO_PREDICT_COMMAND"),
+        conda=("bc=1.07.1",),
+        install_notes="SISSO 3.5 is compiled with the official Intel Fortran Classic 2021.2 and Intel MPI 2021.15 toolchain cached under .software_cache.",
+        required_methods={
+            "discover_sparse_symbolic_descriptor": (
+                "sample_id_column", "target_column", "feature_columns",
+                "training_sample_ids", "validation_sample_ids", "feature_unit_groups",
+                "operators", "descriptor_dimension", "feature_complexity",
+                "sis_subspace_size", "sparsification_method", "fit_intercept",
+                "selection_metric",
+            ),
+            "evaluate_sparse_symbolic_descriptor": (
+                "sample_id_column", "target_column", "feature_columns", "descriptor_dimension",
+            ),
+        },
+        required_settings={
+            "discover_sparse_symbolic_descriptor": (
+                "feature_storage_mode", "feature_minimum_absolute_max",
+                "feature_maximum_absolute_max", "number_of_models", "mpi_processes",
+                "maximum_prediction_records",
+            ),
+            "evaluate_sparse_symbolic_descriptor": ("maximum_prediction_records",),
+            "summarize_sparse_symbolic_descriptor_results": ("maximum_prediction_records",),
+        },
+        supported_system_types={
+            "discover_sparse_symbolic_descriptor": ("tabular_regression_dataset",),
+            "evaluate_sparse_symbolic_descriptor": ("sisso_regression_model",),
+            "summarize_sparse_symbolic_descriptor_results": ("sisso_output",),
+        },
+        validation_levels={
+            "discover_sparse_symbolic_descriptor": "real_smoke",
+            "evaluate_sparse_symbolic_descriptor": "real_smoke",
+            "summarize_sparse_symbolic_descriptor_results": "real_smoke",
+        },
+    ),
+    _backend(
+        "gplearn", "gplearn", "gplearn",
+        (
+            "fit_symbolic_regression_baseline",
+            "assess_symbolic_regression_seed_stability",
+            "summarize_symbolic_regression_results",
+        ),
+        "gplearn 0.4.3 genetic-programming symbolic regression with explicit held-out splits and seed stability analysis.",
+        modules=("gplearn", "sklearn", "numpy"),
+        pip=("gplearn==0.4.3",),
+        install_notes="BSD-3-Clause gplearn 0.4.3 is installed from its pinned PyPI wheel; upstream tests are cached with the source checkout.",
+        required_methods={
+            "fit_symbolic_regression_baseline": (
+                "sample_id_column", "target_column", "feature_columns",
+                "training_sample_ids", "validation_sample_ids", "function_set", "metric",
+            ),
+            "assess_symbolic_regression_seed_stability": (
+                "sample_id_column", "target_column", "feature_columns",
+                "training_sample_ids", "validation_sample_ids", "function_set", "metric",
+            ),
+        },
+        required_settings={
+            "fit_symbolic_regression_baseline": (
+                "population_size", "generations", "tournament_size", "stopping_criteria",
+                "const_range", "init_depth", "init_method", "parsimony_coefficient",
+                "p_crossover", "p_subtree_mutation", "p_hoist_mutation", "p_point_mutation",
+                "p_point_replace", "max_samples", "low_memory", "n_jobs", "random_seed",
+                "maximum_prediction_records",
+            ),
+            "assess_symbolic_regression_seed_stability": (
+                "population_size", "generations", "tournament_size", "stopping_criteria",
+                "const_range", "init_depth", "init_method", "parsimony_coefficient",
+                "p_crossover", "p_subtree_mutation", "p_hoist_mutation", "p_point_mutation",
+                "p_point_replace", "max_samples", "low_memory", "n_jobs", "random_seeds",
+                "maximum_prediction_records",
+            ),
+            "summarize_symbolic_regression_results": ("maximum_prediction_records",),
+        },
+        supported_system_types={
+            "fit_symbolic_regression_baseline": ("tabular_regression_dataset",),
+            "assess_symbolic_regression_seed_stability": ("tabular_regression_dataset",),
+            "summarize_symbolic_regression_results": ("gplearn_action_json",),
+        },
+        validation_levels={
+            "fit_symbolic_regression_baseline": "real_smoke",
+            "assess_symbolic_regression_seed_stability": "real_smoke",
+            "summarize_symbolic_regression_results": "real_smoke",
+        },
+    ),
+    _backend(
         "openbabel", "Open Babel", "quantum", ("generate_3d_structure",),
         "Open Babel 3D coordinate generation.", modules=("openbabel",), executables=("obabel",),
         conda=("openbabel",),
         required_methods={"generate_3d_structure": ("force_field",)},
+    ),
+    _backend(
+        "acpype", "ACPYPE", "acpype",
+        ("generate_small_molecule_topology", "convert_amber_topology_to_gromacs"),
+        "ACPYPE 2023.10.27 GAFF-family small-molecule topology generation and explicit AMBER-to-GROMACS conversion.",
+        modules=("acpype", "openbabel"), executables=("acpype",),
+        environment=("CHEMGRAPH_ACPYPE_COMMAND",),
+        conda=("openbabel=3.1.1", "ambertools=26.0"), pip=("acpype==2023.10.27",),
+        required_methods={
+            "generate_small_molecule_topology": (
+                "atom_type", "charge_method", "net_charge", "multiplicity", "charge_program",
+            ),
+        },
+        required_settings={
+            "generate_small_molecule_topology": (
+                "output_topologies", "maximum_charge_time_seconds",
+                "merge_atom_types", "sort_atoms",
+            ),
+            "convert_amber_topology_to_gromacs": ("direct_conversion", "sort_atoms"),
+        },
+        allowed_methods={
+            "generate_small_molecule_topology": {
+                "atom_type": ("gaff", "gaff2", "amber", "amber2"),
+                "charge_method": ("gas", "bcc", "user"),
+                "charge_program": ("sqm", "mopac", "divcon"),
+            },
+        },
+        allowed_settings={
+            "generate_small_molecule_topology": {
+                "output_topologies": ("all", "gmx", "cns", "charmm"),
+            },
+        },
+        supported_system_types={
+            "generate_small_molecule_topology": ("small_molecule",),
+            "convert_amber_topology_to_gromacs": ("small_molecule", "biomolecule", "molecular_system"),
+        },
+        validation_levels={
+            "generate_small_molecule_topology": "real_smoke",
+            "convert_amber_topology_to_gromacs": "real_smoke",
+        },
+    ),
+    _backend(
+        "pmx", "pmx", "pmx",
+        (
+            "mutate_biomolecular_residues_for_alchemy",
+            "generate_alchemical_hybrid_topology",
+            "map_alchemical_ligand_atoms",
+        ),
+        "Fixed pmx develop commit for explicit biomolecular mutations, B-state hybrid topology generation, and ligand atom mapping.",
+        modules=("pmx", "rdkit"), executables=("pmx",),
+        environment=("CHEMGRAPH_PMX_COMMAND", "GMXLIB"),
+        pip=("pmx @ git+https://github.com/deGrootLab/pmx@0dd5f0a9cdf26109eff98bdfeb4ac4e55353aa76",),
+        install_notes="The upstream Python 3 branch is documented as development software; this runtime is pinned to commit 0dd5f0a and must not float to branch HEAD.",
+        required_methods={
+            "mutate_biomolecular_residues_for_alchemy": ("force_field",),
+            "generate_alchemical_hybrid_topology": ("force_field",),
+        },
+        required_settings={
+            "mutate_biomolecular_residues_for_alchemy": ("keep_residue_ids",),
+            "generate_alchemical_hybrid_topology": (
+                "recursive", "split_transformations", "dummy_mass_scale", "dummy_dihedral_scale",
+            ),
+            "map_alchemical_ligand_atoms": (
+                "use_alignment", "use_mcs", "map_nonpolar_hydrogens",
+                "map_polar_hydrogens", "allow_hydrogen_to_heavy",
+                "rings_only", "apply_distance_to_mcs", "cross_check_swapped_order",
+                "check_chirality", "distance_cutoff_nm", "mcs_timeout_seconds",
+            ),
+        },
+        allowed_methods={
+            "mutate_biomolecular_residues_for_alchemy": {
+                "force_field": (
+                    "amber99sb-star-ildn-mut", "amber99sb-star-ildn-dna-mut",
+                    "amber99sb-star-ildn-bsc1-mut", "amber14sbmut", "charmm36m-mut",
+                    "charmm22star-mut",
+                ),
+            },
+            "generate_alchemical_hybrid_topology": {
+                "force_field": (
+                    "amber99sb-star-ildn-mut", "amber99sb-star-ildn-dna-mut",
+                    "amber99sb-star-ildn-bsc1-mut", "amber14sbmut", "charmm36m-mut",
+                    "charmm22star-mut",
+                ),
+            },
+        },
+        supported_system_types={
+            "mutate_biomolecular_residues_for_alchemy": ("protein", "dna", "rna"),
+            "generate_alchemical_hybrid_topology": ("biomolecule", "molecular_system"),
+            "map_alchemical_ligand_atoms": ("small_molecule_pair",),
+        },
+        validation_levels={
+            "mutate_biomolecular_residues_for_alchemy": "real_smoke",
+            "generate_alchemical_hybrid_topology": "real_smoke",
+            "map_alchemical_ligand_atoms": "real_smoke",
+        },
     ),
     _backend(
         "rdkit_etkdg", "RDKit ETKDG", "core", ("generate_conformer_ensemble",),
@@ -224,7 +412,7 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         "internal_reaction_analysis", "ResearchChem reaction/coordination analysis", "core",
         (
             "enumerate_coordination_isomers", "validate_reaction_path",
-            "analyze_reaction_coordinate",
+            "analyze_reaction_coordinate", "analyze_post_transition_state_trajectory_ensemble",
         ),
         (
             "Deterministic coordination-site enumeration and reaction-path analysis from "
@@ -239,6 +427,9 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
                 "bond_distance_tolerance_angstrom",
             ),
             "analyze_reaction_coordinate": ("energy_unit",),
+            "analyze_post_transition_state_trajectory_ensemble": (
+                "confidence_level", "failure_policy", "minimum_successful_trajectories",
+            ),
         },
         allowed_settings={
             "enumerate_coordination_isomers": {
@@ -248,6 +439,61 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
             },
             "analyze_reaction_coordinate": {
                 "energy_unit": ("hartree", "kj/mol", "kcal/mol", "ev")
+            },
+            "analyze_post_transition_state_trajectory_ensemble": {
+                "failure_policy": ("exclude", "include_as_unassigned"),
+            },
+        },
+    ),
+    _backend(
+        "internal_periodic_analysis", "ResearchChem periodic evidence analysis", "core",
+        (
+            "calculate_adsorption_energy", "construct_pressure_enthalpy_phase_diagram",
+            "assess_phonon_stability",
+        ),
+        (
+            "Deterministic adsorption-energy bookkeeping, pressure-enthalpy phase selection, "
+            "and phonon-stability assessment from explicitly supplied calculation results."
+        ),
+        required_settings={
+            "calculate_adsorption_energy": ("energy_unit", "adsorbate_count"),
+            "construct_pressure_enthalpy_phase_diagram": (
+                "enthalpy_unit", "energy_tolerance_ev_per_formula_unit",
+                "maximum_reported_transitions",
+            ),
+            "assess_phonon_stability": (
+                "frequency_unit", "imaginary_tolerance", "gamma_q_tolerance",
+                "acoustic_gamma_tolerance", "maximum_returned_imaginary_modes",
+            ),
+        },
+        allowed_settings={
+            "calculate_adsorption_energy": {
+                "energy_unit": ("hartree", "ev", "kj/mol", "kcal/mol"),
+            },
+            "construct_pressure_enthalpy_phase_diagram": {
+                "enthalpy_unit": ("ev_per_formula_unit", "hartree_per_formula_unit", "kj/mol"),
+            },
+            "assess_phonon_stability": {
+                "frequency_unit": ("thz", "cm-1", "mev"),
+            },
+        },
+    ),
+    _backend(
+        "internal_trajectory_analysis", "ResearchChem trajectory-ensemble analysis", "core",
+        ("analyze_nonadiabatic_trajectory_ensemble",),
+        (
+            "Deterministic state-population, hopping, survival, and uncertainty analysis from "
+            "explicit normalized nonadiabatic trajectory records."
+        ),
+        required_settings={
+            "analyze_nonadiabatic_trajectory_ensemble": (
+                "state_count", "initial_state_index", "time_grid_fs",
+                "confidence_level", "failure_policy",
+            ),
+        },
+        allowed_settings={
+            "analyze_nonadiabatic_trajectory_ensemble": {
+                "failure_policy": ("exclude", "include_until_failure"),
             },
         },
     ),
@@ -353,6 +599,30 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
                 "minimum_vacuum_thickness_angstrom", "center_slab",
                 "primitive", "max_terminations",
             ),
+        },
+    ),
+    _backend(
+        "vaspkit", "VASPKIT", "vaspkit",
+        ("analyze_crystal_symmetry", "generate_vasp_kpoint_mesh", "extract_vasp_band_gap"),
+        "VASPKIT 1.5.1 noncommercial binary for explicit VASP structure, reciprocal-mesh, and electronic-result post-processing.",
+        executables=("vaspkit",),
+        environment=("CHEMGRAPH_VASPKIT_COMMAND", "CHEMGRAPH_VASPKIT_CONFIG"),
+        license_class="noncommercial_no_redistribution",
+        install_notes="Download the official 1.5.1 Linux binary separately. Its license prohibits redistribution without written permission.",
+        required_settings={
+            "analyze_crystal_symmetry": ("symmetry_tolerance_angstrom", "angle_tolerance_degrees"),
+            "generate_vasp_kpoint_mesh": ("reciprocal_space_resolution_inverse_angstrom", "centering_scheme"),
+            "extract_vasp_band_gap": ("set_fermi_energy_zero",),
+        },
+        supported_system_types={
+            "analyze_crystal_symmetry": ("periodic_atomic_structure",),
+            "generate_vasp_kpoint_mesh": ("vasp_structure_file",),
+            "extract_vasp_band_gap": ("vasp_electronic_output_set",),
+        },
+        validation_levels={
+            "analyze_crystal_symmetry": "real_smoke",
+            "generate_vasp_kpoint_mesh": "real_smoke",
+            "extract_vasp_band_gap": "real_smoke",
         },
     ),
     _backend(
@@ -1487,6 +1757,53 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         validation_levels={"solve_master_equation": "real_smoke"},
     ),
     _backend(
+        "pyfrag", "PyFrag", "reaction",
+        (
+            "analyze_activation_strain_profile",
+            "summarize_activation_strain_profile",
+            "validate_activation_strain_profile",
+        ),
+        "PyFrag 2019.02 activation-strain analysis using serial ORCA single points along an Agent-supplied reaction path.",
+        executables=("pyfrag-orca",),
+        environment=("CHEMGRAPH_PYFRAG_COMMAND",),
+        install_notes=(
+            "Pinned LGPL-3.0 v1.0.0 source with the tracked Python 3 tokenization and ORCA 6 "
+            "final-energy compatibility patch. ORCA itself requires separate registration/download."
+        ),
+        required_methods={
+            "analyze_activation_strain_profile": ("orca_keywords", "charge", "multiplicity"),
+        },
+        required_settings={
+            "analyze_activation_strain_profile": (
+                "path_format", "path_type", "fragment_1_name", "fragment_2_name",
+                "fragment_1_atom_indices", "fragment_2_atom_indices",
+                "fragment_1_reference_energy_kcal_mol",
+                "fragment_2_reference_energy_kcal_mol",
+                "reaction_coordinate_atom_indices", "maximum_path_points",
+            ),
+            "summarize_activation_strain_profile": ("maximum_records",),
+            "validate_activation_strain_profile": (
+                "energy_closure_tolerance_kcal_mol", "expected_path_point_count",
+            ),
+        },
+        allowed_settings={
+            "analyze_activation_strain_profile": {
+                "path_format": ("amv", "xyz"),
+                "path_type": ("irc", "lt"),
+            },
+        },
+        supported_system_types={
+            "analyze_activation_strain_profile": ("molecular_reaction_path",),
+            "summarize_activation_strain_profile": ("pyfrag_activation_strain_table",),
+            "validate_activation_strain_profile": ("pyfrag_activation_strain_table",),
+        },
+        validation_levels={
+            "analyze_activation_strain_profile": "real_smoke",
+            "summarize_activation_strain_profile": "real_smoke",
+            "validate_activation_strain_profile": "real_smoke",
+        },
+    ),
+    _backend(
         "catmap", "CatMAP", "catmap", ("solve_microkinetic_model",),
         "CatMAP 0.3.x microkinetic solver through an allow-listed typed model adapter that generates a controlled setup file and returns structured descriptor maps.",
         modules=("catmap",),
@@ -1494,6 +1811,89 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         required_settings={"solve_microkinetic_model": ("temperature_kelvin", "pressure_bar")},
         supported_system_types={"solve_microkinetic_model": ("heterogeneous_catalytic_network",)},
         validation_levels={"solve_microkinetic_model": "real_smoke"},
+    ),
+    _backend(
+        "bagel", "BAGEL", "bagel",
+        (
+            "calculate_multireference_state_energies",
+            "calculate_multireference_nuclear_gradient",
+            "calculate_nonadiabatic_coupling_vector",
+        ),
+        "BAGEL 1.2.2 state-averaged CASSCF and XMS-CASPT2 energies, analytical gradients, and nonadiabatic couplings with explicit active spaces.",
+        executables=("BAGEL",),
+        environment=(
+            "CHEMGRAPH_BAGEL_COMMAND", "CHEMGRAPH_BAGEL_MPIRUN_COMMAND",
+            "CHEMGRAPH_BAGEL_RAW_COMMAND", "CHEMGRAPH_BAGEL_BASIS_DIRECTORY",
+        ),
+        install_notes=(
+            "GPL-3.0+ v1.2.2 source and Ubuntu 22.04 1.2.2-3ubuntu1 MPICH binary plus "
+            "its redistribution-compatible runtime libraries are cached locally."
+        ),
+        method_schema={
+            "multireference_method": "casscf or xms-caspt2; state-energy Action accepts casscf only",
+            "basis": "exact bundled BAGEL orbital-basis name",
+            "density_fitting_basis": "exact bundled BAGEL JK-fitting basis name",
+            "active_orbitals": "positive CASSCF active-orbital count",
+            "closed_orbitals": "nonnegative doubly occupied closed-orbital count",
+            "active_orbital_indices": "optional explicit one-based orbital list whose length equals active_orbitals",
+            "caspt2_options": "required mapping for xms-caspt2: imaginary_shift_hartree, freeze_core, and sssr",
+        },
+        required_methods={
+            action: (
+                "multireference_method", "basis", "density_fitting_basis", "charge",
+                "multiplicity", "active_orbitals", "closed_orbitals", "state_count",
+                "casscf_convergence", "fci_convergence", "casscf_max_iterations",
+            )
+            for action in (
+                "calculate_multireference_state_energies",
+                "calculate_multireference_nuclear_gradient",
+                "calculate_nonadiabatic_coupling_vector",
+            )
+        },
+        required_settings={
+            "calculate_multireference_state_energies": (
+                "maximum_returned_states", "mpi_ranks", "threads_per_rank",
+            ),
+            "calculate_multireference_nuclear_gradient": (
+                "state_index", "max_zvector_iterations", "mpi_ranks", "threads_per_rank",
+            ),
+            "calculate_nonadiabatic_coupling_vector": (
+                "state_index_1", "state_index_2", "coupling_type",
+                "max_zvector_iterations", "mpi_ranks", "threads_per_rank",
+            ),
+        },
+        allowed_methods={
+            "calculate_multireference_state_energies": {
+                "multireference_method": ("casscf",),
+            },
+            "calculate_multireference_nuclear_gradient": {
+                "multireference_method": ("casscf", "xms-caspt2"),
+            },
+            "calculate_nonadiabatic_coupling_vector": {
+                "multireference_method": ("casscf", "xms-caspt2"),
+            },
+        },
+        allowed_settings={
+            "calculate_nonadiabatic_coupling_vector": {
+                "coupling_type": ("full", "interstate", "etf", "noweight"),
+            },
+        },
+        supported_system_types={
+            action: ("molecular_atomic_structure",)
+            for action in (
+                "calculate_multireference_state_energies",
+                "calculate_multireference_nuclear_gradient",
+                "calculate_nonadiabatic_coupling_vector",
+            )
+        },
+        validation_levels={
+            action: "real_smoke"
+            for action in (
+                "calculate_multireference_state_energies",
+                "calculate_multireference_nuclear_gradient",
+                "calculate_nonadiabatic_coupling_vector",
+            )
+        },
     ),
     _backend(
         "openmm", "OpenMM", "md",
@@ -1528,6 +1928,43 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
             "For propagate_dynamics, generate_velocities=true also requires an explicit random_seed. "
             "NVT/NPT additionally require explicit temperature_coupling_groups; no coupling group is chosen implicitly."
         ),
+    ),
+    _backend(
+        "gmx_mmpbsa", "gmx_MMPBSA", "gmx_mmpbsa",
+        (
+            "calculate_end_state_binding_free_energy",
+            "calculate_end_state_energy_decomposition",
+            "summarize_end_state_free_energy_results",
+        ),
+        "gmx_MMPBSA 1.6.5 end-state binding energy, residue decomposition, and bounded result parsing from explicit native inputs.",
+        modules=("GMXMMPBSA",), executables=("gmx_MMPBSA",),
+        environment=("CHEMGRAPH_GMX_MMPBSA_COMMAND", "AMBERHOME"),
+        conda=(
+            "python=3.11", "ambertools=23.6", "gromacs=2025.4", "mpi4py=4.0.1",
+            "numpy=1.26.4", "pandas=1.5.3", "matplotlib=3.7.3",
+            "seaborn=0.11.2", "scipy=1.14.1", "parmed=4.3.1",
+        ),
+        pip=("gmx_MMPBSA==1.6.5",),
+        install_notes="Isolated in .envs/gmx-mmpbsa because gmx_MMPBSA 1.6.5 requires Python 3.11 and AmberTools 23.6, incompatible with the shared Python 3.12/AmberTools 26 runtime.",
+        required_methods={
+            "calculate_end_state_binding_free_energy": ("receptor_group_index", "ligand_group_index"),
+            "calculate_end_state_energy_decomposition": ("receptor_group_index", "ligand_group_index"),
+        },
+        required_settings={
+            "calculate_end_state_binding_free_energy": ("overwrite",),
+            "calculate_end_state_energy_decomposition": ("overwrite", "maximum_decomposition_records"),
+            "summarize_end_state_free_energy_results": ("maximum_decomposition_records",),
+        },
+        supported_system_types={
+            "calculate_end_state_binding_free_energy": ("molecular_complex",),
+            "calculate_end_state_energy_decomposition": ("molecular_complex",),
+            "summarize_end_state_free_energy_results": ("end_state_free_energy_output",),
+        },
+        validation_levels={
+            "calculate_end_state_binding_free_energy": "real_smoke",
+            "calculate_end_state_energy_decomposition": "real_smoke",
+            "summarize_end_state_free_energy_results": "real_smoke",
+        },
     ),
     _backend(
         "lammps", "LAMMPS", "lammps", ("minimize_system_energy", "propagate_dynamics"),
@@ -1769,6 +2206,152 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
             "parse_alchemical_energy_data": (
                 "engine", "observable", "temperature_kelvin", "filter_invalid_rows",
             ),
+        },
+    ),
+    _backend(
+        "yambo", "Yambo", "yambo",
+        ("calculate_quasiparticle_corrections", "calculate_bse_optical_spectrum"),
+        "Yambo 5.3 execution and bounded parsing for explicit GW quasiparticle and BSE optical calculations from existing compatible databases.",
+        executables=("yambo",),
+        environment=("CHEMGRAPH_YAMBO_COMMAND",),
+        conda=("yambo=5.3.0",),
+        required_settings={
+            "calculate_quasiparticle_corrections": (
+                "job_name", "maximum_returned_records", "require_normal_exit",
+            ),
+            "calculate_bse_optical_spectrum": (
+                "job_name", "maximum_returned_records", "require_normal_exit",
+            ),
+        },
+        supported_system_types={
+            "calculate_quasiparticle_corrections": ("periodic_crystal",),
+            "calculate_bse_optical_spectrum": ("periodic_crystal",),
+        },
+        validation_levels={
+            "calculate_quasiparticle_corrections": "real_smoke",
+            "calculate_bse_optical_spectrum": "real_smoke",
+        },
+    ),
+    _backend(
+        "sharc", "SHARC", "sharc",
+        ("propagate_nonadiabatic_trajectory",),
+        "SHARC trajectory propagation from complete Agent-supplied dynamics and QM-interface inputs with final-time and state-history validation.",
+        executables=("sharc.x",),
+        environment=("CHEMGRAPH_SHARC_COMMAND", "SHARC", "PYTHONPATH"),
+        required_methods={"propagate_nonadiabatic_trajectory": ("interface",)},
+        required_settings={
+            "propagate_nonadiabatic_trajectory": (
+                "input_filename", "expected_final_time_fs", "final_time_tolerance_fs",
+                "maximum_returned_steps",
+            ),
+        },
+        allowed_methods={
+            "propagate_nonadiabatic_trajectory": {
+                "interface": ("lvc", "orca", "openmolcas", "analytical", "other"),
+            },
+        },
+        validation_levels={"propagate_nonadiabatic_trajectory": "real_ensemble_smoke"},
+    ),
+    _backend(
+        "kinbot", "KinBot", "kinbot",
+        ("explore_reaction_network",),
+        "KinBot 2.2.2 full-PES orchestration from one explicit JSON protocol, including patched local asynchronous execution and current ASE/NWChem compatibility.",
+        modules=("kinbot", "sella"), executables=("pes",),
+        environment=("CHEMGRAPH_KINBOT_PES_COMMAND", "CHEMGRAPH_NWCHEM_COMMAND"),
+        pip=("kinbot=2.2.2", "sella=2.5.0"),
+        install_notes="Apply chemistry_toolbox/patches/kinbot-v2.2.2-local-nwchem.patch to official tag 2.2.2 before installation.",
+        required_settings={
+            "explore_reaction_network": (
+                "maximum_returned_reactions", "require_pes_done",
+                "sella_force_threshold_ev_per_angstrom", "sella_max_steps",
+                "imaginary_frequency_threshold_cm1",
+            ),
+        },
+        validation_levels={"explore_reaction_network": "real_pes_smoke"},
+    ),
+    _backend(
+        "airss", "AIRSS", "airss",
+        ("generate_crystal_structure_candidates", "convert_crystal_structure_format"),
+        "AIRSS 0.9.3 random crystal generation and explicit cabal format conversion without hidden relaxation or ranking.",
+        executables=("buildcell", "cabal"),
+        environment=("CHEMGRAPH_AIRSS_BUILDCELL_COMMAND", "CHEMGRAPH_AIRSS_CABAL_COMMAND"),
+        conda=("airss-with-default-names=0.9.3",),
+        required_settings={
+            "generate_crystal_structure_candidates": ("candidate_count",),
+            "convert_crystal_structure_format": ("input_format", "output_format"),
+        },
+        allowed_settings={
+            "convert_crystal_structure_format": {
+                "input_format": ("cell", "res", "shx", "cif", "xtl", "xyz"),
+                "output_format": ("cell", "res", "shx", "cif", "xtl", "xyz"),
+            },
+        },
+        supported_system_types={
+            "generate_crystal_structure_candidates": ("periodic_crystal",),
+            "convert_crystal_structure_format": ("periodic_crystal",),
+        },
+        validation_levels={
+            "generate_crystal_structure_candidates": "real_smoke",
+            "convert_crystal_structure_format": "real_smoke",
+        },
+    ),
+    _backend(
+        "tdep", "TDEP", "tdep",
+        (
+            "fit_effective_force_constants",
+            "generate_thermal_displacement_configurations",
+            "calculate_temperature_dependent_phonon_dispersion",
+        ),
+        "TDEP 25.03 effective-force-constant fitting, canonical thermal configuration sampling, and phonon dispersion from explicit native model files.",
+        executables=(
+            "extract_forceconstants", "canonical_configuration",
+            "phonon_dispersion_relations",
+        ),
+        environment=(
+            "CHEMGRAPH_TDEP_EXTRACT_FORCECONSTANTS_COMMAND",
+            "CHEMGRAPH_TDEP_CANONICAL_CONFIGURATION_COMMAND",
+            "CHEMGRAPH_TDEP_PHONON_DISPERSION_COMMAND",
+        ),
+        install_notes="Official tag 25.03 compiled with MPICH and gfortran at -O0; the upstream extract_forceconstants test segfaults with this toolchain at -O2.",
+        required_settings={
+            "fit_effective_force_constants": (
+                "second_order_cutoff_angstrom", "third_order_cutoff_angstrom",
+                "fourth_order_cutoff_angstrom", "polar", "configuration_stride",
+                "include_first_order", "self_consistent_temperature_kelvin",
+                "enforce_rotational_invariance", "enforce_huang_invariance",
+                "enforce_hermitian_symmetry",
+            ),
+            "generate_thermal_displacement_configurations": (
+                "temperature_kelvin", "configuration_count", "statistics",
+                "output_format", "initialization_source",
+                "debye_temperature_kelvin", "maximum_frequency_thz",
+                "minimum_distance_ratio",
+            ),
+            "calculate_temperature_dependent_phonon_dispersion": (
+                "frequency_unit", "points_per_segment", "calculate_gruneisen",
+            ),
+        },
+        allowed_settings={
+            "generate_thermal_displacement_configurations": {
+                "statistics": ("classical", "quantum"),
+                "output_format": ("vasp", "abinit", "fhi_aims", "siesta"),
+                "initialization_source": (
+                    "force_constants", "debye_temperature", "maximum_frequency",
+                ),
+            },
+            "calculate_temperature_dependent_phonon_dispersion": {
+                "frequency_unit": ("thz", "mev", "icm"),
+            },
+        },
+        supported_system_types={
+            "fit_effective_force_constants": ("periodic_crystal",),
+            "generate_thermal_displacement_configurations": ("periodic_crystal",),
+            "calculate_temperature_dependent_phonon_dispersion": ("periodic_crystal",),
+        },
+        validation_levels={
+            "fit_effective_force_constants": "real_smoke",
+            "generate_thermal_displacement_configurations": "real_smoke",
+            "calculate_temperature_dependent_phonon_dispersion": "real_smoke",
         },
     ),
     _backend(
@@ -2017,14 +2600,16 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
     ),
     _backend(
         "materials_project", "Materials Project", "services", ("search_materials",),
-        "Materials Project summary REST API requiring an MP_API_KEY for live access; bounded HTTP timeouts avoid unbounded client initialization.", modules=("httpx", "mp_api"),
+        "Materials Project summary REST API requiring an MP_API_KEY for live access; bounded transient-failure retries protect against temporary service or network interruptions.", modules=("httpx", "mp_api"),
         environment=("MP_API_KEY",), conda=("mp-api",),
     ),
     _backend(
         "catalysis_hub", "Catalysis-Hub GraphQL", "services", ("search_catalysis_records",),
-        "Catalysis-Hub GraphQL reaction lookup.", modules=("httpx",), pip=("httpx>=0.28",),
+        "Authenticated Catalysis-Hub GraphQL reaction lookup.", modules=("httpx",), pip=("httpx>=0.28",),
+        environment=("CATALYSIS_HUB_API_KEY",),
         install_notes=(
-            "Live GraphQL calls use bounded retry/backoff controls (max_retries, retry_backoff_seconds) "
+            "Live GraphQL calls send CATALYSIS_HUB_API_KEY through X-API-Key and use bounded "
+            "retry/backoff controls (max_retries, retry_backoff_seconds) "
             "and return retryable remote-service errors without hidden fallback."
         ),
     ),

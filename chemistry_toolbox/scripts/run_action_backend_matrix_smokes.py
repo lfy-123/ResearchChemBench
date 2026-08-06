@@ -32,6 +32,7 @@ from dotenv import load_dotenv
 
 from researchchem_toolbox.catalog import action_specs
 from researchchem_toolbox.service import execute_action
+from researchchem_toolbox.paths import portable_report_value
 
 
 STATUS_PATH = TOOLBOX_ROOT / "config" / "action_backend_matrix_smoke_status.json"
@@ -836,6 +837,7 @@ def _write_status(
         "cases": ordered,
     }
     path.parent.mkdir(parents=True, exist_ok=True)
+    payload = portable_report_value(payload)
     path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return payload
 

@@ -4,10 +4,14 @@ from __future__ import annotations
 
 import itertools
 import math
+import os
+import re
+import shutil
 from pathlib import Path
 from typing import Any
 
 from .common import (
+    ase_atoms,
     command_artifacts,
     module_version,
     output_directory,
@@ -31,6 +35,9 @@ ACTIONS = {
     "rank_conformers_from_results", "repair_biomolecular_structure",
     "assign_protonation_states", "assign_partial_charges",
     "assign_force_field_parameters", "solvate_molecular_system",
+    "generate_small_molecule_topology", "convert_amber_topology_to_gromacs",
+    "mutate_biomolecular_residues_for_alchemy", "generate_alchemical_hybrid_topology",
+    "map_alchemical_ligand_atoms",
     "analyze_crystal_symmetry", "standardize_crystal_structure",
     "build_supercell", "enumerate_surface_slabs",
     "select_structure_subset", "renumber_biomolecular_structure",
@@ -146,6 +153,77 @@ def _analyze_crystal_symmetry(backend_id: str, request: dict[str, Any]) -> dict[
         "angle_tolerance_degrees": angle,
     }
     return success(result, backend_version=module_version("pymatgen"))
+
+
+def _analyze_vaspkit_symmetry(request: dict[str, Any]) -> dict[str, Any]:
+    from ase.io import write
+
+    inputs, _method, settings = request_parts(request)
+    symprec = float(settings["symmetry_tolerance_angstrom"])
+    angle = float(settings["angle_tolerance_degrees"])
+    if symprec <= 0 or angle <= 0:
+        raise ValueError("VASPKIT symmetry and angle tolerances must be positive")
+    configured = os.environ.get("CHEMGRAPH_VASPKIT_CONFIG", "").strip()
+    if not configured or not Path(configured).is_file():
+        raise RuntimeError("CHEMGRAPH_VASPKIT_CONFIG must point to the pinned VASPKIT configuration template")
+    directory = output_directory("analyze_crystal_symmetry", "vaspkit")
+    write(directory / "POSCAR", ase_atoms(inputs["structure"]), format="vasp", direct=True, vasp5=True)
+    home = directory / "home"
+    home.mkdir()
+    config = Path(configured).read_text(encoding="utf-8", errors="strict")
+    replacements = {"SYMMETRY_TOLERANCE": format(symprec, ".17g"), "ANGLE_TOLERANCE": format(angle, ".17g")}
+    for name, value in replacements.items():
+        config, count = re.subn(
+            rf"(?m)^({re.escape(name)}\s*=\s*)[^#\n]+", rf"\g<1>{value} ", config, count=1
+        )
+        if count != 1:
+            raise RuntimeError(f"VASPKIT configuration does not define {name}")
+    (home / ".vaspkit").write_text(config, encoding="utf-8")
+    timeout = int((request.get("resource_limits") or {}).get("walltime_seconds", 1800))
+    results = []
+    for task in (601, 604):
+        completed = run_external(
+            executable="vaspkit", environment_variable="CHEMGRAPH_VASPKIT_COMMAND",
+            arguments=["-task", str(task), "-file", "POSCAR", "-symprec", str(symprec)],
+            directory=directory, timeout_seconds=max(1, timeout),
+            environment_overrides={"HOME": str(home)},
+        )
+        (directory / f"vaspkit-{task}.log").write_text(
+            completed["stdout"] + completed["stderr"], encoding="utf-8"
+        )
+        if not completed["available"]:
+            return unavailable(completed["stderr"], install="Download VASPKIT 1.5.1 from the official SourceForge release.")
+        if completed["returncode"] != 0 or "Space Group Number" not in completed["stdout"]:
+            raise RuntimeError(f"VASPKIT symmetry task {task} failed: {(completed['stderr'] or completed['stdout'])[-2000:]}")
+        results.append(completed)
+    summary, equivalents = results[0]["stdout"], results[1]["stdout"]
+    def value(pattern: str, label: str) -> str:
+        matched = re.search(pattern, summary)
+        if matched is None:
+            raise RuntimeError(f"Could not parse {label} from VASPKIT symmetry output")
+        return matched.group(1).strip()
+    atom_rows = re.findall(r"\|\s+([A-Za-z]{1,3})\s+\|\s+(\d+)\s+\|\s+(\d+)\s+\|", equivalents)
+    if not atom_rows:
+        raise RuntimeError("Could not parse equivalent atoms from VASPKIT task 604")
+    grouped: dict[int, list[int]] = {}
+    for _symbol, atom_id, representative_id in atom_rows:
+        grouped.setdefault(int(representative_id) - 1, []).append(int(atom_id) - 1)
+    result = {
+        "space_group_number": int(value(r"Space Group Number:\s+(\d+)", "space group number")),
+        "international_symbol": value(r"International:\s+(\S+)", "international symbol"),
+        "point_group": value(r"Point Group:\s+\d+\s+\[\s*([^\]]+)\]", "point group"),
+        "crystal_system": value(r"Crystal System:\s+(\S+)", "crystal system").lower(),
+        "bravais_lattice": value(r"Bravais Lattice:\s+(\S+)", "Bravais lattice"),
+        "equivalent_atom_groups": list(grouped.values()),
+        "representative_atom_indices": list(grouped),
+        "symmetry_operation_count": int(value(r"Symmetry Operations:\s+(\d+)", "symmetry operations")),
+        "symmetry_tolerance_angstrom": symprec,
+        "angle_tolerance_degrees": angle,
+    }
+    return success(
+        result, artifact_files=command_artifacts(directory), backend_version="1.5.1",
+        provenance={"commands": [item["command"] for item in results], "tasks": [601, 604]},
+    )
 
 
 def _standardize_crystal(backend_id: str, request: dict[str, Any]) -> dict[str, Any]:
@@ -1001,6 +1079,357 @@ def _parameterize_openmm(request: dict[str, Any]) -> dict[str, Any]:
     )
 
 
+def _acpype_run(arguments: list[str], directory: Path, request: dict[str, Any]) -> dict[str, Any]:
+    walltime = int((request.get("resource_limits") or {}).get("walltime_seconds", 1800))
+    completed = run_external(
+        executable="acpype",
+        arguments=arguments,
+        directory=directory,
+        environment_variable="CHEMGRAPH_ACPYPE_COMMAND",
+        timeout_seconds=max(1, walltime),
+    )
+    (directory / "stdout.log").write_text(completed["stdout"], encoding="utf-8")
+    (directory / "stderr.log").write_text(completed["stderr"], encoding="utf-8")
+    if not completed["available"]:
+        return unavailable(
+            completed["stderr"],
+            install="Install ACPYPE 2023.10.27, Open Babel 3.1.1, and AmberTools 26 in the configured ACPYPE runtime.",
+        )
+    if completed["returncode"] != 0:
+        detail = completed["stderr"].strip() or completed["stdout"].strip()
+        raise RuntimeError(f"ACPYPE failed with exit code {completed['returncode']}: {detail[-2000:]}")
+    return completed
+
+
+def _acpype_artifact(path: Path, semantic_type: str, media_type: str) -> dict[str, str]:
+    return {
+        "path": relative_workspace_path(path),
+        "semantic_type": semantic_type,
+        "media_type": media_type,
+    }
+
+
+def _generate_small_molecule_topology(request: dict[str, Any]) -> dict[str, Any]:
+    inputs, method, settings = request_parts(request)
+    source = resolve_input_file(inputs["structure_file"])
+    if source.suffix.lower() not in {".pdb", ".mol2", ".mdl", ".mol", ".sdf"}:
+        raise ValueError("structure_file must be PDB, MOL2, MDL, MOL, or SDF")
+    atom_type = str(method["atom_type"]).lower()
+    charge_method = str(method["charge_method"]).lower()
+    charge_program = str(method["charge_program"]).lower()
+    net_charge = int(method["net_charge"])
+    multiplicity = int(method["multiplicity"])
+    if multiplicity < 1:
+        raise ValueError("multiplicity must be a positive integer")
+    if charge_method == "user" and source.suffix.lower() != ".mol2":
+        raise ValueError("charge_method='user' requires a MOL2 input carrying explicit charges")
+    maximum_charge_time = int(settings["maximum_charge_time_seconds"])
+    if maximum_charge_time < 1:
+        raise ValueError("maximum_charge_time_seconds must be positive")
+    directory = output_directory("generate_small_molecule_topology", "acpype")
+    staged = shutil.copy2(source, directory / f"input{source.suffix.lower()}")
+    arguments = [
+        "-i", Path(staged).name, "-b", "molecule", "-n", str(net_charge),
+        "-m", str(multiplicity), "-c", charge_method, "-a", atom_type,
+        "-q", charge_program, "-o", str(settings["output_topologies"]).lower(),
+        "-s", str(maximum_charge_time),
+    ]
+    if bool(settings["merge_atom_types"]):
+        arguments.append("-g")
+    if bool(settings["sort_atoms"]):
+        arguments.append("-l")
+    completed = _acpype_run(arguments, directory, request)
+    if "status" in completed:
+        return completed
+    generated = directory / "molecule.acpype"
+    if not generated.is_dir():
+        raise RuntimeError("ACPYPE completed without creating molecule.acpype")
+    expected = {
+        "amber_topology_path": generated / "molecule_AC.prmtop",
+        "amber_coordinate_path": generated / "molecule_AC.inpcrd",
+    }
+    gromacs_topology = generated / "molecule_GMX.top"
+    gromacs_coordinates = generated / "molecule_GMX.gro"
+    if gromacs_topology.is_file():
+        expected["gromacs_topology_path"] = gromacs_topology
+    if gromacs_coordinates.is_file():
+        expected["gromacs_coordinate_path"] = gromacs_coordinates
+    missing = [name for name, path in expected.items() if not path.is_file()]
+    if missing:
+        raise RuntimeError(f"ACPYPE completed without required outputs: {', '.join(missing)}")
+    result = {
+        name: relative_workspace_path(path) for name, path in expected.items()
+    }
+    result.update(
+        {
+            "force_field": atom_type,
+            "charge_method": charge_method,
+            "net_charge": net_charge,
+            "multiplicity": multiplicity,
+            "output_topologies": str(settings["output_topologies"]).lower(),
+        }
+    )
+    artifacts = [
+        _acpype_artifact(expected["amber_topology_path"], "AmberTopology", "application/octet-stream"),
+        _acpype_artifact(expected["amber_coordinate_path"], "AmberCoordinates", "chemical/x-amber-inpcrd"),
+    ]
+    if gromacs_topology.is_file():
+        artifacts.append(_acpype_artifact(gromacs_topology, "GromacsTopology", "text/plain"))
+    if gromacs_coordinates.is_file():
+        artifacts.append(_acpype_artifact(gromacs_coordinates, "GromacsCoordinates", "chemical/x-gromacs-gro"))
+    return success(
+        result,
+        artifact_files=artifacts,
+        backend_version="2023.10.27",
+        provenance={"command": completed["command"]},
+    )
+
+
+def _convert_amber_topology_to_gromacs(request: dict[str, Any]) -> dict[str, Any]:
+    inputs, _method, settings = request_parts(request)
+    topology = resolve_input_file(inputs["amber_topology"])
+    coordinates = resolve_input_file(inputs["amber_coordinates"])
+    directory = output_directory("convert_amber_topology_to_gromacs", "acpype")
+    staged_topology = shutil.copy2(topology, directory / "input.prmtop")
+    staged_coordinates = shutil.copy2(coordinates, directory / "input.inpcrd")
+    arguments = [
+        "-p", Path(staged_topology).name, "-x", Path(staged_coordinates).name,
+        "-b", "converted",
+    ]
+    if bool(settings["direct_conversion"]):
+        arguments.append("-u")
+    if bool(settings["sort_atoms"]):
+        arguments.append("-l")
+    completed = _acpype_run(arguments, directory, request)
+    if "status" in completed:
+        return completed
+    generated = directory / "converted.amb2gmx"
+    gromacs_topology = generated / "converted_GMX.top"
+    gromacs_coordinates = generated / "converted_GMX.gro"
+    if not gromacs_topology.is_file() or not gromacs_coordinates.is_file():
+        raise RuntimeError("ACPYPE completed without the converted GROMACS topology and coordinates")
+    return success(
+        {
+            "gromacs_topology_path": relative_workspace_path(gromacs_topology),
+            "gromacs_coordinate_path": relative_workspace_path(gromacs_coordinates),
+            "direct_conversion": bool(settings["direct_conversion"]),
+        },
+        artifact_files=[
+            _acpype_artifact(gromacs_topology, "GromacsTopology", "text/plain"),
+            _acpype_artifact(gromacs_coordinates, "GromacsCoordinates", "chemical/x-gromacs-gro"),
+        ],
+        backend_version="2023.10.27",
+        provenance={"command": completed["command"]},
+    )
+
+
+def _pmx_run(arguments: list[str], directory: Path, request: dict[str, Any]) -> dict[str, Any]:
+    walltime = int((request.get("resource_limits") or {}).get("walltime_seconds", 1800))
+    completed = run_external(
+        executable="pmx",
+        arguments=arguments,
+        directory=directory,
+        environment_variable="CHEMGRAPH_PMX_COMMAND",
+        timeout_seconds=max(1, walltime),
+    )
+    (directory / "stdout.log").write_text(completed["stdout"], encoding="utf-8")
+    (directory / "stderr.log").write_text(completed["stderr"], encoding="utf-8")
+    if not completed["available"]:
+        return unavailable(
+            completed["stderr"],
+            install="Build the fixed pmx commit and configure its GMXLIB mutation-force-field directory.",
+        )
+    if completed["returncode"] != 0:
+        detail = completed["stderr"].strip() or completed["stdout"].strip()
+        raise RuntimeError(f"pmx failed with exit code {completed['returncode']}: {detail[-2000:]}")
+    return completed
+
+
+def _pmx_mutate(request: dict[str, Any]) -> dict[str, Any]:
+    inputs, method, settings = request_parts(request)
+    source = resolve_input_file(inputs["structure"])
+    if source.suffix.lower() not in {".pdb", ".gro"}:
+        raise ValueError("pmx mutation requires a PDB or GRO structure")
+    mutations = inputs["mutations"]
+    if not isinstance(mutations, list) or not mutations:
+        raise ValueError("mutations must be a non-empty list")
+    keep_ids = bool(settings["keep_residue_ids"])
+    has_reference = inputs.get("reference_structure") is not None
+    preserve_ids = keep_ids or has_reference
+    if keep_ids and has_reference:
+        raise ValueError("keep_residue_ids and reference_structure are mutually exclusive pmx modes")
+    lines = []
+    normalized = []
+    for index, item in enumerate(mutations):
+        if not isinstance(item, dict):
+            raise ValueError(f"mutations[{index}] must be a mapping")
+        residue_id = int(item["residue_id"])
+        target = str(item["target_residue_name"]).strip().upper()
+        if residue_id < 1 or not target.isalnum():
+            raise ValueError(f"mutations[{index}] has an invalid residue id or target name")
+        chain = str(item.get("chain_id") or "").strip()
+        if preserve_ids and (len(chain) != 1 or not chain.isalnum()):
+            raise ValueError(f"mutations[{index}].chain_id is required when original residue ids are used")
+        lines.append(f"{chain + ' ' if preserve_ids else ''}{residue_id} {target}")
+        normalized.append({"chain_id": chain or None, "residue_id": residue_id, "target_residue_name": target})
+    directory = output_directory("mutate_biomolecular_residues_for_alchemy", "pmx")
+    staged = shutil.copy2(source, directory / f"input{source.suffix.lower()}")
+    script = directory / "mutations.txt"
+    script.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    output = directory / f"hybrid{source.suffix.lower()}"
+    arguments = [
+        "mutate", "-f", Path(staged).name, "-o", output.name,
+        "-ff", str(method["force_field"]), "--script", script.name,
+    ]
+    if keep_ids:
+        arguments.append("--keep_resid")
+    if has_reference:
+        reference = resolve_input_file(inputs["reference_structure"])
+        staged_reference = shutil.copy2(reference, directory / f"reference{reference.suffix.lower()}")
+        arguments.extend(["--ref", Path(staged_reference).name])
+    completed = _pmx_run(arguments, directory, request)
+    if "status" in completed:
+        return completed
+    if not output.is_file() or output.stat().st_size == 0:
+        raise RuntimeError("pmx mutate completed without a hybrid structure")
+    return success(
+        {
+            "structure_file": relative_workspace_path(output),
+            "mutations": normalized,
+            "force_field": str(method["force_field"]),
+            "parameterized": False,
+        },
+        artifact_files=[_acpype_artifact(output, "AtomicStructure", "chemical/x-pdb" if output.suffix == ".pdb" else "chemical/x-gromacs-gro")],
+        backend_version="0+untagged.1.g0dd5f0a",
+        provenance={"command": completed["command"]},
+    )
+
+
+def _pmx_hybrid_topology(request: dict[str, Any]) -> dict[str, Any]:
+    inputs, method, settings = request_parts(request)
+    source = resolve_input_file(inputs["topology_file"])
+    if source.suffix.lower() not in {".top", ".itp"}:
+        raise ValueError("topology_file must be a GROMACS TOP or ITP file")
+    directory = output_directory("generate_alchemical_hybrid_topology", "pmx")
+    staged = shutil.copy2(source, directory / source.name)
+    included = inputs.get("included_topology_files") or []
+    if not isinstance(included, list):
+        raise ValueError("included_topology_files must be a list")
+    seen = {source.name}
+    for value in included:
+        include = resolve_input_file(value)
+        if include.name in seen:
+            raise ValueError(f"duplicate staged topology basename: {include.name}")
+        seen.add(include.name)
+        shutil.copy2(include, directory / include.name)
+    output = directory / f"hybrid{source.suffix.lower()}"
+    dummy_mass_scale = float(settings["dummy_mass_scale"])
+    dummy_dihedral_scale = float(settings["dummy_dihedral_scale"])
+    if dummy_mass_scale <= 0 or dummy_dihedral_scale < 0:
+        raise ValueError("dummy_mass_scale must be positive and dummy_dihedral_scale non-negative")
+    arguments = [
+        "gentop", "-p", Path(staged).name, "-o", output.name,
+        "-ff", str(method["force_field"]),
+        "--scale_mass", str(dummy_mass_scale), "--scale_dih", str(dummy_dihedral_scale),
+    ]
+    if bool(settings["split_transformations"]):
+        arguments.append("--split")
+    if not bool(settings["recursive"]):
+        arguments.append("--norecursive")
+    completed = _pmx_run(arguments, directory, request)
+    if "status" in completed:
+        return completed
+    if not output.is_file() or "typeB" not in output.read_text(encoding="utf-8", errors="replace"):
+        raise RuntimeError("pmx gentop completed without a B-state hybrid topology")
+    generated = [path for path in sorted(directory.iterdir()) if path.is_file() and path.suffix in {".top", ".itp"} and path != staged]
+    return success(
+        {
+            "hybrid_topology_path": relative_workspace_path(output),
+            "generated_topology_files": [relative_workspace_path(path) for path in generated],
+            "force_field": str(method["force_field"]),
+            "recursive": bool(settings["recursive"]),
+            "split_transformations": bool(settings["split_transformations"]),
+        },
+        artifact_files=[_acpype_artifact(path, "AlchemicalTopology", "text/plain") for path in generated],
+        backend_version="0+untagged.1.g0dd5f0a",
+        provenance={"command": completed["command"]},
+    )
+
+
+def _pmx_atom_mapping(request: dict[str, Any]) -> dict[str, Any]:
+    inputs, _method, settings = request_parts(request)
+    ligand_a = resolve_input_file(inputs["ligand_a"])
+    ligand_b = resolve_input_file(inputs["ligand_b"])
+    if ligand_a.suffix.lower() != ".pdb" or ligand_b.suffix.lower() != ".pdb":
+        raise ValueError("pmx ligand atom mapping requires two PDB files")
+    cutoff = float(settings["distance_cutoff_nm"])
+    timeout = int(settings["mcs_timeout_seconds"])
+    if cutoff <= 0 or timeout < 1:
+        raise ValueError("distance_cutoff_nm and mcs_timeout_seconds must be positive")
+    if not bool(settings["use_alignment"]) and not bool(settings["use_mcs"]):
+        raise ValueError("At least one of use_alignment or use_mcs must be true")
+    directory = output_directory("map_alchemical_ligand_atoms", "pmx")
+    staged_a = shutil.copy2(ligand_a, directory / "ligand_a.pdb")
+    staged_b = shutil.copy2(ligand_b, directory / "ligand_b.pdb")
+    arguments = [
+        "atomMapping", "-i1", Path(staged_a).name, "-i2", Path(staged_b).name,
+        "-o1", "pairs_a.dat", "-o2", "pairs_b.dat", "-score", "score.dat",
+        "-log", "mapping.log", "--d", str(cutoff), "--timeout", str(timeout),
+    ]
+    flags = {
+        "use_alignment": "--no-alignment",
+        "use_mcs": "--no-mcs",
+        "map_nonpolar_hydrogens": "--no-H2H",
+        "map_polar_hydrogens": "--H2Hpolar",
+        "allow_hydrogen_to_heavy": "--H2Heavy",
+        "rings_only": "--RingsOnly",
+        "apply_distance_to_mcs": "--dMCS",
+        "cross_check_swapped_order": "--swap",
+        "check_chirality": "--no-chirality",
+    }
+    for key, flag in flags.items():
+        value = bool(settings[key])
+        inverted = key in {"use_alignment", "use_mcs", "map_nonpolar_hydrogens", "check_chirality"}
+        if (inverted and not value) or (not inverted and value):
+            arguments.append(flag)
+    completed = _pmx_run(arguments, directory, request)
+    if "status" in completed:
+        return completed
+    pairs_path = directory / "pairs_a.dat"
+    score_path = directory / "score.dat"
+    if not pairs_path.is_file() or not score_path.is_file():
+        raise RuntimeError("pmx atomMapping completed without mapping and score files")
+    pairs = []
+    for line in pairs_path.read_text(encoding="utf-8").splitlines():
+        fields = line.split()
+        if len(fields) >= 2:
+            pairs.append([int(fields[0]), int(fields[1])])
+    if not pairs:
+        raise RuntimeError("pmx atomMapping produced an empty atom mapping")
+    score_text = score_path.read_text(encoding="utf-8")
+    try:
+        score = float(score_text.split(":", 1)[1].strip())
+    except (IndexError, ValueError) as exc:
+        raise RuntimeError("Could not parse the pmx mapping dissimilarity score") from exc
+    artifacts = [
+        _acpype_artifact(pairs_path, "AlchemicalAtomMapping", "text/plain"),
+        _acpype_artifact(directory / "pairs_b.dat", "AlchemicalAtomMapping", "text/plain"),
+        _acpype_artifact(score_path, "MappingScore", "text/plain"),
+        _acpype_artifact(directory / "mapping.log", "BackendLog", "text/plain"),
+    ]
+    return success(
+        {
+            "atom_pairs_one_based": pairs,
+            "mapped_atom_count": len(pairs),
+            "dissimilarity_score": score,
+            "distance_cutoff_nm": cutoff,
+        },
+        artifact_files=artifacts,
+        backend_version="0+untagged.1.g0dd5f0a",
+        provenance={"command": completed["command"]},
+    )
+
+
 def _solvate_openmm(request: dict[str, Any]) -> dict[str, Any]:
     import openmm
     from openmm import XmlSerializer
@@ -1268,6 +1697,8 @@ def _normalize_pdb(request: dict[str, Any]) -> dict[str, Any]:
 def execute(action_id: str, backend_id: str, request: dict[str, Any]) -> dict[str, Any]:
     if action_id == "enumerate_coordination_isomers" and backend_id == "internal_reaction_analysis":
         return _enumerate_coordination_isomers(request)
+    if action_id == "analyze_crystal_symmetry" and backend_id == "vaspkit":
+        return _analyze_vaspkit_symmetry(request)
     if action_id == "analyze_crystal_symmetry" and backend_id in {"spglib", "pymatgen"}:
         return _analyze_crystal_symmetry(backend_id, request)
     if action_id == "standardize_crystal_structure" and backend_id in {"spglib", "pymatgen"}:
@@ -1296,6 +1727,16 @@ def execute(action_id: str, backend_id: str, request: dict[str, Any]) -> dict[st
         return _gasteiger(request) if backend_id == "rdkit_gasteiger" else _openff_charges(request)
     if action_id == "assign_force_field_parameters":
         return _parameterize_openff(request) if backend_id == "openff" else _parameterize_openmm(request)
+    if action_id == "generate_small_molecule_topology" and backend_id == "acpype":
+        return _generate_small_molecule_topology(request)
+    if action_id == "convert_amber_topology_to_gromacs" and backend_id == "acpype":
+        return _convert_amber_topology_to_gromacs(request)
+    if action_id == "mutate_biomolecular_residues_for_alchemy" and backend_id == "pmx":
+        return _pmx_mutate(request)
+    if action_id == "generate_alchemical_hybrid_topology" and backend_id == "pmx":
+        return _pmx_hybrid_topology(request)
+    if action_id == "map_alchemical_ligand_atoms" and backend_id == "pmx":
+        return _pmx_atom_mapping(request)
     if action_id == "solvate_molecular_system":
         return _solvate_openmm(request) if backend_id == "openmm_builder" else _solvate_packmol(request)
     if action_id == "select_structure_subset" and backend_id == "pdb_tools":

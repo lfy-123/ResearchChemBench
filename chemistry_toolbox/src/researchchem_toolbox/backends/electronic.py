@@ -59,6 +59,9 @@ ACTIONS = {
     "analyze_thermochemical_ensemble", "validate_thermochemistry_inputs",
     "calculate_correlated_electron_density", "export_electron_density_grid",
     "calculate_electron_isodensity_surface",
+    "calculate_multireference_state_energies",
+    "calculate_multireference_nuclear_gradient",
+    "calculate_nonadiabatic_coupling_vector",
 }
 
 
@@ -3794,6 +3797,347 @@ def _internal_thermochemistry(request: dict[str, Any]) -> dict[str, Any]:
     )
 
 
+def _bagel_basis_path(name: Any, *, field: str) -> Path:
+    token = str(name).strip()
+    if re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_.+-]{0,63}", token) is None:
+        raise ValueError(f"BAGEL {field} must be an exact bundled basis-set name")
+    root = Path(os.environ.get("CHEMGRAPH_BAGEL_BASIS_DIRECTORY", "")).expanduser()
+    if not root.is_dir():
+        raise ValueError("CHEMGRAPH_BAGEL_BASIS_DIRECTORY is not a readable directory")
+    candidate = (root / f"{token}.json").resolve()
+    if candidate.parent != root.resolve() or not candidate.is_file():
+        raise ValueError(f"BAGEL {field} {token!r} is not installed")
+    return candidate
+
+
+def _bagel_method_configuration(
+    structure_value: Any, method: dict[str, Any]
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    from ase.data import atomic_numbers
+
+    structure = structure_dict(structure_value)
+    symbols, coordinates = atoms_and_coordinates(structure)
+    charge = int(method["charge"])
+    multiplicity = int(method["multiplicity"])
+    if not -20 <= charge <= 20 or not 1 <= multiplicity <= 11:
+        raise ValueError("BAGEL charge must be -20..20 and multiplicity must be 1..11")
+    if "charge" in structure and int(structure["charge"]) != charge:
+        raise ValueError("method_spec.charge does not match the supplied structure charge")
+    if "multiplicity" in structure and int(structure["multiplicity"]) != multiplicity:
+        raise ValueError("method_spec.multiplicity does not match the supplied structure multiplicity")
+    nact = int(method["active_orbitals"])
+    nclosed = int(method["closed_orbitals"])
+    nstate = int(method["state_count"])
+    if not 1 <= nact <= 30 or not 0 <= nclosed <= 500 or not 1 <= nstate <= 20:
+        raise ValueError("active_orbitals, closed_orbitals, or state_count is outside the supported bound")
+    try:
+        electron_count = sum(atomic_numbers[symbol] for symbol in symbols) - charge
+    except KeyError as exc:
+        raise ValueError(f"Unknown element in BAGEL structure: {exc.args[0]}") from exc
+    active_electrons = electron_count - 2 * nclosed
+    nspin = multiplicity - 1
+    if not 0 < active_electrons <= 2 * nact:
+        raise ValueError(
+            "closed_orbitals leaves an invalid number of active electrons for active_orbitals"
+        )
+    if active_electrons < nspin or (active_electrons - nspin) % 2:
+        raise ValueError("active electron count is incompatible with the requested multiplicity")
+    selected = method.get("active_orbital_indices")
+    if selected is not None:
+        if not isinstance(selected, list):
+            raise ValueError("active_orbital_indices must be a list")
+        selected = [int(value) for value in selected]
+        if len(selected) != nact or len(set(selected)) != nact or any(value < 1 for value in selected):
+            raise ValueError(
+                "active_orbital_indices must contain active_orbitals unique positive one-based indices"
+            )
+    convergence = float(method["casscf_convergence"])
+    fci_convergence = float(method["fci_convergence"])
+    max_iterations = int(method["casscf_max_iterations"])
+    if not 1e-14 <= convergence <= 1e-3 or not 1e-14 <= fci_convergence <= 1e-3:
+        raise ValueError("CASSCF and FCI convergence thresholds must be between 1e-14 and 1e-3")
+    if not 1 <= max_iterations <= 500:
+        raise ValueError("casscf_max_iterations must be between 1 and 500")
+    basis = _bagel_basis_path(method["basis"], field="basis")
+    df_basis = _bagel_basis_path(method["density_fitting_basis"], field="density_fitting_basis")
+    molecule = {
+        "title": "molecule",
+        "basis": str(basis),
+        "df_basis": str(df_basis),
+        "angstrom": True,
+        "geometry": [
+            {"atom": symbol, "xyz": [float(value) for value in row]}
+            for symbol, row in zip(symbols, coordinates)
+        ],
+    }
+    reference = {
+        "title": "casscf",
+        "nstate": nstate,
+        "nact": nact,
+        "nclosed": nclosed,
+        "charge": charge,
+        "nspin": nspin,
+        "thresh": convergence,
+        "thresh_fci": fci_convergence,
+        "maxiter": max_iterations,
+        "conv_ignore": False,
+    }
+    if selected is not None:
+        reference["active"] = selected
+    metadata = {
+        "basis": str(method["basis"]),
+        "density_fitting_basis": str(method["density_fitting_basis"]),
+        "charge": charge,
+        "multiplicity": multiplicity,
+        "active_orbitals": nact,
+        "active_electrons": active_electrons,
+        "closed_orbitals": nclosed,
+        "state_count": nstate,
+        "active_orbital_indices": selected,
+        "casscf_convergence": convergence,
+        "fci_convergence": fci_convergence,
+        "casscf_max_iterations": max_iterations,
+    }
+    return molecule, {"reference": reference, "metadata": metadata}
+
+
+def _bagel_correlated_method(method: dict[str, Any], reference: dict[str, Any]) -> dict[str, Any]:
+    method_name = str(method["multireference_method"]).lower()
+    if method_name == "casscf":
+        return dict(reference)
+    if method_name != "xms-caspt2":
+        raise ValueError("multireference_method must be casscf or xms-caspt2")
+    options = method.get("caspt2_options")
+    if not isinstance(options, dict):
+        raise ValueError("xms-caspt2 requires method_spec.caspt2_options")
+    required = {"imaginary_shift_hartree", "freeze_core", "sssr"}
+    missing = sorted(required - set(options))
+    if missing:
+        raise ValueError(f"caspt2_options is missing explicit fields: {missing}")
+    shift = float(options["imaginary_shift_hartree"])
+    if not math.isfinite(shift) or shift < 0:
+        raise ValueError("imaginary_shift_hartree must be finite and nonnegative")
+    if not isinstance(options["freeze_core"], bool) or not isinstance(options["sssr"], bool):
+        raise ValueError("caspt2_options.freeze_core and sssr must be booleans")
+    correlated = dict(reference)
+    correlated["title"] = "caspt2"
+    correlated["smith"] = {
+        "method": "caspt2",
+        "ms": True,
+        "xms": True,
+        "sssr": options["sssr"],
+        "shift": shift,
+        "frozen": options["freeze_core"],
+    }
+    return correlated
+
+
+def _parse_bagel_casscf_energies(text: str, state_count: int) -> list[dict[str, Any]]:
+    block_match = re.search(
+        r"=== CASSCF iteration.*?(?:Second-order optimization converged|\* METHOD: (?:CASSCF|FORCE|NACME))",
+        text,
+        flags=re.S,
+    )
+    block = block_match.group(0) if block_match else text
+    state_energies: dict[int, float] = {}
+    for match in re.finditer(
+        r"^\s*\d+\s+(\d+)\s+(?:\*\s+)?(-?\d+\.\d+(?:[Ee][+-]?\d+)?)\s+\d",
+        block,
+        flags=re.M,
+    ):
+        state = int(match.group(1))
+        if state < state_count:
+            state_energies[state] = float(match.group(2))
+    if len(state_energies) != state_count:
+        raise RuntimeError(
+            f"Could not parse all {state_count} converged BAGEL CASSCF state energies"
+        )
+    return [
+        {"state_index": state, "energy_hartree": state_energies[state]}
+        for state in range(state_count)
+    ]
+
+
+def _parse_bagel_gradient(text: str, atom_count: int) -> list[list[float]]:
+    blocks = list(
+        re.finditer(
+            r"\* Nuclear energy gradient\s*(.*?)(?:\* Gradient computed|\* METHOD:)",
+            text,
+            flags=re.S,
+        )
+    )
+    if not blocks:
+        raise RuntimeError("Could not find BAGEL nuclear-gradient vector")
+    body = blocks[-1].group(1)
+    rows: list[list[float]] = []
+    for atom in re.finditer(
+        r"o Atom\s+\d+\s+x\s+([-+0-9.Ee]+)\s+y\s+([-+0-9.Ee]+)\s+z\s+([-+0-9.Ee]+)",
+        body,
+        flags=re.S,
+    ):
+        rows.append([float(atom.group(index)) for index in (1, 2, 3)])
+    if len(rows) != atom_count or not all(math.isfinite(value) for row in rows for value in row):
+        raise RuntimeError("BAGEL gradient vector is incomplete or non-finite")
+    return rows
+
+
+def _bagel(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
+    inputs, method, settings = request_parts(request)
+    method_name = str(method["multireference_method"]).lower()
+    molecule, configuration = _bagel_method_configuration(inputs["structure"], method)
+    reference = configuration["reference"]
+    metadata = configuration["metadata"]
+    state_count = int(metadata["state_count"])
+    ranks = int(settings["mpi_ranks"])
+    threads = int(settings["threads_per_rank"])
+    cpu_cores = int(request.get("resource_limits", {}).get("cpu_cores") or 1)
+    if not 1 <= ranks <= 64 or not 1 <= threads <= 64 or ranks * threads > cpu_cores:
+        raise ValueError("mpi_ranks * threads_per_rank must be positive and not exceed cpu_cores")
+
+    if action_id == "calculate_multireference_state_energies":
+        if method_name != "casscf":
+            raise ValueError("calculate_multireference_state_energies currently supports casscf")
+        maximum_states = int(settings["maximum_returned_states"])
+        if not 1 <= maximum_states <= 20:
+            raise ValueError("maximum_returned_states must be between 1 and 20")
+        calculation = reference
+        marker = "METHOD: CASSCF"
+    else:
+        correlated = _bagel_correlated_method(method, reference)
+        max_zvector = int(settings["max_zvector_iterations"])
+        if not 1 <= max_zvector <= 1000:
+            raise ValueError("max_zvector_iterations must be between 1 and 1000")
+        if action_id == "calculate_multireference_nuclear_gradient":
+            state = int(settings["state_index"])
+            if not 0 <= state < state_count:
+                raise ValueError("state_index is outside the explicit state manifold")
+            calculation = {
+                "title": "force", "target": state, "maxziter": max_zvector,
+                "numerical": False, "method": [correlated],
+            }
+            marker = "METHOD: FORCE"
+        else:
+            state_1 = int(settings["state_index_1"])
+            state_2 = int(settings["state_index_2"])
+            if state_1 == state_2 or any(
+                state < 0 or state >= state_count for state in (state_1, state_2)
+            ):
+                raise ValueError("state indices must be distinct and inside the explicit state manifold")
+            coupling_type = str(settings["coupling_type"]).lower()
+            if coupling_type not in {"full", "interstate", "etf", "noweight"}:
+                raise ValueError("coupling_type must be full, interstate, etf, or noweight")
+            calculation = {
+                "title": "nacme", "target": state_1, "target2": state_2,
+                "nacmtype": coupling_type, "maxziter": max_zvector,
+                "method": [correlated],
+            }
+            marker = "METHOD: NACME"
+
+    directory = output_directory(action_id, "bagel")
+    input_path = directory / "job.json"
+    input_path.write_text(json.dumps({"bagel": [molecule, calculation]}, indent=2) + "\n", encoding="utf-8")
+    environment = {
+        "BAGEL_NUM_THREADS": str(threads),
+        "OMP_NUM_THREADS": str(threads),
+        "OPENBLAS_NUM_THREADS": str(threads),
+    }
+    if ranks == 1:
+        completed = run_external(
+            executable="BAGEL", environment_variable="CHEMGRAPH_BAGEL_COMMAND",
+            arguments=[input_path.name], directory=directory,
+            timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 1800)),
+            environment_overrides=environment,
+        )
+    else:
+        raw = os.environ.get("CHEMGRAPH_BAGEL_RAW_COMMAND", "").strip()
+        if not raw or not Path(raw).is_file():
+            return unavailable("CHEMGRAPH_BAGEL_RAW_COMMAND is unavailable", install="Restore the cached BAGEL runtime")
+        completed = run_external(
+            executable="bagel-mpirun", environment_variable="CHEMGRAPH_BAGEL_MPIRUN_COMMAND",
+            arguments=["-n", str(ranks), raw, input_path.name], directory=directory,
+            timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 1800)),
+            environment_overrides=environment,
+        )
+    output_path = directory / "job.out"
+    error_path = directory / "job.err"
+    output_path.write_text(completed["stdout"], encoding="utf-8")
+    error_path.write_text(completed["stderr"], encoding="utf-8")
+    if not completed["available"]:
+        return unavailable(completed["stderr"], install="Restore BAGEL 1.2.2 cached runtime")
+    if completed["returncode"] != 0:
+        raise RuntimeError(f"BAGEL failed: {(completed['stderr'] or completed['stdout'])[-4000:]}")
+    if "ERROR: EXCEPTION RAISED" in completed["stdout"] or marker not in completed["stdout"]:
+        raise RuntimeError("BAGEL did not produce the required converged method marker")
+
+    state_energies = _parse_bagel_casscf_energies(completed["stdout"], state_count)
+    common = {
+        "multireference_method": method_name,
+        **metadata,
+        "state_energies": state_energies,
+        "mpi_ranks": ranks,
+        "threads_per_rank": threads,
+    }
+    if action_id == "calculate_multireference_state_energies":
+        result = {
+            **common,
+            "state_energies": state_energies[:maximum_states],
+            "total_state_count": len(state_energies),
+            "states_truncated": len(state_energies) > maximum_states,
+        }
+        semantic_type = "MultireferenceStateEnergyResult"
+    else:
+        atom_count = len(structure_dict(inputs["structure"])["atoms"])
+        vector = _parse_bagel_gradient(completed["stdout"], atom_count)
+        if method_name == "xms-caspt2":
+            caspt2_matches = re.findall(
+                r"CASPT2 energy\s*:\s*(?:state\s+\d+\s+)?(-?\d+\.\d+)",
+                completed["stdout"],
+            )
+            correlated_energy = float(caspt2_matches[-1]) if caspt2_matches else None
+            if correlated_energy is None:
+                raise RuntimeError("Could not parse BAGEL XMS-CASPT2 energy")
+        else:
+            correlated_energy = None
+        if action_id == "calculate_multireference_nuclear_gradient":
+            result = {
+                **common,
+                "state_index": int(settings["state_index"]),
+                "energy_hartree": correlated_energy or state_energies[int(settings["state_index"])]["energy_hartree"],
+                "gradient_hartree_per_bohr": vector,
+            }
+            semantic_type = "MultireferenceGradientResult"
+        else:
+            gap_match = re.search(r"Energy gap is:\s*([-+0-9.Ee]+)\s+eV", completed["stdout"])
+            result = {
+                **common,
+                "state_index_1": int(settings["state_index_1"]),
+                "state_index_2": int(settings["state_index_2"]),
+                "coupling_type": str(settings["coupling_type"]).lower(),
+                "energy_gap_ev": float(gap_match.group(1)) if gap_match else None,
+                "coupling_vector_atomic_units": vector,
+            }
+            semantic_type = "NonadiabaticCouplingResult"
+    summary = write_json(directory, "bagel_result.json", result)
+    summary_path = relative_workspace_path(summary)
+    artifacts = [item for item in command_artifacts(directory) if item["path"] != summary_path]
+    artifacts.append({
+        "path": summary_path,
+        "semantic_type": semantic_type,
+        "media_type": "application/json",
+    })
+    return success(
+        result,
+        artifact_files=artifacts,
+        backend_version="1.2.2-3ubuntu1",
+        provenance={
+            "command": completed["command"],
+            "source_commit": "bfceffea5725992c708a9ae03f26604e2fcc1b15",
+            "distribution_package_sha256": "5cc9c366c83dd7f3bbd2c656cfbcec9d8477d147c154ef4b6729a4d36924b29f",
+            "analytical_derivative": action_id != "calculate_multireference_state_energies",
+        },
+    )
+
+
 def execute(action_id: str, backend_id: str, request: dict[str, Any]) -> dict[str, Any]:
     if backend_id == "sella" and action_id == "optimize_geometry":
         return execute_sella(action_id, request)
@@ -3823,6 +4167,8 @@ def execute(action_id: str, backend_id: str, request: dict[str, Any]) -> dict[st
         return _psi4(action_id, request)
     if backend_id == "orca":
         return _orca(action_id, request)
+    if backend_id == "bagel":
+        return _bagel(action_id, request)
     if backend_id == "gaussian":
         return _gaussian(action_id, request)
     if backend_id == "gamess":

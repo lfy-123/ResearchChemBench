@@ -5,7 +5,7 @@ topics: ["common-tasks", "inputs", "outputs", "convergence"]
 aliases: ["GPAW", "gpaw"]
 inputs: ["program.py", "optional structure and restart files", "GPAW datasets"]
 outputs: ["program output", ".gpw restart", "trajectories", "property data"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # GPAW Common Tasks
@@ -16,6 +16,18 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 - **Optimization**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Band Structure**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Response Properties**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
+
+## Preferred typed Action routes
+- `calculate_energy`: validated structured route through backend `gpaw`.
+- `calculate_forces`: validated structured route through backend `gpaw`.
+- `optimize_geometry`: validated structured route through backend `gpaw`.
+- `calculate_periodic_energy`: validated structured route through backend `gpaw`.
+- `calculate_periodic_forces`: validated structured route through backend `gpaw`.
+- `calculate_periodic_stress`: validated structured route through backend `gpaw`.
+- `relax_periodic_structure`: validated structured route through backend `gpaw`.
+- `calculate_electronic_band_structure`: validated structured route through backend `gpaw`.
+- `calculate_density_of_states`: validated structured route through backend `gpaw`.
+- `calculate_projected_density_of_states`: validated structured route through backend `gpaw`.
 
 ## Minimum input responsibilities
 - `program.py`

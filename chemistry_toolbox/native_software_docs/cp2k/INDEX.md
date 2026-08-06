@@ -5,7 +5,7 @@ topics: ["index", "navigation", "capabilities"]
 aliases: ["CP2K", "cp2k"]
 inputs: ["input.inp", "coordinates", "basis sets and potentials when referenced"]
 outputs: ["output.out", "restart files", "trajectory files", "force files", "cube files"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # CP2K Native Software Guide
@@ -37,6 +37,12 @@ Execute a complete CP2K input deck for molecular, periodic, dynamics, spectrosco
 - cell optimization.
 - molecular dynamics.
 - vibrational analysis.
+
+## Layer 1 typed Actions
+- `calculate_periodic_energy`.
+- `calculate_periodic_forces`.
+- `calculate_periodic_stress`.
+- `relax_periodic_structure`.
 
 ## Required knowledge before submission
 The toolbox does not select a scientific method, force field, pseudopotential, basis, database, training set, convergence threshold, or workflow ordering. The Agent must obtain those choices from the task, a paper, or an authoritative source and then author a complete input.

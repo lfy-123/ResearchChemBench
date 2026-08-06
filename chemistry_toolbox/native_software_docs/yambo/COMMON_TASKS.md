@@ -4,8 +4,8 @@ versions: ["5.3.0"]
 topics: ["common-tasks", "inputs", "outputs", "convergence"]
 aliases: ["Yambo", "yambo"]
 inputs: ["compatible upstream save database", "SAVE directory", "input.in", "optional restart databases"]
-outputs: ["SAVE database", "report", "output data files", "restart databases"]
-last_smoke_tested: "2026-07-28"
+outputs: ["SAVE database", "GW quasiparticle table", "BSE optical spectrum", "report", "output data files", "restart databases"]
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Yambo Common Tasks
@@ -17,6 +17,10 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 - **Optical Spectra**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Real-Time Propagation**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 
+## Preferred typed Action routes
+- `calculate_quasiparticle_corrections`: validated structured route through backend `yambo`.
+- `calculate_bse_optical_spectrum`: validated structured route through backend `yambo`.
+
 ## Minimum input responsibilities
 - `compatible upstream save database`
 - `SAVE directory`
@@ -27,6 +31,8 @@ A minimum runnable input must still specify every scientifically material quanti
 
 ## Expected output families
 - `SAVE database`
+- `GW quasiparticle table`
+- `BSE optical spectrum`
 - `report`
 - `output data files`
 - `restart databases`
@@ -50,7 +56,7 @@ Only collect outputs produced by the same job or by explicitly linked parent job
 - `Timing Overview`
 
 ## Scientific convergence notes
-p2y success only creates a database. GW, BSE, and spectra require task completion and convergence with bands, cutoffs, k points, and frequency grids.
+p2y success only creates a database. A real minimal silicon G0W0 and BSE smoke completes and is parsed by typed Actions, but scientific results still require convergence with empty bands, dielectric cutoff, k points, broadening, and frequency grids.
 
 ## Version-specific caution
 These mechanics target the installed `5.3.0` environment. Verify keywords and file formats against the official references before reusing an input written for another release.
@@ -61,8 +67,8 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 ## Command: `p2y`
 - Synopsis: `p2y [conversion options]`.
 - Input mode: `arguments`.
-- Declared example inputs: none declared.
-- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Declared example inputs: `upstream_save_database`.
+- Declared example outputs: `SAVE`.
 - Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Creates the Yambo SAVE database and conversion log.
 
@@ -70,6 +76,7 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 - Synopsis: `yambo -F input.in -J job_name [explicit options]`.
 - Input mode: `arguments`.
 - Declared example inputs: `input.in`.
-- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Declared example outputs: `report`, `output_data`, `restart_databases`.
 - Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes report, database, quasiparticle, response, or excitonic files selected by input.in.
+- Caution: The silicon smoke proves an end-to-end minimal G0W0 and BSE route, not convergence with empty bands, dielectric cutoff, k mesh, or frequency grid.

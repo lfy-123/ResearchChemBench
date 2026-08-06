@@ -1,57 +1,66 @@
 {
-  "schema_version": 1,
-  "job_id": "job_523d5c849ecd45b08c07bc15659bf35d",
-  "job_type": "native_software",
-  "status": "success",
-  "supervisor_pid": 935564,
+  "background_process_cleanup": "none_detected",
   "command": [
-    "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/nwchem/bin/geometric-optimize",
+    ".envs/general-modern-openmpi5/bin/geometric-optimize",
     "--help"
   ],
-  "job_directory": "outputs/execution_jobs/job_523d5c849ecd45b08c07bc15659bf35d",
-  "stdout_path": "outputs/execution_jobs/job_523d5c849ecd45b08c07bc15659bf35d/stdout.log",
-  "stderr_path": "outputs/execution_jobs/job_523d5c849ecd45b08c07bc15659bf35d/stderr.log",
-  "resource_limits": {
-    "cpu_cores": 1,
-    "memory_mb": 1024,
-    "gpu_count": 0,
-    "walltime_seconds": 7200
-  },
-  "submitted_at": "2026-07-28T20:17:19.503627+00:00",
-  "started_at": "2026-07-28T20:17:19.537709+00:00",
+  "compute_worker_id": null,
+  "duration_seconds": 0.610379,
+  "error": null,
+  "execution_mode": "local",
+  "finished_at": "2026-08-06T10:32:20.366897+00:00",
+  "job_directory": "outputs/execution_jobs/job_80211e0430f44c9cbc0aa465de84b139",
+  "job_id": "job_80211e0430f44c9cbc0aa465de84b139",
+  "job_type": "native_software",
   "metadata": {
-    "software_id": "geometric",
-    "executable": "geometric-optimize",
-    "label": "manual-interface-smoke-geometric",
-    "parent_job_id": null,
     "calculation_intent": "unknown",
+    "evaluation_resource_budget": {
+      "agent_controllable": false,
+      "cpu_cores": 48,
+      "gpu_count": 0,
+      "memory_mb": 204800,
+      "scope": "per_task",
+      "source": "evaluation_policy"
+    },
+    "executable": "geometric-optimize",
+    "execution_timeout_policy": {
+      "agent_controllable": false,
+      "execution_class": "compute",
+      "source": "evaluation_policy",
+      "timeout_seconds": 7200
+    },
     "input_deck_validation": null,
     "invocation_synopsis": "geometric-optimize [optimizer options] input.xyz --engine <engine>",
-    "execution_timeout_policy": {
-      "execution_class": "compute",
-      "timeout_seconds": 7200,
-      "source": "evaluation_policy",
-      "agent_controllable": false
-    },
-    "evaluation_resource_budget": {
-      "cpu_cores": 48,
-      "memory_mb": 204800,
-      "gpu_count": 0,
-      "source": "evaluation_policy",
-      "agent_controllable": false,
-      "scope": "per_task"
-    }
+    "label": "manual-interface-smoke-geometric",
+    "parent_job_id": null,
+    "software_id": "geometric"
   },
-  "finished_at": "2026-07-28T20:17:20.144908+00:00",
-  "duration_seconds": 0.607198,
-  "return_code": 0,
-  "background_process_cleanup": "none_detected",
+  "resource_allocation": {
+    "cpu_ids": [
+      0
+    ],
+    "gpu_ids": []
+  },
+  "resource_limits": {
+    "cpu_cores": 1,
+    "gpu_count": 0,
+    "memory_mb": 1024,
+    "walltime_seconds": 7200
+  },
   "resource_usage": {
-    "user_cpu_seconds": 0.410016,
-    "system_cpu_seconds": 0.083595,
-    "max_rss_kb": 79028,
-    "peak_process_group_rss_kb": 74200,
-    "memory_limit_mb": 1024
+    "max_rss_kb": 89132,
+    "memory_limit_mb": 1024,
+    "peak_process_group_rss_kb": 82152,
+    "system_cpu_seconds": 0.092901,
+    "user_cpu_seconds": 0.428153
   },
-  "error": null
+  "return_code": 0,
+  "schema_version": 1,
+  "scratch_isolation": null,
+  "started_at": "2026-08-06T10:32:19.756518+00:00",
+  "status": "success",
+  "stderr_path": "outputs/execution_jobs/job_80211e0430f44c9cbc0aa465de84b139/stderr.log",
+  "stdout_path": "outputs/execution_jobs/job_80211e0430f44c9cbc0aa465de84b139/stdout.log",
+  "submitted_at": "2026-08-06T10:32:19.587957+00:00",
+  "supervisor_pid": 838905
 }

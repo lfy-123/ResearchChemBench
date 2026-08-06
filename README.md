@@ -4,8 +4,8 @@ ResearchChemBench evaluates whether external autonomous agents such as Codex CLI
 
 ## Build the environments
 
-ResearchChemBench uses one project environment and six consolidated chemistry
-environments. All seven environments are managed with Conda or Mamba, with
+ResearchChemBench uses one project environment and seven consolidated chemistry
+environments. All eight environments are managed with Conda or Mamba, with
 selected Python-only packages installed by pip.
 
 A fresh installation keeps every environment under the repository-level
@@ -20,7 +20,8 @@ ResearchChemBench/
 │   ├── kinetics-legacy
 │   ├── equivariant-ml
 │   ├── periodic-mpich
-│   └── yambo-openmpi4
+│   ├── yambo-openmpi4
+│   └── gmx-mmpbsa
 ```
 
 | Environment | Prefix under `.envs/` | Main responsibility |
@@ -32,12 +33,13 @@ ResearchChemBench/
 | Equivariant ML | `equivariant-ml` | DeePMD, NequIP, Allegro, CPU PyTorch, and e3nn |
 | Periodic MPICH | `periodic-mpich` | CP2K 2026.1 with the isolated MPICH 5 and libxc 7 stack |
 | CatMAP and Yambo | `yambo-openmpi4` | CatMAP, ASE 3.17, Yambo, and OpenMPI 4 compatibility runtime |
+| gmx_MMPBSA | `gmx-mmpbsa` | gmx_MMPBSA 1.6.5, AmberTools 23.6, GROMACS, and its compatible Python 3.11/NumPy 1.x stack |
 
 ### 1. Prerequisites
 
 Use a Linux x86-64 host with Conda or Mamba available. Mamba is recommended.
 The committed explicit locks reproduce the tested `linux-64` Conda artifacts
-for the framework and all six chemistry environments. On another operating
+for the framework and all seven chemistry environments. On another operating
 system or CPU architecture, solve from the maintained specifications instead.
 
 Optional GUI and native smoke tests also use the Debian/Ubuntu packages listed
@@ -48,7 +50,7 @@ sudo apt-get update
 sudo apt-get install -y xauth xvfb libxkbcommon0 libgtk-3-0
 ```
 
-### 2. Rebuild all seven environments
+### 2. Rebuild all eight environments
 
 For a Linux x86-64 host, run the following commands from a fresh repository
 checkout. This is the tested reconstruction path for the current layout:
@@ -73,9 +75,10 @@ bash chemistry_toolbox/scripts/build_merged_environments.sh \
 `setup_toolbox_env.sh --from-lock` replays the framework Conda lock, installs
 the pinned direct pip dependencies and editable project package, checks package
 consistency, and caches the English MiniLM retrieval model under `.model_cache`.
-`build_merged_environments.sh --from-lock all` replays the six chemistry Conda
-locks, installs each runtime's pinned pip requirements, and applies the two
-documented compatibility-warning allowlists. No `.venv`, `.toolbox_env`,
+`build_merged_environments.sh --from-lock all` replays the seven chemistry Conda
+locks, installs each runtime's pinned pip requirements, applies the pinned
+KinBot portability patch, and enforces the documented compatibility-warning
+allowlists. No `.venv`, `.toolbox_env`,
 `.tool_envs`, `.tool_envs_merged`, or `.conda_envs` directory is required.
 
 For a different platform, omit `--from-lock` so Conda resolves the maintained
@@ -91,7 +94,7 @@ bash chemistry_toolbox/scripts/build_merged_environments.sh all
 The standard `.envs/` layout needs no environment-variable configuration. All
 build, evaluation, and submission code uses the consolidated repository
 `.envs/` directory. Set `RESEARCHCHEMBENCH_ENV_ROOT=/another/path` only when
-deliberately relocating all seven environments. Set
+deliberately relocating all eight environments. Set
 `RESEARCHCHEMBENCH_FRAMEWORK_ENV` only when the framework environment must be
 placed outside that common root.
 
@@ -116,10 +119,11 @@ requirements, target names, and compatibility policy consistently.
 
 ### 3. Restore local configuration and external assets
 
-Edit the tracked placeholder-only `config.local.env` and provide the Agent and
-Judge credentials needed on the target host. Never commit real credentials:
+Create the ignored local configuration from the tracked template and provide
+only the credentials needed on the target host. Never commit real credentials:
 
 ```bash
+cp config.local.env.example config.local.env
 chmod 600 config.local.env
 ${EDITOR:-vi} config.local.env
 ```
@@ -164,8 +168,8 @@ moving a checkout to another server:
      http://deploy.i.h.pjlab.org.cn/infra/scripts/setup_proxy.sh)
    ```
 
-2. Build or restore all seven `.envs/` prefixes. The two cache directories do
-   not contain the framework environment or the six consolidated chemistry
+2. Build or restore all eight `.envs/` prefixes. The two cache directories do
+   not contain the framework environment or the seven consolidated chemistry
    environments.
 3. Run `configure_toolbox_resources.py --quick` after copying caches. It
    resolves project-relative resources, checks registered hashes, and reports
@@ -198,7 +202,7 @@ support `--pure`, `--dir`, `--model`, `--format`, and `--auto`.
 
 ### 4. Verify the reconstruction
 
-The build scripts execute package checks. Five environments should report no
+The build scripts execute package checks. Six environments should report no
 broken requirements when checked directly:
 
 ```bash
@@ -207,7 +211,8 @@ for name in \
   general-modern-openmpi5 \
   molecular-simulation-openff \
   equivariant-ml \
-  periodic-mpich
+  periodic-mpich \
+  gmx-mmpbsa
 do
   "$PWD/.envs/$name/bin/python" -m pip check
 done
@@ -215,7 +220,7 @@ done
 
 `kinetics-legacy` retains three legacy package platform-metadata warnings
 (`quantities`, `gprof2dot`, and `periodictable`), and `yambo-openmpi4` retains
-the required ASE 3.17 platform-metadata warning. The six-environment build
+the required ASE 3.17 platform-metadata warning. The seven-environment build
 script rejects every other `pip check` error.
 
 Run the toolbox validation suite:
