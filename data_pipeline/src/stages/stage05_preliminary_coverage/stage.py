@@ -23,6 +23,7 @@ def assess_preliminary_coverage(
     capability_map_file: str | Path,
     raw_output_dir: str | Path,
     workers: int = 1,
+    screening_config: dict[str, Any] | None = None,
 ) -> list[dict[str, Any]]:
     by_paper: dict[str, list[dict[str, Any]]] = defaultdict(list)
     errors: dict[str, list[dict[str, Any]]] = defaultdict(list)
@@ -66,6 +67,7 @@ def assess_preliminary_coverage(
         toolbox_profile,
         read_json(capability_catalog),
         errors=errors,
+        screening_config=screening_config,
     )
 
 
@@ -76,8 +78,10 @@ def aggregate_preliminary_coverage(
     capability_catalog: dict[str, Any],
     *,
     errors: dict[str, list[dict[str, Any]]] | None = None,
+    screening_config: dict[str, Any] | None = None,
 ) -> list[dict[str, Any]]:
     errors = errors or {}
+    screening_config = screening_config or {}
     records: list[dict[str, Any]] = []
     for index, paper in enumerate(papers, start=1):
         paper_id = str(paper["paper_id"])
@@ -88,6 +92,7 @@ def aggregate_preliminary_coverage(
             toolbox_profile,
             capability_catalog,
             errors.get(paper_id, []),
+            screening_config,
         )
         records.append(record)
         log_progress(
@@ -115,7 +120,7 @@ def preliminary_coverage_summary(records: list[dict[str, Any]]) -> dict[str, Any
     }
 
 
-def _aggregate_paper(paper, documents, toolbox, catalog, errors):
+def _aggregate_paper(paper, documents, toolbox, catalog, errors, screening_config):
     retention = supplementary_retention(paper)
     if not retention["keep"]:
         return {
@@ -125,6 +130,7 @@ def _aggregate_paper(paper, documents, toolbox, catalog, errors):
                 "decision": "supplementary_unavailable",
                 "core_software": [],
                 "auxiliary_software": [],
+                "unclassified_software": [],
                 "ignored_mentions": [],
                 "unsupported_core_software": [],
                 "covered_method_families": [],
@@ -146,6 +152,7 @@ def _aggregate_paper(paper, documents, toolbox, catalog, errors):
         }
     core: dict[str, dict[str, Any]] = {}
     auxiliary: dict[str, dict[str, Any]] = {}
+    unclassified: dict[str, dict[str, Any]] = {}
     ignored: list[dict[str, Any]] = []
     document_decisions: list[dict[str, Any]] = []
     for document in documents:
@@ -161,6 +168,8 @@ def _aggregate_paper(paper, documents, toolbox, catalog, errors):
             core.setdefault(str(mention["normalized_name"]), mention)
         for mention in coverage.get("auxiliary_software") or []:
             auxiliary.setdefault(str(mention["normalized_name"]), mention)
+        for mention in coverage.get("unclassified_software") or []:
+            unclassified.setdefault(str(mention["normalized_name"]), mention)
         ignored.extend(coverage.get("ignored_mentions") or [])
     direct = [item for item in core.values() if (item.get("direct_support") or {}).get("supported")]
     equivalent = [item for item in core.values() if item.get("capability_equivalence")]
@@ -179,30 +188,84 @@ def _aggregate_paper(paper, documents, toolbox, catalog, errors):
         for family in families
         if available_backends & set((family_matrix.get(family) or {}).get("backends") or [])
     }
+    strict = str(screening_config.get("screening_policy", "recall")) == "strict"
+    accepted_levels = set(
+        screening_config.get("accepted_validation_levels")
+        or (["functional"] if strict else ["functional", "interface", "needs_complete_input", "catalogued"])
+    )
+    require_execution = bool(
+        screening_config.get("require_execution_context", strict)
+    )
+    require_method_match = bool(screening_config.get("require_method_match", strict))
+    allow_equivalent = bool(
+        screening_config.get("allow_capability_equivalent", not strict)
+    )
+    continue_without_name = bool(
+        screening_config.get("continue_without_software_name", not strict)
+    )
+    continue_on_error = bool(screening_config.get("continue_on_stage_error", not strict))
+    eligible_direct = [
+        item
+        for item in direct
+        if (
+            (item.get("direct_support") or {}).get("validation_level") in accepted_levels
+            or (
+                not strict
+                and not (item.get("direct_support") or {}).get("validation_level")
+            )
+        )
+        and (not require_execution or item.get("execution_context_confirmed"))
+        and (
+            not require_method_match
+            or _backend_matches_method_families(
+                str(item["normalized_name"]), families, family_matrix
+            )
+        )
+    ]
+    ineligible_direct = [
+        item["normalized_name"] for item in direct if item not in eligible_direct
+    ]
     if errors and not documents:
         decision = "stage_error"
-        continue_pipeline = True
+        continue_pipeline = continue_on_error
         reason = "software_extraction_failed"
-    elif direct:
+    elif eligible_direct:
         decision = "direct_candidate"
         continue_pipeline = True
         reason = None
-    elif equivalent:
+    elif direct:
+        decision = "direct_support_unverified"
+        continue_pipeline = False
+        reason = "direct_software_failed_strict_validation"
+    elif equivalent and allow_equivalent:
         decision = "equivalent_candidate"
         continue_pipeline = True
         reason = None
+    elif equivalent:
+        decision = "equivalent_unverified"
+        continue_pipeline = False
+        reason = "capability_equivalence_not_allowed"
     elif core and len(unsupported) == len(core):
         decision = "explicitly_unsupported"
         continue_pipeline = False
         reason = "all_identified_core_software_explicitly_unsupported"
-    elif covered_families:
+    elif covered_families and continue_without_name:
         decision = "method_only_candidate"
         continue_pipeline = True
         reason = None
+    elif covered_families:
+        decision = "method_only_rejected"
+        continue_pipeline = False
+        reason = "direct_functionally_validated_backend_required"
     elif relevance.get("decision") in {"strong_candidate", "weak_candidate", "rule_error"}:
-        decision = "software_unknown_candidate"
-        continue_pipeline = True
-        reason = None
+        if strict:
+            decision = "software_unknown_rejected"
+            continue_pipeline = False
+            reason = "direct_functionally_validated_backend_required"
+        else:
+            decision = "software_unknown_candidate"
+            continue_pipeline = True
+            reason = None
     else:
         decision = "not_significant"
         continue_pipeline = False
@@ -214,9 +277,12 @@ def _aggregate_paper(paper, documents, toolbox, catalog, errors):
             "decision": decision,
             "core_software": list(core.values()),
             "auxiliary_software": list(auxiliary.values()),
+            "unclassified_software": list(unclassified.values()),
             "ignored_mentions": ignored,
             "unsupported_core_software": [item["normalized_name"] for item in unsupported],
             "covered_method_families": sorted(covered_families),
+            "ineligible_direct_software": ineligible_direct,
+            "screening_policy": "strict" if strict else "recall",
             "document_decisions": document_decisions,
             "errors": errors,
             "toolbox_profile_id": toolbox.get("profile_id"),
@@ -231,3 +297,19 @@ def _aggregate_paper(paper, documents, toolbox, catalog, errors):
             "stop_reason": reason,
         },
     }
+
+
+def _backend_matches_method_families(
+    backend: str,
+    families: set[str],
+    family_matrix: dict[str, Any],
+) -> bool:
+    normalized = backend.casefold()
+    for family in families:
+        backends = {
+            str(item).casefold()
+            for item in (family_matrix.get(family) or {}).get("backends") or []
+        }
+        if normalized in backends:
+            return True
+    return False

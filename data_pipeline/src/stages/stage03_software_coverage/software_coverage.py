@@ -26,6 +26,11 @@ def assess_software_coverage(
     aliases = _alias_index(read_json(aliases_file))
     role_rules = read_json(role_rules_file)
     capability_rules = read_json(capability_map_file)
+    known_core = {
+        *aliases.values(),
+        *capability_rules.keys(),
+        *(_alias_key(item) for item in role_rules.get("core", [])),
+    }
     raw_dir = Path(raw_output_dir).expanduser().resolve()
     raw_dir.mkdir(parents=True, exist_ok=True)
     service_version = client.version()
@@ -40,17 +45,27 @@ def assess_software_coverage(
         else:
             raw = client.annotate_tei(tei_path)
             write_json(raw_path, raw)
-        direct_mentions = _softcite_mentions(raw.get("mentions") or [], aliases, role_rules)
+        direct_mentions = _softcite_mentions(
+            raw.get("mentions") or [], aliases, role_rules, known_core
+        )
         recovered_mentions = _recover_known_software(
             tei_path,
             direct_mentions,
             aliases,
             role_rules,
             client,
+            known_core,
         )
         mentions = _merge_mentions([*direct_mentions, *recovered_mentions])
+        for mention in mentions:
+            mention["execution_context_confirmed"] = _execution_context_confirmed(
+                mention
+            )
         core = [item for item in mentions if item["role"] == "core" and item["used"]]
         auxiliary = [item for item in mentions if item["role"] == "auxiliary" and item["used"]]
+        unclassified = [
+            item for item in mentions if item["role"] == "unknown" and item["used"]
+        ]
         ignored = [item for item in mentions if item["role"] == "ignore" or not item["used"]]
 
         for mention in core:
@@ -93,6 +108,7 @@ def assess_software_coverage(
                 "decision": decision,
                 "core_software": core,
                 "auxiliary_software": auxiliary,
+                "unclassified_software": unclassified,
                 "ignored_mentions": ignored,
                 "unsupported_core_software": [item["normalized_name"] for item in unsupported],
                 "equivalent_core_software": [item["normalized_name"] for item in equivalent],
@@ -124,6 +140,7 @@ def assess_software_coverage(
                     "decision": "stage_error",
                     "core_software": [],
                     "auxiliary_software": [],
+                    "unclassified_software": [],
                     "ignored_mentions": [],
                     "service_version": service_version,
                     "error": f"{type(exc).__name__}: {exc}",
@@ -169,6 +186,7 @@ def _softcite_mentions(
     raw_mentions: list[dict[str, Any]],
     aliases: dict[str, str],
     role_rules: dict[str, Any],
+    known_core: set[str],
 ) -> list[dict[str, Any]]:
     output = []
     for raw in raw_mentions:
@@ -189,7 +207,9 @@ def _softcite_mentions(
                 "raw_name": raw_name,
                 "normalized_name": normalized,
                 "version": ((raw.get("version") or {}).get("normalizedForm") or ""),
-                "role": _software_role(normalized, raw_name, role_rules),
+                "role": _software_role(
+                    normalized, raw_name, role_rules, known_core
+                ),
                 "used": used,
                 "used_score": used_payload.get("score"),
                 "evidence": evidence,
@@ -206,6 +226,7 @@ def _recover_known_software(
     aliases: dict[str, str],
     role_rules: dict[str, Any],
     client: SoftciteClient,
+    known_core: set[str],
 ) -> list[dict[str, Any]]:
     existing_names = {item["normalized_name"] for item in existing if item["used"]}
     candidates: dict[str, list[tuple[str, dict[str, Any]]]] = {}
@@ -244,7 +265,9 @@ def _recover_known_software(
                 "raw_name": alias_key,
                 "normalized_name": normalized,
                 "version": "",
-                "role": _software_role(normalized, alias_key, role_rules),
+                "role": _software_role(
+                    normalized, alias_key, role_rules, known_core
+                ),
                 "used": used,
                 "used_score": used_payload.get("score"),
                 "evidence": sentence["text"],
@@ -307,7 +330,12 @@ def _normalize_software(value: str, aliases: dict[str, str]) -> str:
     return aliases.get(key, key.replace(" ", "_"))
 
 
-def _software_role(normalized: str, raw_name: str, rules: dict[str, Any]) -> str:
+def _software_role(
+    normalized: str,
+    raw_name: str,
+    rules: dict[str, Any],
+    known_core: set[str] | None = None,
+) -> str:
     ignored = {_alias_key(item) for item in rules.get("ignore", [])}
     auxiliary = {_alias_key(item) for item in rules.get("auxiliary", [])}
     values = {_alias_key(normalized), _alias_key(raw_name)}
@@ -315,7 +343,47 @@ def _software_role(normalized: str, raw_name: str, rules: dict[str, Any]) -> str
         return "ignore"
     if values & auxiliary:
         return "auxiliary"
-    return "core"
+    explicit_core = {_alias_key(item) for item in rules.get("core", [])}
+    normalized_core = {_alias_key(item) for item in (known_core or set())}
+    if values & (explicit_core | normalized_core):
+        return "core"
+    return "unknown"
+
+
+def _execution_context_confirmed(mention: dict[str, Any]) -> bool:
+    normalized = str(mention.get("normalized_name") or "")
+    contexts = [
+        str(mention.get("evidence") or ""),
+        *(str(item) for item in mention.get("additional_evidence") or []),
+    ]
+    for context in contexts:
+        if _is_nonsoftware_alias_context(normalized, context):
+            continue
+        if re.search(
+            r"\b(?:previous(?:ly)?|prior)\b.{0,100}"
+            r"\b(?:calculation|simulation|software|program|package)\b",
+            context,
+            re.I,
+        ):
+            continue
+        computational_action = re.search(
+            r"\b(?:calculat(?:e|ed|es|ing|ion|ions)|comput(?:e|ed|es|ing|ation|ations)|"
+            r"simulat(?:e|ed|es|ing|ion|ions)|optimi[sz](?:e|ed|es|ing|ation|ations)|"
+            r"docking|dynamics|energy|energies|orbital|orbitals|force\s*field|"
+            r"conformer|conformers|electronic\s+structure|density\s+functional|"
+            r"molecular\s+mechanics|wavefunction|spectra|spectrum)\b",
+            context,
+            re.I,
+        )
+        execution = re.search(
+            r"\b(?:perform(?:ed|ing)?|carried\s+out|conducted|used|using|employ(?:ed|ing)?|"
+            r"utili[sz](?:ed|ing)?|implemented|run|ran|generated|produced|analysed|analyzed)\b",
+            context,
+            re.I,
+        )
+        if computational_action and execution:
+            return True
+    return False
 
 
 def _direct_support(name: str, toolbox: dict[str, Any]) -> dict[str, Any]:

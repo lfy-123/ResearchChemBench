@@ -280,6 +280,7 @@ def run_corpus_pipeline(config_path: Path, config: dict[str, Any], base: Path) -
             capability_map_file=_resolve(base, software_config["capability_map_file"]),
             raw_output_dir=stage / "softcite_raw",
             workers=int(software_config.get("workers", 1)),
+            screening_config=stage05_config,
         )
         stage05_summary = preliminary_coverage_summary(coverage_records)
         write_jsonl(stage / "decisions.jsonl", coverage_records)

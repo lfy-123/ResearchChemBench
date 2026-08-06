@@ -18,15 +18,19 @@
 | Stage 00 | `stage_00_remote_corpus/` | 复制并整理指定数量论文 | 远端正文选择、同源 SI、论文目录、游标和恢复 |
 | Stage 01 | `stage_01_inventory/` | 建立论文级 PDF 入口 | SHA256 去重；正文/SI 共用 `paper_id` |
 | Stage 02 | `stage_02_grobid_extract/` | 联合解析正文和已有 SI | GROBID、pdftotext 回退、质量报告和论文文本 bundle |
-| Stage 03 | `stage_03_computation_relevance/` | 低成本计算相关性粗筛 | 版本化规则、章节权重、负面语境；不调用 LLM |
+| Stage 03 | `stage_03_computation_relevance/` | 高精度计算相关性筛选 | 规则召回候选；远程 Flash 模型逐篇确认实际计算、论文类型和证据原文 |
 | Stage 04 | `stage_04_supplementary_acquisition/` | 只补齐缺失的正式 SI | 远端 `support_path` 优先；六类出版商官网适配器 |
-| Stage 05 | `stage_05_preliminary_coverage/` | 软件和工具箱能力预筛 | Softcite、别名/角色规则、冻结能力目录；软件名缺失不硬淘汰 |
+| Stage 05 | `stage_05_preliminary_coverage/` | 软件和工具箱能力严格预筛 | Softcite、执行语境、方法族匹配和冻结能力目录；仅放行功能验证后端 |
 | Stage 06 | `stage_06_supplementary_extraction/` | 抽取新下载 SI 证据 | pdftotext、GROBID、MinerU；复用 Stage 02 已有 SI |
 | Stage 07 | `stage_07_builder/` | 判断可用性并构建任务 | 能力复核、结构化 abstain、科学意义和可评分性约束 |
 | Stage 08 | `stage_08_judge/` | 独立终审候选任务 | 论文忠实性、工具箱、泄漏、ground truth、评分和资源审计 |
 
-Stage 03 和 Stage 05 是高召回预筛；通过 Stage 06 仍不代表任务可构建。Stage 07 可以
-返回 `candidate_ready` 或结构化 `abstain`，只有合法候选进入 Stage 08。
+批处理默认采用高精度 `strict` 策略。Stage 03 的规则只负责召回候选，所有候选必须由
+远程模型确认论文确实执行了计算、计算对原创研究有实质作用，并返回可在输入文本中核验的
+证据；模型不确定、响应异常或证据无法核验时均停止。Stage 05 只放行工具箱中标记为
+`functional`、具有实际执行语境且与 Stage 03 方法族匹配的直接后端。通过 Stage 06 仍不代表
+任务可构建，Stage 07 可以返回 `candidate_ready` 或结构化 `abstain`，只有合法候选进入
+Stage 08。
 
 旧 Stage 03-07 目录暂时保留用于历史结果复现，新主编排不再调用旧资源 LLM 门控和广泛
 资产下载逻辑。
@@ -684,13 +688,11 @@ JDK、服务临时目录、日志和 MinerU 中间产物位于
 记录的旧实例和旧 Environment，再按新规格创建。当前管线按论文顺序处理，因此一个更大的
 沙箱用于增加单次运行的内存和 CPU 上限；多个沙箱不会自动改变现有筛选逻辑或并行拆分论文。
 
-## 一万篇论文的 Stage 01-04 分批筛选
+## 远端论文的 Stage 00-06 批量筛选
 
-`scripts/run_stage_01_04_batches.py` 通过 `scripts/xinghe_dataset/` 中的可复用下载器读取
-Xinghe/S3 只读数据集，默认连续下载 10 批、每批 1,000 个 PDF。每批调用可复用的
-`scripts/workflows/run_stage_01_04_screening.sh`，仅把通过 Stage 04 的 PDF 复制到长期保留
-目录。成功批次的下载副本、TEI、文本和服务原始输出随后删除；下载游标、来源清单、筛选
-报告和远端源数据不会被删除。
+`scripts/run_stage_01_04_batches.py` 保留了历史文件名，但现在执行重构后的 Stage 00-06。
+它从 Xinghe/S3 只读数据集复制指定数量的正文和同源 SI，按论文建立目录，并以可恢复的
+微批次运行联合解析、严格计算相关性筛选、缺失 SI 补齐、工具箱覆盖筛选和 SI 抽取。
 
 先查看将要处理的清单，不创建文件或沙箱：
 
@@ -698,49 +700,51 @@ Xinghe/S3 只读数据集，默认连续下载 10 批、每批 1,000 个 PDF。�
 bash scripts/run_stage_01_04_batches.sh --plan-only
 ```
 
-执行完整的 10 批任务：
+执行默认的 1,000 篇任务：
 
 ```bash
 bash scripts/run_stage_01_04_batches.sh
 ```
 
-默认使用 `en-paper-hzzj`、10,000 篇、1,000 篇一批、128 CPU、256 GiB 内存，并将
-Stage 01-04 并发分别设置为 32、32、16、8。所有值都可通过同名命令行参数覆盖，例如：
+默认使用 `en-paper-hzzj`、1,000 篇、128 CPU、256 GiB 内存和高精度 `strict` 策略。
+Stage 03 默认调用远程 `deepseek-v4-flash`，不会申请 GPU worker；规则命中的所有候选均
+需要模型确认。Stage 02-06 默认采用 10 篇一个微批次、同时保留 5 个微批次的流水线。
+所有值都可通过命令行参数覆盖，例如：
 
 ```bash
 bash scripts/run_stage_01_04_batches.sh \
   --dataset kps-2026-06-18 \
-  --limit 10000 \
-  --batch-size 1000 \
+  --count 500 \
+  --work-root runs/redesigned_stage00_06_500_strict_flash \
   --sandbox-cpu 128 \
   --sandbox-memory 256Gi \
+  --screening-policy strict \
+  --stage03-llm \
+  --no-stage03-llm-managed-rlaunch \
+  --stage03-llm-concurrency 16 \
+  --microbatch-size 10 \
+  --microbatch-concurrency 5 \
   --stage02-workers 32 \
-  --stage03-workers 16 \
-  --stage04-workers 8
+  --stage03-workers 32 \
+  --stage04-workers 16 \
+  --stage05-workers 16 \
+  --stage06-workers 16
 ```
-
-若首选规格在集群中无法调度，脚本会依次尝试 96 CPU / 192 GiB、64 CPU / 128 GiB 和
-32 CPU / 96 GiB，并把最终规格与失败记录写入 `batch_state.json`。回退只改变沙箱资源，
-不会改变筛选条件、批次游标或阶段并发设置。
 
 默认输出根目录为：
 
 ```text
-runs/stage04_batches_10000/
-├── batch_state.json             # 可恢复状态
-├── download_state/              # 持久化 Xinghe 下载游标、清单和锁
-├── source_manifest.jsonl        # 已处理远端对象汇总
-├── retained_manifest.jsonl      # 所有通过 Stage 04 的 PDF 汇总
-├── retained_pdfs/               # 仅保留通过四轮筛选的 PDF
-├── reports/batch_*/             # 每批摘要、紧凑筛选清单和日志
-└── workspaces/batch_*/          # 运行中的临时批次；成功后自动删除
+runs/redesigned_stage00_06_1000/
+├── config.stage00-06.json       # 本次冻结配置
+├── run_plan.json                # 模型、资源和并发计划
+├── run_summary.json             # 各阶段汇总与总耗时
+├── stage_00_remote_corpus/      # 正文/SI 论文包、远端清单和恢复游标
+└── run/outputs/                 # Stage 01-06 逐篇记录、证据和服务输出
 ```
 
-沙箱在脚本开始时创建一次，十批之间复用，并在完成、异常或 Ctrl-C 后停止。任务中断后使用
-完全相同的参数重新执行即可跳过已完成批次，并复用当前批次已下载的 PDF 和已有阶段输出。
-`--max-batches 1` 可让一次调度只完成一个待处理批次；`--keep-batch-workspaces` 可保留完整
-阶段输出用于调试。脚本只允许删除 `workspaces/batch_*` 直属目录，并在每批开始前检查共享盘
-剩余空间。下载凭证默认读取
+沙箱在整轮任务开始时创建一次，Stage 00-06 共用，并在完成、异常或 Ctrl-C 后按
+`--sandbox-cleanup` 处理。任务中断后使用完全相同的参数重新执行，会复用 Stage 00 游标、
+已复制论文和已完成阶段。下载凭证默认读取
 `/mnt/shared-storage-user/liyuqiang/benchmark/pipline_demo/pdfs/xinghe.txt`，也可用
 `--credentials` 覆盖。
 

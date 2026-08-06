@@ -45,9 +45,9 @@
 | Stage 00 | implemented | 远端流式选择、正文/SI 分组、原子目录、游标与恢复 |
 | Stage 01 | implemented | 读取 `paper.json`，同篇正文/SI 共用 `paper_id` |
 | Stage 02 | implemented | 正文和已有 SI 均进入 GROBID/回退路径并生成 paper bundle |
-| Stage 03 | implemented | YAML 版本化规则，无 LLM，保存证据和排除证据 |
+| Stage 03 | implemented | YAML 规则召回；strict 模式由 Flash 逐篇确认并核验证据，异常关闭 |
 | Stage 04 | implemented | 已有 SI 零网络跳过；同源 `support_path` 优先；六类官网适配器 |
-| Stage 05 | implemented | Softcite 并发预筛，保留 method-only/software-unknown，单文档错误隔离 |
+| Stage 05 | implemented | strict 仅保留功能验证、执行语境成立且匹配方法族的直接后端 |
 | Stage 06 | implemented | 只解析新附件，复用 Stage 02 SI；pdftotext/GROBID/MinerU 质量升级 |
 | Stage 07 | migrated | Builder 已顺延并更新能力、科学意义和防平凡任务约束 |
 | Stage 08 | migrated | Judge 已顺延并更新独立终审约束 |
@@ -174,3 +174,25 @@
   最终 strong 56、weak 2、reject 42，候选集合与完整运行完全相同。
 - 最终完整测试为 116 passed、6 subtests passed。详细报告见
   `FLASH_STAGE00_06_100_PAPER_REPORT_20260807.md`。
+
+### 2026-08-07：切换为高精度严格筛选
+
+- 批处理默认改为 `screening_policy=strict`，使用外部 `deepseek-v4-flash`；managed
+  rlaunch 默认关闭，不申请 GPU。严格模式禁止关闭 Stage 03 LLM。
+- Stage 03 复核全部规则候选，要求原创研究、primary/supporting、置信度至少 0.85 和
+  可逐字回映的作者执行证据。uncertain、低置信度、API/schema/截断错误统一 fail closed
+  为 `llm_unconfirmed`。
+- 增加 New England Biolabs 的 `NEB 5alpha/10beta` 否定上下文，避免与 nudged elastic
+  band 混淆。
+- Stage 05 只放行执行上下文成立、方法族匹配、工具箱直接支持且 scientific smoke 为
+  `functional` 的 backend。method-only、能力等价、interface/catalogued、未知能力和阶段
+  错误全部停止。
+- 未登记 Softcite 名称不再默认作为 core，记录为 `unclassified_software`；AMBER 力场和
+  amber vial 不能作为 PMEMD 后端证据。
+- 100 篇缓存严格重放：Stage 03 为 55 strong、43 reject、2 llm_unconfirmed；Stage 05
+  在 55 篇中保留 33 篇，淘汰 12 method-only、7 direct-unverified、3 SI unavailable。
+  产物分别位于 `stage03_strict_flash_validation/` 和 `stage05_strict_validation/`。
+- 修复 strict 模式中无工具箱后端、无覆盖方法族时仍沿用 recall 放行的边界；现在记录为
+  `software_unknown_rejected` 并停止。recall 模式保持原行为。
+- 本轮完整 `data_pipeline/tests` 为 127 passed、8 subtests passed；Ruff、compileall 和
+  `git diff --check -- data_pipeline` 均通过。

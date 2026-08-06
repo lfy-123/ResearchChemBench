@@ -33,6 +33,15 @@ def normalize_config(raw: dict[str, Any], base: Path) -> dict[str, Any]:
     microbatch = raw.get("microbatch") or {}
     model_cache = _resolve(base, raw.get("model_cache_directory", ".model_cache"))
     model_cache_config = model_cache / "config"
+    screening_policy = str(
+        stage03_relevance.get("screening_policy", "recall")
+    ).casefold()
+    if screening_policy not in {"strict", "recall"}:
+        raise ValueError("stage03 screening_policy must be strict or recall")
+    if screening_policy == "strict" and not bool(
+        stage03_relevance.get("use_llm", False)
+    ):
+        raise ValueError("strict Stage 03 screening requires use_llm=true")
     runtime_grobid_config = model_cache / "grobid-home" / "config" / "grobid.yaml"
     java_home = softcite.get("java_home") or grobid.get("java_home")
     mineru_environment = {
@@ -234,6 +243,7 @@ def normalize_config(raw: dict[str, Any], base: Path) -> dict[str, Any]:
             "workers": max(1, int(stage04.get("workers", 1))),
         },
         "stage03_computation_relevance": {
+            "screening_policy": screening_policy,
             "method_ontology": str(
                 _resolve(
                     base,
@@ -265,6 +275,26 @@ def normalize_config(raw: dict[str, Any], base: Path) -> dict[str, Any]:
             "workers": max(1, int(stage03_relevance.get("workers", 1))),
             "llm": {
                 "enabled": bool(stage03_relevance.get("use_llm", False)),
+                "strict": screening_policy == "strict",
+                "review_all_candidates": bool(
+                    stage03_llm.get(
+                        "review_all_candidates", screening_policy == "strict"
+                    )
+                ),
+                "minimum_confidence": float(
+                    stage03_llm.get(
+                        "minimum_confidence", 0.85 if screening_policy == "strict" else 0.7
+                    )
+                ),
+                "allowed_article_roles": stage03_llm.get(
+                    "allowed_article_roles",
+                    ["original_research"]
+                    if screening_policy == "strict"
+                    else ["original_research", "unknown"],
+                ),
+                "allowed_computation_roles": stage03_llm.get(
+                    "allowed_computation_roles", ["primary", "supporting"]
+                ),
                 "managed_rlaunch": bool(stage03_llm.get("managed_rlaunch", False)),
                 "required": bool(stage03_llm.get("required", False)),
                 "base_url": os.environ.get("STAGE03_LLM_BASE_URL")
@@ -440,8 +470,43 @@ def normalize_config(raw: dict[str, Any], base: Path) -> dict[str, Any]:
                     ),
                 )
             ),
-            "continue_without_software_name": True,
-            "unknown_capability_policy": "continue_low_priority",
+            "screening_policy": str(
+                stage05_preliminary.get("screening_policy", screening_policy)
+            ).casefold(),
+            "continue_without_software_name": bool(
+                stage05_preliminary.get(
+                    "continue_without_software_name", screening_policy != "strict"
+                )
+            ),
+            "allow_capability_equivalent": bool(
+                stage05_preliminary.get(
+                    "allow_capability_equivalent", screening_policy != "strict"
+                )
+            ),
+            "continue_on_stage_error": bool(
+                stage05_preliminary.get(
+                    "continue_on_stage_error", screening_policy != "strict"
+                )
+            ),
+            "accepted_validation_levels": stage05_preliminary.get(
+                "accepted_validation_levels",
+                ["functional"]
+                if screening_policy == "strict"
+                else ["functional", "interface", "needs_complete_input", "catalogued"],
+            ),
+            "require_method_match": bool(
+                stage05_preliminary.get(
+                    "require_method_match", screening_policy == "strict"
+                )
+            ),
+            "require_execution_context": bool(
+                stage05_preliminary.get(
+                    "require_execution_context", screening_policy == "strict"
+                )
+            ),
+            "unknown_capability_policy": (
+                "reject" if screening_policy == "strict" else "continue_low_priority"
+            ),
             "softcite_instances": max(
                 1, int(stage05_preliminary.get("softcite_instances", 1))
             ),

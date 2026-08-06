@@ -289,6 +289,7 @@ def _execute_stage(
             capability_map_file=software_config["capability_map_file"],
             raw_output_dir=root / "softcite_raw",
             workers=int(software_config.get("workers", 1)),
+            screening_config=stage_config,
         )
         write_jsonl(root / "decisions.jsonl", records)
         return {**current, "coverage": records}

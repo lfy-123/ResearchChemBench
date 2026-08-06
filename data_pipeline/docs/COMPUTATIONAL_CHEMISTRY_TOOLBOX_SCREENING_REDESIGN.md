@@ -1,6 +1,6 @@
 # ResearchChemBench 计算化学论文筛选流程重构方案
 
-> 状态：第六版设计已确认，正在按阶段实施和 shadow run。
+> 状态：第七版设计已确认，严格筛选策略已实现并完成 100 篇 shadow replay。
 >
 > 更新日期：2026-08-07。
 >
@@ -127,7 +127,8 @@ rule_screened_computational
         != benchmark_ready
 ```
 
-Stage 03 和 Stage 05 都是高召回预筛，不得把“未发现证据”等同于“已经证明不存在”。
+Stage 03 和 Stage 05 采用高精度、允许漏筛的策略。只有证据明确、模型确认且工具箱直接
+功能验证通过的论文继续；不确定、能力等价、方法推断和服务错误均 fail closed。
 
 ## 4. Stage 00：远端复制和论文包整理
 
@@ -357,10 +358,12 @@ rule_error:
   文本或规则处理失败
 ```
 
-模型关闭时，`strong_candidate` 和 `weak_candidate` 均进入 Stage 04；弱候选可以设置较低
-下载优先级。模型开启时，只路由 weak、Review/Perspective、method-bearing reject 和规则
-异常；模型响应必须引用输入证据并回映原文。API、schema 或证据校验失败时回退规则结果。
-规则明确的 strong 和非研究文章不做无谓调用。
+严格模式要求启用模型，并复核规则产生的全部 strong、weak 和 rule error 候选。只有模型
+返回 `yes`、文章类型为原创研究、计算角色为 primary/supporting、置信度至少 0.85，且
+至少一条引用能够逐字回映输入证据时才进入 Stage 04。`uncertain`、低置信度、Review、
+响应截断、API/schema 错误或证据校验失败统一记为 `llm_unconfirmed` 并停止，不回退放行。
+
+`recall` 兼容模式仍只审查边界样本并保留规则回退，但批处理入口默认使用严格模式。
 
 同一术语在长文或综述中可能重复数十次。原始命中分数保存为 `raw_score`，用于判定的
 `score` 对同一 document、evidence type、rule ID 和章节类型限制贡献次数。明确方法在
@@ -493,11 +496,11 @@ stage_04_supplementary_acquisition/
 
 ## 9. Stage 05：已解析正文/SI 的软件和工具箱能力预筛
 
-### 9.1 为什么是“预筛”
+### 9.1 为什么仍是“严格预筛”
 
 Stage 05 使用 Stage 02 已解析的正文和 Stage 00 已带入的 SI 文本。Stage 04 新下载的 SI
-按职责边界尚未解析，软件名称仍可能只存在于这些文件中，因此 Stage 05 不能将
-`software_not_identified` 直接淘汰。
+按职责边界尚未解析，软件名称仍可能只存在于这些文件中。严格策略接受这部分漏筛，
+`software_not_identified` 不再继续。
 
 本阶段目标是低成本删除“正文已明确证明不覆盖”的论文，并优先选择正文已明确覆盖的
 论文进入 Stage 06。最终覆盖判断由 Stage 07 Builder 在 SI 文本可用后复核。
@@ -534,17 +537,18 @@ PXRD、SCXRD、DFT、TDDFT、NEB 等不是软件；Python、Matplotlib、VESTA�
 
 | 状态 | 条件 | 路由 |
 | --- | --- | --- |
-| `direct_candidate` | 正文明示核心软件，工具箱 backend 可用且方法初步匹配 | Stage 06 高优先级 |
-| `equivalent_candidate` | 原软件不同，但能力目录明确存在可替代 backend | Stage 06 |
-| `method_only_candidate` | 未发现软件名，但 Stage 03 方法证据强，工具箱存在相关能力 | Stage 06 |
-| `software_unknown_candidate` | 计算证据成立，但正文无软件名或能力字段未知 | Stage 06 低优先级 |
+| `direct_candidate` | 明示核心软件；执行上下文、方法族、工具箱 backend 和 scientific smoke 均匹配 | Stage 06 |
+| `direct_support_unverified` | 软件存在但上下文、方法或验证级别任一不足 | 淘汰 |
+| `equivalent_unverified` | 只有能力等价推断，没有直接受支持后端 | 淘汰 |
+| `method_only_rejected` | 只有方法族，没有直接受支持后端 | 淘汰 |
+| `software_unknown_candidate` | 计算成立但软件或能力未知 | 淘汰 |
 | `explicitly_unsupported` | 正文明示必需核心软件/功能，工具箱明确不支持且不可替代 | 淘汰 |
 | `not_significant` | 只有平凡后处理或辅助软件 | 淘汰/复核 |
-| `stage_error` | 提取或能力查询失败 | 可重试，不淘汰 |
+| `stage_error` | 提取或能力查询失败 | 可重试，本次淘汰 |
 
-这里特意保留 `method_only_candidate` 和 `software_unknown_candidate`，防止软件只在 SI
-时被 Stage 05 提前漏掉。可通过预算分别限制两类候选的 Stage 06 并发，但不能改成
-`software_not_identified -> reject`。
+严格模式只接受 `validation_level=functional`。interface、needs-complete-input 和 catalogued
+级别均不足以放行。未知 Softcite 名称归入 `unclassified_software`，不能默认当作 core；
+`amber vial`、AMBER force field、背景引用和普通实验/分析软件不能形成 direct 命中。
 
 ### 9.5 新软件扩展
 

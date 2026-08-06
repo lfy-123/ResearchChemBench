@@ -39,7 +39,10 @@ def apply_llm_review(
     if not config.get("enabled", False):
         return [_not_requested(record, "disabled") for record in records]
 
-    requested = [index for index, record in enumerate(records) if _needs_review(record)]
+    strict = bool(config.get("strict", False))
+    requested = [
+        index for index, record in enumerate(records) if _needs_review(record, config)
+    ]
     requested_set = set(requested)
     if not requested:
         return [_not_requested(record, "clear_rule_decision") for record in records]
@@ -48,7 +51,7 @@ def apply_llm_review(
             "STAGE03 LLM unavailable; falling back to rule decisions for %d papers", len(requested)
         )
         return [
-            _fallback(record, "service_unavailable")
+            _fallback(record, "service_unavailable", strict=strict)
             if index in requested_set
             else _not_requested(record, "clear_rule_decision")
             for index, record in enumerate(records)
@@ -70,7 +73,9 @@ def apply_llm_review(
                 type(exc).__name__,
                 exc,
             )
-            return index, _fallback(record, f"{type(exc).__name__}: {exc}")
+            return index, _fallback(
+                record, f"{type(exc).__name__}: {exc}", strict=strict
+            )
 
     reviewed = ordered_parallel_map(
         review,
@@ -223,6 +228,7 @@ def _review_one(
     return _apply_decision(
         record,
         validated,
+        config=config,
         request_hash=digest,
         cache_path=cache_path,
         cache_hit=cache_hit,
@@ -276,6 +282,7 @@ def _apply_decision(
     record: dict[str, Any],
     review: dict[str, Any],
     *,
+    config: dict[str, Any],
     request_hash: str,
     cache_path: Path,
     cache_hit: bool,
@@ -283,10 +290,28 @@ def _apply_decision(
 ) -> dict[str, Any]:
     original = str((record.get("computation_relevance") or {}).get("decision"))
     performed = review["performed_computation"]
-    if performed == "yes":
+    strict = bool(config.get("strict", False))
+    minimum_confidence = float(config.get("minimum_confidence", 0.85 if strict else 0.7))
+    allowed_article_roles = set(
+        config.get("allowed_article_roles")
+        or (["original_research"] if strict else ["original_research", "unknown"])
+    )
+    allowed_computation_roles = set(
+        config.get("allowed_computation_roles") or ["primary", "supporting"]
+    )
+    confirmed = (
+        performed == "yes"
+        and review["confidence"] >= minimum_confidence
+        and review["article_role"] in allowed_article_roles
+        and review["computation_role"] in allowed_computation_roles
+        and bool(review["author_execution_evidence"])
+    )
+    if confirmed:
         decision = "strong_candidate" if review["confidence"] >= 0.7 else "weak_candidate"
     elif performed == "no":
         decision = "not_computational"
+    elif strict:
+        decision = "llm_unconfirmed"
     else:
         decision = original
     relevance = {
@@ -301,7 +326,13 @@ def _apply_decision(
         **record,
         "computation_relevance": relevance,
         "llm_computation_review": {
-            "status": "completed" if performed != "uncertain" else "uncertain_rule_fallback",
+            "status": (
+                "completed"
+                if confirmed or performed == "no"
+                else "strict_rejected"
+                if strict
+                else "uncertain_rule_fallback"
+            ),
             **review,
             "prompt_version": PROMPT_VERSION,
             "request_hash": request_hash,
@@ -314,15 +345,23 @@ def _apply_decision(
         "pipeline_routing": {
             "stage_03": decision,
             "continue": decision in {"strong_candidate", "weak_candidate", "rule_error"},
-            "stop_reason": None if decision != "not_computational" else "no_computation_evidence",
+            "stop_reason": (
+                None
+                if decision in {"strong_candidate", "weak_candidate", "rule_error"}
+                else "llm_confirmation_required"
+                if decision == "llm_unconfirmed"
+                else "no_computation_evidence"
+            ),
         },
     }
 
 
-def _needs_review(record: dict[str, Any]) -> bool:
+def _needs_review(record: dict[str, Any], config: dict[str, Any]) -> bool:
     relevance = record.get("computation_relevance") or {}
     decision = relevance.get("decision")
     role = relevance.get("article_role")
+    if bool(config.get("review_all_candidates", config.get("strict", False))):
+        return decision in {"strong_candidate", "weak_candidate", "rule_error"}
     if decision == "rule_error":
         return True
     if role in {"review", "perspective", "unknown_nonresearch"}:
@@ -356,7 +395,30 @@ def _not_requested(record: dict[str, Any], reason: str) -> dict[str, Any]:
     }
 
 
-def _fallback(record: dict[str, Any], error: str) -> dict[str, Any]:
+def _fallback(
+    record: dict[str, Any], error: str, *, strict: bool = False
+) -> dict[str, Any]:
+    if strict:
+        original = str((record.get("computation_relevance") or {}).get("decision"))
+        return {
+            **record,
+            "computation_relevance": {
+                **(record.get("computation_relevance") or {}),
+                "decision": "llm_unconfirmed",
+                "rule_decision": original,
+                "used_llm": False,
+            },
+            "llm_computation_review": {
+                "status": "rule_fallback",
+                "error": error,
+                "prompt_version": PROMPT_VERSION,
+            },
+            "pipeline_routing": {
+                "stage_03": "llm_unconfirmed",
+                "continue": False,
+                "stop_reason": "llm_confirmation_required",
+            },
+        }
     return {
         **record,
         "llm_computation_review": {

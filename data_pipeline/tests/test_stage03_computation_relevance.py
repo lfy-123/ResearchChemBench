@@ -84,6 +84,15 @@ def test_stage03_rejects_experimental_calculation_language(tmp_path):
     assert record["computation_relevance"]["decision"] == "not_computational"
 
 
+def test_stage03_rejects_neb_vendor_acronym(tmp_path):
+    record = _run(
+        tmp_path,
+        "Methods\nEscherichia coli NEB 5alpha and NEB 10beta from "
+        "New England Biolabs were used. We performed LCMS analysis.",
+    )
+    assert record["computation_relevance"]["decision"] == "not_computational"
+
+
 def test_stage03_retains_repeated_method_only_signal_as_weak(tmp_path):
     record = _run(
         tmp_path,
@@ -277,3 +286,67 @@ def test_stage03_llm_truncated_response_preserves_rule_decision(tmp_path, monkey
     assert reviewed["computation_relevance"]["used_llm"] is False
     assert reviewed["llm_computation_review"]["status"] == "rule_fallback"
     assert "output token limit" in reviewed["llm_computation_review"]["error"]
+
+
+def test_stage03_strict_llm_reviews_strong_and_rejects_uncertain(tmp_path, monkeypatch):
+    record = _run(
+        tmp_path,
+        "Methods\nWe performed density functional theory calculations. "
+        "The optimized geometry produced orbital energies.",
+    )
+    assert record["computation_relevance"]["decision"] == "strong_candidate"
+    monkeypatch.setattr(llm_review, "_service_ready", lambda _config: True)
+    monkeypatch.setattr(
+        llm_review,
+        "call_json_chat",
+        lambda **_kwargs: (
+            {
+                "performed_computation": "uncertain",
+                "article_role": "original_research",
+                "computation_role": "supporting",
+                "method_families": ["electronic_structure"],
+                "author_execution_evidence": [],
+                "confidence": 0.95,
+                "reason": "Execution cannot be attributed.",
+            },
+            {},
+        ),
+    )
+    reviewed = llm_review.apply_llm_review(
+        [record],
+        config={
+            "enabled": True,
+            "strict": True,
+            "review_all_candidates": True,
+            "base_url": "http://test/v1",
+            "api_key": "test",
+            "model": "qwen",
+        },
+        cache_dir=tmp_path / "strict-cache",
+    )[0]
+    assert reviewed["computation_relevance"]["decision"] == "llm_unconfirmed"
+    assert reviewed["pipeline_routing"]["continue"] is False
+    assert reviewed["llm_computation_review"]["status"] == "strict_rejected"
+
+
+def test_stage03_strict_llm_failure_is_fail_closed(tmp_path, monkeypatch):
+    record = _run(
+        tmp_path,
+        "Methods\nWe performed density functional theory calculations. "
+        "The optimized geometry produced orbital energies.",
+    )
+    monkeypatch.setattr(llm_review, "_service_ready", lambda _config: False)
+    reviewed = llm_review.apply_llm_review(
+        [record],
+        config={
+            "enabled": True,
+            "strict": True,
+            "review_all_candidates": True,
+            "base_url": "http://unavailable/v1",
+            "model": "qwen",
+        },
+        cache_dir=tmp_path / "strict-cache",
+    )[0]
+    assert reviewed["computation_relevance"]["decision"] == "llm_unconfirmed"
+    assert reviewed["pipeline_routing"]["continue"] is False
+    assert reviewed["pipeline_routing"]["stop_reason"] == "llm_confirmation_required"

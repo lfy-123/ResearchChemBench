@@ -28,12 +28,13 @@ def _args(**overrides):
         "microbatch": True,
         "microbatch_size": 10,
         "microbatch_concurrency": 5,
-        "stage03_llm": False,
-        "stage03_llm_managed_rlaunch": True,
+        "stage03_llm": True,
+        "stage03_llm_managed_rlaunch": False,
         "stage03_llm_concurrency": 16,
         "stage03_llm_base_url": "https://api.deepseek.com/v1",
         "stage03_llm_model": "deepseek-v4-flash",
         "stage03_llm_api_key_env": "JUDGE_API_KEY",
+        "screening_policy": "strict",
         "stage03_llm_cpu": 16,
         "stage03_llm_memory_mib": 196000,
         "stage03_llm_image": "test-image",
@@ -70,12 +71,18 @@ def test_batch_config_prepares_grouped_remote_corpus_and_stops_after_stage06(tmp
         "seed": 20260806,
         "copy_existing_supplementary": True,
     }
-    assert config["stage03_computation_relevance"]["use_llm"] is False
+    assert config["stage03_computation_relevance"]["use_llm"] is True
+    assert config["stage03_computation_relevance"]["screening_policy"] == "strict"
+    assert config["stage03_computation_relevance"]["llm"]["review_all_candidates"] is True
     assert config["microbatch"]["enabled"] is True
     assert config["microbatch"]["size"] == 10
     assert config["microbatch"]["concurrency"] == 5
     assert config["resume_completed_stages"] is True
     assert config["stage05_preliminary_coverage"]["softcite_instances"] == 5
+    assert config["stage05_preliminary_coverage"]["screening_policy"] == "strict"
+    assert config["stage05_preliminary_coverage"]["accepted_validation_levels"] == [
+        "functional"
+    ]
     assert config["grobid"]["workers"] == 32
     assert config["softcite"]["workers"] == 16
 
@@ -89,7 +96,10 @@ def test_batch_config_can_enable_managed_stage03_llm(tmp_path):
     credentials = tmp_path / "xinghe.txt"
     credentials.write_text("credentials", encoding="utf-8")
     config = batch_script._build_config(
-        _args(stage03_llm=True), template, tmp_path / "work", credentials
+        _args(stage03_llm=True, stage03_llm_managed_rlaunch=True),
+        template,
+        tmp_path / "work",
+        credentials,
     )
     stage = config["stage03_computation_relevance"]
     assert stage["use_llm"] is True
@@ -149,3 +159,12 @@ def test_relative_work_root_is_resolved_from_pipeline_root():
     assert batch_script._pipeline_path("runs/example") == (
         batch_script.PIPELINE_ROOT / "runs/example"
     ).resolve()
+
+
+def test_strict_batch_rejects_disabled_stage03_llm():
+    try:
+        batch_script.main(["--screening-policy", "strict", "--no-stage03-llm"])
+    except ValueError as exc:
+        assert "requires --stage03-llm" in str(exc)
+    else:
+        raise AssertionError("strict mode must require Stage 03 LLM confirmation")

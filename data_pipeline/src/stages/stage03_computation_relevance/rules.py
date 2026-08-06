@@ -87,6 +87,7 @@ def computation_relevance_summary(records: list[dict[str, Any]]) -> dict[str, An
         "candidates": decisions.get("strong_candidate", 0)
         + decisions.get("weak_candidate", 0),
         "errors_retained_for_review": decisions.get("rule_error", 0),
+        "llm_unconfirmed": decisions.get("llm_unconfirmed", 0),
         "llm_statuses": llm_statuses,
         "llm_overrides": llm_overrides,
     }

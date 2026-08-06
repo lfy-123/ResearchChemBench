@@ -12,6 +12,8 @@ from src.integrations.grobid_quantities import GrobidQuantitiesClient
 from src.integrations.softcite import SoftciteClient, SoftciteError
 from src.stages.stage03_software_coverage.software_coverage import (
     _context_around_alias,
+    _execution_context_confirmed,
+    _software_role,
     assess_software_coverage,
 )
 from src.stages.stage04_resource_limits.resource_limits import (
@@ -43,6 +45,33 @@ class FakeQuantitiesClient:
 
 
 class StageGateTests(unittest.TestCase):
+    def test_unknown_software_is_not_core_by_default(self) -> None:
+        self.assertEqual(_software_role("imagej", "ImageJ", {}, {"vasp"}), "unknown")
+        self.assertEqual(_software_role("vasp", "VASP", {}, {"vasp"}), "core")
+
+    def test_strict_execution_context_rejects_amber_vial_and_force_field(self) -> None:
+        for context in (
+            "The sample was transferred to a 10 mL amber vial.",
+            "MD was performed with OpenMM using the AMBER ff99sb force field.",
+        ):
+            with self.subTest(context=context):
+                self.assertFalse(
+                    _execution_context_confirmed(
+                        {
+                            "normalized_name": "amber_pmemd",
+                            "evidence": context,
+                        }
+                    )
+                )
+        self.assertTrue(
+            _execution_context_confirmed(
+                {
+                    "normalized_name": "vasp",
+                    "evidence": "DFT calculations were performed using VASP 6.3.1.",
+                }
+            )
+        )
+
     def test_stage04_does_not_treat_ordinal_steps_as_runtime(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             tei = Path(directory) / "paper.tei.xml"

@@ -49,18 +49,24 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument(
         "--stage03-llm",
         action=argparse.BooleanOptionalAction,
-        default=False,
-        help="Use the managed Qwen Stage 03 reviewer for ambiguous rule decisions",
+        default=True,
+        help="Use an LLM to confirm Stage 03 candidates",
     )
     parser.add_argument(
         "--stage03-llm-managed-rlaunch",
         action=argparse.BooleanOptionalAction,
-        default=True,
+        default=False,
     )
     parser.add_argument("--stage03-llm-concurrency", type=int, default=16)
     parser.add_argument("--stage03-llm-base-url", default="https://api.deepseek.com/v1")
     parser.add_argument("--stage03-llm-model", default="deepseek-v4-flash")
     parser.add_argument("--stage03-llm-api-key-env", default="JUDGE_API_KEY")
+    parser.add_argument(
+        "--screening-policy",
+        choices=("strict", "recall"),
+        default="strict",
+        help="Strict favors precision; recall preserves uncertain candidates",
+    )
     parser.add_argument("--stage03-llm-cpu", type=int, default=16)
     parser.add_argument("--stage03-llm-memory-mib", type=int, default=196000)
     parser.add_argument("--stage03-llm-image", default=(
@@ -75,6 +81,8 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
 
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
+    if args.screening_policy == "strict" and not args.stage03_llm:
+        raise ValueError("--screening-policy strict requires --stage03-llm")
     for name in (
         "count",
         "sandbox_cpu",
@@ -132,6 +140,7 @@ def main(argv: list[str] | None = None) -> int:
             ),
             "concurrency": args.stage03_llm_concurrency,
         },
+        "screening_policy": args.screening_policy,
         "command": command,
     }
     if args.plan_only:
@@ -190,6 +199,7 @@ def _build_config(
                 "copy_existing_supplementary": True,
             },
             "stage03_computation_relevance": {
+                "screening_policy": args.screening_policy,
                 "use_llm": bool(args.stage03_llm),
                 "method_ontology": str(PIPELINE_ROOT / "assets/computational_method_ontology.yaml"),
                 "evidence_rules": str(PIPELINE_ROOT / "assets/computation_evidence_rules.yaml"),
@@ -206,6 +216,10 @@ def _build_config(
                         else args.stage03_llm_model
                     ),
                     "concurrency": args.stage03_llm_concurrency,
+                    "review_all_candidates": args.screening_policy == "strict",
+                    "minimum_confidence": 0.85,
+                    "allowed_article_roles": ["original_research"],
+                    "allowed_computation_roles": ["primary", "supporting"],
                     "max_prompt_chars": 24000,
                     "max_tokens": 1024,
                     "thinking": (
@@ -238,7 +252,22 @@ def _build_config(
             },
             "stage05_preliminary_coverage": {
                 "capability_catalog": str(PIPELINE_ROOT / "assets/toolbox_capabilities.json"),
-                "continue_without_software_name": True,
+                "screening_policy": args.screening_policy,
+                "continue_without_software_name": args.screening_policy != "strict",
+                "allow_capability_equivalent": args.screening_policy != "strict",
+                "continue_on_stage_error": args.screening_policy != "strict",
+                "accepted_validation_levels": (
+                    ["functional"]
+                    if args.screening_policy == "strict"
+                    else [
+                        "functional",
+                        "interface",
+                        "needs_complete_input",
+                        "catalogued",
+                    ]
+                ),
+                "require_method_match": args.screening_policy == "strict",
+                "require_execution_context": args.screening_policy == "strict",
                 "softcite_instances": min(
                     args.microbatch_concurrency, args.stage05_workers
                 ),

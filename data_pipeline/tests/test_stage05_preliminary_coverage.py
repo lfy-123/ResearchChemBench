@@ -104,3 +104,90 @@ def test_stage05_keeps_downloaded_supplementary(tmp_path):
     )[0]
     assert result["preliminary_coverage"]["decision"] == "method_only_candidate"
     assert result["pipeline_routing"]["continue"] is True
+
+
+STRICT = {
+    "screening_policy": "strict",
+    "accepted_validation_levels": ["functional"],
+    "require_execution_context": True,
+    "require_method_match": True,
+    "continue_without_software_name": False,
+    "allow_capability_equivalent": False,
+    "continue_on_stage_error": False,
+}
+
+
+def test_stage05_strict_accepts_only_functional_contextual_method_match():
+    mention = {
+        "normalized_name": "orca",
+        "direct_support": {"supported": True, "validation_level": "functional"},
+        "execution_context_confirmed": True,
+        "capability_equivalence": None,
+    }
+    result = aggregate_preliminary_coverage(
+        [_paper(["electronic_structure"])],
+        {"p1": [_document("direct_covered", [mention])]},
+        TOOLBOX,
+        CATALOG,
+        screening_config=STRICT,
+    )[0]
+    assert result["preliminary_coverage"]["decision"] == "direct_candidate"
+    assert result["pipeline_routing"]["continue"] is True
+
+
+def test_stage05_strict_rejects_interface_only_direct_support():
+    mention = {
+        "normalized_name": "orca",
+        "direct_support": {"supported": True, "validation_level": "interface"},
+        "execution_context_confirmed": True,
+        "capability_equivalence": None,
+    }
+    result = aggregate_preliminary_coverage(
+        [_paper(["electronic_structure"])],
+        {"p1": [_document("direct_covered", [mention])]},
+        TOOLBOX,
+        CATALOG,
+        screening_config=STRICT,
+    )[0]
+    assert result["preliminary_coverage"]["decision"] == "direct_support_unverified"
+    assert result["pipeline_routing"]["continue"] is False
+
+
+def test_stage05_strict_rejects_method_only_candidate():
+    result = aggregate_preliminary_coverage(
+        [_paper(["electronic_structure"])],
+        {"p1": []},
+        TOOLBOX,
+        CATALOG,
+        screening_config=STRICT,
+    )[0]
+    assert result["preliminary_coverage"]["decision"] == "method_only_rejected"
+    assert result["pipeline_routing"]["continue"] is False
+
+
+def test_stage05_strict_rejects_candidate_without_software_or_covered_method():
+    result = aggregate_preliminary_coverage(
+        [_paper()],
+        {"p1": []},
+        TOOLBOX,
+        CATALOG,
+        screening_config=STRICT,
+    )[0]
+    assert result["preliminary_coverage"]["decision"] == "software_unknown_rejected"
+    assert result["pipeline_routing"]["continue"] is False
+    assert result["pipeline_routing"]["stop_reason"] == (
+        "direct_functionally_validated_backend_required"
+    )
+
+
+def test_stage05_strict_rejects_extraction_error():
+    result = aggregate_preliminary_coverage(
+        [_paper()],
+        {},
+        TOOLBOX,
+        CATALOG,
+        errors={"p1": [{"error": "boom"}]},
+        screening_config=STRICT,
+    )[0]
+    assert result["preliminary_coverage"]["decision"] == "stage_error"
+    assert result["pipeline_routing"]["continue"] is False

@@ -9,9 +9,8 @@
 ## 1. 目标
 
 Stage 03 只判断论文作者是否在本文中实际执行了可复现的计算化学过程，不判断软件是否
-被工具箱覆盖，也不判断补充材料是否可下载。目标是高召回地排除纯实验论文、综述中的
-背景计算、Correction/Retraction/Editorial 等内容，同时避免把“没有明确软件名”当作
-没有计算。
+被工具箱覆盖，也不判断补充材料是否可下载。2026-08-07 起按用户确认切换为高精度模式：
+允许漏筛，但不允许未确认样本继续。
 
 ## 2. 当前结果和主要误差
 
@@ -117,8 +116,8 @@ Correction、Retraction、Masthead 和纯 Editorial 可直接淘汰。Review/Per
 - API 不健康、调用异常、JSON 非法或证据无法回映时：单篇回退规则结果，不拖垮批次。
 
 该任务是短文本分类，不启用长链式思考。温度设为 0，原始响应和响应哈希必须缓存。
-模型只审查 weak、Review/Perspective、method-bearing reject、规则异常等边界样本；规则
-明确的 strong 和非研究文章不做无谓调用。
+严格模式复核规则产生的全部 strong、weak 和 rule error 候选；规则 reject 不再为提高
+召回而调用模型。`recall` 兼容模式仍可只审边界样本。
 
 ### 5.2 输出 schema
 
@@ -144,10 +143,10 @@ Correction、Retraction、Masthead 和纯 Editorial 可直接淘汰。Review/Per
 
 ### 5.3 最终判定
 
-- `yes` 且至少有一个可验证执行证据：保留；
+- `yes`、原创研究、primary/supporting、置信度至少 0.85 且至少有一个可验证执行证据：保留；
 - `no`：淘汰；
-- `uncertain`、响应错误或证据无法回映：默认保留为 weak，直到完成校准；
-- Review 只有在明确包含作者新执行的计算时才保留。
+- `uncertain`、低置信度、响应错误或证据无法回映：`llm_unconfirmed`，淘汰；
+- Review/Perspective 在严格模式淘汰。
 
 ## 6. 数据和评估
 
@@ -166,8 +165,8 @@ Correction、Retraction、Masthead 和纯 Editorial 可直接淘汰。Review/Per
 - 每篇模型调用 tokens、时间和成本；
 - 规则自动判定比例与模型审查比例。
 
-上线前优先保证原创计算论文 recall，再逐步提升 precision。Stage 05 的工具箱覆盖判断仍然
-独立，不能反向影响 Stage 03 的“是否执行了计算”判定。
+上线优先保证 precision。Stage 05 的工具箱覆盖判断仍然独立，不能反向影响 Stage 03
+的“是否执行了计算”判定。
 
 ## 7. 实施顺序
 
