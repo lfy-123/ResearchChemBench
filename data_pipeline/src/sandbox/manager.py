@@ -165,9 +165,13 @@ class SandboxManager:
             except SandboxError as exc:
                 if exc.status != 404:
                     raise
-            if detail and str((detail.get("status") or {}).get("state") or "") != "Running":
-                detail = None
-                sandbox_id = ""
+            if detail:
+                state = str((detail.get("status") or {}).get("state") or "")
+                if state in {"Pending", "Creating"}:
+                    detail = self._wait_running(sandbox_id)
+                elif state != "Running":
+                    detail = None
+                    sandbox_id = ""
 
         if not sandbox_id:
             response = self.control.management_json(
@@ -394,7 +398,7 @@ class SandboxManager:
         os.chmod(temporary, 0o600)
         os.replace(temporary, self.inventory_path)
 
-    def _wait_running(self, sandbox_id: str, timeout: float = 600) -> dict[str, Any]:
+    def _wait_running(self, sandbox_id: str, timeout: float = 1800) -> dict[str, Any]:
         deadline = time.monotonic() + timeout
         while time.monotonic() < deadline:
             detail = self.control.management_json("GET", f"/v1/sandboxes/{sandbox_id}")

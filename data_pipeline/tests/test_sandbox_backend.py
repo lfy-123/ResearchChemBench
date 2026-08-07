@@ -73,6 +73,53 @@ def test_manager_creates_source_and_inventory(tmp_path, monkeypatch):
     assert options.inventory.stat().st_mode & 0o777 == 0o600
 
 
+def test_manager_waits_for_recorded_pending_sandbox_without_recreating(
+    tmp_path, monkeypatch
+):
+    monkeypatch.setenv("RCB_SANDBOX_API_KEY", "test-key")
+    options = SandboxRunOptions(
+        cpu=12,
+        memory="24Gi",
+        lifecycle_minutes=120,
+        cleanup="keep",
+        source=tmp_path / ".sandboxes.local.yaml",
+        inventory=tmp_path / ".sandbox_inventory.local.json",
+        base_url="https://sandbox.invalid/brainbox",
+        project="test-project",
+        image="registry.invalid/pipeline:test",
+    )
+    manager = SandboxManager(options)
+    options.source.write_text(
+        yaml.safe_dump(
+            manager._source_template(
+                environment_id="env-test", sandbox_id="sbx-test"
+            )
+        ),
+        encoding="utf-8",
+    )
+    fake = FakeControl()
+    fake.state = "Pending"
+    manager.control = fake
+    monkeypatch.setattr(
+        manager,
+        "_wait_running",
+        lambda sandbox_id: {
+            "id": sandbox_id,
+            "name": "pipeline-test",
+            "status": {"state": "Running"},
+            "environmentId": "env-test",
+            "expiresAt": "2030-01-01T00:00:00Z",
+            "resources": {"cpu": "12", "memory": "24Gi"},
+        },
+    )
+    monkeypatch.setattr(manager, "_ensure_worker_rpc", lambda worker: None)
+
+    worker = manager.ensure()
+
+    assert worker.sandbox_id == "sbx-test"
+    assert ("POST", "/v1/sandboxes") not in fake.calls
+
+
 def test_resource_validation_rejects_ambiguous_memory():
     with pytest.raises(ValueError, match="Mi, Gi, or Ti"):
         SandboxRunOptions(memory="96GB").validated()
