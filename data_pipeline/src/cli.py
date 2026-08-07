@@ -123,6 +123,9 @@ def main(argv: list[str] | None = None) -> int:
         "--selection", choices=("remote_order", "seeded_sample"), default="remote_order"
     )
     prepare_parser.add_argument("--seed", type=int, default=0)
+    prepare_parser.add_argument(
+        "--exclude-selection-manifest", type=Path, action="append", default=[]
+    )
     prepare_parser.add_argument("--no-resume", action="store_true")
     prepare_parser.add_argument("--without-supplementary", action="store_true")
 
@@ -209,6 +212,7 @@ def main(argv: list[str] | None = None) -> int:
             copy_supplementary=not args.without_supplementary,
             selection=args.selection,
             seed=args.seed,
+            exclude_selected_manifests=args.exclude_selection_manifest,
         )
         result = {"summary": result["summary"], "corpus_root": result["corpus_root"]}
     elif args.command == "sandbox":

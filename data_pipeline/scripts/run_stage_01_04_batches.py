@@ -22,6 +22,14 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--dataset", default="en-paper-hzzj")
     parser.add_argument("--count", "--limit", type=int, default=1000, dest="count")
+    parser.add_argument("--selection-seed", type=int, default=20260806)
+    parser.add_argument(
+        "--exclude-selection-manifest",
+        type=Path,
+        action="append",
+        default=[],
+        help="Stage 00 selected_papers.jsonl to exclude; may be repeated",
+    )
     parser.add_argument("--credentials", type=Path, default=DEFAULT_CREDENTIALS)
     parser.add_argument("--outside", action="store_true")
     parser.add_argument("--work-root", type=Path, default=DEFAULT_WORK_ROOT)
@@ -119,6 +127,10 @@ def main(argv: list[str] | None = None) -> int:
         "pipeline_schema_version": 2,
         "dataset": args.dataset,
         "papers": args.count,
+        "selection_seed": args.selection_seed,
+        "excluded_selection_manifests": [
+            str(_pipeline_path(path)) for path in args.exclude_selection_manifest
+        ],
         "copy_existing_supplementary": True,
         "stages": [f"stage{stage:02d}" for stage in range(7)],
         "stop_after": "stage06",
@@ -195,7 +207,11 @@ def _build_config(
                 "outside": bool(args.outside),
                 "resume": True,
                 "selection": "seeded_sample",
-                "seed": 20260806,
+                "seed": args.selection_seed,
+                "exclude_selected_manifests": [
+                    str(_pipeline_path(path))
+                    for path in args.exclude_selection_manifest
+                ],
                 "copy_existing_supplementary": True,
             },
             "stage03_computation_relevance": {

@@ -106,6 +106,10 @@ def normalize_config(raw: dict[str, Any], base: Path) -> dict[str, Any]:
             "resume": bool(stage00_remote.get("resume", True)),
             "selection": stage00_remote.get("selection", "remote_order"),
             "seed": int(stage00_remote.get("seed", 0)),
+            "exclude_selected_manifests": [
+                str(_resolve(base, path))
+                for path in stage00_remote.get("exclude_selected_manifests", [])
+            ],
             "copy_existing_supplementary": bool(
                 stage00_remote.get("copy_existing_supplementary", True)
             ),

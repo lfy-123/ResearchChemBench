@@ -16,6 +16,8 @@ def _args(**overrides):
     values = {
         "dataset": "en-paper-hzzj",
         "count": 1000,
+        "selection_seed": 20260807,
+        "exclude_selection_manifest": [],
         "outside": False,
         "disable_publisher_network": False,
         "disable_mineru": False,
@@ -68,7 +70,8 @@ def test_batch_config_prepares_grouped_remote_corpus_and_stops_after_stage06(tmp
         "outside": False,
         "resume": True,
         "selection": "seeded_sample",
-        "seed": 20260806,
+        "seed": 20260807,
+        "exclude_selected_manifests": [],
         "copy_existing_supplementary": True,
     }
     assert config["stage03_computation_relevance"]["use_llm"] is True

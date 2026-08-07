@@ -78,6 +78,49 @@ def test_stage00_groups_main_and_supplementary_and_resumes(tmp_path, monkeypatch
     assert len(list((tmp_path / "corpus").glob("*/paper.json"))) == 2
 
 
+def test_stage00_seeded_sample_excludes_previous_selection(tmp_path, monkeypatch):
+    dataset = "fake-exclusion"
+    monkeypatch.setitem(
+        DATASETS,
+        dataset,
+        {
+            "root": "s3://example/",
+            "pdf_prefix": "s3://example/pdfs/",
+            "metadata_uri": "s3://example/metadata.jsonl",
+            "metadata_root": "s3://example/",
+            "supplementary_prefix": "s3://example/support/",
+        },
+    )
+    exclusion = tmp_path / "previous.jsonl"
+    exclusion.write_text(
+        json.dumps(
+            {
+                "main_document": {
+                    "remote_uri": "s3://example/pdfs/10.1000_one.pdf"
+                }
+            }
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    output = tmp_path / "new"
+    result = prepare_remote_corpus(
+        output,
+        dataset=dataset,
+        count=1,
+        selection="seeded_sample",
+        seed=20260807,
+        exclude_selected_manifests=[exclusion],
+        store=FakeStore(),
+    )
+
+    assert result["records"][0]["main_document"]["remote_uri"] == (
+        "s3://example/pdfs/10.1000_two.pdf"
+    )
+    cursor = json.loads((output / "cursor.json").read_text(encoding="utf-8"))
+    assert cursor["excluded_main_uris"] == 1
+
+
 def test_stage00_uses_existing_inventory_not_stale_metadata_path(tmp_path, monkeypatch):
     store = FakeStore()
     store.rows[0]["support_path"] = ["stale/10.1000_one_sup_99.pdf"]

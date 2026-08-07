@@ -94,6 +94,9 @@ def run_corpus_pipeline(config_path: Path, config: dict[str, Any], base: Path) -
             ),
             selection=str(stage00_config.get("selection", "remote_order")),
             seed=int(stage00_config.get("seed", 0)),
+            exclude_selected_manifests=stage00_config.get(
+                "exclude_selected_manifests", []
+            ),
         )
         corpus_root = Path(stage00_result["corpus_root"])
         _write_stage_summary(stage00_root, stage00_result["summary"])

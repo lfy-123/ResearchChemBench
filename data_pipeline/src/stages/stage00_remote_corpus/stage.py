@@ -102,6 +102,7 @@ def prepare_remote_corpus(
     copy_supplementary: bool = True,
     selection: str = "remote_order",
     seed: int = 0,
+    exclude_selected_manifests: list[str | Path] | None = None,
     store: ObjectStore | None = None,
 ) -> dict[str, Any]:
     if count < 1:
@@ -140,6 +141,7 @@ def prepare_remote_corpus(
     cursor = read_json(cursor_path) if resume and cursor_path.is_file() else {}
     start_after = cursor.get("last_main_uri")
     needed = count - len(existing)
+    excluded_main_uris = _excluded_main_uris(exclude_selected_manifests or [])
     selected_uris = _select_main_uris(
         store,
         spec["pdf_prefix"],
@@ -147,6 +149,7 @@ def prepare_remote_corpus(
         selection=selection,
         seed=seed,
         start_after=start_after,
+        excluded_main_uris=excluded_main_uris,
     )
     if len(selected_uris) < needed:
         raise RuntimeError(
@@ -193,6 +196,11 @@ def prepare_remote_corpus(
                 "seed": seed if selection == "seeded_sample" else None,
                 "last_main_uri": main_uri,
                 "selected_papers": len(rows),
+                "excluded_main_uris": len(excluded_main_uris),
+                "exclude_selected_manifests": [
+                    str(Path(path).expanduser().resolve())
+                    for path in (exclude_selected_manifests or [])
+                ],
                 "updated_at": _now(),
             },
         )
@@ -217,11 +225,13 @@ def _select_main_uris(
     selection: str,
     seed: int,
     start_after: str | None,
+    excluded_main_uris: set[str] | None = None,
 ) -> list[str]:
+    excluded = excluded_main_uris or set()
     if selection == "remote_order":
         output: list[str] = []
         for uri in store.iter_uris(prefix, start_after=start_after):
-            if uri.casefold().endswith(".pdf"):
+            if uri.casefold().endswith(".pdf") and uri not in excluded:
                 output.append(uri)
             if len(output) >= count:
                 break
@@ -230,7 +240,7 @@ def _select_main_uris(
     reservoir: list[str] = []
     seen = 0
     for uri in store.iter_uris(prefix):
-        if not uri.casefold().endswith(".pdf"):
+        if not uri.casefold().endswith(".pdf") or uri in excluded:
             continue
         seen += 1
         if len(reservoir) < count:
@@ -240,6 +250,23 @@ def _select_main_uris(
         if replacement < count:
             reservoir[replacement] = uri
     return sorted(reservoir)
+
+
+def _excluded_main_uris(manifests: list[str | Path]) -> set[str]:
+    output: set[str] = set()
+    for manifest in manifests:
+        path = Path(manifest).expanduser().resolve()
+        if not path.is_file():
+            raise FileNotFoundError(f"Stage 00 exclusion manifest does not exist: {path}")
+        for row in _read_rows(path):
+            uri = str(
+                (row.get("main_document") or {}).get("remote_uri")
+                or row.get("main_uri")
+                or ""
+            ).strip()
+            if uri:
+                output.add(uri)
+    return output
 
 
 def _metadata_for_selected(
