@@ -196,3 +196,20 @@
   `software_unknown_rejected` 并停止。recall 模式保持原行为。
 - 本轮完整 `data_pipeline/tests` 为 127 passed、8 subtests passed；Ruff、compileall 和
   `git diff --check -- data_pipeline` 均通过。
+
+### 2026-08-07：500 篇严格模式 Stage 00-06 验证
+
+- 使用提交 `0f29bf7`、`deepseek-v4-flash` 和 strict policy 完成 500 篇 seeded sample；
+  50/50 个微批次完成，0 个批次失败，总墙钟 6500.207 秒。
+- Stage 00/01 为 500 篇正文、435 份 SI、0 重复；Stage 02 为 931 次 GROBID 成功、
+  4 次 `pdftotext` 回退、0 最终失败。
+- Stage 03 严格保留 283 篇，淘汰 191 篇，26 篇 fail closed 为 `llm_unconfirmed`；329 次
+  Flash 调用无 API、schema 或截断错误。
+- Stage 04 为 255 篇复用已有 SI、4 篇下载、4 篇部分下载、19 篇访问受阻、1 篇确认无
+  SI。Stage 05 最终保留 158 篇，所有通过样本均具有功能级直接后端、执行语境和方法族
+  交集；Stage 06 处理 166 份 SI，0 错误。
+- 均匀抽查 20 个 Stage 03 pass 和 25 个 Stage 05 pass，均找到作者执行计算和合格后端
+  证据；该结果是审计抽查，不替代人工标注 precision/recall。
+- 运行中出现 4766 秒低进度长尾，未造成失败；后续应为 Stage 03/Softcite 增加 heartbeat
+  和单文档 wall-time watchdog。沙箱 `sbx-2795c316-bb1` 已确认 `Terminated`。
+- 详细结果见 `STRICT_FLASH_STAGE00_06_500_PAPER_REPORT_20260807.md`。
