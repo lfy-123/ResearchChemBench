@@ -125,7 +125,7 @@ def test_stage03_llm_prompt_is_bounded_and_uses_evidence_excerpts(tmp_path):
     prompt, sources = build_review_prompt(record, max_chars=6_000)
     payload = json.loads(prompt)
     assert len(prompt) <= 6_000
-    assert payload["prompt_version"] == "stage03-computation-review-v1"
+    assert payload["prompt_version"] == "stage03-pure-computation-review-v2"
     assert payload["excerpts"]
     assert sources
 
@@ -152,7 +152,7 @@ def test_stage03_llm_verified_yes_overrides_weak_rule(tmp_path, monkeypatch):
     monkeypatch.setattr(llm_review, "_service_ready", lambda _config: True)
 
     def fake_call(**kwargs):
-        assert kwargs["max_tokens"] == 1024
+        assert kwargs["max_tokens"] == 2048
         assert kwargs["thinking"] is None
         payload = json.loads(kwargs["user_content"])
         excerpt = next(item for item in payload["excerpts"] if item["excerpt_id"] != "opening")
@@ -161,7 +161,11 @@ def test_stage03_llm_verified_yes_overrides_weak_rule(tmp_path, monkeypatch):
                 "performed_computation": "yes",
                 "article_role": "original_research",
                 "computation_role": "supporting",
+                "study_mode": "pure_computational",
+                "author_performed_experiments": "no",
                 "method_families": ["electronic_structure"],
+                "required_software": [],
+                "software_inventory_complete": "uncertain",
                 "author_execution_evidence": [
                     {
                         "excerpt_id": excerpt["excerpt_id"],
@@ -169,6 +173,7 @@ def test_stage03_llm_verified_yes_overrides_weak_rule(tmp_path, monkeypatch):
                         "reason": "reported result",
                     }
                 ],
+                "author_experiment_evidence": [],
                 "confidence": 0.9,
                 "reason": "The paper reports its own calculation.",
             },
@@ -210,10 +215,15 @@ def test_stage03_llm_unverified_yes_falls_back_to_rule(tmp_path, monkeypatch):
                 "performed_computation": "yes",
                 "article_role": "original_research",
                 "computation_role": "supporting",
+                "study_mode": "pure_computational",
+                "author_performed_experiments": "no",
                 "method_families": [],
+                "required_software": [],
+                "software_inventory_complete": "uncertain",
                 "author_execution_evidence": [
                     {"excerpt_id": "opening", "quote": "invented evidence", "reason": "none"}
                 ],
+                "author_experiment_evidence": [],
                 "confidence": 0.99,
                 "reason": "unsupported",
             },
@@ -304,8 +314,13 @@ def test_stage03_strict_llm_reviews_strong_and_rejects_uncertain(tmp_path, monke
                 "performed_computation": "uncertain",
                 "article_role": "original_research",
                 "computation_role": "supporting",
+                "study_mode": "uncertain",
+                "author_performed_experiments": "uncertain",
                 "method_families": ["electronic_structure"],
+                "required_software": [],
+                "software_inventory_complete": "uncertain",
                 "author_execution_evidence": [],
+                "author_experiment_evidence": [],
                 "confidence": 0.95,
                 "reason": "Execution cannot be attributed.",
             },
@@ -350,3 +365,78 @@ def test_stage03_strict_llm_failure_is_fail_closed(tmp_path, monkeypatch):
     assert reviewed["computation_relevance"]["decision"] == "llm_unconfirmed"
     assert reviewed["pipeline_routing"]["continue"] is False
     assert reviewed["pipeline_routing"]["stop_reason"] == "llm_confirmation_required"
+
+
+def test_stage03_strict_rejects_experimental_paper_with_supporting_calculation(
+    tmp_path, monkeypatch
+):
+    record = _run(
+        tmp_path,
+        "Methods\nWe synthesized and measured a catalyst. We also performed density "
+        "functional theory calculations using ORCA.",
+    )
+    record["computation_relevance"]["decision"] = "strong_candidate"
+    record["pipeline_routing"]["continue"] = True
+    monkeypatch.setattr(llm_review, "_service_ready", lambda _config: True)
+
+    def fake_call(**kwargs):
+        payload = json.loads(kwargs["user_content"])
+        execution = next(
+            item for item in payload["excerpts"] if "ORCA" in item["text"]
+        )
+        experiment = next(
+            item for item in payload["excerpts"] if "synthesized" in item["text"]
+        )
+        return (
+            {
+                "performed_computation": "yes",
+                "article_role": "original_research",
+                "computation_role": "supporting",
+                "study_mode": "experimental_with_computational_support",
+                "author_performed_experiments": "yes",
+                "method_families": ["electronic_structure"],
+                "required_software": [
+                    {
+                        "name": "ORCA",
+                        "purpose": "DFT calculations",
+                        "excerpt_id": execution["excerpt_id"],
+                        "quote": execution["text"],
+                    }
+                ],
+                "software_inventory_complete": "yes",
+                "author_execution_evidence": [
+                    {
+                        "excerpt_id": execution["excerpt_id"],
+                        "quote": execution["text"],
+                        "reason": "authors performed DFT",
+                    }
+                ],
+                "author_experiment_evidence": [
+                    {
+                        "excerpt_id": experiment["excerpt_id"],
+                        "quote": experiment["text"],
+                        "reason": "authors synthesized a catalyst",
+                    }
+                ],
+                "confidence": 0.98,
+                "reason": "The study combines experiments with supporting computation.",
+            },
+            {},
+        )
+
+    monkeypatch.setattr(llm_review, "call_json_chat", fake_call)
+    reviewed = llm_review.apply_llm_review(
+        [record],
+        config={
+            "enabled": True,
+            "strict": True,
+            "review_all_candidates": True,
+            "base_url": "http://test/v1",
+            "api_key": "test",
+            "model": "qwen",
+        },
+        cache_dir=tmp_path / "strict-cache",
+    )[0]
+    assert reviewed["computation_relevance"]["decision"] == "not_pure_computational"
+    assert reviewed["pipeline_routing"]["continue"] is False
+    assert reviewed["pipeline_routing"]["stop_reason"] == "mixed_or_experimental_study"

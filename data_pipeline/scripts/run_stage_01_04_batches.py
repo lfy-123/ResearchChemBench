@@ -217,11 +217,25 @@ def _build_config(
                     ),
                     "concurrency": args.stage03_llm_concurrency,
                     "review_all_candidates": args.screening_policy == "strict",
-                    "minimum_confidence": 0.85,
+                    "minimum_confidence": 0.9,
                     "allowed_article_roles": ["original_research"],
-                    "allowed_computation_roles": ["primary", "supporting"],
+                    "allowed_computation_roles": (
+                        ["primary"]
+                        if args.screening_policy == "strict"
+                        else ["primary", "supporting"]
+                    ),
+                    "required_study_modes": (
+                        ["pure_computational"]
+                        if args.screening_policy == "strict"
+                        else []
+                    ),
+                    "allowed_author_performed_experiments": (
+                        ["no"]
+                        if args.screening_policy == "strict"
+                        else ["yes", "no", "uncertain"]
+                    ),
                     "max_prompt_chars": 24000,
-                    "max_tokens": 1024,
+                    "max_tokens": 2048,
                     "thinking": (
                         None if args.stage03_llm_managed_rlaunch else "disabled"
                     ),
@@ -268,6 +282,17 @@ def _build_config(
                 ),
                 "require_method_match": args.screening_policy == "strict",
                 "require_execution_context": args.screening_policy == "strict",
+                "require_all_core_software": args.screening_policy == "strict",
+                "require_all_method_families": args.screening_policy == "strict",
+                "reject_unclassified_execution_software": (
+                    args.screening_policy == "strict"
+                ),
+                "require_pure_computational_review": (
+                    args.screening_policy == "strict"
+                ),
+                "require_complete_software_inventory": (
+                    args.screening_policy == "strict"
+                ),
                 "softcite_instances": min(
                     args.microbatch_concurrency, args.stage05_workers
                 ),

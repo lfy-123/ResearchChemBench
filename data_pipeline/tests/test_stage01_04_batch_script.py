@@ -74,6 +74,12 @@ def test_batch_config_prepares_grouped_remote_corpus_and_stops_after_stage06(tmp
     assert config["stage03_computation_relevance"]["use_llm"] is True
     assert config["stage03_computation_relevance"]["screening_policy"] == "strict"
     assert config["stage03_computation_relevance"]["llm"]["review_all_candidates"] is True
+    assert config["stage03_computation_relevance"]["llm"]["allowed_computation_roles"] == [
+        "primary"
+    ]
+    assert config["stage03_computation_relevance"]["llm"]["required_study_modes"] == [
+        "pure_computational"
+    ]
     assert config["microbatch"]["enabled"] is True
     assert config["microbatch"]["size"] == 10
     assert config["microbatch"]["concurrency"] == 5
@@ -83,6 +89,9 @@ def test_batch_config_prepares_grouped_remote_corpus_and_stops_after_stage06(tmp
     assert config["stage05_preliminary_coverage"]["accepted_validation_levels"] == [
         "functional"
     ]
+    assert config["stage05_preliminary_coverage"]["require_all_core_software"] is True
+    assert config["stage05_preliminary_coverage"]["require_all_method_families"] is True
+    assert config["stage05_preliminary_coverage"]["require_complete_software_inventory"] is True
     assert config["grobid"]["workers"] == 32
     assert config["softcite"]["workers"] == 16
 

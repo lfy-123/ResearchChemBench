@@ -1,6 +1,6 @@
 # ResearchChemBench 计算化学论文筛选流程重构方案
 
-> 状态：第七版设计已确认，严格筛选策略已实现并完成 100 篇 shadow replay。
+> 状态：第八版设计已实现；严格模式已完成 500 篇缓存重放。
 >
 > 更新日期：2026-08-07。
 >
@@ -12,13 +12,15 @@
 本版采纳以下设计要求：
 
 1. Stage 00 从远端选择指定数量论文，将正文和已有补充材料整理到同一论文目录。
-2. Stage 03 先用版本化规则做低成本、高召回的计算相关性粗筛；可选模型只复核规则边界
-   样本，并可通过参数完全关闭。Stage 00 已提供的 SI 文本与正文共同参与 Stage 02/03。
+2. Stage 03 先用版本化规则做低成本召回；严格模式用模型复核全部规则候选，只保留作者
+   未开展实验、计算为论文主体的纯计算原创研究。Stage 00 已提供的 SI 文本与正文共同参与
+   Stage 02/03。
 3. Stage 04 只补齐当前数据源缺失的论文正式补充材料，不解析内容，不下载论文中
    引用的数据集、代码仓库、外部结构或任意链接。
 4. Stage 04 不只适配 Wiley。优先复用远端 KPS 元数据中的 `support_path`；缺失时按
    出版商调用 ACS、RSC、Elsevier、Wiley、Nature Portfolio 和 MDPI 等适配器。
-5. Stage 05 使用 Stage 02 已有的正文和本地 SI 文本做软件名称和工具箱能力预筛。
+5. Stage 05 使用 Stage 02 已有正文和本地 SI 文本做完整工作流软件与工具箱能力预筛；
+   “命中一个支持后端”不再足以通过。
 6. Stage 06 只对 Stage 05 保留的论文解析 Stage 04 新下载、尚未解析的补充材料，避免为全部下载文件运行
    GROBID/MinerU/OCR。
 7. Stage 07 Builder 根据正文、SI 文本和能力证据判断可用性、构建任务并复核资源。
@@ -33,11 +35,11 @@ Stage 01  正文 PDF 清点、身份和去重
     |
 Stage 02  正文及已有 SI 解析和质量门控
     |
-Stage 03  规则优先、可选模型复核的计算化学相关性筛选
+Stage 03  规则召回、严格模型复核的纯计算论文筛选
     |
 Stage 04  缺失补充材料获取（已有 SI 则逐论文跳过）
     |
-Stage 05  正文级软件名称和工具箱能力预筛
+Stage 05  正文级完整工作流软件和工具箱能力预筛
     |
 Stage 06  幸存论文中新下载 SI 的文本抽取
     |
@@ -110,9 +112,9 @@ KPS 中 431,475 篇已有非空 `support_path`，对应 496,624 个附件；当�
 | Stage 00 | 如何从远端取指定数量论文并将正文/SI 组成可恢复的论文包？ | 网络 I/O |
 | Stage 01 | 正文身份、来源和重复关系是否可靠？ | 低 |
 | Stage 02 | 正文和本地已有 SI 是否被可靠解析？ | 中 |
-| Stage 03 | 正文+已有 SI 是否表明本文实际进行了计算化学？ | 低至中 |
+| Stage 03 | 正文+已有 SI 是否证明本文是纯计算化学原创研究？ | 低至中 |
 | Stage 04 | 对仍缺 SI 的论文，正式 SI 文件能否获得？ | 网络 I/O |
-| Stage 05 | 已解析正文/SI 中的软件/方法是否可能被工具箱覆盖？ | 低至中 |
+| Stage 05 | 已解析正文/SI 的全部核心工作流软件和方法族是否被功能级能力覆盖？ | 低至中 |
 | Stage 06 | 新下载 SI 中有哪些软件、参数、输入和结果证据？ | 中至高 |
 | Stage 07 | 是否能构造可执行、可评分且资源可接受的任务？ | 高 |
 | Stage 08 | 构建结果是否满足最终发布标准？ | 高 |
@@ -127,8 +129,9 @@ rule_screened_computational
         != benchmark_ready
 ```
 
-Stage 03 和 Stage 05 采用高精度、允许漏筛的策略。只有证据明确、模型确认且工具箱直接
-功能验证通过的论文继续；不确定、能力等价、方法推断和服务错误均 fail closed。
+Stage 03 和 Stage 05 采用高精度、允许漏筛的策略。只有纯计算身份明确，并且全部核心
+工作流软件均有功能验证、全部方法族均存在功能级后端的论文继续；不确定、能力等价、
+单个支持软件掩盖其他未覆盖软件和服务错误均 fail closed。
 
 ## 4. Stage 00：远端复制和论文包整理
 
@@ -274,20 +277,20 @@ Stage 02 必须解析 Stage 01 中所有 canonical 正文和本地已有 SI。�
 `document_role=main_paper|supplementary`，并生成按 `paper_id` 聚合的
 `paper_text_bundle.jsonl`。一个 SI 解析失败不应使正文结果失效。
 
-## 7. Stage 03：规则优先的混合计算相关性筛选
+## 7. Stage 03：规则召回与纯计算模型复核
 
 ### 7.1 目标
 
-Stage 03 只判断：正文和 Stage 02 已解析 SI 是否存在足够规则证据，表明作者在本研究中实际执行了计算化学、
-分子模拟或工具箱目标范围内的科学计算。
+Stage 03 判断两层问题：规则层判断作者是否可能在本研究中执行了计算化学；严格模型层
+判断论文是否为纯计算原创研究，而不是实验论文附带 DFT、MD 或其他支持性计算。
 
 本阶段：
 
-- 默认先执行规则；可选模型只复核边界样本，并可通过配置完全关闭；
+- 默认先执行规则；严格模式必须启用模型并复核全部规则候选；
 - 不判断最终工具箱覆盖；
 - 不要求明确软件名称；
 - 不生成完整 task skeleton；
-- 以降低漏筛为首要目标。
+- 严格模式以结果精度为首要目标，允许漏筛。
 
 ### 7.2 版本化规则资产
 
@@ -358,10 +361,13 @@ rule_error:
   文本或规则处理失败
 ```
 
-严格模式要求启用模型，并复核规则产生的全部 strong、weak 和 rule error 候选。只有模型
-返回 `yes`、文章类型为原创研究、计算角色为 primary/supporting、置信度至少 0.85，且
-至少一条引用能够逐字回映输入证据时才进入 Stage 04。`uncertain`、低置信度、Review、
-响应截断、API/schema 错误或证据校验失败统一记为 `llm_unconfirmed` 并停止，不回退放行。
+严格模式要求启用模型，并复核规则产生的全部 strong、weak 和 rule error 候选。模型输入
+除规则证据外，还定向加入作者实验行为和软件执行上下文。只有同时满足以下条件才进入
+Stage 04：`performed_computation=yes`、原创研究、`computation_role=primary`、
+`study_mode=pure_computational`、`author_performed_experiments=no`、置信度至少 0.90，且作者
+执行证据能够逐字回映输入片段。模型还需列出带原文证据的 `required_software` 和软件清单
+完整度，供 Stage 05 交叉核验。mixed/experimental 记为 `not_pure_computational`；不确定、
+响应截断、API/schema 错误或证据失败记为 `llm_unconfirmed`，全部 fail closed。
 
 `recall` 兼容模式仍只审查边界样本并保留规则回退，但批处理入口默认使用严格模式。
 
@@ -494,7 +500,7 @@ stage_04_supplementary_acquisition/
   stage_summary.json
 ```
 
-## 9. Stage 05：已解析正文/SI 的软件和工具箱能力预筛
+## 9. Stage 05：完整工作流软件和工具箱能力预筛
 
 ### 9.1 为什么仍是“严格预筛”
 
@@ -502,8 +508,8 @@ Stage 05 使用 Stage 02 已解析的正文和 Stage 00 已带入的 SI 文本�
 按职责边界尚未解析，软件名称仍可能只存在于这些文件中。严格策略接受这部分漏筛，
 `software_not_identified` 不再继续。
 
-本阶段目标是低成本删除“正文已明确证明不覆盖”的论文，并优先选择正文已明确覆盖的
-论文进入 Stage 06。最终覆盖判断由 Stage 07 Builder 在 SI 文本可用后复核。
+本阶段目标是只保留“现有文本已能证明完整工作流覆盖”的论文。最终覆盖判断仍由 Stage 07
+Builder 在新 SI 文本可用后复核，但 Stage 05 不再以单个支持后端作为放行依据。
 
 ### 9.2 工具箱能力快照
 
@@ -528,16 +534,23 @@ evidence_refs, catalog_hash
 2. 工具箱别名表做确定性规范化。
 3. 排除参考文献、背景引用和仪器软件。
 4. 区分核心计算、辅助分析、可视化和工作流软件。
-5. 将软件 mention 与 Stage 03 的方法/动作证据绑定。
+5. 将 Softcite 结果与 Stage 03 模型带原文证据的 `required_software` 合并；未登记但确认
+   被用于执行的软件进入未覆盖集合。
+6. 逐一检查全部核心/必需软件的 functional、执行语境和方法匹配；再检查每个方法族是否
+   至少有一个工具箱中通过 scientific smoke 的后端可承担。
 
-PXRD、SCXRD、DFT、TDDFT、NEB 等不是软件；Python、Matplotlib、VESTA、VMD 等辅助
-软件不能因未覆盖而否决核心任务。
+PXRD、SCXRD、DFT、TDDFT、NEB 等不是软件。纯绘图和通用办公软件不进入核心清单；
+但用于生成或分析中心计算结果的自定义代码、工作流引擎和科学分析软件必须覆盖。
 
 ### 9.4 路由
 
 | 状态 | 条件 | 路由 |
 | --- | --- | --- |
-| `direct_candidate` | 明示核心软件；执行上下文、方法族、工具箱 backend 和 scientific smoke 均匹配 | Stage 06 |
+| `direct_candidate` | 纯计算已确认；全部核心/必需软件和全部方法族均满足严格覆盖 | Stage 06 |
+| `workflow_software_uncovered` | 任一核心、模型必需或执行确认的未分类软件未达到 functional | 淘汰 |
+| `workflow_inventory_unconfirmed` | 软件清单无法由模型确认或与 Softcite 交叉印证 | 淘汰 |
+| `method_coverage_incomplete` | 任一方法族没有 scientific-smoke 后端 | 淘汰 |
+| `not_pure_computational` | Stage 03 纯计算结论不成立 | 淘汰 |
 | `direct_support_unverified` | 软件存在但上下文、方法或验证级别任一不足 | 淘汰 |
 | `equivalent_unverified` | 只有能力等价推断，没有直接受支持后端 | 淘汰 |
 | `method_only_rejected` | 只有方法族，没有直接受支持后端 | 淘汰 |
@@ -547,8 +560,10 @@ PXRD、SCXRD、DFT、TDDFT、NEB 等不是软件；Python、Matplotlib、VESTA�
 | `stage_error` | 提取或能力查询失败 | 可重试，本次淘汰 |
 
 严格模式只接受 `validation_level=functional`。interface、needs-complete-input 和 catalogued
-级别均不足以放行。未知 Softcite 名称归入 `unclassified_software`，不能默认当作 core；
-`amber vial`、AMBER force field、背景引用和普通实验/分析软件不能形成 direct 命中。
+级别均不足以放行。存在一个合格软件不能掩盖同篇论文中的其他不合格软件。模型对软件
+清单返回 uncertain 时，只有模型必需软件与 Softcite 全文结果一致且不存在未覆盖/未分类
+执行软件，才视为交叉确认。`amber vial`、AMBER force field、背景引用和普通实验软件不能
+形成 direct 命中。
 
 ### 9.5 新软件扩展
 
@@ -722,11 +737,19 @@ Agent 并发较低。Stage 03 模型只处理规则边界样本，并具有独�
     "copy_existing_supplementary": true
   },
   "stage03_computation_relevance": {
-    "use_llm": false,
+    "screening_policy": "strict",
+    "use_llm": true,
     "method_ontology": "assets/computational_method_ontology.yaml",
     "evidence_rules": "assets/computation_evidence_rules.yaml",
     "negative_contexts": "assets/computation_negative_contexts.yaml",
-    "continue_decisions": ["strong_candidate", "weak_candidate"]
+    "continue_decisions": ["strong_candidate"],
+    "llm": {
+      "minimum_confidence": 0.9,
+      "allowed_computation_roles": ["primary"],
+      "required_study_modes": ["pure_computational"],
+      "allowed_author_performed_experiments": ["no"],
+      "max_tokens": 2048
+    }
   },
   "stage04_supplementary_acquisition": {
     "prefer_source_support_paths": true,
@@ -740,8 +763,14 @@ Agent 并发较低。Stage 03 模型只处理规则边界样本，并具有独�
   },
   "stage05_preliminary_coverage": {
     "capability_catalog": "assets/toolbox_capabilities.json",
-    "continue_without_software_name": true,
-    "unknown_capability_policy": "continue_low_priority"
+    "screening_policy": "strict",
+    "continue_without_software_name": false,
+    "accepted_validation_levels": ["functional"],
+    "require_all_core_software": true,
+    "require_all_method_families": true,
+    "reject_unclassified_execution_software": true,
+    "require_pure_computational_review": true,
+    "require_complete_software_inventory": true
   },
   "stage06_supplementary_extraction": {
     "fast_parser": "pdftotext",
@@ -869,9 +898,9 @@ data_pipeline/src/orchestration/
 
 - Stage 00 指定 `count=N` 时输出 N 个完整正文论文包，正文和 SI 位于同一论文目录。
 - Stage 02/03 会处理 Stage 00 已复制的 SI，Stage 04 对这些论文不发起下载。
-- Stage 03 关闭模型时不发起 API；开启时仅复核边界样本，失败可逐篇回退规则结果。
+- Stage 03 recall 模式可关闭模型；strict 模式复核全部规则候选，失败逐篇 fail closed。
 - 规则命中保留可定位证据，参考文献中的 DFT/软件名不会直接通过。
-- `software_not_identified` 不会在 Stage 05 被直接淘汰。
+- strict 模式下缺少直接软件证据、任一必需软件未覆盖或软件清单不完整都会淘汰。
 - Stage 04 优先复用远端 `support_path`，且绝不跟随数据集/仓库链接。
 - 六类首批出版商适配器具有离线 fixture 和真实小样本测试。
 - Stage 06 只处理 Stage 05 幸存论文，不为全部 SI 运行重解析。
@@ -882,11 +911,11 @@ data_pipeline/src/orchestration/
 
 1. Stage 00 将指定数量论文的正文和远端已有 SI 复制到同一论文目录。
 2. Stage 02/03 使用正文和 Stage 00 已带入的 SI；Stage 04 对已有 SI 论文跳过。
-3. Stage 03 规则模式的 `strong_candidate` 和 `weak_candidate` 都进入 Stage 04；混合模式
-   只让模型复核边界样本，以 recall 优先。
+3. Stage 03 strict 模式复核全部规则候选，只保留纯计算、primary 且无作者实验的论文；
+   recall 模式保留旧的边界复核行为。
 4. Stage 04 默认只下载 PDF SI；ZIP/CIF/DOCX 后续按实际需要逐类开放。
-5. Stage 05 是预筛，不宣称最终 `toolbox_covered`。
-6. 没有软件名但方法证据成立的论文仍进入 Stage 06，避免新下载 SI 中的软件名漏筛。
+5. Stage 05 是严格预筛，不宣称最终 `toolbox_covered`，但不允许部分软件覆盖通过。
+6. strict 模式没有软件名不进入 Stage 06；新下载 SI 的最终覆盖变化由 Builder 复核。
 7. Stage 07 Builder 在所有可用 SI 解析后执行最终工具箱覆盖复核。
 8. 第一批官网适配 ACS、RSC、Elsevier、Wiley、Nature 和 MDPI，其他出版商后续按占比补齐。
 

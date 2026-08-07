@@ -283,7 +283,7 @@ def normalize_config(raw: dict[str, Any], base: Path) -> dict[str, Any]:
                 ),
                 "minimum_confidence": float(
                     stage03_llm.get(
-                        "minimum_confidence", 0.85 if screening_policy == "strict" else 0.7
+                        "minimum_confidence", 0.9 if screening_policy == "strict" else 0.7
                     )
                 ),
                 "allowed_article_roles": stage03_llm.get(
@@ -293,7 +293,18 @@ def normalize_config(raw: dict[str, Any], base: Path) -> dict[str, Any]:
                     else ["original_research", "unknown"],
                 ),
                 "allowed_computation_roles": stage03_llm.get(
-                    "allowed_computation_roles", ["primary", "supporting"]
+                    "allowed_computation_roles",
+                    ["primary"]
+                    if screening_policy == "strict"
+                    else ["primary", "supporting"],
+                ),
+                "required_study_modes": stage03_llm.get(
+                    "required_study_modes",
+                    ["pure_computational"] if screening_policy == "strict" else [],
+                ),
+                "allowed_author_performed_experiments": stage03_llm.get(
+                    "allowed_author_performed_experiments",
+                    ["no"] if screening_policy == "strict" else ["yes", "no", "uncertain"],
                 ),
                 "managed_rlaunch": bool(stage03_llm.get("managed_rlaunch", False)),
                 "required": bool(stage03_llm.get("required", False)),
@@ -306,7 +317,7 @@ def normalize_config(raw: dict[str, Any], base: Path) -> dict[str, Any]:
                 "timeout_seconds": int(stage03_llm.get("timeout_seconds", 300)),
                 "health_timeout_seconds": int(stage03_llm.get("health_timeout_seconds", 15)),
                 "retries": max(0, int(stage03_llm.get("retries", 2))),
-                "max_tokens": max(64, int(stage03_llm.get("max_tokens", 1024))),
+                "max_tokens": max(64, int(stage03_llm.get("max_tokens", 2048))),
                 "thinking": str(stage03_llm.get("thinking") or "") or None,
                 "max_prompt_chars": max(
                     4_000, int(stage03_llm.get("max_prompt_chars", 24_000))
@@ -502,6 +513,32 @@ def normalize_config(raw: dict[str, Any], base: Path) -> dict[str, Any]:
             "require_execution_context": bool(
                 stage05_preliminary.get(
                     "require_execution_context", screening_policy == "strict"
+                )
+            ),
+            "require_all_core_software": bool(
+                stage05_preliminary.get(
+                    "require_all_core_software", screening_policy == "strict"
+                )
+            ),
+            "require_all_method_families": bool(
+                stage05_preliminary.get(
+                    "require_all_method_families", screening_policy == "strict"
+                )
+            ),
+            "reject_unclassified_execution_software": bool(
+                stage05_preliminary.get(
+                    "reject_unclassified_execution_software",
+                    screening_policy == "strict",
+                )
+            ),
+            "require_pure_computational_review": bool(
+                stage05_preliminary.get(
+                    "require_pure_computational_review", screening_policy == "strict"
+                )
+            ),
+            "require_complete_software_inventory": bool(
+                stage05_preliminary.get(
+                    "require_complete_software_inventory", screening_policy == "strict"
                 )
             ),
             "unknown_capability_policy": (

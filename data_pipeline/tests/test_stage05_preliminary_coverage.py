@@ -5,6 +5,7 @@ TOOLBOX = {
     "catalog_hash": "hash",
     "backends": ["orca"],
     "unavailable": [],
+    "scientific_smoke": ["orca"],
 }
 CATALOG = {
     "schema_version": 1,
@@ -21,14 +22,25 @@ def _paper(families=None):
             "decision": "strong_candidate",
             "method_families": families or [],
         },
+        "llm_computation_review": {
+            "study_mode": "pure_computational",
+            "author_performed_experiments": "no",
+            "computation_role": "primary",
+            "software_inventory_complete": "yes",
+            "required_software": [],
+        },
     }
 
 
-def _document(decision, mentions):
+def _document(decision, mentions, *, unclassified=None):
     return {
         "document_id": "d1",
         "document_role": "main_paper",
-        "software_coverage": {"decision": decision, "core_software": mentions},
+        "software_coverage": {
+            "decision": decision,
+            "core_software": mentions,
+            "unclassified_software": unclassified or [],
+        },
     }
 
 
@@ -114,6 +126,11 @@ STRICT = {
     "continue_without_software_name": False,
     "allow_capability_equivalent": False,
     "continue_on_stage_error": False,
+    "require_all_core_software": True,
+    "require_all_method_families": True,
+    "reject_unclassified_execution_software": True,
+    "require_pure_computational_review": True,
+    "require_complete_software_inventory": True,
 }
 
 
@@ -149,7 +166,7 @@ def test_stage05_strict_rejects_interface_only_direct_support():
         CATALOG,
         screening_config=STRICT,
     )[0]
-    assert result["preliminary_coverage"]["decision"] == "direct_support_unverified"
+    assert result["preliminary_coverage"]["decision"] == "workflow_software_uncovered"
     assert result["pipeline_routing"]["continue"] is False
 
 
@@ -191,3 +208,113 @@ def test_stage05_strict_rejects_extraction_error():
     )[0]
     assert result["preliminary_coverage"]["decision"] == "stage_error"
     assert result["pipeline_routing"]["continue"] is False
+
+
+def test_stage05_strict_rejects_when_any_core_software_is_uncovered():
+    covered = {
+        "normalized_name": "orca",
+        "direct_support": {"supported": True, "validation_level": "functional"},
+        "execution_context_confirmed": True,
+        "capability_equivalence": None,
+    }
+    uncovered = {
+        "normalized_name": "custom_kinetics",
+        "direct_support": {"supported": False, "validation_level": "not_catalogued"},
+        "execution_context_confirmed": True,
+        "capability_equivalence": None,
+    }
+    result = aggregate_preliminary_coverage(
+        [_paper(["electronic_structure"])],
+        {"p1": [_document("unsupported", [covered, uncovered])]},
+        TOOLBOX,
+        CATALOG,
+        screening_config=STRICT,
+    )[0]
+    assert result["preliminary_coverage"]["decision"] == "workflow_software_uncovered"
+    assert result["preliminary_coverage"]["uncovered_workflow_software"] == [
+        "custom_kinetics"
+    ]
+    assert result["pipeline_routing"]["continue"] is False
+
+
+def test_stage05_strict_rejects_execution_confirmed_unclassified_software():
+    covered = {
+        "normalized_name": "orca",
+        "direct_support": {"supported": True, "validation_level": "functional"},
+        "execution_context_confirmed": True,
+        "capability_equivalence": None,
+    }
+    custom = {
+        "normalized_name": "in_house_code",
+        "execution_context_confirmed": True,
+    }
+    result = aggregate_preliminary_coverage(
+        [_paper(["electronic_structure"])],
+        {"p1": [_document("direct_covered", [covered], unclassified=[custom])]},
+        TOOLBOX,
+        CATALOG,
+        screening_config=STRICT,
+    )[0]
+    assert result["preliminary_coverage"]["decision"] == "workflow_software_uncovered"
+    assert "in_house_code" in result["preliminary_coverage"]["uncovered_workflow_software"]
+
+
+def test_stage05_strict_rejects_mixed_study_defense_in_depth():
+    paper = _paper(["electronic_structure"])
+    paper["llm_computation_review"].update(
+        {
+            "study_mode": "mixed_computational_experimental",
+            "author_performed_experiments": "yes",
+        }
+    )
+    result = aggregate_preliminary_coverage(
+        [paper], {}, TOOLBOX, CATALOG, screening_config=STRICT
+    )[0]
+    assert result["preliminary_coverage"]["decision"] == "not_pure_computational"
+    assert result["pipeline_routing"]["continue"] is False
+
+
+def test_stage05_strict_requires_functional_backends_to_cover_every_method_family():
+    mention = {
+        "normalized_name": "orca",
+        "direct_support": {"supported": True, "validation_level": "functional"},
+        "execution_context_confirmed": True,
+        "capability_equivalence": None,
+    }
+    result = aggregate_preliminary_coverage(
+        [_paper(["electronic_structure", "molecular_dynamics"])],
+        {"p1": [_document("direct_covered", [mention])]},
+        TOOLBOX,
+        CATALOG,
+        screening_config=STRICT,
+    )[0]
+    assert result["preliminary_coverage"]["decision"] == "method_coverage_incomplete"
+    assert result["preliminary_coverage"]["uncovered_method_families"] == [
+        "molecular_dynamics"
+    ]
+
+
+def test_stage05_strict_can_corroborate_uncertain_inventory_with_two_extractors():
+    paper = _paper(["electronic_structure"])
+    paper["llm_computation_review"].update(
+        {
+            "software_inventory_complete": "uncertain",
+            "required_software": [{"name": "ORCA", "purpose": "DFT"}],
+        }
+    )
+    mention = {
+        "normalized_name": "orca",
+        "direct_support": {"supported": True, "validation_level": "functional"},
+        "execution_context_confirmed": True,
+        "capability_equivalence": None,
+    }
+    result = aggregate_preliminary_coverage(
+        [paper],
+        {"p1": [_document("direct_covered", [mention])]},
+        TOOLBOX,
+        CATALOG,
+        screening_config=STRICT,
+        software_aliases={"orca": ["ORCA"]},
+    )[0]
+    assert result["preliminary_coverage"]["decision"] == "direct_candidate"
+    assert result["preliminary_coverage"]["software_inventory_corroborated"] is True

@@ -12,22 +12,47 @@ from src.core.io import read_json, write_json
 from src.core.logging import log_progress, pipeline_logger
 from src.integrations.llm_client import call_json_chat
 
-PROMPT_VERSION = "stage03-computation-review-v1"
+PROMPT_VERSION = "stage03-pure-computation-review-v2"
 SYSTEM_PROMPT = """You screen scientific papers for computational chemistry work.
-Decide whether the authors of THIS paper actually executed a computational chemistry process.
+Decide whether THIS paper is a pure computational chemistry study, rather than an experimental study with
+supporting calculations. A pure computational study may compare against experiments reported by other papers,
+but the authors of THIS paper must not synthesize, fabricate, measure, assay, characterize, or otherwise perform
+new laboratory experiments for the reported study.
 Do not count calculations only cited from earlier work, generic method background, experimental arithmetic,
 data plotting, or software mentioned without use. Reviews and perspectives pass only when their authors report
-new computations performed in this paper. A passing computation may be primary or scientifically supporting.
+new computations performed in this paper. Extract every named program, package, workflow engine, and custom code
+that the authors actually use to produce or analyze the central computational results. Do not list theories,
+functionals, basis sets, databases, plotting-only tools, or software mentioned only as comparison/background.
 Use only the supplied excerpts. Return one JSON object and no prose with exactly these fields:
 performed_computation: yes, no, or uncertain;
 article_role: original_research, review, correction, editorial, or unknown;
 computation_role: primary, supporting, background_only, or none;
+study_mode: pure_computational, mixed_computational_experimental, experimental_with_computational_support,
+noncomputational, or uncertain;
+author_performed_experiments: yes, no, or uncertain;
 method_families: array of strings;
+required_software: array of objects with name, purpose, excerpt_id, and quote;
+software_inventory_complete: yes, no, or uncertain;
 author_execution_evidence: array of objects with excerpt_id, quote, and reason;
+author_experiment_evidence: array of objects with excerpt_id, quote, and reason;
 confidence: number from 0 to 1;
 reason: short string.
 For yes, quote at least one supplied excerpt that attributes execution to this paper's authors. If the evidence
-does not establish the executing authors, return uncertain rather than guessing."""
+does not establish the executing authors, return uncertain rather than guessing. Mark software_inventory_complete
+yes only when the supplied excerpts identify all software needed for the central computational workflow."""
+
+_EXPERIMENT_PATTERNS = (
+    r"\bexperimental\s+(?:section|details?|methods?|procedures?)\b",
+    r"\b(?:synthesis|synthesized|synthesised|fabricat(?:ed|ion)|prepared)\b",
+    r"\b(?:measur(?:ed|ement)|characteri[sz](?:ed|ation)|spectroscop(?:y|ic))\b",
+    r"\b(?:assay|cell\s+culture|in\s+vitro|in\s+vivo|electrochemical\s+(?:test|measurement))\b",
+    r"\b(?:flow|batch|fixed[- ]bed)\s+reactor\b",
+)
+_SOFTWARE_PATTERNS = (
+    r"\b(?:software|program|package|code|implementation|workflow)\b",
+    r"\b(?:calculations?|simulations?)\b.{0,100}\b(?:using|with|via|implemented\s+in)\b",
+    r"\b(?:using|with|via|implemented\s+in)\b.{0,100}\b(?:calculations?|simulations?)\b",
+)
 
 
 def apply_llm_review(
@@ -107,6 +132,24 @@ def build_review_prompt(
     if opening:
         excerpts.append({"excerpt_id": "opening", "section": "opening", "text": opening})
         source_map["opening"] = opening
+    _append_targeted_excerpts(
+        record,
+        excerpts,
+        source_map,
+        patterns=_EXPERIMENT_PATTERNS,
+        prefix="x",
+        evidence_type="possible_author_experiment",
+        limit=10,
+    )
+    _append_targeted_excerpts(
+        record,
+        excerpts,
+        source_map,
+        patterns=_SOFTWARE_PATTERNS,
+        prefix="s",
+        evidence_type="possible_workflow_software",
+        limit=12,
+    )
     evidence = [
         *(relevance.get("evidence") or []),
         *(relevance.get("excluded_evidence") or []),
@@ -165,7 +208,7 @@ def _review_one(
     user_content, source_map = build_review_prompt(
         record, max_chars=int(config.get("max_prompt_chars", 24_000))
     )
-    max_tokens = int(config.get("max_tokens", 1024))
+    max_tokens = int(config.get("max_tokens", 2048))
     thinking = str(config.get("thinking") or "") or None
     digest = hashlib.sha256(
         json.dumps(
@@ -216,8 +259,13 @@ def _review_one(
         "performed_computation",
         "article_role",
         "computation_role",
+        "study_mode",
+        "author_performed_experiments",
         "method_families",
+        "required_software",
+        "software_inventory_complete",
         "author_execution_evidence",
+        "author_experiment_evidence",
         "confidence",
         "reason",
     }
@@ -246,19 +294,44 @@ def _validate_response(value: dict[str, Any], source_map: dict[str, str]) -> dic
     computation_role = str(value.get("computation_role") or "none").casefold()
     if computation_role not in {"primary", "supporting", "background_only", "none"}:
         computation_role = "none"
-    verified: list[dict[str, str]] = []
-    for raw in value.get("author_execution_evidence") or []:
+    study_mode = str(value.get("study_mode") or "uncertain").casefold()
+    if study_mode not in {
+        "pure_computational",
+        "mixed_computational_experimental",
+        "experimental_with_computational_support",
+        "noncomputational",
+        "uncertain",
+    }:
+        study_mode = "uncertain"
+    experiments = str(value.get("author_performed_experiments") or "uncertain").casefold()
+    if experiments not in {"yes", "no", "uncertain"}:
+        experiments = "uncertain"
+    inventory_complete = str(value.get("software_inventory_complete") or "uncertain").casefold()
+    if inventory_complete not in {"yes", "no", "uncertain"}:
+        inventory_complete = "uncertain"
+    verified = _verified_evidence(value.get("author_execution_evidence"), source_map)
+    experiment_evidence = _verified_evidence(
+        value.get("author_experiment_evidence"), source_map
+    )
+    required_software: list[dict[str, str]] = []
+    for raw in value.get("required_software") or []:
         if not isinstance(raw, dict):
             continue
+        name = str(raw.get("name") or "").strip()
         excerpt_id = str(raw.get("excerpt_id") or "")
         quote = str(raw.get("quote") or "").strip()
         source = source_map.get(excerpt_id, "")
-        if len(_normalize(quote)) >= 12 and _normalize(quote) in _normalize(source):
-            verified.append(
+        if (
+            name
+            and len(_normalize(quote)) >= 12
+            and _normalize(quote) in _normalize(source)
+        ):
+            required_software.append(
                 {
+                    "name": name[:200],
+                    "purpose": str(raw.get("purpose") or "")[:500],
                     "excerpt_id": excerpt_id,
                     "quote": quote,
-                    "reason": str(raw.get("reason") or "")[:500],
                 }
             )
     if performed == "yes" and not verified:
@@ -271,8 +344,13 @@ def _validate_response(value: dict[str, Any], source_map: dict[str, str]) -> dic
         "performed_computation": performed,
         "article_role": role,
         "computation_role": computation_role,
+        "study_mode": study_mode,
+        "author_performed_experiments": experiments,
         "method_families": [str(item) for item in value.get("method_families") or []][:20],
+        "required_software": required_software[:30],
+        "software_inventory_complete": inventory_complete,
         "author_execution_evidence": verified,
+        "author_experiment_evidence": experiment_evidence,
         "confidence": confidence,
         "reason": str(value.get("reason") or "")[:1000],
     }
@@ -297,19 +375,36 @@ def _apply_decision(
         or (["original_research"] if strict else ["original_research", "unknown"])
     )
     allowed_computation_roles = set(
-        config.get("allowed_computation_roles") or ["primary", "supporting"]
+        config.get("allowed_computation_roles")
+        or (["primary"] if strict else ["primary", "supporting"])
+    )
+    required_study_modes = set(
+        config.get("required_study_modes")
+        or (["pure_computational"] if strict else [review["study_mode"]])
+    )
+    allowed_experiment_values = set(
+        config.get("allowed_author_performed_experiments")
+        or (["no"] if strict else ["yes", "no", "uncertain"])
     )
     confirmed = (
         performed == "yes"
         and review["confidence"] >= minimum_confidence
         and review["article_role"] in allowed_article_roles
         and review["computation_role"] in allowed_computation_roles
+        and review["study_mode"] in required_study_modes
+        and review["author_performed_experiments"] in allowed_experiment_values
         and bool(review["author_execution_evidence"])
     )
     if confirmed:
         decision = "strong_candidate" if review["confidence"] >= 0.7 else "weak_candidate"
     elif performed == "no":
         decision = "not_computational"
+    elif (
+        review["study_mode"]
+        in {"mixed_computational_experimental", "experimental_with_computational_support"}
+        and review["author_performed_experiments"] == "yes"
+    ):
+        decision = "not_pure_computational"
     elif strict:
         decision = "llm_unconfirmed"
     else:
@@ -321,6 +416,8 @@ def _apply_decision(
         "rule_decision": original,
         "llm_decision": performed,
         "article_role": review["article_role"],
+        "study_mode": review["study_mode"],
+        "computation_role": review["computation_role"],
     }
     return {
         **record,
@@ -350,6 +447,8 @@ def _apply_decision(
                 if decision in {"strong_candidate", "weak_candidate", "rule_error"}
                 else "llm_confirmation_required"
                 if decision == "llm_unconfirmed"
+                else "mixed_or_experimental_study"
+                if decision == "not_pure_computational"
                 else "no_computation_evidence"
             ),
         },
@@ -436,6 +535,72 @@ def _opening_excerpt(record: dict[str, Any], limit: int) -> str:
             text = Path(path).read_text(encoding="utf-8", errors="replace")
             return " ".join(text[:limit].split())
     return ""
+
+
+def _append_targeted_excerpts(
+    record: dict[str, Any],
+    excerpts: list[dict[str, Any]],
+    source_map: dict[str, str],
+    *,
+    patterns: tuple[str, ...],
+    prefix: str,
+    evidence_type: str,
+    limit: int,
+) -> None:
+    combined = re.compile("|".join(f"(?:{pattern})" for pattern in patterns), re.I)
+    seen: set[str] = set()
+    count = 0
+    documents = [
+        *(record.get("main_documents") or []),
+        *(record.get("supplementary_documents") or []),
+    ]
+    for document in documents:
+        path = document.get("text_path")
+        if not path or not Path(path).is_file():
+            continue
+        text = Path(path).read_text(encoding="utf-8", errors="replace")
+        for match in combined.finditer(text):
+            start = max(0, match.start() - 280)
+            end = min(len(text), match.end() + 420)
+            snippet = " ".join(text[start:end].split())
+            key = _normalize(snippet)
+            if len(key) < 40 or key in seen:
+                continue
+            seen.add(key)
+            count += 1
+            excerpt_id = f"{prefix}{count:03d}"
+            value = {
+                "excerpt_id": excerpt_id,
+                "document_role": document.get("document_role"),
+                "section": evidence_type,
+                "evidence_type": evidence_type,
+                "text": snippet[:700],
+            }
+            excerpts.append(value)
+            source_map[excerpt_id] = str(value["text"])
+            if count >= limit:
+                return
+
+
+def _verified_evidence(
+    values: Any, source_map: dict[str, str]
+) -> list[dict[str, str]]:
+    verified: list[dict[str, str]] = []
+    for raw in values or []:
+        if not isinstance(raw, dict):
+            continue
+        excerpt_id = str(raw.get("excerpt_id") or "")
+        quote = str(raw.get("quote") or "").strip()
+        source = source_map.get(excerpt_id, "")
+        if len(_normalize(quote)) >= 12 and _normalize(quote) in _normalize(source):
+            verified.append(
+                {
+                    "excerpt_id": excerpt_id,
+                    "quote": quote,
+                    "reason": str(raw.get("reason") or "")[:500],
+                }
+            )
+    return verified
 
 
 def _normalize(value: str) -> str:

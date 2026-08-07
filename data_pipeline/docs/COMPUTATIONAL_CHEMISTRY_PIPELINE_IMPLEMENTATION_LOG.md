@@ -213,3 +213,22 @@
 - 运行中出现 4766 秒低进度长尾，未造成失败；后续应为 Stage 03/Softcite 增加 heartbeat
   和单文档 wall-time watchdog。沙箱 `sbx-2795c316-bb1` 已确认 `Terminated`。
 - 详细结果见 `STRICT_FLASH_STAGE00_06_500_PAPER_REPORT_20260807.md`。
+
+### 2026-08-07：纯计算与完整工作流严格门控
+
+- Stage 03 prompt 升级为 `stage03-pure-computation-review-v2`。严格模式只接受原创、
+  primary、作者未开展实验的纯计算研究，置信度阈值升至 0.90；正文和已有 SI 中的实验
+  行为及软件执行语境按关键词定向采样，所有判定证据仍须逐字回映。
+- 模型新增 `study_mode`、`author_performed_experiments`、`required_software`、
+  `software_inventory_complete` 和实验行为证据。Flash 输出上限按用户要求提升到 2048；
+  500 篇重放的 329 次调用无截断、API 或 schema 错误。
+- Stage 05 从“任一功能后端命中”改为全称判断：全部核心/模型必需软件必须 functional，
+  确认被执行的未分类软件直接阻断，全部方法族必须至少有 scientific-smoke 后端。
+  模型对软件清单 uncertain 时，仅允许与 Softcite 全文提取完全一致且没有遗漏信号的交叉确认。
+- 修正方法族覆盖曾使用全部 available backend 的问题；strict 现在只使用 scientific-smoke
+  后端。按 VASP 原生能力文档补齐 electronic-structure 和 molecular-dynamics 映射。
+- 同一 500 篇缓存重放：Stage 03 从旧 283 篇降为 13 篇纯计算候选；Stage 05 淘汰
+  11 篇工作流软件不完整和 1 篇 SI 不可用，最终保留 1 篇 VASP 纯计算论文（0.2%）。
+  该结果符合精度优先目标，不代表 benchmark-ready，仍需 Stage 07/08。
+- 修改后完整 `data_pipeline/tests` 为 133 passed、8 subtests passed；Ruff、compileall、
+  JSON、shell 语法和 `git diff --check -- data_pipeline` 均通过。

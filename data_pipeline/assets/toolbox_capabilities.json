@@ -6,7 +6,7 @@
   "unknown_field_policy": "unknown",
   "method_families": {
     "electronic_structure": {
-      "backends": ["gaussian", "orca", "psi4", "pyscf", "nwchem", "cp2k", "xtb"],
+      "backends": ["gaussian", "orca", "psi4", "pyscf", "nwchem", "cp2k", "xtb", "vasp"],
       "required_actions": ["calculate_energy", "optimize_geometry"],
       "limitations": null
     },
@@ -16,7 +16,7 @@
       "limitations": null
     },
     "molecular_dynamics": {
-      "backends": ["gromacs", "openmm", "lammps", "amber_pmemd", "namd", "charmm"],
+      "backends": ["gromacs", "openmm", "lammps", "amber_pmemd", "namd", "charmm", "vasp"],
       "required_actions": ["propagate_dynamics"],
       "limitations": null
     },
