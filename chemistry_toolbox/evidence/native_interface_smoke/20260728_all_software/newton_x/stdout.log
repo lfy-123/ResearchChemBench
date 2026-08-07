@@ -9,20 +9,20 @@ Options:
                    to run the tests.  If left empty, all interfaces
                    present in $NXHOME/examples/ will be tested.
   -t, --tests     List of tests to run for each interface. The
-                   tests must be comma-separated, and the tests 
+                   tests must be comma-separated, and the tests
                    for different programs are sperated by '|'.
                    For instance, to run the test 1 for columbus
                    interface and 1 and 2 for turbomole interface,
-                   the following line commands must be used: 
+                   the following line commands must be used:
                    -p turbomole,columbus -t "01|01,02".
-                   This option can be used ONLY WHEN a list 
+                   This option can be used ONLY WHEN a list
                    of programs is specified.
-  -m, --mdexe     Full path to the program used for running 
+  -m, --mdexe     Full path to the program used for running
                    trajectories.
                    Default: $NXHOME/bin/md
   -d, --dir       Directory where the tests will be run.
                    Default: "./tests/"
-  --make_env      Indicate if the this program is run via 
+  --make_env      Indicate if the this program is run via
                    "make check".
 
 --------------- Examples ---------------

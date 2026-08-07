@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import pytest
 
-from researchchem_toolbox import service
-from researchchem_toolbox.discovery import inspect_action
+from chemistry_toolbox.src import service
+from chemistry_toolbox.src.discovery import inspect_action
 
 
 H2 = {

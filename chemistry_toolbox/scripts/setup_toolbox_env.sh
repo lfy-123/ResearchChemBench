@@ -72,12 +72,12 @@ fi
 
 if [[ ! -x "$ENV_DIR/bin/python" ]]; then
   if [[ "$FROM_LOCK" -eq 1 ]]; then
-    LOCK_FILE="$ROOT_DIR/chemistry_toolbox/environment/framework/locks/linux-64/researchchembench.explicit.txt"
+    LOCK_FILE="$ROOT_DIR/chemistry_toolbox/environment/researchchembench/linux-64.explicit.txt"
     [[ -s "$LOCK_FILE" ]] || { echo "Missing framework lock: $LOCK_FILE" >&2; exit 2; }
     "$MANAGER" create -y -p "$ENV_DIR" --file "$LOCK_FILE"
   else
     "$MANAGER" create -y -p "$ENV_DIR" -c conda-forge \
-      --file "$ROOT_DIR/chemistry_toolbox/environment/toolbox-conda.txt"
+      --file "$ROOT_DIR/chemistry_toolbox/environment/researchchembench/conda-spec.txt"
   fi
 fi
 
@@ -90,8 +90,8 @@ PIP_CONFIG_FILE=/dev/null \
 PIP_INDEX_URL="${RCB_PIP_INDEX_URL:-https://pypi.org/simple}" \
 PIP_TRUSTED_HOST="${RCB_PIP_TRUSTED_HOST:-pypi.org}" \
   "$PYTHON_BIN" -m pip install \
-  --constraint "$ROOT_DIR/chemistry_toolbox/environment/toolbox-constraints.txt" \
-  --requirement "$ROOT_DIR/chemistry_toolbox/environment/toolbox-pip.txt" \
+  --constraint "$ROOT_DIR/chemistry_toolbox/environment/researchchembench/constraints.txt" \
+  --requirement "$ROOT_DIR/chemistry_toolbox/environment/researchchembench/requirements.txt" \
   --editable "$ROOT_DIR[test]"
 "$PYTHON_BIN" -m pip check
 

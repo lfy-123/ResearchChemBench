@@ -2,23 +2,23 @@
   "archived_files": [
     {
       "path": "request.json",
-      "sha256": "15b2caa7e3dbb9da87c51740ef37d6b1d46c5b9a81c7b9200659eea1f83d744f",
-      "size_bytes": 1475
+      "sha256": "bf53ecd7fe6b8230679544c56dfff434224c3230636bb30af9122a6fc372e8b9",
+      "size_bytes": 1479
     },
     {
       "path": "status.json",
-      "sha256": "337366372c8a85b26f50c70d1434eab2c7593ec7c27c94b2de3ff6b4f740c8d3",
-      "size_bytes": 1836
+      "sha256": "700191208e0e30ad8d988d42944459de3aa261df30662e9ab4868174a7daeb1e",
+      "size_bytes": 1929
     },
     {
       "path": "collection.json",
-      "sha256": "a5d6ee4c099d53106b439813963b7cfb8acdf61365a8ee24931a38606ea736cc",
+      "sha256": "b1ce5a75a13df770dced308f2d3d77f1314ba9d165bfe08c68db87f9720ed4b0",
       "size_bytes": 1487
     },
     {
       "path": "stdout.log",
-      "sha256": "22fa258ae4fed0ecc6e629cba91f2179de4c67ab95dab67b859eeb8e0609b0bd",
-      "size_bytes": 676
+      "sha256": "497a00391c68adfcbc24b53dd89e5d8a07fa3902f70d44becd85d529361621fb",
+      "size_bytes": 659
     },
     {
       "path": "stderr.log",
@@ -29,7 +29,7 @@
   "artifact_status": "not_declared",
   "convergence_status": "not_checked",
   "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/siesta",
-  "job_id": "job_f681286321024237b3bb80d49defba8a",
+  "job_id": "job_29a402ca757841f7830049b24ca5bdf5",
   "process_status": "completed",
   "reason": "The configured executable completed the interface probe through the native job runner.",
   "request": {
@@ -60,7 +60,7 @@
   "software_status": "not_checked",
   "status": "passed",
   "stderr_tail": "",
-  "stdout_tail": "Executable      : /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/periodic/bin/siesta\nVersion         : 5.4.2\nArchitecture    : x86_64\nCompiler version: GNU-14.3.0\nCompiler flags  : -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -fno-merge-constants -isystem <prefix>/include -I<prefix>/_build_env/include -fdebug-prefix-map=<prefix>/work=/usr/local/src/conda/siesta-5.4.2 -fdebug-prefix-map=<prefix>=/usr/local/src/conda-prefix -I<prefix>/lib -fallow-argument-mismatch -O3\nParallelisations: none\nNetCDF support\nNetCDF-4 support\nLua support\nDFT-D3 support\n",
+  "stdout_tail": "Executable      : .envs/general-modern-openmpi5/bin/siesta\nVersion         : 5.4.2\nArchitecture    : x86_64\nCompiler version: GNU-14.3.0\nCompiler flags  : -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem <prefix>/include -I<prefix>/_build_env/include -fdebug-prefix-map=<prefix>/work=/usr/local/src/conda/siesta-5.4.2 -fdebug-prefix-map=<prefix>=/usr/local/src/conda-prefix -I<prefix>/lib -fallow-argument-mismatch -O3\nParallelisations: MPI\nNetCDF support\nNetCDF-4 support\nNetCDF-4 MPI-IO support\nLua support\nELSI support. Solvers:\n   ELPA (internal)\n   NTPoly\n   OMM\nDFT-D3 support\n",
   "test_level": "interface_smoke",
-  "tested_at": "2026-07-28T20:16:58.943969+00:00"
+  "tested_at": "2026-08-06T10:32:07.312490+00:00"
 }

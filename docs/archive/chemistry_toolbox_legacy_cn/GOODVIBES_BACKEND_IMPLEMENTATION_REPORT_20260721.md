@@ -80,7 +80,7 @@ Adapter 请求 GoodVibes schema `1.0` JSON，并保留：
 | Native execution smoke | `goodvibes --help` 作业正常结束 |
 | Catalog validation | 106 Actions / 76 Backends / 241 pairs，通过 |
 
-机器可读 smoke 结果位于 `chemistry_toolbox/config/goodvibes_action_smoke_status.json`。测试脚本使用临时 workspace，不会在仓库根目录遗留输出。
+机器可读 smoke 结果位于 `chemistry_toolbox/evidence/status/goodvibes_action_smoke_status.json`。测试脚本使用临时 workspace，不会在仓库根目录遗留输出。
 
 ## 6. 文档与管理入口
 

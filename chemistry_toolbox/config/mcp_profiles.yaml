@@ -1,6 +1,7 @@
 schema_version: 2
 default_profiles: [core]
 model_cache_root: .model_cache
+runtime_cache_root: .runtime_cache
 audit:
   # Every registered BackendSpec is expected to be available in the completed build.
   allowed_unavailable_backends: []
@@ -9,10 +10,9 @@ public_server:
   server_name: researchchem_toolbox
   description: Unified MCP server exposing the complete versioned Scientific/Data Action catalog to every benchmark task.
 
-# Every runtime below points directly to one of the six physical .envs prefixes.
-
-# Executable-only backend runtimes. No runtime owns or filters public tools.
-support_environments:
+# Every backend runtime below points to one of the consolidated .envs prefixes.
+# Runtimes select dependencies only; no runtime owns or filters public tools.
+profiles:
   abinit:
     conda_name: researchchem-abinit
     description: Isolated ABINIT executable used only when the Agent selects backend_id=abinit.
@@ -55,19 +55,19 @@ support_environments:
       modules: [cclib]
       commands: [g16, formchk]
       external_commands:
-        - .software_cache/gaussian/g16/install/g16/g16
-        - .software_cache/gaussian/g16/install/g16/formchk
+        - .software_cache/installations/gaussian/g16/install/g16/g16
+        - .software_cache/installations/gaussian/g16/install/g16/formchk
     command_variables:
-      CHEMGRAPH_GAUSSIAN_COMMAND: .software_cache/gaussian/g16/install/g16/g16
-      CHEMGRAPH_GAUSSIAN_FORMCHK_COMMAND: .software_cache/gaussian/g16/install/g16/formchk
-    path_entries: [.software_cache/gaussian/g16/install/g16]
-    cache_paths: [.software_cache/gaussian/g16]
+      CHEMGRAPH_GAUSSIAN_COMMAND: .software_cache/installations/gaussian/g16/install/g16/g16
+      CHEMGRAPH_GAUSSIAN_FORMCHK_COMMAND: .software_cache/installations/gaussian/g16/install/g16/formchk
+    path_entries: [.software_cache/installations/gaussian/g16/install/g16]
+    cache_paths: [.software_cache/installations/gaussian/g16]
     environment_variables:
-      g16root: .software_cache/gaussian/g16/install
-      GAUSS_EXEDIR: .software_cache/gaussian/g16/install/g16
-      GAUSS_SCRDIR: .software_cache/gaussian/g16/scratch
+      g16root: .software_cache/installations/gaussian/g16/install
+      GAUSS_EXEDIR: .software_cache/installations/gaussian/g16/install/g16
+      GAUSS_SCRDIR: .software_cache/validation/gaussian/g16/scratch
     smoke_commands:
-      - [bash, -c, 'grep -q "Normal termination of Gaussian 16" .software_cache/gaussian/g16/smoke/water.log']
+      - [bash, -c, 'grep -q "Normal termination of Gaussian 16" .software_cache/validation/gaussian/g16/smoke/water.log']
     backends: [gaussian]
 
   gamess:
@@ -79,22 +79,22 @@ support_environments:
     health_checks:
       commands: [rungms]
       external_commands:
-        - .software_cache/gamess/2024-r2-p1/source/rungms
-        - .software_cache/gamess/2024-r2-p1/build/gamess.00.x
+        - .software_cache/installations/gamess/2024-r2-p1/source/rungms
+        - .software_cache/build/gamess/2024-r2-p1/build/gamess.00.x
     command_variables:
-      CHEMGRAPH_GAMESS_COMMAND: .software_cache/gamess/2024-r2-p1/source/rungms
+      CHEMGRAPH_GAMESS_COMMAND: .software_cache/installations/gamess/2024-r2-p1/source/rungms
     path_entries:
-      - .software_cache/gamess/2024-r2-p1/source
-      - .software_cache/gamess/2024-r2-p1/build
+      - .software_cache/installations/gamess/2024-r2-p1/source
+      - .software_cache/build/gamess/2024-r2-p1/build
     library_path_entries: [.envs/general-modern-openmpi5/lib]
-    cache_paths: [.software_cache/gamess/2024-r2-p1]
+    cache_paths: [.software_cache/installations/gamess/2024-r2-p1]
     environment_variables:
-      GMS_PATH: .software_cache/gamess/2024-r2-p1/source
-      GMS_BUILD_DIR: .software_cache/gamess/2024-r2-p1/build
-      GMS_SCRATCH: .software_cache/gamess/2024-r2-p1/scratch
-      GMS_RESTART: .software_cache/gamess/2024-r2-p1/restart
+      GMS_PATH: .software_cache/installations/gamess/2024-r2-p1/source
+      GMS_BUILD_DIR: .software_cache/build/gamess/2024-r2-p1/build
+      GMS_SCRATCH: .software_cache/validation/gamess/2024-r2-p1/scratch
+      GMS_RESTART: .software_cache/installations/gamess/2024-r2-p1/restart
     smoke_commands:
-      - [bash, -c, 'grep -q "EXECUTION OF GAMESS TERMINATED NORMALLY" .software_cache/gamess/2024-r2-p1/smoke/exam01.log']
+      - [bash, -c, 'grep -q "EXECUTION OF GAMESS TERMINATED NORMALLY" .software_cache/validation/gamess/2024-r2-p1/smoke/exam01.log']
     backends: [gamess]
 
   rmg:
@@ -111,10 +111,10 @@ support_environments:
         - '^gprof2dot 2017\.9\.19 is not supported on this platform$'
         - '^periodictable 1\.5\.2 is not supported on this platform$'
     cache_paths:
-      - .software_cache/rmg/database/4.0.0/input
-      - .software_cache/rmg/source/4.0.0
+      - .software_cache/installations/rmg/database/4.0.0/input
+      - .software_cache/installations/rmg/source/4.0.0
     environment_variables:
-      HOME: .software_cache/rmg/home
+      HOME: .software_cache/state/rmg/home
     backends: [rmg]
 
   mess:
@@ -126,17 +126,17 @@ support_environments:
     health_checks:
       modules: [pydantic, yaml]
       commands: [mess]
-      external_commands: [.software_cache/mess/2020.1.24/build/mess]
+      external_commands: [.software_cache/installations/mess/2020.1.24/build/mess]
     command_variables:
-      CHEMGRAPH_MESS_COMMAND: .software_cache/mess/2020.1.24/build/mess
-    path_entries: [.software_cache/mess/2020.1.24/build]
+      CHEMGRAPH_MESS_COMMAND: .software_cache/installations/mess/2020.1.24/build/mess
+    path_entries: [.software_cache/installations/mess/2020.1.24/build]
     library_path_entries: [.envs/general-modern-openmpi5/lib]
-    cache_paths: [.software_cache/mess/2020.1.24]
+    cache_paths: [.software_cache/installations/mess/2020.1.24]
     environment_variables:
       OMP_NUM_THREADS: "1"
       OPENBLAS_NUM_THREADS: "1"
     smoke_commands:
-      - [bash, -c, 'grep -q "rate calculation done" .software_cache/mess/smoke/hco/hco.log']
+      - [bash, -c, 'grep -q "rate calculation done" .software_cache/validation/mess/smoke/hco/hco.log']
     backends: [mess]
 
   mesmer:
@@ -148,13 +148,13 @@ support_environments:
     health_checks:
       modules: [pydantic, yaml]
       commands: [mesmer]
-      external_commands: [.software_cache/mesmer/7.1/bin/mesmer]
+      external_commands: [.software_cache/installations/mesmer/7.1/bin/mesmer]
     command_variables:
-      CHEMGRAPH_MESMER_COMMAND: .software_cache/mesmer/7.1/bin/mesmer
-    path_entries: [.software_cache/mesmer/7.1/bin]
-    cache_paths: [.software_cache/mesmer/7.1]
+      CHEMGRAPH_MESMER_COMMAND: .software_cache/installations/mesmer/7.1/bin/mesmer
+    path_entries: [.software_cache/installations/mesmer/7.1/bin]
+    cache_paths: [.software_cache/installations/mesmer/7.1]
     smoke_commands:
-      - [bash, -c, 'grep -q "firstOrderRate" .software_cache/mesmer/smoke/examples/H2Ominimal/H2Ominimal.audit.xml']
+      - [bash, -c, 'grep -q "firstOrderRate" .software_cache/validation/mesmer/smoke/examples/H2Ominimal/H2Ominimal.audit.xml']
     backends: [mesmer]
 
   sella:
@@ -180,14 +180,14 @@ support_environments:
     health_checks:
       commands: [namd3]
       external_commands:
-        - .software_cache/namd/3.0.2/multicore-avx512/namd3
-        - .software_cache/namd/3.0.2/multicore-cuda/namd3
+        - .software_cache/installations/namd/3.0.2/multicore-avx512/namd3
+        - .software_cache/installations/namd/3.0.2/multicore-cuda/namd3
     command_variables:
-      CHEMGRAPH_NAMD_COMMAND: .software_cache/namd/3.0.2/multicore-avx512/namd3
-    path_entries: [.software_cache/namd/3.0.2/multicore-avx512]
-    cache_paths: [.software_cache/namd/3.0.2]
+      CHEMGRAPH_NAMD_COMMAND: .software_cache/installations/namd/3.0.2/multicore-avx512/namd3
+    path_entries: [.software_cache/installations/namd/3.0.2/multicore-avx512]
+    cache_paths: [.software_cache/installations/namd/3.0.2]
     smoke_commands:
-      - [bash, -c, 'grep -q "End of program" .software_cache/namd/3.0.2/smoke/namd_smoke.log']
+      - [bash, -c, 'grep -q "End of program" .software_cache/validation/namd/3.0.2/smoke/namd_smoke.log']
     backends: [namd]
 
   amber:
@@ -199,23 +199,23 @@ support_environments:
     health_checks:
       commands: [pmemd, pmemd.MPI, mpirun]
       external_commands:
-        - .software_cache/amber/26/install/bin/pmemd
-        - .software_cache/amber/26/install/bin/pmemd.MPI
+        - .software_cache/installations/amber/26/install/bin/pmemd
+        - .software_cache/installations/amber/26/install/bin/pmemd.MPI
     command_variables:
-      CHEMGRAPH_AMBER_COMMAND: .software_cache/amber/26/install/bin/pmemd
-      CHEMGRAPH_AMBER_MPI_COMMAND: .software_cache/amber/26/install/bin/pmemd.MPI
+      CHEMGRAPH_AMBER_COMMAND: .software_cache/installations/amber/26/install/bin/pmemd
+      CHEMGRAPH_AMBER_MPI_COMMAND: .software_cache/installations/amber/26/install/bin/pmemd.MPI
       CHEMGRAPH_AMBER_MPIRUN_COMMAND: .envs/general-modern-openmpi5/bin/mpirun
-    path_entries: [.software_cache/amber/26/install/bin]
+    path_entries: [.software_cache/installations/amber/26/install/bin]
     library_path_entries:
-      - .software_cache/amber/26/install/lib
+      - .software_cache/installations/amber/26/install/lib
       - .envs/general-modern-openmpi5/lib
-    cache_paths: [.software_cache/amber/26]
+    cache_paths: [.software_cache/installations/amber/26]
     environment_variables:
-      CHEMGRAPH_AMBER_MPI_EXECUTABLE: .software_cache/amber/26/install/bin/pmemd.MPI
+      CHEMGRAPH_AMBER_MPI_EXECUTABLE: .software_cache/installations/amber/26/install/bin/pmemd.MPI
       OMPI_ALLOW_RUN_AS_ROOT: '1'
       OMPI_ALLOW_RUN_AS_ROOT_CONFIRM: '1'
     smoke_commands:
-      - [bash, -c, 'grep -q "Amber 26 PMEMD" .software_cache/amber/26/smoke/gb7_trx_serial/mdout.trxox']
+      - [bash, -c, 'grep -q "Amber 26 PMEMD" .software_cache/validation/amber/26/smoke/gb7_trx_serial/mdout.trxox']
     backends: [amber_pmemd]
 
   charmm:
@@ -226,19 +226,17 @@ support_environments:
     pip_packages: []
     health_checks:
       commands: [charmm]
-      external_commands: [.software_cache/charmm/50b2/install/bin/charmm]
+      external_commands: [.software_cache/installations/charmm/50b2/install/bin/charmm]
     command_variables:
-      CHEMGRAPH_CHARMM_COMMAND: .software_cache/charmm/50b2/install/bin/charmm
-    path_entries: [.software_cache/charmm/50b2/install/bin]
-    cache_paths: [.software_cache/charmm/50b2]
+      CHEMGRAPH_CHARMM_COMMAND: .software_cache/installations/charmm/50b2/install/bin/charmm
+    path_entries: [.software_cache/installations/charmm/50b2/install/bin]
+    cache_paths: [.software_cache/installations/charmm/50b2]
     smoke_commands:
-      - [bash, -c, 'grep -q "NORMAL TERMINATION BY NORMAL STOP" .software_cache/charmm/50b2/smoke/h2otst.out']
+      - [bash, -c, 'grep -q "NORMAL TERMINATION BY NORMAL STOP" .software_cache/validation/charmm/50b2/smoke/h2otst.out']
     backends: [charmm]
 
-profiles:
   core:
     conda_name: researchchem-core
-    server_name: researchchem_core
     description: Core runtime for cheminformatics and deterministic analysis backends.
     environment: .envs/general-modern-openmpi5
     use_project_model_cache: true
@@ -261,11 +259,12 @@ profiles:
       - internal_spectroscopy
       - internal_thermochemistry
       - internal_reaction_analysis
+      - internal_periodic_analysis
+      - internal_trajectory_analysis
       - pdb_tools
 
   services:
     conda_name: researchchem-services
-    server_name: researchchem_services
     description: Remote scientific data services and authenticated materials lookup.
     environment: .envs/general-modern-openmpi5
     conda_packages: [mp-api]
@@ -281,7 +280,6 @@ profiles:
 
   workflows:
     conda_name: researchchem-workflows
-    server_name: researchchem_workflows
     description: Crystal structure, symmetry, and lightweight trajectory-analysis libraries.
     environment: .envs/general-modern-openmpi5
     conda_packages: [qcelemental=0.50.4, qcengine=0.50.0, cclib=1.8.1, pymatgen, spglib, mdtraj]
@@ -292,18 +290,18 @@ profiles:
 
   free_energy:
     conda_name: researchchem-free-energy
-    server_name: researchchem_free_energy
     description: Explicit statistical free-energy estimation and alchemical analysis runtime.
     environment: .envs/molecular-simulation-openff
     conda_packages: [pymbar=4.2.0, alchemlyb=2.5.0, mdtraj, pydantic, pyyaml, python-dotenv]
     pip_packages: []
     health_checks:
       modules: [pymbar, alchemlyb, mdtraj]
+      allowed_dependency_issue_patterns:
+        - '^acpype 2023\.10\.27 requires openbabel-wheel, which is not installed\.$'
     backends: [pymbar, alchemlyb, hoomd]
 
   quantum:
     conda_name: researchchem-quantum
-    server_name: researchchem_quantum
     description: Molecular quantum chemistry and ASE calculation tools, including typed ORCA 6.1.1 correlated-density generation and density export; Psi4 remains isolated.
     environment: .envs/general-modern-openmpi5
     runtime_preload_libraries: [libstdc++.so.6, libgcc_s.so.1]
@@ -314,8 +312,8 @@ profiles:
       modules: [ase, mace, mace.calculators, pyscf, tblite, torch]
       commands: [xtb, orca, mpirun]
       external_commands:
-        - .software_cache/orca/6.1.1/orca
-        - .software_cache/openmpi/4.1.8-fortran/bin/mpirun
+        - .software_cache/installations/orca/6.1.1/orca
+        - .software_cache/shared/mpi/openmpi/4.1.8-fortran/bin/mpirun
       models:
         mace_medium_mpa_0:
           backend: mace_mp
@@ -324,14 +322,14 @@ profiles:
           default_dtype: float64
     command_variables:
       CHEMGRAPH_XTB_COMMAND: xtb
-      CHEMGRAPH_ORCA_COMMAND: .software_cache/orca/6.1.1/orca
+      CHEMGRAPH_ORCA_COMMAND: .software_cache/installations/orca/6.1.1/orca
     prepend_path_entries:
-      - .software_cache/orca/6.1.1
-      - .software_cache/openmpi/4.1.8-fortran/bin
+      - .software_cache/installations/orca/6.1.1
+      - .software_cache/shared/mpi/openmpi/4.1.8-fortran/bin
     prepend_library_path_entries:
-      - .software_cache/openmpi/4.1.8-fortran/lib
+      - .software_cache/shared/mpi/openmpi/4.1.8-fortran/lib
     environment_variables:
-      OPAL_PREFIX: .software_cache/openmpi/4.1.8-fortran
+      OPAL_PREFIX: .software_cache/shared/mpi/openmpi/4.1.8-fortran
       OMPI_ALLOW_RUN_AS_ROOT: "1"
       OMPI_ALLOW_RUN_AS_ROOT_CONFIRM: "1"
       OMPI_MCA_pml: ob1
@@ -345,7 +343,6 @@ profiles:
 
   gpaw:
     conda_name: researchchem-gpaw
-    server_name: researchchem_gpaw
     description: GPAW 25.7.0 molecular and periodic PAW-DFT runtime with locally managed setup datasets.
     environment: .envs/general-modern-openmpi5
     conda_packages: [gpaw=25.7.0, ase, pydantic, pyyaml, python-dotenv]
@@ -354,24 +351,23 @@ profiles:
       modules: [gpaw, ase, numpy]
       commands: [gpaw]
     environment_variables:
-      GPAW_SETUP_PATH: .software_cache/gpaw/setups
-    cache_paths: [.software_cache/gpaw/setups]
+      GPAW_SETUP_PATH: .software_cache/shared/scientific-data/gpaw-setups
+    cache_paths: [.software_cache/shared/scientific-data/gpaw-setups]
     backends: [gpaw]
 
   critic2:
     conda_name: researchchem-source-runtime-critic2
-    server_name: researchchem_critic2
     description: Critic2 1.2.1081 typed QTAIM critical-point analysis runtime.
     environment: .envs/general-modern-openmpi5
     conda_packages: [gfortran_linux-64, spglib]
     pip_packages: []
     health_checks:
       commands: [critic2]
-      external_commands: [.software_cache/critic2/install-conda/bin/critic2]
+      external_commands: [.software_cache/installations/critic2/install-conda/bin/critic2]
     command_variables:
-      CHEMGRAPH_CRITIC2_COMMAND: .software_cache/critic2/install-conda/bin/critic2
-    path_entries: [.software_cache/critic2/install-conda/bin]
-    cache_paths: [.software_cache/critic2/install-conda]
+      CHEMGRAPH_CRITIC2_COMMAND: .software_cache/installations/critic2/install-conda/bin/critic2
+    path_entries: [.software_cache/installations/critic2/install-conda/bin]
+    cache_paths: [.software_cache/installations/critic2/install-conda]
     backends: [critic2]
 
   lobster:
@@ -384,13 +380,13 @@ profiles:
       modules: [pymatgen, numpy, pydantic, yaml]
       commands: [lobster-5.1.0]
       external_commands:
-        - .software_cache/lobster/5.1.0/package/lobster-5.1.0
+        - .software_cache/installations/lobster/5.1.0/package/lobster-5.1.0
     command_variables:
-      CHEMGRAPH_LOBSTER_COMMAND: .software_cache/lobster/5.1.0/package/lobster-5.1.0
-    path_entries: [.software_cache/lobster/5.1.0/package]
-    cache_paths: [.software_cache/lobster/5.1.0]
+      CHEMGRAPH_LOBSTER_COMMAND: .software_cache/installations/lobster/5.1.0/package/lobster-5.1.0
+    path_entries: [.software_cache/installations/lobster/5.1.0/package]
+    cache_paths: [.software_cache/installations/lobster/5.1.0]
     smoke_commands:
-      - [bash, -c, 'grep -q "finished in" .software_cache/lobster/5.1.0/smoke/qe_diamond/lobsterout']
+      - [bash, -c, 'grep -q "finished in" .software_cache/validation/lobster/5.1.0/smoke/qe_diamond/lobsterout']
     backends: [lobster]
 
   shengbte:
@@ -402,14 +398,14 @@ profiles:
     health_checks:
       modules: [pydantic, yaml]
       commands: [ShengBTE]
-      external_commands: [.software_cache/shengbte/source/ShengBTE]
+      external_commands: [.software_cache/installations/shengbte/source/ShengBTE]
     command_variables:
-      CHEMGRAPH_SHENGBTE_COMMAND: .software_cache/shengbte/source/ShengBTE
-    path_entries: [.software_cache/shengbte/source]
+      CHEMGRAPH_SHENGBTE_COMMAND: .software_cache/installations/shengbte/source/ShengBTE
+    path_entries: [.software_cache/installations/shengbte/source]
     library_path_entries: [.envs/general-modern-openmpi5/lib]
-    cache_paths: [.software_cache/shengbte/source]
+    cache_paths: [.software_cache/installations/shengbte/source]
     smoke_commands:
-      - [bash, -c, 'grep -q "normal exit" .software_cache/shengbte/source/Test-RTA/BTE.smoke.out']
+      - [bash, -c, 'grep -q "normal exit" .software_cache/installations/shengbte/source/Test-RTA/BTE.smoke.out']
     backends: [shengbte]
 
   openmolcas:
@@ -421,23 +417,23 @@ profiles:
     health_checks:
       modules: [pydantic, yaml]
       commands: [pymolcas]
-      external_commands: [.software_cache/openmolcas/25.10/pymolcas]
+      external_commands: [.software_cache/installations/openmolcas/25.10/pymolcas]
     command_variables:
-      CHEMGRAPH_OPENMOLCAS_COMMAND: .software_cache/openmolcas/25.10/pymolcas
+      CHEMGRAPH_OPENMOLCAS_COMMAND: .software_cache/installations/openmolcas/25.10/pymolcas
     path_entries:
-      - .software_cache/openmolcas/25.10
-      - .software_cache/openmolcas/25.10/bin
+      - .software_cache/installations/openmolcas/25.10
+      - .software_cache/installations/openmolcas/25.10/bin
     library_path_entries:
-      - .software_cache/openmolcas/25.10/lib
+      - .software_cache/installations/openmolcas/25.10/lib
       - .envs/general-modern-openmpi5/lib
     cache_paths:
-      - .software_cache/openmolcas/source
-      - .software_cache/openmolcas/25.10
+      - .software_cache/sources/openmolcas/source
+      - .software_cache/installations/openmolcas/25.10
     environment_variables:
-      MOLCAS: .software_cache/openmolcas/25.10
-      MOLCAS_WORKDIR: .software_cache/openmolcas/work
+      MOLCAS: .software_cache/installations/openmolcas/25.10
+      MOLCAS_WORKDIR: .software_cache/validation/openmolcas/work
     smoke_commands:
-      - [bash, -c, 'grep -q "Total SCF energy.*-1.1167593075" .software_cache/openmolcas/smoke.log && grep -q "Happy landing" .software_cache/openmolcas/smoke.log']
+      - [bash, -c, 'grep -q "Total SCF energy.*-1.1167593075" .software_cache/installations/openmolcas/smoke.log && grep -q "Happy landing" .software_cache/installations/openmolcas/smoke.log']
     backends: [openmolcas]
 
   multiwfn:
@@ -450,21 +446,20 @@ profiles:
       modules: [pydantic, yaml]
       commands: [Multiwfn_noGUI]
       external_commands:
-        - .software_cache/multiwfn/2026.7.15/Multiwfn_2026.7.15_bin_Linux_noGUI/Multiwfn_noGUI
+        - .software_cache/installations/multiwfn/2026.7.15/Multiwfn_2026.7.15_bin_Linux_noGUI/Multiwfn_noGUI
     command_variables:
-      CHEMGRAPH_MULTIWFN_COMMAND: .software_cache/multiwfn/2026.7.15/Multiwfn_2026.7.15_bin_Linux_noGUI/Multiwfn_noGUI
+      CHEMGRAPH_MULTIWFN_COMMAND: .software_cache/installations/multiwfn/2026.7.15/Multiwfn_2026.7.15_bin_Linux_noGUI/Multiwfn_noGUI
     path_entries:
-      - .software_cache/multiwfn/2026.7.15/Multiwfn_2026.7.15_bin_Linux_noGUI
-    cache_paths: [.software_cache/multiwfn/2026.7.15]
+      - .software_cache/installations/multiwfn/2026.7.15/Multiwfn_2026.7.15_bin_Linux_noGUI
+    cache_paths: [.software_cache/installations/multiwfn/2026.7.15]
     environment_variables:
       OMP_STACKSIZE: 2G
     smoke_commands:
-      - [bash, -c, 'cd .software_cache/multiwfn/2026.7.15/Multiwfn_2026.7.15_bin_Linux_noGUI && printf "q\n" | ./Multiwfn_noGUI examples/H2.fch | grep -q "Loaded examples/H2.fch successfully"']
+      - [bash, -c, 'cd .software_cache/installations/multiwfn/2026.7.15/Multiwfn_2026.7.15_bin_Linux_noGUI && printf "q\n" | ./Multiwfn_noGUI examples/H2.fch | grep -q "Loaded examples/H2.fch successfully"']
     backends: [multiwfn]
 
   nwchem:
     conda_name: researchchem-nwchem
-    server_name: researchchem_nwchem
     description: NWChem 7.3.x single-geometry QCSchema runtime with local official basis libraries.
     environment: .envs/general-modern-openmpi5
     conda_packages: [nwchem=7.3.1, qcengine=0.50.0, qcelemental=0.50.4, cclib, pydantic, pyyaml, python-dotenv]
@@ -473,13 +468,12 @@ profiles:
       modules: [qcengine, qcelemental, cclib, numpy, geometric]
       commands: [nwchem]
     environment_variables:
-      NWCHEM_BASIS_LIBRARY: .software_cache/nwchem/source/src/basis/libraries/
-    cache_paths: [.software_cache/nwchem/source/src/basis/libraries]
+      NWCHEM_BASIS_LIBRARY: .software_cache/sources/nwchem/source/src/basis/libraries/
+    cache_paths: [.software_cache/sources/nwchem/source/src/basis/libraries]
     backends: [nwchem, geometric]
 
   psi4:
     conda_name: researchchem-psi4
-    server_name: researchchem_psi4
     description: Isolated Psi4 Python runtime.
     environment: .envs/general-modern-openmpi5
     conda_packages: [psi4]
@@ -491,7 +485,6 @@ profiles:
 
   goodvibes:
     conda_name: researchchem-goodvibes
-    server_name: researchchem_goodvibes
     description: Isolated GoodVibes 4.3.0 thermochemistry, ensemble, selectivity, validation, and reaction-profile runtime.
     environment: .envs/general-modern-openmpi5
     conda_packages: [python=3.11, pydantic, pyyaml, python-dotenv]
@@ -501,14 +494,13 @@ profiles:
       commands: [goodvibes]
     command_variables:
       CHEMGRAPH_GOODVIBES_COMMAND: goodvibes
-    cache_paths: [.software_cache/goodvibes/4.3.0/source]
+    cache_paths: [.software_cache/sources/goodvibes/4.3.0/source]
     smoke_commands:
       - [goodvibes, --help]
     backends: [goodvibes]
 
   reaction:
     conda_name: researchchem-reaction
-    server_name: researchchem_reaction
     description: Conformer refinement, reaction paths, and kinetics.
     environment: .envs/kinetics-legacy
     conda_packages: [xtb, crest, cantera]
@@ -517,37 +509,48 @@ profiles:
       - pyscf==2.13.1
     health_checks:
       modules: [cantera, pysisyphus, pyscf, scipy]
-      commands: [crest, pysis, xtb, orca, mpirun]
+      commands: [crest, pysis, xtb, orca, mpirun, pyfrag-orca]
       allowed_dependency_issue_patterns:
         - '^quantities 0\.12\.3 is not supported on this platform$'
         - '^gprof2dot 2017\.9\.19 is not supported on this platform$'
         - '^periodictable 1\.5\.2 is not supported on this platform$'
       external_commands:
-        - .software_cache/orca/6.1.1/orca
-        - .software_cache/openmpi/4.1.8-fortran/bin/mpirun
+        - .software_cache/installations/orca/6.1.1/orca
+        - .software_cache/shared/mpi/openmpi/4.1.8-fortran/bin/mpirun
+        - .software_cache/installations/pyfrag/2019/bin/pyfrag-orca
     command_variables:
       CHEMGRAPH_CREST_COMMAND: crest
       CHEMGRAPH_PYSIS_COMMAND: pysis
+      CHEMGRAPH_PYFRAG_COMMAND: .software_cache/installations/pyfrag/2019/bin/pyfrag-orca
     prepend_path_entries:
-      - .software_cache/orca/6.1.1
-      - .software_cache/openmpi/4.1.8-fortran/bin
+      - .software_cache/installations/pyfrag/2019/bin
+      - .software_cache/installations/orca/6.1.1
+      - .software_cache/shared/mpi/openmpi/4.1.8-fortran/bin
     prepend_library_path_entries:
-      - .software_cache/openmpi/4.1.8-fortran/lib
+      - .software_cache/shared/mpi/openmpi/4.1.8-fortran/lib
     environment_variables:
-      OPAL_PREFIX: .software_cache/openmpi/4.1.8-fortran
+      OPAL_PREFIX: .software_cache/shared/mpi/openmpi/4.1.8-fortran
       OMPI_ALLOW_RUN_AS_ROOT: "1"
       OMPI_ALLOW_RUN_AS_ROOT_CONFIRM: "1"
       OMPI_MCA_pml: ob1
       OMPI_MCA_btl: self,vader,tcp
+    cache_paths:
+      - .software_cache/installations/pyfrag/2019
+      - .software_cache/installations/orca/6.1.1
+      - .software_cache/shared/mpi/openmpi/4.1.8-fortran
+    smoke_commands:
+      - [bash, -c, 'test "$(git -C .software_cache/sources/pyfrag/2019/source rev-parse HEAD)" = af2a122d7676ee1578ac895ac4f076fdecaccdf5']
+      - [bash, -c, 'grep -q "PyFrag finished. Have a nice day" .software_cache/validation/pyfrag/2019/smoke/orca-final/pyfrag.log']
+      - [bash, -c, 'test "$(grep -l "ORCA TERMINATED NORMALLY" .software_cache/validation/pyfrag/2019/smoke/orca-final/fragmentfiles/*.out | wc -l)" = 6']
     backends:
       - crest
       - pysisyphus
       - cantera
+      - pyfrag
       - scipy
 
   catmap:
     conda_name: researchchem-catmap-yambo-openmpi4
-    server_name: researchchem_catmap
     description: CatMAP 0.3.1 compatibility runtime isolated on its required ASE 3.17 API.
     environment: .envs/yambo-openmpi4
     conda_packages: [python=3.11, ase=3.17, pydantic, pyyaml, python-dotenv]
@@ -562,9 +565,109 @@ profiles:
       CHEMGRAPH_CATMAP_COMMAND: catmap
     backends: [catmap]
 
+  yambo:
+    conda_name: researchchem-yambo
+    description: Yambo 5.3.0 quasiparticle and BSE runtime using the isolated OpenMPI 4 environment.
+    environment: .envs/yambo-openmpi4
+    conda_packages: [yambo=5.3.0, pydantic, pyyaml, python-dotenv]
+    pip_packages: []
+    health_checks:
+      modules: [pydantic, yaml]
+      commands: [yambo, p2y]
+      allowed_dependency_issue_patterns:
+        - '^ase 3\.17\.0 is not supported on this platform$'
+    command_variables:
+      CHEMGRAPH_YAMBO_COMMAND: yambo
+    cache_paths:
+      - .software_cache/validation/yambo/smoke/qe_si_8band
+      - .software_cache/validation/yambo/smoke/qe_si_gw_bse
+      - .software_cache/shared/scientific-data/qe_pseudos/yambo/Si.pbe-rrkj.UPF
+    environment_variables:
+      OMPI_MCA_pml: ob1
+      OMPI_MCA_btl: self,vader,tcp
+    smoke_commands:
+      - [bash, -c, 'grep -q "P2Y completed" .software_cache/validation/yambo/smoke/qe_si_8band/tmp/si.save/l_p2y && grep -q "Game Over" .software_cache/validation/yambo/smoke/qe_si_8band/tmp/si.save/l_setup']
+      - [bash, -c, 'grep -q "Game Over" .software_cache/validation/yambo/smoke/qe_si_gw_bse/r-gw_HF_and_locXC_gw0_dyson_em1d_ppa_el_el_corr && grep -q "Game Over" .software_cache/validation/yambo/smoke/qe_si_gw_bse/r-bse_optics_dipoles_bss_bse && test -s .software_cache/validation/yambo/smoke/qe_si_gw_bse/o-gw.qp && test -s .software_cache/validation/yambo/smoke/qe_si_gw_bse/o-bse.eps_q1_diago_bse']
+    backends: [yambo]
+
+  sharc:
+    conda_name: researchchem-sharc
+    description: SHARC4 trajectory runtime with the ORCA and OpenMolcas interfaces.
+    environment: .envs/general-modern-openmpi5
+    conda_packages: [gfortran_linux-64, lapack, blas, fftw, pydantic, pyyaml, python-dotenv]
+    pip_packages: [numba==0.66.0, netCDF4==1.7.4, threadpoolctl==3.6.0, pyscf==2.13.1]
+    health_checks:
+      modules: [numba, netCDF4, threadpoolctl, pyscf, pydantic, yaml]
+      commands: [sharc.x, wfoverlap.x, SHARC_ORCA.py, SHARC_MOLCAS.py]
+      external_commands:
+        - .software_cache/installations/sharc/source/bin/sharc.x
+        - .software_cache/installations/sharc/source/bin/wfoverlap.x
+    command_variables:
+      CHEMGRAPH_SHARC_COMMAND: .software_cache/installations/sharc/source/bin/sharc.x
+    prepend_path_entries:
+      - .software_cache/installations/sharc/source/bin
+      - .software_cache/installations/orca/6.1.1
+      - .software_cache/shared/mpi/openmpi/4.1.8-fortran/bin
+    prepend_library_path_entries:
+      - .software_cache/shared/mpi/openmpi/4.1.8-fortran/lib
+      - .software_cache/installations/orca/6.1.1
+    cache_paths:
+      - .software_cache/installations/sharc/source
+      - .software_cache/validation/sharc/smoke/orca_h2
+      - .software_cache/validation/sharc/smoke/lvc_ensemble
+      - .software_cache/installations/orca/6.1.1
+      - .software_cache/shared/mpi/openmpi/4.1.8-fortran
+      - .software_cache/installations/openmolcas/25.10
+    environment_variables:
+      SHARC: .software_cache/installations/sharc/source/bin
+      ORCA: .software_cache/installations/orca/6.1.1
+      MOLCAS: .software_cache/installations/openmolcas/25.10
+      TMPDIR: .software_cache/validation/sharc/scratch
+      PYTHONPATH: .software_cache/installations/sharc/source/lib
+      OPAL_PREFIX: .software_cache/shared/mpi/openmpi/4.1.8-fortran
+      OMPI_ALLOW_RUN_AS_ROOT: "1"
+      OMPI_ALLOW_RUN_AS_ROOT_CONFIRM: "1"
+      OMPI_MCA_pml: ob1
+      OMPI_MCA_btl: self,vader,tcp
+    smoke_commands:
+      - [bash, -c, 'grep -q "All jobs finished successful" .software_cache/validation/sharc/smoke/orca_h2/QM.log && test -s .software_cache/validation/sharc/smoke/orca_h2/QM.out']
+      - [bash, -c, 'for d in .software_cache/validation/sharc/smoke/lvc_ensemble/TRAJ_00001 .software_cache/validation/sharc/smoke/lvc_ensemble/TRAJ_00002 .software_cache/validation/sharc/smoke/lvc_ensemble/TRAJ_00003; do test -s "$d/output.lis" && awk "END {exit !(\$2 == 30.0000)}" "$d/output.lis" || exit 1; done']
+    backends: [sharc]
+
+  kinbot:
+    conda_name: researchchem-kinbot
+    description: KinBot 2.2.2 local full-PES runtime using the patched NWChem execution path.
+    environment: .envs/kinetics-legacy
+    conda_packages: [numpy=1.26, scipy, ase, networkx, matplotlib, rmsd, openbabel, jax=0.4.35, jaxlib=0.4.35, pydantic, pyyaml, python-dotenv]
+    pip_packages: [kinbot==2.2.2, sella==2.5.0]
+    health_checks:
+      modules: [kinbot, sella, jax, openbabel, pydantic, yaml]
+      commands: [kinbot, pes]
+      external_commands: [.envs/general-modern-openmpi5/bin/nwchem]
+      allowed_dependency_issue_patterns:
+        - '^quantities 0\.12\.3 is not supported on this platform$'
+        - '^gprof2dot 2017\.9\.19 is not supported on this platform$'
+        - '^periodictable 1\.5\.2 is not supported on this platform$'
+    command_variables:
+      CHEMGRAPH_KINBOT_PES_COMMAND: pes
+      CHEMGRAPH_NWCHEM_COMMAND: .envs/general-modern-openmpi5/bin/nwchem
+    prepend_path_entries: [.envs/general-modern-openmpi5/bin]
+    prepend_library_path_entries: [.envs/general-modern-openmpi5/lib]
+    cache_paths:
+      - .software_cache/installations/kinbot/source-2.2.2
+      - .software_cache/validation/kinbot/smoke/action_nonempty_pes_validated3
+    environment_variables:
+      KINBOT_NWCHEM_COMMAND: nwchem PREFIX.nwi | tee PREFIX.out > PREFIX.nwo
+      KINBOT_NWCHEM_WORK_ROOT: /tmp/researchchem-kinbot-nwchem
+      NWCHEM_BASIS_LIBRARY: .envs/general-modern-openmpi5/share/nwchem/libraries/
+      NWCHEM_NWPW_LIBRARY: .envs/general-modern-openmpi5/share/nwchem/libraryps/
+      KINBOT_SELLA_FMAX: "0.0005"
+      KINBOT_SELLA_MAX_STEPS: "100"
+      KINBOT_IMAGINARY_FREQUENCY_THRESHOLD: "100"
+    backends: [kinbot]
+
   qe:
     conda_name: researchchem-qe
-    server_name: researchchem_qe
     description: Quantum ESPRESSO runtime with a locally rebuilt Wannier90 3.1.0 executable.
     environment: .envs/general-modern-openmpi5
     conda_packages: [qe]
@@ -572,19 +675,18 @@ profiles:
     health_checks:
       commands: [pw.x, pw2wannier90.x, wannier90.x]
       external_commands:
-        - .software_cache/wannier90/3.1.0-source/wannier90.x
+        - .software_cache/installations/wannier90/3.1.0-source/wannier90.x
     command_variables:
       CHEMGRAPH_QE_COMMAND: pw.x
-    prepend_path_entries: [.software_cache/wannier90/3.1.0-source]
+    prepend_path_entries: [.software_cache/installations/wannier90/3.1.0-source]
     prepend_library_path_entries: [.envs/equivariant-ml/lib]
-    cache_paths: [.software_cache/wannier90/3.1.0-source]
+    cache_paths: [.software_cache/installations/wannier90/3.1.0-source]
     smoke_commands:
-      - [bash, -c, 'grep -q "All done: wannier90 exiting" .software_cache/wannier90/smoke/qe_si_sourcebuild/si.wout']
+      - [bash, -c, 'grep -q "All done: wannier90 exiting" .software_cache/validation/wannier90/smoke/qe_si_sourcebuild/si.wout']
     backends: [quantum_espresso]
 
   cp2k:
     conda_name: researchchem-cp2k
-    server_name: researchchem_cp2k
     description: Isolated CP2K runtime.
     environment: .envs/periodic-mpich
     conda_packages: [cp2k]
@@ -597,7 +699,6 @@ profiles:
 
   periodic:
     conda_name: researchchem-periodic
-    server_name: researchchem_periodic
     description: DFTB+ and SIESTA backend runtime; ABINIT remains separately isolated.
     environment: .envs/general-modern-openmpi5
     conda_packages: [dftbplus, siesta]
@@ -618,7 +719,6 @@ profiles:
 
   phonons:
     conda_name: researchchem-phonons
-    server_name: researchchem_phonons
     description: Isolated Phonopy and Phono3py runtime.
     environment: .envs/general-modern-openmpi5
     conda_packages: [phonopy, phono3py]
@@ -631,9 +731,226 @@ profiles:
       CHEMGRAPH_PHONO3PY_COMMAND: phono3py-init
     backends: [phonopy, phono3py]
 
+  airss:
+    conda_name: researchchem-airss
+    description: AIRSS 0.9.3 random crystal generation and structure conversion runtime.
+    environment: .envs/general-modern-openmpi5
+    conda_packages: [airss-with-default-names=0.9.3, ase, pydantic, pyyaml, python-dotenv]
+    pip_packages: []
+    health_checks:
+      modules: [ase, pydantic, yaml]
+      commands: [buildcell, cabal, airss_version]
+      external_commands:
+        - .software_cache/installations/airss/0.9.3/bin/buildcell
+        - .software_cache/installations/airss/0.9.3/bin/cabal
+    command_variables:
+      CHEMGRAPH_AIRSS_BUILDCELL_COMMAND: .software_cache/installations/airss/0.9.3/bin/buildcell
+      CHEMGRAPH_AIRSS_CABAL_COMMAND: .software_cache/installations/airss/0.9.3/bin/cabal
+    path_entries: [.software_cache/installations/airss/0.9.3/bin]
+    library_path_entries: [.software_cache/installations/airss/0.9.3/lib]
+    cache_paths: [.software_cache/installations/airss/0.9.3]
+    smoke_commands:
+      - [.software_cache/installations/airss/0.9.3/bin/airss_version]
+    backends: [airss]
+
+  tdep:
+    conda_name: researchchem-tdep
+    description: TDEP 25.03 effective-force-constant and finite-temperature phonon runtime.
+    environment: .envs/kinetics-legacy
+    conda_packages: [mpich=4, gfortran_linux-64, hdf5, fftw, lapack, blas, h5py, pydantic, pyyaml, python-dotenv]
+    pip_packages: []
+    health_checks:
+      modules: [h5py, numpy, pydantic, yaml]
+      commands: [extract_forceconstants, canonical_configuration, phonon_dispersion_relations]
+      allowed_dependency_issue_patterns:
+        - '^quantities 0\.12\.3 is not supported on this platform$'
+        - '^gprof2dot 2017\.9\.19 is not supported on this platform$'
+        - '^periodictable 1\.5\.2 is not supported on this platform$'
+      external_commands:
+        - .software_cache/installations/tdep/25.03/source/bin/extract_forceconstants
+        - .software_cache/installations/tdep/25.03/source/bin/canonical_configuration
+        - .software_cache/installations/tdep/25.03/source/bin/phonon_dispersion_relations
+    command_variables:
+      CHEMGRAPH_TDEP_EXTRACT_FORCECONSTANTS_COMMAND: .software_cache/installations/tdep/25.03/source/bin/extract_forceconstants
+      CHEMGRAPH_TDEP_CANONICAL_CONFIGURATION_COMMAND: .software_cache/installations/tdep/25.03/source/bin/canonical_configuration
+      CHEMGRAPH_TDEP_PHONON_DISPERSION_COMMAND: .software_cache/installations/tdep/25.03/source/bin/phonon_dispersion_relations
+    path_entries: [.software_cache/installations/tdep/25.03/source/bin]
+    library_path_entries: [.envs/kinetics-legacy/lib]
+    cache_paths: [.software_cache/installations/tdep/25.03/source]
+    smoke_commands:
+      - [.software_cache/installations/tdep/25.03/source/bin/extract_forceconstants, --version]
+      - [.software_cache/installations/tdep/25.03/source/bin/canonical_configuration, --version]
+      - [.software_cache/installations/tdep/25.03/source/bin/phonon_dispersion_relations, --version]
+    backends: [tdep]
+
+  acpype:
+    conda_name: researchchem-acpype
+    description: ACPYPE 2023.10.27 small-molecule topology and AMBER-to-GROMACS conversion runtime.
+    environment: .envs/molecular-simulation-openff
+    conda_packages: [ambertools=26.0, openbabel=3.1.1, pydantic, pyyaml, python-dotenv]
+    pip_packages: [acpype==2023.10.27]
+    health_checks:
+      modules: [acpype, openbabel]
+      commands: [acpype, obabel, antechamber]
+      allowed_dependency_issue_patterns:
+        - '^acpype 2023\.10\.27 requires openbabel-wheel, which is not installed\.$'
+    command_variables:
+      CHEMGRAPH_ACPYPE_COMMAND: acpype
+    cache_paths: [.software_cache/installations/acpype/2023.10.27]
+    smoke_commands:
+      - [acpype, -h]
+      - [obabel, -V]
+    backends: [acpype]
+
+  pmx:
+    conda_name: researchchem-pmx
+    description: Fixed pmx Python 3 develop commit for alchemical structure and topology preparation.
+    environment: .envs/molecular-simulation-openff
+    conda_packages: [rdkit, numpy, scipy, matplotlib, future, pydantic, pyyaml, python-dotenv]
+    pip_packages: [pmx@git+https://github.com/deGrootLab/pmx@0dd5f0a9cdf26109eff98bdfeb4ac4e55353aa76]
+    health_checks:
+      modules: [pmx, rdkit]
+      commands: [pmx]
+      allowed_dependency_issue_patterns:
+        - '^acpype 2023\.10\.27 requires openbabel-wheel, which is not installed\.$'
+    command_variables:
+      CHEMGRAPH_PMX_COMMAND: pmx
+    cache_paths: [.software_cache/sources/pmx/develop-0dd5f0a, .software_cache/packages/pmx/packages]
+    environment_variables:
+      GMXLIB: .envs/molecular-simulation-openff/lib/python3.12/site-packages/pmx/data/mutff
+    smoke_commands:
+      - [pmx, --version]
+      - [bash, -c, 'test -d .envs/molecular-simulation-openff/lib/python3.12/site-packages/pmx/data/mutff/amber99sb-star-ildn-mut.ff']
+    backends: [pmx]
+
+  gmx_mmpbsa:
+    conda_name: researchchem-gmx-mmpbsa
+    description: Isolated gmx_MMPBSA 1.6.5 runtime for explicit end-state binding-energy and residue-decomposition calculations.
+    environment: .envs/gmx-mmpbsa
+    conda_packages: [python=3.11, ambertools=23.6, gromacs=2025.4, mpi4py=4.0.1, numpy=1.26.4, pandas=1.5.3, matplotlib=3.7.3, seaborn=0.11.2, scipy=1.14.1, parmed=4.3.1, pydantic, pyyaml, python-dotenv]
+    pip_packages: [gmx_MMPBSA==1.6.5]
+    health_checks:
+      modules: [GMXMMPBSA, parmed, mpi4py, numpy, pandas]
+      commands: [gmx_MMPBSA, gmx, cpptraj, sander]
+    command_variables:
+      CHEMGRAPH_GMX_MMPBSA_COMMAND: gmx_MMPBSA
+    cache_paths: [.software_cache/packages/gmx_mmpbsa/1.6.5, .software_cache/validation/gmx_mmpbsa/1.6.5]
+    environment_variables:
+      AMBERHOME: .envs/gmx-mmpbsa
+      OMPI_ALLOW_RUN_AS_ROOT: "1"
+      OMPI_ALLOW_RUN_AS_ROOT_CONFIRM: "1"
+    smoke_commands:
+      - [gmx_MMPBSA, --version]
+      - [bash, -c, 'grep -q "ΔTOTAL" .software_cache/validation/gmx_mmpbsa/1.6.5/smoke/gmx_MMPBSA_test/examples/Protein_ligand/ST/FINAL_RESULTS_MMPBSA.dat']
+      - [bash, -c, 'test -s .software_cache/validation/gmx_mmpbsa/1.6.5/smoke/gmx_MMPBSA_test/examples/Decomposition_analysis/FINAL_DECOMP_MMPBSA.csv']
+    backends: [gmx_mmpbsa]
+
+  sisso:
+    conda_name: researchchem-sisso
+    description: SISSO 3.5 sparse symbolic regression and official out-of-sample prediction runtime.
+    environment: .envs/kinetics-legacy
+    conda_packages: [python=3.11, bc=1.07.1, pydantic, pyyaml, python-dotenv]
+    pip_packages: []
+    health_checks:
+      modules: [pydantic, yaml]
+      commands: [SISSO_run, SISSO_predict, bc]
+      allowed_dependency_issue_patterns:
+        - '^quantities 0\.12\.3 is not supported on this platform$'
+        - '^gprof2dot 2017\.9\.19 is not supported on this platform$'
+        - '^periodictable 1\.5\.2 is not supported on this platform$'
+      external_commands:
+        - .software_cache/installations/sisso/3.5/bin/SISSO
+        - .software_cache/installations/sisso/3.5/bin/SISSO_run
+        - .software_cache/installations/sisso/3.5/bin/SISSO_predict
+    command_variables:
+      CHEMGRAPH_SISSO_COMMAND: .software_cache/installations/sisso/3.5/bin/SISSO_run
+      CHEMGRAPH_SISSO_PREDICT_COMMAND: .software_cache/installations/sisso/3.5/bin/SISSO_predict
+      CHEMGRAPH_SISSO_MPIRUN_COMMAND: .software_cache/installations/sisso/3.5/toolchain/oneapi/mpi/2021.15/bin/mpirun
+    path_entries:
+      - .software_cache/installations/sisso/3.5/bin
+      - .software_cache/installations/sisso/3.5/toolchain/oneapi/mpi/2021.15/bin
+    library_path_entries:
+      - .software_cache/installations/sisso/3.5/toolchain/oneapi/mpi/2021.15/lib
+      - .envs/kinetics-legacy/lib
+    cache_paths: [.software_cache/installations/sisso/3.5]
+    environment_variables:
+      I_MPI_ROOT: .software_cache/installations/sisso/3.5/toolchain/oneapi/mpi/2021.15
+    smoke_commands:
+      - [bash, -c, 'grep -q "SISSO done successfully" .software_cache/validation/sisso/3.5/smoke/regression/log']
+      - [bash, -c, 'grep -q "Prediction RMSE and MaxAE" .software_cache/validation/sisso/3.5/smoke/regression/predict_Y.out']
+      - [bash, -c, 'test "$(git -C .software_cache/sources/sisso/3.5/source rev-parse HEAD)" = bc18cae50e1e204cd72b2a9dfd6832225b0d8ccc']
+    backends: [sisso]
+
+  gplearn:
+    conda_name: researchchem-gplearn
+    description: gplearn 0.4.3 symbolic-regression baseline and cross-seed stability runtime.
+    environment: .envs/kinetics-legacy
+    conda_packages: [python=3.11, numpy=1.26, scikit-learn, joblib, pydantic, pyyaml, python-dotenv]
+    pip_packages: [gplearn==0.4.3]
+    health_checks:
+      modules: [gplearn, sklearn, numpy, joblib]
+      commands: []
+      allowed_dependency_issue_patterns:
+        - '^quantities 0\.12\.3 is not supported on this platform$'
+        - '^gprof2dot 2017\.9\.19 is not supported on this platform$'
+        - '^periodictable 1\.5\.2 is not supported on this platform$'
+    cache_paths: [.software_cache/installations/gplearn/0.4.3]
+    smoke_commands:
+      - [.envs/kinetics-legacy/bin/python, -c, 'import gplearn; assert gplearn.__version__ == "0.4.3"']
+      - [bash, -c, 'test "$(git -C .software_cache/sources/gplearn/0.4.3/source rev-parse HEAD)" = 0390aea8639ce5f6c0b388400e07b58c05acad6a']
+    backends: [gplearn]
+
+  vaspkit:
+    conda_name: researchchem-vaspkit
+    description: Locally downloaded VASPKIT 1.5.1 noncommercial binary for bounded VASP pre/post-processing.
+    environment: .envs/general-modern-openmpi5
+    conda_packages: [python=3.11, numpy, scipy, matplotlib, ase, pydantic, pyyaml, python-dotenv]
+    pip_packages: []
+    health_checks:
+      modules: [numpy, scipy, matplotlib, ase]
+      commands: [vaspkit]
+      external_commands: [.software_cache/installations/vaspkit/1.5.1/vaspkit.1.5.1/bin/vaspkit]
+    command_variables:
+      CHEMGRAPH_VASPKIT_COMMAND: .software_cache/installations/vaspkit/1.5.1/vaspkit.1.5.1/bin/vaspkit
+      CHEMGRAPH_VASPKIT_CONFIG: .software_cache/state/vaspkit/1.5.1/home/.vaspkit
+    path_entries: [.software_cache/installations/vaspkit/1.5.1/vaspkit.1.5.1/bin]
+    cache_paths: [.software_cache/installations/vaspkit/1.5.1]
+    smoke_commands:
+      - [bash, -c, '.software_cache/installations/vaspkit/1.5.1/vaspkit.1.5.1/bin/vaspkit -help 2>&1 | grep -q "VASPKIT Standard Edition 1.5.1"']
+      - [bash, -c, 'test -s .software_cache/validation/vaspkit/1.5.1/smoke/kmesh/KPOINTS']
+      - [bash, -c, 'test -s .software_cache/validation/vaspkit/1.5.1/smoke/bandgap/EIGENVAL']
+    backends: [vaspkit]
+
+  bagel:
+    conda_name: researchchem-bagel
+    description: Self-contained BAGEL 1.2.2 MPICH runtime for explicit multireference energies, gradients, and nonadiabatic couplings.
+    environment: .envs/general-modern-openmpi5
+    conda_packages: [python=3.11, pydantic, pyyaml, python-dotenv]
+    pip_packages: []
+    health_checks:
+      modules: [pydantic, yaml]
+      commands: [BAGEL, bagel-mpirun]
+      external_commands:
+        - .software_cache/installations/bagel/1.2.2/bin/BAGEL
+        - .software_cache/installations/bagel/1.2.2/bin/bagel-mpirun
+        - .software_cache/installations/bagel/1.2.2/runtime/usr/bin/BAGEL
+        - .software_cache/installations/bagel/1.2.2/runtime/usr/bin/mpiexec.hydra
+    command_variables:
+      CHEMGRAPH_BAGEL_COMMAND: .software_cache/installations/bagel/1.2.2/bin/BAGEL
+      CHEMGRAPH_BAGEL_MPIRUN_COMMAND: .software_cache/installations/bagel/1.2.2/bin/bagel-mpirun
+      CHEMGRAPH_BAGEL_RAW_COMMAND: .software_cache/installations/bagel/1.2.2/runtime/usr/bin/BAGEL
+      CHEMGRAPH_BAGEL_BASIS_DIRECTORY: .software_cache/installations/bagel/1.2.2/runtime/usr/share/bagel
+    path_entries: [.software_cache/installations/bagel/1.2.2/bin]
+    cache_paths: [.software_cache/installations/bagel/1.2.2]
+    smoke_commands:
+      - [bash, -c, 'grep -q "METHOD: FCI" .software_cache/validation/bagel/1.2.2/smoke/hf-fci/output.out']
+      - [bash, -c, 'grep -q "METHOD: NACME" .software_cache/validation/bagel/1.2.2/smoke/casscf-nac/output.out']
+      - [bash, -c, 'grep -q "CASPT2 energy" .software_cache/validation/bagel/1.2.2/smoke/caspt2-gradient/output.out']
+      - [bash, -c, 'grep -q "using 1 threads per process" .software_cache/validation/bagel/1.2.2/smoke/hf-fci/output-mpi2.out']
+    backends: [bagel]
+
   md:
     conda_name: researchchem-md
-    server_name: researchchem_md
     description: Molecular dynamics preparation, execution, enhanced sampling, and analysis.
     environment: .envs/molecular-simulation-openff
     conda_packages: [openmm, pdbfixer, gromacs, plumed, netcdf4, packmol, parmed]
@@ -641,6 +958,8 @@ profiles:
     health_checks:
       modules: [MDAnalysis, openmm, pdbfixer]
       commands: [gmx, packmol, plumed]
+      allowed_dependency_issue_patterns:
+        - '^acpype 2023\.10\.27 requires openbabel-wheel, which is not installed\.$'
     command_variables:
       CHEMGRAPH_GROMACS_COMMAND: gmx
       CHEMGRAPH_PLUMED_COMMAND: plumed
@@ -659,7 +978,6 @@ profiles:
 
   openff:
     conda_name: researchchem-openff
-    server_name: researchchem_openff
     description: Isolated modern OpenFF Toolkit, Interchange, and AmberTools runtime.
     environment: .envs/molecular-simulation-openff
     python_version: "3.12"
@@ -677,11 +995,12 @@ profiles:
     health_checks:
       modules: [openff.interchange, openff.toolkit]
       commands: [antechamber, sqm]
+      allowed_dependency_issue_patterns:
+        - '^acpype 2023\.10\.27 requires openbabel-wheel, which is not installed\.$'
     backends: [openff_am1bcc, openff]
 
   mlip:
     conda_name: researchchem-mlip
-    server_name: researchchem_mlip
     description: Machine-learning interatomic potentials and model-isolated runtimes.
     environment: .envs/general-modern-openmpi5
     runtime_preload_libraries: [libstdc++.so.6, libgcc_s.so.1]
@@ -702,7 +1021,6 @@ profiles:
 
   nequip:
     conda_name: researchchem-nequip
-    server_name: researchchem_nequip
     description: NequIP 0.19.0 and Allegro 0.8.3 inference runtime with explicitly registered local checkpoints.
     environment: .envs/equivariant-ml
     runtime_preload_libraries: [libstdc++.so.6, libgcc_s.so.1]
@@ -716,7 +1034,6 @@ profiles:
 
   deepmd:
     conda_name: researchchem-deepmd-models
-    server_name: researchchem_deepmd
     description: DeePMD-kit 3.2.0b0 CPU inference runtime for the downloaded DPA multitask and OMol checkpoints.
     environment: .envs/equivariant-ml
     runtime_preload_libraries: [libstdc++.so.6, libgcc_s.so.1]
@@ -730,7 +1047,6 @@ profiles:
 
   vasp:
     conda_name: researchchem-vasp
-    server_name: researchchem_vasp
     description: Locally compiled VASP 6.3.2 standard executable with OpenMPI and an explicit-POTCAR atomic adapter.
     environment: .envs/general-modern-openmpi5
     conda_packages: [python=3.11, ase, pydantic, pyyaml, python-dotenv, gcc_linux-64, gxx_linux-64, gfortran_linux-64, openmpi, openblas, lapack, scalapack, fftw]
@@ -738,11 +1054,11 @@ profiles:
     health_checks:
       modules: [ase]
       commands: [vasp_std, mpirun]
-      external_commands: [.software_cache/vasp/6.3.2/bin/vasp_std]
+      external_commands: [.software_cache/installations/vasp/6.3.2/bin/vasp_std]
     command_variables:
-      CHEMGRAPH_VASP_COMMAND: .software_cache/vasp/6.3.2/bin/vasp_std
+      CHEMGRAPH_VASP_COMMAND: .software_cache/installations/vasp/6.3.2/bin/vasp_std
       CHEMGRAPH_VASP_MPI_COMMAND: mpirun
-    path_entries: [.software_cache/vasp/6.3.2/bin]
+    path_entries: [.software_cache/installations/vasp/6.3.2/bin]
     library_path_entries: [.envs/general-modern-openmpi5/lib]
     environment_variables:
       OMPI_ALLOW_RUN_AS_ROOT: "1"
@@ -751,7 +1067,6 @@ profiles:
 
   docking:
     conda_name: researchchem-docking
-    server_name: researchchem_docking
     description: Protein-ligand docking binaries and model-specific docking tools.
     environment: .envs/molecular-simulation-openff
     conda_packages: [vina]
@@ -759,9 +1074,11 @@ profiles:
     health_checks:
       modules: [vina]
       commands: [vina]
-      external_commands: [.software_cache/gnina/1.3.3/gnina]
+      external_commands: [.software_cache/installations/gnina/1.3.3/gnina]
+      allowed_dependency_issue_patterns:
+        - '^acpype 2023\.10\.27 requires openbabel-wheel, which is not installed\.$'
     command_variables:
       CHEMGRAPH_VINA_COMMAND: vina
-      CHEMGRAPH_GNINA_COMMAND: .software_cache/gnina/1.3.3/gnina
-    path_entries: [.software_cache/gnina/1.3.3]
+      CHEMGRAPH_GNINA_COMMAND: .software_cache/installations/gnina/1.3.3/gnina
+    path_entries: [.software_cache/installations/gnina/1.3.3]
     backends: [vina, gnina]

@@ -16,7 +16,7 @@ SUPPORTED_AGENTS = ("codex", "claude", "opencode")
 
 
 def _server_command(python_executable: str) -> list[str]:
-    return [python_executable, "-m", "researchchem_mcp_tools.server"]
+    return [python_executable, "-m", "chemistry_toolbox.mcp.server"]
 
 
 def _server_environment(workspace: Path | None) -> dict[str, str]:

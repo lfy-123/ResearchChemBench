@@ -1,0 +1,61 @@
+{
+  "archived_files": [
+    {
+      "path": "request.json",
+      "sha256": "a74442702da69d989e35fb1f8c290f5a8dd4b7c5691b7cf4d16f2234ce621c10",
+      "size_bytes": 1328
+    },
+    {
+      "path": "status.json",
+      "sha256": "ca4bc73a2177787c71e86db447c9c575bee65c998e8008f3e14262ff124bdc7d",
+      "size_bytes": 2024
+    },
+    {
+      "path": "collection.json",
+      "sha256": "146c8d8233ffdd9337c11b5ff933bc77f377c9bd6ea2faa118fce386cee0d309",
+      "size_bytes": 1486
+    },
+    {
+      "path": "stdout.log",
+      "sha256": "e3dcc60de8d7c9fc7071c234867dab43390d2eadf34048208458f650e0719f9b",
+      "size_bytes": 52
+    },
+    {
+      "path": "stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    }
+  ],
+  "artifact_status": "not_declared",
+  "convergence_status": "not_checked",
+  "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/tdep",
+  "job_id": "job_4d4986c670374c049d7fb2ceb1285b2f",
+  "process_status": "completed",
+  "reason": "The configured executable completed the interface probe through the native job runner.",
+  "request": {
+    "arguments": [
+      "--version"
+    ],
+    "calculation_intent": null,
+    "executable": "extract_forceconstants",
+    "label": "manual-interface-smoke-tdep",
+    "parent_job_id": null,
+    "resource_limits": {
+      "cpu_cores": 1,
+      "gpu_count": 0,
+      "memory_mb": 1024
+    },
+    "software_id": "tdep",
+    "staged_inputs": [],
+    "stdin_target": null
+  },
+  "request_status": "accepted",
+  "scientific_validation_status": "not_checked",
+  "software_id": "tdep",
+  "software_status": "not_checked",
+  "status": "passed",
+  "stderr_tail": "",
+  "stdout_tail": "extract_forceconstants version 1.2\nMIT\nOlle Hellman\n",
+  "test_level": "interface_smoke",
+  "tested_at": "2026-08-06T10:32:07.312490+00:00"
+}

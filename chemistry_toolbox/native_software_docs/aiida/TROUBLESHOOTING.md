@@ -5,7 +5,7 @@ topics: ["troubleshooting", "errors", "preflight"]
 aliases: ["AiiDA", "aiida"]
 inputs: ["configured AiiDA profile", "database", "workflow script", "optional broker for daemon submission"]
 outputs: ["AiiDA database nodes", "process records", "repository objects", "optional archive.aiida"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # AiiDA Troubleshooting

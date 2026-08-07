@@ -5,7 +5,7 @@ topics: ["index", "navigation", "capabilities"]
 aliases: ["pysisyphus", "pysisyphus"]
 inputs: ["config.yaml", "referenced geometry and calculator files"]
 outputs: ["optimization log", "trajectory", "final geometry", "Hessian or path files"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # pysisyphus Native Software Guide
@@ -37,6 +37,12 @@ Execute a complete pysisyphus workflow configuration authored by the Agent. The 
 - IRC.
 - NEB.
 - growing string.
+
+## Layer 1 typed Actions
+- `locate_transition_state`.
+- `search_reaction_path`.
+- `scan_reaction_coordinates`.
+- `trace_intrinsic_reaction_coordinate`.
 
 ## Required knowledge before submission
 The toolbox does not select a scientific method, force field, pseudopotential, basis, database, training set, convergence threshold, or workflow ordering. The Agent must obtain those choices from the task, a paper, or an authoritative source and then author a complete input.

@@ -5,7 +5,7 @@ topics: ["troubleshooting", "errors", "preflight"]
 aliases: ["NWChem", "nwchem"]
 inputs: ["input.nw", "optional basis", "geometry", "restart", "or data files"]
 outputs: ["stdout.log", "database file", "movecs", "geometry and property files"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # NWChem Troubleshooting

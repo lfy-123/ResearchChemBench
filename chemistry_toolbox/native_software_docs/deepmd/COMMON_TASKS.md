@@ -5,7 +5,7 @@ topics: ["common-tasks", "inputs", "outputs", "convergence"]
 aliases: ["DeePMD-kit", "deepmd"]
 inputs: ["training JSON or YAML and dataset for training", "or an explicitly selected registered checkpoint for inference"]
 outputs: ["training logs", "checkpoints", "frozen model", "test metrics"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # DeePMD-kit Common Tasks
@@ -16,6 +16,16 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 - **Model Testing**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Model Compression**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Dataset Conversion**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
+
+## Preferred typed Action routes
+- `calculate_energy`: validated structured route through backend `deepmd`.
+- `calculate_forces`: validated structured route through backend `deepmd`.
+- `calculate_hessian`: validated structured route through backend `deepmd`.
+- `optimize_geometry`: validated structured route through backend `deepmd`.
+- `calculate_periodic_energy`: validated structured route through backend `deepmd`.
+- `calculate_periodic_forces`: validated structured route through backend `deepmd`.
+- `calculate_periodic_stress`: validated structured route through backend `deepmd`.
+- `relax_periodic_structure`: validated structured route through backend `deepmd`.
 
 ## Minimum input responsibilities
 - `training JSON or YAML and dataset for training`

@@ -1,0 +1,61 @@
+{
+  "archived_files": [
+    {
+      "path": "request.json",
+      "sha256": "f564354171a206e7c24d27036682ab29f54cb50f9a907760e714104eb4a401c0",
+      "size_bytes": 1280
+    },
+    {
+      "path": "status.json",
+      "sha256": "4a9de3391409fa7fc3ee5abe1b7ef08b94e5b171276678b1ba5399d5d2878c67",
+      "size_bytes": 1974
+    },
+    {
+      "path": "collection.json",
+      "sha256": "51150aa976e47459c4f3925976bf1e00371c2ebde312ae9482722f9f557b0108",
+      "size_bytes": 1488
+    },
+    {
+      "path": "stdout.log",
+      "sha256": "d265939676e6b49c6531194fe17a9fac63d002fb77260526188fa6dcc6890893",
+      "size_bytes": 3097
+    },
+    {
+      "path": "stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    }
+  ],
+  "artifact_status": "not_declared",
+  "convergence_status": "not_checked",
+  "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/vaspkit",
+  "job_id": "job_d2f18c84ac7b48a4a000532971566524",
+  "process_status": "completed",
+  "reason": "The configured executable completed the interface probe through the native job runner.",
+  "request": {
+    "arguments": [
+      "-help"
+    ],
+    "calculation_intent": null,
+    "executable": "vaspkit",
+    "label": "manual-interface-smoke-vaspkit",
+    "parent_job_id": null,
+    "resource_limits": {
+      "cpu_cores": 1,
+      "gpu_count": 0,
+      "memory_mb": 1024
+    },
+    "software_id": "vaspkit",
+    "staged_inputs": [],
+    "stdin_target": null
+  },
+  "request_status": "accepted",
+  "scientific_validation_status": "not_checked",
+  "software_id": "vaspkit",
+  "software_status": "not_checked",
+  "status": "passed",
+  "stderr_tail": "",
+  "stdout_tail": "               * default: Calculated value from DOSCAR.\n  -symprec Real: Tolerance to find symmetry\n               * default: 1E-5.\n  -timesym n:    Possesses time reversal symmetry, 1 for yes and 0 for not,\n               * default: 1.\n  -sc n1 n2 n3:  Sizes of supecell along a, b, c,\n               * default: 1 1 1.\n  -dim n:        Dimensions of materials. 3 for 3D, 2 for 2D and 1 for 1D,\n               * default: 3.\n  -iatom n  :    nth atom to read,\n               * default: 1\n  -iband n :     nth band to read,\n               * default: 1\n  -jband n :     nth band to read,\n               * default: 1\n  -ikpt n :      nth k-point to read,\n               * default: 1\n  -T Real :      Temperature,\n               * default: 300.0 K\n  -fmt c/f/atat/xsf: c=cartestion, f=direct coordinate,\n                 atat=ATAT, xsf=xcrsyden.\n               * No default value.\n  -dir x/y/z:    Which direction to planar average.\n               * default: z\n  -nomenu :      Switch off the main menu.\n               * default: .FALSE.\n  e.g.\n  a) vaspkit -task 11\n             Get TDOS.\n  b) vaspkit -task 4 -file POSCAR -sc 2 3 4\n             Build 2*3*4 supercell from POSCAR.\n  c) vaspkit -task 22 -iatom 0\n             Get PBNAD for each element in POSCAR file.\n  d) vaspkit -task 8 -dim 3 -symprec 1E-2\n             Get suggested K-Path for bulk material with SYMPREC=1E-2.\n +---------------------------------------------------------------+\n |---------------------------------------------------------------|\n |                          * CITATIONS *                        |\n | When using VASPKIT in your research PLEASE cite the paper:    |\n | [1] V. WANG, N. XU, J.-C. LIU, G. TANG, W.-T. GENG, VASPKIT: A|\n | User-Friendly Interface Facilitating High-Throughput Computing|\n | and Analysis Using VASP Code, Computer Physics Communications |\n | 267, 108033, (2021), DOI: 10.1016/j.cpc.2021.108033           |\n o---------------------------------------------------------------o\n",
+  "test_level": "interface_smoke",
+  "tested_at": "2026-08-06T10:32:07.312490+00:00"
+}

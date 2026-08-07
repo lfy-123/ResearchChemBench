@@ -447,13 +447,13 @@ allowed_executables: []
 
 | 证据 | 位置 |
 |---|---|
-| Action 全词 AND、简单词干化和 ID 排序 | `chemistry_toolbox/src/researchchem_toolbox/discovery.py:48`、`:70`、`:839` |
-| Resource 使用相同词法匹配且不做相关性排序 | `chemistry_toolbox/src/researchchem_toolbox/discovery.py:1069` |
+| Action 全词 AND、简单词干化和 ID 排序 | `chemistry_toolbox/src/discovery.py:48`、`:70`、`:839` |
+| Resource 使用相同词法匹配且不做相关性排序 | `chemistry_toolbox/src/discovery.py:1069` |
 | 原生校验边界及仅有的 pysisyphus 特定 validator | `chemistry_toolbox/mcp/open_execution.py:220`、`:308` |
 | 程序提交当前预检范围 | `chemistry_toolbox/mcp/open_execution.py:602` |
 | 原生/程序 success 只取决于 return code | `chemistry_toolbox/mcp/job_supervisor.py:181` |
 | PDF 被文档搜索跳过 | `chemistry_toolbox/mcp/software_catalog.py:637` |
-| 程序 runtime 继承宿主 PATH | `chemistry_toolbox/src/researchchem_toolbox/runtime.py:115` |
+| 程序 runtime 继承宿主 PATH | `chemistry_toolbox/src/runtime.py:115` |
 | 单作业 `RLIMIT_AS` 错用任务总内存预算 | `chemistry_toolbox/mcp/job_supervisor.py:35` |
 | 顶层只在 timeout/stopped/runner_error 清理后台作业 | `evaluation/run_task.py:1021` |
 | 旧架构文档 101/76 与当前生成矩阵 114/77 | `chemistry_toolbox/docs/CHEMISTRY_TOOLBOX_THREE_LAYER_ARCHITECTURE.md:21`、`chemistry_toolbox/docs/CHEMISTRY_TOOLBOX_TOOL_RESOURCE_MATRIX.md:9` |

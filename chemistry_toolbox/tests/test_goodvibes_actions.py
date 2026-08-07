@@ -5,8 +5,8 @@ from pathlib import Path
 
 import pytest
 
-from researchchem_toolbox.backends import goodvibes
-from researchchem_toolbox.catalog import action_specs, backend_specs, validate_catalog
+from chemistry_toolbox.src.backends import goodvibes
+from chemistry_toolbox.src.catalog import action_specs, backend_specs, validate_catalog
 
 
 def _settings(**updates):

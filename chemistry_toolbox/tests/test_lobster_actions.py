@@ -5,10 +5,10 @@ from pathlib import Path
 
 import pytest
 
-from researchchem_toolbox.service import execute_action
+from chemistry_toolbox.src.service import execute_action
 
 
-SOURCE = Path(".software_cache/lobster/5.1.0/smoke/qe_diamond").resolve()
+SOURCE = Path(".software_cache/validation/lobster/5.1.0/smoke/qe_diamond").resolve()
 
 
 def _copy(tmp_path, name: str) -> Path:

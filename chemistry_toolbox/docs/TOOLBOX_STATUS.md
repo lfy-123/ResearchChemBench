@@ -1,19 +1,19 @@
 # ResearchChem Three-Layer Toolbox Status
 
-Generated: `2026-07-22T06:03:32.856927+00:00`
-Catalog hash: `bd3d7277b6814ca6c1a1e316cefb40b90312b02fde9370c36dea09c1a9fe48bd`
+Generated: `2026-08-06T10:19:58.502479+00:00`
+Catalog hash: `3b7c898c9788050e8489b30f229aac74a6d42cb1c8778d7ad26f9bef53ded774`
 
 ## Summary
 
-- Scientific Actions: 96
+- Scientific Actions: 140
 - Data Actions: 10
-- BackendSpecs: 76
-- Open execution MCP tools: 13
-- Progressive discovery/dispatch MCP tools: 7
-- Native software invocation guides: 56
-- Native command guides: 69
-- Available programmable runtimes: 42
-- Available backends: 76
+- BackendSpecs: 92
+- Open execution MCP tools: 18
+- Progressive discovery/dispatch MCP tools: 9
+- Native software invocation guides: 63
+- Native command guides: 80
+- Available programmable runtimes: 57
+- Available backends: 92
 - Unavailable backends: 0
 - Exposure: complete task-independent catalog through progressive discovery
 - Compatibility: full one-tool-per-Action mode remains available
@@ -26,6 +26,7 @@ Catalog hash: `bd3d7277b6814ca6c1a1e316cefb40b90312b02fde9370c36dea09c1a9fe48bd`
 - catalog: **pass**
 - runtime_profiles: **pass**
 - native_invocation_guides: **pass**
+- semantic_retrieval: **pass**
 - handler_coverage: **pass**
 - legacy_public_tools_removed: **pass**
 
@@ -67,3 +68,13 @@ Pip: none
 - `vasp_paw_pw91_54` / vasp: **available**; selection `resource://vasp_paw_pw91_54/<Variant>`
 - `vasp_paw_pbe_54` / vasp: **available**; selection `resource://vasp_paw_pbe_54/<Variant>`
 - `vasp_6_3_2_testsuite_si_potcar` / vasp: **available**; selection `resource://vasp_6_3_2_testsuite_si_potcar`
+
+## Smoke
+
+- `standardize_structure` / `rdkit`: **success**
+- `generate_3d_structure` / `rdkit`: **success**
+- `calculate_energy` / `ase_emt`: **success**
+- `integrate_reaction_network` / `scipy`: **success**
+- `assign_partial_charges` / `openff_am1bcc`: **success**
+- `assign_force_field_parameters` / `openff`: **success**
+- `solvate_molecular_system` / `packmol`: **success**

@@ -1,0 +1,61 @@
+{
+  "archived_files": [
+    {
+      "path": "request.json",
+      "sha256": "922981da0d2d25689ece235afff05617c1f3fc81f220766c88f52fd46131c7cc",
+      "size_bytes": 1430
+    },
+    {
+      "path": "status.json",
+      "sha256": "890230d5a7a99caf74c752d25af25a92b006eed0dffc31d6775fd9c855e9b6b1",
+      "size_bytes": 2122
+    },
+    {
+      "path": "collection.json",
+      "sha256": "c5ca54292b5019d339c9dacc3931e9544e4f2a5a45a622055a795df95dd78c48",
+      "size_bytes": 1770
+    },
+    {
+      "path": "stdout.log",
+      "sha256": "f33d20ea6774435993c34a5787813d8863619c1f12ce36ed7510b6c1e3e981a1",
+      "size_bytes": 64
+    },
+    {
+      "path": "stderr.log",
+      "sha256": "76b22e4c0f4ca750f8e48fa309fa017680d5721a1af46a1a4b3da5dfcb60d112",
+      "size_bytes": 83
+    }
+  ],
+  "artifact_status": "not_declared",
+  "convergence_status": "not_checked",
+  "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/gmx_mmpbsa",
+  "job_id": "job_d44d463b17b845f3b2cd91984654573e",
+  "process_status": "completed",
+  "reason": "The configured executable completed the interface probe through the native job runner.",
+  "request": {
+    "arguments": [
+      "--version"
+    ],
+    "calculation_intent": null,
+    "executable": "gmx_MMPBSA",
+    "label": "manual-interface-smoke-gmx_mmpbsa",
+    "parent_job_id": null,
+    "resource_limits": {
+      "cpu_cores": 1,
+      "gpu_count": 0,
+      "memory_mb": 1024
+    },
+    "software_id": "gmx_mmpbsa",
+    "staged_inputs": [],
+    "stdin_target": null
+  },
+  "request_status": "accepted",
+  "scientific_validation_status": "not_checked",
+  "software_id": "gmx_mmpbsa",
+  "software_status": "not_checked",
+  "status": "passed",
+  "stderr_tail": "[INFO   ] Starting gmx_MMPBSA 1.6.5\n[INFO   ] Command-line\n  gmx_MMPBSA --version\n\n",
+  "stdout_tail": "gmx_MMPBSA 1.6.5 based on MMPBSA version 16.0 and AmberTools 20\n",
+  "test_level": "interface_smoke",
+  "tested_at": "2026-08-06T10:32:07.312490+00:00"
+}

@@ -5,7 +5,7 @@ topics: ["index", "navigation", "capabilities"]
 aliases: ["RMG-Py", "rmg"]
 inputs: ["input.py", "RMG database", "optional seed mechanisms and libraries"]
 outputs: ["chemkin files", "species dictionary", "RMG log", "HTML report", "restart data"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # RMG-Py Native Software Guide
@@ -36,6 +36,10 @@ Generate reaction mechanisms from a complete Agent-authored RMG-Py input file. T
 - liquid-phase mechanism generation.
 - sensitivity.
 - model enlargement.
+
+## Layer 1 typed Actions
+- `calculate_rate_constants`.
+- `calculate_tunneling_correction`.
 
 ## Required knowledge before submission
 The toolbox does not select a scientific method, force field, pseudopotential, basis, database, training set, convergence threshold, or workflow ordering. The Agent must obtain those choices from the task, a paper, or an authoritative source and then author a complete input.

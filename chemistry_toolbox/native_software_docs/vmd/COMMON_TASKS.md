@@ -5,7 +5,7 @@ topics: ["common-tasks", "inputs", "outputs", "convergence"]
 aliases: ["VMD", "vmd"]
 inputs: ["analysis.tcl", "referenced structures and trajectories"]
 outputs: ["stdout.log", "user-defined tables", "structures", "images when rendering is configured"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # VMD Common Tasks
@@ -16,6 +16,9 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 - **Atom Selections**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Measurements**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Scripted Export**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
+
+## Preferred typed Action routes
+- No typed Action is registered for this software. Use the reviewed native command interface when the task needs this runtime.
 
 ## Minimum input responsibilities
 - `analysis.tcl`

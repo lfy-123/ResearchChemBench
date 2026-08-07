@@ -3,12 +3,12 @@ import os
 import signal
 from pathlib import Path
 
-from evaluation.cli_eval import _load_yaml, resolve_specs, run_eval
+from evaluation.cli import _load_yaml, resolve_specs, run_eval
 
 
 def test_quick_mock_config_dry_run_does_not_create_batch():
     root = Path(__file__).resolve().parents[1]
-    config_path = root / "eval_configs" / "quick_mock.yaml"
+    config_path = root / "eval_configs" / "examples" / "quick_mock.yaml"
     config = _load_yaml(config_path)
     specs = resolve_specs(config)
     assert len(specs) == 2
@@ -36,7 +36,7 @@ def test_completed_batch_writes_aggregate_results(tmp_path, monkeypatch):
         )
         + "\n"
     )
-    monkeypatch.setattr("evaluation.cli_eval.WORKSPACES_DIR", tmp_path / "workspaces")
+    monkeypatch.setattr("evaluation.cli.WORKSPACES_DIR", tmp_path / "workspaces")
 
     assert run_eval(config_path, no_score=True) == 0
 
@@ -74,7 +74,7 @@ def test_sigint_stops_batch_without_starting_queued_runs(tmp_path, monkeypatch):
         encoding="utf-8",
     )
     workspace_root = tmp_path / "workspaces"
-    monkeypatch.setattr("evaluation.cli_eval.WORKSPACES_DIR", workspace_root)
+    monkeypatch.setattr("evaluation.cli.WORKSPACES_DIR", workspace_root)
     started = []
 
     class InterruptingRunner:
@@ -93,7 +93,7 @@ def test_sigint_stops_batch_without_starting_queued_runs(tmp_path, monkeypatch):
             os.kill(os.getpid(), signal.SIGINT)
             return {"status": "failed", "duration_seconds": 0.01}
 
-    monkeypatch.setattr("evaluation.cli_eval.TaskRunner", InterruptingRunner)
+    monkeypatch.setattr("evaluation.cli.TaskRunner", InterruptingRunner)
     assert run_eval(config_path, no_score=True) == 1
     assert started == [tasks[0]]
 

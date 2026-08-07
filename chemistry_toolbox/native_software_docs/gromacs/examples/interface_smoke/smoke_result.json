@@ -2,23 +2,23 @@
   "archived_files": [
     {
       "path": "request.json",
-      "sha256": "207ba1ec58340c0cd3514e2e9ab6167fbc249496b11edf384195c32351409234",
-      "size_bytes": 1234
+      "sha256": "685a1c5a0aabcf5a20a5e6703d608522b99f583a198422ce23e408f27b99a835",
+      "size_bytes": 1248
     },
     {
       "path": "status.json",
-      "sha256": "ebfbe16743f0f61a0d7de985d83f3f2538fde177e5120181e671564aa460aa7f",
-      "size_bytes": 1846
+      "sha256": "df80bb88d6e58188584b92effa755f57c46a6e44751232833a28faa7f0d5e6a5",
+      "size_bytes": 1947
     },
     {
       "path": "collection.json",
-      "sha256": "10ccbd52bc35c509608bd17d10bf7c4855643836ab2c0e732a7501175881eacd",
+      "sha256": "f8cddadd0f5d71faab99759fa8624c4ced6c3dd7423e4b68395612997c39b510",
       "size_bytes": 1488
     },
     {
       "path": "stdout.log",
-      "sha256": "ea6df0ba1027fc56d9856a7eb323089c4de70768d177ecf4e5a1dd6e53945b4a",
-      "size_bytes": 2132
+      "sha256": "765dfad16c038aeaea38ec79169dee82a9634e2de2d5e32c1c7deb2b083bef01",
+      "size_bytes": 1652
     },
     {
       "path": "stderr.log",
@@ -29,7 +29,7 @@
   "artifact_status": "not_declared",
   "convergence_status": "not_checked",
   "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/gromacs",
-  "job_id": "job_856741d199fc46b780dbd728d6e912f8",
+  "job_id": "job_24f3e28897c54b1a9945e611e02294fa",
   "process_status": "completed",
   "reason": "The configured executable completed the interface probe through the native job runner.",
   "request": {
@@ -55,7 +55,7 @@
   "software_status": "not_checked",
   "status": "passed",
   "stderr_tail": "",
-  "stdout_tail": "uan/benchmark/ResearchChemBench/.tool_envs/md/bin.AVX2_256/gmx\nData prefix:  /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/md\nWorking dir:  /tmp/researchchem-all-native-smoke-final3-20260728-923240/outputs/execution_jobs/job_856741d199fc46b780dbd728d6e912f8\nCommand line:\n  gmx --version\n\nGROMACS version:     2026.0-conda_forge\nPrecision:           mixed\nMemory model:        64 bit\nMPI library:         thread_mpi\nMPI version:         built in\nOpenMP support:      enabled (GMX_OPENMP_MAX_THREADS = 128)\nGPU support:         OpenCL\nNBNxM GPU setup:     super-cluster 2x2x2 / cluster 8 (cluster-pair splitting on)\nSIMD instructions:   AVX2_256\nCPU FFT library:     fftw-3.3.11-sse2-avx\nGPU FFT library:     clFFT\nMulti-GPU FFT:       none\nRDTSCP:              disabled\nTNG support:         enabled\nHwloc support:       disabled\nTracing support:     disabled\nColvars support:     enabled (version 2025-10-13)\nCP2K support:        disabled\nTorch support:       disabled\nPlumed support:      enabled\nC compiler:          /home/conda/feedstock_root/build_artifacts/gromacs_1770909732141/_build_env/bin/x86_64-conda-linux-gnu-cc GNU 14.3.0\nC compiler flags:    -fexcess-precision=fast -funroll-all-loops -mavx2 -mfma -Wno-missing-field-initializers -O3 -DNDEBUG\nC++ compiler:        /home/conda/feedstock_root/build_artifacts/gromacs_1770909732141/_build_env/bin/x86_64-conda-linux-gnu-c++ GNU 14.3.0\nC++ compiler flags:  -fexcess-precision=fast -funroll-all-loops -mavx2 -mfma -Wno-missing-field-initializers -Wno-stringop-truncation -Wno-cast-function-type-strict SHELL:-fopenmp -O3 -DNDEBUG\nBLAS library:        Internal\nLAPACK library:      Internal\nOpenCL include dir:  /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/md/include\nOpenCL library:      /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/md/lib/libOpenCL.so\nOpenCL version:      3.0\n\n",
+  "stdout_tail": "               :-) GROMACS - gmx, 2025.4-conda_forge (-:\n\nExecutable:   .envs/molecular-simulation-openff/bin.AVX2_256/gmx\nData prefix:  .envs/molecular-simulation-openff\nWorking dir:  /tmp/researchchem-all-native-smoke-dyr_y20y/outputs/execution_jobs/job_24f3e28897c54b1a9945e611e02294fa\nCommand line:\n  gmx --version\n\nGROMACS version:     2025.4-conda_forge\nPrecision:           mixed\nMemory model:        64 bit\nMPI library:         thread_mpi\nOpenMP support:      enabled (GMX_OPENMP_MAX_THREADS = 128)\nGPU support:         OpenCL\nNBNxM GPU setup:     super-cluster 2x2x2 / cluster 8 (cluster-pair splitting on)\nSIMD instructions:   AVX2_256\nCPU FFT library:     fftw-3.3.11-sse2-avx\nGPU FFT library:     clFFT\nMulti-GPU FFT:       none\nRDTSCP usage:        disabled\nTNG support:         enabled\nHwloc support:       disabled\nTracing support:     disabled\nC compiler:          /home/conda/feedstock_root/build_artifacts/gromacs_1764344590343/_build_env/bin/x86_64-conda-linux-gnu-cc GNU 14.3.0\nC compiler flags:    -fexcess-precision=fast -funroll-all-loops -mavx2 -mfma -Wno-missing-field-initializers -O3 -DNDEBUG\nC++ compiler:        /home/conda/feedstock_root/build_artifacts/gromacs_1764344590343/_build_env/bin/x86_64-conda-linux-gnu-c++ GNU 14.3.0\nC++ compiler flags:  -fexcess-precision=fast -funroll-all-loops -mavx2 -mfma -Wno-missing-field-initializers -Wno-cast-function-type-strict SHELL:-fopenmp -O3 -DNDEBUG\nBLAS library:        Internal\nLAPACK library:      Internal\nOpenCL include dir:  .envs/molecular-simulation-openff/include\nOpenCL library:      .envs/molecular-simulation-openff/lib/libOpenCL.so\nOpenCL version:      3.0\n\n",
   "test_level": "interface_smoke",
-  "tested_at": "2026-07-28T20:16:58.943969+00:00"
+  "tested_at": "2026-08-06T10:32:07.312490+00:00"
 }

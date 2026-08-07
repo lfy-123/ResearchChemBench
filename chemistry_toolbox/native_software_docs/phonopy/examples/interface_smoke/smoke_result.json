@@ -2,23 +2,23 @@
   "archived_files": [
     {
       "path": "request.json",
-      "sha256": "03586707c1cd7c1662358032733cf9daad74bdf2d99a14fbc47417cbe859a546",
-      "size_bytes": 1252
+      "sha256": "3f7a1acb3a740e6b497e0be28a306e02ccba00a07c7463ad93025bec13813043",
+      "size_bytes": 1257
     },
     {
       "path": "status.json",
-      "sha256": "f482a20932048f92a984c6da197726357eaee1830958c04722b35827fd26d3d9",
-      "size_bytes": 1860
+      "sha256": "d87d31abdb5b4e8de415a733caaa58bed91216b182727e2efcf14bb557d924c8",
+      "size_bytes": 1952
     },
     {
       "path": "collection.json",
-      "sha256": "ba6d39e8c9e24d5a4ae4a0a9dad267226bbb073ecca683b9da14b0d699097ede",
+      "sha256": "4ccececdf8185322ab0c045d2d51aadc9a2bca01f938c18776556c732501a386",
       "size_bytes": 1489
     },
     {
       "path": "stdout.log",
-      "sha256": "49b32f42ee3d1a45d38eb4e158b622474b7c33f13033f101345a8e8c043d5e46",
-      "size_bytes": 13254
+      "sha256": "091ed59c004d54d15b18108bdfe6569455d8f08a3e42afed0d9fe0a63d7be83d",
+      "size_bytes": 13150
     },
     {
       "path": "stderr.log",
@@ -29,7 +29,7 @@
   "artifact_status": "not_declared",
   "convergence_status": "not_checked",
   "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/phonopy",
-  "job_id": "job_f01b46a35cfb438484f919e164a77e6d",
+  "job_id": "job_7d5f2c9ceda54d429faf6027ca31baf6",
   "process_status": "completed",
   "reason": "The configured executable completed the interface probe through the native job runner.",
   "request": {
@@ -57,5 +57,5 @@
   "stderr_tail": "",
   "stdout_tail": "l Crystal Approximation); pass --split-\n                        site-mixture to instead keep them as separate species-\n                        resolved atoms. Note that this is per-atom and\n                        distinct from the VASP INCAR VCA tag, which lists one\n                        weight per element row in POSCAR.\n  --sp, --save-params   Save parameters that can run phonopy in\n                        phonopy_params.yaml.\n  --split-site-mixture  [Experimental] With --site-mixture, keep overlapping\n                        atoms as separate species-resolved atoms instead of\n                        merging them into mixed-species sites.\n  --sscha SSCHA_ITERATIONS\n                        Number of iterations in SSCHA calculation\n  -t, --thermal-property\n                        Output thermal properties\n  --td, --thermal-displacements\n                        Output thermal displacements\n  --tdm, --thermal-displacement-matrix\n                        Output thermal displacement matrices\n  --tdm-cif TEMPERATURE, --thermal-displacement-matrix-cif TEMPERATURE\n                        Write cif with aniso_U for which temperature is\n                        specified\n  --temperature TEMPERATURE\n                        (Deprecated) A temperature used to generate random\n                        displacements.\n  --tmax TMAX           Maximum calculated temperature\n  --tmin TMIN           Minimum calculated temperature\n  --tolerance SYMMETRY_TOLERANCE\n                        Symmetry tolerance to search\n  --tstep TSTEP         Calculated temperature step\n  -v, --verbose         Detailed information is shown.\n  --writedm             Write dynamical matrices. This has to be used with\n                        QPOINTS setting (or --qpoints)\n  --writefc             Write FORCE_CONSTANTS\n  --writefc-format WRITEFC_FORMAT\n                        Force constants output file-format\n  --xyz-projection      Project PDOS x, y, z directions in Cartesian\n                        coordinates\n",
   "test_level": "interface_smoke",
-  "tested_at": "2026-07-28T20:16:58.943969+00:00"
+  "tested_at": "2026-08-06T10:32:07.312490+00:00"
 }

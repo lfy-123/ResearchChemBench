@@ -1,46 +1,46 @@
 {
-  "schema_version": 1,
-  "job_id": "job_1f41bd18d9c94e43b5b4079c09eb05ec",
-  "job_status": "success",
-  "collected_at": "2026-07-28T20:17:39.777015+00:00",
-  "include_inputs": false,
-  "truncated": false,
-  "outputs": [
-    {
-      "path": "outputs/execution_jobs/job_1f41bd18d9c94e43b5b4079c09eb05ec/stderr.log",
-      "job_relative_path": "stderr.log",
-      "size_bytes": 0,
-      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "kind": "log"
-    },
-    {
-      "path": "outputs/execution_jobs/job_1f41bd18d9c94e43b5b4079c09eb05ec/stdout.log",
-      "job_relative_path": "stdout.log",
-      "size_bytes": 4,
-      "sha256": "2064f18e70f1201ceadb8f52c46938efc6c90651e983fb5d617898881b40daa8",
-      "kind": "log"
-    }
-  ],
-  "request_status": "accepted",
-  "process_status": "completed",
-  "software_status": "not_checked",
-  "convergence_status": "not_checked",
   "artifact_status": "not_declared",
-  "scientific_validation_status": "not_checked",
+  "collected_at": "2026-08-06T10:32:39.170296+00:00",
+  "convergence_status": "not_checked",
+  "declared_artifacts": [],
   "execution_status_details": {
-    "software": {
-      "status": "not_checked",
-      "evidence": []
+    "artifacts": {
+      "evidence": [],
+      "status": "not_declared"
     },
     "convergence": {
-      "status": "not_checked",
-      "evidence": []
+      "evidence": [],
+      "status": "not_checked"
     },
-    "artifacts": {
-      "status": "not_declared",
-      "evidence": []
-    },
-    "scientific_validation_boundary": "Mechanical validation does not judge whether the Agent's final scientific interpretation or paper conclusion is correct; that remains the Judger's role."
+    "scientific_validation_boundary": "Mechanical validation does not judge whether the Agent's final scientific interpretation or paper conclusion is correct; that remains the Judger's role.",
+    "software": {
+      "evidence": [],
+      "status": "not_checked"
+    }
   },
-  "declared_artifacts": []
+  "include_inputs": false,
+  "job_id": "job_cd4a007944384157afdd69240e5b5b98",
+  "job_status": "success",
+  "outputs": [
+    {
+      "job_relative_path": "stderr.log",
+      "kind": "log",
+      "path": "outputs/execution_jobs/job_cd4a007944384157afdd69240e5b5b98/stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "job_relative_path": "stdout.log",
+      "kind": "log",
+      "path": "outputs/execution_jobs/job_cd4a007944384157afdd69240e5b5b98/stdout.log",
+      "sha256": "2064f18e70f1201ceadb8f52c46938efc6c90651e983fb5d617898881b40daa8",
+      "size_bytes": 4
+    }
+  ],
+  "process_status": "completed",
+  "request_status": "accepted",
+  "schema_version": 1,
+  "scientific_validation_status": "not_checked",
+  "software_status": "not_checked",
+  "truncated": false
 }

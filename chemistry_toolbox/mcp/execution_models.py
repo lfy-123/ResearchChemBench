@@ -9,7 +9,7 @@ from typing import Literal
 from packaging.specifiers import InvalidSpecifier, SpecifierSet
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
-from researchchem_toolbox.models import ResourceLimits
+from chemistry_toolbox.src.models import ResourceLimits
 
 
 _SOFTWARE_ID = re.compile(r"^[a-z][a-z0-9_]*$")

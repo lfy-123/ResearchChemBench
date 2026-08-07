@@ -2,23 +2,23 @@
   "archived_files": [
     {
       "path": "request.json",
-      "sha256": "006219cf57705ae16f65944491e81b801461c485929546078bbd880bf50f419d",
-      "size_bytes": 1260
+      "sha256": "d432a4b9e9c91c02b96704c0f424ad377fe9189a32ab791f40da820f880407b9",
+      "size_bytes": 1254
     },
     {
       "path": "status.json",
-      "sha256": "d1bd72f8ca94d465f199444334a0bd8621ef7e608cce1de453274cf61747fc76",
-      "size_bytes": 1859
+      "sha256": "795d359bcf6f598895aaa3aa50f5587b95f6299ef08a8defaf0d6adc703a1f31",
+      "size_bytes": 1943
     },
     {
       "path": "collection.json",
-      "sha256": "5b9e6bc38243f300b7f3842e55800660923abb382be87ca205d3da281b80f473",
+      "sha256": "8c22c71eb6e4a13d8e33f671c2c218e58c5b933beaaefabce026d322bc15111a",
       "size_bytes": 1488
     },
     {
       "path": "stdout.log",
-      "sha256": "98b5121e407184383431520d8d2c597d1cf761963a3d98d18bcf8720b7c15807",
-      "size_bytes": 1617
+      "sha256": "cad127e61a2cc432ef23dc2872d054a8b75ae8615603e2b289c2e6f3d6bb7a35",
+      "size_bytes": 1612
     },
     {
       "path": "stderr.log",
@@ -29,7 +29,7 @@
   "artifact_status": "not_declared",
   "convergence_status": "not_checked",
   "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/newton_x",
-  "job_id": "job_b7660f069326437e8129e6a0833c0d3f",
+  "job_id": "job_b64063d7071d428892af3d579d460e99",
   "process_status": "completed",
   "reason": "The configured executable completed the interface probe through the native job runner.",
   "request": {
@@ -55,7 +55,7 @@
   "software_status": "not_checked",
   "status": "passed",
   "stderr_tail": "",
-  "stdout_tail": "Unrecognized option: 1\n\nUsage:\n  nx_test [-p prog_list [-t test_list]][-m path_to_executable] [-d dir] [--make_env]\n\nOptions:\n  -h, --help      Print this help.\n  -p, --prog      Comma-separated list of interfaces for which\n                   to run the tests.  If left empty, all interfaces\n                   present in $NXHOME/examples/ will be tested.\n  -t, --tests     List of tests to run for each interface. The\n                   tests must be comma-separated, and the tests \n                   for different programs are sperated by '|'.\n                   For instance, to run the test 1 for columbus\n                   interface and 1 and 2 for turbomole interface,\n                   the following line commands must be used: \n                   -p turbomole,columbus -t \"01|01,02\".\n                   This option can be used ONLY WHEN a list \n                   of programs is specified.\n  -m, --mdexe     Full path to the program used for running \n                   trajectories.\n                   Default: $NXHOME/bin/md\n  -d, --dir       Directory where the tests will be run.\n                   Default: \"./tests/\"\n  --make_env      Indicate if the this program is run via \n                   \"make check\".\n\n--------------- Examples ---------------\n\n  1) Run all tests:\n\n       nx_test\n\n  2) Run all tests for interface COLUMBUS only:\n\n       nx_test -p columbus\n\n  3) Run tests 01, 02 and 03 for interface COLUMBUS:\n\n       nx_test -p columbus -t \"1,2,3\"\n\n  4) Run tests 01, 02 and 03 for interface COLUMBUS, and\n     01 and 04 for TURBOMOLE:\n\n       nx_test -p columbus,turbomole -t \"1,2,3|1,4\"\n\n",
+  "stdout_tail": "Unrecognized option: 1\n\nUsage:\n  nx_test [-p prog_list [-t test_list]][-m path_to_executable] [-d dir] [--make_env]\n\nOptions:\n  -h, --help      Print this help.\n  -p, --prog      Comma-separated list of interfaces for which\n                   to run the tests.  If left empty, all interfaces\n                   present in $NXHOME/examples/ will be tested.\n  -t, --tests     List of tests to run for each interface. The\n                   tests must be comma-separated, and the tests\n                   for different programs are sperated by '|'.\n                   For instance, to run the test 1 for columbus\n                   interface and 1 and 2 for turbomole interface,\n                   the following line commands must be used:\n                   -p turbomole,columbus -t \"01|01,02\".\n                   This option can be used ONLY WHEN a list\n                   of programs is specified.\n  -m, --mdexe     Full path to the program used for running\n                   trajectories.\n                   Default: $NXHOME/bin/md\n  -d, --dir       Directory where the tests will be run.\n                   Default: \"./tests/\"\n  --make_env      Indicate if the this program is run via\n                   \"make check\".\n\n--------------- Examples ---------------\n\n  1) Run all tests:\n\n       nx_test\n\n  2) Run all tests for interface COLUMBUS only:\n\n       nx_test -p columbus\n\n  3) Run tests 01, 02 and 03 for interface COLUMBUS:\n\n       nx_test -p columbus -t \"1,2,3\"\n\n  4) Run tests 01, 02 and 03 for interface COLUMBUS, and\n     01 and 04 for TURBOMOLE:\n\n       nx_test -p columbus,turbomole -t \"1,2,3|1,4\"\n\n",
   "test_level": "interface_smoke",
-  "tested_at": "2026-07-28T20:16:58.943969+00:00"
+  "tested_at": "2026-08-06T10:32:07.312490+00:00"
 }

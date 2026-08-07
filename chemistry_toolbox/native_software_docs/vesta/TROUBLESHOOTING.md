@@ -5,7 +5,7 @@ topics: ["troubleshooting", "errors", "preflight"]
 aliases: ["VESTA", "vesta"]
 inputs: ["CIF", "POSCAR", "cube", "density", "or VESTA project file"]
 outputs: ["interactive session", "images", "converted structures", "VESTA project"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # VESTA Troubleshooting
@@ -21,7 +21,7 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 ## Known failures and repairs
 | Symptom | Likely cause | Corrective action |
 |---|---|---|
-| shared library cannot be opened | the migrated host lacks the locally bundled GUI runtime libraries | copy .software_cache/vesta/deps and preserve the configured library path |
+| shared library cannot be opened | the migrated host lacks the locally bundled GUI runtime libraries | copy .software_cache/installations/vesta/deps and preserve the configured library path |
 | cannot open display | no X server is available | run in a graphical environment or use a non-GUI alternative |
 
 ## Path and staging failures

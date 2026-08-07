@@ -27,7 +27,7 @@ repository `.envs/` directory. No alternate environment layout is supported.
 ```bash
 cd /path/to/ResearchChemBench
 bash chemistry_toolbox/scripts/setup_toolbox_env.sh --from-lock --skip-verify
-bash chemistry_toolbox/scripts/build_merged_environments.sh --from-lock all
+bash chemistry_toolbox/scripts/build_environments.sh --from-lock all
 ```
 
 The framework is `.envs/researchchembench`; all chemistry runtimes map directly
@@ -284,4 +284,4 @@ If they are absent, run with:
 --no-score
 ```
 
-Agent outputs and process files are still preserved and can be scored later from the Web UI or by calling `evaluation.score.score_workspace()`.
+Agent outputs and process files are still preserved and can be scored later from the Web UI or by calling `evaluation.scoring.service.score_workspace()`.

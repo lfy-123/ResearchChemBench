@@ -1,0 +1,242 @@
+{
+  "generated_at": "2026-08-06T09:06:12.738402+00:00",
+  "schema_version": 1,
+  "network_included": true,
+  "summary": {
+    "case_count": 25,
+    "passed": 25,
+    "failed": 0,
+    "all_ok": true
+  },
+  "cases": [
+    {
+      "case_id": "repair_biomolecular_structure",
+      "action": "repair_biomolecular_structure",
+      "backend": "pdbfixer",
+      "status": "success",
+      "elapsed_seconds": 3.326464,
+      "error": null,
+      "warnings": []
+    },
+    {
+      "case_id": "assign_protonation_states_rdkit",
+      "action": "assign_protonation_states",
+      "backend": "rdkit",
+      "status": "success",
+      "elapsed_seconds": 2.481175,
+      "error": null,
+      "warnings": [
+        "RDKit explicit-hydrogen addition is rule based and does not predict pKa."
+      ]
+    },
+    {
+      "case_id": "assign_protonation_states_pdbfixer",
+      "action": "assign_protonation_states",
+      "backend": "pdbfixer",
+      "status": "success",
+      "elapsed_seconds": 1.671,
+      "error": null,
+      "warnings": []
+    },
+    {
+      "case_id": "standardize_crystal_structure_spglib",
+      "action": "standardize_crystal_structure",
+      "backend": "spglib",
+      "status": "success",
+      "elapsed_seconds": 5.805796,
+      "error": null,
+      "warnings": []
+    },
+    {
+      "case_id": "standardize_crystal_structure_pymatgen",
+      "action": "standardize_crystal_structure",
+      "backend": "pymatgen",
+      "status": "success",
+      "elapsed_seconds": 7.410694,
+      "error": null,
+      "warnings": []
+    },
+    {
+      "case_id": "derive_vibrational_modes",
+      "action": "derive_vibrational_modes",
+      "backend": "internal_vibrations",
+      "status": "success",
+      "elapsed_seconds": 9.762739,
+      "error": null,
+      "warnings": []
+    },
+    {
+      "case_id": "derive_ir_spectrum",
+      "action": "derive_ir_spectrum",
+      "backend": "internal_spectroscopy",
+      "status": "success",
+      "elapsed_seconds": 1.610461,
+      "error": null,
+      "warnings": []
+    },
+    {
+      "case_id": "derive_thermochemistry",
+      "action": "derive_thermochemistry",
+      "backend": "internal_thermochemistry",
+      "status": "success",
+      "elapsed_seconds": 1.817246,
+      "error": null,
+      "warnings": []
+    },
+    {
+      "case_id": "calculate_chemical_equilibrium",
+      "action": "calculate_chemical_equilibrium",
+      "backend": "cantera",
+      "status": "success",
+      "elapsed_seconds": 3.494326,
+      "error": null,
+      "warnings": []
+    },
+    {
+      "case_id": "trace_intrinsic_reaction_coordinate_pysisyphus_xtb",
+      "action": "trace_intrinsic_reaction_coordinate",
+      "backend": "pysisyphus",
+      "status": "success",
+      "elapsed_seconds": 46.221347,
+      "error": null,
+      "warnings": []
+    },
+    {
+      "case_id": "trace_intrinsic_reaction_coordinate_pysisyphus_pyscf",
+      "action": "trace_intrinsic_reaction_coordinate",
+      "backend": "pysisyphus",
+      "status": "success",
+      "elapsed_seconds": 5.684324,
+      "error": null,
+      "warnings": []
+    },
+    {
+      "case_id": "solve_microkinetic_model",
+      "action": "solve_microkinetic_model",
+      "backend": "catmap",
+      "status": "success",
+      "elapsed_seconds": 2.901028,
+      "error": null,
+      "warnings": [
+        "Backend stdout was captured; see worker_stdout in provenance"
+      ]
+    },
+    {
+      "case_id": "calculate_radial_distribution",
+      "action": "calculate_radial_distribution",
+      "backend": "mdanalysis",
+      "status": "success",
+      "elapsed_seconds": 5.5112,
+      "error": null,
+      "warnings": []
+    },
+    {
+      "case_id": "calculate_mean_squared_displacement",
+      "action": "calculate_mean_squared_displacement",
+      "backend": "mdanalysis",
+      "status": "success",
+      "elapsed_seconds": 2.076499,
+      "error": null,
+      "warnings": []
+    },
+    {
+      "case_id": "evaluate_collective_variables",
+      "action": "evaluate_collective_variables",
+      "backend": "plumed",
+      "status": "success",
+      "elapsed_seconds": 3.163435,
+      "error": null,
+      "warnings": []
+    },
+    {
+      "case_id": "generate_displaced_supercells",
+      "action": "generate_displaced_supercells",
+      "backend": "phonopy",
+      "status": "success",
+      "elapsed_seconds": 5.251523,
+      "error": null,
+      "warnings": []
+    },
+    {
+      "case_id": "assemble_force_constants",
+      "action": "assemble_force_constants",
+      "backend": "phonopy",
+      "status": "success",
+      "elapsed_seconds": 1.777415,
+      "error": null,
+      "warnings": []
+    },
+    {
+      "case_id": "calculate_phonon_dispersion",
+      "action": "calculate_phonon_dispersion",
+      "backend": "phonopy",
+      "status": "success",
+      "elapsed_seconds": 1.714469,
+      "error": null,
+      "warnings": []
+    },
+    {
+      "case_id": "calculate_phonon_density_of_states",
+      "action": "calculate_phonon_density_of_states",
+      "backend": "phonopy",
+      "status": "success",
+      "elapsed_seconds": 1.704386,
+      "error": null,
+      "warnings": []
+    },
+    {
+      "case_id": "resolve_chemical_identity",
+      "action": "resolve_chemical_identity",
+      "backend": "pubchem",
+      "status": "success",
+      "elapsed_seconds": 2.749968,
+      "error": null,
+      "warnings": []
+    },
+    {
+      "case_id": "retrieve_compound_properties",
+      "action": "retrieve_compound_properties",
+      "backend": "pubchem",
+      "status": "success",
+      "elapsed_seconds": 2.581526,
+      "error": null,
+      "warnings": []
+    },
+    {
+      "case_id": "retrieve_compound_structure",
+      "action": "retrieve_compound_structure",
+      "backend": "pubchem",
+      "status": "success",
+      "elapsed_seconds": 2.947617,
+      "error": null,
+      "warnings": []
+    },
+    {
+      "case_id": "search_similar_compounds",
+      "action": "search_similar_compounds",
+      "backend": "pubchem",
+      "status": "success",
+      "elapsed_seconds": 3.663227,
+      "error": null,
+      "warnings": []
+    },
+    {
+      "case_id": "search_substructures",
+      "action": "search_substructures",
+      "backend": "pubchem",
+      "status": "success",
+      "elapsed_seconds": 3.385663,
+      "error": null,
+      "warnings": []
+    },
+    {
+      "case_id": "search_catalysis_records",
+      "action": "search_catalysis_records",
+      "backend": "catalysis_hub",
+      "status": "success",
+      "elapsed_seconds": 3.272144,
+      "error": null,
+      "warnings": []
+    }
+  ]
+}

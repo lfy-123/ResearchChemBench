@@ -4,29 +4,34 @@ from pathlib import Path
 
 import numpy as np
 
-from researchchem_toolbox import semantic_embeddings
+from chemistry_toolbox.src import semantic_embeddings
 
 
 def test_default_semantic_cache_is_repository_scoped(monkeypatch) -> None:
     repository_root = Path(__file__).resolve().parents[2]
     monkeypatch.delenv(semantic_embeddings.MODEL_DIRECTORY_ENV, raising=False)
     monkeypatch.delenv(semantic_embeddings.EMBEDDING_CACHE_ENV, raising=False)
+    monkeypatch.delenv("RESEARCHCHEMBENCH_MODEL_CACHE", raising=False)
+    monkeypatch.delenv("RESEARCHCHEMBENCH_RUNTIME_CACHE", raising=False)
 
     assert semantic_embeddings.model_directory() == (
         repository_root / ".model_cache" / "all-MiniLM-L6-v2"
     )
     assert semantic_embeddings.embedding_cache_path() == (
-        repository_root / ".model_cache" / "action_embeddings.npz"
+        repository_root
+        / ".runtime_cache"
+        / "semantic_embeddings"
+        / "action_embeddings.npz"
     )
 
 
 def test_default_toolbox_environment_provisions_semantic_retrieval() -> None:
     repository_root = Path(__file__).resolve().parents[2]
     pip_requirements = (
-        repository_root / "chemistry_toolbox/environment/toolbox-pip.txt"
+        repository_root / "chemistry_toolbox/environment/researchchembench/requirements.txt"
     ).read_text(encoding="utf-8")
     constraints = (
-        repository_root / "chemistry_toolbox/environment/toolbox-constraints.txt"
+        repository_root / "chemistry_toolbox/environment/researchchembench/constraints.txt"
     ).read_text(encoding="utf-8")
     setup_script = (
         repository_root / "chemistry_toolbox/scripts/setup_toolbox_env.sh"

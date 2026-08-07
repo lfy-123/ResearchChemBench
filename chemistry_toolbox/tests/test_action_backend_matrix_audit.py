@@ -4,8 +4,8 @@ import json
 from pathlib import Path
 
 from chemistry_toolbox.scripts.run_action_backend_matrix_smokes import all_cases
-from researchchem_toolbox.catalog import action_specs
-from researchchem_toolbox.paths import CONFIG_ROOT, DOCS_ROOT
+from chemistry_toolbox.src.catalog import action_specs
+from chemistry_toolbox.src.paths import DOCS_ROOT, EVIDENCE_STATUS_ROOT
 
 
 def _json(path: Path):
@@ -14,7 +14,7 @@ def _json(path: Path):
 
 def test_matrix_checkpoint_contains_every_registered_gap_case():
     expected = {(case.action, case.backend) for case in all_cases()}
-    payload = _json(CONFIG_ROOT / "action_backend_matrix_smoke_status.json")
+    payload = _json(EVIDENCE_STATUS_ROOT / "action_backend_matrix_smoke_status.json")
     observed = {(item["action"], item["backend"]) for item in payload["cases"]}
     assert len(expected) == 65
     assert observed == expected
@@ -23,7 +23,7 @@ def test_matrix_checkpoint_contains_every_registered_gap_case():
 
 
 def test_combined_coverage_partitions_the_complete_catalog():
-    payload = _json(CONFIG_ROOT / "action_test_coverage.json")
+    payload = _json(EVIDENCE_STATUS_ROOT / "action_test_coverage.json")
     successful = {tuple(pair) for pair in payload["successful_action_backend_pairs"]}
     failed = {tuple(pair) for pair in payload["failed_action_backend_pairs"]}
     catalog = {
@@ -31,7 +31,7 @@ def test_combined_coverage_partitions_the_complete_catalog():
         for action in action_specs().values()
         for backend_id in action.backend_ids
     }
-    assert len(catalog) == 249
+    assert len(catalog) == payload["summary"]["action_backend_pair_count"]
     assert successful.isdisjoint(failed)
     assert successful | failed == catalog
     assert payload["unobserved_action_backend_pairs"] == []

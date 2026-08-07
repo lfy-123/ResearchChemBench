@@ -14,7 +14,7 @@
 测试目录：
 
 ```text
-chemistry_toolbox/mcp/test_tools/
+chemistry_toolbox/tests/
 ```
 
 公开工具文件与测试文件严格一一对应：
@@ -48,32 +48,32 @@ chemistry_toolbox/mcp/test_tools/
 先激活环境：
 
 ```bash
-cd /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench
+cd ${PROJECT_ROOT}
 source chemistry_toolbox/scripts/activate_toolbox_env.sh
 ```
 
 运行全部 41 个逐工具测试：
 
 ```bash
-bash chemistry_toolbox/mcp/test_tools/run_tests.sh
+bash chemistry_toolbox/scripts/run_toolbox_tests.sh
 ```
 
 真实访问 PubChem、RCSB PDB、Catalysis-Hub：
 
 ```bash
-bash chemistry_toolbox/mcp/test_tools/run_tests.sh --live-network
+python chemistry_toolbox/scripts/run_data_source_smokes.py
 ```
 
 测试后刷新真实软件状态报告：
 
 ```bash
-bash chemistry_toolbox/mcp/test_tools/run_tests.sh --live-network --status-report
+python chemistry_toolbox/scripts/verify_toolbox.py --smoke
 ```
 
 单独复测一个工具：
 
 ```bash
-python -m pytest -q   chemistry_toolbox/mcp/test_tools/test_run_cp2k.py
+python -m pytest -q chemistry_toolbox/tests/test_failed_backend_repairs.py -k cp2k
 ```
 
 ## 3. 41 个工具的测试状态
@@ -381,7 +381,7 @@ from evaluation.mcp_tools.tools.check_backend_availability import (
 print(check_backend_availability_core("CP2K"))
 PY
 
-python -m pytest -q   chemistry_toolbox/mcp/test_tools/test_run_cp2k.py
+python -m pytest -q chemistry_toolbox/tests/test_failed_backend_repairs.py -k cp2k
 ```
 
 然后必须使用一个真实、最小、可收敛输入调用相应 core/MCP 工具，并确认：

@@ -136,11 +136,11 @@ Examples:
     --timeout-seconds 1800 --no-score
 
   # Preview a batch without running it
-  bash scripts/run_agent_eval.sh --config eval_configs/quick_opencode.yaml \
+  bash scripts/run_agent_eval.sh --config eval_configs/examples/quick_opencode.yaml \
     --dry-run --no-score
 
   # Run all tasks described by a custom YAML configuration
-  bash scripts/run_agent_eval.sh --config eval_configs/full.yaml
+  bash scripts/run_agent_eval.sh --config eval_configs/suites/full.yaml
 EOF
 }
 
@@ -180,7 +180,7 @@ WORKSPACES_DIR=""
 TASKS_DIR=""
 # Preserve values loaded from config.local.env. Command-line flags below may
 # still override them, but an omitted flag must not silently discard the local
-# provider/model configuration and fall back to evaluation.config defaults.
+# provider/model configuration and fall back to evaluation.settings defaults.
 OPENCODE_MODEL_VALUE="${OPENCODE_MODEL_VALUE:-}"
 OPENCODE_BASE_URL_VALUE="${OPENCODE_BASE_URL_VALUE:-}"
 JUDGE_MODEL_VALUE="${JUDGE_MODEL_NAME:-}"
@@ -453,7 +453,7 @@ fi
 
 if [[ "$LIST_AGENTS" -eq 1 ]]; then
   python - <<'PY'
-from evaluation.config import AGENT_PRESETS
+from evaluation.settings import AGENT_PRESETS
 for key, value in sorted(AGENT_PRESETS.items()):
     print(f"{key:10s} {value.get('label', key)}")
 PY
@@ -462,7 +462,7 @@ fi
 
 if [[ "$LIST_TASKS" -eq 1 ]]; then
   python - <<'PY'
-from evaluation.utils import list_tasks_grouped
+from evaluation.repository import list_tasks_grouped
 for category, task_ids in list_tasks_grouped().items():
     print(f"[{category}]")
     for task_id in task_ids:
@@ -490,7 +490,7 @@ if [[ -n "$CONFIG" ]]; then
   log_info "Workspaces root=${RESEARCHCHEMBENCH_WORKSPACES_DIR:-$ROOT_DIR/workspaces}"
   log_info "Judge model:     ${JUDGE_MODEL_NAME:-<not configured>}"
   log_info "Live progress=$LIVE_PROGRESS_VALUE console=$PROGRESS_CONSOLE_VALUE max_chars=$PROGRESS_MAX_CHARS_VALUE"
-  exec python -m evaluation.cli_eval "$CONFIG" "${CLI_ARGS[@]}"
+  exec python -m evaluation.cli "$CONFIG" "${CLI_ARGS[@]}"
 fi
 
 log_info "ResearchChemBench single-task evaluation"
@@ -507,7 +507,7 @@ log_info "Workspaces root=${RESEARCHCHEMBENCH_WORKSPACES_DIR:-$ROOT_DIR/workspac
 log_info "Judge model:     ${JUDGE_MODEL_NAME:-<not configured>}"
 log_info "Live progress=$LIVE_PROGRESS_VALUE console=$PROGRESS_CONSOLE_VALUE max_chars=$PROGRESS_MAX_CHARS_VALUE"
 
-exec python -m evaluation.cli_eval \
+exec python -m evaluation.cli \
   --agent "$AGENT" \
   --task "$TASK" \
   "${CLI_ARGS[@]}"

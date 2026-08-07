@@ -1,0 +1,62 @@
+{
+  "archived_files": [
+    {
+      "path": "request.json",
+      "sha256": "1fef2e6ed7cad94b43052e099ba52ecc43f58db033feed32a0459e6a146dd1c1",
+      "size_bytes": 1280
+    },
+    {
+      "path": "status.json",
+      "sha256": "650380c486d7e8a9a06663121caf50a5ac8dadd0aba0cd561973d4c93087cac7",
+      "size_bytes": 2044
+    },
+    {
+      "path": "collection.json",
+      "sha256": "84ac7862b0730b268ef95c23b1dcb668c8d859ea58910942a3c30ba7f80c51ef",
+      "size_bytes": 1511
+    },
+    {
+      "path": "stdout.log",
+      "sha256": "2b322cc32478f7e6693b7df66ebcd0fb24070b91c78e4b2f5cdd2dc1c971e0c8",
+      "size_bytes": 977
+    },
+    {
+      "path": "stderr.log",
+      "sha256": "2de606188acd956373ce5a121c47919d23a9bd3ee30d8ae9d1f62cb5fb545c9a",
+      "size_bytes": 281
+    }
+  ],
+  "artifact_status": "not_validated",
+  "convergence_status": "not_reached",
+  "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/pyfrag",
+  "job_id": "job_8029796f7d9042a39b43dd8bdb44cd1e",
+  "process_status": "failed",
+  "reason": "The executable started and reported that a required scientific input file was not staged.",
+  "request": {
+    "arguments": [
+      "interface_smoke.inp",
+      "scratch"
+    ],
+    "calculation_intent": null,
+    "executable": "pyfrag-orca",
+    "label": "manual-interface-smoke-pyfrag",
+    "parent_job_id": null,
+    "resource_limits": {
+      "cpu_cores": 1,
+      "gpu_count": 0,
+      "memory_mb": 1024
+    },
+    "software_id": "pyfrag",
+    "staged_inputs": [],
+    "stdin_target": null
+  },
+  "request_status": "accepted",
+  "scientific_validation_status": "not_reached",
+  "software_id": "pyfrag",
+  "software_status": "not_reached",
+  "status": "started_input_required",
+  "stderr_tail": "Traceback (most recent call last):\n  File \".software_cache/pyfrag/2019/source/host/standalone/orca/pyfrag.py\", line 370, in <module>\n    input = open(sys.argv[1], 'r')\n            ^^^^^^^^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: 'interface_smoke.inp'\n",
+  "stdout_tail": "\n ===============================================================================\n *  Pyfrag 2019.02                                                             *\n *  Streamlining your reaction path analysis!                                  *\n *                                                                             *\n *  Author: Willem-Jan van Zeist                                               *\n *\n *                                                                             *\n *  Find the manual at http://www.few.vu.nl/~wolters/pyfrag/                   *\n *  For some examples on how to use PyFrag, see the examples directory.        *\n *                                                                             *\n *  E-mail for PyFrag: LP.Wolters@vu.nl                                        *\n ===============================================================================\n\n ====================== PyFrag Is Initializing =================================\n",
+  "test_level": "interface_smoke",
+  "tested_at": "2026-08-06T10:32:07.312490+00:00"
+}

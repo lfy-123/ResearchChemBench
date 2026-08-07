@@ -5,7 +5,7 @@ topics: ["quickstart", "staging", "submission", "resources"]
 aliases: ["QCEngine", "qcengine"]
 inputs: ["QCSchema JSON", "selected program name"]
 outputs: ["QCSchema result JSON", "structured error record", "provenance"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # QCEngine Quickstart

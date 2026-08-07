@@ -7,7 +7,7 @@ import httpx
 import numpy as np
 import pytest
 
-from researchchem_toolbox.backends import data, dynamics, electronic, periodic
+from chemistry_toolbox.src.backends import data, dynamics, electronic, periodic
 
 
 class _PsiVector:
@@ -276,6 +276,7 @@ def test_pubchem_exhausted_503_is_structured_and_retryable(monkeypatch):
 
 
 def test_catalysis_hub_retries_a_transient_timeout(monkeypatch):
+    monkeypatch.setenv("CATALYSIS_HUB_API_KEY", "test-key")
     calls = 0
 
     class Response:

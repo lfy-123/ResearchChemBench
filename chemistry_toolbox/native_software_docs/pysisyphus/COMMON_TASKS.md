@@ -5,7 +5,7 @@ topics: ["common-tasks", "inputs", "outputs", "convergence"]
 aliases: ["pysisyphus", "pysisyphus"]
 inputs: ["config.yaml", "referenced geometry and calculator files"]
 outputs: ["optimization log", "trajectory", "final geometry", "Hessian or path files"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # pysisyphus Common Tasks
@@ -16,6 +16,12 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 - **Irc**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Neb**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Growing String**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
+
+## Preferred typed Action routes
+- `locate_transition_state`: validated structured route through backend `pysisyphus`.
+- `search_reaction_path`: validated structured route through backend `pysisyphus`.
+- `scan_reaction_coordinates`: validated structured route through backend `pysisyphus`.
+- `trace_intrinsic_reaction_coordinate`: validated structured route through backend `pysisyphus`.
 
 ## Minimum input responsibilities
 - `config.yaml`

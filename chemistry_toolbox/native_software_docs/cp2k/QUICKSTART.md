@@ -5,7 +5,7 @@ topics: ["quickstart", "staging", "submission", "resources"]
 aliases: ["CP2K", "cp2k"]
 inputs: ["input.inp", "coordinates", "basis sets and potentials when referenced"]
 outputs: ["output.out", "restart files", "trajectory files", "force files", "cube files"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # CP2K Quickstart

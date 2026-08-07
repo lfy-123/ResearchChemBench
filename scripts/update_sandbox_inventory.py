@@ -15,13 +15,13 @@ from typing import Any
 
 import yaml
 
-from researchchem_toolbox.distributed_pool import (
+from chemistry_toolbox.src.distributed_pool import (
     effective_compute_cpu_cores,
     select_compute_core_groups,
     select_compute_cpu_ids,
     threads_per_physical_core,
 )
-from researchchem_toolbox.sandbox_client import OpenSandboxClient
+from chemistry_toolbox.src.sandbox_client import OpenSandboxClient
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]

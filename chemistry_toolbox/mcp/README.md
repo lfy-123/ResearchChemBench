@@ -17,7 +17,7 @@ This package is the transport layer for the task-independent three-layer chemist
 ## Layout
 
 ```text
-chemistry_toolbox/src/researchchem_toolbox/  core contracts, catalog, dispatcher, artifacts, backends
+chemistry_toolbox/src/  core contracts, catalog, dispatcher, artifacts, backends
 chemistry_toolbox/mcp/                       FastMCP binding, tracing, workspace integration
 chemistry_toolbox/config/mcp_profiles.yaml   dependency-isolated backend runtimes
 chemistry_toolbox/config/native_software_guides.yaml reviewed native invocation contracts

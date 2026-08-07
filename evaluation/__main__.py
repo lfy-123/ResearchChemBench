@@ -1,4 +1,4 @@
 """Entry point: python -m evaluation"""
-from .server import main
+from .web.server import main
 
 main()

@@ -1,57 +1,66 @@
 {
-  "schema_version": 1,
-  "job_id": "job_f92e462588554513b58910728e44bea0",
-  "job_type": "native_software",
-  "status": "success",
-  "supervisor_pid": 959554,
+  "background_process_cleanup": "none_detected",
   "command": [
-    "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/docking/bin/vina",
+    ".envs/molecular-simulation-openff/bin/vina",
     "--version"
   ],
-  "job_directory": "outputs/execution_jobs/job_f92e462588554513b58910728e44bea0",
-  "stdout_path": "outputs/execution_jobs/job_f92e462588554513b58910728e44bea0/stdout.log",
-  "stderr_path": "outputs/execution_jobs/job_f92e462588554513b58910728e44bea0/stderr.log",
-  "resource_limits": {
-    "cpu_cores": 1,
-    "memory_mb": 1024,
-    "gpu_count": 0,
-    "walltime_seconds": 7200
-  },
-  "submitted_at": "2026-07-28T20:18:03.925916+00:00",
-  "started_at": "2026-07-28T20:18:03.960079+00:00",
+  "compute_worker_id": null,
+  "duration_seconds": 0.205833,
+  "error": null,
+  "execution_mode": "local",
+  "finished_at": "2026-08-06T10:32:58.578376+00:00",
+  "job_directory": "outputs/execution_jobs/job_acfa7a6198b247c692ad69f0030fe947",
+  "job_id": "job_acfa7a6198b247c692ad69f0030fe947",
+  "job_type": "native_software",
   "metadata": {
-    "software_id": "vina",
-    "executable": "vina",
-    "label": "manual-interface-smoke-vina",
-    "parent_job_id": null,
     "calculation_intent": "unknown",
+    "evaluation_resource_budget": {
+      "agent_controllable": false,
+      "cpu_cores": 48,
+      "gpu_count": 0,
+      "memory_mb": 204800,
+      "scope": "per_task",
+      "source": "evaluation_policy"
+    },
+    "executable": "vina",
+    "execution_timeout_policy": {
+      "agent_controllable": false,
+      "execution_class": "compute",
+      "source": "evaluation_policy",
+      "timeout_seconds": 7200
+    },
     "input_deck_validation": null,
     "invocation_synopsis": "vina --receptor receptor.pdbqt --ligand ligand.pdbqt --center_x X --center_y Y --center_z Z --size_x X --size_y Y --size_z Z --out poses.pdbqt [options]",
-    "execution_timeout_policy": {
-      "execution_class": "compute",
-      "timeout_seconds": 7200,
-      "source": "evaluation_policy",
-      "agent_controllable": false
-    },
-    "evaluation_resource_budget": {
-      "cpu_cores": 48,
-      "memory_mb": 204800,
-      "gpu_count": 0,
-      "source": "evaluation_policy",
-      "agent_controllable": false,
-      "scope": "per_task"
-    }
+    "label": "manual-interface-smoke-vina",
+    "parent_job_id": null,
+    "software_id": "vina"
   },
-  "finished_at": "2026-07-28T20:18:04.164249+00:00",
-  "duration_seconds": 0.20417,
-  "return_code": 0,
-  "background_process_cleanup": "none_detected",
+  "resource_allocation": {
+    "cpu_ids": [
+      0
+    ],
+    "gpu_ids": []
+  },
+  "resource_limits": {
+    "cpu_cores": 1,
+    "gpu_count": 0,
+    "memory_mb": 1024,
+    "walltime_seconds": 7200
+  },
   "resource_usage": {
-    "user_cpu_seconds": 0.002284,
-    "system_cpu_seconds": 0.002284,
-    "max_rss_kb": 12852,
-    "peak_process_group_rss_kb": 1272,
-    "memory_limit_mb": 1024
+    "max_rss_kb": 28864,
+    "memory_limit_mb": 1024,
+    "peak_process_group_rss_kb": 1708,
+    "system_cpu_seconds": 0.0,
+    "user_cpu_seconds": 0.00438
   },
-  "error": null
+  "return_code": 0,
+  "schema_version": 1,
+  "scratch_isolation": null,
+  "started_at": "2026-08-06T10:32:58.372551+00:00",
+  "status": "success",
+  "stderr_path": "outputs/execution_jobs/job_acfa7a6198b247c692ad69f0030fe947/stderr.log",
+  "stdout_path": "outputs/execution_jobs/job_acfa7a6198b247c692ad69f0030fe947/stdout.log",
+  "submitted_at": "2026-08-06T10:32:58.207977+00:00",
+  "supervisor_pid": 866950
 }

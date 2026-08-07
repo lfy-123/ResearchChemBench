@@ -20,7 +20,7 @@
 
 三层均坚持同一原则：**后端、方法、模型、资源和科学参数由智能体显式选择；系统不自动重试、不静默降级，也不替换不可用方法。**
 
-本目录的主要事实来源是 `chemistry_toolbox/src/researchchem_toolbox/catalog.py`、`chemistry_toolbox/config/native_software_guides.yaml` 和运行时健康探测，而不是任务说明或历史运行报告。
+本目录的主要事实来源是 `chemistry_toolbox/src/catalog.py`、`chemistry_toolbox/config/native_software_guides.yaml` 和运行时健康探测，而不是任务说明或历史运行报告。
 
 ## 2. 科学 Action 能力分布
 

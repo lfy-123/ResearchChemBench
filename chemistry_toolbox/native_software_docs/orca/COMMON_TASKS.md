@@ -5,7 +5,7 @@ topics: ["common-tasks", "inputs", "outputs", "convergence"]
 aliases: ["ORCA", "orca"]
 inputs: ["input.inp", "optional external XYZ", "basis", "point charges", "or restart files"]
 outputs: ["stdout.log", ".gbw", ".xyz", ".hess", ".densities", "property files"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # ORCA Common Tasks
@@ -18,6 +18,19 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 - **Irc**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Excited States**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Correlated Density**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
+
+## Preferred typed Action routes
+- `calculate_energy`: validated structured route through backend `orca`.
+- `calculate_forces`: validated structured route through backend `orca`.
+- `calculate_hessian`: validated structured route through backend `orca`.
+- `optimize_geometry`: validated structured route through backend `orca`.
+- `calculate_dipole_moment`: validated structured route through backend `orca`.
+- `calculate_atomic_charges`: validated structured route through backend `orca`.
+- `calculate_orbitals`: validated structured route through backend `orca`.
+- `calculate_bond_orders`: validated structured route through backend `orca`.
+- `calculate_excited_states`: validated structured route through backend `orca`.
+- `calculate_correlated_electron_density`: validated structured route through backend `orca`.
+- `export_electron_density_grid`: validated structured route through backend `orca`.
 
 ## Minimum input responsibilities
 - `input.inp`

@@ -5,7 +5,7 @@ topics: ["index", "navigation", "capabilities"]
 aliases: ["MESS", "mess"]
 inputs: ["input.inp", "optional external molecular or energy-transfer data"]
 outputs: ["rate.out", "auxiliary diagnostic and eigenvalue files"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # MESS Native Software Guide
@@ -36,6 +36,9 @@ Solve an Agent-authored MESS master-equation model. The native layer is appropri
 - pressure dependence.
 - well reduction.
 - microcanonical kinetics.
+
+## Layer 1 typed Actions
+- `solve_master_equation`.
 
 ## Required knowledge before submission
 The toolbox does not select a scientific method, force field, pseudopotential, basis, database, training set, convergence threshold, or workflow ordering. The Agent must obtain those choices from the task, a paper, or an authoritative source and then author a complete input.

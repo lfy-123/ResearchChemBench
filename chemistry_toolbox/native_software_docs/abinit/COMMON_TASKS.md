@@ -5,7 +5,7 @@ topics: ["common-tasks", "inputs", "outputs", "convergence"]
 aliases: ["ABINIT", "abinit"]
 inputs: ["run.abi", "one pseudopotential per element"]
 outputs: ["run.abo", "run.o_WFK", "run.o_DEN", "stdout.log", "stderr.log"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # ABINIT Common Tasks
@@ -16,6 +16,12 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 - **Band Structure**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Density Of States**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Dfpt**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
+
+## Preferred typed Action routes
+- `calculate_periodic_energy`: validated structured route through backend `abinit`.
+- `calculate_periodic_forces`: validated structured route through backend `abinit`.
+- `calculate_periodic_stress`: validated structured route through backend `abinit`.
+- `relax_periodic_structure`: validated structured route through backend `abinit`.
 
 ## Minimum input responsibilities
 - `run.abi`

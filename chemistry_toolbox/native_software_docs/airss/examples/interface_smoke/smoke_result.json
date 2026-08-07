@@ -1,0 +1,64 @@
+{
+  "archived_files": [
+    {
+      "path": "request.json",
+      "sha256": "28eca65f9b842aaa1289defe9484ab45c0db40f1592f3a2fc89f92390ebb20c1",
+      "size_bytes": 1480
+    },
+    {
+      "path": "status.json",
+      "sha256": "416f93d041e7046e763b81cac00543722c087ecee7383a67d246c1b0c27787ec",
+      "size_bytes": 1933
+    },
+    {
+      "path": "collection.json",
+      "sha256": "f9fdb96ffa0edc0d3eb6a65a7937537e56fa37e2c8edfa1bf8ebed631f5ad032",
+      "size_bytes": 1486
+    },
+    {
+      "path": "stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "stderr.log",
+      "sha256": "f572ab70e089c47b3b4504a22a90e6d1fd64bb770699369475708698e18120dd",
+      "size_bytes": 33
+    }
+  ],
+  "artifact_status": "not_declared",
+  "convergence_status": "not_checked",
+  "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/airss",
+  "job_id": "job_9229d97fd6ab4b9d80f2c03b3a922117",
+  "process_status": "completed",
+  "reason": "The configured executable completed the interface probe through the native job runner.",
+  "request": {
+    "arguments": [],
+    "calculation_intent": null,
+    "executable": "buildcell",
+    "label": "manual-interface-smoke-airss",
+    "parent_job_id": null,
+    "resource_limits": {
+      "cpu_cores": 1,
+      "gpu_count": 0,
+      "memory_mb": 1024
+    },
+    "software_id": "airss",
+    "staged_inputs": [
+      {
+        "source_path": "code/airss_interface_smoke.stdin",
+        "target_path": "interface_smoke.stdin"
+      }
+    ],
+    "stdin_target": "interface_smoke.stdin"
+  },
+  "request_status": "accepted",
+  "scientific_validation_status": "not_checked",
+  "software_id": "airss",
+  "software_status": "not_checked",
+  "status": "passed",
+  "stderr_tail": "STOP adjust_cell : num_ions <= 0\n",
+  "stdout_tail": "",
+  "test_level": "interface_smoke",
+  "tested_at": "2026-08-06T10:32:07.312490+00:00"
+}

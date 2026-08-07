@@ -5,7 +5,7 @@ topics: ["index", "navigation", "capabilities"]
 aliases: ["ShengBTE", "shengbte"]
 inputs: ["CONTROL", "FORCE_CONSTANTS_2ND", "FORCE_CONSTANTS_3RD"]
 outputs: ["BTE.kappa_tensor", "BTE.omega", "BTE.v", "BTE.* diagnostic files"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # ShengBTE Native Software Guide
@@ -36,6 +36,9 @@ Solve lattice thermal transport from an Agent-authored ShengBTE CONTROL and forc
 - relaxation-time approximation.
 - isotope scattering.
 - convergence studies.
+
+## Layer 1 typed Actions
+- `calculate_lattice_thermal_conductivity`.
 
 ## Required knowledge before submission
 The toolbox does not select a scientific method, force field, pseudopotential, basis, database, training set, convergence threshold, or workflow ordering. The Agent must obtain those choices from the task, a paper, or an authoritative source and then author a complete input.

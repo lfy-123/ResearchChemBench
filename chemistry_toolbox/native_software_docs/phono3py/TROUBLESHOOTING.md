@@ -5,7 +5,7 @@ topics: ["troubleshooting", "errors", "preflight"]
 aliases: ["phono3py", "phono3py"]
 inputs: ["unit cell", "displacement configuration", "force data", "optional Born charges"]
 outputs: ["supercell displacement structures", "phono3py_disp.yaml", "fc2.hdf5", "fc3.hdf5", "kappa files"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # phono3py Troubleshooting

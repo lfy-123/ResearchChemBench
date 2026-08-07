@@ -22,14 +22,14 @@ from typing import Any
 import yaml
 from packaging.specifiers import SpecifierSet
 
-from researchchem_toolbox.artifacts import ArtifactStore
-from researchchem_toolbox.paths import PROJECT_ROOT
-from researchchem_toolbox.runtime import (
+from chemistry_toolbox.src.artifacts import ArtifactStore
+from chemistry_toolbox.src.paths import PROJECT_ROOT
+from chemistry_toolbox.src.runtime import (
     runtime_environment,
     runtime_names,
     runtime_python,
 )
-from researchchem_toolbox.resource_budget import (
+from chemistry_toolbox.src.resource_budget import (
     ResourceBudgetExceeded,
     active_resource_jobs,
     active_resource_usage,
@@ -38,14 +38,14 @@ from researchchem_toolbox.resource_budget import (
     resource_budget_record,
     validate_resource_limits,
 )
-from researchchem_toolbox.distributed_pool import (
+from chemistry_toolbox.src.distributed_pool import (
     DistributedResourceLimitExceeded,
     distributed_enabled,
     job_scheduling_snapshot,
     pool_snapshot,
     validate_distributed_resource_limits,
 )
-from researchchem_toolbox.timeout_policy import (
+from chemistry_toolbox.src.timeout_policy import (
     timeout_policy_record,
     timeout_seconds_for,
 )
@@ -70,7 +70,6 @@ from .workspace import (
     relative_workspace_path,
     resolve_workspace_output_path,
     resolve_workspace_path,
-    workspace_root,
 )
 
 

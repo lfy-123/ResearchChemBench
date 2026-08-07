@@ -17,11 +17,11 @@ import pubchempy as pcp
 
 
 TOOLBOX_ROOT = Path(__file__).resolve().parents[1]
-SOURCE_ROOT = TOOLBOX_ROOT / "src"
-if str(SOURCE_ROOT) not in sys.path:
-    sys.path.insert(0, str(SOURCE_ROOT))
+PROJECT_ROOT = TOOLBOX_ROOT.parent
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
-from researchchem_toolbox.proxy import configure_pubchem_proxy_environment
+from chemistry_toolbox.src.proxy import configure_pubchem_proxy_environment
 
 
 HOST = "pubchem.ncbi.nlm.nih.gov"

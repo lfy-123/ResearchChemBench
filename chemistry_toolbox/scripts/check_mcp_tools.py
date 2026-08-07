@@ -18,7 +18,8 @@ for path in (SOURCE_ROOT, ROOT):
     if str(path) not in sys.path:
         sys.path.insert(0, str(path))
 
-from researchchem_toolbox.catalog import action_specs, validate_catalog
+from chemistry_toolbox.src.catalog import action_specs, validate_catalog
+from chemistry_toolbox.mcp.async_action_tools import ASYNC_ACTION_TOOL_NAMES
 from chemistry_toolbox.mcp.open_tools import OPEN_EXECUTION_TOOL_NAMES
 
 
@@ -48,7 +49,11 @@ async def run(*, smoke: bool = False) -> None:
         async with Client(create_server(discovery_mode="full")) as client:
             tools = await client.list_tools()
             tool_names = {tool.name for tool in tools}
-            expected_tools = set(action_specs()) | set(OPEN_EXECUTION_TOOL_NAMES)
+            expected_tools = (
+                set(action_specs())
+                | set(OPEN_EXECUTION_TOOL_NAMES)
+                | set(ASYNC_ACTION_TOOL_NAMES)
+            )
             if tool_names != expected_tools:
                 raise RuntimeError(
                     f"Full three-layer catalog mismatch: "
@@ -57,7 +62,8 @@ async def run(*, smoke: bool = False) -> None:
                 )
             print(
                 f"Registered {len(action_specs())} Actions and "
-                f"{len(OPEN_EXECUTION_TOOL_NAMES)} open-execution MCP tools"
+                f"{len(OPEN_EXECUTION_TOOL_NAMES)} open-execution plus "
+                f"{len(ASYNC_ACTION_TOOL_NAMES)} async MCP tools"
             )
             if not smoke:
                 return

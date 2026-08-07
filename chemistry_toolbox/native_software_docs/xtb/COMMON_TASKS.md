@@ -5,7 +5,7 @@ topics: ["common-tasks", "inputs", "outputs", "convergence"]
 aliases: ["xTB", "xtb"]
 inputs: ["structure.xyz", "optional xcontrol file"]
 outputs: ["stdout.log", "xtbopt.xyz", "hessian", "charges", "wbo", "trajectory files"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # xTB Common Tasks
@@ -17,6 +17,15 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 - **Molecular Dynamics**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Solvation**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Properties**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
+
+## Preferred typed Action routes
+- `calculate_energy`: validated structured route through backend `xtb`.
+- `calculate_forces`: validated structured route through backend `xtb`.
+- `calculate_hessian`: validated structured route through backend `xtb`.
+- `optimize_geometry`: validated structured route through backend `xtb`.
+- `calculate_dipole_moment`: validated structured route through backend `xtb`.
+- `calculate_atomic_charges`: validated structured route through backend `xtb`.
+- `calculate_bond_orders`: validated structured route through backend `xtb`.
 
 ## Minimum input responsibilities
 - `structure.xyz`

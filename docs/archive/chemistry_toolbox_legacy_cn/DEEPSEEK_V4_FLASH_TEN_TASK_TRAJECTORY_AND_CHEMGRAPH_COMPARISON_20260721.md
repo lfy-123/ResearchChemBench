@@ -3,7 +3,7 @@
 > 审计日期：2026-07-21
 > Agent：OpenCode 1.14.41 + `deepseek/deepseek-v4-flash`
 > 新工具箱：ResearchChemBench Chemistry MCP，完整原子 Action Catalog
-> 原工具参考：`/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ChemGraph/src/chemgraph/tools`
+> 原工具参考：`<legacy-workspace>/ChemGraph/src/chemgraph/tools`
 
 ## 1. 结论摘要
 

@@ -17,7 +17,7 @@ ResearchChemBench does **not** run ChemGraph's LangGraph workflow. Codex CLI or 
 The implementation was created in:
 
 ```text
-/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench
+${PROJECT_ROOT}
 ```
 
 The two sibling reference repositories were treated as read-only:
@@ -273,7 +273,7 @@ The following are rejected:
 
 Parent directories may be created only after the resolved destination is proven to be inside the workspace.
 
-`settings.py` locates ChemGraph using `CHEMGRAPH_ROOT` first, then searches conventional parent/sibling locations. It does not import `evaluation.config`, which is what allows the directory to be copied outside ResearchChemBench.
+`settings.py` locates ChemGraph using `CHEMGRAPH_ROOT` first, then searches conventional parent/sibling locations. It does not import `evaluation.settings`, which is what allows the directory to be copied outside ResearchChemBench.
 
 ### 6.4 `chemistry_toolbox/mcp/tracing.py`
 
@@ -685,8 +685,8 @@ Package data explicitly includes Agent presets, environment/requirements templat
 Installed console scripts:
 
 ```text
-researchchembench      → evaluation.server:main
-researchchembench-eval → evaluation.cli_eval:main
+researchchembench      → evaluation.web.server:main
+researchchembench-eval → evaluation.cli:main
 ```
 
 Repository wrapper:
@@ -779,7 +779,7 @@ For a leaderboard-quality release, the next hardening step should be a per-run c
 A reviewer can verify the implementation with the following sequence:
 
 ```bash
-cd /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench
+cd ${PROJECT_ROOT}
 
 # Unit tests
 pytest -q
@@ -788,8 +788,8 @@ pytest -q
 bash scripts/run_agent_eval.sh --agent mock --task ChemGraph_001 --no-score
 
 # Validate Agent configuration without invocation
-python -m evaluation.cli_eval eval_configs/quick_codex.yaml --dry-run --no-score
-python -m evaluation.cli_eval eval_configs/quick_claude.yaml --dry-run --no-score
+python -m evaluation.cli eval_configs/examples/quick_codex.yaml --dry-run --no-score
+python -m evaluation.cli eval_configs/examples/quick_claude.yaml --dry-run --no-score
 
 # Once ChemGraph dependencies are installed
 python chemistry_toolbox/scripts/check_mcp_tools.py

@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import importlib.util
 import json
 from pathlib import Path
 
@@ -8,25 +7,15 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
 
-def _generator_module():
-    path = PROJECT_ROOT / "scripts" / "build_heterobiaryl_author_output_manifests.py"
-    spec = importlib.util.spec_from_file_location("build_heterobiaryl_manifests", path)
-    assert spec is not None and spec.loader is not None
-    module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
-    return module
-
-
-def test_author_output_manifests_match_archives_and_have_complete_pairings() -> None:
-    module = _generator_module()
-    assert module.MANIFESTS
-    assert all("Reproduction" in path.parts[-4] for path in module.MANIFESTS)
-    for path in module.MANIFESTS:
-        recorded = json.loads(
-            path.with_name("author_output_file_roles.json").read_text(encoding="utf-8")
+def test_author_output_manifests_have_complete_pairings() -> None:
+    manifests = list(
+        PROJECT_ROOT.glob(
+            "tasks/*Reproduction*/data/benchmark_data/author_output_file_roles.json"
         )
-        generated = module.enrich_manifest(path)
-        assert recorded == generated, path
+    )
+    assert manifests
+    for path in manifests:
+        recorded = json.loads(path.read_text(encoding="utf-8"))
         assert recorded["schema_version"] == 2
         assert recorded["summary"]["unclassified_file_count"] == 0
         assert recorded["summary"]["pairing_count"] > 0

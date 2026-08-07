@@ -5,7 +5,7 @@ from pathlib import Path
 
 import yaml
 
-from researchchem_toolbox.catalog import backend_specs
+from chemistry_toolbox.src.catalog import backend_specs
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -15,10 +15,10 @@ def _yaml(path: str):
     return yaml.safe_load((ROOT / path).read_text(encoding="utf-8"))
 
 
-def test_requested_software_inventory_covers_all_48_unique_items():
+def test_requested_software_inventory_covers_all_58_unique_items():
     items = _yaml("config/requested_software.yaml")["requested_software"]
     names = [item["name"] for item in items]
-    assert len(names) == len(set(names)) == 48
+    assert len(names) == len(set(names)) == 58
     assert {item["category"] for item in items} == {
         "Data and Workflow Infrastructure",
         "Conformers and Molecular Quantum Chemistry",
@@ -26,9 +26,11 @@ def test_requested_software_inventory_covers_all_48_unique_items():
         "Molecular Dynamics and Free Energy",
         "Reaction Networks and Kinetics",
         "Excited States, Spectroscopy, and Visualization",
-        "Docking, Structure Processing, and Machine-Learned Potentials",
-        "Data Interfaces",
-    }
+            "Docking, Structure Processing, and Machine-Learned Potentials",
+            "Data Interfaces",
+            "Molecular Simulation, Free Energy, and Biomolecular Modeling",
+            "Data-Driven Chemistry and Materials Discovery",
+        }
 
 
 def test_probe_items_reference_declared_runtimes_and_models_use_model_cache():
@@ -39,7 +41,6 @@ def test_probe_items_reference_declared_runtimes_and_models_use_model_cache():
     ]
     runtime_names = {
         *mcp["profiles"],
-        *mcp.get("support_environments", {}),
         *auxiliary,
     }
     for item in items:
@@ -78,9 +79,9 @@ def test_new_source_and_binary_extensions_have_explicit_exposure_status():
 
 def test_generated_requested_software_status_has_no_unaccounted_missing_item():
     payload = json.loads(
-        (ROOT / "config/requested_software_status.json").read_text(encoding="utf-8")
+        (ROOT / "evidence/status/requested_software_status.json").read_text(encoding="utf-8")
     )
-    assert payload["summary"]["total"] == 48
+    assert payload["summary"]["total"] == 58
     assert payload["summary"]["counts"].get("not_found", 0) == 0
     assert {item["status"] for item in payload["software"]} <= {
         "configured",

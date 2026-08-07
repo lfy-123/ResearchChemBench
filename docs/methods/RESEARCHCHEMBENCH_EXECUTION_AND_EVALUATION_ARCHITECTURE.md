@@ -5,6 +5,8 @@
 > 重点范围：智能体调用方式、化学工具箱构建与执行方式、评估与评分方式  
 > 说明：工作区存在未提交修改，因此本文记录的是阅读时的实际代码状态。若后续继续增删 Action、Backend 或运行环境，文中的数量应以运行时 catalog 为准。
 
+> 环境迁移说明（2026-08-06）：本文保留了 2026-07-21 快照中的历史环境章节。当前唯一有效的环境布局、构建命令和状态文件见 [`docs/MCP_PROFILE_ENVIRONMENTS.md`](../MCP_PROFILE_ENVIRONMENTS.md) 与仓库根目录 `README.md`；`.toolbox_env`、`.tool_envs`、`support_environments` 和 `chemistry_toolbox/environment/locks` 均已停用。
+
 ## 目录
 
 1. [核心结论](#1-核心结论)
@@ -111,9 +113,9 @@ ResearchChemBench 不是一个把固定化学工作流包装成单个工具的�
 - [evaluation/run_task.py](../../evaluation/run_task.py)
 - [evaluation/score.py](../../evaluation/score.py)
 - [evaluation/cli_eval.py](../../evaluation/cli_eval.py)
-- [chemistry_toolbox/src/researchchem_toolbox/catalog.py](../../chemistry_toolbox/src/researchchem_toolbox/catalog.py)
-- [chemistry_toolbox/src/researchchem_toolbox/service.py](../../chemistry_toolbox/src/researchchem_toolbox/service.py)
-- [chemistry_toolbox/src/researchchem_toolbox/runtime.py](../../chemistry_toolbox/src/researchchem_toolbox/runtime.py)
+- [chemistry_toolbox/src/catalog.py](../../chemistry_toolbox/src/catalog.py)
+- [chemistry_toolbox/src/service.py](../../chemistry_toolbox/src/service.py)
+- [chemistry_toolbox/src/runtime.py](../../chemistry_toolbox/src/runtime.py)
 - [chemistry_toolbox/mcp/registry.py](../../chemistry_toolbox/mcp/registry.py)
 - [chemistry_toolbox/config/mcp_profiles.yaml](../../chemistry_toolbox/config/mcp_profiles.yaml)
 
@@ -162,7 +164,7 @@ ResearchChemBench 不是一个把固定化学工作流包装成单个工具的�
                                ▼
 ┌──────────────────────────────────────────────────────────────────┐
 │ Dependency-isolated Worker                                      │
-│ runtime Python -m researchchem_toolbox.worker                    │
+│ runtime Python -m chemistry_toolbox.src.worker                    │
 │ backends/<domain>.py 执行具体库或外部程序                        │
 └──────────────────────────────┬───────────────────────────────────┘
                                │ ActionResult + files
@@ -252,17 +254,17 @@ ResearchChemBench 不是一个把固定化学工作流包装成单个工具的�
 
 | 路径 | 职责 |
 |---|---|
-| src/researchchem_toolbox/actions/ | 按科学领域组织的静态 ActionSpec |
-| src/researchchem_toolbox/backend_specs.py | 76 个 BackendSpec |
-| src/researchchem_toolbox/models.py | ActionRequest、ActionResult、ArtifactRef 等公共契约 |
-| src/researchchem_toolbox/catalog.py | catalog 校验、快照、hash、Agent 工具概览 |
-| src/researchchem_toolbox/service.py | 单个 Action 的选择校验与 dispatch |
-| src/researchchem_toolbox/runtime.py | runtime 健康探测和 Worker 子进程启动 |
-| src/researchchem_toolbox/worker.py | 后端环境内 JSON stdin/stdout 边界 |
-| src/researchchem_toolbox/backends/ | 各科学领域的具体实现 |
-| src/researchchem_toolbox/artifacts.py | 语义 ArtifactRef 存储 |
-| src/researchchem_toolbox/resources.py | 显式科学资源注册与解析 |
-| src/researchchem_toolbox/proxy.py | PubChem 代理环境配置 |
+| src/actions/ | 按科学领域组织的静态 ActionSpec |
+| src/backend_specs.py | 76 个 BackendSpec |
+| src/models.py | ActionRequest、ActionResult、ArtifactRef 等公共契约 |
+| src/catalog.py | catalog 校验、快照、hash、Agent 工具概览 |
+| src/service.py | 单个 Action 的选择校验与 dispatch |
+| src/runtime.py | runtime 健康探测和 Worker 子进程启动 |
+| src/worker.py | 后端环境内 JSON stdin/stdout 边界 |
+| src/backends/ | 各科学领域的具体实现 |
+| src/artifacts.py | 语义 ArtifactRef 存储 |
+| src/resources.py | 显式科学资源注册与解析 |
+| src/proxy.py | PubChem 代理环境配置 |
 | mcp/server.py | FastMCP server |
 | mcp/registry.py | 将全部 ActionSpec 动态注册为 MCP tools |
 | mcp/tracing.py | MCP 调用结果、trace、文件变化快照 |
@@ -326,11 +328,11 @@ chemistry_toolbox 目录还包含独立的 [chemistry_toolbox/pyproject.toml](..
 
 | 命令 | 实际入口 |
 |---|---|
-| python -m evaluation | evaluation.server.main |
-| researchchembench | evaluation.server.main |
-| researchchembench-eval | evaluation.cli_eval.main |
-| ./rchem-eval | evaluation.cli_eval.main |
-| bash scripts/run_agent_eval.sh | 参数处理后 exec python -m evaluation.cli_eval |
+| python -m evaluation | evaluation.web.server.main |
+| researchchembench | evaluation.web.server.main |
+| researchchembench-eval | evaluation.cli.main |
+| ./rchem-eval | evaluation.cli.main |
+| bash scripts/run_agent_eval.sh | 参数处理后 exec python -m evaluation.cli |
 | researchchem-mcp-server | chemistry_toolbox.mcp.server.main |
 
 ---
@@ -675,7 +677,7 @@ Agent preset 来自 [evaluation/agents.json](../../evaluation/agents.json)。
 Mock 用当前 Python 运行：
 
 ~~~text
-python -m evaluation.mock_agent
+python -m evaluation.testing.mock_agent
   --workspace <workspace>
   --prompt-file <INSTRUCTIONS.md>
 ~~~
@@ -889,7 +891,7 @@ ActionSpec 按九个科学领域拆分：
 | data_sources | 10 | 10 | 5 |
 | 合计 | 101 | 236 | 76 个全局 BackendSpec |
 
-这些 tuple 在 [chemistry_toolbox/src/researchchem_toolbox/actions](../../chemistry_toolbox/src/researchchem_toolbox/actions) 中声明，并由 actions/__init__.py 拼接为单一 ACTION_SPECS。
+这些 tuple 在 [chemistry_toolbox/src/actions](../../chemistry_toolbox/src/actions) 中声明，并由 actions/__init__.py 拼接为单一 ACTION_SPECS。
 
 ActionSpec 主要字段：
 
@@ -1095,7 +1097,7 @@ agent_toolbox_overview 生成长文本，内容包括：
 - core runtime environment；
 - 默认的渐进发现/显式执行工具名；full 兼容模式则为排序后的全部 Action 名。
 
-evaluation.config.chemistry_server_specs 始终返回只包含这个 spec 的列表。
+evaluation.settings.chemistry_server_specs 始终返回只包含这个 spec 的列表。
 
 RESEARCHCHEMBENCH_MCP_PROFILES 如果存在，只会调用 selected_profile_names 验证名称，既不会减少 server 数，也不会改变 Action 列表。
 
@@ -1207,7 +1209,7 @@ Benchmark Agent adapter 使用 stdio。streamable_http 是独立部署能力，�
 
 ## 12. 一次化学 Action 的内部执行链
 
-核心入口是 [chemistry_toolbox/src/researchchem_toolbox/service.py](../../chemistry_toolbox/src/researchchem_toolbox/service.py)。
+核心入口是 [chemistry_toolbox/src/service.py](../../chemistry_toolbox/src/service.py)。
 
 ### 12.1 完整顺序
 
@@ -1405,7 +1407,7 @@ runtime_environment 为一个后端运行时设置：
 invoke_worker 运行：
 
 ~~~text
-<runtime_python> -m researchchem_toolbox.worker
+<runtime_python> -m chemistry_toolbox.src.worker
 ~~~
 
 协议：
@@ -1490,7 +1492,7 @@ Agent 若要换 backend，必须再次发起新的 MCP 调用。新选择会形�
 
 ### 14.1 语义 ArtifactRef
 
-[chemistry_toolbox/src/researchchem_toolbox/artifacts.py](../../chemistry_toolbox/src/researchchem_toolbox/artifacts.py) 管理 Action 之间传递的 typed reference。
+[chemistry_toolbox/src/artifacts.py](../../chemistry_toolbox/src/artifacts.py) 管理 Action 之间传递的 typed reference。
 
 ArtifactRef 字段：
 
@@ -1693,7 +1695,7 @@ PubChem 默认最小请求间隔为 0.25 秒，低于官方 5 request/s 限制�
 
 ### 15.4 PubChem 代理加载
 
-[chemistry_toolbox/src/researchchem_toolbox/proxy.py](../../chemistry_toolbox/src/researchchem_toolbox/proxy.py) 在每个 PubChem backend dispatch 前执行。
+[chemistry_toolbox/src/proxy.py](../../chemistry_toolbox/src/proxy.py) 在每个 PubChem backend dispatch 前执行。
 
 优先级：
 
@@ -2134,7 +2136,7 @@ CLI 最终退出码只取决于所有 run 是否 completed：
 
 ### 18.7 Web UI
 
-evaluation.server 是 Flask + CORS 的轻量 UI。
+evaluation.web.server 是 Flask + CORS 的轻量 UI。
 
 主要 API：
 
@@ -2596,7 +2598,7 @@ Shell 支持 --chemgraph-python 并导出 CHEMGRAPH_PYTHON，但统一 MCP serve
 开发安装：
 
 ~~~bash
-cd /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench
+cd ${PROJECT_ROOT}
 bash chemistry_toolbox/scripts/setup_toolbox_env.sh
 .toolbox_env/bin/python chemistry_toolbox/scripts/setup_mcp_profile_envs.py --continue-on-error
 cp config.local.env.example config.local.env
@@ -2642,7 +2644,7 @@ bash chemistry_toolbox/scripts/bootstrap_chemistry_toolbox.sh +  --asset-source 
 
 ~~~bash
 proxy_on
-.tool_envs/services/bin/python chemistry_toolbox/scripts/check_pubchem_connectivity.py +  --name water +  --cid 962 +  --timeout 20 +  --output chemistry_toolbox/config/pubchem_connectivity_status.json
+.tool_envs/services/bin/python chemistry_toolbox/scripts/check_pubchem_connectivity.py +  --name water +  --cid 962 +  --timeout 20 +  --output chemistry_toolbox/evidence/status/pubchem_connectivity_status.json
 ~~~
 
 也可在 config.local.env 设置专用变量：
@@ -2689,12 +2691,12 @@ JUDGE_MODEL_NAME=...
 
 然后不传 --no-score。
 
-已有 run 也可通过 Web API 手动 score，或在 Python 中调用 evaluation.score.score_workspace。
+已有 run 也可通过 Web API 手动 score，或在 Python 中调用 evaluation.scoring.service.score_workspace。
 
 ### 22.9 Batch dry-run
 
 ~~~bash
-bash scripts/run_agent_eval.sh +  --config eval_configs/full.yaml +  --dry-run +  --no-score
+bash scripts/run_agent_eval.sh +  --config eval_configs/suites/full.yaml +  --dry-run +  --no-score
 ~~~
 
 ### 22.10 小规模真实批量
@@ -2702,7 +2704,7 @@ bash scripts/run_agent_eval.sh +  --config eval_configs/full.yaml +  --dry-run +
 先跑：
 
 ~~~bash
-bash scripts/run_agent_eval.sh +  --config eval_configs/quick_codex.yaml
+bash scripts/run_agent_eval.sh +  --config eval_configs/examples/quick_codex.yaml
 ~~~
 
 再扩展到 full.yaml。
@@ -3024,17 +3026,17 @@ runtime 名和实际 prefix 不一定一一对应。例如 critic2、shengbte、
 
 ### C.2 Toolbox contracts and catalog
 
-- [chemistry_toolbox/src/researchchem_toolbox/models.py](../../chemistry_toolbox/src/researchchem_toolbox/models.py)
-- [chemistry_toolbox/src/researchchem_toolbox/actions](../../chemistry_toolbox/src/researchchem_toolbox/actions)
-- [chemistry_toolbox/src/researchchem_toolbox/backend_specs.py](../../chemistry_toolbox/src/researchchem_toolbox/backend_specs.py)
-- [chemistry_toolbox/src/researchchem_toolbox/catalog.py](../../chemistry_toolbox/src/researchchem_toolbox/catalog.py)
-- [chemistry_toolbox/src/researchchem_toolbox/service.py](../../chemistry_toolbox/src/researchchem_toolbox/service.py)
+- [chemistry_toolbox/src/models.py](../../chemistry_toolbox/src/models.py)
+- [chemistry_toolbox/src/actions](../../chemistry_toolbox/src/actions)
+- [chemistry_toolbox/src/backend_specs.py](../../chemistry_toolbox/src/backend_specs.py)
+- [chemistry_toolbox/src/catalog.py](../../chemistry_toolbox/src/catalog.py)
+- [chemistry_toolbox/src/service.py](../../chemistry_toolbox/src/service.py)
 
 ### C.3 Execution
 
-- [chemistry_toolbox/src/researchchem_toolbox/runtime.py](../../chemistry_toolbox/src/researchchem_toolbox/runtime.py)
-- [chemistry_toolbox/src/researchchem_toolbox/worker.py](../../chemistry_toolbox/src/researchchem_toolbox/worker.py)
-- [chemistry_toolbox/src/researchchem_toolbox/backends](../../chemistry_toolbox/src/researchchem_toolbox/backends)
+- [chemistry_toolbox/src/runtime.py](../../chemistry_toolbox/src/runtime.py)
+- [chemistry_toolbox/src/worker.py](../../chemistry_toolbox/src/worker.py)
+- [chemistry_toolbox/src/backends](../../chemistry_toolbox/src/backends)
 
 ### C.4 MCP and observability
 
@@ -3043,8 +3045,8 @@ runtime 名和实际 prefix 不一定一一对应。例如 critic2、shengbte、
 - [chemistry_toolbox/mcp/profiles.py](../../chemistry_toolbox/mcp/profiles.py)
 - [chemistry_toolbox/mcp/tracing.py](../../chemistry_toolbox/mcp/tracing.py)
 - [chemistry_toolbox/mcp/workspace.py](../../chemistry_toolbox/mcp/workspace.py)
-- [chemistry_toolbox/src/researchchem_toolbox/artifacts.py](../../chemistry_toolbox/src/researchchem_toolbox/artifacts.py)
-- [chemistry_toolbox/src/researchchem_toolbox/resources.py](../../chemistry_toolbox/src/researchchem_toolbox/resources.py)
+- [chemistry_toolbox/src/artifacts.py](../../chemistry_toolbox/src/artifacts.py)
+- [chemistry_toolbox/src/resources.py](../../chemistry_toolbox/src/resources.py)
 
 ### C.5 Environment and reproducibility
 

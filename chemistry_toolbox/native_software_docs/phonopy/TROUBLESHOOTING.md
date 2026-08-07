@@ -5,7 +5,7 @@ topics: ["troubleshooting", "errors", "preflight"]
 aliases: ["Phonopy", "phonopy"]
 inputs: ["unit cell", "displacement YAML", "force data", "optional Born charges"]
 outputs: ["supercells", "phonopy_disp.yaml", "FORCE_SETS", "force_constants.hdf5", "band and DOS YAML"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Phonopy Troubleshooting

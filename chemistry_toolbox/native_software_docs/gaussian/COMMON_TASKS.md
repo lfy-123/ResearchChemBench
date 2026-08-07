@@ -5,7 +5,7 @@ topics: ["common-tasks", "inputs", "outputs", "convergence"]
 aliases: ["Gaussian", "gaussian"]
 inputs: ["input.gjf or input.com"]
 outputs: ["stdout.log", "checkpoint file", "optional formatted checkpoint"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Gaussian Common Tasks
@@ -17,6 +17,12 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 - **Transition State**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Irc**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Link1 Workflow**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
+
+## Preferred typed Action routes
+- `calculate_energy`: validated structured route through backend `gaussian`.
+- `calculate_hessian`: validated structured route through backend `gaussian`.
+- `optimize_geometry`: validated structured route through backend `gaussian`.
+- `calculate_dipole_moment`: validated structured route through backend `gaussian`.
 
 ## Minimum input responsibilities
 - `input.gjf or input.com`

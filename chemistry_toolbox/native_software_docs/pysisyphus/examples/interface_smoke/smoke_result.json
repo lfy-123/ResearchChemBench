@@ -2,23 +2,23 @@
   "archived_files": [
     {
       "path": "request.json",
-      "sha256": "6296f796766a2008d42213cb328a25eced1f7f96be39c3342ba4741f8093a1a8",
-      "size_bytes": 1947
+      "sha256": "42bf4ba9557d3d1dceef3bf6ad83e55f83b6d30de38013707a7898aa9a361e05",
+      "size_bytes": 1943
     },
     {
       "path": "status.json",
-      "sha256": "ac6aa1d473aeee11962701719bd958c3d34877c76ac666da1fd2019a99c9ee42",
-      "size_bytes": 2102
+      "sha256": "629910c0f32a88f783e562544af70f22e695ac1275636f798ffe854cdb1e5506",
+      "size_bytes": 2186
     },
     {
       "path": "collection.json",
-      "sha256": "18a2b9f371ce0432cd83a02cd6800bb38dd79f4b522599cc3b6a57c37ee9d220",
+      "sha256": "df7578d0ae6e7e73f9e4f725078c46c4b6c391065091155503069565a8403076",
       "size_bytes": 7367
     },
     {
       "path": "stdout.log",
-      "sha256": "889c84cfc737c88928095d00bc32668b650d8039db359e0e73174f27af3b8998",
-      "size_bytes": 3400
+      "sha256": "42c702072ee5ca2058818cc529e49b8c47e6d87b93eb1888d5ad018828510b46",
+      "size_bytes": 3227
     },
     {
       "path": "stderr.log",
@@ -29,9 +29,9 @@
   "artifact_status": "not_declared",
   "convergence_status": "not_checked",
   "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/pysisyphus",
-  "job_id": "job_5fb3220872f649528b7c21e2a0694a34",
+  "job_id": "job_c460a2898d894c6c85b975a3e94f2483",
   "process_status": "completed",
-  "reason": "The configured executable completed the interface probe through the native job runner.",
+  "reason": "A self-contained H2 optimization completed with task-specific convergence through the native job runner.",
   "request": {
     "arguments": [
       "interface_smoke.yaml"
@@ -64,7 +64,7 @@
   "software_status": "not_checked",
   "status": "passed",
   "stderr_tail": "",
-  "stdout_tail": "0/outputs/execution_jobs/job_5fb3220872f649528b7c21e2a0694a34\n\nIf pysisyphus benefitted your research please cite:\n\n\thttps://doi.org/10.1002/qua.26390\n\nGood luck!\n\n{'calc': {'charge': 0, 'gfn': 2, 'mult': 1, 'pal': 1, 'type': 'xtb'},\n 'geom': {'coord_kwargs': {}, 'fn': 'interface_smoke.xyz', 'type': 'cart'},\n 'opt': {'T': 298.15,\n         'do_hess': False,\n         'dump': True,\n         'max_cycles': 5,\n         'overachieve_factor': 5,\n         'p': 101325,\n         'type': 'rfo'}}\n\nRead 1 geometry.\n                            ########################\n                            # RUNNING OPTIMIZATION #\n                            ########################\n\n     Input geometry: Geometry(H\u2082, 2 atoms)\n  Coordinate system: cart\n  Coordinate number: 6\n         Calculator: XTB calculator\n             Charge: 0\n       Multiplicity: 1\n          Optimizer: rfo\n\n\nIf not specified otherwise, all quantities are given in au.\n\nConvergence thresholds, (overachieved when):\n\tmax(|force|) <= 0.002500, (0.000500) E_h a_0\u207b\u00b9\n\t  rms(force) <= 0.001700, (0.000340) E_h a_0\u207b\u00b9\n\t max(|step|) <= 0.010000 a_0\n\t   rms(step) <= 0.006700 a_0\n\t'Superscript *' indicates convergence\n\nSpent 0.0 s preparing the first cycle.\n               cycle     \u0394(energy)  max(|force|)    rms(force)   max(|step|)     rms(step)  s/cycle\n        --------------------------------------------------------------------------------------------\n                   0           nan*     0.014843      0.008569      0.014836      0.008566    0.032 \n                   1     -0.000304*     0.005791      0.003343      0.009492*     0.005480*   0.019 \n                   2     -0.000059*     0.000484*     0.000279*     0.000866*     0.000500*   0.017 \n        Converged!\n\nFinal summary:\n        \tmax(forces,cartesian): 0.000484 hartree/bohr\n        \trms(forces,cartesian): 0.000279 hartree/bohr\n        \tenergy: -0.98268574 hartree\n        Wrote final, hopefully optimized, geometry to 'final_geometry.xyz'\n\npysisyphus run took 0:00:00 h.\n",
-  "test_level": "interface_smoke",
-  "tested_at": "2026-07-28T20:16:58.943969+00:00"
+  "stdout_tail": "y/outputs/execution_jobs/job_c460a2898d894c6c85b975a3e94f2483\n\nIf pysisyphus benefitted your research please cite:\n\n\thttps://doi.org/10.1002/qua.26390\n\nGood luck!\n\n{'calc': {'charge': 0, 'gfn': 2, 'mult': 1, 'pal': 1, 'type': 'xtb'},\n 'geom': {'coord_kwargs': {}, 'fn': 'interface_smoke.xyz', 'type': 'cart'},\n 'opt': {'T': 298.15,\n         'do_hess': False,\n         'dump': True,\n         'max_cycles': 5,\n         'overachieve_factor': 5,\n         'p': 101325,\n         'type': 'rfo'}}\n\nRead 1 geometry.\n                            ########################\n                            # RUNNING OPTIMIZATION #\n                            ########################\n\n     Input geometry: Geometry(H\u2082, 2 atoms)\n  Coordinate system: cart\n  Coordinate number: 6\n         Calculator: XTB calculator\n             Charge: 0\n       Multiplicity: 1\n          Optimizer: rfo\n\n\nIf not specified otherwise, all quantities are given in au.\n\nConvergence thresholds, (overachieved when):\n\tmax(|force|) <= 0.002500, (0.000500) E_h a_0\u207b\u00b9\n\t  rms(force) <= 0.001700, (0.000340) E_h a_0\u207b\u00b9\n\t max(|step|) <= 0.010000 a_0\n\t   rms(step) <= 0.006700 a_0\n\t'Superscript *' indicates convergence\n\nSpent 0.0 s preparing the first cycle.\n               cycle     \u0394(energy)  max(|force|)    rms(force)   max(|step|)     rms(step)  s/cycle\n        --------------------------------------------------------------------------------------------\n                   0           nan*     0.014843      0.008569      0.014836      0.008566    0.023\n                   1     -0.000304*     0.005791      0.003343      0.009492*     0.005480*   0.018\n                   2     -0.000059*     0.000484*     0.000279*     0.000866*     0.000500*   0.017\n        Converged!\n\nFinal summary:\n        \tmax(forces,cartesian): 0.000484 hartree/bohr\n        \trms(forces,cartesian): 0.000279 hartree/bohr\n        \tenergy: -0.98268574 hartree\n        Wrote final, hopefully optimized, geometry to 'final_geometry.xyz'\n\npysisyphus run took 0:00:00 h.\n",
+  "test_level": "scientific_smoke",
+  "tested_at": "2026-08-06T10:32:07.312490+00:00"
 }

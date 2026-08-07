@@ -21,10 +21,11 @@ for path in (SOURCE_ROOT, ROOT):
     if str(path) not in sys.path:
         sys.path.insert(0, str(path))
 
-from researchchem_toolbox.service import execute_action
+from chemistry_toolbox.src.service import execute_action
+from chemistry_toolbox.src.paths import portable_report_value
 
 
-STATUS_PATH = TOOLBOX_ROOT / "config" / "data_source_smoke_status.json"
+STATUS_PATH = TOOLBOX_ROOT / "evidence" / "status" / "data_source_smoke_status.json"
 
 
 def main() -> int:
@@ -36,7 +37,7 @@ def main() -> int:
                 "inputs": {"query": "water"},
                 "method_spec": {},
                 "action_settings": {"max_records": 1},
-                "resource_limits": {"walltime_seconds": 90, "cpu_cores": 1},
+                "resource_limits": {"cpu_cores": 1},
             },
         ),
         (
@@ -44,8 +45,8 @@ def main() -> int:
             {
                 "inputs": {"query": "1CRN"},
                 "method_spec": {},
-                "action_settings": {"max_records": 1, "timeout_seconds": 30},
-                "resource_limits": {"walltime_seconds": 60, "cpu_cores": 1},
+                "action_settings": {"max_records": 1},
+                "resource_limits": {"cpu_cores": 1},
             },
         ),
         (
@@ -56,9 +57,8 @@ def main() -> int:
                 "action_settings": {
                     "max_records": 1,
                     "fields": ["material_id", "formula_pretty"],
-                    "timeout_seconds": 60,
                 },
-                "resource_limits": {"walltime_seconds": 120, "cpu_cores": 1},
+                "resource_limits": {"cpu_cores": 1},
             },
         ),
         (
@@ -66,8 +66,8 @@ def main() -> int:
             {
                 "inputs": {"query": {"reactants": "CO"}},
                 "method_spec": {},
-                "action_settings": {"max_records": 1, "timeout_seconds": 60},
-                "resource_limits": {"walltime_seconds": 90, "cpu_cores": 1},
+                "action_settings": {"max_records": 1},
+                "resource_limits": {"cpu_cores": 1},
             },
         ),
         (
@@ -80,9 +80,8 @@ def main() -> int:
                 "action_settings": {
                     "units": "SI",
                     "max_records": 1,
-                    "timeout_seconds": 30,
                 },
-                "resource_limits": {"walltime_seconds": 60, "cpu_cores": 1},
+                "resource_limits": {"cpu_cores": 1},
             },
         ),
     ]
@@ -115,6 +114,7 @@ def main() -> int:
         },
         "cases": results,
     }
+    payload = portable_report_value(payload)
     STATUS_PATH.write_text(
         json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",

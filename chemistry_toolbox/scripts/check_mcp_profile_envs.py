@@ -23,6 +23,7 @@ SOURCE_ROOT = TOOLBOX_ROOT / "src"
 for path in (SOURCE_ROOT, ROOT):
     if str(path) not in sys.path:
         sys.path.insert(0, str(path))
+from chemistry_toolbox.src.paths import portable_report_value  # noqa: E402
 CONFIG_PATH = TOOLBOX_ROOT / "config" / "mcp_profiles.yaml"
 LOCAL_CONFIG_PATH = ROOT / "config.local.env"
 JSON_REPORT = TOOLBOX_ROOT / "docs" / "MCP_PROFILE_STATUS.json"
@@ -106,18 +107,17 @@ def main() -> int:
     args = parser.parse_args()
     config = yaml.safe_load(CONFIG_PATH.read_text(encoding="utf-8"))
     runtimes = {}
-    for group in ("profiles", "support_environments"):
-        for name, value in (config.get(group) or {}).items():
-            runtimes[name] = {**value, "_runtime_group": group}
+    for name, value in (config.get("profiles") or {}).items():
+        runtimes[name] = {**value, "_runtime_group": "profiles"}
     selected = [item.strip() for item in args.profiles.split(",") if item.strip()] or list(runtimes)
     unknown = sorted(set(selected) - set(runtimes))
     if unknown:
         raise SystemExit(f"Unknown profiles: {unknown}")
     secrets = {key: str(value) for key, value in dotenv_values(LOCAL_CONFIG_PATH).items() if value is not None} if LOCAL_CONFIG_PATH.exists() else {}
     results = {name: run_profile(name, runtimes[name], args, secrets) for name in selected}
-    from researchchem_toolbox.catalog import action_specs
+    from chemistry_toolbox.src.catalog import action_specs
 
-    payload = {
+    payload = portable_report_value({
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "summary": {
             "profile_count": len(results),
@@ -125,7 +125,7 @@ def main() -> int:
             "public_action_count": len(action_specs()),
         },
         "profiles": results,
-    }
+    })
     if args.no_write:
         print(json.dumps(payload, indent=2, ensure_ascii=False))
     else:

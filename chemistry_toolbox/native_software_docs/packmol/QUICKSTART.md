@@ -5,7 +5,7 @@ topics: ["quickstart", "staging", "submission", "resources"]
 aliases: ["Packmol", "packmol"]
 inputs: ["packmol.inp", "one coordinate template per structure block"]
 outputs: ["packed.xyz or another requested output", "stdout.log"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Packmol Quickstart

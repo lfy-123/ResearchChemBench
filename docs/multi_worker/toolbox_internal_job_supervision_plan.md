@@ -503,7 +503,7 @@ Action batch 的新终态 item 也必须直接返回紧凑 result、失败诊断
 
 - `evaluation/instructions_tmpl.py`
   - 增加统一等待和禁止 shell 轮询规则。
-- `chemistry_toolbox/src/researchchem_toolbox/catalog.py`
+- `chemistry_toolbox/src/catalog.py`
   - 把“显式轮询”说明替换为批量稳定等待。
 - `chemistry_toolbox/mcp/software_catalog.py`
   - 更新 native execution prompt。

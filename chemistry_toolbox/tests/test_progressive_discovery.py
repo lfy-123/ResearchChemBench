@@ -16,8 +16,8 @@ from chemistry_toolbox.mcp.discovery_tools import (
     submit_action_batch,
 )
 from chemistry_toolbox.mcp.result_transport import compact_action_result
-from researchchem_toolbox.catalog import action_specs, catalog_snapshot
-from researchchem_toolbox.discovery import (
+from chemistry_toolbox.src.catalog import action_specs, catalog_snapshot
+from chemistry_toolbox.src.discovery import (
     browse_action_category,
     inspect_action,
     inspect_backend,
@@ -227,14 +227,17 @@ def test_distributed_action_batch_uses_pool_instead_of_local_budget(
     active = 0
     observed_peak = 0
     lock = threading.Lock()
+    all_workers_started = threading.Event()
 
     def delayed(action_id, request):
         nonlocal active, observed_peak
         with lock:
             active += 1
             observed_peak = max(observed_peak, active)
+            if active == 8:
+                all_workers_started.set()
         try:
-            time.sleep(0.1)
+            all_workers_started.wait(timeout=2.0)
             return {
                 "status": "success",
                 "action": action_id,

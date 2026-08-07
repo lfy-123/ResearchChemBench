@@ -12,7 +12,7 @@ from chemistry_toolbox.mcp.open_execution import (
     submit_analysis_program,
     wait_execution_jobs,
 )
-from researchchem_toolbox.models import ResourceLimits
+from chemistry_toolbox.src.models import ResourceLimits
 
 
 class FakeClock:

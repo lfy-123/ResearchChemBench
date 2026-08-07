@@ -5,7 +5,7 @@ topics: ["index", "navigation", "capabilities"]
 aliases: ["QCEngine", "qcengine"]
 inputs: ["QCSchema JSON", "selected program name"]
 outputs: ["QCSchema result JSON", "structured error record", "provenance"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # QCEngine Native Software Guide
@@ -37,6 +37,9 @@ Invoke the QCEngine command-line interface on an Agent-authored QCSchema input a
 - Hessian.
 - optimization procedure.
 - program discovery.
+
+## Layer 1 typed Actions
+- No typed Action is registered. Use the reviewed native command layer or the documented programmable runtime.
 
 ## Required knowledge before submission
 The toolbox does not select a scientific method, force field, pseudopotential, basis, database, training set, convergence threshold, or workflow ordering. The Agent must obtain those choices from the task, a paper, or an authoritative source and then author a complete input.

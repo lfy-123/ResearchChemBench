@@ -10,7 +10,7 @@ from typing import Any, Callable, TypeVar
 
 from pydantic import BaseModel
 
-from researchchem_toolbox.discovery import (
+from chemistry_toolbox.src.discovery import (
     browse_action_category as _browse_action_category,
     inspect_action as _inspect_action,
     inspect_backend as _inspect_backend,
@@ -19,15 +19,15 @@ from researchchem_toolbox.discovery import (
     search_actions as _search_actions,
     search_resources as _search_resources,
 )
-from researchchem_toolbox.catalog import action_specs
-from researchchem_toolbox.distributed_pool import distributed_enabled, pool_snapshot
-from researchchem_toolbox.resource_budget import (
+from chemistry_toolbox.src.catalog import action_specs
+from chemistry_toolbox.src.distributed_pool import distributed_enabled, pool_snapshot
+from chemistry_toolbox.src.resource_budget import (
     active_resource_jobs,
     active_resource_usage,
     evaluation_resource_budget,
     normalize_resource_limits,
 )
-from researchchem_toolbox.service import execute_action as _execute_action
+from chemistry_toolbox.src.service import execute_action as _execute_action
 
 from .discovery_models import (
     ActionCategoryBrowseRequest,

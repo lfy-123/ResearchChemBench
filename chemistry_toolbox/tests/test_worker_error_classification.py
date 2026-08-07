@@ -4,7 +4,7 @@ import io
 import json
 import sys
 
-from researchchem_toolbox import worker
+from chemistry_toolbox.src import worker
 
 
 def test_worker_classifies_adapter_value_errors_as_invalid_requests(monkeypatch, capsys):

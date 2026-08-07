@@ -1,11 +1,11 @@
 ---
 software_id: kinbot
-versions: ["installed KinBot runtime"]
+versions: ["2.2.2+local-nwchem-patch"]
 topics: ["quickstart", "staging", "submission", "resources"]
 aliases: ["KinBot", "kinbot"]
 inputs: ["input.json", "starting structure", "templates", "selected QM backend configuration"]
 outputs: ["KinBot database", "structures", "quantum-chemistry inputs and logs", "PES files"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # KinBot Quickstart
@@ -25,7 +25,7 @@ The runner creates an isolated job directory and executes the resolved binary th
 ## Input mode
 The primary executable is `kinbot` and its input mode is `arguments`.
 Required inputs: `input.json`.
-Expected outputs: stdout/stderr or task-dependent outputs only.
+Expected outputs: `kinbot.log`, `kinbot.db`.
 Example classification: `scientific_template`.
 Output behavior: Writes KinBot logs, geometries, reaction candidates, and database files.
 

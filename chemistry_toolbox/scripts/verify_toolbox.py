@@ -29,7 +29,7 @@ from chemistry_toolbox.mcp.software_catalog import (
 )
 from chemistry_toolbox.mcp.execution_models import AnalysisRuntimeListRequest
 from chemistry_toolbox.mcp.tool_manager import installation_report
-from researchchem_toolbox.backends import (
+from chemistry_toolbox.src.backends import (
     cheminformatics,
     data,
     docking,
@@ -40,10 +40,11 @@ from researchchem_toolbox.backends import (
     reaction,
     structure,
 )
-from researchchem_toolbox.catalog import action_specs, backend_specs, catalog_snapshot, validate_catalog
-from researchchem_toolbox.discovery import _action_search_documents, _action_search_fields
-from researchchem_toolbox.semantic_embeddings import semantic_scores
-from researchchem_toolbox.service import execute_action
+from chemistry_toolbox.src.catalog import action_specs, backend_specs, catalog_snapshot, validate_catalog
+from chemistry_toolbox.src.discovery import _action_search_documents, _action_search_fields
+from chemistry_toolbox.src.semantic_embeddings import semantic_scores
+from chemistry_toolbox.src.service import execute_action
+from chemistry_toolbox.src.paths import portable_report_value
 
 
 JSON_PATH = TOOLBOX_ROOT / "docs" / "TOOLBOX_STATUS.json"
@@ -329,7 +330,7 @@ def main() -> int:
     args = parser.parse_args()
     checks = structural_checks()
     catalog = catalog_snapshot(include_health=True)
-    payload = {
+    payload = portable_report_value({
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "scientific_actions": sum(not item.data_action for item in action_specs().values()),
         "data_actions": sum(item.data_action for item in action_specs().values()),
@@ -348,7 +349,7 @@ def main() -> int:
         "catalog": catalog,
         "installation": installation_report(),
         "smoke": smoke_results() if args.smoke else None,
-    }
+    })
     if not args.no_write:
         JSON_PATH.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
         MARKDOWN_PATH.write_text(markdown(payload), encoding="utf-8")

@@ -14,7 +14,7 @@ Important parameters:
 |---|---|---|
 | `--agent`, `-a` | Agent preset | `--agent opencode` |
 | `--task`, `-t` | One ResearchChemBench task ID | `--task Electron_Isodensity_Reproduction_01_Method_Selection` |
-| `--config`, `-c` | YAML batch configuration; replaces `--agent/--task` | `--config eval_configs/quick_codex.yaml` |
+| `--config`, `-c` | YAML batch configuration; replaces `--agent/--task` | `--config eval_configs/examples/quick_codex.yaml` |
 | `--no-score` | Preserve results without calling the judge | `--no-score` |
 | `--dry-run` | Print planned runs without Agent execution | `--dry-run` |
 | `--timeout-seconds` | Per-Agent wall-time limit | `--timeout-seconds 1800` |
@@ -119,16 +119,16 @@ bash scripts/run_agent_eval.sh --agent mock \
 Batch smoke test:
 
 ```bash
-python -m evaluation.cli_eval eval_configs/quick_mock.yaml --no-score
-bash scripts/run_agent_eval.sh --config eval_configs/quick_mock.yaml --no-score
+python -m evaluation.cli eval_configs/examples/quick_mock.yaml --no-score
+bash scripts/run_agent_eval.sh --config eval_configs/examples/quick_mock.yaml --no-score
 ```
 
 ## 3. Dry-run an Agent configuration
 
 ```bash
-python -m evaluation.cli_eval eval_configs/quick_codex.yaml --dry-run --no-score
-python -m evaluation.cli_eval eval_configs/quick_claude.yaml --dry-run --no-score
-python -m evaluation.cli_eval eval_configs/quick_opencode.yaml --dry-run --no-score
+python -m evaluation.cli eval_configs/examples/quick_codex.yaml --dry-run --no-score
+python -m evaluation.cli eval_configs/examples/quick_claude.yaml --dry-run --no-score
+python -m evaluation.cli eval_configs/examples/quick_opencode.yaml --dry-run --no-score
 ```
 
 Dry-run validates tasks and Agent keys without creating run workspaces or invoking an Agent.
@@ -156,19 +156,19 @@ bash scripts/run_agent_eval.sh --agent codex --task Electron_Isodensity_Reproduc
 Equivalent Python invocation:
 
 ```bash
-python -m evaluation.cli_eval --agent codex --task Electron_Isodensity_Reproduction_01_Method_Selection --no-score
+python -m evaluation.cli --agent codex --task Electron_Isodensity_Reproduction_01_Method_Selection --no-score
 ```
 
 ## 5. Batch evaluation
 
 ```bash
-python -m evaluation.cli_eval eval_configs/quick_codex.yaml
-python -m evaluation.cli_eval eval_configs/quick_claude.yaml
-python -m evaluation.cli_eval eval_configs/quick_opencode.yaml --no-score
-python -m evaluation.cli_eval eval_configs/full.yaml
+python -m evaluation.cli eval_configs/examples/quick_codex.yaml
+python -m evaluation.cli eval_configs/examples/quick_claude.yaml
+python -m evaluation.cli eval_configs/examples/quick_opencode.yaml --no-score
+python -m evaluation.cli eval_configs/suites/full.yaml
 
 # Equivalent shell-script form
-bash scripts/run_agent_eval.sh --config eval_configs/quick_codex.yaml
+bash scripts/run_agent_eval.sh --config eval_configs/examples/quick_codex.yaml
 ```
 
 The `full.yaml` configuration runs all currently distributed tasks and can be computationally expensive.

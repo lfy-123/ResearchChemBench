@@ -5,7 +5,7 @@ topics: ["common-tasks", "inputs", "outputs", "convergence"]
 aliases: ["DFTB+", "dftbplus"]
 inputs: ["dftb_in.hsd", "geometry", "Slater-Koster files"]
 outputs: ["detailed.out", "results.tag", "geo_end.gen", "charges.bin"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # DFTB+ Common Tasks
@@ -16,6 +16,11 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 - **Molecular Dynamics**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Band Structure**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Scc Properties**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
+
+## Preferred typed Action routes
+- `calculate_periodic_energy`: validated structured route through backend `dftbplus`.
+- `calculate_periodic_forces`: validated structured route through backend `dftbplus`.
+- `relax_periodic_structure`: validated structured route through backend `dftbplus`.
 
 ## Minimum input responsibilities
 - `dftb_in.hsd`

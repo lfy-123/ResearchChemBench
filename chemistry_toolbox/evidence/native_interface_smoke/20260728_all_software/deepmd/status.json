@@ -1,57 +1,66 @@
 {
-  "schema_version": 1,
-  "job_id": "job_abaf9b3abbed4fec9787a93c4d2a92bd",
-  "job_type": "native_software",
-  "status": "success",
-  "supervisor_pid": 934506,
+  "background_process_cleanup": "none_detected",
   "command": [
-    "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/deepmd_models/bin/dp",
+    ".envs/equivariant-ml/bin/dp",
     "--version"
   ],
-  "job_directory": "outputs/execution_jobs/job_abaf9b3abbed4fec9787a93c4d2a92bd",
-  "stdout_path": "outputs/execution_jobs/job_abaf9b3abbed4fec9787a93c4d2a92bd/stdout.log",
-  "stderr_path": "outputs/execution_jobs/job_abaf9b3abbed4fec9787a93c4d2a92bd/stderr.log",
-  "resource_limits": {
-    "cpu_cores": 1,
-    "memory_mb": 1024,
-    "gpu_count": 0,
-    "walltime_seconds": 7200
-  },
-  "submitted_at": "2026-07-28T20:17:18.281134+00:00",
-  "started_at": "2026-07-28T20:17:18.315717+00:00",
+  "compute_worker_id": null,
+  "duration_seconds": 0.207068,
+  "error": null,
+  "execution_mode": "local",
+  "finished_at": "2026-08-06T10:32:18.915162+00:00",
+  "job_directory": "outputs/execution_jobs/job_f74d6f8007f24081b7be3efa905be196",
+  "job_id": "job_f74d6f8007f24081b7be3efa905be196",
+  "job_type": "native_software",
   "metadata": {
-    "software_id": "deepmd",
-    "executable": "dp",
-    "label": "manual-interface-smoke-deepmd",
-    "parent_job_id": null,
     "calculation_intent": "unknown",
+    "evaluation_resource_budget": {
+      "agent_controllable": false,
+      "cpu_cores": 48,
+      "gpu_count": 0,
+      "memory_mb": 204800,
+      "scope": "per_task",
+      "source": "evaluation_policy"
+    },
+    "executable": "dp",
+    "execution_timeout_policy": {
+      "agent_controllable": false,
+      "execution_class": "compute",
+      "source": "evaluation_policy",
+      "timeout_seconds": 7200
+    },
     "input_deck_validation": null,
     "invocation_synopsis": "dp <train|freeze|test|compress|show|convert-backend> [subcommand options]",
-    "execution_timeout_policy": {
-      "execution_class": "compute",
-      "timeout_seconds": 7200,
-      "source": "evaluation_policy",
-      "agent_controllable": false
-    },
-    "evaluation_resource_budget": {
-      "cpu_cores": 48,
-      "memory_mb": 204800,
-      "gpu_count": 0,
-      "source": "evaluation_policy",
-      "agent_controllable": false,
-      "scope": "per_task"
-    }
+    "label": "manual-interface-smoke-deepmd",
+    "parent_job_id": null,
+    "software_id": "deepmd"
   },
-  "finished_at": "2026-07-28T20:17:18.519779+00:00",
-  "duration_seconds": 0.204057,
-  "return_code": 0,
-  "background_process_cleanup": "none_detected",
+  "resource_allocation": {
+    "cpu_ids": [
+      0
+    ],
+    "gpu_ids": []
+  },
+  "resource_limits": {
+    "cpu_cores": 1,
+    "gpu_count": 0,
+    "memory_mb": 1024,
+    "walltime_seconds": 7200
+  },
   "resource_usage": {
-    "user_cpu_seconds": 0.057503,
-    "system_cpu_seconds": 0.020536,
-    "max_rss_kb": 18024,
-    "peak_process_group_rss_kb": 2140,
-    "memory_limit_mb": 1024
+    "max_rss_kb": 29088,
+    "memory_limit_mb": 1024,
+    "peak_process_group_rss_kb": 1240,
+    "system_cpu_seconds": 0.016498,
+    "user_cpu_seconds": 0.065995
   },
-  "error": null
+  "return_code": 0,
+  "schema_version": 1,
+  "scratch_isolation": null,
+  "started_at": "2026-08-06T10:32:18.708091+00:00",
+  "status": "success",
+  "stderr_path": "outputs/execution_jobs/job_f74d6f8007f24081b7be3efa905be196/stderr.log",
+  "stdout_path": "outputs/execution_jobs/job_f74d6f8007f24081b7be3efa905be196/stdout.log",
+  "submitted_at": "2026-08-06T10:32:18.543884+00:00",
+  "supervisor_pid": 838675
 }

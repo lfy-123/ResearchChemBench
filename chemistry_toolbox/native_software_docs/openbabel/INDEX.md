@@ -5,7 +5,7 @@ topics: ["index", "navigation", "capabilities"]
 aliases: ["Open Babel", "openbabel"]
 inputs: ["molecular input file"]
 outputs: ["converted molecular file", "console summary"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Open Babel Native Software Guide
@@ -37,6 +37,9 @@ Convert, filter, and manipulate molecular file formats with Open Babel. The nati
 - 2D to 3D conversion.
 - filtering.
 - descriptor calculation.
+
+## Layer 1 typed Actions
+- `generate_3d_structure`.
 
 ## Required knowledge before submission
 The toolbox does not select a scientific method, force field, pseudopotential, basis, database, training set, convergence threshold, or workflow ordering. The Agent must obtain those choices from the task, a paper, or an authoritative source and then author a complete input.

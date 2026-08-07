@@ -295,7 +295,7 @@ progressive 与参考值绝对差：`3.1333×10^-7 eV`，远低于 benchmark 5% 
 可复现 token 对比：
 
 ```bash
-.toolbox_env/bin/python -m evaluation.token_usage \
+.toolbox_env/bin/python -m evaluation.provenance.token_usage \
   <full-workspace> <progressive-workspace>
 ```
 

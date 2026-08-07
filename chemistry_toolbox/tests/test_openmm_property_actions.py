@@ -4,7 +4,7 @@ import math
 
 import pytest
 
-from researchchem_toolbox.service import execute_action
+from chemistry_toolbox.src.service import execute_action
 
 
 WATER = """ATOM      1  O   HOH A   1       0.000   0.000   0.000  1.00  0.00           O

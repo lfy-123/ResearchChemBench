@@ -15,12 +15,24 @@ for the complete execution and benchmark contract.
 
 ```text
 chemistry_toolbox/
-├── src/researchchem_toolbox/   protocol-independent Action and Backend core
+├── src/   protocol-independent Action and Backend core
 ├── mcp/                        FastMCP transport and Agent integration
-├── config/                     runtime, software, and scientific-resource manifests
+├── config/                     versioned runtime, software, and resource manifests
+├── environment/                reproducible environment specifications and locks
+├── software_management/        managed software-cache installation and migration
+├── native_software_docs/       generated, Agent-searchable native software manuals
+├── evidence/                   versioned smoke and failure-replay evidence
 ├── scripts/                    setup, audit, smoke, and report commands
 ├── tests/                      chemistry-toolbox tests
+├── examples/                   small analysis and native-integration examples
+├── patches/                    reviewed upstream compatibility patches
 └── docs/                       architecture, capability, and audit documentation
+```
+
+Run the focused toolbox regression suite with:
+
+```bash
+bash chemistry_toolbox/scripts/run_toolbox_tests.sh
 ```
 
 `config/native_software_guides.yaml` is the versioned, machine-readable source
@@ -37,7 +49,7 @@ Large runtime assets remain outside the source tree:
 - `../.software_cache`: installed scientific programs and local documentation
 - `../.model_cache`: model weights
 - `../.envs/researchchembench`: framework, development, and audit environment
-- `../.envs/*`: six consolidated backend runtime environments
+- `../.envs/*`: seven consolidated backend runtime environments
 
 The completed migration and verification record is available in
 [`docs/CHEMISTRY_TOOLBOX_LAYOUT_REFACTOR_20260721.md`](docs/CHEMISTRY_TOOLBOX_LAYOUT_REFACTOR_20260721.md).

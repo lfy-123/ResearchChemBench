@@ -1,9 +1,9 @@
 import json
 from pathlib import Path
 
-from evaluation.run_task import TaskRunner
-from evaluation.score import RUBRIC_JUDGE_SYSTEM_PROMPT, score_workspace
-from evaluation.utils import load_ground_truth
+from evaluation.execution.runner import TaskRunner
+from evaluation.scoring.service import RUBRIC_JUDGE_SYSTEM_PROMPT, score_workspace
+from evaluation.repository import load_ground_truth
 
 
 def _full_credit_dual_axis_verdict(task_id: str, rationale: str) -> dict:
@@ -122,7 +122,7 @@ def test_rubric_score_is_derived_from_clamped_criterion_scores(
         "judge_instructions": "",
         "reference_evidence": {},
     }
-    monkeypatch.setattr("evaluation.score.load_ground_truth", lambda _task_id: rubric_truth)
+    monkeypatch.setattr("evaluation.scoring.service.load_ground_truth", lambda _task_id: rubric_truth)
     native_event = {
         "type": "tool_use",
         "part": {
@@ -201,7 +201,7 @@ def test_managed_computation_policy_caps_narrative_only_rubric_score(
             "score_cap_without_managed_attempt": 20,
         },
     }
-    monkeypatch.setattr("evaluation.score.load_ground_truth", lambda _task_id: rubric_truth)
+    monkeypatch.setattr("evaluation.scoring.service.load_ground_truth", lambda _task_id: rubric_truth)
 
     result = score_workspace(
         runner.workspace,
@@ -251,7 +251,7 @@ def test_evidence_gate_policy_caps_scientifically_unvalidated_high_score(
             ],
         },
     }
-    monkeypatch.setattr("evaluation.score.load_ground_truth", lambda _task_id: rubric_truth)
+    monkeypatch.setattr("evaluation.scoring.service.load_ground_truth", lambda _task_id: rubric_truth)
     captured_prompt = ""
 
     def judge(prompt: str):
@@ -319,7 +319,7 @@ def test_paper_reproduction_mismatch_cannot_receive_self_awarded_full_score(
             ],
         },
     }
-    monkeypatch.setattr("evaluation.score.load_ground_truth", lambda _task_id: truth)
+    monkeypatch.setattr("evaluation.scoring.service.load_ground_truth", lambda _task_id: truth)
 
     result = score_workspace(
         runner.workspace,
@@ -375,7 +375,7 @@ def test_autonomous_discovery_is_not_capped_for_a_reference_disagreement(
         "reference_evidence": {},
         "reference_conclusion_gate_policy": {},
     }
-    monkeypatch.setattr("evaluation.score.load_ground_truth", lambda _task_id: truth)
+    monkeypatch.setattr("evaluation.scoring.service.load_ground_truth", lambda _task_id: truth)
 
     result = score_workspace(
         runner.workspace,
@@ -431,7 +431,7 @@ def test_strict_autonomous_discovery_caps_a_hidden_scientific_outcome_mismatch(
             "max_criterion_score_if_not_matched": 0,
         },
     }
-    monkeypatch.setattr("evaluation.score.load_ground_truth", lambda _task_id: truth)
+    monkeypatch.setattr("evaluation.scoring.service.load_ground_truth", lambda _task_id: truth)
 
     result = score_workspace(
         runner.workspace,
@@ -496,7 +496,7 @@ def test_dual_axis_score_multiplies_conclusion_and_process_scores(
         "evidence_gate_policy": {},
         "reference_conclusion_gate_policy": {},
     }
-    monkeypatch.setattr("evaluation.score.load_ground_truth", lambda _task_id: truth)
+    monkeypatch.setattr("evaluation.scoring.service.load_ground_truth", lambda _task_id: truth)
 
     result = score_workspace(
         runner.workspace,
@@ -567,7 +567,7 @@ def test_dual_axis_invalid_submission_forces_zero_without_task_specific_cap(
         "evidence_gate_policy": {},
         "reference_conclusion_gate_policy": {},
     }
-    monkeypatch.setattr("evaluation.score.load_ground_truth", lambda _task_id: truth)
+    monkeypatch.setattr("evaluation.scoring.service.load_ground_truth", lambda _task_id: truth)
 
     result = score_workspace(
         runner.workspace,
@@ -616,7 +616,7 @@ def test_dual_axis_requires_itemized_scores_instead_of_trusting_axis_totals(
         "evidence_gate_policy": {},
         "reference_conclusion_gate_policy": {},
     }
-    monkeypatch.setattr("evaluation.score.load_ground_truth", lambda _task_id: truth)
+    monkeypatch.setattr("evaluation.scoring.service.load_ground_truth", lambda _task_id: truth)
 
     result = score_workspace(
         runner.workspace,

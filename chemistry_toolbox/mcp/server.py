@@ -9,7 +9,7 @@ import sys
 
 from mcp.server.fastmcp import FastMCP
 
-from researchchem_toolbox.catalog import resolve_tool_discovery_mode, toolbox_overview
+from chemistry_toolbox.src.catalog import resolve_tool_discovery_mode, toolbox_overview
 
 from .registry import load_tool_config, register_catalog_resources, register_public_tools
 from .software_catalog import open_execution_prompt

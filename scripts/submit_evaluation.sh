@@ -131,7 +131,7 @@ import os
 import sys
 from pathlib import Path
 
-from evaluation.token_usage import workspace_token_usage
+from evaluation.provenance.token_usage import workspace_token_usage
 
 run_root = Path(sys.argv[1]).resolve()
 batch_dir = Path(sys.argv[2]).resolve() if sys.argv[2] else None
@@ -453,7 +453,7 @@ config = {
 Path(config_path).write_text(json.dumps(config, indent=2) + "\n", encoding="utf-8")
 if execution_mode == "distributed":
     os.environ["RESEARCHCHEMBENCH_EXECUTION_MODE"] = "distributed"
-    from researchchem_toolbox.distributed_pool import pool_snapshot
+    from chemistry_toolbox.src.distributed_pool import pool_snapshot
     pool = pool_snapshot()
     resource_budget = {
         "cpu_cores": pool["maximum_cpu_cores_per_job"],

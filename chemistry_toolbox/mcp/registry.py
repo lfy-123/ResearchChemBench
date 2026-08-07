@@ -7,16 +7,15 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from researchchem_toolbox.catalog import (
+from chemistry_toolbox.src.catalog import (
     active_catalog_snapshot,
     action_specs,
-    catalog_snapshot,
     mcp_action_description,
     resolve_tool_discovery_mode,
     validate_catalog,
 )
-from researchchem_toolbox.models import ActionRequest, ActionSpec
-from researchchem_toolbox.service import execute_action
+from chemistry_toolbox.src.models import ActionRequest, ActionSpec
+from chemistry_toolbox.src.service import execute_action
 
 from .tracing import execute_traced
 from .discovery_tools import register_progressive_discovery_tools
@@ -119,7 +118,7 @@ def discover_tools(*, include_disabled: bool = True, strict: bool = False) -> li
     return [
         ToolRecord(
             module_stem=specification.id,
-            module_name=f"researchchem_toolbox.actions.{specification.id}",
+            module_name=f"chemistry_toolbox.src.actions.{specification.id}",
             path=PACKAGE_ROOT / "<generated-from-action-catalog>",
             enabled=True,
             spec=specification,

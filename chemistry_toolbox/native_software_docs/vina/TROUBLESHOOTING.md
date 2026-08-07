@@ -5,7 +5,7 @@ topics: ["troubleshooting", "errors", "preflight"]
 aliases: ["AutoDock Vina", "vina"]
 inputs: ["receptor.pdbqt", "ligand.pdbqt", "box center and size"]
 outputs: ["poses.pdbqt", "docking log", "affinity table"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # AutoDock Vina Troubleshooting

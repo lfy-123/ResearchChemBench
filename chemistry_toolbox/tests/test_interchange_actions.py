@@ -3,8 +3,8 @@ from __future__ import annotations
 import shutil
 from zipfile import ZipFile
 
-from researchchem_toolbox.paths import PROJECT_ROOT as ROOT
-from researchchem_toolbox.service import execute_action
+from chemistry_toolbox.src.paths import PROJECT_ROOT as ROOT
+from chemistry_toolbox.src.service import execute_action
 WATER = {
     "atoms": [
         {"element": "O", "position_angstrom": [0.0, 0.0, 0.0]},
@@ -61,7 +61,7 @@ def test_qcelemental_normalize_and_validate_are_deterministic_actions(tmp_path, 
 
 
 def test_cclib_parses_selected_existing_output_properties(tmp_path, monkeypatch):
-    source = ROOT / ".software_cache" / "gaussian" / "g16" / "smoke" / "water.log"
+    source = ROOT / ".software_cache" / "validation" / "gaussian" / "g16" / "smoke" / "water.log"
     shutil.copy2(source, tmp_path / "water.log")
     monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
     result = execute_action(

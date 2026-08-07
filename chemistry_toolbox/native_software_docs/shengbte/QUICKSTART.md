@@ -5,7 +5,7 @@ topics: ["quickstart", "staging", "submission", "resources"]
 aliases: ["ShengBTE", "shengbte"]
 inputs: ["CONTROL", "FORCE_CONSTANTS_2ND", "FORCE_CONSTANTS_3RD"]
 outputs: ["BTE.kappa_tensor", "BTE.omega", "BTE.v", "BTE.* diagnostic files"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # ShengBTE Quickstart

@@ -1,0 +1,472 @@
+diff --git a/kinbot/ase_modules/calculators/nwchem.py b/kinbot/ase_modules/calculators/nwchem.py
+new file mode 100644
+index 0000000..fcbe663
+--- /dev/null
++++ b/kinbot/ase_modules/calculators/nwchem.py
+@@ -0,0 +1,53 @@
++import os
++import hashlib
++from pathlib import Path
++
++from ase.calculators.nwchem import NWChem as _AseNWChem
++
++
++class NWChem(_AseNWChem):
++    """ASE NWChem calculator with a portable KinBot command override."""
++
++    command = os.environ.get(
++        "KINBOT_NWCHEM_COMMAND", "nwchem PREFIX.nwi > PREFIX.out"
++    )
++
++    def __init__(self, *args, **kwargs):
++        # KinBot 2.2.x emits keywords for an older ASE NWChem writer.
++        # Translate them to the nested blocks expected by current ASE.
++        mult = kwargs.pop("mult", 1)
++        odft = kwargs.pop("odft", False)
++        dft = dict(kwargs.pop("dft", {}))
++        dft["mult"] = mult
++        if odft:
++            dft["odft"] = None
++        kwargs["dft"] = dft
++
++        driver_mode = kwargs.pop("driver", None)
++        driver = {}
++        if driver_mode and driver_mode != "default":
++            driver[driver_mode] = None
++        for key in ("maxiter", "clear", "inhess"):
++            if key in kwargs:
++                driver[key] = kwargs.pop(key)
++        if driver:
++            kwargs["driver"] = driver
++
++        short_root = os.environ.get("KINBOT_NWCHEM_WORK_ROOT")
++        if short_root:
++            job_key = hashlib.sha256(os.getcwd().encode("utf-8")).hexdigest()[:12]
++            job_root = Path(short_root) / job_key
++            scratch = job_root / "scratch"
++            permanent = job_root / "perm"
++            scratch.mkdir(parents=True, exist_ok=True)
++            permanent.mkdir(parents=True, exist_ok=True)
++            kwargs.pop("scratch_dir", None)
++            kwargs.pop("permanent_dir", None)
++            kwargs["scratch"] = str(scratch)
++            kwargs["perm"] = str(permanent)
++        else:
++            if "scratch_dir" in kwargs:
++                kwargs["scratch"] = kwargs.pop("scratch_dir")
++            if "permanent_dir" in kwargs:
++                kwargs["perm"] = kwargs.pop("permanent_dir")
++        super().__init__(*args, **kwargs)
+diff --git a/kinbot/kb.py b/kinbot/kb.py
+index a1ba80b..59b2f83 100644
+--- a/kinbot/kb.py
++++ b/kinbot/kb.py
+@@ -106,12 +106,24 @@ def main():
+         if err < 0:
+             logger.error('Error with initial structure optimization.')
+             return
+-        if well0.freq[0] <= 0:
+-            logger.warning(f'First frequency is {well0.freq[0]} for initial structure.')
+-            well0.freq[0] *= -1.
+-        if well0.freq[1] <= 0:
+-            logger.error(f'Second frequency is {well0.freq[1]} for initial structure.')
++        significant_imaginary = [
++            value for value in well0.freq
++            if value <= -1. * par['imagfreq_threshold']
++        ]
++        if significant_imaginary:
++            logger.error(
++                f'Significant imaginary frequencies {significant_imaginary} '
++                'detected for initial structure.'
++            )
+             return
++        for index, value in enumerate(well0.freq):
++            if value < 0:
++                logger.warning(
++                    f'Frequency {index + 1} is {value} cm-1 for initial '
++                    f'structure and is within the {par["imagfreq_threshold"]} '
++                    'cm-1 numerical threshold; flipping its sign.'
++                )
++                well0.freq[index] *= -1.
+ 
+         # characterize again and look for differences
+         well0 = StationaryPoint('well0',
+diff --git a/kinbot/pes.py b/kinbot/pes.py
+index 5bb0794..c9499a5 100644
+--- a/kinbot/pes.py
++++ b/kinbot/pes.py
+@@ -1803,7 +1803,7 @@ def get_zpe(jobdir, job, ts, high_level, mp2=0, bls=0):
+ 
+ 
+ def check_status(job, pid):
+-    command = ['ps', '-u', 'root', '-N', '-o', 'pid,s,user,%cpu,%mem,etime,args']
++    command = ['ps', '-p', str(pid), '-o', 'stat=']
+     process = subprocess.Popen(command,
+                                shell=False,
+                                stdout=subprocess.PIPE,
+@@ -1811,19 +1811,15 @@ def check_status(job, pid):
+                                stderr=subprocess.PIPE)
+     out, err = process.communicate()
+     out = out.decode()
+-    lines = out.split('\n')
+-    for line in lines:
+-        if len(line) > 0:
+-            if str(pid) == line.split()[0]:
+-                return 1
+-    return 0
++    state = out.strip()
++    return int(bool(state) and not state.startswith('Z'))
+ 
+ 
+ def submit_job(chemid, par):
+     """
+     Submit a kinbot run using subprocess and return the pid
+     """
+-    command = ["kinbot", chemid + ".json", "&"]
++    command = ["kinbot", chemid + ".json"]
+     # purge previous summary and monitor files, so that pes doesn't think
+     # everything is done
+     # relevant if jobs are killed
+diff --git a/kinbot/qc.py b/kinbot/qc.py
+index 1db37c6..ec51a18 100644
+--- a/kinbot/qc.py
++++ b/kinbot/qc.py
+@@ -51,6 +51,8 @@ class QuantumChemistry:
+         self.zf = par['zf']
+         self.db = connect('kinbot.db')
+         self.job_ids = {}
++        self.local_processes = {}
++        self.local_streams = {}
+         self.irc_maxpoints = par['irc_maxpoints']
+         self.irc_stepsize = par['irc_stepsize']
+         self.qc_command = par['qc_command']
+@@ -873,16 +875,18 @@ class QuantumChemistry:
+             sys.exit()
+ 
+         if self.queuing == 'local':
+-            err_msg = f'Job {job} is missing in the database or the output ' \
+-                      'file is not present. Unable to run calculations when ' \
+-                      'queuing is \'local\'. To ignore calculations that have ' \
+-                      'not finished set "error_missing_local" to False.'
+-            if self.par['error_missing_local']:
+-                logger.error(err_msg)
+-                raise FileNotFoundError(err_msg)
+-            else:
+-                logger.warning(err_msg)
+-                return -1
++            python_file = f'{job}.py'
++            stdout = open(f'{job}.local.stdout', 'w')
++            stderr = open(f'{job}.local.stderr', 'w')
++            process = subprocess.Popen(
++                [sys.executable, python_file], stdout=stdout, stderr=stderr
++            )
++            self.job_ids[job] = str(process.pid)
++            self.local_processes[job] = process
++            self.local_streams[job] = (stdout, stderr)
++            now = datetime.now()
++            logger.debug(f'SUBMITTED {job} locally on {now.ctime()}')
++            return 1
+ 
+         template_file = f'{kb_path}/tpl/{self.queuing}_python.tpl'
+         python_file = f'{job}.py'
+@@ -1246,7 +1250,14 @@ class QuantumChemistry:
+                         logger.debug('Job is running')
+                         return 'running'
+         elif self.queuing == 'local':
+-            pass
++            process = self.local_processes.get(job)
++            if process is not None:
++                if process.poll() is None:
++                    return 'running'
++                streams = self.local_streams.pop(job, ())
++                for stream in streams:
++                    stream.close()
++                self.local_processes.pop(job, None)
+         else:
+             logger.error('KinBot does not recognize queuing system {}.'.format(self.queuing))
+             logger.error('Exiting')
+diff --git a/kinbot/tpl/ase_nwchem_freq_well.tpl.py b/kinbot/tpl/ase_nwchem_freq_well.tpl.py
+index 43b27bc..de4a71a 100644
+--- a/kinbot/tpl/ase_nwchem_freq_well.tpl.py
++++ b/kinbot/tpl/ase_nwchem_freq_well.tpl.py
+@@ -24,7 +24,7 @@ from ase.io import read
+ label = '{label}'
+ kwargs = {kwargs}
+ 
+-NWChem.command = 'mpirun -np {ppn} -path /usr/local/bin nwchem PREFIX.nw > PREFIX.out'
++NWChem.command = '{qc_command} PREFIX.nw > PREFIX.out'
+ calc = NWChem(**kwargs)
+ 
+ atom = {atom}
+@@ -67,7 +67,7 @@ try:
+ 
+     db = connect('kinbot.db')
+     db.write(mol,name = label,data={{'energy': e, 'frequencies': np.asarray(freq), 'zpe':zpe, 'status' : 'normal'}})
+-except RuntimeError, e: 
++except RuntimeError as e:
+     db = connect('kinbot.db')
+     db.write(mol, name = label, data = {{'status' : 'error'}})
+ 
+@@ -77,4 +77,3 @@ except RuntimeError, e:
+ f = open(label + '.out','a')
+ f.write('done\n')
+ f.close()
+-
+diff --git a/kinbot/tpl/ase_nwchem_irc.tpl.py b/kinbot/tpl/ase_nwchem_irc.tpl.py
+index 7a171de..307fc49 100644
+--- a/kinbot/tpl/ase_nwchem_irc.tpl.py
++++ b/kinbot/tpl/ase_nwchem_irc.tpl.py
+@@ -18,7 +18,7 @@ from ase.db import connect
+ label = '{label}'
+ kwargs = {kwargs}
+ 
+-NWChem.command = 'mpirun -np {ppn} -path /usr/local/bin nwchem PREFIX.nw > PREFIX.out'
++NWChem.command = '{qc_command} PREFIX.nw > PREFIX.out'
+ calc = NWChem(**kwargs)
+ 
+ atom = {atom}
+diff --git a/kinbot/tpl/ase_nwchem_opt_well.tpl.py b/kinbot/tpl/ase_nwchem_opt_well.tpl.py
+index eff1266..ef9517f 100644
+--- a/kinbot/tpl/ase_nwchem_opt_well.tpl.py
++++ b/kinbot/tpl/ase_nwchem_opt_well.tpl.py
+@@ -22,7 +22,7 @@ from ase.db import connect
+ label = '{label}'
+ kwargs = {kwargs}
+ 
+-NWChem.command = 'mpirun -np {ppn} -path /usr/local/bin nwchem PREFIX.nw > PREFIX.out'
++NWChem.command = '{qc_command} PREFIX.nw > PREFIX.out'
+ calc = NWChem(**kwargs)
+ 
+ atom = {atom}
+@@ -53,7 +53,7 @@ try:
+     
+     db = connect('kinbot.db')
+     db.write(mol, name = label, data = {{'energy': e, 'status' : 'normal'}})
+-except RuntimeError, e: 
++except RuntimeError as e:
+     db = connect('kinbot.db')
+     db.write(mol, name = label, data = {{'status' : 'error'}})
+     
+diff --git a/kinbot/tpl/ase_nwchem_ts_end.tpl.py b/kinbot/tpl/ase_nwchem_ts_end.tpl.py
+index 4ac6520..d7a240b 100644
+--- a/kinbot/tpl/ase_nwchem_ts_end.tpl.py
++++ b/kinbot/tpl/ase_nwchem_ts_end.tpl.py
+@@ -22,7 +22,7 @@ from ase.db import connect
+ label = '{label}'
+ kwargs = {kwargs}
+ 
+-NWChem.command = 'mpirun -np {ppn} -path /usr/local/bin nwchem PREFIX.nw > PREFIX.out'
++NWChem.command = '{qc_command} PREFIX.nw > PREFIX.out'
+ calc = NWChem(**kwargs)
+ 
+ atom = {atom}
+@@ -82,7 +82,7 @@ try:
+ 
+     db = connect('kinbot.db')
+     db.write(mol,name = label,data={{'energy': e, 'frequencies': np.asarray(freq), 'zpe':zpe, 'status' : 'normal'}})
+-except RuntimeError, e: 
++except RuntimeError as e:
+     db = connect('kinbot.db')
+     db.write(mol, name = label, data = {{'status' : 'error'}})
+ 
+diff --git a/kinbot/tpl/ase_nwchem_ts_search.tpl.py b/kinbot/tpl/ase_nwchem_ts_search.tpl.py
+index 7526230..0e857f8 100644
+--- a/kinbot/tpl/ase_nwchem_ts_search.tpl.py
++++ b/kinbot/tpl/ase_nwchem_ts_search.tpl.py
+@@ -26,7 +26,7 @@ from ase.db import connect
+ label = '{label}'
+ kwargs = {kwargs}
+ 
+-NWChem.command = 'mpirun -np {ppn} -path /usr/local/bin nwchem PREFIX.nw > PREFIX.out'
++NWChem.command = '{qc_command} PREFIX.nw > PREFIX.out'
+ calc = NWChem(**kwargs)
+ 
+ atom = {atom}
+@@ -57,7 +57,7 @@ try:
+     
+     db = connect('kinbot.db')
+     db.write(mol, name = label, data = {{'energy':e, 'status' : 'normal'}})
+-except RuntimeError, e: 
++except RuntimeError as e:
+     db = connect('kinbot.db')
+     db.write(mol, name = label, data = {{'status' : 'error'}})
+ 
+diff --git a/kinbot/tpl/ase_nwchem_ts_search_ase_constraints.tpl.py b/kinbot/tpl/ase_nwchem_ts_search_ase_constraints.tpl.py
+index 833aa5d..666de9f 100644
+--- a/kinbot/tpl/ase_nwchem_ts_search_ase_constraints.tpl.py
++++ b/kinbot/tpl/ase_nwchem_ts_search_ase_constraints.tpl.py
+@@ -23,7 +23,7 @@ from kinbot.ase_modules.constraints import FixInternals
+ label = '{label}'
+ kwargs = {kwargs}
+ 
+-NWChem.command = 'mpirun -np {ppn} -path /usr/local/bin nwchem PREFIX.nw > PREFIX.out'
++NWChem.command = '{qc_command} PREFIX.nw > PREFIX.out'
+ calc = NWChem(**kwargs)
+ 
+ atom = {atom}
+@@ -93,7 +93,7 @@ try:
+     mol.positions = geom
+     db = connect('kinbot.db')
+     db.write(mol, name = label, data = {{'status' : 'normal'}})
+-except RuntimeError, e: 
++except RuntimeError as e:
+     db = connect('kinbot.db')
+     db.write(mol, name = label, data = {{'status' : 'error'}})
+ 
+diff --git a/kinbot/tpl/ase_sella_hir.tpl.py b/kinbot/tpl/ase_sella_hir.tpl.py
+index c8be06f..e8e72da 100644
+--- a/kinbot/tpl/ase_sella_hir.tpl.py
++++ b/kinbot/tpl/ase_sella_hir.tpl.py
+@@ -41,5 +41,5 @@ try:
+ except (RuntimeError, ValueError):
+     db.write(mol, name='{label}', data={{'status': 'error'}})
+ 
+-with open('{label}.log', 'a') as f:
++with open('{label}' + ('.out' if '{Code}' == 'NWChem' else '.log'), 'a') as f:
+     f.write('done\n')
+diff --git a/kinbot/tpl/ase_sella_irc.tpl.py b/kinbot/tpl/ase_sella_irc.tpl.py
+index 2dfc22c..268902d 100644
+--- a/kinbot/tpl/ase_sella_irc.tpl.py
++++ b/kinbot/tpl/ase_sella_irc.tpl.py
+@@ -49,7 +49,7 @@ except (RuntimeError, ValueError):
+         success = False
+         db.write(mol, name='{label}', data={{'status': 'error'}})
+ 
+-with open('{label}.log', 'a') as f:
++with open('{label}' + ('.out' if '{Code}' == 'NWChem' else '.log'), 'a') as f:
+     f.write('done\n')
+ 
+ if success:
+diff --git a/kinbot/tpl/ase_sella_opt_well.tpl.py b/kinbot/tpl/ase_sella_opt_well.tpl.py
+index b7e1ede..67fcb84 100644
+--- a/kinbot/tpl/ase_sella_opt_well.tpl.py
++++ b/kinbot/tpl/ase_sella_opt_well.tpl.py
+@@ -59,7 +59,7 @@ if len(mol) == 1:
+     db.write(mol, name='{label}',
+              data={{'energy': e, 'frequencies': np.array([]), 'zpe': 0.0,
+                     'hess': np.zeros([3, 3]), 'status': 'normal'}})
+-    with open('{label}.log', 'a') as f:
++    with open('{label}' + ('.out' if '{Code}' == 'NWChem' else '.log'), 'a') as f:
+         f.write('done\n')
+     sys.exit(0)
+ 
+@@ -73,15 +73,15 @@ opt = Sella(mol,
+ freqs = []
+ try:
+     converged = False
+-    fmax = 1e-4
++    fmax = float(os.environ.get('KINBOT_SELLA_FMAX', '1e-4'))
+     attempts = 1
+-    steps=500
++    steps = int(os.environ.get('KINBOT_SELLA_MAX_STEPS', '500'))
+     while not converged and attempts <= 3:
+         mol.calc.label = '{label}'
+         converged = opt.run(fmax=fmax, steps=steps)
+         freqs, zpe, hessian = calc_vibrations(mol)
+-        if order == 0 and (np.count_nonzero(np.array(freqs) < 0) > 1
+-                           or np.count_nonzero(np.array(freqs) < -50) >= 1):
++        imag_threshold = float(os.environ.get('KINBOT_IMAGINARY_FREQUENCY_THRESHOLD', '50'))
++        if order == 0 and np.count_nonzero(np.array(freqs) < -imag_threshold) >= 1:
+             print(f'Found one or more imaginary frequencies. {{freqs[1:6]}}')
+             converged = False
+             mol.calc.label = '{label}'
+@@ -113,5 +113,5 @@ except (RuntimeError, ValueError):
+         data['frequencies'] = freqs
+     db.write(mol, name='{label}', data=data)
+ 
+-with open('{label}.log', 'a') as f:
++with open('{label}' + ('.out' if '{Code}' == 'NWChem' else '.log'), 'a') as f:
+     f.write('done\n')
+diff --git a/kinbot/tpl/ase_sella_ring_conf.tpl.py b/kinbot/tpl/ase_sella_ring_conf.tpl.py
+index f3ef28d..dc1f9ca 100644
+--- a/kinbot/tpl/ase_sella_ring_conf.tpl.py
++++ b/kinbot/tpl/ase_sella_ring_conf.tpl.py
+@@ -96,15 +96,15 @@ opt = Sella(mol,
+ freqs = []
+ try:
+     converged = False
+-    fmax = 1e-4
++    fmax = float(os.environ.get('KINBOT_SELLA_FMAX', '1e-4'))
+     attempts = 1
+-    steps=500
++    steps = int(os.environ.get('KINBOT_SELLA_MAX_STEPS', '500'))
+     while not converged and attempts <= 3:
+         mol.calc.label = '{label}'
+         converged = opt.run(fmax=fmax, steps=300)
+         freqs, zpe, hessian = calc_vibrations(mol)
+-        if order == 0 and (np.count_nonzero(np.array(freqs) < 0) > 1
+-                           or np.count_nonzero(np.array(freqs) < -50) >= 1):
++        imag_threshold = float(os.environ.get('KINBOT_IMAGINARY_FREQUENCY_THRESHOLD', '50'))
++        if order == 0 and np.count_nonzero(np.array(freqs) < -imag_threshold) >= 1:
+             print(f'Found one or more imaginary frequencies. {{freqs[1:6]}}')
+             converged = False
+             mol.calc.label = '{label}'
+@@ -135,5 +135,5 @@ except (RuntimeError, ValueError):
+     if freqs:
+         data['frequencies'] = freqs
+     db.write(mol, name='{label}', data=data)
+-with open('{label}.log', 'a') as f:
++with open('{label}' + ('.out' if '{Code}' == 'NWChem' else '.log'), 'a') as f:
+     f.write('done\n')
+diff --git a/kinbot/tpl/ase_sella_ts_end.tpl.py b/kinbot/tpl/ase_sella_ts_end.tpl.py
+index cb49d71..3c57c7e 100644
+--- a/kinbot/tpl/ase_sella_ts_end.tpl.py
++++ b/kinbot/tpl/ase_sella_ts_end.tpl.py
+@@ -62,9 +62,9 @@ opt = Sella(mol, order=1,
+ freqs = []
+ try:
+     converged = False
+-    fmax = 1e-4
++    fmax = float(os.environ.get('KINBOT_SELLA_FMAX', '1e-4'))
+     attempts = 1
+-    steps=500
++    steps = int(os.environ.get('KINBOT_SELLA_MAX_STEPS', '500'))
+     while not converged and attempts <= 3:
+         mol.calc.label = '{label}'
+         converged = opt.run(fmax=fmax, steps=steps)
+@@ -93,5 +93,5 @@ except (RuntimeError, ValueError):
+         data['frequencies'] = freqs
+     db.write(mol, name='{label}', data=data)
+ 
+-with open('{label}.log', 'a') as f:
++with open('{label}' + ('.out' if '{Code}' == 'NWChem' else '.log'), 'a') as f:
+     f.write('done\n')
+diff --git a/kinbot/tpl/ase_sella_ts_search.tpl.py b/kinbot/tpl/ase_sella_ts_search.tpl.py
+index e79f842..1838ef9 100644
+--- a/kinbot/tpl/ase_sella_ts_search.tpl.py
++++ b/kinbot/tpl/ase_sella_ts_search.tpl.py
+@@ -52,5 +52,5 @@ if not mol.positions.any():  # If all coordinates are 0
+     mol.positions = {geom}   # Reset to the original geometry
+ db.write(mol, name='{label}', data={{'energy': e, 'status': 'normal'}})
+ 
+-with open('{label}.log', 'a') as f:
+-    f.write('done\n')
+\ No newline at end of file
++with open('{label}' + ('.out' if '{Code}' == 'NWChem' else '.log'), 'a') as f:
++    f.write('done\n')
+diff --git a/kinbot/tpl/ase_sella_vts.tpl.py b/kinbot/tpl/ase_sella_vts.tpl.py
+index 9564d5b..73a594d 100644
+--- a/kinbot/tpl/ase_sella_vts.tpl.py
++++ b/kinbot/tpl/ase_sella_vts.tpl.py
+@@ -152,7 +152,7 @@ if not last:
+ db.write(mol, name='{label}',
+          data={{'energy': e, 'status': 'normal'}})
+ 
+-with open('{label}.log', 'a') as f:
++with open('{label}' + ('.out' if '{Code}' == 'NWChem' else '.log'), 'a') as f:
+     f.write('done\n')
+ 
+ # FROZEN
+diff --git a/pyproject.toml b/pyproject.toml
+index d800793..88a48d1 100644
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -10,7 +10,7 @@ exclude = ["build", "dist", "KinBot.egg-info", "graphics"]
+ 
+ [project]
+ name = "kinbot"
+-version = "2.2.1"
++version = "2.2.2"
+ description = "Automated reaction kinetics for gas-phase species"
+ readme = "README.md"
+ requires-python = ">=3.10"

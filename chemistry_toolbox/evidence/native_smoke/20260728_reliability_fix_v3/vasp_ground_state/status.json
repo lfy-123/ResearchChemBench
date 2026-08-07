@@ -1,31 +1,43 @@
 {
-  "schema_version": 1,
+  "background_process_cleanup": "none_detected",
+  "command": [
+    "${PROJECT_ROOT}/.software_cache/vasp/6.3.2/bin/vasp_std"
+  ],
+  "duration_seconds": 1.615353,
+  "error": null,
+  "finished_at": "2026-07-28T18:44:08.565269+00:00",
+  "job_directory": "outputs/execution_jobs/job_7ce46a8d25a84e248fc27224849b97e9",
   "job_id": "job_7ce46a8d25a84e248fc27224849b97e9",
   "job_type": "native_software",
-  "status": "success",
-  "supervisor_pid": 1978237,
-  "command": [
-    "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/vasp/6.3.2/bin/vasp_std"
-  ],
-  "job_directory": "outputs/execution_jobs/job_7ce46a8d25a84e248fc27224849b97e9",
-  "stdout_path": "outputs/execution_jobs/job_7ce46a8d25a84e248fc27224849b97e9/stdout.log",
-  "stderr_path": "outputs/execution_jobs/job_7ce46a8d25a84e248fc27224849b97e9/stderr.log",
-  "resource_limits": {
-    "cpu_cores": 1,
-    "memory_mb": 2048,
-    "gpu_count": 0,
-    "walltime_seconds": 7200
-  },
-  "submitted_at": "2026-07-28T18:44:06.915834+00:00",
-  "started_at": "2026-07-28T18:44:06.949916+00:00",
   "metadata": {
-    "software_id": "vasp",
-    "executable": "vasp_std",
-    "label": null,
-    "parent_job_id": null,
     "calculation_intent": "single_point",
+    "evaluation_resource_budget": {
+      "agent_controllable": false,
+      "cpu_cores": 48,
+      "gpu_count": 0,
+      "memory_mb": 204800,
+      "scope": "per_task",
+      "source": "evaluation_policy"
+    },
+    "executable": "vasp_std",
+    "execution_timeout_policy": {
+      "agent_controllable": false,
+      "execution_class": "compute",
+      "source": "evaluation_policy",
+      "timeout_seconds": 7200
+    },
     "input_deck_validation": {
+      "atom_count": 2,
+      "calculation_intent": "single_point",
+      "checks": [
+        "fixed_files",
+        "poscar_counts",
+        "potcar_dataset_count"
+      ],
+      "incar_ibrion": -1,
+      "incar_nsw": 0,
       "lint_profile": "vasp_high_frequency_v1",
+      "potcar_dataset_count": 1,
       "required_targets": [
         "INCAR",
         "KPOINTS",
@@ -34,44 +46,32 @@
       ],
       "species": [
         "Si"
-      ],
-      "atom_count": 2,
-      "potcar_dataset_count": 1,
-      "incar_ibrion": -1,
-      "incar_nsw": 0,
-      "calculation_intent": "single_point",
-      "checks": [
-        "fixed_files",
-        "poscar_counts",
-        "potcar_dataset_count"
       ]
     },
     "invocation_synopsis": "vasp_std",
-    "execution_timeout_policy": {
-      "execution_class": "compute",
-      "timeout_seconds": 7200,
-      "source": "evaluation_policy",
-      "agent_controllable": false
-    },
-    "evaluation_resource_budget": {
-      "cpu_cores": 48,
-      "memory_mb": 204800,
-      "gpu_count": 0,
-      "source": "evaluation_policy",
-      "agent_controllable": false,
-      "scope": "per_task"
-    }
+    "label": null,
+    "parent_job_id": null,
+    "software_id": "vasp"
   },
-  "finished_at": "2026-07-28T18:44:08.565269+00:00",
-  "duration_seconds": 1.615353,
-  "return_code": 0,
-  "background_process_cleanup": "none_detected",
+  "resource_limits": {
+    "cpu_cores": 1,
+    "gpu_count": 0,
+    "memory_mb": 2048,
+    "walltime_seconds": 7200
+  },
   "resource_usage": {
-    "user_cpu_seconds": 0.37914,
-    "system_cpu_seconds": 0.141925,
     "max_rss_kb": 39480,
+    "memory_limit_mb": 2048,
     "peak_process_group_rss_kb": 29808,
-    "memory_limit_mb": 2048
+    "system_cpu_seconds": 0.141925,
+    "user_cpu_seconds": 0.37914
   },
-  "error": null
+  "return_code": 0,
+  "schema_version": 1,
+  "started_at": "2026-07-28T18:44:06.949916+00:00",
+  "status": "success",
+  "stderr_path": "outputs/execution_jobs/job_7ce46a8d25a84e248fc27224849b97e9/stderr.log",
+  "stdout_path": "outputs/execution_jobs/job_7ce46a8d25a84e248fc27224849b97e9/stdout.log",
+  "submitted_at": "2026-07-28T18:44:06.915834+00:00",
+  "supervisor_pid": 1978237
 }

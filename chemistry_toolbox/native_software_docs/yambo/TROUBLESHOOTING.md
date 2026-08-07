@@ -4,8 +4,8 @@ versions: ["5.3.0"]
 topics: ["troubleshooting", "errors", "preflight"]
 aliases: ["Yambo", "yambo"]
 inputs: ["compatible upstream save database", "SAVE directory", "input.in", "optional restart databases"]
-outputs: ["SAVE database", "report", "output data files", "restart databases"]
-last_smoke_tested: "2026-07-28"
+outputs: ["SAVE database", "GW quasiparticle table", "BSE optical spectrum", "report", "output data files", "restart databases"]
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Yambo Troubleshooting

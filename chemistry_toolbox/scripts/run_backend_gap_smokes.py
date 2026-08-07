@@ -22,10 +22,11 @@ for path in (SOURCE_ROOT, ROOT):
 
 from dotenv import load_dotenv
 
-from researchchem_toolbox.service import execute_action
+from chemistry_toolbox.src.service import execute_action
+from chemistry_toolbox.src.paths import portable_report_value
 
 
-STATUS_PATH = TOOLBOX_ROOT / "config" / "backend_gap_smoke_status.json"
+STATUS_PATH = TOOLBOX_ROOT / "evidence" / "status" / "backend_gap_smoke_status.json"
 
 WATER = {
     "atoms": [
@@ -391,7 +392,7 @@ def main() -> int:
             },
         )
 
-        namd_source = ROOT / ".software_cache/namd/3.0.2/smoke"
+        namd_source = ROOT / ".software_cache/validation/namd/3.0.2/smoke"
         namd_files = {}
         for name in ("CH_final.psf", "CH_final.pdb", "CH_cgenff.prm"):
             destination = workspace / name
@@ -426,7 +427,7 @@ def main() -> int:
             },
         )
 
-        amber_source = ROOT / ".software_cache/amber/26/smoke/gb7_trx_serial"
+        amber_source = ROOT / ".software_cache/validation/amber/26/smoke/gb7_trx_serial"
         amber_topology = workspace / "amber.prmtop"
         amber_coordinates = workspace / "amber.inpcrd"
         shutil.copy2(amber_source / "prmtop", amber_topology)
@@ -460,7 +461,7 @@ def main() -> int:
             },
         )
 
-        charmm_source = ROOT / ".software_cache/charmm/50b2/source/tool/pycharmm/tests/data"
+        charmm_source = ROOT / ".software_cache/sources/charmm/50b2/source/tool/pycharmm/tests/data"
         charmm_files = {}
         for name in ("water_cube.psf", "water_cube.crd", "water_ions.rtf", "water_ions.prm"):
             destination = workspace / name
@@ -515,6 +516,7 @@ def main() -> int:
         },
         "cases": records,
     }
+    payload = portable_report_value(payload)
     STATUS_PATH.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(STATUS_PATH)
     print(json.dumps(payload["summary"], ensure_ascii=False))

@@ -23,10 +23,10 @@ for path in (SOURCE_ROOT, ROOT):
     if str(path) not in sys.path:
         sys.path.insert(0, str(path))
 
-from researchchem_toolbox.resources import load_resource_config, resource_snapshot
+from chemistry_toolbox.src.resources import load_resource_config, resource_snapshot
 
 
-STATUS_PATH = TOOLBOX_ROOT / "config" / "toolbox_resource_status.json"
+STATUS_PATH = TOOLBOX_ROOT / "evidence" / "status" / "toolbox_resource_status.json"
 
 
 def declared_path(value: str) -> Path:
@@ -186,6 +186,9 @@ def install_executable(specification: dict[str, Any], *, verify_only: bool) -> d
     if target.is_file() and not errors:
         environment = probe_environment(specification)
         probe_specification = dict(specification.get("version_probe") or {})
+        probe_path = declared_path(
+            str(probe_specification.get("path") or specification["path"])
+        )
         arguments = [
             str(value)
             for value in probe_specification.get("arguments", ["--version"])
@@ -196,7 +199,7 @@ def install_executable(specification: dict[str, Any], *, verify_only: bool) -> d
         }
         try:
             completed = subprocess.run(
-                [str(target), *arguments],
+                [str(probe_path), *arguments],
                 text=True,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
@@ -208,6 +211,7 @@ def install_executable(specification: dict[str, Any], *, verify_only: bool) -> d
             output_pattern = str(probe_specification.get("output_regex") or "")
             match = re.search(output_pattern, completed.stdout) if output_pattern else None
             result["version_probe"] = {
+                "path": relative(probe_path),
                 "arguments": arguments,
                 "returncode": completed.returncode,
                 "first_line": output[0][:500] if output else "",

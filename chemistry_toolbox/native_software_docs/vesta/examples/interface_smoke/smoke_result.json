@@ -2,18 +2,18 @@
   "archived_files": [
     {
       "path": "request.json",
-      "sha256": "f087e941673e079b521b236002571d013de8a17914ae406566eb479f6f0ed7da",
-      "size_bytes": 1225
+      "sha256": "34e5d04bf36649427107fe1a3e97a4716282cbcc596f208fb45f9ec51b3adad4",
+      "size_bytes": 1219
     },
     {
       "path": "status.json",
-      "sha256": "9cc97efd631af43b0727e772ec310e37000554a3eb386c157e5cdd9c98f02fa0",
-      "size_bytes": 1834
+      "sha256": "0f499340a9494e0044f4afda4b8b2c7663138560cdc2cdc04f45a513d7eaa233",
+      "size_bytes": 1915
     },
     {
       "path": "collection.json",
-      "sha256": "2688e8279ca49fd751e37a0bf19d26e0ff297a25f765266013d1a43c933d41db",
-      "size_bytes": 1487
+      "sha256": "a7abf11d759d493c36c87004bf248b1b62b6a84c55502fedb5318a1cc0fbae82",
+      "size_bytes": 1486
     },
     {
       "path": "stdout.log",
@@ -22,16 +22,16 @@
     },
     {
       "path": "stderr.log",
-      "sha256": "76b7f97efd5a5207ee9297191db2bd8a74bb3e98af66ee98355a4492b3a9d47d",
-      "size_bytes": 244
+      "sha256": "faa2e91689cff2585b3f5ce8b208382feb629eb4b8a0d377243b84642230feea",
+      "size_bytes": 69
     }
   ],
   "artifact_status": "not_declared",
   "convergence_status": "not_checked",
   "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/vesta",
-  "job_id": "job_7d4176a6c3a1469685efdd01dfec0d9e",
+  "job_id": "job_cfe21a98fbce437b951ab552113d4ea4",
   "process_status": "completed",
-  "reason": "The executable was reached, but startup reported a runtime, import, or configuration failure.",
+  "reason": "The configured executable completed the interface probe through the native job runner.",
   "request": {
     "arguments": [
       "-h"
@@ -53,9 +53,9 @@
   "scientific_validation_status": "not_checked",
   "software_id": "vesta",
   "software_status": "not_checked",
-  "status": "failed",
-  "stderr_tail": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/vesta/3.90.5a/VESTA-gui: error while loading shared libraries: libxkbcommon.so.0: cannot open shared object file: No such file or directory\n",
+  "status": "passed",
+  "stderr_tail": "10:32:58: Error: Unable to initialize GTK+, is DISPLAY set properly?\n",
   "stdout_tail": "",
   "test_level": "interface_smoke",
-  "tested_at": "2026-07-28T20:16:58.943969+00:00"
+  "tested_at": "2026-08-06T10:32:07.312490+00:00"
 }

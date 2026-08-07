@@ -5,7 +5,7 @@ topics: ["common-tasks", "inputs", "outputs", "convergence"]
 aliases: ["NWChem", "nwchem"]
 inputs: ["input.nw", "optional basis", "geometry", "restart", "or data files"]
 outputs: ["stdout.log", "database file", "movecs", "geometry and property files"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # NWChem Common Tasks
@@ -16,6 +16,13 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 - **Frequency**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Excited States**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Molecular Dynamics**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
+
+## Preferred typed Action routes
+- `calculate_energy`: validated structured route through backend `nwchem`.
+- `calculate_forces`: validated structured route through backend `nwchem`.
+- `calculate_hessian`: validated structured route through backend `nwchem`.
+- `calculate_dipole_moment`: validated structured route through backend `nwchem`.
+- `calculate_atomic_charges`: validated structured route through backend `nwchem`.
 
 ## Minimum input responsibilities
 - `input.nw`

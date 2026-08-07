@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from researchchem_toolbox.catalog import (
+from chemistry_toolbox.src.catalog import (
     action_specs,
     agent_toolbox_overview,
     backend_specs,

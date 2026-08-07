@@ -35,7 +35,8 @@ from chemistry_toolbox.mcp.open_execution import (
     get_execution_job,
     submit_native_job,
 )
-from researchchem_toolbox.models import ResourceLimits
+from chemistry_toolbox.src.models import ResourceLimits
+from chemistry_toolbox.src.paths import portable_report_text, portable_report_value
 
 
 SCIENTIFIC_EVIDENCE = TOOLBOX_ROOT / "evidence" / "native_smoke" / "20260728_reliability_fix_v3"
@@ -98,10 +99,13 @@ SCIENTIFIC_REQUESTS: dict[str, dict[str, Any]] = {
 # scientific inputs or silently borrowing datasets.
 PROBES: dict[str, tuple[str, list[str]]] = {
     "abinit": ("abinit", ["--version"]),
+    "acpype": ("acpype", ["-h"]),
     "aiida": ("verdi", ["--version"]),
+    "airss": ("buildcell", []),
     "amber_pmemd": ("pmemd", ["-h"]),
     "arkane": ("Arkane.py", ["--help"]),
     "automekin": ("amk.sh", ["--version"]),
+    "bagel": ("BAGEL", ["interface_smoke.json"]),
     "censo": ("censo", ["--version"]),
     "charmm": ("charmm", ["-h"]),
     "cp2k": ("cp2k", ["--help"]),
@@ -114,6 +118,7 @@ PROBES: dict[str, tuple[str, list[str]]] = {
     "goodvibes": ("goodvibes", ["--help"]),
     "gpaw": ("gpaw", ["--version"]),
     "gromacs": ("gmx", ["--version"]),
+    "gmx_mmpbsa": ("gmx_MMPBSA", ["--version"]),
     "kinbot": ("kinbot", ["--help"]),
     "lammps": ("lmp", ["-help"]),
     "mesmer": ("mesmer", ["--help"]),
@@ -131,23 +136,28 @@ PROBES: dict[str, tuple[str, list[str]]] = {
     "phono3py": ("phono3py", ["-h"]),
     "phonopy": ("phonopy", ["-h"]),
     "plumed": ("plumed", ["info", "--version"]),
+    "pmx": ("pmx", ["--version"]),
     "psi4": ("psi4", ["--version"]),
     "pysisyphus": ("pysis", ["interface_smoke.yaml"]),
+    "pyfrag": ("pyfrag-orca", ["interface_smoke.inp", "scratch"]),
     "qcengine": ("qcengine", ["--version"]),
     "quantum_espresso": ("pw.x", ["-version"]),
     "rmg": ("rmg.py", ["--help"]),
     "sharc": ("sharc.x", ["--version"]),
     "shengbte": ("ShengBTE", ["--help"]),
     "siesta": ("siesta", ["--version"]),
+    "sisso": ("SISSO", []),
+    "tdep": ("extract_forceconstants", ["--version"]),
     "theodore": ("theodore", ["--version"]),
     "vesta": ("VESTA", ["-h"]),
+    "vaspkit": ("vaspkit", ["-help"]),
     "vina": ("vina", ["--version"]),
     "vmd": ("vmd", ["-dispdev", "text", "-eofexit"]),
     "wannier90": ("wannier90.x", ["--version"]),
     "xtb": ("xtb", ["--version"]),
     "yambo": ("p2y", ["--version"]),
 }
-STDIN_PROBES = {"multiwfn", "packmol", "siesta"}
+STDIN_PROBES = {"airss", "multiwfn", "packmol", "siesta"}
 CONFIG_PROBES = {
     "nequip": ("interface_smoke.yaml", "{}\n"),
     "pysisyphus": (
@@ -158,12 +168,18 @@ CONFIG_PROBES = {
     ),
 }
 
-FATAL_TEXT = (
+HARD_FATAL_TEXT = (
     "error while loading shared libraries",
     "segmentation fault",
-    "traceback (most recent call last)",
     "cannot find primary config",
     "module import timed out",
+)
+MISSING_INPUT_TEXT = (
+    "does not exist",
+    "no input file",
+    "cannot open file",
+    "no such file or directory",
+    "filenotfounderror",
 )
 
 
@@ -173,6 +189,15 @@ def sha256(path: Path) -> str:
         for chunk in iter(lambda: handle.read(1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
+
+
+def normalize_archived_text(path: Path) -> None:
+    if path.suffix == ".json":
+        value = portable_report_value(json.loads(path.read_text(encoding="utf-8")))
+        path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    else:
+        text = path.read_text(encoding="utf-8", errors="replace")
+        path.write_text(portable_report_text(text), encoding="utf-8")
 
 
 def wait_for_job(job_id: str, deadline_seconds: float) -> tuple[dict[str, Any], bool]:
@@ -201,6 +226,7 @@ def archive_job(workspace: Path, job_id: str, destination: Path) -> list[dict[st
             continue
         target = destination / name
         shutil.copy2(source, target)
+        normalize_archived_text(target)
         archived.append({"path": name, "size_bytes": target.stat().st_size, "sha256": sha256(target)})
     return archived
 
@@ -209,11 +235,13 @@ def classify_probe(collected: dict[str, Any], combined_output: str, cancelled: b
     lowered = combined_output.casefold()
     if cancelled:
         return "failed", "The command did not reach a terminal state before the interface-smoke deadline and was cancelled."
-    if any(marker in lowered for marker in FATAL_TEXT):
+    if any(marker in lowered for marker in HARD_FATAL_TEXT):
         return "failed", "The executable was reached, but startup reported a runtime, import, or configuration failure."
+    if any(marker in lowered for marker in MISSING_INPUT_TEXT):
+        return "started_input_required", "The executable started and reported that a required scientific input file was not staged."
+    if "traceback (most recent call last)" in lowered:
+        return "failed", "The executable was reached, but startup reported an unexpected Python exception."
     if collected.get("process_status") == "completed":
-        if any(text in lowered for text in ("does not exist", "no input file", "cannot open file")):
-            return "started_input_required", "The executable started but the selected route reported a missing scientific input."
         return "passed", "The configured executable completed the interface probe through the native job runner."
     return "started_input_required", "The executable started and emitted its banner, usage, or expected missing-input diagnostic, but did not complete successfully."
 
@@ -368,14 +396,14 @@ def execute(
     counts: dict[str, int] = {}
     for item in records:
         counts[item["status"]] = counts.get(item["status"], 0) + 1
-    manifest = {
+    manifest = portable_report_value({
         "schema_version": 1,
         "generated_at": tested_at,
         "runner": "chemistry_toolbox/scripts/run_native_interface_smokes.py",
         "scope": f"{len(records)} Catalog software entries; scientific smoke where self-contained evidence exists, interface smoke otherwise",
         "counts": counts,
         "software": records,
-    }
+    })
     evidence_dir.mkdir(parents=True, exist_ok=True)
     text = json.dumps(manifest, indent=2, sort_keys=True) + "\n"
     (evidence_dir / "manifest.json").write_text(text, encoding="utf-8")
@@ -403,12 +431,34 @@ def verify(evidence_dir: Path) -> dict[str, Any]:
     return {"valid": not errors, "errors": errors, "counts": manifest.get("counts", {})}
 
 
+def refresh_hashes(evidence_dir: Path, *, write_latest: bool = True) -> dict[str, Any]:
+    manifest_path = evidence_dir / "manifest.json"
+    manifest = portable_report_value(json.loads(manifest_path.read_text(encoding="utf-8")))
+    root = evidence_dir.resolve()
+    for item in manifest.get("software", []):
+        for archived in item.get("archived_files", []):
+            path = (evidence_dir / item["software_id"] / archived["path"]).resolve()
+            if not path.is_relative_to(root) or not path.is_file():
+                raise ValueError(
+                    f"Invalid archived evidence path: {item['software_id']}/{archived['path']}"
+                )
+            normalize_archived_text(path)
+            archived["size_bytes"] = path.stat().st_size
+            archived["sha256"] = sha256(path)
+    text = json.dumps(manifest, indent=2, sort_keys=True) + "\n"
+    manifest_path.write_text(text, encoding="utf-8")
+    if write_latest:
+        LATEST.write_text(text, encoding="utf-8")
+    return verify(evidence_dir)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--workspace", type=Path)
     parser.add_argument("--evidence-dir", type=Path, default=DEFAULT_EVIDENCE)
     parser.add_argument("--deadline-seconds", type=float, default=45.0)
     parser.add_argument("--verify", action="store_true")
+    parser.add_argument("--refresh-hashes", action="store_true")
     parser.add_argument(
         "--no-write-latest",
         action="store_true",
@@ -416,6 +466,12 @@ def main() -> int:
     )
     args = parser.parse_args()
     evidence_dir = args.evidence_dir.resolve()
+    if args.refresh_hashes:
+        result = refresh_hashes(
+            evidence_dir, write_latest=not args.no_write_latest
+        )
+        print(json.dumps(result, sort_keys=True))
+        return 0 if result["valid"] else 1
     if args.verify:
         result = verify(evidence_dir)
         print(json.dumps(result, sort_keys=True))

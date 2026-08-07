@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from researchchem_toolbox.service import execute_action
+from chemistry_toolbox.src.service import execute_action
 
 
 STRUCTURE = {

@@ -1038,52 +1038,52 @@ Action 是一个原子科学行为，不是固定 workflow。Agent 可自由组�
 
 | Runtime | 可用 | Python | Modules | Commands | 关联 Backends |
 |---|---|---|---|---|---|
-| `abinit` | yes | `/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/abinit/bin/python` | numpy, pydantic, yaml | abinit | abinit |
-| `amber` | yes | `/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/amber/bin/python` | — | mpirun, pmemd, pmemd.MPI | amber_pmemd |
-| `automekin` | yes | `/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/automekin/bin/python` | ase, networkx, numpy, scipy | amk.sh, bbfs.exe, mopac | — |
-| `charmm` | yes | `/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/charmm/bin/python` | — | charmm | charmm |
-| `core` | yes | `/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.toolbox_env/bin/python` | pdbtools | — | rdkit, rdkit_etkdg, rdkit_gasteiger, internal_statistics, ase_emt, internal_vibrations, internal_spectroscopy, internal_thermochemistry, pdb_tools |
-| `cp2k` | yes | `/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/cp2k/bin/python` | — | cp2k | cp2k |
-| `critic2` | yes | `/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/deepmd/bin/python` | — | critic2 | critic2 |
-| `deepmd` | yes | `/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/deepmd_models/bin/python` | deepmd | dp | deepmd |
-| `docking` | yes | `/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/docking/bin/python` | vina | gnina, vina | vina, gnina |
-| `easyspin` | no | `/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/easyspin/6.0.12/bin/python` | — | matlab | — |
-| `free_energy` | yes | `/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/free_energy/bin/python` | alchemlyb, hoomd, pymbar | — | pymbar, alchemlyb, hoomd |
-| `gamess` | yes | `/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/gamess/bin/python` | — | rungms | gamess |
-| `gaussian` | yes | `/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/gaussian/bin/python` | cclib | formchk, g16 | gaussian |
-| `goodvibes` | yes | `/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/goodvibes/bin/python` | goodvibes, numpy, pandas, pyarrow, yaml | goodvibes | goodvibes |
-| `gpaw` | yes | `/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/gpaw/bin/python` | gpaw | gpaw | gpaw |
-| `kinbot` | yes | `/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/kinbot/bin/python` | jax, kinbot, openbabel, sella | kinbot, pes | — |
-| `lobster` | yes | `/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/lobster/bin/python` | pymatgen | lobster-5.1.0 | lobster |
-| `matlab` | no | `/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/matlab/R2018a/install/bin/python` | — | matlab | — |
-| `md` | yes | `/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/md/bin/python` | MDAnalysis, lammps, openmm, pdbfixer | gmx, lmp, packmol, plumed | pdbfixer, openmm_builder, packmol, openmm, gromacs, lammps, mdanalysis, plumed |
-| `mesmer` | yes | `/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/mesmer/bin/python` | pydantic, yaml | mesmer | mesmer |
-| `mess` | yes | `/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/mess/bin/python` | pydantic, yaml | mess | mess |
-| `mlip` | yes | `/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/mlip/bin/python` | ase, chgnet, mace, mace.calculators, torch | — | mace, chgnet |
-| `multiwfn` | yes | `/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/multiwfn/bin/python` | pydantic, yaml | Multiwfn_noGUI | multiwfn |
-| `namd` | yes | `/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/namd/bin/python` | — | namd3 | namd |
-| `nequip` | yes | `/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/nequip/bin/python` | e3nn, nequip, torch | nequip-train | nequip, allegro |
-| `newtonx` | yes | `/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/newtonx/bin/python` | — | nx_geninp, nx_moldyn, nx_test | — |
-| `nwchem` | yes | `/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/nwchem/bin/python` | autode, cclib, geometric, qcelemental, qcengine | nwchem | nwchem, geometric |
-| `openff` | yes | `/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/openff/bin/python` | openff.interchange, openff.toolkit | antechamber, sqm | openff_am1bcc, openff |
-| `openmolcas` | yes | `/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/deepmd/bin/python` | pydantic, yaml | pymolcas | openmolcas |
-| `periodic` | yes | `/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/periodic/bin/python` | — | dftb+, siesta | dftbplus, siesta |
-| `phonons` | yes | `/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/phonons/bin/python` | phono3py, phonopy | phono3py-init, phonopy-init | phonopy, phono3py |
-| `psi4` | yes | `/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/psi4/bin/python` | psi4 | psi4 | psi4 |
-| `qe` | yes | `/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/qe/bin/python` | — | pw.x | quantum_espresso |
-| `quantum` | yes | `/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/quantum/bin/python` | ase, mace, mace.calculators, pyscf, tblite, torch | mpirun, orca, xtb | openbabel, xtb, pyscf, tblite, orca |
-| `reaction` | yes | `/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/reaction/bin/python` | cantera, catmap, pysisyphus, pyscf, scipy | crest, mpirun, orca, pysis, xtb | crest, pysisyphus, cantera, scipy, catmap |
-| `rmg` | yes | `/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/rmg/bin/python` | arkane, rmgpy | rmg.py | rmg |
-| `sella` | yes | `/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/sella/bin/python` | sella | — | sella |
-| `services` | yes | `/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/services/bin/python` | httpx | — | pubchem, rcsb_pdb, materials_project, catalysis_hub, nist_webbook |
-| `sharc` | yes | `/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/deepmd/bin/python` | — | sharc.x, wfoverlap.x | — |
-| `shengbte` | yes | `/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/deepmd/bin/python` | pydantic, yaml | ShengBTE | shengbte |
-| `theodore` | yes | `/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/theodore/bin/python` | cclib, theodore | theodore | — |
-| `vasp` | yes | `/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/vasp/bin/python` | ase | mpirun, vasp_std | vasp |
-| `vesta` | no | `/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/vesta/bin/python` | — | VESTA | — |
-| `vmd` | no | `/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/vmd/bin/python` | — | vmd | — |
-| `workflows` | yes | `/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/workflows/bin/python` | aiida, atomate2, cclib, jobflow, mdtraj, pymatgen, qcelemental, qcengine, spglib | — | qcelemental, cclib, pymatgen, spglib, mdtraj |
-| `yambo` | yes | `/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.tool_envs/yambo/bin/python` | — | p2y, yambo | — |
+| `abinit` | yes | `${PROJECT_ROOT}/.tool_envs/abinit/bin/python` | numpy, pydantic, yaml | abinit | abinit |
+| `amber` | yes | `${PROJECT_ROOT}/.tool_envs/amber/bin/python` | — | mpirun, pmemd, pmemd.MPI | amber_pmemd |
+| `automekin` | yes | `${PROJECT_ROOT}/.tool_envs/automekin/bin/python` | ase, networkx, numpy, scipy | amk.sh, bbfs.exe, mopac | — |
+| `charmm` | yes | `${PROJECT_ROOT}/.tool_envs/charmm/bin/python` | — | charmm | charmm |
+| `core` | yes | `${PROJECT_ROOT}/.toolbox_env/bin/python` | pdbtools | — | rdkit, rdkit_etkdg, rdkit_gasteiger, internal_statistics, ase_emt, internal_vibrations, internal_spectroscopy, internal_thermochemistry, pdb_tools |
+| `cp2k` | yes | `${PROJECT_ROOT}/.tool_envs/cp2k/bin/python` | — | cp2k | cp2k |
+| `critic2` | yes | `${PROJECT_ROOT}/.tool_envs/deepmd/bin/python` | — | critic2 | critic2 |
+| `deepmd` | yes | `${PROJECT_ROOT}/.tool_envs/deepmd_models/bin/python` | deepmd | dp | deepmd |
+| `docking` | yes | `${PROJECT_ROOT}/.tool_envs/docking/bin/python` | vina | gnina, vina | vina, gnina |
+| `easyspin` | no | `${PROJECT_ROOT}/.software_cache/easyspin/6.0.12/bin/python` | — | matlab | — |
+| `free_energy` | yes | `${PROJECT_ROOT}/.tool_envs/free_energy/bin/python` | alchemlyb, hoomd, pymbar | — | pymbar, alchemlyb, hoomd |
+| `gamess` | yes | `${PROJECT_ROOT}/.tool_envs/gamess/bin/python` | — | rungms | gamess |
+| `gaussian` | yes | `${PROJECT_ROOT}/.tool_envs/gaussian/bin/python` | cclib | formchk, g16 | gaussian |
+| `goodvibes` | yes | `${PROJECT_ROOT}/.tool_envs/goodvibes/bin/python` | goodvibes, numpy, pandas, pyarrow, yaml | goodvibes | goodvibes |
+| `gpaw` | yes | `${PROJECT_ROOT}/.tool_envs/gpaw/bin/python` | gpaw | gpaw | gpaw |
+| `kinbot` | yes | `${PROJECT_ROOT}/.tool_envs/kinbot/bin/python` | jax, kinbot, openbabel, sella | kinbot, pes | — |
+| `lobster` | yes | `${PROJECT_ROOT}/.tool_envs/lobster/bin/python` | pymatgen | lobster-5.1.0 | lobster |
+| `matlab` | no | `${PROJECT_ROOT}/.software_cache/matlab/R2018a/install/bin/python` | — | matlab | — |
+| `md` | yes | `${PROJECT_ROOT}/.tool_envs/md/bin/python` | MDAnalysis, lammps, openmm, pdbfixer | gmx, lmp, packmol, plumed | pdbfixer, openmm_builder, packmol, openmm, gromacs, lammps, mdanalysis, plumed |
+| `mesmer` | yes | `${PROJECT_ROOT}/.tool_envs/mesmer/bin/python` | pydantic, yaml | mesmer | mesmer |
+| `mess` | yes | `${PROJECT_ROOT}/.tool_envs/mess/bin/python` | pydantic, yaml | mess | mess |
+| `mlip` | yes | `${PROJECT_ROOT}/.tool_envs/mlip/bin/python` | ase, chgnet, mace, mace.calculators, torch | — | mace, chgnet |
+| `multiwfn` | yes | `${PROJECT_ROOT}/.tool_envs/multiwfn/bin/python` | pydantic, yaml | Multiwfn_noGUI | multiwfn |
+| `namd` | yes | `${PROJECT_ROOT}/.tool_envs/namd/bin/python` | — | namd3 | namd |
+| `nequip` | yes | `${PROJECT_ROOT}/.tool_envs/nequip/bin/python` | e3nn, nequip, torch | nequip-train | nequip, allegro |
+| `newtonx` | yes | `${PROJECT_ROOT}/.tool_envs/newtonx/bin/python` | — | nx_geninp, nx_moldyn, nx_test | — |
+| `nwchem` | yes | `${PROJECT_ROOT}/.tool_envs/nwchem/bin/python` | autode, cclib, geometric, qcelemental, qcengine | nwchem | nwchem, geometric |
+| `openff` | yes | `${PROJECT_ROOT}/.tool_envs/openff/bin/python` | openff.interchange, openff.toolkit | antechamber, sqm | openff_am1bcc, openff |
+| `openmolcas` | yes | `${PROJECT_ROOT}/.tool_envs/deepmd/bin/python` | pydantic, yaml | pymolcas | openmolcas |
+| `periodic` | yes | `${PROJECT_ROOT}/.tool_envs/periodic/bin/python` | — | dftb+, siesta | dftbplus, siesta |
+| `phonons` | yes | `${PROJECT_ROOT}/.tool_envs/phonons/bin/python` | phono3py, phonopy | phono3py-init, phonopy-init | phonopy, phono3py |
+| `psi4` | yes | `${PROJECT_ROOT}/.tool_envs/psi4/bin/python` | psi4 | psi4 | psi4 |
+| `qe` | yes | `${PROJECT_ROOT}/.tool_envs/qe/bin/python` | — | pw.x | quantum_espresso |
+| `quantum` | yes | `${PROJECT_ROOT}/.tool_envs/quantum/bin/python` | ase, mace, mace.calculators, pyscf, tblite, torch | mpirun, orca, xtb | openbabel, xtb, pyscf, tblite, orca |
+| `reaction` | yes | `${PROJECT_ROOT}/.tool_envs/reaction/bin/python` | cantera, catmap, pysisyphus, pyscf, scipy | crest, mpirun, orca, pysis, xtb | crest, pysisyphus, cantera, scipy, catmap |
+| `rmg` | yes | `${PROJECT_ROOT}/.tool_envs/rmg/bin/python` | arkane, rmgpy | rmg.py | rmg |
+| `sella` | yes | `${PROJECT_ROOT}/.tool_envs/sella/bin/python` | sella | — | sella |
+| `services` | yes | `${PROJECT_ROOT}/.tool_envs/services/bin/python` | httpx | — | pubchem, rcsb_pdb, materials_project, catalysis_hub, nist_webbook |
+| `sharc` | yes | `${PROJECT_ROOT}/.tool_envs/deepmd/bin/python` | — | sharc.x, wfoverlap.x | — |
+| `shengbte` | yes | `${PROJECT_ROOT}/.tool_envs/deepmd/bin/python` | pydantic, yaml | ShengBTE | shengbte |
+| `theodore` | yes | `${PROJECT_ROOT}/.tool_envs/theodore/bin/python` | cclib, theodore | theodore | — |
+| `vasp` | yes | `${PROJECT_ROOT}/.tool_envs/vasp/bin/python` | ase | mpirun, vasp_std | vasp |
+| `vesta` | no | `${PROJECT_ROOT}/.tool_envs/vesta/bin/python` | — | VESTA | — |
+| `vmd` | no | `${PROJECT_ROOT}/.tool_envs/vmd/bin/python` | — | vmd | — |
+| `workflows` | yes | `${PROJECT_ROOT}/.tool_envs/workflows/bin/python` | aiida, atomate2, cclib, jobflow, mdtraj, pymatgen, qcelemental, qcengine, spglib | — | qcelemental, cclib, pymatgen, spglib, mdtraj |
+| `yambo` | yes | `${PROJECT_ROOT}/.tool_envs/yambo/bin/python` | — | p2y, yambo | — |
 
 ## 8. 注册科学资源
 

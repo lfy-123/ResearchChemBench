@@ -1,0 +1,130 @@
+schema_version: 1
+root: .envs
+
+# Physical Conda prefixes used by the consolidated runtime layout.  Logical
+# backend runtime ids remain unchanged; mcp_profiles.yaml maps those ids to one
+# of these seven prefixes so Action and backend selection semantics do not change.
+environments:
+  general:
+    path: .envs/general-modern-openmpi5
+    seed: fresh
+    python_version: "3.11"
+    description: >-
+      Main MCP, cheminformatics, molecular/periodic analysis, molecular quantum,
+      MACE/CHGNet, Psi4, GPAW, NWChem, and OpenMPI-5 runtime.
+
+  molecular_simulation:
+    path: .envs/molecular-simulation-openff
+    seed: fresh
+    python_version: "3.12"
+    description: >-
+      OpenFF/AmberTools, OpenMM, GROMACS, HOOMD, free-energy analysis,
+      and docking runtime using the OpenFF-compatible NumPy 1.x stack.
+
+  reaction_kinetics:
+    path: .envs/kinetics-legacy
+    seed: fresh
+    python_version: "3.11"
+    description: >-
+      Modern reaction exploration plus RMG/Arkane and KinBot/Sella using
+      NumPy 1.26 and ASE 3.22, together with the MPICH-4 ABINIT/LAMMPS stack.
+
+  equivariant_ml:
+    path: .envs/equivariant-ml
+    seed: fresh
+    python_version: "3.11"
+    description: DeePMD, NequIP, and Allegro runtime using CPU Torch 2.10 and e3nn 0.6.
+
+  periodic_mpich:
+    path: .envs/periodic-mpich
+    seed: fresh
+    python_version: "3.10"
+    description: MPICH-5 periodic electronic-structure runtime for CP2K.
+
+  catmap_yambo:
+    path: .envs/yambo-openmpi4
+    seed: fresh
+    python_version: "3.11"
+    description: >-
+      CatMAP compatibility runtime pinned to ASE 3.17 together with Yambo 5.3,
+      whose OpenMPI-4 ABI remains isolated from the general runtime.
+
+  gmx_mmpbsa:
+    path: .envs/gmx-mmpbsa
+    seed: fresh
+    python_version: "3.11"
+    description: >-
+      gmx_MMPBSA 1.6.5 runtime pinned to its supported AmberTools 23.6,
+      Python 3.11, NumPy 1.x, and GROMACS dependency line.
+
+runtime_mapping:
+  general:
+    - core
+    - services
+    - workflows
+    - quantum
+    - gpaw
+    - critic2
+    - lobster
+    - shengbte
+    - openmolcas
+    - multiwfn
+    - nwchem
+    - psi4
+    - goodvibes
+    - qe
+    - periodic
+    - phonons
+    - mlip
+    - vasp
+    - gaussian
+    - gamess
+    - mess
+    - mesmer
+    - namd
+    - amber
+    - charmm
+    - automekin
+    - vmd
+    - newtonx
+    - theodore
+    - sharc
+    - vesta
+    - airss
+    - bagel
+    - vaspkit
+
+  molecular_simulation:
+    - free_energy
+    - md
+    - openff
+    - docking
+    - acpype
+    - pmx
+
+  reaction_kinetics:
+    - abinit
+    - lammps
+    - reaction
+    - rmg
+    - kinbot
+    - sella
+    - censo
+    - gplearn
+    - pyfrag
+    - sisso
+    - tdep
+
+  equivariant_ml:
+    - nequip
+    - deepmd
+
+  periodic_mpich:
+    - cp2k
+
+  catmap_yambo:
+    - catmap
+    - yambo
+
+  gmx_mmpbsa:
+    - gmx_mmpbsa

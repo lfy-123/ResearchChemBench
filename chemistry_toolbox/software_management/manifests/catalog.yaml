@@ -1,0 +1,334 @@
+schema_version: 1
+
+# This catalog manages native/cache-resident assets. Python and Conda runtimes
+# remain reproducible through the repository's environment lock files in .envs.
+software:
+  acpype:
+    display_name: ACPYPE
+    version: 2023.10.27
+    acquisition: automatic
+    license: GPL-3.0
+    accepted_packages: [acpype-*.tar.gz, acpype-*.zip]
+    installation: {handler: archive, target: installations/acpype/2023.10.27, strip_single_directory: true}
+    runtime: {entrypoints: {acpype: python/bin/acpype}}
+
+  aiida_state:
+    display_name: AiiDA local state
+    version: local
+    acquisition: bundled
+    license: runtime-state
+    installation: {handler: external, target: state/aiida, required: false}
+    notes: AiiDA itself is installed in .envs; this entry only owns local SQLite/profile state.
+
+  airss:
+    display_name: AIRSS
+    version: 0.9.3
+    acquisition: automatic
+    license: GPL-2.0
+    accepted_packages: [airss-*.tar.gz, airss-*.zip]
+    installation: {handler: archive, target: installations/airss/0.9.3, strip_single_directory: true}
+    runtime: {entrypoints: {buildcell: bin/buildcell, cabal: bin/cabal}}
+
+  amber_pmemd:
+    display_name: Amber PMEMD
+    version: "26"
+    acquisition: manual
+    license: commercial
+    accepted_packages: [AmberTools*.tar.bz2, Amber*.tar.bz2, amber26-prepared*.tar.*]
+    installation: {handler: archive, target: installations/amber/26/install, strip_single_directory: true}
+    runtime: {entrypoints: {pmemd: bin/pmemd}}
+    notes: A valid Amber license and operator-provided package are required.
+
+  automekin:
+    display_name: AutoMeKin
+    version: current
+    acquisition: automatic
+    license: GPL-3.0
+    accepted_packages: [AutoMeKin*.tar.gz, automekin*.tar.gz]
+    installation: {handler: archive, target: installations/automekin/install, strip_single_directory: true}
+    runtime: {entrypoints: {amk: bin/amk.sh}}
+
+  bagel:
+    display_name: BAGEL
+    version: 1.2.2
+    acquisition: automatic
+    license: GPL-3.0
+    accepted_packages: [bagel-1.2.2-prepared*.tar.*, bagel-1.2.2-prepared*.zip]
+    installation: {handler: archive, target: installations/bagel/1.2.2, strip_single_directory: true}
+    runtime: {entrypoints: {bagel: bin/BAGEL}}
+    notes: Use a prepared binary bundle or add a site-specific source-build recipe.
+
+  censo_state:
+    display_name: CENSO local state
+    version: 2.1.2
+    acquisition: bundled
+    license: GPL-3.0
+    installation: {handler: external, target: state/censo, required: false}
+    notes: CENSO is installed in .envs; this entry owns configuration and validation data.
+
+  charmm:
+    display_name: CHARMM
+    version: 50b2
+    acquisition: manual
+    license: commercial-or-academic
+    accepted_packages: [charmm*.tar.gz, charmm50b2-prepared*.tar.*]
+    installation: {handler: archive, target: installations/charmm/50b2/install, strip_single_directory: true}
+    runtime: {entrypoints: {charmm: bin/charmm}}
+    notes: An operator-provided package obtained under the appropriate CHARMM license is required.
+
+  critic2:
+    display_name: Critic2
+    version: 1.2
+    acquisition: automatic
+    license: GPL-3.0
+    accepted_packages: [critic2-*-prepared.tar.*, critic2-*-prepared.zip]
+    installation: {handler: archive, target: installations/critic2/install-conda, strip_single_directory: true}
+    runtime: {entrypoints: {critic2: bin/critic2}}
+
+  gamess:
+    display_name: GAMESS US
+    version: 2024-r2-p1
+    acquisition: manual
+    license: free-registration
+    accepted_packages: [gamess-current.tar.gz, gamess-2024-r2-p1-prepared.tar.*]
+    installation: {handler: archive, target: installations/gamess/2024-r2-p1/source, strip_single_directory: true}
+    runtime: {entrypoints: {rungms: rungms}}
+    notes: Registration is required; a prepared build must contain rungms and its matching executable.
+
+  gaussian:
+    display_name: Gaussian
+    version: g16-c01
+    acquisition: manual
+    license: commercial
+    accepted_packages: [gaussian-g16-prepared.tar.*]
+    installation: {handler: archive, target: installations/gaussian/g16, strip_single_directory: true}
+    runtime: {entrypoints: {g16: install/g16/g16, formchk: install/g16/formchk}}
+    notes: No downloader is provided; stage only files covered by the local Gaussian license.
+
+  gmx_mmpbsa:
+    display_name: gmx_MMPBSA isolated runtime
+    version: 1.6.5
+    acquisition: automatic
+    license: GPL-3.0
+    installation: {handler: external, target: packages/gmx_mmpbsa/1.6.5, required: false}
+    notes: The executable runtime is rebuilt as .envs/gmx-mmpbsa from the exact environment lock; cache content is package provenance and validation data.
+
+  gnina:
+    display_name: GNINA
+    version: 1.3.3
+    acquisition: automatic
+    license: Apache-2.0
+    accepted_packages: [gnina.cuda12.8.static]
+    installation: {handler: copy, target: installations/gnina/1.3.3, target_name: gnina.cuda12.8.static, aliases: {gnina: gnina.cuda12.8.static}}
+    runtime: {entrypoints: {gnina: gnina}}
+
+  kinbot:
+    display_name: KinBot
+    version: 2.2.2
+    acquisition: automatic
+    license: BSD-3-Clause
+    accepted_packages: [KinBot-2.2.2.tar.gz, kinbot-2.2.2*.zip]
+    installation: {handler: archive, target: installations/kinbot/source-2.2.2, strip_single_directory: true}
+    notes: The executable CLI is supplied by the matching .envs runtime; this entry owns source/data files.
+
+  lobster:
+    display_name: LOBSTER
+    version: 5.1.0
+    acquisition: manual
+    license: free-academic-registration
+    accepted_packages: [lobster-5.1.0*.tar.*, lobster-5.1.0*.zip]
+    installation: {handler: archive, target: installations/lobster/5.1.0, strip_single_directory: true}
+    runtime: {entrypoints: {lobster: package/lobster-5.1.0}}
+
+  mesmer:
+    display_name: MESMER
+    version: 7.1
+    acquisition: automatic
+    license: GPL-3.0
+    accepted_packages: [mesmer-7.1-prepared.tar.*, mesmer-7.1-prepared.zip]
+    installation: {handler: archive, target: installations/mesmer/7.1, strip_single_directory: true}
+    runtime: {entrypoints: {mesmer: bin/mesmer}}
+
+  mess:
+    display_name: MESS
+    version: 2020.1.24
+    acquisition: automatic
+    license: open-source
+    accepted_packages: [mess-2020.1.24-prepared.tar.*]
+    installation: {handler: archive, target: installations/mess/2020.1.24/build, strip_single_directory: true}
+    runtime: {entrypoints: {mess: mess}}
+
+  multiwell:
+    display_name: MultiWell
+    version: 2023.1
+    acquisition: manual
+    license: free-registration
+    installation: {handler: manual, target: installations/multiwell/2023.1, required: false}
+    notes: The legacy cache contains only an empty download staging directory; no runnable installation is claimed.
+
+  multiwfn:
+    display_name: Multiwfn
+    version: 2026.7.15
+    acquisition: automatic
+    license: freeware
+    accepted_packages: [Multiwfn_*_bin_Linux_noGUI.zip, Multiwfn_*_bin_Linux_noGUI.tar.*]
+    installation: {handler: archive, target: installations/multiwfn/2026.7.15, strip_single_directory: false}
+    runtime: {entrypoints: {multiwfn: Multiwfn_2026.7.15_bin_Linux_noGUI/Multiwfn_noGUI}}
+
+  namd:
+    display_name: NAMD
+    version: 3.0.2
+    acquisition: manual
+    license: free-registration
+    accepted_packages: [NAMD_3.0.2_Linux-x86_64-multicore*.tar.gz, namd-3.0.2-prepared.tar.*]
+    installation: {handler: archive, target: installations/namd/3.0.2, strip_single_directory: true}
+    runtime: {entrypoints: {namd: multicore-avx512/namd3}}
+
+  newton_x:
+    display_name: Newton-X
+    version: 26a
+    acquisition: automatic
+    license: GPL-3.0
+    accepted_packages: [Newton-X*.tar.*, newton-x-26a*.zip]
+    installation: {handler: archive, target: installations/newton-x/26a, strip_single_directory: true}
+    runtime: {entrypoints: {moldyn: package/NX-CS/bin/moldyn.pl}}
+
+  openmolcas:
+    display_name: OpenMolcas
+    version: "25.10"
+    acquisition: automatic
+    license: LGPL-2.1
+    accepted_packages: [openmolcas-25.10-prepared.tar.*]
+    installation: {handler: archive, target: installations/openmolcas/25.10, strip_single_directory: true}
+    runtime: {entrypoints: {pymolcas: pymolcas}}
+
+  orca:
+    display_name: ORCA
+    version: 6.1.1
+    acquisition: manual
+    license: free-academic-registration
+    accepted_packages: [orca_6_1_1_linux_x86-64_shared_openmpi418_nodmrg.tar.xz]
+    installation: {handler: archive, target: installations/orca/6.1.1, strip_single_directory: true}
+    runtime: {entrypoints: {orca: orca}}
+    notes: Download requires an authorized FACCTs account and the matching OpenMPI 4.1 runtime.
+
+  pmx:
+    display_name: pmx
+    version: develop-0dd5f0a
+    acquisition: automatic
+    license: LGPL-3.0
+    installation: {handler: external, target: sources/pmx/develop-0dd5f0a, required: false}
+    notes: The executable Python package is installed in .envs; cache content is source/package provenance.
+
+  pyfrag:
+    display_name: PyFrag
+    version: 2019
+    acquisition: automatic
+    license: LGPL-3.0
+    accepted_packages: [pyfrag-2019-prepared.tar.*]
+    installation: {handler: archive, target: installations/pyfrag/2019, strip_single_directory: true}
+    runtime: {entrypoints: {pyfrag_orca: bin/pyfrag-orca}}
+
+  rmg_assets:
+    display_name: RMG-Py source and database assets
+    version: 4.0.0
+    acquisition: automatic
+    license: MIT
+    installation: {handler: external, target: installations/rmg, required: false}
+    notes: RMG-Py is installed in .envs; this entry owns the matching source and database revisions.
+
+  sharc:
+    display_name: SHARC
+    version: 4.x
+    acquisition: automatic
+    license: GPL-3.0
+    accepted_packages: [sharc-v*.tar.*, sharc-v*.zip]
+    installation: {handler: archive, target: installations/sharc/source, strip_single_directory: true}
+    runtime: {entrypoints: {sharc: bin/sharc.x}}
+
+  shengbte:
+    display_name: ShengBTE
+    version: current
+    acquisition: automatic
+    license: GPL-3.0
+    accepted_packages: [ShengBTE*.tar.*, ShengBTE*.zip]
+    installation: {handler: archive, target: installations/shengbte/source, strip_single_directory: true}
+    runtime: {entrypoints: {shengbte: ShengBTE}}
+
+  sisso:
+    display_name: SISSO
+    version: 3.5
+    acquisition: automatic
+    license: Apache-2.0
+    accepted_packages: [SISSO-3.5-prepared.tar.*]
+    installation: {handler: archive, target: installations/sisso/3.5, strip_single_directory: true}
+    runtime: {entrypoints: {sisso: bin/SISSO_run, sisso_predict: bin/SISSO_predict}}
+
+  tdep:
+    display_name: TDEP
+    version: 25.03
+    acquisition: automatic
+    license: MIT
+    accepted_packages: [tdep-25.03-prepared.tar.*]
+    installation: {handler: archive, target: installations/tdep/25.03/source, strip_single_directory: true}
+    runtime: {entrypoints: {extract_forceconstants: bin/extract_forceconstants}}
+
+  vasp:
+    display_name: VASP
+    version: 6.3.2
+    acquisition: manual
+    license: commercial
+    accepted_packages: [vasp.6.3.2.zip, vasp-6.3.2-prepared.tar.*]
+    installation: {handler: archive, target: installations/vasp/6.3.2, strip_single_directory: true}
+    runtime: {entrypoints: {vasp_std: bin/vasp_std}}
+    notes: VASP source and POTCAR data must only be staged by an authorized license holder.
+
+  vaspkit:
+    display_name: VASPKIT
+    version: 1.5.1
+    acquisition: automatic
+    license: free-academic
+    accepted_packages: [vaspkit.1.5.1.linux.x64.tar.gz]
+    installation: {handler: archive, target: installations/vaspkit/1.5.1, strip_single_directory: false}
+    runtime: {entrypoints: {vaspkit: vaspkit.1.5.1/bin/vaspkit}}
+
+  vesta:
+    display_name: VESTA
+    version: 3.90.5a
+    acquisition: automatic
+    license: freeware
+    accepted_packages: [VESTA-gtk3*.tar.bz2, VESTA-gtk3*.tar.gz]
+    installation: {handler: archive, target: installations/vesta/3.90.5a, strip_single_directory: true}
+    runtime: {entrypoints: {vesta: VESTA}}
+    notes: Use VESTA -nogui for headless invocation; the optional GUI dependency bundle lives under installations/vesta/deps.
+
+  wannier90:
+    display_name: Wannier90
+    version: 3.1.0
+    acquisition: automatic
+    license: GPL-2.0
+    accepted_packages: [wannier90-3.1.0-prepared.tar.*]
+    installation: {handler: archive, target: installations/wannier90/3.1.0-source, strip_single_directory: true}
+    runtime: {entrypoints: {wannier90: wannier90.x}}
+
+  gpaw_setups:
+    display_name: GPAW PAW setup datasets
+    version: current
+    acquisition: automatic
+    license: GPL-compatible-data
+    installation: {handler: external, target: shared/scientific-data/gpaw-setups, required: false}
+
+  openmpi_runtime:
+    display_name: OpenMPI compatibility runtime
+    version: 4.1.8
+    acquisition: automatic
+    license: BSD-3-Clause
+    installation: {handler: external, target: shared/mpi/openmpi, required: false}
+
+  yambo_validation:
+    display_name: Yambo validation fixtures
+    version: current
+    acquisition: bundled
+    license: test-data
+    installation: {handler: external, target: validation/yambo, required: false}
+    notes: Yambo executables are installed in .envs/yambo-openmpi4.

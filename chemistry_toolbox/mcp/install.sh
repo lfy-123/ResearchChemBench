@@ -47,7 +47,7 @@ EOF
   esac
 done
 
-PACKAGE_SPEC="$ROOT_DIR"
+PACKAGE_SPEC="${ROOT_DIR}/.."
 if [[ "$WITH_CHEMISTRY" -eq 1 ]]; then
   PACKAGE_SPEC="$ROOT_DIR[chemistry]"
 fi
@@ -55,4 +55,4 @@ fi
 echo "Installing Python package: $PACKAGE_SPEC"
 "$PYTHON_BIN" -m pip install "$PACKAGE_SPEC"
 
-exec "$PYTHON_BIN" -m researchchem_mcp_tools.installer "${INSTALLER_ARGS[@]}"
+exec "$PYTHON_BIN" -m chemistry_toolbox.mcp.installer "${INSTALLER_ARGS[@]}"

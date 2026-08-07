@@ -18,7 +18,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from researchchem_toolbox.remote_scratch import (
+from chemistry_toolbox.src.remote_scratch import (
     cleanup_remote_scratch,
     prepare_remote_scratch,
 )

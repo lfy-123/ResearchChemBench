@@ -5,7 +5,7 @@ topics: ["common-tasks", "inputs", "outputs", "convergence"]
 aliases: ["ShengBTE", "shengbte"]
 inputs: ["CONTROL", "FORCE_CONSTANTS_2ND", "FORCE_CONSTANTS_3RD"]
 outputs: ["BTE.kappa_tensor", "BTE.omega", "BTE.v", "BTE.* diagnostic files"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # ShengBTE Common Tasks
@@ -15,6 +15,9 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 - **Relaxation-Time Approximation**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Isotope Scattering**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Convergence Studies**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
+
+## Preferred typed Action routes
+- `calculate_lattice_thermal_conductivity`: validated structured route through backend `shengbte`.
 
 ## Minimum input responsibilities
 - `CONTROL`

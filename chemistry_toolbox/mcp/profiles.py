@@ -9,23 +9,29 @@ from typing import Any
 import yaml
 from dotenv import load_dotenv
 
-from researchchem_toolbox.catalog import (
+from chemistry_toolbox.src.catalog import (
     TOOL_DISCOVERY_MODE_ENV,
     action_specs,
     backend_specs,
     resolve_tool_discovery_mode,
 )
-from researchchem_toolbox.environment_layout import (
+from chemistry_toolbox.src.environment_layout import (
+    SOFTWARE_ROOT_ENV,
     resolve_configured_path,
     resolve_runtime_path,
+    software_root,
 )
-from researchchem_toolbox.paths import CONFIG_ROOT, PROJECT_ROOT, SOURCE_ROOT
+from chemistry_toolbox.src.paths import (
+    CONFIG_ROOT,
+    MODEL_CACHE_ENV,
+    PROJECT_ROOT,
+    RUNTIME_CACHE_ENV,
+)
 
 
 load_dotenv(PROJECT_ROOT / "config.local.env", override=False)
 PROFILE_CONFIG_ENV = "RESEARCHCHEM_MCP_PROFILE_CONFIG"
 PROFILE_ENV = "RESEARCHCHEM_BACKEND_RUNTIME"
-MODEL_CACHE_ENV = "RESEARCHCHEMBENCH_MODEL_CACHE"
 DEFAULT_CONFIG_PATH = CONFIG_ROOT / "mcp_profiles.yaml"
 
 
@@ -38,11 +44,8 @@ def load_profile_config() -> dict[str, Any]:
     path = profile_config_path()
     value = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
     profiles = value.get("profiles")
-    support = value.get("support_environments", {})
     if not isinstance(profiles, dict) or not profiles:
         raise ValueError(f"Invalid backend runtime configuration: {path}")
-    if not isinstance(support, dict):
-        raise ValueError("support_environments must be a mapping")
     public_server = value.get("public_server")
     if not isinstance(public_server, dict) or public_server.get("runtime") not in profiles:
         raise ValueError("public_server.runtime must reference a configured profile")
@@ -50,37 +53,37 @@ def load_profile_config() -> dict[str, Any]:
     expected = backend_specs()
     assigned: dict[str, str] = {}
     conda_names: set[str] = set()
-    for group_name, group in (("profiles", profiles), ("support_environments", support)):
-        for name, profile in group.items():
-            if not isinstance(profile, dict):
-                raise ValueError(f"{group_name}.{name} must be a mapping")
-            backends = profile.get("backends")
-            if not isinstance(backends, list) or not backends or not all(
-                isinstance(item, str) and item for item in backends
-            ):
-                raise ValueError(f"{group_name}.{name}.backends must be a non-empty string list")
-            if len(backends) != len(set(backends)):
-                raise ValueError(f"{group_name}.{name}.backends contains duplicates")
-            for backend_id in backends:
-                if backend_id not in expected:
-                    raise ValueError(f"Unknown backend {backend_id!r} in runtime {name}")
-                if backend_id in assigned:
-                    raise ValueError(
-                        f"Backend {backend_id!r} assigned to both {assigned[backend_id]} and {name}"
-                    )
-                if expected[backend_id].runtime != name:
-                    raise ValueError(
-                        f"BackendSpec {backend_id} declares runtime {expected[backend_id].runtime}, "
-                        f"but config assigns it to {name}"
-                    )
-                assigned[backend_id] = name
-            conda_name = str(profile.get("conda_name") or "").strip()
-            if not conda_name or conda_name in conda_names:
-                raise ValueError(f"Invalid or duplicate conda_name for runtime {name}")
-            conda_names.add(conda_name)
-            libraries = profile.get("runtime_preload_libraries", [])
-            if not isinstance(libraries, list) or not all(isinstance(item, str) for item in libraries):
-                raise ValueError(f"runtime_preload_libraries for {name} must be a string list")
+    for name, profile in profiles.items():
+        group_name = "profiles"
+        if not isinstance(profile, dict):
+            raise ValueError(f"{group_name}.{name} must be a mapping")
+        backends = profile.get("backends")
+        if not isinstance(backends, list) or not backends or not all(
+            isinstance(item, str) and item for item in backends
+        ):
+            raise ValueError(f"{group_name}.{name}.backends must be a non-empty string list")
+        if len(backends) != len(set(backends)):
+            raise ValueError(f"{group_name}.{name}.backends contains duplicates")
+        for backend_id in backends:
+            if backend_id not in expected:
+                raise ValueError(f"Unknown backend {backend_id!r} in runtime {name}")
+            if backend_id in assigned:
+                raise ValueError(
+                    f"Backend {backend_id!r} assigned to both {assigned[backend_id]} and {name}"
+                )
+            if expected[backend_id].runtime != name:
+                raise ValueError(
+                    f"BackendSpec {backend_id} declares runtime {expected[backend_id].runtime}, "
+                    f"but config assigns it to {name}"
+                )
+            assigned[backend_id] = name
+        conda_name = str(profile.get("conda_name") or "").strip()
+        if not conda_name or conda_name in conda_names:
+            raise ValueError(f"Invalid or duplicate conda_name for runtime {name}")
+        conda_names.add(conda_name)
+        libraries = profile.get("runtime_preload_libraries", [])
+        if not isinstance(libraries, list) or not all(isinstance(item, str) for item in libraries):
+            raise ValueError(f"runtime_preload_libraries for {name} must be a string list")
     missing = sorted(set(expected) - set(assigned))
     if missing:
         raise ValueError(f"Backend runtimes do not cover BackendSpec entries: {missing}")
@@ -96,13 +99,12 @@ def profile_names() -> list[str]:
 
 def get_profile(name: str) -> dict[str, Any]:
     config = load_profile_config()
-    for group in ("profiles", "support_environments"):
-        if name in config.get(group, {}):
-            value = dict(config[group][name])
-            value["name"] = name
-            value["group"] = group
-            return value
-    raise KeyError(f"Unknown backend runtime {name!r}")
+    if name not in config["profiles"]:
+        raise KeyError(f"Unknown backend runtime {name!r}")
+    value = dict(config["profiles"][name])
+    value["name"] = name
+    value["group"] = "profiles"
+    return value
 
 
 def selected_profile_names(value: str | None = None) -> list[str]:
@@ -137,6 +139,14 @@ def project_model_cache_path() -> Path:
     return path.resolve() if path.is_absolute() else (PROJECT_ROOT / path).resolve()
 
 
+def project_runtime_cache_path() -> Path:
+    configured = os.environ.get(RUNTIME_CACHE_ENV, "").strip()
+    if not configured:
+        configured = str(load_profile_config().get("runtime_cache_root") or ".runtime_cache")
+    path = Path(configured).expanduser()
+    return path.resolve() if path.is_absolute() else (PROJECT_ROOT / path).resolve()
+
+
 def _profile_entries(profile: dict[str, Any], key: str) -> list[str]:
     entries = []
     for value in profile.get(key) or []:
@@ -149,7 +159,9 @@ def _profile_environment_value(value: Any) -> str:
 
     text = str(value)
     if text.startswith(".") or "/" in text:
-        return str(resolve_configured_path(text))
+        preserve_trailing_slash = text.endswith("/")
+        resolved = str(resolve_configured_path(text))
+        return resolved + "/" if preserve_trailing_slash else resolved
     return text
 
 
@@ -169,12 +181,13 @@ def profile_runtime_environment(name: str) -> dict[str, str]:
     ]
     values = {
         PROFILE_ENV: name,
+        SOFTWARE_ROOT_ENV: str(software_root()),
         "PATH": os.pathsep.join([*path_entries, os.environ.get("PATH", "")]),
         "LD_LIBRARY_PATH": os.pathsep.join(
             [*library_entries, os.environ.get("LD_LIBRARY_PATH", "")]
         ),
         "PYTHONPATH": os.pathsep.join(
-            [str(SOURCE_ROOT), str(PROJECT_ROOT), os.environ.get("PYTHONPATH", "")]
+            [str(PROJECT_ROOT), os.environ.get("PYTHONPATH", "")]
         ),
     }
     values.update(
@@ -185,11 +198,14 @@ def profile_runtime_environment(name: str) -> dict[str, str]:
             ).items()
         }
     )
+    runtime_cache = project_runtime_cache_path()
+    runtime_cache.mkdir(parents=True, exist_ok=True)
+    values[RUNTIME_CACHE_ENV] = str(runtime_cache)
+    values["XDG_CACHE_HOME"] = str(runtime_cache)
     if profile.get("use_project_model_cache", False):
         cache_root = project_model_cache_path()
         cache_root.mkdir(parents=True, exist_ok=True)
         values[MODEL_CACHE_ENV] = str(cache_root)
-        values["XDG_CACHE_HOME"] = str(cache_root)
     for variable, executable in dict(profile.get("command_variables") or {}).items():
         configured = Path(str(executable)).expanduser()
         if configured.is_absolute():

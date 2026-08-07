@@ -1,4 +1,5 @@
 import json
+import socket
 from pathlib import Path
 
 import pytest
@@ -9,7 +10,23 @@ from chemistry_toolbox.mcp.workspace import (
     resolve_workspace_output_path,
     resolve_workspace_path,
 )
-from evaluation.trace import load_tool_trace, normalized_tool_calls, process_metrics
+from chemistry_toolbox.src.paths import PROJECT_ROOT, portable_report_text
+from evaluation.provenance.trace import load_tool_trace, normalized_tool_calls, process_metrics
+
+
+def test_persisted_report_text_removes_machine_specific_values() -> None:
+    value = (
+        f"{PROJECT_ROOT}/outputs/result.json "
+        "/inspire/hdd/global_user/example-user/cache "
+        f"host={socket.gethostname()}"
+    )
+
+    normalized = portable_report_text(value)
+
+    assert str(PROJECT_ROOT) not in normalized
+    assert "/inspire/hdd/global_user/" not in normalized
+    assert socket.gethostname() not in normalized
+    assert normalized == "outputs/result.json <storage-root>/cache host=<host>"
 
 
 def test_workspace_path_confinement(tmp_path: Path, monkeypatch):

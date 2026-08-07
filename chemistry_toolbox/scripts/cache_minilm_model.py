@@ -15,9 +15,9 @@ for path in (SOURCE_ROOT, TOOLBOX_ROOT.parent):
     if str(path) not in sys.path:
         sys.path.insert(0, str(path))
 
-from researchchem_toolbox.catalog import action_specs, backend_specs
-from researchchem_toolbox.discovery import _action_search_documents, _action_search_fields
-from researchchem_toolbox.semantic_embeddings import (
+from chemistry_toolbox.src.catalog import action_specs, backend_specs
+from chemistry_toolbox.src.discovery import _action_search_documents, _action_search_fields
+from chemistry_toolbox.src.semantic_embeddings import (
     MODEL_ID,
     MODEL_REVISION,
     model_directory,

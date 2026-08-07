@@ -5,7 +5,7 @@ topics: ["index", "navigation", "capabilities"]
 aliases: ["MESMER", "mesmer"]
 inputs: ["input.xml"]
 outputs: ["output.xml", "console log", "rate tables", "optional grain and diagnostic files"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # MESMER Native Software Guide
@@ -36,6 +36,9 @@ Solve an Agent-authored MESMER master-equation XML model. The native layer is ap
 - phenomenological kinetics.
 - fitting.
 - sensitivity analysis.
+
+## Layer 1 typed Actions
+- `solve_master_equation`.
 
 ## Required knowledge before submission
 The toolbox does not select a scientific method, force field, pseudopotential, basis, database, training set, convergence threshold, or workflow ordering. The Agent must obtain those choices from the task, a paper, or an authoritative source and then author a complete input.

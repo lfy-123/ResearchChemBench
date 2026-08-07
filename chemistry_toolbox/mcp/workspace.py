@@ -25,7 +25,7 @@ RESERVED_FILES = {
 
 
 def workspace_root() -> Path:
-    """Return an explicit workspace or use the MCP process working directory."""
+    """Return the explicitly configured chemistry workspace."""
 
     configured = next(
         (
@@ -35,7 +35,12 @@ def workspace_root() -> Path:
         ),
         "",
     )
-    root = Path(configured).expanduser().resolve() if configured else Path.cwd().resolve()
+    if not configured:
+        raise RuntimeError(
+            "RESEARCHCHEM_MCP_WORKSPACE or RESEARCHCHEMBENCH_WORKSPACE must be "
+            "set before calling chemistry tools"
+        )
+    root = Path(configured).expanduser().resolve()
     if not root.is_dir():
         raise RuntimeError(f"Chemistry MCP workspace does not exist: {root}")
     return root

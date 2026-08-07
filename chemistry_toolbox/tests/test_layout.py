@@ -2,14 +2,14 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from researchchem_toolbox.paths import CONFIG_ROOT, PROJECT_ROOT, SOURCE_ROOT, TOOLBOX_ROOT
+from chemistry_toolbox.src.paths import CONFIG_ROOT, PROJECT_ROOT, SOURCE_ROOT, TOOLBOX_ROOT
 
 
 def test_canonical_toolbox_layout_exists():
     assert TOOLBOX_ROOT == PROJECT_ROOT / "chemistry_toolbox"
     assert SOURCE_ROOT == TOOLBOX_ROOT / "src"
     assert CONFIG_ROOT == TOOLBOX_ROOT / "config"
-    for relative in ("mcp", "scripts", "tests", "docs", "environment"):
+    for relative in ("mcp", "scripts", "tests", "docs", "environment", "software_management"):
         assert (TOOLBOX_ROOT / relative).is_dir()
 
 

@@ -5,8 +5,8 @@ from pathlib import Path
 
 import pytest
 
-from researchchem_toolbox.artifacts import ArtifactStore
-from researchchem_toolbox.backends.common import _parse_vasp_structure, structure_dict
+from chemistry_toolbox.src.artifacts import ArtifactStore
+from chemistry_toolbox.src.backends.common import _parse_vasp_structure, structure_dict
 
 
 def test_vasp_structure_parser_falls_back_to_ase_without_pymatgen(

@@ -1,8 +1,8 @@
 from __future__ import annotations
 
-from researchchem_toolbox.backends import cheminformatics, data, docking, dynamics, electronic, interchange, periodic, reaction, structure
-from researchchem_toolbox.catalog import action_specs
-from researchchem_toolbox.service import execute_action
+from chemistry_toolbox.src.backends import cheminformatics, data, docking, dynamics, electronic, interchange, periodic, reaction, structure
+from chemistry_toolbox.src.catalog import action_specs
+from chemistry_toolbox.src.service import execute_action
 
 
 def test_every_public_action_has_a_handler_module():
@@ -86,7 +86,7 @@ def test_deterministic_conformer_ranking(tmp_path, monkeypatch):
 def test_unavailable_manual_backend_does_not_switch(tmp_path, monkeypatch):
     monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
     monkeypatch.setattr(
-        "researchchem_toolbox.service.probe_all_backends",
+        "chemistry_toolbox.src.service.probe_all_backends",
         lambda _specifications: {
             "orca": {
                 "available": False,

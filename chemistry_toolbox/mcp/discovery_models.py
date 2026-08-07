@@ -7,7 +7,7 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
-from researchchem_toolbox.models import ActionRequest, ResourceLimits
+from chemistry_toolbox.src.models import ActionRequest, ResourceLimits
 
 
 _CATALOG_ID = re.compile(r"^[a-z][a-z0-9_]*$")

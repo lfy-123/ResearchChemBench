@@ -1,0 +1,23 @@
+diff --git a/host/standalone/orca/pyfrag.py b/host/standalone/orca/pyfrag.py
+index cd3e9a2..587729f 100755
+--- a/host/standalone/orca/pyfrag.py
++++ b/host/standalone/orca/pyfrag.py
+@@ -5,6 +5,9 @@ def read_energy_t21(t21, unit='kcal/mol'):
+     input = open(t21, 'r')
+     gout = input.read()
+     input.close()
++    final_energy = re.search(r'FINAL SINGLE POINT ENERGY\s+([-+0-9.Ee]+)', gout)
++    if final_energy:
++        return float(final_energy.group(1))*627.51
+     energyline=re.compile(r'Total Energy'+r'.*?'+ r'Eh', re.IGNORECASE|re.DOTALL).findall(gout)
+     energy = energyline[0].split()
+
+@@ -260,7 +263,7 @@ def get_input_line(specs, match_string, default=None, dim=0):
+         if spec == []: return default
+
+         for n in range(len(spec)):
+-            spec[n] = re.split(r'[ =,]*', spec[n])
++            spec[n] = re.split(r'[ =,]+', spec[n])
+             spec[n] = [elem for elem in spec[n] if elem != '']
+
+         if dim == 0:

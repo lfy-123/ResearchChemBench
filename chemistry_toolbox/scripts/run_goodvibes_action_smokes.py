@@ -21,11 +21,14 @@ for path in (SOURCE_ROOT, ROOT):
     if str(path) not in sys.path:
         sys.path.insert(0, str(path))
 
-from researchchem_toolbox.service import execute_action
+from chemistry_toolbox.src.service import execute_action
+from chemistry_toolbox.src.environment_layout import resolve_configured_path
 
 
-OUTPUT = TOOLBOX_ROOT / "config" / "goodvibes_action_smoke_status.json"
-GOODVIBES_SOURCE = ROOT / ".software_cache" / "goodvibes" / "4.3.0" / "source"
+OUTPUT = TOOLBOX_ROOT / "evidence" / "status" / "goodvibes_action_smoke_status.json"
+GOODVIBES_SOURCE = resolve_configured_path(
+    ".software_cache/sources/goodvibes/4.3.0/source"
+)
 
 
 def common_settings(*, temperature: bool = True) -> dict[str, Any]:

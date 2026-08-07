@@ -1,10 +1,10 @@
 import json
 from pathlib import Path
 
-from evaluation.results import write_workspace_results
-from evaluation.run_task import TaskRunner
-from evaluation.score import score_workspace
-from evaluation.utils import load_ground_truth
+from evaluation.provenance.results import write_workspace_results
+from evaluation.execution.runner import TaskRunner
+from evaluation.scoring.service import score_workspace
+from evaluation.repository import load_ground_truth
 
 
 def _full_credit_dual_axis_verdict(task_id: str) -> dict:
@@ -66,7 +66,7 @@ def test_run_results_exist_before_and_after_scoring(tmp_path: Path, monkeypatch)
     }
 
     monkeypatch.setattr(
-        "evaluation.results.workspace_token_usage",
+        "evaluation.provenance.results.workspace_token_usage",
         lambda _workspace: {
             "model_step_count": 4,
             "session_count": 1,

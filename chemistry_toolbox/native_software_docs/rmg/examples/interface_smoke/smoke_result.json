@@ -2,23 +2,23 @@
   "archived_files": [
     {
       "path": "request.json",
-      "sha256": "4a4fb639c21062b6eb1a8bb3f8d08d712507b2ae3d21e67998041adea939f3d5",
-      "size_bytes": 1209
+      "sha256": "c3807dea05f7360087a3b3e6d47a8facb768ebd794fc5eeba956cf43caf651bb",
+      "size_bytes": 1210
     },
     {
       "path": "status.json",
-      "sha256": "c0031989ae2e3877f34f5b9250d11c18ba74eae25f0564b77c7bb8d4a3a1cff7",
-      "size_bytes": 1903
+      "sha256": "bfba2f978f6781c5986afed46d7073dfa8463d28259581b5e34722cc3c854e44",
+      "size_bytes": 1908
     },
     {
       "path": "collection.json",
-      "sha256": "9836f1efbac3dbca003b50580e80b5dd92fa66f446aac379f017bb543902afff",
-      "size_bytes": 1517
+      "sha256": "b62919284b2940e9c9be212ca82ac06ea7b355d61b2c61210efee606e00f9de0",
+      "size_bytes": 1489
     },
     {
       "path": "stdout.log",
-      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "size_bytes": 0
+      "sha256": "8920b2e4b7b65be1fd98fa80500c0941ea987a4044cd017b4bc0fec0afcd5663",
+      "size_bytes": 1680
     },
     {
       "path": "stderr.log",
@@ -26,12 +26,12 @@
       "size_bytes": 55
     }
   ],
-  "artifact_status": "not_validated",
-  "convergence_status": "not_reached",
+  "artifact_status": "not_declared",
+  "convergence_status": "not_checked",
   "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/rmg",
-  "job_id": "job_652000d59fb842629512c15d7b45a649",
-  "process_status": "cancelled",
-  "reason": "The command did not reach a terminal state before the interface-smoke deadline and was cancelled.",
+  "job_id": "job_d0dcb3801b0b4ee2bb8df5011b02f331",
+  "process_status": "completed",
+  "reason": "The configured executable completed the interface probe through the native job runner.",
   "request": {
     "arguments": [
       "--help"
@@ -50,12 +50,12 @@
     "stdin_target": null
   },
   "request_status": "accepted",
-  "scientific_validation_status": "not_reached",
+  "scientific_validation_status": "not_checked",
   "software_id": "rmg",
-  "software_status": "not_reached",
-  "status": "failed",
+  "software_status": "not_checked",
+  "status": "passed",
   "stderr_tail": "INFO:matplotlib.font_manager:generated new fontManager\n",
-  "stdout_tail": "",
+  "stdout_tail": "usage: rmg.py [-h] [-q | -v | -d] [-o DIR] [-r path/to/seed/] [-p] [-P]\n              [-t DD:HH:MM:SS] [-i MAXITER] [-n MAXPROC] [-k]\n              FILE\n\nReaction Mechanism Generator (RMG) is an automatic chemical reaction mechanism\ngenerator that constructs kinetic models composed of elementary chemical\nreaction steps using a general understanding of how molecules react.\n\npositional arguments:\n  FILE                  a file describing the job to execute\n\noptions:\n  -h, --help            show this help message and exit\n  -q, --quiet           only print warnings and errors\n  -v, --verbose         print more verbose output\n  -d, --debug           print debug information\n  -o DIR, --output-directory DIR\n                        use DIR as output directory\n  -r path/to/seed/, --restart path/to/seed/\n                        restart RMG from a seed\n  -p, --profile         run under cProfile to gather profiling statistics, and\n                        postprocess them if job completes\n  -P, --postprocess     postprocess profiling statistics from previous\n                        [failed] run; does not run the simulation\n  -t DD:HH:MM:SS, --walltime DD:HH:MM:SS\n                        set the maximum execution time\n  -i MAXITER, --maxiter MAXITER\n                        set the maximum number of RMG iterations\n  -n MAXPROC, --maxproc MAXPROC\n                        max number of processes used during reaction\n                        generation\n  -k, --kineticsdatastore\n                        output a folder, kinetics_database, that contains a\n                        .txt file for each reaction family listing the\n                        source(s) for each entry\n",
   "test_level": "interface_smoke",
-  "tested_at": "2026-07-28T20:16:58.943969+00:00"
+  "tested_at": "2026-08-06T10:32:07.312490+00:00"
 }

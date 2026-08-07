@@ -5,7 +5,7 @@ topics: ["common-tasks", "inputs", "outputs", "convergence"]
 aliases: ["AutoMeKin", "automekin"]
 inputs: ["AutoMeKin control file", "starting structure", "method-specific resources"]
 outputs: ["reaction network", "transition-state structures", "product structures", "component logs"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # AutoMeKin Common Tasks
@@ -15,6 +15,9 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 - **Transition-State Search**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Reaction-Network Construction**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Mopac Component Jobs**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
+
+## Preferred typed Action routes
+- No typed Action is registered for this software. Use the reviewed native command interface when the task needs this runtime.
 
 ## Minimum input responsibilities
 - `AutoMeKin control file`

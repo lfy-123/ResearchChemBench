@@ -13,7 +13,7 @@ for path in (SOURCE_ROOT, TOOLBOX_ROOT.parent):
     if str(path) not in sys.path:
         sys.path.insert(0, str(path))
 
-from researchchem_toolbox.catalog import CATEGORY_LABELS, action_specs, backend_specs
+from chemistry_toolbox.src.catalog import CATEGORY_LABELS, action_specs, backend_specs
 
 
 def main() -> int:

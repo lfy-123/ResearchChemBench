@@ -1,11 +1,11 @@
 ---
 software_id: sharc
-versions: ["installed source build"]
+versions: ["SHARC4 source build+gfortran-restart-patch"]
 topics: ["troubleshooting", "errors", "preflight"]
 aliases: ["SHARC", "sharc"]
 inputs: ["SHARC input", "initial conditions", "interface resources", "overlap input and orbital files"]
-outputs: ["trajectory directories", "output.dat", "populations", "geometries", "overlap data"]
-last_smoke_tested: "2026-07-28"
+outputs: ["trajectory directories", "output.dat", "output.lis", "restart files", "populations", "geometries", "overlap data"]
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # SHARC Troubleshooting
@@ -24,6 +24,7 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 | interface executable or template missing | selected backend integration is incomplete | validate one electronic-structure and overlap step first |
 | wfoverlap failed | orbital files, dimensions, or state definitions mismatch | stage matching wavefunctions and inspect overlap input |
 | trajectory aborted | electronic calculation, energy, or state tracking failed | inspect the first failed step and retain failed-trajectory provenance |
+| segmentation fault while writing restart | gfortran receives an uninitialized or zero-length LP-ZPE implied list | apply the tracked empty-restart-list patch and rebuild SHARC |
 
 ## Path and staging failures
 A source file existing in the benchmark workspace does not make it visible to the native process. Every dependency must be declared in `staged_inputs`. The content of an input deck must reference the staged `target_path`, not its original workspace path. Fixed-name programs are case-sensitive. Never assume the process starts in the task workspace.

@@ -142,7 +142,7 @@ The report correctly states the sulfur-dioxide SMILES, the lookup method, the MC
 
 The DeepSeek V4 Flash API configuration was read at runtime from the user-specified script. The API key was never printed, copied into ResearchChemBench, written into `opencode.json`, or saved in this report.
 
-Two controlled scorer cases were executed through `evaluation.score.score_workspace()`:
+Two controlled scorer cases were executed through `evaluation.scoring.service.score_workspace()`:
 
 | Case | Expected | Actual | Result |
 |---|---:|---:|---|
@@ -205,19 +205,19 @@ ChemGraph had pre-existing local modified/untracked files before this implementa
 ## 9. Reproduction commands
 
 ```bash
-cd /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench
+cd ${PROJECT_ROOT}
 
 source chemistry_toolbox/scripts/activate_toolbox_env.sh
 pytest -q
 python chemistry_toolbox/scripts/check_mcp_tools.py --smoke
 python chemistry_toolbox/scripts/verify_toolbox.py
 
-python -m evaluation.cli_eval eval_configs/quick_codex.yaml --dry-run --no-score
-python -m evaluation.cli_eval eval_configs/quick_claude.yaml --dry-run --no-score
-python -m evaluation.cli_eval eval_configs/quick_opencode.yaml --dry-run --no-score
+python -m evaluation.cli eval_configs/examples/quick_codex.yaml --dry-run --no-score
+python -m evaluation.cli eval_configs/examples/quick_claude.yaml --dry-run --no-score
+python -m evaluation.cli eval_configs/examples/quick_opencode.yaml --dry-run --no-score
 
 export OPENAI_API_KEY=...
 bash scripts/run_agent_eval.sh --agent opencode --task ChemGraph_001 --no-score
 ```
 
-Judge credentials can then be exported separately and the workspace scored through the Web UI or `evaluation.score.score_workspace()`.
+Judge credentials can then be exported separately and the workspace scored through the Web UI or `evaluation.scoring.service.score_workspace()`.

@@ -5,12 +5,21 @@ from __future__ import annotations
 
 import json
 import re
+import sys
 from pathlib import Path
 
 
 TOOLBOX_ROOT = Path(__file__).resolve().parents[1]
 ROOT = TOOLBOX_ROOT.parent
-INDEX = ROOT / ".software_cache" / "documentation" / "index.json"
+SOURCE_ROOT = TOOLBOX_ROOT / "src"
+for path in (SOURCE_ROOT, ROOT):
+    if str(path) not in sys.path:
+        sys.path.insert(0, str(path))
+
+from chemistry_toolbox.src.environment_layout import resolve_configured_path
+
+
+INDEX = resolve_configured_path(".software_cache/documentation/index.json")
 OUTPUT = TOOLBOX_ROOT / "docs" / "CHEMISTRY_TOOLBOX_SOFTWARE_CAPABILITY_MATRIX.md"
 
 
@@ -116,8 +125,8 @@ def main() -> int:
             "- `candidate_actions` comes from official capability review and only records planned adaptation targets.",
             "- `runtime_only` means software is installed or cached without a complete ActionSpec, BackendSpec, handler, Artifact contract, and end-to-end test chain.",
             "- Data-source clients, parsing libraries, and workflow frameworks do not automatically become Agent-selectable compute Backends.",
-            "- Cached documentation lives under `.software_cache/documentation/<software>/<version>/` with SHA-256 and source URL records.",
-            "- Package-provided manuals remain in their versioned `.software_cache/<software>/<version>/` locations; the matrix records paths, sizes, and hashes without duplicating large licensed files.",
+            "- Cached documentation lives under `.software_cache/documentation<software>/<version>/` with SHA-256 and source URL records.",
+            "- Package-provided manuals remain in their versioned `.software_cache/installations/<software>/<version>/` locations; the matrix records paths, sizes, and hashes without duplicating large licensed files.",
             "",
         ]
     )

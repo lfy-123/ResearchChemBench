@@ -34,7 +34,7 @@
 
 ChemGraph 的实现位于：
 
-`/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ChemGraph/src/chemgraph/tools/cheminformatics_core.py`
+`<legacy-workspace>/ChemGraph/src/chemgraph/tools/cheminformatics_core.py`
 
 其名称查询核心逻辑也是：
 
@@ -79,10 +79,10 @@ X-Throttling-Control: Request Count status: Green (0%), Request Time status: Gre
 ### 4.1 一键分层检查
 
 ```bash
-cd /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench
+cd ${PROJECT_ROOT}
 .tool_envs/services/bin/python chemistry_toolbox/scripts/check_pubchem_connectivity.py \
   --name water --cid 962 --timeout 20 \
-  --output chemistry_toolbox/config/pubchem_connectivity_status.json
+  --output chemistry_toolbox/evidence/status/pubchem_connectivity_status.json
 ```
 
 该脚本依次检查 DNS、HTTPS 首页、直接 PUG REST GET 和 ChemGraph 同款 PubChemPy 名称查询，并记录 `Retry-After` 与 `X-Throttling-Control`。

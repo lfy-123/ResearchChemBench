@@ -162,10 +162,10 @@ The benchmark exposes every action below for every task. Provider selection foll
 | pymatgen | workflows | available | pymatgen, numpy |  |  |  | open_source |
 | xtb | quantum | available | xtb |  | xtb |  | open_source |
 | pyscf | quantum | available |  | pyscf |  |  | open_source |
-| gpaw | gpaw | available | gpaw=25.7.0, ase, numpy |  | gpaw | GPAW PAW setup datasets under .software_cache/gpaw/setups | open_source |
+| gpaw | gpaw | available | gpaw=25.7.0, ase, numpy |  | gpaw | GPAW PAW setup datasets under .software_cache/shared/scientific-data/gpaw-setups | open_source |
 | lobster | lobster | available | pymatgen |  | lobster-5.1.0 |  | academic_license |
-| nwchem | nwchem | available | nwchem=7.3.1, qcengine=0.50.0, qcelemental=0.50.4, cclib |  | nwchem | NWChem basis libraries under .software_cache/nwchem/source/src/basis/libraries | open_source |
-| openmolcas | openmolcas | available |  |  | pymolcas | OpenMolcas v25.10 basis_library managed under .software_cache/openmolcas/25.10 | open_source |
+| nwchem | nwchem | available | nwchem=7.3.1, qcengine=0.50.0, qcelemental=0.50.4, cclib |  | nwchem | NWChem basis libraries under .software_cache/sources/nwchem/source/src/basis/libraries | open_source |
+| openmolcas | openmolcas | available |  |  | pymolcas | OpenMolcas v25.10 basis_library managed under .software_cache/installations/openmolcas/25.10 | open_source |
 | multiwfn | multiwfn | available |  |  | Multiwfn_noGUI | Agent-supplied fch/fchk/wfn/wfx/mwfn/Molden/47 wavefunction file; both required Multiwfn citations are returned in provenance | custom_open_source_citation_required |
 | critic2 | critic2 | available |  |  | critic2 | Agent-supplied electron-density grid or compatible wavefunction file; an explicit separate structure file is required when the density file does not contain geometry | open_source |
 | psi4 | psi4 | available | psi4 |  | psi4 |  | open_source |

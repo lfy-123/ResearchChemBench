@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-from evaluation.trace import load_native_agent_trace, process_metrics
+from evaluation.provenance.trace import load_native_agent_trace, process_metrics
 
 
 def _tool_part(call_id: str, tool: str, *, status: str = "completed"):

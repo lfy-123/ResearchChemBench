@@ -3,7 +3,7 @@ import subprocess
 import sys
 import time
 
-from researchchem_toolbox.backends.common import run_external
+from chemistry_toolbox.src.backends.common import run_external
 
 
 def test_run_external_timeout_terminates_spawned_process_group(tmp_path):
@@ -46,7 +46,7 @@ def test_run_external_interrupt_terminates_spawned_process_group(tmp_path):
     )
     wrapper_code = (
         "import signal,sys; "
-        "from researchchem_toolbox.backends.common import run_external; "
+        "from chemistry_toolbox.src.backends.common import run_external; "
         "signal.signal(signal.SIGTERM, lambda *_: (_ for _ in ()).throw(KeyboardInterrupt())); "
         f"run_external(executable=sys.executable, arguments=['-c', {external_code!r}], "
         f"directory=__import__('pathlib').Path({str(tmp_path)!r}), timeout_seconds=30)"

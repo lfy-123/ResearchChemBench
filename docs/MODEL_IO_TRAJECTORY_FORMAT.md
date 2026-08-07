@@ -95,7 +95,7 @@ exist. Existing workspaces can be backfilled with:
 
 ```bash
 python - <<'PY'
-from evaluation.model_io import export_model_io_trace
+from evaluation.provenance.model_io import export_model_io_trace
 export_model_io_trace("workspaces/cli_runs/batch_.../run_...")
 PY
 ```

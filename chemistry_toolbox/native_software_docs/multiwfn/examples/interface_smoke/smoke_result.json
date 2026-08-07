@@ -2,34 +2,34 @@
   "archived_files": [
     {
       "path": "request.json",
-      "sha256": "6f84cb4c2cc6d1e3aecf38c3e935a6295a3c51855fbdbdf9d48c906f2b938ac5",
-      "size_bytes": 1565
+      "sha256": "a9328ea04a55f658f525c444a49fd02090610a748e27d2a6bf06ab4d99322317",
+      "size_bytes": 1559
     },
     {
       "path": "status.json",
-      "sha256": "9f672d9b837d9c844c4b735b9ff1bb400376d6d413d2ad7e3aa5ceed22e5e715",
-      "size_bytes": 1996
+      "sha256": "48c3794f8915c77ad6bbe9de2f62f515c9edbd8400bae21cecd8abeb000e6b26",
+      "size_bytes": 2082
     },
     {
       "path": "collection.json",
-      "sha256": "b8a62fa21d3e8788ebfa03c1a42b3b54f8f9c2306807640fe5280747de8c28e3",
+      "sha256": "ccce9d9af8501f1501656cd60d88e13810119a4119ff46525f1c7e1abb89da1d",
       "size_bytes": 1512
     },
     {
       "path": "stdout.log",
-      "sha256": "a0ba8fc46892059d02f605188e3efac4ec2044c331db1a97512a2596861906f6",
-      "size_bytes": 1479
+      "sha256": "fab88fb2f9925a4a3ba5c64668f78fa8abf30866741c45ac5672e49fe2b80031",
+      "size_bytes": 1449
     },
     {
       "path": "stderr.log",
-      "sha256": "f75eaddc5ca8baffc2c22e7578f2e46abeeac61a66e835ad702151f27ececc75",
-      "size_bytes": 698
+      "sha256": "bbbf854a08fbb7ea19fe38efd0f37f28d724e4e4f0bfe4670e01fd38f0240996",
+      "size_bytes": 685
     }
   ],
   "artifact_status": "not_validated",
   "convergence_status": "not_reached",
   "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/multiwfn",
-  "job_id": "job_914a97f342cb42ee9be27181a95456b7",
+  "job_id": "job_dcdea4f421fe4e5d84e0f5a9fc687964",
   "process_status": "failed",
   "reason": "The executable started and emitted its banner, usage, or expected missing-input diagnostic, but did not complete successfully.",
   "request": {
@@ -59,8 +59,8 @@
   "software_id": "multiwfn",
   "software_status": "not_reached",
   "status": "started_input_required",
-  "stderr_tail": "forrtl: severe (24): end-of-file during read, unit -4, file /proc/940602/fd/0\nImage              PC                Routine            Line        Source             \nMultiwfn_noGUI     000000000209B54B  Unknown               Unknown  Unknown\nMultiwfn_noGUI     00000000020CA0D2  Unknown               Unknown  Unknown\nMultiwfn_noGUI     000000000086BCC8  Unknown               Unknown  Unknown\nMultiwfn_noGUI     000000000042B822  Unknown               Unknown  Unknown\nlibc.so.6          00007F2243BFBD90  Unknown               Unknown  Unknown\nlibc.so.6          00007F2243BFBE40  __libc_start_main     Unknown  Unknown\nMultiwfn_noGUI     000000000042B729  Unknown               Unknown  Unknown\n",
-  "stdout_tail": " Error: Unable to find the input file you specified in argument\n \n WARNING: \"settings.ini\" was found neither in current folder nor in the path defined by \"Multiwfnpath\" environment variable. Now using default settings instead, and all your modifications (if any) on settings.ini will not take effect!\n \n\u001b[95m Multiwfn -- A Multifunctional Wavefunction Analyzer\n\u001b[0m\u001b[32m Version 2026.7.15 (release date is the same as version name)\n\u001b[0m Developer: Tian Lu (Beijing Kein Research Center for Natural Sciences)\n Multiwfn official website: http://sobereva.com/multiwfn\n Multiwfn English forum: http://sobereva.com/wfnbbs\n Multiwfn Chinese forum: http://bbs.keinsci.com/wfn\n ( Number of parallel threads:   4  Current date: 2026-07-28  Time: 20:17:28 )\n \n Both following papers ***MUST BE CITED IN MAIN TEXT*** if Multiwfn is used:\n\u001b[36m\n  Tian Lu, Feiwu Chen, J. Comput. Chem., 33, 580 (2012) DOI: 10.1002/jcc.22885\n  Tian Lu, J. Chem. Phys., 161, 082503 (2024) DOI: 10.1063/5.0216272\n\u001b[0m\n See \"How to cite Multiwfn.pdf\" in Multiwfn binary package for more information\n \n Now input file path, for example, E:\\The_Cafe_Terrace_and_Its_Goddesses\\Akane_Hououji.mwfn\n (.mwfn/wfn/wfx/fch/molden/pdb/xyz/mol2/cif/cub... see Section 2.5 of manual)\n Hint: Pressing ENTER button directly can select a file in a GUI window. To reload the past file, inputting \"o\". Input such as ?miku.fch can open the miku.fch in the same folder as the past file\n You did not select a file, input path again!\n",
+  "stderr_tail": "forrtl: severe (24): end-of-file during read, unit -4, file /proc/846106/fd/0\nImage              PC                Routine            Line        Source\nMultiwfn_noGUI     000000000209B54B  Unknown               Unknown  Unknown\nMultiwfn_noGUI     00000000020CA0D2  Unknown               Unknown  Unknown\nMultiwfn_noGUI     000000000086BCC8  Unknown               Unknown  Unknown\nMultiwfn_noGUI     000000000042B822  Unknown               Unknown  Unknown\nlibc.so.6          00007F18CBCC5D90  Unknown               Unknown  Unknown\nlibc.so.6          00007F18CBCC5E40  __libc_start_main     Unknown  Unknown\nMultiwfn_noGUI     000000000042B729  Unknown               Unknown  Unknown\n",
+  "stdout_tail": " Error: Unable to find the input file you specified in argument\n\n WARNING: \"settings.ini\" was found neither in current folder nor in the path defined by \"Multiwfnpath\" environment variable. Now using default settings instead, and all your modifications (if any) on settings.ini will not take effect!\n\n\u001b[95m Multiwfn -- A Multifunctional Wavefunction Analyzer\n\u001b[0m\u001b[32m Version 2026.7.15 (release date is the same as version name)\n\u001b[0m Developer: Tian Lu (Beijing Kein Research Center for Natural Sciences)\n Multiwfn official website: http://sobereva.com/multiwfn\n Multiwfn English forum: http://sobereva.com/wfnbbs\n Multiwfn Chinese forum: http://bbs.keinsci.com/wfn\n ( Number of parallel threads:   4  Current date: 2026-08-06  Time: 10:32:28 )\n\n Both following papers ***MUST BE CITED IN MAIN TEXT*** if Multiwfn is used:\n\u001b[36m\n  Tian Lu, Feiwu Chen, J. Comput. Chem., 33, 580 (2012) DOI: 10.1002/jcc.22885\n  Tian Lu, J. Chem. Phys., 161, 082503 (2024) DOI: 10.1063/5.0216272\n\u001b[0m\n See \"How to cite Multiwfn.pdf\" in Multiwfn binary package for more information\n\n Now input file path, for example, E:\\Amagami\\Miya_Tachibana.mwfn\n (.mwfn/wfn/wfx/fch/molden/pdb/xyz/mol2/cif/cub... see Section 2.5 of manual)\n Hint: Pressing ENTER button directly can select a file in a GUI window. To reload the past file, inputting \"o\". Input such as ?miku.fch can open the miku.fch in the same folder as the past file\n You did not select a file, input path again!\n",
   "test_level": "interface_smoke",
-  "tested_at": "2026-07-28T20:16:58.943969+00:00"
+  "tested_at": "2026-08-06T10:32:07.312490+00:00"
 }

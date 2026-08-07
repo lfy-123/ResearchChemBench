@@ -1,0 +1,57 @@
+{
+  "generated_at": "2026-08-06T09:05:38.621534+00:00",
+  "schema_version": 1,
+  "summary": {
+    "case_count": 5,
+    "passed": 5,
+    "failed": 0,
+    "all_ok": true
+  },
+  "cases": [
+    {
+      "action": "search_compounds",
+      "backend": "pubchem",
+      "status": "success",
+      "elapsed_seconds": 3.732045,
+      "record_count": 1,
+      "error": null,
+      "warnings": []
+    },
+    {
+      "action": "search_protein_structures",
+      "backend": "rcsb_pdb",
+      "status": "success",
+      "elapsed_seconds": 2.978588,
+      "record_count": 1,
+      "error": null,
+      "warnings": []
+    },
+    {
+      "action": "search_materials",
+      "backend": "materials_project",
+      "status": "success",
+      "elapsed_seconds": 2.994863,
+      "record_count": 1,
+      "error": null,
+      "warnings": []
+    },
+    {
+      "action": "search_catalysis_records",
+      "backend": "catalysis_hub",
+      "status": "success",
+      "elapsed_seconds": 7.80913,
+      "record_count": 1,
+      "error": null,
+      "warnings": []
+    },
+    {
+      "action": "lookup_nist_webbook_species",
+      "backend": "nist_webbook",
+      "status": "success",
+      "elapsed_seconds": 2.973672,
+      "record_count": 1,
+      "error": null,
+      "warnings": []
+    }
+  ]
+}

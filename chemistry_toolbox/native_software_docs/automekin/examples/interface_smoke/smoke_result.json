@@ -2,23 +2,23 @@
   "archived_files": [
     {
       "path": "request.json",
-      "sha256": "0b8aef4639191661a6a02465a3366c727e07124e6616673a4cc9ed85e0d8e096",
-      "size_bytes": 1292
+      "sha256": "9d96f794216158d6dac38b70c64127cd60202611b95d76172456ed38c5562537",
+      "size_bytes": 1286
     },
     {
       "path": "status.json",
-      "sha256": "6083f6e09849d977603831b97a04312d81f3423a77e89ad803c5b4cf54b3d7f7",
-      "size_bytes": 1897
+      "sha256": "3bbac1b05d3b767bd75a52744f1d16f9d7460f4b3c1cf8d8e7283f747f6e4f39",
+      "size_bytes": 1978
     },
     {
       "path": "collection.json",
-      "sha256": "4111616e49cb0b6418af1dcc6a6ac877b872bf1a9e2459fe95f7641605f92687",
+      "sha256": "24ac968466a9e5587d6946a5ba519b61950bbc35af18c9d811665e0c8685d949",
       "size_bytes": 1487
     },
     {
       "path": "stdout.log",
-      "sha256": "abeb2b5a358e8f72f5e1095faa43f8d7c3598d37694c0520fead8e0c13de7120",
-      "size_bytes": 324
+      "sha256": "a0eafff3c69c9f5cc9e16c1d5605b093381c22b640f77abbcd5e3956fecc561c",
+      "size_bytes": 205
     },
     {
       "path": "stderr.log",
@@ -29,9 +29,9 @@
   "artifact_status": "not_declared",
   "convergence_status": "not_checked",
   "evidence_path": "chemistry_toolbox/evidence/native_interface_smoke/20260728_all_software/automekin",
-  "job_id": "job_df8c18c1fdac442b86d4faea6e7cb8a2",
+  "job_id": "job_cd933c92a3284fab8e20bb97f31459d5",
   "process_status": "completed",
-  "reason": "The executable started but the selected route reported a missing scientific input.",
+  "reason": "The executable started and reported that a required scientific input file was not staged.",
   "request": {
     "arguments": [
       "--version"
@@ -55,7 +55,7 @@
   "software_status": "not_checked",
   "status": "started_input_required",
   "stderr_tail": "",
-  "stdout_tail": "===================================\n                                   \n           AutoMeKin2021           \n                                   \n        revision number 1142   \n                                   \n===================================\nThe file --version does not exist\n\nCleaning up tmp files and exiting amk.sh\n",
+  "stdout_tail": "===================================\n\n           AutoMeKin2021\n\n        revision number 1142\n\n===================================\nThe file --version does not exist\n\nCleaning up tmp files and exiting amk.sh\n",
   "test_level": "interface_smoke",
-  "tested_at": "2026-07-28T20:16:58.943969+00:00"
+  "tested_at": "2026-08-06T10:32:07.312490+00:00"
 }

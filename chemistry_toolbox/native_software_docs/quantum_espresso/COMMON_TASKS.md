@@ -5,7 +5,7 @@ topics: ["common-tasks", "inputs", "outputs", "convergence"]
 aliases: ["Quantum ESPRESSO pw.x", "quantum espresso"]
 inputs: ["input.in", "one pseudopotential per species"]
 outputs: ["stdout.log", "prefix.save database", "charge density", "wavefunctions", "relaxed structure"]
-last_smoke_tested: "2026-07-28"
+last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
 # Quantum ESPRESSO pw.x Common Tasks
@@ -17,6 +17,12 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 - **Relax**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Vc-Relax**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Molecular Dynamics**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
+
+## Preferred typed Action routes
+- `calculate_periodic_energy`: validated structured route through backend `quantum_espresso`.
+- `calculate_periodic_forces`: validated structured route through backend `quantum_espresso`.
+- `calculate_periodic_stress`: validated structured route through backend `quantum_espresso`.
+- `relax_periodic_structure`: validated structured route through backend `quantum_espresso`.
 
 ## Minimum input responsibilities
 - `input.in`
