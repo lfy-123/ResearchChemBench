@@ -6,8 +6,8 @@ import json
 from pathlib import Path
 from typing import Optional
 
-from .config import TASKS_DIR, WORKSPACES_DIR
-from .task_schema import GroundTruth, TaskInfo
+from .schemas.task import GroundTruth, TaskInfo
+from .settings import TASKS_DIR, WORKSPACES_DIR
 
 
 def list_tasks() -> list[str]:
@@ -150,4 +150,3 @@ def build_file_tree(
 
     walk(root, prefix, 1)
     return tree
-

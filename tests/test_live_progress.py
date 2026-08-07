@@ -3,8 +3,8 @@ import json
 import re
 from pathlib import Path
 
-from evaluation.live_progress import LiveProgressReporter
-from evaluation.run_task import TaskRunner
+from evaluation.execution.progress import LiveProgressReporter
+from evaluation.execution.runner import TaskRunner
 
 
 TIMESTAMPED_LINE = re.compile(

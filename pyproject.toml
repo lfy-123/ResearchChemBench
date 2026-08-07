@@ -35,8 +35,8 @@ chemistry = [
 ]
 
 [project.scripts]
-researchchembench = "evaluation.server:main"
-researchchembench-eval = "evaluation.cli_eval:main"
+researchchembench = "evaluation.web.server:main"
+researchchembench-eval = "evaluation.cli:main"
 researchchem-mcp-server = "chemistry_toolbox.mcp.server:main"
 researchchem-mcp-install = "chemistry_toolbox.mcp.installer:main"
 researchchem-tool = "chemistry_toolbox.mcp.tool_manager:main"
@@ -58,10 +58,8 @@ evaluation = [
     "agents.json",
     ".env.example",
     "requirements*.txt",
-    "templates/*.html",
-    "static/*",
-    "static/logos/*",
 ]
+"evaluation.web" = ["templates/*.html", "static/*", "static/logos/*"]
 "chemistry_toolbox.mcp" = [
     "tool_config.json",
     "TOOL_CATALOG.md",

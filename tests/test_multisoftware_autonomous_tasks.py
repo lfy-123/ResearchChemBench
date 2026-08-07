@@ -3,8 +3,8 @@ import json
 import re
 from pathlib import Path
 
-from evaluation.config import TASKS_DIR
-from evaluation.utils import list_tasks, load_ground_truth, load_task_info
+from evaluation.settings import TASKS_DIR
+from evaluation.repository import list_tasks, load_ground_truth, load_task_info
 
 
 TASK_IDS = [

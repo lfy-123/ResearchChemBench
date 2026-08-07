@@ -1,4 +1,4 @@
-from evaluation.instructions_tmpl import INSTRUCTIONS_TEMPLATE
+from evaluation.execution.instructions import INSTRUCTIONS_TEMPLATE
 
 
 def test_managed_program_boundary_is_prominent_and_language_agnostic() -> None:

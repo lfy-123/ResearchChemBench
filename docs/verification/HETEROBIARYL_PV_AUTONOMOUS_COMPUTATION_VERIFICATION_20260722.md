@@ -2310,8 +2310,9 @@ Under EtONa/EtOH at RT:
 ## 11. 重现与审计入口
 
 ```bash
-.toolbox_env/bin/python scripts/generate_heterobiaryl_autonomous_verification.py
 .toolbox_env/bin/pytest -q
 ```
+
+本报告是对应历史批次的静态审计记录；一次性报告生成器已经移除。
 
 每题 workspace 中的 `_model_io.jsonl` 保存每一步模型输入、输出、reasoning、tool part 和 token；`_tool_trace.jsonl` 保存 MCP 请求、状态、耗时、错误和 artifacts；`_tool_results/` 与 `_tool_artifacts/` 保存不可变结果与 provenance。

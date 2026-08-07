@@ -10,7 +10,6 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-
 FORMAT_VERSION = "researchchembench.model_io.v1"
 SENSITIVE_KEY_PARTS = (
     "api_key",

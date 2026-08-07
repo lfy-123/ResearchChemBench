@@ -3,9 +3,9 @@ import json
 import re
 from pathlib import Path
 
-from evaluation.config import TASKS_DIR
-from evaluation.run_task import TaskRunner
-from evaluation.utils import list_tasks, load_ground_truth, load_task_info
+from evaluation.settings import TASKS_DIR
+from evaluation.execution.runner import TaskRunner
+from evaluation.repository import list_tasks, load_ground_truth, load_task_info
 
 
 def test_legacy_chemgraph_tasks_are_not_distributed():

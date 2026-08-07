@@ -328,11 +328,11 @@ chemistry_toolbox 目录还包含独立的 [chemistry_toolbox/pyproject.toml](..
 
 | 命令 | 实际入口 |
 |---|---|
-| python -m evaluation | evaluation.server.main |
-| researchchembench | evaluation.server.main |
-| researchchembench-eval | evaluation.cli_eval.main |
-| ./rchem-eval | evaluation.cli_eval.main |
-| bash scripts/run_agent_eval.sh | 参数处理后 exec python -m evaluation.cli_eval |
+| python -m evaluation | evaluation.web.server.main |
+| researchchembench | evaluation.web.server.main |
+| researchchembench-eval | evaluation.cli.main |
+| ./rchem-eval | evaluation.cli.main |
+| bash scripts/run_agent_eval.sh | 参数处理后 exec python -m evaluation.cli |
 | researchchem-mcp-server | chemistry_toolbox.mcp.server.main |
 
 ---
@@ -677,7 +677,7 @@ Agent preset 来自 [evaluation/agents.json](../../evaluation/agents.json)。
 Mock 用当前 Python 运行：
 
 ~~~text
-python -m evaluation.mock_agent
+python -m evaluation.testing.mock_agent
   --workspace <workspace>
   --prompt-file <INSTRUCTIONS.md>
 ~~~
@@ -1097,7 +1097,7 @@ agent_toolbox_overview 生成长文本，内容包括：
 - core runtime environment；
 - 默认的渐进发现/显式执行工具名；full 兼容模式则为排序后的全部 Action 名。
 
-evaluation.config.chemistry_server_specs 始终返回只包含这个 spec 的列表。
+evaluation.settings.chemistry_server_specs 始终返回只包含这个 spec 的列表。
 
 RESEARCHCHEMBENCH_MCP_PROFILES 如果存在，只会调用 selected_profile_names 验证名称，既不会减少 server 数，也不会改变 Action 列表。
 
@@ -2136,7 +2136,7 @@ CLI 最终退出码只取决于所有 run 是否 completed：
 
 ### 18.7 Web UI
 
-evaluation.server 是 Flask + CORS 的轻量 UI。
+evaluation.web.server 是 Flask + CORS 的轻量 UI。
 
 主要 API：
 
@@ -2691,12 +2691,12 @@ JUDGE_MODEL_NAME=...
 
 然后不传 --no-score。
 
-已有 run 也可通过 Web API 手动 score，或在 Python 中调用 evaluation.score.score_workspace。
+已有 run 也可通过 Web API 手动 score，或在 Python 中调用 evaluation.scoring.service.score_workspace。
 
 ### 22.9 Batch dry-run
 
 ~~~bash
-bash scripts/run_agent_eval.sh +  --config eval_configs/full.yaml +  --dry-run +  --no-score
+bash scripts/run_agent_eval.sh +  --config eval_configs/suites/full.yaml +  --dry-run +  --no-score
 ~~~
 
 ### 22.10 小规模真实批量
@@ -2704,7 +2704,7 @@ bash scripts/run_agent_eval.sh +  --config eval_configs/full.yaml +  --dry-run +
 先跑：
 
 ~~~bash
-bash scripts/run_agent_eval.sh +  --config eval_configs/quick_codex.yaml
+bash scripts/run_agent_eval.sh +  --config eval_configs/examples/quick_codex.yaml
 ~~~
 
 再扩展到 full.yaml。

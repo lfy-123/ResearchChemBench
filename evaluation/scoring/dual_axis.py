@@ -5,7 +5,6 @@ from __future__ import annotations
 from copy import deepcopy
 from typing import Any
 
-
 DUAL_AXIS_POLICY: dict[str, Any] = {
     "formula": "scientific_conclusion_score * research_process_score / 100",
     "scientific_conclusion_score_max": 100,

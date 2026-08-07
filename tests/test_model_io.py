@@ -2,7 +2,7 @@ import json
 import sqlite3
 from pathlib import Path
 
-from evaluation.model_io import export_model_io_trace
+from evaluation.provenance.model_io import export_model_io_trace
 
 
 def _insert(connection, table, values):

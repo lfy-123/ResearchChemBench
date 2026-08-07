@@ -8,7 +8,6 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 load_dotenv(PROJECT_ROOT / "config.local.env", override=False)
 # Backward compatibility for the original ResearchClawBench-style location.
@@ -104,7 +103,10 @@ def chemistry_server_command() -> list[str]:
 def chemistry_server_specs(discovery_mode: str | None = None) -> list[dict]:
     """Return one server over the complete catalog; only its discovery surface varies."""
 
-    from chemistry_toolbox.mcp.profiles import public_server_spec, selected_profile_names
+    from chemistry_toolbox.mcp.profiles import (
+        public_server_spec,
+        selected_profile_names,
+    )
 
     configured = os.environ.get("RESEARCHCHEMBENCH_MCP_PROFILES", "").strip()
     if configured:

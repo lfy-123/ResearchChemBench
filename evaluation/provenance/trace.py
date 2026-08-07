@@ -2,14 +2,13 @@
 
 from __future__ import annotations
 
-import json
 import hashlib
+import json
 import re
 from pathlib import Path
 from typing import Any
 
 from chemistry_toolbox.src.catalog import action_specs
-
 
 SUCCESSFUL_TOOL_STATUSES = {"success", "partial_success"}
 CATALOG_DISCOVERY_TOOLS = {

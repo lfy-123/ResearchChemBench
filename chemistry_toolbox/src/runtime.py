@@ -21,7 +21,7 @@ from .environment_layout import (
     resolve_runtime_path,
     software_root,
 )
-from .paths import CONFIG_ROOT, PROJECT_ROOT
+from .paths import CONFIG_ROOT, MODEL_CACHE_ENV, PROJECT_ROOT, RUNTIME_CACHE_ENV
 from .resource_budget import evaluation_resource_budget
 from .sandbox_client import OpenSandboxClient, SandboxTransportError
 from .distributed_pool import (
@@ -143,14 +143,22 @@ def runtime_environment(name: str) -> dict[str, str]:
             ).items()
         }
     )
+    runtime_cache = Path(
+        os.environ.get(RUNTIME_CACHE_ENV, "")
+        or load_runtime_config().get("runtime_cache_root", ".runtime_cache")
+    ).expanduser()
+    if not runtime_cache.is_absolute():
+        runtime_cache = PROJECT_ROOT / runtime_cache
+    runtime_cache.mkdir(parents=True, exist_ok=True)
+    values[RUNTIME_CACHE_ENV] = str(runtime_cache.resolve())
+    values["XDG_CACHE_HOME"] = str(runtime_cache.resolve())
     model_cache = load_runtime_config().get("model_cache_root", ".model_cache")
     if specification.get("use_project_model_cache", False):
         cache = Path(str(model_cache)).expanduser()
         if not cache.is_absolute():
             cache = PROJECT_ROOT / cache
         cache.mkdir(parents=True, exist_ok=True)
-        values["RESEARCHCHEMBENCH_MODEL_CACHE"] = str(cache.resolve())
-        values["XDG_CACHE_HOME"] = str(cache.resolve())
+        values[MODEL_CACHE_ENV] = str(cache.resolve())
     for variable, executable in dict(specification.get("command_variables") or {}).items():
         configured = Path(str(executable)).expanduser()
         if configured.is_absolute():

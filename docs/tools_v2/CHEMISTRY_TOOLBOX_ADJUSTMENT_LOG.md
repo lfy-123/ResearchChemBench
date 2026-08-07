@@ -105,7 +105,16 @@
 - 根 `pyproject.toml` 成为唯一打包配置，并提供 benchmark、MCP server、MCP installer、tool manager 和 software manager 入口；删除重复子项目打包文件和无调用方的 MCP adapter/registry/models/tools 兼容层。
 - 环境定义改成 `chemistry_toolbox/environment/<environment>/` 自包含 `environment.yml`、`requirements.txt` 和 Linux 锁；框架环境位于 `environment/researchchembench/`，runtime 映射位于 `environment/environments.yaml`。
 - 生成状态从 `config/` 移到 `evidence/status/`，旧 native smoke 基线移到 `evidence/archive/`；`config/` 只保留人工维护的运行配置。
-- Git 缓存骨架包含两份缓存 README、`.software_cache/.layout.json`、模型来源/校验文本和固定目录 `.gitkeep`，大文件仍由忽略规则排除。
+- Git 缓存骨架包含三份缓存 README、`.software_cache/.layout.json`、模型来源/校验文本和固定目录 `.gitkeep`，大文件仍由忽略规则排除。
 - pmx 源码快照从错误的 `installations/` 移到 `sources/pmx/develop-0dd5f0a`；可执行 pmx 继续由 `.envs/molecular-simulation-openff` 提供。software manager 状态为 37/37 installed。
 - 验证：工具箱全量执行 494 passed、1 skipped，并定位修复 1 个旧目录深度导致的模型缓存路径失败；修复后的路径/语义/MACE 相关回归 46 passed。根 benchmark 97 passed，pmx/清单/缓存管理/profile 回归 48 passed，错误级 Ruff、Shell 语法、Git whitespace、14 个环境锁哈希、wheel 仓库外导入和命令入口均通过。
 - 当前缓存重建和迁移应以根 README、`.software_cache/README.md`、`.model_cache/README.md` 及本节新路径为准；本文件前部保留的旧 `.software_cache/<software>` 路径仅记录历史修补过程。
+
+## 2026-08-07 模型与运行缓存分离
+
+- `.model_cache` 只保留 MiniLM、MACE、DeePMD、NequIP/Allegro 模型权重，以及 tokenizer、来源和校验元数据。
+- 新增 `.runtime_cache`，统一承载 `XDG_CACHE_HOME`、Action/软件文档语义索引，以及 Matplotlib、Mesa、pip、Hugging Face、OpenCode 和 OpenFF NAGL 等可重建缓存。
+- Action 索引和 64 个软件文档索引迁移到 `.runtime_cache/semantic_embeddings/`；`cache_minilm_model.py` 已按新默认路径重新生成并验证。
+- MCP profile、worker runtime 和交互式激活脚本分别注入 `RESEARCHCHEMBENCH_MODEL_CACHE` 与 `RESEARCHCHEMBENCH_RUNTIME_CACHE`，不再把 `XDG_CACHE_HOME` 指向模型目录。
+- 清除 `.model_cache` 中约 60 MB 的非模型缓存、两个零字节锁和空的 `OPENFF_NAGL_MODELS` 占位；模型权重未移动。
+- 验证：缓存路径/MCP/语义/软件文档回归 83 passed，最终相关路径回归 17 passed，工具箱全量测试 495 passed、1 skipped；27/27 资源、150 Action、92 backend 和离线语义检索均通过。

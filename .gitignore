@@ -156,7 +156,7 @@ workspaces/previous_results/*
 /pes.log
 
 # Local private eval configs
-eval_configs/*.local.yaml
+eval_configs/**/*.local.yaml
 
 # Environments
 .env
@@ -170,9 +170,6 @@ config.local*.env
 .conda_envs/
 .model_cache/*
 !.model_cache/README.md
-!.model_cache/OPENFF_NAGL_MODELS/
-.model_cache/OPENFF_NAGL_MODELS/*
-!.model_cache/OPENFF_NAGL_MODELS/.gitkeep
 !.model_cache/all-MiniLM-L6-v2/
 .model_cache/all-MiniLM-L6-v2/*
 !.model_cache/all-MiniLM-L6-v2/.gitkeep
@@ -192,6 +189,11 @@ config.local*.env
 .model_cache/nequip/0.1/*
 !.model_cache/nequip/0.1/.gitkeep
 !.model_cache/nequip/0.1/*.txt
+.runtime_cache/*
+!.runtime_cache/README.md
+!.runtime_cache/semantic_embeddings/
+.runtime_cache/semantic_embeddings/*
+!.runtime_cache/semantic_embeddings/.gitkeep
 .software_cache/*
 !.software_cache/README.md
 !.software_cache/.layout.json

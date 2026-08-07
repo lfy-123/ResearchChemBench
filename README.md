@@ -135,20 +135,23 @@ corresponding backend is required:
 
 ```text
 .model_cache/
+.runtime_cache/
 .software_cache/
 ```
 
 Reconstruct an empty cache by following the directory-specific instructions:
 
 - [Software cache installation and configuration](.software_cache/README.md)
-- [Model cache downloads and generated indexes](.model_cache/README.md)
+- [Model weight downloads](.model_cache/README.md)
+- [Regenerable runtime caches and semantic indexes](.runtime_cache/README.md)
 
 Licensed software must be obtained and used under its applicable license. The
 environment build does not download or activate commercial programs. When
 migrating an existing installation, copy `.model_cache/` and `.software_cache/`
-to the repository root before resource configuration. The MiniLM retrieval
-model is recreated automatically; chemistry model weights and licensed software
-must be restored separately.
+to the repository root before resource configuration. `.runtime_cache/` is
+regenerable and does not need to be transferred. The MiniLM retrieval model is
+recreated automatically; chemistry model weights and licensed software must be
+restored separately.
 
 After optional resources are present, create the configured executable links
 and verify registered checksums:
@@ -173,9 +176,9 @@ moving a checkout to another server:
      http://deploy.i.h.pjlab.org.cn/infra/scripts/setup_proxy.sh)
    ```
 
-2. Build or restore all eight `.envs/` prefixes. The two cache directories do
-   not contain the framework environment or the seven consolidated chemistry
-   environments.
+2. Build or restore all eight `.envs/` prefixes. The model, runtime, and software
+   cache directories do not contain the framework environment or the seven
+   consolidated chemistry environments.
 3. Run `configure_toolbox_resources.py --quick` after copying caches. It
    resolves project-relative resources, checks registered hashes, and reports
    executables or shared libraries that are still missing.
@@ -192,7 +195,7 @@ moving a checkout to another server:
 
 Agent CLIs are also host-level dependencies rather than model-cache assets.
 For example, an OpenCode evaluation requires an actual `opencode` executable;
-`.model_cache/opencode/` may contain helper assets without containing the CLI.
+`.runtime_cache/opencode/` may contain helper assets without containing the CLI.
 Install and verify it separately when it is selected as the Agent:
 
 ```bash
@@ -494,6 +497,8 @@ surface.
 - [工具箱实际状态报告](chemistry_toolbox/docs/TOOLBOX_STATUS.md)
 - [MCP 工具编写、增删、打包与 Agent 一键安装](docs/MCP_TOOLS_DEVELOPMENT_AND_INSTALLATION.md)
 - [Running agents and evaluations](docs/RUNNING_EVALUATIONS.md)
+- [Evaluation engine structure](evaluation/README.md)
+- [Evaluation configuration layout](eval_configs/README.md)
 - [Persistent evaluation submission commands](scripts/submit_evaluation.md)
 - [Detailed ResearchClawBench → ResearchChemBench code changes](docs/RESEARCHCLAWBENCH_CODE_CHANGES.md)
 - [Initial validation report, including live DeepSeek Agent/judge results](docs/VALIDATION_REPORT.md)

@@ -9,8 +9,8 @@ from zipfile import ZipFile
 
 import pytest
 
-from evaluation.config import DEFAULT_MCP_TOOL_TIMEOUT_MS
-from evaluation.run_task import TaskRunner
+from evaluation.settings import DEFAULT_MCP_TOOL_TIMEOUT_MS
+from evaluation.execution.runner import TaskRunner
 
 
 def _archive_runner(tmp_path: Path, members: dict[str, str]) -> TaskRunner:
@@ -274,7 +274,9 @@ def test_opencode_database_is_archived_from_local_runtime(
 
 
 def test_opencode_command_qualifies_bare_deepseek_model(tmp_path: Path, monkeypatch):
-    monkeypatch.setattr("evaluation.run_task.OPENCODE_MODEL", "deepseek-v4-flash")
+    monkeypatch.setattr(
+        "evaluation.execution.agent_adapter.OPENCODE_MODEL", "deepseek-v4-flash"
+    )
     runner = TaskRunner("GEOM_Hierarchical_Conformer_Reranking_Reproduction", agent_key="opencode", workspace_root=tmp_path)
     runner.setup_workspace()
 

@@ -9,8 +9,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, TextIO
 
-from .model_io import redact_trace_value
-
+from ..provenance.model_io import redact_trace_value
 
 MIN_PROGRESS_CHARS = 80
 DEFAULT_PROGRESS_FILENAME = "_live_progress.log"

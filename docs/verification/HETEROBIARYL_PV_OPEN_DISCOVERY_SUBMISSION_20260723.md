@@ -35,26 +35,31 @@
 
 Q1–Q5 串行运行，单任务上限 14,400 秒、280 turns；Q6 单独运行，上限 21,600 秒、400 turns。串行设置用于避免量化化学后端争用并提高两个模型设置之间的可比性，这些上限不是要求模型必须消耗完。
 
-## 4. 提交命令
+## 4. 当前通用提交命令
 
-先检查计划，不调用 API：
+原专项提交脚本已经移除。当前使用通用 `submit_evaluation.sh`，Q1-Q5 与 Q6
+分别提交，以保留不同的时间和 turn 上限。
+
+先检查 Q1-Q5 计划，不调用 API：
 
 ```bash
-bash scripts/submit_heterobiaryl_open_discovery.sh all --dry-run
+bash scripts/submit_evaluation.sh submit --dry-run \
+  --model deepseek-v4-flash --judge-model deepseek-v4-pro \
+  --timeout-seconds 14400 --max-turns 280 \
+  Heterobiaryl_PV_01_Protonation \
+  Heterobiaryl_PV_02_CC_Selectivity \
+  Heterobiaryl_PV_03_CC_vs_CO \
+  Heterobiaryl_PV_04_Coupling_Mechanism \
+  Heterobiaryl_PV_05_Rate_Determining_Step
 ```
 
-分别提交两组完整六任务评估：
+提交 Q6：
 
 ```bash
-bash scripts/submit_heterobiaryl_open_discovery.sh flash
-bash scripts/submit_heterobiaryl_open_discovery.sh pro
-```
-
-也可以只提交某一阶段：
-
-```bash
-bash scripts/submit_heterobiaryl_open_discovery.sh flash --stage subtasks
-bash scripts/submit_heterobiaryl_open_discovery.sh flash --stage q6
+bash scripts/submit_evaluation.sh submit \
+  --model deepseek-v4-flash --judge-model deepseek-v4-pro \
+  --timeout-seconds 21600 --max-turns 400 \
+  Heterobiaryl_PV_06_End_to_End
 ```
 
 每个阶段的终端日志保存在对应模型输出根目录的 `logs/` 下；运行 workspace 继续位于该目录的 `cli_runs/batch_*` 下。

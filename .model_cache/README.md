@@ -27,14 +27,17 @@ Use the repository's standard model-cache directory:
 ```bash
 export RCB_ROOT="$(git rev-parse --show-toplevel)"
 export RCB_MODEL_CACHE="$RCB_ROOT/.model_cache"
+export RCB_RUNTIME_CACHE="$RCB_ROOT/.runtime_cache"
 
-# Use all four variables. Different toolbox components read different names.
+# Model weights and generated runtime indexes have separate destinations.
 export RESEARCHCHEMBENCH_MODEL_CACHE="$RCB_MODEL_CACHE"
+export RESEARCHCHEMBENCH_RUNTIME_CACHE="$RCB_RUNTIME_CACHE"
 export RESEARCHCHEM_MINILM_MODEL_DIR="$RCB_MODEL_CACHE/all-MiniLM-L6-v2"
-export RESEARCHCHEM_ACTION_EMBEDDING_CACHE="$RCB_MODEL_CACHE/action_embeddings.npz"
-export XDG_CACHE_HOME="$RCB_MODEL_CACHE"
+export RESEARCHCHEM_ACTION_EMBEDDING_CACHE="$RCB_RUNTIME_CACHE/semantic_embeddings/action_embeddings.npz"
+export XDG_CACHE_HOME="$RCB_RUNTIME_CACHE"
 
 printf 'Model cache target: %s\n' "$RCB_MODEL_CACHE"
+printf 'Runtime cache target: %s\n' "$RCB_RUNTIME_CACHE"
 ```
 
 ## Step 2: Initialize an Empty Cache
@@ -56,7 +59,8 @@ mkdir -p \
   "$RCB_MODEL_CACHE/all-MiniLM-L6-v2" \
   "$RCB_MODEL_CACHE/nequip/0.1" \
   "$RCB_MODEL_CACHE/deepmd/pretrained" \
-  "$RCB_MODEL_CACHE/mace"
+  "$RCB_MODEL_CACHE/mace" \
+  "$RCB_RUNTIME_CACHE/semantic_embeddings"
 ```
 
 Expected result:
@@ -90,9 +94,11 @@ EOF
 )
 ```
 
-Expected result: two `OK` lines, plus `action_embeddings.npz` and one
-`software_docs_*.npz` file per indexed native-software document set. The `.npz`
-files are generated locally and must not be downloaded from another project.
+Expected result: two `OK` lines. The script also writes
+`action_embeddings.npz` and one `software_docs_*.npz` file per indexed
+native-software document set under `.runtime_cache/semantic_embeddings/`. The
+`.npz` files are generated locally and must not be downloaded from another
+project.
 
 ## Step 4: Download All NequIP and Allegro Models
 
@@ -246,8 +252,9 @@ test -s "$RCB_MODEL_CACHE/mace/20231203mace128L1_epoch199model"
 test -s "$RCB_MODEL_CACHE/mace/macempa0mediummodel"
 ```
 
-CHGNet weights and OpenFF NAGL AM1-BCC models come from their locked Python
-packages. An empty `OPENFF_NAGL_MODELS/` directory is normal.
+CHGNet weights and the currently used OpenFF NAGL AM1-BCC models come from their
+locked Python packages. If OpenFF dynamically fetches another NAGL model, its
+regenerable download cache is placed under `.runtime_cache/OPENFF_NAGL_MODELS/`.
 
 ## Step 7: Verify the Complete Candidate Cache
 
@@ -288,9 +295,9 @@ du -sh "$RCB_MODEL_CACHE"
 find "$RCB_MODEL_CACHE" -maxdepth 3 -type f -printf '%P\t%s bytes\n' | sort
 ```
 
-Transient directories such as `huggingface/`, `matplotlib/`,
-`mesa_shader_cache/`, `pip/`, `opencode/`, and zero-byte lock files are not
-reconstruction inputs.
+The final `.model_cache` contains model weights plus their source and checksum
+metadata. Generated semantic indexes and generic application caches belong in
+`.runtime_cache` and are not model-cache reconstruction inputs.
 
 ## Step 8: Confirm the Active Cache
 
@@ -299,7 +306,9 @@ standard runtime configuration:
 
 ```bash
 unset RCB_MODEL_CACHE
+unset RCB_RUNTIME_CACHE
 unset RESEARCHCHEMBENCH_MODEL_CACHE
+unset RESEARCHCHEMBENCH_RUNTIME_CACHE
 unset RESEARCHCHEM_MINILM_MODEL_DIR
 unset RESEARCHCHEM_ACTION_EMBEDDING_CACHE
 unset XDG_CACHE_HOME

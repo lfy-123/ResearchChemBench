@@ -27,6 +27,22 @@ SCRIPTS_ROOT = TOOLBOX_ROOT / "scripts"
 TESTS_ROOT = TOOLBOX_ROOT / "tests"
 DOCS_ROOT = TOOLBOX_ROOT / "docs"
 EVIDENCE_STATUS_ROOT = TOOLBOX_ROOT / "evidence" / "status"
+MODEL_CACHE_ENV = "RESEARCHCHEMBENCH_MODEL_CACHE"
+RUNTIME_CACHE_ENV = "RESEARCHCHEMBENCH_RUNTIME_CACHE"
+
+
+def model_cache_root() -> Path:
+    """Return the repository-scoped root for model weights and metadata."""
+
+    configured = _configured_path(MODEL_CACHE_ENV)
+    return configured or PROJECT_ROOT / ".model_cache"
+
+
+def runtime_cache_root() -> Path:
+    """Return the repository-scoped cache for regenerable runtime state."""
+
+    configured = _configured_path(RUNTIME_CACHE_ENV)
+    return configured or PROJECT_ROOT / ".runtime_cache"
 
 
 def project_path(*parts: str) -> Path:

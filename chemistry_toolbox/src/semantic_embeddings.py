@@ -11,7 +11,7 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Mapping, Sequence
 
-from .paths import PROJECT_ROOT
+from .paths import model_cache_root, runtime_cache_root
 
 
 MODEL_ID = "sentence-transformers/all-MiniLM-L6-v2"
@@ -21,11 +21,11 @@ EMBEDDING_CACHE_ENV = "RESEARCHCHEM_ACTION_EMBEDDING_CACHE"
 
 
 def _default_model_directory() -> Path:
-    return PROJECT_ROOT / ".model_cache" / "all-MiniLM-L6-v2"
+    return model_cache_root() / "all-MiniLM-L6-v2"
 
 
 def _default_embedding_cache() -> Path:
-    return PROJECT_ROOT / ".model_cache" / "action_embeddings.npz"
+    return runtime_cache_root() / "semantic_embeddings" / "action_embeddings.npz"
 
 
 def model_directory() -> Path:

@@ -21,13 +21,17 @@ from chemistry_toolbox.src.environment_layout import (
     resolve_runtime_path,
     software_root,
 )
-from chemistry_toolbox.src.paths import CONFIG_ROOT, PROJECT_ROOT
+from chemistry_toolbox.src.paths import (
+    CONFIG_ROOT,
+    MODEL_CACHE_ENV,
+    PROJECT_ROOT,
+    RUNTIME_CACHE_ENV,
+)
 
 
 load_dotenv(PROJECT_ROOT / "config.local.env", override=False)
 PROFILE_CONFIG_ENV = "RESEARCHCHEM_MCP_PROFILE_CONFIG"
 PROFILE_ENV = "RESEARCHCHEM_BACKEND_RUNTIME"
-MODEL_CACHE_ENV = "RESEARCHCHEMBENCH_MODEL_CACHE"
 DEFAULT_CONFIG_PATH = CONFIG_ROOT / "mcp_profiles.yaml"
 
 
@@ -135,6 +139,14 @@ def project_model_cache_path() -> Path:
     return path.resolve() if path.is_absolute() else (PROJECT_ROOT / path).resolve()
 
 
+def project_runtime_cache_path() -> Path:
+    configured = os.environ.get(RUNTIME_CACHE_ENV, "").strip()
+    if not configured:
+        configured = str(load_profile_config().get("runtime_cache_root") or ".runtime_cache")
+    path = Path(configured).expanduser()
+    return path.resolve() if path.is_absolute() else (PROJECT_ROOT / path).resolve()
+
+
 def _profile_entries(profile: dict[str, Any], key: str) -> list[str]:
     entries = []
     for value in profile.get(key) or []:
@@ -186,11 +198,14 @@ def profile_runtime_environment(name: str) -> dict[str, str]:
             ).items()
         }
     )
+    runtime_cache = project_runtime_cache_path()
+    runtime_cache.mkdir(parents=True, exist_ok=True)
+    values[RUNTIME_CACHE_ENV] = str(runtime_cache)
+    values["XDG_CACHE_HOME"] = str(runtime_cache)
     if profile.get("use_project_model_cache", False):
         cache_root = project_model_cache_path()
         cache_root.mkdir(parents=True, exist_ok=True)
         values[MODEL_CACHE_ENV] = str(cache_root)
-        values["XDG_CACHE_HOME"] = str(cache_root)
     for variable, executable in dict(profile.get("command_variables") or {}).items():
         configured = Path(str(executable)).expanduser()
         if configured.is_absolute():

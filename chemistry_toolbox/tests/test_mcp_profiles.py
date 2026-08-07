@@ -11,11 +11,13 @@ from chemistry_toolbox.mcp.profiles import (
     profile_runtime_environment,
     public_server_spec,
     project_model_cache_path,
+    project_runtime_cache_path,
 )
+from chemistry_toolbox.src.paths import RUNTIME_CACHE_ENV
 from chemistry_toolbox.mcp.discovery_tools import PROGRESSIVE_DISCOVERY_TOOL_NAMES
 from chemistry_toolbox.mcp.open_tools import OPEN_EXECUTION_TOOL_NAMES
 from chemistry_toolbox.mcp.async_action_tools import ASYNC_ACTION_TOOL_NAMES
-from evaluation.run_task import TaskRunner
+from evaluation.execution.runner import TaskRunner
 from chemistry_toolbox.src.catalog import action_specs, backend_specs
 from chemistry_toolbox.src.environment_layout import software_root
 from chemistry_toolbox.src.environment_layout import SOFTWARE_ROOT_ENV
@@ -57,12 +59,18 @@ def test_public_server_is_one_progressive_complete_catalog_server():
 
 def test_model_profiles_use_ignored_project_model_cache(monkeypatch):
     monkeypatch.delenv(MODEL_CACHE_ENV, raising=False)
-    expected = project_model_cache_path()
+    monkeypatch.delenv(RUNTIME_CACHE_ENV, raising=False)
+    expected_model_cache = project_model_cache_path()
+    expected_runtime_cache = project_runtime_cache_path()
     for name in ("core", "quantum", "mlip", "nequip", "deepmd"):
         environment = profile_runtime_environment(name)
-        assert Path(environment[MODEL_CACHE_ENV]) == expected
-        assert Path(environment["XDG_CACHE_HOME"]) == expected
-    assert MODEL_CACHE_ENV not in profile_runtime_environment("services")
+        assert Path(environment[MODEL_CACHE_ENV]) == expected_model_cache
+        assert Path(environment[RUNTIME_CACHE_ENV]) == expected_runtime_cache
+        assert Path(environment["XDG_CACHE_HOME"]) == expected_runtime_cache
+    services = profile_runtime_environment("services")
+    assert MODEL_CACHE_ENV not in services
+    assert Path(services[RUNTIME_CACHE_ENV]) == expected_runtime_cache
+    assert Path(services["XDG_CACHE_HOME"]) == expected_runtime_cache
 
 
 def test_orca_runtime_injects_exact_binary_and_mpi_paths():

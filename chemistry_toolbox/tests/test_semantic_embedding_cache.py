@@ -11,12 +11,17 @@ def test_default_semantic_cache_is_repository_scoped(monkeypatch) -> None:
     repository_root = Path(__file__).resolve().parents[2]
     monkeypatch.delenv(semantic_embeddings.MODEL_DIRECTORY_ENV, raising=False)
     monkeypatch.delenv(semantic_embeddings.EMBEDDING_CACHE_ENV, raising=False)
+    monkeypatch.delenv("RESEARCHCHEMBENCH_MODEL_CACHE", raising=False)
+    monkeypatch.delenv("RESEARCHCHEMBENCH_RUNTIME_CACHE", raising=False)
 
     assert semantic_embeddings.model_directory() == (
         repository_root / ".model_cache" / "all-MiniLM-L6-v2"
     )
     assert semantic_embeddings.embedding_cache_path() == (
-        repository_root / ".model_cache" / "action_embeddings.npz"
+        repository_root
+        / ".runtime_cache"
+        / "semantic_embeddings"
+        / "action_embeddings.npz"
     )
 
 

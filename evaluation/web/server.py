@@ -7,16 +7,13 @@ import mimetypes
 import shutil
 import threading
 import time
-from pathlib import Path
 
 from flask import Flask, Response, jsonify, request, send_file, send_from_directory
 from flask_cors import CORS
 
-from .config import AGENT_PRESETS, TASKS_DIR
-from .run_task import TaskRunner
-from .score import score_run
-from .trace import load_tool_trace
-from .utils import (
+from ..execution.runner import TaskRunner
+from ..provenance.trace import load_tool_trace
+from ..repository import (
     build_file_tree,
     get_run_workspace,
     list_runs,
@@ -24,7 +21,8 @@ from .utils import (
     load_task_info,
     safe_resolve,
 )
-
+from ..scoring.service import score_run
+from ..settings import AGENT_PRESETS, TASKS_DIR
 
 app = Flask(__name__, static_folder="static", template_folder="templates")
 app.config["SEND_FILE_MAX_AGE_DEFAULT"] = 0

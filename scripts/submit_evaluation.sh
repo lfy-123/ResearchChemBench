@@ -131,7 +131,7 @@ import os
 import sys
 from pathlib import Path
 
-from evaluation.token_usage import workspace_token_usage
+from evaluation.provenance.token_usage import workspace_token_usage
 
 run_root = Path(sys.argv[1]).resolve()
 batch_dir = Path(sys.argv[2]).resolve() if sys.argv[2] else None

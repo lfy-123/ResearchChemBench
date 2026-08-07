@@ -11,7 +11,6 @@ from typing import Any
 from .token_usage import workspace_token_usage
 from .trace import canonical_tool_trace_metadata, load_tool_trace, process_metrics
 
-
 RESULTS_SCHEMA_VERSION = 1
 
 

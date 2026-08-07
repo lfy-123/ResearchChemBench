@@ -284,4 +284,4 @@ If they are absent, run with:
 --no-score
 ```
 
-Agent outputs and process files are still preserved and can be scored later from the Web UI or by calling `evaluation.score.score_workspace()`.
+Agent outputs and process files are still preserved and can be scored later from the Web UI or by calling `evaluation.scoring.service.score_workspace()`.
