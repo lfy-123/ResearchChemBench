@@ -1,10 +1,12 @@
 # Rebuild the Model Cache Step by Step
 
-This procedure reconstructs every required model file from an empty cache. It
-also supports a side-by-side test cache, so the active `.model_cache` does not
-need to be touched until the new cache passes all checks.
+This procedure reconstructs every required model file in `.model_cache` from a
+fresh repository checkout. Run every command from the repository root and do
+not skip a checksum step.
 
-Run every command from the repository root. Do not skip a checksum step.
+If the directory already contains downloaded model payloads, preserve them
+outside the repository or start from a fresh checkout before following this
+procedure.
 
 ## Step 0: Build the Required Environments
 
@@ -20,12 +22,11 @@ Expected result: both commands return silently with exit code zero.
 
 ## Step 1: Select the Destination
 
-For the normal cache, use the default value. To test without changing the active
-cache, export `.model_cache2` before running any later step:
+Use the repository's standard model-cache directory:
 
 ```bash
 export RCB_ROOT="$(git rev-parse --show-toplevel)"
-export RCB_MODEL_CACHE="${RCB_MODEL_CACHE:-$RCB_ROOT/.model_cache}"
+export RCB_MODEL_CACHE="$RCB_ROOT/.model_cache"
 
 # Use all four variables. Different toolbox components read different names.
 export RESEARCHCHEMBENCH_MODEL_CACHE="$RCB_MODEL_CACHE"
@@ -36,27 +37,18 @@ export XDG_CACHE_HOME="$RCB_MODEL_CACHE"
 printf 'Model cache target: %s\n' "$RCB_MODEL_CACHE"
 ```
 
-Side-by-side test example:
-
-```bash
-export RCB_MODEL_CACHE="$PWD/.model_cache2"
-export RESEARCHCHEMBENCH_MODEL_CACHE="$RCB_MODEL_CACHE"
-export RESEARCHCHEM_MINILM_MODEL_DIR="$RCB_MODEL_CACHE/all-MiniLM-L6-v2"
-export RESEARCHCHEM_ACTION_EMBEDDING_CACHE="$RCB_MODEL_CACHE/action_embeddings.npz"
-export XDG_CACHE_HOME="$RCB_MODEL_CACHE"
-```
-
 ## Step 2: Initialize an Empty Cache
 
-The following check allows the tracked `README.md`, but stops if another payload
-already exists. This prevents an accidental mixture of old and new weights.
+The following check allows the tracked README, metadata, and directory skeleton,
+but stops if ignored model payloads already exist. This prevents an accidental
+mixture of old and newly downloaded weights.
 
 ```bash
 mkdir -p "$RCB_MODEL_CACHE"
 
-if find "$RCB_MODEL_CACHE" -mindepth 1 -maxdepth 1 \
-    ! -name README.md -print -quit | grep -q .; then
-  echo "ERROR: $RCB_MODEL_CACHE is not empty" >&2
+if git ls-files --others --ignored --exclude-standard -- "$RCB_MODEL_CACHE" \
+    | grep -q .; then
+  echo "ERROR: $RCB_MODEL_CACHE already contains model payloads" >&2
   exit 1
 fi
 
@@ -300,19 +292,12 @@ Transient directories such as `huggingface/`, `matplotlib/`,
 `mesa_shader_cache/`, `pip/`, `opencode/`, and zero-byte lock files are not
 reconstruction inputs.
 
-## Step 8: Activate a Tested Side-by-Side Cache
+## Step 8: Confirm the Active Cache
 
-Do this only after Step 7 passes and after confirming the two explicit paths.
-The rename is on the same filesystem and preserves the previous cache as a
-backup:
+After Step 7 passes, clear the temporary environment overrides and verify the
+standard runtime configuration:
 
 ```bash
-test "$RCB_MODEL_CACHE" = "$RCB_ROOT/.model_cache2"
-test -d "$RCB_ROOT/.model_cache"
-
-mv "$RCB_ROOT/.model_cache" "$RCB_ROOT/.model_cache_before_rebuild"
-mv "$RCB_ROOT/.model_cache2" "$RCB_ROOT/.model_cache"
-
 unset RCB_MODEL_CACHE
 unset RESEARCHCHEMBENCH_MODEL_CACHE
 unset RESEARCHCHEM_MINILM_MODEL_DIR
@@ -324,6 +309,5 @@ unset XDG_CACHE_HOME
   --verify-only --quick --no-write
 ```
 
-Keep `.model_cache_before_rebuild` until normal benchmark runs pass. This README
-does not require activation; a candidate `.model_cache2` may remain side by side
-for inspection.
+Expected result: the runtime resolves all model files from `.model_cache` and
+the verification command exits successfully.

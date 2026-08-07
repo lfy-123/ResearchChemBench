@@ -1,8 +1,9 @@
 # Rebuild the Software Cache Step by Step
 
-This guide reconstructs a functional software cache from an empty directory. It
-supports `.software_cache2`, so the active `.software_cache` can remain untouched
-while the candidate is built and tested.
+This guide reconstructs a functional `.software_cache` from a fresh repository
+checkout. If the directory already contains installed software, preserve it
+outside the repository or start from a fresh checkout before following this
+procedure.
 
 The cache is not a Python environment. Rebuild `.envs/` first from the tracked
 environment definitions. The cache then holds native binaries, source snapshots,
@@ -30,21 +31,18 @@ copy `.envs` from another host; reconstruct it from the repository locks.
 
 ## Step 1: Select an Empty Destination
 
-Run every later command from the repository root. Use `.software_cache` for a
-normal reconstruction or `.software_cache2` for a side-by-side test:
+Run every later command from the repository root and use the standard software
+cache path:
 
 ```bash
 export RCB_ROOT="$(git rev-parse --show-toplevel)"
 export RCB_PYTHON="$RCB_ROOT/.envs/researchchembench/bin/python"
-export RESEARCHCHEMBENCH_SOFTWARE_ROOT="${RESEARCHCHEMBENCH_SOFTWARE_ROOT:-$RCB_ROOT/.software_cache}"
-
-# For a side-by-side reconstruction, override the preceding default:
-export RESEARCHCHEMBENCH_SOFTWARE_ROOT="$RCB_ROOT/.software_cache2"
+export RESEARCHCHEMBENCH_SOFTWARE_ROOT="$RCB_ROOT/.software_cache"
 
 mkdir -p "$RESEARCHCHEMBENCH_SOFTWARE_ROOT"
-if find "$RESEARCHCHEMBENCH_SOFTWARE_ROOT" -mindepth 1 -maxdepth 1 \
-    ! -name README.md -print -quit | grep -q .; then
-  echo "ERROR: candidate cache is not empty" >&2
+if git ls-files --others --ignored --exclude-standard -- \
+    "$RESEARCHCHEMBENCH_SOFTWARE_ROOT" | grep -q .; then
+  echo "ERROR: $RESEARCHCHEMBENCH_SOFTWARE_ROOT already contains software payloads" >&2
   exit 1
 fi
 ```
@@ -453,7 +451,7 @@ find "$RESEARCHCHEMBENCH_SOFTWARE_ROOT/staging" -mindepth 1 -print
 
 Expected result: every installed program has a receipt and `staging/` is empty.
 
-## Step 11: Resume, Transfer, or Activate
+## Step 11: Resume, Transfer, or Finish
 
 Downloads ending in `.part` are incomplete. Rerun the same `curl -C -` command;
 do not rename the file until its checksum passes. Failed builds remain in
@@ -465,18 +463,14 @@ links, and all license constraints. A copied compiled cache is only portable
 across compatible Linux distribution, CPU architecture, glibc/libstdc++, MPI,
 compiler runtime, and GPU driver stacks.
 
-Activate a complete tested `.software_cache2` only after explicitly checking the
-two paths:
+After all validation passes, clear the explicit override and verify that the
+runtime resolves the standard cache:
 
 ```bash
-test "$RESEARCHCHEMBENCH_SOFTWARE_ROOT" = "$RCB_ROOT/.software_cache2"
-test -d "$RCB_ROOT/.software_cache"
-
-mv "$RCB_ROOT/.software_cache" "$RCB_ROOT/.software_cache_before_rebuild"
-mv "$RCB_ROOT/.software_cache2" "$RCB_ROOT/.software_cache"
 unset RESEARCHCHEMBENCH_SOFTWARE_ROOT
+
+"$RCB_PYTHON" -m chemistry_toolbox.software_management status
 ```
 
-Keep `.software_cache_before_rebuild` until normal benchmark workflows pass.
-This guide does not require activation; `.software_cache2` may remain available
-for inspection and further installation.
+Expected result: the manager resolves `.software_cache` and reports the rebuilt
+installations without path errors.
