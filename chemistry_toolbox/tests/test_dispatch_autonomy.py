@@ -35,7 +35,7 @@ def test_dispatch_executes_only_agent_selected_backend(tmp_path, monkeypatch):
     )
     assert result["status"] == "success"
     assert len(calls) == 1
-    assert calls[0]["runtime"] == "quantum"
+    assert calls[0]["runtime"] == "reaction"
     assert calls[0]["payload"]["backend_id"] == "xtb"
     assert result["provenance"]["automatic_fallback_count"] == 0
 

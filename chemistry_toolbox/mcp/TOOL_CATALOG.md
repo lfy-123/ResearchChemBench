@@ -1,8 +1,8 @@
 # ResearchChem Atomic Tool Catalog
 
-Catalog hash: `62a5234cd4946edca48ed064f0b33ad2eebb509d0f0fcb91f1f59f7c2db66674`
+Catalog hash: `e8bc59bff141dc155cba0caeb0012c75a7dbc036c485dc1582ad405d9564942a`
 
-The benchmark exposes every action below for every task. Provider selection follows each Action's policy.
+These predefined Actions are the validated common-operation layer. They are exposed to every task but are not mandatory; the MCP server also exposes native-software and programmable-analysis layers. Provider selection follows each Action's policy.
 
 | Action | Category | Primary output | Selection policy | Providers | Required inputs | Description |
 |---|---|---|---|---|---|---|
@@ -15,6 +15,7 @@ The benchmark exposes every action below for every task. Provider selection foll
 | cluster_conformers | structure_and_system | ConformerClusterResult | agent_backend_required | rdkit | ensemble | Cluster an already supplied conformer ensemble by an explicit heavy/all-atom RMSD cutoff without generating or ranking conformers. |
 | align_molecular_structures | structure_and_system | StructureAlignmentResult | agent_backend_required | rdkit | reference, probe, atom_map | Rigidly align one supplied 3D probe structure to a reference using an explicit atom-to-atom map. |
 | rank_conformers_from_results | structure_and_system | ConformerEnsemble | internal_deterministic | internal_statistics | ensemble, scores | Rank and weight conformers only from aligned energies or free energies already supplied by the agent. |
+| enumerate_coordination_isomers | structure_and_system | CoordinationIsomerAssignments | internal_deterministic | internal_reaction_analysis | structure, coordination_center_index, ligand_anchor_indices | Enumerate symmetry-distinct ligand-to-site assignments for an explicitly selected coordination geometry without inventing coordinates or ranking their energies. |
 | repair_biomolecular_structure | structure_and_system | AtomicStructure | agent_backend_required | pdbfixer | structure | Repair missing biomolecular residues or atoms without choosing protonation, force field, solvent, or dynamics settings. |
 | select_structure_subset | structure_and_system | AtomicStructure | internal_deterministic | pdb_tools | structure | Select explicit chains and/or models from one PDB structure, with an explicit choice about retaining heteroatom records. |
 | renumber_biomolecular_structure | structure_and_system | AtomicStructure | internal_deterministic | pdb_tools | structure | Renumber PDB atom serials and residue identifiers from explicit starting values without changing coordinates or chemistry. |
@@ -22,8 +23,13 @@ The benchmark exposes every action below for every task. Provider selection foll
 | assign_protonation_states | structure_and_system | AtomicStructure | agent_backend_required | rdkit, pdbfixer | structure | Assign explicit protonation states using the agent-selected backend and pH/rule settings. |
 | assign_partial_charges | structure_and_system | ChargedStructure | agent_backend_required | rdkit_gasteiger, openff_am1bcc | structure | Assign named force-field or docking partial charges without parameterizing or solvating the system. |
 | assign_force_field_parameters | structure_and_system | ParameterizedSystem | agent_backend_required | openff, openmm_builder | structure | Assign an explicitly selected force field to an already prepared molecular system. |
+| generate_small_molecule_topology | structure_and_system | ParameterizedSystem | agent_backend_required | acpype | structure_file | Generate GAFF-family AMBER and requested downstream topology files for one already prepared small-molecule structure without choosing charge, spin, atom typing, or charge method. |
+| convert_amber_topology_to_gromacs | structure_and_system | ParameterizedSystem | agent_backend_required | acpype | amber_topology, amber_coordinates | Convert an existing matching AMBER prmtop/inpcrd pair to GROMACS topology and coordinates without regenerating charges or force-field parameters. |
+| mutate_biomolecular_residues_for_alchemy | structure_and_system | AtomicStructure | agent_backend_required | pmx | structure, mutations | Create one explicitly requested protein, DNA, or RNA hybrid-residue structure for a later alchemical calculation without parameterizing or simulating it. |
+| generate_alchemical_hybrid_topology | structure_and_system | ParameterizedSystem | agent_backend_required | pmx | topology_file | Fill B-state parameters for hybrid residues in an existing GROMACS topology under explicit recursion, split, mass, and dihedral policies. |
+| map_alchemical_ligand_atoms | structure_and_system | AlchemicalAtomMapping | agent_backend_required | pmx | ligand_a, ligand_b | Map atoms between two prepared ligand structures using explicit MCS/alignment and chemical-filter policies without building the hybrid topology. |
 | solvate_molecular_system | structure_and_system | ParameterizedSystem | agent_backend_required | openmm_builder, packmol | system | Build the explicitly requested solvent/ion environment without minimizing or propagating dynamics. |
-| analyze_crystal_symmetry | structure_and_system | CrystalSymmetryResult | agent_backend_required | spglib, pymatgen | structure | Determine the crystallographic space group and symmetry-equivalent sites for one supplied periodic structure. |
+| analyze_crystal_symmetry | structure_and_system | CrystalSymmetryResult | agent_backend_required | spglib, pymatgen, vaspkit | structure | Determine the crystallographic space group and symmetry-equivalent sites for one supplied periodic structure. |
 | standardize_crystal_structure | structure_and_system | AtomicStructure | agent_backend_required | spglib, pymatgen | structure | Standardize one periodic structure in an explicitly selected primitive or conventional crystallographic setting. |
 | build_supercell | structure_and_system | AtomicStructure | agent_backend_required | pymatgen | structure | Apply one explicit integer supercell transformation to a periodic structure. |
 | enumerate_surface_slabs | structure_and_system | StructureCollection | agent_backend_required | pymatgen | structure | Enumerate a bounded set of symmetry-distinct slabs for one explicit Miller index and slab/vacuum geometry. |
@@ -33,6 +39,12 @@ The benchmark exposes every action below for every task. Provider selection foll
 | search_local_substructures | cheminformatics | SubstructureMatchResult | agent_backend_required | rdkit | molecule, query | Find atom-index matches for an explicit SMARTS or SMILES query in one supplied molecule. |
 | enumerate_tautomers | cheminformatics | MoleculeCollection | agent_backend_required | rdkit | molecule | Enumerate bounded tautomeric forms without selecting a preferred tautomer for the agent. |
 | enumerate_stereoisomers | cheminformatics | MoleculeCollection | agent_backend_required | rdkit | molecule | Enumerate bounded stereoisomers under explicit uniqueness and assignment rules. |
+| discover_sparse_symbolic_descriptor | cheminformatics | SparseSymbolicDescriptorResult | agent_backend_required | sisso | dataset | Fit one single-task SISSO regression model from an explicit CSV train/validation split without choosing columns, units, operators, complexity, sparsification, or ranking metrics for the agent. |
+| evaluate_sparse_symbolic_descriptor | cheminformatics | SparseSymbolicDescriptorEvaluation | agent_backend_required | sisso | model_output, dataset | Evaluate one existing SISSO regression model on an explicitly supplied CSV dataset using the matching official SISSO_predict utility. |
+| summarize_sparse_symbolic_descriptor_results | cheminformatics | SparseSymbolicDescriptorSummary | internal_deterministic | sisso | model_output | Parse an existing SISSO model and optional SISSO_predict result into bounded structured statistics without fitting or evaluating a model. |
+| fit_symbolic_regression_baseline | cheminformatics | SymbolicRegressionResult | agent_backend_required | gplearn | dataset | Fit one gplearn symbolic-regression baseline from an explicit CSV train/validation split and fully specified genetic-programming controls. |
+| assess_symbolic_regression_seed_stability | cheminformatics | SymbolicRegressionStabilityResult | agent_backend_required | gplearn | dataset | Repeat one fixed gplearn symbolic-regression specification over explicit random seeds and report equation and held-out-metric stability. |
+| summarize_symbolic_regression_results | cheminformatics | SymbolicRegressionSummary | internal_deterministic | gplearn | results_file | Parse a JSON result produced by a gplearn Action into bounded structured statistics without fitting or loading a serialized Python model. |
 | calculate_energy | molecular_electronic | EnergyResult | agent_backend_required | xtb, pyscf, psi4, tblite, gpaw, nwchem, openmolcas, mace, chgnet, deepmd, orca, gaussian, gamess, ase_emt | structure | Calculate one molecular or non-periodic scalar energy with the exact software and method selected by the agent. |
 | calculate_forces | molecular_electronic | ForceResult | agent_backend_required | xtb, pyscf, tblite, gpaw, nwchem, orca, mace, chgnet, deepmd, ase_emt | structure | Calculate atomic forces for one non-periodic structure or an aligned batch. |
 | calculate_hessian | molecular_electronic | Hessian | agent_backend_required | xtb, pyscf, psi4, tblite, nwchem, orca, gaussian, mace, chgnet, deepmd, ase_emt | structure | Calculate one molecular Hessian without deriving modes, spectra, or thermochemistry. |
@@ -40,8 +52,14 @@ The benchmark exposes every action below for every task. Provider selection foll
 | calculate_dipole_moment | molecular_electronic | DipoleResult | agent_backend_required | xtb, tblite, pyscf, psi4, nwchem, openmolcas, orca, gaussian, gamess | structure | Calculate one molecular dipole moment with an explicitly chosen electronic method. |
 | calculate_atomic_charges | molecular_electronic | AtomicChargeResult | agent_backend_required | xtb, pyscf, psi4, nwchem, openmolcas, multiwfn, orca | structure | Calculate electronic-structure population-analysis charges without attaching force-field parameters. |
 | calculate_orbitals | molecular_electronic | OrbitalResult | agent_backend_required | pyscf, psi4, openmolcas, orca | structure | Calculate orbital energies, occupations, and optional coefficient artifacts. |
+| calculate_correlated_electron_density | molecular_electronic | ElectronDensityResult | agent_backend_required | orca | structure | Calculate and retain one explicitly selected molecular electron density, including SCF/DFT, relaxed MP2 or double-hybrid, and unrelaxed CCSD density sources, without silently substituting an unavailable density model. |
+| export_electron_density_grid | molecular_electronic | ElectronDensityExportResult | agent_backend_required | orca | electron_density | Export a previously calculated ORCA electron density to an explicitly selected WFN, WFX, or cube representation while preserving the named density source in provenance. |
+| calculate_electron_isodensity_surface | molecular_electronic | ElectronIsodensitySurfaceResult | agent_backend_required | multiwfn | density_file | Calculate molecular electron-isodensity surface area and enclosed volume for an explicit list of density cutoffs using one supplied wavefunction or electron-density grid. |
 | calculate_bond_orders | molecular_electronic | BondOrderResult | agent_backend_required | xtb, multiwfn, orca | structure | Calculate atom-pair electronic bond-order indices using one explicitly selected population-analysis backend. |
 | calculate_excited_states | molecular_electronic | ExcitedStateResult | agent_backend_required | pyscf, orca | structure | Calculate a bounded set of vertical electronic excited states without constructing a broadened spectrum or propagating dynamics. |
+| calculate_multireference_state_energies | molecular_electronic | MultireferenceStateEnergyResult | agent_backend_required | bagel | structure | Calculate explicitly state-averaged CASSCF electronic-state energies for one molecule with an explicit active space and state manifold. |
+| calculate_multireference_nuclear_gradient | molecular_electronic | MultireferenceGradientResult | agent_backend_required | bagel | structure | Calculate one analytical SA-CASSCF or XMS-CASPT2 nuclear energy gradient for an explicitly selected electronic state. |
+| calculate_nonadiabatic_coupling_vector | molecular_electronic | NonadiabaticCouplingResult | agent_backend_required | bagel | structure | Calculate one explicitly defined SA-CASSCF or XMS-CASPT2 nonadiabatic coupling vector between two selected electronic states. |
 | analyze_electron_density_topology | molecular_electronic | ElectronDensityTopologyResult | agent_backend_required | critic2 | density_file | Locate and characterize critical points in one supplied molecular or periodic electron-density field without generating that field or integrating atomic basins. |
 | calculate_atomic_basin_properties | molecular_electronic | AtomicBasinPropertyResult | agent_backend_required | critic2 | density_file | Integrate population, Laplacian, and available volume properties over atomic or attractor basins in one supplied scalar-field grid using an explicitly selected partition algorithm. |
 | calculate_bader_charges | molecular_electronic | AtomicChargeResult | agent_backend_required | critic2 | density_file | Calculate atomic Bader charges from one supplied electron-density grid using an explicitly selected Yu-Trinkle or Henkelman grid partition. |
@@ -49,7 +67,15 @@ The benchmark exposes every action below for every task. Provider selection foll
 | derive_ir_spectrum | molecular_electronic | SpectrumResult | internal_deterministic | internal_spectroscopy | vibrations | Construct an IR spectrum from vibration results that already contain intensities. |
 | derive_uv_vis_spectrum | molecular_electronic | SpectrumResult | internal_deterministic | internal_spectroscopy | excited_states | Construct a deterministic broadened UV/visible spectrum from supplied transition energies and oscillator strengths. |
 | derive_thermochemistry | molecular_electronic | ThermochemistryResult | agent_backend_required | internal_thermochemistry, goodvibes | backend-specific: internal_thermochemistry(energy,frequencies); goodvibes(output_file) | Derive thermochemical quantities from supplied electronic energy and frequencies; no optimization or Hessian is hidden. |
+| scan_thermochemistry_temperature | molecular_electronic | ThermochemistryTemperatureSeries | agent_backend_required | goodvibes | output_files, temperatures_kelvin | Evaluate thermochemical quantities for supplied quantum outputs at each explicitly listed temperature without rerunning electronic-structure calculations. |
+| analyze_thermochemical_ensemble | molecular_electronic | ThermochemicalEnsembleResult | agent_backend_required | goodvibes | output_files | Calculate per-structure thermochemistry and Boltzmann populations for an explicitly supplied conformer or structure ensemble. |
+| validate_thermochemistry_inputs | molecular_electronic | ThermochemistryValidationReport | agent_backend_required | goodvibes | output_files | Check supplied quantum outputs for thermochemistry compatibility, calculation consistency, frequency issues, and possible duplicate structures. |
+| explore_reaction_network | reaction_and_kinetics | ReactionNetworkExplorationResult | agent_backend_required | kinbot | input_file | Run an explicit KinBot full-PES input and return the discovered wells, reaction summaries, and native network artifacts without choosing reaction families or electronic-structure settings. |
 | locate_transition_state | reaction_and_kinetics | AtomicStructure | agent_backend_required | pysisyphus, sella | initial_guess | Locate one candidate transition-state structure without automatically running frequencies or IRC. |
+| search_reaction_path | reaction_and_kinetics | ReactionPath | agent_backend_required | pysisyphus | reactant, product | Run an explicitly selected double-ended chain-of-states search between supplied reactant and product structures without asserting that the highest image is a validated transition state. |
+| scan_reaction_coordinates | reaction_and_kinetics | ReactionCoordinateScan | agent_backend_required | pysisyphus | structure | Run one relaxed one-dimensional internal-coordinate scan from a supplied structure using explicit coordinate, range, optimizer, and calculator settings. |
+| validate_reaction_path | reaction_and_kinetics | ReactionPathValidationResult | internal_deterministic | internal_reaction_analysis | path, reactant, product | Check atom/state consistency, endpoint agreement, image continuity, and optional bond-change progress for an already calculated reaction path. |
+| analyze_reaction_coordinate | reaction_and_kinetics | ReactionCoordinateAnalysisResult | internal_deterministic | internal_reaction_analysis | path, energies | Convert supplied path images and aligned electronic energies into a normalized reaction-coordinate profile with relative energies and highest-image candidates. |
 | trace_intrinsic_reaction_coordinate | reaction_and_kinetics | ReactionPath | agent_backend_required | pysisyphus | transition_state | Trace an IRC from an already supplied transition-state structure. |
 | calculate_chemical_equilibrium | reaction_and_kinetics | EquilibriumResult | agent_backend_required | cantera | composition | Calculate an equilibrium composition/state for an explicitly supplied mechanism and thermodynamic condition. |
 | integrate_reaction_network | reaction_and_kinetics | KineticsTrajectory | agent_backend_required | scipy, cantera | network, initial_state | Integrate one explicitly specified reaction network over time. |
@@ -57,6 +83,13 @@ The benchmark exposes every action below for every task. Provider selection foll
 | calculate_tunneling_correction | reaction_and_kinetics | TunnelingCorrectionResult | agent_backend_required | rmg | temperatures_kelvin, imaginary_frequency_cm1 | Calculate Wigner or Eckart transition-state tunneling correction factors at explicit temperatures. |
 | solve_master_equation | reaction_and_kinetics | MasterEquationResult | agent_backend_required | mess, mesmer | model_file | Solve an explicitly supplied gas-phase chemical master-equation model and extract pressure/temperature-dependent phenomenological rate coefficients without constructing or modifying the reaction model. |
 | solve_microkinetic_model | reaction_and_kinetics | MicrokineticResult | agent_backend_required | catmap | model | Solve one explicitly supplied microkinetic model without constructing the reaction model for the agent. |
+| analyze_thermochemical_selectivity | reaction_and_kinetics | ThermochemicalSelectivityResult | agent_backend_required | goodvibes | output_files, label_groups | Calculate N-way thermodynamic selectivity from explicitly labeled structure ensembles, including two-label excess and delta-delta-G when applicable. |
+| analyze_reaction_free_energy_profile | reaction_and_kinetics | ReactionFreeEnergyProfileResult | agent_backend_required | goodvibes | output_files, profile_definition_file | Calculate relative electronic and thermochemical energies along explicitly defined reaction pathways, including stoichiometric sums and conformer ensembles. |
+| analyze_activation_strain_profile | reaction_and_kinetics | ActivationStrainProfileResult | agent_backend_required | pyfrag | reaction_path_file | Calculate an ORCA activation-strain profile along an explicitly supplied reaction path with explicit fragment partitions, reference energies, electronic-structure keywords, and reaction coordinate. |
+| summarize_activation_strain_profile | reaction_and_kinetics | ActivationStrainProfileSummary | agent_backend_required | pyfrag | profile_file | Parse a bounded PyFrag activation-strain table and report extrema and decomposition-closure diagnostics without rerunning electronic-structure calculations. |
+| validate_activation_strain_profile | reaction_and_kinetics | ActivationStrainProfileValidationResult | agent_backend_required | pyfrag | profile_file | Validate record count, finite values, sequential point identifiers, and total-energy decomposition closure in an existing PyFrag activation-strain table. |
+| analyze_post_transition_state_trajectory_ensemble | reaction_and_kinetics | PostTransitionStateTrajectoryEnsembleResult | internal_deterministic | internal_reaction_analysis | trajectory_outcomes | Calculate product branching, recrossing, unassigned fraction, and binomial confidence intervals from explicit per-trajectory outcome classifications. |
+| propagate_nonadiabatic_trajectory | molecular_dynamics | NonadiabaticTrajectory | agent_backend_required | sharc | trajectory_directory | Execute one fully specified SHARC trajectory and return bounded time/state/energy records without constructing the electronic-structure protocol. |
 | minimize_system_energy | molecular_dynamics | ParameterizedSystem | agent_backend_required | openmm, gromacs, lammps, hoomd, namd, amber_pmemd, charmm | system | Minimize an already parameterized system without automatically equilibrating or propagating dynamics. |
 | calculate_force_field_energy | molecular_dynamics | ForceFieldEnergyResult | agent_backend_required | openmm, hoomd | system | Evaluate the total potential energy of an already parameterized system at explicitly selected stored coordinates/state without minimizing or propagating it. |
 | calculate_force_field_forces | molecular_dynamics | ForceResult | agent_backend_required | openmm, hoomd | system | Evaluate atomic force-field forces for an already parameterized system at explicitly selected stored coordinates/state. |
@@ -74,12 +107,28 @@ The benchmark exposes every action below for every task. Provider selection foll
 | calculate_dynamic_cross_correlation | molecular_dynamics | DynamicCrossCorrelationResult | agent_backend_required | mdanalysis | trajectory, topology | Calculate an atom-wise dynamic cross-correlation matrix from explicitly selected and optionally aligned trajectory coordinates. |
 | assign_secondary_structure | molecular_dynamics | SecondaryStructureTimeSeries | agent_backend_required | mdtraj | trajectory, topology | Assign per-residue secondary-structure labels for every frame of an existing protein trajectory. |
 | cluster_trajectory | molecular_dynamics | TrajectoryClusterResult | agent_backend_required | mdtraj | trajectory, topology | Cluster explicitly selected trajectory frames by RMSD using a deterministic cutoff-based leader assignment. |
+| analyze_nonadiabatic_trajectory_ensemble | molecular_dynamics | NonadiabaticTrajectoryEnsembleResult | internal_deterministic | internal_trajectory_analysis | trajectories | Calculate time-dependent electronic-state populations, hop statistics, initial-state survival, and binomial confidence intervals from normalized nonadiabatic trajectories. |
 | evaluate_collective_variables | molecular_dynamics | TimeSeries | agent_backend_required | plumed | trajectory, topology, collective_variables | Evaluate explicitly defined collective variables on an existing trajectory. |
 | estimate_free_energy_difference | molecular_dynamics | FreeEnergyDifferenceResult | agent_backend_required | pymbar | reduced_potentials, samples_per_state | Estimate dimensionless pairwise free-energy differences from an explicitly supplied reduced-potential matrix and sample counts. |
 | estimate_thermodynamic_expectations | molecular_dynamics | ThermodynamicExpectationResult | agent_backend_required | pymbar | reduced_potentials, samples_per_state, observables | Estimate state-resolved observable expectations from explicitly supplied samples and a reduced-potential matrix. |
 | calculate_potential_of_mean_force | molecular_dynamics | FreeEnergyProfileResult | agent_backend_required | pymbar | reduced_potentials, samples_per_state, target_reduced_potential, collective_variable | Estimate a one-dimensional histogram free-energy profile from supplied uncorrelated samples; this does not integrate a mean-force trajectory or choose bins for the agent. |
 | analyze_free_energy_convergence | molecular_dynamics | FreeEnergyConvergenceResult | agent_backend_required | pymbar | reduced_potentials, samples_per_state | Re-estimate one explicitly selected pairwise free-energy difference over supplied sample fractions without generating or decorrelating samples. |
 | parse_alchemical_energy_data | molecular_dynamics | AlchemicalEnergyData | agent_backend_required | alchemlyb | files | Parse one or more explicitly identified engine output files into a normalized alchemical reduced-potential or derivative table. |
+| calculate_end_state_binding_free_energy | molecular_dynamics | EndStateBindingFreeEnergyResult | agent_backend_required | gmx_mmpbsa | calculation_input, complex_structure, complex_index, complex_trajectory, complex_topology | Run one explicitly authored gmx_MMPBSA end-state binding calculation without selecting the solvent model, frame range, entropy treatment, or system groups. |
+| calculate_end_state_energy_decomposition | molecular_dynamics | EndStateEnergyDecompositionResult | agent_backend_required | gmx_mmpbsa | calculation_input, complex_structure, complex_index, complex_trajectory, complex_topology | Run one explicitly authored gmx_MMPBSA residue-decomposition calculation and return bounded structured records plus the full result files. |
+| summarize_end_state_free_energy_results | molecular_dynamics | EndStateFreeEnergySummary | internal_deterministic | gmx_mmpbsa | results_file | Parse existing gmx_MMPBSA result and optional decomposition files into bounded statistics without rerunning energies or choosing favorable residues. |
+| calculate_quasiparticle_corrections | periodic_and_phonons | QuasiparticleCorrectionResult | agent_backend_required | yambo | save_directory, input_file | Run one explicit Yambo quasiparticle calculation from an existing SAVE database and native input file, then return bounded state corrections. |
+| calculate_bse_optical_spectrum | periodic_and_phonons | OpticalSpectrumResult | agent_backend_required | yambo | save_directory, input_file | Run one explicit Yambo Bethe-Salpeter calculation from existing databases and return a bounded optical spectrum. |
+| generate_crystal_structure_candidates | periodic_and_phonons | CrystalStructureCandidateSet | agent_backend_required | airss | seed_file | Generate a bounded set of random crystal candidates from one explicit AIRSS buildcell seed file without relaxing or ranking them. |
+| convert_crystal_structure_format | periodic_and_phonons | CrystalStructureFile | agent_backend_required | airss | structure_file | Convert one existing crystal-structure file between two explicitly selected AIRSS cabal formats. |
+| generate_vasp_kpoint_mesh | periodic_and_phonons | KPointMesh | agent_backend_required | vaspkit | structure_file | Generate one VASP KPOINTS mesh from an existing POSCAR using an explicit reciprocal-space resolution and centering scheme. |
+| extract_vasp_band_gap | periodic_and_phonons | ElectronicBandGapResult | agent_backend_required | vaspkit | structure_file, incar_file, eigenvalue_file, dos_file | Extract band-gap character, edge eigenvalues, band indices and k-point locations from one complete existing VASP electronic-result set. |
+| calculate_adsorption_energy | periodic_and_phonons | AdsorptionEnergyResult | internal_deterministic | internal_periodic_analysis | adsorbed_system_energy, clean_surface_energy, reference_species | Combine explicitly supplied adsorbed-system, clean-surface, and reference-species energies into an adsorption energy without selecting reference states or running electronic-structure calculations. |
+| construct_pressure_enthalpy_phase_diagram | periodic_and_phonons | PressureEnthalpyPhaseDiagramResult | internal_deterministic | internal_periodic_analysis | phase_records | Determine stable phases and linearly interpolated transition pressures from explicit phase enthalpies evaluated on one common pressure grid. |
+| assess_phonon_stability | periodic_and_phonons | PhononStabilityAssessment | internal_deterministic | internal_periodic_analysis | phonon_records | Assess dynamical stability and Gamma-point acoustic-mode quality from explicitly supplied q-point phonon frequencies and tolerances. |
+| fit_effective_force_constants | periodic_and_phonons | EffectiveForceConstantModel | agent_backend_required | tdep | unit_cell_file, supercell_file, simulation_file | Fit temperature-dependent effective force constants from an explicit aligned supercell simulation dataset. |
+| generate_thermal_displacement_configurations | periodic_and_phonons | ThermalDisplacementConfigurationSet | agent_backend_required | tdep | unit_cell_file, supercell_file | Sample a bounded set of thermally displaced supercells from an explicit harmonic model or explicit Debye/frequency initialization. |
+| calculate_temperature_dependent_phonon_dispersion | periodic_and_phonons | PhononDispersion | agent_backend_required | tdep | unit_cell_file, second_order_force_constants_file | Calculate phonon bands from one explicit TDEP effective second-order force-constant model. |
 | calculate_periodic_energy | periodic_and_phonons | EnergyResult | agent_backend_required | quantum_espresso, cp2k, siesta, dftbplus, abinit, vasp, gpaw, nequip, allegro, deepmd | structure | Calculate one periodic-system energy with the explicitly selected electronic-structure backend. |
 | calculate_periodic_forces | periodic_and_phonons | ForceResult | agent_backend_required | quantum_espresso, cp2k, siesta, dftbplus, abinit, vasp, gpaw, nequip, allegro, deepmd | structure | Calculate periodic atomic forces for one structure or aligned displaced-structure batch. |
 | calculate_periodic_stress | periodic_and_phonons | StressResult | agent_backend_required | quantum_espresso, cp2k, abinit, vasp, gpaw, nequip, allegro, deepmd | structure | Calculate one periodic stress tensor without relaxing the structure. |
@@ -147,10 +196,17 @@ The benchmark exposes every action below for every task. Provider selection foll
 | qcelemental | workflows | available | qcelemental=0.50.4 |  |  |  | open_source |
 | cclib | workflows | available | cclib=1.8.1 |  |  |  | open_source |
 | rdkit | core | available | rdkit |  |  |  | open_source |
+| sisso | sisso | available | bc=1.07.1 |  | SISSO, SISSO_predict |  | open_source |
+| gplearn | gplearn | available |  | gplearn==0.4.3 |  |  | open_source |
 | openbabel | quantum | available | openbabel |  | obabel |  | open_source |
+| acpype | acpype | available | openbabel=3.1.1, ambertools=26.0 | acpype==2023.10.27 | acpype |  | open_source |
+| pmx | pmx | available |  | pmx @ git+https://github.com/deGrootLab/pmx@0dd5f0a9cdf26109eff98bdfeb4ac4e55353aa76 | pmx |  | open_source |
 | rdkit_etkdg | core | available | rdkit |  |  |  | open_source |
 | crest | reaction | available | crest, xtb |  | crest |  | open_source |
 | internal_statistics | core | available |  |  |  |  | open_source |
+| internal_reaction_analysis | core | available |  |  |  |  | open_source |
+| internal_periodic_analysis | core | available |  |  |  |  | open_source |
+| internal_trajectory_analysis | core | available |  |  |  |  | open_source |
 | pdbfixer | md | available | pdbfixer, openmm |  |  |  | open_source |
 | pdb_tools | core | available |  | pdb-tools==2.7.0 | pdb_selchain, pdb_reres, pdb_tidy |  | open_source |
 | rdkit_gasteiger | core | available | rdkit |  |  |  | open_source |
@@ -160,7 +216,8 @@ The benchmark exposes every action below for every task. Provider selection foll
 | packmol | md | available | packmol |  | packmol |  | open_source |
 | spglib | workflows | available | spglib, numpy |  |  |  | open_source |
 | pymatgen | workflows | available | pymatgen, numpy |  |  |  | open_source |
-| xtb | quantum | available | xtb |  | xtb |  | open_source |
+| vaspkit | vaspkit | available |  |  | vaspkit |  | noncommercial_no_redistribution |
+| xtb | reaction | available | xtb |  | xtb |  | open_source |
 | pyscf | quantum | available |  | pyscf |  |  | open_source |
 | gpaw | gpaw | available | gpaw=25.7.0, ase, numpy |  | gpaw | GPAW PAW setup datasets under .software_cache/shared/scientific-data/gpaw-setups | open_source |
 | lobster | lobster | available | pymatgen |  | lobster-5.1.0 |  | academic_license |
@@ -182,7 +239,7 @@ The benchmark exposes every action below for every task. Provider selection foll
 | internal_vibrations | core | available |  | ase, numpy |  |  | open_source |
 | internal_spectroscopy | core | available |  | numpy |  |  | open_source |
 | internal_thermochemistry | core | available |  | ase, numpy |  |  | open_source |
-| goodvibes | reaction | available | goodvibes |  | goodvibes |  | open_source |
+| goodvibes | goodvibes | available |  | goodvibes[full]==4.3.0 | goodvibes |  | open_source |
 | geometric | nwchem | available |  | geometric==1.1.1 |  |  | open_source |
 | sella | sella | available |  | sella==2.5.0 |  |  | open_source |
 | pysisyphus | reaction | available |  | pysisyphus==1.0.0 | pysis |  | open_source |
@@ -191,10 +248,13 @@ The benchmark exposes every action below for every task. Provider selection foll
 | rmg | rmg | available | rmg=4.0.0 |  | rmg.py |  | open_source |
 | mess | mess | available |  |  | mess |  | open_source |
 | mesmer | mesmer | available |  |  | mesmer |  | open_source |
-| catmap | reaction | available |  | git+https://github.com/SUNCAT-Center/catmap.git |  |  | open_source |
+| pyfrag | reaction | available |  |  | pyfrag-orca |  | open_source |
+| catmap | catmap | available |  | git+https://github.com/SUNCAT-Center/catmap.git |  |  | open_source |
+| bagel | bagel | available |  |  | BAGEL |  | open_source |
 | openmm | md | available | openmm |  |  |  | open_source |
 | gromacs | md | available | gromacs |  | gmx |  | open_source |
-| lammps | md | available | lammps |  | lmp |  | open_source |
+| gmx_mmpbsa | gmx_mmpbsa | available | python=3.11, ambertools=23.6, gromacs=2025.4, mpi4py=4.0.1, numpy=1.26.4, pandas=1.5.3, matplotlib=3.7.3, seaborn=0.11.2, scipy=1.14.1, parmed=4.3.1 | gmx_MMPBSA==1.6.5 | gmx_MMPBSA |  | open_source |
+| lammps | lammps | available | lammps |  | lmp |  | open_source |
 | hoomd | free_energy | available | hoomd=7.1.0, numpy |  |  |  | open_source |
 | namd | namd | available |  |  | namd3 |  | academic_registration |
 | amber_pmemd | amber | available |  |  | pmemd, pmemd.MPI, mpirun |  | academic_registration |
@@ -204,6 +264,11 @@ The benchmark exposes every action below for every task. Provider selection foll
 | plumed | md | available | plumed |  | plumed |  | open_source |
 | pymbar | free_energy | available | pymbar, numpy |  |  |  | open_source |
 | alchemlyb | free_energy | available | alchemlyb=2.5.0, pandas, numpy |  |  |  | open_source |
+| yambo | yambo | available | yambo=5.3.0 |  | yambo |  | open_source |
+| sharc | sharc | available |  |  | sharc.x |  | open_source |
+| kinbot | kinbot | available |  | kinbot=2.2.2, sella=2.5.0 | pes |  | open_source |
+| airss | airss | available | airss-with-default-names=0.9.3 |  | buildcell, cabal |  | open_source |
+| tdep | tdep | available |  |  | extract_forceconstants, canonical_configuration, phonon_dispersion_relations |  | open_source |
 | quantum_espresso | qe | available | qe |  | pw.x | Explicit ResourceRefs from qe_sssp_1_3_pbe_efficiency or qe_sssp_1_3_pbe_precision, one per element; workspace ArtifactRefs remain accepted | open_source |
 | cp2k | cp2k | available | cp2k |  | cp2k |  | open_source |
 | siesta | periodic | available | siesta |  | siesta | Explicit ResourceRefs from siesta_pseudo_dojo_nc_sr_05_pbe_standard_psml, one per element; workspace ArtifactRefs remain accepted | open_source |

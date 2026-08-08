@@ -173,6 +173,9 @@ HARD_FATAL_TEXT = (
     "segmentation fault",
     "cannot find primary config",
     "module import timed out",
+    "glibcxx_",
+    "cxxabi_",
+    "please run 'config' first",
 )
 MISSING_INPUT_TEXT = (
     "does not exist",

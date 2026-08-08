@@ -65,8 +65,10 @@ symbolic links, excludes declared obsolete roots, and writes a receipt. The sour
 cache remains unchanged until the operator explicitly performs the final switch.
 Host-specific script interpreters are rewritten copy-on-write to `/usr/bin/env -S`
 launchers. `relocate-v2` also repairs declared wrapper/config paths and creates
-declared cross-role compatibility links. It can apply the same repairs to an
-already generated v2 cache.
+declared cross-role compatibility links. Generated GAMESS `rungms`,
+`install.info`, and Makefile paths are rewritten to consume the runtime profile's
+software and environment roots. The command is idempotent and can apply the same
+repairs to an already generated v2 cache.
 
 ## Validation levels
 

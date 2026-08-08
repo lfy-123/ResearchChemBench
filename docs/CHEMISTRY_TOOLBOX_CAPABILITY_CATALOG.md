@@ -296,7 +296,7 @@
 | `tblite` | TBLite | `quantum` | 可用 | — | 5 |
 | `vasp` | VASP | `vasp` | 可用 | `vasp_std` | 4 |
 | `vina` | AutoDock Vina | `docking` | 可用 | `vina` | 1 |
-| `xtb` | xTB | `quantum` | 可用 | `xtb` | 7 |
+| `xtb` | xTB | `reaction` | 可用 | `xtb` | 7 |
 
 </details>
 
@@ -393,8 +393,8 @@
 | `phonons` | Isolated Phonopy and Phono3py runtime. | `phonopy`, `phono3py` |
 | `psi4` | Isolated Psi4 Python runtime. | `psi4` |
 | `qe` | Isolated Quantum ESPRESSO runtime. | `quantum_espresso` |
-| `quantum` | Molecular quantum chemistry and ASE calculation tools, including typed ORCA 6.1.1 correlated-density generation and density export; Psi4 remains isolated. | `openbabel`, `xtb`, `pyscf`, `tblite`, `orca` |
-| `reaction` | Conformer refinement, reaction paths, and kinetics. | `crest`, `pysisyphus`, `cantera`, `scipy`, `catmap` |
+| `quantum` | Molecular quantum chemistry and ASE calculation tools, including typed ORCA 6.1.1 correlated-density generation and density export; Psi4 remains isolated. | `openbabel`, `pyscf`, `tblite`, `orca` |
+| `reaction` | Conformer refinement, reaction paths, and kinetics. | `xtb`, `crest`, `pysisyphus`, `cantera`, `scipy`, `catmap` |
 | `rmg` | RMG-Py 4.0.0 typed kinetics and tunneling runtime. | `rmg` |
 | `sella` | Sella 2.5.0 composite minimum/transition-state optimizer using an Agent-selected calculator backend. | `sella` |
 | `services` | Remote scientific data services and authenticated materials lookup. | `pubchem`, `rcsb_pdb`, `materials_project`, `catalysis_hub`, `nist_webbook` |

@@ -1,5 +1,8 @@
 # Software Supplement and Action Recommendations
 
+> 本文是软件扩展前的规划记录，不代表当前安装状态。已经实施的变化以
+> [`CHEMISTRY_TOOLBOX_V2_CHANGE_SUMMARY.md`](CHEMISTRY_TOOLBOX_V2_CHANGE_SUMMARY.md) 为准。
+
 更新时间：2026-08-05
 
 ## 推荐顺序

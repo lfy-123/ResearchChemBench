@@ -423,6 +423,9 @@ First validate the manager itself, then the installed subset, then toolbox
 integration:
 
 ```bash
+"$RCB_PYTHON" -m chemistry_toolbox.software_management \
+  --cache-root "$RESEARCHCHEMBENCH_SOFTWARE_ROOT" relocate-v2
+
 "$RCB_PYTHON" -m pytest -q chemistry_toolbox/tests/test_software_management.py
 
 "$RCB_PYTHON" -m chemistry_toolbox.software_management \
@@ -435,6 +438,10 @@ integration:
 "$RCB_PYTHON" chemistry_toolbox/scripts/check_mcp_profile_envs.py \
   --no-write --timeout-seconds 120
 ```
+
+`relocate-v2` is idempotent. It rewrites generated GAMESS `rungms`,
+`install.info`, and Makefile paths to consume the runtime profile instead of
+paths embedded by the build host.
 
 The all-software manager command returns nonzero until every required native
 entry has been installed. Inspect `manager-verify.json`; do not hide missing

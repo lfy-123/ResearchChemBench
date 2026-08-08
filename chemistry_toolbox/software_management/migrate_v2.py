@@ -71,6 +71,48 @@ _CACHE_REFERENCE = re.compile(
     r"/[^\"'\s]+/\.software_cache/(?P<relative>[^\"'\s]+)"
 )
 
+_ABSOLUTE_PATH_START = r"(?<![$A-Za-z0-9_])/[^\"'\s]+/"
+_GAMESS_RUNTIME_PATHS = (
+    (
+        re.compile(
+            _ABSOLUTE_PATH_START
+            + r"(?:installations/)?gamess/2024-r2-p1/source"
+        ),
+        "$RESEARCHCHEMBENCH_SOFTWARE_ROOT/installations/gamess/2024-r2-p1/source",
+    ),
+    (
+        re.compile(
+            _ABSOLUTE_PATH_START + r"(?:build/)?gamess/2024-r2-p1/build"
+        ),
+        "$RESEARCHCHEMBENCH_SOFTWARE_ROOT/build/gamess/2024-r2-p1/build",
+    ),
+    (
+        re.compile(
+            _ABSOLUTE_PATH_START
+            + r"(?:validation/)?gamess/2024-r2-p1/scratch"
+        ),
+        "$RESEARCHCHEMBENCH_SOFTWARE_ROOT/validation/gamess/2024-r2-p1/scratch",
+    ),
+    (
+        re.compile(
+            _ABSOLUTE_PATH_START
+            + r"(?:installations/)?gamess/2024-r2-p1/restart"
+        ),
+        "$RESEARCHCHEMBENCH_SOFTWARE_ROOT/installations/gamess/2024-r2-p1/restart",
+    ),
+    (
+        re.compile(_ABSOLUTE_PATH_START + r"\.tool_envs/gamess/lib"),
+        "$GMS_RUNTIME_LIB",
+    ),
+    (
+        re.compile(
+            _ABSOLUTE_PATH_START
+            + r"(?:\.tool_envs/gamess|\.envs/general-modern-openmpi5)/bin/tcsh"
+        ),
+        "tcsh",
+    ),
+)
+
 
 def _rewrite_relative_exec_wrapper(path: Path, cache_root: Path) -> bool:
     """Replace a legacy absolute cache reference with a launcher-relative path."""
@@ -100,6 +142,53 @@ def _rewrite_relative_exec_wrapper(path: Path, cache_root: Path) -> bool:
     shutil.copystat(path, temporary)
     temporary.replace(path)
     return True
+
+
+def _rewrite_gamess_runtime_paths(path: Path) -> bool:
+    """Make generated GAMESS tcsh files consume the runtime profile paths."""
+
+    try:
+        text = path.read_text(encoding="utf-8")
+    except (OSError, UnicodeDecodeError):
+        return False
+    rewritten = text
+    for pattern, replacement in _GAMESS_RUNTIME_PATHS:
+        rewritten = pattern.sub(replacement, rewritten)
+    if rewritten == text:
+        return False
+    temporary = path.with_name(f".{path.name}.relocate-{os.getpid()}")
+    temporary.write_text(rewritten, encoding="utf-8")
+    shutil.copystat(path, temporary)
+    temporary.replace(path)
+    return True
+
+
+def _rewrite_gamess_files(cache_root: Path) -> list[dict[str, str]]:
+    records = []
+    for legacy_value in load_legacy_layout().get("portable_gamess_paths") or ():
+        destination = classify_legacy_path(str(legacy_value))
+        if destination is None:
+            continue
+        path = cache_root / destination
+        if path.is_symlink():
+            try:
+                path.resolve(strict=True).relative_to(cache_root)
+            except (FileNotFoundError, ValueError):
+                records.append({"path": destination.as_posix(), "status": "invalid_link"})
+            else:
+                records.append({"path": destination.as_posix(), "status": "portable_link"})
+            continue
+        if not path.is_file():
+            records.append({"path": destination.as_posix(), "status": "missing"})
+            continue
+        rewritten = _rewrite_gamess_runtime_paths(path)
+        records.append(
+            {
+                "path": destination.as_posix(),
+                "status": "rewritten" if rewritten else "already_portable",
+            }
+        )
+    return records
 
 
 def _ensure_compatibility_links(cache_root: Path) -> list[dict[str, str]]:
@@ -189,6 +278,7 @@ def relocate_v2(cache_root: Path) -> dict[str, Any]:
         "cache_root": str(cache_root),
         "portable_shebangs": records,
         "portable_wrappers": wrapper_records,
+        "portable_gamess_files": _rewrite_gamess_files(cache_root),
         "portable_configs": _write_portable_config_files(cache_root),
         "compatibility_links": _ensure_compatibility_links(cache_root),
     }
@@ -316,6 +406,7 @@ def migrate_v2(legacy_root: Path, destination_root: Path) -> dict[str, Any]:
         "counts": counts,
         "plan": plan,
         "unresolved_symlinks": unresolved_links,
+        "portable_gamess_files": _rewrite_gamess_files(destination_root),
         "portable_configs": _write_portable_config_files(destination_root),
         "compatibility_links": _ensure_compatibility_links(destination_root),
     }

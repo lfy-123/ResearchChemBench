@@ -13,7 +13,7 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 ## Installed software
 - Installed version: `6.7.1`.
 - Operational status: `runnable`.
-- Configured runtime: `quantum`.
+- Configured runtime: `reaction`.
 - Primary use: semiempirical molecular energy, optimization, frequency, or dynamics calculation.
 
 ## When to use this interface

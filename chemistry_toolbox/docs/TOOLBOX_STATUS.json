@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-06T10:19:58.502479+00:00",
+  "generated_at": "2026-08-08T05:50:13.010499+00:00",
   "scientific_actions": 140,
   "data_actions": 10,
   "backend_count": 92,
@@ -7107,8 +7107,8 @@
           "runtime_python_exists": true,
           "python_modules": {},
           "executables": {
-            "SISSO": ".software_cache/sisso/3.5/bin/SISSO",
-            "SISSO_predict": ".software_cache/sisso/3.5/bin/SISSO_predict"
+            "SISSO": ".software_cache/installations/sisso/3.5/bin/SISSO",
+            "SISSO_predict": ".software_cache/installations/sisso/3.5/bin/SISSO_predict"
           },
           "environment": {
             "CHEMGRAPH_SISSO_COMMAND": true,
@@ -8883,7 +8883,7 @@
           "runtime_python_exists": true,
           "python_modules": {},
           "executables": {
-            "vaspkit": ".software_cache/vaspkit/1.5.1/vaspkit.1.5.1/bin/vaspkit"
+            "vaspkit": ".software_cache/installations/vaspkit/1.5.1/vaspkit.1.5.1/bin/vaspkit"
           },
           "environment": {
             "CHEMGRAPH_VASPKIT_COMMAND": true,
@@ -8902,7 +8902,7 @@
       {
         "id": "xtb",
         "display_name": "xTB",
-        "runtime": "quantum",
+        "runtime": "reaction",
         "capabilities": [
           "calculate_energy",
           "calculate_forces",
@@ -9131,12 +9131,12 @@
         "health": {
           "status": "available",
           "available": true,
-          "runtime": "quantum",
-          "runtime_python": ".envs/general-modern-openmpi5/bin/python",
+          "runtime": "reaction",
+          "runtime_python": ".envs/kinetics-legacy/bin/python",
           "runtime_python_exists": true,
           "python_modules": {},
           "executables": {
-            "xtb": ".envs/general-modern-openmpi5/bin/xtb"
+            "xtb": ".envs/kinetics-legacy/bin/xtb"
           },
           "environment": {
             "CHEMGRAPH_XTB_COMMAND": true
@@ -9505,7 +9505,7 @@
         ],
         "pip_packages": [],
         "required_data_resources": [
-          "GPAW PAW setup datasets under .software_cache/gpaw/setups"
+          "GPAW PAW setup datasets under .software_cache/shared/scientific-data/gpaw-setups"
         ],
         "license_class": "open_source",
         "install_notes": "",
@@ -9930,7 +9930,7 @@
           ],
           "pip_packages": [],
           "required_data_resources": [
-            "GPAW PAW setup datasets under .software_cache/gpaw/setups"
+            "GPAW PAW setup datasets under .software_cache/shared/scientific-data/gpaw-setups"
           ],
           "license_class": "open_source",
           "install_notes": ""
@@ -10041,7 +10041,7 @@
             }
           },
           "executables": {
-            "lobster-5.1.0": ".software_cache/lobster/5.1.0/package/lobster-5.1.0"
+            "lobster-5.1.0": ".software_cache/installations/lobster/5.1.0/package/lobster-5.1.0"
           },
           "environment": {
             "CHEMGRAPH_LOBSTER_COMMAND": true
@@ -10089,7 +10089,7 @@
         ],
         "pip_packages": [],
         "required_data_resources": [
-          "NWChem basis libraries under .software_cache/nwchem/source/src/basis/libraries"
+          "NWChem basis libraries under .software_cache/sources/nwchem/source/src/basis/libraries"
         ],
         "license_class": "open_source",
         "install_notes": "",
@@ -10302,7 +10302,7 @@
           ],
           "pip_packages": [],
           "required_data_resources": [
-            "NWChem basis libraries under .software_cache/nwchem/source/src/basis/libraries"
+            "NWChem basis libraries under .software_cache/sources/nwchem/source/src/basis/libraries"
           ],
           "license_class": "open_source",
           "install_notes": ""
@@ -10329,7 +10329,7 @@
         "conda_packages": [],
         "pip_packages": [],
         "required_data_resources": [
-          "OpenMolcas v25.10 basis_library managed under .software_cache/openmolcas/25.10"
+          "OpenMolcas v25.10 basis_library managed under .software_cache/installations/openmolcas/25.10"
         ],
         "license_class": "open_source",
         "install_notes": "Locally compiled OpenMolcas v25.10 serial/OpenMP build with built-in Libxc.",
@@ -10500,7 +10500,7 @@
           "runtime_python_exists": true,
           "python_modules": {},
           "executables": {
-            "pymolcas": ".software_cache/openmolcas/25.10/pymolcas"
+            "pymolcas": ".software_cache/installations/openmolcas/25.10/pymolcas"
           },
           "environment": {
             "CHEMGRAPH_OPENMOLCAS_COMMAND": true
@@ -10511,7 +10511,7 @@
           "conda_packages": [],
           "pip_packages": [],
           "required_data_resources": [
-            "OpenMolcas v25.10 basis_library managed under .software_cache/openmolcas/25.10"
+            "OpenMolcas v25.10 basis_library managed under .software_cache/installations/openmolcas/25.10"
           ],
           "license_class": "open_source",
           "install_notes": "Locally compiled OpenMolcas v25.10 serial/OpenMP build with built-in Libxc."
@@ -10540,7 +10540,7 @@
           "Agent-supplied fch/fchk/wfn/wfx/mwfn/Molden/47 wavefunction file; both required Multiwfn citations are returned in provenance"
         ],
         "license_class": "custom_open_source_citation_required",
-        "install_notes": "Official 2026.7.15 Linux noGUI binary is managed under .software_cache/multiwfn; the adapter uses fixed version-specific menu sequences and accepts no arbitrary menu script.",
+        "install_notes": "Official 2026.7.15 Linux noGUI binary is managed under .software_cache/installations/multiwfn; the adapter uses fixed version-specific menu sequences and accepts no arbitrary menu script.",
         "resource_constraints": {},
         "method_schema": {
           "population_analysis": "mulliken or lowdin",
@@ -10623,7 +10623,7 @@
           "runtime_python_exists": true,
           "python_modules": {},
           "executables": {
-            "Multiwfn_noGUI": ".software_cache/multiwfn/2026.7.15/Multiwfn_2026.7.15_bin_Linux_noGUI/Multiwfn_noGUI"
+            "Multiwfn_noGUI": ".software_cache/installations/multiwfn/2026.7.15/Multiwfn_2026.7.15_bin_Linux_noGUI/Multiwfn_noGUI"
           },
           "environment": {
             "CHEMGRAPH_MULTIWFN_COMMAND": true
@@ -10637,7 +10637,7 @@
             "Agent-supplied fch/fchk/wfn/wfx/mwfn/Molden/47 wavefunction file; both required Multiwfn citations are returned in provenance"
           ],
           "license_class": "custom_open_source_citation_required",
-          "install_notes": "Official 2026.7.15 Linux noGUI binary is managed under .software_cache/multiwfn; the adapter uses fixed version-specific menu sequences and accepts no arbitrary menu script."
+          "install_notes": "Official 2026.7.15 Linux noGUI binary is managed under .software_cache/installations/multiwfn; the adapter uses fixed version-specific menu sequences and accepts no arbitrary menu script."
         }
       },
       {
@@ -10663,7 +10663,7 @@
           "Agent-supplied electron-density grid or compatible wavefunction file; an explicit separate structure file is required when the density file does not contain geometry"
         ],
         "license_class": "open_source",
-        "install_notes": "The locally compiled GPL-3.0 development build is managed under .software_cache/critic2/install-conda. The adapter exposes typed AUTO/CPREPORT controls and never accepts an arbitrary Critic2 command script.",
+        "install_notes": "The locally compiled GPL-3.0 development build is managed under .software_cache/installations/critic2/install-conda. The adapter exposes typed AUTO/CPREPORT controls and never accepts an arbitrary Critic2 command script.",
         "resource_constraints": {},
         "method_schema": {},
         "required_input_fields": {},
@@ -10830,7 +10830,7 @@
           "runtime_python_exists": true,
           "python_modules": {},
           "executables": {
-            "critic2": ".software_cache/critic2/install-conda/bin/critic2"
+            "critic2": ".software_cache/installations/critic2/install-conda/bin/critic2"
           },
           "environment": {
             "CHEMGRAPH_CRITIC2_COMMAND": true
@@ -10844,7 +10844,7 @@
             "Agent-supplied electron-density grid or compatible wavefunction file; an explicit separate structure file is required when the density file does not contain geometry"
           ],
           "license_class": "open_source",
-          "install_notes": "The locally compiled GPL-3.0 development build is managed under .software_cache/critic2/install-conda. The adapter exposes typed AUTO/CPREPORT controls and never accepts an arbitrary Critic2 command script."
+          "install_notes": "The locally compiled GPL-3.0 development build is managed under .software_cache/installations/critic2/install-conda. The adapter exposes typed AUTO/CPREPORT controls and never accepts an arbitrary Critic2 command script."
         }
       },
       {
@@ -12034,7 +12034,7 @@
         "pip_packages": [],
         "required_data_resources": [],
         "license_class": "manual_license",
-        "install_notes": "Configured from the operator-downloaded ORCA 6.1.1 installer under .software_cache/orca/6.1.1 with the exact OpenMPI 4.1.8 runtime required by this ORCA build. Parallel Actions retain the Agent-selected PAL process count without automatic fallback or resource substitution.",
+        "install_notes": "Configured from the operator-downloaded ORCA 6.1.1 installer under .software_cache/installations/orca/6.1.1 with the exact OpenMPI 4.1.8 runtime required by this ORCA build. Parallel Actions retain the Agent-selected PAL process count without automatic fallback or resource substitution.",
         "resource_constraints": {
           "maximum_cpu_cores": 48,
           "reason": "The current 64-online-CPU server reserves capacity for the service and exposes at most 48 ORCA MPI processes per synchronous Action."
@@ -12603,7 +12603,7 @@
           "runtime_python_exists": true,
           "python_modules": {},
           "executables": {
-            "orca": ".software_cache/orca/6.1.1/orca"
+            "orca": ".software_cache/installations/orca/6.1.1/orca"
           },
           "environment": {
             "CHEMGRAPH_ORCA_COMMAND": true
@@ -12615,7 +12615,7 @@
           "pip_packages": [],
           "required_data_resources": [],
           "license_class": "manual_license",
-          "install_notes": "Configured from the operator-downloaded ORCA 6.1.1 installer under .software_cache/orca/6.1.1 with the exact OpenMPI 4.1.8 runtime required by this ORCA build. Parallel Actions retain the Agent-selected PAL process count without automatic fallback or resource substitution."
+          "install_notes": "Configured from the operator-downloaded ORCA 6.1.1 installer under .software_cache/installations/orca/6.1.1 with the exact OpenMPI 4.1.8 runtime required by this ORCA build. Parallel Actions retain the Agent-selected PAL process count without automatic fallback or resource substitution."
         }
       },
       {
@@ -12642,7 +12642,7 @@
         "pip_packages": [],
         "required_data_resources": [],
         "license_class": "commercial_license",
-        "install_notes": "Configured from the operator-provided Gaussian 16 C.01 distribution under .software_cache/gaussian/g16; the adapter accepts no arbitrary route deck.",
+        "install_notes": "Configured from the operator-provided Gaussian 16 C.01 distribution under .software_cache/installations/gaussian/g16; the adapter accepts no arbitrary route deck.",
         "resource_constraints": {
           "maximum_cpu_cores": 48,
           "reason": "The current 64-online-CPU server reserves capacity for the service and exposes at most 48 Gaussian shared-memory cores per synchronous Action."
@@ -12858,8 +12858,8 @@
           "runtime_python_exists": true,
           "python_modules": {},
           "executables": {
-            "g16": ".software_cache/gaussian/g16/install/g16/g16",
-            "formchk": ".software_cache/gaussian/g16/install/g16/formchk"
+            "g16": ".software_cache/installations/gaussian/g16/install/g16/g16",
+            "formchk": ".software_cache/installations/gaussian/g16/install/g16/formchk"
           },
           "environment": {
             "CHEMGRAPH_GAUSSIAN_COMMAND": true,
@@ -12872,7 +12872,7 @@
           "pip_packages": [],
           "required_data_resources": [],
           "license_class": "commercial_license",
-          "install_notes": "Configured from the operator-provided Gaussian 16 C.01 distribution under .software_cache/gaussian/g16; the adapter accepts no arbitrary route deck."
+          "install_notes": "Configured from the operator-provided Gaussian 16 C.01 distribution under .software_cache/installations/gaussian/g16; the adapter accepts no arbitrary route deck."
         }
       },
       {
@@ -12896,7 +12896,7 @@
         "pip_packages": [],
         "required_data_resources": [],
         "license_class": "registration_license",
-        "install_notes": "The registered source distribution is compiled under .software_cache/gamess/2024-r2-p1 with a sockets DDI build and isolated compiler/runtime libraries.",
+        "install_notes": "The registered source distribution is compiled under .software_cache/installations/gamess/2024-r2-p1 with a sockets DDI build and isolated compiler/runtime libraries.",
         "resource_constraints": {},
         "method_schema": {
           "scftyp": "RHF, UHF, ROHF, or another explicit GAMESS SCFTYP",
@@ -13111,7 +13111,7 @@
           "runtime_python_exists": true,
           "python_modules": {},
           "executables": {
-            "rungms": ".software_cache/gamess/2024-r2-p1/source/rungms"
+            "rungms": ".software_cache/installations/gamess/2024-r2-p1/source/rungms"
           },
           "environment": {
             "CHEMGRAPH_GAMESS_COMMAND": true
@@ -13123,7 +13123,7 @@
           "pip_packages": [],
           "required_data_resources": [],
           "license_class": "registration_license",
-          "install_notes": "The registered source distribution is compiled under .software_cache/gamess/2024-r2-p1 with a sockets DDI build and isolated compiler/runtime libraries."
+          "install_notes": "The registered source distribution is compiled under .software_cache/installations/gamess/2024-r2-p1 with a sockets DDI build and isolated compiler/runtime libraries."
         }
       },
       {
@@ -13508,7 +13508,7 @@
         ],
         "required_data_resources": [],
         "license_class": "open_source",
-        "install_notes": "Pinned GoodVibes 4.3.0 with full JSON/CSV/Parquet/plot dependencies; official v4.3.0 source and examples are cached under .software_cache/goodvibes/4.3.0/source. The supported Python surface includes goodvibes.api.compute_thermo/compute_batch; goodvibes.gaussian and goodvibes.orca are not public modules. Prefer the preset Action or CLI unless a documented public API is explicitly required.",
+        "install_notes": "Pinned GoodVibes 4.3.0 with full JSON/CSV/Parquet/plot dependencies; official v4.3.0 source and examples are cached under .software_cache/sources/goodvibes/4.3.0/source. The supported Python surface includes goodvibes.api.compute_thermo/compute_batch; goodvibes.gaussian and goodvibes.orca are not public modules. Prefer the preset Action or CLI unless a documented public API is explicitly required.",
         "resource_constraints": {},
         "method_schema": {
           "single_point_correction_suffix": "optional explicit GoodVibes --spc suffix; derive_thermochemistry accepts the matching high-level calculation as inputs.single_point_output_file and stages a safe frequency/SPC filename pair. A legacy matching file beside the frequency output remains accepted when the explicit input is omitted",
@@ -14158,7 +14158,7 @@
           ],
           "required_data_resources": [],
           "license_class": "open_source",
-          "install_notes": "Pinned GoodVibes 4.3.0 with full JSON/CSV/Parquet/plot dependencies; official v4.3.0 source and examples are cached under .software_cache/goodvibes/4.3.0/source. The supported Python surface includes goodvibes.api.compute_thermo/compute_batch; goodvibes.gaussian and goodvibes.orca are not public modules. Prefer the preset Action or CLI unless a documented public API is explicitly required."
+          "install_notes": "Pinned GoodVibes 4.3.0 with full JSON/CSV/Parquet/plot dependencies; official v4.3.0 source and examples are cached under .software_cache/sources/goodvibes/4.3.0/source. The supported Python surface includes goodvibes.api.compute_thermo/compute_batch; goodvibes.gaussian and goodvibes.orca are not public modules. Prefer the preset Action or CLI unless a documented public API is explicitly required."
         }
       },
       {
@@ -15186,7 +15186,7 @@
           "runtime_python_exists": true,
           "python_modules": {},
           "executables": {
-            "mess": ".software_cache/mess/2020.1.24/build/mess"
+            "mess": ".software_cache/installations/mess/2020.1.24/build/mess"
           },
           "environment": {
             "CHEMGRAPH_MESS_COMMAND": true
@@ -15252,7 +15252,7 @@
           "runtime_python_exists": true,
           "python_modules": {},
           "executables": {
-            "mesmer": ".software_cache/mesmer/7.1/bin/mesmer"
+            "mesmer": ".software_cache/installations/mesmer/7.1/bin/mesmer"
           },
           "environment": {
             "CHEMGRAPH_MESMER_COMMAND": true
@@ -15361,7 +15361,7 @@
           "runtime_python_exists": true,
           "python_modules": {},
           "executables": {
-            "pyfrag-orca": ".software_cache/pyfrag/2019/bin/pyfrag-orca"
+            "pyfrag-orca": ".software_cache/installations/pyfrag/2019/bin/pyfrag-orca"
           },
           "environment": {
             "CHEMGRAPH_PYFRAG_COMMAND": true
@@ -15644,7 +15644,7 @@
           "runtime_python_exists": true,
           "python_modules": {},
           "executables": {
-            "BAGEL": ".software_cache/bagel/1.2.2/bin/BAGEL"
+            "BAGEL": ".software_cache/installations/bagel/1.2.2/bin/BAGEL"
           },
           "environment": {
             "CHEMGRAPH_BAGEL_COMMAND": true,
@@ -16058,7 +16058,7 @@
           "status": "available",
           "available": true,
           "runtime": "gmx_mmpbsa",
-          "runtime_python": ".software_cache/gmx_mmpbsa/1.6.5/env/bin/python",
+          "runtime_python": ".envs/gmx-mmpbsa/bin/python",
           "runtime_python_exists": true,
           "python_modules": {
             "GMXMMPBSA": {
@@ -16067,7 +16067,7 @@
             }
           },
           "executables": {
-            "gmx_MMPBSA": ".software_cache/gmx_mmpbsa/1.6.5/env/bin/gmx_MMPBSA"
+            "gmx_MMPBSA": ".envs/gmx-mmpbsa/bin/gmx_MMPBSA"
           },
           "environment": {
             "CHEMGRAPH_GMX_MMPBSA_COMMAND": true,
@@ -16459,7 +16459,7 @@
         "pip_packages": [],
         "required_data_resources": [],
         "license_class": "academic_registration",
-        "install_notes": "The AVX-512 multicore and CUDA bundles are cached under .software_cache/namd/3.0.2. The public backend selects the validated CPU AVX-512 binary only; CUDA is never chosen implicitly.",
+        "install_notes": "The AVX-512 multicore and CUDA bundles are cached under .software_cache/installations/namd/3.0.2. The public backend selects the validated CPU AVX-512 binary only; CUDA is never chosen implicitly.",
         "resource_constraints": {},
         "method_schema": {
           "force_field_family": "currently the literal charmm",
@@ -16568,7 +16568,7 @@
           "runtime_python_exists": true,
           "python_modules": {},
           "executables": {
-            "namd3": ".software_cache/namd/3.0.2/multicore-avx512/namd3"
+            "namd3": ".software_cache/installations/namd/3.0.2/multicore-avx512/namd3"
           },
           "environment": {
             "CHEMGRAPH_NAMD_COMMAND": true
@@ -16580,7 +16580,7 @@
           "pip_packages": [],
           "required_data_resources": [],
           "license_class": "academic_registration",
-          "install_notes": "The AVX-512 multicore and CUDA bundles are cached under .software_cache/namd/3.0.2. The public backend selects the validated CPU AVX-512 binary only; CUDA is never chosen implicitly."
+          "install_notes": "The AVX-512 multicore and CUDA bundles are cached under .software_cache/installations/namd/3.0.2. The public backend selects the validated CPU AVX-512 binary only; CUDA is never chosen implicitly."
         }
       },
       {
@@ -16608,7 +16608,7 @@
         "pip_packages": [],
         "required_data_resources": [],
         "license_class": "academic_registration",
-        "install_notes": "Licensed PMEMD26 CPU serial and MPI binaries are built under .software_cache/amber/26. AmberTools 26 remains independently available in the OpenFF runtime.",
+        "install_notes": "Licensed PMEMD26 CPU serial and MPI binaries are built under .software_cache/installations/amber/26. AmberTools 26 remains independently available in the OpenFF runtime.",
         "resource_constraints": {},
         "method_schema": {
           "boundary": "vacuum, implicit, or periodic",
@@ -16727,8 +16727,8 @@
           "runtime_python_exists": true,
           "python_modules": {},
           "executables": {
-            "pmemd": ".software_cache/amber/26/install/bin/pmemd",
-            "pmemd.MPI": ".software_cache/amber/26/install/bin/pmemd.MPI",
+            "pmemd": ".software_cache/installations/amber/26/install/bin/pmemd",
+            "pmemd.MPI": ".software_cache/installations/amber/26/install/bin/pmemd.MPI",
             "mpirun": ".envs/general-modern-openmpi5/bin/mpirun"
           },
           "environment": {
@@ -16744,7 +16744,7 @@
           "pip_packages": [],
           "required_data_resources": [],
           "license_class": "academic_registration",
-          "install_notes": "Licensed PMEMD26 CPU serial and MPI binaries are built under .software_cache/amber/26. AmberTools 26 remains independently available in the OpenFF runtime."
+          "install_notes": "Licensed PMEMD26 CPU serial and MPI binaries are built under .software_cache/installations/amber/26. AmberTools 26 remains independently available in the OpenFF runtime."
         }
       },
       {
@@ -16767,7 +16767,7 @@
         "pip_packages": [],
         "required_data_resources": [],
         "license_class": "academic_registration",
-        "install_notes": "The operator-provided CHARMM c50b2 source is compiled as a serial/OpenMP GNU build under .software_cache/charmm/50b2; arbitrary CHARMM input scripts are not accepted.",
+        "install_notes": "The operator-provided CHARMM c50b2 source is compiled as a serial/OpenMP GNU build under .software_cache/installations/charmm/50b2; arbitrary CHARMM input scripts are not accepted.",
         "resource_constraints": {},
         "method_schema": {
           "force_field_family": "the literal charmm",
@@ -16868,7 +16868,7 @@
           "runtime_python_exists": true,
           "python_modules": {},
           "executables": {
-            "charmm": ".software_cache/charmm/50b2/install/bin/charmm"
+            "charmm": ".software_cache/installations/charmm/50b2/install/bin/charmm"
           },
           "environment": {
             "CHEMGRAPH_CHARMM_COMMAND": true
@@ -16880,7 +16880,7 @@
           "pip_packages": [],
           "required_data_resources": [],
           "license_class": "academic_registration",
-          "install_notes": "The operator-provided CHARMM c50b2 source is compiled as a serial/OpenMP GNU build under .software_cache/charmm/50b2; arbitrary CHARMM input scripts are not accepted."
+          "install_notes": "The operator-provided CHARMM c50b2 source is compiled as a serial/OpenMP GNU build under .software_cache/installations/charmm/50b2; arbitrary CHARMM input scripts are not accepted."
         }
       },
       {
@@ -17748,7 +17748,7 @@
           "runtime_python_exists": true,
           "python_modules": {},
           "executables": {
-            "sharc.x": ".software_cache/sharc/source/bin/sharc.x"
+            "sharc.x": ".software_cache/installations/sharc/source/bin/sharc.x"
           },
           "environment": {
             "CHEMGRAPH_SHARC_COMMAND": true,
@@ -17934,8 +17934,8 @@
           "runtime_python_exists": true,
           "python_modules": {},
           "executables": {
-            "buildcell": ".software_cache/airss/0.9.3/bin/buildcell",
-            "cabal": ".software_cache/airss/0.9.3/bin/cabal"
+            "buildcell": ".software_cache/installations/airss/0.9.3/bin/buildcell",
+            "cabal": ".software_cache/installations/airss/0.9.3/bin/cabal"
           },
           "environment": {
             "CHEMGRAPH_AIRSS_BUILDCELL_COMMAND": true,
@@ -18067,9 +18067,9 @@
           "runtime_python_exists": true,
           "python_modules": {},
           "executables": {
-            "extract_forceconstants": ".software_cache/tdep/25.03/source/build/extract_forceconstants/extract_forceconstants",
-            "canonical_configuration": ".software_cache/tdep/25.03/source/build/canonical_configuration/canonical_configuration",
-            "phonon_dispersion_relations": ".software_cache/tdep/25.03/source/build/phonon_dispersion_relations/phonon_dispersion_relations"
+            "extract_forceconstants": ".software_cache/installations/tdep/25.03/source/build/extract_forceconstants/extract_forceconstants",
+            "canonical_configuration": ".software_cache/installations/tdep/25.03/source/build/canonical_configuration/canonical_configuration",
+            "phonon_dispersion_relations": ".software_cache/installations/tdep/25.03/source/build/phonon_dispersion_relations/phonon_dispersion_relations"
           },
           "environment": {
             "CHEMGRAPH_TDEP_EXTRACT_FORCECONSTANTS_COMMAND": true,
@@ -19353,7 +19353,7 @@
           "runtime_python_exists": true,
           "python_modules": {},
           "executables": {
-            "vasp_std": ".software_cache/vasp/6.3.2/bin/vasp_std"
+            "vasp_std": ".software_cache/installations/vasp/6.3.2/bin/vasp_std"
           },
           "environment": {
             "CHEMGRAPH_VASP_COMMAND": true
@@ -19764,7 +19764,7 @@
           "runtime_python_exists": true,
           "python_modules": {},
           "executables": {
-            "ShengBTE": ".software_cache/shengbte/source/ShengBTE"
+            "ShengBTE": ".software_cache/installations/shengbte/source/ShengBTE"
           },
           "environment": {
             "CHEMGRAPH_SHENGBTE_COMMAND": true
@@ -19935,7 +19935,7 @@
           "runtime_python_exists": true,
           "python_modules": {},
           "executables": {
-            "gnina": ".software_cache/gnina/1.3.3/gnina.cuda12.8.static"
+            "gnina": ".software_cache/installations/gnina/1.3.3/gnina.cuda12.8.static"
           },
           "environment": {
             "CHEMGRAPH_GNINA_COMMAND": true
@@ -20654,16 +20654,16 @@
         "version": "1.3.0",
         "xc_functional": "PBE",
         "relativistic_treatment": "mixed collection; inspect per-element UPF metadata",
-        "path": ".software_cache/resources/qe_pseudos/efficiency",
-        "manifest": ".software_cache/resources/qe_pseudos/SSSP_1.3.0_PBE_efficiency.json",
+        "path": ".software_cache/shared/scientific-data/qe_pseudos/efficiency",
+        "manifest": ".software_cache/shared/scientific-data/qe_pseudos/SSSP_1.3.0_PBE_efficiency.json",
         "manifest_filename_field": "filename",
         "manifest_checksum_field": "md5",
         "expected_file_count": 103,
         "archive": {
-          "path": ".software_cache/resources/qe_pseudos/SSSP_1.3.0_PBE_efficiency.tar.gz",
+          "path": ".software_cache/shared/scientific-data/qe_pseudos/SSSP_1.3.0_PBE_efficiency.tar.gz",
           "checksum_algorithm": "md5",
           "checksum": "a58f1b3373f330179fd0832c48bb9a52",
-          "extract_to": ".software_cache/resources/qe_pseudos/efficiency"
+          "extract_to": ".software_cache/shared/scientific-data/qe_pseudos/efficiency"
         },
         "source_url": "https://archive.materialscloud.org/records/rcyfm-68h65/files/SSSP_1.3.0_PBE_efficiency.tar.gz?download=1",
         "license_and_citation": "Follow the SSSP collection metadata and citations; individual UPF files may carry their own provenance/license metadata.",
@@ -21520,16 +21520,16 @@
         "version": "1.3.0",
         "xc_functional": "PBE",
         "relativistic_treatment": "mixed collection; inspect per-element UPF metadata",
-        "path": ".software_cache/resources/qe_pseudos/precision",
-        "manifest": ".software_cache/resources/qe_pseudos/SSSP_1.3.0_PBE_precision.json",
+        "path": ".software_cache/shared/scientific-data/qe_pseudos/precision",
+        "manifest": ".software_cache/shared/scientific-data/qe_pseudos/SSSP_1.3.0_PBE_precision.json",
         "manifest_filename_field": "filename",
         "manifest_checksum_field": "md5",
         "expected_file_count": 103,
         "archive": {
-          "path": ".software_cache/resources/qe_pseudos/SSSP_1.3.0_PBE_precision.tar.gz",
+          "path": ".software_cache/shared/scientific-data/qe_pseudos/SSSP_1.3.0_PBE_precision.tar.gz",
           "checksum_algorithm": "md5",
           "checksum": "fde94756886f32ada7bf597547557eb5",
-          "extract_to": ".software_cache/resources/qe_pseudos/precision"
+          "extract_to": ".software_cache/shared/scientific-data/qe_pseudos/precision"
         },
         "source_url": "https://archive.materialscloud.org/records/rcyfm-68h65/files/SSSP_1.3.0_PBE_precision.tar.gz?download=1",
         "license_and_citation": "Follow the SSSP collection metadata and citations; individual UPF files may carry their own provenance/license metadata.",
@@ -22386,14 +22386,14 @@
         "version": "nc-sr-05 standard",
         "xc_functional": "PBE",
         "relativistic_treatment": "scalar relativistic norm conserving",
-        "path": ".software_cache/resources/siesta_pseudos/nc-sr-05_pbe_standard_psml",
+        "path": ".software_cache/shared/scientific-data/siesta_pseudos/nc-sr-05_pbe_standard_psml",
         "element_pattern": "{element}.psml",
         "expected_file_count": 72,
         "archive": {
-          "path": ".software_cache/resources/siesta_pseudos/nc-sr-05_pbe_standard_psml.tgz",
+          "path": ".software_cache/shared/scientific-data/siesta_pseudos/nc-sr-05_pbe_standard_psml.tgz",
           "checksum_algorithm": "sha256",
           "checksum": "ce6a16ba495224a893b62935a4902fea02365f90d233830a08808531ef1aa752",
-          "extract_to": ".software_cache/resources/siesta_pseudos"
+          "extract_to": ".software_cache/shared/scientific-data/siesta_pseudos"
         },
         "source_url": "https://www.pseudo-dojo.org/",
         "license_and_citation": "Follow PseudoDojo and PSML metadata/citation requirements embedded in the files.",
@@ -22489,14 +22489,14 @@
         "version": "standard",
         "xc_functional": "PBE",
         "relativistic_treatment": "scalar relativistic norm conserving",
-        "path": ".software_cache/resources/abinit_pseudos/pseudo_dojo_psp8/pbe_s_sr",
+        "path": ".software_cache/shared/scientific-data/abinit_pseudos/pseudo_dojo_psp8/pbe_s_sr",
         "element_pattern": "{element}.psp8",
         "expected_file_count": 70,
         "archive": {
-          "path": ".software_cache/resources/abinit_pseudos/nc-sr_pbe_standard_psp8.tgz",
+          "path": ".software_cache/shared/scientific-data/abinit_pseudos/nc-sr_pbe_standard_psp8.tgz",
           "checksum_algorithm": "sha256",
           "checksum": "1163ea89cdc7f5c55a4fdad9c6a31d8da26927a6f0373e566ac7bb0d91e52f14",
-          "extract_to": ".software_cache/resources/abinit_pseudos/pseudo_dojo_psp8"
+          "extract_to": ".software_cache/shared/scientific-data/abinit_pseudos/pseudo_dojo_psp8"
         },
         "source_url": "https://www.pseudo-dojo.org/pseudos/nc-sr_pbe_standard_psp8.tgz",
         "license_and_citation": "Follow PseudoDojo metadata and citation requirements embedded in the PSP8 files.",
@@ -22588,14 +22588,14 @@
         ],
         "format": "Slater-Koster SKF",
         "version": "3.1.0",
-        "path": ".software_cache/resources/dftb_params/3ob-3.1.0/skfiles",
+        "path": ".software_cache/shared/scientific-data/dftb_params/3ob-3.1.0/skfiles",
         "file_glob": "*.skf",
         "expected_file_count": 225,
         "archive": {
-          "path": ".software_cache/resources/dftb_params/3ob-v3.1.0.tar.gz",
+          "path": ".software_cache/shared/scientific-data/dftb_params/3ob-v3.1.0.tar.gz",
           "checksum_algorithm": "sha256",
           "checksum": "9dacb26ffa4f9d6e54b2ac627ed171001b47638474b6c7194b34666f2b0101a0",
-          "extract_to": ".software_cache/resources/dftb_params"
+          "extract_to": ".software_cache/shared/scientific-data/dftb_params"
         },
         "source_url": "https://github.com/dftbparams/3ob/releases/tag/v3.1.0",
         "license_and_citation": "CC BY-SA 4.0 with mandatory scientific attribution; see the bundled 3ob README and LICENSE.",
@@ -22860,14 +22860,14 @@
         ],
         "format": "Slater-Koster SKF",
         "version": "0.3.0",
-        "path": ".software_cache/resources/dftb_params/matsci-0.3.0/skfiles",
+        "path": ".software_cache/shared/scientific-data/dftb_params/matsci-0.3.0/skfiles",
         "file_glob": "*.skf",
         "expected_file_count": 87,
         "archive": {
-          "path": ".software_cache/resources/dftb_params/matsci-v0.3.0.tar.gz",
+          "path": ".software_cache/shared/scientific-data/dftb_params/matsci-v0.3.0.tar.gz",
           "checksum_algorithm": "sha256",
           "checksum": "adcaadeafcc3ec6a6d6e37623d30455c81e84e00e99be554f0eec14e5d1fec98",
-          "extract_to": ".software_cache/resources/dftb_params"
+          "extract_to": ".software_cache/shared/scientific-data/dftb_params"
         },
         "source_url": "https://github.com/dftbparams/matsci/releases/tag/v0.3.0",
         "license_and_citation": "CC BY-SA 4.0 with mandatory scientific attribution; see the bundled matsci README and LICENSE.",
@@ -22990,9 +22990,9 @@
         ],
         "format": "Linux x86_64 executable",
         "version": "1.3.3",
-        "path": ".software_cache/gnina/1.3.3/gnina.cuda12.8.static",
+        "path": ".software_cache/installations/gnina/1.3.3/gnina.cuda12.8.static",
         "import_sources": [
-          ".software_cache/gnina/1.3.3/gnina.cuda12.8.static"
+          ".software_cache/installations/gnina/1.3.3/gnina.cuda12.8.static"
         ],
         "install_target": ".envs/molecular-simulation-openff/bin/gnina",
         "checksum_algorithm": "sha256",
@@ -23014,7 +23014,7 @@
         ],
         "format": "Linux x86-64 AVX2 executable bundle",
         "version": "6.1.1",
-        "path": ".software_cache/orca/6.1.1/orca",
+        "path": ".software_cache/installations/orca/6.1.1/orca",
         "install_target": ".envs/general-modern-openmpi5/bin/orca",
         "checksum_algorithm": "sha256",
         "checksum": "d65fe8fe3136e0008de9e5784ab8d853b0ef51a02635d7d6fb0f6a1c95d648d1",
@@ -23028,12 +23028,12 @@
           "output_regex": "Program Version\\s+6\\.1\\.1"
         },
         "distribution_archive": {
-          "path": ".software_cache/orca/download/orca_6_1_1_linux_x86-64_shared_openmpi418_avx2.run",
+          "path": ".software_cache/packages/orca/download/orca_6_1_1_linux_x86-64_shared_openmpi418_avx2.run",
           "checksum_algorithm": "sha256",
           "checksum": "bda447869a5afca37489176e6d5a53678ddfdb74573249670bc58ac1273ed977"
         },
         "source_url": "https://www.faccts.de/docs/orca/6.1/manual/contents/quickstartguide/installation.html",
-        "license_and_citation": "Licensed ORCA distribution supplied by the benchmark operator. Follow .software_cache/orca/6.1.1/EULA_ORCA_2025.pdf, Third_Party_Licenses_Academic_6.1.pdf, and the ORCA citation guidance; do not redistribute the bundle.",
+        "license_and_citation": "Licensed ORCA distribution supplied by the benchmark operator. Follow .software_cache/installations/orca/6.1.1/EULA_ORCA_2025.pdf, Third_Party_Licenses_Academic_6.1.pdf, and the ORCA citation guidance; do not redistribute the bundle.",
         "scientific_scope": "Agent-selectable ORCA backend for molecular energy, Hessian, geometry optimization, and dipole Actions. Method, basis, charge, multiplicity, dispersion, and CPU allocation remain explicit request choices.",
         "available": true,
         "selection_required": false,
@@ -23049,38 +23049,39 @@
         ],
         "format": "Linux x86-64 shared MPI runtime",
         "version": "4.1.8",
-        "path": ".software_cache/openmpi/4.1.8-fortran/bin/mpirun",
+        "path": ".software_cache/shared/mpi/openmpi/4.1.8-fortran/bin/mpirun",
         "install_target": ".envs/general-modern-openmpi5/orca-openmpi-4.1.8/bin/mpirun",
         "checksum_algorithm": "sha256",
         "checksum": "f5e6ea2e7efa72d816c2bfad7a348b6f0011ac66c96413f82b85ed8a91b2a1c8",
         "prepend_library_path_entries": [
-          ".software_cache/openmpi/4.1.8-fortran/lib"
+          ".software_cache/shared/mpi/openmpi/4.1.8-fortran/lib"
         ],
         "version_probe": {
+          "path": ".software_cache/shared/mpi/openmpi/4.1.8-fortran/bin/ompi_info",
           "arguments": [
             "--version"
           ],
           "accepted_returncodes": [
             0
           ],
-          "output_regex": "mpirun \\(Open MPI\\) 4\\.1\\.8"
+          "output_regex": "Open MPI v4\\.1\\.8"
         },
         "capability_probes": [
           {
-            "path": ".software_cache/openmpi/4.1.8-fortran/bin/ompi_info",
+            "path": ".software_cache/shared/mpi/openmpi/4.1.8-fortran/bin/ompi_info",
             "arguments": [],
             "output_regex": "Fort mpif\\.h: yes \\(all\\)",
             "description": "ORCA large-system modules require OpenMPI Fortran numeric datatypes."
           },
           {
-            "path": ".software_cache/openmpi/4.1.8-fortran/bin/ompi_info",
+            "path": ".software_cache/shared/mpi/openmpi/4.1.8-fortran/bin/ompi_info",
             "arguments": [],
             "output_regex": "Fort use mpi: yes",
             "description": "Validate that the OpenMPI Fortran module bindings are enabled."
           }
         ],
         "source_archive": {
-          "path": ".software_cache/openmpi/source/openmpi-4.1.8.tar.bz2",
+          "path": ".software_cache/shared/mpi/openmpi/source/openmpi-4.1.8.tar.bz2",
           "checksum_algorithm": "sha256",
           "checksum": "466f68e3132a1dc02710cc2011fafced8336d98359fa2dae4dddcfd5719f12a9"
         },
@@ -23488,16 +23489,16 @@
         "format": "VASP POTCAR / ultrasoft pseudopotential",
         "version": "potpaw54 archive label; exact upstream revision unverified",
         "xc_functional": "LDA",
-        "path": ".software_cache/vasp/potcars/potpaw54/pot/USPP_LDA",
+        "path": ".software_cache/shared/scientific-data/vasp-potcars/potpaw54/pot/USPP_LDA",
         "manifest": "chemistry_toolbox/config/vasp_potcar_manifests/vasp_uspp_lda_legacy.json",
         "manifest_filename_field": "relative_path",
         "manifest_checksum_field": "sha256",
         "expected_file_count": 102,
         "archive": {
-          "path": ".software_cache/vasp/potcars/download/potpaw54.zip",
+          "path": ".software_cache/packages/vasp/potcars/download/potpaw54.zip",
           "checksum_algorithm": "sha256",
           "checksum": "e987c9d8a0789bdeac2ff7d49fa26944145b9c363b81016ba25aac0d0e0c006f",
-          "extract_to": ".software_cache/vasp/potcars"
+          "extract_to": ".software_cache/shared/scientific-data/vasp-potcars"
         },
         "source_url": "https://www.vasp.at/",
         "license_and_citation": "Operator-supplied local data. Treat all POTCAR content as VASP-licensed and non-redistributable; the generic README/MIT file bundled beside the archive is not accepted as authority for POTCAR licensing.",
@@ -23691,16 +23692,16 @@
         "format": "VASP POTCAR / ultrasoft pseudopotential",
         "version": "potpaw54 archive label; exact upstream revision unverified",
         "xc_functional": "legacy GGA; inspect local POTCAR provenance",
-        "path": ".software_cache/vasp/potcars/potpaw54/pot_GGA/USPP_GGA",
+        "path": ".software_cache/shared/scientific-data/vasp-potcars/potpaw54/pot_GGA/USPP_GGA",
         "manifest": "chemistry_toolbox/config/vasp_potcar_manifests/vasp_uspp_gga_legacy.json",
         "manifest_filename_field": "relative_path",
         "manifest_checksum_field": "sha256",
         "expected_file_count": 8,
         "archive": {
-          "path": ".software_cache/vasp/potcars/download/potpaw54.zip",
+          "path": ".software_cache/packages/vasp/potcars/download/potpaw54.zip",
           "checksum_algorithm": "sha256",
           "checksum": "e987c9d8a0789bdeac2ff7d49fa26944145b9c363b81016ba25aac0d0e0c006f",
-          "extract_to": ".software_cache/vasp/potcars"
+          "extract_to": ".software_cache/shared/scientific-data/vasp-potcars"
         },
         "source_url": "https://www.vasp.at/",
         "license_and_citation": "Operator-supplied local data. Treat all POTCAR content as VASP-licensed and non-redistributable; the generic README/MIT file bundled beside the archive is not accepted as authority for POTCAR licensing.",
@@ -23742,16 +23743,16 @@
         "format": "VASP POTCAR / PAW",
         "version": "potpaw54 archive label; exact upstream revision unverified",
         "xc_functional": "LDA",
-        "path": ".software_cache/vasp/potcars/potpaw54/potpaw/PAW_LDA",
+        "path": ".software_cache/shared/scientific-data/vasp-potcars/potpaw54/potpaw/PAW_LDA",
         "manifest": "chemistry_toolbox/config/vasp_potcar_manifests/vasp_paw_lda_54.json",
         "manifest_filename_field": "relative_path",
         "manifest_checksum_field": "sha256",
         "expected_file_count": 316,
         "archive": {
-          "path": ".software_cache/vasp/potcars/download/potpaw54.zip",
+          "path": ".software_cache/packages/vasp/potcars/download/potpaw54.zip",
           "checksum_algorithm": "sha256",
           "checksum": "e987c9d8a0789bdeac2ff7d49fa26944145b9c363b81016ba25aac0d0e0c006f",
-          "extract_to": ".software_cache/vasp/potcars"
+          "extract_to": ".software_cache/shared/scientific-data/vasp-potcars"
         },
         "source_url": "https://www.vasp.at/",
         "license_and_citation": "Operator-supplied local data. Treat all POTCAR content as VASP-licensed and non-redistributable; the generic README/MIT file bundled beside the archive is not accepted as authority for POTCAR licensing.",
@@ -24174,16 +24175,16 @@
         "format": "VASP POTCAR / PAW",
         "version": "potpaw54 archive label; exact upstream revision unverified",
         "xc_functional": "PW91",
-        "path": ".software_cache/vasp/potcars/potpaw54/potpaw_GGA/PAW_GGA_PW91",
+        "path": ".software_cache/shared/scientific-data/vasp-potcars/potpaw54/potpaw_GGA/PAW_GGA_PW91",
         "manifest": "chemistry_toolbox/config/vasp_potcar_manifests/vasp_paw_pw91_54.json",
         "manifest_filename_field": "relative_path",
         "manifest_checksum_field": "sha256",
         "expected_file_count": 5,
         "archive": {
-          "path": ".software_cache/vasp/potcars/download/potpaw54.zip",
+          "path": ".software_cache/packages/vasp/potcars/download/potpaw54.zip",
           "checksum_algorithm": "sha256",
           "checksum": "e987c9d8a0789bdeac2ff7d49fa26944145b9c363b81016ba25aac0d0e0c006f",
-          "extract_to": ".software_cache/vasp/potcars"
+          "extract_to": ".software_cache/shared/scientific-data/vasp-potcars"
         },
         "source_url": "https://www.vasp.at/",
         "license_and_citation": "Operator-supplied local data. Treat all POTCAR content as VASP-licensed and non-redistributable; one family-level POTCAR without an element directory is intentionally excluded from Agent selection.",
@@ -24219,16 +24220,16 @@
         "format": "VASP POTCAR / PAW",
         "version": "potpaw54 archive label; exact upstream revision unverified",
         "xc_functional": "PBE",
-        "path": ".software_cache/vasp/potcars/potpaw54/potpaw_PBE/PAW_GGA_PBE",
+        "path": ".software_cache/shared/scientific-data/vasp-potcars/potpaw54/potpaw_PBE/PAW_GGA_PBE",
         "manifest": "chemistry_toolbox/config/vasp_potcar_manifests/vasp_paw_pbe_54.json",
         "manifest_filename_field": "relative_path",
         "manifest_checksum_field": "sha256",
         "expected_file_count": 304,
         "archive": {
-          "path": ".software_cache/vasp/potcars/download/potpaw54.zip",
+          "path": ".software_cache/packages/vasp/potcars/download/potpaw54.zip",
           "checksum_algorithm": "sha256",
           "checksum": "e987c9d8a0789bdeac2ff7d49fa26944145b9c363b81016ba25aac0d0e0c006f",
-          "extract_to": ".software_cache/vasp/potcars"
+          "extract_to": ".software_cache/shared/scientific-data/vasp-potcars"
         },
         "source_url": "https://www.vasp.at/",
         "license_and_citation": "Operator-supplied local data. Treat all POTCAR content as VASP-licensed and non-redistributable; the generic README/MIT file bundled beside the archive is not accepted as authority for POTCAR licensing.",
@@ -24653,7 +24654,7 @@
         ],
         "format": "VASP POTCAR",
         "version": "VASP 6.3.2 testsuite",
-        "path": ".software_cache/vasp/6.3.2/testsuite/POTCARS/POTCAR.Si",
+        "path": ".software_cache/installations/vasp/6.3.2/testsuite/POTCARS/POTCAR.Si",
         "checksum_algorithm": "sha256",
         "checksum": "813aade8d7556478a138318a1b54ce2f88eca7e031fc006066720bc984f36595",
         "source_url": "https://vasp.at/wiki/Installing_VASP.6.X.X",
@@ -24665,10 +24666,10 @@
         "size_bytes": 150218
       }
     ],
-    "catalog_hash": "3b7c898c9788050e8489b30f229aac74a6d42cb1c8778d7ad26f9bef53ded774"
+    "catalog_hash": "e8bc59bff141dc155cba0caeb0012c75a7dbc036c485dc1582ad405d9564942a"
   },
   "installation": {
-    "catalog_hash": "3b7c898c9788050e8489b30f229aac74a6d42cb1c8778d7ad26f9bef53ded774",
+    "catalog_hash": "e8bc59bff141dc155cba0caeb0012c75a7dbc036c485dc1582ad405d9564942a",
     "unavailable_backend_count": 0,
     "unavailable_backends": [],
     "conda_packages": [],
@@ -24677,19 +24678,19 @@
       {
         "backend_id": "gpaw",
         "resources": [
-          "GPAW PAW setup datasets under .software_cache/gpaw/setups"
+          "GPAW PAW setup datasets under .software_cache/shared/scientific-data/gpaw-setups"
         ]
       },
       {
         "backend_id": "nwchem",
         "resources": [
-          "NWChem basis libraries under .software_cache/nwchem/source/src/basis/libraries"
+          "NWChem basis libraries under .software_cache/sources/nwchem/source/src/basis/libraries"
         ]
       },
       {
         "backend_id": "openmolcas",
         "resources": [
-          "OpenMolcas v25.10 basis_library managed under .software_cache/openmolcas/25.10"
+          "OpenMolcas v25.10 basis_library managed under .software_cache/installations/openmolcas/25.10"
         ]
       },
       {
@@ -25008,48 +25009,5 @@
     "missing_credentials": [],
     "manual_installations": []
   },
-  "smoke": [
-    {
-      "action": "standardize_structure",
-      "backend": "rdkit",
-      "status": "success",
-      "error": null
-    },
-    {
-      "action": "generate_3d_structure",
-      "backend": "rdkit",
-      "status": "success",
-      "error": null
-    },
-    {
-      "action": "calculate_energy",
-      "backend": "ase_emt",
-      "status": "success",
-      "error": null
-    },
-    {
-      "action": "integrate_reaction_network",
-      "backend": "scipy",
-      "status": "success",
-      "error": null
-    },
-    {
-      "action": "assign_partial_charges",
-      "backend": "openff_am1bcc",
-      "status": "success",
-      "error": null
-    },
-    {
-      "action": "assign_force_field_parameters",
-      "backend": "openff",
-      "status": "success",
-      "error": null
-    },
-    {
-      "action": "solvate_molecular_system",
-      "backend": "packmol",
-      "status": "success",
-      "error": null
-    }
-  ]
+  "smoke": null
 }
