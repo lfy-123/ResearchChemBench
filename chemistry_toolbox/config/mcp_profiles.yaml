@@ -91,6 +91,7 @@ profiles:
     environment_variables:
       GMS_PATH: .software_cache/installations/gamess/2024-r2-p1/source
       GMS_BUILD_DIR: .software_cache/build/gamess/2024-r2-p1/build
+      GMS_RUNTIME_LIB: .envs/general-modern-openmpi5/lib
       GMS_SCRATCH: .software_cache/validation/gamess/2024-r2-p1/scratch
       GMS_RESTART: .software_cache/installations/gamess/2024-r2-p1/restart
     smoke_commands:
@@ -194,6 +195,7 @@ profiles:
     conda_name: researchchem-amber
     description: Amber 26 licensed PMEMD CPU serial and OpenMPI executables.
     environment: .envs/general-modern-openmpi5
+    runtime_preload_libraries: [libstdc++.so.6, libgcc_s.so.1]
     conda_packages: [gcc_linux-64, gfortran_linux-64, cmake, openmpi, netcdf-fortran, fftw, bison]
     pip_packages: []
     health_checks:
@@ -230,6 +232,7 @@ profiles:
     command_variables:
       CHEMGRAPH_CHARMM_COMMAND: .software_cache/installations/charmm/50b2/install/bin/charmm
     path_entries: [.software_cache/installations/charmm/50b2/install/bin]
+    library_path_entries: [.software_cache/installations/charmm/50b2/install/lib]
     cache_paths: [.software_cache/installations/charmm/50b2]
     smoke_commands:
       - [bash, -c, 'grep -q "NORMAL TERMINATION BY NORMAL STOP" .software_cache/validation/charmm/50b2/smoke/h2otst.out']
@@ -240,7 +243,6 @@ profiles:
     description: Core runtime for cheminformatics and deterministic analysis backends.
     environment: .envs/general-modern-openmpi5
     use_project_model_cache: true
-    runtime_preload_libraries: [libstdc++.so.6, libgcc_s.so.1]
     health_checks:
       modules: [ase, numpy, pdbtools, rdkit, yaml]
       models:
@@ -304,13 +306,12 @@ profiles:
     conda_name: researchchem-quantum
     description: Molecular quantum chemistry and ASE calculation tools, including typed ORCA 6.1.1 correlated-density generation and density export; Psi4 remains isolated.
     environment: .envs/general-modern-openmpi5
-    runtime_preload_libraries: [libstdc++.so.6, libgcc_s.so.1]
-    conda_packages: [ase, xtb, openbabel]
+    conda_packages: [ase, openbabel]
     pip_packages: [pyscf, tblite==0.4.0, mace-torch==0.3.16]
     use_project_model_cache: true
     health_checks:
       modules: [ase, mace, mace.calculators, pyscf, tblite, torch]
-      commands: [xtb, orca, mpirun]
+      commands: [orca, mpirun]
       external_commands:
         - .software_cache/installations/orca/6.1.1/orca
         - .software_cache/shared/mpi/openmpi/4.1.8-fortran/bin/mpirun
@@ -321,7 +322,6 @@ profiles:
           device: cpu
           default_dtype: float64
     command_variables:
-      CHEMGRAPH_XTB_COMMAND: xtb
       CHEMGRAPH_ORCA_COMMAND: .software_cache/installations/orca/6.1.1/orca
     prepend_path_entries:
       - .software_cache/installations/orca/6.1.1
@@ -336,7 +336,6 @@ profiles:
       OMPI_MCA_btl: self,vader,tcp
     backends:
       - openbabel
-      - xtb
       - pyscf
       - tblite
       - orca
@@ -503,7 +502,7 @@ profiles:
     conda_name: researchchem-reaction
     description: Conformer refinement, reaction paths, and kinetics.
     environment: .envs/kinetics-legacy
-    conda_packages: [xtb, crest, cantera]
+    conda_packages: [xtb=6.7.1, crest, cantera]
     pip_packages:
       - pysisyphus==1.0.0
       - pyscf==2.13.1
@@ -519,6 +518,7 @@ profiles:
         - .software_cache/shared/mpi/openmpi/4.1.8-fortran/bin/mpirun
         - .software_cache/installations/pyfrag/2019/bin/pyfrag-orca
     command_variables:
+      CHEMGRAPH_XTB_COMMAND: xtb
       CHEMGRAPH_CREST_COMMAND: crest
       CHEMGRAPH_PYSIS_COMMAND: pysis
       CHEMGRAPH_PYFRAG_COMMAND: .software_cache/installations/pyfrag/2019/bin/pyfrag-orca
@@ -543,6 +543,7 @@ profiles:
       - [bash, -c, 'grep -q "PyFrag finished. Have a nice day" .software_cache/validation/pyfrag/2019/smoke/orca-final/pyfrag.log']
       - [bash, -c, 'test "$(grep -l "ORCA TERMINATED NORMALLY" .software_cache/validation/pyfrag/2019/smoke/orca-final/fragmentfiles/*.out | wc -l)" = 6']
     backends:
+      - xtb
       - crest
       - pysisyphus
       - cantera
@@ -1003,7 +1004,6 @@ profiles:
     conda_name: researchchem-mlip
     description: Machine-learning interatomic potentials and model-isolated runtimes.
     environment: .envs/general-modern-openmpi5
-    runtime_preload_libraries: [libstdc++.so.6, libgcc_s.so.1]
     conda_packages: [ase]
     # MACE and CHGNet remain isolated here. NequIP/Allegro and DeePMD use their
     # own public runtimes because their checkpoint formats and dependencies differ.
@@ -1023,7 +1023,6 @@ profiles:
     conda_name: researchchem-nequip
     description: NequIP 0.19.0 and Allegro 0.8.3 inference runtime with explicitly registered local checkpoints.
     environment: .envs/equivariant-ml
-    runtime_preload_libraries: [libstdc++.so.6, libgcc_s.so.1]
     conda_packages: [nequip=0.19.0, ase, pydantic, pyyaml, python-dotenv]
     pip_packages: [nequip-allegro==0.8.3]
     use_project_model_cache: true
@@ -1036,7 +1035,6 @@ profiles:
     conda_name: researchchem-deepmd-models
     description: DeePMD-kit 3.2.0b0 CPU inference runtime for the downloaded DPA multitask and OMol checkpoints.
     environment: .envs/equivariant-ml
-    runtime_preload_libraries: [libstdc++.so.6, libgcc_s.so.1]
     conda_packages: [python=3.11]
     pip_packages: [deepmd-kit==3.2.0b0, ase==3.29.0, mpich==5.0.1.post1, e3nn==0.6.0, pydantic, pyyaml, python-dotenv]
     use_project_model_cache: true

@@ -2955,56 +2955,21 @@ Trace validator
 
 ---
 
-## 附录 B：76 个 Backend 的运行时分布
+## 附录 B：92 个 Backend 的运行时分布
 
-### B.1 Profiles
+工具箱保留细粒度 logical runtime，以隔离后端选择和依赖契约；这些 runtime 统一映射到以下 7 个可复现的物理 Conda 环境。权威映射位于 `chemistry_toolbox/environment/environments.yaml`，具体 backend 分配位于 `chemistry_toolbox/config/mcp_profiles.yaml`。
 
-| Runtime | 环境 | Backend |
-|---|---|---|
-| core | .toolbox_env | rdkit、rdkit_etkdg、rdkit_gasteiger、internal_statistics、ase_emt、internal_vibrations、internal_spectroscopy、internal_thermochemistry、pdb_tools |
-| services | .tool_envs/services | pubchem、rcsb_pdb、materials_project、catalysis_hub、nist_webbook |
-| workflows | .tool_envs/workflows | qcelemental、cclib、pymatgen、spglib、mdtraj |
-| free_energy | .tool_envs/free_energy | pymbar、alchemlyb、hoomd |
-| quantum | .tool_envs/quantum | openbabel、xtb、pyscf、tblite、orca |
-| gpaw | .tool_envs/gpaw | gpaw |
-| critic2 | .tool_envs/deepmd | critic2 |
-| lobster | .tool_envs/lobster | lobster |
-| shengbte | .tool_envs/deepmd | shengbte |
-| openmolcas | .tool_envs/deepmd | openmolcas |
-| multiwfn | .tool_envs/multiwfn | multiwfn |
-| nwchem | .tool_envs/nwchem | nwchem、geometric |
-| psi4 | .tool_envs/psi4 | psi4 |
-| reaction | .tool_envs/reaction | crest、goodvibes、pysisyphus、cantera、scipy、catmap |
-| qe | .tool_envs/qe | quantum_espresso |
-| cp2k | .tool_envs/cp2k | cp2k |
-| periodic | .tool_envs/periodic | dftbplus、siesta |
-| phonons | .tool_envs/phonons | phonopy、phono3py |
-| md | .tool_envs/md | pdbfixer、openmm_builder、packmol、openmm、gromacs、lammps、mdanalysis、plumed |
-| openff | .tool_envs/openff | openff_am1bcc、openff |
-| mlip | .tool_envs/mlip | mace、chgnet |
-| nequip | .tool_envs/nequip | nequip、allegro |
-| deepmd | .tool_envs/deepmd_models | deepmd |
-| vasp | .tool_envs/vasp | vasp |
-| docking | .tool_envs/docking | vina、gnina |
+| 物理环境 | Python | Logical runtime |
+|---|---:|---|
+| `.envs/general-modern-openmpi5` | 3.11 | core、services、workflows、quantum、gpaw、critic2、lobster、shengbte、openmolcas、multiwfn、nwchem、psi4、goodvibes、qe、periodic、phonons、mlip、vasp、gaussian、gamess、mess、mesmer、namd、amber、charmm、automekin、vmd、newtonx、theodore、sharc、vesta、airss、bagel、vaspkit |
+| `.envs/molecular-simulation-openff` | 3.12 | free_energy、md、openff、docking、acpype、pmx |
+| `.envs/kinetics-legacy` | 3.11 | abinit、lammps、reaction、rmg、kinbot、sella、censo、gplearn、pyfrag、sisso、tdep |
+| `.envs/equivariant-ml` | 3.11 | nequip、deepmd |
+| `.envs/periodic-mpich` | 3.10 | cp2k |
+| `.envs/yambo-openmpi4` | 3.11 | catmap、yambo |
+| `.envs/gmx-mmpbsa` | 3.11 | gmx_mmpbsa |
 
-### B.2 Support environments
-
-| Runtime | 环境 | Backend |
-|---|---|---|
-| abinit | .tool_envs/abinit | abinit |
-| gaussian | .tool_envs/gaussian | gaussian |
-| gamess | .tool_envs/gamess | gamess |
-| rmg | .tool_envs/rmg | rmg |
-| mess | .tool_envs/mess | mess |
-| mesmer | .tool_envs/mesmer | mesmer |
-| sella | .tool_envs/sella | sella |
-| namd | .tool_envs/namd | namd |
-| amber | .tool_envs/amber | amber_pmemd |
-| charmm | .tool_envs/charmm | charmm |
-
-### B.3 值得注意的共享环境
-
-runtime 名和实际 prefix 不一定一一对应。例如 critic2、shengbte、openmolcas 当前都可指向 .tool_envs/deepmd。profile loader 按 runtime 语义验证 Backend 分配，但 portable lock capture 会按真实 prefix 去重。
+xTB 6.7.1 由 `reaction` runtime 使用，实际位于 `.envs/kinetics-legacy`；`quantum` runtime 保留 OpenBabel、PySCF、TBLite 和 ORCA。这样可避免 xTB 6.6.1 与当前 Fortran 运行库的格式兼容问题，同时不改变 Action 层的显式后端选择语义。
 
 ---
 

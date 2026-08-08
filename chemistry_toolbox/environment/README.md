@@ -60,3 +60,5 @@ export RESEARCHCHEMBENCH_ENV_ROOT=/path/to/researchchem-envs
   OpenMPI-5 general runtime.
 - gmx_MMPBSA 1.6.5 requires Python 3.11 and AmberTools 23.6, so it remains
   isolated from the Python 3.12/AmberTools 26 molecular-simulation runtime.
+- xTB 6.7.1 runs in the reaction/kinetics prefix because its tblite dependency
+  conflicts with the older tblite ABI required by DFTB+ 25.1 in the general prefix.

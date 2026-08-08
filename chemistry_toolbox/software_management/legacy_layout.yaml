@@ -12,6 +12,7 @@ ignored_roots:
 ignored_paths:
   - amber/26/install/bin/amber.python
   - amber/26/install/bin/amber.conda
+  - gamess/2024-r2-p1/failed-generation
   - bagel/1.2.2/runtime/usr/share/doc/libgfortran5
   - bagel/1.2.2/runtime/usr/share/doc/libquadmath0
   - bagel/1.2.2/runtime/usr/share/doc/libxc9/README
@@ -73,6 +74,14 @@ portable_shebang_paths:
   - gamess/2024-r2-p1/source/rungms
   - gamess/2024-r2-p1/source/install.info
   - gamess/2024-r2-p1/source/compall
+
+# GAMESS generates these tcsh files with build-host absolute paths. Relocation
+# rewrites them to consume the runtime profile's software/environment roots.
+portable_gamess_paths:
+  - gamess/2024-r2-p1/source/rungms
+  - gamess/2024-r2-p1/source/install.info
+  - gamess/2024-r2-p1/source/Makefile
+  - gamess/2024-r2-p1/build/install.info
 
 # Conda-generated launchers below these roots contain the build host's cache
 # path. Migration rewrites those launchers to resolve their payload relative

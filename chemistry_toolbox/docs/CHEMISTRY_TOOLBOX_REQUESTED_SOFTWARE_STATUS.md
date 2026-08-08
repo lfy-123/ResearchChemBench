@@ -1,6 +1,6 @@
 # ResearchChemBench Requested Software and Tool Configuration Status
 
-> Generated at `2026-08-06T20:48:56.217913+00:00` by `chemistry_toolbox/scripts/audit_requested_software.py`. The report covers all 58 requested entries and distinguishes installed dependencies, implemented specifications, manual license/download requirements, and interfaces that are not safely integrated.
+> Generated at `2026-08-08T05:27:51.947700+00:00` by `chemistry_toolbox/scripts/audit_requested_software.py`. The report covers all 58 requested entries and distinguishes installed dependencies, implemented specifications, manual license/download requirements, and interfaces that are not safely integrated.
 
 ## Summary
 
@@ -96,7 +96,7 @@ The following entries require license files, installers, host software, or an ag
 |---|---|---|---|---|---|
 | `workflows`<br>`.envs/general-modern-openmpi5` | `researchchem-workflows` | `.envs/general-modern-openmpi5/bin/python`<br>present | Conda: qcelemental=0.50.4, qcengine=0.50.0, cclib=1.8.1, pymatgen, spglib, mdtraj<br>Pip: — | not run | — |
 | `censo`<br>`.envs/kinetics-legacy` | `researchchem-censo-orca` | `.envs/kinetics-legacy/bin/python`<br>not required (command-only runtime) | Conda: xtb<br>Pip: censo==2.1.2 | 1=pass | The repository-local CENSO configuration selects ORCA for all electronic-structure stages. Recreate that configuration after relocation with the documented setup command. |
-| `quantum`<br>`.envs/general-modern-openmpi5` | `researchchem-quantum` | `.envs/general-modern-openmpi5/bin/python`<br>not required (command-only runtime) | Conda: ase, xtb, openbabel<br>Pip: pyscf, tblite==0.4.0, mace-torch==0.3.16 | not run | — |
+| `quantum`<br>`.envs/general-modern-openmpi5` | `researchchem-quantum` | `.envs/general-modern-openmpi5/bin/python`<br>not required (command-only runtime) | Conda: ase, openbabel<br>Pip: pyscf, tblite==0.4.0, mace-torch==0.3.16 | not run | — |
 | `nwchem`<br>`.envs/general-modern-openmpi5` | `researchchem-nwchem` | `.envs/general-modern-openmpi5/bin/python`<br>present | Conda: nwchem=7.3.1, qcengine=0.50.0, qcelemental=0.50.4, cclib, pydantic, pyyaml, python-dotenv<br>Pip: autode=1.4.5, geometric==1.1.1 | not run | — |
 | `gamess`<br>`.envs/general-modern-openmpi5` | `researchchem-gamess` | `.envs/general-modern-openmpi5/bin/python`<br>not required (command-only runtime) | Conda: gcc_linux-64, gfortran_linux-64, openblas, tcsh, jinja2<br>Pip: — | 1=pass | — |
 | `gaussian`<br>`.envs/general-modern-openmpi5` | `researchchem-gaussian` | `.envs/general-modern-openmpi5/bin/python`<br>present | Conda: python=3.11, cclib<br>Pip: — | 1=pass | — |

@@ -38,9 +38,12 @@ for name in "${selected[@]}"; do
     "${MANAGER}" list -p "${prefix}" --explicit | grep -E '^https?://'
   } > "${temporary}"
   mv "${temporary}" "${explicit}"
-  "${prefix}/bin/python" -m pip freeze \
-    | sed "s#${PROJECT_ROOT}#\${PROJECT_ROOT}#g" \
+  freeze_input="$(mktemp)"
+  "${prefix}/bin/python" -m pip freeze > "${freeze_input}"
+  "${prefix}/bin/python" "${SCRIPT_DIR}/normalize_pip_freeze.py" \
+    --project-root "${PROJECT_ROOT}" < "${freeze_input}" \
     > "${lock_dir}/linux-64.pip-freeze.txt"
+  rm -f "${freeze_input}"
 done
 
 PROJECT_ROOT="${PROJECT_ROOT}" ENVIRONMENT_ROOT="${ENVIRONMENT_ROOT}" python3 - <<'PY'

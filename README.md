@@ -479,6 +479,7 @@ surface.
 
 ## Documentation
 
+- [Benchmark 双模式设计与七阶段数据管线简介](docs/RESEARCHCHEMBENCH_BENCHMARK_DESIGN_AND_DATA_PIPELINE.md)
 - [Environment and chemistry tool configuration](docs/ENVIRONMENT_AND_TOOLS.md)
 - [工具箱可复现环境配置](docs/TOOLBOX_SETUP.md)
 - [原子工具完整目录](chemistry_toolbox/mcp/TOOL_CATALOG.md)

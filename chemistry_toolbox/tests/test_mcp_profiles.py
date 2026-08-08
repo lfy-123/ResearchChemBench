@@ -189,6 +189,30 @@ def test_manual_runtime_paths_are_exact_and_project_relative_values_are_resolved
     )
 
 
+def test_native_binary_compatibility_libraries_are_resolved_portably(monkeypatch):
+    monkeypatch.delenv("LD_PRELOAD", raising=False)
+    runtime_lib = Path(".envs/general-modern-openmpi5/lib").resolve()
+
+    amber_profile = profile_runtime_environment("amber")
+    amber_worker = runtime_environment("amber")
+    expected_preloads = [
+        str((runtime_lib / "libstdc++.so.6").resolve()),
+        str((runtime_lib / "libgcc_s.so.1").resolve()),
+    ]
+    assert amber_profile["LD_PRELOAD"].split(os.pathsep) == expected_preloads
+    assert amber_worker["LD_PRELOAD"].split(os.pathsep) == expected_preloads
+    assert "LD_PRELOAD" not in profile_runtime_environment("quantum")
+    assert "LD_PRELOAD" not in runtime_environment("quantum")
+
+    charmm_library = str(
+        software_root() / "installations/charmm/50b2/install/lib"
+    )
+    charmm_profile = profile_runtime_environment("charmm")
+    charmm_worker = runtime_environment("charmm")
+    assert charmm_library in charmm_profile["LD_LIBRARY_PATH"].split(os.pathsep)
+    assert charmm_library in charmm_worker["LD_LIBRARY_PATH"].split(os.pathsep)
+
+
 def test_task_workspace_gets_one_server_progressive_prompt_and_complete_catalog(tmp_path, monkeypatch):
     monkeypatch.setenv("RESEARCHCHEMBENCH_MCP_PROFILES", "core,services")
     runner = TaskRunner("Electron_Isodensity_Reproduction_01_Method_Selection", agent_key="opencode", workspace_root=tmp_path)

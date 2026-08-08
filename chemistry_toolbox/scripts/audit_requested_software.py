@@ -30,12 +30,13 @@ for source_path in (SOURCE_ROOT, ROOT):
         sys.path.insert(0, str(source_path))
 
 from chemistry_toolbox.src.environment_layout import (  # noqa: E402
-    SOFTWARE_ROOT_ENV,
     resolve_configured_path,
     resolve_runtime_path,
-    software_root,
 )
 from chemistry_toolbox.src.paths import portable_report_value  # noqa: E402
+from chemistry_toolbox.src.runtime import (  # noqa: E402
+    runtime_environment as configured_runtime_environment,
+)
 
 INVENTORY = TOOLBOX_ROOT / "config" / "requested_software.yaml"
 AUX_CONFIG = TOOLBOX_ROOT / "config" / "auxiliary_environments.yaml"
@@ -64,49 +65,8 @@ def runtime_path(specification: dict[str, Any]) -> Path:
     return resolve_runtime_path(str(specification["name"]), str(environment))
 
 
-def resolve_runtime_value(value: str, runtime: Path) -> str:
-    path = Path(str(value)).expanduser()
-    if path.is_absolute():
-        return str(path)
-    if path.parent != Path("."):
-        return str(resolve_configured_path(path))
-    return str((runtime / "bin" / path).resolve())
-
-
 def runtime_environment(specification: dict[str, Any]) -> dict[str, str]:
-    runtime = runtime_path(specification)
-    path_entries = [
-        *(root_path(item) for item in specification.get("prepend_path_entries", [])),
-        runtime / "bin",
-    ]
-    path_entries.extend(root_path(item) for item in specification.get("path_entries", []))
-    library_entries = [
-        *(root_path(item) for item in specification.get("prepend_library_path_entries", [])),
-        runtime / "lib",
-    ]
-    library_entries.extend(root_path(item) for item in specification.get("library_path_entries", []))
-    path_entries = [item for item in path_entries if item is not None]
-    library_entries = [item for item in library_entries if item is not None]
-    environment = {
-        SOFTWARE_ROOT_ENV: str(software_root()),
-        "PATH": os.pathsep.join([*(str(item) for item in path_entries), os.environ.get("PATH", "")]),
-        "LD_LIBRARY_PATH": os.pathsep.join(
-            [*(str(item) for item in library_entries), os.environ.get("LD_LIBRARY_PATH", "")]
-        ),
-        "PYTHONPATH": os.pathsep.join([str(ROOT), os.environ.get("PYTHONPATH", "")]),
-    }
-    for name, value in (specification.get("environment_variables") or {}).items():
-        text = str(value)
-        if text.startswith(".") or "/" in text:
-            candidate = root_path(text)
-            environment[str(name)] = str(candidate) if candidate else text
-        else:
-            environment[str(name)] = text
-    for name, value in (specification.get("command_variables") or {}).items():
-        candidate = resolve_runtime_value(str(value), runtime)
-        if Path(candidate).exists():
-            environment[str(name)] = str(Path(candidate).resolve())
-    return environment
+    return configured_runtime_environment(str(specification["name"]))
 
 
 def runtime_catalog() -> dict[str, dict[str, Any]]:

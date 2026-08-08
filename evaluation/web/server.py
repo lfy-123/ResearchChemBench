@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 import json
 import mimetypes
 import shutil
@@ -255,8 +256,20 @@ def api_delete_run(run_id: str):
     return jsonify({"status": "deleted", "run_id": run_id})
 
 
-def main() -> None:
-    app.run(host="0.0.0.0", port=5000, debug=False, threaded=True)
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--host", default="0.0.0.0")
+    parser.add_argument("--port", type=int, default=5000)
+    parser.add_argument("--debug", action="store_true")
+    args = parser.parse_args(argv)
+    app.run(
+        host=args.host,
+        port=args.port,
+        debug=args.debug,
+        threaded=True,
+        use_reloader=False,
+    )
+    return 0
 
 
 if __name__ == "__main__":

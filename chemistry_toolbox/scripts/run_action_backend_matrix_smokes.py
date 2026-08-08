@@ -226,7 +226,7 @@ def request(
         "inputs": {"structure": structure},
         "method_spec": method,
         "action_settings": settings,
-        "resource_limits": limits or {"walltime_seconds": 300, "memory_mb": 2048, "cpu_cores": 1},
+        "resource_limits": limits or {"memory_mb": 2048, "cpu_cores": 1},
     }
 
 
@@ -241,7 +241,7 @@ def molecular_cases() -> list[Case]:
     tblite = {"method": "gfn2"}
     gaussian = {"method": "HF", "basis": "STO-3G"}
     gamess = {"scftyp": "RHF", "gbasis": "STO", "ngauss": 3}
-    quantum_limits = {"walltime_seconds": 600, "memory_mb": 2048, "cpu_cores": 1}
+    quantum_limits = {"memory_mb": 2048, "cpu_cores": 1}
 
     add("calculate_atomic_charges", "psi4", request("psi4", WATER, psi, {}))
     add("calculate_atomic_charges", "pyscf", request("pyscf", WATER, pyscf, {"scf_convergence": 1e-9}))
@@ -265,14 +265,14 @@ def molecular_cases() -> list[Case]:
         "charge": 0,
         "spin": 0,
     }
-    add("calculate_forces", "deepmd", request("deepmd", WATER, deepmd_water, {}, limits={"walltime_seconds": 600, "memory_mb": 8192, "cpu_cores": 1}))
+    add("calculate_forces", "deepmd", request("deepmd", WATER, deepmd_water, {}, limits={"memory_mb": 8192, "cpu_cores": 1}))
     mace = {
         "model": str((ROOT / ".model_cache/mace/macempa0mediummodel").resolve()),
         "device": "cpu",
         "allow_model_download": False,
         "default_dtype": "float64",
     }
-    add("calculate_forces", "mace", request("mace", SILICON_CLUSTER, mace, {}, limits={"walltime_seconds": 600, "memory_mb": 8192, "cpu_cores": 1}))
+    add("calculate_forces", "mace", request("mace", SILICON_CLUSTER, mace, {}, limits={"memory_mb": 8192, "cpu_cores": 1}))
     add("calculate_forces", "tblite", request("tblite", WATER, tblite, {}))
 
     add("calculate_hessian", "ase_emt", request("ase_emt", WATER, {}, {"displacement_angstrom": 0.01}))
@@ -284,7 +284,7 @@ def molecular_cases() -> list[Case]:
             SILICON_CLUSTER,
             {"model": "pretrained-0.3.0", "device": "cpu", "allow_model_download": True},
             {"displacement_angstrom": 0.01},
-            limits={"walltime_seconds": 600, "memory_mb": 8192, "cpu_cores": 1},
+            limits={"memory_mb": 8192, "cpu_cores": 1},
         ),
     )
     add(
@@ -295,7 +295,7 @@ def molecular_cases() -> list[Case]:
             WATER,
             deepmd_water,
             {"displacement_angstrom": 0.01},
-            limits={"walltime_seconds": 600, "memory_mb": 8192, "cpu_cores": 1},
+            limits={"memory_mb": 8192, "cpu_cores": 1},
         ),
     )
     add(
@@ -306,7 +306,7 @@ def molecular_cases() -> list[Case]:
             WATER,
             mace,
             {"displacement_angstrom": 0.01},
-            limits={"walltime_seconds": 600, "memory_mb": 8192, "cpu_cores": 1},
+            limits={"memory_mb": 8192, "cpu_cores": 1},
         ),
     )
     add("calculate_hessian", "psi4", request("psi4", WATER, psi, {}, limits=quantum_limits))
@@ -321,10 +321,10 @@ def molecular_cases() -> list[Case]:
         "chgnet",
         request("chgnet", SILICON_CLUSTER, {"model": "pretrained-0.3.0", "device": "cpu", "allow_model_download": True}, {"fmax_ev_per_angstrom": 10.0, "optimizer": "bfgs", "max_steps": 2}),
     )
-    add("optimize_geometry", "deepmd", request("deepmd", WATER, deepmd_water, {"fmax_ev_per_angstrom": 100.0, "optimizer": "bfgs", "max_steps": 2}, limits={"walltime_seconds": 600, "memory_mb": 8192, "cpu_cores": 1}))
+    add("optimize_geometry", "deepmd", request("deepmd", WATER, deepmd_water, {"fmax_ev_per_angstrom": 100.0, "optimizer": "bfgs", "max_steps": 2}, limits={"memory_mb": 8192, "cpu_cores": 1}))
     add("optimize_geometry", "gamess", request("gamess", WATER, gamess, {"scf_convergence": 1e-8, "gradient_tolerance_hartree_per_bohr": 0.1, "max_steps": 10}, limits=quantum_limits))
     add("optimize_geometry", "gaussian", request("gaussian", WATER, gaussian, {"scf_convergence": "Tight", "optimization_convergence": "Loose", "max_steps": 20}, limits=quantum_limits))
-    add("optimize_geometry", "mace", request("mace", SILICON_CLUSTER, mace, {"fmax_ev_per_angstrom": 10.0, "optimizer": "bfgs", "max_steps": 2}, limits={"walltime_seconds": 600, "memory_mb": 8192, "cpu_cores": 1}))
+    add("optimize_geometry", "mace", request("mace", SILICON_CLUSTER, mace, {"fmax_ev_per_angstrom": 10.0, "optimizer": "bfgs", "max_steps": 2}, limits={"memory_mb": 8192, "cpu_cores": 1}))
     add("optimize_geometry", "tblite", request("tblite", WATER, tblite, {"fmax_ev_per_angstrom": 1.0, "optimizer": "bfgs", "max_steps": 20}))
     add("optimize_geometry", "xtb", request("xtb", WATER, {"method": "gfn2"}, {"optimization_level": "loose"}, limits=quantum_limits))
     return cases
@@ -390,7 +390,7 @@ def _periodic_methods() -> dict[str, dict[str, Any]]:
 
 def periodic_cases() -> list[Case]:
     methods = _periodic_methods()
-    limits = {"walltime_seconds": 600, "memory_mb": 8192, "cpu_cores": 1}
+    limits = {"memory_mb": 8192, "cpu_cores": 1}
     cases: list[Case] = []
 
     def add(action: str, backend: str, structure: dict[str, Any], settings: dict[str, Any]) -> None:
@@ -468,7 +468,7 @@ def dynamics_cases() -> list[Case]:
             "inputs": {"system": _openmm_system(context)},
             "method_spec": {"platform": "Reference", "platform_properties": {}},
             "action_settings": {"force_tolerance_kj_mol_nm": 1000.0, "max_iterations": 10},
-            "resource_limits": {"walltime_seconds": 300, "memory_mb": 2048, "cpu_cores": 1},
+            "resource_limits": {"memory_mb": 2048, "cpu_cores": 1},
         }
 
     def openmm_dynamics(context: Context) -> dict[str, Any]:
@@ -486,7 +486,7 @@ def dynamics_cases() -> list[Case]:
                 "initialize_velocities": True,
                 "random_seed": 20260721,
             },
-            "resource_limits": {"walltime_seconds": 300, "memory_mb": 2048, "cpu_cores": 1},
+            "resource_limits": {"memory_mb": 2048, "cpu_cores": 1},
         }
 
     def openmm_solvate(context: Context) -> dict[str, Any]:
@@ -502,7 +502,7 @@ def dynamics_cases() -> list[Case]:
                 "positive_ion": "Na+",
                 "negative_ion": "Cl-",
             },
-            "resource_limits": {"walltime_seconds": 300, "memory_mb": 2048, "cpu_cores": 1},
+            "resource_limits": {"memory_mb": 2048, "cpu_cores": 1},
         }
 
     def amber(context: Context) -> dict[str, Any]:
@@ -512,7 +512,7 @@ def dynamics_cases() -> list[Case]:
             "inputs": {"system": {"amber_topology_path": str(files["amber_prmtop"]), "amber_coordinate_path": str(files["amber_inpcrd"])}},
             "method_spec": {"boundary": "implicit", "cutoff_angstrom": 999.0, "constraints": "none", "igb": 7, "saltcon_molar": 0.0},
             "action_settings": {"ensemble": "NVE", "temperature_kelvin": 300.0, "timestep_fs": 0.5, "steps": 2, "report_interval": 1, "random_seed": 11, "restart": False},
-            "resource_limits": {"walltime_seconds": 300, "memory_mb": 2048, "cpu_cores": 1},
+            "resource_limits": {"memory_mb": 2048, "cpu_cores": 1},
         }
 
     def charmm(context: Context) -> dict[str, Any]:
@@ -532,7 +532,7 @@ def dynamics_cases() -> list[Case]:
                 "pairlist_distance_angstrom": 10.0, "constraints": "none", "nonbond_update_interval": 1,
             },
             "action_settings": {"ensemble": "NVE", "temperature_kelvin": 300.0, "timestep_fs": 0.5, "steps": 2, "report_interval": 1, "random_seed": 13, "restart": False},
-            "resource_limits": {"walltime_seconds": 300, "memory_mb": 2048, "cpu_cores": 1},
+            "resource_limits": {"memory_mb": 2048, "cpu_cores": 1},
         }
 
     def gromacs(context: Context) -> dict[str, Any]:
@@ -546,7 +546,7 @@ def dynamics_cases() -> list[Case]:
                 "steps": 2, "report_interval": 1, "generate_velocities": True,
                 "random_seed": 13,
             },
-            "resource_limits": {"walltime_seconds": 300, "memory_mb": 2048, "cpu_cores": 1},
+            "resource_limits": {"memory_mb": 2048, "cpu_cores": 1},
         }
 
     def lammps(context: Context) -> dict[str, Any]:
@@ -556,7 +556,7 @@ def dynamics_cases() -> list[Case]:
             "inputs": {"system": {"lammps_data_path": str(files["argon_data"]), "pair_style": "lj/cut 8.5", "pair_coefficients": ["1 1 0.238 3.405"]}},
             "method_spec": {"units": "real", "atom_style": "atomic", "neighbor_skin": 2.0},
             "action_settings": {"ensemble": "NVE", "temperature_kelvin": 300.0, "timestep_fs": 1.0, "steps": 2, "report_interval": 1},
-            "resource_limits": {"walltime_seconds": 300, "memory_mb": 2048, "cpu_cores": 1},
+            "resource_limits": {"memory_mb": 2048, "cpu_cores": 1},
         }
 
     def namd(context: Context) -> dict[str, Any]:
@@ -574,7 +574,7 @@ def dynamics_cases() -> list[Case]:
                 "pairlist_distance_angstrom": 14.0, "pme": False, "rigid_bonds": "none",
             },
             "action_settings": {"ensemble": "NVE", "temperature_kelvin": 300.0, "timestep_fs": 0.5, "steps": 2, "report_interval": 1, "random_seed": 17},
-            "resource_limits": {"walltime_seconds": 300, "memory_mb": 2048, "cpu_cores": 1},
+            "resource_limits": {"memory_mb": 2048, "cpu_cores": 1},
         }
 
     cases.extend(
@@ -603,7 +603,7 @@ def analysis_reaction_cases() -> list[Case]:
                 "inputs": {"trajectory": str(path), "topology": str(path), **(extra_inputs or {})},
                 "method_spec": {},
                 "action_settings": settings,
-                "resource_limits": {"walltime_seconds": 300, "memory_mb": 2048, "cpu_cores": 1},
+                "resource_limits": {"memory_mb": 2048, "cpu_cores": 1},
             }
 
         return Case("analysis_reaction", action, "mdanalysis", factory)
@@ -625,7 +625,7 @@ def analysis_reaction_cases() -> list[Case]:
                     },
                     "method_spec": {},
                     "action_settings": {"time_end_seconds": 1e-6, "num_points": 3},
-                    "resource_limits": {"walltime_seconds": 300, "memory_mb": 2048, "cpu_cores": 1},
+                    "resource_limits": {"memory_mb": 2048, "cpu_cores": 1},
                 }
             ),
         )
@@ -641,7 +641,7 @@ def analysis_reaction_cases() -> list[Case]:
                     "inputs": {"initial_guess": HCN_TS},
                     "method_spec": {"calculator_backend": "xtb", "method": "gfn2", "charge": 0, "multiplicity": 1},
                     "action_settings": {"optimizer": "rsirfo", "convergence": "gau", "max_cycles": 10, "hessian_init": "calc"},
-                    "resource_limits": {"walltime_seconds": 600, "memory_mb": 2048, "cpu_cores": 1},
+                    "resource_limits": {"memory_mb": 2048, "cpu_cores": 1},
                 }
             ),
         )

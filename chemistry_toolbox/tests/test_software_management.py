@@ -13,7 +13,7 @@ from chemistry_toolbox.software_management.manager import SoftwareManager
 from chemistry_toolbox.software_management.manifests import load_catalog
 from chemistry_toolbox.software_management.migrate import migrate_legacy_cache
 from chemistry_toolbox.software_management.legacy_layout import classify_legacy_path
-from chemistry_toolbox.software_management.migrate_v2 import migrate_v2
+from chemistry_toolbox.software_management.migrate_v2 import migrate_v2, relocate_v2
 from chemistry_toolbox.software_management.paths import LAYOUT_DIRECTORIES
 from chemistry_toolbox.software_management.repository_paths import rewrite_text
 
@@ -228,6 +228,7 @@ def test_legacy_migration_is_non_destructive_and_rewrites_internal_links(tmp_pat
         ("documentation_alias_fix_seed_20260720/index.json", None),
         ("gmx_mmpbsa/1.6.5/env/bin/python", None),
         ("amber/26/install/bin/amber.python", None),
+        ("gamess/2024-r2-p1/failed-generation/rungms.from-root", None),
     ],
 )
 def test_v2_legacy_path_classification(legacy: str, expected: str | None):
@@ -304,6 +305,66 @@ def test_v2_migration_rewrites_relative_links_across_roles(tmp_path: Path):
         "database.directory: $RESEARCHCHEMBENCH_SOFTWARE_ROOT/"
         "installations/rmg/database/4.0.0/input\n"
     )
+
+
+def test_gamess_relocation_uses_runtime_profile_paths_and_is_idempotent(tmp_path: Path):
+    root = tmp_path / "managed-cache"
+    source = root / "installations/gamess/2024-r2-p1/source"
+    build = root / "build/gamess/2024-r2-p1/build"
+    source.mkdir(parents=True)
+    build.mkdir(parents=True)
+    legacy_root = "/legacy/build-host/ResearchChemBench"
+    legacy_cache = f"{legacy_root}/.software_cache/gamess/2024-r2-p1"
+    (source / "rungms").write_text(
+        "#!/usr/bin/env -S tcsh -f\n"
+        f"source {legacy_cache}/build/install.info\n"
+        f"set SCR={legacy_cache}/scratch\n"
+        f"set USERSCR={legacy_cache}/restart\n"
+        f"set GMSPATH={legacy_cache}/build\n",
+        encoding="utf-8",
+    )
+    (source / "Makefile").write_text(
+        f"GMS_PATH := $(shell {legacy_root}/.tool_envs/gamess/bin/tcsh "
+        "-fc 'source install.info && echo $$GMS_PATH')\n",
+        encoding="utf-8",
+    )
+    install_info = (
+        "#!/usr/bin/env -S tcsh\n"
+        f"setenv GMS_PATH {legacy_cache}/source\n"
+        f"setenv GMS_BUILD_DIR {legacy_cache}/build\n"
+        f"setenv GMS_MATHLIB_PATH {legacy_root}/.tool_envs/gamess/lib\n"
+    )
+    (source / "install.info").write_text(install_info, encoding="utf-8")
+    (build / "install.info").symlink_to(
+        os.path.relpath(source / "install.info", build)
+    )
+
+    first = relocate_v2(root)
+    for path in (
+        source / "rungms",
+        source / "install.info",
+        source / "Makefile",
+        build / "install.info",
+    ):
+        content = path.read_text(encoding="utf-8")
+        assert "/legacy/build-host/" not in content
+    assert "$RESEARCHCHEMBENCH_SOFTWARE_ROOT" in (source / "rungms").read_text(
+        encoding="utf-8"
+    )
+    assert "$(shell tcsh -fc" in (source / "Makefile").read_text(
+        encoding="utf-8"
+    )
+    assert "$GMS_RUNTIME_LIB" in (source / "install.info").read_text(encoding="utf-8")
+    assert {item["status"] for item in first["portable_gamess_files"]} == {
+        "portable_link",
+        "rewritten",
+    }
+
+    second = relocate_v2(root)
+    assert {item["status"] for item in second["portable_gamess_files"]} == {
+        "already_portable",
+        "portable_link",
+    }
 
 
 def test_repository_path_rewrite_is_idempotent_and_preserves_punctuation():

@@ -97,13 +97,26 @@ PIP_TRUSTED_HOST="${RCB_PIP_TRUSTED_HOST:-pypi.org}" \
 
 "$PYTHON_BIN" "$ROOT_DIR/chemistry_toolbox/scripts/cache_minilm_model.py"
 
+export PATH="$ENV_DIR/bin:$PATH"
+export LD_LIBRARY_PATH="$ENV_DIR/lib:${LD_LIBRARY_PATH:-}"
+for command in \
+  researchchembench \
+  researchchembench-eval \
+  researchchem-mcp-server \
+  researchchem-mcp-install \
+  researchchem-tool \
+  researchchem-software; do
+  [[ -x "$ENV_DIR/bin/$command" ]] || {
+    echo "Missing console entry point after project installation: $command" >&2
+    exit 1
+  }
+done
+
 if [[ "$SKIP_VERIFY" -eq 1 ]]; then
   echo "Installation completed without verification: $ENV_DIR"
   exit 0
 fi
 
-export PATH="$ENV_DIR/bin:$PATH"
-export LD_LIBRARY_PATH="$ENV_DIR/lib:${LD_LIBRARY_PATH:-}"
 cd "$ROOT_DIR"
 "$PYTHON_BIN" -m chemistry_toolbox.mcp.tool_manager validate
 "$PYTHON_BIN" -m pytest -q \

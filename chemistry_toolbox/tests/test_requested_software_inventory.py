@@ -1,11 +1,14 @@
 from __future__ import annotations
 
+import importlib.util
 import json
+import os
 from pathlib import Path
 
 import yaml
 
 from chemistry_toolbox.src.catalog import backend_specs
+from chemistry_toolbox.src.runtime import runtime_environment
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -58,6 +61,23 @@ def test_auxiliary_environments_do_not_define_public_tools_or_backend_order():
         assert "backends" not in specification
         assert "tools" not in specification
         assert "workflow" not in specification
+
+
+def test_requested_software_audit_reuses_profile_runtime_environment(monkeypatch):
+    monkeypatch.delenv("LD_PRELOAD", raising=False)
+    script = ROOT / "scripts/audit_requested_software.py"
+    spec = importlib.util.spec_from_file_location("audit_requested_software", script)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+
+    amber = module.runtime_catalog()["amber"]
+    audited = module.runtime_environment(amber)
+    configured = runtime_environment("amber")
+    assert audited["LD_PRELOAD"].split(os.pathsep) == configured[
+        "LD_PRELOAD"
+    ].split(os.pathsep)
+    assert audited["LD_LIBRARY_PATH"] == configured["LD_LIBRARY_PATH"]
 
 
 def test_new_source_and_binary_extensions_have_explicit_exposure_status():

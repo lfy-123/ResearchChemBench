@@ -111,6 +111,24 @@ def _runtime_environment_value(value: Any) -> str:
     return text
 
 
+def _runtime_preload_entries(
+    specification: dict[str, Any], environment: Path
+) -> list[str]:
+    """Resolve libraries that must override stale binary RPATH dependencies."""
+
+    entries = []
+    for value in specification.get("runtime_preload_libraries") or []:
+        configured = Path(str(value)).expanduser()
+        if configured.parent == Path("."):
+            candidate = environment / "lib" / configured
+        elif configured.is_absolute():
+            candidate = configured
+        else:
+            candidate = resolve_configured_path(configured)
+        entries.append(str(candidate.resolve(strict=False)))
+    return entries
+
+
 def runtime_environment(name: str) -> dict[str, str]:
     specification = runtime_spec(name)
     environment = runtime_path(name)
@@ -124,6 +142,7 @@ def runtime_environment(name: str) -> dict[str, str]:
         str(environment / "lib"),
         *_runtime_entries(specification, "library_path_entries"),
     ]
+    preload_entries = _runtime_preload_entries(specification, environment)
     values = {
         SOFTWARE_ROOT_ENV: str(software_root()),
         "PATH": os.pathsep.join([*path_entries, os.environ.get("PATH", "")]),
@@ -135,6 +154,10 @@ def runtime_environment(name: str) -> dict[str, str]:
         ),
         "RESEARCHCHEM_BACKEND_RUNTIME": name,
     }
+    if preload_entries or os.environ.get("LD_PRELOAD"):
+        values["LD_PRELOAD"] = os.pathsep.join(
+            [*preload_entries, os.environ.get("LD_PRELOAD", "")]
+        ).rstrip(os.pathsep)
     values.update(
         {
             str(variable): _runtime_environment_value(value)

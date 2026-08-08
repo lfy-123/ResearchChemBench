@@ -29,7 +29,7 @@
 - MATLAB、EasySpin、Q-Chem、Molpro、TURBOMOLE、CASTEP、CRYSTAL、WIEN2k、OpenEye 和 Schrodinger Suite 已按要求从活动工具箱中移除，不再称为“当前不可用软件”。
 - AiiDA 的同步本地执行可用；RabbitMQ/daemon 未启用，仅 daemon-backed `submit` 等后台工作流受限。
 - VESTA 依赖已补齐并通过 Xvfb 有界启动；它是可视化工具，不是计算求解器，交互模式仍需要显示环境。
-- CCCBDB 未接入；受控参考数据查询由 NIST WebBook Action 提供。详细修补及迁移要求见 `docs/tools_v2/CHEMISTRY_TOOLBOX_ADJUSTMENT_LOG.md`。
+- CCCBDB 未接入；受控参考数据查询由 NIST WebBook Action 提供。新旧工具箱差异及迁移边界见 `docs/tools_v2/CHEMISTRY_TOOLBOX_V2_CHANGE_SUMMARY.md`。
 
 ## 3. 十个 Benchmark 方向
 

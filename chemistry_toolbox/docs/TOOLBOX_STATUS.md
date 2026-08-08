@@ -1,7 +1,7 @@
 # ResearchChem Three-Layer Toolbox Status
 
-Generated: `2026-08-06T10:19:58.502479+00:00`
-Catalog hash: `3b7c898c9788050e8489b30f229aac74a6d42cb1c8778d7ad26f9bef53ded774`
+Generated: `2026-08-08T05:50:13.010499+00:00`
+Catalog hash: `e8bc59bff141dc155cba0caeb0012c75a7dbc036c485dc1582ad405d9564942a`
 
 ## Summary
 
@@ -68,13 +68,3 @@ Pip: none
 - `vasp_paw_pw91_54` / vasp: **available**; selection `resource://vasp_paw_pw91_54/<Variant>`
 - `vasp_paw_pbe_54` / vasp: **available**; selection `resource://vasp_paw_pbe_54/<Variant>`
 - `vasp_6_3_2_testsuite_si_potcar` / vasp: **available**; selection `resource://vasp_6_3_2_testsuite_si_potcar`
-
-## Smoke
-
-- `standardize_structure` / `rdkit`: **success**
-- `generate_3d_structure` / `rdkit`: **success**
-- `calculate_energy` / `ase_emt`: **success**
-- `integrate_reaction_network` / `scipy`: **success**
-- `assign_partial_charges` / `openff_am1bcc`: **success**
-- `assign_force_field_parameters` / `openff`: **success**
-- `solvate_molecular_system` / `packmol`: **success**

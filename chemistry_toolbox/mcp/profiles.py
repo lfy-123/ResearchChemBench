@@ -165,6 +165,22 @@ def _profile_environment_value(value: Any) -> str:
     return text
 
 
+def _profile_preload_entries(profile: dict[str, Any], environment: Path) -> list[str]:
+    """Resolve libraries that must override stale binary RPATH dependencies."""
+
+    entries = []
+    for value in profile.get("runtime_preload_libraries") or []:
+        configured = Path(str(value)).expanduser()
+        if configured.parent == Path("."):
+            candidate = environment / "lib" / configured
+        elif configured.is_absolute():
+            candidate = configured
+        else:
+            candidate = resolve_configured_path(configured)
+        entries.append(str(candidate.resolve(strict=False)))
+    return entries
+
+
 def profile_runtime_environment(name: str) -> dict[str, str]:
     profile = get_profile(name)
     environment = profile_environment_path(profile)
@@ -179,6 +195,7 @@ def profile_runtime_environment(name: str) -> dict[str, str]:
         str(environment / "lib"),
         *_profile_entries(profile, "library_path_entries"),
     ]
+    preload_entries = _profile_preload_entries(profile, environment)
     values = {
         PROFILE_ENV: name,
         SOFTWARE_ROOT_ENV: str(software_root()),
@@ -190,6 +207,10 @@ def profile_runtime_environment(name: str) -> dict[str, str]:
             [str(PROJECT_ROOT), os.environ.get("PYTHONPATH", "")]
         ),
     }
+    if preload_entries or os.environ.get("LD_PRELOAD"):
+        values["LD_PRELOAD"] = os.pathsep.join(
+            [*preload_entries, os.environ.get("LD_PRELOAD", "")]
+        ).rstrip(os.pathsep)
     values.update(
         {
             str(variable): _profile_environment_value(value)

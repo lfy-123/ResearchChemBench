@@ -626,7 +626,7 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         },
     ),
     _backend(
-        "xtb", "xTB", "quantum",
+        "xtb", "xTB", "reaction",
         (
             "calculate_energy", "calculate_forces", "calculate_hessian",
             "optimize_geometry", "calculate_dipole_moment", "calculate_atomic_charges",
