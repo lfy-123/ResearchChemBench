@@ -5,7 +5,6 @@ import shutil
 from pathlib import Path
 
 import pytest
-from ase.io import read
 
 from chemistry_toolbox.src.backends import periodic, structure
 from chemistry_toolbox.src.backends.common import structure_from_atoms
@@ -94,6 +93,8 @@ def test_vaspkit_extracts_band_gap_through_service(tmp_path, monkeypatch):
 
 
 def test_vaspkit_reports_symmetry_and_equivalent_atoms(tmp_path, monkeypatch):
+    from ase.io import read
+
     monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
     _configure(monkeypatch)
     files = _stage(tmp_path)
