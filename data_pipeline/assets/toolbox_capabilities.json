@@ -1,49 +1,5699 @@
 {
-  "schema_version": 1,
-  "profile_id": "researchchembench-toolbox-20260801",
-  "catalog_hash": "90315e071d0bbb32c9f7a168261d3015030c529bcd6a55956b33e321a337ac84",
+  "schema_version": 2,
+  "profile_id": "researchchembench-toolbox-20260807-v2",
+  "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103",
+  "runtime_profile_hash": "cd9af5da3c44ecc7f37c679a793d8189aa7a5d143957f53f24da5cf671e8aa0f",
   "source_profile": "assets/toolbox.json",
+  "source_toolbox": "chemistry_toolbox",
   "unknown_field_policy": "unknown",
+  "local_installation_status": "not_evaluated",
   "method_families": {
     "electronic_structure": {
-      "backends": ["gaussian", "orca", "psi4", "pyscf", "nwchem", "cp2k", "xtb", "vasp"],
-      "required_actions": ["calculate_energy", "optimize_geometry"],
+      "backends": [
+        "ase_emt",
+        "bagel",
+        "chgnet",
+        "critic2",
+        "deepmd",
+        "gamess",
+        "gaussian",
+        "geometric",
+        "gpaw",
+        "mace",
+        "multiwfn",
+        "nwchem",
+        "openmolcas",
+        "orca",
+        "psi4",
+        "pyscf",
+        "sella",
+        "tblite",
+        "xtb"
+      ],
+      "required_actions": [
+        "calculate_energy"
+      ],
       "limitations": null
     },
     "periodic_materials": {
-      "backends": ["vasp", "quantum_espresso", "abinit", "cp2k", "siesta"],
-      "required_actions": ["calculate_energy", "calculate_forces"],
+      "backends": [
+        "abinit",
+        "airss",
+        "allegro",
+        "cp2k",
+        "deepmd",
+        "dftbplus",
+        "gpaw",
+        "internal_periodic_analysis",
+        "lobster",
+        "nequip",
+        "phono3py",
+        "phonopy",
+        "quantum_espresso",
+        "shengbte",
+        "siesta",
+        "tdep",
+        "vasp",
+        "vaspkit",
+        "yambo"
+      ],
+      "required_actions": [
+        "calculate_periodic_energy"
+      ],
       "limitations": null
     },
     "molecular_dynamics": {
-      "backends": ["gromacs", "openmm", "lammps", "amber_pmemd", "namd", "charmm", "vasp"],
-      "required_actions": ["propagate_dynamics"],
+      "backends": [
+        "acpype",
+        "alchemlyb",
+        "amber_pmemd",
+        "charmm",
+        "gmx_mmpbsa",
+        "gromacs",
+        "hoomd",
+        "internal_trajectory_analysis",
+        "lammps",
+        "mdanalysis",
+        "mdtraj",
+        "namd",
+        "openff",
+        "openmm",
+        "openmm_builder",
+        "packmol",
+        "plumed",
+        "pmx",
+        "pymbar",
+        "sharc"
+      ],
+      "required_actions": [
+        "propagate_dynamics"
+      ],
       "limitations": null
     },
     "reaction_kinetics": {
-      "backends": ["gaussian", "orca", "pysisyphus", "cantera", "mess", "mesmer"],
-      "required_actions": ["locate_transition_state"],
+      "backends": [
+        "cantera",
+        "catmap",
+        "goodvibes",
+        "internal_reaction_analysis",
+        "kinbot",
+        "mesmer",
+        "mess",
+        "pyfrag",
+        "pysisyphus",
+        "rmg",
+        "scipy",
+        "sella"
+      ],
+      "required_actions": [
+        "locate_transition_state"
+      ],
       "limitations": null
     },
     "free_energy": {
-      "backends": ["gromacs", "openmm", "plumed", "pymbar", "alchemlyb"],
-      "required_actions": ["analyze_free_energy_convergence"],
+      "backends": [
+        "acpype",
+        "alchemlyb",
+        "gmx_mmpbsa",
+        "pmx",
+        "pymbar"
+      ],
+      "required_actions": [
+        "analyze_free_energy_convergence"
+      ],
       "limitations": null
     },
     "docking_conformer": {
-      "backends": ["vina", "autodock_vina", "gnina", "crest", "censo"],
-      "required_actions": ["dock_ligand"],
+      "backends": [
+        "censo",
+        "crest",
+        "gnina",
+        "internal_statistics",
+        "openbabel",
+        "rdkit",
+        "rdkit_etkdg",
+        "vina"
+      ],
+      "required_actions": [],
       "limitations": null
     },
     "multiscale": {
-      "backends": ["cp2k", "charmm", "openmm"],
+      "backends": [
+        "charmm",
+        "cp2k",
+        "gromacs",
+        "openmm"
+      ],
       "required_actions": [],
       "limitations": null
     },
     "machine_learning_chemistry": {
-      "backends": ["mace", "chgnet", "allegro", "deepmd"],
-      "required_actions": ["calculate_energy", "calculate_forces"],
+      "backends": [
+        "allegro",
+        "chgnet",
+        "deepmd",
+        "gplearn",
+        "mace",
+        "nequip",
+        "rdkit",
+        "sisso"
+      ],
+      "required_actions": [],
       "limitations": null
     }
-  }
+  },
+  "backends": {
+    "abinit": {
+      "display_name": "ABINIT",
+      "aliases": [
+        "ABINIT",
+        "abinit"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "calculate_periodic_energy",
+        "calculate_periodic_forces",
+        "calculate_periodic_stress",
+        "relax_periodic_structure"
+      ],
+      "method_families": [
+        "periodic_materials"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "supported",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "AtomicStructure",
+        "EnergyResult",
+        "ForceResult",
+        "StressResult"
+      ],
+      "method_constraints": {
+        "pseudopotentials": "element -> resource://abinit_pseudo_dojo_nc_sr_pbe_standard_psp8/<Element>",
+        "ixc": "explicit ABINIT XC code compatible with the selected PSP8 files",
+        "ecut_hartree": "explicit plane-wave cutoff in Hartree",
+        "k_points": "{grid:[nx,ny,nz], shift:[sx,sy,sz]}"
+      },
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "acpype": {
+      "display_name": "ACPYPE",
+      "aliases": [
+        "ACPYPE",
+        "acpype",
+        "antechamber",
+        "obabel"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "convert_amber_topology_to_gromacs",
+        "generate_small_molecule_topology"
+      ],
+      "method_families": [
+        "free_energy",
+        "molecular_dynamics"
+      ],
+      "system_types": {
+        "generate_small_molecule_topology": [
+          "small_molecule"
+        ],
+        "convert_amber_topology_to_gromacs": [
+          "small_molecule",
+          "biomolecule",
+          "molecular_system"
+        ]
+      },
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "supported",
+      "input_formats": "unknown",
+      "output_properties": [
+        "ParameterizedSystem"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": {
+        "generate_small_molecule_topology": {
+          "atom_type": [
+            "gaff",
+            "gaff2",
+            "amber",
+            "amber2"
+          ],
+          "charge_method": [
+            "gas",
+            "bcc",
+            "user"
+          ],
+          "charge_program": [
+            "sqm",
+            "mopac",
+            "divcon"
+          ]
+        }
+      },
+      "limitations": [
+        "ACPYPE and its compatible Open Babel/AmberTools dependencies are supplied by the managed isolated software-cache runtime."
+      ],
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "airss": {
+      "display_name": "AIRSS",
+      "aliases": [
+        "AIRSS",
+        "airss_version",
+        "buildcell",
+        "cabal"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "convert_crystal_structure_format",
+        "generate_crystal_structure_candidates"
+      ],
+      "method_families": [
+        "periodic_materials"
+      ],
+      "system_types": {
+        "generate_crystal_structure_candidates": [
+          "periodic_crystal"
+        ],
+        "convert_crystal_structure_format": [
+          "periodic_crystal"
+        ]
+      },
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "supported",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "CrystalStructureCandidateSet",
+        "CrystalStructureFile"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "alchemlyb": {
+      "display_name": "alchemlyb",
+      "aliases": [
+        "alchemlyb"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "parse_alchemical_energy_data"
+      ],
+      "method_families": [
+        "free_energy",
+        "molecular_dynamics"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "AlchemicalEnergyData"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "allegro": {
+      "display_name": "Allegro",
+      "aliases": [
+        "Allegro"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "calculate_periodic_energy",
+        "calculate_periodic_forces",
+        "calculate_periodic_stress",
+        "relax_periodic_structure"
+      ],
+      "method_families": [
+        "machine_learning_chemistry",
+        "periodic_materials"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "supported",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "AtomicStructure",
+        "EnergyResult",
+        "ForceResult",
+        "StressResult"
+      ],
+      "method_constraints": {
+        "model": "resource://<registered_allegro_checkpoint> or an explicit workspace file ArtifactRef",
+        "device": "cpu, cuda, or cuda:<index>",
+        "chemical_species_mapping": "identity or an explicit element-to-model-type mapping",
+        "allow_tf32": "explicit boolean controlling CUDA TF32 use",
+        "neighborlist_backend": "optional NequIP neighbor-list backend; default matscipy"
+      },
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "amber_pmemd": {
+      "display_name": "Amber 26 PMEMD",
+      "aliases": [
+        "AMBER",
+        "Amber 26 PMEMD",
+        "AmberTools",
+        "PMEMD",
+        "pmemd",
+        "pmemd.cuda",
+        "pmemd.MPI"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "minimize_system_energy",
+        "propagate_dynamics"
+      ],
+      "method_families": [
+        "molecular_dynamics"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "ParameterizedSystem",
+        "Trajectory"
+      ],
+      "method_constraints": {
+        "boundary": "vacuum, implicit, or periodic",
+        "cutoff_angstrom": "explicit nonbonded cutoff",
+        "constraints": "none, h_bonds, or all_bonds",
+        "igb/saltcon_molar": "explicit implicit-solvent model and optional salt concentration",
+        "system": "amber_topology_path/prmtop_path plus amber_coordinate_path/coordinate_path"
+      },
+      "allowed_method_values": "unknown",
+      "limitations": [
+        "Licensed PMEMD26 CPU serial and MPI binaries are built under .software_cache/installations/amber/26. AmberTools 26 remains independently available in the OpenFF runtime."
+      ],
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "ase_emt": {
+      "display_name": "ASE EMT",
+      "aliases": [
+        "ASE EMT"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "calculate_energy",
+        "calculate_forces",
+        "calculate_hessian",
+        "optimize_geometry"
+      ],
+      "method_families": [
+        "electronic_structure"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "AtomicStructure",
+        "EnergyResult",
+        "ForceResult",
+        "Hessian"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "bagel": {
+      "display_name": "BAGEL",
+      "aliases": [
+        "BAGEL",
+        "bagel-mpirun"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "calculate_multireference_nuclear_gradient",
+        "calculate_multireference_state_energies",
+        "calculate_nonadiabatic_coupling_vector"
+      ],
+      "method_families": [
+        "electronic_structure"
+      ],
+      "system_types": {
+        "calculate_multireference_state_energies": [
+          "molecular_atomic_structure"
+        ],
+        "calculate_multireference_nuclear_gradient": [
+          "molecular_atomic_structure"
+        ],
+        "calculate_nonadiabatic_coupling_vector": [
+          "molecular_atomic_structure"
+        ]
+      },
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "supported",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "MultireferenceGradientResult",
+        "MultireferenceStateEnergyResult",
+        "NonadiabaticCouplingResult"
+      ],
+      "method_constraints": {
+        "multireference_method": "casscf or xms-caspt2; state-energy Action accepts casscf only",
+        "basis": "exact bundled BAGEL orbital-basis name",
+        "density_fitting_basis": "exact bundled BAGEL JK-fitting basis name",
+        "active_orbitals": "positive CASSCF active-orbital count",
+        "closed_orbitals": "nonnegative doubly occupied closed-orbital count",
+        "active_orbital_indices": "optional explicit one-based orbital list whose length equals active_orbitals",
+        "caspt2_options": "required mapping for xms-caspt2: imaginary_shift_hartree, freeze_core, and sssr"
+      },
+      "allowed_method_values": {
+        "calculate_multireference_state_energies": {
+          "multireference_method": [
+            "casscf"
+          ]
+        },
+        "calculate_multireference_nuclear_gradient": {
+          "multireference_method": [
+            "casscf",
+            "xms-caspt2"
+          ]
+        },
+        "calculate_nonadiabatic_coupling_vector": {
+          "multireference_method": [
+            "casscf",
+            "xms-caspt2"
+          ]
+        }
+      },
+      "limitations": [
+        "GPL-3.0+ v1.2.2 source and Ubuntu 22.04 1.2.2-3ubuntu1 MPICH binary plus its redistribution-compatible runtime libraries are cached locally."
+      ],
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "cantera": {
+      "display_name": "Cantera",
+      "aliases": [
+        "Cantera"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "calculate_chemical_equilibrium",
+        "integrate_reaction_network"
+      ],
+      "method_families": [
+        "reaction_kinetics"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "EquilibriumResult",
+        "KineticsTrajectory"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "catalysis_hub": {
+      "display_name": "Catalysis-Hub GraphQL",
+      "aliases": [
+        "Catalysis-Hub GraphQL"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "search_catalysis_records"
+      ],
+      "method_families": [],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "CatalysisRecords"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": [
+        "Live GraphQL calls send CATALYSIS_HUB_API_KEY through X-API-Key and use bounded retry/backoff controls (max_retries, retry_backoff_seconds) and return retryable remote-service errors without hidden fallback."
+      ],
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "catmap": {
+      "display_name": "CatMAP",
+      "aliases": [
+        "CatMAP"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "solve_microkinetic_model"
+      ],
+      "method_families": [
+        "reaction_kinetics"
+      ],
+      "system_types": {
+        "solve_microkinetic_model": [
+          "heterogeneous_catalytic_network"
+        ]
+      },
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "MicrokineticResult"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "cclib": {
+      "display_name": "cclib",
+      "aliases": [
+        "cclib"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "parse_quantum_chemistry_output"
+      ],
+      "method_families": [],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "ParsedQuantumChemistryResult"
+      ],
+      "method_constraints": {
+        "properties": "action_settings.properties must be a non-empty list chosen from metadata, atom_coordinates, energies, gradients, hessian, vibrational_frequencies, vibrational_intensities, molecular_orbitals, charges, multipoles, and excited_states",
+        "coordinate_frames": "action_settings.coordinate_frames is last or all",
+        "include_orbital_coefficients": "explicit action_settings boolean controlling large MO coefficient arrays",
+        "include_excited_state_configurations": "explicit action_settings boolean controlling excited-state configuration arrays",
+        "max_array_elements": "explicit action_settings integer limit between 1 and 100000000"
+      },
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "charmm": {
+      "display_name": "CHARMM c50b2",
+      "aliases": [
+        "CHARMM",
+        "charmm",
+        "CHARMM c50b2"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "minimize_system_energy",
+        "propagate_dynamics"
+      ],
+      "method_families": [
+        "molecular_dynamics",
+        "multiscale"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "ParameterizedSystem",
+        "Trajectory"
+      ],
+      "method_constraints": {
+        "force_field_family": "the literal charmm",
+        "coordinate_format": "card or pdb",
+        "flexible_parameters": "explicit boolean selecting CHARMM flexible parameter parsing",
+        "electrostatics/electrostatic_switch/dielectric": "explicit CHARMM nonbonded electrostatics",
+        "vdw_switch/cutoff_angstrom/switch_on_angstrom/pairlist_distance_angstrom": "explicit van der Waals switching distances",
+        "constraints": "none or h_bonds",
+        "nonbond_update_interval": "explicit CHARMM INBFRQ value for dynamics",
+        "system": "charmm_topology_paths, charmm_parameter_paths, charmm_psf_path, and charmm_coordinate_path"
+      },
+      "allowed_method_values": "unknown",
+      "limitations": [
+        "The operator-provided CHARMM c50b2 source is compiled as a serial/OpenMP GNU build under .software_cache/installations/charmm/50b2; arbitrary CHARMM input scripts are not accepted."
+      ],
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "chgnet": {
+      "display_name": "CHGNet",
+      "aliases": [
+        "CHGNet"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "calculate_energy",
+        "calculate_forces",
+        "calculate_hessian",
+        "optimize_geometry"
+      ],
+      "method_families": [
+        "electronic_structure",
+        "machine_learning_chemistry"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "AtomicStructure",
+        "EnergyResult",
+        "ForceResult",
+        "Hessian"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "cp2k": {
+      "display_name": "CP2K",
+      "aliases": [
+        "CP2K",
+        "cp2k",
+        "CP2K 8.2"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "calculate_periodic_energy",
+        "calculate_periodic_forces",
+        "calculate_periodic_stress",
+        "relax_periodic_structure"
+      ],
+      "method_families": [
+        "multiscale",
+        "periodic_materials"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "supported",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "AtomicStructure",
+        "EnergyResult",
+        "ForceResult",
+        "StressResult"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "crest": {
+      "display_name": "CREST",
+      "aliases": [
+        "CREST",
+        "crest"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "generate_conformer_ensemble"
+      ],
+      "method_families": [
+        "docking_conformer"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "ConformerEnsemble"
+      ],
+      "method_constraints": {
+        "method": "GFN1-xTB, GFN2-xTB, or GFN-FF; compact gfn1/gfn2/gfnff spellings are equivalent",
+        "charge": "optional explicit integer molecular charge; otherwise taken from the starting structure",
+        "multiplicity": "optional explicit positive spin multiplicity; otherwise taken from the starting structure",
+        "solvation_model": "optional alpb or gbsa",
+        "solvent": "required solvent name when solvation_model is supplied"
+      },
+      "allowed_method_values": "unknown",
+      "limitations": [
+        "resource_constraints={\"maximum_cpu_cores\": 48, \"reason\": \"CREST/xTB threads are set from the Agent-selected resource limits and capped on this server.\"}"
+      ],
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "critic2": {
+      "display_name": "Critic2",
+      "aliases": [
+        "CRITIC2",
+        "Critic2",
+        "critic2"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "analyze_electron_density_topology",
+        "calculate_atomic_basin_properties",
+        "calculate_bader_charges"
+      ],
+      "method_families": [
+        "electronic_structure"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "AtomicBasinPropertyResult",
+        "AtomicChargeResult",
+        "ElectronDensityTopologyResult"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": [
+        "The locally compiled GPL-3.0 development build is managed under .software_cache/installations/critic2/install-conda. The adapter exposes typed AUTO/CPREPORT controls and never accepts an arbitrary Critic2 command script."
+      ],
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "deepmd": {
+      "display_name": "DeePMD-kit",
+      "aliases": [
+        "DeePMD",
+        "DeePMD-kit",
+        "dp"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "calculate_energy",
+        "calculate_forces",
+        "calculate_hessian",
+        "calculate_periodic_energy",
+        "calculate_periodic_forces",
+        "calculate_periodic_stress",
+        "optimize_geometry",
+        "relax_periodic_structure"
+      ],
+      "method_families": [
+        "electronic_structure",
+        "machine_learning_chemistry",
+        "periodic_materials"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "supported",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "AtomicStructure",
+        "EnergyResult",
+        "ForceResult",
+        "Hessian",
+        "StressResult"
+      ],
+      "method_constraints": {
+        "model": "resource://<registered_deepmd_checkpoint> or an explicit workspace file ArtifactRef",
+        "device": "cpu (the configured inference runtime is CPU-only)",
+        "model_branch": "exact registered multitask branch, or the literal single_task",
+        "charge": "explicit total charge supplied as a DeePMD frame parameter",
+        "spin": "explicit spin value supplied as a DeePMD frame parameter",
+        "frame_parameters": "optional additional explicit per-frame parameters"
+      },
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "dftbplus": {
+      "display_name": "DFTB+",
+      "aliases": [
+        "DFTB Plus",
+        "DFTB+",
+        "dftb+"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "calculate_periodic_energy",
+        "calculate_periodic_forces",
+        "relax_periodic_structure"
+      ],
+      "method_families": [
+        "periodic_materials"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "supported",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "AtomicStructure",
+        "EnergyResult",
+        "ForceResult"
+      ],
+      "method_constraints": {
+        "parameter_set": "resource://dftb_3ob_3_1 or resource://dftb_matsci_0_3",
+        "k_points": "{grid:[nx,ny,nz], shift:[sx,sy,sz]}",
+        "scc": "explicit boolean selecting SCC or non-SCC DFTB",
+        "max_angular_momenta": "element -> s|p|d|f, explicitly selected for the parameter family",
+        "third_order_full": "optional explicit DFTB3 full third-order toggle",
+        "hubbard_derivatives": "optional element -> atomic Hubbard derivative mapping",
+        "damp_xh_exponent": "optional explicit gamma^h damping exponent (3ob commonly documents 4.0)",
+        "fermi_temperature_kelvin": "optional explicit electronic filling temperature"
+      },
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "gamess": {
+      "display_name": "GAMESS",
+      "aliases": [
+        "GAMESS",
+        "GAMESS-US",
+        "rungms"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "calculate_dipole_moment",
+        "calculate_energy",
+        "optimize_geometry"
+      ],
+      "method_families": [
+        "electronic_structure"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "AtomicStructure",
+        "DipoleResult",
+        "EnergyResult"
+      ],
+      "method_constraints": {
+        "scftyp": "RHF, UHF, ROHF, or another explicit GAMESS SCFTYP",
+        "gbasis": "GAMESS GBASIS family such as STO, N31, or N311",
+        "ngauss": "explicit Gaussian primitive count for GBASIS",
+        "dfttyp": "optional GAMESS DFTTYP keyword",
+        "ndfunc/npfunc/nffunc": "optional explicit polarization counts",
+        "diffsp/diffs": "optional explicit diffuse-function booleans",
+        "charge/multiplicity": "optional explicit molecular charge and multiplicity"
+      },
+      "allowed_method_values": "unknown",
+      "limitations": [
+        "The registered source distribution is compiled under .software_cache/installations/gamess/2024-r2-p1 with a sockets DDI build and isolated compiler/runtime libraries."
+      ],
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "gaussian": {
+      "display_name": "Gaussian 16",
+      "aliases": [
+        "formchk",
+        "G09",
+        "G16",
+        "g16",
+        "Gaussian",
+        "Gaussian 09",
+        "Gaussian 16",
+        "Gaussian09",
+        "Gaussian16"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "calculate_dipole_moment",
+        "calculate_energy",
+        "calculate_hessian",
+        "optimize_geometry"
+      ],
+      "method_families": [
+        "electronic_structure"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "AtomicStructure",
+        "DipoleResult",
+        "EnergyResult",
+        "Hessian"
+      ],
+      "method_constraints": {
+        "method": "Gaussian SCF or DFT method keyword",
+        "basis": "Gaussian built-in basis-set keyword",
+        "dispersion": "optional single Gaussian dispersion route keyword",
+        "solvation_model": "optional pcm, cpcm, or smd implicit-solvation model",
+        "solvent": "required Gaussian solvent name when solvation_model is supplied",
+        "charge": "optional explicit molecular charge",
+        "multiplicity": "optional explicit spin multiplicity"
+      },
+      "allowed_method_values": {
+        "calculate_energy": {
+          "solvation_model": [
+            "pcm",
+            "cpcm",
+            "smd"
+          ]
+        },
+        "calculate_hessian": {
+          "solvation_model": [
+            "pcm",
+            "cpcm",
+            "smd"
+          ]
+        },
+        "optimize_geometry": {
+          "solvation_model": [
+            "pcm",
+            "cpcm",
+            "smd"
+          ]
+        },
+        "calculate_dipole_moment": {
+          "solvation_model": [
+            "pcm",
+            "cpcm",
+            "smd"
+          ]
+        }
+      },
+      "limitations": [
+        "Configured from the operator-provided Gaussian 16 C.01 distribution under .software_cache/installations/gaussian/g16; the adapter accepts no arbitrary route deck.",
+        "resource_constraints={\"maximum_cpu_cores\": 48, \"reason\": \"The current 64-online-CPU server reserves capacity for the service and exposes at most 48 Gaussian shared-memory cores per synchronous Action.\"}"
+      ],
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "geometric": {
+      "display_name": "geomeTRIC",
+      "aliases": [
+        "geomeTRIC",
+        "geometric-optimize"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "optimize_geometry"
+      ],
+      "method_families": [
+        "electronic_structure"
+      ],
+      "system_types": {
+        "optimize_geometry": [
+          "molecule",
+          "cluster"
+        ]
+      },
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "AtomicStructure"
+      ],
+      "method_constraints": {
+        "calculator_method": "complete method_spec mapping passed unchanged to the Agent-selected calculator backend",
+        "calculator_action_settings": "action-keyed mapping with both calculate_energy and calculate_forces objects; each object must contain the settings required by the exact Agent-selected component_backends.calculator"
+      },
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "gmx_mmpbsa": {
+      "display_name": "gmx_MMPBSA",
+      "aliases": [
+        "cpptraj",
+        "gmx",
+        "gmx-MMPBSA",
+        "gmx_MMPBSA",
+        "GMXMMPBSA",
+        "sander"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "calculate_end_state_binding_free_energy",
+        "calculate_end_state_energy_decomposition",
+        "summarize_end_state_free_energy_results"
+      ],
+      "method_families": [
+        "free_energy",
+        "molecular_dynamics"
+      ],
+      "system_types": {
+        "calculate_end_state_binding_free_energy": [
+          "molecular_complex"
+        ],
+        "calculate_end_state_energy_decomposition": [
+          "molecular_complex"
+        ],
+        "summarize_end_state_free_energy_results": [
+          "end_state_free_energy_output"
+        ]
+      },
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "EndStateBindingFreeEnergyResult",
+        "EndStateEnergyDecompositionResult",
+        "EndStateFreeEnergySummary"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": [
+        "Isolated in .envs/gmx-mmpbsa because gmx_MMPBSA 1.6.5 requires Python 3.11 and AmberTools 23.6, incompatible with the shared Python 3.12/AmberTools 26 runtime."
+      ],
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "gnina": {
+      "display_name": "GNINA",
+      "aliases": [
+        "GNINA",
+        "gnina"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "dock_ligand"
+      ],
+      "method_families": [
+        "docking_conformer"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "DockingResult"
+      ],
+      "method_constraints": {
+        "cnn_model": "builtin_default or an explicit GNINA built-in --cnn model name",
+        "cnn_scoring": "optional GNINA mode: none|rescore|refinement|metrorescore|metrorefine|all",
+        "scoring_function": "optional explicit empirical scoring function"
+      },
+      "allowed_method_values": "unknown",
+      "limitations": [
+        "Configured from the registered GNINA 1.3.3 CUDA 12.8 binary with profile-local CUDA 12.8 and cuDNN 9 runtime wheels; rerun chemistry_toolbox/scripts/configure_toolbox_resources.py to verify/relink."
+      ],
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "goodvibes": {
+      "display_name": "GoodVibes",
+      "aliases": [
+        "GoodVibes",
+        "goodvibes"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "analyze_reaction_free_energy_profile",
+        "analyze_thermochemical_ensemble",
+        "analyze_thermochemical_selectivity",
+        "derive_thermochemistry",
+        "scan_thermochemistry_temperature",
+        "validate_thermochemistry_inputs"
+      ],
+      "method_families": [
+        "reaction_kinetics"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "ReactionFreeEnergyProfileResult",
+        "ThermochemicalEnsembleResult",
+        "ThermochemicalSelectivityResult",
+        "ThermochemistryResult",
+        "ThermochemistryTemperatureSeries",
+        "ThermochemistryValidationReport"
+      ],
+      "method_constraints": {
+        "single_point_correction_suffix": "optional explicit GoodVibes --spc suffix; derive_thermochemistry accepts the matching high-level calculation as inputs.single_point_output_file and stages a safe frequency/SPC filename pair. A legacy matching file beside the frequency output remains accepted when the explicit input is omitted",
+        "custom_file_extensions": "optional list of additional accepted extensions such as .qfi or .gaussian",
+        "exclude_pattern": "optional explicit filename glob excluded by GoodVibes",
+        "free_space_solvent": "optional GoodVibes free-space solvent correction name; supported names are version-specific and must be selected by the Agent",
+        "media_solvent": "optional GoodVibes --media solution solvent; supported names are version-specific and must be selected by the Agent",
+        "frequency_scale_factor": "action_settings positive number or explicit 'auto'; mapped to --vscal, never to --fs",
+        "zpe_scale_factor": "action_settings positive number, 'auto', or 'same_as_frequency'; combinations that the GoodVibes CLI cannot represent faithfully are rejected",
+        "quasi_harmonic_conditionals": "grimme/truhlar entropy requires entropy_frequency_cutoff_cm1; grimme also requires free_rotor_inertia_model; Head-Gordon enthalpy requires enthalpy_frequency_cutoff_cm1",
+        "population_basis_conditionals": "population_basis=quasi_harmonic_gibbs requires entropy_model=grimme or truhlar; provide entropy_frequency_cutoff_cm1, and for grimme also provide free_rotor_inertia_model",
+        "standard_state_conditionals": "custom_concentration requires action_settings.concentration_mol_l",
+        "imaginary_frequency_conditionals": "invert_below_threshold requires action_settings.imaginary_frequency_threshold_cm1",
+        "duplicate_conditionals": "deduplicate_structures=true requires explicit energy, rotational, and nullable RMSD duplicate cutoffs"
+      },
+      "allowed_method_values": "unknown",
+      "limitations": [
+        "Pinned GoodVibes 4.3.0 with full JSON/CSV/Parquet/plot dependencies; official v4.3.0 source and examples are cached under .software_cache/sources/goodvibes/4.3.0/source. The supported Python surface includes goodvibes.api.compute_thermo/compute_batch; goodvibes.gaussian and goodvibes.orca are not public modules. Prefer the preset Action or CLI unless a documented public API is explicitly required."
+      ],
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "gpaw": {
+      "display_name": "GPAW",
+      "aliases": [
+        "GPAW",
+        "gpaw"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "calculate_density_of_states",
+        "calculate_electronic_band_structure",
+        "calculate_energy",
+        "calculate_forces",
+        "calculate_periodic_energy",
+        "calculate_periodic_forces",
+        "calculate_periodic_stress",
+        "calculate_projected_density_of_states",
+        "optimize_geometry",
+        "relax_periodic_structure"
+      ],
+      "method_families": [
+        "electronic_structure",
+        "periodic_materials"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "supported",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "AtomicStructure",
+        "DensityOfStatesResult",
+        "ElectronicBandStructureResult",
+        "EnergyResult",
+        "ForceResult",
+        "ProjectedDensityOfStatesResult",
+        "StressResult"
+      ],
+      "method_constraints": {
+        "mode": "fd or lcao for molecules; pw, fd, or lcao for periodic structures",
+        "xc": "explicit GPAW exchange-correlation functional",
+        "ecut_ev": "required for pw mode",
+        "grid_spacing_angstrom": "required for fd mode",
+        "basis": "required for lcao mode",
+        "k_points": "required periodic three-integer grid or {grid,gamma}",
+        "spin_polarized": "explicit boolean; true requires initial_magnetic_moments"
+      },
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "gplearn": {
+      "display_name": "gplearn",
+      "aliases": [
+        "gplearn"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "assess_symbolic_regression_seed_stability",
+        "fit_symbolic_regression_baseline",
+        "summarize_symbolic_regression_results"
+      ],
+      "method_families": [
+        "machine_learning_chemistry"
+      ],
+      "system_types": {
+        "fit_symbolic_regression_baseline": [
+          "tabular_regression_dataset"
+        ],
+        "assess_symbolic_regression_seed_stability": [
+          "tabular_regression_dataset"
+        ],
+        "summarize_symbolic_regression_results": [
+          "gplearn_action_json"
+        ]
+      },
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "SymbolicRegressionResult",
+        "SymbolicRegressionStabilityResult",
+        "SymbolicRegressionSummary"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": [
+        "BSD-3-Clause gplearn 0.4.3 is installed from its pinned PyPI wheel; upstream tests are cached with the source checkout."
+      ],
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "gromacs": {
+      "display_name": "GROMACS",
+      "aliases": [
+        "gmx",
+        "GROMACS"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "minimize_system_energy",
+        "propagate_dynamics"
+      ],
+      "method_families": [
+        "molecular_dynamics",
+        "multiscale"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "ParameterizedSystem",
+        "Trajectory"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": [
+        "For propagate_dynamics, generate_velocities=true also requires an explicit random_seed. NVT/NPT additionally require explicit temperature_coupling_groups; no coupling group is chosen implicitly."
+      ],
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "hoomd": {
+      "display_name": "HOOMD-blue",
+      "aliases": [
+        "HOOMD",
+        "HOOMD-blue"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "calculate_force_field_energy",
+        "calculate_force_field_forces",
+        "minimize_system_energy",
+        "propagate_dynamics"
+      ],
+      "method_families": [
+        "molecular_dynamics"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "supported",
+      "input_formats": "unknown",
+      "output_properties": [
+        "ForceFieldEnergyResult",
+        "ForceResult",
+        "ParameterizedSystem",
+        "Trajectory"
+      ],
+      "method_constraints": {
+        "device": "cpu or gpu; no automatic device selection",
+        "unit_system": "explicit unit label, currently reduced_lj",
+        "pair_potential": "currently lj",
+        "pair_parameters": "type-pair mapping to epsilon, sigma, and r_cut",
+        "bond_potential/bond_parameters": "optional harmonic typed bond parameters"
+      },
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "internal_periodic_analysis": {
+      "display_name": "ResearchChem periodic evidence analysis",
+      "aliases": [],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "assess_phonon_stability",
+        "calculate_adsorption_energy",
+        "construct_pressure_enthalpy_phase_diagram"
+      ],
+      "method_families": [
+        "periodic_materials"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "supported",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "AdsorptionEnergyResult",
+        "PhononStabilityAssessment",
+        "PressureEnthalpyPhaseDiagramResult"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "internal_reaction_analysis": {
+      "display_name": "ResearchChem reaction/coordination analysis",
+      "aliases": [],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "analyze_post_transition_state_trajectory_ensemble",
+        "analyze_reaction_coordinate",
+        "enumerate_coordination_isomers",
+        "validate_reaction_path"
+      ],
+      "method_families": [
+        "reaction_kinetics"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "CoordinationIsomerAssignments",
+        "PostTransitionStateTrajectoryEnsembleResult",
+        "ReactionCoordinateAnalysisResult",
+        "ReactionPathValidationResult"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "internal_spectroscopy": {
+      "display_name": "ResearchChem spectrum builder",
+      "aliases": [],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "derive_ir_spectrum",
+        "derive_uv_vis_spectrum"
+      ],
+      "method_families": [],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "SpectrumResult"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "internal_statistics": {
+      "display_name": "ResearchChem deterministic statistics",
+      "aliases": [],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "rank_conformers_from_results"
+      ],
+      "method_families": [
+        "docking_conformer"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "ConformerEnsemble"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "internal_thermochemistry": {
+      "display_name": "ResearchChem statistical thermochemistry",
+      "aliases": [],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "derive_thermochemistry"
+      ],
+      "method_families": [],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "ThermochemistryResult"
+      ],
+      "method_constraints": {
+        "energy": "EnergyResult with an explicit eV/hartree unit, including ArtifactRef forms",
+        "frequencies": "FrequencyResult including its matching structure, or supply inputs.structure separately",
+        "geometry": "monatomic, linear, or nonlinear",
+        "symmetry_number": "explicit positive rotational symmetry number",
+        "spin": "explicit total electronic spin used by ASE IdealGasThermo",
+        "ignore_imaginary_modes": "explicit boolean controlling imaginary-mode handling"
+      },
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "internal_trajectory_analysis": {
+      "display_name": "ResearchChem trajectory-ensemble analysis",
+      "aliases": [],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "analyze_nonadiabatic_trajectory_ensemble"
+      ],
+      "method_families": [
+        "molecular_dynamics"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "NonadiabaticTrajectoryEnsembleResult"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "internal_vibrations": {
+      "display_name": "ResearchChem vibrational analysis",
+      "aliases": [],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "derive_vibrational_modes"
+      ],
+      "method_families": [],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "FrequencyResult"
+      ],
+      "method_constraints": {
+        "hessian": "full Hessian object, full ArtifactRef, compact {artifact_id}, or artifact-id string",
+        "structure": "matching AtomicStructure or its ArtifactRef",
+        "linearity": "linear, nonlinear, or explicitly selected auto metadata"
+      },
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "kinbot": {
+      "display_name": "KinBot",
+      "aliases": [
+        "KinBot",
+        "kinbot",
+        "pes"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "explore_reaction_network"
+      ],
+      "method_families": [
+        "reaction_kinetics"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "ReactionNetworkExplorationResult"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": [
+        "Apply chemistry_toolbox/patches/kinbot-v2.2.2-local-nwchem.patch to official tag 2.2.2 before installation."
+      ],
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "lammps": {
+      "display_name": "LAMMPS",
+      "aliases": [
+        "LAMMPS",
+        "lmp"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "minimize_system_energy",
+        "propagate_dynamics"
+      ],
+      "method_families": [
+        "molecular_dynamics"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "ParameterizedSystem",
+        "Trajectory"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "lobster": {
+      "display_name": "LOBSTER",
+      "aliases": [
+        "LOBSTER",
+        "lobster-5.1.0"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "analyze_periodic_bonding",
+        "calculate_charge_spilling",
+        "calculate_projected_density_of_states"
+      ],
+      "method_families": [
+        "periodic_materials"
+      ],
+      "system_types": {
+        "analyze_periodic_bonding": [
+          "periodic_crystal"
+        ],
+        "calculate_projected_density_of_states": [
+          "periodic_crystal"
+        ],
+        "calculate_charge_spilling": [
+          "periodic_crystal"
+        ]
+      },
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "supported",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "PeriodicBondingResult",
+        "ProjectedDensityOfStatesResult",
+        "ProjectionQualityResult"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": [
+        "Operator-supplied LOBSTER 5.1.0 is cached locally with its User Guide and FAQ. These public actions parse bounded existing outputs and do not expose arbitrary lobsterin execution."
+      ],
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "mace": {
+      "display_name": "MACE",
+      "aliases": [
+        "MACE"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "calculate_energy",
+        "calculate_forces",
+        "calculate_hessian",
+        "optimize_geometry"
+      ],
+      "method_families": [
+        "electronic_structure",
+        "machine_learning_chemistry"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "AtomicStructure",
+        "EnergyResult",
+        "ForceResult",
+        "Hessian"
+      ],
+      "method_constraints": {
+        "model": "one exact installed cache alias: 'medium-mpa-0', 'MACE-MPA-0-medium', 'medium', or 'MACE-MP-0-medium'; alternatively an explicit local model path, or a pinned MACE 0.3.16 foundation-model name/HTTPS URL when allow_model_download=true",
+        "device": "explicit MACE device such as cpu, cuda, or cuda:<index>",
+        "allow_model_download": "explicit boolean; false still permits an installed cache alias/local path",
+        "default_dtype": "optional float32 or float64",
+        "optimizer": "bfgs, lbfgs, or fire for optimize_geometry"
+      },
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "materials_project": {
+      "display_name": "Materials Project",
+      "aliases": [
+        "Materials Project"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "search_materials"
+      ],
+      "method_families": [],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "MaterialRecords"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "mdanalysis": {
+      "display_name": "MDAnalysis",
+      "aliases": [
+        "MDAnalysis"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "calculate_dihedral_distribution",
+        "calculate_dynamic_cross_correlation",
+        "calculate_hydrogen_bonds",
+        "calculate_mean_squared_displacement",
+        "calculate_principal_components",
+        "calculate_radial_distribution",
+        "calculate_radius_of_gyration",
+        "calculate_trajectory_rmsd"
+      ],
+      "method_families": [
+        "molecular_dynamics"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "DihedralTimeSeries",
+        "DistributionResult",
+        "DynamicCrossCorrelationResult",
+        "HydrogenBondResult",
+        "PrincipalComponentResult",
+        "TimeSeries"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "mdtraj": {
+      "display_name": "MDTraj",
+      "aliases": [
+        "MDTraj"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "assign_secondary_structure",
+        "calculate_contacts",
+        "calculate_dihedral_distribution",
+        "calculate_radius_of_gyration",
+        "calculate_solvent_accessible_surface",
+        "calculate_trajectory_rmsd",
+        "cluster_trajectory"
+      ],
+      "method_families": [
+        "molecular_dynamics"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "ContactTimeSeries",
+        "DihedralTimeSeries",
+        "SecondaryStructureTimeSeries",
+        "SurfaceAreaTimeSeries",
+        "TimeSeries",
+        "TrajectoryClusterResult"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "mesmer": {
+      "display_name": "MESMER",
+      "aliases": [
+        "MESMER",
+        "mesmer"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "solve_master_equation"
+      ],
+      "method_families": [
+        "reaction_kinetics"
+      ],
+      "system_types": {
+        "solve_master_equation": [
+          "gas_phase_reaction_network"
+        ]
+      },
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "MasterEquationResult"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": [
+        "Locally compiled official MESMER 7.1 SourceForge release and manual/examples."
+      ],
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "mess": {
+      "display_name": "MESS",
+      "aliases": [
+        "MESS",
+        "mess"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "solve_master_equation"
+      ],
+      "method_families": [
+        "reaction_kinetics"
+      ],
+      "system_types": {
+        "solve_master_equation": [
+          "gas_phase_reaction_network"
+        ]
+      },
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "MasterEquationResult"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": [
+        "Locally compiled PAPR MESS 2020.1.24 runtime and official manual/examples."
+      ],
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "multiwfn": {
+      "display_name": "Multiwfn",
+      "aliases": [
+        "Multiwfn",
+        "Multiwfn_noGUI"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "calculate_atomic_charges",
+        "calculate_bond_orders",
+        "calculate_electron_isodensity_surface"
+      ],
+      "method_families": [
+        "electronic_structure"
+      ],
+      "system_types": {
+        "calculate_atomic_charges": [
+          "molecular_wavefunction"
+        ],
+        "calculate_bond_orders": [
+          "molecular_wavefunction"
+        ],
+        "calculate_electron_isodensity_surface": [
+          "molecular_wavefunction",
+          "molecular_density_grid"
+        ]
+      },
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "AtomicChargeResult",
+        "BondOrderResult",
+        "ElectronIsodensitySurfaceResult"
+      ],
+      "method_constraints": {
+        "population_analysis": "mulliken or lowdin",
+        "bond_order_definition": "mayer, wiberg_lowdin, or mulliken",
+        "surface_input": "wavefunction electron density or an external cube grid, inferred from the supplied file extension"
+      },
+      "allowed_method_values": "unknown",
+      "limitations": [
+        "Official 2026.7.15 Linux noGUI binary is managed under .software_cache/installations/multiwfn; the adapter uses fixed version-specific menu sequences and accepts no arbitrary menu script."
+      ],
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "namd": {
+      "display_name": "NAMD 3",
+      "aliases": [
+        "NAMD",
+        "NAMD 3",
+        "namd3"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "minimize_system_energy",
+        "propagate_dynamics"
+      ],
+      "method_families": [
+        "molecular_dynamics"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "ParameterizedSystem",
+        "Trajectory"
+      ],
+      "method_constraints": {
+        "force_field_family": "currently the literal charmm",
+        "exclude/one_four_scaling": "explicit NAMD nonbonded exclusions and 1-4 scaling",
+        "cutoff_angstrom/switch_distance_angstrom/pairlist_distance_angstrom": "explicit nonbonded distances",
+        "switching/pme": "explicit booleans; PME requires periodic cell metadata",
+        "rigid_bonds": "NAMD rigidBonds choice such as none, water, or all",
+        "system": "namd_psf_path, coordinate_path or namd_binary_coordinates_path, and namd_parameter_paths"
+      },
+      "allowed_method_values": "unknown",
+      "limitations": [
+        "The AVX-512 multicore and CUDA bundles are cached under .software_cache/installations/namd/3.0.2. The public backend selects the validated CPU AVX-512 binary only; CUDA is never chosen implicitly."
+      ],
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "nequip": {
+      "display_name": "NequIP",
+      "aliases": [
+        "NequIP",
+        "nequip-train"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "calculate_periodic_energy",
+        "calculate_periodic_forces",
+        "calculate_periodic_stress",
+        "relax_periodic_structure"
+      ],
+      "method_families": [
+        "machine_learning_chemistry",
+        "periodic_materials"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "supported",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "AtomicStructure",
+        "EnergyResult",
+        "ForceResult",
+        "StressResult"
+      ],
+      "method_constraints": {
+        "model": "resource://<registered_nequip_checkpoint> or an explicit workspace file ArtifactRef",
+        "device": "cpu, cuda, or cuda:<index>",
+        "chemical_species_mapping": "identity or an explicit element-to-model-type mapping",
+        "allow_tf32": "explicit boolean controlling CUDA TF32 use",
+        "neighborlist_backend": "optional NequIP neighbor-list backend; default matscipy"
+      },
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "nist_webbook": {
+      "display_name": "NIST Chemistry WebBook SRD 69 CGI",
+      "aliases": [
+        "NIST Chemistry WebBook",
+        "NIST Chemistry WebBook Interface",
+        "NIST Chemistry WebBook SRD 69 CGI",
+        "NIST WebBook"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "lookup_nist_webbook_species"
+      ],
+      "method_families": [],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "NISTWebBookSpeciesRecords"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": [
+        "No local dataset is mirrored. Name/formula wildcards and responses over 2 MiB are rejected; formula isotope/ion choices remain explicit Agent settings."
+      ],
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "nwchem": {
+      "display_name": "NWChem",
+      "aliases": [
+        "NWChem",
+        "nwchem",
+        "qcengine"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "calculate_atomic_charges",
+        "calculate_dipole_moment",
+        "calculate_energy",
+        "calculate_forces",
+        "calculate_hessian"
+      ],
+      "method_families": [
+        "electronic_structure"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "AtomicChargeResult",
+        "DipoleResult",
+        "EnergyResult",
+        "ForceResult",
+        "Hessian"
+      ],
+      "method_constraints": {
+        "method": "NWChem/QCEngine method such as hf, dft, mp2, or ccsd",
+        "basis": "NWChem basis-library name",
+        "functional": "required explicit XC functional when method=dft",
+        "reference": "optional rhf, uhf, or rohf reference selection",
+        "charge/multiplicity": "optional values overriding the supplied structure metadata"
+      },
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "openbabel": {
+      "display_name": "Open Babel",
+      "aliases": [
+        "obabel",
+        "Open Babel"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "generate_3d_structure"
+      ],
+      "method_families": [
+        "docking_conformer"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "AtomicStructure"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "openff": {
+      "display_name": "OpenFF Toolkit/Interchange",
+      "aliases": [
+        "OpenFF Toolkit/Interchange"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "assign_force_field_parameters"
+      ],
+      "method_families": [
+        "molecular_dynamics"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "supported",
+      "input_formats": "unknown",
+      "output_properties": [
+        "ParameterizedSystem"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "openff_am1bcc": {
+      "display_name": "OpenFF AM1-BCC",
+      "aliases": [
+        "antechamber",
+        "OpenFF AM1-BCC",
+        "sqm"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "assign_partial_charges"
+      ],
+      "method_families": [],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "ChargedStructure"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "openmm": {
+      "display_name": "OpenMM",
+      "aliases": [
+        "OpenMM"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "calculate_force_field_energy",
+        "calculate_force_field_forces",
+        "decompose_force_field_energy",
+        "minimize_system_energy",
+        "propagate_dynamics"
+      ],
+      "method_families": [
+        "molecular_dynamics",
+        "multiscale"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "supported",
+      "input_formats": "unknown",
+      "output_properties": [
+        "ForceFieldEnergyDecompositionResult",
+        "ForceFieldEnergyResult",
+        "ForceResult",
+        "ParameterizedSystem",
+        "Trajectory"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "openmm_builder": {
+      "display_name": "OpenMM system builder",
+      "aliases": [
+        "OpenMM system builder"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "assign_force_field_parameters",
+        "solvate_molecular_system"
+      ],
+      "method_families": [
+        "molecular_dynamics"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "supported",
+      "input_formats": "unknown",
+      "output_properties": [
+        "ParameterizedSystem"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "openmolcas": {
+      "display_name": "OpenMolcas",
+      "aliases": [
+        "MOLCAS",
+        "OpenMolcas",
+        "pymolcas"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "calculate_atomic_charges",
+        "calculate_dipole_moment",
+        "calculate_energy",
+        "calculate_orbitals"
+      ],
+      "method_families": [
+        "electronic_structure"
+      ],
+      "system_types": {
+        "calculate_energy": [
+          "molecule",
+          "cluster"
+        ],
+        "calculate_dipole_moment": [
+          "molecule",
+          "cluster"
+        ],
+        "calculate_atomic_charges": [
+          "molecule",
+          "cluster"
+        ],
+        "calculate_orbitals": [
+          "molecule",
+          "cluster"
+        ]
+      },
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "AtomicChargeResult",
+        "DipoleResult",
+        "EnergyResult",
+        "OrbitalResult"
+      ],
+      "method_constraints": {
+        "method": "hf or dft",
+        "basis": "explicit OpenMolcas basis-library label",
+        "functional": "required explicit OpenMolcas/Libxc functional when method=dft",
+        "charge/multiplicity": "optional explicit overrides of structure metadata"
+      },
+      "allowed_method_values": "unknown",
+      "limitations": [
+        "Locally compiled OpenMolcas v25.10 serial/OpenMP build with built-in Libxc."
+      ],
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "orca": {
+      "display_name": "ORCA",
+      "aliases": [
+        "ORCA",
+        "orca"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "calculate_atomic_charges",
+        "calculate_bond_orders",
+        "calculate_correlated_electron_density",
+        "calculate_dipole_moment",
+        "calculate_energy",
+        "calculate_excited_states",
+        "calculate_forces",
+        "calculate_hessian",
+        "calculate_orbitals",
+        "export_electron_density_grid",
+        "optimize_geometry"
+      ],
+      "method_families": [
+        "electronic_structure"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "supported",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "AtomicChargeResult",
+        "AtomicStructure",
+        "BondOrderResult",
+        "DipoleResult",
+        "ElectronDensityExportResult",
+        "ElectronDensityResult",
+        "EnergyResult",
+        "ExcitedStateResult",
+        "ForceResult",
+        "Hessian",
+        "OrbitalResult"
+      ],
+      "method_constraints": {
+        "method": "ORCA method/functional keyword",
+        "basis": "ORCA orbital basis keyword or method_default/auto for a built-in 3c composite method",
+        "basis_conditional": "Non-composite ORCA methods require a concrete method_spec.basis. HF-3c, B97-3c, r2SCAN-3c, PBEh-3c, B3LYP-3c, and wB97X-3c include their orbital basis and require basis to be omitted or set to method_default/auto; the sentinel is never emitted as an ORCA keyword.",
+        "dispersion": "optional ORCA dispersion keyword",
+        "solvation_model": "optional cpcm or smd implicit-solvation model",
+        "solvent": "required solvent name when solvation_model is supplied",
+        "charge": "optional explicit molecular charge",
+        "multiplicity": "optional explicit spin multiplicity",
+        "density_type": "scf, relaxed_mp2, or unrelaxed_ccsd; unavailable combinations are rejected rather than silently substituted",
+        "auxiliary_basis": "optional ORCA auxiliary/C basis keyword for MP2 and double-hybrid methods",
+        "frozen_core": "optional explicit boolean; false emits NoFrozenCore",
+        "pmodel": "optional explicit boolean enabling ORCA PModel for the density calculation"
+      },
+      "allowed_method_values": {
+        "calculate_energy": {
+          "solvation_model": [
+            "cpcm",
+            "smd"
+          ]
+        },
+        "calculate_forces": {
+          "solvation_model": [
+            "cpcm",
+            "smd"
+          ]
+        },
+        "calculate_hessian": {
+          "solvation_model": [
+            "cpcm",
+            "smd"
+          ]
+        },
+        "optimize_geometry": {
+          "solvation_model": [
+            "cpcm",
+            "smd"
+          ]
+        },
+        "calculate_dipole_moment": {
+          "solvation_model": [
+            "cpcm",
+            "smd"
+          ]
+        },
+        "calculate_atomic_charges": {
+          "solvation_model": [
+            "cpcm",
+            "smd"
+          ]
+        },
+        "calculate_orbitals": {
+          "solvation_model": [
+            "cpcm",
+            "smd"
+          ]
+        },
+        "calculate_bond_orders": {
+          "solvation_model": [
+            "cpcm",
+            "smd"
+          ]
+        },
+        "calculate_excited_states": {
+          "solvation_model": [
+            "cpcm",
+            "smd"
+          ]
+        },
+        "calculate_correlated_electron_density": {
+          "density_type": [
+            "scf",
+            "relaxed_mp2",
+            "unrelaxed_ccsd"
+          ]
+        }
+      },
+      "limitations": [
+        "Configured from the operator-downloaded ORCA 6.1.1 installer under .software_cache/installations/orca/6.1.1 with the exact OpenMPI 4.1.8 runtime required by this ORCA build. Parallel Actions retain the Agent-selected PAL process count without automatic fallback or resource substitution.",
+        "resource_constraints={\"maximum_cpu_cores\": 48, \"reason\": \"The current 64-online-CPU server reserves capacity for the service and exposes at most 48 ORCA MPI processes per synchronous Action.\"}"
+      ],
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "packmol": {
+      "display_name": "Packmol",
+      "aliases": [
+        "Packmol",
+        "packmol"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "solvate_molecular_system"
+      ],
+      "method_families": [
+        "molecular_dynamics"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "ParameterizedSystem"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "pdb_tools": {
+      "display_name": "pdb-tools",
+      "aliases": [
+        "pdb-tools",
+        "pdb_reres",
+        "pdb_selchain",
+        "pdb_tidy"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "normalize_pdb_records",
+        "renumber_biomolecular_structure",
+        "select_structure_subset"
+      ],
+      "method_families": [],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "AtomicStructure"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "pdbfixer": {
+      "display_name": "PDBFixer",
+      "aliases": [
+        "PDBFixer"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "assign_protonation_states",
+        "repair_biomolecular_structure"
+      ],
+      "method_families": [],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "AtomicStructure"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "phono3py": {
+      "display_name": "Phono3py",
+      "aliases": [
+        "Phono3py",
+        "phono3py"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "assemble_force_constants",
+        "calculate_harmonic_thermodynamics",
+        "calculate_lattice_thermal_conductivity",
+        "calculate_phonon_density_of_states",
+        "calculate_phonon_dispersion",
+        "calculate_phonon_group_velocities",
+        "generate_displaced_supercells"
+      ],
+      "method_families": [
+        "periodic_materials"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "supported",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "DisplacementSet",
+        "ForceConstants",
+        "HarmonicThermodynamicsResult",
+        "LatticeThermalConductivityResult",
+        "PhononDensityOfStates",
+        "PhononDispersion",
+        "PhononGroupVelocityResult"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "phonopy": {
+      "display_name": "Phonopy",
+      "aliases": [
+        "Phonopy",
+        "phonopy"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "assemble_force_constants",
+        "calculate_harmonic_thermodynamics",
+        "calculate_phonon_density_of_states",
+        "calculate_phonon_dispersion",
+        "calculate_phonon_group_velocities",
+        "generate_displaced_supercells"
+      ],
+      "method_families": [
+        "periodic_materials"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "supported",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "DisplacementSet",
+        "ForceConstants",
+        "HarmonicThermodynamicsResult",
+        "PhononDensityOfStates",
+        "PhononDispersion",
+        "PhononGroupVelocityResult"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "plumed": {
+      "display_name": "PLUMED",
+      "aliases": [
+        "PLUMED",
+        "plumed"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "evaluate_collective_variables"
+      ],
+      "method_families": [
+        "molecular_dynamics"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "TimeSeries"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "pmx": {
+      "display_name": "pmx",
+      "aliases": [
+        "pmx"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "generate_alchemical_hybrid_topology",
+        "map_alchemical_ligand_atoms",
+        "mutate_biomolecular_residues_for_alchemy"
+      ],
+      "method_families": [
+        "free_energy",
+        "molecular_dynamics"
+      ],
+      "system_types": {
+        "mutate_biomolecular_residues_for_alchemy": [
+          "protein",
+          "dna",
+          "rna"
+        ],
+        "generate_alchemical_hybrid_topology": [
+          "biomolecule",
+          "molecular_system"
+        ],
+        "map_alchemical_ligand_atoms": [
+          "small_molecule_pair"
+        ]
+      },
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "supported",
+      "input_formats": "unknown",
+      "output_properties": [
+        "AlchemicalAtomMapping",
+        "AtomicStructure",
+        "ParameterizedSystem"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": {
+        "mutate_biomolecular_residues_for_alchemy": {
+          "force_field": [
+            "amber99sb-star-ildn-mut",
+            "amber99sb-star-ildn-dna-mut",
+            "amber99sb-star-ildn-bsc1-mut",
+            "amber14sbmut",
+            "charmm36m-mut",
+            "charmm22star-mut"
+          ]
+        },
+        "generate_alchemical_hybrid_topology": {
+          "force_field": [
+            "amber99sb-star-ildn-mut",
+            "amber99sb-star-ildn-dna-mut",
+            "amber99sb-star-ildn-bsc1-mut",
+            "amber14sbmut",
+            "charmm36m-mut",
+            "charmm22star-mut"
+          ]
+        }
+      },
+      "limitations": [
+        "The upstream Python 3 branch is documented as development software; this runtime is pinned to commit 0dd5f0a and must not float to branch HEAD."
+      ],
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "psi4": {
+      "display_name": "Psi4",
+      "aliases": [
+        "PSI4",
+        "Psi4",
+        "psi4"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "calculate_atomic_charges",
+        "calculate_dipole_moment",
+        "calculate_energy",
+        "calculate_hessian",
+        "calculate_orbitals"
+      ],
+      "method_families": [
+        "electronic_structure"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "AtomicChargeResult",
+        "DipoleResult",
+        "EnergyResult",
+        "Hessian",
+        "OrbitalResult"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "pubchem": {
+      "display_name": "PubChem PUG REST",
+      "aliases": [
+        "PubChem PUG REST"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "resolve_chemical_identity",
+        "retrieve_compound_properties",
+        "retrieve_compound_structure",
+        "search_compounds",
+        "search_similar_compounds",
+        "search_substructures"
+      ],
+      "method_families": [],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "ChemicalIdentity",
+        "CompoundPropertyRecords",
+        "CompoundRecords",
+        "StructureCollection"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": [
+        "Live PUG REST access uses cross-worker rate limiting and bounded retries. Optional mechanical controls are max_retries, retry_backoff_seconds, minimum_request_interval_seconds, max_poll_attempts, and poll_interval_seconds. Request timeout is evaluator-controlled. Existing proxy variables take priority; otherwise PubChem loads proxy-only values from the ignored config.local.env file. No alternate data source is selected implicitly."
+      ],
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "pyfrag": {
+      "display_name": "PyFrag",
+      "aliases": [
+        "orca",
+        "PyFrag",
+        "PyFrag 2019",
+        "pyfrag-orca"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "analyze_activation_strain_profile",
+        "summarize_activation_strain_profile",
+        "validate_activation_strain_profile"
+      ],
+      "method_families": [
+        "reaction_kinetics"
+      ],
+      "system_types": {
+        "analyze_activation_strain_profile": [
+          "molecular_reaction_path"
+        ],
+        "summarize_activation_strain_profile": [
+          "pyfrag_activation_strain_table"
+        ],
+        "validate_activation_strain_profile": [
+          "pyfrag_activation_strain_table"
+        ]
+      },
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "ActivationStrainProfileResult",
+        "ActivationStrainProfileSummary",
+        "ActivationStrainProfileValidationResult"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": [
+        "Pinned LGPL-3.0 v1.0.0 source with the tracked Python 3 tokenization and ORCA 6 final-energy compatibility patch. ORCA itself requires separate registration/download."
+      ],
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "pymatgen": {
+      "display_name": "pymatgen",
+      "aliases": [
+        "pymatgen"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "analyze_crystal_symmetry",
+        "build_supercell",
+        "enumerate_surface_slabs",
+        "standardize_crystal_structure"
+      ],
+      "method_families": [],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "AtomicStructure",
+        "CrystalSymmetryResult",
+        "StructureCollection"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "pymbar": {
+      "display_name": "PyMBAR",
+      "aliases": [
+        "PyMBAR",
+        "pymbar"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "analyze_free_energy_convergence",
+        "calculate_potential_of_mean_force",
+        "estimate_free_energy_difference",
+        "estimate_thermodynamic_expectations"
+      ],
+      "method_families": [
+        "free_energy",
+        "molecular_dynamics"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "FreeEnergyConvergenceResult",
+        "FreeEnergyDifferenceResult",
+        "FreeEnergyProfileResult",
+        "ThermodynamicExpectationResult"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "pyscf": {
+      "display_name": "PySCF",
+      "aliases": [
+        "PySCF"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "calculate_atomic_charges",
+        "calculate_dipole_moment",
+        "calculate_energy",
+        "calculate_excited_states",
+        "calculate_forces",
+        "calculate_hessian",
+        "calculate_orbitals"
+      ],
+      "method_families": [
+        "electronic_structure"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "supported",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "AtomicChargeResult",
+        "DipoleResult",
+        "EnergyResult",
+        "ExcitedStateResult",
+        "ForceResult",
+        "Hessian",
+        "OrbitalResult"
+      ],
+      "method_constraints": {
+        "method": "rhf|uhf|rks|uks",
+        "basis": "PySCF basis name"
+      },
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "pysisyphus": {
+      "display_name": "pysisyphus",
+      "aliases": [
+        "pysis",
+        "pysisyphus"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "locate_transition_state",
+        "scan_reaction_coordinates",
+        "search_reaction_path",
+        "trace_intrinsic_reaction_coordinate"
+      ],
+      "method_families": [
+        "reaction_kinetics"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "AtomicStructure",
+        "ReactionCoordinateScan",
+        "ReactionPath"
+      ],
+      "method_constraints": {
+        "calculator_backend": "exact native pysisyphus calculator type: xtb, pyscf, or orca",
+        "method": "method interpreted by the explicitly selected calculator_backend; for xtb use GFN0-xTB, GFN1-xTB, GFN2-xTB, or GFN-FF (compact gfn0/gfn1/gfn2/gfnff spellings are equivalent)",
+        "basis": "basis-set label used by calculator_backend=pyscf and optionally by orca",
+        "functional": "DFT functional used when calculator_backend=pyscf and method denotes DFT",
+        "charge": "explicit integer molecular charge; otherwise taken from the supplied structure",
+        "multiplicity": "explicit positive spin multiplicity; otherwise taken from the supplied structure",
+        "solvation_model": "optional alpb/gbsa for xTB or cpcm/smd for ORCA",
+        "solvent": "required solvent name when solvation_model is supplied; xTB 6.7 validates its exact built-in ALPB/GBSA parameter set and does not provide ethanol",
+        "pyscf_basis_conditional": "calculator_backend=pyscf requires method_spec.basis",
+        "hessian_init": "explicit pysisyphus initial-Hessian strategy; calc requests an exact Hessian, whereas unit/fischer/lindh/simple/swart/xtb/xtb1/xtbff select the named model"
+      },
+      "allowed_method_values": {
+        "locate_transition_state": {
+          "calculator_backend": [
+            "xtb",
+            "pyscf",
+            "orca"
+          ],
+          "solvation_model": [
+            "alpb",
+            "gbsa",
+            "cpcm",
+            "smd"
+          ]
+        },
+        "search_reaction_path": {
+          "calculator_backend": [
+            "xtb",
+            "pyscf",
+            "orca"
+          ],
+          "solvation_model": [
+            "alpb",
+            "gbsa",
+            "cpcm",
+            "smd"
+          ]
+        },
+        "scan_reaction_coordinates": {
+          "calculator_backend": [
+            "xtb",
+            "pyscf",
+            "orca"
+          ],
+          "solvation_model": [
+            "alpb",
+            "gbsa",
+            "cpcm",
+            "smd"
+          ]
+        },
+        "trace_intrinsic_reaction_coordinate": {
+          "calculator_backend": [
+            "xtb",
+            "pyscf",
+            "orca"
+          ],
+          "solvation_model": [
+            "alpb",
+            "gbsa",
+            "cpcm",
+            "smd"
+          ]
+        }
+      },
+      "limitations": [
+        "resource_constraints={\"maximum_cpu_cores\": 48, \"reason\": \"Calculator processes/threads remain exactly Agent-selected, capped at 48 on this server.\"}"
+      ],
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "qcelemental": {
+      "display_name": "QCElemental",
+      "aliases": [
+        "QCElemental"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "normalize_qcschema_molecule",
+        "validate_qcschema_record"
+      ],
+      "method_families": [],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "QCSchemaMolecule",
+        "QCSchemaValidationResult"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "quantum_espresso": {
+      "display_name": "Quantum ESPRESSO",
+      "aliases": [
+        "pw.x",
+        "PWscf",
+        "QE",
+        "Quantum ESPRESSO",
+        "Quantum Espresso",
+        "QUANTUM ESPRESSO simulation package"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "calculate_periodic_energy",
+        "calculate_periodic_forces",
+        "calculate_periodic_stress",
+        "relax_periodic_structure"
+      ],
+      "method_families": [
+        "periodic_materials"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "supported",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "AtomicStructure",
+        "EnergyResult",
+        "ForceResult",
+        "StressResult"
+      ],
+      "method_constraints": {
+        "pseudopotentials": "element -> resource://<SSSP resource id>/<Element> or workspace ArtifactRef",
+        "input_dft": "explicit Quantum ESPRESSO XC identifier compatible with the selected resources",
+        "ecutwfc_ry": "explicit wavefunction cutoff in Ry; SSSP per-element recommendations are exposed in the resource catalog",
+        "ecutrho_ry": "optional explicit charge-density cutoff in Ry",
+        "k_points": "{grid:[nx,ny,nz], shift:[sx,sy,sz]}"
+      },
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "rcsb_pdb": {
+      "display_name": "RCSB PDB Data API",
+      "aliases": [
+        "RCSB PDB Data API"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "search_protein_structures"
+      ],
+      "method_families": [],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "ProteinStructureRecords"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "rdkit": {
+      "display_name": "RDKit",
+      "aliases": [
+        "RDKit"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "align_molecular_structures",
+        "assign_protonation_states",
+        "calculate_molecular_descriptors",
+        "calculate_molecular_fingerprint",
+        "calculate_molecular_similarity",
+        "cluster_conformers",
+        "enumerate_stereoisomers",
+        "enumerate_tautomers",
+        "generate_3d_structure",
+        "search_local_substructures",
+        "standardize_structure"
+      ],
+      "method_families": [
+        "docking_conformer",
+        "machine_learning_chemistry"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "AtomicStructure",
+        "ConformerClusterResult",
+        "MolecularDescriptorResult",
+        "MolecularFingerprint",
+        "MolecularSimilarityResult",
+        "MoleculeCollection",
+        "StructureAlignmentResult",
+        "SubstructureMatchResult"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "rdkit_etkdg": {
+      "display_name": "RDKit ETKDG",
+      "aliases": [
+        "RDKit ETKDG"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "generate_conformer_ensemble"
+      ],
+      "method_families": [
+        "docking_conformer"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "ConformerEnsemble"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "rdkit_gasteiger": {
+      "display_name": "RDKit Gasteiger charges",
+      "aliases": [
+        "RDKit Gasteiger charges"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "assign_partial_charges"
+      ],
+      "method_families": [],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "ChargedStructure"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "rmg": {
+      "display_name": "RMG-Py",
+      "aliases": [
+        "RMG",
+        "RMG-Py",
+        "rmg.py"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "calculate_rate_constants",
+        "calculate_tunneling_correction"
+      ],
+      "method_families": [
+        "reaction_kinetics"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "RateConstantResult",
+        "TunnelingCorrectionResult"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "scipy": {
+      "display_name": "SciPy",
+      "aliases": [
+        "SciPy"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "integrate_reaction_network"
+      ],
+      "method_families": [
+        "reaction_kinetics"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "KineticsTrajectory"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "sella": {
+      "display_name": "Sella",
+      "aliases": [
+        "Sella"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "locate_transition_state",
+        "optimize_geometry"
+      ],
+      "method_families": [
+        "electronic_structure",
+        "reaction_kinetics"
+      ],
+      "system_types": {
+        "optimize_geometry": [
+          "molecule",
+          "cluster"
+        ],
+        "locate_transition_state": [
+          "molecule",
+          "cluster"
+        ]
+      },
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "AtomicStructure"
+      ],
+      "method_constraints": {
+        "calculator_method": "complete method_spec mapping passed unchanged to the Agent-selected calculator backend",
+        "calculator_action_settings": "action-keyed mapping with both calculate_energy and calculate_forces objects, for example {'calculate_energy': {}, 'calculate_forces': {}} when the selected calculator declares no nested settings"
+      },
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "sharc": {
+      "display_name": "SHARC",
+      "aliases": [
+        "SHARC",
+        "sharc.x",
+        "SHARC_MOLCAS.py",
+        "SHARC_ORCA.py",
+        "wfoverlap.x"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "propagate_nonadiabatic_trajectory"
+      ],
+      "method_families": [
+        "molecular_dynamics"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "supported",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "NonadiabaticTrajectory"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": {
+        "propagate_nonadiabatic_trajectory": {
+          "interface": [
+            "lvc",
+            "orca",
+            "openmolcas",
+            "analytical",
+            "other"
+          ]
+        }
+      },
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "shengbte": {
+      "display_name": "ShengBTE",
+      "aliases": [
+        "ShengBTE"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "calculate_lattice_thermal_conductivity"
+      ],
+      "method_families": [
+        "periodic_materials"
+      ],
+      "system_types": {
+        "calculate_lattice_thermal_conductivity": [
+          "periodic_crystal"
+        ]
+      },
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "supported",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "LatticeThermalConductivityResult"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": [
+        "Locally compiled official ShengBTE source; the bundled Test-RTA calculation passed."
+      ],
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "siesta": {
+      "display_name": "SIESTA",
+      "aliases": [
+        "SIESTA",
+        "siesta"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "calculate_periodic_energy",
+        "calculate_periodic_forces",
+        "relax_periodic_structure"
+      ],
+      "method_families": [
+        "periodic_materials"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "supported",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "AtomicStructure",
+        "EnergyResult",
+        "ForceResult"
+      ],
+      "method_constraints": {
+        "pseudopotentials": "element -> resource://siesta_pseudo_dojo_nc_sr_05_pbe_standard_psml/<Element>",
+        "xc_functional": "explicit SIESTA XC family compatible with selected PSML files",
+        "xc_authors": "explicit SIESTA XC parametrization",
+        "basis_size": "explicit PAO basis size",
+        "mesh_cutoff_ry": "explicit real-space mesh cutoff in Ry",
+        "k_points": "{grid:[nx,ny,nz], shift:[sx,sy,sz]}"
+      },
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "sisso": {
+      "display_name": "SISSO",
+      "aliases": [
+        "bc",
+        "SISSO",
+        "SISSO_predict",
+        "SISSO_run"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "discover_sparse_symbolic_descriptor",
+        "evaluate_sparse_symbolic_descriptor",
+        "summarize_sparse_symbolic_descriptor_results"
+      ],
+      "method_families": [
+        "machine_learning_chemistry"
+      ],
+      "system_types": {
+        "discover_sparse_symbolic_descriptor": [
+          "tabular_regression_dataset"
+        ],
+        "evaluate_sparse_symbolic_descriptor": [
+          "sisso_regression_model"
+        ],
+        "summarize_sparse_symbolic_descriptor_results": [
+          "sisso_output"
+        ]
+      },
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "SparseSymbolicDescriptorEvaluation",
+        "SparseSymbolicDescriptorResult",
+        "SparseSymbolicDescriptorSummary"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": [
+        "SISSO 3.5 is compiled with the official Intel Fortran Classic 2021.2 and Intel MPI 2021.15 toolchain cached under .software_cache."
+      ],
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "spglib": {
+      "display_name": "spglib",
+      "aliases": [
+        "spglib"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "analyze_crystal_symmetry",
+        "standardize_crystal_structure"
+      ],
+      "method_families": [],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "AtomicStructure",
+        "CrystalSymmetryResult"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "tblite": {
+      "display_name": "TBLite",
+      "aliases": [
+        "TBLite"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "calculate_dipole_moment",
+        "calculate_energy",
+        "calculate_forces",
+        "calculate_hessian",
+        "optimize_geometry"
+      ],
+      "method_families": [
+        "electronic_structure"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "AtomicStructure",
+        "DipoleResult",
+        "EnergyResult",
+        "ForceResult",
+        "Hessian"
+      ],
+      "method_constraints": {
+        "method": "gfn1, gfn1-xtb, gfn2, or gfn2-xtb",
+        "optimizer": "bfgs, lbfgs, or fire for optimize_geometry"
+      },
+      "allowed_method_values": {
+        "calculate_energy": {
+          "method": [
+            "gfn1",
+            "gfn1-xtb",
+            "gfn2",
+            "gfn2-xtb"
+          ]
+        },
+        "calculate_forces": {
+          "method": [
+            "gfn1",
+            "gfn1-xtb",
+            "gfn2",
+            "gfn2-xtb"
+          ]
+        },
+        "calculate_hessian": {
+          "method": [
+            "gfn1",
+            "gfn1-xtb",
+            "gfn2",
+            "gfn2-xtb"
+          ]
+        },
+        "optimize_geometry": {
+          "method": [
+            "gfn1",
+            "gfn1-xtb",
+            "gfn2",
+            "gfn2-xtb"
+          ]
+        },
+        "calculate_dipole_moment": {
+          "method": [
+            "gfn1",
+            "gfn1-xtb",
+            "gfn2",
+            "gfn2-xtb"
+          ]
+        }
+      },
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "tdep": {
+      "display_name": "TDEP",
+      "aliases": [
+        "canonical_configuration",
+        "extract_forceconstants",
+        "phonon_dispersion_relations",
+        "TDEP"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "calculate_temperature_dependent_phonon_dispersion",
+        "fit_effective_force_constants",
+        "generate_thermal_displacement_configurations"
+      ],
+      "method_families": [
+        "periodic_materials"
+      ],
+      "system_types": {
+        "fit_effective_force_constants": [
+          "periodic_crystal"
+        ],
+        "generate_thermal_displacement_configurations": [
+          "periodic_crystal"
+        ],
+        "calculate_temperature_dependent_phonon_dispersion": [
+          "periodic_crystal"
+        ]
+      },
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "supported",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "EffectiveForceConstantModel",
+        "PhononDispersion",
+        "ThermalDisplacementConfigurationSet"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": [
+        "Official tag 25.03 compiled with MPICH and gfortran at -O0; the upstream extract_forceconstants test segfaults with this toolchain at -O2."
+      ],
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "vasp": {
+      "display_name": "VASP",
+      "aliases": [
+        "VASP",
+        "vasp_std",
+        "Vienna Ab initio Simulation Package"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "calculate_periodic_energy",
+        "calculate_periodic_forces",
+        "calculate_periodic_stress",
+        "relax_periodic_structure"
+      ],
+      "method_families": [
+        "periodic_materials"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "supported",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "AtomicStructure",
+        "EnergyResult",
+        "ForceResult",
+        "StressResult"
+      ],
+      "method_constraints": {
+        "pseudopotentials": "element -> resource://<VASP family id>/<exact variant directory> or workspace ArtifactRef",
+        "encut_ev": "explicit plane-wave cutoff in eV",
+        "k_points": "{grid:[nx,ny,nz], shift:[sx,sy,sz]}",
+        "kpoint_scheme": "gamma or monkhorst-pack",
+        "precision": "explicit VASP PREC value",
+        "algorithm": "explicit VASP ALGO value",
+        "ismear": "explicit integer ISMEAR",
+        "sigma_ev": "explicit SIGMA in eV",
+        "spin_polarized": "explicit boolean selecting ISPIN=1/2",
+        "real_space_projection": "explicit LREAL boolean or Auto",
+        "xc_family": "lda, pbe, pbesol, scan, or r2scan",
+        "initial_magnetic_moments": "optional one value per atom",
+        "electron_count": "optional explicit NELECT",
+        "additional_incar": "optional explicit extra INCAR mapping; relaxation-semantic keys are protected"
+      },
+      "allowed_method_values": "unknown",
+      "limitations": [
+        "VASP 6.3.2 was built locally from the operator-provided source. The operator-supplied local POTCAR archive is registered as five explicit variant collections; treat it as licensed, non-redistributable data."
+      ],
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "vaspkit": {
+      "display_name": "VASPKIT",
+      "aliases": [
+        "VASPKIT",
+        "vaspkit"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "analyze_crystal_symmetry",
+        "extract_vasp_band_gap",
+        "generate_vasp_kpoint_mesh"
+      ],
+      "method_families": [
+        "periodic_materials"
+      ],
+      "system_types": {
+        "analyze_crystal_symmetry": [
+          "periodic_atomic_structure"
+        ],
+        "generate_vasp_kpoint_mesh": [
+          "vasp_structure_file"
+        ],
+        "extract_vasp_band_gap": [
+          "vasp_electronic_output_set"
+        ]
+      },
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "supported",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "CrystalSymmetryResult",
+        "ElectronicBandGapResult",
+        "KPointMesh"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": [
+        "Download the official 1.5.1 Linux binary separately. Its license prohibits redistribution without written permission."
+      ],
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "vina": {
+      "display_name": "AutoDock Vina",
+      "aliases": [
+        "AutoDock Vina",
+        "Vina",
+        "vina"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "dock_ligand"
+      ],
+      "method_families": [
+        "docking_conformer"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "DockingResult"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "xtb": {
+      "display_name": "xTB",
+      "aliases": [
+        "GFN-xTB",
+        "xTB",
+        "xtb"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "calculate_atomic_charges",
+        "calculate_bond_orders",
+        "calculate_dipole_moment",
+        "calculate_energy",
+        "calculate_forces",
+        "calculate_hessian",
+        "optimize_geometry"
+      ],
+      "method_families": [
+        "electronic_structure"
+      ],
+      "system_types": "unknown",
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "unknown",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "AtomicChargeResult",
+        "AtomicStructure",
+        "BondOrderResult",
+        "DipoleResult",
+        "EnergyResult",
+        "ForceResult",
+        "Hessian"
+      ],
+      "method_constraints": {
+        "method": "gfn1, gfn1-xtb, gfn2, or gfn2-xtb",
+        "charge": "optional explicit integer molecular charge",
+        "unpaired_electrons": "optional explicit nonnegative integer number of unpaired electrons",
+        "optimization_level": "crude, sloppy, loose, normal, tight, verytight, or extreme"
+      },
+      "allowed_method_values": {
+        "calculate_energy": {
+          "method": [
+            "gfn1",
+            "gfn1-xtb",
+            "gfn2",
+            "gfn2-xtb"
+          ]
+        },
+        "calculate_forces": {
+          "method": [
+            "gfn1",
+            "gfn1-xtb",
+            "gfn2",
+            "gfn2-xtb"
+          ]
+        },
+        "calculate_hessian": {
+          "method": [
+            "gfn1",
+            "gfn1-xtb",
+            "gfn2",
+            "gfn2-xtb"
+          ]
+        },
+        "optimize_geometry": {
+          "method": [
+            "gfn1",
+            "gfn1-xtb",
+            "gfn2",
+            "gfn2-xtb"
+          ]
+        },
+        "calculate_dipole_moment": {
+          "method": [
+            "gfn1",
+            "gfn1-xtb",
+            "gfn2",
+            "gfn2-xtb"
+          ]
+        },
+        "calculate_atomic_charges": {
+          "method": [
+            "gfn1",
+            "gfn1-xtb",
+            "gfn2",
+            "gfn2-xtb"
+          ]
+        },
+        "calculate_bond_orders": {
+          "method": [
+            "gfn1",
+            "gfn1-xtb",
+            "gfn2",
+            "gfn2-xtb"
+          ]
+        }
+      },
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    },
+    "yambo": {
+      "display_name": "Yambo",
+      "aliases": [
+        "p2y",
+        "Yambo",
+        "yambo"
+      ],
+      "availability": "declared_supported",
+      "local_installation_status": "not_evaluated",
+      "validation_level": "functional",
+      "actions": [
+        "calculate_bse_optical_spectrum",
+        "calculate_quasiparticle_corrections"
+      ],
+      "method_families": [
+        "periodic_materials"
+      ],
+      "system_types": {
+        "calculate_quasiparticle_corrections": [
+          "periodic_crystal"
+        ],
+        "calculate_bse_optical_spectrum": [
+          "periodic_crystal"
+        ]
+      },
+      "elements": "unknown",
+      "basis_or_pseudopotential_constraints": "unknown",
+      "periodic_support": "supported",
+      "excited_state_support": "unknown",
+      "solvent_support": "unknown",
+      "force_field_support": "unknown",
+      "input_formats": "unknown",
+      "output_properties": [
+        "OpticalSpectrumResult",
+        "QuasiparticleCorrectionResult"
+      ],
+      "method_constraints": "unknown",
+      "allowed_method_values": "unknown",
+      "limitations": null,
+      "evidence_refs": [
+        "chemistry_toolbox/evidence/status/action_test_coverage.json"
+      ],
+      "catalog_hash": "2f8e8e58b6d7054833558715dbf7bde374ddc860d4423a094a1fd45248ac0103"
+    }
+  },
+  "native_software": {
+    "aiida": {
+      "display_name": "AiiDA",
+      "aliases": [
+        "AiiDA",
+        "verdi"
+      ],
+      "kind": "workflow_framework",
+      "role": "Provenance-aware workflow engine and data store.",
+      "availability": "configured_in_toolbox_runtime",
+      "local_installation_status": "configured",
+      "validation_level": "functional",
+      "execution_layer": "native_software_documentation",
+      "actions": [],
+      "method_families": [],
+      "limitations": "Profile researchchembench is initialized with SQLite under .software_cache/state/aiida and supports synchronous local run() with provenance. RabbitMQ is only required for daemon-backed submit/play/pause/kill and is intentionally not added to this bounded local benchmark runtime.",
+      "evidence_refs": [
+        "chemistry_toolbox/config/requested_software.yaml",
+        "chemistry_toolbox/evidence/status/requested_software_status.json"
+      ]
+    },
+    "arkane": {
+      "display_name": "Arkane",
+      "aliases": [
+        "Arkane",
+        "Arkane.py"
+      ],
+      "kind": "executable",
+      "role": "Thermochemistry and kinetics from quantum-chemistry results.",
+      "availability": "configured_in_toolbox_runtime",
+      "local_installation_status": "configured",
+      "validation_level": "functional",
+      "execution_layer": "native_software_documentation",
+      "actions": [],
+      "method_families": [],
+      "limitations": "Shipped with RMG-Py and the official database. CoolProp 8.0.0 and numdifftools 0.9.42 repair the previous import timeout; the bundled H thermochemistry example now completes through Arkane and produces thermo, plot, and supporting-information outputs.",
+      "evidence_refs": [
+        "chemistry_toolbox/config/requested_software.yaml",
+        "chemistry_toolbox/evidence/status/requested_software_status.json"
+      ]
+    },
+    "atomate2": {
+      "display_name": "atomate2",
+      "aliases": [
+        "atomate2"
+      ],
+      "kind": "workflow_framework",
+      "role": "Materials workflow building blocks on jobflow/pymatgen.",
+      "availability": "configured_in_toolbox_runtime",
+      "local_installation_status": "configured",
+      "validation_level": "functional",
+      "execution_layer": "native_software_documentation",
+      "actions": [],
+      "method_families": [],
+      "limitations": "Installed as a library only; no fixed workflow is exposed as a public Action.",
+      "evidence_refs": [
+        "chemistry_toolbox/config/requested_software.yaml",
+        "chemistry_toolbox/evidence/status/requested_software_status.json"
+      ]
+    },
+    "autode": {
+      "display_name": "autodE",
+      "aliases": [
+        "autodE"
+      ],
+      "kind": "python_library",
+      "role": "Automated reaction-energy and transition-state utilities.",
+      "availability": "configured_in_toolbox_runtime",
+      "local_installation_status": "configured",
+      "validation_level": "functional",
+      "execution_layer": "native_software_documentation",
+      "actions": [],
+      "method_families": [],
+      "limitations": "Library installed with NWChem support dependencies; no monolithic workflow Action is exposed.",
+      "evidence_refs": [
+        "chemistry_toolbox/config/requested_software.yaml",
+        "chemistry_toolbox/evidence/status/requested_software_status.json"
+      ]
+    },
+    "automekin": {
+      "display_name": "AutoMeKin",
+      "aliases": [
+        "amk.sh",
+        "AutoMeKin",
+        "bbfs.exe",
+        "mopac"
+      ],
+      "kind": "source_build",
+      "role": "Automated reaction-mechanism exploration.",
+      "availability": "configured_in_toolbox_runtime",
+      "local_installation_status": "configured",
+      "validation_level": "functional",
+      "execution_layer": "native_software_documentation",
+      "actions": [],
+      "method_families": [],
+      "limitations": "Official source was built in an isolated conda environment with the bundled MOPAC engine; a real water PM7 single-point job ended normally. Gaussian is configured independently, but AutoMeKin-to-Gaussian/Qcore coupling is not prewired or selected implicitly.",
+      "evidence_refs": [
+        "chemistry_toolbox/config/requested_software.yaml",
+        "chemistry_toolbox/evidence/status/requested_software_status.json"
+      ]
+    },
+    "censo": {
+      "display_name": "CENSO",
+      "aliases": [
+        "CENSO",
+        "censo"
+      ],
+      "kind": "executable",
+      "role": "Conformer ensemble sorting and thermochemical analysis executable.",
+      "availability": "configured_in_toolbox_runtime",
+      "local_installation_status": "configured",
+      "validation_level": "functional",
+      "execution_layer": "native_software_documentation",
+      "actions": [],
+      "method_families": [],
+      "limitations": "CENSO 2.1.2 uses an isolated configuration with ORCA 6.1.1, matching OpenMPI 4.1.8 and xTB; all electronic-structure stages select ORCA rather than the removed TURBOMOLE backend. A real two-conformer PBE-D4 prescreen completed. Production runs still require explicit ensemble, charge, spin, solvent and resource choices.",
+      "evidence_refs": [
+        "chemistry_toolbox/config/requested_software.yaml",
+        "chemistry_toolbox/evidence/status/requested_software_status.json"
+      ]
+    },
+    "jobflow": {
+      "display_name": "jobflow",
+      "aliases": [
+        "jobflow"
+      ],
+      "kind": "workflow_framework",
+      "role": "Composable jobs/flows and local execution primitives.",
+      "availability": "configured_in_toolbox_runtime",
+      "local_installation_status": "configured",
+      "validation_level": "functional",
+      "execution_layer": "native_software_documentation",
+      "actions": [],
+      "method_families": [],
+      "limitations": "A minimal add(2,3) local flow passed; Agent still chooses job ordering and inputs.",
+      "evidence_refs": [
+        "chemistry_toolbox/config/requested_software.yaml",
+        "chemistry_toolbox/evidence/status/requested_software_status.json"
+      ]
+    },
+    "newton_x": {
+      "display_name": "Newton-X",
+      "aliases": [
+        "Newton-X",
+        "nx_geninp",
+        "nx_moldyn",
+        "nx_test"
+      ],
+      "kind": "licensed_binary",
+      "role": "Nonadiabatic molecular dynamics and excited-state sampling.",
+      "availability": "configured_in_toolbox_runtime",
+      "local_installation_status": "configured",
+      "validation_level": "functional",
+      "execution_layer": "native_software_documentation",
+      "actions": [],
+      "method_families": [],
+      "limitations": "Newton-X New Series 3.5.3 completed both its analytical test and a real 1.5 fs ORCA 6.1.1 TDDFT nonadiabatic trajectory after configuring matching OpenMPI 4.1.8 and packaged CIOVERLAP. It remains runtime-only until a typed Action exposes states, couplings, hopping controls and an explicit interface without becoming monolithic.",
+      "evidence_refs": [
+        "chemistry_toolbox/config/requested_software.yaml",
+        "chemistry_toolbox/evidence/status/requested_software_status.json"
+      ]
+    },
+    "qcengine": {
+      "display_name": "QCEngine",
+      "aliases": [
+        "QCEngine",
+        "qcengine"
+      ],
+      "kind": "python_library",
+      "role": "QCSchema executor and program harness.",
+      "availability": "configured_in_toolbox_runtime",
+      "local_installation_status": "configured",
+      "validation_level": "functional",
+      "execution_layer": "native_software_documentation",
+      "actions": [],
+      "method_families": [],
+      "limitations": "Execution substrate rather than a separate scientific result; NWChem public actions use its exact QCSchema harness, but no generic QCEngine workflow runner is exposed.",
+      "evidence_refs": [
+        "chemistry_toolbox/config/requested_software.yaml",
+        "chemistry_toolbox/evidence/status/requested_software_status.json"
+      ]
+    },
+    "theodore": {
+      "display_name": "TheoDORE",
+      "aliases": [
+        "TheoDORE",
+        "theodore"
+      ],
+      "kind": "python_library",
+      "role": "Excited-state density, transition, and exciton analysis.",
+      "availability": "configured_in_toolbox_runtime",
+      "local_installation_status": "configured",
+      "validation_level": "functional",
+      "execution_layer": "native_software_documentation",
+      "actions": [],
+      "method_families": [],
+      "limitations": "TheoDORE 2.5.0 imports and CLI starts; optional Orbkit/OpenBabel extensions are not installed.",
+      "evidence_refs": [
+        "chemistry_toolbox/config/requested_software.yaml",
+        "chemistry_toolbox/evidence/status/requested_software_status.json"
+      ]
+    },
+    "vesta": {
+      "display_name": "VESTA",
+      "aliases": [
+        "VESTA"
+      ],
+      "kind": "licensed_binary",
+      "role": "Crystal-structure and volumetric-data visualization.",
+      "availability": "configured_in_toolbox_runtime",
+      "local_installation_status": "configured",
+      "validation_level": "functional",
+      "execution_layer": "native_software_documentation",
+      "actions": [],
+      "method_families": [],
+      "limitations": "Official VESTA 3.90.5a GTK3 x86_64 package is installed with locally extracted Ubuntu runtime libraries; an Xvfb headless launch remained healthy until the bounded smoke timeout. Interactive GUI use still requires DISPLAY/OpenGL, and redistribution is prohibited by the VESTA license.",
+      "evidence_refs": [
+        "chemistry_toolbox/config/requested_software.yaml",
+        "chemistry_toolbox/evidence/status/requested_software_status.json"
+      ]
+    },
+    "vmd": {
+      "display_name": "VMD",
+      "aliases": [
+        "VMD",
+        "vmd"
+      ],
+      "kind": "executable",
+      "role": "Molecular visualization and trajectory inspection.",
+      "availability": "configured_in_toolbox_runtime",
+      "local_installation_status": "configured",
+      "validation_level": "functional",
+      "execution_layer": "native_software_documentation",
+      "actions": [],
+      "method_families": [],
+      "limitations": "VMD 1.9.3 text-mode startup passed; GUI operation depends on DISPLAY/OpenGL.",
+      "evidence_refs": [
+        "chemistry_toolbox/config/requested_software.yaml",
+        "chemistry_toolbox/evidence/status/requested_software_status.json"
+      ]
+    },
+    "wannier90": {
+      "display_name": "Wannier90",
+      "aliases": [
+        "Wannier90",
+        "wannier90.x"
+      ],
+      "kind": "executable",
+      "role": "Maximally localized Wannier-function generation.",
+      "availability": "configured_in_toolbox_runtime",
+      "local_installation_status": "configured",
+      "validation_level": "functional",
+      "execution_layer": "native_software_documentation",
+      "actions": [],
+      "method_families": [],
+      "limitations": "Quantum ESPRESSO 7.5 provides pw2wannier90.x. The conda Wannier90 3.1.0 binary reproducibly segfaulted after the initial state, so official v3.1.0 was rebuilt locally; the replacement completed a real four-band silicon workflow with final spread 4.037017340 Angstrom^2 and All done. Production runs still require task-selected projections, windows and convergence.",
+      "evidence_refs": [
+        "chemistry_toolbox/config/requested_software.yaml",
+        "chemistry_toolbox/evidence/status/requested_software_status.json"
+      ]
+    }
+  },
+  "python_packages": {
+    "GMXMMPBSA": {
+      "display_name": "GMXMMPBSA",
+      "aliases": [
+        "GMXMMPBSA"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "gmx_mmpbsa"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "MDAnalysis": {
+      "display_name": "MDAnalysis",
+      "aliases": [
+        "MDAnalysis"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "md"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "acpype": {
+      "display_name": "acpype",
+      "aliases": [
+        "acpype"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "acpype"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "aiida": {
+      "display_name": "aiida",
+      "aliases": [
+        "aiida"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "workflows"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "alchemlyb": {
+      "display_name": "alchemlyb",
+      "aliases": [
+        "alchemlyb"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "free_energy"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "allegro": {
+      "display_name": "allegro",
+      "aliases": [
+        "allegro"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "nequip"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "ase": {
+      "display_name": "ASE",
+      "aliases": [
+        "ASE",
+        "ase",
+        "Atomic Simulation Environment"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "airss",
+        "catmap",
+        "core",
+        "deepmd",
+        "gpaw",
+        "mlip",
+        "nequip",
+        "quantum",
+        "sella",
+        "vasp",
+        "vaspkit"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "cantera": {
+      "display_name": "cantera",
+      "aliases": [
+        "cantera"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "reaction"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "catmap": {
+      "display_name": "catmap",
+      "aliases": [
+        "catmap"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "catmap"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "cclib": {
+      "display_name": "cclib",
+      "aliases": [
+        "cclib"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "gaussian",
+        "nwchem",
+        "workflows"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "chgnet": {
+      "display_name": "chgnet",
+      "aliases": [
+        "chgnet"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "mlip"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "deepmd": {
+      "display_name": "deepmd",
+      "aliases": [
+        "deepmd"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "deepmd"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "e3nn": {
+      "display_name": "e3nn",
+      "aliases": [
+        "e3nn"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "deepmd",
+        "nequip"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "geometric": {
+      "display_name": "geometric",
+      "aliases": [
+        "geometric"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "nwchem"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "goodvibes": {
+      "display_name": "goodvibes",
+      "aliases": [
+        "goodvibes"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "goodvibes"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "gpaw": {
+      "display_name": "gpaw",
+      "aliases": [
+        "gpaw"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "gpaw"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "gplearn": {
+      "display_name": "gplearn",
+      "aliases": [
+        "gplearn"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "gplearn"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "h5py": {
+      "display_name": "h5py",
+      "aliases": [
+        "h5py"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "tdep"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "jax": {
+      "display_name": "JAX",
+      "aliases": [
+        "JAX",
+        "jax"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "kinbot"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "joblib": {
+      "display_name": "joblib",
+      "aliases": [
+        "joblib"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "gplearn"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "kinbot": {
+      "display_name": "kinbot",
+      "aliases": [
+        "kinbot"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "kinbot"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "lammps": {
+      "display_name": "lammps",
+      "aliases": [
+        "lammps"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "lammps"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "mace": {
+      "display_name": "mace",
+      "aliases": [
+        "mace"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "mlip",
+        "quantum"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "matplotlib": {
+      "display_name": "Matplotlib",
+      "aliases": [
+        "Matplotlib",
+        "matplotlib"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "vaspkit"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "mdtraj": {
+      "display_name": "mdtraj",
+      "aliases": [
+        "mdtraj"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "free_energy",
+        "workflows"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "mp_api": {
+      "display_name": "mp_api",
+      "aliases": [
+        "mp_api"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "services"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "mpi4py": {
+      "display_name": "mpi4py",
+      "aliases": [
+        "mpi4py"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "gmx_mmpbsa"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "nequip": {
+      "display_name": "nequip",
+      "aliases": [
+        "nequip"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "nequip"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "netCDF4": {
+      "display_name": "netCDF4",
+      "aliases": [
+        "netCDF4"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "sharc"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "numba": {
+      "display_name": "numba",
+      "aliases": [
+        "numba"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "sharc"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "numpy": {
+      "display_name": "NumPy",
+      "aliases": [
+        "NumPy",
+        "numpy"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "abinit",
+        "core",
+        "gmx_mmpbsa",
+        "goodvibes",
+        "gpaw",
+        "gplearn",
+        "lobster",
+        "nwchem",
+        "sella",
+        "tdep",
+        "vaspkit"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "openbabel": {
+      "display_name": "openbabel",
+      "aliases": [
+        "openbabel"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "acpype",
+        "kinbot"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "openff": {
+      "display_name": "openff",
+      "aliases": [
+        "openff"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "openff"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "openmm": {
+      "display_name": "openmm",
+      "aliases": [
+        "openmm"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "md"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "pandas": {
+      "display_name": "pandas",
+      "aliases": [
+        "pandas"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "gmx_mmpbsa",
+        "goodvibes"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "parmed": {
+      "display_name": "parmed",
+      "aliases": [
+        "parmed"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "gmx_mmpbsa"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "pdbfixer": {
+      "display_name": "pdbfixer",
+      "aliases": [
+        "pdbfixer"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "md"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "pdbtools": {
+      "display_name": "pdbtools",
+      "aliases": [
+        "pdbtools"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "core"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "phono3py": {
+      "display_name": "phono3py",
+      "aliases": [
+        "phono3py"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "phonons"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "phonopy": {
+      "display_name": "phonopy",
+      "aliases": [
+        "phonopy"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "phonons"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "pmx": {
+      "display_name": "pmx",
+      "aliases": [
+        "pmx"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "pmx"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "psi4": {
+      "display_name": "psi4",
+      "aliases": [
+        "psi4"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "psi4"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "pubchempy": {
+      "display_name": "pubchempy",
+      "aliases": [
+        "pubchempy"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "services"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "pyarrow": {
+      "display_name": "pyarrow",
+      "aliases": [
+        "pyarrow"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "goodvibes"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "pydantic": {
+      "display_name": "pydantic",
+      "aliases": [
+        "pydantic"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "abinit",
+        "airss",
+        "bagel",
+        "kinbot",
+        "lobster",
+        "mesmer",
+        "mess",
+        "multiwfn",
+        "openmolcas",
+        "rmg",
+        "sella",
+        "sharc",
+        "shengbte",
+        "sisso",
+        "tdep",
+        "yambo"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "pymatgen": {
+      "display_name": "pymatgen",
+      "aliases": [
+        "pymatgen"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "lobster",
+        "workflows"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "pymbar": {
+      "display_name": "pymbar",
+      "aliases": [
+        "pymbar"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "free_energy"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "pyscf": {
+      "display_name": "pyscf",
+      "aliases": [
+        "pyscf"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "quantum",
+        "reaction",
+        "sharc"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "pysisyphus": {
+      "display_name": "pysisyphus",
+      "aliases": [
+        "pysisyphus"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "reaction"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "qcelemental": {
+      "display_name": "qcelemental",
+      "aliases": [
+        "qcelemental"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "nwchem",
+        "workflows"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "qcengine": {
+      "display_name": "qcengine",
+      "aliases": [
+        "qcengine"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "nwchem",
+        "workflows"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "rdkit": {
+      "display_name": "rdkit",
+      "aliases": [
+        "rdkit"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "core",
+        "pmx"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "rmgpy": {
+      "display_name": "rmgpy",
+      "aliases": [
+        "rmgpy"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "rmg"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "scipy": {
+      "display_name": "SciPy",
+      "aliases": [
+        "SciPy",
+        "scipy"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "reaction",
+        "vaspkit"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "sella": {
+      "display_name": "sella",
+      "aliases": [
+        "sella"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "kinbot",
+        "sella"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "sklearn": {
+      "display_name": "scikit-learn",
+      "aliases": [
+        "scikit-learn",
+        "sklearn"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "gplearn"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "spglib": {
+      "display_name": "spglib",
+      "aliases": [
+        "spglib"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "workflows"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "tblite": {
+      "display_name": "tblite",
+      "aliases": [
+        "tblite"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "quantum"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "threadpoolctl": {
+      "display_name": "threadpoolctl",
+      "aliases": [
+        "threadpoolctl"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "sharc"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "torch": {
+      "display_name": "PyTorch",
+      "aliases": [
+        "PyTorch",
+        "torch"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "deepmd",
+        "mlip",
+        "nequip",
+        "quantum"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "vina": {
+      "display_name": "vina",
+      "aliases": [
+        "vina"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "docking"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    },
+    "yaml": {
+      "display_name": "yaml",
+      "aliases": [
+        "yaml"
+      ],
+      "availability": "configured_in_toolbox_runtime",
+      "validation_level": "runtime_health_check_declared",
+      "profiles": [
+        "abinit",
+        "airss",
+        "bagel",
+        "core",
+        "goodvibes",
+        "kinbot",
+        "lobster",
+        "mesmer",
+        "mess",
+        "multiwfn",
+        "openmolcas",
+        "rmg",
+        "sella",
+        "sharc",
+        "shengbte",
+        "sisso",
+        "tdep",
+        "yambo"
+      ],
+      "execution_layer": "task_specific_python",
+      "evidence_refs": [
+        "chemistry_toolbox/config/mcp_profiles.yaml"
+      ]
+    }
+  },
+  "execution_layers": [
+    "predefined_action",
+    "native_software_documentation",
+    "task_specific_python"
+  ],
+  "generic_python_analysis": true
 }

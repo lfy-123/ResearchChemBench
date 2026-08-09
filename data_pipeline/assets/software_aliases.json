@@ -1,51 +1,447 @@
 {
-  "abinit": ["ABINIT"],
-  "aiida": ["AiiDA"],
-  "amber_pmemd": ["AMBER", "pmemd", "pmemd.cuda"],
-  "charmm": ["CHARMM"],
-  "cp2k": ["CP2K", "CP2K 8.2"],
-  "crest": ["CREST"],
-  "critic2": ["Critic2", "CRITIC2"],
-  "deepmd": ["DeePMD", "DeePMD-kit"],
-  "dftbplus": ["DFTB+", "DFTB Plus"],
-  "gamess": ["GAMESS", "GAMESS-US"],
+  "abinit": [
+    "ABINIT",
+    "abinit"
+  ],
+  "acpype": [
+    "ACPYPE",
+    "acpype",
+    "antechamber",
+    "obabel"
+  ],
+  "aiida": [
+    "AiiDA",
+    "verdi"
+  ],
+  "airss": [
+    "AIRSS",
+    "airss_version",
+    "buildcell",
+    "cabal"
+  ],
+  "alchemlyb": [
+    "alchemlyb"
+  ],
+  "allegro": [
+    "Allegro"
+  ],
+  "amber_pmemd": [
+    "AMBER",
+    "Amber 26 PMEMD",
+    "AmberTools",
+    "PMEMD",
+    "pmemd",
+    "pmemd.cuda",
+    "pmemd.MPI"
+  ],
+  "arkane": [
+    "Arkane",
+    "Arkane.py"
+  ],
+  "ase": [
+    "ASE",
+    "Atomic Simulation Environment"
+  ],
+  "ase_emt": [
+    "ASE EMT"
+  ],
+  "atomate2": [
+    "atomate2"
+  ],
+  "autode": [
+    "autodE"
+  ],
+  "automekin": [
+    "amk.sh",
+    "AutoMeKin",
+    "bbfs.exe",
+    "mopac"
+  ],
+  "bagel": [
+    "BAGEL",
+    "bagel-mpirun"
+  ],
+  "cantera": [
+    "Cantera"
+  ],
+  "catalysis_hub": [
+    "Catalysis-Hub GraphQL"
+  ],
+  "catmap": [
+    "CatMAP"
+  ],
+  "cclib": [
+    "cclib"
+  ],
+  "censo": [
+    "CENSO",
+    "censo"
+  ],
+  "charmm": [
+    "CHARMM",
+    "charmm",
+    "CHARMM c50b2"
+  ],
+  "chgnet": [
+    "CHGNet"
+  ],
+  "cp2k": [
+    "CP2K",
+    "cp2k",
+    "CP2K 8.2"
+  ],
+  "crest": [
+    "CREST",
+    "crest"
+  ],
+  "critic2": [
+    "CRITIC2",
+    "Critic2",
+    "critic2"
+  ],
+  "deepmd": [
+    "DeePMD",
+    "DeePMD-kit",
+    "dp"
+  ],
+  "dftbplus": [
+    "DFTB Plus",
+    "DFTB+",
+    "dftb+"
+  ],
+  "e3nn": [
+    "e3nn"
+  ],
+  "gamess": [
+    "GAMESS",
+    "GAMESS-US",
+    "rungms"
+  ],
   "gaussian": [
+    "formchk",
+    "G09",
+    "G16",
+    "g16",
     "Gaussian",
     "Gaussian 09",
     "Gaussian 16",
     "Gaussian09",
-    "Gaussian16",
-    "G09",
-    "G16"
+    "Gaussian16"
   ],
-  "gpaw": ["GPAW"],
-  "gromacs": ["GROMACS"],
-  "lammps": ["LAMMPS"],
-  "lobster": ["LOBSTER"],
-  "multiwfn": ["Multiwfn"],
-  "namd": ["NAMD"],
-  "nwchem": ["NWChem"],
-  "openmm": ["OpenMM"],
-  "openmolcas": ["OpenMolcas", "MOLCAS"],
-  "orca": ["ORCA"],
-  "phonopy": ["Phonopy"],
-  "plumed": ["PLUMED"],
-  "psi4": ["Psi4", "PSI4"],
-  "pyscf": ["PySCF"],
-  "qchem": ["Q-Chem", "QChem"],
+  "geometric": [
+    "geomeTRIC",
+    "geometric-optimize"
+  ],
+  "gmx_mmpbsa": [
+    "cpptraj",
+    "gmx",
+    "gmx-MMPBSA",
+    "gmx_MMPBSA",
+    "GMXMMPBSA",
+    "sander"
+  ],
+  "gnina": [
+    "GNINA",
+    "gnina"
+  ],
+  "goodvibes": [
+    "GoodVibes",
+    "goodvibes"
+  ],
+  "gpaw": [
+    "GPAW",
+    "gpaw"
+  ],
+  "gplearn": [
+    "gplearn"
+  ],
+  "gromacs": [
+    "gmx",
+    "GROMACS"
+  ],
+  "hoomd": [
+    "HOOMD",
+    "HOOMD-blue"
+  ],
+  "jax": [
+    "JAX"
+  ],
+  "jobflow": [
+    "jobflow"
+  ],
+  "kinbot": [
+    "KinBot",
+    "kinbot",
+    "pes"
+  ],
+  "lammps": [
+    "LAMMPS",
+    "lmp"
+  ],
+  "lobster": [
+    "LOBSTER",
+    "lobster-5.1.0"
+  ],
+  "mace": [
+    "MACE"
+  ],
+  "materials_project": [
+    "Materials Project"
+  ],
+  "matplotlib": [
+    "Matplotlib"
+  ],
+  "mdanalysis": [
+    "MDAnalysis"
+  ],
+  "mdtraj": [
+    "MDTraj"
+  ],
+  "mesmer": [
+    "MESMER",
+    "mesmer"
+  ],
+  "mess": [
+    "MESS",
+    "mess"
+  ],
+  "multiwfn": [
+    "Multiwfn",
+    "Multiwfn_noGUI"
+  ],
+  "namd": [
+    "NAMD",
+    "NAMD 3",
+    "namd3"
+  ],
+  "nequip": [
+    "NequIP",
+    "nequip-train"
+  ],
+  "newton_x": [
+    "Newton-X",
+    "nx_geninp",
+    "nx_moldyn",
+    "nx_test"
+  ],
+  "nist_webbook": [
+    "NIST Chemistry WebBook",
+    "NIST Chemistry WebBook Interface",
+    "NIST Chemistry WebBook SRD 69 CGI",
+    "NIST WebBook"
+  ],
+  "numpy": [
+    "NumPy"
+  ],
+  "nwchem": [
+    "NWChem",
+    "nwchem",
+    "qcengine"
+  ],
+  "openbabel": [
+    "obabel",
+    "Open Babel"
+  ],
+  "openff": [
+    "OpenFF Toolkit/Interchange"
+  ],
+  "openff_am1bcc": [
+    "antechamber",
+    "OpenFF AM1-BCC",
+    "sqm"
+  ],
+  "openmm": [
+    "OpenMM"
+  ],
+  "openmm_builder": [
+    "OpenMM system builder"
+  ],
+  "openmolcas": [
+    "MOLCAS",
+    "OpenMolcas",
+    "pymolcas"
+  ],
+  "orca": [
+    "ORCA",
+    "orca"
+  ],
+  "packmol": [
+    "Packmol",
+    "packmol"
+  ],
+  "pandas": [
+    "pandas"
+  ],
+  "pdb_tools": [
+    "pdb-tools",
+    "pdb_reres",
+    "pdb_selchain",
+    "pdb_tidy"
+  ],
+  "pdbfixer": [
+    "PDBFixer"
+  ],
+  "phono3py": [
+    "Phono3py",
+    "phono3py"
+  ],
+  "phonopy": [
+    "Phonopy",
+    "phonopy"
+  ],
+  "plumed": [
+    "PLUMED",
+    "plumed"
+  ],
+  "pmx": [
+    "pmx"
+  ],
+  "psi4": [
+    "PSI4",
+    "Psi4",
+    "psi4"
+  ],
+  "pubchem": [
+    "PubChem PUG REST"
+  ],
+  "pyfrag": [
+    "orca",
+    "PyFrag",
+    "PyFrag 2019",
+    "pyfrag-orca"
+  ],
+  "pymatgen": [
+    "pymatgen"
+  ],
+  "pymbar": [
+    "PyMBAR",
+    "pymbar"
+  ],
+  "pyscf": [
+    "PySCF"
+  ],
+  "pysisyphus": [
+    "pysis",
+    "pysisyphus"
+  ],
+  "qcelemental": [
+    "QCElemental"
+  ],
+  "qcengine": [
+    "QCEngine",
+    "qcengine"
+  ],
+  "qcschema": [
+    "QCSchema"
+  ],
   "quantum_espresso": [
+    "pw.x",
+    "PWscf",
+    "QE",
     "Quantum ESPRESSO",
     "Quantum Espresso",
-    "QUANTUM ESPRESSO simulation package",
-    "QE",
-    "PWscf"
+    "QUANTUM ESPRESSO simulation package"
   ],
-  "rdkit": ["RDKit"],
-  "sharc": ["SHARC"],
-  "siesta": ["SIESTA"],
-  "turbomole": ["TURBOMOLE", "TURBO-MOLE"],
-  "vasp": ["VASP", "Vienna Ab initio Simulation Package"],
-  "vina": ["AutoDock Vina", "Vina"],
-  "xtb": ["xTB", "GFN-xTB"],
-  "yambo": ["Yambo"]
+  "rcsb_pdb": [
+    "RCSB PDB Data API"
+  ],
+  "rdkit": [
+    "RDKit"
+  ],
+  "rdkit_etkdg": [
+    "RDKit ETKDG"
+  ],
+  "rdkit_gasteiger": [
+    "RDKit Gasteiger charges"
+  ],
+  "rmg": [
+    "RMG",
+    "RMG-Py",
+    "rmg.py"
+  ],
+  "scipy": [
+    "SciPy"
+  ],
+  "sella": [
+    "Sella"
+  ],
+  "sharc": [
+    "SHARC",
+    "sharc.x",
+    "SHARC_MOLCAS.py",
+    "SHARC_ORCA.py",
+    "wfoverlap.x"
+  ],
+  "shengbte": [
+    "ShengBTE"
+  ],
+  "siesta": [
+    "SIESTA",
+    "siesta"
+  ],
+  "sisso": [
+    "bc",
+    "SISSO",
+    "SISSO_predict",
+    "SISSO_run"
+  ],
+  "sklearn": [
+    "scikit-learn",
+    "sklearn"
+  ],
+  "spglib": [
+    "spglib"
+  ],
+  "tblite": [
+    "TBLite"
+  ],
+  "tdep": [
+    "canonical_configuration",
+    "extract_forceconstants",
+    "phonon_dispersion_relations",
+    "TDEP"
+  ],
+  "theodore": [
+    "TheoDORE",
+    "theodore"
+  ],
+  "torch": [
+    "PyTorch",
+    "torch"
+  ],
+  "vasp": [
+    "VASP",
+    "vasp_std",
+    "Vienna Ab initio Simulation Package"
+  ],
+  "vaspkit": [
+    "VASPKIT",
+    "vaspkit"
+  ],
+  "vesta": [
+    "VESTA"
+  ],
+  "vina": [
+    "AutoDock Vina",
+    "Vina",
+    "vina"
+  ],
+  "vmd": [
+    "VMD",
+    "vmd"
+  ],
+  "wannier90": [
+    "Wannier90",
+    "wannier90.x"
+  ],
+  "xtb": [
+    "GFN-xTB",
+    "xTB",
+    "xtb"
+  ],
+  "yambo": [
+    "p2y",
+    "Yambo",
+    "yambo"
+  ]
 }
