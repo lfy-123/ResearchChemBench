@@ -1,8 +1,8 @@
 from __future__ import annotations
 
 STAGE03_MAP_VERSION = "v2-stage03-map-20260809-r7-explicit-actor-attribution"
-STAGE03_REDUCE_VERSION = "v2-stage03-reduce-20260809-r8-article-metadata"
-STAGE04_VERSION = "v2-stage04-software-inventory-20260810-r14-exact-runtime-identity"
+STAGE03_REDUCE_VERSION = "v2-stage03-reduce-20260810-r9-domain-boundaries"
+STAGE04_VERSION = "v2-stage04-software-inventory-20260810-r15-alias-and-python-layer"
 STAGE05_VERSION = "v2-stage05-suitability-20260809-r2-strict-contract"
 STAGE06_SHARED_VERSION = "v2-stage06-shared-20260807"
 STAGE06_AUTONOMOUS_VERSION = "v2-stage06-autonomous-20260807"
@@ -83,6 +83,9 @@ Examples:
 - A model evaluated against an existing experimental database is still pure computational.
 - A paper whose authors synthesized a catalyst and measured activity is mixed, even if it also has complete DFT.
 - A paper with no molecular/material computation is noncomputational, not mixed computational-experimental.
+- Informatics-only prediction, planning, enumeration, annotation, or generic algorithm development is outside
+  this gate unless the paper also performs a substantive molecular/material calculation such as electronic
+  structure, atomistic simulation, free-energy or reaction dynamics, kinetics, phonons, or molecular docking.
 
 A complete workflow must establish all three: (1) a molecular/material/reaction model or structure, (2) an
 actual calculation or simulation operation, and (3) a generated chemical result. Exclude routine experimental
@@ -194,6 +197,13 @@ A short deterministic analysis or transformation that can be implemented through
 Python layer may have software=null without making inventory_complete=false, provided every core calculation
 engine is named and the action and evidence are explicit. Unnamed DFT, MD, docking, electronic-structure,
 kinetics, or other core scientific engines always make inventory_complete=false.
+
+Examples for the task-specific Python boundary:
+- Computing an algebraic descriptor, derivative, clustering statistic, graph transform, or plotting a derived
+  quantity from outputs of named core engines does not make the inventory incomplete.
+- A paper-specific force-field engine, trained model runtime, wave-packet dynamics implementation, modified
+  electronic-structure executable, or unnamed DFT/MD/kinetics solver is a core implementation and does make the
+  inventory incomplete. Never use generic Python to waive a named absent package or a custom scientific engine.
 
 Each resource fact has resource_type, relation, value_min, value_max, unit, scope, actual_computation,
 evidence_ids, exact_quote. Extract only resources explicitly tied to this paper's actual computations. Never

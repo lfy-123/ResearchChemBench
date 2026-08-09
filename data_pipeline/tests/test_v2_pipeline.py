@@ -654,6 +654,14 @@ def test_stage03_holds_mixed_decision_without_verified_author_experiment() -> No
         (["life-cycle assessment", "process simulation"], ["OpenLCA", "Aspen HYSYS"]),
         (["sequence alignment", "differential expression"], ["Clustal Omega", "UMAP"]),
         (["data digitization", "causal inference"], ["Random Forest", "particle swarm"]),
+        (["AlphaFold 3 structure prediction"], ["AlphaFold"]),
+        (["Bayesian biological target prediction", "target voting"], ["FMBS"]),
+        (["reaction condition recommendation", "label ranking"], ["scikit-learn"]),
+        (["retrosynthesis", "synthesis planning"], ["AiZynthFinder"]),
+        (["multi-objective Monte Carlo tree search", "template-based retrosynthesis"], ["AiZynthFinder"]),
+        (["similarity-based enumeration"], ["enumerate chemical libraries"]),
+        (["clustering"], ["predict carbohydrate-binding residues", "cluster residues into pockets"]),
+        (["variational quantum eigensolver", "quantum circuit simulation"], ["qiskit"]),
     ],
 )
 def test_stage03_normalizes_excluded_non_molecular_computation(
@@ -681,7 +689,7 @@ def test_stage03_normalizes_excluded_non_molecular_computation(
     assert response["performed_computation"] == "no"
     assert response["study_mode"] == "noncomputational"
     assert any(
-        warning["reason"] == "excluded_non_molecular_computation_normalized"
+        warning["reason"] == "target_computational_chemistry_evidence_missing"
         for warning in warnings
     )
 
@@ -706,7 +714,7 @@ def test_stage03_keeps_target_chemistry_when_process_terms_are_also_present() ->
 
     assert response["decision"] == "computational_content_confirmed"
     assert not any(
-        warning["reason"] == "excluded_non_molecular_computation_normalized"
+        warning["reason"] == "target_computational_chemistry_evidence_missing"
         for warning in warnings
     )
 
@@ -2002,6 +2010,33 @@ def test_stage04_sanitizer_recovers_exact_software_context_from_cited_evidence()
     ]
 
 
+def test_stage04_sanitizer_recovers_missing_quote_from_bound_evidence() -> None:
+    evidence = "All calculations were performed with ExampleCode software."
+    response = {
+        "inventory_complete": True,
+        "workflows": [],
+        "software_mentions": [
+            {
+                "raw_name": "ExampleCode",
+                "entity_type": "program",
+                "role": "core_compute",
+                "actual_use": True,
+                "workflow_ids": [],
+                "evidence_ids": ["ev-1"],
+                "exact_quote": "",
+            }
+        ],
+        "resource_facts": [],
+        "complexity_facts": [],
+    }
+
+    assert not _inventory_contract_errors(response)
+    sanitized, warnings = _sanitize_review(response, {"ev-1": evidence})
+
+    assert sanitized["software_mentions"][0]["exact_quote"] == evidence
+    assert any(row["reason"] == "software_quote_recovered_from_evidence" for row in warnings)
+
+
 @pytest.mark.parametrize(
     "name",
     [
@@ -2516,6 +2551,204 @@ def test_stage04_custom_runtime_is_separate_uncovered_entity(text, expected_name
         {"backends": {"orca": {}, "gaussian": {}}, "native_software": {}, "python_packages": {}},
     )
     assert any(row["catalog_present"] is False for row in mappings)
+
+
+def test_stage04_revised_density_functional_is_not_custom_software() -> None:
+    text = "Calculations used the revised Perdew-Burke-Ernzerhof functional in GPAW."
+    cues = find_explicit_executable_cues(
+        [{"evidence_id": "ev-rpbe", "section_path": ["Methods"], "text": text}]
+    )
+
+    assert all("Perdew" not in row["raw_name"] for row in cues)
+
+
+def test_stage04_explicit_lowercase_software_entity_is_preserved() -> None:
+    cues = find_explicit_executable_cues(
+        [
+            {
+                "evidence_id": "ev-lowercase",
+                "section_path": ["Methods"],
+                "text": "The cavity volume was analyzed using exampletool software.",
+            }
+        ]
+    )
+
+    assert [row["raw_name"] for row in cues] == ["exampletool"]
+    assert cues[0]["deterministic_merge"] is False
+
+
+def test_stage04_lowercase_entity_requires_model_confirmation_before_merge() -> None:
+    cue = {
+        "raw_name": "exampletool",
+        "entity_type": "program",
+        "evidence_id": "ev-lowercase",
+        "context": "The analysis used exampletool software.",
+        "deterministic_merge": False,
+    }
+
+    assert _merge_explicit_executable_cues([], [cue]) == []
+    confirmed = {
+        "raw_name": "exampletool",
+        "entity_type": "program",
+        "role": "core_compute",
+        "actual_use": True,
+        "workflow_ids": ["wf-1"],
+        "evidence_ids": ["ev-lowercase"],
+        "exact_quote": "The analysis used exampletool software.",
+    }
+    assert _merge_explicit_executable_cues([confirmed], [cue]) == [confirmed]
+
+
+def test_stage04_lowercase_scientific_module_is_not_assumed_to_be_software() -> None:
+    cues = find_explicit_executable_cues(
+        [
+            {
+                "evidence_id": "ev-module",
+                "section_path": ["Results"],
+                "text": "A polyhedral module connection algorithm was developed for structure analysis.",
+            }
+        ]
+    )
+
+    assert cues == []
+
+
+def test_stage04_canonical_software_identifier_wins_alias_collision() -> None:
+    mentions = [
+        {
+            "raw_name": "ORCA 4.2",
+            "role": "core_compute",
+            "actual_use": True,
+            "evidence_ids": ["ev-orca"],
+        }
+    ]
+    aliases = {"orca": ["ORCA"], "pyfrag": ["orca", "PyFrag"]}
+    profile = {
+        "backends": {
+            "orca": {"availability": "declared_supported"},
+            "pyfrag": {"availability": "declared_supported"},
+        }
+    }
+
+    mappings = resolve_software(mentions, aliases, profile)
+
+    assert mappings[0]["normalized_identifier"] == "orca"
+
+
+def test_stage04_compound_plugin_resolves_rightmost_known_software() -> None:
+    mentions = [
+        {
+            "raw_name": "HostEngine BiasEngine plugin",
+            "role": "core_compute",
+            "actual_use": True,
+            "evidence_ids": ["ev-plugin"],
+        }
+    ]
+    aliases = {"host": ["HostEngine"], "bias": ["BiasEngine"]}
+    profile = {
+        "backends": {
+            "host": {"availability": "declared_supported"},
+            "bias": {"availability": "declared_supported"},
+        }
+    }
+
+    mappings = resolve_software(mentions, aliases, profile)
+
+    assert mappings[0]["normalized_identifier"] == "bias"
+
+
+@pytest.mark.parametrize(
+    ("raw_name", "expected"),
+    [("EngineX/Quickstep", "enginex")],
+)
+def test_stage04_decorated_method_name_resolves_single_known_engine(
+    raw_name: str, expected: str
+) -> None:
+    aliases = {"enginex": ["EngineX"], "xtb": ["xTB"]}
+    profile = {
+        "backends": {
+            "enginex": {"availability": "declared_supported"},
+            "xtb": {"availability": "declared_supported"},
+        }
+    }
+    mappings = resolve_software(
+        [
+            {
+                "raw_name": raw_name,
+                "role": "core_compute",
+                "actual_use": True,
+                "evidence_ids": ["ev-decorated"],
+            }
+        ],
+        aliases,
+        profile,
+    )
+
+    assert mappings[0]["normalized_identifier"] == expected
+
+
+def test_stage04_hyphenated_distinct_program_is_not_split_into_command_alias() -> None:
+    aliases = {"engine": ["ep"]}
+    profile = {"backends": {"engine": {"availability": "declared_supported"}}}
+    mappings = resolve_software(
+        [
+            {
+                "raw_name": "EP-GEN",
+                "role": "core_compute",
+                "actual_use": True,
+                "evidence_ids": ["ev-distinct"],
+            }
+        ],
+        aliases,
+        profile,
+    )
+
+    assert mappings[0]["catalog_present"] is False
+
+
+def test_stage04_named_package_is_not_collapsed_to_parent_engine() -> None:
+    aliases = {"host": ["HostEngine"]}
+    profile = {"backends": {"host": {"availability": "declared_supported"}}}
+    mappings = resolve_software(
+        [
+            {
+                "raw_name": "HostEngine ELECTRODE package",
+                "role": "core_compute",
+                "actual_use": True,
+                "evidence_ids": ["ev-package"],
+            }
+        ],
+        aliases,
+        profile,
+    )
+
+    assert mappings[0]["catalog_present"] is False
+
+
+def test_stage04_incomplete_flag_does_not_override_complete_named_workflow() -> None:
+    review = {
+        "inventory_complete": False,
+        "workflows": [
+            {
+                "steps": [
+                    {"essential": True, "software": "ORCA"},
+                ]
+            }
+        ],
+    }
+    mappings = [
+        {
+            "raw_name": "ORCA",
+            "role": "core_compute",
+            "actual_use": True,
+            "catalog_present": True,
+        }
+    ]
+
+    coverage = coverage_gate(review, mappings, {}, {})
+
+    assert coverage == "covered"
+    assert _combine_decision(coverage, {"decision": "cost_unconfirmed"}, False) == "software_covered"
 
 
 def test_stage04_database_cue_is_not_merged_as_required_software() -> None:

@@ -15,7 +15,7 @@ from src.v2.prompts import (
     STAGE03_REDUCE_VERSION,
 )
 
-COMPUTATIONAL_CONTENT_IMPLEMENTATION_VERSION = "v2-stage02-computational-content-20260810-r2"
+COMPUTATIONAL_CONTENT_IMPLEMENTATION_VERSION = "v2-stage02-computational-content-20260810-r3-domain-boundaries"
 STAGE03_IMPLEMENTATION_VERSION = COMPUTATIONAL_CONTENT_IMPLEMENTATION_VERSION
 
 DECISIONS = {
@@ -699,7 +699,7 @@ def _sanitize_reduce_response(
             }
         )
     actual_computation = sanitized.get("performed_computation") == "yes"
-    if actual_computation and _contains_only_excluded_computation(sanitized):
+    if actual_computation and _lacks_target_chemistry_computation(sanitized):
         sanitized["performed_computation"] = "no"
         sanitized["computation_role"] = "none"
         sanitized["study_mode"] = "noncomputational"
@@ -708,7 +708,7 @@ def _sanitize_reduce_response(
         warnings.append(
             {
                 "field": "performed_computation",
-                "reason": "excluded_non_molecular_computation_normalized",
+                "reason": "target_computational_chemistry_evidence_missing",
             }
         )
     verified_author_experiments = bool(experiment_ids)
@@ -822,32 +822,32 @@ def _confidence_number(value: Any) -> float:
     return mapping.get(str(value or "").casefold(), 0.0)
 
 
-_EXCLUDED_COMPUTATION_RE = re.compile(
-    r"\b(?:life[- ]cycle|\blca\b|\blcc\b|openlca|aspen\s+hysys|process simulation|"
-    r"flowsheet|flow sheet|sequence alignment|single[- ]cell|differential expression|"
-    r"\bumap\b|clustal|genomics|transcriptomics|bioinformatics|data digitization|"
-    r"causal inference|causal machine learning|metaheuristic|particle swarm)\b",
-    re.IGNORECASE,
-)
 _TARGET_CHEMISTRY_COMPUTATION_RE = re.compile(
     r"\b(?:dft|density functional|ab initio|quantum chem|electronic structure|"
-    r"molecular dynamics|\bmd\b|qm/mm|monte carlo|force field|phonon|"
-    r"transition state|free[- ]energy|metadynamics|molecular docking|"
-    r"tight[- ]binding|wave function|coupled cluster)\b",
+    r"molecular dynamics|atomistic simulation|\bmd\b|qm/mm|monte carlo(?!\s+tree)|"
+    r"force field|phonon|vibrational calculation|thermal transport|transition state|"
+    r"reaction path|reaction dynamics|quantum dynamics|quasi[- ]classical traject|"
+    r"potential energy surface|free[- ]energy|metadynamics|umbrella sampling|"
+    r"microkinetic|kinetic model|master equation|rrkm|rate constant|molecular docking|"
+    r"tight[- ]binding|wave function|coupled cluster|excited state|tddft|"
+    r"thermochemistry|conformer|energy decomposition|electron density|qtaim|bader|"
+    r"high[- ]pressure phase|phase stability)\b",
     re.IGNORECASE,
 )
 
 
-def _contains_only_excluded_computation(response: dict[str, Any]) -> bool:
+def _lacks_target_chemistry_computation(response: dict[str, Any]) -> bool:
+    """Require a positive computational-chemistry workflow, independent of product names."""
+
     descriptors = [
         *(response.get("method_families") or []),
         *(response.get("computational_actions") or []),
         *(response.get("software_clues") or []),
     ]
-    text = " ".join(str(item) for item in descriptors)
-    return bool(_EXCLUDED_COMPUTATION_RE.search(text)) and not bool(
-        _TARGET_CHEMISTRY_COMPUTATION_RE.search(text)
-    )
+    text = re.sub(r"[_-]+", " ", " ".join(str(item) for item in descriptors)).strip()
+    if not text:
+        return False
+    return not bool(_TARGET_CHEMISTRY_COMPUTATION_RE.search(text))
 
 
 def _validate_map(response: dict[str, Any], blocks: list[dict[str, Any]]) -> list[dict[str, Any]]:

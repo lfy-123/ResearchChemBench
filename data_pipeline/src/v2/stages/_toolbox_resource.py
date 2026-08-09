@@ -174,7 +174,8 @@ def run_toolbox_resource_screening(
                 "resource_profile": resource,
                 "inventory_complete": bool(response.get("inventory_complete")),
                 "toolbox_profile_id": profile.get("profile_id"),
-                "toolbox_catalog_hash": profile.get("catalog_hash"),
+                "toolbox_catalog_hash": profile.get("screening_snapshot_hash")
+                or profile.get("catalog_hash"),
                 "model_review": response,
                 "model_validation_warnings": validation_warnings,
                 "model_audit": audit,
@@ -244,7 +245,8 @@ def run_toolbox_resource_screening(
         "model_role": model.role,
         "model": model.model,
         "toolbox_profile_id": profile.get("profile_id"),
-        "toolbox_catalog_hash": profile.get("catalog_hash"),
+        "toolbox_catalog_hash": profile.get("screening_snapshot_hash")
+        or profile.get("catalog_hash"),
     }
     write_json(stage_root / "stage_summary.json", summary)
     return {
@@ -501,9 +503,8 @@ def _inventory_contract_errors(response):
             errors.append(f"software_mentions[{index}]_invalid_entity_type")
         if mention.get("role") not in VALID_ROLES:
             errors.append(f"software_mentions[{index}]_invalid_role")
-        for field in ("raw_name", "exact_quote"):
-            if not isinstance(mention.get(field), str) or not mention.get(field):
-                errors.append(f"software_mentions[{index}]_missing_{field}")
+        if not isinstance(mention.get("raw_name"), str) or not mention.get("raw_name"):
+            errors.append(f"software_mentions[{index}]_missing_raw_name")
         for field in ("workflow_ids", "evidence_ids"):
             if not isinstance(mention.get(field), list):
                 errors.append(f"software_mentions[{index}].{field}_not_array")
@@ -816,7 +817,7 @@ _KNOWN_EXTENSION_RE = re.compile(
 )
 _CUSTOM_VARIANT_RE = re.compile(
     r"\b(?P<name>(?:a\s+)?(?:development|developer|locally\s+(?:modified|revised)|"
-    r"modified|revised|in[- ]house)\s+(?:version|build|fork|copy)?\s*(?:of\s+)?"
+    r"modified|revised|in[- ]house)\s+(?:version|build|fork|copy)\s+of\s+"
     r"(?:the\s+)?[A-Z][A-Za-z0-9_.+/-]{1,32}(?:\s+\d+(?:\.\d+){0,3})?)\b",
     re.I,
 )
@@ -871,17 +872,30 @@ def find_explicit_executable_cues(
             *list(_EXECUTABLE_ENTITY_RE.finditer(text)),
         ]
         for match in matches:
+            custom_match = match.re in {_CUSTOM_VARIANT_RE, _CUSTOM_IMPLEMENTATION_RE}
+            explicit_entity_match = match.re is _EXECUTABLE_ENTITY_RE
             raw_name = match.group("name").strip(".,;:()[]")
             raw_name = _expand_contextual_executable_name(raw_name, text, match.start("name"))
             if re.fullmatch(r"VASP\s*sol", raw_name, re.I):
                 raw_name = "VASPsol"
             trailing = text[match.end("name") : match.end("name") + 3]
+            explicit_kind = (match.groupdict().get("kind") or "").casefold()
+            ambiguous_lowercase_component = (
+                explicit_entity_match
+                and explicit_kind in {"extension", "plugin", "module"}
+                and not any(character.isupper() or character.isdigit() for character in raw_name)
+            )
             if (
                 len(raw_name) < 3
                 or raw_name.casefold() in _GENERIC_EXECUTABLE_NAMES
                 or raw_name.endswith(("-", "/"))
-                or not any(character.isupper() or character.isdigit() for character in raw_name)
-                or _looks_like_nonsoftware_name(raw_name)
+                or (
+                    not custom_match
+                    and not explicit_entity_match
+                    and not any(character.isupper() or character.isdigit() for character in raw_name)
+                )
+                or ambiguous_lowercase_component
+                or (not custom_match and _looks_like_nonsoftware_name(raw_name))
                 or re.match(r"[’']s\b", trailing, re.I)
             ):
                 continue
@@ -891,7 +905,7 @@ def find_explicit_executable_cues(
             if not _ACTUAL_SOFTWARE_USE_RE.search(local_context):
                 continue
             kind = (match.groupdict().get("kind") or "program").casefold()
-            if match.re in {_CUSTOM_VARIANT_RE, _CUSTOM_IMPLEMENTATION_RE}:
+            if custom_match:
                 kind = "custom_code"
             elif match.re is _KNOWN_EXTENSION_RE:
                 kind = "extension"
@@ -930,6 +944,11 @@ def find_explicit_executable_cues(
                     "entity_type": entity_type,
                     "evidence_id": evidence_id,
                     "context": context,
+                    "deterministic_merge": bool(
+                        custom_match
+                        or match.re is _KNOWN_EXTENSION_RE
+                        or any(character.isupper() or character.isdigit() for character in raw_name)
+                    ),
                 }
             )
     unique = {(_normalize(row["raw_name"]), row["evidence_id"]): row for row in output}
@@ -940,6 +959,7 @@ def _merge_explicit_executable_cues(mentions, cues):
     """Keep strong rule evidence even when an LLM omits an executable entity."""
 
     output = list(mentions)
+    existing_names = {_normalize(row.get("raw_name")) for row in output}
     known = {
         (_normalize(row.get("raw_name")), evidence_id)
         for row in output
@@ -961,12 +981,18 @@ def _merge_explicit_executable_cues(mentions, cues):
         raw_name, abbreviation = _expand_abbreviated_software_name(
             str(cue.get("raw_name") or ""), str(cue.get("context") or "")
         )
+        normalized_name = _normalize(raw_name)
+        if not cue.get("deterministic_merge", True) and normalized_name not in existing_names:
+            continue
         key = (_normalize(cue.get("raw_name")), str(cue.get("evidence_id")))
-        if key in known or (entity_type != "custom_code" and any(
-            str(cue.get("evidence_id")) in (row.get("evidence_ids") or [])
-            and _normalize(cue.get("raw_name")) in _normalize(row.get("raw_name"))
-            for row in output
-        )):
+        if normalized_name in existing_names or key in known or (
+            entity_type != "custom_code"
+            and any(
+                str(cue.get("evidence_id")) in (row.get("evidence_ids") or [])
+                and _normalize(cue.get("raw_name")) in _normalize(row.get("raw_name"))
+                for row in output
+            )
+        ):
             continue
         output.append(
             {
@@ -981,6 +1007,7 @@ def _merge_explicit_executable_cues(mentions, cues):
                 "source": "deterministic_explicit_executable_cue",
             }
         )
+        existing_names.add(normalized_name)
     return output
 
 
@@ -1045,10 +1072,13 @@ def _merge_workflow_software_mentions(mentions, workflows, evidence, aliases):
 
 
 def _software_alias_keys(aliases):
-    lookup = {}
+    # Canonical catalog identifiers always win over aliases contributed by a
+    # different backend.  This prevents an executable name such as ``orca``
+    # from being reassigned to the PyFrag wrapper that invokes it.
+    lookup = {_normalize(backend): backend for backend in aliases}
     for backend, values in aliases.items():
-        for value in [backend, *values]:
-            lookup[_normalize(value)] = backend
+        for value in values:
+            lookup.setdefault(_normalize(value), backend)
     return lookup
 
 
@@ -1079,10 +1109,7 @@ def _context_window(text: str, start: int, end: int, limit: int) -> str:
 
 
 def resolve_software(mentions, aliases, profile):
-    lookup: dict[str, str] = {}
-    for backend, values in aliases.items():
-        for value in [backend, *values]:
-            lookup[_normalize(value)] = backend
+    lookup = _software_alias_keys(aliases)
     backends = profile.get("backends") or {}
     native_software = profile.get("native_software") or {}
     python_packages = profile.get("python_packages") or {}
@@ -1093,6 +1120,10 @@ def resolve_software(mentions, aliases, profile):
         backend = lookup.get(_normalize(raw))
         if backend is None:
             backend = lookup.get(_normalize(_without_version_suffix(raw)))
+        if backend is None:
+            backend = _compound_extension_backend(raw, lookup)
+        if backend is None:
+            backend = _decorated_software_backend(raw, lookup)
         backend_entry = backends.get(backend) if backend else None
         native_entry = native_software.get(backend) if backend else None
         package_entry = python_packages.get(backend) if backend else None
@@ -1129,6 +1160,36 @@ def resolve_software(mentions, aliases, profile):
             }
         )
     return output
+
+
+def _compound_extension_backend(raw_name: str, lookup: dict[str, str]) -> str | None:
+    """Resolve the rightmost known component of a compound plugin/module name."""
+
+    if not re.search(r"\b(?:plugin|module|extension|interface)\b", raw_name, re.I):
+        return None
+    normalized = _normalize(raw_name)
+    candidates: list[tuple[int, int, str]] = []
+    for alias, backend in lookup.items():
+        if len(alias) < 3:
+            continue
+        start = normalized.rfind(alias)
+        if start >= 0:
+            candidates.append((start, len(alias), backend))
+    return max(candidates, default=(-1, -1, None), key=lambda item: (item[0], item[1]))[2]
+
+
+def _decorated_software_backend(raw_name: str, lookup: dict[str, str]) -> str | None:
+    """Resolve a catalogued engine inside a slash/hyphen decorated method name."""
+
+    if re.search(r"\b(?:plugin|module|extension|package|interface)\b", raw_name, re.I):
+        return None
+    candidates: list[str] = []
+    for part in re.split(r"\s*/\s*", raw_name):
+        part = _without_version_suffix(part.strip())
+        backend = lookup.get(_normalize(part))
+        if backend and backend not in candidates:
+            candidates.append(backend)
+    return candidates[0] if len(candidates) == 1 else None
 
 
 def _without_version_suffix(raw_name: str) -> str:
@@ -1236,8 +1297,6 @@ def _float_or_none(value):
 def _combine_decision(coverage, resource, complete):
     if coverage != "covered":
         return coverage
-    if not complete:
-        return "software_inventory_unconfirmed"
     if resource.get("decision") == "cost_exceeds_budget":
         return "cost_exceeds_budget"
     return "software_covered"
@@ -1324,7 +1383,7 @@ def _sanitize_review(response, evidence):
         raw_name = str(mention.get("raw_name") or mention.get("normalized_hint") or "")
         evidence_ids = _known_evidence_ids(mention.get("evidence_ids"), evidence)
         quote = str(mention.get("exact_quote") or "")
-        if not evidence_ids or not quote:
+        if not evidence_ids:
             warnings.append(
                 {
                     "field": "software_mentions",
@@ -1333,7 +1392,7 @@ def _sanitize_review(response, evidence):
                 }
             )
             continue
-        if not _quote_matches(quote, evidence_ids, evidence):
+        if not quote or not _quote_matches(quote, evidence_ids, evidence):
             recovered_quote = _recover_software_quote(
                 raw_name,
                 evidence_ids,

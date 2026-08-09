@@ -309,6 +309,14 @@ def _software_aliases() -> dict[str, list[str]]:
         aliases[identifier].update(str(value) for value in item.get("commands") or [])
     for identifier in EXCLUDED_SOFTWARE:
         aliases.pop(identifier, None)
+    canonical_ids = set(aliases)
+    for identifier, values in aliases.items():
+        collisions = {
+            value
+            for value in values
+            if _identifier(value) in canonical_ids and _identifier(value) != identifier
+        }
+        values.difference_update(collisions)
     return {
         identifier: sorted(values, key=lambda value: (value.casefold(), value))
         for identifier, values in sorted(aliases.items())
@@ -642,6 +650,9 @@ def main() -> int:
         python_packages=python_packages,
         native_software=native_software,
     )
+    capabilities["screening_snapshot_hash"] = hashlib.sha256(
+        json.dumps(capabilities, ensure_ascii=False, sort_keys=True).encode("utf-8")
+    ).hexdigest()
 
     changed = []
     for name, value in (
