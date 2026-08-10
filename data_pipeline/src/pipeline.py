@@ -99,13 +99,17 @@ def run_pipeline(
                     try:
                         future.result()
                     finally:
-                        stop_managed_screening_worker(screening)
+                        if not _preserve_screening_worker(screening):
+                            stop_managed_screening_worker(screening)
     if backend != "local":
         raise ValueError("execution backend must be local or sandbox")
     try:
         return _run_loaded_pipeline(config, model_callers=model_callers)
     finally:
-        if config["models"]["screening"].get("managed_rlaunch"):
+        if (
+            config["models"]["screening"].get("managed_rlaunch")
+            and not _preserve_screening_worker(config["models"]["screening"])
+        ):
             stop_managed_screening_worker(config["models"]["screening"])
 
 
@@ -113,6 +117,12 @@ def load_config(config_path: str | Path) -> dict[str, Any]:
     from src.config import load_config as load_pipeline_config
 
     return load_pipeline_config(config_path)
+
+
+def _preserve_screening_worker(config: dict[str, Any]) -> bool:
+    """Keep a managed worker only when an outer batch controller owns cleanup."""
+
+    return bool(config.get("preserve_worker_on_exit", False))
 
 
 def _run_loaded_pipeline(config: dict[str, Any], *, model_callers=None) -> dict[str, Any]:

@@ -102,6 +102,7 @@ def load_config(path: str | Path) -> dict[str, Any]:
                 service[key] = str(_resolve(source.parent, service[key]))
     _normalize_model_roles(config)
     screening = config["models"]["screening"]
+    screening.setdefault("preserve_worker_on_exit", False)
     for key in ("manager_script", "state_file"):
         if screening.get(key):
             screening[key] = str(_resolve(source.parent, screening[key]))
@@ -140,6 +141,8 @@ def _validate(config: dict[str, Any]) -> None:
             raise ValueError(f"models.{role}.workers must be at least 1")
         if not isinstance(model.get("use_proxy"), bool):
             raise ValueError(f"models.{role}.use_proxy must be true or false")
+    if not isinstance(models["screening"].get("preserve_worker_on_exit"), bool):
+        raise ValueError("models.screening.preserve_worker_on_exit must be true or false")
     for stage in ("stage02", "stage03"):
         configured_role = config[stage].get("model_role", "screening")
         if configured_role != "screening":

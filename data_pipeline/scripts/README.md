@@ -8,6 +8,7 @@ scripts/
 ├── patches/                      # 第三方固定版本补丁
 ├── stage03_llm/                  # rlaunch worker、vLLM 网关和 MinerU 服务切换
 ├── workflows/run_pipeline.sh     # 完整 Stage00-07 流程入口
+├── workflows/run_stage00_04_batches.sh # 分轮复制并运行 Stage00-04
 ├── sync_toolbox_capabilities.py  # 刷新只读工具箱能力快照
 └── test_publisher_access.sh      # 诊断出版商网页连通性
 ```
@@ -20,8 +21,14 @@ scripts/
 ```bash
 bash scripts/bootstrap/bootstrap_all.sh
 bash scripts/workflows/run_pipeline.sh /absolute/path/to/config.local.json
+bash scripts/workflows/run_stage00_04_batches.sh \
+  --run-root runs/stage00-04-batches-10000 \
+  --total 10000 --batch-size 1000 --stage04-concurrency 8
 python scripts/sync_toolbox_capabilities.py
 ```
+
+`run_stage00_04_batches.sh` 严格串行处理外层批次：只有当前 1000 篇完成
+Stage00-04 后才复制下一批；各批次共享一个沙箱和 GPU worker，并自动排除先前已选择的论文。
 
 `run_pipeline.sh` 默认读取 `config.example.json`，并在存在时加载 `config.local.env`。
 默认会调用项目代理初始化脚本；设置 `RCB_SETUP_PROXY=0` 可关闭此行为。

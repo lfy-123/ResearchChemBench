@@ -16,6 +16,7 @@ from src.model_client import DEFAULT_REMOTE_API_PROXY, RoleModelClient
 from src.pipeline import (
     _apply_sandbox,
     _microbatch_stage_hashes,
+    _preserve_screening_worker,
     _softcite_service,
     run_pipeline,
 )
@@ -78,6 +79,19 @@ def test_config_enforces_shared_screening_role(tmp_path: Path) -> None:
     path.write_text(json.dumps(config), encoding="utf-8")
 
     with pytest.raises(ValueError, match="stage03.model_role must be screening"):
+        load_config(path)
+
+
+def test_managed_worker_preservation_requires_explicit_boolean(tmp_path: Path) -> None:
+    assert not _preserve_screening_worker({})
+    assert _preserve_screening_worker({"preserve_worker_on_exit": True})
+
+    config = _base_config(tmp_path)
+    config["models"]["screening"]["preserve_worker_on_exit"] = "yes"
+    path = tmp_path / "config.json"
+    path.write_text(json.dumps(config), encoding="utf-8")
+
+    with pytest.raises(ValueError, match="preserve_worker_on_exit must be true or false"):
         load_config(path)
 
 

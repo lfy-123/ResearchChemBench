@@ -92,6 +92,8 @@ bash scripts/workflows/run_pipeline.sh /absolute/path/to/config.local.json
   `builder`、`judge` 模型配置。
 - `models.screening.existing_worker` 可填写一个已运行 worker 的完整 SSH 地址。此时管理脚本
   跳过 `rlaunch`，只部署/切换 Qwen 与 MinerU；流水线退出时不会停止该外部 worker。
+- `models.screening.preserve_worker_on_exit` 只供外层批处理控制器使用。启用后各轮复用同一个
+  managed worker，并由外层控制器在全部轮次完成或异常退出时统一释放。
 - `stop_after` 可设置为 `stage00` 至 `stage07`。
 - `microbatch.stage_concurrency` 分别限制 Stage01-05 的在途微批数量。
 
