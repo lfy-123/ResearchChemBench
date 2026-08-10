@@ -23,12 +23,16 @@ stop_pid() {
   local file=$1
   if pid_alive "$file"; then
     local pid
+    local children=()
     pid=$(<"$file")
+    mapfile -t children < <(pgrep -P "$pid" 2>/dev/null || true)
+    ((${#children[@]} == 0)) || kill -TERM "${children[@]}" 2>/dev/null || true
     kill -TERM "$pid" 2>/dev/null || true
     for _ in $(seq 1 30); do
       kill -0 "$pid" 2>/dev/null || break
       sleep 1
     done
+    ((${#children[@]} == 0)) || kill -KILL "${children[@]}" 2>/dev/null || true
     kill -KILL "$pid" 2>/dev/null || true
   fi
   rm -f "$file"
@@ -94,6 +98,7 @@ case "$command" in
     export MINERU_DEVICE_MODE="${MINERU_DEVICE_MODE:-cuda}"
     export MINERU_MODEL_SOURCE="${MINERU_MODEL_SOURCE:-local}"
     export MINERU_API_MAX_CONCURRENT_REQUESTS="${MINERU_API_MAX_CONCURRENT_REQUESTS:-3}"
+    export LD_LIBRARY_PATH="$MINERU_ENV_DIR/lib:${LD_LIBRARY_PATH:-}"
     nohup "$MINERU_ENV_DIR/bin/mineru-api" --host 127.0.0.1 --port "$MINERU_PORT" \
       >"$RUNTIME_DIR/logs/mineru-api.log" 2>&1 &
     echo $! >"$RUNTIME_DIR/pids/mineru-api.pid"

@@ -26,18 +26,29 @@ def run_stage05(*, stage04_records, documents, config, model, workspace: Path, r
                 for document in by_paper.get(paper_id, [])
                 for block in read_jsonl(document["content_blocks_path"])
             ]
-            # Stage04 evidence IDs refer to the coarse GROBID text.  MinerU creates a
-            # new block namespace, so Stage05 selects relevant sections from the deep
-            # document instead of trying to reuse stale coarse-parser IDs.
-            evidence = [
-                block for block in blocks if _result_section(block) or _computational_block(block)
-            ]
-            evidence_blocks = _bounded(
-                evidence or blocks, int(config.get("max_evidence_characters", 120000))
+            # Stage04 evidence IDs refer to the coarse GROBID text. MinerU creates a
+            # new block namespace, so Stage05 uses the deep document stream instead of
+            # trying to reuse stale coarse-parser IDs.
+            # MinerU's content-list output does not reliably attach section ancestry to
+            # paragraph blocks.  Keyword-only selection can therefore retain a heading
+            # while dropping the method/result paragraphs below it.  Keep the complete
+            # document stream and apply the per-document character budget instead.
+            evidence_blocks = _bounded_by_document(
+                blocks, int(config.get("max_evidence_characters", 120000))
             )
             packet = {
                 "paper_id": paper_id,
                 "taxonomy": list(TASK_DIRECTIONS),
+                "documents": [
+                    {
+                        "document_id": document.get("document_id"),
+                        "document_role": document.get("document_role"),
+                        "title": document.get("title"),
+                        "selected_parser": document.get("selected_parser"),
+                        "source_name": Path(str(document.get("source_path") or "")).name,
+                    }
+                    for document in by_paper.get(paper_id, [])
+                ],
                 "stage04": _without_evidence_ids(
                     {
                         key: record.get(key)
@@ -50,8 +61,12 @@ def run_stage05(*, stage04_records, documents, config, model, workspace: Path, r
                         )
                     }
                 ),
+                "software_coverage_facts": _software_coverage_facts(record),
                 "evidence_blocks": evidence_blocks,
-                "requirements": {"minimum_dependent_steps": 3, "candidate_limit": 3},
+                "requirements": {
+                    "minimum_dependent_steps": 3,
+                    "candidate_limit": int(config.get("candidate_limit", 1)),
+                },
                 "evidence_contract": {
                     "source": "stage04_mineru_deep_normalization",
                     "cite_only_evidence_block_ids_from_this_packet": True,
@@ -66,12 +81,23 @@ def run_stage05(*, stage04_records, documents, config, model, workspace: Path, r
                 max_tokens=int(config.get("max_tokens", 4096)),
             )
             evidence_ids = {str(block["evidence_id"]) for block in evidence_blocks}
-            candidates, validation_rejections = _validate_candidates(response, evidence_ids, record)
+            candidate_limit = int(config.get("candidate_limit", 1))
+            candidates, validation_rejections = _validate_candidates(
+                response, evidence_ids, record, candidate_limit=candidate_limit
+            )
+            validation_rejections.extend(_response_contract_rejections(response, record))
+            validation_rejections.extend(_software_fact_contradictions(response, record))
             response_attempts = [{"response": response, "audit": audit}]
             if (
-                str(response.get("decision") or "").casefold() == "pass"
-                and not candidates
-                and validation_rejections
+                validation_rejections
+                and (
+                    str(response.get("decision") or "").casefold() == "pass"
+                    or any(
+                        row.get("candidate_id")
+                        in {"response-software-facts", "response-contract"}
+                        for row in validation_rejections
+                    )
+                )
                 and bool(config.get("contract_retry", True))
             ):
                 retry_response, retry_audit = model.call_json(
@@ -82,7 +108,9 @@ def run_stage05(*, stage04_records, documents, config, model, workspace: Path, r
                         f"{STAGE05_SYSTEM}\nYour previous response failed deterministic schema "
                         "validation. Return a corrected complete JSON object. Use one exact taxonomy "
                         "identifier for task_direction, arrays for workflow_steps, validation_gates, "
-                        "scoring_metrics, required_software, and evidence_ids, and cite only evidence "
+                        "scoring_metrics, required_software, and evidence_ids; include estimated_cost "
+                        "and all five buildability_checks; treat software_coverage_facts as immutable; "
+                        "and cite only evidence "
                         "IDs present in evidence_blocks. Do not change the scientific conclusion merely "
                         "to avoid a validation error."
                     ),
@@ -99,11 +127,20 @@ def run_stage05(*, stage04_records, documents, config, model, workspace: Path, r
                 response_attempts.append({"response": retry_response, "audit": retry_audit})
                 response, audit = retry_response, retry_audit
                 candidates, validation_rejections = _validate_candidates(
-                    response, evidence_ids, record
+                    response, evidence_ids, record, candidate_limit=candidate_limit
                 )
-            if candidates:
+                validation_rejections.extend(_response_contract_rejections(response, record))
+                validation_rejections.extend(_software_fact_contradictions(response, record))
+            has_response_contradiction = any(
+                row.get("candidate_id") in {"response-software-facts", "response-contract"}
+                for row in validation_rejections
+            )
+            if candidates and not has_response_contradiction:
                 decision = "pass"
-            elif str(response.get("decision") or "").casefold() == "abstain":
+            elif (
+                str(response.get("decision") or "").casefold() == "abstain"
+                and not has_response_contradiction
+            ):
                 decision = "abstain"
             else:
                 decision = "contract_invalid"
@@ -117,7 +154,7 @@ def run_stage05(*, stage04_records, documents, config, model, workspace: Path, r
                 **record_header(run_id=run_id, stage="stage05", paper_id=paper_id),
                 "processing_status": "completed",
                 "decision": decision,
-                "passed": bool(candidates),
+                "passed": decision == "pass",
                 "candidates": candidates,
                 "abstention_reasons": abstention_reasons,
                 "validation_rejections": validation_rejections,
@@ -169,11 +206,11 @@ def run_stage05(*, stage04_records, documents, config, model, workspace: Path, r
     return {"records": records, "candidates": candidates, "summary": summary}
 
 
-def _validate_candidates(response, evidence_ids, stage04):
+def _validate_candidates(response, evidence_ids, stage04, *, candidate_limit=3):
     output: list[dict[str, Any]] = []
     rejected: list[dict[str, Any]] = []
     software_lookup = _covered_software_lookup(stage04)
-    for index, candidate in enumerate((response.get("candidates") or [])[:3]):
+    for index, candidate in enumerate((response.get("candidates") or [])[:candidate_limit]):
         if not isinstance(candidate, dict):
             rejected.append(
                 {
@@ -207,6 +244,15 @@ def _validate_candidates(response, evidence_ids, stage04):
             reasons.append("incomplete_workflow_validation_or_scoring")
         if candidate.get("ground_truth_level") not in {"A", "B", "C", "D"}:
             reasons.append("invalid_ground_truth_level")
+        estimated_cost = candidate.get("estimated_cost")
+        if not _valid_estimated_cost(estimated_cost, stage04):
+            reasons.append("cost_estimate_missing_invalid_or_over_budget")
+        buildability = candidate.get("buildability_checks")
+        required_checks = ("input_assets", "parameters", "ground_truth", "software", "cost")
+        if not isinstance(buildability, dict) or any(
+            buildability.get(key) != "confirmed" for key in required_checks
+        ):
+            reasons.append("buildability_not_confirmed")
         if not all(
             candidate.get(key)
             for key in (
@@ -250,6 +296,33 @@ def _validate_candidates(response, evidence_ids, stage04):
     return output, rejected
 
 
+def _valid_estimated_cost(value, stage04):
+    if not isinstance(value, dict) or not str(value.get("basis") or "").strip():
+        return False
+    if value.get("confidence") not in {"high", "medium"}:
+        return False
+    numeric = {}
+    for key in ("runtime_hours", "cpu_cores", "gpus", "job_count"):
+        raw = value.get(key)
+        if isinstance(raw, bool) or not isinstance(raw, (int, float)) or raw < 0:
+            return False
+        numeric[key] = float(raw)
+    if numeric["runtime_hours"] <= 0 or numeric["cpu_cores"] <= 0 or numeric["job_count"] <= 0:
+        return False
+    budget = (stage04.get("resource_profile") or {}).get("budget") or {}
+    comparisons = {
+        "runtime_hours": numeric["runtime_hours"],
+        "cpu_cores": numeric["cpu_cores"],
+        "gpus": numeric["gpus"],
+        "job_count": numeric["job_count"],
+        "core_hours": numeric["runtime_hours"] * numeric["cpu_cores"],
+        "gpu_hours": numeric["runtime_hours"] * numeric["gpus"],
+    }
+    return not any(
+        key in budget and float(budget[key]) < amount for key, amount in comparisons.items()
+    )
+
+
 def _covered_software_lookup(stage04):
     lookup: dict[str, str] = {}
     for row in stage04.get("software_mappings") or []:
@@ -271,6 +344,88 @@ def _covered_software_lookup(stage04):
             if value:
                 lookup[_software_key(value)] = identifier
     return lookup
+
+
+def _software_coverage_facts(stage04):
+    covered, uncovered = [], []
+    for row in stage04.get("software_mappings") or []:
+        fact = {
+            "paper_name": row.get("raw_name"),
+            "toolbox_identifier": row.get("normalized_identifier")
+            or row.get("normalized_backend"),
+        }
+        (covered if row.get("catalog_present") else uncovered).append(fact)
+    return {
+        "covered_required_software": covered,
+        "uncovered_required_software": uncovered,
+        "inventory_status": stage04.get("coverage_decision"),
+        "rule": (
+            "Only uncovered_required_software may be reported as absent from the toolbox. "
+            "A covered entry may still be unusable for a non-software reason, but must not be "
+            "described as missing from the catalog."
+        ),
+    }
+
+
+def _software_fact_contradictions(response, stage04):
+    blocking = _software_list(response.get("blocking_software"))
+    if not blocking:
+        return []
+    if str(response.get("decision") or "").casefold() == "pass":
+        return [
+            {
+                "candidate_id": "response-software-facts",
+                "reasons": ["pass_response_has_blocking_software"],
+            }
+        ]
+    uncovered = {
+        _software_key(value)
+        for row in _software_coverage_facts(stage04)["uncovered_required_software"]
+        for value in (row.get("paper_name"), row.get("toolbox_identifier"))
+        if value
+    }
+    invalid = [name for name in blocking if _software_key(name) not in uncovered]
+    if not invalid:
+        return []
+    return [
+        {
+            "candidate_id": "response-software-facts",
+            "reasons": [f"blocking_software_not_in_uncovered_facts:{name}" for name in invalid],
+        }
+    ]
+
+
+def _response_contract_rejections(response, stage04):
+    decision = str(response.get("decision") or "").casefold()
+    dimensions = _string_list(response.get("blocking_dimensions"))
+    allowed = {
+        "input_assets",
+        "parameters",
+        "ground_truth",
+        "software",
+        "cost",
+        "scientific_significance",
+    }
+    blocking_software = _software_list(response.get("blocking_software"))
+    inventory_unconfirmed = (
+        _software_coverage_facts(stage04).get("inventory_status")
+        == "software_inventory_unconfirmed"
+    )
+    reasons = []
+    if decision == "pass" and (dimensions or blocking_software):
+        reasons.append("pass_response_has_blockers")
+    if decision == "abstain":
+        if not dimensions:
+            reasons.append("abstain_missing_blocking_dimensions")
+        if set(dimensions) - allowed:
+            reasons.append("invalid_blocking_dimensions")
+        if blocking_software and "software" not in dimensions:
+            reasons.append("software_dimension_and_blocking_software_disagree")
+        if "software" in dimensions and not (blocking_software or inventory_unconfirmed):
+            reasons.append("software_dimension_and_blocking_software_disagree")
+    if not reasons:
+        return []
+    return [{"candidate_id": "response-contract", "reasons": reasons}]
 
 
 def _software_list(value):
@@ -303,30 +458,6 @@ def _without_evidence_ids(value):
     return value
 
 
-def _result_section(block):
-    section = " ".join(block.get("section_path") or []).casefold()
-    return any(
-        word in section for word in ("result", "discussion", "conclusion", "method", "comput")
-    )
-
-
-def _computational_block(block):
-    text = str(block.get("text") or "").casefold()
-    return any(
-        term in text
-        for term in (
-            "density functional",
-            "molecular dynamics",
-            "quantum chem",
-            "computational method",
-            "calculation was performed",
-            "calculations were performed",
-            "basis set",
-            "force field",
-        )
-    )
-
-
 def _bounded(blocks, limit):
     output, size = [], 0
     for block in blocks:
@@ -339,3 +470,18 @@ def _bounded(blocks, limit):
         output.append(compact)
         size += len(str(compact["text"]))
     return output
+
+
+def _bounded_by_document(blocks, limit):
+    by_document: dict[str, list[dict]] = {}
+    for block in blocks:
+        document_id = str(block.get("document_id") or "unknown")
+        by_document.setdefault(document_id, []).append(block)
+    if not by_document:
+        return []
+    per_document = max(1, int(limit) // len(by_document))
+    return [
+        block
+        for document_blocks in by_document.values()
+        for block in _bounded(document_blocks, per_document)
+    ]

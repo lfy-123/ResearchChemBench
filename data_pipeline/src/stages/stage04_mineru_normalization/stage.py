@@ -119,6 +119,8 @@ def _deep_normalize_passed_papers(*, records, documents, config, stage_root, run
         reuse_existing=bool(mineru.get("reuse_existing", True)),
         min_markdown_chars=int(mineru.get("min_markdown_chars", 100)),
         stage_name="stage_04_mineru_deep_normalization",
+        max_workers=int(mineru.get("api_concurrency", 1)),
+        request_batch_size=int(mineru.get("request_batch_size", 1)),
     )
     by_id = {row["document_id"]: row for row in results}
     deep_root = stage_root / "deep_normalization"

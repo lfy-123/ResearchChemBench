@@ -3,7 +3,7 @@ from __future__ import annotations
 STAGE02_MAP_VERSION = "v2-stage02-map-20260809-r7-explicit-actor-attribution"
 STAGE02_REDUCE_VERSION = "v2-stage02-reduce-20260810-r9-domain-boundaries"
 STAGE03_VERSION = "v2-stage03-software-inventory-20260810-r21-recall-balanced"
-STAGE05_VERSION = "v2-stage05-suitability-20260809-r2-strict-contract"
+STAGE05_VERSION = "v2-stage05-suitability-20260810-r8-unresolved-software-inventory"
 STAGE06_SHARED_VERSION = "v2-stage06-shared-20260807"
 STAGE06_AUTONOMOUS_VERSION = "v2-stage06-autonomous-20260807"
 STAGE06_REPRODUCTION_VERSION = "v2-stage06-reproduction-20260807"
@@ -261,15 +261,47 @@ Minimal shape example:
 "evidence_ids":["ev-1"],"confidence":"high","rationale":"complete inventory"}."""
 
 STAGE05_SYSTEM = """You are a strict benchmark-suitability reviewer. The paper has already passed
-computational-content, toolbox, and preliminary-cost gates. Identify zero to three nontrivial candidate tasks
+computational-content and a preliminary toolbox/cost gate, but uncertain software, assets, parameters, or cost
+may still remain. Identify zero or one strongest nontrivial candidate task
 only within the supplied taxonomy. A candidate must reproduce a clear scientific claim or key intermediate,
 contain at least three dependent computational stages, include a scientific validation gate, separate public
 input from hidden targets, have a machine-computable score, use only Stage03-covered required software, and
 fit the budget. Reading existing output, copying a table value, plotting supplied answers, or one trivial single
 point is not a task. Return one JSON object with decision (pass or abstain), candidates, abstention_reasons,
-evidence_ids, rationale, confidence. Each candidate needs candidate_id, task_direction, scientific_question,
+blocking_dimensions, blocking_software, evidence_ids, rationale, confidence. Each candidate needs candidate_id,
+task_direction, scientific_question,
 claim_reference, workflow_steps, validation_gates, public_input_requirements, hidden_targets, scoring_metrics,
-ground_truth_level (A/B/C/D), required_software, estimated_cost, evidence_ids, and significance_rationale.
+ground_truth_level (A/B/C/D), required_software, estimated_cost, buildability_checks, evidence_ids, and
+significance_rationale.
+
+Prefer the smallest self-contained task that tests a scientifically meaningful claim or key intermediate. Do not
+append expensive downstream training, sampling, or screening merely to reach three steps. Preparation,
+calculation, convergence analysis, and quantitative comparison may be dependent stages when they produce and
+validate distinct artifacts. Conversely, do not split one calculation into artificial stages.
+
+Every public input, essential parameter, hidden target, and cost estimate must be supported by the supplied
+evidence. Phrases such as "from literature", "if provided", "e.g.", or "can be generated" identify unresolved
+assets, not confirmed public inputs. A Stage03 resource decision of cost_unconfirmed is not evidence that the
+task fits the budget. Abstain unless a deliberately bounded task scope and its evidence support a defensible
+estimate. Never set runtime equal to the budget merely because it is the limit.
+The packet's documents array explicitly identifies the main paper and every supplied supplementary document.
+Do not claim that Supporting Information is unavailable when a supplementary document is listed; instead judge
+whether its supplied evidence actually contains the assets and parameters required by the candidate.
+The packet's software_coverage_facts are immutable. Software in covered_required_software is present in the
+toolbox even if the paper uses a native interface rather than a preset action. Never describe a covered entry as
+absent, unavailable, or unsupported. blocking_software must be a JSON array containing only exact paper_name or
+toolbox_identifier values from uncovered_required_software; use an empty array when software coverage is not a
+reason for abstention. The absence of a preset action is never a software blocker because a covered package may
+be called through its native interface. When inventory_status is software_inventory_unconfirmed, software may
+be a blocking dimension with an empty blocking_software array because the essential engine was not named. Do
+not infer toolbox availability from general knowledge.
+
+estimated_cost must contain numeric runtime_hours, cpu_cores, gpus, and job_count plus a concise basis and
+confidence (high/medium/low). buildability_checks must contain input_assets, parameters, ground_truth,
+software, and cost, each exactly confirmed, uncertain, or failed. decision=pass requires all five to be
+confirmed. If an essential engine is unnamed or absent from Stage03 coverage, either define a scientifically
+self-contained candidate that genuinely does not depend on that engine or abstain; never omit an essential
+program from required_software.
 
 Contract requirements are strict:
 - task_direction must be exactly one identifier from the supplied taxonomy array; never use "forward", "reverse",
@@ -278,7 +310,11 @@ Contract requirements are strict:
 - required_software must contain the software names used by Stage03, not a comma-separated string.
 - evidence_ids may cite only IDs from evidence_blocks. Stage03 workflow summaries intentionally contain no
   reusable evidence IDs because they came from a different parser namespace.
-- decision=pass requires at least one complete candidate. decision=abstain requires a nonempty
+- blocking_dimensions must be a JSON array drawn only from input_assets, parameters, ground_truth, software,
+  cost, and scientific_significance. Include software if blocking_software is nonempty, or if inventory_status
+  is software_inventory_unconfirmed and the unnamed essential engine prevents construction.
+- decision=pass requires exactly one complete candidate and empty blocking_dimensions/blocking_software.
+  decision=abstain requires nonempty blocking_dimensions and a nonempty
   abstention_reasons array and an empty candidates array.
 
 Minimal shape example (values are illustrative only):
@@ -287,8 +323,13 @@ Minimal shape example (values are illustrative only):
 "claim_reference":"Figure 3","workflow_steps":["step 1","step 2","step 3"],
 "validation_gates":["gate"],"public_input_requirements":"...","hidden_targets":"...",
 "scoring_metrics":["MAE"],"ground_truth_level":"B","required_software":["Gaussian 16"],
-"estimated_cost":{"runtime_hours":4},"evidence_ids":["mineru-evidence-id"],
-"significance_rationale":"..."}],"abstention_reasons":[],"evidence_ids":["mineru-evidence-id"],
+"estimated_cost":{"runtime_hours":4,"cpu_cores":16,"gpus":0,"job_count":8,
+"basis":"eight reported single-point jobs","confidence":"medium"},
+"buildability_checks":{"input_assets":"confirmed","parameters":"confirmed",
+"ground_truth":"confirmed","software":"confirmed","cost":"confirmed"},
+"evidence_ids":["mineru-evidence-id"],
+"significance_rationale":"..."}],"abstention_reasons":[],"blocking_dimensions":[],
+"blocking_software":[],"evidence_ids":["mineru-evidence-id"],
 "rationale":"...","confidence":"high"}. Return compact JSON only."""
 
 STAGE06_SHARED_SYSTEM = """Build the shared, private scientific record for one approved benchmark candidate.

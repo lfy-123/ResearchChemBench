@@ -152,6 +152,8 @@ def main(argv: list[str] | None = None) -> int:
     mineru_parser.add_argument("--command", default="mineru")
     mineru_parser.add_argument("--method", default="auto")
     mineru_parser.add_argument("--backend")
+    mineru_parser.add_argument("--workers", type=int, default=1)
+    mineru_parser.add_argument("--request-batch-size", type=int, default=1)
     mineru_parser.add_argument("--force", action="store_true")
     args = parser.parse_args(argv)
 
@@ -216,6 +218,8 @@ def main(argv: list[str] | None = None) -> int:
             method=args.method,
             backend=args.backend,
             reuse_existing=not args.force,
+            max_workers=args.workers,
+            request_batch_size=args.request_batch_size,
         )
         write_jsonl(args.result_output, rows)
         result = {"queued": len(queue), "results": len(rows)}

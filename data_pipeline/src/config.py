@@ -66,6 +66,7 @@ def load_config(path: str | Path) -> dict[str, Any]:
     mineru = stage04.setdefault("mineru", {})
     mineru.setdefault("managed_gpu", False)
     mineru.setdefault("api_concurrency", 3)
+    mineru.setdefault("request_batch_size", 1)
     if mineru.get("managed_gpu"):
         mineru["gpu_env_dir"] = str(
             _resolve(
@@ -181,6 +182,8 @@ def _validate(config: dict[str, Any]) -> None:
             raise ValueError("stage04.mineru.managed_gpu requires models.screening.managed_rlaunch")
         if int(mineru.get("api_concurrency", 1)) < 1:
             raise ValueError("stage04.mineru.api_concurrency must be at least 1")
+        if int(mineru.get("request_batch_size", 1)) < 1:
+            raise ValueError("stage04.mineru.request_batch_size must be at least 1")
 
 
 def _resolve(base: Path, value: str | Path) -> Path:

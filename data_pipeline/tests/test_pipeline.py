@@ -62,6 +62,9 @@ from src.stages.stage03_toolbox_resource_gate.stage import (
     run_stage03,
 )
 from src.stages.stage05_benchmark_suitability.stage import (
+    _response_contract_rejections,
+    _software_coverage_facts,
+    _software_fact_contradictions,
     _validate_candidates,
     _without_evidence_ids,
 )
@@ -3532,7 +3535,21 @@ def _stage05_fixture_candidate() -> dict:
         "scoring_metrics": ["MAE"],
         "ground_truth_level": "B",
         "required_software": "OpenMM, MDTraj, Packmol",
-        "estimated_cost": {"runtime_hours": 4},
+        "estimated_cost": {
+            "runtime_hours": 4,
+            "cpu_cores": 8,
+            "gpus": 0,
+            "job_count": 1,
+            "basis": "one reported simulation",
+            "confidence": "medium",
+        },
+        "buildability_checks": {
+            "input_assets": "confirmed",
+            "parameters": "confirmed",
+            "ground_truth": "confirmed",
+            "software": "confirmed",
+            "cost": "confirmed",
+        },
         "evidence_ids": ["mineru-1"],
         "significance_rationale": "Tests the central quantitative claim.",
     }
@@ -3597,6 +3614,124 @@ def test_stage05_rejects_stale_stage04_evidence_namespace_with_reason() -> None:
     assert "unknown_or_missing_mineru_evidence_ids" in rejected[0]["reasons"]
     assert rejected[0]["unknown_evidence_ids"] == ["grobid-old-id"]
 
+
+def test_stage05_rejects_unconfirmed_buildability_and_unsupported_cost() -> None:
+    candidate = _stage05_fixture_candidate()
+    candidate["buildability_checks"]["input_assets"] = "uncertain"
+    candidate["estimated_cost"]["runtime_hours"] = 48
+    coverage = _stage05_fixture_coverage()
+    coverage["resource_profile"] = {
+        "budget": {
+            "runtime_hours": 24,
+            "cpu_cores": 128,
+            "gpus": 1,
+            "job_count": 1000,
+            "core_hours": 3072,
+            "gpu_hours": 24,
+        }
+    }
+
+    candidates, rejected = _validate_candidates(
+        {"decision": "pass", "candidates": [candidate]},
+        {"mineru-1"},
+        coverage,
+    )
+
+    assert candidates == []
+    assert "buildability_not_confirmed" in rejected[0]["reasons"]
+    assert "cost_estimate_missing_invalid_or_over_budget" in rejected[0]["reasons"]
+
+
+def test_stage05_evidence_budget_preserves_main_and_supplementary_documents() -> None:
+    from src.stages.stage05_benchmark_suitability.stage import _bounded_by_document
+
+    blocks = [
+        {"document_id": "main", "evidence_id": f"main-{index}", "text": "m" * 80}
+        for index in range(4)
+    ] + [
+        {"document_id": "si", "evidence_id": f"si-{index}", "text": "s" * 80}
+        for index in range(4)
+    ]
+
+    bounded = _bounded_by_document(blocks, 320)
+
+    assert {row["document_id"] for row in bounded} == {"main", "si"}
+
+
+def test_stage05_software_facts_prevent_covered_engine_from_becoming_a_blocker() -> None:
+    coverage = _stage05_fixture_coverage()
+    coverage["software_mappings"].append(
+        {
+            "raw_name": "UnknownEngine",
+            "normalized_identifier": None,
+            "normalized_backend": None,
+            "catalog_present": False,
+        }
+    )
+
+    facts = _software_coverage_facts(coverage)
+    contradictions = _software_fact_contradictions(
+        {"decision": "abstain", "blocking_software": ["OpenMM"]}, coverage
+    )
+
+    assert facts["uncovered_required_software"] == [
+        {"paper_name": "UnknownEngine", "toolbox_identifier": None}
+    ]
+    assert contradictions[0]["candidate_id"] == "response-software-facts"
+
+
+def test_stage05_allows_only_declared_uncovered_software_as_a_blocker() -> None:
+    coverage = _stage05_fixture_coverage()
+    coverage["software_mappings"].append(
+        {"raw_name": "UnknownEngine", "catalog_present": False}
+    )
+    assert (
+        _software_fact_contradictions(
+            {"decision": "abstain", "blocking_software": ["UnknownEngine"]}, coverage
+        )
+        == []
+    )
+
+
+def test_stage05_abstention_contract_couples_software_dimension_and_blockers() -> None:
+    assert _response_contract_rejections(
+        {
+            "decision": "abstain",
+            "blocking_dimensions": ["software"],
+            "blocking_software": [],
+        },
+        _stage05_fixture_coverage(),
+    ) == [
+        {
+            "candidate_id": "response-contract",
+            "reasons": ["software_dimension_and_blocking_software_disagree"],
+        }
+    ]
+    assert (
+        _response_contract_rejections(
+            {
+                "decision": "abstain",
+                "blocking_dimensions": ["cost"],
+                "blocking_software": [],
+            },
+            _stage05_fixture_coverage(),
+        )
+        == []
+    )
+
+    unresolved = _stage05_fixture_coverage()
+    unresolved["coverage_decision"] = "software_inventory_unconfirmed"
+    assert (
+        _response_contract_rejections(
+            {
+                "decision": "abstain",
+                "blocking_dimensions": ["software"],
+                "blocking_software": [],
+            },
+            unresolved,
+        )
+        == []
+    )
 
 def test_stage05_packet_removes_nested_stage04_evidence_ids() -> None:
     value = {

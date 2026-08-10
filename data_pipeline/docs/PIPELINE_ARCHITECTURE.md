@@ -18,7 +18,7 @@
 | Stage02 | Stage01 结构化文本块 | `decisions.jsonl`、map/reduce 审查、错误记录 | 当前作者完成完整计算化学流程，且没有当前作者实施的物理实验；所有混合实验论文均不进入下游 |
 | Stage03 | Stage02 证据、Stage01 全文、软件别名和工具箱快照、资源预算 | 软件/工作流/资源清单、工具箱映射、`decisions.jsonl` | 必需的命名核心软件均存在于工具箱，软件清单可确认，且没有明确资源超限 |
 | Stage04 | Stage03 通过论文及其文档 | MinerU 高质量正文/SI、解析尝试、`decisions.jsonl` | 正文和所需文档通过 MinerU 质量门控 |
-| Stage05 | Stage04 高质量证据、Stage02/03 判定 | benchmark 候选、方向、科学问题、目标和证据引用 | 至少一个候选对应允许的科学方向、完整计算流程和机器可评分目标 |
+| Stage05 | Stage04 高质量正文/SI、Stage03 工作流/软件事实/预算 | 0 或 1 个最强 benchmark 候选，或结构化淘汰维度 | 候选对应允许方向，输入、参数、ground truth、软件和成本均有证据确认，流程完整且机器可评分 |
 | Stage06 | Stage05 candidate、冻结证据、工具箱 | 共享科学记录、自主科研任务、论文复现任务、隐藏答案和 rubric | Builder 输出通过结构、证据引用和信息泄漏检查 |
 | Stage07 | Stage06 task pair | 确定性审计、独立 Judge、可选 Gold Run、发布判定 | 所有硬性检查通过，Judge 接受，启用时 Gold Run 成功 |
 
@@ -27,6 +27,11 @@
 Stage01-03 是第一段微批流水线：一个微批完成 Stage01 后即可进入 Stage02，再进入 Stage03，
 不等待整批论文完成。Stage02/03 共用 screening LLM。第一段全部完成后释放或保留同一个 GPU
 worker，并按配置切换为 MinerU；Stage04-05 构成第二段微批流水线。Stage06/07 按候选任务并发。
+
+Stage04 的 `mineru.api_concurrency` 控制同时进行的 MinerU API 请求数，
+`mineru.request_batch_size` 控制单次请求包含的 PDF 数量。两者可组合使用；结果始终按输入顺序
+写回，单篇失败隔离，已有有效结果在断点续跑时直接复用。GPU worker 主存不足时应降低并发或
+增大单次请求批量，不能仅依据 GPU 显存设置并发。
 
 沙箱在整个 `run_pipeline` 外层创建一次并在 `finally` 中清理。GROBID、Softcite、screening LLM
 和 MinerU 均由上下文管理器负责启动、复用和异常清理。单篇模型或解析错误必须记录为该论文的

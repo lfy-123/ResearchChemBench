@@ -111,6 +111,7 @@
       "gpu_env_dir": ".envs/researchchem-data-pipeline",
       "command": ".envs/researchchem-data-pipeline/bin/mineru",
       "api_concurrency": 3,
+      "request_batch_size": 1,
       "method": "auto",
       "backend": "pipeline",
       "timeout_seconds": 3600,
@@ -127,6 +128,7 @@
   "stage05": {
     "model_role": "suitability",
     "workers": 8,
+    "candidate_limit": 1,
     "max_evidence_characters": 120000,
     "max_tokens": 4096,
     "contract_retry": true

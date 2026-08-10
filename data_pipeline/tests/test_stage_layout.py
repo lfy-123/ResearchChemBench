@@ -43,6 +43,7 @@ def test_shared_worker_switch_adds_persistent_mineru_api(monkeypatch, tmp_path: 
             "gpu_env_dir": "/shared/mineru-gpu",
             "environment": {"MINERU_TOOLS_CONFIG_JSON": "/shared/mineru.json"},
             "api_concurrency": 3,
+            "request_batch_size": 2,
             "extra_args": ["--formula", "true"],
         },
     )
