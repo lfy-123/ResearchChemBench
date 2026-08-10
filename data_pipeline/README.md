@@ -94,6 +94,8 @@ bash scripts/workflows/run_pipeline.sh /absolute/path/to/config.local.json
   跳过 `rlaunch`，只部署/切换 Qwen 与 MinerU；流水线退出时不会停止该外部 worker。
 - `models.screening.preserve_worker_on_exit` 只供外层批处理控制器使用。启用后各轮复用同一个
   managed worker，并由外层控制器在全部轮次完成或异常退出时统一释放。
+- `models.screening.allow_worker_creation=false` 要求复用已经存在且健康的 managed worker；
+  worker 缺失或失效时直接失败，不会自动申请替代 worker。
 - `stop_after` 可设置为 `stage00` 至 `stage07`。
 - `microbatch.stage_concurrency` 分别限制 Stage01-05 的在途微批数量。
 

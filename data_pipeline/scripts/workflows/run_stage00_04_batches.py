@@ -8,12 +8,15 @@ import copy
 import json
 import signal
 import subprocess
-from datetime import datetime, timezone
+import time
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
 
+from src.config import load_config
 from src.core.io import read_json, write_json
 from src.pipeline import run_pipeline
+from src.runtime import ensure_managed_screening_worker
 from src.sandbox.manager import SandboxManager, SandboxRunOptions
 
 PIPELINE_ROOT = Path(__file__).resolve().parents[2]
@@ -32,7 +35,9 @@ def main() -> int:
     status = _initial_status(args, run_root, batches)
     if status_path.is_file():
         previous = read_json(status_path)
-        status["started_at"] = previous.get("started_at") or status["started_at"]
+        status["first_started_at"] = (
+            previous.get("first_started_at") or previous.get("started_at")
+        )
         status["completed_batches"] = list(previous.get("completed_batches") or [])
         status["batch_results"] = list(previous.get("batch_results") or [])
     write_json(status_path, status)
@@ -72,6 +77,8 @@ def main() -> int:
     signal.signal(signal.SIGTERM, interrupt)
     signal.signal(signal.SIGINT, interrupt)
     try:
+        _wait_before_resource_start(args.initial_delay_hours, status_path, status)
+        _start_single_worker(configs[0], status_path, status)
         for index, config_path in enumerate(configs, start=1):
             workspace = run_root / "batches" / f"batch-{index:04d}"
             summary_path = workspace / "run_summary.json"
@@ -236,6 +243,7 @@ def _batch_config(
             "enabled": True,
             "managed_rlaunch": True,
             "preserve_worker_on_exit": True,
+            "allow_worker_creation": False,
             "existing_worker": "",
             "manager_script": str(
                 PIPELINE_ROOT / "scripts" / "stage03_llm" / "manage_rlaunch_worker.sh"
@@ -356,6 +364,8 @@ def _initial_status(args, run_root: Path, batches: int) -> dict[str, Any]:
         "batches": batches,
         "stage04_api_concurrency": args.stage04_concurrency,
         "worker_memory_mib": args.worker_memory_mib,
+        "initial_delay_hours": args.initial_delay_hours,
+        "worker_start_policy": "single_attempt_fail_fast",
         "completed_batches": [],
         "batch_results": [],
         "current_batch": None,
@@ -381,6 +391,7 @@ def _parse_args():
     parser.add_argument("--worker-memory-mib", type=int, default=196000)
     parser.add_argument("--sandbox-cpu", type=int, default=128)
     parser.add_argument("--sandbox-memory", default="256Gi")
+    parser.add_argument("--initial-delay-hours", type=float, default=5.0)
     parser.add_argument("--prepare-only", action="store_true")
     return parser.parse_args()
 
@@ -398,6 +409,46 @@ def _validate_args(args) -> None:
             raise ValueError(f"--{name.replace('_', '-')} must be positive")
     if not Path(args.credentials).expanduser().is_file():
         raise FileNotFoundError(f"remote credentials not found: {args.credentials}")
+    if args.initial_delay_hours < 0:
+        raise ValueError("--initial-delay-hours must be zero or greater")
+
+
+def _wait_before_resource_start(hours: float, status_path: Path, status: dict[str, Any]) -> None:
+    seconds = hours * 3600
+    if seconds <= 0:
+        return
+    resource_start_after = datetime.now(timezone.utc) + timedelta(seconds=seconds)
+    status.update(
+        {
+            "state": "waiting_for_resource_start",
+            "resource_start_after": resource_start_after.isoformat(),
+            "updated_at": _now(),
+        }
+    )
+    write_json(status_path, status)
+    print(
+        f"waiting {hours:g} hours before starting the sandbox and single GPU worker; "
+        f"resource start after {resource_start_after.isoformat()}",
+        flush=True,
+    )
+    time.sleep(seconds)
+
+
+def _start_single_worker(
+    config_path: Path, status_path: Path, status: dict[str, Any]
+) -> None:
+    screening = dict(load_config(config_path)["models"]["screening"])
+    state_file = Path(str(screening["state_file"]))
+    if state_file.exists():
+        raise RuntimeError(
+            f"refusing to create a worker while stale worker state exists: {state_file}"
+        )
+    status.update({"state": "starting_single_worker", "updated_at": _now()})
+    write_json(status_path, status)
+    screening["allow_worker_creation"] = True
+    ensure_managed_screening_worker(screening)
+    status.update({"worker_started_at": _now(), "updated_at": _now()})
+    write_json(status_path, status)
 
 
 def _now() -> str:

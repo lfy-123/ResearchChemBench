@@ -118,6 +118,11 @@ def ensure_managed_screening_worker(model_config: dict[str, Any]) -> None:
         )
         if status.returncode == 0:
             return
+        if not config.get("allow_worker_creation", True):
+            raise RuntimeError(
+                "the run-scoped screening worker is unhealthy; worker replacement is "
+                "disabled for this run"
+            )
         cleanup = subprocess.run(
             ["bash", str(manager), "stop", "--state", str(state_file)], check=False
         )
@@ -126,6 +131,11 @@ def ensure_managed_screening_worker(model_config: dict[str, Any]) -> None:
                 "screening worker state exists but is not healthy and could not be "
                 f"cleaned safely: {state_file}"
             )
+    if not config.get("allow_worker_creation", True):
+        raise RuntimeError(
+            "the run-scoped screening worker is missing; worker creation is disabled "
+            "after the controller's single start attempt"
+        )
     subprocess.run(_start_command(config, manager, state_file), check=True)
 
 

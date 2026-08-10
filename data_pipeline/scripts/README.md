@@ -23,12 +23,15 @@ bash scripts/bootstrap/bootstrap_all.sh
 bash scripts/workflows/run_pipeline.sh /absolute/path/to/config.local.json
 bash scripts/workflows/run_stage00_04_batches.sh \
   --run-root runs/stage00-04-batches-10000 \
-  --total 10000 --batch-size 1000 --stage04-concurrency 8
+  --total 10000 --batch-size 1000 --stage04-concurrency 8 \
+  --initial-delay-hours 5
 python scripts/sync_toolbox_capabilities.py
 ```
 
 `run_stage00_04_batches.sh` 严格串行处理外层批次：只有当前 1000 篇完成
 Stage00-04 后才复制下一批；各批次共享一个沙箱和 GPU worker，并自动排除先前已选择的论文。
+默认先等待 5 小时，再申请沙箱和唯一一个 GPU worker。worker 单次启动失败时整个任务立即结束，
+不会再次申请 worker。
 
 `run_pipeline.sh` 默认读取 `config.example.json`，并在存在时加载 `config.local.env`。
 默认会调用项目代理初始化脚本；设置 `RCB_SETUP_PROXY=0` 可关闭此行为。

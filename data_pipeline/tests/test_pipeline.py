@@ -95,6 +95,16 @@ def test_managed_worker_preservation_requires_explicit_boolean(tmp_path: Path) -
         load_config(path)
 
 
+def test_managed_worker_creation_policy_requires_explicit_boolean(tmp_path: Path) -> None:
+    config = _base_config(tmp_path)
+    config["models"]["screening"]["allow_worker_creation"] = "no"
+    path = tmp_path / "config.json"
+    path.write_text(json.dumps(config), encoding="utf-8")
+
+    with pytest.raises(ValueError, match="allow_worker_creation must be true or false"):
+        load_config(path)
+
+
 def test_v2_config_preserves_logical_shared_storage_path(tmp_path: Path, monkeypatch) -> None:
     logical_root = tmp_path / "logical-workspace"
     logical_root.mkdir()

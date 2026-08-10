@@ -28,6 +28,21 @@ def test_screening_start_command_reuses_external_worker(tmp_path: Path) -> None:
     assert "--skip-download" in command
 
 
+def test_managed_screening_worker_refuses_second_creation(tmp_path: Path) -> None:
+    manager = tmp_path / "manager.sh"
+    manager.write_text("#!/usr/bin/env bash\n", encoding="utf-8")
+
+    with pytest.raises(RuntimeError, match="worker creation is disabled"):
+        runtime.ensure_managed_screening_worker(
+            {
+                "managed_rlaunch": True,
+                "manager_script": str(manager),
+                "state_file": str(tmp_path / "missing-worker.json"),
+                "allow_worker_creation": False,
+            }
+        )
+
+
 def test_shared_worker_switch_adds_persistent_mineru_api(monkeypatch, tmp_path: Path) -> None:
     state = tmp_path / "worker.json"
     state.write_text(json.dumps({"base_url": "http://127.0.0.1:18084"}), encoding="utf-8")
