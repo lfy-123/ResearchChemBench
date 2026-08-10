@@ -2,7 +2,7 @@ from __future__ import annotations
 
 STAGE03_MAP_VERSION = "v2-stage03-map-20260809-r7-explicit-actor-attribution"
 STAGE03_REDUCE_VERSION = "v2-stage03-reduce-20260810-r9-domain-boundaries"
-STAGE04_VERSION = "v2-stage04-software-inventory-20260810-r18-independent-analysis-boundary"
+STAGE04_VERSION = "v2-stage04-software-inventory-20260810-r20-bounded-candidate-audit"
 STAGE05_VERSION = "v2-stage05-suitability-20260809-r2-strict-contract"
 STAGE06_SHARED_VERSION = "v2-stage06-shared-20260807"
 STAGE06_AUTONOMOUS_VERSION = "v2-stage06-autonomous-20260807"
@@ -189,7 +189,8 @@ or new implementation is a separate custom_code entity in addition to its upstre
 When the exact custom runtime or its reproducible source is unavailable, keep it as required custom_code so the
 deterministic toolbox gate can hold or reject the workflow.
 
-Also audit every rule_software_mentions and softcite_mentions candidate. Put genuine executable entities in
+Also audit every rule_software_mentions and softcite_mentions candidate. These candidates intentionally include
+software outside the toolbox and do not imply support. Put genuine executable entities in
 software_mentions. The structured workflows, software_mentions, and rationale must agree: never name software
 only in the rationale while leaving its essential workflow step unnamed. Put rejected candidates in
 excluded_entities with raw_name, entity_type, evidence_ids, and a

@@ -42,6 +42,14 @@ def load_v2_config(path: str | Path) -> dict[str, Any]:
     stage03["software_aliases"] = str(
         _resolve(source.parent, stage03.get("software_aliases", "assets/software_aliases.json"))
     )
+    stage03["external_software_aliases"] = str(
+        _resolve(
+            source.parent,
+            stage03.get(
+                "external_software_aliases", "assets/external_software_aliases.json"
+            ),
+        )
+    )
     stage01 = config.setdefault("stage01", {})
     normalization = stage01.setdefault("normalization", {})
     config.setdefault("stage02", {})

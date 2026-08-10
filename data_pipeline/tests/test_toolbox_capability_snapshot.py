@@ -98,7 +98,7 @@ def test_native_executables_are_exported_as_backend_aliases():
         expected = {
             executable
             for executable in backend.executables
-            if executable.casefold() != "mpirun"
+            if executable.casefold() not in {"mpirun", "pes"}
         }
         assert expected <= set(aliases[backend.id])
 

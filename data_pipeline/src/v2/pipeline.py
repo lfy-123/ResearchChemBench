@@ -848,7 +848,11 @@ def _stage_config_cache_value(stage, config):
 def _stage03_capability_fingerprints(config):
     return [
         _file_fingerprint(config.get(key))
-        for key in ("toolbox_capabilities", "software_aliases")
+        for key in (
+            "toolbox_capabilities",
+            "software_aliases",
+            "external_software_aliases",
+        )
         if config.get(key)
     ]
 

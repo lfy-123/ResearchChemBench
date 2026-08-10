@@ -96,7 +96,7 @@ PYTHON_PACKAGE_ALIASES = {
     "torch": {"PyTorch", "torch"},
 }
 
-GENERIC_NATIVE_EXECUTABLES = {"mpirun"}
+GENERIC_NATIVE_EXECUTABLES = {"mpirun", "pes"}
 
 REQUESTED_NAME_OVERRIDES = {
     "amber": "amber_pmemd",

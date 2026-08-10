@@ -23,6 +23,7 @@ from src.v2.stages._toolbox_resource import (
     _bind_workflow_steps_to_mentions,
     _inventory_contract_errors,
     _merge_catalog_actual_use_mentions,
+    _merge_detection_aliases,
     _merge_workflow_software_mentions,
     _repair_inventory_contract,
 )
@@ -2444,6 +2445,7 @@ def test_stage04_explicit_cue_preserves_custom_code_entity_type() -> None:
     mentions = _merge_explicit_executable_cues([], cues)
 
     assert mentions[0]["entity_type"] == "custom_code"
+    assert mentions[0]["role"] == "unknown"
 
 
 def test_stage04_workflow_software_is_promoted_to_coverage_inventory() -> None:
@@ -2541,15 +2543,13 @@ def test_stage04_catalog_actual_use_recovers_and_binds_model_omission() -> None:
         evidence,
         aliases,
     )
-    binding_warnings = _bind_workflow_steps_to_mentions(workflows, mentions, aliases)
-
     assert mentions[0]["source"] == "catalog_alias_actual_use"
+    assert mentions[0]["role"] == "unknown"
     assert mentions[0]["workflow_ids"] == ["wf-1"]
     assert warnings[0]["reason"] == "catalog_actual_use_mention_recovered"
-    assert workflows[0]["steps"][0]["software"] == "Example Quantum Suite"
-    assert workflows[0]["steps"][0]["execution_layer"] == "named_software"
+    assert workflows[0]["steps"][0]["software"] is None
     assert workflows[0]["steps"][1]["software"] is None
-    assert binding_warnings[0]["reason"] == "evidence_local_software_bound_to_step"
+    assert _bind_workflow_steps_to_mentions(workflows, mentions, aliases) == []
 
 
 def test_stage04_catalog_alias_without_local_actual_use_is_not_promoted() -> None:
@@ -2591,6 +2591,77 @@ def test_stage04_multiword_catalog_alias_is_case_insensitive() -> None:
     assert len(mentions) == 1
     assert mentions[0]["backend_hint"] == "vasp"
     assert mentions[0]["raw_name"] == "Vienna ab initio simulation package"
+
+
+def test_stage04_external_detection_alias_does_not_imply_toolbox_presence() -> None:
+    detection_aliases = _merge_detection_aliases(
+        {"orca": ["ORCA"]}, {"molpro": ["Molpro", "MOLPRO"]}
+    )
+    mentions = find_software_mentions(
+        [
+            {
+                "evidence_id": "ev-1",
+                "section_path": [],
+                "text": "All electronic energies were calculated using Molpro.",
+            }
+        ],
+        detection_aliases,
+    )
+
+    assert mentions[0]["backend_hint"] == "molpro"
+    mapping = resolve_software(
+        [
+            {
+                "raw_name": "Molpro",
+                "actual_use": True,
+                "role": "core_compute",
+                "evidence_ids": ["ev-1"],
+            }
+        ],
+        {"orca": ["ORCA"]},
+        {"backends": {"orca": {}}},
+    )[0]
+    assert mapping["catalog_present"] is False
+
+
+def test_stage04_target_blocks_recovers_plain_paragraph_method_heading() -> None:
+    blocks = [
+        {
+            "evidence_id": "ev-main",
+            "document_id": "main",
+            "document_role": "main_paper",
+            "section_path": [],
+            "text": "The computational result is summarized here.",
+        },
+        {
+            "evidence_id": "ev-si-heading",
+            "document_id": "si",
+            "document_role": "supplementary",
+            "section_path": [],
+            "text": "Computational Details",
+        },
+        {
+            "evidence_id": "ev-si-method",
+            "document_id": "si",
+            "document_role": "supplementary",
+            "section_path": [],
+            "text": "Geometry optimizations used ExternalEngine with the stated settings.",
+        },
+    ]
+
+    selected = _target_blocks(
+        blocks,
+        {"review": {"evidence_ids": ["ev-main"]}},
+        [],
+        8000,
+    )
+
+    assert {row["evidence_id"] for row in selected} == {
+        "ev-main",
+        "ev-si-heading",
+        "ev-si-method",
+    }
+    assert any(row.get("document_role") == "supplementary" for row in selected)
 
 
 def test_stage04_explicit_cue_recovers_materials_studio_product_name() -> None:
@@ -2854,7 +2925,7 @@ def test_stage04_named_package_is_not_collapsed_to_parent_engine() -> None:
     assert mappings[0]["catalog_present"] is False
 
 
-def test_stage04_incomplete_flag_does_not_override_complete_named_workflow() -> None:
+def test_stage04_incomplete_inventory_cannot_pass_named_workflow() -> None:
     review = {
         "inventory_complete": False,
         "workflows": [
@@ -2877,7 +2948,10 @@ def test_stage04_incomplete_flag_does_not_override_complete_named_workflow() -> 
     coverage = coverage_gate(review, mappings, {}, {})
 
     assert coverage == "covered"
-    assert _combine_decision(coverage, {"decision": "cost_unconfirmed"}, False) == "software_covered"
+    assert (
+        _combine_decision(coverage, {"decision": "cost_unconfirmed"}, False)
+        == "software_inventory_unconfirmed"
+    )
 
 
 def test_stage04_database_cue_is_not_merged_as_required_software() -> None:
@@ -2946,6 +3020,95 @@ def test_stage04_sanitizer_drops_uniprot_data_resource() -> None:
 
     assert sanitized["software_mentions"] == []
     assert [warning["reason"] for warning in warnings] == ["nonsoftware_data_resource"]
+
+
+def test_stage04_sanitizer_requires_step_local_software_attribution() -> None:
+    method_quote = "Electronic-structure calculations were performed using VASP."
+    response = {
+        "inventory_complete": True,
+        "workflows": [
+            {
+                "workflow_id": "wf-1",
+                "evidence_ids": ["ev-method", "ev-analysis"],
+                "steps": [
+                    {
+                        "step_id": "s-1",
+                        "action": "perform charge partitioning analysis",
+                        "essential": True,
+                        "execution_layer": "named_software",
+                        "software": "VASP",
+                        "reported_settings": [],
+                        "evidence_ids": ["ev-analysis"],
+                    }
+                ],
+            }
+        ],
+        "software_mentions": [
+            {
+                "raw_name": "VASP",
+                "entity_type": "program",
+                "role": "core_compute",
+                "actual_use": True,
+                "workflow_ids": ["wf-1"],
+                "evidence_ids": ["ev-method"],
+                "exact_quote": method_quote,
+            }
+        ],
+        "resource_facts": [],
+        "complexity_facts": [],
+    }
+
+    sanitized, warnings = _sanitize_review(
+        response,
+        {
+            "ev-method": method_quote,
+            "ev-analysis": "Charge partitioning analysis was subsequently performed.",
+        },
+    )
+
+    assert sanitized["workflows"][0]["steps"][0]["software"] is None
+    assert sanitized["inventory_complete"] is False
+    assert any(
+        warning["reason"] == "nonsoftware_or_unsupported_executable_name"
+        for warning in warnings
+    )
+
+
+def test_stage04_sanitizer_rejects_unnamed_python_core_runtime() -> None:
+    response = {
+        "inventory_complete": True,
+        "workflows": [
+            {
+                "workflow_id": "wf-1",
+                "evidence_ids": ["ev-1"],
+                "steps": [
+                    {
+                        "step_id": "s-1",
+                        "action": "train a machine-learning force field",
+                        "essential": True,
+                        "execution_layer": "task_specific_python",
+                        "software": None,
+                        "reported_settings": [],
+                        "evidence_ids": ["ev-1"],
+                    }
+                ],
+            }
+        ],
+        "software_mentions": [],
+        "resource_facts": [],
+        "complexity_facts": [],
+    }
+
+    sanitized, warnings = _sanitize_review(
+        response, {"ev-1": "A machine-learning force field was trained."}
+    )
+
+    assert sanitized["workflows"][0]["steps"][0]["execution_layer"] == "unknown"
+    assert sanitized["inventory_complete"] is False
+    assert any(
+        warning["reason"] == "core_runtime_cannot_use_unnamed_task_specific_python"
+        for warning in warnings
+    )
 
 
 def test_stage04_string_software_array_violates_contract() -> None:

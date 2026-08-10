@@ -42,6 +42,12 @@ EXCLUDED_ENTITY_TYPES = {
     "unknown",
 }
 EXECUTION_LAYERS = {"named_software", "task_specific_python"}
+_CORE_RUNTIME_ACTION_RE = re.compile(
+    r"\b(?:train(?:ing)?|fit(?:ting)?|simulate|simulation|molecular\s+dynamics|"
+    r"microkinetic|kinetic\s+model|electronic[ -]structure|quantum\s+chemistry|"
+    r"density\s+functional|geometry\s+optimi[sz]ation|docking)\b",
+    re.I,
+)
 
 
 class SoftciteLike(Protocol):
@@ -61,6 +67,12 @@ def run_toolbox_resource_screening(
     stage_root = workspace / "stage_03_toolbox_resource_gate"
     profile = read_json(config["toolbox_capabilities"])
     aliases = read_json(config["software_aliases"])
+    detection_aliases = _merge_detection_aliases(
+        aliases,
+        read_json(config["external_software_aliases"])
+        if config.get("external_software_aliases")
+        else {},
+    )
     documents_by_paper: dict[str, list[dict[str, Any]]] = {}
     for document in documents:
         if document.get("decision") == "pass":
@@ -73,11 +85,11 @@ def run_toolbox_resource_screening(
         paper_id = record["paper_id"]
         try:
             blocks = [
-                block
+                {**block, "document_role": document.get("document_role")}
                 for document in documents_by_paper.get(paper_id, [])
                 for block in read_jsonl(document["content_blocks_path"])
             ]
-            rule_mentions = find_software_mentions(blocks, aliases)
+            rule_mentions = find_software_mentions(blocks, detection_aliases)
             executable_cues = find_explicit_executable_cues(blocks, rule_mentions)
             softcite_mentions, softcite_error = _softcite_mentions(
                 softcite,
@@ -139,14 +151,14 @@ def run_toolbox_resource_screening(
                     rule_mentions,
                     response.get("workflows") or [],
                     {block["evidence_id"]: block["text"] for block in blocks},
-                    aliases,
+                    detection_aliases,
                 )
             )
             validation_warnings.extend(catalog_warnings)
             binding_warnings = _bind_workflow_steps_to_mentions(
                 response.get("workflows") or [],
                 response.get("software_mentions") or [],
-                aliases,
+                detection_aliases,
             )
             validation_warnings.extend(binding_warnings)
             response["software_mentions"], workflow_warnings = (
@@ -154,7 +166,7 @@ def run_toolbox_resource_screening(
                     response.get("software_mentions") or [],
                     response.get("workflows") or [],
                     {block["evidence_id"]: block["text"] for block in blocks},
-                    aliases,
+                    detection_aliases,
                 )
             )
             validation_warnings.extend(workflow_warnings)
@@ -829,6 +841,21 @@ def find_software_mentions(
     return list(unique.values())
 
 
+def _merge_detection_aliases(*sources: dict[str, list[str]]) -> dict[str, list[str]]:
+    """Build a recognition vocabulary without changing toolbox availability."""
+
+    merged: dict[str, set[str]] = {}
+    for source in sources:
+        for identifier, values in source.items():
+            bucket = merged.setdefault(str(identifier), set())
+            configured = [str(value) for value in values if str(value).strip()]
+            bucket.update(configured or [str(identifier)])
+    return {
+        identifier: sorted(values, key=lambda value: (value.casefold(), value))
+        for identifier, values in sorted(merged.items())
+    }
+
+
 _EXECUTABLE_ENTITY_RE = re.compile(
     r"\b(?P<name>[A-Za-z][A-Za-z0-9_.+/-]{1,48})"
     r"(?:\s+(?:version\s*)?v?\d+(?:\.\d+){0,3})?\s+"
@@ -1033,7 +1060,7 @@ def _merge_explicit_executable_cues(mentions, cues):
                 "raw_name": raw_name,
                 "normalized_hint": abbreviation,
                 "entity_type": entity_type,
-                "role": "core_compute",
+                "role": "unknown",
                 "actual_use": True,
                 "workflow_ids": [],
                 "evidence_ids": [cue["evidence_id"]],
@@ -1090,7 +1117,7 @@ def _merge_catalog_actual_use_mentions(mentions, rule_mentions, workflows, evide
                 "raw_name": raw_name,
                 "normalized_hint": backend or None,
                 "entity_type": "program",
-                "role": "core_compute",
+                "role": "unknown",
                 "actual_use": True,
                 "workflow_ids": workflow_ids,
                 "evidence_ids": [evidence_id],
@@ -1505,6 +1532,8 @@ def _float_or_none(value):
 def _combine_decision(coverage, resource, complete):
     if coverage != "covered":
         return coverage
+    if not complete:
+        return "software_inventory_unconfirmed"
     if resource.get("decision") == "cost_exceeds_budget":
         return "cost_exceeds_budget"
     return "software_covered"
@@ -1566,6 +1595,16 @@ def _sanitize_review(response, evidence):
                 execution_layer = "named_software"
             elif execution_layer != "task_specific_python":
                 execution_layer = "unknown"
+            elif _CORE_RUNTIME_ACTION_RE.search(str(step.get("action") or "")):
+                execution_layer = "unknown"
+                sanitized["inventory_complete"] = False
+                warnings.append(
+                    {
+                        "field": "workflows.steps.execution_layer",
+                        "index": f"{index}.{step_index}",
+                        "reason": "core_runtime_cannot_use_unnamed_task_specific_python",
+                    }
+                )
             steps.append(
                 {
                     **step,
@@ -1719,13 +1758,21 @@ def _sanitize_review(response, evidence):
             evidence_text = " ".join(
                 str(evidence[evidence_id]) for evidence_id in step.get("evidence_ids") or []
             )
+            step_evidence_ids = set(str(item) for item in step.get("evidence_ids") or [])
             mention_supported = any(
-                normalized
-                in {
-                    _normalize(mention.get("raw_name")),
-                    _normalize(mention.get("normalized_hint")),
-                }
-                or (backend and backend == _normalize(mention.get("normalized_hint")))
+                (
+                    normalized
+                    in {
+                        _normalize(mention.get("raw_name")),
+                        _normalize(mention.get("normalized_hint")),
+                    }
+                    or (backend and backend == _normalize(mention.get("normalized_hint")))
+                )
+                and bool(
+                    step_evidence_ids.intersection(
+                        str(item) for item in mention.get("evidence_ids") or []
+                    )
+                )
                 for mention in actual_mentions
             )
             evidence_supported = bool(
@@ -1745,6 +1792,8 @@ def _sanitize_review(response, evidence):
                 step["software"] = None
                 step["execution_layer"] = "unknown"
                 step.pop("normalized_backend", None)
+                if bool(step.get("essential", True)):
+                    sanitized["inventory_complete"] = False
                 warnings.append(
                     {
                         "field": "workflows.steps.software",
@@ -1984,9 +2033,23 @@ def _target_blocks(blocks, record, mentions, limit):
         if _SOFTWARE_CUE_RE.search(str(block.get("text") or ""))
     ]
     method_ids = [str(block["evidence_id"]) for block in blocks if _method_section(block)]
+    method_ids.extend(_method_neighborhood_ids(blocks))
     ordered_ids = list(dict.fromkeys([*rule_ids, *cue_ids, *stage03_ids, *method_ids]))
     if not ordered_ids:
         ordered_ids = list(by_id)
+
+    # GROBID does not always retain section paths. Keep the first relevant block
+    # from every available document before filling the remaining evidence budget.
+    first_by_document, remaining, seen_documents = [], [], set()
+    for evidence_id in ordered_ids:
+        block = by_id.get(evidence_id)
+        document_id = str((block or {}).get("document_id") or "")
+        if document_id and document_id not in seen_documents:
+            first_by_document.append(evidence_id)
+            seen_documents.add(document_id)
+        else:
+            remaining.append(evidence_id)
+    ordered_ids = [*first_by_document, *remaining]
 
     output, size = [], 0
     per_block_limit = min(1600, max(600, limit // 6))
@@ -2003,7 +2066,14 @@ def _target_blocks(blocks, record, mentions, limit):
             if match:
                 text = _context_window(text, match.start(), match.end(), per_block_limit)
         compact = {
-            key: block.get(key) for key in ("evidence_id", "document_id", "page", "section_path")
+            key: block.get(key)
+            for key in (
+                "evidence_id",
+                "document_id",
+                "document_role",
+                "page",
+                "section_path",
+            )
         }
         compact["text"] = _truncate_utf8(text, per_block_limit)
         block_size = len(
@@ -2021,6 +2091,35 @@ def _method_section(block):
     return any(
         word in section for word in ("method", "comput", "simulation", "theory", "calculation")
     )
+
+
+_METHOD_HEADING_RE = re.compile(
+    r"\b(?:methods?|methodology|comput(?:ation|ational|ing)|calculations?|"
+    r"simulations?|theor(?:y|etical)|molecular\s+dynamics)\b",
+    re.I,
+)
+
+
+def _method_neighborhood_ids(blocks, *, following_blocks=8):
+    """Recover method evidence when a parser emits headings as plain paragraphs."""
+
+    output: list[str] = []
+    by_document: dict[str, list[dict[str, Any]]] = {}
+    for block in blocks:
+        by_document.setdefault(str(block.get("document_id") or ""), []).append(block)
+    for document_blocks in by_document.values():
+        for index, block in enumerate(document_blocks):
+            text = " ".join(str(block.get("text") or "").split())
+            if (
+                not text
+                or len(text) > 120
+                or len(text.split()) > 14
+                or not _METHOD_HEADING_RE.search(text)
+            ):
+                continue
+            for candidate in document_blocks[index : index + following_blocks + 1]:
+                output.append(str(candidate["evidence_id"]))
+    return list(dict.fromkeys(output))
 
 
 def _reference_section(block):
@@ -2122,10 +2221,12 @@ def _bound_prompt_packet(packet, limit):
     def size():
         return len(json.dumps(value, ensure_ascii=False, separators=(",", ":")).encode("utf-8"))
 
+    # Candidate names are more valuable than generic trailing evidence. Retain
+    # rule and Softcite candidates until the bounded evidence packet is minimal.
     trim_order = (
+        ("evidence_blocks", 1),
         ("softcite_mentions", 0),
         ("rule_software_mentions", 0),
-        ("evidence_blocks", 1),
     )
     while size() > limit:
         changed = False
