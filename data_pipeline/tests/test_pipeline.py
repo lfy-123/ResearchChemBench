@@ -1405,7 +1405,7 @@ def test_stage03_and_stage04_share_client_but_keep_prompt_namespaces(
 
     def caller(**kwargs):
         system = kwargs["system_prompt"]
-        if "computation-led-chemistry screening" in system:
+        if "pure-computational-chemistry screening" in system:
             response = {
                 "has_computational_evidence": True,
                 "evidence": [

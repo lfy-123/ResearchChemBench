@@ -15,7 +15,7 @@
 |---|---|---|---|
 | Stage00 | 远端数据集、数量、抽样配置、排除清单 | 论文目录、`source_manifest.jsonl`、选择清单 | 正文复制成功且 PDF 有效；SI 缺失不在本阶段淘汰 |
 | Stage01 | Stage00 corpus | `package/papers.jsonl`、`documents.jsonl`、`paper_bundles.jsonl`、解析尝试与质量报告 | SI 已存在、成功补齐或官方确认不存在；正文和全部已知 SI 均可解析 |
-| Stage02 | Stage01 结构化文本块 | `decisions.jsonl`、map/reduce 审查、错误记录 | 存在当前作者完成的、目标范围内的计算化学流程；非综述/社论/勘误；严格模式下排除以作者实验为核心的混合论文 |
+| Stage02 | Stage01 结构化文本块 | `decisions.jsonl`、map/reduce 审查、错误记录 | 当前作者完成完整计算化学流程，且没有当前作者实施的物理实验；所有混合实验论文均不进入下游 |
 | Stage03 | Stage02 证据、Stage01 全文、软件别名和工具箱快照、资源预算 | 软件/工作流/资源清单、工具箱映射、`decisions.jsonl` | 必需的命名核心软件均存在于工具箱，软件清单可确认，且没有明确资源超限 |
 | Stage04 | Stage03 通过论文及其文档 | MinerU 高质量正文/SI、解析尝试、`decisions.jsonl` | 正文和所需文档通过 MinerU 质量门控 |
 | Stage05 | Stage04 高质量证据、Stage02/03 判定 | benchmark 候选、方向、科学问题、目标和证据引用 | 至少一个候选对应允许的科学方向、完整计算流程和机器可评分目标 |

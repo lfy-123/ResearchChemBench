@@ -16,16 +16,17 @@ from src.prompts import (
 )
 
 COMPUTATIONAL_CONTENT_IMPLEMENTATION_VERSION = (
-    "v2-stage02-computational-content-20260810-r4-computation-primary"
+    "v2-stage02-computational-content-20260810-r5-pure-only"
 )
 
-PASS_DECISIONS = {
+CONTENT_CONFIRMATION_DECISIONS = {
     "computational_content_confirmed",
     "computational_primary_mixed_confirmed",
 }
+PASS_DECISIONS = {"computational_content_confirmed"}
 
 DECISIONS = {
-    *PASS_DECISIONS,
+    *CONTENT_CONFIRMATION_DECISIONS,
     "not_pure_computational",
     "computational_content_not_found",
     "background_only",
@@ -155,7 +156,7 @@ def run_stage02(
                 response,
                 valid_ids,
                 experiment_ids=experiment_ids,
-                allow_primary_mixed=bool(config.get("allow_primary_mixed", True)),
+                allow_primary_mixed=False,
                 minimum_confidence=float(config.get("minimum_confidence", 0.75)),
             )
             decision = str(response.get("decision") or "uncertain")
@@ -188,7 +189,7 @@ def run_stage02(
                     response,
                     valid_ids,
                     experiment_ids=experiment_ids,
-                    allow_primary_mixed=bool(config.get("allow_primary_mixed", True)),
+                    allow_primary_mixed=False,
                     minimum_confidence=float(config.get("minimum_confidence", 0.75)),
                 )
                 reduce_warnings.extend(retry_warnings)
@@ -249,6 +250,7 @@ def run_stage02(
             if row["decision"]
             in {
                 "not_pure_computational",
+                "computational_primary_mixed_confirmed",
                 "computational_content_not_found",
                 "background_only",
                 "non_original_article",
@@ -693,7 +695,7 @@ def _sanitize_reduce_response(
         sanitized[field] = _deduplicate_string_values(response.get(field), 24, 160)
 
     if (
-        sanitized.get("decision") in PASS_DECISIONS
+        sanitized.get("decision") in CONTENT_CONFIRMATION_DECISIONS
         and not sanitized["evidence_ids"]
     ):
         sanitized["decision"] = "uncertain"
@@ -720,7 +722,7 @@ def _sanitize_reduce_response(
     verified_author_experiments = bool(experiment_ids)
     if not actual_computation:
         if sanitized.get("decision") in {
-            *PASS_DECISIONS,
+            *CONTENT_CONFIRMATION_DECISIONS,
             "not_pure_computational",
         }:
             sanitized["decision"] = "computational_content_not_found"

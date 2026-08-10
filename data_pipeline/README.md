@@ -9,7 +9,7 @@ Stage 00-07 组织在 `src/stages/` 中；不再保留旧版阶段、旧编排�
 |---|---|---|
 | Stage 00 | 从远端选择指定数量论文，将正文和已知 SI 复制到同一论文目录 | `src/stages/stage00_remote_corpus/` |
 | Stage 01 | 去重、论文/SI 归组、补齐正式 SI、GROBID 低成本解析并在失败时回退 `pdftotext` | `src/stages/stage01_document_preparation/` |
-| Stage 02 | 使用 screening LLM 判断是否为纯计算化学或以计算化学为主的原创研究 | `src/stages/stage02_computational_content/` |
+| Stage 02 | 使用 screening LLM 判断是否为纯计算化学原创研究；混合实验论文不进入下游 | `src/stages/stage02_computational_content/` |
 | Stage 03 | 提取实际使用的软件和资源，按工具箱原生软件目录与资源预算筛选 | `src/stages/stage03_toolbox_resource_gate/` |
 | Stage 04 | 只对 Stage03 通过论文执行 MinerU 高质量解析 | `src/stages/stage04_mineru_normalization/` |
 | Stage 05 | 判断完整科研流程和 benchmark 方向适用性 | `src/stages/stage05_benchmark_suitability/` |
