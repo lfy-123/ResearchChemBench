@@ -9,11 +9,9 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 from src.core.io import read_jsonl, write_json, write_jsonl
-from src.integrations.grobid import GrobidClient, extract_documents_with_grobid
 from src.integrations.mineru import build_mineru_queue, run_mineru_queue
-from src.orchestration.pipeline import run_late_stages, run_pipeline
+from src.pipeline import run_pipeline
 from src.stages.stage00_remote_corpus import prepare_remote_corpus
-from src.stages.stage01_inventory.corpus import inventory_corpus
 
 DATA_PIPELINE_ROOT = Path(__file__).resolve().parents[1]
 
@@ -41,6 +39,7 @@ def _add_sandbox_options(parser: argparse.ArgumentParser, *, include_cleanup: bo
     parser.add_argument("--sandbox-cpu", type=int, default=32)
     parser.add_argument("--sandbox-memory", default="96Gi")
     parser.add_argument("--sandbox-lifecycle-minutes", type=int, default=1440)
+    parser.add_argument("--sandbox-startup-timeout-seconds", type=int, default=3600)
     parser.add_argument("--sandbox-source", type=Path)
     parser.add_argument("--sandbox-inventory", type=Path)
     parser.add_argument("--sandbox-base-url", default="https://h.pjlab.org.cn/brainbox")
@@ -66,6 +65,7 @@ def _sandbox_options(args):
         cpu=args.sandbox_cpu,
         memory=args.sandbox_memory,
         lifecycle_minutes=args.sandbox_lifecycle_minutes,
+        startup_timeout_seconds=args.sandbox_startup_timeout_seconds,
         cleanup=getattr(args, "sandbox_cleanup", "keep"),
         source=args.sandbox_source or DEFAULT_SOURCE,
         inventory=args.sandbox_inventory or DEFAULT_INVENTORY,
@@ -81,10 +81,15 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="chem-pipeline")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
-    run_parser = subparsers.add_parser("run", help="Run the configured Stage 00-08 pipeline")
-    run_parser.add_argument("--config", default="config.json")
+    run_parser = subparsers.add_parser("run", help="Run the configured data pipeline")
+    run_parser.add_argument("--config", default="config.example.json")
     run_parser.add_argument("--output")
-    run_parser.add_argument("--execution-backend", choices=("local", "sandbox"), default="local")
+    run_parser.add_argument(
+        "--stop-after",
+        choices=tuple(f"stage{index:02d}" for index in range(8)),
+        help="Override the configured final stage for this invocation",
+    )
+    run_parser.add_argument("--execution-backend", choices=("local", "sandbox"), default=None)
     run_parser.add_argument(
         "--sandbox",
         action="store_const",
@@ -100,11 +105,6 @@ def main(argv: list[str] | None = None) -> int:
     )
     run_parser.add_argument("--microbatch-size", type=int)
     run_parser.add_argument("--microbatch-concurrency", type=int)
-    run_parser.add_argument(
-        "--microbatch-softcite-instances",
-        type=int,
-        help="Softcite instances in sandbox mode; defaults to the Stage 03 batch limit",
-    )
     _add_sandbox_options(run_parser)
 
     prepare_parser = subparsers.add_parser(
@@ -140,32 +140,6 @@ def main(argv: list[str] | None = None) -> int:
     )
     _add_sandbox_options(sandbox_parser, include_cleanup=False)
 
-    late_parser = subparsers.add_parser(
-        "run-late-stages", help="Run Stage 05-07 from an existing Stage 04 JSONL"
-    )
-    late_parser.add_argument("--input", required=True)
-    late_parser.add_argument("--config", default="config.json")
-    late_parser.add_argument("--workspace", required=True)
-    late_parser.add_argument("--output")
-
-    inventory_parser = subparsers.add_parser(
-        "corpus-inventory", help="Inventory and hash a PDF corpus"
-    )
-    inventory_parser.add_argument("--root", required=True)
-    inventory_parser.add_argument("--output", required=True)
-
-    extract_parser = subparsers.add_parser(
-        "corpus-extract", help="Extract structured PDF metadata and text with GROBID"
-    )
-    extract_parser.add_argument("--inventory", required=True)
-    extract_parser.add_argument("--tei-dir", required=True)
-    extract_parser.add_argument("--text-dir", required=True)
-    extract_parser.add_argument("--output", required=True)
-    extract_parser.add_argument("--grobid-url", default="http://127.0.0.1:8070")
-    extract_parser.add_argument("--timeout-seconds", type=int, default=900)
-    extract_parser.add_argument("--max-chars", type=int, default=2_000_000)
-    extract_parser.add_argument("--include-supplementary", action="store_true")
-
     mineru_parser = subparsers.add_parser(
         "mineru-queue", help="Build or execute a standalone MinerU queue"
     )
@@ -185,6 +159,7 @@ def main(argv: list[str] | None = None) -> int:
         result = run_pipeline(
             args.config,
             execution_backend=args.execution_backend,
+            stop_after=args.stop_after,
             sandbox_options=(
                 _sandbox_options(args) if args.execution_backend == "sandbox" else None
             ),
@@ -194,7 +169,6 @@ def main(argv: list[str] | None = None) -> int:
                     "enabled": args.microbatch,
                     "size": args.microbatch_size,
                     "concurrency": args.microbatch_concurrency,
-                    "softcite_instances": args.microbatch_softcite_instances,
                 }.items()
                 if value is not None
             },
@@ -231,29 +205,6 @@ def main(argv: list[str] | None = None) -> int:
             result = manager.delete(delete_environment=args.delete_environment)
         else:
             raise AssertionError(args.action)
-    elif args.command == "run-late-stages":
-        result = run_late_stages(args.input, args.config, args.workspace)
-        if args.output:
-            write_json(args.output, result)
-    elif args.command == "corpus-inventory":
-        rows = inventory_corpus(args.root)
-        write_jsonl(args.output, rows)
-        result = {
-            "pdf_files": len(rows),
-            "canonical_pdfs": sum(1 for row in rows if not row.get("duplicate_of")),
-            "output": args.output,
-        }
-    elif args.command == "corpus-extract":
-        rows = extract_documents_with_grobid(
-            read_jsonl(args.inventory),
-            GrobidClient(base_url=args.grobid_url, timeout_seconds=args.timeout_seconds),
-            args.tei_dir,
-            args.text_dir,
-            max_chars=args.max_chars,
-            exclude_supplementary=not args.include_supplementary,
-        )
-        write_jsonl(args.output, rows)
-        result = {"documents": len(rows), "output": args.output}
     elif args.command == "mineru-queue":
         queue = build_mineru_queue(read_jsonl(args.input), limit=args.limit)
         write_jsonl(args.queue_output, queue)

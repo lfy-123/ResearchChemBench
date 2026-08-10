@@ -28,3 +28,7 @@ dependencies:
       - lmdb==2.1.1
       - truecase
       - blingfire2
+# Install the shared CUDA vLLM + MinerU runtime into this same environment with:
+#   bash scripts/stage03_llm/bootstrap_environment.sh
+# The bootstrap applies unified_runtime_constraints.txt so TensorFlow/Softcite
+# and the GPU services keep a compatible NumPy/Protobuf stack.

@@ -14,6 +14,10 @@ def _env(name: str, default: str) -> str:
 
 
 def main() -> int:
+    # Generic rlaunch GPU workers provide a CUDA runtime but not nvcc.  The
+    # FlashInfer sampler tries to JIT CUDA sources during vLLM warm-up.
+    os.environ.setdefault("VLLM_USE_FLASHINFER_SAMPLER", "0")
+    os.environ.setdefault("VLLM_USE_DEEP_GEMM", "0")
     model_path = _env(
         "STAGE03_LLM_MODEL_DIR",
         "/mnt/shared-storage-user/liyuqiang/mdoels/Qwen3-30B-A3B-Instruct-2507",
@@ -35,11 +39,14 @@ def main() -> int:
         "--gpu-memory-utilization",
         _env("STAGE03_LLM_GPU_MEMORY_UTILIZATION", "0.90"),
         "--max-model-len",
-        _env("STAGE03_LLM_MAX_MODEL_LEN", "8192"),
+        _env("STAGE03_LLM_MAX_MODEL_LEN", "16384"),
         "--max-num-seqs",
         _env("STAGE03_LLM_MAX_NUM_SEQS", "64"),
         "--max-num-batched-tokens",
         _env("STAGE03_LLM_MAX_BATCHED_TOKENS", "32768"),
+        "--moe-backend",
+        _env("STAGE03_LLM_MOE_BACKEND", "triton"),
+        "--no-enable-flashinfer-autotune",
         "--enable-prefix-caching",
         "--trust-remote-code",
     ]

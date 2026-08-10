@@ -136,6 +136,22 @@ class FakeProxyClient:
         return 201, {"content-type": "text/plain"}, b"sandbox-response"
 
 
+class InitiallyPendingProxyClient:
+    def __init__(self) -> None:
+        self.calls = 0
+
+    def proxy_bytes(self, method, *, port, suffix, body, headers, timeout):
+        del method, port, suffix, body, headers, timeout
+        self.calls += 1
+        return 403, {"content-type": "text/plain"}, b"sandbox sbx-test is not running (status: pending)"
+
+
+class RecoveredProxyClient:
+    def proxy_bytes(self, method, *, port, suffix, body, headers, timeout):
+        del method, port, suffix, body, headers, timeout
+        return 200, {"content-type": "text/plain"}, b"recovered"
+
+
 def test_local_proxy_preserves_http_request_and_response():
     proxy = LocalSandboxProxy(FakeProxyClient(), remote_port=8070, request_timeout=30).start()
     try:
@@ -150,6 +166,28 @@ def test_local_proxy_preserves_http_request_and_response():
             assert response.read() == b"sandbox-response"
     finally:
         proxy.close()
+
+
+def test_local_proxy_recovers_and_replays_when_sandbox_becomes_pending():
+    pending = InitiallyPendingProxyClient()
+    recovered = RecoveredProxyClient()
+    recovery_calls = []
+    proxy = LocalSandboxProxy(
+        pending,
+        remote_port=8070,
+        request_timeout=30,
+        recover_client=lambda status, payload: (
+            recovery_calls.append((status, payload)) or recovered
+        ),
+    ).start()
+    try:
+        with urllib.request.urlopen(f"{proxy.base_url}/api/test", timeout=5) as response:
+            assert response.status == 200
+            assert response.read() == b"recovered"
+    finally:
+        proxy.close()
+    assert pending.calls == 1
+    assert len(recovery_calls) == 1
 
 
 def test_worker_health_endpoint(tmp_path):

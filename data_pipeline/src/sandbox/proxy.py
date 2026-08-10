@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import sys
 import threading
+from collections.abc import Callable
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from typing import Any
@@ -30,10 +31,12 @@ class SandboxProxyServer(ThreadingHTTPServer):
         client: OpenSandboxClient,
         remote_port: int,
         request_timeout: float,
+        recover_client: Callable[[int, bytes], OpenSandboxClient | None] | None,
     ) -> None:
         self.client = client
         self.remote_port = remote_port
         self.request_timeout = request_timeout
+        self.recover_client = recover_client
         super().__init__(address, SandboxProxyHandler)
 
 
@@ -60,6 +63,18 @@ class SandboxProxyHandler(BaseHTTPRequestHandler):
                 headers=headers,
                 timeout=self.server.request_timeout,
             )
+            if _sandbox_not_running(status, payload) and self.server.recover_client is not None:
+                recovered = self.server.recover_client(status, payload)
+                if recovered is not None:
+                    self.server.client = recovered
+                    status, response_headers, payload = recovered.proxy_bytes(
+                        self.command,
+                        port=self.server.remote_port,
+                        suffix=self.path.lstrip("/"),
+                        body=body,
+                        headers=headers,
+                        timeout=self.server.request_timeout,
+                    )
         except SandboxError as exc:
             payload = str(exc).encode("utf-8", errors="replace")
             self.send_response(HTTPStatus.BAD_GATEWAY)
@@ -93,12 +108,14 @@ class LocalSandboxProxy:
         *,
         remote_port: int,
         request_timeout: float = 1200,
+        recover_client: Callable[[int, bytes], OpenSandboxClient | None] | None = None,
     ) -> None:
         self.server = SandboxProxyServer(
             ("127.0.0.1", 0),
             client=client,
             remote_port=remote_port,
             request_timeout=request_timeout,
+            recover_client=recover_client,
         )
         self.thread = threading.Thread(target=self.server.serve_forever, daemon=True)
 
@@ -114,6 +131,17 @@ class LocalSandboxProxy:
         self.server.shutdown()
         self.server.server_close()
         self.thread.join(timeout=5)
+
+
+def _sandbox_not_running(status: int, payload: bytes) -> bool:
+    if status not in {403, 409, 502, 503}:
+        return False
+    detail = payload.decode("utf-8", errors="replace").casefold()
+    return "sandbox" in detail and (
+        "not running" in detail
+        or "status: pending" in detail
+        or "status pending" in detail
+    )
 
 
 __all__ = ["LocalSandboxProxy"]

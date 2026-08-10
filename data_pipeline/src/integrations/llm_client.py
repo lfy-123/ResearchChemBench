@@ -20,6 +20,7 @@ def call_json_chat(
     max_tokens: int | None = None,
     retries: int = 2,
     thinking: str | None = None,
+    proxy_url: str | None = None,
 ) -> tuple[dict[str, Any], dict[str, Any]]:
     """Call an OpenAI-compatible chat endpoint and return parsed JSON plus audit metadata."""
 
@@ -38,6 +39,10 @@ def call_json_chat(
         payload["thinking"] = {"type": thinking}
 
     last_error: Exception | None = None
+    opener = None
+    if proxy_url is not None:
+        proxies = {"http": proxy_url, "https": proxy_url} if proxy_url else {}
+        opener = urllib.request.build_opener(urllib.request.ProxyHandler(proxies))
     for attempt in range(retries + 1):
         request = urllib.request.Request(
             f"{base_url.rstrip('/')}/chat/completions",
@@ -50,7 +55,8 @@ def call_json_chat(
         )
         started = time.monotonic()
         try:
-            with urllib.request.urlopen(request, timeout=timeout_seconds) as response:
+            open_request = opener.open if opener is not None else urllib.request.urlopen
+            with open_request(request, timeout=timeout_seconds) as response:
                 result = json.load(response)
                 request_id = response.headers.get("x-request-id")
             choice = result["choices"][0]
@@ -66,6 +72,7 @@ def call_json_chat(
                 "duration_seconds": round(time.monotonic() - started, 3),
                 "attempts": attempt + 1,
                 "thinking": thinking or "provider_default",
+                "proxy_enabled": bool(proxy_url),
                 "raw_content": content,
             }
         except urllib.error.HTTPError as exc:
@@ -96,9 +103,9 @@ def _parse_json_object(content: str) -> dict[str, Any]:
     except json.JSONDecodeError:
         start = cleaned.find("{")
         end = cleaned.rfind("}")
-        if start < 0 or end <= start:
+        if start < 0:
             raise
-        candidate = cleaned[start : end + 1]
+        candidate = cleaned[start : end + 1] if end > start else cleaned[start:]
         try:
             value = json.loads(candidate)
         except json.JSONDecodeError:

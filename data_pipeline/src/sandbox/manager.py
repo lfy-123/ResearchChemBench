@@ -61,6 +61,7 @@ class SandboxRunOptions:
     cpu: int = 32
     memory: str = "96Gi"
     lifecycle_minutes: int = 1440
+    startup_timeout_seconds: int = 3600
     cleanup: str = "stop"
     source: Path = DEFAULT_SOURCE
     inventory: Path = DEFAULT_INVENTORY
@@ -76,6 +77,8 @@ class SandboxRunOptions:
             raise ValueError("sandbox memory must use Mi, Gi, or Ti, for example 96Gi")
         if not 3 <= self.lifecycle_minutes <= 1440:
             raise ValueError("sandbox lifecycle must be between 3 and 1440 minutes")
+        if self.startup_timeout_seconds < 60:
+            raise ValueError("sandbox startup timeout must be at least 60 seconds")
         if self.cleanup not in {"keep", "stop", "delete"}:
             raise ValueError("sandbox cleanup must be keep, stop, or delete")
         return self
@@ -398,7 +401,8 @@ class SandboxManager:
         os.chmod(temporary, 0o600)
         os.replace(temporary, self.inventory_path)
 
-    def _wait_running(self, sandbox_id: str, timeout: float = 1800) -> dict[str, Any]:
+    def _wait_running(self, sandbox_id: str, timeout: float | None = None) -> dict[str, Any]:
+        timeout = float(timeout or self.options.startup_timeout_seconds)
         deadline = time.monotonic() + timeout
         while time.monotonic() < deadline:
             detail = self.control.management_json("GET", f"/v1/sandboxes/{sandbox_id}")

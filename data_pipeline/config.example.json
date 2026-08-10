@@ -1,0 +1,229 @@
+{
+  "pipeline_contract": "researchchembench-data-pipeline/v2",
+  "workspace": "runs/current",
+  "stop_after": "stage07",
+  "policy": "strict",
+  "resume_completed_stages": true,
+  "registry": {
+    "enabled": true,
+    "database": "registry/paper_screening_registry.sqlite",
+    "export_jsonl": "registry/exports/paper_screening_registry.jsonl",
+    "prune_rejected_stage00_assets": true
+  },
+  "execution": {
+    "backend": "local",
+    "sandbox": {
+      "cpu": 128,
+      "memory": "256Gi",
+      "lifecycle_minutes": 1440,
+      "startup_timeout_seconds": 3600,
+      "cleanup": "stop",
+      "source": ".sandboxes.local.yaml",
+      "inventory": ".sandbox_inventory.local.json",
+      "api_key_env": "RCB_SANDBOX_API_KEY"
+    }
+  },
+  "source": {
+    "root": "datasets/en-paper-hzzj"
+  },
+  "stage00": {
+    "enabled": false,
+    "dataset": "en-paper-hzzj",
+    "count": 1000,
+    "credentials": "/mnt/shared-storage-user/liyuqiang/benchmark/pipline_demo/pdfs/xinghe.txt",
+    "outside": false,
+    "resume": true,
+    "selection": "remote_order",
+    "seed": 0,
+    "exclude_selected_manifests": []
+  },
+  "stage01": {
+    "package": {
+      "workers": 8,
+      "enable_network": true,
+      "network_workers": 8,
+      "publisher_adapters": ["wiley", "elsevier", "nature", "acs", "rsc", "mdpi"],
+      "paper_timeout_seconds": 180,
+      "connect_timeout_seconds": 15,
+      "read_timeout_seconds": 30,
+      "max_attachments_per_paper": 20,
+      "max_file_bytes": 104857600,
+      "max_total_bytes_per_paper": 262144000
+    },
+    "normalization": {
+      "min_main_characters": 1000,
+      "min_supplementary_characters": 100,
+      "min_readable_character_ratio": 0.9,
+      "max_replacement_character_ratio": 0.01,
+      "max_repeated_line_ratio": 0.5,
+      "max_chars": 4000000,
+      "grobid": {
+        "base_url": "http://127.0.0.1:8070",
+        "timeout_seconds": 900,
+        "retries": 2,
+        "workers": 4,
+        "reuse_existing": true,
+        "pdftotext_timeout_seconds": 300
+      }
+    }
+  },
+  "stage02": {
+    "model_role": "screening",
+    "workers": 8,
+    "chunk_payload_bytes": 18000,
+    "uncertain_retries": 1,
+    "map_max_tokens": 2048,
+    "reduce_max_tokens": 2048,
+    "reduce_max_evidence": 12,
+    "reduce_max_quote_characters": 300
+  },
+  "stage03": {
+    "model_role": "screening",
+    "workers": 8,
+    "max_prompt_payload_bytes": 18000,
+    "max_evidence_payload_bytes": 9000,
+    "max_tokens": 6144,
+    "toolbox_capabilities": "assets/toolbox_capabilities.json",
+    "software_aliases": "assets/software_aliases.json",
+    "software_coverage_basis": "native_software_catalog_presence",
+    "softcite": {
+      "enabled": false,
+      "manage_service": false,
+      "base_url": "http://127.0.0.1:8060",
+      "timeout_seconds": 600,
+      "retries": 2
+    },
+    "resource_budget": {
+      "cpu_cores": 128,
+      "gpus": 1,
+      "memory_gb": 256,
+      "runtime_hours": 24,
+      "core_hours": 3072,
+      "gpu_hours": 24,
+      "job_count": 1000
+    }
+  },
+  "stage04": {
+    "mineru": {
+      "enabled": true,
+      "managed_gpu": true,
+      "gpu_env_dir": ".envs/researchchem-data-pipeline",
+      "command": ".envs/researchchem-data-pipeline/bin/mineru",
+      "api_concurrency": 3,
+      "method": "auto",
+      "backend": "pipeline",
+      "timeout_seconds": 3600,
+      "reuse_existing": true,
+      "min_markdown_chars": 100,
+      "min_main_characters": 1000,
+      "min_supplementary_characters": 100,
+      "extra_args": ["--formula", "true", "--table", "true"],
+      "environment": {
+        "MINERU_TOOLS_CONFIG_JSON": ".model_cache/mineru/mineru.json"
+      }
+    }
+  },
+  "stage05": {
+    "model_role": "suitability",
+    "workers": 8,
+    "max_evidence_characters": 120000,
+    "max_tokens": 4096,
+    "contract_retry": true
+  },
+  "stage06": {
+    "model_role": "builder",
+    "workers": 2,
+    "shared_max_tokens": 6144,
+    "mode_max_tokens": 6144,
+    "disclosure_policy": {
+      "autonomous_hides_paper_route": true,
+      "reproduction_hides_answer_values": true
+    }
+  },
+  "stage07": {
+    "model_role": "judge",
+    "workers": 2,
+    "max_tokens": 4096,
+    "gold_run": {
+      "enabled": false,
+      "command": [],
+      "timeout_seconds": 21600
+    }
+  },
+  "models": {
+    "screening": {
+      "enabled": true,
+      "managed_rlaunch": true,
+      "manager_script": "scripts/stage03_llm/manage_rlaunch_worker.sh",
+      "state_file": ".screening_llm_worker.local.json",
+      "base_url": "http://127.0.0.1:18083/v1",
+      "api_key_env": "RCB_SCREENING_API_KEY",
+      "model": "qwen3-30b-a3b-instruct-2507",
+      "workers": 32,
+      "max_tokens": 4096,
+      "context_window_tokens": 16384,
+      "context_safety_margin_tokens": 768,
+      "timeout_seconds": 900,
+      "retries": 2,
+      "thinking": "disabled",
+      "cpu": 16,
+      "memory_mib": 196000,
+      "charged_group": "ai4chem_gpu",
+      "positive_tag": "h200",
+      "image": ""
+    },
+    "suitability": {
+      "enabled": true,
+      "use_proxy": true,
+      "proxy_url_env": "HTTPS_PROXY",
+      "base_url": "https://api.example.invalid/v1",
+      "api_key_env": "RCB_SUITABILITY_API_KEY",
+      "model": "deepseek-v4-pro",
+      "workers": 8,
+      "max_tokens": 4096,
+      "timeout_seconds": 1200,
+      "retries": 2,
+      "thinking": "enabled"
+    },
+    "builder": {
+      "enabled": true,
+      "use_proxy": true,
+      "proxy_url_env": "HTTPS_PROXY",
+      "base_url": "https://api.example.invalid/v1",
+      "api_key_env": "RCB_BUILDER_API_KEY",
+      "model": "gpt-5.6",
+      "workers": 4,
+      "max_tokens": 6144,
+      "timeout_seconds": 1800,
+      "retries": 2,
+      "thinking": "enabled"
+    },
+    "judge": {
+      "enabled": true,
+      "use_proxy": true,
+      "proxy_url_env": "HTTPS_PROXY",
+      "base_url": "https://api.example.invalid/v1",
+      "api_key_env": "RCB_JUDGE_API_KEY",
+      "model": "gpt-5.6",
+      "workers": 4,
+      "max_tokens": 4096,
+      "timeout_seconds": 1800,
+      "retries": 2,
+      "thinking": "enabled"
+    }
+  },
+  "microbatch": {
+    "enabled": true,
+    "size": 10,
+    "concurrency": 8,
+    "buffer_size": 8,
+    "stage_concurrency": {
+      "stage01": 2,
+      "stage02": 8,
+      "stage03": 8,
+      "stage04": 3,
+      "stage05": 8
+    },
+    "resume": true
+  }
+}

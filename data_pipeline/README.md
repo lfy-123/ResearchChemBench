@@ -1,876 +1,101 @@
 # ResearchChemBench Data Pipeline
 
-该目录包含 ResearchChemBench 的 Stage 00-08 数据管线。主流程可从授权远端按指定数量
-复制论文，将正文和补充材料组成论文包，完成联合解析、纯规则计算相关性粗筛、缺失 SI
-补齐、工具箱能力预筛、SI 证据抽取、候选任务构建和独立审计。
+该目录包含用于筛选和构建计算化学 benchmark 任务的数据管线。当前实现只有一套，按
+Stage 00-07 组织在 `src/stages/` 中；不再保留旧版阶段、旧编排器或 `src/v2` 兼容层。
 
-`data_pipeline/` 可以脱离 benchmark 的其他模块单独复制和运行。Conda 环境、第三方源码、模型缓存、API 配置和运行产物均收敛在该目录内，不依赖 benchmark 根目录中的绝对路径。
+## 当前流程
 
-当前设计不包含人工发布阶段，也不实现 Builder 与 Judge 的自动循环修订。Stage 08 输出
-`pass`、`revise` 或 `reject` 后，流水线结束。重构设计和实施状态分别见
-`docs/COMPUTATIONAL_CHEMISTRY_TOOLBOX_SCREENING_REDESIGN.md` 与
-`docs/COMPUTATIONAL_CHEMISTRY_PIPELINE_IMPLEMENTATION_LOG.md`。
+| 阶段 | 职责 | 主要实现 |
+|---|---|---|
+| Stage 00 | 从远端选择指定数量论文，将正文和已知 SI 复制到同一论文目录 | `src/stages/stage00_remote_corpus/` |
+| Stage 01 | 去重、论文/SI 归组、补齐正式 SI、GROBID 低成本解析并在失败时回退 `pdftotext` | `src/stages/stage01_document_preparation/` |
+| Stage 02 | 使用 screening LLM 判断是否包含目标计算化学科研流程 | `src/stages/stage02_computational_content/` |
+| Stage 03 | 提取实际使用的软件和资源，按工具箱原生软件目录与资源预算筛选 | `src/stages/stage03_toolbox_resource_gate/` |
+| Stage 04 | 只对 Stage03 通过论文执行 MinerU 高质量解析 | `src/stages/stage04_mineru_normalization/` |
+| Stage 05 | 判断完整科研流程和 benchmark 方向适用性 | `src/stages/stage05_benchmark_suitability/` |
+| Stage 06 | 构建自主科研与论文复现两种任务 | `src/stages/stage06_task_builder/` |
+| Stage 07 | 确定性检查、独立 Judge 和可选 Gold Run | `src/stages/stage07_task_judge/` |
 
-## 阶段概览
+Stage01-05 采用有界微批流水线。Stage02/03 共用一次部署的 screening LLM；当 Stage03
+全部结束后，同一个 GPU worker 可以切换为 MinerU 服务。沙箱在整次任务开始前创建，并在
+任务结束或异常退出时按配置停止或删除。
 
-| 阶段 | 目录 | 目标 | 核心实现 |
-|---|---|---|---|
-| Stage 00 | `stage_00_remote_corpus/` | 复制并整理指定数量论文 | 远端正文选择、同源 SI、论文目录、游标和恢复 |
-| Stage 01 | `stage_01_inventory/` | 建立论文级 PDF 入口 | SHA256 去重；正文/SI 共用 `paper_id` |
-| Stage 02 | `stage_02_grobid_extract/` | 联合解析正文和已有 SI | GROBID、pdftotext 回退、质量报告和论文文本 bundle |
-| Stage 03 | `stage_03_computation_relevance/` | 高精度计算相关性筛选 | 规则召回候选；远程 Flash 模型逐篇确认实际计算、论文类型和证据原文 |
-| Stage 04 | `stage_04_supplementary_acquisition/` | 只补齐缺失的正式 SI | 远端 `support_path` 优先；六类出版商官网适配器 |
-| Stage 05 | `stage_05_preliminary_coverage/` | 软件和工具箱能力严格预筛 | Softcite、执行语境、方法族匹配和冻结能力目录；仅放行功能验证后端 |
-| Stage 06 | `stage_06_supplementary_extraction/` | 抽取新下载 SI 证据 | pdftotext、GROBID、MinerU；复用 Stage 02 已有 SI |
-| Stage 07 | `stage_07_builder/` | 判断可用性并构建任务 | 能力复核、结构化 abstain、科学意义和可评分性约束 |
-| Stage 08 | `stage_08_judge/` | 独立终审候选任务 | 论文忠实性、工具箱、泄漏、ground truth、评分和资源审计 |
+每篇论文的来源、各阶段判定、证据和删除状态统一记录在 SQLite registry，并导出 JSONL。
+Stage00-03 未通过论文可以在记录落盘后删除其 Stage00 论文目录；Stage04-07 不删除原始论文。
 
-批处理默认采用高精度 `strict` 策略。Stage 03 的规则只负责召回候选，所有候选必须由
-远程模型确认论文确实执行了计算、计算对原创研究有实质作用，并返回可在输入文本中核验的
-证据；模型不确定、响应异常或证据无法核验时均停止。Stage 05 只放行工具箱中标记为
-`functional`、具有实际执行语境且与 Stage 03 方法族匹配的直接后端。通过 Stage 06 仍不代表
-任务可构建，Stage 07 可以返回 `candidate_ready` 或结构化 `abstain`，只有合法候选进入
-Stage 08。
+更详细的数据流见 [PIPELINE_ARCHITECTURE.md](docs/PIPELINE_ARCHITECTURE.md)。模型职责和
+输出约束见 [LLM_PROMPTS_AND_SCHEMAS.md](docs/LLM_PROMPTS_AND_SCHEMAS.md)。
 
-旧 Stage 03-07 目录暂时保留用于历史结果复现，新主编排不再调用旧资源 LLM 门控和广泛
-资产下载逻辑。
-
-## 目录结构
+## 目录
 
 ```text
 data_pipeline/
-├── .envs/                  # 本地 Conda 环境，不提交 Git
-├── .model_cache/           # 本地模型和服务配置，不提交 Git
-├── assets/                 # 工具箱、软件别名、角色规则和能力映射
-├── docs/                   # 当前设计文档
-├── papers/                 # 待处理 PDF，不提交 Git
-├── runs/                   # 阶段输出和日志，不提交 Git
-├── scripts/                # 环境准备和一键运行脚本
+├── assets/                 # 工具箱快照、软件别名和计算方法规则
+├── docs/                   # 当前架构与维护记录
+├── scripts/
+│   ├── bootstrap/          # 环境、第三方服务和模型缓存准备
+│   ├── patches/            # 固定第三方版本所需补丁
+│   ├── stage03_llm/        # screening LLM / MinerU 共享 GPU worker
+│   └── workflows/          # 一键运行入口
 ├── src/
-│   ├── agents/             # CLI Agent 运行、隔离环境和会话保存
-│   ├── core/               # 配置、日志、IO 和运行时工具
-│   ├── integrations/       # GROBID、Softcite、Quantities、MinerU、模型和 HTTP 适配
-│   ├── orchestration/      # 七阶段编排
-│   └── stages/
-│       ├── stage01_inventory/
-│       ├── stage02_parsing/
-│       ├── stage03_software_coverage/
-│       ├── stage04_resource_limits/
-│       ├── stage05_asset_collection/
-│       ├── stage06_builder/
-│       └── stage07_judge/
-├── tests/                  # 核心逻辑回归测试
-├── third_party/            # 所有采用的第三方运行时源码
-├── config.json             # 默认配置
-├── config.local.env.example # API 和 Agent 配置模板
-├── environment.yml          # 唯一 Conda 环境定义
-└── pyproject.toml           # Python 项目与工具配置
+│   ├── core/               # 通用并发、IO 和日志
+│   ├── integrations/       # GROBID、MinerU、Softcite、远端存储和 LLM
+│   ├── registry/           # 全量论文筛选记录
+│   ├── sandbox/            # OpenSandbox 生命周期管理
+│   └── stages/             # 唯一的 Stage00-07 业务实现
+├── tests/
+├── config.example.json
+└── environment.yml
 ```
 
-`papers/` 用于放置待处理 PDF，`runs/` 用于保存运行结果。两者都是本地数据目录，
-默认不提交到 Git。管线会自动创建 `runs/` 下所需的输出目录。
-
-## Conda 环境
-
-数据管线只使用一个 Conda 环境。`environment.yml` 安装 Python 3.11、OpenJDK 21、Poppler、Git、项目依赖和 Softcite 需要的固定版本。Python 3.11 是固定版 `tfa-nightly` 提供 Linux wheel 的最新版本。MinerU、DeLFT 和 JEP 由 bootstrap 脚本安装到同一环境，不创建第二个环境。MinerU 只安装管线所需的 `pipeline` extra，并使用 `mineru-constraints.txt` 固定 NumPy 1.26、OpenCV 4.11 和 CPU 版 PyTorch 2.6；不会安装与本流程无关的 vLLM、Gradio 或 CUDA 运行时。
-
-```bash
-cd data_pipeline
-conda env create -p .envs/researchchem-data-pipeline -f environment.yml
-conda activate "$PWD/.envs/researchchem-data-pipeline"
-```
-
-更新已有环境：
-
-```bash
-conda env update -p .envs/researchchem-data-pipeline -f environment.yml --prune
-conda activate "$PWD/.envs/researchchem-data-pipeline"
-```
-
-后续 bootstrap、测试和管线命令都在该环境激活后执行；Softcite 会继承当前环境的
-`CONDA_PREFIX`，不依赖 `/usr/local` 或用户主目录中的 Conda 环境。MinerU 子进程会
-优先加载当前 Python 环境的 `lib/`，避免共享宿主机较旧的 `libstdc++` 覆盖 Conda
-运行库。
-
-验证：
-
-```bash
-python --version
-java -version
-pdftotext -v
-python -m src --help
-python -m pytest -q
-```
-
-建议为第三方源码和模型预留至少 30 GB 磁盘空间。环境文件已包含：
-
-- Git
-- OpenJDK 21 或更新版本
-- Poppler，提供 `pdftotext`
-- Git LFS、curl 和 unzip
-
-Java 不需要在 `config.json` 中写机器绝对路径。若 `java` 不在 `PATH`，设置
-`GROBID_JAVA_HOME` 或 `JAVA_HOME`；脚本会优先使用当前激活环境的 `CONDA_PREFIX`。
-
-## 第三方源码准备
-
-所有第三方 GitHub 运行时源码位于 `third_party/`。GitHub 仓库不直接提交这些大型 checkout，只保存上游链接、固定版本、bootstrap 脚本和必要补丁。
-
-| 本地目录 | 上游仓库 | 固定版本 | 用途 |
-|---|---|---|---|
-| `third_party/grobid/` | [grobidOrg/grobid](https://github.com/grobidOrg/grobid) | tag `0.9.0` | Stage 02 PDF 到 TEI |
-| `third_party/software-mentions/` | [softcite/software-mentions](https://github.com/softcite/software-mentions) | `c7c83852a3cad8f2d9d07ce3de6fbe852e23c19a` | Stage 03 软件抽取 |
-| `third_party/delft/` | [kermitt2/delft](https://github.com/kermitt2/delft) | `d8505592c38058b9b0abbde14d4ddedff3ad7d0f` | Softcite 模型运行时 |
-| `third_party/grobid-quantities/` | [lfoppiano/grobid-quantities](https://github.com/lfoppiano/grobid-quantities) | `d0d55592f4d0ddbe6a549e06613349adaa2d1cd7` | Stage 04 数值与单位抽取 |
-| `third_party/MinerU/` | [opendatalab/MinerU](https://github.com/opendatalab/MinerU) | `79d6d8d79fb8f3ddba5cc34c07a16f0ec36f56c7` | Stage 05 PDF 深度解析 |
-
-一键准备全部源码、补丁、本地依赖和模型：
-
-```bash
-export HF_ENDPOINT=https://hf-mirror.com
-export HF_HUB_DOWNLOAD_TIMEOUT=600
-
-bash scripts/bootstrap/bootstrap_all.sh
-```
-
-分步下载方式：
-
-```bash
-bash scripts/bootstrap/bootstrap_grobid.sh
-bash scripts/bootstrap/bootstrap_stage_gates.sh
-bash scripts/bootstrap/bootstrap_mineru.sh
-```
-
-脚本会拒绝覆盖有本地修改的 checkout。手工 clone 和补丁方式见 [third_party/README.md](third_party/README.md)。
-
-### GROBID
-
-`scripts/bootstrap/bootstrap_grobid.sh` 下载并构建固定版本 GROBID。Stage 02 会根据配置自动启动服务，处理完成后自动停止。
-
-Stage 02 默认使用 GROBID。GROBID 服务整体无法启动时，流水线直接报错停止，避免把基础设施故障误当成论文解析问题。
-
-仅当某一篇 PDF 的 GROBID 请求失败时，才使用低成本的 Poppler
-`pdftotext -layout`，再将文本包装为最小 TEI XML，使 Stage 03 Softcite 可以继续处理。
-
-回退结果位于 `stage_02_grobid_extract/fallback/`，状态记录为
-`fallback_pdftotext`；`pdftotext` 也失败时记录 `failed`。每篇记录包含
-`grobid_request_attempted`、`grobid_request_failed` 和 `grobid_request_error`，阶段摘要额外保存
-`grobid_request_attempts`、`grobid_request_failures` 和
-`grobid_request_failure_ratio`，用于事后检查 GROBID 的稳定性。
-
-### Softcite 与 GROBID Quantities
-
-`scripts/bootstrap/bootstrap_stage_gates.sh` 准备：
-
-- `third_party/software-mentions/`
-- `third_party/delft/`
-- `third_party/grobid-quantities/`
-
-脚本同时下载 Softcite 模型，并使用 `transformers==4.57.3`。Stage 03 或 Stage 04 服务启动失败时，流水线直接报错停止，不把基础设施故障解释为论文淘汰。
-
-旧版 GROBID Quantities 使用的 JGit 会在部分共享文件系统上卡住时间戳探测。
-bootstrap 会把该 Java 进程的 `user.home` 放到本机临时目录；可用
-`RESEARCHCHEMBENCH_GRADLE_JAVA_USER_HOME` 覆盖。管线运行时可在本机
-`config.local.json` 的 `grobid_quantities.environment.JAVA_TOOL_OPTIONS` 中设置同一
-`-Duser.home=<local-path>`，无需修改第三方 checkout 或 `run_pipeline.sh`。
-
-### 统一模型缓存
-
-数据管线实际使用的本地模型统一放在一个可整体迁移的子目录中：
-
-```text
-.model_cache
-```
-
-模型来源和运行位置如下：
-
-| 组件 | 模型来源 | 运行时位置 |
-|---|---|---|
-| GROBID | `grobidOrg/grobid` 0.9.0 随源码发布的 Wapiti/DeLFT 模型 | `.model_cache/grobid-home/models/` |
-| Softcite | `softcite/software-mentions` 自带模型；BERT 权重来自 `sciencialab/software-mentions-models` | `.model_cache/grobid-home/models/` |
-| GROBID Quantities | `lfoppiano/grobid-quantities` 自带 quantities/units/values 和 ClearNLP 模型 | `.model_cache/grobid-home/models/` 和 `.model_cache/grobid-quantities/` |
-| MinerU | `opendatalab/MinerU` 模型下载器，从 Hugging Face 或 ModelScope 下载 | `.model_cache/mineru/` |
-
-对应下载地址：
-
-- GROBID：`https://github.com/grobidOrg/grobid`
-- Softcite：`https://github.com/softcite/software-mentions`
-- Softcite BERT 模型：`https://huggingface.co/sciencialab/software-mentions-models`
-- GROBID Quantities：`https://github.com/lfoppiano/grobid-quantities`
-- MinerU 源码：`https://github.com/opendatalab/MinerU`
-- MinerU Pipeline 模型（Hugging Face）：`https://huggingface.co/opendatalab/PDF-Extract-Kit-1.0`
-- MinerU Pipeline 模型（ModelScope）：`https://modelscope.cn/models/OpenDataLab/PDF-Extract-Kit-1.0`
-
-`scripts/bootstrap/prepare_model_cache.py` 会把固定第三方版本中的运行模型同步到统一缓存，并生成三个 Java 服务使用的配置文件：
-
-```text
-.model_cache/grobid-home/config/grobid.yaml
-.model_cache/config/software-mentions.yml
-.model_cache/config/grobid-quantities.yml
-.model_cache/mineru/mineru.json
-.model_cache/model_manifest.json
-```
-
-上述缓存内的 YAML/JSON 使用相对路径。Java 服务相对其各自的
-`third_party/<repository>/` 工作目录解析路径，MinerU 相对 `.model_cache/` 解析。迁移时整体复制 `data_pipeline/` 即可。
-
-可单独重新准备缓存：
-
-```bash
-python scripts/bootstrap/prepare_model_cache.py
-```
-
-Stage 04 的 `deepseek-v4-flash` 以及 Stage 06/07 配置的 Agent 模型通过远程 API 调用，不下载到本地，因此不属于本地模型缓存。
-
-### MinerU
-
-MinerU 源码位于 `third_party/MinerU/`。模型及其配置位于：
-
-```text
-.model_cache/mineru
-```
-
-默认配置通过 `MINERU_TOOLS_CONFIG_JSON` 使用：
-
-```text
-.model_cache/mineru/mineru.json
-```
-
-`bootstrap_mineru.sh` 会设置 `HF_HOME`、`HUGGINGFACE_HUB_CACHE`、
-`MODELSCOPE_CACHE` 和 `MINERU_TOOLS_CONFIG_JSON`，保证新下载内容仍位于
-`.model_cache/`。`mineru.json` 中的模型目录写作相对路径，例如
-`mineru/PDF-Extract-Kit-1___0`；管线启动 MinerU 时会把工作目录固定到缓存根目录。
-
-Stage 05 每发现一个新 PDF 就立即解析。页数不超过 `mineru.max_pages` 时调用 MinerU；
-超长 PDF 使用 `pdftotext -layout` 提取可读文本，并在资产的 `document.json` 中记录页数、
-阈值和 `mineru_skip_reason`。MinerU 不可用或失败时，主论文可回退到 Stage 02 文本；
-无论使用哪种解析器，原始 PDF 都会保留。
-
-## Agent CLI 准备
-
-Stage 06 和 Stage 07 可分别选择以下 CLI：
-
-- `opencode`
-- `codex`
-- `claude`
-
-CLI 必须预先安装并完成认证。两阶段可以使用不同 CLI 和模型。
-
-### OpenCode 与兼容 API
-
-官方仓库：[anomalyco/opencode](https://github.com/anomalyco/opencode)
-
-```bash
-curl -fsSL https://opencode.ai/install | bash
-opencode --version
-```
-
-默认测试配置使用 OpenCode 和 `deepseek-v4-flash`：
-
-```bash
-export JUDGE_API_BASE='https://your-openai-compatible-endpoint/v1'
-export JUDGE_API_KEY='...'
-
-export BUILDER_AGENT_CLI=opencode
-export BUILDER_AGENT_MODEL=deepseek/deepseek-v4-flash
-export BUILDER_AGENT_BASE_URL="$JUDGE_API_BASE"
-
-export JUDGE_AGENT_CLI=opencode
-export JUDGE_AGENT_MODEL=deepseek/deepseek-v4-flash
-export JUDGE_AGENT_BASE_URL="$JUDGE_API_BASE"
-```
-
-配置文件中的 `api_key_env` 默认是 `JUDGE_API_KEY`。OpenCode 的临时配置只写环境变量引用，不把密钥写入日志或会话文件。
-
-### Codex 或 Claude
-
-Codex 官方仓库：[openai/codex](https://github.com/openai/codex)
-
-```bash
-npm install -g @openai/codex
-codex --version
-codex
-```
-
-Claude Code 官方文档：[Claude Code Setup](https://code.claude.com/docs/en/getting-started)
-
-```bash
-curl -fsSL https://claude.ai/install.sh | bash
-claude --version
-claude
-```
-
-完成 CLI 登录后再设置阶段选项：
-
-```bash
-export BUILDER_AGENT_CLI=codex
-export BUILDER_AGENT_MODEL='<codex-model>'
-
-export JUDGE_AGENT_CLI=claude
-export JUDGE_AGENT_MODEL='<claude-model>'
-```
-
-Codex 和 Claude 使用各自 CLI 的本地认证。运行器只在执行期间复制必要认证到该次隔离 HOME，不共享 Agent 会话，并在进程结束或异常退出后删除隔离目录中的凭据。
-
-### 本地 API 配置文件
-
-```bash
-cp config.local.env.example config.local.env
-```
-
-`scripts/workflows/run_pipeline.sh` 默认读取该文件。`config.local.env` 已被 Git 忽略，不要提交真实密钥。
-
-| 环境变量 | 用途 |
-|---|---|
-| `RESOURCE_LLM_URL` | Stage 04 OpenAI-compatible API 地址 |
-| `RESOURCE_LLM_API_KEY` | Stage 04 API 密钥 |
-| `RESOURCE_LLM_MODEL_NAME` | Stage 04 模型名 |
-| `BUILDER_AGENT_CLI` / `JUDGE_AGENT_CLI` | `opencode`、`codex` 或 `claude` |
-| `BUILDER_AGENT_COMMAND` / `JUDGE_AGENT_COMMAND` | CLI 命令或可执行文件路径 |
-| `BUILDER_AGENT_MODEL` / `JUDGE_AGENT_MODEL` | Agent 模型名 |
-| `BUILDER_AGENT_BASE_URL` / `JUDGE_AGENT_BASE_URL` | OpenCode 兼容 API 地址 |
-| `JUDGE_API_BASE` / `JUDGE_API_KEY` | Builder/Judge 共用的默认端点和密钥 |
-| `SCHOLARLY_API_MAILTO` | Crossref/OpenAlex polite pool 联系邮箱 |
-| `OPENALEX_API_KEY` | OpenAlex 额外配额 |
-| `GITHUB_TOKEN` | GitHub REST API 额外配额 |
-| `OSF_TOKEN` | OSF 受限数据 |
-| `ZENODO_ACCESS_TOKEN` | Zenodo 受限数据或额外配额 |
-| `HF_ENDPOINT` | Hugging Face 镜像 |
-
-## 配置
-
-主要配置位于 `config.json`：
-
-```json
-{
-  "model_cache_directory": ".model_cache",
-  "pdf_directory": "papers",
-  "run_directory": "runs/current",
-  "stop_after": "judge",
-  "microbatch": {
-    "enabled": false,
-    "size": 10,
-    "concurrency": 5,
-    "resume": true,
-    "stage_limits": {"2": 5, "3": 5, "4": 5, "5": 3, "6": 2, "7": 2},
-    "softcite_instances": "auto"
-  },
-  "stage04": {
-    "enabled": true
-  },
-  "resource_limits": {
-    "cpu_cores": 500,
-    "gpus": 8,
-    "memory_gb": 1000,
-    "runtime_hours": 12
-  },
-  "mineru": {
-    "enabled": true,
-    "max_pages": 100
-  },
-  "stage05": {
-    "enabled": true,
-    "download_scope": "all",
-    "enable_network": true,
-    "max_rounds": 3,
-    "max_archive_depth": 3,
-    "max_archive_children_per_archive": 300,
-    "max_assets_per_paper": 500,
-    "network_workers": 4,
-    "default_per_host_workers": 2,
-    "request_retries": 3,
-    "retry_backoff_seconds": 1,
-    "retry_max_seconds": 60,
-    "discover_publisher_supplements": true
-  },
-  "stage06": {
-    "agent": {
-      "cli": "opencode",
-      "model": "deepseek/deepseek-v4-flash"
-    }
-  },
-  "stage07": {
-    "agent": {
-      "cli": "opencode",
-      "model": "deepseek/deepseek-v4-flash"
-    }
-  }
-}
-```
-
-所有相对路径按配置文件所在目录解析。建议保留 `config.json` 作为版本化默认值，将本地实验配置写入已忽略的 `config.local.json`：
-
-```bash
-cp config.json config.local.json
-bash scripts/workflows/run_pipeline.sh config.local.json
-```
-
-### 全局参数
-
-| 参数 | 默认值 | 说明 |
-|---|---:|---|
-| `model_cache_directory` | `.model_cache` | 本地模型缓存 |
-| `pdf_directory` | `papers` | 输入 PDF 根目录 |
-| `exclude_supplementary` | `true` | 只将去重正文传给 Stage 02 |
-| `run_directory` | `runs/current` | 运行目录 |
-| `stop_after` | `judge` | 最后运行的阶段 |
-
-### Stage 02-07 微批次流水线
-
-`microbatch.enabled=true` 时，Stage 01 仍对全部 PDF 统一去重；去重后的正文按
-`microbatch.size` 分组。每个微批次内部严格按 Stage 02 到 `stop_after` 串行推进，最多同时
-运行 `microbatch.concurrency` 个微批次。一个微批次完成或被筛空后，调度器立即补入下一批。
-
-| 参数 | 默认值 | 说明 |
-|---|---:|---|
-| `microbatch.enabled` | `false` | 开启 Stage 02 到 `stop_after` 的微批次调度 |
-| `microbatch.size` | `10` | 每个微批次的论文数 |
-| `microbatch.concurrency` | `5` | 全局最大在途微批次数 |
-| `microbatch.stage_limits` | 见配置 | 各阶段允许同时进入的微批次数 |
-| `microbatch.softcite_instances` | `auto` | 沙箱 Softcite 实例数；`auto` 等于 Stage 03 限制 |
-| `microbatch.resume` | `true` | 从各微批次最后完成的阶段继续 |
-
-微批次模式下 Stage 02、03、04 的阶段内部 `workers` 固定为 1；Stage 05、06、07 原有的逐论文
-循环也保持串行。并发只发生在不同微批次之间。每个阶段完成后会原子写入
-`outputs/microbatches/batch_NNNNNN/state.json`，最终结果仍合并到标准的 Stage 02-07 目录。
-
-命令行可以覆盖三个常用参数：
-
-```bash
-python -m src run --config config.local.json --sandbox \
-  --microbatch --microbatch-size 10 --microbatch-concurrency 5
-```
-
-### Stage 02: GROBID
-
-| 参数 | 默认值 | 说明 |
-|---|---:|---|
-| `grobid.base_url` | `http://127.0.0.1:8070` | 服务地址 |
-| `grobid.working_directory` | `third_party/grobid` | 源码目录 |
-| `grobid.auto_start` | `true` | 自动启动和停止服务 |
-| `grobid.startup_timeout_seconds` | `600` | 启动超时 |
-| `grobid.timeout_seconds` | `900` | 单篇请求超时 |
-| `grobid.retries` | `2` | 请求重试次数 |
-| `grobid.consolidate_header` | `0` | Header consolidation |
-| `grobid.consolidate_citations` | `0` | Citation consolidation |
-| `grobid.max_chars` | `2000000` | 单篇文本上限 |
-| `grobid.reuse_existing` | `true` | 复用已有 TEI |
-| `grobid.fallback.enabled` | `true` | 允许单篇请求回退 |
-| `grobid.fallback.pdftotext_enabled` | `true` | 使用 `pdftotext -layout` |
-| `grobid.fallback.pdftotext_timeout_seconds` | `300` | 回退超时 |
-
-GROBID 服务整体无法启动时管线停止。只有单篇 PDF 请求失败时才回退，并记录失败次数和比例。
-
-### Stage 03: 软件覆盖
-
-| 参数 | 默认值 | 说明 |
-|---|---:|---|
-| `softcite.base_url` | `http://127.0.0.1:8060` | Softcite 地址 |
-| `softcite.working_directory` | `third_party/software-mentions` | 源码目录 |
-| `softcite.auto_start` | `true` | 自动启动和停止 |
-| `softcite.startup_timeout_seconds` | `900` | 启动超时 |
-| `softcite.timeout_seconds` | `600` | 单篇超时 |
-| `softcite.retries` | `2` | 重试次数 |
-| `softcite.aliases_file` | `assets/software_aliases.json` | 软件别名 |
-| `softcite.role_rules_file` | `assets/software_role_rules.json` | 核心/辅助软件规则 |
-| `softcite.capability_map_file` | `assets/software_capability_map.json` | 等价能力映射 |
-| `toolbox.file` | `assets/toolbox.json` | 工具箱清单 |
-| `toolbox.enabled_software` | `["*"]` | 启用软件 |
-| `toolbox.enabled_actions` | `["*"]` | 启用 Action |
-| `toolbox.priority_software` | `[]` | 优先软件 |
-
-只有 `direct_covered` 论文进入后续阶段；`capability_equivalent` 只保留备选记录。
-
-### Stage 04: 资源审查
-
-| 参数 | 默认值 | 说明 |
-|---|---:|---|
-| `stage04.enabled` | `true` | 是否执行资源审查 |
-| `resource_limits.cpu_cores` | `500` | CPU 核数上限 |
-| `resource_limits.gpus` | `8` | GPU 数量上限 |
-| `resource_limits.memory_gb` | `1000` | 内存上限，GB |
-| `resource_limits.runtime_hours` | `12` | 单次运行时间上限，小时 |
-| `resource_interpretation.enabled` | `true` | 是否调用解释模型 |
-| `resource_interpretation.url` | `https://api.deepseek.com/v1` | API 地址 |
-| `resource_interpretation.api_key_env` | `RESOURCE_LLM_API_KEY` | 密钥环境变量名 |
-| `resource_interpretation.model_name` | `deepseek-v4-flash` | 模型名 |
-| `resource_interpretation.timeout_seconds` | `900` | API 超时 |
-| `resource_interpretation.retries` | `2` | API 重试 |
-| `resource_interpretation.max_tokens` | `3000` | 最大输出 token |
-| `resource_interpretation.validation_retries` | `1` | JSON 纠正次数 |
-| `grobid_quantities.base_url` | `http://127.0.0.1:8062` | Quantities 地址 |
-| `grobid_quantities.auto_start` | `true` | 自动启动和停止 |
-| `grobid_quantities.startup_timeout_seconds` | `600` | 启动超时 |
-| `grobid_quantities.timeout_seconds` | `120` | 请求超时 |
-| `grobid_quantities.retries` | `2` | 重试次数 |
-
-Stage 04 只比较论文中明确召回并被模型确认的资源表达，不估算真实成本。无资源信息、表达含糊或只提到超算平台时放行。
-
-### MinerU
-
-| 参数 | 默认值 | 说明 |
-|---|---:|---|
-| `mineru.enabled` | `true` | 是否使用 MinerU |
-| `mineru.command` | `mineru` | CLI 命令 |
-| `mineru.backend` | `pipeline` | Backend |
-| `mineru.timeout_seconds` | `3600` | 单文件超时 |
-| `mineru.max_pages` | `100` | 超过后使用低成本文本解析 |
-| `mineru.reuse_existing` | `true` | 复用解析结果 |
-| `mineru.min_markdown_chars` | `100` | 有效 Markdown 最小长度 |
-
-### Stage 05: 资产收集
-
-| 参数 | 默认值 | 说明 |
-|---|---:|---|
-| `stage05.enabled` | `true` | 是否执行 |
-| `stage05.download_scope` | `all` | `all` 或 `supplementary_only` |
-| `stage05.enable_network` | `true` | 是否联网 |
-| `stage05.max_rounds` | `3` | 最大发现轮次 |
-| `stage05.max_archive_depth` | `3` | 压缩包递归深度 |
-| `stage05.max_archive_children_per_archive` | `300` | 单压缩包成员登记上限 |
-| `stage05.max_assets_per_paper` | `500` | 单论文资产上限 |
-| `stage05.max_clues_per_paper` | `500` | 单论文线索上限 |
-| `stage05.max_single_file_bytes` | `10737418240` | 单文件上限，10 GiB |
-| `stage05.max_archive_expanded_bytes` | `53687091200` | 展开上限，50 GiB |
-| `stage05.max_archive_files` | `5000` | 压缩包文件数上限 |
-| `stage05.max_text_chars` | `2000000` | 单资产文本上限 |
-| `stage05.max_targets_per_clue` | `200` | 单线索目标上限 |
-| `stage05.network_workers` | `4` | 总网络并发 |
-| `stage05.default_per_host_workers` | `2` | 默认单主机并发 |
-| `stage05.per_host_workers` | 见 `config.json` | 指定 API 并发 |
-| `stage05.request_retries` | `3` | 请求重试 |
-| `stage05.retry_backoff_seconds` | `1` | 初始退避 |
-| `stage05.retry_max_seconds` | `60` | 最大退避 |
-| `stage05.metadata_timeout_seconds` | `30` | 元数据超时 |
-| `stage05.download_timeout_seconds` | `120` | 下载超时 |
-| `stage05.include_local_siblings` | `true` | 扫描同目录附件 |
-| `stage05.query_metadata` | `true` | 查询元数据 API |
-| `stage05.discover_publisher_supplements` | `true` | 扫描出版社附件 |
-| `stage05.paper_limit` | `null` | 调试论文数量限制 |
-
-### Stage 06/07: Agent
-
-| 参数 | 默认值 | 说明 |
-|---|---:|---|
-| `stage06.enabled` / `stage07.enabled` | `true` | 是否启用 |
-| `max_agent_readable_bytes` | `52428800` | Agent 可读输入上限，50 MiB |
-| `agent.cli` | `opencode` | `opencode`、`codex` 或 `claude` |
-| `agent.command` | 与 CLI 同名 | 命令或路径 |
-| `agent.model` | `deepseek/deepseek-v4-flash` | 模型 |
-| `agent.base_url` | 空 | OpenCode 兼容 API |
-| `agent.api_key_env` | `JUDGE_API_KEY` | 密钥变量名 |
-| `agent.timeout_seconds` | `1800` | 单次超时 |
-| `agent.retries` | `2` | 重试次数 |
-| `agent.max_output_chars` | `200000` | 响应字符上限 |
-| `agent.environment` | `{}` | 额外环境变量 |
-
-`preserve_conversation` 和 `isolate_workspace` 在代码中固定为 `true`。Builder 和 Judge 的工作区、HOME、session 和聊天记录完全隔离。
-
-Stage 04 和 Stage 05 均可通过 `enabled=false` 跳过：
-
-- Stage 04 跳过时写入标准的 `resource_limits` 对象，其中
-  `decision="skipped"`、`passed=true`，不启动 GROBID Quantities 或资源解释模型。
-- Stage 05 跳过时不联网、不扫描同目录附件、不运行 MinerU，但仍登记主论文，并复用
-  Stage 02 文本生成最小资产清单，保证 Stage 06 接口不变。
-
-`stage05.download_scope` 支持：
-
-- `all`：下载满足资产线索规则的补充材料、数据、代码和仓库资产。
-- `supplementary_only`：只保留明确来自 Supporting Information、Supplementary
-  Material、出版社附件页或 `is-supplemented-by` 关系的附件；主论文始终保留为管线输入。
-
-`supplementary_only` 不调用 OpenAlex，也不主动扩展普通 GitHub、Zenodo、OSF 或 Materials
-Cloud 线索。其网络发现只使用 Crossref、DataCite 和 DOI 出版社落地页；只有出版社明确把
-补充材料托管在某个仓库时，才继续调用该仓库接口取得对应附件。Europe PMC 查询仍会
-启用，因为它直接提供与 DOI 对应的官方补充材料压缩包。
-
-Stage 05 当前实际使用的网络接口如下，不依赖额外的第三方 wrapper：
-
-| 接口 | 用途 |
-|---|---|
-| Crossref REST API | DOI 元数据和明确关联关系 |
-| DataCite REST API | 数据 DOI、内容地址和关联标识符 |
-| Europe PMC REST API | 按 DOI 查询 PMCID，并下载排除正文内嵌图片的官方 supplementary ZIP |
-| OpenAlex REST API | `all` 模式下补充论文元数据关系 |
-| GitHub REST API | 解析正文明确给出的仓库并下载默认分支归档 |
-| Zenodo Records API | 枚举并下载记录文件 |
-| OSF API v2 | 枚举并下载节点文件 |
-| Materials Cloud Archive API | 枚举并下载 Materials Cloud 记录文件 |
-| DOI/出版社 HTTPS 页面 | 提取明确标注的 Supplementary/Supporting Information 链接 |
-
-大批量运行建议在 `config.local.env` 中配置：
-
-```bash
-SCHOLARLY_API_MAILTO='contact@example.org'
-OPENALEX_API_KEY='...'
-GITHUB_TOKEN='...'
-OSF_TOKEN='...'
-ZENODO_ACCESS_TOKEN='...'
-```
-
-请求器会按主机限制并发，对 `429` 和临时 `5xx` 响应执行有限重试，并遵守
-`Retry-After` 或 `X-RateLimit-Reset`。失败仍会写入事件和未解决线索清单，不会被伪装成
-“未发现资产”。
-
-可用的 `stop_after` 值：
-
-- `grobid_extract`
-- `software_coverage`
-- `resource_limits`
-- `asset_collection`
-- `builder`
-- `judge`
-
-Stage 05 的生产默认单文件上限为 10 GiB、单压缩包展开上限为 50 GiB。测试时应使用更小上限，避免为验证流程下载超大记录。
-
-## OpenSandbox 大资源运行
-
-开发机 CPU 或内存不足时，可以保留本地 Stage 编排和筛选逻辑，仅把 GROBID、Softcite、
-GROBID Quantities 和 MinerU 放到一个 OpenSandbox 实例中运行。所需 Java 服务在任务开始时
-一次性启动并保持常驻，全部微批次结束后才停止；MinerU 通过 worker RPC 执行并将完整产物
-归档回传。多个 Softcite 实例使用独立端口和运行目录。
-
-先在 `config.local.env` 中设置管理 API Key：
-
-```bash
-RCB_SANDBOX_API_KEY=<本地密钥>
-```
-
-一条命令自动创建或复用 32 CPU、96 GiB 沙箱，运行管线，并在结束后停止实例：
-
-```bash
-python -m src run \
-  --config config.local.json \
-  --sandbox \
-  --sandbox-cpu 32 \
-  --sandbox-memory 96Gi \
-  --sandbox-cleanup stop
-```
-
-`--sandbox-cleanup` 支持：
-
-- `stop`：默认值；运行结束后停止实例，保留 Environment 供下一次重新创建实例。
-- `delete`：运行结束后删除实例，保留 Environment。
-- `keep`：保留运行实例，适合连续调试；生命周期最长 1440 分钟。
-
-`keep` 还会保留已启动的 Java 服务。`run_stage_01_04_batches.py` 因而可以在多个 1000 篇轮次
-之间复用同一沙箱和服务，最后由外层任务统一停止沙箱，避免每轮重新加载模型。
-
-也可以单独管理沙箱：
-
-```bash
-# 创建或确保实例正在运行
-python -m src sandbox create --sandbox-cpu 32 --sandbox-memory 96Gi
-
-# 查看状态；输出中的 SAT 会被自动隐藏
-python -m src sandbox status --sandbox-cpu 32 --sandbox-memory 96Gi
-
-# 停止实例
-python -m src sandbox stop --sandbox-cpu 32 --sandbox-memory 96Gi
-
-# 删除实例；加 --delete-environment 可同时删除 Environment
-python -m src sandbox delete --sandbox-cpu 32 --sandbox-memory 96Gi
-```
-
-本地管理文件为：
-
-```text
-.sandboxes.local.yaml
-.sandbox_inventory.local.json
-.sandbox_state/
-```
-
-这些文件均被 Git 忽略。API Key 和 SAT 不写入管理文件；共享数据目录在沙箱内保持只读，
-JDK、服务临时目录、日志和 MinerU 中间产物位于
-`/tmp/researchchem-data-pipeline/`。MinerU 完成后通过流式归档回传，路径穿越和符号链接会被拒绝。
-
-当请求的 CPU、内存或镜像与当前受管 Environment 不一致时，管理器会删除本地文件中明确
-记录的旧实例和旧 Environment，再按新规格创建。当前管线按论文顺序处理，因此一个更大的
-沙箱用于增加单次运行的内存和 CPU 上限；多个沙箱不会自动改变现有筛选逻辑或并行拆分论文。
-
-## 远端论文的 Stage 00-06 批量筛选
-
-`scripts/run_stage_01_04_batches.py` 保留了历史文件名，但现在执行重构后的 Stage 00-06。
-它从 Xinghe/S3 只读数据集复制指定数量的正文和同源 SI，按论文建立目录，并以可恢复的
-微批次运行联合解析、严格计算相关性筛选、缺失 SI 补齐、工具箱覆盖筛选和 SI 抽取。
-
-先查看将要处理的清单，不创建文件或沙箱：
-
-```bash
-bash scripts/run_stage_01_04_batches.sh --plan-only
-```
-
-执行默认的 1,000 篇任务：
-
-```bash
-bash scripts/run_stage_01_04_batches.sh
-```
-
-默认使用 `en-paper-hzzj`、1,000 篇、128 CPU、256 GiB 内存和高精度 `strict` 策略。
-Stage 03 默认调用远程 `deepseek-v4-flash`，不会申请 GPU worker；规则命中的所有候选均
-需要模型确认。Stage 02-06 默认采用 10 篇一个微批次、同时保留 5 个微批次的流水线。
-所有值都可通过命令行参数覆盖，例如：
-
-```bash
-bash scripts/run_stage_01_04_batches.sh \
-  --dataset kps-2026-06-18 \
-  --count 500 \
-  --work-root runs/redesigned_stage00_06_500_strict_flash \
-  --sandbox-cpu 128 \
-  --sandbox-memory 256Gi \
-  --screening-policy strict \
-  --stage03-llm \
-  --no-stage03-llm-managed-rlaunch \
-  --stage03-llm-concurrency 16 \
-  --microbatch-size 10 \
-  --microbatch-concurrency 5 \
-  --stage02-workers 32 \
-  --stage03-workers 32 \
-  --stage04-workers 16 \
-  --stage05-workers 16 \
-  --stage06-workers 16
-```
-
-默认输出根目录为：
-
-```text
-runs/redesigned_stage00_06_1000/
-├── config.stage00-06.json       # 本次冻结配置
-├── run_plan.json                # 模型、资源和并发计划
-├── run_summary.json             # 各阶段汇总与总耗时
-├── stage_00_remote_corpus/      # 正文/SI 论文包、远端清单和恢复游标
-└── run/outputs/                 # Stage 01-06 逐篇记录、证据和服务输出
-```
-
-沙箱在整轮任务开始时创建一次，Stage 00-06 共用，并在完成、异常或 Ctrl-C 后按
-`--sandbox-cleanup` 处理。任务中断后使用完全相同的参数重新执行，会复用 Stage 00 游标、
-已复制论文和已完成阶段。下载凭证默认读取
-`/mnt/shared-storage-user/liyuqiang/benchmark/pipline_demo/pdfs/xinghe.txt`，也可用
-`--credentials` 覆盖。
+本地运行数据不进入 Git：`.envs/`、`.model_cache/`、`datasets/`、`runs/`、`registry/`、
+本地配置和 worker 状态均由 `.gitignore` 排除。
 
 ## 运行
 
-脚本默认读取 `data_pipeline/config.local.env`，映射 Stage 04 和 Agent 所需 API 环境变量，并实时写入日志。
-首先将待处理的 PDF 放入 `papers/`，或在本地配置副本中修改 `pdf_directory`。
+环境和第三方组件统一安装到主环境：
 
 ```bash
-bash scripts/workflows/run_pipeline.sh
-
-# 或显式指定配置和摘要输出。
-bash scripts/workflows/run_pipeline.sh config.json runs/current/outputs/run_summary.json
+cd data_pipeline
+bash scripts/bootstrap/bootstrap_all.sh
+cp config.local.env.example config.local.env
 ```
 
-日志：
-
-```text
-runs/current/outputs/pipeline.log
-```
-
-只从已有 Stage 04 结果运行 Stage 05-07：
+编辑本地环境变量和基于 `config.example.json` 创建的本地 JSON 配置，然后运行：
 
 ```bash
-python -m src run-late-stages \
-  --input runs/example/outputs/stage_04_resource_limits/resource_screened_documents.jsonl \
-  --config config.json \
-  --workspace runs/example_late/outputs \
-  --output runs/example_late/outputs/run_summary.json
+bash scripts/workflows/run_pipeline.sh /absolute/path/to/config.local.json
 ```
 
-## Stage 05 输出
-
-核心文件：
-
-```text
-stage_05_asset_collection/
-├── objects/sha256/             # 原始文件内容寻址存储
-├── parsed/<asset_id>/          # JSON、Markdown/TXT、MinerU 或安全解压结果
-├── rounds/                     # 每轮线索快照
-├── papers/<paper_id>/          # 论文级资产索引
-├── asset_manifest.jsonl        # 核心资产清单
-├── clue_manifest.jsonl         # 全部线索及状态
-├── unresolved_clues.jsonl      # 失败、受限、预算截断和未解决线索
-├── asset_events.jsonl          # 下载、解析、去重和预算事件
-└── stage_summary.json
-```
-
-每个资产记录保留来源、关系、轮次、父资产、版本、SHA-256、大小、原始路径、解析器、结构化输出和可读输出。压缩包采用路径穿越、符号链接、文件数量和展开体积检查。
-
-网络下载遵循内容哈希去重和预算上限。每轮先收集直接资产，再按 `source_data`、`input`、`supplement`、`code` 的优先级登记，并在多个压缩包之间公平分配递归展开预算，避免单个代码仓库占满全部名额。
-
-## Stage 06-07 Agent 隔离与会话保存
-
-Builder 和 Judge 每次运行都创建独立目录：
-
-```text
-agent_runs/<run_id>/
-├── workspace/
-│   ├── input/                  # 只读输入快照
-│   ├── work/                   # 临时工作区
-│   └── output/                 # Agent 输出区
-├── home/                       # 隔离 HOME、XDG 和 CLI 状态
-├── attempts/attempt_XX/        # 每次尝试的 stdout/stderr
-├── prompt.md
-├── response_schema.json
-├── native_events.jsonl
-├── conversation.jsonl
-├── final_response.json
-├── stdout.log
-├── stderr.log
-└── run_metadata.json
-```
-
-关键约束：
-
-- Builder 与 Judge 的工作区、HOME、session ID 和聊天记录完全分离。
-- Judge 只能读取候选任务快照、论文/资产证据和公共输入探针，不能读取 Builder 聊天记录。
-- `conversation.jsonl` 保存用户提示和最终结构化回复；`native_events.jsonl` 保存 CLI 原生事件。
-- 日志执行前进行密钥脱敏。
-- Agent 输入中的主机绝对路径被删除；压缩包成员使用 `logical_path` 保留必要的文件上下文。
-- OpenCode 默认只允许 `read`、`glob`、`grep` 和 `list`，禁止编辑、shell、外部目录和网络工具。
-
-Stage 06 的候选包包括：
-
-```text
-candidate/
-├── candidate_task.json
-├── task.md
-├── scientific_record.json
-├── evidence_map.json
-├── public_inputs/
-├── hidden_reference/reference.json
-└── scoring/rubric.json
-```
-
-Stage 07 输出：
-
-```text
-stage_07_judge/<task_id>/
-├── public_probe/report.json
-├── audit_report.json
-├── audit_report.md
-├── judge_record.json
-└── agent_runs/<judge_run_id>/
-```
-
-## 测试与质量检查
+也可直接使用 CLI：
 
 ```bash
-python -m pytest -q
-ruff check src tests scripts
-ruff format --check src tests scripts
-vulture src --min-confidence 80
-git diff --check
+.envs/researchchem-data-pipeline/bin/python -m src.cli run \
+  --config config.local.json \
+  --stop-after stage05
 ```
 
-真实 Agent 测试会消耗模型 token。应先使用单论文、较小 Stage 05 预算验证流程，再扩大到完整数据集。
+沙箱模式可在配置中设置 `execution.backend=sandbox`，或传入 `--sandbox`。Stage00 单独准备：
 
-测试语料、历史运行产物和本地服务日志均不属于源码仓库。提交前可直接删除
-`papers/` 和 `runs/`；下次运行会重新生成必要的输出。
-同样不应提交 `.model_cache/`、第三方 checkout、`config.local.env` 或 `config.local.json`。
+```bash
+.envs/researchchem-data-pipeline/bin/python -m src.cli prepare-remote-corpus \
+  --count 1000 \
+  --output runs/corpus-1000
+```
 
-## 当前限制
+## 配置原则
 
-- 出版社认证、受限附件和失效链接只记录状态，当前没有自动登录或 Wayback 下载实现。
-- MinerU 对非 PDF 二进制科学文件只保留原始文件和元数据；不会伪造文本内容。
-- Builder/Judge 读取预算目前由提示词和输入大小共同约束，CLI 本身没有统一的硬性 tool-call 上限。
-- Builder 与 Judge 的自动循环修订暂不实现，`revise` 仅作为 Stage 07 结果保存。
+- `config.example.json` 只提供结构和非敏感默认值；密钥放在 `config.local.env`。
+- 工具箱范围以 `assets/toolbox_capabilities.json` 为准，通过
+  `scripts/sync_toolbox_capabilities.py` 从当前工具箱刷新。
+- Stage02/03 固定使用 `models.screening`；Stage05、06、07 分别使用 `suitability`、
+  `builder`、`judge` 模型配置。
+- `stop_after` 可设置为 `stage00` 至 `stage07`。
+- `microbatch.stage_concurrency` 分别限制 Stage01-05 的在途微批数量。
+
+## 验证
+
+```bash
+PYTHONPATH="$PWD" .envs/researchchem-data-pipeline/bin/python -m pytest -q tests
+.envs/researchchem-data-pipeline/bin/ruff check src tests scripts
+```

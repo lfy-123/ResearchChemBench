@@ -35,6 +35,7 @@ class SandboxPipelineRuntime:
         self._started_services: set[tuple[str, int]] = set()
         self._service_configs: dict[tuple[str, int], dict[str, Any]] = {}
         self._service_lock = threading.RLock()
+        self._recovery_lock = threading.RLock()
         self._lock_handle = None
 
     def __enter__(self) -> SandboxPipelineRuntime:
@@ -127,8 +128,7 @@ class SandboxPipelineRuntime:
     def start_service(
         self, name: str, config: dict[str, Any], *, instance: int = 0
     ) -> dict[str, Any]:
-        client = self._client()
-        response = client.proxy_json(
+        response = self._proxy_json(
             "POST",
             port=SERVICE_PORTS["rpc"],
             suffix=self._service_suffix(name, instance, "start"),
@@ -164,7 +164,7 @@ class SandboxPipelineRuntime:
 
     def service_healthy(self, name: str, *, instance: int = 0) -> bool:
         try:
-            response = self._client().proxy_json(
+            response = self._proxy_json(
                 "GET",
                 port=SERVICE_PORTS["rpc"],
                 suffix=self._service_suffix(name, instance, "status"),
@@ -186,9 +186,8 @@ class SandboxPipelineRuntime:
         environment: dict[str, str] | None,
         extra_args: list[str] | None,
     ) -> dict[str, Any]:
-        client = self._client()
         job_id = f"mineru-{uuid.uuid4().hex}"
-        client.proxy_json(
+        self._proxy_json(
             "POST",
             port=SERVICE_PORTS["rpc"],
             suffix=f"v1/mineru/jobs/{job_id}/start",
@@ -206,7 +205,7 @@ class SandboxPipelineRuntime:
         deadline = time.monotonic() + timeout_seconds + 300
         snapshot: dict[str, Any] = {}
         while time.monotonic() < deadline:
-            snapshot = client.proxy_json(
+            snapshot = self._proxy_json(
                 "GET",
                 port=SERVICE_PORTS["rpc"],
                 suffix=f"v1/mineru/jobs/{job_id}/status",
@@ -222,14 +221,14 @@ class SandboxPipelineRuntime:
         if job.get("status") == "success":
             target.parent.mkdir(parents=True, exist_ok=True)
             with tempfile.NamedTemporaryFile(suffix=".tar.gz") as handle:
-                client.download(
+                self._download(
                     port=SERVICE_PORTS["rpc"],
                     suffix=f"v1/mineru/jobs/{job_id}/archive",
                     destination=Path(handle.name),
                 )
                 self._extract_archive(Path(handle.name), target)
         try:
-            client.proxy_json(
+            self._proxy_json(
                 "DELETE",
                 port=SERVICE_PORTS["rpc"],
                 suffix=f"v1/mineru/jobs/{job_id}",
@@ -296,6 +295,7 @@ class SandboxPipelineRuntime:
             self._client(),
             remote_port=remote_port,
             request_timeout=1800 if name in {"grobid", "softcite"} else 300,
+            recover_client=self._recover_proxy_client,
         ).start()
         self.proxies[key] = proxy
         return proxy
@@ -310,6 +310,68 @@ class SandboxPipelineRuntime:
         if self.client is None:
             raise RuntimeError("sandbox runtime is not active")
         return self.client
+
+    def _proxy_json(self, method: str, **kwargs) -> dict[str, Any]:
+        try:
+            return self._client().proxy_json(method, **kwargs)
+        except SandboxError as exc:
+            if not self._sandbox_unavailable(exc.status, exc.response.encode("utf-8")):
+                raise
+            client = self._recover_sandbox()
+            return client.proxy_json(method, **kwargs)
+
+    def _download(self, **kwargs) -> None:
+        try:
+            self._client().download(**kwargs)
+        except SandboxError as exc:
+            if not self._sandbox_unavailable(exc.status, exc.response.encode("utf-8")):
+                raise
+            self._recover_sandbox().download(**kwargs)
+
+    def _recover_proxy_client(self, status: int, payload: bytes):
+        if not self._sandbox_unavailable(status, payload):
+            return None
+        return self._recover_sandbox()
+
+    @staticmethod
+    def _sandbox_unavailable(status: int | None, payload: bytes) -> bool:
+        if status not in {403, 409, 502, 503}:
+            return False
+        detail = payload.decode("utf-8", errors="replace").casefold()
+        return "sandbox" in detail and (
+            "not running" in detail
+            or "status: pending" in detail
+            or "status pending" in detail
+        )
+
+    def _recover_sandbox(self):
+        """Wait for a displaced sandbox and restore its RPC and managed services once."""
+        with self._recovery_lock:
+            # A concurrent request may already have completed recovery.
+            try:
+                health = self._client().proxy_json(
+                    "GET", port=SERVICE_PORTS["rpc"], suffix="health", timeout=5
+                )
+                if health.get("status") == "success":
+                    return self._client()
+            except SandboxError:
+                pass
+
+            worker = self.manager.ensure()
+            self.worker = worker
+            self.client = worker.client()
+            for proxy in self.proxies.values():
+                proxy.server.client = self.client
+
+            services = [
+                (key, self._service_configs[key])
+                for key in sorted(self._started_services)
+                if key in self._service_configs
+            ]
+            self._started_services.clear()
+            for (name, instance), config in services:
+                self.start_service(name, config, instance=instance)
+            return self.client
 
     def _release_lock(self) -> None:
         if self._lock_handle is None:

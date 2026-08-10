@@ -1,0 +1,253 @@
+"""Stage 04: normalize Stage 03 passes with high-quality MinerU parsing."""
+
+from __future__ import annotations
+
+import copy
+from pathlib import Path
+from typing import Any
+
+from src.contracts import decision_counts, record_header, write_json, write_jsonl
+from src.integrations.mineru import run_mineru_queue
+from src.stages.stage01_document_preparation.normalization import (
+    assess_text_quality,
+    materialize_document,
+)
+from src.stages.stage03_toolbox_resource_gate.stage import STAGE03_FORWARD_DECISIONS
+
+
+def run_stage04(
+    *,
+    stage03_records: list[dict[str, Any]],
+    documents: list[dict[str, Any]],
+    config: dict[str, Any],
+    workspace: Path,
+    run_id: str,
+) -> dict[str, Any]:
+    stage_root = workspace / "stage_04_mineru_deep_normalization"
+    records = copy.deepcopy(stage03_records)
+    records, deep_documents, deep_attempts = _deep_normalize_passed_papers(
+        records=records,
+        documents=documents,
+        config=config,
+        stage_root=stage_root,
+        run_id=run_id,
+    )
+    write_jsonl(stage_root / "decisions.jsonl", records)
+    summary = {
+        **record_header(run_id=run_id, stage="stage04"),
+        "papers": len(records),
+        "input_passed": sum(
+            row.get("gate_decision", row.get("decision")) in STAGE03_FORWARD_DECISIONS
+            for row in records
+        ),
+        "passed": sum(bool(row.get("passed")) for row in records),
+        "decisions": decision_counts(records),
+        "deep_normalized_documents": sum(
+            row.get("selected_parser") == "mineru" and row.get("decision") == "pass"
+            for row in deep_documents
+        ),
+        "deep_parse_failed_papers": sum(
+            row.get("decision") == "deep_parse_failed" for row in records
+        ),
+    }
+    write_json(stage_root / "stage_summary.json", summary)
+    return {
+        "records": records,
+        "documents": deep_documents,
+        "deep_parse_attempts": deep_attempts,
+        "summary": summary,
+    }
+
+
+def _deep_normalize_passed_papers(*, records, documents, config, stage_root, run_id):
+    mineru = config.get("mineru") or {}
+    passed_ids = {row["paper_id"] for row in records if row.get("passed")}
+    selected = [
+        row
+        for row in documents
+        if row.get("paper_id") in passed_ids and row.get("decision") == "pass"
+    ]
+    if not passed_ids:
+        _write_deep_normalization(stage_root, [], [])
+        return records, [], []
+    if not bool(mineru.get("enabled", False)):
+        retained = [
+            {
+                **row,
+                "deep_normalization": {
+                    "status": "disabled",
+                    "selected_parser": row.get("selected_parser"),
+                },
+            }
+            for row in selected
+        ]
+        for record in records:
+            if record.get("passed"):
+                record["deep_normalization"] = {"status": "disabled"}
+        _write_deep_normalization(stage_root, retained, [])
+        return records, retained, []
+
+    pdf_documents = [
+        row
+        for row in selected
+        if Path(str(row.get("source_path") or "")).suffix.casefold() == ".pdf"
+    ]
+    queue = [
+        {
+            "document_id": row["document_id"],
+            "paper_id": row["paper_id"],
+            "source_path": row["source_path"],
+            "title": row.get("title"),
+            "expected_pages": row.get("page_count"),
+            "deep_parse_decision": "required_after_stage03_gate",
+            "priority_score": 1.0,
+            "reason": ["stage03_toolbox_and_resource_gate_passed"],
+        }
+        for row in pdf_documents
+    ]
+    results = run_mineru_queue(
+        queue,
+        stage_root / "deep_normalization" / "raw" / "mineru",
+        execute=True,
+        command=str(mineru.get("command", "mineru")),
+        method=str(mineru.get("method", "auto")),
+        backend=mineru.get("backend", "pipeline"),
+        timeout_seconds=int(mineru.get("timeout_seconds", 3600)),
+        working_directory=mineru.get("working_directory"),
+        environment=mineru.get("environment"),
+        extra_args=mineru.get("extra_args") or ["--formula", "true", "--table", "true"],
+        reuse_existing=bool(mineru.get("reuse_existing", True)),
+        min_markdown_chars=int(mineru.get("min_markdown_chars", 100)),
+        stage_name="stage_04_mineru_deep_normalization",
+    )
+    by_id = {row["document_id"]: row for row in results}
+    deep_root = stage_root / "deep_normalization"
+    deep_documents: list[dict[str, Any]] = []
+    attempts: list[dict[str, Any]] = []
+    failed_by_paper: dict[str, list[str]] = {}
+    quality_config = {
+        "min_main_characters": int(mineru.get("min_main_characters", 1000)),
+        "min_supplementary_characters": int(mineru.get("min_supplementary_characters", 100)),
+        "min_readable_character_ratio": float(mineru.get("min_readable_character_ratio", 0.90)),
+        "max_replacement_character_ratio": float(
+            mineru.get("max_replacement_character_ratio", 0.01)
+        ),
+        "max_repeated_line_ratio": float(mineru.get("max_repeated_line_ratio", 0.50)),
+        "min_page_coverage_ratio": float(mineru.get("min_page_coverage_ratio", 0.95)),
+    }
+    pdf_ids = {row["document_id"] for row in pdf_documents}
+    for document in selected:
+        if document["document_id"] not in pdf_ids:
+            deep_documents.append(
+                {
+                    **document,
+                    "deep_normalization": {
+                        "status": "reused_stage01_non_pdf",
+                        "selected_parser": document.get("selected_parser"),
+                    },
+                }
+            )
+            continue
+        result = by_id.get(document["document_id"], {})
+        text = _read_optional(result.get("markdown_path"))
+        quality = assess_text_quality(
+            text,
+            document.get("page_count"),
+            quality_config,
+            document.get("document_role"),
+            result,
+        )
+        status = str(result.get("status") or "missing")
+        attempts.append(
+            {
+                "paper_id": document["paper_id"],
+                "document_id": document["document_id"],
+                "parser": "mineru",
+                "status": status,
+                "quality": quality,
+                "error": result.get("error"),
+                "output_path": result.get("markdown_path"),
+                "duration_seconds": result.get("duration_seconds"),
+            }
+        )
+        if status in {"success", "reused"} and quality["passed"]:
+            deep = materialize_document(
+                document,
+                text,
+                "mineru",
+                result,
+                quality,
+                deep_root,
+                run_id,
+                stage_name="stage04",
+            )
+            deep["stage01_selected_parser"] = document.get("selected_parser")
+            deep["deep_normalization"] = {"status": "completed", "selected_parser": "mineru"}
+            deep_documents.append(deep)
+            continue
+        failed_by_paper.setdefault(document["paper_id"], []).append(document["document_id"])
+        deep_documents.append(
+            {
+                **document,
+                **record_header(
+                    run_id=run_id,
+                    stage="stage04",
+                    paper_id=document["paper_id"],
+                    document_id=document["document_id"],
+                ),
+                "processing_status": "failed",
+                "decision": "deep_parse_failed",
+                "selected_parser": None,
+                "quality": quality,
+                "deep_normalization": {
+                    "status": "failed",
+                    "attempted_parser": "mineru",
+                    "error": result.get("error"),
+                },
+            }
+        )
+
+    successful_main = {
+        row["paper_id"]
+        for row in deep_documents
+        if row.get("decision") == "pass"
+        and row.get("selected_parser") == "mineru"
+        and row.get("document_role") != "supplementary"
+    }
+    for paper_id in passed_ids - successful_main:
+        failed_by_paper.setdefault(paper_id, []).append("missing_successful_main_document")
+    for record in records:
+        if record.get("paper_id") not in passed_ids:
+            continue
+        failed_documents = sorted(set(failed_by_paper.get(record["paper_id"], [])))
+        record["gate_decision"] = record["decision"]
+        record["deep_normalization"] = {
+            "status": "failed" if failed_documents else "completed",
+            "failed_document_ids": failed_documents,
+            "document_count": sum(
+                row.get("paper_id") == record["paper_id"] for row in deep_documents
+            ),
+        }
+        if failed_documents:
+            record["decision"] = "deep_parse_failed"
+            record["passed"] = False
+
+    _write_deep_normalization(stage_root, deep_documents, attempts)
+    return records, deep_documents, attempts
+
+
+def _write_deep_normalization(stage_root, documents, attempts):
+    root = stage_root / "deep_normalization"
+    write_jsonl(root / "documents.jsonl", documents)
+    write_jsonl(root / "parser_attempts.jsonl", attempts)
+    write_jsonl(
+        root / "failed.jsonl",
+        [row for row in documents if row.get("decision") == "deep_parse_failed"],
+    )
+
+
+def _read_optional(value):
+    if not value:
+        return ""
+    path = Path(str(value))
+    return path.read_text(encoding="utf-8", errors="replace") if path.is_file() else ""
