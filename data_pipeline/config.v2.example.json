@@ -5,6 +5,12 @@
   "stop_after": "stage07",
   "policy": "strict",
   "resume_completed_stages": true,
+  "registry": {
+    "enabled": true,
+    "database": "registry/paper_screening_registry.sqlite",
+    "export_jsonl": "registry/exports/paper_screening_registry.jsonl",
+    "prune_rejected_stage00_assets": true
+  },
   "execution": {
     "backend": "local",
     "sandbox": {

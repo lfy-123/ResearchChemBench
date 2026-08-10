@@ -2,7 +2,7 @@ from __future__ import annotations
 
 STAGE03_MAP_VERSION = "v2-stage03-map-20260809-r7-explicit-actor-attribution"
 STAGE03_REDUCE_VERSION = "v2-stage03-reduce-20260810-r9-domain-boundaries"
-STAGE04_VERSION = "v2-stage04-software-inventory-20260810-r20-bounded-candidate-audit"
+STAGE04_VERSION = "v2-stage03-software-inventory-20260810-r21-recall-balanced"
 STAGE05_VERSION = "v2-stage05-suitability-20260809-r2-strict-contract"
 STAGE06_SHARED_VERSION = "v2-stage06-shared-20260807"
 STAGE06_AUTONOMOUS_VERSION = "v2-stage06-autonomous-20260807"
@@ -112,6 +112,12 @@ Use only supplied evidence. Your job is evidence extraction and software-role cl
 code checks whether every required named software package exists in the frozen toolbox software catalog. The catalog
 is intentionally not supplied to you: extract every actually used software entity without support-status bias.
 
+This is an early recall-oriented gate. Inventory independent workflows separately. Do not make every analysis,
+visualization, file conversion, or reported side calculation essential merely because it appears in the paper.
+An essential step is required to reproduce a meaningful scientific result of that workflow. A paper may contain
+one independently reproducible workflow and another workflow whose implementation is unsupported or unclear;
+preserve that separation instead of merging them into one all-or-nothing workflow.
+
 The toolbox has three execution layers: predefined Actions, direct native-software use guided by the indexed
 software documentation, and task-specific Python analysis. Stage04 checks SOFTWARE PRESENCE ONLY. A missing
 predefined Action, an adapter parameter restriction, or an unlisted method must never make an installed native
@@ -144,6 +150,8 @@ Examples:
 - "our in-house code calculated the descriptor" -> software is exactly "in-house code", entity_type=custom_code.
 - "RASSCF calculations were run in OpenMolcas" -> OpenMolcas is software; RASSCF is a method/module and must
   appear only in excluded_entities with entity_type=method.
+- A method, algorithm, or module inside an explicitly scoped host program is not a second standalone executable
+  unless the text identifies it as a separately installed program, extension, plugin, or service.
 - "VASP with the VASPsol extension" -> VASP and VASPsol are separate required entities. Never collapse an
   extension, plugin, module, or add-on into its parent program.
 - "structures were taken from ChEMBL/ZINC/CCCDB" -> these are data resources, not required software. Only an
@@ -174,6 +182,11 @@ names VASP only for DFT; do not assign VASP to the Bader step. Keep the Bader im
 separate executable is named. Mark an unnamed analysis as task_specific_python only when it is a short,
 transparent transformation whose procedure is fully specified; otherwise use execution_layer=named_software,
 software=null, inventory_complete=false, and add an unresolved item.
+
+Do honor broad scope statements. If the paper explicitly says that all calculations, all calculations of one
+method family, or an enumerated group of operations used Program A, bind those operations to Program A without
+requiring its name in every sentence. Do not require a separate executable for a scientific method or host
+module when the supplied evidence explicitly places it inside Program A.
 
 Audit every item in explicit_executable_cues. If the cited context shows actual use, include it in
 software_mentions and bind it to an essential workflow step; if it is only background, include it with

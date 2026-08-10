@@ -12,6 +12,7 @@ from src.core.io import sha256_file
 from src.integrations.grobid import GrobidClient
 from src.integrations.managed_service import managed_service
 from src.integrations.softcite import SoftciteClient, SoftciteClientPool, softcite_service
+from src.registry import ScreeningRegistry
 from src.v2.contracts import (
     canonical_hash,
     decision_counts,
@@ -122,17 +123,43 @@ def _run_loaded_pipeline_v2(config: dict[str, Any], *, model_callers=None) -> di
     workspace.mkdir(parents=True, exist_ok=True)
     run_id = str(config.get("run_id") or _run_id(config))
     stop_index = int(config["stop_after"].replace("stage", ""))
-    write_json(workspace / "config.snapshot.json", _config_snapshot(config, run_id))
+    snapshot = _config_snapshot(config, run_id)
+    write_json(workspace / "config.snapshot.json", snapshot)
+    registry = ScreeningRegistry.from_config(
+        config.get("registry")
+        or {
+            "enabled": False,
+            "prune_rejected_stage00_assets": False,
+            "database": workspace / "registry.disabled.sqlite",
+        }
+    )
+    registry.start_run(
+        run_id=run_id,
+        workspace=workspace,
+        config_path=config.get("config_path", "<in-memory-config>"),
+        config_hash=canonical_hash(snapshot),
+    )
 
     stage00_config = {**config["stage00"], "source_root": (config.get("source") or {}).get("root")}
     stage00 = run_stage00(stage00_config, workspace, run_id)
+    registry.register_stage00_manifest(
+        run_id=run_id,
+        manifest_path=workspace / "stage_00_remote_corpus" / "source_manifest.jsonl",
+        corpus_root=stage00["corpus_root"],
+    )
     result: dict[str, Any] = {"run_id": run_id, "workspace": str(workspace), "stage00": stage00}
     if stop_index == 0:
-        return _finish(result, config, workspace)
+        return _finish(result, config, workspace, registry)
 
     package = _load_or_run_package(config, stage00["corpus_root"], workspace, run_id)
+    registry.register_document_sources(run_id=run_id, documents=package["documents"])
+    registry.record_stage_results(
+        run_id=run_id,
+        stage="stage01",
+        rows=package["papers"],
+    )
     if stop_index == 1 and not package["papers"]:
-        return _finish(result, config, workspace)
+        return _finish(result, config, workspace, registry)
     batches = _paper_batches(package["papers"], int(config["microbatch"].get("size", 10)))
     overall = (
         int(config["microbatch"].get("concurrency", 1))
@@ -169,6 +196,7 @@ def _run_loaded_pipeline_v2(config: dict[str, Any], *, model_callers=None) -> di
                 workspace=workspace,
                 run_id=run_id,
                 grobid_client=grobid_client,
+                registry=registry,
             )
 
         def process_stage02(state):
@@ -178,6 +206,7 @@ def _run_loaded_pipeline_v2(config: dict[str, Any], *, model_callers=None) -> di
                 clients=clients,
                 workspace=workspace,
                 run_id=run_id,
+                registry=registry,
             )
 
         def process_stage03(state):
@@ -188,6 +217,7 @@ def _run_loaded_pipeline_v2(config: dict[str, Any], *, model_callers=None) -> di
                 workspace=workspace,
                 run_id=run_id,
                 softcite_client=softcite_client,
+                registry=registry,
             )
 
         stage_functions = [process_stage01]
@@ -207,7 +237,7 @@ def _run_loaded_pipeline_v2(config: dict[str, Any], *, model_callers=None) -> di
     aggregated = _aggregate_phase1(phase1, package, workspace, run_id, stop_index)
     result.update({key: value["summary"] for key, value in aggregated.items()})
     if stop_index <= 3:
-        return _finish(result, config, workspace)
+        return _finish(result, config, workspace, registry)
 
     # Phase 2 is independent of Qwen. The same worker is switched to MinerU when configured.
     mineru_config = config["stage04"].get("mineru") or {}
@@ -234,6 +264,7 @@ def _run_loaded_pipeline_v2(config: dict[str, Any], *, model_callers=None) -> di
                 config=config,
                 workspace=workspace,
                 run_id=run_id,
+                registry=registry,
             )
 
         def process_stage05(state):
@@ -243,6 +274,7 @@ def _run_loaded_pipeline_v2(config: dict[str, Any], *, model_callers=None) -> di
                 clients=clients,
                 workspace=workspace,
                 run_id=run_id,
+                registry=registry,
             )
 
         phase2_functions = [process_stage04]
@@ -259,7 +291,7 @@ def _run_loaded_pipeline_v2(config: dict[str, Any], *, model_callers=None) -> di
     aggregated.update(_aggregate_phase2(phase2, workspace, run_id, stop_index))
     result.update({key: value["summary"] for key, value in aggregated.items() if key not in result})
     if stop_index <= 5:
-        return _finish(result, config, workspace)
+        return _finish(result, config, workspace, registry)
 
     builder = run_stage06(
         candidates=aggregated["stage05"]["candidates"],
@@ -273,8 +305,14 @@ def _run_loaded_pipeline_v2(config: dict[str, Any], *, model_callers=None) -> di
         run_id=run_id,
     )
     result["stage06"] = builder["summary"]
+    registry.record_stage_results(
+        run_id=run_id,
+        stage="stage06",
+        rows=builder["records"],
+        prune=False,
+    )
     if stop_index == 6:
-        return _finish(result, config, workspace)
+        return _finish(result, config, workspace, registry)
     judge = run_stage07(
         build_records=builder["records"],
         documents=aggregated["stage04"]["documents"],
@@ -286,7 +324,13 @@ def _run_loaded_pipeline_v2(config: dict[str, Any], *, model_callers=None) -> di
         run_id=run_id,
     )
     result["stage07"] = judge["summary"]
-    return _finish(result, config, workspace)
+    registry.record_stage_results(
+        run_id=run_id,
+        stage="stage07",
+        rows=judge["records"],
+        prune=False,
+    )
+    return _finish(result, config, workspace, registry)
 
 
 def _run_phase1_microbatch(
@@ -332,7 +376,9 @@ def _run_phase1_microbatch(
     return state
 
 
-def _run_phase1_stage01(*, index, papers, all_documents, config, workspace, run_id, grobid_client):
+def _run_phase1_stage01(
+    *, index, papers, all_documents, config, workspace, run_id, grobid_client, registry=None
+):
     started_epoch = time.time()
     started = time.perf_counter()
     root = workspace / "microbatches" / f"batch-{index + 1:06d}"
@@ -354,6 +400,10 @@ def _run_phase1_stage01(*, index, papers, all_documents, config, workspace, run_
         )
         _write_microbatch_stage_cache(root, "stage01", hashes["stage01"], run_id, cacheable=True)
     output["stage01"] = stage01
+    if registry is not None:
+        registry.record_stage_results(
+            run_id=run_id, stage="stage01", rows=stage01.get("papers") or []
+        )
     output["_phase1_root"] = root
     output["_phase1_hashes"] = hashes
     _record_stage_timing(
@@ -362,7 +412,7 @@ def _run_phase1_stage01(*, index, papers, all_documents, config, workspace, run_
     return output
 
 
-def _run_phase1_stage02(*, state, config, clients, workspace, run_id):
+def _run_phase1_stage02(*, state, config, clients, workspace, run_id, registry=None):
     started_epoch = time.time()
     started = time.perf_counter()
     root = state["_phase1_root"]
@@ -387,13 +437,19 @@ def _run_phase1_stage02(*, state, config, clients, workspace, run_id):
         )
         _raise_on_screening_infrastructure_error(stage02, "stage02")
     state["stage02"] = stage02
+    if registry is not None:
+        registry.record_stage_results(
+            run_id=run_id, stage="stage02", rows=stage02.get("records") or []
+        )
     _record_stage_timing(
         state, "stage02", started_epoch, started, cache_hit, len(stage02.get("records") or [])
     )
     return state
 
 
-def _run_phase1_stage03(*, state, config, clients, workspace, run_id, softcite_client):
+def _run_phase1_stage03(
+    *, state, config, clients, workspace, run_id, softcite_client, registry=None
+):
     started_epoch = time.time()
     started = time.perf_counter()
     root = state["_phase1_root"]
@@ -419,6 +475,10 @@ def _run_phase1_stage03(*, state, config, clients, workspace, run_id, softcite_c
         )
         _raise_on_screening_infrastructure_error(stage03, "stage03")
     state["stage03"] = stage03
+    if registry is not None:
+        registry.record_stage_results(
+            run_id=run_id, stage="stage03", rows=stage03.get("records") or []
+        )
     _record_stage_timing(
         state, "stage03", started_epoch, started, cache_hit, len(stage03.get("records") or [])
     )
@@ -514,7 +574,7 @@ def _run_phase2_microbatch(
     return state
 
 
-def _run_phase2_stage04(*, index, papers, phase1, config, workspace, run_id):
+def _run_phase2_stage04(*, index, papers, phase1, config, workspace, run_id, registry=None):
     started_epoch = time.time()
     started = time.perf_counter()
     root = workspace / "microbatches" / f"batch-{index + 1:06d}"
@@ -538,6 +598,13 @@ def _run_phase2_stage04(*, index, papers, phase1, config, workspace, run_id):
             cacheable=not _has_processing_errors(stage04),
         )
     output["stage04"] = stage04
+    if registry is not None:
+        registry.record_stage_results(
+            run_id=run_id,
+            stage="stage04",
+            rows=stage04.get("records") or [],
+            prune=False,
+        )
     output["_phase2_root"] = root
     output["_phase2_hashes"] = hashes
     _record_stage_timing(
@@ -546,7 +613,7 @@ def _run_phase2_stage04(*, index, papers, phase1, config, workspace, run_id):
     return output
 
 
-def _run_phase2_stage05(*, state, config, clients, workspace, run_id):
+def _run_phase2_stage05(*, state, config, clients, workspace, run_id, registry=None):
     started_epoch = time.time()
     started = time.perf_counter()
     root = state["_phase2_root"]
@@ -570,6 +637,13 @@ def _run_phase2_stage05(*, state, config, clients, workspace, run_id):
             cacheable=not _has_processing_errors(stage05),
         )
     state["stage05"] = stage05
+    if registry is not None:
+        registry.record_stage_results(
+            run_id=run_id,
+            stage="stage05",
+            rows=stage05.get("records") or [],
+            prune=False,
+        )
     _record_stage_timing(
         state, "stage05", started_epoch, started, cache_hit, len(stage05.get("records") or [])
     )
@@ -1126,7 +1200,7 @@ def _json_safe(value):
     return f"<{type(value).__name__}>"
 
 
-def _finish(result, config, workspace):
+def _finish(result, config, workspace, registry=None):
     stage_summaries = [
         value
         for key, value in result.items()
@@ -1138,5 +1212,7 @@ def _finish(result, config, workspace):
         else "completed"
     )
     result["stop_after"] = config["stop_after"]
+    if registry is not None:
+        result["registry"] = registry.finish_run(run_id=result["run_id"], status=result["status"])
     write_json(workspace / "run_summary.json", result)
     return result

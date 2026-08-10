@@ -26,6 +26,21 @@ def load_v2_config(path: str | Path) -> dict[str, Any]:
     _migrate_legacy_stage_layout(config)
     config["config_path"] = str(source)
     config["workspace"] = str(_resolve(source.parent, config.get("workspace", "runs/v2/current")))
+    registry = config.setdefault("registry", {})
+    registry.setdefault("enabled", True)
+    registry.setdefault("prune_rejected_stage00_assets", True)
+    registry["database"] = str(
+        _resolve(
+            source.parent,
+            registry.get("database", "registry/paper_screening_registry.sqlite"),
+        )
+    )
+    registry["export_jsonl"] = str(
+        _resolve(
+            source.parent,
+            registry.get("export_jsonl", "registry/exports/paper_screening_registry.jsonl"),
+        )
+    )
     source_config = config.setdefault("source", {})
     if source_config.get("root"):
         source_config["root"] = str(_resolve(source.parent, source_config["root"]))
@@ -45,9 +60,7 @@ def load_v2_config(path: str | Path) -> dict[str, Any]:
     stage03["external_software_aliases"] = str(
         _resolve(
             source.parent,
-            stage03.get(
-                "external_software_aliases", "assets/external_software_aliases.json"
-            ),
+            stage03.get("external_software_aliases", "assets/external_software_aliases.json"),
         )
     )
     stage01 = config.setdefault("stage01", {})
@@ -152,6 +165,10 @@ def _validate(config: dict[str, Any]) -> None:
     if mode not in {"strict", "shadow"}:
         raise ValueError("policy must be strict or shadow")
     config["policy"] = mode
+    registry = config["registry"]
+    for key in ("enabled", "prune_rejected_stage00_assets"):
+        if not isinstance(registry.get(key), bool):
+            raise ValueError(f"registry.{key} must be true or false")
     microbatch = config["microbatch"]
     for key in ("size", "concurrency", "buffer_size"):
         if int(microbatch.get(key, 1)) < 1:

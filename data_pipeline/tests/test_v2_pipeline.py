@@ -25,6 +25,7 @@ from src.v2.stages._toolbox_resource import (
     _merge_catalog_actual_use_mentions,
     _merge_detection_aliases,
     _merge_workflow_software_mentions,
+    _normalize_inventory_contract,
     _repair_inventory_contract,
 )
 from src.v2.stages.stage01 import run_stage01
@@ -174,9 +175,7 @@ def test_stage03_chunks_apply_limit_to_utf8_bytes() -> None:
 
 
 def test_stage03_chunks_drop_coordinate_segments_inside_mixed_long_block() -> None:
-    coordinates = " ".join(
-        f"C {index}.0 {index + 1}.0 {index + 2}.0" for index in range(180)
-    )
+    coordinates = " ".join(f"C {index}.0 {index + 1}.0 {index + 2}.0" for index in range(180))
     chunks = _chunks(
         [
             {
@@ -211,9 +210,7 @@ def test_stage03_chunks_budget_serialized_block_metadata() -> None:
 
 
 def test_stage03_skips_large_atomic_coordinate_dump_but_keeps_result_table() -> None:
-    coordinates = " ".join(
-        f"C {index}.1000 {index}.2000 {index}.3000" for index in range(100)
-    )
+    coordinates = " ".join(f"C {index}.1000 {index}.2000 {index}.3000" for index in range(100))
     result_table = "Reaction barrier kcal mol " + " ".join(
         f"R{index} {index}.5" for index in range(100)
     )
@@ -274,9 +271,7 @@ def test_stage03_does_not_treat_computation_as_author_laboratory_evidence(
     }
 
     assert _is_explicit_author_laboratory_evidence(item) is False
-    assert _validate_experiment_map(
-        [item], [{"evidence_id": "ev-1", "text": quote}]
-    ) == []
+    assert _validate_experiment_map([item], [{"evidence_id": "ev-1", "text": quote}]) == []
 
 
 def test_stage03_accepts_explicit_author_nmr_measurement_as_laboratory_evidence() -> None:
@@ -288,9 +283,7 @@ def test_stage03_accepts_explicit_author_nmr_measurement_as_laboratory_evidence(
         "attribution": "this_paper",
     }
 
-    assert _validate_experiment_map(
-        [item], [{"evidence_id": "ev-1", "text": quote}]
-    ) == [item]
+    assert _validate_experiment_map([item], [{"evidence_id": "ev-1", "text": quote}]) == [item]
 
 
 def test_stage03_resolves_configured_native_software_without_predefined_action() -> None:
@@ -351,9 +344,9 @@ def test_stage03_accepts_passive_author_rixs_experiment_and_full_text_scan() -> 
 
 def test_stage03_full_text_scan_ignores_computational_experiments() -> None:
     quote = "Control experiments were performed using DFT calculations with three functionals."
-    assert _find_deterministic_author_experiments(
-        [{"evidence_id": "ev-compute", "text": quote}]
-    ) == []
+    assert (
+        _find_deterministic_author_experiments([{"evidence_id": "ev-compute", "text": quote}]) == []
+    )
 
 
 def test_stage03_rejects_instrument_details_for_previous_study_spectra() -> None:
@@ -526,8 +519,7 @@ def test_stage03_strict_gate_rejects_experimental_supporting_computation() -> No
 
     assert response["decision"] == "not_pure_computational"
     assert any(
-        warning["reason"]
-        == "verified_author_laboratory_evidence_rejects_pure_computation"
+        warning["reason"] == "verified_author_laboratory_evidence_rejects_pure_computation"
         for warning in warnings
     )
 
@@ -661,9 +653,15 @@ def test_stage03_holds_mixed_decision_without_verified_author_experiment() -> No
         (["Bayesian biological target prediction", "target voting"], ["FMBS"]),
         (["reaction condition recommendation", "label ranking"], ["scikit-learn"]),
         (["retrosynthesis", "synthesis planning"], ["AiZynthFinder"]),
-        (["multi-objective Monte Carlo tree search", "template-based retrosynthesis"], ["AiZynthFinder"]),
+        (
+            ["multi-objective Monte Carlo tree search", "template-based retrosynthesis"],
+            ["AiZynthFinder"],
+        ),
         (["similarity-based enumeration"], ["enumerate chemical libraries"]),
-        (["clustering"], ["predict carbohydrate-binding residues", "cluster residues into pockets"]),
+        (
+            ["clustering"],
+            ["predict carbohydrate-binding residues", "cluster residues into pockets"],
+        ),
         (["variational quantum eigensolver", "quantum circuit simulation"], ["qiskit"]),
     ],
 )
@@ -739,11 +737,7 @@ def test_v2_pipeline_explicit_contract_runs_stage00_without_model_calls(tmp_path
 def test_stage02_external_config_is_part_of_cache_contract(tmp_path: Path) -> None:
     mineru_config = tmp_path / "mineru.json"
     mineru_config.write_text('{"models-dir": "/first"}', encoding="utf-8")
-    stage_config = {
-        "mineru": {
-            "environment": {"MINERU_TOOLS_CONFIG_JSON": str(mineru_config)}
-        }
-    }
+    stage_config = {"mineru": {"environment": {"MINERU_TOOLS_CONFIG_JSON": str(mineru_config)}}}
 
     first = v2_pipeline._stage02_external_file_fingerprints(stage_config)
     mineru_config.write_text('{"models-dir": "/second"}', encoding="utf-8")
@@ -1040,9 +1034,7 @@ def test_microbatch_routes_softcite_only_to_stage04(tmp_path: Path, monkeypatch)
     assert result["stage04"]["records"][0]["passed"] is True
 
 
-def test_microbatch_routes_stage04_deep_documents_to_stage05(
-    tmp_path: Path, monkeypatch
-) -> None:
+def test_microbatch_routes_stage04_deep_documents_to_stage05(tmp_path: Path, monkeypatch) -> None:
     coarse = {"paper_id": "paper", "document_id": "doc", "selected_parser": "grobid"}
     deep = {"paper_id": "paper", "document_id": "doc", "selected_parser": "mineru"}
 
@@ -1183,7 +1175,7 @@ def test_stage02_routes_all_pdfs_to_grobid(tmp_path: Path, monkeypatch) -> None:
         results = []
         for item in inventory:
             grobid_ids.append(item["document_id"])
-            text = tmp_path / f'{item["document_id"]}.txt'
+            text = tmp_path / f"{item['document_id']}.txt"
             text.write_text("supplementary computational parameters", encoding="utf-8")
             results.append({"grobid_extract_status": "success", "text_path": str(text)})
         return results
@@ -1224,9 +1216,7 @@ def test_stage02_routes_all_pdfs_to_grobid(tmp_path: Path, monkeypatch) -> None:
     }
 
 
-def test_stage02_low_quality_grobid_falls_back_to_pdftotext(
-    tmp_path: Path, monkeypatch
-) -> None:
+def test_stage02_low_quality_grobid_falls_back_to_pdftotext(tmp_path: Path, monkeypatch) -> None:
     source = tmp_path / "paper.pdf"
     source.write_bytes(b"%PDF fixture")
     grobid_text = tmp_path / "grobid.txt"
@@ -1270,21 +1260,19 @@ def test_stage02_low_quality_grobid_falls_back_to_pdftotext(
     assert [row["parser"] for row in result["attempts"]] == ["grobid", "pdftotext"]
 
 
-def test_stage04_deep_normalizes_only_gate_passed_papers(
-    tmp_path: Path, monkeypatch
-) -> None:
+def test_stage04_deep_normalizes_only_gate_passed_papers(tmp_path: Path, monkeypatch) -> None:
     queued = []
 
     def fake_mineru(queue, output_dir, **kwargs):
         queued.extend(item["document_id"] for item in queue)
         output = []
         for item in queue:
-            markdown = tmp_path / f'{item["document_id"]}.md'
+            markdown = tmp_path / f"{item['document_id']}.md"
             markdown.write_text(
                 "# Methods\n\n" + "Density functional theory results. " * 20,
                 encoding="utf-8",
             )
-            content = tmp_path / f'{item["document_id"]}_content_list_v2.json'
+            content = tmp_path / f"{item['document_id']}_content_list_v2.json"
             content.write_text(
                 json.dumps([{"type": "text", "text": "Density functional theory results."}]),
                 encoding="utf-8",
@@ -1349,9 +1337,7 @@ def test_stage04_mineru_failure_holds_paper(tmp_path: Path, monkeypatch) -> None
         ],
     )
     records, documents, _attempts = stage04_module._deep_normalize_passed_papers(
-        records=[
-            {"paper_id": "paper", "decision": "software_covered", "passed": True}
-        ],
+        records=[{"paper_id": "paper", "decision": "software_covered", "passed": True}],
         documents=[
             {
                 "paper_id": "paper",
@@ -1590,8 +1576,8 @@ def test_stage03_and_stage04_share_client_but_keep_prompt_namespaces(
                 "software_mentions": [
                     {
                         "raw_name": "Gaussian 16",
-                            "normalized_hint": "gaussian",
-                            "entity_type": "program",
+                        "normalized_hint": "gaussian",
+                        "entity_type": "program",
                         "role": "core_compute",
                         "actual_use": True,
                         "workflow_ids": ["wf1"],
@@ -1823,9 +1809,7 @@ def test_stage04_sanitizer_drops_unsupported_fact_without_failing_paper() -> Non
     sanitized, warnings = _sanitize_review(response, evidence)
 
     assert [item["raw_name"] for item in sanitized["software_mentions"]] == ["Gaussian 16"]
-    assert sanitized["workflows"][0]["steps"][0]["reported_settings"] == [
-        "8 CPU cores"
-    ]
+    assert sanitized["workflows"][0]["steps"][0]["reported_settings"] == ["8 CPU cores"]
     assert sanitized["evidence_ids"] == ["ev-1"]
     assert warnings == [
         {
@@ -1974,9 +1958,7 @@ def test_stage04_sanitizer_requires_software_name_in_exact_quote() -> None:
     sanitized, warnings = _sanitize_review(response, {"ev-1": quote})
 
     assert sanitized["software_mentions"] == []
-    assert [warning["reason"] for warning in warnings] == [
-        "software_name_not_in_exact_quote"
-    ]
+    assert [warning["reason"] for warning in warnings] == ["software_name_not_in_exact_quote"]
 
 
 def test_stage04_sanitizer_recovers_exact_software_context_from_cited_evidence() -> None:
@@ -2008,9 +1990,7 @@ def test_stage04_sanitizer_recovers_exact_software_context_from_cited_evidence()
 
     assert sanitized["software_mentions"][0]["raw_name"] == "VASP"
     assert sanitized["software_mentions"][0]["exact_quote"] == evidence
-    assert [warning["reason"] for warning in warnings] == [
-        "software_quote_recovered_from_evidence"
-    ]
+    assert [warning["reason"] for warning in warnings] == ["software_quote_recovered_from_evidence"]
 
 
 def test_stage04_sanitizer_recovers_missing_quote_from_bound_evidence() -> None:
@@ -2102,7 +2082,7 @@ def test_stage04_sanitizer_drops_method_reported_as_software() -> None:
 
     assert sanitized["software_mentions"] == []
     assert [warning["reason"] for warning in warnings] == [
-        "nonsoftware_entity_type"
+        "method_or_process_not_software"
     ]
 
 
@@ -2427,8 +2407,7 @@ def test_stage04_named_open_source_code_is_an_executable_cue() -> None:
     cues = find_explicit_executable_cues(blocks)
 
     assert any(
-        cue["raw_name"] == "TcESTIME" and cue["entity_type"] == "custom_code"
-        for cue in cues
+        cue["raw_name"] == "TcESTIME" and cue["entity_type"] == "custom_code" for cue in cues
     )
 
 
@@ -2472,12 +2451,15 @@ def test_stage04_workflow_software_is_promoted_to_coverage_inventory() -> None:
     assert mentions[0]["role"] == "core_compute"
     assert mentions[0]["source"] == "workflow_step_contract"
     assert warnings[0]["reason"] == "workflow_software_promoted_to_inventory"
-    assert coverage_gate(
-        {"inventory_complete": True, "workflows": [{"steps": []}]},
-        mappings,
-        {},
-        {},
-    ) == "core_software_uncovered"
+    assert (
+        coverage_gate(
+            {"inventory_complete": True, "workflows": [{"steps": []}]},
+            mappings,
+            {},
+            {},
+        )
+        == "core_software_uncovered"
+    )
 
 
 def test_stage04_workflow_software_uses_alias_identity_without_duplicate() -> None:
@@ -2690,9 +2672,7 @@ def test_stage04_explicit_extension_cue_is_retained_as_uncovered_software() -> N
     cues = find_explicit_executable_cues(blocks)
     mentions = _merge_explicit_executable_cues([], cues)
 
-    assert [(row["raw_name"], row["entity_type"]) for row in mentions] == [
-        ("VASPsol", "extension")
-    ]
+    assert [(row["raw_name"], row["entity_type"]) for row in mentions] == [("VASPsol", "extension")]
     assert mentions[0]["actual_use"] is True
 
 
@@ -2712,8 +2692,7 @@ def test_stage04_vasp_sol_module_is_retained_separately_from_vasp() -> None:
     mentions = _merge_explicit_executable_cues([], cues)
 
     assert any(
-        row["raw_name"] == "VASPsol" and row["entity_type"] == "extension"
-        for row in mentions
+        row["raw_name"] == "VASPsol" and row["entity_type"] == "extension" for row in mentions
     )
 
 
@@ -2925,7 +2904,7 @@ def test_stage04_named_package_is_not_collapsed_to_parent_engine() -> None:
     assert mappings[0]["catalog_present"] is False
 
 
-def test_stage04_incomplete_inventory_cannot_pass_named_workflow() -> None:
+def test_stage03_incomplete_inventory_with_covered_engine_is_forwarded_as_probable() -> None:
     review = {
         "inventory_complete": False,
         "workflows": [
@@ -2950,7 +2929,7 @@ def test_stage04_incomplete_inventory_cannot_pass_named_workflow() -> None:
     assert coverage == "covered"
     assert (
         _combine_decision(coverage, {"decision": "cost_unconfirmed"}, False)
-        == "software_inventory_unconfirmed"
+        == "software_coverage_probable"
     )
 
 
@@ -3069,8 +3048,7 @@ def test_stage04_sanitizer_requires_step_local_software_attribution() -> None:
     assert sanitized["workflows"][0]["steps"][0]["software"] is None
     assert sanitized["inventory_complete"] is False
     assert any(
-        warning["reason"] == "nonsoftware_or_unsupported_executable_name"
-        for warning in warnings
+        warning["reason"] == "nonsoftware_or_unsupported_executable_name" for warning in warnings
     )
 
 
@@ -3109,6 +3087,149 @@ def test_stage04_sanitizer_rejects_unnamed_python_core_runtime() -> None:
         warning["reason"] == "core_runtime_cannot_use_unnamed_task_specific_python"
         for warning in warnings
     )
+
+
+def test_stage03_contract_normalizer_separates_entity_type_from_role() -> None:
+    response, warnings = _normalize_inventory_contract(
+        {
+            "workflows": [],
+            "software_mentions": [
+                {
+                    "raw_name": "VESTA",
+                    "entity_type": "visualization",
+                    "role": "visualization",
+                }
+            ],
+        }
+    )
+
+    assert response["software_mentions"][0]["entity_type"] == "program"
+    assert response["software_mentions"][0]["role"] == "visualization"
+    assert warnings[0]["reason"] == "role_value_moved_out_of_entity_type"
+
+
+def test_stage03_sanitizer_resolves_host_module_and_drops_method_entity() -> None:
+    module_quote = "The calculation was implemented in the SINGLE module of HostProgram."
+    method_quote = "The density was expanded using the GPW approach."
+    response = {
+        "inventory_complete": True,
+        "workflows": [
+            {
+                "workflow_id": "wf-1",
+                "steps": [
+                    {
+                        "step_id": "s-1",
+                        "action": "analyze states",
+                        "essential": True,
+                        "execution_layer": "named_software",
+                        "software": "SINGLE",
+                        "evidence_ids": ["module"],
+                    },
+                    {
+                        "step_id": "s-2",
+                        "action": "expand density",
+                        "essential": True,
+                        "execution_layer": "named_software",
+                        "software": "GPW",
+                        "evidence_ids": ["method"],
+                    },
+                ],
+            }
+        ],
+        "software_mentions": [
+            {
+                "raw_name": "HostProgram",
+                "entity_type": "program",
+                "role": "core_compute",
+                "actual_use": True,
+                "workflow_ids": ["wf-1"],
+                "evidence_ids": ["module"],
+                "exact_quote": module_quote,
+            },
+            {
+                "raw_name": "SINGLE",
+                "entity_type": "extension",
+                "role": "required_analysis",
+                "actual_use": True,
+                "workflow_ids": ["wf-1"],
+                "evidence_ids": ["module"],
+                "exact_quote": module_quote,
+            },
+            {
+                "raw_name": "GPW",
+                "entity_type": "extension",
+                "role": "core_compute",
+                "actual_use": True,
+                "workflow_ids": ["wf-1"],
+                "evidence_ids": ["method"],
+                "exact_quote": method_quote,
+            },
+        ],
+        "resource_facts": [],
+        "complexity_facts": [],
+        "evidence_ids": ["module", "method"],
+    }
+
+    sanitized, warnings = _sanitize_review(
+        response, {"module": module_quote, "method": method_quote}
+    )
+
+    assert [row["raw_name"] for row in sanitized["software_mentions"]] == ["HostProgram"]
+    assert sanitized["workflows"][0]["steps"][0]["software"] == "HostProgram"
+    assert sanitized["workflows"][0]["steps"][1]["software"] is None
+    assert sanitized["inventory_complete"] is False
+    assert {warning["reason"] for warning in warnings} >= {
+        "bundled_module_resolved_to_named_host",
+        "bundled_module_not_separate_software",
+        "method_or_process_removed_from_software_step",
+        "method_or_process_not_software",
+    }
+
+
+def test_stage03_sanitizer_drops_generic_computation_label_as_software() -> None:
+    quote = "To examine the active site, we employed MD simulations."
+    response = {
+        "inventory_complete": False,
+        "workflows": [
+            {
+                "workflow_id": "wf-1",
+                "steps": [
+                    {
+                        "step_id": "s-1",
+                        "action": "simulate the active site",
+                        "essential": True,
+                        "execution_layer": "named_software",
+                        "software": "MD simulations",
+                        "evidence_ids": ["ev-1"],
+                    }
+                ],
+            }
+        ],
+        "software_mentions": [
+            {
+                "raw_name": "MD simulations",
+                "entity_type": "program",
+                "role": "core_compute",
+                "actual_use": True,
+                "workflow_ids": ["wf-1"],
+                "evidence_ids": ["ev-1"],
+                "exact_quote": quote,
+            }
+        ],
+        "resource_facts": [],
+        "complexity_facts": [],
+        "evidence_ids": ["ev-1"],
+    }
+
+    sanitized, warnings = _sanitize_review(response, {"ev-1": quote})
+
+    assert sanitized["software_mentions"] == []
+    assert sanitized["workflows"][0]["steps"][0]["software"] is None
+    assert sanitized["workflows"][0]["steps"][0]["execution_layer"] == "unknown"
+    assert {warning["reason"] for warning in warnings} >= {
+        "method_or_process_removed_from_software_step",
+        "method_or_process_not_software",
+    }
 
 
 def test_stage04_string_software_array_violates_contract() -> None:
@@ -3179,9 +3300,12 @@ def test_stage04_contract_repair_replaces_invalid_string_array() -> None:
     ],
 )
 def test_stage04_explicit_executable_cues_reject_nonsoftware_phrases(text: str) -> None:
-    assert find_explicit_executable_cues(
-        [{"evidence_id": "ev-1", "section_path": ["Methods"], "text": text}]
-    ) == []
+    assert (
+        find_explicit_executable_cues(
+            [{"evidence_id": "ev-1", "section_path": ["Methods"], "text": text}]
+        )
+        == []
+    )
 
 
 def test_stage04_explicit_cue_deduplicates_partial_known_software_name() -> None:
@@ -3254,8 +3378,7 @@ def test_stage04_sanitizer_drops_possessive_author_fragment() -> None:
 
     assert sanitized["software_mentions"] == []
     assert any(
-        warning["reason"] == "possessive_author_fragment_not_software"
-        for warning in warnings
+        warning["reason"] == "possessive_author_fragment_not_software" for warning in warnings
     )
 
 
@@ -3446,26 +3569,33 @@ def test_stage04_catalog_presence_does_not_require_runtime_verification() -> Non
         }
     ]
 
-    assert coverage_gate(
-        review,
-        mappings,
-        {},
-        {"required_coverage_level": "runtime_verified"},
-    ) == "covered"
+    assert (
+        coverage_gate(
+            review,
+            mappings,
+            {},
+            {"required_coverage_level": "runtime_verified"},
+        )
+        == "covered"
+    )
 
 
 def test_stage04_explicit_resource_overrun_rejects_covered_software() -> None:
-    assert _combine_decision(
-        "covered",
-        {"decision": "cost_exceeds_budget", "exceeded_facts": [{"resource_type": "gpus"}]},
-        True,
-    ) == "cost_exceeds_budget"
+    assert (
+        _combine_decision(
+            "covered",
+            {"decision": "cost_exceeds_budget", "exceeded_facts": [{"resource_type": "gpus"}]},
+            True,
+        )
+        == "cost_exceeds_budget"
+    )
 
 
 def test_stage04_unknown_resource_cost_does_not_reject_by_itself() -> None:
-    assert _combine_decision(
-        "covered", {"decision": "cost_unconfirmed", "facts": []}, True
-    ) == "software_covered"
+    assert (
+        _combine_decision("covered", {"decision": "cost_unconfirmed", "facts": []}, True)
+        == "software_covered"
+    )
 
 
 def test_stage04_context_budget_reduces_output_before_model_limit() -> None:
