@@ -499,7 +499,7 @@ def test_stage03_reduce_filters_unknown_ids_and_downgrades_unsupported_confirmat
     }
 
 
-def test_stage03_strict_gate_rejects_experimental_supporting_computation() -> None:
+def test_stage02_primary_gate_rejects_experimental_supporting_computation() -> None:
     response, warnings = _sanitize_reduce_response(
         {
             "decision": "computational_content_confirmed",
@@ -515,17 +515,17 @@ def test_stage03_strict_gate_rejects_experimental_supporting_computation() -> No
         },
         {"calc"},
         experiment_ids={"experiment"},
-        strict_pure=True,
+        allow_primary_mixed=True,
     )
 
     assert response["decision"] == "not_pure_computational"
     assert any(
-        warning["reason"] == "verified_author_laboratory_evidence_rejects_pure_computation"
+        warning["reason"] == "computation_primary_requirements_failed"
         for warning in warnings
     )
 
 
-def test_stage03_strict_gate_accepts_complete_pure_computation() -> None:
+def test_stage02_primary_gate_accepts_complete_pure_computation() -> None:
     response, warnings = _sanitize_reduce_response(
         {
             "decision": "computational_content_confirmed",
@@ -540,14 +540,14 @@ def test_stage03_strict_gate_accepts_complete_pure_computation() -> None:
             "confidence": 0.9,
         },
         {"calc"},
-        strict_pure=True,
+        allow_primary_mixed=True,
     )
 
     assert response["decision"] == "computational_content_confirmed"
     assert warnings == []
 
 
-def test_stage03_strict_gate_rejects_validated_author_experiment_evidence() -> None:
+def test_stage02_primary_gate_accepts_computation_primary_mixed_study() -> None:
     response, warnings = _sanitize_reduce_response(
         {
             "decision": "computational_content_confirmed",
@@ -563,11 +563,42 @@ def test_stage03_strict_gate_rejects_validated_author_experiment_evidence() -> N
         },
         {"calc"},
         experiment_ids={"experiment"},
-        strict_pure=True,
+        allow_primary_mixed=True,
+    )
+
+    assert response["decision"] == "computational_primary_mixed_confirmed"
+    assert response["author_performed_experiments"] == "yes"
+    assert response["study_mode"] == "mixed_computational_experimental"
+    assert any(
+        warning["reason"] == "verified_computation_primary_mixed_study_accepted"
+        for warning in warnings
+    )
+
+
+def test_stage02_primary_gate_can_retain_pure_only_policy() -> None:
+    response, warnings = _sanitize_reduce_response(
+        {
+            "decision": "computational_primary_mixed_confirmed",
+            "article_role": "original_research",
+            "performed_computation": "yes",
+            "computation_role": "primary",
+            "study_mode": "mixed_computational_experimental",
+            "author_performed_experiments": "yes",
+            "workflow_complete": "yes",
+            "evidence_ids": ["calc"],
+            "experimental_evidence_ids": ["experiment"],
+            "confidence": 0.9,
+        },
+        {"calc"},
+        experiment_ids={"experiment"},
+        allow_primary_mixed=False,
     )
 
     assert response["decision"] == "not_pure_computational"
-    assert response["author_performed_experiments"] == "yes"
+    assert any(
+        warning["reason"] == "verified_author_laboratory_evidence_rejects_pure_computation"
+        for warning in warnings
+    )
 
 
 def test_stage03_normalizes_experimental_only_record_to_not_found() -> None:
@@ -586,7 +617,7 @@ def test_stage03_normalizes_experimental_only_record_to_not_found() -> None:
         },
         set(),
         experiment_ids={"lab"},
-        strict_pure=True,
+        allow_primary_mixed=True,
     )
 
     assert response["decision"] == "computational_content_not_found"
@@ -609,7 +640,7 @@ def test_stage03_holds_unverified_author_experiment_claim() -> None:
             "confidence": "high",
         },
         {"calc"},
-        strict_pure=True,
+        allow_primary_mixed=True,
     )
 
     assert response["decision"] == "uncertain"
@@ -634,7 +665,7 @@ def test_stage03_holds_mixed_decision_without_verified_author_experiment() -> No
             "confidence": "high",
         },
         {"calc"},
-        strict_pure=True,
+        allow_primary_mixed=True,
     )
 
     assert response["decision"] == "uncertain"
@@ -684,7 +715,7 @@ def test_stage03_normalizes_excluded_non_molecular_computation(
             "confidence": "high",
         },
         {"calc"},
-        strict_pure=True,
+        allow_primary_mixed=True,
     )
 
     assert response["decision"] == "computational_content_not_found"
@@ -711,7 +742,7 @@ def test_stage03_keeps_target_chemistry_when_process_terms_are_also_present() ->
             "confidence": "high",
         },
         {"calc"},
-        strict_pure=True,
+        allow_primary_mixed=True,
     )
 
     assert response["decision"] == "computational_content_confirmed"
@@ -1374,7 +1405,7 @@ def test_stage03_and_stage04_share_client_but_keep_prompt_namespaces(
 
     def caller(**kwargs):
         system = kwargs["system_prompt"]
-        if "strict pure-computational-chemistry screening" in system:
+        if "computation-led-chemistry screening" in system:
             response = {
                 "has_computational_evidence": True,
                 "evidence": [

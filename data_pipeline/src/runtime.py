@@ -166,6 +166,8 @@ def _start_command(config: dict[str, Any], manager: Path, state_file: Path) -> l
         command.append("--skip-bootstrap")
     if config.get("skip_download"):
         command.append("--skip-download")
+    if config.get("existing_worker"):
+        command.extend(["--existing-worker", str(config["existing_worker"])])
     return command
 
 

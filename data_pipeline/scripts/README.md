@@ -25,3 +25,17 @@ python scripts/sync_toolbox_capabilities.py
 
 `run_pipeline.sh` 默认读取 `config.example.json`，并在存在时加载 `config.local.env`。
 默认会调用项目代理初始化脚本；设置 `RCB_SETUP_PROXY=0` 可关闭此行为。
+
+复用已经运行的 GPU worker：
+
+```bash
+bash scripts/stage03_llm/manage_rlaunch_worker.sh start \
+  --state .screening_llm_worker.local.json \
+  --existing-worker '<完整 SSH 地址>' \
+  --skip-bootstrap \
+  --skip-download
+```
+
+也可以把相同地址写入 `models.screening.existing_worker`，由流水线自动执行以上过程。
+外部 worker 会在状态文件中标为 `external`；`stop` 只关闭数据管线服务和 SSH 隧道，
+不会停止外部 worker。省略 `--existing-worker` 时仍由脚本创建并管理 rlaunch worker。

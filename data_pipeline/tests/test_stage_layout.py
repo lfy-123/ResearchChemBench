@@ -11,6 +11,23 @@ import src.runtime as runtime
 from src.model_client import RoleModelClient
 
 
+def test_screening_start_command_reuses_external_worker(tmp_path: Path) -> None:
+    manager = tmp_path / "manager.sh"
+    state = tmp_path / "worker.json"
+    target = "ws-existing.example@h.pjlab.org.cn"
+
+    command = runtime._start_command(
+        {"existing_worker": target, "skip_bootstrap": True, "skip_download": True},
+        manager,
+        state,
+    )
+
+    assert command[:3] == ["bash", str(manager), "start"]
+    assert command[command.index("--existing-worker") + 1] == target
+    assert "--skip-bootstrap" in command
+    assert "--skip-download" in command
+
+
 def test_shared_worker_switch_adds_persistent_mineru_api(monkeypatch, tmp_path: Path) -> None:
     state = tmp_path / "worker.json"
     state.write_text(json.dumps({"base_url": "http://127.0.0.1:18084"}), encoding="utf-8")

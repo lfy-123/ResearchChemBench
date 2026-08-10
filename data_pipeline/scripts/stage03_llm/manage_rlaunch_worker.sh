@@ -27,6 +27,7 @@ Start options:
   --charged-group <name>  Default: ai4chem_gpu
   --positive-tag <tag>    Optional scheduler positive tag.
   --image <image>         Optional rlaunch image; uses the cluster default when omitted.
+  --existing-worker <ssh> Reuse an already running worker and never stop that worker.
   --skip-bootstrap        Reuse the unified data-pipeline environment.
   --skip-download         Require an existing model directory.
   --mineru-env <path>     Unified data-pipeline environment.
@@ -49,6 +50,7 @@ SKIP_DOWNLOAD=0
 MINERU_ENV="$PIPELINE_ROOT/.envs/researchchem-data-pipeline"
 MINERU_CONFIG="$PIPELINE_ROOT/.model_cache/mineru/mineru.json"
 MINERU_CONCURRENCY=3
+EXISTING_WORKER=""
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --state) STATE=$2; shift 2 ;;
@@ -57,6 +59,7 @@ while [[ $# -gt 0 ]]; do
     --charged-group) CHARGED_GROUP=$2; shift 2 ;;
     --positive-tag) POSITIVE_TAG=$2; shift 2 ;;
     --image) IMAGE=$2; shift 2 ;;
+    --existing-worker) EXISTING_WORKER=$2; shift 2 ;;
     --skip-bootstrap) SKIP_BOOTSTRAP=1; shift ;;
     --skip-download) SKIP_DOWNLOAD=1; shift ;;
     --mineru-env) MINERU_ENV=$2; shift 2 ;;
@@ -78,7 +81,7 @@ write_state() {
   python3 - "$STATE" "$@" <<'PY'
 import json, os, pathlib, sys
 path = pathlib.Path(sys.argv[1])
-keys = ["worker_token", "remote", "hostname", "base_url", "api_key", "model", "control_pid_file", "tunnel_pid_file"]
+keys = ["worker_token", "remote", "hostname", "base_url", "api_key", "model", "control_pid_file", "tunnel_pid_file", "worker_ownership"]
 value = dict(zip(keys, sys.argv[2:], strict=True))
 path.parent.mkdir(parents=True, exist_ok=True)
 temporary = path.with_suffix(path.suffix + ".tmp")
@@ -166,61 +169,70 @@ start_tunnel() {
 case "$action" in
   start)
     [[ ! -e "$STATE" ]] || { echo "state already exists: $STATE" >&2; exit 1; }
-    control_pid_file="/tmp/researchchem-stage03-llm-control.pid"
     tunnel_pid_file="${STATE}.ssh-tunnel.pid"
     api_key=$(python3 -c 'import secrets; print(secrets.token_hex(24))')
-    command=(
-      env -u http_proxy -u https_proxy -u HTTP_PROXY -u HTTPS_PROXY
-      rlaunch -d --comment=researchchem-stage03-qwen
-      --gpu=1 --cpu="$CPU" --memory="$MEMORY"
-      --charged-group="$CHARGED_GROUP" --private-machine=group
-      --worker-garbage-collection-time=24h
-      --mount=gpfs://gpfs1/liyuqiang:/mnt/shared-storage-user/liyuqiang
-      -w "$PIPELINE_ROOT"
-    )
-    [[ -z "$POSITIVE_TAG" ]] || command+=(--positive-tags="$POSITIVE_TAG")
-    [[ -z "$IMAGE" ]] || command+=(--image="$IMAGE")
-    command+=(-- bash -lc "echo \$\$ > $control_pid_file; exec sleep infinity")
-    output=$("${command[@]}")
-    printf '%s\n' "$output"
-    worker=$(printf '%s\n' "$output" | grep -Eo 'ws-[A-Za-z0-9._@+:-]*worker[-A-Za-z0-9._@+:-]*' | head -n1)
-    [[ -n "$worker" ]] || { echo "could not parse rlaunch worker" >&2; exit 1; }
-    if [[ "$worker" == *@* ]]; then remote="$worker"; else remote="$worker$SSH_SUFFIX"; fi
+    if [[ -n "$EXISTING_WORKER" ]]; then
+      remote="$EXISTING_WORKER"
+      worker=${remote%%.*}
+      control_pid_file=""
+      worker_ownership=external
+      echo "Reusing external worker: $remote"
+    else
+      control_pid_file="/tmp/researchchem-stage03-llm-control.pid"
+      worker_ownership=managed
+      command=(
+        env -u http_proxy -u https_proxy -u HTTP_PROXY -u HTTPS_PROXY
+        rlaunch -d --comment=researchchem-stage03-qwen
+        --gpu=1 --cpu="$CPU" --memory="$MEMORY"
+        --charged-group="$CHARGED_GROUP" --private-machine=group
+        --worker-garbage-collection-time=24h
+        --mount=gpfs://gpfs1/liyuqiang:/mnt/shared-storage-user/liyuqiang
+        -w "$PIPELINE_ROOT"
+      )
+      [[ -z "$POSITIVE_TAG" ]] || command+=(--positive-tags="$POSITIVE_TAG")
+      [[ -z "$IMAGE" ]] || command+=(--image="$IMAGE")
+      command+=(-- bash -lc "echo \$\$ > $control_pid_file; exec sleep infinity")
+      output=$("${command[@]}")
+      printf '%s\n' "$output"
+      worker=$(printf '%s\n' "$output" | grep -Eo 'ws-[A-Za-z0-9._@+:-]*worker[-A-Za-z0-9._@+:-]*' | head -n1)
+      [[ -n "$worker" ]] || { echo "could not parse rlaunch worker" >&2; exit 1; }
+      if [[ "$worker" == *@* ]]; then remote="$worker"; else remote="$worker$SSH_SUFFIX"; fi
+    fi
     write_state "$worker" "$remote" "" "" "$api_key" \
-      "qwen3-30b-a3b-instruct-2507" "$control_pid_file" "$tunnel_pid_file"
+      "qwen3-30b-a3b-instruct-2507" "$control_pid_file" "$tunnel_pid_file" "$worker_ownership"
     if [[ "$SKIP_BOOTSTRAP" == 0 ]]; then
       if ! bash -lc "source <(curl -sSL http://deploy.i.h.pjlab.org.cn/infra/scripts/setup_proxy.sh); bash $(printf '%q' "$SCRIPT_DIR/bootstrap_environment.sh")"; then
-        stop_rlaunch_process "$worker"
-        echo "local Stage 03 environment preparation failed; rlaunch worker stopped" >&2
+        [[ "$worker_ownership" != managed ]] || stop_rlaunch_process "$worker"
+        echo "local Stage 03 environment preparation failed" >&2
         exit 1
       fi
     fi
     if [[ "$SKIP_DOWNLOAD" == 0 ]]; then
       if ! bash -lc "source <(curl -sSL http://deploy.i.h.pjlab.org.cn/infra/scripts/setup_proxy.sh); bash $(printf '%q' "$SCRIPT_DIR/download_model.sh")"; then
-        stop_rlaunch_process "$worker"
-        echo "local Stage 03 model preparation failed; rlaunch worker stopped" >&2
+        [[ "$worker_ownership" != managed ]] || stop_rlaunch_process "$worker"
+        echo "local Stage 03 model preparation failed" >&2
         exit 1
       fi
     fi
     if ! wait_ssh "$remote"; then
       echo "worker SSH did not become ready: $remote" >&2
-      stop_rlaunch_process "$worker"
-      echo "worker stopped after SSH timeout; state retained for diagnostics: $STATE" >&2
+      [[ "$worker_ownership" != managed ]] || stop_rlaunch_process "$worker"
+      echo "worker connection failed; state retained for diagnostics: $STATE" >&2
       exit 1
     fi
     hostname=$(ssh "$remote" hostname | tr -d '[:space:]')
     write_state "$worker" "$remote" "$hostname" "" "$api_key" \
-      "qwen3-30b-a3b-instruct-2507" "$control_pid_file" "$tunnel_pid_file"
+      "qwen3-30b-a3b-instruct-2507" "$control_pid_file" "$tunnel_pid_file" "$worker_ownership"
     remote_env="export STAGE03_LLM_API_KEY=$(printf '%q' "$api_key"); export no_proxy=localhost,127.0.0.1; export NO_PROXY=localhost,127.0.0.1;"
     ssh "$remote" "$remote_env bash $(printf '%q' "$SCRIPT_DIR/remote_manager.sh") start"
     if ! base_url=$(start_tunnel "$remote" "$tunnel_pid_file"); then
-      stop_rlaunch_process "$worker"
-      echo "Stage 03 LLM SSH tunnel failed; rlaunch worker stopped" >&2
+      [[ "$worker_ownership" != managed ]] || stop_rlaunch_process "$worker"
+      echo "Stage 03 LLM SSH tunnel failed" >&2
       exit 1
     fi
     base_url="$base_url/v1"
     write_state "$worker" "$remote" "$hostname" "$base_url" "$api_key" \
-      "qwen3-30b-a3b-instruct-2507" "$control_pid_file" "$tunnel_pid_file"
+      "qwen3-30b-a3b-instruct-2507" "$control_pid_file" "$tunnel_pid_file" "$worker_ownership"
     update_state service screening
     echo "state=$STATE"
     echo "base_url=$base_url"
@@ -317,17 +329,27 @@ case "$action" in
     tunnel_pid_file=$(read_state tunnel_pid_file)
     [[ -n "$tunnel_pid_file" ]] || tunnel_pid_file="${STATE}.ssh-tunnel.pid"
     worker=$(read_state worker_token)
+    worker_ownership=$(read_state worker_ownership)
+    [[ -n "$worker_ownership" ]] || worker_ownership=managed
     stop_tunnel "$tunnel_pid_file" "$remote"
     if ssh -o ConnectTimeout=8 "$remote" \
       "export STAGE03_LLM_API_KEY=$(printf '%q' "$api_key"); bash $(printf '%q' "$SCRIPT_DIR/remote_manager.sh") stop"
     then
-      stop_rlaunch_process "$worker"
+      [[ "$worker_ownership" != managed ]] || stop_rlaunch_process "$worker"
       rm -f "$STATE"
-      echo "Stage 03 LLM rlaunch worker stopped"
+      if [[ "$worker_ownership" == managed ]]; then
+        echo "Stage 03 LLM rlaunch worker stopped"
+      else
+        echo "Stage 03 services stopped; external worker preserved: $remote"
+      fi
     else
-      stop_rlaunch_process "$worker"
+      [[ "$worker_ownership" != managed ]] || stop_rlaunch_process "$worker"
       rm -f "$STATE"
-      echo "Stage 03 LLM rlaunch worker stopped via brainctl; SSH cleanup was unavailable" >&2
+      if [[ "$worker_ownership" == managed ]]; then
+        echo "Stage 03 LLM rlaunch worker stopped via brainctl; SSH cleanup was unavailable" >&2
+      else
+        echo "external worker preserved; remote service cleanup was unavailable: $remote" >&2
+      fi
     fi
     ;;
   *)

@@ -9,7 +9,7 @@ Stage 00-07 组织在 `src/stages/` 中；不再保留旧版阶段、旧编排�
 |---|---|---|
 | Stage 00 | 从远端选择指定数量论文，将正文和已知 SI 复制到同一论文目录 | `src/stages/stage00_remote_corpus/` |
 | Stage 01 | 去重、论文/SI 归组、补齐正式 SI、GROBID 低成本解析并在失败时回退 `pdftotext` | `src/stages/stage01_document_preparation/` |
-| Stage 02 | 使用 screening LLM 判断是否包含目标计算化学科研流程 | `src/stages/stage02_computational_content/` |
+| Stage 02 | 使用 screening LLM 判断是否为纯计算化学或以计算化学为主的原创研究 | `src/stages/stage02_computational_content/` |
 | Stage 03 | 提取实际使用的软件和资源，按工具箱原生软件目录与资源预算筛选 | `src/stages/stage03_toolbox_resource_gate/` |
 | Stage 04 | 只对 Stage03 通过论文执行 MinerU 高质量解析 | `src/stages/stage04_mineru_normalization/` |
 | Stage 05 | 判断完整科研流程和 benchmark 方向适用性 | `src/stages/stage05_benchmark_suitability/` |
@@ -90,6 +90,8 @@ bash scripts/workflows/run_pipeline.sh /absolute/path/to/config.local.json
   `scripts/sync_toolbox_capabilities.py` 从当前工具箱刷新。
 - Stage02/03 固定使用 `models.screening`；Stage05、06、07 分别使用 `suitability`、
   `builder`、`judge` 模型配置。
+- `models.screening.existing_worker` 可填写一个已运行 worker 的完整 SSH 地址。此时管理脚本
+  跳过 `rlaunch`，只部署/切换 Qwen 与 MinerU；流水线退出时不会停止该外部 worker。
 - `stop_after` 可设置为 `stage00` 至 `stage07`。
 - `microbatch.stage_concurrency` 分别限制 Stage01-05 的在途微批数量。
 

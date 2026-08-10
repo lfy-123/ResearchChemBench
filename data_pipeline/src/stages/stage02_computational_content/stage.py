@@ -15,10 +15,17 @@ from src.prompts import (
     STAGE02_REDUCE_VERSION,
 )
 
-COMPUTATIONAL_CONTENT_IMPLEMENTATION_VERSION = "v2-stage02-computational-content-20260810-r3-domain-boundaries"
+COMPUTATIONAL_CONTENT_IMPLEMENTATION_VERSION = (
+    "v2-stage02-computational-content-20260810-r4-computation-primary"
+)
+
+PASS_DECISIONS = {
+    "computational_content_confirmed",
+    "computational_primary_mixed_confirmed",
+}
 
 DECISIONS = {
-    "computational_content_confirmed",
+    *PASS_DECISIONS,
     "not_pure_computational",
     "computational_content_not_found",
     "background_only",
@@ -148,7 +155,7 @@ def run_stage02(
                 response,
                 valid_ids,
                 experiment_ids=experiment_ids,
-                strict_pure=bool(config.get("strict_pure_computational", True)),
+                allow_primary_mixed=bool(config.get("allow_primary_mixed", True)),
                 minimum_confidence=float(config.get("minimum_confidence", 0.75)),
             )
             decision = str(response.get("decision") or "uncertain")
@@ -181,7 +188,7 @@ def run_stage02(
                     response,
                     valid_ids,
                     experiment_ids=experiment_ids,
-                    strict_pure=bool(config.get("strict_pure_computational", True)),
+                    allow_primary_mixed=bool(config.get("allow_primary_mixed", True)),
                     minimum_confidence=float(config.get("minimum_confidence", 0.75)),
                 )
                 reduce_warnings.extend(retry_warnings)
@@ -197,7 +204,7 @@ def run_stage02(
                 "article_url": paper.get("article_url"),
                 "processing_status": "completed",
                 "decision": decision,
-                "passed": decision == "computational_content_confirmed",
+                "passed": decision in PASS_DECISIONS,
                 "review": response,
                 "validated_evidence": validated_evidence,
                 "validated_author_experiment_evidence": validated_experiments,
@@ -658,7 +665,7 @@ def _sanitize_reduce_response(
     valid_ids: set[str],
     *,
     experiment_ids: set[str] | None = None,
-    strict_pure: bool = False,
+    allow_primary_mixed: bool = True,
     minimum_confidence: float = 0.75,
 ) -> tuple[dict[str, Any], list[dict[str, Any]]]:
     sanitized = dict(response)
@@ -686,7 +693,7 @@ def _sanitize_reduce_response(
         sanitized[field] = _deduplicate_string_values(response.get(field), 24, 160)
 
     if (
-        sanitized.get("decision") == "computational_content_confirmed"
+        sanitized.get("decision") in PASS_DECISIONS
         and not sanitized["evidence_ids"]
     ):
         sanitized["decision"] = "uncertain"
@@ -713,7 +720,7 @@ def _sanitize_reduce_response(
     verified_author_experiments = bool(experiment_ids)
     if not actual_computation:
         if sanitized.get("decision") in {
-            "computational_content_confirmed",
+            *PASS_DECISIONS,
             "not_pure_computational",
         }:
             sanitized["decision"] = "computational_content_not_found"
@@ -733,14 +740,6 @@ def _sanitize_reduce_response(
             if sanitized.get("computation_role") == "primary"
             else "experimental_with_computational_support"
         )
-        if strict_pure:
-            sanitized["decision"] = "not_pure_computational"
-            warnings.append(
-                {
-                    "field": "decision",
-                    "reason": "verified_author_laboratory_evidence_rejects_pure_computation",
-                }
-            )
     elif sanitized.get("author_performed_experiments") == "yes" or (
         actual_computation
         and (
@@ -758,38 +757,56 @@ def _sanitize_reduce_response(
                 "reason": "author_experiment_claim_without_verified_laboratory_evidence",
             }
         )
-    if strict_pure and sanitized.get("decision") == "computational_content_confirmed":
+    if actual_computation:
         confidence = _confidence_number(sanitized.get("confidence"))
-        strict_requirements = {
+        primary_requirements = {
             "article_role": sanitized.get("article_role") == "original_research",
             "performed_computation": sanitized.get("performed_computation") == "yes",
             "computation_role": sanitized.get("computation_role") == "primary",
-            "study_mode": sanitized.get("study_mode") == "pure_computational",
-            "author_performed_experiments": sanitized.get("author_performed_experiments") == "no",
             "workflow_complete": sanitized.get("workflow_complete") == "yes",
             "minimum_confidence": confidence >= minimum_confidence,
-            "no_validated_author_experiment_evidence": not experiment_ids,
+            "validated_computational_evidence": bool(sanitized.get("evidence_ids")),
         }
-        failed = [name for name, passed in strict_requirements.items() if not passed]
+        failed = [name for name, passed in primary_requirements.items() if not passed]
         if failed:
-            mixed_or_supporting = (
-                sanitized.get("study_mode")
-                in {
-                    "mixed_computational_experimental",
-                    "experimental_with_computational_support",
-                }
-                or sanitized.get("computation_role") == "supporting"
-            )
             sanitized["decision"] = (
                 "not_pure_computational"
-                if actual_computation and mixed_or_supporting
+                if sanitized.get("computation_role") in {"supporting", "background_only", "none"}
                 else "uncertain"
             )
             warnings.append(
                 {
                     "field": "decision",
-                    "reason": "strict_pure_computational_requirements_failed",
+                    "reason": "computation_primary_requirements_failed",
                     "requirements": failed,
+                }
+            )
+        elif verified_author_experiments:
+            if allow_primary_mixed:
+                sanitized["decision"] = "computational_primary_mixed_confirmed"
+            else:
+                sanitized["decision"] = "not_pure_computational"
+            warnings.append(
+                {
+                    "field": "decision",
+                    "reason": (
+                        "verified_computation_primary_mixed_study_accepted"
+                        if allow_primary_mixed
+                        else "verified_author_laboratory_evidence_rejects_pure_computation"
+                    ),
+                }
+            )
+        elif (
+            sanitized.get("author_performed_experiments") == "no"
+            and sanitized.get("study_mode") == "pure_computational"
+        ):
+            sanitized["decision"] = "computational_content_confirmed"
+        else:
+            sanitized["decision"] = "uncertain"
+            warnings.append(
+                {
+                    "field": "decision",
+                    "reason": "computation_primary_study_mode_unresolved",
                 }
             )
     return sanitized, warnings
