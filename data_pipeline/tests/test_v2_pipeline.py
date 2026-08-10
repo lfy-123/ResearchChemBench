@@ -20,7 +20,9 @@ from src.v2.pipeline import (
     run_pipeline_v2,
 )
 from src.v2.stages._toolbox_resource import (
+    _bind_workflow_steps_to_mentions,
     _inventory_contract_errors,
+    _merge_catalog_actual_use_mentions,
     _merge_workflow_software_mentions,
     _repair_inventory_contract,
 )
@@ -2288,6 +2290,7 @@ def test_stage04_complete_inventory_allows_generic_python_postprocessing() -> No
                     {
                         "action": "compare relative energies",
                         "essential": True,
+                        "execution_layer": "task_specific_python",
                         "software": None,
                     },
                 ],
@@ -2305,6 +2308,35 @@ def test_stage04_complete_inventory_allows_generic_python_postprocessing() -> No
     ]
 
     assert coverage_gate(review, mappings, {}, {}) == "covered"
+
+
+def test_stage04_complete_inventory_cannot_hide_unnamed_core_engine() -> None:
+    review = {
+        "inventory_complete": True,
+        "workflows": [
+            {
+                "workflow_id": "wf",
+                "steps": [
+                    {
+                        "action": "run electronic-structure calculation",
+                        "essential": True,
+                        "execution_layer": "unknown",
+                        "software": None,
+                    }
+                ],
+            }
+        ],
+    }
+    mappings = [
+        {
+            "raw_name": "VASP",
+            "actual_use": True,
+            "role": "core_compute",
+            "catalog_present": True,
+        }
+    ]
+
+    assert coverage_gate(review, mappings, {}, {}) == "software_inventory_unconfirmed"
 
 
 @pytest.mark.parametrize(
@@ -2462,6 +2494,103 @@ def test_stage04_workflow_software_uses_alias_identity_without_duplicate() -> No
 
     assert len(mentions) == 1
     assert warnings == []
+
+
+def test_stage04_catalog_actual_use_recovers_and_binds_model_omission() -> None:
+    evidence = {
+        "ev-1": (
+            "Electronic energies were computed using the Example Quantum Suite "
+            "with the settings listed below."
+        )
+    }
+    workflows = [
+        {
+            "workflow_id": "wf-1",
+            "evidence_ids": ["ev-1"],
+            "steps": [
+                {
+                    "step_id": "step-1",
+                    "action": "compute electronic energies",
+                    "essential": True,
+                    "execution_layer": "unknown",
+                    "software": None,
+                    "evidence_ids": ["ev-1"],
+                },
+                {
+                    "step_id": "step-2",
+                    "action": "perform Bader charge analysis",
+                    "essential": True,
+                    "execution_layer": "unknown",
+                    "software": None,
+                    "evidence_ids": ["ev-1"],
+                },
+            ],
+        }
+    ]
+    aliases = {"example_quantum": ["Example Quantum Suite", "EQS"]}
+    mentions, warnings = _merge_catalog_actual_use_mentions(
+        [],
+        [
+            {
+                "backend_hint": "example_quantum",
+                "raw_name": "Example Quantum Suite",
+                "evidence_id": "ev-1",
+            }
+        ],
+        workflows,
+        evidence,
+        aliases,
+    )
+    binding_warnings = _bind_workflow_steps_to_mentions(workflows, mentions, aliases)
+
+    assert mentions[0]["source"] == "catalog_alias_actual_use"
+    assert mentions[0]["workflow_ids"] == ["wf-1"]
+    assert warnings[0]["reason"] == "catalog_actual_use_mention_recovered"
+    assert workflows[0]["steps"][0]["software"] == "Example Quantum Suite"
+    assert workflows[0]["steps"][0]["execution_layer"] == "named_software"
+    assert workflows[0]["steps"][1]["software"] is None
+    assert binding_warnings[0]["reason"] == "evidence_local_software_bound_to_step"
+
+
+def test_stage04_catalog_alias_without_local_actual_use_is_not_promoted() -> None:
+    evidence = {"ev-1": "Earlier studies reported results from Example Quantum Suite."}
+
+    mentions, warnings = _merge_catalog_actual_use_mentions(
+        [],
+        [
+            {
+                "backend_hint": "example_quantum",
+                "raw_name": "Example Quantum Suite",
+                "evidence_id": "ev-1",
+            }
+        ],
+        [],
+        evidence,
+        {"example_quantum": ["Example Quantum Suite"]},
+    )
+
+    assert mentions == []
+    assert warnings == []
+
+
+def test_stage04_multiword_catalog_alias_is_case_insensitive() -> None:
+    mentions = find_software_mentions(
+        [
+            {
+                "evidence_id": "ev-1",
+                "section_path": ["Methods"],
+                "text": (
+                    "We employed the Vienna ab initio simulation package to perform "
+                    "the electronic-structure calculations."
+                ),
+            }
+        ],
+        {"vasp": ["VASP", "Vienna Ab initio Simulation Package"]},
+    )
+
+    assert len(mentions) == 1
+    assert mentions[0]["backend_hint"] == "vasp"
+    assert mentions[0]["raw_name"] == "Vienna ab initio simulation package"
 
 
 def test_stage04_explicit_cue_recovers_materials_studio_product_name() -> None:

@@ -1,13 +1,13 @@
 from __future__ import annotations
 
 import contextlib
-import threading
+import time
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from src.core.concurrency import ordered_parallel_map
+from src.core.concurrency import ordered_pipeline_map
 from src.core.io import sha256_file
 from src.integrations.grobid import GrobidClient
 from src.integrations.managed_service import managed_service
@@ -139,11 +139,6 @@ def _run_loaded_pipeline_v2(config: dict[str, Any], *, model_callers=None) -> di
         else 1
     )
     configured = config["microbatch"].get("stage_concurrency") or {}
-    semaphores = {
-        stage: threading.BoundedSemaphore(int(configured.get(stage, overall)))
-        for stage in ("stage01", "stage02", "stage03", "stage04", "stage05")
-    }
-
     # Phase 1 keeps Qwen resident while every microbatch reaches the software/resource gate.
     phase1_context = (
         screening_model_runtime(
@@ -163,23 +158,51 @@ def _run_loaded_pipeline_v2(config: dict[str, Any], *, model_callers=None) -> di
         )
         clients = _clients(config, workspace, model_callers or {}, screening_config, stop_index)
 
-        def process_phase1(item):
+        def process_stage01(item):
             index, paper_batch = item
-            return _run_phase1_microbatch(
+            return _run_phase1_stage01(
                 index=index,
                 papers=paper_batch,
                 all_documents=package["documents"],
                 config=config,
+                workspace=workspace,
+                run_id=run_id,
+                grobid_client=grobid_client,
+            )
+
+        def process_stage02(state):
+            return _run_phase1_stage02(
+                state=state,
+                config=config,
                 clients=clients,
                 workspace=workspace,
                 run_id=run_id,
-                stop_index=stop_index,
-                grobid_client=grobid_client,
-                softcite_client=softcite_client,
-                semaphores=semaphores,
             )
 
-        phase1 = ordered_parallel_map(process_phase1, list(enumerate(batches)), max_workers=overall)
+        def process_stage03(state):
+            return _run_phase1_stage03(
+                state=state,
+                config=config,
+                clients=clients,
+                workspace=workspace,
+                run_id=run_id,
+                softcite_client=softcite_client,
+            )
+
+        stage_functions = [process_stage01]
+        stage_names = ["stage01"]
+        if stop_index >= 2:
+            stage_functions.append(process_stage02)
+            stage_names.append("stage02")
+        if stop_index >= 3:
+            stage_functions.append(process_stage03)
+            stage_names.append("stage03")
+        phase1 = ordered_pipeline_map(
+            stage_functions,
+            list(enumerate(batches)),
+            max_workers=[int(configured.get(stage, overall)) for stage in stage_names],
+            buffer_size=int(config["microbatch"].get("buffer_size", overall)),
+        )
     aggregated = _aggregate_phase1(phase1, package, workspace, run_id, stop_index)
     result.update({key: value["summary"] for key, value in aggregated.items()})
     if stop_index <= 3:
@@ -201,21 +224,37 @@ def _run_loaded_pipeline_v2(config: dict[str, Any], *, model_callers=None) -> di
             include_screening=False,
         )
 
-        def process_phase2(item):
-            index, paper_batch = item
-            source = phase1[index]
-            return _run_phase2_microbatch(
+        def process_stage04(item):
+            index, paper_batch, source = item
+            return _run_phase2_stage04(
                 index=index,
                 papers=paper_batch,
                 phase1=source,
                 config=config,
+                workspace=workspace,
+                run_id=run_id,
+            )
+
+        def process_stage05(state):
+            return _run_phase2_stage05(
+                state=state,
+                config=config,
                 clients=clients,
                 workspace=workspace,
                 run_id=run_id,
-                semaphores=semaphores,
             )
 
-        phase2 = ordered_parallel_map(process_phase2, list(enumerate(batches)), max_workers=overall)
+        phase2_functions = [process_stage04]
+        phase2_names = ["stage04"]
+        if stop_index >= 5:
+            phase2_functions.append(process_stage05)
+            phase2_names.append("stage05")
+        phase2 = ordered_pipeline_map(
+            phase2_functions,
+            [(index, paper_batch, phase1[index]) for index, paper_batch in enumerate(batches)],
+            max_workers=[int(configured.get(stage, overall)) for stage in phase2_names],
+            buffer_size=int(config["microbatch"].get("buffer_size", overall)),
+        )
     aggregated.update(_aggregate_phase2(phase2, workspace, run_id, stop_index))
     result.update({key: value["summary"] for key, value in aggregated.items() if key not in result})
     if stop_index <= 5:
@@ -263,6 +302,38 @@ def _run_phase1_microbatch(
     softcite_client,
     semaphores,
 ):
+    state = _run_phase1_stage01(
+        index=index,
+        papers=papers,
+        all_documents=all_documents,
+        config=config,
+        workspace=workspace,
+        run_id=run_id,
+        grobid_client=grobid_client,
+    )
+    if stop_index >= 2:
+        state = _run_phase1_stage02(
+            state=state,
+            config=config,
+            clients=clients,
+            workspace=workspace,
+            run_id=run_id,
+        )
+    if stop_index >= 3:
+        state = _run_phase1_stage03(
+            state=state,
+            config=config,
+            clients=clients,
+            workspace=workspace,
+            run_id=run_id,
+            softcite_client=softcite_client,
+        )
+    return state
+
+
+def _run_phase1_stage01(*, index, papers, all_documents, config, workspace, run_id, grobid_client):
+    started_epoch = time.time()
+    started = time.perf_counter()
     root = workspace / "microbatches" / f"batch-{index + 1:06d}"
     documents = [
         row for row in all_documents if row.get("paper_id") in {p["paper_id"] for p in papers}
@@ -270,60 +341,85 @@ def _run_phase1_microbatch(
     hashes = _microbatch_stage_hashes(papers, documents, config)
     output = {"batch_id": f"batch-{index + 1:06d}"}
     stage01 = _load_cached_microbatch_stage(root, "stage01", hashes["stage01"])
+    cache_hit = stage01 is not None
     if stage01 is None:
-        with _stage_slot(semaphores, "stage01"):
-            stage01 = run_document_normalization(
-                papers=papers,
-                documents=documents,
-                config=config["stage01"]["normalization"],
-                workspace=root,
-                run_id=run_id,
-                grobid_client=grobid_client,
-            )
+        stage01 = run_document_normalization(
+            papers=papers,
+            documents=documents,
+            config=config["stage01"]["normalization"],
+            workspace=root,
+            run_id=run_id,
+            grobid_client=grobid_client,
+        )
         _write_microbatch_stage_cache(root, "stage01", hashes["stage01"], run_id, cacheable=True)
     output["stage01"] = stage01
-    if stop_index >= 2:
-        stage02 = _load_cached_microbatch_stage(root, "stage02", hashes["stage02"])
-        if stage02 is None:
-            with _stage_slot(semaphores, "stage02"):
-                stage02 = run_stage02(
-                    papers=stage01["papers"],
-                    documents=stage01["documents"],
-                    config=config["stage02"],
-                    model=clients["screening"],
-                    workspace=root,
-                    run_id=run_id,
-                )
-            _write_microbatch_stage_cache(
-                root,
-                "stage02",
-                hashes["stage02"],
-                run_id,
-                cacheable=not _has_processing_errors(stage02),
-            )
-        output["stage02"] = stage02
-    if stop_index >= 3:
-        stage03 = _load_cached_microbatch_stage(root, "stage03", hashes["stage03"])
-        if stage03 is None:
-            with _stage_slot(semaphores, "stage03"):
-                stage03 = run_stage03(
-                    stage02_records=output["stage02"]["records"],
-                    documents=output["stage01"]["documents"],
-                    config=config["stage03"],
-                    model=clients["screening"],
-                    workspace=root,
-                    run_id=run_id,
-                    softcite=softcite_client,
-                )
-            _write_microbatch_stage_cache(
-                root,
-                "stage03",
-                hashes["stage03"],
-                run_id,
-                cacheable=not _has_processing_errors(stage03),
-            )
-        output["stage03"] = stage03
+    output["_phase1_root"] = root
+    output["_phase1_hashes"] = hashes
+    _record_stage_timing(
+        output, "stage01", started_epoch, started, cache_hit, len(stage01.get("papers") or [])
+    )
     return output
+
+
+def _run_phase1_stage02(*, state, config, clients, workspace, run_id):
+    started_epoch = time.time()
+    started = time.perf_counter()
+    root = state["_phase1_root"]
+    hashes = state["_phase1_hashes"]
+    stage02 = _load_cached_microbatch_stage(root, "stage02", hashes["stage02"])
+    cache_hit = stage02 is not None
+    if stage02 is None:
+        stage02 = run_stage02(
+            papers=state["stage01"]["papers"],
+            documents=state["stage01"]["documents"],
+            config=config["stage02"],
+            model=clients["screening"],
+            workspace=root,
+            run_id=run_id,
+        )
+        _write_microbatch_stage_cache(
+            root,
+            "stage02",
+            hashes["stage02"],
+            run_id,
+            cacheable=not _has_processing_errors(stage02),
+        )
+    state["stage02"] = stage02
+    _record_stage_timing(
+        state, "stage02", started_epoch, started, cache_hit, len(stage02.get("records") or [])
+    )
+    return state
+
+
+def _run_phase1_stage03(*, state, config, clients, workspace, run_id, softcite_client):
+    started_epoch = time.time()
+    started = time.perf_counter()
+    root = state["_phase1_root"]
+    hashes = state["_phase1_hashes"]
+    stage03 = _load_cached_microbatch_stage(root, "stage03", hashes["stage03"])
+    cache_hit = stage03 is not None
+    if stage03 is None:
+        stage03 = run_stage03(
+            stage02_records=state["stage02"]["records"],
+            documents=state["stage01"]["documents"],
+            config=config["stage03"],
+            model=clients["screening"],
+            workspace=root,
+            run_id=run_id,
+            softcite=softcite_client,
+        )
+        _write_microbatch_stage_cache(
+            root,
+            "stage03",
+            hashes["stage03"],
+            run_id,
+            cacheable=not _has_processing_errors(stage03),
+        )
+    state["stage03"] = stage03
+    _record_stage_timing(
+        state, "stage03", started_epoch, started, cache_hit, len(stage03.get("records") or [])
+    )
+    return state
 
 
 def _run_microbatch(
@@ -396,19 +492,41 @@ def _run_microbatch(
 def _run_phase2_microbatch(
     *, index, papers, phase1, config, clients, workspace, run_id, semaphores
 ):
+    state = _run_phase2_stage04(
+        index=index,
+        papers=papers,
+        phase1=phase1,
+        config=config,
+        workspace=workspace,
+        run_id=run_id,
+    )
+    if int(config["stop_after"].replace("stage", "")) >= 5:
+        state = _run_phase2_stage05(
+            state=state,
+            config=config,
+            clients=clients,
+            workspace=workspace,
+            run_id=run_id,
+        )
+    return state
+
+
+def _run_phase2_stage04(*, index, papers, phase1, config, workspace, run_id):
+    started_epoch = time.time()
+    started = time.perf_counter()
     root = workspace / "microbatches" / f"batch-{index + 1:06d}"
     hashes = _microbatch_stage_hashes(papers, phase1["stage01"]["documents"], config)
     output = dict(phase1)
     stage04 = _load_cached_microbatch_stage(root, "stage04", hashes["stage04"])
+    cache_hit = stage04 is not None
     if stage04 is None:
-        with _stage_slot(semaphores, "stage04"):
-            stage04 = run_stage04(
-                stage03_records=phase1["stage03"]["records"],
-                documents=phase1["stage01"]["documents"],
-                config=config["stage04"],
-                workspace=root,
-                run_id=run_id,
-            )
+        stage04 = run_stage04(
+            stage03_records=phase1["stage03"]["records"],
+            documents=phase1["stage01"]["documents"],
+            config=config["stage04"],
+            workspace=root,
+            run_id=run_id,
+        )
         _write_microbatch_stage_cache(
             root,
             "stage04",
@@ -417,27 +535,42 @@ def _run_phase2_microbatch(
             cacheable=not _has_processing_errors(stage04),
         )
     output["stage04"] = stage04
-    if int(config["stop_after"].replace("stage", "")) >= 5:
-        stage05 = _load_cached_microbatch_stage(root, "stage05", hashes["stage05"])
-        if stage05 is None:
-            with _stage_slot(semaphores, "stage05"):
-                stage05 = run_stage05(
-                    stage04_records=stage04["records"],
-                    documents=stage04["documents"],
-                    config=config["stage05"],
-                    model=clients["suitability"],
-                    workspace=root,
-                    run_id=run_id,
-                )
-            _write_microbatch_stage_cache(
-                root,
-                "stage05",
-                hashes["stage05"],
-                run_id,
-                cacheable=not _has_processing_errors(stage05),
-            )
-        output["stage05"] = stage05
+    output["_phase2_root"] = root
+    output["_phase2_hashes"] = hashes
+    _record_stage_timing(
+        output, "stage04", started_epoch, started, cache_hit, len(stage04.get("records") or [])
+    )
     return output
+
+
+def _run_phase2_stage05(*, state, config, clients, workspace, run_id):
+    started_epoch = time.time()
+    started = time.perf_counter()
+    root = state["_phase2_root"]
+    hashes = state["_phase2_hashes"]
+    stage05 = _load_cached_microbatch_stage(root, "stage05", hashes["stage05"])
+    cache_hit = stage05 is not None
+    if stage05 is None:
+        stage05 = run_stage05(
+            stage04_records=state["stage04"]["records"],
+            documents=state["stage04"]["documents"],
+            config=config["stage05"],
+            model=clients["suitability"],
+            workspace=root,
+            run_id=run_id,
+        )
+        _write_microbatch_stage_cache(
+            root,
+            "stage05",
+            hashes["stage05"],
+            run_id,
+            cacheable=not _has_processing_errors(stage05),
+        )
+    state["stage05"] = stage05
+    _record_stage_timing(
+        state, "stage05", started_epoch, started, cache_hit, len(stage05.get("records") or [])
+    )
+    return state
 
 
 def _aggregate_phase1(batch_results, package, workspace, run_id, stop_index):
@@ -468,6 +601,7 @@ def _aggregate_phase1(batch_results, package, workspace, run_id, stop_index):
         "failed_papers": sum(row.get("decision") != "pass" for row in papers),
         "selected_parsers": decision_counts(documents, "selected_parser"),
         "microbatches": len(batch_results),
+        "performance": _aggregate_stage_timings(batch_results, "stage01"),
     }
     write_json(root / "stage_summary.json", summary)
     output["stage01"] = {
@@ -491,6 +625,7 @@ def _aggregate_phase1(batch_results, package, workspace, run_id, stop_index):
             "processing_errors": sum(row.get("processing_status") == "failed" for row in records),
             "run_status": _stage_run_status(records),
             "microbatches": len(batch_results),
+            "performance": _aggregate_stage_timings(batch_results, key),
         }
         write_json(stage_root / "stage_summary.json", stage_summary)
         output[key] = {"records": records, "summary": stage_summary}
@@ -514,6 +649,7 @@ def _aggregate_phase2(batch_results, workspace, run_id, stop_index):
             "processing_errors": sum(row.get("processing_status") == "failed" for row in records),
             "run_status": _stage_run_status(records),
             "microbatches": len(batch_results),
+            "performance": _aggregate_stage_timings(batch_results, key),
         }
         stage_output = {"records": records, "summary": summary}
         if key == "stage04":
@@ -541,6 +677,49 @@ def _aggregate_phase2(batch_results, workspace, run_id, stop_index):
         write_json(root / "stage_summary.json", summary)
         output[key] = stage_output
     return output
+
+
+def _record_stage_timing(state, stage, started_epoch, started, cache_hit, paper_count):
+    finished_epoch = time.time()
+    state.setdefault("_stage_timings", {})[stage] = {
+        "started_epoch": started_epoch,
+        "finished_epoch": finished_epoch,
+        "duration_seconds": max(0.0, time.perf_counter() - started),
+        "cache_hit": bool(cache_hit),
+        "paper_count": int(paper_count),
+    }
+
+
+def _aggregate_stage_timings(batch_results, stage):
+    rows = [
+        batch.get("_stage_timings", {}).get(stage)
+        for batch in batch_results
+        if batch.get("_stage_timings", {}).get(stage)
+    ]
+    if not rows:
+        return {}
+    durations = sorted(float(row["duration_seconds"]) for row in rows)
+    started = min(float(row["started_epoch"]) for row in rows)
+    finished = max(float(row["finished_epoch"]) for row in rows)
+    wall = max(0.0, finished - started)
+    papers = sum(int(row.get("paper_count", 0)) for row in rows)
+
+    def percentile(fraction):
+        index = min(len(durations) - 1, max(0, int((len(durations) - 1) * fraction)))
+        return durations[index]
+
+    return {
+        "microbatches_measured": len(rows),
+        "cache_hits": sum(bool(row.get("cache_hit")) for row in rows),
+        "batch_duration_seconds": {
+            "p50": round(percentile(0.50), 3),
+            "p90": round(percentile(0.90), 3),
+            "max": round(durations[-1], 3),
+        },
+        "worker_seconds": round(sum(durations), 3),
+        "wall_seconds": round(wall, 3),
+        "papers_per_minute": round(papers * 60.0 / wall, 3) if wall else None,
+    }
 
 
 def _stage_slot(semaphores, stage):

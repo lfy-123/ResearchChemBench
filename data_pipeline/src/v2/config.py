@@ -145,7 +145,7 @@ def _validate(config: dict[str, Any]) -> None:
         raise ValueError("policy must be strict or shadow")
     config["policy"] = mode
     microbatch = config["microbatch"]
-    for key in ("size", "concurrency"):
+    for key in ("size", "concurrency", "buffer_size"):
         if int(microbatch.get(key, 1)) < 1:
             raise ValueError(f"microbatch.{key} must be at least 1")
     stage_concurrency = microbatch.setdefault("stage_concurrency", {})

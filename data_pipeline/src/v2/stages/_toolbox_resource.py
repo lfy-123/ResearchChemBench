@@ -41,6 +41,7 @@ EXCLUDED_ENTITY_TYPES = {
     "parameter",
     "unknown",
 }
+EXECUTION_LAYERS = {"named_software", "task_specific_python"}
 
 
 class SoftciteLike(Protocol):
@@ -132,6 +133,22 @@ def run_toolbox_resource_screening(
             response["software_mentions"] = _merge_explicit_executable_cues(
                 response.get("software_mentions") or [], executable_cues
             )
+            response["software_mentions"], catalog_warnings = (
+                _merge_catalog_actual_use_mentions(
+                    response.get("software_mentions") or [],
+                    rule_mentions,
+                    response.get("workflows") or [],
+                    {block["evidence_id"]: block["text"] for block in blocks},
+                    aliases,
+                )
+            )
+            validation_warnings.extend(catalog_warnings)
+            binding_warnings = _bind_workflow_steps_to_mentions(
+                response.get("workflows") or [],
+                response.get("software_mentions") or [],
+                aliases,
+            )
+            validation_warnings.extend(binding_warnings)
             response["software_mentions"], workflow_warnings = (
                 _merge_workflow_software_mentions(
                     response.get("software_mentions") or [],
@@ -402,14 +419,16 @@ def _minimal_inventory_system_prompt():
     return """Extract a compact evidence-grounded software inventory. Return exactly one JSON object with keys
 inventory_complete, workflows, software_mentions, excluded_entities, resource_facts, complexity_facts,
 unresolved, evidence_ids, confidence, rationale. Use at most 1 workflow with 4 step objects and 10 software
-mention objects. Every step object has step_id, action, essential, software, normalized_backend=null,
+mention objects. Every step object has step_id, action, essential, execution_layer, software, normalized_backend=null,
 reported_settings, evidence_ids. Every software object has raw_name, normalized_hint, entity_type, role,
 actual_use, workflow_ids, evidence_ids, exact_quote. entity_type is exactly program, library, service,
 extension, or custom_code. role is exactly core_compute, required_preprocessing, required_analysis,
 optional_auxiliary, visualization, instrumentation, background, or unknown. Put methods, algorithms, models,
 databases and datasets in excluded_entities as objects. Keep VASPsol separate from VASP. Set resource_facts=[]
 and complexity_facts=[]. Arrays never contain bare strings except reported_settings, unresolved, and evidence_ids.
-Example step: {"step_id":"s1","action":"run DFT","essential":true,"software":"VASP",
+execution_layer is named_software or task_specific_python. Core scientific engines always use named_software;
+task_specific_python is only for short transparent analysis of outputs from named engines.
+Example step: {"step_id":"s1","action":"run DFT","essential":true,"execution_layer":"named_software","software":"VASP",
 "normalized_backend":null,"reported_settings":["PBE"],"evidence_ids":["ev1"]}.
 Example mention: {"raw_name":"VASP","normalized_hint":"vasp","entity_type":"program",
 "role":"core_compute","actual_use":true,"workflow_ids":["wf1"],"evidence_ids":["ev1"],
@@ -421,10 +440,11 @@ def _contract_repair_system_prompt(*, minimal=False):
     return f"""Reformat the supplied previous_response; do not re-review the paper and do not invent evidence.
 Return exactly one JSON object with keys inventory_complete, workflows, software_mentions, excluded_entities,
 resource_facts, complexity_facts, unresolved, evidence_ids, confidence, rationale. {limit}Every workflow and step
-is an object. A step has step_id, action, essential, software, normalized_backend=null, reported_settings and
+is an object. A step has step_id, action, essential, execution_layer, software, normalized_backend=null, reported_settings and
 evidence_ids. Every software mention is an object with raw_name, normalized_hint, entity_type, role, actual_use,
 workflow_ids, evidence_ids and exact_quote. entity_type is one of program, library, service, extension,
-custom_code. role is one of core_compute, required_preprocessing, required_analysis, optional_auxiliary,
+custom_code. execution_layer is named_software or task_specific_python; only short transparent analysis may use
+task_specific_python, never a core scientific engine. role is one of core_compute, required_preprocessing, required_analysis, optional_auxiliary,
 visualization, instrumentation, background, unknown. Move methods, algorithms, models, databases and datasets
 to excluded_entities objects. Preserve exact quotes and evidence IDs. Arrays never contain bare strings except
 reported_settings, unresolved and evidence_ids. Return compact JSON only."""
@@ -494,6 +514,12 @@ def _inventory_contract_errors(response):
         for step_index, step in enumerate(workflow["steps"]):
             if not isinstance(step, dict):
                 errors.append(f"workflows[{index}].steps[{step_index}]_not_object")
+                continue
+            layer = step.get("execution_layer")
+            if layer is not None and layer not in EXECUTION_LAYERS:
+                errors.append(
+                    f"workflows[{index}].steps[{step_index}]_invalid_execution_layer"
+                )
     for index, mention in enumerate(response["software_mentions"]):
         if not isinstance(mention, dict):
             errors.append(f"software_mentions[{index}]_not_object")
@@ -763,7 +789,15 @@ def find_software_mentions(
         configured = values or [backend]
         for alias in configured:
             if len(alias.strip()) >= 2:
-                flags = 0 if any(character.isupper() for character in alias) else re.I
+                # Acronyms remain case-sensitive to avoid matching ordinary words
+                # (for example ORCA/orca), while multiword product names are safe
+                # and commonly vary capitalization across publisher text exports.
+                flags = (
+                    re.I
+                    if any(character.isspace() for character in alias)
+                    or not any(character.isupper() for character in alias)
+                    else 0
+                )
                 patterns.append(
                     (
                         backend,
@@ -1011,6 +1045,176 @@ def _merge_explicit_executable_cues(mentions, cues):
     return output
 
 
+def _merge_catalog_actual_use_mentions(mentions, rule_mentions, workflows, evidence, aliases):
+    """Recover catalog aliases that the model omitted when local use is explicit.
+
+    The aliases come entirely from the frozen toolbox snapshot.  A match is promoted
+    only when the same local context contains an actual-use verb; bibliography and
+    background name matches therefore remain model-audit hints rather than required
+    software.
+    """
+
+    output = list(mentions)
+    warnings = []
+    alias_keys = _software_alias_keys(aliases)
+    known = {
+        _software_identity(row.get("raw_name"), alias_keys)
+        for row in output
+        if row.get("raw_name")
+    }
+    for candidate in rule_mentions:
+        raw_name = str(candidate.get("raw_name") or "").strip()
+        evidence_id = str(candidate.get("evidence_id") or "")
+        backend = str(candidate.get("backend_hint") or "")
+        if not raw_name or evidence_id not in evidence:
+            continue
+        identity = _software_identity(raw_name, alias_keys)
+        if identity in known:
+            continue
+        context = _catalog_actual_use_context(raw_name, str(evidence[evidence_id]))
+        if not context or _ambiguous_software_term(backend, raw_name, context):
+            continue
+        workflow_ids = []
+        for workflow in workflows:
+            if not isinstance(workflow, dict):
+                continue
+            cited = set(str(item) for item in workflow.get("evidence_ids") or [])
+            for step in workflow.get("steps") or []:
+                if isinstance(step, dict):
+                    cited.update(str(item) for item in step.get("evidence_ids") or [])
+            workflow_id = str(workflow.get("workflow_id") or "")
+            if workflow_id and evidence_id in cited:
+                workflow_ids.append(workflow_id)
+        output.append(
+            {
+                "raw_name": raw_name,
+                "normalized_hint": backend or None,
+                "entity_type": "program",
+                "role": "core_compute",
+                "actual_use": True,
+                "workflow_ids": workflow_ids,
+                "evidence_ids": [evidence_id],
+                "exact_quote": context,
+                "source": "catalog_alias_actual_use",
+            }
+        )
+        warnings.append(
+            {
+                "field": "software_mentions",
+                "raw_name": raw_name,
+                "reason": "catalog_actual_use_mention_recovered",
+            }
+        )
+        known.add(identity)
+    return output, warnings
+
+
+def _catalog_actual_use_context(raw_name, text):
+    pattern = re.compile(
+        rf"(?<![A-Za-z0-9]){re.escape(str(raw_name))}(?![A-Za-z0-9])", re.I
+    )
+    for match in pattern.finditer(text):
+        start = max(0, match.start() - 220)
+        end = min(len(text), match.end() + 220)
+        context = text[start:end]
+        if _ACTUAL_SOFTWARE_USE_RE.search(context):
+            return _truncate_utf8(context, 480)
+    return ""
+
+
+def _bind_workflow_steps_to_mentions(workflows, mentions, aliases):
+    """Bind one unambiguous evidence-local software mention to an unnamed step."""
+
+    warnings = []
+    alias_keys = _software_alias_keys(aliases)
+    required_mentions = [
+        row
+        for row in mentions
+        if row.get("actual_use") and row.get("role") in REQUIRED_ROLES
+    ]
+    for workflow in workflows:
+        if not isinstance(workflow, dict):
+            continue
+        workflow_id = str(workflow.get("workflow_id") or "")
+        workflow_evidence = set(str(item) for item in workflow.get("evidence_ids") or [])
+        for step in workflow.get("steps") or []:
+            if (
+                not isinstance(step, dict)
+                or not bool(step.get("essential", True))
+                or step.get("software")
+                or step.get("execution_layer") == "task_specific_python"
+            ):
+                continue
+            step_evidence = set(str(item) for item in step.get("evidence_ids") or [])
+            cited = step_evidence or workflow_evidence
+            candidates = []
+            for mention in required_mentions:
+                mention_evidence = set(str(item) for item in mention.get("evidence_ids") or [])
+                mention_workflows = set(str(item) for item in mention.get("workflow_ids") or [])
+                if cited.intersection(mention_evidence) and (
+                    not mention_workflows or not workflow_id or workflow_id in mention_workflows
+                ) and _step_action_matches_context(
+                    str(step.get("action") or ""), str(mention.get("exact_quote") or "")
+                ):
+                    candidates.append(mention)
+            identities = {
+                _software_identity(row.get("raw_name"), alias_keys) for row in candidates
+            }
+            if len(identities) != 1:
+                continue
+            selected = candidates[0]
+            step["software"] = selected.get("raw_name")
+            step["normalized_backend"] = None
+            step["execution_layer"] = "named_software"
+            warnings.append(
+                {
+                    "field": "workflows.steps.software",
+                    "step_id": step.get("step_id"),
+                    "reason": "evidence_local_software_bound_to_step",
+                    "raw_name": selected.get("raw_name"),
+                }
+            )
+    return warnings
+
+
+_GENERIC_STEP_ACTION_WORDS = {
+    "analyze",
+    "analysis",
+    "calculate",
+    "calculation",
+    "compute",
+    "computation",
+    "conduct",
+    "method",
+    "model",
+    "perform",
+    "result",
+    "run",
+    "simulate",
+    "simulation",
+    "study",
+    "using",
+    "workflow",
+}
+
+
+def _step_action_matches_context(action, context, *, allow_unspecified=False):
+    action_terms = {
+        term
+        for term in re.findall(r"[a-z0-9]+", action.casefold())
+        if len(term) >= 4 and term not in _GENERIC_STEP_ACTION_WORDS
+    }
+    if not action_terms:
+        return bool(allow_unspecified)
+    context_terms = set(re.findall(r"[a-z0-9]+", context.casefold()))
+    if action_terms.issubset({"energy", "energies"}) and re.search(
+        r"\b(?:dft|density functional|electronic[ -]structure|ab initio)\b", context, re.I
+    ):
+        return True
+    required_matches = min(2, len(action_terms))
+    return len(action_terms.intersection(context_terms)) >= required_matches
+
+
 def _merge_workflow_software_mentions(mentions, workflows, evidence, aliases):
     """Promote software named by workflow steps into the coverage inventory."""
 
@@ -1214,14 +1418,18 @@ def coverage_gate(review, mappings, profile, config):
     if not required:
         return "software_inventory_unconfirmed"
     workflows = review.get("workflows") or []
-    if not workflows or (
-        not bool(review.get("inventory_complete"))
-        and any(
-            bool(step.get("essential", True)) and not step.get("software")
-            for workflow in workflows
-            for step in workflow.get("steps") or []
-            if isinstance(step, dict)
-        )
+    essential_steps = [
+        step
+        for workflow in workflows
+        for step in workflow.get("steps") or []
+        if isinstance(step, dict) and bool(step.get("essential", True))
+    ]
+    if not workflows or not essential_steps:
+        return "software_inventory_unconfirmed"
+    if any(
+        not step.get("software")
+        and step.get("execution_layer") != "task_specific_python"
+        for step in essential_steps
     ):
         return "software_inventory_unconfirmed"
     if any(row.get("role") == "unknown" and row["actual_use"] for row in mappings):
@@ -1352,10 +1560,17 @@ def _sanitize_review(response, evidence):
             required_action = step.get("required_action")
             if required_action not in (None, "") and not isinstance(required_action, str):
                 required_action = None
+            software = step.get("software")
+            execution_layer = step.get("execution_layer")
+            if isinstance(software, str) and software.strip():
+                execution_layer = "named_software"
+            elif execution_layer != "task_specific_python":
+                execution_layer = "unknown"
             steps.append(
                 {
                     **step,
                     "essential": bool(step.get("essential", True)),
+                    "execution_layer": execution_layer,
                     "required_action": required_action or None,
                     "reported_settings": reported_settings,
                     "evidence_ids": evidence_ids,
@@ -1528,6 +1743,7 @@ def _sanitize_review(response, evidence):
                 or not (mention_supported or evidence_supported)
             ):
                 step["software"] = None
+                step["execution_layer"] = "unknown"
                 step.pop("normalized_backend", None)
                 warnings.append(
                     {

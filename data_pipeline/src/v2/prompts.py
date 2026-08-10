@@ -2,7 +2,7 @@ from __future__ import annotations
 
 STAGE03_MAP_VERSION = "v2-stage03-map-20260809-r7-explicit-actor-attribution"
 STAGE03_REDUCE_VERSION = "v2-stage03-reduce-20260810-r9-domain-boundaries"
-STAGE04_VERSION = "v2-stage04-software-inventory-20260810-r15-alias-and-python-layer"
+STAGE04_VERSION = "v2-stage04-software-inventory-20260810-r18-independent-analysis-boundary"
 STAGE05_VERSION = "v2-stage05-suitability-20260809-r2-strict-contract"
 STAGE06_SHARED_VERSION = "v2-stage06-shared-20260807"
 STAGE06_AUTONOMOUS_VERSION = "v2-stage06-autonomous-20260807"
@@ -153,9 +153,27 @@ Examples:
 - "Materials Project was queried" -> a required service; "structures from a published dataset" alone is not.
 - B3LYP, HSE, PAW, AMOEBA, CHARMM36, SOAP, ASE file formats, CPU and GPU are not software names.
 
-For every essential workflow step, set essential=true and set `normalized_backend=null`; deterministic code resolves
-aliases after your response. Do not infer support from scientific methods. Record the natural-language computation
-in `action` and its parameters in `reported_settings`; Stage04 does not request or validate a predefined Action.
+For every essential workflow step, set essential=true, set `normalized_backend=null`, and set execution_layer to
+exactly named_software or task_specific_python. Use named_software for every scientific engine and provide its
+software name. Use task_specific_python only for a short transparent transformation or analysis of outputs from
+already named engines, with software=null. Deterministic code resolves aliases after your response. Do not infer
+support from scientific methods. Record the natural-language computation in `action` and its parameters in
+`reported_settings`; Stage04 does not request or validate a predefined Action.
+
+Assign software to a step only when the cited text explicitly connects that program to the operation, or an
+explicit sentence scopes a named program over the following calculation list. Sharing an evidence block is not
+enough. Do not transfer the paragraph's core engine to a separately named analysis method, preprocessing method,
+or custom implementation. For example, "Program A was used for electronic-structure calculations. Charge
+partitioning was then performed" supports Program A for electronic structure but does not identify the charge-
+partitioning implementation; that second step must remain unnamed unless other evidence supplies it. Conversely,
+"All calculations, including optimization and frequencies, used Program A" explicitly scopes both operations.
+This boundary commonly applies to Bader or other charge partitioning, electron-density topology, trajectory
+analysis, structure analysis, and visualization: a core engine producing an input file does not prove that it
+executed the downstream analysis. For example, "VASP was used for DFT. Bader charge analysis was performed"
+names VASP only for DFT; do not assign VASP to the Bader step. Keep the Bader implementation unnamed unless a
+separate executable is named. Mark an unnamed analysis as task_specific_python only when it is a short,
+transparent transformation whose procedure is fully specified; otherwise use execution_layer=named_software,
+software=null, inventory_complete=false, and add an unresolved item.
 
 Audit every item in explicit_executable_cues. If the cited context shows actual use, include it in
 software_mentions and bind it to an essential workflow step; if it is only background, include it with
@@ -172,7 +190,9 @@ When the exact custom runtime or its reproducible source is unavailable, keep it
 deterministic toolbox gate can hold or reject the workflow.
 
 Also audit every rule_software_mentions and softcite_mentions candidate. Put genuine executable entities in
-software_mentions. Put rejected candidates in excluded_entities with raw_name, entity_type, evidence_ids, and a
+software_mentions. The structured workflows, software_mentions, and rationale must agree: never name software
+only in the rationale while leaving its essential workflow step unnamed. Put rejected candidates in
+excluded_entities with raw_name, entity_type, evidence_ids, and a
 short reason. entity_type for excluded items is method, algorithm, model, database, dataset, file_format,
 hardware, parameter, or unknown. A name may not be silently absent from both arrays unless its evidence is only
 a bibliography/reference entry.
@@ -183,7 +203,7 @@ also appear in `software_mentions` with its evidence and actual-use role.
 
 Return compact JSON with keys inventory_complete, workflows, software_mentions, excluded_entities, resource_facts,
 complexity_facts, unresolved, evidence_ids, confidence, rationale. Each workflow has workflow_id, description,
-method_family, evidence_ids, and steps. Each step has step_id, action, essential, software, normalized_backend,
+method_family, evidence_ids, and steps. Each step has step_id, action, essential, execution_layer, software, normalized_backend,
 reported_settings (short string array), and evidence_ids. Each software mention has raw_name,
 normalized_hint, entity_type (program, library, service, extension, or custom_code), role, actual_use,
 workflow_ids, evidence_ids, exact_quote. role is core_compute, required_preprocessing, required_analysis,
@@ -219,7 +239,7 @@ only one complete compact JSON object. Arrays must contain JSON objects, never b
 Minimal shape example:
 {"inventory_complete":true,"workflows":[{"workflow_id":"wf-1","description":"DFT workflow",
 "method_family":"DFT","evidence_ids":["ev-1"],"steps":[{"step_id":"s-1","action":"run DFT",
-"essential":true,"software":"VASP","normalized_backend":null,"reported_settings":["PBE"],
+"essential":true,"execution_layer":"named_software","software":"VASP","normalized_backend":null,"reported_settings":["PBE"],
 "evidence_ids":["ev-1"]}]}],"software_mentions":[{"raw_name":"VASP","normalized_hint":"vasp",
 "entity_type":"program","role":"core_compute","actual_use":true,"workflow_ids":["wf-1"],
 "evidence_ids":["ev-1"],"exact_quote":"calculations were performed with VASP"}],
