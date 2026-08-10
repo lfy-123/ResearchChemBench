@@ -77,15 +77,34 @@ def ordered_pipeline_map(
     executors = [ThreadPoolExecutor(max_workers=int(value)) for value in max_workers]
     boundaries = [threading.BoundedSemaphore(int(buffer_size)) for _ in functions[:-1]]
     completions: list[Future[object]] = [Future() for _ in items]
+    submitted: list[Future[object]] = []
+    state_lock = threading.Lock()
+    aborted = threading.Event()
+    abort_error: list[BaseException | None] = [None]
+
+    def fail(item_index: int, exc: BaseException) -> None:
+        with state_lock:
+            if abort_error[0] is None:
+                abort_error[0] = exc
+            aborted.set()
+            if not completions[item_index].done():
+                completions[item_index].set_exception(exc)
 
     def submit(stage_index: int, item_index: int, value: object, inbound=None) -> None:
+        if aborted.is_set():
+            if inbound is not None:
+                inbound.release()
+            fail(item_index, abort_error[0] or RuntimeError("pipeline execution aborted"))
+            return
         try:
             future = executors[stage_index].submit(functions[stage_index], value)
         except BaseException as exc:
             if inbound is not None:
                 inbound.release()
-            completions[item_index].set_exception(exc)
+            fail(item_index, exc)
             return
+        with state_lock:
+            submitted.append(future)
 
         def completed(stage_future: Future[object]) -> None:
             if inbound is not None:
@@ -93,13 +112,17 @@ def ordered_pipeline_map(
             try:
                 result = stage_future.result()
                 if stage_index == len(functions) - 1:
-                    completions[item_index].set_result(result)
+                    if not completions[item_index].done():
+                        completions[item_index].set_result(result)
+                    return
+                if aborted.is_set():
+                    fail(item_index, abort_error[0] or RuntimeError("pipeline execution aborted"))
                     return
                 outbound = boundaries[stage_index]
                 outbound.acquire()
                 submit(stage_index + 1, item_index, result, outbound)
             except BaseException as exc:
-                completions[item_index].set_exception(exc)
+                fail(item_index, exc)
 
         future.add_done_callback(completed)
 
@@ -107,18 +130,27 @@ def ordered_pipeline_map(
         for index, item in enumerate(items):
             submit(0, index, item)
         output: list[object | None] = [None] * len(items)
+        indices = {completion: index for index, completion in enumerate(completions)}
         first_error: BaseException | None = None
-        for index, completion in enumerate(completions):
+        for completion in as_completed(completions):
+            index = indices[completion]
             try:
                 output[index] = completion.result()
             except BaseException as exc:
-                first_error = first_error or exc
+                first_error = exc
+                aborted.set()
+                break
         if first_error is not None:
             raise first_error
         return cast(list[OutputT], output)
     finally:
+        aborted.set()
+        with state_lock:
+            pending = list(submitted)
+        for future in pending:
+            future.cancel()
         for executor in executors:
-            executor.shutdown(wait=True, cancel_futures=False)
+            executor.shutdown(wait=True, cancel_futures=True)
 
 
 __all__ = ["ordered_parallel_map", "ordered_pipeline_map"]

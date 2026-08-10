@@ -1,7 +1,10 @@
 from __future__ import annotations
 
+import http.client
 import os
+import socket
 import threading
+import urllib.error
 from pathlib import Path
 from typing import Any, Callable
 
@@ -11,6 +14,41 @@ from src.v2.contracts import canonical_hash, read_json, safe_component, write_js
 ModelCaller = Callable[..., tuple[dict[str, Any], dict[str, Any]]]
 REMOTE_API_ROLES = frozenset({"suitability", "builder", "judge"})
 DEFAULT_REMOTE_API_PROXY = "http://httpproxy-headless.kubebrain.svc.pjlab.local:3128"
+
+
+def is_transient_connection_error(exc: BaseException) -> bool:
+    """Return whether an exception represents endpoint infrastructure loss."""
+
+    current: BaseException | None = exc
+    seen: set[int] = set()
+    while current is not None and id(current) not in seen:
+        seen.add(id(current))
+        if isinstance(
+            current,
+            (
+                ConnectionError,
+                TimeoutError,
+                socket.timeout,
+                urllib.error.URLError,
+                http.client.RemoteDisconnected,
+            ),
+        ):
+            return True
+        message = str(current).casefold()
+        if any(
+            marker in message
+            for marker in (
+                "connection refused",
+                "remote end closed connection",
+                "connection reset",
+                "llm http 502",
+                "llm http 503",
+                "llm http 504",
+            )
+        ):
+            return True
+        current = current.__cause__ or current.__context__
+    return False
 
 
 class RoleModelClient:
@@ -70,18 +108,26 @@ class RoleModelClient:
         if not api_key:
             raise RuntimeError(f"missing API key environment variable for {self.role}: {key_name}")
         with self._semaphore:
-            response, audit = self.caller(
-                model=self.model,
-                base_url=str(self.config["base_url"]),
-                api_key=api_key,
-                system_prompt=system_prompt,
-                user_content=user_content,
-                timeout_seconds=float(self.config.get("timeout_seconds", 900)),
-                max_tokens=int(max_tokens or self.config.get("max_tokens", 2048)),
-                retries=int(self.config.get("retries", 2)),
-                thinking=self.config.get("thinking"),
-                proxy_url=self._proxy_url(),
-            )
+            guard = self.config.get("_managed_service_guard")
+            if guard is not None:
+                guard.ensure_healthy()
+            try:
+                response, audit = self._call(
+                    api_key=api_key,
+                    system_prompt=system_prompt,
+                    user_content=user_content,
+                    max_tokens=max_tokens,
+                )
+            except Exception as exc:
+                if guard is None or not is_transient_connection_error(exc):
+                    raise
+                guard.recover()
+                response, audit = self._call(
+                    api_key=api_key,
+                    system_prompt=system_prompt,
+                    user_content=user_content,
+                    max_tokens=max_tokens,
+                )
         audit_record = {
             **audit,
             "role": self.role,
@@ -94,6 +140,20 @@ class RoleModelClient:
             {"request": request_record, "response": response, "audit": audit_record},
         )
         return response, audit_record
+
+    def _call(self, *, api_key, system_prompt, user_content, max_tokens):
+        return self.caller(
+            model=self.model,
+            base_url=str(self.config["base_url"]),
+            api_key=api_key,
+            system_prompt=system_prompt,
+            user_content=user_content,
+            timeout_seconds=float(self.config.get("timeout_seconds", 900)),
+            max_tokens=int(max_tokens or self.config.get("max_tokens", 2048)),
+            retries=int(self.config.get("retries", 2)),
+            thinking=self.config.get("thinking"),
+            proxy_url=self._proxy_url(),
+        )
 
     def _proxy_enabled(self) -> bool:
         return bool(self.config.get("use_proxy", self.role in REMOTE_API_ROLES))

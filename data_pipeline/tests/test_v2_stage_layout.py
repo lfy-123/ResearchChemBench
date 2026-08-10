@@ -1,11 +1,15 @@
 from __future__ import annotations
 
 import json
+import urllib.error
 from pathlib import Path
+
+import pytest
 
 import src.v2.pipeline as pipeline
 import src.v2.runtime as runtime
 from src.v2.config import load_v2_config
+from src.v2.model_client import RoleModelClient
 
 
 def test_legacy_layout_is_mapped_without_changing_screening_rules(tmp_path: Path) -> None:
@@ -77,6 +81,101 @@ def test_shared_worker_switch_adds_persistent_mineru_api(monkeypatch, tmp_path: 
     assert updated["execution"] == "managed_gpu"
     assert updated["api_url"] == "http://127.0.0.1:18084"
     assert updated["extra_args"][-2:] == ["--api-url", "http://127.0.0.1:18084"]
+
+
+def test_managed_screening_guard_serializes_recovery(monkeypatch, tmp_path: Path) -> None:
+    guard = runtime.ManagedScreeningServiceGuard(
+        {
+            "manager_script": str(tmp_path / "manager.sh"),
+            "state_file": str(tmp_path / "state.json"),
+            "base_url": "http://127.0.0.1:18083/v1",
+        }
+    )
+    health = iter([False, True])
+    monkeypatch.setattr(guard, "_healthy", lambda: next(health))
+    calls = []
+
+    class Result:
+        returncode = 0
+        stdout = "recovered"
+        stderr = ""
+
+    monkeypatch.setattr(
+        runtime.subprocess,
+        "run",
+        lambda command, **kwargs: calls.append(command) or Result(),
+    )
+
+    guard.recover()
+
+    assert calls[0][2] == "recover-screening"
+
+
+def test_role_model_client_recovers_connection_and_retries(monkeypatch, tmp_path: Path) -> None:
+    class Guard:
+        def __init__(self):
+            self.checks = 0
+            self.recoveries = 0
+
+        def ensure_healthy(self):
+            self.checks += 1
+
+        def recover(self):
+            self.recoveries += 1
+
+    guard = Guard()
+    calls = []
+
+    def caller(**kwargs):
+        calls.append(kwargs)
+        if len(calls) == 1:
+            raise urllib.error.URLError(ConnectionRefusedError(111, "connection refused"))
+        return {"decision": "pass"}, {"model_returned": "fixture"}
+
+    monkeypatch.setenv("FIXTURE_KEY", "secret")
+    client = RoleModelClient(
+        role="screening",
+        config={
+            "model": "fixture",
+            "base_url": "http://127.0.0.1:18083/v1",
+            "api_key_env": "FIXTURE_KEY",
+            "cache": False,
+            "_managed_service_guard": guard,
+        },
+        cache_root=tmp_path,
+        caller=caller,
+    )
+
+    response, _audit = client.call_json(
+        namespace="test",
+        record_id="paper-1",
+        prompt_version="v1",
+        system_prompt="system",
+        user_content="user",
+    )
+
+    assert response == {"decision": "pass"}
+    assert guard.checks == 1
+    assert guard.recoveries == 1
+    assert len(calls) == 2
+
+
+def test_screening_connection_error_aborts_phase() -> None:
+    with pytest.raises(runtime.ManagedScreeningServiceError, match="aborting"):
+        pipeline._raise_on_screening_infrastructure_error(
+            {
+                "records": [
+                    {
+                        "processing_status": "failed",
+                        "error": {
+                            "error_type": "URLError",
+                            "message": "<urlopen error [Errno 111] Connection refused>",
+                        },
+                    }
+                ]
+            },
+            "stage02",
+        )
 
 
 def test_two_phase_scheduler_finishes_all_stage03_work_before_stage04(

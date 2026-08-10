@@ -20,7 +20,7 @@ from src.v2.contracts import (
     write_json,
     write_jsonl,
 )
-from src.v2.model_client import ModelCaller, RoleModelClient
+from src.v2.model_client import ModelCaller, RoleModelClient, is_transient_connection_error
 from src.v2.prompts import (
     STAGE03_MAP_VERSION,
     STAGE03_REDUCE_VERSION,
@@ -28,6 +28,7 @@ from src.v2.prompts import (
     STAGE05_VERSION,
 )
 from src.v2.runtime import (
+    ManagedScreeningServiceError,
     ensure_managed_screening_worker,
     screening_model_runtime,
     start_managed_mineru_service,
@@ -384,6 +385,7 @@ def _run_phase1_stage02(*, state, config, clients, workspace, run_id):
             run_id,
             cacheable=not _has_processing_errors(stage02),
         )
+        _raise_on_screening_infrastructure_error(stage02, "stage02")
     state["stage02"] = stage02
     _record_stage_timing(
         state, "stage02", started_epoch, started, cache_hit, len(stage02.get("records") or [])
@@ -415,6 +417,7 @@ def _run_phase1_stage03(*, state, config, clients, workspace, run_id, softcite_c
             run_id,
             cacheable=not _has_processing_errors(stage03),
         )
+        _raise_on_screening_infrastructure_error(stage03, "stage03")
     state["stage03"] = stage03
     _record_stage_timing(
         state, "stage03", started_epoch, started, cache_hit, len(stage03.get("records") or [])
@@ -923,6 +926,29 @@ def _write_microbatch_stage_cache(root, stage, stage_hash, run_id, *, cacheable)
 def _has_processing_errors(output):
     rows = output.get("records", [])
     return any(row.get("processing_status") == "failed" for row in rows)
+
+
+def _raise_on_screening_infrastructure_error(output, stage):
+    errors = [
+        row.get("error") or {}
+        for row in (output.get("records") or [])
+        if row.get("processing_status") == "failed"
+    ]
+    infrastructure = [
+        error
+        for error in errors
+        if error.get("error_type") == "ManagedScreeningServiceError"
+        or is_transient_connection_error(
+            RuntimeError(f"{error.get('error_type', '')}: {error.get('message', '')}")
+        )
+    ]
+    if infrastructure:
+        first = infrastructure[0]
+        raise ManagedScreeningServiceError(
+            f"{stage} lost the managed screening endpoint; aborting before downstream "
+            f"service switch ({len(infrastructure)} paper errors in this microbatch; "
+            f"first={first.get('error_type')}: {first.get('message')})"
+        )
 
 
 def _stage_run_status(records):

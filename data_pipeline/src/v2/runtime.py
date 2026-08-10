@@ -3,11 +3,92 @@ from __future__ import annotations
 import contextlib
 import os
 import subprocess
+import threading
+import time
+import urllib.error
+import urllib.request
 import warnings
 from pathlib import Path
 from typing import Any, Iterator
 
 from src.v2.contracts import read_json
+
+
+class ManagedScreeningServiceError(RuntimeError):
+    """The run-scoped screening endpoint could not be recovered."""
+
+
+class ManagedScreeningServiceGuard:
+    """Rate-limited health checks and serialized recovery for one managed worker."""
+
+    def __init__(self, config: dict[str, Any]) -> None:
+        self.config = dict(config)
+        self._lock = threading.Lock()
+        self._last_check = 0.0
+        self._interval = max(1.0, float(config.get("health_check_interval_seconds", 15)))
+        self._timeout = max(1.0, float(config.get("health_check_timeout_seconds", 5)))
+
+    def ensure_healthy(self) -> None:
+        now = time.monotonic()
+        if now - self._last_check < self._interval:
+            return
+        with self._lock:
+            now = time.monotonic()
+            if now - self._last_check < self._interval:
+                return
+            if not self._healthy():
+                self._recover_locked()
+            self._last_check = time.monotonic()
+
+    def recover(self) -> None:
+        with self._lock:
+            if self._healthy():
+                self._last_check = time.monotonic()
+                return
+            self._recover_locked()
+            self._last_check = time.monotonic()
+
+    def _recover_locked(self) -> None:
+        manager = Path(str(self.config["manager_script"])).expanduser().resolve()
+        state_file = Path(str(self.config["state_file"])).expanduser().resolve()
+        try:
+            result = subprocess.run(
+                ["bash", str(manager), "recover-screening", "--state", str(state_file)],
+                check=False,
+                capture_output=True,
+                text=True,
+                timeout=max(
+                    30.0, float(self.config.get("health_recovery_timeout_seconds", 1800))
+                ),
+            )
+        except subprocess.TimeoutExpired as exc:
+            raise ManagedScreeningServiceError(
+                "managed screening service recovery timed out"
+            ) from exc
+        if result.returncode or not self._healthy():
+            detail = (result.stderr or result.stdout or "health check still failing").strip()
+            raise ManagedScreeningServiceError(
+                f"managed screening service recovery failed: {detail[:1000]}"
+            )
+
+    def _healthy(self) -> bool:
+        base_url = str(self.config.get("base_url") or "").rstrip("/")
+        if not base_url:
+            return False
+        request = urllib.request.Request(
+            f"{base_url}/models",
+            headers={"Authorization": f"Bearer {self._api_key()}"},
+        )
+        opener = urllib.request.build_opener(urllib.request.ProxyHandler({}))
+        try:
+            with opener.open(request, timeout=self._timeout) as response:
+                return 200 <= int(response.status) < 300
+        except (OSError, TimeoutError, urllib.error.URLError, urllib.error.HTTPError):
+            return False
+
+    def _api_key(self) -> str:
+        key_name = str(self.config.get("api_key_env") or "RCB_SCREENING_API_KEY")
+        return os.environ.get(key_name, "EMPTY")
 
 
 def ensure_managed_screening_worker(model_config: dict[str, Any]) -> None:
@@ -106,6 +187,7 @@ def screening_model_runtime(
     key_name = str(config.get("api_key_env") or "RCB_SCREENING_API_KEY")
     previous_key = os.environ.get(key_name)
     os.environ[key_name] = str(state.get("api_key") or "EMPTY")
+    config["_managed_service_guard"] = ManagedScreeningServiceGuard(config)
     try:
         yield config
     finally:
