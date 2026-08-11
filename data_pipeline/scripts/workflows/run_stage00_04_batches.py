@@ -78,6 +78,7 @@ def main() -> int:
     signal.signal(signal.SIGINT, interrupt)
     try:
         _wait_before_resource_start(args.initial_delay_hours, status_path, status)
+        _start_single_sandbox(run_root, template, args, status_path, status)
         _start_single_worker(configs[0], status_path, status)
         for index, config_path in enumerate(configs, start=1):
             workspace = run_root / "batches" / f"batch-{index:04d}"
@@ -180,7 +181,7 @@ def _batch_config(
             "cpu": args.sandbox_cpu,
             "memory": args.sandbox_memory,
             "lifecycle_minutes": 1440,
-            "startup_timeout_seconds": 3600,
+            "startup_timeout_seconds": args.sandbox_startup_timeout_seconds,
             "cleanup": "keep",
             "source": str(run_root / ".sandboxes.local.yaml"),
             "inventory": str(run_root / ".sandbox_inventory.local.json"),
@@ -285,6 +286,40 @@ def _batch_config(
     return config
 
 
+def _sandbox_manager(run_root, template, args, *, cleanup: str) -> SandboxManager:
+    sandbox_template = template.get("execution", {}).get("sandbox", {})
+    return SandboxManager(
+        SandboxRunOptions(
+            cpu=args.sandbox_cpu,
+            memory=args.sandbox_memory,
+            lifecycle_minutes=1440,
+            startup_timeout_seconds=args.sandbox_startup_timeout_seconds,
+            cleanup=cleanup,
+            source=run_root / ".sandboxes.local.yaml",
+            inventory=run_root / ".sandbox_inventory.local.json",
+            base_url=str(sandbox_template.get("base_url") or "https://h.pjlab.org.cn/brainbox"),
+            project=str(sandbox_template.get("project") or "ailab-ai4chem"),
+            image=str(sandbox_template.get("image") or ""),
+            api_key_env="RCB_SANDBOX_API_KEY",
+        )
+    )
+
+
+def _start_single_sandbox(run_root, template, args, status_path, status) -> None:
+    status.update({"state": "starting_single_sandbox", "updated_at": _now()})
+    write_json(status_path, status)
+    worker = _sandbox_manager(run_root, template, args, cleanup="keep").ensure()
+    status.update(
+        {
+            "sandbox_started_at": _now(),
+            "sandbox_id": worker.sandbox_id,
+            "sandbox_state": worker.state,
+            "updated_at": _now(),
+        }
+    )
+    write_json(status_path, status)
+
+
 def _cleanup_shared_resources(run_root, template, args, status) -> None:
     cleanup_errors = []
     manager = PIPELINE_ROOT / "scripts" / "stage03_llm" / "manage_rlaunch_worker.sh"
@@ -297,25 +332,8 @@ def _cleanup_shared_resources(run_root, template, args, status) -> None:
     )
     if result.returncode:
         cleanup_errors.append((result.stderr or result.stdout or "worker cleanup failed").strip())
-    sandbox_template = template.get("execution", {}).get("sandbox", {})
     try:
-        SandboxManager(
-            SandboxRunOptions(
-                cpu=args.sandbox_cpu,
-                memory=args.sandbox_memory,
-                lifecycle_minutes=1440,
-                startup_timeout_seconds=3600,
-                cleanup="stop",
-                source=run_root / ".sandboxes.local.yaml",
-                inventory=run_root / ".sandbox_inventory.local.json",
-                base_url=str(
-                    sandbox_template.get("base_url") or "https://h.pjlab.org.cn/brainbox"
-                ),
-                project=str(sandbox_template.get("project") or "ailab-ai4chem"),
-                image=str(sandbox_template.get("image") or ""),
-                api_key_env="RCB_SANDBOX_API_KEY",
-            )
-        ).stop()
+        _sandbox_manager(run_root, template, args, cleanup="stop").stop()
     except Exception as exc:
         cleanup_errors.append(f"sandbox cleanup: {type(exc).__name__}: {exc}")
     status["cleanup_errors"] = cleanup_errors
@@ -367,6 +385,8 @@ def _initial_status(args, run_root: Path, batches: int) -> dict[str, Any]:
         "worker_positive_tag": args.worker_positive_tag,
         "existing_worker": args.existing_worker,
         "initial_delay_hours": args.initial_delay_hours,
+        "sandbox_startup_timeout_seconds": args.sandbox_startup_timeout_seconds,
+        "resource_start_order": ["sandbox", "screening_worker"],
         "worker_start_policy": "single_attempt_fail_fast",
         "completed_batches": [],
         "batch_results": [],
@@ -399,6 +419,7 @@ def _parse_args():
     )
     parser.add_argument("--sandbox-cpu", type=int, default=64)
     parser.add_argument("--sandbox-memory", default="128Gi")
+    parser.add_argument("--sandbox-startup-timeout-seconds", type=int, default=14400)
     parser.add_argument("--initial-delay-hours", type=float, default=5.0)
     parser.add_argument("--prepare-only", action="store_true")
     return parser.parse_args()
@@ -419,6 +440,8 @@ def _validate_args(args) -> None:
         raise FileNotFoundError(f"remote credentials not found: {args.credentials}")
     if args.initial_delay_hours < 0:
         raise ValueError("--initial-delay-hours must be zero or greater")
+    if args.sandbox_startup_timeout_seconds < 60:
+        raise ValueError("--sandbox-startup-timeout-seconds must be at least 60")
 
 
 def _wait_before_resource_start(hours: float, status_path: Path, status: dict[str, Any]) -> None:

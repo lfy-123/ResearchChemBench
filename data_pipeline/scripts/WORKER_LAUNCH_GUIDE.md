@@ -46,6 +46,9 @@ bash scripts/workflows/run_stage00_04_batches.sh \
 此模式不会调用 `rlaunch`。任务结束时只停止 Qwen/MinerU 服务和本地 SSH 隧道，不会停止
 外部 worker。
 
+批处理未传 `--existing-worker` 时会在沙箱就绪后调用一次上述 rlaunch 创建命令。沙箱仍在
+OpenSandbox 队列中时不会提前申请 GPU；worker 创建失败后不会自动申请第二个 worker。
+
 提交前应先验证：
 
 ```bash
