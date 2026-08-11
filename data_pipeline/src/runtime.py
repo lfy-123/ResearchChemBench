@@ -164,7 +164,7 @@ def _start_command(config: dict[str, Any], manager: Path, state_file: Path) -> l
         "--cpu",
         str(config.get("cpu", 16)),
         "--memory",
-        str(config.get("memory_mib", 196000)),
+        str(config.get("memory_mib", 16000)),
         "--charged-group",
         str(config.get("charged_group", "ai4chem_gpu")),
         "--positive-tag",

@@ -23,7 +23,7 @@ Usage:
 Start options:
   --state <path>          Local state file.
   --cpu <n>               Default: 16
-  --memory <MiB>          Default: 196000
+  --memory <MiB>          Default: 16000
   --charged-group <name>  Default: ai4chem_gpu
   --positive-tag <tag>    Optional scheduler positive tag.
   --image <image>         Optional rlaunch image; uses the cluster default when omitted.
@@ -41,7 +41,7 @@ action=${1:-}
 shift
 STATE="$DEFAULT_STATE"
 CPU=16
-MEMORY=196000
+MEMORY=16000
 CHARGED_GROUP=ai4chem_gpu
 POSITIVE_TAG=""
 IMAGE=""

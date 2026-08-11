@@ -7,6 +7,7 @@ scripts/
 ├── bootstrap/                    # 建立主 Conda 环境、第三方服务和模型缓存
 ├── patches/                      # 第三方固定版本补丁
 ├── stage03_llm/                  # rlaunch worker、vLLM 网关和 MinerU 服务切换
+├── WORKER_LAUNCH_GUIDE.md        # worker 资源、创建和复用规范
 ├── workflows/run_pipeline.sh     # 完整 Stage00-07 流程入口
 ├── workflows/run_stage00_04_batches.sh # 分轮复制并运行 Stage00-04
 ├── sync_toolbox_capabilities.py  # 刷新只读工具箱能力快照
@@ -32,6 +33,8 @@ python scripts/sync_toolbox_capabilities.py
 Stage00-04 后才复制下一批；各批次共享一个沙箱和 GPU worker，并自动排除先前已选择的论文。
 默认先等待 5 小时，再申请沙箱和唯一一个 GPU worker。worker 单次启动失败时整个任务立即结束，
 不会再次申请 worker。
+
+worker 启动命令和资源约束见 [WORKER_LAUNCH_GUIDE.md](WORKER_LAUNCH_GUIDE.md)。
 
 `run_pipeline.sh` 默认读取 `config.example.json`，并在存在时加载 `config.local.env`。
 默认会调用项目代理初始化脚本；设置 `RCB_SETUP_PROXY=0` 可关闭此行为。

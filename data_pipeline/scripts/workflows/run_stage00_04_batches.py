@@ -244,7 +244,7 @@ def _batch_config(
             "managed_rlaunch": True,
             "preserve_worker_on_exit": True,
             "allow_worker_creation": False,
-            "existing_worker": "",
+            "existing_worker": args.existing_worker,
             "manager_script": str(
                 PIPELINE_ROOT / "scripts" / "stage03_llm" / "manage_rlaunch_worker.sh"
             ),
@@ -262,7 +262,7 @@ def _batch_config(
             "cpu": 16,
             "memory_mib": args.worker_memory_mib,
             "charged_group": "ai4chem_gpu",
-            "positive_tag": "h200",
+            "positive_tag": args.worker_positive_tag,
             "image": "",
             "skip_bootstrap": True,
             "skip_download": True,
@@ -364,6 +364,8 @@ def _initial_status(args, run_root: Path, batches: int) -> dict[str, Any]:
         "batches": batches,
         "stage04_api_concurrency": args.stage04_concurrency,
         "worker_memory_mib": args.worker_memory_mib,
+        "worker_positive_tag": args.worker_positive_tag,
+        "existing_worker": args.existing_worker,
         "initial_delay_hours": args.initial_delay_hours,
         "worker_start_policy": "single_attempt_fail_fast",
         "completed_batches": [],
@@ -388,7 +390,13 @@ def _parse_args():
     parser.add_argument("--seed", type=int, default=20260811)
     parser.add_argument("--microbatch-size", type=int, default=10)
     parser.add_argument("--stage04-concurrency", type=int, default=8)
-    parser.add_argument("--worker-memory-mib", type=int, default=196000)
+    parser.add_argument("--worker-memory-mib", type=int, default=16000)
+    parser.add_argument("--worker-positive-tag", default="")
+    parser.add_argument(
+        "--existing-worker",
+        default="",
+        help="Reuse this full worker SSH target instead of calling rlaunch",
+    )
     parser.add_argument("--sandbox-cpu", type=int, default=128)
     parser.add_argument("--sandbox-memory", default="256Gi")
     parser.add_argument("--initial-delay-hours", type=float, default=5.0)
