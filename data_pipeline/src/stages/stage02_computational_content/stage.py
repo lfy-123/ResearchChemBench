@@ -22,7 +22,7 @@ from src.stages.stage02_computational_content.adjudication import (
 from src.stages.stage02_computational_content.evidence import build_evidence_packet
 
 COMPUTATIONAL_CONTENT_IMPLEMENTATION_VERSION = (
-    "v2-stage02-computational-content-20260811-r11-pass-precision-review"
+    "v2-stage02-computational-content-20260811-r12-evidence-direction"
 )
 
 CONTENT_CONFIRMATION_DECISIONS = set(PASS_DECISIONS)
@@ -128,6 +128,7 @@ def run_stage02(
                     "complete_computational_workflow": "no",
                     "author_performed_experiments": "yes" if experiment_ids else "uncertain",
                     "computation_role": "none",
+                    "evidence_direction": "none",
                     "study_mode": "noncomputational",
                     "central_claims": [],
                     "computational_workflow_steps": [],
@@ -494,6 +495,7 @@ def _non_original_review(role: str, quote: str, source: str) -> dict[str, Any]:
         "article_role": normalized_role,
         "performed_computation": "uncertain",
         "computation_role": "background_only",
+        "evidence_direction": "none",
         "study_mode": "noncomputational",
         "author_performed_experiments": "uncertain",
         "workflow_complete": "no",

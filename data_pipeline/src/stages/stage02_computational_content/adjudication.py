@@ -45,6 +45,18 @@ def sanitize_classification(
         {"primary", "supporting", "background_only", "none", "uncertain"},
         "uncertain",
     )
+    sanitized["evidence_direction"] = _choice(
+        sanitized.get("evidence_direction"),
+        {
+            "pure_computation",
+            "computation_predicts_then_experiment_validates",
+            "experiment_observes_then_computation_explains",
+            "co_equal",
+            "none",
+            "uncertain",
+        },
+        "uncertain",
+    )
     sanitized["study_mode"] = _choice(
         sanitized.get("study_mode"),
         {
@@ -132,6 +144,7 @@ def sanitize_classification(
         and bool(computation_required_claims)
         and sanitized["counterfactual_without_computation"] == "main_claim_fails"
     )
+    evidence_direction = sanitized["evidence_direction"]
     has_author_experiments = sanitized["author_performed_experiments"] == "yes"
     high_confidence = confidence >= minimum_confidence
 
@@ -152,17 +165,24 @@ def sanitize_classification(
         if (
             sanitized["author_performed_experiments"] == "no"
             and computation_central
+            and evidence_direction == "pure_computation"
             and high_confidence
         ):
             decision = "computational_content_confirmed"
         else:
             decision = "uncertain"
-    elif computation_central and high_confidence:
-        decision = "computational_primary_mixed_confirmed"
     elif (
-        high_confidence
-        and sanitized["computation_role"] in {"supporting", "background_only"}
-        and sanitized["counterfactual_without_computation"] == "main_claim_survives"
+        computation_central
+        and evidence_direction == "computation_predicts_then_experiment_validates"
+        and high_confidence
+    ):
+        decision = "computational_primary_mixed_confirmed"
+    elif high_confidence and (
+        evidence_direction == "experiment_observes_then_computation_explains"
+        or (
+            sanitized["computation_role"] in {"supporting", "background_only"}
+            and sanitized["counterfactual_without_computation"] == "main_claim_survives"
+        )
     ):
         decision = "experimental_primary_computational_support"
     else:
@@ -191,6 +211,7 @@ def sanitize_classification(
     sanitized["verification"] = {
         "computation_complete": computation_complete,
         "computation_central": computation_central,
+        "evidence_direction": evidence_direction,
         "verified_author_experiment_ids": sorted(verified_experiment_ids),
         "computation_required_claims": len(computation_required_claims),
         "validated_computational_evidence_ids": sorted(top_level_computational_evidence),

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-STAGE02_CLASSIFY_VERSION = "v2-stage02-classify-20260811-r6-headline-centrality"
-STAGE02_REVIEW_VERSION = "v2-stage02-review-20260811-r6-adversarial-pass"
+STAGE02_CLASSIFY_VERSION = "v2-stage02-classify-20260811-r7-evidence-direction"
+STAGE02_REVIEW_VERSION = "v2-stage02-review-20260811-r7-evidence-direction"
 STAGE03_VERSION = "v2-stage03-software-inventory-20260811-r23-computation-led-input"
 STAGE05_VERSION = "v2-stage05-suitability-20260810-r8-unresolved-software-inventory"
 STAGE06_SHARED_VERSION = "v2-stage06-shared-20260807"
@@ -51,11 +51,13 @@ Use exactly one decision:
 
 The fields must be internally consistent with the decision:
 - computational_content_confirmed requires performed_computation=yes, complete_computational_workflow=yes,
-  author_performed_experiments=no, computation_role=primary, and counterfactual_without_computation=main_claim_fails.
+  author_performed_experiments=no, computation_role=primary, evidence_direction=pure_computation, and
+  counterfactual_without_computation=main_claim_fails.
 - computational_primary_mixed_confirmed requires the same complete primary computation, author experiments=yes,
-  and counterfactual_without_computation=main_claim_fails.
+  evidence_direction=computation_predicts_then_experiment_validates, and
+  counterfactual_without_computation=main_claim_fails.
 - experimental_primary_computational_support requires author experiments=yes, computation_role=supporting or
-  background_only, and counterfactual_without_computation=main_claim_survives.
+  background_only, or evidence_direction=experiment_observes_then_computation_explains.
 - computational_content_not_found requires performed_computation=no or complete_computational_workflow=no.
 - If any field required by the intended decision is uncertain, use decision=uncertain. Never output a Pass decision
   together with an uncertain workflow or counterfactual.
@@ -69,6 +71,11 @@ conclusion, not against a narrower mechanistic subclaim. Use this procedure:
    explanation is lost, the paper is experimental_primary_computational_support, not computation-primary.
 4. Use computational_primary_mixed_confirmed only when a computed prediction, energy landscape, mechanism,
    simulation, or computed property is itself the headline deliverable and experiments are limited validation.
+5. Determine the evidence direction. If experiments first establish a new reaction, material, performance, or
+   phenomenon and computation retrospectively explains why it occurs, the direction is
+   experiment_observes_then_computation_explains and the paper is experimental-primary. A mixed Pass requires
+   computation_predicts_then_experiment_validates: computation proposes the headline result and a limited
+   experiment tests that prediction. If both are co-equal or chronology/logic is unresolved, do not Pass.
 
 Do not infer centrality from paragraph count or a detailed SI method section. General examples:
 - New reaction plus optimization/substrate scope, with DFT explaining selectivity: experimental-primary.
@@ -82,7 +89,9 @@ Prefer experimental-primary or uncertain over a Pass when the headline contribut
 
 Return compact JSON with: decision; article_role (original_research, review, correction, editorial, unknown);
 performed_computation, complete_computational_workflow, author_performed_experiments (yes, no, uncertain);
-computation_role (primary, supporting, background_only, none, uncertain); study_mode; central_scientific_question;
+computation_role (primary, supporting, background_only, none, uncertain); evidence_direction
+(pure_computation, computation_predicts_then_experiment_validates,
+experiment_observes_then_computation_explains, co_equal, none, uncertain); study_mode; central_scientific_question;
 primary_contribution; computational_workflow_steps (step_id, action, generated_output, evidence_ids);
 central_claims (statement, computation_required, experiment_required, evidence_ids); experimental_contributions
 (statement, evidence_ids); counterfactual_without_computation and counterfactual_without_experiments

@@ -31,6 +31,15 @@ def _classification(
         "complete_computational_workflow": "yes",
         "author_performed_experiments": author_experiments,
         "computation_role": computation_role,
+        "evidence_direction": (
+            "pure_computation"
+            if author_experiments == "no"
+            else (
+                "computation_predicts_then_experiment_validates"
+                if computation_role == "primary"
+                else "experiment_observes_then_computation_explains"
+            )
+        ),
         "study_mode": (
             "pure_computational"
             if author_experiments == "no"
@@ -134,6 +143,25 @@ def test_stage02_contract_holds_unresolved_centrality() -> None:
 
     assert sanitized["decision"] == "uncertain"
     assert should_review(sanitized["decision"], reasons)
+
+
+def test_stage02_contract_uses_experiment_to_computation_direction() -> None:
+    response = _classification(
+        decision="computational_primary_mixed_confirmed",
+        author_experiments="yes",
+    )
+    response["evidence_direction"] = "experiment_observes_then_computation_explains"
+
+    sanitized, _warnings, _reasons = sanitize_classification(
+        response,
+        valid_ids={"calc", "lab"},
+        computational_ids={"calc"},
+        deterministic_experiment_ids={"lab"},
+        minimum_confidence=0.85,
+    )
+
+    assert sanitized["decision"] == "experimental_primary_computational_support"
+    assert not sanitized["passed"]
 
 
 def test_stage02_contract_rejects_absent_computation() -> None:
