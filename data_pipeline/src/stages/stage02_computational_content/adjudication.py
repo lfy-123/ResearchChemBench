@@ -240,7 +240,7 @@ def _sanitize_claims(
                 "evidence_ids": evidence_ids,
             }
         )
-    return output[:2]
+    return output[:1]
 
 
 def _sanitize_workflow(
@@ -264,7 +264,7 @@ def _sanitize_workflow(
                 "evidence_ids": evidence_ids,
             }
         )
-    return output[:3]
+    return output[:2]
 
 
 def _sanitize_contributions(
@@ -279,7 +279,7 @@ def _sanitize_contributions(
         statement = str(item.get("statement") or "").strip()[:800]
         if statement:
             output.append({"statement": statement, "evidence_ids": evidence_ids})
-    return output[:2]
+    return output[:1]
 
 
 def _validated_ids(value: Any, valid_ids: set[str]) -> tuple[list[str], set[str]]:

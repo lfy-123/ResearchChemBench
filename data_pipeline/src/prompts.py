@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-STAGE02_CLASSIFY_VERSION = "v2-stage02-classify-20260811-r3-compact-contract"
-STAGE02_REVIEW_VERSION = "v2-stage02-review-20260811-r3-compact-contract"
+STAGE02_CLASSIFY_VERSION = "v2-stage02-classify-20260811-r4-minimal-contract"
+STAGE02_REVIEW_VERSION = "v2-stage02-review-20260811-r4-minimal-contract"
 STAGE03_VERSION = "v2-stage03-software-inventory-20260811-r23-computation-led-input"
 STAGE05_VERSION = "v2-stage05-suitability-20260810-r8-unresolved-software-inventory"
 STAGE06_SHARED_VERSION = "v2-stage06-shared-20260807"
@@ -60,11 +60,11 @@ computation_role (primary, supporting, background_only, none, uncertain); study_
 primary_contribution; computational_workflow_steps (step_id, action, generated_output, evidence_ids);
 central_claims (statement, computation_required, experiment_required, evidence_ids); experimental_contributions
 (statement, evidence_ids); counterfactual_without_computation and counterfactual_without_experiments
-(main_claim_fails, partly_survives, main_claim_survives, uncertain); strongest_computation_led_argument;
-strongest_experiment_led_argument; method_families; computational_actions; software_clues; resource_clues;
-evidence_ids; experimental_evidence_ids; conflicting_evidence_ids; rationale; confidence from 0 to 1.
-Every workflow, claim, and experiment must cite supplied evidence IDs. Use at most 2 central claims, 3 workflow
-steps, and 2 experimental contributions. Keep every narrative field to one concise sentence. Return JSON only."""
+(main_claim_fails, partly_survives, main_claim_survives, uncertain); evidence_ids;
+experimental_evidence_ids; conflicting_evidence_ids; rationale; confidence from 0 to 1.
+Every workflow, claim, and experiment must cite supplied evidence IDs. Use at most 1 central claim, 2 workflow
+steps, and 1 experimental contribution. Keep every narrative field under 200 characters and every evidence-ID
+array to at most 3 items. Do not output commentary or fields not listed above. Return compact JSON only."""
 
 STAGE02_REVIEW_SYSTEM = """Re-adjudicate one Stage02 classification only because deterministic validation found
 specific conflicts. Use the balanced evidence packet, the previous response, and listed validation issues. Check
