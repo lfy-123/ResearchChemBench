@@ -5,10 +5,12 @@ from typing import Any
 PASS_DECISIONS = {
     "computational_content_confirmed",
     "computational_primary_mixed_confirmed",
+    "computational_experimental_co_primary_confirmed",
+    "experimental_primary_benchmarkable_computation",
 }
 SEMANTIC_DECISIONS = {
     *PASS_DECISIONS,
-    "experimental_primary_computational_support",
+    "computational_workflow_not_benchmarkable",
     "computational_content_not_found",
     "uncertain",
 }
@@ -37,12 +39,13 @@ def sanitize_classification(
     for field in (
         "performed_computation",
         "complete_computational_workflow",
+        "benchmarkable_computational_workflow",
         "author_performed_experiments",
     ):
         sanitized[field] = _choice(sanitized.get(field), {"yes", "no", "uncertain"}, "uncertain")
     sanitized["computation_role"] = _choice(
         sanitized.get("computation_role"),
-        {"primary", "supporting", "background_only", "none", "uncertain"},
+        {"primary", "co_primary", "supporting", "background_only", "none", "uncertain"},
         "uncertain",
     )
     sanitized["evidence_direction"] = _choice(
@@ -134,7 +137,7 @@ def sanitize_classification(
         and set(claim.get("evidence_ids") or []) & computational_ids
     ]
     workflow_has_evidence = bool(workflow) and all(
-        set(step.get("evidence_ids") or []) & computational_ids and step.get("generated_output")
+        step.get("evidence_ids") and step.get("generated_output")
         for step in workflow
     )
     top_level_computational_evidence = set(sanitized["evidence_ids"]) & computational_ids
@@ -146,9 +149,10 @@ def sanitize_classification(
     )
     computation_central = (
         computation_complete
-        and sanitized["computation_role"] == "primary"
+        and sanitized["computation_role"] in {"primary", "co_primary"}
         and sanitized["counterfactual_without_computation"] == "main_claim_fails"
     )
+    workflow_benchmarkable = sanitized["benchmarkable_computational_workflow"] == "yes"
     evidence_direction = sanitized["evidence_direction"]
     has_author_experiments = sanitized["author_performed_experiments"] == "yes"
     high_confidence = confidence >= minimum_confidence
@@ -159,44 +163,48 @@ def sanitize_classification(
             if sanitized["article_role"] == "unknown"
             else "computational_content_not_found"
         )
+    elif sanitized["performed_computation"] == "no" and high_confidence:
+        decision = "computational_content_not_found"
     elif not computation_complete:
-        if sanitized["performed_computation"] == "no" and high_confidence:
-            decision = "computational_content_not_found"
-        elif sanitized["complete_computational_workflow"] == "no" and high_confidence:
-            decision = "computational_content_not_found"
+        if sanitized["complete_computational_workflow"] == "no" and high_confidence:
+            decision = "computational_workflow_not_benchmarkable"
+        else:
+            decision = "uncertain"
+    elif not workflow_benchmarkable:
+        if sanitized["benchmarkable_computational_workflow"] == "no" and high_confidence:
+            decision = "computational_workflow_not_benchmarkable"
         else:
             decision = "uncertain"
     elif not has_author_experiments:
         if (
             sanitized["author_performed_experiments"] == "no"
-            and computation_central
             and evidence_direction == "pure_computation"
             and high_confidence
         ):
             decision = "computational_content_confirmed"
         else:
             decision = "uncertain"
-    elif (
-        computation_central
-        and evidence_direction == "computation_predicts_then_experiment_validates"
-        and high_confidence
-    ):
+    elif not high_confidence:
+        decision = "uncertain"
+    elif evidence_direction == "co_equal":
+        decision = "computational_experimental_co_primary_confirmed"
+    elif evidence_direction == "computation_predicts_then_experiment_validates":
         decision = "computational_primary_mixed_confirmed"
-    elif high_confidence and (
-        evidence_direction == "experiment_observes_then_computation_explains"
-        or (
-            sanitized["computation_role"] in {"supporting", "background_only"}
-            and sanitized["counterfactual_without_computation"] == "main_claim_survives"
-        )
-    ):
-        decision = "experimental_primary_computational_support"
+    elif evidence_direction == "experiment_observes_then_computation_explains":
+        decision = "experimental_primary_benchmarkable_computation"
+    elif sanitized["computation_role"] == "co_primary":
+        decision = "computational_experimental_co_primary_confirmed"
+    elif sanitized["computation_role"] == "primary":
+        decision = "computational_primary_mixed_confirmed"
+    elif sanitized["computation_role"] == "supporting":
+        decision = "experimental_primary_benchmarkable_computation"
     else:
         decision = "uncertain"
 
     if confidence < minimum_confidence and decision != "computational_content_not_found":
         review_reasons.append("confidence_below_threshold")
-    if computation_complete and sanitized["counterfactual_without_computation"] == "uncertain":
-        review_reasons.append("computation_counterfactual_uncertain")
+    if computation_complete and sanitized["benchmarkable_computational_workflow"] == "uncertain":
+        review_reasons.append("benchmarkable_workflow_uncertain")
     if proposed != decision:
         warnings.append(
             {
@@ -213,6 +221,7 @@ def sanitize_classification(
     sanitized["passed"] = decision in PASS_DECISIONS
     sanitized["verification"] = {
         "computation_complete": computation_complete,
+        "workflow_benchmarkable": workflow_benchmarkable,
         "computation_central": computation_central,
         "evidence_direction": evidence_direction,
         "verified_author_experiment_ids": sorted(verified_experiment_ids),
@@ -236,8 +245,7 @@ def should_review(decision: str, reasons: list[str]) -> bool:
         in {
             "model_missed_verified_author_experiment",
             "author_experiment_without_valid_evidence",
-            "no_computation_required_central_claim",
-            "computation_counterfactual_uncertain",
+            "benchmarkable_workflow_uncertain",
             "model_and_contract_disagree",
             "unknown_evidence_ids",
         }
@@ -254,23 +262,26 @@ def apply_pass_verification(
     experimental_candidate_ids: set[str],
     minimum_confidence: float,
 ) -> tuple[dict[str, Any], list[dict[str, Any]]]:
-    """Apply an independent, compact adversarial review to a proposed Pass."""
+    """Verify that a proposed Pass contains an evidenced benchmarkable workflow."""
 
     output = dict(candidate)
     warnings: list[dict[str, Any]] = []
     raw = dict(verification) if isinstance(verification, dict) else {}
     proposed_decision = _choice(raw.get("decision"), SEMANTIC_DECISIONS, "uncertain")
     decision = proposed_decision
-    headline_producer = _choice(
-        raw.get("headline_producer"),
-        {"computation", "physical_experiment", "co_equal", "none", "uncertain"},
+    author_computation = _choice(
+        raw.get("author_performed_computation"), {"yes", "no", "uncertain"}, "uncertain"
+    )
+    complete_workflow = _choice(
+        raw.get("complete_computational_workflow"), {"yes", "no", "uncertain"}, "uncertain"
+    )
+    benchmarkable_workflow = _choice(
+        raw.get("benchmarkable_computational_workflow"),
+        {"yes", "no", "uncertain"},
         "uncertain",
     )
     author_experiments = _choice(
         raw.get("author_performed_experiments"), {"yes", "no", "uncertain"}, "uncertain"
-    )
-    computation_led = _choice(
-        raw.get("explicit_computation_led_sequence"), {"yes", "no", "uncertain"}, "uncertain"
     )
     evidence_ids, unknown = _validated_ids(raw.get("evidence_ids"), valid_ids)
     computation_evidence_ids, unknown_computation = _validated_ids(
@@ -297,53 +308,42 @@ def apply_pass_verification(
             }
         )
 
-    if (
-        decision == "computational_primary_mixed_confirmed"
-        and headline_producer == "computation"
-        and author_experiments == "no"
-        and bool(computation_evidence_ids)
-    ):
+    if decision in PASS_DECISIONS and author_experiments == "no":
+        original_decision = decision
         decision = "computational_content_confirmed"
-        warnings.append(
-            {
-                "field": "pass_verification.decision",
-                "reason": "pass_label_repaired_from_author_experiment_axis",
-                "model_decision": proposed_decision,
-                "derived_decision": decision,
-            }
-        )
-    elif (
-        decision == "computational_content_confirmed"
-        and headline_producer == "computation"
-        and author_experiments == "yes"
-        and computation_led == "yes"
-        and bool(experiment_evidence_ids)
-    ):
-        decision = "computational_primary_mixed_confirmed"
-        warnings.append(
-            {
-                "field": "pass_verification.decision",
-                "reason": "pass_label_repaired_from_author_experiment_axis",
-                "model_decision": proposed_decision,
-                "derived_decision": decision,
-            }
+        if original_decision != decision:
+            warnings.append(
+                {
+                    "field": "pass_verification.decision",
+                    "reason": "pass_label_repaired_from_author_experiment_axis",
+                    "model_decision": original_decision,
+                    "derived_decision": decision,
+                }
+            )
+    elif decision == "computational_content_confirmed" and author_experiments == "yes":
+        candidate_decision = str(candidate.get("decision") or "")
+        decision = (
+            candidate_decision
+            if candidate_decision in PASS_DECISIONS
+            and candidate_decision != "computational_content_confirmed"
+            else "uncertain"
         )
 
-    pass_contract_ok = False
-    if decision == "computational_content_confirmed":
-        pass_contract_ok = (
-            headline_producer == "computation"
-            and author_experiments == "no"
-            and bool(computation_evidence_ids)
+    pass_contract_ok = (
+        decision in PASS_DECISIONS
+        and author_computation == "yes"
+        and complete_workflow == "yes"
+        and benchmarkable_workflow == "yes"
+        and bool(computation_evidence_ids)
+        and (
+            (decision == "computational_content_confirmed" and author_experiments == "no")
+            or (
+                decision != "computational_content_confirmed"
+                and author_experiments == "yes"
+                and bool(experiment_evidence_ids)
+            )
         )
-    elif decision == "computational_primary_mixed_confirmed":
-        pass_contract_ok = (
-            headline_producer == "computation"
-            and author_experiments == "yes"
-            and computation_led == "yes"
-            and bool(computation_evidence_ids)
-            and bool(experiment_evidence_ids)
-        )
+    )
 
     if decision in PASS_DECISIONS and (
         not pass_contract_ok or confidence < minimum_confidence or bool(unknown)
@@ -366,6 +366,7 @@ def apply_pass_verification(
             {
                 "performed_computation": "yes",
                 "complete_computational_workflow": "yes",
+                "benchmarkable_computational_workflow": "yes",
                 "author_performed_experiments": "no",
                 "computation_role": "primary",
                 "evidence_direction": "pure_computation",
@@ -378,6 +379,7 @@ def apply_pass_verification(
             {
                 "performed_computation": "yes",
                 "complete_computational_workflow": "yes",
+                "benchmarkable_computational_workflow": "yes",
                 "author_performed_experiments": "yes",
                 "computation_role": "primary",
                 "evidence_direction": "computation_predicts_then_experiment_validates",
@@ -385,14 +387,36 @@ def apply_pass_verification(
                 "counterfactual_without_computation": "main_claim_fails",
             }
         )
-    elif decision == "experimental_primary_computational_support":
+    elif decision == "computational_experimental_co_primary_confirmed":
         output.update(
             {
+                "performed_computation": "yes",
+                "complete_computational_workflow": "yes",
+                "benchmarkable_computational_workflow": "yes",
+                "author_performed_experiments": "yes",
+                "computation_role": "co_primary",
+                "evidence_direction": "co_equal",
+                "study_mode": "mixed_computational_experimental",
+            }
+        )
+    elif decision == "experimental_primary_benchmarkable_computation":
+        output.update(
+            {
+                "performed_computation": "yes",
+                "complete_computational_workflow": "yes",
+                "benchmarkable_computational_workflow": "yes",
                 "author_performed_experiments": "yes",
                 "computation_role": "supporting",
                 "evidence_direction": "experiment_observes_then_computation_explains",
                 "study_mode": "experimental_with_computational_support",
                 "counterfactual_without_computation": "main_claim_survives",
+            }
+        )
+    elif decision == "computational_workflow_not_benchmarkable":
+        output.update(
+            {
+                "benchmarkable_computational_workflow": "no",
+                "computation_role": "supporting",
             }
         )
     elif decision == "computational_content_not_found":
@@ -411,9 +435,14 @@ def apply_pass_verification(
     output["pass_verification"] = {
         "proposed_decision": proposed_decision,
         "decision": decision,
-        "headline_producer": headline_producer,
+        "author_performed_computation": author_computation,
+        "complete_computational_workflow": complete_workflow,
+        "benchmarkable_computational_workflow": benchmarkable_workflow,
         "author_performed_experiments": author_experiments,
-        "explicit_computation_led_sequence": computation_led,
+        "computational_input": str(raw.get("computational_input") or "").strip()[:400],
+        "computational_operation": str(raw.get("computational_operation") or "").strip()[:400],
+        "generated_output": str(raw.get("generated_output") or "").strip()[:400],
+        "scientific_use": str(raw.get("scientific_use") or "").strip()[:400],
         "evidence_ids": evidence_ids,
         "computational_evidence_ids": computation_evidence_ids,
         "experimental_evidence_ids": experiment_evidence_ids,

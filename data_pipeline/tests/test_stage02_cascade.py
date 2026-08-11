@@ -23,6 +23,7 @@ def _classification(
     author_experiments: str = "no",
     counterfactual: str = "main_claim_fails",
     claim_requires_computation: bool = True,
+    benchmarkable: str = "yes",
     confidence: float = 0.95,
 ) -> dict:
     return {
@@ -30,6 +31,7 @@ def _classification(
         "article_role": "original_research",
         "performed_computation": "yes",
         "complete_computational_workflow": "yes",
+        "benchmarkable_computational_workflow": benchmarkable,
         "author_performed_experiments": author_experiments,
         "computation_role": computation_role,
         "evidence_direction": (
@@ -84,33 +86,23 @@ def _classification(
 
 
 def _pass_verification(decision: str) -> dict:
-    if decision == "computational_content_confirmed":
-        return {
-            "decision": decision,
-            "headline_producer": "computation",
-            "author_performed_experiments": "no",
-            "explicit_computation_led_sequence": "no",
-            "evidence_ids": ["calc"],
-            "computational_evidence_ids": ["calc"],
-            "experimental_evidence_ids": [],
-            "rationale": "The headline result is generated entirely by computation.",
-            "confidence": 0.96,
-        }
+    author_experiments = "no" if decision == "computational_content_confirmed" else "yes"
     return {
         "decision": decision,
-        "headline_producer": (
-            "computation"
-            if decision == "computational_primary_mixed_confirmed"
-            else "physical_experiment"
+        "author_performed_computation": "yes",
+        "complete_computational_workflow": "yes",
+        "benchmarkable_computational_workflow": (
+            "no" if decision == "computational_workflow_not_benchmarkable" else "yes"
         ),
-        "author_performed_experiments": "yes",
-        "explicit_computation_led_sequence": (
-            "yes" if decision == "computational_primary_mixed_confirmed" else "no"
-        ),
-        "evidence_ids": ["calc", "lab"],
+        "author_performed_experiments": author_experiments,
+        "computational_input": "A defined molecular structure.",
+        "computational_operation": "Geometry optimization and energy calculation.",
+        "generated_output": "Optimized structure and relative energy.",
+        "scientific_use": "The result explains the measured selectivity.",
+        "evidence_ids": ["calc", "lab"] if author_experiments == "yes" else ["calc"],
         "computational_evidence_ids": ["calc"],
-        "experimental_evidence_ids": ["lab"],
-        "rationale": "The cited evidence establishes the overall contribution.",
+        "experimental_evidence_ids": ["lab"] if author_experiments == "yes" else [],
+        "rationale": "The cited workflow generates a substantive chemical result.",
         "confidence": 0.96,
     }
 
@@ -133,14 +125,26 @@ def _pass_verification(decision: str) -> dict:
         ),
         (
             _classification(
-                decision="experimental_primary_computational_support",
+                decision="experimental_primary_benchmarkable_computation",
                 computation_role="supporting",
                 author_experiments="yes",
                 counterfactual="main_claim_survives",
                 claim_requires_computation=False,
             ),
             {"lab"},
-            "experimental_primary_computational_support",
+            "experimental_primary_benchmarkable_computation",
+        ),
+        (
+            {
+                **_classification(
+                    decision="computational_experimental_co_primary_confirmed",
+                    author_experiments="yes",
+                ),
+                "computation_role": "co_primary",
+                "evidence_direction": "co_equal",
+            },
+            {"lab"},
+            "computational_experimental_co_primary_confirmed",
         ),
     ],
 )
@@ -156,10 +160,10 @@ def test_stage02_contract_derives_centrality_classes(
     )
 
     assert sanitized["decision"] == expected
-    assert sanitized["passed"] == (expected != "experimental_primary_computational_support")
+    assert sanitized["passed"]
 
 
-def test_stage02_contract_holds_unresolved_centrality() -> None:
+def test_stage02_contract_does_not_gate_complete_workflow_on_centrality() -> None:
     response = _classification(
         decision="computational_primary_mixed_confirmed",
         author_experiments="yes",
@@ -174,8 +178,8 @@ def test_stage02_contract_holds_unresolved_centrality() -> None:
         minimum_confidence=0.85,
     )
 
-    assert sanitized["decision"] == "uncertain"
-    assert should_review(sanitized["decision"], reasons)
+    assert sanitized["decision"] == "computational_primary_mixed_confirmed"
+    assert not should_review(sanitized["decision"], reasons)
 
 
 def test_stage02_contract_uses_experiment_to_computation_direction() -> None:
@@ -193,8 +197,8 @@ def test_stage02_contract_uses_experiment_to_computation_direction() -> None:
         minimum_confidence=0.85,
     )
 
-    assert sanitized["decision"] == "experimental_primary_computational_support"
-    assert not sanitized["passed"]
+    assert sanitized["decision"] == "experimental_primary_benchmarkable_computation"
+    assert sanitized["passed"]
 
 
 def test_stage02_contract_accepts_model_cited_author_experiment() -> None:
@@ -221,14 +225,14 @@ def test_stage02_pass_verification_rejects_experiment_led_candidate() -> None:
 
     verified, warnings = apply_pass_verification(
         candidate,
-        _pass_verification("experimental_primary_computational_support"),
+        _pass_verification("computational_workflow_not_benchmarkable"),
         valid_ids={"calc", "lab"},
         computational_ids={"calc"},
         experimental_candidate_ids={"lab"},
         minimum_confidence=0.85,
     )
 
-    assert verified["decision"] == "experimental_primary_computational_support"
+    assert verified["decision"] == "computational_workflow_not_benchmarkable"
     assert not verified["passed"]
     assert warnings == []
 
@@ -281,6 +285,51 @@ def test_stage02_contract_rejects_absent_computation() -> None:
 
     assert sanitized["decision"] == "computational_content_not_found"
     assert not sanitized["passed"]
+
+
+def test_stage02_contract_rejects_incidental_computation() -> None:
+    response = _classification(
+        decision="computational_workflow_not_benchmarkable",
+        computation_role="supporting",
+        author_experiments="yes",
+        benchmarkable="no",
+    )
+    response["complete_computational_workflow"] = "no"
+
+    sanitized, _warnings, _reasons = sanitize_classification(
+        response,
+        valid_ids={"calc", "lab"},
+        computational_ids={"calc"},
+        deterministic_experiment_ids={"lab"},
+        minimum_confidence=0.85,
+    )
+
+    assert sanitized["decision"] == "computational_workflow_not_benchmarkable"
+    assert not sanitized["passed"]
+
+
+def test_stage02_verifier_accepts_experimental_primary_benchmarkable_workflow() -> None:
+    candidate = _classification(
+        decision="experimental_primary_benchmarkable_computation",
+        computation_role="supporting",
+        author_experiments="yes",
+        counterfactual="main_claim_survives",
+    )
+    candidate["evidence_direction"] = "experiment_observes_then_computation_explains"
+    candidate["passed"] = True
+
+    verified, warnings = apply_pass_verification(
+        candidate,
+        _pass_verification("experimental_primary_benchmarkable_computation"),
+        valid_ids={"calc", "lab"},
+        computational_ids={"calc"},
+        experimental_candidate_ids={"lab"},
+        minimum_confidence=0.85,
+    )
+
+    assert verified["decision"] == "experimental_primary_benchmarkable_computation"
+    assert verified["passed"]
+    assert warnings == []
 
 
 def test_stage02_contract_does_not_accept_experiment_block_as_computation() -> None:

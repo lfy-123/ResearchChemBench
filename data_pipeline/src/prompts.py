@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-STAGE02_CLASSIFY_VERSION = "v2-stage02-classify-20260811-r8-focused-centrality"
-STAGE02_PASS_VERIFY_VERSION = "v2-stage02-pass-verify-20260811-r1-adversarial"
+STAGE02_CLASSIFY_VERSION = "v2-stage02-classify-20260811-r9-benchmarkable-workflow"
+STAGE02_PASS_VERIFY_VERSION = "v2-stage02-pass-verify-20260811-r2-workflow-evidence"
 STAGE03_VERSION = "v2-stage03-software-inventory-20260811-r23-computation-led-input"
 STAGE05_VERSION = "v2-stage05-suitability-20260810-r8-unresolved-software-inventory"
 STAGE06_SHARED_VERSION = "v2-stage06-shared-20260807"
@@ -22,48 +22,51 @@ TASK_DIRECTIONS = (
     "descriptor_discovery_catalyst_design",
 )
 
-STAGE02_CLASSIFY_SYSTEM = """Classify one chemistry paper by its OVERALL contribution. Use only supplied evidence
-IDs. Do not promote a mechanistic subclaim into the paper's headline contribution.
+STAGE02_CLASSIFY_SYSTEM = """Classify one chemistry paper by determining whether it contains an author-performed,
+substantive computational-chemistry workflow that could supply a meaningful benchmark subtask. Use only supplied
+evidence IDs. Computation does NOT need to be the paper's dominant contribution. Do not require downloadable input
+files, exact reproducibility, toolbox coverage, or final task buildability; later stages check those properties.
 
-First identify what the authors newly delivered: a computed result/model, or a physically synthesized/measured/
-tested result. Then classify with exactly one decision:
-- computational_content_confirmed: original pure computational chemistry, no new author physical experiment.
-- computational_primary_mixed_confirmed: computation explicitly produces the headline prediction/design/result;
-  limited author experiments subsequently validate that computed result.
-- experimental_primary_computational_support: a new reaction, material, molecule, structure, measurement,
-  performance result, or biological result is established experimentally; computation explains or rationalizes it.
-- computational_content_not_found: no complete author-performed computational-chemistry workflow.
-- uncertain: article role, workflow, author experiments, or overall centrality cannot be established.
+Classify with exactly one decision:
+- computational_content_confirmed: pure computational chemistry with no new author physical experiment.
+- computational_primary_mixed_confirmed: computation is primary and author experiments validate or support it.
+- computational_experimental_co_primary_confirmed: computation and physical experiments make comparably
+  indispensable contributions to the central result.
+- experimental_primary_benchmarkable_computation: physical experiments are primary, but a complete, non-trivial
+  computational workflow generates its own chemical result and can be isolated as a meaningful evaluation subtask.
+- computational_workflow_not_benchmarkable: computation exists but is incomplete, incidental, routine data
+  processing, or lacks a meaningful chemical input-calculation-output chain.
+- computational_content_not_found: no author-performed computational-chemistry workflow.
+- uncertain: source evidence cannot establish author attribution or workflow completeness.
 
-Critical distinction: losing a DFT mechanism or atomistic explanation does NOT mean an experimentally established
-headline result disappears. A paper that synthesizes/tests a catalyst and then uses DFT to explain activity is
-experimental-primary, even when DFT is essential to the mechanistic explanation. Likewise, a new synthetic method,
-substrate scope, battery/device performance, measured spectrum, or isolated structure remains experimental-primary
-when computation explains selectivity, bonding, barriers, or trends after the observation. A mixed Pass requires
-positive evidence that computation proposed or selected the headline intervention before a limited experimental
-validation; importance of the explanation alone is insufficient. Co-equal or unclear direction is uncertain.
-
-A substantive workflow needs a chemical input, an actual calculation/simulation, and a generated chemical result.
-Routine fitting/plotting, experimental data processing, Rietveld refinement alone, life-cycle/process modelling,
-database lookup, AlphaFold-only prediction, synthesis planning, and background citations are outside this gate.
-Published experimental data used for comparison are not new author experiments.
+A benchmarkable workflow requires: (1) an identifiable chemical system, structure, reaction, material, trajectory,
+or molecular model; (2) an actual author-performed calculation or simulation; (3) an identifiable method or
+operation and generated chemical output such as structures, energies, barriers, spectra, mechanisms, trajectories,
+rates, or quantitative properties; (4) a scientific use for that output in a claim, comparison, prediction,
+explanation, or design; and (5) enough conceptual detail to define a non-trivial computation. Extensive DFT
+mechanisms, transition-state/selectivity studies, adsorption or reaction-energy landscapes, electronic-structure
+analyses, MD/free-energy simulations, spectroscopy simulations, and microkinetic models can qualify even when they
+support an experimental paper. A lone orbital picture or isolated number without a defined workflow, routine
+fitting/plotting, experimental data processing, Rietveld refinement alone, life-cycle/process modelling, database
+lookup, AlphaFold-only prediction, synthesis planning, and background citations do not qualify by themselves.
+Published experimental data used only for comparison are not new author experiments.
 
 deterministic_author_experiment_evidence contains high-precision author-laboratory sentences, but it is not
 exhaustive: an empty list is not proof of a pure computational paper. You may also establish author experiments
 from experimental_evidence, but must cite the exact supplied evidence IDs.
 
 Use these consistency rules:
-- Pure Pass: performed_computation=yes, complete_computational_workflow=yes, author_performed_experiments=no,
-  computation_role=primary, evidence_direction=pure_computation, counterfactual_without_computation=main_claim_fails.
-- Mixed Pass: the same complete primary computation, author_performed_experiments=yes,
-  evidence_direction=computation_predicts_then_experiment_validates, and main_claim_fails without computation.
-- Experimental-primary: author experiments=yes and direction=experiment_observes_then_computation_explains, or
-  computation is supporting and the experimental headline survives without it.
-- If a required fact is unresolved, return uncertain rather than a Pass.
+- Every Pass requires performed_computation=yes, complete_computational_workflow=yes,
+  benchmarkable_computational_workflow=yes, valid computational evidence, and confidence above threshold.
+- The four Pass labels describe scientific role only. `experiment_observes_then_computation_explains` is eligible
+  when the computational workflow itself is complete and non-trivial.
+- Use `computational_workflow_not_benchmarkable` when author computation is present but fails the workflow test.
+- If author attribution or workflow completeness is unresolved, return uncertain rather than a Pass.
 
 Return one compact JSON object with: decision; article_role (original_research, review, correction, editorial,
 unknown); performed_computation, complete_computational_workflow, author_performed_experiments (yes, no,
-uncertain); computation_role (primary, supporting, background_only, none, uncertain); evidence_direction
+  uncertain); benchmarkable_computational_workflow (yes, no, uncertain); computation_role (primary, co_primary,
+  supporting, background_only, none, uncertain); evidence_direction
 (pure_computation, computation_predicts_then_experiment_validates,
 experiment_observes_then_computation_explains, co_equal, none, uncertain); study_mode (pure_computational,
 mixed_computational_experimental, experimental_with_computational_support, noncomputational, uncertain);
@@ -74,32 +77,29 @@ counterfactual_without_computation and counterfactual_without_experiments (main_
 main_claim_survives, uncertain); evidence_ids; experimental_evidence_ids; conflicting_evidence_ids; rationale;
 confidence from 0 to 1. Use at most 3 IDs per array and keep narrative values under 180 characters. Return JSON only."""
 
-STAGE02_PASS_VERIFY_SYSTEM = """Act as an adversarial precision gate for a proposed Stage02 Pass. Decide the
-paper's OVERALL contribution, not whether computation is important to one mechanistic claim. Use only supplied
-evidence IDs.
+STAGE02_PASS_VERIFY_SYSTEM = """Verify a proposed Stage02 Pass using only supplied evidence IDs. The gate asks
+whether the authors performed a complete, non-trivial computational-chemistry workflow with an identifiable
+chemical input/system, calculation or simulation, generated chemical output, and scientific use. Computation may
+be primary, co-primary, or supporting an experimental paper. Do not reject merely because experiments produced the
+paper's headline result.
 
-Reject to experimental_primary_computational_support whenever the headline result is a newly synthesized or
-measured reaction, catalyst, material, molecule, device, spectrum, structure, or performance and computation
-mainly explains mechanism, bonding, selectivity, barriers, or trends. The fact that the explanation would be lost
-without computation does not make the whole paper computation-primary. Phrases such as "DFT reveals/explains" do
-not establish computation-first direction.
+Reject to computational_workflow_not_benchmarkable when computation is only a background citation, routine data
+processing, fitting/plotting, a lone qualitative orbital image or isolated value without a defined workflow, or
+lacks an identifiable generated chemical result. Use computational_content_not_found when no author computation
+exists. Use uncertain only when author attribution or workflow completeness cannot be resolved from the packet.
 
-Accept computational_primary_mixed_confirmed only with positive textual evidence that computation generated a
-headline prediction, screen, design choice, or intervention and limited experiments then tested that prediction.
-Accept computational_content_confirmed only when the authors report no new physical experiment and a complete
-computational workflow generates the headline result. An empty deterministic experiment list is not evidence that
-experiments are absent. If evidence is co-equal or order/centrality is unclear, return uncertain.
+Preserve the scientific-role label when supported: pure computational, computation-primary mixed, co-primary, or
+experimental-primary with benchmarkable computation. An empty deterministic experiment list is not proof that
+author experiments are absent.
 
-Examples: new catalyst performance plus post-hoc DFT mechanism -> experimental-primary; new synthesis plus DFT
-selectivity explanation -> experimental-primary; computed screening selects candidates followed by small
-validation -> mixed Pass; simulation-only mechanism using published data -> pure Pass.
+Return compact JSON only with: decision (one of the seven Stage02 decisions); author_performed_computation,
+complete_computational_workflow, benchmarkable_computational_workflow, author_performed_experiments (each yes, no,
+uncertain); computational_input, computational_operation, generated_output, scientific_use (strings under 160
+characters); evidence_ids, computational_evidence_ids, and experimental_evidence_ids (each at most 3 supplied
+IDs); rationale under 220 characters; confidence from 0 to 1."""
 
-Return compact JSON only with: decision (one of the five Stage02 decisions); headline_producer (computation,
-physical_experiment, co_equal, none, uncertain); author_performed_experiments (yes, no, uncertain);
-explicit_computation_led_sequence (yes, no, uncertain); evidence_ids, computational_evidence_ids, and
-experimental_evidence_ids (each at most 3 supplied IDs); rationale under 220 characters; confidence from 0 to 1."""
-
-STAGE03_SYSTEM = """Inventory the software used by a paper already confirmed as computation-led chemistry.
+STAGE03_SYSTEM = """Inventory the software used by a paper already confirmed to contain a benchmarkable
+computational-chemistry workflow.
 Use only supplied evidence. Your job is evidence extraction and software-role classification; deterministic
 code checks whether every required named software package exists in the frozen toolbox software catalog. The catalog
 is intentionally not supplied to you: extract every actually used software entity without support-status bias.

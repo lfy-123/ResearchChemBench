@@ -1433,8 +1433,9 @@ def test_stage03_and_stage04_share_client_but_keep_prompt_namespaces(
             response = {
                 "decision": "computational_content_confirmed",
                 "article_role": "original_research",
-                "performed_computation": "yes",
-                    "complete_computational_workflow": "yes",
+                    "performed_computation": "yes",
+                        "complete_computational_workflow": "yes",
+                        "benchmarkable_computational_workflow": "yes",
                     "computation_role": "primary",
                     "evidence_direction": "pure_computation",
                     "study_mode": "pure_computational",

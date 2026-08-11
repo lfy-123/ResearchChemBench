@@ -10,11 +10,13 @@ from typing import Any
 LABELS = (
     "computational_content_confirmed",
     "computational_primary_mixed_confirmed",
-    "experimental_primary_computational_support",
+    "computational_experimental_co_primary_confirmed",
+    "experimental_primary_benchmarkable_computation",
+    "computational_workflow_not_benchmarkable",
     "computational_content_not_found",
     "uncertain",
 )
-PASS_LABELS = frozenset(LABELS[:2])
+PASS_LABELS = frozenset(LABELS[:4])
 OPERATIONAL_MAP = {"non_original_article": "computational_content_not_found"}
 
 
@@ -22,14 +24,13 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Analyze frozen Stage02 challenge-set results.")
     parser.add_argument("--evaluation-root", type=Path, required=True)
     parser.add_argument("--sampling-audit", type=Path)
+    parser.add_argument("--reference-dir", default="human_labels_v2")
     args = parser.parse_args()
 
     root = args.evaluation_root.expanduser().resolve()
     manifest = _read_jsonl(root / "manifest.jsonl")
-    references = _load_reference_labels(root / "human_labels")
-    references, adjudicated_ids = _apply_reference_adjudications(
-        references, root / "reference_audits/adjudications.jsonl"
-    )
+    references = _load_reference_labels(root / args.reference_dir)
+    adjudicated_ids: list[str] = []
     predictions = _by_id(
         _read_jsonl(root / "model_run/stage_02_computational_content/decisions.jsonl")
     )
@@ -175,7 +176,7 @@ def _render_report(result: dict[str, Any]) -> str:
         f"- Papers: {result['papers']}",
         f"- Semantic predictions: {result['semantic_predictions']}",
         f"- Operational failures: {result['operational_failures']}",
-        f"- Exact five-class accuracy: {_percent(result['exact_accuracy_on_semantic_predictions'])}",
+        f"- Exact seven-class accuracy: {_percent(result['exact_accuracy_on_semantic_predictions'])}",
         f"- Macro F1: {result['macro_f1_on_semantic_predictions']:.3f}",
         f"- Pass precision: {_percent(binary['precision'])}",
         f"- Pass recall: {_percent(binary['recall'])}",

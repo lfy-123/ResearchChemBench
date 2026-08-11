@@ -22,14 +22,14 @@ from src.stages.stage02_computational_content.adjudication import (
 from src.stages.stage02_computational_content.evidence import build_evidence_packet
 
 COMPUTATIONAL_CONTENT_IMPLEMENTATION_VERSION = (
-    "v2-stage02-computational-content-20260811-r13-adversarial-pass-gate"
+    "v2-stage02-computational-content-20260811-r14-benchmarkable-workflow-gate"
 )
 
 CONTENT_CONFIRMATION_DECISIONS = set(PASS_DECISIONS)
 
 DECISIONS = {
     *CONTENT_CONFIRMATION_DECISIONS,
-    "experimental_primary_computational_support",
+    "computational_workflow_not_benchmarkable",
     "computational_content_not_found",
     "non_original_article",
     "uncertain",
@@ -131,6 +131,7 @@ def run_stage02(
                     "article_role": "original_research",
                     "performed_computation": "no",
                     "complete_computational_workflow": "no",
+                    "benchmarkable_computational_workflow": "no",
                     "author_performed_experiments": "yes" if experiment_ids else "uncertain",
                     "computation_role": "none",
                     "evidence_direction": "none",
@@ -152,6 +153,7 @@ def run_stage02(
                     "passed": False,
                     "verification": {
                         "computation_complete": False,
+                        "workflow_benchmarkable": False,
                         "computation_central": False,
                         "verified_author_experiment_ids": sorted(experiment_ids),
                         "computation_required_claims": 0,
@@ -323,7 +325,7 @@ def run_stage02(
             for row in records
             if row["decision"]
             in {
-                "experimental_primary_computational_support",
+                "computational_workflow_not_benchmarkable",
                 "computational_content_not_found",
                 "non_original_article",
             }

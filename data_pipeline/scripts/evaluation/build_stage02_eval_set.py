@@ -189,10 +189,13 @@ def _complete_stage01_paper(row: dict[str, Any]) -> bool:
 
 
 def _annotation_instructions() -> str:
-    return """# Stage02 independent annotation instructions
+    return """# Stage02 benchmarkable-computation annotation instructions
 
 Read the main paper and every listed supplementary document. Do not open
 `sampling_audit.private.jsonl`, historical Stage02 outputs, or new model outputs.
+
+Stage02 asks whether the paper contains an author-performed, substantive computational-chemistry workflow that
+could supply a scientifically meaningful benchmark subtask. Computation need not dominate the paper.
 
 Assign exactly one label:
 
@@ -200,13 +203,16 @@ Assign exactly one label:
   a complete computation generates a central claim that fails without computation.
 - `computational_primary_mixed_confirmed`: authors perform computation and physical experiments, but computation
   generates the primary scientific contribution and experiments validate, constrain, or support it.
-- `experimental_primary_computational_support`: experiment is the primary contribution; computation rationalizes
-  or annotates the experimental result and the main claim survives without it.
-- `computational_content_not_found`: no substantive author-performed computational-chemistry workflow.
-- `uncertain`: article role, workflow completeness, author attribution, or centrality cannot be established.
+- `computational_experimental_co_primary_confirmed`: computation and experiments are comparably indispensable.
+- `experimental_primary_benchmarkable_computation`: experiments are primary, but a complete non-trivial
+  computational workflow generates a meaningful chemical result.
+- `computational_workflow_not_benchmarkable`: computation exists but lacks a meaningful input-calculation-output
+  workflow or is incidental/routine processing.
+- `computational_content_not_found`: no author-performed computational-chemistry workflow.
+- `uncertain`: author attribution or workflow completeness cannot be established.
 
-Do not use paragraph counts. Record a concise rationale, confidence, the computation workflow, author experiments,
-counterfactual without computation, and the decisive source document/path evidence.
+Do not use paragraph counts or require computation to be central. Record a concise rationale, confidence, the
+computation workflow and generated result, author experiments, benchmarkability, and decisive source evidence.
 """
 
 
