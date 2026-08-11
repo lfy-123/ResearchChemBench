@@ -1,8 +1,8 @@
 from __future__ import annotations
 
-STAGE02_MAP_VERSION = "v2-stage02-map-20260809-r7-explicit-actor-attribution"
-STAGE02_REDUCE_VERSION = "v2-stage02-reduce-20260810-r9-domain-boundaries"
-STAGE03_VERSION = "v2-stage03-software-inventory-20260810-r21-recall-balanced"
+STAGE02_CLASSIFY_VERSION = "v2-stage02-classify-20260811-r2-evidence-contract"
+STAGE02_REVIEW_VERSION = "v2-stage02-review-20260811-r2-evidence-contract"
+STAGE03_VERSION = "v2-stage03-software-inventory-20260811-r23-computation-led-input"
 STAGE05_VERSION = "v2-stage05-suitability-20260810-r8-unresolved-software-inventory"
 STAGE06_SHARED_VERSION = "v2-stage06-shared-20260807"
 STAGE06_AUTONOMOUS_VERSION = "v2-stage06-autonomous-20260807"
@@ -22,92 +22,58 @@ TASK_DIRECTIONS = (
     "descriptor_discovery_catalyst_design",
 )
 
-STAGE02_MAP_SYSTEM = """You extract evidence for strict pure-computational-chemistry screening from one
-paper chunk. Use only supplied evidence blocks. Separate three concepts precisely: computation performed by
-THIS paper, physical laboratory work performed by THIS paper's authors, and experimental data produced by
-other work that this paper merely uses or cites.
+STAGE02_CLASSIFY_SYSTEM = """Classify one chemistry paper from a balanced evidence packet. Use only supplied
+evidence IDs. The goal is high precision, not a target pass rate. First reconstruct the paper's central scientific
+question, primary contribution, complete computational workflow, physical experiments performed by this paper's
+authors, and central claims. Then apply the counterfactual: would the main scientific claim survive without the
+computation?
 
-Valid computation operates on a molecular, atomistic, electronic, reaction, or materials model and generates
-a chemical result such as a structure, energy, electronic property, simulated spectrum, trajectory, free
-energy, reaction path, rate, phonon, or molecular/material prediction.
+A substantive computational-chemistry workflow needs a molecular/material/reaction input, an actual calculation
+or simulation, and a generated chemical result. Routine fitting, plotting, experimental data processing,
+Rietveld refinement alone, life-cycle/process modelling, database lookup, AlphaFold-only prediction, synthesis
+planning, and background citations are not sufficient. Published structures or experimental databases used as
+inputs do not mean the current authors performed experiments.
+The deterministic_author_experiment_evidence field contains exact full-text sentences found by an independent
+high-precision attribution scan. Treat each supplied item as author laboratory evidence and cite its evidence ID
+when classifying pure versus mixed work; do not invent additional experiments.
 
-"author_experiment_evidence" means physical laboratory work on real samples or specimens by THIS paper's
-authors: synthesis, fabrication, purification, measurement, spectroscopy, microscopy, diffraction,
-electrochemistry, assay, characterization, or physical performance testing. NEVER put DFT, ab initio methods,
-MD, Monte Carlo, QM/MM, phonon calculations, simulated spectra, trajectory/free-energy analysis, ML screening,
-error analysis, fitting of computed outputs, or any other in-silico operation in author_experiment_evidence.
-Using a published PDB/XFEL/XRD structure, a public database, or previously measured reference values is not an
-author experiment unless the quote explicitly says the current authors produced the physical measurement.
+Use exactly one decision:
+- computational_content_confirmed: original pure computational chemistry; no author physical experiment; a
+  complete computation generates a central claim that fails without computation.
+- computational_primary_mixed_confirmed: computation and author experiments both exist, but computation
+  generates the primary scientific contribution; experiments validate, constrain, or support it; the main claim
+  fails without computation.
+- experimental_primary_computational_support: synthesis, testing, characterization, or another experiment is the
+  primary contribution; computation mainly rationalizes or annotates experimental findings and the main claim
+  survives without it.
+- computational_content_not_found: no substantive author-performed computational-chemistry workflow.
+- uncertain: evidence, article role, workflow completeness, or experiment/computation centrality is unresolved.
 
-Examples:
-- "All MD simulations were performed in the NPT ensemble" is computation only, not an experiment.
-- "Figure S20. Calculated phonon spectra" is computation only, not a measured spectrum.
-- "Our model starts from the published XFEL structure" is external experimental input, not an author experiment.
-- "1H NMR spectra were recorded on a 400 MHz spectrometer" is an author laboratory experiment.
-- "The catalyst was synthesized and tested by cyclic voltammetry" is author laboratory work.
-- Comparing predictions with an experimental database is not author laboratory work by itself.
+Do not infer centrality from paragraph count or a detailed SI method section. A synthesis/performance paper with
+one complete DFT explanation is experimental-primary. A computational prediction or mechanism paper with focused
+experimental validation may be computation-primary. State the strongest evidence for both interpretations before
+deciding. Prefer uncertain over an unsupported pass.
 
-Do not count routine processing of laboratory data as computational chemistry: curve fitting, statistics,
-image analysis, plotting, XRD/Rietveld refinement alone, spectral peak fitting alone, instrumentation software,
-life-cycle/process/economic modeling, database lookup, or AlphaFold-only prediction. A simulated spectrum or
-calculated diffraction pattern counts only when generated from a molecular/material computational model.
+Return compact JSON with: decision; article_role (original_research, review, correction, editorial, unknown);
+performed_computation, complete_computational_workflow, author_performed_experiments (yes, no, uncertain);
+computation_role (primary, supporting, background_only, none, uncertain); study_mode; central_scientific_question;
+primary_contribution; computational_workflow_steps (step_id, action, generated_output, evidence_ids);
+central_claims (statement, computation_required, experiment_required, evidence_ids); experimental_contributions
+(statement, evidence_ids); counterfactual_without_computation and counterfactual_without_experiments
+(main_claim_fails, partly_survives, main_claim_survives, uncertain); strongest_computation_led_argument;
+strongest_experiment_led_argument; method_families; computational_actions; software_clues; resource_clues;
+evidence_ids; experimental_evidence_ids; conflicting_evidence_ids; rationale; confidence from 0 to 1.
+Every workflow, claim, and experiment must cite supplied evidence IDs. Use at most 4 claims, 5 workflow steps,
+and 4 experimental contributions. Return JSON only."""
 
-Return one JSON object with keys: has_computational_evidence (boolean), evidence (array),
-author_experiment_evidence (array), background_only_evidence (array), conflicts (array). Each computation item
-must contain evidence_id, exact_quote, method_family, model_system, action, computed_outputs, software_clues,
-attribution (this_paper, prior_work, or unclear), actor_text, current_paper_cue, and confidence. Each author
-experiment item must contain evidence_id, exact_quote, experiment_type, attribution, actor_text,
-current_paper_cue, and confidence. actor_text identifies the grammatical actor in the quote; current_paper_cue
-is the exact first-person, passive-method, or current-work phrase that proves attribution. If no such phrase
-exists, set attribution=unclear or prior_work. Copy quotes exactly. Return at most
-three computation items, two author-experiment items, and two background-only items. Keep every quote under
-240 characters. Each computation item may contain at most three computed outputs and three software clues;
-each such string must stay under 80 characters. Return at most one conflict. Keep all other strings under 120
-characters and return compact JSON only."""
+STAGE02_REVIEW_SYSTEM = """Re-adjudicate one Stage02 classification only because deterministic validation found
+specific conflicts. Use the balanced evidence packet, the previous response, and listed validation issues. Check
+the strongest experiment-led interpretation as carefully as the computation-led interpretation. Do not preserve
+the previous label for consistency. Apply the same five decision definitions and return the complete compact JSON
+schema requested by the original classifier. Cite only supplied evidence IDs; prefer uncertain when a required
+claim, workflow step, attribution, or counterfactual cannot be supported. Return JSON only."""
 
-STAGE02_REDUCE_SYSTEM = """You are the strict high-precision gate for pure computational chemistry papers.
-Use supplied paper metadata and quote-validated findings. The target is an original study whose authors' primary scientific
-work is a molecular/material computational workflow. A paper with physical synthesis, fabrication,
-measurement, assay, characterization, microscopy, spectroscopy, diffraction, electrochemistry, or other
-laboratory work performed by the current authors is not pure computational, even when computation is primary.
-
-Never classify an in-silico operation as an author experiment. DFT, ab initio calculations, MD, Monte Carlo,
-QM/MM, phonon calculations, simulated spectra, trajectory/free-energy analysis, ML screening, computational
-error analysis, and model validation are computation. A paper remains pure computational when it only uses a
-published experimental structure/database/value as input or comparison; external experimental data does not
-prove that the current authors performed laboratory work.
-
-Examples:
-- A DFT screening paper with calculated phonons and no physical measurements is pure computational.
-- An MD paper initialized from a published PDB structure is pure computational if its authors did no lab work.
-- A model evaluated against an existing experimental database is still pure computational.
-- A paper whose authors synthesized a catalyst and measured activity is mixed, even if it also has complete DFT.
-- A paper with no molecular/material computation is noncomputational, not mixed computational-experimental.
-- Informatics-only prediction, planning, enumeration, annotation, or generic algorithm development is outside
-  this gate unless the paper also performs a substantive molecular/material calculation such as electronic
-  structure, atomistic simulation, free-energy or reaction dynamics, kinetics, phonons, or molecular docking.
-
-A complete workflow must establish all three: (1) a molecular/material/reaction model or structure, (2) an
-actual calculation or simulation operation, and (3) a generated chemical result. Exclude routine experimental
-data processing, fitting/statistics, XRD/Rietveld refinement alone, plotting, LCA/process modeling,
-bioinformatics/AlphaFold-only work, instrumentation, background citations, and future work.
-
-Return one JSON object with: decision, article_role, performed_computation, computation_role, study_mode,
-author_performed_experiments, workflow_complete, method_families, computational_actions, software_clues,
-resource_clues, evidence_ids, experimental_evidence_ids, conflicting_evidence_ids, rationale, confidence.
-decision is computational_content_confirmed, not_pure_computational, computational_content_not_found,
-background_only, or uncertain. article_role is original_research, review, correction, editorial, or unknown.
-computation_role is primary, supporting, background_only, or none. study_mode is pure_computational,
-mixed_computational_experimental, experimental_with_computational_support, noncomputational, or uncertain.
-performed_computation, author_performed_experiments, and workflow_complete are yes, no, or uncertain.
-Confirm only original_research + performed yes + primary + pure_computational + author experiments no +
-workflow complete yes, supported by validated evidence. Set author_performed_experiments=yes only when a
-supplied experimental evidence quote explicitly supports physical work by the current authors. A title beginning
-Correction, Corrigendum, Erratum, Retraction, Editorial, or Commentary is never original_research. A paper that
-calls itself a review or perspective, or reports another named group's work, is not original research. Keep rationale
-under 400 characters and return compact JSON only."""
-
-STAGE03_SYSTEM = """Inventory the software used by a paper already confirmed as pure computational chemistry.
+STAGE03_SYSTEM = """Inventory the software used by a paper already confirmed as computation-led chemistry.
 Use only supplied evidence. Your job is evidence extraction and software-role classification; deterministic
 code checks whether every required named software package exists in the frozen toolbox software catalog. The catalog
 is intentionally not supplied to you: extract every actually used software entity without support-status bias.

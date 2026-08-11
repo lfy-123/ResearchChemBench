@@ -1992,7 +1992,7 @@ def _target_blocks(blocks, record, mentions, limit):
             str(mention.get("context") or "")
         )
     rule_ids = list(mention_contexts)
-    stage02_ids = [str(value) for value in ((record.get("review") or {}).get("evidence_ids") or [])]
+    stage02_ids = _stage02_evidence_ids(record.get("review") or {})
     cue_ids = [
         str(block["evidence_id"])
         for block in blocks
@@ -2050,6 +2050,19 @@ def _target_blocks(blocks, record, mentions, limit):
         output.append(compact)
         size += block_size
     return output
+
+
+def _stage02_evidence_ids(review):
+    output = [str(value) for value in (review.get("evidence_ids") or [])]
+    for field in (
+        "computational_workflow_steps",
+        "central_claims",
+        "experimental_contributions",
+    ):
+        for item in review.get(field) or []:
+            if isinstance(item, dict):
+                output.extend(str(value) for value in (item.get("evidence_ids") or []))
+    return list(dict.fromkeys(value for value in output if value))
 
 
 def _method_section(block):
@@ -2135,6 +2148,13 @@ def _compact_stage02_review(review):
             key: review.get(key)
             for key in (
                 "centrality",
+                "central_scientific_question",
+                "primary_contribution",
+                "computational_workflow_steps",
+                "central_claims",
+                "experimental_contributions",
+                "counterfactual_without_computation",
+                "counterfactual_without_experiments",
                 "method_families",
                 "computational_actions",
                 "software_clues",

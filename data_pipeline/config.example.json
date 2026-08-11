@@ -69,14 +69,16 @@
   },
   "stage02": {
     "model_role": "screening",
-    "allow_primary_mixed": false,
     "workers": 8,
-    "chunk_payload_bytes": 18000,
-    "uncertain_retries": 1,
-    "map_max_tokens": 2048,
-    "reduce_max_tokens": 2048,
-    "reduce_max_evidence": 12,
-    "reduce_max_quote_characters": 300
+    "max_prompt_characters": 36000,
+    "excerpt_characters": 1400,
+    "max_computational_excerpts": 8,
+    "max_experimental_excerpts": 8,
+    "max_deterministic_experiment_evidence": 8,
+    "classification_max_tokens": 1536,
+    "review_max_tokens": 1536,
+    "minimum_confidence": 0.85,
+    "review_on_conflict": true
   },
   "stage03": {
     "model_role": "screening",

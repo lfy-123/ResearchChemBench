@@ -9,6 +9,7 @@ from pathlib import Path
 from typing import Any, Iterable
 
 PRUNABLE_STAGES = {"stage00", "stage01", "stage02", "stage03"}
+HOLD_DECISIONS = {"uncertain", "processing_failed"}
 
 
 class ScreeningRegistry:
@@ -191,7 +192,7 @@ class ScreeningRegistry:
                 self._replace_software_mentions(
                     connection, run_id=run_id, stage=stage, row=row, now=now
                 )
-                if prune and self.prune_enabled and stage in PRUNABLE_STAGES and not _passed(row):
+                if prune and self.prune_enabled and stage in PRUNABLE_STAGES and _should_prune(row):
                     rejected_ids.add(paper_id)
             for paper_id in rejected_ids:
                 connection.execute(
@@ -591,6 +592,12 @@ def _passed(row: dict[str, Any]) -> bool:
     if "passed" in row:
         return bool(row.get("passed"))
     return str(row.get("decision") or "").casefold() in {"pass", "passed", "copied"}
+
+
+def _should_prune(row: dict[str, Any]) -> bool:
+    if _passed(row):
+        return False
+    return str(row.get("decision") or "").casefold() not in HOLD_DECISIONS
 
 
 def _validate_stage00_bundle(path: Path, source_paper_id: str) -> None:

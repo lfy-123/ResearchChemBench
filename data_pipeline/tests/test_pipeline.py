@@ -547,8 +547,7 @@ def test_stage02_primary_gate_rejects_experimental_supporting_computation() -> N
 
     assert response["decision"] == "not_pure_computational"
     assert any(
-        warning["reason"] == "computation_primary_requirements_failed"
-        for warning in warnings
+        warning["reason"] == "computation_primary_requirements_failed" for warning in warnings
     )
 
 
@@ -913,9 +912,7 @@ def test_microbatch_cache_invalidates_only_changed_stage_and_downstream(
     tmp_path: Path,
 ) -> None:
     config = _base_config(tmp_path)
-    config["stage01"] = {
-        "normalization": {"grobid": {"base_url": "http://127.0.0.1:10001"}}
-    }
+    config["stage01"] = {"normalization": {"grobid": {"base_url": "http://127.0.0.1:10001"}}}
     config["stage03"]["softcite"] = {"base_url": "http://127.0.0.1:10002"}
     (tmp_path / "profile.json").write_text('{"backends": {}}', encoding="utf-8")
     (tmp_path / "aliases.json").write_text("{}", encoding="utf-8")
@@ -949,9 +946,7 @@ def test_stage02_implementation_version_invalidates_all_downstream_cache(
     tmp_path: Path, monkeypatch
 ) -> None:
     config = _base_config(tmp_path)
-    config["stage01"] = {
-        "normalization": {"grobid": {"base_url": "http://127.0.0.1:10001"}}
-    }
+    config["stage01"] = {"normalization": {"grobid": {"base_url": "http://127.0.0.1:10001"}}}
     (tmp_path / "profile.json").write_text('{"backends": {}}', encoding="utf-8")
     (tmp_path / "aliases.json").write_text("{}", encoding="utf-8")
     papers = [{"paper_id": "paper-1"}]
@@ -973,7 +968,9 @@ def test_stage02_implementation_version_invalidates_all_downstream_cache(
     second = _microbatch_stage_hashes(papers, documents, config)
 
     assert first["stage01"] == second["stage01"]
-    assert all(first[stage] != second[stage] for stage in ("stage02", "stage03", "stage04", "stage05"))
+    assert all(
+        first[stage] != second[stage] for stage in ("stage02", "stage03", "stage04", "stage05")
+    )
 
 
 def test_v2_sandbox_prewarms_and_pools_configured_softcite_instances(
@@ -1432,33 +1429,36 @@ def test_stage03_and_stage04_share_client_but_keep_prompt_namespaces(
 
     def caller(**kwargs):
         system = kwargs["system_prompt"]
-        if "pure-computational-chemistry screening" in system:
-            response = {
-                "has_computational_evidence": True,
-                "evidence": [
-                    {
-                        "evidence_id": evidence_id,
-                        "exact_quote": quote,
-                        "method_family": "electronic_structure",
-                        "attribution": "this_paper",
-                        "action": "energy calculation",
-                        "software_clues": ["Gaussian 16"],
-                        "result_clues": [],
-                        "confidence": "high",
-                    }
-                ],
-                "background_only_evidence": [],
-                "conflicts": [],
-            }
-        elif "strict high-precision gate" in system:
+        if "Classify one chemistry paper" in system:
             response = {
                 "decision": "computational_content_confirmed",
                 "article_role": "original_research",
                 "performed_computation": "yes",
+                "complete_computational_workflow": "yes",
                 "computation_role": "primary",
                 "study_mode": "pure_computational",
                 "author_performed_experiments": "no",
-                "workflow_complete": "yes",
+                "central_scientific_question": "Calculate a molecular energy.",
+                "primary_contribution": "A computed molecular energy.",
+                "computational_workflow_steps": [
+                    {
+                        "step_id": "step-1",
+                        "action": "energy calculation",
+                        "generated_output": "electronic energy",
+                        "evidence_ids": [evidence_id],
+                    }
+                ],
+                "central_claims": [
+                    {
+                        "statement": "The calculation generates the central energy result.",
+                        "computation_required": True,
+                        "experiment_required": False,
+                        "evidence_ids": [evidence_id],
+                    }
+                ],
+                "experimental_contributions": [],
+                "counterfactual_without_computation": "main_claim_fails",
+                "counterfactual_without_experiments": "main_claim_survives",
                 "method_families": ["electronic_structure"],
                 "computational_actions": ["energy calculation"],
                 "software_clues": ["Gaussian 16"],
@@ -1467,7 +1467,7 @@ def test_stage03_and_stage04_share_client_but_keep_prompt_namespaces(
                 "experimental_evidence_ids": [],
                 "conflicting_evidence_ids": [],
                 "rationale": "Performed DFT is explicit.",
-                "confidence": "high",
+                "confidence": 0.95,
             }
         else:
             response = {
@@ -1632,7 +1632,7 @@ def test_stage03_and_stage04_share_client_but_keep_prompt_namespaces(
     cache_namespaces = {
         path.parent.name for path in (tmp_path / "cache" / "screening").glob("*/*.json")
     }
-    assert {"stage02_map", "stage02_reduce", "stage03_inventory"}.issubset(cache_namespaces)
+    assert {"stage02_classify", "stage03_inventory"}.issubset(cache_namespaces)
 
 
 def test_stage04_softcite_input_removes_xml10_forbidden_characters(tmp_path: Path) -> None:
@@ -2020,9 +2020,7 @@ def test_stage04_sanitizer_drops_method_reported_as_software() -> None:
     sanitized, warnings = _sanitize_review(response, {"ev-1": quote})
 
     assert sanitized["software_mentions"] == []
-    assert [warning["reason"] for warning in warnings] == [
-        "method_or_process_not_software"
-    ]
+    assert [warning["reason"] for warning in warnings] == ["method_or_process_not_software"]
 
 
 def test_stage04_sanitizer_expands_parenthesized_software_name() -> None:
@@ -3673,8 +3671,7 @@ def test_stage05_evidence_budget_preserves_main_and_supplementary_documents() ->
         {"document_id": "main", "evidence_id": f"main-{index}", "text": "m" * 80}
         for index in range(4)
     ] + [
-        {"document_id": "si", "evidence_id": f"si-{index}", "text": "s" * 80}
-        for index in range(4)
+        {"document_id": "si", "evidence_id": f"si-{index}", "text": "s" * 80} for index in range(4)
     ]
 
     bounded = _bounded_by_document(blocks, 320)
@@ -3706,9 +3703,7 @@ def test_stage05_software_facts_prevent_covered_engine_from_becoming_a_blocker()
 
 def test_stage05_allows_only_declared_uncovered_software_as_a_blocker() -> None:
     coverage = _stage05_fixture_coverage()
-    coverage["software_mappings"].append(
-        {"raw_name": "UnknownEngine", "catalog_present": False}
-    )
+    coverage["software_mappings"].append({"raw_name": "UnknownEngine", "catalog_present": False})
     assert (
         _software_fact_contradictions(
             {"decision": "abstain", "blocking_software": ["UnknownEngine"]}, coverage
@@ -3756,6 +3751,7 @@ def test_stage05_abstention_contract_couples_software_dimension_and_blockers() -
         )
         == []
     )
+
 
 def test_stage05_packet_removes_nested_stage04_evidence_ids() -> None:
     value = {

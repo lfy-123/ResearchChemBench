@@ -4,6 +4,8 @@ import json
 import sqlite3
 from pathlib import Path
 
+import pytest
+
 from src.registry import ScreeningRegistry
 
 
@@ -115,6 +117,32 @@ def test_registry_never_prunes_stage04_or_later_rejections(tmp_path: Path) -> No
         )
 
         assert bundle.is_dir(), stage
+
+
+@pytest.mark.parametrize("decision", ["uncertain", "processing_failed"])
+def test_registry_preserves_stage02_hold_assets(tmp_path: Path, decision: str) -> None:
+    stage_root, bundle, manifest, row = _stage00_fixture(tmp_path)
+    registry = _registry(tmp_path)
+    registry.start_run(
+        run_id="run-hold",
+        workspace=tmp_path / "run",
+        config_path=tmp_path / "config.json",
+        config_hash="config-hash",
+    )
+    registry.register_stage00_manifest(
+        run_id="run-hold",
+        manifest_path=manifest,
+        corpus_root=stage_root / "corpus",
+    )
+
+    summary = registry.record_stage_results(
+        run_id="run-hold",
+        stage="stage02",
+        rows=[{"paper_id": row["paper_id"], "decision": decision, "passed": False}],
+    )
+
+    assert bundle.is_dir()
+    assert summary["deleted"] == 0
 
 
 def test_registry_exports_rejected_paper_after_assets_are_deleted(tmp_path: Path) -> None:

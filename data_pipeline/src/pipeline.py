@@ -22,8 +22,8 @@ from src.integrations.managed_service import managed_service
 from src.integrations.softcite import SoftciteClient, SoftciteClientPool, softcite_service
 from src.model_client import ModelCaller, RoleModelClient, is_transient_connection_error
 from src.prompts import (
-    STAGE02_MAP_VERSION,
-    STAGE02_REDUCE_VERSION,
+    STAGE02_CLASSIFY_VERSION,
+    STAGE02_REVIEW_VERSION,
     STAGE03_VERSION,
     STAGE05_VERSION,
 )
@@ -720,7 +720,7 @@ def _microbatch_stage_hashes(papers, documents, config):
             "upstream": stage01,
             "config": _stage_config_cache_value("stage02", stage02_config),
             "model": screening,
-            "prompts": [STAGE02_MAP_VERSION, STAGE02_REDUCE_VERSION],
+            "prompts": [STAGE02_CLASSIFY_VERSION, STAGE02_REVIEW_VERSION],
             "implementation": COMPUTATIONAL_CONTENT_IMPLEMENTATION_VERSION,
         }
     )

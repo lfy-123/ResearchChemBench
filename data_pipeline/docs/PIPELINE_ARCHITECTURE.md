@@ -7,7 +7,8 @@
 只门控论文明确依赖的命名核心软件是否存在于原生软件目录，不要求预设 Action 已覆盖全部参数。
 
 所有阶段以稳定 `paper_id` 关联。每篇论文在 Stage00 中是一个目录，正文、远端已有 SI 和
-`paper.json` 放在一起。每个阶段必须先写 registry 再允许删除 Stage00-03 淘汰论文的原始目录。
+`paper.json` 放在一起。每个阶段必须先写 registry 再允许删除 Stage00-03 明确淘汰论文的原始
+目录；`uncertain` 和 `processing_failed` 属于 Hold，不删除原始资产。
 
 ## 阶段输入输出
 
@@ -15,7 +16,7 @@
 |---|---|---|---|
 | Stage00 | 远端数据集、数量、抽样配置、排除清单 | 论文目录、`source_manifest.jsonl`、选择清单 | 正文复制成功且 PDF 有效；SI 缺失不在本阶段淘汰 |
 | Stage01 | Stage00 corpus | `package/papers.jsonl`、`documents.jsonl`、`paper_bundles.jsonl`、解析尝试与质量报告 | SI 已存在、成功补齐或官方确认不存在；正文和全部已知 SI 均可解析 |
-| Stage02 | Stage01 结构化文本块 | `decisions.jsonl`、map/reduce 审查、错误记录 | 当前作者完成完整计算化学流程，且没有当前作者实施的物理实验；所有混合实验论文均不进入下游 |
+| Stage02 | Stage01 正文与全部 SI 结构化文本块 | 平衡证据包、单次裁决、条件复审、`decisions.jsonl` | 完整纯计算论文，或计算产生核心贡献且实验仅验证/辅助的混合论文 |
 | Stage03 | Stage02 证据、Stage01 全文、软件别名和工具箱快照、资源预算 | 软件/工作流/资源清单、工具箱映射、`decisions.jsonl` | 必需的命名核心软件均存在于工具箱，软件清单可确认，且没有明确资源超限 |
 | Stage04 | Stage03 通过论文及其文档 | MinerU 高质量正文/SI、解析尝试、`decisions.jsonl` | 正文和所需文档通过 MinerU 质量门控 |
 | Stage05 | Stage04 高质量正文/SI、Stage03 工作流/软件事实/预算 | 0 或 1 个最强 benchmark 候选，或结构化淘汰维度 | 候选对应允许方向，输入、参数、ground truth、软件和成本均有证据确认，流程完整且机器可评分 |

@@ -9,27 +9,28 @@ from src.contracts import decision_counts, read_jsonl, record_header, write_json
 from src.core.concurrency import ordered_parallel_map
 from src.model_client import RoleModelClient
 from src.prompts import (
-    STAGE02_MAP_SYSTEM,
-    STAGE02_MAP_VERSION,
-    STAGE02_REDUCE_SYSTEM,
-    STAGE02_REDUCE_VERSION,
+    STAGE02_CLASSIFY_SYSTEM,
+    STAGE02_CLASSIFY_VERSION,
+    STAGE02_REVIEW_SYSTEM,
+    STAGE02_REVIEW_VERSION,
 )
+from src.stages.stage02_computational_content.adjudication import (
+    PASS_DECISIONS,
+    sanitize_classification,
+    should_review,
+)
+from src.stages.stage02_computational_content.evidence import build_evidence_packet
 
 COMPUTATIONAL_CONTENT_IMPLEMENTATION_VERSION = (
-    "v2-stage02-computational-content-20260810-r5-pure-only"
+    "v2-stage02-computational-content-20260811-r7-evidence-contract"
 )
 
-CONTENT_CONFIRMATION_DECISIONS = {
-    "computational_content_confirmed",
-    "computational_primary_mixed_confirmed",
-}
-PASS_DECISIONS = {"computational_content_confirmed"}
+CONTENT_CONFIRMATION_DECISIONS = set(PASS_DECISIONS)
 
 DECISIONS = {
     *CONTENT_CONFIRMATION_DECISIONS,
-    "not_pure_computational",
+    "experimental_primary_computational_support",
     "computational_content_not_found",
-    "background_only",
     "non_original_article",
     "uncertain",
 }
@@ -50,10 +51,20 @@ def run_stage02(
 
     def review(
         paper: dict[str, Any],
-    ) -> tuple[dict[str, Any], list[dict[str, Any]], list[dict[str, Any]]]:
+    ) -> tuple[
+        dict[str, Any],
+        dict[str, Any] | None,
+        list[dict[str, Any]],
+        list[dict[str, Any]],
+    ]:
+        semantic_calls_started = 0
+        completed_model_audits: list[dict[str, Any]] = []
         try:
             source_blocks = [
-                block
+                {
+                    **block,
+                    "document_role": document_by_id[document_id].get("document_role"),
+                }
                 for document_id in paper.get("document_ids") or []
                 if document_id in document_by_id
                 for block in read_jsonl(document_by_id[document_id]["content_blocks_path"])
@@ -76,127 +87,173 @@ def run_stage02(
                     "reduce_validation_warnings": [],
                     "model_audit": {"model_called": False, "deterministic_guard": True},
                 }
-                return record, [], []
+                return record, None, [], []
             blocks = [block for block in source_blocks if not _is_atomic_coordinate_dump(block)]
             skipped_nonsemantic_blocks = len(source_blocks) - len(blocks)
-            chunks, skipped_coordinate_segments = _chunks_with_stats(
-                blocks,
-                int(
-                    config.get(
-                        "chunk_payload_bytes",
-                        config.get("chunk_bytes", config.get("chunk_characters", 9000)),
-                    )
-                ),
+            metadata = _paper_metadata(paper)
+            packet = build_evidence_packet(
+                paper_metadata=metadata,
+                blocks=blocks,
+                config=config,
             )
-            skipped_nonsemantic_blocks += skipped_coordinate_segments
-            chunk_reviews: list[dict[str, Any]] = []
-            validated_evidence: list[dict[str, Any]] = []
             deterministic_experiments = _find_deterministic_author_experiments(blocks)
-            validated_experiments: list[dict[str, Any]] = list(deterministic_experiments)
-            for index, chunk in enumerate(chunks):
-                payload = {
-                    "paper_id": paper["paper_id"],
-                    "paper_metadata": _paper_metadata(paper),
-                    "chunk_index": index,
-                    "blocks": chunk,
+            visible_deterministic_experiments = _visible_deterministic_experiments(
+                deterministic_experiments,
+                limit=int(config.get("max_deterministic_experiment_evidence", 8)),
+            )
+            packet["deterministic_author_experiment_evidence"] = visible_deterministic_experiments
+            visible_experiment_ids = [
+                str(item.get("evidence_id") or "")
+                for item in visible_deterministic_experiments
+                if item.get("evidence_id")
+            ]
+            packet["valid_evidence_ids"] = list(
+                dict.fromkeys([*packet["valid_evidence_ids"], *visible_experiment_ids])
+            )
+            packet["rule_screen"]["deterministic_author_experiment_hits"] = len(
+                deterministic_experiments
+            )
+            valid_ids = set(packet["valid_evidence_ids"])
+            computational_ids = {
+                str(item.get("evidence_id") or "")
+                for item in packet["computational_evidence"]
+                if item.get("evidence_id")
+            }
+            experiment_ids = set(visible_experiment_ids)
+            if not packet["rule_screen"]["computation_candidate"]:
+                response = {
+                    "decision": "computational_content_not_found",
+                    "article_role": "original_research",
+                    "performed_computation": "no",
+                    "complete_computational_workflow": "no",
+                    "author_performed_experiments": "yes" if experiment_ids else "uncertain",
+                    "computation_role": "none",
+                    "study_mode": "noncomputational",
+                    "central_claims": [],
+                    "computational_workflow_steps": [],
+                    "experimental_contributions": [],
+                    "counterfactual_without_computation": "main_claim_survives",
+                    "counterfactual_without_experiments": "uncertain",
+                    "evidence_ids": [],
+                    "experimental_evidence_ids": [],
+                    "conflicting_evidence_ids": [],
+                    "method_families": [],
+                    "computational_actions": [],
+                    "software_clues": [],
+                    "resource_clues": [],
+                    "rationale": "No substantive computational-chemistry signal was found in parsed main/SI text.",
+                    "confidence": 1.0,
+                    "passed": False,
+                    "verification": {
+                        "computation_complete": False,
+                        "computation_central": False,
+                        "verified_author_experiment_ids": sorted(experiment_ids),
+                        "computation_required_claims": 0,
+                        "minimum_confidence": float(config.get("minimum_confidence", 0.85)),
+                    },
                 }
-                response, audit = _call_complete_json(
+                audits = {"model_called": False, "zero_call_rule_rejection": True}
+                validation_warnings: list[dict[str, Any]] = []
+                attempts: list[dict[str, Any]] = []
+            else:
+                semantic_calls_started += 1
+                raw_response, primary_audit = _call_complete_json(
                     model,
-                    namespace="stage02_map",
-                    record_id=f"{paper['paper_id']}-{index:04d}",
-                    prompt_version=STAGE02_MAP_VERSION,
-                    system_prompt=STAGE02_MAP_SYSTEM,
-                    user_content=json.dumps(payload, ensure_ascii=False),
-                    max_tokens=int(config.get("map_max_tokens", 2048)),
+                    namespace="stage02_classify",
+                    record_id=paper["paper_id"],
+                    prompt_version=STAGE02_CLASSIFY_VERSION,
+                    system_prompt=STAGE02_CLASSIFY_SYSTEM,
+                    user_content=json.dumps(packet, ensure_ascii=False),
+                    max_tokens=int(config.get("classification_max_tokens", 1536)),
                 )
-                evidence = _validate_map(response, chunk)
-                experiments = _validate_experiment_map(
-                    response.get("author_experiment_evidence"), chunk
+                completed_model_audits.append(primary_audit)
+                response, validation_warnings, review_reasons = sanitize_classification(
+                    raw_response,
+                    valid_ids=valid_ids,
+                    computational_ids=computational_ids,
+                    deterministic_experiment_ids=experiment_ids,
+                    minimum_confidence=float(config.get("minimum_confidence", 0.85)),
                 )
-                validated_evidence.extend(evidence)
-                validated_experiments.extend(experiments)
-                chunk_reviews.append(
+                attempts = [
                     {
                         "paper_id": paper["paper_id"],
-                        "chunk_index": index,
-                        "response": response,
-                        "validated_evidence": evidence,
-                        "validated_experiments": experiments,
-                        "model_audit": audit,
+                        "eval_id": paper.get("eval_id"),
+                        "attempt": "primary",
+                        "raw_response": raw_response,
+                        "validated_response": response,
+                        "validation_warnings": validation_warnings,
+                        "review_reasons": review_reasons,
+                        "model_audit": primary_audit,
                     }
-                )
-            validated_experiments = _deduplicate_quoted_evidence(validated_experiments)
-            reduce_payload = {
-                "paper_id": paper["paper_id"],
-                "paper_metadata": _paper_metadata(paper),
-                "validated_computational_evidence": _reduce_evidence_packet(
-                    validated_evidence,
-                    max_items=int(config.get("reduce_max_evidence", 12)),
-                    max_quote_characters=int(config.get("reduce_max_quote_characters", 300)),
-                ),
-                "validated_author_experiment_evidence": _reduce_experiment_packet(
-                    validated_experiments,
-                    max_items=int(config.get("reduce_max_experiment_evidence", 12)),
-                    max_quote_characters=int(config.get("reduce_max_quote_characters", 300)),
-                ),
-                "chunk_summaries": [_compact_chunk_review(item) for item in chunk_reviews],
-            }
-            response, audit = _call_complete_json(
-                model,
-                namespace="stage02_reduce",
-                record_id=paper["paper_id"],
-                prompt_version=STAGE02_REDUCE_VERSION,
-                system_prompt=STAGE02_REDUCE_SYSTEM,
-                user_content=json.dumps(reduce_payload, ensure_ascii=False),
-                max_tokens=int(config.get("reduce_max_tokens", 2048)),
-            )
-            valid_ids = {item["evidence_id"] for item in validated_evidence}
-            experiment_ids = {item["evidence_id"] for item in validated_experiments}
-            response, reduce_warnings = _sanitize_reduce_response(
-                response,
-                valid_ids,
-                experiment_ids=experiment_ids,
-                allow_primary_mixed=False,
-                minimum_confidence=float(config.get("minimum_confidence", 0.75)),
-            )
+                ]
+                review_audit = None
+                if bool(config.get("review_on_conflict", True)) and should_review(
+                    response["decision"], review_reasons
+                ):
+                    review_payload = {
+                        "evidence_packet": packet,
+                        "previous_response": raw_response,
+                        "validation_issues": review_reasons,
+                    }
+                    semantic_calls_started += 1
+                    retry_raw, review_audit = _call_complete_json(
+                        model,
+                        namespace="stage02_conflict_review",
+                        record_id=paper["paper_id"],
+                        prompt_version=STAGE02_REVIEW_VERSION,
+                        system_prompt=STAGE02_REVIEW_SYSTEM,
+                        user_content=json.dumps(review_payload, ensure_ascii=False),
+                        max_tokens=int(config.get("review_max_tokens", 1536)),
+                    )
+                    completed_model_audits.append(review_audit)
+                    retry_response, retry_warnings, retry_reasons = sanitize_classification(
+                        retry_raw,
+                        valid_ids=valid_ids,
+                        computational_ids=computational_ids,
+                        deterministic_experiment_ids=experiment_ids,
+                        minimum_confidence=float(config.get("minimum_confidence", 0.85)),
+                    )
+                    if should_review(retry_response["decision"], retry_reasons):
+                        retry_response["decision"] = "uncertain"
+                        retry_response["passed"] = False
+                        retry_response.setdefault("verification", {})[
+                            "unresolved_after_conflict_review"
+                        ] = True
+                        retry_warnings.append(
+                            {
+                                "field": "decision",
+                                "reason": "unresolved_after_conflict_review",
+                                "review_reasons": retry_reasons,
+                            }
+                        )
+                    attempts.append(
+                        {
+                            "paper_id": paper["paper_id"],
+                            "eval_id": paper.get("eval_id"),
+                            "attempt": "conflict_review",
+                            "raw_response": retry_raw,
+                            "validated_response": retry_response,
+                            "validation_warnings": retry_warnings,
+                            "review_reasons": retry_reasons,
+                            "model_audit": review_audit,
+                        }
+                    )
+                    response = retry_response
+                    validation_warnings = retry_warnings
+                audits = {
+                    "model_called": True,
+                    "calls": len(attempts),
+                    "successful_http_requests": sum(
+                        _audit_http_requests(attempt.get("model_audit") or {})
+                        for attempt in attempts
+                    ),
+                    "primary": primary_audit,
+                    "review": review_audit,
+                }
+
             decision = str(response.get("decision") or "uncertain")
             if decision not in DECISIONS:
                 raise ValueError(f"invalid Stage02 decision: {decision}")
-            for retry in range(int(config.get("uncertain_retries", 1))):
-                if decision != "uncertain":
-                    break
-                response, audit = _call_complete_json(
-                    model,
-                    namespace="stage02_reduce_retry",
-                    record_id=f"{paper['paper_id']}-retry-{retry + 1}",
-                    prompt_version=STAGE02_REDUCE_VERSION,
-                    system_prompt=STAGE02_REDUCE_SYSTEM,
-                    user_content=json.dumps(
-                        {
-                            **reduce_payload,
-                            "review_instruction": (
-                                "The previous adjudication or deterministic evidence audit was uncertain. "
-                                "Recheck whether any quote proves physical laboratory work by the current "
-                                "authors. Simulations, calculated spectra, external structures, and comparison "
-                                "to existing experimental data are not author laboratory experiments."
-                            ),
-                        },
-                        ensure_ascii=False,
-                    ),
-                    max_tokens=int(config.get("reduce_max_tokens", 2048)),
-                )
-                response, retry_warnings = _sanitize_reduce_response(
-                    response,
-                    valid_ids,
-                    experiment_ids=experiment_ids,
-                    allow_primary_mixed=False,
-                    minimum_confidence=float(config.get("minimum_confidence", 0.75)),
-                )
-                reduce_warnings.extend(retry_warnings)
-                decision = str(response.get("decision") or "uncertain")
-                if decision not in DECISIONS:
-                    raise ValueError(f"invalid Stage02 retry decision: {decision}")
-            decision = str(response.get("decision") or "uncertain")
             record = {
                 **record_header(run_id=run_id, stage="stage02", paper_id=paper["paper_id"]),
                 "title": paper.get("title"),
@@ -207,14 +264,22 @@ def run_stage02(
                 "decision": decision,
                 "passed": decision in PASS_DECISIONS,
                 "review": response,
-                "validated_evidence": validated_evidence,
-                "validated_author_experiment_evidence": validated_experiments,
+                "validated_evidence": _selected_packet_evidence(packet),
+                "validated_author_experiment_evidence": deterministic_experiments,
                 "skipped_nonsemantic_blocks": skipped_nonsemantic_blocks,
-                "reduce_validation_warnings": reduce_warnings,
-                "model_audit": audit,
+                "reduce_validation_warnings": validation_warnings,
+                "model_audit": audits,
             }
-            return record, chunk_reviews, []
+            packet_record = {
+                "paper_id": paper["paper_id"],
+                **packet,
+                "deterministic_author_experiment_ids": sorted(experiment_ids),
+            }
+            return record, packet_record, attempts, []
         except Exception as exc:
+            failure_audit = exc.audit if isinstance(exc, Stage02ModelCallError) else None
+            if failure_audit:
+                completed_model_audits.append(failure_audit)
             error = {
                 "paper_id": paper["paper_id"],
                 "error_type": type(exc).__name__,
@@ -230,17 +295,31 @@ def run_stage02(
                 "decision": "processing_failed",
                 "passed": False,
                 "error": error,
+                "model_audit": {
+                    "model_called": semantic_calls_started > 0,
+                    "calls_started": semantic_calls_started,
+                    "calls_completed": len(completed_model_audits),
+                    "successful_http_requests": sum(
+                        _audit_http_requests(audit) for audit in completed_model_audits
+                    ),
+                    "http_request_count_complete": not any(
+                        audit.get("http_requests_unknown") for audit in completed_model_audits
+                    ),
+                    "failed_call": failure_audit,
+                },
             }
-            return record, [], [error]
+            return record, None, [], [error]
 
     reviewed = ordered_parallel_map(
         review, eligible, max_workers=int(config.get("workers", model.config.get("workers", 1)))
     )
     records = [item[0] for item in reviewed]
-    chunk_rows = [row for item in reviewed for row in item[1]]
-    errors = [row for item in reviewed for row in item[2]]
+    packet_rows = [item[1] for item in reviewed if item[1] is not None]
+    review_rows = [row for item in reviewed for row in item[2]]
+    errors = [row for item in reviewed for row in item[3]]
     write_jsonl(stage_root / "decisions.jsonl", records)
-    write_jsonl(stage_root / "chunk_reviews.jsonl", chunk_rows)
+    write_jsonl(stage_root / "evidence_packets.jsonl", packet_rows)
+    write_jsonl(stage_root / "review_attempts.jsonl", review_rows)
     write_jsonl(stage_root / "processing_errors.jsonl", errors)
     write_jsonl(
         stage_root / "rejected.jsonl",
@@ -249,10 +328,8 @@ def run_stage02(
             for row in records
             if row["decision"]
             in {
-                "not_pure_computational",
-                "computational_primary_mixed_confirmed",
+                "experimental_primary_computational_support",
                 "computational_content_not_found",
-                "background_only",
                 "non_original_article",
             }
         ],
@@ -270,11 +347,55 @@ def run_stage02(
         "decisions": decision_counts(records),
         "passed": sum(row["passed"] for row in records),
         "processing_errors": len(errors),
+        "model_calls": sum(
+            int(
+                (row.get("model_audit") or {}).get(
+                    "calls_started", (row.get("model_audit") or {}).get("calls", 0)
+                )
+            )
+            for row in records
+        ),
+        "completed_model_calls": sum(
+            int(
+                (row.get("model_audit") or {}).get(
+                    "calls_completed", (row.get("model_audit") or {}).get("calls", 0)
+                )
+            )
+            for row in records
+        ),
+        "successful_model_http_requests": sum(
+            int((row.get("model_audit") or {}).get("successful_http_requests") or 0)
+            for row in records
+        ),
+        "papers_with_incomplete_http_request_audit": sum(
+            (row.get("model_audit") or {}).get("http_request_count_complete") is False
+            for row in records
+        ),
+        "papers_with_model_calls": sum(
+            bool((row.get("model_audit") or {}).get("model_called")) for row in records
+        ),
+        "zero_call_rejections": sum(
+            bool((row.get("model_audit") or {}).get("zero_call_rule_rejection")) for row in records
+        ),
+        "conflict_reviews": sum(len(item[2]) > 1 for item in reviewed),
         "model_role": model.role,
         "model": model.model,
     }
     write_json(stage_root / "stage_summary.json", summary)
     return {"records": records, "summary": summary}
+
+
+def _selected_packet_evidence(packet: dict[str, Any]) -> list[dict[str, Any]]:
+    output: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    for key in ("narrative_evidence", "computational_evidence", "experimental_evidence"):
+        for block in packet.get(key) or []:
+            evidence_id = str(block.get("evidence_id") or "")
+            if not evidence_id or evidence_id in seen:
+                continue
+            seen.add(evidence_id)
+            output.append(block)
+    return output
 
 
 def _is_stage02_eligible(paper: dict[str, Any]) -> bool:
@@ -430,6 +551,22 @@ def _deduplicate_quoted_evidence(
     return output
 
 
+def _visible_deterministic_experiments(
+    values: list[dict[str, Any]], *, limit: int
+) -> list[dict[str, Any]]:
+    output: list[dict[str, Any]] = []
+    seen_ids: set[str] = set()
+    for item in values:
+        evidence_id = str(item.get("evidence_id") or "")
+        if not evidence_id or evidence_id in seen_ids:
+            continue
+        seen_ids.add(evidence_id)
+        output.append(item)
+        if len(output) >= max(1, limit):
+            break
+    return output
+
+
 def _chunks(blocks: list[dict[str, Any]], limit: int) -> list[list[dict[str, Any]]]:
     chunks, _skipped = _chunks_with_stats(blocks, limit)
     return chunks
@@ -486,59 +623,80 @@ def _call_complete_json(
     user_content: str,
     max_tokens: int,
 ) -> tuple[dict[str, Any], dict[str, Any]]:
-    response, audit = model.call_json(
-        namespace=namespace,
-        record_id=record_id,
-        prompt_version=prompt_version,
-        system_prompt=system_prompt,
-        user_content=user_content,
-        max_tokens=max_tokens,
-    )
+    try:
+        response, audit = model.call_json(
+            namespace=namespace,
+            record_id=record_id,
+            prompt_version=prompt_version,
+            system_prompt=system_prompt,
+            user_content=user_content,
+            max_tokens=max_tokens,
+        )
+    except Exception as exc:
+        raise Stage02ModelCallError(
+            f"{namespace} request failed: {exc}",
+            audit={"http_requests_unknown": True, "failed": True},
+        ) from exc
     if audit.get("finish_reason") != "length":
         return response, audit
 
-    retry_response, retry_audit = model.call_json(
-        namespace=f"{namespace}_complete_retry",
-        record_id=f"{record_id}-complete-retry",
-        prompt_version=f"{prompt_version}-complete-retry-v1",
-        system_prompt=(
-            f"{system_prompt}\nThe previous response was truncated. Return a complete, compact JSON "
-            "object. Use at most two items in every evidence array and shorten non-quote strings."
-        ),
-        user_content=user_content,
-        max_tokens=max(max_tokens, 3072),
-    )
-    if retry_audit.get("finish_reason") == "length":
-        retry_response, final_audit = model.call_json(
-            namespace=f"{namespace}_essential_retry",
-            record_id=f"{record_id}-essential-retry",
-            prompt_version=f"{prompt_version}-essential-retry-v1",
+    try:
+        retry_response, retry_audit = model.call_json(
+            namespace=f"{namespace}_complete_retry",
+            record_id=f"{record_id}-complete-retry",
+            prompt_version=f"{prompt_version}-complete-retry-v1",
             system_prompt=(
-                "Extract only decisive evidence from the supplied paper chunk. Return compact JSON "
-                "with keys has_computational_evidence, evidence, author_experiment_evidence, "
-                "background_only_evidence, conflicts. Evidence may contain at most one computation "
-                "item and one physical laboratory item. A laboratory item requires real samples and "
-                "physical work by this paper's authors; DFT, MD, simulations, calculated spectra, "
-                "external structures, and existing databases are not laboratory work. Copy one exact "
-                "quote of at most 160 characters per item. Use empty arrays when absent. Return only "
-                "one complete JSON object."
+                f"{system_prompt}\nThe previous response was truncated. Return a complete, compact JSON "
+                "object. Use at most two items in every evidence array and shorten non-quote strings."
             ),
             user_content=user_content,
             max_tokens=max(max_tokens, 3072),
         )
-        if final_audit.get("finish_reason") == "length":
-            raise ValueError(f"{namespace} response remained truncated after essential retry")
-        retry_audit = {
-            **final_audit,
-            "truncation_retry_count": 2,
-        }
+    except Exception as exc:
+        raise Stage02ModelCallError(
+            f"{namespace} compact retry failed: {exc}",
+            audit={
+                "http_requests": _audit_http_requests(audit),
+                "http_requests_unknown": True,
+                "initial_audit": audit,
+                "failed": True,
+            },
+        ) from exc
+    http_requests = _audit_http_requests(audit) + _audit_http_requests(retry_audit)
+    if retry_audit.get("finish_reason") == "length":
+        raise Stage02ModelCallError(
+            f"{namespace} response remained truncated after compact retry",
+            audit={
+                "http_requests": http_requests,
+                "initial_audit": audit,
+                "retry_audit": retry_audit,
+                "failed": True,
+            },
+        )
     return retry_response, {
         **retry_audit,
         "truncation_retry": True,
         "truncation_retry_count": retry_audit.get("truncation_retry_count", 1),
         "initial_finish_reason": "length",
         "initial_request_hash": audit.get("request_hash"),
+        "http_requests": http_requests,
     }
+
+
+def _audit_http_requests(audit: dict[str, Any]) -> int:
+    if audit.get("cache_hit"):
+        return 0
+    if isinstance(audit.get("http_requests"), int):
+        return max(0, int(audit["http_requests"]))
+    if audit.get("http_requests_unknown"):
+        return 0
+    return max(1, int(audit.get("attempts") or 1))
+
+
+class Stage02ModelCallError(RuntimeError):
+    def __init__(self, message: str, *, audit: dict[str, Any]) -> None:
+        super().__init__(message)
+        self.audit = audit
 
 
 def _split_text_by_utf8_bytes(text: str, limit: int) -> list[str]:
@@ -886,9 +1044,7 @@ def _validate_experiment_map(value: Any, blocks: list[dict[str, Any]]) -> list[d
     ]
 
 
-def _has_external_experiment_context(
-    item: dict[str, Any], blocks: list[dict[str, Any]]
-) -> bool:
+def _has_external_experiment_context(item: dict[str, Any], blocks: list[dict[str, Any]]) -> bool:
     evidence_id = str(item.get("evidence_id") or "")
     quote = str(item.get("exact_quote") or "")
     for block in blocks:
