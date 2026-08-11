@@ -150,12 +150,19 @@ class SandboxManager:
 
         environment_id = str((source.get("environment") or {}).get("environment_id") or "")
         if not environment_id:
-            environment = self.control.management_json(
-                "POST",
-                "/v1/sandbox-environments",
-                payload=self._environment_payload(),
-                timeout=120,
-            )
+            try:
+                environment = self.control.management_json(
+                    "POST",
+                    "/v1/sandbox-environments",
+                    payload=self._environment_payload(),
+                    timeout=120,
+                )
+            except SandboxError as exc:
+                if exc.status != 409:
+                    raise
+                environment = self._find_compatible_environment()
+                if environment is None:
+                    raise
             environment_id = str(environment["id"])
             source = self._source_template(environment_id=environment_id, sandbox_id="")
             self._write_source(source)
@@ -329,6 +336,22 @@ class SandboxManager:
                 }
             ],
         }
+
+    def _find_compatible_environment(self) -> dict[str, Any] | None:
+        response = self.control.management_json("GET", "/v1/sandbox-environments")
+        expected_name = f"researchchem-data-pipeline-{self.options.cpu}cpu"
+        for environment in response.get("items") or []:
+            resources = dict(environment.get("resources") or {})
+            image = environment.get("image") or {}
+            image_uri = image.get("uri") if isinstance(image, dict) else image
+            if (
+                str(environment.get("name") or "") == expected_name
+                and str(resources.get("cpu") or "") == str(self.options.cpu)
+                and str(resources.get("memory") or "") == self.options.memory
+                and str(image_uri or "") == self.options.image
+            ):
+                return environment
+        return None
 
     def _source_template(self, *, environment_id: str, sandbox_id: str) -> dict[str, Any]:
         return {

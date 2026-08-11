@@ -8,6 +8,7 @@ import urllib.request
 import pytest
 import yaml
 
+from src.sandbox.control import SandboxError
 from src.sandbox.manager import SandboxManager, SandboxRunOptions
 from src.sandbox.proxy import LocalSandboxProxy
 from src.sandbox.runtime import SandboxPipelineRuntime
@@ -118,6 +119,54 @@ def test_manager_waits_for_recorded_pending_sandbox_without_recreating(
 
     assert worker.sandbox_id == "sbx-test"
     assert ("POST", "/v1/sandboxes") not in fake.calls
+
+
+def test_manager_reuses_compatible_environment_after_name_conflict(tmp_path, monkeypatch):
+    monkeypatch.setenv("RCB_SANDBOX_API_KEY", "test-key")
+    options = SandboxRunOptions(
+        cpu=64,
+        memory="128Gi",
+        lifecycle_minutes=120,
+        cleanup="keep",
+        source=tmp_path / ".sandboxes.local.yaml",
+        inventory=tmp_path / ".sandbox_inventory.local.json",
+        base_url="https://sandbox.invalid/brainbox",
+        project="test-project",
+        image="registry.invalid/pipeline:test",
+    )
+    manager = SandboxManager(options)
+
+    class ConflictControl(FakeControl):
+        def management_json(self, method, suffix, *, payload=None, timeout=30):
+            if suffix == "/v1/sandbox-environments" and method == "POST":
+                self.calls.append((method, suffix))
+                raise SandboxError("environment name conflict", status=409)
+            if suffix == "/v1/sandbox-environments" and method == "GET":
+                self.calls.append((method, suffix))
+                return {
+                    "items": [
+                        {
+                            "id": "env-existing",
+                            "name": "researchchem-data-pipeline-64cpu",
+                            "resources": {"cpu": "64", "memory": "128Gi"},
+                            "image": {"uri": "registry.invalid/pipeline:test"},
+                        }
+                    ]
+                }
+            return super().management_json(
+                method, suffix, payload=payload, timeout=timeout
+            )
+
+    fake = ConflictControl()
+    manager.control = fake
+    monkeypatch.setattr(manager, "_ensure_worker_rpc", lambda worker: None)
+
+    worker = manager.ensure()
+
+    assert worker.environment_id == "env-existing"
+    source = yaml.safe_load(options.source.read_text(encoding="utf-8"))
+    assert source["environment"]["environment_id"] == "env-existing"
+    assert ("GET", "/v1/sandbox-environments") in fake.calls
 
 
 def test_resource_validation_rejects_ambiguous_memory():
