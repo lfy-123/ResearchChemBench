@@ -43,8 +43,6 @@ EXECUTION_LAYERS = {"named_software", "task_specific_python"}
 STAGE03_FORWARD_DECISIONS = {
     "software_covered",
     "software_coverage_probable",
-    "mixed_workflow_candidate",
-    "software_inventory_unconfirmed",
 }
 _CORE_RUNTIME_ACTION_RE = re.compile(
     r"\b(?:train(?:ing)?|fit(?:ting)?|simulate|simulation|molecular\s+dynamics|"

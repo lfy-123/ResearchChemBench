@@ -38,6 +38,7 @@ from src.stages.stage02_computational_content.stage import (
     run_stage02,
 )
 from src.stages.stage03_toolbox_resource_gate.stage import (
+    STAGE03_FORWARD_DECISIONS,
     _bind_workflow_steps_to_mentions,
     _bound_prompt_packet,
     _call_complete_inventory,
@@ -2870,6 +2871,13 @@ def test_stage03_incomplete_inventory_with_covered_engine_is_forwarded_as_probab
         _combine_decision(coverage, {"decision": "cost_unconfirmed"}, False)
         == "software_coverage_probable"
     )
+
+
+def test_stage03_forwards_only_confirmed_or_probable_software_coverage() -> None:
+    assert STAGE03_FORWARD_DECISIONS == {
+        "software_covered",
+        "software_coverage_probable",
+    }
 
 
 def test_stage04_database_cue_is_not_merged_as_required_software() -> None:

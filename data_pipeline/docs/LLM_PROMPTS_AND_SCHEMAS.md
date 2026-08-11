@@ -30,7 +30,8 @@ Stage02 先在本地扫描 Stage01 产生的正文和全部 SI 文本块，不�
 
 确定性 resolver 使用 `assets/toolbox_capabilities.json` 和软件别名映射模型输出。通过含义是论文
 所需的命名核心软件存在于工具箱原生软件目录；不要求存在预设 Action，也不把通用 Python 处理
-误判为缺失软件。未命名核心引擎、清单不完整和工具箱外核心软件必须保留为不同判定。
+误判为缺失软件。仅 `software_covered` 和 `software_coverage_probable` 进入 Stage04。未命名核心
+引擎、混合覆盖和工具箱外核心软件仍保留为不同审计判定，但不继续进入后续阶段。
 
 ## Stage05：Benchmark 适用性
 
