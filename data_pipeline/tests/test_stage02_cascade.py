@@ -7,6 +7,7 @@ import pytest
 
 from src.contracts import write_jsonl
 from src.stages.stage02_computational_content.adjudication import (
+    apply_pass_verification,
     sanitize_classification,
     should_review,
 )
@@ -79,6 +80,38 @@ def _classification(
         "conflicting_evidence_ids": [],
         "rationale": "The cited workflow produces the central claim.",
         "confidence": confidence,
+    }
+
+
+def _pass_verification(decision: str) -> dict:
+    if decision == "computational_content_confirmed":
+        return {
+            "decision": decision,
+            "headline_producer": "computation",
+            "author_performed_experiments": "no",
+            "explicit_computation_led_sequence": "no",
+            "evidence_ids": ["calc"],
+            "computational_evidence_ids": ["calc"],
+            "experimental_evidence_ids": [],
+            "rationale": "The headline result is generated entirely by computation.",
+            "confidence": 0.96,
+        }
+    return {
+        "decision": decision,
+        "headline_producer": (
+            "computation"
+            if decision == "computational_primary_mixed_confirmed"
+            else "physical_experiment"
+        ),
+        "author_performed_experiments": "yes",
+        "explicit_computation_led_sequence": (
+            "yes" if decision == "computational_primary_mixed_confirmed" else "no"
+        ),
+        "evidence_ids": ["calc", "lab"],
+        "computational_evidence_ids": ["calc"],
+        "experimental_evidence_ids": ["lab"],
+        "rationale": "The cited evidence establishes the overall contribution.",
+        "confidence": 0.96,
     }
 
 
@@ -162,6 +195,42 @@ def test_stage02_contract_uses_experiment_to_computation_direction() -> None:
 
     assert sanitized["decision"] == "experimental_primary_computational_support"
     assert not sanitized["passed"]
+
+
+def test_stage02_contract_accepts_model_cited_author_experiment() -> None:
+    response = _classification(
+        decision="computational_primary_mixed_confirmed",
+        author_experiments="yes",
+    )
+
+    sanitized, _warnings, _reasons = sanitize_classification(
+        response,
+        valid_ids={"calc", "lab"},
+        computational_ids={"calc"},
+        deterministic_experiment_ids=set(),
+        minimum_confidence=0.85,
+    )
+
+    assert sanitized["decision"] == "computational_primary_mixed_confirmed"
+    assert sanitized["verification"]["model_cited_author_experiment_ids"] == ["lab"]
+
+
+def test_stage02_pass_verification_rejects_experiment_led_candidate() -> None:
+    candidate = _classification(decision="computational_content_confirmed")
+    candidate["passed"] = True
+
+    verified, warnings = apply_pass_verification(
+        candidate,
+        _pass_verification("experimental_primary_computational_support"),
+        valid_ids={"calc", "lab"},
+        computational_ids={"calc"},
+        experimental_candidate_ids={"lab"},
+        minimum_confidence=0.85,
+    )
+
+    assert verified["decision"] == "experimental_primary_computational_support"
+    assert not verified["passed"]
+    assert warnings == []
 
 
 def test_stage02_contract_rejects_absent_computation() -> None:
@@ -419,9 +488,7 @@ def test_stage02_consistent_candidate_uses_one_model_call(tmp_path: Path) -> Non
 
 def test_stage02_verified_experiment_conflict_gets_one_review(tmp_path: Path) -> None:
     primary = _classification(decision="computational_content_confirmed")
-    reviewed = _classification(
-        decision="computational_primary_mixed_confirmed", author_experiments="yes"
-    )
+    reviewed = _pass_verification("computational_primary_mixed_confirmed")
     model = _FixtureModel([primary, reviewed])
     result = _run_fixture(
         tmp_path,
@@ -438,13 +505,15 @@ def test_stage02_verified_experiment_conflict_gets_one_review(tmp_path: Path) ->
             },
         ],
         model,
+        review_pass_decisions=True,
     )
 
     assert result["records"][0]["decision"] == "computational_primary_mixed_confirmed"
-    assert result["summary"]["conflict_reviews"] == 1
+    assert result["summary"]["conflict_reviews"] == 0
+    assert result["summary"]["pass_precision_reviews"] == 1
     assert len(model.calls) == 2
     assert model.calls[0]["namespace"] == "stage02_classify"
-    assert model.calls[1]["namespace"] == "stage02_contract_conflict_review"
+    assert model.calls[1]["namespace"] == "stage02_pass_verify"
     packet = json.loads(model.calls[0]["user_content"])
     assert packet["deterministic_author_experiment_evidence"][0]["evidence_id"] == "lab"
 
@@ -477,7 +546,7 @@ def test_stage02_counts_provider_attempts_across_truncation_retry(tmp_path: Path
 
 def test_stage02_pass_candidate_gets_precision_review(tmp_path: Path) -> None:
     response = _classification(decision="computational_content_confirmed")
-    model = _FixtureModel([response, response])
+    model = _FixtureModel([response, _pass_verification("computational_content_confirmed")])
     result = _run_fixture(
         tmp_path,
         [
@@ -494,4 +563,4 @@ def test_stage02_pass_candidate_gets_precision_review(tmp_path: Path) -> None:
     assert result["records"][0]["decision"] == "computational_content_confirmed"
     assert result["summary"]["model_calls"] == 2
     assert result["summary"]["pass_precision_reviews"] == 1
-    assert model.calls[1]["namespace"] == "stage02_pass_precision_review"
+    assert model.calls[1]["namespace"] == "stage02_pass_verify"

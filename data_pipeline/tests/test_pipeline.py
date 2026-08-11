@@ -1579,7 +1579,7 @@ def test_stage03_and_stage04_share_client_but_keep_prompt_namespaces(
             }
         ],
         documents=documents,
-        config={"workers": 1},
+        config={"workers": 1, "review_pass_decisions": False},
         model=client,
         workspace=tmp_path / "run",
         run_id="test-run",

@@ -109,15 +109,21 @@ def sanitize_classification(
     if unknown_ids and "unknown_evidence_ids" not in review_reasons:
         review_reasons.append("unknown_evidence_ids")
 
-    # Model-selected blocks are useful evidence pointers, but only the independent
-    # full-text attribution scan can establish that this paper's authors did lab work.
-    verified_experiment_ids = deterministic_experiment_ids
+    model_experiment_ids = set(sanitized["experimental_evidence_ids"])
+    for contribution in experiments:
+        model_experiment_ids.update(contribution.get("evidence_ids") or [])
+    # The deterministic scan is deliberately high precision and therefore incomplete.
+    # A model may also establish author experiments by citing packet evidence in a
+    # structured experimental contribution; uncited assertions remain unresolved.
+    verified_experiment_ids = set(deterministic_experiment_ids)
     model_experiment = sanitized["author_performed_experiments"]
-    if verified_experiment_ids:
+    if model_experiment == "yes" and model_experiment_ids:
+        verified_experiment_ids.update(model_experiment_ids)
+    if deterministic_experiment_ids:
         if model_experiment == "no":
             review_reasons.append("model_missed_verified_author_experiment")
         sanitized["author_performed_experiments"] = "yes"
-    elif model_experiment == "yes":
+    elif model_experiment == "yes" and not model_experiment_ids:
         sanitized["author_performed_experiments"] = "uncertain"
         review_reasons.append("author_experiment_without_valid_evidence")
 
@@ -141,7 +147,6 @@ def sanitize_classification(
     computation_central = (
         computation_complete
         and sanitized["computation_role"] == "primary"
-        and bool(computation_required_claims)
         and sanitized["counterfactual_without_computation"] == "main_claim_fails"
     )
     evidence_direction = sanitized["evidence_direction"]
@@ -190,8 +195,6 @@ def sanitize_classification(
 
     if confidence < minimum_confidence and decision != "computational_content_not_found":
         review_reasons.append("confidence_below_threshold")
-    if computation_complete and not computation_required_claims:
-        review_reasons.append("no_computation_required_central_claim")
     if computation_complete and sanitized["counterfactual_without_computation"] == "uncertain":
         review_reasons.append("computation_counterfactual_uncertain")
     if proposed != decision:
@@ -213,6 +216,7 @@ def sanitize_classification(
         "computation_central": computation_central,
         "evidence_direction": evidence_direction,
         "verified_author_experiment_ids": sorted(verified_experiment_ids),
+        "model_cited_author_experiment_ids": sorted(model_experiment_ids),
         "computation_required_claims": len(computation_required_claims),
         "validated_computational_evidence_ids": sorted(top_level_computational_evidence),
         "minimum_confidence": minimum_confidence,
@@ -239,6 +243,151 @@ def should_review(decision: str, reasons: list[str]) -> bool:
         }
         for reason in reasons
     )
+
+
+def apply_pass_verification(
+    candidate: dict[str, Any],
+    verification: dict[str, Any],
+    *,
+    valid_ids: set[str],
+    computational_ids: set[str],
+    experimental_candidate_ids: set[str],
+    minimum_confidence: float,
+) -> tuple[dict[str, Any], list[dict[str, Any]]]:
+    """Apply an independent, compact adversarial review to a proposed Pass."""
+
+    output = dict(candidate)
+    warnings: list[dict[str, Any]] = []
+    raw = dict(verification) if isinstance(verification, dict) else {}
+    decision = _choice(raw.get("decision"), SEMANTIC_DECISIONS, "uncertain")
+    headline_producer = _choice(
+        raw.get("headline_producer"),
+        {"computation", "physical_experiment", "co_equal", "none", "uncertain"},
+        "uncertain",
+    )
+    author_experiments = _choice(
+        raw.get("author_performed_experiments"), {"yes", "no", "uncertain"}, "uncertain"
+    )
+    computation_led = _choice(
+        raw.get("explicit_computation_led_sequence"), {"yes", "no", "uncertain"}, "uncertain"
+    )
+    evidence_ids, unknown = _validated_ids(raw.get("evidence_ids"), valid_ids)
+    computation_evidence_ids, unknown_computation = _validated_ids(
+        raw.get("computational_evidence_ids"), valid_ids
+    )
+    experiment_evidence_ids, unknown_experiment = _validated_ids(
+        raw.get("experimental_evidence_ids"), valid_ids
+    )
+    unknown.update(unknown_computation)
+    unknown.update(unknown_experiment)
+    confidence = _confidence_number(raw.get("confidence"))
+    computation_evidence_ids = [
+        value for value in computation_evidence_ids if value in computational_ids
+    ]
+    experiment_evidence_ids = [
+        value for value in experiment_evidence_ids if value in experimental_candidate_ids
+    ]
+    if unknown:
+        warnings.append(
+            {
+                "field": "pass_verification.evidence_ids",
+                "reason": "unknown_evidence_ids",
+                "values": sorted(unknown)[:12],
+            }
+        )
+
+    pass_contract_ok = False
+    if decision == "computational_content_confirmed":
+        pass_contract_ok = (
+            headline_producer == "computation"
+            and author_experiments == "no"
+            and bool(computation_evidence_ids)
+        )
+    elif decision == "computational_primary_mixed_confirmed":
+        pass_contract_ok = (
+            headline_producer == "computation"
+            and author_experiments == "yes"
+            and computation_led == "yes"
+            and bool(computation_evidence_ids)
+            and bool(experiment_evidence_ids)
+        )
+
+    if decision in PASS_DECISIONS and (
+        not pass_contract_ok or confidence < minimum_confidence or bool(unknown)
+    ):
+        warnings.append(
+            {
+                "field": "pass_verification.decision",
+                "reason": "pass_verification_contract_unmet",
+                "model_decision": decision,
+            }
+        )
+        decision = "uncertain"
+    elif confidence < minimum_confidence:
+        decision = "uncertain"
+
+    output["decision"] = decision
+    output["passed"] = decision in PASS_DECISIONS
+    if decision == "computational_content_confirmed":
+        output.update(
+            {
+                "performed_computation": "yes",
+                "complete_computational_workflow": "yes",
+                "author_performed_experiments": "no",
+                "computation_role": "primary",
+                "evidence_direction": "pure_computation",
+                "study_mode": "pure_computational",
+                "counterfactual_without_computation": "main_claim_fails",
+            }
+        )
+    elif decision == "computational_primary_mixed_confirmed":
+        output.update(
+            {
+                "performed_computation": "yes",
+                "complete_computational_workflow": "yes",
+                "author_performed_experiments": "yes",
+                "computation_role": "primary",
+                "evidence_direction": "computation_predicts_then_experiment_validates",
+                "study_mode": "mixed_computational_experimental",
+                "counterfactual_without_computation": "main_claim_fails",
+            }
+        )
+    elif decision == "experimental_primary_computational_support":
+        output.update(
+            {
+                "author_performed_experiments": "yes",
+                "computation_role": "supporting",
+                "evidence_direction": "experiment_observes_then_computation_explains",
+                "study_mode": "experimental_with_computational_support",
+                "counterfactual_without_computation": "main_claim_survives",
+            }
+        )
+    elif decision == "computational_content_not_found":
+        output.update(
+            {
+                "complete_computational_workflow": "no",
+                "computation_role": "none",
+                "evidence_direction": "none",
+                "study_mode": "noncomputational",
+            }
+        )
+
+    output["evidence_ids"] = list(
+        dict.fromkeys([*(output.get("evidence_ids") or []), *evidence_ids])
+    )
+    output["pass_verification"] = {
+        "decision": decision,
+        "headline_producer": headline_producer,
+        "author_performed_experiments": author_experiments,
+        "explicit_computation_led_sequence": computation_led,
+        "evidence_ids": evidence_ids,
+        "computational_evidence_ids": computation_evidence_ids,
+        "experimental_evidence_ids": experiment_evidence_ids,
+        "rationale": str(raw.get("rationale") or "").strip()[:800],
+        "confidence": confidence,
+        "contract_ok": decision not in PASS_DECISIONS or pass_contract_ok,
+    }
+    return output, warnings
 
 
 def _sanitize_claims(
@@ -326,4 +475,10 @@ def _confidence_number(value: Any) -> float:
         return 0.0
 
 
-__all__ = ["PASS_DECISIONS", "SEMANTIC_DECISIONS", "sanitize_classification", "should_review"]
+__all__ = [
+    "PASS_DECISIONS",
+    "SEMANTIC_DECISIONS",
+    "apply_pass_verification",
+    "sanitize_classification",
+    "should_review",
+]

@@ -58,15 +58,14 @@ def main() -> int:
     }
     stage_config = {
         "workers": args.workers,
-        "max_prompt_characters": 36000,
+        "max_prompt_characters": 28000,
         "excerpt_characters": 1400,
         "max_computational_excerpts": 8,
         "max_experimental_excerpts": 8,
         "max_deterministic_experiment_evidence": 8,
-        "classification_max_tokens": 2048,
-        "review_max_tokens": 2048,
+        "classification_max_tokens": 1024,
+        "pass_verification_max_tokens": 768,
         "minimum_confidence": 0.85,
-        "review_on_conflict": True,
         "review_pass_decisions": True,
     }
     client = RoleModelClient(

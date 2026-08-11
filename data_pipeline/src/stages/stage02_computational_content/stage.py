@@ -11,18 +11,18 @@ from src.model_client import RoleModelClient
 from src.prompts import (
     STAGE02_CLASSIFY_SYSTEM,
     STAGE02_CLASSIFY_VERSION,
-    STAGE02_REVIEW_SYSTEM,
-    STAGE02_REVIEW_VERSION,
+    STAGE02_PASS_VERIFY_SYSTEM,
+    STAGE02_PASS_VERIFY_VERSION,
 )
 from src.stages.stage02_computational_content.adjudication import (
     PASS_DECISIONS,
+    apply_pass_verification,
     sanitize_classification,
-    should_review,
 )
 from src.stages.stage02_computational_content.evidence import build_evidence_packet
 
 COMPUTATIONAL_CONTENT_IMPLEMENTATION_VERSION = (
-    "v2-stage02-computational-content-20260811-r12-evidence-direction"
+    "v2-stage02-computational-content-20260811-r13-adversarial-pass-gate"
 )
 
 CONTENT_CONFIRMATION_DECISIONS = set(PASS_DECISIONS)
@@ -120,6 +120,11 @@ def run_stage02(
                 if item.get("evidence_id")
             }
             experiment_ids = set(visible_experiment_ids)
+            experimental_candidate_ids = {
+                str(item.get("evidence_id") or "")
+                for item in packet["experimental_evidence"]
+                if item.get("evidence_id")
+            } | experiment_ids
             if not packet["rule_screen"]["computation_candidate"]:
                 response = {
                     "decision": "computational_content_not_found",
@@ -165,7 +170,7 @@ def run_stage02(
                     prompt_version=STAGE02_CLASSIFY_VERSION,
                     system_prompt=STAGE02_CLASSIFY_SYSTEM,
                     user_content=json.dumps(packet, ensure_ascii=False),
-                    max_tokens=int(config.get("classification_max_tokens", 2048)),
+                    max_tokens=int(config.get("classification_max_tokens", 1024)),
                 )
                 completed_model_audits.append(primary_audit)
                 response, validation_warnings, review_reasons = sanitize_classification(
@@ -188,67 +193,43 @@ def run_stage02(
                     }
                 ]
                 review_audit = None
-                contract_review = bool(config.get("review_on_conflict", True)) and should_review(
-                    response["decision"], review_reasons
-                )
+                proposed_decision = str(raw_response.get("decision") or "uncertain")
                 pass_precision_review = bool(config.get("review_pass_decisions", True)) and (
-                    response["decision"] in PASS_DECISIONS
+                    response["decision"] in PASS_DECISIONS or proposed_decision in PASS_DECISIONS
                 )
-                if contract_review or pass_precision_review:
-                    review_mode = (
-                        "pass_precision_review"
-                        if pass_precision_review
-                        else "contract_conflict_review"
-                    )
-                    validation_issues = list(review_reasons)
-                    if pass_precision_review:
-                        validation_issues.append("candidate_pass_requires_precision_review")
+                if pass_precision_review:
                     review_payload = {
-                        "review_mode": review_mode,
-                        "evidence_packet": packet,
-                        "previous_response": raw_response,
-                        "validation_issues": validation_issues,
+                        "candidate_response": _compact_pass_candidate(raw_response),
+                        "evidence_packet": _compact_pass_verification_packet(packet),
                     }
                     semantic_calls_started += 1
                     retry_raw, review_audit = _call_complete_json(
                         model,
-                        namespace=f"stage02_{review_mode}",
+                        namespace="stage02_pass_verify",
                         record_id=paper["paper_id"],
-                        prompt_version=STAGE02_REVIEW_VERSION,
-                        system_prompt=STAGE02_REVIEW_SYSTEM,
+                        prompt_version=STAGE02_PASS_VERIFY_VERSION,
+                        system_prompt=STAGE02_PASS_VERIFY_SYSTEM,
                         user_content=json.dumps(review_payload, ensure_ascii=False),
-                        max_tokens=int(config.get("review_max_tokens", 2048)),
+                        max_tokens=int(config.get("pass_verification_max_tokens", 768)),
                     )
                     completed_model_audits.append(review_audit)
-                    retry_response, retry_warnings, retry_reasons = sanitize_classification(
+                    retry_response, retry_warnings = apply_pass_verification(
+                        response,
                         retry_raw,
                         valid_ids=valid_ids,
                         computational_ids=computational_ids,
-                        deterministic_experiment_ids=experiment_ids,
+                        experimental_candidate_ids=experimental_candidate_ids,
                         minimum_confidence=float(config.get("minimum_confidence", 0.85)),
                     )
-                    if should_review(retry_response["decision"], retry_reasons):
-                        retry_response["decision"] = "uncertain"
-                        retry_response["passed"] = False
-                        retry_response.setdefault("verification", {})[
-                            "unresolved_after_conflict_review"
-                        ] = True
-                        retry_warnings.append(
-                            {
-                                "field": "decision",
-                                "reason": "unresolved_after_conflict_review",
-                                "review_reasons": retry_reasons,
-                            }
-                        )
                     attempts.append(
                         {
                             "paper_id": paper["paper_id"],
                             "eval_id": paper.get("eval_id"),
-                            "attempt": review_mode,
+                            "attempt": "pass_precision_review",
                             "raw_response": retry_raw,
                             "validated_response": retry_response,
                             "validation_warnings": retry_warnings,
-                            "review_reasons": retry_reasons,
+                            "review_reasons": [],
                             "model_audit": review_audit,
                         }
                     )
@@ -391,7 +372,10 @@ def run_stage02(
         "zero_call_rejections": sum(
             bool((row.get("model_audit") or {}).get("zero_call_rule_rejection")) for row in records
         ),
-        "conflict_reviews": sum(len(item[2]) > 1 for item in reviewed),
+        "conflict_reviews": sum(
+            any(row.get("attempt") == "contract_conflict_review" for row in item[2])
+            for item in reviewed
+        ),
         "pass_precision_reviews": sum(
             any(row.get("attempt") == "pass_precision_review" for row in item[2])
             for item in reviewed
@@ -414,6 +398,59 @@ def _selected_packet_evidence(packet: dict[str, Any]) -> list[dict[str, Any]]:
             seen.add(evidence_id)
             output.append(block)
     return output
+
+
+def _compact_pass_candidate(response: dict[str, Any]) -> dict[str, Any]:
+    keys = (
+        "decision",
+        "article_role",
+        "performed_computation",
+        "complete_computational_workflow",
+        "author_performed_experiments",
+        "computation_role",
+        "evidence_direction",
+        "central_scientific_question",
+        "primary_contribution",
+        "computational_workflow_steps",
+        "experimental_contributions",
+        "counterfactual_without_computation",
+        "evidence_ids",
+        "experimental_evidence_ids",
+        "rationale",
+        "confidence",
+    )
+    return {key: response.get(key) for key in keys}
+
+
+def _compact_pass_verification_packet(packet: dict[str, Any]) -> dict[str, Any]:
+    def compact(blocks: list[dict[str, Any]]) -> list[dict[str, Any]]:
+        output = []
+        for block in blocks:
+            output.append(
+                {
+                    key: block.get(key)
+                    for key in (
+                        "evidence_id",
+                        "document_id",
+                        "document_role",
+                        "page",
+                        "section_path",
+                    )
+                }
+                | {"text": str(block.get("text") or "")[:1400]}
+            )
+        return output
+
+    return {
+        "paper_metadata": packet.get("paper_metadata") or {},
+        "narrative_evidence": compact(packet.get("narrative_evidence") or []),
+        "computational_evidence": compact(packet.get("computational_evidence") or []),
+        "experimental_evidence": compact(packet.get("experimental_evidence") or []),
+        "deterministic_author_experiment_evidence": packet.get(
+            "deterministic_author_experiment_evidence"
+        )
+        or [],
+    }
 
 
 def _is_stage02_eligible(paper: dict[str, Any]) -> bool:
@@ -669,7 +706,7 @@ def _call_complete_json(
                 "object. Use at most two items in every evidence array and shorten non-quote strings."
             ),
             user_content=user_content,
-            max_tokens=max(max_tokens, 3072),
+            max_tokens=min(2048, max(max_tokens * 2, max_tokens + 512)),
         )
     except Exception as exc:
         raise Stage02ModelCallError(

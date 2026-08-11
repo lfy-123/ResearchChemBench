@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-STAGE02_CLASSIFY_VERSION = "v2-stage02-classify-20260811-r7-evidence-direction"
-STAGE02_REVIEW_VERSION = "v2-stage02-review-20260811-r7-evidence-direction"
+STAGE02_CLASSIFY_VERSION = "v2-stage02-classify-20260811-r8-focused-centrality"
+STAGE02_PASS_VERIFY_VERSION = "v2-stage02-pass-verify-20260811-r1-adversarial"
 STAGE03_VERSION = "v2-stage03-software-inventory-20260811-r23-computation-led-input"
 STAGE05_VERSION = "v2-stage05-suitability-20260810-r8-unresolved-software-inventory"
 STAGE06_SHARED_VERSION = "v2-stage06-shared-20260807"
@@ -22,100 +22,82 @@ TASK_DIRECTIONS = (
     "descriptor_discovery_catalyst_design",
 )
 
-STAGE02_CLASSIFY_SYSTEM = """Classify one chemistry paper from a balanced evidence packet. Use only supplied
-evidence IDs. The goal is high precision, not a target pass rate. First reconstruct the paper's central scientific
-question, primary contribution, complete computational workflow, physical experiments performed by this paper's
-authors, and central claims. Then apply the counterfactual: would the main scientific claim survive without the
-computation?
+STAGE02_CLASSIFY_SYSTEM = """Classify one chemistry paper by its OVERALL contribution. Use only supplied evidence
+IDs. Do not promote a mechanistic subclaim into the paper's headline contribution.
 
-A substantive computational-chemistry workflow needs a molecular/material/reaction input, an actual calculation
-or simulation, and a generated chemical result. Routine fitting, plotting, experimental data processing,
-Rietveld refinement alone, life-cycle/process modelling, database lookup, AlphaFold-only prediction, synthesis
-planning, and background citations are not sufficient. Published structures or experimental databases used as
-inputs do not mean the current authors performed experiments.
-The deterministic_author_experiment_evidence field contains exact full-text sentences found by an independent
-high-precision attribution scan. Treat each supplied item as author laboratory evidence and cite its evidence ID
-when classifying pure versus mixed work; do not invent additional experiments.
+First identify what the authors newly delivered: a computed result/model, or a physically synthesized/measured/
+tested result. Then classify with exactly one decision:
+- computational_content_confirmed: original pure computational chemistry, no new author physical experiment.
+- computational_primary_mixed_confirmed: computation explicitly produces the headline prediction/design/result;
+  limited author experiments subsequently validate that computed result.
+- experimental_primary_computational_support: a new reaction, material, molecule, structure, measurement,
+  performance result, or biological result is established experimentally; computation explains or rationalizes it.
+- computational_content_not_found: no complete author-performed computational-chemistry workflow.
+- uncertain: article role, workflow, author experiments, or overall centrality cannot be established.
 
-Use exactly one decision:
-- computational_content_confirmed: original pure computational chemistry; no author physical experiment; a
-  complete computation generates a central claim that fails without computation.
-- computational_primary_mixed_confirmed: computation and author experiments both exist, but computation
-  generates the primary scientific contribution; experiments validate, constrain, or support it; the main claim
-  fails without computation.
-- experimental_primary_computational_support: synthesis, testing, characterization, or another experiment is the
-  primary contribution; computation mainly rationalizes or annotates experimental findings and the main claim
-  survives without it.
-- computational_content_not_found: no substantive author-performed computational-chemistry workflow.
-- uncertain: evidence, article role, workflow completeness, or experiment/computation centrality is unresolved.
+Critical distinction: losing a DFT mechanism or atomistic explanation does NOT mean an experimentally established
+headline result disappears. A paper that synthesizes/tests a catalyst and then uses DFT to explain activity is
+experimental-primary, even when DFT is essential to the mechanistic explanation. Likewise, a new synthetic method,
+substrate scope, battery/device performance, measured spectrum, or isolated structure remains experimental-primary
+when computation explains selectivity, bonding, barriers, or trends after the observation. A mixed Pass requires
+positive evidence that computation proposed or selected the headline intervention before a limited experimental
+validation; importance of the explanation alone is insufficient. Co-equal or unclear direction is uncertain.
 
-The fields must be internally consistent with the decision:
-- computational_content_confirmed requires performed_computation=yes, complete_computational_workflow=yes,
-  author_performed_experiments=no, computation_role=primary, evidence_direction=pure_computation, and
-  counterfactual_without_computation=main_claim_fails.
-- computational_primary_mixed_confirmed requires the same complete primary computation, author experiments=yes,
-  evidence_direction=computation_predicts_then_experiment_validates, and
-  counterfactual_without_computation=main_claim_fails.
-- experimental_primary_computational_support requires author experiments=yes, computation_role=supporting or
-  background_only, or evidence_direction=experiment_observes_then_computation_explains.
-- computational_content_not_found requires performed_computation=no or complete_computational_workflow=no.
-- If any field required by the intended decision is uncertain, use decision=uncertain. Never output a Pass decision
-  together with an uncertain workflow or counterfactual.
+A substantive workflow needs a chemical input, an actual calculation/simulation, and a generated chemical result.
+Routine fitting/plotting, experimental data processing, Rietveld refinement alone, life-cycle/process modelling,
+database lookup, AlphaFold-only prediction, synthesis planning, and background citations are outside this gate.
+Published experimental data used for comparison are not new author experiments.
 
-Judge centrality against the paper's headline scientific contribution, as framed by its title, abstract, and
-conclusion, not against a narrower mechanistic subclaim. Use this procedure:
-1. State the headline discovery/deliverable and identify which author activity directly produced it.
-2. Inventory new physical products and data made by the authors: synthesis, substrate scope, material fabrication,
-   characterization, spectra, microscopy, electrochemistry, catalytic performance, or biological measurements.
-3. Remove the computation mentally. If the headline experimental discovery/performance still exists and only its
-   explanation is lost, the paper is experimental_primary_computational_support, not computation-primary.
-4. Use computational_primary_mixed_confirmed only when a computed prediction, energy landscape, mechanism,
-   simulation, or computed property is itself the headline deliverable and experiments are limited validation.
-5. Determine the evidence direction. If experiments first establish a new reaction, material, performance, or
-   phenomenon and computation retrospectively explains why it occurs, the direction is
-   experiment_observes_then_computation_explains and the paper is experimental-primary. A mixed Pass requires
-   computation_predicts_then_experiment_validates: computation proposes the headline result and a limited
-   experiment tests that prediction. If both are co-equal or chronology/logic is unresolved, do not Pass.
+deterministic_author_experiment_evidence contains high-precision author-laboratory sentences, but it is not
+exhaustive: an empty list is not proof of a pure computational paper. You may also establish author experiments
+from experimental_evidence, but must cite the exact supplied evidence IDs.
 
-Do not infer centrality from paragraph count or a detailed SI method section. General examples:
-- New reaction plus optimization/substrate scope, with DFT explaining selectivity: experimental-primary.
-- New battery/catalyst/material fabricated and performance-tested, with DFT/FEM explaining trends:
-  experimental-primary.
-- New measured spectrum or structure, with calculations assigning peaks/bonding: experimental-primary.
-- Computational screening predicts candidates and a small experiment validates selected predictions:
-  computation-primary mixed.
-- A fully in-silico DFT/MD/mechanism study using only previously published measurements: pure computational.
-Prefer experimental-primary or uncertain over a Pass when the headline contribution is ambiguous.
+Use these consistency rules:
+- Pure Pass: performed_computation=yes, complete_computational_workflow=yes, author_performed_experiments=no,
+  computation_role=primary, evidence_direction=pure_computation, counterfactual_without_computation=main_claim_fails.
+- Mixed Pass: the same complete primary computation, author_performed_experiments=yes,
+  evidence_direction=computation_predicts_then_experiment_validates, and main_claim_fails without computation.
+- Experimental-primary: author experiments=yes and direction=experiment_observes_then_computation_explains, or
+  computation is supporting and the experimental headline survives without it.
+- If a required fact is unresolved, return uncertain rather than a Pass.
 
-Return compact JSON with: decision; article_role (original_research, review, correction, editorial, unknown);
-performed_computation, complete_computational_workflow, author_performed_experiments (yes, no, uncertain);
-computation_role (primary, supporting, background_only, none, uncertain); evidence_direction
+Return one compact JSON object with: decision; article_role (original_research, review, correction, editorial,
+unknown); performed_computation, complete_computational_workflow, author_performed_experiments (yes, no,
+uncertain); computation_role (primary, supporting, background_only, none, uncertain); evidence_direction
 (pure_computation, computation_predicts_then_experiment_validates,
-experiment_observes_then_computation_explains, co_equal, none, uncertain); study_mode; central_scientific_question;
-primary_contribution; computational_workflow_steps (step_id, action, generated_output, evidence_ids);
-central_claims (statement, computation_required, experiment_required, evidence_ids); experimental_contributions
-(statement, evidence_ids); counterfactual_without_computation and counterfactual_without_experiments
-(main_claim_fails, partly_survives, main_claim_survives, uncertain); evidence_ids;
-experimental_evidence_ids; conflicting_evidence_ids; rationale; confidence from 0 to 1.
-Every workflow, claim, and experiment must cite supplied evidence IDs. Use at most 1 central claim, 2 workflow
-steps, and 1 experimental contribution. Keep every narrative field under 200 characters and every evidence-ID
-array to at most 3 items. Do not output commentary or fields not listed above. Return compact JSON only."""
+experiment_observes_then_computation_explains, co_equal, none, uncertain); study_mode (pure_computational,
+mixed_computational_experimental, experimental_with_computational_support, noncomputational, uncertain);
+central_scientific_question; primary_contribution; one computational_workflow_steps item with step_id, action,
+generated_output, evidence_ids; one central_claims item with statement, computation_required, experiment_required,
+evidence_ids; zero or one experimental_contributions item with statement and evidence_ids;
+counterfactual_without_computation and counterfactual_without_experiments (main_claim_fails, partly_survives,
+main_claim_survives, uncertain); evidence_ids; experimental_evidence_ids; conflicting_evidence_ids; rationale;
+confidence from 0 to 1. Use at most 3 IDs per array and keep narrative values under 180 characters. Return JSON only."""
 
-STAGE02_REVIEW_SYSTEM = (
-    STAGE02_CLASSIFY_SYSTEM
-    + """
+STAGE02_PASS_VERIFY_SYSTEM = """Act as an adversarial precision gate for a proposed Stage02 Pass. Decide the
+paper's OVERALL contribution, not whether computation is important to one mechanistic claim. Use only supplied
+evidence IDs.
 
-This call is an independent conflict review. The validation_issues are machine schema/contract diagnostics, not
-scientific evidence and not a claim that the computation disagrees with experiment. Re-read the evidence packet,
-correct the previous response, and do not preserve its label for consistency. Check the experiment-led
-interpretation as carefully as the computation-led interpretation. When review_mode=pass_precision_review,
-actively try to falsify the Pass: identify whether synthesis, measurement, material/reaction discovery, or physical
-performance is actually the headline contribution while computation only explains it. Confirm a Pass only when
-the complete primary computation and headline-level counterfactual are positively evidenced. Follow every enum
-and JSON type in the full contract above exactly; do not invent labels, use booleans where yes/no/uncertain is
-required, or represent an enum as an object. Cite only supplied evidence IDs. Return only the complete compact JSON
-object."""
-)
+Reject to experimental_primary_computational_support whenever the headline result is a newly synthesized or
+measured reaction, catalyst, material, molecule, device, spectrum, structure, or performance and computation
+mainly explains mechanism, bonding, selectivity, barriers, or trends. The fact that the explanation would be lost
+without computation does not make the whole paper computation-primary. Phrases such as "DFT reveals/explains" do
+not establish computation-first direction.
+
+Accept computational_primary_mixed_confirmed only with positive textual evidence that computation generated a
+headline prediction, screen, design choice, or intervention and limited experiments then tested that prediction.
+Accept computational_content_confirmed only when the authors report no new physical experiment and a complete
+computational workflow generates the headline result. An empty deterministic experiment list is not evidence that
+experiments are absent. If evidence is co-equal or order/centrality is unclear, return uncertain.
+
+Examples: new catalyst performance plus post-hoc DFT mechanism -> experimental-primary; new synthesis plus DFT
+selectivity explanation -> experimental-primary; computed screening selects candidates followed by small
+validation -> mixed Pass; simulation-only mechanism using published data -> pure Pass.
+
+Return compact JSON only with: decision (one of the five Stage02 decisions); headline_producer (computation,
+physical_experiment, co_equal, none, uncertain); author_performed_experiments (yes, no, uncertain);
+explicit_computation_led_sequence (yes, no, uncertain); evidence_ids, computational_evidence_ids, and
+experimental_evidence_ids (each at most 3 supplied IDs); rationale under 220 characters; confidence from 0 to 1."""
 
 STAGE03_SYSTEM = """Inventory the software used by a paper already confirmed as computation-led chemistry.
 Use only supplied evidence. Your job is evidence extraction and software-role classification; deterministic
