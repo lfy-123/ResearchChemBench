@@ -397,8 +397,8 @@ def _parse_args():
         default="",
         help="Reuse this full worker SSH target instead of calling rlaunch",
     )
-    parser.add_argument("--sandbox-cpu", type=int, default=128)
-    parser.add_argument("--sandbox-memory", default="256Gi")
+    parser.add_argument("--sandbox-cpu", type=int, default=64)
+    parser.add_argument("--sandbox-memory", default="128Gi")
     parser.add_argument("--initial-delay-hours", type=float, default=5.0)
     parser.add_argument("--prepare-only", action="store_true")
     return parser.parse_args()

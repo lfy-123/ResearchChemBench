@@ -33,6 +33,7 @@ python scripts/sync_toolbox_capabilities.py
 Stage00-04 后才复制下一批；各批次共享一个沙箱和 GPU worker，并自动排除先前已选择的论文。
 默认先等待 5 小时，再申请沙箱和唯一一个 GPU worker。worker 单次启动失败时整个任务立即结束，
 不会再次申请 worker。
+批处理沙箱默认申请 64 CPU/128 GiB；可通过 `--sandbox-cpu` 和 `--sandbox-memory` 显式覆盖。
 
 worker 启动命令和资源约束见 [WORKER_LAUNCH_GUIDE.md](WORKER_LAUNCH_GUIDE.md)。
 
