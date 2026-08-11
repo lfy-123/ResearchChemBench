@@ -17,7 +17,7 @@ from src.config import load_config
 from src.core.io import read_json, write_json
 from src.pipeline import run_pipeline
 from src.runtime import ensure_managed_screening_worker
-from src.sandbox.manager import SandboxManager, SandboxRunOptions
+from src.sandbox.manager import DEFAULT_IMAGE, SandboxManager, SandboxRunOptions
 
 PIPELINE_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_TEMPLATE = PIPELINE_ROOT / "config.example.json"
@@ -299,7 +299,7 @@ def _sandbox_manager(run_root, template, args, *, cleanup: str) -> SandboxManage
             inventory=run_root / ".sandbox_inventory.local.json",
             base_url=str(sandbox_template.get("base_url") or "https://h.pjlab.org.cn/brainbox"),
             project=str(sandbox_template.get("project") or "ailab-ai4chem"),
-            image=str(sandbox_template.get("image") or ""),
+            image=str(sandbox_template.get("image") or DEFAULT_IMAGE),
             api_key_env="RCB_SANDBOX_API_KEY",
         )
     )
