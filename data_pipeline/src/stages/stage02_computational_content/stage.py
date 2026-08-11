@@ -22,7 +22,7 @@ from src.stages.stage02_computational_content.adjudication import (
 from src.stages.stage02_computational_content.evidence import build_evidence_packet
 
 COMPUTATIONAL_CONTENT_IMPLEMENTATION_VERSION = (
-    "v2-stage02-computational-content-20260811-r9-minimal-contract"
+    "v2-stage02-computational-content-20260811-r10-consistent-review"
 )
 
 CONTENT_CONFIRMATION_DECISIONS = set(PASS_DECISIONS)

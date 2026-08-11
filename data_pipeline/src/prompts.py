@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-STAGE02_CLASSIFY_VERSION = "v2-stage02-classify-20260811-r4-minimal-contract"
-STAGE02_REVIEW_VERSION = "v2-stage02-review-20260811-r4-minimal-contract"
+STAGE02_CLASSIFY_VERSION = "v2-stage02-classify-20260811-r5-consistent-contract"
+STAGE02_REVIEW_VERSION = "v2-stage02-review-20260811-r5-full-contract"
 STAGE03_VERSION = "v2-stage03-software-inventory-20260811-r23-computation-led-input"
 STAGE05_VERSION = "v2-stage05-suitability-20260810-r8-unresolved-software-inventory"
 STAGE06_SHARED_VERSION = "v2-stage06-shared-20260807"
@@ -49,6 +49,17 @@ Use exactly one decision:
 - computational_content_not_found: no substantive author-performed computational-chemistry workflow.
 - uncertain: evidence, article role, workflow completeness, or experiment/computation centrality is unresolved.
 
+The fields must be internally consistent with the decision:
+- computational_content_confirmed requires performed_computation=yes, complete_computational_workflow=yes,
+  author_performed_experiments=no, computation_role=primary, and counterfactual_without_computation=main_claim_fails.
+- computational_primary_mixed_confirmed requires the same complete primary computation, author experiments=yes,
+  and counterfactual_without_computation=main_claim_fails.
+- experimental_primary_computational_support requires author experiments=yes, computation_role=supporting or
+  background_only, and counterfactual_without_computation=main_claim_survives.
+- computational_content_not_found requires performed_computation=no or complete_computational_workflow=no.
+- If any field required by the intended decision is uncertain, use decision=uncertain. Never output a Pass decision
+  together with an uncertain workflow or counterfactual.
+
 Do not infer centrality from paragraph count or a detailed SI method section. A synthesis/performance paper with
 one complete DFT explanation is experimental-primary. A computational prediction or mechanism paper with focused
 experimental validation may be computation-primary. State the strongest evidence for both interpretations before
@@ -66,12 +77,17 @@ Every workflow, claim, and experiment must cite supplied evidence IDs. Use at mo
 steps, and 1 experimental contribution. Keep every narrative field under 200 characters and every evidence-ID
 array to at most 3 items. Do not output commentary or fields not listed above. Return compact JSON only."""
 
-STAGE02_REVIEW_SYSTEM = """Re-adjudicate one Stage02 classification only because deterministic validation found
-specific conflicts. Use the balanced evidence packet, the previous response, and listed validation issues. Check
-the strongest experiment-led interpretation as carefully as the computation-led interpretation. Do not preserve
-the previous label for consistency. Apply the same five decision definitions and return the complete compact JSON
-schema requested by the original classifier. Cite only supplied evidence IDs; prefer uncertain when a required
-claim, workflow step, attribution, or counterfactual cannot be supported. Return JSON only."""
+STAGE02_REVIEW_SYSTEM = (
+    STAGE02_CLASSIFY_SYSTEM
+    + """
+
+This call is an independent conflict review. The validation_issues are machine schema/contract diagnostics, not
+scientific evidence and not a claim that the computation disagrees with experiment. Re-read the evidence packet,
+correct the previous response, and do not preserve its label for consistency. Check the experiment-led
+interpretation as carefully as the computation-led interpretation. Follow every enum and JSON type in the full
+contract above exactly; do not invent labels, use booleans where yes/no/uncertain is required, or represent an enum
+as an object. Cite only supplied evidence IDs. Return only the complete compact JSON object."""
+)
 
 STAGE03_SYSTEM = """Inventory the software used by a paper already confirmed as computation-led chemistry.
 Use only supplied evidence. Your job is evidence extraction and software-role classification; deterministic
