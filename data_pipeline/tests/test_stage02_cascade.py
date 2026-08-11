@@ -233,6 +233,27 @@ def test_stage02_pass_verification_rejects_experiment_led_candidate() -> None:
     assert warnings == []
 
 
+def test_stage02_pass_verification_repairs_pure_label_from_experiment_axis() -> None:
+    candidate = _classification(decision="computational_content_confirmed")
+    candidate["passed"] = True
+    verification = _pass_verification("computational_primary_mixed_confirmed")
+    verification["author_performed_experiments"] = "no"
+    verification["experimental_evidence_ids"] = []
+
+    verified, warnings = apply_pass_verification(
+        candidate,
+        verification,
+        valid_ids={"calc", "lab"},
+        computational_ids={"calc"},
+        experimental_candidate_ids={"lab"},
+        minimum_confidence=0.85,
+    )
+
+    assert verified["decision"] == "computational_content_confirmed"
+    assert verified["passed"]
+    assert warnings[0]["reason"] == "pass_label_repaired_from_author_experiment_axis"
+
+
 def test_stage02_contract_rejects_absent_computation() -> None:
     response = {
         "decision": "computational_content_not_found",

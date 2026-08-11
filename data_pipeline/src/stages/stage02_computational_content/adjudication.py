@@ -259,7 +259,8 @@ def apply_pass_verification(
     output = dict(candidate)
     warnings: list[dict[str, Any]] = []
     raw = dict(verification) if isinstance(verification, dict) else {}
-    decision = _choice(raw.get("decision"), SEMANTIC_DECISIONS, "uncertain")
+    proposed_decision = _choice(raw.get("decision"), SEMANTIC_DECISIONS, "uncertain")
+    decision = proposed_decision
     headline_producer = _choice(
         raw.get("headline_producer"),
         {"computation", "physical_experiment", "co_equal", "none", "uncertain"},
@@ -293,6 +294,38 @@ def apply_pass_verification(
                 "field": "pass_verification.evidence_ids",
                 "reason": "unknown_evidence_ids",
                 "values": sorted(unknown)[:12],
+            }
+        )
+
+    if (
+        decision == "computational_primary_mixed_confirmed"
+        and headline_producer == "computation"
+        and author_experiments == "no"
+        and bool(computation_evidence_ids)
+    ):
+        decision = "computational_content_confirmed"
+        warnings.append(
+            {
+                "field": "pass_verification.decision",
+                "reason": "pass_label_repaired_from_author_experiment_axis",
+                "model_decision": proposed_decision,
+                "derived_decision": decision,
+            }
+        )
+    elif (
+        decision == "computational_content_confirmed"
+        and headline_producer == "computation"
+        and author_experiments == "yes"
+        and computation_led == "yes"
+        and bool(experiment_evidence_ids)
+    ):
+        decision = "computational_primary_mixed_confirmed"
+        warnings.append(
+            {
+                "field": "pass_verification.decision",
+                "reason": "pass_label_repaired_from_author_experiment_axis",
+                "model_decision": proposed_decision,
+                "derived_decision": decision,
             }
         )
 
@@ -376,6 +409,7 @@ def apply_pass_verification(
         dict.fromkeys([*(output.get("evidence_ids") or []), *evidence_ids])
     )
     output["pass_verification"] = {
+        "proposed_decision": proposed_decision,
         "decision": decision,
         "headline_producer": headline_producer,
         "author_performed_experiments": author_experiments,
@@ -385,7 +419,7 @@ def apply_pass_verification(
         "experimental_evidence_ids": experiment_evidence_ids,
         "rationale": str(raw.get("rationale") or "").strip()[:800],
         "confidence": confidence,
-        "contract_ok": decision not in PASS_DECISIONS or pass_contract_ok,
+        "contract_ok": pass_contract_ok if decision in PASS_DECISIONS else True,
     }
     return output, warnings
 

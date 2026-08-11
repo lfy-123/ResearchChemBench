@@ -27,6 +27,9 @@ def main() -> int:
     root = args.evaluation_root.expanduser().resolve()
     manifest = _read_jsonl(root / "manifest.jsonl")
     references = _load_reference_labels(root / "human_labels")
+    references, adjudicated_ids = _apply_reference_adjudications(
+        references, root / "reference_audits/adjudications.jsonl"
+    )
     predictions = _by_id(
         _read_jsonl(root / "model_run/stage_02_computational_content/decisions.jsonl")
     )
@@ -64,6 +67,10 @@ def main() -> int:
         )
 
     result = _metrics(rows)
+    result["reference_adjudications"] = {
+        "count": len(adjudicated_ids),
+        "eval_ids": adjudicated_ids,
+    }
     result["model_stage_summary"] = _read_json(
         root / "model_run/stage_02_computational_content/stage_summary.json"
     )
@@ -230,6 +237,39 @@ def _load_reference_labels(root: Path) -> dict[str, dict[str, Any]]:
     if duplicate_ids:
         raise RuntimeError(f"duplicate reference paper IDs: {duplicate_ids[:10]}")
     return _by_id(rows)
+
+
+def _apply_reference_adjudications(
+    references: dict[str, dict[str, Any]], path: Path
+) -> tuple[dict[str, dict[str, Any]], list[str]]:
+    if not path.is_file():
+        return references, []
+    adjudications = _read_jsonl(path)
+    duplicate_ids = [
+        paper_id
+        for paper_id, count in Counter(
+            str(row.get("paper_id") or "") for row in adjudications
+        ).items()
+        if paper_id and count > 1
+    ]
+    if duplicate_ids:
+        raise RuntimeError(f"duplicate adjudication paper IDs: {duplicate_ids[:10]}")
+    output = {paper_id: dict(row) for paper_id, row in references.items()}
+    applied: list[str] = []
+    for adjudication in adjudications:
+        paper_id = str(adjudication.get("paper_id") or "")
+        if paper_id not in output:
+            raise RuntimeError(f"adjudication paper ID is absent from references: {paper_id}")
+        label = str(adjudication.get("adjudicated_label") or "")
+        if label not in LABELS:
+            raise RuntimeError(f"invalid adjudicated label for {paper_id}: {label}")
+        reference = dict(output[paper_id])
+        reference["independent_label"] = reference["label"]
+        reference["label"] = label
+        reference["adjudication"] = adjudication
+        output[paper_id] = reference
+        applied.append(str(adjudication.get("eval_id") or paper_id))
+    return output, applied
 
 
 def _require_exact_ids(

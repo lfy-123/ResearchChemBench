@@ -170,7 +170,7 @@ def run_stage02(
                     prompt_version=STAGE02_CLASSIFY_VERSION,
                     system_prompt=STAGE02_CLASSIFY_SYSTEM,
                     user_content=json.dumps(packet, ensure_ascii=False),
-                    max_tokens=int(config.get("classification_max_tokens", 1024)),
+                    max_tokens=int(config.get("classification_max_tokens", 2048)),
                 )
                 completed_model_audits.append(primary_audit)
                 response, validation_warnings, review_reasons = sanitize_classification(

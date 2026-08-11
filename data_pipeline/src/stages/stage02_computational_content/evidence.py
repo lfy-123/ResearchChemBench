@@ -112,7 +112,7 @@ def build_evidence_packet(
         narrative=narrative,
         computational=computational,
         experimental=experimental,
-        max_characters=int(config.get("max_prompt_characters", 28000)),
+        max_characters=int(config.get("max_prompt_characters", 24000)),
         excerpt_characters=int(config.get("excerpt_characters", 1400)),
     )
     valid_ids = list(
