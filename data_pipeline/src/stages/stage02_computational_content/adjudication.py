@@ -275,11 +275,17 @@ def apply_pass_verification(
     complete_workflow = _choice(
         raw.get("complete_computational_workflow"), {"yes", "no", "uncertain"}, "uncertain"
     )
-    benchmarkable_workflow = _choice(
-        raw.get("benchmarkable_computational_workflow"),
-        {"yes", "no", "uncertain"},
-        "uncertain",
-    )
+    workflow_axes = {
+        field: _choice(raw.get(field), {"yes", "no", "uncertain"}, "uncertain")
+        for field in (
+            "identifiable_chemical_model",
+            "actual_chemical_calculation_or_simulation",
+            "generated_chemical_output",
+            "scientific_use_of_computational_output",
+            "nontrivial_computational_workflow",
+            "experimental_data_analysis_only",
+        )
+    }
     author_experiments = _choice(
         raw.get("author_performed_experiments"), {"yes", "no", "uncertain"}, "uncertain"
     )
@@ -296,9 +302,17 @@ def apply_pass_verification(
     computation_evidence_ids = [
         value for value in computation_evidence_ids if value in computational_ids
     ]
-    experiment_evidence_ids = [
-        value for value in experiment_evidence_ids if value in experimental_candidate_ids
-    ]
+    candidate_computation_ids = {
+        str(value)
+        for value in ((candidate.get("verification") or {}).get(
+            "validated_computational_evidence_ids"
+        ) or [])
+        if str(value) in computational_ids
+    }
+    effective_computation_ids = set(computation_evidence_ids) or candidate_computation_ids
+    # Experimental candidate extraction is intentionally high precision and incomplete.
+    # Any source-valid model citation may establish the author-experiment axis.
+    experiment_evidence_ids = list(dict.fromkeys(experiment_evidence_ids))
     if unknown:
         warnings.append(
             {
@@ -308,7 +322,78 @@ def apply_pass_verification(
             }
         )
 
-    if decision in PASS_DECISIONS and author_experiments == "no":
+    positive_workflow_axes = (
+        "identifiable_chemical_model",
+        "actual_chemical_calculation_or_simulation",
+        "generated_chemical_output",
+        "scientific_use_of_computational_output",
+        "nontrivial_computational_workflow",
+    )
+    workflow_facts_confirmed = all(
+        workflow_axes[field] == "yes" for field in positive_workflow_axes
+    )
+    workflow_facts_rejected = (
+        any(workflow_axes[field] == "no" for field in positive_workflow_axes)
+        or workflow_axes["experimental_data_analysis_only"] == "yes"
+    )
+    structured_pass_facts = (
+        confidence >= minimum_confidence
+        and author_computation == "yes"
+        and complete_workflow == "yes"
+        and workflow_facts_confirmed
+        and workflow_axes["experimental_data_analysis_only"] == "no"
+        and bool(effective_computation_ids)
+    )
+    if confidence >= minimum_confidence and author_computation == "no":
+        decision = "computational_content_not_found"
+    elif (
+        confidence >= minimum_confidence
+        and author_computation == "yes"
+        and (complete_workflow == "no" or workflow_facts_rejected)
+    ):
+        decision = "computational_workflow_not_benchmarkable"
+    elif structured_pass_facts and author_experiments == "no":
+        decision = "computational_content_confirmed"
+        if proposed_decision != decision:
+            warnings.append(
+                {
+                    "field": "pass_verification.decision",
+                    "reason": "pass_label_repaired_from_author_experiment_axis",
+                    "model_decision": proposed_decision,
+                    "derived_decision": decision,
+                }
+            )
+    elif structured_pass_facts and author_experiments == "yes":
+        candidate_decision = str(candidate.get("decision") or "")
+        if proposed_decision in PASS_DECISIONS - {"computational_content_confirmed"}:
+            decision = proposed_decision
+        elif candidate_decision in PASS_DECISIONS - {"computational_content_confirmed"}:
+            decision = candidate_decision
+        else:
+            direction = str(candidate.get("evidence_direction") or "")
+            if direction == "co_equal":
+                decision = "computational_experimental_co_primary_confirmed"
+            elif direction == "computation_predicts_then_experiment_validates":
+                decision = "computational_primary_mixed_confirmed"
+            else:
+                decision = "experimental_primary_benchmarkable_computation"
+    elif structured_pass_facts:
+        candidate_decision = str(candidate.get("decision") or "")
+        if candidate_decision in PASS_DECISIONS:
+            decision = candidate_decision
+        elif candidate.get("author_performed_experiments") == "no":
+            decision = "computational_content_confirmed"
+        elif candidate.get("author_performed_experiments") == "yes":
+            direction = str(candidate.get("evidence_direction") or "")
+            if direction == "co_equal":
+                decision = "computational_experimental_co_primary_confirmed"
+            elif direction == "computation_predicts_then_experiment_validates":
+                decision = "computational_primary_mixed_confirmed"
+            else:
+                decision = "experimental_primary_benchmarkable_computation"
+        else:
+            decision = "uncertain"
+    elif decision in PASS_DECISIONS and author_experiments == "no":
         original_decision = decision
         decision = "computational_content_confirmed"
         if original_decision != decision:
@@ -331,22 +416,11 @@ def apply_pass_verification(
 
     pass_contract_ok = (
         decision in PASS_DECISIONS
-        and author_computation == "yes"
-        and complete_workflow == "yes"
-        and benchmarkable_workflow == "yes"
-        and bool(computation_evidence_ids)
-        and (
-            (decision == "computational_content_confirmed" and author_experiments == "no")
-            or (
-                decision != "computational_content_confirmed"
-                and author_experiments == "yes"
-                and bool(experiment_evidence_ids)
-            )
-        )
+        and structured_pass_facts
     )
 
     if decision in PASS_DECISIONS and (
-        not pass_contract_ok or confidence < minimum_confidence or bool(unknown)
+        not pass_contract_ok or confidence < minimum_confidence
     ):
         warnings.append(
             {
@@ -437,14 +511,15 @@ def apply_pass_verification(
         "decision": decision,
         "author_performed_computation": author_computation,
         "complete_computational_workflow": complete_workflow,
-        "benchmarkable_computational_workflow": benchmarkable_workflow,
+        **workflow_axes,
         "author_performed_experiments": author_experiments,
         "computational_input": str(raw.get("computational_input") or "").strip()[:400],
         "computational_operation": str(raw.get("computational_operation") or "").strip()[:400],
         "generated_output": str(raw.get("generated_output") or "").strip()[:400],
         "scientific_use": str(raw.get("scientific_use") or "").strip()[:400],
         "evidence_ids": evidence_ids,
-        "computational_evidence_ids": computation_evidence_ids,
+        "computational_evidence_ids": sorted(effective_computation_ids),
+        "model_cited_computational_evidence_ids": computation_evidence_ids,
         "experimental_evidence_ids": experiment_evidence_ids,
         "rationale": str(raw.get("rationale") or "").strip()[:800],
         "confidence": confidence,

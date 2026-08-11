@@ -20,9 +20,11 @@ def main() -> int:
     parser.add_argument("--source-run", type=Path, required=True)
     parser.add_argument("--worker-state", type=Path, required=True)
     parser.add_argument("--workers", type=int, default=32)
+    parser.add_argument("--run-id")
     args = parser.parse_args()
 
     evaluation_root = args.evaluation_root.expanduser().resolve()
+    run_id = args.run_id or evaluation_root.name
     source_run = args.source_run.expanduser().resolve()
     worker_state = json.loads(args.worker_state.expanduser().resolve().read_text(encoding="utf-8"))
     manifest = read_jsonl(evaluation_root / "manifest.jsonl")
@@ -92,7 +94,7 @@ def main() -> int:
         config=stage_config,
         model=client,
         workspace=evaluation_root / "model_run",
-        run_id="stage02-eval-200-20260811-qwen",
+        run_id=run_id,
     )
     write_json(
         evaluation_root / "model_run_result.json",

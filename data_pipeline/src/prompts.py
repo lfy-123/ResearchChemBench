@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-STAGE02_CLASSIFY_VERSION = "v2-stage02-classify-20260811-r9-benchmarkable-workflow"
-STAGE02_PASS_VERIFY_VERSION = "v2-stage02-pass-verify-20260811-r2-workflow-evidence"
+STAGE02_CLASSIFY_VERSION = "v2-stage02-classify-20260811-r10-chemistry-model-boundary"
+STAGE02_PASS_VERIFY_VERSION = "v2-stage02-pass-verify-20260811-r5-independent-workflow-axes"
 STAGE03_VERSION = "v2-stage03-software-inventory-20260811-r23-computation-led-input"
 STAGE05_VERSION = "v2-stage05-suitability-20260810-r8-unresolved-software-inventory"
 STAGE06_SHARED_VERSION = "v2-stage06-shared-20260807"
@@ -51,6 +51,13 @@ fitting/plotting, experimental data processing, Rietveld refinement alone, life-
 lookup, AlphaFold-only prediction, synthesis planning, and background citations do not qualify by themselves.
 Published experimental data used only for comparison are not new author experiments.
 
+The calculation must operate on a molecular, atomistic, electronic-structure, reaction, material, thermodynamic,
+kinetic, or comparable chemical model. Fitting measured spectra or transients, substituting measured values into a
+standard equation, instrument calibration/conversion, statistical analysis of measurements, ML classification of
+measured signals, and crystallographic refinement are experimental data analysis, not computational chemistry.
+Conversely, a simulation-only paper does not need new experiments or external experimental validation to qualify;
+internally generated structures, energies, trajectories, spectra, rates, or properties are valid scientific outputs.
+
 deterministic_author_experiment_evidence contains high-precision author-laboratory sentences, but it is not
 exhaustive: an empty list is not proof of a pure computational paper. You may also establish author experiments
 from experimental_evidence, but must cite the exact supplied evidence IDs.
@@ -77,7 +84,8 @@ counterfactual_without_computation and counterfactual_without_experiments (main_
 main_claim_survives, uncertain); evidence_ids; experimental_evidence_ids; conflicting_evidence_ids; rationale;
 confidence from 0 to 1. Use at most 3 IDs per array and keep narrative values under 180 characters. Return JSON only."""
 
-STAGE02_PASS_VERIFY_SYSTEM = """Verify a proposed Stage02 Pass using only supplied evidence IDs. The gate asks
+STAGE02_PASS_VERIFY_SYSTEM = """Independently verify a proposed Stage02 Pass using only the supplied source
+evidence. You do not receive the first classifier's answer; reconstruct the workflow from the evidence. The gate asks
 whether the authors performed a complete, non-trivial computational-chemistry workflow with an identifiable
 chemical input/system, calculation or simulation, generated chemical output, and scientific use. Computation may
 be primary, co-primary, or supporting an experimental paper. Do not reject merely because experiments produced the
@@ -92,11 +100,29 @@ Preserve the scientific-role label when supported: pure computational, computati
 experimental-primary with benchmarkable computation. An empty deterministic experiment list is not proof that
 author experiments are absent.
 
+Do not require experimental validation, external gold data, downloadable inputs, or final benchmark ground truth.
+Those are later-stage checks. A complete simulation-only workflow qualifies. However, measured-data fitting,
+instrument calibration or conversion, equation substitution, Rietveld refinement, and ML classification of
+experimental signals are not computational chemistry. A proposed mechanism without an actual calculation is not
+a computational workflow.
+
+For the boolean axes, apply these examples exactly:
+- simulation-only DFT/MD with defined systems and generated results but no experiment/gold data: all positive
+  workflow axes=yes, experimental_data_analysis_only=no;
+- fitting spectra/transients, instrument calibration, equation substitution, Rietveld refinement, or ML on measured
+  signals: experimental_data_analysis_only=yes and actual_chemical_calculation_or_simulation=no;
+- proposed mechanistic diagram with no executed calculation: author_performed_computation=no;
+- one isolated orbital picture or number without a defined multi-step scientific calculation:
+  nontrivial_computational_workflow=no.
+Lack of external validation MUST NEVER turn any positive workflow axis to no.
+
 Return compact JSON only with: decision (one of the seven Stage02 decisions); author_performed_computation,
-complete_computational_workflow, benchmarkable_computational_workflow, author_performed_experiments (each yes, no,
-uncertain); computational_input, computational_operation, generated_output, scientific_use (strings under 160
-characters); evidence_ids, computational_evidence_ids, and experimental_evidence_ids (each at most 3 supplied
-IDs); rationale under 220 characters; confidence from 0 to 1."""
+complete_computational_workflow, identifiable_chemical_model, actual_chemical_calculation_or_simulation,
+generated_chemical_output, scientific_use_of_computational_output, nontrivial_computational_workflow,
+experimental_data_analysis_only, author_performed_experiments (each yes, no, uncertain); computational_input,
+computational_operation, generated_output, scientific_use (strings under 160 characters); evidence_ids,
+computational_evidence_ids, and experimental_evidence_ids (each at most 3 supplied IDs); rationale under 220
+characters; confidence from 0 to 1."""
 
 STAGE03_SYSTEM = """Inventory the software used by a paper already confirmed to contain a benchmarkable
 computational-chemistry workflow.

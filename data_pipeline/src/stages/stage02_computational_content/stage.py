@@ -22,7 +22,7 @@ from src.stages.stage02_computational_content.adjudication import (
 from src.stages.stage02_computational_content.evidence import build_evidence_packet
 
 COMPUTATIONAL_CONTENT_IMPLEMENTATION_VERSION = (
-    "v2-stage02-computational-content-20260811-r14-benchmarkable-workflow-gate"
+    "v2-stage02-computational-content-20260811-r15-chemistry-model-boundary"
 )
 
 CONTENT_CONFIRMATION_DECISIONS = set(PASS_DECISIONS)
@@ -195,13 +195,11 @@ def run_stage02(
                     }
                 ]
                 review_audit = None
-                proposed_decision = str(raw_response.get("decision") or "uncertain")
-                pass_precision_review = bool(config.get("review_pass_decisions", True)) and (
-                    response["decision"] in PASS_DECISIONS or proposed_decision in PASS_DECISIONS
-                )
+                # Every paper with deterministic computation signals receives one independent
+                # workflow verification. This also recovers first-pass false negatives.
+                pass_precision_review = bool(config.get("review_pass_decisions", True))
                 if pass_precision_review:
                     review_payload = {
-                        "candidate_response": _compact_pass_candidate(raw_response),
                         "evidence_packet": _compact_pass_verification_packet(packet),
                     }
                     semantic_calls_started += 1
@@ -400,28 +398,6 @@ def _selected_packet_evidence(packet: dict[str, Any]) -> list[dict[str, Any]]:
             seen.add(evidence_id)
             output.append(block)
     return output
-
-
-def _compact_pass_candidate(response: dict[str, Any]) -> dict[str, Any]:
-    keys = (
-        "decision",
-        "article_role",
-        "performed_computation",
-        "complete_computational_workflow",
-        "author_performed_experiments",
-        "computation_role",
-        "evidence_direction",
-        "central_scientific_question",
-        "primary_contribution",
-        "computational_workflow_steps",
-        "experimental_contributions",
-        "counterfactual_without_computation",
-        "evidence_ids",
-        "experimental_evidence_ids",
-        "rationale",
-        "confidence",
-    )
-    return {key: response.get(key) for key in keys}
 
 
 def _compact_pass_verification_packet(packet: dict[str, Any]) -> dict[str, Any]:

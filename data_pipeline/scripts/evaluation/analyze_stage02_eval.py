@@ -25,12 +25,22 @@ def main() -> int:
     parser.add_argument("--evaluation-root", type=Path, required=True)
     parser.add_argument("--sampling-audit", type=Path)
     parser.add_argument("--reference-dir", default="human_labels_v2")
+    parser.add_argument(
+        "--reference-adjudications",
+        type=Path,
+        help="Optional JSONL of consensus adjudications applied after loading reference labels.",
+    )
     args = parser.parse_args()
 
     root = args.evaluation_root.expanduser().resolve()
     manifest = _read_jsonl(root / "manifest.jsonl")
     references = _load_reference_labels(root / args.reference_dir)
-    adjudicated_ids: list[str] = []
+    references, adjudicated_ids = _apply_reference_adjudications(
+        references,
+        args.reference_adjudications.expanduser().resolve()
+        if args.reference_adjudications
+        else root / "reference_adjudications.jsonl",
+    )
     predictions = _by_id(
         _read_jsonl(root / "model_run/stage_02_computational_content/decisions.jsonl")
     )

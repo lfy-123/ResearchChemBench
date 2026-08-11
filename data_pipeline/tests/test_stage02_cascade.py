@@ -91,9 +91,14 @@ def _pass_verification(decision: str) -> dict:
         "decision": decision,
         "author_performed_computation": "yes",
         "complete_computational_workflow": "yes",
-        "benchmarkable_computational_workflow": (
+        "identifiable_chemical_model": "yes",
+        "actual_chemical_calculation_or_simulation": "yes",
+        "generated_chemical_output": "yes",
+        "scientific_use_of_computational_output": "yes",
+        "nontrivial_computational_workflow": (
             "no" if decision == "computational_workflow_not_benchmarkable" else "yes"
         ),
+        "experimental_data_analysis_only": "no",
         "author_performed_experiments": author_experiments,
         "computational_input": "A defined molecular structure.",
         "computational_operation": "Geometry optimization and energy calculation.",
@@ -330,6 +335,102 @@ def test_stage02_verifier_accepts_experimental_primary_benchmarkable_workflow() 
     assert verified["decision"] == "experimental_primary_benchmarkable_computation"
     assert verified["passed"]
     assert warnings == []
+
+
+def test_stage02_verifier_uses_structured_no_computation_axis_over_pass_label() -> None:
+    candidate = _classification(
+        decision="experimental_primary_benchmarkable_computation",
+        computation_role="supporting",
+        author_experiments="yes",
+    )
+    candidate["passed"] = True
+    verification = _pass_verification("experimental_primary_benchmarkable_computation")
+    verification.update(
+        {
+            "author_performed_computation": "no",
+            "complete_computational_workflow": "no",
+            "identifiable_chemical_model": "no",
+            "actual_chemical_calculation_or_simulation": "no",
+            "generated_chemical_output": "no",
+            "scientific_use_of_computational_output": "no",
+            "nontrivial_computational_workflow": "no",
+        }
+    )
+
+    verified, _warnings = apply_pass_verification(
+        candidate,
+        verification,
+        valid_ids={"calc", "lab"},
+        computational_ids={"calc"},
+        experimental_candidate_ids={"lab"},
+        minimum_confidence=0.85,
+    )
+
+    assert verified["decision"] == "computational_content_not_found"
+    assert not verified["passed"]
+
+
+def test_stage02_verifier_accepts_complete_pure_workflow_without_external_validation() -> None:
+    candidate = _classification(decision="computational_content_confirmed")
+    candidate["passed"] = True
+    verification = _pass_verification("computational_content_confirmed")
+    verification["decision"] = "uncertain"
+    verification["rationale"] = "The simulation is complete but has no external experiment."
+
+    verified, _warnings = apply_pass_verification(
+        candidate,
+        verification,
+        valid_ids={"calc"},
+        computational_ids={"calc"},
+        experimental_candidate_ids=set(),
+        minimum_confidence=0.85,
+    )
+
+    assert verified["decision"] == "computational_content_confirmed"
+    assert verified["passed"]
+
+
+def test_stage02_verifier_keeps_pass_when_experiment_axis_is_unknown() -> None:
+    candidate = _classification(decision="computational_content_confirmed")
+    candidate["passed"] = True
+    verification = _pass_verification("uncertain")
+    verification["author_performed_experiments"] = "uncertain"
+
+    verified, _warnings = apply_pass_verification(
+        candidate,
+        verification,
+        valid_ids={"calc", "lab"},
+        computational_ids={"calc"},
+        experimental_candidate_ids={"lab"},
+        minimum_confidence=0.85,
+    )
+
+    assert verified["decision"] == "computational_content_confirmed"
+    assert verified["passed"]
+
+
+def test_stage02_verifier_uses_primary_role_when_its_own_role_axis_is_unknown() -> None:
+    candidate = _classification(
+        decision="experimental_primary_benchmarkable_computation",
+        computation_role="supporting",
+        author_experiments="yes",
+    )
+    candidate["decision"] = "uncertain"
+    candidate["evidence_direction"] = "experiment_observes_then_computation_explains"
+    verification = _pass_verification("uncertain")
+    verification["author_performed_experiments"] = "uncertain"
+
+    verified, _warnings = apply_pass_verification(
+        candidate,
+        verification,
+        valid_ids={"calc", "lab"},
+        computational_ids={"calc"},
+        experimental_candidate_ids={"lab"},
+        minimum_confidence=0.85,
+    )
+
+    assert verified["decision"] == "experimental_primary_benchmarkable_computation"
+    assert verified["passed"]
 
 
 def test_stage02_contract_does_not_accept_experiment_block_as_computation() -> None:
