@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-STAGE02_CLASSIFY_VERSION = "v2-stage02-classify-20260811-r5-consistent-contract"
-STAGE02_REVIEW_VERSION = "v2-stage02-review-20260811-r5-full-contract"
+STAGE02_CLASSIFY_VERSION = "v2-stage02-classify-20260811-r6-headline-centrality"
+STAGE02_REVIEW_VERSION = "v2-stage02-review-20260811-r6-adversarial-pass"
 STAGE03_VERSION = "v2-stage03-software-inventory-20260811-r23-computation-led-input"
 STAGE05_VERSION = "v2-stage05-suitability-20260810-r8-unresolved-software-inventory"
 STAGE06_SHARED_VERSION = "v2-stage06-shared-20260807"
@@ -60,10 +60,25 @@ The fields must be internally consistent with the decision:
 - If any field required by the intended decision is uncertain, use decision=uncertain. Never output a Pass decision
   together with an uncertain workflow or counterfactual.
 
-Do not infer centrality from paragraph count or a detailed SI method section. A synthesis/performance paper with
-one complete DFT explanation is experimental-primary. A computational prediction or mechanism paper with focused
-experimental validation may be computation-primary. State the strongest evidence for both interpretations before
-deciding. Prefer uncertain over an unsupported pass.
+Judge centrality against the paper's headline scientific contribution, as framed by its title, abstract, and
+conclusion, not against a narrower mechanistic subclaim. Use this procedure:
+1. State the headline discovery/deliverable and identify which author activity directly produced it.
+2. Inventory new physical products and data made by the authors: synthesis, substrate scope, material fabrication,
+   characterization, spectra, microscopy, electrochemistry, catalytic performance, or biological measurements.
+3. Remove the computation mentally. If the headline experimental discovery/performance still exists and only its
+   explanation is lost, the paper is experimental_primary_computational_support, not computation-primary.
+4. Use computational_primary_mixed_confirmed only when a computed prediction, energy landscape, mechanism,
+   simulation, or computed property is itself the headline deliverable and experiments are limited validation.
+
+Do not infer centrality from paragraph count or a detailed SI method section. General examples:
+- New reaction plus optimization/substrate scope, with DFT explaining selectivity: experimental-primary.
+- New battery/catalyst/material fabricated and performance-tested, with DFT/FEM explaining trends:
+  experimental-primary.
+- New measured spectrum or structure, with calculations assigning peaks/bonding: experimental-primary.
+- Computational screening predicts candidates and a small experiment validates selected predictions:
+  computation-primary mixed.
+- A fully in-silico DFT/MD/mechanism study using only previously published measurements: pure computational.
+Prefer experimental-primary or uncertain over a Pass when the headline contribution is ambiguous.
 
 Return compact JSON with: decision; article_role (original_research, review, correction, editorial, unknown);
 performed_computation, complete_computational_workflow, author_performed_experiments (yes, no, uncertain);
@@ -84,9 +99,13 @@ STAGE02_REVIEW_SYSTEM = (
 This call is an independent conflict review. The validation_issues are machine schema/contract diagnostics, not
 scientific evidence and not a claim that the computation disagrees with experiment. Re-read the evidence packet,
 correct the previous response, and do not preserve its label for consistency. Check the experiment-led
-interpretation as carefully as the computation-led interpretation. Follow every enum and JSON type in the full
-contract above exactly; do not invent labels, use booleans where yes/no/uncertain is required, or represent an enum
-as an object. Cite only supplied evidence IDs. Return only the complete compact JSON object."""
+interpretation as carefully as the computation-led interpretation. When review_mode=pass_precision_review,
+actively try to falsify the Pass: identify whether synthesis, measurement, material/reaction discovery, or physical
+performance is actually the headline contribution while computation only explains it. Confirm a Pass only when
+the complete primary computation and headline-level counterfactual are positively evidenced. Follow every enum
+and JSON type in the full contract above exactly; do not invent labels, use booleans where yes/no/uncertain is
+required, or represent an enum as an object. Cite only supplied evidence IDs. Return only the complete compact JSON
+object."""
 )
 
 STAGE03_SYSTEM = """Inventory the software used by a paper already confirmed as computation-led chemistry.

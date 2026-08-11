@@ -310,7 +310,13 @@ class _FixtureModel:
         return response, audit
 
 
-def _run_fixture(tmp_path: Path, blocks: list[dict], model: _FixtureModel):
+def _run_fixture(
+    tmp_path: Path,
+    blocks: list[dict],
+    model: _FixtureModel,
+    *,
+    review_pass_decisions: bool = False,
+):
     blocks_path = tmp_path / "blocks.jsonl"
     write_jsonl(blocks_path, blocks)
     return run_stage02(
@@ -334,7 +340,11 @@ def _run_fixture(tmp_path: Path, blocks: list[dict], model: _FixtureModel):
                 "content_blocks_path": str(blocks_path),
             }
         ],
-        config={"workers": 1, "review_on_conflict": True},
+        config={
+            "workers": 1,
+            "review_on_conflict": True,
+            "review_pass_decisions": review_pass_decisions,
+        },
         model=model,
         workspace=tmp_path / "run",
         run_id="fixture-run",
@@ -406,7 +416,7 @@ def test_stage02_verified_experiment_conflict_gets_one_review(tmp_path: Path) ->
     assert result["summary"]["conflict_reviews"] == 1
     assert len(model.calls) == 2
     assert model.calls[0]["namespace"] == "stage02_classify"
-    assert model.calls[1]["namespace"] == "stage02_conflict_review"
+    assert model.calls[1]["namespace"] == "stage02_contract_conflict_review"
     packet = json.loads(model.calls[0]["user_content"])
     assert packet["deterministic_author_experiment_evidence"][0]["evidence_id"] == "lab"
 
@@ -435,3 +445,25 @@ def test_stage02_counts_provider_attempts_across_truncation_retry(tmp_path: Path
     assert result["summary"]["model_calls"] == 1
     assert result["summary"]["successful_model_http_requests"] == 3
     assert len(model.calls) == 2
+
+
+def test_stage02_pass_candidate_gets_precision_review(tmp_path: Path) -> None:
+    response = _classification(decision="computational_content_confirmed")
+    model = _FixtureModel([response, response])
+    result = _run_fixture(
+        tmp_path,
+        [
+            {
+                "evidence_id": "calc",
+                "document_id": "doc-1",
+                "text": "We performed DFT calculations and computed an activation energy barrier.",
+            }
+        ],
+        model,
+        review_pass_decisions=True,
+    )
+
+    assert result["records"][0]["decision"] == "computational_content_confirmed"
+    assert result["summary"]["model_calls"] == 2
+    assert result["summary"]["pass_precision_reviews"] == 1
+    assert model.calls[1]["namespace"] == "stage02_pass_precision_review"

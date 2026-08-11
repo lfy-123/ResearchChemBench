@@ -22,7 +22,7 @@ from src.stages.stage02_computational_content.adjudication import (
 from src.stages.stage02_computational_content.evidence import build_evidence_packet
 
 COMPUTATIONAL_CONTENT_IMPLEMENTATION_VERSION = (
-    "v2-stage02-computational-content-20260811-r10-consistent-review"
+    "v2-stage02-computational-content-20260811-r11-pass-precision-review"
 )
 
 CONTENT_CONFIRMATION_DECISIONS = set(PASS_DECISIONS)
@@ -187,18 +187,31 @@ def run_stage02(
                     }
                 ]
                 review_audit = None
-                if bool(config.get("review_on_conflict", True)) and should_review(
+                contract_review = bool(config.get("review_on_conflict", True)) and should_review(
                     response["decision"], review_reasons
-                ):
+                )
+                pass_precision_review = bool(config.get("review_pass_decisions", True)) and (
+                    response["decision"] in PASS_DECISIONS
+                )
+                if contract_review or pass_precision_review:
+                    review_mode = (
+                        "pass_precision_review"
+                        if pass_precision_review
+                        else "contract_conflict_review"
+                    )
+                    validation_issues = list(review_reasons)
+                    if pass_precision_review:
+                        validation_issues.append("candidate_pass_requires_precision_review")
                     review_payload = {
+                        "review_mode": review_mode,
                         "evidence_packet": packet,
                         "previous_response": raw_response,
-                        "validation_issues": review_reasons,
+                        "validation_issues": validation_issues,
                     }
                     semantic_calls_started += 1
                     retry_raw, review_audit = _call_complete_json(
                         model,
-                        namespace="stage02_conflict_review",
+                        namespace=f"stage02_{review_mode}",
                         record_id=paper["paper_id"],
                         prompt_version=STAGE02_REVIEW_VERSION,
                         system_prompt=STAGE02_REVIEW_SYSTEM,
@@ -230,7 +243,7 @@ def run_stage02(
                         {
                             "paper_id": paper["paper_id"],
                             "eval_id": paper.get("eval_id"),
-                            "attempt": "conflict_review",
+                            "attempt": review_mode,
                             "raw_response": retry_raw,
                             "validated_response": retry_response,
                             "validation_warnings": retry_warnings,
@@ -378,6 +391,10 @@ def run_stage02(
             bool((row.get("model_audit") or {}).get("zero_call_rule_rejection")) for row in records
         ),
         "conflict_reviews": sum(len(item[2]) > 1 for item in reviewed),
+        "pass_precision_reviews": sum(
+            any(row.get("attempt") == "pass_precision_review" for row in item[2])
+            for item in reviewed
+        ),
         "model_role": model.role,
         "model": model.model,
     }

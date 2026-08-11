@@ -67,6 +67,7 @@ def main() -> int:
         "review_max_tokens": 2048,
         "minimum_confidence": 0.85,
         "review_on_conflict": True,
+        "review_pass_decisions": True,
     }
     client = RoleModelClient(
         role="screening",
