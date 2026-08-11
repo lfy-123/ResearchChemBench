@@ -53,7 +53,7 @@ def main() -> int:
         "use_proxy": False,
         "timeout_seconds": 900,
         "retries": 2,
-        "max_tokens": 1536,
+        "max_tokens": 2048,
         "thinking": "disabled",
     }
     stage_config = {
@@ -63,8 +63,8 @@ def main() -> int:
         "max_computational_excerpts": 8,
         "max_experimental_excerpts": 8,
         "max_deterministic_experiment_evidence": 8,
-        "classification_max_tokens": 1536,
-        "review_max_tokens": 1536,
+        "classification_max_tokens": 2048,
+        "review_max_tokens": 2048,
         "minimum_confidence": 0.85,
         "review_on_conflict": True,
     }

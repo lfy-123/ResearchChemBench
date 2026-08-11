@@ -22,7 +22,7 @@ from src.stages.stage02_computational_content.adjudication import (
 from src.stages.stage02_computational_content.evidence import build_evidence_packet
 
 COMPUTATIONAL_CONTENT_IMPLEMENTATION_VERSION = (
-    "v2-stage02-computational-content-20260811-r7-evidence-contract"
+    "v2-stage02-computational-content-20260811-r8-compact-contract"
 )
 
 CONTENT_CONFIRMATION_DECISIONS = set(PASS_DECISIONS)
@@ -164,7 +164,7 @@ def run_stage02(
                     prompt_version=STAGE02_CLASSIFY_VERSION,
                     system_prompt=STAGE02_CLASSIFY_SYSTEM,
                     user_content=json.dumps(packet, ensure_ascii=False),
-                    max_tokens=int(config.get("classification_max_tokens", 1536)),
+                    max_tokens=int(config.get("classification_max_tokens", 2048)),
                 )
                 completed_model_audits.append(primary_audit)
                 response, validation_warnings, review_reasons = sanitize_classification(
@@ -203,7 +203,7 @@ def run_stage02(
                         prompt_version=STAGE02_REVIEW_VERSION,
                         system_prompt=STAGE02_REVIEW_SYSTEM,
                         user_content=json.dumps(review_payload, ensure_ascii=False),
-                        max_tokens=int(config.get("review_max_tokens", 1536)),
+                        max_tokens=int(config.get("review_max_tokens", 2048)),
                     )
                     completed_model_audits.append(review_audit)
                     retry_response, retry_warnings, retry_reasons = sanitize_classification(

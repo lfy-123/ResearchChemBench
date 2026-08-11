@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-STAGE02_CLASSIFY_VERSION = "v2-stage02-classify-20260811-r2-evidence-contract"
-STAGE02_REVIEW_VERSION = "v2-stage02-review-20260811-r2-evidence-contract"
+STAGE02_CLASSIFY_VERSION = "v2-stage02-classify-20260811-r3-compact-contract"
+STAGE02_REVIEW_VERSION = "v2-stage02-review-20260811-r3-compact-contract"
 STAGE03_VERSION = "v2-stage03-software-inventory-20260811-r23-computation-led-input"
 STAGE05_VERSION = "v2-stage05-suitability-20260810-r8-unresolved-software-inventory"
 STAGE06_SHARED_VERSION = "v2-stage06-shared-20260807"
@@ -63,8 +63,8 @@ central_claims (statement, computation_required, experiment_required, evidence_i
 (main_claim_fails, partly_survives, main_claim_survives, uncertain); strongest_computation_led_argument;
 strongest_experiment_led_argument; method_families; computational_actions; software_clues; resource_clues;
 evidence_ids; experimental_evidence_ids; conflicting_evidence_ids; rationale; confidence from 0 to 1.
-Every workflow, claim, and experiment must cite supplied evidence IDs. Use at most 4 claims, 5 workflow steps,
-and 4 experimental contributions. Return JSON only."""
+Every workflow, claim, and experiment must cite supplied evidence IDs. Use at most 2 central claims, 3 workflow
+steps, and 2 experimental contributions. Keep every narrative field to one concise sentence. Return JSON only."""
 
 STAGE02_REVIEW_SYSTEM = """Re-adjudicate one Stage02 classification only because deterministic validation found
 specific conflicts. Use the balanced evidence packet, the previous response, and listed validation issues. Check
