@@ -20,6 +20,7 @@ def call_json_chat(
     max_tokens: int | None = None,
     retries: int = 2,
     thinking: str | None = None,
+    chat_template_kwargs: dict[str, Any] | None = None,
     proxy_url: str | None = None,
 ) -> tuple[dict[str, Any], dict[str, Any]]:
     """Call an OpenAI-compatible chat endpoint and return parsed JSON plus audit metadata."""
@@ -37,6 +38,8 @@ def call_json_chat(
         payload["max_tokens"] = int(max_tokens)
     if thinking:
         payload["thinking"] = {"type": thinking}
+    if chat_template_kwargs:
+        payload["chat_template_kwargs"] = dict(chat_template_kwargs)
 
     last_error: Exception | None = None
     opener = None
@@ -76,6 +79,7 @@ def call_json_chat(
                 "duration_seconds": round(time.monotonic() - started, 3),
                 "attempts": attempt + 1,
                 "thinking": thinking or "provider_default",
+                "chat_template_kwargs": dict(chat_template_kwargs or {}),
                 "proxy_enabled": bool(proxy_url),
                 "raw_content": content,
             }

@@ -78,14 +78,43 @@ from src.stages.stage05_benchmark_suitability.stage import (
 from src.stages.stage06_task_builder.stage import _public_builder_packet
 
 
-def test_config_enforces_shared_screening_role(tmp_path: Path) -> None:
+def test_config_rejects_unknown_stage_screening_role(tmp_path: Path) -> None:
     config = _base_config(tmp_path)
     config["stage03"]["model_role"] = "suitability"
     path = tmp_path / "config.json"
     path.write_text(json.dumps(config), encoding="utf-8")
 
-    with pytest.raises(ValueError, match="stage03.model_role must be screening"):
+    with pytest.raises(
+        ValueError, match="stage03.model_role must be screening or stage03_screening"
+    ):
         load_config(path)
+
+
+def test_config_supports_dedicated_stage02_and_stage03_api_roles(tmp_path: Path) -> None:
+    config = _base_config(tmp_path)
+    config["stage02"]["model_role"] = "stage02_screening"
+    config["stage03"]["model_role"] = "stage03_screening"
+    config["models"]["stage02_screening"] = {
+        "base_url": "http://127.0.0.1:13000/v1",
+        "model": "Qwen3.6-27B",
+        "api_key_env": "RCB_NEW_API_KEY",
+        "chat_template_kwargs": {"enable_thinking": False},
+    }
+    config["models"]["stage03_screening"] = {
+        "base_url": "http://127.0.0.1:13000/v1",
+        "model": "DeepSeek-V4-Flash",
+        "api_key_env": "RCB_NEW_API_KEY",
+        "chat_template_kwargs": {"thinking": False},
+    }
+    path = tmp_path / "config.json"
+    path.write_text(json.dumps(config), encoding="utf-8")
+
+    loaded = load_config(path)
+
+    assert loaded["stage02"]["model_role"] == "stage02_screening"
+    assert loaded["stage03"]["model_role"] == "stage03_screening"
+    assert loaded["models"]["stage02_screening"]["model"] == "Qwen3.6-27B"
+    assert loaded["models"]["stage03_screening"]["model"] == "DeepSeek-V4-Flash"
 
 
 def test_config_migrates_legacy_single_stage05_model_role(tmp_path: Path) -> None:
@@ -1353,6 +1382,42 @@ def test_role_model_cache_replays_without_second_call(tmp_path: Path, monkeypatc
     assert first_audit["cache_hit"] is False
     assert second_audit["cache_hit"] is True
     assert len(calls) == 1
+
+
+def test_role_model_client_forwards_new_api_chat_template_kwargs(
+    tmp_path: Path, monkeypatch
+) -> None:
+    monkeypatch.setenv("TEST_MODEL_KEY", "secret")
+    calls = []
+
+    def caller(**kwargs):
+        calls.append(kwargs)
+        return {"ok": True}, {"model_returned": kwargs["model"]}
+
+    client = RoleModelClient(
+        role="stage02_screening",
+        config={
+            "model": "Qwen3.6-27B",
+            "base_url": "http://127.0.0.1:13000/v1",
+            "api_key_env": "TEST_MODEL_KEY",
+            "workers": 2,
+            "cache": False,
+            "thinking": None,
+            "chat_template_kwargs": {"enable_thinking": False},
+        },
+        cache_root=tmp_path,
+        caller=caller,
+    )
+    client.call_json(
+        namespace="test",
+        record_id="paper",
+        prompt_version="v1",
+        system_prompt="system",
+        user_content="input",
+    )
+
+    assert calls[0]["thinking"] is None
+    assert calls[0]["chat_template_kwargs"] == {"enable_thinking": False}
 
 
 def test_late_stage_model_uses_default_proxy_without_global_environment(
@@ -4811,7 +4876,15 @@ def _base_config(tmp_path: Path) -> dict:
             "api_key_env": f"{role.upper()}_KEY",
             "enabled": True,
         }
-        for role in ("screening", "stage05_router", "suitability", "builder", "judge")
+        for role in (
+            "screening",
+            "stage02_screening",
+            "stage03_screening",
+            "stage05_router",
+            "suitability",
+            "builder",
+            "judge",
+        )
     }
     return {
         "pipeline_contract": "researchchembench-data-pipeline/v2",

@@ -25,6 +25,7 @@ def main() -> int:
     parser.add_argument("--workers", type=int, default=8)
     parser.add_argument("--router-model", default="deepseek-v4-flash")
     parser.add_argument("--auditor-model", default="deepseek-v4-pro")
+    parser.add_argument("--auditor-thinking", action="store_true")
     parser.add_argument("--paper-id", action="append", default=[])
     parser.add_argument("--run-id")
     args = parser.parse_args()
@@ -77,11 +78,12 @@ def main() -> int:
             "api_key_env": "RCB_STAGE05_ROUTER_API_KEY",
             "workers": args.workers,
             "cache": True,
-            "use_proxy": True,
+            "use_proxy": False,
             "timeout_seconds": 1200,
             "retries": 2,
             "max_tokens": 3072,
-            "thinking": "disabled",
+            "thinking": None,
+            "chat_template_kwargs": _chat_template_kwargs(args.router_model),
         },
         cache_root=output / "model_calls",
     )
@@ -93,11 +95,14 @@ def main() -> int:
             "api_key_env": "RCB_SUITABILITY_API_KEY",
             "workers": args.workers,
             "cache": True,
-            "use_proxy": True,
+            "use_proxy": False,
             "timeout_seconds": 1200,
             "retries": 2,
             "max_tokens": 16000,
-            "thinking": "disabled",
+            "thinking": None,
+            "chat_template_kwargs": _chat_template_kwargs(
+                args.auditor_model, thinking=args.auditor_thinking
+            ),
         },
         cache_root=output / "model_calls",
     )
@@ -120,6 +125,7 @@ def main() -> int:
             "reference": str(args.reference.expanduser().resolve()),
             "router_model": args.router_model,
             "auditor_model": args.auditor_model,
+            "auditor_thinking": args.auditor_thinking,
             "stage05": stage_config,
         },
     )
@@ -152,6 +158,12 @@ def main() -> int:
     )
     print(json.dumps(comparison, ensure_ascii=False, indent=2))
     return 0
+
+
+def _chat_template_kwargs(model: str, *, thinking: bool = False) -> dict[str, bool]:
+    if model.casefold().startswith("qwen"):
+        return {"enable_thinking": thinking}
+    return {"thinking": thinking}
 
 
 def _compare(records, reference, manual=None):

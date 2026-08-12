@@ -8,7 +8,15 @@ from typing import Any
 
 from src.contracts import PIPELINE_CONTRACT
 
-MODEL_ROLES = ("screening", "stage05_router", "suitability", "builder", "judge")
+MODEL_ROLES = (
+    "screening",
+    "stage02_screening",
+    "stage03_screening",
+    "stage05_router",
+    "suitability",
+    "builder",
+    "judge",
+)
 
 
 def load_config(path: str | Path) -> dict[str, Any]:
@@ -113,6 +121,15 @@ def load_config(path: str | Path) -> dict[str, Any]:
 
 def _normalize_model_roles(config: dict[str, Any]) -> None:
     models = config.setdefault("models", {})
+    screening = dict(models.get("screening") or {})
+    for role in ("stage02_screening", "stage03_screening"):
+        if role not in models:
+            # Legacy v2 configs used one deployed screening model for both
+            # stages. Preserve that behavior unless a stage-specific API role
+            # is configured explicitly.
+            inherited = dict(screening)
+            inherited["api_key_env"] = f"RCB_{role.upper()}_API_KEY"
+            models[role] = inherited
     if "stage05_router" not in models:
         # Existing v2 configs had one suitability role. Preserve their endpoint
         # and credentials while allowing router-specific environment overrides.
@@ -158,11 +175,14 @@ def _validate(config: dict[str, Any]) -> None:
         raise ValueError("models.screening.preserve_worker_on_exit must be true or false")
     if not isinstance(models["screening"].get("allow_worker_creation"), bool):
         raise ValueError("models.screening.allow_worker_creation must be true or false")
-    for stage in ("stage02", "stage03"):
+    for stage, dedicated_role in (
+        ("stage02", "stage02_screening"),
+        ("stage03", "stage03_screening"),
+    ):
         configured_role = config[stage].get("model_role", "screening")
-        if configured_role != "screening":
-            raise ValueError(f"{stage}.model_role must be screening")
-        config[stage]["model_role"] = "screening"
+        if configured_role not in {"screening", dedicated_role}:
+            raise ValueError(f"{stage}.model_role must be screening or {dedicated_role}")
+        config[stage]["model_role"] = configured_role
     for stage, expected in (
         ("stage05", "suitability"),
         ("stage06", "builder"),

@@ -68,7 +68,7 @@
     }
   },
   "stage02": {
-    "model_role": "screening",
+    "model_role": "stage02_screening",
     "workers": 8,
     "max_prompt_characters": 24000,
     "excerpt_characters": 1400,
@@ -81,7 +81,7 @@
     "review_pass_decisions": true
   },
   "stage03": {
-    "model_role": "screening",
+    "model_role": "stage03_screening",
     "workers": 8,
     "max_prompt_payload_bytes": 18000,
     "max_evidence_payload_bytes": 9000,
@@ -109,7 +109,7 @@
   "stage04": {
     "mineru": {
       "enabled": true,
-      "managed_gpu": true,
+      "managed_gpu": false,
       "gpu_env_dir": ".envs/researchchem-data-pipeline",
       "command": ".envs/researchchem-data-pipeline/bin/mineru",
       "api_concurrency": 3,
@@ -161,10 +161,10 @@
   },
   "models": {
     "screening": {
-      "enabled": true,
-      "managed_rlaunch": true,
+      "enabled": false,
+      "managed_rlaunch": false,
       "preserve_worker_on_exit": false,
-      "allow_worker_creation": true,
+      "allow_worker_creation": false,
       "existing_worker": "",
       "manager_script": "scripts/stage03_llm/manage_rlaunch_worker.sh",
       "state_file": ".screening_llm_worker.local.json",
@@ -184,31 +184,65 @@
       "positive_tag": "",
       "image": ""
     },
+    "stage02_screening": {
+      "enabled": true,
+      "use_proxy": false,
+      "base_url": "http://127.0.0.1:13000/v1",
+      "base_url_env": "RCB_NEW_API_BASE_URL",
+      "api_key_env": "RCB_NEW_API_KEY",
+      "model": "Qwen3.6-27B",
+      "model_env": "RCB_STAGE02_SCREENING_MODEL",
+      "workers": 8,
+      "max_tokens": 2048,
+      "timeout_seconds": 900,
+      "retries": 2,
+      "thinking": null,
+      "chat_template_kwargs": {"enable_thinking": false}
+    },
+    "stage03_screening": {
+      "enabled": true,
+      "use_proxy": false,
+      "base_url": "http://127.0.0.1:13000/v1",
+      "base_url_env": "RCB_NEW_API_BASE_URL",
+      "api_key_env": "RCB_NEW_API_KEY",
+      "model": "DeepSeek-V4-Flash",
+      "model_env": "RCB_STAGE03_SCREENING_MODEL",
+      "workers": 8,
+      "max_tokens": 6144,
+      "timeout_seconds": 900,
+      "retries": 2,
+      "thinking": null,
+      "chat_template_kwargs": {"thinking": false}
+    },
     "stage05_router": {
       "enabled": true,
-      "use_proxy": true,
-      "proxy_url_env": "HTTPS_PROXY",
-      "base_url": "https://api.example.invalid/v1",
-      "api_key_env": "RCB_STAGE05_ROUTER_API_KEY",
-      "model": "deepseek-v4-flash",
+      "use_proxy": false,
+      "base_url": "http://127.0.0.1:13000/v1",
+      "base_url_env": "RCB_NEW_API_BASE_URL",
+      "api_key_env": "RCB_NEW_API_KEY",
+      "model": "DeepSeek-V4-Flash-DSpark",
+      "model_env": "RCB_NEW_STAGE05_ROUTER_MODEL",
       "workers": 8,
       "max_tokens": 3072,
       "timeout_seconds": 1200,
       "retries": 2,
-      "thinking": "disabled"
+      "thinking": null,
+      "chat_template_kwargs": {"thinking": false}
     },
     "suitability": {
       "enabled": true,
-      "use_proxy": true,
-      "proxy_url_env": "HTTPS_PROXY",
-      "base_url": "https://api.example.invalid/v1",
-      "api_key_env": "RCB_SUITABILITY_API_KEY",
-      "model": "deepseek-v4-pro",
+      "use_proxy": false,
+      "base_url": "http://127.0.0.1:13000/v1",
+      "base_url_env": "RCB_NEW_API_BASE_URL",
+      "api_key_env": "RCB_NEW_API_KEY",
+      "model": "DeepSeek-V4-Flash",
+      "model_env": "RCB_NEW_STAGE05_AUDITOR_MODEL",
       "workers": 8,
       "max_tokens": 16000,
       "timeout_seconds": 1200,
       "retries": 2,
-      "thinking": "disabled"
+      "thinking": null,
+      "chat_template_kwargs": {"thinking": false}
     },
     "builder": {
       "enabled": true,

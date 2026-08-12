@@ -164,6 +164,44 @@ def test_screening_connection_error_aborts_phase() -> None:
         )
 
 
+def test_late_stage_connection_error_aborts_batch() -> None:
+    with pytest.raises(runtime.ManagedScreeningServiceError, match="stage05 lost its model"):
+        pipeline._raise_on_model_infrastructure_error(
+            {
+                "records": [
+                    {
+                        "processing_status": "failed",
+                        "error": {
+                            "error_type": "URLError",
+                            "message": "<urlopen error [Errno 111] Connection refused>",
+                        },
+                    }
+                ]
+            },
+            "stage05",
+        )
+
+
+def test_dedicated_screening_api_roles_do_not_use_managed_worker() -> None:
+    config = {
+        "stop_after": "stage05",
+        "stage02": {"model_role": "stage02_screening"},
+        "stage03": {"model_role": "stage03_screening"},
+    }
+
+    assert pipeline._uses_managed_screening_model(config) is False
+
+
+def test_legacy_screening_role_still_uses_managed_worker() -> None:
+    config = {
+        "stop_after": "stage03",
+        "stage02": {"model_role": "screening"},
+        "stage03": {"model_role": "screening"},
+    }
+
+    assert pipeline._uses_managed_screening_model(config) is True
+
+
 def test_two_phase_scheduler_finishes_all_stage03_work_before_stage04(
     monkeypatch, tmp_path: Path
 ) -> None:

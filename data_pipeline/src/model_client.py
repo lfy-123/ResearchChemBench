@@ -41,6 +41,7 @@ def is_transient_connection_error(exc: BaseException) -> bool:
                 "connection refused",
                 "remote end closed connection",
                 "connection reset",
+                "llm http 500",
                 "llm http 502",
                 "llm http 503",
                 "llm http 504",
@@ -85,6 +86,7 @@ class RoleModelClient:
         thinking: str | None = None,
     ) -> tuple[dict[str, Any], dict[str, Any]]:
         effective_thinking = self.config.get("thinking") if thinking is None else thinking
+        chat_template_kwargs = self.config.get("chat_template_kwargs")
         request_record = {
             "role": self.role,
             "namespace": namespace,
@@ -96,6 +98,7 @@ class RoleModelClient:
             "user_content": user_content,
             "max_tokens": int(max_tokens or self.config.get("max_tokens", 2048)),
             "thinking": effective_thinking,
+            "chat_template_kwargs": chat_template_kwargs,
             "proxy_enabled": self._proxy_enabled(),
         }
         request_hash = canonical_hash(request_record)
@@ -119,7 +122,8 @@ class RoleModelClient:
                     system_prompt=system_prompt,
                     user_content=user_content,
                     max_tokens=max_tokens,
-                    thinking=effective_thinking,
+                    thinking=None if chat_template_kwargs is not None else effective_thinking,
+                    chat_template_kwargs=chat_template_kwargs,
                 )
             except Exception as exc:
                 if guard is None or not is_transient_connection_error(exc):
@@ -130,7 +134,8 @@ class RoleModelClient:
                     system_prompt=system_prompt,
                     user_content=user_content,
                     max_tokens=max_tokens,
-                    thinking=effective_thinking,
+                    thinking=None if chat_template_kwargs is not None else effective_thinking,
+                    chat_template_kwargs=chat_template_kwargs,
                 )
         audit_record = {
             **audit,
@@ -145,7 +150,16 @@ class RoleModelClient:
         )
         return response, audit_record
 
-    def _call(self, *, api_key, system_prompt, user_content, max_tokens, thinking):
+    def _call(
+        self,
+        *,
+        api_key,
+        system_prompt,
+        user_content,
+        max_tokens,
+        thinking,
+        chat_template_kwargs=None,
+    ):
         return self.caller(
             model=self.model,
             base_url=str(self.config["base_url"]),
@@ -156,6 +170,7 @@ class RoleModelClient:
             max_tokens=int(max_tokens or self.config.get("max_tokens", 2048)),
             retries=int(self.config.get("retries", 2)),
             thinking=thinking,
+            chat_template_kwargs=chat_template_kwargs,
             proxy_url=self._proxy_url(),
         )
 

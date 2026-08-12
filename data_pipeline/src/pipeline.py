@@ -82,7 +82,7 @@ def run_pipeline(
 
         options = sandbox_options or _sandbox_options_from_config(config)
         screening = config["models"]["screening"]
-        prewarm = int(config["stop_after"].replace("stage", "")) >= 2 and bool(
+        prewarm = _uses_managed_screening_model(config) and bool(
             screening.get("managed_rlaunch")
         )
         with ThreadPoolExecutor(max_workers=1) as executor:
@@ -108,7 +108,8 @@ def run_pipeline(
         return _run_loaded_pipeline(config, model_callers=model_callers)
     finally:
         if (
-            config["models"]["screening"].get("managed_rlaunch")
+            _uses_managed_screening_model(config)
+            and config["models"]["screening"].get("managed_rlaunch")
             and not _preserve_screening_worker(config["models"]["screening"])
         ):
             stop_managed_screening_worker(config["models"]["screening"])
@@ -124,6 +125,16 @@ def _preserve_screening_worker(config: dict[str, Any]) -> bool:
     """Keep a managed worker only when an outer batch controller owns cleanup."""
 
     return bool(config.get("preserve_worker_on_exit", False))
+
+
+def _uses_managed_screening_model(config: dict[str, Any]) -> bool:
+    """Return whether a requested stage still uses the legacy shared model role."""
+
+    stop_index = int(config["stop_after"].replace("stage", ""))
+    return (stop_index >= 2 and config["stage02"].get("model_role", "screening") == "screening") or (
+        stop_index >= 3
+        and config["stage03"].get("model_role", "screening") == "screening"
+    )
 
 
 def _run_loaded_pipeline(config: dict[str, Any], *, model_callers=None) -> dict[str, Any]:
@@ -175,7 +186,9 @@ def _run_loaded_pipeline(config: dict[str, Any], *, model_callers=None) -> dict[
         else 1
     )
     configured = config["microbatch"].get("stage_concurrency") or {}
-    # Phase 1 keeps Qwen resident while every microbatch reaches the software/resource gate.
+    # Legacy configs keep one deployed model resident. Dedicated API roles bypass
+    # the worker lifecycle entirely.
+    uses_managed_screening = _uses_managed_screening_model(config)
     phase1_context = (
         screening_model_runtime(
             config["models"]["screening"],
@@ -183,7 +196,7 @@ def _run_loaded_pipeline(config: dict[str, Any], *, model_callers=None) -> dict[
                 config.get("stage04", {}).get("mineru", {}).get("managed_gpu", False)
             ),
         )
-        if stop_index >= 2
+        if uses_managed_screening
         else contextlib.nullcontext(config["models"]["screening"])
     )
     with contextlib.ExitStack() as services:
@@ -389,7 +402,7 @@ def _run_phase1_stage02(*, state, config, clients, workspace, run_id, registry=N
             papers=state["stage01"]["papers"],
             documents=state["stage01"]["documents"],
             config=config["stage02"],
-            model=clients["screening"],
+            model=clients[config["stage02"].get("model_role", "screening")],
             workspace=root,
             run_id=run_id,
         )
@@ -426,7 +439,7 @@ def _run_phase1_stage03(
             stage02_records=state["stage02"]["records"],
             documents=state["stage01"]["documents"],
             config=config["stage03"],
-            model=clients["screening"],
+            model=clients[config["stage03"].get("model_role", "screening")],
             workspace=root,
             run_id=run_id,
             softcite=softcite_client,
@@ -513,6 +526,7 @@ def _run_phase2_stage05(*, state, config, clients, workspace, run_id, registry=N
             run_id,
             cacheable=not _has_processing_errors(stage05),
         )
+        _raise_on_model_infrastructure_error(stage05, "stage05")
     state["stage05"] = stage05
     if registry is not None:
         registry.record_stage_results(
@@ -716,12 +730,17 @@ def _microbatch_stage_hashes(papers, documents, config):
             "implementation": DOCUMENT_NORMALIZATION_IMPLEMENTATION_VERSION,
         }
     )
-    screening = _model_cache_signature(config["models"]["screening"])
+    stage02_model = _model_cache_signature(
+        config["models"][config["stage02"].get("model_role", "screening")]
+    )
+    stage03_model = _model_cache_signature(
+        config["models"][config["stage03"].get("model_role", "screening")]
+    )
     stage02 = canonical_hash(
         {
             "upstream": stage01,
             "config": _stage_config_cache_value("stage02", stage02_config),
-            "model": screening,
+            "model": stage02_model,
             "prompts": [STAGE02_CLASSIFY_VERSION, STAGE02_PASS_VERIFY_VERSION],
             "implementation": COMPUTATIONAL_CONTENT_IMPLEMENTATION_VERSION,
         }
@@ -730,7 +749,7 @@ def _microbatch_stage_hashes(papers, documents, config):
         {
             "upstream": stage02,
             "config": _stage_config_cache_value("stage03", stage03_config),
-            "model": screening,
+            "model": stage03_model,
             "prompt": STAGE03_VERSION,
             "capability_files": _stage03_capability_fingerprints(stage03_config),
         }
@@ -765,7 +784,16 @@ def _microbatch_stage_hashes(papers, documents, config):
 
 
 def _model_cache_signature(config):
-    return {key: config.get(key) for key in ("model", "base_url", "thinking", "max_tokens")}
+    return {
+        key: config.get(key)
+        for key in (
+            "model",
+            "base_url",
+            "thinking",
+            "chat_template_kwargs",
+            "max_tokens",
+        )
+    }
 
 
 def _stage_config_cache_value(stage, config):
@@ -870,6 +898,10 @@ def _has_processing_errors(output):
 
 
 def _raise_on_screening_infrastructure_error(output, stage):
+    _raise_on_model_infrastructure_error(output, stage)
+
+
+def _raise_on_model_infrastructure_error(output, stage):
     errors = [
         row.get("error") or {}
         for row in (output.get("records") or [])
@@ -886,8 +918,8 @@ def _raise_on_screening_infrastructure_error(output, stage):
     if infrastructure:
         first = infrastructure[0]
         raise ManagedScreeningServiceError(
-            f"{stage} lost the managed screening endpoint; aborting before downstream "
-            f"service switch ({len(infrastructure)} paper errors in this microbatch; "
+            f"{stage} lost its model endpoint; aborting this batch "
+            f"({len(infrastructure)} paper errors in this microbatch; "
             f"first={first.get('error_type')}: {first.get('message')})"
         )
 
@@ -910,7 +942,9 @@ def _clients(config, workspace, callers, screening_config, stop_index, *, includ
     }
     required = set()
     if include_screening and stop_index >= 2:
-        required.add("screening")
+        required.add(config["stage02"].get("model_role", "screening"))
+    if include_screening and stop_index >= 3:
+        required.add(config["stage03"].get("model_role", "screening"))
     if stop_index >= 5:
         required.add("stage05_router")
         required.add("suitability")
