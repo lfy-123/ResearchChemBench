@@ -64,7 +64,10 @@ from src.stages.stage03_toolbox_resource_gate.stage import (
     run_stage03,
 )
 from src.stages.stage05_benchmark_suitability.stage import (
+    _auditor_evidence_blocks,
     _response_contract_rejections,
+    _recoverability_plan,
+    _sanitize_evidence_route,
     _software_coverage_facts,
     _software_fact_contradictions,
     _validate_candidates,
@@ -81,6 +84,18 @@ def test_config_enforces_shared_screening_role(tmp_path: Path) -> None:
 
     with pytest.raises(ValueError, match="stage03.model_role must be screening"):
         load_config(path)
+
+
+def test_config_migrates_legacy_single_stage05_model_role(tmp_path: Path) -> None:
+    config = _base_config(tmp_path)
+    config["models"].pop("stage05_router")
+    path = tmp_path / "config.json"
+    path.write_text(json.dumps(config), encoding="utf-8")
+
+    loaded = load_config(path)
+
+    assert loaded["stage05"]["router_model_role"] == "stage05_router"
+    assert loaded["models"]["stage05_router"]["base_url"] == "http://fixture/v1"
 
 
 def test_managed_worker_preservation_requires_explicit_boolean(tmp_path: Path) -> None:
@@ -3555,12 +3570,61 @@ def test_stage04_context_budget_reduces_output_before_model_limit() -> None:
 
 
 def _stage05_fixture_candidate() -> dict:
+    audit_dimensions = {
+        name: {
+            "state": "confirmed",
+            "support": f"Evidence confirms {name}.",
+            "missing_fields": [],
+            "evidence_ids": ["mineru-1"],
+        }
+        for name in (
+            "scientific_significance",
+            "workflow_completeness",
+            "input_assets",
+            "parameters",
+            "ground_truth",
+            "software",
+            "cost",
+            "leakage_risk",
+        )
+    }
     return {
         "candidate_id": "candidate-1",
         "task_direction": "molecular_dynamics_free_energy",
         "scientific_question": "Can the reported free-energy trend be reproduced?",
         "claim_reference": "Figure 3",
-        "workflow_steps": ["prepare", "simulate", "analyze"],
+        "workflow_steps": [
+            {
+                "step_id": "s1",
+                "action": "prepare molecular system",
+                "depends_on": [],
+                "input_artifact": "reported structure",
+                "output_artifact": "parameterized system",
+                "software": "Packmol",
+                "method_parameters": {},
+                "evidence_ids": ["mineru-1"],
+            },
+            {
+                "step_id": "s2",
+                "action": "sample molecular dynamics trajectory",
+                "depends_on": ["s1"],
+                "input_artifact": "parameterized system",
+                "output_artifact": "equilibrated trajectory",
+                "software": "OpenMM",
+                "method_parameters": {},
+                "evidence_ids": ["mineru-1"],
+            },
+            {
+                "step_id": "s3",
+                "action": "calculate free-energy observable",
+                "depends_on": ["s2"],
+                "input_artifact": "equilibrated trajectory",
+                "output_artifact": "free-energy estimate",
+                "software": "MDTraj",
+                "method_parameters": {},
+                "evidence_ids": ["mineru-1"],
+            },
+        ],
         "validation_gates": ["convergence"],
         "public_input_requirements": "structures and parameters",
         "hidden_targets": "free energies",
@@ -3575,13 +3639,7 @@ def _stage05_fixture_candidate() -> dict:
             "basis": "one reported simulation",
             "confidence": "medium",
         },
-        "buildability_checks": {
-            "input_assets": "confirmed",
-            "parameters": "confirmed",
-            "ground_truth": "confirmed",
-            "software": "confirmed",
-            "cost": "confirmed",
-        },
+        "audit_dimensions": audit_dimensions,
         "evidence_ids": ["mineru-1"],
         "significance_rationale": "Tests the central quantitative claim.",
     }
@@ -3650,6 +3708,10 @@ def test_stage05_rejects_stale_stage04_evidence_namespace_with_reason() -> None:
 def test_stage05_resolves_unique_model_shortened_mineru_evidence_id() -> None:
     candidate = _stage05_fixture_candidate()
     candidate["evidence_ids"] = ["ev_doc_a_000001"]
+    for step in candidate["workflow_steps"]:
+        step["evidence_ids"] = ["ev_doc_a_000001"]
+    for dimension in candidate["audit_dimensions"].values():
+        dimension["evidence_ids"] = ["ev_doc_a_000001"]
 
     candidates, rejected = _validate_candidates(
         {"decision": "pass", "candidates": [candidate]},
@@ -3677,7 +3739,12 @@ def test_stage05_rejects_ambiguous_model_shortened_mineru_evidence_id() -> None:
 
 def test_stage05_rejects_unconfirmed_buildability_for_pass_and_unsupported_cost() -> None:
     candidate = _stage05_fixture_candidate()
-    candidate["buildability_checks"]["input_assets"] = "uncertain"
+    candidate["audit_dimensions"]["input_assets"] = {
+        "state": "uncertain",
+        "support": "SI asset needs conversion.",
+        "missing_fields": ["atom_order"],
+        "evidence_ids": ["mineru-1"],
+    }
     candidate["estimated_cost"]["runtime_hours"] = 48
     coverage = _stage05_fixture_coverage()
     coverage["resource_profile"] = {
@@ -3698,16 +3765,27 @@ def test_stage05_rejects_unconfirmed_buildability_for_pass_and_unsupported_cost(
     )
 
     assert candidates == []
-    assert "pass_requires_confirmed_buildability" in rejected[0]["reasons"]
+    assert "pass_requires_confirmed_audit_dimensions" in rejected[0]["reasons"]
     assert "cost_estimate_missing_invalid_or_over_budget" in rejected[0]["reasons"]
 
 
 def test_stage05_allows_recoverable_builder_review_candidate() -> None:
     candidate = _stage05_fixture_candidate()
-    candidate["buildability_checks"]["input_assets"] = "uncertain"
-    candidate["recoverability_plan"] = (
-        "Builder resolves the SI Cartesian coordinates cited in the evidence and verifies atom order."
-    )
+    candidate["audit_dimensions"]["input_assets"] = {
+        "state": "uncertain",
+        "support": "SI asset needs conversion.",
+        "missing_fields": ["atom_order"],
+        "evidence_ids": ["mineru-1"],
+    }
+    candidate["recoverability_plan"] = {
+        "input_assets": {
+            "resolution_type": "format_conversion",
+            "procedure": "Convert the cited SI Cartesian coordinates and verify atom order.",
+            "source_evidence_ids": ["mineru-1"],
+            "target_independent": True,
+            "assumptions": [],
+        }
+    }
     response = {
         "decision": "needs_builder_review",
         "candidates": [candidate],
@@ -3724,6 +3802,196 @@ def test_stage05_allows_recoverable_builder_review_candidate() -> None:
     assert rejected == []
     assert candidates[0]["buildability_checks"]["input_assets"] == "uncertain"
     assert _response_contract_rejections(response, _stage05_fixture_coverage()) == []
+
+
+def test_stage05_rejects_free_text_or_target_dependent_recovery_plan() -> None:
+    candidate = _stage05_fixture_candidate()
+    candidate["audit_dimensions"]["parameters"] = {
+        "state": "uncertain",
+        "support": "The setting is missing.",
+        "missing_fields": ["dispersion"],
+        "evidence_ids": ["mineru-1"],
+    }
+    candidate["recoverability_plan"] = {
+        "parameters": {
+            "resolution_type": "evidence_extraction",
+            "procedure": "Try both values and select the one matching the hidden target.",
+            "source_evidence_ids": ["mineru-1"],
+            "target_independent": False,
+            "assumptions": [],
+        }
+    }
+
+    candidates, rejected = _validate_candidates(
+        {"decision": "needs_builder_review", "candidates": [candidate]},
+        {"mineru-1"},
+        _stage05_fixture_coverage(),
+    )
+
+    assert candidates == []
+    assert "invalid_recoverability_plan:parameters" in rejected[0]["reasons"]
+
+
+def test_stage05_explicit_identifier_recovery_requires_identifier_in_evidence() -> None:
+    normalized, errors = _recoverability_plan(
+        {
+            "input_assets": {
+                "resolution_type": "explicit_identifier_retrieval",
+                "procedure": "Retrieve the structure using the cited Materials Project identifier.",
+                "source_evidence_ids": ["mineru-1"],
+                "target_independent": True,
+                "assumptions": [],
+                "identifier_kind": "materials_project",
+                "identifier_value": "mp-1234",
+            }
+        },
+        {"input_assets"},
+        {"mineru-1"},
+        {"mineru-1": "The structure is deposited as mp-1234."},
+    )
+
+    assert errors == []
+    assert normalized["input_assets"]["identifier_value"] == "mp-1234"
+
+    _, errors = _recoverability_plan(
+        {
+            "input_assets": {
+                "resolution_type": "explicit_identifier_retrieval",
+                "procedure": "Find a typical structure in a standard database.",
+                "source_evidence_ids": ["mineru-1"],
+                "target_independent": True,
+                "assumptions": [],
+                "identifier_kind": "materials_project",
+                "identifier_value": "mp-9999",
+            }
+        },
+        {"input_assets"},
+        {"mineru-1"},
+        {"mineru-1": "No repository accession is reported."},
+    )
+
+    assert "invalid_recoverability_plan:input_assets" in errors
+
+
+def test_stage05_rejects_implicit_assumptions_even_when_assumptions_array_is_empty() -> None:
+    _, errors = _recoverability_plan(
+        {
+            "parameters": {
+                "resolution_type": "evidence_extraction",
+                "procedure": "Use a typical k-point mesh if the value is unavailable.",
+                "source_evidence_ids": ["mineru-1"],
+                "target_independent": True,
+                "assumptions": [],
+            }
+        },
+        {"parameters"},
+        {"mineru-1"},
+        {"mineru-1": "The k-point mesh is not specified."},
+    )
+
+    assert "invalid_recoverability_plan:parameters" in errors
+
+
+def test_stage05_rejects_disconnected_workflow_graph() -> None:
+    candidate = _stage05_fixture_candidate()
+    candidate["workflow_steps"][2]["depends_on"] = []
+
+    candidates, rejected = _validate_candidates(
+        {"decision": "pass", "candidates": [candidate]},
+        {"mineru-1"},
+        _stage05_fixture_coverage(),
+    )
+
+    assert candidates == []
+    assert "workflow_graph_disconnected_step" in rejected[0]["reasons"]
+
+
+def test_stage05_allows_multiple_roots_that_join_in_downstream_comparison() -> None:
+    candidate = _stage05_fixture_candidate()
+    candidate["workflow_steps"][1]["depends_on"] = []
+    candidate["workflow_steps"][2]["depends_on"] = ["s1", "s2"]
+
+    candidates, rejected = _validate_candidates(
+        {"decision": "pass", "candidates": [candidate]},
+        {"mineru-1"},
+        _stage05_fixture_coverage(),
+    )
+
+    assert rejected == []
+    assert len(candidates) == 1
+
+
+def test_stage05_keeps_valid_step_evidence_when_one_citation_is_unknown() -> None:
+    candidate = _stage05_fixture_candidate()
+    candidate["workflow_steps"][0]["evidence_ids"].append("not-in-packet")
+
+    candidates, rejected = _validate_candidates(
+        {"decision": "pass", "candidates": [candidate]},
+        {"mineru-1"},
+        _stage05_fixture_coverage(),
+    )
+
+    assert rejected == []
+    assert candidates[0]["workflow_steps"][0]["evidence_ids"] == ["mineru-1"]
+
+
+def test_stage05_router_drops_unknown_evidence_without_rejecting_route() -> None:
+    route, warnings = _sanitize_evidence_route(
+        {
+            "decision": "computational_candidates_found",
+            "coverage_status": "partial",
+            "workflow_clusters": [
+                {
+                    "candidate_id": "candidate-1",
+                    "task_directions": ["molecular_dynamics_free_energy"],
+                    "method_evidence_ids": ["mineru-1", "unknown"],
+                }
+            ],
+        },
+        {"mineru-1"},
+        candidate_limit=3,
+    )
+
+    assert route["workflow_clusters"][0]["method_evidence_ids"] == ["mineru-1"]
+    assert any("unknown" in warning for warning in warnings)
+
+
+def test_stage05_auditor_evidence_expands_routed_neighbors_and_keeps_si() -> None:
+    blocks = [
+        {
+            "document_id": "main",
+            "evidence_id": f"main-{index}",
+            "section_path": ["Methods"],
+            "text": "DFT geometry and energy " * 10,
+        }
+        for index in range(6)
+    ] + [
+        {
+            "document_id": "si",
+            "evidence_id": f"si-{index}",
+            "section_path": ["Coordinates"],
+            "text": "Cartesian coordinates " * 10,
+        }
+        for index in range(4)
+    ]
+    route = {
+        "workflow_clusters": [
+            {
+                "method_evidence_ids": ["main-3"],
+                "input_evidence_ids": [],
+                "parameter_evidence_ids": [],
+                "result_evidence_ids": [],
+                "claim_evidence_ids": [],
+                "cost_evidence_ids": [],
+            }
+        ]
+    }
+
+    selected = _auditor_evidence_blocks(blocks, route, 3000)
+    selected_ids = {row["evidence_id"] for row in selected}
+
+    assert {"main-2", "main-3", "main-4"} <= selected_ids
+    assert any(value.startswith("si-") for value in selected_ids)
 
 
 def test_stage05_evidence_budget_preserves_main_and_supplementary_documents() -> None:
@@ -3919,7 +4187,7 @@ def _base_config(tmp_path: Path) -> dict:
             "api_key_env": f"{role.upper()}_KEY",
             "enabled": True,
         }
-        for role in ("screening", "suitability", "builder", "judge")
+        for role in ("screening", "stage05_router", "suitability", "builder", "judge")
     }
     return {
         "pipeline_contract": "researchchembench-data-pipeline/v2",
@@ -3935,7 +4203,7 @@ def _base_config(tmp_path: Path) -> dict:
             "software_aliases": str(tmp_path / "aliases.json"),
         },
         "stage04": {"mineru": {"enabled": False}},
-        "stage05": {"model_role": "suitability"},
+        "stage05": {"model_role": "suitability", "router_model_role": "stage05_router"},
         "stage06": {"model_role": "builder"},
         "stage07": {"model_role": "judge"},
     }

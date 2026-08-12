@@ -8,7 +8,7 @@ from typing import Any
 
 from src.contracts import PIPELINE_CONTRACT
 
-MODEL_ROLES = ("screening", "suitability", "builder", "judge")
+MODEL_ROLES = ("screening", "stage05_router", "suitability", "builder", "judge")
 
 
 def load_config(path: str | Path) -> dict[str, Any]:
@@ -113,6 +113,16 @@ def load_config(path: str | Path) -> dict[str, Any]:
 
 def _normalize_model_roles(config: dict[str, Any]) -> None:
     models = config.setdefault("models", {})
+    if "stage05_router" not in models:
+        # Existing v2 configs had one suitability role. Preserve their endpoint
+        # and credentials while allowing router-specific environment overrides.
+        inherited = dict(models.get("suitability") or {})
+        inherited["api_key_env"] = "RCB_STAGE05_ROUTER_API_KEY"
+        inherited["model"] = os.environ.get("RCB_STAGE05_ROUTER_MODEL") or inherited.get("model")
+        inherited["base_url"] = (
+            os.environ.get("RCB_STAGE05_ROUTER_BASE_URL") or inherited.get("base_url")
+        )
+        models["stage05_router"] = inherited
     for role in MODEL_ROLES:
         value = models.setdefault(role, {})
         value.setdefault("enabled", True)
@@ -123,7 +133,9 @@ def _normalize_model_roles(config: dict[str, Any]) -> None:
         value.setdefault("workers", 1)
         value.setdefault("cache", True)
         value.setdefault("api_key_env", f"RCB_{role.upper()}_API_KEY")
-        value.setdefault("use_proxy", role in {"suitability", "builder", "judge"})
+        value.setdefault(
+            "use_proxy", role in {"stage05_router", "suitability", "builder", "judge"}
+        )
         value.setdefault("proxy_url_env", "HTTPS_PROXY")
         env_prefix = f"RCB_{role.upper()}"
         base_url_env = str(value.get("base_url_env") or f"{env_prefix}_BASE_URL")
@@ -160,6 +172,10 @@ def _validate(config: dict[str, Any]) -> None:
         if role != expected:
             raise ValueError(f"{stage}.model_role must be {expected}")
         config[stage]["model_role"] = expected
+    router_role = config["stage05"].get("router_model_role", "stage05_router")
+    if router_role != "stage05_router":
+        raise ValueError("stage05.router_model_role must be stage05_router")
+    config["stage05"]["router_model_role"] = router_role
     stop_after = str(config.get("stop_after", "stage07"))
     if stop_after not in {f"stage{index:02d}" for index in range(8)}:
         raise ValueError("stop_after must be stage00 through stage07")

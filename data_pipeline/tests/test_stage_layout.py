@@ -235,7 +235,7 @@ def test_two_phase_scheduler_finishes_all_stage03_work_before_stage04(
         "stage07": {},
         "models": {
             role: {"enabled": True, "base_url": "http://fixture/v1", "model": role}
-            for role in ("screening", "suitability", "builder", "judge")
+            for role in ("screening", "stage05_router", "suitability", "builder", "judge")
         },
         "microbatch": {"enabled": True, "size": 1, "concurrency": 2, "resume": True},
     }

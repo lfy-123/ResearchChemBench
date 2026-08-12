@@ -25,6 +25,7 @@ from src.prompts import (
     STAGE02_CLASSIFY_VERSION,
     STAGE02_PASS_VERIFY_VERSION,
     STAGE03_VERSION,
+    STAGE05_ROUTER_VERSION,
     STAGE05_VERSION,
 )
 from src.registry import ScreeningRegistry
@@ -500,7 +501,8 @@ def _run_phase2_stage05(*, state, config, clients, workspace, run_id, registry=N
             stage04_records=state["stage04"]["records"],
             documents=state["stage04"]["documents"],
             config=config["stage05"],
-            model=clients["suitability"],
+            router_model=clients["stage05_router"],
+            auditor_model=clients["suitability"],
             workspace=root,
             run_id=run_id,
         )
@@ -744,8 +746,13 @@ def _microbatch_stage_hashes(papers, documents, config):
         {
             "upstream": stage04,
             "config": _json_safe(config.get("stage05", {})),
-            "model": _model_cache_signature(config.get("models", {}).get("suitability") or {}),
-            "prompt": STAGE05_VERSION,
+            "router_model": _model_cache_signature(
+                config.get("models", {}).get("stage05_router") or {}
+            ),
+            "auditor_model": _model_cache_signature(
+                config.get("models", {}).get("suitability") or {}
+            ),
+            "prompts": [STAGE05_ROUTER_VERSION, STAGE05_VERSION],
         }
     )
     return {
@@ -905,6 +912,7 @@ def _clients(config, workspace, callers, screening_config, stop_index, *, includ
     if include_screening and stop_index >= 2:
         required.add("screening")
     if stop_index >= 5:
+        required.add("stage05_router")
         required.add("suitability")
     if stop_index >= 6:
         required.add("builder")

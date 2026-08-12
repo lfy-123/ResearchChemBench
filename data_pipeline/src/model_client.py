@@ -12,7 +12,7 @@ from src.contracts import canonical_hash, read_json, safe_component, write_json
 from src.integrations.llm_client import call_json_chat
 
 ModelCaller = Callable[..., tuple[dict[str, Any], dict[str, Any]]]
-REMOTE_API_ROLES = frozenset({"suitability", "builder", "judge"})
+REMOTE_API_ROLES = frozenset({"stage05_router", "suitability", "builder", "judge"})
 DEFAULT_REMOTE_API_PROXY = "http://httpproxy-headless.kubebrain.svc.pjlab.local:3128"
 
 
@@ -82,7 +82,9 @@ class RoleModelClient:
         system_prompt: str,
         user_content: str,
         max_tokens: int | None = None,
+        thinking: str | None = None,
     ) -> tuple[dict[str, Any], dict[str, Any]]:
+        effective_thinking = self.config.get("thinking") if thinking is None else thinking
         request_record = {
             "role": self.role,
             "namespace": namespace,
@@ -93,7 +95,7 @@ class RoleModelClient:
             "system_prompt": system_prompt,
             "user_content": user_content,
             "max_tokens": int(max_tokens or self.config.get("max_tokens", 2048)),
-            "thinking": self.config.get("thinking"),
+            "thinking": effective_thinking,
             "proxy_enabled": self._proxy_enabled(),
         }
         request_hash = canonical_hash(request_record)
@@ -117,6 +119,7 @@ class RoleModelClient:
                     system_prompt=system_prompt,
                     user_content=user_content,
                     max_tokens=max_tokens,
+                    thinking=effective_thinking,
                 )
             except Exception as exc:
                 if guard is None or not is_transient_connection_error(exc):
@@ -127,6 +130,7 @@ class RoleModelClient:
                     system_prompt=system_prompt,
                     user_content=user_content,
                     max_tokens=max_tokens,
+                    thinking=effective_thinking,
                 )
         audit_record = {
             **audit,
@@ -141,7 +145,7 @@ class RoleModelClient:
         )
         return response, audit_record
 
-    def _call(self, *, api_key, system_prompt, user_content, max_tokens):
+    def _call(self, *, api_key, system_prompt, user_content, max_tokens, thinking):
         return self.caller(
             model=self.model,
             base_url=str(self.config["base_url"]),
@@ -151,7 +155,7 @@ class RoleModelClient:
             timeout_seconds=float(self.config.get("timeout_seconds", 900)),
             max_tokens=int(max_tokens or self.config.get("max_tokens", 2048)),
             retries=int(self.config.get("retries", 2)),
-            thinking=self.config.get("thinking"),
+            thinking=thinking,
             proxy_url=self._proxy_url(),
         )
 

@@ -61,6 +61,10 @@ def call_json_chat(
                 request_id = response.headers.get("x-request-id")
             choice = result["choices"][0]
             content = (choice.get("message") or {}).get("content") or ""
+            if not content.strip() and choice.get("finish_reason") == "length":
+                raise ValueError(
+                    "LLM exhausted max_tokens during reasoning before returning JSON content"
+                )
             value = _parse_json_object(content)
             return value, {
                 "provider": "openai_compatible",
