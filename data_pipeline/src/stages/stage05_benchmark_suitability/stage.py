@@ -41,7 +41,19 @@ RECOVERY_TYPES = {
     "evidence_verification",
     "evidence_anchored_construction",
     "explicit_identifier_retrieval",
+    "normalized_protocol",
 }
+BUILDER_ROUTES = {"exact_reproduction", "evidence_recovery", "normalized_reconstruction"}
+HARD_BLOCKER_CODES = {
+    "no_substantive_computation",
+    "essential_software_uncovered",
+    "no_machine_scoreable_target",
+    "task_defining_identity_missing",
+    "bespoke_author_asset_unavailable",
+    "hidden_target_required_for_input",
+    "cost_exceeds_budget",
+}
+MINIMUM_SCIENTIFIC_STEPS = 2
 
 
 def run_stage05(
@@ -131,7 +143,7 @@ def run_stage05(
                 "software_coverage_facts": _software_coverage_facts(record),
                 "evidence_blocks": evidence_blocks,
                 "requirements": {
-                    "minimum_dependent_steps": 3,
+                    "minimum_dependent_steps": MINIMUM_SCIENTIFIC_STEPS,
                     "candidate_limit": int(config.get("candidate_limit", 1)),
                 },
                 "evidence_contract": {
@@ -160,22 +172,16 @@ def run_stage05(
                 candidate_limit=candidate_limit,
                 evidence_text_by_id=evidence_text_by_id,
             )
-            validation_rejections.extend(_response_contract_rejections(response, record))
+            validation_rejections.extend(
+                _response_contract_rejections(response, record, evidence_ids)
+            )
             validation_rejections.extend(_software_fact_contradictions(response, record))
             response_attempts = [{"response": response, "audit": audit}]
             if (
-                validation_rejections
-                and (
-                    str(response.get("decision") or "").casefold()
-                    in {"pass", "needs_builder_review"}
-                    or any(
-                        row.get("candidate_id")
-                        in {"response-software-facts", "response-contract"}
-                        for row in validation_rejections
-                    )
-                )
+                _contract_retry_needed(validation_rejections)
                 and bool(config.get("contract_retry", True))
             ):
+                original_decision = str(response.get("decision") or "").casefold()
                 retry_response, retry_audit = auditor_model.call_json(
                     namespace="stage05b_candidate_auditor_contract_retry",
                     record_id=f"{paper_id}-contract-retry",
@@ -185,7 +191,9 @@ def run_stage05(
                         "validation. Return a corrected complete JSON object. Use one exact taxonomy "
                         "identifier for task_direction, a workflow dependency graph, arrays for validation_gates, "
                         "scoring_metrics, required_software, and evidence_ids; include estimated_cost "
-                        "and all eight audit_dimensions; preserve pass/needs_builder_review/reject "
+                        "and all eight audit_dimensions; include builder_route, a recovery plan for "
+                        "review candidates, and evidence-backed hard_blockers for reject; preserve "
+                        "pass/needs_builder_review/reject "
                         "semantics and include review fields; treat software_coverage_facts as immutable; "
                         "and cite only evidence "
                         "IDs present in evidence_blocks. Do not change the scientific conclusion merely "
@@ -203,7 +211,9 @@ def run_stage05(
                     thinking="disabled",
                 )
                 response_attempts.append({"response": retry_response, "audit": retry_audit})
-                response, audit = retry_response, retry_audit
+                retry_decision = str(retry_response.get("decision") or "").casefold()
+                if retry_decision == original_decision:
+                    response, audit = retry_response, retry_audit
                 candidates, validation_rejections = _validate_candidates(
                     response,
                     evidence_ids,
@@ -211,7 +221,9 @@ def run_stage05(
                     candidate_limit=candidate_limit,
                     evidence_text_by_id=evidence_text_by_id,
                 )
-                validation_rejections.extend(_response_contract_rejections(response, record))
+                validation_rejections.extend(
+                    _response_contract_rejections(response, record, evidence_ids)
+                )
                 validation_rejections.extend(_software_fact_contradictions(response, record))
             has_response_contradiction = any(
                 row.get("candidate_id") in {"response-software-facts", "response-contract"}
@@ -329,6 +341,47 @@ def run_stage05(
     return {"records": records, "candidates": candidates, "summary": summary}
 
 
+def _contract_retry_needed(rejections):
+    """Retry malformed JSON contracts, never a scientific or recoverability rejection."""
+
+    retryable = {
+        "candidate_not_an_object",
+        "invalid_task_direction",
+        "invalid_builder_route",
+        "invalid_ground_truth_level",
+        "invalid_audit_dimensions",
+        "unknown_or_missing_mineru_evidence_ids",
+        "required_software_missing",
+        "missing_required_scientific_fields",
+        "invalid_decision",
+        "pass_response_has_blockers",
+        "pass_response_has_review_items",
+        "builder_review_missing_review_items",
+        "invalid_builder_review_dimensions",
+        "reject_missing_blocking_dimensions",
+        "invalid_blocking_dimensions",
+        "software_dimension_and_blocking_software_disagree",
+        "reject_response_has_review_items",
+        "reject_missing_hard_blockers",
+        "invalid_hard_blocker",
+        "hard_blocker_evidence_invalid",
+    }
+    prefixes = (
+        "invalid_audit_dimension:",
+        "audit_dimension_evidence_invalid:",
+        "audit_dimension_missing_fields_required:",
+        "blocking_software_not_in_uncovered_facts:",
+    )
+    reasons = [
+        str(reason)
+        for item in rejections
+        for reason in (item.get("reasons") or [])
+    ]
+    return bool(reasons) and all(
+        reason in retryable or reason.startswith(prefixes) for reason in reasons
+    )
+
+
 def _validate_candidates(
     response,
     evidence_ids,
@@ -359,6 +412,10 @@ def _validate_candidates(
             reasons.append("invalid_task_direction")
         normalized["task_direction"] = direction
         normalized.pop("direction", None)
+        builder_route = str(candidate.get("builder_route") or "").casefold()
+        normalized["builder_route"] = builder_route
+        if builder_route not in BUILDER_ROUTES:
+            reasons.append("invalid_builder_route")
         for field in ("validation_gates", "scoring_metrics", "evidence_ids"):
             normalized[field] = _string_list(candidate.get(field))
         normalized["workflow_steps"] = _workflow_steps(candidate.get("workflow_steps"))
@@ -387,6 +444,8 @@ def _validate_candidates(
             states = {key: value["state"] for key, value in audit_dimensions.items()}
             if decision == "pass" and any(value != "confirmed" for value in states.values()):
                 reasons.append("pass_requires_confirmed_audit_dimensions")
+            if decision == "pass" and builder_route != "exact_reproduction":
+                reasons.append("pass_requires_exact_reproduction_route")
             if decision == "needs_builder_review":
                 uncertain = {key for key, value in states.items() if value == "uncertain"}
                 recovery_plan, recovery_errors = _recoverability_plan(
@@ -397,6 +456,19 @@ def _validate_candidates(
                 )
                 normalized["recoverability_plan"] = recovery_plan
                 reasons.extend(recovery_errors)
+                expected_route = (
+                    "normalized_reconstruction"
+                    if any(
+                        item.get("resolution_type") == "normalized_protocol"
+                        or item.get("assumptions")
+                        for item in recovery_plan.values()
+                    )
+                    else "evidence_recovery"
+                )
+                # Route is derived from the validated recovery plan. Treat a model's
+                # stale route label as metadata normalization, not scientific rejection.
+                builder_route = expected_route
+                normalized["builder_route"] = expected_route
                 if (
                     not uncertain
                     or uncertain - RECOVERABLE_DIMENSIONS
@@ -484,8 +556,8 @@ def _workflow_steps(value):
 
 def _workflow_graph_errors(steps, evidence_ids):
     reasons = []
-    if len(steps) < 3:
-        return ["workflow_graph_requires_three_scientific_steps"]
+    if len(steps) < MINIMUM_SCIENTIFIC_STEPS:
+        return ["workflow_graph_requires_two_scientific_steps"]
     step_ids = [step["step_id"] for step in steps]
     if any(not value for value in step_ids) or len(set(step_ids)) != len(step_ids):
         reasons.append("workflow_graph_step_ids_invalid")
@@ -578,6 +650,12 @@ def _recoverability_plan(value, uncertain_dimensions, evidence_ids, evidence_tex
         target_independent = item.get("target_independent") is True
         identifier_kind = str(item.get("identifier_kind") or "").strip()
         identifier_value = str(item.get("identifier_value") or "").strip()
+        protocol_id = str(item.get("protocol_id") or "").strip()
+        if resolution_type == "normalized_protocol" and not protocol_id:
+            # There is one versioned protocol in the current contract. Normalize a
+            # missing constant instead of turning a model formatting omission into
+            # a scientific rejection; Stage06 still receives the explicit ID.
+            protocol_id = "researchchembench_normalized_v1"
         output[dimension] = {
             "resolution_type": resolution_type,
             "procedure": procedure,
@@ -586,9 +664,13 @@ def _recoverability_plan(value, uncertain_dimensions, evidence_ids, evidence_tex
             "assumptions": assumptions,
             "identifier_kind": identifier_kind or None,
             "identifier_value": identifier_value or None,
+            "protocol_id": protocol_id or None,
         }
-        subjective_language = _subjective_recovery_language(procedure)
+        subjective_language = _target_guided_recovery_language(procedure)
+        if resolution_type != "normalized_protocol" and not assumptions:
+            subjective_language.extend(_subjective_recovery_language(procedure))
         type_mismatch = _recovery_type_mismatch(resolution_type, procedure)
+        figure_coordinate_recovery = _figure_coordinate_recovery(procedure)
         identifier_valid = True
         if resolution_type == "explicit_identifier_retrieval":
             cited_text = "\n".join(
@@ -600,15 +682,28 @@ def _recoverability_plan(value, uncertain_dimensions, evidence_ids, evidence_tex
                 and identifier_value.casefold() in cited_text.casefold()
                 and _looks_like_explicit_identifier(identifier_kind, identifier_value)
             )
+        assumptions_valid = not assumptions or resolution_type in {
+            "evidence_anchored_construction",
+            "normalized_protocol",
+        }
+        normalized_protocol_valid = resolution_type != "normalized_protocol" or not (
+            _normalized_protocol_errors(protocol_id, assumptions)
+        )
+        anchored_assumptions_valid = resolution_type != "evidence_anchored_construction" or not (
+            _task_defining_assumption_errors([procedure, *assumptions])
+        )
         if (
             resolution_type not in RECOVERY_TYPES
             or not procedure
             or not resolved
             or not target_independent
-            or assumptions
+            or not assumptions_valid
             or subjective_language
             or type_mismatch
+            or figure_coordinate_recovery
             or not identifier_valid
+            or not normalized_protocol_valid
+            or not anchored_assumptions_valid
         ):
             reasons.append(f"invalid_recoverability_plan:{dimension}")
     return output, reasons
@@ -644,6 +739,124 @@ def _subjective_recovery_language(procedure):
     return [marker for marker in markers if marker in text]
 
 
+def _target_guided_recovery_language(procedure):
+    text = str(procedure or "").casefold()
+    markers = (
+        "match the hidden",
+        "match reported",
+        "matching the reported",
+        "reproduces the reported",
+        "agreement with the published",
+        "compare to the reported",
+        "compared to the reported",
+        "consistent with the reported",
+        "fit to the target",
+        "choose the value closest",
+        "select the value closest",
+    )
+    return [marker for marker in markers if marker in text]
+
+
+def _normalized_protocol_errors(protocol_id, assumptions):
+    if protocol_id != "researchchembench_normalized_v1" or not assumptions:
+        return ["normalized_protocol_identity_or_assumptions_missing"]
+    return _task_defining_assumption_errors(assumptions)
+
+
+def _task_defining_assumption_errors(assumptions):
+    forbidden = (
+        "charge",
+        "multiplicity",
+        "composition",
+        "chemical identity",
+        "structure identity",
+        "defect placement",
+        "defect configuration",
+        "vacancy position",
+        "exact position",
+        "reaction path",
+        "force field",
+        "force-field",
+        "stoichiometry",
+        "morphology",
+        "interface registry",
+        "grain boundary",
+        "gb model",
+        "gb interface",
+        "equilibrated configuration",
+        "author-generated",
+        "neutral form",
+        "ionic form",
+        "reasonable arrangement",
+        "reasonable geometry",
+        "chemical intuition",
+        "manual placement",
+        "manual docking",
+        "cluster is represented",
+        "represented by a small cluster",
+        "cluster size",
+        "cluster stoichiometry",
+        "cluster geometry",
+        "random insertion",
+        "randomly insert",
+        "representative configuration",
+        "select representative",
+        "select three structures",
+        "similar one",
+        "most common interpretation",
+        "or alternative",
+        "if evidence indicates otherwise",
+        "reasonable choice",
+        "exact metric",
+        "metric used by the authors",
+        "longest dimension or volume",
+    )
+    errors = []
+    for assumption in assumptions:
+        text = str(assumption).casefold()
+        errors.extend(marker for marker in forbidden if marker in text)
+        if any(
+            marker in text
+            for marker in (
+                "may need to be chosen",
+                "needs to be chosen",
+                "need to be inferred",
+                "may need to be inferred",
+            )
+        ):
+            errors.append("unresolved task-defining choice")
+        if "adsorption site" in text and not any(
+            marker in text
+            for marker in (
+                "enumerat",
+                "all ",
+                "high-symmetry",
+                "high symmetry",
+                "top, bridge, hollow",
+            )
+        ):
+            errors.append("adsorption site")
+        if "termination" in text and not any(
+            marker in text
+            for marker in (
+                "symmetric slab",
+                "both sides equivalent",
+                "reported termination",
+                "specified termination",
+            )
+        ):
+            errors.append("termination")
+        if "orientation" in text and not any(
+            marker in text for marker in ("enumerat", "all ", "reported", "described")
+        ):
+            errors.append("orientation")
+        if "protonation" in text and not any(
+            marker in text for marker in ("as depicted", "reported", "specified", "explicit")
+        ):
+            errors.append("protonation")
+    return list(dict.fromkeys(errors))
+
+
 def _recovery_type_mismatch(resolution_type, procedure):
     if resolution_type == "evidence_anchored_construction":
         return False
@@ -661,6 +874,13 @@ def _recovery_type_mismatch(resolution_type, procedure):
     construction_verbs = ("construct", "build", "reconstruct", "create")
     return any(verb in text for verb in construction_verbs) and any(
         obj in text for obj in construction_objects
+    )
+
+
+def _figure_coordinate_recovery(procedure):
+    text = str(procedure or "").casefold()
+    return "coordinate" in text and any(
+        marker in text for marker in ("from figure", "from the figure", "from figures")
     )
 
 
@@ -795,7 +1015,7 @@ def _software_fact_contradictions(response, stage04):
     ]
 
 
-def _response_contract_rejections(response, stage04):
+def _response_contract_rejections(response, stage04, evidence_ids=None):
     decision = str(response.get("decision") or "").casefold()
     dimensions = _string_list(response.get("blocking_dimensions"))
     review_dimensions = _string_list(response.get("review_dimensions"))
@@ -838,9 +1058,33 @@ def _response_contract_rejections(response, stage04):
             reasons.append("software_dimension_and_blocking_software_disagree")
         if review_dimensions or review_reasons:
             reasons.append("reject_response_has_review_items")
+        if evidence_ids is not None:
+            reasons.extend(_hard_blocker_errors(response.get("hard_blockers"), evidence_ids))
     if not reasons:
         return []
     return [{"candidate_id": "response-contract", "reasons": reasons}]
+
+
+def _hard_blocker_errors(value, evidence_ids):
+    if not isinstance(value, list) or not value:
+        return ["reject_missing_hard_blockers"]
+    reasons = []
+    for item in value:
+        if not isinstance(item, dict):
+            reasons.append("invalid_hard_blocker")
+            continue
+        code = str(item.get("code") or "").casefold()
+        dimension = str(item.get("dimension") or "").casefold()
+        rationale = str(item.get("reason") or "").strip()
+        cited = _string_list(item.get("evidence_ids"))
+        resolved, unknown = _resolve_evidence_ids(cited, evidence_ids)
+        if code not in HARD_BLOCKER_CODES or dimension not in AUDIT_DIMENSIONS or not rationale:
+            reasons.append("invalid_hard_blocker")
+        if code not in {"essential_software_uncovered", "cost_exceeds_budget"} and (
+            not resolved or unknown
+        ):
+            reasons.append("hard_blocker_evidence_invalid")
+    return list(dict.fromkeys(reasons))
 
 
 def _software_list(value):
@@ -997,19 +1241,21 @@ def _auditor_evidence_blocks(blocks, route, limit):
 
     if not blocks or limit <= 0:
         return []
-    cited = {
-        evidence_id
-        for cluster in route.get("workflow_clusters") or []
-        for field in (
-            "method_evidence_ids",
-            "input_evidence_ids",
-            "parameter_evidence_ids",
-            "result_evidence_ids",
-            "claim_evidence_ids",
-            "cost_evidence_ids",
+    cited = list(
+        dict.fromkeys(
+            evidence_id
+            for cluster in route.get("workflow_clusters") or []
+            for field in (
+                "method_evidence_ids",
+                "input_evidence_ids",
+                "parameter_evidence_ids",
+                "result_evidence_ids",
+                "claim_evidence_ids",
+                "cost_evidence_ids",
+            )
+            for evidence_id in cluster.get(field) or []
         )
-        for evidence_id in cluster.get(field) or []
-    }
+    )
     index_by_id = {str(block.get("evidence_id")): index for index, block in enumerate(blocks)}
     priority = []
 

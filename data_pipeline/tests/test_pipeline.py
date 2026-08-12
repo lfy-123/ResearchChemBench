@@ -65,6 +65,8 @@ from src.stages.stage03_toolbox_resource_gate.stage import (
 )
 from src.stages.stage05_benchmark_suitability.stage import (
     _auditor_evidence_blocks,
+    _contract_retry_needed,
+    _hard_blocker_errors,
     _recoverability_plan,
     _response_contract_rejections,
     _sanitize_evidence_route,
@@ -3590,6 +3592,7 @@ def _stage05_fixture_candidate() -> dict:
     }
     return {
         "candidate_id": "candidate-1",
+        "builder_route": "exact_reproduction",
         "task_direction": "molecular_dynamics_free_energy",
         "scientific_question": "Can the reported free-energy trend be reproduced?",
         "claim_reference": "Figure 3",
@@ -3786,6 +3789,7 @@ def test_stage05_allows_recoverable_builder_review_candidate() -> None:
             "assumptions": [],
         }
     }
+    candidate["builder_route"] = "evidence_recovery"
     response = {
         "decision": "needs_builder_review",
         "candidates": [candidate],
@@ -3846,6 +3850,7 @@ def test_stage05_allows_evidence_verification_for_builder_review() -> None:
             "assumptions": [],
         }
     }
+    candidate["builder_route"] = "evidence_recovery"
 
     candidates, rejected = _validate_candidates(
         {"decision": "needs_builder_review", "candidates": [candidate]},
@@ -3876,6 +3881,7 @@ def test_stage05_allows_evidence_anchored_construction_without_hidden_target() -
             "assumptions": [],
         }
     }
+    candidate["builder_route"] = "evidence_recovery"
 
     candidates, rejected = _validate_candidates(
         {"decision": "needs_builder_review", "candidates": [candidate]},
@@ -3885,6 +3891,161 @@ def test_stage05_allows_evidence_anchored_construction_without_hidden_target() -
 
     assert rejected == []
     assert candidates[0]["buildability_checks"]["input_assets"] == "uncertain"
+
+
+def test_stage05_allows_bounded_target_independent_enumeration() -> None:
+    candidate = _stage05_fixture_candidate()
+    candidate["builder_route"] = "normalized_reconstruction"
+    candidate["audit_dimensions"]["input_assets"] = {
+        "state": "uncertain",
+        "support": "The facet is fixed and the finite high-symmetry site set must be enumerated.",
+        "missing_fields": ["adsorption_configurations"],
+        "evidence_ids": ["mineru-1"],
+    }
+    candidate["recoverability_plan"] = {
+        "input_assets": {
+            "resolution_type": "evidence_anchored_construction",
+            "procedure": "Enumerate all high-symmetry adsorption sites without using hidden energies.",
+            "source_evidence_ids": ["mineru-1"],
+            "target_independent": True,
+            "assumptions": ["all high-symmetry adsorption sites are enumerated"],
+        }
+    }
+
+    candidates, rejected = _validate_candidates(
+        {"decision": "needs_builder_review", "candidates": [candidate]},
+        {"mineru-1"},
+        _stage05_fixture_coverage(),
+    )
+
+    assert rejected == []
+    assert candidates[0]["builder_route"] == "normalized_reconstruction"
+
+
+def test_stage05_normalizes_stale_builder_route_from_recovery_plan() -> None:
+    candidate = _stage05_fixture_candidate()
+    candidate["builder_route"] = "evidence_recovery"
+    candidate["audit_dimensions"]["input_assets"] = {
+        "state": "uncertain",
+        "support": "A finite model family must be enumerated.",
+        "missing_fields": ["model_size"],
+        "evidence_ids": ["mineru-1"],
+    }
+    candidate["recoverability_plan"] = {
+        "input_assets": {
+            "resolution_type": "evidence_anchored_construction",
+            "procedure": "Enumerate the two explicitly bounded model sizes without hidden targets.",
+            "source_evidence_ids": ["mineru-1"],
+            "target_independent": True,
+            "assumptions": ["both reported model sizes are enumerated"],
+        }
+    }
+
+    candidates, rejected = _validate_candidates(
+        {"decision": "needs_builder_review", "candidates": [candidate]},
+        {"mineru-1"},
+        _stage05_fixture_coverage(),
+    )
+
+    assert rejected == []
+    assert candidates[0]["builder_route"] == "normalized_reconstruction"
+
+
+def test_stage05_rejects_paper_specific_morphology_assumption() -> None:
+    _, errors = _recoverability_plan(
+        {
+            "input_assets": {
+                "resolution_type": "evidence_anchored_construction",
+                "procedure": "Build a plausible supported cluster without using hidden targets.",
+                "source_evidence_ids": ["mineru-1"],
+                "target_independent": True,
+                "assumptions": ["interface registry chosen to maximize bonding", "cluster morphology"],
+            }
+        },
+        {"input_assets"},
+        {"mineru-1"},
+        {"mineru-1": "A supported cluster was studied."},
+    )
+
+    assert "invalid_recoverability_plan:input_assets" in errors
+
+
+def test_stage05_rejects_unresolved_defect_position_assumption() -> None:
+    _, errors = _recoverability_plan(
+        {
+            "input_assets": {
+                "resolution_type": "evidence_anchored_construction",
+                "procedure": "Build the interface model without consulting hidden targets.",
+                "source_evidence_ids": ["mineru-1"],
+                "target_independent": True,
+                "assumptions": ["The exact vacancy positions may need to be chosen."],
+            }
+        },
+        {"input_assets"},
+        {"mineru-1"},
+        {"mineru-1": "The interface contains vacancies."},
+    )
+
+    assert "invalid_recoverability_plan:input_assets" in errors
+
+
+def test_stage05_rejects_recovery_selected_by_reported_result() -> None:
+    _, errors = _recoverability_plan(
+        {
+            "input_assets": {
+                "resolution_type": "evidence_anchored_construction",
+                "procedure": "Enumerate models and select the one matching the reported barrier.",
+                "source_evidence_ids": ["mineru-1"],
+                "target_independent": True,
+                "assumptions": ["all symmetry-distinct models are enumerated"],
+            }
+        },
+        {"input_assets"},
+        {"mineru-1"},
+        {"mineru-1": "Several models were studied."},
+    )
+
+    assert "invalid_recoverability_plan:input_assets" in errors
+
+
+def test_stage05_rejects_subjective_manual_placement_assumption() -> None:
+    _, errors = _recoverability_plan(
+        {
+            "input_assets": {
+                "resolution_type": "evidence_anchored_construction",
+                "procedure": "Construct and optimize the complex without hidden targets.",
+                "source_evidence_ids": ["mineru-1"],
+                "target_independent": True,
+                "assumptions": ["Use a reasonable arrangement created by manual placement."],
+            }
+        },
+        {"input_assets"},
+        {"mineru-1"},
+        {"mineru-1": "The molecules form a complex."},
+    )
+
+    assert "invalid_recoverability_plan:input_assets" in errors
+
+
+def test_stage05_rejects_undefined_scoring_observable() -> None:
+    _, errors = _recoverability_plan(
+        {
+            "ground_truth": {
+                "resolution_type": "evidence_anchored_construction",
+                "procedure": "Define the score without looking at the hidden value.",
+                "source_evidence_ids": ["mineru-1"],
+                "target_independent": True,
+                "assumptions": [
+                    "The exact metric is not reported; use longest dimension or volume."
+                ],
+            }
+        },
+        {"ground_truth"},
+        {"mineru-1"},
+        {"mineru-1": "The molecular size decreases by about six percent."},
+    )
+
+    assert "invalid_recoverability_plan:ground_truth" in errors
 
 
 def test_stage05_rejects_free_text_or_target_dependent_recovery_plan() -> None:
@@ -4019,6 +4180,25 @@ def test_stage05_verification_cannot_hide_missing_model_construction() -> None:
     assert "invalid_recoverability_plan:input_assets" in errors
 
 
+def test_stage05_cannot_recover_exact_coordinates_from_a_figure() -> None:
+    _, errors = _recoverability_plan(
+        {
+            "input_assets": {
+                "resolution_type": "evidence_verification",
+                "procedure": "Extract exact atomic coordinates from Figure S3.",
+                "source_evidence_ids": ["mineru-1"],
+                "target_independent": True,
+                "assumptions": [],
+            }
+        },
+        {"input_assets"},
+        {"mineru-1"},
+        {"mineru-1": "Figure S3 shows the optimized catalyst model."},
+    )
+
+    assert "invalid_recoverability_plan:input_assets" in errors
+
+
 def test_stage05_rejects_disconnected_workflow_graph() -> None:
     candidate = _stage05_fixture_candidate()
     candidate["workflow_steps"][2]["depends_on"] = []
@@ -4046,6 +4226,284 @@ def test_stage05_allows_multiple_roots_that_join_in_downstream_comparison() -> N
 
     assert rejected == []
     assert len(candidates) == 1
+
+
+def test_stage05_allows_two_dependent_scientific_steps() -> None:
+    candidate = _stage05_fixture_candidate()
+    candidate["workflow_steps"] = candidate["workflow_steps"][:2]
+
+    candidates, rejected = _validate_candidates(
+        {"decision": "pass", "candidates": [candidate]},
+        {"mineru-1"},
+        _stage05_fixture_coverage(),
+    )
+
+    assert rejected == []
+    assert len(candidates[0]["workflow_steps"]) == 2
+
+
+def test_stage05_allows_normalized_protocol_for_ordinary_parameters() -> None:
+    candidate = _stage05_fixture_candidate()
+    candidate["builder_route"] = "normalized_reconstruction"
+    candidate["audit_dimensions"]["parameters"] = {
+        "state": "uncertain",
+        "support": "The paper fixes the method and system but not the numerical convergence grid.",
+        "missing_fields": ["k_point_density", "convergence_threshold"],
+        "evidence_ids": ["mineru-1"],
+    }
+    candidate["recoverability_plan"] = {
+        "parameters": {
+            "resolution_type": "normalized_protocol",
+            "protocol_id": "researchchembench_normalized_v1",
+            "procedure": "Apply the frozen periodic convergence protocol without consulting hidden targets.",
+            "source_evidence_ids": ["mineru-1"],
+            "target_independent": True,
+            "assumptions": ["k-point density", "electronic convergence threshold"],
+        }
+    }
+
+    candidates, rejected = _validate_candidates(
+        {"decision": "needs_builder_review", "candidates": [candidate]},
+        {"mineru-1"},
+        _stage05_fixture_coverage(),
+    )
+
+    assert rejected == []
+    assert candidates[0]["builder_route"] == "normalized_reconstruction"
+    assert (
+        candidates[0]["recoverability_plan"]["parameters"]["protocol_id"]
+        == "researchchembench_normalized_v1"
+    )
+
+
+def test_stage05_normalizes_missing_protocol_id() -> None:
+    plan, errors = _recoverability_plan(
+        {
+            "parameters": {
+                "resolution_type": "normalized_protocol",
+                "procedure": "Select the k-point density by the frozen convergence protocol.",
+                "source_evidence_ids": ["mineru-1"],
+                "target_independent": True,
+                "assumptions": ["k-point density"],
+            }
+        },
+        {"parameters"},
+        {"mineru-1"},
+        {"mineru-1": "The chemical system and electronic-structure method are fixed."},
+    )
+
+    assert errors == []
+    assert plan["parameters"]["protocol_id"] == "researchchembench_normalized_v1"
+
+
+def test_stage05_allows_protonation_state_fixed_by_paper_figure() -> None:
+    _, errors = _recoverability_plan(
+        {
+            "input_assets": {
+                "resolution_type": "evidence_anchored_construction",
+                "procedure": "Build the reported molecular states without consulting hidden targets.",
+                "source_evidence_ids": ["mineru-1"],
+                "target_independent": True,
+                "assumptions": ["The protonation states are as depicted in Figure S19."],
+            }
+        },
+        {"input_assets"},
+        {"mineru-1"},
+        {"mineru-1": "Figure S19 depicts both molecular protonation states."},
+    )
+
+    assert errors == []
+
+
+def test_stage05_rejects_unspecified_cluster_substitution() -> None:
+    _, errors = _recoverability_plan(
+        {
+            "input_assets": {
+                "resolution_type": "evidence_anchored_construction",
+                "procedure": "Build a small oxide cluster without consulting hidden targets.",
+                "source_evidence_ids": ["mineru-1"],
+                "target_independent": True,
+                "assumptions": ["The unknown oxide cluster is represented by a small In2O3 unit."],
+            }
+        },
+        {"input_assets"},
+        {"mineru-1"},
+        {"mineru-1": "Oxide quantum dots are present on the support."},
+    )
+
+    assert "invalid_recoverability_plan:input_assets" in errors
+
+
+def test_stage05_rejects_uncertain_protonation_state() -> None:
+    _, errors = _recoverability_plan(
+        {
+            "input_assets": {
+                "resolution_type": "evidence_anchored_construction",
+                "procedure": "Build the adsorbate without consulting hidden targets.",
+                "source_evidence_ids": ["mineru-1"],
+                "target_independent": True,
+                "assumptions": ["The protonation state is possibly deprotonated in electrolyte."],
+            }
+        },
+        {"input_assets"},
+        {"mineru-1"},
+        {"mineru-1": "The adsorbate is used in aqueous electrolyte."},
+    )
+
+    assert "invalid_recoverability_plan:input_assets" in errors
+
+
+def test_stage05_rejects_nonunique_grain_boundary_construction() -> None:
+    _, errors = _recoverability_plan(
+        {
+            "input_assets": {
+                "resolution_type": "evidence_anchored_construction",
+                "procedure": "Construct the reported interface without consulting hidden targets.",
+                "source_evidence_ids": ["mineru-1"],
+                "target_independent": True,
+                "assumptions": ["The GB model is inferred from two rotated crystal planes."],
+            }
+        },
+        {"input_assets"},
+        {"mineru-1"},
+        {"mineru-1": "Microscopy reports the angle between two grains."},
+    )
+
+    assert "invalid_recoverability_plan:input_assets" in errors
+
+
+def test_stage05_rejects_regenerated_representative_aimd_configuration() -> None:
+    _, errors = _recoverability_plan(
+        {
+            "input_assets": {
+                "resolution_type": "evidence_anchored_construction",
+                "procedure": "Generate an equilibrated solvent box without consulting hidden targets.",
+                "source_evidence_ids": ["mineru-1"],
+                "target_independent": True,
+                "assumptions": [
+                    "Random insertion produces a representative configuration for the ensemble."
+                ],
+            }
+        },
+        {"input_assets"},
+        {"mineru-1"},
+        {"mineru-1": "The authors selected three structures from ten random configurations."},
+    )
+
+    assert "invalid_recoverability_plan:input_assets" in errors
+
+
+def test_stage05_checks_task_defining_choices_in_recovery_procedure() -> None:
+    _, errors = _recoverability_plan(
+        {
+            "input_assets": {
+                "resolution_type": "evidence_anchored_construction",
+                "procedure": (
+                    "The exact size and composition are not specified; construct a model using "
+                    "chemical intuition."
+                ),
+                "source_evidence_ids": ["mineru-1"],
+                "target_independent": True,
+                "assumptions": ["The geometry will be relaxed before evaluation."],
+            }
+        },
+        {"input_assets"},
+        {"mineru-1"},
+        {"mineru-1": "A supported material was investigated."},
+    )
+
+    assert "invalid_recoverability_plan:input_assets" in errors
+
+
+def test_stage05_allows_frozen_symmetric_slab_and_finite_site_enumeration() -> None:
+    candidate = _stage05_fixture_candidate()
+    candidate["builder_route"] = "normalized_reconstruction"
+    candidate["audit_dimensions"]["input_assets"] = {
+        "state": "uncertain",
+        "support": "The elemental facet is fixed but numerical slab settings are omitted.",
+        "missing_fields": ["slab_settings", "site_enumeration"],
+        "evidence_ids": ["mineru-1"],
+    }
+    candidate["recoverability_plan"] = {
+        "input_assets": {
+            "resolution_type": "normalized_protocol",
+            "protocol_id": "researchchembench_normalized_v1",
+            "procedure": "Apply the frozen elemental-surface protocol without hidden targets.",
+            "source_evidence_ids": ["mineru-1"],
+            "target_independent": True,
+            "assumptions": [
+                "Termination: symmetric slab with both sides equivalent",
+                "Adsorption sites: top, bridge, hollow",
+                "Vacuum and slab thickness selected by convergence",
+            ],
+        }
+    }
+
+    candidates, rejected = _validate_candidates(
+        {"decision": "needs_builder_review", "candidates": [candidate]},
+        {"mineru-1"},
+        _stage05_fixture_coverage(),
+    )
+
+    assert rejected == []
+    assert candidates[0]["builder_route"] == "normalized_reconstruction"
+
+
+def test_stage05_rejects_normalized_protocol_for_task_defining_choices() -> None:
+    _, errors = _recoverability_plan(
+        {
+            "input_assets": {
+                "resolution_type": "normalized_protocol",
+                "protocol_id": "researchchembench_normalized_v1",
+                "procedure": "Apply the frozen protocol without consulting hidden targets.",
+                "source_evidence_ids": ["mineru-1"],
+                "target_independent": True,
+                "assumptions": ["adsorption site set", "surface termination"],
+            }
+        },
+        {"input_assets"},
+        {"mineru-1"},
+        {"mineru-1": "The material surface was studied."},
+    )
+
+    assert "invalid_recoverability_plan:input_assets" in errors
+
+
+def test_stage05_reject_requires_evidence_backed_hard_blocker() -> None:
+    assert _hard_blocker_errors([], {"mineru-1"}) == ["reject_missing_hard_blockers"]
+    assert _hard_blocker_errors(
+        [
+            {
+                "code": "bespoke_author_asset_unavailable",
+                "dimension": "input_assets",
+                "reason": "The author-generated amorphous snapshot is unavailable.",
+                "evidence_ids": ["mineru-1"],
+            }
+        ],
+        {"mineru-1"},
+    ) == []
+
+
+def test_stage05_does_not_retry_scientific_recoverability_rejection() -> None:
+    assert not _contract_retry_needed(
+        [
+            {
+                "candidate_id": "candidate-1",
+                "reasons": ["invalid_recoverability_plan:input_assets"],
+            }
+        ]
+    )
+
+
+def test_stage05_retries_pure_contract_shape_error() -> None:
+    assert _contract_retry_needed(
+        [
+            {
+                "candidate_id": "response-contract",
+                "reasons": ["reject_missing_hard_blockers"],
+            }
+        ]
+    )
 
 
 def test_stage05_keeps_valid_step_evidence_when_one_citation_is_unknown() -> None:
@@ -4119,6 +4577,45 @@ def test_stage05_auditor_evidence_expands_routed_neighbors_and_keeps_si() -> Non
 
     assert {"main-2", "main-3", "main-4"} <= selected_ids
     assert any(value.startswith("si-") for value in selected_ids)
+
+
+def test_stage05_auditor_evidence_order_is_stable() -> None:
+    blocks = [
+        {
+            "document_id": "main",
+            "evidence_id": f"main-{index}",
+            "section_path": [],
+            "text": f"result block {index}",
+        }
+        for index in range(10)
+    ]
+    route = {
+        "workflow_clusters": [
+            {
+                "method_evidence_ids": ["main-7", "main-2"],
+                "input_evidence_ids": ["main-7"],
+                "parameter_evidence_ids": [],
+                "result_evidence_ids": [],
+                "claim_evidence_ids": [],
+                "cost_evidence_ids": [],
+            }
+        ]
+    }
+
+    first = _auditor_evidence_blocks(blocks, route, 10000)
+    second = _auditor_evidence_blocks(blocks, route, 10000)
+
+    assert first == second
+    assert [row["evidence_id"] for row in first[:8]] == [
+        "main-5",
+        "main-6",
+        "main-7",
+        "main-8",
+        "main-9",
+        "main-0",
+        "main-1",
+        "main-2",
+    ]
 
 
 def test_stage05_evidence_budget_preserves_main_and_supplementary_documents() -> None:

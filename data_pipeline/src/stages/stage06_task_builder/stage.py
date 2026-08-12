@@ -40,6 +40,17 @@ def run_stage06(
             ]
             packet = {
                 "candidate": candidate,
+                "builder_contract": {
+                    "route": candidate.get("builder_route"),
+                    "recoverability_plan": candidate.get("recoverability_plan") or {},
+                    "normalized_protocol_id": (
+                        "researchchembench_normalized_v1"
+                        if candidate.get("builder_route") == "normalized_reconstruction"
+                        else None
+                    ),
+                    "must_preserve_provenance": True,
+                    "hidden_target_must_not_select_public_inputs": True,
+                },
                 "source_evidence_blocks": evidence_blocks,
                 "source_documents": [
                     {
@@ -182,6 +193,12 @@ def _validate_shared(shared, candidate):
         raise ValueError("Builder shared status must be candidate_ready or abstain")
     if shared.get("status") == "candidate_ready" and not shared.get("task_pair_id"):
         raise ValueError("ready shared record requires task_pair_id")
+    if candidate.get("builder_route") not in {
+        "exact_reproduction",
+        "evidence_recovery",
+        "normalized_reconstruction",
+    }:
+        raise ValueError("candidate builder_route is invalid")
 
 
 def _public_builder_packet(shared, mode):

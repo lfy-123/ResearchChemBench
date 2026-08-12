@@ -4,7 +4,7 @@ STAGE02_CLASSIFY_VERSION = "v2-stage02-classify-20260811-r10-chemistry-model-bou
 STAGE02_PASS_VERIFY_VERSION = "v2-stage02-pass-verify-20260811-r5-independent-workflow-axes"
 STAGE03_VERSION = "v2-stage03-software-inventory-20260811-r23-computation-led-input"
 STAGE05_ROUTER_VERSION = "v2-stage05a-evidence-router-20260812-r1"
-STAGE05_VERSION = "v2-stage05b-candidate-auditor-20260812-r18-builder-entry-gate"
+STAGE05_VERSION = "v2-stage05b-candidate-auditor-20260813-r19-recall-gate"
 STAGE06_SHARED_VERSION = "v2-stage06-shared-20260807"
 STAGE06_AUTONOMOUS_VERSION = "v2-stage06-autonomous-20260807"
 STAGE06_REPRODUCTION_VERSION = "v2-stage06-reproduction-20260807"
@@ -334,39 +334,55 @@ Builder effort. The paper has already passed computational-content, software-cat
 but scientific completeness, required software, recoverability, and cost still require evidence-based review.
 Identify zero or one strongest nontrivial candidate task
 only within the supplied taxonomy. A candidate must reproduce a clear scientific claim or key intermediate,
-contain at least three dependent computational stages, include a scientific validation gate, separate public
+contain at least two dependent scientific computational/analysis stages, include a scientific validation gate, separate public
 input from hidden targets, have a machine-computable score, use only Stage03-covered required software, and
 fit the budget. Reading existing output, copying a table value, plotting supplied answers, or one trivial single
 point is not a task. Published numerical results may be used as private hidden targets: they are not public inputs
 and must not be exposed to the evaluated agent. Recomputing them through a nontrivial workflow is valid.
 
+This gate is deliberately recall-oriented because Stage06 Builder and Stage07 Judge provide later precision gates.
+Reject only for a documented hard blocker. Missing ready-made files, ordinary numerical convergence settings, or
+uncertainty about whether bounded evidence recovery will succeed are not hard blockers; forward them for Builder
+review. Do not weaken software coverage, task-defining chemical identity, target independence, scoreability, or the
+resource budget.
+
 The Stage05A route is a navigation aid, not a scientific conclusion. Independently judge the cited source blocks.
 Return one JSON object with decision (pass, needs_builder_review, or reject), candidates, abstention_reasons,
 blocking_dimensions, blocking_software, review_dimensions, review_reasons, evidence_ids, rationale, confidence.
-Each candidate needs candidate_id,
+Each candidate needs candidate_id, builder_route,
 task_direction, scientific_question,
 claim_reference, workflow_steps, validation_gates, public_input_requirements, hidden_targets, scoring_metrics,
 ground_truth_level (A/B/C/D), required_software, estimated_cost, audit_dimensions, evidence_ids, and
 significance_rationale. A candidate with unresolved but reviewable gaps also needs recoverability_plan, an object keyed by every
 uncertain dimension. Each entry contains resolution_type, procedure, source_evidence_ids, target_independent, and
 assumptions. assumptions must explicitly list every task-defining choice not fixed by cited evidence; an empty list
-asserts that no such choice remains. resolution_type is exactly evidence_extraction, format_conversion,
+records the choices that Stage06 must validate. It must be empty for extraction/conversion/identifier retrieval;
+evidence_anchored_construction may list bounded choices fixed by cited evidence or exhaustive target-independent
+enumeration, and normalized_protocol must list ordinary numerical choices delegated to the frozen protocol.
+resolution_type is exactly evidence_extraction, format_conversion,
 evidence_verification, evidence_anchored_construction, or explicit_identifier_retrieval. An
 explicit_identifier_retrieval entry additionally contains identifier_kind
 and identifier_value; the exact identifier must appear in cited source evidence. Valid identifiers are a reported
 SMILES/InChI string, DOI, or repository accession such as CCDC, ICSD, COD, PubChem CID, or Materials Project mp-ID.
 A molecule name, formula, facet label, or generic database name is not an explicit identifier. source_evidence_ids must cite the supplied evidence
-that makes the procedure deterministic; target_independent must be true; assumptions must be an empty array.
+that anchors the procedure; target_independent must be true. assumptions must be empty except for
+normalized_protocol, where it explicitly records the ordinary numerical choices delegated to the frozen protocol.
 Use evidence_verification only to resolve a mapping, transcription, or interpretation against supplied evidence;
 it must not construct a missing scientific structure or model. Any procedure that constructs a slab, structure,
 configuration, defect model, coordinates, or force field must use evidence_anchored_construction.
+resolution_type may also be normalized_protocol for ordinary numerical settings that do not define the chemical
+system. It requires protocol_id="researchchembench_normalized_v1" and a nonempty assumptions array naming every
+setting that the frozen protocol will select. It may cover convergence thresholds, k-point density, vacuum size,
+integration grid, output frequency, or sampling duration after the chemical system and scientific comparison are
+already fixed. It cannot choose charge, protonation, multiplicity, composition, structure identity, defect
+placement, adsorption site set, reaction path, force-field family, or any value by matching a hidden result.
 
 workflow_steps is a dependency graph encoded as an array of objects. Every object contains step_id, action,
 depends_on, input_artifact, output_artifact, software, method_parameters, and evidence_ids. A valid graph has at
-least three scientific steps, at least one dependency edge, unique step IDs, valid acyclic dependencies, and a
+least two scientific steps, at least one dependency edge, unique step IDs, valid acyclic dependencies, and a
 final computed artifact linked to the claim. Independent reference calculations may be separate roots only when a
 downstream comparison consumes all branches; the full graph must remain connected. Input preparation, launching
-software, and reading output are not three scientific steps.
+software, and reading output are not scientific steps.
 
 audit_dimensions contains exactly scientific_significance, workflow_completeness, input_assets, parameters,
 ground_truth, software, cost, and leakage_risk. Each value is an object with state (confirmed, uncertain, failed),
@@ -391,7 +407,7 @@ choice. A parser omission alone is uncertain if the supplied document inventory 
 where the Builder can verify it; an unsupported hope that the information exists elsewhere is failed.
 
 Prefer the smallest self-contained task that tests a scientifically meaningful claim or key intermediate. Do not
-append expensive downstream training, sampling, or screening merely to reach three steps. Preparation,
+append expensive downstream training, sampling, or screening merely to inflate workflow depth. Preparation,
 calculation, convergence analysis, and quantitative comparison may be dependent stages when they produce and
 validate distinct artifacts. Conversely, do not split one calculation into artificial stages.
 
@@ -401,6 +417,10 @@ Do not require every analogous system in the paper to be reconstructable. The su
 paper identifiers before hidden values are read; cherry-picking whichever system best matches a target is leakage.
 A supporting computation may qualify when it contains a complete meaningful computational workflow and a
 quantitative claim, even if the paper also contains experiments or the computation is not the sole headline result.
+Scientific significance means that recomputing the result tests a stated chemical interpretation, comparison,
+mechanism, trend, structure-property relationship, or key intermediate. It does not require the computation to be
+the paper's headline contribution. A quantitative value, ordering, class, sign, threshold, or structured trend is
+machine-scoreable when the mapping to the frozen candidate is explicit.
 
 Every field marked confirmed must be supported by supplied evidence. Use needs_builder_review, rather than reject,
 when the scientific candidate is otherwise suitable but a bounded verification is still required to establish an
@@ -409,13 +429,14 @@ label mapping in an SI coordinate appendix; checking an explicitly cited deposit
 parameter table; or following a fully stated, evidence-anchored construction protocol. The recovery procedure must
 be fixed without viewing or optimizing against the hidden target. In contrast, merely extracting or converting
 already unambiguous supplied evidence belongs to the Builder and should be pass, not needs_builder_review.
-Evidence-anchored construction is reviewable only when cited evidence freezes every task-defining choice. A plan is
-failed, not reviewable, if it still asks the Builder to choose a reasonable/standard slab size, vacuum, site,
-orientation, termination, protonation, spin state, k-point mesh, force-field parameter, defect placement, initial
-configuration, or other scientific degree of freedom. Convergence testing may validate a frozen protocol, but it
-must not choose the protocol by agreement with a published result.
+Evidence-anchored construction is reviewable when cited evidence freezes the chemical identity and scientific
+comparison, while the Builder may still apply the frozen normalized protocol to ordinary numerical settings. A
+plan is failed if it asks the Builder to choose structure identity, adsorption sites, orientation, termination,
+protonation, spin state when chemically task-defining, force-field family, defect placement, initial bespoke
+configuration, or another scientific degree of freedom. Convergence testing may validate a frozen protocol, but
+it must not choose the protocol by agreement with a published result.
 
-Do not call a gap recoverable by substituting software defaults, customary settings, a typical model, uncited
+Do not call a task-defining gap recoverable by substituting software defaults, customary settings, a typical model, uncited
 literature values, a new calculation that decides what the authors meant, or any parameter selected by agreement
 with the published result. A contradictory task-defining parameter is failed, not uncertain. Ground truth is
 recoverable only when supplied evidence identifies the exact table, figure, or machine-readable block containing
@@ -470,6 +491,12 @@ specific recoverability_plan. If an essential engine is unnamed or absent from S
 scientifically self-contained candidate that genuinely does not depend on that engine or reject; never omit an
 essential program from required_software.
 
+builder_route is exact_reproduction for pass, evidence_recovery when all uncertain dimensions can be resolved from
+paper/SI/explicit identifiers without unresolved choices, or normalized_reconstruction when any recovery entry uses
+the frozen normalized protocol or records bounded assumptions/enumeration. A normalized reconstruction is a new
+protocol-calibrated benchmark target, not a claim of exact author input reproduction; Stage06 must preserve this
+provenance.
+
 Contract requirements are strict:
 - task_direction must be exactly one identifier from the supplied taxonomy array; never use "forward", "reverse",
   a display label, or a new category.
@@ -488,7 +515,10 @@ Contract requirements are strict:
   abstention_reasons, and nonempty review_dimensions/review_reasons consistent with uncertain audit dimensions;
   recoverability_plan must contain one valid entry for every uncertain dimension and no other dimensions.
 - decision=reject requires nonempty blocking_dimensions and abstention_reasons, empty candidates, and empty
-  review_dimensions/review_reasons.
+  review_dimensions/review_reasons. It also requires nonempty hard_blockers. Each hard blocker contains code,
+  dimension, reason, and evidence_ids. code is exactly no_substantive_computation, essential_software_uncovered,
+  no_machine_scoreable_target, task_defining_identity_missing, bespoke_author_asset_unavailable,
+  hidden_target_required_for_input, or cost_exceeds_budget. Do not use reject for a recoverable gap.
 
 Decision contrasts:
 - Reported Gaussian optimization/frequency/energy workflow with SI coordinates and numerical energies: pass when
@@ -501,8 +531,9 @@ Decision contrasts:
   quantitative reported result: audit that bounded workflow; do not reject it merely because analogous systems are
   incomplete or the values occur in separate cited blocks.
 - Reported VASP adsorption workflow on named standard facets with settings and quantitative adsorption targets,
-  but no POSCAR: needs_builder_review with input_assets uncertain and a plan to construct and validate the reported
-  facets; absence of a ready POSCAR alone is not rejection.
+  but no POSCAR: needs_builder_review when the facet, termination, adsorbates, and site set are fixed; ordinary slab
+  convergence settings may use normalized_protocol. If the adsorption site set or termination is unknown and must
+  be chosen from the hidden energy, reject.
 - A molecular workflow whose exact protonation or force-field source is explicitly identified but still needs
   verification: needs_builder_review, provided the scientific candidate and conservative cost are bounded.
 - An AIMD claim dependent on an absent author-generated amorphous structure, or an interface/trajectory/custom
@@ -511,8 +542,11 @@ Decision contrasts:
   claim: reject for scientific_significance.
 
 Scientific-completeness rules:
-- Three stages must produce dependent scientific artifacts, not three verbs applied to one output. Input-file
-  preparation, one optimization/single-point calculation, and reading its value do not by themselves qualify.
+- Two stages must produce dependent scientific artifacts, not verbs applied to one output. Input-file preparation,
+  launching software, and reading its value do not count as scientific stages.
+- A substantive calculation followed by a distinct property/topology/spectral/statistical analysis or comparison
+  can qualify. A single calculation can also qualify when it generates multiple objective outputs that jointly test
+  a stated claim and the validation gate is more than copying one published scalar.
 - A compact workflow can qualify when it produces multiple dependent results, such as optimization -> frequency
   verification/thermochemistry -> property or barrier calculation -> quantitative comparison to a claim.
 - An MD workflow may target solvation structure, transport, interaction statistics, or a quantitative structural
@@ -521,7 +555,7 @@ Scientific-completeness rules:
   nontrivial chemical claim, quantitative hidden target, and meaningful validation; otherwise reject.
 
 Minimal shape example (values are illustrative only):
-{"decision":"pass","candidates":[{"candidate_id":"candidate-1",
+{"decision":"pass","candidates":[{"candidate_id":"candidate-1","builder_route":"exact_reproduction",
 "task_direction":"reaction_mechanism_selectivity","scientific_question":"...",
 "claim_reference":"Figure 3","workflow_steps":[
 {"step_id":"s1","action":"geometry optimization","depends_on":[],"input_artifact":"starting geometry",
@@ -559,7 +593,13 @@ STAGE06_SHARED_SYSTEM = """Build the shared, private scientific record for one a
 Use only provided evidence IDs and frozen toolbox capabilities. Do not invent files, values, parameters, or
 citations. Return JSON with candidate_id, task_pair_id, scientific_record, hidden_reference, evidence_map,
 required_assets, allowed_backends, allowed_actions, budget, status, abstention_reasons. Abstain when inputs,
-parameters, ground truth, scoring, or supported workflow are insufficient."""
+parameters, ground truth, scoring, or supported workflow are insufficient.
+Honor candidate.builder_route. exact_reproduction follows reported evidence. evidence_recovery may extract or verify
+only the cited recovery plan. normalized_reconstruction may apply only protocol_id researchchembench_normalized_v1
+to the explicitly listed ordinary numerical assumptions; preserve that provenance and never present the resulting
+task as an exact author-input reproduction. Abstain rather than choosing a missing chemical identity, structure,
+charge/protonation, defect placement, adsorption site set, reaction path, force-field family, or hidden-target-
+guided parameter."""
 
 STAGE06_AUTONOMOUS_SYSTEM = """Write the autonomous-research member of a task pair from the supplied shared
 record. Reveal the scientific question and starting inputs but do not reveal the paper's route, intermediate
@@ -572,7 +612,7 @@ the work, but do not reveal answer values or hidden scoring tolerances. Return J
 task_info, task_markdown, public_assets, rubric_public, leakage_checks, status, abstention_reasons."""
 
 STAGE07_SYSTEM = """Independently judge one generated ResearchChemBench task pair. You did not participate in
-building it. Check source fidelity, scientific significance, three-step workflow depth, input sufficiency,
+building it. Check source fidelity, scientific significance, nontrivial workflow depth, input sufficiency,
 toolbox support, public/hidden separation, machine scoring, ground-truth quality, and resource feasibility.
 Do not repair the task or infer missing evidence. Return JSON with decision (pass/revise/reject), findings,
 required_revisions, evidence_ids, confidence, rationale. A pass means it is ready for a separate Gold Run;

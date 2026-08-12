@@ -187,6 +187,8 @@ def _compare(records, reference, manual=None):
             }
         )
     count = len(rows)
+    forward_metrics = _forward_metrics(rows, "expected_gpt56")
+    manual_forward_metrics = _forward_metrics(rows, "manual_expected") if manual else None
     return {
         "papers": count,
         "prediction_counts": dict(Counter(row["predicted"] for row in rows)),
@@ -196,6 +198,8 @@ def _compare(records, reference, manual=None):
         "binary_forward_matches": binary,
         "binary_forward_accuracy": round(binary / count, 4) if count else 0,
         "manual_exact_matches": manual_exact if manual else None,
+        "forward_metrics": forward_metrics,
+        "manual_forward_metrics": manual_forward_metrics,
         "confusion": {
             f"{expected} -> {predicted}": value
             for (expected, predicted), value in sorted(confusion.items())
@@ -204,7 +208,29 @@ def _compare(records, reference, manual=None):
     }
 
 
+def _forward_metrics(rows, reference_key):
+    forward = {"pass", "needs_builder_review"}
+    predicted = {row["paper_id"] for row in rows if row["predicted"] in forward}
+    expected = {
+        row["paper_id"] for row in rows if str(row.get(reference_key) or "") in forward
+    }
+    overlap = predicted & expected
+    union = predicted | expected
+    return {
+        "predicted_forward": len(predicted),
+        "reference_forward": len(expected),
+        "overlap": len(overlap),
+        "precision": round(len(overlap) / len(predicted), 4) if predicted else 0,
+        "recall": round(len(overlap) / len(expected), 4) if expected else 0,
+        "jaccard": round(len(overlap) / len(union), 4) if union else 1,
+        "overlap_paper_ids": sorted(overlap),
+        "false_positive_paper_ids": sorted(predicted - expected),
+        "false_negative_paper_ids": sorted(expected - predicted),
+    }
+
+
 def _markdown_report(summary, rows):
+    manual = summary.get("manual_forward_metrics")
     lines = [
         "# Stage05 Two-Pass Evaluation",
         "",
@@ -215,10 +241,28 @@ def _markdown_report(summary, rows):
         f"({summary['exact_accuracy']:.1%})",
         f"- GPT-5.6-sol forward/reject agreement: {summary['binary_forward_matches']}/"
         f"{summary['papers']} ({summary['binary_forward_accuracy']:.1%})",
-        "",
-        "| Paper | GPT-5.6-sol | Stage05 | Exact | Blocking/review dimensions |",
-        "|---|---|---|---:|---|",
+        f"- GPT-5.6-sol forward overlap: {summary['forward_metrics']['overlap']}/"
+        f"{summary['forward_metrics']['reference_forward']}",
+        f"- Forward precision/recall/Jaccard: {summary['forward_metrics']['precision']:.1%} / "
+        f"{summary['forward_metrics']['recall']:.1%} / "
+        f"{summary['forward_metrics']['jaccard']:.1%}",
     ]
+    if manual:
+        lines.extend(
+            [
+                f"- Manual full-text forward overlap: {manual['overlap']}/"
+                f"{manual['reference_forward']}",
+                f"- Manual forward precision/recall/Jaccard: {manual['precision']:.1%} / "
+                f"{manual['recall']:.1%} / {manual['jaccard']:.1%}",
+            ]
+        )
+    lines.extend(
+        [
+            "",
+            "| Paper | GPT-5.6-sol | Stage05 | Exact | Blocking/review dimensions |",
+            "|---|---|---|---:|---|",
+        ]
+    )
     for row in rows:
         dimensions = row["blocking_dimensions"] or row["review_dimensions"]
         lines.append(
