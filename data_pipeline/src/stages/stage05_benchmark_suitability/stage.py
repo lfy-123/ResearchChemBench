@@ -1,13 +1,19 @@
 from __future__ import annotations
 
 import json
+import math
 import re
 from pathlib import Path
 from typing import Any
 
 from src.contracts import decision_counts, read_jsonl, record_header, write_json, write_jsonl
 from src.core.concurrency import ordered_parallel_map
-from src.prompts import STAGE05_SYSTEM, STAGE05_VERSION, TASK_DIRECTIONS
+from src.prompts import (
+    STAGE05_SYSTEM,
+    STAGE05_VERSION,
+    TASK_DIRECTION_GUIDANCE,
+    TASK_DIRECTIONS,
+)
 
 
 def run_stage05(*, stage04_records, documents, config, model, workspace: Path, run_id: str):
@@ -29,16 +35,15 @@ def run_stage05(*, stage04_records, documents, config, model, workspace: Path, r
             # Stage04 evidence IDs refer to the coarse GROBID text. MinerU creates a
             # new block namespace, so Stage05 uses the deep document stream instead of
             # trying to reuse stale coarse-parser IDs.
-            # MinerU's content-list output does not reliably attach section ancestry to
-            # paragraph blocks.  Keyword-only selection can therefore retain a heading
-            # while dropping the method/result paragraphs below it.  Keep the complete
-            # document stream and apply the per-document character budget instead.
+            # MinerU does not consistently preserve section ancestry. Keep document
+            # coverage while prioritizing computation, assets, results, and cost blocks.
             evidence_blocks = _bounded_by_document(
                 blocks, int(config.get("max_evidence_characters", 120000))
             )
             packet = {
                 "paper_id": paper_id,
                 "taxonomy": list(TASK_DIRECTIONS),
+                "taxonomy_scope": TASK_DIRECTION_GUIDANCE,
                 "documents": [
                     {
                         "document_id": document.get("document_id"),
@@ -91,7 +96,8 @@ def run_stage05(*, stage04_records, documents, config, model, workspace: Path, r
             if (
                 validation_rejections
                 and (
-                    str(response.get("decision") or "").casefold() == "pass"
+                    str(response.get("decision") or "").casefold()
+                    in {"pass", "needs_builder_review"}
                     or any(
                         row.get("candidate_id")
                         in {"response-software-facts", "response-contract"}
@@ -109,7 +115,8 @@ def run_stage05(*, stage04_records, documents, config, model, workspace: Path, r
                         "validation. Return a corrected complete JSON object. Use one exact taxonomy "
                         "identifier for task_direction, arrays for workflow_steps, validation_gates, "
                         "scoring_metrics, required_software, and evidence_ids; include estimated_cost "
-                        "and all five buildability_checks; treat software_coverage_facts as immutable; "
+                        "and all five buildability_checks; preserve pass/needs_builder_review/reject "
+                        "semantics and include review fields; treat software_coverage_facts as immutable; "
                         "and cite only evidence "
                         "IDs present in evidence_blocks. Do not change the scientific conclusion merely "
                         "to avoid a validation error."
@@ -135,13 +142,15 @@ def run_stage05(*, stage04_records, documents, config, model, workspace: Path, r
                 row.get("candidate_id") in {"response-software-facts", "response-contract"}
                 for row in validation_rejections
             )
-            if candidates and not has_response_contradiction:
-                decision = "pass"
-            elif (
-                str(response.get("decision") or "").casefold() == "abstain"
+            requested_decision = str(response.get("decision") or "").casefold()
+            if (
+                candidates
+                and requested_decision in {"pass", "needs_builder_review"}
                 and not has_response_contradiction
             ):
-                decision = "abstain"
+                decision = requested_decision
+            elif requested_decision == "reject" and not has_response_contradiction:
+                decision = "reject"
             else:
                 decision = "contract_invalid"
             abstention_reasons = response.get("abstention_reasons") or []
@@ -154,9 +163,11 @@ def run_stage05(*, stage04_records, documents, config, model, workspace: Path, r
                 **record_header(run_id=run_id, stage="stage05", paper_id=paper_id),
                 "processing_status": "completed",
                 "decision": decision,
-                "passed": decision == "pass",
+                "passed": decision in {"pass", "needs_builder_review"},
                 "candidates": candidates,
                 "abstention_reasons": abstention_reasons,
+                "review_dimensions": _string_list(response.get("review_dimensions")),
+                "review_reasons": _string_list(response.get("review_reasons")),
                 "validation_rejections": validation_rejections,
                 "model_response": response,
                 "model_response_attempts": response_attempts,
@@ -183,7 +194,7 @@ def run_stage05(*, stage04_records, documents, config, model, workspace: Path, r
     write_jsonl(stage_root / "decisions.jsonl", records)
     write_jsonl(stage_root / "candidates.jsonl", candidates)
     write_jsonl(
-        stage_root / "abstentions.jsonl", [row for row in records if row["decision"] != "pass"]
+        stage_root / "abstentions.jsonl", [row for row in records if not row["passed"]]
     )
     summary = {
         **record_header(run_id=run_id, stage="stage05"),
@@ -249,10 +260,31 @@ def _validate_candidates(response, evidence_ids, stage04, *, candidate_limit=3):
             reasons.append("cost_estimate_missing_invalid_or_over_budget")
         buildability = candidate.get("buildability_checks")
         required_checks = ("input_assets", "parameters", "ground_truth", "software", "cost")
+        allowed_buildability = {"confirmed", "uncertain", "failed"}
         if not isinstance(buildability, dict) or any(
-            buildability.get(key) != "confirmed" for key in required_checks
+            buildability.get(key) not in allowed_buildability for key in required_checks
         ):
-            reasons.append("buildability_not_confirmed")
+            reasons.append("invalid_buildability_checks")
+        else:
+            decision = str(response.get("decision") or "").casefold()
+            if decision == "pass" and any(
+                buildability.get(key) != "confirmed" for key in required_checks
+            ):
+                reasons.append("pass_requires_confirmed_buildability")
+            if decision == "needs_builder_review":
+                uncertain = {
+                    key
+                    for key in ("input_assets", "parameters", "ground_truth")
+                    if buildability.get(key) == "uncertain"
+                }
+                if (
+                    not uncertain
+                    or any(buildability.get(key) == "failed" for key in required_checks)
+                    or buildability.get("software") != "confirmed"
+                    or buildability.get("cost") != "confirmed"
+                    or not str(candidate.get("recoverability_plan") or "").strip()
+                ):
+                    reasons.append("builder_review_requirements_not_met")
         if not all(
             candidate.get(key)
             for key in (
@@ -265,7 +297,9 @@ def _validate_candidates(response, evidence_ids, stage04, *, candidate_limit=3):
         ):
             reasons.append("missing_required_scientific_fields")
         cited = set(normalized["evidence_ids"])
-        if not cited or not cited.issubset(evidence_ids):
+        resolved_cited, unknown_cited = _resolve_evidence_ids(cited, evidence_ids)
+        normalized["evidence_ids"] = sorted(resolved_cited)
+        if not cited or unknown_cited:
             reasons.append("unknown_or_missing_mineru_evidence_ids")
         required = _software_list(candidate.get("required_software"))
         normalized_required = []
@@ -288,7 +322,7 @@ def _validate_candidates(response, evidence_ids, stage04, *, candidate_limit=3):
                     "candidate_id": candidate_id,
                     "reasons": list(dict.fromkeys(reasons)),
                     "unknown_software": unknown_software,
-                    "unknown_evidence_ids": sorted(cited - evidence_ids),
+                    "unknown_evidence_ids": sorted(unknown_cited),
                 }
             )
             continue
@@ -326,7 +360,7 @@ def _valid_estimated_cost(value, stage04):
 def _covered_software_lookup(stage04):
     lookup: dict[str, str] = {}
     for row in stage04.get("software_mappings") or []:
-        if not row.get("catalog_present"):
+        if not _is_required_software_mapping(row) or not row.get("catalog_present"):
             continue
         identifier = str(
             row.get("normalized_identifier")
@@ -349,10 +383,14 @@ def _covered_software_lookup(stage04):
 def _software_coverage_facts(stage04):
     covered, uncovered = [], []
     for row in stage04.get("software_mappings") or []:
+        if not _is_required_software_mapping(row):
+            continue
         fact = {
             "paper_name": row.get("raw_name"),
             "toolbox_identifier": row.get("normalized_identifier")
             or row.get("normalized_backend"),
+            "role": row.get("role"),
+            "workflow_ids": _string_list(row.get("workflow_ids")),
         }
         (covered if row.get("catalog_present") else uncovered).append(fact)
     return {
@@ -367,11 +405,22 @@ def _software_coverage_facts(stage04):
     }
 
 
+def _is_required_software_mapping(row):
+    if row.get("actual_use") is False:
+        return False
+    return str(row.get("role") or "unknown").casefold() not in {
+        "background",
+        "instrumentation",
+        "optional_auxiliary",
+        "visualization",
+    }
+
+
 def _software_fact_contradictions(response, stage04):
     blocking = _software_list(response.get("blocking_software"))
     if not blocking:
         return []
-    if str(response.get("decision") or "").casefold() == "pass":
+    if str(response.get("decision") or "").casefold() in {"pass", "needs_builder_review"}:
         return [
             {
                 "candidate_id": "response-software-facts",
@@ -398,6 +447,8 @@ def _software_fact_contradictions(response, stage04):
 def _response_contract_rejections(response, stage04):
     decision = str(response.get("decision") or "").casefold()
     dimensions = _string_list(response.get("blocking_dimensions"))
+    review_dimensions = _string_list(response.get("review_dimensions"))
+    review_reasons = _string_list(response.get("review_reasons"))
     allowed = {
         "input_assets",
         "parameters",
@@ -412,17 +463,28 @@ def _response_contract_rejections(response, stage04):
         == "software_inventory_unconfirmed"
     )
     reasons = []
-    if decision == "pass" and (dimensions or blocking_software):
+    if decision not in {"pass", "needs_builder_review", "reject"}:
+        reasons.append("invalid_decision")
+    if decision in {"pass", "needs_builder_review"} and (dimensions or blocking_software):
         reasons.append("pass_response_has_blockers")
-    if decision == "abstain":
+    if decision == "pass" and (review_dimensions or review_reasons):
+        reasons.append("pass_response_has_review_items")
+    if decision == "needs_builder_review":
+        if not review_dimensions or not review_reasons:
+            reasons.append("builder_review_missing_review_items")
+        if set(review_dimensions) - {"input_assets", "parameters", "ground_truth"}:
+            reasons.append("invalid_builder_review_dimensions")
+    if decision == "reject":
         if not dimensions:
-            reasons.append("abstain_missing_blocking_dimensions")
+            reasons.append("reject_missing_blocking_dimensions")
         if set(dimensions) - allowed:
             reasons.append("invalid_blocking_dimensions")
         if blocking_software and "software" not in dimensions:
             reasons.append("software_dimension_and_blocking_software_disagree")
         if "software" in dimensions and not (blocking_software or inventory_unconfirmed):
             reasons.append("software_dimension_and_blocking_software_disagree")
+        if review_dimensions or review_reasons:
+            reasons.append("reject_response_has_review_items")
     if not reasons:
         return []
     return [{"candidate_id": "response-contract", "reasons": reasons}]
@@ -434,6 +496,23 @@ def _software_list(value):
     for item in values:
         output.extend(part.strip() for part in re.split(r"[,;]", item) if part.strip())
     return list(dict.fromkeys(output))
+
+
+def _resolve_evidence_ids(cited, available):
+    """Resolve exact IDs or a model-shortened ID with one unique hash suffix."""
+
+    available = {str(value) for value in available}
+    resolved, unknown = set(), set()
+    for value in {str(item) for item in cited}:
+        if value in available:
+            resolved.add(value)
+            continue
+        matches = [candidate for candidate in available if candidate.startswith(f"{value}_")]
+        if len(matches) == 1:
+            resolved.add(matches[0])
+        else:
+            unknown.add(value)
+    return resolved, unknown
 
 
 def _string_list(value):
@@ -458,18 +537,107 @@ def _without_evidence_ids(value):
     return value
 
 
-def _bounded(blocks, limit):
-    output, size = [], 0
+_STAGE05_RELEVANCE_PATTERNS = (
+    re.compile(
+        r"\b(comput(?:ational|ation)|theoretic|simulation|method(?:s|ology)?|model(?:ling|ing)?|"
+        r"density functional|dft|tddft|ab initio|molecular dynamics|monte carlo|kinetic|"
+        r"transition state|reaction path|free energy|adsorption|electronic structure)\b",
+        re.IGNORECASE,
+    ),
+    re.compile(
+        r"\b(cartesian|coordinate|geometry|structure|cif|xyz|poscar|smiles|unit cell|"
+        r"lattice|force field|parameter|basis set|functional|pseudopotential|k[- ]?point)\b",
+        re.IGNORECASE,
+    ),
+    re.compile(
+        r"\b(result|discussion|conclusion|energy|barrier|frequency|spectrum|trajectory|"
+        r"selectivity|mechanism|rate constant|descriptor|validation|agreement|error)\b",
+        re.IGNORECASE,
+    ),
+    re.compile(
+        r"\b(cpu|gpu|core|memory|wall ?time|runtime|node|hour|day|step|window|replica|"
+        r"configuration|structure|calculation|job)\b",
+        re.IGNORECASE,
+    ),
+)
+
+
+def _compact_block(block):
+    return {
+        key: block.get(key)
+        for key in ("evidence_id", "document_id", "page", "section_path", "text")
+    }
+
+
+def _block_relevance(block):
+    text = " ".join(
+        [
+            *[str(item) for item in (block.get("section_path") or [])],
+            str(block.get("text") or ""),
+        ]
+    )
+    return sum(bool(pattern.search(text)) for pattern in _STAGE05_RELEVANCE_PATTERNS)
+
+
+def _select_document_blocks(blocks, limit):
+    """Select a bounded, auditable cross-section of one MinerU document."""
+
+    if not blocks or limit <= 0:
+        return []
+    max_block_characters = max(512, min(12000, int(limit) // 4))
+    compact = []
     for block in blocks:
-        compact = {
-            key: block.get(key)
-            for key in ("evidence_id", "document_id", "page", "section_path", "text")
-        }
-        if output and size + len(str(compact["text"])) > limit:
+        value = _compact_block(block)
+        text = str(value.get("text") or "")
+        if len(text) > max_block_characters:
+            value["text"] = text[:max_block_characters]
+            value["selection_note"] = "text_truncated_for_stage05_packet"
+        compact.append(value)
+    sizes = [len(str(block.get("text") or "")) for block in compact]
+    priority: list[int] = []
+
+    def prioritize(index):
+        if 0 <= index < len(compact) and index not in priority:
+            priority.append(index)
+
+    # Give the title/abstract a small guaranteed allocation, then prioritize
+    # method/result evidence before less informative document edges.
+    lead_count = min(4, len(compact))
+    for index in range(lead_count):
+        prioritize(index)
+
+    ranked = sorted(
+        range(len(compact)),
+        key=lambda index: (_block_relevance(compact[index]), sizes[index]),
+        reverse=True,
+    )
+    for index in ranked:
+        if _block_relevance(compact[index]) <= 0:
             break
-        output.append(compact)
-        size += len(str(compact["text"]))
-    return output
+        for neighbor in (index - 1, index, index + 1):
+            prioritize(neighbor)
+
+    edge_count = min(8, len(compact))
+    for index in range(lead_count, edge_count):
+        prioritize(index)
+    for index in range(max(0, len(compact) - edge_count), len(compact)):
+        prioritize(index)
+
+    # Fill remaining space with evenly distributed blocks so an unusual method
+    # description that lacks familiar keywords is not systematically omitted.
+    sample_count = min(len(compact), max(8, int(math.sqrt(len(compact)) * 3)))
+    if sample_count > 1:
+        for position in range(sample_count):
+            prioritize(round(position * (len(compact) - 1) / (sample_count - 1)))
+
+    selected: set[int] = set()
+    size = 0
+    for index in priority:
+        text_size = sizes[index]
+        if size + text_size <= int(limit):
+            selected.add(index)
+            size += text_size
+    return [compact[index] for index in sorted(selected)]
 
 
 def _bounded_by_document(blocks, limit):
@@ -483,5 +651,5 @@ def _bounded_by_document(blocks, limit):
     return [
         block
         for document_blocks in by_document.values()
-        for block in _bounded(document_blocks, per_document)
+        for block in _select_document_blocks(document_blocks, per_document)
     ]

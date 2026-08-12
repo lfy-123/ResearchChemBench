@@ -3647,7 +3647,35 @@ def test_stage05_rejects_stale_stage04_evidence_namespace_with_reason() -> None:
     assert rejected[0]["unknown_evidence_ids"] == ["grobid-old-id"]
 
 
-def test_stage05_rejects_unconfirmed_buildability_and_unsupported_cost() -> None:
+def test_stage05_resolves_unique_model_shortened_mineru_evidence_id() -> None:
+    candidate = _stage05_fixture_candidate()
+    candidate["evidence_ids"] = ["ev_doc_a_000001"]
+
+    candidates, rejected = _validate_candidates(
+        {"decision": "pass", "candidates": [candidate]},
+        {"ev_doc_a_000001_abc123"},
+        _stage05_fixture_coverage(),
+    )
+
+    assert rejected == []
+    assert candidates[0]["evidence_ids"] == ["ev_doc_a_000001_abc123"]
+
+
+def test_stage05_rejects_ambiguous_model_shortened_mineru_evidence_id() -> None:
+    candidate = _stage05_fixture_candidate()
+    candidate["evidence_ids"] = ["ev_doc_a_000001"]
+
+    candidates, rejected = _validate_candidates(
+        {"decision": "pass", "candidates": [candidate]},
+        {"ev_doc_a_000001_abc123", "ev_doc_a_000001_def456"},
+        _stage05_fixture_coverage(),
+    )
+
+    assert candidates == []
+    assert rejected[0]["unknown_evidence_ids"] == ["ev_doc_a_000001"]
+
+
+def test_stage05_rejects_unconfirmed_buildability_for_pass_and_unsupported_cost() -> None:
     candidate = _stage05_fixture_candidate()
     candidate["buildability_checks"]["input_assets"] = "uncertain"
     candidate["estimated_cost"]["runtime_hours"] = 48
@@ -3670,8 +3698,32 @@ def test_stage05_rejects_unconfirmed_buildability_and_unsupported_cost() -> None
     )
 
     assert candidates == []
-    assert "buildability_not_confirmed" in rejected[0]["reasons"]
+    assert "pass_requires_confirmed_buildability" in rejected[0]["reasons"]
     assert "cost_estimate_missing_invalid_or_over_budget" in rejected[0]["reasons"]
+
+
+def test_stage05_allows_recoverable_builder_review_candidate() -> None:
+    candidate = _stage05_fixture_candidate()
+    candidate["buildability_checks"]["input_assets"] = "uncertain"
+    candidate["recoverability_plan"] = (
+        "Builder resolves the SI Cartesian coordinates cited in the evidence and verifies atom order."
+    )
+    response = {
+        "decision": "needs_builder_review",
+        "candidates": [candidate],
+        "blocking_dimensions": [],
+        "blocking_software": [],
+        "review_dimensions": ["input_assets"],
+        "review_reasons": ["SI coordinates require deterministic conversion."],
+    }
+
+    candidates, rejected = _validate_candidates(
+        response, {"mineru-1"}, _stage05_fixture_coverage()
+    )
+
+    assert rejected == []
+    assert candidates[0]["buildability_checks"]["input_assets"] == "uncertain"
+    assert _response_contract_rejections(response, _stage05_fixture_coverage()) == []
 
 
 def test_stage05_evidence_budget_preserves_main_and_supplementary_documents() -> None:
@@ -3689,6 +3741,42 @@ def test_stage05_evidence_budget_preserves_main_and_supplementary_documents() ->
     assert {row["document_id"] for row in bounded} == {"main", "si"}
 
 
+def test_stage05_evidence_budget_preserves_late_computational_methods() -> None:
+    from src.stages.stage05_benchmark_suitability.stage import _bounded_by_document
+
+    blocks = [
+        {"document_id": "si", "evidence_id": f"si-{index}", "text": "experimental " * 30}
+        for index in range(100)
+    ]
+    blocks[85]["text"] = (
+        "Computational methods: DFT geometry optimization and transition-state frequencies "
+        "were calculated with the reported basis set."
+    )
+
+    bounded = _bounded_by_document(blocks, 3200)
+
+    assert "si-85" in {row["evidence_id"] for row in bounded}
+
+
+def test_stage05_evidence_budget_retains_bounded_prefix_of_oversized_table() -> None:
+    from src.stages.stage05_benchmark_suitability.stage import _bounded_by_document
+
+    blocks = [
+        {"document_id": "si", "evidence_id": "title", "text": "Supporting Information"},
+        {
+            "document_id": "si",
+            "evidence_id": "coordinates",
+            "text": "Cartesian coordinates and computational structure " + "0.123 " * 10000,
+        },
+    ]
+
+    bounded = _bounded_by_document(blocks, 4000)
+    coordinate = next(row for row in bounded if row["evidence_id"] == "coordinates")
+
+    assert coordinate["selection_note"] == "text_truncated_for_stage05_packet"
+    assert len(coordinate["text"]) <= 1000
+
+
 def test_stage05_software_facts_prevent_covered_engine_from_becoming_a_blocker() -> None:
     coverage = _stage05_fixture_coverage()
     coverage["software_mappings"].append(
@@ -3702,11 +3790,16 @@ def test_stage05_software_facts_prevent_covered_engine_from_becoming_a_blocker()
 
     facts = _software_coverage_facts(coverage)
     contradictions = _software_fact_contradictions(
-        {"decision": "abstain", "blocking_software": ["OpenMM"]}, coverage
+        {"decision": "reject", "blocking_software": ["OpenMM"]}, coverage
     )
 
     assert facts["uncovered_required_software"] == [
-        {"paper_name": "UnknownEngine", "toolbox_identifier": None}
+        {
+            "paper_name": "UnknownEngine",
+            "toolbox_identifier": None,
+            "role": None,
+            "workflow_ids": [],
+        }
     ]
     assert contradictions[0]["candidate_id"] == "response-software-facts"
 
@@ -3716,16 +3809,40 @@ def test_stage05_allows_only_declared_uncovered_software_as_a_blocker() -> None:
     coverage["software_mappings"].append({"raw_name": "UnknownEngine", "catalog_present": False})
     assert (
         _software_fact_contradictions(
-            {"decision": "abstain", "blocking_software": ["UnknownEngine"]}, coverage
+            {"decision": "reject", "blocking_software": ["UnknownEngine"]}, coverage
         )
         == []
     )
 
 
+def test_stage05_software_facts_exclude_background_and_visualization_tools() -> None:
+    coverage = _stage05_fixture_coverage()
+    coverage["software_mappings"].extend(
+        [
+            {
+                "raw_name": "BackgroundEngine",
+                "catalog_present": False,
+                "actual_use": False,
+                "role": "background",
+            },
+            {
+                "raw_name": "Viewer",
+                "catalog_present": False,
+                "actual_use": True,
+                "role": "visualization",
+            },
+        ]
+    )
+
+    facts = _software_coverage_facts(coverage)
+
+    assert facts["uncovered_required_software"] == []
+
+
 def test_stage05_abstention_contract_couples_software_dimension_and_blockers() -> None:
     assert _response_contract_rejections(
         {
-            "decision": "abstain",
+            "decision": "reject",
             "blocking_dimensions": ["software"],
             "blocking_software": [],
         },
@@ -3739,7 +3856,7 @@ def test_stage05_abstention_contract_couples_software_dimension_and_blockers() -
     assert (
         _response_contract_rejections(
             {
-                "decision": "abstain",
+                "decision": "reject",
                 "blocking_dimensions": ["cost"],
                 "blocking_software": [],
             },
@@ -3753,7 +3870,7 @@ def test_stage05_abstention_contract_couples_software_dimension_and_blockers() -
     assert (
         _response_contract_rejections(
             {
-                "decision": "abstain",
+                "decision": "reject",
                 "blocking_dimensions": ["software"],
                 "blocking_software": [],
             },

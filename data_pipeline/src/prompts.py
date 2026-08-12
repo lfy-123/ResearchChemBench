@@ -3,7 +3,7 @@ from __future__ import annotations
 STAGE02_CLASSIFY_VERSION = "v2-stage02-classify-20260811-r10-chemistry-model-boundary"
 STAGE02_PASS_VERIFY_VERSION = "v2-stage02-pass-verify-20260811-r5-independent-workflow-axes"
 STAGE03_VERSION = "v2-stage03-software-inventory-20260811-r23-computation-led-input"
-STAGE05_VERSION = "v2-stage05-suitability-20260810-r8-unresolved-software-inventory"
+STAGE05_VERSION = "v2-stage05-suitability-20260812-r11-builder-candidate-boundaries"
 STAGE06_SHARED_VERSION = "v2-stage06-shared-20260807"
 STAGE06_AUTONOMOUS_VERSION = "v2-stage06-autonomous-20260807"
 STAGE06_REPRODUCTION_VERSION = "v2-stage06-reproduction-20260807"
@@ -21,6 +21,39 @@ TASK_DIRECTIONS = (
     "molecular_dynamics_free_energy",
     "descriptor_discovery_catalyst_design",
 )
+
+TASK_DIRECTION_GUIDANCE = {
+    "reaction_mechanism_selectivity": (
+        "Reaction paths, intermediates, transition states, mechanisms, or selectivity."
+    ),
+    "conformer_thermochemistry_property_calibration": (
+        "Molecular conformers, thermochemistry, structures, or calibrated molecular properties."
+    ),
+    "periodic_surface_adsorption_bonding": (
+        "Periodic solids, facets, adsorption, defects, interfaces, or surface bonding."
+    ),
+    "electron_density_topology_bonding": (
+        "Charge/electron-density topology, bonding analysis, or quantitative charge transfer."
+    ),
+    "reaction_kinetics_master_equation_microkinetics": (
+        "Rate constants, master-equation models, kinetic networks, or microkinetics."
+    ),
+    "excited_state_spectroscopy_photochemistry": (
+        "Excited states, simulated spectra, photochemical paths, or nonadiabatic processes."
+    ),
+    "high_pressure_phase_stability": (
+        "Pressure-dependent phases, equations of state, or phase stability."
+    ),
+    "phonons_vibrations_thermal_transport": (
+        "Frequencies, phonons, vibrational spectra, or thermal transport."
+    ),
+    "molecular_dynamics_free_energy": (
+        "Atomistic MD, solvation/transport/structural observables, sampling, or free energies."
+    ),
+    "descriptor_discovery_catalyst_design": (
+        "Computed descriptors, bounded screening, structure-property discovery, or catalyst design."
+    ),
+}
 
 STAGE02_CLASSIFY_SYSTEM = """Classify one chemistry paper by determining whether it contains an author-performed,
 substantive computational-chemistry workflow that could supply a meaningful benchmark subtask. Use only supplied
@@ -278,30 +311,63 @@ Minimal shape example:
 "excluded_entities":[],"resource_facts":[],"complexity_facts":[],"unresolved":[],
 "evidence_ids":["ev-1"],"confidence":"high","rationale":"complete inventory"}."""
 
-STAGE05_SYSTEM = """You are a strict benchmark-suitability reviewer. The paper has already passed
-computational-content and a preliminary toolbox/cost gate, but uncertain software, assets, parameters, or cost
-may still remain. Identify zero or one strongest nontrivial candidate task
+STAGE05_SYSTEM = """You are the final paper-screening gate before an expensive benchmark Builder. You are not
+the Builder and must not require a finished input deck, final hidden-answer package, or completed task at this
+stage. Decide whether the paper contains one scientifically meaningful computational candidate that is worth
+Builder effort. The paper has already passed computational-content, software-catalog, and deep-PDF parsing stages,
+but scientific completeness, required software, recoverability, and cost still require evidence-based review.
+Identify zero or one strongest nontrivial candidate task
 only within the supplied taxonomy. A candidate must reproduce a clear scientific claim or key intermediate,
 contain at least three dependent computational stages, include a scientific validation gate, separate public
 input from hidden targets, have a machine-computable score, use only Stage03-covered required software, and
 fit the budget. Reading existing output, copying a table value, plotting supplied answers, or one trivial single
-point is not a task. Return one JSON object with decision (pass or abstain), candidates, abstention_reasons,
-blocking_dimensions, blocking_software, evidence_ids, rationale, confidence. Each candidate needs candidate_id,
+point is not a task. Published numerical results may be used as private hidden targets: they are not public inputs
+and must not be exposed to the evaluated agent. Recomputing them through a nontrivial workflow is valid.
+
+Return one JSON object with decision (pass, needs_builder_review, or reject), candidates, abstention_reasons,
+blocking_dimensions, blocking_software, review_dimensions, review_reasons, evidence_ids, rationale, confidence.
+Each candidate needs candidate_id,
 task_direction, scientific_question,
 claim_reference, workflow_steps, validation_gates, public_input_requirements, hidden_targets, scoring_metrics,
 ground_truth_level (A/B/C/D), required_software, estimated_cost, buildability_checks, evidence_ids, and
-significance_rationale.
+significance_rationale. A candidate with recoverable gaps also needs recoverability_plan describing exactly how
+the Builder can resolve each uncertain dimension without guessing the scientific answer.
 
 Prefer the smallest self-contained task that tests a scientifically meaningful claim or key intermediate. Do not
 append expensive downstream training, sampling, or screening merely to reach three steps. Preparation,
 calculation, convergence analysis, and quantitative comparison may be dependent stages when they produce and
 validate distinct artifacts. Conversely, do not split one calculation into artificial stages.
 
-Every public input, essential parameter, hidden target, and cost estimate must be supported by the supplied
-evidence. Phrases such as "from literature", "if provided", "e.g.", or "can be generated" identify unresolved
-assets, not confirmed public inputs. A Stage03 resource decision of cost_unconfirmed is not evidence that the
-task fits the budget. Abstain unless a deliberately bounded task scope and its evidence support a defensible
-estimate. Never set runtime equal to the budget merely because it is the limit.
+Every field marked confirmed must be supported by supplied evidence. Use needs_builder_review, rather than reject,
+when the paper identifies the chemical system, calculation, generated result, and scientific claim but the Builder
+must deterministically retrieve, convert, or verify an input, parameter, or hidden target. Recoverable examples
+include SI coordinates requiring conversion; an explicitly cited crystallographic deposition; an unambiguous
+molecule, formula, SMILES, or standard bulk crystal requiring routine structure generation; standard facets or
+clusters with a stated deterministic construction; and an explicitly cited public parameter source that the
+Builder can verify. These are uncertainties, not confirmed assets.
+
+Reject an asset gap only when the proposed result depends on a bespoke, nonstandard object that cannot be uniquely
+reconstructed: for example an absent amorphous/AIMD-generated configuration, custom grain boundary or interface,
+undocumented trained model, unavailable paper-specific force field, proprietary trajectory, or exact author input
+whose recreation requires subjective scientific choices. "Available from authors" without supplied assets is not
+a recovery plan. Do not reject a standard molecule or crystal merely because Cartesian coordinates/POSCAR are not
+already packaged; explain the deterministic Builder check under needs_builder_review.
+
+Treat a reported standard surface and adsorbate as potentially recoverable when the Builder can enumerate a
+finite, scientifically standard set of adsorption sites and validate the minimum against the hidden result. A
+named molecule with an unambiguous constitution and a stated charge/protonation context is also potentially
+recoverable. In contrast, the relative registry, defect pattern, termination, atom substitutions, or morphology
+of a paper-specific heterointerface, grain boundary, amorphous phase, supported cluster, or trained model is bespoke
+unless the paper/SI supplies a deterministic construction. Never replace an internally inconsistent task-defining
+setting with a guess; contradictory method/system parameters are a hard parameters blocker.
+
+A Stage03 resource decision of cost_unconfirmed is not proof of feasibility, but an exact reported wall time is
+not required. Select a deliberately bounded candidate and make a conservative coarse upper-bound estimate from
+method family, system scale, sampling length, and job count. Cost is confirmed for this gate when that conservative
+scope clearly fits the configured budget; reject when the smallest scientifically faithful task clearly exceeds
+the budget or its scale is genuinely unbounded. Do not reproduce an entire high-throughput campaign when a bounded,
+nontrivial subtask directly tests a reported claim, and never set runtime equal to the budget merely because it is
+the limit.
 The packet's documents array explicitly identifies the main paper and every supplied supplementary document.
 Do not claim that Supporting Information is unavailable when a supplementary document is listed; instead judge
 whether its supplied evidence actually contains the assets and parameters required by the candidate.
@@ -314,12 +380,14 @@ be called through its native interface. When inventory_status is software_invent
 be a blocking dimension with an empty blocking_software array because the essential engine was not named. Do
 not infer toolbox availability from general knowledge.
 
-estimated_cost must contain numeric runtime_hours, cpu_cores, gpus, and job_count plus a concise basis and
-confidence (high/medium/low). buildability_checks must contain input_assets, parameters, ground_truth,
-software, and cost, each exactly confirmed, uncertain, or failed. decision=pass requires all five to be
-confirmed. If an essential engine is unnamed or absent from Stage03 coverage, either define a scientifically
-self-contained candidate that genuinely does not depend on that engine or abstain; never omit an essential
-program from required_software.
+estimated_cost must contain numeric runtime_hours, cpu_cores, gpus, and job_count plus a concise evidence-based
+basis and confidence (high/medium). buildability_checks must contain input_assets, parameters, ground_truth,
+software, and cost, each exactly confirmed, uncertain, or failed. Software and cost must be confirmed for every
+forwarded candidate. decision=pass requires all five checks confirmed. decision=needs_builder_review requires
+software and cost confirmed, at least one of input_assets/parameters/ground_truth uncertain, none failed, and a
+specific recoverability_plan. If an essential engine is unnamed or absent from Stage03 coverage, either define a
+scientifically self-contained candidate that genuinely does not depend on that engine or reject; never omit an
+essential program from required_software.
 
 Contract requirements are strict:
 - task_direction must be exactly one identifier from the supplied taxonomy array; never use "forward", "reverse",
@@ -328,12 +396,39 @@ Contract requirements are strict:
 - required_software must contain the software names used by Stage03, not a comma-separated string.
 - evidence_ids may cite only IDs from evidence_blocks. Stage03 workflow summaries intentionally contain no
   reusable evidence IDs because they came from a different parser namespace.
-- blocking_dimensions must be a JSON array drawn only from input_assets, parameters, ground_truth, software,
-  cost, and scientific_significance. Include software if blocking_software is nonempty, or if inventory_status
-  is software_inventory_unconfirmed and the unnamed essential engine prevents construction.
-- decision=pass requires exactly one complete candidate and empty blocking_dimensions/blocking_software.
-  decision=abstain requires nonempty blocking_dimensions and a nonempty
-  abstention_reasons array and an empty candidates array.
+- blocking_dimensions and review_dimensions must be JSON arrays drawn only from input_assets, parameters,
+  ground_truth, software, cost, and scientific_significance. Include software in blocking_dimensions if
+  blocking_software is nonempty, or if inventory_status is software_inventory_unconfirmed and the unnamed
+  essential engine prevents construction. Software, cost, and scientific_significance cannot be review-only.
+- decision=pass requires exactly one complete candidate and empty blocking_dimensions, blocking_software,
+  review_dimensions, review_reasons, and abstention_reasons.
+- decision=needs_builder_review requires exactly one candidate, empty blocking_dimensions/blocking_software and
+  abstention_reasons, and nonempty review_dimensions/review_reasons consistent with uncertain buildability checks.
+- decision=reject requires nonempty blocking_dimensions and abstention_reasons, empty candidates, and empty
+  review_dimensions/review_reasons.
+
+Decision contrasts:
+- Reported Gaussian optimization/frequency/energy workflow with SI coordinates and numerical energies: pass when
+  software and cost fit, even though the Builder has not generated Gaussian input files yet.
+- Reported VASP adsorption workflow on named standard facets with settings and quantitative adsorption targets,
+  but no POSCAR: needs_builder_review with input_assets uncertain and a plan to construct and validate the reported
+  facets; absence of a ready POSCAR alone is not rejection.
+- A molecular workflow whose exact protonation or force-field source is explicitly identified but still needs
+  verification: needs_builder_review, provided the scientific candidate and conservative cost are bounded.
+- An AIMD claim dependent on an absent author-generated amorphous structure, or an interface/trajectory/custom
+  runtime that cannot be uniquely recreated: reject for input_assets or parameters.
+- A lone HOMO/LUMO picture, copied table, plot-only operation, or arbitrary tiny subset unrelated to a concrete
+  claim: reject for scientific_significance.
+
+Scientific-completeness rules:
+- Three stages must produce dependent scientific artifacts, not three verbs applied to one output. Input-file
+  preparation, one optimization/single-point calculation, and reading its value do not by themselves qualify.
+- A compact workflow can qualify when it produces multiple dependent results, such as optimization -> frequency
+  verification/thermochemistry -> property or barrier calculation -> quantitative comparison to a claim.
+- An MD workflow may target solvation structure, transport, interaction statistics, or a quantitative structural
+  observable under molecular_dynamics_free_energy; an explicit free-energy calculation is not mandatory.
+- A task with only qualitative orbital pictures or a small repeating-unit geometry change must still establish a
+  nontrivial chemical claim, quantitative hidden target, and meaningful validation; otherwise reject.
 
 Minimal shape example (values are illustrative only):
 {"decision":"pass","candidates":[{"candidate_id":"candidate-1",
@@ -347,6 +442,7 @@ Minimal shape example (values are illustrative only):
 "ground_truth":"confirmed","software":"confirmed","cost":"confirmed"},
 "evidence_ids":["mineru-evidence-id"],
 "significance_rationale":"..."}],"abstention_reasons":[],"blocking_dimensions":[],
+"review_dimensions":[],"review_reasons":[],
 "blocking_software":[],"evidence_ids":["mineru-evidence-id"],
 "rationale":"...","confidence":"high"}. Return compact JSON only."""
 
