@@ -4,7 +4,7 @@ STAGE02_CLASSIFY_VERSION = "v2-stage02-classify-20260811-r10-chemistry-model-bou
 STAGE02_PASS_VERIFY_VERSION = "v2-stage02-pass-verify-20260811-r5-independent-workflow-axes"
 STAGE03_VERSION = "v2-stage03-software-inventory-20260811-r23-computation-led-input"
 STAGE05_ROUTER_VERSION = "v2-stage05a-evidence-router-20260812-r1"
-STAGE05_VERSION = "v2-stage05b-candidate-auditor-20260812-r15-strict-recovery"
+STAGE05_VERSION = "v2-stage05b-candidate-auditor-20260812-r18-builder-entry-gate"
 STAGE06_SHARED_VERSION = "v2-stage06-shared-20260807"
 STAGE06_AUTONOMOUS_VERSION = "v2-stage06-autonomous-20260807"
 STAGE06_REPRODUCTION_VERSION = "v2-stage06-reproduction-20260807"
@@ -347,14 +347,19 @@ Each candidate needs candidate_id,
 task_direction, scientific_question,
 claim_reference, workflow_steps, validation_gates, public_input_requirements, hidden_targets, scoring_metrics,
 ground_truth_level (A/B/C/D), required_software, estimated_cost, audit_dimensions, evidence_ids, and
-significance_rationale. A candidate with recoverable gaps also needs recoverability_plan, an object keyed by every
+significance_rationale. A candidate with unresolved but reviewable gaps also needs recoverability_plan, an object keyed by every
 uncertain dimension. Each entry contains resolution_type, procedure, source_evidence_ids, target_independent, and
-assumptions. resolution_type is exactly evidence_extraction, format_conversion,
-or explicit_identifier_retrieval. An explicit_identifier_retrieval entry additionally contains identifier_kind
+assumptions. assumptions must explicitly list every task-defining choice not fixed by cited evidence; an empty list
+asserts that no such choice remains. resolution_type is exactly evidence_extraction, format_conversion,
+evidence_verification, evidence_anchored_construction, or explicit_identifier_retrieval. An
+explicit_identifier_retrieval entry additionally contains identifier_kind
 and identifier_value; the exact identifier must appear in cited source evidence. Valid identifiers are a reported
 SMILES/InChI string, DOI, or repository accession such as CCDC, ICSD, COD, PubChem CID, or Materials Project mp-ID.
 A molecule name, formula, facet label, or generic database name is not an explicit identifier. source_evidence_ids must cite the supplied evidence
 that makes the procedure deterministic; target_independent must be true; assumptions must be an empty array.
+Use evidence_verification only to resolve a mapping, transcription, or interpretation against supplied evidence;
+it must not construct a missing scientific structure or model. Any procedure that constructs a slab, structure,
+configuration, defect model, coordinates, or force field must use evidence_anchored_construction.
 
 workflow_steps is a dependency graph encoded as an array of objects. Every object contains step_id, action,
 depends_on, input_artifact, output_artifact, software, method_parameters, and evidence_ids. A valid graph has at
@@ -368,19 +373,47 @@ ground_truth, software, cost, and leakage_risk. Each value is an object with sta
 support, missing_fields, and evidence_ids. confirmed and failed require source evidence; uncertain must name the
 missing fields. Never mark a fact confirmed solely from Stage05A prose.
 
+This is an evidence-readiness audit, not a file-packaging audit. Mark a dimension confirmed when the supplied main
+paper or SI semantically fixes the required information, even when the Builder must still extract it from a table,
+split a coordinate appendix, convert a reported format, or write an executable input deck. These routine,
+target-independent materialization operations are normal Builder work and do not make a candidate uncertain.
+For example, labeled SI Cartesian coordinates are confirmed input assets; a clearly identified numeric SI table is
+confirmed ground truth; and an explicitly reported method/basis/charge/spin protocol is confirmed parameters.
+Do not require ready-made XYZ/POSCAR/input files or an already assembled hidden-answer JSON package for pass.
+If the SI label and the paper/SI structure label establish the mapping, checking atom count, connectivity, units,
+or transcription after extraction is routine Builder validation and remains confirmed. Do not downgrade it merely
+because the Builder must "verify" the extraction.
+
+Use uncertain only when a fact needed by the task is plausibly recoverable but its identity, mapping, transcription,
+or interpretation still requires a bounded verification step. Use failed when the information is absent,
+contradictory, depends on unavailable bespoke author assets, or can only be supplied through a subjective scientific
+choice. A parser omission alone is uncertain if the supplied document inventory and cited evidence identify exactly
+where the Builder can verify it; an unsupported hope that the information exists elsewhere is failed.
+
 Prefer the smallest self-contained task that tests a scientifically meaningful claim or key intermediate. Do not
 append expensive downstream training, sampling, or screening merely to reach three steps. Preparation,
 calculation, convergence analysis, and quantitative comparison may be dependent stages when they produce and
 validate distinct artifacts. Conversely, do not split one calculation into artificial stages.
 
+A bounded candidate may use one explicitly identified molecule, surface, pathway, state, or comparison from a
+larger paper when that subset has its own evidence-complete nontrivial workflow and tests a concrete reported claim.
+Do not require every analogous system in the paper to be reconstructable. The subset must be fixed from public
+paper identifiers before hidden values are read; cherry-picking whichever system best matches a target is leakage.
+A supporting computation may qualify when it contains a complete meaningful computational workflow and a
+quantitative claim, even if the paper also contains experiments or the computation is not the sole headline result.
+
 Every field marked confirmed must be supported by supplied evidence. Use needs_builder_review, rather than reject,
-when the paper identifies the chemical system, calculation, generated result, and scientific claim but the Builder
-must deterministically retrieve, convert, or verify an input, parameter, or hidden target. Recoverable examples
-include SI coordinates requiring conversion; an explicitly cited crystallographic deposition; an unambiguous
-molecule, formula, or SMILES requiring routine structure generation; a uniquely identified crystal phase with a
-cited public structure source; a surface or cluster with a stated deterministic construction; and an explicitly
-cited public parameter source that the Builder can verify. These are uncertainties, not confirmed assets. The
-recovery procedure must be fixed without viewing or optimizing against the hidden target.
+when the scientific candidate is otherwise suitable but a bounded verification is still required to establish an
+input, task-defining parameter, or hidden target. Recoverable examples include resolving an ambiguous structure-to-
+label mapping in an SI coordinate appendix; checking an explicitly cited deposition; verifying a partially parsed
+parameter table; or following a fully stated, evidence-anchored construction protocol. The recovery procedure must
+be fixed without viewing or optimizing against the hidden target. In contrast, merely extracting or converting
+already unambiguous supplied evidence belongs to the Builder and should be pass, not needs_builder_review.
+Evidence-anchored construction is reviewable only when cited evidence freezes every task-defining choice. A plan is
+failed, not reviewable, if it still asks the Builder to choose a reasonable/standard slab size, vacuum, site,
+orientation, termination, protonation, spin state, k-point mesh, force-field parameter, defect placement, initial
+configuration, or other scientific degree of freedom. Convergence testing may validate a frozen protocol, but it
+must not choose the protocol by agreement with a published result.
 
 Do not call a gap recoverable by substituting software defaults, customary settings, a typical model, uncited
 literature values, a new calculation that decides what the authors meant, or any parameter selected by agreement
@@ -388,15 +421,18 @@ with the published result. A contradictory task-defining parameter is failed, no
 recoverable only when supplied evidence identifies the exact table, figure, or machine-readable block containing
 a quantitative target; saying that a value may exist elsewhere is insufficient. Figure digitization is allowed
 only when the supplied evidence identifies a quantitative axis/scale and the exact target series.
+Quantitative targets may be distributed across several cited text blocks or SI tables. They need not appear in one
+central table, provided each target is unambiguously mapped to the frozen candidate and supports a machine-
+computable metric with units/tolerances that Builder can define without scientific guesswork.
 
-Reject an asset gap only when the proposed result depends on a bespoke, nonstandard object that cannot be uniquely
+Reject an asset gap when the proposed result depends on a bespoke, nonstandard object that cannot be uniquely
 reconstructed: for example an absent amorphous/AIMD-generated configuration, custom grain boundary or interface,
 undocumented trained model, unavailable paper-specific force field, proprietary trajectory, or exact author input
 whose recreation requires subjective scientific choices. "Available from authors" without supplied assets is not
 a recovery plan. Do not reject a standard molecule or crystal merely because Cartesian coordinates/POSCAR are not
 already packaged; explain the deterministic Builder check under needs_builder_review.
 
-A reported standard surface and adsorbate is recoverable only when the paper evidence or an explicitly cited public
+A reported standard surface and adsorbate is reviewable only when the paper evidence or an explicitly cited public
 source fixes the slab construction and adsorption-site enumeration. The hidden
 energy or published preferred site may score that frozen protocol but must never choose the slab, site, orientation,
 termination, pseudopotential, k-point mesh, or convergence settings. A named molecule with unambiguous constitution
@@ -427,7 +463,8 @@ not infer toolbox availability from general knowledge.
 
 estimated_cost must contain numeric runtime_hours, cpu_cores, gpus, and job_count plus a concise evidence-based
 basis and confidence (high/medium). Software, cost, scientific significance, workflow completeness, and leakage
-risk must be confirmed for every forwarded candidate. decision=pass requires all eight dimensions confirmed.
+risk must be confirmed for every forwarded candidate. decision=pass requires all eight dimensions confirmed under
+the evidence-readiness definition above, not pre-built files.
 decision=needs_builder_review requires at least one of input_assets/parameters/ground_truth uncertain, none failed, and a
 specific recoverability_plan. If an essential engine is unnamed or absent from Stage03 coverage, either define a
 scientifically self-contained candidate that genuinely does not depend on that engine or reject; never omit an
@@ -455,7 +492,14 @@ Contract requirements are strict:
 
 Decision contrasts:
 - Reported Gaussian optimization/frequency/energy workflow with SI coordinates and numerical energies: pass when
-  software and cost fit, even though the Builder has not generated Gaussian input files yet.
+  software and cost fit, even though the Builder must extract coordinates and generate Gaussian input files.
+- A numeric target clearly identified in a supplied SI table: ground_truth confirmed and potentially pass even if
+  the Builder must parse the cells and normalize units.
+- Labeled Cartesian coordinate blocks whose labels map to the reported molecular structures: input_assets
+  confirmed and potentially pass; post-extraction atom-count/connectivity checks are normal Builder work.
+- A larger study with one explicitly labeled structure/pathway that has coordinates, method parameters, and a
+  quantitative reported result: audit that bounded workflow; do not reject it merely because analogous systems are
+  incomplete or the values occur in separate cited blocks.
 - Reported VASP adsorption workflow on named standard facets with settings and quantitative adsorption targets,
   but no POSCAR: needs_builder_review with input_assets uncertain and a plan to construct and validate the reported
   facets; absence of a ready POSCAR alone is not rejection.

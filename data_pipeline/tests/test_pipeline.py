@@ -65,8 +65,8 @@ from src.stages.stage03_toolbox_resource_gate.stage import (
 )
 from src.stages.stage05_benchmark_suitability.stage import (
     _auditor_evidence_blocks,
-    _response_contract_rejections,
     _recoverability_plan,
+    _response_contract_rejections,
     _sanitize_evidence_route,
     _software_coverage_facts,
     _software_fact_contradictions,
@@ -3804,6 +3804,89 @@ def test_stage05_allows_recoverable_builder_review_candidate() -> None:
     assert _response_contract_rejections(response, _stage05_fixture_coverage()) == []
 
 
+def test_stage05_accepts_pass_when_supplied_si_assets_only_need_materialization() -> None:
+    candidate = _stage05_fixture_candidate()
+    candidate["audit_dimensions"]["input_assets"] = {
+        "state": "confirmed",
+        "support": "The supplied SI contains labeled Cartesian coordinates.",
+        "missing_fields": [],
+        "evidence_ids": ["mineru-1"],
+    }
+    candidate["audit_dimensions"]["ground_truth"] = {
+        "state": "confirmed",
+        "support": "The supplied SI identifies a numeric thermochemistry table.",
+        "missing_fields": [],
+        "evidence_ids": ["mineru-1"],
+    }
+
+    candidates, rejected = _validate_candidates(
+        {"decision": "pass", "candidates": [candidate]},
+        {"mineru-1"},
+        _stage05_fixture_coverage(),
+    )
+
+    assert rejected == []
+    assert candidates[0]["buildability_checks"]["input_assets"] == "confirmed"
+
+
+def test_stage05_allows_evidence_verification_for_builder_review() -> None:
+    candidate = _stage05_fixture_candidate()
+    candidate["audit_dimensions"]["ground_truth"] = {
+        "state": "uncertain",
+        "support": "The SI identifies the result table, but the parsed column mapping is ambiguous.",
+        "missing_fields": ["target_column_mapping"],
+        "evidence_ids": ["mineru-1"],
+    }
+    candidate["recoverability_plan"] = {
+        "ground_truth": {
+            "resolution_type": "evidence_verification",
+            "procedure": "Verify the target column against the cited SI table header before extraction.",
+            "source_evidence_ids": ["mineru-1"],
+            "target_independent": True,
+            "assumptions": [],
+        }
+    }
+
+    candidates, rejected = _validate_candidates(
+        {"decision": "needs_builder_review", "candidates": [candidate]},
+        {"mineru-1"},
+        _stage05_fixture_coverage(),
+    )
+
+    assert rejected == []
+    assert candidates[0]["recoverability_plan"]["ground_truth"]["resolution_type"] == (
+        "evidence_verification"
+    )
+
+
+def test_stage05_allows_evidence_anchored_construction_without_hidden_target() -> None:
+    candidate = _stage05_fixture_candidate()
+    candidate["audit_dimensions"]["input_assets"] = {
+        "state": "uncertain",
+        "support": "The cited methods specify a construction that the Builder must verify.",
+        "missing_fields": ["constructed_input_validation"],
+        "evidence_ids": ["mineru-1"],
+    }
+    candidate["recoverability_plan"] = {
+        "input_assets": {
+            "resolution_type": "evidence_anchored_construction",
+            "procedure": "Construct the input only from the dimensions and enumeration stated in the cited methods.",
+            "source_evidence_ids": ["mineru-1"],
+            "target_independent": True,
+            "assumptions": [],
+        }
+    }
+
+    candidates, rejected = _validate_candidates(
+        {"decision": "needs_builder_review", "candidates": [candidate]},
+        {"mineru-1"},
+        _stage05_fixture_coverage(),
+    )
+
+    assert rejected == []
+    assert candidates[0]["buildability_checks"]["input_assets"] == "uncertain"
+
+
 def test_stage05_rejects_free_text_or_target_dependent_recovery_plan() -> None:
     candidate = _stage05_fixture_candidate()
     candidate["audit_dimensions"]["parameters"] = {
@@ -3878,7 +3961,7 @@ def test_stage05_rejects_implicit_assumptions_even_when_assumptions_array_is_emp
         {
             "parameters": {
                 "resolution_type": "evidence_extraction",
-                "procedure": "Use a typical k-point mesh if the value is unavailable.",
+                "procedure": "Choose the value closest to the hidden target.",
                 "source_evidence_ids": ["mineru-1"],
                 "target_independent": True,
                 "assumptions": [],
@@ -3890,6 +3973,50 @@ def test_stage05_rejects_implicit_assumptions_even_when_assumptions_array_is_emp
     )
 
     assert "invalid_recoverability_plan:parameters" in errors
+
+
+def test_stage05_rejects_subjective_construction_even_with_empty_assumptions() -> None:
+    _, errors = _recoverability_plan(
+        {
+            "input_assets": {
+                "resolution_type": "evidence_anchored_construction",
+                "procedure": (
+                    "Construct a standard bulk structure with a reasonable number of layers "
+                    "and adjust the vacuum within physically reasonable bounds."
+                ),
+                "source_evidence_ids": ["mineru-1"],
+                "target_independent": True,
+                "assumptions": [],
+            }
+        },
+        {"input_assets"},
+        {"mineru-1"},
+        {"mineru-1": "The material facet was studied."},
+    )
+
+    assert "invalid_recoverability_plan:input_assets" in errors
+
+
+def test_stage05_verification_cannot_hide_missing_model_construction() -> None:
+    _, errors = _recoverability_plan(
+        {
+            "input_assets": {
+                "resolution_type": "evidence_verification",
+                "procedure": (
+                    "Inspect the SI figure, verify defect placement, and construct POSCAR "
+                    "coordinates for the slab model."
+                ),
+                "source_evidence_ids": ["mineru-1"],
+                "target_independent": True,
+                "assumptions": [],
+            }
+        },
+        {"input_assets"},
+        {"mineru-1"},
+        {"mineru-1": "Figure S1 shows the slab model."},
+    )
+
+    assert "invalid_recoverability_plan:input_assets" in errors
 
 
 def test_stage05_rejects_disconnected_workflow_graph() -> None:

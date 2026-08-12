@@ -38,6 +38,8 @@ SOURCE_EVIDENCE_DIMENSIONS = {
 RECOVERY_TYPES = {
     "evidence_extraction",
     "format_conversion",
+    "evidence_verification",
+    "evidence_anchored_construction",
     "explicit_identifier_retrieval",
 }
 
@@ -585,7 +587,8 @@ def _recoverability_plan(value, uncertain_dimensions, evidence_ids, evidence_tex
             "identifier_kind": identifier_kind or None,
             "identifier_value": identifier_value or None,
         }
-        implicit_assumptions = _implicit_recovery_assumptions(procedure)
+        subjective_language = _subjective_recovery_language(procedure)
+        type_mismatch = _recovery_type_mismatch(resolution_type, procedure)
         identifier_valid = True
         if resolution_type == "explicit_identifier_retrieval":
             cited_text = "\n".join(
@@ -603,37 +606,62 @@ def _recoverability_plan(value, uncertain_dimensions, evidence_ids, evidence_tex
             or not resolved
             or not target_independent
             or assumptions
-            or implicit_assumptions
+            or subjective_language
+            or type_mismatch
             or not identifier_valid
         ):
             reasons.append(f"invalid_recoverability_plan:{dimension}")
     return output, reasons
 
 
-def _implicit_recovery_assumptions(procedure):
+def _subjective_recovery_language(procedure):
+    """Catch procedures that leave scientific choices to defaults or hidden targets."""
+
     text = str(procedure or "").casefold()
     markers = (
-        "typical",
+        "reasonable number",
+        "reasonable value",
+        "reasonable bounds",
+        "physically reasonable",
+        "typical ",
         "standard practice",
+        "standard crystallographic",
+        "standard bulk",
+        "as is customary",
         "common practice",
-        "manual docking",
         "chemical intuition",
-        "guided by",
-        "infer ",
-        "inferred ",
-        "assume ",
-        "assumed ",
-        "if not present",
+        "plausible model",
+        "if not specified",
         "if unavailable",
-        "if needed",
-        "likely",
-        "plausible",
-        "should suffice",
-        "select the lowest",
+        "adjust ",
         "match the hidden",
         "reproduces the reported",
+        "agreement with the published",
+        "fit to the target",
+        "choose the value closest",
+        "select the value closest",
     )
     return [marker for marker in markers if marker in text]
+
+
+def _recovery_type_mismatch(resolution_type, procedure):
+    if resolution_type == "evidence_anchored_construction":
+        return False
+    text = str(procedure or "").casefold()
+    construction_objects = (
+        "slab",
+        "structural model",
+        "defect model",
+        "configuration",
+        "force field",
+        "force-field",
+        "simulation box",
+        "supercell",
+    )
+    construction_verbs = ("construct", "build", "reconstruct", "create")
+    return any(verb in text for verb in construction_verbs) and any(
+        obj in text for obj in construction_objects
+    )
 
 
 def _looks_like_explicit_identifier(kind, value):
