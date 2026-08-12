@@ -25,6 +25,7 @@ def main() -> int:
     parser.add_argument("--workers", type=int, default=8)
     parser.add_argument("--router-model", default="deepseek-v4-flash")
     parser.add_argument("--auditor-model", default="deepseek-v4-pro")
+    parser.add_argument("--auditor-max-tokens", type=int, default=8192)
     parser.add_argument("--auditor-thinking", action="store_true")
     parser.add_argument("--paper-id", action="append", default=[])
     parser.add_argument("--run-id")
@@ -98,7 +99,7 @@ def main() -> int:
             "use_proxy": False,
             "timeout_seconds": 1200,
             "retries": 2,
-            "max_tokens": 16000,
+            "max_tokens": args.auditor_max_tokens,
             "thinking": None,
             "chat_template_kwargs": _chat_template_kwargs(
                 args.auditor_model, thinking=args.auditor_thinking
@@ -112,7 +113,7 @@ def main() -> int:
         "router_index_characters": 60000,
         "router_max_tokens": 3072,
         "auditor_evidence_characters": 90000,
-        "auditor_max_tokens": 16000,
+        "auditor_max_tokens": args.auditor_max_tokens,
         "candidate_limit": 1,
         "contract_retry": True,
     }
@@ -125,6 +126,7 @@ def main() -> int:
             "reference": str(args.reference.expanduser().resolve()),
             "router_model": args.router_model,
             "auditor_model": args.auditor_model,
+            "auditor_max_tokens": args.auditor_max_tokens,
             "auditor_thinking": args.auditor_thinking,
             "stage05": stage_config,
         },
@@ -161,9 +163,16 @@ def main() -> int:
 
 
 def _chat_template_kwargs(model: str, *, thinking: bool = False) -> dict[str, bool]:
-    if model.casefold().startswith("qwen"):
+    normalized = model.casefold()
+    if normalized.startswith("qwen") or normalized in {
+        "glm-5.2",
+        "nex-n2-pro",
+        "nex-n2-pro-w8a8",
+    }:
         return {"enable_thinking": thinking}
-    return {"thinking": thinking}
+    if normalized.startswith("deepseek"):
+        return {"thinking": thinking}
+    return {}
 
 
 def _compare(records, reference, manual=None):

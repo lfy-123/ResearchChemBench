@@ -135,7 +135,7 @@
     "router_index_characters": 60000,
     "router_max_tokens": 3072,
     "auditor_evidence_characters": 90000,
-    "auditor_max_tokens": 16000,
+    "auditor_max_tokens": 8192,
     "candidate_limit": 1,
     "contract_retry": true
   },
@@ -235,14 +235,14 @@
       "base_url": "http://127.0.0.1:13000/v1",
       "base_url_env": "RCB_NEW_API_BASE_URL",
       "api_key_env": "RCB_NEW_API_KEY",
-      "model": "DeepSeek-V4-Flash",
+      "model": "Nex-N2-Pro-w8a8",
       "model_env": "RCB_NEW_STAGE05_AUDITOR_MODEL",
       "workers": 8,
-      "max_tokens": 16000,
+      "max_tokens": 8192,
       "timeout_seconds": 1200,
       "retries": 2,
       "thinking": null,
-      "chat_template_kwargs": {"thinking": false}
+      "chat_template_kwargs": {"enable_thinking": false}
     },
     "builder": {
       "enabled": true,

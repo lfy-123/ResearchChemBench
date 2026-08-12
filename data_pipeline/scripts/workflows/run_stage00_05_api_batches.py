@@ -26,8 +26,14 @@ DEFAULT_MODELS = {
     "stage02_screening": "Qwen3.6-27B",
     "stage03_screening": "DeepSeek-V4-Flash",
     "stage05_router": "DeepSeek-V4-Flash-DSpark",
-    "suitability": "DeepSeek-V4-Flash",
+    "suitability": "<selected-at-preflight>",
 }
+DEFAULT_STAGE05_AUDITOR_CANDIDATES = (
+    "DeepSeek-V4-Pro",
+    "GLM-5.2",
+    "Nex-N2-Pro",
+    "Nex-N2-Pro-w8a8",
+)
 
 
 def main() -> int:
@@ -39,14 +45,29 @@ def main() -> int:
             f"missing API key environment variable: {args.api_key_env} or OPENAI_API_KEY"
         )
     os.environ[args.api_key_env] = api_key
-    _preflight_api(args.api_base_url, api_key, DEFAULT_MODELS)
+    fixed_models = {key: value for key, value in DEFAULT_MODELS.items() if key != "suitability"}
+    _preflight_api(args.api_base_url, api_key, fixed_models)
+    candidates = tuple(
+        item.strip() for item in args.stage05_auditor_candidates.split(",") if item.strip()
+    )
+    selected_auditor, auditor_preflight = _select_stage05_auditor(
+        args.api_base_url,
+        api_key,
+        candidates,
+        attempts=args.stage05_auditor_probe_attempts,
+    )
+    models = {**fixed_models, "suitability": selected_auditor}
+    args.stage05_auditor_model = selected_auditor
+    args.stage05_auditor_chat_template_kwargs = _model_chat_template_kwargs(selected_auditor)
+    os.environ["RCB_NEW_STAGE05_AUDITOR_MODEL"] = selected_auditor
+    print(f"Stage05B selected strong auditor: {selected_auditor}", flush=True)
 
     run_root = Path(args.run_root).expanduser().resolve()
     run_root.mkdir(parents=True, exist_ok=True)
     template = json.loads(Path(args.template).expanduser().resolve().read_text(encoding="utf-8"))
     batches = (args.total + args.batch_size - 1) // args.batch_size
     status_path = run_root / "batch_status.json"
-    status = _initial_status(args, run_root, batches)
+    status = _initial_status(args, run_root, batches, models, auditor_preflight)
     if status_path.is_file():
         previous = read_json(status_path)
         status["first_started_at"] = previous.get("first_started_at") or previous.get(
@@ -254,6 +275,7 @@ def _batch_config(
             "model_role": "suitability",
             "router_model_role": "stage05_router",
             "workers": args.stage05_workers,
+            "auditor_max_tokens": args.stage05_auditor_max_tokens,
         }
     )
     config["models"]["screening"].update(
@@ -291,10 +313,10 @@ def _batch_config(
     config["models"]["suitability"] = _api_model_config(
         args,
         role="stage05_auditor",
-        model=DEFAULT_MODELS["suitability"],
+        model=args.stage05_auditor_model,
         workers=args.stage05_workers,
-        max_tokens=16000,
-        chat_template_kwargs={"thinking": False},
+        max_tokens=args.stage05_auditor_max_tokens,
+        chat_template_kwargs=args.stage05_auditor_chat_template_kwargs,
     )
     config["models"]["builder"] = {"enabled": False}
     config["models"]["judge"] = {"enabled": False}
@@ -375,6 +397,70 @@ def _preflight_api(base_url: str, api_key: str, models: dict[str, str]) -> None:
     )
 
 
+def _select_stage05_auditor(
+    base_url: str,
+    api_key: str,
+    candidates: tuple[str, ...],
+    *,
+    attempts: int,
+    caller=call_json_chat,
+) -> tuple[str, list[dict[str, Any]]]:
+    if not candidates:
+        raise ValueError("at least one Stage05B auditor candidate is required")
+    audit: list[dict[str, Any]] = []
+    for model in candidates:
+        outcomes = []
+        for attempt in range(1, attempts + 1):
+            try:
+                response, _metadata = caller(
+                    model=model,
+                    base_url=base_url,
+                    api_key=api_key,
+                    system_prompt="Return one valid JSON object only.",
+                    user_content=(
+                        'Return {"decision":"pass","reason":"preflight",'
+                        '"checks":["workflow","software","cost"]}.'
+                    ),
+                    timeout_seconds=120,
+                    max_tokens=256,
+                    retries=0,
+                    chat_template_kwargs=_model_chat_template_kwargs(model),
+                    proxy_url="",
+                )
+                valid = response.get("decision") == "pass" and isinstance(
+                    response.get("checks"), list
+                )
+                outcomes.append({"attempt": attempt, "ok": valid})
+                if not valid:
+                    break
+            except Exception as exc:
+                outcomes.append(
+                    {
+                        "attempt": attempt,
+                        "ok": False,
+                        "error": f"{type(exc).__name__}: {exc}"[:500],
+                    }
+                )
+                break
+        selected = len(outcomes) == attempts and all(row["ok"] for row in outcomes)
+        audit.append({"model": model, "selected": selected, "outcomes": outcomes})
+        if selected:
+            return model, audit
+    raise RuntimeError(
+        "no strong Stage05B auditor passed consecutive API probes: "
+        + ", ".join(candidates)
+    )
+
+
+def _model_chat_template_kwargs(model: str) -> dict[str, bool] | None:
+    normalized = model.casefold()
+    if normalized.startswith("deepseek"):
+        return {"thinking": False}
+    if normalized in {"glm-5.2", "nex-n2-pro", "nex-n2-pro-w8a8"}:
+        return {"enable_thinking": False}
+    return None
+
+
 def _sandbox_manager(run_root, template, args, *, cleanup: str) -> SandboxManager:
     sandbox_template = template.get("execution", {}).get("sandbox", {})
     return SandboxManager(
@@ -446,7 +532,13 @@ def _completed_summary(path: Path) -> bool:
     return summary.get("status") == "completed" and summary.get("stop_after") == "stage05"
 
 
-def _initial_status(args, run_root: Path, batches: int) -> dict[str, Any]:
+def _initial_status(
+    args,
+    run_root: Path,
+    batches: int,
+    models: dict[str, str],
+    auditor_preflight: list[dict[str, Any]],
+) -> dict[str, Any]:
     return {
         "state": "initializing",
         "execution_mode": "api_only_no_worker",
@@ -455,7 +547,8 @@ def _initial_status(args, run_root: Path, batches: int) -> dict[str, Any]:
         "batch_size": args.batch_size,
         "batches": batches,
         "api_base_url": args.api_base_url,
-        "models": DEFAULT_MODELS,
+        "models": models,
+        "stage05_auditor_preflight": auditor_preflight,
         "sandbox_cpu": args.sandbox_cpu,
         "sandbox_memory": args.sandbox_memory,
         "stage04_microbatch_concurrency": args.stage04_microbatch_concurrency,
@@ -494,6 +587,12 @@ def _parse_args():
     parser.add_argument("--stage04-microbatch-concurrency", type=int, default=1)
     parser.add_argument("--stage04-api-concurrency", type=int, default=8)
     parser.add_argument("--stage05-workers", type=int, default=8)
+    parser.add_argument("--stage05-auditor-max-tokens", type=int, default=8192)
+    parser.add_argument(
+        "--stage05-auditor-candidates",
+        default=",".join(DEFAULT_STAGE05_AUDITOR_CANDIDATES),
+    )
+    parser.add_argument("--stage05-auditor-probe-attempts", type=int, default=3)
     parser.add_argument("--sandbox-cpu", type=int, default=64)
     parser.add_argument("--sandbox-memory", default="128Gi")
     parser.add_argument("--sandbox-startup-timeout-seconds", type=int, default=14400)
@@ -512,6 +611,8 @@ def _validate_args(args) -> None:
         "stage04_microbatch_concurrency",
         "stage04_api_concurrency",
         "stage05_workers",
+        "stage05_auditor_max_tokens",
+        "stage05_auditor_probe_attempts",
         "sandbox_cpu",
     ):
         if int(getattr(args, name)) < 1:
