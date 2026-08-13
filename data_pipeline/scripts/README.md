@@ -57,17 +57,22 @@ Stage05 的模型角色都支持 `models.<role>.fallback_models` 有序候选列
 ```bash
 bash scripts/run_stage04_05_resume.sh \
   --run-root runs/stage00-05-api-batches-10000-20260813 \
-  --mineru-sandbox-count 4 \
-  --mineru-sandbox-cpu 64 --mineru-sandbox-memory 160Gi \
-  --stage04-microbatch-concurrency 4 --watch
+  --mineru-sandbox-count 32 \
+  --mineru-sandbox-cpu 16 --mineru-sandbox-memory 32Gi \
+  --mineru-sandbox-lifecycle-minutes 1440 \
+  --stage04-microbatch-concurrency 32 --watch
 ```
 
 该入口不会重新执行 Stage00-03。它只消费已经存在且 `stage_cache.json` 为
 `completed` 的微批次，按 Stage04 -> Stage05 顺序处理；再次启动会自动跳过两阶段都已完成的
 微批次。`--start-stage`/`--stop-stage` 可选 `4` 或 `5`，例如只重跑 Stage04 使用
-`--start-stage 4 --stop-stage 4`。`--mineru-sandbox-count` 是显式的多沙箱开关，默认值为
-1，保持旧版单沙箱行为。每个沙箱同一时刻只运行一个 MinerU job，池内不同沙箱并行领取任务。
-脚本结束时默认停止这些沙箱；调试时可传 `--mineru-sandbox-cleanup keep`。
+`--start-stage 4 --stop-stage 4`。`--mineru-sandbox-count` 默认是 32，CPU/内存默认是
+16 CPU/32 GiB，生命周期默认 1440 分钟（1 天），启动并发默认 8。每个沙箱同一时刻只运行一个
+MinerU job，池内不同沙箱并行领取任务。后台 supervisor 每 15 秒检查空闲槽位的沙箱状态和
+worker RPC；沙箱被回收或不可用时会自动补建，直到恢复 32 个槽位。单篇解析失败默认等待 5 秒
+后重试一次（`--mineru-max-attempts`、`--mineru-retry-delay-seconds` 可调整），两次均失败才将
+该论文标记为 Stage04 failed。脚本结束时默认停止这些沙箱；调试时可传
+`--mineru-sandbox-cleanup keep`。
 
 复用已经运行的 GPU worker：
 

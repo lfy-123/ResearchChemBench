@@ -44,6 +44,8 @@ def main() -> int:
         raise ValueError("--mineru-sandbox-count must be at least 1")
     if args.stage04_microbatch_concurrency < 1:
         raise ValueError("--stage04-microbatch-concurrency must be at least 1")
+    if args.mineru_max_attempts < 1:
+        raise ValueError("--mineru-max-attempts must be at least 1")
     run_root = args.run_root.expanduser().resolve()
     lock_path = run_root / ".stage04-05-resume.lock"
     lock_path.parent.mkdir(parents=True, exist_ok=True)
@@ -82,6 +84,10 @@ def _run(args, run_root: Path) -> int:
         options=pool_options,
         count=args.mineru_sandbox_count,
         state_root=pool_root,
+        startup_concurrency=args.mineru_sandbox_startup_concurrency,
+        supervisor_interval_seconds=args.mineru_sandbox_supervisor_interval_seconds,
+        max_attempts=args.mineru_max_attempts,
+        retry_delay_seconds=args.mineru_retry_delay_seconds,
     ) as pool:
         for batch_dir in batch_dirs:
             config_path = run_root / "configs" / f"{batch_dir.name}.json"
@@ -268,14 +274,18 @@ def _parse_args():
     parser.add_argument("--template", type=Path, default=DEFAULT_TEMPLATE)
     parser.add_argument("--start-stage", type=int, choices=(4, 5), default=4)
     parser.add_argument("--stop-stage", type=int, choices=(4, 5), default=5)
-    parser.add_argument("--mineru-sandbox-count", type=int, default=1)
-    parser.add_argument("--mineru-sandbox-cpu", type=int, default=32)
-    parser.add_argument("--mineru-sandbox-memory", default="96Gi")
+    parser.add_argument("--mineru-sandbox-count", type=int, default=32)
+    parser.add_argument("--mineru-sandbox-cpu", type=int, default=16)
+    parser.add_argument("--mineru-sandbox-memory", default="32Gi")
     parser.add_argument("--mineru-sandbox-lifecycle-minutes", type=int, default=1440)
     parser.add_argument("--mineru-sandbox-startup-timeout-seconds", type=int, default=3600)
     parser.add_argument("--mineru-sandbox-cleanup", choices=("keep", "stop", "delete"), default="stop")
+    parser.add_argument("--mineru-sandbox-startup-concurrency", type=int, default=8)
+    parser.add_argument("--mineru-sandbox-supervisor-interval-seconds", type=float, default=15)
+    parser.add_argument("--mineru-max-attempts", type=int, default=2)
+    parser.add_argument("--mineru-retry-delay-seconds", type=float, default=5)
     parser.add_argument("--sandbox-api-key-env", default="RCB_SANDBOX_API_KEY")
-    parser.add_argument("--stage04-microbatch-concurrency", type=int, default=1)
+    parser.add_argument("--stage04-microbatch-concurrency", type=int, default=32)
     parser.add_argument("--poll-seconds", type=int, default=60)
     parser.add_argument("--watch", action="store_true", help="wait for future Stage03-complete batches")
     parser.add_argument("--dry-run", action="store_true", help="inspect readiness without creating sandboxes")
