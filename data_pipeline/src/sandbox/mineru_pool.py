@@ -104,7 +104,18 @@ class MineruSandboxPool:
 
         def ensure(spec: SandboxRunOptions):
             manager = SandboxManager(spec)
-            worker = manager.ensure()
+            last_error: Exception | None = None
+            for attempt in range(1, 11):
+                try:
+                    worker = manager.ensure()
+                    break
+                except SandboxError as exc:
+                    last_error = exc
+                    if exc.status not in {409, 429, 500, 502, 503, 504} or attempt == 10:
+                        raise
+                    time.sleep(min(30, 3 * attempt))
+            else:  # pragma: no cover - loop always breaks or raises
+                raise RuntimeError(f"sandbox startup failed: {last_error}")
             return manager, worker, worker.client()
 
         # A small startup fan-out avoids flooding the control plane while still
