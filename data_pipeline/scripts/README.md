@@ -67,7 +67,7 @@ bash scripts/run_stage04_05_resume.sh \
 `completed` 的微批次，按 Stage04 -> Stage05 顺序处理；再次启动会自动跳过两阶段都已完成的
 微批次。`--start-stage`/`--stop-stage` 可选 `4` 或 `5`，例如只重跑 Stage04 使用
 `--start-stage 4 --stop-stage 4`。`--mineru-sandbox-count` 默认是 32，CPU/内存默认是
-16 CPU/32 GiB，生命周期默认 1440 分钟（1 天），启动并发默认 8。每个沙箱同一时刻只运行一个
+16 CPU/32 GiB，生命周期默认 1440 分钟（1 天），启动并发默认 32（可用参数降低以适应控制面限流）。每个沙箱同一时刻只运行一个
 MinerU job，池内不同沙箱并行领取任务。后台 supervisor 每 15 秒检查空闲槽位的沙箱状态和
 worker RPC；沙箱被回收或不可用时会自动补建，直到恢复 32 个槽位。单篇解析失败默认等待 5 秒
 后重试一次（`--mineru-max-attempts`、`--mineru-retry-delay-seconds` 可调整），两次均失败才将

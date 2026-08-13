@@ -280,7 +280,7 @@ def _parse_args():
     parser.add_argument("--mineru-sandbox-lifecycle-minutes", type=int, default=1440)
     parser.add_argument("--mineru-sandbox-startup-timeout-seconds", type=int, default=3600)
     parser.add_argument("--mineru-sandbox-cleanup", choices=("keep", "stop", "delete"), default="stop")
-    parser.add_argument("--mineru-sandbox-startup-concurrency", type=int, default=8)
+    parser.add_argument("--mineru-sandbox-startup-concurrency", type=int, default=32)
     parser.add_argument("--mineru-sandbox-supervisor-interval-seconds", type=float, default=15)
     parser.add_argument("--mineru-max-attempts", type=int, default=2)
     parser.add_argument("--mineru-retry-delay-seconds", type=float, default=5)
