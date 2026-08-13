@@ -173,6 +173,34 @@ class SandboxManager:
             environment_id = str(environment["id"])
             source = self._source_template(environment_id=environment_id, sandbox_id="")
             self._write_source(source)
+        else:
+            # A local source can outlive a platform environment after expiry
+            # or cleanup. Validate the ID before creating another instance;
+            # otherwise the control plane returns a misleading 404 on POST
+            # /v1/sandboxes.
+            try:
+                self.control.management_json(
+                    "GET", f"/v1/sandbox-environments/{environment_id}", timeout=30
+                )
+            except SandboxError as exc:
+                if exc.status != 404:
+                    raise
+                sandbox_id = str((source.get("worker") or {}).get("sandbox_id") or "")
+                if sandbox_id:
+                    try:
+                        self.control.management_json("DELETE", f"/v1/sandboxes/{sandbox_id}")
+                    except SandboxError as delete_exc:
+                        if delete_exc.status != 404:
+                            raise
+                self.source_path.unlink(missing_ok=True)
+                source = {}
+                environment = self.control.management_json(
+                    "POST", "/v1/sandbox-environments",
+                    payload=self._environment_payload(), timeout=120
+                )
+                environment_id = str(environment["id"])
+                source = self._source_template(environment_id=environment_id, sandbox_id="")
+                self._write_source(source)
 
         sandbox_id = str((source.get("worker") or {}).get("sandbox_id") or "")
         detail: dict[str, Any] | None = None
