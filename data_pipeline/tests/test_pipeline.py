@@ -74,6 +74,7 @@ from src.stages.stage05_benchmark_suitability.stage import (
     _software_fact_contradictions,
     _validate_candidates,
     _without_evidence_ids,
+    run_stage05,
 )
 from src.stages.stage06_task_builder.stage import _public_builder_packet
 
@@ -3731,6 +3732,100 @@ def _stage05_fixture_coverage() -> dict:
             )
         ],
     }
+
+
+def test_stage05_resume_checkpoints_skip_both_model_calls(tmp_path: Path) -> None:
+    blocks_path = tmp_path / "content_blocks.jsonl"
+    write_jsonl(
+        blocks_path,
+        [
+            {
+                "evidence_id": "mineru-1",
+                "document_id": "doc-1",
+                "page": 1,
+                "section_path": ["Computational Methods"],
+                "text": "The reported calculation exceeds the configured runtime budget.",
+            }
+        ],
+    )
+
+    class NoCallModel:
+        role = "test-role"
+        model = "test-model"
+        config = {"workers": 1}
+
+        def call_json(self, **_kwargs):
+            raise AssertionError("checkpointed Stage05 model must not be called")
+
+    response = {
+        "decision": "reject",
+        "candidates": [],
+        "blocking_dimensions": ["cost"],
+        "blocking_software": [],
+        "review_dimensions": [],
+        "review_reasons": [],
+        "hard_blockers": [
+            {
+                "code": "cost_exceeds_budget",
+                "dimension": "cost",
+                "reason": "The reported workflow exceeds the configured budget.",
+                "evidence_ids": [],
+            }
+        ],
+    }
+    result = run_stage05(
+        stage04_records=[
+            {
+                "paper_id": "paper-1",
+                "passed": True,
+                "coverage_decision": "software_covered",
+                "software_mappings": [],
+                "workflow_inventory": [],
+                "resource_profile": {},
+            }
+        ],
+        documents=[
+            {
+                "paper_id": "paper-1",
+                "document_id": "doc-1",
+                "decision": "pass",
+                "content_blocks_path": str(blocks_path),
+                "source_path": str(tmp_path / "paper.pdf"),
+            }
+        ],
+        config={"workers": 1, "contract_retry": True},
+        router_model=NoCallModel(),
+        auditor_model=NoCallModel(),
+        workspace=tmp_path / "workspace",
+        run_id="resume-test",
+        router_checkpoints={
+            "paper-1": {
+                "router_response": {"decision": "no_candidate_located"},
+                "router_audit": {"cache": "resume_store"},
+                "evidence_route": {
+                    "decision": "no_candidate_located",
+                    "coverage_status": "complete",
+                    "workflow_clusters": [],
+                    "unresolved_locations": [],
+                    "rationale": "No viable candidate was routed.",
+                    "confidence": "high",
+                },
+            }
+        },
+        auditor_checkpoints={
+            "paper-1": {
+                "model_response": response,
+                "model_audit": {"cache": "resume_store"},
+                "model_response_attempts": [
+                    {"response": response, "audit": {"cache": "resume_store"}}
+                ],
+                "contract_retry_performed": False,
+            }
+        },
+    )
+
+    assert result["records"][0]["decision"] == "reject"
+    assert result["summary"]["processing_errors"] == 0
 
 
 def test_stage05_normalizes_software_string_without_character_set_bug() -> None:

@@ -2,7 +2,8 @@ from __future__ import annotations
 
 import json
 import os
-import random
+import hashlib
+import heapq
 import re
 import shutil
 from datetime import datetime, timezone
@@ -104,6 +105,10 @@ def prepare_remote_corpus(
     seed: int = 0,
     exclude_selected_manifests: list[str | Path] | None = None,
     store: ObjectStore | None = None,
+    resume_store=None,
+    outer_batch_id: str | None = None,
+    target_slot_start: int = 1,
+    retry_only: bool = False,
 ) -> dict[str, Any]:
     if count < 1:
         raise ValueError("Stage 00 count must be at least 1")
@@ -126,13 +131,21 @@ def prepare_remote_corpus(
         raise RuntimeError(f"{root} already contains a different Stage 00 dataset")
     if selection not in {"remote_order", "seeded_sample"}:
         raise ValueError("Stage 00 selection must be remote_order or seeded_sample")
-    if len(existing) >= count:
-        return _stage_result(root, dataset, existing[:count], reused=True)
-    if existing and selection != "remote_order":
-        raise RuntimeError(
-            "seeded_sample cannot be expanded in place; choose the final count initially "
-            "or use a new Stage 00 output directory"
+    if existing:
+        existing = _reconcile_existing_records(
+            existing[:count],
+            corpus=corpus,
+            dataset=dataset,
+            store=store,
+            credentials=credentials,
+            outside=outside,
+            resume_store=resume_store,
+            spec=spec,
+            copy_supplementary=copy_supplementary,
         )
+        write_jsonl(selected_path, existing)
+    if len(existing) >= count:
+        return _stage_result(root, dataset, existing, reused=True)
     if store is None:
         if credentials is None:
             raise ValueError("Stage 00 credentials are required for remote access")
@@ -142,16 +155,39 @@ def prepare_remote_corpus(
     start_after = cursor.get("last_main_uri")
     needed = count - len(existing)
     excluded_main_uris = _excluded_main_uris(exclude_selected_manifests or [])
-    selected_uris = _select_main_uris(
+    excluded_main_uris.update(
+        str((row.get("main_document") or {}).get("remote_uri") or "")
+        for row in existing
+    )
+    excluded_main_uris.discard("")
+    if resume_store is not None:
+        excluded_main_uris.update(resume_store.selected_main_uris(dataset))
+    retry_rows = []
+    if resume_store is not None:
+        retry_rows = [
+            row
+            for row in resume_store.selections_for_batch(str(outer_batch_id or root.name))
+            if int(row["target_slot_ordinal"]) >= int(target_slot_start) + len(existing)
+            and int(row["target_slot_ordinal"]) < int(target_slot_start) + count
+            and str(row.get("copy_state") or "")
+            in {"reserved", "copy_retryable_failed"}
+        ]
+        retry_rows.sort(key=lambda row: int(row["target_slot_ordinal"]))
+    retry_uris = [str(row["source_main_uri"]) for row in retry_rows[:needed]]
+    new_needed = 0 if retry_only else needed - len(retry_uris)
+    selected_uris = [
+        *retry_uris,
+        *_select_main_uris(
         store,
         spec["pdf_prefix"],
-        count=needed,
+        count=new_needed,
         selection=selection,
         seed=seed,
         start_after=start_after,
-        excluded_main_uris=excluded_main_uris,
-    )
-    if len(selected_uris) < needed:
+        excluded_main_uris=excluded_main_uris | set(retry_uris),
+        ),
+    ]
+    if not retry_only and len(selected_uris) < needed:
         raise RuntimeError(
             f"Stage 00 found only {len(selected_uris)} new PDFs; {needed} are required"
         )
@@ -167,22 +203,76 @@ def prepare_remote_corpus(
     events = _read_rows(root / "copy_events.jsonl") if resume else []
     for index, main_uri in enumerate(selected_uris, start=len(existing) + 1):
         item = metadata.get(_basename(main_uri).casefold(), {})
-        record, paper_events = _materialize_paper(
-            store,
-            corpus,
-            dataset=dataset,
-            selection_index=index,
-            main_uri=main_uri,
-            metadata=item,
-            supplementary_uris=supplementary_index.get(
-                _main_document_key(_basename(main_uri)), []
-            ),
-            supplementary_inventory=supplementary_inventory,
-            supplementary_verification_failures=supplementary_failures.get(
-                _main_document_key(_basename(main_uri)), []
-            ),
-            copy_supplementary=copy_supplementary,
-        )
+        selection_row = None
+        if resume_store is not None:
+            slot = int(target_slot_start) + index - 1
+            selection_row = resume_store.selection_for_slot(slot)
+            if selection_row is not None:
+                if str(selection_row["source_main_uri"]) != main_uri:
+                    raise RuntimeError(
+                        f"Stage00 target slot {slot} is reserved for "
+                        f"{selection_row['source_main_uri']}, not {main_uri}"
+                    )
+            else:
+                selection_row = resume_store.reserve_selection(
+                    dataset=dataset,
+                    source_main_uri=main_uri,
+                    normalized_doi=_normalize_doi(
+                        item.get("doi") or _doi_from_filename(_basename(main_uri))
+                    ),
+                    source_record_key=str(
+                        item.get("relative_path")
+                        or item.get("pdf_filename")
+                        or _basename(main_uri)
+                    ),
+                    paper_id=None,
+                    target_slot_ordinal=slot,
+                    outer_batch_id=str(outer_batch_id or root.name),
+                )
+        try:
+            record, paper_events = _materialize_paper(
+                store,
+                corpus,
+                dataset=dataset,
+                selection_index=index,
+                main_uri=main_uri,
+                metadata=item,
+                supplementary_uris=supplementary_index.get(
+                    _main_document_key(_basename(main_uri)), []
+                ),
+                supplementary_inventory=supplementary_inventory,
+                supplementary_verification_failures=supplementary_failures.get(
+                    _main_document_key(_basename(main_uri)), []
+                ),
+                copy_supplementary=copy_supplementary,
+            )
+        except Exception as exc:
+            if resume_store is not None and selection_row is not None:
+                resume_store.update_selection_copy(
+                    str(selection_row["selection_id"]),
+                    copy_state="copy_retryable_failed",
+                    local_assets_state="missing_required",
+                    error={"error_type": type(exc).__name__, "message": str(exc)},
+                )
+            raise
+        if resume_store is not None and selection_row is not None:
+            resume_store.update_selection_copy(
+                str(selection_row["selection_id"]),
+                copy_state=(
+                    "materialized"
+                    if record.get("copy_status") == "complete"
+                    else "copy_retryable_failed"
+                ),
+                paper_id=record.get("paper_id"),
+                source_sha256=(record.get("main_document") or {}).get("sha256"),
+                local_assets_state="available",
+                error={
+                    "supplementary_copy_failures": record.get(
+                        "supplementary_copy_failures"
+                    )
+                    or []
+                },
+            )
         rows.append(record)
         events.extend(paper_events)
         write_jsonl(selected_path, rows)
@@ -208,6 +298,74 @@ def prepare_remote_corpus(
     return _stage_result(root, dataset, rows, reused=False)
 
 
+def _reconcile_existing_records(
+    rows,
+    *,
+    corpus,
+    dataset,
+    store,
+    credentials,
+    outside,
+    resume_store,
+    spec,
+    copy_supplementary,
+):
+    if not rows:
+        return rows
+    missing = []
+    for row in rows:
+        bundle = corpus / str(row["paper_id"])
+        if _materialized_record_is_complete(row, bundle):
+            continue
+        selection = resume_store.selection_for_paper(str(row["paper_id"])) if resume_store else None
+        if selection and selection.get("local_assets_state") == "pruned_terminal":
+            continue
+        missing.append(row)
+    if not missing:
+        return rows
+    if store is None:
+        if credentials is None:
+            raise ValueError("Stage 00 credentials are required to restore missing assets")
+        store = XingheObjectStore(credentials, outside=outside)
+    selected_uris = [str((row.get("main_document") or {}).get("remote_uri") or "") for row in missing]
+    metadata = _metadata_for_selected(store, spec, selected_uris)
+    supplementary_index, supplementary_inventory, supplementary_failures = _supplementary_for_selected(
+        store, spec, selected_uris, metadata
+    )
+    replacements = {str(row["paper_id"]): row for row in rows}
+    for old in missing:
+        main_uri = str((old.get("main_document") or {}).get("remote_uri") or "")
+        item = metadata.get(_basename(main_uri).casefold(), old.get("source_record") or {})
+        record, _events = _materialize_paper(
+            store,
+            corpus,
+            dataset=dataset,
+            selection_index=int(old.get("selection_index") or 0),
+            main_uri=main_uri,
+            metadata=item,
+            supplementary_uris=supplementary_index.get(
+                _main_document_key(_basename(main_uri)), []
+            ),
+            supplementary_inventory=supplementary_inventory,
+            supplementary_verification_failures=supplementary_failures.get(
+                _main_document_key(_basename(main_uri)), []
+            ),
+            copy_supplementary=copy_supplementary,
+        )
+        replacements[str(old["paper_id"])] = record
+        if resume_store is not None:
+            selection = resume_store.selection_for_paper(str(old["paper_id"]))
+            if selection:
+                resume_store.update_selection_copy(
+                    str(selection["selection_id"]),
+                    copy_state="materialized",
+                    paper_id=record["paper_id"],
+                    source_sha256=(record.get("main_document") or {}).get("sha256"),
+                    local_assets_state="available",
+                )
+    return [replacements[str(row["paper_id"])] for row in rows]
+
+
 def _dataset_spec(dataset: str) -> dict[str, str]:
     if dataset in DATASETS:
         return dict(DATASETS[dataset])
@@ -227,6 +385,8 @@ def _select_main_uris(
     start_after: str | None,
     excluded_main_uris: set[str] | None = None,
 ) -> list[str]:
+    if count <= 0:
+        return []
     excluded = excluded_main_uris or set()
     if selection == "remote_order":
         output: list[str] = []
@@ -236,20 +396,22 @@ def _select_main_uris(
             if len(output) >= count:
                 break
         return output
-    generator = random.Random(seed)
-    reservoir: list[str] = []
-    seen = 0
+    # A hash priority is stable across incremental calls. Selecting the first N
+    # unreserved objects therefore extends a seeded sample without reordering
+    # any target slot already frozen in the selection ledger.
+    heap: list[tuple[int, str]] = []
     for uri in store.iter_uris(prefix):
         if not uri.casefold().endswith(".pdf") or uri in excluded:
             continue
-        seen += 1
-        if len(reservoir) < count:
-            reservoir.append(uri)
-            continue
-        replacement = generator.randrange(seen)
-        if replacement < count:
-            reservoir[replacement] = uri
-    return sorted(reservoir)
+        priority = int.from_bytes(
+            hashlib.sha256(f"{seed}\x00{uri}".encode("utf-8")).digest(), "big"
+        )
+        candidate = (-priority, uri)
+        if len(heap) < count:
+            heapq.heappush(heap, candidate)
+        elif candidate > heap[0]:
+            heapq.heapreplace(heap, candidate)
+    return [uri for _priority, uri in sorted(heap, key=lambda item: (-item[0], item[1]))]
 
 
 def _excluded_main_uris(manifests: list[str | Path]) -> set[str]:
@@ -401,7 +563,9 @@ def _materialize_paper(
             )
         if record.get("main_document", {}).get("remote_uri") != main_uri:
             raise RuntimeError(f"Stage 00 paper directory collision: {final_dir}")
-        return record, []
+        if _materialized_record_is_complete(record, final_dir):
+            return record, []
+        shutil.rmtree(final_dir)
     partial = corpus / f".{paper_id}.partial"
     if partial.exists():
         shutil.rmtree(partial)
@@ -486,6 +650,24 @@ def _document_record(
 
 def _rebase_record_paths(record: dict[str, Any], _final_dir: Path) -> dict[str, Any]:
     return record
+
+
+def _materialized_record_is_complete(record: dict[str, Any], root: Path) -> bool:
+    if record.get("copy_status") != "complete":
+        return False
+    documents = [
+        record.get("main_document") or {},
+        *(record.get("supplementary_documents") or []),
+    ]
+    for document in documents:
+        relative = str(document.get("relative_path") or "")
+        path = root / relative
+        if not relative or not path.is_file():
+            return False
+        expected = str(document.get("sha256") or "")
+        if expected and sha256_file(path) != expected:
+            return False
+    return True
 
 
 def _stage_result(root: Path, dataset: str, rows: list[dict[str, Any]], *, reused: bool) -> dict[str, Any]:

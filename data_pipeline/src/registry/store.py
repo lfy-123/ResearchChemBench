@@ -205,11 +205,18 @@ class ScreeningRegistry:
                 )
 
         deletion = {"deleted": 0, "bytes_freed": 0, "delete_failed": 0}
+        deleted_paper_ids: list[str] = []
         for paper_id in sorted(rejected_ids):
             result = self._prune_paper(run_id=run_id, paper_id=paper_id, stage=stage)
             for key in deletion:
                 deletion[key] += int(result.get(key, 0))
-        return {"recorded": len(materialized), **deletion}
+            if int(result.get("deleted", 0)) > 0 and int(result.get("delete_failed", 0)) == 0:
+                deleted_paper_ids.append(paper_id)
+        return {
+            "recorded": len(materialized),
+            **deletion,
+            "deleted_paper_ids": deleted_paper_ids,
+        }
 
     def finish_run(self, *, run_id: str, status: str) -> dict[str, Any]:
         if not self.enabled:
@@ -596,6 +603,17 @@ def _passed(row: dict[str, Any]) -> bool:
 
 def _should_prune(row: dict[str, Any]) -> bool:
     if _passed(row):
+        return False
+    if str(row.get("processing_status") or "").casefold() in {
+        "failed",
+        "pending",
+        "processing_failed",
+        "retryable_failed",
+        "running",
+        "blocked_by_upstream",
+    }:
+        return False
+    if str(row.get("failure_disposition") or "").casefold() == "retryable":
         return False
     return str(row.get("decision") or "").casefold() not in HOLD_DECISIONS
 

@@ -65,6 +65,7 @@ def run_stage03(
     workspace: Path,
     run_id: str,
     softcite: SoftciteLike | None = None,
+    on_result=None,
 ) -> dict[str, Any]:
     stage_root = workspace / "stage_03_toolbox_resource_gate"
     profile = read_json(config["toolbox_capabilities"])
@@ -232,7 +233,14 @@ def run_stage03(
             )
 
     reviewed = ordered_parallel_map(
-        review, eligible, max_workers=int(config.get("workers", model.config.get("workers", 1)))
+        review,
+        eligible,
+        max_workers=int(config.get("workers", model.config.get("workers", 1))),
+        on_complete=(
+            (lambda _completed, _total, _index, source, result: on_result(source, result[0]))
+            if on_result is not None
+            else None
+        ),
     )
     records = [item[0] for item in reviewed]
     rule_rows = [item[1] for item in reviewed]

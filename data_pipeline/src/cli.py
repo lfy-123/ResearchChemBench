@@ -11,6 +11,7 @@ from dotenv import load_dotenv
 from src.core.io import read_jsonl, write_json, write_jsonl
 from src.integrations.mineru import build_mineru_queue, run_mineru_queue
 from src.pipeline import run_pipeline
+from src.core.resume_workflow import STAGES, command_digest, execute_resume, prepare_resume
 from src.stages.stage00_remote_corpus import prepare_remote_corpus
 
 DATA_PIPELINE_ROOT = Path(__file__).resolve().parents[1]
@@ -155,6 +156,23 @@ def main(argv: list[str] | None = None) -> int:
     mineru_parser.add_argument("--workers", type=int, default=1)
     mineru_parser.add_argument("--request-batch-size", type=int, default=1)
     mineru_parser.add_argument("--force", action="store_true")
+
+    resume_parser = subparsers.add_parser(
+        "resume", help="Plan or resume Stage00-05 at paper/document granularity"
+    )
+    resume_parser.add_argument("--run-root", type=Path, required=True)
+    resume_parser.add_argument("--total", type=int, required=True)
+    resume_parser.add_argument("--batch-size", type=int, default=1000)
+    resume_parser.add_argument("--template", type=Path, default=DATA_PIPELINE_ROOT / "config.example.json")
+    resume_parser.add_argument("--batch", action="append", default=[])
+    resume_parser.add_argument("--start-stage", choices=STAGES, default="stage00")
+    resume_parser.add_argument("--stop-stage", choices=STAGES, default="stage05")
+    resume_modes = resume_parser.add_mutually_exclusive_group()
+    resume_modes.add_argument("--retry-only", action="store_true")
+    resume_modes.add_argument("--pending-only", action="store_true")
+    resume_parser.add_argument("--invalidate-stage", action="append", choices=STAGES, default=[])
+    resume_parser.add_argument("--resume-config", choices=("original", "current"), default="original")
+    resume_parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args(argv)
 
     if args.command == "run":
@@ -223,6 +241,36 @@ def main(argv: list[str] | None = None) -> int:
         )
         write_jsonl(args.result_output, rows)
         result = {"queued": len(queue), "results": len(rows)}
+    elif args.command == "resume":
+        values = {
+            key: value
+            for key, value in vars(args).items()
+            if key not in {"command", "template"}
+        }
+        store, specs, plan = prepare_resume(
+            run_root=args.run_root,
+            total=args.total,
+            batch_size=args.batch_size,
+            template_path=args.template,
+            start_stage=args.start_stage,
+            stop_stage=args.stop_stage,
+            batch_ids=args.batch,
+            pending_only=args.pending_only,
+            retry_only=args.retry_only,
+            materialize_expansion=not args.dry_run,
+        )
+        result = plan if args.dry_run else execute_resume(
+            store=store,
+            specs=specs,
+            total=args.total,
+            start_stage=args.start_stage,
+            stop_stage=args.stop_stage,
+            retry_only=args.retry_only,
+            invalidated_stages=args.invalidate_stage,
+            resume_config=args.resume_config,
+            runtime_overrides={},
+            command_digest=command_digest(values),
+        )
     else:
         raise AssertionError(args.command)
     print(json.dumps(result, ensure_ascii=False, indent=2))

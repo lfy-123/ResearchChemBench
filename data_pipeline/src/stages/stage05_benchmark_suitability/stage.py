@@ -65,6 +65,11 @@ def run_stage05(
     auditor_model,
     workspace: Path,
     run_id: str,
+    router_checkpoints: dict[str, dict[str, Any]] | None = None,
+    auditor_checkpoints: dict[str, dict[str, Any]] | None = None,
+    on_router_result=None,
+    on_auditor_result=None,
+    on_result=None,
 ):
     stage_root = workspace / "stage_05_benchmark_suitability"
     by_paper: dict[str, list[dict[str, Any]]] = {}
@@ -75,6 +80,13 @@ def run_stage05(
 
     def assess(record):
         paper_id = record["paper_id"]
+        route_response = None
+        route_audit = None
+        evidence_route = None
+        route_warnings = []
+        response = None
+        audit = None
+        response_attempts = []
         try:
             blocks = [
                 block
@@ -103,19 +115,40 @@ def run_stage05(
                     "high_recall_routing_only": True,
                 },
             }
-            route_response, route_audit = router_model.call_json(
-                namespace="stage05a_evidence_router",
-                record_id=paper_id,
-                prompt_version=STAGE05_ROUTER_VERSION,
-                system_prompt=STAGE05_ROUTER_SYSTEM,
-                user_content=json.dumps(router_packet, ensure_ascii=False),
-                max_tokens=int(config.get("router_max_tokens", 3072)),
-            )
-            evidence_route, route_warnings = _sanitize_evidence_route(
-                route_response,
-                {str(block["evidence_id"]) for block in index_blocks},
-                candidate_limit=int(config.get("router_candidate_limit", 3)),
-            )
+            checkpoint = (router_checkpoints or {}).get(paper_id) or {}
+            if checkpoint.get("router_response") and checkpoint.get("evidence_route"):
+                route_response = checkpoint["router_response"]
+                route_audit = checkpoint.get("router_audit") or {"cache": "resume_store"}
+                evidence_route = checkpoint["evidence_route"]
+                route_warnings = list(checkpoint.get("route_validation_warnings") or [])
+            else:
+                route_response, route_audit = router_model.call_json(
+                    namespace="stage05a_evidence_router",
+                    record_id=paper_id,
+                    prompt_version=STAGE05_ROUTER_VERSION,
+                    system_prompt=STAGE05_ROUTER_SYSTEM,
+                    user_content=json.dumps(router_packet, ensure_ascii=False),
+                    max_tokens=int(config.get("router_max_tokens", 3072)),
+                )
+                evidence_route, route_warnings = _sanitize_evidence_route(
+                    route_response,
+                    {str(block["evidence_id"]) for block in index_blocks},
+                    candidate_limit=int(config.get("router_candidate_limit", 3)),
+                )
+                if on_router_result is not None:
+                    on_router_result(
+                        record,
+                        {
+                            "paper_id": paper_id,
+                            "processing_status": "completed",
+                            "decision": "router_completed",
+                            "passed": True,
+                            "evidence_route": evidence_route,
+                            "router_response": route_response,
+                            "router_audit": route_audit,
+                            "route_validation_warnings": route_warnings,
+                        },
+                    )
             evidence_blocks = _auditor_evidence_blocks(
                 blocks,
                 evidence_route,
@@ -151,14 +184,39 @@ def run_stage05(
                     "cite_only_evidence_block_ids_from_this_packet": True,
                 },
             }
-            response, audit = auditor_model.call_json(
-                namespace="stage05b_candidate_auditor",
-                record_id=paper_id,
-                prompt_version=STAGE05_VERSION,
-                system_prompt=STAGE05_SYSTEM,
-                user_content=json.dumps(packet, ensure_ascii=False),
-                max_tokens=int(config.get("auditor_max_tokens", 16000)),
-            )
+            auditor_checkpoint = (auditor_checkpoints or {}).get(paper_id) or {}
+            if auditor_checkpoint.get("model_response"):
+                response = auditor_checkpoint["model_response"]
+                audit = auditor_checkpoint.get("model_audit") or {"cache": "resume_store"}
+                response_attempts = list(
+                    auditor_checkpoint.get("model_response_attempts")
+                    or [{"response": response, "audit": audit}]
+                )
+                contract_retry_performed = bool(
+                    auditor_checkpoint.get("contract_retry_performed", False)
+                )
+            else:
+                response, audit = auditor_model.call_json(
+                    namespace="stage05b_candidate_auditor",
+                    record_id=paper_id,
+                    prompt_version=STAGE05_VERSION,
+                    system_prompt=STAGE05_SYSTEM,
+                    user_content=json.dumps(packet, ensure_ascii=False),
+                    max_tokens=int(config.get("auditor_max_tokens", 16000)),
+                )
+                response_attempts = [{"response": response, "audit": audit}]
+                contract_retry_performed = False
+                if on_auditor_result is not None:
+                    on_auditor_result(
+                        record,
+                        _auditor_checkpoint_row(
+                            paper_id,
+                            response,
+                            audit,
+                            response_attempts,
+                            contract_retry_performed=False,
+                        ),
+                    )
             evidence_ids = {str(block["evidence_id"]) for block in evidence_blocks}
             candidate_limit = int(config.get("candidate_limit", 1))
             evidence_text_by_id = {
@@ -176,10 +234,10 @@ def run_stage05(
                 _response_contract_rejections(response, record, evidence_ids)
             )
             validation_rejections.extend(_software_fact_contradictions(response, record))
-            response_attempts = [{"response": response, "audit": audit}]
             if (
                 _contract_retry_needed(validation_rejections)
                 and bool(config.get("contract_retry", True))
+                and not contract_retry_performed
             ):
                 original_decision = str(response.get("decision") or "").casefold()
                 retry_response, retry_audit = auditor_model.call_json(
@@ -211,9 +269,21 @@ def run_stage05(
                     thinking="disabled",
                 )
                 response_attempts.append({"response": retry_response, "audit": retry_audit})
+                contract_retry_performed = True
                 retry_decision = str(retry_response.get("decision") or "").casefold()
                 if retry_decision == original_decision:
                     response, audit = retry_response, retry_audit
+                if on_auditor_result is not None:
+                    on_auditor_result(
+                        record,
+                        _auditor_checkpoint_row(
+                            paper_id,
+                            response,
+                            audit,
+                            response_attempts,
+                            contract_retry_performed=True,
+                        ),
+                    )
                 candidates, validation_rejections = _validate_candidates(
                     response,
                     evidence_ids,
@@ -267,6 +337,9 @@ def run_stage05(
                 "router_response": route_response,
                 "router_audit": route_audit,
                 "route_validation_warnings": route_warnings,
+                "model_response": response,
+                "model_audit": audit,
+                "model_response_attempts": response_attempts,
             }
         except Exception as exc:
             return {
@@ -276,12 +349,21 @@ def run_stage05(
                 "passed": False,
                 "candidates": [],
                 "error": {"error_type": type(exc).__name__, "message": str(exc)},
+                "evidence_route": evidence_route,
+                "router_response": route_response,
+                "router_audit": route_audit,
+                "route_validation_warnings": route_warnings,
             }
 
     records = ordered_parallel_map(
         assess,
         eligible,
         max_workers=int(config.get("workers", auditor_model.config.get("workers", 1))),
+        on_complete=(
+            (lambda _completed, _total, _index, source, result: on_result(source, result))
+            if on_result is not None
+            else None
+        ),
     )
     candidates = [
         {"paper_id": row["paper_id"], **candidate}
@@ -339,6 +421,26 @@ def run_stage05(
     }
     write_json(stage_root / "stage_summary.json", summary)
     return {"records": records, "candidates": candidates, "summary": summary}
+
+
+def _auditor_checkpoint_row(
+    paper_id,
+    response,
+    audit,
+    response_attempts,
+    *,
+    contract_retry_performed,
+):
+    return {
+        "paper_id": paper_id,
+        "processing_status": "completed",
+        "decision": "auditor_completed",
+        "passed": True,
+        "model_response": response,
+        "model_audit": audit,
+        "model_response_attempts": response_attempts,
+        "contract_retry_performed": bool(contract_retry_performed),
+    }
 
 
 def _contract_retry_needed(rejections):

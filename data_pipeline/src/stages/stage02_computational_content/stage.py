@@ -44,6 +44,7 @@ def run_stage02(
     model: RoleModelClient,
     workspace: Path,
     run_id: str,
+    on_result=None,
 ) -> dict[str, Any]:
     stage_root = workspace / "stage_02_computational_content"
     document_by_id = {row["document_id"]: row for row in documents if row.get("decision") == "pass"}
@@ -306,7 +307,14 @@ def run_stage02(
             return record, None, [], [error]
 
     reviewed = ordered_parallel_map(
-        review, eligible, max_workers=int(config.get("workers", model.config.get("workers", 1)))
+        review,
+        eligible,
+        max_workers=int(config.get("workers", model.config.get("workers", 1))),
+        on_complete=(
+            (lambda _completed, _total, _index, paper, result: on_result(paper, result[0]))
+            if on_result is not None
+            else None
+        ),
     )
     records = [item[0] for item in reviewed]
     packet_rows = [item[1] for item in reviewed if item[1] is not None]

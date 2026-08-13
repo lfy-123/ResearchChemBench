@@ -31,6 +31,10 @@ def run_stage00(config: dict[str, Any], workspace: Path, run_id: str) -> dict[st
         selection=str(config.get("selection", "remote_order")),
         seed=int(config.get("seed", 0)),
         exclude_selected_manifests=config.get("exclude_selected_manifests") or [],
+        resume_store=config.get("_resume_store"),
+        outer_batch_id=config.get("_resume_outer_batch_id"),
+        target_slot_start=int(config.get("_resume_target_slot_start", 1)),
+        retry_only=bool(config.get("_resume_retry_only", False)),
     )
     summary = {
         **record_header(run_id=run_id, stage="stage00"),

@@ -25,27 +25,44 @@ def run_document_normalization(
     workspace: Path,
     run_id: str,
     grobid_client: GrobidClient | None = None,
+    document_ids: set[str] | None = None,
+    existing_documents: list[dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
     stage_root = workspace / "stage_01_document_preparation"
     raw_root = stage_root / "raw"
     selected_papers = {row["paper_id"]: row for row in papers if row.get("decision") == "pass"}
-    canonical = [
+    eligible_documents = [
         row
         for row in documents
         if row.get("paper_id") in selected_papers
         and not row.get("duplicate_of")
         and row.get("canonical_in_paper", True)
+    ]
+    eligible_ids = {str(row["document_id"]) for row in eligible_documents}
+    requested_ids = (
+        eligible_ids
+        if document_ids is None
+        else {str(value) for value in document_ids if str(value) in eligible_ids}
+    )
+    canonical = [
+        row
+        for row in eligible_documents
+        if str(row["document_id"]) in requested_ids
         and Path(str(row.get("source_path"))).suffix.casefold() == ".pdf"
     ]
     non_pdf = [
         row
-        for row in documents
-        if row.get("paper_id") in selected_papers
-        and not row.get("duplicate_of")
+        for row in eligible_documents
+        if str(row["document_id"]) in requested_ids
         and Path(str(row.get("source_path"))).suffix.casefold() != ".pdf"
     ]
     attempts: list[dict[str, Any]] = []
-    normalized: list[dict[str, Any]] = []
+    normalized: list[dict[str, Any]] = [
+        row
+        for row in (existing_documents or [])
+        if str(row.get("document_id") or "") in eligible_ids
+        and str(row.get("document_id") or "") not in requested_ids
+    ]
     if canonical:
         grobid_config = config.get("grobid") or {}
         grobid_rows = extract_documents_with_grobid(
@@ -535,7 +552,12 @@ def _paper_quality(papers, documents, run_id):
                 "partial_si_parse": bool(
                     requires_si and parsed_supplementary_docs and failed_supplementary_docs
                 ),
-                "processing_status": "completed",
+                "processing_status": (
+                    "completed" if passed or excluded_type else "failed"
+                ),
+                "failure_disposition": (
+                    "retryable" if not passed and not excluded_type else None
+                ),
                 "excluded_document_type": excluded_type,
                 "decision": (
                     "pass"

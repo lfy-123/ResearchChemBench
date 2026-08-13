@@ -12,6 +12,7 @@ scripts/
 ├── workflows/run_stage00_04_batches.sh # 分轮复制并运行 Stage00-04
 ├── workflows/run_stage04_05_resume.py  # 从已完成 Stage03 的运行目录恢复 Stage04-05
 ├── run_stage04_05_resume.sh            # Stage04-05 恢复入口
+├── resume_pipeline.sh                   # Stage00-05 论文/文档级统一恢复入口
 ├── sync_toolbox_capabilities.py  # 刷新只读工具箱能力快照
 └── test_publisher_access.sh      # 诊断出版商网页连通性
 ```
@@ -31,6 +32,23 @@ bash scripts/workflows/run_stage00_04_batches.sh \
   --initial-delay-hours 5
 python scripts/sync_toolbox_capabilities.py
 ```
+
+Stage00-05 推荐使用统一的论文/文档级恢复入口。先只生成计划：
+
+```bash
+bash scripts/resume_pipeline.sh \
+  --run-root runs/stage00-05-api-batches-10000-20260813 \
+  --total 10000 --start-stage stage00 --stop-stage stage05 --dry-run
+```
+
+确认 `resume/resume_plan.json` 后去掉 `--dry-run` 执行。正常科学拒绝会复用；API、
+GROBID、MinerU 等客观失败以及尚未开始的论文会重新入队。`--retry-only` 只重试客观
+失败，`--batch 2` 可限制到 `batch-0002`。把累计目标扩到 20,000 时使用
+`--total 20000 --batch-size 1000`，旧批次不改变，只追加新批次并通过全局选择账本排除
+所有历史论文，即使对应 PDF 已因 Stage00-03 正常淘汰而删除。
+
+改变 prompt、模型语义、工具箱快照或科学阈值不属于普通恢复，必须使用最早受影响阶段的
+`--invalidate-stage stageXX`；该阶段及其下游会进入新的恢复代次，历史 attempt 仍保留。
 
 `run_stage00_04_batches.sh` 严格串行处理外层批次：只有当前 1000 篇完成
 Stage00-04 后才复制下一批；各批次共享一个沙箱和 GPU worker，并自动排除先前已选择的论文。

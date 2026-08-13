@@ -17,6 +17,15 @@ from src.contracts import (
 )
 from src.core.concurrency import ordered_pipeline_map
 from src.core.io import sha256_file
+from src.core.resume import (
+    document_input_fingerprint,
+    ResumeStateStore,
+    input_fingerprint,
+    paper_input_fingerprint,
+    result_artifacts,
+    scientific_stage_fingerprints,
+    stable_input_value,
+)
 from src.integrations.grobid import GrobidClient
 from src.integrations.managed_service import managed_service
 from src.integrations.softcite import SoftciteClient, SoftciteClientPool, softcite_service
@@ -69,6 +78,8 @@ def run_pipeline(
     stop_after: str | None = None,
     sandbox_options=None,
     microbatch_overrides: dict[str, Any] | None = None,
+    resume_options: dict[str, Any] | None = None,
+    sandbox_runtime=None,
 ) -> dict[str, Any]:
     config = load_config(config_path)
     if stop_after is not None:
@@ -78,6 +89,13 @@ def run_pipeline(
     config["microbatch"].update(microbatch_overrides or {})
     backend = execution_backend or (config.get("execution") or {}).get("backend", "local")
     if backend == "sandbox":
+        if sandbox_runtime is not None:
+            _apply_sandbox(config, sandbox_runtime)
+            return _run_loaded_pipeline(
+                config,
+                model_callers=model_callers,
+                resume_options=resume_options,
+            )
         from src.sandbox.runtime import SandboxPipelineRuntime
 
         options = sandbox_options or _sandbox_options_from_config(config)
@@ -94,7 +112,11 @@ def run_pipeline(
                     if future is not None:
                         future.result()
                     _apply_sandbox(config, runtime)
-                    return _run_loaded_pipeline(config, model_callers=model_callers)
+                    return _run_loaded_pipeline(
+                        config,
+                        model_callers=model_callers,
+                        resume_options=resume_options,
+                    )
             finally:
                 if future is not None:
                     try:
@@ -105,7 +127,11 @@ def run_pipeline(
     if backend != "local":
         raise ValueError("execution backend must be local or sandbox")
     try:
-        return _run_loaded_pipeline(config, model_callers=model_callers)
+        return _run_loaded_pipeline(
+            config,
+            model_callers=model_callers,
+            resume_options=resume_options,
+        )
     finally:
         if (
             _uses_managed_screening_model(config)
@@ -137,13 +163,28 @@ def _uses_managed_screening_model(config: dict[str, Any]) -> bool:
     )
 
 
-def _run_loaded_pipeline(config: dict[str, Any], *, model_callers=None) -> dict[str, Any]:
+def _run_loaded_pipeline(
+    config: dict[str, Any], *, model_callers=None, resume_options=None
+) -> dict[str, Any]:
     workspace = Path(config["workspace"])
     workspace.mkdir(parents=True, exist_ok=True)
     run_id = str(config.get("run_id") or _run_id(config))
     stop_index = int(config["stop_after"].replace("stage", ""))
+    resume = _resume_runtime(config, resume_options)
     snapshot = _config_snapshot(config, run_id)
-    write_json(workspace / "config.snapshot.json", snapshot)
+    snapshot_path = workspace / "config.snapshot.json"
+    if resume is None:
+        write_json(snapshot_path, snapshot)
+    else:
+        if not snapshot_path.is_file():
+            write_json(snapshot_path, snapshot)
+        write_json(
+            workspace
+            / "resume_attempts"
+            / f"generation-{resume['generation']:04d}"
+            / "config.snapshot.json",
+            snapshot,
+        )
     registry = ScreeningRegistry.from_config(
         config.get("registry")
         or {
@@ -159,20 +200,63 @@ def _run_loaded_pipeline(config: dict[str, Any], *, model_callers=None) -> dict[
         config_hash=canonical_hash(snapshot),
     )
 
-    stage00_config = {**config["stage00"], "source_root": (config.get("source") or {}).get("root")}
-    stage00 = run_stage00(stage00_config, workspace, run_id)
+    stage00_config = {
+        **config["stage00"],
+        "source_root": (config.get("source") or {}).get("root"),
+    }
+    if resume is not None:
+        stage00_config.update(
+            {
+                "_resume_store": resume["store"],
+                "_resume_outer_batch_id": resume["outer_batch_id"],
+                "_resume_target_slot_start": resume["target_slot_start"],
+                "_resume_retry_only": resume["retry_only"],
+            }
+        )
+    if resume is not None and not _resume_stage_active(resume, "stage00"):
+        stage00_summary = workspace / "stage_00_remote_corpus" / "stage_summary.json"
+        if not stage00_summary.is_file():
+            raise RuntimeError(
+                "Stage00 is outside the requested resume range, but its stage_summary.json "
+                f"is missing from {workspace}"
+            )
+        stage00 = read_json(stage00_summary)
+    else:
+        stage00 = run_stage00(stage00_config, workspace, run_id)
     registry.register_stage00_manifest(
         run_id=run_id,
         manifest_path=workspace / "stage_00_remote_corpus" / "source_manifest.jsonl",
         corpus_root=stage00["corpus_root"],
     )
     result: dict[str, Any] = {"run_id": run_id, "workspace": str(workspace), "stage00": stage00}
+    if (
+        resume is not None
+        and config["stage00"].get("enabled", False)
+        and _resume_stage_active(resume, "stage00")
+    ):
+        _checkpoint_stage00(resume, config, workspace)
     if stop_index == 0:
         return _finish(result, config, workspace, registry)
-
-    package = _load_or_run_package(config, stage00["corpus_root"], workspace, run_id)
+    package = (
+        _load_or_run_package(
+            config,
+            stage00["corpus_root"],
+            workspace,
+            run_id,
+            resume=resume,
+        )
+        if resume is not None
+        else _load_or_run_package(
+            config,
+            stage00["corpus_root"],
+            workspace,
+            run_id,
+        )
+    )
     registry.register_document_sources(run_id=run_id, documents=package["documents"])
-    registry.record_stage_results(
+    _record_registry_stage(
+        registry,
+        resume,
         run_id=run_id,
         stage="stage01",
         rows=package["papers"],
@@ -188,7 +272,9 @@ def _run_loaded_pipeline(config: dict[str, Any], *, model_callers=None) -> dict[
     configured = config["microbatch"].get("stage_concurrency") or {}
     # Legacy configs keep one deployed model resident. Dedicated API roles bypass
     # the worker lifecycle entirely.
-    uses_managed_screening = _uses_managed_screening_model(config)
+    resume_start_index = resume["start_index"] if resume is not None else 0
+    phase1_model_active = stop_index >= 2 and resume_start_index <= 3
+    uses_managed_screening = _uses_managed_screening_model(config) and phase1_model_active
     phase1_context = (
         screening_model_runtime(
             config["models"]["screening"],
@@ -201,11 +287,24 @@ def _run_loaded_pipeline(config: dict[str, Any], *, model_callers=None) -> dict[
     )
     with contextlib.ExitStack() as services:
         screening_config = services.enter_context(phase1_context)
-        grobid_client = _grobid_service(config["stage01"]["normalization"], services)
-        softcite_client = (
-            _softcite_service(config["stage03"], services) if stop_index >= 3 else None
+        grobid_client = (
+            _grobid_service(config["stage01"]["normalization"], services)
+            if resume_start_index <= 1
+            else None
         )
-        clients = _clients(config, workspace, model_callers or {}, screening_config, stop_index)
+        softcite_client = (
+            _softcite_service(config["stage03"], services)
+            if stop_index >= 3 and resume_start_index <= 3
+            else None
+        )
+        clients = _clients(
+            config,
+            workspace,
+            model_callers or {},
+            screening_config,
+            stop_index,
+            include_screening=phase1_model_active,
+        )
 
         def process_stage01(item):
             index, paper_batch = item
@@ -218,6 +317,7 @@ def _run_loaded_pipeline(config: dict[str, Any], *, model_callers=None) -> dict[
                 run_id=run_id,
                 grobid_client=grobid_client,
                 registry=registry,
+                resume=resume,
             )
 
         def process_stage02(state):
@@ -228,6 +328,7 @@ def _run_loaded_pipeline(config: dict[str, Any], *, model_callers=None) -> dict[
                 workspace=workspace,
                 run_id=run_id,
                 registry=registry,
+                resume=resume,
             )
 
         def process_stage03(state):
@@ -239,6 +340,7 @@ def _run_loaded_pipeline(config: dict[str, Any], *, model_callers=None) -> dict[
                 run_id=run_id,
                 softcite_client=softcite_client,
                 registry=registry,
+                resume=resume,
             )
 
         stage_functions = [process_stage01]
@@ -262,7 +364,7 @@ def _run_loaded_pipeline(config: dict[str, Any], *, model_callers=None) -> dict[
 
     # Phase 2 is independent of Qwen. The same worker is switched to MinerU when configured.
     mineru_config = config["stage04"].get("mineru") or {}
-    if mineru_config.get("managed_gpu"):
+    if mineru_config.get("managed_gpu") and resume_start_index <= 4:
         mineru_config = start_managed_mineru_service(config["models"]["screening"], mineru_config)
         config["stage04"]["mineru"] = mineru_config
     with contextlib.ExitStack() as services:
@@ -286,6 +388,7 @@ def _run_loaded_pipeline(config: dict[str, Any], *, model_callers=None) -> dict[
                 workspace=workspace,
                 run_id=run_id,
                 registry=registry,
+                resume=resume,
             )
 
         def process_stage05(state):
@@ -296,6 +399,7 @@ def _run_loaded_pipeline(config: dict[str, Any], *, model_callers=None) -> dict[
                 workspace=workspace,
                 run_id=run_id,
                 registry=registry,
+                resume=resume,
             )
 
         phase2_functions = [process_stage04]
@@ -355,7 +459,16 @@ def _run_loaded_pipeline(config: dict[str, Any], *, model_callers=None) -> dict[
 
 
 def _run_phase1_stage01(
-    *, index, papers, all_documents, config, workspace, run_id, grobid_client, registry=None
+    *,
+    index,
+    papers,
+    all_documents,
+    config,
+    workspace,
+    run_id,
+    grobid_client,
+    registry=None,
+    resume=None,
 ):
     started_epoch = time.time()
     started = time.perf_counter()
@@ -365,9 +478,143 @@ def _run_phase1_stage01(
     ]
     hashes = _microbatch_stage_hashes(papers, documents, config)
     output = {"batch_id": f"batch-{index + 1:06d}"}
-    stage01 = _load_cached_microbatch_stage(root, "stage01", hashes["stage01"])
+    stage01 = (
+        None
+        if resume is not None
+        else _load_cached_microbatch_stage(root, "stage01", hashes["stage01"])
+    )
     cache_hit = stage01 is not None
-    if stage01 is None:
+    if stage01 is None and resume is not None:
+        reused_documents = []
+        pending_document_ids = set()
+        reused_papers = []
+        pending_paper_ids = set()
+        unresolved_papers = []
+        for paper in papers:
+            paper_documents = [
+                row for row in documents if row.get("paper_id") == paper["paper_id"]
+            ]
+            plan = _resume_plan(
+                resume,
+                "stage01",
+                paper["paper_id"],
+                None,
+                _resume_paper_input(paper, paper_documents),
+            )
+            if plan.action == "reuse" and plan.result:
+                reused_papers.append(plan.result)
+            elif plan.action == "run":
+                pending_paper_ids.add(str(paper["paper_id"]))
+            elif plan.result:
+                reused_papers.append(plan.result)
+            else:
+                unresolved_papers.append(
+                    {
+                        **paper,
+                        "processing_status": "pending",
+                        "decision": "processing_pending",
+                        "passed": False,
+                    }
+                )
+        for document in documents:
+            plan = _resume_plan(
+                resume,
+                "stage01",
+                document["paper_id"],
+                document["document_id"],
+                _resume_document_input(document),
+            )
+            if plan.action == "reuse" and plan.result:
+                reused_documents.append(plan.result)
+            elif plan.action == "run":
+                pending_document_ids.add(str(document["document_id"]))
+            elif plan.result:
+                reused_documents.append(plan.result)
+        fresh_paper_ids = pending_paper_ids | {
+            str(document["paper_id"])
+            for document in documents
+            if str(document.get("document_id")) in pending_document_ids
+        }
+        fresh = {"papers": [], "documents": [], "attempts": []}
+        if _resume_stage_active(resume, "stage01") and fresh_paper_ids:
+            attempt_root = _resume_attempt_root(root, resume, "stage01")
+            fresh = run_document_normalization(
+                papers=[row for row in papers if str(row["paper_id"]) in fresh_paper_ids],
+                documents=[
+                    row for row in documents if str(row["paper_id"]) in fresh_paper_ids
+                ],
+                config=config["stage01"]["normalization"],
+                workspace=attempt_root,
+                run_id=run_id,
+                grobid_client=grobid_client,
+                document_ids=pending_document_ids,
+                existing_documents=[
+                    row
+                    for row in reused_documents
+                    if str(row["paper_id"]) in fresh_paper_ids
+                ],
+            )
+            for row in fresh.get("documents") or []:
+                if str(row.get("document_id")) in pending_document_ids:
+                    _resume_record(resume, "stage01", row, _resume_document_input(row))
+            for row in fresh.get("papers") or []:
+                source_paper = next(
+                    item for item in papers if item["paper_id"] == row["paper_id"]
+                )
+                _resume_record(
+                    resume,
+                    "stage01",
+                    row,
+                    _resume_paper_input(
+                        source_paper,
+                        [
+                            document
+                            for document in documents
+                            if document.get("paper_id") == source_paper["paper_id"]
+                        ],
+                    ),
+                )
+        fresh_document_ids = {
+            str(row["document_id"]) for row in fresh.get("documents") or []
+        }
+        final_documents = _deduplicate_document_rows(
+            [
+                *[
+                    row
+                    for row in reused_documents
+                    if str(row["document_id"]) not in fresh_document_ids
+                ],
+                *(fresh.get("documents") or []),
+            ]
+        )
+        final_papers = _ordered_records(
+            {row["paper_id"]: row for row in papers},
+            [
+                *[
+                    row
+                    for row in reused_papers
+                    if str(row["paper_id"]) not in fresh_paper_ids
+                ],
+                *unresolved_papers,
+                *(fresh.get("papers") or []),
+            ],
+        )
+        stage01 = _stage01_projection(
+            final_papers,
+            final_documents,
+            fresh.get("attempts") or [],
+            run_id,
+        )
+        _write_stage01_output(root, stage01, run_id)
+        _write_microbatch_stage_cache(
+            root,
+            "stage01",
+            hashes["stage01"],
+            run_id,
+            cacheable=not _has_stage01_processing_errors(stage01),
+        )
+        cache_hit = not fresh_paper_ids
+    elif stage01 is None:
         stage01 = run_document_normalization(
             papers=papers,
             documents=documents,
@@ -379,8 +626,12 @@ def _run_phase1_stage01(
         _write_microbatch_stage_cache(root, "stage01", hashes["stage01"], run_id, cacheable=True)
     output["stage01"] = stage01
     if registry is not None:
-        registry.record_stage_results(
-            run_id=run_id, stage="stage01", rows=stage01.get("papers") or []
+        _record_registry_stage(
+            registry,
+            resume,
+            run_id=run_id,
+            stage="stage01",
+            rows=stage01.get("papers") or [],
         )
     output["_phase1_root"] = root
     output["_phase1_hashes"] = hashes
@@ -390,14 +641,69 @@ def _run_phase1_stage01(
     return output
 
 
-def _run_phase1_stage02(*, state, config, clients, workspace, run_id, registry=None):
+def _run_phase1_stage02(
+    *, state, config, clients, workspace, run_id, registry=None, resume=None
+):
     started_epoch = time.time()
     started = time.perf_counter()
     root = state["_phase1_root"]
     hashes = state["_phase1_hashes"]
-    stage02 = _load_cached_microbatch_stage(root, "stage02", hashes["stage02"])
+    stage02 = (
+        None
+        if resume is not None
+        else _load_cached_microbatch_stage(root, "stage02", hashes["stage02"])
+    )
     cache_hit = stage02 is not None
-    if stage02 is None:
+    if stage02 is None and resume is not None:
+        by_paper = {row["paper_id"]: row for row in state["stage01"]["papers"]}
+        documents = state["stage01"]["documents"]
+        reused, pending = [], []
+        for paper in by_paper.values():
+            if paper.get("decision") != "pass":
+                continue
+            paper_documents = [
+                row for row in documents if row.get("paper_id") == paper["paper_id"]
+            ]
+            fingerprint = _resume_paper_input(paper, paper_documents)
+            plan = _resume_plan(resume, "stage02", paper["paper_id"], None, fingerprint)
+            if plan.action == "reuse" and plan.result:
+                reused.append(plan.result)
+            elif plan.action == "run":
+                pending.append(paper)
+            elif plan.result:
+                reused.append(plan.result)
+        attempt_root = _resume_attempt_root(root, resume, "stage02")
+        fresh = {"records": []}
+        if _resume_stage_active(resume, "stage02") and pending:
+            fresh = run_stage02(
+                papers=pending,
+                documents=documents,
+                config=config["stage02"],
+                model=clients[config["stage02"].get("model_role", "screening")],
+                workspace=attempt_root,
+                run_id=run_id,
+                on_result=lambda paper, row: _resume_record(
+                    resume,
+                    "stage02",
+                    row,
+                    _resume_paper_input(
+                        paper,
+                        [item for item in documents if item.get("paper_id") == paper["paper_id"]],
+                    ),
+                ),
+            )
+        records = _ordered_records(by_paper, [*reused, *(fresh.get("records") or [])])
+        stage02 = _stage_output("stage02", records, run_id)
+        _write_stage_records(root, "stage02", stage02)
+        _write_microbatch_stage_cache(
+            root,
+            "stage02",
+            hashes["stage02"],
+            run_id,
+            cacheable=not _has_processing_errors(stage02),
+        )
+        cache_hit = not pending
+    elif stage02 is None:
         stage02 = run_stage02(
             papers=state["stage01"]["papers"],
             documents=state["stage01"]["documents"],
@@ -416,8 +722,12 @@ def _run_phase1_stage02(*, state, config, clients, workspace, run_id, registry=N
         _raise_on_screening_infrastructure_error(stage02, "stage02")
     state["stage02"] = stage02
     if registry is not None:
-        registry.record_stage_results(
-            run_id=run_id, stage="stage02", rows=stage02.get("records") or []
+        _record_registry_stage(
+            registry,
+            resume,
+            run_id=run_id,
+            stage="stage02",
+            rows=stage02.get("records") or [],
         )
     _record_stage_timing(
         state, "stage02", started_epoch, started, cache_hit, len(stage02.get("records") or [])
@@ -426,15 +736,70 @@ def _run_phase1_stage02(*, state, config, clients, workspace, run_id, registry=N
 
 
 def _run_phase1_stage03(
-    *, state, config, clients, workspace, run_id, softcite_client, registry=None
+    *,
+    state,
+    config,
+    clients,
+    workspace,
+    run_id,
+    softcite_client,
+    registry=None,
+    resume=None,
 ):
     started_epoch = time.time()
     started = time.perf_counter()
     root = state["_phase1_root"]
     hashes = state["_phase1_hashes"]
-    stage03 = _load_cached_microbatch_stage(root, "stage03", hashes["stage03"])
+    stage03 = (
+        None
+        if resume is not None
+        else _load_cached_microbatch_stage(root, "stage03", hashes["stage03"])
+    )
     cache_hit = stage03 is not None
-    if stage03 is None:
+    if stage03 is None and resume is not None:
+        stage02_by_id = {row["paper_id"]: row for row in state["stage02"]["records"]}
+        reused, pending = [], []
+        for row in stage02_by_id.values():
+            if not row.get("passed"):
+                continue
+            fingerprint = _resume_paper_input(row, [])
+            plan = _resume_plan(resume, "stage03", row["paper_id"], None, fingerprint)
+            if plan.action == "reuse" and plan.result:
+                reused.append(plan.result)
+            elif plan.action == "run":
+                pending.append(row)
+            elif plan.result:
+                reused.append(plan.result)
+        attempt_root = _resume_attempt_root(root, resume, "stage03")
+        fresh = {"records": []}
+        if _resume_stage_active(resume, "stage03") and pending:
+            fresh = run_stage03(
+                stage02_records=pending,
+                documents=state["stage01"]["documents"],
+                config=config["stage03"],
+                model=clients[config["stage03"].get("model_role", "screening")],
+                workspace=attempt_root,
+                run_id=run_id,
+                softcite=softcite_client,
+                on_result=lambda source, row: _resume_record(
+                    resume,
+                    "stage03",
+                    row,
+                    _resume_paper_input(source, []),
+                ),
+            )
+        records = _ordered_records(stage02_by_id, [*reused, *(fresh.get("records") or [])])
+        stage03 = _stage_output("stage03", records, run_id)
+        _write_stage_records(root, "stage03", stage03)
+        _write_microbatch_stage_cache(
+            root,
+            "stage03",
+            hashes["stage03"],
+            run_id,
+            cacheable=not _has_processing_errors(stage03),
+        )
+        cache_hit = not pending
+    elif stage03 is None:
         stage03 = run_stage03(
             stage02_records=state["stage02"]["records"],
             documents=state["stage01"]["documents"],
@@ -454,8 +819,12 @@ def _run_phase1_stage03(
         _raise_on_screening_infrastructure_error(stage03, "stage03")
     state["stage03"] = stage03
     if registry is not None:
-        registry.record_stage_results(
-            run_id=run_id, stage="stage03", rows=stage03.get("records") or []
+        _record_registry_stage(
+            registry,
+            resume,
+            run_id=run_id,
+            stage="stage03",
+            rows=stage03.get("records") or [],
         )
     _record_stage_timing(
         state, "stage03", started_epoch, started, cache_hit, len(stage03.get("records") or [])
@@ -463,15 +832,155 @@ def _run_phase1_stage03(
     return state
 
 
-def _run_phase2_stage04(*, index, papers, phase1, config, workspace, run_id, registry=None):
+def _run_phase2_stage04(
+    *, index, papers, phase1, config, workspace, run_id, registry=None, resume=None
+):
     started_epoch = time.time()
     started = time.perf_counter()
     root = workspace / "microbatches" / f"batch-{index + 1:06d}"
     hashes = _microbatch_stage_hashes(papers, phase1["stage01"]["documents"], config)
     output = dict(phase1)
-    stage04 = _load_cached_microbatch_stage(root, "stage04", hashes["stage04"])
+    stage04 = (
+        None
+        if resume is not None
+        else _load_cached_microbatch_stage(root, "stage04", hashes["stage04"])
+    )
     cache_hit = stage04 is not None
-    if stage04 is None:
+    if stage04 is None and resume is not None:
+        stage03_by_id = {row["paper_id"]: row for row in phase1["stage03"]["records"]}
+        source_documents = phase1["stage01"]["documents"]
+        eligible_ids = {
+            paper_id for paper_id, row in stage03_by_id.items() if row.get("passed")
+        }
+        selected_documents = [
+            row
+            for row in source_documents
+            if row.get("paper_id") in eligible_ids and row.get("decision") == "pass"
+        ]
+        reused_documents, pending_document_ids = [], set()
+        reused_papers = []
+        pending_paper_ids = set()
+        for paper_id, row in stage03_by_id.items():
+            if not row.get("passed"):
+                continue
+            paper_documents = [
+                item for item in source_documents if item.get("paper_id") == paper_id
+            ]
+            plan = _resume_plan(
+                resume,
+                "stage04",
+                paper_id,
+                None,
+                _resume_paper_input(row, paper_documents),
+            )
+            if plan.action == "reuse" and plan.result:
+                reused_papers.append(plan.result)
+            elif plan.action == "run":
+                pending_paper_ids.add(str(paper_id))
+            elif plan.result:
+                reused_papers.append(plan.result)
+        for document in selected_documents:
+            plan = _resume_plan(
+                resume,
+                "stage04",
+                document["paper_id"],
+                document["document_id"],
+                _resume_document_input(document),
+            )
+            if plan.action == "reuse" and plan.result:
+                reused_documents.append(plan.result)
+            elif plan.action == "run":
+                pending_document_ids.add(str(document["document_id"]))
+            elif plan.result:
+                reused_documents.append(plan.result)
+        fresh_paper_ids = pending_paper_ids | {
+            str(document["paper_id"])
+            for document in selected_documents
+            if str(document.get("document_id")) in pending_document_ids
+        }
+        fresh = {"records": [], "documents": [], "deep_parse_attempts": []}
+        if _resume_stage_active(resume, "stage04") and fresh_paper_ids:
+            attempt_root = _resume_attempt_root(root, resume, "stage04")
+            fresh = run_stage04(
+                stage03_records=[
+                    row
+                    for row in stage03_by_id.values()
+                    if str(row["paper_id"]) in fresh_paper_ids
+                ],
+                documents=[
+                    row
+                    for row in source_documents
+                    if str(row["paper_id"]) in fresh_paper_ids
+                ],
+                config=config["stage04"],
+                workspace=attempt_root,
+                run_id=run_id,
+                document_ids=pending_document_ids,
+                existing_deep_documents=[
+                    row
+                    for row in reused_documents
+                    if str(row["paper_id"]) in fresh_paper_ids
+                ],
+            )
+            for row in fresh.get("documents") or []:
+                if str(row.get("document_id")) in pending_document_ids:
+                    _resume_record(resume, "stage04", row, _resume_document_input(row))
+            for row in fresh.get("records") or []:
+                if row.get("paper_id") in eligible_ids:
+                    _resume_record(
+                        resume,
+                        "stage04",
+                        row,
+                        _resume_paper_input(
+                            stage03_by_id[row["paper_id"]],
+                            [
+                                item
+                                for item in source_documents
+                                if item.get("paper_id") == row["paper_id"]
+                            ],
+                        ),
+                    )
+        fresh_document_ids = {
+            str(row["document_id"]) for row in fresh.get("documents") or []
+        }
+        final_documents = _deduplicate_document_rows(
+            [
+                *[
+                    row
+                    for row in reused_documents
+                    if str(row["document_id"]) not in fresh_document_ids
+                ],
+                *(fresh.get("documents") or []),
+            ]
+        )
+        final_records = _ordered_records(
+            stage03_by_id,
+            [
+                *[
+                    row
+                    for row in reused_papers
+                    if str(row["paper_id"]) not in fresh_paper_ids
+                ],
+                *(fresh.get("records") or []),
+            ],
+        )
+        stage04 = _stage_output("stage04", final_records, run_id)
+        stage04.update(
+            {
+                "documents": final_documents,
+                "deep_parse_attempts": fresh.get("deep_parse_attempts") or [],
+            }
+        )
+        _write_stage04_output(root, stage04)
+        _write_microbatch_stage_cache(
+            root,
+            "stage04",
+            hashes["stage04"],
+            run_id,
+            cacheable=not _has_processing_errors(stage04),
+        )
+        cache_hit = not fresh_paper_ids
+    elif stage04 is None:
         stage04 = run_stage04(
             stage03_records=phase1["stage03"]["records"],
             documents=phase1["stage01"]["documents"],
@@ -502,14 +1011,109 @@ def _run_phase2_stage04(*, index, papers, phase1, config, workspace, run_id, reg
     return output
 
 
-def _run_phase2_stage05(*, state, config, clients, workspace, run_id, registry=None):
+def _run_phase2_stage05(
+    *, state, config, clients, workspace, run_id, registry=None, resume=None
+):
     started_epoch = time.time()
     started = time.perf_counter()
     root = state["_phase2_root"]
     hashes = state["_phase2_hashes"]
-    stage05 = _load_cached_microbatch_stage(root, "stage05", hashes["stage05"])
+    stage05 = (
+        None
+        if resume is not None
+        else _load_cached_microbatch_stage(root, "stage05", hashes["stage05"])
+    )
     cache_hit = stage05 is not None
-    if stage05 is None:
+    if stage05 is None and resume is not None:
+        stage04_by_id = {row["paper_id"]: row for row in state["stage04"]["records"]}
+        deep_documents = state["stage04"]["documents"]
+        reused, pending, router_checkpoints, auditor_checkpoints = [], [], {}, {}
+        for row in stage04_by_id.values():
+            if not row.get("passed"):
+                continue
+            paper_documents = [
+                item for item in deep_documents if item.get("paper_id") == row["paper_id"]
+            ]
+            fingerprint = _resume_paper_input(row, paper_documents)
+            plan = _resume_plan(resume, "stage05", row["paper_id"], None, fingerprint)
+            if plan.action == "reuse" and plan.result:
+                reused.append(plan.result)
+                continue
+            if plan.action != "run":
+                if plan.result:
+                    reused.append(plan.result)
+                continue
+            pending.append(row)
+            router_plan = _resume_plan(
+                resume, "stage05_router", row["paper_id"], None, fingerprint
+            )
+            if router_plan.action == "reuse" and router_plan.result:
+                router_checkpoints[row["paper_id"]] = router_plan.result
+            auditor_plan = _resume_plan(
+                resume, "stage05_auditor", row["paper_id"], None, fingerprint
+            )
+            if auditor_plan.action == "reuse" and auditor_plan.result:
+                auditor_checkpoints[row["paper_id"]] = auditor_plan.result
+        attempt_root = _resume_attempt_root(root, resume, "stage05")
+        fresh = {"records": []}
+        if _resume_stage_active(resume, "stage05") and pending:
+            fresh = run_stage05(
+                stage04_records=pending,
+                documents=deep_documents,
+                config=config["stage05"],
+                router_model=clients["stage05_router"],
+                auditor_model=clients["suitability"],
+                workspace=attempt_root,
+                run_id=run_id,
+                router_checkpoints=router_checkpoints,
+                auditor_checkpoints=auditor_checkpoints,
+                on_router_result=lambda source, row: _resume_record(
+                    resume,
+                    "stage05_router",
+                    row,
+                    _resume_paper_input(
+                        source,
+                        [
+                            item
+                            for item in deep_documents
+                            if item.get("paper_id") == source["paper_id"]
+                        ],
+                    ),
+                ),
+                on_auditor_result=lambda source, row: _resume_record(
+                    resume,
+                    "stage05_auditor",
+                    row,
+                    _resume_paper_input(
+                        source,
+                        [
+                            item
+                            for item in deep_documents
+                            if item.get("paper_id") == source["paper_id"]
+                        ],
+                    ),
+                ),
+                on_result=lambda source, row: _resume_record_stage05_result(
+                    resume, source, row, deep_documents
+                ),
+            )
+        records = _ordered_records(stage04_by_id, [*reused, *(fresh.get("records") or [])])
+        candidates = [
+            {"paper_id": row["paper_id"], **candidate}
+            for row in records
+            for candidate in row.get("candidates") or []
+        ]
+        stage05 = _stage_output("stage05", records, run_id, candidates=candidates)
+        _write_stage_records(root, "stage05", stage05)
+        _write_microbatch_stage_cache(
+            root,
+            "stage05",
+            hashes["stage05"],
+            run_id,
+            cacheable=not _has_processing_errors(stage05),
+        )
+        cache_hit = not pending
+    elif stage05 is None:
         stage05 = run_stage05(
             stage04_records=state["stage04"]["records"],
             documents=state["stage04"]["documents"],
@@ -690,8 +1294,95 @@ def _aggregate_stage_timings(batch_results, stage):
     }
 
 
-def _load_or_run_package(config, corpus_root, workspace, run_id):
+def _load_or_run_package(config, corpus_root, workspace, run_id, *, resume=None):
     root = workspace / "stage_01_document_preparation" / "package"
+    if resume is not None:
+        manifest_path = workspace / "stage_00_remote_corpus" / "source_manifest.jsonl"
+        source_rows = read_jsonl(manifest_path)
+        existing_papers = read_jsonl(root / "papers.jsonl") if (root / "papers.jsonl").is_file() else []
+        existing_documents = (
+            read_jsonl(root / "documents.jsonl") if (root / "documents.jsonl").is_file() else []
+        )
+        existing_by_paper: dict[str, list[dict[str, Any]]] = {}
+        for document in existing_documents:
+            existing_by_paper.setdefault(str(document.get("paper_id") or ""), []).append(document)
+        reused_papers = []
+        pending_ids = set()
+        for source in source_rows:
+            paper_id = str(source["paper_id"])
+            fingerprint = input_fingerprint(_resume_input_value(source))
+            plan = _resume_plan(
+                resume,
+                "stage01_package",
+                paper_id,
+                None,
+                fingerprint,
+            )
+            if plan.action == "reuse" and plan.result:
+                reused_papers.append(plan.result)
+            elif plan.action == "run":
+                pending_ids.add(paper_id)
+            elif plan.result:
+                reused_papers.append(plan.result)
+        fresh = {"papers": [], "documents": [], "duplicate_groups": [], "summary": {}}
+        if pending_ids and _resume_stage_active(resume, "stage01_package"):
+            fresh = run_paper_package(
+                corpus_root=corpus_root,
+                config=config["stage01"].get("package") or config["stage01"],
+                workspace=_resume_attempt_root(workspace, resume, "stage01_package"),
+                run_id=run_id,
+                paper_ids=pending_ids,
+            )
+        fresh_ids = {str(row["paper_id"]) for row in fresh.get("papers") or []}
+        retained_reused = [
+            row for row in reused_papers if str(row.get("paper_id") or "") not in fresh_ids
+        ]
+        papers = _deduplicate_rows([*retained_reused, *(fresh.get("papers") or [])])
+        retained_ids = {str(row["paper_id"]) for row in retained_reused}
+        documents = _deduplicate_document_rows(
+            [
+                *[
+                    document
+                    for paper_id in retained_ids
+                    for document in existing_by_paper.get(paper_id, [])
+                ],
+                *(fresh.get("documents") or []),
+            ]
+        )
+        for row in fresh.get("papers") or []:
+            paper_documents = [
+                item for item in documents if item.get("paper_id") == row.get("paper_id")
+            ]
+            source = next(
+                (item for item in source_rows if item.get("paper_id") == row.get("paper_id")),
+                row,
+            )
+            _resume_record(
+                resume,
+                "stage01_package",
+                row,
+                input_fingerprint(_resume_input_value(source)),
+                artifacts=[
+                    item["source_path"]
+                    for item in paper_documents
+                    if item.get("source_path") and Path(str(item["source_path"])).is_file()
+                ],
+            )
+        summary = {
+            "run_id": run_id,
+            "stage": "stage01",
+            "papers": len(papers),
+            "documents": len(documents),
+            "package_statuses": decision_counts(papers, "package_status"),
+            "passed": sum(row.get("decision") == "pass" for row in papers),
+            "held": sum(row.get("decision") != "pass" for row in papers),
+            "config_hash": resume["fingerprints"]["stage01_package"],
+        }
+        write_jsonl(root / "papers.jsonl", papers)
+        write_jsonl(root / "documents.jsonl", documents)
+        write_jsonl(root / "duplicate_groups.jsonl", fresh.get("duplicate_groups") or [])
+        write_json(root / "stage_summary.json", summary)
+        return {"papers": papers, "documents": documents, "summary": summary}
     if config.get("resume_completed_stages") and (root / "stage_summary.json").is_file():
         return {
             "papers": read_jsonl(root / "papers.jsonl"),
@@ -704,6 +1395,243 @@ def _load_or_run_package(config, corpus_root, workspace, run_id):
         workspace=workspace,
         run_id=run_id,
     )
+
+
+def _resume_runtime(config, options):
+    if not options:
+        return None
+    store = options.get("store")
+    if store is None:
+        run_root = options.get("run_root")
+        if not run_root:
+            raise ValueError("resume_options requires store or run_root")
+        store = ResumeStateStore.for_run_root(run_root)
+    return {
+        "store": store,
+        "generation": int(options.get("generation", 0)),
+        "outer_batch_id": str(options.get("outer_batch_id") or Path(config["workspace"]).name),
+        "target_slot_start": int(options.get("target_slot_start", 1)),
+        "retry_only": bool(options.get("retry_only", False)),
+        "pending_only": bool(options.get("pending_only", False)),
+        "invalidated_stages": set(options.get("invalidated_stages") or []),
+        "fingerprints": scientific_stage_fingerprints(config),
+        "start_index": int(str(options.get("start_stage", "stage00")).removeprefix("stage")),
+        "stop_index": int(str(options.get("stop_stage", config["stop_after"])).removeprefix("stage")),
+    }
+
+
+def _checkpoint_stage00(resume, config, workspace):
+    manifest = workspace / "stage_00_remote_corpus" / "source_manifest.jsonl"
+    for row in read_jsonl(manifest):
+        fingerprint = input_fingerprint(
+            {"remote_uri": (row.get("main_document") or {}).get("remote_uri")}
+        )
+        plan = _resume_plan(
+            resume,
+            "stage00",
+            row["paper_id"],
+            None,
+            fingerprint,
+        )
+        if plan.action != "run":
+            continue
+        _resume_record(
+            resume,
+            "stage00",
+            {
+                **row,
+                "processing_status": (
+                    "completed" if row.get("copy_status") == "complete" else "failed"
+                ),
+                "decision": (
+                    "copied" if row.get("copy_status") == "complete" else "copy_incomplete"
+                ),
+                "passed": row.get("copy_status") == "complete",
+            },
+            fingerprint,
+        )
+
+
+def _resume_plan(resume, stage, paper_id, document_id, fingerprint):
+    active = _resume_stage_active(resume, stage)
+    return resume["store"].plan_work(
+        outer_batch_id=resume["outer_batch_id"],
+        stage=stage,
+        paper_id=str(paper_id),
+        document_id=str(document_id) if document_id else None,
+        config_fingerprint=resume["fingerprints"][stage],
+        input_fingerprint=fingerprint,
+        allow_pending=active,
+        retry_only=resume["retry_only"],
+        invalidated=stage in resume["invalidated_stages"],
+        upstream_ready=stage != "stage00",
+    )
+
+
+def _resume_stage_active(resume, stage):
+    parent = (
+        "stage01"
+        if stage == "stage01_package"
+        else "stage05"
+        if stage in {"stage05_router", "stage05_auditor"}
+        else stage
+    )
+    index = int(parent.removeprefix("stage"))
+    return resume["start_index"] <= index <= resume["stop_index"]
+
+
+def _resume_record(resume, stage, row, fingerprint, *, artifacts=None):
+    return resume["store"].record_result(
+        generation=resume["generation"],
+        outer_batch_id=resume["outer_batch_id"],
+        stage=stage,
+        paper_id=str(row["paper_id"]),
+        document_id=(str(row["document_id"]) if row.get("document_id") else None),
+        config_fingerprint=resume["fingerprints"][stage],
+        input_fingerprint=fingerprint,
+        row=row,
+        artifacts=artifacts if artifacts is not None else result_artifacts(row),
+    )
+
+
+def _resume_record_stage05_result(resume, source, row, deep_documents):
+    fingerprint = _resume_paper_input(
+        source,
+        [
+            item
+            for item in deep_documents
+            if item.get("paper_id") == source["paper_id"]
+        ],
+    )
+    _resume_record(resume, "stage05", row, fingerprint)
+    if row.get("processing_status") != "failed":
+        return
+    if not row.get("router_response"):
+        _resume_record(resume, "stage05_router", row, fingerprint)
+    elif not row.get("model_response"):
+        _resume_record(resume, "stage05_auditor", row, fingerprint)
+
+
+def _resume_attempt_root(root: Path, resume, stage: str) -> Path:
+    return (
+        root
+        / "resume_attempts"
+        / f"generation-{resume['generation']:04d}"
+        / stage
+    )
+
+
+def _resume_document_input(document):
+    return document_input_fingerprint(document)
+
+
+def _resume_paper_input(paper, documents):
+    return paper_input_fingerprint(paper, documents)
+
+
+def _resume_input_value(value):
+    return stable_input_value(value)
+
+
+def _ordered_records(upstream_by_id, rows):
+    by_id = {str(row["paper_id"]): row for row in rows if row.get("paper_id")}
+    return [by_id[paper_id] for paper_id in upstream_by_id if paper_id in by_id]
+
+
+def _deduplicate_rows(rows):
+    by_id = {str(row["paper_id"]): row for row in rows if row.get("paper_id")}
+    return [by_id[key] for key in sorted(by_id)]
+
+
+def _deduplicate_document_rows(rows):
+    by_id = {
+        str(row["document_id"]): row for row in rows if row.get("document_id")
+    }
+    return [by_id[key] for key in sorted(by_id)]
+
+
+def _stage_output(stage, records, run_id, *, candidates=None):
+    summary = {
+        "run_id": run_id,
+        "stage": stage,
+        "papers": len(records),
+        "decisions": decision_counts(records),
+        "passed": sum(bool(row.get("passed")) for row in records),
+        "processing_errors": sum(
+            row.get("processing_status") == "failed" for row in records
+        ),
+        "run_status": _stage_run_status(records),
+    }
+    output = {"records": records, "summary": summary}
+    if candidates is not None:
+        output["candidates"] = candidates
+        summary["candidates"] = len(candidates)
+    return output
+
+
+def _stage01_projection(papers, documents, attempts, run_id):
+    summary = {
+        "run_id": run_id,
+        "stage": "stage01",
+        "papers": len(papers),
+        "documents": len(documents),
+        "passed_papers": sum(row.get("decision") == "pass" for row in papers),
+        "failed_papers": sum(row.get("decision") != "pass" for row in papers),
+        "partial_si_parse_papers": sum(bool(row.get("partial_si_parse")) for row in papers),
+        "failed_supplementary_documents": sum(
+            len(row.get("failed_supplementary_document_ids") or []) for row in papers
+        ),
+        "selected_parsers": decision_counts(documents, "selected_parser"),
+    }
+    return {
+        "papers": papers,
+        "documents": documents,
+        "attempts": attempts,
+        "summary": summary,
+    }
+
+
+def _write_stage01_output(root, output, run_id):
+    stage_root = root / STAGE_DIRS["stage01"]
+    write_jsonl(stage_root / "documents.jsonl", output.get("documents") or [])
+    write_jsonl(stage_root / "paper_bundles.jsonl", output.get("papers") or [])
+    write_jsonl(stage_root / "parser_attempts.jsonl", output.get("attempts") or [])
+    write_json(stage_root / "stage_summary.json", output["summary"])
+
+
+def _write_stage_records(root, stage, output):
+    stage_root = root / STAGE_DIRS[stage]
+    write_jsonl(stage_root / "decisions.jsonl", output.get("records") or [])
+    if stage == "stage05":
+        write_jsonl(stage_root / "candidates.jsonl", output.get("candidates") or [])
+    write_json(stage_root / "stage_summary.json", output["summary"])
+
+
+def _write_stage04_output(root, output):
+    _write_stage_records(root, "stage04", output)
+    stage_root = root / STAGE_DIRS["stage04"] / "deep_normalization"
+    write_jsonl(stage_root / "documents.jsonl", output.get("documents") or [])
+    write_jsonl(stage_root / "parser_attempts.jsonl", output.get("deep_parse_attempts") or [])
+
+
+def _has_stage01_processing_errors(output):
+    return any(
+        row.get("processing_status") == "failed"
+        for row in [*(output.get("papers") or []), *(output.get("documents") or [])]
+    )
+
+
+def _record_registry_stage(registry, resume, *, run_id, stage, rows, prune=True):
+    result = registry.record_stage_results(
+        run_id=run_id,
+        stage=stage,
+        rows=rows,
+        prune=prune,
+    )
+    if resume is not None:
+        for paper_id in result.get("deleted_paper_ids") or []:
+            resume["store"].set_local_assets_state(str(paper_id), "pruned_terminal")
+    return result
 
 
 def _paper_batches(papers, size):

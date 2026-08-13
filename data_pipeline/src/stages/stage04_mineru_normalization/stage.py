@@ -22,6 +22,8 @@ def run_stage04(
     config: dict[str, Any],
     workspace: Path,
     run_id: str,
+    document_ids: set[str] | None = None,
+    existing_deep_documents: list[dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
     stage_root = workspace / "stage_04_mineru_deep_normalization"
     records = copy.deepcopy(stage03_records)
@@ -31,6 +33,8 @@ def run_stage04(
         config=config,
         stage_root=stage_root,
         run_id=run_id,
+        document_ids=document_ids,
+        existing_deep_documents=existing_deep_documents or [],
     )
     write_jsonl(stage_root / "decisions.jsonl", records)
     summary = {
@@ -59,7 +63,16 @@ def run_stage04(
     }
 
 
-def _deep_normalize_passed_papers(*, records, documents, config, stage_root, run_id):
+def _deep_normalize_passed_papers(
+    *,
+    records,
+    documents,
+    config,
+    stage_root,
+    run_id,
+    document_ids=None,
+    existing_deep_documents=None,
+):
     mineru = config.get("mineru") or {}
     passed_ids = {row["paper_id"] for row in records if row.get("passed")}
     selected = [
@@ -67,6 +80,22 @@ def _deep_normalize_passed_papers(*, records, documents, config, stage_root, run
         for row in documents
         if row.get("paper_id") in passed_ids and row.get("decision") == "pass"
     ]
+    selected_by_id = {str(row["document_id"]): row for row in selected}
+    requested_ids = (
+        set(selected_by_id)
+        if document_ids is None
+        else {str(value) for value in document_ids if str(value) in selected_by_id}
+    )
+    existing_by_id = {
+        str(row["document_id"]): row
+        for row in (existing_deep_documents or [])
+        if str(row.get("document_id") or "") in selected_by_id
+        and str(row.get("document_id") or "") not in requested_ids
+    }
+    unresolved_by_paper: dict[str, list[str]] = {}
+    for document_id in sorted(set(selected_by_id) - requested_ids - set(existing_by_id)):
+        document = selected_by_id[document_id]
+        unresolved_by_paper.setdefault(str(document["paper_id"]), []).append(document_id)
     if not passed_ids:
         _write_deep_normalization(stage_root, [], [])
         return records, [], []
@@ -87,9 +116,10 @@ def _deep_normalize_passed_papers(*, records, documents, config, stage_root, run
         _write_deep_normalization(stage_root, retained, [])
         return records, retained, []
 
+    process_documents = [row for row in selected if str(row["document_id"]) in requested_ids]
     pdf_documents = [
         row
-        for row in selected
+        for row in process_documents
         if Path(str(row.get("source_path") or "")).suffix.casefold() == ".pdf"
     ]
     queue = [
@@ -124,7 +154,7 @@ def _deep_normalize_passed_papers(*, records, documents, config, stage_root, run
     )
     by_id = {row["document_id"]: row for row in results}
     deep_root = stage_root / "deep_normalization"
-    deep_documents: list[dict[str, Any]] = []
+    deep_documents: list[dict[str, Any]] = list(existing_by_id.values())
     attempts: list[dict[str, Any]] = []
     failed_by_paper: dict[str, list[str]] = {}
     quality_config = {
@@ -138,7 +168,7 @@ def _deep_normalize_passed_papers(*, records, documents, config, stage_root, run
         "min_page_coverage_ratio": float(mineru.get("min_page_coverage_ratio", 0.95)),
     }
     pdf_ids = {row["document_id"] for row in pdf_documents}
-    for document in selected:
+    for document in process_documents:
         if document["document_id"] not in pdf_ids:
             deep_documents.append(
                 {
@@ -216,16 +246,20 @@ def _deep_normalize_passed_papers(*, records, documents, config, stage_root, run
         and row.get("selected_parser") == "mineru"
         and row.get("document_role") != "supplementary"
     }
-    for paper_id in passed_ids - successful_main:
+    for paper_id in passed_ids - successful_main - set(unresolved_by_paper):
         failed_by_paper.setdefault(paper_id, []).append("missing_successful_main_document")
     for record in records:
         if record.get("paper_id") not in passed_ids:
             continue
         failed_documents = sorted(set(failed_by_paper.get(record["paper_id"], [])))
+        pending_documents = sorted(set(unresolved_by_paper.get(record["paper_id"], [])))
         record["gate_decision"] = record["decision"]
         record["deep_normalization"] = {
-            "status": "failed" if failed_documents else "completed",
+            "status": (
+                "failed" if failed_documents else "pending" if pending_documents else "completed"
+            ),
             "failed_document_ids": failed_documents,
+            "pending_document_ids": pending_documents,
             "document_count": sum(
                 row.get("paper_id") == record["paper_id"] for row in deep_documents
             ),
@@ -233,6 +267,13 @@ def _deep_normalize_passed_papers(*, records, documents, config, stage_root, run
         if failed_documents:
             record["decision"] = "deep_parse_failed"
             record["passed"] = False
+            record["processing_status"] = "failed"
+            record["failure_disposition"] = "retryable"
+        elif pending_documents:
+            record["decision"] = "processing_pending"
+            record["passed"] = False
+            record["processing_status"] = "pending"
+            record["failure_disposition"] = "pending"
 
     _write_deep_normalization(stage_root, deep_documents, attempts)
     return records, deep_documents, attempts

@@ -31,6 +31,7 @@ def run_paper_package(
     config: dict[str, Any],
     workspace: Path,
     run_id: str,
+    paper_ids: set[str] | None = None,
 ) -> dict[str, Any]:
     stage_root = workspace / "stage_01_document_preparation" / "package"
     stage_root.mkdir(parents=True, exist_ok=True)
@@ -38,6 +39,16 @@ def run_paper_package(
     inventory.extend(_inventory_manifest_attachments(corpus_root, inventory))
     papers = group_inventory_by_paper(inventory)
     papers, inventory, duplicate_groups = _normalize_paper_identities(papers, inventory)
+    if paper_ids is not None:
+        selected = {str(value) for value in paper_ids}
+        papers = [row for row in papers if str(row.get("paper_id")) in selected]
+        retained = {str(row["paper_id"]) for row in papers}
+        inventory = [row for row in inventory if str(row.get("paper_id")) in retained]
+        duplicate_groups = [
+            row
+            for row in duplicate_groups
+            if str(row.get("canonical_paper_id") or row.get("paper_id") or "") in retained
+        ]
     by_document = {row["document_id"]: row for row in inventory}
     candidates: list[dict[str, Any]] = []
     for paper in papers:
@@ -107,7 +118,12 @@ def run_paper_package(
                 item["document_id"] for item in [*local_si, *acquired_documents]
             ],
             "package_status": status,
-            "processing_status": "completed",
+            "processing_status": (
+                "completed" if status in PASS_STATUSES else "failed"
+            ),
+            "failure_disposition": (
+                None if status in PASS_STATUSES else "retryable"
+            ),
             "decision": "pass" if status in PASS_STATUSES else "hold",
             "supplementary_acquisition": acquisition_info,
         }

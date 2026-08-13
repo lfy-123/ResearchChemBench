@@ -1,8 +1,10 @@
 from __future__ import annotations
 
 import json
+import shutil
 from pathlib import Path
 
+from src.core.resume import ResumeStateStore
 from src.stages.stage00_remote_corpus import DATASETS, prepare_remote_corpus
 
 
@@ -76,6 +78,35 @@ def test_stage00_groups_main_and_supplementary_and_resumes(tmp_path, monkeypatch
     resumed = prepare_remote_corpus(tmp_path, dataset=dataset, count=2, store=FakeStore())
     assert resumed["summary"]["reused"] is True
     assert len(list((tmp_path / "corpus").glob("*/paper.json"))) == 2
+
+
+def test_stage00_restores_existing_slot_before_expanding(tmp_path, monkeypatch):
+    dataset = "fake-partial-resume"
+    monkeypatch.setitem(
+        DATASETS,
+        dataset,
+        {
+            "root": "s3://example/",
+            "pdf_prefix": "s3://example/pdfs/",
+            "metadata_uri": "s3://example/metadata.jsonl",
+            "metadata_root": "s3://example/",
+            "supplementary_prefix": "s3://example/support/",
+        },
+    )
+    first = prepare_remote_corpus(
+        tmp_path, dataset=dataset, count=1, store=FakeStore()
+    )
+    first_record = first["records"][0]
+    first_uri = first_record["main_document"]["remote_uri"]
+    shutil.rmtree(Path(first["corpus_root"]) / first_record["paper_id"])
+
+    expanded = prepare_remote_corpus(
+        tmp_path, dataset=dataset, count=2, store=FakeStore()
+    )
+
+    assert expanded["records"][0]["main_document"]["remote_uri"] == first_uri
+    assert (Path(expanded["corpus_root"]) / first_record["paper_id"]).is_dir()
+    assert len(expanded["records"]) == 2
 
 
 def test_stage00_seeded_sample_excludes_previous_selection(tmp_path, monkeypatch):
@@ -210,3 +241,123 @@ def test_stage00_rejects_metadata_support_uri_outside_dataset_prefix(
     assert "outside the dataset supplementary prefix" in discovery[
         "verification_failures"
     ][0]["error"]
+
+
+def test_stage00_global_ledger_excludes_pruned_papers_on_new_batch(
+    tmp_path, monkeypatch
+):
+    dataset = "fake-ledger"
+    monkeypatch.setitem(
+        DATASETS,
+        dataset,
+        {
+            "root": "s3://example/",
+            "pdf_prefix": "s3://example/pdfs/",
+            "metadata_uri": "s3://example/metadata.jsonl",
+            "metadata_root": "s3://example/",
+            "supplementary_prefix": "s3://example/support/",
+        },
+    )
+    state = ResumeStateStore.for_run_root(tmp_path / "run")
+    first = prepare_remote_corpus(
+        tmp_path / "batch-0001",
+        dataset=dataset,
+        count=1,
+        store=FakeStore(),
+        selection="remote_order",
+        resume_store=state,
+        outer_batch_id="batch-0001",
+        target_slot_start=1,
+    )
+    first_uri = first["records"][0]["main_document"]["remote_uri"]
+    first_bundle = Path(first["corpus_root"]) / first["records"][0]["paper_id"]
+    shutil.rmtree(first_bundle)
+
+    second = prepare_remote_corpus(
+        tmp_path / "batch-0002",
+        dataset=dataset,
+        count=1,
+        store=FakeStore(),
+        selection="remote_order",
+        resume_store=state,
+        outer_batch_id="batch-0002",
+        target_slot_start=2,
+    )
+
+    assert second["records"][0]["main_document"]["remote_uri"] != first_uri
+    assert state.max_target_slot() == 2
+
+
+def test_seeded_stage00_expansion_is_stable_with_global_ledger(
+    tmp_path, monkeypatch
+):
+    dataset = "fake-seeded-ledger"
+    monkeypatch.setitem(
+        DATASETS,
+        dataset,
+        {
+            "root": "s3://example/",
+            "pdf_prefix": "s3://example/pdfs/",
+            "metadata_uri": "s3://example/metadata.jsonl",
+            "metadata_root": "s3://example/",
+            "supplementary_prefix": "s3://example/support/",
+        },
+    )
+    state = ResumeStateStore.for_run_root(tmp_path / "run")
+    first = prepare_remote_corpus(
+        tmp_path / "batch-0001",
+        dataset=dataset,
+        count=1,
+        store=FakeStore(),
+        selection="seeded_sample",
+        seed=77,
+        resume_store=state,
+        outer_batch_id="batch-0001",
+        target_slot_start=1,
+    )
+    second = prepare_remote_corpus(
+        tmp_path / "batch-0002",
+        dataset=dataset,
+        count=1,
+        store=FakeStore(),
+        selection="seeded_sample",
+        seed=77,
+        resume_store=state,
+        outer_batch_id="batch-0002",
+        target_slot_start=2,
+    )
+
+    uris = [
+        row["main_document"]["remote_uri"]
+        for row in [*first["records"], *second["records"]]
+    ]
+    assert len(uris) == len(set(uris)) == 2
+
+
+def test_stage00_retry_only_does_not_fill_never_started_slots(tmp_path, monkeypatch):
+    dataset = "fake-retry-only"
+    monkeypatch.setitem(
+        DATASETS,
+        dataset,
+        {
+            "root": "s3://example/",
+            "pdf_prefix": "s3://example/pdfs/",
+            "metadata_uri": "s3://example/metadata.jsonl",
+            "metadata_root": "s3://example/",
+            "supplementary_prefix": "s3://example/support/",
+        },
+    )
+    state = ResumeStateStore.for_run_root(tmp_path / "run")
+
+    result = prepare_remote_corpus(
+        tmp_path / "stage00",
+        dataset=dataset,
+        count=2,
+        store=FakeStore(),
+        resume_store=state,
+        outer_batch_id="batch-0001",
+        retry_only=True,
+    )
+
+    assert result["records"] == []
+    assert state.max_target_slot() == 0
