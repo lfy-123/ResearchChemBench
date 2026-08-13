@@ -97,9 +97,14 @@ class MineruSandboxPool:
             # manager will create only the missing sandbox instance.
             spec.source.parent.mkdir(parents=True, exist_ok=True)
             spec_manager = SandboxManager(spec)
-            spec_manager._write_source(spec_manager._source_template(
-                environment_id=environment_id, sandbox_id=""
-            ))
+            existing = spec_manager._load_source()
+            existing_environment_id = str(
+                (existing.get("environment") or {}).get("environment_id") or ""
+            )
+            if existing_environment_id != environment_id:
+                spec_manager._write_source(spec_manager._source_template(
+                    environment_id=environment_id, sandbox_id=""
+                ))
             specs.append(spec)
 
         def ensure(spec: SandboxRunOptions):
