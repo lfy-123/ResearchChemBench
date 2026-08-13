@@ -70,19 +70,36 @@ class MineruSandboxPool:
         if self._started:
             return
         self.state_root.mkdir(parents=True, exist_ok=True)
+        # Create one environment with capacity=N, then create N instances
+        # from that environment.  Each instance still gets an isolated source
+        # and inventory file so lifecycle recovery remains independent.
+        base_source = self.state_root / "environment.yaml"
+        base_inventory = self.state_root / "environment.json"
+        base_spec = SandboxRunOptions(
+            **{**self.options.__dict__, "name_suffix": "-mineru-pool",
+               "instance_capacity": self.count, "source": base_source,
+               "inventory": base_inventory}
+        )
+        base_manager = SandboxManager(base_spec)
+        first_worker = base_manager.ensure()
+        environment_id = first_worker.environment_id
         specs: list[SandboxRunOptions] = []
-        for index in range(self.count):
+        for index in range(1, self.count):
             suffix = f"-mineru-pool-{index + 1:03d}"
-            specs.append(
-                SandboxRunOptions(
-                    **{
-                        **self.options.__dict__,
-                        "name_suffix": suffix,
-                        "source": self.state_root / f"sandbox-{index + 1:03d}.yaml",
-                        "inventory": self.state_root / f"sandbox-{index + 1:03d}.json",
-                    }
-                )
+            spec = SandboxRunOptions(
+                **{**self.options.__dict__, "name_suffix": suffix,
+                   "instance_capacity": self.count,
+                   "source": self.state_root / f"sandbox-{index + 1:03d}.yaml",
+                   "inventory": self.state_root / f"sandbox-{index + 1:03d}.json"}
             )
+            # Seed the source with the already-created shared environment. The
+            # manager will create only the missing sandbox instance.
+            spec.source.parent.mkdir(parents=True, exist_ok=True)
+            spec_manager = SandboxManager(spec)
+            spec_manager._write_source(spec_manager._source_template(
+                environment_id=environment_id, sandbox_id=""
+            ))
+            specs.append(spec)
 
         def ensure(spec: SandboxRunOptions):
             manager = SandboxManager(spec)
@@ -92,7 +109,8 @@ class MineruSandboxPool:
         # A small startup fan-out avoids flooding the control plane while still
         # booting a large pool concurrently.
         with ThreadPoolExecutor(max_workers=self.startup_concurrency) as executor:
-            slots = list(executor.map(ensure, specs))
+            slots = [(base_manager, first_worker, first_worker.client())]
+            slots.extend(executor.map(ensure, specs))
         with self._slot_lock:
             self._records = [
                 {"index": i, "manager": manager, "worker": worker, "client": client,

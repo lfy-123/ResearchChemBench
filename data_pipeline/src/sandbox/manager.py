@@ -72,6 +72,8 @@ class SandboxRunOptions:
     # Optional suffix used by opt-in pools. The default preserves the legacy
     # single-sandbox names and source files.
     name_suffix: str = ""
+    # Maximum number of sandbox instances created from this environment.
+    instance_capacity: int = 1
 
     def validated(self) -> SandboxRunOptions:
         if self.cpu < 1:
@@ -82,6 +84,8 @@ class SandboxRunOptions:
             raise ValueError("sandbox lifecycle must be between 3 and 1440 minutes")
         if self.startup_timeout_seconds < 60:
             raise ValueError("sandbox startup timeout must be at least 60 seconds")
+        if self.instance_capacity < 1:
+            raise ValueError("sandbox instance capacity must be positive")
         if self.cleanup not in {"keep", "stop", "delete"}:
             raise ValueError("sandbox cleanup must be keep, stop, or delete")
         return self
@@ -312,6 +316,8 @@ class SandboxManager:
             and str((source.get("api") or {}).get("project") or "") == self.options.project
             and str((source.get("api") or {}).get("base_url") or "").rstrip("/")
             == self.options.base_url.rstrip("/")
+            and int(environment.get("instance_capacity") or environment.get("instanceCapacity") or 1)
+            >= int(self.options.instance_capacity)
         )
 
     def _environment_payload(self) -> dict[str, Any]:
@@ -327,7 +333,7 @@ class SandboxManager:
             "resources": {"cpu": str(self.options.cpu), "memory": self.options.memory},
             "ports": ports,
             "defaultLifecycleMinutes": self.options.lifecycle_minutes,
-            "instanceCapacity": 1,
+            "instanceCapacity": int(self.options.instance_capacity),
             "prewarmSize": 0,
             "ratio": 1,
             "volumes": [
@@ -352,6 +358,8 @@ class SandboxManager:
                 and str(resources.get("cpu") or "") == str(self.options.cpu)
                 and str(resources.get("memory") or "") == self.options.memory
                 and str(image_uri or "") == self.options.image
+                and int(environment.get("instanceCapacity") or environment.get("instance_capacity") or 1)
+                >= int(self.options.instance_capacity)
             ):
                 return environment
         return None
@@ -378,6 +386,7 @@ class SandboxManager:
                 "resources": {"cpu": str(self.options.cpu), "memory": self.options.memory},
                 "ports": dict(EXPOSED_SERVICE_PORTS),
                 "default_lifecycle_minutes": self.options.lifecycle_minutes,
+                "instance_capacity": int(self.options.instance_capacity),
             },
             "worker": {
                 "worker_id": "data-pipeline-sandbox-1",
