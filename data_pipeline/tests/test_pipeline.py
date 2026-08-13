@@ -543,13 +543,14 @@ def test_stage03_retries_truncated_json_instead_of_accepting_repair() -> None:
         prompt_version="test-v1",
         system_prompt="Return JSON.",
         user_content="{}",
-        max_tokens=2048,
+        max_tokens=12288,
     )
 
     assert response == {"complete": True}
     assert audit["truncation_retry"] is True
     assert len(model.calls) == 2
     assert model.calls[1]["namespace"] == "stage02_map_complete_retry"
+    assert model.calls[1]["max_tokens"] == 8192
 
 
 def test_stage03_reduce_filters_unknown_ids_and_downgrades_unsupported_confirmation() -> None:

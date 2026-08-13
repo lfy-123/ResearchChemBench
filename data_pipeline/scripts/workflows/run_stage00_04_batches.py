@@ -217,6 +217,14 @@ def _batch_config(
         }
     )
     mineru = config["stage04"]["mineru"]
+    # API concurrency is a global budget for this phase.  The stage runner
+    # creates one queue per active microbatch, so divide the budget across
+    # those queues to avoid multiplying concurrency accidentally.
+    mineru_api_concurrency = max(
+        1,
+        int(args.stage04_api_concurrency)
+        // max(1, int(args.stage04_microbatch_concurrency)),
+    )
     mineru.update(
         {
             "enabled": True,
@@ -225,7 +233,7 @@ def _batch_config(
             "command": str(
                 PIPELINE_ROOT / ".envs" / "researchchem-data-pipeline" / "bin" / "mineru"
             ),
-            "api_concurrency": args.stage04_concurrency,
+            "api_concurrency": mineru_api_concurrency,
             "request_batch_size": 1,
             "reuse_existing": True,
             "extra_args": ["--formula", "true", "--table", "true"],
@@ -260,7 +268,7 @@ def _batch_config(
             "timeout_seconds": 900,
             "retries": 2,
             "thinking": "disabled",
-            "cpu": 16,
+            "cpu": args.worker_cpu,
             "memory_mib": args.worker_memory_mib,
             "charged_group": "ai4chem_gpu",
             "positive_tag": args.worker_positive_tag,
@@ -278,7 +286,7 @@ def _batch_config(
             "stage01": 8,
             "stage02": 16,
             "stage03": 16,
-            "stage04": args.stage04_concurrency,
+            "stage04": args.stage04_microbatch_concurrency,
             "stage05": 1,
         },
         "resume": True,
@@ -380,7 +388,13 @@ def _initial_status(args, run_root: Path, batches: int) -> dict[str, Any]:
         "total_papers": args.total,
         "batch_size": args.batch_size,
         "batches": batches,
-        "stage04_api_concurrency": args.stage04_concurrency,
+        "stage04_microbatch_concurrency": args.stage04_microbatch_concurrency,
+        "stage04_api_concurrency": args.stage04_api_concurrency,
+        "stage04_api_concurrency_per_microbatch": max(
+            1,
+            int(args.stage04_api_concurrency)
+            // max(1, int(args.stage04_microbatch_concurrency)),
+        ),
         "worker_memory_mib": args.worker_memory_mib,
         "worker_positive_tag": args.worker_positive_tag,
         "existing_worker": args.existing_worker,
@@ -409,8 +423,18 @@ def _parse_args():
     )
     parser.add_argument("--seed", type=int, default=20260811)
     parser.add_argument("--microbatch-size", type=int, default=10)
-    parser.add_argument("--stage04-concurrency", type=int, default=8)
-    parser.add_argument("--worker-memory-mib", type=int, default=16000)
+    # Stage04 has two independent concurrency controls.  The compatibility
+    # option below sets both when explicitly provided.
+    parser.add_argument("--stage04-concurrency", type=int, default=None, help=argparse.SUPPRESS)
+    parser.add_argument("--stage04-microbatch-concurrency", type=int, default=1)
+    parser.add_argument("--stage04-api-concurrency", type=int, default=8)
+    parser.add_argument("--worker-cpu", type=int, default=32)
+    parser.add_argument(
+        "--worker-memory-mib",
+        type=int,
+        default=160000,
+        help="GPU worker host RAM in MiB (160000 is about 153 GiB)",
+    )
     parser.add_argument("--worker-positive-tag", default="")
     parser.add_argument(
         "--existing-worker",
@@ -426,11 +450,16 @@ def _parse_args():
 
 
 def _validate_args(args) -> None:
+    if args.stage04_concurrency is not None:
+        args.stage04_microbatch_concurrency = 1
+        args.stage04_api_concurrency = args.stage04_concurrency
     for name in (
         "total",
         "batch_size",
         "microbatch_size",
-        "stage04_concurrency",
+        "stage04_microbatch_concurrency",
+        "stage04_api_concurrency",
+        "worker_cpu",
         "worker_memory_mib",
         "sandbox_cpu",
     ):

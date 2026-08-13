@@ -150,6 +150,9 @@ def _normalize_model_roles(config: dict[str, Any]) -> None:
         value.setdefault("workers", 1)
         value.setdefault("cache", True)
         value.setdefault("api_key_env", f"RCB_{role.upper()}_API_KEY")
+        fallbacks = value.setdefault("fallback_models", [])
+        if not isinstance(fallbacks, list) or any(not isinstance(item, dict) for item in fallbacks):
+            raise ValueError(f"models.{role}.fallback_models must be a list of objects")
         value.setdefault(
             "use_proxy", role in {"stage05_router", "suitability", "builder", "judge"}
         )
@@ -159,6 +162,13 @@ def _normalize_model_roles(config: dict[str, Any]) -> None:
         model_env = str(value.get("model_env") or f"{env_prefix}_MODEL")
         value["base_url"] = os.environ.get(base_url_env) or value.get("base_url")
         value["model"] = os.environ.get(model_env) or value.get("model")
+        for fallback in fallbacks:
+            fallback.setdefault("base_url", value.get("base_url"))
+            fallback.setdefault("api_key_env", value.get("api_key_env"))
+            fallback.setdefault("timeout_seconds", value.get("timeout_seconds"))
+            fallback.setdefault("retries", value.get("retries"))
+            fallback.setdefault("max_tokens", value.get("max_tokens"))
+            fallback.setdefault("use_proxy", value.get("use_proxy"))
 
 
 def _validate(config: dict[str, Any]) -> None:

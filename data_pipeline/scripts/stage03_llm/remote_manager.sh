@@ -97,7 +97,7 @@ case "$command" in
     export NO_PROXY="$no_proxy"
     export MINERU_DEVICE_MODE="${MINERU_DEVICE_MODE:-cuda}"
     export MINERU_MODEL_SOURCE="${MINERU_MODEL_SOURCE:-local}"
-    export MINERU_API_MAX_CONCURRENT_REQUESTS="${MINERU_API_MAX_CONCURRENT_REQUESTS:-3}"
+    export MINERU_API_MAX_CONCURRENT_REQUESTS="${MINERU_API_MAX_CONCURRENT_REQUESTS:-8}"
     export LD_LIBRARY_PATH="$MINERU_ENV_DIR/lib:${LD_LIBRARY_PATH:-}"
     nohup "$MINERU_ENV_DIR/bin/mineru-api" --host 127.0.0.1 --port "$MINERU_PORT" \
       >"$RUNTIME_DIR/logs/mineru-api.log" 2>&1 &

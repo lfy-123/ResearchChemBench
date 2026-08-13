@@ -164,6 +164,51 @@ def test_screening_connection_error_aborts_phase() -> None:
         )
 
 
+def test_role_model_client_falls_back_after_primary_failure(monkeypatch, tmp_path: Path) -> None:
+    monkeypatch.setenv("FIXTURE_KEY", "secret")
+    calls = []
+
+    def caller(**kwargs):
+        calls.append(kwargs["model"])
+        if kwargs["model"] == "primary":
+            raise RuntimeError("LLM HTTP 504: upstream unavailable")
+        return {"decision": "pass"}, {"model_requested": kwargs["model"]}
+
+    client = RoleModelClient(
+        role="stage03_screening",
+        config={
+            "model": "primary",
+            "base_url": "http://fixture/v1",
+            "api_key_env": "FIXTURE_KEY",
+            "cache": False,
+            "fallback_models": [
+                {
+                    "model": "fallback",
+                    "base_url": "http://fixture/v1",
+                    "api_key_env": "FIXTURE_KEY",
+                    "chat_template_kwargs": {"thinking": True},
+                }
+            ],
+        },
+        cache_root=tmp_path,
+        caller=caller,
+    )
+
+    response, audit = client.call_json(
+        namespace="test",
+        record_id="paper-1",
+        prompt_version="v1",
+        system_prompt="system",
+        user_content="user",
+    )
+
+    assert response == {"decision": "pass"}
+    assert calls == ["primary", "fallback"]
+    assert audit["fallback_used"] is True
+    assert audit["fallback_index"] == 1
+    assert audit["model_failures"][0]["model"] == "primary"
+
+
 def test_late_stage_connection_error_aborts_batch() -> None:
     with pytest.raises(runtime.ManagedScreeningServiceError, match="stage05 lost its model"):
         pipeline._raise_on_model_infrastructure_error(

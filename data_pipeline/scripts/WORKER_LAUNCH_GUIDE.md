@@ -2,13 +2,13 @@
 
 ## 推荐的手动启动命令
 
-不限定 GPU 型号、以较小的主机内存请求启动一个通用 worker：
+Stage04 MinerU 需要较大的主机内存。推荐用 1 张 GPU、32 CPU 和 160000 MiB（约 153 GiB）启动：
 
 ```bash
 rlaunch \
   --gpu=1 \
-  --cpu=16 \
-  --memory=16000 \
+  --cpu=32 \
+  --memory=160000 \
   --charged-group=ai4chem_gpu \
   --private-machine=group \
   --mount=gpfs://gpfs1/liyuqiang:/mnt/shared-storage-user/liyuqiang \
@@ -27,7 +27,7 @@ GPU 型号限制与大内存请求会显著缩小可调度节点范围。
 - `-w <data_pipeline>`：设置共享存储中的工作目录；
 - `sleep infinity`：保持 worker 存活，服务由管理脚本通过 SSH 部署。
 
-默认参数是 1 GPU、16 CPU、16000 MiB 主机内存、无 GPU 型号标签。一个任务只创建一个
+批处理默认参数是 1 GPU、32 CPU、160000 MiB 主机内存、无 GPU 型号标签。一个任务只创建一个
 worker；SSH 或服务启动失败时任务退出，不会创建替代 worker。
 
 ## 复用已运行的 Worker
@@ -61,9 +61,14 @@ ssh -CAXY -o BatchMode=yes -o ConnectTimeout=15 '<完整 worker SSH 地址>' \
 GPU 显存充足不代表主机内存充足。当前 MinerU API 的每个并发请求会启动独立处理进程，实测
 单进程峰值约 13.5 GB 主机内存。因此：
 
+- 批处理入口默认申请 1 GPU、32 CPU、160000 MiB（约 153 GiB）主机内存；
 - 16000 MiB worker：`--stage04-concurrency 1`；
 - 96 GiB worker：建议不超过 4；
-- 196000 MiB worker：建议不超过 8。
+- 160000 MiB worker：建议先使用 8 路总 MinerU 并发，稳定后再单独压测更高并发。
+
+`--stage04-api-concurrency` 是整个 Stage04 的总请求并发预算，
+`--stage04-microbatch-concurrency` 是同时运行的微批次数；程序会自动把总预算分摊到
+各个微批次，避免两个参数相乘造成不可控的请求数。默认是 1 个微批次、8 路请求。
 
 需要 Stage04 高并发时，应显式增加 `--worker-memory-mib`，并接受更长的资源排队时间；不能在
 16 GB worker 上使用 8 路 MinerU 并发。

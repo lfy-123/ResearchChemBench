@@ -99,6 +99,11 @@ def test_api_batch_config_uses_no_managed_worker_and_stops_after_stage05(tmp_pat
     assert config["microbatch"]["stage_concurrency"]["stage04"] == 2
     assert config["models"]["stage02_screening"]["model"] == "Qwen3.6-27B"
     assert config["models"]["stage03_screening"]["model"] == "DeepSeek-V4-Flash"
+    assert config["stage02"]["classification_max_tokens"] == 12288
+    assert config["stage02"]["pass_verification_max_tokens"] == 6144
+    assert config["stage03"]["max_tokens"] == 12288
+    assert config["models"]["stage02_screening"]["context_window_tokens"] == 32768
+    assert config["models"]["stage03_screening"]["context_window_tokens"] == 32768
     assert config["models"]["stage05_router"]["model"] == "DeepSeek-V4-Flash-DSpark"
     assert config["models"]["suitability"]["model"] == "Nex-N2-Pro-w8a8"
     assert config["models"]["suitability"]["max_tokens"] == 8192
@@ -106,9 +111,7 @@ def test_api_batch_config_uses_no_managed_worker_and_stops_after_stage05(tmp_pat
     assert config["models"]["stage05_router"]["base_url_env"] == "RCB_NEW_API_BASE_URL"
     assert config["models"]["suitability"]["model_env"] == "RCB_NEW_STAGE05_AUDITOR_MODEL"
     assert config["models"]["stage05_router"]["chat_template_kwargs"] == {"thinking": False}
-    assert config["models"]["suitability"]["chat_template_kwargs"] == {
-        "enable_thinking": False
-    }
+    assert config["models"]["suitability"]["chat_template_kwargs"] is None
 
 
 def test_stage05_auditor_selector_falls_back_to_first_stable_strong_model() -> None:

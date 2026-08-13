@@ -24,7 +24,8 @@ bash scripts/bootstrap/bootstrap_all.sh
 bash scripts/workflows/run_pipeline.sh /absolute/path/to/config.local.json
 bash scripts/workflows/run_stage00_04_batches.sh \
   --run-root runs/stage00-04-batches-10000 \
-  --total 10000 --batch-size 1000 --stage04-concurrency 8 \
+  --total 10000 --batch-size 1000 --stage04-api-concurrency 8 \
+  --stage04-microbatch-concurrency 1 --worker-memory-mib 160000 \
   --initial-delay-hours 5
 python scripts/sync_toolbox_capabilities.py
 ```
@@ -42,6 +43,12 @@ worker 启动命令和资源约束见 [WORKER_LAUNCH_GUIDE.md](WORKER_LAUNCH_GUI
 
 `run_pipeline.sh` 默认读取 `config.example.json`，并在存在时加载 `config.local.env`。
 默认会调用项目代理初始化脚本；设置 `RCB_SETUP_PROXY=0` 可关闭此行为。
+
+API-only 批处理可用 `--stop-after stage03` 暂停在 MinerU 之前。Stage02、Stage03 和
+Stage05 的模型角色都支持 `models.<role>.fallback_models` 有序候选列表：单个模型完成自身重试后
+仍发生连接、HTTP、超时或无效 JSON 错误，才切换到下一模型；正常返回的科学筛选结论不会触发
+切换。每次切换都会记录在 LLM cache 的 `model_failures`、`fallback_used` 和
+`fallback_index` 字段中。
 
 复用已经运行的 GPU worker：
 

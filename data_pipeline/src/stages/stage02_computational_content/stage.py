@@ -684,7 +684,9 @@ def _call_complete_json(
                 "object. Use at most two items in every evidence array and shorten non-quote strings."
             ),
             user_content=user_content,
-            max_tokens=min(2048, max(max_tokens * 2, max_tokens + 512)),
+            # The retry prompt is deliberately compact, but thinking models still
+            # need enough output budget to finish reasoning before emitting JSON.
+            max_tokens=max(2048, min(max_tokens, 8192)),
         )
     except Exception as exc:
         raise Stage02ModelCallError(

@@ -75,8 +75,8 @@
     "max_computational_excerpts": 8,
     "max_experimental_excerpts": 8,
     "max_deterministic_experiment_evidence": 8,
-    "classification_max_tokens": 2048,
-    "pass_verification_max_tokens": 768,
+    "classification_max_tokens": 12288,
+    "pass_verification_max_tokens": 6144,
     "minimum_confidence": 0.85,
     "review_pass_decisions": true
   },
@@ -85,7 +85,7 @@
     "workers": 8,
     "max_prompt_payload_bytes": 18000,
     "max_evidence_payload_bytes": 9000,
-    "max_tokens": 6144,
+    "max_tokens": 12288,
     "toolbox_capabilities": "assets/toolbox_capabilities.json",
     "software_aliases": "assets/software_aliases.json",
     "software_coverage_basis": "native_software_catalog_presence",
@@ -193,11 +193,14 @@
       "model": "Qwen3.6-27B",
       "model_env": "RCB_STAGE02_SCREENING_MODEL",
       "workers": 8,
-      "max_tokens": 2048,
+      "max_tokens": 12288,
+      "context_window_tokens": 32768,
+      "context_safety_margin_tokens": 2048,
       "timeout_seconds": 900,
       "retries": 2,
       "thinking": null,
-      "chat_template_kwargs": {"enable_thinking": false}
+      "chat_template_kwargs": {"enable_thinking": false},
+      "fallback_models": []
     },
     "stage03_screening": {
       "enabled": true,
@@ -208,11 +211,14 @@
       "model": "DeepSeek-V4-Flash",
       "model_env": "RCB_STAGE03_SCREENING_MODEL",
       "workers": 8,
-      "max_tokens": 6144,
+      "max_tokens": 12288,
+      "context_window_tokens": 32768,
+      "context_safety_margin_tokens": 2048,
       "timeout_seconds": 900,
       "retries": 2,
       "thinking": null,
-      "chat_template_kwargs": {"thinking": false}
+      "chat_template_kwargs": {"thinking": false},
+      "fallback_models": []
     },
     "stage05_router": {
       "enabled": true,
@@ -227,7 +233,8 @@
       "timeout_seconds": 1200,
       "retries": 2,
       "thinking": null,
-      "chat_template_kwargs": {"thinking": false}
+      "chat_template_kwargs": {"thinking": false},
+      "fallback_models": []
     },
     "suitability": {
       "enabled": true,
@@ -242,7 +249,8 @@
       "timeout_seconds": 1200,
       "retries": 2,
       "thinking": null,
-      "chat_template_kwargs": {"enable_thinking": false}
+      "chat_template_kwargs": {"enable_thinking": false},
+      "fallback_models": []
     },
     "builder": {
       "enabled": true,

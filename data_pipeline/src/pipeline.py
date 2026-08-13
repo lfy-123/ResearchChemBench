@@ -792,6 +792,7 @@ def _model_cache_signature(config):
             "thinking",
             "chat_template_kwargs",
             "max_tokens",
+            "fallback_models",
         )
     }
 

@@ -22,8 +22,8 @@ Usage:
 
 Start options:
   --state <path>          Local state file.
-  --cpu <n>               Default: 16
-  --memory <MiB>          Default: 16000
+  --cpu <n>               Default: 32
+  --memory <MiB>          Default: 160000 (about 153 GiB)
   --charged-group <name>  Default: ai4chem_gpu
   --positive-tag <tag>    Optional scheduler positive tag.
   --image <image>         Optional rlaunch image; uses the cluster default when omitted.
@@ -40,8 +40,8 @@ action=${1:-}
 [[ -n "$action" ]] || { usage >&2; exit 2; }
 shift
 STATE="$DEFAULT_STATE"
-CPU=16
-MEMORY=16000
+CPU=32
+MEMORY=160000
 CHARGED_GROUP=ai4chem_gpu
 POSITIVE_TAG=""
 IMAGE=""
@@ -49,7 +49,7 @@ SKIP_BOOTSTRAP=0
 SKIP_DOWNLOAD=0
 MINERU_ENV="$PIPELINE_ROOT/.envs/researchchem-data-pipeline"
 MINERU_CONFIG="$PIPELINE_ROOT/.model_cache/mineru/mineru.json"
-MINERU_CONCURRENCY=3
+MINERU_CONCURRENCY=8
 EXISTING_WORKER=""
 while [[ $# -gt 0 ]]; do
   case "$1" in

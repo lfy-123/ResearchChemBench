@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run Stage00-05 in sequential batches using API-hosted LLMs only."""
+"""Run Stage00-03 or Stage00-05 in sequential batches using API-hosted LLMs."""
 
 from __future__ import annotations
 
@@ -28,12 +28,30 @@ DEFAULT_MODELS = {
     "stage05_router": "DeepSeek-V4-Flash-DSpark",
     "suitability": "<selected-at-preflight>",
 }
+DEFAULT_STAGE02_FALLBACKS = (
+    "DeepSeek-V4-Flash",
+    "Kimi-K2.6",
+)
+DEFAULT_STAGE03_FALLBACKS = (
+    "GLM-5.2",
+    "Qwen3.6-27B",
+)
+DEFAULT_STAGE05_ROUTER_FALLBACKS = (
+    "DeepSeek-V4-Flash",
+    "Qwen3.6-27B",
+)
 DEFAULT_STAGE05_AUDITOR_CANDIDATES = (
     "DeepSeek-V4-Pro",
     "GLM-5.2",
     "Nex-N2-Pro",
     "Nex-N2-Pro-w8a8",
+    "MiniMax-M2.7",
 )
+STAGE02_CLASSIFICATION_MAX_TOKENS = 12288
+STAGE02_VERIFICATION_MAX_TOKENS = 6144
+STAGE03_MAX_TOKENS = 12288
+SCREENING_CONTEXT_WINDOW_TOKENS = 32768
+SCREENING_CONTEXT_SAFETY_MARGIN_TOKENS = 2048
 
 
 def main() -> int:
@@ -45,22 +63,46 @@ def main() -> int:
             f"missing API key environment variable: {args.api_key_env} or OPENAI_API_KEY"
         )
     os.environ[args.api_key_env] = api_key
-    fixed_models = {key: value for key, value in DEFAULT_MODELS.items() if key != "suitability"}
-    _preflight_api(args.api_base_url, api_key, fixed_models)
-    candidates = tuple(
-        item.strip() for item in args.stage05_auditor_candidates.split(",") if item.strip()
-    )
-    selected_auditor, auditor_preflight = _select_stage05_auditor(
-        args.api_base_url,
-        api_key,
-        candidates,
-        attempts=args.stage05_auditor_probe_attempts,
-    )
-    models = {**fixed_models, "suitability": selected_auditor}
-    args.stage05_auditor_model = selected_auditor
-    args.stage05_auditor_chat_template_kwargs = _model_chat_template_kwargs(selected_auditor)
-    os.environ["RCB_NEW_STAGE05_AUDITOR_MODEL"] = selected_auditor
-    print(f"Stage05B selected strong auditor: {selected_auditor}", flush=True)
+    stop_index = int(args.stop_after.replace("stage", ""))
+    fixed_models = {
+        key: value
+        for key, value in DEFAULT_MODELS.items()
+        if key in {"stage02_screening", "stage03_screening"}
+        or (stop_index >= 5 and key == "stage05_router")
+    }
+    fallback_names = {
+        *DEFAULT_STAGE02_FALLBACKS,
+        *DEFAULT_STAGE03_FALLBACKS,
+        *(DEFAULT_STAGE05_ROUTER_FALLBACKS if stop_index >= 5 else ()),
+    }
+    _preflight_api(args.api_base_url, api_key, fixed_models, fallback_names=fallback_names)
+    auditor_preflight: list[dict[str, Any]] = []
+    models = dict(fixed_models)
+    if stop_index >= 5:
+        candidates = tuple(
+            item.strip()
+            for item in args.stage05_auditor_candidates.split(",")
+            if item.strip()
+        )
+        auditor_preflight = _probe_model_candidates(
+            args.api_base_url,
+            api_key,
+            candidates,
+            attempts=args.stage05_auditor_probe_attempts,
+        )
+        usable = [row["model"] for row in auditor_preflight if row["usable"]]
+        if not usable:
+            raise RuntimeError("no Stage05B auditor candidate passed API preflight")
+        args.stage05_auditor_candidates_resolved = tuple(usable)
+        args.stage05_auditor_model = usable[0]
+        args.stage05_auditor_chat_template_kwargs = _model_chat_template_kwargs(
+            usable[0], thinking=True
+        )
+        models["suitability"] = usable[0]
+        print(
+            "Stage05B runtime model chain: " + " -> ".join(usable),
+            flush=True,
+        )
 
     run_root = Path(args.run_root).expanduser().resolve()
     run_root.mkdir(parents=True, exist_ok=True)
@@ -116,8 +158,9 @@ def main() -> int:
         for index, config_path in enumerate(configs, start=1):
             workspace = run_root / "batches" / f"batch-{index:04d}"
             summary_path = workspace / "run_summary.json"
-            if _completed_summary(summary_path):
-                _record_completed(status, index, read_json(summary_path), resumed=True)
+            completed_result = _completed_result(workspace, summary_path, args.stop_after)
+            if completed_result is not None:
+                _record_completed(status, index, completed_result, resumed=True)
                 write_json(status_path, status)
                 print(f"batch {index}/{batches} already completed; reusing", flush=True)
                 continue
@@ -131,7 +174,7 @@ def main() -> int:
             )
             write_json(status_path, status)
             print(
-                f"starting API-only batch {index}/{batches}: "
+                f"starting API-only {args.stop_after} batch {index}/{batches}: "
                 f"{json.loads(config_path.read_text(encoding='utf-8'))['stage00']['count']} papers",
                 flush=True,
             )
@@ -192,11 +235,12 @@ def _batch_config(
     exclusions: list[Path],
 ) -> dict[str, Any]:
     config = copy.deepcopy(template)
+    stop_after = getattr(args, "stop_after", "stage05")
     config.update(
         {
             "workspace": str(workspace),
-            "run_id": f"stage00-05-api-batch-{batch_index + 1:04d}",
-            "stop_after": "stage05",
+            "run_id": f"stage00-{stop_after[-2:]}-api-batch-{batch_index + 1:04d}",
+            "stop_after": stop_after,
             "policy": "strict",
             "resume_completed_stages": True,
         }
@@ -236,11 +280,19 @@ def _batch_config(
     config["stage01"]["normalization"]["grobid"].update(
         {"workers": 32, "reuse_existing": True}
     )
-    config["stage02"].update({"model_role": "stage02_screening", "workers": 8})
+    config["stage02"].update(
+        {
+            "model_role": "stage02_screening",
+            "workers": args.stage02_workers,
+            "classification_max_tokens": STAGE02_CLASSIFICATION_MAX_TOKENS,
+            "pass_verification_max_tokens": STAGE02_VERIFICATION_MAX_TOKENS,
+        }
+    )
     config["stage03"].update(
         {
             "model_role": "stage03_screening",
-            "workers": 8,
+            "workers": args.stage03_workers,
+            "max_tokens": STAGE03_MAX_TOKENS,
             "toolbox_capabilities": str(PIPELINE_ROOT / "assets/toolbox_capabilities.json"),
             "software_aliases": str(PIPELINE_ROOT / "assets/software_aliases.json"),
             "external_software_aliases": str(
@@ -291,33 +343,71 @@ def _batch_config(
         role="stage02_screening",
         model=DEFAULT_MODELS["stage02_screening"],
         workers=args.stage02_workers,
-        max_tokens=2048,
-        chat_template_kwargs={"enable_thinking": False},
+        max_tokens=STAGE02_CLASSIFICATION_MAX_TOKENS,
+        context_window_tokens=SCREENING_CONTEXT_WINDOW_TOKENS,
+        context_safety_margin_tokens=SCREENING_CONTEXT_SAFETY_MARGIN_TOKENS,
+        chat_template_kwargs=_model_chat_template_kwargs(
+            DEFAULT_MODELS["stage02_screening"], thinking=True
+        ),
+        fallback_models=_fallback_model_configs(
+            DEFAULT_STAGE02_FALLBACKS,
+            max_tokens=STAGE02_CLASSIFICATION_MAX_TOKENS,
+            thinking=True,
+        ),
     )
     config["models"]["stage03_screening"] = _api_model_config(
         args,
         role="stage03_screening",
         model=DEFAULT_MODELS["stage03_screening"],
         workers=args.stage03_workers,
-        max_tokens=6144,
-        chat_template_kwargs={"thinking": False},
+        max_tokens=STAGE03_MAX_TOKENS,
+        context_window_tokens=SCREENING_CONTEXT_WINDOW_TOKENS,
+        context_safety_margin_tokens=SCREENING_CONTEXT_SAFETY_MARGIN_TOKENS,
+        chat_template_kwargs=_model_chat_template_kwargs(
+            DEFAULT_MODELS["stage03_screening"], thinking=True
+        ),
+        fallback_models=_fallback_model_configs(
+            DEFAULT_STAGE03_FALLBACKS,
+            max_tokens=STAGE03_MAX_TOKENS,
+            thinking=True,
+        ),
     )
-    config["models"]["stage05_router"] = _api_model_config(
-        args,
-        role="stage05_router",
-        model=DEFAULT_MODELS["stage05_router"],
-        workers=args.stage05_workers,
-        max_tokens=3072,
-        chat_template_kwargs={"thinking": False},
-    )
-    config["models"]["suitability"] = _api_model_config(
-        args,
-        role="stage05_auditor",
-        model=args.stage05_auditor_model,
-        workers=args.stage05_workers,
-        max_tokens=args.stage05_auditor_max_tokens,
-        chat_template_kwargs=args.stage05_auditor_chat_template_kwargs,
-    )
+    if int(stop_after.replace("stage", "")) >= 5:
+        config["models"]["stage05_router"] = _api_model_config(
+            args,
+            role="stage05_router",
+            model=DEFAULT_MODELS["stage05_router"],
+            workers=args.stage05_workers,
+            max_tokens=3072,
+            chat_template_kwargs={"thinking": False},
+            fallback_models=_fallback_model_configs(
+                DEFAULT_STAGE05_ROUTER_FALLBACKS,
+                max_tokens=4096,
+                thinking=False,
+            ),
+        )
+        config["models"]["suitability"] = _api_model_config(
+            args,
+            role="stage05_auditor",
+            model=args.stage05_auditor_model,
+            workers=args.stage05_workers,
+            max_tokens=args.stage05_auditor_max_tokens,
+            chat_template_kwargs=_model_chat_template_kwargs(
+                getattr(
+                    args,
+                    "stage05_auditor_candidates_resolved",
+                    (args.stage05_auditor_model,),
+                )[0],
+                thinking=True,
+            ),
+            fallback_models=[
+                _model_candidate_config(model, max_tokens=args.stage05_auditor_max_tokens, thinking=True)
+                for model in getattr(args, "stage05_auditor_candidates_resolved", ())[1:]
+            ],
+        )
+    else:
+        config["models"]["stage05_router"] = {"enabled": False}
+        config["models"]["suitability"] = {"enabled": False}
     config["models"]["builder"] = {"enabled": False}
     config["models"]["judge"] = {"enabled": False}
     config["microbatch"] = {
@@ -337,8 +427,19 @@ def _batch_config(
     return config
 
 
-def _api_model_config(args, *, role, model, workers, max_tokens, chat_template_kwargs):
-    return {
+def _api_model_config(
+    args,
+    *,
+    role,
+    model,
+    workers,
+    max_tokens,
+    chat_template_kwargs,
+    fallback_models=None,
+    context_window_tokens=None,
+    context_safety_margin_tokens=None,
+):
+    config = {
         "enabled": True,
         "use_proxy": False,
         "base_url": args.api_base_url,
@@ -352,10 +453,37 @@ def _api_model_config(args, *, role, model, workers, max_tokens, chat_template_k
         "retries": 3,
         "thinking": None,
         "chat_template_kwargs": chat_template_kwargs,
+        "fallback_models": list(fallback_models or []),
+    }
+    if context_window_tokens is not None:
+        config["context_window_tokens"] = int(context_window_tokens)
+    if context_safety_margin_tokens is not None:
+        config["context_safety_margin_tokens"] = int(context_safety_margin_tokens)
+    return config
+
+
+def _fallback_model_configs(models, *, max_tokens: int, thinking: bool):
+    return [
+        _model_candidate_config(model, max_tokens=max_tokens, thinking=thinking)
+        for model in models
+    ]
+
+
+def _model_candidate_config(model: str, *, max_tokens: int, thinking: bool):
+    return {
+        "model": model,
+        "max_tokens": max_tokens,
+        "chat_template_kwargs": _model_chat_template_kwargs(model, thinking=thinking),
     }
 
 
-def _preflight_api(base_url: str, api_key: str, models: dict[str, str]) -> None:
+def _preflight_api(
+    base_url: str,
+    api_key: str,
+    models: dict[str, str],
+    *,
+    fallback_names: set[str] | None = None,
+) -> None:
     request = urllib.request.Request(
         f"{base_url.rstrip('/')}/models",
         headers={"Authorization": f"Bearer {api_key}"},
@@ -368,14 +496,15 @@ def _preflight_api(base_url: str, api_key: str, models: dict[str, str]) -> None:
         body = exc.read().decode("utf-8", errors="replace")[:500]
         raise RuntimeError(f"New API preflight HTTP {exc.code}: {body}") from exc
     available = {str(row.get("id")) for row in payload.get("data") or []}
-    missing = sorted(set(models.values()) - available)
+    missing = sorted((set(models.values()) | set(fallback_names or ())) - available)
     if missing:
         raise RuntimeError(f"New API does not expose configured models: {missing}")
-    probes = (
+    probes = [
         (models["stage02_screening"], {"enable_thinking": False}),
         (models["stage03_screening"], {"thinking": False}),
-        (models["stage05_router"], {"thinking": False}),
-    )
+    ]
+    if "stage05_router" in models:
+        probes.append((models["stage05_router"], {"thinking": False}))
     for model, template_kwargs in probes:
         response, _audit = call_json_chat(
             model=model,
@@ -452,12 +581,73 @@ def _select_stage05_auditor(
     )
 
 
-def _model_chat_template_kwargs(model: str) -> dict[str, bool] | None:
+def _probe_model_candidates(
+    base_url: str,
+    api_key: str,
+    candidates: tuple[str, ...],
+    *,
+    attempts: int,
+    caller=call_json_chat,
+) -> list[dict[str, Any]]:
+    """Probe every candidate so runtime can preserve an ordered fallback chain."""
+
+    audit: list[dict[str, Any]] = []
+    for model in candidates:
+        outcomes: list[dict[str, Any]] = []
+        for attempt in range(1, attempts + 1):
+            try:
+                response, _metadata = caller(
+                    model=model,
+                    base_url=base_url,
+                    api_key=api_key,
+                    system_prompt="Return one valid JSON object only.",
+                    user_content=(
+                        'Return {"decision":"pass","reason":"preflight",'
+                        '"checks":["workflow","software","cost"]}.'
+                    ),
+                    timeout_seconds=120,
+                    max_tokens=512,
+                    retries=0,
+                    chat_template_kwargs=_model_chat_template_kwargs(model, thinking=False),
+                    proxy_url="",
+                )
+                valid = response.get("decision") == "pass" and isinstance(
+                    response.get("checks"), list
+                )
+                outcomes.append({"attempt": attempt, "ok": valid})
+                if not valid:
+                    break
+            except Exception as exc:
+                outcomes.append(
+                    {
+                        "attempt": attempt,
+                        "ok": False,
+                        "error": f"{type(exc).__name__}: {exc}"[:500],
+                    }
+                )
+                break
+        audit.append(
+            {
+                "model": model,
+                "usable": len(outcomes) == attempts and all(row["ok"] for row in outcomes),
+                "outcomes": outcomes,
+            }
+        )
+    return audit
+
+
+def _model_chat_template_kwargs(
+    model: str, *, thinking: bool = False
+) -> dict[str, bool] | None:
     normalized = model.casefold()
     if normalized.startswith("deepseek"):
+        # This gateway returns reasoning-only messages with empty content when
+        # DeepSeek thinking is enabled, which cannot satisfy the JSON contract.
         return {"thinking": False}
-    if normalized in {"glm-5.2", "nex-n2-pro", "nex-n2-pro-w8a8"}:
-        return {"enable_thinking": False}
+    if normalized in {"glm-5.2", "nex-n2-pro", "qwen3.6-27b"}:
+        return {"enable_thinking": thinking}
+    if normalized == "kimi-k2.6":
+        return {"thinking": thinking}
     return None
 
 
@@ -517,7 +707,10 @@ def _record_completed(status, index: int, result: dict[str, Any], *, resumed: bo
             "workspace": result.get("workspace"),
             "run_id": result.get("run_id"),
             "resumed": resumed,
-            **{f"stage{stage:02d}": result.get(f"stage{stage:02d}") for stage in range(6)},
+            **{
+                f"stage{stage:02d}": result.get(f"stage{stage:02d}")
+                for stage in range(int(str(result.get("stop_after", "stage05"))[-2:]) + 1)
+            },
             "completed_at": _now(),
         }
     )
@@ -525,11 +718,41 @@ def _record_completed(status, index: int, result: dict[str, Any], *, resumed: bo
     status["updated_at"] = _now()
 
 
-def _completed_summary(path: Path) -> bool:
+def _completed_summary(path: Path, stop_after: str) -> bool:
     if not path.is_file():
         return False
     summary = read_json(path)
-    return summary.get("status") == "completed" and summary.get("stop_after") == "stage05"
+    return summary.get("status") == "completed" and summary.get("stop_after") == stop_after
+
+
+def _completed_result(
+    workspace: Path, summary_path: Path, stop_after: str
+) -> dict[str, Any] | None:
+    if _completed_summary(summary_path, stop_after):
+        return read_json(summary_path)
+    if stop_after != "stage03":
+        return None
+    stage_paths = {
+        "stage00": workspace / "stage_00_remote_corpus" / "stage_summary.json",
+        "stage01": workspace / "stage_01_document_preparation" / "stage_summary.json",
+        "stage02": workspace / "stage_02_computational_content" / "stage_summary.json",
+        "stage03": workspace / "stage_03_toolbox_resource_gate" / "stage_summary.json",
+    }
+    if any(not path.is_file() for path in stage_paths.values()):
+        return None
+    summaries = {stage: read_json(path) for stage, path in stage_paths.items()}
+    if any(int(summary.get("processing_errors") or 0) for summary in summaries.values()):
+        return None
+    result = {
+        "run_id": summaries["stage03"].get("run_id"),
+        "workspace": str(workspace),
+        "status": "completed",
+        "stop_after": "stage03",
+        **summaries,
+        "resumed_from_existing_stage_outputs": True,
+    }
+    write_json(summary_path, result)
+    return result
 
 
 def _initial_status(
@@ -542,6 +765,7 @@ def _initial_status(
     return {
         "state": "initializing",
         "execution_mode": "api_only_no_worker",
+        "stop_after": args.stop_after,
         "run_root": str(run_root),
         "total_papers": args.total,
         "batch_size": args.batch_size,
@@ -567,6 +791,7 @@ def _parse_args():
     parser.add_argument("--run-root", required=True)
     parser.add_argument("--total", type=int, default=10000)
     parser.add_argument("--batch-size", type=int, default=1000)
+    parser.add_argument("--stop-after", choices=("stage03", "stage05"), default="stage05")
     parser.add_argument("--dataset", default="en-paper-hzzj")
     parser.add_argument(
         "--credentials",

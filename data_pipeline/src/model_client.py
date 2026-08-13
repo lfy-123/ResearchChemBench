@@ -74,6 +74,15 @@ class RoleModelClient:
     def model(self) -> str:
         return str(self.config["model"])
 
+    def _candidate_configs(self) -> list[dict[str, Any]]:
+        candidates = [dict(self.config)]
+        for fallback in self.config.get("fallback_models") or []:
+            candidate = dict(self.config)
+            candidate.update(dict(fallback))
+            candidate.pop("fallback_models", None)
+            candidates.append(candidate)
+        return candidates
+
     def call_json(
         self,
         *,
@@ -99,6 +108,20 @@ class RoleModelClient:
             "max_tokens": int(max_tokens or self.config.get("max_tokens", 2048)),
             "thinking": effective_thinking,
             "chat_template_kwargs": chat_template_kwargs,
+            "fallback_models": [
+                {
+                    key: candidate.get(key)
+                    for key in (
+                        "model",
+                        "base_url",
+                        "api_key_env",
+                        "max_tokens",
+                        "thinking",
+                        "chat_template_kwargs",
+                    )
+                }
+                for candidate in self.config.get("fallback_models") or []
+            ],
             "proxy_enabled": self._proxy_enabled(),
         }
         request_hash = canonical_hash(request_record)
@@ -108,35 +131,17 @@ class RoleModelClient:
             cached = read_json(cache_path)
             return cached["response"], {**cached["audit"], "cache_hit": True}
 
-        key_name = str(self.config.get("api_key_env") or "")
-        api_key = os.environ.get(key_name, "")
-        if not api_key:
-            raise RuntimeError(f"missing API key environment variable for {self.role}: {key_name}")
         with self._semaphore:
             guard = self.config.get("_managed_service_guard")
             if guard is not None:
                 guard.ensure_healthy()
-            try:
-                response, audit = self._call(
-                    api_key=api_key,
-                    system_prompt=system_prompt,
-                    user_content=user_content,
-                    max_tokens=max_tokens,
-                    thinking=None if chat_template_kwargs is not None else effective_thinking,
-                    chat_template_kwargs=chat_template_kwargs,
-                )
-            except Exception as exc:
-                if guard is None or not is_transient_connection_error(exc):
-                    raise
-                guard.recover()
-                response, audit = self._call(
-                    api_key=api_key,
-                    system_prompt=system_prompt,
-                    user_content=user_content,
-                    max_tokens=max_tokens,
-                    thinking=None if chat_template_kwargs is not None else effective_thinking,
-                    chat_template_kwargs=chat_template_kwargs,
-                )
+            response, audit = self._call_with_fallbacks(
+                system_prompt=system_prompt,
+                user_content=user_content,
+                max_tokens=max_tokens,
+                thinking=effective_thinking,
+                guard=guard,
+            )
         audit_record = {
             **audit,
             "role": self.role,
@@ -159,30 +164,115 @@ class RoleModelClient:
         max_tokens,
         thinking,
         chat_template_kwargs=None,
+        candidate_config=None,
     ):
+        config = candidate_config or self.config
         return self.caller(
-            model=self.model,
-            base_url=str(self.config["base_url"]),
+            model=str(config["model"]),
+            base_url=str(config["base_url"]),
             api_key=api_key,
             system_prompt=system_prompt,
             user_content=user_content,
-            timeout_seconds=float(self.config.get("timeout_seconds", 900)),
-            max_tokens=int(max_tokens or self.config.get("max_tokens", 2048)),
-            retries=int(self.config.get("retries", 2)),
+            timeout_seconds=float(config.get("timeout_seconds", 900)),
+            max_tokens=int(max_tokens or config.get("max_tokens", 2048)),
+            retries=int(config.get("retries", 2)),
             thinking=thinking,
             chat_template_kwargs=chat_template_kwargs,
-            proxy_url=self._proxy_url(),
+            proxy_url=self._proxy_url(config),
         )
+
+    def _call_with_fallbacks(
+        self,
+        *,
+        system_prompt: str,
+        user_content: str,
+        max_tokens: int | None,
+        thinking: str | None,
+        guard: Any,
+    ) -> tuple[dict[str, Any], dict[str, Any]]:
+        failures: list[dict[str, Any]] = []
+        candidates = self._candidate_configs()
+        for index, candidate in enumerate(candidates):
+            key_name = str(candidate.get("api_key_env") or "")
+            api_key = os.environ.get(key_name, "")
+            if not api_key:
+                exc: Exception = RuntimeError(
+                    f"missing API key environment variable for {self.role}: {key_name}"
+                )
+                failures.append(self._fallback_failure(candidate, exc))
+                if index + 1 < len(candidates):
+                    continue
+                raise exc
+            candidate_thinking = candidate.get("thinking", thinking)
+            candidate_kwargs = candidate.get("chat_template_kwargs")
+            try:
+                response, audit = self._call(
+                    api_key=api_key,
+                    system_prompt=system_prompt,
+                    user_content=user_content,
+                    max_tokens=max_tokens,
+                    thinking=None if candidate_kwargs is not None else candidate_thinking,
+                    chat_template_kwargs=candidate_kwargs,
+                    candidate_config=candidate,
+                )
+            except Exception as exc:
+                if guard is not None and is_transient_connection_error(exc):
+                    try:
+                        guard.recover()
+                        response, audit = self._call(
+                            api_key=api_key,
+                            system_prompt=system_prompt,
+                            user_content=user_content,
+                            max_tokens=max_tokens,
+                            thinking=None if candidate_kwargs is not None else candidate_thinking,
+                            chat_template_kwargs=candidate_kwargs,
+                            candidate_config=candidate,
+                        )
+                    except Exception as recovered_exc:
+                        exc = recovered_exc
+                    else:
+                        return response, {
+                            **audit,
+                            "fallback_used": bool(index),
+                            "fallback_index": index,
+                            "model_failures": failures,
+                        }
+                failures.append(self._fallback_failure(candidate, exc))
+                if index + 1 < len(candidates):
+                    continue
+                raise RuntimeError(
+                    f"all configured models failed for role {self.role}: "
+                    + "; ".join(
+                        f"{row['model']}: {row['error_type']}" for row in failures
+                    )
+                ) from exc
+            return response, {
+                **audit,
+                "fallback_used": bool(index),
+                "fallback_index": index,
+                "model_failures": failures,
+            }
+        raise RuntimeError(f"no model candidates configured for role {self.role}")
+
+    @staticmethod
+    def _fallback_failure(candidate: dict[str, Any], exc: Exception) -> dict[str, Any]:
+        return {
+            "model": str(candidate.get("model") or ""),
+            "base_url": str(candidate.get("base_url") or ""),
+            "error_type": type(exc).__name__,
+            "message": str(exc)[:1000],
+        }
 
     def _proxy_enabled(self) -> bool:
         return bool(self.config.get("use_proxy", self.role in REMOTE_API_ROLES))
 
-    def _proxy_url(self) -> str:
-        if not self._proxy_enabled():
+    def _proxy_url(self, config: dict[str, Any] | None = None) -> str:
+        value = config or self.config
+        if not bool(value.get("use_proxy", self.role in REMOTE_API_ROLES)):
             # An empty string tells the lower-level client to disable both
             # explicit and environment-derived proxies for local endpoints.
             return ""
-        env_name = str(self.config.get("proxy_url_env") or "HTTPS_PROXY")
+        env_name = str(value.get("proxy_url_env") or "HTTPS_PROXY")
         candidates = [
             os.environ.get(env_name),
             os.environ.get(env_name.lower()),
@@ -190,6 +280,6 @@ class RoleModelClient:
             os.environ.get("https_proxy"),
             os.environ.get("HTTP_PROXY"),
             os.environ.get("http_proxy"),
-            self.config.get("proxy_url"),
+            value.get("proxy_url"),
         ]
         return str(next((value for value in candidates if value), DEFAULT_REMOTE_API_PROXY))
