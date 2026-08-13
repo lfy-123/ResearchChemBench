@@ -140,6 +140,7 @@
     "contract_retry": true
   },
   "stage06": {
+    "harness": "direct_api",
     "model_role": "builder",
     "workers": 2,
     "shared_max_tokens": 6144,
@@ -150,6 +151,7 @@
     }
   },
   "stage07": {
+    "harness": "direct_api",
     "model_role": "judge",
     "workers": 2,
     "max_tokens": 4096,
@@ -226,7 +228,7 @@
       "base_url": "http://127.0.0.1:13000/v1",
       "base_url_env": "RCB_NEW_API_BASE_URL",
       "api_key_env": "RCB_NEW_API_KEY",
-      "model": "DeepSeek-V4-Flash-DSpark",
+      "model": "DeepSeek-V4-Flash",
       "model_env": "RCB_NEW_STAGE05_ROUTER_MODEL",
       "workers": 8,
       "max_tokens": 3072,
@@ -242,7 +244,7 @@
       "base_url": "http://127.0.0.1:13000/v1",
       "base_url_env": "RCB_NEW_API_BASE_URL",
       "api_key_env": "RCB_NEW_API_KEY",
-      "model": "Nex-N2-Pro-w8a8",
+      "model": "DeepSeek-V4-Pro",
       "model_env": "RCB_NEW_STAGE05_AUDITOR_MODEL",
       "workers": 8,
       "max_tokens": 8192,

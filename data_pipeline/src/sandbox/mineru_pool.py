@@ -89,6 +89,7 @@ class MineruSandboxPool:
             spec = SandboxRunOptions(
                 **{**self.options.__dict__, "name_suffix": suffix,
                    "instance_capacity": self.count,
+                   "fixed_environment_id": environment_id,
                    "source": self.state_root / f"sandbox-{index + 1:03d}.yaml",
                    "inventory": self.state_root / f"sandbox-{index + 1:03d}.json"}
             )

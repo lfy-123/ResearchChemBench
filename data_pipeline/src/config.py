@@ -96,8 +96,14 @@ def load_config(path: str | Path) -> dict[str, Any]:
             )
         )
     config.setdefault("stage05", {})
-    config.setdefault("stage06", {})
-    config.setdefault("stage07", {})
+    stage06 = config.setdefault("stage06", {})
+    stage07 = config.setdefault("stage07", {})
+    stage06["harness"] = os.environ.get("RCB_STAGE06_HARNESS") or stage06.get(
+        "harness", "direct_api"
+    )
+    stage07["harness"] = os.environ.get("RCB_STAGE07_HARNESS") or stage07.get(
+        "harness", "direct_api"
+    )
     config.setdefault("microbatch", {})
     execution = config.setdefault("execution", {})
     sandbox = execution.setdefault("sandbox", {})
@@ -162,6 +168,13 @@ def _normalize_model_roles(config: dict[str, Any]) -> None:
         model_env = str(value.get("model_env") or f"{env_prefix}_MODEL")
         value["base_url"] = os.environ.get(base_url_env) or value.get("base_url")
         value["model"] = os.environ.get(model_env) or value.get("model")
+        fallback_env = os.environ.get(f"{env_prefix}_FALLBACK_MODELS", "").strip()
+        if fallback_env:
+            fallbacks[:] = [
+                {"model": name.strip(), "chat_template_kwargs": _model_thinking_kwargs(name)}
+                for name in fallback_env.split(",")
+                if name.strip()
+            ]
         for fallback in fallbacks:
             fallback.setdefault("base_url", value.get("base_url"))
             fallback.setdefault("api_key_env", value.get("api_key_env"))
@@ -171,8 +184,20 @@ def _normalize_model_roles(config: dict[str, Any]) -> None:
             fallback.setdefault("use_proxy", value.get("use_proxy"))
 
 
+def _model_thinking_kwargs(model: str) -> dict[str, bool]:
+    name = model.casefold()
+    if name.startswith("deepseek") or name.startswith("kimi"):
+        return {"thinking": False}
+    if name.startswith("glm") or name.startswith("qwen") or name == "nex-n2-pro":
+        return {"enable_thinking": False}
+    return {}
+
+
 def _validate(config: dict[str, Any]) -> None:
     models = config["models"]
+    for stage in ("stage06", "stage07"):
+        if config[stage].get("harness") != "direct_api":
+            raise ValueError(f"{stage}.harness currently supports only direct_api")
     for role in MODEL_ROLES:
         model = models[role]
         if model.get("enabled", True) and (not model.get("base_url") or not model.get("model")):

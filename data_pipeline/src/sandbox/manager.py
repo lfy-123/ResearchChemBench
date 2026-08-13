@@ -74,6 +74,9 @@ class SandboxRunOptions:
     name_suffix: str = ""
     # Maximum number of sandbox instances created from this environment.
     instance_capacity: int = 1
+    # Pool children are pinned to the environment created by the pool owner.
+    # They may replace an instance, but must never create another environment.
+    fixed_environment_id: str = ""
 
     def validated(self) -> SandboxRunOptions:
         if self.cpu < 1:
@@ -180,7 +183,7 @@ class SandboxManager:
             try:
                 detail = self.control.management_json("GET", f"/v1/sandboxes/{sandbox_id}")
             except SandboxError as exc:
-                if exc.status != 404:
+                if exc.status != 404 or self.options.fixed_environment_id:
                     raise
             if detail:
                 state = str((detail.get("status") or {}).get("state") or "")
