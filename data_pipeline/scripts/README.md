@@ -10,6 +10,8 @@ scripts/
 ├── WORKER_LAUNCH_GUIDE.md        # worker 资源、创建和复用规范
 ├── workflows/run_pipeline.sh     # 完整 Stage00-07 流程入口
 ├── workflows/run_stage00_04_batches.sh # 分轮复制并运行 Stage00-04
+├── workflows/run_stage04_05_resume.py  # 从已完成 Stage03 的运行目录恢复 Stage04-05
+├── run_stage04_05_resume.sh            # Stage04-05 恢复入口
 ├── sync_toolbox_capabilities.py  # 刷新只读工具箱能力快照
 └── test_publisher_access.sh      # 诊断出版商网页连通性
 ```
@@ -49,6 +51,23 @@ Stage05 的模型角色都支持 `models.<role>.fallback_models` 有序候选列
 仍发生连接、HTTP、超时或无效 JSON 错误，才切换到下一模型；正常返回的科学筛选结论不会触发
 切换。每次切换都会记录在 LLM cache 的 `model_failures`、`fallback_used` 和
 `fallback_index` 字段中。
+
+从已完成 Stage03 的运行目录继续处理：
+
+```bash
+bash scripts/run_stage04_05_resume.sh \
+  --run-root runs/stage00-05-api-batches-10000-20260813 \
+  --mineru-sandbox-count 4 \
+  --mineru-sandbox-cpu 64 --mineru-sandbox-memory 160Gi \
+  --stage04-microbatch-concurrency 4 --watch
+```
+
+该入口不会重新执行 Stage00-03。它只消费已经存在且 `stage_cache.json` 为
+`completed` 的微批次，按 Stage04 -> Stage05 顺序处理；再次启动会自动跳过两阶段都已完成的
+微批次。`--start-stage`/`--stop-stage` 可选 `4` 或 `5`，例如只重跑 Stage04 使用
+`--start-stage 4 --stop-stage 4`。`--mineru-sandbox-count` 是显式的多沙箱开关，默认值为
+1，保持旧版单沙箱行为。每个沙箱同一时刻只运行一个 MinerU job，池内不同沙箱并行领取任务。
+脚本结束时默认停止这些沙箱；调试时可传 `--mineru-sandbox-cleanup keep`。
 
 复用已经运行的 GPU worker：
 

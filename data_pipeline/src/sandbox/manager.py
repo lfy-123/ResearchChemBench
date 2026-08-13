@@ -69,6 +69,9 @@ class SandboxRunOptions:
     project: str = DEFAULT_PROJECT
     image: str = DEFAULT_IMAGE
     api_key_env: str = "RCB_SANDBOX_API_KEY"
+    # Optional suffix used by opt-in pools. The default preserves the legacy
+    # single-sandbox names and source files.
+    name_suffix: str = ""
 
     def validated(self) -> SandboxRunOptions:
         if self.cpu < 1:
@@ -189,7 +192,7 @@ class SandboxManager:
                 "/v1/sandboxes",
                 payload={
                     "environmentId": environment_id,
-                    "name": f"researchchem-data-pipeline-{self.options.cpu}cpu",
+                    "name": self._worker_name(),
                     "type": "code",
                     "lifecycleMinutes": self.options.lifecycle_minutes,
                     "metadata": {"owner": "researchchem-data-pipeline", "schema_version": "1"},
@@ -317,7 +320,7 @@ class SandboxManager:
             for name, port in EXPOSED_SERVICE_PORTS.items()
         ]
         return {
-            "name": f"researchchem-data-pipeline-{self.options.cpu}cpu",
+            "name": self._resource_name(),
             "description": "ResearchChemBench data pipeline managed sandbox",
             "image": {"uri": self.options.image},
             "entrypoint": ["sleep", "inf"],
@@ -339,7 +342,7 @@ class SandboxManager:
 
     def _find_compatible_environment(self) -> dict[str, Any] | None:
         response = self.control.management_json("GET", "/v1/sandbox-environments")
-        expected_name = f"researchchem-data-pipeline-{self.options.cpu}cpu"
+        expected_name = self._resource_name()
         for environment in response.get("items") or []:
             resources = dict(environment.get("resources") or {})
             image = environment.get("image") or {}
@@ -370,7 +373,7 @@ class SandboxManager:
             },
             "environment": {
                 "environment_id": environment_id,
-                "name": f"researchchem-data-pipeline-{self.options.cpu}cpu",
+                "name": self._resource_name(),
                 "image": self.options.image,
                 "resources": {"cpu": str(self.options.cpu), "memory": self.options.memory},
                 "ports": dict(EXPOSED_SERVICE_PORTS),
@@ -379,9 +382,17 @@ class SandboxManager:
             "worker": {
                 "worker_id": "data-pipeline-sandbox-1",
                 "sandbox_id": sandbox_id or None,
-                "name": "researchchem-data-pipeline-worker",
+                "name": self._worker_name(),
             },
         }
+
+    def _resource_name(self) -> str:
+        suffix = str(self.options.name_suffix or "").strip()
+        return f"researchchem-data-pipeline-{self.options.cpu}cpu{suffix}"
+
+    def _worker_name(self) -> str:
+        suffix = str(self.options.name_suffix or "").strip()
+        return f"researchchem-data-pipeline-worker{suffix}"
 
     def _load_source(self) -> dict[str, Any]:
         if not self.source_path.is_file():
