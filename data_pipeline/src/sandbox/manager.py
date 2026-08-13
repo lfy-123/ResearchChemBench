@@ -185,6 +185,7 @@ class SandboxManager:
             except SandboxError as exc:
                 if exc.status != 404 or self.options.fixed_environment_id:
                     raise
+                sandbox_id = ""
             if detail:
                 state = str((detail.get("status") or {}).get("state") or "")
                 if state in {"Pending", "Creating"}:
