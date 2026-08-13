@@ -183,7 +183,7 @@ class SandboxManager:
             try:
                 detail = self.control.management_json("GET", f"/v1/sandboxes/{sandbox_id}")
             except SandboxError as exc:
-                if exc.status != 404 or self.options.fixed_environment_id:
+                if exc.status != 404:
                     raise
                 sandbox_id = ""
             if detail:
@@ -209,7 +209,7 @@ class SandboxManager:
             except SandboxError as exc:
                 # The platform may return 404 for an expired environment ID.
                 # Recreate only this manager's environment, then retry once.
-                if exc.status != 404:
+                if exc.status != 404 or self.options.fixed_environment_id:
                     raise
                 try:
                     self.control.management_json("DELETE", f"/v1/sandbox-environments/{environment_id}")
