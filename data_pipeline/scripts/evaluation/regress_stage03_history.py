@@ -12,6 +12,7 @@ from src.contracts import read_json, read_jsonl, write_json, write_jsonl
 from src.stages.stage03_toolbox_resource_gate.stage import (
     _combine_decision,
     _freeze_workflow_bindings,
+    _reconcile_software_roles_with_workflows,
     _stage02_confirmed_workflows,
     coverage_gate,
     resolve_software,
@@ -45,6 +46,12 @@ def main() -> int:
         )
         review = dict(old.get("model_review") or {})
         review["workflows"] = locked
+        mentions, role_warnings = _reconcile_software_roles_with_workflows(
+            review.get("software_mentions") or [],
+            locked,
+            {**aliases, **external_aliases},
+        )
+        review["software_mentions"] = mentions
         mappings = resolve_software(
             review.get("software_mentions") or [],
             aliases,
@@ -72,7 +79,11 @@ def main() -> int:
                 "confirmed_workflows": frozen,
                 "workflow_coverage_results": workflow_results,
                 "software_mappings": mappings,
-                "warnings": [*contract_warnings, *freeze_warnings],
+                "warnings": [
+                    *contract_warnings,
+                    *freeze_warnings,
+                    *role_warnings,
+                ],
             }
         )
     transitions = Counter(

@@ -20,8 +20,13 @@ from src.core.concurrency import ordered_parallel_map
 from src.model_client import RoleModelClient
 from src.prompts import STAGE03_SYSTEM, STAGE03_VERSION
 
-REQUIRED_ROLES = {"core_compute", "required_preprocessing", "required_analysis"}
-VALID_ROLES = REQUIRED_ROLES | {
+BLOCKING_ROLES = {"core_compute"}
+WORKFLOW_BOUND_ROLES = {
+    *BLOCKING_ROLES,
+    "required_preprocessing",
+    "required_analysis",
+}
+VALID_ROLES = WORKFLOW_BOUND_ROLES | {
     "optional_auxiliary",
     "visualization",
     "instrumentation",
@@ -46,11 +51,22 @@ STAGE03_FORWARD_DECISIONS = {
     "software_coverage_probable",
     "software_inventory_unconfirmed",
 }
-STAGE03_SOFTWARE_CONTRACT_VERSION = "stage03-workflow-software-binding/v1"
+STAGE03_SOFTWARE_CONTRACT_VERSION = "stage03-workflow-software-binding/v2-core-only-gate"
 _CORE_RUNTIME_ACTION_RE = re.compile(
     r"\b(?:train(?:ing)?|fit(?:ting)?|simulate|simulation|molecular\s+dynamics|"
     r"microkinetic|kinetic\s+model|electronic[ -]structure|quantum\s+chemistry|"
     r"density\s+functional|geometry\s+optimi[sz]ation|docking)\b",
+    re.I,
+)
+_PREPROCESSING_ACTION_RE = re.compile(
+    r"\b(?:prepare|preprocess|retrieve|download|convert|reformat|protonat|"
+    r"add\s+(?:hydrogen|charge)|remove\s+(?:water|solvent|ligand|heteroatom)|"
+    r"assign\s+(?:charge|atom\s+type)|generate\s+(?:input|topology)|build\s+(?:input|system))\b",
+    re.I,
+)
+_ANALYSIS_ACTION_RE = re.compile(
+    r"\b(?:analy[sz]e|visuali[sz]e|inspect|plot|render|display|postprocess|"
+    r"post-process|measure\s+from|export)\b",
     re.I,
 )
 
@@ -237,6 +253,14 @@ def run_stage03(
                 detection_aliases,
             )
             validation_warnings.extend(workflow_warnings)
+            response["software_mentions"], role_warnings = (
+                _reconcile_software_roles_with_workflows(
+                    response.get("software_mentions") or [],
+                    response.get("workflows") or [],
+                    detection_aliases,
+                )
+            )
+            validation_warnings.extend(role_warnings)
             response["unscoped_software_mentions"] = [
                 mention
                 for mention in response.get("software_mentions") or []
@@ -1271,7 +1295,9 @@ def _bind_workflow_steps_to_mentions(workflows, mentions, aliases):
     warnings = []
     alias_keys = _software_alias_keys(aliases)
     required_mentions = [
-        row for row in mentions if row.get("actual_use") and row.get("role") in REQUIRED_ROLES
+        row
+        for row in mentions
+        if row.get("actual_use") and row.get("role") in WORKFLOW_BOUND_ROLES
     ]
     for workflow in workflows:
         if not isinstance(workflow, dict):
@@ -1393,9 +1419,7 @@ def _merge_workflow_software_mentions(mentions, workflows, evidence, aliases):
                     "raw_name": raw_name,
                     "normalized_hint": None,
                     "entity_type": "program",
-                    "role": "core_compute"
-                    if bool(step.get("essential", True))
-                    else "optional_auxiliary",
+                    "role": _inferred_step_software_role(step),
                     "actual_use": True,
                     "workflow_ids": [workflow_id] if workflow_id else [],
                     "evidence_ids": evidence_ids,
@@ -1411,6 +1435,78 @@ def _merge_workflow_software_mentions(mentions, workflows, evidence, aliases):
                 }
             )
             known.add(identity)
+    return output, warnings
+
+
+def _inferred_step_software_role(step: dict[str, Any]) -> str:
+    """Infer the role of a software mention recovered from a workflow step."""
+
+    if not bool(step.get("essential", True)):
+        return "optional_auxiliary"
+    action = " ".join(str(step.get("action") or "").split())
+    if not action:
+        return "core_compute"
+    if _CORE_RUNTIME_ACTION_RE.search(action):
+        return "core_compute"
+    if _PREPROCESSING_ACTION_RE.search(action):
+        return "required_preprocessing"
+    if _ANALYSIS_ACTION_RE.search(action):
+        return "required_analysis"
+    return "unknown"
+
+
+def _reconcile_software_roles_with_workflows(mentions, workflows, aliases):
+    """Align model-assigned roles with the actions of matched workflow steps."""
+
+    alias_keys = _software_alias_keys(aliases)
+    steps_by_workflow: dict[str, list[dict[str, Any]]] = {}
+    for workflow in workflows:
+        if not isinstance(workflow, dict):
+            continue
+        workflow_id = str(workflow.get("workflow_id") or "")
+        steps_by_workflow[workflow_id] = [
+            step
+            for step in workflow.get("steps") or []
+            if isinstance(step, dict) and str(step.get("software") or "").strip()
+        ]
+
+    output = []
+    warnings = []
+    for mention in mentions:
+        row = dict(mention)
+        identity = _software_identity(row.get("raw_name"), alias_keys)
+        matched_roles = []
+        for workflow_id in row.get("workflow_ids") or []:
+            for step in steps_by_workflow.get(str(workflow_id), []):
+                if _software_identity(step.get("software"), alias_keys) != identity:
+                    continue
+                role = _inferred_step_software_role(step)
+                if role in {"core_compute", "required_preprocessing", "required_analysis"}:
+                    matched_roles.append(role)
+        inferred_role = None
+        if "core_compute" in matched_roles:
+            inferred_role = "core_compute"
+        elif "required_preprocessing" in matched_roles:
+            inferred_role = "required_preprocessing"
+        elif "required_analysis" in matched_roles:
+            inferred_role = "required_analysis"
+        current_role = row.get("role")
+        should_reconcile = (
+            current_role == "core_compute"
+            and inferred_role in {"required_preprocessing", "required_analysis"}
+        )
+        if should_reconcile:
+            warnings.append(
+                {
+                    "field": "software_mentions.role",
+                    "raw_name": row.get("raw_name"),
+                    "previous_role": current_role,
+                    "role": inferred_role,
+                    "reason": "role_reconciled_with_workflow_action",
+                }
+            )
+            row["role"] = inferred_role
+        output.append(row)
     return output, warnings
 
 
@@ -1551,7 +1647,7 @@ def _explicit_bound_named_runtime(mention, raw_name, entity_type):
         and mention.get("workflow_ids")
         and mention.get("evidence_ids")
         and str(mention.get("exact_quote") or "").strip()
-        and mention.get("role") in REQUIRED_ROLES
+        and mention.get("role") in WORKFLOW_BOUND_ROLES
     )
 
 
@@ -1575,6 +1671,14 @@ def _resolve_software_name(raw_name, lookup, *, allow_version_variants):
         }
         if len(version_candidates) == 1:
             return next(iter(version_candidates)), "official_version_variant"
+
+    parenthetical_candidates = {
+        lookup[_normalize(candidate)]
+        for candidate in re.findall(r"\(\s*([^()/]{2,48}?)(?:\)|$)", str(raw_name))
+        if _normalize(candidate) in lookup
+    }
+    if len(parenthetical_candidates) == 1:
+        return next(iter(parenthetical_candidates)), "parenthetical_alias"
 
     contained = {
         backend
@@ -1654,14 +1758,33 @@ def _without_version_suffix(raw_name: str) -> str:
 
 
 def workflow_coverage_results(review, mappings):
-    """Classify each frozen workflow from step and workflow-scoped bindings."""
+    """Classify frozen workflows using only core-compute software as blockers."""
 
     output = []
     for workflow_index, workflow in enumerate(review.get("workflows") or []):
         if not isinstance(workflow, dict):
             continue
         workflow_id = str(workflow.get("workflow_id") or f"wf{workflow_index + 1}")
+        workflow_mappings = [
+            mapping
+            for mapping in mappings
+            if mapping.get("actual_use")
+            and workflow_id in {str(value) for value in mapping.get("workflow_ids") or []}
+        ]
+        core_software_results = [
+            _workflow_mapping_result(mapping)
+            for mapping in workflow_mappings
+            if mapping.get("role") in BLOCKING_ROLES
+        ]
+        nonblocking_software_results = [
+            _workflow_mapping_result(mapping)
+            for mapping in workflow_mappings
+            if mapping.get("role") not in BLOCKING_ROLES
+        ]
         step_results = []
+        core_states = {
+            str(row.get("state") or "unconfirmed") for row in core_software_results
+        }
         for step in workflow.get("steps") or []:
             if not isinstance(step, dict) or not bool(step.get("essential", True)):
                 continue
@@ -1669,49 +1792,43 @@ def workflow_coverage_results(review, mappings):
             if step.get("execution_layer") == "task_specific_python" and not software:
                 state = "covered"
                 mapping = None
+                role = "task_specific_python"
+                blocking = True
             elif not software:
                 state = "unconfirmed"
                 mapping = None
+                role = "unknown"
+                blocking = True
             else:
                 mapping = _mapping_for_step(software, workflow_id, mappings)
                 state = str((mapping or {}).get("coverage_state") or "")
                 if not state:
                     state = "covered" if (mapping or {}).get("catalog_present") else "unconfirmed"
+                role = str((mapping or {}).get("role") or "unknown")
+                # A named essential step without a validated mapping remains a
+                # possible core dependency. An explicitly non-core mapping is
+                # audited but cannot reject this early software-presence gate.
+                blocking = mapping is None or role in BLOCKING_ROLES
+            if blocking:
+                core_states.add(state)
             step_results.append(
                 {
                     "step_id": str(step.get("step_id") or ""),
                     "software": software or None,
                     "state": state,
+                    "role": role,
+                    "blocking": blocking,
                     "normalized_identifier": (mapping or {}).get("normalized_identifier"),
                     "external_identifier": (mapping or {}).get("external_identifier"),
                     "name_resolution": (mapping or {}).get("name_resolution"),
                     "evidence_ids": list(step.get("evidence_ids") or []),
                 }
             )
-        required_software_results = [
-            {
-                "raw_name": mapping.get("raw_name"),
-                "state": mapping.get("coverage_state"),
-                "role": mapping.get("role"),
-                "normalized_identifier": mapping.get("normalized_identifier"),
-                "external_identifier": mapping.get("external_identifier"),
-                "name_resolution": mapping.get("name_resolution"),
-                "evidence_ids": list(mapping.get("evidence_ids") or []),
-            }
-            for mapping in mappings
-            if mapping.get("actual_use")
-            and mapping.get("role") in REQUIRED_ROLES
-            and workflow_id in {str(value) for value in mapping.get("workflow_ids") or []}
-        ]
-        states = {
-            *[row["state"] for row in step_results],
-            *[str(row.get("state") or "") for row in required_software_results],
-        }
-        if "uncovered" in states:
+        if "uncovered" in core_states:
             status = "workflow_uncovered"
-        elif not step_results or "unconfirmed" in states:
+        elif not core_states or "unconfirmed" in core_states:
             status = "workflow_software_inventory_unconfirmed"
-        elif "probable" in states:
+        elif "probable" in core_states:
             status = "workflow_coverage_probable"
         else:
             status = "workflow_covered"
@@ -1720,10 +1837,27 @@ def workflow_coverage_results(review, mappings):
                 "workflow_id": workflow_id,
                 "status": status,
                 "step_results": step_results,
-                "required_software_results": required_software_results,
+                "core_software_results": core_software_results,
+                "nonblocking_software_results": nonblocking_software_results,
+                # Backward-compatible name retained for existing Stage05 and
+                # report consumers. Its contents are now core-only.
+                "required_software_results": core_software_results,
+                "gate_roles": sorted(BLOCKING_ROLES),
             }
         )
     return output
+
+
+def _workflow_mapping_result(mapping):
+    return {
+        "raw_name": mapping.get("raw_name"),
+        "state": mapping.get("coverage_state") or "unconfirmed",
+        "role": mapping.get("role"),
+        "normalized_identifier": mapping.get("normalized_identifier"),
+        "external_identifier": mapping.get("external_identifier"),
+        "name_resolution": mapping.get("name_resolution"),
+        "evidence_ids": list(mapping.get("evidence_ids") or []),
+    }
 
 
 def _mapping_for_step(software, workflow_id, mappings):
@@ -1756,7 +1890,13 @@ def _mapping_for_step(software, workflow_id, mappings):
     if not candidates:
         return None
     precedence = {"covered": 0, "probable": 1, "uncovered": 2, "unconfirmed": 3}
-    return min(candidates, key=lambda row: precedence.get(row.get("coverage_state"), 1))
+    return min(
+        candidates,
+        key=lambda row: (
+            0 if row.get("role") in BLOCKING_ROLES else 1,
+            precedence.get(row.get("coverage_state"), 1),
+        ),
+    )
 
 
 def _software_reference_keys(value):
@@ -1767,7 +1907,9 @@ def _software_reference_keys(value):
     }
     keys.update(
         _normalize(match)
-        for match in re.findall(r"\(([A-Za-z][A-Za-z0-9+.-]{1,15})\)", text)
+        for match in re.findall(
+            r"\(([A-Za-z][A-Za-z0-9+.-]{1,15})(?:\)|$)", text
+        )
     )
     return keys - {""}
 

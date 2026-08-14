@@ -8,10 +8,12 @@ PASS_DECISIONS = {
     "computational_experimental_co_primary_confirmed",
     "experimental_primary_benchmarkable_computation",
 }
+NON_ORIGINAL_ARTICLE_ROLES = {"review", "correction", "editorial"}
 SEMANTIC_DECISIONS = {
     *PASS_DECISIONS,
     "computational_workflow_not_benchmarkable",
     "computational_content_not_found",
+    "non_original_article",
     "uncertain",
 }
 ARTICLE_ROLES = {"original_research", "review", "correction", "editorial", "unknown"}
@@ -35,7 +37,7 @@ def sanitize_classification(
         warnings.append({"field": "decision", "reason": "invalid_decision"})
         proposed = "uncertain"
 
-    sanitized["article_role"] = _choice(sanitized.get("article_role"), ARTICLE_ROLES, "unknown")
+    sanitized["article_role"] = _article_role(sanitized.get("article_role"))
     for field in (
         "performed_computation",
         "complete_computational_workflow",
@@ -157,12 +159,10 @@ def sanitize_classification(
     has_author_experiments = sanitized["author_performed_experiments"] == "yes"
     high_confidence = confidence >= minimum_confidence
 
-    if sanitized["article_role"] != "original_research":
-        decision = (
-            "uncertain"
-            if sanitized["article_role"] == "unknown"
-            else "computational_content_not_found"
-        )
+    if sanitized["article_role"] in NON_ORIGINAL_ARTICLE_ROLES:
+        decision = "non_original_article"
+    elif sanitized["article_role"] != "original_research":
+        decision = "uncertain"
     elif sanitized["performed_computation"] == "no" and high_confidence:
         decision = "computational_content_not_found"
     elif not computation_complete:
@@ -265,6 +265,8 @@ def apply_pass_verification(
     """Verify that a proposed Pass contains an evidenced benchmarkable workflow."""
 
     output = dict(candidate)
+    locked_article_role = _article_role(candidate.get("article_role"))
+    output["article_role"] = locked_article_role
     warnings: list[dict[str, Any]] = []
     raw = dict(verification) if isinstance(verification, dict) else {}
     proposed_decision = _choice(raw.get("decision"), SEMANTIC_DECISIONS, "uncertain")
@@ -433,6 +435,31 @@ def apply_pass_verification(
     elif confidence < minimum_confidence:
         decision = "uncertain"
 
+    # The discovery call owns article type. The verifier may validate only
+    # the frozen computation candidate and cannot promote a review or an
+    # unresolved article type to original research.
+    if locked_article_role in NON_ORIGINAL_ARTICLE_ROLES:
+        if decision != "non_original_article":
+            warnings.append(
+                {
+                    "field": "pass_verification.article_role",
+                    "reason": "non_original_article_lock_applied",
+                    "locked_article_role": locked_article_role,
+                    "verifier_decision": decision,
+                }
+            )
+        decision = "non_original_article"
+    elif locked_article_role != "original_research":
+        if decision in PASS_DECISIONS:
+            warnings.append(
+                {
+                    "field": "pass_verification.article_role",
+                    "reason": "unknown_article_role_cannot_pass",
+                    "verifier_decision": decision,
+                }
+            )
+        decision = "uncertain"
+
     output["decision"] = decision
     output["passed"] = decision in PASS_DECISIONS
     if decision == "computational_content_confirmed":
@@ -502,11 +529,23 @@ def apply_pass_verification(
                 "study_mode": "noncomputational",
             }
         )
+    elif decision == "non_original_article":
+        output.update(
+            {
+                "performed_computation": "no",
+                "complete_computational_workflow": "no",
+                "benchmarkable_computational_workflow": "no",
+                "computation_role": "background_only",
+                "evidence_direction": "none",
+                "study_mode": "noncomputational",
+            }
+        )
 
     output["evidence_ids"] = list(
         dict.fromkeys([*(output.get("evidence_ids") or []), *evidence_ids])
     )
     output["pass_verification"] = {
+        "locked_article_role": locked_article_role,
         "proposed_decision": proposed_decision,
         "decision": decision,
         "author_performed_computation": author_computation,
@@ -603,6 +642,27 @@ def _choice(value: Any, allowed: set[str], default: str) -> str:
     return normalized if normalized in allowed else default
 
 
+def _article_role(value: Any) -> str:
+    normalized = (
+        str(value or "").strip().casefold().replace("-", "_").replace(" ", "_")
+    )
+    aliases = {
+        "review_article": "review",
+        "systematic_review": "review",
+        "mini_review": "review",
+        "minireview": "review",
+        "perspective": "review",
+        "viewpoint": "editorial",
+        "commentary": "editorial",
+        "opinion": "editorial",
+        "corrigendum": "correction",
+        "erratum": "correction",
+        "retraction": "correction",
+    }
+    normalized = aliases.get(normalized, normalized)
+    return normalized if normalized in ARTICLE_ROLES else "unknown"
+
+
 def _confidence_number(value: Any) -> float:
     labels = {"low": 0.35, "medium": 0.65, "high": 0.9}
     if isinstance(value, str) and value.casefold() in labels:
@@ -614,6 +674,8 @@ def _confidence_number(value: Any) -> float:
 
 
 __all__ = [
+    "ARTICLE_ROLES",
+    "NON_ORIGINAL_ARTICLE_ROLES",
     "PASS_DECISIONS",
     "SEMANTIC_DECISIONS",
     "apply_pass_verification",

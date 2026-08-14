@@ -15,6 +15,7 @@ from src.prompts import (
     STAGE02_PASS_VERIFY_VERSION,
 )
 from src.stages.stage02_computational_content.adjudication import (
+    NON_ORIGINAL_ARTICLE_ROLES,
     PASS_DECISIONS,
     apply_pass_verification,
     sanitize_classification,
@@ -28,7 +29,7 @@ from src.stages.stage02_computational_content.workflows import (
 )
 
 COMPUTATIONAL_CONTENT_IMPLEMENTATION_VERSION = (
-    "v2-stage02-computational-content-20260814-r16-confirmed-workflows"
+    "v2-stage02-computational-content-20260814-r17-article-role-lock"
 )
 
 CONTENT_CONFIRMATION_DECISIONS = set(PASS_DECISIONS)
@@ -216,9 +217,17 @@ def run_stage02(
                 review_audit = None
                 # Every paper with deterministic computation signals receives one independent
                 # workflow verification. This also recovers first-pass false negatives.
-                pass_precision_review = bool(config.get("review_pass_decisions", True))
+                review_enabled = bool(config.get("review_pass_decisions", True))
+                locked_article_role = str(response.get("article_role") or "unknown")
+                pass_precision_review = (
+                    review_enabled and locked_article_role == "original_research"
+                )
                 if pass_precision_review:
                     review_payload = {
+                        "article_type_lock": {
+                            "article_role": locked_article_role,
+                            "mutable": False,
+                        },
                         "evidence_packet": _compact_pass_verification_packet(packet),
                         "workflow_candidates": compact_candidate_skeletons(
                             workflow_candidates
@@ -284,7 +293,7 @@ def run_stage02(
                         response.setdefault("verification", {})[
                             "confirmed_workflow_contract_ok"
                         ] = bool(confirmed_workflows)
-                else:
+                elif not review_enabled:
                     # Explicit legacy/test mode. Production configs keep the verifier
                     # enabled; callers that disable it retain the pre-v1 behavior.
                     confirmed_workflows = (
@@ -305,6 +314,23 @@ def run_stage02(
                         }
                         for candidate in confirmed_workflows
                     ]
+                else:
+                    # Non-original and unresolved article types cannot be promoted by
+                    # workflow verification. Keep candidate evidence for audit, but do
+                    # not spend a second model call or publish confirmed workflows.
+                    confirmed_workflows = []
+                    workflow_verification = [
+                        {
+                            "workflow_id": candidate["workflow_id"],
+                            "confirmed": False,
+                            "status": "blocked_by_article_role",
+                            "article_role": locked_article_role,
+                            "evidence_ids": candidate.get("evidence_ids") or [],
+                            "computational_evidence_ids": [],
+                            "confidence": 0.0,
+                        }
+                        for candidate in workflow_candidates
+                    ]
                 audits = {
                     "model_called": True,
                     "calls": len(attempts),
@@ -314,8 +340,22 @@ def run_stage02(
                     ),
                     "primary": primary_audit,
                     "review": review_audit,
+                    "review_skip_reason": (
+                        f"article_role:{locked_article_role}"
+                        if review_enabled and not pass_precision_review
+                        else None
+                    ),
                 }
 
+            article_role = str(response.get("article_role") or "unknown")
+            if article_role in NON_ORIGINAL_ARTICLE_ROLES:
+                response["decision"] = "non_original_article"
+                response["passed"] = False
+                confirmed_workflows = []
+            elif article_role != "original_research":
+                response["decision"] = "uncertain"
+                response["passed"] = False
+                confirmed_workflows = []
             response["workflow_candidates"] = workflow_candidates
             response["workflow_verification"] = workflow_verification
             response["confirmed_workflows"] = confirmed_workflows
@@ -590,7 +630,13 @@ def _non_original_article_guard(
 
 
 def _non_original_review(role: str, quote: str, source: str) -> dict[str, Any]:
-    normalized_role = "editorial" if role in {"editorial", "commentary"} else role
+    normalized_role = (
+        "editorial"
+        if role in {"editorial", "commentary"}
+        else "correction"
+        if role in {"correction", "corrigendum", "erratum", "retraction"}
+        else role
+    )
     return {
         "decision": "non_original_article",
         "article_role": normalized_role,

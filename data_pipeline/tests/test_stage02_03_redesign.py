@@ -8,6 +8,8 @@ from src.stages.stage03_toolbox_resource_gate.stage import (
     STAGE03_FORWARD_DECISIONS,
     _combine_decision,
     _freeze_workflow_bindings,
+    _merge_workflow_software_mentions,
+    _reconcile_software_roles_with_workflows,
     coverage_gate,
     resolve_software,
     workflow_coverage_results,
@@ -247,7 +249,132 @@ def test_stage03_parenthetical_abbreviation_binds_catalog_mapping_to_step() -> N
     assert results[0]["step_results"][0]["normalized_identifier"] == "vasp"
 
 
-def test_stage03_workflow_scoped_required_software_blocks_when_step_is_unnamed() -> None:
+def test_stage03_unclosed_parenthetical_abbreviation_resolves_to_catalog() -> None:
+    mappings = resolve_software(
+        [
+            {
+                "raw_name": "Vienna Ab Initio Simulation Package (VASP",
+                "entity_type": "program",
+                "role": "core_compute",
+                "actual_use": True,
+            }
+        ],
+        {"vasp": ["VASP"]},
+        {"backends": {"vasp": {"availability": "declared_supported"}}},
+    )
+
+    assert mappings[0]["normalized_identifier"] == "vasp"
+    assert mappings[0]["coverage_state"] == "covered"
+    assert mappings[0]["name_resolution"] == "parenthetical_alias"
+
+
+def test_stage03_promoted_preparation_software_is_nonblocking() -> None:
+    mentions, _ = _merge_workflow_software_mentions(
+        [],
+        [
+            {
+                "workflow_id": "wf1",
+                "steps": [
+                    {
+                        "step_id": "s1",
+                        "action": "Prepare receptor input by adding hydrogens and charges",
+                        "software": "Independent Preparation Tool",
+                        "essential": True,
+                        "evidence_ids": ["ev1"],
+                    }
+                ],
+            }
+        ],
+        {"ev1": "The receptor was prepared using Independent Preparation Tool."},
+        {},
+    )
+
+    assert mentions[0]["role"] == "required_preprocessing"
+
+
+def test_stage03_promoted_analysis_software_is_nonblocking() -> None:
+    mentions, _ = _merge_workflow_software_mentions(
+        [],
+        [
+            {
+                "workflow_id": "wf1",
+                "steps": [
+                    {
+                        "step_id": "s2",
+                        "action": "Visualize the generated orbitals",
+                        "software": "Independent Viewer",
+                        "essential": True,
+                        "evidence_ids": ["ev2"],
+                    }
+                ],
+            }
+        ],
+        {"ev2": "The orbitals were visualized using Independent Viewer."},
+        {},
+    )
+
+    assert mentions[0]["role"] == "required_analysis"
+
+
+def test_stage03_reconciles_model_core_role_with_preparation_step() -> None:
+    mentions, warnings = _reconcile_software_roles_with_workflows(
+        [
+            {
+                "raw_name": "Independent Preparation Tool",
+                "role": "core_compute",
+                "actual_use": True,
+                "workflow_ids": ["wf1"],
+            }
+        ],
+        [
+            {
+                "workflow_id": "wf1",
+                "steps": [
+                    {
+                        "action": "Prepare the receptor by adding hydrogens",
+                        "software": "Independent Preparation Tool",
+                        "essential": True,
+                    }
+                ],
+            }
+        ],
+        {},
+    )
+
+    assert mentions[0]["role"] == "required_preprocessing"
+    assert warnings[0]["reason"] == "role_reconciled_with_workflow_action"
+
+
+def test_stage03_does_not_promote_model_visualization_role_to_core() -> None:
+    mentions, warnings = _reconcile_software_roles_with_workflows(
+        [
+            {
+                "raw_name": "Independent Viewer",
+                "role": "visualization",
+                "actual_use": True,
+                "workflow_ids": ["wf1"],
+            }
+        ],
+        [
+            {
+                "workflow_id": "wf1",
+                "steps": [
+                    {
+                        "action": "Visualize the molecular dynamics simulation",
+                        "software": "Independent Viewer",
+                        "essential": True,
+                    }
+                ],
+            }
+        ],
+        {},
+    )
+
+    assert mentions[0]["role"] == "visualization"
+    assert warnings == []
+
+
+def test_stage03_workflow_scoped_preprocessor_is_nonblocking_when_step_is_unnamed() -> None:
     review = {
         "workflows": [
             {
@@ -271,10 +398,53 @@ def test_stage03_workflow_scoped_required_software_blocks_when_step_is_unnamed()
 
     results = workflow_coverage_results(review, mappings)
 
-    assert results[0]["status"] == "workflow_uncovered"
-    assert results[0]["required_software_results"][0]["raw_name"] == (
+    assert results[0]["status"] == "workflow_software_inventory_unconfirmed"
+    assert results[0]["required_software_results"] == []
+    assert results[0]["nonblocking_software_results"][0]["raw_name"] == (
         "Independent Preprocessor"
     )
+
+
+def test_stage03_uncovered_gaussview_does_not_block_covered_gaussian() -> None:
+    review = {"workflows": [_bound_workflow("wf1", "Gaussian 16")]}
+    mappings = [
+        _mapping("wf1", "Gaussian 16", "covered", catalog_present=True),
+        {
+            **_mapping("wf1", "GaussView", "uncovered", catalog_present=False),
+            "role": "visualization",
+        },
+    ]
+
+    results = workflow_coverage_results(review, mappings)
+
+    assert results[0]["status"] == "workflow_covered"
+    assert [row["raw_name"] for row in results[0]["core_software_results"]] == [
+        "Gaussian 16"
+    ]
+    assert [
+        row["raw_name"] for row in results[0]["nonblocking_software_results"]
+    ] == ["GaussView"]
+
+
+def test_stage03_uncovered_iboview_does_not_block_covered_orca_and_multiwfn() -> None:
+    review = {"workflows": [_bound_workflow("wf1", "ORCA")]}
+    mappings = [
+        _mapping("wf1", "ORCA", "covered", catalog_present=True),
+        _mapping("wf1", "Multiwfn", "covered", catalog_present=True),
+        {
+            **_mapping("wf1", "IBOview", "uncovered", catalog_present=False),
+            "role": "required_analysis",
+        },
+    ]
+
+    results = workflow_coverage_results(review, mappings)
+    coverage = coverage_gate(review, mappings, {}, {}, workflow_results=results)
+
+    assert results[0]["status"] == "workflow_covered"
+    assert coverage == "covered"
+    assert [
+        row["raw_name"] for row in results[0]["nonblocking_software_results"]
+    ] == ["IBOview"]
 
 
 def test_stage03_freeze_ignores_model_added_workflow_and_preserves_ids() -> None:

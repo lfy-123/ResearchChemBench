@@ -1,8 +1,8 @@
 from __future__ import annotations
 
-STAGE02_CLASSIFY_VERSION = "v2-stage02-classify-20260814-r11-workflow-discovery"
-STAGE02_PASS_VERIFY_VERSION = "v2-stage02-pass-verify-20260814-r6-workflow-verification"
-STAGE03_VERSION = "v2-stage03-software-binding-20260814-r25-frozen-workflow-inventory"
+STAGE02_CLASSIFY_VERSION = "v2-stage02-classify-20260814-r12-originality-lock"
+STAGE02_PASS_VERIFY_VERSION = "v2-stage02-pass-verify-20260814-r7-locked-article-role"
+STAGE03_VERSION = "v2-stage03-software-binding-20260814-r26-core-only-gate"
 STAGE05_ROUTER_VERSION = "v2-stage05a-evidence-router-20260812-r1"
 STAGE05_VERSION = "v2-stage05b-candidate-auditor-20260813-r19-recall-gate"
 STAGE06_SHARED_VERSION = "v2-stage06-shared-20260807"
@@ -61,6 +61,12 @@ substantive computational-chemistry workflow that could supply a meaningful benc
 evidence IDs. Computation does NOT need to be the paper's dominant contribution. Do not require downloadable input
 files, exact reproducibility, toolbox coverage, or final task buildability; later stages check those properties.
 
+First establish article type. Only original research can pass this stage. A review, mini-review, systematic review,
+perspective, editorial, commentary, correction, erratum, corrigendum, or retraction is non-original even when it
+describes complete computational workflows from cited papers. Distinguish what this paper's authors actually did
+from background and cited work. Use non_original_article for a confidently identified non-original publication;
+use uncertain when article type or author attribution cannot be established.
+
 Classify with exactly one decision:
 - computational_content_confirmed: pure computational chemistry with no new author physical experiment.
 - computational_primary_mixed_confirmed: computation is primary and author experiments validate or support it.
@@ -71,6 +77,8 @@ Classify with exactly one decision:
 - computational_workflow_not_benchmarkable: computation exists but is incomplete, incidental, routine data
   processing, or lacks a meaningful chemical input-calculation-output chain.
 - computational_content_not_found: no author-performed computational-chemistry workflow.
+- non_original_article: the document is a review, perspective, editorial, commentary, correction, or other
+  non-original publication and therefore cannot contribute an author-performed research workflow.
 - uncertain: source evidence cannot establish author attribution or workflow completeness.
 
 A benchmarkable workflow requires: (1) an identifiable chemical system, structure, reaction, material, trajectory,
@@ -127,6 +135,10 @@ whether the authors performed a complete, non-trivial computational-chemistry wo
 chemical input/system, calculation or simulation, generated chemical output, and scientific use. Computation may
 be primary, co-primary, or supporting an experimental paper. Do not reject merely because experiments produced the
 paper's headline result.
+
+The payload contains an immutable article_type_lock established before this call. It is context, not a field you
+may revise. Never convert a non-original or unresolved article type into original research, and never attribute a
+workflow summarized from cited literature to the authors of a review. Code applies this lock after your response.
 
 Reject to computational_workflow_not_benchmarkable when computation is only a background citation, routine data
 processing, fitting/plotting, a lone qualitative orbital image or isolated value without a defined workflow, or
@@ -188,6 +200,17 @@ visualization, file conversion, or reported side calculation essential merely be
 An essential step is required to reproduce a meaningful scientific result of that workflow. A paper may contain
 one independently reproducible workflow and another workflow whose implementation is unsupported or unclear;
 preserve that separation instead of merging them into one all-or-nothing workflow.
+
+Only `core_compute` is blocking at Stage03. Assign it only to the scientific engine that actually performs the
+electronic-structure, quantum-chemistry, molecular-dynamics, kinetics, docking, or comparable core calculation
+that generates the workflow's computed scientific result. Input preparation, GUI use, structure inspection,
+file conversion, visualization, plotting, and replaceable post-processing must use required_preprocessing,
+required_analysis, optional_auxiliary, or visualization as appropriate. Such non-core tools remain in the audit
+record but cannot make a workflow uncovered at this early gate. For example, a covered Gaussian calculation does
+not become uncovered merely because GaussView was used to prepare or inspect structures, and covered ORCA/Multiwfn
+calculations do not become uncovered merely because IBOview was used for visualization. An extension is
+`core_compute` only when it is explicitly required to perform the core scientific calculation, not merely because
+it is installed alongside the host program.
 
 The toolbox has three execution layers: predefined Actions, direct native-software use guided by the indexed
 software documentation, and task-specific Python analysis. Stage03 checks SOFTWARE PRESENCE ONLY. A missing

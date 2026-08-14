@@ -292,6 +292,42 @@ def test_stage02_contract_rejects_absent_computation() -> None:
     assert not sanitized["passed"]
 
 
+def test_stage02_contract_maps_model_identified_review_to_non_original() -> None:
+    response = _classification(decision="computational_content_confirmed")
+    response["article_role"] = "review"
+
+    sanitized, _warnings, _reasons = sanitize_classification(
+        response,
+        valid_ids={"calc"},
+        computational_ids={"calc"},
+        deterministic_experiment_ids=set(),
+        minimum_confidence=0.85,
+    )
+
+    assert sanitized["decision"] == "non_original_article"
+    assert sanitized["article_role"] == "review"
+    assert not sanitized["passed"]
+
+
+def test_stage02_verifier_cannot_promote_non_original_article() -> None:
+    candidate = _classification(decision="computational_content_confirmed")
+    candidate.update(article_role="review", passed=False)
+
+    verified, warnings = apply_pass_verification(
+        candidate,
+        _pass_verification("computational_content_confirmed"),
+        valid_ids={"calc"},
+        computational_ids={"calc"},
+        experimental_candidate_ids=set(),
+        minimum_confidence=0.85,
+    )
+
+    assert verified["decision"] == "non_original_article"
+    assert verified["article_role"] == "review"
+    assert not verified["passed"]
+    assert warnings[-1]["reason"] == "non_original_article_lock_applied"
+
+
 def test_stage02_contract_rejects_incidental_computation() -> None:
     response = _classification(
         decision="computational_workflow_not_benchmarkable",
@@ -735,3 +771,33 @@ def test_stage02_pass_candidate_gets_precision_review(tmp_path: Path) -> None:
     assert result["summary"]["model_calls"] == 2
     assert result["summary"]["pass_precision_reviews"] == 1
     assert model.calls[1]["namespace"] == "stage02_pass_verify"
+
+
+def test_stage02_model_identified_review_skips_verifier_and_clears_workflows(
+    tmp_path: Path,
+) -> None:
+    response = _classification(decision="computational_content_confirmed")
+    response["article_role"] = "review"
+    model = _FixtureModel([response])
+
+    result = _run_fixture(
+        tmp_path,
+        [
+            {
+                "evidence_id": "calc",
+                "document_id": "doc-1",
+                "text": "The reviewed studies performed DFT calculations of activation barriers.",
+            }
+        ],
+        model,
+        review_pass_decisions=True,
+    )
+
+    record = result["records"][0]
+    assert record["decision"] == "non_original_article"
+    assert not record["passed"]
+    assert record["confirmed_workflows"] == []
+    assert record["review"]["decision"] == "non_original_article"
+    assert not record["review"]["passed"]
+    assert result["summary"]["pass_precision_reviews"] == 0
+    assert len(model.calls) == 1
