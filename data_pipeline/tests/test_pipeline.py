@@ -2482,7 +2482,7 @@ def test_stage04_workflow_software_is_promoted_to_coverage_inventory() -> None:
             {},
             {},
         )
-        == "core_software_uncovered"
+        == "software_inventory_unconfirmed"
     )
 
 
@@ -2838,7 +2838,7 @@ def test_stage04_canonical_software_identifier_wins_alias_collision() -> None:
     assert mappings[0]["normalized_identifier"] == "orca"
 
 
-def test_stage04_compound_plugin_resolves_rightmost_known_software() -> None:
+def test_stage04_compound_plugin_remains_an_independent_dependency() -> None:
     mentions = [
         {
             "raw_name": "HostEngine BiasEngine plugin",
@@ -2857,7 +2857,8 @@ def test_stage04_compound_plugin_resolves_rightmost_known_software() -> None:
 
     mappings = resolve_software(mentions, aliases, profile)
 
-    assert mappings[0]["normalized_identifier"] == "bias"
+    assert mappings[0]["normalized_identifier"] is None
+    assert mappings[0]["coverage_state"] == "unconfirmed"
 
 
 @pytest.mark.parametrize(
@@ -2928,7 +2929,7 @@ def test_stage04_named_package_is_not_collapsed_to_parent_engine() -> None:
     assert mappings[0]["catalog_present"] is False
 
 
-def test_stage03_incomplete_inventory_with_covered_engine_is_forwarded_as_probable() -> None:
+def test_stage03_covered_frozen_workflow_is_not_downgraded_by_global_inventory() -> None:
     review = {
         "inventory_complete": False,
         "workflows": [
@@ -2953,14 +2954,15 @@ def test_stage03_incomplete_inventory_with_covered_engine_is_forwarded_as_probab
     assert coverage == "covered"
     assert (
         _combine_decision(coverage, {"decision": "cost_unconfirmed"}, False)
-        == "software_coverage_probable"
+        == "software_covered"
     )
 
 
-def test_stage03_forwards_only_confirmed_or_probable_software_coverage() -> None:
+def test_stage03_forwards_covered_probable_and_unconfirmed_inventory() -> None:
     assert STAGE03_FORWARD_DECISIONS == {
         "software_covered",
         "software_coverage_probable",
+        "software_inventory_unconfirmed",
     }
 
 
@@ -3440,6 +3442,7 @@ def test_stage04_definitive_uncovered_software_precedes_unknown_step() -> None:
             "actual_use": True,
             "role": "core_compute",
             "catalog_present": False,
+            "coverage_state": "uncovered",
             "availability": "unknown",
             "actions": [],
         }
@@ -3461,7 +3464,10 @@ def test_stage04_definitive_uncovered_software_precedes_missing_workflow() -> No
         }
     ]
 
-    assert coverage_gate({"workflows": []}, mappings, {}, {}) == "core_software_uncovered"
+    assert (
+        coverage_gate({"workflows": []}, mappings, {}, {})
+        == "software_inventory_unconfirmed"
+    )
 
 
 def test_resource_range_crossing_limit_is_unconfirmed() -> None:
@@ -3611,14 +3617,14 @@ def test_stage04_catalog_presence_does_not_require_runtime_verification() -> Non
     )
 
 
-def test_stage04_explicit_resource_overrun_rejects_covered_software() -> None:
+def test_stage03_defers_explicit_resource_overrun_to_stage05() -> None:
     assert (
         _combine_decision(
             "covered",
             {"decision": "cost_exceeds_budget", "exceeded_facts": [{"resource_type": "gpus"}]},
             True,
         )
-        == "cost_exceeds_budget"
+        == "software_covered"
     )
 
 
@@ -4846,7 +4852,8 @@ def test_stage05_software_facts_prevent_covered_engine_from_becoming_a_blocker()
         {"decision": "reject", "blocking_software": ["OpenMM"]}, coverage
     )
 
-    assert facts["uncovered_required_software"] == [
+    assert facts["uncovered_required_software"] == []
+    assert facts["unconfirmed_required_software"] == [
         {
             "paper_name": "UnknownEngine",
             "toolbox_identifier": None,
@@ -4859,7 +4866,13 @@ def test_stage05_software_facts_prevent_covered_engine_from_becoming_a_blocker()
 
 def test_stage05_allows_only_declared_uncovered_software_as_a_blocker() -> None:
     coverage = _stage05_fixture_coverage()
-    coverage["software_mappings"].append({"raw_name": "UnknownEngine", "catalog_present": False})
+    coverage["software_mappings"].append(
+        {
+            "raw_name": "UnknownEngine",
+            "catalog_present": False,
+            "coverage_state": "uncovered",
+        }
+    )
     assert (
         _software_fact_contradictions(
             {"decision": "reject", "blocking_software": ["UnknownEngine"]}, coverage

@@ -6,7 +6,14 @@ import re
 from pathlib import Path
 from typing import Any
 
-from src.contracts import decision_counts, read_jsonl, record_header, write_json, write_jsonl
+from src.contracts import (
+    decision_counts,
+    read_json,
+    read_jsonl,
+    record_header,
+    write_json,
+    write_jsonl,
+)
 from src.core.concurrency import ordered_parallel_map
 from src.prompts import (
     STAGE05_ROUTER_SYSTEM,
@@ -15,6 +22,11 @@ from src.prompts import (
     STAGE05_VERSION,
     TASK_DIRECTION_GUIDANCE,
     TASK_DIRECTIONS,
+)
+from src.stages.stage03_toolbox_resource_gate.stage import (
+    _merge_detection_aliases,
+    find_software_mentions,
+    resolve_software,
 )
 
 AUDIT_DIMENSIONS = (
@@ -77,6 +89,19 @@ def run_stage05(
         if document.get("decision") == "pass":
             by_paper.setdefault(document["paper_id"], []).append(document)
     eligible = [row for row in stage04_records if row.get("passed")]
+    toolbox_profile = (
+        read_json(config["toolbox_capabilities"])
+        if config.get("toolbox_capabilities")
+        else {}
+    )
+    software_aliases = (
+        read_json(config["software_aliases"]) if config.get("software_aliases") else {}
+    )
+    external_aliases = (
+        read_json(config["external_software_aliases"])
+        if config.get("external_software_aliases")
+        else {}
+    )
 
     def assess(record):
         paper_id = record["paper_id"]
@@ -95,6 +120,13 @@ def run_stage05(
             ]
             document_rows = by_paper.get(paper_id, [])
             document_inventory = _document_inventory(document_rows)
+            software_facts, stage05_software_lookup = _stage05_software_context(
+                blocks,
+                record,
+                aliases=software_aliases,
+                external_aliases=external_aliases,
+                profile=toolbox_profile,
+            )
             index_blocks = _router_index_blocks(
                 blocks,
                 record,
@@ -108,7 +140,7 @@ def run_stage05(
                 "stage03_workflows": _without_evidence_ids(
                     record.get("workflow_inventory") or []
                 ),
-                "software_coverage_facts": _software_coverage_facts(record),
+                "software_coverage_facts": software_facts,
                 "index_blocks": index_blocks,
                 "requirements": {
                     "candidate_limit": int(config.get("router_candidate_limit", 3)),
@@ -173,7 +205,7 @@ def run_stage05(
                         )
                     }
                 ),
-                "software_coverage_facts": _software_coverage_facts(record),
+                "software_coverage_facts": software_facts,
                 "evidence_blocks": evidence_blocks,
                 "requirements": {
                     "minimum_dependent_steps": MINIMUM_SCIENTIFIC_STEPS,
@@ -229,6 +261,7 @@ def run_stage05(
                 record,
                 candidate_limit=candidate_limit,
                 evidence_text_by_id=evidence_text_by_id,
+                software_lookup_override=stage05_software_lookup,
             )
             validation_rejections.extend(
                 _response_contract_rejections(response, record, evidence_ids)
@@ -290,6 +323,7 @@ def run_stage05(
                     record,
                     candidate_limit=candidate_limit,
                     evidence_text_by_id=evidence_text_by_id,
+                    software_lookup_override=stage05_software_lookup,
                 )
                 validation_rejections.extend(
                     _response_contract_rejections(response, record, evidence_ids)
@@ -337,9 +371,6 @@ def run_stage05(
                 "router_response": route_response,
                 "router_audit": route_audit,
                 "route_validation_warnings": route_warnings,
-                "model_response": response,
-                "model_audit": audit,
-                "model_response_attempts": response_attempts,
             }
         except Exception as exc:
             return {
@@ -491,10 +522,11 @@ def _validate_candidates(
     *,
     candidate_limit=3,
     evidence_text_by_id=None,
+    software_lookup_override=None,
 ):
     output: list[dict[str, Any]] = []
     rejected: list[dict[str, Any]] = []
-    software_lookup = _covered_software_lookup(stage04)
+    software_lookup = software_lookup_override or _covered_software_lookup(stage04)
     for index, candidate in enumerate((response.get("candidates") or [])[:candidate_limit]):
         if not isinstance(candidate, dict):
             rejected.append(
@@ -1053,8 +1085,63 @@ def _covered_software_lookup(stage04):
     return lookup
 
 
+def _stage05_software_context(blocks, stage04, *, aliases, external_aliases, profile):
+    """Use MinerU text to resolve Stage03 inventory gaps without changing old facts."""
+
+    facts = _software_coverage_facts(stage04)
+    lookup = _covered_software_lookup(stage04)
+    if not aliases or not profile:
+        facts["mineru_catalog_mentions"] = []
+        return facts, lookup
+    detected = find_software_mentions(
+        blocks,
+        _merge_detection_aliases(aliases, external_aliases),
+    )
+    synthetic_mentions = [
+        {
+            "raw_name": row.get("raw_name"),
+            "entity_type": "program",
+            "role": "unknown",
+            "actual_use": True,
+            "workflow_ids": [],
+            "evidence_ids": [row.get("evidence_id")],
+        }
+        for row in detected
+        if row.get("raw_name") and row.get("evidence_id")
+    ]
+    mappings = resolve_software(
+        synthetic_mentions,
+        aliases,
+        profile,
+        external_aliases=external_aliases,
+    )
+    mention_facts = []
+    for mapping in mappings:
+        mention_facts.append(
+            {
+                "paper_name": mapping.get("raw_name"),
+                "toolbox_identifier": mapping.get("normalized_identifier"),
+                "coverage_state": mapping.get("coverage_state"),
+                "name_resolution": mapping.get("name_resolution"),
+                "evidence_ids": mapping.get("evidence_ids") or [],
+                "candidate_only": True,
+            }
+        )
+        if mapping.get("catalog_present"):
+            identifier = str(mapping.get("normalized_identifier") or "")
+            for value in (mapping.get("raw_name"), identifier):
+                if value and identifier:
+                    lookup[_software_key(value)] = identifier
+    facts["mineru_catalog_mentions"] = mention_facts
+    facts["rule"] += (
+        " MinerU catalog mentions are high-recall candidates, not proof of workflow use; "
+        "the auditor must bind a cited mention to the candidate workflow."
+    )
+    return facts, lookup
+
+
 def _software_coverage_facts(stage04):
-    covered, uncovered = [], []
+    covered, uncovered, unconfirmed = [], [], []
     for row in stage04.get("software_mappings") or []:
         if not _is_required_software_mapping(row):
             continue
@@ -1065,15 +1152,23 @@ def _software_coverage_facts(stage04):
             "role": row.get("role"),
             "workflow_ids": _string_list(row.get("workflow_ids")),
         }
-        (covered if row.get("catalog_present") else uncovered).append(fact)
+        state = str(row.get("coverage_state") or "")
+        if row.get("catalog_present"):
+            covered.append(fact)
+        elif state == "uncovered" or row.get("external_identifier"):
+            uncovered.append(fact)
+        else:
+            unconfirmed.append(fact)
     return {
         "covered_required_software": covered,
         "uncovered_required_software": uncovered,
+        "unconfirmed_required_software": unconfirmed,
         "inventory_status": stage04.get("coverage_decision"),
+        "workflow_coverage_results": stage04.get("workflow_coverage_results") or [],
         "rule": (
             "Only uncovered_required_software may be reported as absent from the toolbox. "
             "A covered entry may still be unusable for a non-software reason, but must not be "
-            "described as missing from the catalog."
+            "described as missing from the catalog. Unconfirmed entries are not uncovered."
         ),
     }
 

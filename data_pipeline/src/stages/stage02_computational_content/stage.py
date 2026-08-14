@@ -20,9 +20,15 @@ from src.stages.stage02_computational_content.adjudication import (
     sanitize_classification,
 )
 from src.stages.stage02_computational_content.evidence import build_evidence_packet
+from src.stages.stage02_computational_content.workflows import (
+    WORKFLOW_CONTRACT_VERSION,
+    compact_candidate_skeletons,
+    sanitize_workflow_candidates,
+    sanitize_workflow_verifications,
+)
 
 COMPUTATIONAL_CONTENT_IMPLEMENTATION_VERSION = (
-    "v2-stage02-computational-content-20260811-r15-chemistry-model-boundary"
+    "v2-stage02-computational-content-20260814-r16-confirmed-workflows"
 )
 
 CONTENT_CONFIRMATION_DECISIONS = set(PASS_DECISIONS)
@@ -161,6 +167,9 @@ def run_stage02(
                         "minimum_confidence": float(config.get("minimum_confidence", 0.85)),
                     },
                 }
+                workflow_candidates: list[dict[str, Any]] = []
+                workflow_verification: list[dict[str, Any]] = []
+                confirmed_workflows: list[dict[str, Any]] = []
                 audits = {"model_called": False, "zero_call_rule_rejection": True}
                 validation_warnings: list[dict[str, Any]] = []
                 attempts: list[dict[str, Any]] = []
@@ -183,6 +192,15 @@ def run_stage02(
                     deterministic_experiment_ids=experiment_ids,
                     minimum_confidence=float(config.get("minimum_confidence", 0.85)),
                 )
+                workflow_candidates, candidate_warnings = sanitize_workflow_candidates(
+                    raw_response,
+                    valid_ids=valid_ids,
+                    computational_ids=computational_ids,
+                    limit=int(config.get("workflow_candidate_limit", 3)),
+                )
+                validation_warnings.extend(candidate_warnings)
+                workflow_verification = []
+                confirmed_workflows = []
                 attempts = [
                     {
                         "paper_id": paper["paper_id"],
@@ -202,6 +220,9 @@ def run_stage02(
                 if pass_precision_review:
                     review_payload = {
                         "evidence_packet": _compact_pass_verification_packet(packet),
+                        "workflow_candidates": compact_candidate_skeletons(
+                            workflow_candidates
+                        ),
                     }
                     semantic_calls_started += 1
                     retry_raw, review_audit = _call_complete_json(
@@ -235,7 +256,55 @@ def run_stage02(
                         }
                     )
                     response = retry_response
-                    validation_warnings = retry_warnings
+                    workflow_verification, confirmed_workflows, workflow_warnings = (
+                        sanitize_workflow_verifications(
+                            retry_raw,
+                            candidates=workflow_candidates,
+                            valid_ids=valid_ids,
+                            computational_ids=computational_ids,
+                            minimum_confidence=float(
+                                config.get("minimum_confidence", 0.85)
+                            ),
+                        )
+                    )
+                    validation_warnings = [*retry_warnings, *workflow_warnings]
+                    if response.get("passed") and not confirmed_workflows:
+                        response["decision"] = "uncertain"
+                        response["passed"] = False
+                        response.setdefault("verification", {})[
+                            "confirmed_workflow_contract_ok"
+                        ] = False
+                        validation_warnings.append(
+                            {
+                                "field": "confirmed_workflows",
+                                "reason": "pass_without_confirmed_workflow",
+                            }
+                        )
+                    else:
+                        response.setdefault("verification", {})[
+                            "confirmed_workflow_contract_ok"
+                        ] = bool(confirmed_workflows)
+                else:
+                    # Explicit legacy/test mode. Production configs keep the verifier
+                    # enabled; callers that disable it retain the pre-v1 behavior.
+                    confirmed_workflows = (
+                        list(workflow_candidates) if response.get("passed") else []
+                    )
+                    workflow_verification = [
+                        {
+                            "workflow_id": candidate["workflow_id"],
+                            "confirmed": True,
+                            "status": "verification_bypassed_by_config",
+                            "evidence_ids": candidate.get("evidence_ids") or [],
+                            "computational_evidence_ids": [
+                                value
+                                for value in candidate.get("evidence_ids") or []
+                                if value in computational_ids
+                            ],
+                            "confidence": response.get("confidence", 0.0),
+                        }
+                        for candidate in confirmed_workflows
+                    ]
                 audits = {
                     "model_called": True,
                     "calls": len(attempts),
@@ -246,6 +315,11 @@ def run_stage02(
                     "primary": primary_audit,
                     "review": review_audit,
                 }
+
+            response["workflow_candidates"] = workflow_candidates
+            response["workflow_verification"] = workflow_verification
+            response["confirmed_workflows"] = confirmed_workflows
+            response["workflow_contract_version"] = WORKFLOW_CONTRACT_VERSION
 
             decision = str(response.get("decision") or "uncertain")
             if decision not in DECISIONS:
@@ -259,6 +333,10 @@ def run_stage02(
                 "processing_status": "completed",
                 "decision": decision,
                 "passed": decision in PASS_DECISIONS,
+                "workflow_contract_version": WORKFLOW_CONTRACT_VERSION,
+                "workflow_candidates": workflow_candidates,
+                "workflow_verification": workflow_verification,
+                "confirmed_workflows": confirmed_workflows,
                 "review": response,
                 "validated_evidence": _selected_packet_evidence(packet),
                 "validated_author_experiment_evidence": deterministic_experiments,

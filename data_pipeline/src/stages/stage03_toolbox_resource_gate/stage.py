@@ -3,6 +3,7 @@ from __future__ import annotations
 import copy
 import json
 import re
+import unicodedata
 from html import escape
 from pathlib import Path
 from typing import Any, Protocol
@@ -43,7 +44,9 @@ EXECUTION_LAYERS = {"named_software", "task_specific_python"}
 STAGE03_FORWARD_DECISIONS = {
     "software_covered",
     "software_coverage_probable",
+    "software_inventory_unconfirmed",
 }
+STAGE03_SOFTWARE_CONTRACT_VERSION = "stage03-workflow-software-binding/v1"
 _CORE_RUNTIME_ACTION_RE = re.compile(
     r"\b(?:train(?:ing)?|fit(?:ting)?|simulate|simulation|molecular\s+dynamics|"
     r"microkinetic|kinetic\s+model|electronic[ -]structure|quantum\s+chemistry|"
@@ -70,11 +73,14 @@ def run_stage03(
     stage_root = workspace / "stage_03_toolbox_resource_gate"
     profile = read_json(config["toolbox_capabilities"])
     aliases = read_json(config["software_aliases"])
-    detection_aliases = _merge_detection_aliases(
-        aliases,
+    external_aliases = (
         read_json(config["external_software_aliases"])
         if config.get("external_software_aliases")
-        else {},
+        else {}
+    )
+    detection_aliases = _merge_detection_aliases(
+        aliases,
+        external_aliases,
     )
     documents_by_paper: dict[str, list[dict[str, Any]]] = {}
     for document in documents:
@@ -92,6 +98,33 @@ def run_stage03(
                 for document in documents_by_paper.get(paper_id, [])
                 for block in read_jsonl(document["content_blocks_path"])
             ]
+            evidence_by_id = {str(block["evidence_id"]): str(block["text"]) for block in blocks}
+            frozen_workflows, upstream_contract_status, upstream_warnings = (
+                _stage02_confirmed_workflows(record, set(evidence_by_id))
+            )
+            if not frozen_workflows:
+                output = {
+                    **record_header(run_id=run_id, stage="stage03", paper_id=paper_id),
+                    "title": record.get("title"),
+                    "doi": record.get("doi"),
+                    "journal_name": record.get("journal_name"),
+                    "article_url": record.get("article_url"),
+                    "processing_status": "completed",
+                    "decision": "upstream_contract_insufficient",
+                    "passed": False,
+                    "coverage_decision": "upstream_contract_insufficient",
+                    "workflow_inventory": [],
+                    "workflow_coverage_results": [],
+                    "software_mentions": [],
+                    "software_mappings": [],
+                    "resource_profile": _deferred_resource_profile(config),
+                    "inventory_complete": False,
+                    "upstream_contract_status": upstream_contract_status,
+                    "model_validation_warnings": upstream_warnings,
+                    "model_audit": {"model_called": False},
+                    "stage03_contract_version": STAGE03_SOFTWARE_CONTRACT_VERSION,
+                }
+                return output, {"paper_id": paper_id, "mentions": []}, []
             rule_mentions = find_software_mentions(blocks, detection_aliases)
             executable_cues = find_explicit_executable_cues(blocks, rule_mentions)
             softcite_mentions, softcite_error = _softcite_mentions(
@@ -102,7 +135,7 @@ def run_stage03(
             packet = _bound_prompt_packet(
                 {
                     "paper_id": paper_id,
-                    "stage02": _compact_stage02_review(record.get("review") or {}),
+                    "confirmed_workflows": frozen_workflows,
                     "rule_software_mentions": _compact_rule_mentions(rule_mentions),
                     "explicit_executable_cues": executable_cues,
                     "softcite_mentions": _compact_softcite_mentions(softcite_mentions),
@@ -146,9 +179,40 @@ def run_stage03(
                 }
             response, validation_warnings = _sanitize_review(
                 raw_response,
-                {block["evidence_id"]: block["text"] for block in blocks},
+                evidence_by_id,
             )
-            validation_warnings = [*contract_normalization_warnings, *validation_warnings]
+            validation_warnings = [
+                *upstream_warnings,
+                *contract_normalization_warnings,
+                *validation_warnings,
+            ]
+            response["workflows"], freeze_warnings = _freeze_workflow_bindings(
+                frozen_workflows,
+                response.get("workflows") or [],
+                evidence_by_id,
+            )
+            validation_warnings.extend(freeze_warnings)
+            valid_workflow_ids = {
+                str(workflow["workflow_id"]) for workflow in frozen_workflows
+            }
+            for mention in response.get("software_mentions") or []:
+                mention["workflow_ids"] = [
+                    str(value)
+                    for value in mention.get("workflow_ids") or []
+                    if str(value) in valid_workflow_ids
+                ]
+            response["unscoped_software_mentions"] = [
+                *(
+                    response.get("unscoped_software_mentions")
+                    if isinstance(response.get("unscoped_software_mentions"), list)
+                    else []
+                ),
+                *[
+                    mention
+                    for mention in response.get("software_mentions") or []
+                    if not mention.get("workflow_ids")
+                ],
+            ]
             response["software_mentions"] = _merge_explicit_executable_cues(
                 response.get("software_mentions") or [], executable_cues
             )
@@ -156,7 +220,7 @@ def run_stage03(
                 response.get("software_mentions") or [],
                 rule_mentions,
                 response.get("workflows") or [],
-                {block["evidence_id"]: block["text"] for block in blocks},
+                evidence_by_id,
                 detection_aliases,
             )
             validation_warnings.extend(catalog_warnings)
@@ -169,18 +233,30 @@ def run_stage03(
             response["software_mentions"], workflow_warnings = _merge_workflow_software_mentions(
                 response.get("software_mentions") or [],
                 response.get("workflows") or [],
-                {block["evidence_id"]: block["text"] for block in blocks},
+                evidence_by_id,
                 detection_aliases,
             )
             validation_warnings.extend(workflow_warnings)
-            mappings = resolve_software(response.get("software_mentions") or [], aliases, profile)
-            coverage_decision = coverage_gate(response, mappings, profile, config)
-            resource = resource_gate(
-                response.get("resource_facts") or [], config.get("resource_budget") or {}
+            response["unscoped_software_mentions"] = [
+                mention
+                for mention in response.get("software_mentions") or []
+                if not mention.get("workflow_ids")
+            ]
+            mappings = resolve_software(
+                response.get("software_mentions") or [],
+                aliases,
+                profile,
+                external_aliases=external_aliases,
             )
-            decision = _combine_decision(
-                coverage_decision, resource, bool(response.get("inventory_complete"))
+            workflow_results = workflow_coverage_results(response, mappings)
+            coverage_decision = coverage_gate(
+                response,
+                mappings,
+                profile,
+                config,
+                workflow_results=workflow_results,
             )
+            decision = _combine_decision(coverage_decision)
             passed = decision in STAGE03_FORWARD_DECISIONS
             output = {
                 **record_header(run_id=run_id, stage="stage03", paper_id=paper_id),
@@ -194,7 +270,10 @@ def run_stage03(
                 "coverage_decision": coverage_decision,
                 "forwarded_for_later_review": passed and decision != "software_covered",
                 "workflow_inventory": response.get("workflows") or [],
+                "confirmed_workflows": frozen_workflows,
+                "workflow_coverage_results": workflow_results,
                 "software_mentions": response.get("software_mentions") or [],
+                "unscoped_software_mentions": response.get("unscoped_software_mentions") or [],
                 "softcite_mentions": softcite_mentions,
                 "softcite_error": softcite_error,
                 "software_mappings": mappings,
@@ -204,14 +283,16 @@ def run_stage03(
                     "native_software_documentation",
                     "task_specific_python",
                 ],
-                "resource_profile": resource,
+                "resource_profile": _deferred_resource_profile(config),
                 "inventory_complete": bool(response.get("inventory_complete")),
+                "upstream_contract_status": upstream_contract_status,
                 "toolbox_profile_id": profile.get("profile_id"),
                 "toolbox_catalog_hash": profile.get("screening_snapshot_hash")
                 or profile.get("catalog_hash"),
                 "model_review": response,
                 "model_validation_warnings": validation_warnings,
                 "model_audit": audit,
+                "stage03_contract_version": STAGE03_SOFTWARE_CONTRACT_VERSION,
             }
             return output, {"paper_id": paper_id, "mentions": rule_mentions}, []
         except Exception as exc:
@@ -256,7 +337,6 @@ def run_stage03(
             if row["decision"]
             in {
                 "core_software_uncovered",
-                "cost_exceeds_budget",
             }
         ],
     )
@@ -270,7 +350,6 @@ def run_stage03(
             and row["decision"]
             not in {
                 "core_software_uncovered",
-                "cost_exceeds_budget",
             }
         ],
     )
@@ -290,6 +369,228 @@ def run_stage03(
     return {
         "records": records,
         "summary": summary,
+    }
+
+
+def _stage02_confirmed_workflows(record, valid_evidence_ids):
+    """Load the v1 workflow contract or explicitly adapt a pre-v1 Stage02 record."""
+
+    contract_version = str(
+        record.get("workflow_contract_version")
+        or (record.get("review") or {}).get("workflow_contract_version")
+        or ""
+    )
+    raw = record.get("confirmed_workflows")
+    if not isinstance(raw, list):
+        raw = (record.get("review") or {}).get("confirmed_workflows")
+    status = "confirmed_workflows_v1"
+    warnings: list[dict[str, Any]] = []
+    if not isinstance(raw, list):
+        review = record.get("review") or {}
+        legacy_steps = review.get("computational_workflow_steps") or []
+        if legacy_steps:
+            raw = [
+                {
+                    "workflow_id": "legacy-wf1",
+                    "chemical_system": review.get("central_scientific_question") or "",
+                    "scientific_output": "; ".join(
+                        str(step.get("generated_output") or "")
+                        for step in legacy_steps
+                        if isinstance(step, dict) and step.get("generated_output")
+                    ),
+                    "scientific_use": review.get("primary_contribution") or "",
+                    "steps": legacy_steps,
+                    "evidence_ids": review.get("evidence_ids") or [],
+                }
+            ]
+            status = "legacy_stage02_adapted"
+            warnings.append(
+                {
+                    "field": "confirmed_workflows",
+                    "reason": "legacy_stage02_record_adapted",
+                }
+            )
+        else:
+            raw = []
+            status = (
+                "v1_contract_missing_confirmed_workflows"
+                if contract_version
+                else "legacy_stage02_workflow_missing"
+            )
+
+    output: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    for workflow_index, workflow in enumerate(raw[:3]):
+        if not isinstance(workflow, dict):
+            continue
+        workflow_id = str(workflow.get("workflow_id") or f"wf{workflow_index + 1}")[:80]
+        if workflow_id in seen:
+            warnings.append(
+                {
+                    "field": "confirmed_workflows.workflow_id",
+                    "reason": "duplicate_workflow_id",
+                    "value": workflow_id,
+                }
+            )
+            continue
+        seen.add(workflow_id)
+        steps = []
+        seen_steps: set[str] = set()
+        evidence_ids = _known_evidence_ids(workflow.get("evidence_ids"), valid_evidence_ids)
+        for step_index, step in enumerate((workflow.get("steps") or [])[:8]):
+            if not isinstance(step, dict) or not str(step.get("action") or "").strip():
+                continue
+            step_id = str(step.get("step_id") or f"s{step_index + 1}")[:80]
+            if step_id in seen_steps:
+                continue
+            seen_steps.add(step_id)
+            step_ids = _known_evidence_ids(step.get("evidence_ids"), valid_evidence_ids)
+            evidence_ids.extend(step_ids)
+            steps.append(
+                {
+                    "step_id": step_id,
+                    "action": str(step.get("action") or "")[:400],
+                    "generated_output": str(step.get("generated_output") or "")[:400],
+                    "evidence_ids": step_ids,
+                }
+            )
+        if not steps:
+            warnings.append(
+                {
+                    "field": f"confirmed_workflows[{workflow_index}]",
+                    "reason": "workflow_has_no_valid_steps",
+                }
+            )
+            continue
+        output.append(
+            {
+                "workflow_id": workflow_id,
+                "chemical_system": str(workflow.get("chemical_system") or "")[:500],
+                "scientific_output": str(workflow.get("scientific_output") or "")[:500],
+                "scientific_use": str(workflow.get("scientific_use") or "")[:500],
+                "steps": steps,
+                "evidence_ids": list(dict.fromkeys(evidence_ids))[:20],
+            }
+        )
+    return output, status, warnings
+
+
+def _freeze_workflow_bindings(frozen, model_workflows, evidence_by_id):
+    """Overlay software bindings onto Stage02 steps without accepting new science."""
+
+    model_by_id = {
+        str(row.get("workflow_id") or ""): row
+        for row in model_workflows
+        if isinstance(row, dict) and row.get("workflow_id")
+    }
+    warnings: list[dict[str, Any]] = []
+    unknown_workflows = sorted(set(model_by_id) - {str(row["workflow_id"]) for row in frozen})
+    if unknown_workflows:
+        warnings.append(
+            {
+                "field": "workflows",
+                "reason": "model_added_unconfirmed_workflows_ignored",
+                "values": unknown_workflows[:8],
+            }
+        )
+    output = []
+    for workflow in frozen:
+        workflow_id = str(workflow["workflow_id"])
+        model_workflow = model_by_id.get(workflow_id) or {}
+        if not model_workflow and len(frozen) == 1 and len(model_by_id) == 1:
+            model_workflow = next(iter(model_by_id.values()))
+            warnings.append(
+                {
+                    "field": "workflows.workflow_id",
+                    "reason": "single_legacy_workflow_id_realigned",
+                    "model_value": model_workflow.get("workflow_id"),
+                    "frozen_value": workflow_id,
+                }
+            )
+        model_steps = {
+            str(row.get("step_id") or ""): row
+            for row in model_workflow.get("steps") or []
+            if isinstance(row, dict) and row.get("step_id")
+        }
+        steps = []
+        for source_step in workflow.get("steps") or []:
+            step_id = str(source_step["step_id"])
+            binding = model_steps.get(step_id) or _model_step_binding(
+                source_step, list(model_steps.values())
+            )
+            evidence_ids = _known_evidence_ids(
+                binding.get("evidence_ids"), set(evidence_by_id)
+            )
+            if not evidence_ids:
+                evidence_ids = list(source_step.get("evidence_ids") or [])
+            steps.append(
+                {
+                    **source_step,
+                    "essential": True,
+                    "execution_layer": (
+                        binding.get("execution_layer")
+                        if binding.get("execution_layer") in EXECUTION_LAYERS
+                        else "named_software"
+                    ),
+                    "software": str(binding.get("software") or "").strip() or None,
+                    "normalized_backend": None,
+                    "reported_settings": [
+                        str(value)[:180]
+                        for value in binding.get("reported_settings") or []
+                        if str(value).strip()
+                    ][:10],
+                    "evidence_ids": evidence_ids,
+                }
+            )
+        output.append(
+            {
+                "workflow_id": workflow_id,
+                "description": str(
+                    workflow.get("scientific_use")
+                    or workflow.get("scientific_output")
+                    or ""
+                )[:500],
+                "method_family": str(model_workflow.get("method_family") or "")[:160],
+                "evidence_ids": list(workflow.get("evidence_ids") or []),
+                "steps": steps,
+            }
+        )
+    return output, warnings
+
+
+def _model_step_binding(source_step, model_steps):
+    source_ids = {str(value) for value in source_step.get("evidence_ids") or []}
+    candidates = [
+        row
+        for row in model_steps
+        if source_ids & {str(value) for value in row.get("evidence_ids") or []}
+    ]
+    if len(candidates) == 1:
+        return candidates[0]
+    source_terms = set(re.findall(r"[a-z0-9]+", str(source_step.get("action") or "").casefold()))
+    ranked = sorted(
+        candidates or model_steps,
+        key=lambda row: len(
+            source_terms
+            & set(re.findall(r"[a-z0-9]+", str(row.get("action") or "").casefold()))
+        ),
+        reverse=True,
+    )
+    if ranked and source_terms:
+        overlap = source_terms & set(
+            re.findall(r"[a-z0-9]+", str(ranked[0].get("action") or "").casefold())
+        )
+        if overlap:
+            return ranked[0]
+    return {}
+
+
+def _deferred_resource_profile(config):
+    return {
+        "decision": "deferred_to_stage05",
+        "facts": [],
+        "budget": dict(config.get("resource_budget") or {}),
+        "reason": "Stage05 audits candidate-level cost from MinerU-normalized evidence.",
     }
 
 
@@ -483,6 +784,7 @@ def _minimal_inventory_packet(packet):
         )
     return {
         "paper_id": packet.get("paper_id"),
+        "confirmed_workflows": packet.get("confirmed_workflows") or [],
         "rule_software_mentions": (packet.get("rule_software_mentions") or [])[:16],
         "explicit_executable_cues": (packet.get("explicit_executable_cues") or [])[:16],
         "softcite_mentions": (packet.get("softcite_mentions") or [])[:8],
@@ -1084,6 +1386,8 @@ def _merge_workflow_software_mentions(mentions, workflows, evidence, aliases):
             exact_quote = _recover_software_quote(raw_name, evidence_ids, evidence, actual_use=True)
             if not exact_quote and evidence_ids:
                 exact_quote = _truncate_utf8(str(evidence[evidence_ids[0]]), 480)
+            if _known_data_resource_name(raw_name):
+                continue
             output.append(
                 {
                     "raw_name": raw_name,
@@ -1149,26 +1453,55 @@ def _context_window(text: str, start: int, end: int, limit: int) -> str:
     return _truncate_utf8(text[left:right], limit)
 
 
-def resolve_software(mentions, aliases, profile):
-    lookup = _software_alias_keys(aliases)
+def resolve_software(mentions, aliases, profile, *, external_aliases=None):
+    catalog_identifiers = {
+        *list((profile.get("backends") or {}).keys()),
+        *list((profile.get("native_software") or {}).keys()),
+        *list((profile.get("python_packages") or {}).keys()),
+    }
+    catalog_aliases = {str(key): list(value) for key, value in aliases.items()}
+    for identifier in catalog_identifiers:
+        catalog_aliases.setdefault(str(identifier), []).append(str(identifier))
+    lookup = _software_alias_keys(catalog_aliases)
+    external_lookup = _software_alias_keys(external_aliases or {})
     backends = profile.get("backends") or {}
     native_software = profile.get("native_software") or {}
     python_packages = profile.get("python_packages") or {}
     output = []
     for mention in mentions:
         raw = str(mention.get("raw_name") or mention.get("normalized_hint") or "")
-        # Model-proposed hints are audit data; only the frozen aliases establish presence.
-        backend = lookup.get(_normalize(raw))
+        entity_type = str(mention.get("entity_type") or "program")
+        normalized_hint = str(mention.get("normalized_hint") or "").strip()
+        backend, resolution = _resolve_software_name(
+            raw,
+            lookup,
+            allow_version_variants=entity_type != "custom_code",
+        )
+        external_identifier = None
+        external_resolution = None
         if backend is None:
-            backend = lookup.get(_normalize(_without_version_suffix(raw)))
-        if backend is None:
-            backend = _compound_extension_backend(raw, lookup)
-        if backend is None:
-            backend = _decorated_software_backend(raw, lookup)
+            external_identifier, external_resolution = _resolve_software_name(
+                raw,
+                external_lookup,
+                allow_version_variants=entity_type != "custom_code",
+            )
         backend_entry = backends.get(backend) if backend else None
         native_entry = native_software.get(backend) if backend else None
         package_entry = python_packages.get(backend) if backend else None
         entry = backend_entry or native_entry or package_entry
+        if entry is not None:
+            coverage_state = (
+                "probable"
+                if resolution == "decorated_unique_candidate"
+                else "covered"
+            )
+        elif external_identifier is not None:
+            coverage_state = "uncovered"
+        elif _explicit_bound_named_runtime(mention, raw, entity_type):
+            coverage_state = "uncovered"
+            resolution = "explicit_named_runtime_absent_from_catalog"
+        else:
+            coverage_state = "unconfirmed"
         catalog_kind = (
             "native_backend"
             if backend_entry
@@ -1181,12 +1514,17 @@ def resolve_software(mentions, aliases, profile):
         output.append(
             {
                 "raw_name": raw,
+                "normalized_hint": normalized_hint or None,
+                "entity_type": entity_type,
                 "role": mention.get("role"),
                 "actual_use": bool(mention.get("actual_use")),
                 "normalized_backend": backend if backend_entry else None,
                 "normalized_identifier": backend if entry else None,
                 "catalog_kind": catalog_kind,
                 "catalog_present": entry is not None,
+                "coverage_state": coverage_state,
+                "name_resolution": resolution or external_resolution or "unresolved",
+                "external_identifier": external_identifier,
                 "native_software_available": entry is not None,
                 "coverage_basis": "native_software_catalog_presence",
                 "availability": entry.get("availability") if entry else "unknown",
@@ -1199,9 +1537,70 @@ def resolve_software(mentions, aliases, profile):
                 "constraint_snapshot": _capability_excerpt(entry or {}),
                 "evidence_ids": mention.get("evidence_ids") or [],
                 "workflow_ids": mention.get("workflow_ids") or [],
+                "source": mention.get("source"),
             }
         )
     return output
+
+
+def _explicit_bound_named_runtime(mention, raw_name, entity_type):
+    return bool(
+        raw_name.strip()
+        and entity_type in SOFTWARE_ENTITY_TYPES
+        and mention.get("actual_use")
+        and mention.get("workflow_ids")
+        and mention.get("evidence_ids")
+        and str(mention.get("exact_quote") or "").strip()
+        and mention.get("role") in REQUIRED_ROLES
+    )
+
+
+def _resolve_software_name(raw_name, lookup, *, allow_version_variants):
+    normalized = _normalize(raw_name)
+    if not normalized:
+        return None, None
+    if normalized in lookup:
+        return lookup[normalized], "exact_alias"
+    without_version = _normalize(_without_version_suffix(raw_name))
+    if allow_version_variants and without_version in lookup:
+        return lookup[without_version], "official_version_variant"
+
+    if allow_version_variants:
+        version_candidates = {
+            backend
+            for alias, backend in lookup.items()
+            if len(alias) >= 4
+            and normalized.startswith(alias)
+            and _version_like_residual(normalized[len(alias) :])
+        }
+        if len(version_candidates) == 1:
+            return next(iter(version_candidates)), "official_version_variant"
+
+    contained = {
+        backend
+        for alias, backend in lookup.items()
+        if len(alias) >= 5 and alias in normalized
+    }
+    if len(contained) == 1 and any(marker in str(raw_name) for marker in ("(", ")", "/")):
+        return next(iter(contained)), "composite_alias"
+
+    decorated = _decorated_software_backend(raw_name, lookup)
+    if decorated is not None:
+        return decorated, "decorated_unique_candidate"
+    return None, None
+
+
+def _version_like_residual(value):
+    if not value or len(value) > 32 or not any(character.isdigit() for character in value):
+        return False
+    reduced = re.sub(
+        r"(?:version|ver|revision|rev|release|rel|build|developer|development|dev|"
+        r"linux|windows|win|macos|mac)",
+        "",
+        value,
+        flags=re.I,
+    )
+    return bool(re.fullmatch(r"[a-z0-9]*", reduced))
 
 
 def _compound_extension_backend(raw_name: str, lookup: dict[str, str]) -> str | None:
@@ -1235,67 +1634,157 @@ def _decorated_software_backend(raw_name: str, lookup: dict[str, str]) -> str | 
 
 
 def _without_version_suffix(raw_name: str) -> str:
-    return re.sub(
-        r"(?:[\s_-]+(?:version\s*)?v?\d+(?:\.\d+){0,3})$",
+    value = unicodedata.normalize("NFKC", str(raw_name)).strip()
+    value = re.sub(
+        r"\s*\((?:version|ver\.?|revision|rev\.?|release|build|dev(?:elopment)?)?"
+        r"\s*v?[A-Za-z]?\d+(?:[._-]\d+)*(?:[A-Za-z]+)?\)\s*$",
         "",
-        str(raw_name).strip(),
+        value,
+        flags=re.I,
+    )
+    return re.sub(
+        r"(?:[\s,_-]+(?:version|ver\.?|v|revision|rev\.?|release|rel\.?|build)?"
+        r"\s*[A-Za-z]?\d+(?:[._-]\d+)*(?:[A-Za-z]+)?"
+        r"(?:\s+(?:revision|rev\.?)\s*[A-Za-z]?(?:[._-]?\d+)*)?"
+        r"(?:\s+(?:for\s+)?(?:linux|windows|win|macos|mac))?)$",
+        "",
+        value,
         flags=re.I,
     ).strip()
 
 
-def coverage_gate(review, mappings, profile, config):
-    """Check required software presence, not predefined Action coverage.
+def workflow_coverage_results(review, mappings):
+    """Classify each frozen workflow from step and workflow-scoped bindings."""
 
-    A catalogued backend is usable through the toolbox's native-software layer even
-    when the predefined Action layer does not expose a paper's exact operation or
-    parameter. Action and method constraints therefore cannot reject Stage03.
-    """
-    del profile, config
-    required = [row for row in mappings if row["actual_use"] and row.get("role") in REQUIRED_ROLES]
-    workflows = review.get("workflows") or []
-    covered_workflows: list[str] = []
-    for workflow in workflows:
+    output = []
+    for workflow_index, workflow in enumerate(review.get("workflows") or []):
         if not isinstance(workflow, dict):
             continue
-        workflow_id = str(workflow.get("workflow_id") or "")
-        essential_steps = [
-            step
-            for step in workflow.get("steps") or []
-            if isinstance(step, dict) and bool(step.get("essential", True))
-        ]
-        if not essential_steps:
-            continue
-        workflow_mappings = [
-            row
-            for row in required
-            if workflow_id and workflow_id in {str(item) for item in row.get("workflow_ids") or []}
-        ]
-        for step in essential_steps:
-            raw_name = str(step.get("software") or "")
-            if not raw_name:
+        workflow_id = str(workflow.get("workflow_id") or f"wf{workflow_index + 1}")
+        step_results = []
+        for step in workflow.get("steps") or []:
+            if not isinstance(step, dict) or not bool(step.get("essential", True)):
                 continue
-            normalized = _normalize(_without_version_suffix(raw_name))
-            workflow_mappings.extend(
-                row
-                for row in required
-                if _normalize(_without_version_suffix(str(row.get("raw_name") or ""))) == normalized
+            software = str(step.get("software") or "").strip()
+            if step.get("execution_layer") == "task_specific_python" and not software:
+                state = "covered"
+                mapping = None
+            elif not software:
+                state = "unconfirmed"
+                mapping = None
+            else:
+                mapping = _mapping_for_step(software, workflow_id, mappings)
+                state = str((mapping or {}).get("coverage_state") or "")
+                if not state:
+                    state = "covered" if (mapping or {}).get("catalog_present") else "unconfirmed"
+            step_results.append(
+                {
+                    "step_id": str(step.get("step_id") or ""),
+                    "software": software or None,
+                    "state": state,
+                    "normalized_identifier": (mapping or {}).get("normalized_identifier"),
+                    "external_identifier": (mapping or {}).get("external_identifier"),
+                    "name_resolution": (mapping or {}).get("name_resolution"),
+                    "evidence_ids": list(step.get("evidence_ids") or []),
+                }
             )
-        workflow_mappings = list({id(row): row for row in workflow_mappings}.values())
-        unnamed_required = any(
-            not step.get("software") and step.get("execution_layer") != "task_specific_python"
-            for step in essential_steps
+        required_software_results = [
+            {
+                "raw_name": mapping.get("raw_name"),
+                "state": mapping.get("coverage_state"),
+                "role": mapping.get("role"),
+                "normalized_identifier": mapping.get("normalized_identifier"),
+                "external_identifier": mapping.get("external_identifier"),
+                "name_resolution": mapping.get("name_resolution"),
+                "evidence_ids": list(mapping.get("evidence_ids") or []),
+            }
+            for mapping in mappings
+            if mapping.get("actual_use")
+            and mapping.get("role") in REQUIRED_ROLES
+            and workflow_id in {str(value) for value in mapping.get("workflow_ids") or []}
+        ]
+        states = {
+            *[row["state"] for row in step_results],
+            *[str(row.get("state") or "") for row in required_software_results],
+        }
+        if "uncovered" in states:
+            status = "workflow_uncovered"
+        elif not step_results or "unconfirmed" in states:
+            status = "workflow_software_inventory_unconfirmed"
+        elif "probable" in states:
+            status = "workflow_coverage_probable"
+        else:
+            status = "workflow_covered"
+        output.append(
+            {
+                "workflow_id": workflow_id,
+                "status": status,
+                "step_results": step_results,
+                "required_software_results": required_software_results,
+            }
         )
-        if (
-            workflow_mappings
-            and not unnamed_required
-            and all(row.get("catalog_present") for row in workflow_mappings)
-        ):
-            covered_workflows.append(workflow_id or f"workflow-{len(covered_workflows) + 1}")
+    return output
 
-    uncovered_required = [row for row in required if not row.get("catalog_present")]
-    if covered_workflows:
-        return "mixed_workflow_candidate" if uncovered_required else "covered"
-    if uncovered_required:
+
+def _mapping_for_step(software, workflow_id, mappings):
+    reference_keys = _software_reference_keys(software)
+    candidates = [
+        row
+        for row in mappings
+        if row.get("actual_use")
+        and (
+            bool(
+                reference_keys.intersection(
+                    _software_reference_keys(str(row.get("raw_name") or ""))
+                )
+            )
+            or (
+                workflow_id in {str(value) for value in row.get("workflow_ids") or []}
+                and bool(
+                    reference_keys.intersection(
+                        {
+                            _normalize(row.get("normalized_identifier")),
+                            _normalize(row.get("normalized_backend")),
+                            _normalize(row.get("normalized_hint")),
+                        }
+                        - {""}
+                    )
+                )
+            )
+        )
+    ]
+    if not candidates:
+        return None
+    precedence = {"covered": 0, "probable": 1, "uncovered": 2, "unconfirmed": 3}
+    return min(candidates, key=lambda row: precedence.get(row.get("coverage_state"), 1))
+
+
+def _software_reference_keys(value):
+    text = str(value or "").strip()
+    keys = {
+        _normalize(text),
+        _normalize(_without_version_suffix(text)),
+    }
+    keys.update(
+        _normalize(match)
+        for match in re.findall(r"\(([A-Za-z][A-Za-z0-9+.-]{1,15})\)", text)
+    )
+    return keys - {""}
+
+
+def coverage_gate(review, mappings, profile, config, *, workflow_results=None):
+    """Reject only when every frozen workflow has explicit uncovered software."""
+
+    del profile, config
+    results = workflow_results or workflow_coverage_results(review, mappings)
+    statuses = {str(row.get("status") or "") for row in results}
+    if "workflow_covered" in statuses:
+        return "covered"
+    if "workflow_coverage_probable" in statuses:
+        return "probable"
+    if "workflow_software_inventory_unconfirmed" in statuses or not results:
+        return "software_inventory_unconfirmed"
+    if statuses == {"workflow_uncovered"}:
         return "core_software_uncovered"
     return "software_inventory_unconfirmed"
 
@@ -1365,15 +1854,14 @@ def _float_or_none(value):
         return None
 
 
-def _combine_decision(coverage, resource, complete):
+def _combine_decision(coverage, resource=None, complete=None):
+    del resource, complete
     if coverage == "core_software_uncovered":
         return coverage
-    if resource.get("decision") == "cost_exceeds_budget":
-        return "cost_exceeds_budget"
     if coverage == "covered":
-        return "software_covered" if complete else "software_coverage_probable"
-    if coverage == "mixed_workflow_candidate":
-        return "mixed_workflow_candidate"
+        return "software_covered"
+    if coverage == "probable":
+        return "software_coverage_probable"
     return "software_inventory_unconfirmed"
 
 
@@ -1448,6 +1936,17 @@ def _sanitize_review(response, evidence):
                     }
                 )
                 software = bundled_host
+            elif software and _known_data_resource_name(str(software)):
+                warnings.append(
+                    {
+                        "field": "workflows.steps.software",
+                        "index": f"{index}.{step_index}",
+                        "reason": "data_resource_removed_from_software_step",
+                        "raw_name": software,
+                    }
+                )
+                software = None
+                sanitized["inventory_complete"] = False
             elif software and (
                 _scientific_method_usage(str(software), evidence_text)
                 or _generic_computation_label(str(software), evidence_text)
@@ -1884,6 +2383,10 @@ _ACTIVE_SERVICE_RE = re.compile(
 )
 
 
+def _known_data_resource_name(raw_name: str) -> bool:
+    return bool(_KNOWN_DATA_RESOURCE_RE.fullmatch(" ".join(str(raw_name).split())))
+
+
 def _nonsoftware_data_resource(raw_name: str, entity_type: str, context: str) -> bool:
     name = " ".join(str(raw_name).split())
     text = str(context)
@@ -2064,10 +2567,16 @@ def _stage02_evidence_ids(review):
         "computational_workflow_steps",
         "central_claims",
         "experimental_contributions",
+        "confirmed_workflows",
     ):
         for item in review.get(field) or []:
             if isinstance(item, dict):
                 output.extend(str(value) for value in (item.get("evidence_ids") or []))
+                for step in item.get("steps") or []:
+                    if isinstance(step, dict):
+                        output.extend(
+                            str(value) for value in (step.get("evidence_ids") or [])
+                        )
     return list(dict.fromkeys(value for value in output if value))
 
 

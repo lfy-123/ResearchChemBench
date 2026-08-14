@@ -77,6 +77,7 @@
     "max_deterministic_experiment_evidence": 8,
     "classification_max_tokens": 12288,
     "pass_verification_max_tokens": 6144,
+    "workflow_candidate_limit": 3,
     "minimum_confidence": 0.85,
     "review_pass_decisions": true
   },
@@ -192,7 +193,7 @@
       "base_url": "http://127.0.0.1:13000/v1",
       "base_url_env": "RCB_NEW_API_BASE_URL",
       "api_key_env": "RCB_NEW_API_KEY",
-      "model": "Qwen3.6-27B",
+      "model": "DeepSeek-V4-Pro",
       "model_env": "RCB_STAGE02_SCREENING_MODEL",
       "workers": 8,
       "max_tokens": 12288,
@@ -201,8 +202,16 @@
       "timeout_seconds": 900,
       "retries": 2,
       "thinking": null,
-      "chat_template_kwargs": {"enable_thinking": false},
-      "fallback_models": []
+      "chat_template_kwargs": {"thinking": false},
+      "fallback_models": [
+        {"model": "Nex-N2-Pro", "chat_template_kwargs": {"enable_thinking": false}},
+        {"model": "DeepSeek-V4-Flash", "chat_template_kwargs": {"thinking": false}},
+        {"model": "Nex-N2-Pro-w8a8", "chat_template_kwargs": {}},
+        {"model": "DeepSeek-V4-Flash-DSpark", "chat_template_kwargs": {"thinking": false}},
+        {"model": "MiniMax-M2.7", "chat_template_kwargs": {}},
+        {"model": "Mimo-V2.5-Pro", "chat_template_kwargs": {}},
+        {"model": "Qwen3.6-27B", "chat_template_kwargs": {"enable_thinking": false}}
+      ]
     },
     "stage03_screening": {
       "enabled": true,
@@ -210,7 +219,7 @@
       "base_url": "http://127.0.0.1:13000/v1",
       "base_url_env": "RCB_NEW_API_BASE_URL",
       "api_key_env": "RCB_NEW_API_KEY",
-      "model": "DeepSeek-V4-Flash",
+      "model": "Nex-N2-Pro",
       "model_env": "RCB_STAGE03_SCREENING_MODEL",
       "workers": 8,
       "max_tokens": 12288,
@@ -219,8 +228,16 @@
       "timeout_seconds": 900,
       "retries": 2,
       "thinking": null,
-      "chat_template_kwargs": {"thinking": false},
-      "fallback_models": []
+      "chat_template_kwargs": {"enable_thinking": false},
+      "fallback_models": [
+        {"model": "DeepSeek-V4-Pro", "chat_template_kwargs": {"thinking": false}},
+        {"model": "DeepSeek-V4-Flash", "chat_template_kwargs": {"thinking": false}},
+        {"model": "Nex-N2-Pro-w8a8", "chat_template_kwargs": {}},
+        {"model": "DeepSeek-V4-Flash-DSpark", "chat_template_kwargs": {"thinking": false}},
+        {"model": "MiniMax-M2.7", "chat_template_kwargs": {}},
+        {"model": "Mimo-V2.5-Pro", "chat_template_kwargs": {}},
+        {"model": "Qwen3.6-27B", "chat_template_kwargs": {"enable_thinking": false}}
+      ]
     },
     "stage05_router": {
       "enabled": true,

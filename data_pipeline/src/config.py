@@ -95,7 +95,14 @@ def load_config(path: str | Path) -> dict[str, Any]:
                 environment.get("MINERU_TOOLS_CONFIG_JSON", ".model_cache/mineru/mineru.json"),
             )
         )
-    config.setdefault("stage05", {})
+    stage05 = config.setdefault("stage05", {})
+    for key in (
+        "toolbox_capabilities",
+        "software_aliases",
+        "external_software_aliases",
+    ):
+        stage05.setdefault(key, stage03[key])
+        stage05[key] = str(_resolve(source.parent, stage05[key]))
     stage06 = config.setdefault("stage06", {})
     stage07 = config.setdefault("stage07", {})
     stage06["harness"] = os.environ.get("RCB_STAGE06_HARNESS") or stage06.get(
@@ -167,7 +174,18 @@ def _normalize_model_roles(config: dict[str, Any]) -> None:
         base_url_env = str(value.get("base_url_env") or f"{env_prefix}_BASE_URL")
         model_env = str(value.get("model_env") or f"{env_prefix}_MODEL")
         value["base_url"] = os.environ.get(base_url_env) or value.get("base_url")
-        value["model"] = os.environ.get(model_env) or value.get("model")
+        model_override = os.environ.get(model_env)
+        if model_override:
+            if str(value.get("model") or "").casefold() != model_override.casefold():
+                inferred = _model_thinking_kwargs(model_override)
+                value["chat_template_kwargs"] = inferred or {}
+                value["thinking"] = None
+            value["model"] = model_override
+        if value.get("chat_template_kwargs") is None:
+            inferred_kwargs = _model_thinking_kwargs(str(value.get("model") or ""))
+            if inferred_kwargs:
+                value["chat_template_kwargs"] = inferred_kwargs
+                value["thinking"] = None
         fallback_env = os.environ.get(f"{env_prefix}_FALLBACK_MODELS", "").strip()
         if fallback_env:
             fallbacks[:] = [

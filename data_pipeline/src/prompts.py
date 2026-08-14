@@ -1,8 +1,8 @@
 from __future__ import annotations
 
-STAGE02_CLASSIFY_VERSION = "v2-stage02-classify-20260811-r10-chemistry-model-boundary"
-STAGE02_PASS_VERIFY_VERSION = "v2-stage02-pass-verify-20260811-r5-independent-workflow-axes"
-STAGE03_VERSION = "v2-stage03-software-inventory-20260811-r23-computation-led-input"
+STAGE02_CLASSIFY_VERSION = "v2-stage02-classify-20260814-r11-workflow-discovery"
+STAGE02_PASS_VERIFY_VERSION = "v2-stage02-pass-verify-20260814-r6-workflow-verification"
+STAGE03_VERSION = "v2-stage03-software-binding-20260814-r25-frozen-workflow-inventory"
 STAGE05_ROUTER_VERSION = "v2-stage05a-evidence-router-20260812-r1"
 STAGE05_VERSION = "v2-stage05b-candidate-auditor-20260813-r19-recall-gate"
 STAGE06_SHARED_VERSION = "v2-stage06-shared-20260807"
@@ -111,15 +111,18 @@ unknown); performed_computation, complete_computational_workflow, author_perform
 (pure_computation, computation_predicts_then_experiment_validates,
 experiment_observes_then_computation_explains, co_equal, none, uncertain); study_mode (pure_computational,
 mixed_computational_experimental, experimental_with_computational_support, noncomputational, uncertain);
-central_scientific_question; primary_contribution; one computational_workflow_steps item with step_id, action,
-generated_output, evidence_ids; one central_claims item with statement, computation_required, experiment_required,
+central_scientific_question; primary_contribution; computational_workflow_steps as a backward-compatible summary;
+workflow_candidates containing at most three independent workflows, each with workflow_id, chemical_system,
+scientific_output, scientific_use, evidence_ids, and up to six steps with step_id, action, generated_output and
+evidence_ids; one central_claims item with statement, computation_required, experiment_required,
 evidence_ids; zero or one experimental_contributions item with statement and evidence_ids;
 counterfactual_without_computation and counterfactual_without_experiments (main_claim_fails, partly_survives,
 main_claim_survives, uncertain); evidence_ids; experimental_evidence_ids; conflicting_evidence_ids; rationale;
 confidence from 0 to 1. Use at most 3 IDs per array and keep narrative values under 180 characters. Return JSON only."""
 
-STAGE02_PASS_VERIFY_SYSTEM = """Independently verify a proposed Stage02 Pass using only the supplied source
-evidence. You do not receive the first classifier's answer; reconstruct the workflow from the evidence. The gate asks
+STAGE02_PASS_VERIFY_SYSTEM = """Independently verify Stage02 workflow candidates using only the supplied source
+evidence. You receive only minimal candidate skeletons, not the first classifier's decision, confidence, rationale,
+or paper-level conclusion. Verify each supplied workflow_id independently; do not invent a replacement workflow. The gate asks
 whether the authors performed a complete, non-trivial computational-chemistry workflow with an identifiable
 chemical input/system, calculation or simulation, generated chemical output, and scientific use. Computation may
 be primary, co-primary, or supporting an experimental paper. Do not reject merely because experiments produced the
@@ -156,15 +159,31 @@ generated_chemical_output, scientific_use_of_computational_output, nontrivial_co
 experimental_data_analysis_only, author_performed_experiments (each yes, no, uncertain); computational_input,
 computational_operation, generated_output, scientific_use (strings under 160 characters); evidence_ids,
 computational_evidence_ids, and experimental_evidence_ids (each at most 3 supplied IDs); rationale under 220
-characters; confidence from 0 to 1."""
+characters; confidence from 0 to 1; and workflow_verifications with exactly one item per supplied workflow candidate.
+Each workflow_verifications item contains workflow_id; author_performed_computation; identifiable_chemical_system;
+actual_chemical_calculation_or_simulation; generated_chemical_output; scientific_use_of_output;
+nontrivial_workflow; experimental_data_analysis_only (all yes, no, or uncertain); evidence_ids;
+computational_evidence_ids; rationale; and confidence. A workflow is confirmable only when all six positive axes
+are yes, experimental_data_analysis_only=no, and cited evidence supports the calculation. Return JSON only."""
 
-STAGE03_SYSTEM = """Inventory the software used by a paper already confirmed to contain a benchmarkable
-computational-chemistry workflow.
+STAGE03_SYSTEM = """Bind software evidence to Stage02-confirmed computational-chemistry workflows.
 Use only supplied evidence. Your job is evidence extraction and software-role classification; deterministic
 code checks whether every required named software package exists in the frozen toolbox software catalog. The catalog
 is intentionally not supplied to you: extract every actually used software entity without support-status bias.
 
-This is an early recall-oriented gate. Inventory independent workflows separately. Do not make every analysis,
+The packet's confirmed_workflows are frozen. Preserve every workflow_id and step_id exactly. Do not add, delete,
+merge, split, reinterpret, or re-evaluate a workflow, scientific question, step, generated output, or scientific
+claim. Stage02 already decided workflow completeness and scientific relevance. For each frozen step, report only
+the software explicitly bound by the supplied evidence. If no software is named or attribution is unclear, set
+software=null and record the uncertainty. Never infer an engine from a method name. Software outside the frozen
+workflows belongs in unscoped_software_mentions and cannot block a confirmed workflow.
+
+Stage03 is a negative exclusion gate, not a positive proof requirement. It does not judge scientific completeness,
+benchmark suitability, inputs, ground truth, or resource cost. Set resource_facts=[] and complexity_facts=[].
+Failure to find a software name is an unconfirmed inventory that continues downstream; it is not evidence that the
+paper lacks computation or that the toolbox is uncovered.
+
+This is an early recall-oriented gate. Bind each frozen workflow separately. Do not make every analysis,
 visualization, file conversion, or reported side calculation essential merely because it appears in the paper.
 An essential step is required to reproduce a meaningful scientific result of that workflow. A paper may contain
 one independently reproducible workflow and another workflow whose implementation is unsupported or unclear;
@@ -267,9 +286,10 @@ a bibliography/reference entry.
 such as TURBOMOLE, ChemShell, DL_POLY, Molpro, PERTURBO, PySAGES, or an in-house code only in `unresolved`; it must
 also appear in `software_mentions` with its evidence and actual-use role.
 
-Return compact JSON with keys inventory_complete, workflows, software_mentions, excluded_entities, resource_facts,
-complexity_facts, unresolved, evidence_ids, confidence, rationale. Each workflow has workflow_id, description,
-method_family, evidence_ids, and steps. Each step has step_id, action, essential, execution_layer, software, normalized_backend,
+Return compact JSON with keys inventory_complete, workflows, software_mentions, unscoped_software_mentions,
+excluded_entities, resource_facts, complexity_facts, unresolved, evidence_ids, confidence, rationale. Reproduce each
+frozen workflow_id and step_id exactly. Each workflow has workflow_id, description, method_family, evidence_ids,
+and steps. Each step has step_id, action, essential, execution_layer, software, normalized_backend,
 reported_settings (short string array), and evidence_ids. Each software mention has raw_name,
 normalized_hint, entity_type (program, library, service, extension, or custom_code), role, actual_use,
 workflow_ids, evidence_ids, exact_quote. role is core_compute, required_preprocessing, required_analysis,
@@ -291,14 +311,11 @@ Examples for the task-specific Python boundary:
   electronic-structure executable, or unnamed DFT/MD/kinetics solver is a core implementation and does make the
   inventory incomplete. Never use generic Python to waive a named absent package or a custom scientific engine.
 
-Each resource fact has resource_type, relation, value_min, value_max, unit, scope, actual_computation,
-evidence_ids, exact_quote. Extract only resources explicitly tied to this paper's actual computations. Never
-interpret experimental treatment time, reaction time, incubation time, instrument acquisition time, or sample
-count as computational runtime or job count. Use resource_facts=[] when no computational resource is reported.
-complexity_facts may record atom count, trajectory length, number of structures, transition states, sampling
-windows, or calculations when explicitly stated. Return at most 2 workflows, 5 total steps, 12 software
-mentions, 10 excluded entities, 4 resource facts, 2 complexity facts, and 4 unresolved items. Aggregate related
-operations into one step. Do not repeat the same software under both its long name and abbreviation.
+Stage03 does not extract resources or complexity. Always return resource_facts=[] and complexity_facts=[].
+Return exactly the supplied frozen workflows and steps, even when there are three workflows or more than five
+steps. Do not omit, aggregate, add, or reorder them to satisfy an output-size preference. Keep at most 24
+software mentions, 10 excluded entities, and 8 unresolved items. Do not repeat the same software under both its
+long name and abbreviation.
 Quotes must be exact and at most 180 characters. Descriptions and rationale must be under 240 characters. Return
 only one complete compact JSON object. Arrays must contain JSON objects, never bare software-name strings.
 
