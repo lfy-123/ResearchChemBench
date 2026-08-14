@@ -174,6 +174,32 @@ def test_resource_validation_rejects_ambiguous_memory():
         SandboxRunOptions(memory="96GB").validated()
 
 
+def test_manager_retries_transient_ensure_failure(tmp_path, monkeypatch):
+    monkeypatch.setenv("RCB_SANDBOX_API_KEY", "test-key")
+    manager = SandboxManager(
+        SandboxRunOptions(
+            cleanup="keep",
+            source=tmp_path / "source.yaml",
+            inventory=tmp_path / "inventory.json",
+        )
+    )
+    calls = 0
+    worker = object()
+
+    def ensure():
+        nonlocal calls
+        calls += 1
+        if calls == 1:
+            raise SandboxError("temporarily unavailable", status=503, retryable=True)
+        return worker
+
+    monkeypatch.setattr(manager, "ensure", ensure)
+    monkeypatch.setattr("src.sandbox.manager.time.sleep", lambda _seconds: None)
+
+    assert manager.ensure_with_retry(attempts=2) is worker
+    assert calls == 2
+
+
 class FakeProxyClient:
     def proxy_bytes(self, method, *, port, suffix, body, headers, timeout):
         assert method == "POST"

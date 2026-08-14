@@ -81,7 +81,14 @@ class MineruSandboxPool:
                "inventory": base_inventory}
         )
         base_manager = SandboxManager(base_spec)
-        first_worker = base_manager.ensure()
+        try:
+            first_worker = base_manager.ensure_with_retry()
+        except Exception:
+            try:
+                base_manager.cleanup()
+            except Exception:
+                pass
+            raise
         environment_id = first_worker.environment_id
         specs: list[SandboxRunOptions] = []
         for index in range(1, self.count):

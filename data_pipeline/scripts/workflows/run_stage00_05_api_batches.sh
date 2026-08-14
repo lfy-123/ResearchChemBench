@@ -24,4 +24,5 @@ export NO_PROXY="127.0.0.1,localhost,${NO_PROXY:-}"
 export no_proxy="127.0.0.1,localhost,${no_proxy:-}"
 
 cd "$PIPELINE_ROOT"
+export PATH="$(dirname "${PYTHON:-$DEFAULT_PYTHON}"):$PATH"
 exec "${PYTHON:-$DEFAULT_PYTHON}" scripts/workflows/run_stage00_05_api_batches.py "$@"

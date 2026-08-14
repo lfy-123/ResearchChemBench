@@ -18,5 +18,6 @@ if [[ ! -x "${python_bin}" ]]; then
 fi
 
 cd "${pipeline_root}"
+export PATH="$(dirname "${python_bin}"):${PATH}"
 export PYTHONPATH="${pipeline_root}${PYTHONPATH:+:${PYTHONPATH}}"
 exec "${python_bin}" "${pipeline_root}/scripts/workflows/run_stage04_05_resume.py" "$@"

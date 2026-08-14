@@ -19,4 +19,5 @@ if [[ "${RCB_SETUP_PROXY:-1}" == "1" ]]; then
 fi
 
 cd "$PIPELINE_ROOT"
+export PATH="$(dirname "${PYTHON:-$DEFAULT_PYTHON}"):$PATH"
 exec "${PYTHON:-$DEFAULT_PYTHON}" -m src.cli run --config "$CONFIG"

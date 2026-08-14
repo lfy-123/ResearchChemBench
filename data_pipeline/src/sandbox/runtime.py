@@ -49,7 +49,7 @@ class SandboxPipelineRuntime:
             self._lock_handle = None
             raise RuntimeError("another data pipeline run is already using the sandbox") from exc
         try:
-            self.worker = self.manager.ensure()
+            self.worker = self.manager.ensure_with_retry()
             self.client = self.worker.client()
             for name in ("grobid", "softcite", "quantities"):
                 self._proxy(name, 0)

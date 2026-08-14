@@ -238,6 +238,19 @@ class SandboxManager:
         self._write_inventory(worker)
         return worker
 
+    def ensure_with_retry(self, *, attempts: int = 10) -> SandboxWorker:
+        """Retry transient control-plane failures without hiding hard errors."""
+
+        attempts = max(1, int(attempts))
+        for attempt in range(1, attempts + 1):
+            try:
+                return self.ensure()
+            except SandboxError as exc:
+                if not exc.retryable or attempt == attempts:
+                    raise
+                time.sleep(min(30, 3 * attempt))
+        raise AssertionError("sandbox retry loop did not return or raise")
+
     def status(self) -> dict[str, Any]:
         source = self._load_source()
         environment_id = str((source.get("environment") or {}).get("environment_id") or "")

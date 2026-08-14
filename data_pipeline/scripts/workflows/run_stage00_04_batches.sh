@@ -20,4 +20,5 @@ if [[ "${RCB_SETUP_PROXY:-1}" == "1" ]]; then
 fi
 
 cd "$PIPELINE_ROOT"
+export PATH="$(dirname "${PYTHON:-$DEFAULT_PYTHON}"):$PATH"
 exec "${PYTHON:-$DEFAULT_PYTHON}" scripts/workflows/run_stage00_04_batches.py "$@"
