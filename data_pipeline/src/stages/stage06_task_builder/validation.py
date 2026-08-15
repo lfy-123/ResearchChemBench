@@ -1,0 +1,1903 @@
+from __future__ import annotations
+
+import json
+import math
+import re
+import sys
+from pathlib import Path
+from typing import Any
+
+from src.agents.workspace import directory_manifest, validate_relative_path
+from src.contracts import canonical_hash, read_json
+
+ACCEPTANCE_TYPES = {
+    "numeric_tolerance",
+    "categorical",
+    "ranking",
+    "trend",
+    "structure_identity",
+    "geometry_metric",
+    "mechanism_claim",
+    "semantic_propositions",
+    "artifact_validation",
+}
+WORKFLOW_SCOPE_KINDS = {
+    "full_paper_computational_workflow",
+    "major_paper_workflow",
+    "partial_computational_subworkflow",
+}
+SCIENTIFIC_FAILURE_CODES = {
+    "no_author_performed_computation",
+    "missing_core_input",
+    "incomplete_computational_process",
+    "missing_ground_truth",
+    "source_evidence_insufficient",
+    "resource_infeasible",
+    "no_complete_nontrivial_workflow",
+    "benchmark_not_challenging",
+}
+
+
+def validate_scientific_review(review: dict[str, Any], evidence_ids: set[str]) -> list[str]:
+    findings: list[str] = []
+    if _contains_review_placeholder(review):
+        findings.append("scientific_review_contains_placeholder")
+    if review.get("decision") == "scientific_reject":
+        if not review.get("reject_reasons"):
+            findings.append("scientific_reject_missing_reasons")
+        return findings
+    if review.get("decision") != "candidate_ready":
+        return ["invalid_review_decision"]
+    for field in (
+        "task_pair_id",
+        "selected_candidate_id",
+        "scientific_question",
+        "public_scientific_question",
+        "task_direction",
+        "category",
+        "workflow_summary",
+    ):
+        if not str(review.get(field) or "").strip():
+            findings.append(f"missing_{field}")
+    steps = review.get("workflow_steps") or []
+    step_ids = {
+        str(step.get("step_id") or "") for step in steps if isinstance(step, dict)
+    }
+    if not steps or "" in step_ids:
+        findings.append("workflow_steps_incomplete")
+    for step in steps:
+        if not isinstance(step, dict):
+            findings.append("workflow_step_invalid")
+            continue
+        for dependency in step.get("depends_on") or []:
+            if dependency not in step_ids:
+                findings.append(f"unknown_workflow_dependency:{dependency}")
+        if not step.get("output_artifacts"):
+            findings.append(f"workflow_step_missing_output:{step.get('step_id')}")
+        findings.extend(_unknown_evidence(step.get("evidence_ids"), evidence_ids, "workflow"))
+    public_basis = review.get("public_task_basis") or {}
+    completeness = public_basis.get("input_completeness") or {}
+    if completeness.get("status") != "confirmed":
+        findings.append("public_input_completeness_not_confirmed")
+    if completeness.get("unresolved_fields"):
+        findings.append("public_input_fields_unresolved")
+    if not completeness.get("closed_fields"):
+        findings.append("public_input_closed_fields_missing")
+    boundary_conditions = public_basis.get("boundary_conditions")
+    findings.extend(
+        _public_boundary_contract_findings(boundary_conditions, evidence_ids=evidence_ids)
+    )
+    findings.extend(
+        _route_boundary_coverage_findings(
+            review,
+            boundary_conditions=boundary_conditions,
+        )
+    )
+    assets = public_basis.get("input_assets") or []
+    if not assets:
+        findings.append("public_input_assets_missing")
+    for asset in assets:
+        if not isinstance(asset, dict):
+            findings.append("public_input_asset_invalid")
+            continue
+        try:
+            public_path = validate_relative_path(str(asset.get("path") or ""))
+        except ValueError:
+            findings.append("public_input_asset_path_invalid")
+            public_path = ""
+        if public_path.startswith(("outputs/", "private_input/", "hidden_reference/")):
+            findings.append(f"public_input_asset_path_not_logical:{public_path}")
+        if asset.get("content") is None:
+            findings.append(f"public_input_asset_content_missing:{asset.get('path')}")
+        provenance = asset.get("provenance") or {}
+        if provenance.get("kind") not in {"source_copy", "deterministic_transform"}:
+            findings.append(f"public_input_asset_provenance_invalid:{asset.get('path')}")
+        if not str(provenance.get("derivation") or "").strip():
+            findings.append(f"public_input_asset_derivation_missing:{asset.get('path')}")
+        if provenance.get("introduced_values") not in ([], None):
+            findings.append(f"public_input_asset_introduces_values:{asset.get('path')}")
+        findings.extend(
+            _unknown_evidence(asset.get("source_evidence_ids"), evidence_ids, "public_asset")
+        )
+    paper_route = review.get("paper_route") or {}
+    route_completeness = paper_route.get("route_completeness") or {}
+    if route_completeness.get("status") != "confirmed":
+        findings.append("paper_route_completeness_not_confirmed")
+    if route_completeness.get("unresolved_fields"):
+        findings.append("paper_route_fields_unresolved")
+    if not route_completeness.get("closed_fields"):
+        findings.append("paper_route_closed_fields_missing")
+    disclosures = paper_route.get("autonomous_forbidden_disclosures") or []
+    if not isinstance(disclosures, list) or not disclosures:
+        findings.append("paper_route_forbidden_disclosures_missing")
+    truths = review.get("ground_truth_items") or []
+    if not truths:
+        findings.append("ground_truth_items_missing")
+    for truth in truths:
+        if not isinstance(truth, dict):
+            findings.append("ground_truth_item_invalid")
+            continue
+        if truth.get("acceptance_type") not in ACCEPTANCE_TYPES:
+            findings.append(f"invalid_acceptance_type:{truth.get('ground_truth_id')}")
+        if truth.get("evidence_grade") not in {"A", "B", "C", "D"}:
+            findings.append(f"invalid_evidence_grade:{truth.get('ground_truth_id')}")
+        if truth.get("claim_role") not in {"intermediate", "final"}:
+            findings.append(f"invalid_claim_role:{truth.get('ground_truth_id')}")
+        if truth.get("canonical_answer") in (None, "", [], {}) and not truth.get(
+            "required_propositions"
+        ):
+            findings.append(f"ground_truth_answer_missing:{truth.get('ground_truth_id')}")
+        findings.extend(_unknown_evidence(truth.get("evidence_ids"), evidence_ids, "ground_truth"))
+    findings.extend(validate_ground_truth_consistency(truths))
+    findings.extend(_review_disclosure_findings(review))
+    evidence_map = review.get("evidence_map") or []
+    if not evidence_map:
+        findings.append("evidence_map_missing")
+    findings.extend(
+        _unknown_evidence(
+            _evidence_map_ids(evidence_map, known_evidence_ids=evidence_ids),
+            evidence_ids,
+            "evidence_map",
+        )
+    )
+    for requirement in review.get("toolbox_requirements") or []:
+        if not isinstance(requirement, dict):
+            findings.append("toolbox_requirement_invalid")
+            continue
+        status = requirement.get("status")
+        if status not in {"available", "missing", "incompatible", "unknown"}:
+            findings.append("toolbox_requirement_status_invalid")
+        if not str(
+            requirement.get("software")
+            or requirement.get("tool")
+            or requirement.get("normalized_backend")
+            or ""
+        ).strip():
+            findings.append("toolbox_requirement_software_missing")
+    return sorted(set(findings))
+
+
+def validate_workflow_review(
+    review: dict[str, Any], evidence_ids: set[str]
+) -> list[str]:
+    """Validate full-paper-first selection and either success or scientific failure."""
+
+    findings: list[str] = []
+    decision = review.get("decision")
+    for field in (
+        "paper_workflow_inventory_complete",
+        "full_paper_workflow_checked",
+        "alternative_scope_search_complete",
+    ):
+        if review.get(field) is not True:
+            findings.append(f"workflow_review_{field}_false")
+    if not isinstance(review.get("workflow_inventory"), list):
+        findings.append("workflow_inventory_invalid")
+    evidence_map = review.get("evidence_map") or []
+    findings.extend(
+        _unknown_evidence(
+            _evidence_map_ids(evidence_map, known_evidence_ids=evidence_ids),
+            evidence_ids,
+            "workflow_review",
+        )
+    )
+    if decision == "scientific_not_constructible":
+        failure_code = str(review.get("failure_code") or "")
+        if failure_code not in SCIENTIFIC_FAILURE_CODES:
+            findings.append(f"scientific_failure_code_invalid:{failure_code or 'missing'}")
+        reasons = review.get("failure_reasons") or []
+        if not reasons:
+            findings.append("scientific_failure_reasons_missing")
+        for index, reason in enumerate(reasons):
+            if not isinstance(reason, dict):
+                findings.append(f"scientific_failure_reason_invalid:{index}")
+                continue
+            if not str(reason.get("scope_attempted") or "").strip():
+                findings.append(f"scientific_failure_scope_missing:{index}")
+            reason_code = str(reason.get("code") or "")
+            if reason_code not in SCIENTIFIC_FAILURE_CODES:
+                findings.append(f"scientific_failure_reason_code_invalid:{index}:{reason_code}")
+            if not str(reason.get("details") or "").strip():
+                findings.append(f"scientific_failure_details_missing:{index}")
+            if not reason.get("checked_sources"):
+                findings.append(f"scientific_failure_checked_sources_missing:{index}")
+            findings.extend(
+                _unknown_evidence(
+                    reason.get("evidence_ids"), evidence_ids, f"scientific_failure:{index}"
+                )
+            )
+        return sorted(set(findings))
+    if decision != "candidate_ready":
+        findings.append("workflow_review_decision_invalid")
+        return sorted(set(findings))
+    compatibility_review = dict(review)
+    compatibility_review["decision"] = "candidate_ready"
+    compatibility_review["reject_reasons"] = []
+    findings.extend(validate_scientific_review(compatibility_review, evidence_ids))
+    findings.extend(validate_workflow_scope(review.get("workflow_scope") or {}, evidence_ids))
+    findings.extend(
+        validate_complexity_profile(
+            review.get("complexity_profile") or {},
+            workflow_steps=review.get("workflow_steps") or [],
+        )
+    )
+    if review.get("failure_code") or review.get("failure_reasons"):
+        findings.append("ready_workflow_contains_failure_contract")
+    return sorted(set(findings))
+
+
+def validate_workflow_scope(scope: Any, evidence_ids: set[str]) -> list[str]:
+    if not isinstance(scope, dict):
+        return ["workflow_scope_invalid"]
+    findings: list[str] = []
+    kind = str(scope.get("kind") or "")
+    if kind not in WORKFLOW_SCOPE_KINDS:
+        findings.append(f"workflow_scope_kind_invalid:{kind or 'missing'}")
+    if not scope.get("included_workflow_ids"):
+        findings.append("workflow_scope_included_workflows_missing")
+    if not scope.get("included_claim_ids"):
+        findings.append("workflow_scope_included_claims_missing")
+    if not str(scope.get("selection_rationale") or "").strip():
+        findings.append("workflow_scope_selection_rationale_missing")
+    if kind != "full_paper_computational_workflow" and not scope.get(
+        "larger_scope_failure_reasons"
+    ):
+        findings.append("workflow_scope_larger_scope_reason_missing")
+    findings.extend(
+        _unknown_evidence(scope.get("scope_evidence_ids"), evidence_ids, "workflow_scope")
+    )
+    return sorted(set(findings))
+
+
+def validate_complexity_profile(
+    profile: Any, *, workflow_steps: Any
+) -> list[str]:
+    if not isinstance(profile, dict):
+        return ["complexity_profile_invalid"]
+    findings: list[str] = []
+    level = str(profile.get("level") or "")
+    if level not in {"medium", "high"}:
+        findings.append(
+            "task_not_challenging"
+            if level == "low_complexity_trivial"
+            else f"complexity_level_invalid:{level or 'missing'}"
+        )
+    count_fields = (
+        "scientific_core_operation_count",
+        "estimated_min_tool_calls",
+        "estimated_typical_tool_calls",
+        "dependency_edge_count",
+        "parallel_branch_count",
+        "system_or_state_count",
+        "software_capability_count",
+    )
+    counts: dict[str, int] = {}
+    for field in count_fields:
+        value = profile.get(field)
+        if not isinstance(value, int) or isinstance(value, bool) or value < 0:
+            findings.append(f"complexity_count_invalid:{field}")
+            counts[field] = 0
+        else:
+            counts[field] = value
+    if counts.get("estimated_typical_tool_calls", 0) < counts.get(
+        "estimated_min_tool_calls", 0
+    ):
+        findings.append("complexity_tool_call_estimates_inverted")
+    steps = [row for row in workflow_steps or [] if isinstance(row, dict)]
+    actual_edges = sum(len(row.get("depends_on") or []) for row in steps)
+    if counts.get("dependency_edge_count", 0) != actual_edges:
+        findings.append("complexity_dependency_count_mismatch")
+    typed_core_steps = [
+        row
+        for row in steps
+        if row.get("step_type") in {"core_computation", "scientific_analysis", "validation"}
+    ]
+    maximum_explainable_operations = len(typed_core_steps) * max(
+        1, counts.get("system_or_state_count", 0)
+    )
+    if typed_core_steps and counts.get(
+        "scientific_core_operation_count", 0
+    ) > maximum_explainable_operations:
+        findings.append("complexity_core_operations_inflated")
+    nontrivial_dimensions = sum(
+        condition
+        for condition in (
+            counts.get("scientific_core_operation_count", 0) >= 2,
+            counts.get("system_or_state_count", 0) >= 2,
+            counts.get("parallel_branch_count", 0) >= 2,
+            counts.get("dependency_edge_count", 0) >= 1,
+            counts.get("software_capability_count", 0) >= 2,
+            bool(profile.get("iterative_decisions")),
+            bool(profile.get("validation_operations")),
+        )
+    )
+    has_analysis = bool(
+        profile.get("reasoning_requirements")
+        or profile.get("validation_operations")
+        or any(
+            row.get("step_type") in {"scientific_analysis", "validation"} for row in steps
+        )
+    )
+    if nontrivial_dimensions < 1 or not has_analysis:
+        findings.append("task_not_challenging")
+    if counts.get("scientific_core_operation_count", 0) < 1:
+        findings.append("scientific_core_operation_missing")
+    if counts.get("estimated_min_tool_calls", 0) < 1:
+        findings.append("estimated_tool_calls_missing")
+    return sorted(set(findings))
+
+
+def _contains_review_placeholder(value: Any) -> bool:
+    serialized = json.dumps(value, ensure_ascii=False, sort_keys=True).casefold()
+    placeholder_values = (
+        '"key": "value"',
+        '"reject reasons"',
+        '"scientific question"',
+        '"public scientific question"',
+        '"task pair id"',
+        '"task direction"',
+        '"workflow summary"',
+        '"stage05 candidate disposition"',
+    )
+    return any(token in serialized for token in placeholder_values)
+
+
+def _evidence_map_ids(
+    value: Any, *, known_evidence_ids: set[str] | None = None
+) -> list[str]:
+    """Collect evidence references recursively without assuming an ID prefix."""
+
+    known = known_evidence_ids or set()
+    output: list[str] = []
+
+    def add(candidate: Any) -> None:
+        if candidate in (None, ""):
+            return
+        identifier = str(candidate)
+        if identifier not in output:
+            output.append(identifier)
+
+    def visit(node: Any) -> None:
+        if isinstance(node, dict):
+            add(node.get("evidence_id"))
+            evidence_ids = node.get("evidence_ids")
+            if isinstance(evidence_ids, (list, tuple, set)):
+                for identifier in evidence_ids:
+                    add(identifier)
+            elif evidence_ids not in (None, ""):
+                add(evidence_ids)
+            for key, nested in node.items():
+                if str(key) in known:
+                    add(key)
+                if key not in {"evidence_id", "evidence_ids"}:
+                    visit(nested)
+            return
+        if isinstance(node, (list, tuple, set)):
+            for nested in node:
+                if isinstance(nested, str) and nested in known:
+                    add(nested)
+                else:
+                    visit(nested)
+
+    visit(value)
+    return output
+
+
+def _public_boundary_contract_findings(
+    value: Any, *, evidence_ids: set[str]
+) -> list[str]:
+    if not isinstance(value, list) or not value:
+        return ["public_boundary_conditions_missing"]
+    findings: list[str] = []
+    for index, row in enumerate(value):
+        if not isinstance(row, dict):
+            findings.append(f"public_boundary_condition_invalid:{index}")
+            continue
+        name = str(row.get("name") or row.get("condition") or row.get("type") or "").strip()
+        if not name:
+            findings.append(f"public_boundary_condition_name_missing:{index}")
+        if row.get("value") in (None, "", [], {}):
+            findings.append(f"public_boundary_condition_value_missing:{index}")
+        findings.extend(
+            _unknown_evidence(
+                row.get("evidence_ids"),
+                evidence_ids,
+                f"public_boundary_condition:{index}",
+            )
+        )
+    return findings
+
+
+def _route_boundary_coverage_findings(
+    review: dict[str, Any], *, boundary_conditions: Any
+) -> list[str]:
+    public_conditions = [
+        row for row in boundary_conditions or [] if isinstance(row, dict)
+    ]
+    periodic_target = any(
+        _boundary_kind(str(row.get("name") or row.get("condition") or row.get("type") or ""))
+        == "periodic"
+        and _periodic_boundary_enabled(row.get("value"))
+        for row in public_conditions
+    )
+    findings: list[str] = []
+    for name, value in _route_boundary_parameters(review):
+        kind = _boundary_kind(name)
+        if kind is None or (kind == "multiplicity" and periodic_target):
+            continue
+        aliases = {_normalize_text(alias) for alias in _boundary_value_aliases(name, value)}
+        aliases.discard("")
+        if not aliases:
+            continue
+        matching_conditions = [
+            row
+            for row in public_conditions
+            if _boundary_kind(
+                str(row.get("name") or row.get("condition") or row.get("type") or "")
+            )
+            == kind
+        ]
+        disclosed = any(
+            _boundary_values_equivalent(
+                name,
+                value,
+                str(
+                    row.get("name")
+                    or row.get("condition")
+                    or row.get("type")
+                    or kind
+                ),
+                row.get("value"),
+            )
+            for row in matching_conditions
+        )
+        if not disclosed:
+            findings.append(
+                f"public_boundary_not_disclosed:{name}:{sorted(aliases)[0]}"
+            )
+    return sorted(set(findings))
+
+
+def _boundary_kind(name: str) -> str | None:
+    normalized = name.casefold().replace("-", "_").replace(" ", "_")
+    aliases = (
+        (("solvent", "solvation", "medium", "environment"), "medium"),
+        (("temperature",), "temperature"),
+        (("pressure",), "pressure"),
+        (("multiplicity",), "multiplicity"),
+        (("protonation",), "protonation"),
+        (("periodic", "boundary"), "periodic"),
+        (("ensemble",), "ensemble"),
+        (("electric_field",), "electric_field"),
+        (("charge",), "charge"),
+    )
+    matched = next(
+        (kind for markers, kind in aliases if any(marker in normalized for marker in markers)),
+        None,
+    )
+    if matched is not None:
+        return matched
+    return "ph" if re.search(r"(?:^|_)ph(?:_|$)", normalized) else None
+
+
+def _periodic_boundary_enabled(value: Any) -> bool:
+    if isinstance(value, bool):
+        return value
+    normalized = _normalize_text(str(value or ""))
+    return bool(
+        normalized
+        and "periodic" in normalized
+        and not re.search(r"\b(?:non periodic|nonperiodic|finite|isolated)\b", normalized)
+    )
+
+
+def _boundary_values_equivalent(
+    left_name: str, left_value: Any, right_name: str, right_value: Any
+) -> bool:
+    left_aliases = {
+        _normalize_text(alias)
+        for alias in _boundary_value_aliases(left_name, left_value)
+        if _normalize_text(alias)
+    }
+    right_aliases = {
+        _normalize_text(alias)
+        for alias in _boundary_value_aliases(right_name, right_value)
+        if _normalize_text(alias)
+    }
+    if left_aliases & right_aliases:
+        return True
+    left_number = _first_numeric_value(left_value)
+    right_number = _first_numeric_value(right_value)
+    return (
+        left_number is not None
+        and right_number is not None
+        and math.isclose(left_number, right_number, rel_tol=1e-9, abs_tol=1e-9)
+    )
+
+
+def _first_numeric_value(value: Any) -> float | None:
+    if isinstance(value, bool):
+        return None
+    if isinstance(value, (int, float)):
+        return float(value)
+    match = re.search(r"(?<![A-Za-z0-9.])[+-]?\d+(?:\.\d+)?", str(value or ""))
+    return float(match.group(0)) if match else None
+
+
+def _route_boundary_parameters(review: dict[str, Any]) -> list[tuple[str, Any]]:
+    markers = (
+        "solvent",
+        "solvation",
+        "medium",
+        "temperature",
+        "pressure",
+        "ph",
+        "charge",
+        "multiplicity",
+        "protonation",
+        "periodic",
+        "boundary",
+        "ensemble",
+        "electric_field",
+    )
+    values: list[tuple[str, Any]] = []
+
+    def visit(value: Any, key: str = "") -> None:
+        if isinstance(value, dict):
+            for nested_key, nested in value.items():
+                visit(nested, str(nested_key))
+            return
+        if isinstance(value, list):
+            for nested in value:
+                visit(nested, key)
+            return
+        normalized_key = key.casefold().replace("-", "_")
+        if any(marker in normalized_key for marker in markers) and value not in (None, ""):
+            values.append((normalized_key, value))
+
+    for step in review.get("workflow_steps") or []:
+        if isinstance(step, dict):
+            visit(step.get("method_parameters") or {})
+    paper_route = review.get("paper_route") or {}
+    for key in ("route_steps", "workflow_steps", "steps"):
+        for step in paper_route.get(key) or []:
+            if isinstance(step, dict):
+                visit(step.get("method_parameters") or {})
+    return values
+
+
+def _boundary_value_aliases(name: str, value: Any) -> list[str]:
+    if isinstance(value, bool):
+        return []
+    raw = str(value).strip()
+    if not raw:
+        return []
+    normalized_name = name.casefold()
+    normalized_raw = _normalize_text(raw)
+    if "charge" in normalized_name and (
+        raw in {"0", "+0", "0.0"} or "neutral" in normalized_raw
+    ):
+        return ["neutral", "charge 0"]
+    if "multiplicity" in normalized_name and (
+        raw in {"1", "1.0"} or "singlet" in normalized_raw
+    ):
+        return ["singlet", "multiplicity 1"]
+    if any(marker in normalized_name for marker in ("solvent", "solvation", "medium")):
+        candidate = (
+            re.split(r"[=:]", raw)[-1]
+            if re.search(r"[=:]", raw)
+            else re.split(r"[,;(]", raw, maxsplit=1)[0]
+        )
+        candidate = re.sub(
+            r"\b(?:pcm|cpcm|smd|cosmo|implicit|explicit|solvent|solvation|target|chemical|medium|environment)\b",
+            " ",
+            candidate,
+            flags=re.IGNORECASE,
+        )
+        candidate = _normalize_text(candidate)
+        return [candidate] if len(candidate) >= 3 else []
+    if "periodic" in normalized_name:
+        if re.search(r"\b(?:non periodic|finite|isolated)\b", normalized_raw):
+            return ["non-periodic", "finite"]
+        if "periodic" in normalized_raw:
+            return ["periodic"]
+    return [normalized_raw] if len(normalized_raw) >= 3 else []
+
+
+def _allowed_public_boundary_aliases(boundary_conditions: Any) -> set[str]:
+    aliases: set[str] = set()
+    for index, row in enumerate(boundary_conditions or []):
+        if not isinstance(row, dict):
+            continue
+        name = str(row.get("name") or row.get("condition") or row.get("type") or index)
+        aliases.update(
+            _normalize_text(alias)
+            for alias in _boundary_value_aliases(name, row.get("value"))
+            if _normalize_text(alias)
+        )
+    return aliases
+
+
+def validate_task_boundary_conditions(
+    task_root: Path, *, expected_conditions: Any
+) -> list[str]:
+    if not isinstance(expected_conditions, list) or not expected_conditions:
+        return ["task_expected_boundary_conditions_missing"]
+    try:
+        spec = read_json(task_root / "task_spec.json")
+        task_text = (task_root / "task.md").read_text(
+            encoding="utf-8", errors="replace"
+        )
+    except (OSError, json.JSONDecodeError) as exc:
+        return [f"task_boundary_artifact_unreadable:{type(exc).__name__}"]
+    findings: list[str] = []
+    if spec.get("boundary_conditions") != expected_conditions:
+        findings.append("task_boundary_conditions_not_frozen_from_public_basis")
+    normalized_task = _normalize_text(task_text)
+    for index, row in enumerate(expected_conditions):
+        if not isinstance(row, dict):
+            continue
+        name = str(row.get("name") or row.get("condition") or row.get("type") or index)
+        aliases = _boundary_value_aliases(name, row.get("value"))
+        if aliases and not any(_route_token_present(alias, normalized_task) for alias in aliases):
+            findings.append(f"task_instruction_boundary_missing:{name}:{aliases[0]}")
+        if any(marker in name.casefold() for marker in ("solvent", "medium", "environment")):
+            value_text = _normalize_text(str(row.get("value") or ""))
+            if value_text not in {"", "gas", "gas phase", "vacuum", "none"} and (
+                _declares_conflicting_medium(normalized_task)
+            ):
+                findings.append(f"task_instruction_boundary_conflict:{name}")
+    return sorted(set(findings))
+
+
+def _declares_conflicting_medium(normalized_task: str) -> bool:
+    patterns = (
+        r"\b(?:use|using|assume|assuming|model|modeling|run|running|treat|treating|set)\b.{0,32}\b(?:gas phase|vacuum|no solvent)\b",
+        r"\b(?:solvent|medium|environment)\s*(?:is|as|to|=|:)\s*(?:gas|gas phase|vacuum|none)\b",
+        r"\bin (?:the )?(?:gas phase|vacuum)\b",
+    )
+    return any(re.search(pattern, normalized_task) for pattern in patterns)
+
+
+def validate_autonomous_route_isolation(
+    task_root: Path,
+    *,
+    paper_route: dict[str, Any],
+    allowed_boundary_conditions: Any,
+) -> list[str]:
+    public_text = _normalize_text(
+        "\n".join(
+            path.read_text(encoding="utf-8", errors="replace")
+            for path in task_root.rglob("*")
+            if path.is_file()
+            and path.suffix.casefold() in {".md", ".json", ".txt", ".csv", ".tsv"}
+        )
+    )
+    allowed_boundary_aliases = _allowed_public_boundary_aliases(
+        allowed_boundary_conditions
+    )
+    declared_tokens = paper_route.get("autonomous_forbidden_disclosures") or []
+    route_tokens = {
+        _normalize_text(str(token))
+        for token in [*declared_tokens, *_structured_route_tokens(paper_route)]
+        if _normalize_text(str(token))
+    }
+    findings = []
+    for token in sorted(route_tokens):
+        if token in allowed_boundary_aliases:
+            continue
+        if _route_token_present(token, public_text):
+            findings.append(f"autonomous_route_disclosure:{token}")
+    return findings
+
+
+def validate_mode_task(task_root: Path, *, expected_mode: str) -> list[str]:
+    findings: list[str] = []
+    required = [
+        "task.md",
+        "task_info.json",
+        "task_spec.json",
+        "submission_contract.json",
+        "process_rubric.json",
+    ]
+    for name in required:
+        if not (task_root / name).is_file():
+            findings.append(f"missing_public_file:{name}")
+    if findings:
+        return findings
+    task_info = read_json(task_root / "task_info.json")
+    task_spec = read_json(task_root / "task_spec.json")
+    submission_contract = read_json(task_root / "submission_contract.json")
+    findings.extend(_evaluation_task_info_findings(task_info))
+    expected_task_mode = (
+        "open_discovery" if expected_mode == "autonomous_research" else "guided_reproduction"
+    )
+    if task_info.get("task_mode") != expected_task_mode:
+        findings.append("task_mode_mismatch")
+    if task_info.get("mode") != expected_mode:
+        findings.append("task_info_mode_mismatch")
+    if task_info.get("scientific_mode") != expected_mode:
+        findings.append("task_info_scientific_mode_mismatch")
+    suffix = "_autonomous" if expected_mode == "autonomous_research" else "_reproduction"
+    task_id = str(task_info.get("task_id") or "")
+    if not task_id.endswith(suffix):
+        findings.append("task_id_mode_suffix_mismatch")
+    if task_spec.get("mode") != expected_mode:
+        findings.append("task_spec_mode_mismatch")
+    if task_spec.get("task_mode") != expected_task_mode:
+        findings.append("task_spec_task_mode_mismatch")
+    if task_spec.get("scientific_mode") != expected_mode:
+        findings.append("task_spec_scientific_mode_mismatch")
+    if task_spec.get("task_id") != task_id:
+        findings.append("task_spec_task_id_mismatch")
+    if not str(task_info.get("task_pair_id") or "").strip():
+        findings.append("task_info_task_pair_id_missing")
+    if task_spec.get("task_pair_id") != task_info.get("task_pair_id"):
+        findings.append("task_spec_task_pair_id_mismatch")
+    if not str(task_info.get("task") or "").strip():
+        findings.append("task_instruction_missing")
+    if not task_info.get("required_deliverables"):
+        findings.append("required_deliverables_missing")
+    else:
+        deliverable_paths: list[str] = []
+        for deliverable in task_info.get("required_deliverables") or []:
+            try:
+                path = validate_relative_path(str(deliverable.get("path") or ""))
+            except (AttributeError, ValueError):
+                findings.append("required_deliverable_path_invalid")
+                continue
+            deliverable_paths.append(path)
+        contract_paths = submission_contract.get("required_files") or []
+        if sorted(deliverable_paths) != sorted(str(path) for path in contract_paths):
+            findings.append("submission_contract_deliverables_mismatch")
+    rubric = read_json(task_root / "process_rubric.json")
+    findings.extend(validate_rubric(rubric, expected_total=100, label="process"))
+    input_root = task_root / "data" / "inputs"
+    if not input_root.is_dir():
+        findings.append("inputs_directory_missing")
+    else:
+        for asset in task_spec.get("input_assets") or []:
+            try:
+                relative = validate_relative_path(str(asset.get("path") or ""))
+            except (AttributeError, ValueError):
+                findings.append("task_spec_input_path_invalid")
+                continue
+            relative = relative.removeprefix("data/inputs/").removeprefix("inputs/")
+            if not (input_root / relative).is_file():
+                findings.append(f"task_spec_input_missing:{relative}")
+    public_runtime_text = "\n".join(
+        path.read_text(encoding="utf-8", errors="replace")
+        for path in task_root.rglob("*")
+        if path.is_file() and path.suffix.casefold() in {".md", ".json", ".txt"}
+    )
+    if "task/inputs" in public_runtime_text or "task/outputs" in public_runtime_text:
+        findings.append("construction_workspace_path_leaked")
+    if "inputs/documents/" in public_runtime_text or "outputs/public_inputs/" in public_runtime_text:
+        findings.append("construction_source_path_leaked")
+    if expected_mode == "paper_reproduction":
+        for name in ("paper_route.md", "workflow_spec.json", "route_evidence_map.json"):
+            if not (task_root / name).is_file():
+                findings.append(f"missing_reproduction_file:{name}")
+        route_criteria = [
+            row
+            for row in rubric
+            if isinstance(row, dict)
+            and any(
+                token in json.dumps(row, ensure_ascii=False).casefold()
+                for token in ("route fidelity", "route_fidelity", "paper route")
+            )
+        ]
+        if not route_criteria:
+            findings.append("reproduction_route_fidelity_rubric_missing")
+        required_files = {
+            str(path) for path in submission_contract.get("required_files") or []
+        }
+        for criterion in route_criteria:
+            evidence_artifacts = criterion.get("evidence_artifacts") or []
+            if isinstance(evidence_artifacts, str):
+                evidence_artifacts = [evidence_artifacts]
+            if not evidence_artifacts:
+                findings.append("reproduction_route_fidelity_evidence_missing")
+            for artifact_path in evidence_artifacts:
+                if str(artifact_path) not in required_files:
+                    findings.append(
+                        "reproduction_route_fidelity_evidence_not_required:"
+                        f"{artifact_path}"
+                    )
+    return findings
+
+
+def validate_hidden_reference(
+    hidden: dict[str, Any],
+    *,
+    expected_ground_truth_items: list[dict[str, Any]] | None = None,
+    submission_contract: dict[str, Any] | None = None,
+) -> list[str]:
+    findings: list[str] = []
+    if hidden.get("status") != "ready":
+        return ["hidden_reference_not_ready"]
+    profiles = hidden.get("acceptance_profiles") or []
+    profile_ids = [row.get("acceptance_profile_id") for row in profiles]
+    if not profiles or None in profile_ids or len(profile_ids) != len(set(profile_ids)):
+        findings.append("acceptance_profile_ids_invalid")
+    for profile in profiles:
+        if profile.get("type") not in ACCEPTANCE_TYPES:
+            findings.append(f"invalid_acceptance_profile:{profile.get('acceptance_profile_id')}")
+        findings.extend(
+            _acceptance_profile_findings(
+                profile,
+                submission_contract=submission_contract,
+            )
+        )
+    truths = hidden.get("ground_truth_items") or []
+    if not truths:
+        findings.append("hidden_ground_truth_empty")
+    truth_ids = [row.get("ground_truth_id") for row in truths]
+    if None in truth_ids or len(truth_ids) != len(set(truth_ids)):
+        findings.append("ground_truth_ids_invalid")
+    profile_owners: dict[str, list[str]] = {}
+    profiles_by_id = {
+        str(row.get("acceptance_profile_id")): row
+        for row in profiles
+        if isinstance(row, dict) and row.get("acceptance_profile_id")
+    }
+    for truth in truths:
+        ground_truth_id = str(truth.get("ground_truth_id") or "missing")
+        profile_id = truth.get("acceptance_profile_id")
+        if profile_id not in profile_ids:
+            findings.append(f"ground_truth_profile_missing:{truth.get('ground_truth_id')}")
+        else:
+            profile_owners.setdefault(str(profile_id), []).append(ground_truth_id)
+        if truth.get("evidence_grade") not in {"A", "B", "C", "D"}:
+            findings.append(f"hidden_evidence_grade_invalid:{truth.get('ground_truth_id')}")
+        if truth.get("claim_role") not in {"intermediate", "final"}:
+            findings.append(f"hidden_claim_role_invalid:{truth.get('ground_truth_id')}")
+        if truth.get("applies_to_modes") not in (
+            ["autonomous_research", "paper_reproduction"],
+            ["paper_reproduction", "autonomous_research"],
+        ):
+            findings.append(f"ground_truth_mode_scope_invalid:{truth.get('ground_truth_id')}")
+        profile = profiles_by_id.get(str(profile_id))
+        if profile is not None:
+            findings.extend(_ground_truth_profile_consistency_findings(truth, profile))
+    findings.extend(validate_ground_truth_consistency(truths))
+    for profile_id in profile_ids:
+        if len(profile_owners.get(str(profile_id), [])) != 1:
+            findings.append(f"acceptance_profile_not_item_specific:{profile_id}")
+    if expected_ground_truth_items is not None:
+        findings.extend(_frozen_ground_truth_findings(truths, expected_ground_truth_items))
+
+    rubric = hidden.get("scientific_conclusion_rubric") or []
+    covered_truth_ids: set[str] = set()
+    for criterion in rubric:
+        if not isinstance(criterion, dict):
+            continue
+        criterion_id = str(criterion.get("id") or "missing")
+        if _contains_scoring_placeholder(
+            {
+                "statement": criterion.get("statement"),
+                "acceptance_rule": criterion.get("acceptance_rule"),
+            }
+        ):
+            findings.append(f"conclusion_rubric_placeholder:{criterion_id}")
+        criterion_truth_ids = criterion.get("ground_truth_ids") or []
+        criterion_profile_ids = criterion.get("acceptance_profile_ids") or []
+        if not criterion_truth_ids:
+            findings.append(f"conclusion_rubric_ground_truth_refs_missing:{criterion_id}")
+        if not criterion_profile_ids:
+            findings.append(f"conclusion_rubric_profile_refs_missing:{criterion_id}")
+        for ground_truth_id in criterion_truth_ids:
+            if ground_truth_id not in truth_ids:
+                findings.append(
+                    f"conclusion_rubric_ground_truth_ref_unknown:{criterion_id}:{ground_truth_id}"
+                )
+            else:
+                covered_truth_ids.add(str(ground_truth_id))
+        for profile_id in criterion_profile_ids:
+            if profile_id not in profile_ids:
+                findings.append(
+                    f"conclusion_rubric_profile_ref_unknown:{criterion_id}:{profile_id}"
+                )
+        expected_profiles = {
+            str(truth.get("acceptance_profile_id"))
+            for truth in truths
+            if truth.get("ground_truth_id") in criterion_truth_ids
+        }
+        if expected_profiles and not expected_profiles.issubset(set(criterion_profile_ids)):
+            findings.append(f"conclusion_rubric_profile_ref_mismatch:{criterion_id}")
+    for ground_truth_id in set(str(value) for value in truth_ids if value):
+        if ground_truth_id not in covered_truth_ids:
+            findings.append(f"ground_truth_not_scored:{ground_truth_id}")
+    findings.extend(
+        validate_rubric(
+            rubric,
+            expected_total=100,
+            label="conclusion",
+            require_conclusion_fields=True,
+        )
+    )
+    if _contains_scoring_placeholder(hidden.get("summary")):
+        findings.append("hidden_summary_placeholder")
+    return sorted(set(findings))
+
+
+def validate_ground_truth_consistency(truths: Any) -> list[str]:
+    """Catch deterministic numeric/text contradictions before model-based auditing."""
+
+    findings: list[str] = []
+    for truth in truths if isinstance(truths, list) else []:
+        if not isinstance(truth, dict):
+            continue
+        identifier = str(truth.get("ground_truth_id") or "missing")
+        required = {
+            _normalize_text(_proposition_text(row))
+            for row in truth.get("required_propositions") or []
+            if _normalize_text(_proposition_text(row))
+        }
+        forbidden = {
+            _normalize_text(_proposition_text(row))
+            for row in truth.get("forbidden_contradictions") or []
+            if _normalize_text(_proposition_text(row))
+        }
+        if required & forbidden:
+            findings.append(f"ground_truth_required_forbidden_conflict:{identifier}")
+        canonical = truth.get("canonical_answer")
+        if isinstance(canonical, str):
+            normalized_canonical = _normalize_text(canonical)
+            if normalized_canonical and normalized_canonical in forbidden:
+                findings.append(f"ground_truth_canonical_forbidden_conflict:{identifier}")
+        for key, number in _numeric_ground_truth_values(canonical):
+            key_text = _normalize_text(key.replace("_", " ").replace("-", " "))
+            if not key_text:
+                continue
+            for proposition in required:
+                if key_text not in proposition:
+                    continue
+                if number < 0 and re.search(r"\b(?:positive|greater than zero|above zero)\b", proposition):
+                    findings.append(f"ground_truth_numeric_text_sign_conflict:{identifier}:{key}")
+                if number > 0 and re.search(r"\b(?:negative|less than zero|below zero)\b", proposition):
+                    findings.append(f"ground_truth_numeric_text_sign_conflict:{identifier}:{key}")
+    return sorted(set(findings))
+
+
+def _ground_truth_profile_consistency_findings(
+    truth: dict[str, Any], profile: dict[str, Any]
+) -> list[str]:
+    identifier = str(truth.get("ground_truth_id") or "missing")
+    profile_type = str(profile.get("type") or "")
+    canonical = truth.get("canonical_answer")
+    findings: list[str] = []
+    if profile_type == "numeric_tolerance":
+        numeric_values = _numeric_ground_truth_values(canonical)
+        target = profile.get("target")
+        if len(numeric_values) == 1 and isinstance(target, (int, float)):
+            if not math.isclose(float(numeric_values[0][1]), float(target), rel_tol=1e-12, abs_tol=1e-12):
+                findings.append(f"ground_truth_numeric_profile_conflict:{identifier}")
+    elif profile_type == "categorical" and profile.get("target") != canonical:
+        findings.append(f"ground_truth_categorical_profile_conflict:{identifier}")
+    elif profile_type == "ranking" and isinstance(canonical, list):
+        target_order = profile.get("target_order")
+        if target_order is not None and target_order != canonical:
+            findings.append(f"ground_truth_ranking_profile_conflict:{identifier}")
+    elif profile_type in {"mechanism_claim", "semantic_propositions"}:
+        truth_required = {
+            _normalize_text(_proposition_text(row))
+            for row in truth.get("required_propositions") or []
+        }
+        profile_required = {
+            _normalize_text(_proposition_text(row))
+            for row in profile.get("required_propositions") or []
+        }
+        if truth_required and profile_required and truth_required != profile_required:
+            findings.append(f"ground_truth_semantic_profile_conflict:{identifier}")
+    binding = profile.get("submission_binding") or {}
+    projection = binding.get("canonical_projection")
+    if projection is not None:
+        # Textual conclusions are intentionally represented twice: the human-readable
+        # canonical answer lives on the Ground Truth item, while the submission
+        # binding stores the machine-checkable proposition set.  Comparing those
+        # JSON shapes directly rejects valid semantic answers.
+        if profile_type in {"mechanism_claim", "semantic_propositions"}:
+            profile_required = {
+                _normalize_text(_proposition_text(row))
+                for row in profile.get("required_propositions") or []
+                if _normalize_text(_proposition_text(row))
+            }
+            profile_forbidden = {
+                _normalize_text(_proposition_text(row))
+                for row in profile.get("forbidden_contradictions") or []
+                if _normalize_text(_proposition_text(row))
+            }
+            projected_required = {
+                _normalize_text(_proposition_text(row))
+                for row in (projection.get("required_propositions") or [])
+                if _normalize_text(_proposition_text(row))
+            } if isinstance(projection, dict) else set()
+            projected_forbidden = {
+                _normalize_text(_proposition_text(row))
+                for row in (projection.get("forbidden_contradictions") or [])
+                if _normalize_text(_proposition_text(row))
+            } if isinstance(projection, dict) else set()
+            truth_required = {
+                _normalize_text(_proposition_text(row))
+                for row in truth.get("required_propositions") or []
+                if _normalize_text(_proposition_text(row))
+            }
+            truth_forbidden = {
+                _normalize_text(_proposition_text(row))
+                for row in truth.get("forbidden_contradictions") or []
+                if _normalize_text(_proposition_text(row))
+            }
+            if truth_required != profile_required or truth_forbidden != profile_forbidden:
+                findings.append(f"ground_truth_submission_projection_conflict:{identifier}")
+            if isinstance(projection, dict) and (
+                ("required_propositions" in projection and projected_required != truth_required)
+                or ("forbidden_contradictions" in projection and projected_forbidden != truth_forbidden)
+            ):
+                findings.append(f"ground_truth_submission_projection_conflict:{identifier}")
+        elif not _canonical_projection_matches(canonical, projection):
+            findings.append(f"ground_truth_submission_projection_conflict:{identifier}")
+    return findings
+
+
+def _numeric_ground_truth_values(value: Any) -> list[tuple[str, float]]:
+    if isinstance(value, bool):
+        return []
+    if isinstance(value, (int, float)):
+        return [("value", float(value))]
+    if not isinstance(value, dict):
+        return []
+    return [
+        (str(key), float(nested))
+        for key, nested in value.items()
+        if isinstance(nested, (int, float)) and not isinstance(nested, bool)
+    ]
+
+
+def _proposition_text(value: Any) -> str:
+    if isinstance(value, dict):
+        return str(value.get("statement") or value.get("text") or "")
+    return str(value or "")
+
+
+def _canonical_projection_matches(canonical: Any, projection: Any) -> bool:
+    if canonical == projection:
+        return True
+    if isinstance(canonical, dict) and isinstance(projection, dict):
+        return all(key in projection and projection[key] == value for key, value in canonical.items())
+    numeric = _numeric_ground_truth_values(canonical)
+    return len(numeric) == 1 and isinstance(projection, (int, float)) and math.isclose(
+        numeric[0][1], float(projection), rel_tol=1e-12, abs_tol=1e-12
+    )
+
+
+def _frozen_ground_truth_findings(
+    actual: list[dict[str, Any]], expected: list[dict[str, Any]]
+) -> list[str]:
+    findings: list[str] = []
+    actual_by_id = {str(row.get("ground_truth_id")): row for row in actual}
+    expected_by_id = {str(row.get("ground_truth_id")): row for row in expected}
+    if set(actual_by_id) != set(expected_by_id):
+        findings.append("hidden_ground_truth_target_set_changed")
+    frozen_fields = (
+        "kind",
+        "canonical_answer",
+        "required_propositions",
+        "forbidden_contradictions",
+        "acceptance_type",
+        "acceptance_parameters",
+        "evidence_grade",
+        "evidence_ids",
+        "claim_role",
+    )
+    for ground_truth_id in sorted(set(actual_by_id) & set(expected_by_id)):
+        for field in frozen_fields:
+            if actual_by_id[ground_truth_id].get(field) != expected_by_id[ground_truth_id].get(
+                field
+            ):
+                findings.append(f"hidden_ground_truth_frozen_field_changed:{ground_truth_id}:{field}")
+    return findings
+
+
+def validate_task_pair(pair_root: Path) -> dict[str, Any]:
+    findings: list[str] = []
+    autonomous = pair_root / "autonomous_research"
+    reproduction = pair_root / "paper_reproduction"
+    hidden_root = pair_root / "hidden_reference"
+    construction_path = pair_root / "construction_record.json"
+    construction = read_json(construction_path) if construction_path.is_file() else {}
+    single_agent_pair = construction.get("mode_generation_strategy") == "single_agent"
+    findings.extend(validate_mode_task(autonomous, expected_mode="autonomous_research"))
+    findings.extend(validate_mode_task(reproduction, expected_mode="paper_reproduction"))
+    for name in ("paper_info.json", "evidence_index.json", "source_manifest.json"):
+        if not (pair_root / name).is_file():
+            findings.append(f"missing_pair_metadata:{name}")
+    workflow_review_path = pair_root / "workflow_review.json"
+    if single_agent_pair and not workflow_review_path.is_file():
+        findings.append("missing_pair_metadata:workflow_review.json")
+    if workflow_review_path.is_file():
+        workflow_review = read_json(workflow_review_path)
+        evidence_path = pair_root / "evidence_index.json"
+        evidence_ids = {
+            str(row.get("evidence_id"))
+            for row in (read_json(evidence_path) if evidence_path.is_file() else [])
+            if isinstance(row, dict) and row.get("evidence_id")
+        }
+        findings.extend(
+            validate_workflow_scope(
+                workflow_review.get("workflow_scope") or {}, evidence_ids
+            )
+        )
+        findings.extend(
+            validate_complexity_profile(
+                workflow_review.get("complexity_profile") or {},
+                workflow_steps=workflow_review.get("workflow_steps") or [],
+            )
+        )
+        for field in (
+            "paper_workflow_inventory_complete",
+            "full_paper_workflow_checked",
+            "alternative_scope_search_complete",
+        ):
+            if workflow_review.get(field) is not True:
+                findings.append(f"workflow_review_{field}_false")
+    common_path = hidden_root / "ground_truth_common.json"
+    if not common_path.is_file():
+        findings.append("missing_ground_truth_common")
+    else:
+        hidden = read_json(common_path)
+        submission_path = autonomous / "submission_contract.json"
+        findings.extend(
+            validate_hidden_reference(
+                hidden,
+                submission_contract=(
+                    read_json(submission_path) if submission_path.is_file() else None
+                ),
+            )
+        )
+        findings.extend(_evaluation_ground_truth_findings(pair_root, hidden))
+    autonomous_inputs = directory_manifest(autonomous / "data")
+    reproduction_inputs = directory_manifest(reproduction / "data")
+    if autonomous_inputs["content_hash"] != reproduction_inputs["content_hash"]:
+        findings.append("mode_input_assets_differ")
+    autonomous_submission = autonomous / "submission_contract.json"
+    reproduction_submission = reproduction / "submission_contract.json"
+    if autonomous_submission.is_file() and reproduction_submission.is_file() and read_json(
+        autonomous_submission
+    ) != read_json(reproduction_submission):
+        findings.append("mode_submission_contract_differs")
+    findings.extend(_pair_identity_findings(autonomous, reproduction))
+    findings.extend(_derived_copy_findings(autonomous, reproduction))
+    findings.extend(_autonomous_copy_integrity_findings(autonomous, reproduction))
+    disclosure_path = hidden_root / "disclosure_contract.json"
+    if disclosure_path.is_file():
+        disclosure = read_json(disclosure_path)
+        autonomous_allowed = disclosure.get("autonomous_allowed") or {}
+        public_basis = autonomous_allowed.get("public_task_basis") or {}
+        expected_boundaries = public_basis.get("boundary_conditions")
+        findings.extend(
+            validate_task_boundary_conditions(
+                autonomous,
+                expected_conditions=expected_boundaries,
+            )
+        )
+        findings.extend(
+            validate_task_boundary_conditions(
+                reproduction,
+                expected_conditions=expected_boundaries,
+            )
+        )
+        reproduction_allowed = disclosure.get("reproduction_additional_allowed") or {}
+        findings.extend(
+            validate_autonomous_route_isolation(
+                autonomous,
+                paper_route=reproduction_allowed.get("paper_route") or {},
+                allowed_boundary_conditions=expected_boundaries,
+            )
+        )
+    if common_path.is_file():
+        findings.extend(_leakage_findings(pair_root, read_json(common_path)))
+    return {
+        "passed": not findings,
+        "findings": sorted(set(findings)),
+        "autonomous_input_hash": autonomous_inputs["content_hash"],
+        "reproduction_input_hash": reproduction_inputs["content_hash"],
+    }
+
+
+def validate_task_pair_draft(
+    pair_root: Path,
+    *,
+    review: dict[str, Any],
+) -> list[str]:
+    """Validate Agent staging output before orchestrator metadata is materialized."""
+
+    findings: list[str] = []
+    autonomous = pair_root / "autonomous_research"
+    reproduction = pair_root / "paper_reproduction"
+    hidden_root = pair_root / "hidden_reference"
+    findings.extend(validate_mode_task(autonomous, expected_mode="autonomous_research"))
+    findings.extend(validate_mode_task(reproduction, expected_mode="paper_reproduction"))
+    hidden_path = hidden_root / "ground_truth_common.json"
+    if not hidden_path.is_file():
+        findings.append("missing_ground_truth_common")
+    elif (autonomous / "submission_contract.json").is_file():
+        findings.extend(
+            validate_hidden_reference(
+                read_json(hidden_path),
+                expected_ground_truth_items=review.get("ground_truth_items") or [],
+                submission_contract=read_json(autonomous / "submission_contract.json"),
+            )
+        )
+    if (autonomous / "data").is_dir() and (reproduction / "data").is_dir():
+        if directory_manifest(autonomous / "data")["content_hash"] != directory_manifest(
+            reproduction / "data"
+        )["content_hash"]:
+            findings.append("mode_input_assets_differ")
+    if (autonomous / "submission_contract.json").is_file() and (
+        reproduction / "submission_contract.json"
+    ).is_file():
+        if read_json(autonomous / "submission_contract.json") != read_json(
+            reproduction / "submission_contract.json"
+        ):
+            findings.append("mode_submission_contract_differs")
+    findings.extend(_pair_identity_findings(autonomous, reproduction))
+    findings.extend(_derived_copy_findings(autonomous, reproduction))
+    findings.extend(_autonomous_copy_integrity_findings(autonomous, reproduction))
+    public_basis = review.get("public_task_basis") or {}
+    boundary_conditions = public_basis.get("boundary_conditions")
+    findings.extend(
+        validate_task_boundary_conditions(
+            autonomous, expected_conditions=boundary_conditions
+        )
+    )
+    findings.extend(
+        validate_task_boundary_conditions(
+            reproduction, expected_conditions=boundary_conditions
+        )
+    )
+    findings.extend(
+        validate_autonomous_route_isolation(
+            autonomous,
+            paper_route=review.get("paper_route") or {},
+            allowed_boundary_conditions=boundary_conditions,
+        )
+    )
+    expected_scope = review.get("workflow_scope") or {}
+    expected_complexity = review.get("complexity_profile") or {}
+    for mode_root in (autonomous, reproduction):
+        for file_name in ("task_info.json", "task_spec.json"):
+            path = mode_root / file_name
+            if not path.is_file():
+                continue
+            value = read_json(path)
+            if value.get("workflow_scope") != expected_scope:
+                findings.append(f"mode_workflow_scope_not_frozen:{mode_root.name}:{file_name}")
+            if value.get("complexity_profile") != expected_complexity:
+                findings.append(
+                    f"mode_complexity_profile_not_frozen:{mode_root.name}:{file_name}"
+                )
+    for name in ("paper_route.md", "workflow_spec.json", "route_evidence_map.json"):
+        if (autonomous / name).exists():
+            findings.append(f"autonomous_reproduction_file_present:{name}")
+    return sorted(set(findings))
+
+
+def validate_rubric(
+    rubric: Any,
+    *,
+    expected_total: float,
+    label: str,
+    require_conclusion_fields: bool = False,
+) -> list[str]:
+    findings: list[str] = []
+    if not isinstance(rubric, list) or not rubric:
+        return [f"{label}_rubric_empty"]
+    ids: list[str] = []
+    total = 0.0
+    for row in rubric:
+        if not isinstance(row, dict):
+            findings.append(f"{label}_rubric_criterion_invalid")
+            continue
+        criterion_id = str(row.get("id") or "").strip()
+        try:
+            maximum = float(row.get("max_score") or 0)
+        except (TypeError, ValueError):
+            maximum = 0.0
+        if not criterion_id or maximum <= 0:
+            findings.append(f"{label}_rubric_criterion_invalid")
+        ids.append(criterion_id)
+        total += maximum
+        if require_conclusion_fields and (
+            not str(row.get("statement") or "").strip()
+            or not str(row.get("acceptance_rule") or "").strip()
+            or not row.get("required_evidence")
+        ):
+            findings.append(f"{label}_rubric_contract_incomplete:{criterion_id}")
+    if len(ids) != len(set(ids)):
+        findings.append(f"{label}_rubric_ids_not_unique")
+    if not math.isclose(total, expected_total, abs_tol=1e-8):
+        findings.append(f"{label}_rubric_total_is_{total:g}")
+    return findings
+
+
+def _review_disclosure_findings(review: dict[str, Any]) -> list[str]:
+    public_payload = {
+        "public_scientific_question": review.get("public_scientific_question"),
+        "public_task_basis": _without_asset_content(review.get("public_task_basis") or {}),
+    }
+    public_text = _normalize_text(json.dumps(public_payload, ensure_ascii=False, sort_keys=True))
+    raw_route_text = json.dumps(
+        {
+            "paper_route": review.get("paper_route") or {},
+            "workflow_steps": review.get("workflow_steps") or [],
+        },
+        ensure_ascii=False,
+        sort_keys=True,
+    )
+    route_text = _normalize_text(raw_route_text)
+    complete_public_text = _normalize_text(
+        json.dumps(
+            {
+                "public_scientific_question": review.get("public_scientific_question"),
+                "public_task_basis": review.get("public_task_basis") or {},
+            },
+            ensure_ascii=False,
+            sort_keys=True,
+        )
+    )
+    findings: list[str] = []
+    paper_route = review.get("paper_route") or {}
+    declared_tokens = paper_route.get("autonomous_forbidden_disclosures") or []
+    route_tokens = {
+        _normalize_text(str(token))
+        for token in [*declared_tokens, *_structured_route_tokens(paper_route)]
+        if _normalize_text(str(token))
+    }
+    allowed_boundary_aliases = _allowed_public_boundary_aliases(
+        (review.get("public_task_basis") or {}).get("boundary_conditions") or []
+    )
+    for token in sorted(route_tokens):
+        if token in allowed_boundary_aliases:
+            continue
+        if _route_token_present(token, complete_public_text):
+            findings.append(f"review_public_route_disclosure:{token}")
+    result_directive_patterns = (
+        r"\b(?:compare|comparison|agreement|match)\b.{0,120}\b(?:table|figure|fig)\s+[a-z0-9.-]+.{0,40}\b(?:value|result|trend)",
+        r"\b(?:compare|comparison|agreement|match)\b.{0,120}\b(?:paper|published|table|figure|fig)\b",
+        r"\b(?:verify|confirm)\b.{0,120}\b(?:lowest|ordering|character|matched|mismatched|efficient|inefficient)\b",
+    )
+    if any(
+        re.search(pattern, text, flags=re.IGNORECASE | re.DOTALL)
+        for text in _string_leaves(
+            {
+                "paper_route": review.get("paper_route") or {},
+                "workflow_steps": review.get("workflow_steps") or [],
+            }
+        )
+        for pattern in result_directive_patterns
+    ):
+        findings.append("review_reproduction_route_uses_hidden_result")
+    for truth in review.get("ground_truth_items") or []:
+        if not isinstance(truth, dict):
+            findings.append("review_ground_truth_item_invalid")
+            continue
+        identifier = str(truth.get("ground_truth_id") or "unknown")
+        tokens = _review_sensitive_values(truth.get("canonical_answer"))
+        if any(_sensitive_value_present(token, public_text) for token in tokens):
+            findings.append(f"review_public_answer_leakage:{identifier}")
+        if any(_sensitive_value_present(token, route_text) for token in tokens):
+            findings.append(f"review_paper_route_answer_leakage:{identifier}")
+        propositions = truth.get("required_propositions") or []
+        for proposition in propositions:
+            text = proposition.get("statement") if isinstance(proposition, dict) else proposition
+            normalized = _normalize_text(str(text or ""))
+            if len(normalized) < 48:
+                continue
+            if normalized in public_text:
+                findings.append(f"review_public_conclusion_leakage:{identifier}")
+            if normalized in route_text:
+                findings.append(f"review_paper_route_conclusion_leakage:{identifier}")
+    return findings
+
+
+def _string_leaves(value: Any) -> list[str]:
+    if isinstance(value, dict):
+        return [text for nested in value.values() for text in _string_leaves(nested)]
+    if isinstance(value, list):
+        return [text for nested in value for text in _string_leaves(nested)]
+    return [value] if isinstance(value, str) else []
+
+
+def _structured_route_tokens(route: dict[str, Any]) -> list[str]:
+    output: list[str] = []
+    route_fields = {
+        "software",
+        "program",
+        "package",
+        "functional",
+        "basis",
+        "basis_set",
+        "method",
+        "level_of_theory",
+        "ground_state",
+        "excited_state",
+        "force_field",
+    }
+
+    def visit(value: Any, key: str = "") -> None:
+        normalized_key = key.casefold().replace("-", "_")
+        if isinstance(value, dict):
+            for nested_key, nested in value.items():
+                visit(nested, str(nested_key))
+            return
+        if isinstance(value, list):
+            for nested in value:
+                visit(nested, key)
+            return
+        if normalized_key not in route_fields or not isinstance(value, str):
+            return
+        raw = value.strip()
+        if not raw:
+            return
+        if normalized_key in {"software", "program", "package"}:
+            output.append(raw)
+            output.extend(re.findall(r"[A-Za-z][A-Za-z0-9+.-]{3,}", raw))
+        for token in re.findall(r"[A-Za-z0-9][A-Za-z0-9+().-]{2,}", raw):
+            if any(character.isdigit() for character in token) or token.isupper():
+                output.append(token)
+
+    visit(route)
+    return output
+
+
+def _route_token_present(token: str, normalized_public: str) -> bool:
+    normalized = _normalize_text(token)
+    short_route_tokens = {"c2v", "dft", "md", "neb", "pcm", "smd"}
+    if len(normalized) < 4 and normalized not in short_route_tokens:
+        return False
+    return bool(
+        re.search(
+            rf"(?<![a-z0-9]){re.escape(normalized)}(?![a-z0-9])",
+            normalized_public,
+        )
+    )
+
+
+def _without_asset_content(value: Any) -> Any:
+    if isinstance(value, dict):
+        return {
+            key: _without_asset_content(nested)
+            for key, nested in value.items()
+            if key not in {"content", "content_path"}
+        }
+    if isinstance(value, list):
+        return [_without_asset_content(item) for item in value]
+    return value
+
+
+def _review_sensitive_values(value: Any) -> list[str]:
+    output: list[str] = []
+    if isinstance(value, dict):
+        for nested in value.values():
+            output.extend(_review_sensitive_values(nested))
+    elif isinstance(value, list):
+        for nested in value:
+            output.extend(_review_sensitive_values(nested))
+    elif isinstance(value, float):
+        output.append(str(value))
+    elif isinstance(value, int) and len(str(value).lstrip("+-")) >= 3:
+        output.append(str(value))
+    elif isinstance(value, str) and len(_normalize_text(value)) >= 48:
+        output.append(value)
+    return output
+
+
+def _pair_identity_findings(autonomous: Path, reproduction: Path) -> list[str]:
+    findings: list[str] = []
+    try:
+        a_info = read_json(autonomous / "task_info.json")
+        r_info = read_json(reproduction / "task_info.json")
+        a_spec = read_json(autonomous / "task_spec.json")
+        r_spec = read_json(reproduction / "task_spec.json")
+    except (OSError, json.JSONDecodeError):
+        return ["mode_pair_json_unreadable"]
+    for field in (
+        "source_id",
+        "category",
+        "benchmark_family",
+        "required_deliverables",
+        "data",
+        "archive_extractions",
+        "workflow_scope",
+        "complexity_profile",
+    ):
+        if a_info.get(field) != r_info.get(field):
+            findings.append(f"mode_pair_task_info_differs:{field}")
+    for field in (
+        "task_pair_id",
+        "scientific_question",
+        "target_definition",
+        "input_assets",
+        "boundary_conditions",
+        "workflow_scope",
+        "complexity_profile",
+    ):
+        if a_spec.get(field) != r_spec.get(field):
+            findings.append(f"mode_pair_task_spec_differs:{field}")
+    return findings
+
+
+def _autonomous_copy_integrity_findings(
+    autonomous: Path, reproduction: Path
+) -> list[str]:
+    if not (autonomous / "derived_from.json").is_file():
+        return []
+    editable = {
+        "task.md",
+        "task_info.json",
+        "task_spec.json",
+        "process_rubric.json",
+    }
+    generated = {"derived_from.json", "conversion_contract.json", "public_manifest.json"}
+    reproduction_only = {"paper_route.md", "workflow_spec.json", "route_evidence_map.json"}
+    before = {
+        row["path"]: row["sha256"]
+        for row in directory_manifest(reproduction).get("files") or []
+        if row["path"] != "public_manifest.json"
+    }
+    after = {
+        row["path"]: row["sha256"]
+        for row in directory_manifest(autonomous).get("files") or []
+        if row["path"] != "public_manifest.json"
+    }
+    findings: list[str] = []
+    for path, digest in before.items():
+        if path in editable or path in reproduction_only:
+            continue
+        if after.get(path) != digest:
+            findings.append(f"autonomous_immutable_file_changed:{path}")
+    allowed_after = (set(before) - reproduction_only) | editable | generated
+    for path in sorted(set(after) - allowed_after):
+        findings.append(f"autonomous_unauthorized_file_added:{path}")
+    return findings
+
+
+def _derived_copy_findings(autonomous: Path, reproduction: Path) -> list[str]:
+    autonomous_path = autonomous / "derived_from.json"
+    if autonomous_path.is_file():
+        value = read_json(autonomous_path)
+        findings: list[str] = []
+        if value.get("derived_from_mode") != "paper_reproduction":
+            findings.append("autonomous_copy_source_invalid")
+        expected_hash = _stable_mode_tree_hash(
+            reproduction, excluded={"public_manifest.json"}
+        )
+        if value.get("base_manifest_hash") != expected_hash:
+            findings.append("autonomous_base_manifest_hash_mismatch")
+        allowed = {
+            "task.md",
+            "task_info.json",
+            "task_spec.json",
+            "process_rubric.json",
+        }
+        if set(value.get("editable_files") or []) != allowed:
+            findings.append("autonomous_copy_edit_allowlist_invalid")
+        return findings
+
+    # Compatibility for task pairs built by the pre-v4 autonomous-first pipeline.
+    reproduction_path = reproduction / "derived_from.json"
+    if not reproduction_path.is_file():
+        return ["autonomous_copy_provenance_missing"]
+    value = read_json(reproduction_path)
+    findings = []
+    if value.get("derived_from_mode") != "autonomous_research":
+        findings.append("reproduction_copy_source_invalid")
+    if value.get("base_manifest_hash") != directory_manifest(autonomous)["content_hash"]:
+        findings.append("reproduction_base_manifest_hash_mismatch")
+    return findings
+
+
+def _stable_mode_tree_hash(root: Path, *, excluded: set[str]) -> str:
+    manifest = directory_manifest(root)
+    files = [
+        {"path": row["path"], "sha256": row["sha256"]}
+        for row in manifest.get("files") or []
+        if row.get("path") not in excluded
+    ]
+    return canonical_hash(files)
+
+
+def _acceptance_profile_findings(
+    profile: dict[str, Any],
+    *,
+    submission_contract: dict[str, Any] | None = None,
+) -> list[str]:
+    identifier = str(profile.get("acceptance_profile_id") or "missing")
+    profile_type = profile.get("type")
+    findings: list[str] = []
+    if profile_type == "numeric_tolerance":
+        if profile.get("target") is None or not str(profile.get("unit") or "").strip():
+            findings.append(f"numeric_acceptance_target_or_unit_missing:{identifier}")
+        if profile.get("absolute_tolerance") is None and profile.get("relative_tolerance") is None:
+            findings.append(f"numeric_acceptance_tolerance_missing:{identifier}")
+    elif profile_type == "categorical" and profile.get("target") is None:
+        findings.append(f"categorical_acceptance_target_missing:{identifier}")
+    elif profile_type == "ranking" and not (
+        profile.get("target_order") or profile.get("required_pairwise_relations")
+    ):
+        findings.append(f"ranking_acceptance_contract_missing:{identifier}")
+    elif profile_type == "trend" and not profile.get("required_trends"):
+        findings.append(f"trend_acceptance_contract_missing:{identifier}")
+    elif profile_type in {"structure_identity", "geometry_metric"} and not (
+        profile.get("target") or profile.get("metrics")
+    ):
+        findings.append(f"structure_acceptance_contract_missing:{identifier}")
+    elif profile_type in {"mechanism_claim", "semantic_propositions"} and not profile.get(
+        "required_propositions"
+    ):
+        findings.append(f"semantic_acceptance_contract_missing:{identifier}")
+    elif profile_type == "artifact_validation" and not profile.get("required_artifacts"):
+        findings.append(f"artifact_acceptance_contract_missing:{identifier}")
+    if submission_contract is not None:
+        findings.extend(
+            _submission_binding_findings(
+                profile,
+                submission_contract=submission_contract,
+                identifier=identifier,
+            )
+        )
+    return findings
+
+
+def _submission_binding_findings(
+    profile: dict[str, Any],
+    *,
+    submission_contract: dict[str, Any],
+    identifier: str,
+) -> list[str]:
+    binding = profile.get("submission_binding")
+    if not isinstance(binding, dict) or not binding:
+        return [f"acceptance_submission_binding_missing:{identifier}"]
+    findings: list[str] = []
+    if _contains_scoring_placeholder(binding):
+        findings.append(f"acceptance_submission_binding_placeholder:{identifier}")
+    artifact_paths = binding.get("artifact_paths") or []
+    if isinstance(artifact_paths, str):
+        artifact_paths = [artifact_paths]
+    required_paths = {
+        str(value)
+        for value in submission_contract.get("required_files") or []
+        if str(value)
+    }
+    if not artifact_paths:
+        findings.append(f"acceptance_submission_artifacts_missing:{identifier}")
+    for artifact_path in artifact_paths:
+        try:
+            normalized = validate_relative_path(str(artifact_path))
+        except ValueError:
+            findings.append(f"acceptance_submission_artifact_invalid:{identifier}")
+            continue
+        if normalized not in required_paths:
+            findings.append(
+                f"acceptance_submission_artifact_not_required:{identifier}:{normalized}"
+            )
+    observed_fields = binding.get("observed_fields") or []
+    if isinstance(observed_fields, str):
+        observed_fields = [observed_fields]
+    if not observed_fields or not all(str(value).strip() for value in observed_fields):
+        findings.append(f"acceptance_submission_fields_missing:{identifier}")
+    if "canonical_projection" not in binding or binding.get("canonical_projection") is None:
+        findings.append(f"acceptance_submission_projection_missing:{identifier}")
+    if not str(binding.get("comparison") or "").strip():
+        findings.append(f"acceptance_submission_comparison_missing:{identifier}")
+    return findings
+
+
+def _contains_scoring_placeholder(value: Any) -> bool:
+    serialized = json.dumps(value, ensure_ascii=False, sort_keys=True).casefold()
+    return any(token in serialized for token in ("agent_required", "todo", "replace_me"))
+
+
+def _evaluation_task_info_findings(task_info: dict[str, Any]) -> list[str]:
+    try:
+        TaskInfo, _ = _evaluation_models()
+        TaskInfo.model_validate(task_info)
+    except Exception as exc:
+        return [f"evaluation_task_info_invalid:{type(exc).__name__}:{str(exc)[:500]}"]
+    return []
+
+
+def _evaluation_ground_truth_findings(
+    pair_root: Path, hidden: dict[str, Any]
+) -> list[str]:
+    try:
+        _, GroundTruth = _evaluation_models()
+        common = {
+            "expected_tool_calls": [],
+            "expected_result": hidden.get("expected_result") or {},
+            "evaluation_mode": "dual_axis_100",
+            "score_max": 100,
+            "scientific_conclusion_rubric": hidden.get("scientific_conclusion_rubric") or [],
+            "dual_axis_scoring_policy": {
+                "formula": "scientific_conclusion_score * research_process_score / 100"
+            },
+            "critical_failures": evaluation_critical_failures(hidden),
+            "reference_evidence": evaluation_reference_evidence(hidden),
+            "evidence_gate_policy": hidden.get("evidence_gate_policy") or {},
+            "managed_computation_policy": hidden.get("managed_computation_policy") or {},
+        }
+        for mode, profile in (
+            ("autonomous_research", "autonomous_discovery"),
+            ("paper_reproduction", "paper_reproduction"),
+        ):
+            GroundTruth.model_validate(
+                {
+                    **common,
+                    "evaluation_profile": profile,
+                    "scoring_rubric": read_json(pair_root / mode / "process_rubric.json"),
+                }
+            )
+    except Exception as exc:
+        return [f"evaluation_ground_truth_invalid:{type(exc).__name__}:{str(exc)[:500]}"]
+    return []
+
+
+def evaluation_critical_failures(hidden: dict[str, Any]) -> list[str]:
+    """Project rich private failure records into the current evaluator schema."""
+
+    output: list[str] = []
+    for item in hidden.get("critical_failures") or []:
+        if isinstance(item, str):
+            value = item.strip()
+        elif isinstance(item, dict):
+            identifier = str(item.get("id") or item.get("failure_id") or "").strip()
+            description = str(
+                item.get("description") or item.get("statement") or item.get("rule") or ""
+            ).strip()
+            value = f"{identifier}: {description}" if identifier and description else (
+                description or identifier
+            )
+        else:
+            value = str(item).strip()
+        if value:
+            output.append(value)
+    return output
+
+
+def evaluation_reference_evidence(hidden: dict[str, Any]) -> dict[str, Any]:
+    """Expose typed Ground Truth to the evaluator without moving it into public tasks."""
+
+    existing = hidden.get("reference_evidence")
+    if isinstance(existing, dict):
+        output = dict(existing)
+    elif existing in (None, "", [], {}):
+        output = {}
+    else:
+        output = {"legacy_reference_evidence": existing}
+    output["ground_truth_items"] = hidden.get("ground_truth_items") or []
+    output["acceptance_profiles"] = hidden.get("acceptance_profiles") or []
+    return output
+
+
+def _evaluation_models():
+    benchmark_root = Path(__file__).resolve().parents[4]
+    if str(benchmark_root) not in sys.path:
+        sys.path.insert(0, str(benchmark_root))
+    from evaluation.schemas.task import GroundTruth, TaskInfo
+
+    return TaskInfo, GroundTruth
+
+
+def _leakage_findings(pair_root: Path, hidden: dict[str, Any]) -> list[str]:
+    findings: list[str] = []
+    public_by_mode = {
+        mode: _normalize_text(
+            "\n".join(
+                path.read_text(encoding="utf-8", errors="replace")
+                for path in (pair_root / mode).rglob("*")
+                if path.is_file()
+                and path.suffix.casefold() in {".md", ".json", ".txt", ".csv", ".tsv"}
+            )
+        )
+        for mode in ("autonomous_research", "paper_reproduction")
+    }
+    disclosure_path = pair_root / "hidden_reference" / "disclosure_contract.json"
+    disclosure = read_json(disclosure_path) if disclosure_path.is_file() else {}
+    allowed_public = _normalize_text(
+        json.dumps(disclosure.get("autonomous_allowed") or {}, ensure_ascii=False)
+    )
+    allowed_reproduction = _normalize_text(
+        json.dumps(
+            disclosure.get("reproduction_additional_allowed") or {}, ensure_ascii=False
+        )
+    )
+    for truth in hidden.get("ground_truth_items") or []:
+        identifier = truth.get("ground_truth_id") or "unknown"
+        canonical = truth.get("canonical_answer")
+        for token in _sensitive_values(canonical):
+            if not token or _sensitive_value_present(token, allowed_public):
+                continue
+            if _sensitive_value_present(token, public_by_mode["autonomous_research"]):
+                findings.append(f"hidden_answer_leakage:autonomous_research:{identifier}")
+                break
+            if _sensitive_value_present(token, allowed_reproduction):
+                continue
+            if _sensitive_value_present(token, public_by_mode["paper_reproduction"]):
+                findings.append(f"hidden_answer_leakage:paper_reproduction:{identifier}")
+                break
+        for proposition in truth.get("required_propositions") or []:
+            text = proposition.get("statement") if isinstance(proposition, dict) else proposition
+            normalized = _normalize_text(str(text or ""))
+            if len(normalized) < 48:
+                continue
+            for mode, public_text in public_by_mode.items():
+                if normalized in public_text:
+                    findings.append(f"hidden_conclusion_leakage:{mode}:{identifier}")
+                    break
+    return findings
+
+
+def _sensitive_values(value: Any) -> list[str]:
+    output: list[str] = []
+    if isinstance(value, dict):
+        for item in value.values():
+            output.extend(_sensitive_values(item))
+    elif isinstance(value, list):
+        for item in value:
+            output.extend(_sensitive_values(item))
+    elif isinstance(value, (int, float)):
+        token = str(value)
+        # Very short integers occur throughout chemical inputs and identifiers;
+        # they are not distinctive enough for a deterministic leakage verdict.
+        if isinstance(value, float) or len(token.lstrip("+-")) >= 3:
+            output.append(token)
+    elif isinstance(value, str):
+        normalized = value.strip()
+        if len(normalized) >= 20 or re.search(r"\d", normalized):
+            output.append(normalized)
+    return output
+
+
+def _normalize_text(value: str) -> str:
+    return " ".join(re.sub(r"[^a-z0-9.+-]+", " ", value.casefold()).split())
+
+
+def _sensitive_value_present(token: str, normalized_public: str) -> bool:
+    normalized = _normalize_text(token)
+    if not normalized:
+        return False
+    if re.fullmatch(r"[+-]?\d+(?:\.\d+)?", normalized):
+        return bool(
+            re.search(
+                rf"(?<![a-z0-9.]){re.escape(normalized)}(?![a-z0-9.])",
+                normalized_public,
+            )
+        )
+    return len(normalized) >= 20 and normalized in normalized_public
+
+
+def _unknown_evidence(values: Any, evidence_ids: set[str], label: str) -> list[str]:
+    if not isinstance(values, list) or not values:
+        return [f"{label}_evidence_missing"]
+    return [f"{label}_evidence_unknown:{value}" for value in values if value not in evidence_ids]

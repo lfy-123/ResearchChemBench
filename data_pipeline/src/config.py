@@ -106,11 +106,35 @@ def load_config(path: str | Path) -> dict[str, Any]:
     stage06 = config.setdefault("stage06", {})
     stage07 = config.setdefault("stage07", {})
     stage06["harness"] = os.environ.get("RCB_STAGE06_HARNESS") or stage06.get(
-        "harness", "direct_api"
+        "harness", "codex"
     )
+    stage06["scientific_review_model_role"] = os.environ.get(
+        "RCB_STAGE06_REVIEW_MODEL_ROLE"
+    ) or stage06.get("scientific_review_model_role", "builder")
+    stage06["mode_generation_strategy"] = os.environ.get(
+        "RCB_STAGE06_MODE_GENERATION_STRATEGY"
+    ) or stage06.get("mode_generation_strategy", "single_agent")
+    stage06.setdefault("preferred_scope", "full_paper_computational_workflow")
+    stage06.setdefault("minimum_complexity", "medium")
+    stage06.setdefault("reject_trivial_single_call", True)
+    stage06.setdefault("task_pair_builder_max_tool_calls", 64)
+    stage06.setdefault("task_pair_builder_timeout_seconds", 7200)
+    stage06.setdefault("task_pair_builder_recovery_max_tool_calls", 16)
     stage07["harness"] = os.environ.get("RCB_STAGE07_HARNESS") or stage07.get(
-        "harness", "direct_api"
+        "harness", "codex"
     )
+    for stage in (stage06, stage07):
+        stage.setdefault("toolbox_capabilities", stage03["toolbox_capabilities"])
+        if stage.get("toolbox_capabilities"):
+            stage["toolbox_capabilities"] = str(
+                _resolve(source.parent, stage["toolbox_capabilities"])
+            )
+        stage.setdefault("workers", 1)
+        stage.setdefault("timeout_seconds", 3600)
+        stage.setdefault("max_attempts", 3)
+        stage.setdefault("retry_backoff_seconds", 2)
+        stage.setdefault("retry_max_seconds", 30)
+        stage.setdefault("resume", True)
     config.setdefault("microbatch", {})
     execution = config.setdefault("execution", {})
     sandbox = execution.setdefault("sandbox", {})
@@ -214,8 +238,20 @@ def _model_thinking_kwargs(model: str) -> dict[str, bool]:
 def _validate(config: dict[str, Any]) -> None:
     models = config["models"]
     for stage in ("stage06", "stage07"):
-        if config[stage].get("harness") != "direct_api":
-            raise ValueError(f"{stage}.harness currently supports only direct_api")
+        harness = str(config[stage].get("harness") or "").casefold()
+        if harness not in {"codex", "claude", "opencode", "mock", "direct_api"}:
+            raise ValueError(
+                f"{stage}.harness must be codex, claude, opencode, mock, or direct_api"
+            )
+        config[stage]["harness"] = harness
+        if int(config[stage].get("workers", 1)) < 1:
+            raise ValueError(f"{stage}.workers must be at least 1")
+        if int(config[stage].get("timeout_seconds", 1)) < 1:
+            raise ValueError(f"{stage}.timeout_seconds must be positive")
+        if int(config[stage].get("max_attempts", 1)) < 1:
+            raise ValueError(f"{stage}.max_attempts must be at least 1")
+        if not isinstance(config[stage].get("resume"), bool):
+            raise ValueError(f"{stage}.resume must be true or false")
     for role in MODEL_ROLES:
         model = models[role]
         if model.get("enabled", True) and (not model.get("base_url") or not model.get("model")):
@@ -245,6 +281,27 @@ def _validate(config: dict[str, Any]) -> None:
         if role != expected:
             raise ValueError(f"{stage}.model_role must be {expected}")
         config[stage]["model_role"] = expected
+    review_role = str(config["stage06"].get("scientific_review_model_role") or "builder")
+    if review_role not in {"builder", "suitability"}:
+        raise ValueError(
+            "stage06.scientific_review_model_role must be builder or suitability"
+        )
+    config["stage06"]["scientific_review_model_role"] = review_role
+    strategy = str(config["stage06"].get("mode_generation_strategy") or "single_agent")
+    if strategy not in {"single_agent", "isolated_converter", "legacy_multi_phase"}:
+        raise ValueError(
+            "stage06.mode_generation_strategy must be single_agent, isolated_converter, "
+            "or legacy_multi_phase"
+        )
+    config["stage06"]["mode_generation_strategy"] = strategy
+    if config["stage06"].get("preferred_scope") != "full_paper_computational_workflow":
+        raise ValueError(
+            "stage06.preferred_scope must be full_paper_computational_workflow"
+        )
+    if config["stage06"].get("minimum_complexity") not in {"medium", "high"}:
+        raise ValueError("stage06.minimum_complexity must be medium or high")
+    if not isinstance(config["stage06"].get("reject_trivial_single_call"), bool):
+        raise ValueError("stage06.reject_trivial_single_call must be true or false")
     router_role = config["stage05"].get("router_model_role", "stage05_router")
     if router_role != "stage05_router":
         raise ValueError("stage05.router_model_role must be stage05_router")

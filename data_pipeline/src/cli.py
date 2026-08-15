@@ -9,9 +9,10 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 from src.core.io import read_jsonl, write_json, write_jsonl
-from src.integrations.mineru import build_mineru_queue, run_mineru_queue
-from src.pipeline import run_pipeline
 from src.core.resume_workflow import STAGES, command_digest, execute_resume, prepare_resume
+from src.integrations.mineru import build_mineru_queue, run_mineru_queue
+from src.late_stage_runner import run_stage06_07_from_history
+from src.pipeline import run_pipeline
 from src.stages.stage00_remote_corpus import prepare_remote_corpus
 
 DATA_PIPELINE_ROOT = Path(__file__).resolve().parents[1]
@@ -173,6 +174,20 @@ def main(argv: list[str] | None = None) -> int:
     resume_parser.add_argument("--invalidate-stage", action="append", choices=STAGES, default=[])
     resume_parser.add_argument("--resume-config", choices=("original", "current"), default="original")
     resume_parser.add_argument("--dry-run", action="store_true")
+
+    late_parser = subparsers.add_parser(
+        "run-stage06-07",
+        help="Build and audit one paper from an existing Stage00-05 run",
+    )
+    late_parser.add_argument("--source-run", type=Path, required=True)
+    late_parser.add_argument("--paper", required=True, help="Paper ID or DOI")
+    late_parser.add_argument("--output", type=Path, required=True)
+    late_parser.add_argument("--config", default="config.example.json")
+    late_parser.add_argument(
+        "--harness", choices=("codex", "opencode", "claude"), default="codex"
+    )
+    late_parser.add_argument("--allow-stage05-review-hints", action="store_true")
+    late_parser.add_argument("--no-stage07", action="store_true")
     args = parser.parse_args(argv)
 
     if args.command == "run":
@@ -270,6 +285,16 @@ def main(argv: list[str] | None = None) -> int:
             resume_config=args.resume_config,
             runtime_overrides={},
             command_digest=command_digest(values),
+        )
+    elif args.command == "run-stage06-07":
+        result = run_stage06_07_from_history(
+            source_run=args.source_run,
+            output=args.output,
+            config_path=args.config,
+            paper=args.paper,
+            harness=args.harness,
+            allow_stage05_review_hints=args.allow_stage05_review_hints,
+            include_stage07=not args.no_stage07,
         )
     else:
         raise AssertionError(args.command)

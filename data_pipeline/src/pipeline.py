@@ -418,14 +418,22 @@ def _run_loaded_pipeline(
     if stop_index <= 5:
         return _finish(result, config, workspace, registry)
 
+    late_clients = _clients(
+        config, workspace, model_callers or {}, config["models"]["screening"], stop_index
+    )
+    review_role = str(config["stage06"].get("scientific_review_model_role") or "builder")
     builder = run_stage06(
         candidates=aggregated["stage05"]["candidates"],
+        stage02_records=aggregated["stage02"]["records"],
+        stage03_records=aggregated["stage03"]["records"],
         stage04_records=aggregated["stage04"]["records"],
         documents=aggregated["stage04"]["documents"],
-        config=config["stage06"],
-        model=_clients(
-            config, workspace, model_callers or {}, config["models"]["screening"], stop_index
-        )["builder"],
+        config={
+            **config["stage06"],
+            "toolbox_capabilities": config["stage03"]["toolbox_capabilities"],
+        },
+        model=late_clients["builder"],
+        review_model=late_clients[review_role],
         workspace=workspace,
         run_id=run_id,
     )
@@ -441,10 +449,11 @@ def _run_loaded_pipeline(
     judge = run_stage07(
         build_records=builder["records"],
         documents=aggregated["stage04"]["documents"],
-        config=config["stage07"],
-        model=_clients(
-            config, workspace, model_callers or {}, config["models"]["screening"], stop_index
-        )["judge"],
+        config={
+            **config["stage07"],
+            "toolbox_capabilities": config["stage03"]["toolbox_capabilities"],
+        },
+        model=late_clients["judge"],
         workspace=workspace,
         run_id=run_id,
     )

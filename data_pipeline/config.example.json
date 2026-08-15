@@ -141,25 +141,71 @@
     "contract_retry": true
   },
   "stage06": {
-    "harness": "direct_api",
+    "harness": "codex",
     "model_role": "builder",
-    "workers": 2,
-    "shared_max_tokens": 6144,
-    "mode_max_tokens": 6144,
-    "disclosure_policy": {
-      "autonomous_hides_paper_route": true,
-      "reproduction_hides_answer_values": true
+    "scientific_review_model_role": "builder",
+    "mode_generation_strategy": "single_agent",
+    "preferred_scope": "full_paper_computational_workflow",
+    "minimum_complexity": "medium",
+    "reject_trivial_single_call": true,
+    "workers": 1,
+    "timeout_seconds": 7200,
+    "task_pair_builder_timeout_seconds": 7200,
+    "max_attempts": 3,
+    "max_tool_calls": 64,
+    "task_pair_builder_max_tool_calls": 64,
+    "task_pair_builder_finalization_reserve": 12,
+    "finalization_reserve": 12,
+    "recovery_max_tool_calls": 8,
+    "task_pair_builder_recovery_max_tool_calls": 16,
+    "scientific_review_max_tool_calls": 24,
+    "scientific_review_recovery_max_tool_calls": 16,
+    "scientific_review_finalization_reserve": 4,
+    "structured_finalization_max_tokens": 32768,
+    "autonomous_task_max_tool_calls": 20,
+    "autonomous_task_finalization_reserve": 6,
+    "reproduction_task_max_tool_calls": 20,
+    "reproduction_task_finalization_reserve": 6,
+    "hidden_reference_max_tool_calls": 12,
+    "hidden_reference_finalization_reserve": 2,
+    "retry_backoff_seconds": 5,
+    "retry_max_seconds": 60,
+    "resume": true,
+    "codex_wire_api": "chat_completions",
+    "codex_chat_json_schema": true,
+    "codex_structured_final_tool": true,
+    "max_turns": 32,
+    "resource_policy": {
+      "cpu_cores": 48,
+      "memory_mb": 131072,
+      "gpu_count": 0,
+      "walltime_hours": 24
     }
   },
   "stage07": {
-    "harness": "direct_api",
+    "harness": "codex",
     "model_role": "judge",
-    "workers": 2,
-    "max_tokens": 4096,
-    "gold_run": {
-      "enabled": false,
-      "command": [],
-      "timeout_seconds": 21600
+    "workers": 1,
+    "timeout_seconds": 7200,
+    "max_attempts": 3,
+    "max_tool_calls": 16,
+    "audit_max_tool_calls": 8,
+    "audit_finalization_reserve": 7,
+    "finalization_reserve": 4,
+    "recovery_max_tool_calls": 8,
+    "audit_recovery_max_tool_calls": 6,
+    "retry_backoff_seconds": 5,
+    "retry_max_seconds": 60,
+    "resume": true,
+    "codex_wire_api": "chat_completions",
+    "codex_chat_json_schema": true,
+    "codex_structured_final_tool": true,
+    "max_turns": 24,
+    "resource_policy": {
+      "cpu_cores": 48,
+      "memory_mb": 131072,
+      "gpu_count": 0,
+      "walltime_hours": 24
     }
   },
   "models": {
@@ -279,10 +325,11 @@
       "api_key_env": "RCB_BUILDER_API_KEY",
       "model": "gpt-5.6",
       "workers": 4,
-      "max_tokens": 6144,
+      "max_tokens": 16384,
       "timeout_seconds": 1800,
       "retries": 2,
-      "thinking": "enabled"
+      "thinking": null,
+      "chat_template_kwargs": {"thinking": false}
     },
     "judge": {
       "enabled": true,
@@ -292,10 +339,11 @@
       "api_key_env": "RCB_JUDGE_API_KEY",
       "model": "gpt-5.6",
       "workers": 4,
-      "max_tokens": 4096,
+      "max_tokens": 8192,
       "timeout_seconds": 1800,
       "retries": 2,
-      "thinking": "enabled"
+      "thinking": null,
+      "chat_template_kwargs": {"thinking": false}
     }
   },
   "microbatch": {
