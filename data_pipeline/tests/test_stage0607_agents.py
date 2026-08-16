@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -49,12 +50,12 @@ from src.stages.stage06_task_builder.stage import (
     _normalize_hidden_reference_contract,
     _normalize_process_rubric,
     _normalize_public_input_path,
+    _normalize_scientific_failure_contract,
     _normalize_submission_contract,
     _normalize_task_pair_artifact_contracts,
     _normalize_workflow_review_aliases,
-    _normalize_scientific_failure_contract,
-    _recover_public_assets,
     _reconcile_task_phase_receipt,
+    _recover_public_assets,
     _reproduction_patch_script,
     _reproduction_phase_findings,
     _run_phase,
@@ -75,12 +76,12 @@ from src.stages.stage06_task_builder.validation import (
     validate_task_pair_draft,
     validate_workflow_review,
 )
-from src.stages.stage07_task_judge.prompts import STAGE07_AUDIT_VERSION
+from src.stages.stage07_task_judge.prompts import STAGE07_AUDIT_VERSION, audit_instructions
 from src.stages.stage07_task_judge.stage import (
     _audit_pair_manifest,
     _cached_audit_inputs_match,
-    _stage07_audit_packet,
     _stage07_audit_initializer_script,
+    _stage07_audit_packet,
     _stage07_audit_scaffold,
     run_stage07,
 )
@@ -3728,6 +3729,29 @@ def _mock_responses() -> dict[str, dict]:
             "cost_assessment": {"status": "over_budget"},
             "rationale": "The task pair is coherent but currently needs software and more resources.",
         },
+        "stage07_audit_repair": {
+            "audit_decision": "approved_with_repairs",
+            "source_stage06_decision": "provisional_constructed",
+            "original_task_pair_id": "pair_test_reaction",
+            "final_task_pair_id": "pair_test_reaction",
+            "artifact_path": "outputs/task_pair",
+            "selected_workflow_preserved": True,
+            "repair_origin": "stage06_candidate_repaired",
+            "repairs": [
+                {
+                    "category": "toolbox_metadata",
+                    "details": "Recorded the missing runtime without changing the workflow.",
+                    "source_evidence_ids": ["ev_main_1"],
+                    "changed_files": ["toolbox_requirements.json"],
+                }
+            ],
+            "workflow_redesign": {"performed": False},
+            "remaining_issues": [],
+            "toolbox_status": "needs_software",
+            "required_additions": [{"software": "ORCA"}],
+            "resource_status": "high_cost",
+            "summary": "The original workflow was retained and its metadata was repaired.",
+        },
     }
 
 
@@ -4440,6 +4464,24 @@ def test_stage07_scaffold_initializes_and_requires_agent_judgment(tmp_path: Path
     assert validate_agent_audit(artifact) == []
 
 
+def test_stage07_prompt_enforces_repair_before_workflow_redesign() -> None:
+    prompt = audit_instructions(
+        paper_id="paper-test",
+        task_pair_id="pair-test",
+        manifest_hash="abc123",
+        max_tool_calls=24,
+        finalization_reserve=6,
+        source_stage06_decision="provisional_constructed",
+    )
+
+    repair_rule = "First audit and attempt to repair the workflow selected by Stage06"
+    redesign_rule = "Only after recording an evidence-backed"
+    assert repair_rule in prompt
+    assert redesign_rule in prompt
+    assert prompt.index(repair_rule) < prompt.index(redesign_rule)
+    assert "Missing software never causes scientific rejection" in prompt
+
+
 def test_stage07_pair_manifest_ignores_volatile_construction_record(tmp_path: Path) -> None:
     (tmp_path / "task.md").write_text("stable task", encoding="utf-8")
     (tmp_path / "paper_info.json").write_text(
@@ -4639,7 +4681,8 @@ def test_stage06_single_agent_builds_reproduction_first_task_pair(tmp_path: Path
     )
 
     record = output["records"][0]
-    assert record["decision"] == "constructed"
+    assert record["decision"] == "provisional_constructed"
+    assert record["handoff_ready"] is True
     assert record["workflow_scope_kind"] == "full_paper_computational_workflow"
     assert record["complexity_level"] == "medium"
     pair = Path(record["task_pair_path"])
@@ -4678,11 +4721,63 @@ def test_stage06_single_agent_builds_reproduction_first_task_pair(tmp_path: Path
         workspace=tmp_path / "run",
         run_id="single-agent-test",
     )
-    assert rerun["records"][0]["decision"] == "constructed"
+    assert rerun["records"][0]["decision"] == "provisional_constructed"
     rerun_pair = Path(rerun["records"][0]["task_pair_path"])
     assert read_json(rerun_pair / "construction_record.json")["phase_audits"][
         "task_pair_builder"
     ]["cache_hit"] is True
+
+
+def test_stage06_hands_partial_candidate_to_stage07_without_content_retry(
+    tmp_path: Path,
+) -> None:
+    toolbox = tmp_path / "toolbox.json"
+    toolbox.write_text(json.dumps({"profile_id": "test", "backends": {}}), encoding="utf-8")
+    documents = [
+        _document(tmp_path, "doc-main", "main_paper", "ev_main_1"),
+        _document(tmp_path, "doc-si", "supplementary", "ev_si_1"),
+    ]
+    calls = 0
+
+    def partial_responder(request: AgentRunRequest) -> dict:
+        nonlocal calls
+        calls += 1
+        receipt = _single_agent_mock_responder(request)
+        shutil.rmtree(request.workspace / "outputs" / "autonomous_research")
+        return receipt
+
+    result = run_stage06(
+        candidates=[{"paper_id": "paper-test", "candidate_id": "candidate-1"}],
+        stage04_records=[
+            {
+                "paper_id": "paper-test",
+                "passed": True,
+                "resource_profile": {"walltime_hours": 4},
+            }
+        ],
+        documents=documents,
+        config={
+            "harness": "mock",
+            "workers": 1,
+            "max_attempts": 3,
+            "resume": False,
+            "retry_backoff_seconds": 0,
+            "toolbox_capabilities": str(toolbox),
+            "mock_responder": partial_responder,
+        },
+        model=_Model(),
+        workspace=tmp_path / "run",
+        run_id="partial-handoff-test",
+    )
+
+    record = result["records"][0]
+    assert calls == 1
+    assert record["decision"] == "provisional_constructed"
+    assert record["handoff_ready"] is True
+    assert "candidate_task_tree_incomplete_stage07_review_required" in record[
+        "handoff_warnings"
+    ]
+    assert Path(record["handoff_path"]).is_dir()
 
 
 def test_pair_contract_normalizer_repairs_harness_field_drift(tmp_path: Path) -> None:
@@ -4868,9 +4963,10 @@ def test_stage06_builds_isolated_task_pair_with_toolbox_gap(tmp_path: Path) -> N
         run_id="test-run",
     )
     audit = stage07["records"][0]
-    assert audit["audit_summary"] == "issues_found"
-    assert set(audit["outcome_types"]) == {"needs_software", "task_cost_too_high"}
-    assert "benchmark_ready" not in audit
+    assert audit["audit_decision"] == "approved_with_repairs"
+    assert audit["selected_workflow_preserved"] is True
+    assert audit["toolbox_status"] == "needs_software"
+    assert Path(audit["task_pair_path"]).is_dir()
     assert not (Path(audit["audit_path"]) / "gold_run").exists()
 
 

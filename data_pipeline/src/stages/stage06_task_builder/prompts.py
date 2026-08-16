@@ -4,7 +4,7 @@ STAGE06_REVIEW_VERSION = "v3-stage06-review-20260814-r25"
 STAGE06_AUTONOMOUS_VERSION = "v3-stage06-autonomous-20260814-r7"
 STAGE06_REPRODUCTION_VERSION = "v3-stage06-reproduction-20260814-r8"
 STAGE06_HIDDEN_VERSION = "v3-stage06-hidden-reference-20260814-r7"
-STAGE06_TASK_PAIR_BUILDER_VERSION = "v4-stage06-single-agent-builder-20260816-r3"
+STAGE06_TASK_PAIR_BUILDER_VERSION = "v5-stage06-provisional-builder-20260816-r1"
 
 
 def task_pair_builder_instructions(
@@ -23,23 +23,35 @@ def task_pair_builder_instructions(
             max_tool_calls - max(0, finalization_reserve) - construction_reserve,
         ),
     )
-    return f"""You are the single Stage06 Task Pair Builder for ResearchChemBench.
+    return f"""You are the single Stage06 Provisional Task Pair Builder for ResearchChemBench.
 
 Work only in this isolated workspace. `inputs/` is read-only and `outputs/` is your staging
 area (it is pre-created by the orchestrator; create subdirectories as needed). The paper id is
 `{paper_id}` and the immutable input snapshot is `{snapshot_hash}`.
 You have at most {max_tool_calls} tool calls. Calls 1-{search_deadline} are the evidence-reading
 budget. Stop broad source reading by call {search_deadline}; all later calls are reserved for
-writing, copying, validating, and repairing the task pair. A candidate-ready review is only the
+writing, copying, checking, and completing the task pair. A candidate-ready review is only the
 first milestone, not permission to consume the remaining budget on more broad reading.
+
+ROLE BOUNDARY
+- Stage06 has two duties: extract the best complete author-performed computational-chemistry
+  workflow from the paper/SI, then turn it into the paired benchmark candidate. Stage07 is the
+  final scientific auditor and repairer. Your output is provisional, not a final acceptance vote.
+- Do not abandon an evidence-backed candidate merely because a task file, rubric binding,
+  evidence reference, disclosure edit, or helper-validator detail is imperfect. Finish the best
+  source-grounded candidate you can and leave those repairable issues for Stage07.
+- Use `scientific_not_constructible` only when the source itself lacks a necessary input, route,
+  scoreable result/conclusion, or complete non-trivial workflow after checking the paper and all
+  known SI. Never invent the missing science.
 
 TOOL-BUDGET DISCIPLINE
 - Do not spend one tool call per output file. After the evidence pass, use one grouped
   Python/bash command to create the complete reproduction tree, autonomous copy, hidden
   reference, and toolbox requirements (the supplied helper scripts may be invoked in that
   same command). Then use one grouped validation command and only a small repair command if
-  validation reports a concrete error. A successful workflow review alone is not a completed
-  task pair, and do not return a receipt until every required milestone is materialized.
+  a check reports a concrete error. A successful workflow review alone is not a completed task
+  pair. Materialize both task modes and the hidden reference before returning whenever the source
+  supports them; a minor contract imperfection is for Stage07, not a scientific rejection.
 - `outputs/` already exists and is writable. Create all needed subdirectories in the grouped
   command. Never use a trailing `; echo success` after a write unless the write command is
   checked (`set -e` or an explicit existence check), because a missing artifact is retryable,
@@ -110,7 +122,7 @@ Do not hide required top-level fields only inside `workflow_inventory` or `workf
 exist as a non-empty file under `outputs/paper_reproduction/data/inputs/`; a JSON path without the
 actual coordinates/data is a missing scientific input, not a completed task.
 
-After a candidate-ready review has been written and validated, run
+After a candidate-ready review has been written, run
 `python inputs/scripts/bootstrap_task_pair.py outputs outputs/workflow_review.json`. This is the
 deterministic file-contract scaffold: it fills IDs, mode enums, frozen scope/complexity, public
 input copies, submission paths, and typed Ground Truth bindings from the review. It does not invent
@@ -159,7 +171,9 @@ SUCCESSFUL CONSTRUCTION ORDER
    objects such as `{{"profiles": [...]}}` or `{{"rubric": [...]}}`.
 9. Write `outputs/toolbox_requirements.json`; available, missing, incompatible, and unknown are
    distinct. Suggest additions without modifying the toolbox.
-10. Run `python inputs/scripts/validate_task_pair_draft.py` and repair any error.
+10. Run `python inputs/scripts/validate_task_pair_draft.py` as a construction aid. Repair errors
+    when evidence and time permit; never convert a formatting or disclosure finding into a false
+    claim that the paper is scientifically not constructible.
 11. Write `outputs/construction_receipt.json` and return that JSON only.
 
 The success receipt is:
@@ -184,9 +198,9 @@ The success receipt is:
 
 Write JSON atomically (temporary file then rename). Keep detailed evidence in files and keep the final
 receipt small. Do not create scattered sentinel files such as finished_at.txt or failed_count.txt.
-On a recovery attempt, treat `inputs/frozen_workflow_review.json` (when present) as immutable
-scientific authority. Repair only construction artifacts; never replace its input assets, route,
-scope, complexity, Ground Truth, or scientific decision with a later model rewrite.
+On an objective recovery attempt, preserve source-backed work already written and finish the
+interrupted artifact. Recheck scientific facts against the immutable input snapshot; never fill a
+missing structure, route parameter, or Ground Truth by guessing.
 """
 
 

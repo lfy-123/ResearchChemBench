@@ -126,6 +126,9 @@ def load_config(path: str | Path) -> dict[str, Any]:
     stage07["harness"] = os.environ.get("RCB_STAGE07_HARNESS") or stage07.get(
         "harness", "codex"
     )
+    stage07.setdefault("audit_repair_max_tool_calls", 64)
+    stage07.setdefault("audit_repair_finalization_reserve", 10)
+    stage07.setdefault("audit_repair_recovery_max_tool_calls", 20)
     for stage in (stage06, stage07):
         stage.setdefault("toolbox_capabilities", stage03["toolbox_capabilities"])
         if stage.get("toolbox_capabilities"):

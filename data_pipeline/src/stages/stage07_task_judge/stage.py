@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import shutil
 import time
 import uuid
 from pathlib import Path
@@ -13,13 +14,16 @@ from src.agents.schemas import STAGE07_AUDIT_SCHEMA
 from src.agents.workspace import (
     IGNORED_MANIFEST_NAMES,
     agent_recovery_context,
+    atomic_commit_tree,
     copy_recovery_artifacts,
     copytree_exact,
     directory_manifest,
     input_fingerprint,
     make_read_only,
+    make_writable,
     prepare_clean_directory,
     recovery_instructions,
+    validate_relative_path,
     write_manifest,
 )
 from src.contracts import (
@@ -39,21 +43,37 @@ from src.stages.stage07_task_judge.prompts import (
 )
 from src.stages.stage07_task_judge.validation import (
     deterministic_stage07_audit,
-    merge_audit_outcomes,
     validate_agent_audit,
 )
 
-STAGE07_IMPLEMENTATION_VERSION = "v4-scope-complexity-objective-audit-20260815-r1"
+STAGE07_IMPLEMENTATION_VERSION = "v5-repair-first-audit-redesign-20260816-r1"
 STAGE07_DIRECTORY = "stage_07_task_audit"
 STAGE07_IGNORED_PAIR_FILES = {*IGNORED_MANIFEST_NAMES, "construction_record.json"}
+STAGE07_APPROVED_DECISIONS = {
+    "approved",
+    "approved_with_repairs",
+    "approved_after_workflow_redesign",
+}
+STAGE07_ELIGIBLE_STAGE06_DECISIONS = {
+    "provisional_constructed",
+    "provisional_not_constructible",
+    "constructed",
+}
 
 
 def run_stage07(*, build_records, documents, config, model, workspace: Path, run_id: str):
     stage_root = workspace / STAGE07_DIRECTORY
     stage_root.mkdir(parents=True, exist_ok=True)
     eligible = [
-        row for row in build_records if row.get("decision") == "constructed" and row.get("passed")
+        row
+        for row in build_records
+        if row.get("decision") in STAGE07_ELIGIBLE_STAGE06_DECISIONS
+        and row.get("handoff_ready", True)
     ]
+    documents_by_paper: dict[str, list[dict[str, Any]]] = {}
+    for document in documents:
+        if document.get("decision") == "pass" and document.get("paper_id"):
+            documents_by_paper.setdefault(str(document["paper_id"]), []).append(document)
     model_config = dict(getattr(model, "config", {}) or {})
     harness_name = str(config.get("harness") or "codex")
     harness = create_agent_harness(
@@ -65,109 +85,95 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
 
     def audit(record: dict[str, Any]) -> dict[str, Any]:
         paper_id = str(record["paper_id"])
-        task_pair_id = str(record["task_pair_id"])
-        pair_root = Path(str(record["task_pair_path"])).expanduser().resolve()
+        task_pair_id = str(record.get("task_pair_id") or f"{paper_id}-provisional")
+        handoff_value = record.get("handoff_path") or record.get("task_pair_path")
         try:
-            if not pair_root.is_dir():
+            if not handoff_value:
                 return _audit_failure(
                     run_id,
                     paper_id,
                     task_pair_id,
-                    "task_pair_missing",
-                    f"Stage06 task pair directory is missing: {pair_root}",
+                    "stage06_handoff_missing",
+                    "Stage06 did not provide a handoff path.",
                 )
-            deterministic = deterministic_stage07_audit(pair_root)
-            pair_manifest = _audit_pair_manifest(pair_root)
-            response, agent_run = _run_audit_agent(
+            handoff_root = Path(str(handoff_value)).expanduser().resolve()
+            if not handoff_root.is_dir():
+                return _audit_failure(
+                    run_id,
+                    paper_id,
+                    task_pair_id,
+                    "stage06_handoff_missing",
+                    f"Stage06 handoff directory is missing: {handoff_root}",
+                )
+            source_root = _resolve_stage07_source_root(
+                record=record,
+                paper_id=paper_id,
+                documents=documents_by_paper.get(paper_id, []),
+                stage_root=stage_root,
+                config=config,
+            )
+            source_stage06_decision = (
+                "provisional_constructed"
+                if record.get("decision") == "constructed"
+                else str(record["decision"])
+            )
+            response, agent_run, artifact_root = _run_audit_repair_agent(
                 harness=harness,
                 stage_root=stage_root,
                 paper_id=paper_id,
                 task_pair_id=task_pair_id,
-                pair_root=pair_root,
-                pair_manifest=pair_manifest,
-                deterministic=deterministic,
+                source_stage06_decision=source_stage06_decision,
+                handoff_root=handoff_root,
+                source_root=source_root,
+                stage06_record=record,
                 config=config,
             )
-            validation_findings = validate_agent_audit(response)
-            model_outcomes = list(response.get("outcomes") or [])
-            if validation_findings:
-                model_outcomes.extend(
-                    {
-                        "type": "acceptance_rule_invalid",
-                        "severity": "blocking",
-                        "scope": "hidden_reference",
-                        "details": finding,
-                        "evidence_refs": [],
-                        "source": "agent_contract_validation",
-                    }
-                    for finding in validation_findings
+            decision = str(response["audit_decision"])
+            if decision == "objective_failure_retryable":
+                return _audit_failure(
+                    run_id,
+                    paper_id,
+                    task_pair_id,
+                    "agent_reported_objective_failure",
+                    str(response.get("summary") or "Stage07 could not complete the audit."),
+                    agent_run=agent_run,
                 )
-            outcomes = merge_audit_outcomes(deterministic.get("outcomes") or [], model_outcomes)
-            summary = "issues_found" if outcomes else "passed_audit"
-            target = stage_root / "audits" / safe_component(paper_id)
-            target.mkdir(parents=True, exist_ok=True)
-            private_report = {
-                "paper_id": paper_id,
-                "task_pair_id": task_pair_id,
-                "audit_summary": summary,
-                "outcomes": outcomes,
-                "checks": response.get("checks") or [],
-                "toolbox_assessment": response.get("toolbox_assessment") or {},
-                "cost_assessment": response.get("cost_assessment") or {},
-                "rationale": response.get("rationale") or "",
-                "deterministic_audit": deterministic,
-                "agent_run": agent_run,
-                "validation_findings": validation_findings,
-            }
-            write_json(target / "private_audit_details.json", private_report)
-            write_json(
-                target / "audit_summary.json",
-                {
-                    "paper_id": paper_id,
-                    "task_pair_id": task_pair_id,
-                    "audit_summary": summary,
-                    "outcomes": [
-                        {
-                            key: outcome.get(key)
-                            for key in ("type", "severity", "scope", "source")
-                        }
-                        for outcome in outcomes
-                    ],
-                },
-            )
-            (target / "public_audit_report.md").write_text(
-                _public_audit_report(task_pair_id, summary, outcomes), encoding="utf-8"
-            )
-            write_json(
-                target / "toolbox_gap_report.json",
-                {
-                    "outcomes": [
-                        row
-                        for row in outcomes
-                        if row.get("type") in {"needs_software", "toolbox_capability_unknown"}
-                    ],
-                    "assessment": response.get("toolbox_assessment") or {},
-                },
-            )
-            write_json(
-                target / "cost_risk_report.json",
-                {
-                    "outcomes": [
-                        row for row in outcomes if row.get("type") == "task_cost_too_high"
-                    ],
-                    "assessment": response.get("cost_assessment") or {},
-                },
-            )
-            write_manifest(target, target / "audit_manifest.json")
+            final_task_pair_id = str(response.get("final_task_pair_id") or task_pair_id)
+            final_path: str | None = None
+            if decision in STAGE07_APPROVED_DECISIONS:
+                task_root = _stage07_approved_artifact(response, artifact_root)
+                target = stage_root / "audited_tasks" / safe_component(paper_id)
+                atomic_commit_tree(task_root, target)
+                write_json(target / "stage07_audit.json", response)
+                write_json(target / "stage06_handoff_record.json", record)
+                write_manifest(target, target / "audit_manifest.json")
+                final_path = str(target)
+            else:
+                target = _publish_stage07_rejection(
+                    stage_root=stage_root,
+                    paper_id=paper_id,
+                    response=response,
+                    stage06_record=record,
+                    handoff_root=handoff_root,
+                )
             return {
                 **record_header(run_id=run_id, stage="stage07", paper_id=paper_id),
-                "task_pair_id": task_pair_id,
+                "task_pair_id": final_task_pair_id or task_pair_id,
+                "original_task_pair_id": task_pair_id,
                 "processing_status": "completed",
-                "decision": summary,
-                "audit_summary": summary,
-                "passed": summary == "passed_audit",
-                "outcomes": outcomes,
-                "outcome_types": sorted({str(row.get("type")) for row in outcomes}),
+                "decision": decision,
+                "audit_decision": decision,
+                "audit_summary": decision,
+                "passed": decision in STAGE07_APPROVED_DECISIONS,
+                "selected_workflow_preserved": response.get(
+                    "selected_workflow_preserved"
+                ),
+                "repair_count": len(response.get("repairs") or []),
+                "workflow_redesign": response.get("workflow_redesign") or {},
+                "toolbox_status": response.get("toolbox_status"),
+                "required_additions": response.get("required_additions") or [],
+                "resource_status": response.get("resource_status"),
+                "task_pair_path": final_path,
                 "audit_path": str(target),
                 "agent_harness": harness.name,
                 "agent_model": harness.model,
@@ -209,18 +215,447 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
         **record_header(run_id=run_id, stage="stage07"),
         "implementation_version": STAGE07_IMPLEMENTATION_VERSION,
         "task_pairs": len(records),
-        "passed_audit": sum(row.get("audit_summary") == "passed_audit" for row in records),
-        "issues_found": sum(row.get("audit_summary") == "issues_found" for row in records),
-        "audit_failed_retryable": sum(
-            row.get("audit_summary") == "audit_failed_retryable" for row in records
+        "approved": sum(row.get("audit_decision") == "approved" for row in records),
+        "approved_with_repairs": sum(
+            row.get("audit_decision") == "approved_with_repairs" for row in records
         ),
-        "decisions": decision_counts(records, "audit_summary"),
-        "outcome_counts": _outcome_counts(records),
+        "approved_after_workflow_redesign": sum(
+            row.get("audit_decision") == "approved_after_workflow_redesign"
+            for row in records
+        ),
+        "rejected_scientific_unrepairable": sum(
+            row.get("audit_decision") == "rejected_scientific_unrepairable"
+            for row in records
+        ),
+        "objective_failure_retryable": sum(
+            row.get("audit_decision") == "objective_failure_retryable" for row in records
+        ),
+        "needs_software": sum(row.get("toolbox_status") == "needs_software" for row in records),
+        "decisions": decision_counts(records, "audit_decision"),
         "agent_harness": harness.name,
         "agent_model": harness.model,
     }
     write_json(stage_root / "stage_summary.json", summary)
     return {"records": records, "summary": summary}
+
+
+def _run_audit_repair_agent(
+    *,
+    harness,
+    stage_root: Path,
+    paper_id: str,
+    task_pair_id: str,
+    source_stage06_decision: str,
+    handoff_root: Path,
+    source_root: Path,
+    stage06_record: dict[str, Any],
+    config: dict[str, Any],
+) -> tuple[dict[str, Any], dict[str, Any], Path]:
+    handoff_manifest = directory_manifest(handoff_root)
+    source_manifest = directory_manifest(source_root)
+    toolbox = _stage07_toolbox_snapshot(source_root, handoff_root, config)
+    resource_policy = _stage07_resource_policy(source_root, config)
+    fingerprint = input_fingerprint(
+        {
+            "handoff_manifest_hash": handoff_manifest["content_hash"],
+            "source_manifest_hash": source_manifest["content_hash"],
+            "source_stage06_decision": source_stage06_decision,
+            "toolbox": toolbox,
+            "resource_policy": resource_policy,
+            "prompt_version": STAGE07_AUDIT_VERSION,
+            "receipt_schema": canonical_hash(STAGE07_AUDIT_SCHEMA),
+            "harness": harness.name,
+            "model": harness.model,
+        }
+    )
+    artifact_root = (
+        stage_root
+        / "phase_artifacts"
+        / safe_component(paper_id)
+        / "audit_repair"
+        / fingerprint[:16]
+    )
+    checkpoint = (
+        stage_root / "checkpoints" / safe_component(paper_id) / "audit_repair.json"
+    )
+    failure_checkpoint = checkpoint.with_suffix(".failure.json")
+    if bool(config.get("resume", True)) and checkpoint.is_file() and artifact_root.is_dir():
+        cached = read_json(checkpoint)
+        if cached.get("input_fingerprint") == fingerprint:
+            response = cached.get("response") or {}
+            jsonschema.validate(response, STAGE07_AUDIT_SCHEMA)
+            if response.get("audit_decision") in STAGE07_APPROVED_DECISIONS:
+                _stage07_approved_artifact(response, artifact_root)
+            return (
+                response,
+                {**(cached.get("agent_run") or {}), "cache_hit": True},
+                artifact_root,
+            )
+
+    attempts = max(1, int(config.get("max_attempts", 3)))
+    last_error: AgentExecutionError | None = None
+    recovery_context: str | None = None
+    recovery_workspace: Path | None = None
+    for attempt in range(1, attempts + 1):
+        root = prepare_clean_directory(
+            stage_root
+            / "workspaces"
+            / safe_component(paper_id)
+            / "audit_repair"
+            / f"attempt-{attempt:02d}-{uuid.uuid4().hex[:8]}"
+        )
+        inputs = root / "inputs"
+        inputs.mkdir(parents=True, exist_ok=True)
+        copytree_exact(handoff_root, inputs / "stage06_candidate")
+        copytree_exact(source_root, inputs / "source_materials")
+        write_json(inputs / "stage06_record.json", stage06_record)
+        write_json(inputs / "toolbox_snapshot.json", toolbox)
+        write_json(inputs / "resource_policy.json", resource_policy)
+        write_json(
+            inputs / "input_manifest.json",
+            {
+                "paper_id": paper_id,
+                "task_pair_id": task_pair_id,
+                "source_stage06_decision": source_stage06_decision,
+                "handoff_manifest_hash": handoff_manifest["content_hash"],
+                "source_manifest_hash": source_manifest["content_hash"],
+                "input_fingerprint": fingerprint,
+            },
+        )
+        make_read_only(inputs)
+        outputs = root / "outputs"
+        outputs.mkdir(parents=True, exist_ok=True)
+        copytree_exact(handoff_root, outputs / "task_pair")
+        make_writable(outputs)
+        if recovery_context:
+            (root / "RECOVERY_CONTEXT.md").write_text(
+                recovery_context, encoding="utf-8"
+            )
+            copy_recovery_artifacts(
+                recovery_workspace,
+                root,
+                directory_names=("outputs",),
+                include_evidence_trace=True,
+            )
+        max_tool_calls = max(
+            4,
+            int(
+                config.get(
+                    "audit_repair_max_tool_calls",
+                    config.get("audit_max_tool_calls", config.get("max_tool_calls", 48)),
+                )
+            ),
+        )
+        if recovery_context:
+            max_tool_calls = max(
+                4,
+                min(
+                    max_tool_calls,
+                    int(
+                        config.get(
+                            "audit_repair_recovery_max_tool_calls",
+                            config.get("recovery_max_tool_calls", 16),
+                        )
+                    ),
+                ),
+            )
+        finalization_reserve = min(
+            max_tool_calls - 1,
+            max(
+                2,
+                int(
+                    config.get(
+                        "audit_repair_finalization_reserve",
+                        config.get("finalization_reserve", 8),
+                    )
+                ),
+            ),
+        )
+        instructions = audit_instructions(
+            paper_id=paper_id,
+            task_pair_id=task_pair_id,
+            manifest_hash=fingerprint,
+            max_tool_calls=max_tool_calls,
+            finalization_reserve=finalization_reserve,
+            source_stage06_decision=source_stage06_decision,
+        )
+        if recovery_context:
+            instructions += recovery_instructions(
+                "stage07_audit_repair", max_tool_calls=max_tool_calls
+            )
+        request = AgentRunRequest(
+            phase="stage07_audit_repair",
+            record_id=task_pair_id,
+            workspace=root,
+            instructions=instructions,
+            output_schema=STAGE07_AUDIT_SCHEMA,
+            prompt_version=STAGE07_AUDIT_VERSION,
+            timeout_seconds=int(config.get("timeout_seconds", 7200)),
+            metadata={
+                "paper_id": paper_id,
+                "task_pair_id": task_pair_id,
+                "source_stage06_decision": source_stage06_decision,
+                "max_tool_calls": max_tool_calls,
+                "finalization_reserve": finalization_reserve,
+                "inline_contract": False,
+                "structured_artifact_path": "outputs/stage07_audit.json",
+                "recovery_attempt": bool(recovery_context),
+            },
+        )
+        try:
+            result = harness.run(request)
+            response = result.response or {}
+            write_json(outputs / "stage07_audit.json", response)
+            _require_stage07_artifact_delivery(response, root, result)
+        except AgentExecutionError as exc:
+            last_error = exc
+            recovery_context = agent_recovery_context(exc.result)
+            recovery_workspace = (
+                Path(exc.result.workspace)
+                if exc.result is not None and exc.result.workspace
+                else None
+            )
+            if not exc.retryable or attempt >= attempts:
+                write_json(
+                    failure_checkpoint,
+                    {
+                        "paper_id": paper_id,
+                        "task_pair_id": task_pair_id,
+                        "input_fingerprint": fingerprint,
+                        "failure_class": exc.failure_class,
+                        "retryable": exc.retryable,
+                        "agent_run": exc.result.audit_record() if exc.result else None,
+                        "failed_at": now_utc(),
+                    },
+                )
+                raise
+            delay = min(
+                float(config.get("retry_max_seconds", 30)),
+                float(config.get("retry_backoff_seconds", 2)) * (2 ** (attempt - 1)),
+            )
+            if delay > 0:
+                time.sleep(delay)
+            continue
+        staging = prepare_clean_directory(
+            artifact_root.parent / f".{artifact_root.name}-{uuid.uuid4().hex[:8]}"
+        )
+        copytree_exact(outputs, staging / "outputs")
+        atomic_commit_tree(staging, artifact_root)
+        write_json(
+            checkpoint,
+            {
+                "paper_id": paper_id,
+                "task_pair_id": task_pair_id,
+                "input_fingerprint": fingerprint,
+                "prompt_version": STAGE07_AUDIT_VERSION,
+                "response": response,
+                "agent_run": result.audit_record(),
+                "artifact_manifest_hash": directory_manifest(artifact_root)[
+                    "content_hash"
+                ],
+                "completed_at": now_utc(),
+            },
+        )
+        failure_checkpoint.unlink(missing_ok=True)
+        return response, {**result.audit_record(), "cache_hit": False}, artifact_root
+    if last_error is not None:
+        raise last_error
+    raise RuntimeError("Stage07 audit-repair Agent did not execute")
+
+
+def _require_stage07_artifact_delivery(
+    response: dict[str, Any], workspace: Path, result: Any
+) -> None:
+    decision = str(response.get("audit_decision") or "")
+    if decision not in STAGE07_APPROVED_DECISIONS:
+        return
+    try:
+        relative = validate_relative_path(str(response.get("artifact_path") or ""))
+        artifact = (workspace.resolve() / relative).resolve()
+        artifact.relative_to(workspace.resolve())
+        if relative != "outputs/task_pair":
+            raise ValueError("approved artifact_path must be outputs/task_pair")
+        if not artifact.is_dir() or not any(path.is_file() for path in artifact.rglob("*")):
+            raise FileNotFoundError("approved task-pair directory is empty or missing")
+        return
+    except (FileNotFoundError, OSError, ValueError) as exc:
+        message = f"Stage07 approved a task but did not deliver its task tree: {exc}"
+        result.status = "failed"
+        result.failure_class = "missing_agent_artifact"
+        result.retryable = True
+        result.error = {"error_type": "MissingAgentArtifact", "message": message}
+        write_json(workspace / "agent_run.json", result.audit_record())
+        raise AgentExecutionError(
+            message,
+            failure_class="missing_agent_artifact",
+            retryable=True,
+            result=result,
+        ) from exc
+
+
+def _stage07_approved_artifact(response: dict[str, Any], artifact_root: Path) -> Path:
+    relative = validate_relative_path(str(response.get("artifact_path") or ""))
+    if relative != "outputs/task_pair":
+        raise ValueError("approved Stage07 artifact_path must be outputs/task_pair")
+    path = (artifact_root.resolve() / relative).resolve()
+    path.relative_to(artifact_root.resolve())
+    if not path.is_dir() or not any(item.is_file() for item in path.rglob("*")):
+        raise FileNotFoundError(f"Stage07 task artifact is missing or empty: {path}")
+    return path
+
+
+def _publish_stage07_rejection(
+    *,
+    stage_root: Path,
+    paper_id: str,
+    response: dict[str, Any],
+    stage06_record: dict[str, Any],
+    handoff_root: Path,
+) -> Path:
+    staging = prepare_clean_directory(
+        stage_root / "staging" / safe_component(paper_id) / f"rejected-{uuid.uuid4().hex[:8]}"
+    )
+    for name in (
+        "paper_info.json",
+        "workflow_review.json",
+        "construction_receipt.json",
+        "stage06_handoff.json",
+    ):
+        source = handoff_root / name
+        if source.is_file():
+            shutil.copy2(source, staging / name)
+    write_json(staging / "stage06_handoff_record.json", stage06_record)
+    write_json(staging / "stage07_audit.json", response)
+    write_manifest(staging, staging / "audit_manifest.json")
+    target = stage_root / "rejected_tasks" / safe_component(paper_id)
+    atomic_commit_tree(staging, target)
+    return target
+
+
+def _resolve_stage07_source_root(
+    *,
+    record: dict[str, Any],
+    paper_id: str,
+    documents: list[dict[str, Any]],
+    stage_root: Path,
+    config: dict[str, Any],
+) -> Path:
+    source_value = record.get("source_snapshot_path")
+    if source_value:
+        source = Path(str(source_value)).expanduser().resolve()
+        if source.is_dir():
+            return source
+    return _prepare_stage07_fallback_source(
+        paper_id=paper_id,
+        documents=documents,
+        stage_root=stage_root,
+        config=config,
+    )
+
+
+def _prepare_stage07_fallback_source(
+    *,
+    paper_id: str,
+    documents: list[dict[str, Any]],
+    stage_root: Path,
+    config: dict[str, Any],
+) -> Path:
+    if not documents:
+        raise FileNotFoundError(f"No Stage04 source documents are available for {paper_id}")
+    identity = canonical_hash(
+        [
+            {
+                "document_id": row.get("document_id"),
+                "sha256": row.get("sha256"),
+                "source_path": row.get("source_path"),
+                "normalized_markdown_path": row.get("normalized_markdown_path"),
+                "content_blocks_path": row.get("content_blocks_path"),
+            }
+            for row in documents
+        ]
+    )
+    root = stage_root / "source_snapshots" / safe_component(paper_id) / identity[:16]
+    complete = root / "snapshot_complete.json"
+    if complete.is_file():
+        return root
+    prepare_clean_directory(root)
+    source_manifest: list[dict[str, Any]] = []
+    for document in sorted(documents, key=lambda row: str(row.get("document_id") or "")):
+        document_id = safe_component(str(document.get("document_id") or "document"))
+        document_root = root / "documents" / document_id
+        document_root.mkdir(parents=True, exist_ok=True)
+        copied: list[str] = []
+        for key, name in (
+            ("normalized_markdown_path", "normalized_document.md"),
+            ("content_blocks_path", "content_blocks.jsonl"),
+            ("layout_text_path", "layout_text.txt"),
+            ("pypdf_layout_path", "pypdf_layout.txt"),
+            ("tables_path", "tables.json"),
+        ):
+            value = document.get(key)
+            if not value:
+                continue
+            source = Path(str(value)).expanduser().resolve()
+            if source.is_file():
+                shutil.copy2(source, document_root / name)
+                copied.append(f"documents/{document_id}/{name}")
+        source_value = document.get("source_path")
+        if source_value:
+            source_pdf = Path(str(source_value)).expanduser().resolve()
+            if source_pdf.is_file() and source_pdf.suffix.casefold() == ".pdf":
+                if str(document.get("document_role") or "") == "main_paper":
+                    target = root / "main_paper.pdf"
+                else:
+                    target = root / "supplementary" / f"{document_id}.pdf"
+                    target.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(source_pdf, target)
+                copied.append(target.relative_to(root).as_posix())
+        write_json(document_root / "source_metadata.json", document)
+        source_manifest.append(
+            {
+                "document_id": document.get("document_id"),
+                "document_role": document.get("document_role"),
+                "materials": copied,
+            }
+        )
+    write_json(root / "source_manifest.json", source_manifest)
+    toolbox_path = config.get("toolbox_capabilities")
+    if toolbox_path and Path(str(toolbox_path)).expanduser().is_file():
+        shutil.copy2(Path(str(toolbox_path)).expanduser(), root / "toolbox_snapshot.json")
+    else:
+        write_json(root / "toolbox_snapshot.json", {"snapshot_status": "unavailable"})
+    write_json(root / "resource_policy.json", config.get("resource_policy") or {})
+    write_json(
+        complete,
+        {"paper_id": paper_id, "identity": identity, "created_at": now_utc()},
+    )
+    make_read_only(root)
+    return root
+
+
+def _stage07_toolbox_snapshot(
+    source_root: Path, handoff_root: Path, config: dict[str, Any]
+) -> dict[str, Any]:
+    for path in (
+        source_root / "toolbox_snapshot.json",
+        Path(str(config.get("toolbox_capabilities") or "" )).expanduser(),
+    ):
+        if str(path) and path.is_file():
+            return read_json(path)
+    requirements = handoff_root / "toolbox_requirements.json"
+    return {
+        "snapshot_status": "requirements_only",
+        "requirements": read_json(requirements) if requirements.is_file() else [],
+    }
+
+
+def _stage07_resource_policy(source_root: Path, config: dict[str, Any]) -> dict[str, Any]:
+    path = source_root / "resource_policy.json"
+    if path.is_file():
+        value = read_json(path)
+        if isinstance(value, dict):
+            return value
+    return dict(config.get("resource_policy") or {})
 
 
 def _run_audit_agent(
@@ -928,8 +1363,9 @@ def _audit_failure(
         **record_header(run_id=run_id, stage="stage07", paper_id=paper_id),
         "task_pair_id": task_pair_id,
         "processing_status": "failed",
-        "decision": "audit_failed_retryable",
-        "audit_summary": "audit_failed_retryable",
+        "decision": "objective_failure_retryable",
+        "audit_decision": "objective_failure_retryable",
+        "audit_summary": "objective_failure_retryable",
         "passed": False,
         "retryable": retryable,
         "failure_class": failure_class,

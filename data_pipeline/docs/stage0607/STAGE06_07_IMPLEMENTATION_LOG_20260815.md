@@ -261,3 +261,41 @@ r3 验证结果：
 - 项目全量测试：`471 passed in 15.03s`；
 - `python -m py_compile`：通过；
 - 下一步为单篇当前 API 端到端验证，通过后重提固定六篇。
+
+### 5.2 v5-r1：Stage06 provisional handoff 与 Stage07 repair-first
+
+对应方案：`STAGE06_07_AGENT_REPAIR_REDESIGN_PLAN_20260816.md`。
+
+本次职责修正：
+
+- Stage06 默认单 Agent 路径不再调用内容级 semantic validator，不再根据 rubric、路线泄漏、
+  Ground Truth、scope 或其他科学 finding 输出 `construction_invalid`；
+- Stage06 成功候选改为 `provisional_constructed`，暂定不可构建改为
+  `provisional_not_constructible`，两者都写入独立交接目录并进入 Stage07；
+- Stage06 只对 API、harness、JSON receipt、路径、文件交付和文件系统故障执行客观恢复；
+- Stage07 改为独立 Audit-Repair Agent，复制 Stage06 目录及完整论文/SI/解析快照到新的只读
+  inputs，并只在自己的 `outputs/task_pair/` 副本中修复；
+- Stage07 prompt 增加显式 `REPAIR-FIRST RULE`：原工作流可修复时禁止切换，只有记录有证据的
+  不可修复阻断后，才允许寻找其他完整工作流；
+- Stage07 支持 `approved`、`approved_with_repairs`、
+  `approved_after_workflow_redesign`、`rejected_scientific_unrepairable` 和
+  `objective_failure_retryable`；缺软件以正交 `toolbox_status=needs_software` 表达；
+- Stage07 active path 不再调用 deterministic scientific audit，也不合并代码生成的科学
+  outcome；代码只验证 receipt JSON、相对路径和 Agent 是否实际交付了非空任务目录；
+- approved 任务发布到 `audited_tasks/<paper_id>/`，科学拒绝保存在
+  `rejected_tasks/<paper_id>/`，Stage06 原候选保持不变；
+- runner 将 Stage06 的构建候选和暂定不可构建交接包都传给 Stage07；Codex、OpenCode、Claude
+  继续共用同一 harness 合同。
+
+本地验证（真实 API 调用前）：
+
+- Stage06/07 与历史 runner 专项测试：`95 passed`；
+- 新增“Stage06 部分任务不做内容重试、直接交 Stage07”测试，三次允许尝试配置下实际只调用
+  一次 Agent；
+- 新增 Stage07 repair-first prompt 顺序测试；
+- 全量测试：`472 passed`，唯一失败为无关 Stage01 测试启动系统不存在的 `pdfinfo` 时，当前
+  shell PATH 中一个外部目录返回 `ESTALE`；使用纯系统 PATH 复跑该测试为 `1 passed`；
+- 关键模块 `py_compile` 和 `git diff --check` 通过。
+
+下一步：提交 v5-r1 代码快照，使用 gallaphosphene 做真实 Stage06/07 单篇验证。若 Agent
+轨迹、任务交付或状态仍有问题，记录为 v5-r2 并修复；单篇达到方案预期后再异步提交固定六篇。

@@ -189,14 +189,53 @@ STAGE06_HIDDEN_SCHEMA = object_schema(
 
 
 STAGE07_AUDIT_SCHEMA = object_schema(
-    ["audit_summary", "outcomes", "checks", "toolbox_assessment", "cost_assessment"],
+    [
+        "audit_decision",
+        "source_stage06_decision",
+        "original_task_pair_id",
+        "final_task_pair_id",
+        "artifact_path",
+        "selected_workflow_preserved",
+        "repairs",
+        "workflow_redesign",
+        "remaining_issues",
+        "toolbox_status",
+        "required_additions",
+        "resource_status",
+        "summary",
+    ],
     {
-        "audit_summary": {"enum": ["passed_audit", "issues_found", "audit_failed_retryable"]},
-        "outcomes": OBJECT_ARRAY,
-        "checks": OBJECT_ARRAY,
-        "toolbox_assessment": OBJECT,
-        "cost_assessment": OBJECT,
-        "rationale": STRING,
+        "audit_decision": {
+            "enum": [
+                "approved",
+                "approved_with_repairs",
+                "approved_after_workflow_redesign",
+                "rejected_scientific_unrepairable",
+                "objective_failure_retryable",
+            ]
+        },
+        "source_stage06_decision": {
+            "enum": [
+                "provisional_constructed",
+                "provisional_not_constructible",
+            ]
+        },
+        "original_task_pair_id": STRING,
+        "final_task_pair_id": STRING,
+        "artifact_path": STRING,
+        "selected_workflow_preserved": {"type": "boolean"},
+        "repair_origin": {"type": "string", "default": ""},
+        "repairs": OBJECT_ARRAY,
+        "workflow_redesign": OBJECT,
+        "remaining_issues": OBJECT_ARRAY,
+        "toolbox_status": {
+            "enum": ["available", "needs_software", "unknown"]
+        },
+        "required_additions": OBJECT_ARRAY,
+        "resource_status": {
+            "enum": ["feasible", "high_cost", "infeasible", "uncertain"]
+        },
+        "summary": STRING,
     },
 )
 

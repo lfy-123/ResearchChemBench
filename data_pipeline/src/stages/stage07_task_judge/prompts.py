@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-STAGE07_AUDIT_VERSION = "v4-stage07-scope-complexity-audit-20260815-r1"
+STAGE07_AUDIT_VERSION = "v5-stage07-repair-first-auditor-20260816-r1"
 
 
 def audit_instructions(
@@ -10,78 +10,118 @@ def audit_instructions(
     manifest_hash: str,
     max_tool_calls: int,
     finalization_reserve: int,
+    source_stage06_decision: str = "provisional_constructed",
 ) -> str:
-    search_deadline = max(1, max_tool_calls - max(1, finalization_reserve))
-    return f"""You are the independent Stage07 objective auditor for ResearchChemBench paper `{paper_id}` and task
-pair `{task_pair_id}`. The frozen input manifest hash is `{manifest_hash}`.
+    search_deadline = max(1, max_tool_calls - max(2, finalization_reserve))
+    return f"""You are the single Stage07 Audit-Repair Agent for ResearchChemBench paper
+`{paper_id}` and provisional task pair `{task_pair_id}`. The immutable handoff fingerprint is
+`{manifest_hash}` and Stage06 returned `{source_stage06_decision}`.
 
-This is a fresh isolated read-only audit session. On the first workspace call run
-`python3 inputs/initialize_objective_audit.py`; it copies a deterministic audit scaffold to
-`outputs/objective_audit.json`. Then read `inputs/audit_packet.json` once. That packet contains the deterministic
-pair validation, mode hashes, frozen scoring summary, provenance summary, task-specific toolbox view, workflow
-summary, and resource policy needed for the objective audit. Do not broadly inspect `inputs/task_pair/`, dump the
-full toolbox, or traverse the evidence index. Use a targeted fallback path listed in the packet only when a named
-question is unresolved. Do not read parser internals or source papers. Do not modify, regenerate, or repair any
-task file. Do not run a Gold calculation and do not decide whether the benchmark should be published.
+You work in a fresh isolated workspace. Everything under `inputs/` is read-only. The Stage06
+handoff is `inputs/stage06_candidate/`; the complete main paper, all known SI, normalized text,
+layout fallbacks, tables, coordinates, evidence index, toolbox snapshot, and resource policy are
+under `inputs/source_materials/` or the other named input JSON files. A writable copy of the
+Stage06 candidate is already at `outputs/task_pair/`. Modify only `outputs/`. Never modify the
+canonical toolbox or any input file.
 
-On a recovery attempt, `RECOVERY_CONTEXT.md` is present and the previous `outputs/objective_audit.json` is copied
-into the new workspace. Do not rerun the initializer in that case. Inspect the preserved artifact once and patch
-only the validator findings named in the recovery context.
+REPAIR-FIRST RULE: First audit and attempt to repair the workflow selected by Stage06. Do not
+search for or switch to another workflow while the selected workflow can be repaired from the
+paper, SI, parsed assets, or task artifacts. Only after recording an evidence-backed,
+scientifically unrepairable blocker may you select another complete workflow and redesign the
+task pair.
 
-You have a hard budget of {max_tool_calls} shell/read calls. Group related files into one short command and finish
-the evidence search by call {search_deadline}, preserving the remaining calls for a complete structured audit. One
-shell call may inspect several explicitly named small JSON files. Do not issue one call per file or per evidence ID.
+Your job is to return a final scientific decision and, for every approved decision, the actual
+repaired or redesigned task directory—not merely a list of suggestions.
 
-Audit objective facts:
-1. Are every necessary input structure, state, charge/multiplicity, boundary condition, raw observation, parameter,
-   and data asset present and semantically unambiguous? In particular, does the public physical target environment
-   match the environment underlying Ground Truth without exposing the paper's software/model implementation?
-2. Is `workflow_scope` truthful? Was the full-paper computational workflow selected whenever it was complete, and
-   does every major/partial selection give evidence-backed blockers for each larger scope? Report
-   `workflow_incomplete` with finding `scope_underselected` when a larger complete workflow was skipped.
-3. Is the computational workflow complete, scientifically meaningful, and genuinely medium/high complexity? Check
-   core calculations, systems/states/branches, dependencies, validation and reasoning against the declared counts.
-   File conversion, plotting, reading values, arithmetic and artificially split commands do not add complexity.
-   Report `workflow_incomplete` with finding `task_not_challenging` for a trivial one-call benchmark.
-4. Does autonomous mode hide the paper route, method examples, target values, intermediate target conclusions,
-   final conclusions, and scoring tolerances?
-5. Was autonomous mode produced from the validated paper-reproduction folder by the fixed conversion contract while
-   preserving identical inputs, submission contract, scope and scientific target? Does reproduction disclose enough
-   of the paper route without leaking results, and does autonomous remove that route?
-6. Do both modes use exactly the same Ground Truth, scientific conclusion rubric, and Acceptance Profiles, while
-   allowing different process rubrics?
-7. Are numerical, categorical, structural, trend, intermediate textual, and final textual Ground Truth items backed
-   by evidence and machine-executable typed acceptance rules?
-8. Is paper provenance complete and traceable?
-9. Which required software, version, license, dependency, module, parameter set, or function is missing, incompatible,
-   or unknown in the read-only toolbox snapshot?
-10. Is the expected CPU/GPU, memory, storage, and walltime obviously too high for the supplied resource policy?
+1. Read the Stage06 receipt, workflow review, task pair, and warnings. Identify its selected
+   workflow and exact open questions.
+2. Check that workflow against the primary paper/SI evidence. Search all known source fallbacks
+   before calling data absent. Stage02-05 fields are hints only.
+3. Repair the original workflow when the source contains the missing material. Typical repairs
+   include copying source-provided input assets, clarifying instructions/boundaries, completing
+   the reproduction route, removing route/method/answer leakage from autonomous mode, completing
+   intermediate and final Ground Truth, typing Acceptance Profiles, fixing rubrics/evidence, and
+   making the two modes scientifically consistent.
+4. Preserve the same inputs, scientific question, target quantities, submission contract,
+   Ground Truth, Acceptance Profiles, and conclusion rubric across both modes. Process rubrics
+   may differ. Paper reproduction discloses the authors' executable route; autonomous research
+   asks the evaluated Agent to discover its own route and must not disclose author software,
+   methods, parameters, route sequence, target answers, or conclusion text.
+5. Do not fabricate or approximately reconstruct a missing structure, coordinate, charge,
+   multiplicity, state, parameter, result, intermediate conclusion, final conclusion, or Ground
+   Truth. Deterministic format conversion of uniquely source-provided data is allowed only with
+   provenance and no introduced scientific values.
+6. Prefer the whole-paper computational workflow. If it is not source-complete, prefer the
+   largest complete, non-trivial subworkflow. Retain difficult multi-step calculations, branches,
+   dependencies, validation, and meaningful tool use; a one-call calculation followed by reading
+   one answer is not a useful benchmark.
+7. Only if the Stage06 workflow is scientifically unrepairable may you inventory alternatives.
+   Record its blocker, sources checked, and evidence IDs first. If another complete non-trivial
+   author-performed workflow exists, rebuild the full paired task and use
+   `approved_after_workflow_redesign`. If no workflow is constructible without guessing, use
+   `rejected_scientific_unrepairable`.
+8. A Stage06 abstention is not final. When `{source_stage06_decision}` is
+   `provisional_not_constructible`, independently inspect the sources. Recovering the same
+   workflow is `approved_with_repairs` with `repair_origin=stage06_abstention_reversed`; selecting
+   a different workflow is `approved_after_workflow_redesign`.
 
-Toolbox absence is an audit fact, not a reason to erase the task. Use `needs_software` only when a required program,
-dependency, license component, model, or function is explicitly absent, missing, incompatible, or unsupported. If
-the software is present/declared but the snapshot does not verify the exact required function, report only
-`toolbox_capability_unknown`; do not duplicate the same gap as `needs_software`. A task can have multiple outcomes.
-Use only these outcome types:
-- needs_software
-- task_missing_data
-- task_missing_ground_truth
-- workflow_incomplete
-- task_cost_too_high
-- acceptance_rule_invalid
-- mode_isolation_violation
-- mode_pair_inconsistent
-- provenance_incomplete
-- toolbox_capability_unknown
+TOOLBOX AND COST
+- The toolbox is read-only. Missing software never causes scientific rejection. Finish the task,
+  set `toolbox_status=needs_software`, and list precise additions or capabilities for later human
+  installation. Unknown capability stays `unknown`.
+- Prefer a scientifically meaningful bounded scope when cost is high. Reject for cost only when
+  the target remains infeasible under the supplied policy and no complete meaningful scope exists.
 
-Each outcome needs `type`, `severity` (`blocking`, `major`, or `minor`), `scope` (`both_modes`,
-`autonomous_research`, `paper_reproduction`, `hidden_reference`, or `provenance`), precise `details`, and file or
-evidence references. `audit_summary=passed_audit` only when there are no outcomes; otherwise use `issues_found`.
-Use `audit_failed_retryable` only when the provided files cannot be read or the audit itself cannot be completed.
+OUTPUT CONTRACT
+For `approved`, `approved_with_repairs`, or `approved_after_workflow_redesign`, leave a complete
+final tree at `outputs/task_pair/` with these sibling components:
 
-Replace every `AGENT_REQUIRED` field in the scaffold. Preserve deterministic outcomes unless a packet fact proves
-one is malformed; add only evidence-backed new outcomes. Ensure `audit_summary=passed_audit` exactly when outcomes
-is empty and `issues_found` otherwise. Atomically validate `outputs/objective_audit.json` in the same bounded patch
-call. Return the full matching JSON or a small receipt naming `outputs/objective_audit.json`. The response is a
-private audit artifact: cite hidden IDs but do not quote target answers in rationale or outcome details. Do not
-propose a publication decision.
+- `paper_info.json`
+- `paper_reproduction/`
+- `autonomous_research/`
+- `hidden_reference/`
+- `toolbox_requirements.json`
+
+Paper/SI PDFs and private source-reading bundles must not be copied into either public mode.
+Keep hidden answers only in `hidden_reference/`, never under either public task folder. When you
+redesign, construct paper reproduction first, copy it to autonomous research, then remove the
+paper route and rewrite only disclosure/process instructions while preserving shared science.
+
+Atomically write `outputs/stage07_audit.json` and return the same JSON. It must contain:
+
+{{
+  "audit_decision": "approved | approved_with_repairs | approved_after_workflow_redesign | rejected_scientific_unrepairable | objective_failure_retryable",
+  "source_stage06_decision": "{source_stage06_decision}",
+  "original_task_pair_id": "{task_pair_id}",
+  "final_task_pair_id": "...",
+  "artifact_path": "outputs/task_pair",
+  "selected_workflow_preserved": true,
+  "repair_origin": "",
+  "repairs": [{{"category": "...", "details": "...", "source_evidence_ids": [], "changed_files": []}}],
+  "workflow_redesign": {{
+    "performed": false,
+    "trigger": "",
+    "original_scope": {{}},
+    "original_blockers": [],
+    "checked_sources": [],
+    "replacement_scope": {{}},
+    "replacement_reason": "",
+    "evidence_ids": [],
+    "changed_files": []
+  }},
+  "remaining_issues": [],
+  "toolbox_status": "available | needs_software | unknown",
+  "required_additions": [],
+  "resource_status": "feasible | high_cost | infeasible | uncertain",
+  "summary": "..."
+}}
+
+For a scientific rejection, set `artifact_path=outputs/stage07_audit.json`, use an empty
+`final_task_pair_id`, and retain the evidence-backed blockers in `remaining_issues` and
+`workflow_redesign`. For an objective API/harness/PDF/filesystem failure, do not disguise it as a
+scientific rejection; use `objective_failure_retryable`.
+
+You have at most {max_tool_calls} workspace calls. Group related searches. Finish broad source
+search by call {search_deadline}; reserve later calls for writing and checking the actual task
+tree. Do not create scattered status files such as `finished_at.txt` or `failed_count.txt`.
 """

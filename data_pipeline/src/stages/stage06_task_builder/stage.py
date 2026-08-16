@@ -77,7 +77,7 @@ from src.stages.stage06_task_builder.validation import (
     validate_workflow_review,
 )
 
-STAGE06_IMPLEMENTATION_VERSION = "v4-single-agent-full-workflow-first-20260816-r3"
+STAGE06_IMPLEMENTATION_VERSION = "v5-provisional-builder-handoff-20260816-r1"
 STAGE06_DIRECTORY = "stage_06_task_construction"
 
 
@@ -198,7 +198,6 @@ def _run_stage06_single_agent(
                 config=config,
                 run_id=run_id,
             )
-            evidence_ids = set(snapshot["evidence_by_id"])
             receipt, agent_audit, agent_workspace = _run_phase(
                 harness=harness,
                 stage_root=stage_root,
@@ -242,35 +241,37 @@ def _run_stage06_single_agent(
                 },
                 config=config,
                 setup=lambda root: _copy_phase_inputs(snapshot["root"], root / "inputs"),
-                semantic_validator=lambda response, root: _task_pair_builder_phase_findings(
-                    response,
-                    root,
-                    evidence_ids=evidence_ids,
-                    source_root=snapshot["root"],
-                ),
             )
             if agent_workspace is None:
                 raise FileNotFoundError("Stage06 task-pair builder workspace is unavailable")
             outputs = agent_workspace / "outputs"
             review = read_json(outputs / "workflow_review.json")
             if receipt.get("decision") == "scientific_not_constructible":
-                return _scientific_not_constructible(
+                return _publish_provisional_not_constructible(
+                    stage_root=stage_root,
                     run_id=run_id,
                     paper_id=paper_id,
                     candidate_id=candidate_id,
+                    receipt=receipt,
                     review=review,
                     agent_audit=agent_audit,
+                    outputs=outputs,
+                    snapshot=snapshot,
+                    documents=paper_documents,
                 )
 
-            task_pair_id = str(review["task_pair_id"])
+            task_pair_id = str(
+                review.get("task_pair_id")
+                or receipt.get("task_pair_id")
+                or f"{paper_id}-provisional"
+            )
             staging_root = prepare_clean_directory(
                 stage_root
                 / "staging"
                 / safe_component(paper_id)
                 / f"{safe_component(task_pair_id)}-{uuid.uuid4().hex[:8]}"
             )
-            for name in ("paper_reproduction", "autonomous_research", "hidden_reference"):
-                copytree_exact(outputs / name, staging_root / name)
+            copytree_exact(outputs, staging_root)
             make_writable(staging_root)
             write_json(staging_root / "workflow_review.json", review)
             write_json(staging_root / "construction_receipt.json", receipt)
@@ -280,44 +281,59 @@ def _run_stage06_single_agent(
                 if requirements_path.is_file()
                 else review.get("toolbox_requirements") or []
             )
-            review["toolbox_requirements"] = _normalize_toolbox_requirements(requirements)
-            hidden = read_json(staging_root / "hidden_reference" / "ground_truth_common.json")
+            review["toolbox_requirements"] = _normalize_toolbox_requirements(
+                requirements if isinstance(requirements, list) else []
+            )
             autonomous_root = staging_root / "autonomous_research"
             reproduction_root = staging_root / "paper_reproduction"
-            _write_mode_public_manifest(reproduction_root)
-            _write_mode_public_manifest(autonomous_root)
-            _materialize_pair_metadata(
+            handoff_warnings: list[str] = []
+            hidden_path = staging_root / "hidden_reference" / "ground_truth_common.json"
+            if reproduction_root.is_dir() and autonomous_root.is_dir() and hidden_path.is_file():
+                try:
+                    _write_mode_public_manifest(reproduction_root)
+                    _write_mode_public_manifest(autonomous_root)
+                    _materialize_pair_metadata(
+                        staging_root,
+                        paper_id=paper_id,
+                        task_pair_id=task_pair_id,
+                        documents=paper_documents,
+                        stage04=coverage[paper_id],
+                        candidates=paper_candidates,
+                        review=review,
+                        hidden=read_json(hidden_path),
+                        evidence_index=snapshot["evidence_index"],
+                        snapshot=snapshot,
+                        autonomous_root=autonomous_root,
+                        reproduction_root=reproduction_root,
+                        construction_harness=harness,
+                        review_harness=harness,
+                        phase_audits={"task_pair_builder": agent_audit},
+                        mode_generation_order=["paper_reproduction", "autonomous_research"],
+                        mode_generation_strategy="single_agent",
+                    )
+                except (KeyError, TypeError, ValueError, json.JSONDecodeError) as exc:
+                    # Content drift belongs to the Stage07 audit-repair Agent.  Preserve the
+                    # candidate instead of turning a repairable task into a Stage06 rejection.
+                    handoff_warnings.append(
+                        f"metadata_materialization_deferred:{type(exc).__name__}:{exc}"
+                    )
+            else:
+                handoff_warnings.append("candidate_task_tree_incomplete_stage07_review_required")
+            _write_provisional_handoff_metadata(
                 staging_root,
                 paper_id=paper_id,
                 task_pair_id=task_pair_id,
+                decision="provisional_constructed",
                 documents=paper_documents,
-                stage04=coverage[paper_id],
                 candidates=paper_candidates,
                 review=review,
-                hidden=hidden,
-                evidence_index=snapshot["evidence_index"],
+                receipt=receipt,
                 snapshot=snapshot,
-                autonomous_root=autonomous_root,
-                reproduction_root=reproduction_root,
-                construction_harness=harness,
-                review_harness=harness,
-                phase_audits={"task_pair_builder": agent_audit},
-                mode_generation_order=["paper_reproduction", "autonomous_research"],
-                mode_generation_strategy="single_agent",
+                agent_audit=agent_audit,
+                handoff_warnings=handoff_warnings,
             )
-            pair_audit = validate_task_pair(staging_root)
-            write_json(staging_root / "construction_validation.json", pair_audit)
             write_manifest(staging_root, staging_root / "task_pair_manifest.json")
-            if not pair_audit["passed"]:
-                return _construction_invalid(
-                    run_id,
-                    paper_id,
-                    candidate_id,
-                    task_pair_id,
-                    pair_audit["findings"],
-                    {"task_pair_builder": agent_audit},
-                )
-            target = stage_root / "tasks" / safe_component(paper_id)
+            target = stage_root / "provisional_tasks" / safe_component(paper_id)
             atomic_commit_tree(staging_root, target)
             scope = review.get("workflow_scope") or {}
             complexity = review.get("complexity_profile") or {}
@@ -333,9 +349,12 @@ def _run_stage06_single_agent(
                 ],
                 "task_pair_id": task_pair_id,
                 "processing_status": "completed",
-                "decision": "constructed",
+                "decision": "provisional_constructed",
+                "handoff_ready": True,
                 "passed": True,
                 "task_pair_path": str(target),
+                "handoff_path": str(target),
+                "source_snapshot_path": str(snapshot["root"]),
                 "workflow_scope_kind": scope.get("kind"),
                 "complexity_level": complexity.get("level"),
                 "toolbox_gap_present": toolbox_gap,
@@ -349,29 +368,20 @@ def _run_stage06_single_agent(
                     review.get("stage05_candidate_disposition") or ""
                 ).casefold()
                 in {"replaced", "corrected", "ignored"},
-                "deterministic_audit": pair_audit,
+                "handoff_warnings": handoff_warnings,
                 "agent_harness": harness.name,
                 "agent_model": harness.model,
                 "mode_generation_strategy": "single_agent",
             }
         except AgentExecutionError as exc:
-            if exc.failure_class in {
-                "invalid_phase_contract",
-                "invalid_agent_output",
-                "partial_agent_artifact",
-                "missing_agent_artifact",
-            }:
-                return _construction_invalid(
+            if exc.failure_class in {"partial_agent_artifact", "missing_agent_artifact"}:
+                return _artifact_delivery_failure(
                     run_id,
                     paper_id,
                     candidate_id,
-                    None,
-                    [f"{exc.failure_class}: {exc}"],
-                    {
-                        "task_pair_builder": (
-                            exc.result.audit_record() if exc.result else {}
-                        )
-                    },
+                    exc.failure_class,
+                    str(exc),
+                    agent_run=exc.result.audit_record() if exc.result else None,
                 )
             return _objective_failure(
                 run_id,
@@ -391,13 +401,12 @@ def _run_stage06_single_agent(
                 f"{type(exc).__name__}: {exc}",
             )
         except Exception as exc:
-            return _construction_invalid(
+            return _objective_failure(
                 run_id,
                 paper_id,
                 candidate_id,
-                None,
-                [f"{type(exc).__name__}: {exc}"],
-                {},
+                "stage06_processing_error",
+                f"{type(exc).__name__}: {exc}",
             )
 
     records = ordered_parallel_map(
@@ -411,15 +420,18 @@ def _run_stage06_single_agent(
         "implementation_version": STAGE06_IMPLEMENTATION_VERSION,
         "mode_generation_strategy": "single_agent",
         "papers": len(records),
-        "constructed": sum(row.get("decision") == "constructed" for row in records),
-        "scientific_not_constructible": sum(
-            row.get("decision") == "scientific_not_constructible" for row in records
+        "provisional_constructed": sum(
+            row.get("decision") == "provisional_constructed" for row in records
+        ),
+        "provisional_not_constructible": sum(
+            row.get("decision") == "provisional_not_constructible" for row in records
         ),
         "retryable_failures": sum(
             row.get("decision") == "objective_failure_retryable" for row in records
         ),
-        "invalid_constructions": sum(
-            row.get("decision") == "construction_invalid" for row in records
+        "artifact_delivery_failures": sum(
+            row.get("decision") == "artifact_delivery_failure_retryable"
+            for row in records
         ),
         "toolbox_gaps": sum(bool(row.get("toolbox_gap_present")) for row in records),
         "decisions": decision_counts(records),
@@ -1961,13 +1973,14 @@ def _recover_builder_receipt_from_review(
 ) -> dict[str, Any] | None:
     """Recover a derivative receipt when the Agent's final message is malformed.
 
-    The workflow review and task tree remain the authority.  The semantic
-    validator must accept them before this recovery can turn a failed CLI final
-    message into a successful phase result.
+    The workflow review remains the authority for this small transport receipt.
+    When a semantic validator is supplied (legacy phases), it must accept the
+    artifact.  The provisional single-Agent path deliberately performs only the
+    JSON/artifact recovery here and leaves scientific review to Stage07.
     """
 
     review_path = workspace / "outputs" / "workflow_review.json"
-    if not review_path.is_file() or semantic_validator is None:
+    if not review_path.is_file():
         return None
     try:
         review = read_json(review_path)
@@ -2004,9 +2017,10 @@ def _recover_builder_receipt_from_review(
         ),
     }
     write_json(workspace / "outputs" / "construction_receipt.json", receipt)
-    findings = semantic_validator(receipt, workspace)
-    if findings:
-        return None
+    if semantic_validator is not None:
+        findings = semantic_validator(receipt, workspace)
+        if findings:
+            return None
     try:
         jsonschema.validate(receipt, output_schema)
     except jsonschema.ValidationError:
@@ -7052,6 +7066,155 @@ def _resource_risk_present(value: dict[str, Any]) -> bool:
     } or bool(value.get("risk_present"))
 
 
+def _write_provisional_handoff_metadata(
+    root: Path,
+    *,
+    paper_id: str,
+    task_pair_id: str,
+    decision: str,
+    documents: list[dict[str, Any]],
+    candidates: list[dict[str, Any]],
+    review: dict[str, Any],
+    receipt: dict[str, Any],
+    snapshot: dict[str, Any],
+    agent_audit: dict[str, Any],
+    handoff_warnings: list[str],
+) -> None:
+    """Write provenance for Stage07 without judging the candidate's science."""
+
+    paper_info_path = root / "paper_info.json"
+    if not paper_info_path.is_file():
+        write_json(
+            paper_info_path,
+            {
+                "paper_id": paper_id,
+                "task_pair_id": task_pair_id,
+                "doi": next((row.get("doi") for row in documents if row.get("doi")), None),
+                "title": _paper_title(documents),
+                "journal": next(
+                    (
+                        row.get("journal_name")
+                        for row in documents
+                        if row.get("journal_name")
+                    ),
+                    None,
+                ),
+                "documents": [_paper_document_metadata(row) for row in documents],
+                "stage05_candidates": [row.get("candidate_id") for row in candidates],
+                "workflow_scope": review.get("workflow_scope") or {},
+                "complexity_profile": review.get("complexity_profile") or {},
+                "construction_version": STAGE06_IMPLEMENTATION_VERSION,
+                "constructed_at": now_utc(),
+                "publication_governance": {
+                    "license_status": "unknown_not_assessed",
+                    "release_rights_status": "requires_separate_review",
+                    "source_access": "private_corpus",
+                },
+            },
+        )
+    write_json(root / "evidence_index.json", snapshot.get("evidence_index") or [])
+    write_json(
+        root / "source_manifest.json",
+        {
+            "snapshot_hash": snapshot.get("snapshot_hash"),
+            "documents": snapshot.get("source_manifest") or [],
+            "source_facts": snapshot.get("source_facts") or {},
+        },
+    )
+    toolbox_path = root / "toolbox_requirements.json"
+    if not toolbox_path.is_file():
+        write_json(
+            toolbox_path,
+            _normalize_toolbox_requirements(review.get("toolbox_requirements") or []),
+        )
+    write_json(
+        root / "stage06_handoff.json",
+        {
+            "schema_version": "researchchembench.stage06-provisional-handoff.v1",
+            "paper_id": paper_id,
+            "task_pair_id": task_pair_id,
+            "decision": decision,
+            "handoff_ready": True,
+            "source_snapshot_path": str(snapshot["root"]),
+            "snapshot_hash": snapshot.get("snapshot_hash"),
+            "construction_receipt": receipt,
+            "handoff_warnings": handoff_warnings,
+            "agent_run": agent_audit,
+            "created_at": now_utc(),
+        },
+    )
+
+
+def _publish_provisional_not_constructible(
+    *,
+    stage_root: Path,
+    run_id: str,
+    paper_id: str,
+    candidate_id: str,
+    receipt: dict[str, Any],
+    review: dict[str, Any],
+    agent_audit: dict[str, Any],
+    outputs: Path,
+    snapshot: dict[str, Any],
+    documents: list[dict[str, Any]],
+) -> dict[str, Any]:
+    task_pair_id = str(
+        review.get("task_pair_id")
+        or receipt.get("task_pair_id")
+        or f"{paper_id}-provisional"
+    )
+    staging = prepare_clean_directory(
+        stage_root
+        / "staging"
+        / safe_component(paper_id)
+        / f"not-constructible-{uuid.uuid4().hex[:8]}"
+    )
+    copytree_exact(outputs, staging)
+    make_writable(staging)
+    write_json(staging / "workflow_review.json", review)
+    write_json(staging / "construction_receipt.json", receipt)
+    _write_provisional_handoff_metadata(
+        staging,
+        paper_id=paper_id,
+        task_pair_id=task_pair_id,
+        decision="provisional_not_constructible",
+        documents=documents,
+        candidates=[{"candidate_id": candidate_id}],
+        review=review,
+        receipt=receipt,
+        snapshot=snapshot,
+        agent_audit=agent_audit,
+        handoff_warnings=["stage06_agent_abstained_stage07_source_review_required"],
+    )
+    write_manifest(staging, staging / "task_pair_manifest.json")
+    target = stage_root / "provisional_rejections" / safe_component(paper_id)
+    atomic_commit_tree(staging, target)
+    scope = review.get("workflow_scope") or {}
+    complexity = review.get("complexity_profile") or {}
+    return {
+        **record_header(run_id=run_id, stage="stage06", paper_id=paper_id),
+        "candidate_id": candidate_id,
+        "task_pair_id": task_pair_id,
+        "processing_status": "completed",
+        "decision": "provisional_not_constructible",
+        "handoff_ready": True,
+        "passed": False,
+        "retryable": False,
+        "failure_code": review.get("failure_code"),
+        "failure_reasons": review.get("failure_reasons") or [],
+        "workflow_scope_kind": scope.get("kind") or "none",
+        "complexity_level": complexity.get("level") or "not_assessed",
+        "toolbox_gap_present": any(
+            _toolbox_requirement_status(row) in {"missing", "unknown", "incompatible"}
+            for row in review.get("toolbox_requirements") or []
+        ),
+        "task_pair_path": str(target),
+        "handoff_path": str(target),
+        "source_snapshot_path": str(snapshot["root"]),
+        "agent_runs": {"task_pair_builder": agent_audit},
+    }
+
+
 def _scientific_not_constructible(
     *,
     run_id: str,
@@ -7132,6 +7295,30 @@ def _objective_failure(
         "decision": "objective_failure_retryable" if retryable else "objective_failure",
         "passed": False,
         "retryable": retryable,
+        "failure_class": failure_class,
+        "error": {"error_type": failure_class, "message": message[:4000]},
+        "agent_run": agent_run,
+    }
+
+
+def _artifact_delivery_failure(
+    run_id: str,
+    paper_id: str,
+    candidate_id: str,
+    failure_class: str,
+    message: str,
+    *,
+    agent_run: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    return {
+        **record_header(run_id=run_id, stage="stage06", paper_id=paper_id),
+        "candidate_id": candidate_id,
+        "task_pair_id": None,
+        "processing_status": "failed",
+        "decision": "artifact_delivery_failure_retryable",
+        "handoff_ready": False,
+        "passed": False,
+        "retryable": True,
         "failure_class": failure_class,
         "error": {"error_type": failure_class, "message": message[:4000]},
         "agent_run": agent_run,

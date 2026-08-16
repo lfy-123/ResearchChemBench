@@ -103,15 +103,21 @@ def run_stage06_07_from_history(
     )
 
     stage07: dict[str, Any] | None = None
-    constructed = [row for row in stage06["records"] if row.get("decision") == "constructed"]
-    if include_stage07 and constructed:
+    stage07_handoffs = [
+        row
+        for row in stage06["records"]
+        if row.get("decision")
+        in {"provisional_constructed", "provisional_not_constructible"}
+        and row.get("handoff_ready", True)
+    ]
+    if include_stage07 and stage07_handoffs:
         judge_model = RoleModelClient(
             role="judge",
             config=config["models"]["judge"],
             cache_root=output_root / "llm_cache",
         )
         stage07 = run_stage07(
-            build_records=constructed,
+            build_records=stage07_handoffs,
             documents=inputs["documents"],
             config={
                 **config["stage07"],
