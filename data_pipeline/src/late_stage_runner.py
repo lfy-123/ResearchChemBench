@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import json
+import re
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Iterable
@@ -140,11 +142,18 @@ def load_historical_stage_inputs(
     allow_stage05_review_hints: bool = False,
 ) -> dict[str, Any]:
     root = Path(source_run).expanduser().resolve()
-    loaded = {
-        key: _read_recursive(root, relative)
-        for key, relative in STAGE_PATHS.items()
+    paths_by_key = {
+        key: _recursive_paths(root, relative) for key, relative in STAGE_PATHS.items()
     }
-    paper_id = _resolve_paper_id(loaded.values(), paper)
+    paper_id = (
+        paper
+        if re.fullmatch(r"paper_[A-Za-z0-9]+", paper.strip())
+        else _resolve_paper_id_from_paths(paths_by_key.values(), paper)
+    )
+    loaded = {
+        key: _read_paths_for_paper(paths, paper_id=paper_id)
+        for key, paths in paths_by_key.items()
+    }
     filtered = {
         key: _latest_rows(
             [row for row in rows if str(row.get("paper_id") or "") == paper_id],
@@ -197,16 +206,68 @@ def load_historical_stage_inputs(
 
 
 def _read_recursive(root: Path, relative: str) -> list[dict[str, Any]]:
-    output: list[dict[str, Any]] = []
-    paths = set(root.glob(f"batches/*/microbatches/*/{relative}"))
+    return [row for path in _recursive_paths(root, relative) for row in read_jsonl(path)]
+
+
+def _recursive_paths(root: Path, relative: str) -> list[Path]:
+    """Return every historical JSONL shard without parsing unrelated records."""
+
+    paths: set[Path] = set(root.glob(f"batches/*/microbatches/*/{relative}"))
     paths.update(root.glob(f"batches/*/{relative}"))
     paths.update(root.glob(f"microbatches/*/{relative}"))
     direct = root / relative
     if direct.is_file():
         paths.add(direct)
-    for path in sorted(paths):
-        output.extend(read_jsonl(path))
+    return sorted(paths)
+
+
+def _read_paths_for_paper(
+    paths: Iterable[Path], *, paper_id: str
+) -> list[dict[str, Any]]:
+    """Stream-filter large JSONL shards before decoding their full payloads."""
+
+    output: list[dict[str, Any]] = []
+    for path in paths:
+        with path.open("r", encoding="utf-8") as handle:
+            for line in handle:
+                if paper_id not in line:
+                    continue
+                try:
+                    row = json.loads(line)
+                except json.JSONDecodeError:
+                    continue
+                if isinstance(row, dict) and str(row.get("paper_id") or "") == paper_id:
+                    output.append(row)
     return output
+
+
+def _resolve_paper_id_from_paths(
+    path_groups: Iterable[Iterable[Path]], selector: str
+) -> str:
+    normalized = selector.strip().casefold()
+    matches: set[str] = set()
+    for paths in path_groups:
+        for path in paths:
+            with path.open("r", encoding="utf-8") as handle:
+                for line in handle:
+                    if normalized not in line.casefold():
+                        continue
+                    try:
+                        row = json.loads(line)
+                    except json.JSONDecodeError:
+                        continue
+                    if not isinstance(row, dict):
+                        continue
+                    paper_id = str(row.get("paper_id") or "")
+                    doi = str(row.get("doi") or "").casefold()
+                    if paper_id == selector or doi == normalized:
+                        matches.add(paper_id)
+    matches.discard("")
+    if not matches:
+        raise ValueError(f"paper selector was not found in historical run: {selector}")
+    if len(matches) != 1:
+        raise ValueError(f"paper selector is ambiguous: {selector} -> {sorted(matches)}")
+    return matches.pop()
 
 
 def _resolve_paper_id(groups: Iterable[list[dict[str, Any]]], selector: str) -> str:

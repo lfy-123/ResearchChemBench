@@ -36,9 +36,10 @@ from src.agents.workspace import (
     copytree_exact,
     make_read_only,
 )
-from src.contracts import read_json
+from src.contracts import read_json, write_json
 from src.stages.stage06_task_builder.stage import (
     _agent_public_basis,
+    _canonicalize_review_evidence_ids,
     _compact_toolbox_snapshot,
     _extract_markdown_tables,
     _interrupted_phase_artifact_recovery,
@@ -51,6 +52,8 @@ from src.stages.stage06_task_builder.stage import (
     _normalize_submission_contract,
     _normalize_task_pair_artifact_contracts,
     _normalize_workflow_review_aliases,
+    _normalize_scientific_failure_contract,
+    _recover_public_assets,
     _reconcile_task_phase_receipt,
     _reproduction_patch_script,
     _reproduction_phase_findings,
@@ -59,6 +62,7 @@ from src.stages.stage06_task_builder.stage import (
     _setup_autonomous_inputs,
     _setup_hidden_inputs,
     _setup_reproduction_inputs,
+    _task_pair_builder_phase_findings,
     run_stage06,
 )
 from src.stages.stage06_task_builder.validation import (
@@ -4161,6 +4165,17 @@ def test_scientific_review_rejects_paper_method_in_autonomous_packet() -> None:
     assert "review_public_route_disclosure:def2-svp" in findings
 
 
+def test_route_validation_and_comparison_artifacts_are_not_hidden_answers() -> None:
+    review = _mock_responses()["stage06_scientific_review"]
+    review["workflow_steps"][0]["description"] = (
+        "Verify stationary-point character and write a barrier comparison table."
+    )
+
+    findings = validate_scientific_review(review, {"ev_main_1", "ev_si_1"})
+
+    assert "review_reproduction_route_uses_hidden_result" not in findings
+
+
 def test_agent_task_contracts_are_normalized_for_evaluation() -> None:
     contract = _normalize_submission_contract(
         {
@@ -4522,6 +4537,11 @@ def test_stage07_merges_same_outcome_supported_by_overlapping_evidence() -> None
 def _document(tmp_path: Path, document_id: str, role: str, evidence_id: str) -> dict:
     root = tmp_path / document_id
     root.mkdir()
+    source_structures = root / "structures.xyz"
+    source_structures.write_text(
+        "2\nA\nH 0 0 0\nH 0 0 0.74\n2\nB\nH 0 0 0\nH 0 0 0.80\n",
+        encoding="utf-8",
+    )
     markdown = root / "normalized_document.md"
     markdown.write_text(
         "# Test computational chemistry paper\n\nMethods and results are available.\n",
@@ -4535,10 +4555,20 @@ def _document(tmp_path: Path, document_id: str, role: str, evidence_id: str) -> 
                 "document_id": document_id,
                 "section_path": ["Computational Methods"],
                 "block_type": "paragraph",
-                "text": "ORCA optimization and frequency calculations support the reported stability.",
+                "text": (
+                    "ORCA optimization and frequency calculations support the reported stability. "
+                    f"Machine-readable XYZ: documents/{document_id}/parser_structured/"
+                    "structures.xyz"
+                ),
             }
         )
         + "\n",
+        encoding="utf-8",
+    )
+    (root / "metadata.json").write_text(
+        json.dumps(
+            {"parser_output": {"content_list_v2_path": str(source_structures)}}
+        ),
         encoding="utf-8",
     )
     return {
@@ -4842,3 +4872,206 @@ def test_stage06_builds_isolated_task_pair_with_toolbox_gap(tmp_path: Path) -> N
     assert set(audit["outcome_types"]) == {"needs_software", "task_cost_too_high"}
     assert "benchmark_ready" not in audit
     assert not (Path(audit["audit_path"]) / "gold_run").exists()
+
+
+def test_stage06_canonicalizes_stale_and_wildcard_evidence_ids() -> None:
+    canonical = {
+        "ev_doc_abc123_000009_cafebabe",
+        "ev_doc_def456_000233_d7ebf11f41ba",
+    }
+    review = {
+        "scope": [
+            "ev_doc_abc123_000009_deadbeef",
+            "ev_doc_def456_000233_*",
+            "ev_derived_doc_def456_d7ebf11f41ba",
+        ]
+    }
+
+    normalized = _canonicalize_review_evidence_ids(review, canonical)
+
+    assert normalized["scope"] == [
+        "ev_doc_abc123_000009_cafebabe",
+        "ev_doc_def456_000233_d7ebf11f41ba",
+        "ev_doc_def456_000233_d7ebf11f41ba",
+    ]
+
+
+def test_stage06_normalizes_only_scientific_failure_aliases() -> None:
+    normalized = _normalize_scientific_failure_contract(
+        {
+            "decision": "scientific_not_constructible",
+            "failure_code": "missing_essential_input_assets",
+            "failure_reasons": [
+                {
+                    "code": "missing_input_assets",
+                    "scope": "full_paper_computational_workflow",
+                    "evidence_id": "ev-1",
+                    "checked_sources": "SI",
+                }
+            ],
+        }
+    )
+
+    assert normalized["failure_code"] == "missing_core_input"
+    assert normalized["failure_reasons"][0]["code"] == "missing_core_input"
+    assert normalized["failure_reasons"][0]["scope_attempted"] == (
+        "full_paper_computational_workflow"
+    )
+    assert normalized["failure_reasons"][0]["evidence_ids"] == ["ev-1"]
+    assert normalized["failure_reasons"][0]["checked_sources"] == ["SI"]
+
+    orchestration_failure = _normalize_scientific_failure_contract(
+        {
+            "decision": "scientific_not_constructible",
+            "failure_code": "irreparable_construction",
+            "failure_reasons": [],
+        }
+    )
+    assert orchestration_failure["failure_code"] == "irreparable_construction"
+
+
+def test_stage06_public_asset_recovery_requires_canonical_byte_match(
+    tmp_path: Path,
+) -> None:
+    source_root = tmp_path / "inputs"
+    source_file = (
+        source_root
+        / "documents"
+        / "doc_abc123"
+        / "derived_coordinates"
+        / "coordinates-001-test.xyz"
+    )
+    source_file.parent.mkdir(parents=True)
+    source_file.write_text(
+        "1\noptimized geometry at B3LYP/def2-SVP\nH 0 0 0\n",
+        encoding="utf-8",
+    )
+    reproduction = tmp_path / "outputs" / "paper_reproduction"
+    staged = reproduction / "data" / "inputs" / "structure.xyz"
+    staged.parent.mkdir(parents=True)
+    staged.write_bytes(source_file.read_bytes())
+    evidence_id = "ev_derived_doc_abc123_feedface"
+    evidence_index = [
+        {
+            "evidence_id": evidence_id,
+            "text": (
+                "Machine-readable XYZ: documents/doc_abc123/derived_coordinates/"
+                "coordinates-001-test.xyz"
+            ),
+            "source_ref": {
+                "derivation": "strict_pdf_coordinates_to_xyz",
+                "introduced_values": [],
+            },
+        }
+    ]
+
+    assets, unresolved = _recover_public_assets(
+        mode_roots=[reproduction],
+        rows=[
+            {
+                "path": "structure.xyz",
+                "source_file": (
+                    "documents/doc_abc123/derived_coordinates/coordinates-001-test.xyz"
+                ),
+                "source_evidence_id": evidence_id,
+            }
+        ],
+        source_root=source_root,
+        evidence_index=evidence_index,
+    )
+
+    assert unresolved == []
+    assert assets[0]["content"].splitlines()[1] == (
+        "Source-provided geometry: structure.xyz"
+    )
+    assert staged.read_text(encoding="utf-8").splitlines()[1] == (
+        "Source-provided geometry: structure.xyz"
+    )
+    assert assets[0]["provenance"]["kind"] == "deterministic_transform"
+    assert assets[0]["provenance"]["transform_id"] == (
+        "xyz_route_comment_redaction_v1"
+    )
+    assert assets[0]["source_evidence_ids"] == [evidence_id]
+
+    assets, unresolved = _recover_public_assets(
+        mode_roots=[reproduction],
+        rows=[
+            {
+                "path": "structure.xyz",
+                "source_file": (
+                    "documents/doc_abc123/derived_coordinates/coordinates-001-test.xyz"
+                ),
+                "source_evidence_id": evidence_id,
+                "note": "Best-effort reconstruction; verify against the figure.",
+            }
+        ],
+        source_root=source_root,
+        evidence_index=evidence_index,
+    )
+
+    assert "unverified_public_asset_provenance:structure.xyz" in unresolved
+    assert assets[0]["provenance"]["kind"] == "unverified_agent_staging"
+
+
+def test_stage06_negative_builder_contract_normalizes_before_schema_validation(
+    tmp_path: Path,
+) -> None:
+    evidence_id = "ev_doc_abc123_000001_cafebabe"
+    stale_id = "ev_doc_abc123_000001_deadbeef"
+    (tmp_path / "inputs").mkdir()
+    write_json(
+        tmp_path / "inputs" / "evidence_index.json",
+        [{"evidence_id": evidence_id, "text": "Required structure is absent."}],
+    )
+    outputs = tmp_path / "outputs"
+    outputs.mkdir()
+    write_json(
+        outputs / "workflow_review.json",
+        {
+            "decision": "scientific_not_constructible",
+            "task_pair_id": "paper-test-pair",
+            "paper_workflow_inventory_complete": True,
+            "full_paper_workflow_checked": True,
+            "alternative_scope_search_complete": True,
+            "workflow_inventory": [],
+            "workflow_scope": {
+                "scope_kind": "full_paper_computational_workflow",
+                "scope_evidence_ids": [stale_id],
+            },
+            "complexity_profile": {},
+            "evidence_map": {"missing_input": {"evidence_ids": [stale_id]}},
+            "toolbox_requirements": [],
+            "resource_assessment": {},
+            "failure_code": "missing_input_assets",
+            "failure_reasons": [
+                {
+                    "scope_attempted": "full_paper_computational_workflow",
+                    "code": "missing_input_assets",
+                    "details": "The source contains no executable molecular coordinates.",
+                    "evidence_id": stale_id,
+                    "checked_sources": "main paper and SI",
+                }
+            ],
+            "warnings": [],
+        },
+    )
+    receipt = {
+        "decision": "constructed",
+        "task_pair_id": "stale",
+        "artifact_path": "outputs",
+        "milestones": {},
+        "failure_code": "",
+        "failure_reasons": [],
+        "summary": "",
+    }
+
+    findings = _task_pair_builder_phase_findings(
+        receipt, tmp_path, evidence_ids={evidence_id}
+    )
+
+    assert findings == []
+    normalized_review = read_json(outputs / "workflow_review.json")
+    assert normalized_review["failure_code"] == "missing_core_input"
+    assert normalized_review["failure_reasons"][0]["evidence_ids"] == [evidence_id]
+    assert receipt["decision"] == "scientific_not_constructible"
+    assert receipt["failure_code"] == "missing_core_input"

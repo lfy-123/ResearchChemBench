@@ -117,9 +117,12 @@ def load_config(path: str | Path) -> dict[str, Any]:
     stage06.setdefault("preferred_scope", "full_paper_computational_workflow")
     stage06.setdefault("minimum_complexity", "medium")
     stage06.setdefault("reject_trivial_single_call", True)
-    stage06.setdefault("task_pair_builder_max_tool_calls", 64)
+    stage06.setdefault("task_pair_builder_max_tool_calls", 72)
     stage06.setdefault("task_pair_builder_timeout_seconds", 7200)
-    stage06.setdefault("task_pair_builder_recovery_max_tool_calls", 16)
+    stage06.setdefault("task_pair_builder_search_max_tool_calls", 36)
+    stage06.setdefault("task_pair_builder_finalization_reserve", 2)
+    stage06.setdefault("task_pair_builder_recovery_max_tool_calls", 24)
+    stage06.setdefault("task_pair_builder_recovery_finalization_reserve", 2)
     stage07["harness"] = os.environ.get("RCB_STAGE07_HARNESS") or stage07.get(
         "harness", "codex"
     )

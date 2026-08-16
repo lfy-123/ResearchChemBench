@@ -1384,8 +1384,9 @@ def _review_disclosure_findings(review: dict[str, Any]) -> list[str]:
             findings.append(f"review_public_route_disclosure:{token}")
     result_directive_patterns = (
         r"\b(?:compare|comparison|agreement|match)\b.{0,120}\b(?:table|figure|fig)\s+[a-z0-9.-]+.{0,40}\b(?:value|result|trend)",
-        r"\b(?:compare|comparison|agreement|match)\b.{0,120}\b(?:paper|published|table|figure|fig)\b",
-        r"\b(?:verify|confirm)\b.{0,120}\b(?:lowest|ordering|character|matched|mismatched|efficient|inefficient)\b",
+        r"\b(?:compare|match)\b.{0,120}\b(?:against|with|to)\b.{0,40}\b(?:paper|published|table|figure|fig)\b",
+        r"\bagreement\b.{0,80}\b(?:with|to)\b.{0,40}\b(?:paper|published|table|figure|fig)\b",
+        r"\b(?:verify|confirm)\b.{0,120}\b(?:paper[- ]reported|published|expected)\b.{0,80}\b(?:lowest|ordering|favou?red|matched|mismatched|efficient|inefficient)\b",
     )
     if any(
         re.search(pattern, text, flags=re.IGNORECASE | re.DOTALL)

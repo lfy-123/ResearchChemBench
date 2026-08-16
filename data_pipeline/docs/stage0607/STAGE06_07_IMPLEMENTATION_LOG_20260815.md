@@ -204,3 +204,60 @@ canonical evidence index 中的 evidence ID。因此该产物必须继续判为�
 非平凡复杂度、复现路线完整性、自主模式泄漏、共享 Ground Truth/Acceptance Profile、
 Stage07 客观 outcome 和 Agent 恢复轨迹。发现代码问题时，在本日志追加版本、提交号、复现
 样本、修复和复测结果后再启动下一轮。
+
+### 5.1 r3：真实资产、证据引用与恢复路径收口
+
+实现版本：
+
+- Stage06：`v4-single-agent-full-workflow-first-20260816-r3`；
+- task-pair prompt：`v4-stage06-single-agent-builder-20260816-r3`；
+- Stage07 保持 `v4-scope-complexity-objective-audit-20260815-r1`。
+
+r3 针对六篇旧调用产物的离线 replay 暴露的问题完成以下修复：
+
+- 首轮总预算提高到 72 次工具调用，其中前 36 次为检索预算，并保留 2 次 finalization
+  调用；recovery 使用 24 次调用并保留 2 次 finalization 调用，防止 Agent 在读完 SI 后
+  没有预算写完 receipt；
+- recovery 不再无条件重新运行脚手架或覆盖已经完成的论文复现任务；如果复现任务有效而
+  自主模式缺失，只要求运行确定性复制脚本并修改自主模式 allowlist 内的路线披露文件；
+- validation 先执行字段别名归一化和只允许唯一来源的可信恢复，再执行严格 JSON Schema
+  校验；兼容 workflow、scope、complexity、step、boundary 和 Ground Truth 的常见 Agent
+  表达差异；
+- 将 `missing_input_assets`、`missing_essential_input_assets` 等同义科学失败归一到
+  `missing_core_input`，但 API、harness、解析和构建故障仍不得伪装成科学失败；
+- construction receipt 从已验证的 `workflow_review.json` 确定性投影；Codex final message
+  即使被网关截断或格式畸形，只要落盘 review 与任务产物合法，也可恢复 receipt；
+- evidence ID 支持 exact ID、同文档 block index、derived hash 和 wildcard block ID 映射，
+  仅在 canonical evidence index 中存在唯一映射时替换，绝不凭语义猜测证据；
+- 公共输入必须与只读 workspace 中的 source/derived 文件逐字节一致，才可标为可信输入；
+  `best-effort`、`approximate`、`reconstructed`、`verify` 等 Agent 暂存资产保持未验证，不能
+  因为文件存在就自动升级为 `source_copy`；
+- 可信输入可优先从论文复现模式恢复；对真实 XYZ 的 comment 行做确定性中性化，以移除
+  作者计算路线披露，同时保持原子数、元素和坐标不变，并记录 transform provenance；
+- `late_stage_runner.py` 改为按 paper ID 流式过滤上游 JSONL，避免每篇启动时解析整个历史
+  run 中的所有大文件；
+- 收紧自主模式路线泄漏规则，同时排除 `Barrier comparison table` 和一般 stationary-point
+  validation 等不构成作者路线披露的误报。
+
+离线 replay 结果：
+
+- `paper_98946f2af94e53f9`（Salen-COF）维持
+  `scientific_not_constructible/missing_core_input`，离线合同 findings 为 0；
+- `paper_10679580b3d561b4`（Ni(111)）维持科学不可构建：缺少 slab、吸附结构和精确
+  Ground Truth，离线合同 findings 为 0；
+- `paper_6904a9c8c09855cc`（gallaphosphene）的 18 个 XYZ 均通过 canonical source hash
+  校验，输入完整性恢复为 `confirmed`，evidence ID 与 workflow output 问题消除；二次 replay
+  稳定，仅剩旧调用没有生成自主模式目录，需由新版 recovery 在线补齐；
+- `paper_5286f393dfa5a49a`（helitwistacene）的 3 个 138 原子 XYZ 均可信恢复，输入完整性
+  为 `confirmed`；旧调用仍缺自主模式和一条 validation evidence ID，需在线补齐；
+- `paper_6a0e549ed50c8b49`（fusadiene NMR）的 best-effort SMILES 与近似 NMR CSV 被正确保留
+  为未验证资产，不能作为可复现输入通过；
+- `paper_23e9206ce48858f7`（selenium radical）旧产物没有 `workflow_review.json`，无法安全
+  离线恢复，必须重新运行 Agent。
+
+r3 验证结果：
+
+- Stage06/07 及 runner 专项测试：`93 passed`；
+- 项目全量测试：`471 passed in 15.03s`；
+- `python -m py_compile`：通过；
+- 下一步为单篇当前 API 端到端验证，通过后重提固定六篇。

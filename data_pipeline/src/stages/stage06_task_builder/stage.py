@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 import shutil
@@ -76,7 +77,7 @@ from src.stages.stage06_task_builder.validation import (
     validate_workflow_review,
 )
 
-STAGE06_IMPLEMENTATION_VERSION = "v4-single-agent-full-workflow-first-20260816-r2"
+STAGE06_IMPLEMENTATION_VERSION = "v4-single-agent-full-workflow-first-20260816-r3"
 STAGE06_DIRECTORY = "stage_06_task_construction"
 
 
@@ -219,6 +220,9 @@ def _run_stage06_single_agent(
                             config.get("finalization_reserve", 10),
                         )
                     ),
+                    evidence_search_max_tool_calls=int(
+                        config.get("task_pair_builder_search_max_tool_calls", 36)
+                    ),
                 ),
                 output_schema=STAGE06_TASK_PAIR_BUILDER_SCHEMA,
                 fingerprint_value={
@@ -242,6 +246,7 @@ def _run_stage06_single_agent(
                     response,
                     root,
                     evidence_ids=evidence_ids,
+                    source_root=snapshot["root"],
                 ),
             )
             if agent_workspace is None:
@@ -1701,8 +1706,11 @@ def _run_phase(
                     "workflow_review.json. If its decision is candidate_ready, keep that scientific "
                     "decision unless canonical evidence directly disproves it. Missing task files, "
                     "bad IDs, stale receipts, or schema/validation findings are construction-repair "
-                    "work, not scientific rejection. Run bootstrap_task_pair.py first, then repair "
-                    "the listed fields in one grouped command. Only write scientific_not_constructible "
+                    "work, not scientific rejection. Preserve any already refined reproduction files. "
+                    "Run bootstrap_task_pair.py only when the reproduction scaffold is absent; otherwise "
+                    "repair the listed fields in one grouped command. If reproduction is complete and "
+                    "autonomous_research is missing, run copy_reproduction_to_autonomous.py and then "
+                    "rewrite only the autonomous allowlist files. Only write scientific_not_constructible "
                     "when the source evidence itself proves a required input, route, or scoreable "
                     "claim cannot be recovered.\n"
                 )
@@ -1758,6 +1766,23 @@ def _run_phase(
                     "invalid_reasons": [],
                 },
             }
+        finalization_reserve_key = (
+            f"{phase}_recovery_finalization_reserve"
+            if recovery_context
+            else f"{phase}_finalization_reserve"
+        )
+        phase_finalization_reserve = int(
+            config.get(
+                finalization_reserve_key,
+                config.get(
+                    f"{phase}_finalization_reserve",
+                    config.get("finalization_reserve", 4),
+                ),
+            )
+        )
+        phase_finalization_reserve = max(
+            0, min(phase_finalization_reserve, max(0, phase_tool_calls - 1))
+        )
         request = AgentRunRequest(
             phase=f"stage06_{phase}",
             record_id=paper_id,
@@ -1775,12 +1800,7 @@ def _run_phase(
                 "paper_id": paper_id,
                 "input_fingerprint": fingerprint,
                 "max_tool_calls": phase_tool_calls,
-                "finalization_reserve": int(
-                    config.get(
-                        f"{phase}_finalization_reserve",
-                        config.get("finalization_reserve", 4),
-                    )
-                ),
+                "finalization_reserve": phase_finalization_reserve,
                 "inline_contract": False,
                 "structured_artifact_path": {
                     "scientific_review": "outputs/scientific_review.json",
@@ -1831,6 +1851,44 @@ def _run_phase(
                     )
             _require_claimed_phase_artifact(result.response or {}, attempt_root, result)
         except AgentExecutionError as exc:
+            recovered_response = (
+                _recover_builder_receipt_from_review(
+                    workspace=attempt_root,
+                    output_schema=output_schema,
+                    semantic_validator=semantic_validator,
+                )
+                if phase == "task_pair_builder"
+                and exc.failure_class == "invalid_agent_output"
+                else None
+            )
+            if recovered_response is not None and exc.result is not None:
+                result = exc.result
+                result.status = "succeeded"
+                result.response = recovered_response
+                result.failure_class = None
+                result.retryable = False
+                result.error = None
+                result.receipt_recovered_from_artifact = True
+                write_json(attempt_root / "agent_run.json", result.audit_record())
+                _persist_phase_artifacts(attempt_root, artifact_root)
+                write_json(
+                    checkpoint,
+                    {
+                        "phase": phase,
+                        "paper_id": paper_id,
+                        "input_fingerprint": fingerprint,
+                        "prompt_version": prompt_version,
+                        "response": recovered_response,
+                        "agent_run": result.audit_record(),
+                        "completed_at": now_utc(),
+                    },
+                )
+                failure_checkpoint.unlink(missing_ok=True)
+                return (
+                    recovered_response,
+                    {**result.audit_record(), "cache_hit": False},
+                    artifact_root if artifact_root.is_dir() else attempt_root,
+                )
             last_error = exc
             _persist_phase_artifacts(attempt_root, artifact_root)
             latest_context = agent_recovery_context(exc.result)
@@ -1895,11 +1953,73 @@ def _run_phase(
     raise RuntimeError(f"Stage06 phase did not execute: {phase}")
 
 
+def _recover_builder_receipt_from_review(
+    *,
+    workspace: Path,
+    output_schema: dict[str, Any],
+    semantic_validator: Callable[[dict[str, Any], Path], list[str]] | None,
+) -> dict[str, Any] | None:
+    """Recover a derivative receipt when the Agent's final message is malformed.
+
+    The workflow review and task tree remain the authority.  The semantic
+    validator must accept them before this recovery can turn a failed CLI final
+    message into a successful phase result.
+    """
+
+    review_path = workspace / "outputs" / "workflow_review.json"
+    if not review_path.is_file() or semantic_validator is None:
+        return None
+    try:
+        review = read_json(review_path)
+    except (OSError, ValueError, TypeError):
+        return None
+    decision = str(review.get("decision") or "")
+    if decision not in {"candidate_ready", "scientific_not_constructible"}:
+        return None
+    receipt: dict[str, Any] = {
+        "decision": (
+            "constructed"
+            if decision == "candidate_ready"
+            else "scientific_not_constructible"
+        ),
+        "task_pair_id": str(review.get("task_pair_id") or ""),
+        "artifact_path": (
+            "outputs"
+            if decision == "candidate_ready"
+            else "outputs/construction_receipt.json"
+        ),
+        "milestones": {},
+        "workflow_scope_kind": str(
+            (review.get("workflow_scope") or {}).get("kind") or "none"
+        ),
+        "complexity_level": str(
+            (review.get("complexity_profile") or {}).get("level") or "not_assessed"
+        ),
+        "failure_code": str(review.get("failure_code") or ""),
+        "failure_reasons": review.get("failure_reasons") or [],
+        "summary": str(
+            review.get("workflow_summary")
+            or review.get("scientific_question")
+            or "Recovered the construction receipt from validated file artifacts."
+        ),
+    }
+    write_json(workspace / "outputs" / "construction_receipt.json", receipt)
+    findings = semantic_validator(receipt, workspace)
+    if findings:
+        return None
+    try:
+        jsonschema.validate(receipt, output_schema)
+    except jsonschema.ValidationError:
+        return None
+    return receipt
+
+
 def _task_pair_builder_phase_findings(
     receipt: dict[str, Any],
     workspace: Path,
     *,
     evidence_ids: set[str],
+    source_root: Path | None = None,
 ) -> list[str]:
     outputs = workspace / "outputs"
     make_writable(outputs)
@@ -1908,25 +2028,49 @@ def _task_pair_builder_phase_findings(
         return ["workflow_review_artifact_missing"]
     try:
         review = read_json(review_path)
-        jsonschema.validate(review, STAGE06_WORKFLOW_REVIEW_SCHEMA)
-    except (OSError, ValueError, jsonschema.ValidationError) as exc:
-        return [f"workflow_review_schema_invalid:{type(exc).__name__}:{exc}"]
+    except (OSError, ValueError, TypeError) as exc:
+        return [f"workflow_review_unreadable:{type(exc).__name__}:{exc}"]
     frozen_review_path = workspace / "inputs" / "frozen_workflow_review.json"
     if frozen_review_path.is_file():
         # Recovery attempts may repair construction files, but they may not
         # rewrite an already validated scientific selection or hidden targets.
         review = read_json(frozen_review_path)
     review = _normalize_workflow_review_aliases(review)
-    review = _recover_workflow_review_from_pair_artifacts(review, outputs)
+    review = _normalize_scientific_failure_contract(review)
+    review = _canonicalize_review_evidence_ids(review, evidence_ids)
+    canonical_source_root = (
+        source_root
+        if source_root is not None
+        else workspace / "inputs"
+    )
+    evidence_index_path = canonical_source_root / "evidence_index.json"
+    evidence_index = (
+        read_json(evidence_index_path) if evidence_index_path.is_file() else []
+    )
+    review = _recover_workflow_review_from_pair_artifacts(
+        review,
+        outputs,
+        source_root=canonical_source_root,
+        evidence_index=evidence_index if isinstance(evidence_index, list) else [],
+    )
     review = _normalize_workflow_review_aliases(review)
+    review = _normalize_scientific_failure_contract(review)
+    review = _canonicalize_review_evidence_ids(review, evidence_ids)
     review["toolbox_requirements"] = _normalize_toolbox_requirements(
         review.get("toolbox_requirements") or []
     )
+    try:
+        jsonschema.validate(review, STAGE06_WORKFLOW_REVIEW_SCHEMA)
+    except jsonschema.ValidationError as exc:
+        write_json(review_path, review)
+        return [f"workflow_review_schema_invalid:{type(exc).__name__}:{exc}"]
     write_json(review_path, review)
     validation_review = json.loads(json.dumps(review, ensure_ascii=False))
     _hydrate_public_input_assets(validation_review, workspace)
     review_findings = validate_workflow_review(validation_review, evidence_ids)
     findings = list(review_findings)
+    _synchronize_builder_receipt(receipt, review, outputs=outputs)
+    write_json(outputs / "construction_receipt.json", receipt)
     if receipt.get("task_pair_id") != review.get("task_pair_id"):
         findings.append("receipt_task_pair_id_mismatch")
     expected_receipt_decision = (
@@ -2073,6 +2217,243 @@ def _prepare_task_pair_builder_recovery(attempt_root: Path) -> None:
     )
 
 
+_SCIENTIFIC_FAILURE_CODE_ALIASES = {
+    "missing_input": "missing_core_input",
+    "missing_inputs": "missing_core_input",
+    "missing_input_asset": "missing_core_input",
+    "missing_input_assets": "missing_core_input",
+    "missing_essential_input_assets": "missing_core_input",
+    "missing_required_input_assets": "missing_core_input",
+    "incomplete_workflow": "incomplete_computational_process",
+    "workflow_incomplete": "incomplete_computational_process",
+    "missing_results": "missing_ground_truth",
+    "missing_scoreable_result": "missing_ground_truth",
+    "insufficient_source_evidence": "source_evidence_insufficient",
+    "trivial_task": "benchmark_not_challenging",
+}
+
+
+def _normalize_scientific_failure_contract(review: dict[str, Any]) -> dict[str, Any]:
+    """Normalize naming variants in a source-backed scientific rejection.
+
+    Construction/runtime failures deliberately have no aliases here: they must
+    remain retryable orchestration failures rather than being laundered into a
+    paper-level scientific rejection.
+    """
+
+    value = json.loads(json.dumps(review, ensure_ascii=False))
+    if value.get("decision") != "scientific_not_constructible":
+        return value
+    failure_code = str(value.get("failure_code") or "").strip()
+    value["failure_code"] = _SCIENTIFIC_FAILURE_CODE_ALIASES.get(
+        failure_code, failure_code
+    )
+    normalized_reasons: list[Any] = []
+    for raw in value.get("failure_reasons") or []:
+        if not isinstance(raw, dict):
+            normalized_reasons.append(raw)
+            continue
+        reason = dict(raw)
+        code = str(reason.get("code") or "").strip()
+        reason["code"] = _SCIENTIFIC_FAILURE_CODE_ALIASES.get(code, code)
+        if not reason.get("scope_attempted") and reason.get("scope"):
+            reason["scope_attempted"] = reason["scope"]
+        if not reason.get("evidence_ids") and reason.get("evidence_id"):
+            reason["evidence_ids"] = [reason["evidence_id"]]
+        checked = reason.get("checked_sources")
+        if isinstance(checked, str) and checked.strip():
+            reason["checked_sources"] = [checked]
+        normalized_reasons.append(reason)
+    value["failure_reasons"] = normalized_reasons
+    return value
+
+
+_BLOCK_EVIDENCE_RE = re.compile(
+    r"^ev_(?P<document>doc_[A-Za-z0-9]+)_(?P<index>\d{6})_(?P<digest>[A-Fa-f0-9*]+)$"
+)
+_DERIVED_EVIDENCE_RE = re.compile(
+    r"^ev_derived_(?P<document>doc_[A-Za-z0-9]+)_(?P<digest>[A-Fa-f0-9]+)$"
+)
+_LEGACY_DERIVED_EVIDENCE_RE = re.compile(
+    r"^ev_(?P<document>doc_[A-Za-z0-9]+)_(?P<digest>[A-Fa-f0-9]{8,})$"
+)
+
+
+def _canonical_evidence_id(
+    identifier: Any, canonical_ids: set[str]
+) -> str:
+    """Resolve a stale evidence hash only when its structural match is unique."""
+
+    candidate = str(identifier or "")
+    if not candidate or candidate in canonical_ids:
+        return candidate
+    by_document_index: dict[tuple[str, str], list[str]] = {}
+    by_document_digest: dict[tuple[str, str], list[str]] = {}
+    for canonical in canonical_ids:
+        block = _BLOCK_EVIDENCE_RE.fullmatch(canonical)
+        if block:
+            by_document_index.setdefault(
+                (block.group("document"), block.group("index")), []
+            ).append(canonical)
+            by_document_digest.setdefault(
+                (block.group("document"), block.group("digest").casefold()), []
+            ).append(canonical)
+            continue
+        derived = _DERIVED_EVIDENCE_RE.fullmatch(canonical)
+        if derived:
+            by_document_digest.setdefault(
+                (derived.group("document"), derived.group("digest").casefold()), []
+            ).append(canonical)
+
+    block = _BLOCK_EVIDENCE_RE.fullmatch(candidate)
+    if block:
+        matches = by_document_index.get(
+            (block.group("document"), block.group("index")), []
+        )
+        if len(matches) == 1:
+            return matches[0]
+        if block.group("digest") != "*":
+            matches = by_document_digest.get(
+                (block.group("document"), block.group("digest").casefold()), []
+            )
+            if len(matches) == 1:
+                return matches[0]
+        return candidate
+    derived = _DERIVED_EVIDENCE_RE.fullmatch(candidate)
+    if not derived:
+        derived = _LEGACY_DERIVED_EVIDENCE_RE.fullmatch(candidate)
+    if derived:
+        matches = by_document_digest.get(
+            (derived.group("document"), derived.group("digest").casefold()), []
+        )
+        if len(matches) == 1:
+            return matches[0]
+    return candidate
+
+
+def _canonicalize_review_evidence_ids(
+    review: dict[str, Any], canonical_ids: set[str]
+) -> dict[str, Any]:
+    """Canonicalize exact evidence references without guessing ambiguous IDs."""
+
+    def visit(node: Any) -> Any:
+        if isinstance(node, dict):
+            output: dict[str, Any] = {}
+            for key, nested in node.items():
+                normalized_key = (
+                    _canonical_evidence_id(key, canonical_ids)
+                    if str(key).startswith("ev_")
+                    else key
+                )
+                output[str(normalized_key)] = visit(nested)
+            return output
+        if isinstance(node, list):
+            return [visit(item) for item in node]
+        if isinstance(node, str) and node.startswith("ev_"):
+            return _canonical_evidence_id(node, canonical_ids)
+        return node
+
+    value = visit(review)
+    return value if isinstance(value, dict) else {}
+
+
+def _synchronize_builder_receipt(
+    receipt: dict[str, Any], review: dict[str, Any], *, outputs: Path
+) -> None:
+    """Make the small builder receipt a deterministic projection of artifacts."""
+
+    negative = review.get("decision") == "scientific_not_constructible"
+    receipt["decision"] = (
+        "scientific_not_constructible" if negative else "constructed"
+    )
+    receipt["task_pair_id"] = str(review.get("task_pair_id") or "")
+    receipt["artifact_path"] = (
+        "outputs/construction_receipt.json" if negative else "outputs"
+    )
+    scope = review.get("workflow_scope") or {}
+    complexity = review.get("complexity_profile") or {}
+    receipt["workflow_scope_kind"] = str(scope.get("kind") or "none")
+    receipt["complexity_level"] = str(
+        complexity.get("level") or "not_assessed"
+    )
+    receipt["failure_code"] = str(review.get("failure_code") or "") if negative else ""
+    receipt["failure_reasons"] = (
+        json.loads(json.dumps(review.get("failure_reasons") or [], ensure_ascii=False))
+        if negative
+        else []
+    )
+    if not str(receipt.get("summary") or "").strip():
+        receipt["summary"] = str(
+            review.get("workflow_summary")
+            or review.get("scientific_question")
+            or (
+                "Source evidence does not support a constructible benchmark task."
+                if negative
+                else "Constructed the paired benchmark task artifacts."
+            )
+        )
+    if negative:
+        receipt["milestones"] = {
+            "workflow_review_validated": True,
+            "reproduction_validated": False,
+            "autonomous_copy_created": False,
+            "autonomous_validated": False,
+            "hidden_reference_validated": False,
+            "pair_draft_validated": False,
+        }
+        return
+    milestones = dict(receipt.get("milestones") or {})
+    reproduction = outputs / "paper_reproduction"
+    autonomous = outputs / "autonomous_research"
+    hidden = outputs / "hidden_reference"
+    milestones["workflow_review_validated"] = True
+    milestones["reproduction_validated"] = reproduction.is_dir() and all(
+        (reproduction / name).is_file()
+        for name in (
+            "task.md",
+            "task_info.json",
+            "task_spec.json",
+            "submission_contract.json",
+            "process_rubric.json",
+            "paper_route.md",
+            "workflow_spec.json",
+            "route_evidence_map.json",
+        )
+    )
+    milestones["autonomous_copy_created"] = autonomous.is_dir()
+    milestones["autonomous_validated"] = autonomous.is_dir() and all(
+        (autonomous / name).is_file()
+        for name in (
+            "task.md",
+            "task_info.json",
+            "task_spec.json",
+            "submission_contract.json",
+            "process_rubric.json",
+            "derived_from.json",
+            "conversion_contract.json",
+        )
+    )
+    milestones["hidden_reference_validated"] = hidden.is_dir() and all(
+        (hidden / name).is_file()
+        for name in (
+            "ground_truth_common.json",
+            "acceptance_profiles.json",
+            "conclusion_rubric.json",
+            "private_evidence_map.json",
+        )
+    )
+    milestones["pair_draft_validated"] = all(
+        milestones.get(name) is True
+        for name in (
+            "reproduction_validated",
+            "autonomous_copy_created",
+            "autonomous_validated",
+            "hidden_reference_validated",
+        )
+    )
+    receipt["milestones"] = milestones
+
+
 def _normalize_workflow_review_aliases(review: dict[str, Any]) -> dict[str, Any]:
     """Normalize harmless Agent naming variants before scientific validation.
 
@@ -2086,6 +2467,7 @@ def _normalize_workflow_review_aliases(review: dict[str, Any]) -> dict[str, Any]
     if isinstance(scope, dict):
         aliases = {
             "scope_kind": "kind",
+            "rationale": "selection_rationale",
             "included_workflows": "included_workflow_ids",
             "excluded_workflows": "excluded_workflow_ids",
             "included_claims": "included_claim_ids",
@@ -2103,7 +2485,29 @@ def _normalize_workflow_review_aliases(review: dict[str, Any]) -> dict[str, Any]
                 for key in ("claim_ids", "supports_claim_ids"):
                     rows = row.get(key) or []
                     claims.extend(rows if isinstance(rows, list) else [rows])
+                if (
+                    str(row.get("workflow_id") or "")
+                    in {str(item) for item in scope.get("included_workflow_ids") or []}
+                    and str(row.get("claim_supported") or "").strip()
+                ):
+                    claims.append(f"claim:{row['workflow_id']}")
             scope["included_claim_ids"] = [str(item) for item in claims if str(item)]
+        if (
+            scope.get("kind") != "full_paper_computational_workflow"
+            and not scope.get("larger_scope_failure_reasons")
+        ):
+            excluded = {
+                str(row.get("workflow_id") or ""): str(row.get("excluded_reason") or "").strip()
+                for row in value.get("workflow_inventory") or []
+                if isinstance(row, dict) and str(row.get("excluded_reason") or "").strip()
+            }
+            reasons = [
+                f"{workflow_id}: {excluded[workflow_id]}"
+                for workflow_id in scope.get("excluded_workflow_ids") or []
+                if str(workflow_id) in excluded
+            ]
+            if reasons:
+                scope["larger_scope_failure_reasons"] = reasons
         if not scope.get("scope_evidence_ids"):
             scope["scope_evidence_ids"] = _workflow_review_evidence_ids(value)
         # Some harness/model combinations place the paper-level summary fields in
@@ -2162,6 +2566,10 @@ def _normalize_workflow_review_aliases(review: dict[str, Any]) -> dict[str, Any]
             continue
         step = dict(raw_step)
         step.setdefault("step_id", f"step-{index}")
+        if not step.get("action"):
+            step["action"] = str(
+                step.get("name") or step.get("description") or step["step_id"]
+            )
         if not step.get("depends_on") and step.get("dependencies"):
             dependencies = step.get("dependencies")
             step["depends_on"] = (
@@ -2169,7 +2577,10 @@ def _normalize_workflow_review_aliases(review: dict[str, Any]) -> dict[str, Any]
             )
         step.setdefault("depends_on", [])
         if not step.get("output_artifacts"):
-            output = step.get("output_artifact", step.get("output"))
+            output = step.get(
+                "output_artifact",
+                step.get("output", step.get("outputs", step.get("generated_output"))),
+            )
             if output not in (None, ""):
                 step["output_artifacts"] = (
                     list(output) if isinstance(output, list) else [output]
@@ -2182,8 +2593,13 @@ def _normalize_workflow_review_aliases(review: dict[str, Any]) -> dict[str, Any]
                     if isinstance(input_value, list)
                     else [input_value]
                 )
-        if not step.get("method_parameters") and step.get("method"):
-            step["method_parameters"] = {"method": step["method"]}
+        if not step.get("method_parameters"):
+            if isinstance(step.get("parameters"), dict) and step.get("parameters"):
+                step["method_parameters"] = dict(step["parameters"])
+            elif step.get("method"):
+                step["method_parameters"] = {"method": step["method"]}
+        if not step.get("evidence_ids") and step.get("evidence_id"):
+            step["evidence_ids"] = [step["evidence_id"]]
         if not step.get("step_type"):
             action = str(step.get("action") or "").casefold()
             if any(
@@ -2206,15 +2622,38 @@ def _normalize_workflow_review_aliases(review: dict[str, Any]) -> dict[str, Any]
     if isinstance(complexity, dict):
         aliases = {
             "core_computation_count": "scientific_core_operation_count",
+            "core_operations": "scientific_core_operation_count",
             "tool_call_count": "estimated_typical_tool_calls",
+            "tool_calls": "estimated_typical_tool_calls",
             "dependency_count": "dependency_edge_count",
+            "dependencies": "dependency_edge_count",
             "branch_count": "parallel_branch_count",
+            "branches": "parallel_branch_count",
             "system_state_count": "system_or_state_count",
-            "software_capability_count": "software_capability_count",
+            "systems": "system_or_state_count",
+            "states": "system_or_state_count",
         }
         for source, target in aliases.items():
-            if target not in complexity and source in complexity:
-                complexity[target] = complexity[source]
+            if target in complexity or source not in complexity:
+                continue
+            raw_alias = complexity[source]
+            if isinstance(raw_alias, list):
+                complexity[target] = len(raw_alias)
+            elif isinstance(raw_alias, int) and not isinstance(raw_alias, bool):
+                complexity[target] = raw_alias
+        if "system_or_state_count" not in complexity:
+            counts = [
+                complexity.get(name)
+                for name in ("system_count", "state_count")
+                if isinstance(complexity.get(name), int)
+                and not isinstance(complexity.get(name), bool)
+            ]
+            if counts:
+                complexity["system_or_state_count"] = max(counts)
+        if "software_capability_count" not in complexity:
+            capabilities = complexity.get("software_capabilities")
+            if isinstance(capabilities, list):
+                complexity["software_capability_count"] = len(capabilities)
         steps = value.get("workflow_steps") or []
         if "estimated_min_tool_calls" not in complexity:
             complexity["estimated_min_tool_calls"] = max(
@@ -2224,6 +2663,20 @@ def _normalize_workflow_review_aliases(review: dict[str, Any]) -> dict[str, Any]
             complexity["estimated_typical_tool_calls"] = max(
                 1, int(complexity.get("estimated_min_tool_calls") or len(steps) or 1)
             )
+        if "scientific_core_operation_count" not in complexity:
+            complexity["scientific_core_operation_count"] = sum(
+                row.get("step_type")
+                in {"core_computation", "scientific_analysis", "validation"}
+                for row in steps
+                if isinstance(row, dict)
+            )
+        for field in (
+            "parallel_branch_count",
+            "system_or_state_count",
+            "software_capability_count",
+        ):
+            if field not in complexity:
+                complexity[field] = 0
         # Dependency count is a derived graph property, never a model estimate.
         complexity["dependency_edge_count"] = sum(
             len(row.get("depends_on") or [])
@@ -2238,7 +2691,12 @@ def _normalize_workflow_review_aliases(review: dict[str, Any]) -> dict[str, Any]
         ):
             if not complexity.get(plural) and complexity.get(singular):
                 raw = complexity[singular]
-                complexity[plural] = list(raw) if isinstance(raw, list) else [raw]
+                if isinstance(raw, list):
+                    complexity[plural] = list(raw)
+                elif isinstance(raw, int) and not isinstance(raw, bool):
+                    complexity[plural] = [f"declared_{singular}_{index + 1}" for index in range(raw)]
+                else:
+                    complexity[plural] = [raw]
             complexity.setdefault(plural, [])
         if not complexity.get("validation_operations"):
             complexity["validation_operations"] = [
@@ -2260,14 +2718,59 @@ def _normalize_workflow_review_aliases(review: dict[str, Any]) -> dict[str, Any]
                 truth[target] = truth[source]
         truth.setdefault("ground_truth_id", f"gt-{index}")
         kind = str(truth.get("kind") or "textual_intermediate_conclusion")
+        claim_role = str(truth.get("claim_role") or "").casefold()
+        item_type = str(truth.get("item_type") or "").casefold()
+        if "numeric" in item_type or "energy_difference" in item_type:
+            kind = (
+                "numeric_final_result"
+                if claim_role == "final"
+                else "numeric_intermediate_result"
+            )
+        elif "ranking" in item_type or "ordering" in item_type:
+            kind = "ranking"
+        elif "trend" in item_type:
+            kind = "trend"
         truth["kind"] = {
             "numerical_value": "numeric_final_result",
             "numeric_value": "numeric_final_result",
+            "numeric": (
+                "numeric_final_result"
+                if claim_role == "final"
+                else "numeric_intermediate_result"
+            ),
+            "numerical": (
+                "numeric_final_result"
+                if claim_role == "final"
+                else "numeric_intermediate_result"
+            ),
             "conclusion": "textual_final_conclusion",
             "textual_conclusion": "textual_final_conclusion",
+            "textual": (
+                "textual_final_conclusion"
+                if claim_role == "final"
+                else "textual_intermediate_conclusion"
+            ),
             "intermediate_conclusion": "textual_intermediate_conclusion",
         }.get(kind, kind)
-        if not truth.get("acceptance_type"):
+        if not truth.get("evidence_ids") and truth.get("evidence_id"):
+            truth["evidence_ids"] = [truth["evidence_id"]]
+        canonical_answer = truth.get("canonical_answer")
+        numeric_answer = (
+            isinstance(canonical_answer, (int, float))
+            and not isinstance(canonical_answer, bool)
+        ) or (
+            isinstance(canonical_answer, dict)
+            and isinstance(canonical_answer.get("value"), (int, float))
+            and not isinstance(canonical_answer.get("value"), bool)
+        )
+        if not truth.get("acceptance_type") or (
+            numeric_answer
+            and truth["kind"].startswith("numeric_")
+            and truth.get("acceptance_type") == "semantic_propositions"
+        ) or (
+            truth["kind"] in {"ranking", "trend"}
+            and truth.get("acceptance_type") == "semantic_propositions"
+        ):
             truth["acceptance_type"] = {
                 "numeric_final_result": "numeric_tolerance",
                 "numeric_intermediate_result": "numeric_tolerance",
@@ -2279,6 +2782,19 @@ def _normalize_workflow_review_aliases(review: dict[str, Any]) -> dict[str, Any]
         ) and truth["kind"].startswith("textual_"):
             truth["required_propositions"] = [truth["canonical_answer"]]
         parameters = dict(truth.get("acceptance_parameters") or {})
+        if isinstance(canonical_answer, dict):
+            if canonical_answer.get("unit") not in (None, ""):
+                parameters.setdefault("unit", canonical_answer["unit"])
+            declared_tolerance = canonical_answer.get("tolerance")
+            if isinstance(declared_tolerance, dict):
+                if declared_tolerance.get("absolute") is not None:
+                    parameters.setdefault(
+                        "absolute_tolerance", declared_tolerance["absolute"]
+                    )
+                if declared_tolerance.get("relative") is not None:
+                    parameters.setdefault(
+                        "relative_tolerance", declared_tolerance["relative"]
+                    )
         if truth.get("unit") not in (None, ""):
             parameters.setdefault("unit", truth["unit"])
         tolerance = truth.get("tolerance")
@@ -2296,6 +2812,17 @@ def _normalize_workflow_review_aliases(review: dict[str, Any]) -> dict[str, Any]
         normalized_truths.append(truth)
     if normalized_truths:
         value["ground_truth_items"] = normalized_truths
+        if isinstance(scope, dict) and not scope.get("included_claim_ids"):
+            scope["included_claim_ids"] = [
+                str(row.get("ground_truth_id"))
+                for row in normalized_truths
+                if str(row.get("ground_truth_id") or "")
+            ]
+    for reason in value.get("failure_reasons") or []:
+        if isinstance(reason, dict) and not reason.get("evidence_ids") and reason.get(
+            "evidence_id"
+        ):
+            reason["evidence_ids"] = [reason["evidence_id"]]
     return value
 
 
@@ -2352,7 +2879,16 @@ def _normalize_boundary_contract(
     rows: Any, *, evidence_ids: list[str]
 ) -> list[dict[str, Any]]:
     output: list[dict[str, Any]] = []
-    for index, raw in enumerate(rows if isinstance(rows, list) else [], start=1):
+    normalized_rows: list[Any]
+    if isinstance(rows, dict):
+        normalized_rows = [
+            {"name": str(name), "value": value}
+            for name, value in rows.items()
+            if value not in (None, "", [], {})
+        ]
+    else:
+        normalized_rows = rows if isinstance(rows, list) else []
+    for index, raw in enumerate(normalized_rows, start=1):
         if isinstance(raw, dict):
             row = dict(raw)
             name = str(
@@ -2378,6 +2914,43 @@ def _normalize_boundary_contract(
     return output
 
 
+def _public_boundary_projection(rows: Any) -> Any:
+    """Remove paper-route method fields from a reproduction-spec fallback."""
+
+    denied = (
+        "method",
+        "functional",
+        "basis",
+        "pseudopotential",
+        "dispersion",
+        "software",
+        "program",
+        "package",
+        "solvation_model",
+        "entropy",
+        "grid",
+        "kpoint",
+        "k_point",
+        "cutoff",
+        "symmetry",
+    )
+
+    def is_public(name: Any) -> bool:
+        normalized = str(name or "").casefold().replace("-", "_").replace(" ", "_")
+        return not any(token in normalized for token in denied)
+
+    if isinstance(rows, dict):
+        return {key: value for key, value in rows.items() if is_public(key)}
+    if isinstance(rows, list):
+        return [
+            row
+            for row in rows
+            if not isinstance(row, dict)
+            or is_public(row.get("name") or row.get("condition") or row.get("type"))
+        ]
+    return rows
+
+
 def _task_input_relative_path(value: Any) -> str:
     relative = validate_relative_path(str(value or ""))
     for prefix in ("task/data/inputs/", "data/inputs/", "task/inputs/"):
@@ -2387,48 +2960,433 @@ def _task_input_relative_path(value: Any) -> str:
     return _normalize_public_input_path(relative)
 
 
+_UNCERTAIN_ASSET_RE = re.compile(
+    r"\b(?:approximate(?:ly)?|best[- ]effort|estimated|guessed|inferred|placeholder|"
+    r"reconstruct(?:ed|ion)?|verify|cross[- ]check|not text[- ]extractable)\b",
+    flags=re.IGNORECASE,
+)
+_XYZ_ROUTE_COMMENT_RE = re.compile(
+    r"(?:optimized geometry|level of theory|\b(?:pbe0|b3lyp|wb97|ωb97|m06|d3(?:bj)?|"
+    r"def2|6-31g|cc-pv|basis|functional)\b)",
+    flags=re.IGNORECASE,
+)
+_XYZ_COMMENT_REDACTION_ID = "xyz_route_comment_redaction_v1"
+
+
+def _public_xyz_bytes(content: bytes, *, relative: str) -> tuple[bytes, bool]:
+    """Redact route-bearing XYZ comments without changing coordinates."""
+
+    if Path(relative).suffix.casefold() != ".xyz":
+        return content, False
+    try:
+        text = content.decode("utf-8", errors="strict")
+    except UnicodeDecodeError:
+        return content, False
+    lines = text.splitlines()
+    if len(lines) < 2 or not _XYZ_ROUTE_COMMENT_RE.search(lines[1]):
+        return content, False
+    lines[1] = f"Source-provided geometry: {Path(relative).name}"
+    suffix = "\n" if text.endswith(("\n", "\r")) else ""
+    return ("\n".join(lines) + suffix).encode("utf-8"), True
+
+
+def _snapshot_relative_file(source_root: Path, value: Any) -> Path | None:
+    try:
+        relative = validate_relative_path(str(value or ""))
+        candidate = (source_root / relative).resolve()
+        candidate.relative_to(source_root.resolve())
+    except (ValueError, OSError):
+        return None
+    return candidate if candidate.is_file() and not candidate.is_symlink() else None
+
+
+def _source_asset_catalog(
+    *, source_root: Path, evidence_index: list[dict[str, Any]]
+) -> dict[str, list[dict[str, Any]]]:
+    """Index only canonical, evidence-linked source/derived files by byte hash."""
+
+    evidence_by_id = {
+        str(row.get("evidence_id")): row
+        for row in evidence_index
+        if isinstance(row, dict) and row.get("evidence_id")
+    }
+    records: list[dict[str, Any]] = []
+
+    def add(
+        path_value: Any,
+        *,
+        evidence_id: Any,
+        description: Any = "",
+        source_ref: Any = None,
+    ) -> None:
+        path = _snapshot_relative_file(source_root, path_value)
+        identifier = str(evidence_id or "")
+        if path is None or identifier not in evidence_by_id:
+            return
+        relative = path.relative_to(source_root.resolve()).as_posix()
+        reference = source_ref if isinstance(source_ref, dict) else {}
+        records.append(
+            {
+                "path": relative,
+                "sha256": sha256_file(path),
+                "evidence_id": identifier,
+                "description": str(description or evidence_by_id[identifier].get("text") or ""),
+                "source_ref": reference,
+                "deterministic_transform": bool(
+                    reference.get("derivation")
+                    or "/derived_coordinates/" in f"/{relative}"
+                    or "/derived_tables/" in f"/{relative}"
+                ),
+            }
+        )
+
+    path_pattern = re.compile(
+        r"documents/[A-Za-z0-9_.\-/]+\.(?:xyz|mol2?|sdf|smi|csv|tsv|txt|json)",
+        flags=re.IGNORECASE,
+    )
+    for row in evidence_index:
+        if not isinstance(row, dict) or not row.get("evidence_id"):
+            continue
+        for relative in path_pattern.findall(str(row.get("text") or "")):
+            add(
+                relative.rstrip(".,;:)\"]}"),
+                evidence_id=row["evidence_id"],
+                description=row.get("text"),
+                source_ref=row.get("source_ref"),
+            )
+
+    for index_path in sorted(
+        [
+            *source_root.glob("documents/*/derived_coordinates/index.json"),
+            *source_root.glob("documents/*/derived_tables/index.json"),
+        ]
+    ):
+        try:
+            payload = read_json(index_path)
+        except (OSError, ValueError, TypeError):
+            continue
+        if isinstance(payload, dict):
+            rows = next(
+                (
+                    payload.get(key)
+                    for key in ("items", "coordinates", "tables", "records")
+                    if isinstance(payload.get(key), list)
+                ),
+                [],
+            )
+        else:
+            rows = payload if isinstance(payload, list) else []
+        for row in rows:
+            if not isinstance(row, dict):
+                continue
+            add(
+                row.get("path") or row.get("file") or row.get("source_file"),
+                evidence_id=row.get("evidence_id"),
+                description=row.get("label") or row.get("caption"),
+                source_ref=row.get("source_ref"),
+            )
+
+    catalog: dict[str, list[dict[str, Any]]] = {}
+    seen: set[tuple[str, str]] = set()
+    for record in records:
+        key = (record["path"], record["evidence_id"])
+        if key in seen:
+            continue
+        seen.add(key)
+        catalog.setdefault(record["sha256"], []).append(record)
+    return catalog
+
+
+def _asset_source_matches(
+    *,
+    digest: str,
+    asset: dict[str, Any],
+    catalog: dict[str, list[dict[str, Any]]],
+) -> list[dict[str, Any]]:
+    matches = list(catalog.get(digest) or [])
+    source_file = str(
+        asset.get("source_file") or asset.get("source_path") or ""
+    ).strip()
+    if source_file:
+        matches = [row for row in matches if row.get("path") == source_file]
+    cited = {
+        str(item)
+        for item in (
+            asset.get("source_evidence_ids")
+            or ([asset["source_evidence_id"]] if asset.get("source_evidence_id") else [])
+        )
+        if str(item)
+    }
+    if cited:
+        evidence_matches = [row for row in matches if row.get("evidence_id") in cited]
+        if evidence_matches:
+            matches = evidence_matches
+    return matches
+
+
+def _transformed_asset_source_matches(
+    *,
+    content: bytes,
+    relative: str,
+    asset: dict[str, Any],
+    catalog: dict[str, list[dict[str, Any]]],
+    source_root: Path,
+) -> list[dict[str, Any]]:
+    provenance = asset.get("provenance") or {}
+    if provenance.get("transform_id") != _XYZ_COMMENT_REDACTION_ID:
+        return []
+    source_file = str(
+        asset.get("source_file") or asset.get("source_path") or ""
+    ).strip()
+    candidates = [
+        row
+        for rows in catalog.values()
+        for row in rows
+        if not source_file or row.get("path") == source_file
+    ]
+    matches: list[dict[str, Any]] = []
+    for row in candidates:
+        source = _snapshot_relative_file(source_root, row.get("path"))
+        if source is None:
+            continue
+        transformed, changed = _public_xyz_bytes(
+            source.read_bytes(), relative=relative
+        )
+        if changed and transformed == content:
+            matches.append(row)
+    return matches
+
+
 def _recover_public_assets(
     *,
-    mode_root: Path,
+    mode_roots: list[Path],
     rows: Any,
-    evidence_ids: list[str],
+    source_root: Path,
+    evidence_index: list[dict[str, Any]],
+    discover_source_matched_files: bool = False,
 ) -> tuple[list[dict[str, Any]], list[str]]:
+    """Recover public inputs only when bytes match canonical source evidence."""
+
+    catalog = _source_asset_catalog(
+        source_root=source_root, evidence_index=evidence_index
+    )
     assets: list[dict[str, Any]] = []
     unresolved: list[str] = []
-    for index, raw in enumerate(rows if isinstance(rows, list) else [], start=1):
+    raw_rows = rows if isinstance(rows, list) else []
+    for index, raw in enumerate(raw_rows, start=1):
         if not isinstance(raw, dict):
             continue
         asset = dict(raw)
+        target_value = (
+            asset.get("path")
+            or asset.get("file")
+            or asset.get("target_path")
+            or Path(str(asset.get("source_file") or "")).name
+        )
         try:
-            relative = _task_input_relative_path(asset.get("path"))
+            relative = _task_input_relative_path(target_value)
         except ValueError:
             unresolved.append(f"invalid_asset_path:{index}")
             continue
-        source = mode_root / "data" / "inputs" / relative
+        staged = next(
+            (
+                root / "data" / "inputs" / relative
+                for root in mode_roots
+                if (root / "data" / "inputs" / relative).is_file()
+                and (root / "data" / "inputs" / relative).stat().st_size > 0
+            ),
+            None,
+        )
         content = asset.get("content")
-        if content is None and source.is_file() and source.stat().st_size > 0:
+        content_bytes: bytes | None = None
+        if staged is not None:
+            content_bytes = staged.read_bytes()
             try:
-                content = source.read_text(encoding="utf-8", errors="strict")
+                content = content_bytes.decode("utf-8", errors="strict")
             except UnicodeDecodeError:
+                content = None
                 unresolved.append(f"non_text_public_asset:{relative}")
-        if content is None:
+        elif content is not None:
+            content = _asset_content(content)
+            content_bytes = content.encode("utf-8")
+        if content_bytes is None:
             unresolved.append(f"missing_public_asset:{relative}")
+
+        uncertain_text = " ".join(
+            str(asset.get(field) or "")
+            for field in ("note", "notes", "warning", "provenance_note")
+        )
+        matches = (
+            _asset_source_matches(
+                digest=hashlib.sha256(content_bytes).hexdigest(),
+                asset=asset,
+                catalog=catalog,
+            )
+            if content_bytes is not None
+            else []
+        )
+        if content_bytes is not None and not matches:
+            matches = _transformed_asset_source_matches(
+                content=content_bytes,
+                relative=relative,
+                asset=asset,
+                catalog=catalog,
+                source_root=source_root,
+            )
+        introduced = [
+            value
+            for match in matches
+            for value in (match.get("source_ref") or {}).get("introduced_values") or []
+        ]
+        trusted = bool(matches) and not introduced and not _UNCERTAIN_ASSET_RE.search(
+            uncertain_text
+        )
+
         asset["path"] = relative
         asset["content"] = content
         asset.setdefault("description", str(asset.get("name") or f"Public input {index}"))
         asset.setdefault("role", "computational_input")
-        if not asset.get("source_evidence_ids") and evidence_ids:
-            asset["source_evidence_ids"] = list(evidence_ids)
         provenance = dict(asset.get("provenance") or {})
-        provenance.setdefault("kind", "source_copy")
-        provenance.setdefault(
-            "derivation",
-            "Recovered byte-for-byte from the Agent-staged public input; exact source alignment remains auditable by Stage07.",
-        )
-        provenance.setdefault("introduced_values", [])
+        if trusted:
+            transformed_content, route_comment_redacted = _public_xyz_bytes(
+                content_bytes or b"", relative=relative
+            )
+            if route_comment_redacted:
+                content_bytes = transformed_content
+                content = transformed_content.decode("utf-8")
+                for mode_root in mode_roots:
+                    target = mode_root / "data" / "inputs" / relative
+                    if target.is_file():
+                        make_writable(target)
+                        target.write_bytes(transformed_content)
+            asset["content"] = content
+            evidence = list(
+                dict.fromkeys(str(match["evidence_id"]) for match in matches)
+            )
+            asset["source_evidence_ids"] = evidence
+            asset["source_file"] = str(matches[0]["path"])
+            provenance = {
+                "kind": (
+                    "deterministic_transform"
+                    if any(match.get("deterministic_transform") for match in matches)
+                    else "source_copy"
+                ),
+                "derivation": str(
+                    (matches[0].get("source_ref") or {}).get("derivation")
+                    or "Byte-for-byte copy of an evidence-linked source file."
+                ),
+                "introduced_values": [],
+                "source_sha256": str(matches[0]["sha256"]),
+            }
+            if route_comment_redacted or (
+                (asset.get("provenance") or {}).get("transform_id")
+                == _XYZ_COMMENT_REDACTION_ID
+            ):
+                provenance.update(
+                    {
+                        "kind": "deterministic_transform",
+                        "derivation": (
+                            "Evidence-linked XYZ with route-bearing comment metadata "
+                            "replaced by a neutral public label; coordinates are unchanged."
+                        ),
+                        "transform_id": _XYZ_COMMENT_REDACTION_ID,
+                    }
+                )
+        else:
+            unresolved.append(f"unverified_public_asset_provenance:{relative}")
+            provenance.update(
+                {
+                    "kind": "unverified_agent_staging",
+                    "derivation": str(
+                        provenance.get("derivation")
+                        or "The staged bytes could not be matched uniquely to canonical source evidence."
+                    ),
+                    "introduced_values": list(
+                        provenance.get("introduced_values")
+                        or ["source_alignment_unverified"]
+                    ),
+                }
+            )
         asset["provenance"] = provenance
         assets.append(asset)
-    return assets, unresolved
+
+    if discover_source_matched_files and not raw_rows:
+        seen_paths: set[str] = set()
+        for mode_root in mode_roots:
+            data_root = mode_root / "data" / "inputs"
+            if not data_root.is_dir():
+                continue
+            for staged in sorted(path for path in data_root.rglob("*") if path.is_file()):
+                relative = staged.relative_to(data_root).as_posix()
+                if relative in seen_paths:
+                    continue
+                matches = catalog.get(sha256_file(staged)) or []
+                if not matches:
+                    continue
+                try:
+                    content_bytes = staged.read_bytes()
+                    public_bytes, route_comment_redacted = _public_xyz_bytes(
+                        content_bytes, relative=relative
+                    )
+                    if route_comment_redacted:
+                        make_writable(staged)
+                        staged.write_bytes(public_bytes)
+                    content = public_bytes.decode("utf-8", errors="strict")
+                except UnicodeDecodeError:
+                    unresolved.append(f"non_text_public_asset:{relative}")
+                    continue
+                introduced = [
+                    value
+                    for match in matches
+                    for value in (match.get("source_ref") or {}).get("introduced_values") or []
+                ]
+                if introduced:
+                    unresolved.append(f"source_asset_introduces_values:{relative}")
+                    continue
+                seen_paths.add(relative)
+                assets.append(
+                    {
+                        "path": relative,
+                        "description": f"Source-provided computational input: {relative}.",
+                        "role": "computational_input",
+                        "content": content,
+                        "source_evidence_ids": list(
+                            dict.fromkeys(
+                                str(match["evidence_id"]) for match in matches
+                            )
+                        ),
+                        "source_file": str(matches[0]["path"]),
+                        "provenance": {
+                            "kind": (
+                                "deterministic_transform"
+                                if any(
+                                    match.get("deterministic_transform")
+                                    for match in matches
+                                )
+                                else "source_copy"
+                            ),
+                            "derivation": str(
+                                (matches[0].get("source_ref") or {}).get("derivation")
+                                or "Byte-for-byte copy of an evidence-linked source file."
+                            ),
+                            "introduced_values": [],
+                            "source_sha256": str(matches[0]["sha256"]),
+                            **(
+                                {
+                                    "kind": "deterministic_transform",
+                                    "derivation": (
+                                        "Evidence-linked XYZ with route-bearing comment metadata "
+                                        "replaced by a neutral public label; coordinates are unchanged."
+                                    ),
+                                    "transform_id": _XYZ_COMMENT_REDACTION_ID,
+                                }
+                                if route_comment_redacted
+                                else {}
+                            ),
+                        },
+                    }
+                )
+    return assets, sorted(set(unresolved))
 
 
 def _normalize_artifact_workflow_steps(
@@ -2440,9 +3398,17 @@ def _normalize_artifact_workflow_steps(
             continue
         step = dict(raw)
         step["step_id"] = str(step.get("step_id") or f"step-{index}")
+        if not step.get("action"):
+            step["action"] = str(
+                step.get("name") or step.get("description") or step["step_id"]
+            )
         inputs = step.get("input_artifacts", step.get("input_artifact", step.get("input")))
         outputs = step.get(
-            "output_artifacts", step.get("output_artifact", step.get("output"))
+            "output_artifacts",
+            step.get(
+                "output_artifact",
+                step.get("output", step.get("outputs", step.get("generated_output"))),
+            ),
         )
         step["input_artifacts"] = (
             list(inputs) if isinstance(inputs, list) else [inputs] if inputs not in (None, "") else []
@@ -2458,8 +3424,11 @@ def _normalize_artifact_workflow_steps(
         step["depends_on"] = (
             list(dependencies) if isinstance(dependencies, list) else [dependencies]
         )
-        if not step.get("method_parameters") and step.get("method"):
-            step["method_parameters"] = {"method": step["method"]}
+        if not step.get("method_parameters"):
+            if isinstance(step.get("parameters"), dict) and step.get("parameters"):
+                step["method_parameters"] = dict(step["parameters"])
+            elif step.get("method"):
+                step["method_parameters"] = {"method": step["method"]}
         action = str(step.get("action") or "").casefold()
         if not step.get("step_type"):
             if any(token in action for token in ("frequency", "verify", "irc", "validation")):
@@ -2468,6 +3437,8 @@ def _normalize_artifact_workflow_steps(
                 step["step_type"] = "scientific_analysis"
             else:
                 step["step_type"] = "core_computation"
+        if not step.get("evidence_ids") and step.get("evidence_id"):
+            step["evidence_ids"] = [step["evidence_id"]]
         if not step.get("evidence_ids") and evidence_ids:
             step["evidence_ids"] = list(evidence_ids)
         preliminary.append(step)
@@ -2490,7 +3461,11 @@ def _normalize_artifact_workflow_steps(
 
 
 def _recover_workflow_review_from_pair_artifacts(
-    review: dict[str, Any], outputs: Path
+    review: dict[str, Any],
+    outputs: Path,
+    *,
+    source_root: Path,
+    evidence_index: list[dict[str, Any]],
 ) -> dict[str, Any]:
     """Recover fields already present in Agent artifacts into the review contract.
 
@@ -2561,15 +3536,37 @@ def _recover_workflow_review_from_pair_artifacts(
     )
     boundaries = public_basis.get("boundary_conditions")
     if not boundaries:
-        boundaries = autonomous_spec.get("boundary_conditions") or []
+        boundaries = _public_boundary_projection(
+            reproduction_spec.get("boundary_conditions")
+            or autonomous_spec.get("boundary_conditions")
+            or []
+        )
     boundaries = _normalize_boundary_contract(boundaries, evidence_ids=scope_evidence)
     public_basis["boundary_conditions"] = boundaries
-    raw_assets = public_basis.get("input_assets") or autonomous_spec.get("input_assets") or []
+    declared_assets = public_basis.get("input_assets") or []
+    raw_assets = declared_assets or []
     assets, unresolved = _recover_public_assets(
-        mode_root=autonomous_root,
+        mode_roots=[reproduction_root, autonomous_root],
         rows=raw_assets,
-        evidence_ids=scope_evidence,
+        source_root=source_root,
+        evidence_index=evidence_index,
+        discover_source_matched_files=not bool(declared_assets),
     )
+    if not assets and not declared_assets:
+        # A partially built reproduction may retain declarations only in its
+        # task spec. They remain untrusted unless the staged bytes match a
+        # canonical source/derived asset.
+        fallback_assets = (
+            reproduction_spec.get("input_assets")
+            or autonomous_spec.get("input_assets")
+            or []
+        )
+        assets, unresolved = _recover_public_assets(
+            mode_roots=[reproduction_root, autonomous_root],
+            rows=fallback_assets,
+            source_root=source_root,
+            evidence_index=evidence_index,
+        )
     public_basis["input_assets"] = assets
     completeness = dict(public_basis.get("input_completeness") or {})
     completeness["status"] = (

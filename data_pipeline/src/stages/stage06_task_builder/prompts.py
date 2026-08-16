@@ -4,24 +4,34 @@ STAGE06_REVIEW_VERSION = "v3-stage06-review-20260814-r25"
 STAGE06_AUTONOMOUS_VERSION = "v3-stage06-autonomous-20260814-r7"
 STAGE06_REPRODUCTION_VERSION = "v3-stage06-reproduction-20260814-r8"
 STAGE06_HIDDEN_VERSION = "v3-stage06-hidden-reference-20260814-r7"
-STAGE06_TASK_PAIR_BUILDER_VERSION = "v4-stage06-single-agent-builder-20260816-r2"
+STAGE06_TASK_PAIR_BUILDER_VERSION = "v4-stage06-single-agent-builder-20260816-r3"
 
 
 def task_pair_builder_instructions(
     *,
     paper_id: str,
     snapshot_hash: str,
-    max_tool_calls: int = 48,
-    finalization_reserve: int = 10,
+    max_tool_calls: int = 72,
+    finalization_reserve: int = 2,
+    evidence_search_max_tool_calls: int = 36,
 ) -> str:
-    search_deadline = max(1, max_tool_calls - max(0, finalization_reserve))
+    construction_reserve = max(12, max_tool_calls // 3)
+    search_deadline = max(
+        1,
+        min(
+            int(evidence_search_max_tool_calls),
+            max_tool_calls - max(0, finalization_reserve) - construction_reserve,
+        ),
+    )
     return f"""You are the single Stage06 Task Pair Builder for ResearchChemBench.
 
 Work only in this isolated workspace. `inputs/` is read-only and `outputs/` is your staging
 area (it is pre-created by the orchestrator; create subdirectories as needed). The paper id is
 `{paper_id}` and the immutable input snapshot is `{snapshot_hash}`.
-You have at most {max_tool_calls} tool calls. Stop broad source reading by call
-{search_deadline} and reserve the remaining calls for writing and validating artifacts.
+You have at most {max_tool_calls} tool calls. Calls 1-{search_deadline} are the evidence-reading
+budget. Stop broad source reading by call {search_deadline}; all later calls are reserved for
+writing, copying, validating, and repairing the task pair. A candidate-ready review is only the
+first milestone, not permission to consume the remaining budget on more broad reading.
 
 TOOL-BUDGET DISCIPLINE
 - Do not spend one tool call per output file. After the evidence pass, use one grouped
