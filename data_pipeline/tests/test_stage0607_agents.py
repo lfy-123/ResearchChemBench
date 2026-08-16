@@ -4546,6 +4546,35 @@ def test_stage07_prompt_enforces_repair_before_workflow_redesign() -> None:
     assert "Never report `approved_with_repairs`" in prompt
 
 
+def test_stage07_prompt_audits_the_entire_autonomous_public_surface() -> None:
+    prompt = audit_instructions(
+        paper_id="paper-test",
+        task_pair_id="pair-test",
+        manifest_hash="abc123",
+        max_tool_calls=24,
+        finalization_reserve=6,
+        source_stage06_decision="provisional_constructed",
+    )
+
+    assert "MANDATORY AUTONOMOUS PUBLIC-SURFACE AUDIT" in prompt
+    for required_surface in (
+        "task.md",
+        "task_info.json",
+        "task_spec.json",
+        "process_rubric.json",
+        "public_manifest.json",
+        "submission_contract.json",
+    ):
+        assert required_surface in prompt
+    assert "Do not declare the mode clean after reading\nonly `task.md`" in prompt
+    assert "paper labels such as `Int-*` or `TS-*`" in prompt
+    assert "transition-state ring\n  size" in prompt
+    assert "proton-shuttle/additional-molecule role" in prompt
+    assert "XYZ\ncomment" in prompt
+    assert "relative paths and file bytes must be identical" in prompt
+    assert "preserve the atom-count line and every element/coordinate record exactly" in prompt
+
+
 def test_stage07_retries_when_reported_repairs_were_not_delivered(tmp_path: Path) -> None:
     baseline = tmp_path / "inputs" / "stage06_candidate" / "autonomous_research"
     delivered = tmp_path / "outputs" / "task_pair" / "autonomous_research"

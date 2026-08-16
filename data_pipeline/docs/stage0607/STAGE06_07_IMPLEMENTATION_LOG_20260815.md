@@ -340,3 +340,33 @@ v5-r2 修复：
 
 下一步：使用新 prompt fingerprint 重跑同一单篇，确认 Stage07 的实际文件 diff、无嵌套副本、
 自主模式路线隔离、共享输入与 hidden Ground Truth 后，再提交固定六篇。
+
+### 5.4 v5-r3：自主模式完整公开面审计
+
+v5-r2 的客观交付检查通过后，对最终发布目录进行人工科学验收，发现 Stage07 只清理了
+`task_info.json` 和 `task_spec.json` 中的部分方法信息，却错误地声称 `task.md` 已经干净。
+自主模式仍通过多个公开面泄漏论文答案路线：
+
+- `task.md` 和公开 JSON 直接列出 `Int-*`、`TS-*` 的顺序与分支；
+- 四元环、六元环、额外 NH3 质子穿梭和已知优选路径被直接写入任务要求；
+- `process_rubric.json` 把论文的具体分支划分当成评分步骤；
+- XYZ 文件名暴露中间体/过渡态角色，第二行注释暴露 PBE0-D3BJ/def2-SVP 和 SI 页码。
+
+该问题属于 Agent 审计职责缺失，不增加代码侧科学内容 validator。v5-r3 将 Stage07 prompt
+扩展为强制的 autonomous public-surface audit：
+
+- 递归检查自主任务目录中的说明、spec/info、rubric、manifest、submission contract、全部
+  输入路径以及输入文件头，禁止只检查 `task.md` 或少数 JSON；
+- 明确定义方法、论文标签与顺序、分支映射、环尺寸、质子穿梭、已知优选路径、趋势和论文
+  中间/最终结论均属于自主模式泄漏；
+- 路线型文件名必须在两种模式中同步改为稳定中性 ID，论文标签映射只保留在 reproduction
+  专用路线文件或 hidden reference 中；
+- XYZ 只允许确定性替换自由文本注释行，原子数、元素和坐标必须保持原样，并在两种模式中
+  使用完全相同的相对路径与字节内容；
+- 公共自主过程 rubric 只评价通用的方法选择、探索、验证、溯源和科学推理，不枚举论文解法；
+- 审计摘要必须记录检查过的公开面、两份输入树是否逐字节一致，以及是否仍有禁披露信息。
+
+版本更新为 `v5-stage07-repair-first-auditor-20260816-r3` 与
+`v5-repair-first-audit-redesign-20260816-r3`，保证已有 Stage06 checkpoint 可复用，同时仅使
+Stage07 的旧 checkpoint 失效。新增 prompt 回归测试覆盖所有公开面、路线型文件名、XYZ
+注释中性化和双模式输入字节一致性要求。

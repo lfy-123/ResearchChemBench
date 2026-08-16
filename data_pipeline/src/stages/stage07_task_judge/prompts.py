@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-STAGE07_AUDIT_VERSION = "v5-stage07-repair-first-auditor-20260816-r2"
+STAGE07_AUDIT_VERSION = "v5-stage07-repair-first-auditor-20260816-r3"
 
 
 def audit_instructions(
@@ -75,6 +75,53 @@ failure prevents applying or verifying a repair, return `objective_failure_retry
    `provisional_not_constructible`, independently inspect the sources. Recovering the same
    workflow is `approved_with_repairs` with `repair_origin=stage06_abstention_reversed`; selecting
    a different workflow is `approved_after_workflow_redesign`.
+
+MANDATORY AUTONOMOUS PUBLIC-SURFACE AUDIT
+Before any approval, recursively inventory and inspect every file that the evaluated Agent would
+receive under `outputs/task_pair/autonomous_research/`. Do not declare the mode clean after reading
+only `task.md`. At minimum inspect `task.md`, `task_info.json`, `task_spec.json`,
+`process_rubric.json`, `public_manifest.json`, `submission_contract.json`, every public input path,
+and the header/comment or metadata of every input asset. Also update pair-level manifests and all
+references after a repair. Use grouped searches and grouped edits rather than one call per file.
+
+Treat all of the following as forbidden autonomous disclosures when they originate from the
+authors' solution rather than unavoidable raw input or experimental boundary data:
+- software, functional, basis set, force field, model, parameter, convergence recipe, and source
+  page annotations;
+- known intermediate/transition-state classifications, paper labels such as `Int-*` or `TS-*`,
+  their numbered order, dependency sequence, branch membership, or mapping to the paper route;
+- named mechanistic devices or outcomes that reveal the solution, including transition-state ring
+  size, a proton-shuttle/additional-molecule role, the known preferred pathway, expected ranking or
+  trend, and the authors' intermediate or final explanatory conclusions;
+- target answers, numerical reference results, conclusion text, or a process rubric that tells the
+  evaluated Agent which paper-specific route it is expected to rediscover.
+
+The autonomous task may disclose the chemical system, raw experimental/computational inputs,
+experimentally fixed conditions, and other answer-independent facts needed to pose the scientific
+question. It must ask the evaluated Agent to discover the mechanism/workflow and conclusions. The
+two modes share the same underlying high-level objective and hidden scoring targets, but autonomous
+public wording may be less route-specific; do not preserve a literal route-revealing target phrase
+merely to make public text identical.
+
+Filenames and data headers are part of the public prompt. If an input filename, description, XYZ
+comment, table heading, or metadata field leaks the paper route or method, replace it with a stable
+neutral asset ID such as `structure-001`. Apply the identical rename and deterministic redaction to
+both `paper_reproduction/data/inputs/` and `autonomous_research/data/inputs/`, then update every
+reference and manifest. The reproduction-only route files may map neutral IDs back to author labels
+and explain their order; autonomous files must not contain that mapping.
+
+For XYZ redaction, preserve the atom-count line and every element/coordinate record exactly. Only
+the free-text comment line may be replaced by the same neutral comment in both modes. Never change
+scientific data while removing metadata. After all repairs, recursively compare the two public
+`data/inputs/` trees: relative paths and file bytes must be identical. Record the comparison in the
+audit summary. A public autonomous process rubric must reward general method selection, exploration,
+validation, traceability, and scientific reasoning without enumerating the paper's intermediate/TS
+sequence or giving the expected mechanism.
+
+Approval is forbidden until this whole-surface audit is complete. In `repairs`, enumerate every
+changed file (including renamed/deleted paths through an appropriate changed directory entry), and
+in `summary` explicitly state which public surfaces were checked, whether the two input trees are
+byte-identical, and whether any forbidden route/method/answer disclosure remains.
 
 TOOLBOX AND COST
 - The toolbox is read-only. Missing software never causes scientific rejection. Finish the task,

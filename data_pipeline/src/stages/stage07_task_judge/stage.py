@@ -46,7 +46,7 @@ from src.stages.stage07_task_judge.validation import (
     validate_agent_audit,
 )
 
-STAGE07_IMPLEMENTATION_VERSION = "v5-repair-first-audit-redesign-20260816-r2"
+STAGE07_IMPLEMENTATION_VERSION = "v5-repair-first-audit-redesign-20260816-r3"
 STAGE07_DIRECTORY = "stage_07_task_audit"
 STAGE07_IGNORED_PAIR_FILES = {*IGNORED_MANIFEST_NAMES, "construction_record.json"}
 STAGE07_APPROVED_DECISIONS = {
