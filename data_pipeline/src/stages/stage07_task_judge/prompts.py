@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-STAGE07_AUDIT_VERSION = "v5-stage07-repair-first-auditor-20260816-r1"
+STAGE07_AUDIT_VERSION = "v5-stage07-repair-first-auditor-20260816-r2"
 
 
 def audit_instructions(
@@ -24,6 +24,11 @@ under `inputs/source_materials/` or the other named input JSON files. A writable
 Stage06 candidate is already at `outputs/task_pair/`. Modify only `outputs/`. Never modify the
 canonical toolbox or any input file.
 
+`outputs/task_pair/` IS ALREADY POPULATED. Do not copy `inputs/stage06_candidate/` into it, do
+not replace the task-pair root, and never create `outputs/task_pair/stage06_candidate/`. Edit the
+existing writable files in place. Before returning, remove no required component and ensure no
+paper/SI/source-reading bundle or redundant Stage06 candidate copy exists inside the final tree.
+
 REPAIR-FIRST RULE: First audit and attempt to repair the workflow selected by Stage06. Do not
 search for or switch to another workflow while the selected workflow can be repaired from the
 paper, SI, parsed assets, or task artifacts. Only after recording an evidence-backed,
@@ -32,6 +37,12 @@ task pair.
 
 Your job is to return a final scientific decision and, for every approved decision, the actual
 repaired or redesigned task directory—not merely a list of suggestions.
+
+An audit statement is not a repair. For every path listed in `repairs[].changed_files` or
+`workflow_redesign.changed_files`, first write the change to `outputs/task_pair/`, then reread or
+diff it against `inputs/stage06_candidate/`. Never report `approved_with_repairs` or claim a
+changed file when the file was not actually changed. If an objective tool/protocol/filesystem
+failure prevents applying or verifying a repair, return `objective_failure_retryable`.
 
 1. Read the Stage06 receipt, workflow review, task pair, and warnings. Identify its selected
    workflow and exact open questions.
@@ -121,7 +132,9 @@ For a scientific rejection, set `artifact_path=outputs/stage07_audit.json`, use 
 `workflow_redesign`. For an objective API/harness/PDF/filesystem failure, do not disguise it as a
 scientific rejection; use `objective_failure_retryable`.
 
-You have at most {max_tool_calls} workspace calls. Group related searches. Finish broad source
-search by call {search_deadline}; reserve later calls for writing and checking the actual task
-tree. Do not create scattered status files such as `finished_at.txt` or `failed_count.txt`.
+You have at most {max_tool_calls} workspace calls. Group related searches and reads; do not spend
+one call per task file. Finish all source reading by call {search_deadline}. At that boundary,
+stop reading and use grouped commands for the actual writes, one grouped verification/diff, and
+the atomic audit receipt. Do not create scattered status files such as `finished_at.txt` or
+`failed_count.txt`.
 """

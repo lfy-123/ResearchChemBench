@@ -46,7 +46,7 @@ from src.stages.stage07_task_judge.validation import (
     validate_agent_audit,
 )
 
-STAGE07_IMPLEMENTATION_VERSION = "v5-repair-first-audit-redesign-20260816-r1"
+STAGE07_IMPLEMENTATION_VERSION = "v5-repair-first-audit-redesign-20260816-r2"
 STAGE07_DIRECTORY = "stage_07_task_audit"
 STAGE07_IGNORED_PAIR_FILES = {*IGNORED_MANIFEST_NAMES, "construction_record.json"}
 STAGE07_APPROVED_DECISIONS = {
@@ -337,6 +337,15 @@ def _run_audit_repair_agent(
                 directory_names=("outputs",),
                 include_evidence_trace=True,
             )
+            # A failed Agent may have redundantly copied the immutable handoff
+            # inside the task tree. It is never a valid deliverable and would
+            # otherwise be carried into every recovery attempt.
+            redundant_candidate = outputs / "task_pair" / "stage06_candidate"
+            if redundant_candidate.is_dir():
+                shutil.rmtree(redundant_candidate)
+            elif redundant_candidate.exists():
+                redundant_candidate.unlink()
+            make_writable(outputs)
         max_tool_calls = max(
             4,
             int(
@@ -477,6 +486,15 @@ def _require_stage07_artifact_delivery(
             raise ValueError("approved artifact_path must be outputs/task_pair")
         if not artifact.is_dir() or not any(path.is_file() for path in artifact.rglob("*")):
             raise FileNotFoundError("approved task-pair directory is empty or missing")
+        if (artifact / "stage06_candidate").exists():
+            raise ValueError(
+                "approved task-pair contains a redundant stage06_candidate source copy"
+            )
+        _require_reported_stage07_changes(
+            response=response,
+            artifact=artifact,
+            baseline=workspace / "inputs" / "stage06_candidate",
+        )
         return
     except (FileNotFoundError, OSError, ValueError) as exc:
         message = f"Stage07 approved a task but did not deliver its task tree: {exc}"
@@ -491,6 +509,63 @@ def _require_stage07_artifact_delivery(
             retryable=True,
             result=result,
         ) from exc
+
+
+def _require_reported_stage07_changes(
+    *, response: dict[str, Any], artifact: Path, baseline: Path
+) -> None:
+    """Verify only the objective fact that claimed file edits were delivered.
+
+    This intentionally does not judge scientific validity or task quality. It
+    prevents an interrupted tool turn from publishing an audit that says files
+    were repaired while returning the unchanged Stage06 tree.
+    """
+
+    decision = str(response.get("audit_decision") or "")
+    reported: list[str] = []
+    for repair in response.get("repairs") or []:
+        if isinstance(repair, dict):
+            reported.extend(str(path) for path in repair.get("changed_files") or [])
+    redesign = response.get("workflow_redesign") or {}
+    if isinstance(redesign, dict):
+        reported.extend(str(path) for path in redesign.get("changed_files") or [])
+    reported = list(dict.fromkeys(path for path in reported if path.strip()))
+
+    if decision == "approved_with_repairs" and not reported:
+        raise ValueError("approved_with_repairs did not report any changed task file")
+
+    unchanged: list[str] = []
+    missing: list[str] = []
+    for raw_path in reported:
+        relative = validate_relative_path(raw_path)
+        delivered = (artifact / relative).resolve()
+        delivered.relative_to(artifact.resolve())
+        original = (baseline / relative).resolve()
+        original.relative_to(baseline.resolve())
+        if not delivered.exists():
+            missing.append(relative)
+            continue
+        if original.exists() and _stage07_paths_equal(original, delivered):
+            unchanged.append(relative)
+    if missing:
+        raise ValueError(
+            "Stage07 reported changed files that were not delivered: " + ", ".join(missing)
+        )
+    if unchanged:
+        raise ValueError(
+            "Stage07 reported repairs without changing these files: "
+            + ", ".join(unchanged)
+        )
+
+
+def _stage07_paths_equal(left: Path, right: Path) -> bool:
+    if left.is_file() and right.is_file():
+        return left.read_bytes() == right.read_bytes()
+    if left.is_dir() and right.is_dir():
+        return directory_manifest(left)["content_hash"] == directory_manifest(right)[
+            "content_hash"
+        ]
+    return False
 
 
 def _stage07_approved_artifact(response: dict[str, Any], artifact_root: Path) -> Path:

@@ -299,3 +299,44 @@ r3 验证结果：
 
 下一步：提交 v5-r1 代码快照，使用 gallaphosphene 做真实 Stage06/07 单篇验证。若 Agent
 轨迹、任务交付或状态仍有问题，记录为 v5-r2 并修复；单篇达到方案预期后再异步提交固定六篇。
+
+### 5.3 v5-r2：Stage07 真实修复交付与中转工具别名
+
+首轮真实端到端样本：
+
+- 论文：`paper_6904a9c8c09855cc`，DOI `10.1002/anie.202525581`；
+- run：`stage06-07-v5-single-paper6904-20260816-r1`；
+- Stage06 在一次 Agent 调用中输出 `provisional_constructed`，选择 NH3 活化的
+  `major_paper_workflow`：18 个来源可追溯 XYZ、三组分支路径、高复杂度、9 条数值与文字
+  Ground Truth；
+- Stage07 正确保留原工作流，并发现 autonomous 文件中的论文方法与机理路线泄漏。
+
+该次运行同时暴露两个客观交付缺陷：
+
+- 中转站在长上下文后将 Codex 的 `exec_command` 偶发返回为 `Bash`、`shell`、`bash`。
+  三次协议恢复均未执行修复命令，最终只通过 `submit_final_json` 写入审计 JSON；
+- 审计 JSON 声称修改了 3 个 autonomous 文件，但发布树与 Stage06 对应目录逐字节相同；
+  Agent 还重复执行 `cp -r inputs/stage06_candidate outputs/task_pair`，使发布树额外包含
+  `stage06_candidate/` 嵌套副本。因此该次 `approved_with_repairs` 不能作为有效验收结果。
+
+v5-r2 修复：
+
+- Responses bridge 仅在请求实际声明 `exec_command` 时，将中转返回的
+  `Bash/shell/bash` 及其 `command/script/input` 参数窄映射为 Codex `exec_command.cmd`；
+  未声明 `exec_command` 的 harness 或真实同名工具不受影响；
+- Stage07 prompt 明确 `outputs/task_pair/` 已预填充，禁止重新复制 Stage06 handoff，要求每个
+  `changed_files` 在返回前实际写入并与只读基线 diff；
+- Stage07 代码只做客观交付一致性检查，不判断科学内容：`approved_with_repairs` 必须至少有
+  一个报告的文件真实改变；报告但未交付、未改变或夹带嵌套 `stage06_candidate/` 时，归为
+  可重试的 Agent 交付故障；
+- recovery 会清理精确定位的冗余嵌套候选副本，避免污染跨尝试传播。
+
+修复后本地验证：
+
+- Stage06/07 专项测试：`100 passed`；
+- 项目全量：`478 passed`，唯一失败仍为无关 Stage01 的外部 PATH `pdfinfo` `ESTALE`；纯
+  `/usr/bin:/bin` PATH 单独复跑：`1 passed`；
+- Ruff、`py_compile`、`git diff --check`：通过。
+
+下一步：使用新 prompt fingerprint 重跑同一单篇，确认 Stage07 的实际文件 diff、无嵌套副本、
+自主模式路线隔离、共享输入与 hidden Ground Truth 后，再提交固定六篇。

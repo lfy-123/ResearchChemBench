@@ -10,7 +10,7 @@ from types import SimpleNamespace
 import jsonschema
 import pytest
 
-from src.agents import AgentRunRequest, create_agent_harness
+from src.agents import AgentExecutionError, AgentRunRequest, create_agent_harness
 from src.agents.harness import (
     _apply_schema_defaults,
     _recover_trusted_workspace_response,
@@ -21,6 +21,7 @@ from src.agents.responses_bridge import (
     ResponsesBridge,
     _consume_final_json_tool,
     _final_json_tool,
+    _normalize_returned_tool_aliases,
     _retain_file_first_artifact_write_calls,
     _retain_structured_artifact_write_calls,
     responses_to_chat,
@@ -80,6 +81,7 @@ from src.stages.stage07_task_judge.prompts import STAGE07_AUDIT_VERSION, audit_i
 from src.stages.stage07_task_judge.stage import (
     _audit_pair_manifest,
     _cached_audit_inputs_match,
+    _require_stage07_artifact_delivery,
     _stage07_audit_initializer_script,
     _stage07_audit_packet,
     _stage07_audit_scaffold,
@@ -1219,6 +1221,66 @@ def test_responses_bridge_does_not_mix_json_mode_with_tools() -> None:
     assert chat["tool_choice"] == "auto"
     assert chat["tools"][0]["function"]["name"] == "exec_command"
     assert "response_format" not in chat
+
+
+@pytest.mark.parametrize("alias", ["Bash", "shell", "bash"])
+def test_responses_bridge_normalizes_relay_shell_aliases(alias: str) -> None:
+    result = {
+        "choices": [
+            {
+                "message": {
+                    "role": "assistant",
+                    "tool_calls": [
+                        {
+                            "id": "call-alias",
+                            "type": "function",
+                            "function": {
+                                "name": alias,
+                                "arguments": json.dumps(
+                                    {"command": "python -m json.tool task.json"}
+                                ),
+                            },
+                        }
+                    ],
+                }
+            }
+        ]
+    }
+
+    normalized = _normalize_returned_tool_aliases(
+        result, allowed_names={"exec_command", "update_plan"}
+    )
+
+    function = normalized["choices"][0]["message"]["tool_calls"][0]["function"]
+    assert function["name"] == "exec_command"
+    assert json.loads(function["arguments"]) == {
+        "cmd": "python -m json.tool task.json"
+    }
+
+
+def test_responses_bridge_does_not_remap_shell_alias_without_exec_command() -> None:
+    result = {
+        "choices": [
+            {
+                "message": {
+                    "tool_calls": [
+                        {
+                            "function": {
+                                "name": "Bash",
+                                "arguments": '{"command":"true"}',
+                            }
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+
+    normalized = _normalize_returned_tool_aliases(result, allowed_names={"Bash"})
+
+    assert normalized["choices"][0]["message"]["tool_calls"][0]["function"][
+        "name"
+    ] == "Bash"
 
 
 def test_responses_bridge_uses_json_mode_without_tools() -> None:
@@ -4480,6 +4542,61 @@ def test_stage07_prompt_enforces_repair_before_workflow_redesign() -> None:
     assert redesign_rule in prompt
     assert prompt.index(repair_rule) < prompt.index(redesign_rule)
     assert "Missing software never causes scientific rejection" in prompt
+    assert "IS ALREADY POPULATED" in prompt
+    assert "Never report `approved_with_repairs`" in prompt
+
+
+def test_stage07_retries_when_reported_repairs_were_not_delivered(tmp_path: Path) -> None:
+    baseline = tmp_path / "inputs" / "stage06_candidate" / "autonomous_research"
+    delivered = tmp_path / "outputs" / "task_pair" / "autonomous_research"
+    baseline.mkdir(parents=True)
+    delivered.mkdir(parents=True)
+    (baseline / "task.md").write_text("unchanged", encoding="utf-8")
+    (delivered / "task.md").write_text("unchanged", encoding="utf-8")
+    response = {
+        "audit_decision": "approved_with_repairs",
+        "artifact_path": "outputs/task_pair",
+        "repairs": [
+            {
+                "changed_files": ["autonomous_research/task.md"],
+            }
+        ],
+        "workflow_redesign": {"changed_files": []},
+    }
+    result = SimpleNamespace(audit_record=lambda: {})
+
+    with pytest.raises(AgentExecutionError, match="did not deliver its task tree"):
+        _require_stage07_artifact_delivery(response, tmp_path, result)
+
+    assert result.failure_class == "missing_agent_artifact"
+    assert result.retryable is True
+
+    (delivered / "task.md").write_text("actually repaired", encoding="utf-8")
+    _require_stage07_artifact_delivery(
+        response, tmp_path, SimpleNamespace(audit_record=lambda: {})
+    )
+
+
+def test_stage07_rejects_redundant_candidate_copy_in_delivery(tmp_path: Path) -> None:
+    baseline = tmp_path / "inputs" / "stage06_candidate"
+    delivered = tmp_path / "outputs" / "task_pair"
+    baseline.mkdir(parents=True)
+    delivered.mkdir(parents=True)
+    (delivered / "paper_info.json").write_text("{}", encoding="utf-8")
+    nested = delivered / "stage06_candidate"
+    nested.mkdir()
+    (nested / "paper_info.json").write_text("{}", encoding="utf-8")
+    response = {
+        "audit_decision": "approved",
+        "artifact_path": "outputs/task_pair",
+        "repairs": [],
+        "workflow_redesign": {"changed_files": []},
+    }
+
+    with pytest.raises(AgentExecutionError, match="did not deliver its task tree"):
+        _require_stage07_artifact_delivery(
+            response, tmp_path, SimpleNamespace(audit_record=lambda: {})
+        )
 
 
 def test_stage07_pair_manifest_ignores_volatile_construction_record(tmp_path: Path) -> None:
@@ -4950,12 +5067,31 @@ def test_stage06_builds_isolated_task_pair_with_toolbox_gap(tmp_path: Path) -> N
 
     judge_model = _Model()
     judge_model.role = "judge"
+
+    def stage07_responder(request: AgentRunRequest) -> dict:
+        response = _mock_responses()[request.phase]
+        requirements_path = request.workspace / "outputs" / "task_pair" / "toolbox_requirements.json"
+        requirements = read_json(requirements_path)
+        if isinstance(requirements, dict):
+            requirements["stage07_verified"] = True
+        else:
+            requirements.append(
+                {
+                    "software": "ORCA",
+                    "status": "missing",
+                    "stage07_verified": True,
+                }
+            )
+        write_json(requirements_path, requirements)
+        return response
+
     stage07 = run_stage07(
         build_records=output["records"],
         documents=documents,
         config={
             **config,
             "mock_responses": _mock_responses(),
+            "mock_responder": stage07_responder,
             "resource_policy": {"walltime_hours": 1},
         },
         model=judge_model,

@@ -50,6 +50,7 @@ _TAG_ATTRIBUTE_RE = re.compile(
     flags=re.DOTALL,
 )
 _JSON_FENCE_RE = re.compile(r"```(?:json)?\s*(.*?)```", flags=re.IGNORECASE | re.DOTALL)
+_SHELL_TOOL_NAME_ALIASES = {"bash", "shell"}
 
 
 def _text_content(value: Any) -> str:
@@ -119,7 +120,9 @@ def _promote_dsml_tool_calls(
     calls: list[dict[str, Any]] = []
     for invoke in _DSML_INVOKE_RE.finditer(content):
         invoke_attributes = _tag_attributes(invoke.group("attributes"))
-        name = str(invoke_attributes.get("name") or "")
+        name = _canonical_returned_tool_name(
+            str(invoke_attributes.get("name") or ""), allowed_names=allowed_names
+        )
         if name not in allowed_names:
             continue
         arguments: dict[str, str] = {}
@@ -148,6 +151,62 @@ def _promote_dsml_tool_calls(
     if calls:
         message["content"] = ""
         message["tool_calls"] = calls
+    return result
+
+
+def _canonical_returned_tool_name(name: str, *, allowed_names: set[str]) -> str:
+    """Map a narrow set of shell aliases to Codex's advertised terminal tool.
+
+    Some OpenAI-compatible relays intermittently return ``Bash``/``shell`` even
+    though the request advertised ``exec_command``.  The mapping is deliberately
+    conditional on ``exec_command`` being present so it cannot affect harnesses
+    or models that expose a real tool under one of those names.
+    """
+
+    if name in allowed_names:
+        return name
+    if "exec_command" in allowed_names and name.strip().casefold() in _SHELL_TOOL_NAME_ALIASES:
+        return "exec_command"
+    return name
+
+
+def _normalize_returned_tool_aliases(
+    result: dict[str, Any], *, allowed_names: set[str]
+) -> dict[str, Any]:
+    """Normalize relay-specific shell calls into the advertised Codex contract."""
+
+    if "exec_command" not in allowed_names:
+        return result
+    message = (result.get("choices") or [{}])[0].get("message") or {}
+    for call in message.get("tool_calls") or []:
+        function = call.get("function") or {}
+        raw_name = str(function.get("name") or "")
+        canonical_name = _canonical_returned_tool_name(
+            raw_name, allowed_names=allowed_names
+        )
+        if canonical_name == raw_name or canonical_name != "exec_command":
+            continue
+        try:
+            arguments = json.loads(
+                _normalized_tool_arguments(function.get("arguments") or "{}")
+            )
+        except json.JSONDecodeError:
+            continue
+        command = arguments.get("cmd")
+        if not isinstance(command, str) or not command.strip():
+            for alias in ("command", "script", "input"):
+                candidate = arguments.get(alias)
+                if isinstance(candidate, str) and candidate.strip():
+                    command = candidate
+                    break
+        if not isinstance(command, str) or not command.strip():
+            continue
+        normalized_arguments: dict[str, Any] = {"cmd": command}
+        for key in ("workdir", "yield_time_ms", "max_output_tokens", "tty"):
+            if key in arguments:
+                normalized_arguments[key] = arguments[key]
+        function["name"] = "exec_command"
+        function["arguments"] = json.dumps(normalized_arguments, ensure_ascii=False)
     return result
 
 
@@ -1463,6 +1522,9 @@ class ResponsesBridge(AbstractContextManager["ResponsesBridge"]):
                         allowed_names=allowed_tool_names,
                         custom_names=custom_names,
                     )
+                    result = _normalize_returned_tool_aliases(
+                        result, allowed_names=allowed_tool_names
+                    )
                     if (
                         structured_workspace_finalization
                         and self.structured_artifact_path is not None
@@ -1693,6 +1755,9 @@ class ResponsesBridge(AbstractContextManager["ResponsesBridge"]):
                             raw_recovery,
                             allowed_names=recovery_allowed_tool_names,
                             custom_names=custom_names,
+                        )
+                        result = _normalize_returned_tool_aliases(
+                            result, allowed_names=recovery_allowed_tool_names
                         )
                         if (
                             structured_workspace_finalization
