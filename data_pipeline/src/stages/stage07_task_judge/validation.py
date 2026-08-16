@@ -1,10 +1,12 @@
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 from typing import Any
 
 from src.contracts import read_json
+from src.core.toolbox_inventory import installed_software_inventory
 from src.stages.stage06_task_builder.validation import validate_task_pair
 
 OUTCOME_TYPES = {
@@ -21,8 +23,15 @@ OUTCOME_TYPES = {
 }
 
 
-def deterministic_stage07_audit(pair_root: Path) -> dict[str, Any]:
+def deterministic_stage07_audit(
+    pair_root: Path, *, toolbox_snapshot: dict[str, Any] | None = None
+) -> dict[str, Any]:
     pair_audit = validate_task_pair(pair_root)
+    pair_audit["findings"] = sorted(
+        set(pair_audit.get("findings") or [])
+        | set(final_task_pair_integrity_findings(pair_root))
+    )
+    pair_audit["passed"] = not pair_audit["findings"]
     outcomes: list[dict[str, Any]] = []
     for finding in pair_audit["findings"]:
         outcome_type = _finding_outcome_type(finding)
@@ -36,9 +45,19 @@ def deterministic_stage07_audit(pair_root: Path) -> dict[str, Any]:
                 "source": "deterministic",
             }
         )
+    toolbox = installed_software_inventory(toolbox_snapshot or {})
     toolbox_path = pair_root / "toolbox_requirements.json"
+    requirements = read_json(toolbox_path) if toolbox_path.is_file() else []
+    reconciled_requirements, software_gaps = reconcile_toolbox_requirements(
+        requirements, toolbox
+    )
+    if toolbox_path.is_file() and reconciled_requirements != requirements:
+        toolbox_path.write_text(
+            json.dumps(reconciled_requirements, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
     if toolbox_path.is_file():
-        for requirement in read_json(toolbox_path):
+        for requirement in reconciled_requirements:
             if not isinstance(requirement, dict):
                 continue
             status = _toolbox_status(requirement)
@@ -48,7 +67,7 @@ def deterministic_stage07_audit(pair_root: Path) -> dict[str, Any]:
             outcomes.append(
                 {
                     "type": outcome_type,
-                    "severity": "blocking" if requirement.get("blocking_now", True) else "major",
+                    "severity": "minor",
                     "scope": "both_modes",
                     "details": str(
                         requirement.get("suggested_action")
@@ -62,11 +81,147 @@ def deterministic_stage07_audit(pair_root: Path) -> dict[str, Any]:
                 }
             )
     return {
-        "passed": not outcomes,
+        "passed": bool(pair_audit.get("passed")),
         "findings": pair_audit["findings"],
         "outcomes": _deduplicate_outcomes(outcomes),
         "pair_audit": pair_audit,
+        "toolbox_status": (
+            "unknown"
+            if not (toolbox.get("installed_software") or [])
+            else ("needs_software" if software_gaps else "available")
+        ),
+        "required_additions": software_gaps,
     }
+
+
+def _normalize_software_token(value: Any) -> str:
+    """Normalize software family names while deliberately ignoring versions."""
+
+    token = re.sub(r"[^a-z0-9]+", "", str(value or "").casefold())
+    token = re.sub(r"(?<=gaussian)(?:0?\d+)$", "", token)
+    token = re.sub(r"(?<=cp2k)(?:\d+)$", "", token)
+    token = re.sub(r"(?<=orca)(?:\d+)$", "", token)
+    return token
+
+
+def _software_token_variants(value: Any) -> set[str]:
+    raw = str(value or "").strip().casefold()
+    if not raw:
+        return set()
+    versionless = re.sub(
+        r"\b(?:version|release|revision|rev|ver|v)?\s*\d+(?:[._-]\d+)*(?:[a-z]\d*)?\b",
+        " ",
+        raw,
+    )
+    return {
+        token
+        for token in (
+            _normalize_software_token(raw),
+            _normalize_software_token(versionless),
+        )
+        if token
+    }
+
+
+def software_matches_installed(name: Any, toolbox: dict[str, Any]) -> dict[str, Any] | None:
+    requested = _software_token_variants(name)
+    if not requested:
+        return None
+    inventory = toolbox.get("installed_software") or []
+    for row in inventory:
+        if not isinstance(row, dict):
+            continue
+        values = [row.get("software_id"), row.get("display_name"), *(row.get("aliases") or [])]
+        available = set().union(*(_software_token_variants(value) for value in values))
+        if requested & available:
+            return row
+    if requested & {"g09", "g16", "gaussian09", "gaussian16", "gaussian"}:
+        for row in inventory:
+            if _normalize_software_token(row.get("software_id")) == "gaussian":
+                return row
+    return None
+
+
+def reconcile_toolbox_requirements(
+    requirements: Any, toolbox: dict[str, Any]
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    """Resolve requirement names against installed software, without version checks."""
+
+    normalized: list[dict[str, Any]] = []
+    gaps: list[dict[str, Any]] = []
+    inventory_available = bool(toolbox.get("installed_software") or [])
+    rows = requirements if isinstance(requirements, list) else []
+    for raw in rows:
+        if not isinstance(raw, dict):
+            continue
+        item = dict(raw)
+        name = item.get("software") or item.get("tool") or item.get("software_id") or item.get(
+            "normalized_backend"
+        )
+        match = software_matches_installed(name, toolbox) if inventory_available else None
+        if match is not None:
+            # The file is a gap list, not an inventory.  A matched installed
+            # program therefore has no entry in the normalized artifact.
+            continue
+        elif inventory_available and str(name or "").strip():
+            item["status"] = "missing"
+            gaps.append(
+                {
+                    "software": str(name),
+                    "matched": False,
+                    "details": (
+                        f"Required software family '{name}' is absent from the installed "
+                        "software inventory; software versions are not compared."
+                    ),
+                    "evidence_ids": item.get("evidence_ids") or [],
+                }
+            )
+        else:
+            item["status"] = "unknown"
+        normalized.append(item)
+    return normalized, gaps
+
+
+def collect_referenced_evidence_ids(value: Any) -> set[str]:
+    """Collect evidence references from structured task artifacts only."""
+
+    found: set[str] = set()
+    if isinstance(value, dict):
+        for key, item in value.items():
+            if key in {"evidence_id", "evidence_ids", "source_evidence_ids", "evidence_refs"}:
+                if isinstance(item, str):
+                    found.add(item)
+                elif isinstance(item, list):
+                    found.update(str(entry) for entry in item if isinstance(entry, str) and entry)
+            found.update(collect_referenced_evidence_ids(item))
+    elif isinstance(value, list):
+        for item in value:
+            found.update(collect_referenced_evidence_ids(item))
+    return found
+
+
+def final_task_pair_integrity_findings(pair_root: Path) -> list[str]:
+    evidence_path = pair_root / "evidence_index.json"
+    if not evidence_path.is_file():
+        return ["missing_pair_metadata:evidence_index.json"]
+    try:
+        evidence_rows = read_json(evidence_path)
+    except (OSError, ValueError, TypeError, json.JSONDecodeError):
+        return ["evidence_index_unreadable"]
+    known = {
+        str(row.get("evidence_id"))
+        for row in evidence_rows
+        if isinstance(row, dict) and row.get("evidence_id")
+    }
+    referenced: set[str] = set()
+    for path in pair_root.rglob("*.json"):
+        if path == evidence_path or "/." in path.as_posix():
+            continue
+        try:
+            referenced.update(collect_referenced_evidence_ids(read_json(path)))
+        except (OSError, ValueError, TypeError, json.JSONDecodeError):
+            continue
+    return [f"evidence_id_unknown:{identifier}" for identifier in sorted(referenced - known)]
 
 
 _FINDING_OUTCOME_BY_CODE = {
@@ -75,6 +230,10 @@ _FINDING_OUTCOME_BY_CODE = {
     "required_deliverables_missing": "task_missing_data",
     "task_spec_input_missing": "task_missing_data",
     "task_spec_input_path_invalid": "task_missing_data",
+    "input_asset_empty": "task_missing_data",
+    "input_asset_unreadable": "task_missing_data",
+    "input_asset_placeholder": "task_missing_data",
+    "input_asset_all_null_or_empty": "task_missing_data",
     "public_boundary_conditions_missing": "task_missing_data",
     "public_boundary_condition_invalid": "task_missing_data",
     "public_boundary_condition_name_missing": "task_missing_data",
@@ -86,6 +245,7 @@ _FINDING_OUTCOME_BY_CODE = {
     "missing_ground_truth_common": "task_missing_ground_truth",
     "hidden_ground_truth_empty": "task_missing_ground_truth",
     "ground_truth_answer_missing": "task_missing_ground_truth",
+    "ground_truth_answer_placeholder": "task_missing_ground_truth",
     "ground_truth_not_scored": "task_missing_ground_truth",
     "ground_truth_profile_missing": "acceptance_rule_invalid",
     "acceptance_profile_ids_invalid": "acceptance_rule_invalid",
@@ -132,6 +292,7 @@ def _finding_outcome_type(finding: str) -> str:
         (("hidden_answer_", "hidden_conclusion_", "autonomous_route_"), "mode_isolation_violation"),
         (("mode_pair_", "mode_input_", "mode_submission_"), "mode_pair_inconsistent"),
         (("workflow_scope_", "complexity_", "scientific_core_", "estimated_tool_"), "workflow_incomplete"),
+        (("evidence_id_unknown", "evidence_index_"), "provenance_incomplete"),
     )
     return next(
         (

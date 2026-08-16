@@ -4,7 +4,7 @@ STAGE06_REVIEW_VERSION = "v3-stage06-review-20260814-r25"
 STAGE06_AUTONOMOUS_VERSION = "v3-stage06-autonomous-20260814-r7"
 STAGE06_REPRODUCTION_VERSION = "v3-stage06-reproduction-20260814-r8"
 STAGE06_HIDDEN_VERSION = "v3-stage06-hidden-reference-20260814-r7"
-STAGE06_TASK_PAIR_BUILDER_VERSION = "v5-stage06-provisional-builder-20260816-r3-installed-software-only"
+STAGE06_TASK_PAIR_BUILDER_VERSION = "v5-stage06-provisional-builder-20260817-r4-version-agnostic-software"
 
 
 def task_pair_builder_instructions(
@@ -84,6 +84,8 @@ SOURCE AUTHORITY AND READING ORDER
 - `inputs/toolbox_snapshot.json` is a read-only inventory of installed software. Every listed
   program and alias is available. It intentionally contains no preset Action information: never
   infer that software is missing because an Action or task-specific capability is not listed.
+  Match software by family, software ID, display name, or alias and ignore release/version
+  numbers. A different paper/software version is not a software gap.
   Software absent from the inventory may be recorded in `outputs/toolbox_requirements.json`, but
   it never makes a scientifically complete task fail.
 
@@ -418,7 +420,8 @@ required program is present in `inputs/toolbox_snapshot.json`. Each item must us
 `incompatible`, or `unknown`, plus `software`, `capability`, `role`, `missing_capabilities`,
 `incompatible_capabilities`, `evidence_ids`, and a concrete `suggested_action`. Every software name or alias listed
 in the snapshot is installed. Do not inspect, request, or infer preset Action coverage; absence of an Action is not
-a software gap. Toolbox status never changes the scientific construction decision.
+a software gap. Ignore software release/version differences when matching names. Toolbox status never changes the
+scientific construction decision.
 
 Write the complete review contract atomically to `outputs/scientific_review.json` with a workspace tool call no
 later than the finalization reserve, and validate that file as JSON in the same call. Do not merely announce that

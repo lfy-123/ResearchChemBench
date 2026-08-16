@@ -45,10 +45,11 @@ from src.stages.stage07_task_judge.prompts import (
 )
 from src.stages.stage07_task_judge.validation import (
     deterministic_stage07_audit,
+    merge_audit_outcomes,
     validate_agent_audit,
 )
 
-STAGE07_IMPLEMENTATION_VERSION = "v5-repair-first-audit-redesign-20260816-r12-minimal"
+STAGE07_IMPLEMENTATION_VERSION = "v5-repair-first-audit-redesign-20260817-r13-final-gate"
 STAGE07_DIRECTORY = "stage_07_task_audit"
 STAGE07_IGNORED_PAIR_FILES = {*IGNORED_MANIFEST_NAMES, "construction_record.json"}
 STAGE07_APPROVED_DECISIONS = {
@@ -442,6 +443,11 @@ def _run_audit_repair_agent(
                 response=response,
                 workspace=root,
             )
+            response = _finalize_stage07_response(
+                response=response,
+                task_root=outputs / "task_pair",
+                toolbox=toolbox,
+            )
             write_json(outputs / "stage07_audit.json", response)
             _require_stage07_artifact_delivery(response, root, result)
         except AgentExecutionError as exc:
@@ -498,6 +504,80 @@ def _run_audit_repair_agent(
     if last_error is not None:
         raise last_error
     raise RuntimeError("Stage07 audit-repair Agent did not execute")
+
+
+def _finalize_stage07_response(
+    *, response: dict[str, Any], task_root: Path, toolbox: dict[str, Any]
+) -> dict[str, Any]:
+    """Reconcile the Agent receipt with the final files before publication."""
+
+    decision = str(response.get("audit_decision") or "")
+    if decision not in STAGE07_APPROVED_DECISIONS:
+        return response
+
+    deterministic = deterministic_stage07_audit(
+        task_root, toolbox_snapshot=toolbox
+    )
+    pair_findings = list(deterministic.get("findings") or [])
+    model_outcomes = response.get("outcomes") or []
+    response["deterministic_findings"] = pair_findings
+    response["deterministic_audit"] = deterministic
+    response["outcomes"] = merge_audit_outcomes(
+        deterministic.get("outcomes") or [], model_outcomes
+    )
+    response["toolbox_status"] = str(
+        deterministic.get("toolbox_status") or response.get("toolbox_status") or "unknown"
+    )
+    response["required_additions"] = list(
+        deterministic.get("required_additions")
+        if deterministic.get("required_additions") is not None
+        else response.get("required_additions") or []
+    )
+    response["audit_summary"] = "issues_found" if response["outcomes"] else "passed_audit"
+    semantic_findings = validate_agent_audit(response)
+
+    blockers: list[str] = list(pair_findings)
+    blockers.extend(f"agent_contract:{finding}" for finding in semantic_findings)
+    for issue in response.get("remaining_issues") or []:
+        if not isinstance(issue, dict):
+            blockers.append("agent_remaining_issue:invalid")
+            continue
+        category = str(issue.get("category") or "").casefold()
+        severity = str(issue.get("severity") or "").casefold()
+        if category in {"unavailable_software", "missing_software", "needs_software"}:
+            continue
+        if severity in {"blocking", "critical", "high"}:
+            blockers.append(str(issue.get("details") or category or "agent blocker"))
+    if blockers:
+        response["audit_decision"] = "rejected_scientific_unrepairable"
+        response["final_task_pair_id"] = ""
+        response["artifact_path"] = "outputs/stage07_audit.json"
+        remaining = list(response.get("remaining_issues") or [])
+        remaining.append(
+            {
+                "category": "deterministic_task_integrity",
+                "severity": "high",
+                "details": "; ".join(dict.fromkeys(blockers))[:12000],
+                "evidence_ids": [],
+            }
+        )
+        response["remaining_issues"] = remaining
+        response["summary"] = (
+            str(response.get("summary") or "").rstrip()
+            + " Final deterministic validation found unresolved task-integrity blockers; "
+            "the task pair was not published."
+        ).strip()
+
+    # The deterministic validator may rewrite the normalized requirement list.
+    # Refresh manifests after that write so the receipt and delivered tree agree.
+    for mode_root in (
+        task_root / "paper_reproduction",
+        task_root / "autonomous_research",
+    ):
+        if mode_root.is_dir():
+            write_json(mode_root / "public_manifest.json", directory_manifest(mode_root))
+    write_manifest(task_root, task_root / "task_pair_manifest.json")
+    return response
 
 
 _NEUTRAL_XYZ_NAME_RE = re.compile(r"^structure-(\d{3,})\.xyz$", re.IGNORECASE)
@@ -798,6 +878,17 @@ def _apply_autonomous_public_surface_guard(
                 path.unlink()
             note(path)
 
+    # Public-surface normalization can legitimately change files inherited from
+    # the reproduction tree.  Keep the copy provenance aligned with the final
+    # delivered trees; otherwise an otherwise valid repair is rejected because
+    # derived_from.json still describes the pre-guard copy.  This only refreshes
+    # hashes in an existing provenance contract and never invents provenance.
+    _refresh_derived_copy_provenance(
+        autonomous=autonomous,
+        reproduction=reproduction,
+        note=note,
+    )
+
     # Refresh mode manifests after deterministic edits.  directory_manifest
     # excludes the manifest itself, matching Stage06's public-manifest contract.
     for mode_root in (reproduction, autonomous):
@@ -857,6 +948,45 @@ def _apply_autonomous_public_surface_guard(
             "refreshed manifests after the Agent write."
         ).strip()
     return changed
+
+
+def _refresh_derived_copy_provenance(
+    *, autonomous: Path, reproduction: Path, note
+) -> None:
+    """Refresh an existing mode-copy hash after deterministic delivery edits."""
+
+    autonomous_provenance = autonomous / "derived_from.json"
+    if autonomous_provenance.is_file() and reproduction.is_dir():
+        rows = [
+            {"path": row["path"], "sha256": row["sha256"]}
+            for row in directory_manifest(reproduction).get("files") or []
+            if row.get("path") != "public_manifest.json"
+        ]
+        base_hash = canonical_hash(rows)
+        for path in (
+            autonomous_provenance,
+            autonomous / "conversion_contract.json",
+        ):
+            if not path.is_file():
+                continue
+            value = read_json(path)
+            if value.get("base_manifest_hash") == base_hash:
+                continue
+            value["base_manifest_hash"] = base_hash
+            write_json(path, value)
+            note(path)
+        return
+
+    # Compatibility with task pairs produced by the former autonomous-first
+    # pipeline, where the reproduction mode carries the copy provenance.
+    reproduction_provenance = reproduction / "derived_from.json"
+    if reproduction_provenance.is_file() and autonomous.is_dir():
+        value = read_json(reproduction_provenance)
+        base_hash = directory_manifest(autonomous)["content_hash"]
+        if value.get("base_manifest_hash") != base_hash:
+            value["base_manifest_hash"] = base_hash
+            write_json(reproduction_provenance, value)
+            note(reproduction_provenance)
 
 
 def _require_stage07_artifact_delivery(

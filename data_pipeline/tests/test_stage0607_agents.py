@@ -41,6 +41,7 @@ from src.agents.workspace import (
     make_read_only,
 )
 from src.contracts import read_json, write_json
+from src.stages.stage06_task_builder.prompts import task_pair_builder_instructions
 from src.stages.stage06_task_builder.stage import (
     _agent_public_basis,
     _canonicalize_review_evidence_ids,
@@ -69,8 +70,8 @@ from src.stages.stage06_task_builder.stage import (
     _task_pair_builder_phase_findings,
     run_stage06,
 )
-from src.stages.stage06_task_builder.prompts import task_pair_builder_instructions
 from src.stages.stage06_task_builder.validation import (
+    _input_asset_integrity_findings,
     validate_autonomous_route_isolation,
     validate_ground_truth_consistency,
     validate_hidden_reference,
@@ -85,15 +86,22 @@ from src.stages.stage07_task_judge.stage import (
     _apply_autonomous_public_surface_guard,
     _audit_pair_manifest,
     _cached_audit_inputs_match,
+    _finalize_stage07_response,
+    _prepare_stage07_fallback_source,
     _require_stage07_artifact_delivery,
     _run_audit_repair_agent,
-    _prepare_stage07_fallback_source,
     _stage07_audit_initializer_script,
     _stage07_audit_packet,
     _stage07_audit_scaffold,
     run_stage07,
 )
-from src.stages.stage07_task_judge.validation import merge_audit_outcomes, validate_agent_audit
+from src.stages.stage07_task_judge.validation import (
+    final_task_pair_integrity_findings,
+    merge_audit_outcomes,
+    reconcile_toolbox_requirements,
+    software_matches_installed,
+    validate_agent_audit,
+)
 
 
 class _Model:
@@ -4749,7 +4757,9 @@ def test_stage07_retries_inconsistent_objective_failure_with_recovery_budget(
         },
     )
 
-    assert result["audit_decision"] == "approved"
+    # The retry contract is exercised, but an empty handoff can no longer be
+    # published merely because the recovery Agent says "approved".
+    assert result["audit_decision"] == "rejected_scientific_unrepairable"
     assert agent_run["cache_hit"] is False
     assert artifact_root.is_dir()
     assert [request.metadata["max_tool_calls"] for request in calls] == [96, 128]
@@ -5523,7 +5533,9 @@ def test_stage06_builds_isolated_task_pair_with_toolbox_gap(tmp_path: Path) -> N
     audit = stage07["records"][0]
     assert audit["audit_decision"] == "approved_with_repairs"
     assert audit["selected_workflow_preserved"] is True
-    assert audit["toolbox_status"] == "needs_software"
+    # An empty inventory is absence of evidence, not evidence that ORCA is
+    # missing.  Stage07 preserves the task and reports the inventory as unknown.
+    assert audit["toolbox_status"] == "unknown"
     assert Path(audit["task_pair_path"]).is_dir()
     assert not (Path(audit["audit_path"]) / "gold_run").exists()
 
@@ -5729,3 +5741,136 @@ def test_stage06_negative_builder_contract_normalizes_before_schema_validation(
     assert normalized_review["failure_reasons"][0]["evidence_ids"] == [evidence_id]
     assert receipt["decision"] == "scientific_not_constructible"
     assert receipt["failure_code"] == "missing_core_input"
+
+
+def test_stage07_software_inventory_matching_ignores_versions_and_aliases() -> None:
+    toolbox = {
+        "view_kind": "installed_software_inventory",
+        "installed_software": [
+            {
+                "software_id": "gaussian",
+                "display_name": "Gaussian 16",
+                "aliases": ["G16", "Gaussian"],
+                "version": "16.C.02",
+            }
+        ],
+    }
+
+    assert software_matches_installed("Gaussian 09", toolbox) is not None
+    assert software_matches_installed("G09", toolbox) is not None
+    assert software_matches_installed("Gaussian version 09", toolbox) is not None
+    normalized, gaps = reconcile_toolbox_requirements(
+        [{"software": "Gaussian 09", "status": "missing"}], toolbox
+    )
+    assert normalized == []
+    assert gaps == []
+
+
+def test_stage07_reports_a_real_software_gap_without_invalidating_science() -> None:
+    toolbox = {
+        "view_kind": "installed_software_inventory",
+        "installed_software": [
+            {"software_id": "gaussian", "display_name": "Gaussian", "aliases": ["G16"]}
+        ],
+    }
+
+    normalized, gaps = reconcile_toolbox_requirements(
+        [{"software": "UninstalledChem", "status": "unknown"}], toolbox
+    )
+    assert normalized[0]["status"] == "missing"
+    assert gaps[0]["software"] == "UninstalledChem"
+
+
+def test_stage06_rejects_all_null_or_placeholder_public_inputs(tmp_path: Path) -> None:
+    all_null = tmp_path / "inputs.json"
+    all_null.write_text('{"coordinates": null, "states": [null, ""]}\n', encoding="utf-8")
+    placeholder = tmp_path / "coordinates.txt"
+    placeholder.write_text("Must be extracted from the SI.\n", encoding="utf-8")
+
+    assert "input_asset_all_null_or_empty:inputs.json" in _input_asset_integrity_findings(
+        all_null, "inputs.json"
+    )
+    assert "input_asset_placeholder:coordinates.txt" in _input_asset_integrity_findings(
+        placeholder, "coordinates.txt"
+    )
+
+
+def test_stage06_rejects_unextracted_ground_truth_placeholder() -> None:
+    hidden = {
+        "status": "ready",
+        "acceptance_profiles": [
+            {
+                "acceptance_profile_id": "ap-1",
+                "type": "semantic_propositions",
+                "required_propositions": ["A is preferred."],
+                "forbidden_contradictions": [],
+            }
+        ],
+        "ground_truth_items": [
+            {
+                "ground_truth_id": "gt-1",
+                "canonical_answer": "Must be extracted from the SI",
+                "required_propositions": ["A is preferred."],
+                "forbidden_contradictions": [],
+                "acceptance_profile_id": "ap-1",
+                "evidence_grade": "A",
+                "claim_role": "final",
+                "applies_to_modes": ["autonomous_research", "paper_reproduction"],
+            }
+        ],
+        "scientific_conclusion_rubric": [],
+    }
+
+    assert "ground_truth_answer_placeholder:gt-1" in validate_hidden_reference(hidden)
+
+
+def test_stage07_final_integrity_scans_unknown_evidence_ids(tmp_path: Path) -> None:
+    write_json(tmp_path / "evidence_index.json", [{"evidence_id": "ev-known"}])
+    write_json(
+        tmp_path / "task_metadata.json",
+        {
+            "source_evidence_ids": ["ev-known"],
+            "nested": {"evidence_refs": ["ev-unknown"]},
+        },
+    )
+
+    assert final_task_pair_integrity_findings(tmp_path) == [
+        "evidence_id_unknown:ev-unknown"
+    ]
+
+
+def test_stage07_cannot_approve_a_high_nonsoftware_remaining_issue(
+    tmp_path: Path, monkeypatch
+) -> None:
+    (tmp_path / "paper_reproduction").mkdir()
+    (tmp_path / "autonomous_research").mkdir()
+    monkeypatch.setattr(
+        "src.stages.stage07_task_judge.stage.deterministic_stage07_audit",
+        lambda *_args, **_kwargs: {
+            "passed": True,
+            "findings": [],
+            "outcomes": [],
+            "toolbox_status": "available",
+            "required_additions": [],
+        },
+    )
+    response = {
+        "audit_decision": "approved",
+        "artifact_path": "outputs/task_pair",
+        "outcomes": [],
+        "remaining_issues": [
+            {
+                "category": "missing_ground_truth",
+                "severity": "high",
+                "details": "The final conclusion has not been recovered.",
+            }
+        ],
+    }
+
+    finalized = _finalize_stage07_response(
+        response=response,
+        task_root=tmp_path,
+        toolbox={"installed_software": []},
+    )
+    assert finalized["audit_decision"] == "rejected_scientific_unrepairable"
+    assert finalized["artifact_path"] == "outputs/stage07_audit.json"

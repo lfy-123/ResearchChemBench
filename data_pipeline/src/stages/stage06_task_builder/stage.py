@@ -78,7 +78,7 @@ from src.stages.stage06_task_builder.validation import (
     validate_workflow_review,
 )
 
-STAGE06_IMPLEMENTATION_VERSION = "v5-provisional-builder-handoff-20260816-r1"
+STAGE06_IMPLEMENTATION_VERSION = "v5-provisional-builder-handoff-20260817-r2-integrity"
 STAGE06_DIRECTORY = "stage_06_task_construction"
 STAGE06_INPUT_PACKAGE_VERSION = "v2-canonical-deduplicated-inputs"
 
@@ -359,7 +359,9 @@ def _run_stage06_single_agent(
                 "processing_status": "completed",
                 "decision": "provisional_constructed",
                 "handoff_ready": True,
-                "passed": True,
+                "passed": False,
+                "provisional": True,
+                "scientifically_ready": False,
                 "task_pair_path": str(target),
                 "handoff_path": str(target),
                 "source_snapshot_path": str(snapshot["root"]),

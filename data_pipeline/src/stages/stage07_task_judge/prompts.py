@@ -1,7 +1,6 @@
 from __future__ import annotations
 
-
-STAGE07_AUDIT_VERSION = "v5-stage07-repair-first-auditor-20260816-r14-installed-software-only"
+STAGE07_AUDIT_VERSION = "v5-stage07-repair-first-auditor-20260817-r15-final-gate"
 
 
 def audit_instructions(
@@ -86,6 +85,9 @@ TOOLBOX AND COST
   Every listed software ID, display name, and alias is installed and available. The inventory
   intentionally omits preset Actions and task-specific feature coverage; never infer missing
   software from an absent Action, and do not audit Action coverage.
+- Match software by family, software ID, display name, or alias. Ignore software release/version
+  numbers completely: Gaussian 09 and Gaussian 16 are the same installed Gaussian software family
+  for inventory purposes, and a version difference must never create a software gap.
 - `outputs/task_pair/toolbox_requirements.json` and `required_additions` contain software gaps
   only. An empty Stage06 gap file means no known software gap, not a missing inventory. If all
   required programs match the installed inventory, set `toolbox_status=available`, leave

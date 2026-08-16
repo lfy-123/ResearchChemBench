@@ -783,8 +783,11 @@ def validate_mode_task(task_root: Path, *, expected_mode: str) -> list[str]:
                 findings.append("task_spec_input_path_invalid")
                 continue
             relative = relative.removeprefix("data/inputs/").removeprefix("inputs/")
-            if not (input_root / relative).is_file():
+            asset_path = input_root / relative
+            if not asset_path.is_file():
                 findings.append(f"task_spec_input_missing:{relative}")
+                continue
+            findings.extend(_input_asset_integrity_findings(asset_path, relative))
     public_runtime_text = "\n".join(
         path.read_text(encoding="utf-8", errors="replace")
         for path in task_root.rglob("*")
@@ -872,6 +875,13 @@ def validate_hidden_reference(
             findings.append(f"hidden_evidence_grade_invalid:{truth.get('ground_truth_id')}")
         if truth.get("claim_role") not in {"intermediate", "final"}:
             findings.append(f"hidden_claim_role_invalid:{truth.get('ground_truth_id')}")
+        if _contains_scoring_placeholder(
+            {
+                "canonical_answer": truth.get("canonical_answer"),
+                "required_propositions": truth.get("required_propositions"),
+            }
+        ):
+            findings.append(f"ground_truth_answer_placeholder:{ground_truth_id}")
         if truth.get("applies_to_modes") not in (
             ["autonomous_research", "paper_reproduction"],
             ["paper_reproduction", "autonomous_research"],
@@ -1717,7 +1727,88 @@ def _submission_binding_findings(
 
 def _contains_scoring_placeholder(value: Any) -> bool:
     serialized = json.dumps(value, ensure_ascii=False, sort_keys=True).casefold()
-    return any(token in serialized for token in ("agent_required", "todo", "replace_me"))
+    return any(
+        token in serialized
+        for token in (
+            "agent_required",
+            "todo",
+            "replace_me",
+            "must be extracted",
+            "extract from the si",
+            "extract from si",
+            "to be provided",
+            "to be determined",
+            "pending extraction",
+            "not yet extracted",
+            "fill in later",
+        )
+    )
+
+
+def _input_asset_integrity_findings(path: Path, relative: str) -> list[str]:
+    """Perform format-neutral checks for empty and obvious placeholder inputs.
+
+    This intentionally does not attempt to interpret chemistry.  It only prevents a
+    non-empty placeholder file or an all-null JSON payload from satisfying the
+    public-input file-existence contract.
+    """
+
+    findings: list[str] = []
+    try:
+        raw = path.read_bytes()
+    except OSError as exc:
+        return [f"input_asset_unreadable:{relative}:{type(exc).__name__}"]
+    if not raw.strip():
+        return [f"input_asset_empty:{relative}"]
+    text = raw.decode("utf-8", errors="replace")
+    normalized = text.casefold()
+    placeholder_tokens = (
+        "[smiles string for",
+        "[table ",
+        "must be extracted",
+        "extract from the si",
+        "to be provided",
+        "tbd",
+        "replace_me",
+        "pending extraction",
+    )
+    if any(token in normalized for token in placeholder_tokens):
+        findings.append(f"input_asset_placeholder:{relative}")
+    if path.suffix.casefold() == ".json":
+        try:
+            value = json.loads(text)
+        except (TypeError, ValueError, json.JSONDecodeError):
+            return findings
+        if not _contains_meaningful_input_value(value):
+            findings.append(f"input_asset_all_null_or_empty:{relative}")
+    return findings
+
+
+def _contains_meaningful_input_value(value: Any) -> bool:
+    if value is None or isinstance(value, bool):
+        return False
+    if isinstance(value, (int, float)):
+        return True
+    if isinstance(value, str):
+        normalized = value.strip().casefold()
+        if not normalized:
+            return False
+        return not any(
+            token in normalized
+            for token in (
+                "must be extracted",
+                "extract from the si",
+                "to be provided",
+                "tbd",
+                "replace_me",
+                "pending extraction",
+            )
+        )
+    if isinstance(value, dict):
+        return any(_contains_meaningful_input_value(item) for item in value.values())
+    if isinstance(value, (list, tuple, set)):
+        return any(_contains_meaningful_input_value(item) for item in value)
+    return True
 
 
 def _evaluation_task_info_findings(task_info: dict[str, Any]) -> list[str]:
