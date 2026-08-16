@@ -107,3 +107,29 @@ recovery 能否在不重做复现任务的前提下补齐自主模式。先用 g
 
 只有真实运行轨迹满足上述合同，才进入下一批规模化构建。发现实现缺陷时按“记录样本和版本 ->
 最小修复 -> 单元测试 -> Git 提交 -> 只重跑受影响论文”的顺序闭环。
+
+## 7. 2026-08-16 最终单篇验收更新
+
+当前结论已从“具备真实 API 验证条件”更新为“单篇端到端达到六篇试运行条件”。
+
+`paper_6904a9c8c09855cc` 的最新 Stage06 不再局限于旧版 NH3 major workflow，而是从主文和
+SI 中恢复了 NH3/H2O 双 E-H 活化的 full-paper computational workflow：20 个来源坐标、几何
+优化、频率、较大基组/溶剂单点、热化学校正、NBO/MO/IR 分析，以及数值和文字型中间/最终
+Ground Truth。Stage05 candidate 仍只是提示，Agent 自主扩大并修正了工作流范围。
+
+最新 Stage07 保留该工作流并执行 repair-first，输出 `approved_with_repairs`。人工验收不是只看
+receipt，而是递归检查最终发布树，确认：
+
+- autonomous 与 reproduction 的 20 个输入文件路径和字节完全一致；
+- 所有 XYZ 均为中性文件名和中性 comment，坐标未被 guard 改写；
+- autonomous 的公开 JSON、Markdown、rubric、manifest 和输入头不含论文方法、作者路线、
+  `Int-*`/`TS-*`、已知优选关系或 workflow/claim ID；
+- reproduction 保留可执行论文路线，hidden reference 保留共享 Acceptance Profile、数值结果、
+  中间文字结论和最终文字结论；
+- 工具箱缺 Gaussian 16 和高成本风险作为正交审计信息保留，没有导致科学拒绝；
+- 中转站内容审查错误能够通过压缩旧工具历史恢复，Codex harness 不再无限重连。
+
+该样本也说明“代码不做科学有效性判定”与“代码执行公开/隐藏硬隔离”并不冲突：工作流是否
+可用、应修复还是应重设计仍由 Stage07 Agent 决定；代码只验证文件实际交付、路径安全、两种
+模式输入一致性和不可妥协的信息边界。下一步固定六篇分层试运行用于观察跨任务类型的科学
+决策质量，而不是继续围绕单一论文调 prompt。

@@ -680,6 +680,78 @@ def _close_tool_protocol(messages: list[dict[str, Any]]) -> list[dict[str, Any]]
     return output
 
 
+def _content_filter_recovery_payload(payload: dict[str, Any]) -> dict[str, Any]:
+    """Build a compact continuation payload after a relay content-filter error.
+
+    A few OpenAI-compatible relays inspect the entire accumulated chat history,
+    including raw output from shell/file tools.  Scientific source text can then
+    be rejected even though the current turn is harmless.  The workspace is the
+    source of truth for Codex, so it is safe to discard stale tool transcripts and
+    ask the Agent to continue from the files it already inspected.  Keep the phase
+    instructions and terminal/schema guidance, but remove assistant/tool protocol
+    history that would otherwise make the relay reject the retry again.
+    """
+
+    recovered = json.loads(json.dumps(payload, ensure_ascii=False))
+    messages = recovered.get("messages") or []
+    kept: list[dict[str, Any]] = []
+    for message in messages:
+        if not isinstance(message, dict):
+            continue
+        role = str(message.get("role") or "")
+        if role != "system":
+            continue
+        content = _text_content(message.get("content"))
+        if not content:
+            continue
+        # Keep the phase contract and the exact terminal schema.  Drop transient
+        # Codex/tool-selection system prose, which is both redundant and the most
+        # likely place for a relay to retain a flagged tool transcript.
+        if (
+            content.startswith(_FINAL_SCHEMA_PROMPT_PREFIX)
+            or not kept
+            or "finalization" in content.casefold()
+            or "submit_final_json" in content
+            or "fixed path" in content.casefold()
+        ):
+            kept.append({"role": "system", "content": content[:24000]})
+
+    kept.append(
+        {
+            "role": "user",
+            "content": (
+                "The upstream relay rejected the accumulated tool transcript during "
+                "content inspection. Continue from the current isolated workspace; "
+                "the files already written are authoritative. Do not ask to repeat "
+                "old observations. Inspect only the minimum needed, perform the next "
+                "required edit or finalization, and return the requested structured "
+                "receipt."
+            ),
+        }
+    )
+    recovered["messages"] = kept
+    return recovered
+
+
+def _is_content_filter_error(exc: httpx.HTTPStatusError) -> bool:
+    """Return whether an upstream 4xx is the relay's conversation filter."""
+
+    try:
+        detail = exc.response.text
+    except Exception:  # pragma: no cover - defensive for mocked responses
+        detail = str(exc)
+    lowered = str(detail).casefold()
+    return any(
+        marker in lowered
+        for marker in (
+            "data_inspection_failed",
+            "inappropriate content",
+            "content inspection",
+            "content_filter",
+        )
+    )
+
+
 def responses_to_chat(
     payload: dict[str, Any],
     *,
@@ -1496,6 +1568,7 @@ class ResponsesBridge(AbstractContextManager["ResponsesBridge"]):
         if self.proxy_url:
             client_kwargs["proxy"] = self.proxy_url
         last_error: Exception | None = None
+        content_filter_recovered = False
         with httpx.Client(**client_kwargs) as client:
             for attempt in range(self.retries + 1):
                 try:
@@ -1859,6 +1932,17 @@ class ResponsesBridge(AbstractContextManager["ResponsesBridge"]):
                     return result, custom_names
                 except (httpx.TimeoutException, httpx.TransportError, httpx.HTTPStatusError) as exc:
                     last_error = exc
+                    if (
+                        isinstance(exc, httpx.HTTPStatusError)
+                        and _is_content_filter_error(exc)
+                        and not content_filter_recovered
+                    ):
+                        # Some relays reject a long accumulated tool transcript
+                        # with a non-retryable 400.  Compact the conversation once
+                        # and retry the same Agent turn from the live workspace.
+                        payload = _content_filter_recovery_payload(payload)
+                        content_filter_recovered = True
+                        continue
                     retryable_status = not isinstance(exc, httpx.HTTPStatusError) or (
                         exc.response.status_code in {408, 409, 429, 500, 502, 503, 504}
                     )

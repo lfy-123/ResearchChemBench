@@ -21,6 +21,7 @@ from src.agents.namespace_exec import _read_only_workspace_paths
 from src.agents.responses_bridge import (
     ResponsesBridge,
     _consume_final_json_tool,
+    _content_filter_recovery_payload,
     _final_json_tool,
     _normalize_returned_tool_aliases,
     _retain_file_first_artifact_write_calls,
@@ -80,6 +81,7 @@ from src.stages.stage06_task_builder.validation import (
 )
 from src.stages.stage07_task_judge.prompts import STAGE07_AUDIT_VERSION, audit_instructions
 from src.stages.stage07_task_judge.stage import (
+    _apply_autonomous_public_surface_guard,
     _audit_pair_manifest,
     _cached_audit_inputs_match,
     _require_stage07_artifact_delivery,
@@ -1218,6 +1220,41 @@ def test_responses_bridge_closes_failed_tool_call_history() -> None:
     assert chat["messages"][1]["tool_call_id"] == "call-truncated"
     assert "failed before execution" in chat["messages"][1]["content"]
     assert chat["messages"][2] == {"role": "user", "content": "Continue."}
+
+
+def test_content_filter_recovery_discards_stale_tool_transcript() -> None:
+    payload = {
+        "messages": [
+            {"role": "system", "content": "Keep the phase contract."},
+            {
+                "role": "assistant",
+                "content": "",
+                "tool_calls": [
+                    {
+                        "id": "call-1",
+                        "type": "function",
+                        "function": {"name": "exec_command", "arguments": "{}"},
+                    }
+                ],
+            },
+            {"role": "tool", "tool_call_id": "call-1", "content": "large source text"},
+            {
+                "role": "system",
+                "content": "The finalization tool call has been consumed.",
+            },
+        ],
+        "tools": [{"type": "function", "name": "exec_command"}],
+    }
+
+    recovered = _content_filter_recovery_payload(payload)
+
+    assert all(message["role"] != "tool" for message in recovered["messages"])
+    assert all("tool_calls" not in message for message in recovered["messages"])
+    assert recovered["messages"][0]["content"] == "Keep the phase contract."
+    assert any("finalization" in message["content"] for message in recovered["messages"])
+    assert "workspace" in recovered["messages"][-1]["content"]
+    # The bridge must not mutate the original conversation when preparing a retry.
+    assert payload["messages"][2]["role"] == "tool"
 
 
 def test_responses_bridge_does_not_mix_json_mode_with_tools() -> None:
@@ -4566,6 +4603,11 @@ def test_stage07_prompt_enforces_repair_before_workflow_redesign() -> None:
     assert "Missing software never causes scientific rejection" in prompt
     assert "IS ALREADY POPULATED" in prompt
     assert "Never report `approved_with_repairs`" in prompt
+    assert "EXECUTION ORDER AND DELIVERY" in prompt
+    assert "/usr/bin/python3` batch script" in prompt
+    assert "The filesystem is the source of truth" in prompt
+    assert "PUBLIC METADATA IS PUBLIC" in prompt
+    assert "Do not leave `scientific_question` null" in prompt
 
 
 def test_stage07_prompt_audits_the_entire_autonomous_public_surface() -> None:
@@ -4599,6 +4641,112 @@ def test_stage07_prompt_audits_the_entire_autonomous_public_surface() -> None:
     assert "that does not prove its child files are read-only" in prompt
     assert "relative to the task-pair root `outputs/task_pair/`" in prompt
     assert "never `outputs/task_pair/autonomous_research/task.md`" in prompt
+    assert "LOW-BUDGET RECOVERY CHECKLIST" in prompt
+    assert "neutral comment exactly like `structure-001`" in prompt
+    assert "PAPER-SPECIFIC BRANCH LABELS ARE FORBIDDEN" in prompt
+    assert "`preferred_pathway`" in prompt
+
+
+def test_stage07_public_guard_neutralizes_all_xyz_and_recovery_duplicates(
+    tmp_path: Path,
+) -> None:
+    baseline = tmp_path / "inputs" / "stage06_candidate"
+    delivered = tmp_path / "outputs" / "task_pair"
+    for mode in ("paper_reproduction", "autonomous_research"):
+        inputs = baseline / mode / "data" / "inputs" / "coordinates"
+        inputs.mkdir(parents=True)
+        (inputs / "Int-1.xyz").write_text(
+            "2\n# Int-1 from PBE0-D3BJ/def2-SVP optimization\nH 0 0 0\nH 0 0 1\n",
+            encoding="utf-8",
+        )
+        (inputs / "H2O.xyz").write_text(
+            "3\n# H2O from PBE0-D3BJ/def2-SVP optimization\nO 0 0 0\nH 0 1 0\nH 0 -1 0\n",
+            encoding="utf-8",
+        )
+        (baseline / mode / "task.md").write_text(
+            "Use data/inputs/coordinates/Int-1.xyz and coordinates/H2O.xyz.",
+            encoding="utf-8",
+        )
+    write_json(
+        baseline / "autonomous_research" / "task_info.json",
+        {
+            "workflow_scope": {
+                "included_workflow_ids": ["wf-nh3-mechanism"],
+                "included_claim_ids": ["claim-1"],
+            },
+            "input": "data/inputs/coordinates/Int-1.xyz",
+        },
+    )
+    copytree_exact(baseline, delivered)
+
+    # Simulate a recovery copy that retained old names beside an Agent-created
+    # neutral duplicate.
+    for mode in ("paper_reproduction", "autonomous_research"):
+        inputs = delivered / mode / "data" / "inputs" / "coordinates"
+        neutral = inputs / "structure-001.xyz"
+        neutral.write_bytes((inputs / "Int-1.xyz").read_bytes())
+        lines = neutral.read_text(encoding="utf-8").splitlines(keepends=True)
+        lines[1] = "# structure-001\n"
+        neutral.write_text("".join(lines), encoding="utf-8")
+
+    response = {
+        "audit_decision": "approved_with_repairs",
+        "artifact_path": "outputs/task_pair",
+        "repairs": [
+            {
+                "changed_files": [
+                    "autonomous_research/data/inputs/coordinates/Int-1.xyz",
+                    "paper_reproduction/data/inputs/coordinates/Int-1.xyz",
+                ]
+            }
+        ],
+        "workflow_redesign": {"changed_files": []},
+    }
+
+    changed = _apply_autonomous_public_surface_guard(
+        response=response,
+        workspace=tmp_path,
+    )
+
+    assert changed
+    mode_files = []
+    for mode in ("paper_reproduction", "autonomous_research"):
+        inputs = delivered / mode / "data" / "inputs"
+        files = sorted(path.relative_to(inputs).as_posix() for path in inputs.rglob("*.xyz"))
+        mode_files.append(files)
+        assert files == [
+            "coordinates/structure-001.xyz",
+            "coordinates/structure-002.xyz",
+        ]
+        for path in inputs.rglob("*.xyz"):
+            assert path.read_text(encoding="utf-8").splitlines()[1] == f"# {path.stem}"
+    assert mode_files[0] == mode_files[1]
+    assert (delivered / "paper_reproduction" / "data" / "inputs").is_dir()
+    assert not list(delivered.rglob("Int-1.xyz"))
+    assert not list(delivered.rglob("H2O.xyz"))
+
+    autonomous_text = "\n".join(
+        path.read_text(encoding="utf-8", errors="replace")
+        for path in (delivered / "autonomous_research").rglob("*")
+        if path.is_file()
+    )
+    assert "Int-1.xyz" not in autonomous_text
+    assert "wf-nh3-mechanism" not in autonomous_text
+    assert "claim-1" not in autonomous_text
+    assert "PBE0-D3BJ" not in autonomous_text
+
+    reported = [
+        path
+        for repair in response["repairs"]
+        for path in repair.get("changed_files") or []
+    ]
+    assert reported
+    assert all((delivered / path).exists() for path in reported)
+    _require_stage07_artifact_delivery(
+        response,
+        tmp_path,
+        SimpleNamespace(audit_record=lambda: {}),
+    )
 
 
 def test_stage07_retries_when_reported_repairs_were_not_delivered(tmp_path: Path) -> None:

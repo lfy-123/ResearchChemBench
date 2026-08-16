@@ -400,3 +400,75 @@ v5-r4 将 mount namespace 的只读范围收窄为 workspace 顶层 `inputs/` �
 
 版本更新为 `v5-stage07-repair-first-auditor-20260816-r4` 与
 `v5-repair-first-audit-redesign-20260816-r4`，再次只使 Stage07 checkpoint 失效。
+
+### 5.6 v5-r5/r6：中转内容审查恢复与真实改动 receipt
+
+后续单篇运行确认 Codex 与 `deepseek-v4-flash` 的工具协议已经兼容，但中转站会对累积的
+assistant/tool transcript 再做内容审查。论文原文、SI 表格和大量命令输出进入历史后，上游
+偶发返回 `data_inspection_failed`，Codex CLI 随后不断重连，表现为 Stage07 长时间不结束。
+
+Responses-to-Chat bridge 增加一次性、窄范围恢复：只有明确命中
+`data_inspection_failed`、`content inspection` 或同类 relay 错误时，保留阶段合同、最终
+schema 和当前文件系统状态，丢弃旧 assistant/tool transcript，再继续同一个 Agent 回合。
+普通 direct API、Stage02-05 和其他 HTTP 400 不走该分支。
+
+同时修正低成本 Agent 的 receipt 漂移：Agent 有时把已检查但字节未变化的文件列为
+`changed_files`。代码现在剔除这些虚假声明，但仍坚持 `approved_with_repairs` 至少交付一个
+相对 Stage06 基线真实变化的文件；完全没有实际修改仍归为可重试的客观交付故障。
+
+真实运行 `r5/r6` 证明：中转内容审查可恢复，Stage07 能输出
+`approved_with_repairs`、`toolbox_status=needs_software` 和 `resource_status=high_cost`，而
+不是把 relay 故障伪装成科学拒绝。
+
+### 5.7 v5-r7/r8/r9：嵌套公开元数据与确定性交付护栏
+
+人工递归验收 r6 发布树时发现，Flash 已清理自主模式的主要说明文件和 XYZ，但
+`task_info.json`、`task_spec.json` 的嵌套 `workflow_scope` 中仍残留 workflow/claim ID 和
+路线型目标措辞。r7/r8 的定向 Agent 能识别问题，却偶发只在 final JSON 中声明修复而没有
+实际写文件；客观交付门禁正确返回 `objective_failure_retryable`。
+
+r9 因此加入一个职责很窄的 public-surface guard。它不选择工作流、不判断科学完整性，也不
+生成 Ground Truth，只在 Agent 已给出 approved 类决策后执行不可妥协的公开/隐藏隔离：
+
+- 递归清理 autonomous JSON key/value 和 Markdown 中的已知路线、方法与 claim 标识；
+- 删除自主模式中误复制的 reproduction 专用路线文件；
+- 同步刷新两个模式的 `public_manifest.json` 和 pair-level manifest；
+- 将 guard 的真实文件改动追加到 Stage07 receipt，再由原有客观交付检查验证。
+
+### 5.8 v5-r10：全部 XYZ 的通用中性化与单篇最终验收
+
+r9 的完整论文测试选择了比旧测试更大的 full-paper workflow，共恢复 20 个 SI 坐标。它暴露
+了一个 recovery 边界：失败尝试的旧 `Int-*`/`TS-*` 文件可能与 Agent 新生成的
+`structure-*` 副本同时被复制到下一尝试。早期 guard 只认识少量固定文件名，无法处理整篇
+论文的全部坐标。
+
+r10 将这部分改为论文无关、幂等的确定性处理：
+
+- 枚举两种模式 `data/inputs/` 下的全部 XYZ；
+- 用去除自由文本 comment 后的科学 payload 识别 recovery 重复副本，仅删除重复旧名；
+- 为所有保留坐标分配稳定的 `structure-NNN.xyz`，两种模式使用同一映射；
+- 只把第二行改成 `# structure-NNN`，原子数、元素和坐标记录保持不变；
+- 同步改写路径引用、刷新 manifest，并将 Agent receipt 中的旧路径映射到实际交付路径；
+- receipt 只保留最终存在的路径，避免重命名前的旧路径再次触发无效 recovery。
+
+真实验收：
+
+- Stage06/07 完整运行：
+  `runs/stage06-07-v5-single-paper6904-20260816-r9-guard-flash`；
+- 使用同一 Stage06 handoff 的最终 Stage07 验证：
+  `runs/stage06-07-v5-single-paper6904-20260816-r10-stage07-guard2-flash`；
+- 论文：`paper_6904a9c8c09855cc`，DOI `10.1002/anie.202525581`；
+- Stage06：`provisional_constructed`、
+  `full_paper_computational_workflow`、high complexity，恢复全文计算流程和 20 个 SI XYZ；
+- Stage07：`approved_with_repairs`，保留原工作流，没有 workflow redesign；
+- 两种模式的 20 个输入相对路径和 SHA256 全部相同；
+- 自主模式对 `Int-*`、`TS-*`、方法名、workflow/claim ID、已知路线词的递归扫描为 0；
+- public task 下没有 PDF、source bundle 或 hidden reference；
+- 工具箱缺口为 Gaussian 16，成本状态为 `high_cost`，两者均未被错误当成科学拒绝。
+
+验证结果：
+
+- Stage06/07 专项测试：`104 passed`；
+- 项目全量：`482 passed`，唯一失败仍为无关 Stage01 外部 PATH 中 `pdfinfo` 的
+  `ESTALE`；以 `PATH=/usr/bin:/bin` 单独复跑该测试为 `1 passed`；
+- Ruff、`compileall` 和 `git diff --check`：通过。

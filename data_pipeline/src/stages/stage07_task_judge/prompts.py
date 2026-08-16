@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-STAGE07_AUDIT_VERSION = "v5-stage07-repair-first-auditor-20260816-r4"
+STAGE07_AUDIT_VERSION = "v5-stage07-repair-first-auditor-20260816-r10"
 
 
 def audit_instructions(
@@ -28,6 +28,71 @@ canonical toolbox or any input file.
 not replace the task-pair root, and never create `outputs/task_pair/stage06_candidate/`. Edit the
 existing writable files in place. Before returning, remove no required component and ensure no
 paper/SI/source-reading bundle or redundant Stage06 candidate copy exists inside the final tree.
+
+EXECUTION ORDER AND DELIVERY (especially important with a low-cost or limited-tool model):
+The filesystem is the source of truth. A JSON claim that a repair was made is not a repair. Do not
+spend the first turns paging through `RECOVERY_EVIDENCE.md`, the full PDF, or every large JSON file.
+First read the concrete validation failure and inspect the existing output tree with one grouped
+command. Then perform the required edits immediately, preferably with one grouped
+`/usr/bin/python3` batch script (use Python rather than `awk`, and process all affected files in
+one invocation). After writing, use one grouped `diff`/hash/list command to verify the edits and
+the two input trees. Only then write `outputs/stage07_audit.json` and submit the receipt. If a
+recovery failure lists many files, repair that complete list in one batch; do not open or edit
+those files one at a time. Never report `approved_with_repairs` until at least one claimed file
+has been written and verified against `inputs/stage06_candidate/` in the current workspace.
+
+PUBLIC METADATA IS PUBLIC (mandatory final sweep):
+`workflow_scope`, `complexity_profile`, `benchmark_family`, `task`, `scientific_question`,
+`target_definition`, input-asset descriptions, rubric criteria, filenames, and XYZ comments are
+all visible to the evaluated Agent. Do not copy a private Stage06 `workflow_scope` verbatim into
+autonomous `task_info.json` or `task_spec.json`. Preserve the broad scientific objective and the
+scope kind, but rewrite public metadata to be answer-independent: remove author labels such as
+`Int-*`/`TS-*`, branch names, route order, preferred pathway, target values, source-page notes,
+software/method/parameter names, and conclusion wording from every autonomous JSON and Markdown
+string, including nested scope and complexity fields. Do not leave `scientific_question` null;
+write a neutral question that asks the evaluated Agent to investigate competing hypotheses without
+revealing which hypothesis or ranking the paper supports. A generic phrase such as “compare the
+energetics and mechanism of competing pathways for the supplied chemical system” is acceptable.
+The autonomous process rubric must likewise reward method design, exploration, validation,
+traceability, and scientific reasoning without naming the paper's route or expected outcome.
+For every public XYZ file, use a neutral comment exactly like `structure-001` (keep the atom count
+and coordinates byte-for-byte unchanged). Run one grouped recursive search over all public files
+after these edits; approval is forbidden while a forbidden route/method/answer token remains.
+
+PAPER-SPECIFIC BRANCH LABELS ARE FORBIDDEN IN AUTONOMOUS MODE:
+For this and similar papers, words such as `intramolecular` and `bimolecular`, labels such as
+`Int-1`, `TS-1a`, `TS-1b`, and fields such as `preferred_pathway` or “which pathway is preferred”
+are route disclosures, even when they appear in an output schema or a rubric. Replace them in every
+autonomous `task.md`, `task_info.json`, `task_spec.json`, `process_rubric.json`, nested scope or
+complexity string with neutral names such as `pathway-A`, `pathway-B`, `selected_hypothesis`, and
+“compare the competing hypotheses.” The public task may retain the chemical system and the fact
+that competing hypotheses must be compared, but it must not tell the evaluated Agent the paper's
+branch taxonomy or expected ranking. Also neutralize paper-specific workflow/claim identifiers
+(`wf-*`, `claim-*`) when they encode the route. Check keys as well as values.
+
+FINAL KEY/VALUE SWEEP (do not skip nested metadata):
+Before submitting the receipt, recursively load every JSON object and inspect every key and
+string value under `autonomous_research/`, not only the top-level task text. Remove or replace
+paper-specific workflow and claim identifiers such as `wf-nh3-mechanism`, `claim-1`, `claim-2`,
+and `claim-3`; do not leave them in `workflow_scope.included_workflow_ids`,
+`workflow_scope.included_claim_ids`, manifests, or nested complexity metadata. Also rewrite
+answer-revealing target wording such as “Gibbs free energy barriers” when it is tied to the
+paper's named first-step route; use neutral wording such as “activation free-energy differences
+for the supplied competing hypotheses.” A case-insensitive recursive search must report zero
+hits for all of these tokens before an approval. If a file is already clean, do not list it as a
+changed file merely because it was inspected.
+
+KNOWN RESIDUAL REPAIR WORK ORDER (when any of these strings are present):
+If the recursive sweep finds `wf-nh3-mechanism`, `claim-1`, `claim-2`, `claim-3`, or the
+paper-specific “Gibbs free energy barriers” wording, you MUST edit the affected autonomous
+files before returning. Use one `/usr/bin/python3` batch script immediately: load
+`task_info.json` and `task_spec.json`, delete `included_workflow_ids` and `included_claim_ids`
+from every public `workflow_scope`, replace the workflow identifier with a neutral
+`workflow-main`, and rewrite the target wording to “activation free-energy differences for the
+supplied competing hypotheses”; update `task.md` and every nested copy consistently. Then
+reread the files and run a case-insensitive grouped search. Do not merely describe this repair
+in JSON. If the files were already clean, report no repair for them; otherwise include only
+paths whose bytes changed.
 
 REPAIR-FIRST RULE: First audit and attempt to repair the workflow selected by Stage06. Do not
 search for or switch to another workflow while the selected workflow can be repaired from the
@@ -196,4 +261,11 @@ one call per task file. Finish all source reading by call {search_deadline}. At 
 stop reading and use grouped commands for the actual writes, one grouped verification/diff, and
 the atomic audit receipt. Do not create scattered status files such as `finished_at.txt` or
 `failed_count.txt`.
+
+LOW-BUDGET RECOVERY CHECKLIST:
+If `RECOVERY_CONTEXT.md` reports `missing_agent_artifact`, treat its listed paths as the exact
+work order. Read at most the first 240 lines of that file and one short listing of the current
+outputs, then write the fixes. `/usr/bin/python3` is available even when optional shell utilities
+are not. A failed or omitted write must be reported as `objective_failure_retryable`; do not submit
+a success receipt merely because the intended diff is known.
 """
