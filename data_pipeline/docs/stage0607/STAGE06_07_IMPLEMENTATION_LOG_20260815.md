@@ -498,3 +498,57 @@ runs/stage06-07-tiered-pilot-20260816-flash-r11
 ```bash
 du -sh runs/stage06-07-*
 ```
+
+### 5.10 r11-generalized：移除 holdout 特化替换表与本地 API 映射修复（2026-08-16）
+
+本轮按通用最小契约方案再次审查，发现旧的 Stage07 public-surface guard 和 prompt 中仍有
+固定的分子/路线/软件/claim 替换表。该逻辑会把六篇 holdout 的现象误写成代码规则，已做
+通用化收口：
+
+- prompt 改为要求 Agent 根据当前 workflow/evidence 动态识别作者路线、方法、答案和结论
+  泄漏，不再列举固定论文 token；
+- 代码 guard 只保留 XYZ 输入元数据中性化、两模式输入同步、删除 reproduction-only route
+  bundle、刷新 manifest 和核对真实文件变更；不再替换科学文本或 JSON 中的固定 token；
+- 专项测试改为确认无硬编码替换表，同时保留通用输入树/文件名/注释一致性检查。
+
+此外，`config.example.json` 为 builder/judge 增加 `RCB_BUILDER_BASE_URL`、
+`RCB_BUILDER_MODEL`、`RCB_JUDGE_BASE_URL`、`RCB_JUDGE_MODEL` 的显式环境映射，确保
+`config.local.env` 能控制真实中转 API 和 Flash 模型。该修改不影响 Stage02/03/05 角色。
+
+验证：Stage06/07 专项测试 `104 passed`；全量离线测试 `482 passed, 1 deselected`，剩余
+Stage01 的 `pdfinfo` stale file handle 为外部挂载环境问题。单篇 Flash 测试随后以 Codex
+启动，命令行确认使用 `deepseek-v4-flash`、1M context、750k auto-compact 和 Stage06
+120 次工具预算；运行轨迹和最终结果待测试完成后补录。
+
+### 5.11 r12：Agent 只读取已安装软件清单（2026-08-16）
+
+单篇测试暴露出一个工具箱语义错误：Gaussian 16 实际已经安装，但 Stage06 Agent 曾根据
+预设 Action/功能覆盖信息把它写成缺失软件。Stage06/07 在这一阶段只需要判断所需程序是否
+安装，不需要检查工具箱是否预设了某个 Action，因此本轮统一缩减 Agent 可见合同：
+
+- 新增公共 `installed_software_inventory` 投影，只保留软件 ID、显示名、别名和可选版本；
+- Stage06、Stage07 及 Stage07 fallback source 全部只复制该安装软件清单；
+- 不向 Agent 暴露 Action、Action 能力覆盖或 task-specific capability 映射；
+- Stage03 软件映射不再通过 Stage06 `upstream_hints.json` 形成旁路工具箱判断；
+- prompt 明确：清单中的软件均已安装，不能由缺少预设 Action 推断软件缺失；
+- `toolbox_requirements.json` 只记录不在安装清单中的软件缺口，已安装程序不得写入。
+
+真实验收使用 `paper_6904a9c8c09855cc`、Codex harness 和
+`deepseek-v4-flash`，输出位于：
+
+```text
+runs/stage06-07-flash-single-installed-software-20260816
+```
+
+结果：
+
+- Stage06 成功构建 full-paper/high-complexity 任务；
+- Stage07 返回 `approved_with_repairs`，保留原工作流；
+- `toolbox_status=available`、`required_additions=[]`、`toolbox_requirements.json=[]`；
+- Stage07 明确清除了 Stage06 对 Gaussian 16 的陈旧错误记录；
+- Stage06 和 Stage07 的所有 Agent 可见工具箱快照均有 128 个已安装软件条目，递归检查无
+  Action key；
+- Stage07 同时修复自主模式路线/隐藏答案泄漏，未把工具箱问题当作科学拒绝。
+
+最终回归：Stage06/07 专项测试 `108 passed`，项目全量测试 `491 passed`，
+`git diff --check` 通过。

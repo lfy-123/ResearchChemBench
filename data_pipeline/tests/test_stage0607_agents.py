@@ -69,6 +69,7 @@ from src.stages.stage06_task_builder.stage import (
     _task_pair_builder_phase_findings,
     run_stage06,
 )
+from src.stages.stage06_task_builder.prompts import task_pair_builder_instructions
 from src.stages.stage06_task_builder.validation import (
     validate_autonomous_route_isolation,
     validate_ground_truth_consistency,
@@ -85,6 +86,8 @@ from src.stages.stage07_task_judge.stage import (
     _audit_pair_manifest,
     _cached_audit_inputs_match,
     _require_stage07_artifact_delivery,
+    _run_audit_repair_agent,
+    _prepare_stage07_fallback_source,
     _stage07_audit_initializer_script,
     _stage07_audit_packet,
     _stage07_audit_scaffold,
@@ -496,9 +499,13 @@ def test_autonomous_setup_materializes_inputs_and_compacts_agent_packet(
     assert "content" not in agent_basis["input_assets"][0]
     assert agent_basis["input_assets"][0]["materialized_path"] == ("task/data/inputs/molecule.xyz")
     compact = read_json(tmp_path / "inputs" / "toolbox_snapshot.json")
-    assert set(compact["method_families"]) == {"electronic_structure"}
-    assert set(compact["backends"]) == {"orca"}
-    assert "gromacs" not in json.dumps(compact).casefold()
+    assert compact["view_kind"] == "installed_software_inventory"
+    assert {row["software_id"] for row in compact["installed_software"]} == {
+        "orca",
+        "gromacs",
+    }
+    assert all("actions" not in row for row in compact["installed_software"])
+    assert "method_families" not in compact
 
 
 def test_agent_public_basis_does_not_mutate_canonical_packet() -> None:
@@ -733,7 +740,7 @@ def test_reproduction_setup_renders_route_scaffold_and_preserves_data(
     assert read_json(workspace / "task" / "task_info.json")["task"] == (task_text_after_first_run)
 
 
-def test_compact_toolbox_uses_domain_family_without_claiming_unknown_support() -> None:
+def test_compact_toolbox_exposes_installed_software_without_actions() -> None:
     compact = _compact_toolbox_snapshot(
         {
             "method_families": {
@@ -741,7 +748,10 @@ def test_compact_toolbox_uses_domain_family_without_claiming_unknown_support() -
             },
             "backends": {
                 "gaussian": {
+                    "display_name": "Gaussian 16",
+                    "aliases": ["G16", "Gaussian16"],
                     "availability": "declared_supported",
+                    "actions": ["calculate_energy"],
                     "excited_state_support": "unknown",
                 }
             },
@@ -749,8 +759,15 @@ def test_compact_toolbox_uses_domain_family_without_claiming_unknown_support() -
         public_basis={"scientific_question": "Calculate an excited-state spectrum."},
     )
 
-    assert compact["backends"]["gaussian"]["excited_state_support"] == "unknown"
-    assert "authoritative" in compact["audit_note"]
+    assert compact["installed_software"] == [
+        {
+            "software_id": "gaussian",
+            "display_name": "Gaussian 16",
+            "aliases": ["G16", "Gaussian16"],
+        }
+    ]
+    assert all("actions" not in row for row in compact["installed_software"])
+    assert "installed" in compact["audit_note"]
 
 
 def test_complete_task_artifact_supersedes_stale_invalid_receipt(tmp_path: Path) -> None:
@@ -820,10 +837,12 @@ def test_scientific_reject_receipt_is_terminal_without_detail_artifact(tmp_path:
 
 def test_positive_task_receipt_missing_artifact_is_retried(tmp_path: Path) -> None:
     calls = 0
+    budgets: list[int] = []
 
     def responder(request: AgentRunRequest) -> dict:
         nonlocal calls
         calls += 1
+        budgets.append(int(request.metadata["max_tool_calls"]))
         task = request.workspace / "task"
         if calls == 1:
             (task / "task.md").write_text("partial", encoding="utf-8")
@@ -859,7 +878,8 @@ def test_positive_task_receipt_missing_artifact_is_retried(tmp_path: Path) -> No
         config={
             "max_attempts": 2,
             "retry_backoff_seconds": 0,
-            "recovery_max_tool_calls": 1,
+            "max_tool_calls": 8,
+            "recovery_max_tool_calls": 16,
             "resume": False,
         },
         setup=lambda root: (
@@ -874,6 +894,7 @@ def test_positive_task_receipt_missing_artifact_is_retried(tmp_path: Path) -> No
     assert (workspace / "task").is_dir()
     assert (workspace / "outputs").is_dir()
     assert receipt["status"] == "ready"
+    assert budgets == [8, 16]
 
 
 def test_scientific_review_recovery_seeds_prior_contract_as_revision_draft(
@@ -4601,13 +4622,30 @@ def test_stage07_prompt_enforces_repair_before_workflow_redesign() -> None:
     assert redesign_rule in prompt
     assert prompt.index(repair_rule) < prompt.index(redesign_rule)
     assert "Missing software never causes scientific rejection" in prompt
+    assert "never infer missing\n  software from an absent Action" in prompt
+    assert "set `toolbox_status=available`" in prompt
     assert "IS ALREADY POPULATED" in prompt
     assert "Never report `approved_with_repairs`" in prompt
-    assert "EXECUTION ORDER AND DELIVERY" in prompt
+    assert "SCIENTIFIC WORKFLOW" in prompt
     assert "/usr/bin/python3` batch script" in prompt
     assert "The filesystem is the source of truth" in prompt
     assert "PUBLIC METADATA IS PUBLIC" in prompt
     assert "Do not leave `scientific_question` null" in prompt
+    assert "Never use it merely because the audit" in prompt
+
+
+def test_stage06_prompt_requires_neutral_autonomous_structure_metadata() -> None:
+    prompt = task_pair_builder_instructions(
+        paper_id="paper-test",
+        snapshot_hash="abc123",
+    )
+
+    assert "References to supplied structures must use neutral" in prompt
+    assert "author labels that classify an asset" in prompt
+    assert "hidden source-label mapping" in prompt
+    assert "read-only inventory of installed software" in prompt
+    assert "never assess preset Action coverage" in prompt
+    assert "Leave it empty when all required" in prompt
 
 
 def test_stage07_prompt_audits_the_entire_autonomous_public_surface() -> None:
@@ -4620,7 +4658,7 @@ def test_stage07_prompt_audits_the_entire_autonomous_public_surface() -> None:
         source_stage06_decision="provisional_constructed",
     )
 
-    assert "MANDATORY AUTONOMOUS PUBLIC-SURFACE AUDIT" in prompt
+    assert "GENERAL AUTONOMOUS PUBLIC-SURFACE REVIEW" in prompt
     for required_surface in (
         "task.md",
         "task_info.json",
@@ -4630,21 +4668,92 @@ def test_stage07_prompt_audits_the_entire_autonomous_public_surface() -> None:
         "submission_contract.json",
     ):
         assert required_surface in prompt
-    assert "Do not declare the mode clean after reading\nonly `task.md`" in prompt
-    assert "paper labels such as `Int-*` or `TS-*`" in prompt
-    assert "transition-state ring\n  size" in prompt
-    assert "proton-shuttle/additional-molecule role" in prompt
-    assert "XYZ\ncomment" in prompt
-    assert "relative paths and file bytes must be identical" in prompt
-    assert "preserve the atom-count line and every element/coordinate record exactly" in prompt
-    assert "Do not rename, delete, or\nreplace the parent `data/inputs/` directory" in prompt
-    assert "that does not prove its child files are read-only" in prompt
-    assert "relative to the task-pair root `outputs/task_pair/`" in prompt
+    assert "not only `task.md`" in prompt
+    assert "intermediate classifications" in prompt
+    assert "target answers, rankings, trends" in prompt
+    assert "XYZ filenames/comments" in prompt
+    assert "Neutral filenames do not make semantic metadata neutral" in prompt
+    assert "It does not decide whether semantic JSON values" in prompt
+    assert "same scientific inputs" in prompt
+    assert "relative to `outputs/task_pair/`" in prompt
     assert "never `outputs/task_pair/autonomous_research/task.md`" in prompt
     assert "LOW-BUDGET RECOVERY CHECKLIST" in prompt
-    assert "neutral comment exactly like `structure-001`" in prompt
-    assert "PAPER-SPECIFIC BRANCH LABELS ARE FORBIDDEN" in prompt
-    assert "`preferred_pathway`" in prompt
+    assert "do not rely on a fixed list" in prompt
+    assert "Do not spend Agent calls performing that mechanical" in prompt
+
+
+def test_stage07_retries_inconsistent_objective_failure_with_recovery_budget(
+    tmp_path: Path,
+) -> None:
+    handoff = tmp_path / "handoff"
+    source = tmp_path / "source"
+    handoff.mkdir()
+    source.mkdir()
+    write_json(handoff / "paper_info.json", {"paper_id": "paper-test"})
+    calls: list[AgentRunRequest] = []
+
+    def response(decision: str) -> dict:
+        return {
+            "audit_decision": decision,
+            "source_stage06_decision": "provisional_constructed",
+            "original_task_pair_id": "pair-test",
+            "final_task_pair_id": "pair-test",
+            "artifact_path": "outputs/task_pair",
+            "selected_workflow_preserved": True,
+            "repairs": [],
+            "workflow_redesign": {
+                "performed": False,
+                "trigger": "",
+                "original_scope": {},
+                "original_blockers": [],
+                "checked_sources": [],
+                "replacement_scope": {},
+                "replacement_reason": "",
+                "evidence_ids": [],
+                "changed_files": [],
+            },
+            "remaining_issues": [],
+            "toolbox_status": "unknown",
+            "required_additions": [],
+            "resource_status": "feasible",
+            "summary": "No unresolved objective blocker remains.",
+        }
+
+    def responder(request: AgentRunRequest) -> dict:
+        calls.append(request)
+        if len(calls) == 1:
+            return response("objective_failure_retryable")
+        assert (request.workspace / "RECOVERY_CONTEXT.md").is_file()
+        return response("approved")
+
+    harness = create_agent_harness(
+        "mock",
+        config={"mock_responder": responder},
+        model_config={"model": "mock"},
+    )
+    result, agent_run, artifact_root = _run_audit_repair_agent(
+        harness=harness,
+        stage_root=tmp_path / "stage07",
+        paper_id="paper-test",
+        task_pair_id="pair-test",
+        source_stage06_decision="provisional_constructed",
+        handoff_root=handoff,
+        source_root=source,
+        stage06_record={"paper_id": "paper-test"},
+        config={
+            "resume": False,
+            "max_attempts": 2,
+            "retry_backoff_seconds": 0,
+            "audit_repair_max_tool_calls": 96,
+            "audit_repair_recovery_max_tool_calls": 128,
+        },
+    )
+
+    assert result["audit_decision"] == "approved"
+    assert agent_run["cache_hit"] is False
+    assert artifact_root.is_dir()
+    assert [request.metadata["max_tool_calls"] for request in calls] == [96, 128]
+    assert all(request.metadata["inline_contract"] is True for request in calls)
 
 
 def test_stage07_public_guard_neutralizes_all_xyz_and_recovery_duplicates(
@@ -4731,8 +4840,14 @@ def test_stage07_public_guard_neutralizes_all_xyz_and_recovery_duplicates(
         if path.is_file()
     )
     assert "Int-1.xyz" not in autonomous_text
-    assert "wf-nh3-mechanism" not in autonomous_text
-    assert "claim-1" not in autonomous_text
+    # The deterministic guard deliberately does not rewrite scientific prose or
+    # paper-specific identifiers. Those disclosure decisions belong to the
+    # Stage07 Agent and must remain general rather than a hard-coded replacement
+    # table. It only normalizes filenames/comments and removes route-only files.
+    assert "wf-nh3-mechanism" in autonomous_text
+    assert "claim-1" in autonomous_text
+    # XYZ comments are metadata and are intentionally normalized by the generic
+    # input guard; this does not rewrite task prose or JSON scientific fields.
     assert "PBE0-D3BJ" not in autonomous_text
 
     reported = [
@@ -5098,6 +5213,110 @@ def test_stage06_hands_partial_candidate_to_stage07_without_content_retry(
         "handoff_warnings"
     ]
     assert Path(record["handoff_path"]).is_dir()
+
+
+def test_stage06_defers_mapping_shaped_public_assets_to_stage07(
+    tmp_path: Path,
+) -> None:
+    toolbox = tmp_path / "toolbox.json"
+    toolbox.write_text(json.dumps({"profile_id": "test", "backends": {}}), encoding="utf-8")
+    documents = [
+        _document(tmp_path, "doc-main", "main_paper", "ev_main_1"),
+        _document(tmp_path, "doc-si", "supplementary", "ev_si_1"),
+    ]
+
+    def mapping_responder(request: AgentRunRequest) -> dict:
+        receipt = _single_agent_mock_responder(request)
+        review_path = request.workspace / "outputs" / "workflow_review.json"
+        review = read_json(review_path)
+        assets = review["public_task_basis"]["input_assets"]
+        review["public_task_basis"]["input_assets"] = {
+            "structures": assets[0]["description"]
+        }
+        write_json(review_path, review)
+        return receipt
+
+    result = run_stage06(
+        candidates=[{"paper_id": "paper-test", "candidate_id": "candidate-1"}],
+        stage04_records=[
+            {
+                "paper_id": "paper-test",
+                "passed": True,
+                "resource_profile": {"walltime_hours": 4},
+            }
+        ],
+        documents=documents,
+        config={
+            "harness": "mock",
+            "workers": 1,
+            "max_attempts": 1,
+            "resume": False,
+            "toolbox_capabilities": str(toolbox),
+            "mock_responder": mapping_responder,
+        },
+        model=_Model(),
+        workspace=tmp_path / "run",
+        run_id="mapping-assets-handoff-test",
+    )
+
+    record = result["records"][0]
+    assert record["decision"] == "provisional_constructed"
+    assert any(
+        warning.startswith("metadata_materialization_deferred:AttributeError:")
+        for warning in record["handoff_warnings"]
+    )
+    assert Path(record["handoff_path"]).is_dir()
+
+
+def test_stage07_fallback_source_exposes_installed_software_only(
+    tmp_path: Path,
+) -> None:
+    markdown = tmp_path / "paper.md"
+    blocks = tmp_path / "blocks.jsonl"
+    source_pdf = tmp_path / "paper.pdf"
+    markdown.write_text("paper", encoding="utf-8")
+    blocks.write_text("", encoding="utf-8")
+    source_pdf.write_bytes(b"%PDF-1.4\n")
+    toolbox = tmp_path / "toolbox.json"
+    write_json(
+        toolbox,
+        {
+            "backends": {
+                "gaussian": {
+                    "display_name": "Gaussian 16",
+                    "aliases": ["G16"],
+                    "actions": ["calculate_energy"],
+                }
+            }
+        },
+    )
+    root = _prepare_stage07_fallback_source(
+        paper_id="paper-test",
+        documents=[
+            {
+                "paper_id": "paper-test",
+                "document_id": "doc-main",
+                "document_role": "main_paper",
+                "sha256": "sha-main",
+                "source_path": str(source_pdf),
+                "normalized_markdown_path": str(markdown),
+                "content_blocks_path": str(blocks),
+            }
+        ],
+        stage_root=tmp_path / "stage07",
+        config={"toolbox_capabilities": str(toolbox)},
+    )
+
+    snapshot = read_json(root / "toolbox_snapshot.json")
+    assert snapshot["view_kind"] == "installed_software_inventory"
+    assert snapshot["installed_software"] == [
+        {
+            "software_id": "gaussian",
+            "display_name": "Gaussian 16",
+            "aliases": ["G16"],
+        }
+    ]
+    assert all("actions" not in row for row in snapshot["installed_software"])
 
 
 def test_pair_contract_normalizer_repairs_harness_field_drift(tmp_path: Path) -> None:

@@ -52,6 +52,7 @@ from src.contracts import (
     write_jsonl,
 )
 from src.core.concurrency import ordered_parallel_map
+from src.core.toolbox_inventory import installed_software_inventory
 from src.stages.stage06_task_builder.prompts import (
     STAGE06_AUTONOMOUS_VERSION,
     STAGE06_HIDDEN_VERSION,
@@ -79,6 +80,7 @@ from src.stages.stage06_task_builder.validation import (
 
 STAGE06_IMPLEMENTATION_VERSION = "v5-provisional-builder-handoff-20260816-r1"
 STAGE06_DIRECTORY = "stage_06_task_construction"
+STAGE06_INPUT_PACKAGE_VERSION = "v2-canonical-deduplicated-inputs"
 
 
 def run_stage06(
@@ -210,17 +212,17 @@ def _run_stage06_single_agent(
                     max_tool_calls=int(
                         config.get(
                             "task_pair_builder_max_tool_calls",
-                            config.get("max_tool_calls", 48),
+                            config.get("max_tool_calls", 120),
                         )
                     ),
                     finalization_reserve=int(
                         config.get(
                             "task_pair_builder_finalization_reserve",
-                            config.get("finalization_reserve", 10),
+                            config.get("finalization_reserve", 12),
                         )
                     ),
                     evidence_search_max_tool_calls=int(
-                        config.get("task_pair_builder_search_max_tool_calls", 36)
+                        config.get("task_pair_builder_search_max_tool_calls", 72)
                     ),
                 ),
                 output_schema=STAGE06_TASK_PAIR_BUILDER_SCHEMA,
@@ -311,7 +313,13 @@ def _run_stage06_single_agent(
                         mode_generation_order=["paper_reproduction", "autonomous_research"],
                         mode_generation_strategy="single_agent",
                     )
-                except (KeyError, TypeError, ValueError, json.JSONDecodeError) as exc:
+                except (
+                    AttributeError,
+                    KeyError,
+                    TypeError,
+                    ValueError,
+                    json.JSONDecodeError,
+                ) as exc:
                     # Content drift belongs to the Stage07 audit-repair Agent.  Preserve the
                     # candidate instead of turning a repairable task into a Stage06 rejection.
                     handoff_warnings.append(
@@ -1265,6 +1273,7 @@ def _prepare_input_snapshot(
         "toolbox_sha256": _optional_file_hash(config.get("toolbox_capabilities")),
         "resource_policy": config.get("resource_policy") or stage04.get("resource_profile") or {},
         "implementation_version": STAGE06_IMPLEMENTATION_VERSION,
+        "input_package_version": STAGE06_INPUT_PACKAGE_VERSION,
         "builder_prompt_version": STAGE06_TASK_PAIR_BUILDER_VERSION,
         "builder_schema_hash": canonical_hash(STAGE06_TASK_PAIR_BUILDER_SCHEMA),
         "workflow_review_schema_hash": canonical_hash(STAGE06_WORKFLOW_REVIEW_SCHEMA),
@@ -1283,7 +1292,11 @@ def _prepare_input_snapshot(
     complete = root / "snapshot_complete.json"
     if complete.is_file():
         metadata = read_json(complete)
-        if metadata.get("snapshot_hash") == snapshot_hash:
+        if (
+            metadata.get("snapshot_hash") == snapshot_hash
+            and (root / "upstream_hints.json").is_file()
+            and (root / "dedup_report.json").is_file()
+        ):
             evidence_index = read_json(root / "evidence_index.json")
             return {
                 "root": root,
@@ -1298,13 +1311,17 @@ def _prepare_input_snapshot(
             }
     prepare_clean_directory(root)
     write_json(root / "source_facts.json", source_facts)
-    write_json(root / "stage05_candidates.json", candidates)
-    write_json(root / "stage02_record.json", stage02 or {})
-    write_json(root / "stage03_record.json", stage03 or {})
+    write_json(
+        root / "upstream_hints.json",
+        _upstream_hints(
+            paper_id=paper_id,
+            candidates=candidates,
+            stage02=stage02,
+            stage03=stage03,
+            stage04=stage04,
+        ),
+    )
     write_json(root / "stage04_record.json", stage04)
-    write_json(root / "stage05_hint.json", candidates)
-    write_json(root / "stage02_hint.json", stage02 or {})
-    write_json(root / "stage03_hint.json", stage03 or {})
     write_json(root / "resource_policy.json", source_facts["resource_policy"])
     write_json(
         root / "task_contract.json",
@@ -1357,7 +1374,9 @@ def _prepare_input_snapshot(
             ],
         },
     )
-    toolbox_snapshot = _load_toolbox_snapshot(config, stage04)
+    toolbox_snapshot = installed_software_inventory(
+        _load_toolbox_snapshot(config, stage04)
+    )
     write_json(root / "toolbox_snapshot.json", toolbox_snapshot)
     evidence_index: list[dict[str, Any]] = []
     source_manifest: list[dict[str, Any]] = []
@@ -1484,6 +1503,7 @@ def _prepare_input_snapshot(
             evidence_index=evidence_index,
         ),
     )
+    _write_dedup_report(root)
     write_json(root / "source_manifest.json", source_manifest)
     write_json(
         root / "coverage_manifest.json",
@@ -1700,14 +1720,11 @@ def _run_phase(
             )
         )
         if recovery_context:
-            phase_tool_calls = min(
-                phase_tool_calls,
-                int(
-                    config.get(
-                        f"{phase}_recovery_max_tool_calls",
-                        config.get("recovery_max_tool_calls", 8),
-                    )
-                ),
+            phase_tool_calls = int(
+                config.get(
+                    f"{phase}_recovery_max_tool_calls",
+                    config.get("recovery_max_tool_calls", 160),
+                )
             )
             phase_instructions += recovery_instructions(
                 phase, max_tool_calls=phase_tool_calls
@@ -4595,6 +4612,44 @@ def _require_claimed_phase_artifact(
 
 def _copy_phase_inputs(source: Path, destination: Path) -> None:
     copytree_exact(source, destination)
+    make_writable(destination)
+    removed: list[str] = []
+    # Keep one canonical upstream summary in the Agent-visible tree.  The complete
+    # source snapshot remains immutable and is still used for provenance/publication.
+    for relative in (
+        "stage02_record.json",
+        "stage02_hint.json",
+        "stage03_record.json",
+        "stage03_hint.json",
+        "stage05_candidates.json",
+        "stage05_hint.json",
+        "output_manifest.json",
+    ):
+        candidate = destination / relative
+        if candidate.is_file() or candidate.is_symlink():
+            candidate.unlink()
+            removed.append(relative)
+    evidence_path = destination / "evidence_index.json"
+    if evidence_path.is_file():
+        try:
+            full_index = read_json(evidence_path)
+            write_json(
+                evidence_path,
+                _compact_agent_evidence_index(full_index),
+            )
+            removed.append("evidence_index.json:full_text_stripped")
+        except (OSError, ValueError, TypeError, json.JSONDecodeError):
+            pass
+    write_json(
+        destination / "visible_input_manifest.json",
+        {
+            "schema_version": "stage06-visible-input-manifest-v1",
+            "source_snapshot": str(source),
+            "removed_duplicate_materials": removed,
+            "canonical_upstream_file": "upstream_hints.json",
+            "evidence_index_mode": "metadata_with_previews",
+        },
+    )
     make_read_only(destination)
 
 
@@ -4739,91 +4794,10 @@ def _agent_public_basis(public_basis: dict[str, Any]) -> dict[str, Any]:
 def _compact_toolbox_snapshot(
     snapshot: dict[str, Any], *, public_basis: dict[str, Any]
 ) -> dict[str, Any]:
-    """Expose a domain-level capability view without a full catalog dump."""
+    """Expose only the installed-software inventory to the Agent."""
 
-    searchable = " ".join(
-        str(public_basis.get(key) or "")
-        for key in ("scientific_question", "task_direction", "category")
-    ).casefold()
-    family_patterns = {
-        "electronic_structure": (
-            "electronic",
-            "excited",
-            "spectros",
-            "quantum",
-            "dft",
-            "orbital",
-            "reaction mechanism",
-            "transition state",
-        ),
-        "periodic_materials": ("periodic", "crystal", "solid", "phonon", "material"),
-        "molecular_dynamics": ("molecular dynamics", "trajectory", "nonadiabatic"),
-        "reaction_kinetics": ("kinetic", "rate constant", "reaction network"),
-        "free_energy": ("free energy", "alchemical", "umbrella"),
-        "docking_conformer": ("docking", "conformer", "binding pose"),
-        "multiscale": ("multiscale", "qm/mm", "qmmm"),
-        "machine_learning_chemistry": ("machine learning", "ml potential", "neural"),
-    }
-    method_families = snapshot.get("method_families") or {}
-    selected_families = {
-        family
-        for family, patterns in family_patterns.items()
-        if family in method_families and any(pattern in searchable for pattern in patterns)
-    }
-    if not selected_families:
-        selected_families = set(method_families)
-    selected_backends = {
-        str(name)
-        for family in selected_families
-        for name in (method_families.get(family) or {}).get("backends") or []
-    }
-
-    def compact_rows(group_name: str) -> dict[str, Any]:
-        rows = snapshot.get(group_name) or {}
-        output: dict[str, Any] = {}
-        for name in sorted(selected_backends & set(rows)):
-            row = rows[name] if isinstance(rows[name], dict) else {}
-            output[name] = {
-                key: row[key]
-                for key in (
-                    "display_name",
-                    "availability",
-                    "local_installation_status",
-                    "validation_level",
-                    "execution_layer",
-                    "actions",
-                    "method_families",
-                    "excited_state_support",
-                    "periodic_support",
-                    "solvent_support",
-                    "limitations",
-                    "evidence_refs",
-                )
-                if row.get(key) not in (None, "", [], {})
-            }
-        return output
-
-    return {
-        "schema_version": snapshot.get("schema_version"),
-        "profile_id": snapshot.get("profile_id"),
-        "catalog_hash": snapshot.get("catalog_hash"),
-        "runtime_profile_hash": snapshot.get("runtime_profile_hash"),
-        "view_kind": "domain_relevant_read_only_capability_view",
-        "selection_basis": sorted(selected_families),
-        "unknown_field_policy": snapshot.get("unknown_field_policy"),
-        "execution_layers": snapshot.get("execution_layers") or [],
-        "generic_python_analysis": bool(snapshot.get("generic_python_analysis")),
-        "method_families": {
-            family: method_families[family] for family in sorted(selected_families)
-        },
-        "backends": compact_rows("backends"),
-        "native_software": compact_rows("native_software"),
-        "python_packages": compact_rows("python_packages"),
-        "audit_note": (
-            "Unknown capability fields are not evidence of support or rejection; Stage07 "
-            "performs the authoritative task-specific toolbox audit."
-        ),
-    }
+    del public_basis  # Software inventory is task-independent and intentionally complete.
+    return installed_software_inventory(snapshot)
 
 
 def _setup_reproduction_inputs(
@@ -6932,6 +6906,107 @@ def _tsv_cell(value: str) -> str:
     return " ".join(str(value).replace("\t", " ").replace("\r", " ").splitlines()).strip()
 
 
+def _upstream_hints(
+    *,
+    paper_id: str,
+    candidates: list[dict[str, Any]],
+    stage02: dict[str, Any] | None,
+    stage03: dict[str, Any] | None,
+    stage04: dict[str, Any],
+) -> dict[str, Any]:
+    """Return one compact, explicitly non-binding upstream hint file.
+
+    The previous snapshot wrote the same Stage02/03/05 data as both ``record`` and
+    ``hint`` files.  Keeping one compact copy preserves provenance without encouraging
+    the Agent to compare duplicate representations.
+    """
+
+    return {
+        "schema_version": "stage06-upstream-hints-v1",
+        "non_binding": True,
+        "paper_id": paper_id,
+        "stage02": _compact_upstream_record(stage02),
+        "stage03": _compact_upstream_record(stage03),
+        "stage04": {
+            key: stage04.get(key)
+            for key in (
+                "paper_id",
+                "processing_status",
+                "coverage_status",
+                "parser_status",
+                "document_count",
+                "evidence_count",
+            )
+            if key in stage04
+        },
+        "stage05_candidates": candidates,
+        "source_hashes": {
+            "stage02": canonical_hash(stage02 or {}),
+            "stage03": canonical_hash(stage03 or {}),
+            "stage05_candidates": canonical_hash(candidates),
+            "stage04": canonical_hash(stage04),
+        },
+    }
+
+
+def _compact_agent_evidence_index(value: Any, *, preview_chars: int = 720) -> list[dict[str, Any]]:
+    """Strip repeated block bodies while retaining navigable evidence metadata."""
+
+    rows = value if isinstance(value, list) else []
+    compact: list[dict[str, Any]] = []
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        item = {
+            key: row.get(key)
+            for key in (
+                "evidence_id",
+                "document_id",
+                "document_role",
+                "page",
+                "section_path",
+                "block_type",
+                "source_ref",
+            )
+            if key in row
+        }
+        text = str(row.get("text") or "")
+        if text:
+            item["text_preview"] = text[:preview_chars]
+        compact.append(item)
+    return compact
+
+
+def _write_dedup_report(root: Path) -> dict[str, Any]:
+    """Write a factual file-level duplicate report for the immutable snapshot."""
+
+    groups: dict[str, list[dict[str, Any]]] = {}
+    for path in sorted(root.rglob("*")):
+        if not path.is_file() or path.name in {"dedup_report.json", "snapshot_complete.json"}:
+            continue
+        try:
+            digest = sha256_file(path)
+            size = path.stat().st_size
+        except OSError:
+            continue
+        groups.setdefault(digest, []).append(
+            {"path": str(path.relative_to(root)), "size": size}
+        )
+    duplicate_groups = [rows for rows in groups.values() if len(rows) > 1]
+    duplicate_bytes = sum(
+        sum(int(row["size"]) for row in rows[1:]) for rows in duplicate_groups
+    )
+    report = {
+        "schema_version": "stage06-dedup-report-v1",
+        "duplicate_group_count": len(duplicate_groups),
+        "duplicate_file_count": sum(len(rows) - 1 for rows in duplicate_groups),
+        "duplicate_bytes_avoided": duplicate_bytes,
+        "groups": duplicate_groups,
+    }
+    write_json(root / "dedup_report.json", report)
+    return report
+
+
 def _priority_review_packet(
     *,
     candidates: list[dict[str, Any]],
@@ -6989,11 +7064,14 @@ def _priority_review_packet(
                 ),
             }
         )
-    ordered_selected = [
-        block
-        for block in evidence_index
-        if str(block.get("evidence_id") or "") in selected
-    ]
+    ordered_selected = _compact_agent_evidence_index(
+        [
+            block
+            for block in evidence_index
+            if str(block.get("evidence_id") or "") in selected
+        ],
+        preview_chars=960,
+    )
     return {
         "purpose": "Start here; use full documents only for explicitly unresolved fields.",
         "data_contract": {
@@ -7001,6 +7079,7 @@ def _priority_review_packet(
             "normalized_document_role": "readable full-text fallback preserving nearby context",
             "parser_structured_role": "layout/table fallback; parser files may not carry canonical evidence IDs",
             "citation_rule": "Use only evidence IDs present in the canonical evidence source.",
+            "priority_blocks_are_previews": True,
         },
         "document_index": document_index,
         "stage05_candidates": candidates,
@@ -7036,7 +7115,6 @@ def _compact_upstream_record(value: dict[str, Any] | None) -> dict[str, Any]:
         "pass_verification",
         "workflow_inventory",
         "software_mentions",
-        "software_mappings",
         "resource_profile",
         "toolbox_profile_id",
         "toolbox_catalog_hash",

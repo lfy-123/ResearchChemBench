@@ -38,6 +38,7 @@ from src.contracts import (
     write_jsonl,
 )
 from src.core.concurrency import ordered_parallel_map
+from src.core.toolbox_inventory import installed_software_inventory
 from src.stages.stage07_task_judge.prompts import (
     STAGE07_AUDIT_VERSION,
     audit_instructions,
@@ -47,7 +48,7 @@ from src.stages.stage07_task_judge.validation import (
     validate_agent_audit,
 )
 
-STAGE07_IMPLEMENTATION_VERSION = "v5-repair-first-audit-redesign-20260816-r10"
+STAGE07_IMPLEMENTATION_VERSION = "v5-repair-first-audit-redesign-20260816-r12-minimal"
 STAGE07_DIRECTORY = "stage_07_task_audit"
 STAGE07_IGNORED_PAIR_FILES = {*IGNORED_MANIFEST_NAMES, "construction_record.json"}
 STAGE07_APPROVED_DECISIONS = {
@@ -352,21 +353,18 @@ def _run_audit_repair_agent(
             int(
                 config.get(
                     "audit_repair_max_tool_calls",
-                    config.get("audit_max_tool_calls", config.get("max_tool_calls", 48)),
+                    config.get("audit_max_tool_calls", config.get("max_tool_calls", 96)),
                 )
             ),
         )
         if recovery_context:
             max_tool_calls = max(
                 4,
-                min(
-                    max_tool_calls,
-                    int(
-                        config.get(
-                            "audit_repair_recovery_max_tool_calls",
-                            config.get("recovery_max_tool_calls", 16),
-                        )
-                    ),
+                int(
+                    config.get(
+                        "audit_repair_recovery_max_tool_calls",
+                        config.get("recovery_max_tool_calls", 128),
+                    )
                 ),
             )
         finalization_reserve = min(
@@ -376,7 +374,7 @@ def _run_audit_repair_agent(
                 int(
                     config.get(
                         "audit_repair_finalization_reserve",
-                        config.get("finalization_reserve", 8),
+                        config.get("finalization_reserve", 12),
                     )
                 ),
             ),
@@ -407,14 +405,39 @@ def _run_audit_repair_agent(
                 "source_stage06_decision": source_stage06_decision,
                 "max_tool_calls": max_tool_calls,
                 "finalization_reserve": finalization_reserve,
-                "inline_contract": False,
-                "structured_artifact_path": "outputs/stage07_audit.json",
+                # Task repairs are file-first and objectively verified below,
+                # but the small audit receipt is an inline structured result.
+                # This prevents the bridge from spending the final workspace
+                # call merely rewriting a receipt that the orchestrator owns.
+                "inline_contract": True,
                 "recovery_attempt": bool(recovery_context),
             },
         )
         try:
             result = harness.run(request)
             response = result.response or {}
+            if (
+                response.get("audit_decision") == "objective_failure_retryable"
+                and not response.get("remaining_issues")
+            ):
+                message = (
+                    "Stage07 returned objective_failure_retryable without a concrete "
+                    "remaining objective blocker"
+                )
+                result.status = "failed"
+                result.failure_class = "invalid_phase_contract"
+                result.retryable = True
+                result.error = {
+                    "error_type": "InvalidPhaseContract",
+                    "message": message,
+                }
+                write_json(root / "agent_run.json", result.audit_record())
+                raise AgentExecutionError(
+                    message,
+                    failure_class="invalid_phase_contract",
+                    retryable=True,
+                    result=result,
+                )
             _apply_autonomous_public_surface_guard(
                 response=response,
                 workspace=root,
@@ -477,30 +500,6 @@ def _run_audit_repair_agent(
     raise RuntimeError("Stage07 audit-repair Agent did not execute")
 
 
-_AUTONOMOUS_PUBLIC_REPLACEMENTS = (
-    ("preferred_pathway", "selected_hypothesis"),
-    ("preferred pathway", "selected hypothesis"),
-    ("intramolecular", "pathway-A"),
-    ("bimolecular", "pathway-B"),
-    ("intra-molecular", "pathway-A"),
-    ("bi-molecular", "pathway-B"),
-    ("Int-1", "state-A"),
-    ("Int-2", "state-B"),
-    ("TS-1a", "transition-A"),
-    ("TS-1b", "transition-B"),
-    ("wf-nh3-mechanism", "workflow-main"),
-    ("claim-1", "claim-main-1"),
-    ("claim-2", "claim-main-2"),
-    ("claim-3", "claim-main-3"),
-    ("Gibbs free energy barriers", "activation free-energy differences"),
-    ("PBE0-D3BJ", "an appropriate electronic-structure method"),
-    ("def2-TZVP", "a higher-quality basis set"),
-    ("def2-SVP", "an optimization basis set"),
-    ("Gaussian 16", "a supported quantum-chemistry package"),
-    ("SMD(THF)", "implicit solvation"),
-    ("SMD", "implicit solvation"),
-    ("G70%", "a solution-phase free-energy estimate"),
-)
 _NEUTRAL_XYZ_NAME_RE = re.compile(r"^structure-(\d{3,})\.xyz$", re.IGNORECASE)
 
 
@@ -748,11 +747,11 @@ def _apply_autonomous_public_surface_guard(
     """Enforce the non-negotiable public/private boundary after Agent approval.
 
     This is deliberately a narrow delivery guard rather than a scientific
-    validator.  Stage07's Agent remains responsible for workflow selection,
-    completeness, and scientific repairs.  The guard only removes known route
-    identifiers/method metadata that must never reach an autonomous task, keeps
-    both input trees aligned, and refreshes their manifests when a low-cost Agent
-    forgot to do so.
+    validator. Stage07's Agent remains responsible for workflow selection,
+    completeness, disclosure review, and scientific repairs. The guard only
+    keeps public input trees aligned, removes the reproduction-only route bundle,
+    and refreshes manifests after a low-cost Agent forgot to do so. It does not
+    contain paper-, molecule-, software-, or route-specific substitutions.
     """
 
     decision = str(response.get("audit_decision") or "")
@@ -778,41 +777,6 @@ def _apply_autonomous_public_surface_guard(
         if rel not in changed:
             changed.append(rel)
 
-    def replace_text(value: str) -> str:
-        output = value
-        for old, new in _AUTONOMOUS_PUBLIC_REPLACEMENTS:
-            output = re.sub(re.escape(old), new, output, flags=re.IGNORECASE)
-        return output
-
-    def scrub_json(value: Any) -> tuple[Any, bool]:
-        dirty = False
-        if isinstance(value, dict):
-            output: dict[str, Any] = {}
-            for raw_key, raw_value in value.items():
-                key = str(raw_key)
-                lowered = key.casefold()
-                if lowered in {"included_workflow_ids", "included_claim_ids"}:
-                    dirty = True
-                    continue
-                new_key = replace_text(key)
-                if new_key != key:
-                    dirty = True
-                new_value, value_dirty = scrub_json(raw_value)
-                dirty = dirty or value_dirty
-                output[new_key] = new_value
-            return output, dirty
-        if isinstance(value, list):
-            output_list = []
-            for item in value:
-                new_item, item_dirty = scrub_json(item)
-                dirty = dirty or item_dirty
-                output_list.append(new_item)
-            return output_list, dirty
-        if isinstance(value, str):
-            output = replace_text(value)
-            return output, output != value
-        return value, False
-
     # Normalize every XYZ input, not only the handful of names seen in an
     # earlier pilot.  This also repairs recovery trees that contain both an
     # old route-specific file and a neutral copy.
@@ -822,33 +786,6 @@ def _apply_autonomous_public_surface_guard(
         path_map=xyz_path_map,
         note=note,
     )
-
-    # Rewrite all autonomous JSON/Markdown public surfaces.  Do not touch hidden
-    # references or the reproduction route text.
-    for path in sorted(autonomous.rglob("*")):
-        if not path.is_file() or path.name in {"public_manifest.json"}:
-            continue
-        if path.suffix.casefold() == ".json":
-            try:
-                original = json.loads(path.read_text(encoding="utf-8"))
-            except (OSError, ValueError, json.JSONDecodeError):
-                continue
-            scrubbed, dirty = scrub_json(original)
-            if dirty:
-                path.write_text(
-                    json.dumps(scrubbed, ensure_ascii=False, indent=2) + "\n",
-                    encoding="utf-8",
-                )
-                note(path)
-        elif path.suffix.casefold() in {".md", ".txt"}:
-            try:
-                original_text = path.read_text(encoding="utf-8", errors="replace")
-            except OSError:
-                continue
-            scrubbed_text = replace_text(original_text)
-            if scrubbed_text != original_text:
-                path.write_text(scrubbed_text, encoding="utf-8")
-                note(path)
 
     # A route bundle has no place in autonomous public inputs, even if an Agent
     # accidentally retained it while copying the reproduction task.
@@ -907,9 +844,8 @@ def _apply_autonomous_public_surface_guard(
             {
                 "category": "autonomous_public_surface_guard",
                 "details": (
-                    "Deterministically removed residual route/method identifiers from the "
-                    "autonomous public surface, normalized public input names/comments, and "
-                    "refreshed mode and pair manifests."
+                    "Normalized public input names/comments, removed reproduction-only route "
+                    "files, and refreshed mode and pair manifests."
                 ),
                 "source_evidence_ids": [],
                 "changed_files": changed,
@@ -1182,9 +1118,17 @@ def _prepare_stage07_fallback_source(
     write_json(root / "source_manifest.json", source_manifest)
     toolbox_path = config.get("toolbox_capabilities")
     if toolbox_path and Path(str(toolbox_path)).expanduser().is_file():
-        shutil.copy2(Path(str(toolbox_path)).expanduser(), root / "toolbox_snapshot.json")
+        write_json(
+            root / "toolbox_snapshot.json",
+            installed_software_inventory(
+                read_json(Path(str(toolbox_path)).expanduser())
+            ),
+        )
     else:
-        write_json(root / "toolbox_snapshot.json", {"snapshot_status": "unavailable"})
+        write_json(
+            root / "toolbox_snapshot.json",
+            installed_software_inventory({"snapshot_status": "unavailable"}),
+        )
     write_json(root / "resource_policy.json", config.get("resource_policy") or {})
     write_json(
         complete,
@@ -1202,12 +1146,14 @@ def _stage07_toolbox_snapshot(
         Path(str(config.get("toolbox_capabilities") or "" )).expanduser(),
     ):
         if str(path) and path.is_file():
-            return read_json(path)
+            return installed_software_inventory(read_json(path))
     requirements = handoff_root / "toolbox_requirements.json"
-    return {
-        "snapshot_status": "requirements_only",
-        "requirements": read_json(requirements) if requirements.is_file() else [],
-    }
+    return installed_software_inventory(
+        {
+            "snapshot_status": "unavailable",
+            "requirements": read_json(requirements) if requirements.is_file() else [],
+        }
+    )
 
 
 def _stage07_resource_policy(source_root: Path, config: dict[str, Any]) -> dict[str, Any]:
@@ -1308,24 +1254,21 @@ def _run_audit_agent(
         )
         make_read_only(inputs)
         max_tool_calls = int(
-            config.get("audit_max_tool_calls", config.get("max_tool_calls", 16))
+            config.get("audit_max_tool_calls", config.get("max_tool_calls", 96))
         )
         if recovery_context:
-            max_tool_calls = min(
-                max_tool_calls,
-                int(
-                    config.get(
-                        "audit_recovery_max_tool_calls",
-                        config.get("recovery_max_tool_calls", 8),
-                    )
-                ),
+            max_tool_calls = int(
+                config.get(
+                    "audit_recovery_max_tool_calls",
+                    config.get("recovery_max_tool_calls", 128),
+                )
             )
         max_tool_calls = max(2, max_tool_calls)
         finalization_reserve = min(
             max_tool_calls - 1,
             max(
                 1,
-                int(config.get("audit_finalization_reserve", max_tool_calls - 1)),
+                int(config.get("audit_finalization_reserve", 12)),
             ),
         )
         instructions = audit_instructions(
@@ -1499,12 +1442,14 @@ def _toolbox_snapshot_from_pair(pair_root: Path, config: dict[str, Any]) -> dict
     if path_value:
         path = Path(str(path_value)).expanduser().resolve()
         if path.is_file():
-            return read_json(path)
+            return installed_software_inventory(read_json(path))
     requirements = pair_root / "toolbox_requirements.json"
-    return {
-        "snapshot_status": "requirements_only",
-        "requirements": read_json(requirements) if requirements.is_file() else [],
-    }
+    return installed_software_inventory(
+        {
+            "snapshot_status": "unavailable",
+            "requirements": read_json(requirements) if requirements.is_file() else [],
+        }
+    )
 
 
 def _stage07_audit_packet(
@@ -1714,45 +1659,8 @@ def _stage07_audit_packet(
 def _focused_toolbox_view(
     toolbox: dict[str, Any], requirements: list[dict[str, Any]]
 ) -> dict[str, Any]:
-    names = {
-        str(
-            row.get("software")
-            or row.get("tool")
-            or row.get("normalized_backend")
-            or ""
-        ).casefold()
-        for row in requirements
-        if isinstance(row, dict)
-    }
-    names.discard("")
-    focused: dict[str, Any] = {
-        key: toolbox.get(key)
-        for key in (
-            "schema_version",
-            "profile_id",
-            "catalog_hash",
-            "runtime_profile_hash",
-            "snapshot_status",
-            "unknown_field_policy",
-            "execution_layers",
-        )
-        if key in toolbox
-    }
-    for section in ("backends", "native_software", "python_packages"):
-        rows = toolbox.get(section)
-        if not isinstance(rows, dict):
-            continue
-        selected = {
-            name: value
-            for name, value in rows.items()
-            if str(name).casefold() in names
-            or any(alias in str(name).casefold() for alias in names)
-        }
-        if selected:
-            focused[section] = selected
-    if toolbox.get("requirements") is not None:
-        focused["requirements"] = toolbox.get("requirements")
-    return focused
+    del requirements
+    return installed_software_inventory(toolbox)
 
 
 def _stage07_source_evidence_bundle(

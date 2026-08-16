@@ -4,16 +4,16 @@ STAGE06_REVIEW_VERSION = "v3-stage06-review-20260814-r25"
 STAGE06_AUTONOMOUS_VERSION = "v3-stage06-autonomous-20260814-r7"
 STAGE06_REPRODUCTION_VERSION = "v3-stage06-reproduction-20260814-r8"
 STAGE06_HIDDEN_VERSION = "v3-stage06-hidden-reference-20260814-r7"
-STAGE06_TASK_PAIR_BUILDER_VERSION = "v5-stage06-provisional-builder-20260816-r1"
+STAGE06_TASK_PAIR_BUILDER_VERSION = "v5-stage06-provisional-builder-20260816-r3-installed-software-only"
 
 
 def task_pair_builder_instructions(
     *,
     paper_id: str,
     snapshot_hash: str,
-    max_tool_calls: int = 72,
-    finalization_reserve: int = 2,
-    evidence_search_max_tool_calls: int = 36,
+    max_tool_calls: int = 120,
+    finalization_reserve: int = 12,
+    evidence_search_max_tool_calls: int = 72,
 ) -> str:
     construction_reserve = max(12, max_tool_calls // 3)
     search_deadline = max(
@@ -67,17 +67,25 @@ Your two responsibilities are inseparable:
    redact the copy into an autonomous-research task, and create their shared hidden reference.
 
 SOURCE AUTHORITY AND READING ORDER
+- `inputs/visible_input_manifest.json` describes the deduplicated Agent-visible input tree. Do not search
+  for removed legacy record/hint filenames or recreate them.
 - Treat `inputs/main_paper.pdf`, `inputs/supplementary/*.pdf`, and the complete normalized,
   layout, table, coordinate, and parser materials under `inputs/documents/` as primary evidence.
 - Read `inputs/coverage_manifest.json` before making a missing-data claim. A parser miss is not
   proof that the paper omitted a table, coordinate set, or parameter; use the listed PDF/layout/
   parser fallback. If a required source is objectively unreadable, do not invent a scientific
   rejection: leave recoverable artifacts and let the orchestrator classify the execution failure.
-- `stage02_hint.json`, `stage03_hint.json`, and `stage05_hint.json` are search hints only. You may
+- `upstream_hints.json` is a compact, non-binding summary of Stage02-05 search hints. You may
   correct or replace every upstream candidate. Record the disposition, but never reject solely
   because an upstream field is absent or pessimistic.
-- The toolbox snapshot is read-only. Missing or unknown software is recorded in
-  `outputs/toolbox_requirements.json`; it never makes a scientifically complete task fail.
+- `inputs/evidence_index.json` and the priority packet contain metadata and short previews only;
+  use the evidence ID and targeted source reads for full text. Do not print an entire evidence index,
+  normalized document, PDF layout file, or parser JSON into the conversation.
+- `inputs/toolbox_snapshot.json` is a read-only inventory of installed software. Every listed
+  program and alias is available. It intentionally contains no preset Action information: never
+  infer that software is missing because an Action or task-specific capability is not listed.
+  Software absent from the inventory may be recorded in `outputs/toolbox_requirements.json`, but
+  it never makes a scientifically complete task fail.
 
 FULL-PAPER-FIRST SELECTION
 1. Inventory every author-performed computational workflow and the claims each supports.
@@ -96,8 +104,8 @@ FULL-PAPER-FIRST SELECTION
 A successful `complexity_profile.level` must be `medium` or `high`. It must record core operation,
 tool-call, dependency, branch, system/state, and software-capability counts; iterative decisions,
 validation operations, reasoning requirements, and excluded non-core work. Counts must agree with
-the workflow steps. A high-level toolbox action may encapsulate several real jobs, so API call count
-alone is not decisive.
+the workflow steps. A single software invocation may encapsulate several real jobs, so process-call
+count alone is not decisive.
 
 SCIENTIFIC COMPLETENESS
 Never guess controlling structures, composition, conformers, adsorption sites, protonation,
@@ -159,6 +167,11 @@ SUCCESSFUL CONSTRUCTION ORDER
    candidate-path disclosure. Ask the evaluated Agent to design and validate its own route. Preserve
    the exact scientific question, scope, complexity metadata, inputs, deliverables, target quantities,
    boundary conditions, and submission contract. Autonomous process rubric may differ and sums to 100.
+   Treat every autonomous JSON field as public. References to supplied structures must use neutral
+   public asset IDs. Do not copy author labels that classify an asset as an intermediate, transition
+   state, product, pathway member, or ordered route position; those labels disclose the route even
+   when the XYZ filenames themselves are neutral. Preserve chemically necessary, answer-independent
+   reactant identities and input facts without publishing the hidden source-label mapping.
 8. Build `outputs/hidden_reference/ground_truth_common.json`, acceptance_profiles.json,
    conclusion_rubric.json, and private_evidence_map.json. `ground_truth_common.json` uses status
    `ready` and contains ground_truth_items, acceptance_profiles, scientific_conclusion_rubric,
@@ -169,8 +182,11 @@ SUCCESSFUL CONSTRUCTION ORDER
    to 100 and is identical for both modes. Cross-check numeric signs, ranking, trend, and prose.
    The two sidecar files are the literal arrays from `ground_truth_common.json`, not wrapper
    objects such as `{{"profiles": [...]}}` or `{{"rubric": [...]}}`.
-9. Write `outputs/toolbox_requirements.json`; available, missing, incompatible, and unknown are
-   distinct. Suggest additions without modifying the toolbox.
+9. Write `outputs/toolbox_requirements.json` as a gap list only. Leave it empty when all required
+   software appears in the installed-software inventory. Never copy installed programs into this
+   file and never assess preset Action coverage. Suggest genuinely absent software without
+   modifying the toolbox; use `unknown` only when the installed-software inventory is unavailable
+   or a required program cannot be matched reliably.
 10. Run `python inputs/scripts/validate_task_pair_draft.py` as a construction aid. Repair errors
     when evidence and time permit; never convert a formatting or disclosure finding into a false
     claim that the paper is scientifically not constructible.
@@ -216,8 +232,8 @@ def review_instructions(
 
 Work only in this isolated workspace. Do not modify `inputs/`. Start with
 `inputs/priority_review_packet.json`, then verify only its unresolved claims against the cited evidence and nearby
-text in the main paper or SI. Read `stage02_record.json`, `stage03_record.json`, and the toolbox snapshot for frozen
-facts. Full normalized papers, parser structures, tables, and images remain available as bounded fallbacks; do not
+text in the main paper or SI. Read `upstream_hints.json` and the toolbox snapshot for frozen facts. Full normalized
+papers, parser structures, tables, and images remain available as bounded fallbacks; do not
 traverse them from the beginning. The input snapshot hash is `{snapshot_hash}` and the paper id is `{paper_id}`.
 
 For coordinates, first inspect `inputs/documents/*/derived_coordinates/index.json` and its referenced XYZ files.
@@ -397,10 +413,12 @@ Supported `acceptance_type` values are exactly: `numeric_tolerance`, `categorica
 For a numeric table plus an ordering claim, use `numeric_tolerance` for the table and place the ordering in
 `required_propositions`; do not create a combined custom type.
 
-Every `toolbox_requirements` item must use `status` with exactly one of `available`, `missing`, `incompatible`, or
-`unknown`, plus `software`, `capability`, `role`, `missing_capabilities`, `incompatible_capabilities`,
-`evidence_ids`, and a concrete `suggested_action`. An installed or declared backend whose task-specific function is
-not documented is `unknown`, not `missing`. Toolbox status never changes the scientific construction decision.
+`toolbox_requirements` is a software-gap list, not an inventory of required programs. Leave it empty when every
+required program is present in `inputs/toolbox_snapshot.json`. Each item must use `status` with `missing`,
+`incompatible`, or `unknown`, plus `software`, `capability`, `role`, `missing_capabilities`,
+`incompatible_capabilities`, `evidence_ids`, and a concrete `suggested_action`. Every software name or alias listed
+in the snapshot is installed. Do not inspect, request, or infer preset Action coverage; absence of an Action is not
+a software gap. Toolbox status never changes the scientific construction decision.
 
 Write the complete review contract atomically to `outputs/scientific_review.json` with a workspace tool call no
 later than the finalization reserve, and validate that file as JSON in the same call. Do not merely announce that
@@ -430,8 +448,9 @@ This is a fresh isolated session. Read `inputs/public_task_basis.json` and `inpu
 `task/data/inputs/` has already been populated exactly by deterministic orchestration; inspect its filenames but do
 not rewrite, remove, or rename those files. This is also the path evaluated Agents will see. Refer to their generated
 artifacts with execution-workspace paths such as `outputs/...` or `report/...`; never use the construction-only
-prefix `task/` in a public runtime path. `inputs/toolbox_snapshot.json` is a compact read-only capability view and is
-needed only when wording resource or software constraints. You do not have the paper route or hidden Ground Truth.
+prefix `task/` in a public runtime path. `inputs/toolbox_snapshot.json` is a compact read-only installed-software
+inventory and is needed only when wording resource or software constraints; it contains no preset Action contract.
+You do not have the paper route or hidden Ground Truth.
 Do not try to locate the source paper, infer hidden values, use the network, or read outside this workspace.
 
 Create the first member of the benchmark pair under `task/`:
