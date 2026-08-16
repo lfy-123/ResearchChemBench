@@ -17,6 +17,7 @@ from src.agents.harness import (
     _trusted_artifact_receipt,
     _validated_structured_response,
 )
+from src.agents.namespace_exec import _read_only_workspace_paths
 from src.agents.responses_bridge import (
     ResponsesBridge,
     _consume_final_json_tool,
@@ -123,6 +124,27 @@ def test_copytree_exact_replaces_read_only_recovery_target(tmp_path: Path) -> No
     copytree_exact(source, destination)
 
     assert (destination / "nested" / "asset.txt").read_text(encoding="utf-8") == "recovered"
+
+
+def test_agent_namespace_only_freezes_top_level_input_roots(tmp_path: Path) -> None:
+    canonical_inputs = tmp_path / "inputs"
+    private_input = tmp_path / "private_input"
+    public_task_inputs = (
+        tmp_path
+        / "outputs"
+        / "task_pair"
+        / "autonomous_research"
+        / "data"
+        / "inputs"
+    )
+    canonical_inputs.mkdir()
+    private_input.mkdir()
+    public_task_inputs.mkdir(parents=True)
+
+    protected = _read_only_workspace_paths(tmp_path)
+
+    assert protected == (canonical_inputs, private_input)
+    assert public_task_inputs not in protected
 
 
 def test_atomic_commit_tree_replaces_and_cleans_read_only_destination(
@@ -4573,6 +4595,10 @@ def test_stage07_prompt_audits_the_entire_autonomous_public_surface() -> None:
     assert "XYZ\ncomment" in prompt
     assert "relative paths and file bytes must be identical" in prompt
     assert "preserve the atom-count line and every element/coordinate record exactly" in prompt
+    assert "Do not rename, delete, or\nreplace the parent `data/inputs/` directory" in prompt
+    assert "that does not prove its child files are read-only" in prompt
+    assert "relative to the task-pair root `outputs/task_pair/`" in prompt
+    assert "never `outputs/task_pair/autonomous_research/task.md`" in prompt
 
 
 def test_stage07_retries_when_reported_repairs_were_not_delivered(tmp_path: Path) -> None:

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-STAGE07_AUDIT_VERSION = "v5-stage07-repair-first-auditor-20260816-r3"
+STAGE07_AUDIT_VERSION = "v5-stage07-repair-first-auditor-20260816-r4"
 
 
 def audit_instructions(
@@ -110,6 +110,12 @@ both `paper_reproduction/data/inputs/` and `autonomous_research/data/inputs/`, t
 reference and manifest. The reproduction-only route files may map neutral IDs back to author labels
 and explain their order; autonomous files must not contain that mapping.
 
+Operate on descendant files inside each existing `data/inputs/` tree. Do not rename, delete, or
+replace the parent `data/inputs/` directory as a shortcut. If a parent-directory move returns
+`EBUSY`/`Device or resource busy`, that does not prove its child files are read-only; continue with
+individual child renames and writes. Test one child operation when filesystem writability is in
+doubt, and return `objective_failure_retryable` only if a required child edit actually fails.
+
 For XYZ redaction, preserve the atom-count line and every element/coordinate record exactly. Only
 the free-text comment line may be replaced by the same neutral comment in both modes. Never change
 scientific data while removing metadata. After all repairs, recursively compare the two public
@@ -122,6 +128,12 @@ Approval is forbidden until this whole-surface audit is complete. In `repairs`, 
 changed file (including renamed/deleted paths through an appropriate changed directory entry), and
 in `summary` explicitly state which public surfaces were checked, whether the two input trees are
 byte-identical, and whether any forbidden route/method/answer disclosure remains.
+
+Every `changed_files` entry is relative to the task-pair root `outputs/task_pair/`; for example use
+`autonomous_research/task.md`, never `outputs/task_pair/autonomous_research/task.md`. For a batch of
+renamed assets, report the changed directory such as `autonomous_research/data/inputs/coords` and
+its reproduction counterpart. Before returning, verify each reported relative path exists in or
+is meaningfully changed from `inputs/stage06_candidate/`.
 
 TOOLBOX AND COST
 - The toolbox is read-only. Missing software never causes scientific rejection. Finish the task,

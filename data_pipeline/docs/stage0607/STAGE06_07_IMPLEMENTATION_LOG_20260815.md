@@ -370,3 +370,33 @@ v5-r2 的客观交付检查通过后，对最终发布目录进行人工科学�
 `v5-repair-first-audit-redesign-20260816-r3`，保证已有 Stage06 checkpoint 可复用，同时仅使
 Stage07 的旧 checkpoint 失效。新增 prompt 回归测试覆盖所有公开面、路线型文件名、XYZ
 注释中性化和双模式输入字节一致性要求。
+
+### 5.5 v5-r4：允许 Stage07 修复公开输入资产
+
+v5-r3 单篇复跑首次暴露出 mount namespace 的路径匹配缺陷。隔离器原先递归查找所有名为
+`inputs` 的目录并绑定为只读；这不仅保护了 workspace 顶层的 canonical `inputs/`，也错误地
+冻结了待修复任务中的：
+
+- `outputs/task_pair/paper_reproduction/data/inputs/`；
+- `outputs/task_pair/autonomous_research/data/inputs/`。
+
+因此 Stage07 能修改任务说明和 JSON，却无法中性化 XYZ 文件名与注释。Agent 又把整体移动
+挂载目录得到的 `Device or resource busy` 误判成全部输入不可写，并在恢复调用中报告了并未
+落盘的修复。r2 已有的客观交付检查成功拦截该结果，没有发布虚假
+`approved_with_repairs`。
+
+v5-r4 将 mount namespace 的只读范围收窄为 workspace 顶层 `inputs/` 和
+`private_input/` 两个 canonical 根目录。输出任务中同名的 `data/inputs/` 保持可写，而真正的
+论文、SI、工具箱快照和其他输入仍通过递归只读 bind mount 隔离。新增测试明确验证嵌套公开
+输入不进入只读路径集合。
+
+同时补充 Stage07 操作合同：
+
+- 原地修改/重命名输入树的子文件，不整体替换 `data/inputs/` 父目录；
+- 父目录 `EBUSY` 不等于子文件只读，必须用一个子文件操作确认；
+- `repairs[].changed_files` 和 `workflow_redesign.changed_files` 必须相对
+  `outputs/task_pair/`，不能带 `outputs/task_pair/` 前缀；
+- 批量重命名可报告两个模式各自的相对输入目录，由客观 diff 校验实际变化。
+
+版本更新为 `v5-stage07-repair-first-auditor-20260816-r4` 与
+`v5-repair-first-audit-redesign-20260816-r4`，再次只使 Stage07 checkpoint 失效。

@@ -32,10 +32,12 @@ def main() -> None:
     _bind_read_only(Path("/usr"), root / "usr", recursive=True)
     _bind_read_only(executable, root / "agent-executable")
     _bind(workspace, root / "workspace")
-    for name in ("inputs", "private_input"):
-        for path in workspace.rglob(name):
-            if path.is_dir():
-                _bind_read_only(path, root / "workspace" / path.relative_to(workspace), recursive=True)
+    for path in _read_only_workspace_paths(workspace):
+        _bind_read_only(
+            path,
+            root / "workspace" / path.relative_to(workspace),
+            recursive=True,
+        )
     _run(["mount", "-t", "tmpfs", "tmpfs", str(root / "tmp")])
     _run(["mount", "-t", "tmpfs", "tmpfs", str(root / "home")])
     (root / "home" / "agent" / ".codex").mkdir(parents=True)
@@ -78,6 +80,23 @@ def _prepare_root(root: Path) -> None:
     (root / "etc" / "passwd").write_text("agent:x:0:0:agent:/home/agent:/bin/bash\n")
     (root / "etc" / "group").write_text("agent:x:0:\n")
     (root / "etc" / "hosts").write_text("127.0.0.1 localhost\n")
+
+
+def _read_only_workspace_paths(workspace: Path) -> tuple[Path, ...]:
+    """Return canonical input roots without freezing output folders named inputs.
+
+    Task packages legitimately contain writable paths such as
+    ``outputs/task_pair/<mode>/data/inputs``. Recursively matching every directory
+    named ``inputs`` made those Stage07 repair targets separate read-only bind
+    mounts. The workspace contract reserves only the top-level canonical input
+    roots as immutable.
+    """
+
+    return tuple(
+        path
+        for name in ("inputs", "private_input")
+        if (path := workspace / name).is_dir()
+    )
 
 
 def _bind(source: Path, target: Path) -> None:
