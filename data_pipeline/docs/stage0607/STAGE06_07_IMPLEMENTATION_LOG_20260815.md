@@ -472,3 +472,29 @@ r10 将这部分改为论文无关、幂等的确定性处理：
 - 项目全量：`482 passed`，唯一失败仍为无关 Stage01 外部 PATH 中 `pdfinfo` 的
   `ESTALE`；以 `PATH=/usr/bin:/bin` 单独复跑该测试为 `1 passed`；
 - Ruff、`compileall` 和 `git diff --check`：通过。
+
+### 5.9 r11：六篇分层试运行的持久化提交
+
+第一次提交六篇试运行时，外层 shell 在当前会话结束后被回收，根目录和两篇论文目录停在
+`RUNNING`，但监督进程已不存在；这属于任务编排/后台生命周期问题，不是 Agent 或模型的
+科学失败。该次目录保留了启动痕迹，未被当作有效结果。
+
+随后使用 `setsid` + `nohup` 重新提交同一组六篇论文，并显式覆盖
+`RCB_BUILDER_MODEL=deepseek-v4-flash`、`RCB_JUDGE_MODEL=deepseek-v4-flash`，保持 Codex
+harness。当前运行目录为：
+
+```text
+runs/stage06-07-tiered-pilot-20260816-flash-r11
+```
+
+启动后监督进程已脱离当前会话（父进程为 PID 1），两个首批 Stage06 builder 进程已实际
+启动。每篇论文仍只生成根/论文级 `run_status.json` 和 `runner.log`，不生成散落的计数或时间
+哨兵文件。
+
+按此前存储清理要求，已核对并尝试移除旧的重复试运行目录，保留最新单篇验收证据和 r11。
+该共享挂载不支持系统 Trash，安全移动未能执行；因此旧目录暂未删除，避免不可恢复操作，待
+用户在确认后用存储侧清理方式处理。旧目录清单及大小可用：
+
+```bash
+du -sh runs/stage06-07-*
+```
